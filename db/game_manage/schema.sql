@@ -1,0 +1,332 @@
+-- =============================================================================
+-- Damage Viewer System - Database Schema V2 (Tables)
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- 1. 基础配置表 (Meta Data)
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE public.games (
+    game_id varchar(64) PRIMARY KEY,
+    game_name varchar(100) NOT NULL,
+    game_img_url text,
+    created_at timestamp DEFAULT NOW(),
+    CONSTRAINT ck_games_game_id_format CHECK (game_id ~ '^[a-z0-9_]+$')
+);
+
+COMMENT ON TABLE public.games IS '游戏信息表';
+COMMENT ON COLUMN public.games.game_id IS '游戏唯一标识（小写字母/数字/下划线；用于分区表命名）';
+
+CREATE TABLE public.game_versions (
+    version_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
+    version_code varchar(32) NOT NULL,
+    release_date date,
+    is_current boolean DEFAULT false,
+    data_hash varchar(64),
+    created_at timestamp DEFAULT NOW(),
+    published_at timestamp,
+    CONSTRAINT uq_game_versions UNIQUE (game_id, version_code),
+    CONSTRAINT uq_game_versions_game_version_id UNIQUE (game_id, version_id)
+);
+
+COMMENT ON TABLE public.game_versions IS '游戏版本表（用于版本发布、前端轮询、数据快照索引）';
+COMMENT ON COLUMN public.game_versions.version_id IS '内部版本自增 ID（用于发布版本与快照索引）';
+COMMENT ON COLUMN public.game_versions.version_code IS '对外展示版本号（如 14.1）';
+COMMENT ON COLUMN public.game_versions.is_current IS '是否为当前版本（用于前端轮询接口）';
+COMMENT ON COLUMN public.game_versions.data_hash IS '该版本全量数据 hash（用于前端校验/增量更新）';
+
+CREATE TABLE public.images (
+    game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
+    uri varchar(255) NOT NULL,
+    image_base64 text NOT NULL,
+    created_at timestamp DEFAULT NOW(),
+    updated_at timestamp DEFAULT NOW(),
+    CONSTRAINT pk_images PRIMARY KEY (game_id, uri)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.images IS '图片资源表（存 base64，小图标；不纳入版本管理）';
+COMMENT ON COLUMN public.images.uri IS '资源标识（通常为前端引用路径或逻辑 key）';
+COMMENT ON COLUMN public.images.image_base64 IS '图片 base64 内容（建议为 64x64 小图标）';
+
+CREATE TABLE public.attribute_definitions (
+    game_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    attr_key varchar(64) NOT NULL,
+    attr_name varchar(100),
+    attr_type varchar(32),
+    default_value numeric DEFAULT 0,
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_attribute_definitions PRIMARY KEY (game_id, attr_key),
+    CONSTRAINT fk_attribute_definitions_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_attribute_definitions_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.attribute_definitions IS '属性定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
+COMMENT ON COLUMN public.attribute_definitions.start_version_id IS '该记录覆盖区间的起始版本（含）';
+COMMENT ON COLUMN public.attribute_definitions.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
+COMMENT ON COLUMN public.attribute_definitions.attr_key IS '属性 key（建议全局唯一且稳定，用于计算引擎与前端组装）';
+
+CREATE TABLE public.attribute_definitions_log (
+    game_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    attr_key varchar(64) NOT NULL,
+    attr_name varchar(100),
+    attr_type varchar(32),
+    default_value numeric DEFAULT 0,
+    CONSTRAINT pk_attribute_definitions_log PRIMARY KEY (game_id, attr_key, start_version_id),
+    CONSTRAINT fk_attribute_definitions_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_attribute_definitions_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.attribute_definitions_log IS '属性定义日志表（用于多版本差异分析；按 id+start_version 唯一）';
+
+CREATE TABLE public.reserved_type (
+    type_id int NOT NULL,
+    name varchar(100) NOT NULL,
+    CONSTRAINT pk_reserved_type PRIMARY KEY (type_id)
+);
+
+CREATE TABLE public.reserved_type_relation (
+    type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    parent_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    CONSTRAINT pk_reserved_type_relation PRIMARY KEY (type_id, parent_type_id)
+);
+
+COMMENT ON TABLE public.reserved_type IS '系统保留 type（全局通用；不纳入版本管理）';
+COMMENT ON COLUMN public.reserved_type.type_id IS '保留 type ID（全局稳定）';
+COMMENT ON TABLE public.reserved_type_relation IS '系统保留 type 的关系表（一般用于层级/分组）';
+
+CREATE TABLE public.types (
+    game_id varchar(64) NOT NULL,
+    type_id int NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    name varchar(100),
+    description varchar(255),
+    reserved_type_id int REFERENCES public.reserved_type(type_id),
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_types PRIMARY KEY (game_id, type_id),
+    CONSTRAINT fk_types_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_types_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.types IS '业务 type 定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
+COMMENT ON COLUMN public.types.type_id IS 'type 唯一 ID（game 内唯一即可）';
+COMMENT ON COLUMN public.types.reserved_type_id IS '可选：关联到系统保留 type，用于复用通用语义';
+COMMENT ON COLUMN public.types.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
+
+CREATE TABLE public.types_log (
+    game_id varchar(64) NOT NULL,
+    type_id int NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    name varchar(100),
+    description varchar(255),
+    reserved_type_id int REFERENCES public.reserved_type(type_id),
+    CONSTRAINT pk_types_log PRIMARY KEY (game_id, type_id, start_version_id),
+    CONSTRAINT fk_types_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_types_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.types_log IS 'type 日志表（用于多版本差异分析；按 id+start_version 唯一）';
+
+CREATE TABLE public.type_relations (
+    game_id varchar(64) NOT NULL,
+    type_id int NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    target_category varchar(32) NOT NULL CHECK (target_category IN ('equipment', 'attribute', 'skill', 'character', 'type')),
+    target_id varchar(64) NOT NULL,
+    extend jsonb,
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_type_relations PRIMARY KEY (game_id, type_id, target_category, target_id),
+    CONSTRAINT fk_type_relations_type FOREIGN KEY (game_id, type_id)
+        REFERENCES public.types (game_id, type_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.type_relations IS 'type 关系/挂载表（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
+COMMENT ON COLUMN public.type_relations.target_category IS '目标类别：equipment/attribute/skill/character/type';
+COMMENT ON COLUMN public.type_relations.target_id IS '目标 ID：item_id/attr_key/skill_id/hero_id/parent_type_id';
+COMMENT ON COLUMN public.type_relations.extend IS '扩展字段（原设计 extend varchar，建议存结构化 JSON）';
+COMMENT ON COLUMN public.type_relations.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
+
+CREATE TABLE public.type_relations_log (
+    game_id varchar(64) NOT NULL,
+    type_id int NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    target_category varchar(32) NOT NULL CHECK (target_category IN ('equipment', 'attribute', 'skill', 'character', 'type')),
+    target_id varchar(64) NOT NULL,
+    extend jsonb,
+    CONSTRAINT pk_type_relations_log PRIMARY KEY (game_id, type_id, target_category, target_id, start_version_id),
+    CONSTRAINT fk_type_relations_log_type FOREIGN KEY (game_id, type_id)
+        REFERENCES public.types (game_id, type_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.type_relations_log IS 'type 关系日志表（用于多版本差异分析；按复合 id+start_version 唯一）';
+
+-- -----------------------------------------------------------------------------
+-- 2. 实体数据表 (Entities)
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE public.heroes (
+    game_id varchar(64) NOT NULL,
+    hero_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    name varchar(100) NOT NULL,
+    title varchar(100),
+    avatar_url text,
+    base_stats jsonb NOT NULL DEFAULT '{}',
+    stats_by_level jsonb,
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_heroes PRIMARY KEY (game_id, hero_id),
+    CONSTRAINT fk_heroes_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_heroes_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.heroes IS '英雄/角色定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
+COMMENT ON COLUMN public.heroes.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
+COMMENT ON COLUMN public.heroes.base_stats IS '基础属性与成长字段（建议以 attr_key 为 key）';
+COMMENT ON COLUMN public.heroes.stats_by_level IS '可选：预计算每级属性快照（用于减少前端组装成本）';
+
+CREATE TABLE public.heroes_log (
+    game_id varchar(64) NOT NULL,
+    hero_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    name varchar(100) NOT NULL,
+    title varchar(100),
+    avatar_url text,
+    base_stats jsonb NOT NULL DEFAULT '{}',
+    stats_by_level jsonb,
+    CONSTRAINT pk_heroes_log PRIMARY KEY (game_id, hero_id, start_version_id),
+    CONSTRAINT fk_heroes_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_heroes_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.heroes_log IS '英雄/角色日志表（用于多版本差异分析；按 id+start_version 唯一）';
+
+CREATE TABLE public.skills (
+    game_id varchar(64) NOT NULL,
+    skill_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    owner_id varchar(64) NOT NULL,
+    owner_type varchar(32) NOT NULL CHECK (owner_type IN ('hero', 'item', 'rune')),
+    skill_key varchar(16),
+    name varchar(100),
+    description text,
+    resource_costs jsonb,
+    cooldowns jsonb,
+    mechanics_config jsonb NOT NULL DEFAULT '{}',
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_skills PRIMARY KEY (game_id, skill_id),
+    CONSTRAINT fk_skills_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_skills_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.skills IS '技能定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
+COMMENT ON COLUMN public.skills.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
+COMMENT ON COLUMN public.skills.owner_type IS '归属类型（hero/item/rune）';
+COMMENT ON COLUMN public.skills.owner_id IS '归属实体 ID（与 owner_type 组合确定归属）';
+COMMENT ON COLUMN public.skills.mechanics_config IS '技能核心机制配置（推荐结构化 JSON，避免脚本字符串）';
+
+CREATE TABLE public.skills_log (
+    game_id varchar(64) NOT NULL,
+    skill_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    owner_id varchar(64) NOT NULL,
+    owner_type varchar(32) NOT NULL CHECK (owner_type IN ('hero', 'item', 'rune')),
+    skill_key varchar(16),
+    name varchar(100),
+    description text,
+    resource_costs jsonb,
+    cooldowns jsonb,
+    mechanics_config jsonb NOT NULL DEFAULT '{}',
+    CONSTRAINT pk_skills_log PRIMARY KEY (game_id, skill_id, start_version_id),
+    CONSTRAINT fk_skills_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_skills_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.skills_log IS '技能日志表（用于多版本差异分析；按 id+start_version 唯一）';
+
+CREATE TABLE public.items (
+    game_id varchar(64) NOT NULL,
+    item_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    name varchar(100),
+    gold_cost int,
+    icon_url text,
+    stats_modifier jsonb,
+    skill_refs jsonb,
+    recipe_ids jsonb,
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_items PRIMARY KEY (game_id, item_id),
+    CONSTRAINT fk_items_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_items_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.items IS '装备/道具定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
+COMMENT ON COLUMN public.items.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
+COMMENT ON COLUMN public.items.stats_modifier IS '装备属性加成（推荐结构化 JSON，key 使用 attr_key）';
+COMMENT ON COLUMN public.items.skill_refs IS '装备关联技能引用（被动/主动 skill_id 列表等）';
+
+CREATE TABLE public.items_log (
+    game_id varchar(64) NOT NULL,
+    item_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    name varchar(100),
+    gold_cost int,
+    icon_url text,
+    stats_modifier jsonb,
+    skill_refs jsonb,
+    recipe_ids jsonb,
+    CONSTRAINT pk_items_log PRIMARY KEY (game_id, item_id, start_version_id),
+    CONSTRAINT fk_items_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_items_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.items_log IS '装备/道具日志表（用于多版本差异分析；按 id+start_version 唯一）';
+
+-- -----------------------------------------------------------------------------
+-- 4. 索引优化 (用于编辑器的查询)
+-- -----------------------------------------------------------------------------
+
+CREATE INDEX idx_game_versions_game_current ON public.game_versions (game_id, is_current);
+CREATE INDEX idx_heroes_name ON public.heroes (game_id, name);
+CREATE INDEX idx_items_name ON public.items (game_id, name);
+CREATE INDEX idx_types_name ON public.types (game_id, name);
+
+CREATE INDEX idx_attribute_definitions_log_version ON public.attribute_definitions_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_heroes_log_version ON public.heroes_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_skills_log_version ON public.skills_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_items_log_version ON public.items_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_types_log_version ON public.types_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_type_relations_log_version ON public.type_relations_log (game_id, start_version_id, end_version_id);
