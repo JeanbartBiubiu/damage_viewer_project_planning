@@ -52,6 +52,10 @@
   - 数据来源：`public.images`（不纳入版本）
   - 缓存：建议也提供 ETag（例如 `max(updated_at)+count` 或对 `(uri,updated_at)` 做 hash）
 
+- `GET /api/games/{gameId}/owner-categories`
+  - 数据来源：`public.owner_categories`（不纳入版本）
+  - 缓存：建议提供 ETag（例如 `max(updated_at)+count` 或对 `(owner_type,updated_at)` 做 hash）
+
 ### 4.2 Admin 写接口（Upsert）
 写接口只修改“原始表”，不会改变 current，除非 publish。
 - `PUT/PATCH /api/admin/games/{gameId}/heroes/{heroId}`
@@ -65,6 +69,7 @@
 通用约束：
 - 请求体禁止出现任何版本字段（`startVersionId/endVersionId/versionId/versionCode/isCurrent/dataHash` 等）。
 - 所有写入成功后，必须更新该记录的 `updated_at=now()`（用于 publish 的变更识别）。
+- `skills.ownerType` 的语义校验：必须存在于 `owner_categories(game_id, owner_type)`，否则返回 `422.SEMANTIC_ERROR`
 
 ### 4.3 Admin 发布接口
 - `POST /api/admin/games/{gameId}/versions`
