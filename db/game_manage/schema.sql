@@ -176,6 +176,20 @@ CREATE TABLE public.type_relations_log (
 
 COMMENT ON TABLE public.type_relations_log IS 'type 关系日志表（用于多版本差异分析；按复合 id+start_version 唯一）';
 
+CREATE TABLE public.owner_categories (
+    game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
+    owner_type varchar(32) NOT NULL,
+    name varchar(100),
+    description varchar(255),
+    created_at timestamp DEFAULT NOW(),
+    updated_at timestamp DEFAULT NOW(),
+    CONSTRAINT pk_owner_categories PRIMARY KEY (game_id, owner_type),
+    CONSTRAINT ck_owner_categories_owner_type_format CHECK (owner_type ~ '^[a-z0-9_]+$')
+);
+
+COMMENT ON TABLE public.owner_categories IS '技能归属类型定义（不纳入版本管理；用于扩展 hero/item/rune/hex 等）';
+COMMENT ON COLUMN public.owner_categories.owner_type IS '归属类型 key（小写字母/数字/下划线）';
+
 -- -----------------------------------------------------------------------------
 -- 2. 实体数据表 (Entities)
 -- -----------------------------------------------------------------------------
@@ -228,7 +242,7 @@ CREATE TABLE public.skills (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     owner_id varchar(64) NOT NULL,
-    owner_type varchar(32) NOT NULL CHECK (owner_type IN ('hero', 'item', 'rune')),
+    owner_type varchar(32) NOT NULL,
     skill_key varchar(16),
     name varchar(100),
     description text,
@@ -237,6 +251,8 @@ CREATE TABLE public.skills (
     mechanics_config jsonb NOT NULL DEFAULT '{}',
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_skills PRIMARY KEY (game_id, skill_id),
+    CONSTRAINT fk_skills_owner_type FOREIGN KEY (game_id, owner_type)
+        REFERENCES public.owner_categories (game_id, owner_type),
     CONSTRAINT fk_skills_start_version FOREIGN KEY (game_id, start_version_id)
         REFERENCES public.game_versions (game_id, version_id),
     CONSTRAINT fk_skills_end_version FOREIGN KEY (game_id, end_version_id)
@@ -245,7 +261,7 @@ CREATE TABLE public.skills (
 
 COMMENT ON TABLE public.skills IS '技能定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
 COMMENT ON COLUMN public.skills.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
-COMMENT ON COLUMN public.skills.owner_type IS '归属类型（hero/item/rune）';
+COMMENT ON COLUMN public.skills.owner_type IS '归属类型（由 owner_categories 定义）';
 COMMENT ON COLUMN public.skills.owner_id IS '归属实体 ID（与 owner_type 组合确定归属）';
 COMMENT ON COLUMN public.skills.mechanics_config IS '技能核心机制配置（推荐结构化 JSON，避免脚本字符串）';
 
@@ -255,7 +271,7 @@ CREATE TABLE public.skills_log (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     owner_id varchar(64) NOT NULL,
-    owner_type varchar(32) NOT NULL CHECK (owner_type IN ('hero', 'item', 'rune')),
+    owner_type varchar(32) NOT NULL,
     skill_key varchar(16),
     name varchar(100),
     description text,
@@ -263,6 +279,8 @@ CREATE TABLE public.skills_log (
     cooldowns jsonb,
     mechanics_config jsonb NOT NULL DEFAULT '{}',
     CONSTRAINT pk_skills_log PRIMARY KEY (game_id, skill_id, start_version_id),
+    CONSTRAINT fk_skills_log_owner_type FOREIGN KEY (game_id, owner_type)
+        REFERENCES public.owner_categories (game_id, owner_type),
     CONSTRAINT fk_skills_log_start_version FOREIGN KEY (game_id, start_version_id)
         REFERENCES public.game_versions (game_id, version_id),
     CONSTRAINT fk_skills_log_end_version FOREIGN KEY (game_id, end_version_id)
