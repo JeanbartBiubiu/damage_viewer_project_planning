@@ -1,0 +1,3790 @@
+﻿# 英雄联盟全英雄技能分类（逐英雄）
+
+- 数据版本: 16.3.1
+- 英雄数: 172
+- 技能数(被动+QWER): 860
+
+## Aatrox (Aatrox / Aatrox)
+- P Deathbringer Stance / Deathbringer Stance
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 复活/免死相关 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q The Darkin Blade / The Darkin Blade
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 击飞
+- W Infernal Chains / Infernal Chains
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Umbral Dash / Umbral Dash
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- R World Ender / World Ender
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 恐惧
+
+## Ahri (Ahri / Ahri)
+- P Essence Theft / Essence Theft
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Orb of Deception / Orb of Deception
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Fox-Fire / Fox-Fire
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Charm / Charm
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 魅惑
+- R Spirit Rush / Spirit Rush
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+
+## Akali (Akali / Akali)
+- P Assassin's Mark / Assassin's Mark
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 召唤/部署 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Five Point Strike / Five Point Strike
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- W Twilight Shroud / Twilight Shroud
+  - 伤害类型: 无/未标注
+  - 效果标签: 隐身/伪装 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Shuriken Flip / Shuriken Flip
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+- R Perfect Execution / Perfect Execution
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+
+## Akshan (Akshan / Akshan)
+- P Dirty Fighting / Dirty Fighting
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- Q Avengerang / Avengerang
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Going Rogue / Going Rogue
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 隐身/伪装 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Heroic Swing / Heroic Swing
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+- R Comeuppance / Comeuppance
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+
+## Alistar (Alistar / Alistar)
+- P Triumphant Roar / Triumphant Roar
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 治疗/回复
+  - 控制标签: 眩晕
+- Q Pulverize / Pulverize
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Headbutt / Headbutt
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Trample / Trample
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 眩晕
+- R Unbreakable Will / Unbreakable Will
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+
+## Ambessa (Ambessa / Ambessa)
+- P Drakehound's Step / Drakehound's Step
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Cunning Sweep / Sundering Slam / Cunning Sweep / Sundering Slam
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Repudiation / Repudiation
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Lacerate / Lacerate
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 减速
+- R Public Execution / Public Execution
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 控制 | 伤害 | 位移 | 治疗/回复 | 自我增益
+  - 控制标签: 眩晕 | 压制
+
+## Amumu (Amumu / Amumu)
+- P Cursed Touch / Cursed Touch
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Bandage Toss / Bandage Toss
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 控制 | 伤害
+  - 控制标签: 眩晕
+- W Despair / Despair
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- E Tantrum / Tantrum
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 敌方减益 | 伤害 | 资源交互
+  - 控制标签: 无
+- R Curse of the Sad Mummy / Curse of the Sad Mummy
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+
+## Anivia (Anivia / Anivia)
+- P Rebirth / Rebirth
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Flash Frost / Flash Frost
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速 | 眩晕
+- W Crystallize / Crystallize
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署
+  - 控制标签: 无
+- E Frostbite / Frostbite
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- R Glacial Storm / Glacial Storm
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+
+## Annie (Annie / Annie)
+- P Pyromania / Pyromania
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 召唤/部署
+  - 控制标签: 眩晕
+- Q Disintegrate / Disintegrate
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 资源交互
+  - 控制标签: 无
+- W Incinerate / Incinerate
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Molten Shield / Molten Shield
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- R Summon: Tibbers / Summon: Tibbers
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署 | 资源交互 | 自我增益
+  - 控制标签: 眩晕
+
+## Aphelios (Aphelios / Aphelios)
+- P The Hitman and the Seer / The Hitman and the Seer
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署
+  - 控制标签: 无
+- Q Weapon Abilites / Weapon Abilites
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速 | 禁锢
+- W Phase / Phase
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- E Weapon Queue System / Weapon Queue System
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- R Moonlight Vigil / Moonlight Vigil
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+
+## Ashe (Ashe / Ashe)
+- P Frost Shot / Frost Shot
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- Q Ranger's Focus / Ranger's Focus
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害 | 自我增益
+  - 控制标签: 无
+- W Volley / Volley
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Hawkshot / Hawkshot
+  - 伤害类型: 无/未标注
+  - 效果标签: 充能技能 | 伤害
+  - 控制标签: 无
+- R Enchanted Crystal Arrow / Enchanted Crystal Arrow
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速 | 眩晕
+
+## Aurelion Sol (Aurelion Sol / AurelionSol)
+- P Cosmic Creator / Cosmic Creator
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Breath of Light / Breath of Light
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- W Astral Flight / Astral Flight
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害
+  - 控制标签: 无
+- E Singularity / Singularity
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 斩杀/缺失生命值联动 | 召唤/部署 | 治疗/回复
+  - 控制标签: 减速
+- R Falling Star / The Skies Descend / Falling Star / The Skies Descend
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 资源交互
+  - 控制标签: 减速 | 眩晕
+
+## Aurora (Aurora / Aurora)
+- P Spirit Abjuration / Spirit Abjuration
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Twofold Hex / Twofold Hex
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互
+  - 控制标签: 无
+- W Across the Veil / Across the Veil
+  - 伤害类型: 无/未标注
+  - 效果标签: 位移 | 隐身/伪装
+  - 控制标签: 无
+- E The Weirding / The Weirding
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+- R Between Worlds / Between Worlds
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 位移 | 召唤/部署 | 资源交互
+  - 控制标签: 减速
+
+## Azir (Azir / Azir)
+- P Shurima's Legacy / Shurima's Legacy
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署
+  - 控制标签: 无
+- Q Conquering Sands / Conquering Sands
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- W Arise! / Arise!
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Shifting Sands / Shifting Sands
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 位移 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- R Emperor's Divide / Emperor's Divide
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署
+  - 控制标签: 无
+
+## Bard (Bard / Bard)
+- P Traveler's Call / Traveler's Call
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- Q Cosmic Binding / Cosmic Binding
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速 | 眩晕
+- W Caretaker's Shrine / Caretaker's Shrine
+  - 伤害类型: 无/未标注
+  - 效果标签: 充能技能 | 召唤/部署 | 治疗/回复
+  - 控制标签: 无
+- E Magical Journey / Magical Journey
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- R Tempered Fate / Tempered Fate
+  - 伤害类型: 无/未标注
+  - 效果标签: 不可选取/无敌/霸体 | 召唤/部署 | 资源交互
+  - 控制标签: 无
+
+## Bel'Veth (Bel'Veth / Belveth)
+- P Death in Lavender  / Death in Lavender 
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 自我增益
+  - 控制标签: 无
+- Q Void Surge / Void Surge
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- W Above and Below / Above and Below
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Royal Maelstrom / Royal Maelstrom
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 禁锢
+- R Endless Banquet / Endless Banquet
+  - 伤害类型: 真实
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+
+## Blitzcrank (Blitzcrank / Blitzcrank)
+- P Mana Barrier / Mana Barrier
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Rocket Grab / Rocket Grab
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Overdrive / Overdrive
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 自我增益
+  - 控制标签: 减速
+- E Power Fist / Power Fist
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 击飞
+- R Static Field / Static Field
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害
+  - 控制标签: 沉默
+
+## Brand (Brand / Brand)
+- P Blaze / Blaze
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Sear / Sear
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- W Pillar of Flame / Pillar of Flame
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署
+  - 控制标签: 无
+- E Conflagration / Conflagration
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- R Pyroclasm / Pyroclasm
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+
+## Braum (Braum / Braum)
+- P Concussive Blows / Concussive Blows
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- Q Winter's Bite / Winter's Bite
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害
+  - 控制标签: 减速
+- W Stand Behind Me / Stand Behind Me
+  - 伤害类型: 无/未标注
+  - 效果标签: 位移
+  - 控制标签: 无
+- E Unbreakable / Unbreakable
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- R Glacial Fissure / Glacial Fissure
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 击飞 | 减速
+
+## Briar (Briar / Briar)
+- P Crimson Curse / Crimson Curse
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Head Rush / Head Rush
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 眩晕
+- W Blood Frenzy / Snack Attack / Blood Frenzy / Snack Attack
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 嘲讽
+- E Chilling Scream / Chilling Scream
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 治疗/回复 | 资源交互
+  - 控制标签: 减速 | 眩晕
+- R Certain Death / Certain Death
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 复活/免死相关 | 控制 | 伤害 | 自我增益
+  - 控制标签: 恐惧
+
+## Caitlyn (Caitlyn / Caitlyn)
+- P Headshot / Headshot
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- Q Piltover Peacemaker / Piltover Peacemaker
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 召唤/部署
+  - 控制标签: 无
+- W Yordle Snap Trap / Yordle Snap Trap
+  - 伤害类型: 物理
+  - 效果标签: 充能技能 | 控制 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 禁锢
+- E 90 Caliber Net / 90 Caliber Net
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- R Ace in the Hole / Ace in the Hole
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+
+## Camille (Camille / Camille)
+- P Adaptive Defenses / Adaptive Defenses
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Precision Protocol / Precision Protocol
+  - 伤害类型: 混合(物理+真实)
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- W Tactical Sweep / Tactical Sweep
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- E Hookshot / Hookshot
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 眩晕
+- R The Hextech Ultimatum / The Hextech Ultimatum
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Cassiopeia (Cassiopeia / Cassiopeia)
+- P Serpentine Grace / Serpentine Grace
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Noxious Blast / Noxious Blast
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Miasma / Miasma
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 缚地 | 减速
+- E Twin Fang / Twin Fang
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- R Petrifying Gaze / Petrifying Gaze
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署 | 资源交互
+  - 控制标签: 减速 | 眩晕
+
+## Cho'Gath (Cho'Gath / Chogath)
+- P Carnivore / Carnivore
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复 | 资源交互
+  - 控制标签: 无
+- Q Rupture / Rupture
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- W Feral Scream / Feral Scream
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Vorpal Spikes / Vorpal Spikes
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- R Feast / Feast
+  - 伤害类型: 真实
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Corki (Corki / Corki)
+- P Hextech Munitions / Hextech Munitions
+  - 伤害类型: 真实
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Phosphorus Bomb / Phosphorus Bomb
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Valkyrie / Valkyrie
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- E Gatling Gun / Gatling Gun
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- R Missile Barrage / Missile Barrage
+  - 伤害类型: 物理
+  - 效果标签: 充能技能 | 敌方减益 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Darius (Darius / Darius)
+- P Hemorrhage / Hemorrhage
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Decimate / Decimate
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- W Crippling Strike / Crippling Strike
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- E Apprehend / Apprehend
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- R Noxian Guillotine / Noxian Guillotine
+  - 伤害类型: 真实
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 资源交互
+  - 控制标签: 无
+
+## Diana (Diana / Diana)
+- P Moonsilver Blade / Moonsilver Blade
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Crescent Strike / Crescent Strike
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 隐身/伪装 | 资源交互
+  - 控制标签: 无
+- W Pale Cascade / Pale Cascade
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Lunar Rush / Lunar Rush
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- R Moonfall / Moonfall
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+
+## Draven (Draven / Draven)
+- P League of Draven / League of Draven
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Spinning Axe / Spinning Axe
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Blood Rush / Blood Rush
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- E Stand Aside / Stand Aside
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- R Whirling Death / Whirling Death
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 复活/免死相关 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 减速
+
+## Dr. Mundo (Dr. Mundo / DrMundo)
+- P Goes Where He Pleases / Goes Where He Pleases
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Infected Bonesaw / Infected Bonesaw
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- W Heart Zapper / Heart Zapper
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- E Blunt Force Trauma / Blunt Force Trauma
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- R Maximum Dosage / Maximum Dosage
+  - 伤害类型: 无/未标注
+  - 效果标签: 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Ekko (Ekko / Ekko)
+- P Z-Drive Resonance / Z-Drive Resonance
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Timewinder / Timewinder
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- W Parallel Convergence / Parallel Convergence
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 减速 | 眩晕
+- E Phase Dive / Phase Dive
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- R Chronobreak / Chronobreak
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+
+## Elise (Elise / Elise)
+- P Spider Queen / Spider Queen
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Neurotoxin / Venomous Bite / Neurotoxin / Venomous Bite
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- W Volatile Spiderling / Skittering Frenzy / Volatile Spiderling / Skittering Frenzy
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Cocoon / Rappel / Cocoon / Rappel
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害 | 隐身/伪装 | 治疗/回复
+  - 控制标签: 眩晕
+- R Spider Form / Spider Form
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 召唤/部署
+  - 控制标签: 无
+
+## Evelynn (Evelynn / Evelynn)
+- P Demon Shade / Demon Shade
+  - 伤害类型: 无/未标注
+  - 效果标签: 隐身/伪装 | 治疗/回复
+  - 控制标签: 无
+- Q Hate Spike / Hate Spike
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- W Allure / Allure
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 自我增益
+  - 控制标签: 减速 | 魅惑
+- E Whiplash / Whiplash
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- R Last Caress / Last Caress
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Ezreal (Ezreal / Ezreal)
+- P Rising Spell Force / Rising Spell Force
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Mystic Shot / Mystic Shot
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 资源交互
+  - 控制标签: 无
+- W Essence Flux / Essence Flux
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+- E Arcane Shift / Arcane Shift
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- R Trueshot Barrage / Trueshot Barrage
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 资源交互
+  - 控制标签: 无
+
+## Fiddlesticks (Fiddlesticks / Fiddlesticks)
+- P A Harmless Scarecrow / A Harmless Scarecrow
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Terrify / Terrify
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 恐惧
+- W Bountiful Harvest / Bountiful Harvest
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- E Reap / Reap
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 沉默 | 减速
+- R Crowstorm / Crowstorm
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+
+## Fiora (Fiora / Fiora)
+- P Duelist's Dance / Duelist's Dance
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Lunge / Lunge
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 位移
+  - 控制标签: 无
+- W Riposte / Riposte
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速 | 眩晕
+- E Bladework / Bladework
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- R Grand Challenge / Grand Challenge
+  - 伤害类型: 真实
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Fizz (Fizz / Fizz)
+- P Nimble Fighter / Nimble Fighter
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- Q Urchin Strike / Urchin Strike
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- W Seastone Trident / Seastone Trident
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Playful / Trickster / Playful / Trickster
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 控制 | 伤害 | 位移
+  - 控制标签: 减速
+- R Chum the Waters / Chum the Waters
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+
+## Galio (Galio / Galio)
+- P Colossal Smash / Colossal Smash
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Winds of War / Winds of War
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- W Shield of Durand / Shield of Durand
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 敌方减益 | 二段/形态切换 | 护盾 | 控制 | 伤害 | 自我增益
+  - 控制标签: 嘲讽 | 减速
+- E Justice Punch / Justice Punch
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- R Hero's Entrance / Hero's Entrance
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+
+## Gangplank (Gangplank / Gangplank)
+- P Trial by Fire / Trial by Fire
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Parrrley / Parrrley
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- W Remove Scurvy / Remove Scurvy
+  - 伤害类型: 无/未标注
+  - 效果标签: 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- E Powder Keg / Powder Keg
+  - 伤害类型: 物理
+  - 效果标签: 充能技能 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- R Cannon Barrage / Cannon Barrage
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 复活/免死相关 | 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+
+## Garen (Garen / Garen)
+- P Perseverance / Perseverance
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Decisive Strike / Decisive Strike
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 沉默 | 减速
+- W Courage / Courage
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Judgment / Judgment
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- R Demacian Justice / Demacian Justice
+  - 伤害类型: 真实
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+
+## Gnar (Gnar / Gnar)
+- P Rage Gene / Rage Gene
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 资源交互
+  - 控制标签: 无
+- Q Boomerang Throw / Boulder Toss / Boomerang Throw / Boulder Toss
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 减速
+- W Hyper / Wallop / Hyper / Wallop
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复 | 资源交互
+  - 控制标签: 眩晕
+- E Hop / Crunch / Hop / Crunch
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 减速
+- R GNAR! / GNAR!
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速 | 眩晕
+
+## Gragas (Gragas / Gragas)
+- P Happy Hour / Happy Hour
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Barrel Roll / Barrel Roll
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+- W Drunken Rage / Drunken Rage
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Body Slam / Body Slam
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 眩晕
+- R Explosive Cask / Explosive Cask
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+
+## Graves (Graves / Graves)
+- P New Destiny / New Destiny
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 击退
+- Q End of the Line / End of the Line
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Smoke Screen / Smoke Screen
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- E Quickdraw / Quickdraw
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- R Collateral Damage / Collateral Damage
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+
+## Gwen (Gwen / Gwen)
+- P A Thousand Cuts / A Thousand Cuts
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Snip Snip! / Snip Snip!
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 敌方减益 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Hallowed Mist / Hallowed Mist
+  - 伤害类型: 无/未标注
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Skip 'n Slash / Skip 'n Slash
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- R Needlework / Needlework
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+
+## Hecarim (Hecarim / Hecarim)
+- P Warpath / Warpath
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Rampage / Rampage
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Spirit of Dread / Spirit of Dread
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Devastating Charge / Devastating Charge
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 自我增益
+  - 控制标签: 击退
+- R Onslaught of Shadows / Onslaught of Shadows
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 恐惧
+
+## Heimerdinger (Heimerdinger / Heimerdinger)
+- P Hextech Affinity / Hextech Affinity
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署
+  - 控制标签: 无
+- Q H-28 G Evolution Turret / H-28 G Evolution Turret
+  - 伤害类型: 无/未标注
+  - 效果标签: 充能技能 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- W Hextech Micro-Rockets / Hextech Micro-Rockets
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 召唤/部署 | 资源交互
+  - 控制标签: 无
+- E CH-2 Electron Storm Grenade / CH-2 Electron Storm Grenade
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速 | 眩晕
+- R UPGRADE!!! / UPGRADE!!!
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速 | 眩晕
+
+## Hwei (Hwei / Hwei)
+- P Signature of the Visionary / Signature of the Visionary
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Subject: Disaster / Subject: Disaster
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 减速
+- W Subject: Serenity / Subject: Serenity
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 护盾 | 控制 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 恐惧
+- E Subject: Torment / Subject: Torment
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速 | 禁锢 | 恐惧
+- R Spiraling Despair / Spiraling Despair
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+
+## Illaoi (Illaoi / Illaoi)
+- P Prophet of an Elder God / Prophet of an Elder God
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 召唤/部署 | 治疗/回复
+  - 控制标签: 无
+- Q Tentacle Smash / Tentacle Smash
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Harsh Lesson / Harsh Lesson
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- E Test of Spirit / Test of Spirit
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- R Leap of Faith / Leap of Faith
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移 | 召唤/部署
+  - 控制标签: 无
+
+## Irelia (Irelia / Irelia)
+- P Ionian Fervor / Ionian Fervor
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Bladesurge / Bladesurge
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- W Defiant Dance / Defiant Dance
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害
+  - 控制标签: 无
+- E Flawless Duet / Flawless Duet
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 眩晕
+- R Vanguard's Edge / Vanguard's Edge
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+
+## Ivern (Ivern / Ivern)
+- P Friend of the Forest / Friend of the Forest
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Rootcaller / Rootcaller
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 控制 | 伤害 | 位移
+  - 控制标签: 禁锢
+- W Brushmaker / Brushmaker
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 伤害
+  - 控制标签: 无
+- E Triggerseed / Triggerseed
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- R Daisy! / Daisy!
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 召唤/部署
+  - 控制标签: 无
+
+## Janna (Janna / Janna)
+- P Tailwind / Tailwind
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Howling Gale / Howling Gale
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 击飞
+- W Zephyr / Zephyr
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 减速
+- E Eye Of The Storm / Eye Of The Storm
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 召唤/部署
+  - 控制标签: 无
+- R Monsoon / Monsoon
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署 | 治疗/回复
+  - 控制标签: 无
+
+## Jarvan IV (Jarvan IV / JarvanIV)
+- P Martial Cadence / Martial Cadence
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Dragon Strike / Dragon Strike
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Golden Aegis / Golden Aegis
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 控制 | 召唤/部署
+  - 控制标签: 减速
+- E Demacian Standard / Demacian Standard
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- R Cataclysm / Cataclysm
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+
+## Jax (Jax / Jax)
+- P Relentless Assault / Relentless Assault
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Leap Strike / Leap Strike
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- W Empower / Empower
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Counter Strike / Counter Strike
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 眩晕
+- R Grandmaster-at-Arms / Grandmaster-at-Arms
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+
+## Jayce (Jayce / Jayce)
+- P Hextech Capacitor / Hextech Capacitor
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q To the Skies! / Shock Blast / To the Skies! / Shock Blast
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 位移
+  - 控制标签: 减速
+- W Lightning Field / Hyper Charge / Lightning Field / Hyper Charge
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 召唤/部署 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Thundering Blow / Acceleration Gate / Thundering Blow / Acceleration Gate
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- R Mercury Cannon / Mercury Hammer / Mercury Cannon / Mercury Hammer
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Jhin (Jhin / Jhin)
+- P Whisper / Whisper
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动
+  - 控制标签: 无
+- Q Dancing Grenade / Dancing Grenade
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Deadly Flourish / Deadly Flourish
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 禁锢
+- E Captive Audience / Captive Audience
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 复活/免死相关 | 控制 | 伤害 | 隐身/伪装 | 召唤/部署
+  - 控制标签: 减速
+- R Curtain Call / Curtain Call
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 减速
+
+## Jinx (Jinx / Jinx)
+- P Get Excited! / Get Excited!
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Switcheroo! / Switcheroo!
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 减速
+- W Zap! / Zap!
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Flame Chompers! / Flame Chompers!
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+- R Super Mega Death Rocket! / Super Mega Death Rocket!
+  - 伤害类型: 物理
+  - 效果标签: 复活/免死相关 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Kai'Sa (Kai'Sa / Kaisa)
+- P Second Skin / Second Skin
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Icathian Rain / Icathian Rain
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Void Seeker / Void Seeker
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- E Supercharge / Supercharge
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 隐身/伪装 | 资源交互 | 自我增益
+  - 控制标签: 无
+- R Killer Instinct / Killer Instinct
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 位移 | 自我增益
+  - 控制标签: 无
+
+## Kalista (Kalista / Kalista)
+- P Martial Poise / Martial Poise
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 位移
+  - 控制标签: 无
+- Q Pierce / Pierce
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- W Sentinel / Sentinel
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Rend / Rend
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- R Fate's Call / Fate's Call
+  - 伤害类型: 无/未标注
+  - 效果标签: 不可选取/无敌/霸体 | 位移
+  - 控制标签: 无
+
+## Karma (Karma / Karma)
+- P Gathering Fire / Gathering Fire
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益
+  - 控制标签: 无
+- Q Inner Flame / Inner Flame
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- W Focused Resolve / Focused Resolve
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署 | 治疗/回复
+  - 控制标签: 禁锢
+- E Inspire / Inspire
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 召唤/部署 | 资源交互
+  - 控制标签: 无
+- R Mantra / Mantra
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 减速 | 禁锢
+
+## Karthus (Karthus / Karthus)
+- P Death Defied / Death Defied
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关
+  - 控制标签: 无
+- Q Lay Waste / Lay Waste
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 伤害 | 召唤/部署
+  - 控制标签: 无
+- W Wall of Pain / Wall of Pain
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 控制 | 召唤/部署 | 资源交互
+  - 控制标签: 减速
+- E Defile / Defile
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署 | 资源交互
+  - 控制标签: 无
+- R Requiem / Requiem
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Kassadin (Kassadin / Kassadin)
+- P Void Stone / Void Stone
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- Q Null Sphere / Null Sphere
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- W Nether Blade / Nether Blade
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Force Pulse / Force Pulse
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- R Riftwalk / Riftwalk
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 资源交互
+  - 控制标签: 无
+
+## Katarina (Katarina / Katarina)
+- P Voracity / Voracity
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- Q Bouncing Blade / Bouncing Blade
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Preparation / Preparation
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- E Shunpo / Shunpo
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 位移
+  - 控制标签: 无
+- R Death Lotus / Death Lotus
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 敌方减益 | 复活/免死相关 | 伤害
+  - 控制标签: 无
+
+## Kayle (Kayle / Kayle)
+- P Divine Ascent / Divine Ascent
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Radiant Blast / Radiant Blast
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- W Celestial Blessing / Celestial Blessing
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- E Starfire Spellblade / Starfire Spellblade
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- R Divine Judgment / Divine Judgment
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 敌方减益 | 伤害
+  - 控制标签: 无
+
+## Kayn (Kayn / Kayn)
+- P The Darkin Scythe / The Darkin Scythe
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Reaping Slash / Reaping Slash
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- W Blade's Reach / Blade's Reach
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Shadow Step / Shadow Step
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 控制 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+- R Umbral Trespass / Umbral Trespass
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 伤害 | 治疗/回复
+  - 控制标签: 无
+
+## Kennen (Kennen / Kennen)
+- P Mark of the Storm / Mark of the Storm
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制
+  - 控制标签: 眩晕
+- Q Thundering Shuriken / Thundering Shuriken
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Electrical Surge / Electrical Surge
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Lightning Rush / Lightning Rush
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- R Slicing Maelstrom / Slicing Maelstrom
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署
+  - 控制标签: 无
+
+## Kha'Zix (Kha'Zix / Khazix)
+- P Unseen Threat / Unseen Threat
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- Q Taste Their Fear / Taste Their Fear
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 恐惧
+- W Void Spike / Void Spike
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- E Leap / Leap
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- R Void Assault / Void Assault
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 控制 | 位移 | 隐身/伪装 | 自我增益
+  - 控制标签: 减速 | 恐惧
+
+## Kindred (Kindred / Kindred)
+- P Mark of the Kindred / Mark of the Kindred
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Dance of Arrows / Dance of Arrows
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- W Wolf's Frenzy / Wolf's Frenzy
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Mounting Dread / Mounting Dread
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+- R Lamb's Respite / Lamb's Respite
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 伤害 | 治疗/回复
+  - 控制标签: 无
+
+## Kled (Kled / Kled)
+- P Skaarl, the Cowardly Lizard / Skaarl, the Cowardly Lizard
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复 | 资源交互
+  - 控制标签: 无
+- Q Bear Trap on a Rope / Bear Trap on a Rope
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 召唤/部署 | 资源交互
+  - 控制标签: 减速
+- W Violent Tendencies / Violent Tendencies
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Jousting / Jousting
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- R Chaaaaaaaarge!!! / Chaaaaaaaarge!!!
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Kog'Maw (Kog'Maw / KogMaw)
+- P Icathian Surprise / Icathian Surprise
+  - 伤害类型: 真实
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Caustic Spittle / Caustic Spittle
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- W Bio-Arcane Barrage / Bio-Arcane Barrage
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Void Ooze / Void Ooze
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- R Living Artillery / Living Artillery
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 隐身/伪装 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互
+  - 控制标签: 无
+
+## K'Sante (K'Sante / KSante)
+- P Dauntless Instinct / Dauntless Instinct
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Ntofo Strikes / Ntofo Strikes
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 自我增益
+  - 控制标签: 减速 | 眩晕
+- W Path Maker / Path Maker
+  - 伤害类型: 混合(物理+真实)
+  - 效果标签: 不可选取/无敌/霸体 | 敌方减益 | 控制 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 击退 | 眩晕
+- E Footwork / Footwork
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 二段/形态切换 | 护盾 | 位移 | 自我增益
+  - 控制标签: 无
+- R All Out / All Out
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 二段/形态切换 | 控制 | 伤害 | 位移 | 治疗/回复 | 自我增益
+  - 控制标签: 击退
+
+## LeBlanc (LeBlanc / Leblanc)
+- P Mirror Image / Mirror Image
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 隐身/伪装 | 斩杀/缺失生命值联动 | 召唤/部署 | 治疗/回复
+  - 控制标签: 无
+- Q Sigil of Malice / Sigil of Malice
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+- W Distortion / Distortion
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+- E Ethereal Chains / Ethereal Chains
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+- R Mimic / Mimic
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 控制 | 伤害
+  - 控制标签: 禁锢
+
+## Lee Sin (Lee Sin / LeeSin)
+- P Flurry / Flurry
+  - 伤害类型: 无/未标注
+  - 效果标签: 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Sonic Wave / Resonating Strike / Sonic Wave / Resonating Strike
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- W Safeguard / Iron Will / Safeguard / Iron Will
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 二段/形态切换 | 护盾 | 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- E Tempest / Cripple / Tempest / Cripple
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+- R Dragon's Rage / Dragon's Rage
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 治疗/回复 | 资源交互
+  - 控制标签: 击飞
+
+## Leona (Leona / Leona)
+- P Sunlight / Sunlight
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Shield of Daybreak / Shield of Daybreak
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害
+  - 控制标签: 眩晕
+- W Eclipse / Eclipse
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+- E Zenith Blade / Zenith Blade
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 禁锢
+- R Solar Flare / Solar Flare
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速 | 眩晕
+
+## Lillia (Lillia / Lillia)
+- P Dream-Laden Bough / Dream-Laden Bough
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Blooming Blows / Blooming Blows
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Watch Out! Eep! / Watch Out! Eep!
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Swirlseed / Swirlseed
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- R Lilting Lullaby / Lilting Lullaby
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 睡眠
+
+## Lissandra (Lissandra / Lissandra)
+- P Iceborn Subjugation / Iceborn Subjugation
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- Q Ice Shard / Ice Shard
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- W Ring of Frost / Ring of Frost
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 禁锢
+- E Glacial Path / Glacial Path
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 召唤/部署
+  - 控制标签: 无
+- R Frozen Tomb / Frozen Tomb
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 敌方减益 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互
+  - 控制标签: 减速 | 眩晕
+
+## Lucian (Lucian / Lucian)
+- P Lightslinger / Lightslinger
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Piercing Light / Piercing Light
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Ardent Blaze / Ardent Blaze
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- E Relentless Pursuit / Relentless Pursuit
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 二段/形态切换 | 位移
+  - 控制标签: 无
+- R The Culling / The Culling
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Lulu (Lulu / Lulu)
+- P Pix, Faerie Companion / Pix, Faerie Companion
+  - 伤害类型: 无/未标注
+  - 效果标签: 资源交互
+  - 控制标签: 无
+- Q Glitterlance / Glitterlance
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- W Whimsy / Whimsy
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 自我增益
+  - 控制标签: 变形
+- E Help, Pix! / Help, Pix!
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 位移
+  - 控制标签: 无
+- R Wild Growth / Wild Growth
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+
+## Lux (Lux / Lux)
+- P Illumination / Illumination
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+- Q Light Binding / Light Binding
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+- W Prismatic Barrier / Prismatic Barrier
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+- E Lucent Singularity / Lucent Singularity
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- R Final Spark / Final Spark
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+
+## Malphite (Malphite / Malphite)
+- P Granite Shield / Granite Shield
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Seismic Shard / Seismic Shard
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- W Thunderclap / Thunderclap
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Ground Slam / Ground Slam
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- R Unstoppable Force / Unstoppable Force
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移
+  - 控制标签: 无
+
+## Malzahar (Malzahar / Malzahar)
+- P Void Shift / Void Shift
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Call of the Void / Call of the Void
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 沉默
+- W Void Swarm / Void Swarm
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署
+  - 控制标签: 无
+- E Malefic Visions / Malefic Visions
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- R Nether Grasp / Nether Grasp
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复 | 资源交互
+  - 控制标签: 压制
+
+## Maokai (Maokai / Maokai)
+- P Sap Magic / Sap Magic
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Bramble Smash / Bramble Smash
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 击退 | 减速
+- W Twisted Advance / Twisted Advance
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 控制 | 伤害 | 位移
+  - 控制标签: 禁锢
+- E Sapling Toss / Sapling Toss
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 减速
+- R Nature's Grasp / Nature's Grasp
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速 | 禁锢
+
+## Master Yi (Master Yi / MasterYi)
+- P Double Strike / Double Strike
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Alpha Strike / Alpha Strike
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 敌方减益 | 控制 | 伤害 | 位移
+  - 控制标签: 致盲
+- W Meditate / Meditate
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- E Wuju Style / Wuju Style
+  - 伤害类型: 真实
+  - 效果标签: 伤害
+  - 控制标签: 无
+- R Highlander / Highlander
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 控制 | 自我增益
+  - 控制标签: 减速
+
+## Mel (Mel / Mel)
+- P Searing Brilliance / Searing Brilliance
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 自我增益
+  - 控制标签: 无
+- Q Radiant Volley / Radiant Volley
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+- W Rebuttal / Rebuttal
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Solar Snare / Solar Snare
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速 | 禁锢
+- R Golden Eclipse / Golden Eclipse
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Milio (Milio / Milio)
+- P Fired Up! / Fired Up!
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Ultra Mega Fire Kick / Ultra Mega Fire Kick
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- W Cozy Campfire / Cozy Campfire
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Warm Hugs / Warm Hugs
+  - 伤害类型: 无/未标注
+  - 效果标签: 充能技能 | 护盾 | 自我增益
+  - 控制标签: 无
+- R Breath of Life / Breath of Life
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Miss Fortune (Miss Fortune / MissFortune)
+- P Love Tap / Love Tap
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Double Up / Double Up
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Strut / Strut
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Make It Rain / Make It Rain
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- R Bullet Time / Bullet Time
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+
+## Wukong (Wukong / MonkeyKing)
+- P Stone Skin / Stone Skin
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Crushing Blow / Crushing Blow
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- W Warrior Trickster / Warrior Trickster
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 位移 | 隐身/伪装 | 召唤/部署
+  - 控制标签: 无
+- E Nimbus Strike / Nimbus Strike
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- R Cyclone / Cyclone
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 击飞
+
+## Mordekaiser (Mordekaiser / Mordekaiser)
+- P Darkness Rise / Darkness Rise
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Obliterate / Obliterate
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Indestructible / Indestructible
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Death's Grasp / Death's Grasp
+  - 伤害类型: 魔法
+  - 效果标签: 复活/免死相关 | 伤害 | 自我增益
+  - 控制标签: 无
+- R Realm of Death / Realm of Death
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 召唤/部署
+  - 控制标签: 无
+
+## Morgana (Morgana / Morgana)
+- P Soul Siphon / Soul Siphon
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Dark Binding / Dark Binding
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+- W Tormented Shadow / Tormented Shadow
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- E Black Shield / Black Shield
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+- R Soul Shackles / Soul Shackles
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速 | 眩晕
+
+## Naafiri (Naafiri / Naafiri)
+- P We Are More / We Are More
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署
+  - 控制标签: 无
+- Q Darkin Daggers / Darkin Daggers
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- W The Call of the Pack / The Call of the Pack
+  - 伤害类型: 无/未标注
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Eviscerate / Eviscerate
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- R Hounds' Pursuit / Hounds' Pursuit
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 护盾 | 控制 | 伤害 | 位移
+  - 控制标签: 减速
+
+## Nami (Nami / Nami)
+- P Surging Tides / Surging Tides
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Aqua Prison / Aqua Prison
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- W Ebb and Flow / Ebb and Flow
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- E Tidecaller's Blessing / Tidecaller's Blessing
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- R Tidal Wave / Tidal Wave
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+
+## Nasus (Nasus / Nasus)
+- P Soul Eater / Soul Eater
+  - 伤害类型: 无/未标注
+  - 效果标签: 资源交互
+  - 控制标签: 无
+- Q Siphoning Strike / Siphoning Strike
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Wither / Wither
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 控制 | 自我增益
+  - 控制标签: 减速
+- E Spirit Fire / Spirit Fire
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- R Fury of the Sands / Fury of the Sands
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Nautilus (Nautilus / Nautilus)
+- P Staggering Blow / Staggering Blow
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 禁锢
+- Q Dredge Line / Dredge Line
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- W Titan's Wrath / Titan's Wrath
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Riptide / Riptide
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- R Depth Charge / Depth Charge
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 击飞 | 眩晕
+
+## Neeko (Neeko / Neeko)
+- P Inherent Glamour / Inherent Glamour
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Blooming Burst / Blooming Burst
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Shapesplitter / Shapesplitter
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 隐身/伪装 | 召唤/部署
+  - 控制标签: 无
+- E Tangle-Barbs / Tangle-Barbs
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 禁锢
+- R Pop Blossom / Pop Blossom
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 位移 | 隐身/伪装
+  - 控制标签: 眩晕
+
+## Nidalee (Nidalee / Nidalee)
+- P Prowl / Prowl
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Javelin Toss / Takedown / Javelin Toss / Takedown
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 自我增益
+  - 控制标签: 无
+- W Bushwhack / Pounce / Bushwhack / Pounce
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 隐身/伪装 | 召唤/部署
+  - 控制标签: 无
+- E Primal Surge / Swipe / Primal Surge / Swipe
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- R Aspect Of The Cougar / Aspect Of The Cougar
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换
+  - 控制标签: 无
+
+## Nilah (Nilah / Nilah)
+- P Joy Unending / Joy Unending
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Formless Blade / Formless Blade
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Jubilant Veil / Jubilant Veil
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- E Slipstream / Slipstream
+  - 伤害类型: 物理
+  - 效果标签: 充能技能 | 伤害 | 位移
+  - 控制标签: 无
+- R Apotheosis / Apotheosis
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 伤害 | 治疗/回复
+  - 控制标签: 无
+
+## Nocturne (Nocturne / Nocturne)
+- P Umbra Blades / Umbra Blades
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Duskbringer / Duskbringer
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Shroud of Darkness / Shroud of Darkness
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Unspeakable Horror / Unspeakable Horror
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 恐惧
+- R Paranoia / Paranoia
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Nunu & Willump (Nunu & Willump / Nunu)
+- P Call of the Freljord / Call of the Freljord
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Consume / Consume
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Biggest Snowball Ever! / Biggest Snowball Ever!
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- E Snowball Barrage / Snowball Barrage
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 资源交互
+  - 控制标签: 减速 | 禁锢
+- R Absolute Zero / Absolute Zero
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 护盾 | 控制 | 伤害
+  - 控制标签: 减速
+
+## Olaf (Olaf / Olaf)
+- P Berserker Rage / Berserker Rage
+  - 伤害类型: 无/未标注
+  - 效果标签: 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Undertow / Undertow
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+- W Tough It Out / Tough It Out
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Reckless Swing / Reckless Swing
+  - 伤害类型: 真实
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- R Ragnarok / Ragnarok
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+
+## Orianna (Orianna / Orianna)
+- P Clockwork Windup / Clockwork Windup
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Command: Attack / Command: Attack
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Command: Dissonance / Command: Dissonance
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- E Command: Protect / Command: Protect
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+- R Command: Shockwave / Command: Shockwave
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+
+## Ornn (Ornn / Ornn)
+- P Living Forge / Living Forge
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Volcanic Rupture / Volcanic Rupture
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- W Bellows Breath / Bellows Breath
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Searing Charge / Searing Charge
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 召唤/部署
+  - 控制标签: 无
+- R Call of the Forge God / Call of the Forge God
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 位移 | 召唤/部署 | 自我增益
+  - 控制标签: 击飞 | 减速
+
+## Pantheon (Pantheon / Pantheon)
+- P Mortal Will / Mortal Will
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Comet Spear / Comet Spear
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Shield Vault / Shield Vault
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 控制 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 眩晕
+- E Aegis Assault / Aegis Assault
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 敌方减益 | 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- R Grand Starfall / Grand Starfall
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 减速
+
+## Poppy (Poppy / Poppy)
+- P Iron Ambassador / Iron Ambassador
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾
+  - 控制标签: 无
+- Q Hammer Shock / Hammer Shock
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- W Steadfast Presence / Steadfast Presence
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 缚地 | 减速
+- E Heroic Charge / Heroic Charge
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 眩晕
+- R Keeper's Verdict / Keeper's Verdict
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 击退 | 减速
+
+## Pyke (Pyke / Pyke)
+- P Gift of the Drowned Ones / Gift of the Drowned Ones
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 隐身/伪装 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Bone Skewer / Bone Skewer
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- W Ghostwater Dive / Ghostwater Dive
+  - 伤害类型: 无/未标注
+  - 效果标签: 隐身/伪装 | 自我增益
+  - 控制标签: 无
+- E Phantom Undertow / Phantom Undertow
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 眩晕
+- R Death From Below / Death From Below
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 复活/免死相关 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+
+## Qiyana (Qiyana / Qiyana)
+- P Royal Privilege / Royal Privilege
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Elemental Wrath / Edge of Ixtal / Elemental Wrath / Edge of Ixtal
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 隐身/伪装 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 减速 | 禁锢
+- W Terrashape / Terrashape
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- E Audacity / Audacity
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- R Supreme Display of Talent / Supreme Display of Talent
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 眩晕
+
+## Quinn (Quinn / Quinn)
+- P Harrier / Harrier
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- Q Blinding Assault / Blinding Assault
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 缴械 | 致盲
+- W Heightened Senses / Heightened Senses
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 自我增益
+  - 控制标签: 无
+- E Vault / Vault
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 位移
+  - 控制标签: 减速
+- R Behind Enemy Lines / Behind Enemy Lines
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 二段/形态切换 | 控制 | 伤害 | 位移
+  - 控制标签: 致盲
+
+## Rakan (Rakan / Rakan)
+- P Fey Feathers / Fey Feathers
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 自我增益
+  - 控制标签: 无
+- Q Gleaming Quill / Gleaming Quill
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- W Grand Entrance / Grand Entrance
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- E Battle Dance / Battle Dance
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 护盾 | 位移
+  - 控制标签: 无
+- R The Quickness / The Quickness
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 魅惑
+
+## Rammus (Rammus / Rammus)
+- P Spiked Shell / Spiked Shell
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害 | 自我增益
+  - 控制标签: 无
+- Q Powerball / Powerball
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+- W Defensive Ball Curl / Defensive Ball Curl
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- E Frenzying Taunt / Frenzying Taunt
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 嘲讽
+- R Soaring Slam / Soaring Slam
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 击飞 | 减速
+
+## Rek'Sai (Rek'Sai / RekSai)
+- P Fury of the Xer'Sai / Fury of the Xer'Sai
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复 | 资源交互
+  - 控制标签: 无
+- Q Queen's Wrath / Prey Seeker / Queen's Wrath / Prey Seeker
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Burrow / Un-burrow / Burrow / Un-burrow
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 自我增益
+  - 控制标签: 击飞
+- E Furious Bite / Tunnel / Furious Bite / Tunnel
+  - 伤害类型: 混合(物理+真实)
+  - 效果标签: 伤害 | 召唤/部署 | 资源交互
+  - 控制标签: 无
+- R Void Rush / Void Rush
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+
+## Rell (Rell / Rell)
+- P Break the Mold / Break the Mold
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Shattering Strike / Shattering Strike
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害
+  - 控制标签: 眩晕
+- W Ferromancy: Crash Down / Ferromancy: Crash Down
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 减速
+- E Full Tilt / Full Tilt
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- R Magnet Storm / Magnet Storm
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+
+## Renata Glasc (Renata Glasc / Renata)
+- P Leverage / Leverage
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+- Q Handshake / Handshake
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 禁锢 | 眩晕
+- W Bailout / Bailout
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Loyalty Program / Loyalty Program
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害
+  - 控制标签: 减速
+- R Hostile Takeover / Hostile Takeover
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+
+## Renekton (Renekton / Renekton)
+- P Reign of Anger / Reign of Anger
+  - 伤害类型: 无/未标注
+  - 效果标签: 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Cull the Meek / Cull the Meek
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- W Ruthless Predator / Ruthless Predator
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 控制 | 伤害 | 资源交互
+  - 控制标签: 眩晕
+- E Slice and Dice / Slice and Dice
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害 | 位移 | 资源交互 | 自我增益
+  - 控制标签: 无
+- R Dominus / Dominus
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Rengar (Rengar / Rengar)
+- P Unseen Predator / Unseen Predator
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- Q Savagery / Savagery
+  - 伤害类型: 物理
+  - 效果标签: 充能技能 | 伤害 | 自我增益
+  - 控制标签: 无
+- W Battle Roar / Battle Roar
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- E Bola Strike / Bola Strike
+  - 伤害类型: 物理
+  - 效果标签: 充能技能 | 控制 | 伤害
+  - 控制标签: 减速 | 禁锢
+- R Thrill of the Hunt / Thrill of the Hunt
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 位移 | 隐身/伪装 | 自我增益
+  - 控制标签: 无
+
+## Riven (Riven / Riven)
+- P Runic Blade / Runic Blade
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Broken Wings / Broken Wings
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+- W Ki Burst / Ki Burst
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 眩晕
+- E Valor / Valor
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 护盾 | 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- R Blade of the Exile / Blade of the Exile
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Rumble (Rumble / Rumble)
+- P Junkyard Titan / Junkyard Titan
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Flamespitter / Flamespitter
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Scrap Shield / Scrap Shield
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+- E Electro Harpoon / Electro Harpoon
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 敌方减益 | 控制 | 伤害
+  - 控制标签: 减速
+- R The Equalizer / The Equalizer
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+
+## Ryze (Ryze / Ryze)
+- P Arcane Mastery / Arcane Mastery
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Overload / Overload
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- W Rune Prison / Rune Prison
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速 | 禁锢
+- E Spell Flux / Spell Flux
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- R Realm Warp / Realm Warp
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 位移 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+
+## Samira (Samira / Samira)
+- P Daredevil Impulse / Daredevil Impulse
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 击飞
+- Q Flair / Flair
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Blade Whirl / Blade Whirl
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Wild Rush / Wild Rush
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 自我增益
+  - 控制标签: 无
+- R Inferno Trigger / Inferno Trigger
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+
+## Sejuani (Sejuani / Sejuani)
+- P Fury of the North / Fury of the North
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 减速 | 眩晕
+- Q Arctic Assault / Arctic Assault
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Winter's Wrath / Winter's Wrath
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Permafrost / Permafrost
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- R Glacial Prison / Glacial Prison
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速 | 眩晕
+
+## Senna (Senna / Senna)
+- P Absolution / Absolution
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 伤害 | 召唤/部署
+  - 控制标签: 无
+- Q Piercing Darkness / Piercing Darkness
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- W Last Embrace / Last Embrace
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+- E Curse of the Black Mist / Curse of the Black Mist
+  - 伤害类型: 无/未标注
+  - 效果标签: 隐身/伪装
+  - 控制标签: 无
+- R Dawning Shadow / Dawning Shadow
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+
+## Seraphine (Seraphine / Seraphine)
+- P Stage Presence / Stage Presence
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q High Note / High Note
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Surround Sound / Surround Sound
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- E Beat Drop / Beat Drop
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速 | 禁锢 | 眩晕
+- R Encore / Encore
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 魅惑
+
+## Sett (Sett / Sett)
+- P Pit Grit / Pit Grit
+  - 伤害类型: 无/未标注
+  - 效果标签: 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- Q Knuckle Down / Knuckle Down
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Haymaker / Haymaker
+  - 伤害类型: 混合(物理+真实)
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+- E Facebreaker / Facebreaker
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速 | 眩晕
+- R The Show Stopper / The Show Stopper
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速 | 压制
+
+## Shaco (Shaco / Shaco)
+- P Backstab / Backstab
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Deceive / Deceive
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移 | 隐身/伪装 | 自我增益
+  - 控制标签: 无
+- W Jack In The Box / Jack In The Box
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 隐身/伪装 | 召唤/部署
+  - 控制标签: 恐惧
+- E Two-Shiv Poison / Two-Shiv Poison
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 减速
+- R Hallucinate / Hallucinate
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 复活/免死相关 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 恐惧
+
+## Shen (Shen / Shen)
+- P Ki Barrier / Ki Barrier
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 护盾
+  - 控制标签: 无
+- Q Twilight Assault / Twilight Assault
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+- W Spirit's Refuge / Spirit's Refuge
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Shadow Dash / Shadow Dash
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移 | 资源交互
+  - 控制标签: 嘲讽
+- R Stand United / Stand United
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+
+## Shyvana (Shyvana / Shyvana)
+- P Fury of the Dragonborn / Fury of the Dragonborn
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Twin Bite / Twin Bite
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- W Burnout / Burnout
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 召唤/部署
+  - 控制标签: 无
+- E Flame Breath / Flame Breath
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- R Dragon's Descent / Dragon's Descent
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Singed (Singed / Singed)
+- P Noxious Slipstream / Noxious Slipstream
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Poison Trail / Poison Trail
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Mega Adhesive / Mega Adhesive
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制
+  - 控制标签: 减速
+- E Fling / Fling
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 禁锢
+- R Insanity Potion / Insanity Potion
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 治疗/回复 | 资源交互
+  - 控制标签: 无
+
+## Sion (Sion / Sion)
+- P Glory in Death / Glory in Death
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Decimating Smash / Decimating Smash
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 击飞 | 减速 | 眩晕
+- W Soul Furnace / Soul Furnace
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Roar of the Slayer / Roar of the Slayer
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 击退 | 减速
+- R Unstoppable Onslaught / Unstoppable Onslaught
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速 | 眩晕
+
+## Sivir (Sivir / Sivir)
+- P Fleet of Foot / Fleet of Foot
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 自我增益
+  - 控制标签: 恐惧
+- Q Boomerang Blade / Boomerang Blade
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- W Ricochet / Ricochet
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Spell Shield / Spell Shield
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 控制 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 恐惧
+- R On The Hunt / On The Hunt
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+
+## Skarner (Skarner / Skarner)
+- P Threads of Vibration / Threads of Vibration
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Shattered Earth / Upheaval / Shattered Earth / Upheaval
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+- W Seismic Bastion / Seismic Bastion
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 减速
+- E Ixtal's Impact / Ixtal's Impact
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 眩晕
+- R Impale / Impale
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 压制
+
+## Smolder (Smolder / Smolder)
+- P Dragon Practice / Dragon Practice
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Super Scorcher Breath / Super Scorcher Breath
+  - 伤害类型: 混合(物理+魔法+真实)
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- W Achooo! / Achooo!
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Flap, Flap, Flap / Flap, Flap, Flap
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- R MMOOOMMMM! / MMOOOMMMM!
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+
+## Sona (Sona / Sona)
+- P Power Chord / Power Chord
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- Q Hymn of Valor / Hymn of Valor
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Aria of Perseverance / Aria of Perseverance
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Song of Celerity / Song of Celerity
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- R Crescendo / Crescendo
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+
+## Soraka (Soraka / Soraka)
+- P Salvation / Salvation
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Starcall / Starcall
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- W Astral Infusion / Astral Infusion
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 治疗/回复
+  - 控制标签: 无
+- E Equinox / Equinox
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 沉默 | 禁锢
+- R Wish / Wish
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+
+## Swain (Swain / Swain)
+- P Ravenous Flock / Ravenous Flock
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Death's Hand / Death's Hand
+  - 伤害类型: 魔法
+  - 效果标签: 复活/免死相关 | 伤害
+  - 控制标签: 无
+- W Vision of Empire / Vision of Empire
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Nevermove / Nevermove
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+- R Demonic Ascension / Demonic Ascension
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 治疗/回复 | 资源交互
+  - 控制标签: 减速
+
+## Sylas (Sylas / Sylas)
+- P Petricite Burst / Petricite Burst
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- Q Chain Lash / Chain Lash
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- W Kingslayer / Kingslayer
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Abscond / Abduct / Abscond / Abduct
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+- R Hijack / Hijack
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+
+## Syndra (Syndra / Syndra)
+- P Transcendent / Transcendent
+  - 伤害类型: 真实
+  - 效果标签: 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 减速
+- Q Dark Sphere / Dark Sphere
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Force of Will / Force of Will
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+- E Scatter the Weak / Scatter the Weak
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速 | 眩晕
+- R Unleashed Power / Unleashed Power
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Tahm Kench (Tahm Kench / TahmKench)
+- P An Acquired Taste / An Acquired Taste
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Tongue Lash / Tongue Lash
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 减速 | 眩晕
+- W Abyssal Dive / Abyssal Dive
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 击飞
+- E Thick Skin / Thick Skin
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- R Devour / Devour
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 护盾 | 控制 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 缚地 | 减速
+
+## Taliyah (Taliyah / Taliyah)
+- P Rock Surfing / Rock Surfing
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Threaded Volley / Threaded Volley
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 减速 | 眩晕
+- W Seismic Shove / Seismic Shove
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- E Unraveled Earth / Unraveled Earth
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 位移 | 召唤/部署
+  - 控制标签: 减速 | 眩晕
+- R Weaver's Wall / Weaver's Wall
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害 | 召唤/部署
+  - 控制标签: 无
+
+## Talon (Talon / Talon)
+- P Blade's End / Blade's End
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Noxian Diplomacy / Noxian Diplomacy
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- W Rake / Rake
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Assassin's Path / Assassin's Path
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 位移
+  - 控制标签: 无
+- R Shadow Assault / Shadow Assault
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 隐身/伪装 | 自我增益
+  - 控制标签: 无
+
+## Taric (Taric / Taric)
+- P Bravado / Bravado
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+- Q Starlight's Touch / Starlight's Touch
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Bastion / Bastion
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Dazzle / Dazzle
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- R Cosmic Radiance / Cosmic Radiance
+  - 伤害类型: 无/未标注
+  - 效果标签: 不可选取/无敌/霸体 | 敌方减益 | 资源交互
+  - 控制标签: 无
+
+## Teemo (Teemo / Teemo)
+- P Guerrilla Warfare / Guerrilla Warfare
+  - 伤害类型: 无/未标注
+  - 效果标签: 隐身/伪装 | 自我增益
+  - 控制标签: 无
+- Q Blinding Dart / Blinding Dart
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 致盲
+- W Move Quick / Move Quick
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Toxic Shot / Toxic Shot
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- R Noxious Trap / Noxious Trap
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 控制 | 伤害 | 隐身/伪装 | 召唤/部署
+  - 控制标签: 减速
+
+## Thresh (Thresh / Thresh)
+- P Damnation / Damnation
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Death Sentence / Death Sentence
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 复活/免死相关 | 控制 | 伤害
+  - 控制标签: 眩晕
+- W Dark Passage / Dark Passage
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 位移
+  - 控制标签: 无
+- E Flay / Flay
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- R The Box / The Box
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+
+## Tristana (Tristana / Tristana)
+- P Draw a Bead / Draw a Bead
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Rapid Fire / Rapid Fire
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- W Rocket Jump / Rocket Jump
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 减速
+- E Explosive Charge / Explosive Charge
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 伤害 | 召唤/部署
+  - 控制标签: 无
+- R Buster Shot / Buster Shot
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+
+## Trundle (Trundle / Trundle)
+- P King's Tribute / King's Tribute
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Chomp / Chomp
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- W Frozen Domain / Frozen Domain
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Pillar of Ice / Pillar of Ice
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 召唤/部署
+  - 控制标签: 减速
+- R Subjugate / Subjugate
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 治疗/回复
+  - 控制标签: 无
+
+## Tryndamere (Tryndamere / Tryndamere)
+- P Battle Fury / Battle Fury
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- Q Bloodlust / Bloodlust
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互
+  - 控制标签: 无
+- W Mocking Shout / Mocking Shout
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 减速
+- E Spinning Slash / Spinning Slash
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- R Undying Rage / Undying Rage
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 复活/免死相关 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Twisted Fate (Twisted Fate / TwistedFate)
+- P Loaded Dice / Loaded Dice
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Wild Cards / Wild Cards
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Pick a Card / Pick a Card
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 资源交互
+  - 控制标签: 减速 | 眩晕
+- E Stacked Deck / Stacked Deck
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- R Destiny / Destiny
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 位移
+  - 控制标签: 无
+
+## Twitch (Twitch / Twitch)
+- P Deadly Venom / Deadly Venom
+  - 伤害类型: 真实
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Ambush / Ambush
+  - 伤害类型: 无/未标注
+  - 效果标签: 隐身/伪装 | 自我增益
+  - 控制标签: 无
+- W Venom Cask / Venom Cask
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制
+  - 控制标签: 减速
+- E Contaminate / Contaminate
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- R Spray and Pray / Spray and Pray
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Udyr (Udyr / Udyr)
+- P Bridge Between / Bridge Between
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 自我增益
+  - 控制标签: 无
+- Q Wilding Claw / Wilding Claw
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 二段/形态切换 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Iron Mantle / Iron Mantle
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 护盾 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Blazing Stampede / Blazing Stampede
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 控制 | 位移 | 自我增益
+  - 控制标签: 眩晕
+- R Wingborne Storm / Wingborne Storm
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+
+## Urgot (Urgot / Urgot)
+- P Echoing Flames / Echoing Flames
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Corrosive Charge / Corrosive Charge
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- W Purge / Purge
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 减速
+- E Disdain / Disdain
+  - 伤害类型: 物理
+  - 效果标签: 护盾 | 控制 | 伤害
+  - 控制标签: 眩晕
+- R Fear Beyond Death / Fear Beyond Death
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 复活/免死相关 | 控制 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 减速 | 恐惧 | 压制
+
+## Varus (Varus / Varus)
+- P Living Vengeance / Living Vengeance
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Piercing Arrow / Piercing Arrow
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 减速
+- W Blighted Quiver / Blighted Quiver
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Hail of Arrows / Hail of Arrows
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- R Chain of Corruption / Chain of Corruption
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+
+## Vayne (Vayne / Vayne)
+- P Night Hunter / Night Hunter
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Tumble / Tumble
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- W Silver Bolts / Silver Bolts
+  - 伤害类型: 真实
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Condemn / Condemn
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- R Final Hour / Final Hour
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 伤害 | 自我增益
+  - 控制标签: 无
+
+## Veigar (Veigar / Veigar)
+- P Phenomenal Evil Power / Phenomenal Evil Power
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Baleful Strike / Baleful Strike
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- W Dark Matter / Dark Matter
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 召唤/部署
+  - 控制标签: 无
+- E Event Horizon / Event Horizon
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制
+  - 控制标签: 眩晕
+- R Primordial Burst / Primordial Burst
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Vel'Koz (Vel'Koz / Velkoz)
+- P Organic Deconstruction / Organic Deconstruction
+  - 伤害类型: 真实
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Plasma Fission / Plasma Fission
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- W Void Rift / Void Rift
+  - 伤害类型: 魔法
+  - 效果标签: 充能技能 | 伤害
+  - 控制标签: 无
+- E Tectonic Disruption / Tectonic Disruption
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 击飞 | 击退
+- R Life Form Disintegration Ray / Life Form Disintegration Ray
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+
+## Vex (Vex / Vex)
+- P Doom 'n Gloom / Doom 'n Gloom
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 恐惧
+- Q Mistral Bolt / Mistral Bolt
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Personal Space / Personal Space
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- E Looming Darkness / Looming Darkness
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- R Shadow Surge / Shadow Surge
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+
+## Vi (Vi / Vi)
+- P Blast Shield / Blast Shield
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾
+  - 控制标签: 无
+- Q Vault Breaker / Vault Breaker
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 击退 | 减速
+- W Denting Blows / Denting Blows
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Relentless Force / Relentless Force
+  - 伤害类型: 物理
+  - 效果标签: 充能技能 | 伤害
+  - 控制标签: 无
+- R Cease and Desist / Cease and Desist
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 眩晕
+
+## Viego (Viego / Viego)
+- P Sovereign's Domination / Sovereign's Domination
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Blade of the Ruined King / Blade of the Ruined King
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Spectral Maw / Spectral Maw
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 减速 | 眩晕
+- E Harrowed Path / Harrowed Path
+  - 伤害类型: 无/未标注
+  - 效果标签: 隐身/伪装 | 自我增益
+  - 控制标签: 无
+- R Heartbreaker / Heartbreaker
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 击退 | 减速
+
+## Viktor (Viktor / Viktor)
+- P Glorious Evolution / Glorious Evolution
+  - 伤害类型: 无/未标注
+  - 效果标签: 自我增益
+  - 控制标签: 无
+- Q Siphon Power / Siphon Power
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 伤害 | 自我增益
+  - 控制标签: 无
+- W Gravity Field / Gravity Field
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制
+  - 控制标签: 减速 | 眩晕
+- E Hextech Ray / Hextech Ray
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- R Arcane Storm / Arcane Storm
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Vladimir (Vladimir / Vladimir)
+- P Crimson Pact / Crimson Pact
+  - 伤害类型: 无/未标注
+  - 效果标签: 治疗/回复
+  - 控制标签: 无
+- Q Transfusion / Transfusion
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复 | 资源交互 | 自我增益
+  - 控制标签: 无
+- W Sanguine Pool / Sanguine Pool
+  - 伤害类型: 魔法
+  - 效果标签: 不可选取/无敌/霸体 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- E Tides of Blood / Tides of Blood
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+- R Hemoplague / Hemoplague
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署 | 治疗/回复
+  - 控制标签: 无
+
+## Volibear (Volibear / Volibear)
+- P The Relentless Storm / The Relentless Storm
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- Q Thundering Smash / Thundering Smash
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 眩晕
+- W Frenzied Maul / Frenzied Maul
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- E Sky Splitter / Sky Splitter
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 减速
+- R Stormbringer / Stormbringer
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 减速
+
+## Warwick (Warwick / Warwick)
+- P Eternal Hunger / Eternal Hunger
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 斩杀/缺失生命值联动 | 治疗/回复
+  - 控制标签: 无
+- Q Jaws of the Beast / Jaws of the Beast
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- W Blood Hunt / Blood Hunt
+  - 伤害类型: 无/未标注
+  - 效果标签: 充能技能 | 敌方减益 | 斩杀/缺失生命值联动 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Primal Howl / Primal Howl
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 自我增益
+  - 控制标签: 恐惧
+- R Infinite Duress / Infinite Duress
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 压制
+
+## Xayah (Xayah / Xayah)
+- P Clean Cuts / Clean Cuts
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Double Daggers / Double Daggers
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Deadly Plumage / Deadly Plumage
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Bladecaller / Bladecaller
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 禁锢
+- R Featherstorm / Featherstorm
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移
+  - 控制标签: 无
+
+## Xerath (Xerath / Xerath)
+- P Mana Surge / Mana Surge
+  - 伤害类型: 无/未标注
+  - 效果标签: 敌方减益 | 资源交互
+  - 控制标签: 无
+- Q Arcanopulse / Arcanopulse
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- W Eye of Destruction / Eye of Destruction
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 资源交互
+  - 控制标签: 减速
+- E Shocking Orb / Shocking Orb
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 控制 | 伤害
+  - 控制标签: 眩晕
+- R Rite of the Arcane / Rite of the Arcane
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+
+## Xin Zhao (Xin Zhao / XinZhao)
+- P Determination / Determination
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Three Talon Strike / Three Talon Strike
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- W Wind Becomes Lightning / Wind Becomes Lightning
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 隐身/伪装
+  - 控制标签: 减速
+- E Audacious Charge / Audacious Charge
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- R Crescent Guard / Crescent Guard
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+
+## Yasuo (Yasuo / Yasuo)
+- P Way of the Wanderer / Way of the Wanderer
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害
+  - 控制标签: 无
+- Q Steel Tempest / Steel Tempest
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 击飞 | 腾空
+- W Wind Wall / Wind Wall
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署
+  - 控制标签: 无
+- E Sweeping Blade / Sweeping Blade
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+- R Last Breath / Last Breath
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移 | 自我增益
+  - 控制标签: 击飞 | 腾空
+
+## Yone (Yone / Yone)
+- P Way of the Hunter / Way of the Hunter
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Mortal Steel / Mortal Steel
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害 | 位移
+  - 控制标签: 击飞 | 腾空
+- W Spirit Cleave / Spirit Cleave
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 护盾 | 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Soul Unbound / Soul Unbound
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- R Fate Sealed / Fate Sealed
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 伤害 | 位移
+  - 控制标签: 无
+
+## Yorick (Yorick / Yorick)
+- P Shepherd of Souls / Shepherd of Souls
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署
+  - 控制标签: 无
+- Q Last Rites / Last Rites
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害 | 斩杀/缺失生命值联动 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- W Dark Procession / Dark Procession
+  - 伤害类型: 无/未标注
+  - 效果标签: 召唤/部署 | 治疗/回复
+  - 控制标签: 无
+- E Mourning Mist / Mourning Mist
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 位移 | 召唤/部署 | 治疗/回复
+  - 控制标签: 减速
+- R Eulogy of the Isles / Eulogy of the Isles
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 复活/免死相关 | 伤害 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Yunara (Yunara / Yunara)
+- P Vow of the First Lands / Vow of the First Lands
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Cultivation of Spirit / Cultivation of Spirit
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+- W Arc of Judgment | Arc of Ruin / Arc of Judgment | Arc of Ruin
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Kanmei's Steps | Untouchable Shadow / Kanmei's Steps | Untouchable Shadow
+  - 伤害类型: 无/未标注
+  - 效果标签: 位移 | 自我增益
+  - 控制标签: 无
+- R Transcend One's Self / Transcend One's Self
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+
+## Yuumi (Yuumi / Yuumi)
+- P Feline Friendship / Feline Friendship
+  - 伤害类型: 无/未标注
+  - 效果标签: 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Prowling Projectile / Prowling Projectile
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署
+  - 控制标签: 减速
+- W You and Me! / You and Me!
+  - 伤害类型: 无/未标注
+  - 效果标签: 不可选取/无敌/霸体 | 护盾 | 位移 | 召唤/部署 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- E Zoomies / Zoomies
+  - 伤害类型: 无/未标注
+  - 效果标签: 护盾 | 伤害 | 资源交互 | 自我增益
+  - 控制标签: 无
+- R Final Chapter / Final Chapter
+  - 伤害类型: 魔法
+  - 效果标签: 护盾 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 减速
+
+## Zaahen (Zaahen / Zaahen)
+- P Cultivation of War / Cultivation of War
+  - 伤害类型: 无/未标注
+  - 效果标签: 复活/免死相关 | 伤害 | 自我增益
+  - 控制标签: 无
+- Q The Darkin Glaive / The Darkin Glaive
+  - 伤害类型: 物理
+  - 效果标签: 二段/形态切换 | 控制 | 伤害 | 治疗/回复
+  - 控制标签: 击飞
+- W Dreaded Return / Dreaded Return
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- E Aureate Rush / Aureate Rush
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+- R Grim Deliverance / Grim Deliverance
+  - 伤害类型: 物理
+  - 效果标签: 伤害 | 位移 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+
+## Zac (Zac / Zac)
+- P Cell Division / Cell Division
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 复活/免死相关 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- Q Stretching Strikes / Stretching Strikes
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+- W Unstable Matter / Unstable Matter
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害 | 治疗/回复
+  - 控制标签: 无
+- E Elastic Slingshot / Elastic Slingshot
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 位移 | 召唤/部署
+  - 控制标签: 无
+- R Let's Bounce! / Let's Bounce!
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 自我增益
+  - 控制标签: 减速
+
+## Zed (Zed / Zed)
+- P Contempt for the Weak / Contempt for the Weak
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 治疗/回复 | 自我增益
+  - 控制标签: 无
+- Q Razor Shuriken / Razor Shuriken
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Living Shadow / Living Shadow
+  - 伤害类型: 无/未标注
+  - 效果标签: 二段/形态切换 | 伤害 | 位移 | 资源交互 | 自我增益
+  - 控制标签: 无
+- E Shadow Slash / Shadow Slash
+  - 伤害类型: 物理
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 减速
+- R Death Mark / Death Mark
+  - 伤害类型: 物理
+  - 效果标签: 不可选取/无敌/霸体 | 二段/形态切换 | 复活/免死相关 | 伤害 | 位移
+  - 控制标签: 无
+
+## Zeri (Zeri / Zeri)
+- P Living Battery / Living Battery
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 资源交互
+  - 控制标签: 无
+- Q Burst Fire / Burst Fire
+  - 伤害类型: 物理
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Ultrashock Laser / Ultrashock Laser
+  - 伤害类型: 物理
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 减速
+- E Spark Surge / Spark Surge
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害 | 位移
+  - 控制标签: 无
+- R Lightning Crash / Lightning Crash
+  - 伤害类型: 混合(物理+魔法)
+  - 效果标签: 伤害 | 自我增益
+  - 控制标签: 无
+
+## Ziggs (Ziggs / Ziggs)
+- P Short Fuse / Short Fuse
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 伤害
+  - 控制标签: 无
+- Q Bouncing Bomb / Bouncing Bomb
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Satchel Charge / Satchel Charge
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 二段/形态切换 | 伤害 | 斩杀/缺失生命值联动 | 召唤/部署 | 治疗/回复
+  - 控制标签: 无
+- E Hexplosive Minefield / Hexplosive Minefield
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 减速
+- R Mega Inferno Bomb / Mega Inferno Bomb
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+
+## Zilean (Zilean / Zilean)
+- P Time In A Bottle / Time In A Bottle
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- Q Time Bomb / Time Bomb
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害
+  - 控制标签: 眩晕
+- W Rewind / Rewind
+  - 伤害类型: 无/未标注
+  - 效果标签: 无
+  - 控制标签: 无
+- E Time Warp / Time Warp
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制
+  - 控制标签: 减速
+- R Chronoshift / Chronoshift
+  - 伤害类型: 无/未标注
+  - 效果标签: 不可选取/无敌/霸体 | 伤害 | 位移 | 治疗/回复
+  - 控制标签: 无
+
+## Zoe (Zoe / Zoe)
+- P More Sparkles! / More Sparkles!
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- Q Paddle Star! / Paddle Star!
+  - 伤害类型: 魔法
+  - 效果标签: 二段/形态切换 | 伤害
+  - 控制标签: 无
+- W Spell Thief / Spell Thief
+  - 伤害类型: 魔法
+  - 效果标签: 伤害 | 召唤/部署 | 自我增益
+  - 控制标签: 无
+- E Sleepy Trouble Bubble / Sleepy Trouble Bubble
+  - 伤害类型: 混合(魔法+真实)
+  - 效果标签: 敌方减益 | 控制 | 伤害 | 召唤/部署
+  - 控制标签: 睡眠
+- R Portal Jump / Portal Jump
+  - 伤害类型: 无/未标注
+  - 效果标签: 位移
+  - 控制标签: 无
+
+## Zyra (Zyra / Zyra)
+- P Garden of Thorns / Garden of Thorns
+  - 伤害类型: 无/未标注
+  - 效果标签: 控制 | 召唤/部署
+  - 控制标签: 禁锢
+- Q Deadly Spines / Deadly Spines
+  - 伤害类型: 魔法
+  - 效果标签: 伤害
+  - 控制标签: 无
+- W Rampant Growth / Rampant Growth
+  - 伤害类型: 无/未标注
+  - 效果标签: 充能技能 | 敌方减益 | 控制
+  - 控制标签: 禁锢
+- E Grasping Roots / Grasping Roots
+  - 伤害类型: 魔法
+  - 效果标签: 敌方减益 | 控制 | 伤害
+  - 控制标签: 减速 | 禁锢
+- R Stranglethorns / Stranglethorns
+  - 伤害类型: 魔法
+  - 效果标签: 控制 | 伤害 | 召唤/部署 | 治疗/回复 | 资源交互
+  - 控制标签: 击飞 | 腾空
+
