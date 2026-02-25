@@ -1,0 +1,463 @@
+package xyz.game.datamanage.service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import org.springframework.stereotype.Component;
+import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
+import xyz.game.datamanage.mapper.GameVersionsMapper;
+import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.HeroesMapper;
+import xyz.game.datamanage.mapper.ImagesMapper;
+import xyz.game.datamanage.mapper.ItemsMapper;
+import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
+import xyz.game.datamanage.mapper.SkillsMapper;
+import xyz.game.datamanage.mapper.TypeRelationsMapper;
+import xyz.game.datamanage.mapper.TypesMapper;
+
+@Component
+public class PostgresReadStore {
+
+    private final GamesMapper gamesMapper;
+    private final GameVersionsMapper gameVersionsMapper;
+    private final ImagesMapper imagesMapper;
+    private final OwnerCategoriesMapper ownerCategoriesMapper;
+    private final AttributeDefinitionsMapper attributeDefinitionsMapper;
+    private final TypesMapper typesMapper;
+    private final TypeRelationsMapper typeRelationsMapper;
+    private final HeroesMapper heroesMapper;
+    private final SkillsMapper skillsMapper;
+    private final ItemsMapper itemsMapper;
+    private final ObjectMapper objectMapper;
+    private final PostgresJsonSupport jsonSupport;
+
+    public PostgresReadStore(
+        GamesMapper gamesMapper,
+        GameVersionsMapper gameVersionsMapper,
+        ImagesMapper imagesMapper,
+        OwnerCategoriesMapper ownerCategoriesMapper,
+        AttributeDefinitionsMapper attributeDefinitionsMapper,
+        TypesMapper typesMapper,
+        TypeRelationsMapper typeRelationsMapper,
+        HeroesMapper heroesMapper,
+        SkillsMapper skillsMapper,
+        ItemsMapper itemsMapper,
+        ObjectMapper objectMapper,
+        PostgresJsonSupport jsonSupport
+    ) {
+        this.gamesMapper = gamesMapper;
+        this.gameVersionsMapper = gameVersionsMapper;
+        this.imagesMapper = imagesMapper;
+        this.ownerCategoriesMapper = ownerCategoriesMapper;
+        this.attributeDefinitionsMapper = attributeDefinitionsMapper;
+        this.typesMapper = typesMapper;
+        this.typeRelationsMapper = typeRelationsMapper;
+        this.heroesMapper = heroesMapper;
+        this.skillsMapper = skillsMapper;
+        this.itemsMapper = itemsMapper;
+        this.objectMapper = objectMapper;
+        this.jsonSupport = jsonSupport;
+    }
+
+    public ArrayNode listGames() {
+        ArrayNode array = objectMapper.createArrayNode();
+        for (Map<String, Object> row : gamesMapper.listGames()) {
+            ObjectNode node = objectMapper.createObjectNode();
+            node.put("gameId", text(row, "gameId"));
+            node.put("gameName", text(row, "gameName"));
+            putNullableText(node, "gameImgUrl", text(row, "gameImgUrl"));
+            array.add(node);
+        }
+        return array;
+    }
+
+    public boolean gameExists(String gameId) {
+        Long count = gamesMapper.countGames(gameId);
+        return count != null && count > 0;
+    }
+
+    public VersionRecord findCurrentPublishedVersion(String gameId) {
+        Map<String, Object> row = gameVersionsMapper.findCurrentPublishedVersion(gameId);
+        return row == null ? null : mapVersionRecord(row);
+    }
+
+    public VersionRecord findVersionById(String gameId, long versionId) {
+        Map<String, Object> row = gameVersionsMapper.findVersionById(gameId, versionId);
+        return row == null ? null : mapVersionRecord(row);
+    }
+
+    public Long findCurrentVersionId(String gameId) {
+        return gameVersionsMapper.findCurrentVersionId(gameId);
+    }
+
+    public Long findLatestVersionId(String gameId) {
+        return gameVersionsMapper.findLatestVersionId(gameId);
+    }
+
+    public ObjectNode getImages(String gameId, Instant updatedAfter) {
+        List<Map<String, Object>> rows = updatedAfter == null
+            ? imagesMapper.listImages(gameId)
+            : imagesMapper.listImagesUpdatedAfter(gameId, Timestamp.from(updatedAfter));
+
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode images = response.putArray("images");
+        for (Map<String, Object> row : rows) {
+            images.add(mapImageRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getOwnerCategories(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode ownerCategories = response.putArray("ownerCategories");
+        for (Map<String, Object> row : ownerCategoriesMapper.listOwnerCategories(gameId)) {
+            ownerCategories.add(mapOwnerCategoryRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode buildBundle(String gameId, VersionRecord version, String dataHash) {
+        ObjectNode bundle = objectMapper.createObjectNode();
+        ObjectNode meta = bundle.putObject("meta");
+        meta.put("gameId", gameId);
+        meta.put("versionId", version.versionId());
+        meta.put("versionCode", version.versionCode());
+        meta.put("dataHash", dataHash == null ? "" : dataHash);
+        meta.put("generatedAt", Instant.now().toString());
+
+        ArrayNode attributeDefinitions = objectMapper.createArrayNode();
+        for (Map<String, Object> row : attributeDefinitionsMapper.listAttributeDefinitions(gameId)) {
+            attributeDefinitions.add(mapAttributeDefinitionRow(row));
+        }
+        bundle.set("attributeDefinitions", attributeDefinitions);
+
+        ArrayNode types = objectMapper.createArrayNode();
+        for (Map<String, Object> row : typesMapper.listTypes(gameId)) {
+            types.add(mapTypeRow(row));
+        }
+        bundle.set("types", types);
+
+        ArrayNode typeRelations = objectMapper.createArrayNode();
+        for (Map<String, Object> row : typeRelationsMapper.listTypeRelations(gameId)) {
+            typeRelations.add(mapTypeRelationRow(row));
+        }
+        bundle.set("typeRelations", typeRelations);
+
+        ArrayNode heroes = objectMapper.createArrayNode();
+        for (Map<String, Object> row : heroesMapper.listHeroes(gameId)) {
+            heroes.add(mapHeroRow(row));
+        }
+        bundle.set("heroes", heroes);
+
+        ArrayNode skills = objectMapper.createArrayNode();
+        for (Map<String, Object> row : skillsMapper.listSkills(gameId)) {
+            skills.add(mapSkillRow(row));
+        }
+        bundle.set("skills", skills);
+
+        ArrayNode items = objectMapper.createArrayNode();
+        for (Map<String, Object> row : itemsMapper.listItems(gameId)) {
+            items.add(mapItemRow(row));
+        }
+        bundle.set("items", items);
+
+        ObjectNode dictionaries = objectMapper.createObjectNode();
+        ObjectNode attrKeyToName = dictionaries.putObject("attrKeyToName");
+        for (JsonNode node : attributeDefinitions) {
+            String attrName = node.path("attrName").asText("");
+            if (!attrName.isBlank()) {
+                attrKeyToName.put(node.path("attrKey").asText(), attrName);
+            }
+        }
+
+        ObjectNode typeIdToName = dictionaries.putObject("typeIdToName");
+        for (JsonNode node : types) {
+            String typeName = node.path("name").asText("");
+            if (!typeName.isBlank()) {
+                typeIdToName.put(Integer.toString(node.path("typeId").asInt()), typeName);
+            }
+        }
+
+        if (attrKeyToName.size() > 0 || typeIdToName.size() > 0) {
+            bundle.set("dictionaries", dictionaries);
+        }
+        return bundle;
+    }
+
+    public ObjectNode loadHero(String gameId, String heroId) {
+        return querySingleNode(heroesMapper.findHeroById(gameId, heroId), this::mapHeroRow);
+    }
+
+    public ObjectNode loadSkill(String gameId, String skillId) {
+        return querySingleNode(skillsMapper.findSkillById(gameId, skillId), this::mapSkillRow);
+    }
+
+    public ObjectNode loadItem(String gameId, String itemId) {
+        return querySingleNode(itemsMapper.findItemById(gameId, itemId), this::mapItemRow);
+    }
+
+    public ObjectNode loadAttributeDefinition(String gameId, String attrKey) {
+        return querySingleNode(attributeDefinitionsMapper.findAttributeDefinitionById(gameId, attrKey), this::mapAttributeDefinitionRow);
+    }
+
+    public ObjectNode loadType(String gameId, int typeId) {
+        return querySingleNode(typesMapper.findTypeById(gameId, typeId), this::mapTypeRow);
+    }
+
+    public ObjectNode loadTypeRelation(String gameId, int typeId, String targetCategory, String targetId) {
+        return querySingleNode(
+            typeRelationsMapper.findTypeRelationById(gameId, typeId, targetCategory, targetId),
+            this::mapTypeRelationRow
+        );
+    }
+
+    public ObjectNode loadImage(String gameId, String uri) {
+        return querySingleNode(imagesMapper.findImageByUri(gameId, uri), this::mapImageRow);
+    }
+
+    private ObjectNode querySingleNode(Map<String, Object> row, SqlNodeMapper nodeMapper) {
+        return row == null ? null : nodeMapper.map(row);
+    }
+
+    private ObjectNode mapHeroRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("heroId", text(row, "heroId"));
+        node.put("name", text(row, "name"));
+        putNullableText(node, "title", text(row, "title"));
+        putNullableText(node, "avatarUrl", text(row, "avatarUrl"));
+        node.set("baseStats", jsonSupport.parseJsonObject(text(row, "baseStatsJson"), "/baseStats"));
+        JsonNode statsByLevel = jsonSupport.parseJsonOrNull(text(row, "statsByLevelJson"), "/statsByLevel");
+        if (statsByLevel != null) {
+            node.set("statsByLevel", statsByLevel);
+        }
+        return node;
+    }
+
+    private ObjectNode mapSkillRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("skillId", text(row, "skillId"));
+        node.put("ownerType", text(row, "ownerType"));
+        node.put("ownerId", text(row, "ownerId"));
+        putNullableText(node, "skillKey", text(row, "skillKey"));
+        putNullableText(node, "name", text(row, "name"));
+        putNullableText(node, "description", text(row, "description"));
+        JsonNode resourceCosts = jsonSupport.parseJsonOrNull(text(row, "resourceCostsJson"), "/resourceCosts");
+        if (resourceCosts != null) {
+            node.set("resourceCosts", resourceCosts);
+        }
+        JsonNode cooldowns = jsonSupport.parseJsonOrNull(text(row, "cooldownsJson"), "/cooldowns");
+        if (cooldowns != null) {
+            node.set("cooldowns", cooldowns);
+        }
+        node.set("mechanicsConfig", jsonSupport.parseJsonObject(text(row, "mechanicsConfigJson"), "/mechanicsConfig"));
+        return node;
+    }
+
+    private ObjectNode mapItemRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("itemId", text(row, "itemId"));
+        putNullableText(node, "name", text(row, "name"));
+        Integer goldCost = integer(row, "goldCost");
+        if (goldCost != null) {
+            node.put("goldCost", goldCost);
+        }
+        putNullableText(node, "iconUrl", text(row, "iconUrl"));
+        putNullableJson(node, "statsModifier", text(row, "statsModifierJson"));
+        putNullableJson(node, "skillRefs", text(row, "skillRefsJson"));
+        putNullableJson(node, "recipeIds", text(row, "recipeIdsJson"));
+        return node;
+    }
+
+    private ObjectNode mapAttributeDefinitionRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("attrKey", text(row, "attrKey"));
+        putNullableText(node, "attrName", text(row, "attrName"));
+        putNullableText(node, "attrType", text(row, "attrType"));
+        BigDecimal defaultValue = decimal(row, "defaultValue");
+        if (defaultValue != null) {
+            node.putPOJO("defaultValue", defaultValue);
+        }
+        return node;
+    }
+
+    private ObjectNode mapTypeRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        Integer typeId = integer(row, "typeId");
+        node.put("typeId", typeId == null ? -1 : typeId);
+        putNullableText(node, "name", text(row, "name"));
+        putNullableText(node, "description", text(row, "description"));
+        Integer reservedTypeId = integer(row, "reservedTypeId");
+        if (reservedTypeId != null) {
+            node.put("reservedTypeId", reservedTypeId);
+        }
+        return node;
+    }
+
+    private ObjectNode mapTypeRelationRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        Integer typeId = integer(row, "typeId");
+        node.put("typeId", typeId == null ? -1 : typeId);
+        node.put("targetCategory", text(row, "targetCategory"));
+        node.put("targetId", text(row, "targetId"));
+        JsonNode extend = jsonSupport.parseJsonOrNull(text(row, "extendJson"), "/extend");
+        if (extend != null) {
+            node.set("extend", extend);
+        }
+        return node;
+    }
+
+    private ObjectNode mapImageRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("uri", text(row, "uri"));
+        node.put("imageBase64", text(row, "imageBase64"));
+        node.put("updatedAt", jsonSupport.timestampToIso(timestamp(row, "updatedAt")));
+        return node;
+    }
+
+    private ObjectNode mapOwnerCategoryRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("ownerType", text(row, "ownerType"));
+        putNullableText(node, "name", text(row, "name"));
+        putNullableText(node, "description", text(row, "description"));
+        node.put("updatedAt", jsonSupport.timestampToIso(timestamp(row, "updatedAt")));
+        return node;
+    }
+
+    private VersionRecord mapVersionRecord(Map<String, Object> row) {
+        Long versionId = longValue(row, "versionId");
+        Timestamp updatedAt = timestamp(row, "updatedAt");
+        return new VersionRecord(
+            versionId == null ? -1L : versionId,
+            text(row, "versionCode"),
+            text(row, "dataHash"),
+            updatedAt == null ? Instant.now() : updatedAt.toInstant()
+        );
+    }
+
+    private void putNullableText(ObjectNode node, String fieldName, String value) {
+        if (value != null) {
+            node.put(fieldName, value);
+        }
+    }
+
+    private void putNullableJson(ObjectNode node, String fieldName, String raw) {
+        JsonNode value = jsonSupport.parseJsonOrNull(raw, "/" + fieldName);
+        if (value != null) {
+            node.set(fieldName, value);
+        }
+    }
+
+    private String text(Map<String, Object> row, String key) {
+        Object value = value(row, key);
+        return value == null ? null : value.toString();
+    }
+
+    private Integer integer(Map<String, Object> row, String key) {
+        Object value = value(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Number number) {
+            return number.intValue();
+        }
+        return Integer.parseInt(value.toString());
+    }
+
+    private Long longValue(Map<String, Object> row, String key) {
+        Object value = value(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Number number) {
+            return number.longValue();
+        }
+        return Long.parseLong(value.toString());
+    }
+
+    private BigDecimal decimal(Map<String, Object> row, String key) {
+        Object value = value(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof BigDecimal bigDecimal) {
+            return bigDecimal;
+        }
+        if (value instanceof Number number) {
+            return new BigDecimal(number.toString());
+        }
+        return new BigDecimal(value.toString());
+    }
+
+    private Timestamp timestamp(Map<String, Object> row, String key) {
+        Object value = value(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Timestamp timestamp) {
+            return timestamp;
+        }
+        if (value instanceof java.util.Date date) {
+            return new Timestamp(date.getTime());
+        }
+        if (value instanceof Instant instant) {
+            return Timestamp.from(instant);
+        }
+        if (value instanceof LocalDateTime localDateTime) {
+            return Timestamp.valueOf(localDateTime);
+        }
+        return Timestamp.from(Instant.parse(value.toString()));
+    }
+
+    private Object value(Map<String, Object> row, String key) {
+        if (row.containsKey(key)) {
+            return row.get(key);
+        }
+        String lowerKey = key.toLowerCase(Locale.ROOT);
+        if (row.containsKey(lowerKey)) {
+            return row.get(lowerKey);
+        }
+        String snakeKey = camelToSnake(key);
+        if (row.containsKey(snakeKey)) {
+            return row.get(snakeKey);
+        }
+        for (Map.Entry<String, Object> entry : row.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(key)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    private String camelToSnake(String key) {
+        StringBuilder builder = new StringBuilder(key.length() + 4);
+        for (int i = 0; i < key.length(); i++) {
+            char ch = key.charAt(i);
+            if (Character.isUpperCase(ch)) {
+                if (i > 0) {
+                    builder.append('_');
+                }
+                builder.append(Character.toLowerCase(ch));
+            } else {
+                builder.append(ch);
+            }
+        }
+        return builder.toString();
+    }
+
+    private interface SqlNodeMapper {
+        ObjectNode map(Map<String, Object> row);
+    }
+
+    public record VersionRecord(long versionId, String versionCode, String dataHash, Instant updatedAt) {
+    }
+}

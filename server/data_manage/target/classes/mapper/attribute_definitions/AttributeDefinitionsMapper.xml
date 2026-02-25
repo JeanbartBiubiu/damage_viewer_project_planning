@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.AttributeDefinitionsMapper">
+
+    <select id="listAttributeDefinitions" resultType="map">
+        SELECT attr_key AS attrKey,
+               attr_name AS attrName,
+               attr_type AS attrType,
+               default_value AS defaultValue
+        FROM public.attribute_definitions
+        WHERE game_id = #{gameId}
+        ORDER BY attr_key
+    </select>
+
+    <select id="findAttributeDefinitionById" resultType="map">
+        SELECT attr_key AS attrKey,
+               attr_name AS attrName,
+               attr_type AS attrType,
+               default_value AS defaultValue
+        FROM public.attribute_definitions
+        WHERE game_id = #{gameId}
+          AND attr_key = #{attrKey}
+    </select>
+
+    <update id="upsertAttributeDefinition">
+        INSERT INTO public.attribute_definitions
+            (game_id, attr_key, start_version_id, end_version_id, attr_name, attr_type, default_value, updated_at)
+        VALUES
+            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{attrName}, #{attrType}, #{defaultValue}, NOW())
+        ON CONFLICT (game_id, attr_key) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            attr_name = EXCLUDED.attr_name,
+            attr_type = EXCLUDED.attr_type,
+            default_value = EXCLUDED.default_value,
+            updated_at = NOW()
+    </update>
+</mapper>
