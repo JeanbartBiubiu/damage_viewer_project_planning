@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.HeroesMapper">
+
+    <select id="listHeroes" resultType="map">
+        SELECT hero_id AS heroId,
+               name,
+               title,
+               avatar_url AS avatarUrl,
+               base_stats::text AS baseStatsJson,
+               stats_by_level::text AS statsByLevelJson
+        FROM public.heroes
+        WHERE game_id = #{gameId}
+        ORDER BY hero_id
+    </select>
+
+    <select id="findHeroById" resultType="map">
+        SELECT hero_id AS heroId,
+               name,
+               title,
+               avatar_url AS avatarUrl,
+               base_stats::text AS baseStatsJson,
+               stats_by_level::text AS statsByLevelJson
+        FROM public.heroes
+        WHERE game_id = #{gameId}
+          AND hero_id = #{heroId}
+    </select>
+
+    <update id="upsertHero">
+        INSERT INTO public.heroes
+            (game_id, hero_id, start_version_id, end_version_id, name, title, avatar_url, base_stats, stats_by_level, updated_at)
+        VALUES
+            (#{gameId}, #{heroId}, #{versionId}, #{versionId}, #{name}, #{title}, #{avatarUrl},
+             CAST(#{baseStatsJson} AS jsonb), CAST(#{statsByLevelJson} AS jsonb), NOW())
+        ON CONFLICT (game_id, hero_id) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            name = EXCLUDED.name,
+            title = EXCLUDED.title,
+            avatar_url = EXCLUDED.avatar_url,
+            base_stats = EXCLUDED.base_stats,
+            stats_by_level = EXCLUDED.stats_by_level,
+            updated_at = NOW()
+    </update>
+</mapper>
