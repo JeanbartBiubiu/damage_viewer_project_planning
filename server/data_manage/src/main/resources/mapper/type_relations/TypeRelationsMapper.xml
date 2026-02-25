@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.TypeRelationsMapper">
+
+    <select id="listTypeRelations" resultType="map">
+        SELECT type_id AS typeId,
+               target_category AS targetCategory,
+               target_id AS targetId,
+               extend::text AS extendJson
+        FROM public.type_relations
+        WHERE game_id = #{gameId}
+        ORDER BY type_id, target_category, target_id
+    </select>
+
+    <select id="findTypeRelationById" resultType="map">
+        SELECT type_id AS typeId,
+               target_category AS targetCategory,
+               target_id AS targetId,
+               extend::text AS extendJson
+        FROM public.type_relations
+        WHERE game_id = #{gameId}
+          AND type_id = #{typeId}
+          AND target_category = #{targetCategory}
+          AND target_id = #{targetId}
+    </select>
+
+    <update id="upsertTypeRelation">
+        INSERT INTO public.type_relations
+            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend, updated_at)
+        VALUES
+            (#{gameId}, #{typeId}, #{versionId}, #{versionId}, #{targetCategory}, #{targetId}, CAST(#{extendJson} AS jsonb), NOW())
+        ON CONFLICT (game_id, type_id, target_category, target_id) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            extend = EXCLUDED.extend,
+            updated_at = NOW()
+    </update>
+</mapper>

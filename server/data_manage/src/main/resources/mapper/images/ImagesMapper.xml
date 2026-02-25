@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.ImagesMapper">
+
+    <select id="listImages" resultType="map">
+        SELECT uri,
+               image_base64 AS imageBase64,
+               updated_at AS updatedAt
+        FROM public.images
+        WHERE game_id = #{gameId}
+        ORDER BY uri
+    </select>
+
+    <select id="listImagesUpdatedAfter" resultType="map">
+        SELECT uri,
+               image_base64 AS imageBase64,
+               updated_at AS updatedAt
+        FROM public.images
+        WHERE game_id = #{gameId}
+          AND updated_at &gt; #{updatedAfter}
+        ORDER BY uri
+    </select>
+
+    <select id="findImageByUri" resultType="map">
+        SELECT uri,
+               image_base64 AS imageBase64,
+               updated_at AS updatedAt
+        FROM public.images
+        WHERE game_id = #{gameId}
+          AND uri = #{uri}
+    </select>
+
+    <update id="upsertImage">
+        INSERT INTO public.images (game_id, uri, image_base64, created_at, updated_at)
+        VALUES (#{gameId}, #{uri}, #{imageBase64}, NOW(), NOW())
+        ON CONFLICT (game_id, uri) DO UPDATE SET
+            image_base64 = EXCLUDED.image_base64,
+            updated_at = NOW()
+    </update>
+</mapper>
