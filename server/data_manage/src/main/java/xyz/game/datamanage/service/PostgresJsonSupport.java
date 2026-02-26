@@ -65,6 +65,22 @@ public class PostgresJsonSupport {
         }
     }
 
+    public void validateAllowedTopLevelFields(ObjectNode node, Set<String> allowedFields) {
+        if (node == null || node.isNull()) {
+            return;
+        }
+        Iterator<Map.Entry<String, JsonNode>> fields = node.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> field = fields.next();
+            if (!allowedFields.contains(field.getKey())) {
+                throw badRequest(
+                    "Request body contains unsupported field",
+                    Map.of("path", "/" + field.getKey(), "reason", "field not allowed: " + field.getKey())
+                );
+            }
+        }
+    }
+
     public JsonNode parseJsonOrNull(String raw, String path) {
         if (raw == null || raw.isBlank()) {
             return null;
@@ -135,4 +151,3 @@ public class PostgresJsonSupport {
         return new ApiException(HttpStatus.BAD_REQUEST, "400.INVALID_BODY", message, details);
     }
 }
-
