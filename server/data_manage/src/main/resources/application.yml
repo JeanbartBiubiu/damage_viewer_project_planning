@@ -35,3 +35,11 @@ server:
   error:
     include-message: never
     include-binding-errors: never
+
+app:
+  auth:
+    jwt:
+      hs256-secret: ${ADMIN_JWT_HS256_SECRET}
+      exp-leeway: ${ADMIN_JWT_EXP_LEEWAY:30s}
+  cache:
+    published-ttl: ${PUBLISHED_CACHE_TTL:24h}

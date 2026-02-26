@@ -24,6 +24,17 @@
           AND attr_key = #{attrKey}
     </select>
 
+    <select id="listChangedSince" resultType="map">
+        SELECT attr_key AS attrKey,
+               attr_name AS attrName,
+               attr_type AS attrType,
+               default_value AS defaultValue
+        FROM public.attribute_definitions
+        WHERE game_id = #{gameId}
+          AND updated_at &gt; #{updatedAfter}
+        ORDER BY attr_key
+    </select>
+
     <update id="upsertAttributeDefinition">
         INSERT INTO public.attribute_definitions
             (game_id, attr_key, start_version_id, end_version_id, attr_name, attr_type, default_value, updated_at)
@@ -36,5 +47,25 @@
             attr_type = EXCLUDED.attr_type,
             default_value = EXCLUDED.default_value,
             updated_at = NOW()
+    </update>
+
+    <update id="updateVersionRange">
+        UPDATE public.attribute_definitions
+        SET start_version_id = #{versionId},
+            end_version_id = #{versionId}
+        WHERE game_id = #{gameId}
+          AND attr_key = #{attrKey}
+    </update>
+
+    <update id="upsertAttributeDefinitionLog">
+        INSERT INTO public.attribute_definitions_log
+            (game_id, attr_key, start_version_id, end_version_id, attr_name, attr_type, default_value)
+        VALUES
+            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{attrName}, #{attrType}, #{defaultValue})
+        ON CONFLICT (game_id, attr_key, start_version_id) DO UPDATE SET
+            end_version_id = EXCLUDED.end_version_id,
+            attr_name = EXCLUDED.attr_name,
+            attr_type = EXCLUDED.attr_type,
+            default_value = EXCLUDED.default_value
     </update>
 </mapper>
