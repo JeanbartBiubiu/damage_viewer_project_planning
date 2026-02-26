@@ -336,11 +336,13 @@ public class PostgresReadStore {
     private VersionRecord mapVersionRecord(Map<String, Object> row) {
         Long versionId = longValue(row, "versionId");
         Timestamp updatedAt = timestamp(row, "updatedAt");
+        Timestamp publishedAt = timestamp(row, "publishedAt");
         return new VersionRecord(
             versionId == null ? -1L : versionId,
             text(row, "versionCode"),
             text(row, "dataHash"),
-            updatedAt == null ? Instant.now() : updatedAt.toInstant()
+            updatedAt == null ? Instant.now() : updatedAt.toInstant(),
+            publishedAt == null ? null : publishedAt.toInstant()
         );
     }
 
@@ -458,6 +460,6 @@ public class PostgresReadStore {
         ObjectNode map(Map<String, Object> row);
     }
 
-    public record VersionRecord(long versionId, String versionCode, String dataHash, Instant updatedAt) {
+    public record VersionRecord(long versionId, String versionCode, String dataHash, Instant updatedAt, Instant publishedAt) {
     }
 }

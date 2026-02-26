@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -20,10 +21,16 @@ import xyz.game.datamanage.support.error.ApiException;
 public class GameDataService {
 
     private static final Pattern GAME_ID_PATTERN = Pattern.compile("^[a-z0-9_]+$");
+    private static final Set<String> VERSION_CREATE_ALLOWED_FIELDS = Set.of("versionCode", "releaseDate");
     private static final List<String> READ_CACHE_NAMES = List.of(
         "games",
         "currentVersion",
         "bundle",
+        "images",
+        "ownerCategories"
+    );
+    private static final List<String> NON_PUBLISHED_READ_CACHE_NAMES = List.of(
+        "games",
         "images",
         "ownerCategories"
     );
@@ -109,7 +116,7 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertHero(gameId, heroId, body, patch);
-        evictReadCaches();
+        evictNonPublishedReadCaches();
         return response;
     }
 
@@ -118,7 +125,7 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertSkill(gameId, skillId, body, patch);
-        evictReadCaches();
+        evictNonPublishedReadCaches();
         return response;
     }
 
@@ -127,7 +134,7 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertItem(gameId, itemId, body, patch);
-        evictReadCaches();
+        evictNonPublishedReadCaches();
         return response;
     }
 
@@ -136,7 +143,7 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertAttributeDefinition(gameId, attrKey, body, patch);
-        evictReadCaches();
+        evictNonPublishedReadCaches();
         return response;
     }
 
@@ -145,7 +152,7 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertType(gameId, typeId, body, patch);
-        evictReadCaches();
+        evictNonPublishedReadCaches();
         return response;
     }
 
@@ -161,7 +168,7 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertTypeRelation(gameId, typeId, targetCategory, targetId, body, patch);
-        evictReadCaches();
+        evictNonPublishedReadCaches();
         return response;
     }
 
@@ -170,14 +177,14 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertImage(gameId, uri, body);
-        evictReadCaches();
+        evictCache("images");
         return response;
     }
 
     public ObjectNode createVersion(String gameId, ObjectNode requestBody) {
         validateGameId(gameId);
         assertGameExists(gameId);
-        jsonSupport.validateNoVersionFields(requestBody, "");
+        jsonSupport.validateAllowedTopLevelFields(requestBody, VERSION_CREATE_ALLOWED_FIELDS);
         return writeStore.createVersion(gameId, requestBody);
     }
 
@@ -217,11 +224,25 @@ public class GameDataService {
     }
 
     private void evictReadCaches() {
-        for (String cacheName : READ_CACHE_NAMES) {
-            Cache cache = cacheManager.getCache(cacheName);
-            if (cache != null) {
-                cache.clear();
-            }
+        evictCaches(READ_CACHE_NAMES);
+    }
+
+    private void evictNonPublishedReadCaches() {
+        // Temporary mitigation for bundle leakage risk:
+        // non-publish writes intentionally do not clear currentVersion/bundle caches.
+        evictCaches(NON_PUBLISHED_READ_CACHE_NAMES);
+    }
+
+    private void evictCaches(List<String> cacheNames) {
+        for (String cacheName : cacheNames) {
+            evictCache(cacheName);
+        }
+    }
+
+    private void evictCache(String cacheName) {
+        Cache cache = cacheManager.getCache(cacheName);
+        if (cache != null) {
+            cache.clear();
         }
     }
 
