@@ -1,0 +1,204 @@
+package xyz.game.datamanage.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
+import xyz.game.datamanage.mapper.EditLogMapper;
+import xyz.game.datamanage.mapper.GameVersionsMapper;
+import xyz.game.datamanage.mapper.HeroesMapper;
+import xyz.game.datamanage.mapper.ImagesMapper;
+import xyz.game.datamanage.mapper.ItemsMapper;
+import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
+import xyz.game.datamanage.mapper.SkillsMapper;
+import xyz.game.datamanage.mapper.TypeRelationsMapper;
+import xyz.game.datamanage.mapper.TypesMapper;
+import xyz.game.datamanage.support.error.ApiException;
+
+@ExtendWith(MockitoExtension.class)
+class PostgresWriteStorePublishTest {
+
+    @Mock
+    private HeroesMapper heroesMapper;
+
+    @Mock
+    private SkillsMapper skillsMapper;
+
+    @Mock
+    private ItemsMapper itemsMapper;
+
+    @Mock
+    private AttributeDefinitionsMapper attributeDefinitionsMapper;
+
+    @Mock
+    private TypesMapper typesMapper;
+
+    @Mock
+    private TypeRelationsMapper typeRelationsMapper;
+
+    @Mock
+    private ImagesMapper imagesMapper;
+
+    @Mock
+    private OwnerCategoriesMapper ownerCategoriesMapper;
+
+    @Mock
+    private GameVersionsMapper gameVersionsMapper;
+
+    @Mock
+    private EditLogMapper editLogMapper;
+
+    @Mock
+    private PostgresReadStore readStore;
+
+    private PostgresWriteStore writeStore;
+
+    @BeforeEach
+    void setUp() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        writeStore = new PostgresWriteStore(
+            heroesMapper,
+            skillsMapper,
+            itemsMapper,
+            attributeDefinitionsMapper,
+            typesMapper,
+            typeRelationsMapper,
+            imagesMapper,
+            ownerCategoriesMapper,
+            gameVersionsMapper,
+            editLogMapper,
+            objectMapper,
+            readStore,
+            new PostgresJsonSupport(objectMapper)
+        );
+    }
+
+    @Test
+    void publishVersionProcessesChangesAndWritesLogs() {
+        PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
+            2L,
+            "14.2",
+            "",
+            Instant.parse("2026-02-26T01:00:00Z"),
+            null
+        );
+        PostgresReadStore.VersionRecord currentVersion = new PostgresReadStore.VersionRecord(
+            1L,
+            "14.1",
+            "oldHash",
+            Instant.parse("2026-02-25T01:00:00Z"),
+            Instant.parse("2026-02-25T01:00:00Z")
+        );
+        when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
+        when(readStore.findCurrentPublishedVersion("lol")).thenReturn(currentVersion);
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(emptyBundle("lol", targetVersion));
+
+        when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of(changedHeroRow()));
+
+        when(heroesMapper.updateVersionRange("lol", "hero_ahri", 2L)).thenReturn(1);
+        when(gameVersionsMapper.markVersionCurrent(anyString(), any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
+
+        ObjectNode response = writeStore.publishVersion("lol", 2L);
+
+        assertEquals("lol", response.path("gameId").asText());
+        assertEquals(2L, response.path("versionId").asLong());
+        assertFalse(response.path("dataHash").asText().isBlank());
+        verify(heroesMapper).upsertHeroLog(eq("lol"), eq("hero_ahri"), eq(2L), anyString(), any(), any(), anyString(), any());
+        verify(gameVersionsMapper).clearCurrentVersion("lol");
+        verify(gameVersionsMapper).markVersionCurrent(anyString(), any(Timestamp.class), eq("lol"), eq(2L));
+    }
+
+    @Test
+    void publishVersionFailsWhenBundleSemanticValidationFails() {
+        PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
+            2L,
+            "14.2",
+            "",
+            Instant.parse("2026-02-26T01:00:00Z"),
+            null
+        );
+        when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
+        when(readStore.findCurrentPublishedVersion("lol")).thenReturn(null);
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(invalidBundle("lol", targetVersion));
+        when(ownerCategoriesMapper.countOwnerCategory("lol", "hero")).thenReturn(1L);
+
+        when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+
+        ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", 2L));
+
+        assertEquals("422.SEMANTIC_ERROR", ex.getCode());
+        verify(gameVersionsMapper, never()).markVersionCurrent(anyString(), any(Timestamp.class), anyString(), anyLong());
+    }
+
+    private ObjectNode emptyBundle(String gameId, PostgresReadStore.VersionRecord version) {
+        ObjectNode bundle = JsonNodeFactory.instance.objectNode();
+        ObjectNode meta = bundle.putObject("meta");
+        meta.put("gameId", gameId);
+        meta.put("versionId", version.versionId());
+        meta.put("versionCode", version.versionCode());
+        meta.put("dataHash", "");
+        meta.put("generatedAt", Instant.now().toString());
+        bundle.putArray("attributeDefinitions");
+        bundle.putArray("types");
+        bundle.putArray("typeRelations");
+        bundle.putArray("heroes");
+        bundle.putArray("skills");
+        bundle.putArray("items");
+        return bundle;
+    }
+
+    private ObjectNode invalidBundle(String gameId, PostgresReadStore.VersionRecord version) {
+        ObjectNode bundle = emptyBundle(gameId, version);
+        ObjectNode skill = JsonNodeFactory.instance.objectNode();
+        skill.put("skillId", "skill_q");
+        skill.put("ownerType", "hero");
+        skill.put("ownerId", "hero_ahri");
+        ObjectNode mechanicsConfig = skill.putObject("mechanicsConfig");
+        mechanicsConfig.put("version", 1);
+        mechanicsConfig.putArray("triggers");
+        bundle.withArray("skills").add(skill);
+        return bundle;
+    }
+
+    private Map<String, Object> changedHeroRow() {
+        Map<String, Object> row = new HashMap<>();
+        row.put("heroId", "hero_ahri");
+        row.put("name", "Ahri");
+        row.put("title", "Nine-Tailed Fox");
+        row.put("avatarUrl", "hero_ahri.png");
+        row.put("baseStatsJson", "{\"hp\":500}");
+        row.put("statsByLevelJson", null);
+        return row;
+    }
+}

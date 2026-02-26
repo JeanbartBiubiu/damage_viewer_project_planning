@@ -8,6 +8,7 @@
         SELECT version_id AS versionId,
                version_code AS versionCode,
                data_hash AS dataHash,
+               published_at AS publishedAt,
                COALESCE(published_at, created_at) AS updatedAt
         FROM public.game_versions
         WHERE game_id = #{gameId}
@@ -21,6 +22,7 @@
         SELECT version_id AS versionId,
                version_code AS versionCode,
                COALESCE(data_hash, '') AS dataHash,
+               published_at AS publishedAt,
                COALESCE(published_at, created_at) AS updatedAt
         FROM public.game_versions
         WHERE game_id = #{gameId}

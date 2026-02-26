@@ -3,6 +3,7 @@ package xyz.game.datamanage.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -10,7 +11,9 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -298,7 +301,33 @@ public class PostgresWriteStore {
         if (version == null) {
             throw notFound("Version not found", Map.of("gameId", gameId, "versionId", versionId));
         }
+        PostgresReadStore.VersionRecord currentVersion = readStore.findCurrentPublishedVersion(gameId);
+        Instant prevPublishedAt = currentVersion == null || currentVersion.publishedAt() == null
+            ? Instant.EPOCH
+            : currentVersion.publishedAt();
+        Timestamp changedAfter = Timestamp.from(prevPublishedAt);
+
+        List<Map<String, Object>> changedAttributeDefinitions = attributeDefinitionsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedTypes = typesMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedTypeRelations = typeRelationsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedHeroes = heroesMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedSkills = skillsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedItems = itemsMapper.listChangedSince(gameId, changedAfter);
+
         ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, "");
+        validateBundleForPublish(gameId, unsignedBundle);
+
+        applyVersionProgressAndLog(
+            gameId,
+            versionId,
+            changedAttributeDefinitions,
+            changedTypes,
+            changedTypeRelations,
+            changedHeroes,
+            changedSkills,
+            changedItems
+        );
+
         String dataHash = buildDataHash(unsignedBundle);
         gameVersionsMapper.clearCurrentVersion(gameId);
         int updatedRows = gameVersionsMapper.markVersionCurrent(dataHash, Timestamp.from(Instant.now()), gameId, versionId);
@@ -332,6 +361,339 @@ public class PostgresWriteStore {
 
         editLogMapper.insertEditLog(email, serialized);
         editLogMapper.deleteExpiredEditLogs();
+    }
+
+    private void applyVersionProgressAndLog(
+        String gameId,
+        long versionId,
+        List<Map<String, Object>> changedAttributeDefinitions,
+        List<Map<String, Object>> changedTypes,
+        List<Map<String, Object>> changedTypeRelations,
+        List<Map<String, Object>> changedHeroes,
+        List<Map<String, Object>> changedSkills,
+        List<Map<String, Object>> changedItems
+    ) {
+        for (Map<String, Object> row : changedAttributeDefinitions) {
+            String attrKey = mapText(row, "attrKey");
+            String safeAttrKey = attrKey == null ? "" : attrKey;
+            ensureUpdated(
+                attributeDefinitionsMapper.updateVersionRange(gameId, safeAttrKey, versionId),
+                "attributeDefinition not found while publishing",
+                Map.of("gameId", gameId, "attrKey", safeAttrKey)
+            );
+            attributeDefinitionsMapper.upsertAttributeDefinitionLog(
+                gameId,
+                safeAttrKey,
+                versionId,
+                mapText(row, "attrName"),
+                mapText(row, "attrType"),
+                mapBigDecimal(row, "defaultValue")
+            );
+        }
+        for (Map<String, Object> row : changedTypes) {
+            Integer typeId = mapInteger(row, "typeId");
+            int safeTypeId = typeId == null ? -1 : typeId;
+            ensureUpdated(
+                typesMapper.updateVersionRange(gameId, safeTypeId, versionId),
+                "type not found while publishing",
+                Map.of("gameId", gameId, "typeId", safeTypeId)
+            );
+            typesMapper.upsertTypeLog(
+                gameId,
+                safeTypeId,
+                versionId,
+                mapText(row, "name"),
+                mapText(row, "description"),
+                mapInteger(row, "reservedTypeId")
+            );
+        }
+        for (Map<String, Object> row : changedTypeRelations) {
+            Integer typeId = mapInteger(row, "typeId");
+            int safeTypeId = typeId == null ? -1 : typeId;
+            String targetCategory = mapText(row, "targetCategory");
+            String safeTargetCategory = targetCategory == null ? "" : targetCategory;
+            String targetId = mapText(row, "targetId");
+            String safeTargetId = targetId == null ? "" : targetId;
+            ensureUpdated(
+                typeRelationsMapper.updateVersionRange(gameId, safeTypeId, safeTargetCategory, safeTargetId, versionId),
+                "typeRelation not found while publishing",
+                Map.of("gameId", gameId, "typeId", safeTypeId, "targetCategory", safeTargetCategory, "targetId", safeTargetId)
+            );
+            typeRelationsMapper.upsertTypeRelationLog(
+                gameId,
+                safeTypeId,
+                versionId,
+                safeTargetCategory,
+                safeTargetId,
+                mapText(row, "extendJson")
+            );
+        }
+        for (Map<String, Object> row : changedHeroes) {
+            String heroId = mapText(row, "heroId");
+            String safeHeroId = heroId == null ? "" : heroId;
+            ensureUpdated(
+                heroesMapper.updateVersionRange(gameId, safeHeroId, versionId),
+                "hero not found while publishing",
+                Map.of("gameId", gameId, "heroId", safeHeroId)
+            );
+            heroesMapper.upsertHeroLog(
+                gameId,
+                safeHeroId,
+                versionId,
+                mapText(row, "name"),
+                mapText(row, "title"),
+                mapText(row, "avatarUrl"),
+                mapText(row, "baseStatsJson"),
+                mapText(row, "statsByLevelJson")
+            );
+        }
+        for (Map<String, Object> row : changedSkills) {
+            String skillId = mapText(row, "skillId");
+            String safeSkillId = skillId == null ? "" : skillId;
+            ensureUpdated(
+                skillsMapper.updateVersionRange(gameId, safeSkillId, versionId),
+                "skill not found while publishing",
+                Map.of("gameId", gameId, "skillId", safeSkillId)
+            );
+            skillsMapper.upsertSkillLog(
+                gameId,
+                safeSkillId,
+                versionId,
+                mapText(row, "ownerId"),
+                mapText(row, "ownerType"),
+                mapText(row, "skillKey"),
+                mapText(row, "name"),
+                mapText(row, "description"),
+                mapText(row, "resourceCostsJson"),
+                mapText(row, "cooldownsJson"),
+                mapText(row, "mechanicsConfigJson")
+            );
+        }
+        for (Map<String, Object> row : changedItems) {
+            String itemId = mapText(row, "itemId");
+            String safeItemId = itemId == null ? "" : itemId;
+            ensureUpdated(
+                itemsMapper.updateVersionRange(gameId, safeItemId, versionId),
+                "item not found while publishing",
+                Map.of("gameId", gameId, "itemId", safeItemId)
+            );
+            itemsMapper.upsertItemLog(
+                gameId,
+                safeItemId,
+                versionId,
+                mapText(row, "name"),
+                mapInteger(row, "goldCost"),
+                mapText(row, "iconUrl"),
+                mapText(row, "statsModifierJson"),
+                mapText(row, "skillRefsJson"),
+                mapText(row, "recipeIdsJson")
+            );
+        }
+    }
+
+    private void validateBundleForPublish(String gameId, ObjectNode bundle) {
+        ArrayNode attributeDefinitions = requireArray(bundle, "attributeDefinitions");
+        ArrayNode types = requireArray(bundle, "types");
+        ArrayNode typeRelations = requireArray(bundle, "typeRelations");
+        ArrayNode heroes = requireArray(bundle, "heroes");
+        ArrayNode skills = requireArray(bundle, "skills");
+        ArrayNode items = requireArray(bundle, "items");
+
+        Set<String> attrKeys = new HashSet<>();
+        for (JsonNode node : attributeDefinitions) {
+            ObjectNode attr = requireObject(node, "/attributeDefinitions");
+            String attrKey = requireTextForPublish(attr, "attrKey", "/attributeDefinitions/attrKey");
+            attrKeys.add(attrKey);
+        }
+
+        Set<Integer> typeIds = new HashSet<>();
+        for (JsonNode node : types) {
+            ObjectNode type = requireObject(node, "/types");
+            if (!type.path("typeId").canConvertToInt()) {
+                throw semantic("type.typeId must be integer", Map.of("path", "/types/typeId"));
+            }
+            typeIds.add(type.path("typeId").asInt());
+        }
+
+        Set<String> heroIds = new HashSet<>();
+        for (JsonNode node : heroes) {
+            ObjectNode hero = requireObject(node, "/heroes");
+            String heroId = requireTextForPublish(hero, "heroId", "/heroes/heroId");
+            heroIds.add(heroId);
+            validateHeroForPublish(hero);
+        }
+
+        Set<String> skillIds = new HashSet<>();
+        for (JsonNode node : skills) {
+            ObjectNode skill = requireObject(node, "/skills");
+            String skillId = requireTextForPublish(skill, "skillId", "/skills/skillId");
+            skillIds.add(skillId);
+        }
+
+        Set<String> itemIds = new HashSet<>();
+        for (JsonNode node : items) {
+            ObjectNode item = requireObject(node, "/items");
+            String itemId = requireTextForPublish(item, "itemId", "/items/itemId");
+            itemIds.add(itemId);
+        }
+
+        for (JsonNode node : skills) {
+            ObjectNode skill = requireObject(node, "/skills");
+            validateSkillForPublish(gameId, skill, heroIds, itemIds);
+        }
+        for (JsonNode node : items) {
+            ObjectNode item = requireObject(node, "/items");
+            validateItemForPublish(item, skillIds, itemIds);
+        }
+        for (JsonNode node : typeRelations) {
+            ObjectNode relation = requireObject(node, "/typeRelations");
+            validateTypeRelationForPublish(relation, typeIds, attrKeys, skillIds, heroIds, itemIds);
+        }
+    }
+
+    private void validateHeroForPublish(ObjectNode hero) {
+        requireTextForPublish(hero, "name", "/heroes/name");
+        JsonNode baseStats = hero.get("baseStats");
+        if (baseStats == null || !baseStats.isObject()) {
+            throw semantic("hero.baseStats is required and must be object", Map.of("path", "/heroes/baseStats"));
+        }
+    }
+
+    private void validateSkillForPublish(String gameId, ObjectNode skill, Set<String> heroIds, Set<String> itemIds) {
+        String ownerType = requireTextForPublish(skill, "ownerType", "/skills/ownerType");
+        if (!OWNER_TYPE_PATTERN.matcher(ownerType).matches()) {
+            throw semantic("skill.ownerType format invalid", Map.of("path", "/skills/ownerType", "ownerType", ownerType));
+        }
+        if (!ownerTypeExists(gameId, ownerType)) {
+            throw semantic("skill.ownerType not registered", Map.of("path", "/skills/ownerType", "ownerType", ownerType));
+        }
+        String ownerId = requireTextForPublish(skill, "ownerId", "/skills/ownerId");
+        if ("hero".equals(ownerType) && !heroIds.contains(ownerId)) {
+            throw semantic("skill.ownerId hero not found", Map.of("path", "/skills/ownerId", "ownerId", ownerId));
+        }
+        if ("item".equals(ownerType) && !itemIds.contains(ownerId)) {
+            throw semantic("skill.ownerId item not found", Map.of("path", "/skills/ownerId", "ownerId", ownerId));
+        }
+
+        JsonNode mechanicsConfig = skill.get("mechanicsConfig");
+        if (mechanicsConfig == null || !mechanicsConfig.isObject()) {
+            throw semantic("skill.mechanicsConfig is required and must be object", Map.of("path", "/skills/mechanicsConfig"));
+        }
+        JsonNode versionNode = mechanicsConfig.get("version");
+        if (versionNode == null || !versionNode.canConvertToInt() || versionNode.asInt() != 1) {
+            throw semantic("mechanicsConfig.version must be 1", Map.of("path", "/skills/mechanicsConfig/version"));
+        }
+        if (!mechanicsConfig.path("triggers").isArray()) {
+            throw semantic("mechanicsConfig.triggers is required and must be array", Map.of("path", "/skills/mechanicsConfig/triggers"));
+        }
+    }
+
+    private void validateItemForPublish(ObjectNode item, Set<String> skillIds, Set<String> itemIds) {
+        String itemId = requireTextForPublish(item, "itemId", "/items/itemId");
+        JsonNode skillRefs = item.get("skillRefs");
+        if (skillRefs != null && !skillRefs.isNull()) {
+            if (!skillRefs.isArray()) {
+                throw semantic("item.skillRefs must be array", Map.of("path", "/items/skillRefs"));
+            }
+            for (int i = 0; i < skillRefs.size(); i++) {
+                JsonNode node = skillRefs.get(i);
+                if (!node.isTextual()) {
+                    throw semantic("item.skillRefs must contain string", Map.of("path", "/items/skillRefs/" + i));
+                }
+                if (!skillIds.contains(node.asText())) {
+                    throw semantic("item.skillRefs reference not found", Map.of("path", "/items/skillRefs/" + i, "skillId", node.asText()));
+                }
+            }
+        }
+
+        JsonNode recipeIds = item.get("recipeIds");
+        if (recipeIds != null && !recipeIds.isNull()) {
+            if (!recipeIds.isArray()) {
+                throw semantic("item.recipeIds must be array", Map.of("path", "/items/recipeIds"));
+            }
+            for (int i = 0; i < recipeIds.size(); i++) {
+                JsonNode node = recipeIds.get(i);
+                if (!node.isTextual()) {
+                    throw semantic("item.recipeIds must contain string", Map.of("path", "/items/recipeIds/" + i));
+                }
+                String refId = node.asText();
+                if (!refId.equals(itemId) && !itemIds.contains(refId)) {
+                    throw semantic("item.recipeIds reference not found", Map.of("path", "/items/recipeIds/" + i, "itemId", refId));
+                }
+            }
+        }
+    }
+
+    private void validateTypeRelationForPublish(
+        ObjectNode relation,
+        Set<Integer> typeIds,
+        Set<String> attrKeys,
+        Set<String> skillIds,
+        Set<String> heroIds,
+        Set<String> itemIds
+    ) {
+        JsonNode typeIdNode = relation.get("typeId");
+        if (typeIdNode == null || !typeIdNode.canConvertToInt()) {
+            throw semantic("typeRelation.typeId must be integer", Map.of("path", "/typeRelations/typeId"));
+        }
+        int typeId = typeIdNode.asInt();
+        if (!typeIds.contains(typeId)) {
+            throw semantic("typeRelation.typeId not found", Map.of("path", "/typeRelations/typeId", "typeId", typeId));
+        }
+        String targetCategory = requireTextForPublish(relation, "targetCategory", "/typeRelations/targetCategory").toLowerCase(Locale.ROOT);
+        if (!TARGET_CATEGORIES.contains(targetCategory)) {
+            throw semantic("typeRelation.targetCategory invalid", Map.of("path", "/typeRelations/targetCategory"));
+        }
+        String targetId = requireTextForPublish(relation, "targetId", "/typeRelations/targetId");
+        boolean found = switch (targetCategory) {
+            case "equipment" -> itemIds.contains(targetId);
+            case "attribute" -> attrKeys.contains(targetId);
+            case "skill" -> skillIds.contains(targetId);
+            case "character" -> heroIds.contains(targetId);
+            case "type" -> {
+                try {
+                    yield typeIds.contains(Integer.parseInt(targetId));
+                } catch (NumberFormatException ex) {
+                    throw semantic("typeRelation targetId must be numeric for category type", Map.of("targetId", targetId));
+                }
+            }
+            default -> false;
+        };
+        if (!found) {
+            throw semantic(
+                "typeRelation target not found",
+                Map.of("path", "/typeRelations/targetId", "targetCategory", targetCategory, "targetId", targetId)
+            );
+        }
+    }
+
+    private ArrayNode requireArray(ObjectNode node, String fieldName) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || !value.isArray()) {
+            throw semantic("bundle." + fieldName + " must be array", Map.of("path", "/" + fieldName));
+        }
+        return (ArrayNode) value;
+    }
+
+    private ObjectNode requireObject(JsonNode node, String path) {
+        if (node == null || !node.isObject()) {
+            throw semantic("bundle element must be object", Map.of("path", path));
+        }
+        return (ObjectNode) node;
+    }
+
+    private String requireTextForPublish(ObjectNode node, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || !value.isTextual() || value.asText().isBlank()) {
+            throw semantic(fieldName + " is required and must be non-empty string", Map.of("path", path));
+        }
+        return value.asText();
+    }
+
+    private void ensureUpdated(int updatedRows, String message, Map<String, Object> details) {
+        if (updatedRows == 0) {
+            throw notFound(message, details);
+        }
     }
 
     private void validateMechanicsConfig(ObjectNode config) {
@@ -462,6 +824,72 @@ public class PostgresWriteStore {
         ((ObjectNode) hashSource.get("meta")).remove("dataHash");
         ((ObjectNode) hashSource.get("meta")).remove("generatedAt");
         return EtagUtil.hashJson(hashSource, objectMapper);
+    }
+
+    private String mapText(Map<String, Object> row, String key) {
+        Object value = mapValue(row, key);
+        return value == null ? null : value.toString();
+    }
+
+    private Integer mapInteger(Map<String, Object> row, String key) {
+        Object value = mapValue(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Number number) {
+            return number.intValue();
+        }
+        return Integer.parseInt(value.toString());
+    }
+
+    private BigDecimal mapBigDecimal(Map<String, Object> row, String key) {
+        Object value = mapValue(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof BigDecimal decimal) {
+            return decimal;
+        }
+        if (value instanceof Number number) {
+            return new BigDecimal(number.toString());
+        }
+        return new BigDecimal(value.toString());
+    }
+
+    private Object mapValue(Map<String, Object> row, String key) {
+        if (row.containsKey(key)) {
+            return row.get(key);
+        }
+        String lowerKey = key.toLowerCase(Locale.ROOT);
+        if (row.containsKey(lowerKey)) {
+            return row.get(lowerKey);
+        }
+        String snakeKey = camelToSnake(key);
+        if (row.containsKey(snakeKey)) {
+            return row.get(snakeKey);
+        }
+        for (Map.Entry<String, Object> entry : row.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(key)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    private String camelToSnake(String key) {
+        StringBuilder builder = new StringBuilder(key.length() + 4);
+        for (int i = 0; i < key.length(); i++) {
+            char ch = key.charAt(i);
+            if (Character.isUpperCase(ch)) {
+                if (i > 0) {
+                    builder.append('_');
+                }
+                builder.append(Character.toLowerCase(ch));
+            } else {
+                builder.append(ch);
+            }
+        }
+        return builder.toString();
     }
 
     private String nullableText(ObjectNode node, String fieldName) {
