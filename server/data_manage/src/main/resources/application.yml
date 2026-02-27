@@ -1,45 +1,29 @@
 spring:
-  jackson:
-    default-property-inclusion: non_null
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
   datasource:
+    username: postgres
+    password: postgresql123a123aA_
+    url: jdbc:postgresql://100.107.31.39:5432/test0221
+    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
     hikari:
-      initialization-fail-timeout: ${DB_INIT_FAIL_TIMEOUT:30000}
+      initialization-fail-timeout: ${IT_DB_INIT_FAIL_TIMEOUT:30000}
   data:
     redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      password: ${REDIS_PASSWORD:}
-      database: ${REDIS_DATABASE:0}
-      timeout: ${REDIS_TIMEOUT:3s}
+      host: ${IT_REDIS_HOST:120.79.255.240}
+      port: ${IT_REDIS_PORT:6789}
+      password: ${IT_REDIS_PASSWORD:redis123a123aA_}
+      database: ${IT_REDIS_DATABASE:1}
+      timeout: ${IT_REDIS_TIMEOUT:3s}
   cache:
-    type: redis
-    redis:
-      cache-null-values: false
-      time-to-live: ${CACHE_TTL:10m}
+    type: simple
 
 mybatis:
-  mapper-locations: classpath*:mapper/**/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
-
-server:
-  error:
-    include-message: never
-    include-binding-errors: never
+  mapper-locations: "classpath*:mapper/**/*.xml"
 
 app:
+  startup:
+    fail-fast: false
   auth:
     jwt:
-      hs256-secret: ${ADMIN_JWT_HS256_SECRET:}
-      exp-leeway: ${ADMIN_JWT_EXP_LEEWAY:30s}
-  cache:
-    published-ttl: ${PUBLISHED_CACHE_TTL:24h}
+      hs256-secret: ${IT_ADMIN_JWT_SECRET:jnbfmBqaKyeCAhMqQ6tIj_eQ0OKh4j7dMXqkLkHPPOw}
+      exp-leeway: ${IT_ADMIN_JWT_EXP_LEEWAY:30s}
