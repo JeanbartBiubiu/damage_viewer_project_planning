@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "app.cache")
 public class AppCacheProperties {
 
-    private Duration publishedTtl = Duration.ofHours(24);
+    private Duration ttl = Duration.ofHours(1);
 
-    public Duration getPublishedTtl() {
-        return publishedTtl;
+    public Duration getTtl() {
+        return ttl;
     }
 
-    public void setPublishedTtl(Duration publishedTtl) {
-        this.publishedTtl = publishedTtl;
+    public void setTtl(Duration ttl) {
+        this.ttl = ttl;
     }
 }
