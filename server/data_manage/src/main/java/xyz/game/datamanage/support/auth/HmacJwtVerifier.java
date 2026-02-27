@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.util.Base64;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,6 +26,7 @@ public class HmacJwtVerifier {
     private final byte[] secretBytes;
     private final long expLeewaySeconds;
 
+    @Autowired
     public HmacJwtVerifier(ObjectMapper objectMapper, AdminJwtProperties jwtProperties) {
         this(objectMapper, Clock.systemUTC(), jwtProperties);
     }
