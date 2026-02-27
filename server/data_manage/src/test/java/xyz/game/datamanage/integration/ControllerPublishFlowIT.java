@@ -41,6 +41,8 @@ import org.springframework.test.context.ActiveProfiles;
 @EnabledIfEnvironmentVariable(named = "IT_ADMIN_JWT_SECRET", matches = ".+")
 class ControllerPublishFlowIT {
 
+    private static final int IT_GAME_DATA_THRESHOLD = 128;
+    private static final int SAMPLE_GAME_ID_LIMIT = 10;
     private static final DateTimeFormatter GAME_ID_TIME_FORMATTER =
         DateTimeFormatter.ofPattern("yyyyMMddHHmmss").withZone(ZoneOffset.UTC);
 
@@ -57,8 +59,41 @@ class ControllerPublishFlowIT {
 
     @BeforeEach
     void setUp() {
+        assertHistoricalItDataWithinThreshold();
         gameId = generateGameId();
         seedGame(gameId);
+    }
+
+    private void assertHistoricalItDataWithinThreshold() {
+        Integer historicalItGameCount = jdbcTemplate.queryForObject(
+            "SELECT COUNT(1) FROM public.games WHERE game_id LIKE ?",
+            Integer.class,
+            "it_%"
+        );
+        int count = historicalItGameCount == null ? 0 : historicalItGameCount;
+        if (count <= IT_GAME_DATA_THRESHOLD) {
+            return;
+        }
+
+        List<String> sampleGameIds = jdbcTemplate.queryForList(
+            "SELECT game_id FROM public.games WHERE game_id LIKE ? ORDER BY game_id ASC LIMIT ?",
+            String.class,
+            "it_%",
+            SAMPLE_GAME_ID_LIMIT
+        );
+
+        String preview = sampleGameIds.isEmpty() ? "(none)" : String.join(", ", sampleGameIds);
+        throw new IllegalStateException(
+            "Historical IT game data exceeds threshold: count=" + count
+                + ", threshold=" + IT_GAME_DATA_THRESHOLD
+                + ". Please clean old test data before rerun. Sample gameIds: " + preview
+                + ". Cleanup command example: "
+                + "mvn -DskipTests test-compile "
+                + "org.codehaus.mojo:exec-maven-plugin:3.5.0:java "
+                + "\"-Dexec.classpathScope=test\" "
+                + "\"-Dexec.mainClass=xyz.game.datamanage.tools.GamePartitionCleanupMain\" "
+                + "\"-Dexec.args=--gameId=<gameId> --confirm=DROP_<gameId>\""
+        );
     }
 
     @Test

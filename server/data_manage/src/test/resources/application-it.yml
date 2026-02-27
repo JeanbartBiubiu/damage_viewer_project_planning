@@ -15,12 +15,14 @@ spring:
       database: ${IT_REDIS_DATABASE:1}
       timeout: ${IT_REDIS_TIMEOUT:3s}
   cache:
-    type: simple
+    type: redis
 
 mybatis:
   mapper-locations: "classpath*:mapper/**/*.xml"
 
 app:
+  cache:
+    ttl: ${APP_CACHE_TTL:1h}
   startup:
     fail-fast: false
   auth:
