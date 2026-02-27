@@ -1,20 +1,24 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${IT_DB_URL}
-    username: ${IT_DB_USERNAME}
+    username: postgres
     password: ${IT_DB_PASSWORD}
+    url: jdbc:postgresql://100.107.31.39:5432/test0221
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
     hikari:
       initialization-fail-timeout: ${IT_DB_INIT_FAIL_TIMEOUT:30000}
   data:
     redis:
-      host: ${IT_REDIS_HOST:localhost}
-      port: ${IT_REDIS_PORT:6379}
+      host: ${IT_REDIS_HOST:120.79.255.240}
+      port: ${IT_REDIS_PORT:6789}
       password: ${IT_REDIS_PASSWORD}
-      database: ${IT_REDIS_DATABASE:0}
+      database: ${IT_REDIS_DATABASE:1}
       timeout: ${IT_REDIS_TIMEOUT:3s}
   cache:
     type: simple
+
+mybatis:
+  mapper-locations: "classpath*:mapper/**/*.xml"
 
 app:
   startup:

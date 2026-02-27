@@ -53,3 +53,9 @@ mvn -DskipTests test-compile `
   1. 跑 IT 测试并记录 `gameId`
   2. 人工验数
   3. 先 `--dryRun`，再执行真实清理
+
+## 6. Skip detection (important)
+- `ControllerPublishFlowIT` uses `@EnabledIfEnvironmentVariable` gates.
+- If Maven output shows `Tests run: 3, Skipped: 3`, this means required env vars are missing and tests did not execute.
+- Required env vars: `IT_DB_URL`, `IT_DB_USERNAME`, `IT_ADMIN_JWT_SECRET`.
+- A skipped run is NOT a pass. Re-run after exporting env vars in section 2.
