@@ -30,7 +30,7 @@ class AdminEditLogHelperTest {
             .when(gameDataService)
             .recordEditLog(anyString(), anyString(), anyString(), any(), anyInt());
 
-        AuthContext auth = new AuthContext("admin@example.com", true);
+        AuthContext auth = new AuthContext("admin@example.com", true, true);
         ObjectNode body = JsonNodeFactory.instance.objectNode().put("name", "Ahri");
 
         assertDoesNotThrow(() -> helper.log(auth, request, body, 200));

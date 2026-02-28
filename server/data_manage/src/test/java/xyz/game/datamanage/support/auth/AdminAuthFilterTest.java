@@ -22,7 +22,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 class AdminAuthFilterTest {
 
     @Mock
-    private HmacJwtVerifier hmacJwtVerifier;
+    private JwtVerifier jwtVerifier;
 
     @Mock
     private jakarta.servlet.FilterChain filterChain;
@@ -31,7 +31,7 @@ class AdminAuthFilterTest {
 
     @BeforeEach
     void setUp() {
-        filter = new AdminAuthFilter(new ObjectMapper(), hmacJwtVerifier);
+        filter = new AdminAuthFilter(new ObjectMapper(), jwtVerifier);
     }
 
     @Test
@@ -50,7 +50,7 @@ class AdminAuthFilterTest {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/heroes/hero_ahri");
         request.addHeader("Authorization", "Bearer bad.token.value");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        when(hmacJwtVerifier.verify("bad.token.value")).thenThrow(new IllegalArgumentException("JWT signature invalid"));
+        when(jwtVerifier.verify("bad.token.value")).thenThrow(new IllegalArgumentException("JWT signature invalid"));
 
         filter.doFilter(request, response, filterChain);
 
@@ -63,7 +63,7 @@ class AdminAuthFilterTest {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/heroes/hero_ahri");
         request.addHeader("Authorization", "Bearer ok.token.value");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        when(hmacJwtVerifier.verify("ok.token.value")).thenReturn(new AuthContext("admin@example.com", false));
+        when(jwtVerifier.verify("ok.token.value")).thenReturn(new AuthContext("admin@example.com", false, true));
 
         filter.doFilter(request, response, filterChain);
 
@@ -72,12 +72,12 @@ class AdminAuthFilterTest {
     }
 
     @Test
-    void doFilterPassesThroughWhenTokenValidAndCanEditTrue() throws ServletException, IOException {
+    void doFilterPassesThroughWhenTokenValidCanEditTrueAndPaidFalse() throws ServletException, IOException {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/heroes/hero_ahri");
         request.addHeader("Authorization", "Bearer ok.token.value");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        AuthContext authContext = new AuthContext("admin@example.com", true);
-        when(hmacJwtVerifier.verify("ok.token.value")).thenReturn(authContext);
+        AuthContext authContext = new AuthContext("admin@example.com", true, false);
+        when(jwtVerifier.verify("ok.token.value")).thenReturn(authContext);
 
         filter.doFilter(request, response, filterChain);
 

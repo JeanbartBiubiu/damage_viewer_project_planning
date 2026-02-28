@@ -27,5 +27,5 @@ app:
     fail-fast: false
   auth:
     jwt:
-      hs256-secret: ${IT_ADMIN_JWT_SECRET:jnbfmBqaKyeCAhMqQ6tIj_eQ0OKh4j7dMXqkLkHPPOw}
+      es256-public-key-pem: ${IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM:}
       exp-leeway: ${IT_ADMIN_JWT_EXP_LEEWAY:30s}
