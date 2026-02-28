@@ -1,5 +1,4 @@
 package xyz.game.datamanage.support.auth;
 
-public record AuthContext(String email, boolean canEdit) {
+public record AuthContext(String email, boolean canEdit, boolean paid) {
 }
-

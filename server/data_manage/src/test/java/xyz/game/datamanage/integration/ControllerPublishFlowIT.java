@@ -7,8 +7,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.nimbusds.jose.JOSEObjectType;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.JWSHeader;
+import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.crypto.ECDSASigner;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
-import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
+import java.security.spec.ECGenParameterSpec;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -16,13 +27,10 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
@@ -33,18 +41,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("it")
 @EnabledIfEnvironmentVariable(named = "IT_DB_URL", matches = ".+")
 @EnabledIfEnvironmentVariable(named = "IT_DB_USERNAME", matches = ".+")
-@EnabledIfEnvironmentVariable(named = "IT_ADMIN_JWT_SECRET", matches = ".+")
 class ControllerPublishFlowIT {
 
     private static final int IT_GAME_DATA_THRESHOLD = 128;
     private static final int SAMPLE_GAME_ID_LIMIT = 10;
     private static final DateTimeFormatter GAME_ID_TIME_FORMATTER =
         DateTimeFormatter.ofPattern("yyyyMMddHHmmss").withZone(ZoneOffset.UTC);
+    private static final KeyPair TEST_KEY_PAIR = generateEcKeyPair();
+    private static final ECPrivateKey TEST_PRIVATE_KEY = (ECPrivateKey) TEST_KEY_PAIR.getPrivate();
+    private static final String TEST_PUBLIC_KEY_PEM = toPublicKeyPem((ECPublicKey) TEST_KEY_PAIR.getPublic());
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -52,10 +64,12 @@ class ControllerPublishFlowIT {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Value("${app.auth.jwt.hs256-secret}")
-    private String jwtSecret;
-
     private String gameId;
+
+    @DynamicPropertySource
+    static void registerProperties(DynamicPropertyRegistry registry) {
+        registry.add("app.auth.jwt.es256-public-key-pem", () -> TEST_PUBLIC_KEY_PEM);
+    }
 
     @BeforeEach
     void setUp() {
@@ -343,30 +357,23 @@ class ControllerPublishFlowIT {
 
     private String createAdminJwt() {
         long exp = Instant.now().plusSeconds(3600).getEpochSecond();
-        String header = base64Url("{\"alg\":\"HS256\",\"typ\":\"JWT\"}");
-        String payload = base64Url(
-            "{\"email\":\"it-admin@example.com\",\"canEdit\":true,\"exp\":" + exp + "}"
-        );
-        String signingInput = header + "." + payload;
-        return signingInput + "." + base64Url(hmacSha256(signingInput, jwtSecret));
-    }
-
-    private byte[] hmacSha256(String content, String secret) {
         try {
-            Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
-            return mac.doFinal(content.getBytes(StandardCharsets.UTF_8));
+            JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .claim("email", "it-admin@example.com")
+                .claim("canEdit", true)
+                .claim("paid", true)
+                .claim("exp", exp)
+                .build();
+            SignedJWT signedJWT = new SignedJWT(
+                new JWSHeader.Builder(JWSAlgorithm.ES256).type(JOSEObjectType.JWT).build(),
+                claimsSet
+            );
+            JWSSigner signer = new ECDSASigner(TEST_PRIVATE_KEY);
+            signedJWT.sign(signer);
+            return signedJWT.serialize();
         } catch (Exception ex) {
             throw new IllegalStateException("Unable to sign JWT for integration test", ex);
         }
-    }
-
-    private String base64Url(String value) {
-        return base64Url(value.getBytes(StandardCharsets.UTF_8));
-    }
-
-    private String base64Url(byte[] value) {
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(value);
     }
 
     private JsonNode requireBody(ResponseEntity<JsonNode> response) {
@@ -402,5 +409,20 @@ class ControllerPublishFlowIT {
         String timestamp = GAME_ID_TIME_FORMATTER.format(Instant.now());
         int suffix = ThreadLocalRandom.current().nextInt(1000, 10_000);
         return "it_" + timestamp + "_" + suffix;
+    }
+
+    private static KeyPair generateEcKeyPair() {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC");
+            keyPairGenerator.initialize(new ECGenParameterSpec("secp256r1"));
+            return keyPairGenerator.generateKeyPair();
+        } catch (Exception ex) {
+            throw new IllegalStateException("Unable to generate EC key pair for integration test", ex);
+        }
+    }
+
+    private static String toPublicKeyPem(ECPublicKey publicKey) {
+        String base64 = Base64.getMimeEncoder(64, "\n".getBytes()).encodeToString(publicKey.getEncoded());
+        return "-----BEGIN PUBLIC KEY-----\n" + base64 + "\n-----END PUBLIC KEY-----";
     }
 }
