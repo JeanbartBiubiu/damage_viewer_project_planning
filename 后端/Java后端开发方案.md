@@ -17,7 +17,7 @@
 - 路由与返回结构严格按接口契约实现。
 - 成功响应：直接返回 JSON 对象或数组，不做任何 wrapper。
 - 失败响应：统一返回 `{ error: { code, message, details } }`。
-- 鉴权：`/api/admin/**` 必须校验 JWT，并以 `canEdit` 决定是否允许写入。
+- 鉴权：`/api/admin/**` 必须校验 `ES256` JWT，并以 `canEdit` 决定是否允许写入。
 
 ## 3. 工程分层与包结构（建议）
 建议以“public/admin 分控制器、service 分用例、dao 分持久化、support 分横切”组织：
@@ -145,7 +145,7 @@ Mapper XML 建议：
 ## 8. 鉴权、错误码与响应
 ### 8.1 鉴权
 - `/api/admin/**` 必须校验 JWT
-- JWT 至少包含：`email`、`canEdit`
+- JWT 至少包含：`email`、`canEdit`、`paid`（签名算法固定为 `ES256`）
 - `canEdit=false` 访问 admin 返回 `403.FORBIDDEN`
 
 ### 8.2 错误响应
