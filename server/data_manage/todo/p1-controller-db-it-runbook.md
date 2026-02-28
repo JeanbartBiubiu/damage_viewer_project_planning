@@ -11,8 +11,10 @@
 $env:IT_DB_URL = "jdbc:postgresql://127.0.0.1:5432/damage_viewer_it"
 $env:IT_DB_USERNAME = "postgres"
 $env:IT_DB_PASSWORD = "postgres"
-$env:IT_ADMIN_JWT_SECRET = "replace-with-test-secret"
 ```
+
+说明：`ControllerPublishFlowIT` 会在测试类内部动态生成 ES256 密钥对并注入公钥配置，
+无需额外设置 JWT secret 或公钥环境变量。
 
 ## 3. 手动执行 Controller 集成测试
 ```powershell
@@ -57,5 +59,5 @@ mvn -DskipTests test-compile `
 ## 6. Skip detection (important)
 - `ControllerPublishFlowIT` uses `@EnabledIfEnvironmentVariable` gates.
 - If Maven output shows `Tests run: 3, Skipped: 3`, this means required env vars are missing and tests did not execute.
-- Required env vars: `IT_DB_URL`, `IT_DB_USERNAME`, `IT_ADMIN_JWT_SECRET`.
+- Required env vars: `IT_DB_URL`, `IT_DB_USERNAME`.
 - A skipped run is NOT a pass. Re-run after exporting env vars in section 2.

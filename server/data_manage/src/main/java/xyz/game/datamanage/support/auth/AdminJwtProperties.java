@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "app.auth.jwt")
 public class AdminJwtProperties {
 
-    private String hs256Secret;
+    private String es256PublicKeyPem;
     private Duration expLeeway = Duration.ofSeconds(30);
 
-    public String getHs256Secret() {
-        return hs256Secret;
+    public String getEs256PublicKeyPem() {
+        return es256PublicKeyPem;
     }
 
-    public void setHs256Secret(String hs256Secret) {
-        this.hs256Secret = hs256Secret;
+    public void setEs256PublicKeyPem(String es256PublicKeyPem) {
+        this.es256PublicKeyPem = es256PublicKeyPem;
     }
 
     public Duration getExpLeeway() {

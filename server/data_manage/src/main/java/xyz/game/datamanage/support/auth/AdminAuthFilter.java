@@ -22,11 +22,11 @@ public class AdminAuthFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final ObjectMapper objectMapper;
-    private final HmacJwtVerifier hmacJwtVerifier;
+    private final JwtVerifier jwtVerifier;
 
-    public AdminAuthFilter(ObjectMapper objectMapper, HmacJwtVerifier hmacJwtVerifier) {
+    public AdminAuthFilter(ObjectMapper objectMapper, JwtVerifier jwtVerifier) {
         this.objectMapper = objectMapper;
-        this.hmacJwtVerifier = hmacJwtVerifier;
+        this.jwtVerifier = jwtVerifier;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AdminAuthFilter extends OncePerRequestFilter {
         String token = authorization.substring(BEARER_PREFIX.length()).trim();
         AuthContext authContext;
         try {
-            authContext = hmacJwtVerifier.verify(token);
+            authContext = jwtVerifier.verify(token);
         } catch (IllegalArgumentException ex) {
             writeError(response, HttpStatus.UNAUTHORIZED, "401.UNAUTHORIZED", "Invalid token",
                 Map.of("reason", ex.getMessage()));
