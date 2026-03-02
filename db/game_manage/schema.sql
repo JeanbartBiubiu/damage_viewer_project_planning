@@ -57,8 +57,16 @@ CREATE TABLE public.attribute_definitions (
     attr_name varchar(100),
     attr_type varchar(32),
     default_value numeric DEFAULT 0,
+    value_kind varchar(16) NOT NULL DEFAULT 'scalar'
+        CHECK (value_kind IN ('scalar', 'ratio', 'rate', 'flag')),
+    rate_target_attr_key varchar(64),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_attribute_definitions PRIMARY KEY (game_id, attr_key),
+    CONSTRAINT ck_attribute_definitions_rate_target
+        CHECK (
+            (value_kind = 'rate' AND rate_target_attr_key IS NOT NULL)
+            OR (value_kind <> 'rate' AND rate_target_attr_key IS NULL)
+        ),
     CONSTRAINT fk_attribute_definitions_start_version FOREIGN KEY (game_id, start_version_id)
         REFERENCES public.game_versions (game_id, version_id),
     CONSTRAINT fk_attribute_definitions_end_version FOREIGN KEY (game_id, end_version_id)
@@ -69,6 +77,8 @@ COMMENT ON TABLE public.attribute_definitions IS '属性定义（原始表：1�
 COMMENT ON COLUMN public.attribute_definitions.start_version_id IS '该记录覆盖区间的起始版本（含）';
 COMMENT ON COLUMN public.attribute_definitions.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
 COMMENT ON COLUMN public.attribute_definitions.attr_key IS '属性 key（建议全局唯一且稳定，用于计算引擎与前端组装）';
+COMMENT ON COLUMN public.attribute_definitions.value_kind IS '属性值类别：scalar(普通数值)/ratio(比例)/rate(每秒速率)/flag(开关)';
+COMMENT ON COLUMN public.attribute_definitions.rate_target_attr_key IS '仅 rate 生效：该速率作用到的目标属性 key（如 hp_regen -> hp）';
 
 CREATE TABLE public.attribute_definitions_log (
     game_id varchar(64) NOT NULL,
@@ -78,7 +88,15 @@ CREATE TABLE public.attribute_definitions_log (
     attr_name varchar(100),
     attr_type varchar(32),
     default_value numeric DEFAULT 0,
+    value_kind varchar(16) NOT NULL DEFAULT 'scalar'
+        CHECK (value_kind IN ('scalar', 'ratio', 'rate', 'flag')),
+    rate_target_attr_key varchar(64),
     CONSTRAINT pk_attribute_definitions_log PRIMARY KEY (game_id, attr_key, start_version_id),
+    CONSTRAINT ck_attribute_definitions_log_rate_target
+        CHECK (
+            (value_kind = 'rate' AND rate_target_attr_key IS NOT NULL)
+            OR (value_kind <> 'rate' AND rate_target_attr_key IS NULL)
+        ),
     CONSTRAINT fk_attribute_definitions_log_start_version FOREIGN KEY (game_id, start_version_id)
         REFERENCES public.game_versions (game_id, version_id),
     CONSTRAINT fk_attribute_definitions_log_end_version FOREIGN KEY (game_id, end_version_id)
@@ -189,6 +207,94 @@ CREATE TABLE public.owner_categories (
 
 COMMENT ON TABLE public.owner_categories IS '技能归属类型定义（不纳入版本管理；用于扩展 hero/item/rune/hex 等）';
 COMMENT ON COLUMN public.owner_categories.owner_type IS '归属类型 key（小写字母/数字/下划线）';
+
+CREATE TABLE public.formula_profiles (
+    game_id varchar(64) NOT NULL,
+    formula_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    formula_type varchar(32) NOT NULL CHECK (
+        formula_type IN ('cooldown', 'regen', 'attribute', 'damage', 'resource_cost', 'other')
+    ),
+    formula_kind varchar(64) NOT NULL,
+    params jsonb NOT NULL DEFAULT '{}',
+    description varchar(255),
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_formula_profiles PRIMARY KEY (game_id, formula_id),
+    CONSTRAINT fk_formula_profiles_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_formula_profiles_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.formula_profiles IS '公式模板定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
+COMMENT ON COLUMN public.formula_profiles.formula_id IS '公式唯一 ID（game 内唯一，供 skill/hero/item 复用）';
+COMMENT ON COLUMN public.formula_profiles.formula_type IS '公式类别：cooldown/regen/attribute/damage/resource_cost/other';
+COMMENT ON COLUMN public.formula_profiles.formula_kind IS '公式实现标识（如 base_times_100_div_100_plus_haste）';
+COMMENT ON COLUMN public.formula_profiles.params IS '公式参数 JSON（按 formula_kind 约定）';
+
+CREATE TABLE public.formula_profiles_log (
+    game_id varchar(64) NOT NULL,
+    formula_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    formula_type varchar(32) NOT NULL CHECK (
+        formula_type IN ('cooldown', 'regen', 'attribute', 'damage', 'resource_cost', 'other')
+    ),
+    formula_kind varchar(64) NOT NULL,
+    params jsonb NOT NULL DEFAULT '{}',
+    description varchar(255),
+    CONSTRAINT pk_formula_profiles_log PRIMARY KEY (game_id, formula_id, start_version_id),
+    CONSTRAINT fk_formula_profiles_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_formula_profiles_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.formula_profiles_log IS '公式模板日志表（用于多版本差异分析；按 id+start_version 唯一）';
+
+CREATE TABLE public.formula_bindings (
+    game_id varchar(64) NOT NULL,
+    target_category varchar(32) NOT NULL CHECK (target_category IN ('skill', 'hero', 'item', 'global')),
+    target_id varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    formula_id varchar(64) NOT NULL,
+    override_params jsonb,
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_formula_bindings PRIMARY KEY (game_id, target_category, target_id, binding_key),
+    CONSTRAINT fk_formula_bindings_formula FOREIGN KEY (game_id, formula_id)
+        REFERENCES public.formula_profiles (game_id, formula_id),
+    CONSTRAINT fk_formula_bindings_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_formula_bindings_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.formula_bindings IS '公式绑定关系（把公式绑定到 skill/hero/item/global 的某个计算点）';
+COMMENT ON COLUMN public.formula_bindings.binding_key IS '绑定点 key（如 cooldown、hp_regen_tick、attack_speed_total）';
+COMMENT ON COLUMN public.formula_bindings.override_params IS '可选覆盖参数（在公式默认 params 上叠加）';
+
+CREATE TABLE public.formula_bindings_log (
+    game_id varchar(64) NOT NULL,
+    target_category varchar(32) NOT NULL CHECK (target_category IN ('skill', 'hero', 'item', 'global')),
+    target_id varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    formula_id varchar(64) NOT NULL,
+    override_params jsonb,
+    CONSTRAINT pk_formula_bindings_log PRIMARY KEY (game_id, target_category, target_id, binding_key, start_version_id),
+    CONSTRAINT fk_formula_bindings_log_formula FOREIGN KEY (game_id, formula_id)
+        REFERENCES public.formula_profiles (game_id, formula_id),
+    CONSTRAINT fk_formula_bindings_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_formula_bindings_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.formula_bindings_log IS '公式绑定日志表（用于多版本差异分析；按复合 id+start_version 唯一）';
 
 -- -----------------------------------------------------------------------------
 -- 2. 实体数据表 (Entities)
@@ -341,6 +447,8 @@ CREATE INDEX idx_game_versions_game_current ON public.game_versions (game_id, is
 CREATE INDEX idx_heroes_name ON public.heroes (game_id, name);
 CREATE INDEX idx_items_name ON public.items (game_id, name);
 CREATE INDEX idx_types_name ON public.types (game_id, name);
+CREATE INDEX idx_formula_profiles_type ON public.formula_profiles (game_id, formula_type);
+CREATE INDEX idx_formula_bindings_target ON public.formula_bindings (game_id, target_category, target_id);
 
 CREATE INDEX idx_attribute_definitions_log_version ON public.attribute_definitions_log (game_id, start_version_id, end_version_id);
 CREATE INDEX idx_heroes_log_version ON public.heroes_log (game_id, start_version_id, end_version_id);
@@ -348,3 +456,5 @@ CREATE INDEX idx_skills_log_version ON public.skills_log (game_id, start_version
 CREATE INDEX idx_items_log_version ON public.items_log (game_id, start_version_id, end_version_id);
 CREATE INDEX idx_types_log_version ON public.types_log (game_id, start_version_id, end_version_id);
 CREATE INDEX idx_type_relations_log_version ON public.type_relations_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_formula_profiles_log_version ON public.formula_profiles_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_formula_bindings_log_version ON public.formula_bindings_log (game_id, start_version_id, end_version_id);
