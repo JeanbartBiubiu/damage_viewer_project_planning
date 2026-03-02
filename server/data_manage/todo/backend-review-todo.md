@@ -51,6 +51,25 @@
   - 已新增执行文档：`todo/p1-controller-db-it-runbook.md`。
   - 读写隔离/发布后可见性当前覆盖“暖缓存链路”回归；冷启动/缓存丢失场景继续由 P0 跟踪。
 
+## P2（MVP 后续）
+### [ ] P2 按 `game_id` 配置阶段制度（LEVEL/STAR），替代当前默认 `1~18`
+- 优先级：P2
+- 背景：
+  - 当前 MVP 数据采集默认按 `1~18`（LOL 经典等级）填写，先保障链路跑通。
+  - 后续不同 `game_id` 可能存在不同阶段制度：`1~20`、`1~30`、`1~3 星`、`1~4 星`。
+- 当前临时策略（MVP）：
+  - 前端与数据采集流程默认按 `stage=1..18` 处理。
+  - 该策略仅作为过渡，不作为长期契约。
+- 后续改造目标：
+  - 新增按 `game_id` 管理的阶段制度配置（建议：`game_progression_schema`）。
+  - 至少包含：`progression_kind(LEVEL/STAR)`、`stage_min`、`stage_max`、`require_all_stages`。
+  - 前端录入根据 `game_id` 自动渲染可填阶段范围，不再让用户手工判断填 18 级还是 3 星。
+  - 后端对录入阶段范围做语义校验（越界/缺失按配置报错）。
+- 验收标准：
+  - 切换不同 `game_id` 时，录入界面阶段数自动变化。
+  - 不符合该 `game_id` 阶段制度的数据无法入库。
+  - 移除“全局默认 1~18”硬编码依赖。
+
 ## 回归测试清单
 - [x] 读写隔离：写入未发布数据后，Public `current` / `bundle` 不变（暖缓存链路回归）。
 - [x] 发布后可见性：publish 后 `current` 与 `bundle` 同步更新，`ETag` 变化（暖缓存链路回归）。
@@ -63,3 +82,4 @@
 - `2026-02-26`：复核代码与测试后，已完成项从清单删除，仅保留 P0-2。
 - `2026-02-26`：新增 P1 测试保障项：controller-only、zero-mock、真实 DB 集成测试与可单独触发的分区清理。
 - `2026-02-26`：完成 P1 测试保障项：新增 `application-it.yml`、`ControllerPublishFlowIT`、`GamePartitionCleanupMain` 与 runbook，回归清单中 controller-only 与分区清理能力已闭环。
+- `2026-03-01`：新增 P2 待办：按 `game_id` 配置阶段制度（LEVEL/STAR）；MVP 阶段暂按默认 `1~18` 采集。
