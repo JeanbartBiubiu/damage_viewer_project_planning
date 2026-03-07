@@ -130,6 +130,8 @@ public class PostgresWriteStore {
         if (mechanicsConfig == null || !mechanicsConfig.isObject()) {
             throw badRequest("skill.mechanicsConfig is required and must be object", Map.of("path", "/mechanicsConfig"));
         }
+        validateOptionalSkillObject(merged, "params", "/params");
+        validateOptionalSkillObject(merged, "timingProfile", "/timingProfile");
         validateMechanicsConfig((ObjectNode) mechanicsConfig);
 
         long versionId = resolveVersionIdForWrite(gameId);
@@ -144,6 +146,8 @@ public class PostgresWriteStore {
             nullableText(merged, "description"),
             jsonSupport.toJsonStringOrNull(merged.get("resourceCosts")),
             jsonSupport.toJsonStringOrNull(merged.get("cooldowns")),
+            jsonSupport.toJsonStringOrNull(merged.get("params")),
+            jsonSupport.toJsonStringOrNull(merged.get("timingProfile")),
             jsonSupport.toJsonString(merged.get("mechanicsConfig"), "/mechanicsConfig")
         );
         return merged;
@@ -466,6 +470,8 @@ public class PostgresWriteStore {
                 mapText(row, "description"),
                 mapText(row, "resourceCostsJson"),
                 mapText(row, "cooldownsJson"),
+                mapText(row, "paramsJson"),
+                mapText(row, "timingProfileJson"),
                 mapText(row, "mechanicsConfigJson")
             );
         }
@@ -579,6 +585,8 @@ public class PostgresWriteStore {
         if (mechanicsConfig == null || !mechanicsConfig.isObject()) {
             throw semantic("skill.mechanicsConfig is required and must be object", Map.of("path", "/skills/mechanicsConfig"));
         }
+        validateOptionalSkillObjectForPublish(skill, "params", "/skills/params");
+        validateOptionalSkillObjectForPublish(skill, "timingProfile", "/skills/timingProfile");
         JsonNode versionNode = mechanicsConfig.get("version");
         if (versionNode == null || !versionNode.canConvertToInt() || versionNode.asInt() != 1) {
             throw semantic("mechanicsConfig.version must be 1", Map.of("path", "/skills/mechanicsConfig/version"));
@@ -702,6 +710,20 @@ public class PostgresWriteStore {
         }
         if (!config.path("triggers").isArray()) {
             throw badRequest("mechanicsConfig.triggers is required and must be array", Map.of("path", "/mechanicsConfig/triggers"));
+        }
+    }
+
+    private void validateOptionalSkillObject(ObjectNode skill, String fieldName, String path) {
+        JsonNode value = skill.get(fieldName);
+        if (value != null && !value.isNull() && !value.isObject()) {
+            throw badRequest("skill." + fieldName + " must be object", Map.of("path", path));
+        }
+    }
+
+    private void validateOptionalSkillObjectForPublish(ObjectNode skill, String fieldName, String path) {
+        JsonNode value = skill.get(fieldName);
+        if (value != null && !value.isNull() && !value.isObject()) {
+            throw semantic("skill." + fieldName + " must be object", Map.of("path", path));
         }
     }
 
