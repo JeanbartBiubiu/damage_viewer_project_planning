@@ -26,6 +26,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
+import xyz.game.datamanage.mapper.FormulaBindingsMapper;
+import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
@@ -47,6 +49,12 @@ class PostgresWriteStorePublishTest {
 
     @Mock
     private ItemsMapper itemsMapper;
+
+    @Mock
+    private FormulaProfilesMapper formulaProfilesMapper;
+
+    @Mock
+    private FormulaBindingsMapper formulaBindingsMapper;
 
     @Mock
     private AttributeDefinitionsMapper attributeDefinitionsMapper;
@@ -81,6 +89,8 @@ class PostgresWriteStorePublishTest {
             heroesMapper,
             skillsMapper,
             itemsMapper,
+            formulaProfilesMapper,
+            formulaBindingsMapper,
             attributeDefinitionsMapper,
             typesMapper,
             typeRelationsMapper,
@@ -119,6 +129,8 @@ class PostgresWriteStorePublishTest {
         when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of(changedHeroRow()));
 
         when(heroesMapper.updateVersionRange("lol", "hero_ahri", 2L)).thenReturn(1);
@@ -153,6 +165,36 @@ class PostgresWriteStorePublishTest {
         when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+
+        ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", 2L));
+
+        assertEquals("422.SEMANTIC_ERROR", ex.getCode());
+        verify(gameVersionsMapper, never()).markVersionCurrent(anyString(), any(Timestamp.class), anyString(), anyLong());
+    }
+
+    @Test
+    void publishVersionFailsWhenFormulaBindingReferencesMissingFormula() {
+        PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
+            2L,
+            "14.2",
+            "",
+            Instant.parse("2026-02-26T01:00:00Z"),
+            null
+        );
+        when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
+        when(readStore.findCurrentPublishedVersion("lol")).thenReturn(null);
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(invalidFormulaBundle("lol", targetVersion));
+
+        when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
         ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", 2L));
@@ -175,6 +217,8 @@ class PostgresWriteStorePublishTest {
         bundle.putArray("heroes");
         bundle.putArray("skills");
         bundle.putArray("items");
+        bundle.putArray("formulaProfiles");
+        bundle.putArray("formulaBindings");
         return bundle;
     }
 
@@ -188,6 +232,17 @@ class PostgresWriteStorePublishTest {
         mechanicsConfig.put("version", 1);
         mechanicsConfig.putArray("triggers");
         bundle.withArray("skills").add(skill);
+        return bundle;
+    }
+
+    private ObjectNode invalidFormulaBundle(String gameId, PostgresReadStore.VersionRecord version) {
+        ObjectNode bundle = emptyBundle(gameId, version);
+        ObjectNode formulaBinding = JsonNodeFactory.instance.objectNode();
+        formulaBinding.put("targetCategory", "global");
+        formulaBinding.put("targetId", "system");
+        formulaBinding.put("bindingKey", "damage_raw");
+        formulaBinding.put("formulaId", "missing_formula");
+        bundle.withArray("formulaBindings").add(formulaBinding);
         return bundle;
     }
 

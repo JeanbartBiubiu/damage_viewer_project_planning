@@ -135,9 +135,15 @@ class ControllerPublishFlowIT {
         assertTrue(containsByField(bundle.path("heroes"), "heroId", "hero_ahri"));
         assertTrue(containsByField(bundle.path("skills"), "skillId", "skill_orb"));
         assertTrue(containsByField(bundle.path("items"), "itemId", "item_tome"));
+        assertTrue(containsByField(bundle.path("formulaProfiles"), "formulaId", "formula_magic_damage"));
+        assertTrue(containsFormulaBinding(bundle.path("formulaBindings"), "skill", "skill_orb", "damage_raw"));
         JsonNode skill = findByField(bundle.path("skills"), "skillId", "skill_orb");
         assertEquals(60, skill.path("params").path("baseDamage").asInt());
         assertEquals(250, skill.path("timingProfile").path("cast").path("frontSwingMs").asInt());
+        JsonNode formulaProfile = findByField(bundle.path("formulaProfiles"), "formulaId", "formula_magic_damage");
+        assertEquals("damage", formulaProfile.path("formulaType").asText());
+        JsonNode formulaBinding = findFormulaBinding(bundle.path("formulaBindings"), "skill", "skill_orb", "damage_raw");
+        assertEquals("formula_magic_damage", formulaBinding.path("formulaId").asText());
     }
 
     @Test
@@ -203,6 +209,7 @@ class ControllerPublishFlowIT {
             "IT " + targetGameId,
             null
         );
+        ensureFormulaPartitions(targetGameId);
         jdbcTemplate.update(
             "INSERT INTO public.owner_categories (game_id, owner_type, name, description) VALUES (?, 'hero', ?, ?) "
                 + "ON CONFLICT (game_id, owner_type) DO NOTHING",
@@ -216,6 +223,22 @@ class ControllerPublishFlowIT {
             targetGameId,
             "Item",
             "Integration test owner type"
+        );
+    }
+
+    private void ensureFormulaPartitions(String targetGameId) {
+        createGamePartition("formula_profiles", targetGameId);
+        createGamePartition("formula_profiles_log", targetGameId);
+        createGamePartition("formula_bindings", targetGameId);
+        createGamePartition("formula_bindings_log", targetGameId);
+    }
+
+    private void createGamePartition(String parentTable, String targetGameId) {
+        String partitionTable = parentTable + "_" + targetGameId;
+        jdbcTemplate.execute(
+            "CREATE TABLE IF NOT EXISTS public." + partitionTable
+                + " PARTITION OF public." + parentTable
+                + " FOR VALUES IN ('" + targetGameId + "')"
         );
     }
 
@@ -245,6 +268,8 @@ class ControllerPublishFlowIT {
         upsertHero("hero_ahri", heroName);
         putSkill("skill_orb", "hero", "hero_ahri");
         putItem("item_tome", List.of("skill_orb"), List.of("item_tome"));
+        putFormulaProfile("formula_magic_damage");
+        putFormulaBinding("skill", "skill_orb", "damage_raw", "formula_magic_damage");
     }
 
     private void putAttributeDefinition(String attrKey) {
@@ -342,6 +367,35 @@ class ControllerPublishFlowIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
+    private void putFormulaProfile(String formulaId) {
+        ResponseEntity<JsonNode> response = adminExchange(
+            "/api/admin/games/" + gameId + "/formula-profiles/" + formulaId,
+            HttpMethod.PUT,
+            Map.of(
+                "formulaType", "damage",
+                "formulaKind", "linear",
+                "params", Map.of(
+                    "baseVar", "base_damage",
+                    "terms", List.of(Map.of("var", "ap", "coef", 0.4))
+                ),
+                "description", "Integration test formula profile"
+            )
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    private void putFormulaBinding(String targetCategory, String targetId, String bindingKey, String formulaId) {
+        ResponseEntity<JsonNode> response = adminExchange(
+            "/api/admin/games/" + gameId + "/formula-bindings/" + targetCategory + "/" + targetId + "/" + bindingKey,
+            HttpMethod.PUT,
+            Map.of(
+                "formulaId", formulaId,
+                "overrideParams", Map.of("baseVar", "spell_damage")
+            )
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
     private ResponseEntity<JsonNode> getCurrentVersion() {
         return restTemplate.getForEntity("/api/games/" + gameId + "/versions/current", JsonNode.class);
     }
@@ -415,6 +469,36 @@ class ControllerPublishFlowIT {
             }
         }
         throw new AssertionError("Cannot find item where " + fieldName + "=" + expectedValue);
+    }
+
+    private boolean containsFormulaBinding(JsonNode arrayNode, String targetCategory, String targetId, String bindingKey) {
+        if (arrayNode == null || !arrayNode.isArray()) {
+            return false;
+        }
+        for (JsonNode node : arrayNode) {
+            if (targetCategory.equals(node.path("targetCategory").asText())
+                && targetId.equals(node.path("targetId").asText())
+                && bindingKey.equals(node.path("bindingKey").asText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private JsonNode findFormulaBinding(JsonNode arrayNode, String targetCategory, String targetId, String bindingKey) {
+        if (arrayNode == null || !arrayNode.isArray()) {
+            throw new AssertionError("Expected array for formula binding lookup");
+        }
+        for (JsonNode node : arrayNode) {
+            if (targetCategory.equals(node.path("targetCategory").asText())
+                && targetId.equals(node.path("targetId").asText())
+                && bindingKey.equals(node.path("bindingKey").asText())) {
+                return node;
+            }
+        }
+        throw new AssertionError(
+            "Cannot find formula binding where targetCategory=" + targetCategory + ", targetId=" + targetId + ", bindingKey=" + bindingKey
+        );
     }
 
     private String generateGameId() {
