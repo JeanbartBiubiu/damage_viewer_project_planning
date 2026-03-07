@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -134,6 +135,67 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertItem(gameId, itemId, body, patch);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode listFormulaProfiles(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getFormulaProfiles(gameId);
+    }
+
+    public ObjectNode getFormulaProfile(String gameId, String formulaId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadFormulaProfile(gameId, formulaId);
+        if (response == null) {
+            throw notFound("Formula profile not found", Map.of("gameId", gameId, "formulaId", formulaId));
+        }
+        return response;
+    }
+
+    public ObjectNode upsertFormulaProfile(String gameId, String formulaId, ObjectNode body, boolean patch) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertFormulaProfile(gameId, formulaId, body, patch);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode listFormulaBindings(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getFormulaBindings(gameId);
+    }
+
+    public ObjectNode getFormulaBinding(String gameId, String targetCategory, String targetId, String bindingKey) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        String normalizedTargetCategory = targetCategory == null ? null : targetCategory.toLowerCase(Locale.ROOT);
+        ObjectNode response = readStore.loadFormulaBinding(gameId, normalizedTargetCategory, targetId, bindingKey);
+        if (response == null) {
+            throw notFound(
+                "Formula binding not found",
+                Map.of("gameId", gameId, "targetCategory", normalizedTargetCategory, "targetId", targetId, "bindingKey", bindingKey)
+            );
+        }
+        return response;
+    }
+
+    public ObjectNode upsertFormulaBinding(
+        String gameId,
+        String targetCategory,
+        String targetId,
+        String bindingKey,
+        ObjectNode body,
+        boolean patch
+    ) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertFormulaBinding(gameId, targetCategory, targetId, bindingKey, body, patch);
         evictNonPublishedReadCaches();
         return response;
     }
