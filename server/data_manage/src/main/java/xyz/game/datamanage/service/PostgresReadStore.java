@@ -13,6 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
+import xyz.game.datamanage.mapper.FormulaBindingsMapper;
+import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
@@ -36,6 +38,8 @@ public class PostgresReadStore {
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
     private final ItemsMapper itemsMapper;
+    private final FormulaProfilesMapper formulaProfilesMapper;
+    private final FormulaBindingsMapper formulaBindingsMapper;
     private final ObjectMapper objectMapper;
     private final PostgresJsonSupport jsonSupport;
 
@@ -50,6 +54,8 @@ public class PostgresReadStore {
         HeroesMapper heroesMapper,
         SkillsMapper skillsMapper,
         ItemsMapper itemsMapper,
+        FormulaProfilesMapper formulaProfilesMapper,
+        FormulaBindingsMapper formulaBindingsMapper,
         ObjectMapper objectMapper,
         PostgresJsonSupport jsonSupport
     ) {
@@ -63,6 +69,8 @@ public class PostgresReadStore {
         this.heroesMapper = heroesMapper;
         this.skillsMapper = skillsMapper;
         this.itemsMapper = itemsMapper;
+        this.formulaProfilesMapper = formulaProfilesMapper;
+        this.formulaBindingsMapper = formulaBindingsMapper;
         this.objectMapper = objectMapper;
         this.jsonSupport = jsonSupport;
     }
@@ -126,6 +134,26 @@ public class PostgresReadStore {
         return response;
     }
 
+    public ObjectNode getFormulaProfiles(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode formulaProfiles = response.putArray("formulaProfiles");
+        for (Map<String, Object> row : formulaProfilesMapper.listFormulaProfiles(gameId)) {
+            formulaProfiles.add(mapFormulaProfileRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getFormulaBindings(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode formulaBindings = response.putArray("formulaBindings");
+        for (Map<String, Object> row : formulaBindingsMapper.listFormulaBindings(gameId)) {
+            formulaBindings.add(mapFormulaBindingRow(row));
+        }
+        return response;
+    }
+
     public ObjectNode buildBundle(String gameId, VersionRecord version, String dataHash) {
         ObjectNode bundle = objectMapper.createObjectNode();
         ObjectNode meta = bundle.putObject("meta");
@@ -171,6 +199,18 @@ public class PostgresReadStore {
         }
         bundle.set("items", items);
 
+        ArrayNode formulaProfiles = objectMapper.createArrayNode();
+        for (Map<String, Object> row : formulaProfilesMapper.listFormulaProfiles(gameId)) {
+            formulaProfiles.add(mapFormulaProfileRow(row));
+        }
+        bundle.set("formulaProfiles", formulaProfiles);
+
+        ArrayNode formulaBindings = objectMapper.createArrayNode();
+        for (Map<String, Object> row : formulaBindingsMapper.listFormulaBindings(gameId)) {
+            formulaBindings.add(mapFormulaBindingRow(row));
+        }
+        bundle.set("formulaBindings", formulaBindings);
+
         ObjectNode dictionaries = objectMapper.createObjectNode();
         ObjectNode attrKeyToName = dictionaries.putObject("attrKeyToName");
         for (JsonNode node : attributeDefinitions) {
@@ -204,6 +244,17 @@ public class PostgresReadStore {
 
     public ObjectNode loadItem(String gameId, String itemId) {
         return querySingleNode(itemsMapper.findItemById(gameId, itemId), this::mapItemRow);
+    }
+
+    public ObjectNode loadFormulaProfile(String gameId, String formulaId) {
+        return querySingleNode(formulaProfilesMapper.findFormulaProfileById(gameId, formulaId), this::mapFormulaProfileRow);
+    }
+
+    public ObjectNode loadFormulaBinding(String gameId, String targetCategory, String targetId, String bindingKey) {
+        return querySingleNode(
+            formulaBindingsMapper.findFormulaBindingById(gameId, targetCategory, targetId, bindingKey),
+            this::mapFormulaBindingRow
+        );
     }
 
     public ObjectNode loadAttributeDefinition(String gameId, String attrKey) {
@@ -283,6 +334,26 @@ public class PostgresReadStore {
         putNullableJson(node, "statsModifier", text(row, "statsModifierJson"));
         putNullableJson(node, "skillRefs", text(row, "skillRefsJson"));
         putNullableJson(node, "recipeIds", text(row, "recipeIdsJson"));
+        return node;
+    }
+
+    private ObjectNode mapFormulaProfileRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("formulaId", text(row, "formulaId"));
+        node.put("formulaType", text(row, "formulaType"));
+        node.put("formulaKind", text(row, "formulaKind"));
+        node.set("params", jsonSupport.parseJsonObject(text(row, "paramsJson"), "/params"));
+        putNullableText(node, "description", text(row, "description"));
+        return node;
+    }
+
+    private ObjectNode mapFormulaBindingRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("targetCategory", text(row, "targetCategory"));
+        node.put("targetId", text(row, "targetId"));
+        node.put("bindingKey", text(row, "bindingKey"));
+        node.put("formulaId", text(row, "formulaId"));
+        putNullableJson(node, "overrideParams", text(row, "overrideParamsJson"));
         return node;
     }
 
