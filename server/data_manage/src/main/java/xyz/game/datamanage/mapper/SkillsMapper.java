@@ -29,6 +29,8 @@ public interface SkillsMapper {
         @Param("description") String description,
         @Param("resourceCostsJson") String resourceCostsJson,
         @Param("cooldownsJson") String cooldownsJson,
+        @Param("paramsJson") String paramsJson,
+        @Param("timingProfileJson") String timingProfileJson,
         @Param("mechanicsConfigJson") String mechanicsConfigJson
     );
 
@@ -49,6 +51,8 @@ public interface SkillsMapper {
         @Param("description") String description,
         @Param("resourceCostsJson") String resourceCostsJson,
         @Param("cooldownsJson") String cooldownsJson,
+        @Param("paramsJson") String paramsJson,
+        @Param("timingProfileJson") String timingProfileJson,
         @Param("mechanicsConfigJson") String mechanicsConfigJson
     );
 }

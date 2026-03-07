@@ -354,6 +354,8 @@ CREATE TABLE public.skills (
     description text,
     resource_costs jsonb,
     cooldowns jsonb,
+    params jsonb,
+    timing_profile jsonb,
     mechanics_config jsonb NOT NULL DEFAULT '{}',
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_skills PRIMARY KEY (game_id, skill_id),
@@ -369,6 +371,8 @@ COMMENT ON TABLE public.skills IS '技能定义（原始表：1条记录覆盖�
 COMMENT ON COLUMN public.skills.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
 COMMENT ON COLUMN public.skills.owner_type IS '归属类型（由 owner_categories 定义）';
 COMMENT ON COLUMN public.skills.owner_id IS '归属实体 ID（与 owner_type 组合确定归属）';
+COMMENT ON COLUMN public.skills.params IS '技能静态参数（基础值/系数/段数/持续时间等，供公式与效果引用）';
+COMMENT ON COLUMN public.skills.timing_profile IS '技能时序配置（前摇/后摇/读条/引导/tick 间隔/多段时点等）';
 COMMENT ON COLUMN public.skills.mechanics_config IS '技能核心机制配置（推荐结构化 JSON，避免脚本字符串）';
 
 CREATE TABLE public.skills_log (
@@ -383,6 +387,8 @@ CREATE TABLE public.skills_log (
     description text,
     resource_costs jsonb,
     cooldowns jsonb,
+    params jsonb,
+    timing_profile jsonb,
     mechanics_config jsonb NOT NULL DEFAULT '{}',
     CONSTRAINT pk_skills_log PRIMARY KEY (game_id, skill_id, start_version_id),
     CONSTRAINT fk_skills_log_owner_type FOREIGN KEY (game_id, owner_type)

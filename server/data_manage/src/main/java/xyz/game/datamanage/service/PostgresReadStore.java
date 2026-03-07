@@ -259,6 +259,14 @@ public class PostgresReadStore {
         if (cooldowns != null) {
             node.set("cooldowns", cooldowns);
         }
+        JsonNode params = jsonSupport.parseJsonOrNull(text(row, "paramsJson"), "/params");
+        if (params != null) {
+            node.set("params", params);
+        }
+        JsonNode timingProfile = jsonSupport.parseJsonOrNull(text(row, "timingProfileJson"), "/timingProfile");
+        if (timingProfile != null) {
+            node.set("timingProfile", timingProfile);
+        }
         node.set("mechanicsConfig", jsonSupport.parseJsonObject(text(row, "mechanicsConfigJson"), "/mechanicsConfig"));
         return node;
     }
