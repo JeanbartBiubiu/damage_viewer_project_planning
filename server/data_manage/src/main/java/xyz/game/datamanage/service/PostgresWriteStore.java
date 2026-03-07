@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
+import xyz.game.datamanage.mapper.FormulaBindingsMapper;
+import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
@@ -40,10 +42,14 @@ public class PostgresWriteStore {
 
     private static final Pattern OWNER_TYPE_PATTERN = Pattern.compile("^[a-z0-9_]+$");
     private static final Set<String> TARGET_CATEGORIES = Set.of("equipment", "attribute", "skill", "character", "type");
+    private static final Set<String> FORMULA_TYPES = Set.of("cooldown", "regen", "attribute", "damage", "resource_cost", "other");
+    private static final Set<String> FORMULA_BINDING_TARGET_CATEGORIES = Set.of("skill", "hero", "item", "global");
 
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
     private final ItemsMapper itemsMapper;
+    private final FormulaProfilesMapper formulaProfilesMapper;
+    private final FormulaBindingsMapper formulaBindingsMapper;
     private final AttributeDefinitionsMapper attributeDefinitionsMapper;
     private final TypesMapper typesMapper;
     private final TypeRelationsMapper typeRelationsMapper;
@@ -59,6 +65,8 @@ public class PostgresWriteStore {
         HeroesMapper heroesMapper,
         SkillsMapper skillsMapper,
         ItemsMapper itemsMapper,
+        FormulaProfilesMapper formulaProfilesMapper,
+        FormulaBindingsMapper formulaBindingsMapper,
         AttributeDefinitionsMapper attributeDefinitionsMapper,
         TypesMapper typesMapper,
         TypeRelationsMapper typeRelationsMapper,
@@ -73,6 +81,8 @@ public class PostgresWriteStore {
         this.heroesMapper = heroesMapper;
         this.skillsMapper = skillsMapper;
         this.itemsMapper = itemsMapper;
+        this.formulaProfilesMapper = formulaProfilesMapper;
+        this.formulaBindingsMapper = formulaBindingsMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
         this.typesMapper = typesMapper;
         this.typeRelationsMapper = typeRelationsMapper;
@@ -130,8 +140,8 @@ public class PostgresWriteStore {
         if (mechanicsConfig == null || !mechanicsConfig.isObject()) {
             throw badRequest("skill.mechanicsConfig is required and must be object", Map.of("path", "/mechanicsConfig"));
         }
-        validateOptionalSkillObject(merged, "params", "/params");
-        validateOptionalSkillObject(merged, "timingProfile", "/timingProfile");
+        validateOptionalObject(merged, "skill", "params", "/params");
+        validateOptionalObject(merged, "skill", "timingProfile", "/timingProfile");
         validateMechanicsConfig((ObjectNode) mechanicsConfig);
 
         long versionId = resolveVersionIdForWrite(gameId);
@@ -169,6 +179,86 @@ public class PostgresWriteStore {
             jsonSupport.toJsonStringOrNull(merged.get("statsModifier")),
             jsonSupport.toJsonStringOrNull(merged.get("skillRefs")),
             jsonSupport.toJsonStringOrNull(merged.get("recipeIds"))
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertFormulaProfile(String gameId, String formulaId, ObjectNode body, boolean patch) {
+        ObjectNode merged = mergeUpsert(
+            readStore.loadFormulaProfile(gameId, formulaId),
+            body,
+            patch,
+            "formulaProfile",
+            formulaId,
+            "formulaId"
+        );
+        String formulaType = jsonSupport.requireText(merged, "formulaType", "formulaProfile").toLowerCase(Locale.ROOT);
+        if (!FORMULA_TYPES.contains(formulaType)) {
+            throw badRequest("formulaProfile.formulaType invalid", Map.of("path", "/formulaType", "formulaType", formulaType));
+        }
+        String formulaKind = jsonSupport.requireText(merged, "formulaKind", "formulaProfile");
+        JsonNode params = merged.get("params");
+        if (params == null || params.isNull()) {
+            params = objectMapper.createObjectNode();
+            merged.set("params", params);
+        }
+        if (!params.isObject()) {
+            throw badRequest("formulaProfile.params must be object", Map.of("path", "/params"));
+        }
+        merged.put("formulaType", formulaType);
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        formulaProfilesMapper.upsertFormulaProfile(
+            gameId,
+            formulaId,
+            versionId,
+            formulaType,
+            formulaKind,
+            jsonSupport.toJsonString(params, "/params"),
+            nullableText(merged, "description")
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertFormulaBinding(
+        String gameId,
+        String targetCategory,
+        String targetId,
+        String bindingKey,
+        ObjectNode body,
+        boolean patch
+    ) {
+        String normalizedTargetCategory = targetCategory == null ? "" : targetCategory.toLowerCase(Locale.ROOT);
+        String relationKey = normalizedTargetCategory + "|" + targetId + "|" + bindingKey;
+        ObjectNode merged = mergeUpsert(
+            readStore.loadFormulaBinding(gameId, normalizedTargetCategory, targetId, bindingKey),
+            body,
+            patch,
+            "formulaBinding",
+            relationKey,
+            "bindingKey"
+        );
+        merged.put("targetCategory", normalizedTargetCategory);
+        merged.put("targetId", targetId);
+        merged.put("bindingKey", bindingKey);
+        validateFormulaBindingTarget(gameId, merged);
+        String formulaId = jsonSupport.requireText(merged, "formulaId", "formulaBinding");
+        if (readStore.loadFormulaProfile(gameId, formulaId) == null) {
+            throw semantic("formulaBinding.formulaId not found", Map.of("path", "/formulaId", "formulaId", formulaId));
+        }
+        validateOptionalObject(merged, "formulaBinding", "overrideParams", "/overrideParams");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        formulaBindingsMapper.upsertFormulaBinding(
+            gameId,
+            normalizedTargetCategory,
+            targetId,
+            bindingKey,
+            versionId,
+            formulaId,
+            jsonSupport.toJsonStringOrNull(merged.get("overrideParams"))
         );
         return merged;
     }
@@ -317,6 +407,8 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedHeroes = heroesMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedSkills = skillsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedItems = itemsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedFormulaProfiles = formulaProfilesMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedFormulaBindings = formulaBindingsMapper.listChangedSince(gameId, changedAfter);
 
         ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, "");
         validateBundleForPublish(gameId, unsignedBundle);
@@ -329,7 +421,9 @@ public class PostgresWriteStore {
             changedTypeRelations,
             changedHeroes,
             changedSkills,
-            changedItems
+            changedItems,
+            changedFormulaProfiles,
+            changedFormulaBindings
         );
 
         String dataHash = buildDataHash(unsignedBundle);
@@ -375,7 +469,9 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedTypeRelations,
         List<Map<String, Object>> changedHeroes,
         List<Map<String, Object>> changedSkills,
-        List<Map<String, Object>> changedItems
+        List<Map<String, Object>> changedItems,
+        List<Map<String, Object>> changedFormulaProfiles,
+        List<Map<String, Object>> changedFormulaBindings
     ) {
         for (Map<String, Object> row : changedAttributeDefinitions) {
             String attrKey = mapText(row, "attrKey");
@@ -495,6 +591,51 @@ public class PostgresWriteStore {
                 mapText(row, "recipeIdsJson")
             );
         }
+        for (Map<String, Object> row : changedFormulaProfiles) {
+            String formulaId = mapText(row, "formulaId");
+            String safeFormulaId = formulaId == null ? "" : formulaId;
+            ensureUpdated(
+                formulaProfilesMapper.updateVersionRange(gameId, safeFormulaId, versionId),
+                "formulaProfile not found while publishing",
+                Map.of("gameId", gameId, "formulaId", safeFormulaId)
+            );
+            formulaProfilesMapper.upsertFormulaProfileLog(
+                gameId,
+                safeFormulaId,
+                versionId,
+                mapText(row, "formulaType"),
+                mapText(row, "formulaKind"),
+                mapText(row, "paramsJson"),
+                mapText(row, "description")
+            );
+        }
+        for (Map<String, Object> row : changedFormulaBindings) {
+            String targetCategory = mapText(row, "targetCategory");
+            String safeTargetCategory = targetCategory == null ? "" : targetCategory;
+            String targetId = mapText(row, "targetId");
+            String safeTargetId = targetId == null ? "" : targetId;
+            String bindingKey = mapText(row, "bindingKey");
+            String safeBindingKey = bindingKey == null ? "" : bindingKey;
+            ensureUpdated(
+                formulaBindingsMapper.updateVersionRange(gameId, safeTargetCategory, safeTargetId, safeBindingKey, versionId),
+                "formulaBinding not found while publishing",
+                Map.of(
+                    "gameId", gameId,
+                    "targetCategory", safeTargetCategory,
+                    "targetId", safeTargetId,
+                    "bindingKey", safeBindingKey
+                )
+            );
+            formulaBindingsMapper.upsertFormulaBindingLog(
+                gameId,
+                safeTargetCategory,
+                safeTargetId,
+                safeBindingKey,
+                versionId,
+                mapText(row, "formulaId"),
+                mapText(row, "overrideParamsJson")
+            );
+        }
     }
 
     private void validateBundleForPublish(String gameId, ObjectNode bundle) {
@@ -504,6 +645,8 @@ public class PostgresWriteStore {
         ArrayNode heroes = requireArray(bundle, "heroes");
         ArrayNode skills = requireArray(bundle, "skills");
         ArrayNode items = requireArray(bundle, "items");
+        ArrayNode formulaProfiles = requireArray(bundle, "formulaProfiles");
+        ArrayNode formulaBindings = requireArray(bundle, "formulaBindings");
 
         Set<String> attrKeys = new HashSet<>();
         for (JsonNode node : attributeDefinitions) {
@@ -543,6 +686,14 @@ public class PostgresWriteStore {
             itemIds.add(itemId);
         }
 
+        Set<String> formulaIds = new HashSet<>();
+        for (JsonNode node : formulaProfiles) {
+            ObjectNode formulaProfile = requireObject(node, "/formulaProfiles");
+            String formulaId = requireTextForPublish(formulaProfile, "formulaId", "/formulaProfiles/formulaId");
+            formulaIds.add(formulaId);
+            validateFormulaProfileForPublish(formulaProfile);
+        }
+
         for (JsonNode node : skills) {
             ObjectNode skill = requireObject(node, "/skills");
             validateSkillForPublish(gameId, skill, heroIds, itemIds);
@@ -554,6 +705,10 @@ public class PostgresWriteStore {
         for (JsonNode node : typeRelations) {
             ObjectNode relation = requireObject(node, "/typeRelations");
             validateTypeRelationForPublish(relation, typeIds, attrKeys, skillIds, heroIds, itemIds);
+        }
+        for (JsonNode node : formulaBindings) {
+            ObjectNode formulaBinding = requireObject(node, "/formulaBindings");
+            validateFormulaBindingForPublish(formulaBinding, formulaIds, skillIds, heroIds, itemIds);
         }
     }
 
@@ -585,14 +740,58 @@ public class PostgresWriteStore {
         if (mechanicsConfig == null || !mechanicsConfig.isObject()) {
             throw semantic("skill.mechanicsConfig is required and must be object", Map.of("path", "/skills/mechanicsConfig"));
         }
-        validateOptionalSkillObjectForPublish(skill, "params", "/skills/params");
-        validateOptionalSkillObjectForPublish(skill, "timingProfile", "/skills/timingProfile");
+        validateOptionalObjectForPublish(skill, "skill", "params", "/skills/params");
+        validateOptionalObjectForPublish(skill, "skill", "timingProfile", "/skills/timingProfile");
         JsonNode versionNode = mechanicsConfig.get("version");
         if (versionNode == null || !versionNode.canConvertToInt() || versionNode.asInt() != 1) {
             throw semantic("mechanicsConfig.version must be 1", Map.of("path", "/skills/mechanicsConfig/version"));
         }
         if (!mechanicsConfig.path("triggers").isArray()) {
             throw semantic("mechanicsConfig.triggers is required and must be array", Map.of("path", "/skills/mechanicsConfig/triggers"));
+        }
+    }
+
+    private void validateFormulaProfileForPublish(ObjectNode formulaProfile) {
+        String formulaType = requireTextForPublish(formulaProfile, "formulaType", "/formulaProfiles/formulaType").toLowerCase(Locale.ROOT);
+        if (!FORMULA_TYPES.contains(formulaType)) {
+            throw semantic("formulaProfile.formulaType invalid", Map.of("path", "/formulaProfiles/formulaType", "formulaType", formulaType));
+        }
+        requireTextForPublish(formulaProfile, "formulaKind", "/formulaProfiles/formulaKind");
+        JsonNode params = formulaProfile.get("params");
+        if (params == null || !params.isObject()) {
+            throw semantic("formulaProfile.params is required and must be object", Map.of("path", "/formulaProfiles/params"));
+        }
+    }
+
+    private void validateFormulaBindingForPublish(
+        ObjectNode formulaBinding,
+        Set<String> formulaIds,
+        Set<String> skillIds,
+        Set<String> heroIds,
+        Set<String> itemIds
+    ) {
+        String targetCategory = requireTextForPublish(formulaBinding, "targetCategory", "/formulaBindings/targetCategory")
+            .toLowerCase(Locale.ROOT);
+        if (!FORMULA_BINDING_TARGET_CATEGORIES.contains(targetCategory)) {
+            throw semantic(
+                "formulaBinding.targetCategory invalid",
+                Map.of("path", "/formulaBindings/targetCategory", "targetCategory", targetCategory)
+            );
+        }
+        String targetId = requireTextForPublish(formulaBinding, "targetId", "/formulaBindings/targetId");
+        String formulaId = requireTextForPublish(formulaBinding, "formulaId", "/formulaBindings/formulaId");
+        if (!formulaIds.contains(formulaId)) {
+            throw semantic("formulaBinding.formulaId not found", Map.of("path", "/formulaBindings/formulaId", "formulaId", formulaId));
+        }
+        if (!targetExistsForFormulaBinding(targetCategory, targetId, skillIds, heroIds, itemIds)) {
+            throw semantic(
+                "formulaBinding target not found",
+                Map.of("path", "/formulaBindings/targetId", "targetCategory", targetCategory, "targetId", targetId)
+            );
+        }
+        JsonNode overrideParams = formulaBinding.get("overrideParams");
+        if (overrideParams != null && !overrideParams.isNull() && !overrideParams.isObject()) {
+            throw semantic("formulaBinding.overrideParams must be object", Map.of("path", "/formulaBindings/overrideParams"));
         }
     }
 
@@ -713,17 +912,17 @@ public class PostgresWriteStore {
         }
     }
 
-    private void validateOptionalSkillObject(ObjectNode skill, String fieldName, String path) {
-        JsonNode value = skill.get(fieldName);
+    private void validateOptionalObject(ObjectNode node, String resourceName, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
         if (value != null && !value.isNull() && !value.isObject()) {
-            throw badRequest("skill." + fieldName + " must be object", Map.of("path", path));
+            throw badRequest(resourceName + "." + fieldName + " must be object", Map.of("path", path));
         }
     }
 
-    private void validateOptionalSkillObjectForPublish(ObjectNode skill, String fieldName, String path) {
-        JsonNode value = skill.get(fieldName);
+    private void validateOptionalObjectForPublish(ObjectNode node, String resourceName, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
         if (value != null && !value.isNull() && !value.isObject()) {
-            throw semantic("skill." + fieldName + " must be object", Map.of("path", path));
+            throw semantic(resourceName + "." + fieldName + " must be object", Map.of("path", path));
         }
     }
 
@@ -781,6 +980,43 @@ public class PostgresWriteStore {
         if (!found) {
             throw semantic("typeRelation target not found", Map.of("path", "/targetId", "targetCategory", targetCategory, "targetId", targetId));
         }
+    }
+
+    private void validateFormulaBindingTarget(String gameId, ObjectNode binding) {
+        String targetCategory = binding.path("targetCategory").asText("").toLowerCase(Locale.ROOT);
+        if (!FORMULA_BINDING_TARGET_CATEGORIES.contains(targetCategory)) {
+            throw badRequest("formulaBinding.targetCategory invalid", Map.of("path", "/targetCategory"));
+        }
+        String targetId = binding.path("targetId").asText();
+        boolean found = switch (targetCategory) {
+            case "skill" -> readStore.loadSkill(gameId, targetId) != null;
+            case "hero" -> readStore.loadHero(gameId, targetId) != null;
+            case "item" -> readStore.loadItem(gameId, targetId) != null;
+            case "global" -> true;
+            default -> false;
+        };
+        if (!found) {
+            throw semantic(
+                "formulaBinding target not found",
+                Map.of("path", "/targetId", "targetCategory", targetCategory, "targetId", targetId)
+            );
+        }
+    }
+
+    private boolean targetExistsForFormulaBinding(
+        String targetCategory,
+        String targetId,
+        Set<String> skillIds,
+        Set<String> heroIds,
+        Set<String> itemIds
+    ) {
+        return switch (targetCategory) {
+            case "skill" -> skillIds.contains(targetId);
+            case "hero" -> heroIds.contains(targetId);
+            case "item" -> itemIds.contains(targetId);
+            case "global" -> true;
+            default -> false;
+        };
     }
 
     private int parseTypeId(String raw) {

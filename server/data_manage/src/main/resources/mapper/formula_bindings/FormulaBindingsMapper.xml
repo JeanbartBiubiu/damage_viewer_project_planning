@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.FormulaBindingsMapper">
+
+    <select id="listFormulaBindings" resultType="map">
+        SELECT target_category AS targetCategory,
+               target_id AS targetId,
+               binding_key AS bindingKey,
+               formula_id AS formulaId,
+               override_params::text AS overrideParamsJson
+        FROM public.formula_bindings
+        WHERE game_id = #{gameId}
+        ORDER BY target_category, target_id, binding_key
+    </select>
+
+    <select id="findFormulaBindingById" resultType="map">
+        SELECT target_category AS targetCategory,
+               target_id AS targetId,
+               binding_key AS bindingKey,
+               formula_id AS formulaId,
+               override_params::text AS overrideParamsJson
+        FROM public.formula_bindings
+        WHERE game_id = #{gameId}
+          AND target_category = #{targetCategory}
+          AND target_id = #{targetId}
+          AND binding_key = #{bindingKey}
+    </select>
+
+    <select id="listChangedSince" resultType="map">
+        SELECT target_category AS targetCategory,
+               target_id AS targetId,
+               binding_key AS bindingKey,
+               formula_id AS formulaId,
+               override_params::text AS overrideParamsJson
+        FROM public.formula_bindings
+        WHERE game_id = #{gameId}
+          AND updated_at &gt; #{updatedAfter}
+        ORDER BY target_category, target_id, binding_key
+    </select>
+
+    <update id="upsertFormulaBinding">
+        INSERT INTO public.formula_bindings
+            (game_id, target_category, target_id, binding_key, start_version_id, end_version_id, formula_id, override_params, updated_at)
+        VALUES
+            (#{gameId}, #{targetCategory}, #{targetId}, #{bindingKey}, #{versionId}, #{versionId}, #{formulaId},
+             CAST(#{overrideParamsJson} AS jsonb), NOW())
+        ON CONFLICT (game_id, target_category, target_id, binding_key) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            formula_id = EXCLUDED.formula_id,
+            override_params = EXCLUDED.override_params,
+            updated_at = NOW()
+    </update>
+
+    <update id="updateVersionRange">
+        UPDATE public.formula_bindings
+        SET start_version_id = #{versionId},
+            end_version_id = #{versionId}
+        WHERE game_id = #{gameId}
+          AND target_category = #{targetCategory}
+          AND target_id = #{targetId}
+          AND binding_key = #{bindingKey}
+    </update>
+
+    <update id="upsertFormulaBindingLog">
+        INSERT INTO public.formula_bindings_log
+            (game_id, target_category, target_id, binding_key, start_version_id, end_version_id, formula_id, override_params)
+        VALUES
+            (#{gameId}, #{targetCategory}, #{targetId}, #{bindingKey}, #{versionId}, #{versionId}, #{formulaId},
+             CAST(#{overrideParamsJson} AS jsonb))
+        ON CONFLICT (game_id, target_category, target_id, binding_key, start_version_id) DO UPDATE SET
+            end_version_id = EXCLUDED.end_version_id,
+            formula_id = EXCLUDED.formula_id,
+            override_params = EXCLUDED.override_params
+    </update>
+</mapper>
