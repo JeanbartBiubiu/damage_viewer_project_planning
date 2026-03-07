@@ -135,6 +135,9 @@ class ControllerPublishFlowIT {
         assertTrue(containsByField(bundle.path("heroes"), "heroId", "hero_ahri"));
         assertTrue(containsByField(bundle.path("skills"), "skillId", "skill_orb"));
         assertTrue(containsByField(bundle.path("items"), "itemId", "item_tome"));
+        JsonNode skill = findByField(bundle.path("skills"), "skillId", "skill_orb");
+        assertEquals(60, skill.path("params").path("baseDamage").asInt());
+        assertEquals(250, skill.path("timingProfile").path("cast").path("frontSwingMs").asInt());
     }
 
     @Test
@@ -305,6 +308,15 @@ class ControllerPublishFlowIT {
                 "description", "Integration test skill",
                 "resourceCosts", List.of(50),
                 "cooldowns", List.of(7),
+                "params", Map.of(
+                    "baseDamage", 60,
+                    "apRatio", 0.4
+                ),
+                "timingProfile", Map.of(
+                    "cast", Map.of(
+                        "frontSwingMs", 250
+                    )
+                ),
                 "mechanicsConfig", Map.of(
                     "version", 1,
                     "triggers", List.of()

@@ -13,6 +13,8 @@
                description,
                resource_costs::text AS resourceCostsJson,
                cooldowns::text AS cooldownsJson,
+               params::text AS paramsJson,
+               timing_profile::text AS timingProfileJson,
                mechanics_config::text AS mechanicsConfigJson
         FROM public.skills
         WHERE game_id = #{gameId}
@@ -28,6 +30,8 @@
                description,
                resource_costs::text AS resourceCostsJson,
                cooldowns::text AS cooldownsJson,
+               params::text AS paramsJson,
+               timing_profile::text AS timingProfileJson,
                mechanics_config::text AS mechanicsConfigJson
         FROM public.skills
         WHERE game_id = #{gameId}
@@ -43,6 +47,8 @@
                description,
                resource_costs::text AS resourceCostsJson,
                cooldowns::text AS cooldownsJson,
+               params::text AS paramsJson,
+               timing_profile::text AS timingProfileJson,
                mechanics_config::text AS mechanicsConfigJson
         FROM public.skills
         WHERE game_id = #{gameId}
@@ -52,10 +58,11 @@
 
     <update id="upsertSkill">
         INSERT INTO public.skills
-            (game_id, skill_id, start_version_id, end_version_id, owner_id, owner_type, skill_key, name, description, resource_costs, cooldowns, mechanics_config, updated_at)
+            (game_id, skill_id, start_version_id, end_version_id, owner_id, owner_type, skill_key, name, description, resource_costs, cooldowns, params, timing_profile, mechanics_config, updated_at)
         VALUES
             (#{gameId}, #{skillId}, #{versionId}, #{versionId}, #{ownerId}, #{ownerType}, #{skillKey}, #{name}, #{description},
-             CAST(#{resourceCostsJson} AS jsonb), CAST(#{cooldownsJson} AS jsonb), CAST(#{mechanicsConfigJson} AS jsonb), NOW())
+             CAST(#{resourceCostsJson} AS jsonb), CAST(#{cooldownsJson} AS jsonb), CAST(#{paramsJson} AS jsonb),
+             CAST(#{timingProfileJson} AS jsonb), CAST(#{mechanicsConfigJson} AS jsonb), NOW())
         ON CONFLICT (game_id, skill_id) DO UPDATE SET
             start_version_id = EXCLUDED.start_version_id,
             end_version_id = EXCLUDED.end_version_id,
@@ -66,6 +73,8 @@
             description = EXCLUDED.description,
             resource_costs = EXCLUDED.resource_costs,
             cooldowns = EXCLUDED.cooldowns,
+            params = EXCLUDED.params,
+            timing_profile = EXCLUDED.timing_profile,
             mechanics_config = EXCLUDED.mechanics_config,
             updated_at = NOW()
     </update>
@@ -80,10 +89,11 @@
 
     <update id="upsertSkillLog">
         INSERT INTO public.skills_log
-            (game_id, skill_id, start_version_id, end_version_id, owner_id, owner_type, skill_key, name, description, resource_costs, cooldowns, mechanics_config)
+            (game_id, skill_id, start_version_id, end_version_id, owner_id, owner_type, skill_key, name, description, resource_costs, cooldowns, params, timing_profile, mechanics_config)
         VALUES
             (#{gameId}, #{skillId}, #{versionId}, #{versionId}, #{ownerId}, #{ownerType}, #{skillKey}, #{name}, #{description},
-             CAST(#{resourceCostsJson} AS jsonb), CAST(#{cooldownsJson} AS jsonb), CAST(#{mechanicsConfigJson} AS jsonb))
+             CAST(#{resourceCostsJson} AS jsonb), CAST(#{cooldownsJson} AS jsonb), CAST(#{paramsJson} AS jsonb),
+             CAST(#{timingProfileJson} AS jsonb), CAST(#{mechanicsConfigJson} AS jsonb))
         ON CONFLICT (game_id, skill_id, start_version_id) DO UPDATE SET
             end_version_id = EXCLUDED.end_version_id,
             owner_id = EXCLUDED.owner_id,
@@ -93,6 +103,8 @@
             description = EXCLUDED.description,
             resource_costs = EXCLUDED.resource_costs,
             cooldowns = EXCLUDED.cooldowns,
+            params = EXCLUDED.params,
+            timing_profile = EXCLUDED.timing_profile,
             mechanics_config = EXCLUDED.mechanics_config
     </update>
 </mapper>
