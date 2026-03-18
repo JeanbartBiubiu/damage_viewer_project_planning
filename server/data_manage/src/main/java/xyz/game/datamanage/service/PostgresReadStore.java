@@ -22,6 +22,7 @@ import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
+import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 
@@ -40,6 +41,7 @@ public class PostgresReadStore {
     private final ItemsMapper itemsMapper;
     private final FormulaProfilesMapper formulaProfilesMapper;
     private final FormulaBindingsMapper formulaBindingsMapper;
+    private final StatusActionControlRulesMapper statusActionControlRulesMapper;
     private final ObjectMapper objectMapper;
     private final PostgresJsonSupport jsonSupport;
 
@@ -56,6 +58,7 @@ public class PostgresReadStore {
         ItemsMapper itemsMapper,
         FormulaProfilesMapper formulaProfilesMapper,
         FormulaBindingsMapper formulaBindingsMapper,
+        StatusActionControlRulesMapper statusActionControlRulesMapper,
         ObjectMapper objectMapper,
         PostgresJsonSupport jsonSupport
     ) {
@@ -71,6 +74,7 @@ public class PostgresReadStore {
         this.itemsMapper = itemsMapper;
         this.formulaProfilesMapper = formulaProfilesMapper;
         this.formulaBindingsMapper = formulaBindingsMapper;
+        this.statusActionControlRulesMapper = statusActionControlRulesMapper;
         this.objectMapper = objectMapper;
         this.jsonSupport = jsonSupport;
     }
@@ -154,6 +158,16 @@ public class PostgresReadStore {
         return response;
     }
 
+    public ObjectNode getStatusActionControlRules(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode statusActionControlRules = response.putArray("statusActionControlRules");
+        for (Map<String, Object> row : statusActionControlRulesMapper.listStatusActionControlRules(gameId)) {
+            statusActionControlRules.add(mapStatusActionControlRuleRow(row));
+        }
+        return response;
+    }
+
     public ObjectNode buildBundle(String gameId, VersionRecord version, String dataHash) {
         ObjectNode bundle = objectMapper.createObjectNode();
         ObjectNode meta = bundle.putObject("meta");
@@ -211,6 +225,12 @@ public class PostgresReadStore {
         }
         bundle.set("formulaBindings", formulaBindings);
 
+        ArrayNode statusActionControlRules = objectMapper.createArrayNode();
+        for (Map<String, Object> row : statusActionControlRulesMapper.listStatusActionControlRules(gameId)) {
+            statusActionControlRules.add(mapStatusActionControlRuleRow(row));
+        }
+        bundle.set("statusActionControlRules", statusActionControlRules);
+
         ObjectNode dictionaries = objectMapper.createObjectNode();
         ObjectNode attrKeyToName = dictionaries.putObject("attrKeyToName");
         for (JsonNode node : attributeDefinitions) {
@@ -254,6 +274,13 @@ public class PostgresReadStore {
         return querySingleNode(
             formulaBindingsMapper.findFormulaBindingById(gameId, targetCategory, targetId, bindingKey),
             this::mapFormulaBindingRow
+        );
+    }
+
+    public ObjectNode loadStatusActionControlRule(String gameId, String ruleId) {
+        return querySingleNode(
+            statusActionControlRulesMapper.findStatusActionControlRuleById(gameId, ruleId),
+            this::mapStatusActionControlRuleRow
         );
     }
 
@@ -354,6 +381,30 @@ public class PostgresReadStore {
         node.put("bindingKey", text(row, "bindingKey"));
         node.put("formulaId", text(row, "formulaId"));
         putNullableJson(node, "overrideParams", text(row, "overrideParamsJson"));
+        return node;
+    }
+
+    private ObjectNode mapStatusActionControlRuleRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("ruleId", text(row, "ruleId"));
+        Integer statusTypeId = integer(row, "statusTypeId");
+        node.put("statusTypeId", statusTypeId == null ? -1 : statusTypeId);
+        node.put("ruleKind", text(row, "ruleKind"));
+        JsonNode actionTypeIds = jsonSupport.parseJsonOrNull(text(row, "actionTypeIdsJson"), "/actionTypeIds");
+        node.set("actionTypeIds", actionTypeIds == null ? objectMapper.createArrayNode() : actionTypeIds);
+        JsonNode actionMatchTypeIds = jsonSupport.parseJsonOrNull(text(row, "actionMatchTypeIdsJson"), "/actionMatchTypeIds");
+        node.set("actionMatchTypeIds", actionMatchTypeIds == null ? objectMapper.createArrayNode() : actionMatchTypeIds);
+        JsonNode interruptPhaseTypeIds = jsonSupport.parseJsonOrNull(text(row, "interruptPhaseTypeIdsJson"), "/interruptPhaseTypeIds");
+        node.set("interruptPhaseTypeIds", interruptPhaseTypeIds == null ? objectMapper.createArrayNode() : interruptPhaseTypeIds);
+        Integer priority = integer(row, "priority");
+        if (priority != null) {
+            node.put("priority", priority);
+        }
+        putNullableText(node, "description", text(row, "description"));
+        JsonNode extend = jsonSupport.parseJsonOrNull(text(row, "extendJson"), "/extend");
+        if (extend != null) {
+            node.set("extend", extend);
+        }
         return node;
     }
 

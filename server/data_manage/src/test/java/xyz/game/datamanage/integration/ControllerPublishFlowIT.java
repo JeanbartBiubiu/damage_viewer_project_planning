@@ -202,6 +202,70 @@ class ControllerPublishFlowIT {
         assertNotEquals(etagV1, bundleV2Response.getHeaders().getETag());
     }
 
+    @Test
+    void statusActionControlRuleCrud_andPublishBundle_shouldSucceed() {
+        long versionId = createVersion("1.0.0");
+        putType(2001, "status_stun_test", "IT status");
+        putType(2002, "action_basic_attack_test", "IT action");
+        putType(2003, "action_cast_skill_test", "IT action");
+        putType(2004, "phase_cast_test", "IT phase");
+
+        putStatusActionControlRule(
+            "status_stun_test_forbid",
+            Map.of(
+                "statusTypeId", 2001,
+                "ruleKind", "forbid",
+                "actionTypeIds", List.of(2002, 2003),
+                "actionMatchTypeIds", List.of(),
+                "interruptPhaseTypeIds", List.of(),
+                "priority", 10,
+                "description", "测试：眩晕禁止普攻和施法",
+                "extend", Map.of("source", "it")
+            )
+        );
+
+        ResponseEntity<JsonNode> listResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-action-control-rules",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, listResponse.getStatusCode());
+        assertTrue(containsByField(requireBody(listResponse).path("statusActionControlRules"), "ruleId", "status_stun_test_forbid"));
+
+        ResponseEntity<JsonNode> getResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-action-control-rules/status_stun_test_forbid",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+        JsonNode stored = requireBody(getResponse);
+        assertEquals(2001, stored.path("statusTypeId").asInt());
+        assertEquals(2, stored.path("actionTypeIds").size());
+        assertEquals("测试：眩晕禁止普攻和施法", stored.path("description").asText());
+
+        ResponseEntity<JsonNode> patchResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-action-control-rules/status_stun_test_forbid",
+            HttpMethod.PATCH,
+            Map.of(
+                "priority", 20,
+                "description", "测试：PATCH 后描述"
+            )
+        );
+        assertEquals(HttpStatus.OK, patchResponse.getStatusCode());
+        assertEquals(20, requireBody(patchResponse).path("priority").asInt());
+
+        publish(versionId);
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionId, null);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+        JsonNode statusRule = findByField(bundle.path("statusActionControlRules"), "ruleId", "status_stun_test_forbid");
+        assertEquals("forbid", statusRule.path("ruleKind").asText());
+        assertEquals(20, statusRule.path("priority").asInt());
+        assertEquals("测试：PATCH 后描述", statusRule.path("description").asText());
+        assertEquals(2, statusRule.path("actionTypeIds").size());
+    }
+
     private void seedGame(String targetGameId) {
         jdbcTemplate.update(
             "INSERT INTO public.games (game_id, game_name, game_img_url) VALUES (?, ?, ?) ON CONFLICT (game_id) DO NOTHING",
@@ -210,6 +274,7 @@ class ControllerPublishFlowIT {
             null
         );
         ensureFormulaPartitions(targetGameId);
+        ensureStatusActionControlRulePartitions(targetGameId);
         jdbcTemplate.update(
             "INSERT INTO public.owner_categories (game_id, owner_type, name, description) VALUES (?, 'hero', ?, ?) "
                 + "ON CONFLICT (game_id, owner_type) DO NOTHING",
@@ -231,6 +296,11 @@ class ControllerPublishFlowIT {
         createGamePartition("formula_profiles_log", targetGameId);
         createGamePartition("formula_bindings", targetGameId);
         createGamePartition("formula_bindings_log", targetGameId);
+    }
+
+    private void ensureStatusActionControlRulePartitions(String targetGameId) {
+        createGamePartition("status_action_control_rules", targetGameId);
+        createGamePartition("status_action_control_rules_log", targetGameId);
     }
 
     private void createGamePartition(String parentTable, String targetGameId) {
@@ -286,12 +356,16 @@ class ControllerPublishFlowIT {
     }
 
     private void putType(int typeId) {
+        putType(typeId, "Mage", "Integration test type");
+    }
+
+    private void putType(int typeId, String name, String description) {
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/types/" + typeId,
             HttpMethod.PUT,
             Map.of(
-                "name", "Mage",
-                "description", "Integration test type"
+                "name", name,
+                "description", description
             )
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -392,6 +466,15 @@ class ControllerPublishFlowIT {
                 "formulaId", formulaId,
                 "overrideParams", Map.of("baseVar", "spell_damage")
             )
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    private void putStatusActionControlRule(String ruleId, Map<String, Object> body) {
+        ResponseEntity<JsonNode> response = adminExchange(
+            "/api/admin/games/" + gameId + "/status-action-control-rules/" + ruleId,
+            HttpMethod.PUT,
+            body
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
