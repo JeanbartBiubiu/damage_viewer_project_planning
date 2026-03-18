@@ -32,6 +32,7 @@ import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
+import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 import xyz.game.datamanage.support.error.ApiException;
@@ -44,12 +45,14 @@ public class PostgresWriteStore {
     private static final Set<String> TARGET_CATEGORIES = Set.of("equipment", "attribute", "skill", "character", "type");
     private static final Set<String> FORMULA_TYPES = Set.of("cooldown", "regen", "attribute", "damage", "resource_cost", "other");
     private static final Set<String> FORMULA_BINDING_TARGET_CATEGORIES = Set.of("skill", "hero", "item", "global");
+    private static final Set<String> STATUS_ACTION_CONTROL_RULE_KINDS = Set.of("forbid", "interrupt");
 
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
     private final ItemsMapper itemsMapper;
     private final FormulaProfilesMapper formulaProfilesMapper;
     private final FormulaBindingsMapper formulaBindingsMapper;
+    private final StatusActionControlRulesMapper statusActionControlRulesMapper;
     private final AttributeDefinitionsMapper attributeDefinitionsMapper;
     private final TypesMapper typesMapper;
     private final TypeRelationsMapper typeRelationsMapper;
@@ -67,6 +70,7 @@ public class PostgresWriteStore {
         ItemsMapper itemsMapper,
         FormulaProfilesMapper formulaProfilesMapper,
         FormulaBindingsMapper formulaBindingsMapper,
+        StatusActionControlRulesMapper statusActionControlRulesMapper,
         AttributeDefinitionsMapper attributeDefinitionsMapper,
         TypesMapper typesMapper,
         TypeRelationsMapper typeRelationsMapper,
@@ -83,6 +87,7 @@ public class PostgresWriteStore {
         this.itemsMapper = itemsMapper;
         this.formulaProfilesMapper = formulaProfilesMapper;
         this.formulaBindingsMapper = formulaBindingsMapper;
+        this.statusActionControlRulesMapper = statusActionControlRulesMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
         this.typesMapper = typesMapper;
         this.typeRelationsMapper = typeRelationsMapper;
@@ -264,6 +269,65 @@ public class PostgresWriteStore {
     }
 
     @Transactional
+    public ObjectNode upsertStatusActionControlRule(String gameId, String ruleId, ObjectNode body, boolean patch) {
+        ObjectNode merged = mergeUpsert(
+            readStore.loadStatusActionControlRule(gameId, ruleId),
+            body,
+            patch,
+            "statusActionControlRule",
+            ruleId,
+            "ruleId"
+        );
+
+        int statusTypeId = requireExistingTypeId(gameId, merged.get("statusTypeId"), "/statusTypeId", "statusActionControlRule.statusTypeId");
+        String ruleKind = jsonSupport.requireText(merged, "ruleKind", "statusActionControlRule").toLowerCase(Locale.ROOT);
+        if (!STATUS_ACTION_CONTROL_RULE_KINDS.contains(ruleKind)) {
+            throw badRequest("statusActionControlRule.ruleKind invalid", Map.of("path", "/ruleKind", "ruleKind", ruleKind));
+        }
+        merged.put("ruleKind", ruleKind);
+
+        ArrayNode actionTypeIds = requireTypeIdArray(gameId, merged, "actionTypeIds", "/actionTypeIds", false);
+        ArrayNode actionMatchTypeIds = requireTypeIdArray(gameId, merged, "actionMatchTypeIds", "/actionMatchTypeIds", true);
+        ArrayNode interruptPhaseTypeIds = requireTypeIdArray(gameId, merged, "interruptPhaseTypeIds", "/interruptPhaseTypeIds", true);
+
+        if ("forbid".equals(ruleKind) && interruptPhaseTypeIds.size() > 0) {
+            throw badRequest(
+                "interruptPhaseTypeIds must be empty when ruleKind=forbid",
+                Map.of("path", "/interruptPhaseTypeIds", "ruleKind", ruleKind)
+            );
+        }
+        if ("interrupt".equals(ruleKind) && interruptPhaseTypeIds.isEmpty()) {
+            throw badRequest(
+                "interruptPhaseTypeIds must be non-empty when ruleKind=interrupt",
+                Map.of("path", "/interruptPhaseTypeIds", "ruleKind", ruleKind)
+            );
+        }
+
+        Integer priority = nullableInteger(merged, "priority");
+        if (priority == null) {
+            priority = 0;
+            merged.put("priority", priority);
+        }
+        validateOptionalText(merged, "description", "/description");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        statusActionControlRulesMapper.upsertStatusActionControlRule(
+            gameId,
+            ruleId,
+            versionId,
+            statusTypeId,
+            ruleKind,
+            jsonSupport.toJsonString(actionTypeIds, "/actionTypeIds"),
+            jsonSupport.toJsonString(actionMatchTypeIds, "/actionMatchTypeIds"),
+            jsonSupport.toJsonString(interruptPhaseTypeIds, "/interruptPhaseTypeIds"),
+            priority,
+            nullableText(merged, "description"),
+            jsonSupport.toJsonStringOrNull(merged.get("extend"))
+        );
+        return merged;
+    }
+
+    @Transactional
     public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body, boolean patch) {
         ObjectNode merged = mergeUpsert(
             readStore.loadAttributeDefinition(gameId, attrKey),
@@ -409,6 +473,7 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedItems = itemsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedFormulaProfiles = formulaProfilesMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedFormulaBindings = formulaBindingsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedStatusActionControlRules = statusActionControlRulesMapper.listChangedSince(gameId, changedAfter);
 
         ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, "");
         validateBundleForPublish(gameId, unsignedBundle);
@@ -423,7 +488,8 @@ public class PostgresWriteStore {
             changedSkills,
             changedItems,
             changedFormulaProfiles,
-            changedFormulaBindings
+            changedFormulaBindings,
+            changedStatusActionControlRules
         );
 
         String dataHash = buildDataHash(unsignedBundle);
@@ -471,7 +537,8 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedSkills,
         List<Map<String, Object>> changedItems,
         List<Map<String, Object>> changedFormulaProfiles,
-        List<Map<String, Object>> changedFormulaBindings
+        List<Map<String, Object>> changedFormulaBindings,
+        List<Map<String, Object>> changedStatusActionControlRules
     ) {
         for (Map<String, Object> row : changedAttributeDefinitions) {
             String attrKey = mapText(row, "attrKey");
@@ -636,6 +703,29 @@ public class PostgresWriteStore {
                 mapText(row, "overrideParamsJson")
             );
         }
+        for (Map<String, Object> row : changedStatusActionControlRules) {
+            String ruleId = mapText(row, "ruleId");
+            String safeRuleId = ruleId == null ? "" : ruleId;
+            ensureUpdated(
+                statusActionControlRulesMapper.updateVersionRange(gameId, safeRuleId, versionId),
+                "statusActionControlRule not found while publishing",
+                Map.of("gameId", gameId, "ruleId", safeRuleId)
+            );
+            Integer statusTypeId = mapInteger(row, "statusTypeId");
+            statusActionControlRulesMapper.upsertStatusActionControlRuleLog(
+                gameId,
+                safeRuleId,
+                versionId,
+                statusTypeId == null ? -1 : statusTypeId,
+                mapText(row, "ruleKind"),
+                mapText(row, "actionTypeIdsJson"),
+                mapText(row, "actionMatchTypeIdsJson"),
+                mapText(row, "interruptPhaseTypeIdsJson"),
+                mapInteger(row, "priority") == null ? 0 : mapInteger(row, "priority"),
+                mapText(row, "description"),
+                mapText(row, "extendJson")
+            );
+        }
     }
 
     private void validateBundleForPublish(String gameId, ObjectNode bundle) {
@@ -647,6 +737,7 @@ public class PostgresWriteStore {
         ArrayNode items = requireArray(bundle, "items");
         ArrayNode formulaProfiles = requireArray(bundle, "formulaProfiles");
         ArrayNode formulaBindings = requireArray(bundle, "formulaBindings");
+        ArrayNode statusActionControlRules = requireArray(bundle, "statusActionControlRules");
 
         Set<String> attrKeys = new HashSet<>();
         for (JsonNode node : attributeDefinitions) {
@@ -709,6 +800,10 @@ public class PostgresWriteStore {
         for (JsonNode node : formulaBindings) {
             ObjectNode formulaBinding = requireObject(node, "/formulaBindings");
             validateFormulaBindingForPublish(formulaBinding, formulaIds, skillIds, heroIds, itemIds);
+        }
+        for (JsonNode node : statusActionControlRules) {
+            ObjectNode rule = requireObject(node, "/statusActionControlRules");
+            validateStatusActionControlRuleForPublish(rule, typeIds);
         }
     }
 
@@ -795,6 +890,48 @@ public class PostgresWriteStore {
         }
     }
 
+    private void validateStatusActionControlRuleForPublish(ObjectNode rule, Set<Integer> typeIds) {
+        String ruleId = requireTextForPublish(rule, "ruleId", "/statusActionControlRules/ruleId");
+        JsonNode statusTypeIdNode = rule.get("statusTypeId");
+        if (statusTypeIdNode == null || !statusTypeIdNode.canConvertToInt()) {
+            throw semantic("statusActionControlRule.statusTypeId must be integer", Map.of("path", "/statusActionControlRules/statusTypeId"));
+        }
+        int statusTypeId = statusTypeIdNode.asInt();
+        if (!typeIds.contains(statusTypeId)) {
+            throw semantic(
+                "statusActionControlRule.statusTypeId not found",
+                Map.of("path", "/statusActionControlRules/statusTypeId", "ruleId", ruleId, "typeId", statusTypeId)
+            );
+        }
+
+        String ruleKind = requireTextForPublish(rule, "ruleKind", "/statusActionControlRules/ruleKind").toLowerCase(Locale.ROOT);
+        if (!STATUS_ACTION_CONTROL_RULE_KINDS.contains(ruleKind)) {
+            throw semantic(
+                "statusActionControlRule.ruleKind invalid",
+                Map.of("path", "/statusActionControlRules/ruleKind", "ruleId", ruleId, "ruleKind", ruleKind)
+            );
+        }
+
+        validateTypeIdArrayForPublish(rule.get("actionTypeIds"), "/statusActionControlRules/actionTypeIds", typeIds, false);
+        validateTypeIdArrayForPublish(rule.get("actionMatchTypeIds"), "/statusActionControlRules/actionMatchTypeIds", typeIds, true);
+        JsonNode interruptPhaseTypeIds = rule.get("interruptPhaseTypeIds");
+        validateTypeIdArrayForPublish(interruptPhaseTypeIds, "/statusActionControlRules/interruptPhaseTypeIds", typeIds, true);
+
+        int interruptCount = interruptPhaseTypeIds == null || interruptPhaseTypeIds.isNull() ? 0 : interruptPhaseTypeIds.size();
+        if ("forbid".equals(ruleKind) && interruptCount > 0) {
+            throw semantic(
+                "statusActionControlRule.interruptPhaseTypeIds must be empty when ruleKind=forbid",
+                Map.of("path", "/statusActionControlRules/interruptPhaseTypeIds", "ruleId", ruleId)
+            );
+        }
+        if ("interrupt".equals(ruleKind) && interruptCount == 0) {
+            throw semantic(
+                "statusActionControlRule.interruptPhaseTypeIds must be non-empty when ruleKind=interrupt",
+                Map.of("path", "/statusActionControlRules/interruptPhaseTypeIds", "ruleId", ruleId)
+            );
+        }
+    }
+
     private void validateItemForPublish(ObjectNode item, Set<String> skillIds, Set<String> itemIds) {
         String itemId = requireTextForPublish(item, "itemId", "/items/itemId");
         JsonNode skillRefs = item.get("skillRefs");
@@ -874,6 +1011,31 @@ public class PostgresWriteStore {
         }
     }
 
+    private void validateTypeIdArrayForPublish(JsonNode value, String path, Set<Integer> typeIds, boolean allowEmpty) {
+        if (value == null || value.isNull()) {
+            if (allowEmpty) {
+                return;
+            }
+            throw semantic("required array is missing", Map.of("path", path));
+        }
+        if (!value.isArray()) {
+            throw semantic("field must be array", Map.of("path", path));
+        }
+        if (!allowEmpty && value.isEmpty()) {
+            throw semantic("field must be non-empty array", Map.of("path", path));
+        }
+        for (int i = 0; i < value.size(); i++) {
+            JsonNode item = value.get(i);
+            if (!item.canConvertToInt()) {
+                throw semantic("array must contain integers", Map.of("path", path + "/" + i));
+            }
+            int typeId = item.asInt();
+            if (!typeIds.contains(typeId)) {
+                throw semantic("typeId not found", Map.of("path", path + "/" + i, "typeId", typeId));
+            }
+        }
+    }
+
     private ArrayNode requireArray(ObjectNode node, String fieldName) {
         JsonNode value = node.get(fieldName);
         if (value == null || !value.isArray()) {
@@ -912,10 +1074,64 @@ public class PostgresWriteStore {
         }
     }
 
+    private int requireExistingTypeId(String gameId, JsonNode value, String path, String fieldLabel) {
+        if (value == null || !value.canConvertToInt()) {
+            throw badRequest(fieldLabel + " must be integer", Map.of("path", path));
+        }
+        int typeId = value.asInt();
+        if (readStore.loadType(gameId, typeId) == null) {
+            throw semantic(fieldLabel + " not found", Map.of("path", path, "typeId", typeId));
+        }
+        return typeId;
+    }
+
+    private ArrayNode requireTypeIdArray(
+        String gameId,
+        ObjectNode node,
+        String fieldName,
+        String path,
+        boolean allowEmpty
+    ) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || value.isNull()) {
+            ArrayNode empty = objectMapper.createArrayNode();
+            node.set(fieldName, empty);
+            if (!allowEmpty) {
+                throw badRequest(fieldName + " must be non-empty array", Map.of("path", path));
+            }
+            return empty;
+        }
+        if (!value.isArray()) {
+            throw badRequest(fieldName + " must be array", Map.of("path", path));
+        }
+        ArrayNode array = (ArrayNode) value;
+        if (!allowEmpty && array.isEmpty()) {
+            throw badRequest(fieldName + " must be non-empty array", Map.of("path", path));
+        }
+        for (int i = 0; i < array.size(); i++) {
+            JsonNode item = array.get(i);
+            if (!item.canConvertToInt()) {
+                throw badRequest(fieldName + " must contain integers", Map.of("path", path + "/" + i));
+            }
+            int typeId = item.asInt();
+            if (readStore.loadType(gameId, typeId) == null) {
+                throw semantic(fieldName + " contains unknown typeId", Map.of("path", path + "/" + i, "typeId", typeId));
+            }
+        }
+        return array;
+    }
+
     private void validateOptionalObject(ObjectNode node, String resourceName, String fieldName, String path) {
         JsonNode value = node.get(fieldName);
         if (value != null && !value.isNull() && !value.isObject()) {
             throw badRequest(resourceName + "." + fieldName + " must be object", Map.of("path", path));
+        }
+    }
+
+    private void validateOptionalText(ObjectNode node, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
+        if (value != null && !value.isNull() && !value.isTextual()) {
+            throw badRequest(fieldName + " must be string", Map.of("path", path));
         }
     }
 

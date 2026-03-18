@@ -200,6 +200,31 @@ public class GameDataService {
         return response;
     }
 
+    public ObjectNode listStatusActionControlRules(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getStatusActionControlRules(gameId);
+    }
+
+    public ObjectNode getStatusActionControlRule(String gameId, String ruleId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadStatusActionControlRule(gameId, ruleId);
+        if (response == null) {
+            throw notFound("Status action control rule not found", Map.of("gameId", gameId, "ruleId", ruleId));
+        }
+        return response;
+    }
+
+    public ObjectNode upsertStatusActionControlRule(String gameId, String ruleId, ObjectNode body, boolean patch) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertStatusActionControlRule(gameId, ruleId, body, patch);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
     public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body, boolean patch) {
         validateGameId(gameId);
         assertGameExists(gameId);

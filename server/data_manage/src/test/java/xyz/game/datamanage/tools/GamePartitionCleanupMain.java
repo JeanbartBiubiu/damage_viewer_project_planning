@@ -29,7 +29,9 @@ public final class GamePartitionCleanupMain {
         "type_relations_log_",
         "heroes_log_",
         "skills_log_",
-        "items_log_"
+        "items_log_",
+        "status_action_control_rules_",
+        "status_action_control_rules_log_"
     );
 
     private GamePartitionCleanupMain() {
