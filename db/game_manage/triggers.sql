@@ -178,6 +178,26 @@ BEGIN
     EXCEPTION WHEN duplicate_table THEN
         NULL;
     END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_action_control_rules FOR VALUES IN (%L)',
+            'status_action_control_rules_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_action_control_rules_log FOR VALUES IN (%L)',
+            'status_action_control_rules_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
 END;
 $$;
 

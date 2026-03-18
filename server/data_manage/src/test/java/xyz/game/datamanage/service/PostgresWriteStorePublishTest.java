@@ -34,6 +34,7 @@ import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
+import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 import xyz.game.datamanage.support.error.ApiException;
@@ -55,6 +56,9 @@ class PostgresWriteStorePublishTest {
 
     @Mock
     private FormulaBindingsMapper formulaBindingsMapper;
+
+    @Mock
+    private StatusActionControlRulesMapper statusActionControlRulesMapper;
 
     @Mock
     private AttributeDefinitionsMapper attributeDefinitionsMapper;
@@ -91,6 +95,7 @@ class PostgresWriteStorePublishTest {
             itemsMapper,
             formulaProfilesMapper,
             formulaBindingsMapper,
+            statusActionControlRulesMapper,
             attributeDefinitionsMapper,
             typesMapper,
             typeRelationsMapper,
@@ -131,6 +136,7 @@ class PostgresWriteStorePublishTest {
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of(changedHeroRow()));
 
         when(heroesMapper.updateVersionRange("lol", "hero_ahri", 2L)).thenReturn(1);
@@ -167,6 +173,7 @@ class PostgresWriteStorePublishTest {
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
         ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", 2L));
@@ -195,6 +202,7 @@ class PostgresWriteStorePublishTest {
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
         ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", 2L));
@@ -219,6 +227,7 @@ class PostgresWriteStorePublishTest {
         bundle.putArray("items");
         bundle.putArray("formulaProfiles");
         bundle.putArray("formulaBindings");
+        bundle.putArray("statusActionControlRules");
         return bundle;
     }
 
