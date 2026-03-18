@@ -1,0 +1,189 @@
+{
+    "破败王者之刃": {
+        "name": "雾之锋",
+        "type": "passive",
+        "triggerType": "attack",
+        "triggerTime": "before",
+        "param": {
+            "shanghai": {
+                "t": "type.profession",
+                "v": {
+                    "近战": "0.12",
+                    "远程": "0.1"
+                },
+                "a": "target.currentHp"
+            }
+        },
+        "effective": [
+            {
+                "object": "target",
+                "type": "物理伤害",
+                "公式": "shanghai"
+            }
+        ]
+    },
+    "纳什之牙": {
+        "name": "艾卡西亚之咬",
+        "type": "passive",
+        "triggerType": "attack",
+        "triggerTime": "before",
+        "param": {
+            "shanghai1": {
+                "v": 15
+            },
+            "shanghai2": {
+                "v": 0.15,
+                "a": "法强"
+            }
+        },
+        "effective": [
+            {
+                "object": "target",
+                "attribute": "魔法伤害",
+                "公式": "shanghai1+shanghai2"
+            }
+        ]
+    },
+    "育恩塔尔荒野剑": {
+        "name": "疾风骤雨",
+        "type": "passive",
+        "triggerType": "attack",
+        "triggerTime": "before",
+        "cd": "30s",
+        "param": {
+            "gongsu": {
+                "v": 0.3,
+                "a": "atkSpeed"
+            },
+            "jiancd": {
+                "v": -1,
+                "a": "second",
+                "暴击": {
+                    "可暴击": true,
+                    "倍率": "2"
+                }
+            }
+        },
+        "effective": [
+            {
+                "object": "self",
+                "attribute": "modify",
+                "公式": "gongsu",
+                "time": "6s"
+            },
+            {
+                "object": "self.疾风骤雨.cd",
+                "attribute": "cd",
+                "公式": "jiancd"
+            }
+        ]
+    },
+    "兰德里的折磨1": {
+        "name": "折磨",
+        "type": "passive",
+        "triggerType": "skill",
+        "triggerTime": "after",
+        "param": {
+            "shanghai": {
+                "v": 0.02,
+                "a": "target.totalHp"
+            }
+        },
+        "effective": [
+            {
+                "object": "target",
+                "attribute": "damage",
+                "公式": "shanghai",
+                "time": "3s(频次默认按1s算)"
+            }
+        ]
+    },
+    "兰德里的折磨2": {
+        "name": "受苦",
+        "type": "passive",
+        "triggerType": "battleStart",
+        "triggerTime": "after",
+        "param": {
+            "xishu": {
+                "v": 0.02
+            },
+            "system.battleTime": {
+                "max": "3"
+            }
+        },
+        "effective": [
+            {
+                "object": "self",
+                "attribute": "xishu",
+                "公式": "xishu*system.battlme",
+                "time": "5s(wiki没写，需要自己测试下)"
+            }
+        ]
+    },
+    "鬼索的狂暴之刃1": {
+        "name": "怨怒",
+        "type": "passive",
+        "triggerType": "attack",
+        "triggerTime": "before",
+        "param": {
+            "shanghai": {
+                "v": 30
+            }
+        },
+        "effective": [
+            {
+                "object": "target",
+                "attribute": "damage",
+                "公式": "shanghai"
+            }
+        ]
+    },
+    "鬼索的狂暴之刃2": {
+        "name": "沸腾打击",
+        "type": "passive",
+        "triggerType": "",
+        "triggerTime": "before",
+        "param": {
+            "攻速加成": {
+                "t": "",
+                "v": "0.08",
+                "a": "attackSpeed"
+            },
+            "攻速层数计数器": {
+                "t": "计数器",
+                "defaultV": 0,
+                "max": 4
+            },
+            "幻影": {
+                "t": "计数器",
+                "defaultV": 0,
+                "max": 3
+            }
+        },
+        "effective": [
+            {
+                "object": "计数器",
+                "attribute": "攻速层数计数器",
+                "公式": "+1"
+            },
+            {
+                "object": "计数器",
+				"condition": "攻速层数计数器=4",
+                "attribute": "幻影",
+                "公式": "+1"
+            },
+            {
+                "object": "self",
+                "attribute": "modify",
+                "公式": "攻速加成*攻速层数计数器"
+            },
+            {
+                "object": "target",
+                "condition": "幻影.计数器=3",
+                "attribute": "special",
+                "公式": "攻击特效do 2次;计数器的值清0"
+            }
+        ]
+    }
+}
+}
