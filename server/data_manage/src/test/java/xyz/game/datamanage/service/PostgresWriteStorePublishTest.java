@@ -25,6 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
+import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
@@ -56,6 +57,9 @@ class PostgresWriteStorePublishTest {
 
     @Mock
     private FormulaBindingsMapper formulaBindingsMapper;
+
+    @Mock
+    private CoefficientBucketsMapper coefficientBucketsMapper;
 
     @Mock
     private StatusActionControlRulesMapper statusActionControlRulesMapper;
@@ -96,6 +100,7 @@ class PostgresWriteStorePublishTest {
             formulaProfilesMapper,
             formulaBindingsMapper,
             statusActionControlRulesMapper,
+            coefficientBucketsMapper,
             attributeDefinitionsMapper,
             typesMapper,
             typeRelationsMapper,
@@ -136,6 +141,7 @@ class PostgresWriteStorePublishTest {
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of(changedHeroRow()));
 
@@ -173,6 +179,7 @@ class PostgresWriteStorePublishTest {
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
@@ -202,6 +209,7 @@ class PostgresWriteStorePublishTest {
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
@@ -227,6 +235,7 @@ class PostgresWriteStorePublishTest {
         bundle.putArray("items");
         bundle.putArray("formulaProfiles");
         bundle.putArray("formulaBindings");
+        bundle.putArray("coefficientBuckets");
         bundle.putArray("statusActionControlRules");
         return bundle;
     }
