@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.CoefficientBucketsMapper">
+
+    <select id="listCoefficientBuckets" resultType="map">
+        SELECT bucket_key AS bucketKey,
+               resolution_domain AS resolutionDomain,
+               stage_key AS stageKey,
+               target_attr_key AS targetAttrKey,
+               aggregation_mode AS aggregationMode,
+               provisional,
+               name,
+               description,
+               editor_hint::text AS editorHintJson,
+               bucket_config::text AS bucketConfigJson
+        FROM public.coefficient_buckets
+        WHERE game_id = #{gameId}
+        ORDER BY resolution_domain, stage_key, bucket_key
+    </select>
+
+    <select id="findCoefficientBucketById" resultType="map">
+        SELECT bucket_key AS bucketKey,
+               resolution_domain AS resolutionDomain,
+               stage_key AS stageKey,
+               target_attr_key AS targetAttrKey,
+               aggregation_mode AS aggregationMode,
+               provisional,
+               name,
+               description,
+               editor_hint::text AS editorHintJson,
+               bucket_config::text AS bucketConfigJson
+        FROM public.coefficient_buckets
+        WHERE game_id = #{gameId}
+          AND bucket_key = #{bucketKey}
+    </select>
+
+    <select id="listChangedSince" resultType="map">
+        SELECT bucket_key AS bucketKey,
+               resolution_domain AS resolutionDomain,
+               stage_key AS stageKey,
+               target_attr_key AS targetAttrKey,
+               aggregation_mode AS aggregationMode,
+               provisional,
+               name,
+               description,
+               editor_hint::text AS editorHintJson,
+               bucket_config::text AS bucketConfigJson
+        FROM public.coefficient_buckets
+        WHERE game_id = #{gameId}
+          AND updated_at &gt; #{updatedAfter}
+        ORDER BY resolution_domain, stage_key, bucket_key
+    </select>
+
+    <update id="upsertCoefficientBucket">
+        INSERT INTO public.coefficient_buckets
+            (game_id, bucket_key, start_version_id, end_version_id, resolution_domain, stage_key,
+             target_attr_key, aggregation_mode, provisional, name, description, editor_hint, bucket_config, updated_at)
+        VALUES
+            (
+                #{gameId},
+                #{bucketKey},
+                #{versionId},
+                #{versionId},
+                #{resolutionDomain},
+                #{stageKey},
+                #{targetAttrKey},
+                #{aggregationMode},
+                #{provisional},
+                #{name},
+                #{description},
+                CAST(#{editorHintJson} AS jsonb),
+                CAST(#{bucketConfigJson} AS jsonb),
+                NOW()
+            )
+        ON CONFLICT (game_id, bucket_key) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            resolution_domain = EXCLUDED.resolution_domain,
+            stage_key = EXCLUDED.stage_key,
+            target_attr_key = EXCLUDED.target_attr_key,
+            aggregation_mode = EXCLUDED.aggregation_mode,
+            provisional = EXCLUDED.provisional,
+            name = EXCLUDED.name,
+            description = EXCLUDED.description,
+            editor_hint = EXCLUDED.editor_hint,
+            bucket_config = EXCLUDED.bucket_config,
+            updated_at = NOW()
+    </update>
+
+    <update id="updateVersionRange">
+        UPDATE public.coefficient_buckets
+        SET start_version_id = #{versionId},
+            end_version_id = #{versionId}
+        WHERE game_id = #{gameId}
+          AND bucket_key = #{bucketKey}
+    </update>
+
+    <update id="upsertCoefficientBucketLog">
+        INSERT INTO public.coefficient_buckets_log
+            (game_id, bucket_key, start_version_id, end_version_id, resolution_domain, stage_key,
+             target_attr_key, aggregation_mode, provisional, name, description, editor_hint, bucket_config)
+        VALUES
+            (
+                #{gameId},
+                #{bucketKey},
+                #{versionId},
+                #{versionId},
+                #{resolutionDomain},
+                #{stageKey},
+                #{targetAttrKey},
+                #{aggregationMode},
+                #{provisional},
+                #{name},
+                #{description},
+                CAST(#{editorHintJson} AS jsonb),
+                CAST(#{bucketConfigJson} AS jsonb)
+            )
+        ON CONFLICT (game_id, bucket_key, start_version_id) DO UPDATE SET
+            end_version_id = EXCLUDED.end_version_id,
+            resolution_domain = EXCLUDED.resolution_domain,
+            stage_key = EXCLUDED.stage_key,
+            target_attr_key = EXCLUDED.target_attr_key,
+            aggregation_mode = EXCLUDED.aggregation_mode,
+            provisional = EXCLUDED.provisional,
+            name = EXCLUDED.name,
+            description = EXCLUDED.description,
+            editor_hint = EXCLUDED.editor_hint,
+            bucket_config = EXCLUDED.bucket_config
+    </update>
+</mapper>

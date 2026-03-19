@@ -64,6 +64,9 @@
 - `PUT/PATCH /api/admin/games/{gameId}/attribute-definitions/{attrKey}`
 - `PUT/PATCH /api/admin/games/{gameId}/types/{typeId}`
 - `PUT/PATCH /api/admin/games/{gameId}/type-relations/{typeId}/{targetCategory}/{targetId}`
+- `GET /api/admin/games/{gameId}/status-action-control-rules`
+- `GET /api/admin/games/{gameId}/status-action-control-rules/{ruleId}`
+- `PUT/PATCH /api/admin/games/{gameId}/status-action-control-rules/{ruleId}`
 - `PUT /api/admin/games/{gameId}/images/{uri}`
 
 通用约束：

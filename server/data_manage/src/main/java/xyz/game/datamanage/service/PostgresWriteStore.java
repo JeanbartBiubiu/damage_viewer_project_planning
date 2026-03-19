@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
+import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
@@ -45,6 +46,8 @@ public class PostgresWriteStore {
     private static final Set<String> TARGET_CATEGORIES = Set.of("equipment", "attribute", "skill", "character", "type");
     private static final Set<String> FORMULA_TYPES = Set.of("cooldown", "regen", "attribute", "damage", "resource_cost", "other");
     private static final Set<String> FORMULA_BINDING_TARGET_CATEGORIES = Set.of("skill", "hero", "item", "global");
+    private static final Set<String> COEFFICIENT_BUCKET_RESOLUTION_DOMAINS = Set.of("attribute", "hp_change");
+    private static final Set<String> COEFFICIENT_BUCKET_AGGREGATION_MODES = Set.of("add", "multiply", "pick_max", "set_final");
     private static final Set<String> STATUS_ACTION_CONTROL_RULE_KINDS = Set.of("forbid", "interrupt");
 
     private final HeroesMapper heroesMapper;
@@ -53,6 +56,7 @@ public class PostgresWriteStore {
     private final FormulaProfilesMapper formulaProfilesMapper;
     private final FormulaBindingsMapper formulaBindingsMapper;
     private final StatusActionControlRulesMapper statusActionControlRulesMapper;
+    private final CoefficientBucketsMapper coefficientBucketsMapper;
     private final AttributeDefinitionsMapper attributeDefinitionsMapper;
     private final TypesMapper typesMapper;
     private final TypeRelationsMapper typeRelationsMapper;
@@ -71,6 +75,7 @@ public class PostgresWriteStore {
         FormulaProfilesMapper formulaProfilesMapper,
         FormulaBindingsMapper formulaBindingsMapper,
         StatusActionControlRulesMapper statusActionControlRulesMapper,
+        CoefficientBucketsMapper coefficientBucketsMapper,
         AttributeDefinitionsMapper attributeDefinitionsMapper,
         TypesMapper typesMapper,
         TypeRelationsMapper typeRelationsMapper,
@@ -88,6 +93,7 @@ public class PostgresWriteStore {
         this.formulaProfilesMapper = formulaProfilesMapper;
         this.formulaBindingsMapper = formulaBindingsMapper;
         this.statusActionControlRulesMapper = statusActionControlRulesMapper;
+        this.coefficientBucketsMapper = coefficientBucketsMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
         this.typesMapper = typesMapper;
         this.typeRelationsMapper = typeRelationsMapper;
@@ -264,6 +270,74 @@ public class PostgresWriteStore {
             versionId,
             formulaId,
             jsonSupport.toJsonStringOrNull(merged.get("overrideParams"))
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertCoefficientBucket(String gameId, String bucketKey, ObjectNode body, boolean patch) {
+        ObjectNode merged = mergeUpsert(
+            readStore.loadCoefficientBucket(gameId, bucketKey),
+            body,
+            patch,
+            "coefficientBucket",
+            bucketKey,
+            "bucketKey"
+        );
+
+        String resolutionDomain = jsonSupport.requireText(merged, "resolutionDomain", "coefficientBucket").toLowerCase(Locale.ROOT);
+        if (!COEFFICIENT_BUCKET_RESOLUTION_DOMAINS.contains(resolutionDomain)) {
+            throw badRequest("coefficientBucket.resolutionDomain invalid", Map.of("path", "/resolutionDomain", "resolutionDomain", resolutionDomain));
+        }
+        merged.put("resolutionDomain", resolutionDomain);
+
+        String stageKey = jsonSupport.requireText(merged, "stageKey", "coefficientBucket");
+        String aggregationMode = jsonSupport.requireText(merged, "aggregationMode", "coefficientBucket").toLowerCase(Locale.ROOT);
+        if (!COEFFICIENT_BUCKET_AGGREGATION_MODES.contains(aggregationMode)) {
+            throw badRequest("coefficientBucket.aggregationMode invalid", Map.of("path", "/aggregationMode", "aggregationMode", aggregationMode));
+        }
+        merged.put("aggregationMode", aggregationMode);
+
+        String targetAttrKey = nullableText(merged, "targetAttrKey");
+        if ("attribute".equals(resolutionDomain)) {
+            if (targetAttrKey == null || targetAttrKey.isBlank()) {
+                throw badRequest("coefficientBucket.targetAttrKey is required when resolutionDomain=attribute", Map.of("path", "/targetAttrKey"));
+            }
+            if (readStore.loadAttributeDefinition(gameId, targetAttrKey) == null) {
+                throw semantic(
+                    "coefficientBucket.targetAttrKey not found",
+                    Map.of("path", "/targetAttrKey", "targetAttrKey", targetAttrKey)
+                );
+            }
+        } else if (targetAttrKey != null) {
+            throw badRequest("coefficientBucket.targetAttrKey must be null when resolutionDomain=hp_change", Map.of("path", "/targetAttrKey"));
+        }
+
+        Boolean provisional = nullableBoolean(merged, "provisional");
+        if (provisional == null) {
+            provisional = false;
+            merged.put("provisional", false);
+        }
+
+        validateOptionalText(merged, "name", "/name");
+        validateOptionalText(merged, "description", "/description");
+        validateOptionalObject(merged, "coefficientBucket", "editorHint", "/editorHint");
+        validateOptionalObject(merged, "coefficientBucket", "bucketConfig", "/bucketConfig");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        coefficientBucketsMapper.upsertCoefficientBucket(
+            gameId,
+            bucketKey,
+            versionId,
+            resolutionDomain,
+            stageKey,
+            targetAttrKey,
+            aggregationMode,
+            provisional,
+            nullableText(merged, "name"),
+            nullableText(merged, "description"),
+            jsonSupport.toJsonStringOrNull(merged.get("editorHint")),
+            jsonSupport.toJsonStringOrNull(merged.get("bucketConfig"))
         );
         return merged;
     }
@@ -473,6 +547,7 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedItems = itemsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedFormulaProfiles = formulaProfilesMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedFormulaBindings = formulaBindingsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedCoefficientBuckets = coefficientBucketsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedStatusActionControlRules = statusActionControlRulesMapper.listChangedSince(gameId, changedAfter);
 
         ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, "");
@@ -489,6 +564,7 @@ public class PostgresWriteStore {
             changedItems,
             changedFormulaProfiles,
             changedFormulaBindings,
+            changedCoefficientBuckets,
             changedStatusActionControlRules
         );
 
@@ -538,6 +614,7 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedItems,
         List<Map<String, Object>> changedFormulaProfiles,
         List<Map<String, Object>> changedFormulaBindings,
+        List<Map<String, Object>> changedCoefficientBuckets,
         List<Map<String, Object>> changedStatusActionControlRules
     ) {
         for (Map<String, Object> row : changedAttributeDefinitions) {
@@ -703,6 +780,29 @@ public class PostgresWriteStore {
                 mapText(row, "overrideParamsJson")
             );
         }
+        for (Map<String, Object> row : changedCoefficientBuckets) {
+            String bucketKey = mapText(row, "bucketKey");
+            String safeBucketKey = bucketKey == null ? "" : bucketKey;
+            ensureUpdated(
+                coefficientBucketsMapper.updateVersionRange(gameId, safeBucketKey, versionId),
+                "coefficientBucket not found while publishing",
+                Map.of("gameId", gameId, "bucketKey", safeBucketKey)
+            );
+            coefficientBucketsMapper.upsertCoefficientBucketLog(
+                gameId,
+                safeBucketKey,
+                versionId,
+                mapText(row, "resolutionDomain"),
+                mapText(row, "stageKey"),
+                mapText(row, "targetAttrKey"),
+                mapText(row, "aggregationMode"),
+                Boolean.TRUE.equals(mapBoolean(row, "provisional")),
+                mapText(row, "name"),
+                mapText(row, "description"),
+                mapText(row, "editorHintJson"),
+                mapText(row, "bucketConfigJson")
+            );
+        }
         for (Map<String, Object> row : changedStatusActionControlRules) {
             String ruleId = mapText(row, "ruleId");
             String safeRuleId = ruleId == null ? "" : ruleId;
@@ -730,6 +830,7 @@ public class PostgresWriteStore {
 
     private void validateBundleForPublish(String gameId, ObjectNode bundle) {
         ArrayNode attributeDefinitions = requireArray(bundle, "attributeDefinitions");
+        ArrayNode coefficientBuckets = requireArray(bundle, "coefficientBuckets");
         ArrayNode types = requireArray(bundle, "types");
         ArrayNode typeRelations = requireArray(bundle, "typeRelations");
         ArrayNode heroes = requireArray(bundle, "heroes");
@@ -744,6 +845,11 @@ public class PostgresWriteStore {
             ObjectNode attr = requireObject(node, "/attributeDefinitions");
             String attrKey = requireTextForPublish(attr, "attrKey", "/attributeDefinitions/attrKey");
             attrKeys.add(attrKey);
+        }
+
+        for (JsonNode node : coefficientBuckets) {
+            ObjectNode coefficientBucket = requireObject(node, "/coefficientBuckets");
+            validateCoefficientBucketForPublish(coefficientBucket, attrKeys);
         }
 
         Set<Integer> typeIds = new HashSet<>();
@@ -887,6 +993,61 @@ public class PostgresWriteStore {
         JsonNode overrideParams = formulaBinding.get("overrideParams");
         if (overrideParams != null && !overrideParams.isNull() && !overrideParams.isObject()) {
             throw semantic("formulaBinding.overrideParams must be object", Map.of("path", "/formulaBindings/overrideParams"));
+        }
+    }
+
+    private void validateCoefficientBucketForPublish(ObjectNode bucket, Set<String> attrKeys) {
+        requireTextForPublish(bucket, "bucketKey", "/coefficientBuckets/bucketKey");
+        String resolutionDomain = requireTextForPublish(bucket, "resolutionDomain", "/coefficientBuckets/resolutionDomain")
+            .toLowerCase(Locale.ROOT);
+        if (!COEFFICIENT_BUCKET_RESOLUTION_DOMAINS.contains(resolutionDomain)) {
+            throw semantic(
+                "coefficientBucket.resolutionDomain invalid",
+                Map.of("path", "/coefficientBuckets/resolutionDomain", "resolutionDomain", resolutionDomain)
+            );
+        }
+        requireTextForPublish(bucket, "stageKey", "/coefficientBuckets/stageKey");
+        String aggregationMode = requireTextForPublish(bucket, "aggregationMode", "/coefficientBuckets/aggregationMode")
+            .toLowerCase(Locale.ROOT);
+        if (!COEFFICIENT_BUCKET_AGGREGATION_MODES.contains(aggregationMode)) {
+            throw semantic(
+                "coefficientBucket.aggregationMode invalid",
+                Map.of("path", "/coefficientBuckets/aggregationMode", "aggregationMode", aggregationMode)
+            );
+        }
+
+        JsonNode targetAttrKeyNode = bucket.get("targetAttrKey");
+        if ("attribute".equals(resolutionDomain)) {
+            if (targetAttrKeyNode == null || !targetAttrKeyNode.isTextual() || targetAttrKeyNode.asText().isBlank()) {
+                throw semantic(
+                    "coefficientBucket.targetAttrKey is required when resolutionDomain=attribute",
+                    Map.of("path", "/coefficientBuckets/targetAttrKey")
+                );
+            }
+            if (!attrKeys.contains(targetAttrKeyNode.asText())) {
+                throw semantic(
+                    "coefficientBucket.targetAttrKey not found",
+                    Map.of("path", "/coefficientBuckets/targetAttrKey", "targetAttrKey", targetAttrKeyNode.asText())
+                );
+            }
+        } else if (targetAttrKeyNode != null && !targetAttrKeyNode.isNull()) {
+            throw semantic(
+                "coefficientBucket.targetAttrKey must be null when resolutionDomain=hp_change",
+                Map.of("path", "/coefficientBuckets/targetAttrKey")
+            );
+        }
+
+        JsonNode provisional = bucket.get("provisional");
+        if (provisional != null && !provisional.isNull() && !provisional.isBoolean()) {
+            throw semantic("coefficientBucket.provisional must be boolean", Map.of("path", "/coefficientBuckets/provisional"));
+        }
+        JsonNode editorHint = bucket.get("editorHint");
+        if (editorHint != null && !editorHint.isNull() && !editorHint.isObject()) {
+            throw semantic("coefficientBucket.editorHint must be object", Map.of("path", "/coefficientBuckets/editorHint"));
+        }
+        JsonNode bucketConfig = bucket.get("bucketConfig");
+        if (bucketConfig != null && !bucketConfig.isNull() && !bucketConfig.isObject()) {
+            throw semantic("coefficientBucket.bucketConfig must be object", Map.of("path", "/coefficientBuckets/bucketConfig"));
         }
     }
 
@@ -1330,6 +1491,17 @@ public class PostgresWriteStore {
         return new BigDecimal(value.toString());
     }
 
+    private Boolean mapBoolean(Map<String, Object> row, String key) {
+        Object value = mapValue(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Boolean bool) {
+            return bool;
+        }
+        return Boolean.parseBoolean(value.toString());
+    }
+
     private Object mapValue(Map<String, Object> row, String key) {
         if (row.containsKey(key)) {
             return row.get(key);
@@ -1381,6 +1553,16 @@ public class PostgresWriteStore {
             throw badRequest(fieldName + " must be integer", Map.of("path", "/" + fieldName));
         }
         return node.get(fieldName).asInt();
+    }
+
+    private Boolean nullableBoolean(ObjectNode node, String fieldName) {
+        if (!node.has(fieldName) || node.get(fieldName).isNull()) {
+            return null;
+        }
+        if (!node.get(fieldName).isBoolean()) {
+            throw badRequest(fieldName + " must be boolean", Map.of("path", "/" + fieldName));
+        }
+        return node.get(fieldName).asBoolean();
     }
 
     private BigDecimal nullableBigDecimal(ObjectNode node, String fieldName) {

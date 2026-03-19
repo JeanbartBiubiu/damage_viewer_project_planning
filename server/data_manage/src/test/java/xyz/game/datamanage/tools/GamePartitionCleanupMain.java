@@ -30,6 +30,8 @@ public final class GamePartitionCleanupMain {
         "heroes_log_",
         "skills_log_",
         "items_log_",
+        "coefficient_buckets_",
+        "coefficient_buckets_log_",
         "status_action_control_rules_",
         "status_action_control_rules_log_"
     );
