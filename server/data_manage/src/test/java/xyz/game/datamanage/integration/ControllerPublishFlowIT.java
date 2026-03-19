@@ -266,6 +266,72 @@ class ControllerPublishFlowIT {
         assertEquals(2, statusRule.path("actionTypeIds").size());
     }
 
+    @Test
+    void coefficientBucketCrud_andPublishBundle_shouldSucceed() {
+        long versionId = createVersion("1.0.0");
+        putAttributeDefinition("move_speed");
+
+        putCoefficientBucket(
+            "it.move_speed.percent_bonus",
+            Map.of(
+                "resolutionDomain", "attribute",
+                "stageKey", "percent_bonus",
+                "targetAttrKey", "move_speed",
+                "aggregationMode", "add",
+                "provisional", true,
+                "name", "Move Speed Percent Bonus",
+                "description", "测试：移速百分比加成桶",
+                "editorHint", Map.of("groupLabel", "移速百分比"),
+                "bucketConfig", Map.of("source", "it")
+            )
+        );
+
+        ResponseEntity<JsonNode> listResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/coefficient-buckets",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, listResponse.getStatusCode());
+        assertTrue(containsByField(requireBody(listResponse).path("coefficientBuckets"), "bucketKey", "it.move_speed.percent_bonus"));
+
+        ResponseEntity<JsonNode> getResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/coefficient-buckets/it.move_speed.percent_bonus",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+        JsonNode stored = requireBody(getResponse);
+        assertEquals("attribute", stored.path("resolutionDomain").asText());
+        assertEquals("move_speed", stored.path("targetAttrKey").asText());
+        assertEquals("add", stored.path("aggregationMode").asText());
+        assertTrue(stored.path("provisional").asBoolean());
+
+        ResponseEntity<JsonNode> patchResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/coefficient-buckets/it.move_speed.percent_bonus",
+            HttpMethod.PATCH,
+            Map.of(
+                "provisional", false,
+                "description", "测试：PATCH 后桶描述"
+            )
+        );
+        assertEquals(HttpStatus.OK, patchResponse.getStatusCode());
+        JsonNode patched = requireBody(patchResponse);
+        assertFalse(patched.path("provisional").asBoolean());
+        assertEquals("测试：PATCH 后桶描述", patched.path("description").asText());
+
+        publish(versionId);
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionId, null);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+        JsonNode bucket = findByField(bundle.path("coefficientBuckets"), "bucketKey", "it.move_speed.percent_bonus");
+        assertEquals("attribute", bucket.path("resolutionDomain").asText());
+        assertEquals("move_speed", bucket.path("targetAttrKey").asText());
+        assertEquals("add", bucket.path("aggregationMode").asText());
+        assertFalse(bucket.path("provisional").asBoolean());
+        assertEquals("测试：PATCH 后桶描述", bucket.path("description").asText());
+    }
+
     private void seedGame(String targetGameId) {
         jdbcTemplate.update(
             "INSERT INTO public.games (game_id, game_name, game_img_url) VALUES (?, ?, ?) ON CONFLICT (game_id) DO NOTHING",
@@ -273,7 +339,9 @@ class ControllerPublishFlowIT {
             "IT " + targetGameId,
             null
         );
+        ensureCoefficientBucketTables();
         ensureFormulaPartitions(targetGameId);
+        ensureCoefficientBucketPartitions(targetGameId);
         ensureStatusActionControlRulePartitions(targetGameId);
         jdbcTemplate.update(
             "INSERT INTO public.owner_categories (game_id, owner_type, name, description) VALUES (?, 'hero', ?, ?) "
@@ -296,6 +364,55 @@ class ControllerPublishFlowIT {
         createGamePartition("formula_profiles_log", targetGameId);
         createGamePartition("formula_bindings", targetGameId);
         createGamePartition("formula_bindings_log", targetGameId);
+    }
+
+    private void ensureCoefficientBucketTables() {
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.coefficient_buckets (
+                game_id varchar(64) NOT NULL,
+                bucket_key varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                resolution_domain varchar(16) NOT NULL,
+                stage_key varchar(32) NOT NULL,
+                target_attr_key varchar(64),
+                aggregation_mode varchar(16) NOT NULL,
+                provisional boolean NOT NULL DEFAULT false,
+                name varchar(100),
+                description varchar(255),
+                editor_hint jsonb NOT NULL DEFAULT '{}',
+                bucket_config jsonb NOT NULL DEFAULT '{}',
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_coefficient_buckets PRIMARY KEY (game_id, bucket_key)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.coefficient_buckets_log (
+                game_id varchar(64) NOT NULL,
+                bucket_key varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                resolution_domain varchar(16) NOT NULL,
+                stage_key varchar(32) NOT NULL,
+                target_attr_key varchar(64),
+                aggregation_mode varchar(16) NOT NULL,
+                provisional boolean NOT NULL DEFAULT false,
+                name varchar(100),
+                description varchar(255),
+                editor_hint jsonb NOT NULL DEFAULT '{}',
+                bucket_config jsonb NOT NULL DEFAULT '{}',
+                CONSTRAINT pk_coefficient_buckets_log PRIMARY KEY (game_id, bucket_key, start_version_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+    }
+
+    private void ensureCoefficientBucketPartitions(String targetGameId) {
+        createGamePartition("coefficient_buckets", targetGameId);
+        createGamePartition("coefficient_buckets_log", targetGameId);
     }
 
     private void ensureStatusActionControlRulePartitions(String targetGameId) {
@@ -473,6 +590,15 @@ class ControllerPublishFlowIT {
     private void putStatusActionControlRule(String ruleId, Map<String, Object> body) {
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/status-action-control-rules/" + ruleId,
+            HttpMethod.PUT,
+            body
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    private void putCoefficientBucket(String bucketKey, Map<String, Object> body) {
+        ResponseEntity<JsonNode> response = adminExchange(
+            "/api/admin/games/" + gameId + "/coefficient-buckets/" + bucketKey,
             HttpMethod.PUT,
             body
         );
