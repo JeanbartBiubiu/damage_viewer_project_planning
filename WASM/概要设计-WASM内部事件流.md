@@ -142,6 +142,7 @@ type RuntimeState = {
   statusInstances: StatusInstance[]
   controlDirectives: ControlDirectiveInstance[]
   activeExecutions: ExecutionInstance[]
+  pendingIntents: PendingIntent[]
 }
 
 type CombatantRuntime = {
@@ -162,6 +163,40 @@ type CombatantRuntime = {
 - `statusInstances`：控制、免控、沉默、眩晕、压制等状态
 - `controlDirectives`：`fear / taunt / charm / airborne` 这类强制行为 / 强制位移组件
 - `activeExecutions`：当前执行中的技能实例
+- `pendingIntents`：被控制、资源、冷却等条件暂时拦下，但允许后续重试的动作意图
+
+### 4.1.1 `PendingIntent`
+
+为了解决“控制结束后角色应立刻继续攻击/施法”的问题，建议补一个轻量的意图缓冲层：
+
+```ts
+type PendingIntent = {
+  intentId: string
+  actorId: string
+  kind: "basic_attack" | "cast_skill" | "cast_item" | "move"
+  targetId?: string
+  skillId?: string
+  requestedAtMs: number
+  expiresAtMs?: number | null
+  source: "player_plan" | "auto_controller" | "directive"
+  retryPolicy: "drop" | "retry_on_release" | "retry_until_timeout"
+  priority?: number
+  supersedeKey?: string
+}
+```
+
+用途：
+
+- 缓冲“当前因为控制而不能执行，但控制结束后应立刻重试”的动作
+- 不要求把未来动作提前塞进主事件堆
+- 让“自动普攻”“用户持续按住攻击”“被净化后立刻放技能”都走同一语义层
+
+最小建议：
+
+- 普攻默认可用 `retry_on_release`
+- 普通技能默认 `drop`
+- 明确声明“控制中可施放”的技能不进入 `PendingIntent`，而是直接正常执行
+- 同一 actor + `supersedeKey` 下，新意图可以覆盖旧意图，避免堆积无意义重试
 
 ## 4.2 `EventQueue`
 
@@ -176,6 +211,158 @@ type CombatantRuntime = {
 
 - 同一输入下事件出队顺序稳定
 - 所有自动派生事件都必须显式入队，不能隐式递归执行
+
+### 4.2.1 引入状态后的处理原则
+
+引入 `statusInstances / controlDirectives` 后，事件队列 **仍然保持最小堆模型**，不改成“扫描整个堆，寻找当前唯一可执行的事件”。
+
+核心原则：
+
+- `EventQueue` 只负责时间顺序，不负责动作合法性
+- 事件是否合法，在 **出队时** 基于当前 `RuntimeState` 二次判定
+- 即使某个较晚事件“当前看起来是唯一能做的事”，也不能跳过更早事件提前执行
+
+换句话说：
+
+- 堆排序回答的是“哪个事件先到时间”
+- 状态判定回答的是“这个到时事件还能不能执行”
+
+### 4.2.2 为什么不能从堆里挑“唯一能执行的事件”
+
+如果跳过堆顶、直接执行后面的事件，会破坏两个基础约束：
+
+1. 时间一致性被破坏
+2. 同一输入下的事件顺序不可复现
+
+典型例子：
+
+- `100ms`：`status_apply(stun)`
+- `100ms`：`cast_intent(cleanse)`
+- `100ms`：`basic_attack_intent`
+- `120ms`：`dot_tick_fire`
+
+正确做法不是“发现 `cleanse` 能放，就从堆里把它挑出来先执行”，而是：
+
+1. 先处理当前最早时刻 `100ms` 的全部事件
+2. 每个事件出队时再结合新状态判断能否执行
+3. 被挡住的事件转为 `drop / cancel / blocked`
+4. 合法事件自然继续执行
+
+这样：
+
+- `status_apply(stun)` 先落地
+- `basic_attack_intent` 出队时发现被眩晕阻止，变成阻断结果
+- `cast_intent(cleanse)` 若配置了控制中可施放，则仍可执行
+
+这里 **不需要扫描整个堆**，只需要在“同一时刻事件批次”内按稳定顺序逐个处理。
+
+### 4.2.3 推荐循环：按时刻批处理，而不是只看单个堆顶
+
+推荐执行循环：
+
+```ts
+while (!heap.isEmpty()) {
+  const now = heap.peek().tMs
+
+  while (!heap.isEmpty() && heap.peek().tMs === now) {
+    const event = heap.pop()
+    dispatch(event, runtimeState)
+  }
+}
+```
+
+这样做的原因：
+
+- 可以保证“同一时刻的状态变化”会影响“同一时刻后续事件”的可执行性
+- 不需要把“状态优先级”扩展成跨时刻抢占
+- 同刻事件仍然由 `(priority, seq)` 保证稳定顺序
+
+### 4.2.4 事件出队后的四种结果
+
+事件出队时，统一做 `canRun(event, runtimeState)` 判定，建议只返回四种结果：
+
+```ts
+type EventDisposition =
+  | { kind: "run" }
+  | { kind: "drop"; reason: string }
+  | { kind: "cancel"; reason: string }
+  | { kind: "transform"; nextEvents: InternalEvent[] }
+```
+
+语义建议：
+
+- `run`：事件仍合法，正常执行
+- `drop`：事件已失效，直接丢弃，不产生语义结果
+- `cancel`：事件对应的动作被明确阻断，需要派生 `on_cast_blocked / on_interrupt`
+- `transform`：当前事件不直接执行，而是转译成新的内部事件，例如 `execution_interrupt`
+
+### 4.2.5 常见场景怎么落
+
+#### 场景 A：旧事件晚到时已失效
+
+例如：
+
+- `90ms` 创建了 `execution_phase_finish@300ms`
+- `120ms` 角色被 `stun`
+- `130ms` 已经触发 `execution_interrupt`
+
+到 `300ms` 时，旧的 `execution_phase_finish` 出队：
+
+- 若发现对应 `ExecutionInstance.state != active`
+- 则直接 `drop`
+
+这属于“懒删除”，不需要在堆里主动移除所有旧事件。
+
+#### 场景 B：状态进入后立刻打断执行
+
+例如：
+
+- `status_apply(stun)` 出队成功
+- 该状态命中 `interruptRules`
+
+此时正确做法是：
+
+1. 立即派生 `execution_interrupt`
+2. 由 `execution_interrupt` 去取消当前执行实例
+3. 后续旧的 phase/tick 事件在出队时自然 `drop`
+
+而不是去堆中扫描并删除所有关联事件。
+
+#### 场景 C：强制行为状态存在，但动作本身被禁用
+
+例如：
+
+- `taunt` 想强制普攻
+- 但角色同时被 `disarm`
+
+此时不应“从堆里找一个还能做的动作”，而应：
+
+- 保留 `ControlDirectiveInstance`
+- 失去自由行动权
+- 但强制普攻本身因为不合法而不执行
+
+也就是说：强制行为不绕过动作合法性检查。
+
+### 4.2.6 设计结论
+
+引入状态后，最小堆模型不需要改成“寻找可执行事件”的调度器，而是补两层语义：
+
+1. 同一时刻事件批处理
+2. 事件出队时基于当前状态二次判定
+
+因此统一原则是：
+
+- 不提前执行未来事件
+- 不扫描堆内挑选“唯一合法事件”
+- 只消费当前最早时刻事件
+- 不合法事件转为 `drop / cancel / transform`
+
+这能同时保证：
+
+- 时间顺序稳定
+- 状态影响即时生效
+- 执行链路可回放
+- 控制、打断、净化、强制行为都可复用同一事件队列模型
 
 ## 4.3 `TriggerIndex`
 
@@ -244,6 +431,7 @@ type InternalEvent =
   | { type: "execution_phase_finish"; executionId: string; phaseKey: string }
   | { type: "basic_attack_intent"; actorId: string; targetId: string }
   | { type: "basic_attack_hit"; actorId: string; targetId: string }
+  | { type: "intent_recheck"; actorId: string; cause: "status_expire" | "status_cleanse" | "directive_expire" | "cooldown_ready" | "resource_ready" }
   | { type: "damage_apply"; packet: DamagePacket }
   | { type: "heal_apply"; heal: HealPacket }
   | { type: "shield_apply"; shield: ShieldApplyRequest }
@@ -434,6 +622,131 @@ type InternalEvent =
 3. 标记 `state = cancelled`
 4. 根据 `cancelScheduledOnInterrupt` 取消未来事件
 5. 触发 `on_interrupt`
+
+## 8.5 控制结束后的即时动作恢复
+
+### 8.5.1 要解决的问题
+
+引入状态后，常见需求不是“控制结束时去堆里找一个未来事件”，而是：
+
+- 眩晕结束后立刻继续普攻
+- 根源解除后立刻移动
+- 嘲讽/恐惧结束后立刻恢复自由动作
+- 某个动作因为控制被挡下，但解除控制后应立刻重试
+
+如果只依赖最小堆而没有“意图缓冲”，会出现两个问题：
+
+1. 被挡下的动作直接消失，控制结束后角色不会自动继续动作
+2. 为了“立刻恢复动作”而提前把未来动作塞进堆，会让刷新、净化、韧性等时长变化变得难维护
+
+### 8.5.2 推荐机制
+
+推荐采用两层设计：
+
+1. `PendingIntent`
+2. `intent_recheck`
+
+语义分工：
+
+- `PendingIntent` 负责记录“我本来想做什么”
+- `intent_recheck` 负责在控制结束后重新判断“现在能不能立刻做”
+
+### 8.5.3 何时写入 `PendingIntent`
+
+当 `cast_intent / basic_attack_intent / move_intent` 被状态阻断时，不要只触发 `on_cast_blocked` 就结束，而要根据动作类型决定是否保留意图：
+
+- `basic_attack_intent`
+  - 若来源是自动普攻或持续攻击意图：写入 `PendingIntent(retry_on_release)`
+- `cast_intent`
+  - 默认 `drop`
+  - 若业务有“按下后等待解控立即释放”的技能，可显式配置为 `retry_on_release`
+- `move`
+  - 若存在“持续朝某方向/目标移动”的高层控制器，可转成 `PendingIntent`
+
+注意：
+
+- `taunt / fear / charm / berserk` 这类 directive 产生的强制动作，不应该和自由动作共用同一个优先级槽
+- 建议 `source = directive` 与 `source = player_plan / auto_controller` 分开处理
+
+### 8.5.4 何时触发 `intent_recheck`
+
+以下事件在成功更新 `RuntimeState` 后，都应考虑派生 `intent_recheck`：
+
+- `status_expire`
+- `status_cleanse`
+- `directive_expire`
+- 必要时 `cooldown_ready`
+- 必要时 `resource_ready`
+
+关键规则：
+
+- `intent_recheck` 的 `tMs` 应与“控制解除事件”相同
+- 但其 `priority` 必须低于 `status_expire / status_cleanse / directive_expire`
+- 同一 actor 在同一 `tMs` 最多只入队一个 `intent_recheck`，避免重复重试
+
+这样能保证：
+
+1. 先把控制状态真正移除
+2. 再在同一时刻重试动作
+3. 从用户视角看起来就是“控制一结束立刻接上动作”
+
+### 8.5.5 `intent_recheck` 的处理顺序
+
+`intent_recheck` 出队时，建议按以下顺序决策：
+
+1. 读取该 actor 的 `PendingIntent`
+2. 过滤已经超时、目标失效、技能已不存在等无效意图
+3. 重新做一次动作合法性检查
+4. 若合法：
+   - 立即派生新的 `basic_attack_intent / cast_intent / move_intent`
+   - `tMs = now`
+   - 消费掉对应 `PendingIntent`
+5. 若仍不合法：
+   - `retry_on_release`：保留，等待下一次相关解除事件
+   - `retry_until_timeout`：保留到超时
+   - `drop`：移除
+
+### 8.5.6 自动普攻的推荐做法
+
+对于“控制结束后立刻继续攻击”这个最常见场景，建议不要提前把下一次普攻写死进堆，而是：
+
+1. 用一个高层 `auto_controller` 维护“当前默认目标是 enemy”
+2. 当普攻因为控制被挡下时，写入：
+
+```ts
+PendingIntent {
+  kind: "basic_attack",
+  actorId,
+  targetId: enemyId,
+  source: "auto_controller",
+  retryPolicy: "retry_on_release"
+}
+```
+
+3. 当 `stun / root / taunt / fear` 等限制自由动作的效果结束时，派生 `intent_recheck`
+4. 若此时普攻合法，则同刻重新入队 `basic_attack_intent`
+
+这样：
+
+- 角色会在控制结束后立刻重新尝试普攻
+- 但不会因为控制期间的多次失败尝试而在堆里堆积大量旧普攻事件
+
+### 8.5.7 与最小堆模型的关系
+
+这个机制不会破坏最小堆模型，因为：
+
+- 不需要扫描整个堆找“唯一能执行事件”
+- 不需要提前安排“控制结束后必做动作”的固定未来事件
+- 只是在“控制解除的那个时刻”追加一个 `intent_recheck`
+
+因此整体仍然是：
+
+1. 控制解除事件先出队
+2. 更新状态
+3. 同刻派生 `intent_recheck`
+4. `intent_recheck` 再决定是否派生 `basic_attack_intent / cast_intent`
+
+这既满足“立刻恢复动作”，又保持事件流稳定、可复现、可回放
 
 ---
 

@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
+import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
@@ -34,6 +35,7 @@ public class PostgresReadStore {
     private final ImagesMapper imagesMapper;
     private final OwnerCategoriesMapper ownerCategoriesMapper;
     private final AttributeDefinitionsMapper attributeDefinitionsMapper;
+    private final CoefficientBucketsMapper coefficientBucketsMapper;
     private final TypesMapper typesMapper;
     private final TypeRelationsMapper typeRelationsMapper;
     private final HeroesMapper heroesMapper;
@@ -51,6 +53,7 @@ public class PostgresReadStore {
         ImagesMapper imagesMapper,
         OwnerCategoriesMapper ownerCategoriesMapper,
         AttributeDefinitionsMapper attributeDefinitionsMapper,
+        CoefficientBucketsMapper coefficientBucketsMapper,
         TypesMapper typesMapper,
         TypeRelationsMapper typeRelationsMapper,
         HeroesMapper heroesMapper,
@@ -67,6 +70,7 @@ public class PostgresReadStore {
         this.imagesMapper = imagesMapper;
         this.ownerCategoriesMapper = ownerCategoriesMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
+        this.coefficientBucketsMapper = coefficientBucketsMapper;
         this.typesMapper = typesMapper;
         this.typeRelationsMapper = typeRelationsMapper;
         this.heroesMapper = heroesMapper;
@@ -158,6 +162,16 @@ public class PostgresReadStore {
         return response;
     }
 
+    public ObjectNode getCoefficientBuckets(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode coefficientBuckets = response.putArray("coefficientBuckets");
+        for (Map<String, Object> row : coefficientBucketsMapper.listCoefficientBuckets(gameId)) {
+            coefficientBuckets.add(mapCoefficientBucketRow(row));
+        }
+        return response;
+    }
+
     public ObjectNode getStatusActionControlRules(String gameId) {
         ObjectNode response = objectMapper.createObjectNode();
         response.put("gameId", gameId);
@@ -182,6 +196,12 @@ public class PostgresReadStore {
             attributeDefinitions.add(mapAttributeDefinitionRow(row));
         }
         bundle.set("attributeDefinitions", attributeDefinitions);
+
+        ArrayNode coefficientBuckets = objectMapper.createArrayNode();
+        for (Map<String, Object> row : coefficientBucketsMapper.listCoefficientBuckets(gameId)) {
+            coefficientBuckets.add(mapCoefficientBucketRow(row));
+        }
+        bundle.set("coefficientBuckets", coefficientBuckets);
 
         ArrayNode types = objectMapper.createArrayNode();
         for (Map<String, Object> row : typesMapper.listTypes(gameId)) {
@@ -274,6 +294,13 @@ public class PostgresReadStore {
         return querySingleNode(
             formulaBindingsMapper.findFormulaBindingById(gameId, targetCategory, targetId, bindingKey),
             this::mapFormulaBindingRow
+        );
+    }
+
+    public ObjectNode loadCoefficientBucket(String gameId, String bucketKey) {
+        return querySingleNode(
+            coefficientBucketsMapper.findCoefficientBucketById(gameId, bucketKey),
+            this::mapCoefficientBucketRow
         );
     }
 
@@ -381,6 +408,30 @@ public class PostgresReadStore {
         node.put("bindingKey", text(row, "bindingKey"));
         node.put("formulaId", text(row, "formulaId"));
         putNullableJson(node, "overrideParams", text(row, "overrideParamsJson"));
+        return node;
+    }
+
+    private ObjectNode mapCoefficientBucketRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("bucketKey", text(row, "bucketKey"));
+        node.put("resolutionDomain", text(row, "resolutionDomain"));
+        node.put("stageKey", text(row, "stageKey"));
+        putNullableText(node, "targetAttrKey", text(row, "targetAttrKey"));
+        node.put("aggregationMode", text(row, "aggregationMode"));
+        Boolean provisional = booleanValue(row, "provisional");
+        if (provisional != null) {
+            node.put("provisional", provisional);
+        }
+        putNullableText(node, "name", text(row, "name"));
+        putNullableText(node, "description", text(row, "description"));
+        JsonNode editorHint = jsonSupport.parseJsonOrNull(text(row, "editorHintJson"), "/editorHint");
+        if (editorHint != null) {
+            node.set("editorHint", editorHint);
+        }
+        JsonNode bucketConfig = jsonSupport.parseJsonOrNull(text(row, "bucketConfigJson"), "/bucketConfig");
+        if (bucketConfig != null) {
+            node.set("bucketConfig", bucketConfig);
+        }
         return node;
     }
 
@@ -528,6 +579,17 @@ public class PostgresReadStore {
             return new BigDecimal(number.toString());
         }
         return new BigDecimal(value.toString());
+    }
+
+    private Boolean booleanValue(Map<String, Object> row, String key) {
+        Object value = value(row, key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Boolean bool) {
+            return bool;
+        }
+        return Boolean.parseBoolean(value.toString());
     }
 
     private Timestamp timestamp(Map<String, Object> row, String key) {

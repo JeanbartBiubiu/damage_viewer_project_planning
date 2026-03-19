@@ -200,6 +200,31 @@ public class GameDataService {
         return response;
     }
 
+    public ObjectNode listCoefficientBuckets(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getCoefficientBuckets(gameId);
+    }
+
+    public ObjectNode getCoefficientBucket(String gameId, String bucketKey) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadCoefficientBucket(gameId, bucketKey);
+        if (response == null) {
+            throw notFound("Coefficient bucket not found", Map.of("gameId", gameId, "bucketKey", bucketKey));
+        }
+        return response;
+    }
+
+    public ObjectNode upsertCoefficientBucket(String gameId, String bucketKey, ObjectNode body, boolean patch) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertCoefficientBucket(gameId, bucketKey, body, patch);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
     public ObjectNode listStatusActionControlRules(String gameId) {
         validateGameId(gameId);
         assertGameExists(gameId);
