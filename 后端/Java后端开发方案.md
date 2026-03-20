@@ -64,6 +64,9 @@
 - `PUT/PATCH /api/admin/games/{gameId}/attribute-definitions/{attrKey}`
 - `PUT/PATCH /api/admin/games/{gameId}/types/{typeId}`
 - `PUT/PATCH /api/admin/games/{gameId}/type-relations/{typeId}/{targetCategory}/{targetId}`
+- `GET /api/admin/games/{gameId}/coefficient-buckets`
+- `GET /api/admin/games/{gameId}/coefficient-buckets/{bucketKey}`
+- `PUT/PATCH /api/admin/games/{gameId}/coefficient-buckets/{bucketKey}`
 - `GET /api/admin/games/{gameId}/status-action-control-rules`
 - `GET /api/admin/games/{gameId}/status-action-control-rules/{ruleId}`
 - `PUT/PATCH /api/admin/games/{gameId}/status-action-control-rules/{ruleId}`
