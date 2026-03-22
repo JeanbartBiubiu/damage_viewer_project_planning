@@ -8,8 +8,17 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "app.auth.jwt")
 public class AdminJwtProperties {
 
+    private boolean disabled;
     private String es256PublicKeyPem;
     private Duration expLeeway = Duration.ofSeconds(30);
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 
     public String getEs256PublicKeyPem() {
         return es256PublicKeyPem;

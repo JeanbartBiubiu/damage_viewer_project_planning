@@ -99,6 +99,19 @@ class JwtVerifierTest {
         assertThrows(IllegalStateException.class, () -> new JwtVerifier(Clock.fixed(NOW, ZoneOffset.UTC), properties));
     }
 
+    @Test
+    void constructorAllowsMissingPublicKeyConfigWhenDisabled() {
+        AdminJwtProperties properties = new AdminJwtProperties();
+        properties.setDisabled(true);
+        properties.setExpLeeway(Duration.ZERO);
+
+        JwtVerifier disabledVerifier = new JwtVerifier(Clock.fixed(NOW, ZoneOffset.UTC), properties);
+
+        assertEquals("dev-local@example.com", disabledVerifier.verify("ignored").email());
+        assertEquals(true, disabledVerifier.verify("ignored").canEdit());
+        assertEquals(true, disabledVerifier.verify("ignored").paid());
+    }
+
     private String createEs256Token(Map<String, Object> payloadClaims) {
         return createEs256Token(payloadClaims, privateKey);
     }

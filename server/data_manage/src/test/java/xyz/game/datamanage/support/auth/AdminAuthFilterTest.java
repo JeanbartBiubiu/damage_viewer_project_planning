@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -95,6 +96,36 @@ class AdminAuthFilterTest {
 
         assertEquals(200, response.getStatus());
         assertNull(request.getAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR));
+        verify(filterChain).doFilter(any(), any());
+    }
+
+    @Test
+    void doFilterSkipsPreflightRequestsOnAdminRoutes() throws ServletException, IOException {
+        MockHttpServletRequest request = new MockHttpServletRequest("OPTIONS", "/api/admin/games/lol/versions");
+        request.addHeader(HttpHeaders.ORIGIN, "http://localhost:5173");
+        request.addHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        filter.doFilter(request, response, filterChain);
+
+        assertEquals(200, response.getStatus());
+        assertNull(request.getAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR));
+        verify(filterChain).doFilter(any(), any());
+    }
+
+    @Test
+    void doFilterBypassesAuthWhenVerifierIsDisabled() throws ServletException, IOException {
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/api/admin/games/lol/versions");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        AuthContext authContext = new AuthContext("dev-local@example.com", true, true);
+        when(jwtVerifier.isDisabled()).thenReturn(true);
+        when(jwtVerifier.developmentAuthContext()).thenReturn(authContext);
+
+        filter.doFilter(request, response, filterChain);
+
+        assertEquals(200, response.getStatus());
+        assertEquals(authContext, request.getAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR));
+        verify(jwtVerifier, never()).verify(any());
         verify(filterChain).doFilter(any(), any());
     }
 }
