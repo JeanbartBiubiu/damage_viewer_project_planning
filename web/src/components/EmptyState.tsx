@@ -1,3 +1,5 @@
+import { Empty, Typography } from '@arco-design/web-react';
+
 type EmptyStateProps = {
   title: string;
   description: string;
@@ -5,9 +7,15 @@ type EmptyStateProps = {
 
 export function EmptyState({ title, description }: EmptyStateProps) {
   return (
-    <div className="empty-state">
-      <p className="empty-state-title">{title}</p>
-      <p className="empty-state-description">{description}</p>
-    </div>
+    <Empty
+      description={
+        <div className="empty-copy">
+          <Typography.Title heading={5} className="empty-title">
+            {title}
+          </Typography.Title>
+          <Typography.Text className="empty-description">{description}</Typography.Text>
+        </div>
+      }
+    />
   );
 }

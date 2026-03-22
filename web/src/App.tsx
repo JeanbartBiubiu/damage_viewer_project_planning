@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Alert, Button, Form, Input, Layout, Select, Space, Tag, Typography } from '@arco-design/web-react';
 import { navigationItems, type RouteId } from './config/navigation';
 import { AdminPage } from './pages/AdminPage';
 import { ImagesPage } from './pages/ImagesPage';
@@ -11,10 +12,13 @@ import type { GameSummary, LoadState } from './types/api';
 const API_BASE_STORAGE_KEY = 'damage-viewer.web.api-base-url';
 const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
 
+const { Sider, Content } = Layout;
+
 function readStoredValue(key: string, fallback: string): string {
   if (typeof window === 'undefined') {
     return fallback;
   }
+
   return window.localStorage.getItem(key) ?? fallback;
 }
 
@@ -22,6 +26,7 @@ function readRouteFromHash(): RouteId {
   if (typeof window === 'undefined') {
     return 'overview';
   }
+
   const fragment = window.location.hash.replace(/^#\/?/, '').split('/')[0];
   const match = navigationItems.find((item) => item.id === fragment);
   return match?.id ?? 'overview';
@@ -31,13 +36,32 @@ function getGamesStatusLabel(status: LoadState): string {
   if (status === 'loading') {
     return '连接中';
   }
+
   if (status === 'success') {
-    return '已连通';
+    return '已连接';
   }
+
   if (status === 'error') {
-    return '失败';
+    return '错误';
   }
+
   return '待命';
+}
+
+function getGamesStatusColor(status: LoadState): string {
+  if (status === 'loading') {
+    return 'orange';
+  }
+
+  if (status === 'success') {
+    return 'green';
+  }
+
+  if (status === 'error') {
+    return 'red';
+  }
+
+  return 'gray';
 }
 
 export default function App() {
@@ -92,6 +116,7 @@ export default function App() {
           if (current && result.data.some((game) => game.gameId === current)) {
             return current;
           }
+
           return result.data[0]?.gameId ?? null;
         });
       } catch (error) {
@@ -156,107 +181,123 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="brand-block">
-          <div className="brand-mark">DV</div>
-          <div>
-            <p className="brand-eyebrow">Damage Viewer</p>
-            <h1 className="brand-title">Web Skeleton</h1>
-          </div>
+    <Layout className="app-shell">
+      <Sider className="app-sidebar" width={330}>
+        <div className="brand-lockup">
+          <Tag color="arcoblue" size="small">
+            Damage Viewer
+          </Tag>
+          <Typography.Title heading={3} className="brand-title">
+            Web 控制台
+          </Typography.Title>
+          <Typography.Text className="brand-copy">
+            围绕版本、Bundle、图片缓存和后端资源的工作台。
+          </Typography.Text>
         </div>
 
-        <p className="sidebar-copy">
-          先把发布 bundle、最小运行层和 MVP 场景页接起来，再继续向通用编辑器和真实 Wasm 二进制推进。
-        </p>
-
-        <nav className="nav-list" aria-label="Primary">
+        <nav className="nav-stack" aria-label="Primary">
           {navigationItems.map((item) => (
-            <a key={item.id} className={`nav-link${item.id === route ? ' active' : ''}`} href={`#/${item.id}`}>
-              <span className="nav-label">{item.label}</span>
-              <span className="nav-summary">{item.summary}</span>
+            <a key={item.id} className={`nav-item${item.id === route ? ' is-active' : ''}`} href={`#/${item.id}`}>
+              <span className="nav-item-label">{item.label}</span>
+              <span className="nav-item-summary">{item.summary}</span>
             </a>
           ))}
         </nav>
 
-        <div className="sidebar-card">
-          <p className="sidebar-card-title">当前连接</p>
-          <div className="sidebar-row">
-            <span className={`status-chip ${gamesStatus}`}>{getGamesStatusLabel(gamesStatus)}</span>
-            <span className="sidebar-value">{selectedGameName}</span>
+        <section className="sidebar-status">
+          <div className="sidebar-status-head">
+            <Typography.Text className="sidebar-status-kicker">当前连接</Typography.Text>
+            <Tag color={getGamesStatusColor(gamesStatus)}>{getGamesStatusLabel(gamesStatus)}</Tag>
           </div>
-          <p className="field-note">API: {apiBaseUrl}</p>
-          <p className="field-note">JWT: {adminToken.trim() ? '已保存到本地浏览器' : '未配置'}</p>
-          <p className="field-note">Games ETag: {gamesEtag ?? '尚未返回'}</p>
-        </div>
-      </aside>
-
-      <main className="app-main">
-        <section className="hero-banner">
-          <div className="hero-header">
-            <p className="hero-eyebrow">{activeRoute.label}</p>
-            <h2 className="hero-title">先把卡特琳娜最小闭环跑通，再往平台化扩展</h2>
-            <p className="hero-copy">{activeRoute.summary}</p>
-          </div>
-          <div className="hero-facts">
-            <span className="fact-chip">Games {games.length}</span>
-            <span className="fact-chip">当前 gameId {selectedGame?.gameId ?? 'none'}</span>
-            <span className="fact-chip">后台 JWT {adminToken.trim() ? 'ready' : 'empty'}</span>
-          </div>
+          <Typography.Title heading={5} className="sidebar-status-title">
+            {selectedGameName}
+          </Typography.Title>
+          <Typography.Text className="sidebar-status-line">API {apiBaseUrl}</Typography.Text>
+          <Typography.Text className="sidebar-status-line">GameId {selectedGame?.gameId ?? '未选择'}</Typography.Text>
+          <Typography.Text className="sidebar-status-line">
+            JWT {adminToken.trim() ? '已保存到本地浏览器' : '未配置'}
+          </Typography.Text>
+          <Typography.Text className="sidebar-status-line">ETag {gamesEtag ?? '暂无'}</Typography.Text>
         </section>
+      </Sider>
 
-        <section className="toolbar">
-          <div className="toolbar-grid">
-            <label className="field field-wide">
-              <span className="field-label">API 基址</span>
-              <input
-                className="text-input"
-                value={apiBaseDraft}
-                onChange={(event) => setApiBaseDraft(event.target.value)}
-                placeholder="http://localhost:8080"
-              />
-            </label>
+      <Layout className="app-content">
+        <Content className="app-main">
+          <section className="workspace-hero">
+            <div className="workspace-hero-copy">
+              <Space align="center" size={10} wrap>
+                <Tag color="arcoblue">{activeRoute.label}</Tag>
+                <Typography.Text className="workspace-rail">当前模块 / {route}</Typography.Text>
+              </Space>
+              <Typography.Title heading={2} className="workspace-title">
+                Damage Viewer 前端
+              </Typography.Title>
+              <Typography.Text className="workspace-summary">{activeRoute.summary}</Typography.Text>
+            </div>
 
-            <label className="field">
-              <span className="field-label">当前 gameId</span>
-              <select
-                className="select-input"
-                value={selectedGameId ?? ''}
-                onChange={(event) => setSelectedGameId(event.target.value || null)}
-                disabled={games.length === 0}
-              >
-                <option value="">未选择</option>
-                {games.map((game) => (
-                  <option key={game.gameId} value={game.gameId}>
-                    {game.gameId} / {game.gameName}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+            <div className="workspace-hero-stats" aria-label="Workspace summary">
+              <div className="workspace-stat">
+                <span className="workspace-stat-label">Games</span>
+                <strong className="workspace-stat-value">{games.length}</strong>
+                <span className="workspace-stat-hint">可用 game 列表</span>
+              </div>
+              <div className="workspace-stat">
+                <span className="workspace-stat-label">Selected</span>
+                <strong className="workspace-stat-value">{selectedGame?.gameId ?? 'none'}</strong>
+                <span className="workspace-stat-hint">当前上下文</span>
+              </div>
+              <div className="workspace-stat">
+                <span className="workspace-stat-label">Status</span>
+                <strong className="workspace-stat-value">{getGamesStatusLabel(gamesStatus)}</strong>
+                <span className="workspace-stat-hint">API / games</span>
+              </div>
+            </div>
+          </section>
 
-          <div className="toolbar-actions">
-            <button
-              className="button secondary"
-              type="button"
-              onClick={() => {
-                const nextValue = resolveApiBaseUrl(apiBaseDraft);
-                setApiBaseDraft(nextValue);
-                setApiBaseUrl(nextValue);
-              }}
-            >
-              应用地址
-            </button>
-            <button className="button" type="button" onClick={() => setReloadSeed((value) => value + 1)}>
-              刷新游戏列表
-            </button>
-          </div>
-        </section>
+          <section className="workspace-controls">
+            <Form layout="vertical" className="toolbar-form">
+              <div className="toolbar-grid">
+                <Form.Item label="API 基址" className="toolbar-field">
+                  <Input value={apiBaseDraft} onChange={setApiBaseDraft} placeholder="http://localhost:8080" />
+                </Form.Item>
+                <Form.Item label="当前 gameId" className="toolbar-field">
+                  <Select
+                    value={selectedGameId ?? ''}
+                    onChange={(value) => setSelectedGameId(value || null)}
+                    disabled={games.length === 0}
+                    placeholder="选择游戏"
+                  >
+                    <Select.Option value="">未选择</Select.Option>
+                    {games.map((game) => (
+                      <Select.Option key={game.gameId} value={game.gameId}>
+                        {game.gameId} / {game.gameName}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
 
-        {gamesError ? <div className="notice notice-error">{gamesError}</div> : null}
+              <Space className="toolbar-actions" wrap>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    const nextValue = resolveApiBaseUrl(apiBaseDraft);
+                    setApiBaseDraft(nextValue);
+                    setApiBaseUrl(nextValue);
+                  }}
+                >
+                  应用地址
+                </Button>
+                <Button onClick={() => setReloadSeed((value) => value + 1)}>刷新游戏列表</Button>
+              </Space>
+            </Form>
+          </section>
 
-        <div className="page-stack">{pageContent}</div>
-      </main>
-    </div>
+          {gamesError ? <Alert type="error" content={gamesError} className="workspace-alert" /> : null}
+
+          <div className="page-stack">{pageContent}</div>
+        </Content>
+      </Layout>
+    </Layout>
   );
 }
