@@ -1,189 +1,509 @@
 {
-    "破败王者之刃": {
-        "name": "雾之锋",
-        "type": "passive",
-        "triggerType": "attack",
-        "triggerTime": "before",
-        "param": {
-            "shanghai": {
-                "t": "type.profession",
-                "v": {
-                    "近战": "0.12",
-                    "远程": "0.1"
-                },
-                "a": "target.currentHp"
-            }
-        },
-        "effective": [
-            {
-                "object": "target",
-                "type": "物理伤害",
-                "公式": "shanghai"
-            }
-        ]
-    },
-    "纳什之牙": {
-        "name": "艾卡西亚之咬",
-        "type": "passive",
-        "triggerType": "attack",
-        "triggerTime": "before",
-        "param": {
-            "shanghai1": {
-                "v": 15
+  "schemaVersion": 2,
+  "standard": "mvp_skill_v2",
+  "ownerType": "item",
+  "skills": [
+    {
+      "skillId": "item_破败王者之刃_passive_1",
+      "ownerType": "item",
+      "ownerId": "破败王者之刃",
+      "skillKey": "passive_1",
+      "name": "雾之锋",
+      "description": "普攻命中时附带基于目标当前生命值的物理伤害。",
+      "resourceCosts": [],
+      "cooldowns": [],
+      "params": {
+        "vars": {
+          "current_hp_bonus_damage": {
+            "label": "当前生命值附伤",
+            "kind": "mapping_scaled_attr",
+            "selector": "self.profession",
+            "values": {
+              "近战": 0.12,
+              "远程": 0.1
             },
-            "shanghai2": {
-                "v": 0.15,
-                "a": "法强"
-            }
-        },
-        "effective": [
-            {
-                "object": "target",
-                "attribute": "魔法伤害",
-                "公式": "shanghai1+shanghai2"
-            }
-        ]
-    },
-    "育恩塔尔荒野剑": {
-        "name": "疾风骤雨",
-        "type": "passive",
-        "triggerType": "attack",
-        "triggerTime": "before",
-        "cd": "30s",
-        "param": {
-            "gongsu": {
-                "v": 0.3,
-                "a": "atkSpeed"
+            "attr": "target.hp_current"
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "on_hit_bonus_damage",
+            "event": {
+              "type": "on_basic_attack_hit"
             },
-            "jiancd": {
-                "v": -1,
-                "a": "second",
-                "暴击": {
-                    "可暴击": true,
-                    "倍率": "2"
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "physical",
+                  "formulaText": "current_hp_bonus_damage",
+                  "formulaVars": [
+                    "current_hp_bonus_damage"
+                  ]
                 }
-            }
-        },
-        "effective": [
-            {
-                "object": "self",
-                "attribute": "modify",
-                "公式": "gongsu",
-                "time": "6s"
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "isOnHitEffect": true
+        }
+      },
+      "notes": [
+        "野怪和小兵的伤害上限等额外规则暂未写入本最小验证数据。"
+      ]
+    },
+    {
+      "skillId": "item_纳什之牙_passive_1",
+      "ownerType": "item",
+      "ownerId": "纳什之牙",
+      "skillKey": "passive_1",
+      "name": "艾卡西亚之咬",
+      "description": "普攻命中时附带固定值加法强系数的魔法伤害。",
+      "resourceCosts": [],
+      "cooldowns": [],
+      "params": {
+        "vars": {
+          "base_magic_damage": {
+            "label": "基础魔法伤害",
+            "kind": "const",
+            "value": 15
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.15
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "on_hit_magic_damage",
+            "event": {
+              "type": "on_basic_attack_hit"
             },
-            {
-                "object": "self.疾风骤雨.cd",
-                "attribute": "cd",
-                "公式": "jiancd"
-            }
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_magic_damage + ap_damage",
+                  "formulaVars": [
+                    "base_magic_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
         ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "isOnHitEffect": true
+        }
+      },
+      "notes": []
     },
-    "兰德里的折磨1": {
-        "name": "折磨",
-        "type": "passive",
-        "triggerType": "skill",
-        "triggerTime": "after",
-        "param": {
-            "shanghai": {
-                "v": 0.02,
-                "a": "target.totalHp"
-            }
-        },
-        "effective": [
-            {
-                "object": "target",
-                "attribute": "damage",
-                "公式": "shanghai",
-                "time": "3s(频次默认按1s算)"
-            }
-        ]
-    },
-    "兰德里的折磨2": {
-        "name": "受苦",
-        "type": "passive",
-        "triggerType": "battleStart",
-        "triggerTime": "after",
-        "param": {
-            "xishu": {
-                "v": 0.02
+    {
+      "skillId": "item_育恩塔尔荒野剑_passive_1",
+      "ownerType": "item",
+      "ownerId": "育恩塔尔荒野剑",
+      "skillKey": "passive_1",
+      "name": "疾风骤雨",
+      "description": "普攻触发后获得短时攻速增益，并与该被动自身冷却产生交互。",
+      "resourceCosts": [],
+      "cooldowns": [
+        {
+          "kind": "const",
+          "value": 30
+        }
+      ],
+      "params": {
+        "vars": {
+          "attack_speed_ratio_bonus": {
+            "label": "攻速加成比例",
+            "kind": "const",
+            "value": 0.3
+          },
+          "cooldown_delta_seconds": {
+            "label": "冷却变化秒数",
+            "kind": "const",
+            "value": -1
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "grant_attack_speed_buff",
+            "event": {
+              "type": "on_basic_attack_hit"
             },
-            "system.battleTime": {
-                "max": "3"
-            }
-        },
-        "effective": [
-            {
-                "object": "self",
-                "attribute": "xishu",
-                "公式": "xishu*system.battlme",
-                "time": "5s(wiki没写，需要自己测试下)"
-            }
+            "actions": [
+              {
+                "type": "apply_modifier",
+                "modifier": {
+                  "target": "self",
+                  "durationMs": 6000,
+                  "stats": [
+                    {
+                      "key": "attack_speed_ratio",
+                      "op": "add",
+                      "formulaText": "attack_speed_ratio_bonus",
+                      "formulaVars": [
+                        "attack_speed_ratio_bonus"
+                      ]
+                    }
+                  ],
+                  "stacking": {
+                    "mode": "refresh"
+                  }
+                }
+              }
+            ]
+          }
         ]
+      },
+      "mvpExtensions": {
+        "cooldownInteraction": {
+          "target": "self",
+          "formulaText": "cooldown_delta_seconds",
+          "formulaVars": [
+            "cooldown_delta_seconds"
+          ],
+          "canCrit": true,
+          "critMultiplier": 2
+        }
+      },
+      "notes": [
+        "原始数据里的冷却交互尚未能直接映射到现有 ActionNode，因此先保留在 mvpExtensions。",
+        "暴击翻倍的 cd 交互也暂时放在扩展层。"
+      ]
     },
-    "鬼索的狂暴之刃1": {
-        "name": "怨怒",
-        "type": "passive",
-        "triggerType": "attack",
-        "triggerTime": "before",
-        "param": {
-            "shanghai": {
-                "v": 30
-            }
-        },
-        "effective": [
-            {
-                "object": "target",
-                "attribute": "damage",
-                "公式": "shanghai"
-            }
-        ]
-    },
-    "鬼索的狂暴之刃2": {
-        "name": "沸腾打击",
-        "type": "passive",
-        "triggerType": "",
-        "triggerTime": "before",
-        "param": {
-            "攻速加成": {
-                "t": "",
-                "v": "0.08",
-                "a": "attackSpeed"
+    {
+      "skillId": "item_兰德里的折磨_passive_1",
+      "ownerType": "item",
+      "ownerId": "兰德里的折磨",
+      "skillKey": "passive_1",
+      "name": "折磨",
+      "description": "技能伤害命中后给目标施加持续 3 秒的灼烧伤害。",
+      "resourceCosts": [],
+      "cooldowns": [],
+      "params": {
+        "vars": {
+          "burn_damage_per_tick": {
+            "label": "每跳灼烧伤害",
+            "kind": "scaled_attr",
+            "attr": "target.hp_max",
+            "coefficient": 0.02
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "schedule_burn_ticks",
+            "event": {
+              "type": "on_damage_dealt"
             },
-            "攻速层数计数器": {
-                "t": "计数器",
-                "defaultV": 0,
+            "conditions": "context.damageTags contains 'spell'",
+            "actions": [
+              {
+                "type": "schedule_tick",
+                "tickKey": "liandry_torment_tick",
+                "everyMs": 250,
+                "times": 3
+              }
+            ]
+          },
+          {
+            "id": "burn_tick_damage",
+            "event": {
+              "type": "on_tick",
+              "tickKey": "liandry_torment_tick"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "burn_damage_per_tick",
+                  "formulaVars": [
+                    "burn_damage_per_tick"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "tickBinding": {
+          "perTarget": true
+        }
+      },
+      "notes": [
+        "原始数据里只写了 3 秒持续时间，这里按默认 0.25 秒 1 跳展开。"
+      ]
+    },
+    {
+      "skillId": "item_兰德里的折磨_passive_2",
+      "ownerType": "item",
+      "ownerId": "兰德里的折磨",
+      "skillKey": "passive_2",
+      "name": "受苦",
+      "description": "战斗开始后提供随战斗时间增长的伤害增幅，原始数据仍有公式和持续时间待确认。",
+      "resourceCosts": [],
+      "cooldowns": [],
+      "params": {
+        "vars": {
+          "suffering_ratio": {
+            "label": "每秒系数",
+            "kind": "const",
+            "value": 0.02
+          },
+          "capped_battle_time": {
+            "label": "封顶战斗时间",
+            "kind": "formula",
+            "formulaText": "min(system.battle_time_seconds, 3)"
+          },
+          "damage_amp": {
+            "label": "伤害增幅",
+            "kind": "formula",
+            "formulaText": "suffering_ratio * capped_battle_time",
+            "formulaVars": [
+              "suffering_ratio",
+              "capped_battle_time"
+            ]
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": []
+      },
+      "mvpExtensions": {
+        "unsupportedTrigger": {
+          "event": "battle_start"
+        },
+        "pendingModifier": {
+          "target": "self",
+          "durationMs": 5000,
+          "stats": [
+            {
+              "key": "damage_amp",
+              "op": "add",
+              "formulaText": "damage_amp",
+              "formulaVars": [
+                "damage_amp"
+              ]
+            }
+          ]
+        }
+      },
+      "notes": [
+        "原始数据里的 system.battlme 明显是 battleTime 拼写错误，这里已修正为 battle_time_seconds。",
+        "battleStart 触发和 5 秒持续时间目前还没有正式进 DSL，因此暂存在扩展区。"
+      ]
+    },
+    {
+      "skillId": "item_鬼索的狂暴之刃_passive_1",
+      "ownerType": "item",
+      "ownerId": "鬼索的狂暴之刃",
+      "skillKey": "passive_1",
+      "name": "怨怒",
+      "description": "普攻命中时附带固定值魔法伤害。",
+      "resourceCosts": [],
+      "cooldowns": [],
+      "params": {
+        "vars": {
+          "base_magic_damage": {
+            "label": "基础魔法伤害",
+            "kind": "const",
+            "value": 30
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "on_hit_magic_damage",
+            "event": {
+              "type": "on_basic_attack_hit"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_magic_damage",
+                  "formulaVars": [
+                    "base_magic_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "isOnHitEffect": true
+        }
+      },
+      "notes": []
+    },
+    {
+      "skillId": "item_鬼索的狂暴之刃_passive_2",
+      "ownerType": "item",
+      "ownerId": "鬼索的狂暴之刃",
+      "skillKey": "passive_2",
+      "name": "沸腾打击",
+      "description": "普攻叠加攻速层数，满层后每第三次触发额外攻击特效。",
+      "resourceCosts": [],
+      "cooldowns": [],
+      "params": {
+        "vars": {
+          "attack_speed_ratio_per_stack": {
+            "label": "每层攻速加成比例",
+            "kind": "const",
+            "value": 0.08
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "stacks": [
+          {
+            "id": "rageblade_as_stack",
+            "name": "攻速层数",
+            "max": 4
+          },
+          {
+            "id": "rageblade_phantom_stack",
+            "name": "幻影计数",
+            "max": 3
+          }
+        ],
+        "triggers": [
+          {
+            "id": "hit_add_as_stack",
+            "event": {
+              "type": "on_basic_attack_hit"
+            },
+            "actions": [
+              {
+                "type": "add_stack",
+                "stackId": "rageblade_as_stack",
+                "amount": 1,
                 "max": 4
+              }
+            ]
+          },
+          {
+            "id": "sync_attack_speed_bonus",
+            "event": {
+              "type": "on_stack_change",
+              "stackId": "rageblade_as_stack"
             },
-            "幻影": {
-                "t": "计数器",
-                "defaultV": 0,
+            "actions": [
+              {
+                "type": "apply_modifier",
+                "modifier": {
+                  "target": "self",
+                  "stats": [
+                    {
+                      "key": "attack_speed_ratio",
+                      "op": "add",
+                      "formulaText": "attack_speed_ratio_per_stack * rageblade_as_stack",
+                      "formulaVars": [
+                        "attack_speed_ratio_per_stack"
+                      ]
+                    }
+                  ],
+                  "stacking": {
+                    "mode": "refresh"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "full_stack_add_phantom",
+            "event": {
+              "type": "on_basic_attack_hit"
+            },
+            "conditions": "rageblade_as_stack == 4",
+            "actions": [
+              {
+                "type": "add_stack",
+                "stackId": "rageblade_phantom_stack",
+                "amount": 1,
                 "max": 3
-            }
-        },
-        "effective": [
-            {
-                "object": "计数器",
-                "attribute": "攻速层数计数器",
-                "公式": "+1"
-            },
-            {
-                "object": "计数器",
-				"condition": "攻速层数计数器=4",
-                "attribute": "幻影",
-                "公式": "+1"
-            },
-            {
-                "object": "self",
-                "attribute": "modify",
-                "公式": "攻速加成*攻速层数计数器"
-            },
-            {
-                "object": "target",
-                "condition": "幻影.计数器=3",
-                "attribute": "special",
-                "公式": "攻击特效do 2次;计数器的值清0"
-            }
+              }
+            ]
+          }
         ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "bonusOnHitCountWhen": "rageblade_phantom_stack == 3",
+          "bonusOnHitCount": 2,
+          "consumeOnHit": true,
+          "resetStacksAfterTrigger": [
+            "rageblade_phantom_stack"
+          ]
+        }
+      },
+      "notes": [
+        "额外攻击特效次数属于现阶段还没正式入 DSL 的能力，因此保留在 mvpExtensions。",
+        "攻速层数超时和每第三击的精确结算时机后续可继续细化。"
+      ]
     }
-}
+  ],
+  "notes": [
+    "本文件按 mvp_skill_v2 结构重写，并修复了原文件结尾多余的右大括号。",
+    "部分当前 DSL 尚未正式承载的能力先保存在 mvpExtensions。"
+  ]
 }
