@@ -36,6 +36,8 @@ class GamePartitionCleanupMainTest {
         String text = output.toString(StandardCharsets.UTF_8);
         assertTrue(text.contains("DRY-RUN mode enabled"));
         assertTrue(text.contains("DROP TABLE IF EXISTS public.heroes_it_20260226_1234 CASCADE;"));
+        assertTrue(text.contains("DROP TABLE IF EXISTS public.formula_profiles_it_20260226_1234 CASCADE;"));
+        assertTrue(text.contains("DROP TABLE IF EXISTS public.formula_bindings_log_it_20260226_1234 CASCADE;"));
         assertTrue(text.contains("DELETE FROM public.games WHERE game_id = 'it_20260226_1234';"));
     }
 }

@@ -27,5 +27,6 @@ app:
     fail-fast: false
   auth:
     jwt:
+      disabled: ${APP_AUTH_JWT_DISABLED:false}
       es256-public-key-pem: ${IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM:}
       exp-leeway: ${IT_ADMIN_JWT_EXP_LEEWAY:30s}

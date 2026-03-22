@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { navigationItems, type RouteId } from './config/navigation';
 import { AdminPage } from './pages/AdminPage';
 import { ImagesPage } from './pages/ImagesPage';
+import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { WorkspacePage } from './pages/WorkspacePage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
@@ -14,7 +15,6 @@ function readStoredValue(key: string, fallback: string): string {
   if (typeof window === 'undefined') {
     return fallback;
   }
-
   return window.localStorage.getItem(key) ?? fallback;
 }
 
@@ -22,7 +22,6 @@ function readRouteFromHash(): RouteId {
   if (typeof window === 'undefined') {
     return 'overview';
   }
-
   const fragment = window.location.hash.replace(/^#\/?/, '').split('/')[0];
   const match = navigationItems.find((item) => item.id === fragment);
   return match?.id ?? 'overview';
@@ -32,15 +31,12 @@ function getGamesStatusLabel(status: LoadState): string {
   if (status === 'loading') {
     return '连接中';
   }
-
   if (status === 'success') {
     return '已连通';
   }
-
   if (status === 'error') {
     return '失败';
   }
-
   return '待命';
 }
 
@@ -96,7 +92,6 @@ export default function App() {
           if (current && result.data.some((game) => game.gameId === current)) {
             return current;
           }
-
           return result.data[0]?.gameId ?? null;
         });
       } catch (error) {
@@ -120,6 +115,7 @@ export default function App() {
   }, [apiBaseUrl, reloadSeed]);
 
   const selectedGame = games.find((game) => game.gameId === selectedGameId) ?? null;
+  const selectedGameName = selectedGame?.gameName ?? '未选择游戏';
   const activeRoute = navigationItems.find((item) => item.id === route) ?? navigationItems[0];
 
   let pageContent = (
@@ -134,36 +130,29 @@ export default function App() {
     />
   );
 
-  if (route === 'workspace') {
-    pageContent = (
-      <WorkspacePage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        selectedGameName={selectedGame?.gameName ?? '未选择游戏'}
-      />
-    );
-  }
-
-  if (route === 'images') {
-    pageContent = (
-      <ImagesPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        selectedGameName={selectedGame?.gameName ?? '未选择游戏'}
-      />
-    );
-  }
-
-  if (route === 'admin') {
-    pageContent = (
-      <AdminPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        selectedGameName={selectedGame?.gameName ?? '未选择游戏'}
-        adminToken={adminToken}
-        onAdminTokenChange={setAdminToken}
-      />
-    );
+  switch (route) {
+    case 'workspace':
+      pageContent = <WorkspacePage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
+      break;
+    case 'katarina-mvp':
+      pageContent = <KatarinaMvpPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
+      break;
+    case 'images':
+      pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
+      break;
+    case 'admin':
+      pageContent = (
+        <AdminPage
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          selectedGameName={selectedGameName}
+          adminToken={adminToken}
+          onAdminTokenChange={setAdminToken}
+        />
+      );
+      break;
+    default:
+      break;
   }
 
   return (
@@ -178,16 +167,12 @@ export default function App() {
         </div>
 
         <p className="sidebar-copy">
-          先把读路径、图片缓存和后台入口立起来，后面再往里接 WASM、编辑器和更细的实体表单。
+          先把发布 bundle、最小运行层和 MVP 场景页接起来，再继续向通用编辑器和真实 Wasm 二进制推进。
         </p>
 
         <nav className="nav-list" aria-label="Primary">
           {navigationItems.map((item) => (
-            <a
-              key={item.id}
-              className={`nav-link${item.id === route ? ' active' : ''}`}
-              href={`#/${item.id}`}
-            >
+            <a key={item.id} className={`nav-link${item.id === route ? ' active' : ''}`} href={`#/${item.id}`}>
               <span className="nav-label">{item.label}</span>
               <span className="nav-summary">{item.summary}</span>
             </a>
@@ -195,14 +180,14 @@ export default function App() {
         </nav>
 
         <div className="sidebar-card">
-          <p className="sidebar-card-title">当前连线</p>
+          <p className="sidebar-card-title">当前连接</p>
           <div className="sidebar-row">
             <span className={`status-chip ${gamesStatus}`}>{getGamesStatusLabel(gamesStatus)}</span>
-            <span className="sidebar-value">{selectedGame?.gameName ?? '未连接游戏'}</span>
+            <span className="sidebar-value">{selectedGameName}</span>
           </div>
-          <p className="field-note">API：{apiBaseUrl}</p>
-          <p className="field-note">JWT：{adminToken.trim() ? '已保存到本地浏览器' : '未配置'}</p>
-          <p className="field-note">Games ETag：{gamesEtag ?? '尚未返回'}</p>
+          <p className="field-note">API: {apiBaseUrl}</p>
+          <p className="field-note">JWT: {adminToken.trim() ? '已保存到本地浏览器' : '未配置'}</p>
+          <p className="field-note">Games ETag: {gamesEtag ?? '尚未返回'}</p>
         </div>
       </aside>
 
@@ -210,12 +195,12 @@ export default function App() {
         <section className="hero-banner">
           <div className="hero-header">
             <p className="hero-eyebrow">{activeRoute.label}</p>
-            <h2 className="hero-title">以现有接口为锚点，把 Web 壳先搭到可演示状态</h2>
+            <h2 className="hero-title">先把卡特琳娜最小闭环跑通，再往平台化扩展</h2>
             <p className="hero-copy">{activeRoute.summary}</p>
           </div>
           <div className="hero-facts">
             <span className="fact-chip">Games {games.length}</span>
-            <span className="fact-chip">当前游戏 {selectedGame?.gameId ?? 'none'}</span>
+            <span className="fact-chip">当前 gameId {selectedGame?.gameId ?? 'none'}</span>
             <span className="fact-chip">后台 JWT {adminToken.trim() ? 'ready' : 'empty'}</span>
           </div>
         </section>
