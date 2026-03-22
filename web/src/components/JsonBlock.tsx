@@ -3,5 +3,7 @@ type JsonBlockProps = {
 };
 
 export function JsonBlock({ value }: JsonBlockProps) {
-  return <pre className="json-block">{JSON.stringify(value, null, 2)}</pre>;
+  return (
+    <pre className="json-shell">{JSON.stringify(value, null, 2)}</pre>
+  );
 }

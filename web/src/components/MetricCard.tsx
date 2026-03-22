@@ -1,3 +1,5 @@
+import { Typography } from '@arco-design/web-react';
+
 type MetricCardProps = {
   label: string;
   value: string;
@@ -6,10 +8,12 @@ type MetricCardProps = {
 
 export function MetricCard({ label, value, hint }: MetricCardProps) {
   return (
-    <article className="metric-card">
-      <p className="metric-label">{label}</p>
-      <p className="metric-value">{value}</p>
-      {hint ? <p className="metric-hint">{hint}</p> : null}
+    <article className="metric-tile">
+      <Typography.Text className="metric-label">{label}</Typography.Text>
+      <Typography.Title heading={4} className="metric-value">
+        {value}
+      </Typography.Title>
+      {hint ? <Typography.Paragraph className="metric-hint">{hint}</Typography.Paragraph> : null}
     </article>
   );
 }
