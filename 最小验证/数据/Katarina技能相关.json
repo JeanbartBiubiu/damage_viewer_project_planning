@@ -1,311 +1,644 @@
 {
-    "type": "champion",
-    "format": "standAloneComplex",
-    "version": "14.14.1",
-    "data": {
-        "Katarina": {
-            "id": "Katarina",
-            "key": "55",
-            "name": "不祥之刃",
-            "title": "卡特琳娜",
-            "spells": [
-                {
-                    "skill_key": "普通攻击",
-                    "name": "普通攻击",
-                    "param": {},
-                    "消耗": "0",
-                    "cd": [
-                        "1/当前攻速"
-                    ],
-                    "effection": [
-                        {
-                            "type": "可消耗攻击特效"
-                        }
-                    ]
-                },
-                {
-                    "skill_key": "被动",
-                    "name": "贪婪",
-                    "param": {
-                        "被动魔法伤害": {
-                            "d": "level",
-                            "v": [
-                                68,
-                                72,
-                                77,
-                                82,
-                                89,
-                                96,
-                                103,
-                                112,
-                                121,
-                                131,
-                                142,
-                                154,
-                                166,
-                                180,
-                                194,
-                                208,
-                                224,
-                                240,
-                                257,
-                                275
-                            ]
-                        },
-                        "被动物理加成": {
-                            "d": "",
-                            "v": [
-                                0.6
-                            ],
-                            "a": [
-                                "额外攻击力"
-                            ]
-                        },
-                        "被动法强加成": {
-                            "d": "level",
-                            "v": [
-                                0.7,
-                                0.7,
-                                0.7,
-                                0.7,
-                                0.7,
-                                0.8,
-                                0.8,
-                                0.8,
-                                0.8,
-                                0.8,
-                                0.9,
-                                0.9,
-                                0.9,
-                                0.9,
-                                0.9,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
-                            ],
-                            "a": [
-                                "法术强度"
-                            ]
-                        },
-                        "skillLevel": []
-                    },
-                    "消耗": "0",
-                    "cd": [],
-                    "effection": [
-                        {
-                            "触发方式": "Q技能或者W技能释放1秒后自动触发"
-                        },
-                        {
-                            "type": "造成魔法伤害",
-                            "公式": "被动魔法伤害+被动物理加成+被动法强加成"
-                        },
-                        {
-                            "type": "可消耗攻击特效"
-                        }
-                    ]
-                },
-                {
-                    "skill_key": "主动技能",
-                    "name": "弹射之刃",
-                    "param": {
-                        "基础伤害": {
-                            "d": "skill",
-                            "v": [
-                                80,
-                                115,
-                                150,
-                                185,
-                                220
-                            ]
-                        },
-                        "法强加成": {
-                            "d": "",
-                            "v": [
-                                0.4
-                            ],
-                            "a": [
-                                "法术强度"
-                            ]
-                        }
-                    },
-                    "消耗": "0",
-                    "cd": [
-                        11,
-                        10,
-                        9,
-                        8,
-                        7
-                    ],
-                    "延迟读条": "0.2s",
-                    "effection": [
-                        {
-                            "type": "造成魔法伤害",
-                            "公式": "基础伤害+法术加成"
-                        }
-                    ]
-                },
-                {
-                    "skill_key": "主动技能",
-                    "name": "伺机待发",
-                    "param": {
-                        "移动加成": {
-                            "d": "skill",
-                            "v": [
-                                0.5,
-                                0.6,
-                                0.7,
-                                0.8,
-                                0.9
-                            ],
-                            "a": [
-                                "基础移动速度"
-                            ]
-                        }
-                    },
-                    "消耗": "0",
-                    "cd": [
-                        15,
-                        14,
-                        13,
-                        12,
-                        11
-                    ],
-                    "延迟读条": "",
-                    "effection": [
-                        {
-                            "type": "移动速度增加",
-                            "公式": "移动加成",
-                            "持续时间": "1.25s",
-                            "其他": "会衰减(这个可以后面再做)"
-                        }
-                    ]
-                },
-                {
-                    "skill_key": "主动技能",
-                    "name": "瞬步",
-                    "param": {
-                        "基础伤害": {
-                            "d": "skill",
-                            "v": [
-                                20,
-                                30,
-                                40,
-                                50,
-                                60
-                            ],
-                            "a": [
-                                ""
-                            ]
-                        },
-                        "物理加成": {
-                            "d": "",
-                            "v": [
-                                0.4
-                            ],
-                            "a": [
-                                "当前攻击力"
-                            ]
-                        },
-                        "法术加成": {
-                            "d": "",
-                            "v": [
-                                0.25
-                            ],
-                            "a": [
-                                "法术强度"
-                            ]
-                        }
-                    },
-                    "消耗": "0",
-                    "cd": [
-                        12,
-                        11,
-                        10,
-                        9,
-                        8
-                    ],
-                    "延迟读条": "",
-                    "后摇": "0.1s",
-                    "effection": [
-                        {
-                            "type": "伤害",
-                            "公式": "基础伤害+物理加成+法术加成"
-                        },
-                        {
-                            "type": "可触发攻击特效"
-                        },
-                        {
-                            "type": "可重置普通攻击计时器"
-                        }
-                    ]
-                },
-                {
-                    "skill_key": "主动技能",
-                    "name": "死亡莲华",
-                    "param": {
-                        "基础伤害": {
-                            "d": "skill",
-                            "v": [
-                                25,
-                                37.5,
-                                50
-                            ],
-                            "a": [
-                                ""
-                            ]
-                        },
-                        "物理加成": {
-                            "d": "",
-                            "v": [
-                                0.16
-                            ],
-                            "a": [
-                                "当前攻击力"
-                            ]
-                        },
-                        "法术加成": {
-                            "d": "",
-                            "v": [
-                                0.19
-                            ],
-                            "a": [
-                                "法术强度"
-                            ]
-                        },
-                        "攻击特效系数": {
-                            "d": "skill",
-                            "v": [
-                                0.25,
-                                0.3,
-                                0.35
-                            ]
-                        }
-                    },
-                    "消耗": "0",
-                    "cd": [
-                        75,
-                        60,
-                        45
-                    ],
-                    "延迟读条": "",
-                    "后摇": "2.5s",
-                    "effection": [
-                        {
-                            "type": "伤害",
-                            "公式": "基础伤害+物理加成*(1+额外攻速*0.5)+法术加成"
-                        },
-                        {
-                            "type": "可触发攻击特效",
-                            "公式": "v*攻击特效系数"
-                        },
-                        {
-                            "type": "2.5秒总共发射15发匕首,可被打断"
-                        }
-                    ]
-                }
-            ]
+  "schemaVersion": 2,
+  "standard": "mvp_skill_v2",
+  "ownerType": "hero",
+  "ownerId": "Katarina",
+  "ownerMeta": {
+    "key": "55",
+    "name": "不祥之刃",
+    "title": "卡特琳娜",
+    "sourceVersion": "14.14.1"
+  },
+  "skills": [
+    {
+      "skillId": "hero_katarina_a",
+      "ownerType": "hero",
+      "ownerId": "Katarina",
+      "skillKey": "A",
+      "name": "普通攻击",
+      "description": "基础普攻伤害和命中流程交给通用攻击系统，这里只补充攻速驱动冷却与攻击特效交互。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 0
         }
+      ],
+      "cooldowns": [
+        {
+          "kind": "formula",
+          "formulaText": "1 / self.attack_speed_current"
+        }
+      ],
+      "params": {
+        "vars": {}
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": []
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "consumeOnHit": true
+        }
+      },
+      "notes": [
+        "基础普攻数值由通用攻击流程结算，这个 skill 只保留最小验证里与攻速和攻击特效相关的配置。"
+      ]
+    },
+    {
+      "skillId": "hero_katarina_p",
+      "ownerType": "hero",
+      "ownerId": "Katarina",
+      "skillKey": "P",
+      "name": "贪婪",
+      "description": "Q/W 生成的匕首在约 1 秒后可被拾取，拾取时造成魔法伤害并可消耗攻击特效。",
+      "resourceCosts": [],
+      "cooldowns": [],
+      "params": {
+        "vars": {
+          "base_magic_damage": {
+            "label": "被动基础魔法伤害",
+            "kind": "table",
+            "by": "championLevel",
+            "values": [
+              68,
+              72,
+              77,
+              82,
+              89,
+              96,
+              103,
+              112,
+              121,
+              131,
+              142,
+              154,
+              166,
+              180,
+              194,
+              208,
+              224,
+              240,
+              257,
+              275
+            ]
+          },
+          "bonus_ad_damage": {
+            "label": "额外攻击力加成",
+            "kind": "scaled_attr",
+            "attr": "self.attack_damage_bonus",
+            "coefficient": 0.6
+          },
+          "ap_ratio_coefficient": {
+            "label": "法强系数",
+            "kind": "table",
+            "by": "championLevel",
+            "values": [
+              0.7,
+              0.7,
+              0.7,
+              0.7,
+              0.7,
+              0.8,
+              0.8,
+              0.8,
+              0.8,
+              0.8,
+              0.9,
+              0.9,
+              0.9,
+              0.9,
+              0.9,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "formula",
+            "formulaText": "ap_ratio_coefficient * self.ability_power",
+            "formulaVars": [
+              "ap_ratio_coefficient"
+            ]
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "dagger_pickup_damage",
+            "event": {
+              "type": "on_tick",
+              "tickKey": "katarina_preparation_dagger_pickup"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_magic_damage + bonus_ad_damage + ap_damage",
+                  "formulaVars": [
+                    "base_magic_damage",
+                    "bonus_ad_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "consumeOnHit": true
+        },
+        "triggerHints": {
+          "scheduledBySkillKeys": [
+            "Q",
+            "W"
+          ],
+          "delayMs": 1000,
+          "sharedTickKey": "katarina_preparation_dagger_pickup"
+        }
+      },
+      "notes": [
+        "Q/W 释放后 1 秒的拾取逻辑先用共享 tickKey 表示。",
+        "如果后续要精确模拟匕首落点、拾取范围和位移路径，建议再拆独立对象。"
+      ]
+    },
+    {
+      "skillId": "hero_katarina_q",
+      "ownerType": "hero",
+      "ownerId": "Katarina",
+      "skillKey": "Q",
+      "name": "弹射之刃",
+      "description": "造成魔法伤害，并为被动的拾匕首触发预留延迟 tick。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 0
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            11,
+            10,
+            9,
+            8,
+            7
+          ]
+        }
+      ],
+      "params": {
+        "vars": {
+          "base_damage": {
+            "label": "基础伤害",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              80,
+              115,
+              150,
+              185,
+              220
+            ]
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.4
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": [
+          {
+            "phaseKey": "cast",
+            "kind": "cast",
+            "durationMs": 200
+          }
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "cast_damage",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_damage + ap_damage",
+                  "formulaVars": [
+                    "base_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "schedule_passive_pickup",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "schedule_tick",
+                "tickKey": "katarina_preparation_dagger_pickup",
+                "everyMs": 1000,
+                "times": 1
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {},
+      "notes": [
+        "原始 JSON 中公式写成了“基础伤害+法术加成”，这里统一收口为 base_damage + ap_damage。",
+        "Q 的匕首落点/弹射轨迹暂未拆成正式投射物配置。"
+      ]
+    },
+    {
+      "skillId": "hero_katarina_w",
+      "ownerType": "hero",
+      "ownerId": "Katarina",
+      "skillKey": "W",
+      "name": "伺机待发",
+      "description": "获得短暂移速提升，并为被动的拾匕首触发预留延迟 tick。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 0
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            15,
+            14,
+            13,
+            12,
+            11
+          ]
+        }
+      ],
+      "params": {
+        "vars": {
+          "move_speed_bonus_ratio": {
+            "label": "基础移速加成系数",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              0.5,
+              0.6,
+              0.7,
+              0.8,
+              0.9
+            ]
+          },
+          "move_speed_bonus": {
+            "label": "移速加成值",
+            "kind": "formula",
+            "formulaText": "move_speed_bonus_ratio * self.move_speed_base",
+            "formulaVars": [
+              "move_speed_bonus_ratio"
+            ]
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "cast_self_haste",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "apply_modifier",
+                "modifier": {
+                  "target": "self",
+                  "durationMs": 1250,
+                  "stats": [
+                    {
+                      "key": "move_speed_bonus_from_base",
+                      "op": "add",
+                      "formulaText": "move_speed_bonus",
+                      "formulaVars": [
+                        "move_speed_bonus"
+                      ]
+                    }
+                  ],
+                  "stacking": {
+                    "mode": "refresh"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "schedule_passive_pickup",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "schedule_tick",
+                "tickKey": "katarina_preparation_dagger_pickup",
+                "everyMs": 1000,
+                "times": 1
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "buffBehavior": {
+          "decays": true
+        }
+      },
+      "notes": [
+        "原数据注明移速会衰减，当前先保留为扩展标记，后续再拆正式衰减公式。"
+      ]
+    },
+    {
+      "skillId": "hero_katarina_e",
+      "ownerType": "hero",
+      "ownerId": "Katarina",
+      "skillKey": "E",
+      "name": "瞬步",
+      "description": "位移到目标处造成魔法伤害，可触发攻击特效并重置普通攻击计时器。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 0
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ]
+        }
+      ],
+      "params": {
+        "vars": {
+          "base_damage": {
+            "label": "基础伤害",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              20,
+              30,
+              40,
+              50,
+              60
+            ]
+          },
+          "current_ad_damage": {
+            "label": "当前攻击力加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.attack_damage_current",
+            "coefficient": 0.4
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.25
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": [
+          {
+            "phaseKey": "recovery",
+            "kind": "recovery",
+            "durationMs": 100
+          }
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "cast_damage",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_damage + current_ad_damage + ap_damage",
+                  "formulaVars": [
+                    "base_damage",
+                    "current_ad_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "canTriggerOnHit": true,
+          "resetBasicAttackTimer": true
+        },
+        "movement": {
+          "type": "blink"
+        }
+      },
+      "notes": [
+        "E 的位移距离、判定点和施法范围暂未拆入正式 movement DSL。"
+      ]
+    },
+    {
+      "skillId": "hero_katarina_r",
+      "ownerType": "hero",
+      "ownerId": "Katarina",
+      "skillKey": "R",
+      "name": "死亡莲华",
+      "description": "可被打断的引导技能，在 2.5 秒内发射 15 发匕首，每发造成魔法伤害并附带攻击特效系数。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 0
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            75,
+            60,
+            45
+          ]
+        }
+      ],
+      "params": {
+        "vars": {
+          "base_damage": {
+            "label": "每发基础伤害",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              25,
+              37.5,
+              50
+            ]
+          },
+          "ad_base_component": {
+            "label": "攻击力基础系数",
+            "kind": "scaled_attr",
+            "attr": "self.attack_damage_current",
+            "coefficient": 0.16
+          },
+          "bonus_attack_speed_multiplier": {
+            "label": "额外攻速乘区",
+            "kind": "formula",
+            "formulaText": "1 + self.attack_speed_bonus * 0.5"
+          },
+          "ad_damage": {
+            "label": "攻击力加成伤害",
+            "kind": "formula",
+            "formulaText": "ad_base_component * bonus_attack_speed_multiplier",
+            "formulaVars": [
+              "ad_base_component",
+              "bonus_attack_speed_multiplier"
+            ]
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.19
+          },
+          "on_hit_effectiveness": {
+            "label": "攻击特效系数",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              0.25,
+              0.3,
+              0.35
+            ]
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": [
+          {
+            "phaseKey": "channel",
+            "kind": "channel",
+            "durationMs": 2500,
+            "interruptible": true,
+            "cancelScheduledOnInterrupt": true
+          }
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "start_dagger_stream",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "schedule_tick",
+                "tickKey": "katarina_death_lotus_dagger",
+                "everyMs": 167,
+                "times": 15
+              }
+            ]
+          },
+          {
+            "id": "dagger_damage",
+            "event": {
+              "type": "on_tick",
+              "tickKey": "katarina_death_lotus_dagger"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_damage + ad_damage + ap_damage",
+                  "formulaVars": [
+                    "base_damage",
+                    "ad_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "canTriggerOnHit": true,
+          "onHitEffectivenessFormula": "on_hit_effectiveness"
+        },
+        "delivery": {
+          "hitCount": 15,
+          "hitIntervalMs": 166.7,
+          "canBeInterrupted": true
+        }
+      },
+      "notes": [
+        "旧数据里的“后摇 2.5s”更接近可打断引导，这里按 channel 收口。",
+        "攻击特效系数暂作为扩展配置保留，后续可并入正式 attack interaction DSL。"
+      ]
     }
+  ],
+  "notes": [
+    "本文件按 mvp_skill_v2 结构重写。",
+    "公式仍以 formulaText 作为过渡表达，后续如要接 wasm 的强约束 ExprNode，可再做一次结构化迁移。"
+  ]
 }
