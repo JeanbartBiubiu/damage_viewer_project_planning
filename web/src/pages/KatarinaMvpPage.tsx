@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Button, Card, Grid, Space, Typography } from '@arco-design/web-react';
 import { DataTable } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
@@ -14,6 +15,8 @@ type KatarinaMvpPageProps = {
   selectedGameId: string | null;
   selectedGameName: string;
 };
+
+const { Row, Col } = Grid;
 
 type ScenarioDefinition = {
   id: 's0_basic_attack_10' | 's1_full_r';
@@ -69,6 +72,7 @@ function formatDate(value?: string | null): string {
   if (!value) {
     return '--';
   }
+
   return new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
 }
 
@@ -76,6 +80,7 @@ function formatNumber(value: number | undefined, digits = 2): string {
   if (value === undefined || Number.isNaN(value)) {
     return '--';
   }
+
   return value.toFixed(digits);
 }
 
@@ -118,6 +123,7 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
       setCurrentVersion(null);
       setBundle(null);
       setBundleEtag(null);
+      setSelectedItemIds([]);
       setLastInput(null);
       setLastOutput(null);
       engineRef.current?.dispose();
@@ -176,6 +182,7 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
         if (cancelled) {
           return;
         }
+
         engineRef.current?.dispose();
         engineRef.current = null;
         setCurrentVersion(null);
@@ -227,69 +234,100 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
     }
   }
 
-  const latestSample = lastOutput && lastOutput.samples.length > 0 ? lastOutput.samples[lastOutput.samples.length - 1] : undefined;
+  const latestSample = lastOutput?.samples[lastOutput.samples.length - 1];
+  const availableItems = bundle?.items.filter((item) => ITEM_IDS.includes(item.itemId as (typeof ITEM_IDS)[number])) ?? [];
 
   return (
-    <div className="page-grid mvp-page">
+    <div className="page-mvp mvp-page page-stack">
       <Panel
         title="卡特琳娜 MVP 闭环"
         kicker="Katarina MVP"
         actions={
-          <button className="button secondary" type="button" onClick={() => setRefreshSeed((value) => value + 1)}>
+          <Button onClick={() => setRefreshSeed((value) => value + 1)} type="primary">
             刷新 current + bundle
-          </button>
+          </Button>
         }
       >
         {!selectedGameId ? (
           <EmptyState title="还没有选择游戏" description="先在顶部工具栏选择一个 gameId，再进入卡特 MVP 页面。" />
         ) : (
-          <div className="metric-grid">
-            <MetricCard label="当前游戏" value={selectedGameName} hint={selectedGameId} />
-            <MetricCard
-              label="版本"
-              value={currentVersion?.versionCode ?? '未发布'}
-              hint={currentVersion ? `versionId=${currentVersion.versionId}` : '当前没有 published version'}
-            />
-            <MetricCard label="Bundle 状态" value={bundleState} hint={bundleError ?? 'current + bundle 已接通'} />
-            <MetricCard label="Runner 状态" value={engineState} hint={bundleEtag ?? '等待初始化'} />
-          </div>
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="当前游戏" value={selectedGameName} hint={selectedGameId} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard
+                  label="版本"
+                  value={currentVersion?.versionCode ?? '未发布'}
+                  hint={currentVersion ? `versionId=${currentVersion.versionId}` : '当前没有已发布版本'}
+                />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="Bundle 状态" value={bundleState} hint={bundleError ?? 'current + bundle 已接通'} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="Runner 状态" value={engineState} hint={bundleEtag ?? '等待初始化'} />
+              </Col>
+            </Row>
+
+            {bundleError ? <Alert type="error" content={bundleError} /> : null}
+          </Space>
         )}
-        {bundleError ? <div className="notice notice-error">{bundleError}</div> : null}
       </Panel>
 
       <Panel title="场景与装备" kicker="Scenario Builder">
         {!bundle ? (
           <EmptyState
             title="等待 MVP Bundle"
-            description="需要先拿到 current + bundle，并确认卡特、假人、2 技能和 2 装备都在包里。"
+            description="需要先拿到 current + bundle，并确认卡特、假人、技能和装备都在数据包里。"
           />
         ) : (
-          <div className="mvp-grid">
-            <div className="stack-block">
-              <div className="scenario-list">
-                {scenarios.map((scenario) => (
-                  <button
-                    key={scenario.id}
-                    className={`scenario-card${selectedScenarioId === scenario.id ? ' active' : ''}`}
-                    type="button"
-                    onClick={() => setSelectedScenarioId(scenario.id)}
-                  >
-                    <strong>{scenario.title}</strong>
-                    <span>{scenario.summary}</span>
-                  </button>
-                ))}
-              </div>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} lg={14}>
+              <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                <Typography.Title heading={5} style={{ margin: 0 }}>
+                  场景选择
+                </Typography.Title>
+                <Row gutter={[16, 16]}>
+                  {scenarios.map((scenario) => (
+                    <Col xs={24} sm={12} key={scenario.id}>
+                      <Card
+                        size="small"
+                        hoverable
+                        className={selectedScenarioId === scenario.id ? 'scenario-card is-active' : 'scenario-card'}
+                      >
+                        <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                          <Space direction="vertical" size={4}>
+                            <Typography.Title heading={6} style={{ margin: 0 }}>
+                              {scenario.title}
+                            </Typography.Title>
+                            <Typography.Text type="secondary">{scenario.summary}</Typography.Text>
+                          </Space>
+                          <Button
+                            long
+                            type={selectedScenarioId === scenario.id ? 'primary' : 'secondary'}
+                            onClick={() => setSelectedScenarioId(scenario.id)}
+                          >
+                            {selectedScenarioId === scenario.id ? '当前场景' : '切换到此场景'}
+                          </Button>
+                        </Space>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
 
-              <div className="mvp-item-grid">
-                {bundle.items
-                  .filter((item) => ITEM_IDS.includes(item.itemId as (typeof ITEM_IDS)[number]))
-                  .map((item) => {
+                <Typography.Title heading={5} style={{ margin: 0 }}>
+                  装备开关
+                </Typography.Title>
+                <Space wrap>
+                  {availableItems.map((item) => {
                     const active = selectedItemIds.includes(item.itemId);
+
                     return (
-                      <button
+                      <Button
                         key={item.itemId}
-                        className={`scenario-card${active ? ' active' : ''}`}
-                        type="button"
+                        type={active ? 'primary' : 'secondary'}
                         onClick={() => {
                           setSelectedItemIds((current) =>
                             current.includes(item.itemId)
@@ -298,99 +336,120 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
                           );
                         }}
                       >
-                        <strong>{item.name ?? item.itemId}</strong>
-                        <span>{item.itemId}</span>
-                      </button>
+                        {item.name ?? item.itemId}
+                      </Button>
                     );
                   })}
-              </div>
-            </div>
+                </Space>
+              </Space>
+            </Col>
 
-            <div className="stack-block">
-              <div className="metric-grid compact">
-                <MetricCard label="动作" value={selectedScenario.title} hint={selectedScenario.summary} />
-                <MetricCard
-                  label="装备数"
-                  value={String(selectedItemIds.length)}
-                  hint={selectedItems.map((item) => item.name ?? item.itemId).join(' / ') || '当前无装备'}
-                />
-                <MetricCard label="运行状态" value={runState} hint={runError ?? '点击下方按钮执行'} />
-                <MetricCard
-                  label="ETag"
-                  value={bundleEtag ?? '--'}
-                  hint={`更新时间 ${formatDate(currentVersion?.updatedAt)}`}
-                />
-              </div>
+            <Col xs={24} lg={10}>
+              <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} sm={12}>
+                    <MetricCard label="动作" value={selectedScenario.title} hint={selectedScenario.summary} />
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <MetricCard
+                      label="装备数"
+                      value={String(selectedItemIds.length)}
+                      hint={selectedItems.map((item) => item.name ?? item.itemId).join(' / ') || '当前无装备'}
+                    />
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <MetricCard label="运行状态" value={runState} hint={runError ?? '点击下方按钮执行'} />
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <MetricCard label="ETag" value={bundleEtag ?? '--'} hint={`更新时间 ${formatDate(currentVersion?.updatedAt)}`} />
+                  </Col>
+                </Row>
 
-              <div className="toolbar-actions">
-                <button className="button" type="button" onClick={() => void handleRunScenario()} disabled={engineState !== 'success'}>
+                <Button type="primary" onClick={() => void handleRunScenario()} disabled={engineState !== 'success'}>
                   运行场景
-                </button>
-              </div>
+                </Button>
 
-              <JsonBlock
-                value={{
-                  currentVersion,
-                  selectedScenario: selectedScenario.id,
-                  selectedItemIds
-                }}
-              />
-            </div>
-          </div>
+                <Card size="small">
+                  <JsonBlock
+                    value={{
+                      currentVersion,
+                      selectedScenario: selectedScenario.id,
+                      selectedItemIds
+                    }}
+                  />
+                </Card>
+              </Space>
+            </Col>
+          </Row>
         )}
-        {runError ? <div className="notice notice-error">{runError}</div> : null}
+
+        {runError ? <Alert type="error" content={runError} style={{ marginTop: 16 }} /> : null}
       </Panel>
 
       <Panel title="运行结果" kicker="Run Output">
         {!lastOutput ? (
           <EmptyState title="还没有运行结果" description="先选择 S0 或 S1，然后执行一次最小场景。" />
         ) : (
-          <div className="page-grid">
-            <div className="metric-grid">
-              <MetricCard label="动作" value={lastOutput.result.actionLabel} hint={`stopReason=${lastOutput.result.stopReason}`} />
-              <MetricCard
-                label="总伤害"
-                value={formatNumber(lastOutput.result.totalDamageToEnemy)}
-                hint={`命中次数 ${lastOutput.result.executedHits}`}
-              />
-              <MetricCard
-                label="敌方剩余 HP"
-                value={formatNumber(latestSample?.enemyHp)}
-                hint={`初始目标 ${DUMMY_ID}`}
-              />
-              <MetricCard
-                label="持续时间"
-                value={`${lastOutput.result.actionDurationMs} ms`}
-                hint={lastOutput.result.timeToKillEnemyMs ? `TTK=${lastOutput.result.timeToKillEnemyMs}ms` : '目标未被击杀'}
-              />
-            </div>
-
-            <div className="split-grid">
-              <div className="stack-block">
-                <h3 className="subheading">样本点</h3>
-                <DataTable
-                  columns={['tMs', 'enemyHp', '累计伤害', 'selfHp']}
-                  rows={lastOutput.samples.map((sample) => [
-                    `${sample.tMs}`,
-                    formatNumber(sample.enemyHp, 3),
-                    formatNumber(sample.cumulativeDamageToEnemy, 3),
-                    formatNumber(sample.selfHp, 3)
-                  ])}
-                  emptyMessage="当前动作没有产出样本点。"
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="动作" value={lastOutput.result.actionLabel} hint={`stopReason=${lastOutput.result.stopReason}`} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard
+                  label="总伤害"
+                  value={formatNumber(lastOutput.result.totalDamageToEnemy)}
+                  hint={`命中次数 ${lastOutput.result.executedHits}`}
                 />
-              </div>
-
-              <div className="stack-block">
-                <h3 className="subheading">输入 / 输出快照</h3>
-                <JsonBlock
-                  value={{
-                    input: lastInput,
-                    result: lastOutput.result
-                  }}
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="敌方剩余 HP" value={formatNumber(latestSample?.enemyHp)} hint={`初始目标 ${DUMMY_ID}`} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard
+                  label="持续时间"
+                  value={`${lastOutput.result.actionDurationMs} ms`}
+                  hint={lastOutput.result.timeToKillEnemyMs ? `TTK=${lastOutput.result.timeToKillEnemyMs}ms` : '目标未被击杀'}
                 />
-              </div>
-            </div>
-          </div>
+              </Col>
+            </Row>
+
+            <Row gutter={[16, 16]}>
+              <Col xs={24} lg={14}>
+                <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    样本点
+                  </Typography.Title>
+                  <DataTable
+                    columns={['tMs', 'enemyHp', '累计伤害', 'selfHp']}
+                    rows={lastOutput.samples.map((sample) => [
+                      `${sample.tMs}`,
+                      formatNumber(sample.enemyHp, 3),
+                      formatNumber(sample.cumulativeDamageToEnemy, 3),
+                      formatNumber(sample.selfHp, 3)
+                    ])}
+                    emptyMessage="当前动作没有产出样本点。"
+                  />
+                </Space>
+              </Col>
+
+              <Col xs={24} lg={10}>
+                <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    输入 / 输出快照
+                  </Typography.Title>
+                  <Card size="small">
+                    <JsonBlock
+                      value={{
+                        input: lastInput,
+                        result: lastOutput.result
+                      }}
+                    />
+                  </Card>
+                </Space>
+              </Col>
+            </Row>
+          </Space>
         )}
       </Panel>
     </div>

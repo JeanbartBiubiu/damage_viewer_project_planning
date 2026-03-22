@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Alert, Button, Card, Grid, Space, Typography } from '@arco-design/web-react';
 import { DataTable } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
@@ -20,6 +21,8 @@ type ImagesPageProps = {
   selectedGameId: string | null;
   selectedGameName: string;
 };
+
+const { Row, Col } = Grid;
 
 type SyncAction = 'full' | 'incremental' | 'clear' | null;
 
@@ -54,7 +57,7 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
   const [cacheState, setCacheState] = useState<LoadState>('idle');
   const [cacheError, setCacheError] = useState<string | null>(null);
   const [syncAction, setSyncAction] = useState<SyncAction>(null);
-  const [syncMessage, setSyncMessage] = useState('首次进入当前游戏时，会自动尝试全量同步一次图片。');
+  const [syncMessage, setSyncMessage] = useState('首次进入当前游戏时，页面会自动尝试同步一次图片。');
 
   async function refreshCache(gameId: string): Promise<CacheSnapshot> {
     const snapshot = await loadCacheSnapshot(gameId);
@@ -109,7 +112,7 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
       setSyncMessage(removed === 0 ? '当前游戏没有可清理的缓存。' : `已清理 ${removed} 条图片缓存。`);
     } catch (error) {
       setCacheError(getErrorMessage(error));
-      setSyncMessage('清理失败，请稍后再试。');
+      setSyncMessage('清理失败，请稍后重试。');
     } finally {
       setSyncAction(null);
     }
@@ -173,98 +176,128 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
     : { message: '当前还没有本地图片记录。' };
 
   return (
-    <div className="page-grid">
-      <Panel title="缓存契约" kicker="IndexDB Spec">
-        <div className="metric-grid">
-          <MetricCard label="DB 名称" value={imageCacheDescriptor.dbName} hint="与前端文档保持一致" />
-          <MetricCard label="Store" value={imageCacheDescriptor.storeName} hint="主键字段 uri" />
-          <MetricCard label="Version" value={String(imageCacheDescriptor.dbVersion)} hint="后续迁移可直接升版" />
-          <MetricCard label="本地主键" value="{gameId}_{uri}" hint="避免多游戏图片冲突" />
-        </div>
+    <div className="page-images page-stack">
+      <Panel title="缓存合约" kicker="IndexedDB Spec">
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={12} lg={6}>
+            <MetricCard label="DB 名称" value={imageCacheDescriptor.dbName} hint="与前端文档保持一致" />
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <MetricCard label="Store" value={imageCacheDescriptor.storeName} hint="主键字段 uri" />
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <MetricCard label="Version" value={String(imageCacheDescriptor.dbVersion)} hint="后续迁移可直接升级" />
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <MetricCard label="本地主键" value="{gameId}_{uri}" hint="避免不同游戏图片冲突" />
+          </Col>
+        </Row>
       </Panel>
 
       <Panel title="同步动作" kicker="Sync Flow">
         {!selectedGameId ? (
-          <EmptyState title="还没选 gameId" description="图片页会按当前 gameId 进行全量同步、增量同步和清理缓存。" />
+          <EmptyState title="还没有选择 gameId" description="图片页会按当前 gameId 执行全量同步、增量同步和缓存清理。" />
         ) : (
-          <>
-            <div className="toolbar-actions">
-              <button className="button" type="button" disabled={syncAction !== null} onClick={() => void runSync('full')}>
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Space wrap>
+              <Button disabled={syncAction !== null} onClick={() => void runSync('full')} type="primary">
                 全量同步
-              </button>
-              <button
-                className="button secondary"
-                type="button"
-                disabled={syncAction !== null}
-                onClick={() => void runSync('incremental')}
-              >
+              </Button>
+              <Button disabled={syncAction !== null} onClick={() => void runSync('incremental')}>
                 增量同步
-              </button>
-              <button className="button danger" type="button" disabled={syncAction !== null} onClick={() => void clearCache()}>
+              </Button>
+              <Button status="danger" disabled={syncAction !== null} onClick={() => void clearCache()}>
                 清理当前缓存
-              </button>
-            </div>
+              </Button>
+            </Space>
 
-            <div className="metric-grid compact">
-              <MetricCard label="当前游戏" value={selectedGameName} hint={selectedGameId} />
-              <MetricCard label="缓存状态" value={cacheState} hint={cacheError ?? '本地缓存可读写'} />
-              <MetricCard label="进行中的动作" value={syncAction ?? 'none'} hint="同一时间只跑一个同步任务" />
-              <MetricCard label="最后更新时间" value={formatDate(latestUpdate)} hint="增量同步会用它作为 updatedAfter" />
-            </div>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="当前游戏" value={selectedGameName} hint={selectedGameId} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="缓存状态" value={cacheState} hint={cacheError ?? '本地缓存可读写'} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="进行中的动作" value={syncAction ?? 'none'} hint="同一时间只跑一个同步任务" />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="最后更新时间" value={formatDate(latestUpdate)} hint="增量同步会用它作为 updatedAfter" />
+              </Col>
+            </Row>
 
-            <div className={`notice${cacheError ? ' notice-error' : ''}`}>{cacheError ?? syncMessage}</div>
-          </>
+            <Alert type={cacheError ? 'error' : 'info'} content={cacheError ?? syncMessage} />
+          </Space>
         )}
       </Panel>
 
       <Panel title="本地缓存概览" kicker="Cache Snapshot">
         {!selectedGameId ? (
-          <EmptyState title="未选择游戏" description="选择 gameId 后，这里会显示该游戏的图片缓存规模和示例记录。" />
+          <EmptyState title="未选择游戏" description="选中 gameId 后，这里会展示该游戏的图片缓存规模和示例记录。" />
         ) : (
-          <div className="split-grid">
-            <div className="stack-block">
-              <div className="metric-grid compact">
-                <MetricCard label="图片数量" value={String(cacheRows.length)} hint="本地已缓存的当前游戏图片数" />
-                <MetricCard label="最近更新时间" value={formatDate(latestUpdate)} hint="按 update_time 倒序展示" />
-              </div>
-              <DataTable
-                columns={['serverUri', 'localUri', 'update_time']}
-                rows={cacheRows.slice(0, 8).map((row) => [
-                  <span className="mono" key={`${row.uri}-remote`}>
-                    {selectedGameId ? toRemoteUri(selectedGameId, row.uri) : row.uri}
-                  </span>,
-                  <span className="mono" key={`${row.uri}-local`}>
-                    {row.uri}
-                  </span>,
-                  formatDate(row.update_time)
-                ])}
-                emptyMessage="本地还没有缓存图片。"
-              />
-            </div>
-            <div className="stack-block">
-              <JsonBlock value={previewSample} />
-            </div>
-          </div>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} lg={14}>
+              <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} sm={12}>
+                    <MetricCard label="图片数量" value={String(cacheRows.length)} hint="本地已缓存的当前游戏图片数" />
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <MetricCard label="最近更新时间" value={formatDate(latestUpdate)} hint="按 update_time 倒序展示" />
+                  </Col>
+                </Row>
+
+                <DataTable
+                  columns={['serverUri', 'localUri', 'update_time']}
+                  rows={cacheRows.slice(0, 8).map((row) => [
+                    <Typography.Text code key={`${row.uri}-remote`}>
+                      {selectedGameId ? toRemoteUri(selectedGameId, row.uri) : row.uri}
+                    </Typography.Text>,
+                    <Typography.Text code key={`${row.uri}-local`}>
+                      {row.uri}
+                    </Typography.Text>,
+                    formatDate(row.update_time)
+                  ])}
+                  emptyMessage="本地还没有缓存图片。"
+                />
+              </Space>
+            </Col>
+
+            <Col xs={24} lg={10}>
+              <Card size="small">
+                <JsonBlock value={previewSample} />
+              </Card>
+            </Col>
+          </Row>
         )}
       </Panel>
 
       <Panel title="缓存预览" kicker="Image Preview">
         {previewRows.length === 0 ? (
-          <EmptyState title="暂无预览图片" description="全量或增量同步完成后，这里会直接使用 base64 从本地渲染。" />
+          <EmptyState title="暂无预览图片" description="同步完成后，这里会直接渲染本地的 base64 图片。" />
         ) : (
-          <div className="preview-grid">
+          <Row gutter={[16, 16]}>
             {previewRows.map((row) => (
-              <article className="image-card" key={row.uri}>
-                <div className="image-card-media">
-                  <img src={row.image} alt={selectedGameId ? toRemoteUri(selectedGameId, row.uri) : row.uri} />
-                </div>
-                <div className="image-card-body">
-                  <p className="image-card-title">{selectedGameId ? toRemoteUri(selectedGameId, row.uri) : row.uri}</p>
-                  <p className="image-card-meta">{formatDate(row.update_time)}</p>
-                </div>
-              </article>
+              <Col xs={24} sm={12} lg={8} xl={6} key={row.uri}>
+                <Card size="small" className="image-card">
+                  <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                    <div className="image-card-media">
+                      <img
+                        src={row.image}
+                        alt={selectedGameId ? toRemoteUri(selectedGameId, row.uri) : row.uri}
+                      />
+                    </div>
+                    <Space direction="vertical" size={4} style={{ width: '100%' }}>
+                      <Typography.Text className="image-card-title">
+                        {selectedGameId ? toRemoteUri(selectedGameId, row.uri) : row.uri}
+                      </Typography.Text>
+                      <Typography.Text className="image-card-meta">{formatDate(row.update_time)}</Typography.Text>
+                    </Space>
+                  </Space>
+                </Card>
+              </Col>
             ))}
-          </div>
+          </Row>
         )}
       </Panel>
     </div>

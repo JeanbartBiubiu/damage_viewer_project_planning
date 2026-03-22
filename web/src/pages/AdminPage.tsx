@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Alert, Button, Card, Form, Grid, Input, Space, Typography } from '@arco-design/web-react';
 import { DataTable } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
@@ -27,6 +28,8 @@ type AdminPageProps = {
   adminToken: string;
   onAdminTokenChange: (value: string) => void;
 };
+
+const { Row, Col } = Grid;
 
 type AdminSnapshot = {
   coefficientBuckets: CoefficientBucket[];
@@ -117,168 +120,205 @@ export function AdminPage({
   const sampleBodies = adminEndpoints.filter((endpoint) => endpoint.sampleBody).slice(0, 4);
 
   return (
-    <div className="page-grid">
+    <div className="page-admin page-stack">
       <Panel
         title="JWT 与访问"
         kicker="Admin Access"
         actions={
-          <button className="button secondary" type="button" onClick={() => setRefreshSeed((value) => value + 1)}>
+          <Button onClick={() => setRefreshSeed((value) => value + 1)} type="primary">
             刷新后台快照
-          </button>
+          </Button>
         }
       >
-        <div className="split-grid">
-          <div className="stack-block">
-            <label className="field">
-              <span className="field-label">Admin JWT</span>
-              <textarea
-                className="text-area"
-                rows={8}
-                value={adminToken}
-                onChange={(event) => onAdminTokenChange(event.target.value)}
-                placeholder="把 Bearer Token 粘过来，实时后台快照会自动开始拉取。"
+        <Row gutter={[16, 16]}>
+          <Col xs={24} lg={14}>
+            <Form layout="vertical">
+              <Form.Item label="Admin JWT">
+                <Input.TextArea
+                  autoSize={{ minRows: 8 }}
+                  value={adminToken}
+                  onChange={onAdminTokenChange}
+                  placeholder="把 Bearer Token 粘贴到这里，页面会自动读取后台只读接口。"
+                />
+              </Form.Item>
+            </Form>
+
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="当前游戏" value={selectedGameName} hint={selectedGameId ?? '未选择 gameId'} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard
+                  label="JWT 状态"
+                  value={adminToken.trim() ? '已配置' : '未配置'}
+                  hint="保存在浏览器 localStorage"
+                />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="后台快照" value={snapshotState} hint={snapshotError ?? '四个只读 GET 接口已接通'} />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="只读范围" value="4 组" hint="formula / binding / bucket / rule" />
+              </Col>
+            </Row>
+
+            {snapshotError ? <Alert type="error" content={snapshotError} /> : null}
+          </Col>
+
+          <Col xs={24} lg={10}>
+            <Card size="small">
+              <JsonBlock
+                value={{
+                  gameId: selectedGameId,
+                  apiBaseUrl,
+                  liveResources: [
+                    '/api/admin/games/{gameId}/coefficient-buckets',
+                    '/api/admin/games/{gameId}/status-action-control-rules',
+                    '/api/admin/games/{gameId}/formula-profiles',
+                    '/api/admin/games/{gameId}/formula-bindings'
+                  ]
+                }}
               />
-            </label>
-
-            <div className="metric-grid compact">
-              <MetricCard label="当前游戏" value={selectedGameName} hint={selectedGameId ?? '未选择 gameId'} />
-              <MetricCard label="JWT 状态" value={adminToken.trim() ? '已配置' : '未配置'} hint="保存在浏览器 localStorage" />
-              <MetricCard label="后台快照" value={snapshotState} hint={snapshotError ?? '四个已实现 GET 接口'} />
-              <MetricCard label="只读快照范围" value="4 组" hint="formula / binding / bucket / rule" />
-            </div>
-
-            {snapshotError ? <div className="notice notice-error">{snapshotError}</div> : null}
-          </div>
-
-          <div className="stack-block">
-            <JsonBlock
-              value={{
-                gameId: selectedGameId,
-                apiBaseUrl,
-                liveResources: [
-                  '/api/admin/games/{gameId}/coefficient-buckets',
-                  '/api/admin/games/{gameId}/status-action-control-rules',
-                  '/api/admin/games/{gameId}/formula-profiles',
-                  '/api/admin/games/{gameId}/formula-bindings'
-                ]
-              }}
-            />
-          </div>
-        </div>
+            </Card>
+          </Col>
+        </Row>
       </Panel>
 
       <Panel title="后台实时快照" kicker="Admin Snapshot">
         {!selectedGameId ? (
-          <EmptyState title="还没选 gameId" description="后台页会围绕当前游戏拉取可读的 Admin 资源快照。" />
+          <EmptyState title="还没有选择 gameId" description="后台页会围绕当前游戏拉取可读的 Admin 资源快照。" />
         ) : !adminToken.trim() ? (
-          <EmptyState title="还没填 JWT" description="把可编辑用户的 Bearer Token 放进上面的输入框，就能看到后台只读快照。" />
+          <EmptyState title="还没有填写 JWT" description="把可编辑用户的 Bearer Token 放到上面的输入框，就能看到后台只读数据。" />
         ) : (
-          <>
-            <div className="metric-grid">
-              <MetricCard
-                label="乘区桶"
-                value={String(snapshot.coefficientBuckets.length)}
-                hint="coefficient-buckets"
-              />
-              <MetricCard
-                label="状态规则"
-                value={String(snapshot.statusActionControlRules.length)}
-                hint="status-action-control-rules"
-              />
-              <MetricCard label="公式档案" value={String(snapshot.formulaProfiles.length)} hint="formula-profiles" />
-              <MetricCard label="公式绑定" value={String(snapshot.formulaBindings.length)} hint="formula-bindings" />
-            </div>
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="乘区桶" value={String(snapshot.coefficientBuckets.length)} hint="coefficient-buckets" />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="状态规则" value={String(snapshot.statusActionControlRules.length)} hint="status-action-control-rules" />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="公式档案" value={String(snapshot.formulaProfiles.length)} hint="formula-profiles" />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard label="公式绑定" value={String(snapshot.formulaBindings.length)} hint="formula-bindings" />
+              </Col>
+            </Row>
 
-            <div className="split-grid">
-              <div className="stack-block">
-                <h3 className="subheading">乘区桶</h3>
-                <DataTable
-                  columns={['bucketKey', 'domain', 'stageKey', 'aggregation']}
-                  rows={snapshot.coefficientBuckets.slice(0, 6).map((bucket) => [
-                    <span className="mono" key={`${bucket.bucketKey}-bucket`}>
-                      {bucket.bucketKey}
-                    </span>,
-                    bucket.resolutionDomain,
-                    bucket.stageKey,
-                    bucket.aggregationMode
-                  ])}
-                  emptyMessage="当前没有乘区桶数据。"
-                />
+            <Row gutter={[16, 16]}>
+              <Col xs={24} lg={12}>
+                <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    乘区桶
+                  </Typography.Title>
+                  <DataTable
+                    columns={['bucketKey', 'domain', 'stageKey', 'aggregation']}
+                    rows={snapshot.coefficientBuckets.slice(0, 6).map((bucket) => [
+                      <Typography.Text code key={`${bucket.bucketKey}-bucket`}>
+                        {bucket.bucketKey}
+                      </Typography.Text>,
+                      bucket.resolutionDomain,
+                      bucket.stageKey,
+                      bucket.aggregationMode
+                    ])}
+                    emptyMessage="当前没有乘区桶数据。"
+                  />
 
-                <h3 className="subheading">状态动作控制</h3>
-                <DataTable
-                  columns={['ruleId', 'ruleKind', 'statusTypeId', 'priority']}
-                  rows={snapshot.statusActionControlRules.slice(0, 6).map((rule) => [
-                    <span className="mono" key={`${rule.ruleId}-rule`}>
-                      {rule.ruleId}
-                    </span>,
-                    rule.ruleKind,
-                    rule.statusTypeId,
-                    rule.priority ?? '—'
-                  ])}
-                  emptyMessage="当前没有状态规则数据。"
-                />
-              </div>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    状态动作控制
+                  </Typography.Title>
+                  <DataTable
+                    columns={['ruleId', 'ruleKind', 'statusTypeId', 'priority']}
+                    rows={snapshot.statusActionControlRules.slice(0, 6).map((rule) => [
+                      <Typography.Text code key={`${rule.ruleId}-rule`}>
+                        {rule.ruleId}
+                      </Typography.Text>,
+                      rule.ruleKind,
+                      rule.statusTypeId,
+                      rule.priority ?? '—'
+                    ])}
+                    emptyMessage="当前没有状态规则数据。"
+                  />
+                </Space>
+              </Col>
 
-              <div className="stack-block">
-                <h3 className="subheading">公式档案</h3>
-                <DataTable
-                  columns={['formulaId', 'formulaType', 'formulaKind', '描述']}
-                  rows={snapshot.formulaProfiles.slice(0, 6).map((profile) => [
-                    <span className="mono" key={`${profile.formulaId}-profile`}>
-                      {profile.formulaId}
-                    </span>,
-                    profile.formulaType ?? '—',
-                    profile.formulaKind ?? '—',
-                    profile.description ?? '—'
-                  ])}
-                  emptyMessage="当前没有公式档案数据。"
-                />
+              <Col xs={24} lg={12}>
+                <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    公式档案
+                  </Typography.Title>
+                  <DataTable
+                    columns={['formulaId', 'formulaType', 'formulaKind', '描述']}
+                    rows={snapshot.formulaProfiles.slice(0, 6).map((profile) => [
+                      <Typography.Text code key={`${profile.formulaId}-profile`}>
+                        {profile.formulaId}
+                      </Typography.Text>,
+                      profile.formulaType ?? '—',
+                      profile.formulaKind ?? '—',
+                      profile.description ?? '—'
+                    ])}
+                    emptyMessage="当前没有公式档案数据。"
+                  />
 
-                <h3 className="subheading">公式绑定</h3>
-                <DataTable
-                  columns={['bindingKey', 'target', 'formulaId', 'override']}
-                  rows={snapshot.formulaBindings.slice(0, 6).map((binding) => [
-                    <span className="mono" key={`${binding.bindingKey}-binding`}>
-                      {binding.bindingKey}
-                    </span>,
-                    `${binding.targetCategory}:${binding.targetId}`,
-                    binding.formulaId,
-                    binding.overrideParams ? '有' : '无'
-                  ])}
-                  emptyMessage="当前没有公式绑定数据。"
-                />
-              </div>
-            </div>
-          </>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    公式绑定
+                  </Typography.Title>
+                  <DataTable
+                    columns={['bindingKey', 'target', 'formulaId', 'override']}
+                    rows={snapshot.formulaBindings.slice(0, 6).map((binding) => [
+                      <Typography.Text code key={`${binding.bindingKey}-binding`}>
+                        {binding.bindingKey}
+                      </Typography.Text>,
+                      `${binding.targetCategory}:${binding.targetId}`,
+                      binding.formulaId,
+                      binding.overrideParams ? 'yes' : 'no'
+                    ])}
+                    emptyMessage="当前没有公式绑定数据。"
+                  />
+                </Space>
+              </Col>
+            </Row>
+          </Space>
         )}
       </Panel>
 
       <Panel title="接口矩阵" kicker="Admin Surface">
-        <div className="endpoint-grid">
+        <Row gutter={[16, 16]}>
           {adminEndpoints.map((endpoint) => (
-            <article className="endpoint-card" key={endpoint.title}>
-              <div className="endpoint-header">
-                <span className="endpoint-method">{endpoint.method}</span>
-                <h3 className="endpoint-title">{endpoint.title}</h3>
-              </div>
-              <p className="endpoint-path">{applyGameId(endpoint.path, selectedGameId)}</p>
-              <p className="endpoint-description">{endpoint.description}</p>
-            </article>
+            <Col xs={24} sm={12} lg={8} key={endpoint.title}>
+              <Card size="small">
+                <Space direction="vertical" size={8} style={{ width: '100%' }}>
+                  <Space wrap>
+                    <Typography.Title heading={5} style={{ margin: 0 }}>
+                      {endpoint.title}
+                    </Typography.Title>
+                  </Space>
+                  <Typography.Text code>{applyGameId(endpoint.path, selectedGameId)}</Typography.Text>
+                  <Typography.Text type="secondary">{endpoint.description}</Typography.Text>
+                </Space>
+              </Card>
+            </Col>
           ))}
-        </div>
+        </Row>
       </Panel>
 
       <Panel title="请求体样例" kicker="Payload Examples">
-        <div className="split-grid">
+        <Row gutter={[16, 16]}>
           {sampleBodies.map((endpoint) => (
-            <div className="stack-block" key={endpoint.title}>
-              <h3 className="subheading">{endpoint.title}</h3>
-              <p className="field-note">{applyGameId(endpoint.path, selectedGameId)}</p>
-              <JsonBlock value={endpoint.sampleBody} />
-            </div>
+            <Col xs={24} lg={12} key={endpoint.title}>
+              <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                <Typography.Title heading={5} style={{ margin: 0 }}>
+                  {endpoint.title}
+                </Typography.Title>
+                <Typography.Text type="secondary">{applyGameId(endpoint.path, selectedGameId)}</Typography.Text>
+                <Card size="small">
+                  <JsonBlock value={endpoint.sampleBody} />
+                </Card>
+              </Space>
+            </Col>
           ))}
-        </div>
+        </Row>
       </Panel>
     </div>
   );
