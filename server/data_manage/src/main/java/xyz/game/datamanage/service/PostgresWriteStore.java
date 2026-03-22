@@ -44,6 +44,7 @@ public class PostgresWriteStore {
 
     private static final Pattern OWNER_TYPE_PATTERN = Pattern.compile("^[a-z0-9_]+$");
     private static final Set<String> TARGET_CATEGORIES = Set.of("equipment", "attribute", "skill", "character", "type");
+    private static final Set<String> ATTRIBUTE_VALUE_KINDS = Set.of("scalar", "ratio", "rate", "flag");
     private static final Set<String> FORMULA_TYPES = Set.of("cooldown", "regen", "attribute", "damage", "resource_cost", "other");
     private static final Set<String> FORMULA_BINDING_TARGET_CATEGORIES = Set.of("skill", "hero", "item", "global");
     private static final Set<String> COEFFICIENT_BUCKET_RESOLUTION_DOMAINS = Set.of("attribute", "hp_change");
@@ -414,6 +415,8 @@ public class PostgresWriteStore {
         if (merged.has("defaultValue") && !merged.path("defaultValue").isNull() && !merged.path("defaultValue").isNumber()) {
             throw badRequest("attributeDefinition.defaultValue must be number", Map.of("path", "/defaultValue"));
         }
+        String valueKind = normalizeAttributeDefinitionValueKind(merged);
+        String rateTargetAttrKey = validateAttributeDefinitionRateTarget(gameId, merged, valueKind);
 
         long versionId = resolveVersionIdForWrite(gameId);
         attributeDefinitionsMapper.upsertAttributeDefinition(
@@ -422,7 +425,9 @@ public class PostgresWriteStore {
             versionId,
             nullableText(merged, "attrName"),
             nullableText(merged, "attrType"),
-            nullableBigDecimal(merged, "defaultValue")
+            nullableBigDecimal(merged, "defaultValue"),
+            valueKind,
+            rateTargetAttrKey
         );
         return merged;
     }
@@ -631,7 +636,9 @@ public class PostgresWriteStore {
                 versionId,
                 mapText(row, "attrName"),
                 mapText(row, "attrType"),
-                mapBigDecimal(row, "defaultValue")
+                mapBigDecimal(row, "defaultValue"),
+                mapText(row, "valueKind"),
+                mapText(row, "rateTargetAttrKey")
             );
         }
         for (Map<String, Object> row : changedTypes) {
@@ -845,6 +852,11 @@ public class PostgresWriteStore {
             ObjectNode attr = requireObject(node, "/attributeDefinitions");
             String attrKey = requireTextForPublish(attr, "attrKey", "/attributeDefinitions/attrKey");
             attrKeys.add(attrKey);
+        }
+
+        for (JsonNode node : attributeDefinitions) {
+            ObjectNode attr = requireObject(node, "/attributeDefinitions");
+            validateAttributeDefinitionForPublish(attr, attrKeys);
         }
 
         for (JsonNode node : coefficientBuckets) {
@@ -1232,6 +1244,84 @@ public class PostgresWriteStore {
         }
         if (!config.path("triggers").isArray()) {
             throw badRequest("mechanicsConfig.triggers is required and must be array", Map.of("path", "/mechanicsConfig/triggers"));
+        }
+    }
+
+    private String normalizeAttributeDefinitionValueKind(ObjectNode attributeDefinition) {
+        String valueKind = nullableText(attributeDefinition, "valueKind");
+        if (valueKind == null || valueKind.isBlank()) {
+            attributeDefinition.put("valueKind", "scalar");
+            return "scalar";
+        }
+
+        String normalized = valueKind.toLowerCase(Locale.ROOT);
+        if (!ATTRIBUTE_VALUE_KINDS.contains(normalized)) {
+            throw badRequest("attributeDefinition.valueKind invalid", Map.of("path", "/valueKind", "valueKind", valueKind));
+        }
+        attributeDefinition.put("valueKind", normalized);
+        return normalized;
+    }
+
+    private String validateAttributeDefinitionRateTarget(String gameId, ObjectNode attributeDefinition, String valueKind) {
+        String rateTargetAttrKey = nullableText(attributeDefinition, "rateTargetAttrKey");
+        if ("rate".equals(valueKind)) {
+            if (rateTargetAttrKey == null || rateTargetAttrKey.isBlank()) {
+                throw badRequest(
+                    "attributeDefinition.rateTargetAttrKey is required when valueKind=rate",
+                    Map.of("path", "/rateTargetAttrKey")
+                );
+            }
+            if (!attributeDefinition.path("attrKey").asText().equals(rateTargetAttrKey)
+                && readStore.loadAttributeDefinition(gameId, rateTargetAttrKey) == null) {
+                throw semantic(
+                    "attributeDefinition.rateTargetAttrKey not found",
+                    Map.of("path", "/rateTargetAttrKey", "rateTargetAttrKey", rateTargetAttrKey)
+                );
+            }
+            attributeDefinition.put("rateTargetAttrKey", rateTargetAttrKey);
+            return rateTargetAttrKey;
+        }
+
+        if (rateTargetAttrKey != null) {
+            throw badRequest(
+                "attributeDefinition.rateTargetAttrKey must be null unless valueKind=rate",
+                Map.of("path", "/rateTargetAttrKey")
+            );
+        }
+        return null;
+    }
+
+    private void validateAttributeDefinitionForPublish(ObjectNode attributeDefinition, Set<String> attrKeys) {
+        String valueKind = attributeDefinition.path("valueKind").asText("scalar").toLowerCase(Locale.ROOT);
+        if (!ATTRIBUTE_VALUE_KINDS.contains(valueKind)) {
+            throw semantic(
+                "attributeDefinition.valueKind invalid",
+                Map.of("path", "/attributeDefinitions/valueKind", "valueKind", valueKind)
+            );
+        }
+
+        String rateTargetAttrKey = nullableText(attributeDefinition, "rateTargetAttrKey");
+        if ("rate".equals(valueKind)) {
+            if (rateTargetAttrKey == null || rateTargetAttrKey.isBlank()) {
+                throw semantic(
+                    "attributeDefinition.rateTargetAttrKey is required when valueKind=rate",
+                    Map.of("path", "/attributeDefinitions/rateTargetAttrKey")
+                );
+            }
+            if (!attrKeys.contains(rateTargetAttrKey)) {
+                throw semantic(
+                    "attributeDefinition.rateTargetAttrKey not found",
+                    Map.of("path", "/attributeDefinitions/rateTargetAttrKey", "rateTargetAttrKey", rateTargetAttrKey)
+                );
+            }
+            return;
+        }
+
+        if (rateTargetAttrKey != null) {
+            throw semantic(
+                "attributeDefinition.rateTargetAttrKey must be null unless valueKind=rate",
+                Map.of("path", "/attributeDefinitions/rateTargetAttrKey")
+            );
         }
     }
 

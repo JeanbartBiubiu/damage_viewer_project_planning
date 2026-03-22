@@ -1,6 +1,6 @@
 import type { JsonObject } from '../types/api';
 
-export type RouteId = 'overview' | 'workspace' | 'images' | 'admin';
+export type RouteId = 'overview' | 'workspace' | 'katarina-mvp' | 'images' | 'admin';
 
 export type NavigationItem = {
   id: RouteId;
@@ -33,6 +33,11 @@ export const navigationItems: NavigationItem[] = [
     id: 'workspace',
     label: '游戏工作台',
     summary: '承接当前版本、Bundle 预览和内容规模概览。'
+  },
+  {
+    id: 'katarina-mvp',
+    label: '卡特 MVP',
+    summary: '拉取 current + bundle，组装 S0 / S1 输入并运行最小伤害模拟。'
   },
   {
     id: 'images',

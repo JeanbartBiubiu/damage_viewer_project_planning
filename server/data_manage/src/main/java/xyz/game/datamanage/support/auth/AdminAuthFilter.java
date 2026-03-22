@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import xyz.game.datamanage.support.error.ErrorResponse;
 
@@ -31,7 +32,7 @@ public class AdminAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getRequestURI().startsWith("/api/admin/");
+        return !request.getRequestURI().startsWith("/api/admin/") || CorsUtils.isPreFlightRequest(request);
     }
 
     @Override
@@ -40,6 +41,12 @@ public class AdminAuthFilter extends OncePerRequestFilter {
         HttpServletResponse response,
         FilterChain filterChain
     ) throws ServletException, IOException {
+        if (jwtVerifier.isDisabled()) {
+            request.setAttribute(AUTH_CONTEXT_ATTR, jwtVerifier.developmentAuthContext());
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authorization = request.getHeader("Authorization");
         if (authorization == null || !authorization.startsWith(BEARER_PREFIX)) {
             writeError(response, HttpStatus.UNAUTHORIZED, "401.UNAUTHORIZED", "Missing or invalid Authorization header",

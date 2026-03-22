@@ -2,7 +2,7 @@ spring:
   datasource:
     username: postgres
     password: postgresql123a123aA_
-    url: jdbc:postgresql://100.107.31.39:5432/test0221
+    url: jdbc:postgresql://192.168.5.56:5432/test0221
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     hikari:
@@ -27,5 +27,6 @@ app:
     fail-fast: false
   auth:
     jwt:
-      es256-public-key-pem: ${IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM:}
+      disabled: ${APP_AUTH_JWT_DISABLED:true}
+      es256-public-key-pem: ${IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM:MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEPogZ3IHtc+zE4vC+RVV9sr57Gj9zUCougpYPzjXZgknKELUlprAO60O8xDuW6ptu5hdwTP5Xgh6se1241KGf4A==}
       exp-leeway: ${IT_ADMIN_JWT_EXP_LEEWAY:30s}

@@ -147,6 +147,70 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void katarinaMvpPublishFlow_shouldExposeEngineReadyBundle() {
+        long versionId = createVersion("mvp_katarina_001");
+        putKatarinaMvpEntities();
+
+        publish(versionId);
+
+        ResponseEntity<JsonNode> currentResponse = getCurrentVersion();
+        assertEquals(HttpStatus.OK, currentResponse.getStatusCode());
+        JsonNode current = requireBody(currentResponse);
+        assertEquals(versionId, current.path("versionId").asLong());
+        assertEquals("mvp_katarina_001", current.path("versionCode").asText());
+        assertFalse(current.path("dataHash").asText().isBlank());
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionId, null);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+        assertEquals("mvp_katarina_001", bundle.path("meta").path("versionCode").asText());
+        assertEquals(current.path("dataHash").asText(), bundle.path("meta").path("dataHash").asText());
+        assertEquals(10, bundle.path("attributeDefinitions").size());
+        assertEquals(2, bundle.path("heroes").size());
+        assertEquals(2, bundle.path("skills").size());
+        assertEquals(2, bundle.path("items").size());
+
+        JsonNode hpRegen = findByField(bundle.path("attributeDefinitions"), "attrKey", "hp_regen");
+        assertEquals("rate", hpRegen.path("valueKind").asText());
+        assertEquals("hp", hpRegen.path("rateTargetAttrKey").asText());
+
+        JsonNode attackSpeed = findByField(bundle.path("attributeDefinitions"), "attrKey", "attack_speed");
+        assertEquals("scalar", attackSpeed.path("valueKind").asText());
+        assertTrue(attackSpeed.path("rateTargetAttrKey").isMissingNode());
+
+        JsonNode katarina = findByField(bundle.path("heroes"), "heroId", "hero_katarina");
+        assertEquals("卡特琳娜", katarina.path("name").asText());
+        assertEquals(2508.0, katarina.path("baseStats").path("hp").asDouble(), 0.001);
+        assertEquals(112.4, katarina.path("baseStats").path("ad").asDouble(), 0.001);
+
+        JsonNode dummy = findByField(bundle.path("heroes"), "heroId", "hero_dummy_10000hp_100ar_100mr");
+        assertEquals(10000.0, dummy.path("baseStats").path("hp").asDouble(), 0.001);
+        assertEquals(100.0, dummy.path("baseStats").path("armor").asDouble(), 0.001);
+        assertEquals(100.0, dummy.path("baseStats").path("magic_resist").asDouble(), 0.001);
+
+        JsonNode basicAttack = findByField(bundle.path("skills"), "skillId", "skill_katarina_basic_attack");
+        assertEquals("A", basicAttack.path("skillKey").asText());
+        assertEquals("physical", basicAttack.path("params").path("damageType").asText());
+        assertEquals(1.0, basicAttack.path("params").path("attackRatio").asDouble(), 0.001);
+
+        JsonNode deathLotus = findByField(bundle.path("skills"), "skillId", "skill_katarina_r");
+        assertEquals("R", deathLotus.path("skillKey").asText());
+        assertEquals(15, deathLotus.path("params").path("hitCount").asInt());
+        assertEquals(167, deathLotus.path("params").path("hitIntervalMs").asInt());
+        assertEquals(50.0, deathLotus.path("params").path("baseDamageBySkillLevel").path(2).asDouble(), 0.001);
+
+        JsonNode bork = findByField(bundle.path("items"), "itemId", "item_blade_of_the_ruined_king");
+        assertEquals("破败王者之刃", bork.path("name").asText());
+        assertEquals(55.0, bork.path("statsModifier").path("ad").asDouble(), 0.001);
+        assertEquals(0.3, bork.path("statsModifier").path("attack_speed").asDouble(), 0.001);
+
+        JsonNode nashors = findByField(bundle.path("items"), "itemId", "item_nashors_tooth");
+        assertEquals("纳什之牙", nashors.path("name").asText());
+        assertEquals(90.0, nashors.path("statsModifier").path("ap").asDouble(), 0.001);
+        assertEquals(15.0, nashors.path("statsModifier").path("ability_haste").asDouble(), 0.001);
+    }
+
+    @Test
     void bundle_ifNoneMatch_shouldReturn304() {
         long versionId = createVersion("1.0.0");
         putBaselineEntities("Ahri");
@@ -459,15 +523,206 @@ class ControllerPublishFlowIT {
         putFormulaBinding("skill", "skill_orb", "damage_raw", "formula_magic_damage");
     }
 
+    private void putKatarinaMvpEntities() {
+        putAttributeDefinition("hp", "生命值", "number", 0, "scalar", null);
+        putAttributeDefinition("ad", "攻击力", "number", 0, "scalar", null);
+        putAttributeDefinition("ap", "法术强度", "number", 0, "scalar", null);
+        putAttributeDefinition("attack_speed", "攻击速度", "number", 0, "scalar", null);
+        putAttributeDefinition("armor", "护甲", "number", 0, "scalar", null);
+        putAttributeDefinition("magic_resist", "魔法抗性", "number", 0, "scalar", null);
+        putAttributeDefinition("ability_haste", "技能极速", "number", 0, "scalar", null);
+        putAttributeDefinition("physical_pen", "护甲穿透", "number", 0, "scalar", null);
+        putAttributeDefinition("magic_pen", "法术穿透", "number", 0, "scalar", null);
+        putAttributeDefinition("hp_regen", "生命回复", "number", 0, "rate", "hp");
+
+        putHero(
+            "hero_katarina",
+            "卡特琳娜",
+            "不祥之刃",
+            "hero_katarina.png",
+            Map.ofEntries(
+                Map.entry("hp", 2508.0),
+                Map.entry("ad", 112.4),
+                Map.entry("ap", 0.0),
+                Map.entry("attack_speed", 0.66),
+                Map.entry("armor", 107.9),
+                Map.entry("magic_resist", 66.85),
+                Map.entry("move_speed", 335.0),
+                Map.entry("ability_haste", 0.0),
+                Map.entry("physical_pen", 0.0),
+                Map.entry("magic_pen", 0.0),
+                Map.entry("hp_regen", 0.0)
+            ),
+            Map.of("level", 18)
+        );
+        putHero(
+            "hero_dummy_10000hp_100ar_100mr",
+            "训练假人",
+            "10000 HP / 100 AR / 100 MR",
+            "hero_dummy.png",
+            Map.ofEntries(
+                Map.entry("hp", 10000.0),
+                Map.entry("ad", 0.0),
+                Map.entry("ap", 0.0),
+                Map.entry("attack_speed", 0.0),
+                Map.entry("armor", 100.0),
+                Map.entry("magic_resist", 100.0),
+                Map.entry("ability_haste", 0.0),
+                Map.entry("physical_pen", 0.0),
+                Map.entry("magic_pen", 0.0),
+                Map.entry("hp_regen", 0.0)
+            ),
+            Map.of("role", "target_dummy")
+        );
+
+        putSkill(
+            "skill_katarina_basic_attack",
+            "hero",
+            "hero_katarina",
+            "A",
+            "普通攻击",
+            "卡特琳娜最小验证用的平A动作。",
+            Map.of(
+                "damageType", "physical",
+                "attackRatio", 1.0,
+                "defaultRepeatCount", 10
+            ),
+            Map.of(
+                "repeatable", true,
+                "drivenByAttackSpeed", true
+            ),
+            Map.of(
+                "version", 1,
+                "triggers", List.of(
+                    Map.of(
+                        "id", "basic_attack_hit",
+                        "event", Map.of("type", "on_basic_attack_hit"),
+                        "actions", List.of(
+                            Map.of(
+                                "type", "deal_damage",
+                                "damage", Map.of(
+                                    "source", "self",
+                                    "target", "enemy",
+                                    "damageType", "physical"
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+        putSkill(
+            "skill_katarina_r",
+            "hero",
+            "hero_katarina",
+            "R",
+            "死亡莲华",
+            "在 2.5 秒内对目标造成 15 段魔法伤害。",
+            Map.of(
+                "damageType", "magic",
+                "hitCount", 15,
+                "hitIntervalMs", 167,
+                "channelDurationMs", 2500,
+                "baseDamageBySkillLevel", List.of(25.0, 37.5, 50.0),
+                "adRatio", 0.16,
+                "apRatio", 0.19,
+                "bonusAttackSpeedRatio", 0.5,
+                "defaultSkillLevel", 3
+            ),
+            Map.of(
+                "channel", Map.of(
+                    "durationMs", 2500,
+                    "interruptible", true
+                )
+            ),
+            Map.of(
+                "version", 1,
+                "triggers", List.of(
+                    Map.of(
+                        "id", "death_lotus_schedule",
+                        "event", Map.of("type", "on_spell_cast"),
+                        "actions", List.of(
+                            Map.of(
+                                "type", "schedule_tick",
+                                "tickKey", "katarina_r_hit",
+                                "everyMs", 167,
+                                "times", 15
+                            )
+                        )
+                    ),
+                    Map.of(
+                        "id", "death_lotus_hit",
+                        "event", Map.of(
+                            "type", "on_tick",
+                            "tickKey", "katarina_r_hit"
+                        ),
+                        "actions", List.of(
+                            Map.of(
+                                "type", "deal_damage",
+                                "damage", Map.of(
+                                    "source", "self",
+                                    "target", "enemy",
+                                    "damageType", "magic"
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        putItem(
+            "item_blade_of_the_ruined_king",
+            "破败王者之刃",
+            3200,
+            "item_blade_of_the_ruined_king.png",
+            Map.of(
+                "ad", 55.0,
+                "attack_speed", 0.3
+            ),
+            List.of(),
+            List.of()
+        );
+        putItem(
+            "item_nashors_tooth",
+            "纳什之牙",
+            3000,
+            "item_nashors_tooth.png",
+            Map.of(
+                "ap", 90.0,
+                "attack_speed", 0.5,
+                "ability_haste", 15.0
+            ),
+            List.of(),
+            List.of()
+        );
+    }
+
     private void putAttributeDefinition(String attrKey) {
+        putAttributeDefinition(attrKey, attrKey, "number", 0, "scalar", null);
+    }
+
+    private void putAttributeDefinition(
+        String attrKey,
+        String attrName,
+        String attrType,
+        Number defaultValue,
+        String valueKind,
+        String rateTargetAttrKey
+    ) {
+        Map<String, Object> body = new java.util.LinkedHashMap<>();
+        body.put("attrName", attrName);
+        body.put("attrType", attrType);
+        body.put("defaultValue", defaultValue);
+        body.put("valueKind", valueKind);
+        if (rateTargetAttrKey != null) {
+            body.put("rateTargetAttrKey", rateTargetAttrKey);
+        }
+
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/attribute-definitions/" + attrKey,
             HttpMethod.PUT,
-            Map.of(
-                "attrName", "Attack Power",
-                "attrType", "number",
-                "defaultValue", 0
-            )
+            body
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -498,59 +753,111 @@ class ControllerPublishFlowIT {
     }
 
     private void upsertHero(String heroId, String heroName) {
+        putHero(
+            heroId,
+            heroName,
+            "Nine-Tailed Fox",
+            "hero_ahri.png",
+            Map.of("hp", 500),
+            Map.of("hp", 80)
+        );
+    }
+
+    private void putHero(
+        String heroId,
+        String name,
+        String title,
+        String avatarUrl,
+        Map<String, Object> baseStats,
+        Map<String, Object> statsByLevel
+    ) {
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/heroes/" + heroId,
             HttpMethod.PUT,
             Map.of(
-                "name", heroName,
-                "title", "Nine-Tailed Fox",
-                "avatarUrl", "hero_ahri.png",
-                "baseStats", Map.of("hp", 500),
-                "statsByLevel", Map.of("hp", 80)
+                "name", name,
+                "title", title,
+                "avatarUrl", avatarUrl,
+                "baseStats", baseStats,
+                "statsByLevel", statsByLevel
             )
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     private void putSkill(String skillId, String ownerType, String ownerId) {
+        putSkill(
+            skillId,
+            ownerType,
+            ownerId,
+            "Q",
+            "Orb of Deception",
+            "Integration test skill",
+            Map.of("baseDamage", 60, "apRatio", 0.4),
+            Map.of("cast", Map.of("frontSwingMs", 250)),
+            Map.of("version", 1, "triggers", List.of())
+        );
+    }
+
+    private void putSkill(
+        String skillId,
+        String ownerType,
+        String ownerId,
+        String skillKey,
+        String name,
+        String description,
+        Map<String, Object> params,
+        Map<String, Object> timingProfile,
+        Map<String, Object> mechanicsConfig
+    ) {
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/skills/" + skillId,
             HttpMethod.PUT,
             Map.of(
                 "ownerType", ownerType,
                 "ownerId", ownerId,
-                "skillKey", "Q",
-                "name", "Orb of Deception",
-                "description", "Integration test skill",
+                "skillKey", skillKey,
+                "name", name,
+                "description", description,
                 "resourceCosts", List.of(50),
                 "cooldowns", List.of(7),
-                "params", Map.of(
-                    "baseDamage", 60,
-                    "apRatio", 0.4
-                ),
-                "timingProfile", Map.of(
-                    "cast", Map.of(
-                        "frontSwingMs", 250
-                    )
-                ),
-                "mechanicsConfig", Map.of(
-                    "version", 1,
-                    "triggers", List.of()
-                )
+                "params", params,
+                "timingProfile", timingProfile,
+                "mechanicsConfig", mechanicsConfig
             )
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     private void putItem(String itemId, List<String> skillRefs, List<String> recipeIds) {
+        putItem(
+            itemId,
+            "Amplifying Tome",
+            435,
+            "item_tome.png",
+            Map.of("attack_power", 20),
+            skillRefs,
+            recipeIds
+        );
+    }
+
+    private void putItem(
+        String itemId,
+        String name,
+        Integer goldCost,
+        String iconUrl,
+        Map<String, Object> statsModifier,
+        List<String> skillRefs,
+        List<String> recipeIds
+    ) {
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/items/" + itemId,
             HttpMethod.PUT,
             Map.of(
-                "name", "Amplifying Tome",
-                "goldCost", 435,
-                "iconUrl", "item_tome.png",
-                "statsModifier", Map.of("attack_power", 20),
+                "name", name,
+                "goldCost", goldCost,
+                "iconUrl", iconUrl,
+                "statsModifier", statsModifier,
                 "skillRefs", skillRefs,
                 "recipeIds", recipeIds
             )
