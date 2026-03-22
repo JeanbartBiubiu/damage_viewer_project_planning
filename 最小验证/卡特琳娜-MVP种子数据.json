@@ -1,0 +1,260 @@
+{
+  "gameId": "lol",
+  "versionCode": "mvp_katarina_001",
+  "ownerCategories": [
+    {
+      "ownerType": "hero",
+      "name": "英雄"
+    },
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [
+    {
+      "attrKey": "hp",
+      "attrName": "生命值",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ad",
+      "attrName": "攻击力",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ap",
+      "attrName": "法术强度",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "attack_speed",
+      "attrName": "攻击速度",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "armor",
+      "attrName": "护甲",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_resist",
+      "attrName": "魔法抗性",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ability_haste",
+      "attrName": "技能极速",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "physical_pen",
+      "attrName": "护甲穿透",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_pen",
+      "attrName": "法术穿透",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "hp_regen",
+      "attrName": "生命回复",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "rate",
+      "rateTargetAttrKey": "hp"
+    }
+  ],
+  "heroes": [
+    {
+      "heroId": "hero_katarina",
+      "name": "卡特琳娜",
+      "title": "不祥之刃",
+      "baseStats": {
+        "hp": 2508,
+        "ad": 112.4,
+        "ap": 0,
+        "attack_speed": 0.66,
+        "armor": 107.9,
+        "magic_resist": 66.85,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      },
+      "statsByLevel": {
+        "level": 18
+      }
+    },
+    {
+      "heroId": "hero_dummy_10000hp_100ar_100mr",
+      "name": "训练假人",
+      "title": "10000 HP / 100 AR / 100 MR",
+      "baseStats": {
+        "hp": 10000,
+        "ad": 0,
+        "ap": 0,
+        "attack_speed": 0,
+        "armor": 100,
+        "magic_resist": 100,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      }
+    }
+  ],
+  "skills": [
+    {
+      "skillId": "skill_katarina_basic_attack",
+      "ownerType": "hero",
+      "ownerId": "hero_katarina",
+      "skillKey": "A",
+      "name": "普通攻击",
+      "params": {
+        "damageType": "physical",
+        "attackRatio": 1,
+        "defaultRepeatCount": 10
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "basic_attack_hit",
+            "event": {
+              "type": "on_basic_attack_hit"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "physical"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_katarina_r",
+      "ownerType": "hero",
+      "ownerId": "hero_katarina",
+      "skillKey": "R",
+      "name": "死亡莲华",
+      "params": {
+        "damageType": "magic",
+        "hitCount": 15,
+        "hitIntervalMs": 167,
+        "channelDurationMs": 2500,
+        "baseDamageBySkillLevel": [25, 37.5, 50],
+        "adRatio": 0.16,
+        "apRatio": 0.19,
+        "bonusAttackSpeedRatio": 0.5,
+        "defaultSkillLevel": 3
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "death_lotus_schedule",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "schedule_tick",
+                "tickKey": "katarina_r_hit",
+                "everyMs": 167,
+                "times": 15
+              }
+            ]
+          },
+          {
+            "id": "death_lotus_hit",
+            "event": {
+              "type": "on_tick",
+              "tickKey": "katarina_r_hit"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "item_blade_of_the_ruined_king",
+      "name": "破败王者之刃",
+      "goldCost": 3200,
+      "statsModifier": {
+        "ad": 55,
+        "attack_speed": 0.3
+      },
+      "skillRefs": [],
+      "recipeIds": []
+    },
+    {
+      "itemId": "item_nashors_tooth",
+      "name": "纳什之牙",
+      "goldCost": 3000,
+      "statsModifier": {
+        "ap": 90,
+        "attack_speed": 0.5,
+        "ability_haste": 15
+      },
+      "skillRefs": [],
+      "recipeIds": []
+    }
+  ],
+  "scenarios": [
+    {
+      "scenarioId": "s0_basic_attack_10",
+      "name": "S0 平A 10 下",
+      "plan": {
+        "type": "basic_attack",
+        "count": 10,
+        "skillId": "skill_katarina_basic_attack"
+      }
+    },
+    {
+      "scenarioId": "s1_full_r",
+      "name": "S1 完整 R",
+      "plan": {
+        "type": "cast_skill",
+        "skillId": "skill_katarina_r",
+        "skillLevel": 3
+      }
+    }
+  ]
+}

@@ -22,8 +22,10 @@ public class JwtVerifier {
 
     private static final String JWT_ALGORITHM = "ES256";
     private static final String EC_ALGORITHM = "EC";
+    private static final AuthContext DEVELOPMENT_AUTH_CONTEXT = new AuthContext("dev-local@example.com", true, true);
 
     private final Clock clock;
+    private final boolean disabled;
     private final ECPublicKey publicKey;
     private final long expLeewaySeconds;
 
@@ -34,17 +36,29 @@ public class JwtVerifier {
 
     JwtVerifier(Clock clock, AdminJwtProperties jwtProperties) {
         this.clock = clock;
-        this.publicKey = parsePublicKey(jwtProperties.getEs256PublicKeyPem());
+        this.disabled = jwtProperties.isDisabled();
+        this.publicKey = disabled ? null : parsePublicKey(jwtProperties.getEs256PublicKeyPem());
         this.expLeewaySeconds = jwtProperties.getExpLeeway().toSeconds();
     }
 
     public AuthContext verify(String token) {
+        if (disabled) {
+            return DEVELOPMENT_AUTH_CONTEXT;
+        }
         SignedJWT signedJwt = parseToken(token);
         verifyAlgorithm(signedJwt);
         verifySignature(signedJwt);
         Map<String, Object> payloadClaims = signedJwt.getPayload().toJSONObject();
         verifyExpiration(payloadClaims);
         return buildAuthContext(payloadClaims);
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public AuthContext developmentAuthContext() {
+        return DEVELOPMENT_AUTH_CONTEXT;
     }
 
     private SignedJWT parseToken(String token) {

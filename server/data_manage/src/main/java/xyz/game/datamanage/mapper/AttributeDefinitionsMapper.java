@@ -25,7 +25,9 @@ public interface AttributeDefinitionsMapper {
         @Param("versionId") long versionId,
         @Param("attrName") String attrName,
         @Param("attrType") String attrType,
-        @Param("defaultValue") BigDecimal defaultValue
+        @Param("defaultValue") BigDecimal defaultValue,
+        @Param("valueKind") String valueKind,
+        @Param("rateTargetAttrKey") String rateTargetAttrKey
     );
 
     int updateVersionRange(
@@ -40,6 +42,8 @@ public interface AttributeDefinitionsMapper {
         @Param("versionId") long versionId,
         @Param("attrName") String attrName,
         @Param("attrType") String attrType,
-        @Param("defaultValue") BigDecimal defaultValue
+        @Param("defaultValue") BigDecimal defaultValue,
+        @Param("valueKind") String valueKind,
+        @Param("rateTargetAttrKey") String rateTargetAttrKey
     );
 }

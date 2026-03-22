@@ -468,6 +468,9 @@ public class PostgresReadStore {
         if (defaultValue != null) {
             node.putPOJO("defaultValue", defaultValue);
         }
+        String valueKind = text(row, "valueKind");
+        node.put("valueKind", valueKind == null || valueKind.isBlank() ? "scalar" : valueKind);
+        putNullableText(node, "rateTargetAttrKey", text(row, "rateTargetAttrKey"));
         return node;
     }
 
