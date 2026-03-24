@@ -1,14 +1,22 @@
 import type {
   ApiErrorResponse,
+  CoefficientBucket,
   CoefficientBucketsResponse,
   CurrentVersion,
+  FormulaBinding,
   FormulaBindingsResponse,
+  FormulaProfile,
   FormulaProfilesResponse,
   GameDataBundle,
   GameSummary,
   ImageCollectionResponse,
+  JsonObject,
   OwnerCategoryResponse,
-  StatusActionControlRulesResponse
+  StatusActionControlRule,
+  StatusActionControlRulesResponse,
+  VersionCreatePayload,
+  VersionCreateResponse,
+  VersionPublishResponse
 } from '../types/api';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:8080';
@@ -50,7 +58,7 @@ export function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     return error.message;
   }
-  return '发生了未知错误';
+  return 'An unknown error occurred.';
 }
 
 export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSummary[]>> {
@@ -58,7 +66,7 @@ export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSumma
 }
 
 export async function getCurrentVersion(apiBaseUrl: string, gameId: string): Promise<ApiResult<CurrentVersion>> {
-  return requestJson<CurrentVersion>(apiBaseUrl, `/api/games/${gameId}/versions/current`);
+  return requestJson<CurrentVersion>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/versions/current`);
 }
 
 export async function getBundle(
@@ -67,13 +75,17 @@ export async function getBundle(
   versionId: number,
   ifNoneMatch?: string
 ): Promise<ApiResult<GameDataBundle>> {
-  return requestJson<GameDataBundle>(apiBaseUrl, `/api/games/${gameId}/versions/${versionId}/bundle`, {
-    ifNoneMatch
-  });
+  return requestJson<GameDataBundle>(
+    apiBaseUrl,
+    `/api/games/${encodePathSegment(gameId)}/versions/${versionId}/bundle`,
+    {
+      ifNoneMatch
+    }
+  );
 }
 
 export async function getOwnerCategories(apiBaseUrl: string, gameId: string): Promise<ApiResult<OwnerCategoryResponse>> {
-  return requestJson<OwnerCategoryResponse>(apiBaseUrl, `/api/games/${gameId}/owner-categories`);
+  return requestJson<OwnerCategoryResponse>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/owner-categories`);
 }
 
 export async function getImages(
@@ -81,7 +93,7 @@ export async function getImages(
   gameId: string,
   updatedAfter?: string
 ): Promise<ApiResult<ImageCollectionResponse>> {
-  const url = new URL(`/api/games/${gameId}/images`, `${resolveApiBaseUrl(apiBaseUrl)}/`);
+  const url = new URL(`/api/games/${encodePathSegment(gameId)}/images`, `${resolveApiBaseUrl(apiBaseUrl)}/`);
   if (updatedAfter) {
     url.searchParams.set('updatedAfter', updatedAfter);
   }
@@ -93,8 +105,47 @@ export async function getCoefficientBuckets(
   gameId: string,
   token: string
 ): Promise<ApiResult<CoefficientBucketsResponse>> {
-  return requestJson<CoefficientBucketsResponse>(apiBaseUrl, `/api/admin/games/${gameId}/coefficient-buckets`, {
+  return requestJson<CoefficientBucketsResponse>(apiBaseUrl, adminPath(gameId, 'coefficient-buckets'), {
     token
+  });
+}
+
+export async function getCoefficientBucket(
+  apiBaseUrl: string,
+  gameId: string,
+  bucketKey: string,
+  token: string
+): Promise<ApiResult<CoefficientBucket>> {
+  return requestJson<CoefficientBucket>(apiBaseUrl, adminPath(gameId, 'coefficient-buckets', bucketKey), {
+    token
+  });
+}
+
+export async function putCoefficientBucket(
+  apiBaseUrl: string,
+  gameId: string,
+  bucketKey: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<CoefficientBucket>> {
+  return requestJson<CoefficientBucket>(apiBaseUrl, adminPath(gameId, 'coefficient-buckets', bucketKey), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function patchCoefficientBucket(
+  apiBaseUrl: string,
+  gameId: string,
+  bucketKey: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<CoefficientBucket>> {
+  return requestJson<CoefficientBucket>(apiBaseUrl, adminPath(gameId, 'coefficient-buckets', bucketKey), {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify(body)
   });
 }
 
@@ -103,8 +154,47 @@ export async function getStatusActionControlRules(
   gameId: string,
   token: string
 ): Promise<ApiResult<StatusActionControlRulesResponse>> {
-  return requestJson<StatusActionControlRulesResponse>(apiBaseUrl, `/api/admin/games/${gameId}/status-action-control-rules`, {
+  return requestJson<StatusActionControlRulesResponse>(apiBaseUrl, adminPath(gameId, 'status-action-control-rules'), {
     token
+  });
+}
+
+export async function getStatusActionControlRule(
+  apiBaseUrl: string,
+  gameId: string,
+  ruleId: string,
+  token: string
+): Promise<ApiResult<StatusActionControlRule>> {
+  return requestJson<StatusActionControlRule>(apiBaseUrl, adminPath(gameId, 'status-action-control-rules', ruleId), {
+    token
+  });
+}
+
+export async function putStatusActionControlRule(
+  apiBaseUrl: string,
+  gameId: string,
+  ruleId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusActionControlRule>> {
+  return requestJson<StatusActionControlRule>(apiBaseUrl, adminPath(gameId, 'status-action-control-rules', ruleId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function patchStatusActionControlRule(
+  apiBaseUrl: string,
+  gameId: string,
+  ruleId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusActionControlRule>> {
+  return requestJson<StatusActionControlRule>(apiBaseUrl, adminPath(gameId, 'status-action-control-rules', ruleId), {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify(body)
   });
 }
 
@@ -113,8 +203,47 @@ export async function getFormulaProfiles(
   gameId: string,
   token: string
 ): Promise<ApiResult<FormulaProfilesResponse>> {
-  return requestJson<FormulaProfilesResponse>(apiBaseUrl, `/api/admin/games/${gameId}/formula-profiles`, {
+  return requestJson<FormulaProfilesResponse>(apiBaseUrl, adminPath(gameId, 'formula-profiles'), {
     token
+  });
+}
+
+export async function getFormulaProfile(
+  apiBaseUrl: string,
+  gameId: string,
+  formulaId: string,
+  token: string
+): Promise<ApiResult<FormulaProfile>> {
+  return requestJson<FormulaProfile>(apiBaseUrl, adminPath(gameId, 'formula-profiles', formulaId), {
+    token
+  });
+}
+
+export async function putFormulaProfile(
+  apiBaseUrl: string,
+  gameId: string,
+  formulaId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<FormulaProfile>> {
+  return requestJson<FormulaProfile>(apiBaseUrl, adminPath(gameId, 'formula-profiles', formulaId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function patchFormulaProfile(
+  apiBaseUrl: string,
+  gameId: string,
+  formulaId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<FormulaProfile>> {
+  return requestJson<FormulaProfile>(apiBaseUrl, adminPath(gameId, 'formula-profiles', formulaId), {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify(body)
   });
 }
 
@@ -123,7 +252,89 @@ export async function getFormulaBindings(
   gameId: string,
   token: string
 ): Promise<ApiResult<FormulaBindingsResponse>> {
-  return requestJson<FormulaBindingsResponse>(apiBaseUrl, `/api/admin/games/${gameId}/formula-bindings`, {
+  return requestJson<FormulaBindingsResponse>(apiBaseUrl, adminPath(gameId, 'formula-bindings'), {
+    token
+  });
+}
+
+export async function getFormulaBinding(
+  apiBaseUrl: string,
+  gameId: string,
+  targetCategory: string,
+  targetId: string,
+  bindingKey: string,
+  token: string
+): Promise<ApiResult<FormulaBinding>> {
+  return requestJson<FormulaBinding>(
+    apiBaseUrl,
+    adminPath(gameId, 'formula-bindings', targetCategory, targetId, bindingKey),
+    {
+      token
+    }
+  );
+}
+
+export async function putFormulaBinding(
+  apiBaseUrl: string,
+  gameId: string,
+  targetCategory: string,
+  targetId: string,
+  bindingKey: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<FormulaBinding>> {
+  return requestJson<FormulaBinding>(
+    apiBaseUrl,
+    adminPath(gameId, 'formula-bindings', targetCategory, targetId, bindingKey),
+    {
+      method: 'PUT',
+      token,
+      body: JSON.stringify(body)
+    }
+  );
+}
+
+export async function patchFormulaBinding(
+  apiBaseUrl: string,
+  gameId: string,
+  targetCategory: string,
+  targetId: string,
+  bindingKey: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<FormulaBinding>> {
+  return requestJson<FormulaBinding>(
+    apiBaseUrl,
+    adminPath(gameId, 'formula-bindings', targetCategory, targetId, bindingKey),
+    {
+      method: 'PATCH',
+      token,
+      body: JSON.stringify(body)
+    }
+  );
+}
+
+export async function createVersion(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string,
+  body: VersionCreatePayload
+): Promise<ApiResult<VersionCreateResponse>> {
+  return requestJson<VersionCreateResponse>(apiBaseUrl, adminPath(gameId, 'versions'), {
+    method: 'POST',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function publishVersion(
+  apiBaseUrl: string,
+  gameId: string,
+  versionId: number,
+  token: string
+): Promise<ApiResult<VersionPublishResponse>> {
+  return requestJson<VersionPublishResponse>(apiBaseUrl, adminPath(gameId, 'versions', `${versionId}:publish`), {
+    method: 'POST',
     token
   });
 }
@@ -162,8 +373,17 @@ async function requestJson<T>(apiBaseUrl: string, path: string, options: Request
   };
 }
 
+function adminPath(gameId: string, ...segments: string[]): string {
+  const encodedSegments = segments.map(encodePathSegment).join('/');
+  return `/api/admin/games/${encodePathSegment(gameId)}/${encodedSegments}`;
+}
+
 function buildUrl(apiBaseUrl: string, path: string): string {
   return new URL(path, `${resolveApiBaseUrl(apiBaseUrl)}/`).toString();
+}
+
+function encodePathSegment(value: string): string {
+  return encodeURIComponent(value);
 }
 
 async function parseBody(response: Response): Promise<unknown> {
@@ -183,12 +403,12 @@ function toRequestError(response: Response, body: unknown): ApiRequestError {
   if (typeof body === 'object' && body !== null) {
     const payload = body as ApiErrorResponse;
     return new ApiRequestError(
-      payload.error?.message || `请求失败，HTTP ${response.status}`,
+      payload.error?.message || `Request failed with HTTP ${response.status}`,
       response.status,
       payload.error?.code,
       payload.error?.details as Record<string, unknown> | undefined
     );
   }
 
-  return new ApiRequestError(`请求失败，HTTP ${response.status}`, response.status);
+  return new ApiRequestError(`Request failed with HTTP ${response.status}`, response.status);
 }

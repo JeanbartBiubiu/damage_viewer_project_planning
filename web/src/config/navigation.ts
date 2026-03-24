@@ -8,6 +8,13 @@ export type NavigationItem = {
   summary: string;
 };
 
+export type AdminResourceNavigationItem = {
+  id: 'formulaProfiles' | 'formulaBindings' | 'coefficientBuckets' | 'statusActionControlRules';
+  hashSegment: string;
+  label: string;
+  summary: string;
+};
+
 export type SurfaceEndpoint = {
   title: string;
   method: string;
@@ -48,6 +55,33 @@ export const navigationItems: NavigationItem[] = [
     id: 'admin',
     label: '编辑后台',
     summary: '预留 Admin CRUD、发布与公式扩展入口。'
+  }
+];
+
+export const adminResourceNavigationItems: AdminResourceNavigationItem[] = [
+  {
+    id: 'formulaProfiles',
+    hashSegment: 'formula-profiles',
+    label: '公式档案',
+    summary: '管理公式定义、类型、种类与描述。'
+  },
+  {
+    id: 'formulaBindings',
+    hashSegment: 'formula-bindings',
+    label: '公式绑定',
+    summary: '把公式挂到目标实体和 bindingKey 上。'
+  },
+  {
+    id: 'coefficientBuckets',
+    hashSegment: 'coefficient-buckets',
+    label: '乘区桶',
+    summary: '维护属性域与伤害域的聚合桶。'
+  },
+  {
+    id: 'statusActionControlRules',
+    hashSegment: 'status-action-control-rules',
+    label: '状态动作规则',
+    summary: '维护禁用、打断与动作限制规则。'
   }
 ];
 

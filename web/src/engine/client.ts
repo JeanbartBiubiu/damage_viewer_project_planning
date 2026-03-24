@@ -100,7 +100,8 @@ export class MvpEngineClient {
       this.runs.delete(message.runId);
       state.resolve({
         result: message.result,
-        samples: state.samples
+        samples: state.samples,
+        events: message.events
       });
       return;
     }

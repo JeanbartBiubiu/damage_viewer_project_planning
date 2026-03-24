@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Button, Card, Grid, Space, Typography } from '@arco-design/web-react';
+import { Alert, Button, Card, Grid, Space, Table, Typography } from '@arco-design/web-react';
 import { DataTable } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import { MvpEngineClient } from '../engine/client';
-import type { EngineRunInput, EngineRunOutput } from '../engine/types';
+import type { EngineDamageComponent, EngineDamageEvent, EngineRunInput, EngineRunOutput } from '../engine/types';
 import { getBundle, getCurrentVersion, getErrorMessage } from '../services/apiClient';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
 
@@ -14,6 +14,7 @@ type KatarinaMvpPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   selectedGameName: string;
+  externalRefreshSeed?: number;
 };
 
 const { Row, Col } = Grid;
@@ -23,6 +24,22 @@ type ScenarioDefinition = {
   title: string;
   summary: string;
   buildInput: (itemIds: string[]) => EngineRunInput;
+};
+
+type DamageEventRow = {
+  key: string;
+  sequence: number;
+  tMs: number;
+  label: string;
+  totalRawDamage: number;
+  totalDealtDamage: number;
+  enemyHpBefore: number;
+  enemyHpAfter: number;
+  components: EngineDamageComponent[];
+};
+
+type DamageComponentRow = EngineDamageComponent & {
+  key: string;
 };
 
 const KATARINA_ID = 'hero_katarina';
@@ -84,6 +101,26 @@ function formatNumber(value: number | undefined, digits = 2): string {
   return value.toFixed(digits);
 }
 
+function formatDamageType(value: 'physical' | 'magic' | 'true'): string {
+  if (value === 'physical') {
+    return '物理';
+  }
+  if (value === 'magic') {
+    return '魔法';
+  }
+  return '真实';
+}
+
+function formatDamageSourceKind(value: EngineDamageComponent['sourceKind']): string {
+  if (value === 'basic_attack') {
+    return '平A';
+  }
+  if (value === 'skill') {
+    return '技能';
+  }
+  return '装备';
+}
+
 function describeBundleGap(bundle: GameDataBundle): string | null {
   const missing = [
     bundle.heroes.some((hero) => hero.heroId === KATARINA_ID) ? null : KATARINA_ID,
@@ -96,8 +133,15 @@ function describeBundleGap(bundle: GameDataBundle): string | null {
   return missing.length > 0 ? `Bundle 缺少 MVP 资源: ${missing.join(', ')}` : null;
 }
 
-export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }: KatarinaMvpPageProps) {
+export function KatarinaMvpPage({
+  apiBaseUrl,
+  selectedGameId,
+  selectedGameName,
+  externalRefreshSeed = 0
+}: KatarinaMvpPageProps) {
   const engineRef = useRef<MvpEngineClient | null>(null);
+  const replayAfterRefreshRef = useRef<EngineRunInput | null>(null);
+  const lastHandledRefreshRef = useRef(externalRefreshSeed);
   const [refreshSeed, setRefreshSeed] = useState(0);
   const [bundleState, setBundleState] = useState<LoadState>('idle');
   const [engineState, setEngineState] = useState<LoadState>('idle');
@@ -113,6 +157,17 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
   const [runState, setRunState] = useState<LoadState>('idle');
 
   const selectedScenario = scenarios.find((scenario) => scenario.id === selectedScenarioId) ?? scenarios[0];
+
+  useEffect(() => {
+    if (externalRefreshSeed === lastHandledRefreshRef.current) {
+      return;
+    }
+
+    lastHandledRefreshRef.current = externalRefreshSeed;
+    if (lastInput) {
+      replayAfterRefreshRef.current = lastInput;
+    }
+  }, [externalRefreshSeed, lastInput]);
 
   useEffect(() => {
     if (!selectedGameId) {
@@ -199,7 +254,34 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
     return () => {
       cancelled = true;
     };
-  }, [apiBaseUrl, refreshSeed, selectedGameId]);
+  }, [apiBaseUrl, externalRefreshSeed, refreshSeed, selectedGameId]);
+
+  useEffect(() => {
+    if (engineState !== 'success' || !engineRef.current || !replayAfterRefreshRef.current) {
+      return;
+    }
+
+    const replayInput = replayAfterRefreshRef.current;
+    replayAfterRefreshRef.current = null;
+
+    async function rerunLastScenario() {
+      setRunState('loading');
+      setRunError(null);
+
+      try {
+        const output = await engineRef.current!.run(replayInput);
+        setLastInput(replayInput);
+        setLastOutput(output);
+        setRunState('success');
+      } catch (error) {
+        setLastOutput(null);
+        setRunState('error');
+        setRunError(getErrorMessage(error));
+      }
+    }
+
+    void rerunLastScenario();
+  }, [engineState]);
 
   useEffect(() => {
     return () => {
@@ -211,6 +293,21 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
   const selectedItems = useMemo(
     () => bundle?.items.filter((item) => selectedItemIds.includes(item.itemId)) ?? [],
     [bundle, selectedItemIds]
+  );
+  const damageEventRows = useMemo<DamageEventRow[]>(
+    () =>
+      lastOutput?.events.map((event: EngineDamageEvent) => ({
+        key: `event-${event.sequence}`,
+        sequence: event.sequence,
+        tMs: event.tMs,
+        label: event.label,
+        totalRawDamage: event.totalRawDamage,
+        totalDealtDamage: event.totalDealtDamage,
+        enemyHpBefore: event.enemyHpBefore,
+        enemyHpAfter: event.enemyHpAfter,
+        components: event.components
+      })) ?? [],
+    [lastOutput]
   );
 
   async function handleRunScenario() {
@@ -236,6 +333,55 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
 
   const latestSample = lastOutput?.samples[lastOutput.samples.length - 1];
   const availableItems = bundle?.items.filter((item) => ITEM_IDS.includes(item.itemId as (typeof ITEM_IDS)[number])) ?? [];
+  const damageEventColumns = [
+    {
+      title: 'tMs',
+      render: (_: unknown, record: DamageEventRow) => `${record.tMs}`
+    },
+    {
+      title: '命中',
+      render: (_: unknown, record: DamageEventRow) => `${record.sequence}`
+    },
+    {
+      title: '事件',
+      render: (_: unknown, record: DamageEventRow) => record.label
+    },
+    {
+      title: '总原始伤害',
+      render: (_: unknown, record: DamageEventRow) => formatNumber(record.totalRawDamage, 3)
+    },
+    {
+      title: '总结算伤害',
+      render: (_: unknown, record: DamageEventRow) => formatNumber(record.totalDealtDamage, 3)
+    },
+    {
+      title: '敌方 HP 变化',
+      render: (_: unknown, record: DamageEventRow) =>
+        `${formatNumber(record.enemyHpBefore, 3)} -> ${formatNumber(record.enemyHpAfter, 3)}`
+    }
+  ];
+  const damageComponentColumns = [
+    {
+      title: '来源',
+      render: (_: unknown, record: DamageComponentRow) => record.label
+    },
+    {
+      title: '类型',
+      render: (_: unknown, record: DamageComponentRow) => formatDamageSourceKind(record.sourceKind)
+    },
+    {
+      title: '伤害类型',
+      render: (_: unknown, record: DamageComponentRow) => formatDamageType(record.damageType)
+    },
+    {
+      title: '原始值',
+      render: (_: unknown, record: DamageComponentRow) => formatNumber(record.rawDamage, 3)
+    },
+    {
+      title: '结算值',
+      render: (_: unknown, record: DamageComponentRow) => formatNumber(record.dealtDamage, 3)
+    }
+  ];
 
   return (
     <div className="page-mvp mvp-page page-stack">
@@ -417,6 +563,43 @@ export function KatarinaMvpPage({ apiBaseUrl, selectedGameId, selectedGameName }
             <Row gutter={[16, 16]}>
               <Col xs={24} lg={14}>
                 <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    伤害分项
+                  </Typography.Title>
+                  {damageEventRows.length === 0 ? (
+                    <div className="table-empty">当前动作没有产出伤害分项。</div>
+                  ) : (
+                    <Table
+                      className="data-table-shell damage-event-table"
+                      columns={damageEventColumns}
+                      data={damageEventRows}
+                      expandedRowRender={(record: DamageEventRow) => {
+                        const componentRows: DamageComponentRow[] = record.components.map((component, componentIndex) => ({
+                          ...component,
+                          key: `${record.key}-component-${componentIndex}`
+                        }));
+
+                        return (
+                          <div style={{ padding: '0 0 0 24px' }}>
+                            <Table
+                              className="data-table-shell damage-component-table"
+                              columns={damageComponentColumns}
+                              data={componentRows}
+                              pagination={false}
+                              rowKey="key"
+                              size="small"
+                              scroll={{ x: '100%' }}
+                            />
+                          </div>
+                        );
+                      }}
+                      pagination={false}
+                      rowKey="key"
+                      size="small"
+                      scroll={{ x: '100%' }}
+                    />
+                  )}
+
                   <Typography.Title heading={5} style={{ margin: 0 }}>
                     样本点
                   </Typography.Title>

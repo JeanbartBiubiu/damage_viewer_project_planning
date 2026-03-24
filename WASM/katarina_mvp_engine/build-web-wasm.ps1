@@ -18,6 +18,12 @@ if (-not $cargo) {
 Push-Location $crateRoot
 try {
     & $cargo build --target wasm32-unknown-unknown --release
+    if ($LASTEXITCODE -ne 0) {
+        throw "cargo build failed with exit code $LASTEXITCODE. See compiler output above for the root cause."
+    }
+    if (-not (Test-Path $wasmSource)) {
+        throw "Expected Wasm output was not found: $wasmSource"
+    }
     if (-not (Test-Path $wasmTargetDir)) {
         New-Item -ItemType Directory -Path $wasmTargetDir | Out-Null
     }

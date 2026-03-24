@@ -1,9 +1,19 @@
 use crate::model::{
-    AttributeDefinition, CombatantInit, CombatantOverride, EngineActionPlan, EngineConfig, EngineError, EngineInitPayload,
-    EngineRunInput, EngineRunOutput, EngineRunResult, EngineSamplePoint, ErrorCode, GameDataBundle, Hero, Item, Skill,
-    StopReason,
+    AttributeDefinition, CombatantInit, CombatantOverride, DamageSourceKind, DamageType, EngineActionPlan,
+    EngineConfig, EngineDamageComponent, EngineDamageEvent, EngineError, EngineInitPayload, EngineRunInput,
+    EngineRunOutput, EngineRunResult, EngineSamplePoint, ErrorCode, GameDataBundle, Hero, Item, Skill, StopReason,
 };
 use std::collections::{HashMap, HashSet};
+
+const BORK_ITEM_ID: &str = "item_blade_of_the_ruined_king";
+const NASHOR_ITEM_ID: &str = "item_nashors_tooth";
+const BORK_CURRENT_HP_RATIO: f64 = 0.12;
+const NASHOR_ON_HIT_BASE: f64 = 15.0;
+const NASHOR_AP_RATIO: f64 = 0.15;
+const BASIC_ATTACK_LABEL: &str = "\u{5E73}A";
+const BORK_PASSIVE_LABEL: &str =
+    "\u{7834}\u{8D25}\u{738B}\u{8005}\u{4E4B}\u{5203}\u{88AB}\u{52A8}\u{FF08}\u{5F53}\u{524D}\u{751F}\u{547D}\u{503C}\u{FF09}";
+const NASHOR_PASSIVE_LABEL: &str = "\u{7EB3}\u{4EC0}\u{4E4B}\u{7259}\u{88AB}\u{52A8}";
 
 #[derive(Clone)]
 pub struct EngineSession {
@@ -24,14 +34,16 @@ struct Catalog {
 struct CombatantState {
     stats: HashMap<String, f64>,
     base_hero_stats: HashMap<String, f64>,
+    item_ids: Vec<String>,
     hp: f64,
 }
 
-#[derive(Clone, Copy)]
-enum DamageType {
-    Physical,
-    Magic,
-    True,
+struct PendingDamageComponent {
+    source_kind: DamageSourceKind,
+    source_id: String,
+    label: String,
+    damage_type: DamageType,
+    raw_damage: f64,
 }
 
 pub fn init_session(payload: EngineInitPayload) -> Result<EngineSession, EngineError> {
@@ -77,6 +89,8 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
     let mut stop_reason = StopReason::Completed;
     let mut time_to_kill_enemy = None;
     let mut samples: Vec<EngineSamplePoint> = Vec::new();
+    let mut events: Vec<EngineDamageEvent> = Vec::new();
+    let mut event_sequence: u32 = 0;
 
     let push_sample = |samples: &mut Vec<EngineSamplePoint>,
                        t_ms: u32,
@@ -93,7 +107,7 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
         });
     };
 
-    match input.plan {
+    match &input.plan {
         EngineActionPlan::BasicAttack { count, skill_id } => {
             let attack_speed = self_actor.stats.get("attack_speed").copied().unwrap_or(0.0).max(0.1);
             let interval_ms = 1000.0 / attack_speed;
@@ -108,16 +122,50 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
                 .map(parse_damage_type)
                 .unwrap_or(DamageType::Physical);
 
-            for hit_index in 0..count {
+            for hit_index in 0..*count {
                 t_ms = (((hit_index + 1) as f64) * interval_ms).round() as u32;
                 if t_ms > max_duration_ms {
                     stop_reason = StopReason::MaxSeconds;
                     break;
                 }
-                let raw_damage = self_actor.stats.get("ad").copied().unwrap_or(0.0) * attack_ratio;
-                apply_enemy_damage(
-                    raw_damage,
+                let enemy_current_hp = enemy.hp;
+                let basic_attack_label = skill
+                    .and_then(|resolved_skill| resolved_skill.name.clone())
+                    .unwrap_or_else(|| BASIC_ATTACK_LABEL.to_string());
+                let mut components = vec![PendingDamageComponent {
+                    source_kind: DamageSourceKind::BasicAttack,
+                    source_id: skill
+                        .map(|resolved_skill| resolved_skill.skill_id.clone())
+                        .unwrap_or_else(|| "basic_attack".to_string()),
+                    label: basic_attack_label,
                     damage_type,
+                    raw_damage: self_actor.stats.get("ad").copied().unwrap_or(0.0) * attack_ratio,
+                }];
+
+                if self_actor.item_ids.iter().any(|item_id| item_id == BORK_ITEM_ID) {
+                    components.push(PendingDamageComponent {
+                        source_kind: DamageSourceKind::Item,
+                        source_id: BORK_ITEM_ID.to_string(),
+                        label: BORK_PASSIVE_LABEL.to_string(),
+                        damage_type: DamageType::Physical,
+                        raw_damage: enemy_current_hp * BORK_CURRENT_HP_RATIO,
+                    });
+                }
+
+                if self_actor.item_ids.iter().any(|item_id| item_id == NASHOR_ITEM_ID) {
+                    components.push(PendingDamageComponent {
+                        source_kind: DamageSourceKind::Item,
+                        source_id: NASHOR_ITEM_ID.to_string(),
+                        label: NASHOR_PASSIVE_LABEL.to_string(),
+                        damage_type: DamageType::Magic,
+                        raw_damage: NASHOR_ON_HIT_BASE
+                            + self_actor.stats.get("ap").copied().unwrap_or(0.0) * NASHOR_AP_RATIO,
+                    });
+                }
+
+                apply_enemy_damage_event(
+                    format!("{} {}", BASIC_ATTACK_LABEL, hit_index + 1),
+                    components,
                     t_ms,
                     &self_actor,
                     &mut enemy,
@@ -125,6 +173,8 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
                     &mut cumulative_damage_to_enemy,
                     cumulative_damage_to_self,
                     &mut samples,
+                    &mut events,
+                    &mut event_sequence,
                     &mut stop_reason,
                     &mut time_to_kill_enemy,
                     &push_sample,
@@ -142,10 +192,11 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
             let skill = session
                 .catalog
                 .skills_by_id
-                .get(&skill_id)
+                .get(skill_id)
                 .ok_or_else(|| semantic_error(format!("Skill not found: {skill_id}")))?;
 
-            let resolved_skill_level = clamp_skill_level(skill_level.unwrap_or(skill.params.default_skill_level.unwrap_or(1)));
+            let resolved_skill_level =
+                clamp_skill_level(skill_level.unwrap_or(skill.params.default_skill_level.unwrap_or(1)));
             let hits_per_cast = skill.params.hit_count.unwrap_or(1).max(1);
             let total_hits = hits_per_cast * cast_count.unwrap_or(1).max(1);
             let hit_interval_ms = skill.params.hit_interval_ms.unwrap_or(100).max(1);
@@ -173,9 +224,16 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
                         * ad_ratio
                         * (1.0 + bonus_attack_speed * bonus_attack_speed_ratio)
                     + self_actor.stats.get("ap").copied().unwrap_or(0.0) * ap_ratio;
-                apply_enemy_damage(
-                    raw_damage,
-                    damage_type,
+                let skill_label = skill.name.clone().unwrap_or_else(|| skill.skill_id.clone());
+                apply_enemy_damage_event(
+                    skill_label.clone(),
+                    vec![PendingDamageComponent {
+                        source_kind: DamageSourceKind::Skill,
+                        source_id: skill.skill_id.clone(),
+                        label: skill_label,
+                        damage_type,
+                        raw_damage,
+                    }],
                     t_ms,
                     &self_actor,
                     &mut enemy,
@@ -183,6 +241,8 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
                     &mut cumulative_damage_to_enemy,
                     cumulative_damage_to_self,
                     &mut samples,
+                    &mut events,
+                    &mut event_sequence,
                     &mut stop_reason,
                     &mut time_to_kill_enemy,
                     &push_sample,
@@ -220,13 +280,14 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
             last_sample,
         },
         samples,
+        events,
     })
 }
 
 #[allow(clippy::too_many_arguments)]
-fn apply_enemy_damage<F>(
-    raw_damage: f64,
-    damage_type: DamageType,
+fn apply_enemy_damage_event<F>(
+    label: String,
+    pending_components: Vec<PendingDamageComponent>,
     t_ms: u32,
     self_actor: &CombatantState,
     enemy: &mut CombatantState,
@@ -234,16 +295,43 @@ fn apply_enemy_damage<F>(
     cumulative_damage_to_enemy: &mut f64,
     cumulative_damage_to_self: f64,
     samples: &mut Vec<EngineSamplePoint>,
+    events: &mut Vec<EngineDamageEvent>,
+    event_sequence: &mut u32,
     stop_reason: &mut StopReason,
     time_to_kill_enemy: &mut Option<u32>,
     push_sample: &F,
 ) where
     F: Fn(&mut Vec<EngineSamplePoint>, u32, f64, f64, f64, f64),
 {
-    let reduced_damage = apply_mitigation(raw_damage, damage_type, &enemy.stats);
-    enemy.hp = (enemy.hp - reduced_damage).max(0.0);
+    let enemy_hp_before = enemy.hp;
+    let components = pending_components
+        .into_iter()
+        .map(|component| EngineDamageComponent {
+            source_kind: component.source_kind,
+            source_id: component.source_id,
+            label: component.label,
+            damage_type: component.damage_type,
+            raw_damage: round_number(component.raw_damage),
+            dealt_damage: apply_mitigation(component.raw_damage, component.damage_type, &enemy.stats),
+        })
+        .collect::<Vec<_>>();
+    let total_raw_damage = round_number(components.iter().map(|component| component.raw_damage).sum::<f64>());
+    let total_dealt_damage = round_number(components.iter().map(|component| component.dealt_damage).sum::<f64>());
+
+    enemy.hp = (enemy.hp - total_dealt_damage).max(0.0);
     *executed_hits += 1;
-    *cumulative_damage_to_enemy += reduced_damage;
+    *cumulative_damage_to_enemy += total_dealt_damage;
+    *event_sequence += 1;
+    events.push(EngineDamageEvent {
+        sequence: *event_sequence,
+        t_ms,
+        label,
+        enemy_hp_before: round_number(enemy_hp_before),
+        enemy_hp_after: round_number(enemy.hp),
+        total_raw_damage,
+        total_dealt_damage,
+        components,
+    });
     push_sample(
         samples,
         t_ms,
@@ -401,6 +489,7 @@ fn resolve_combatant(
     Ok(CombatantState {
         stats,
         base_hero_stats,
+        item_ids: effective_item_ids,
         hp,
     })
 }
@@ -454,7 +543,7 @@ fn resolve_base_damage(skill: &Skill, skill_level: u32) -> f64 {
 
 fn build_action_label(skills_by_id: &HashMap<String, Skill>, plan: &EngineActionPlan) -> String {
     match plan {
-        EngineActionPlan::BasicAttack { count, .. } => format!("\u{5e73}A x{count}"),
+        EngineActionPlan::BasicAttack { count, .. } => format!("{} x{}", BASIC_ATTACK_LABEL, count),
         EngineActionPlan::CastSkill {
             skill_id,
             cast_count,
@@ -685,6 +774,67 @@ mod tests {
     }
 
     #[test]
+    fn dual_items_basic_attack_emits_split_damage_events() {
+        let session = session();
+
+        let output = run(
+            &session,
+            base_input(
+                EngineActionPlan::BasicAttack {
+                    count: 2,
+                    skill_id: Some("skill_katarina_basic_attack".into()),
+                },
+                vec![
+                    "item_blade_of_the_ruined_king".into(),
+                    "item_nashors_tooth".into(),
+                ],
+            ),
+        )
+        .unwrap();
+
+        assert_eq!(output.events.len(), 2);
+        assert_eq!(output.samples.len(), 2);
+
+        let first_event = &output.events[0];
+        assert_eq!(first_event.sequence, 1);
+        assert_eq!(first_event.label, format!("{} 1", BASIC_ATTACK_LABEL));
+        assert_eq!(first_event.enemy_hp_before, 10000.0);
+        assert_eq!(first_event.enemy_hp_after, 9302.05);
+        assert_eq!(first_event.total_raw_damage, 1395.9);
+        assert_eq!(first_event.total_dealt_damage, 697.95);
+        assert_eq!(first_event.components.len(), 3);
+
+        assert_eq!(first_event.components[0].source_kind, DamageSourceKind::BasicAttack);
+        assert_eq!(first_event.components[0].source_id, "skill_katarina_basic_attack");
+        assert_eq!(first_event.components[0].damage_type, DamageType::Physical);
+        assert_eq!(first_event.components[0].raw_damage, 167.4);
+        assert_eq!(first_event.components[0].dealt_damage, 83.7);
+
+        assert_eq!(first_event.components[1].source_kind, DamageSourceKind::Item);
+        assert_eq!(first_event.components[1].source_id, BORK_ITEM_ID);
+        assert_eq!(first_event.components[1].damage_type, DamageType::Physical);
+        assert_eq!(first_event.components[1].raw_damage, 1200.0);
+        assert_eq!(first_event.components[1].dealt_damage, 600.0);
+
+        assert_eq!(first_event.components[2].source_kind, DamageSourceKind::Item);
+        assert_eq!(first_event.components[2].source_id, NASHOR_ITEM_ID);
+        assert_eq!(first_event.components[2].damage_type, DamageType::Magic);
+        assert_eq!(first_event.components[2].raw_damage, 28.5);
+        assert_eq!(first_event.components[2].dealt_damage, 14.25);
+
+        let second_event = &output.events[1];
+        assert_eq!(second_event.sequence, 2);
+        assert_eq!(second_event.enemy_hp_before, 9302.05);
+        assert_eq!(second_event.components[1].raw_damage, 1116.246);
+        assert_eq!(second_event.components[1].dealt_damage, 558.123);
+        assert!(second_event.components[1].raw_damage < first_event.components[1].raw_damage);
+
+        assert_eq!(output.result.total_damage_to_enemy, 1354.023);
+        assert_eq!(output.result.executed_hits, 2);
+        assert_eq!(output.result.last_sample.as_ref().map(|sample| sample.enemy_hp), Some(8645.977));
+    }
+
+    #[test]
     fn dual_items_increase_death_lotus_damage() {
         let session = session();
 
@@ -718,5 +868,36 @@ mod tests {
         .unwrap();
 
         assert!(dual_items.result.total_damage_to_enemy > no_items.result.total_damage_to_enemy);
+    }
+
+    #[test]
+    fn engine_output_serializes_event_fields_for_json_abi() {
+        let session = session();
+        let output = run(
+            &session,
+            base_input(
+                EngineActionPlan::BasicAttack {
+                    count: 1,
+                    skill_id: Some("skill_katarina_basic_attack".into()),
+                },
+                vec![
+                    "item_blade_of_the_ruined_king".into(),
+                    "item_nashors_tooth".into(),
+                ],
+            ),
+        )
+        .unwrap();
+
+        let json = serde_json::to_value(output).unwrap();
+        let event = &json["events"][0];
+        let component = &event["components"][1];
+
+        assert_eq!(event["sequence"].as_u64(), Some(1));
+        assert_eq!(event["tMs"].as_u64(), Some(685));
+        assert_eq!(event["totalDealtDamage"].as_f64(), Some(697.95));
+        assert_eq!(component["sourceKind"].as_str(), Some("item"));
+        assert_eq!(component["sourceId"].as_str(), Some(BORK_ITEM_ID));
+        assert_eq!(component["damageType"].as_str(), Some("physical"));
+        assert_eq!(component["dealtDamage"].as_f64(), Some(600.0));
     }
 }
