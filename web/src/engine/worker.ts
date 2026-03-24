@@ -1,19 +1,12 @@
 /// <reference lib="webworker" />
 
 import { KatarinaWasmBridge } from './wasmBridge';
-import type {
-  EngineError,
-  EngineMeta,
-  EngineRunMessage,
-  EngineToWasmMessage,
-  WasmToEngineMessage
-} from './types';
+import type { EngineError, EngineMeta, EngineRunMessage, EngineToWasmMessage, WasmToEngineMessage } from './types';
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
 
 let readyMeta: EngineMeta | null = null;
 let bridge: KatarinaWasmBridge | null = null;
-let hpAttrKey = 'hp';
 let cancelledRunIds = new Set<string>();
 
 ctx.onmessage = (event: MessageEvent<WasmToEngineMessage>) => {
@@ -23,10 +16,11 @@ ctx.onmessage = (event: MessageEvent<WasmToEngineMessage>) => {
 async function handleMessage(message: WasmToEngineMessage) {
   try {
     if (message.type === 'init') {
+      bridge = await KatarinaWasmBridge.create(message.meta, message.bundle, {
+        hpAttrKey: message.engineConfig?.hpAttrKey ?? 'hp'
+      });
       readyMeta = message.meta;
-      hpAttrKey = message.engineConfig?.hpAttrKey ?? 'hp';
       cancelledRunIds = new Set();
-      bridge = await KatarinaWasmBridge.create(message.bundle, { hpAttrKey });
       postMessage({
         type: 'ready',
         meta: message.meta
@@ -45,11 +39,15 @@ async function handleMessage(message: WasmToEngineMessage) {
 
     handleRun(message);
   } catch (error) {
-    postError(toEngineError(error));
+    postError(toEngineError(error), message.type === 'run' ? message.runId : undefined);
   }
 }
 
 function handleRun(message: EngineRunMessage) {
+  if (!bridge) {
+    throw invalidInput('Engine not initialized');
+  }
+
   if (cancelledRunIds.has(message.runId)) {
     postMessage({
       type: 'done',
@@ -62,12 +60,13 @@ function handleRun(message: EngineRunMessage) {
         executedHits: 0,
         actionDurationMs: 0,
         actionLabel: 'cancelled'
-      }
+      },
+      events: []
     });
     return;
   }
 
-  const output = bridge!.run(message.input);
+  const output = bridge.run(message.input);
   output.samples.forEach((sample, index) => {
     postMessage({
       type: 'tick',
@@ -84,7 +83,8 @@ function handleRun(message: EngineRunMessage) {
     type: 'done',
     runId: message.runId,
     emittedAt: new Date().toISOString(),
-    result: output.result
+    result: output.result,
+    events: output.events
   });
 }
 

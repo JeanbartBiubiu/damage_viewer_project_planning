@@ -41,6 +41,28 @@ export type CastSkillPlan = {
 
 export type EngineActionPlan = BasicAttackPlan | CastSkillPlan;
 
+export type DamageType = 'physical' | 'magic' | 'true';
+
+export type EngineDamageComponent = {
+  sourceKind: 'basic_attack' | 'skill' | 'item';
+  sourceId: string;
+  label: string;
+  damageType: DamageType;
+  rawDamage: number;
+  dealtDamage: number;
+};
+
+export type EngineDamageEvent = {
+  sequence: number;
+  tMs: number;
+  label: string;
+  enemyHpBefore: number;
+  enemyHpAfter: number;
+  totalRawDamage: number;
+  totalDealtDamage: number;
+  components: EngineDamageComponent[];
+};
+
 export type EngineRunInput = {
   seed?: number;
   stop: {
@@ -120,6 +142,7 @@ export type EngineDoneMessage = {
   runId: string;
   emittedAt: string;
   result: EngineRunResult;
+  events: EngineDamageEvent[];
 };
 
 export type EngineErrorMessage = {
@@ -138,4 +161,5 @@ export type EngineToWasmMessage =
 export type EngineRunOutput = {
   result: EngineRunResult;
   samples: EngineSamplePoint[];
+  events: EngineDamageEvent[];
 };

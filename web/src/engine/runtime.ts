@@ -1,5 +1,12 @@
 import type { AttributeDefinition, GameDataBundle, Hero, Item, Skill } from '../types/api';
-import type { EngineRunInput, EngineRunOutput, EngineSamplePoint } from './types';
+import type {
+  DamageType,
+  EngineDamageComponent,
+  EngineDamageEvent,
+  EngineRunInput,
+  EngineRunOutput,
+  EngineSamplePoint
+} from './types';
 
 type RuntimeConfig = {
   hpAttrKey: string;
@@ -22,6 +29,12 @@ type Catalog = {
   skillsById: Map<string, Skill>;
 };
 
+const BORK_ITEM_ID = 'item_blade_of_the_ruined_king';
+const NASHOR_ITEM_ID = 'item_nashors_tooth';
+const BORK_CURRENT_HP_RATIO = 0.12;
+const NASHOR_ON_HIT_BASE = 15;
+const NASHOR_AP_RATIO = 0.15;
+
 export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, config: RuntimeConfig): EngineRunOutput {
   const catalog = buildCatalog(bundle);
   validateInput(catalog, input);
@@ -37,6 +50,8 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
   let stopReason: EngineRunOutput['result']['stopReason'] = 'completed';
   let timeToKillEnemy: number | undefined;
   const samples: EngineSamplePoint[] = [];
+  const events: EngineDamageEvent[] = [];
+  let eventSequence = 0;
 
   const pushSample = () => {
     samples.push({
@@ -48,11 +63,32 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
     });
   };
 
-  const dealDamageToEnemy = (rawDamage: number, damageType: 'physical' | 'magic' | 'true') => {
-    const reducedDamage = applyMitigation(rawDamage, damageType, enemy.stats);
-    enemy.hp = Math.max(0, enemy.hp - reducedDamage);
-    cumulativeDamageToEnemy += reducedDamage;
+  const dealDamageToEnemy = (
+    label: string,
+    pendingComponents: Array<Omit<EngineDamageComponent, 'dealtDamage'>>
+  ) => {
+    const enemyHpBefore = enemy.hp;
+    const components = pendingComponents.map<EngineDamageComponent>((component) => ({
+      ...component,
+      rawDamage: roundNumber(component.rawDamage),
+      dealtDamage: applyMitigation(component.rawDamage, component.damageType, enemy.stats)
+    }));
+    const totalRawDamage = roundNumber(components.reduce((sum, component) => sum + component.rawDamage, 0));
+    const totalDealtDamage = roundNumber(components.reduce((sum, component) => sum + component.dealtDamage, 0));
+    enemy.hp = Math.max(0, enemy.hp - totalDealtDamage);
+    cumulativeDamageToEnemy += totalDealtDamage;
     executedHits += 1;
+    eventSequence += 1;
+    events.push({
+      sequence: eventSequence,
+      tMs,
+      label,
+      enemyHpBefore: roundNumber(enemyHpBefore),
+      enemyHpAfter: roundNumber(enemy.hp),
+      totalRawDamage,
+      totalDealtDamage,
+      components
+    });
     pushSample();
     if (enemy.hp <= 0 && timeToKillEnemy === undefined) {
       timeToKillEnemy = tMs;
@@ -65,7 +101,8 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
     const intervalMs = 1000 / attackSpeed;
     const skill = input.plan.skillId ? catalog.skillsById.get(input.plan.skillId) : undefined;
     const attackRatio = toNumber(skill?.params?.attackRatio, 1);
-    const damageType = skill?.params?.damageType === 'magic' ? 'magic' : skill?.params?.damageType === 'true' ? 'true' : 'physical';
+    const damageType: DamageType =
+      skill?.params?.damageType === 'magic' ? 'magic' : skill?.params?.damageType === 'true' ? 'true' : 'physical';
 
     for (let hitIndex = 0; hitIndex < input.plan.count; hitIndex += 1) {
       tMs = Math.round((hitIndex + 1) * intervalMs);
@@ -73,8 +110,38 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
         stopReason = 'maxSeconds';
         break;
       }
-      const rawDamage = (self.stats.ad || 0) * attackRatio;
-      dealDamageToEnemy(rawDamage, damageType);
+      const enemyCurrentHp = enemy.hp;
+      const components: Array<Omit<EngineDamageComponent, 'dealtDamage'>> = [
+        {
+          sourceKind: 'basic_attack',
+          sourceId: skill?.skillId ?? 'basic_attack',
+          label: skill?.name ?? '平A',
+          damageType,
+          rawDamage: (self.stats.ad || 0) * attackRatio
+        }
+      ];
+
+      if (self.itemIds.includes(BORK_ITEM_ID)) {
+        components.push({
+          sourceKind: 'item',
+          sourceId: BORK_ITEM_ID,
+          label: '破败王者之刃被动（当前生命值）',
+          damageType: 'physical',
+          rawDamage: enemyCurrentHp * BORK_CURRENT_HP_RATIO
+        });
+      }
+
+      if (self.itemIds.includes(NASHOR_ITEM_ID)) {
+        components.push({
+          sourceKind: 'item',
+          sourceId: NASHOR_ITEM_ID,
+          label: '纳什之牙被动',
+          damageType: 'magic',
+          rawDamage: NASHOR_ON_HIT_BASE + (self.stats.ap || 0) * NASHOR_AP_RATIO
+        });
+      }
+
+      dealDamageToEnemy(`平A ${hitIndex + 1}`, components);
       if (enemy.hp <= 0) {
         break;
       }
@@ -94,7 +161,8 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
     const adRatio = toNumber(skill.params?.adRatio, 0);
     const apRatio = toNumber(skill.params?.apRatio, 0);
     const bonusAttackSpeedRatio = toNumber(skill.params?.bonusAttackSpeedRatio, 0);
-    const damageType = skill.params?.damageType === 'physical' ? 'physical' : skill.params?.damageType === 'true' ? 'true' : 'magic';
+    const damageType: DamageType =
+      skill.params?.damageType === 'physical' ? 'physical' : skill.params?.damageType === 'true' ? 'true' : 'magic';
     const bonusAttackSpeed = Math.max((self.stats.attack_speed || 0) - (self.baseHeroStats.attack_speed || 0), 0);
 
     for (let hitIndex = 0; hitIndex < hitCount; hitIndex += 1) {
@@ -107,7 +175,15 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
         baseDamage
         + (self.stats.ad || 0) * adRatio * (1 + bonusAttackSpeed * bonusAttackSpeedRatio)
         + (self.stats.ap || 0) * apRatio;
-      dealDamageToEnemy(rawDamage, damageType);
+      dealDamageToEnemy(skill.name ?? skill.skillId, [
+        {
+          sourceKind: 'skill',
+          sourceId: skill.skillId,
+          label: skill.name ?? skill.skillId,
+          damageType,
+          rawDamage
+        }
+      ]);
       if (enemy.hp <= 0) {
         break;
       }
@@ -125,6 +201,7 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
   const actionLabel = buildActionLabel(catalog.skillsById, input);
   return {
     samples,
+    events,
     result: {
       stopReason,
       timeToKillEnemyMs: timeToKillEnemy,
@@ -256,7 +333,7 @@ function mergeStats(target: Record<string, number>, source: Record<string, numbe
   }
 }
 
-function applyMitigation(rawDamage: number, damageType: 'physical' | 'magic' | 'true', stats: Record<string, number>) {
+function applyMitigation(rawDamage: number, damageType: DamageType, stats: Record<string, number>) {
   if (damageType === 'true') {
     return roundNumber(rawDamage);
   }

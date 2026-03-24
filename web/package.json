@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build:wasm": "powershell -ExecutionPolicy Bypass -File ..\\wasm\\katarina_mvp_engine\\build-web-wasm.ps1",
+    "predev": "npm run build:wasm",
     "dev": "vite",
     "build": "npm run build:wasm && tsc -b && vite build",
     "preview": "vite preview"
