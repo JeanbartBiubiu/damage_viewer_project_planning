@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Form, Input, Layout, Select, Space, Tag, Typography } from '@arco-design/web-react';
-import { navigationItems, type RouteId } from './config/navigation';
-import { AdminPage } from './pages/AdminPage';
+import { adminResourceNavigationItems, navigationItems, type RouteId } from './config/navigation';
+import { AdminPage, type ResourceKind } from './pages/AdminPage';
 import { ImagesPage } from './pages/ImagesPage';
 import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
 import { OverviewPage } from './pages/OverviewPage';
@@ -11,6 +11,12 @@ import type { GameSummary, LoadState } from './types/api';
 
 const API_BASE_STORAGE_KEY = 'damage-viewer.web.api-base-url';
 const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
+const ADMIN_HASH_RESOURCE_MAP: Record<string, ResourceKind> = {
+  'formula-profiles': 'formulaProfiles',
+  'formula-bindings': 'formulaBindings',
+  'coefficient-buckets': 'coefficientBuckets',
+  'status-action-control-rules': 'statusActionControlRules'
+};
 
 const { Sider, Content } = Layout;
 
@@ -30,6 +36,19 @@ function readRouteFromHash(): RouteId {
   const fragment = window.location.hash.replace(/^#\/?/, '').split('/')[0];
   const match = navigationItems.find((item) => item.id === fragment);
   return match?.id ?? 'overview';
+}
+
+function readAdminResourceFromHash(): ResourceKind | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const [routeSegment, resourceSegment] = window.location.hash.replace(/^#\/?/, '').split('/');
+  if (routeSegment !== 'admin' || !resourceSegment) {
+    return null;
+  }
+
+  return ADMIN_HASH_RESOURCE_MAP[resourceSegment] ?? null;
 }
 
 function getGamesStatusLabel(status: LoadState): string {
@@ -67,6 +86,7 @@ function getGamesStatusColor(status: LoadState): string {
 export default function App() {
   const initialApiBaseUrl = readStoredValue(API_BASE_STORAGE_KEY, resolveApiBaseUrl());
   const [route, setRoute] = useState<RouteId>(() => readRouteFromHash());
+  const [adminResource, setAdminResource] = useState<ResourceKind | null>(() => readAdminResourceFromHash());
   const [apiBaseDraft, setApiBaseDraft] = useState(initialApiBaseUrl);
   const [apiBaseUrl, setApiBaseUrl] = useState(initialApiBaseUrl);
   const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, ''));
@@ -76,10 +96,13 @@ export default function App() {
   const [gamesEtag, setGamesEtag] = useState<string | null>(null);
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
+  const [bundleRefreshSeed, setBundleRefreshSeed] = useState(0);
+  const activeAdminResource = adminResource ?? 'formulaProfiles';
 
   useEffect(() => {
     const onHashChange = () => {
       setRoute(readRouteFromHash());
+      setAdminResource(readAdminResourceFromHash());
     };
 
     window.addEventListener('hashchange', onHashChange);
@@ -160,7 +183,14 @@ export default function App() {
       pageContent = <WorkspacePage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
       break;
     case 'katarina-mvp':
-      pageContent = <KatarinaMvpPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
+      pageContent = (
+        <KatarinaMvpPage
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          selectedGameName={selectedGameName}
+          externalRefreshSeed={bundleRefreshSeed}
+        />
+      );
       break;
     case 'images':
       pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
@@ -173,6 +203,8 @@ export default function App() {
           selectedGameName={selectedGameName}
           adminToken={adminToken}
           onAdminTokenChange={setAdminToken}
+          requestedResource={adminResource ?? 'formulaProfiles'}
+          onDataPublished={() => setBundleRefreshSeed((value) => value + 1)}
         />
       );
       break;
@@ -203,6 +235,22 @@ export default function App() {
             </a>
           ))}
         </nav>
+
+        <section className="nav-section" aria-label="Admin resources">
+          <Typography.Text className="nav-section-label">后台资源</Typography.Text>
+          <div className="nav-substack">
+            {adminResourceNavigationItems.map((item) => (
+              <a
+                key={item.id}
+                className={`nav-item nav-item-secondary${route === 'admin' && activeAdminResource === item.id ? ' is-active' : ''}`}
+                href={`#/admin/${item.hashSegment}`}
+              >
+                <span className="nav-item-label">{item.label}</span>
+                <span className="nav-item-summary">{item.summary}</span>
+              </a>
+            ))}
+          </div>
+        </section>
 
         <section className="sidebar-status">
           <div className="sidebar-status-head">

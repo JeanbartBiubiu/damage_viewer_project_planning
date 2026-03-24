@@ -160,6 +160,24 @@ export type FormulaBinding = {
   [key: string]: unknown;
 };
 
+export type VersionCreatePayload = {
+  versionCode: string;
+  releaseDate?: string;
+};
+
+export type VersionCreateResponse = {
+  gameId: string;
+  versionId: number;
+  versionCode: string;
+};
+
+export type VersionPublishResponse = {
+  gameId: string;
+  versionId: number;
+  versionCode: string;
+  dataHash: string;
+};
+
 export type BundleMeta = {
   gameId: string;
   versionId: number;

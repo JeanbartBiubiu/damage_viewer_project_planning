@@ -1,71 +1,128 @@
 # Katarina MVP Wasm Engine
 
-This crate is the real Wasm execution core for the current Katarina MVP.
+This crate is the current Rust Wasm execution core for the Katarina MVP.
 
-Scope:
-- `hero_katarina` vs `hero_dummy_10000hp_100ar_100mr`
-- `S0`: basic attack x10
-- `S1`: full `R`
-- 2-item MVP set:
-  - `item_blade_of_the_ruined_king`
-  - `item_nashors_tooth`
+Authoritative ABI:
+- `alloc(len) -> *mut u8`
+- `dealloc(ptr, len)`
+- `engine_init(ptr, len) -> i32`
+- `engine_run(ptr, len) -> i32`
+- `engine_response_ptr() -> *const u8`
+- `engine_response_len() -> usize`
 
-What this crate does:
-- runs the minimal damage loops in real Wasm
-- applies resistance mitigation
-- writes sample points and result metrics into fixed Wasm memory buffers
+The ABI is JSON request/response over Wasm memory. The legacy raw numeric ABI
+(`run_basic_attack`, `run_death_lotus`, `sample_stride`, `result_stride`) is
+obsolete and should not be used by the front-end bridge.
 
-What it intentionally does not do yet:
-- generic mechanics config interpretation
-- control, shield, heal, movement, interrupt systems
-- JSON parsing or direct bundle ingestion inside Wasm
-- worker/browser integration
+## Host Envelope
 
-## ABI
+Successful call response:
 
-Exports:
-- `sample_stride() -> u32`
-- `result_stride() -> u32`
-- `samples_ptr() -> *const f64`
-- `result_ptr() -> *const f64`
-- `run_basic_attack(...) -> u32`
-- `run_death_lotus(...) -> u32`
+```json
+{
+  "ok": true,
+  "value": {}
+}
+```
 
-Result buffer layout:
-1. `stopReasonCode`
-2. `timeToKillEnemyMs` or `-1`
-3. `totalDamageToEnemy`
-4. `totalDamageToSelf`
-5. `executedHits`
-6. `actionDurationMs`
-7. `sampleCount`
+Failed call response:
 
-Sample buffer layout per row:
-1. `tMs`
-2. `selfHp`
-3. `enemyHp`
-4. `cumulativeDamageToEnemy`
-5. `cumulativeDamageToSelf`
+```json
+{
+  "ok": false,
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "..."
+  }
+}
+```
+
+`engine_init` expects `EngineInitPayload` JSON and stores an initialized
+session. `engine_run` expects `EngineRunInput` JSON and returns
+`EngineRunOutput`.
+
+## Current Supported Scope
+
+- 1v1 only
+- `basic_attack`
+- `cast_skill`
+- On-hit split events for:
+  - basic attack body
+  - Blade of the Ruined King passive: current enemy HP * `0.12`, physical
+  - Nashor's Tooth passive: `15 + 0.15 * AP`, magic
+- Resistance mitigation:
+  - physical uses `armor`
+  - magic uses `magic_resist`
+  - true damage bypasses mitigation
+
+## Output Contract
+
+`EngineRunOutput` contains:
+
+- `result`
+- `samples`
+- `events`
+
+Each event is one resolved hit. Each event contains:
+
+- `sequence`
+- `tMs`
+- `label`
+- `enemyHpBefore`
+- `enemyHpAfter`
+- `totalRawDamage`
+- `totalDealtDamage`
+- `components[]`
+
+Each component contains:
+
+- `sourceKind`: `basic_attack | skill | item`
+- `sourceId`
+- `label`
+- `damageType`: `physical | magic | true`
+- `rawDamage`
+- `dealtDamage`
+
+Numbers are rounded to 3 decimal places before being emitted.
+
+## Golden Example
+
+With the built-in unit test bundle:
+
+- Katarina base AD `112.4`
+- + BORK `55 AD`
+- + Nashor `90 AP`
+- target HP `10000`
+- target armor `100`
+- target MR `100`
+
+First basic-attack event emits:
+
+- basic attack raw `167.4`, dealt `83.7`
+- BORK raw `1200`, dealt `600`
+- Nashor raw `28.5`, dealt `14.25`
+- total dealt `697.95`
+
+Second basic-attack event reuses the updated target HP, so BORK raw damage is
+lower than the first event.
 
 ## Build
 
 ```powershell
 cd wasm/katarina_mvp_engine
-C:\Users\Administrator\.cargo\bin\cargo.exe build --target wasm32-unknown-unknown --release
+cargo build --target wasm32-unknown-unknown --release
 ```
 
-## Refresh Web Asset
-
-Use:
+Copy to the web app:
 
 ```powershell
 ./build-web-wasm.ps1
 ```
 
-This rebuilds the crate and copies:
+## Current Limitations
 
-- `target/wasm32-unknown-unknown/release/katarina_mvp_engine.wasm`
-
-to:
-
-- `web/src/engine/wasm/katarina_mvp_engine.wasm`
+- No cancellation inside the Rust run loop yet
+- No shields, healing, interruption, movement, or status systems
+- No generic formula interpreter yet
+- No item passive stacking rules beyond the current MVP logic
+- Windows host builds require MSVC linker libraries to run `cargo test`

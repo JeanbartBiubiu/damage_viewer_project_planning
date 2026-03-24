@@ -190,14 +190,15 @@ pub enum EngineActionPlan {
     },
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EngineRunOutput {
     pub result: EngineRunResult,
     pub samples: Vec<EngineSamplePoint>,
+    pub events: Vec<EngineDamageEvent>,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EngineSamplePoint {
     pub t_ms: u32,
@@ -207,7 +208,47 @@ pub struct EngineSamplePoint {
     pub cumulative_damage_to_self: f64,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DamageSourceKind {
+    BasicAttack,
+    Skill,
+    Item,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum DamageType {
+    Physical,
+    Magic,
+    True,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct EngineDamageComponent {
+    pub source_kind: DamageSourceKind,
+    pub source_id: String,
+    pub label: String,
+    pub damage_type: DamageType,
+    pub raw_damage: f64,
+    pub dealt_damage: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct EngineDamageEvent {
+    pub sequence: u32,
+    pub t_ms: u32,
+    pub label: String,
+    pub enemy_hp_before: f64,
+    pub enemy_hp_after: f64,
+    pub total_raw_damage: f64,
+    pub total_dealt_damage: f64,
+    pub components: Vec<EngineDamageComponent>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EngineRunResult {
     pub stop_reason: StopReason,
@@ -224,14 +265,14 @@ pub struct EngineRunResult {
     pub last_sample: Option<EngineSamplePoint>,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EngineError {
     pub code: ErrorCode,
     pub message: String,
 }
 
-#[derive(Debug, Clone, Copy, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum ErrorCode {
     InvalidInput,
