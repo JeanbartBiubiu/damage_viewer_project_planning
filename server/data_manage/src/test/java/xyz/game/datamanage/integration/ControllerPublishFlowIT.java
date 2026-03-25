@@ -267,6 +267,57 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void adminListEndpoints_shouldExposeLatestDraftState_forEditableResources() {
+        createVersion("1.0.0");
+        putBaselineEntities("Ahri");
+        upsertHero("hero_ahri", "Ahri Draft");
+
+        ResponseEntity<JsonNode> heroListResponse = adminExchange("/api/admin/games/" + gameId + "/heroes", HttpMethod.GET, null);
+        assertEquals(HttpStatus.OK, heroListResponse.getStatusCode());
+        JsonNode hero = findByField(requireBody(heroListResponse).path("heroes"), "heroId", "hero_ahri");
+        assertEquals("Ahri Draft", hero.path("name").asText());
+
+        ResponseEntity<JsonNode> skillListResponse = adminExchange("/api/admin/games/" + gameId + "/skills", HttpMethod.GET, null);
+        assertEquals(HttpStatus.OK, skillListResponse.getStatusCode());
+        JsonNode skill = findByField(requireBody(skillListResponse).path("skills"), "skillId", "skill_orb");
+        assertEquals("hero", skill.path("ownerType").asText());
+        assertEquals("hero_ahri", skill.path("ownerId").asText());
+
+        ResponseEntity<JsonNode> itemListResponse = adminExchange("/api/admin/games/" + gameId + "/items", HttpMethod.GET, null);
+        assertEquals(HttpStatus.OK, itemListResponse.getStatusCode());
+        JsonNode item = findByField(requireBody(itemListResponse).path("items"), "itemId", "item_tome");
+        assertEquals(435, item.path("goldCost").asInt());
+
+        ResponseEntity<JsonNode> attributeDefinitionListResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/attribute-definitions",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, attributeDefinitionListResponse.getStatusCode());
+        JsonNode attributeDefinition = findByField(
+            requireBody(attributeDefinitionListResponse).path("attributeDefinitions"),
+            "attrKey",
+            "attack_power"
+        );
+        assertEquals("Attack Power", attributeDefinition.path("attrName").asText());
+
+        ResponseEntity<JsonNode> typeListResponse = adminExchange("/api/admin/games/" + gameId + "/types", HttpMethod.GET, null);
+        assertEquals(HttpStatus.OK, typeListResponse.getStatusCode());
+        JsonNode type = findByField(requireBody(typeListResponse).path("types"), "typeId", "1001");
+        assertEquals("Mage", type.path("name").asText());
+
+        ResponseEntity<JsonNode> typeRelationListResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/type-relations",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, typeRelationListResponse.getStatusCode());
+        JsonNode typeRelation = findByField(requireBody(typeRelationListResponse).path("typeRelations"), "targetId", "attack_power");
+        assertEquals(1001, typeRelation.path("typeId").asInt());
+        assertEquals("attribute", typeRelation.path("targetCategory").asText());
+    }
+
+    @Test
     void statusActionControlRuleCrud_andPublishBundle_shouldSucceed() {
         long versionId = createVersion("1.0.0");
         putType(2001, "status_stun_test", "IT status");
@@ -307,16 +358,22 @@ class ControllerPublishFlowIT {
         assertEquals(2, stored.path("actionTypeIds").size());
         assertEquals("测试：眩晕禁止普攻和施法", stored.path("description").asText());
 
-        ResponseEntity<JsonNode> patchResponse = adminExchange(
+        ResponseEntity<JsonNode> updateResponse = adminExchange(
             "/api/admin/games/" + gameId + "/status-action-control-rules/status_stun_test_forbid",
-            HttpMethod.PATCH,
+            HttpMethod.PUT,
             Map.of(
+                "statusTypeId", 2001,
+                "ruleKind", "forbid",
+                "actionTypeIds", List.of(2002, 2003),
+                "actionMatchTypeIds", List.of(),
+                "interruptPhaseTypeIds", List.of(),
                 "priority", 20,
-                "description", "测试：PATCH 后描述"
+                "description", "测试：PUT 后描述",
+                "extend", Map.of("source", "it")
             )
         );
-        assertEquals(HttpStatus.OK, patchResponse.getStatusCode());
-        assertEquals(20, requireBody(patchResponse).path("priority").asInt());
+        assertEquals(HttpStatus.OK, updateResponse.getStatusCode());
+        assertEquals(20, requireBody(updateResponse).path("priority").asInt());
 
         publish(versionId);
 
@@ -326,7 +383,7 @@ class ControllerPublishFlowIT {
         JsonNode statusRule = findByField(bundle.path("statusActionControlRules"), "ruleId", "status_stun_test_forbid");
         assertEquals("forbid", statusRule.path("ruleKind").asText());
         assertEquals(20, statusRule.path("priority").asInt());
-        assertEquals("测试：PATCH 后描述", statusRule.path("description").asText());
+        assertEquals("测试：PUT 后描述", statusRule.path("description").asText());
         assertEquals(2, statusRule.path("actionTypeIds").size());
     }
 
@@ -370,18 +427,24 @@ class ControllerPublishFlowIT {
         assertEquals("add", stored.path("aggregationMode").asText());
         assertTrue(stored.path("provisional").asBoolean());
 
-        ResponseEntity<JsonNode> patchResponse = adminExchange(
+        ResponseEntity<JsonNode> updateResponse = adminExchange(
             "/api/admin/games/" + gameId + "/coefficient-buckets/it.move_speed.percent_bonus",
-            HttpMethod.PATCH,
+            HttpMethod.PUT,
             Map.of(
+                "resolutionDomain", "attribute",
+                "stageKey", "percent_bonus",
+                "targetAttrKey", "move_speed",
+                "aggregationMode", "add",
                 "provisional", false,
-                "description", "测试：PATCH 后桶描述"
+                "description", "测试：PUT 后桶描述",
+                "editorHint", Map.of("groupLabel", "移速百分比"),
+                "bucketConfig", Map.of("source", "it")
             )
         );
-        assertEquals(HttpStatus.OK, patchResponse.getStatusCode());
-        JsonNode patched = requireBody(patchResponse);
-        assertFalse(patched.path("provisional").asBoolean());
-        assertEquals("测试：PATCH 后桶描述", patched.path("description").asText());
+        assertEquals(HttpStatus.OK, updateResponse.getStatusCode());
+        JsonNode updated = requireBody(updateResponse);
+        assertFalse(updated.path("provisional").asBoolean());
+        assertEquals("测试：PUT 后桶描述", updated.path("description").asText());
 
         publish(versionId);
 
@@ -393,7 +456,7 @@ class ControllerPublishFlowIT {
         assertEquals("move_speed", bucket.path("targetAttrKey").asText());
         assertEquals("add", bucket.path("aggregationMode").asText());
         assertFalse(bucket.path("provisional").asBoolean());
-        assertEquals("测试：PATCH 后桶描述", bucket.path("description").asText());
+        assertEquals("测试：PUT 后桶描述", bucket.path("description").asText());
     }
 
     private void seedGame(String targetGameId) {

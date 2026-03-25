@@ -112,29 +112,65 @@ public class GameDataService {
         return readStore.getOwnerCategories(gameId);
     }
 
-    public ObjectNode upsertHero(String gameId, String heroId, ObjectNode body, boolean patch) {
+    public ObjectNode listHeroes(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getHeroes(gameId);
+    }
+
+    public ObjectNode listSkills(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getSkills(gameId);
+    }
+
+    public ObjectNode listItems(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getItems(gameId);
+    }
+
+    public ObjectNode listAttributeDefinitions(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getAttributeDefinitions(gameId);
+    }
+
+    public ObjectNode listTypes(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getTypes(gameId);
+    }
+
+    public ObjectNode listTypeRelations(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getTypeRelations(gameId);
+    }
+
+    public ObjectNode upsertHero(String gameId, String heroId, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertHero(gameId, heroId, body, patch);
+        ObjectNode response = writeStore.upsertHero(gameId, heroId, body);
         evictNonPublishedReadCaches();
         return response;
     }
 
-    public ObjectNode upsertSkill(String gameId, String skillId, ObjectNode body, boolean patch) {
+    public ObjectNode upsertSkill(String gameId, String skillId, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertSkill(gameId, skillId, body, patch);
+        ObjectNode response = writeStore.upsertSkill(gameId, skillId, body);
         evictNonPublishedReadCaches();
         return response;
     }
 
-    public ObjectNode upsertItem(String gameId, String itemId, ObjectNode body, boolean patch) {
+    public ObjectNode upsertItem(String gameId, String itemId, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertItem(gameId, itemId, body, patch);
+        ObjectNode response = writeStore.upsertItem(gameId, itemId, body);
         evictNonPublishedReadCaches();
         return response;
     }
@@ -155,11 +191,11 @@ public class GameDataService {
         return response;
     }
 
-    public ObjectNode upsertFormulaProfile(String gameId, String formulaId, ObjectNode body, boolean patch) {
+    public ObjectNode upsertFormulaProfile(String gameId, String formulaId, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertFormulaProfile(gameId, formulaId, body, patch);
+        ObjectNode response = writeStore.upsertFormulaProfile(gameId, formulaId, body);
         evictNonPublishedReadCaches();
         return response;
     }
@@ -189,13 +225,12 @@ public class GameDataService {
         String targetCategory,
         String targetId,
         String bindingKey,
-        ObjectNode body,
-        boolean patch
+        ObjectNode body
     ) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertFormulaBinding(gameId, targetCategory, targetId, bindingKey, body, patch);
+        ObjectNode response = writeStore.upsertFormulaBinding(gameId, targetCategory, targetId, bindingKey, body);
         evictNonPublishedReadCaches();
         return response;
     }
@@ -216,11 +251,11 @@ public class GameDataService {
         return response;
     }
 
-    public ObjectNode upsertCoefficientBucket(String gameId, String bucketKey, ObjectNode body, boolean patch) {
+    public ObjectNode upsertCoefficientBucket(String gameId, String bucketKey, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertCoefficientBucket(gameId, bucketKey, body, patch);
+        ObjectNode response = writeStore.upsertCoefficientBucket(gameId, bucketKey, body);
         evictNonPublishedReadCaches();
         return response;
     }
@@ -241,29 +276,29 @@ public class GameDataService {
         return response;
     }
 
-    public ObjectNode upsertStatusActionControlRule(String gameId, String ruleId, ObjectNode body, boolean patch) {
+    public ObjectNode upsertStatusActionControlRule(String gameId, String ruleId, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertStatusActionControlRule(gameId, ruleId, body, patch);
+        ObjectNode response = writeStore.upsertStatusActionControlRule(gameId, ruleId, body);
         evictNonPublishedReadCaches();
         return response;
     }
 
-    public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body, boolean patch) {
+    public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertAttributeDefinition(gameId, attrKey, body, patch);
+        ObjectNode response = writeStore.upsertAttributeDefinition(gameId, attrKey, body);
         evictNonPublishedReadCaches();
         return response;
     }
 
-    public ObjectNode upsertType(String gameId, int typeId, ObjectNode body, boolean patch) {
+    public ObjectNode upsertType(String gameId, int typeId, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertType(gameId, typeId, body, patch);
+        ObjectNode response = writeStore.upsertType(gameId, typeId, body);
         evictNonPublishedReadCaches();
         return response;
     }
@@ -273,13 +308,12 @@ public class GameDataService {
         int typeId,
         String targetCategory,
         String targetId,
-        ObjectNode body,
-        boolean patch
+        ObjectNode body
     ) {
         validateGameId(gameId);
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
-        ObjectNode response = writeStore.upsertTypeRelation(gameId, typeId, targetCategory, targetId, body, patch);
+        ObjectNode response = writeStore.upsertTypeRelation(gameId, typeId, targetCategory, targetId, body);
         evictNonPublishedReadCaches();
         return response;
     }
