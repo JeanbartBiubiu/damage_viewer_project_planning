@@ -3,7 +3,6 @@ package xyz.game.datamanage.controller.adminapi;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -51,22 +50,7 @@ public class FormulaBindingAdminController {
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
     ) {
-        ObjectNode response = gameDataService.upsertFormulaBinding(gameId, targetCategory, targetId, bindingKey, body, false);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
-    @PatchMapping("/{targetCategory}/{targetId}/{bindingKey}")
-    public ObjectNode patchFormulaBinding(
-        @PathVariable String gameId,
-        @PathVariable String targetCategory,
-        @PathVariable String targetId,
-        @PathVariable String bindingKey,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = gameDataService.upsertFormulaBinding(gameId, targetCategory, targetId, bindingKey, body, true);
+        ObjectNode response = gameDataService.upsertFormulaBinding(gameId, targetCategory, targetId, bindingKey, body);
         logHelper.log(auth, request, body, 200);
         return response;
     }

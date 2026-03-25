@@ -57,13 +57,23 @@
   - 缓存：建议提供 ETag（例如 `max(updated_at)+count` 或对 `(owner_type,updated_at)` 做 hash）
 
 ### 4.2 Admin 写接口（Upsert）
-写接口只修改“原始表”，不会改变 current，除非 publish。
+写接口只修改“原始表”，不会改变 current，除非 publish。为保证编辑器保存后能重新拉取最新草稿态，所有可编辑资源都应补齐 `GET list`。
+- `GET /api/admin/games/{gameId}/heroes`
 - `PUT/PATCH /api/admin/games/{gameId}/heroes/{heroId}`
+- `GET /api/admin/games/{gameId}/skills`
 - `PUT/PATCH /api/admin/games/{gameId}/skills/{skillId}`
+- `GET /api/admin/games/{gameId}/items`
 - `PUT/PATCH /api/admin/games/{gameId}/items/{itemId}`
+- `GET /api/admin/games/{gameId}/attribute-definitions`
 - `PUT/PATCH /api/admin/games/{gameId}/attribute-definitions/{attrKey}`
+- `GET /api/admin/games/{gameId}/types`
 - `PUT/PATCH /api/admin/games/{gameId}/types/{typeId}`
+- `GET /api/admin/games/{gameId}/type-relations`
 - `PUT/PATCH /api/admin/games/{gameId}/type-relations/{typeId}/{targetCategory}/{targetId}`
+- `GET /api/admin/games/{gameId}/formula-profiles`
+- `PUT/PATCH /api/admin/games/{gameId}/formula-profiles/{formulaId}`
+- `GET /api/admin/games/{gameId}/formula-bindings`
+- `PUT/PATCH /api/admin/games/{gameId}/formula-bindings/{targetCategory}/{targetId}/{bindingKey}`
 - `GET /api/admin/games/{gameId}/coefficient-buckets`
 - `GET /api/admin/games/{gameId}/coefficient-buckets/{bucketKey}`
 - `PUT/PATCH /api/admin/games/{gameId}/coefficient-buckets/{bucketKey}`
@@ -71,6 +81,7 @@
 - `GET /api/admin/games/{gameId}/status-action-control-rules/{ruleId}`
 - `PUT/PATCH /api/admin/games/{gameId}/status-action-control-rules/{ruleId}`
 - `PUT /api/admin/games/{gameId}/images/{uri}`
+- 图片实时刷新继续复用 `GET /api/games/{gameId}/images`，不重复定义 admin list。
 
 通用约束：
 - 请求体禁止出现任何版本字段（`startVersionId/endVersionId/versionId/versionCode/isCurrent/dataHash` 等）。

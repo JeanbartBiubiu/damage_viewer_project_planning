@@ -135,20 +135,6 @@ export async function putCoefficientBucket(
   });
 }
 
-export async function patchCoefficientBucket(
-  apiBaseUrl: string,
-  gameId: string,
-  bucketKey: string,
-  token: string,
-  body: JsonObject
-): Promise<ApiResult<CoefficientBucket>> {
-  return requestJson<CoefficientBucket>(apiBaseUrl, adminPath(gameId, 'coefficient-buckets', bucketKey), {
-    method: 'PATCH',
-    token,
-    body: JSON.stringify(body)
-  });
-}
-
 export async function getStatusActionControlRules(
   apiBaseUrl: string,
   gameId: string,
@@ -184,20 +170,6 @@ export async function putStatusActionControlRule(
   });
 }
 
-export async function patchStatusActionControlRule(
-  apiBaseUrl: string,
-  gameId: string,
-  ruleId: string,
-  token: string,
-  body: JsonObject
-): Promise<ApiResult<StatusActionControlRule>> {
-  return requestJson<StatusActionControlRule>(apiBaseUrl, adminPath(gameId, 'status-action-control-rules', ruleId), {
-    method: 'PATCH',
-    token,
-    body: JSON.stringify(body)
-  });
-}
-
 export async function getFormulaProfiles(
   apiBaseUrl: string,
   gameId: string,
@@ -228,20 +200,6 @@ export async function putFormulaProfile(
 ): Promise<ApiResult<FormulaProfile>> {
   return requestJson<FormulaProfile>(apiBaseUrl, adminPath(gameId, 'formula-profiles', formulaId), {
     method: 'PUT',
-    token,
-    body: JSON.stringify(body)
-  });
-}
-
-export async function patchFormulaProfile(
-  apiBaseUrl: string,
-  gameId: string,
-  formulaId: string,
-  token: string,
-  body: JsonObject
-): Promise<ApiResult<FormulaProfile>> {
-  return requestJson<FormulaProfile>(apiBaseUrl, adminPath(gameId, 'formula-profiles', formulaId), {
-    method: 'PATCH',
     token,
     body: JSON.stringify(body)
   });
@@ -288,26 +246,6 @@ export async function putFormulaBinding(
     adminPath(gameId, 'formula-bindings', targetCategory, targetId, bindingKey),
     {
       method: 'PUT',
-      token,
-      body: JSON.stringify(body)
-    }
-  );
-}
-
-export async function patchFormulaBinding(
-  apiBaseUrl: string,
-  gameId: string,
-  targetCategory: string,
-  targetId: string,
-  bindingKey: string,
-  token: string,
-  body: JsonObject
-): Promise<ApiResult<FormulaBinding>> {
-  return requestJson<FormulaBinding>(
-    apiBaseUrl,
-    adminPath(gameId, 'formula-bindings', targetCategory, targetId, bindingKey),
-    {
-      method: 'PATCH',
       token,
       body: JSON.stringify(body)
     }

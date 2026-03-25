@@ -1,7 +1,6 @@
 package xyz.game.datamanage.service;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -60,12 +59,12 @@ class GameDataServiceCachePolicyTest {
     void upsertHeroDoesNotEvictCurrentVersionOrBundle() {
         ObjectNode body = JsonNodeFactory.instance.objectNode().put("name", "Ahri");
         ObjectNode response = JsonNodeFactory.instance.objectNode();
-        when(writeStore.upsertHero(anyString(), anyString(), any(ObjectNode.class), anyBoolean())).thenReturn(response);
+        when(writeStore.upsertHero(anyString(), anyString(), any(ObjectNode.class))).thenReturn(response);
         when(cacheManager.getCache("games")).thenReturn(gamesCache);
         when(cacheManager.getCache("images")).thenReturn(imagesCache);
         when(cacheManager.getCache("ownerCategories")).thenReturn(ownerCategoriesCache);
 
-        service.upsertHero("lol", "hero_ahri", body, false);
+        service.upsertHero("lol", "hero_ahri", body);
 
         verify(gamesCache).clear();
         verify(imagesCache).clear();

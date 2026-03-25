@@ -2,7 +2,7 @@ package xyz.game.datamanage.controller.adminapi;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -25,6 +25,11 @@ public class HeroAdminController {
         this.logHelper = logHelper;
     }
 
+    @GetMapping
+    public ObjectNode listHeroes(@PathVariable String gameId) {
+        return gameDataService.listHeroes(gameId);
+    }
+
     @PutMapping("/{heroId}")
     public ObjectNode putHero(
         @PathVariable String gameId,
@@ -33,22 +38,8 @@ public class HeroAdminController {
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
     ) {
-        ObjectNode response = gameDataService.upsertHero(gameId, heroId, body, false);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
-    @PatchMapping("/{heroId}")
-    public ObjectNode patchHero(
-        @PathVariable String gameId,
-        @PathVariable String heroId,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = gameDataService.upsertHero(gameId, heroId, body, true);
+        ObjectNode response = gameDataService.upsertHero(gameId, heroId, body);
         logHelper.log(auth, request, body, 200);
         return response;
     }
 }
-
