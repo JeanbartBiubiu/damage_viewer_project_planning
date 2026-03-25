@@ -14,6 +14,9 @@ spring:
       password: ${IT_REDIS_PASSWORD:redis123a123aA_}
       database: ${IT_REDIS_DATABASE:1}
       timeout: ${IT_REDIS_TIMEOUT:3s}
+      connect-timeout: ${IT_REDIS_CONNECT_TIMEOUT:2s}
+      lettuce:
+        shutdown-timeout: ${IT_REDIS_SHUTDOWN_TIMEOUT:100ms}
   cache:
     type: redis
 
@@ -23,6 +26,10 @@ mybatis:
 app:
   cache:
     ttl: ${APP_CACHE_TTL:1h}
+  redis:
+    keepalive-idle: ${APP_REDIS_KEEPALIVE_IDLE:60s}
+    keepalive-interval: ${APP_REDIS_KEEPALIVE_INTERVAL:15s}
+    keepalive-probe-count: ${APP_REDIS_KEEPALIVE_PROBE_COUNT:3}
   startup:
     fail-fast: false
   auth:
