@@ -206,6 +206,36 @@ export type FormulaProfilesResponse = {
   formulaProfiles: FormulaProfile[];
 };
 
+export type HeroesResponse = {
+  gameId: string;
+  heroes: Hero[];
+};
+
+export type SkillsResponse = {
+  gameId: string;
+  skills: Skill[];
+};
+
+export type ItemsResponse = {
+  gameId: string;
+  items: Item[];
+};
+
+export type AttributeDefinitionsResponse = {
+  gameId: string;
+  attributeDefinitions: AttributeDefinition[];
+};
+
+export type TypesResponse = {
+  gameId: string;
+  types: TypeDefinition[];
+};
+
+export type TypeRelationsResponse = {
+  gameId: string;
+  typeRelations: TypeRelation[];
+};
+
 export type FormulaBindingsResponse = {
   gameId: string;
   formulaBindings: FormulaBinding[];
