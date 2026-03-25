@@ -2,7 +2,7 @@ package xyz.game.datamanage.controller.adminapi;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -25,6 +25,11 @@ public class TypeAdminController {
         this.logHelper = logHelper;
     }
 
+    @GetMapping
+    public ObjectNode listTypes(@PathVariable String gameId) {
+        return gameDataService.listTypes(gameId);
+    }
+
     @PutMapping("/{typeId}")
     public ObjectNode putType(
         @PathVariable String gameId,
@@ -33,22 +38,8 @@ public class TypeAdminController {
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
     ) {
-        ObjectNode response = gameDataService.upsertType(gameId, typeId, body, false);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
-    @PatchMapping("/{typeId}")
-    public ObjectNode patchType(
-        @PathVariable String gameId,
-        @PathVariable int typeId,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = gameDataService.upsertType(gameId, typeId, body, true);
+        ObjectNode response = gameDataService.upsertType(gameId, typeId, body);
         logHelper.log(auth, request, body, 200);
         return response;
     }
 }
-
