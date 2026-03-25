@@ -3,7 +3,6 @@ package xyz.game.datamanage.controller.adminapi;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -44,20 +43,7 @@ public class CoefficientBucketAdminController {
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
     ) {
-        ObjectNode response = gameDataService.upsertCoefficientBucket(gameId, bucketKey, body, false);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
-    @PatchMapping("/{bucketKey}")
-    public ObjectNode patchCoefficientBucket(
-        @PathVariable String gameId,
-        @PathVariable String bucketKey,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = gameDataService.upsertCoefficientBucket(gameId, bucketKey, body, true);
+        ObjectNode response = gameDataService.upsertCoefficientBucket(gameId, bucketKey, body);
         logHelper.log(auth, request, body, 200);
         return response;
     }

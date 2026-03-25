@@ -108,8 +108,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertHero(String gameId, String heroId, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(readStore.loadHero(gameId, heroId), body, patch, "hero", heroId, "heroId");
+    public ObjectNode upsertHero(String gameId, String heroId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "heroId", heroId);
         jsonSupport.requireText(merged, "name", "hero");
         JsonNode baseStats = merged.get("baseStats");
         if (baseStats == null || !baseStats.isObject()) {
@@ -131,8 +131,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertSkill(String gameId, String skillId, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(readStore.loadSkill(gameId, skillId), body, patch, "skill", skillId, "skillId");
+    public ObjectNode upsertSkill(String gameId, String skillId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "skillId", skillId);
         String ownerType = jsonSupport.requireText(merged, "ownerType", "skill");
         if (!OWNER_TYPE_PATTERN.matcher(ownerType).matches()) {
             throw badRequest("skill.ownerType format invalid", Map.of("path", "/ownerType"));
@@ -176,8 +176,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertItem(String gameId, String itemId, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(readStore.loadItem(gameId, itemId), body, patch, "item", itemId, "itemId");
+    public ObjectNode upsertItem(String gameId, String itemId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "itemId", itemId);
         validateItemRefs(gameId, merged);
 
         long versionId = resolveVersionIdForWrite(gameId);
@@ -196,15 +196,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertFormulaProfile(String gameId, String formulaId, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(
-            readStore.loadFormulaProfile(gameId, formulaId),
-            body,
-            patch,
-            "formulaProfile",
-            formulaId,
-            "formulaId"
-        );
+    public ObjectNode upsertFormulaProfile(String gameId, String formulaId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "formulaId", formulaId);
         String formulaType = jsonSupport.requireText(merged, "formulaType", "formulaProfile").toLowerCase(Locale.ROOT);
         if (!FORMULA_TYPES.contains(formulaType)) {
             throw badRequest("formulaProfile.formulaType invalid", Map.of("path", "/formulaType", "formulaType", formulaType));
@@ -239,19 +232,10 @@ public class PostgresWriteStore {
         String targetCategory,
         String targetId,
         String bindingKey,
-        ObjectNode body,
-        boolean patch
+        ObjectNode body
     ) {
         String normalizedTargetCategory = targetCategory == null ? "" : targetCategory.toLowerCase(Locale.ROOT);
-        String relationKey = normalizedTargetCategory + "|" + targetId + "|" + bindingKey;
-        ObjectNode merged = mergeUpsert(
-            readStore.loadFormulaBinding(gameId, normalizedTargetCategory, targetId, bindingKey),
-            body,
-            patch,
-            "formulaBinding",
-            relationKey,
-            "bindingKey"
-        );
+        ObjectNode merged = mergeUpsert(body, "bindingKey", bindingKey);
         merged.put("targetCategory", normalizedTargetCategory);
         merged.put("targetId", targetId);
         merged.put("bindingKey", bindingKey);
@@ -276,15 +260,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertCoefficientBucket(String gameId, String bucketKey, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(
-            readStore.loadCoefficientBucket(gameId, bucketKey),
-            body,
-            patch,
-            "coefficientBucket",
-            bucketKey,
-            "bucketKey"
-        );
+    public ObjectNode upsertCoefficientBucket(String gameId, String bucketKey, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "bucketKey", bucketKey);
 
         String resolutionDomain = jsonSupport.requireText(merged, "resolutionDomain", "coefficientBucket").toLowerCase(Locale.ROOT);
         if (!COEFFICIENT_BUCKET_RESOLUTION_DOMAINS.contains(resolutionDomain)) {
@@ -344,15 +321,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertStatusActionControlRule(String gameId, String ruleId, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(
-            readStore.loadStatusActionControlRule(gameId, ruleId),
-            body,
-            patch,
-            "statusActionControlRule",
-            ruleId,
-            "ruleId"
-        );
+    public ObjectNode upsertStatusActionControlRule(String gameId, String ruleId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "ruleId", ruleId);
 
         int statusTypeId = requireExistingTypeId(gameId, merged.get("statusTypeId"), "/statusTypeId", "statusActionControlRule.statusTypeId");
         String ruleKind = jsonSupport.requireText(merged, "ruleKind", "statusActionControlRule").toLowerCase(Locale.ROOT);
@@ -403,15 +373,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(
-            readStore.loadAttributeDefinition(gameId, attrKey),
-            body,
-            patch,
-            "attributeDefinition",
-            attrKey,
-            "attrKey"
-        );
+    public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "attrKey", attrKey);
         if (merged.has("defaultValue") && !merged.path("defaultValue").isNull() && !merged.path("defaultValue").isNumber()) {
             throw badRequest("attributeDefinition.defaultValue must be number", Map.of("path", "/defaultValue"));
         }
@@ -433,8 +396,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode upsertType(String gameId, int typeId, ObjectNode body, boolean patch) {
-        ObjectNode merged = mergeUpsert(readStore.loadType(gameId, typeId), body, patch, "type", Integer.toString(typeId), "typeId");
+    public ObjectNode upsertType(String gameId, int typeId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "typeId", Integer.toString(typeId));
         merged.put("typeId", typeId);
 
         long versionId = resolveVersionIdForWrite(gameId);
@@ -455,18 +418,9 @@ public class PostgresWriteStore {
         int typeId,
         String targetCategory,
         String targetId,
-        ObjectNode body,
-        boolean patch
+        ObjectNode body
     ) {
-        String relationKey = typeId + "|" + targetCategory + "|" + targetId;
-        ObjectNode merged = mergeUpsert(
-            readStore.loadTypeRelation(gameId, typeId, targetCategory, targetId),
-            body,
-            patch,
-            "typeRelation",
-            relationKey,
-            "targetId"
-        );
+        ObjectNode merged = mergeUpsert(body, "targetId", targetId);
         merged.put("typeId", typeId);
         merged.put("targetCategory", targetCategory);
         merged.put("targetId", targetId);
@@ -1494,21 +1448,11 @@ public class PostgresWriteStore {
         }
     }
 
-    private ObjectNode mergeUpsert(
-        ObjectNode existing,
-        ObjectNode body,
-        boolean patch,
-        String resourceName,
-        String resourceId,
-        String idField
-    ) {
+    private ObjectNode mergeUpsert(ObjectNode body, String idField, String resourceId) {
         if (body == null || body.isEmpty()) {
             throw badRequest("Request body cannot be empty", Map.of("path", "/", "reason", "empty body"));
         }
-        if (patch && existing == null) {
-            throw notFound(resourceName + " not found", Map.of("id", resourceId));
-        }
-        ObjectNode merged = patch ? existing.deepCopy() : objectMapper.createObjectNode();
+        ObjectNode merged = objectMapper.createObjectNode();
         mergeObject(merged, body);
         merged.put(idField, resourceId);
         return merged;

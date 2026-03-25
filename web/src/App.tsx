@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Form, Input, Layout, Select, Space, Tag, Typography } from '@arco-design/web-react';
-import { adminResourceNavigationItems, navigationItems, type RouteId } from './config/navigation';
-import { AdminPage, type ResourceKind } from './pages/AdminPage';
+import { adminResourceRouteMap, navigationItems, type RouteId } from './config/navigation';
+import { CoefficientBucketsPage } from './pages/admin/resources/coefficient-buckets';
+import { FormulaBindingsPage } from './pages/admin/resources/formula-bindings';
+import { FormulaProfilesPage } from './pages/admin/resources/formula-profiles';
+import { StatusActionControlRulesPage } from './pages/admin/resources/status-action-control-rules';
 import { ImagesPage } from './pages/ImagesPage';
 import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
 import { OverviewPage } from './pages/OverviewPage';
-import { WorkspacePage } from './pages/WorkspacePage';
+import { VersionPublishPage } from './pages/VersionPublishPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
 const API_BASE_STORAGE_KEY = 'damage-viewer.web.api-base-url';
 const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
-const ADMIN_HASH_RESOURCE_MAP: Record<string, ResourceKind> = {
-  'formula-profiles': 'formulaProfiles',
-  'formula-bindings': 'formulaBindings',
-  'coefficient-buckets': 'coefficientBuckets',
-  'status-action-control-rules': 'statusActionControlRules'
-};
 
 const { Sider, Content } = Layout;
 
@@ -33,60 +30,51 @@ function readRouteFromHash(): RouteId {
     return 'overview';
   }
 
-  const fragment = window.location.hash.replace(/^#\/?/, '').split('/')[0];
-  const match = navigationItems.find((item) => item.id === fragment);
-  return match?.id ?? 'overview';
-}
-
-function readAdminResourceFromHash(): ResourceKind | null {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-
   const [routeSegment, resourceSegment] = window.location.hash.replace(/^#\/?/, '').split('/');
-  if (routeSegment !== 'admin' || !resourceSegment) {
-    return null;
+  if (routeSegment === 'admin') {
+    if (resourceSegment && resourceSegment in adminResourceRouteMap) {
+      return resourceSegment as RouteId;
+    }
+    return 'formula-profiles';
   }
 
-  return ADMIN_HASH_RESOURCE_MAP[resourceSegment] ?? null;
+  if (routeSegment === 'versions' || routeSegment === 'version-publish') {
+    return 'workspace';
+  }
+
+  const match = navigationItems.find((item) => item.id === routeSegment);
+  return match?.id ?? 'overview';
 }
 
 function getGamesStatusLabel(status: LoadState): string {
   if (status === 'loading') {
-    return '连接中';
+    return 'Connecting';
   }
-
   if (status === 'success') {
-    return '已连接';
+    return 'Ready';
   }
-
   if (status === 'error') {
-    return '错误';
+    return 'Error';
   }
-
-  return '待命';
+  return 'Idle';
 }
 
 function getGamesStatusColor(status: LoadState): string {
   if (status === 'loading') {
     return 'orange';
   }
-
   if (status === 'success') {
     return 'green';
   }
-
   if (status === 'error') {
     return 'red';
   }
-
   return 'gray';
 }
 
 export default function App() {
   const initialApiBaseUrl = readStoredValue(API_BASE_STORAGE_KEY, resolveApiBaseUrl());
   const [route, setRoute] = useState<RouteId>(() => readRouteFromHash());
-  const [adminResource, setAdminResource] = useState<ResourceKind | null>(() => readAdminResourceFromHash());
   const [apiBaseDraft, setApiBaseDraft] = useState(initialApiBaseUrl);
   const [apiBaseUrl, setApiBaseUrl] = useState(initialApiBaseUrl);
   const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, ''));
@@ -97,12 +85,10 @@ export default function App() {
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
   const [bundleRefreshSeed, setBundleRefreshSeed] = useState(0);
-  const activeAdminResource = adminResource ?? 'formulaProfiles';
 
   useEffect(() => {
     const onHashChange = () => {
       setRoute(readRouteFromHash());
-      setAdminResource(readAdminResourceFromHash());
     };
 
     window.addEventListener('hashchange', onHashChange);
@@ -139,7 +125,6 @@ export default function App() {
           if (current && result.data.some((game) => game.gameId === current)) {
             return current;
           }
-
           return result.data[0]?.gameId ?? null;
         });
       } catch (error) {
@@ -163,7 +148,7 @@ export default function App() {
   }, [apiBaseUrl, reloadSeed]);
 
   const selectedGame = games.find((game) => game.gameId === selectedGameId) ?? null;
-  const selectedGameName = selectedGame?.gameName ?? '未选择游戏';
+  const selectedGameName = selectedGame?.gameName ?? 'No game selected';
   const activeRoute = navigationItems.find((item) => item.id === route) ?? navigationItems[0];
 
   let pageContent = (
@@ -180,7 +165,16 @@ export default function App() {
 
   switch (route) {
     case 'workspace':
-      pageContent = <WorkspacePage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
+      pageContent = (
+        <VersionPublishPage
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          selectedGameName={selectedGameName}
+          adminToken={adminToken}
+          onAdminTokenChange={setAdminToken}
+          onDataPublished={() => setBundleRefreshSeed((value) => value + 1)}
+        />
+      );
       break;
     case 'katarina-mvp':
       pageContent = (
@@ -195,17 +189,18 @@ export default function App() {
     case 'images':
       pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
       break;
-    case 'admin':
+    case 'formula-profiles':
+      pageContent = <FormulaProfilesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'formula-bindings':
+      pageContent = <FormulaBindingsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'coefficient-buckets':
+      pageContent = <CoefficientBucketsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'status-action-control-rules':
       pageContent = (
-        <AdminPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          adminToken={adminToken}
-          onAdminTokenChange={setAdminToken}
-          requestedResource={adminResource ?? 'formulaProfiles'}
-          onDataPublished={() => setBundleRefreshSeed((value) => value + 1)}
-        />
+        <StatusActionControlRulesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />
       );
       break;
     default:
@@ -220,10 +215,10 @@ export default function App() {
             Damage Viewer
           </Tag>
           <Typography.Title heading={3} className="brand-title">
-            Web 控制台
+            Web Console
           </Typography.Title>
           <Typography.Text className="brand-copy">
-            围绕版本、Bundle、图片缓存和后端资源的工作台。
+            A focused web surface for resource editing, publishing, image sync, and MVP verification.
           </Typography.Text>
         </div>
 
@@ -236,36 +231,18 @@ export default function App() {
           ))}
         </nav>
 
-        <section className="nav-section" aria-label="Admin resources">
-          <Typography.Text className="nav-section-label">后台资源</Typography.Text>
-          <div className="nav-substack">
-            {adminResourceNavigationItems.map((item) => (
-              <a
-                key={item.id}
-                className={`nav-item nav-item-secondary${route === 'admin' && activeAdminResource === item.id ? ' is-active' : ''}`}
-                href={`#/admin/${item.hashSegment}`}
-              >
-                <span className="nav-item-label">{item.label}</span>
-                <span className="nav-item-summary">{item.summary}</span>
-              </a>
-            ))}
-          </div>
-        </section>
-
         <section className="sidebar-status">
           <div className="sidebar-status-head">
-            <Typography.Text className="sidebar-status-kicker">当前连接</Typography.Text>
+            <Typography.Text className="sidebar-status-kicker">Session</Typography.Text>
             <Tag color={getGamesStatusColor(gamesStatus)}>{getGamesStatusLabel(gamesStatus)}</Tag>
           </div>
           <Typography.Title heading={5} className="sidebar-status-title">
             {selectedGameName}
           </Typography.Title>
           <Typography.Text className="sidebar-status-line">API {apiBaseUrl}</Typography.Text>
-          <Typography.Text className="sidebar-status-line">GameId {selectedGame?.gameId ?? '未选择'}</Typography.Text>
-          <Typography.Text className="sidebar-status-line">
-            JWT {adminToken.trim() ? '已保存到本地浏览器' : '未配置'}
-          </Typography.Text>
-          <Typography.Text className="sidebar-status-line">ETag {gamesEtag ?? '暂无'}</Typography.Text>
+          <Typography.Text className="sidebar-status-line">GameId {selectedGame?.gameId ?? 'None'}</Typography.Text>
+          <Typography.Text className="sidebar-status-line">JWT {adminToken.trim() ? 'Stored locally' : 'Not configured'}</Typography.Text>
+          <Typography.Text className="sidebar-status-line">ETag {gamesEtag ?? 'N/A'}</Typography.Text>
         </section>
       </Sider>
 
@@ -275,10 +252,10 @@ export default function App() {
             <div className="workspace-hero-copy">
               <Space align="center" size={10} wrap>
                 <Tag color="arcoblue">{activeRoute.label}</Tag>
-                <Typography.Text className="workspace-rail">当前模块 / {route}</Typography.Text>
+                <Typography.Text className="workspace-rail">Current module / {activeRoute.label}</Typography.Text>
               </Space>
               <Typography.Title heading={2} className="workspace-title">
-                Damage Viewer 前端
+                Damage Viewer Frontend
               </Typography.Title>
               <Typography.Text className="workspace-summary">{activeRoute.summary}</Typography.Text>
             </div>
@@ -287,12 +264,12 @@ export default function App() {
               <div className="workspace-stat">
                 <span className="workspace-stat-label">Games</span>
                 <strong className="workspace-stat-value">{games.length}</strong>
-                <span className="workspace-stat-hint">可用 game 列表</span>
+                <span className="workspace-stat-hint">Available game list</span>
               </div>
               <div className="workspace-stat">
                 <span className="workspace-stat-label">Selected</span>
                 <strong className="workspace-stat-value">{selectedGame?.gameId ?? 'none'}</strong>
-                <span className="workspace-stat-hint">当前上下文</span>
+                <span className="workspace-stat-hint">Current page context</span>
               </div>
               <div className="workspace-stat">
                 <span className="workspace-stat-label">Status</span>
@@ -305,23 +282,31 @@ export default function App() {
           <section className="workspace-controls">
             <Form layout="vertical" className="toolbar-form">
               <div className="toolbar-grid">
-                <Form.Item label="API 基址" className="toolbar-field">
+                <Form.Item label="API Base URL" className="toolbar-field">
                   <Input value={apiBaseDraft} onChange={setApiBaseDraft} placeholder="http://localhost:8080" />
                 </Form.Item>
-                <Form.Item label="当前 gameId" className="toolbar-field">
+                <Form.Item label="Current gameId" className="toolbar-field">
                   <Select
                     value={selectedGameId ?? ''}
                     onChange={(value) => setSelectedGameId(value || null)}
                     disabled={games.length === 0}
-                    placeholder="选择游戏"
+                    placeholder="Select a game"
                   >
-                    <Select.Option value="">未选择</Select.Option>
+                    <Select.Option value="">None</Select.Option>
                     {games.map((game) => (
                       <Select.Option key={game.gameId} value={game.gameId}>
                         {game.gameId} / {game.gameName}
                       </Select.Option>
                     ))}
                   </Select>
+                </Form.Item>
+                <Form.Item label="Admin Token" className="toolbar-field">
+                  <Input.Password
+                    value={adminToken}
+                    onChange={setAdminToken}
+                    placeholder="Paste admin JWT here"
+                    autoComplete="off"
+                  />
                 </Form.Item>
               </div>
 
@@ -334,9 +319,9 @@ export default function App() {
                     setApiBaseUrl(nextValue);
                   }}
                 >
-                  应用地址
+                  Apply API base
                 </Button>
-                <Button onClick={() => setReloadSeed((value) => value + 1)}>刷新游戏列表</Button>
+                <Button onClick={() => setReloadSeed((value) => value + 1)}>Reload games</Button>
               </Space>
             </Form>
           </section>

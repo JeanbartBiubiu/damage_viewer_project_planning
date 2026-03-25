@@ -142,6 +142,66 @@ public class PostgresReadStore {
         return response;
     }
 
+    public ObjectNode getHeroes(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode heroes = response.putArray("heroes");
+        for (Map<String, Object> row : heroesMapper.listHeroes(gameId)) {
+            heroes.add(mapHeroRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getSkills(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode skills = response.putArray("skills");
+        for (Map<String, Object> row : skillsMapper.listSkills(gameId)) {
+            skills.add(mapSkillRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getItems(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode items = response.putArray("items");
+        for (Map<String, Object> row : itemsMapper.listItems(gameId)) {
+            items.add(mapItemRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getAttributeDefinitions(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode attributeDefinitions = response.putArray("attributeDefinitions");
+        for (Map<String, Object> row : attributeDefinitionsMapper.listAttributeDefinitions(gameId)) {
+            attributeDefinitions.add(mapAttributeDefinitionRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getTypes(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode types = response.putArray("types");
+        for (Map<String, Object> row : typesMapper.listTypes(gameId)) {
+            types.add(mapTypeRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getTypeRelations(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode typeRelations = response.putArray("typeRelations");
+        for (Map<String, Object> row : typeRelationsMapper.listTypeRelations(gameId)) {
+            typeRelations.add(mapTypeRelationRow(row));
+        }
+        return response;
+    }
+
     public ObjectNode getFormulaProfiles(String gameId) {
         ObjectNode response = objectMapper.createObjectNode();
         response.put("gameId", gameId);

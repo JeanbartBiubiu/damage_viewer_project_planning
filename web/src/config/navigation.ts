@@ -1,16 +1,20 @@
 import type { JsonObject } from '../types/api';
+import {
+  adminResourceNavigationItems as adminResourceNavigationItemsFromAdminConfig,
+  type AdminResourceKind,
+  type AdminResourceNavigationItem
+} from '../pages/admin/adminResourceConfig';
 
-export type RouteId = 'overview' | 'workspace' | 'katarina-mvp' | 'images' | 'admin';
+export type AdminResourceRouteId =
+  | 'formula-profiles'
+  | 'formula-bindings'
+  | 'coefficient-buckets'
+  | 'status-action-control-rules';
+
+export type RouteId = 'overview' | 'workspace' | 'katarina-mvp' | 'images' | AdminResourceRouteId;
 
 export type NavigationItem = {
   id: RouteId;
-  label: string;
-  summary: string;
-};
-
-export type AdminResourceNavigationItem = {
-  id: 'formulaProfiles' | 'formulaBindings' | 'coefficientBuckets' | 'statusActionControlRules';
-  hashSegment: string;
   label: string;
   summary: string;
 };
@@ -30,166 +34,125 @@ export type AdminEndpoint = {
   sampleBody?: JsonObject;
 };
 
-export const navigationItems: NavigationItem[] = [
+export const adminResourceRouteMap: Record<AdminResourceRouteId, AdminResourceKind> = {
+  'formula-profiles': 'formulaProfiles',
+  'formula-bindings': 'formulaBindings',
+  'coefficient-buckets': 'coefficientBuckets',
+  'status-action-control-rules': 'statusActionControlRules'
+};
+
+const baseNavigationItems: NavigationItem[] = [
   {
     id: 'overview',
     label: '系统总览',
-    summary: '对齐读写链路、版本模型和前端信息架构。'
+    summary: '查看当前前后端能力、接口契约和工作面分工。'
   },
   {
     id: 'workspace',
-    label: '游戏工作台',
-    summary: '承接当前版本、Bundle 预览和内容规模概览。'
+    label: '版本发布',
+    summary: '集中处理版本创建、版本发布以及 current / bundle 核对。'
   },
   {
     id: 'katarina-mvp',
-    label: '卡特 MVP',
-    summary: '拉取 current + bundle，组装 S0 / S1 输入并运行最小伤害模拟。'
+    label: 'Katarina MVP',
+    summary: '围绕 current + bundle 跑最小验证闭环。'
   },
   {
     id: 'images',
     label: '图片缓存',
-    summary: '按现有方案接入 IndexDB 全量与增量同步。'
-  },
-  {
-    id: 'admin',
-    label: '编辑后台',
-    summary: '预留 Admin CRUD、发布与公式扩展入口。'
+    summary: '查看和同步图片缓存资源。'
   }
 ];
 
-export const adminResourceNavigationItems: AdminResourceNavigationItem[] = [
-  {
-    id: 'formulaProfiles',
-    hashSegment: 'formula-profiles',
-    label: '公式档案',
-    summary: '管理公式定义、类型、种类与描述。'
-  },
-  {
-    id: 'formulaBindings',
-    hashSegment: 'formula-bindings',
-    label: '公式绑定',
-    summary: '把公式挂到目标实体和 bindingKey 上。'
-  },
-  {
-    id: 'coefficientBuckets',
-    hashSegment: 'coefficient-buckets',
-    label: '乘区桶',
-    summary: '维护属性域与伤害域的聚合桶。'
-  },
-  {
-    id: 'statusActionControlRules',
-    hashSegment: 'status-action-control-rules',
-    label: '状态动作规则',
-    summary: '维护禁用、打断与动作限制规则。'
-  }
-];
+const adminResourceRouteItems: NavigationItem[] = adminResourceNavigationItemsFromAdminConfig.map((item) => ({
+  id: item.hashSegment as AdminResourceRouteId,
+  label: item.label,
+  summary: item.summary
+}));
+
+export const navigationItems: NavigationItem[] = [...baseNavigationItems, ...adminResourceRouteItems];
+
+export const adminResourceNavigationItems: AdminResourceNavigationItem[] = adminResourceNavigationItemsFromAdminConfig;
 
 export const publicSurfaceEndpoints: SurfaceEndpoint[] = [
   {
     title: '游戏列表',
     method: 'GET',
     path: '/api/games',
-    description: '动态发现可用的 gameId，并驱动整个前端入口。'
+    description: '动态发现可用 gameId，并驱动整个前端壳层。'
   },
   {
     title: '当前版本',
     method: 'GET',
     path: '/api/games/{gameId}/versions/current',
-    description: '轮询当前已发布版本，作为 Bundle 与缓存刷新入口。'
+    description: '获取当前已发布版本，作为 Bundle 与缓存刷新的入口。'
   },
   {
     title: '版本 Bundle',
     method: 'GET',
     path: '/api/games/{gameId}/versions/{versionId}/bundle',
-    description: '拉取当前版本全量数据包，供工作台和后续编辑器消费。'
+    description: '拉取工作面和 MVP 运行依赖的当前数据包。'
   },
   {
     title: '图片资源',
     method: 'GET',
     path: '/api/games/{gameId}/images?updatedAfter=...',
-    description: '支持全量和增量拉取，用于本地 IndexDB 图片缓存。'
+    description: '支持图片的全量与增量同步。'
   },
   {
-    title: '技能归属字典',
+    title: '归属分类字典',
     method: 'GET',
     path: '/api/games/{gameId}/owner-categories',
-    description: '驱动技能编辑器里 ownerType 的可选项。'
+    description: '为技能等编辑场景提供 ownerType 可选项。'
   }
 ];
 
 export const adminEndpoints: AdminEndpoint[] = [
   {
-    title: '英雄',
-    method: 'PUT/PATCH',
-    path: '/api/admin/games/{gameId}/heroes/{heroId}',
-    description: '维护英雄基础信息与成长属性。',
+    title: '公式档案',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/formula-profiles/{formulaId}',
+    description: '列表读取和整条 PUT 保存公式定义、类型、种类和参数。',
     sampleBody: {
-      name: 'Ahri',
-      baseStats: {
-        hp: 500,
-        atk: 55
-      }
+      formulaId: 'damage.skill.katarina.r.base',
+      formulaType: 'damage',
+      formulaKind: 'base',
+      params: { base: 1 }
     }
   },
   {
-    title: '技能',
-    method: 'PUT/PATCH',
-    path: '/api/admin/games/{gameId}/skills/{skillId}',
-    description: '维护 ownerType、mechanicsConfig 和技能表现数据。',
+    title: '公式绑定',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/formula-bindings/{targetCategory}/{targetId}/{bindingKey}',
+    description: '列表读取和整条 PUT 保存目标实体上的公式绑定。',
     sampleBody: {
-      ownerType: 'hero',
-      ownerId: 'hero_ahri',
-      skillKey: 'Q',
-      name: 'Orb of Deception',
-      mechanicsConfig: {
-        version: 1,
-        triggers: []
-      }
+      targetCategory: 'skill',
+      targetId: 'skill_katarina_r',
+      bindingKey: 'damage.base',
+      formulaId: 'damage.skill.katarina.r.base',
+      overrideParams: {}
     }
   },
   {
-    title: '装备',
-    method: 'PUT/PATCH',
-    path: '/api/admin/games/{gameId}/items/{itemId}',
-    description: '维护装备信息、skillRefs 与 recipeIds。',
+    title: '乘区桶',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/coefficient-buckets/{bucketKey}',
+    description: '列表读取和整条 PUT 保存乘区桶配置。',
     sampleBody: {
-      name: 'Amplifying Tome',
-      goldCost: 435
+      bucketKey: 'magic_damage.percent_bonus',
+      resolutionDomain: 'attribute',
+      stageKey: 'percent_bonus',
+      targetAttrKey: 'move_speed',
+      aggregationMode: 'add'
     }
   },
   {
-    title: '属性定义',
-    method: 'PUT/PATCH',
-    path: '/api/admin/games/{gameId}/attribute-definitions/{attrKey}',
-    description: '维护前端和 WASM 共用的属性字典。',
-    sampleBody: {
-      attrName: 'Attack Damage',
-      attrType: 'number',
-      defaultValue: 0
-    }
-  },
-  {
-    title: '类型与挂载关系',
-    method: 'PUT/PATCH',
-    path: '/api/admin/games/{gameId}/types/{typeId} + /type-relations/{typeId}/{targetCategory}/{targetId}',
-    description: '维护 type 树、挂载关系与规则引用基础。'
-  },
-  {
-    title: '图片',
-    method: 'PUT',
-    path: '/api/admin/games/{gameId}/images/{uri}',
-    description: '更新单图后立即回写本地 IndexDB。',
-    sampleBody: {
-      imageBase64: 'data:image/png;base64,...'
-    }
-  },
-  {
-    title: '状态动作控制',
-    method: 'GET/PUT/PATCH',
+    title: '状态动作规则',
+    method: 'GET/PUT',
     path: '/api/admin/games/{gameId}/status-action-control-rules/{ruleId}',
-    description: '维护眩晕、打断、禁止动作等规则。',
+    description: '列表读取和整条 PUT 保存状态动作控制规则。',
     sampleBody: {
+      ruleId: 'status_stun_forbid_cast',
       statusTypeId: 50020,
       ruleKind: 'forbid',
       actionTypeIds: [50101, 50102],
@@ -199,30 +162,9 @@ export const adminEndpoints: AdminEndpoint[] = [
     }
   },
   {
-    title: '乘区桶',
-    method: 'GET/PUT/PATCH',
-    path: '/api/admin/games/{gameId}/coefficient-buckets/{bucketKey}',
-    description: '维护属性域和伤害域的聚合桶。',
-    sampleBody: {
-      resolutionDomain: 'attribute',
-      stageKey: 'percent_bonus',
-      targetAttrKey: 'move_speed',
-      aggregationMode: 'add'
-    }
-  },
-  {
-    title: '公式扩展',
-    method: 'GET/PUT/PATCH',
-    path: '/api/admin/games/{gameId}/formula-profiles/{formulaId} + /formula-bindings/{targetCategory}/{targetId}/{bindingKey}',
-    description: '对齐后端已经存在的公式配置与绑定能力。'
-  },
-  {
     title: '版本创建与发布',
     method: 'POST',
     path: '/api/admin/games/{gameId}/versions + /versions/{versionId}:publish',
-    description: '把原始表冻结成当前版本，并切换读路径。',
-    sampleBody: {
-      versionCode: '14.1'
-    }
+    description: '在独立发布页面创建版本并发布到当前读链路。'
   }
 ];
