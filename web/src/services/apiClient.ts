@@ -1,5 +1,7 @@
 import type {
   ApiErrorResponse,
+  AttributeDefinition,
+  AttributeDefinitionsResponse,
   CoefficientBucket,
   CoefficientBucketsResponse,
   CurrentVersion,
@@ -9,11 +11,21 @@ import type {
   FormulaProfilesResponse,
   GameDataBundle,
   GameSummary,
+  Hero,
+  HeroesResponse,
   ImageCollectionResponse,
+  Item,
+  ItemsResponse,
   JsonObject,
   OwnerCategoryResponse,
+  Skill,
+  SkillsResponse,
   StatusActionControlRule,
   StatusActionControlRulesResponse,
+  TypeDefinition,
+  TypeRelation,
+  TypeRelationsResponse,
+  TypesResponse,
   VersionCreatePayload,
   VersionCreateResponse,
   VersionPublishResponse
@@ -98,6 +110,132 @@ export async function getImages(
     url.searchParams.set('updatedAfter', updatedAfter);
   }
   return requestJson<ImageCollectionResponse>(apiBaseUrl, `${url.pathname}${url.search}`);
+}
+
+export async function getHeroes(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<HeroesResponse>> {
+  return requestJson<HeroesResponse>(apiBaseUrl, adminPath(gameId, 'heroes'), {
+    token
+  });
+}
+
+export async function putHero(
+  apiBaseUrl: string,
+  gameId: string,
+  heroId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<Hero>> {
+  return requestJson<Hero>(apiBaseUrl, adminPath(gameId, 'heroes', heroId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getSkills(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<SkillsResponse>> {
+  return requestJson<SkillsResponse>(apiBaseUrl, adminPath(gameId, 'skills'), {
+    token
+  });
+}
+
+export async function putSkill(
+  apiBaseUrl: string,
+  gameId: string,
+  skillId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<Skill>> {
+  return requestJson<Skill>(apiBaseUrl, adminPath(gameId, 'skills', skillId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getItems(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<ItemsResponse>> {
+  return requestJson<ItemsResponse>(apiBaseUrl, adminPath(gameId, 'items'), {
+    token
+  });
+}
+
+export async function putItem(
+  apiBaseUrl: string,
+  gameId: string,
+  itemId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<Item>> {
+  return requestJson<Item>(apiBaseUrl, adminPath(gameId, 'items', itemId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getAttributeDefinitions(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<AttributeDefinitionsResponse>> {
+  return requestJson<AttributeDefinitionsResponse>(apiBaseUrl, adminPath(gameId, 'attribute-definitions'), {
+    token
+  });
+}
+
+export async function putAttributeDefinition(
+  apiBaseUrl: string,
+  gameId: string,
+  attrKey: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<AttributeDefinition>> {
+  return requestJson<AttributeDefinition>(apiBaseUrl, adminPath(gameId, 'attribute-definitions', attrKey), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getTypes(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<TypesResponse>> {
+  return requestJson<TypesResponse>(apiBaseUrl, adminPath(gameId, 'types'), {
+    token
+  });
+}
+
+export async function putType(
+  apiBaseUrl: string,
+  gameId: string,
+  typeId: number,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<TypeDefinition>> {
+  return requestJson<TypeDefinition>(apiBaseUrl, adminPath(gameId, 'types', `${typeId}`), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getTypeRelations(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<TypeRelationsResponse>> {
+  return requestJson<TypeRelationsResponse>(apiBaseUrl, adminPath(gameId, 'type-relations'), {
+    token
+  });
+}
+
+export async function putTypeRelation(
+  apiBaseUrl: string,
+  gameId: string,
+  typeId: number,
+  targetCategory: string,
+  targetId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<TypeRelation>> {
+  return requestJson<TypeRelation>(apiBaseUrl, adminPath(gameId, 'type-relations', `${typeId}`, targetCategory, targetId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
 }
 
 export async function getCoefficientBuckets(

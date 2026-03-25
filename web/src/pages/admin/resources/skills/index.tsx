@@ -1,0 +1,188 @@
+import { Alert } from '@arco-design/web-react';
+import { Panel } from '../../../../components/Panel';
+import { getSkills, putSkill } from '../../../../services/apiClient';
+import type { JsonObject } from '../../../../types/api';
+import { parseJsonArrayText, parseJsonObjectText, stringifyJson } from '../shared/json';
+import { useCrudResourcePage } from '../shared/useCrudResourcePage';
+import { createSkillsFormData, createSkillsSearchData } from './constants';
+import { SkillsModal } from './modal';
+import { SkillsSearch } from './search';
+import { SkillsTable } from './table';
+import type { SkillsFormData, SkillsRecord, SkillsSearchData } from './types';
+
+type SkillsPageProps = {
+  apiBaseUrl: string;
+  selectedGameId: string | null;
+  adminToken: string;
+};
+
+function toSkillsFormData(record: SkillsRecord): SkillsFormData {
+  return {
+    skillId: record.skillId,
+    ownerType: record.ownerType,
+    ownerId: record.ownerId,
+    skillKey: record.skillKey ?? '',
+    name: record.name ?? '',
+    description: record.description ?? '',
+    resourceCostsText: stringifyJson(record.resourceCosts ?? []),
+    cooldownsText: stringifyJson(record.cooldowns ?? []),
+    paramsText: stringifyJson(record.params ?? {}),
+    timingProfileText: stringifyJson(record.timingProfile ?? {}),
+    mechanicsConfigText: stringifyJson(record.mechanicsConfig ?? {})
+  };
+}
+
+function filterSkills(records: SkillsRecord[], searchData: SkillsSearchData): SkillsRecord[] {
+  const skillId = searchData.skillId.trim().toLowerCase();
+  const ownerType = searchData.ownerType.trim().toLowerCase();
+  const ownerId = searchData.ownerId.trim().toLowerCase();
+  const skillKey = searchData.skillKey.trim().toLowerCase();
+  const name = searchData.name.trim().toLowerCase();
+
+  return records.filter((record) => {
+    if (skillId && !record.skillId.toLowerCase().includes(skillId)) {
+      return false;
+    }
+    if (ownerType && !record.ownerType.toLowerCase().includes(ownerType)) {
+      return false;
+    }
+    if (ownerId && !record.ownerId.toLowerCase().includes(ownerId)) {
+      return false;
+    }
+    if (skillKey && !(record.skillKey ?? '').toLowerCase().includes(skillKey)) {
+      return false;
+    }
+    if (name && !(record.name ?? '').toLowerCase().includes(name)) {
+      return false;
+    }
+    return true;
+  });
+}
+
+async function listSkillsRecords(apiBaseUrl: string, gameId: string, token: string): Promise<SkillsRecord[]> {
+  return (await getSkills(apiBaseUrl, gameId, token)).data.skills;
+}
+
+async function saveSkillsRecord(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string,
+  formData: SkillsFormData
+): Promise<SkillsRecord> {
+  const payload: JsonObject = {
+    skillId: formData.skillId.trim(),
+    ownerType: formData.ownerType.trim(),
+    ownerId: formData.ownerId.trim()
+  };
+
+  if (formData.skillKey.trim()) {
+    payload.skillKey = formData.skillKey.trim();
+  }
+  if (formData.name.trim()) {
+    payload.name = formData.name.trim();
+  }
+  if (formData.description.trim()) {
+    payload.description = formData.description.trim();
+  }
+
+  const resourceCosts = parseJsonArrayText(formData.resourceCostsText, 'resourceCosts');
+  if (resourceCosts.length > 0) {
+    payload.resourceCosts = resourceCosts;
+  }
+
+  const cooldowns = parseJsonArrayText(formData.cooldownsText, 'cooldowns');
+  if (cooldowns.length > 0) {
+    payload.cooldowns = cooldowns;
+  }
+
+  const params = parseJsonObjectText(formData.paramsText, 'params');
+  if (Object.keys(params).length > 0) {
+    payload.params = params;
+  }
+
+  const timingProfile = parseJsonObjectText(formData.timingProfileText, 'timingProfile');
+  if (Object.keys(timingProfile).length > 0) {
+    payload.timingProfile = timingProfile;
+  }
+
+  const mechanicsConfig = parseJsonObjectText(formData.mechanicsConfigText, 'mechanicsConfig');
+  if (Object.keys(mechanicsConfig).length > 0) {
+    payload.mechanicsConfig = mechanicsConfig;
+  }
+
+  return (await putSkill(apiBaseUrl, gameId, formData.skillId.trim(), token, payload)).data;
+}
+
+export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPageProps) {
+  const actionsDisabled = !selectedGameId || !adminToken.trim();
+  const blockerMessage = !selectedGameId
+    ? '请先选择当前 gameId。'
+    : !adminToken.trim()
+      ? '请先在顶部会话区域填写 Admin Token。'
+      : null;
+
+  const {
+    filteredRecords,
+    recordsState,
+    recordsError,
+    searchData,
+    modalVisible,
+    modalMode,
+    formData,
+    saving,
+    refreshRecords,
+    updateSearchData,
+    handleSearch,
+    handleResetSearch,
+    openCreateModal,
+    openViewModal,
+    openEditModal,
+    closeModal,
+    updateFormData,
+    submitModal
+  } = useCrudResourcePage<SkillsRecord, SkillsSearchData, SkillsFormData>({
+    apiBaseUrl,
+    selectedGameId,
+    adminToken,
+    createSearchData: createSkillsSearchData,
+    createFormData: createSkillsFormData,
+    listRecords: listSkillsRecords,
+    saveRecord: saveSkillsRecord,
+    filterRecords: filterSkills,
+    toFormData: toSkillsFormData,
+    getSuccessMessage: (mode) => (mode === 'create' ? '技能新增成功' : '技能保存成功')
+  });
+
+  return (
+    <div className="page-admin-resource page-stack">
+      {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
+
+      <Panel title="查询条件" kicker="Search">
+        <SkillsSearch searchData={searchData} onFieldChange={updateSearchData} onSearch={handleSearch} onReset={handleResetSearch} />
+      </Panel>
+
+      <Panel title="技能" kicker="Table">
+        {recordsError ? <Alert type="error" content={recordsError} style={{ marginBottom: 16 }} /> : null}
+        <SkillsTable
+          loading={recordsState === 'loading'}
+          records={filteredRecords}
+          actionsDisabled={actionsDisabled}
+          onView={openViewModal}
+          onEdit={openEditModal}
+          onCreate={openCreateModal}
+          onRefresh={refreshRecords}
+        />
+      </Panel>
+
+      <SkillsModal
+        visible={modalVisible}
+        mode={modalMode}
+        formData={formData}
+        saving={saving}
+        onClose={closeModal}
+        onFieldChange={updateFormData}
+        onSubmit={submitModal}
+      />
+    </div>
+  );
+}
