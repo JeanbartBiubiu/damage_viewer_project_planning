@@ -156,6 +156,7 @@ export default function App() {
   const selectedGame = games.find((game) => game.gameId === selectedGameId) ?? null;
   const selectedGameName = selectedGame?.gameName ?? 'No game selected';
   const activeRoute = navigationItems.find((item) => item.id === route) ?? navigationItems[0];
+  const isOverviewRoute = route === 'overview';
 
   let pageContent = (
     <OverviewPage
@@ -272,83 +273,87 @@ export default function App() {
 
       <Layout className="app-content">
         <Content className="app-main">
-          <section className="workspace-hero">
-            <div className="workspace-hero-copy">
-              <Space align="center" size={10} wrap>
-                <Tag color="arcoblue">{activeRoute.label}</Tag>
-                <Typography.Text className="workspace-rail">Current module / {activeRoute.label}</Typography.Text>
-              </Space>
-              <Typography.Title heading={2} className="workspace-title">
-                Damage Viewer Frontend
-              </Typography.Title>
-              <Typography.Text className="workspace-summary">{activeRoute.summary}</Typography.Text>
-            </div>
+          {isOverviewRoute ? (
+            <>
+              <section className="workspace-hero">
+                <div className="workspace-hero-copy">
+                  <Space align="center" size={10} wrap>
+                    <Tag color="arcoblue">{activeRoute.label}</Tag>
+                    <Typography.Text className="workspace-rail">Current module / {activeRoute.label}</Typography.Text>
+                  </Space>
+                  <Typography.Title heading={2} className="workspace-title">
+                    Damage Viewer Frontend
+                  </Typography.Title>
+                  <Typography.Text className="workspace-summary">{activeRoute.summary}</Typography.Text>
+                </div>
 
-            <div className="workspace-hero-stats" aria-label="Workspace summary">
-              <div className="workspace-stat">
-                <span className="workspace-stat-label">Games</span>
-                <strong className="workspace-stat-value">{games.length}</strong>
-                <span className="workspace-stat-hint">Available game list</span>
-              </div>
-              <div className="workspace-stat">
-                <span className="workspace-stat-label">Selected</span>
-                <strong className="workspace-stat-value">{selectedGame?.gameId ?? 'none'}</strong>
-                <span className="workspace-stat-hint">Current page context</span>
-              </div>
-              <div className="workspace-stat">
-                <span className="workspace-stat-label">Status</span>
-                <strong className="workspace-stat-value">{getGamesStatusLabel(gamesStatus)}</strong>
-                <span className="workspace-stat-hint">API / games</span>
-              </div>
-            </div>
-          </section>
+                <div className="workspace-hero-stats" aria-label="Workspace summary">
+                  <div className="workspace-stat">
+                    <span className="workspace-stat-label">Games</span>
+                    <strong className="workspace-stat-value">{games.length}</strong>
+                    <span className="workspace-stat-hint">Available game list</span>
+                  </div>
+                  <div className="workspace-stat">
+                    <span className="workspace-stat-label">Selected</span>
+                    <strong className="workspace-stat-value">{selectedGame?.gameId ?? 'none'}</strong>
+                    <span className="workspace-stat-hint">Current page context</span>
+                  </div>
+                  <div className="workspace-stat">
+                    <span className="workspace-stat-label">Status</span>
+                    <strong className="workspace-stat-value">{getGamesStatusLabel(gamesStatus)}</strong>
+                    <span className="workspace-stat-hint">API / games</span>
+                  </div>
+                </div>
+              </section>
 
-          <section className="workspace-controls">
-            <Form layout="vertical" className="toolbar-form">
-              <div className="toolbar-grid">
-                <Form.Item label="API Base URL" className="toolbar-field">
-                  <Input value={apiBaseDraft} onChange={setApiBaseDraft} placeholder="http://localhost:8080" />
-                </Form.Item>
-                <Form.Item label="Current gameId" className="toolbar-field">
-                  <Select
-                    value={selectedGameId ?? ''}
-                    onChange={(value) => setSelectedGameId(value || null)}
-                    disabled={games.length === 0}
-                    placeholder="Select a game"
-                  >
-                    <Select.Option value="">None</Select.Option>
-                    {games.map((game) => (
-                      <Select.Option key={game.gameId} value={game.gameId}>
-                        {game.gameId} / {game.gameName}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                <Form.Item label="Admin Token" className="toolbar-field">
-                  <Input.Password
-                    value={adminToken}
-                    onChange={setAdminToken}
-                    placeholder="Paste admin JWT here"
-                    autoComplete="off"
-                  />
-                </Form.Item>
-              </div>
+              <section className="workspace-controls">
+                <Form layout="vertical" className="toolbar-form">
+                  <div className="toolbar-grid">
+                    <Form.Item label="API Base URL" className="toolbar-field">
+                      <Input value={apiBaseDraft} onChange={setApiBaseDraft} placeholder="http://localhost:8080" />
+                    </Form.Item>
+                    <Form.Item label="Current gameId" className="toolbar-field">
+                      <Select
+                        value={selectedGameId ?? ''}
+                        onChange={(value) => setSelectedGameId(value || null)}
+                        disabled={games.length === 0}
+                        placeholder="Select a game"
+                      >
+                        <Select.Option value="">None</Select.Option>
+                        {games.map((game) => (
+                          <Select.Option key={game.gameId} value={game.gameId}>
+                            {game.gameId} / {game.gameName}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item label="Admin Token" className="toolbar-field">
+                      <Input.Password
+                        value={adminToken}
+                        onChange={setAdminToken}
+                        placeholder="Paste admin JWT here"
+                        autoComplete="off"
+                      />
+                    </Form.Item>
+                  </div>
 
-              <Space className="toolbar-actions" wrap>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    const nextValue = resolveApiBaseUrl(apiBaseDraft);
-                    setApiBaseDraft(nextValue);
-                    setApiBaseUrl(nextValue);
-                  }}
-                >
-                  Apply API base
-                </Button>
-                <Button onClick={() => setReloadSeed((value) => value + 1)}>Reload games</Button>
-              </Space>
-            </Form>
-          </section>
+                  <Space className="toolbar-actions" wrap>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        const nextValue = resolveApiBaseUrl(apiBaseDraft);
+                        setApiBaseDraft(nextValue);
+                        setApiBaseUrl(nextValue);
+                      }}
+                    >
+                      Apply API base
+                    </Button>
+                    <Button onClick={() => setReloadSeed((value) => value + 1)}>Reload games</Button>
+                  </Space>
+                </Form>
+              </section>
+            </>
+          ) : null}
 
           {gamesError ? <Alert type="error" content={gamesError} className="workspace-alert" /> : null}
 
