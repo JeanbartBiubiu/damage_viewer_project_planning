@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Form, Input, Layout, Select, Space, Tag, Typography } from '@arco-design/web-react';
 import { adminResourceRouteMap, navigationItems, type RouteId } from './config/navigation';
+import { AttributeDefinitionsPage } from './pages/admin/resources/attribute-definitions';
 import { CoefficientBucketsPage } from './pages/admin/resources/coefficient-buckets';
 import { FormulaBindingsPage } from './pages/admin/resources/formula-bindings';
 import { FormulaProfilesPage } from './pages/admin/resources/formula-profiles';
+import { HeroesPage } from './pages/admin/resources/heroes';
+import { ItemsPage } from './pages/admin/resources/items';
+import { SkillsPage } from './pages/admin/resources/skills';
 import { StatusActionControlRulesPage } from './pages/admin/resources/status-action-control-rules';
+import { TypeRelationsPage } from './pages/admin/resources/type-relations';
+import { TypesPage } from './pages/admin/resources/types';
 import { ImagesPage } from './pages/ImagesPage';
 import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
 import { OverviewPage } from './pages/OverviewPage';
@@ -188,6 +194,24 @@ export default function App() {
       break;
     case 'images':
       pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
+      break;
+    case 'heroes':
+      pageContent = <HeroesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'skills':
+      pageContent = <SkillsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'items':
+      pageContent = <ItemsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'attribute-definitions':
+      pageContent = <AttributeDefinitionsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'types':
+      pageContent = <TypesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'type-relations':
+      pageContent = <TypeRelationsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
       break;
     case 'formula-profiles':
       pageContent = <FormulaProfilesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;

@@ -5,11 +5,21 @@ import {
   type AdminResourceNavigationItem
 } from '../pages/admin/adminResourceConfig';
 
-export type AdminResourceRouteId =
+export type BuiltinAdminResourceRouteId =
   | 'formula-profiles'
   | 'formula-bindings'
   | 'coefficient-buckets'
   | 'status-action-control-rules';
+
+export type ExtendedAdminResourceRouteId =
+  | 'heroes'
+  | 'skills'
+  | 'items'
+  | 'attribute-definitions'
+  | 'types'
+  | 'type-relations';
+
+export type AdminResourceRouteId = BuiltinAdminResourceRouteId | ExtendedAdminResourceRouteId;
 
 export type RouteId = 'overview' | 'workspace' | 'katarina-mvp' | 'images' | AdminResourceRouteId;
 
@@ -34,7 +44,7 @@ export type AdminEndpoint = {
   sampleBody?: JsonObject;
 };
 
-export const adminResourceRouteMap: Record<AdminResourceRouteId, AdminResourceKind> = {
+export const adminResourceRouteMap: Record<BuiltinAdminResourceRouteId, AdminResourceKind> = {
   'formula-profiles': 'formulaProfiles',
   'formula-bindings': 'formulaBindings',
   'coefficient-buckets': 'coefficientBuckets',
@@ -45,12 +55,12 @@ const baseNavigationItems: NavigationItem[] = [
   {
     id: 'overview',
     label: '系统总览',
-    summary: '查看当前前后端能力、接口契约和工作面分工。'
+    summary: '查看前后端能力、接口约束和当前工作面状态。'
   },
   {
     id: 'workspace',
     label: '版本发布',
-    summary: '集中处理版本创建、版本发布以及 current / bundle 核对。'
+    summary: '集中处理版本创建、发布以及 current / bundle 校验。'
   },
   {
     id: 'katarina-mvp',
@@ -60,17 +70,50 @@ const baseNavigationItems: NavigationItem[] = [
   {
     id: 'images',
     label: '图片缓存',
-    summary: '查看和同步图片缓存资源。'
+    summary: '查看并同步图片缓存资源。'
   }
 ];
 
-const adminResourceRouteItems: NavigationItem[] = adminResourceNavigationItemsFromAdminConfig.map((item) => ({
-  id: item.hashSegment as AdminResourceRouteId,
+const extendedAdminRouteItems: NavigationItem[] = [
+  {
+    id: 'heroes',
+    label: '英雄',
+    summary: '维护英雄主数据、头像与基础数值。'
+  },
+  {
+    id: 'skills',
+    label: '技能',
+    summary: '维护技能归属、键位、描述与机制配置。'
+  },
+  {
+    id: 'items',
+    label: '装备',
+    summary: '维护装备成本、图标、属性修正与引用。'
+  },
+  {
+    id: 'attribute-definitions',
+    label: '属性定义',
+    summary: '维护属性键、类型、默认值与取值语义。'
+  },
+  {
+    id: 'types',
+    label: '类型定义',
+    summary: '维护类型标签、描述与保留映射。'
+  },
+  {
+    id: 'type-relations',
+    label: '类型挂载',
+    summary: '把类型挂到目标实体并维护附加扩展信息。'
+  }
+];
+
+const builtinAdminRouteItems: NavigationItem[] = adminResourceNavigationItemsFromAdminConfig.map((item) => ({
+  id: item.hashSegment as BuiltinAdminResourceRouteId,
   label: item.label,
   summary: item.summary
 }));
 
-export const navigationItems: NavigationItem[] = [...baseNavigationItems, ...adminResourceRouteItems];
+export const navigationItems: NavigationItem[] = [...baseNavigationItems, ...extendedAdminRouteItems, ...builtinAdminRouteItems];
 
 export const adminResourceNavigationItems: AdminResourceNavigationItem[] = adminResourceNavigationItemsFromAdminConfig;
 
@@ -97,22 +140,88 @@ export const publicSurfaceEndpoints: SurfaceEndpoint[] = [
     title: '图片资源',
     method: 'GET',
     path: '/api/games/{gameId}/images?updatedAfter=...',
-    description: '支持图片的全量与增量同步。'
+    description: '支持图片资源的全量与增量同步。'
   },
   {
     title: '归属分类字典',
     method: 'GET',
     path: '/api/games/{gameId}/owner-categories',
-    description: '为技能等编辑场景提供 ownerType 可选项。'
+    description: '为技能等资源页提供 ownerType 参考值。'
   }
 ];
 
 export const adminEndpoints: AdminEndpoint[] = [
   {
+    title: '英雄',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/heroes/{heroId}',
+    description: '列表读取与整条 PUT 保存英雄数据。',
+    sampleBody: {
+      name: 'Ahri',
+      baseStats: {
+        hp: 500,
+        atk: 55
+      }
+    }
+  },
+  {
+    title: '技能',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/skills/{skillId}',
+    description: '列表读取与整条 PUT 保存技能配置。',
+    sampleBody: {
+      ownerType: 'hero',
+      ownerId: 'hero_ahri',
+      skillKey: 'Q',
+      name: 'Orb of Deception'
+    }
+  },
+  {
+    title: '装备',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/items/{itemId}',
+    description: '列表读取与整条 PUT 保存装备主数据。',
+    sampleBody: {
+      name: 'Boots',
+      goldCost: 300
+    }
+  },
+  {
+    title: '属性定义',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/attribute-definitions/{attrKey}',
+    description: '列表读取与整条 PUT 保存属性定义。',
+    sampleBody: {
+      attrName: 'Attack Damage',
+      attrType: 'number',
+      defaultValue: 0,
+      valueKind: 'scalar'
+    }
+  },
+  {
+    title: '类型定义',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/types/{typeId}',
+    description: '列表读取与整条 PUT 保存类型定义。',
+    sampleBody: {
+      name: 'Marksman',
+      description: 'role tag'
+    }
+  },
+  {
+    title: '类型挂载',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/type-relations/{typeId}/{targetCategory}/{targetId}',
+    description: '列表读取与整条 PUT 保存类型挂载关系。',
+    sampleBody: {
+      extend: {}
+    }
+  },
+  {
     title: '公式档案',
     method: 'GET/PUT',
     path: '/api/admin/games/{gameId}/formula-profiles/{formulaId}',
-    description: '列表读取和整条 PUT 保存公式定义、类型、种类和参数。',
+    description: '列表读取与整条 PUT 保存公式定义。',
     sampleBody: {
       formulaId: 'damage.skill.katarina.r.base',
       formulaType: 'damage',
@@ -124,7 +233,7 @@ export const adminEndpoints: AdminEndpoint[] = [
     title: '公式绑定',
     method: 'GET/PUT',
     path: '/api/admin/games/{gameId}/formula-bindings/{targetCategory}/{targetId}/{bindingKey}',
-    description: '列表读取和整条 PUT 保存目标实体上的公式绑定。',
+    description: '列表读取与整条 PUT 保存目标实体上的公式绑定。',
     sampleBody: {
       targetCategory: 'skill',
       targetId: 'skill_katarina_r',
@@ -137,7 +246,7 @@ export const adminEndpoints: AdminEndpoint[] = [
     title: '乘区桶',
     method: 'GET/PUT',
     path: '/api/admin/games/{gameId}/coefficient-buckets/{bucketKey}',
-    description: '列表读取和整条 PUT 保存乘区桶配置。',
+    description: '列表读取与整条 PUT 保存乘区桶配置。',
     sampleBody: {
       bucketKey: 'magic_damage.percent_bonus',
       resolutionDomain: 'attribute',
@@ -150,7 +259,7 @@ export const adminEndpoints: AdminEndpoint[] = [
     title: '状态动作规则',
     method: 'GET/PUT',
     path: '/api/admin/games/{gameId}/status-action-control-rules/{ruleId}',
-    description: '列表读取和整条 PUT 保存状态动作控制规则。',
+    description: '列表读取与整条 PUT 保存状态动作规则。',
     sampleBody: {
       ruleId: 'status_stun_forbid_cast',
       statusTypeId: 50020,
@@ -165,6 +274,6 @@ export const adminEndpoints: AdminEndpoint[] = [
     title: '版本创建与发布',
     method: 'POST',
     path: '/api/admin/games/{gameId}/versions + /versions/{versionId}:publish',
-    description: '在独立发布页面创建版本并发布到当前读链路。'
+    description: '在独立发布页创建版本并发布到当前读取链路。'
   }
 ];
