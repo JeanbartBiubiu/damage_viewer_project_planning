@@ -20,7 +20,7 @@
 当前实现已经达到一个可 review 的 M1 里程碑：
 
 - benchmark fixture 已接入真实运行链路
-- `cargo test` 当前为 `21/21` 通过
+- `cargo test` 当前为 `26/26` 通过
 - `cargo build --target wasm32-unknown-unknown --release` 通过
 
 当前主链路覆盖：
@@ -217,9 +217,9 @@ cargo build --target wasm32-unknown-unknown --release
 基于 [性能测试报告-当前M1基准.md](..\性能测试报告-当前M1基准.md)：
 
 - 初始化时间平均约 `5.385 us`
-- 一次完整 benchmark 战斗计算平均约 `80.593 us`
-- 当前基准配置下，敌方生命值在模拟时间 `21789 ms` 时归零
-- 当前完整击杀链路稳定为 `43` 次命中
+- 一次完整 benchmark 战斗计算平均约 `141.504 us`
+- 当前基准配置下，敌方生命值在模拟时间 `19221 ms` 时归零
+- 当前完整击杀链路稳定为 `46` 次命中
 
 这些数字只代表当前内核和当前 benchmark 规模，不代表最终浏览器端到端性能。
 

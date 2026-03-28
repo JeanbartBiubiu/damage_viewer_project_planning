@@ -67,6 +67,8 @@ pub struct GameDataBundle {
     pub skills: Vec<Skill>,
     #[serde(default)]
     pub items: Vec<Item>,
+    #[serde(default)]
+    pub benchmark: Option<BenchmarkBundle>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -77,6 +79,200 @@ pub struct BundleMeta {
     pub version_code: String,
     pub data_hash: String,
     pub generated_at: String,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkBundle {
+    pub hp_attr_key: String,
+    pub self_actor: BenchmarkActorDefinition,
+    pub enemy_actor: BenchmarkActorDefinition,
+    pub rules: BenchmarkRules,
+    #[serde(default)]
+    pub skill_defs: Vec<BenchmarkSkillDefinition>,
+    #[serde(default)]
+    pub item_defs: Vec<BenchmarkItemDefinition>,
+    #[serde(default)]
+    pub formulas: Vec<BenchmarkFormulaDefinition>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkRules {
+    pub scheduler: BenchmarkSchedulerRule,
+    #[serde(default)]
+    pub count_to_three: Option<BenchmarkCountToThreeRule>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkSchedulerRule {
+    pub decide_priority: i32,
+    pub dot_tick_priority: i32,
+    pub stun_expire_priority: i32,
+    pub black_cleaver_expire_priority: i32,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkCountToThreeRule {
+    pub source_skill_id: String,
+    pub label: String,
+    pub true_damage_formula_id: String,
+    pub proc_every_hits: u32,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkActorDefinition {
+    pub hero_id: String,
+    pub label: String,
+    #[serde(default)]
+    pub attrs: HashMap<String, f64>,
+    #[serde(default)]
+    pub owned_item_ids: Vec<String>,
+    #[serde(default)]
+    pub priorities: Vec<String>,
+    #[serde(default)]
+    pub actions: Vec<BenchmarkActionDefinition>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkActionDefinition {
+    pub action_id: String,
+    pub label: String,
+    pub priority: i32,
+    pub behavior: BenchmarkActionBehavior,
+    pub cooldown: BenchmarkCooldownDefinition,
+    #[serde(default)]
+    pub mana_cost: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum BenchmarkActionBehavior {
+    BasicAttack,
+    MysticShot,
+    ArcaneShift,
+    GenerateShield,
+    Stun,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(tag = "kind", rename_all = "snake_case", rename_all_fields = "camelCase")]
+pub enum BenchmarkCooldownDefinition {
+    BasicAttackInterval,
+    AbilityHasteScaled { base_ms: u32 },
+    FixedMs { ms: u32 },
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkDamageFlags {
+    #[serde(default)]
+    pub can_trigger_on_hit: bool,
+    #[serde(default)]
+    pub can_life_steal: bool,
+    #[serde(default)]
+    pub can_apply_black_cleaver: bool,
+    #[serde(default)]
+    pub counts_as_attack: bool,
+    #[serde(default)]
+    pub is_active_skill_magic_damage: bool,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkSkillDefinition {
+    pub skill_id: String,
+    pub label: String,
+    #[serde(default)]
+    pub type_ids: Vec<String>,
+    #[serde(default)]
+    pub primary_formula_id: Option<String>,
+    #[serde(default)]
+    pub damage_type: Option<DamageType>,
+    #[serde(default)]
+    pub flags: BenchmarkDamageFlags,
+    #[serde(default)]
+    pub attach_on_hit_item_ids: Vec<String>,
+    #[serde(default)]
+    pub cooldown_reduction_on_hit_ms: Option<u32>,
+    #[serde(default)]
+    pub shield_formula_id: Option<String>,
+    #[serde(default)]
+    pub stun_duration_ms: Option<u32>,
+    #[serde(default)]
+    pub dot_formula_id: Option<String>,
+    #[serde(default)]
+    pub dot_ticks: Option<u32>,
+    #[serde(default)]
+    pub dot_interval_ms: Option<u32>,
+    #[serde(default)]
+    pub final_kill_enemy_hp_override: Option<f64>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkItemDefinition {
+    pub item_id: String,
+    pub label: String,
+    #[serde(default)]
+    pub on_hit_formula_id: Option<String>,
+    #[serde(default)]
+    pub on_hit_damage_type: Option<DamageType>,
+    #[serde(default)]
+    pub on_hit_flags: BenchmarkDamageFlags,
+    #[serde(default)]
+    pub dot_formula_id: Option<String>,
+    #[serde(default)]
+    pub dot_ticks: Option<u32>,
+    #[serde(default)]
+    pub dot_interval_ms: Option<u32>,
+    #[serde(default)]
+    pub retaliate_formula_id: Option<String>,
+    #[serde(default)]
+    pub retaliate_damage_type: Option<DamageType>,
+    #[serde(default)]
+    pub black_cleaver_armor_ratio_per_stack: Option<f64>,
+    #[serde(default)]
+    pub black_cleaver_max_stacks: Option<u32>,
+    #[serde(default)]
+    pub black_cleaver_expire_after_ms: Option<u32>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkFormulaDefinition {
+    pub formula_id: String,
+    pub label: String,
+    pub expr: BenchmarkFormulaExpr,
+    #[serde(default)]
+    pub bypass_value: Option<f64>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(tag = "type", rename_all = "snake_case", rename_all_fields = "camelCase")]
+pub enum BenchmarkFormulaExpr {
+    Constant { value: f64 },
+    ActorAttr {
+        actor: BenchmarkFormulaActorRef,
+        attr_key: String,
+    },
+    ActorHpCurrent { actor: BenchmarkFormulaActorRef },
+    ActorHpMax { actor: BenchmarkFormulaActorRef },
+    Add { terms: Vec<BenchmarkFormulaExpr> },
+    Multiply { factors: Vec<BenchmarkFormulaExpr> },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum BenchmarkFormulaActorRef {
+    Source,
+    Target,
+    SelfActor,
+    Enemy,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -238,7 +434,7 @@ pub struct EngineSamplePoint {
     pub cumulative_damage_to_self: f64,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DamageSourceKind {
     BasicAttack,
@@ -246,7 +442,7 @@ pub enum DamageSourceKind {
     Item,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum DamageType {
     Physical,
