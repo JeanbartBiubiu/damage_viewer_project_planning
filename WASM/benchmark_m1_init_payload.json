@@ -1,0 +1,647 @@
+{
+  "meta": {
+    "gameId": "benchmark",
+    "versionId": 1,
+    "dataHash": "benchmark_m1_json_payload"
+  },
+  "bundle": {
+    "meta": {
+      "gameId": "benchmark",
+      "versionId": 1,
+      "versionCode": "benchmark_m1_json",
+      "dataHash": "benchmark_m1_json_payload",
+      "generatedAt": "2026-03-28T12:00:00Z"
+    },
+    "attributeDefinitions": [
+      { "attrKey": "hp", "defaultValue": 0.0 },
+      { "attrKey": "ad", "defaultValue": 0.0 },
+      { "attrKey": "attack_speed_base", "defaultValue": 0.0 },
+      { "attrKey": "attack_speed_bonus", "defaultValue": 0.0 },
+      { "attrKey": "attack_speed_ratio", "defaultValue": 0.0 },
+      { "attrKey": "ap", "defaultValue": 0.0 },
+      { "attrKey": "hp_regen", "defaultValue": 0.0 },
+      { "attrKey": "mana", "defaultValue": 0.0 },
+      { "attrKey": "mana_regen", "defaultValue": 0.0 },
+      { "attrKey": "armor", "defaultValue": 0.0 },
+      { "attrKey": "magic_resist", "defaultValue": 0.0 },
+      { "attrKey": "armor_pen_flat", "defaultValue": 0.0 },
+      { "attrKey": "magic_pen_flat", "defaultValue": 0.0 },
+      { "attrKey": "ability_haste", "defaultValue": 0.0 },
+      { "attrKey": "crit_chance", "defaultValue": 0.0 },
+      { "attrKey": "crit_multiplier", "defaultValue": 1.75 },
+      { "attrKey": "life_steal", "defaultValue": 0.0 },
+      { "attrKey": "heal_power", "defaultValue": 0.0 }
+    ],
+    "heroes": [
+      {
+        "heroId": "hero_self_benchmark",
+        "name": "\u6211\u65b9\u57fa\u51c6\u89d2\u8272",
+        "baseStats": {
+          "hp": 2000.0,
+          "ad": 100.0,
+          "attack_speed_base": 0.67,
+          "attack_speed_bonus": 0.05,
+          "attack_speed_ratio": 0.67,
+          "ap": 0.0,
+          "hp_regen": 3.0,
+          "mana": 1000.0,
+          "mana_regen": 5.0,
+          "armor": 71.0,
+          "magic_resist": 32.0,
+          "armor_pen_flat": 0.0,
+          "magic_pen_flat": 0.0,
+          "ability_haste": 0.0,
+          "crit_chance": 0.0,
+          "crit_multiplier": 1.75,
+          "life_steal": 0.0,
+          "heal_power": 0.0
+        }
+      },
+      {
+        "heroId": "hero_enemy_benchmark",
+        "name": "\u654c\u65b9\u57fa\u51c6\u89d2\u8272",
+        "baseStats": {
+          "hp": 5000.0,
+          "ad": 50.0,
+          "attack_speed_base": 0.8,
+          "attack_speed_bonus": 0.05,
+          "attack_speed_ratio": 0.67,
+          "ap": 0.0,
+          "hp_regen": 30.0,
+          "mana": 1000.0,
+          "mana_regen": 0.0,
+          "armor": 140.0,
+          "magic_resist": 60.0,
+          "armor_pen_flat": 0.0,
+          "magic_pen_flat": 0.0,
+          "ability_haste": 0.0,
+          "crit_chance": 0.0,
+          "crit_multiplier": 1.75,
+          "life_steal": 0.0,
+          "heal_power": 0.0
+        }
+      }
+    ],
+    "skills": [
+      { "skillId": "skill_basic_attack", "name": "\u666e\u901a\u653b\u51fb" },
+      { "skillId": "skill_mystic_shot", "name": "\u79d8\u672f\u5c04\u51fb" },
+      { "skillId": "skill_arcane_shift", "name": "\u5965\u672f\u8dc3\u8fc1" },
+      { "skillId": "skill_generate_shield", "name": "\u751f\u6210\u62a4\u76fe" },
+      { "skillId": "skill_stun", "name": "\u7729\u6655" },
+      { "skillId": "skill_benchmark_black_cleaver_probe", "name": "\u65703" },
+      { "skillId": "skill_benchmark_final_kill", "name": "Benchmark Final Kill" }
+    ],
+    "items": [
+      {
+        "itemId": "item_lifesteal_blade",
+        "name": "\u5438\u8840\u5200",
+        "statsModifier": {
+          "ad": 30.0,
+          "attack_speed_bonus": 0.3,
+          "life_steal": 0.1
+        }
+      },
+      {
+        "itemId": "item_magic_blade",
+        "name": "\u9b54\u6cd5\u5200",
+        "statsModifier": {
+          "ap": 100.0,
+          "attack_speed_bonus": 0.5,
+          "ability_haste": 20.0
+        }
+      },
+      {
+        "itemId": "item_mask",
+        "name": "\u9762\u5177",
+        "statsModifier": {
+          "ap": 50.0,
+          "hp": 100.0
+        }
+      },
+      {
+        "itemId": "item_black_cleaver",
+        "name": "\u9ed1\u5207",
+        "statsModifier": {
+          "ad": 55.0,
+          "hp": 550.0,
+          "ability_haste": 15.0,
+          "armor_pen_flat": 10.0
+        }
+      },
+      {
+        "itemId": "item_dorans_blade",
+        "name": "\u591a\u5170\u4e4b\u5203",
+        "statsModifier": {
+          "ad": 0.0,
+          "hp": 100.0
+        }
+      },
+      {
+        "itemId": "item_thorn_armor",
+        "name": "\u53cd\u7532",
+        "statsModifier": {
+          "hp": 450.0,
+          "armor": 80.0
+        }
+      }
+    ],
+    "benchmark": {
+      "hpAttrKey": "hp",
+      "selfActor": {
+        "heroId": "hero_self_benchmark",
+        "label": "\u6211\u65b9\u57fa\u51c6\u89d2\u8272",
+        "attrs": {
+          "hp": 2750.0,
+          "ad": 185.0,
+          "attack_speed_base": 0.67,
+          "attack_speed_bonus": 0.85,
+          "attack_speed_ratio": 0.67,
+          "ap": 150.0,
+          "hp_regen": 3.0,
+          "mana": 1000.0,
+          "mana_regen": 5.0,
+          "armor": 71.0,
+          "magic_resist": 32.0,
+          "armor_pen_flat": 10.0,
+          "magic_pen_flat": 0.0,
+          "ability_haste": 35.0,
+          "crit_chance": 0.0,
+          "crit_multiplier": 1.75,
+          "life_steal": 0.1,
+          "heal_power": 0.0
+        },
+        "ownedItemIds": [
+          "item_lifesteal_blade",
+          "item_magic_blade",
+          "item_mask",
+          "item_black_cleaver",
+          "item_dorans_blade"
+        ],
+        "priorities": [
+          "skill_arcane_shift",
+          "skill_mystic_shot",
+          "skill_basic_attack"
+        ],
+        "actions": [
+          {
+            "actionId": "skill_basic_attack",
+            "label": "\u666e\u901a\u653b\u51fb",
+            "priority": 30,
+            "behavior": "basic_attack",
+            "cooldown": { "kind": "basic_attack_interval" },
+            "manaCost": 0.0
+          },
+          {
+            "actionId": "skill_mystic_shot",
+            "label": "\u79d8\u672f\u5c04\u51fb",
+            "priority": 20,
+            "behavior": "mystic_shot",
+            "cooldown": { "kind": "ability_haste_scaled", "baseMs": 10000 },
+            "manaCost": 25.0
+          },
+          {
+            "actionId": "skill_arcane_shift",
+            "label": "\u5965\u672f\u8dc3\u8fc1",
+            "priority": 10,
+            "behavior": "arcane_shift",
+            "cooldown": { "kind": "ability_haste_scaled", "baseMs": 15000 },
+            "manaCost": 40.0
+          },
+          {
+            "actionId": "skill_benchmark_black_cleaver_probe",
+            "label": "\u65703",
+            "priority": 99,
+            "behavior": "basic_attack",
+            "cooldown": { "kind": "fixed_ms", "ms": 0 },
+            "manaCost": 25.0
+          }
+        ]
+      },
+      "enemyActor": {
+        "heroId": "hero_enemy_benchmark",
+        "label": "\u654c\u65b9\u57fa\u51c6\u89d2\u8272",
+        "attrs": {
+          "hp": 5550.0,
+          "ad": 60.0,
+          "attack_speed_base": 0.8,
+          "attack_speed_bonus": 0.05,
+          "attack_speed_ratio": 0.67,
+          "ap": 0.0,
+          "hp_regen": 30.0,
+          "mana": 1000.0,
+          "mana_regen": 0.0,
+          "armor": 220.0,
+          "magic_resist": 60.0,
+          "armor_pen_flat": 0.0,
+          "magic_pen_flat": 0.0,
+          "ability_haste": 0.0,
+          "crit_chance": 0.0,
+          "crit_multiplier": 1.75,
+          "life_steal": 0.0,
+          "heal_power": 0.0
+        },
+        "ownedItemIds": [
+          "item_thorn_armor",
+          "item_dorans_blade"
+        ],
+        "priorities": [
+          "skill_generate_shield",
+          "skill_stun"
+        ],
+        "actions": [
+          {
+            "actionId": "skill_generate_shield",
+            "label": "\u751f\u6210\u62a4\u76fe",
+            "priority": 10,
+            "behavior": "generate_shield",
+            "cooldown": { "kind": "fixed_ms", "ms": 8000 },
+            "manaCost": 0.0
+          },
+          {
+            "actionId": "skill_stun",
+            "label": "\u7729\u6655",
+            "priority": 10,
+            "behavior": "stun",
+            "cooldown": { "kind": "ability_haste_scaled", "baseMs": 7000 },
+            "manaCost": 0.0
+          }
+        ]
+      },
+      "skillDefs": [
+        {
+          "skillId": "skill_basic_attack",
+          "label": "\u666e\u901a\u653b\u51fb",
+          "typeIds": ["type_can_trigger_on_hit"],
+          "primaryFormulaId": "formula_basic_attack_damage",
+          "damageType": "physical",
+          "flags": {
+            "canTriggerOnHit": true,
+            "canLifeSteal": true,
+            "canApplyBlackCleaver": true,
+            "countsAsAttack": true,
+            "isActiveSkillMagicDamage": false
+          },
+          "attachOnHitItemIds": [
+            "item_lifesteal_blade",
+            "item_magic_blade"
+          ]
+        },
+        {
+          "skillId": "skill_mystic_shot",
+          "label": "\u79d8\u672f\u5c04\u51fb",
+          "typeIds": [
+            "type_can_trigger_on_hit",
+            "type_active_skill"
+          ],
+          "primaryFormulaId": "formula_mystic_shot_damage",
+          "damageType": "physical",
+          "flags": {
+            "canTriggerOnHit": true,
+            "canLifeSteal": false,
+            "canApplyBlackCleaver": true,
+            "countsAsAttack": true,
+            "isActiveSkillMagicDamage": false
+          },
+          "attachOnHitItemIds": [
+            "item_lifesteal_blade",
+            "item_magic_blade"
+          ],
+          "cooldownReductionOnHitMs": 1000
+        },
+        {
+          "skillId": "skill_arcane_shift",
+          "label": "\u5965\u672f\u8dc3\u8fc1",
+          "typeIds": ["type_active_skill"],
+          "primaryFormulaId": "formula_arcane_shift_damage",
+          "damageType": "magic",
+          "flags": {
+            "canTriggerOnHit": false,
+            "canLifeSteal": false,
+            "canApplyBlackCleaver": false,
+            "countsAsAttack": false,
+            "isActiveSkillMagicDamage": true
+          },
+          "dotFormulaId": "formula_mask_dot_damage",
+          "dotTicks": 3,
+          "dotIntervalMs": 1000
+        },
+        {
+          "skillId": "skill_generate_shield",
+          "label": "\u751f\u6210\u62a4\u76fe",
+          "typeIds": ["type_reserved_benchmark"],
+          "shieldFormulaId": "formula_generate_shield_amount"
+        },
+        {
+          "skillId": "skill_stun",
+          "label": "\u7729\u6655",
+          "typeIds": ["type_reserved_benchmark"],
+          "stunDurationMs": 500
+        },
+        {
+          "skillId": "skill_benchmark_black_cleaver_probe",
+          "label": "\u65703",
+          "typeIds": ["type_reserved_benchmark", "type_can_trigger_on_hit"],
+          "primaryFormulaId": "formula_mystic_shot_damage",
+          "damageType": "physical",
+          "flags": {
+            "canTriggerOnHit": true,
+            "canLifeSteal": false,
+            "canApplyBlackCleaver": true,
+            "countsAsAttack": true,
+            "isActiveSkillMagicDamage": false
+          },
+          "attachOnHitItemIds": [
+            "item_lifesteal_blade",
+            "item_magic_blade"
+          ]
+        },
+        {
+          "skillId": "skill_benchmark_final_kill",
+          "label": "Benchmark Final Kill",
+          "typeIds": ["type_reserved_benchmark"],
+          "finalKillEnemyHpOverride": 180.0
+        }
+      ],
+      "itemDefs": [
+        {
+          "itemId": "item_lifesteal_blade",
+          "label": "\u5438\u8840\u5200",
+          "onHitFormulaId": "formula_lifesteal_blade_on_hit",
+          "onHitDamageType": "physical",
+          "onHitFlags": {
+            "canTriggerOnHit": false,
+            "canLifeSteal": true,
+            "canApplyBlackCleaver": true,
+            "countsAsAttack": false,
+            "isActiveSkillMagicDamage": false
+          }
+        },
+        {
+          "itemId": "item_magic_blade",
+          "label": "\u9b54\u6cd5\u5200",
+          "onHitFormulaId": "formula_magic_blade_on_hit",
+          "onHitDamageType": "magic",
+          "onHitFlags": {
+            "canTriggerOnHit": false,
+            "canLifeSteal": true,
+            "canApplyBlackCleaver": false,
+            "countsAsAttack": false,
+            "isActiveSkillMagicDamage": false
+          }
+        },
+        {
+          "itemId": "item_mask",
+          "label": "\u9762\u5177",
+          "dotFormulaId": "formula_mask_dot_damage",
+          "dotTicks": 3,
+          "dotIntervalMs": 1000
+        },
+        {
+          "itemId": "item_black_cleaver",
+          "label": "\u9ed1\u5207",
+          "blackCleaverArmorRatioPerStack": 0.05,
+          "blackCleaverMaxStacks": 6,
+          "blackCleaverExpireAfterMs": 5000
+        },
+        {
+          "itemId": "item_dorans_blade",
+          "label": "\u591a\u5170\u4e4b\u5203"
+        },
+        {
+          "itemId": "item_thorn_armor",
+          "label": "\u53cd\u7532",
+          "retaliateFormulaId": "formula_thorn_armor_damage",
+          "retaliateDamageType": "magic"
+        }
+      ],
+      "rules": {
+        "scheduler": {
+          "decidePriority": 0,
+          "dotTickPriority": 10,
+          "stunExpirePriority": -10,
+          "blackCleaverExpirePriority": 5
+        },
+        "countToThree": {
+          "sourceSkillId": "skill_benchmark_black_cleaver_probe",
+          "label": "\u65703",
+          "trueDamageFormulaId": "formula_count_to_three_damage",
+          "procEveryHits": 3
+        }
+      },
+      "formulas": [
+        {
+          "formulaId": "formula_basic_attack_damage",
+          "label": "Basic attack damage",
+          "bypassValue": 100.0,
+          "expr": {
+            "type": "actor_attr",
+            "actor": "source",
+            "attrKey": "ad"
+          }
+        },
+        {
+          "formulaId": "formula_lifesteal_blade_on_hit",
+          "label": "Lifesteal blade on-hit damage",
+          "bypassValue": 30.0,
+          "expr": {
+            "type": "multiply",
+            "factors": [
+              {
+                "type": "actor_hp_current",
+                "actor": "target"
+              },
+              {
+                "type": "constant",
+                "value": 0.08
+              }
+            ]
+          }
+        },
+        {
+          "formulaId": "formula_magic_blade_on_hit",
+          "label": "Magic blade on-hit damage",
+          "bypassValue": 20.0,
+          "expr": {
+            "type": "add",
+            "terms": [
+              {
+                "type": "constant",
+                "value": 20.0
+              },
+              {
+                "type": "multiply",
+                "factors": [
+                  {
+                    "type": "actor_attr",
+                    "actor": "source",
+                    "attrKey": "ap"
+                  },
+                  {
+                    "type": "constant",
+                    "value": 0.15
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaId": "formula_mystic_shot_damage",
+          "label": "Mystic shot damage",
+          "bypassValue": 140.0,
+          "expr": {
+            "type": "add",
+            "terms": [
+              {
+                "type": "constant",
+                "value": 100.0
+              },
+              {
+                "type": "actor_attr",
+                "actor": "source",
+                "attrKey": "ad"
+              },
+              {
+                "type": "multiply",
+                "factors": [
+                  {
+                    "type": "actor_attr",
+                    "actor": "source",
+                    "attrKey": "ap"
+                  },
+                  {
+                    "type": "constant",
+                    "value": 0.2
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaId": "formula_arcane_shift_damage",
+          "label": "Arcane shift damage",
+          "bypassValue": 160.0,
+          "expr": {
+            "type": "add",
+            "terms": [
+              {
+                "type": "constant",
+                "value": 200.0
+              },
+              {
+                "type": "multiply",
+                "factors": [
+                  {
+                    "type": "actor_attr",
+                    "actor": "source",
+                    "attrKey": "ap"
+                  },
+                  {
+                    "type": "constant",
+                    "value": 0.8
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaId": "formula_mask_dot_damage",
+          "label": "Mask damage over time",
+          "bypassValue": 25.0,
+          "expr": {
+            "type": "multiply",
+            "factors": [
+              {
+                "type": "actor_hp_max",
+                "actor": "target"
+              },
+              {
+                "type": "constant",
+                "value": 0.02
+              }
+            ]
+          }
+        },
+        {
+          "formulaId": "formula_generate_shield_amount",
+          "label": "Generate shield amount",
+          "bypassValue": 300.0,
+          "expr": {
+            "type": "add",
+            "terms": [
+              {
+                "type": "constant",
+                "value": 50.0
+              },
+              {
+                "type": "multiply",
+                "factors": [
+                  {
+                    "type": "actor_hp_max",
+                    "actor": "source"
+                  },
+                  {
+                    "type": "constant",
+                    "value": 0.01
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaId": "formula_count_to_three_damage",
+          "label": "Count to three bonus damage",
+          "bypassValue": 18.0,
+          "expr": {
+            "type": "multiply",
+            "factors": [
+              {
+                "type": "actor_hp_max",
+                "actor": "target"
+              },
+              {
+                "type": "constant",
+                "value": 0.01
+              }
+            ]
+          }
+        },
+        {
+          "formulaId": "formula_thorn_armor_damage",
+          "label": "Thorn armor retaliation",
+          "bypassValue": 32.0,
+          "expr": {
+            "type": "add",
+            "terms": [
+              {
+                "type": "constant",
+                "value": 10.0
+              },
+              {
+                "type": "multiply",
+                "factors": [
+                  {
+                    "type": "actor_attr",
+                    "actor": "source",
+                    "attrKey": "armor"
+                  },
+                  {
+                    "type": "constant",
+                    "value": 0.1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "engineConfig": {
+    "hpAttrKey": "hp",
+    "testProfile": "full"
+  }
+}

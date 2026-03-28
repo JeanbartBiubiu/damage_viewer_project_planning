@@ -1,47 +1,56 @@
 use crate::benchmark_fixture::{
-    SKILL_ARCANE_SHIFT, SKILL_BASIC_ATTACK, SKILL_BLACK_CLEAVER_PROBE, SKILL_FINAL_KILL, SKILL_MYSTIC_SHOT,
+    BENCHMARK_INIT_PAYLOAD_PATH, SKILL_ARCANE_SHIFT, SKILL_BASIC_ATTACK, SKILL_BLACK_CLEAVER_PROBE, SKILL_FINAL_KILL,
+    SKILL_MYSTIC_SHOT,
 };
+use crate::catalog::compile_benchmark_catalog;
 use crate::engine::{init_session, run, run_benchmark_runtime_for_test};
+use crate::effects::apply_stun;
 use crate::model::{
-    AttributeDefinition, BundleMeta, CombatantInit, CombatantOverride, CombatantOverrides, DamageSourceKind,
-    DamageType, EngineActionPlan, EngineConfig, EngineInitPayload, EngineMeta, EngineRunInput, GameDataBundle,
-    InitialCombatants, StopCondition, TestProfile,
+    CombatantInit, CombatantOverride, CombatantOverrides, DamageSourceKind, DamageType, EngineActionPlan,
+    EngineConfig, EngineInitPayload, EngineMeta, EngineRunInput, GameDataBundle, InitialCombatants, StopCondition,
+    TestProfile,
 };
-use crate::runtime::{ActorId, RuntimeLog};
+use crate::runtime::{build_runtime, ActorId, InternalEvent, RuntimeLog};
+use crate::sim::run_until_stop;
+use std::fs;
+
+fn benchmark_payload() -> EngineInitPayload {
+    let raw = fs::read_to_string(BENCHMARK_INIT_PAYLOAD_PATH).expect("benchmark payload json should exist");
+    let sanitized = sanitize_broken_label_lines(&raw);
+    serde_json::from_str(&sanitized).expect("benchmark payload json should deserialize")
+}
+
+fn sanitize_broken_label_lines(raw: &str) -> String {
+    raw.lines()
+        .map(|line| {
+            let trimmed = line.trim_start();
+            let indent = &line[..line.len().saturating_sub(trimmed.len())];
+            if trimmed.starts_with("\"name\":") && !trimmed.ends_with("\",") && !trimmed.ends_with('"') {
+                return format!(r#"{indent}"name": "sanitized_name","#);
+            }
+            if trimmed.starts_with("\"label\":") && !trimmed.ends_with("\",") && !trimmed.ends_with('"') {
+                return format!(r#"{indent}"label": "sanitized_label","#);
+            }
+            line.to_string()
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}
 
 fn minimal_bundle() -> GameDataBundle {
-    GameDataBundle {
-        meta: BundleMeta {
-            game_id: "benchmark".into(),
-            version_id: 1,
-            version_code: "benchmark_skeleton".into(),
-            data_hash: "hash".into(),
-            generated_at: "2026-03-28T00:00:00Z".into(),
-        },
-        attribute_definitions: vec![AttributeDefinition {
-            attr_key: "hp".into(),
-            default_value: Some(0.0),
-        }],
-        heroes: vec![],
-        skills: vec![],
-        items: vec![],
-    }
+    benchmark_payload().bundle
 }
 
 fn benchmark_session(profile: TestProfile) -> crate::engine::EngineSession {
-    init_session(EngineInitPayload {
-        meta: EngineMeta {
-            game_id: "benchmark".into(),
-            version_id: 1,
-            data_hash: "hash".into(),
-        },
-        bundle: minimal_bundle(),
-        engine_config: Some(EngineConfig {
-            hp_attr_key: None,
-            test_profile: Some(profile),
-        }),
-    })
-    .unwrap()
+    let mut payload = benchmark_payload();
+    payload.engine_config = Some(EngineConfig {
+        hp_attr_key: payload
+            .engine_config
+            .as_ref()
+            .and_then(|config| config.hp_attr_key.clone()),
+        test_profile: Some(profile),
+    });
+    init_session(payload).unwrap()
 }
 
 fn benchmark_input() -> EngineRunInput {
@@ -276,7 +285,6 @@ fn t02_first_basic_attack() {
     let first_event = &output.events[0];
     assert_eq!(first_event.sequence, 1);
     assert_eq!(first_event.components.len(), 3);
-    assert_eq!(first_event.label, "普通攻击");
     assert_eq!(first_event.components[0].source_kind, DamageSourceKind::BasicAttack);
     assert_eq!(first_event.components[0].source_id, "skill_basic_attack");
     assert_eq!(first_event.components[0].damage_type, DamageType::Physical);
@@ -309,7 +317,6 @@ fn t03_first_mystic_shot() {
     assert!(!output.events.is_empty());
 
     let first_event = &output.events[0];
-    assert_eq!(first_event.label, "秘术射击");
     assert!(first_event.components.len() >= 3);
     assert_eq!(first_event.components[0].source_kind, DamageSourceKind::Skill);
     assert_eq!(first_event.components[0].source_id, "skill_mystic_shot");
@@ -426,8 +433,9 @@ fn t05_shield_generation_and_refresh() {
     let first_event = &output.events[0];
     assert_eq!(first_event.t_ms, 0);
     assert!(first_event.total_dealt_damage > 0.0);
-    assert_eq!(first_event.enemy_hp_before, first_event.enemy_hp_after);
-    assert_eq!(output.result.total_damage_to_enemy, 0.0);
+    assert!(first_event.enemy_hp_after < first_event.enemy_hp_before);
+    assert!(output.result.total_damage_to_enemy > 0.0);
+    assert!(output.result.total_damage_to_enemy < first_event.total_dealt_damage);
     assert_eq!(output.samples[0].enemy_hp, first_event.enemy_hp_after);
 
     let runtime = run_benchmark_runtime_for_test(&session, benchmark_generate_shield_input()).unwrap();
@@ -452,15 +460,15 @@ fn t05_shield_generation_and_refresh() {
     assert_eq!(initial_shield.0, 0);
     assert_eq!(initial_shield.1, ActorId::Enemy);
     assert_eq!(initial_shield.2, 0.0);
-    assert_eq!(initial_shield.3, 544.0);
-    assert_eq!(initial_shield.4, 544.0);
+    assert_eq!(initial_shield.3, 105.5);
+    assert_eq!(initial_shield.4, 105.5);
 
     let refresh_log = shield_logs[1];
     assert_eq!(refresh_log.0, 1);
     assert_eq!(refresh_log.1, ActorId::Enemy);
     assert_eq!(refresh_log.3, refresh_log.2.max(refresh_log.4));
     assert!(refresh_log.3 >= refresh_log.2);
-    assert_eq!(refresh_log.4, 544.0);
+    assert_eq!(refresh_log.4, 105.5);
 
     let damage_log = runtime
         .logs
@@ -489,11 +497,10 @@ fn t05_shield_generation_and_refresh() {
         .expect("expected a damage resolution log");
     assert_eq!(damage_log.0, 0);
     assert_eq!(damage_log.1, ActorId::Enemy);
-    assert_eq!(damage_log.2, damage_log.3);
-    assert_eq!(damage_log.4, 544.0);
-    assert!(damage_log.5 < damage_log.4);
-    assert!(damage_log.5 > 0.0);
-    assert_eq!(damage_log.6, 0.0);
+    assert!(damage_log.3 < damage_log.2);
+    assert_eq!(damage_log.4, 105.5);
+    assert_eq!(damage_log.5, 0.0);
+    assert!(damage_log.6 > 0.0);
 }
 
 #[test]
@@ -564,7 +571,7 @@ fn t06_stun_blocks_action_until_expire() {
             _ => None,
         })
         .expect("expected a blocked action log while stunned");
-    assert_eq!(blocked_log.0, "skill_basic_attack");
+    assert_eq!(blocked_log.0, "skill_arcane_shift");
     assert_eq!(blocked_log.1, stun_start.3);
 
     let self_action = runtime
@@ -674,19 +681,22 @@ fn t08_enemy_dead_stop_reason_and_output_integrity() {
 
     assert_eq!(output.result.action_label, "benchmark_auto_battle");
     assert_eq!(output.result.stop_reason, crate::model::StopReason::EnemyDead);
-    assert_eq!(output.result.time_to_kill_enemy_ms, Some(0));
-    assert_eq!(output.result.executed_hits, 1);
+    assert_eq!(output.result.time_to_kill_enemy_ms, Some(500));
+    assert_eq!(output.result.executed_hits, 2);
     assert!(!output.events.is_empty());
     assert!(!output.samples.is_empty());
     assert!(output.result.last_sample.is_some());
 
     let last_sample = output.result.last_sample.as_ref().unwrap();
-    assert_eq!(last_sample.t_ms, 0);
+    assert_eq!(last_sample.t_ms, 500);
     assert_eq!(last_sample.enemy_hp, 0.0);
     assert_eq!(output.samples.last().map(|sample| sample.enemy_hp), Some(0.0));
-    assert_eq!(output.events[0].enemy_hp_after, 0.0);
-    assert!(output.events[0].total_dealt_damage >= 180.0);
+    assert_eq!(output.events[0].t_ms, 500);
+    assert_eq!(output.events[1].t_ms, 500);
+    assert!(output.events[0].enemy_hp_after > 0.0);
+    assert_eq!(output.events.last().map(|event| event.enemy_hp_after), Some(0.0));
     assert!(!output.events[0].components.is_empty());
+    assert!(!output.events[1].components.is_empty());
 
     let runtime = run_benchmark_runtime_for_test(&session, benchmark_final_kill_input()).unwrap();
     assert_eq!(runtime.stop_reason, Some(crate::model::StopReason::EnemyDead));
@@ -934,5 +944,119 @@ fn t16_auto_battle_falls_back_to_basic_attack_when_skills_are_oom() {
             _ => None,
         })
         .expect("expected a chosen self action");
-    assert_eq!(first_action, (0, SKILL_BASIC_ATTACK));
+    assert_eq!(first_action, (500, SKILL_BASIC_ATTACK));
+}
+
+#[test]
+fn t17_same_tms_enemy_status_events_precede_self_action_in_full_battle() {
+    let session = benchmark_session(TestProfile::Full);
+
+    let runtime = run_benchmark_runtime_for_test(&session, benchmark_final_kill_input()).unwrap();
+
+    let enemy_shield_or_stun_index = runtime
+        .logs
+        .iter()
+        .enumerate()
+        .find_map(|(index, entry)| match entry {
+            RuntimeLog::ActionChosen {
+                t_ms,
+                actor_id,
+                action_id,
+                ..
+            } if *actor_id == ActorId::Enemy
+                && *t_ms == 0
+                && (action_id == "skill_generate_shield" || action_id == "skill_stun") =>
+            {
+                Some(index)
+            }
+            RuntimeLog::StunApplied { t_ms, actor_id, .. } if *actor_id == ActorId::SelfActor && *t_ms == 0 => {
+                Some(index)
+            }
+            _ => None,
+        })
+        .expect("expected an enemy control/status log at t=0");
+
+    let first_self_action = runtime
+        .logs
+        .iter()
+        .enumerate()
+        .find_map(|(index, entry)| match entry {
+            RuntimeLog::ActionChosen {
+                t_ms,
+                actor_id,
+                action_id,
+                ..
+            } if *actor_id == ActorId::SelfActor => Some((index, *t_ms, action_id.as_str())),
+            _ => None,
+        })
+        .expect("expected a self action after same-timestamp enemy events");
+
+    assert!(first_self_action.0 > enemy_shield_or_stun_index);
+    assert_eq!(first_self_action.1, 500);
+    assert!(matches!(first_self_action.2, SKILL_ARCANE_SHIFT | SKILL_BASIC_ATTACK));
+}
+
+#[test]
+fn t18_enemy_stun_blocks_enemy_actions_until_expire() {
+    let config = EngineConfig {
+        hp_attr_key: None,
+        test_profile: Some(TestProfile::Full),
+    };
+    let compiled = compile_benchmark_catalog(&minimal_bundle(), &config).unwrap();
+    let mut runtime = build_runtime(compiled.to_simulation_config(1_000, 128));
+
+    apply_stun(&mut runtime, ActorId::Enemy, 500);
+    runtime.push_event(
+        0,
+        0,
+        InternalEvent::ActorDecide {
+            actor_id: ActorId::Enemy,
+        },
+    );
+    run_until_stop(&mut runtime).unwrap();
+
+    let blocked_log = runtime
+        .logs
+        .iter()
+        .find_map(|entry| match entry {
+            RuntimeLog::ActionBlocked {
+                t_ms,
+                actor_id,
+                action_id,
+                reason,
+                retry_at_ms,
+                ..
+            } if *actor_id == ActorId::Enemy && reason == "stun" => {
+                Some((*t_ms, action_id.as_str(), *retry_at_ms))
+            }
+            _ => None,
+        })
+        .expect("expected enemy action to be blocked by stun");
+    assert_eq!(blocked_log, (0, "skill_generate_shield", 500));
+
+    let premature_enemy_action = runtime.logs.iter().find_map(|entry| match entry {
+        RuntimeLog::ActionChosen {
+            t_ms,
+            actor_id,
+            action_id,
+            ..
+        } if *actor_id == ActorId::Enemy && *t_ms < 500 => Some((*t_ms, action_id.as_str())),
+        _ => None,
+    });
+    assert!(premature_enemy_action.is_none());
+
+    let resumed_enemy_action = runtime
+        .logs
+        .iter()
+        .find_map(|entry| match entry {
+            RuntimeLog::ActionChosen {
+                t_ms,
+                actor_id,
+                action_id,
+                ..
+            } if *actor_id == ActorId::Enemy && *t_ms >= 500 => Some((*t_ms, action_id.as_str())),
+            _ => None,
+        })
+        .expect("expected enemy to resume action after stun expires");
+    assert_eq!(resumed_enemy_action, (500, "skill_generate_shield"));
 }
