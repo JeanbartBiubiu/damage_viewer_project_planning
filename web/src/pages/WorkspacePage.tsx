@@ -5,7 +5,8 @@ import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
-import { getBundle, getCurrentVersion, getErrorMessage } from '../services/apiClient';
+import { getErrorMessage } from '../services/apiClient';
+import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
 
 type WorkspacePageProps = {
@@ -69,20 +70,14 @@ export function WorkspacePage({ apiBaseUrl, selectedGameId, selectedGameName }: 
       setBundleError(null);
 
       try {
-        const currentResult = await getCurrentVersion(apiBaseUrl, gameId);
+        const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, gameId);
         if (cancelled) {
           return;
         }
 
-        setCurrentVersion(currentResult.data);
-
-        const bundleResult = await getBundle(apiBaseUrl, gameId, currentResult.data.versionId);
-        if (cancelled) {
-          return;
-        }
-
-        setBundle(bundleResult.data);
-        setBundleEtag(bundleResult.etag);
+        setCurrentVersion(snapshot.currentVersion);
+        setBundle(snapshot.bundle);
+        setBundleEtag(snapshot.bundleEtag);
         setBundleState('success');
       } catch (error) {
         if (cancelled) {

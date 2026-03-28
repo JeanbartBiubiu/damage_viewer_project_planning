@@ -1,239 +1,681 @@
-#![allow(dead_code)]
-#![allow(unsafe_op_in_unsafe_fn)]
+use crate::benchmark_fixture::{
+    ITEM_BLACK_CLEAVER, ITEM_LIFESTEAL_BLADE, ITEM_MAGIC_BLADE, ITEM_MASK, SKILL_ARCANE_SHIFT,
+    SKILL_BASIC_ATTACK, SKILL_GENERATE_SHIELD, SKILL_MYSTIC_SHOT, SKILL_STUN,
+};
+use crate::effects::{
+    apply_damage_packets_as_event, apply_generate_shield, apply_stun, expire_black_cleaver, expire_stun,
+};
+use crate::model::{DamageSourceKind, DamageType, EngineError, StopReason};
+use crate::runtime::{
+    build_runtime, reduce_skill_cooldowns, round_number, start_action_cooldown, ActorId, DamageFlags, DamagePacket,
+    DotEffectKind, InternalEvent, RuntimeLog, RuntimeState, ScheduledEvent, SimulationConfig,
+};
 
-const SAMPLE_STRIDE: usize = 5;
-const RESULT_STRIDE: usize = 7;
-const MAX_SAMPLES: usize = 64;
+const DECIDE_PRIORITY: i32 = 0;
+const DOT_TICK_PRIORITY: i32 = 10;
+const STUN_EXPIRE_PRIORITY: i32 = -10;
+const STUN_DURATION_MS: u32 = 1_500;
+const BASIC_ATTACK_BYPASS_DAMAGE: f64 = 100.0;
+const LIFESTEAL_BLADE_BYPASS_DAMAGE: f64 = 30.0;
+const MAGIC_BLADE_BYPASS_DAMAGE: f64 = 20.0;
+const MYSTIC_SHOT_BYPASS_DAMAGE: f64 = 140.0;
+const ARCANE_SHIFT_BYPASS_DAMAGE: f64 = 160.0;
+const MASK_DOT_BYPASS_DAMAGE: f64 = 25.0;
+const SHIELD_BYPASS_AMOUNT: f64 = 300.0;
 
-const STOP_REASON_COMPLETED: f64 = 0.0;
-const STOP_REASON_ENEMY_DEAD: f64 = 1.0;
-const STOP_REASON_SELF_DEAD: f64 = 2.0;
-const STOP_REASON_MAX_SECONDS: f64 = 3.0;
-const STOP_REASON_CANCELLED: f64 = 4.0;
-const STOP_REASON_ERROR: f64 = 5.0;
-
-static mut SAMPLE_BUFFER: [f64; MAX_SAMPLES * SAMPLE_STRIDE] = [0.0; MAX_SAMPLES * SAMPLE_STRIDE];
-static mut RESULT_BUFFER: [f64; RESULT_STRIDE] = [0.0; RESULT_STRIDE];
-
-#[unsafe(no_mangle)]
-pub extern "C" fn sample_stride() -> u32 {
-    SAMPLE_STRIDE as u32
+#[derive(Clone, Copy)]
+enum BenchmarkActionKind {
+    ArcaneShift,
+    MysticShot,
+    BasicAttack,
 }
 
-#[unsafe(no_mangle)]
-pub extern "C" fn result_stride() -> u32 {
-    RESULT_STRIDE as u32
+#[derive(Clone, Copy)]
+enum BenchmarkActionSelection {
+    Ready(BenchmarkActionKind),
+    WaitUntil(u32),
 }
 
-#[unsafe(no_mangle)]
-pub extern "C" fn samples_ptr() -> *const f64 {
-    core::ptr::addr_of!(SAMPLE_BUFFER).cast::<f64>()
+pub fn run_first_basic_attack(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let mut state = build_runtime(config);
+    seed_initial_events(&mut state);
+    run_until_stop(&mut state)?;
+    Ok(state)
 }
 
-#[unsafe(no_mangle)]
-pub extern "C" fn result_ptr() -> *const f64 {
-    core::ptr::addr_of!(RESULT_BUFFER).cast::<f64>()
+pub fn run_first_mystic_shot(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let mut state = build_runtime(config);
+    execute_first_mystic_shot(&mut state)?;
+    if state.stop_reason.is_none() {
+        state.stop_reason = Some(StopReason::Completed);
+    }
+    Ok(state)
 }
 
-#[unsafe(no_mangle)]
-pub extern "C" fn run_basic_attack(
-    self_hp: f64,
-    self_ad: f64,
-    self_attack_speed: f64,
-    enemy_hp: f64,
-    enemy_armor: f64,
-    attack_ratio: f64,
-    hit_count: u32,
-    max_duration_ms: u32,
-) -> u32 {
-    unsafe {
-        clear_buffers();
+pub fn run_first_arcane_shift(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let mut state = build_runtime(config);
+    execute_first_arcane_shift(&mut state)?;
+    run_until_stop(&mut state)?;
+    Ok(state)
+}
 
-        let mut state = RunState::new(self_hp, enemy_hp, max_duration_ms as f64);
-        let attack_speed = self_attack_speed.max(0.1);
-        let interval_ms = 1000.0 / attack_speed;
-        let damage_ratio = if attack_ratio > 0.0 { attack_ratio } else { 1.0 };
-        let mut stop_reason = STOP_REASON_COMPLETED;
-        let mut time_to_kill_enemy = -1.0;
+pub fn run_first_basic_attack_with_enemy_shield(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let mut state = build_runtime(config);
+    execute_enemy_generate_shield(&mut state);
+    execute_first_basic_attack(&mut state)?;
+    if state.stop_reason.is_none() {
+        state.now_ms = state.now_ms.saturating_add(1);
+        execute_enemy_generate_shield(&mut state);
+        state.stop_reason = Some(StopReason::Completed);
+    }
+    Ok(state)
+}
 
-        for hit_index in 0..hit_count {
-            let t_ms = ((hit_index + 1) as f64 * interval_ms).round();
-            if t_ms > state.max_duration_ms {
-                stop_reason = STOP_REASON_MAX_SECONDS;
-                state.action_duration_ms = state.max_duration_ms;
-                break;
-            }
+pub fn run_stun_blocks_first_basic_attack(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let mut state = build_runtime(config);
+    execute_enemy_stun(&mut state);
+    state.push_event(0, DECIDE_PRIORITY, InternalEvent::ActorDecide {
+        actor_id: ActorId::SelfActor,
+    });
+    run_until_stop(&mut state)?;
+    Ok(state)
+}
 
-            let raw_damage = self_ad.max(0.0) * damage_ratio;
-            let dealt_damage = apply_mitigation(raw_damage, enemy_armor);
-            state.enemy_hp = (state.enemy_hp - dealt_damage).max(0.0);
-            state.total_damage_to_enemy += dealt_damage;
-            state.executed_hits += 1.0;
-            state.action_duration_ms = t_ms;
-            state.push_sample(t_ms);
+pub fn run_black_cleaver_stack_then_expire(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let mut state = build_runtime(config);
+    execute_first_mystic_shot(&mut state)?;
+    run_until_stop(&mut state)?;
+    Ok(state)
+}
 
-            if state.enemy_hp <= 0.0 {
-                stop_reason = STOP_REASON_ENEMY_DEAD;
-                time_to_kill_enemy = t_ms;
-                break;
-            }
+pub fn run_minimal_benchmark_battle(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let mut state = build_runtime(config);
+
+    while !state.should_stop() {
+        if state.processed_events >= state.max_events {
+            state.stop_reason = Some(StopReason::Cancelled);
+            break;
         }
 
-        write_result(stop_reason, time_to_kill_enemy, &state);
-        state.sample_count
-    }
-}
+        let action_selection = select_benchmark_action(&mut state);
+        let next_action_ms = match action_selection {
+            BenchmarkActionSelection::Ready(_) => state.now_ms,
+            BenchmarkActionSelection::WaitUntil(next_ms) => next_ms,
+        };
+        let next_event_ms = state.queue.peek().map(|scheduled| scheduled.t_ms);
 
-#[unsafe(no_mangle)]
-pub extern "C" fn run_death_lotus(
-    self_hp: f64,
-    self_base_attack_speed: f64,
-    self_attack_speed: f64,
-    self_ad: f64,
-    self_ap: f64,
-    enemy_hp: f64,
-    enemy_magic_resist: f64,
-    base_damage: f64,
-    ad_ratio: f64,
-    ap_ratio: f64,
-    bonus_attack_speed_ratio: f64,
-    hit_count: u32,
-    hit_interval_ms: u32,
-    channel_duration_ms: u32,
-    max_duration_ms: u32,
-) -> u32 {
-    unsafe {
-        clear_buffers();
-
-        let mut state = RunState::new(self_hp, enemy_hp, max_duration_ms as f64);
-        let interval_ms = (hit_interval_ms.max(1)) as f64;
-        let bonus_attack_speed = (self_attack_speed - self_base_attack_speed).max(0.0);
-        let mut stop_reason = STOP_REASON_COMPLETED;
-        let mut time_to_kill_enemy = -1.0;
-
-        for hit_index in 0..hit_count {
-            let t_ms = if hit_index == 0 {
-                0.0
-            } else {
-                hit_index as f64 * interval_ms
-            };
-
-            if t_ms > state.max_duration_ms {
-                stop_reason = STOP_REASON_MAX_SECONDS;
-                state.action_duration_ms = state.max_duration_ms;
-                break;
-            }
-
-            let raw_damage = base_damage.max(0.0)
-                + self_ad.max(0.0) * ad_ratio.max(0.0) * (1.0 + bonus_attack_speed * bonus_attack_speed_ratio.max(0.0))
-                + self_ap.max(0.0) * ap_ratio.max(0.0);
-            let dealt_damage = apply_mitigation(raw_damage, enemy_magic_resist);
-            state.enemy_hp = (state.enemy_hp - dealt_damage).max(0.0);
-            state.total_damage_to_enemy += dealt_damage;
-            state.executed_hits += 1.0;
-            state.action_duration_ms = t_ms;
-            state.push_sample(t_ms);
-
-            if state.enemy_hp <= 0.0 {
-                stop_reason = STOP_REASON_ENEMY_DEAD;
-                time_to_kill_enemy = t_ms;
-                break;
+        if let Some(event_ms) = next_event_ms {
+            if event_ms <= next_action_ms {
+                let scheduled = state.pop_event().expect("queue.peek() matched pop_event()");
+                if scheduled.t_ms > state.max_duration_ms {
+                    state.now_ms = state.max_duration_ms;
+                    state.stop_reason = Some(StopReason::MaxSeconds);
+                    break;
+                }
+                state.apply_periodic_regen_until(scheduled.t_ms);
+                state.processed_events += 1;
+                dispatch_scheduled_event(&mut state, scheduled, false)?;
+                continue;
             }
         }
 
-        if stop_reason == STOP_REASON_COMPLETED {
-            state.action_duration_ms = state.action_duration_ms.max(channel_duration_ms as f64);
-            if state.action_duration_ms > state.max_duration_ms {
-                state.action_duration_ms = state.max_duration_ms;
-                stop_reason = STOP_REASON_MAX_SECONDS;
+        if next_action_ms > state.max_duration_ms {
+            state.apply_periodic_regen_until(state.max_duration_ms);
+            state.stop_reason = Some(StopReason::MaxSeconds);
+            break;
+        }
+
+        match action_selection {
+            BenchmarkActionSelection::Ready(action_kind) => {
+                state.apply_periodic_regen_until(next_action_ms);
+                state.processed_events += 1;
+                match action_kind {
+                    BenchmarkActionKind::ArcaneShift => execute_first_arcane_shift(&mut state)?,
+                    BenchmarkActionKind::MysticShot => execute_first_mystic_shot(&mut state)?,
+                    BenchmarkActionKind::BasicAttack => {
+                        execute_first_basic_attack(&mut state)?;
+                        start_action_cooldown(&mut state, ActorId::SelfActor, SKILL_BASIC_ATTACK, "basic_attack");
+                    }
+                }
+            }
+            BenchmarkActionSelection::WaitUntil(wait_ms) => {
+                state.apply_periodic_regen_until(wait_ms);
+                continue;
             }
         }
-
-        write_result(stop_reason, time_to_kill_enemy, &state);
-        state.sample_count
     }
+
+    if state.stop_reason.is_none() {
+        state.stop_reason = Some(StopReason::Completed);
+    }
+    Ok(state)
 }
 
-struct RunState {
-    self_hp: f64,
-    enemy_hp: f64,
-    total_damage_to_enemy: f64,
-    total_damage_to_self: f64,
-    executed_hits: f64,
-    action_duration_ms: f64,
-    max_duration_ms: f64,
-    sample_count: u32,
+pub fn seed_initial_events(state: &mut RuntimeState) {
+    state.push_event(0, DECIDE_PRIORITY, InternalEvent::ActorDecide {
+        actor_id: ActorId::SelfActor,
+    });
 }
 
-impl RunState {
-    fn new(self_hp: f64, enemy_hp: f64, max_duration_ms: f64) -> Self {
-        Self {
-            self_hp: self_hp.max(0.0),
-            enemy_hp: enemy_hp.max(0.0),
-            total_damage_to_enemy: 0.0,
-            total_damage_to_self: 0.0,
-            executed_hits: 0.0,
-            action_duration_ms: 0.0,
-            max_duration_ms: max_duration_ms.max(1.0),
-            sample_count: 0,
+pub fn run_until_stop(state: &mut RuntimeState) -> Result<(), EngineError> {
+    while let Some(scheduled) = state.pop_event() {
+        if state.should_stop() {
+            break;
+        }
+        if scheduled.t_ms > state.max_duration_ms {
+            state.now_ms = state.max_duration_ms;
+            state.stop_reason = Some(StopReason::MaxSeconds);
+            break;
+        }
+
+        state.apply_periodic_regen_until(scheduled.t_ms);
+        state.processed_events += 1;
+        dispatch_scheduled_event(state, scheduled, true)?;
+    }
+
+    if state.stop_reason.is_none() {
+        state.stop_reason = Some(StopReason::Completed);
+    }
+    Ok(())
+}
+
+fn dispatch_scheduled_event(
+    state: &mut RuntimeState,
+    scheduled: ScheduledEvent,
+    complete_when_queue_empty: bool,
+) -> Result<(), EngineError> {
+    match scheduled.event {
+        InternalEvent::ActorDecide {
+            actor_id: ActorId::SelfActor,
+        } => {
+            let control_disabled = matches!(state.profile, crate::model::TestProfile::NoControl);
+            if !control_disabled {
+                if let Some(stun_until_ms) = state.actor(ActorId::SelfActor).stun.as_ref().map(|stun| stun.until_ms) {
+                    if stun_until_ms > state.now_ms {
+                        state.log(RuntimeLog::ActionBlocked {
+                            t_ms: state.now_ms,
+                            actor_id: ActorId::SelfActor,
+                            action_id: SKILL_BASIC_ATTACK.to_string(),
+                            reason: "stun".to_string(),
+                            retry_at_ms: stun_until_ms,
+                            current_mana: None,
+                            required_mana: None,
+                        });
+                        state.push_event(
+                            stun_until_ms,
+                            DECIDE_PRIORITY,
+                            InternalEvent::ActorDecide {
+                                actor_id: ActorId::SelfActor,
+                            },
+                        );
+                        return Ok(());
+                    }
+                }
+            }
+
+            execute_first_basic_attack(state)?;
+            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
+                state.stop_reason = Some(StopReason::Completed);
+            }
+        }
+        InternalEvent::DotTick {
+            source_actor,
+            target_actor,
+            source_id,
+            label,
+            dot_kind: DotEffectKind::Mask,
+            remaining_ticks,
+        } => {
+            execute_mask_dot_tick(state, source_actor, target_actor, source_id, label, remaining_ticks)?;
+            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
+                state.stop_reason = Some(StopReason::Completed);
+            }
+        }
+        InternalEvent::StunExpire { actor_id, until_ms } => {
+            expire_stun(state, actor_id, until_ms);
+            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
+                state.stop_reason = Some(StopReason::Completed);
+            }
+        }
+        InternalEvent::BlackCleaverExpire {
+            actor_id,
+            expire_at_ms,
+        } => {
+            expire_black_cleaver(state, actor_id, expire_at_ms);
+            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
+                state.stop_reason = Some(StopReason::Completed);
+            }
+        }
+        _ => {
+            if complete_when_queue_empty {
+                state.stop_reason.get_or_insert(StopReason::Completed);
+            }
         }
     }
 
-    unsafe fn push_sample(&mut self, t_ms: f64) {
-        if self.sample_count as usize >= MAX_SAMPLES {
-            return;
+    Ok(())
+}
+
+fn select_benchmark_action(state: &mut RuntimeState) -> BenchmarkActionSelection {
+    let now_ms = state.now_ms;
+    let mut next_check_ms = u32::MAX;
+    for (action_kind, action_id) in [
+        (BenchmarkActionKind::ArcaneShift, SKILL_ARCANE_SHIFT),
+        (BenchmarkActionKind::MysticShot, SKILL_MYSTIC_SHOT),
+        (BenchmarkActionKind::BasicAttack, SKILL_BASIC_ATTACK),
+    ] {
+        let ready_ms = state.actor(ActorId::SelfActor).action_ready_at(action_id);
+        if ready_ms > now_ms {
+            next_check_ms = next_check_ms.min(ready_ms);
+            continue;
         }
-        let offset = self.sample_count as usize * SAMPLE_STRIDE;
-        SAMPLE_BUFFER[offset] = round_value(t_ms);
-        SAMPLE_BUFFER[offset + 1] = round_value(self.self_hp);
-        SAMPLE_BUFFER[offset + 2] = round_value(self.enemy_hp);
-        SAMPLE_BUFFER[offset + 3] = round_value(self.total_damage_to_enemy);
-        SAMPLE_BUFFER[offset + 4] = round_value(self.total_damage_to_self);
-        self.sample_count += 1;
-    }
-}
 
-unsafe fn clear_buffers() {
-    for value in core::ptr::addr_of_mut!(SAMPLE_BUFFER).cast::<f64>().as_mut_slice(MAX_SAMPLES * SAMPLE_STRIDE) {
-        *value = 0.0;
-    }
-    for value in core::ptr::addr_of_mut!(RESULT_BUFFER).cast::<f64>().as_mut_slice(RESULT_STRIDE) {
-        *value = 0.0;
-    }
-}
+        if has_enough_mana_for_action(state, ActorId::SelfActor, action_id) {
+            return BenchmarkActionSelection::Ready(action_kind);
+        }
 
-unsafe fn write_result(stop_reason: f64, time_to_kill_enemy: f64, state: &RunState) {
-    RESULT_BUFFER[0] = stop_reason;
-    RESULT_BUFFER[1] = round_value(time_to_kill_enemy);
-    RESULT_BUFFER[2] = round_value(state.total_damage_to_enemy);
-    RESULT_BUFFER[3] = round_value(state.total_damage_to_self);
-    RESULT_BUFFER[4] = round_value(state.executed_hits);
-    RESULT_BUFFER[5] = round_value(state.action_duration_ms);
-    RESULT_BUFFER[6] = state.sample_count as f64;
-}
+        let retry_at_ms = next_action_retry_ms(state, ActorId::SelfActor);
+        log_mana_blocked(state, ActorId::SelfActor, action_id, retry_at_ms);
+        next_check_ms = next_check_ms.min(retry_at_ms);
+    }
 
-fn apply_mitigation(raw_damage: f64, resistance: f64) -> f64 {
-    if resistance >= 0.0 {
-        round_value(raw_damage * (100.0 / (100.0 + resistance)))
+    if next_check_ms == u32::MAX {
+        BenchmarkActionSelection::WaitUntil(now_ms.saturating_add(1_000))
     } else {
-        round_value(raw_damage * (2.0 - 100.0 / (100.0 - resistance)))
+        BenchmarkActionSelection::WaitUntil(next_check_ms.max(now_ms.saturating_add(1)))
     }
 }
 
-fn round_value(value: f64) -> f64 {
-    if value < 0.0 {
-        -1.0
+fn formula_value(state: &RuntimeState, computed: f64, fallback: f64) -> f64 {
+    let value = if matches!(state.profile, crate::model::TestProfile::FormulaBypass) {
+        fallback
     } else {
-        (value * 1000.0).round() / 1000.0
+        computed
+    };
+    round_number(value)
+}
+
+fn has_enough_mana_for_action(state: &RuntimeState, actor_id: ActorId, action_id: &str) -> bool {
+    let required_mana = state.actor(actor_id).action_mana_cost(action_id).max(0.0);
+    if required_mana <= 0.0 {
+        return true;
+    }
+    state.actor(actor_id).mana_current + 1e-9 >= required_mana
+}
+
+fn next_action_retry_ms(state: &RuntimeState, actor_id: ActorId) -> u32 {
+    if state.actor(actor_id).attr(crate::runtime::ATTR_MANA_REGEN) > 0.0 {
+        state.next_rate_tick_ms.max(state.now_ms.saturating_add(1))
+    } else {
+        state.now_ms.saturating_add(1)
     }
 }
 
-trait PointerSliceExt<T> {
-    unsafe fn as_mut_slice(self, len: usize) -> &'static mut [T];
+fn log_mana_blocked(state: &mut RuntimeState, actor_id: ActorId, action_id: &str, retry_at_ms: u32) {
+    let current_mana = round_number(state.actor(actor_id).mana_current.max(0.0));
+    let required_mana = round_number(state.actor(actor_id).action_mana_cost(action_id).max(0.0));
+    state.log(RuntimeLog::ActionBlocked {
+        t_ms: state.now_ms,
+        actor_id,
+        action_id: action_id.to_string(),
+        reason: "mana".to_string(),
+        retry_at_ms,
+        current_mana: Some(current_mana),
+        required_mana: Some(required_mana),
+    });
 }
 
-impl<T> PointerSliceExt<T> for *mut T {
-    unsafe fn as_mut_slice(self, len: usize) -> &'static mut [T] {
-        core::slice::from_raw_parts_mut(self, len)
+fn try_spend_action_mana(state: &mut RuntimeState, actor_id: ActorId, action_id: &str) -> bool {
+    let required_mana = state.actor(actor_id).action_mana_cost(action_id).max(0.0);
+    if required_mana <= 0.0 {
+        return true;
     }
+
+    let mana_before = state.actor(actor_id).mana_current.max(0.0);
+    if mana_before + 1e-9 < required_mana {
+        let retry_at_ms = next_action_retry_ms(state, actor_id);
+        log_mana_blocked(state, actor_id, action_id, retry_at_ms);
+        return false;
+    }
+
+    let mana_after = {
+        let actor = state.actor_mut(actor_id);
+        actor.mana_current = (actor.mana_current - required_mana).max(0.0);
+        actor.mana_current
+    };
+    state.log(RuntimeLog::ManaSpent {
+        t_ms: state.now_ms,
+        actor_id,
+        action_id: action_id.to_string(),
+        amount: round_number(required_mana),
+        mana_before: round_number(mana_before),
+        mana_after: round_number(mana_after),
+    });
+    true
+}
+
+fn execute_first_basic_attack(state: &mut RuntimeState) -> Result<(), EngineError> {
+    let t_ms = state.now_ms;
+    let self_ad = state.actor(ActorId::SelfActor).attr(crate::runtime::ATTR_AD);
+    let self_ap = state.actor(ActorId::SelfActor).attr(crate::runtime::ATTR_AP);
+    let enemy_hp_current = state.actor(ActorId::Enemy).hp_current;
+    let has_lifesteal_blade = state.actor(ActorId::SelfActor).has_item(ITEM_LIFESTEAL_BLADE);
+    let has_magic_blade = state.actor(ActorId::SelfActor).has_item(ITEM_MAGIC_BLADE);
+    let basic_attack_label = state
+        .actor(ActorId::SelfActor)
+        .action(SKILL_BASIC_ATTACK)
+        .map(|action| action.label.clone())
+        .unwrap_or_else(|| "普通攻击".to_string());
+
+    let mut packets = Vec::with_capacity(3);
+    packets.push(DamagePacket {
+        source_kind: DamageSourceKind::BasicAttack,
+        source_id: SKILL_BASIC_ATTACK.to_string(),
+        label: basic_attack_label.clone(),
+        damage_type: DamageType::Physical,
+        raw_damage: formula_value(state, self_ad, BASIC_ATTACK_BYPASS_DAMAGE),
+        flags: DamageFlags {
+            can_trigger_on_hit: true,
+            can_life_steal: true,
+            can_apply_black_cleaver: false,
+            counts_as_attack: true,
+            is_active_skill_magic_damage: false,
+        },
+    });
+
+    if has_lifesteal_blade {
+        packets.push(DamagePacket {
+            source_kind: DamageSourceKind::Item,
+            source_id: ITEM_LIFESTEAL_BLADE.to_string(),
+            label: "吸血刀".to_string(),
+            damage_type: DamageType::Physical,
+            raw_damage: formula_value(state, enemy_hp_current * 0.08, LIFESTEAL_BLADE_BYPASS_DAMAGE),
+            flags: DamageFlags {
+                can_trigger_on_hit: false,
+                can_life_steal: true,
+                can_apply_black_cleaver: false,
+                counts_as_attack: false,
+                is_active_skill_magic_damage: false,
+            },
+        });
+    }
+
+    if has_magic_blade {
+        packets.push(DamagePacket {
+            source_kind: DamageSourceKind::Item,
+            source_id: ITEM_MAGIC_BLADE.to_string(),
+            label: "魔法刀".to_string(),
+            damage_type: DamageType::Magic,
+            raw_damage: formula_value(state, 20.0 + self_ap * 0.15, MAGIC_BLADE_BYPASS_DAMAGE),
+            flags: DamageFlags {
+                can_trigger_on_hit: false,
+                can_life_steal: true,
+                can_apply_black_cleaver: false,
+                counts_as_attack: false,
+                is_active_skill_magic_damage: false,
+            },
+        });
+    }
+
+    state.log(RuntimeLog::ActionChosen {
+        t_ms,
+        actor_id: ActorId::SelfActor,
+        action_id: SKILL_BASIC_ATTACK.to_string(),
+        label: basic_attack_label.clone(),
+    });
+    apply_damage_packets_as_event(
+        state,
+        ActorId::SelfActor,
+        ActorId::Enemy,
+        basic_attack_label,
+        packets,
+    )?;
+
+    Ok(())
+}
+
+fn execute_first_mystic_shot(state: &mut RuntimeState) -> Result<(), EngineError> {
+    let t_ms = state.now_ms;
+    let self_ad = state.actor(ActorId::SelfActor).attr(crate::runtime::ATTR_AD);
+    let self_ap = state.actor(ActorId::SelfActor).attr(crate::runtime::ATTR_AP);
+    let enemy_hp_current = state.actor(ActorId::Enemy).hp_current;
+    let has_lifesteal_blade = state.actor(ActorId::SelfActor).has_item(ITEM_LIFESTEAL_BLADE);
+    let has_magic_blade = state.actor(ActorId::SelfActor).has_item(ITEM_MAGIC_BLADE);
+    let has_black_cleaver = state.actor(ActorId::SelfActor).has_item(ITEM_BLACK_CLEAVER);
+    let mystic_shot_label = state
+        .actor(ActorId::SelfActor)
+        .action(SKILL_MYSTIC_SHOT)
+        .map(|action| action.label.clone())
+        .unwrap_or_else(|| "秘术射击".to_string());
+
+    if !try_spend_action_mana(state, ActorId::SelfActor, SKILL_MYSTIC_SHOT) {
+        state.stop_reason.get_or_insert(StopReason::Completed);
+        return Ok(());
+    }
+    state.log(RuntimeLog::ActionChosen {
+        t_ms,
+        actor_id: ActorId::SelfActor,
+        action_id: SKILL_MYSTIC_SHOT.to_string(),
+        label: mystic_shot_label.clone(),
+    });
+    start_action_cooldown(state, ActorId::SelfActor, SKILL_MYSTIC_SHOT, "cast");
+
+    let mut packets = Vec::with_capacity(3);
+    packets.push(DamagePacket {
+        source_kind: DamageSourceKind::Skill,
+        source_id: SKILL_MYSTIC_SHOT.to_string(),
+        label: mystic_shot_label.clone(),
+        damage_type: DamageType::Physical,
+        raw_damage: formula_value(state, 100.0 + self_ad + self_ap * 0.2, MYSTIC_SHOT_BYPASS_DAMAGE),
+        flags: DamageFlags {
+            can_trigger_on_hit: true,
+            can_life_steal: false,
+            can_apply_black_cleaver: has_black_cleaver,
+            counts_as_attack: true,
+            is_active_skill_magic_damage: false,
+        },
+    });
+
+    if has_lifesteal_blade {
+        packets.push(DamagePacket {
+            source_kind: DamageSourceKind::Item,
+            source_id: ITEM_LIFESTEAL_BLADE.to_string(),
+            label: "吸血刀".to_string(),
+            damage_type: DamageType::Physical,
+            raw_damage: formula_value(state, enemy_hp_current * 0.08, LIFESTEAL_BLADE_BYPASS_DAMAGE),
+            flags: DamageFlags {
+                can_trigger_on_hit: false,
+                can_life_steal: true,
+                can_apply_black_cleaver: false,
+                counts_as_attack: false,
+                is_active_skill_magic_damage: false,
+            },
+        });
+    }
+
+    if has_magic_blade {
+        packets.push(DamagePacket {
+            source_kind: DamageSourceKind::Item,
+            source_id: ITEM_MAGIC_BLADE.to_string(),
+            label: "魔法刀".to_string(),
+            damage_type: DamageType::Magic,
+            raw_damage: formula_value(state, 20.0 + self_ap * 0.15, MAGIC_BLADE_BYPASS_DAMAGE),
+            flags: DamageFlags {
+                can_trigger_on_hit: false,
+                can_life_steal: true,
+                can_apply_black_cleaver: false,
+                counts_as_attack: false,
+                is_active_skill_magic_damage: false,
+            },
+        });
+    }
+
+    apply_damage_packets_as_event(
+        state,
+        ActorId::SelfActor,
+        ActorId::Enemy,
+        mystic_shot_label,
+        packets,
+    )?;
+    reduce_skill_cooldowns(state, ActorId::SelfActor, 1_000, "mystic_shot_hit");
+
+    Ok(())
+}
+
+fn execute_first_arcane_shift(state: &mut RuntimeState) -> Result<(), EngineError> {
+    let t_ms = state.now_ms;
+    let self_ap = state.actor(ActorId::SelfActor).attr(crate::runtime::ATTR_AP);
+    let has_mask = state.actor(ActorId::SelfActor).has_item(ITEM_MASK);
+    let arcane_shift_label = state
+        .actor(ActorId::SelfActor)
+        .action(SKILL_ARCANE_SHIFT)
+        .map(|action| action.label.clone())
+        .unwrap_or_else(|| "奥术跃迁".to_string());
+
+    if !try_spend_action_mana(state, ActorId::SelfActor, SKILL_ARCANE_SHIFT) {
+        state.stop_reason.get_or_insert(StopReason::Completed);
+        return Ok(());
+    }
+    state.log(RuntimeLog::ActionChosen {
+        t_ms,
+        actor_id: ActorId::SelfActor,
+        action_id: SKILL_ARCANE_SHIFT.to_string(),
+        label: arcane_shift_label.clone(),
+    });
+    start_action_cooldown(state, ActorId::SelfActor, SKILL_ARCANE_SHIFT, "cast");
+
+    let result = apply_damage_packets_as_event(
+        state,
+        ActorId::SelfActor,
+        ActorId::Enemy,
+        arcane_shift_label.clone(),
+        vec![DamagePacket {
+            source_kind: DamageSourceKind::Skill,
+            source_id: SKILL_ARCANE_SHIFT.to_string(),
+            label: arcane_shift_label,
+            damage_type: DamageType::Magic,
+            raw_damage: formula_value(state, 200.0 + self_ap * 0.8, ARCANE_SHIFT_BYPASS_DAMAGE),
+            flags: DamageFlags {
+                can_trigger_on_hit: false,
+                can_life_steal: false,
+                can_apply_black_cleaver: false,
+                counts_as_attack: false,
+                is_active_skill_magic_damage: true,
+            },
+        }],
+    )?;
+
+    if has_mask && result.total_hp_damage > 0.0 {
+        schedule_mask_dot_ticks(state, ActorId::SelfActor, ActorId::Enemy);
+    } else if state.stop_reason.is_none() {
+        state.stop_reason = Some(StopReason::Completed);
+    }
+
+    Ok(())
+}
+
+fn execute_enemy_generate_shield(state: &mut RuntimeState) {
+    let t_ms = state.now_ms;
+    let shield_label = state
+        .actor(ActorId::Enemy)
+        .action(SKILL_GENERATE_SHIELD)
+        .map(|action| action.label.clone())
+        .unwrap_or_else(|| "生成护盾".to_string());
+    state.log(RuntimeLog::ActionChosen {
+        t_ms,
+        actor_id: ActorId::Enemy,
+        action_id: SKILL_GENERATE_SHIELD.to_string(),
+        label: shield_label,
+    });
+    let requested_amount = formula_value(
+        state,
+        100.0 + state.actor(ActorId::Enemy).hp_max * 0.08,
+        SHIELD_BYPASS_AMOUNT,
+    );
+    apply_generate_shield(state, ActorId::Enemy, requested_amount);
+}
+
+fn execute_enemy_stun(state: &mut RuntimeState) {
+    let t_ms = state.now_ms;
+    let stun_label = state
+        .actor(ActorId::Enemy)
+        .action(SKILL_STUN)
+        .map(|action| action.label.clone())
+        .unwrap_or_else(|| "眩晕".to_string());
+    state.log(RuntimeLog::ActionChosen {
+        t_ms,
+        actor_id: ActorId::Enemy,
+        action_id: SKILL_STUN.to_string(),
+        label: stun_label,
+    });
+    let until_ms = t_ms.saturating_add(STUN_DURATION_MS);
+    apply_stun(state, ActorId::SelfActor, until_ms);
+    state.push_event(
+        until_ms,
+        STUN_EXPIRE_PRIORITY,
+        InternalEvent::StunExpire {
+            actor_id: ActorId::SelfActor,
+            until_ms,
+        },
+    );
+}
+
+fn schedule_mask_dot_ticks(state: &mut RuntimeState, source_actor: ActorId, target_actor: ActorId) {
+    for remaining_ticks in (1..=3).rev() {
+        let tick_at_ms = state.now_ms + (4 - remaining_ticks) * 1000;
+        state.push_event(
+            tick_at_ms,
+            DOT_TICK_PRIORITY,
+            InternalEvent::DotTick {
+                source_actor,
+                target_actor,
+                source_id: ITEM_MASK.to_string(),
+                label: "面具 DoT".to_string(),
+                dot_kind: DotEffectKind::Mask,
+                remaining_ticks,
+            },
+        );
+        state.log(RuntimeLog::DotScheduled {
+            t_ms: state.now_ms,
+            source_actor,
+            target_actor,
+            label: "面具 DoT".to_string(),
+            tick_at_ms,
+            remaining_ticks_after_schedule: remaining_ticks.saturating_sub(1),
+        });
+    }
+}
+
+fn execute_mask_dot_tick(
+    state: &mut RuntimeState,
+    source_actor: ActorId,
+    target_actor: ActorId,
+    source_id: String,
+    label: String,
+    remaining_ticks: u32,
+) -> Result<(), EngineError> {
+    let target_hp_max = state.actor(target_actor).hp_max;
+    let tick_index = 4u32.saturating_sub(remaining_ticks);
+    let tick_label = format!("{label} {tick_index}");
+    apply_damage_packets_as_event(
+        state,
+        source_actor,
+        target_actor,
+        tick_label.clone(),
+        vec![DamagePacket {
+            source_kind: DamageSourceKind::Item,
+            source_id,
+            label: tick_label,
+            damage_type: DamageType::Magic,
+            raw_damage: formula_value(state, target_hp_max * 0.02, MASK_DOT_BYPASS_DAMAGE),
+            flags: DamageFlags {
+                can_trigger_on_hit: false,
+                can_life_steal: false,
+                can_apply_black_cleaver: false,
+                counts_as_attack: false,
+                is_active_skill_magic_damage: false,
+            },
+        }],
+    )?;
+    Ok(())
 }
