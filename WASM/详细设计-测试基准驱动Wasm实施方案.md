@@ -634,7 +634,7 @@ damageType = magic
 - `t=0` 可释放一次
 - 之后每隔 8 秒可再次释放
 - 护盾值：
-  - `100 + target.hpMax * 0.08`
+  - `50 + target.hpMax * 0.01`
 - 若已有护盾：
   - 不累加
   - 取 `max(currentShield, newShield)`
