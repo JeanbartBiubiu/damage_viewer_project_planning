@@ -7,7 +7,8 @@ import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import { MvpEngineClient } from '../engine/client';
 import type { EngineDamageComponent, EngineDamageEvent, EngineRunInput, EngineRunOutput } from '../engine/types';
-import { getBundle, getCurrentVersion, getErrorMessage } from '../services/apiClient';
+import { getErrorMessage } from '../services/apiClient';
+import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
 
 type KatarinaMvpPageProps = {
@@ -196,17 +197,12 @@ export function KatarinaMvpPage({
       setRunError(null);
 
       try {
-        const versionResult = await getCurrentVersion(apiBaseUrl, gameId);
+        const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, gameId);
         if (cancelled) {
           return;
         }
 
-        const bundleResult = await getBundle(apiBaseUrl, gameId, versionResult.data.versionId);
-        if (cancelled) {
-          return;
-        }
-
-        const missingMessage = describeBundleGap(bundleResult.data);
+        const missingMessage = describeBundleGap(snapshot.bundle);
         if (missingMessage) {
           throw new Error(missingMessage);
         }
@@ -214,11 +210,11 @@ export function KatarinaMvpPage({
         const client = new MvpEngineClient();
         await client.init(
           {
-            gameId: bundleResult.data.meta.gameId,
-            versionId: bundleResult.data.meta.versionId,
-            dataHash: bundleResult.data.meta.dataHash
+            gameId: snapshot.bundle.meta.gameId,
+            versionId: snapshot.bundle.meta.versionId,
+            dataHash: snapshot.bundle.meta.dataHash
           },
-          bundleResult.data
+          snapshot.bundle
         );
 
         if (cancelled) {
@@ -228,9 +224,9 @@ export function KatarinaMvpPage({
 
         engineRef.current?.dispose();
         engineRef.current = client;
-        setCurrentVersion(versionResult.data);
-        setBundle(bundleResult.data);
-        setBundleEtag(bundleResult.etag);
+        setCurrentVersion(snapshot.currentVersion);
+        setBundle(snapshot.bundle);
+        setBundleEtag(snapshot.bundleEtag);
         setBundleState('success');
         setEngineState('success');
       } catch (error) {

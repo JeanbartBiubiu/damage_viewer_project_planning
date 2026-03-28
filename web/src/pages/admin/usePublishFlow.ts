@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { createVersion, getBundle, getCurrentVersion, getErrorMessage, publishVersion } from '../../services/apiClient';
+import { createVersion, getErrorMessage, publishVersion } from '../../services/apiClient';
+import { loadPublishedBundleSnapshot } from '../../services/bundleSnapshot';
 import type { CurrentVersion, GameDataBundle, LoadState, VersionCreateResponse, VersionPublishResponse } from '../../types/api';
 
 type UsePublishFlowArgs = {
@@ -88,12 +89,11 @@ export function usePublishFlow({
 
     try {
       const publishResult = await publishVersion(apiBaseUrl, selectedGameId, versionId, token);
-      const currentVersionResult = await getCurrentVersion(apiBaseUrl, selectedGameId);
-      const bundleResult = await getBundle(apiBaseUrl, selectedGameId, currentVersionResult.data.versionId);
+      const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, selectedGameId);
 
       setPublishedVersion(publishResult.data);
-      setPublishedCurrentVersion(currentVersionResult.data);
-      setPublishedBundleMeta(bundleResult.data.meta);
+      setPublishedCurrentVersion(snapshot.currentVersion);
+      setPublishedBundleMeta(snapshot.bundle.meta);
       setVersionState('success');
       setVersionSuccess(`版本 ${publishResult.data.versionCode} 已发布，current version 与 bundle 已刷新。`);
       onDataPublished?.();

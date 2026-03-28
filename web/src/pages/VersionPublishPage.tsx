@@ -3,7 +3,8 @@ import { Alert, Button, Card, Form, Grid, Input, Space, Typography } from '@arco
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
-import { getBundle, getCurrentVersion, getErrorMessage } from '../services/apiClient';
+import { getErrorMessage } from '../services/apiClient';
+import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
 import type { BundleMeta, CurrentVersion, LoadState } from '../types/api';
 import { AdminPublishRail } from './admin/AdminPublishRail';
 import { usePublishFlow } from './admin/usePublishFlow';
@@ -87,19 +88,13 @@ export function VersionPublishPage({
       setInspectError(null);
 
       try {
-        const currentResult = await getCurrentVersion(apiBaseUrl, gameId);
+        const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, gameId);
         if (cancelled) {
           return;
         }
 
-        setCurrentVersion(currentResult.data);
-
-        const bundleResult = await getBundle(apiBaseUrl, gameId, currentResult.data.versionId);
-        if (cancelled) {
-          return;
-        }
-
-        setBundleMeta(bundleResult.data.meta);
+        setCurrentVersion(snapshot.currentVersion);
+        setBundleMeta(snapshot.bundle.meta);
         setInspectState('success');
       } catch (error) {
         if (cancelled) {

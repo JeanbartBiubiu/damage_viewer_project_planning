@@ -1,7 +1,19 @@
+﻿use crate::benchmark_fixture::{
+    SKILL_BLACK_CLEAVER_PROBE, SKILL_FINAL_KILL, SKILL_GENERATE_SHIELD, SKILL_STUN,
+};
+use crate::catalog::{compile_benchmark_catalog, CompiledCatalog};
 use crate::model::{
-    AttributeDefinition, CombatantInit, CombatantOverride, DamageSourceKind, DamageType, EngineActionPlan,
-    EngineConfig, EngineDamageComponent, EngineDamageEvent, EngineError, EngineInitPayload, EngineRunInput,
-    EngineRunOutput, EngineRunResult, EngineSamplePoint, ErrorCode, GameDataBundle, Hero, Item, Skill, StopReason,
+    AttributeDefinition, CombatantInit, CombatantOverride, CombatantOverrides, DamageSourceKind, DamageType,
+    EngineActionPlan, EngineConfig, EngineDamageComponent, EngineDamageEvent, EngineError, EngineInitPayload,
+    EngineRunInput, EngineRunOutput, EngineRunResult, EngineSamplePoint, ErrorCode, GameDataBundle, Hero, Item,
+    Skill, StopReason,
+};
+use crate::runtime::RuntimeState;
+use crate::sim::{
+    run_black_cleaver_stack_then_expire, run_first_arcane_shift as run_sim_first_arcane_shift,
+    run_first_basic_attack, run_first_basic_attack_with_enemy_shield,
+    run_first_mystic_shot as run_sim_first_mystic_shot, run_minimal_benchmark_battle,
+    run_stun_blocks_first_basic_attack,
 };
 use std::collections::{HashMap, HashSet};
 
@@ -11,6 +23,7 @@ const BORK_CURRENT_HP_RATIO: f64 = 0.12;
 const NASHOR_ON_HIT_BASE: f64 = 15.0;
 const NASHOR_AP_RATIO: f64 = 0.15;
 const BASIC_ATTACK_LABEL: &str = "\u{5E73}A";
+const BENCHMARK_FINAL_KILL_CAST_COUNT: u32 = 3;
 const BORK_PASSIVE_LABEL: &str =
     "\u{7834}\u{8D25}\u{738B}\u{8005}\u{4E4B}\u{5203}\u{88AB}\u{52A8}\u{FF08}\u{5F53}\u{524D}\u{751F}\u{547D}\u{503C}\u{FF09}";
 const NASHOR_PASSIVE_LABEL: &str = "\u{7EB3}\u{4EC0}\u{4E4B}\u{7259}\u{88AB}\u{52A8}";
@@ -19,6 +32,14 @@ const NASHOR_PASSIVE_LABEL: &str = "\u{7EB3}\u{4EC0}\u{4E4B}\u{7259}\u{88AB}\u{5
 pub struct EngineSession {
     catalog: Catalog,
     hp_attr_key: String,
+    benchmark_catalog: Option<CompiledCatalog>,
+}
+
+impl EngineSession {
+    #[cfg(test)]
+    pub(crate) fn has_benchmark_catalog(&self) -> bool {
+        self.benchmark_catalog.is_some()
+    }
 }
 
 #[derive(Clone)]
@@ -47,22 +68,41 @@ struct PendingDamageComponent {
 }
 
 pub fn init_session(payload: EngineInitPayload) -> Result<EngineSession, EngineError> {
-    let hp_attr_key = payload
-        .engine_config
-        .as_ref()
-        .and_then(|config: &EngineConfig| config.hp_attr_key.clone())
-        .unwrap_or_else(|| "hp".to_string());
+    let EngineInitPayload {
+        meta: _,
+        bundle,
+        engine_config,
+    } = payload;
+    let resolved_engine_config = engine_config.unwrap_or(EngineConfig {
+        hp_attr_key: None,
+        test_profile: None,
+    });
+    let hp_attr_key = resolved_engine_config.resolved_hp_attr_key().to_string();
 
-    let catalog = build_catalog(payload.bundle)?;
+    let catalog = build_catalog(bundle)?;
 
     if !catalog.attribute_keys.contains(&hp_attr_key) {
         return Err(semantic_error(format!("Unknown hp attr key: {hp_attr_key}")));
     }
 
-    Ok(EngineSession { catalog, hp_attr_key })
+    let benchmark_catalog = if resolved_engine_config.test_profile.is_some() {
+        Some(compile_benchmark_catalog(&resolved_engine_config)?)
+    } else {
+        None
+    };
+
+    Ok(EngineSession {
+        catalog,
+        hp_attr_key,
+        benchmark_catalog,
+    })
 }
 
 pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOutput, EngineError> {
+    if let Some(benchmark_catalog) = &session.benchmark_catalog {
+        return run_benchmark_skeleton(benchmark_catalog, input);
+    }
+
     validate_input(&session.catalog, &input)?;
 
     let self_override = input.overrides.as_ref().and_then(|overrides| overrides.self_actor.as_ref());
@@ -283,6 +323,126 @@ pub fn run(session: &EngineSession, input: EngineRunInput) -> Result<EngineRunOu
         events,
     })
 }
+
+fn run_benchmark_skeleton(
+    benchmark_catalog: &CompiledCatalog,
+    input: EngineRunInput,
+) -> Result<EngineRunOutput, EngineError> {
+    let runtime = run_benchmark_runtime(benchmark_catalog, input)?;
+
+    Ok(EngineRunOutput {
+        result: runtime.build_result(),
+        samples: runtime.samples,
+        events: runtime.damage_events,
+    })
+}
+
+fn run_benchmark_runtime(
+    benchmark_catalog: &CompiledCatalog,
+    input: EngineRunInput,
+) -> Result<RuntimeState, EngineError> {
+    if input.stop.max_seconds <= 0.0 {
+        return Err(invalid_input("stop.maxSeconds must be greater than 0"));
+    }
+
+    match &input.plan {
+        EngineActionPlan::BasicAttack { count, .. } if *count > 0 => {}
+        EngineActionPlan::BasicAttack { .. } => {
+            return Err(invalid_input("basic_attack.count must be greater than 0"));
+        }
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_mystic_shot" => {}
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_arcane_shift" => {}
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_GENERATE_SHIELD => {}
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_STUN => {}
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_BLACK_CLEAVER_PROBE => {}
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_FINAL_KILL => {}
+        _ => {
+            return Err(semantic_error(
+                "benchmark skeleton currently only supports basic_attack, skill_mystic_shot, skill_arcane_shift, skill_generate_shield, skill_stun, skill_benchmark_black_cleaver_probe and skill_benchmark_final_kill",
+            ));
+        }
+    };
+
+    let max_duration_ms = (input.stop.max_seconds.max(0.001) * 1000.0).round() as u32;
+    let overrides = input.overrides.clone();
+    let mut simulation_config = benchmark_catalog.to_simulation_config(max_duration_ms, 1024);
+    apply_benchmark_overrides(&mut simulation_config, overrides.as_ref());
+    let runtime = match input.plan {
+        EngineActionPlan::BasicAttack { .. } => run_first_basic_attack(simulation_config)?,
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_mystic_shot" => {
+            run_sim_first_mystic_shot(simulation_config)?
+        }
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_arcane_shift" => {
+            run_sim_first_arcane_shift(simulation_config)?
+        }
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_GENERATE_SHIELD => {
+            run_first_basic_attack_with_enemy_shield(simulation_config)?
+        }
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_STUN => {
+            run_stun_blocks_first_basic_attack(simulation_config)?
+        }
+        EngineActionPlan::CastSkill {
+            skill_id,
+            cast_count: Some(BENCHMARK_FINAL_KILL_CAST_COUNT),
+            ..
+        } if skill_id == SKILL_FINAL_KILL => run_benchmark_final_kill(simulation_config)?,
+        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_BLACK_CLEAVER_PROBE => {
+            run_black_cleaver_stack_then_expire(simulation_config)?
+        }
+        _ => unreachable!(),
+    };
+
+    Ok(runtime)
+}
+
+fn run_benchmark_final_kill(mut config: crate::runtime::SimulationConfig) -> Result<RuntimeState, EngineError> {
+    config
+        .enemy_actor
+        .attrs
+        .insert(crate::runtime::ATTR_HP.to_string(), 180.0);
+    run_minimal_benchmark_battle(config)
+}
+
+fn apply_benchmark_overrides(
+    simulation_config: &mut crate::runtime::SimulationConfig,
+    overrides: Option<&CombatantOverrides>,
+) {
+    let Some(overrides) = overrides else {
+        return;
+    };
+    apply_benchmark_actor_override(&mut simulation_config.self_actor, overrides.self_actor.as_ref());
+    apply_benchmark_actor_override(&mut simulation_config.enemy_actor, overrides.enemy.as_ref());
+}
+
+fn apply_benchmark_actor_override(
+    actor: &mut crate::runtime::ActorTemplate,
+    override_input: Option<&CombatantOverride>,
+) {
+    let Some(override_input) = override_input else {
+        return;
+    };
+
+    merge_stats(&mut actor.attrs, &override_input.base_stats);
+
+    let remove_item_ids: HashSet<&str> = override_input.remove_item_ids.iter().map(String::as_str).collect();
+    actor
+        .owned_items
+        .retain(|item_id| !remove_item_ids.contains(item_id.as_str()));
+    actor.owned_items.extend(override_input.add_item_ids.clone());
+}
+
+#[cfg(test)]
+pub(crate) fn run_benchmark_runtime_for_test(
+    session: &EngineSession,
+    input: EngineRunInput,
+) -> Result<RuntimeState, EngineError> {
+    let benchmark_catalog = session
+        .benchmark_catalog
+        .as_ref()
+        .ok_or_else(|| semantic_error("benchmark catalog not initialized"))?;
+    run_benchmark_runtime(benchmark_catalog, input)
+}
+
 
 #[allow(clippy::too_many_arguments)]
 fn apply_enemy_damage_event<F>(

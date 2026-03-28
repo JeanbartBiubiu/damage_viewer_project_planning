@@ -1,5 +1,12 @@
+mod benchmark_fixture;
+mod catalog;
 mod engine;
+mod effects;
 mod model;
+mod runtime;
+mod sim;
+#[cfg(test)]
+mod benchmark_tests;
 
 use crate::engine::{init_session, run, EngineSession};
 use crate::model::{EngineError, EngineInitPayload, EngineRunInput, HostErrorResponse, HostSuccess};
