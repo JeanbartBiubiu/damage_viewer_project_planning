@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -23,6 +25,34 @@ pub struct EngineMeta {
 pub struct EngineConfig {
     #[serde(default)]
     pub hp_attr_key: Option<String>,
+    #[serde(default)]
+    pub test_profile: Option<TestProfile>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TestProfile {
+    Full,
+    FormulaBypass,
+    BucketIdentity,
+    NoControl,
+    NoShield,
+}
+
+impl Default for TestProfile {
+    fn default() -> Self {
+        Self::Full
+    }
+}
+
+impl EngineConfig {
+    pub fn resolved_hp_attr_key(&self) -> &str {
+        self.hp_attr_key.as_deref().unwrap_or("hp")
+    }
+
+    pub fn resolved_test_profile(&self) -> TestProfile {
+        self.test_profile.unwrap_or_default()
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
