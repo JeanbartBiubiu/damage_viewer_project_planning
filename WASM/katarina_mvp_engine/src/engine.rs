@@ -1,7 +1,4 @@
-﻿use crate::benchmark_fixture::{
-    SKILL_BLACK_CLEAVER_PROBE, SKILL_FINAL_KILL, SKILL_GENERATE_SHIELD, SKILL_STUN,
-};
-use crate::catalog::{compile_benchmark_catalog, CompiledCatalog};
+﻿use crate::catalog::{compile_benchmark_catalog, CompiledCatalog};
 use crate::model::{
     AttributeDefinition, CombatantInit, CombatantOverride, CombatantOverrides, DamageSourceKind, DamageType,
     EngineActionPlan, EngineConfig, EngineDamageComponent, EngineDamageEvent, EngineError, EngineInitPayload,
@@ -9,12 +6,12 @@ use crate::model::{
     Skill, StopReason,
 };
 use crate::runtime::RuntimeState;
+use crate::runtime::{ActionBehavior, ActorId};
 use crate::sim::{
-    run_black_cleaver_stack_then_expire, run_first_arcane_shift as run_sim_first_arcane_shift,
-    run_first_basic_attack, run_first_basic_attack_with_enemy_shield,
-    run_first_mystic_shot as run_sim_first_mystic_shot, run_minimal_benchmark_battle,
-    run_stun_blocks_first_basic_attack,
+    run_benchmark_action_sequence, run_minimal_benchmark_battle, BenchmarkSequenceFinish,
+    BenchmarkSequenceStep,
 };
+use crate::sim::run_single_benchmark_action;
 use std::collections::{HashMap, HashSet};
 
 const BORK_ITEM_ID: &str = "item_blade_of_the_ruined_king";
@@ -78,18 +75,16 @@ pub fn init_session(payload: EngineInitPayload) -> Result<EngineSession, EngineE
         test_profile: None,
     });
     let hp_attr_key = resolved_engine_config.resolved_hp_attr_key().to_string();
-
+    let benchmark_catalog = if resolved_engine_config.test_profile.is_some() {
+        Some(compile_benchmark_catalog(&bundle, &resolved_engine_config)?)
+    } else {
+        None
+    };
     let catalog = build_catalog(bundle)?;
 
     if !catalog.attribute_keys.contains(&hp_attr_key) {
         return Err(semantic_error(format!("Unknown hp attr key: {hp_attr_key}")));
     }
-
-    let benchmark_catalog = if resolved_engine_config.test_profile.is_some() {
-        Some(compile_benchmark_catalog(&resolved_engine_config)?)
-    } else {
-        None
-    };
 
     Ok(EngineSession {
         catalog,
@@ -337,6 +332,165 @@ fn run_benchmark_skeleton(
     })
 }
 
+enum BenchmarkRoute {
+    BasicAttack {
+        action_id: String,
+    },
+    SelfAction {
+        action_id: String,
+        continue_until_stop: bool,
+    },
+    ActionSequence {
+        steps: Vec<BenchmarkSequenceStep>,
+        finish: BenchmarkSequenceFinish,
+    },
+    FinalKill {
+        skill_id: String,
+    },
+}
+
+fn find_benchmark_action<'a>(
+    benchmark_catalog: &'a CompiledCatalog,
+    actor_id: ActorId,
+    action_id: &str,
+) -> Option<&'a crate::runtime::ActionRuntime> {
+    match actor_id {
+        ActorId::SelfActor => benchmark_catalog.self_actor.actions.get(action_id),
+        ActorId::Enemy => benchmark_catalog.enemy_actor.actions.get(action_id),
+    }
+}
+
+fn find_first_action_by_behavior(
+    benchmark_catalog: &CompiledCatalog,
+    actor_id: ActorId,
+    behavior: ActionBehavior,
+) -> Option<String> {
+    let actor = match actor_id {
+        ActorId::SelfActor => &benchmark_catalog.self_actor,
+        ActorId::Enemy => &benchmark_catalog.enemy_actor,
+    };
+    actor
+        .priorities
+        .iter()
+        .find(|action_id| actor.actions.get(*action_id).is_some_and(|action| action.behavior == behavior))
+        .cloned()
+        .or_else(|| {
+            actor.actions
+                .values()
+                .find(|action| action.behavior == behavior)
+                .map(|action| action.action_id.clone())
+        })
+}
+
+fn resolve_benchmark_route(
+    benchmark_catalog: &CompiledCatalog,
+    plan: &EngineActionPlan,
+) -> Result<BenchmarkRoute, EngineError> {
+    match plan {
+        EngineActionPlan::BasicAttack { count, skill_id } => {
+            if *count == 0 {
+                return Err(invalid_input("basic_attack.count must be greater than 0"));
+            }
+            let action_id = match skill_id {
+                Some(action_id) => {
+                    let action = find_benchmark_action(benchmark_catalog, ActorId::SelfActor, action_id)
+                        .ok_or_else(|| semantic_error(format!("benchmark self action not found: {action_id}")))?;
+                    if action.behavior != ActionBehavior::BasicAttack {
+                        return Err(semantic_error(format!(
+                            "benchmark action '{}' is not a basic attack action",
+                            action_id
+                        )));
+                    }
+                    action_id.clone()
+                }
+                None => find_first_action_by_behavior(benchmark_catalog, ActorId::SelfActor, ActionBehavior::BasicAttack)
+                    .ok_or_else(|| semantic_error("benchmark self actor has no basic attack action"))?,
+            };
+            Ok(BenchmarkRoute::BasicAttack { action_id })
+        }
+        EngineActionPlan::CastSkill {
+            skill_id,
+            cast_count,
+            ..
+        } => {
+            if let Some(action) = find_benchmark_action(benchmark_catalog, ActorId::SelfActor, skill_id) {
+                let continue_until_stop =
+                    action.behavior == ActionBehavior::ArcaneShift || action.behavior == ActionBehavior::BasicAttack;
+                return Ok(BenchmarkRoute::SelfAction {
+                    action_id: action.action_id.clone(),
+                    continue_until_stop,
+                });
+            }
+            if let Some(action) = find_benchmark_action(benchmark_catalog, ActorId::Enemy, skill_id) {
+                return match action.behavior {
+                    ActionBehavior::GenerateShield => {
+                        let self_basic_attack_action = find_first_action_by_behavior(
+                            benchmark_catalog,
+                            ActorId::SelfActor,
+                            ActionBehavior::BasicAttack,
+                        )
+                        .ok_or_else(|| semantic_error("benchmark self actor has no basic attack action"))?;
+                        Ok(BenchmarkRoute::ActionSequence {
+                            steps: vec![
+                                BenchmarkSequenceStep::ExecuteAction {
+                                    actor_id: ActorId::Enemy,
+                                    action_id: action.action_id.clone(),
+                                    advance_after_ms: 0,
+                                },
+                                BenchmarkSequenceStep::ExecuteAction {
+                                    actor_id: ActorId::SelfActor,
+                                    action_id: self_basic_attack_action,
+                                    advance_after_ms: 1,
+                                },
+                                BenchmarkSequenceStep::ExecuteAction {
+                                    actor_id: ActorId::Enemy,
+                                    action_id: action.action_id.clone(),
+                                    advance_after_ms: 0,
+                                },
+                            ],
+                            finish: BenchmarkSequenceFinish::Complete,
+                        })
+                    }
+                    ActionBehavior::Stun => Ok(BenchmarkRoute::ActionSequence {
+                        steps: vec![
+                            BenchmarkSequenceStep::ExecuteAction {
+                                actor_id: ActorId::Enemy,
+                                action_id: action.action_id.clone(),
+                                advance_after_ms: 0,
+                            },
+                            BenchmarkSequenceStep::QueueActorDecide {
+                                actor_id: ActorId::SelfActor,
+                                delay_ms: 0,
+                            },
+                        ],
+                        finish: BenchmarkSequenceFinish::UntilFirstDamageOrStop,
+                    }),
+                    _ => Err(semantic_error(format!(
+                        "benchmark enemy action '{}' is not mapped to a benchmark scenario",
+                        skill_id
+                    ))),
+                };
+            }
+            if cast_count == &Some(BENCHMARK_FINAL_KILL_CAST_COUNT) {
+                if benchmark_catalog
+                    .benchmark
+                    .skill_defs
+                    .get(skill_id)
+                    .is_some_and(|skill| skill.final_kill_enemy_hp_override.is_some())
+                {
+                    return Ok(BenchmarkRoute::FinalKill {
+                        skill_id: skill_id.clone(),
+                    });
+                }
+            }
+            Err(semantic_error(format!(
+                "benchmark skeleton does not support action plan for skill '{}'",
+                skill_id
+            )))
+        }
+    }
+}
+
 fn run_benchmark_runtime(
     benchmark_catalog: &CompiledCatalog,
     input: EngineRunInput,
@@ -344,62 +498,49 @@ fn run_benchmark_runtime(
     if input.stop.max_seconds <= 0.0 {
         return Err(invalid_input("stop.maxSeconds must be greater than 0"));
     }
-
-    match &input.plan {
-        EngineActionPlan::BasicAttack { count, .. } if *count > 0 => {}
-        EngineActionPlan::BasicAttack { .. } => {
-            return Err(invalid_input("basic_attack.count must be greater than 0"));
-        }
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_mystic_shot" => {}
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_arcane_shift" => {}
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_GENERATE_SHIELD => {}
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_STUN => {}
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_BLACK_CLEAVER_PROBE => {}
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_FINAL_KILL => {}
-        _ => {
-            return Err(semantic_error(
-                "benchmark skeleton currently only supports basic_attack, skill_mystic_shot, skill_arcane_shift, skill_generate_shield, skill_stun, skill_benchmark_black_cleaver_probe and skill_benchmark_final_kill",
-            ));
-        }
-    };
+    let route = resolve_benchmark_route(benchmark_catalog, &input.plan)?;
 
     let max_duration_ms = (input.stop.max_seconds.max(0.001) * 1000.0).round() as u32;
     let overrides = input.overrides.clone();
     let mut simulation_config = benchmark_catalog.to_simulation_config(max_duration_ms, 1024);
     apply_benchmark_overrides(&mut simulation_config, overrides.as_ref());
-    let runtime = match input.plan {
-        EngineActionPlan::BasicAttack { .. } => run_first_basic_attack(simulation_config)?,
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_mystic_shot" => {
-            run_sim_first_mystic_shot(simulation_config)?
+    let runtime = match route {
+        BenchmarkRoute::BasicAttack { action_id } => {
+            run_single_benchmark_action(simulation_config, ActorId::SelfActor, &action_id, false)?
         }
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == "skill_arcane_shift" => {
-            run_sim_first_arcane_shift(simulation_config)?
+        BenchmarkRoute::SelfAction {
+            action_id,
+            continue_until_stop,
+        } => run_single_benchmark_action(
+            simulation_config,
+            ActorId::SelfActor,
+            &action_id,
+            continue_until_stop,
+        )?,
+        BenchmarkRoute::ActionSequence { steps, finish } => {
+            run_benchmark_action_sequence(simulation_config, &steps, finish)?
         }
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_GENERATE_SHIELD => {
-            run_first_basic_attack_with_enemy_shield(simulation_config)?
-        }
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_STUN => {
-            run_stun_blocks_first_basic_attack(simulation_config)?
-        }
-        EngineActionPlan::CastSkill {
-            skill_id,
-            cast_count: Some(BENCHMARK_FINAL_KILL_CAST_COUNT),
-            ..
-        } if skill_id == SKILL_FINAL_KILL => run_benchmark_final_kill(simulation_config)?,
-        EngineActionPlan::CastSkill { skill_id, .. } if skill_id == SKILL_BLACK_CLEAVER_PROBE => {
-            run_black_cleaver_stack_then_expire(simulation_config)?
-        }
-        _ => unreachable!(),
+        BenchmarkRoute::FinalKill { skill_id } => run_benchmark_final_kill(simulation_config, &skill_id)?,
     };
 
     Ok(runtime)
 }
 
-fn run_benchmark_final_kill(mut config: crate::runtime::SimulationConfig) -> Result<RuntimeState, EngineError> {
-    config
-        .enemy_actor
-        .attrs
-        .insert(crate::runtime::ATTR_HP.to_string(), 180.0);
+fn run_benchmark_final_kill(
+    mut config: crate::runtime::SimulationConfig,
+    skill_id: &str,
+) -> Result<RuntimeState, EngineError> {
+    if let Some(enemy_hp_override) = config
+        .benchmark
+        .skill_defs
+        .get(skill_id)
+        .and_then(|skill| skill.final_kill_enemy_hp_override)
+    {
+        config
+            .enemy_actor
+            .attrs
+            .insert(crate::runtime::ATTR_HP.to_string(), enemy_hp_override);
+    }
     run_minimal_benchmark_battle(config)
 }
 
@@ -838,6 +979,7 @@ mod tests {
                     },
                 },
             ],
+            benchmark: None,
         }
     }
 

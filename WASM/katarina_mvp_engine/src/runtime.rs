@@ -4,6 +4,7 @@ use crate::model::{
     DamageSourceKind, DamageType, EngineDamageComponent, EngineDamageEvent, EngineRunResult, EngineSamplePoint,
     StopReason, TestProfile,
 };
+use crate::formula::{CompiledFormulaCatalog, FormulaRuntimeView};
 use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap};
 
@@ -81,6 +82,86 @@ pub struct ActionRuntime {
 }
 
 #[derive(Debug, Clone)]
+pub struct BenchmarkDotRuntime {
+    pub source_id: String,
+    pub label: String,
+    pub formula_id: String,
+    pub ticks: u32,
+    pub interval_ms: u32,
+    pub damage_type: DamageType,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct BenchmarkSkillMechanics {
+    pub damage_formula_id: Option<String>,
+    pub on_hit_cooldown_reduction_ms: Option<u32>,
+    pub stun_duration_ms: Option<u32>,
+    pub dot: Option<BenchmarkDotRuntime>,
+}
+
+#[derive(Debug, Clone)]
+pub struct BenchmarkSkillRuntimeDef {
+    pub skill_id: String,
+    pub label: String,
+    pub type_ids: Vec<String>,
+    pub damage_type: Option<DamageType>,
+    pub flags: DamageFlags,
+    pub attach_on_hit_item_ids: Vec<String>,
+    pub mechanics: BenchmarkSkillMechanics,
+    pub final_kill_enemy_hp_override: Option<f64>,
+}
+
+#[derive(Debug, Clone)]
+pub struct BenchmarkBlackCleaverRuntime {
+    pub expire_after_ms: u32,
+    pub armor_reduce_per_stack_ratio: f64,
+    pub max_stacks: u32,
+}
+
+#[derive(Debug, Clone)]
+pub struct BenchmarkItemRuntimeDef {
+    pub item_id: String,
+    pub label: String,
+    pub on_hit_damage_formula_id: Option<String>,
+    pub on_hit_damage_type: Option<DamageType>,
+    pub on_hit_flags: DamageFlags,
+    pub dot: Option<BenchmarkDotRuntime>,
+    pub thornmail_retaliate_formula_id: Option<String>,
+    pub thornmail_retaliate_damage_type: Option<DamageType>,
+    pub black_cleaver: Option<BenchmarkBlackCleaverRuntime>,
+}
+
+#[derive(Debug, Clone)]
+pub struct BenchmarkCountToThreeRuntime {
+    pub source_skill_id: String,
+    pub label: String,
+    pub proc_every_hits: u32,
+    pub true_damage_formula_id: String,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct BenchmarkSchedulerRuntime {
+    pub decide_priority: i32,
+    pub dot_tick_priority: i32,
+    pub stun_expire_priority: i32,
+    pub black_cleaver_expire_priority: i32,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct BenchmarkRulesRuntime {
+    pub scheduler: BenchmarkSchedulerRuntime,
+    pub count_to_three: Option<BenchmarkCountToThreeRuntime>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct BenchmarkRuntimeCatalog {
+    pub skill_defs: HashMap<String, BenchmarkSkillRuntimeDef>,
+    pub item_defs: HashMap<String, BenchmarkItemRuntimeDef>,
+    pub formulas: CompiledFormulaCatalog,
+    pub rules: BenchmarkRulesRuntime,
+}
+
+#[derive(Debug, Clone)]
 pub struct ActorTemplate {
     pub actor_id: ActorId,
     pub label: String,
@@ -97,6 +178,7 @@ pub struct SimulationConfig {
     pub max_events: usize,
     pub self_actor: ActorTemplate,
     pub enemy_actor: ActorTemplate,
+    pub benchmark: BenchmarkRuntimeCatalog,
 }
 
 #[derive(Debug, Clone)]
@@ -413,6 +495,7 @@ pub struct RuntimeState {
     pub next_rate_tick_ms: u32,
     pub self_actor: ActorRuntime,
     pub enemy_actor: ActorRuntime,
+    pub benchmark: BenchmarkRuntimeCatalog,
     pub logs: Vec<RuntimeLog>,
     pub samples: Vec<EngineSamplePoint>,
     pub damage_events: Vec<EngineDamageEvent>,
@@ -437,6 +520,7 @@ impl RuntimeState {
             next_rate_tick_ms: 1000,
             self_actor: ActorRuntime::from_template(config.self_actor),
             enemy_actor: ActorRuntime::from_template(config.enemy_actor),
+            benchmark: config.benchmark,
             logs: Vec::new(),
             samples: Vec::new(),
             damage_events: Vec::new(),
@@ -461,6 +545,40 @@ impl RuntimeState {
             ActorId::SelfActor => &mut self.self_actor,
             ActorId::Enemy => &mut self.enemy_actor,
         }
+    }
+
+    pub fn skill_def(&self, skill_id: &str) -> Option<&BenchmarkSkillRuntimeDef> {
+        self.benchmark.skill_defs.get(skill_id)
+    }
+
+    pub fn item_def(&self, item_id: &str) -> Option<&BenchmarkItemRuntimeDef> {
+        self.benchmark.item_defs.get(item_id)
+    }
+
+    pub fn count_to_three(&self) -> Option<&BenchmarkCountToThreeRuntime> {
+        self.benchmark.rules.count_to_three.as_ref()
+    }
+
+    pub fn scheduler(&self) -> &BenchmarkSchedulerRuntime {
+        &self.benchmark.rules.scheduler
+    }
+
+    pub fn eval_formula(
+        &self,
+        formula_id: &str,
+        source_actor: ActorId,
+        target_actor: ActorId,
+    ) -> Result<f64, crate::model::EngineError> {
+        let view = RuntimeFormulaView {
+            state: self,
+            source_actor,
+            target_actor,
+        };
+        self.benchmark.formulas.evaluate(
+            formula_id,
+            &view,
+            matches!(self.profile, TestProfile::FormulaBypass),
+        )
     }
 
     pub fn push_event(&mut self, t_ms: u32, priority: i32, event: InternalEvent) {
@@ -666,7 +784,14 @@ pub fn reduce_skill_cooldowns(state: &mut RuntimeState, actor_id: ActorId, reduc
     }
 }
 
-pub fn apply_black_cleaver_stack(state: &mut RuntimeState, actor_id: ActorId, added_stacks: u32, expire_after_ms: u32) {
+pub fn apply_black_cleaver_stack(
+    state: &mut RuntimeState,
+    actor_id: ActorId,
+    added_stacks: u32,
+    expire_after_ms: u32,
+    armor_reduce_per_stack_ratio: f64,
+    max_stacks: u32,
+) {
     let now_ms = state.now_ms;
     let (stacks, armor_after, expire_at_ms) = {
         let actor = state.actor_mut(actor_id);
@@ -676,14 +801,15 @@ pub fn apply_black_cleaver_stack(state: &mut RuntimeState, actor_id: ActorId, ad
             .map(|black_cleaver| black_cleaver.armor_max)
             .unwrap_or_else(|| actor.base_attr(ATTR_ARMOR));
         let current_stacks = actor.black_cleaver.as_ref().map(|black_cleaver| black_cleaver.stacks).unwrap_or(0);
-        let stacks = current_stacks.saturating_add(added_stacks).min(6);
+        let stacks = current_stacks.saturating_add(added_stacks).min(max_stacks.max(1));
         let expire_at_ms = now_ms.saturating_add(expire_after_ms);
         actor.black_cleaver = Some(BlackCleaverState {
             stacks,
             expire_at_ms,
             armor_max,
         });
-        let armor_after = (actor.base_attr(ATTR_ARMOR) - armor_max * 0.05 * stacks as f64).max(0.0);
+        let armor_after =
+            (actor.base_attr(ATTR_ARMOR) - armor_max * armor_reduce_per_stack_ratio * stacks as f64).max(0.0);
         actor.set_attr(ATTR_ARMOR, armor_after);
         (stacks, armor_after, expire_at_ms)
     };
@@ -709,4 +835,46 @@ pub fn mitigation_multiplier(profile: TestProfile, resistance: f64) -> f64 {
 
 pub fn round_number(value: f64) -> f64 {
     (value * 1000.0).round() / 1000.0
+}
+
+struct RuntimeFormulaView<'a> {
+    state: &'a RuntimeState,
+    source_actor: ActorId,
+    target_actor: ActorId,
+}
+
+impl FormulaRuntimeView for RuntimeFormulaView<'_> {
+    type ActorRef = ActorId;
+
+    fn source_actor(&self) -> Self::ActorRef {
+        self.source_actor
+    }
+
+    fn target_actor(&self) -> Self::ActorRef {
+        self.target_actor
+    }
+
+    fn self_actor(&self) -> Self::ActorRef {
+        ActorId::SelfActor
+    }
+
+    fn enemy_actor(&self) -> Self::ActorRef {
+        ActorId::Enemy
+    }
+
+    fn actor_attr(&self, actor: Self::ActorRef, attr_key: &str) -> f64 {
+        self.state.actor(actor).attr(attr_key)
+    }
+
+    fn actor_hp_current(&self, actor: Self::ActorRef) -> f64 {
+        self.state.actor(actor).hp_current
+    }
+
+    fn actor_hp_max(&self, actor: Self::ActorRef) -> f64 {
+        self.state.actor(actor).hp_max
+    }
+
+    fn actor_mana_current(&self, actor: Self::ActorRef) -> f64 {
+        self.state.actor(actor).mana_current
+    }
 }
