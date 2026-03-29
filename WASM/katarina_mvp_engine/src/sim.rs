@@ -43,26 +43,6 @@ pub fn run_first_basic_attack(config: SimulationConfig) -> Result<RuntimeState, 
     Ok(state)
 }
 
-#[allow(dead_code)]
-pub fn run_first_mystic_shot(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
-    let mut state = build_runtime(config);
-    let action_id = find_action_id_by_behavior(&state, ActorId::SelfActor, ActionBehavior::MysticShot)?;
-    execute_benchmark_action(&mut state, ActorId::SelfActor, &action_id)?;
-    if state.stop_reason.is_none() {
-        state.stop_reason = Some(StopReason::Completed);
-    }
-    Ok(state)
-}
-
-#[allow(dead_code)]
-pub fn run_first_arcane_shift(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
-    let mut state = build_runtime(config);
-    let action_id = find_action_id_by_behavior(&state, ActorId::SelfActor, ActionBehavior::ArcaneShift)?;
-    execute_benchmark_action(&mut state, ActorId::SelfActor, &action_id)?;
-    run_until_stop(&mut state)?;
-    Ok(state)
-}
-
 pub fn run_benchmark_action_sequence(
     config: SimulationConfig,
     steps: &[BenchmarkSequenceStep],
@@ -307,17 +287,11 @@ fn dispatch_scheduled_event(
 
             let action_id = find_action_id_by_behavior(state, ActorId::SelfActor, ActionBehavior::BasicAttack)?;
             execute_benchmark_action(state, ActorId::SelfActor, &action_id)?;
-            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
-                state.stop_reason = Some(StopReason::Completed);
-            }
         }
         InternalEvent::ActorDecide {
             actor_id: ActorId::Enemy,
         } => {
             execute_enemy_actor_decide(state)?;
-            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
-                state.stop_reason = Some(StopReason::Completed);
-            }
         }
         InternalEvent::DotTick {
             source_actor,
@@ -328,22 +302,17 @@ fn dispatch_scheduled_event(
             remaining_ticks,
         } => {
             execute_mask_dot_tick(state, source_actor, target_actor, source_id, label, remaining_ticks)?;
-            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
-                state.stop_reason = Some(StopReason::Completed);
-            }
         }
         InternalEvent::StunExpire { actor_id, until_ms } => {
             expire_stun(state, actor_id, until_ms);
-            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
-                state.stop_reason = Some(StopReason::Completed);
-            }
         }
         InternalEvent::BlackCleaverExpire { actor_id, expire_at_ms } => {
             expire_black_cleaver(state, actor_id, expire_at_ms);
-            if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
-                state.stop_reason = Some(StopReason::Completed);
-            }
         }
+    }
+
+    if complete_when_queue_empty && state.stop_reason.is_none() && state.queue.is_empty() {
+        state.stop_reason = Some(StopReason::Completed);
     }
 
     Ok(())
@@ -663,15 +632,14 @@ fn execute_benchmark_action(
         .ok_or_else(|| runtime_error(format!("actor '{}' missing action '{}'", actor_id.as_key(), action_id)))?;
 
     match behavior {
-        ActionBehavior::BasicAttack => execute_basic_attack_action(state, actor_id, action_id),
-        ActionBehavior::MysticShot => execute_mystic_shot_action(state, actor_id, action_id),
-        ActionBehavior::ArcaneShift => execute_arcane_shift_action(state, actor_id, action_id),
+        ActionBehavior::BasicAttack | ActionBehavior::MysticShot | ActionBehavior::ArcaneShift
+            => execute_damage_action(state, actor_id, action_id),
         ActionBehavior::GenerateShield => execute_generate_shield_action(state, actor_id, action_id),
         ActionBehavior::Stun => execute_stun_action(state, actor_id, action_id),
     }
 }
 
-fn execute_basic_attack_action(
+fn execute_damage_action(
     state: &mut RuntimeState,
     actor_id: ActorId,
     action_id: &str,
@@ -680,10 +648,31 @@ fn execute_basic_attack_action(
     let target_actor = actor_id.opponent();
     let skill_def = required_skill_def(state, action_id)?;
     let resolved_label = action_label(state, actor_id, action_id, &skill_def.label);
+    let is_basic_attack = state
+        .actor(actor_id)
+        .action(action_id)
+        .map(|a| a.behavior.is_basic_attack())
+        .unwrap_or(false);
+    let source_kind = if is_basic_attack {
+        DamageSourceKind::BasicAttack
+    } else {
+        DamageSourceKind::Skill
+    };
+    let cooldown_tag = if is_basic_attack { "basic_attack" } else { "cast" };
+
     if !try_spend_action_mana(state, actor_id, action_id) {
         state.stop_reason.get_or_insert(StopReason::Completed);
         return Ok(());
     }
+
+    state.log(RuntimeLog::ActionChosen {
+        t_ms,
+        actor_id,
+        action_id: action_id.to_string(),
+        label: resolved_label.clone(),
+    });
+    start_action_cooldown(state, actor_id, action_id, cooldown_tag);
+
     let damage_formula_id = skill_def
         .mechanics
         .damage_formula_id
@@ -691,7 +680,7 @@ fn execute_basic_attack_action(
         .ok_or_else(|| runtime_error(format!("{action_id} missing damage formula")))?;
     let mut packets = Vec::with_capacity(1 + skill_def.attach_on_hit_item_ids.len());
     packets.push(DamagePacket {
-        source_kind: DamageSourceKind::BasicAttack,
+        source_kind,
         source_id: skill_def.skill_id.clone(),
         label: resolved_label.clone(),
         damage_type: skill_def.damage_type.unwrap_or(DamageType::Physical),
@@ -705,120 +694,27 @@ fn execute_basic_attack_action(
         &skill_def.attach_on_hit_item_ids,
     )?);
 
-    state.log(RuntimeLog::ActionChosen {
-        t_ms,
-        actor_id,
-        action_id: action_id.to_string(),
-        label: resolved_label.clone(),
-    });
-    start_action_cooldown(state, actor_id, action_id, "basic_attack");
-    apply_damage_packets_as_event(state, actor_id, target_actor, resolved_label, packets)?;
-    Ok(())
-}
+    let result = apply_damage_packets_as_event(state, actor_id, target_actor, resolved_label, packets)?;
 
-fn execute_mystic_shot_action(
-    state: &mut RuntimeState,
-    actor_id: ActorId,
-    action_id: &str,
-) -> Result<(), EngineError> {
-    let t_ms = state.now_ms;
-    let target_actor = actor_id.opponent();
-    let skill_def = required_skill_def(state, action_id)?;
-    let resolved_label = action_label(state, actor_id, action_id, &skill_def.label);
-
-    if !try_spend_action_mana(state, actor_id, action_id) {
-        state.stop_reason.get_or_insert(StopReason::Completed);
-        return Ok(());
-    }
-    state.log(RuntimeLog::ActionChosen {
-        t_ms,
-        actor_id,
-        action_id: action_id.to_string(),
-        label: resolved_label.clone(),
-    });
-    start_action_cooldown(state, actor_id, action_id, "cast");
-
-    let damage_formula_id = skill_def
-        .mechanics
-        .damage_formula_id
-        .as_deref()
-        .ok_or_else(|| runtime_error(format!("{action_id} missing damage formula")))?;
-    let mut packets = Vec::with_capacity(1 + skill_def.attach_on_hit_item_ids.len());
-    packets.push(DamagePacket {
-        source_kind: DamageSourceKind::Skill,
-        source_id: skill_def.skill_id.clone(),
-        label: resolved_label.clone(),
-        damage_type: skill_def.damage_type.unwrap_or(DamageType::Physical),
-        raw_damage: evaluate_formula(state, damage_formula_id, actor_id, target_actor)?,
-        flags: normalized_flags(state, actor_id, &skill_def.flags),
-    });
-    packets.extend(build_attached_on_hit_packets(
-        state,
-        actor_id,
-        target_actor,
-        &skill_def.attach_on_hit_item_ids,
-    )?);
-
-    apply_damage_packets_as_event(state, actor_id, target_actor, resolved_label, packets)?;
-    reduce_skill_cooldowns(
-        state,
-        actor_id,
-        skill_def.mechanics.on_hit_cooldown_reduction_ms.unwrap_or(0),
-        "mystic_shot_hit",
-    );
-    Ok(())
-}
-
-fn execute_arcane_shift_action(
-    state: &mut RuntimeState,
-    actor_id: ActorId,
-    action_id: &str,
-) -> Result<(), EngineError> {
-    let t_ms = state.now_ms;
-    let target_actor = actor_id.opponent();
-    let skill_def = required_skill_def(state, action_id)?;
-    let dot_effects = owned_dot_effects(state, actor_id);
-    let resolved_label = action_label(state, actor_id, action_id, &skill_def.label);
-
-    if !try_spend_action_mana(state, actor_id, action_id) {
-        state.stop_reason.get_or_insert(StopReason::Completed);
-        return Ok(());
-    }
-    state.log(RuntimeLog::ActionChosen {
-        t_ms,
-        actor_id,
-        action_id: action_id.to_string(),
-        label: resolved_label.clone(),
-    });
-    start_action_cooldown(state, actor_id, action_id, "cast");
-
-    let damage_formula_id = skill_def
-        .mechanics
-        .damage_formula_id
-        .as_deref()
-        .ok_or_else(|| runtime_error(format!("{action_id} missing damage formula")))?;
-    let result = apply_damage_packets_as_event(
-        state,
-        actor_id,
-        target_actor,
-        resolved_label.clone(),
-        vec![DamagePacket {
-            source_kind: DamageSourceKind::Skill,
-            source_id: skill_def.skill_id.clone(),
-            label: resolved_label,
-            damage_type: skill_def.damage_type.unwrap_or(DamageType::Magic),
-            raw_damage: evaluate_formula(state, damage_formula_id, actor_id, target_actor)?,
-            flags: normalized_flags(state, actor_id, &skill_def.flags),
-        }],
-    )?;
-
-    if result.total_hp_damage > 0.0 {
-        for dot in &dot_effects {
-            schedule_dot_ticks(state, actor_id, target_actor, dot);
+    // Data-driven post-hit: cooldown reduction
+    if let Some(reduction_ms) = skill_def.mechanics.on_hit_cooldown_reduction_ms {
+        if reduction_ms > 0 {
+            reduce_skill_cooldowns(state, actor_id, reduction_ms, "on_hit_cooldown_reduction");
         }
-    } else if state.stop_reason.is_none() {
-        state.stop_reason = Some(StopReason::Completed);
     }
+
+    // Data-driven post-hit: item DOT scheduling
+    if skill_def.mechanics.triggers_item_dot {
+        let dot_effects = owned_dot_effects(state, actor_id);
+        if result.total_hp_damage > 0.0 {
+            for dot in &dot_effects {
+                schedule_dot_ticks(state, actor_id, target_actor, dot);
+            }
+        } else if state.stop_reason.is_none() {
+            state.stop_reason = Some(StopReason::Completed);
+        }
+    }
+
     Ok(())
 }
 

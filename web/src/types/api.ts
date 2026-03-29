@@ -199,6 +199,8 @@ export type GameDataBundle = {
   formulaProfiles?: FormulaProfile[];
   formulaBindings?: FormulaBinding[];
   dictionaries?: JsonObject;
+  /** 编译后的 benchmark 数据，供 Wasm 引擎消费 */
+  benchmark?: import('../engine/benchmarkTypes').BenchmarkBundle;
 };
 
 export type FormulaProfilesResponse = {

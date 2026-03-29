@@ -143,7 +143,7 @@ pub struct BenchmarkActionDefinition {
     pub action_id: String,
     pub label: String,
     pub priority: i32,
-    pub behavior: BenchmarkActionBehavior,
+    pub behavior: ActionBehavior,
     pub cooldown: BenchmarkCooldownDefinition,
     #[serde(default)]
     pub mana_cost: f64,
@@ -151,7 +151,7 @@ pub struct BenchmarkActionDefinition {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
-pub enum BenchmarkActionBehavior {
+pub enum ActionBehavior {
     BasicAttack,
     MysticShot,
     ArcaneShift,

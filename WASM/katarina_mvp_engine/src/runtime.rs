@@ -49,14 +49,7 @@ impl ActorId {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ActionBehavior {
-    BasicAttack,
-    MysticShot,
-    ArcaneShift,
-    GenerateShield,
-    Stun,
-}
+pub use crate::model::ActionBehavior;
 
 impl ActionBehavior {
     pub fn is_basic_attack(self) -> bool {
@@ -97,6 +90,7 @@ pub struct BenchmarkSkillMechanics {
     pub on_hit_cooldown_reduction_ms: Option<u32>,
     pub stun_duration_ms: Option<u32>,
     pub dot: Option<BenchmarkDotRuntime>,
+    pub triggers_item_dot: bool,
 }
 
 #[derive(Debug, Clone)]

@@ -13,6 +13,7 @@ import { TypeRelationsPage } from './pages/admin/resources/type-relations';
 import { TypesPage } from './pages/admin/resources/types';
 import { ImagesPage } from './pages/ImagesPage';
 import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
+import { SimulationPage } from './pages/SimulationPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { VersionPublishPage } from './pages/VersionPublishPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
@@ -186,6 +187,16 @@ export default function App() {
     case 'katarina-mvp':
       pageContent = (
         <KatarinaMvpPage
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          selectedGameName={selectedGameName}
+          externalRefreshSeed={bundleRefreshSeed}
+        />
+      );
+      break;
+    case 'simulation':
+      pageContent = (
+        <SimulationPage
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
           selectedGameName={selectedGameName}
