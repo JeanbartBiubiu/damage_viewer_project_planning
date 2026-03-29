@@ -21,7 +21,7 @@ export type ExtendedAdminResourceRouteId =
 
 export type AdminResourceRouteId = BuiltinAdminResourceRouteId | ExtendedAdminResourceRouteId;
 
-export type RouteId = 'overview' | 'workspace' | 'katarina-mvp' | 'images' | AdminResourceRouteId;
+export type RouteId = 'overview' | 'workspace' | 'katarina-mvp' | 'simulation' | 'images' | AdminResourceRouteId;
 
 export type NavigationItem = {
   id: RouteId;
@@ -66,6 +66,11 @@ const baseNavigationItems: NavigationItem[] = [
     id: 'katarina-mvp',
     label: 'Katarina MVP',
     summary: '围绕 current + bundle 跑最小验证闭环。'
+  },
+  {
+    id: 'simulation',
+    label: '场景模拟',
+    summary: '场景配置、批量运行、图表对比与结果分析工作台。'
   },
   {
     id: 'images',
