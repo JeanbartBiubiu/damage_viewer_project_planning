@@ -55,6 +55,23 @@ pub const FORMULA_GENERATE_SHIELD_AMOUNT: &str = "formula_generate_shield_amount
 pub const FORMULA_COUNT_TO_THREE_DAMAGE: &str = "formula_count_to_three_damage";
 pub const FORMULA_THORN_ARMOR_DAMAGE: &str = "formula_thorn_armor_damage";
 
+pub fn sanitize_broken_label_lines(raw: &str) -> String {
+    raw.lines()
+        .map(|line| {
+            let trimmed = line.trim_start();
+            let indent = &line[..line.len().saturating_sub(trimmed.len())];
+            if trimmed.starts_with("\"name\":") && !trimmed.ends_with("\",") && !trimmed.ends_with('"') {
+                return format!(r#"{indent}"name": "sanitized_name","#);
+            }
+            if trimmed.starts_with("\"label\":") && !trimmed.ends_with("\",") && !trimmed.ends_with('"') {
+                return format!(r#"{indent}"label": "sanitized_label","#);
+            }
+            line.to_string()
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
 pub fn total_attack_speed_from_attrs(attrs: &HashMap<String, f64>) -> f64 {
     let base = attrs.get(ATTR_ATTACK_SPEED_BASE).copied().unwrap_or(0.0);
     let bonus = attrs.get(ATTR_ATTACK_SPEED_BONUS).copied().unwrap_or(0.0);

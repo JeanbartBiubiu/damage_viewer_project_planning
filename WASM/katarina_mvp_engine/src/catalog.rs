@@ -5,12 +5,12 @@ use crate::benchmark_fixture::{
 };
 use crate::formula::CompiledFormulaCatalog;
 use crate::model::{
-    BenchmarkActionBehavior, BenchmarkBundle, BenchmarkCountToThreeRule, BenchmarkCooldownDefinition,
+    BenchmarkBundle, BenchmarkCountToThreeRule, BenchmarkCooldownDefinition,
     BenchmarkItemDefinition, BenchmarkRules, BenchmarkSkillDefinition, DamageType, EngineConfig, EngineError,
     ErrorCode, GameDataBundle, TestProfile,
 };
 use crate::runtime::{
-    ActionBehavior, ActionRuntime, ActorId, ActorTemplate, BenchmarkBlackCleaverRuntime, BenchmarkCountToThreeRuntime,
+    ActionRuntime, ActorId, ActorTemplate, BenchmarkBlackCleaverRuntime, BenchmarkCountToThreeRuntime,
     BenchmarkItemRuntimeDef, BenchmarkRulesRuntime, BenchmarkRuntimeCatalog, BenchmarkSchedulerRuntime,
     BenchmarkSkillMechanics, BenchmarkSkillRuntimeDef, CooldownSpec, DamageFlags, SimulationConfig,
 };
@@ -129,6 +129,7 @@ fn compile_runtime_catalog(benchmark: &BenchmarkBundle) -> Result<BenchmarkRunti
                     on_hit_cooldown_reduction_ms: skill.cooldown_reduction_on_hit_ms,
                     stun_duration_ms: skill.stun_duration_ms,
                     dot: None,
+                    triggers_item_dot: skill.dot_formula_id.is_some(),
                 },
                 final_kill_enemy_hp_override: skill.final_kill_enemy_hp_override,
             },
@@ -280,7 +281,7 @@ fn compile_actor_template(
                 action_id: action.action_id.clone(),
                 label: action.label.clone(),
                 priority: action.priority,
-                behavior: map_behavior(action.behavior),
+                behavior: action.behavior,
                 cooldown: map_cooldown(&action.cooldown),
                 mana_cost: action.mana_cost,
             },
@@ -402,16 +403,6 @@ fn validate_item_formula_refs(
         }
     }
     Ok(())
-}
-
-fn map_behavior(behavior: BenchmarkActionBehavior) -> ActionBehavior {
-    match behavior {
-        BenchmarkActionBehavior::BasicAttack => ActionBehavior::BasicAttack,
-        BenchmarkActionBehavior::MysticShot => ActionBehavior::MysticShot,
-        BenchmarkActionBehavior::ArcaneShift => ActionBehavior::ArcaneShift,
-        BenchmarkActionBehavior::GenerateShield => ActionBehavior::GenerateShield,
-        BenchmarkActionBehavior::Stun => ActionBehavior::Stun,
-    }
 }
 
 fn map_cooldown(cooldown: &BenchmarkCooldownDefinition) -> CooldownSpec {
