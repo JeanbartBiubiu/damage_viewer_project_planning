@@ -1,5 +1,6 @@
 use crate::benchmark_fixture::{
-    BENCHMARK_INIT_PAYLOAD_PATH, ITEM_LIFESTEAL_BLADE, ITEM_THORN_ARMOR, SKILL_BASIC_ATTACK, SKILL_BLACK_CLEAVER_PROBE,
+    sanitize_broken_label_lines, BENCHMARK_INIT_PAYLOAD_PATH, ITEM_LIFESTEAL_BLADE, ITEM_THORN_ARMOR,
+    SKILL_BASIC_ATTACK, SKILL_BLACK_CLEAVER_PROBE,
 };
 use crate::catalog::compile_benchmark_catalog;
 use crate::effects::apply_generate_shield;
@@ -16,23 +17,6 @@ fn benchmark_payload() -> EngineInitPayload {
     let raw = fs::read_to_string(BENCHMARK_INIT_PAYLOAD_PATH).expect("benchmark payload json should exist");
     let sanitized = sanitize_broken_label_lines(&raw);
     serde_json::from_str(&sanitized).expect("benchmark payload json should deserialize")
-}
-
-fn sanitize_broken_label_lines(raw: &str) -> String {
-    raw.lines()
-        .map(|line| {
-            let trimmed = line.trim_start();
-            let indent = &line[..line.len().saturating_sub(trimmed.len())];
-            if trimmed.starts_with("\"name\":") && !trimmed.ends_with("\",") && !trimmed.ends_with('"') {
-                return format!(r#"{indent}"name": "sanitized_name","#);
-            }
-            if trimmed.starts_with("\"label\":") && !trimmed.ends_with("\",") && !trimmed.ends_with('"') {
-                return format!(r#"{indent}"label": "sanitized_label","#);
-            }
-            line.to_string()
-        })
-        .collect::<Vec<_>>()
-        .join("\n")
 }
 
 fn minimal_bundle() -> GameDataBundle {

@@ -11,8 +11,14 @@ mod benchmark_tests;
 #[cfg(test)]
 mod benchmark_review_regressions;
 
-use crate::engine::{init_session, run, EngineSession};
-use crate::model::{EngineError, EngineInitPayload, EngineRunInput, HostErrorResponse, HostSuccess};
+// Public re-exports for examples and external benchmarks
+pub use engine::{init_session, run, run_full_battle, EngineSession};
+pub use model::{
+    CombatantInit, EngineActionPlan, EngineConfig, EngineError, EngineInitPayload,
+    EngineRunInput, EngineMeta, InitialCombatants, StopCondition, TestProfile,
+};
+
+use crate::model::{HostErrorResponse, HostSuccess};
 use std::slice;
 use std::sync::{Mutex, OnceLock};
 

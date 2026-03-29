@@ -5,6 +5,7 @@ import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
+import { compileAndInjectBenchmark } from '../engine/bundleCompiler';
 import { MvpEngineClient } from '../engine/client';
 import type { EngineDamageComponent, EngineDamageEvent, EngineRunInput, EngineRunOutput } from '../engine/types';
 import { getErrorMessage } from '../services/apiClient';
@@ -207,6 +208,25 @@ export function KatarinaMvpPage({
           throw new Error(missingMessage);
         }
 
+        // 编译 benchmark 数据并注入 bundle
+        let enrichedBundle: GameDataBundle;
+        try {
+          enrichedBundle = compileAndInjectBenchmark({
+            bundle: snapshot.bundle,
+            selfHeroId: KATARINA_ID,
+            selfItemIds: [...ITEM_IDS],
+            selfLevel: 18,
+            selfSkillLevels: { R: 3, Q: 5, W: 5, E: 5, A: 1 },
+            selfPriorities: [DEATH_LOTUS_SKILL_ID, BASIC_ATTACK_SKILL_ID],
+            enemyHeroId: DUMMY_ID,
+            enemyItemIds: [],
+            enemyLevel: 1,
+          });
+        } catch (compileErr) {
+          console.warn('Bundle 编译失败，回退为原始 bundle:', compileErr);
+          enrichedBundle = snapshot.bundle;
+        }
+
         const client = new MvpEngineClient();
         await client.init(
           {
@@ -214,7 +234,7 @@ export function KatarinaMvpPage({
             versionId: snapshot.bundle.meta.versionId,
             dataHash: snapshot.bundle.meta.dataHash
           },
-          snapshot.bundle
+          enrichedBundle
         );
 
         if (cancelled) {
