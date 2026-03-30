@@ -16,6 +16,12 @@ export type BenchmarkBundle = {
   skillDefs: BenchmarkSkillDefinition[];
   itemDefs: BenchmarkItemDefinition[];
   formulas: BenchmarkFormulaDefinition[];
+  /**
+   * 管线公式：减伤 / 冷却缩减 / 护盾 / 移速等。
+   * 引擎在对应结算阶段调用，输入值通过 input_value 节点注入。
+   * key = 标准 bindingKey（如 "mitigation.physical"、"cooldown.ability"）
+   */
+  pipelineFormulas?: Record<string, BenchmarkFormulaDefinition>;
 };
 
 // ─── Actor ───────────────────────────────────────────────────
@@ -107,7 +113,15 @@ export type BenchmarkFormulaExpr =
   | { type: 'actor_hp_current'; actor: FormulaActorRef }
   | { type: 'actor_hp_max'; actor: FormulaActorRef }
   | { type: 'add'; terms: BenchmarkFormulaExpr[] }
-  | { type: 'multiply'; factors: BenchmarkFormulaExpr[] };
+  | { type: 'multiply'; factors: BenchmarkFormulaExpr[] }
+  // ─── 跨游戏扩展节点 ─────────────────────────────────────────
+  | { type: 'subtract'; left: BenchmarkFormulaExpr; right: BenchmarkFormulaExpr }
+  | { type: 'divide'; numerator: BenchmarkFormulaExpr; denominator: BenchmarkFormulaExpr }
+  | { type: 'max'; operands: BenchmarkFormulaExpr[] }
+  | { type: 'min'; operands: BenchmarkFormulaExpr[] }
+  | { type: 'negate'; operand: BenchmarkFormulaExpr }
+  /** 管线输入值：减伤公式中的 raw_damage、冷却公式中的 baseCd 等 */
+  | { type: 'input_value' };
 
 export type BenchmarkFormulaDefinition = {
   formulaId: string;

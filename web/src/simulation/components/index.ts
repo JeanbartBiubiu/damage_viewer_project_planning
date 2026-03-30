@@ -4,3 +4,7 @@ export { DraftEditor } from './DraftEditor';
 export { ExecutionBar } from './ExecutionBar';
 export { ResultDashboard } from './ResultDashboard';
 export { SimChart } from './SimChart';
+export { DamageBreakdown } from './DamageBreakdown';
+export { ItemComparePanel } from './ItemComparePanel';
+export { GrowthCurvePanel } from './GrowthCurvePanel';
+export { KillThresholdPanel } from './KillThresholdPanel';

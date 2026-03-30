@@ -16,6 +16,7 @@ import type {
 import type { GameDataBundle } from '../../types/api';
 import type { EngineRunInput } from '../../engine/types';
 import { buildBaseRunInput, buildComparisonRows } from './helpers';
+import { KillThresholdPanel } from '../components/KillThresholdPanel';
 
 /**
  * 斩杀线使用枚举策略：在指定 HP 范围内均匀取样。
@@ -44,6 +45,8 @@ export const killThresholdModule: ScenarioModule = {
     requiredCapabilities: ['basic_attack', 'cast_skill'],
     resultViews: ['summary-cards', 'comparison-chart', 'damage-breakdown', 'input-snapshot'],
   },
+
+  ExtraConfigPanel: KillThresholdPanel,
 
   buildVariants(draft: SimulationDraft): VariantSpec[] {
     const range = draft.killThresholdRange ?? { minHp: 500, maxHp: 3000 };
