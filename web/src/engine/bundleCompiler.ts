@@ -16,6 +16,8 @@ import type {
   Skill,
   AttributeDefinition,
   TypeRelation,
+  FormulaProfile,
+  FormulaBinding,
   JsonObject,
   JsonValue,
 } from '../types/api';
@@ -76,6 +78,14 @@ export function compileBenchmarkBundle(input: CompileScenarioInput): BenchmarkBu
 
   const rules = compileRules(ctx);
 
+  // 编译管线公式（减伤 / 冷却 / 护盾等）
+  compilePipelineFormulas(ctx);
+
+  const pipelineFormulas: Record<string, BenchmarkFormulaDefinition> = {};
+  for (const [key, def] of ctx.pipelineFormulaDefs) {
+    pipelineFormulas[key] = def;
+  }
+
   return {
     hpAttrKey: ctx.hpAttrKey,
     selfActor,
@@ -84,6 +94,7 @@ export function compileBenchmarkBundle(input: CompileScenarioInput): BenchmarkBu
     skillDefs: [...ctx.skillDefs.values()],
     itemDefs: [...ctx.itemDefs.values()],
     formulas: [...ctx.formulaDefs.values()],
+    ...(ctx.pipelineFormulaDefs.size > 0 ? { pipelineFormulas } : {}),
   };
 }
 
@@ -116,10 +127,14 @@ type CompileContext = {
   // 公式编译上下文
   selfFormulaCtx: FormulaCompileContext;
   enemyFormulaCtx: FormulaCompileContext;
+  // FormulaProfile / FormulaBinding 索引
+  formulaProfilesById: Map<string, FormulaProfile>;
+  bindingsByTarget: Map<string, FormulaBinding[]>;
   // 编译输出收集（去重）
   skillDefs: Map<string, BenchmarkSkillDefinition>;
   itemDefs: Map<string, BenchmarkItemDefinition>;
   formulaDefs: Map<string, BenchmarkFormulaDefinition>;
+  pipelineFormulaDefs: Map<string, BenchmarkFormulaDefinition>;
   formulaCounter: number;
 };
 
@@ -152,6 +167,18 @@ function buildCatalog(input: CompileScenarioInput): CompileContext {
     selectorValues: input.selectorValues,
   };
 
+  // FormulaProfile / FormulaBinding 索引
+  const formulaProfilesById = new Map(
+    (bundle.formulaProfiles ?? []).map((fp) => [fp.formulaId, fp])
+  );
+  const bindingsByTarget = new Map<string, FormulaBinding[]>();
+  for (const fb of bundle.formulaBindings ?? []) {
+    const key = `${fb.targetCategory}:${fb.targetId}`;
+    const list = bindingsByTarget.get(key) ?? [];
+    list.push(fb);
+    bindingsByTarget.set(key, list);
+  }
+
   return {
     hpAttrKey,
     input,
@@ -164,9 +191,12 @@ function buildCatalog(input: CompileScenarioInput): CompileContext {
     skillsByOwner,
     selfFormulaCtx,
     enemyFormulaCtx,
+    formulaProfilesById,
+    bindingsByTarget,
     skillDefs: new Map(),
     itemDefs: new Map(),
     formulaDefs: new Map(),
+    pipelineFormulaDefs: new Map(),
     formulaCounter: 0,
   };
 }
@@ -521,7 +551,23 @@ function compileSkillDef(
   const primaryDamage = findPrimaryDamage(triggers);
   const damageTypeFromParams = params?.damageType as string | undefined;
 
-  if (primaryDamage) {
+  // ── 三阶优先级查找公式 ──
+  // 优先级 1：从 FormulaBinding 查找
+  const bindingFormulaId = resolveFormulaFromBinding(ctx, 'skill', skill.skillId, 'primary_damage', formulaCtx);
+  if (bindingFormulaId) {
+    result.primaryFormulaId = bindingFormulaId;
+    const damageType = (damageTypeFromParams ?? primaryDamage?.damageType ?? 'physical') as DamageTypeTag;
+    result.damageType = damageType;
+    result.flags = inferFlags(ctx, skill, damageType);
+    if (result.flags?.canTriggerOnHit) {
+      const onHitItemIds = actorItemIds.filter((itemId) => {
+        const item = ctx.itemsById.get(itemId);
+        return item && hasOnHitTrigger(ctx, item);
+      });
+      if (onHitItemIds.length > 0) result.attachOnHitItemIds = onHitItemIds;
+    }
+  } else if (primaryDamage) {
+    // 优先级 2/3：mechanicsConfig formulaText 或 flat params（原有逻辑）
     let formulaExpr: BenchmarkFormulaExpr | null = null;
     let formulaLabel = skill.name ?? skill.skillId;
 
@@ -806,6 +852,174 @@ function compileRules(_ctx: CompileContext): BenchmarkRules {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// FormulaProfile / FormulaBinding 对接
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * 标准管线公式绑定键。
+ * 引擎在对应结算阶段按 key 查找管线公式：
+ *   input_value 节点注入管线输入值（raw_damage / baseCd / shieldAmount 等）。
+ */
+export const PIPELINE_BINDING_KEYS = {
+  MITIGATION_PHYSICAL: 'mitigation.physical',
+  MITIGATION_MAGIC: 'mitigation.magic',
+  MITIGATION_TRUE: 'mitigation.true',
+  COOLDOWN_ABILITY: 'cooldown.ability',
+  COOLDOWN_ULTIMATE: 'cooldown.ultimate',
+  MOVE_SPEED: 'move_speed.base',
+  SHIELD_ABSORPTION: 'shield.absorption',
+  LIFE_STEAL: 'life_steal.base',
+} as const;
+
+/**
+ * 从 FormulaBinding 查找并编译公式。
+ *
+ * @param targetCategory  绑定目标类别（skill/hero/item/global）
+ * @param targetId        绑定目标 ID
+ * @param bindingKey      绑定点（如 "primary_damage"、"mitigation.physical"）
+ * @param formulaCtx      公式编译上下文（skillLevel / championLevel）
+ * @returns 已注册的 formulaId，如果未找到绑定则返回 null
+ */
+function resolveFormulaFromBinding(
+  ctx: CompileContext,
+  targetCategory: string,
+  targetId: string,
+  bindingKey: string,
+  formulaCtx: FormulaCompileContext
+): string | null {
+  const key = `${targetCategory}:${targetId}`;
+  const bindings = ctx.bindingsByTarget.get(key);
+  if (!bindings) return null;
+
+  const binding = bindings.find((b) => b.bindingKey === bindingKey);
+  if (!binding) return null;
+
+  const profile = ctx.formulaProfilesById.get(binding.formulaId);
+  if (!profile) {
+    console.warn(`FormulaBinding references unknown profile: ${binding.formulaId}`);
+    return null;
+  }
+
+  // 合并 profile.params + binding.overrideParams
+  const params = {
+    ...(profile.params as Record<string, unknown> ?? {}),
+    ...(binding.overrideParams as Record<string, unknown> ?? {}),
+  };
+
+  return compileFormulaFromParams(ctx, binding.formulaId, profile.description ?? binding.formulaId, params, formulaCtx);
+}
+
+/**
+ * 将 FormulaProfile.params 编译为 AST 并注册。
+ *
+ * 支持两种 params 格式（由 formulaKind 字段或 params 内容自动检测）：
+ *
+ * 1. flat_params 格式（简单 AD/AP 系数）：
+ *    { baseDamageBySkillLevel: [...], adRatio: 1.3, apRatio: 0.2, damageType: "magic" }
+ *
+ * 2. vars_expr 格式（变量引用+公式文本）：
+ *    { formulaText: "base_damage + ap_damage", vars: { base_damage: { kind: "table", ... } } }
+ *
+ * 3. ast 格式（预编译 AST）：
+ *    { expr: { type: "add", terms: [...] } }
+ */
+function compileFormulaFromParams(
+  ctx: CompileContext,
+  formulaId: string,
+  label: string,
+  params: Record<string, unknown>,
+  formulaCtx: FormulaCompileContext
+): string | null {
+  // 已注册则复用
+  if (ctx.formulaDefs.has(formulaId)) return formulaId;
+  if (ctx.pipelineFormulaDefs.has(formulaId)) return formulaId;
+
+  let expr: BenchmarkFormulaExpr | null = null;
+
+  // 尝试格式 3：预编译 AST
+  if (params.expr && typeof params.expr === 'object' && (params.expr as JsonObject).type) {
+    expr = params.expr as unknown as BenchmarkFormulaExpr;
+  }
+
+  // 尝试格式 2：vars_expr
+  if (!expr && typeof params.formulaText === 'string' && params.formulaText) {
+    const vars = (params.vars ?? {}) as Record<string, VarDefinition>;
+    try {
+      const varExprs = compileVarsToExprMap(vars, formulaCtx);
+      expr = compileFormulaText(params.formulaText as string, undefined, varExprs);
+    } catch (e) {
+      console.warn(`Failed to compile FormulaProfile ${formulaId}:`, e);
+    }
+  }
+
+  // 尝试格式 1：flat_params
+  if (!expr) {
+    expr = buildFormulaFromFlatParams(params as JsonObject, formulaCtx);
+  }
+
+  if (!expr) return null;
+
+  const bypassValue = evaluateConstantExpr(expr);
+  const def = buildFormulaDefinition(formulaId, label, expr, bypassValue);
+  ctx.formulaDefs.set(formulaId, def);
+  return formulaId;
+}
+
+/**
+ * 编译全局管线公式（减伤 / 冷却缩减 / 护盾 / 移速等）。
+ * 从 FormulaBinding(targetCategory=global, targetId=gameId, bindingKey=PIPELINE_KEY) 查找。
+ */
+function compilePipelineFormulas(ctx: CompileContext): void {
+  const gameId = ctx.bundle.meta.gameId;
+  const globalKey = `global:${gameId}`;
+  const globalBindings = ctx.bindingsByTarget.get(globalKey);
+  if (!globalBindings || globalBindings.length === 0) return;
+
+  for (const binding of globalBindings) {
+    const profile = ctx.formulaProfilesById.get(binding.formulaId);
+    if (!profile) {
+      console.warn(`Pipeline binding references unknown profile: ${binding.formulaId}`);
+      continue;
+    }
+
+    const params = {
+      ...(profile.params as Record<string, unknown> ?? {}),
+      ...(binding.overrideParams as Record<string, unknown> ?? {}),
+    };
+
+    let expr: BenchmarkFormulaExpr | null = null;
+
+    // 预编译 AST
+    if (params.expr && typeof params.expr === 'object' && (params.expr as JsonObject).type) {
+      expr = params.expr as unknown as BenchmarkFormulaExpr;
+    }
+
+    // formulaText 编译
+    if (!expr && typeof params.formulaText === 'string' && params.formulaText) {
+      try {
+        const vars = (params.vars ?? {}) as Record<string, VarDefinition>;
+        // 管线公式不依赖 skillLevel，使用默认上下文
+        const varExprs = compileVarsToExprMap(vars, ctx.selfFormulaCtx);
+        expr = compileFormulaText(params.formulaText as string, undefined, varExprs);
+      } catch (e) {
+        console.warn(`Failed to compile pipeline formula ${binding.formulaId}:`, e);
+      }
+    }
+
+    if (!expr) continue;
+
+    const bypassValue = evaluateConstantExpr(expr);
+    const def = buildFormulaDefinition(
+      binding.formulaId,
+      profile.description ?? binding.bindingKey,
+      expr,
+      bypassValue
+    );
+    ctx.pipelineFormulaDefs.set(binding.bindingKey, def);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 辅助：公式注册
 // ═══════════════════════════════════════════════════════════════
 
@@ -916,6 +1130,28 @@ function evaluateConstantExpr(expr: BenchmarkFormulaExpr): number | undefined {
         product *= v;
       }
       return product;
+    }
+    case 'subtract': {
+      const l = evaluateConstantExpr(expr.left);
+      const r = evaluateConstantExpr(expr.right);
+      return l != null && r != null ? l - r : undefined;
+    }
+    case 'divide': {
+      const n = evaluateConstantExpr(expr.numerator);
+      const d = evaluateConstantExpr(expr.denominator);
+      return n != null && d != null && d !== 0 ? n / d : undefined;
+    }
+    case 'max': {
+      const vals = expr.operands.map(evaluateConstantExpr);
+      return vals.every((v) => v != null) ? Math.max(...vals as number[]) : undefined;
+    }
+    case 'min': {
+      const vals = expr.operands.map(evaluateConstantExpr);
+      return vals.every((v) => v != null) ? Math.min(...vals as number[]) : undefined;
+    }
+    case 'negate': {
+      const v = evaluateConstantExpr(expr.operand);
+      return v != null ? -v : undefined;
     }
     default:
       return undefined;
