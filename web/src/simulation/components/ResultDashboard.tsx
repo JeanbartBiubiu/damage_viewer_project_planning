@@ -16,6 +16,7 @@ import type {
 } from '../types';
 import type { EngineDamageEvent } from '../../engine/types';
 import { SimChart } from './SimChart';
+import { DamageBreakdown } from './DamageBreakdown';
 
 type ResultDashboardProps = {
   result: SimulationResult | null;
@@ -210,6 +211,7 @@ export function ResultDashboard({ result, interpreted }: ResultDashboardProps) {
       )}
 
       <ComparisonTable rows={interpreted.comparisonRows} />
+      <DamageBreakdown events={events} />
       <EventTable events={events} />
       <SnapshotView result={result} />
     </div>

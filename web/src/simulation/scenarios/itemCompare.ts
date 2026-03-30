@@ -15,6 +15,7 @@ import type {
 import type { GameDataBundle } from '../../types/api';
 import type { EngineRunInput } from '../../engine/types';
 import { buildBaseRunInput, buildComparisonRows } from './helpers';
+import { ItemComparePanel } from '../components/ItemComparePanel';
 
 export const itemCompareModule: ScenarioModule = {
   template: {
@@ -49,6 +50,8 @@ export const itemCompareModule: ScenarioModule = {
 
     return base;
   },
+
+  ExtraConfigPanel: ItemComparePanel,
 
   interpretResults(results: VariantResult[]): InterpretedResult {
     if (results.length === 0) {

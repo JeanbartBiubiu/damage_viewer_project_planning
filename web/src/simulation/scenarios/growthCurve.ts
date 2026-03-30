@@ -17,6 +17,7 @@ import type {
 import type { GameDataBundle } from '../../types/api';
 import type { EngineRunInput } from '../../engine/types';
 import { buildBaseRunInput, buildComparisonRows } from './helpers';
+import { GrowthCurvePanel } from '../components/GrowthCurvePanel';
 
 function generateSweepVariants(dim: SweepDimension): VariantSpec[] {
   const variants: VariantSpec[] = [];
@@ -50,6 +51,8 @@ export const growthCurveModule: ScenarioModule = {
     requiredCapabilities: ['basic_attack', 'cast_skill'],
     resultViews: ['summary-cards', 'comparison-chart', 'input-snapshot'],
   },
+
+  ExtraConfigPanel: GrowthCurvePanel,
 
   buildVariants(draft: SimulationDraft): VariantSpec[] {
     const dim = draft.sweepDimension;

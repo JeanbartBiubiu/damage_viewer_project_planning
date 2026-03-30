@@ -74,7 +74,12 @@ fn run_benchmark_skeleton(
 }
 
 enum BenchmarkRoute {
+    /// Full auto-battle loop using the resolved basic attack action.
+    /// `action_id` is resolved but not directly used — the battle loop
+    /// selects actions via `select_benchmark_action` which picks the
+    /// best ready action (typically basic attack) at each step.
     BasicAttack {
+        #[allow(dead_code)]
         action_id: String,
     },
     SelfAction {
@@ -246,8 +251,12 @@ fn run_benchmark_runtime(
     let mut simulation_config = benchmark_catalog.to_simulation_config(max_duration_ms, 1024);
     apply_benchmark_overrides(&mut simulation_config, overrides.as_ref());
     let runtime = match route {
-        BenchmarkRoute::BasicAttack { action_id } => {
-            run_single_benchmark_action(simulation_config, ActorId::SelfActor, &action_id, false)?
+        BenchmarkRoute::BasicAttack { action_id: _ } => {
+            // Use the full battle loop which includes action selection (auto-attack),
+            // cooldown management, and stop conditions (enemy dead, max seconds).
+            // Previously this used run_single_benchmark_action(…, false) which only
+            // executed ONE attack and immediately set Completed.
+            run_minimal_benchmark_battle(simulation_config)?
         }
         BenchmarkRoute::SelfAction {
             action_id,
