@@ -15,4 +15,5 @@ export type FormulaBindingsFormData = {
   bindingKey: string;
   formulaId: string;
   overrideParamsText: string;
+  extraFieldsText: string;
 };

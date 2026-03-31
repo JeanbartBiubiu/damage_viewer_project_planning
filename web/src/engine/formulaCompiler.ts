@@ -57,7 +57,8 @@ export type FormulaCompileContext = {
  */
 export function compileVarsToExprMap(
   vars: Record<string, VarDefinition>,
-  ctx: FormulaCompileContext
+  ctx: FormulaCompileContext,
+  externalSymbols?: Map<string, BenchmarkFormulaExpr>
 ): Map<string, BenchmarkFormulaExpr> {
   const resolved = new Map<string, BenchmarkFormulaExpr>();
   const resolving = new Set<string>();
@@ -70,10 +71,14 @@ export function compileVarsToExprMap(
     }
     const def = vars[name];
     if (!def) {
+      const external = externalSymbols?.get(name);
+      if (external) {
+        return external;
+      }
       throw new Error(`Unknown formula variable: ${name}`);
     }
     resolving.add(name);
-    const expr = compileVar(name, def, ctx, resolve);
+    const expr = compileVar(name, def, ctx, resolve, externalSymbols);
     resolving.delete(name);
     resolved.set(name, expr);
     return expr;
@@ -83,6 +88,23 @@ export function compileVarsToExprMap(
     resolve(name);
   }
   return resolved;
+}
+
+export function compileConstantSymbols(constants: Record<string, unknown> | undefined): Map<string, BenchmarkFormulaExpr> {
+  const symbols = new Map<string, BenchmarkFormulaExpr>();
+  if (!constants) {
+    return symbols;
+  }
+
+  for (const [name, rawValue] of Object.entries(constants)) {
+    const numeric = Number(rawValue);
+    if (!Number.isFinite(numeric)) {
+      continue;
+    }
+    symbols.set(name, { type: 'constant', value: numeric });
+  }
+
+  return symbols;
 }
 
 /**
@@ -154,7 +176,8 @@ function compileVar(
   name: string,
   def: VarDefinition,
   ctx: FormulaCompileContext,
-  resolve: (name: string) => BenchmarkFormulaExpr
+  resolve: (name: string) => BenchmarkFormulaExpr,
+  externalSymbols?: Map<string, BenchmarkFormulaExpr>
 ): BenchmarkFormulaExpr {
   switch (def.kind) {
     case 'const':
@@ -198,7 +221,7 @@ function compileVar(
 
     case 'formula': {
       const text = def.formulaText ?? name;
-      const varExprs = new Map<string, BenchmarkFormulaExpr>();
+      const varExprs = new Map<string, BenchmarkFormulaExpr>(externalSymbols);
       for (const refName of def.formulaVars ?? []) {
         varExprs.set(refName, resolve(refName));
       }

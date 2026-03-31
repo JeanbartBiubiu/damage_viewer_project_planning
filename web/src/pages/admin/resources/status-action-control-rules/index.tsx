@@ -3,6 +3,7 @@ import { Panel } from '../../../../components/Panel';
 import { getStatusActionControlRules, putStatusActionControlRule } from '../../../../services/apiClient';
 import type { JsonObject } from '../../../../types/api';
 import { parseJsonNumberArrayText, parseJsonObjectText, stringifyJson } from '../shared/json';
+import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createStatusActionControlRulesFormData, createStatusActionControlRulesSearchData } from './constants';
 import { StatusActionControlRulesModal } from './modal';
@@ -107,6 +108,12 @@ export function StatusActionControlRulesPage({
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
 
+  const { types, error: typeCatalogError, refresh: refreshTypeCatalog } = useTypeCatalog(
+    apiBaseUrl,
+    selectedGameId,
+    adminToken
+  );
+
   const {
     filteredRecords,
     recordsState,
@@ -140,14 +147,15 @@ export function StatusActionControlRulesPage({
     saveRecord: saveStatusActionControlRulesRecord,
     filterRecords: filterStatusActionControlRules,
     toFormData: toStatusActionControlRulesFormData,
-    getSuccessMessage: (mode) => (mode === 'create' ? '状态动作规则新增成功' : '状态动作规则保存成功')
+    getSuccessMessage: (mode) => (mode === 'create' ? '状态动作控制规则新增成功' : '状态动作控制规则保存成功')
   });
 
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
+      {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
 
-      <Panel title="查询条件" kicker="Search">
+      <Panel title="查询条件" kicker="查询">
         <StatusActionControlRulesSearch
           searchData={searchData}
           onFieldChange={updateSearchData}
@@ -156,7 +164,7 @@ export function StatusActionControlRulesPage({
         />
       </Panel>
 
-      <Panel title="状态动作规则" kicker="Table">
+      <Panel title="状态动作控制规则" kicker="列表">
         {recordsError ? <Alert type="error" content={recordsError} style={{ marginBottom: 16 }} /> : null}
         <StatusActionControlRulesTable
           loading={recordsState === 'loading'}
@@ -165,11 +173,15 @@ export function StatusActionControlRulesPage({
           onView={openViewModal}
           onEdit={openEditModal}
           onCreate={openCreateModal}
-          onRefresh={refreshRecords}
+          onRefresh={() => {
+            refreshRecords();
+            refreshTypeCatalog();
+          }}
         />
       </Panel>
 
       <StatusActionControlRulesModal
+        typeDefinitions={types}
         visible={modalVisible}
         mode={modalMode}
         formData={formData}

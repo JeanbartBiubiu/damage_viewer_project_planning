@@ -7,7 +7,7 @@
  */
 
 import { Card, Grid, Space, Table, Tag, Typography } from '@arco-design/web-react';
-import type { EngineDamageEvent, EngineDamageComponent, DamageType } from '../../engine/types';
+import type { EngineDamageEvent, DamageType } from '../../engine/types';
 
 const { Row, Col } = Grid;
 

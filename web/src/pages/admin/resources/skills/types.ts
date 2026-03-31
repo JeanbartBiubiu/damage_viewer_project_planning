@@ -23,6 +23,9 @@ export type SkillsFormData = {
   paramsText: string;
   timingProfileText: string;
   mechanicsConfigText: string;
+  mvpExtensionsText: string;
+  notesText: string;
+  extraFieldsText: string;
   selectedTypeIds: number[];
   persistedTypeIds: number[];
 };

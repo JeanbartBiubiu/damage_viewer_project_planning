@@ -16,13 +16,26 @@ type FormulaProfilesPageProps = {
   adminToken: string;
 };
 
+const KNOWN_FORMULA_PROFILE_FIELDS = new Set(['formulaId', 'formulaType', 'formulaKind', 'params', 'description', 'updatedAt']);
+
+function extractExtraFormulaProfileFields(record: FormulaProfilesRecord): JsonObject {
+  const result: JsonObject = {};
+  Object.entries(record).forEach(([key, value]) => {
+    if (!KNOWN_FORMULA_PROFILE_FIELDS.has(key)) {
+      result[key] = value as JsonObject[string];
+    }
+  });
+  return result;
+}
+
 function toFormulaProfilesFormData(record: FormulaProfilesRecord): FormulaProfilesFormData {
   return {
     formulaId: record.formulaId,
     formulaType: record.formulaType ?? '',
     formulaKind: record.formulaKind ?? '',
     description: record.description ?? '',
-    paramsText: stringifyJson(record.params ?? {})
+    paramsText: stringifyJson(record.params ?? {}),
+    extraFieldsText: stringifyJson(extractExtraFormulaProfileFields(record))
   };
 }
 
@@ -56,6 +69,7 @@ async function saveFormulaProfileRecord(
   formData: FormulaProfilesFormData
 ): Promise<FormulaProfilesRecord> {
   const payload: JsonObject = {
+    ...parseJsonObjectText(formData.extraFieldsText, 'extraFields'),
     formulaId: formData.formulaId.trim(),
     formulaType: formData.formulaType.trim(),
     formulaKind: formData.formulaKind.trim(),
@@ -136,6 +150,9 @@ export function FormulaProfilesPage({ apiBaseUrl, selectedGameId, adminToken }: 
       </Panel>
 
       <FormulaProfilesModal
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
         visible={modalVisible}
         mode={modalMode}
         formData={formData}
