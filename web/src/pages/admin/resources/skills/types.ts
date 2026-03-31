@@ -8,6 +8,7 @@ export type SkillsSearchData = {
   ownerId: string;
   skillKey: string;
   name: string;
+  typeIds: number[];
 };
 
 export type SkillsFormData = {
@@ -22,4 +23,6 @@ export type SkillsFormData = {
   paramsText: string;
   timingProfileText: string;
   mechanicsConfigText: string;
+  selectedTypeIds: number[];
+  persistedTypeIds: number[];
 };

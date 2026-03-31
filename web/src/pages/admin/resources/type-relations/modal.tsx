@@ -1,5 +1,13 @@
-import { Button, Form, Input, Modal, Space } from '@arco-design/web-react';
+import { Button, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
 import type { TypeRelationsFormData } from './types';
+
+const TARGET_CATEGORY_OPTIONS = [
+  { label: '英雄', value: 'character' },
+  { label: '技能', value: 'skill' },
+  { label: '装备', value: 'equipment' },
+  { label: '属性', value: 'attribute' },
+  { label: '类型', value: 'type' }
+];
 
 type TypeRelationsModalProps = {
   visible: boolean;
@@ -54,11 +62,12 @@ export function TypeRelationsModal({
           </Form.Item>
 
           <Form.Item label="targetCategory">
-            <Input
-              value={formData.targetCategory}
+            <Select
+              value={formData.targetCategory || undefined}
               disabled={readOnly || editingExisting}
-              onChange={(value) => onFieldChange('targetCategory', value)}
-              placeholder="请输入 targetCategory"
+              onChange={(value) => onFieldChange('targetCategory', value ?? '')}
+              placeholder="请选择 targetCategory"
+              options={TARGET_CATEGORY_OPTIONS}
             />
           </Form.Item>
         </div>

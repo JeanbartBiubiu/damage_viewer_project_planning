@@ -160,6 +160,9 @@ export function CoefficientBucketsPage({ apiBaseUrl, selectedGameId, adminToken 
       </Panel>
 
       <CoefficientBucketsModal
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
         visible={modalVisible}
         mode={modalMode}
         formData={formData}

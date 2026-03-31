@@ -1,7 +1,9 @@
-import { Button, Form, Input, Modal, Space } from '@arco-design/web-react';
+import { Button, Form, Input, Modal, Select, Space, Typography } from '@arco-design/web-react';
+import type { TypeDefinition } from '../../../../types/api';
 import type { TypesFormData } from './types';
 
 type TypesModalProps = {
+  availableParentTypes: TypeDefinition[];
   visible: boolean;
   mode: 'create' | 'view' | 'edit';
   formData: TypesFormData;
@@ -11,7 +13,16 @@ type TypesModalProps = {
   onSubmit: () => Promise<void>;
 };
 
-export function TypesModal({ visible, mode, formData, saving, onClose, onFieldChange, onSubmit }: TypesModalProps) {
+export function TypesModal({
+  availableParentTypes,
+  visible,
+  mode,
+  formData,
+  saving,
+  onClose,
+  onFieldChange,
+  onSubmit
+}: TypesModalProps) {
   const readOnly = mode === 'view';
   const editingExisting = mode !== 'create';
 
@@ -70,6 +81,26 @@ export function TypesModal({ visible, mode, formData, saving, onClose, onFieldCh
             onChange={(value) => onFieldChange('reservedTypeId', value)}
             placeholder="可选"
           />
+        </Form.Item>
+
+        <Form.Item label="父类型（最多一层）">
+          <Select
+            allowClear
+            showSearch
+            value={formData.parentTypeId || undefined}
+            disabled={readOnly || editingExisting}
+            placeholder={editingExisting ? '现有类型暂不支持修改父类型' : '可选，选择父类型'}
+            onChange={(value) => onFieldChange('parentTypeId', value ? String(value) : '')}
+            options={availableParentTypes.map((type) => ({
+              label: `${type.name ?? '未命名类型'} · ${type.typeId}`,
+              value: String(type.typeId)
+            }))}
+          />
+          {editingExisting ? (
+            <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
+              当前接口缺少删除能力，已有类型暂不支持改父节点，避免写出多父关系。
+            </Typography.Text>
+          ) : null}
         </Form.Item>
       </Form>
     </Modal>

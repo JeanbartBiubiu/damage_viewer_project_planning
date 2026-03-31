@@ -1,4 +1,5 @@
-import { Button, Space, Typography } from '@arco-design/web-react';
+import { Button, Space, Tag, Typography } from '@arco-design/web-react';
+import { inferSkillShapeSummary } from '../../../../components/skill-editor/skillModels';
 import type { SkillsRecord } from './types';
 
 type SkillsTableActions = {
@@ -37,6 +38,15 @@ export function getSkillsColumns({ onView, onEdit }: SkillsTableActions) {
       dataIndex: 'name',
       ellipsis: true,
       render: (_: unknown, record: SkillsRecord) => record.name ?? '--'
+    },
+    {
+      title: '模型',
+      width: 100,
+      render: (_: unknown, record: SkillsRecord) => {
+        const summary = inferSkillShapeSummary(record.params, record.mechanicsConfig);
+        const color = summary === 'Mixed' ? 'orangered' : summary === 'DSL' ? 'arcoblue' : summary === 'Flat' ? 'purple' : 'gray';
+        return <Tag color={color}>{summary}</Tag>;
+      }
     },
     {
       title: '操作',

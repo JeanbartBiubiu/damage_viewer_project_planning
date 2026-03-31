@@ -1,7 +1,8 @@
 import { Alert } from '@arco-design/web-react';
 import { Panel } from '../../../../components/Panel';
-import { getItems, putItem } from '../../../../services/apiClient';
+import { getItems, putItem, putTypeRelation } from '../../../../services/apiClient';
 import type { JsonObject } from '../../../../types/api';
+import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createItemsFormData, createItemsSearchData } from './constants';
@@ -24,11 +25,13 @@ function toItemsFormData(record: ItemsRecord): ItemsFormData {
     iconUrl: record.iconUrl ?? '',
     statsModifierText: stringifyJson(record.statsModifier ?? {}),
     skillRefsText: stringifyJson(record.skillRefs ?? []),
-    recipeIdsText: stringifyJson(record.recipeIds ?? [])
+    recipeIdsText: stringifyJson(record.recipeIds ?? []),
+    selectedTypeIds: [],
+    persistedTypeIds: []
   };
 }
 
-function filterItems(records: ItemsRecord[], searchData: ItemsSearchData): ItemsRecord[] {
+function filterItems(records: ItemsRecord[], searchData: ItemsSearchData, targetTypeIdsByKey: Map<string, number[]>): ItemsRecord[] {
   const itemId = searchData.itemId.trim().toLowerCase();
   const name = searchData.name.trim().toLowerCase();
   const goldCost = searchData.goldCost.trim();
@@ -42,6 +45,12 @@ function filterItems(records: ItemsRecord[], searchData: ItemsSearchData): Items
     }
     if (goldCost && String(record.goldCost ?? '') !== goldCost) {
       return false;
+    }
+    if (searchData.typeIds.length > 0) {
+      const relatedTypeIds = targetTypeIdsByKey.get(`equipment:${record.itemId}`) ?? [];
+      if (!searchData.typeIds.some((typeId) => relatedTypeIds.includes(typeId))) {
+        return false;
+      }
     }
     return true;
   });
@@ -72,21 +81,27 @@ async function saveItemsRecord(
   }
 
   const statsModifier = parseJsonObjectText(formData.statsModifierText, 'statsModifier');
-  if (Object.keys(statsModifier).length > 0) {
-    payload.statsModifier = statsModifier;
-  }
+  payload.statsModifier = statsModifier;
 
   const skillRefs = parseJsonStringArrayText(formData.skillRefsText, 'skillRefs');
-  if (skillRefs.length > 0) {
-    payload.skillRefs = skillRefs;
-  }
+  payload.skillRefs = skillRefs;
 
   const recipeIds = parseJsonStringArrayText(formData.recipeIdsText, 'recipeIds');
-  if (recipeIds.length > 0) {
-    payload.recipeIds = recipeIds;
-  }
+  payload.recipeIds = recipeIds;
 
-  return (await putItem(apiBaseUrl, gameId, formData.itemId.trim(), token, payload)).data;
+  const savedItem = (await putItem(apiBaseUrl, gameId, formData.itemId.trim(), token, payload)).data;
+  const pendingTypeIds = formData.selectedTypeIds.filter((typeId) => !formData.persistedTypeIds.includes(typeId));
+  await Promise.all(
+    pendingTypeIds.map((typeId) =>
+      putTypeRelation(apiBaseUrl, gameId, typeId, 'equipment', formData.itemId.trim(), token, {
+        typeId,
+        targetCategory: 'equipment',
+        targetId: formData.itemId.trim()
+      })
+    )
+  );
+
+  return savedItem;
 }
 
 export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageProps) {
@@ -96,6 +111,12 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
     : !adminToken.trim()
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
+
+  const { types, targetTypeIdsByKey, error: typeCatalogError, refresh: refreshTypeCatalog } = useTypeCatalog(
+    apiBaseUrl,
+    selectedGameId,
+    adminToken
+  );
 
   const {
     filteredRecords,
@@ -124,17 +145,49 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
     createFormData: createItemsFormData,
     listRecords: listItemsRecords,
     saveRecord: saveItemsRecord,
-    filterRecords: filterItems,
+    filterRecords: (recordsToFilter, currentSearchData) => filterItems(recordsToFilter, currentSearchData, targetTypeIdsByKey),
     toFormData: toItemsFormData,
-    getSuccessMessage: (mode) => (mode === 'create' ? '装备新增成功' : '装备保存成功')
+    getSuccessMessage: (mode) => (mode === 'create' ? '装备新增成功' : '装备保存成功'),
+    afterSaveRecord: () => {
+      refreshTypeCatalog();
+    }
   });
+
+  const applyItemTypesToForm = (itemId: string) => {
+    const persistedTypeIds = targetTypeIdsByKey.get(`equipment:${itemId}`) ?? [];
+    updateFormData('persistedTypeIds', persistedTypeIds);
+    updateFormData('selectedTypeIds', persistedTypeIds);
+  };
+
+  const openViewModalWithTypes = (record: ItemsRecord) => {
+    openViewModal(record);
+    applyItemTypesToForm(record.itemId);
+  };
+
+  const openEditModalWithTypes = (record: ItemsRecord) => {
+    openEditModal(record);
+    applyItemTypesToForm(record.itemId);
+  };
+
+  const openCreateModalWithTypes = () => {
+    openCreateModal();
+    updateFormData('persistedTypeIds', []);
+    updateFormData('selectedTypeIds', []);
+  };
 
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
+      {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
 
       <Panel title="查询条件" kicker="Search">
-        <ItemsSearch searchData={searchData} onFieldChange={updateSearchData} onSearch={handleSearch} onReset={handleResetSearch} />
+        <ItemsSearch
+          typeDefinitions={types}
+          searchData={searchData}
+          onFieldChange={updateSearchData}
+          onSearch={handleSearch}
+          onReset={handleResetSearch}
+        />
       </Panel>
 
       <Panel title="装备" kicker="Table">
@@ -143,14 +196,21 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
           loading={recordsState === 'loading'}
           records={filteredRecords}
           actionsDisabled={actionsDisabled}
-          onView={openViewModal}
-          onEdit={openEditModal}
-          onCreate={openCreateModal}
-          onRefresh={refreshRecords}
+          onView={openViewModalWithTypes}
+          onEdit={openEditModalWithTypes}
+          onCreate={openCreateModalWithTypes}
+          onRefresh={() => {
+            refreshRecords();
+            refreshTypeCatalog();
+          }}
         />
       </Panel>
 
       <ItemsModal
+        typeDefinitions={types}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
         visible={modalVisible}
         mode={modalMode}
         formData={formData}

@@ -6,6 +6,7 @@ export type HeroesSearchData = {
   heroId: string;
   name: string;
   title: string;
+  typeIds: number[];
 };
 
 export type HeroesFormData = {
@@ -15,4 +16,6 @@ export type HeroesFormData = {
   avatarUrl: string;
   baseStatsText: string;
   statsByLevelText: string;
+  selectedTypeIds: number[];
+  persistedTypeIds: number[];
 };

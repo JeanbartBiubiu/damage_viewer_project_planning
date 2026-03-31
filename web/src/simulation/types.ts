@@ -6,7 +6,7 @@
  */
 
 import type { EngineRunInput, EngineRunOutput } from '../engine/types';
-import type { GameDataBundle, Hero, Item, Skill } from '../types/api';
+import type { AttributeDefinition, GameDataBundle, Hero, Item, Skill } from '../types/api';
 
 // ═══════════════════════════════════════════════════════════════
 // 场景模板
@@ -230,6 +230,8 @@ export type EngineStatus = 'not-loaded' | 'loading' | 'ready' | 'error';
 // ═══════════════════════════════════════════════════════════════
 
 export type BundleIndex = {
+  gameId: string;
+  attributeDefinitions: AttributeDefinition[];
   heroes: Map<string, Hero>;
   items: Map<string, Item>;
   skills: Map<string, Skill>;
