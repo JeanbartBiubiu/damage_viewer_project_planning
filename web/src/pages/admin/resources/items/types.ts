@@ -6,6 +6,7 @@ export type ItemsSearchData = {
   itemId: string;
   name: string;
   goldCost: string;
+  typeIds: number[];
 };
 
 export type ItemsFormData = {
@@ -16,4 +17,6 @@ export type ItemsFormData = {
   statsModifierText: string;
   skillRefsText: string;
   recipeIdsText: string;
+  selectedTypeIds: number[];
+  persistedTypeIds: number[];
 };

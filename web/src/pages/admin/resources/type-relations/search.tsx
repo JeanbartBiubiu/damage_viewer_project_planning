@@ -1,5 +1,13 @@
-import { Button, Form, Input, Space } from '@arco-design/web-react';
+import { Button, Form, Input, Select, Space } from '@arco-design/web-react';
 import type { TypeRelationsSearchData } from './types';
+
+const TARGET_CATEGORY_OPTIONS = [
+  { label: '英雄', value: 'character' },
+  { label: '技能', value: 'skill' },
+  { label: '装备', value: 'equipment' },
+  { label: '属性', value: 'attribute' },
+  { label: '类型', value: 'type' }
+];
 
 type TypeRelationsSearchProps = {
   searchData: TypeRelationsSearchData;
@@ -15,10 +23,12 @@ export function TypeRelationsSearch({ searchData, onFieldChange, onSearch, onRes
         <Input value={searchData.typeId} onChange={(value) => onFieldChange('typeId', value)} placeholder="请输入 typeId" />
       </Form.Item>
       <Form.Item label="targetCategory">
-        <Input
+        <Select
+          allowClear
           value={searchData.targetCategory}
           onChange={(value) => onFieldChange('targetCategory', value)}
-          placeholder="请输入 targetCategory"
+          placeholder="请选择 targetCategory"
+          options={TARGET_CATEGORY_OPTIONS}
         />
       </Form.Item>
       <Form.Item label="targetId">
