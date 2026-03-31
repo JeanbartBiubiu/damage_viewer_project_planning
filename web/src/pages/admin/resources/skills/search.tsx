@@ -1,14 +1,17 @@
 import { Button, Form, Input, Space } from '@arco-design/web-react';
+import { TypeFilter } from '../../../../components/TypeFilter';
+import type { TypeDefinition } from '../../../../types/api';
 import type { SkillsSearchData } from './types';
 
 type SkillsSearchProps = {
+  typeDefinitions: TypeDefinition[];
   searchData: SkillsSearchData;
   onFieldChange: <K extends keyof SkillsSearchData>(field: K, value: SkillsSearchData[K]) => void;
   onSearch: () => void;
   onReset: () => void;
 };
 
-export function SkillsSearch({ searchData, onFieldChange, onSearch, onReset }: SkillsSearchProps) {
+export function SkillsSearch({ typeDefinitions, searchData, onFieldChange, onSearch, onReset }: SkillsSearchProps) {
   return (
     <Form layout="inline" className="crud-search-form">
       <Form.Item label="skillId">
@@ -25,6 +28,9 @@ export function SkillsSearch({ searchData, onFieldChange, onSearch, onReset }: S
       </Form.Item>
       <Form.Item label="名称">
         <Input value={searchData.name} onChange={(value) => onFieldChange('name', value)} placeholder="请输入名称" />
+      </Form.Item>
+      <Form.Item label="类型">
+        <TypeFilter definitions={typeDefinitions} value={searchData.typeIds} onChange={(value) => onFieldChange('typeIds', value)} />
       </Form.Item>
       <Form.Item>
         <Space>

@@ -1,7 +1,9 @@
 import { Alert } from '@arco-design/web-react';
+import { createEmptyMechanicsConfig } from '../../../../components/skill-editor/skillModels';
 import { Panel } from '../../../../components/Panel';
-import { getSkills, putSkill } from '../../../../services/apiClient';
+import { getSkills, putSkill, putTypeRelation } from '../../../../services/apiClient';
 import type { JsonObject } from '../../../../types/api';
+import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonArrayText, parseJsonObjectText, stringifyJson } from '../shared/json';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createSkillsFormData, createSkillsSearchData } from './constants';
@@ -28,11 +30,13 @@ function toSkillsFormData(record: SkillsRecord): SkillsFormData {
     cooldownsText: stringifyJson(record.cooldowns ?? []),
     paramsText: stringifyJson(record.params ?? {}),
     timingProfileText: stringifyJson(record.timingProfile ?? {}),
-    mechanicsConfigText: stringifyJson(record.mechanicsConfig ?? {})
+    mechanicsConfigText: stringifyJson(record.mechanicsConfig ?? { version: 1, triggers: [] }),
+    selectedTypeIds: [],
+    persistedTypeIds: []
   };
 }
 
-function filterSkills(records: SkillsRecord[], searchData: SkillsSearchData): SkillsRecord[] {
+function filterSkills(records: SkillsRecord[], searchData: SkillsSearchData, targetTypeIdsByKey: Map<string, number[]>): SkillsRecord[] {
   const skillId = searchData.skillId.trim().toLowerCase();
   const ownerType = searchData.ownerType.trim().toLowerCase();
   const ownerId = searchData.ownerId.trim().toLowerCase();
@@ -54,6 +58,12 @@ function filterSkills(records: SkillsRecord[], searchData: SkillsSearchData): Sk
     }
     if (name && !(record.name ?? '').toLowerCase().includes(name)) {
       return false;
+    }
+    if (searchData.typeIds.length > 0) {
+      const relatedTypeIds = targetTypeIdsByKey.get(`skill:${record.skillId}`) ?? [];
+      if (!searchData.typeIds.some((typeId) => relatedTypeIds.includes(typeId))) {
+        return false;
+      }
     }
     return true;
   });
@@ -86,31 +96,34 @@ async function saveSkillsRecord(
   }
 
   const resourceCosts = parseJsonArrayText(formData.resourceCostsText, 'resourceCosts');
-  if (resourceCosts.length > 0) {
-    payload.resourceCosts = resourceCosts;
-  }
+  payload.resourceCosts = resourceCosts;
 
   const cooldowns = parseJsonArrayText(formData.cooldownsText, 'cooldowns');
-  if (cooldowns.length > 0) {
-    payload.cooldowns = cooldowns;
-  }
+  payload.cooldowns = cooldowns;
 
   const params = parseJsonObjectText(formData.paramsText, 'params');
-  if (Object.keys(params).length > 0) {
-    payload.params = params;
-  }
+  payload.params = params;
 
   const timingProfile = parseJsonObjectText(formData.timingProfileText, 'timingProfile');
-  if (Object.keys(timingProfile).length > 0) {
-    payload.timingProfile = timingProfile;
-  }
+  payload.timingProfile = timingProfile;
 
-  const mechanicsConfig = parseJsonObjectText(formData.mechanicsConfigText, 'mechanicsConfig');
-  if (Object.keys(mechanicsConfig).length > 0) {
-    payload.mechanicsConfig = mechanicsConfig;
-  }
+  const mechanicsConfigText = formData.mechanicsConfigText.trim() ? formData.mechanicsConfigText : createEmptyMechanicsConfig();
+  const mechanicsConfig = parseJsonObjectText(mechanicsConfigText, 'mechanicsConfig');
+  payload.mechanicsConfig = mechanicsConfig;
 
-  return (await putSkill(apiBaseUrl, gameId, formData.skillId.trim(), token, payload)).data;
+  const savedSkill = (await putSkill(apiBaseUrl, gameId, formData.skillId.trim(), token, payload)).data;
+  const pendingTypeIds = formData.selectedTypeIds.filter((typeId) => !formData.persistedTypeIds.includes(typeId));
+  await Promise.all(
+    pendingTypeIds.map((typeId) =>
+      putTypeRelation(apiBaseUrl, gameId, typeId, 'skill', formData.skillId.trim(), token, {
+        typeId,
+        targetCategory: 'skill',
+        targetId: formData.skillId.trim()
+      })
+    )
+  );
+
+  return savedSkill;
 }
 
 export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPageProps) {
@@ -120,6 +133,12 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
     : !adminToken.trim()
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
+
+  const { types, targetTypeIdsByKey, error: typeCatalogError, refresh: refreshTypeCatalog } = useTypeCatalog(
+    apiBaseUrl,
+    selectedGameId,
+    adminToken
+  );
 
   const {
     filteredRecords,
@@ -148,17 +167,49 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
     createFormData: createSkillsFormData,
     listRecords: listSkillsRecords,
     saveRecord: saveSkillsRecord,
-    filterRecords: filterSkills,
+    filterRecords: (recordsToFilter, currentSearchData) => filterSkills(recordsToFilter, currentSearchData, targetTypeIdsByKey),
     toFormData: toSkillsFormData,
-    getSuccessMessage: (mode) => (mode === 'create' ? '技能新增成功' : '技能保存成功')
+    getSuccessMessage: (mode) => (mode === 'create' ? '技能新增成功' : '技能保存成功'),
+    afterSaveRecord: () => {
+      refreshTypeCatalog();
+    }
   });
+
+  const applySkillTypesToForm = (skillId: string) => {
+    const persistedTypeIds = targetTypeIdsByKey.get(`skill:${skillId}`) ?? [];
+    updateFormData('persistedTypeIds', persistedTypeIds);
+    updateFormData('selectedTypeIds', persistedTypeIds);
+  };
+
+  const openViewModalWithTypes = (record: SkillsRecord) => {
+    openViewModal(record);
+    applySkillTypesToForm(record.skillId);
+  };
+
+  const openEditModalWithTypes = (record: SkillsRecord) => {
+    openEditModal(record);
+    applySkillTypesToForm(record.skillId);
+  };
+
+  const openCreateModalWithTypes = () => {
+    openCreateModal();
+    updateFormData('persistedTypeIds', []);
+    updateFormData('selectedTypeIds', []);
+  };
 
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
+      {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
 
       <Panel title="查询条件" kicker="Search">
-        <SkillsSearch searchData={searchData} onFieldChange={updateSearchData} onSearch={handleSearch} onReset={handleResetSearch} />
+        <SkillsSearch
+          typeDefinitions={types}
+          searchData={searchData}
+          onFieldChange={updateSearchData}
+          onSearch={handleSearch}
+          onReset={handleResetSearch}
+        />
       </Panel>
 
       <Panel title="技能" kicker="Table">
@@ -167,14 +218,21 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
           loading={recordsState === 'loading'}
           records={filteredRecords}
           actionsDisabled={actionsDisabled}
-          onView={openViewModal}
-          onEdit={openEditModal}
-          onCreate={openCreateModal}
-          onRefresh={refreshRecords}
+          onView={openViewModalWithTypes}
+          onEdit={openEditModalWithTypes}
+          onCreate={openCreateModalWithTypes}
+          onRefresh={() => {
+            refreshRecords();
+            refreshTypeCatalog();
+          }}
         />
       </Panel>
 
       <SkillsModal
+        typeDefinitions={types}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
         visible={modalVisible}
         mode={modalMode}
         formData={formData}

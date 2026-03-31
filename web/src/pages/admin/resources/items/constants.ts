@@ -4,7 +4,8 @@ export function createItemsSearchData(): ItemsSearchData {
   return {
     itemId: '',
     name: '',
-    goldCost: ''
+    goldCost: '',
+    typeIds: []
   };
 }
 
@@ -16,6 +17,8 @@ export function createItemsFormData(): ItemsFormData {
     iconUrl: '',
     statsModifierText: '{\n  \n}',
     skillRefsText: '[\n  \n]',
-    recipeIdsText: '[\n  \n]'
+    recipeIdsText: '[\n  \n]',
+    selectedTypeIds: [],
+    persistedTypeIds: []
   };
 }

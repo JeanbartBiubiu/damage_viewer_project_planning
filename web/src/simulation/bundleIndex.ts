@@ -29,7 +29,14 @@ export function buildBundleIndex(bundle: GameDataBundle): BundleIndex {
     }
   }
 
-  return { heroes, items, skills, heroSkills };
+  return {
+    gameId: bundle.meta.gameId,
+    attributeDefinitions: bundle.attributeDefinitions ?? [],
+    heroes,
+    items,
+    skills,
+    heroSkills
+  };
 }
 
 /**

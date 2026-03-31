@@ -10,14 +10,14 @@ import {
   Card,
   Form,
   Grid,
-  Input,
   InputNumber,
   Select,
   Space,
   Typography,
 } from '@arco-design/web-react';
+import { AttributeKeySelector } from '../../components/AttributeKeySelector';
 import type { BundleIndex, CombatantDraft, SimulationDraft } from '../types';
-import type { Hero, Item, Skill } from '../../types/api';
+import type { AttributeDefinition, Hero, Item, Skill } from '../../types/api';
 
 const { Row, Col } = Grid;
 
@@ -249,16 +249,20 @@ type StatOverridePanelProps = {
   side: 'self' | 'enemy';
   combatant: CombatantDraft;
   onChange: (next: CombatantDraft) => void;
+  attributeDefinitions: AttributeDefinition[];
+  gameId?: string;
 };
 
-function StatOverridePanel({ side, combatant, onChange }: StatOverridePanelProps) {
+function StatOverridePanel({ side, combatant, onChange, attributeDefinitions, gameId }: StatOverridePanelProps) {
   const entries = Object.entries(combatant.statOverrides);
   const label = side === 'self' ? '我方属性覆盖' : '敌方属性覆盖';
 
   const addEntry = () => {
+    const usedKeys = new Set(entries.map(([key]) => key));
+    const nextAttrKey = attributeDefinitions.find((definition) => !usedKeys.has(definition.attrKey))?.attrKey ?? `attr_${entries.length + 1}`;
     onChange({
       ...combatant,
-      statOverrides: { ...combatant.statOverrides, ['new_attr']: 0 },
+      statOverrides: { ...combatant.statOverrides, [nextAttrKey]: 0 },
     });
   };
 
@@ -299,12 +303,24 @@ function StatOverridePanel({ side, combatant, onChange }: StatOverridePanelProps
       </Space>
       {entries.map(([key, value]) => (
         <Space key={key} size={4} style={{ marginBottom: 2 }}>
-          <Input
-            size="mini"
+          <div style={{ width: 220 }}>
+            <AttributeKeySelector
+              definitions={attributeDefinitions}
+              gameId={gameId ?? null}
+              mode="single"
+              valueMode="attrKey"
             value={key}
-            onChange={(val) => updateKey(key, val)}
-            style={{ width: 100 }}
-          />
+              size="mini"
+              onChange={(val) => {
+                if (typeof val === 'string' && val.trim()) {
+                  updateKey(key, val);
+                }
+              }}
+              excludeAttrKeys={entries.map(([entryKey]) => entryKey).filter((entryKey) => entryKey !== key)}
+              placeholder="选择属性"
+              showMetaText={false}
+            />
+          </div>
           <InputNumber
             size="mini"
             value={value}
@@ -331,6 +347,8 @@ function StatOverridePanel({ side, combatant, onChange }: StatOverridePanelProps
 export function DraftEditor({ draft, onDraftChange, bundleIndex }: DraftEditorProps) {
   const heroes = bundleIndex ? Array.from(bundleIndex.heroes.values()) : [];
   const items = bundleIndex ? Array.from(bundleIndex.items.values()) : [];
+  const attributeDefinitions = bundleIndex?.attributeDefinitions ?? [];
+  const gameId = bundleIndex?.gameId;
   const selfSkills = bundleIndex
     ? bundleIndex.heroSkills.get(draft.self.heroId) ?? []
     : [];
@@ -364,6 +382,8 @@ export function DraftEditor({ draft, onDraftChange, bundleIndex }: DraftEditorPr
             side="self"
             combatant={draft.self}
             onChange={updateSelf}
+            attributeDefinitions={attributeDefinitions}
+            gameId={gameId}
           />
         </Col>
         <Col span={12}>
@@ -380,6 +400,8 @@ export function DraftEditor({ draft, onDraftChange, bundleIndex }: DraftEditorPr
             side="enemy"
             combatant={draft.enemy}
             onChange={updateEnemy}
+            attributeDefinitions={attributeDefinitions}
+            gameId={gameId}
           />
         </Col>
       </Row>

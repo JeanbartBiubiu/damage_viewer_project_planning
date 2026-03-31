@@ -12,6 +12,7 @@ export function createTypesFormData(): TypesFormData {
     typeId: '',
     name: '',
     description: '',
-    reservedTypeId: ''
+    reservedTypeId: '',
+    parentTypeId: ''
   };
 }

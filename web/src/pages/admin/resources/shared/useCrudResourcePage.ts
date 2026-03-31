@@ -16,6 +16,7 @@ type UseCrudResourcePageArgs<TRecord, TSearch, TForm> = {
   filterRecords: (records: TRecord[], searchData: TSearch) => TRecord[];
   toFormData: (record: TRecord) => TForm;
   getSuccessMessage?: (mode: CrudModalMode) => string;
+  afterSaveRecord?: (savedRecord: TRecord, mode: CrudModalMode) => Promise<void> | void;
 };
 
 type UseCrudResourcePageResult<TRecord, TSearch, TForm> = {
@@ -50,7 +51,8 @@ export function useCrudResourcePage<TRecord, TSearch, TForm>({
   saveRecord,
   filterRecords,
   toFormData,
-  getSuccessMessage
+  getSuccessMessage,
+  afterSaveRecord
 }: UseCrudResourcePageArgs<TRecord, TSearch, TForm>): UseCrudResourcePageResult<TRecord, TSearch, TForm> {
   const token = adminToken.trim();
   const [refreshSeed, setRefreshSeed] = useState(0);
@@ -105,7 +107,7 @@ export function useCrudResourcePage<TRecord, TSearch, TForm>({
     };
   }, [apiBaseUrl, refreshSeed, selectedGameId, token]);
 
-  const filteredRecords = useMemo(() => filterRecords(records, appliedSearchData), [appliedSearchData, records]);
+  const filteredRecords = useMemo(() => filterRecords(records, appliedSearchData), [appliedSearchData, filterRecords, records]);
 
   function openCreateModal() {
     setModalMode('create');
@@ -132,7 +134,8 @@ export function useCrudResourcePage<TRecord, TSearch, TForm>({
 
     setSaving(true);
     try {
-      await saveRecord(apiBaseUrl, selectedGameId, token, formData);
+      const savedRecord = await saveRecord(apiBaseUrl, selectedGameId, token, formData);
+      await afterSaveRecord?.(savedRecord, modalMode);
       Message.success(getSuccessMessage?.(modalMode) ?? '保存成功');
       setModalVisible(false);
       setRefreshSeed((value) => value + 1);
