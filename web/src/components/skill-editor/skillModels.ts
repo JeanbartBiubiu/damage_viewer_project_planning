@@ -1,12 +1,18 @@
 import type { JsonObject, JsonValue } from '../../types/api';
 import { parseJsonArrayText, parseJsonObjectText, stringifyJson } from '../../pages/admin/resources/shared/json';
 
-export type SkillSeriesRow = {
+export type SkillValueKind = 'const' | 'table' | 'formula';
+export type SkillParamVarKind = 'const' | 'table' | 'scaled_attr' | 'formula' | 'mapping_scaled_attr';
+export type SkillActionType = 'deal_damage' | 'schedule_tick' | 'apply_modifier' | '__raw__';
+export type SkillValueDefinitionKind = SkillValueKind;
+
+export type SkillValueDefinitionRow = {
   raw: JsonObject;
-  kind: 'const' | 'table';
+  kind: SkillValueKind;
   by: string;
   value: number;
   values: number[];
+  formulaText: string;
 };
 
 export type SkillFlatParamsForm = {
@@ -23,6 +29,22 @@ export type SkillFlatParamsForm = {
   defaultSkillLevel: string;
 };
 
+export type SkillParamVarRow = {
+  key: string;
+  raw: JsonObject;
+  fallbackText: string;
+  label: string;
+  kind: SkillParamVarKind;
+  by: string;
+  value: number;
+  values: number[];
+  attr: string;
+  coefficient: number;
+  selector: string;
+  formulaText: string;
+  formulaVars: string[];
+};
+
 export type SkillTimingPhaseRow = {
   raw: JsonObject;
   phaseKey: string;
@@ -32,59 +54,122 @@ export type SkillTimingPhaseRow = {
   cancelScheduledOnInterrupt: boolean;
 };
 
-export type SkillActionRow = {
+export type SkillModifierStatRow = {
   raw: JsonObject;
-  type: string;
-  damageType: string;
+  key: string;
+  op: string;
   formulaText: string;
-  formulaVarsText: string;
-  tickKey: string;
-  everyMs: number;
-  times: number;
+  formulaVars: string[];
 };
+
+export type SkillStackRow = {
+  raw: JsonObject;
+  id: string;
+  name: string;
+  max: number;
+  timeoutMs: number;
+  resetOn: string[];
+};
+
+export type SkillActionRow =
+  | {
+      raw: JsonObject;
+      type: 'deal_damage';
+      rawType: string;
+      damageSource: string;
+      damageTarget: string;
+      damageType: string;
+      formulaText: string;
+      formulaVars: string[];
+    }
+  | {
+      raw: JsonObject;
+      type: 'schedule_tick';
+      rawType: string;
+      tickKey: string;
+      everyMs: number;
+      times: number;
+    }
+  | {
+      raw: JsonObject;
+      type: 'apply_modifier';
+      rawType: string;
+      modifierTarget: string;
+      durationMs: number;
+      stackingMode: string;
+      stats: SkillModifierStatRow[];
+    }
+  | {
+      raw: JsonObject;
+      type: '__raw__';
+      rawType: string;
+    };
 
 export type SkillTriggerRow = {
   raw: JsonObject;
   id: string;
   eventType: string;
   eventTickKey: string;
+  eventStackId: string;
   actions: SkillActionRow[];
 };
 
-export function createEmptySeriesRow(): SkillSeriesRow {
+const LEGACY_FLAT_PARAM_KEYS = [
+  'damageType',
+  'baseDamage',
+  'baseDamageBySkillLevel',
+  'attackRatio',
+  'adRatio',
+  'apRatio',
+  'bonusAttackSpeedRatio',
+  'hitCount',
+  'hitIntervalMs',
+  'channelDurationMs',
+  'defaultSkillLevel'
+] as const;
+
+export function createEmptyValueDefinitionRow(kind: SkillValueKind = 'const'): SkillValueDefinitionRow {
   return {
     raw: {},
-    kind: 'const',
+    kind,
     by: 'skillLevel',
     value: 0,
-    values: []
+    values: [],
+    formulaText: ''
   };
 }
 
-export function parseSkillSeriesRows(text: string, fieldName: string): SkillSeriesRow[] {
+export function parseSkillValueRows(text: string, fieldName: string): SkillValueDefinitionRow[] {
   const parsed = parseJsonArrayText(text, fieldName);
-  return parsed.map((entry, index) => parseSkillSeriesRow(entry, fieldName, index));
+  return parsed.map((entry, index) => parseValueDefinitionRow(entry, fieldName, index));
 }
 
-export function stringifySkillSeriesRows(rows: SkillSeriesRow[]): string {
-  const result = rows.map((row) => {
-    const raw = isPlainObject(row.raw) ? { ...row.raw } : {};
-    if (row.kind === 'table') {
-      delete raw.value;
-      raw.kind = 'table';
-      raw.by = row.by.trim() || 'skillLevel';
-      raw.values = normalizeNumberArray(row.values);
+export function stringifySkillValueRows(rows: SkillValueDefinitionRow[]): string {
+  return stringifyJson(
+    rows.map((row) => {
+      const raw = clonePlainObject(row.raw);
+      raw.kind = row.kind;
+
+      if (row.kind === 'const') {
+        raw.value = normalizeNumber(row.value);
+        delete raw.by;
+        delete raw.values;
+        delete raw.formulaText;
+      } else if (row.kind === 'table') {
+        raw.by = row.by.trim() || 'skillLevel';
+        raw.values = normalizeNumberArray(row.values);
+        delete raw.value;
+        delete raw.formulaText;
+      } else {
+        raw.formulaText = row.formulaText.trim();
+        delete raw.value;
+        delete raw.by;
+        delete raw.values;
+      }
+
       return raw;
-    }
-
-    delete raw.by;
-    delete raw.values;
-    raw.kind = 'const';
-    raw.value = normalizeNumber(row.value);
-    return raw;
-  });
-
-  return stringifyJson(result);
+    })
+  );
 }
 
 export function createEmptyFlatSkillParamsForm(): SkillFlatParamsForm {
@@ -139,6 +224,109 @@ export function stringifyFlatSkillParams(baseRoot: JsonObject, form: SkillFlatPa
   return stringifyJson(next);
 }
 
+export function createEmptyParamVarRow(kind: SkillParamVarKind = 'const', existingKeys: string[] = []): SkillParamVarRow {
+  return {
+    key: suggestUniqueKey('param', existingKeys),
+    raw: {},
+    fallbackText: '{\n  \n}',
+    label: '',
+    kind,
+    by: 'skillLevel',
+    value: 0,
+    values: [],
+    attr: '',
+    coefficient: 0,
+    selector: '',
+    formulaText: '',
+    formulaVars: []
+  };
+}
+
+export function parseSkillParams(text: string): { root: JsonObject; rows: SkillParamVarRow[]; hasLegacyFlatParams: boolean } {
+  const root = parseJsonObjectText(text, 'params');
+  const vars = isPlainObject(root.vars) ? root.vars : {};
+  const rows = Object.entries(vars).map(([key, value]) => parseParamVarRow(key, value));
+
+  return {
+    root,
+    rows,
+    hasLegacyFlatParams: LEGACY_FLAT_PARAM_KEYS.some((key) => root[key] !== undefined)
+  };
+}
+
+export function stringifySkillParams(baseRoot: JsonObject, rows: SkillParamVarRow[]): string {
+  const next: JsonObject = { ...baseRoot };
+  const vars: JsonObject = {};
+
+    rows.forEach((row) => {
+    const key = row.key.trim();
+    if (!key) {
+      return;
+    }
+
+    const raw = row.kind === 'mapping_scaled_attr' ? parseFallbackJsonObject(row.fallbackText, row.raw) : clonePlainObject(row.raw);
+    updateOptionalString(raw, 'label', row.label);
+    raw.kind = row.kind;
+
+    if (row.kind === 'const') {
+      raw.value = normalizeNumber(row.value);
+      delete raw.by;
+      delete raw.values;
+      delete raw.attr;
+      delete raw.coefficient;
+      delete raw.selector;
+      delete raw.formulaText;
+      delete raw.formulaVars;
+    } else if (row.kind === 'table') {
+      raw.by = row.by.trim() || 'skillLevel';
+      raw.values = normalizeNumberArray(row.values);
+      delete raw.value;
+      delete raw.attr;
+      delete raw.coefficient;
+      delete raw.selector;
+      delete raw.formulaText;
+      delete raw.formulaVars;
+    } else if (row.kind === 'scaled_attr') {
+      updateOptionalString(raw, 'attr', row.attr);
+      raw.coefficient = normalizeNumber(row.coefficient);
+      delete raw.value;
+      delete raw.by;
+      delete raw.values;
+      delete raw.selector;
+      delete raw.formulaText;
+      delete raw.formulaVars;
+    } else if (row.kind === 'formula') {
+      updateOptionalString(raw, 'formulaText', row.formulaText);
+      updateOptionalStringArray(raw, 'formulaVars', row.formulaVars);
+      delete raw.value;
+      delete raw.by;
+      delete raw.values;
+      delete raw.attr;
+      delete raw.coefficient;
+      delete raw.selector;
+    } else {
+      updateOptionalString(raw, 'selector', row.selector);
+      updateOptionalString(raw, 'attr', row.attr);
+      raw.coefficient = normalizeNumber(row.coefficient);
+      delete raw.value;
+      delete raw.by;
+      delete raw.values;
+      delete raw.formulaText;
+      delete raw.formulaVars;
+    }
+
+    vars[key] = raw;
+  });
+
+  next.vars = vars;
+  return stringifyJson(next);
+}
+
+export function parseParamVarJson(key: string, text: string): SkillParamVarRow {
+  const parsed = parseJsonObjectText(text, `params.vars.${key}`);
+  return parseParamVarRow(key, parsed);
+}
+
 export function createEmptyTimingPhaseRow(): SkillTimingPhaseRow {
   return {
     raw: {},
@@ -152,38 +340,27 @@ export function createEmptyTimingPhaseRow(): SkillTimingPhaseRow {
 
 export function parseTimingProfile(text: string): { root: JsonObject; rows: SkillTimingPhaseRow[] } {
   const root = parseJsonObjectText(text, 'timingProfile');
-  const phases = root.phases;
-  if (phases === undefined) {
-    return { root, rows: [] };
-  }
-  if (!Array.isArray(phases)) {
-    throw new Error('timingProfile.phases 必须是数组。');
-  }
+  const phases = Array.isArray(root.phases) ? root.phases : [];
 
   return {
     root,
-    rows: phases.map((phase, index) => {
-      if (!isPlainObject(phase)) {
-        throw new Error(`timingProfile.phases[${index}] 必须是对象。`);
-      }
-      return {
-        raw: { ...phase },
-        phaseKey: asText(phase.phaseKey),
-        kind: asText(phase.kind) || 'cast',
-        durationMs: normalizeNumber(phase.durationMs),
-        interruptible: Boolean(phase.interruptible),
-        cancelScheduledOnInterrupt: Boolean(phase.cancelScheduledOnInterrupt)
-      };
-    })
+    rows: phases.filter(isPlainObject).map((phase) => ({
+      raw: clonePlainObject(phase),
+      phaseKey: asText(phase.phaseKey),
+      kind: asText(phase.kind) || 'cast',
+      durationMs: normalizeNumber(phase.durationMs),
+      interruptible: Boolean(phase.interruptible),
+      cancelScheduledOnInterrupt: Boolean(phase.cancelScheduledOnInterrupt)
+    }))
   };
 }
 
 export function stringifyTimingProfile(baseRoot: JsonObject, rows: SkillTimingPhaseRow[]): string {
   const next: JsonObject = { ...baseRoot };
   next.phases = rows.map((row) => {
-    const raw = isPlainObject(row.raw) ? { ...row.raw } : {};
+    const raw = clonePlainObject(row.raw);
     updateOptionalString(raw, 'phaseKey', row.phaseKey);
-    updateOptionalString(raw, 'kind', row.kind || 'cast');
+    raw.kind = row.kind || 'cast';
     raw.durationMs = normalizeNumber(row.durationMs);
     raw.interruptible = Boolean(row.interruptible);
     raw.cancelScheduledOnInterrupt = Boolean(row.cancelScheduledOnInterrupt);
@@ -192,111 +369,122 @@ export function stringifyTimingProfile(baseRoot: JsonObject, rows: SkillTimingPh
   return stringifyJson(next);
 }
 
-export function createEmptyActionRow(): SkillActionRow {
+export function createEmptyStackRow(existingIds: string[] = []): SkillStackRow {
   return {
     raw: {},
-    type: 'deal_damage',
-    damageType: 'magic',
-    formulaText: '',
-    formulaVarsText: '',
-    tickKey: '',
-    everyMs: 1000,
-    times: 1
+    id: suggestUniqueKey('stack', existingIds),
+    name: '',
+    max: 1,
+    timeoutMs: 0,
+    resetOn: []
   };
 }
 
-export function createEmptyTriggerRow(): SkillTriggerRow {
+export function createEmptyModifierStatRow(): SkillModifierStatRow {
   return {
     raw: {},
-    id: '',
+    key: '',
+    op: 'add',
+    formulaText: '',
+    formulaVars: []
+  };
+}
+
+export function createEmptyActionRow(type: SkillActionType = 'deal_damage'): SkillActionRow {
+  if (type === 'schedule_tick') {
+    return {
+      raw: {},
+      type,
+      rawType: 'schedule_tick',
+      tickKey: '',
+      everyMs: 1000,
+      times: 1
+    };
+  }
+
+  if (type === 'apply_modifier') {
+    return {
+      raw: {},
+      type,
+      rawType: 'apply_modifier',
+      modifierTarget: 'self',
+      durationMs: 0,
+      stackingMode: 'refresh',
+      stats: [createEmptyModifierStatRow()]
+    };
+  }
+
+  if (type === '__raw__') {
+    return {
+      raw: { type: 'custom_action' },
+      type,
+      rawType: 'custom_action'
+    };
+  }
+
+  return {
+    raw: {},
+    type: 'deal_damage',
+    rawType: 'deal_damage',
+    damageSource: 'self',
+    damageTarget: 'enemy',
+    damageType: 'magic',
+    formulaText: '',
+    formulaVars: []
+  };
+}
+
+export function createEmptyTriggerRow(existingIds: string[] = []): SkillTriggerRow {
+  return {
+    raw: {},
+    id: suggestUniqueKey('trigger', existingIds),
     eventType: 'on_spell_cast',
     eventTickKey: '',
+    eventStackId: '',
     actions: [createEmptyActionRow()]
   };
 }
 
 export function createEmptyMechanicsConfig(): string {
-  return stringifyJson({ version: 1, triggers: [] });
+  return stringifyJson({ version: 1, stacks: [], triggers: [] });
 }
 
-export function parseMechanicsConfig(text: string): { root: JsonObject; version: number; rows: SkillTriggerRow[] } {
+export function parseMechanicsConfig(text: string): { root: JsonObject; version: number; stacks: SkillStackRow[]; rows: SkillTriggerRow[] } {
   const root = parseJsonObjectText(text, 'mechanicsConfig');
   const version = typeof root.version === 'number' ? normalizeNumber(root.version) : 1;
-  const triggers = root.triggers;
-  if (triggers === undefined) {
-    return { root, version, rows: [] };
-  }
-  if (!Array.isArray(triggers)) {
-    throw new Error('mechanicsConfig.triggers 必须是数组。');
-  }
+  const rawStacks = Array.isArray(root.stacks) ? root.stacks : [];
+  const rawTriggers = Array.isArray(root.triggers) ? root.triggers : [];
 
   return {
     root,
     version,
-    rows: triggers.map((trigger, triggerIndex) => {
-      if (!isPlainObject(trigger)) {
-        throw new Error(`mechanicsConfig.triggers[${triggerIndex}] 必须是对象。`);
-      }
-      if (!isPlainObject(trigger.event)) {
-        throw new Error(`mechanicsConfig.triggers[${triggerIndex}].event 必须是对象。`);
-      }
-      const actions = trigger.actions;
-      if (!Array.isArray(actions)) {
-        throw new Error(`mechanicsConfig.triggers[${triggerIndex}].actions 必须是数组。`);
-      }
-
-      return {
-        raw: { ...trigger },
-        id: asText(trigger.id),
-        eventType: asText((trigger.event as JsonObject).type) || 'on_spell_cast',
-        eventTickKey: asText((trigger.event as JsonObject).tickKey),
-        actions: actions.map((action, actionIndex) => parseActionRow(action, triggerIndex, actionIndex))
-      };
-    })
+    stacks: rawStacks.filter(isPlainObject).map(parseStackRow),
+    rows: rawTriggers.filter(isPlainObject).map(parseTriggerRow)
   };
 }
 
-export function stringifyMechanicsConfig(baseRoot: JsonObject, version: number, rows: SkillTriggerRow[]): string {
+export function stringifyMechanicsConfig(baseRoot: JsonObject, version: number, stacks: SkillStackRow[], rows: SkillTriggerRow[]): string {
   const next: JsonObject = { ...baseRoot };
   next.version = normalizeInteger(version || 1, 1);
-  next.triggers = rows.map((row) => {
-    const raw = isPlainObject(row.raw) ? { ...row.raw } : {};
-    const rawEvent = isPlainObject(raw.event) ? { ...(raw.event as JsonObject) } : {};
-    updateOptionalString(raw, 'id', row.id);
-    rawEvent.type = row.eventType || 'on_spell_cast';
-    if (row.eventType === 'on_tick') {
-      updateOptionalString(rawEvent, 'tickKey', row.eventTickKey);
-    } else {
-      delete rawEvent.tickKey;
-    }
-    raw.event = rawEvent;
-    raw.actions = row.actions.map((action) => stringifyActionRow(action));
-    return raw;
-  });
+  next.stacks = stacks.map(stringifyStackRow);
+  next.triggers = rows.map(stringifyTriggerRow);
   return stringifyJson(next);
 }
 
+export function parseActionJson(text: string): SkillActionRow {
+  const parsed = parseJsonObjectText(text, 'action');
+  return parseActionRow(parsed);
+}
+
 export function inferSkillShapeSummary(params: JsonObject | undefined, mechanicsConfig: JsonObject | undefined): string {
-  const hasFlat = Boolean(
-    params &&
-      [
-        'damageType',
-        'baseDamage',
-        'baseDamageBySkillLevel',
-        'attackRatio',
-        'adRatio',
-        'apRatio',
-        'hitCount',
-        'hitIntervalMs',
-        'channelDurationMs'
-      ].some((key) => params[key] !== undefined)
-  );
+  const hasFlat = Boolean(params && LEGACY_FLAT_PARAM_KEYS.some((key) => params[key] !== undefined));
+  const hasVars = Boolean(params && isPlainObject(params.vars) && Object.keys(params.vars).length > 0);
   const hasDsl = Boolean(mechanicsConfig && Array.isArray(mechanicsConfig.triggers) && mechanicsConfig.triggers.length > 0);
 
-  if (hasFlat && hasDsl) {
+  if ((hasFlat && hasVars) || (hasFlat && hasDsl)) {
     return 'Mixed';
   }
-  if (hasDsl) {
+  if (hasDsl || hasVars) {
     return 'DSL';
   }
   if (hasFlat) {
@@ -305,101 +493,318 @@ export function inferSkillShapeSummary(params: JsonObject | undefined, mechanics
   return 'Basic';
 }
 
-function parseSkillSeriesRow(entry: JsonValue, fieldName: string, index: number): SkillSeriesRow {
+function parseValueDefinitionRow(entry: JsonValue, fieldName: string, index: number): SkillValueDefinitionRow {
   if (typeof entry === 'number') {
-    return { raw: {}, kind: 'const', by: 'skillLevel', value: normalizeNumber(entry), values: [] };
-  }
-  if (!isPlainObject(entry)) {
-    throw new Error(`${fieldName}[${index}] 仅支持 const/table 对象。`);
+    return { raw: {}, kind: 'const', by: 'skillLevel', value: normalizeNumber(entry), values: [], formulaText: '' };
   }
 
-  const kind = asText(entry.kind) || 'const';
+  if (!isPlainObject(entry)) {
+    throw new Error(`${fieldName}[${index}] 必须是对象或数字。`);
+  }
+
+  const kind = normalizeValueKind(entry);
   if (kind === 'table') {
-    const values = entry.values;
-    if (!Array.isArray(values)) {
-      throw new Error(`${fieldName}[${index}].values 必须是数组。`);
-    }
     return {
-      raw: { ...entry },
-      kind: 'table',
+      raw: clonePlainObject(entry),
+      kind,
       by: asText(entry.by) || 'skillLevel',
       value: 0,
-      values: normalizeNumberArray(values)
+      values: normalizeNumberArray(Array.isArray(entry.values) ? entry.values : []),
+      formulaText: ''
     };
   }
 
-  if (kind !== 'const') {
-    throw new Error(`${fieldName}[${index}].kind 仅支持 const 或 table。`);
+  if (kind === 'formula') {
+    return {
+      raw: clonePlainObject(entry),
+      kind,
+      by: 'skillLevel',
+      value: 0,
+      values: [],
+      formulaText: asText(entry.formulaText)
+    };
   }
 
   return {
-    raw: { ...entry },
+    raw: clonePlainObject(entry),
     kind: 'const',
     by: 'skillLevel',
     value: normalizeNumber(entry.value),
-    values: []
+    values: [],
+    formulaText: ''
   };
 }
 
-function parseActionRow(action: JsonValue, triggerIndex: number, actionIndex: number): SkillActionRow {
-  if (!isPlainObject(action)) {
-    throw new Error(`mechanicsConfig.triggers[${triggerIndex}].actions[${actionIndex}] 必须是对象。`);
+function parseParamVarRow(key: string, value: unknown): SkillParamVarRow {
+  const raw = clonePlainObject(value);
+  const kind = normalizeParamVarKind(raw);
+
+  return {
+    key,
+    raw,
+    fallbackText: stringifyJson(raw),
+    label: asText(raw.label),
+    kind,
+    by: asText(raw.by) || 'skillLevel',
+    value: normalizeNumber(raw.value),
+    values: normalizeNumberArray(Array.isArray(raw.values) ? raw.values : []),
+    attr: asText(raw.attr),
+    coefficient: normalizeNumber(raw.coefficient),
+    selector: asText(raw.selector),
+    formulaText: asText(raw.formulaText),
+    formulaVars: normalizeStringArray(raw.formulaVars)
+  };
+}
+
+function parseStackRow(value: JsonObject): SkillStackRow {
+  return {
+    raw: clonePlainObject(value),
+    id: asText(value.id),
+    name: asText(value.name),
+    max: normalizeInteger(value.max, 1),
+    timeoutMs: normalizeInteger(value.timeoutMs, 0),
+    resetOn: normalizeStringArray(value.resetOn)
+  };
+}
+
+function stringifyStackRow(row: SkillStackRow): JsonObject {
+  const raw = clonePlainObject(row.raw);
+  updateOptionalString(raw, 'id', row.id);
+  updateOptionalString(raw, 'name', row.name);
+  raw.max = normalizeInteger(row.max, 1);
+  if (row.timeoutMs > 0) {
+    raw.timeoutMs = normalizeInteger(row.timeoutMs, 0);
+  } else {
+    delete raw.timeoutMs;
   }
-  const type = asText(action.type);
-  if (type !== 'deal_damage' && type !== 'schedule_tick') {
-    throw new Error(`当前结构化编辑仅支持 deal_damage / schedule_tick，发现 ${type || 'unknown'}。`);
+  updateOptionalStringArray(raw, 'resetOn', row.resetOn);
+  return raw;
+}
+
+function parseTriggerRow(value: JsonObject): SkillTriggerRow {
+  const event = isPlainObject(value.event) ? value.event : {};
+  const actions = Array.isArray(value.actions) ? value.actions.filter(isPlainObject).map(parseActionRow) : [];
+
+  return {
+    raw: clonePlainObject(value),
+    id: asText(value.id),
+    eventType: asText(event.type) || 'on_spell_cast',
+    eventTickKey: asText(event.tickKey),
+    eventStackId: asText(event.stackId),
+    actions
+  };
+}
+
+function stringifyTriggerRow(row: SkillTriggerRow): JsonObject {
+  const raw = clonePlainObject(row.raw);
+  const rawEvent = clonePlainObject(raw.event);
+
+  updateOptionalString(raw, 'id', row.id);
+  rawEvent.type = row.eventType || 'on_spell_cast';
+  if (row.eventType === 'on_tick') {
+    updateOptionalString(rawEvent, 'tickKey', row.eventTickKey);
+    delete rawEvent.stackId;
+  } else if (row.eventType === 'on_stack_change') {
+    updateOptionalString(rawEvent, 'stackId', row.eventStackId);
+    delete rawEvent.tickKey;
+  } else {
+    delete rawEvent.tickKey;
+    delete rawEvent.stackId;
   }
 
+  raw.event = rawEvent;
+  raw.actions = row.actions.map(stringifyActionRow);
+  return raw;
+}
+
+function parseActionRow(value: JsonObject): SkillActionRow {
+  const type = asText(value.type);
+
   if (type === 'deal_damage') {
-    const damage = isPlainObject(action.damage) ? (action.damage as JsonObject) : {};
-    const formulaVars = Array.isArray(damage.formulaVars) ? damage.formulaVars.map((entry) => String(entry)) : [];
+    const damage = clonePlainObject(value.damage);
     return {
-      raw: { ...action },
+      raw: clonePlainObject(value),
       type,
+      rawType: type,
+      damageSource: asText(damage.source) || 'self',
+      damageTarget: asText(damage.target) || 'enemy',
       damageType: asText(damage.damageType) || 'magic',
       formulaText: asText(damage.formulaText),
-      formulaVarsText: formulaVars.join(', '),
-      tickKey: '',
-      everyMs: 1000,
-      times: 1
+      formulaVars: normalizeStringArray(damage.formulaVars)
+    };
+  }
+
+  if (type === 'schedule_tick') {
+    return {
+      raw: clonePlainObject(value),
+      type,
+      rawType: type,
+      tickKey: asText(value.tickKey),
+      everyMs: normalizeInteger(value.everyMs, 1000),
+      times: normalizeInteger(value.times, 1)
+    };
+  }
+
+  if (type === 'apply_modifier') {
+    const modifier = clonePlainObject(value.modifier);
+    const stats = Array.isArray(modifier.stats) ? modifier.stats.filter(isPlainObject).map(parseModifierStatRow) : [];
+    const stacking = clonePlainObject(modifier.stacking);
+    return {
+      raw: clonePlainObject(value),
+      type,
+      rawType: type,
+      modifierTarget: asText(modifier.target) || 'self',
+      durationMs: normalizeInteger(modifier.durationMs, 0),
+      stackingMode: asText(stacking.mode) || 'refresh',
+      stats
     };
   }
 
   return {
-    raw: { ...action },
-    type,
-    damageType: 'magic',
-    formulaText: '',
-    formulaVarsText: '',
-    tickKey: asText(action.tickKey),
-    everyMs: normalizeNumber(action.everyMs),
-    times: normalizeInteger(action.times, 1)
+    raw: clonePlainObject(value),
+    type: '__raw__',
+    rawType: type || 'custom_action'
   };
 }
 
 function stringifyActionRow(action: SkillActionRow): JsonObject {
-  const raw = isPlainObject(action.raw) ? { ...action.raw } : {};
-  raw.type = action.type;
+  const raw = clonePlainObject(action.raw);
 
-  if (action.type === 'deal_damage') {
-    const rawDamage = isPlainObject(raw.damage) ? { ...(raw.damage as JsonObject) } : {};
-    rawDamage.source = asText(rawDamage.source) || 'self';
-    rawDamage.target = asText(rawDamage.target) || 'enemy';
-    updateOptionalString(rawDamage, 'damageType', action.damageType || 'magic');
-    updateOptionalString(rawDamage, 'formulaText', action.formulaText);
-    updateOptionalStringArray(rawDamage, 'formulaVars', action.formulaVarsText);
-    raw.damage = rawDamage;
-    delete raw.tickKey;
-    delete raw.everyMs;
-    delete raw.times;
+  if (action.type === '__raw__') {
     return raw;
   }
 
+  raw.type = action.rawType || action.type;
+
+  if (action.type === 'deal_damage') {
+    const damage = clonePlainObject(raw.damage);
+    damage.source = action.damageSource || 'self';
+    damage.target = action.damageTarget || 'enemy';
+    damage.damageType = action.damageType || 'magic';
+    updateOptionalString(damage, 'formulaText', action.formulaText);
+    updateOptionalStringArray(damage, 'formulaVars', action.formulaVars);
+    raw.damage = damage;
+    delete raw.tickKey;
+    delete raw.everyMs;
+    delete raw.times;
+    delete raw.modifier;
+    return raw;
+  }
+
+  if (action.type === 'schedule_tick') {
+    updateOptionalString(raw, 'tickKey', action.tickKey);
+    raw.everyMs = normalizeInteger(action.everyMs, 1000);
+    raw.times = normalizeInteger(action.times, 1);
+    delete raw.damage;
+    delete raw.modifier;
+    return raw;
+  }
+
+  const modifier = clonePlainObject(raw.modifier);
+  const stacking = clonePlainObject(modifier.stacking);
+  modifier.target = action.modifierTarget || 'self';
+  if (action.durationMs > 0) {
+    modifier.durationMs = normalizeInteger(action.durationMs, 0);
+  } else {
+    delete modifier.durationMs;
+  }
+  stacking.mode = action.stackingMode || 'refresh';
+  modifier.stacking = stacking;
+  modifier.stats = action.stats.map(stringifyModifierStatRow);
+  raw.modifier = modifier;
   delete raw.damage;
-  updateOptionalString(raw, 'tickKey', action.tickKey);
-  raw.everyMs = normalizeNumber(action.everyMs);
-  raw.times = normalizeInteger(action.times, 1);
+  delete raw.tickKey;
+  delete raw.everyMs;
+  delete raw.times;
   return raw;
+}
+
+function parseModifierStatRow(value: JsonObject): SkillModifierStatRow {
+  return {
+    raw: clonePlainObject(value),
+    key: asText(value.key),
+    op: asText(value.op) || 'add',
+    formulaText: asText(value.formulaText),
+    formulaVars: normalizeStringArray(value.formulaVars)
+  };
+}
+
+function stringifyModifierStatRow(row: SkillModifierStatRow): JsonObject {
+  const raw = clonePlainObject(row.raw);
+  updateOptionalString(raw, 'key', row.key);
+  raw.op = row.op || 'add';
+  updateOptionalString(raw, 'formulaText', row.formulaText);
+  updateOptionalStringArray(raw, 'formulaVars', row.formulaVars);
+  return raw;
+}
+
+function normalizeValueKind(value: JsonObject): SkillValueKind {
+  const kind = asText(value.kind);
+  if (kind === 'table' || kind === 'formula') {
+    return kind;
+  }
+  if (kind === 'const') {
+    return 'const';
+  }
+  if (asText(value.formulaText)) {
+    return 'formula';
+  }
+  if (Array.isArray(value.values)) {
+    return 'table';
+  }
+  return 'const';
+}
+
+function normalizeParamVarKind(value: JsonObject): SkillParamVarKind {
+  const kind = asText(value.kind);
+  if (
+    kind === 'const' ||
+    kind === 'table' ||
+    kind === 'scaled_attr' ||
+    kind === 'formula' ||
+    kind === 'mapping_scaled_attr'
+  ) {
+    return kind;
+  }
+  if (asText(value.selector)) {
+    return 'mapping_scaled_attr';
+  }
+  if (asText(value.attr)) {
+    return 'scaled_attr';
+  }
+  if (asText(value.formulaText)) {
+    return 'formula';
+  }
+  if (Array.isArray(value.values)) {
+    return 'table';
+  }
+  return 'const';
+}
+
+function suggestUniqueKey(prefix: string, existingKeys: string[]): string {
+  const existing = new Set(existingKeys.filter(Boolean));
+  let next = 1;
+  while (existing.has(`${prefix}_${next}`)) {
+    next += 1;
+  }
+  return `${prefix}_${next}`;
+}
+
+function clonePlainObject(value: unknown): JsonObject {
+  return isPlainObject(value) ? { ...(value as JsonObject) } : {};
+}
+
+function parseFallbackJsonObject(text: string, fallback: JsonObject): JsonObject {
+  const trimmed = text.trim();
+  if (!trimmed) {
+    return clonePlainObject(fallback);
+  }
+
+  try {
+    return parseJsonObjectText(trimmed, 'fallback');
+  } catch {
+    return clonePlainObject(fallback);
+  }
 }
 
 function updateOptionalString(target: JsonObject, key: string, value: string) {
@@ -411,11 +816,13 @@ function updateOptionalString(target: JsonObject, key: string, value: string) {
   delete target[key];
 }
 
-function updateOptionalStringArray(target: JsonObject, key: string, value: string) {
-  const normalized = value
-    .split(',')
-    .map((entry) => entry.trim())
-    .filter(Boolean);
+function updateOptionalStringArray(target: JsonObject, key: string, value: string[] | string) {
+  const normalized = Array.isArray(value)
+    ? normalizeStringArray(value)
+    : value
+        .split(',')
+        .map((entry) => entry.trim())
+        .filter(Boolean);
   if (normalized.length > 0) {
     target[key] = normalized;
     return;
@@ -462,6 +869,13 @@ function toEditableNumberList(value: unknown): string {
 
 function normalizeNumberArray(values: JsonValue[] | number[]): number[] {
   return values.map((value) => normalizeNumber(value));
+}
+
+function normalizeStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value.map((entry) => String(entry).trim()).filter(Boolean);
 }
 
 function normalizeNumber(value: unknown): number {

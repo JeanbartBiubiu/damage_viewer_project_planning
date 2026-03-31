@@ -2,9 +2,9 @@ import { Alert } from '@arco-design/web-react';
 import { createEmptyMechanicsConfig } from '../../../../components/skill-editor/skillModels';
 import { Panel } from '../../../../components/Panel';
 import { getSkills, putSkill, putTypeRelation } from '../../../../services/apiClient';
-import type { JsonObject } from '../../../../types/api';
+import type { JsonObject, JsonValue } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
-import { parseJsonArrayText, parseJsonObjectText, stringifyJson } from '../shared/json';
+import { parseJsonArrayText, parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createSkillsFormData, createSkillsSearchData } from './constants';
 import { SkillsModal } from './modal';
@@ -17,6 +17,32 @@ type SkillsPageProps = {
   selectedGameId: string | null;
   adminToken: string;
 };
+
+const KNOWN_SKILL_FIELDS = new Set([
+  'skillId',
+  'ownerType',
+  'ownerId',
+  'skillKey',
+  'name',
+  'description',
+  'resourceCosts',
+  'cooldowns',
+  'params',
+  'timingProfile',
+  'mechanicsConfig',
+  'mvpExtensions',
+  'notes'
+]);
+
+function extractExtraSkillFields(record: SkillsRecord): JsonObject {
+  const result: JsonObject = {};
+  Object.entries(record).forEach(([key, value]) => {
+    if (!KNOWN_SKILL_FIELDS.has(key)) {
+      result[key] = value as JsonValue;
+    }
+  });
+  return result;
+}
 
 function toSkillsFormData(record: SkillsRecord): SkillsFormData {
   return {
@@ -31,6 +57,9 @@ function toSkillsFormData(record: SkillsRecord): SkillsFormData {
     paramsText: stringifyJson(record.params ?? {}),
     timingProfileText: stringifyJson(record.timingProfile ?? {}),
     mechanicsConfigText: stringifyJson(record.mechanicsConfig ?? { version: 1, triggers: [] }),
+    mvpExtensionsText: stringifyJson((record as JsonObject).mvpExtensions ?? {}),
+    notesText: stringifyJson((record as JsonObject).notes ?? []),
+    extraFieldsText: stringifyJson(extractExtraSkillFields(record)),
     selectedTypeIds: [],
     persistedTypeIds: []
   };
@@ -80,6 +109,7 @@ async function saveSkillsRecord(
   formData: SkillsFormData
 ): Promise<SkillsRecord> {
   const payload: JsonObject = {
+    ...parseJsonObjectText(formData.extraFieldsText, 'extraFields'),
     skillId: formData.skillId.trim(),
     ownerType: formData.ownerType.trim(),
     ownerId: formData.ownerId.trim()
@@ -110,6 +140,16 @@ async function saveSkillsRecord(
   const mechanicsConfigText = formData.mechanicsConfigText.trim() ? formData.mechanicsConfigText : createEmptyMechanicsConfig();
   const mechanicsConfig = parseJsonObjectText(mechanicsConfigText, 'mechanicsConfig');
   payload.mechanicsConfig = mechanicsConfig;
+
+  const mvpExtensions = parseJsonObjectText(formData.mvpExtensionsText, 'mvpExtensions');
+  if (formData.mvpExtensionsText.trim() || Object.keys(mvpExtensions).length > 0) {
+    payload.mvpExtensions = mvpExtensions;
+  }
+
+  const notes = parseJsonStringArrayText(formData.notesText, 'notes');
+  if (formData.notesText.trim() || notes.length > 0) {
+    payload.notes = notes;
+  }
 
   const savedSkill = (await putSkill(apiBaseUrl, gameId, formData.skillId.trim(), token, payload)).data;
   const pendingTypeIds = formData.selectedTypeIds.filter((typeId) => !formData.persistedTypeIds.includes(typeId));

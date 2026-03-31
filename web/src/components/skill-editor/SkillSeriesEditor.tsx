@@ -1,22 +1,41 @@
 import { Button, Empty, Input, InputNumber, Select, Space, Typography } from '@arco-design/web-react';
-import type { SkillSeriesRow } from './skillModels';
-import { createEmptySeriesRow } from './skillModels';
+import type { SkillValueDefinitionKind, SkillValueDefinitionRow } from './skillModels';
+import { createEmptyValueDefinitionRow } from './skillModels';
 
 type SkillSeriesEditorProps = {
   title: string;
   description: string;
-  rows: SkillSeriesRow[];
+  rows: SkillValueDefinitionRow[];
   disabled?: boolean;
-  onChange: (rows: SkillSeriesRow[]) => void;
+  onChange: (rows: SkillValueDefinitionRow[]) => void;
 };
+
+const VALUE_KIND_OPTIONS: Array<{ label: string; value: SkillValueDefinitionKind }> = [
+  { label: '固定值', value: 'const' },
+  { label: '等级表', value: 'table' },
+  { label: '公式', value: 'formula' }
+];
 
 export function SkillSeriesEditor({ title, description, rows, disabled = false, onChange }: SkillSeriesEditorProps) {
   const addRow = () => {
-    onChange([...rows, createEmptySeriesRow()]);
+    onChange([...rows, createEmptyValueDefinitionRow()]);
   };
 
-  const updateRow = (index: number, patch: Partial<SkillSeriesRow>) => {
+  const updateRow = (index: number, patch: Partial<SkillValueDefinitionRow>) => {
     onChange(rows.map((row, currentIndex) => (currentIndex === index ? { ...row, ...patch } : row)));
+  };
+
+  const updateKind = (index: number, kind: SkillValueDefinitionKind) => {
+    onChange(
+      rows.map((row, currentIndex) =>
+        currentIndex === index
+          ? {
+              ...createEmptyValueDefinitionRow(kind),
+              raw: row.raw
+            }
+          : row
+      )
+    );
   };
 
   const removeRow = (index: number) => {
@@ -43,48 +62,61 @@ export function SkillSeriesEditor({ title, description, rows, disabled = false, 
         rows.map((row, index) => (
           <div key={`${row.kind}-${index}`} style={{ border: '1px solid var(--color-border-2)', borderRadius: 8, padding: 12 }}>
             <Space direction="vertical" size={10} style={{ width: '100%' }}>
-              <Space wrap align="start" style={{ width: '100%' }}>
-                <div style={{ minWidth: 160 }}>
+              <div className="crud-form-grid">
+                <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    kind
+                    类型（kind）
                   </Typography.Text>
                   <Select
-                    style={{ width: 160 }}
                     value={row.kind}
                     disabled={disabled}
-                    options={[
-                      { label: 'const', value: 'const' },
-                      { label: 'table', value: 'table' }
-                    ]}
-                    onChange={(value) => updateRow(index, { kind: value === 'table' ? 'table' : 'const' })}
+                    options={VALUE_KIND_OPTIONS}
+                    onChange={(value) => updateKind(index, value as SkillValueDefinitionKind)}
                   />
                 </div>
 
-                {row.kind === 'table' ? (
-                  <div style={{ minWidth: 180 }}>
+                {row.kind === 'const' ? (
+                  <div>
                     <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                      by
+                      数值（value）
                     </Typography.Text>
-                    <Input value={row.by} disabled={disabled} onChange={(value) => updateRow(index, { by: value })} placeholder="skillLevel" />
+                    <InputNumber
+                      style={{ width: '100%' }}
+                      value={row.value}
+                      disabled={disabled}
+                      onChange={(value) => updateRow(index, { value: value == null ? undefined : Number(value) })}
+                    />
                   </div>
-                ) : (
-                  <div style={{ minWidth: 180 }}>
-                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                      value
-                    </Typography.Text>
-                    <InputNumber style={{ width: 180 }} value={row.value} disabled={disabled} onChange={(value) => updateRow(index, { value: Number(value ?? 0) })} />
-                  </div>
-                )}
+                ) : null}
 
-                <Button status="danger" onClick={() => removeRow(index)} disabled={disabled}>
-                  删除
-                </Button>
-              </Space>
+                {row.kind === 'table' ? (
+                  <div>
+                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                      维度（by）
+                    </Typography.Text>
+                    <Select
+                      value={row.by}
+                      disabled={disabled}
+                      options={[
+                        { label: '技能等级', value: 'skillLevel' },
+                        { label: '英雄等级', value: 'championLevel' }
+                      ]}
+                      onChange={(value) => updateRow(index, { by: String(value ?? 'skillLevel') })}
+                    />
+                  </div>
+                ) : null}
+
+                <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                  <Button status="danger" onClick={() => removeRow(index)} disabled={disabled}>
+                    删除
+                  </Button>
+                </div>
+              </div>
 
               {row.kind === 'table' ? (
                 <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    values（逗号分隔）
+                    数值列表（逗号分隔）
                   </Typography.Text>
                   <Input
                     value={row.values.join(', ')}
@@ -99,7 +131,21 @@ export function SkillSeriesEditor({ title, description, rows, disabled = false, 
                           .filter((entry) => Number.isFinite(entry))
                       })
                     }
-                    placeholder="例如：11, 10, 9, 8, 7"
+                    placeholder="例如：1, 10, 9, 8, 7"
+                  />
+                </div>
+              ) : null}
+
+              {row.kind === 'formula' ? (
+                <div>
+                  <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                    公式（formulaText）
+                  </Typography.Text>
+                  <Input
+                    value={row.formulaText}
+                    disabled={disabled}
+                    onChange={(value) => updateRow(index, { formulaText: value })}
+                    placeholder="例如：1 / self.attack_speed_current"
                   />
                 </div>
               ) : null}

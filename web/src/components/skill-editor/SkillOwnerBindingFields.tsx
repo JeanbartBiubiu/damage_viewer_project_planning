@@ -80,31 +80,39 @@ export function SkillOwnerBindingFields({
     setLoadingOwners(true);
     setOwnerError(null);
 
-    const task = ownerType === 'hero' ? getHeroes(apiBaseUrl, selectedGameId, token) : getItems(apiBaseUrl, selectedGameId, token);
+    const handleError = (error: unknown) => {
+      if (cancelled) {
+        return;
+      }
+      setHeroes([]);
+      setItems([]);
+      setLoadingOwners(false);
+      setOwnerError(getErrorMessage(error));
+    };
 
-    task
-      .then((result) => {
-        if (cancelled) {
-          return;
-        }
-        if (ownerType === 'hero') {
+    if (ownerType === 'hero') {
+      getHeroes(apiBaseUrl, selectedGameId, token)
+        .then((result) => {
+          if (cancelled) {
+            return;
+          }
           setHeroes(result.data.heroes);
           setItems([]);
-        } else {
+          setLoadingOwners(false);
+        })
+        .catch(handleError);
+    } else {
+      getItems(apiBaseUrl, selectedGameId, token)
+        .then((result) => {
+          if (cancelled) {
+            return;
+          }
           setItems(result.data.items);
           setHeroes([]);
-        }
-        setLoadingOwners(false);
-      })
-      .catch((error) => {
-        if (cancelled) {
-          return;
-        }
-        setHeroes([]);
-        setItems([]);
-        setLoadingOwners(false);
-        setOwnerError(getErrorMessage(error));
-      });
+          setLoadingOwners(false);
+        })
+        .catch(handleError);
+    }
 
     return () => {
       cancelled = true;
@@ -112,16 +120,20 @@ export function SkillOwnerBindingFields({
   }, [apiBaseUrl, selectedGameId, token, ownerType]);
 
   const ownerTypeOptions = useMemo(
-    () => categories.map((category) => ({ label: `${category.name ?? category.ownerType} · ${category.ownerType}`, value: category.ownerType })),
+    () =>
+      categories.map((category) => ({
+        label: `${category.name ?? category.ownerType} / ${category.ownerType}`,
+        value: category.ownerType
+      })),
     [categories]
   );
 
   const ownerIdOptions = useMemo(() => {
     if (ownerType === 'hero') {
-      return heroes.map((hero) => ({ label: `${hero.title ?? hero.heroId} · ${hero.heroId}`, value: hero.heroId }));
+      return heroes.map((hero) => ({ label: `${hero.title ?? hero.heroId} / ${hero.heroId}`, value: hero.heroId }));
     }
     if (ownerType === 'item') {
-      return items.map((item) => ({ label: `${item.name ?? item.itemId} · ${item.itemId}`, value: item.itemId }));
+      return items.map((item) => ({ label: `${item.name ?? item.itemId} / ${item.itemId}`, value: item.itemId }));
     }
     return [];
   }, [heroes, items, ownerType]);
@@ -131,19 +143,20 @@ export function SkillOwnerBindingFields({
       <div className="crud-form-grid">
         <div>
           <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-            ownerType
+            归属类型（ownerType）
           </Typography.Text>
           <Select
             showSearch
             allowClear
-            placeholder="选择 ownerType"
+            placeholder="选择归属类型"
             value={ownerType || undefined}
             disabled={disabled || !selectedGameId}
             loading={loadingCategories}
             options={ownerTypeOptions}
             onChange={(value) => onOwnerTypeChange(String(value ?? ''))}
             filterOption={(inputValue, option) => {
-              const searchText = `${String(option?.value ?? '')} ${String(option?.label ?? '')}`.toLowerCase();
+              const optionData = option as { value?: unknown; label?: unknown } | undefined;
+              const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
               return searchText.includes(inputValue.trim().toLowerCase());
             }}
           />
@@ -151,20 +164,21 @@ export function SkillOwnerBindingFields({
 
         <div>
           <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-            ownerId
+            归属目标（ownerId）
           </Typography.Text>
           {ownerType === 'hero' || ownerType === 'item' ? (
             <Select
               showSearch
               allowClear
-              placeholder={ownerType === 'hero' ? '选择英雄 ownerId' : '选择装备 ownerId'}
+              placeholder={ownerType === 'hero' ? '选择英雄' : '选择装备'}
               value={ownerId || undefined}
               disabled={disabled || !selectedGameId || !token}
               loading={loadingOwners}
               options={ownerIdOptions}
               onChange={(value) => onOwnerIdChange(String(value ?? ''))}
               filterOption={(inputValue, option) => {
-                const searchText = `${String(option?.value ?? '')} ${String(option?.label ?? '')}`.toLowerCase();
+                const optionData = option as { value?: unknown; label?: unknown } | undefined;
+                const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
                 return searchText.includes(inputValue.trim().toLowerCase());
               }}
             />
@@ -174,11 +188,11 @@ export function SkillOwnerBindingFields({
         </div>
       </div>
 
-      {categoryError ? <Alert type="error" content={`ownerType 字典加载失败：${categoryError}`} style={{ marginTop: 8 }} /> : null}
-      {ownerError ? <Alert type="error" content={`ownerId 候选加载失败：${ownerError}`} style={{ marginTop: 8 }} /> : null}
+      {categoryError ? <Alert type="error" content={`归属类型字典加载失败：${categoryError}`} style={{ marginTop: 8 }} /> : null}
+      {ownerError ? <Alert type="error" content={`归属目标候选加载失败：${ownerError}`} style={{ marginTop: 8 }} /> : null}
       {!categoryError && !ownerError ? (
         <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
-          `hero/item` 会自动提供可选 ownerId，其它 ownerType 暂保留手输模式。
+          `hero/item` 会自动提供候选目标，其它 `ownerType` 暂时保留手输模式。
         </Typography.Text>
       ) : null}
     </div>

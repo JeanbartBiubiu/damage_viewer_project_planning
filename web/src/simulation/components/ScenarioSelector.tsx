@@ -5,7 +5,7 @@
  */
 
 import { Card, Space, Tag, Typography } from '@arco-design/web-react';
-import type { ScenarioId, ScenarioStatus, ScenarioTemplate } from '../types';
+import type { ScenarioId, ScenarioStatus } from '../types';
 import { getAllTemplates } from '../scenarios';
 
 type ScenarioSelectorProps = {

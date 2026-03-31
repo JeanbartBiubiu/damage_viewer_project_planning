@@ -14,4 +14,5 @@ export type FormulaProfilesFormData = {
   formulaKind: string;
   description: string;
   paramsText: string;
+  extraFieldsText: string;
 };
