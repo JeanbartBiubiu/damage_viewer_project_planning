@@ -7,12 +7,10 @@
 
 import { Card, Descriptions, Space, Table, Tag, Typography } from '@arco-design/web-react';
 import type {
-  ChartSeries,
   ComparisonRow,
   InterpretedResult,
   SimulationResult,
   SummaryCard,
-  VariantResult,
 } from '../types';
 import type { EngineDamageEvent } from '../../engine/types';
 import { SimChart } from './SimChart';

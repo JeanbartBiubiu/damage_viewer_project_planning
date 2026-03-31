@@ -1,16 +1,15 @@
 import type { CoefficientBucketsFormData, CoefficientBucketsSearchData } from './types';
 
 export const COEFFICIENT_BUCKET_RESOLUTION_DOMAIN_OPTIONS = [
-  { label: 'attribute', value: 'attribute' },
-  { label: 'damage', value: 'damage' },
-  { label: 'global', value: 'global' }
+  { label: '属性', value: 'attribute' },
+  { label: '生命变化', value: 'hp_change' }
 ];
 
 export const COEFFICIENT_BUCKET_AGGREGATION_MODE_OPTIONS = [
-  { label: 'add', value: 'add' },
-  { label: 'multiply', value: 'multiply' },
-  { label: 'max', value: 'max' },
-  { label: 'min', value: 'min' }
+  { label: '累加', value: 'add' },
+  { label: '相乘', value: 'multiply' },
+  { label: '取最大', value: 'pick_max' },
+  { label: '直接设定', value: 'set_final' }
 ];
 
 export function createCoefficientBucketsSearchData(): CoefficientBucketsSearchData {

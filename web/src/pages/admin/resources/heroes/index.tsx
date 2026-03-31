@@ -115,7 +115,6 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
   );
 
   const {
-    records,
     filteredRecords,
     recordsState,
     recordsError,

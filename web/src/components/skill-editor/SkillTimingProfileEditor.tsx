@@ -25,9 +25,9 @@ export function SkillTimingProfileEditor({ rows, disabled = false, onChange }: S
     <Space direction="vertical" size={12} style={{ width: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <Typography.Text bold>Timing Profile</Typography.Text>
+          <Typography.Text bold>时序阶段</Typography.Text>
           <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
-            第一版只结构化 `phases[]`，覆盖 cast / channel / recovery 的常用字段。
+            结构化编辑 `timingProfile.phases[]`，其余 timing 字段继续 passthrough 保留。
           </Typography.Text>
         </div>
         <Button size="small" type="primary" onClick={addRow} disabled={disabled}>
@@ -36,7 +36,7 @@ export function SkillTimingProfileEditor({ rows, disabled = false, onChange }: S
       </div>
 
       {rows.length === 0 ? (
-        <Empty description="暂无阶段配置，可直接添加 cast/channel/recovery。" />
+        <Empty description="暂无阶段配置，可直接添加施法、引导、后摇或持续效果阶段。" />
       ) : (
         rows.map((row, index) => (
           <div key={`${row.phaseKey || 'phase'}-${index}`} style={{ border: '1px solid var(--color-border-2)', borderRadius: 8, padding: 12 }}>
@@ -44,21 +44,22 @@ export function SkillTimingProfileEditor({ rows, disabled = false, onChange }: S
               <div className="crud-form-grid">
                 <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    phaseKey
+                    阶段键（phaseKey）
                   </Typography.Text>
                   <Input value={row.phaseKey} disabled={disabled} onChange={(value) => updateRow(index, { phaseKey: value })} placeholder="例如 cast" />
                 </div>
                 <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    kind
+                    阶段类型（kind）
                   </Typography.Text>
                   <Select
                     value={row.kind}
                     disabled={disabled}
                     options={[
-                      { label: 'cast', value: 'cast' },
-                      { label: 'channel', value: 'channel' },
-                      { label: 'recovery', value: 'recovery' }
+                      { label: '施法', value: 'cast' },
+                      { label: '引导', value: 'channel' },
+                      { label: '后摇', value: 'recovery' },
+                      { label: '持续效果', value: 'persistent_effect' }
                     ]}
                     onChange={(value) => updateRow(index, { kind: String(value ?? 'cast') })}
                   />
@@ -68,17 +69,22 @@ export function SkillTimingProfileEditor({ rows, disabled = false, onChange }: S
               <div className="crud-form-grid">
                 <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    durationMs
+                    时长（durationMs）
                   </Typography.Text>
-                  <InputNumber style={{ width: '100%' }} value={row.durationMs} disabled={disabled} onChange={(value) => updateRow(index, { durationMs: Number(value ?? 0) })} />
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    value={row.durationMs}
+                    disabled={disabled}
+                    onChange={(value) => updateRow(index, { durationMs: value == null ? undefined : Number(value) })}
+                  />
                 </div>
-                <div style={{ display: 'flex', gap: 16, alignItems: 'center', paddingTop: 28 }}>
+                <div style={{ display: 'flex', gap: 16, alignItems: 'center', paddingTop: 28, flexWrap: 'wrap' }}>
                   <Space>
-                    <Typography.Text type="secondary">interruptible</Typography.Text>
+                    <Typography.Text type="secondary">可打断</Typography.Text>
                     <Switch checked={row.interruptible} disabled={disabled} onChange={(checked) => updateRow(index, { interruptible: checked })} />
                   </Space>
                   <Space>
-                    <Typography.Text type="secondary">cancelScheduledOnInterrupt</Typography.Text>
+                    <Typography.Text type="secondary">打断时取消已调度效果</Typography.Text>
                     <Switch
                       checked={row.cancelScheduledOnInterrupt}
                       disabled={disabled}

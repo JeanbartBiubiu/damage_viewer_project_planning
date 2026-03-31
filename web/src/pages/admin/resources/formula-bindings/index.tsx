@@ -16,13 +16,33 @@ type FormulaBindingsPageProps = {
   adminToken: string;
 };
 
+const KNOWN_FORMULA_BINDING_FIELDS = new Set([
+  'targetCategory',
+  'targetId',
+  'bindingKey',
+  'formulaId',
+  'overrideParams',
+  'updatedAt'
+]);
+
+function extractExtraFormulaBindingFields(record: FormulaBindingsRecord): JsonObject {
+  const result: JsonObject = {};
+  Object.entries(record).forEach(([key, value]) => {
+    if (!KNOWN_FORMULA_BINDING_FIELDS.has(key)) {
+      result[key] = value as JsonObject[string];
+    }
+  });
+  return result;
+}
+
 function toFormulaBindingsFormData(record: FormulaBindingsRecord): FormulaBindingsFormData {
   return {
     targetCategory: record.targetCategory,
     targetId: record.targetId,
     bindingKey: record.bindingKey,
     formulaId: record.formulaId,
-    overrideParamsText: stringifyJson(record.overrideParams ?? {})
+    overrideParamsText: stringifyJson(record.overrideParams ?? {}),
+    extraFieldsText: stringifyJson(extractExtraFormulaBindingFields(record))
   };
 }
 
@@ -60,6 +80,7 @@ async function saveFormulaBindingRecord(
   formData: FormulaBindingsFormData
 ): Promise<FormulaBindingsRecord> {
   const payload: JsonObject = {
+    ...parseJsonObjectText(formData.extraFieldsText, 'extraFields'),
     targetCategory: formData.targetCategory.trim(),
     targetId: formData.targetId.trim(),
     bindingKey: formData.bindingKey.trim(),
@@ -147,6 +168,9 @@ export function FormulaBindingsPage({ apiBaseUrl, selectedGameId, adminToken }: 
       </Panel>
 
       <FormulaBindingsModal
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
         visible={modalVisible}
         mode={modalMode}
         formData={formData}

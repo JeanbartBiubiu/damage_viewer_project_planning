@@ -85,10 +85,6 @@ export const killThresholdModule: ScenarioModule = {
     const maxKillableHp = killable.length > 0
       ? Math.max(...killable.map((vr) => vr.variant.xValue ?? 0))
       : 0;
-    const minNotKillableHp = notKillable.length > 0
-      ? Math.min(...notKillable.map((vr) => vr.variant.xValue ?? 0))
-      : 0;
-
     const summaryCards = [
       { label: '采样点数', value: results.length },
       {

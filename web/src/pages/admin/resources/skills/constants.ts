@@ -24,6 +24,9 @@ export function createSkillsFormData(): SkillsFormData {
     paramsText: '{\n  \n}',
     timingProfileText: '{\n  \n}',
     mechanicsConfigText: '{\n  "version": 1,\n  "triggers": []\n}',
+    mvpExtensionsText: '{\n  \n}',
+    notesText: '[\n  \n]',
+    extraFieldsText: '{\n  \n}',
     selectedTypeIds: [],
     persistedTypeIds: []
   };
