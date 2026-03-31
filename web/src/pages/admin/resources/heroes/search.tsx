@@ -1,14 +1,17 @@
 import { Button, Form, Input, Space } from '@arco-design/web-react';
+import { TypeFilter } from '../../../../components/TypeFilter';
+import type { TypeDefinition } from '../../../../types/api';
 import type { HeroesSearchData } from './types';
 
 type HeroesSearchProps = {
+  typeDefinitions: TypeDefinition[];
   searchData: HeroesSearchData;
   onFieldChange: <K extends keyof HeroesSearchData>(field: K, value: HeroesSearchData[K]) => void;
   onSearch: () => void;
   onReset: () => void;
 };
 
-export function HeroesSearch({ searchData, onFieldChange, onSearch, onReset }: HeroesSearchProps) {
+export function HeroesSearch({ typeDefinitions, searchData, onFieldChange, onSearch, onReset }: HeroesSearchProps) {
   return (
     <Form layout="inline" className="crud-search-form">
       <Form.Item label="heroId">
@@ -19,6 +22,9 @@ export function HeroesSearch({ searchData, onFieldChange, onSearch, onReset }: H
       </Form.Item>
       <Form.Item label="称号">
         <Input value={searchData.title} onChange={(value) => onFieldChange('title', value)} placeholder="请输入称号" />
+      </Form.Item>
+      <Form.Item label="类型">
+        <TypeFilter definitions={typeDefinitions} value={searchData.typeIds} onChange={(value) => onFieldChange('typeIds', value)} />
       </Form.Item>
       <Form.Item>
         <Space>

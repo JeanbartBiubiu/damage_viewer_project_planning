@@ -155,6 +155,9 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
       </Panel>
 
       <AttributeDefinitionsModal
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
         visible={modalVisible}
         mode={modalMode}
         formData={formData}

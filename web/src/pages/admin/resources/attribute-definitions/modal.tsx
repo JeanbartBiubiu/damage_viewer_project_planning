@@ -1,8 +1,12 @@
 import { Button, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
+import { AttributeKeySelector } from '../../../../components/AttributeKeySelector';
 import { ATTRIBUTE_VALUE_KIND_OPTIONS } from './constants';
 import type { AttributeDefinitionsFormData } from './types';
 
 type AttributeDefinitionsModalProps = {
+  apiBaseUrl: string;
+  selectedGameId: string | null;
+  adminToken: string;
   visible: boolean;
   mode: 'create' | 'view' | 'edit';
   formData: AttributeDefinitionsFormData;
@@ -13,6 +17,9 @@ type AttributeDefinitionsModalProps = {
 };
 
 export function AttributeDefinitionsModal({
+  apiBaseUrl,
+  selectedGameId,
+  adminToken,
   visible,
   mode,
   formData,
@@ -100,11 +107,17 @@ export function AttributeDefinitionsModal({
         </div>
 
         <Form.Item label="rateTargetAttrKey">
-          <Input
+          <AttributeKeySelector
+            apiBaseUrl={apiBaseUrl}
+            gameId={selectedGameId}
+            token={adminToken}
+            mode="single"
+            valueMode="attrKey"
             value={formData.rateTargetAttrKey}
-            disabled={readOnly}
-            onChange={(value) => onFieldChange('rateTargetAttrKey', value)}
-            placeholder="可选"
+            disabled={readOnly || formData.valueKind !== 'rate'}
+            onChange={(value) => onFieldChange('rateTargetAttrKey', typeof value === 'string' ? value : '')}
+            placeholder={formData.valueKind === 'rate' ? '请选择比率目标属性' : '仅 valueKind=rate 时可设置'}
+            helperText={formData.valueKind === 'rate' ? undefined : '当 valueKind 为 rate 时，再选择关联目标属性。'}
           />
         </Form.Item>
       </Form>

@@ -1,4 +1,5 @@
 import { Button, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
+import { AttributeKeySelector } from '../../../../components/AttributeKeySelector';
 import {
   COEFFICIENT_BUCKET_AGGREGATION_MODE_OPTIONS,
   COEFFICIENT_BUCKET_RESOLUTION_DOMAIN_OPTIONS
@@ -6,6 +7,9 @@ import {
 import type { CoefficientBucketsFormData } from './types';
 
 type CoefficientBucketsModalProps = {
+  apiBaseUrl: string;
+  selectedGameId: string | null;
+  adminToken: string;
   visible: boolean;
   mode: 'create' | 'view' | 'edit';
   formData: CoefficientBucketsFormData;
@@ -16,6 +20,9 @@ type CoefficientBucketsModalProps = {
 };
 
 export function CoefficientBucketsModal({
+  apiBaseUrl,
+  selectedGameId,
+  adminToken,
   visible,
   mode,
   formData,
@@ -99,11 +106,16 @@ export function CoefficientBucketsModal({
           </Form.Item>
 
           <Form.Item label="targetAttrKey">
-            <Input
+            <AttributeKeySelector
+              apiBaseUrl={apiBaseUrl}
+              gameId={selectedGameId}
+              token={adminToken}
+              mode="single"
+              valueMode="attrKey"
               value={formData.targetAttrKey}
               disabled={readOnly}
-              onChange={(value) => onFieldChange('targetAttrKey', value)}
-              placeholder="可选"
+              onChange={(value) => onFieldChange('targetAttrKey', typeof value === 'string' ? value : '')}
+              placeholder="可选，选择目标属性"
             />
           </Form.Item>
         </div>

@@ -9,11 +9,11 @@ import {
   Card,
   Form,
   Grid,
-  Input,
   InputNumber,
   Select,
   Typography,
 } from '@arco-design/web-react';
+import { AttributeKeySelector } from '../../components/AttributeKeySelector';
 import type { ExtraConfigPanelProps, SweepDimension } from '../types';
 
 const { Row, Col } = Grid;
@@ -31,13 +31,7 @@ const AXIS_DEFAULTS: Record<string, Omit<SweepDimension, 'axis'>> = {
   attribute: { from: 0, to: 200, step: 20, attrKey: 'ad' },
 };
 
-const COMMON_ATTRS = [
-  'ad', 'ap', 'armor', 'magic_resist', 'hp', 'attack_speed',
-  'crit_chance', 'crit_damage', 'ability_haste', 'lethality',
-  'magic_penetration_flat', 'armor_pen_percent',
-];
-
-export function GrowthCurvePanel({ draft, onDraftChange }: ExtraConfigPanelProps) {
+export function GrowthCurvePanel({ draft, onDraftChange, bundle }: ExtraConfigPanelProps) {
   const dim: SweepDimension = draft.sweepDimension ?? { axis: 'level', from: 1, to: 18, step: 1 };
 
   const update = useCallback(
@@ -87,19 +81,16 @@ export function GrowthCurvePanel({ draft, onDraftChange }: ExtraConfigPanelProps
           {dim.axis === 'attribute' && (
             <Col span={8}>
               <Form.Item label="属性键">
-                <Select
-                  showSearch
-                  allowCreate
+                <AttributeKeySelector
+                  definitions={bundle.attributeDefinitions}
+                  gameId={bundle.meta.gameId}
+                  mode="single"
+                  valueMode="attrKey"
                   value={dim.attrKey ?? 'ad'}
-                  onChange={(val) => update({ attrKey: val })}
-                  placeholder="输入属性键"
-                >
-                  {COMMON_ATTRS.map((a) => (
-                    <Select.Option key={a} value={a}>
-                      {a}
-                    </Select.Option>
-                  ))}
-                </Select>
+                  onChange={(val) => update({ attrKey: typeof val === 'string' ? val : 'ad' })}
+                  placeholder="请选择属性键"
+                  size="default"
+                />
               </Form.Item>
             </Col>
           )}

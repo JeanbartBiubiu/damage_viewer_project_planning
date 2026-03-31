@@ -4,7 +4,8 @@ export function createHeroesSearchData(): HeroesSearchData {
   return {
     heroId: '',
     name: '',
-    title: ''
+    title: '',
+    typeIds: []
   };
 }
 
@@ -15,6 +16,8 @@ export function createHeroesFormData(): HeroesFormData {
     title: '',
     avatarUrl: '',
     baseStatsText: '{\n  \n}',
-    statsByLevelText: '{\n  \n}'
+    statsByLevelText: '{\n  \n}',
+    selectedTypeIds: [],
+    persistedTypeIds: []
   };
 }

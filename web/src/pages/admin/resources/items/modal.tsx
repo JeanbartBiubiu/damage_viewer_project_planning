@@ -1,7 +1,18 @@
-import { Button, Form, Input, Modal, Space } from '@arco-design/web-react';
+import { Alert, Button, Collapse, Form, Input, Modal, Space } from '@arco-design/web-react';
+import { TypeTagEditor } from '../../../../components/TypeTagEditor';
+import { BaseStatsEditor } from '../../../../components/hero-editor/BaseStatsEditor';
+import { parseBaseStatsRows, stringifyBaseStatsRows } from '../../../../components/hero-editor/heroStats';
+import { ItemRecipeSelector } from '../../../../components/item-editor/ItemRecipeSelector';
+import { SkillRefSelector } from '../../../../components/item-editor/SkillRefSelector';
+import { useMemo } from 'react';
+import type { TypeDefinition } from '../../../../types/api';
 import type { ItemsFormData } from './types';
 
 type ItemsModalProps = {
+  typeDefinitions: TypeDefinition[];
+  apiBaseUrl: string;
+  selectedGameId: string | null;
+  adminToken: string;
   visible: boolean;
   mode: 'create' | 'view' | 'edit';
   formData: ItemsFormData;
@@ -11,9 +22,53 @@ type ItemsModalProps = {
   onSubmit: () => Promise<void>;
 };
 
-export function ItemsModal({ visible, mode, formData, saving, onClose, onFieldChange, onSubmit }: ItemsModalProps) {
+export function ItemsModal({
+  typeDefinitions,
+  apiBaseUrl,
+  selectedGameId,
+  adminToken,
+  visible,
+  mode,
+  formData,
+  saving,
+  onClose,
+  onFieldChange,
+  onSubmit
+}: ItemsModalProps) {
   const readOnly = mode === 'view';
   const editingExisting = mode !== 'create';
+
+  const statsModifierState = useMemo(() => {
+    try {
+      return { rows: parseBaseStatsRows(formData.statsModifierText), error: null as string | null };
+    } catch (error) {
+      return { rows: [], error: error instanceof Error ? error.message : String(error) };
+    }
+  }, [formData.statsModifierText]);
+
+  const skillRefsState = useMemo(() => {
+    try {
+      const parsed = JSON.parse(formData.skillRefsText.trim() || '[]') as unknown;
+      if (!Array.isArray(parsed) || parsed.some((item) => typeof item !== 'string')) {
+        throw new Error('skillRefs 必须是字符串数组。');
+      }
+      return { value: parsed as string[], error: null as string | null };
+    } catch (error) {
+      return { value: [] as string[], error: error instanceof Error ? error.message : String(error) };
+    }
+  }, [formData.skillRefsText]);
+
+  const recipeIdsState = useMemo(() => {
+    try {
+      const parsed = JSON.parse(formData.recipeIdsText.trim() || '[]') as unknown;
+      if (!Array.isArray(parsed) || parsed.some((item) => typeof item !== 'string')) {
+        throw new Error('recipeIds 必须是字符串数组。');
+      }
+      return { value: parsed as string[], error: null as string | null };
+    } catch (error) {
+      return { value: [] as string[], error: error instanceof Error ? error.message : String(error) };
+    }
+  }, [formData.recipeIdsText]);
 
   return (
     <Modal
@@ -32,7 +87,7 @@ export function ItemsModal({ visible, mode, formData, saving, onClose, onFieldCh
       }
       autoFocus={false}
       focusLock
-      style={{ width: 820 }}
+      style={{ width: 1180 }}
     >
       <Form layout="vertical">
         <Form.Item label="itemId">
@@ -68,38 +123,89 @@ export function ItemsModal({ visible, mode, formData, saving, onClose, onFieldCh
           />
         </Form.Item>
 
-        <Form.Item label="statsModifier">
-          <Input.TextArea
-            value={formData.statsModifierText}
-            disabled={readOnly}
-            autoSize={{ minRows: 8, maxRows: 14 }}
-            onChange={(value) => onFieldChange('statsModifierText', value)}
-            placeholder="{\n  \n}"
-            className="admin-json-input"
+        <Form.Item label="类型标签">
+          <TypeTagEditor
+            definitions={typeDefinitions}
+            persistedTypeIds={formData.persistedTypeIds}
+            value={formData.selectedTypeIds}
+            onChange={(value) => onFieldChange('selectedTypeIds', value)}
+            disabled={readOnly || (mode === 'create' && !formData.itemId.trim())}
           />
         </Form.Item>
 
-        <Form.Item label="skillRefs">
-          <Input.TextArea
-            value={formData.skillRefsText}
-            disabled={readOnly}
-            autoSize={{ minRows: 4, maxRows: 8 }}
-            onChange={(value) => onFieldChange('skillRefsText', value)}
-            placeholder="[\n  \n]"
-            className="admin-json-input"
+        <Form.Item label="statsModifier 结构化编辑">
+          {statsModifierState.error ? <Alert type="error" content={`statsModifier 解析失败：${statsModifierState.error}`} style={{ marginBottom: 12 }} /> : null}
+          <BaseStatsEditor
+            apiBaseUrl={apiBaseUrl}
+            selectedGameId={selectedGameId}
+            adminToken={adminToken}
+            rows={statsModifierState.rows}
+            disabled={readOnly || !!statsModifierState.error}
+            onChange={(rows) => onFieldChange('statsModifierText', stringifyBaseStatsRows(rows))}
           />
         </Form.Item>
 
-        <Form.Item label="recipeIds">
-          <Input.TextArea
-            value={formData.recipeIdsText}
-            disabled={readOnly}
-            autoSize={{ minRows: 4, maxRows: 8 }}
-            onChange={(value) => onFieldChange('recipeIdsText', value)}
-            placeholder="[\n  \n]"
-            className="admin-json-input"
+        <Form.Item label="skillRefs 结构化编辑">
+          {skillRefsState.error ? <Alert type="error" content={`skillRefs 解析失败：${skillRefsState.error}`} style={{ marginBottom: 12 }} /> : null}
+          <SkillRefSelector
+            apiBaseUrl={apiBaseUrl}
+            selectedGameId={selectedGameId}
+            adminToken={adminToken}
+            value={skillRefsState.value}
+            disabled={readOnly || !!skillRefsState.error}
+            onChange={(value) => onFieldChange('skillRefsText', JSON.stringify(value, null, 2))}
           />
         </Form.Item>
+
+        <Form.Item label="recipeIds 结构化编辑">
+          {recipeIdsState.error ? <Alert type="error" content={`recipeIds 解析失败：${recipeIdsState.error}`} style={{ marginBottom: 12 }} /> : null}
+          <ItemRecipeSelector
+            apiBaseUrl={apiBaseUrl}
+            selectedGameId={selectedGameId}
+            adminToken={adminToken}
+            currentItemId={formData.itemId}
+            value={recipeIdsState.value}
+            disabled={readOnly || !!recipeIdsState.error}
+            onChange={(value) => onFieldChange('recipeIdsText', JSON.stringify(value, null, 2))}
+          />
+        </Form.Item>
+
+        <Collapse defaultActiveKey={[]} style={{ marginTop: 8 }}>
+          <Collapse.Item name="advanced-json" header="高级 JSON 编辑（双向同步）">
+            <Form.Item label="statsModifier JSON">
+              <Input.TextArea
+                value={formData.statsModifierText}
+                disabled={readOnly}
+                autoSize={{ minRows: 8, maxRows: 14 }}
+                onChange={(value) => onFieldChange('statsModifierText', value)}
+                placeholder="{\n  \n}"
+                className="admin-json-input"
+              />
+            </Form.Item>
+
+            <Form.Item label="skillRefs JSON">
+              <Input.TextArea
+                value={formData.skillRefsText}
+                disabled={readOnly}
+                autoSize={{ minRows: 4, maxRows: 8 }}
+                onChange={(value) => onFieldChange('skillRefsText', value)}
+                placeholder="[\n  \n]"
+                className="admin-json-input"
+              />
+            </Form.Item>
+
+            <Form.Item label="recipeIds JSON">
+              <Input.TextArea
+                value={formData.recipeIdsText}
+                disabled={readOnly}
+                autoSize={{ minRows: 4, maxRows: 8 }}
+                onChange={(value) => onFieldChange('recipeIdsText', value)}
+                placeholder="[\n  \n]"
+                className="admin-json-input"
+              />
+            </Form.Item>
+          </Collapse.Item>
+        </Collapse>
       </Form>
     </Modal>
   );

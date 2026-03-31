@@ -6,7 +6,8 @@ export function createSkillsSearchData(): SkillsSearchData {
     ownerType: '',
     ownerId: '',
     skillKey: '',
-    name: ''
+    name: '',
+    typeIds: []
   };
 }
 
@@ -22,6 +23,8 @@ export function createSkillsFormData(): SkillsFormData {
     cooldownsText: '[\n  \n]',
     paramsText: '{\n  \n}',
     timingProfileText: '{\n  \n}',
-    mechanicsConfigText: '{\n  \n}'
+    mechanicsConfigText: '{\n  "version": 1,\n  "triggers": []\n}',
+    selectedTypeIds: [],
+    persistedTypeIds: []
   };
 }
