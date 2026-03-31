@@ -1,9 +1,8 @@
 import type { StatusActionControlRulesFormData, StatusActionControlRulesSearchData } from './types';
 
 export const STATUS_ACTION_CONTROL_RULE_KIND_OPTIONS = [
-  { label: 'forbid', value: 'forbid' },
-  { label: 'interrupt', value: 'interrupt' },
-  { label: 'limit', value: 'limit' }
+  { label: '禁止', value: 'forbid' },
+  { label: '打断', value: 'interrupt' }
 ];
 
 export function createStatusActionControlRulesSearchData(): StatusActionControlRulesSearchData {

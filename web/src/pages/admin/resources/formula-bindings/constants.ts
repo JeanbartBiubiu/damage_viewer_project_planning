@@ -1,11 +1,11 @@
+import { createEmptyFormulaParamsText } from '../../../../components/formula-editor/formulaModels';
 import type { FormulaBindingsFormData, FormulaBindingsSearchData } from './types';
 
 export const FORMULA_BINDING_TARGET_CATEGORY_OPTIONS = [
-  { label: 'skill', value: 'skill' },
-  { label: 'character', value: 'character' },
-  { label: 'attribute', value: 'attribute' },
-  { label: 'equipment', value: 'equipment' },
-  { label: 'type', value: 'type' }
+  { label: '技能', value: 'skill' },
+  { label: '英雄', value: 'hero' },
+  { label: '装备', value: 'item' },
+  { label: '全局', value: 'global' }
 ];
 
 export function createFormulaBindingsSearchData(): FormulaBindingsSearchData {
@@ -23,6 +23,7 @@ export function createFormulaBindingsFormData(): FormulaBindingsFormData {
     targetId: '',
     bindingKey: '',
     formulaId: '',
-    overrideParamsText: '{\n  \n}'
+    overrideParamsText: createEmptyFormulaParamsText(),
+    extraFieldsText: '{\n  \n}'
   };
 }

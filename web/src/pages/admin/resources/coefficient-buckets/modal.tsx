@@ -1,4 +1,5 @@
-import { Button, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
+import { Button, Form, Input, Modal, Select, Space, Typography } from '@arco-design/web-react';
+import { useEffect } from 'react';
 import { AttributeKeySelector } from '../../../../components/AttributeKeySelector';
 import {
   COEFFICIENT_BUCKET_AGGREGATION_MODE_OPTIONS,
@@ -33,10 +34,20 @@ export function CoefficientBucketsModal({
 }: CoefficientBucketsModalProps) {
   const readOnly = mode === 'view';
   const editingExisting = mode !== 'create';
+  const targetAttrDisabled = readOnly || formData.resolutionDomain === 'hp_change';
+
+  useEffect(() => {
+    if (readOnly) {
+      return;
+    }
+    if (formData.resolutionDomain === 'hp_change' && formData.targetAttrKey.trim()) {
+      onFieldChange('targetAttrKey', '');
+    }
+  }, [formData.resolutionDomain, formData.targetAttrKey, onFieldChange, readOnly]);
 
   return (
     <Modal
-      title={mode === 'create' ? '新增乘区桶' : mode === 'edit' ? '编辑乘区桶' : '查看乘区桶'}
+      title={mode === 'create' ? '新增系数桶' : mode === 'edit' ? '编辑系数桶' : '查看系数桶'}
       visible={visible}
       onCancel={onClose}
       footer={
@@ -54,7 +65,7 @@ export function CoefficientBucketsModal({
       style={{ width: 820 }}
     >
       <Form layout="vertical">
-        <Form.Item label="bucketKey">
+        <Form.Item label="桶键（bucketKey）">
           <Input
             value={formData.bucketKey}
             disabled={readOnly || editingExisting}
@@ -64,63 +75,60 @@ export function CoefficientBucketsModal({
         </Form.Item>
 
         <div className="crud-form-grid">
-          <Form.Item label="作用域">
+          <Form.Item label="归因域（resolutionDomain）">
             <Select
               disabled={readOnly}
               value={formData.resolutionDomain || undefined}
-              onChange={(value) => onFieldChange('resolutionDomain', value ?? '')}
-              placeholder="请选择"
-            >
-              {COEFFICIENT_BUCKET_RESOLUTION_DOMAIN_OPTIONS.map((option) => (
-                <Select.Option key={option.value} value={option.value}>
-                  {option.label}
-                </Select.Option>
-              ))}
-            </Select>
+              onChange={(value) => onFieldChange('resolutionDomain', String(value ?? ''))}
+              placeholder="选择归因域"
+              options={COEFFICIENT_BUCKET_RESOLUTION_DOMAIN_OPTIONS}
+            />
           </Form.Item>
 
-          <Form.Item label="聚合方式">
+          <Form.Item label="聚合方式（aggregationMode）">
             <Select
               disabled={readOnly}
               value={formData.aggregationMode || undefined}
-              onChange={(value) => onFieldChange('aggregationMode', value ?? '')}
-              placeholder="请选择"
-            >
-              {COEFFICIENT_BUCKET_AGGREGATION_MODE_OPTIONS.map((option) => (
-                <Select.Option key={option.value} value={option.value}>
-                  {option.label}
-                </Select.Option>
-              ))}
-            </Select>
+              onChange={(value) => onFieldChange('aggregationMode', String(value ?? ''))}
+              placeholder="选择聚合方式"
+              options={COEFFICIENT_BUCKET_AGGREGATION_MODE_OPTIONS}
+            />
           </Form.Item>
         </div>
 
         <div className="crud-form-grid">
-          <Form.Item label="stageKey">
+          <Form.Item label="阶段键（stageKey）">
             <Input
               value={formData.stageKey}
               disabled={readOnly}
               onChange={(value) => onFieldChange('stageKey', value)}
-              placeholder="请输入 stageKey"
+              placeholder="例如 percent_bonus"
             />
           </Form.Item>
 
-          <Form.Item label="targetAttrKey">
-            <AttributeKeySelector
-              apiBaseUrl={apiBaseUrl}
-              gameId={selectedGameId}
-              token={adminToken}
-              mode="single"
-              valueMode="attrKey"
-              value={formData.targetAttrKey}
-              disabled={readOnly}
-              onChange={(value) => onFieldChange('targetAttrKey', typeof value === 'string' ? value : '')}
-              placeholder="可选，选择目标属性"
-            />
+          <Form.Item label="目标属性（targetAttrKey）">
+            <div>
+              <AttributeKeySelector
+                apiBaseUrl={apiBaseUrl}
+                gameId={selectedGameId}
+                token={adminToken}
+                mode="single"
+                valueMode="attrKey"
+                value={formData.targetAttrKey}
+                disabled={targetAttrDisabled}
+                onChange={(value) => onFieldChange('targetAttrKey', typeof value === 'string' ? value : '')}
+                placeholder={formData.resolutionDomain === 'hp_change' ? '生命变化模式下不使用该字段' : '选择目标属性'}
+              />
+              <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
+                {formData.resolutionDomain === 'attribute'
+                  ? '`attribute` 模式必须指定目标属性。'
+                  : '`hp_change` 模式不会使用 `targetAttrKey`，切换时会自动清空该字段。'}
+              </Typography.Text>
+            </div>
           </Form.Item>
         </div>
 
-        <Form.Item label="说明">
+        <Form.Item label="说明（description）">
           <Input.TextArea
             value={formData.description}
             disabled={readOnly}
@@ -130,7 +138,7 @@ export function CoefficientBucketsModal({
           />
         </Form.Item>
 
-        <Form.Item label="editorHint">
+        <Form.Item label="编辑提示（editorHint）">
           <Input.TextArea
             value={formData.editorHintText}
             disabled={readOnly}
@@ -141,7 +149,7 @@ export function CoefficientBucketsModal({
           />
         </Form.Item>
 
-        <Form.Item label="bucketConfig">
+        <Form.Item label="桶配置（bucketConfig）">
           <Input.TextArea
             value={formData.bucketConfigText}
             disabled={readOnly}

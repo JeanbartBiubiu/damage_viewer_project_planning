@@ -3,17 +3,20 @@ import { useMemo } from 'react';
 import { SkillFlatParamsEditor } from '../../../../components/skill-editor/SkillFlatParamsEditor';
 import { SkillMechanicsConfigEditor } from '../../../../components/skill-editor/SkillMechanicsConfigEditor';
 import { SkillOwnerBindingFields } from '../../../../components/skill-editor/SkillOwnerBindingFields';
+import { SkillParamsVarsEditor } from '../../../../components/skill-editor/SkillParamsVarsEditor';
 import { SkillSeriesEditor } from '../../../../components/skill-editor/SkillSeriesEditor';
 import { SkillTimingProfileEditor } from '../../../../components/skill-editor/SkillTimingProfileEditor';
 import {
   inferSkillShapeSummary,
   parseFlatSkillParams,
+  parseSkillParams,
   parseMechanicsConfig,
-  parseSkillSeriesRows,
+  parseSkillValueRows,
   parseTimingProfile,
   stringifyFlatSkillParams,
   stringifyMechanicsConfig,
-  stringifySkillSeriesRows,
+  stringifySkillParams,
+  stringifySkillValueRows,
   stringifyTimingProfile
 } from '../../../../components/skill-editor/skillModels';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
@@ -52,7 +55,7 @@ export function SkillsModal({
 
   const resourceCostsState = useMemo(() => {
     try {
-      return { rows: parseSkillSeriesRows(formData.resourceCostsText, 'resourceCosts'), error: null as string | null };
+      return { rows: parseSkillValueRows(formData.resourceCostsText, 'resourceCosts'), error: null as string | null };
     } catch (error) {
       return { rows: [], error: error instanceof Error ? error.message : String(error) };
     }
@@ -60,11 +63,19 @@ export function SkillsModal({
 
   const cooldownsState = useMemo(() => {
     try {
-      return { rows: parseSkillSeriesRows(formData.cooldownsText, 'cooldowns'), error: null as string | null };
+      return { rows: parseSkillValueRows(formData.cooldownsText, 'cooldowns'), error: null as string | null };
     } catch (error) {
       return { rows: [], error: error instanceof Error ? error.message : String(error) };
     }
   }, [formData.cooldownsText]);
+
+  const paramsState = useMemo(() => {
+    try {
+      return { ...parseSkillParams(formData.paramsText), error: null as string | null };
+    } catch (error) {
+      return { root: {}, rows: [], hasLegacyFlatParams: false, error: error instanceof Error ? error.message : String(error) };
+    }
+  }, [formData.paramsText]);
 
   const flatParamsState = useMemo(() => {
     try {
@@ -86,13 +97,13 @@ export function SkillsModal({
     try {
       return { ...parseMechanicsConfig(formData.mechanicsConfigText), error: null as string | null };
     } catch (error) {
-      return { root: {}, version: 1, rows: [], error: error instanceof Error ? error.message : String(error) };
+      return { root: {}, version: 1, stacks: [], rows: [], error: error instanceof Error ? error.message : String(error) };
     }
   }, [formData.mechanicsConfigText]);
 
   const shapeSummary = useMemo(
-    () => inferSkillShapeSummary(flatParamsState.root, mechanicsConfigState.root),
-    [flatParamsState.root, mechanicsConfigState.root]
+    () => inferSkillShapeSummary(paramsState.root, mechanicsConfigState.root),
+    [paramsState.root, mechanicsConfigState.root]
   );
 
   return (
@@ -115,7 +126,7 @@ export function SkillsModal({
       style={{ width: 1280 }}
     >
       <Form layout="vertical">
-        <Form.Item label="skillId">
+        <Form.Item label="技能 ID（skillId）">
           <Input
             value={formData.skillId}
             disabled={readOnly || editingExisting}
@@ -138,7 +149,7 @@ export function SkillsModal({
         </Form.Item>
 
         <div className="crud-form-grid">
-          <Form.Item label="skillKey">
+          <Form.Item label="技能键（skillKey）">
             <Input
               value={formData.skillKey}
               disabled={readOnly}
@@ -174,42 +185,45 @@ export function SkillsModal({
 
         <Form.Item label="当前模型">
           <Tag color={shapeSummary === 'Mixed' ? 'orangered' : shapeSummary === 'DSL' ? 'arcoblue' : shapeSummary === 'Flat' ? 'purple' : 'gray'}>
-            {shapeSummary}
+            {shapeSummary === 'Mixed' ? '混合' : shapeSummary === 'DSL' ? 'DSL' : shapeSummary === 'Flat' ? '平铺' : shapeSummary}
           </Tag>
         </Form.Item>
 
-        <Form.Item label="resourceCosts 结构化编辑">
+        <Form.Item label="资源消耗结构化编辑（resourceCosts）">
           {resourceCostsState.error ? <Alert type="error" content={`resourceCosts 解析失败：${resourceCostsState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillSeriesEditor
-            title="Resource Costs"
-            description="支持 const / table 两种常见形态。"
+            title="资源消耗"
+            description="支持固定值、等级表和公式，并保留额外字段 passthrough。"
             rows={resourceCostsState.rows}
             disabled={readOnly || !!resourceCostsState.error}
-            onChange={(rows) => onFieldChange('resourceCostsText', stringifySkillSeriesRows(rows))}
+            onChange={(rows) => onFieldChange('resourceCostsText', stringifySkillValueRows(rows))}
           />
         </Form.Item>
 
-        <Form.Item label="cooldowns 结构化编辑">
+        <Form.Item label="冷却结构化编辑（cooldowns）">
           {cooldownsState.error ? <Alert type="error" content={`cooldowns 解析失败：${cooldownsState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillSeriesEditor
-            title="Cooldowns"
-            description="支持 const / table 两种常见形态。"
+            title="冷却"
+            description="支持固定值、等级表和公式，并保留额外字段 passthrough。"
             rows={cooldownsState.rows}
             disabled={readOnly || !!cooldownsState.error}
-            onChange={(rows) => onFieldChange('cooldownsText', stringifySkillSeriesRows(rows))}
+            onChange={(rows) => onFieldChange('cooldownsText', stringifySkillValueRows(rows))}
           />
         </Form.Item>
 
-        <Form.Item label="旧 Flat 快速编辑">
-          {flatParamsState.error ? <Alert type="error" content={`params 解析失败：${flatParamsState.error}`} style={{ marginBottom: 12 }} /> : null}
-          <SkillFlatParamsEditor
-            form={flatParamsState.form}
-            disabled={readOnly || !!flatParamsState.error}
-            onChange={(form) => onFieldChange('paramsText', stringifyFlatSkillParams(flatParamsState.root, form))}
+        <Form.Item label="参数与等级表">
+          {paramsState.error ? <Alert type="error" content={`params 解析失败：${paramsState.error}`} style={{ marginBottom: 12 }} /> : null}
+          <SkillParamsVarsEditor
+            apiBaseUrl={apiBaseUrl}
+            selectedGameId={selectedGameId}
+            adminToken={adminToken}
+            rows={paramsState.rows}
+            disabled={readOnly || !!paramsState.error}
+            onChange={(rows) => onFieldChange('paramsText', stringifySkillParams(paramsState.root, rows))}
           />
         </Form.Item>
 
-        <Form.Item label="Timing Profile 结构化编辑">
+        <Form.Item label="时序结构化编辑（timingProfile）">
           {timingProfileState.error ? <Alert type="error" content={`timingProfile 解析失败：${timingProfileState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillTimingProfileEditor
             rows={timingProfileState.rows}
@@ -218,20 +232,50 @@ export function SkillsModal({
           />
         </Form.Item>
 
-        <Form.Item label="新 DSL 结构化编辑">
+        <Form.Item label="机制结构化编辑（mechanicsConfig）">
           {mechanicsConfigState.error ? <Alert type="error" content={`mechanicsConfig 解析失败：${mechanicsConfigState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillMechanicsConfigEditor
+            apiBaseUrl={apiBaseUrl}
+            selectedGameId={selectedGameId}
+            adminToken={adminToken}
             version={mechanicsConfigState.version}
+            stacks={mechanicsConfigState.stacks}
             rows={mechanicsConfigState.rows}
+            paramVarKeys={paramsState.rows.map((row) => row.key.trim()).filter(Boolean)}
             disabled={readOnly || !!mechanicsConfigState.error}
             onVersionChange={(version) =>
-              onFieldChange('mechanicsConfigText', stringifyMechanicsConfig(mechanicsConfigState.root, version, mechanicsConfigState.rows))
+              onFieldChange(
+                'mechanicsConfigText',
+                stringifyMechanicsConfig(mechanicsConfigState.root, version, mechanicsConfigState.stacks, mechanicsConfigState.rows)
+              )
             }
-            onChange={(rows) => onFieldChange('mechanicsConfigText', stringifyMechanicsConfig(mechanicsConfigState.root, mechanicsConfigState.version, rows))}
+            onStacksChange={(stacks) =>
+              onFieldChange(
+                'mechanicsConfigText',
+                stringifyMechanicsConfig(mechanicsConfigState.root, mechanicsConfigState.version, stacks, mechanicsConfigState.rows)
+              )
+            }
+            onChange={(rows) =>
+              onFieldChange(
+                'mechanicsConfigText',
+                stringifyMechanicsConfig(mechanicsConfigState.root, mechanicsConfigState.version, mechanicsConfigState.stacks, rows)
+              )
+            }
           />
         </Form.Item>
 
         <Collapse defaultActiveKey={[]} style={{ marginTop: 8 }}>
+          {paramsState.hasLegacyFlatParams ? (
+            <Collapse.Item name="legacy-flat" header="旧格式兼容（平铺参数）">
+              {flatParamsState.error ? <Alert type="error" content={`legacy params 解析失败：${flatParamsState.error}`} style={{ marginBottom: 12 }} /> : null}
+              <SkillFlatParamsEditor
+                form={flatParamsState.form}
+                disabled={readOnly || !!flatParamsState.error}
+                onChange={(form) => onFieldChange('paramsText', stringifyFlatSkillParams(flatParamsState.root, form))}
+              />
+            </Collapse.Item>
+          ) : null}
+
           <Collapse.Item name="advanced-json" header="高级 JSON 编辑（分段回退）">
             <Form.Item label="resourceCosts JSON">
               <Input.TextArea
@@ -283,6 +327,39 @@ export function SkillsModal({
                 disabled={readOnly}
                 autoSize={{ minRows: 8, maxRows: 16 }}
                 onChange={(value) => onFieldChange('mechanicsConfigText', value)}
+                placeholder="{\n  \n}"
+                className="admin-json-input"
+              />
+            </Form.Item>
+
+            <Form.Item label="mvpExtensions JSON">
+              <Input.TextArea
+                value={formData.mvpExtensionsText}
+                disabled={readOnly}
+                autoSize={{ minRows: 6, maxRows: 12 }}
+                onChange={(value) => onFieldChange('mvpExtensionsText', value)}
+                placeholder="{\n  \n}"
+                className="admin-json-input"
+              />
+            </Form.Item>
+
+            <Form.Item label="notes JSON">
+              <Input.TextArea
+                value={formData.notesText}
+                disabled={readOnly}
+                autoSize={{ minRows: 4, maxRows: 8 }}
+                onChange={(value) => onFieldChange('notesText', value)}
+                placeholder="[\n  \n]"
+                className="admin-json-input"
+              />
+            </Form.Item>
+
+            <Form.Item label="其它顶层字段 JSON">
+              <Input.TextArea
+                value={formData.extraFieldsText}
+                disabled={readOnly}
+                autoSize={{ minRows: 6, maxRows: 12 }}
+                onChange={(value) => onFieldChange('extraFieldsText', value)}
                 placeholder="{\n  \n}"
                 className="admin-json-input"
               />

@@ -86,7 +86,8 @@ export function ItemRecipeSelector({
         options={options}
         onChange={(nextValue) => onChange(Array.isArray(nextValue) ? nextValue.map(String) : [])}
         filterOption={(inputValue, option) => {
-          const searchText = `${String(option?.value ?? '')} ${String(option?.label ?? '')}`.toLowerCase();
+          const optionData = option as { value?: unknown; label?: unknown } | undefined;
+          const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
           return searchText.includes(inputValue.trim().toLowerCase());
         }}
       />

@@ -132,7 +132,7 @@ export function AttributeKeySelector({
   const [source, setSource] = useState<AttributeDefinitionsSource>(definitions ? 'provided' : 'bundle');
   const controlledValue = value ?? defaultValue;
   const normalizedValues = useMemo(() => normalizeValue(controlledValue, mode), [controlledValue, mode]);
-  const parsedValues = useMemo(
+  const parsedValues = useMemo<ParsedScopedRef[]>(
     () => (valueMode === 'scopedRef' ? normalizedValues.map(parseScopedRef) : normalizedValues.map((item) => ({ attrKey: item }))),
     [normalizedValues, valueMode]
   );
@@ -342,7 +342,8 @@ export function AttributeKeySelector({
         size={size}
         maxTagCount={mode === 'multiple' ? 3 : undefined}
         filterOption={(inputValue, option) => {
-          const searchText = `${String(option?.value ?? '')} ${String(option?.label ?? '')}`.toLowerCase();
+          const optionData = option as { value?: unknown; label?: unknown } | undefined;
+          const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
           return searchText.includes(inputValue.trim().toLowerCase());
         }}
       />

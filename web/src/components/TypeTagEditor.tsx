@@ -50,12 +50,13 @@ export function TypeTagEditor({ definitions, persistedTypeIds, value, onChange, 
             value={pendingTypeId}
             disabled={disabled || addableTypes.length === 0}
             options={addableTypes.map((type) => ({
-              label: `${type.name ?? '未命名类型'} · ${type.typeId}`,
+              label: `${type.name ?? '未命名类型'} / ${type.typeId}`,
               value: type.typeId
             }))}
             onChange={(nextValue) => setPendingTypeId(typeof nextValue === 'number' ? nextValue : undefined)}
             filterOption={(inputValue, option) => {
-              const searchText = `${String(option?.value ?? '')} ${String(option?.label ?? '')}`.toLowerCase();
+              const optionData = option as { value?: unknown; label?: unknown } | undefined;
+              const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
               return searchText.includes(inputValue.trim().toLowerCase());
             }}
           />
@@ -79,7 +80,8 @@ export function TypeTagEditor({ definitions, persistedTypeIds, value, onChange, 
                 }}
                 color={persisted ? 'arcoblue' : 'green'}
               >
-                {type.name ?? '未命名类型'} · {type.typeId}{persisted ? '' : '（新）'}
+                {type.name ?? '未命名类型'} / {type.typeId}
+                {persisted ? '' : '（新）'}
               </Tag>
             );
           })
