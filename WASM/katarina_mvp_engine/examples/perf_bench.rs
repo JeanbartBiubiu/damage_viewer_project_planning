@@ -4,11 +4,15 @@
 //!
 //! Measures:
 //!   - init_session()    warmup=20  samples=2000
-//!   - engine::run()     warmup=20  samples=100   (full auto-battle to enemy kill)
+//!   - run_full_battle() warmup=20  samples=100
+//!   - engine::run()     warmup=20  samples=100   (damage_taken_window scenario)
 //!   - Multi-thread throughput at 2 / 6 / 14 / 15 / 28 threads
 //!     Each thread: warmup=50, measured=200 iterations
 
-use katarina_mvp_engine::{init_session, run_full_battle, EngineInitPayload};
+use katarina_mvp_engine::{
+    init_session, run, run_full_battle, CombatantInit, EngineActionPlan, EngineInitPayload,
+    EngineRunInput, InitialCombatants, StopCondition,
+};
 use std::sync::Arc;
 use std::time::Instant;
 
@@ -74,6 +78,31 @@ fn print_stats(label: &str, mut samples_us: Vec<f64>) {
     );
 }
 
+fn damage_window_input() -> EngineRunInput {
+    EngineRunInput {
+        seed: None,
+        stop: StopCondition { max_seconds: 5.0 },
+        initial: InitialCombatants {
+            self_actor: CombatantInit {
+                hero_id: "ignored_self".into(),
+                level: None,
+                item_ids: vec![],
+            },
+            enemy: CombatantInit {
+                hero_id: "ignored_enemy".into(),
+                level: None,
+                item_ids: vec![],
+            },
+        },
+        overrides: None,
+        plan: EngineActionPlan::CastSkill {
+            skill_id: "skill_damage_taken_window_probe".into(),
+            skill_level: None,
+            cast_count: None,
+        },
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Single-thread benchmarks
 // ---------------------------------------------------------------------------
@@ -134,6 +163,37 @@ fn bench_battle(payload_json: &str) {
     }
     println!("  采样次数：{BATTLE_SAMPLES}\t预热次数：{ST_WARMUP}");
     print_stats("run_full_battle", samples_us);
+}
+
+fn bench_damage_window(payload_json: &str) {
+    println!("\n=== 受伤窗口场景（单线程） ===");
+
+    let session = init_session(load_payload(payload_json)).expect("init_session failed");
+    let input = damage_window_input();
+
+    let start = Instant::now();
+    let result = run(&session, input.clone()).expect("run damage window scenario failed");
+    let first_us = start.elapsed().as_nanos() as f64 / 1000.0;
+    println!("  首次调用耗时：{:.3} us", first_us);
+    println!(
+        "  场景结果：events={}  damage={:.3}  stop={:?}",
+        result.events.len(),
+        result.result.total_damage_to_enemy,
+        result.result.stop_reason,
+    );
+
+    for _ in 0..ST_WARMUP {
+        let _ = run(&session, input.clone()).expect("run damage window scenario failed");
+    }
+
+    let mut samples_us = Vec::with_capacity(BATTLE_SAMPLES);
+    for _ in 0..BATTLE_SAMPLES {
+        let start = Instant::now();
+        let _ = run(&session, input.clone()).expect("run damage window scenario failed");
+        samples_us.push(start.elapsed().as_nanos() as f64 / 1000.0);
+    }
+    println!("  采样次数：{BATTLE_SAMPLES}\t预热次数：{ST_WARMUP}");
+    print_stats("run_damage_window_probe", samples_us);
 }
 
 // ---------------------------------------------------------------------------
@@ -207,6 +267,7 @@ fn main() {
     // Single-thread
     bench_init(&payload_json);
     bench_battle(&payload_json);
+    bench_damage_window(&payload_json);
 
     // Multi-thread
     println!("\n=== 多线程吞吐量测试 ===");

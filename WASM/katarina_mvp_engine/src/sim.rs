@@ -632,8 +632,10 @@ fn execute_benchmark_action(
         .ok_or_else(|| runtime_error(format!("actor '{}' missing action '{}'", actor_id.as_key(), action_id)))?;
 
     match behavior {
-        ActionBehavior::BasicAttack | ActionBehavior::MysticShot | ActionBehavior::ArcaneShift
-            => execute_damage_action(state, actor_id, action_id),
+        ActionBehavior::BasicAttack
+        | ActionBehavior::MysticShot
+        | ActionBehavior::ArcaneShift
+        | ActionBehavior::DamageWindowBurst => execute_damage_action(state, actor_id, action_id),
         ActionBehavior::GenerateShield => execute_generate_shield_action(state, actor_id, action_id),
         ActionBehavior::Stun => execute_stun_action(state, actor_id, action_id),
     }
