@@ -1,10 +1,11 @@
 import { Alert } from '@arco-design/web-react';
 import { createEmptyMechanicsConfig } from '../../../../components/skill-editor/skillModels';
 import { Panel } from '../../../../components/Panel';
-import { getSkills, putSkill, putTypeRelation } from '../../../../services/apiClient';
+import { getSkills, putSkill, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import type { JsonObject, JsonValue } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonArrayText, parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
+import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createSkillsFormData, createSkillsSearchData } from './constants';
 import { SkillsModal } from './modal';
@@ -152,15 +153,13 @@ async function saveSkillsRecord(
   }
 
   const savedSkill = (await putSkill(apiBaseUrl, gameId, formData.skillId.trim(), token, payload)).data;
-  const pendingTypeIds = formData.selectedTypeIds.filter((typeId) => !formData.persistedTypeIds.includes(typeId));
-  await Promise.all(
-    pendingTypeIds.map((typeId) =>
-      putTypeRelation(apiBaseUrl, gameId, typeId, 'skill', formData.skillId.trim(), token, {
-        typeId,
-        targetCategory: 'skill',
-        targetId: formData.skillId.trim()
-      })
-    )
+  await replaceTypeRelationsForTarget(
+    apiBaseUrl,
+    gameId,
+    'skill',
+    formData.skillId.trim(),
+    token,
+    buildTypeRelationReplacePayloadFromIds(formData.selectedTypeIds)
   );
 
   return savedSkill;

@@ -1,9 +1,10 @@
 import { Alert } from '@arco-design/web-react';
 import { Panel } from '../../../../components/Panel';
-import { getItems, putItem, putTypeRelation } from '../../../../services/apiClient';
+import { getItems, putItem, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import type { JsonObject } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
+import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createItemsFormData, createItemsSearchData } from './constants';
 import { ItemsModal } from './modal';
@@ -90,15 +91,13 @@ async function saveItemsRecord(
   payload.recipeIds = recipeIds;
 
   const savedItem = (await putItem(apiBaseUrl, gameId, formData.itemId.trim(), token, payload)).data;
-  const pendingTypeIds = formData.selectedTypeIds.filter((typeId) => !formData.persistedTypeIds.includes(typeId));
-  await Promise.all(
-    pendingTypeIds.map((typeId) =>
-      putTypeRelation(apiBaseUrl, gameId, typeId, 'equipment', formData.itemId.trim(), token, {
-        typeId,
-        targetCategory: 'equipment',
-        targetId: formData.itemId.trim()
-      })
-    )
+  await replaceTypeRelationsForTarget(
+    apiBaseUrl,
+    gameId,
+    'equipment',
+    formData.itemId.trim(),
+    token,
+    buildTypeRelationReplacePayloadFromIds(formData.selectedTypeIds)
   );
 
   return savedItem;
