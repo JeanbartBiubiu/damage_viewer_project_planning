@@ -1,12 +1,13 @@
 #![allow(dead_code)]
 
+use crate::combat_math::{mitigation_multiplier, round_number};
 use crate::model::{
     DamageType, EngineDamageComponent, EngineDamageEvent, EngineError, ErrorCode,
 };
-use crate::runtime::{
-    apply_black_cleaver_stack, mitigation_multiplier, round_number, ActorId, DamageComponentTrace, DamagePacket,
-    RuntimeLog, RuntimeState,
-};
+use crate::runtime::{apply_black_cleaver_stack, RuntimeState};
+use crate::types::{ActorId, DamageComponentTrace, DamagePacket, RuntimeLog};
+
+use super::status::queue_black_cleaver_expire;
 
 #[derive(Debug, Clone)]
 pub struct ResolvedDamage {
@@ -255,75 +256,6 @@ fn apply_status_effects_after_hit(
     Ok(actions)
 }
 
-pub fn apply_generate_shield(state: &mut RuntimeState, actor_id: ActorId, requested_amount: f64) {
-    let now_ms = state.now_ms;
-    let (previous_amount, new_amount) = {
-        let actor = state.actor_mut(actor_id);
-        let previous_amount = actor.shield_amount();
-        let new_amount = previous_amount.max(requested_amount);
-        actor.shield = Some(crate::runtime::ShieldState {
-            amount: new_amount,
-            refreshed_at_ms: now_ms,
-        });
-        (previous_amount, new_amount)
-    };
-    state.log(RuntimeLog::ShieldChanged {
-        t_ms: now_ms,
-        actor_id,
-        previous_amount: round_number(previous_amount),
-        new_amount: round_number(new_amount),
-        requested_amount: round_number(requested_amount),
-    });
-}
-
-pub fn apply_stun(state: &mut RuntimeState, actor_id: ActorId, until_ms: u32) {
-    let now_ms = state.now_ms;
-    state.actor_mut(actor_id).stun = Some(crate::runtime::StunState { until_ms });
-    state.log(RuntimeLog::StunApplied {
-        t_ms: now_ms,
-        actor_id,
-        until_ms,
-    });
-}
-
-pub fn expire_stun(state: &mut RuntimeState, actor_id: ActorId, until_ms: u32) {
-    let should_clear = state
-        .actor(actor_id)
-        .stun
-        .as_ref()
-        .is_some_and(|stun| stun.until_ms <= until_ms);
-    if should_clear {
-        let now_ms = state.now_ms;
-        state.actor_mut(actor_id).stun = None;
-        state.log(RuntimeLog::StunExpired {
-            t_ms: now_ms,
-            actor_id,
-        });
-    }
-}
-
-pub fn expire_black_cleaver(state: &mut RuntimeState, actor_id: ActorId, expire_at_ms: u32) {
-    let should_clear = state
-        .actor(actor_id)
-        .black_cleaver
-        .as_ref()
-        .is_some_and(|black_cleaver| black_cleaver.expire_at_ms <= expire_at_ms);
-    if should_clear {
-        let now_ms = state.now_ms;
-        let armor_after = state.actor(actor_id).base_attr(crate::runtime::ATTR_ARMOR);
-        {
-            let actor = state.actor_mut(actor_id);
-            actor.black_cleaver = None;
-            actor.set_attr(crate::runtime::ATTR_ARMOR, armor_after);
-        }
-        state.log(RuntimeLog::BlackCleaverExpired {
-            t_ms: now_ms,
-            actor_id,
-            armor_after: round_number(armor_after),
-        });
-    }
-}
-
 fn resolve_component(
     state: &mut RuntimeState,
     source_actor: ActorId,
@@ -338,13 +270,13 @@ fn resolve_component(
     }
 
     let source_pen_flat = match packet.damage_type {
-        DamageType::Physical => state.actor(source_actor).attr(crate::runtime::ATTR_ARMOR_PEN_FLAT),
-        DamageType::Magic => state.actor(source_actor).attr(crate::runtime::ATTR_MAGIC_PEN_FLAT),
+        DamageType::Physical => state.actor(source_actor).attr(crate::types::ATTR_ARMOR_PEN_FLAT),
+        DamageType::Magic => state.actor(source_actor).attr(crate::types::ATTR_MAGIC_PEN_FLAT),
         DamageType::True => 0.0,
     };
     let target_resistance = match packet.damage_type {
-        DamageType::Physical => state.actor(target_actor).attr(crate::runtime::ATTR_ARMOR),
-        DamageType::Magic => state.actor(target_actor).attr(crate::runtime::ATTR_MAGIC_RESIST),
+        DamageType::Physical => state.actor(target_actor).attr(crate::types::ATTR_ARMOR),
+        DamageType::Magic => state.actor(target_actor).attr(crate::types::ATTR_MAGIC_RESIST),
         DamageType::True => 0.0,
     };
     let effective_resistance = (target_resistance - source_pen_flat).max(-99.0);
@@ -438,7 +370,7 @@ fn execute_post_hit_action(state: &mut RuntimeState, action: PostHitAction) -> R
                 label,
                 damage_type: DamageType::True,
                 raw_damage,
-                flags: crate::runtime::DamageFlags::none(),
+                flags: crate::types::DamageFlags::none(),
             };
             let _ = apply_damage_packet(state, source_actor, target_actor, packet)?;
             Ok(())
@@ -461,7 +393,7 @@ fn execute_post_hit_action(state: &mut RuntimeState, action: PostHitAction) -> R
                 label,
                 damage_type,
                 raw_damage,
-                flags: crate::runtime::DamageFlags::none(),
+                flags: crate::types::DamageFlags::none(),
             };
             let _ = apply_damage_packet(state, source_actor, target_actor, packet)?;
             Ok(())
@@ -469,22 +401,9 @@ fn execute_post_hit_action(state: &mut RuntimeState, action: PostHitAction) -> R
     }
 }
 
-fn queue_black_cleaver_expire(state: &mut RuntimeState, actor_id: ActorId) {
-    if let Some(expire_at_ms) = state.actor(actor_id).black_cleaver.as_ref().map(|black_cleaver| black_cleaver.expire_at_ms) {
-        state.push_event(
-            expire_at_ms,
-            state.scheduler().black_cleaver_expire_priority,
-            crate::runtime::InternalEvent::BlackCleaverExpire {
-                actor_id,
-                expire_at_ms,
-            },
-        );
-    }
-}
-
 fn heal_source_from_life_steal(state: &mut RuntimeState, source_actor: ActorId, dealt_damage: f64) -> f64 {
-    let life_steal = state.actor(source_actor).attr(crate::runtime::ATTR_LIFE_STEAL);
-    let heal_power = state.actor(source_actor).attr(crate::runtime::ATTR_HEAL_POWER);
+    let life_steal = state.actor(source_actor).attr(crate::types::ATTR_LIFE_STEAL);
+    let heal_power = state.actor(source_actor).attr(crate::types::ATTR_HEAL_POWER);
     let heal_amount = round_number(dealt_damage * life_steal * (1.0 + heal_power));
     if heal_amount <= 0.0 || state.actor(source_actor).is_dead() {
         return 0.0;
@@ -514,7 +433,7 @@ fn heal_source_from_life_steal(state: &mut RuntimeState, source_actor: ActorId, 
 fn equipped_item_defs(
     state: &RuntimeState,
     actor_id: ActorId,
-) -> Vec<crate::runtime::BenchmarkItemRuntimeDef> {
+) -> Vec<crate::types::BenchmarkItemRuntimeDef> {
     state
         .actor(actor_id)
         .owned_items
@@ -529,4 +448,3 @@ fn runtime_error(message: impl Into<String>) -> EngineError {
         message: message.into(),
     }
 }
-

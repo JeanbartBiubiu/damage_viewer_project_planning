@@ -1,18 +1,17 @@
 #![allow(dead_code)]
 
-use crate::benchmark_fixture::{
-    total_attack_speed_from_attrs, ATTR_ATTACK_SPEED_BASE, ATTR_ATTACK_SPEED_BONUS, ATTR_ATTACK_SPEED_RATIO,
-};
 use crate::formula::CompiledFormulaCatalog;
 use crate::model::{
     BenchmarkBundle, BenchmarkCountToThreeRule, BenchmarkCooldownDefinition,
     BenchmarkItemDefinition, BenchmarkRules, BenchmarkSkillDefinition, DamageType, EngineConfig, EngineError,
     ErrorCode, GameDataBundle, TestProfile,
 };
-use crate::runtime::{
-    ActionRuntime, ActorId, ActorTemplate, BenchmarkBlackCleaverRuntime, BenchmarkCountToThreeRuntime,
-    BenchmarkItemRuntimeDef, BenchmarkRulesRuntime, BenchmarkRuntimeCatalog, BenchmarkSchedulerRuntime,
-    BenchmarkSkillMechanics, BenchmarkSkillRuntimeDef, CooldownSpec, DamageFlags, SimulationConfig,
+use crate::types::{
+    total_attack_speed_from_attrs, ActionRuntime, ActorId, ActorTemplate, BenchmarkBlackCleaverRuntime,
+    BenchmarkCountToThreeRuntime, BenchmarkDotRuntime, BenchmarkItemRuntimeDef, BenchmarkRulesRuntime,
+    BenchmarkRuntimeCatalog, BenchmarkSchedulerRuntime, BenchmarkSkillMechanics, BenchmarkSkillRuntimeDef,
+    CooldownSpec, DamageFlags, SimulationConfig, ATTR_ATTACK_SPEED_BASE, ATTR_ATTACK_SPEED_BONUS,
+    ATTR_ATTACK_SPEED_RATIO,
 };
 use std::collections::{HashMap, HashSet};
 
@@ -185,7 +184,7 @@ fn compile_runtime_catalog(benchmark: &BenchmarkBundle) -> Result<BenchmarkRunti
 
 fn compile_item_dot_runtime(
     item: &BenchmarkItemDefinition,
-) -> Result<Option<crate::runtime::BenchmarkDotRuntime>, EngineError> {
+) -> Result<Option<BenchmarkDotRuntime>, EngineError> {
     let Some(formula_id) = item.dot_formula_id.as_ref() else {
         return Ok(None);
     };
@@ -202,7 +201,7 @@ fn compile_item_dot_runtime(
         ))
     })?;
 
-    Ok(Some(crate::runtime::BenchmarkDotRuntime {
+    Ok(Some(BenchmarkDotRuntime {
         source_id: item.item_id.clone(),
         label: format!("{} DoT", item.label),
         formula_id: formula_id.clone(),

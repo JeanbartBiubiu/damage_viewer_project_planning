@@ -1,27 +1,10 @@
 #![allow(dead_code)]
 
-use std::collections::HashMap;
-
 pub const BENCHMARK_INIT_PAYLOAD_PATH: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/../benchmark_m1_init_payload.json");
 
-pub const ATTR_HP: &str = "hp";
-pub const ATTR_AD: &str = "ad";
-pub const ATTR_ATTACK_SPEED_BASE: &str = "attack_speed_base";
-pub const ATTR_ATTACK_SPEED_BONUS: &str = "attack_speed_bonus";
-pub const ATTR_ATTACK_SPEED_RATIO: &str = "attack_speed_ratio";
-pub const ATTR_AP: &str = "ap";
-pub const ATTR_HP_REGEN: &str = "hp_regen";
-pub const ATTR_MANA: &str = "mana";
-pub const ATTR_MANA_REGEN: &str = "mana_regen";
-pub const ATTR_ARMOR: &str = "armor";
-pub const ATTR_MAGIC_RESIST: &str = "magic_resist";
-pub const ATTR_ARMOR_PEN_FLAT: &str = "armor_pen_flat";
-pub const ATTR_MAGIC_PEN_FLAT: &str = "magic_pen_flat";
-pub const ATTR_ABILITY_HASTE: &str = "ability_haste";
+// Test-only attribute constants (not used by production code)
 pub const ATTR_CRIT_CHANCE: &str = "crit_chance";
 pub const ATTR_CRIT_MULTIPLIER: &str = "crit_multiplier";
-pub const ATTR_LIFE_STEAL: &str = "life_steal";
-pub const ATTR_HEAL_POWER: &str = "heal_power";
 
 pub const HERO_SELF_BENCHMARK: &str = "hero_self_benchmark";
 pub const HERO_ENEMY_BENCHMARK: &str = "hero_enemy_benchmark";
@@ -72,11 +55,4 @@ pub fn sanitize_broken_label_lines(raw: &str) -> String {
         })
         .collect::<Vec<_>>()
         .join("\n")
-}
-
-pub fn total_attack_speed_from_attrs(attrs: &HashMap<String, f64>) -> f64 {
-    let base = attrs.get(ATTR_ATTACK_SPEED_BASE).copied().unwrap_or(0.0);
-    let bonus = attrs.get(ATTR_ATTACK_SPEED_BONUS).copied().unwrap_or(0.0);
-    let ratio = attrs.get(ATTR_ATTACK_SPEED_RATIO).copied().unwrap_or(0.0);
-    base + bonus * ratio
 }
