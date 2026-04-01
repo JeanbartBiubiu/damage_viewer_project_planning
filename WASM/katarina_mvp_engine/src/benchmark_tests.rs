@@ -263,7 +263,7 @@ fn t02_first_basic_attack() {
     assert_eq!(output.result.action_duration_ms, 0);
     assert_eq!(output.samples.len(), 1);
     assert_eq!(output.samples[0].t_ms, 0);
-    assert!(!output.events.is_empty());
+    assert_eq!(output.events.len(), 1);
 
     let first_event = &output.events[0];
     assert_eq!(first_event.sequence, 1);
