@@ -74,6 +74,25 @@ class GameDataServiceCachePolicyTest {
     }
 
     @Test
+    void replaceTypeRelationsDoesNotEvictCurrentVersionOrBundle() {
+        ObjectNode body = JsonNodeFactory.instance.objectNode();
+        body.putArray("relations").addObject().put("typeId", 1001);
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        when(writeStore.replaceTypeRelationsForTarget(anyString(), anyString(), anyString(), any(ObjectNode.class))).thenReturn(response);
+        when(cacheManager.getCache("games")).thenReturn(gamesCache);
+        when(cacheManager.getCache("images")).thenReturn(imagesCache);
+        when(cacheManager.getCache("ownerCategories")).thenReturn(ownerCategoriesCache);
+
+        service.replaceTypeRelationsForTarget("lol", "character", "hero_ahri", body);
+
+        verify(gamesCache).clear();
+        verify(imagesCache).clear();
+        verify(ownerCategoriesCache).clear();
+        verify(currentVersionCache, never()).clear();
+        verify(bundleCache, never()).clear();
+    }
+
+    @Test
     void upsertImageOnlyEvictsImagesCache() {
         ObjectNode body = JsonNodeFactory.instance.objectNode().put("imageBase64", "data:image/png;base64,AAAA");
         ObjectNode response = JsonNodeFactory.instance.objectNode();

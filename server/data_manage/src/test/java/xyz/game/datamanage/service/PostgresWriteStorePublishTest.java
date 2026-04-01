@@ -159,6 +159,32 @@ class PostgresWriteStorePublishTest {
     }
 
     @Test
+    void replaceTypeRelationsForTargetDiffsAgainstCurrentTargetSet() {
+        when(readStore.findCurrentVersionId("lol")).thenReturn(5L);
+        when(readStore.loadHero("lol", "hero_ahri")).thenReturn(JsonNodeFactory.instance.objectNode());
+        when(readStore.loadType("lol", 1)).thenReturn(JsonNodeFactory.instance.objectNode());
+        when(readStore.loadType("lol", 3)).thenReturn(JsonNodeFactory.instance.objectNode());
+        when(typeRelationsMapper.listTypeRelationsByTarget("lol", "character", "hero_ahri"))
+            .thenReturn(List.of(typeRelationRow(1, "character", "hero_ahri", "{\"slot\":1}", false), typeRelationRow(2, "character", "hero_ahri", null, false)));
+        when(typeRelationsMapper.markTypeRelationDeleted("lol", 2, "character", "hero_ahri", 5L)).thenReturn(1);
+
+        ObjectNode body = JsonNodeFactory.instance.objectNode();
+        body.putArray("relations")
+            .add(JsonNodeFactory.instance.objectNode().put("typeId", 1))
+            .add(JsonNodeFactory.instance.objectNode().put("typeId", 3));
+
+        ObjectNode response = writeStore.replaceTypeRelationsForTarget("lol", "character", "hero_ahri", body);
+
+        assertEquals("lol", response.path("gameId").asText());
+        assertEquals("character", response.path("targetCategory").asText());
+        assertEquals("hero_ahri", response.path("targetId").asText());
+        assertEquals(2, response.withArray("typeRelations").size());
+        verify(typeRelationsMapper).markTypeRelationDeleted("lol", 2, "character", "hero_ahri", 5L);
+        verify(typeRelationsMapper).upsertTypeRelation("lol", 1, 5L, "character", "hero_ahri", null, false);
+        verify(typeRelationsMapper).upsertTypeRelation("lol", 3, 5L, "character", "hero_ahri", null, false);
+    }
+
+    @Test
     void publishVersionFailsWhenBundleSemanticValidationFails() {
         PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
             2L,
@@ -187,6 +213,46 @@ class PostgresWriteStorePublishTest {
 
         assertEquals("422.SEMANTIC_ERROR", ex.getCode());
         verify(gameVersionsMapper, never()).markVersionCurrent(anyString(), any(Timestamp.class), anyString(), anyLong());
+    }
+
+    @Test
+    void publishVersionWritesDeletedTypeRelationTombstoneToLog() {
+        PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
+            2L,
+            "14.2",
+            "",
+            Instant.parse("2026-02-26T01:00:00Z"),
+            null
+        );
+        PostgresReadStore.VersionRecord currentVersion = new PostgresReadStore.VersionRecord(
+            1L,
+            "14.1",
+            "oldHash",
+            Instant.parse("2026-02-25T01:00:00Z"),
+            Instant.parse("2026-02-25T01:00:00Z")
+        );
+        when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
+        when(readStore.findCurrentPublishedVersion("lol")).thenReturn(currentVersion);
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(emptyBundle("lol", targetVersion));
+
+        when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class)))
+            .thenReturn(List.of(typeRelationRow(7, "character", "hero_ahri", null, true)));
+        when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+
+        when(typeRelationsMapper.updateVersionRange("lol", 7, "character", "hero_ahri", 2L)).thenReturn(1);
+        when(gameVersionsMapper.markVersionCurrent(anyString(), any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
+
+        writeStore.publishVersion("lol", 2L);
+
+        verify(typeRelationsMapper).upsertTypeRelationLog("lol", 7, 2L, "character", "hero_ahri", null, true);
     }
 
     @Test
@@ -272,6 +338,16 @@ class PostgresWriteStorePublishTest {
         row.put("avatarUrl", "hero_ahri.png");
         row.put("baseStatsJson", "{\"hp\":500}");
         row.put("statsByLevelJson", null);
+        return row;
+    }
+
+    private Map<String, Object> typeRelationRow(int typeId, String targetCategory, String targetId, String extendJson, boolean deleted) {
+        Map<String, Object> row = new HashMap<>();
+        row.put("typeId", typeId);
+        row.put("targetCategory", targetCategory);
+        row.put("targetId", targetId);
+        row.put("extendJson", extendJson);
+        row.put("deleted", deleted);
         return row;
     }
 }

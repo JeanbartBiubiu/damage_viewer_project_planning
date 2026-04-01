@@ -318,6 +318,20 @@ public class GameDataService {
         return response;
     }
 
+    public ObjectNode replaceTypeRelationsForTarget(
+        String gameId,
+        String targetCategory,
+        String targetId,
+        ObjectNode body
+    ) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.replaceTypeRelationsForTarget(gameId, targetCategory, targetId, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
     public ObjectNode upsertImage(String gameId, String uri, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);

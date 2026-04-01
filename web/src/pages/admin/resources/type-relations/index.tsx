@@ -1,8 +1,10 @@
-import { Alert } from '@arco-design/web-react';
+import { Alert, Message } from '@arco-design/web-react';
 import { Panel } from '../../../../components/Panel';
-import { getTypeRelations, putTypeRelation } from '../../../../services/apiClient';
+import { getErrorMessage, getTypeRelations, putTypeRelation, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
+import { clearTypeCatalogCache } from '../../../../services/typeCatalog';
 import type { JsonObject } from '../../../../types/api';
 import { parseJsonObjectText, stringifyJson } from '../shared/json';
+import { buildTypeRelationReplacePayload } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createTypeRelationsFormData, createTypeRelationsSearchData } from './constants';
 import { TypeRelationsModal } from './modal';
@@ -83,10 +85,11 @@ export function TypeRelationsPage({ apiBaseUrl, selectedGameId, adminToken }: Ty
   const blockerMessage = !selectedGameId
     ? '请先选择当前 gameId。'
     : !adminToken.trim()
-      ? '请先在顶部会话区域填写 Admin Token。'
+      ? '请先在顶部会话区域填入 Admin Token。'
       : null;
 
   const {
+    records,
     filteredRecords,
     recordsState,
     recordsError,
@@ -115,8 +118,47 @@ export function TypeRelationsPage({ apiBaseUrl, selectedGameId, adminToken }: Ty
     saveRecord: saveTypeRelationsRecord,
     filterRecords: filterTypeRelations,
     toFormData: toTypeRelationsFormData,
-    getSuccessMessage: (mode) => (mode === 'create' ? '类型挂载新增成功' : '类型挂载保存成功')
+    getSuccessMessage: (mode) => (mode === 'create' ? '类型挂载新增成功' : '类型挂载保存成功'),
+    afterSaveRecord: () => {
+      if (selectedGameId) {
+        clearTypeCatalogCache(selectedGameId);
+      }
+    }
   });
+
+  const handleDelete = async (record: TypeRelationsRecord) => {
+    if (!selectedGameId || !adminToken.trim()) {
+      return;
+    }
+
+    const remainingRelationsForTarget = records
+      .filter(
+        (current) =>
+          current.targetCategory === record.targetCategory &&
+          current.targetId === record.targetId &&
+          current.typeId !== record.typeId
+      )
+      .map((current) => ({
+        typeId: current.typeId,
+        extend: current.extend
+      }));
+
+    try {
+      await replaceTypeRelationsForTarget(
+        apiBaseUrl,
+        selectedGameId,
+        record.targetCategory,
+        record.targetId,
+        adminToken.trim(),
+        buildTypeRelationReplacePayload(remainingRelationsForTarget)
+      );
+      clearTypeCatalogCache(selectedGameId);
+      Message.success('类型挂载删除成功');
+      refreshRecords();
+    } catch (error) {
+      Message.error(getErrorMessage(error));
+    }
+  };
 
   return (
     <div className="page-admin-resource page-stack">
@@ -136,9 +178,12 @@ export function TypeRelationsPage({ apiBaseUrl, selectedGameId, adminToken }: Ty
         <TypeRelationsTable
           loading={recordsState === 'loading'}
           records={filteredRecords}
-          actionsDisabled={actionsDisabled}
+          actionsDisabled={actionsDisabled || saving}
           onView={openViewModal}
           onEdit={openEditModal}
+          onDelete={(record) => {
+            void handleDelete(record);
+          }}
           onCreate={openCreateModal}
           onRefresh={refreshRecords}
         />
