@@ -10,7 +10,8 @@ use crate::model::{
     EngineConfig, EngineInitPayload, EngineMeta, EngineRunInput, GameDataBundle, InitialCombatants, StopCondition,
     TestProfile,
 };
-use crate::runtime::{build_runtime, ActorId, InternalEvent, RuntimeLog};
+use crate::runtime::build_runtime;
+use crate::types::{ActorId, InternalEvent, RuntimeLog};
 use crate::sim::run_until_stop;
 use std::fs;
 
