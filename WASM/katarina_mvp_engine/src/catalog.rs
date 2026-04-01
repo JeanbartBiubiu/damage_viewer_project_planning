@@ -323,6 +323,7 @@ fn compile_actor_template(
         actor_id,
         label: actor.label.clone(),
         attrs: actor.attrs.clone(),
+        requires_damage_taken_window: actor.requires_damage_taken_window,
         owned_items: actor.owned_item_ids.clone(),
         priorities,
         actions,
