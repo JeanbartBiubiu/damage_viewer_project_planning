@@ -2,9 +2,10 @@ import { Alert, Tabs } from '@arco-design/web-react';
 import { useMemo, useState } from 'react';
 import { Panel } from '../../../../components/Panel';
 import { TypesTreeView } from '../../../../components/TypesTreeView';
-import { getTypes, putType, putTypeRelation } from '../../../../services/apiClient';
+import { getTypes, putType, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import type { JsonObject } from '../../../../types/api';
+import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createTypesFormData, createTypesSearchData } from './constants';
 import { TypesModal } from './modal';
@@ -51,7 +52,9 @@ async function saveTypesRecord(
   apiBaseUrl: string,
   gameId: string,
   token: string,
-  formData: TypesFormData
+  formData: TypesFormData,
+  targetTypeIdsByKey: Map<string, number[]>,
+  parentTypeIdByChildId: Map<number, number>
 ): Promise<TypesRecord> {
   const payload: JsonObject = {
     typeId: Number(formData.typeId),
@@ -67,13 +70,34 @@ async function saveTypesRecord(
   }
 
   const savedType = (await putType(apiBaseUrl, gameId, Number(formData.typeId), token, payload)).data;
+  const childTypeId = Number(formData.typeId);
+  const previousParentTypeId = parentTypeIdByChildId.get(childTypeId);
+  const nextParentTypeId = formData.parentTypeId.trim() ? Number(formData.parentTypeId) : null;
 
-  if (formData.parentTypeId.trim()) {
-    await putTypeRelation(apiBaseUrl, gameId, Number(formData.typeId), 'type', formData.parentTypeId.trim(), token, {
-      typeId: Number(formData.typeId),
-      targetCategory: 'type',
-      targetId: formData.parentTypeId.trim()
-    });
+  if (previousParentTypeId && previousParentTypeId !== nextParentTypeId) {
+    const previousChildren = (targetTypeIdsByKey.get(`type:${previousParentTypeId}`) ?? []).filter((typeId) => typeId !== childTypeId);
+    await replaceTypeRelationsForTarget(
+      apiBaseUrl,
+      gameId,
+      'type',
+      String(previousParentTypeId),
+      token,
+      buildTypeRelationReplacePayloadFromIds(previousChildren)
+    );
+  }
+
+  if (nextParentTypeId && nextParentTypeId !== previousParentTypeId) {
+    const nextChildren = Array.from(new Set([...(targetTypeIdsByKey.get(`type:${nextParentTypeId}`) ?? []), childTypeId])).sort(
+      (left, right) => left - right
+    );
+    await replaceTypeRelationsForTarget(
+      apiBaseUrl,
+      gameId,
+      'type',
+      String(nextParentTypeId),
+      token,
+      buildTypeRelationReplacePayloadFromIds(nextChildren)
+    );
   }
 
   return savedType;
@@ -88,8 +112,15 @@ export function TypesPage({ apiBaseUrl, selectedGameId, adminToken }: TypesPageP
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
 
-  const { types, treeRoots, parentTypeIdByChildId, loading: typeCatalogLoading, error: typeCatalogError, refresh: refreshTypeCatalog } =
-    useTypeCatalog(apiBaseUrl, selectedGameId, adminToken);
+  const {
+    types,
+    treeRoots,
+    parentTypeIdByChildId,
+    targetTypeIdsByKey,
+    loading: typeCatalogLoading,
+    error: typeCatalogError,
+    refresh: refreshTypeCatalog
+  } = useTypeCatalog(apiBaseUrl, selectedGameId, adminToken);
 
   const {
     filteredRecords,
@@ -117,7 +148,8 @@ export function TypesPage({ apiBaseUrl, selectedGameId, adminToken }: TypesPageP
     createSearchData: createTypesSearchData,
     createFormData: createTypesFormData,
     listRecords: listTypesRecords,
-    saveRecord: saveTypesRecord,
+    saveRecord: (currentApiBaseUrl, gameId, token, currentFormData) =>
+      saveTypesRecord(currentApiBaseUrl, gameId, token, currentFormData, targetTypeIdsByKey, parentTypeIdByChildId),
     filterRecords: filterTypes,
     toFormData: toTypesFormData,
     getSuccessMessage: (mode) => (mode === 'create' ? '类型定义新增成功' : '类型定义保存成功'),
@@ -134,17 +166,13 @@ export function TypesPage({ apiBaseUrl, selectedGameId, adminToken }: TypesPageP
   const openEditModalWithParent = (record: TypesRecord) => {
     openEditModal(record);
     const parentTypeId = parentTypeIdByChildId.get(record.typeId);
-    if (parentTypeId) {
-      updateFormData('parentTypeId', String(parentTypeId));
-    }
+    updateFormData('parentTypeId', parentTypeId ? String(parentTypeId) : '');
   };
 
   const openViewModalWithParent = (record: TypesRecord) => {
     openViewModal(record);
     const parentTypeId = parentTypeIdByChildId.get(record.typeId);
-    if (parentTypeId) {
-      updateFormData('parentTypeId', String(parentTypeId));
-    }
+    updateFormData('parentTypeId', parentTypeId ? String(parentTypeId) : '');
   };
 
   const refreshAll = () => {

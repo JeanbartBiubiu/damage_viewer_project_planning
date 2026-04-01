@@ -11,6 +11,12 @@ public interface TypeRelationsMapper {
 
     List<Map<String, Object>> listTypeRelations(@Param("gameId") String gameId);
 
+    List<Map<String, Object>> listTypeRelationsByTarget(
+        @Param("gameId") String gameId,
+        @Param("targetCategory") String targetCategory,
+        @Param("targetId") String targetId
+    );
+
     List<Map<String, Object>> listChangedSince(
         @Param("gameId") String gameId,
         @Param("updatedAfter") Timestamp updatedAfter
@@ -29,7 +35,16 @@ public interface TypeRelationsMapper {
         @Param("versionId") long versionId,
         @Param("targetCategory") String targetCategory,
         @Param("targetId") String targetId,
-        @Param("extendJson") String extendJson
+        @Param("extendJson") String extendJson,
+        @Param("deleted") boolean deleted
+    );
+
+    int markTypeRelationDeleted(
+        @Param("gameId") String gameId,
+        @Param("typeId") int typeId,
+        @Param("targetCategory") String targetCategory,
+        @Param("targetId") String targetId,
+        @Param("versionId") long versionId
     );
 
     int updateVersionRange(
@@ -46,6 +61,7 @@ public interface TypeRelationsMapper {
         @Param("versionId") long versionId,
         @Param("targetCategory") String targetCategory,
         @Param("targetId") String targetId,
-        @Param("extendJson") String extendJson
+        @Param("extendJson") String extendJson,
+        @Param("deleted") boolean deleted
     );
 }

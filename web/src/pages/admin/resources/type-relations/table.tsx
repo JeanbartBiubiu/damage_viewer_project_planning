@@ -8,6 +8,7 @@ type TypeRelationsTableProps = {
   actionsDisabled: boolean;
   onView: (record: TypeRelationsRecord) => void;
   onEdit: (record: TypeRelationsRecord) => void;
+  onDelete: (record: TypeRelationsRecord) => void;
   onCreate: () => void;
   onRefresh: () => void;
 };
@@ -18,6 +19,7 @@ export function TypeRelationsTable({
   actionsDisabled,
   onView,
   onEdit,
+  onDelete,
   onCreate,
   onRefresh
 }: TypeRelationsTableProps) {
@@ -44,11 +46,11 @@ export function TypeRelationsTable({
       <Table
         className="data-table-shell"
         loading={loading}
-        columns={getTypeRelationsColumns({ onView, onEdit })}
+        columns={getTypeRelationsColumns({ onView, onEdit, onDelete, deleteDisabled: actionsDisabled })}
         data={records}
         pagination={false}
         rowKey={(record) => `${record.typeId}|${record.targetCategory}|${record.targetId}`}
-        scroll={{ x: 960 }}
+        scroll={{ x: 1080 }}
       />
     </Space>
   );

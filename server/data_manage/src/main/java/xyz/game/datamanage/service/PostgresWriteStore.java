@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -421,6 +422,7 @@ public class PostgresWriteStore {
         ObjectNode body
     ) {
         ObjectNode merged = mergeUpsert(body, "targetId", targetId);
+        merged.remove("deleted");
         merged.put("typeId", typeId);
         merged.put("targetCategory", targetCategory);
         merged.put("targetId", targetId);
@@ -433,9 +435,103 @@ public class PostgresWriteStore {
             versionId,
             targetCategory,
             targetId,
-            jsonSupport.toJsonStringOrNull(merged.get("extend"))
+            jsonSupport.toJsonStringOrNull(merged.get("extend")),
+            false
         );
         return merged;
+    }
+
+    @Transactional
+    public ObjectNode replaceTypeRelationsForTarget(
+        String gameId,
+        String targetCategory,
+        String targetId,
+        ObjectNode body
+    ) {
+        if (body == null || body.isEmpty()) {
+            throw badRequest("Request body cannot be empty", Map.of("path", "/", "reason", "empty body"));
+        }
+
+        String normalizedTargetCategory = targetCategory == null ? "" : targetCategory.toLowerCase(Locale.ROOT);
+        validateTypeRelationTargetRef(gameId, normalizedTargetCategory, targetId, "/targetId");
+
+        JsonNode relationsNode = body.get("relations");
+        if (relationsNode == null || !relationsNode.isArray()) {
+            throw badRequest("typeRelationReplace.relations must be array", Map.of("path", "/relations"));
+        }
+
+        Map<Integer, ObjectNode> desiredRelationsByTypeId = new LinkedHashMap<>();
+        for (int index = 0; index < relationsNode.size(); index++) {
+            JsonNode relationNode = relationsNode.get(index);
+            if (relationNode == null || !relationNode.isObject()) {
+                throw badRequest("typeRelationReplace.relations must contain objects", Map.of("path", "/relations/" + index));
+            }
+
+            ObjectNode relation = objectMapper.createObjectNode();
+            JsonNode typeIdNode = relationNode.get("typeId");
+            if (typeIdNode == null || !typeIdNode.canConvertToInt()) {
+                throw badRequest("typeRelationReplace.relations.typeId must be integer", Map.of("path", "/relations/" + index + "/typeId"));
+            }
+            int relationTypeId = typeIdNode.asInt();
+            if (desiredRelationsByTypeId.containsKey(relationTypeId)) {
+                throw badRequest(
+                    "typeRelationReplace.relations contains duplicate typeId",
+                    Map.of("path", "/relations/" + index + "/typeId", "typeId", relationTypeId)
+                );
+            }
+
+            relation.put("typeId", relationTypeId);
+            relation.put("targetCategory", normalizedTargetCategory);
+            relation.put("targetId", targetId);
+            JsonNode extendNode = relationNode.get("extend");
+            if (extendNode != null && !extendNode.isNull()) {
+                if (!extendNode.isObject()) {
+                    throw badRequest("typeRelationReplace.relations.extend must be object", Map.of("path", "/relations/" + index + "/extend"));
+                }
+                relation.set("extend", extendNode.deepCopy());
+            }
+            validateTypeRelationTarget(gameId, relation);
+            desiredRelationsByTypeId.put(relationTypeId, relation);
+        }
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        List<Map<String, Object>> currentRelations = typeRelationsMapper.listTypeRelationsByTarget(gameId, normalizedTargetCategory, targetId);
+        for (Map<String, Object> currentRelation : currentRelations) {
+            Integer existingTypeId = mapInteger(currentRelation, "typeId");
+            int safeTypeId = existingTypeId == null ? -1 : existingTypeId;
+            if (desiredRelationsByTypeId.containsKey(safeTypeId)) {
+                continue;
+            }
+            ensureUpdated(
+                typeRelationsMapper.markTypeRelationDeleted(gameId, safeTypeId, normalizedTargetCategory, targetId, versionId),
+                "typeRelation not found while deleting",
+                Map.of("gameId", gameId, "typeId", safeTypeId, "targetCategory", normalizedTargetCategory, "targetId", targetId)
+            );
+        }
+
+        for (ObjectNode relation : desiredRelationsByTypeId.values()) {
+            int relationTypeId = relation.path("typeId").asInt();
+            typeRelationsMapper.upsertTypeRelation(
+                gameId,
+                relationTypeId,
+                versionId,
+                normalizedTargetCategory,
+                targetId,
+                jsonSupport.toJsonStringOrNull(relation.get("extend")),
+                false
+            );
+        }
+
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        response.put("targetCategory", normalizedTargetCategory);
+        response.put("targetId", targetId);
+        ArrayNode responseRelations = response.putArray("typeRelations");
+        desiredRelationsByTypeId.values()
+            .stream()
+            .sorted((left, right) -> Integer.compare(left.path("typeId").asInt(), right.path("typeId").asInt()))
+            .forEach(responseRelations::add);
+        return response;
     }
 
     @Transactional
@@ -630,7 +726,8 @@ public class PostgresWriteStore {
                 versionId,
                 safeTargetCategory,
                 safeTargetId,
-                mapText(row, "extendJson")
+                mapText(row, "extendJson"),
+                Boolean.TRUE.equals(mapBoolean(row, "deleted"))
             );
         }
         for (Map<String, Object> row : changedHeroes) {
@@ -1386,10 +1483,14 @@ public class PostgresWriteStore {
             throw semantic("typeRelation.typeId not found", Map.of("path", "/typeId", "typeId", typeId));
         }
         String targetCategory = relation.path("targetCategory").asText("").toLowerCase(Locale.ROOT);
+        String targetId = relation.path("targetId").asText();
+        validateTypeRelationTargetRef(gameId, targetCategory, targetId, "/targetId");
+    }
+
+    private void validateTypeRelationTargetRef(String gameId, String targetCategory, String targetId, String targetPath) {
         if (!TARGET_CATEGORIES.contains(targetCategory)) {
             throw badRequest("typeRelation.targetCategory invalid", Map.of("path", "/targetCategory"));
         }
-        String targetId = relation.path("targetId").asText();
         boolean found = switch (targetCategory) {
             case "equipment" -> readStore.loadItem(gameId, targetId) != null;
             case "attribute" -> readStore.loadAttributeDefinition(gameId, targetId) != null;
@@ -1399,7 +1500,7 @@ public class PostgresWriteStore {
             default -> false;
         };
         if (!found) {
-            throw semantic("typeRelation target not found", Map.of("path", "/targetId", "targetCategory", targetCategory, "targetId", targetId));
+            throw semantic("typeRelation target not found", Map.of("path", targetPath, "targetCategory", targetCategory, "targetId", targetId));
         }
     }
 

@@ -32,10 +32,7 @@ export function TypeTagEditor({ definitions, persistedTypeIds, value, onChange, 
     setPendingTypeId(undefined);
   };
 
-  const removeDraftType = (typeId: number) => {
-    if (persistedSet.has(typeId)) {
-      return;
-    }
+  const removeType = (typeId: number) => {
     onChange(value.filter((current) => current !== typeId));
   };
 
@@ -73,10 +70,10 @@ export function TypeTagEditor({ definitions, persistedTypeIds, value, onChange, 
             return (
               <Tag
                 key={type.typeId}
-                closable={!persisted && !disabled}
+                closable={!disabled}
                 onClose={(event) => {
                   event.preventDefault();
-                  removeDraftType(type.typeId);
+                  removeType(type.typeId);
                 }}
                 color={persisted ? 'arcoblue' : 'green'}
               >
@@ -91,7 +88,7 @@ export function TypeTagEditor({ definitions, persistedTypeIds, value, onChange, 
       </Space>
 
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-        已保存的类型标签当前只读，不支持移除；本次新增但尚未保存的标签可以撤回。
+        保存时会按当前标签集合全量同步类型挂载，已挂载和新添加的标签都可以直接移除。
       </Typography.Text>
     </Space>
   );

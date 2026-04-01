@@ -1,9 +1,10 @@
 import { Alert } from '@arco-design/web-react';
 import { Panel } from '../../../../components/Panel';
-import { getHeroes, putHero, putTypeRelation } from '../../../../services/apiClient';
+import { getHeroes, putHero, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import type { JsonObject } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonObjectText, stringifyJson } from '../shared/json';
+import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { createHeroesFormData, createHeroesSearchData } from './constants';
 import { HeroesModal } from './modal';
@@ -86,15 +87,13 @@ async function saveHeroesRecord(
   payload.statsByLevel = statsByLevel;
 
   const savedHero = (await putHero(apiBaseUrl, gameId, formData.heroId.trim(), token, payload)).data;
-  const pendingTypeIds = formData.selectedTypeIds.filter((typeId) => !formData.persistedTypeIds.includes(typeId));
-  await Promise.all(
-    pendingTypeIds.map((typeId) =>
-      putTypeRelation(apiBaseUrl, gameId, typeId, 'character', formData.heroId.trim(), token, {
-        typeId,
-        targetCategory: 'character',
-        targetId: formData.heroId.trim()
-      })
-    )
+  await replaceTypeRelationsForTarget(
+    apiBaseUrl,
+    gameId,
+    'character',
+    formData.heroId.trim(),
+    token,
+    buildTypeRelationReplacePayloadFromIds(formData.selectedTypeIds)
   );
 
   return savedHero;

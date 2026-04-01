@@ -24,6 +24,8 @@ import type {
   StatusActionControlRulesResponse,
   TypeDefinition,
   TypeRelation,
+  TypeRelationReplacePayload,
+  TypeRelationsByTargetResponse,
   TypeRelationsResponse,
   TypesResponse,
   VersionCreatePayload,
@@ -232,6 +234,21 @@ export async function putTypeRelation(
   body: JsonObject
 ): Promise<ApiResult<TypeRelation>> {
   return requestJson<TypeRelation>(apiBaseUrl, adminPath(gameId, 'type-relations', `${typeId}`, targetCategory, targetId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function replaceTypeRelationsForTarget(
+  apiBaseUrl: string,
+  gameId: string,
+  targetCategory: string,
+  targetId: string,
+  token: string,
+  body: TypeRelationReplacePayload
+): Promise<ApiResult<TypeRelationsByTargetResponse>> {
+  return requestJson<TypeRelationsByTargetResponse>(apiBaseUrl, adminPath(gameId, 'type-relations', targetCategory, targetId), {
     method: 'PUT',
     token,
     body: JSON.stringify(body)

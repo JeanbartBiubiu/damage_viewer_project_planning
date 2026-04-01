@@ -88,19 +88,17 @@ export function TypesModal({
             allowClear
             showSearch
             value={formData.parentTypeId || undefined}
-            disabled={readOnly || editingExisting}
-            placeholder={editingExisting ? '现有类型暂不支持修改父类型' : '可选，选择父类型'}
+            disabled={readOnly}
+            placeholder="可选，选择父类型"
             onChange={(value) => onFieldChange('parentTypeId', value ? String(value) : '')}
             options={availableParentTypes.map((type) => ({
-              label: `${type.name ?? '未命名类型'} · ${type.typeId}`,
+              label: `${type.name ?? '未命名类型'} / ${type.typeId}`,
               value: String(type.typeId)
             }))}
           />
-          {editingExisting ? (
-            <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
-              当前接口缺少删除能力，已有类型暂不支持改父节点，避免写出多父关系。
-            </Typography.Text>
-          ) : null}
+          <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
+            保存时会同步旧父类型和新父类型的挂载集合，保持每个 child 最多只有一个 parent。
+          </Typography.Text>
         </Form.Item>
       </Form>
     </Modal>
