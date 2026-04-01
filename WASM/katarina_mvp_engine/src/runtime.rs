@@ -7,6 +7,7 @@ use crate::model::{
 use crate::formula::{CompiledFormulaCatalog, FormulaRuntimeView};
 use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap};
+use std::fmt::Debug;
 
 pub const ATTR_HP: &str = "hp";
 pub const ATTR_MANA: &str = "mana";
@@ -24,6 +25,8 @@ pub const ATTR_HP_REGEN: &str = "hp_regen";
 pub const ATTR_ABILITY_HASTE: &str = "ability_haste";
 pub const ATTR_LIFE_STEAL: &str = "life_steal";
 pub const ATTR_HEAL_POWER: &str = "heal_power";
+pub const DAMAGE_TAKEN_WINDOW_MS: u32 = 4_000;
+pub const DAMAGE_TAKEN_WINDOW_SAMPLE_INTERVAL_MS: u32 = 50;
 
 pub const ACTION_LABEL_AUTO_BATTLE: &str = "benchmark_auto_battle";
 
@@ -156,10 +159,61 @@ pub struct BenchmarkRuntimeCatalog {
 }
 
 #[derive(Debug, Clone)]
+struct TimestampedEntry<T: Clone + Debug> {
+    t_ms: u32,
+    value: T,
+}
+
+#[derive(Debug, Clone)]
+pub struct TemporalRingBuffer<T: Clone + Debug> {
+    entries: Vec<Option<TimestampedEntry<T>>>,
+    write_cursor: usize,
+    len: usize,
+    capacity: usize,
+}
+
+impl<T: Clone + Debug> TemporalRingBuffer<T> {
+    pub fn new(window_ms: u32, sample_interval_ms: u32) -> Self {
+        let normalized_interval_ms = sample_interval_ms.max(1);
+        let capacity = (window_ms / normalized_interval_ms).max(1) as usize + 1;
+        Self {
+            entries: (0..capacity).map(|_| None).collect(),
+            write_cursor: 0,
+            len: 0,
+            capacity,
+        }
+    }
+
+    pub fn push(&mut self, t_ms: u32, value: T) {
+        self.entries[self.write_cursor] = Some(TimestampedEntry { t_ms, value });
+        self.write_cursor = (self.write_cursor + 1) % self.capacity;
+        if self.len < self.capacity {
+            self.len += 1;
+        }
+    }
+
+    pub fn aggregate_window<F, R>(&self, from_ms: u32, to_ms: u32, init: R, mut f: F) -> R
+    where
+        F: FnMut(R, &T) -> R,
+    {
+        self.entries
+            .iter()
+            .flatten()
+            .filter(|entry| entry.t_ms >= from_ms && entry.t_ms <= to_ms)
+            .fold(init, |acc, entry| f(acc, &entry.value))
+    }
+
+    pub fn len(&self) -> usize {
+        self.len
+    }
+}
+
+#[derive(Debug, Clone)]
 pub struct ActorTemplate {
     pub actor_id: ActorId,
     pub label: String,
     pub attrs: HashMap<String, f64>,
+    pub requires_damage_taken_window: bool,
     pub owned_items: Vec<String>,
     pub priorities: Vec<String>,
     pub actions: HashMap<String, ActionRuntime>,
@@ -194,6 +248,13 @@ pub struct StunState {
 }
 
 #[derive(Debug, Clone)]
+pub struct DamageReceivedEntry {
+    pub amount: f64,
+    pub damage_type: DamageType,
+    pub source_id: String,
+}
+
+#[derive(Debug, Clone)]
 pub struct ActorRuntime {
     pub actor_id: ActorId,
     pub label: String,
@@ -207,6 +268,7 @@ pub struct ActorRuntime {
     pub count_to_three_marks: u32,
     pub shield: Option<ShieldState>,
     pub stun: Option<StunState>,
+    pub damage_taken_window: Option<TemporalRingBuffer<DamageReceivedEntry>>,
     pub priorities: Vec<String>,
     pub actions: HashMap<String, ActionRuntime>,
     pub owned_items: Vec<String>,
@@ -235,6 +297,9 @@ impl ActorRuntime {
             count_to_three_marks: 0,
             shield: None,
             stun: None,
+            damage_taken_window: template.requires_damage_taken_window.then(|| {
+                TemporalRingBuffer::new(DAMAGE_TAKEN_WINDOW_MS, DAMAGE_TAKEN_WINDOW_SAMPLE_INTERVAL_MS)
+            }),
             priorities: template.priorities,
             actions: template.actions,
             owned_items: template.owned_items,
@@ -283,6 +348,30 @@ impl ActorRuntime {
 
     pub fn shield_amount(&self) -> f64 {
         self.shield.as_ref().map(|shield| shield.amount).unwrap_or(0.0)
+    }
+
+    pub fn record_damage_taken(&mut self, t_ms: u32, amount: f64, damage_type: DamageType, source_id: &str) {
+        if amount <= 0.0 {
+            return;
+        }
+        if let Some(window) = self.damage_taken_window.as_mut() {
+            window.push(
+                t_ms,
+                DamageReceivedEntry {
+                    amount: round_number(amount),
+                    damage_type,
+                    source_id: source_id.to_string(),
+                },
+            );
+        }
+    }
+
+    pub fn damage_taken_in_window(&self, now_ms: u32, window_ms: u32) -> f64 {
+        let Some(window) = self.damage_taken_window.as_ref() else {
+            return 0.0;
+        };
+        let from_ms = now_ms.saturating_sub(window_ms);
+        round_number(window.aggregate_window(from_ms, now_ms, 0.0, |acc, entry| acc + entry.amount))
     }
 }
 
@@ -870,5 +959,56 @@ impl FormulaRuntimeView for RuntimeFormulaView<'_> {
 
     fn actor_mana_current(&self, actor: Self::ActorRef) -> f64 {
         self.state.actor(actor).mana_current
+    }
+
+    fn actor_damage_taken_in_window(&self, actor: Self::ActorRef, window_ms: u32) -> f64 {
+        self.state.actor(actor).damage_taken_in_window(self.state.now_ms, window_ms)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::TemporalRingBuffer;
+
+    #[test]
+    fn temporal_ring_buffer_starts_empty() {
+        let buffer = TemporalRingBuffer::<u32>::new(4_000, 50);
+        assert_eq!(buffer.len(), 0);
+        let sum = buffer.aggregate_window(0, 4_000, 0, |acc, value| acc + value);
+        assert_eq!(sum, 0);
+    }
+
+    #[test]
+    fn temporal_ring_buffer_aggregates_single_entry() {
+        let mut buffer = TemporalRingBuffer::<u32>::new(4_000, 50);
+        buffer.push(250, 7);
+
+        let sum = buffer.aggregate_window(0, 4_000, 0, |acc, value| acc + value);
+        assert_eq!(buffer.len(), 1);
+        assert_eq!(sum, 7);
+    }
+
+    #[test]
+    fn temporal_ring_buffer_overwrites_old_entries_when_full() {
+        let mut buffer = TemporalRingBuffer::<u32>::new(100, 50);
+        buffer.push(0, 1);
+        buffer.push(50, 2);
+        buffer.push(100, 3);
+        buffer.push(150, 4);
+
+        let sum = buffer.aggregate_window(0, 150, 0, |acc, value| acc + value);
+        assert_eq!(buffer.len(), 3);
+        assert_eq!(sum, 9);
+    }
+
+    #[test]
+    fn temporal_ring_buffer_filters_to_requested_window() {
+        let mut buffer = TemporalRingBuffer::<u32>::new(4_000, 50);
+        buffer.push(500, 3);
+        buffer.push(3_000, 5);
+        buffer.push(4_500, 7);
+
+        let sum = buffer.aggregate_window(1_000, 4_500, 0, |acc, value| acc + value);
+        assert_eq!(sum, 12);
     }
 }

@@ -4,14 +4,17 @@ use crate::benchmark_fixture::{
 };
 use crate::catalog::compile_benchmark_catalog;
 use crate::effects::apply_generate_shield;
-use crate::engine::{init_session, run_benchmark_runtime_for_test};
 use crate::model::{
-    CombatantInit, DamageType, EngineActionPlan, EngineConfig, EngineInitPayload, EngineRunInput, GameDataBundle,
-    InitialCombatants, StopCondition, TestProfile,
+    DamageType, EngineConfig, EngineInitPayload, GameDataBundle, TestProfile,
 };
 use crate::runtime::{build_runtime, ActorId, InternalEvent, RuntimeLog, SimulationConfig};
-use crate::sim::{run_first_basic_attack, run_minimal_benchmark_battle, run_until_stop};
+use crate::sim::{
+    run_benchmark_action_sequence, run_first_basic_attack, run_minimal_benchmark_battle,
+    run_until_stop, BenchmarkSequenceFinish, BenchmarkSequenceStep,
+};
 use std::fs;
+
+const SKILL_DAMAGE_TAKEN_WINDOW_PROBE: &str = "skill_damage_taken_window_probe";
 
 fn benchmark_payload() -> EngineInitPayload {
     let raw = fs::read_to_string(BENCHMARK_INIT_PAYLOAD_PATH).expect("benchmark payload json should exist");
@@ -21,42 +24,6 @@ fn benchmark_payload() -> EngineInitPayload {
 
 fn minimal_bundle() -> GameDataBundle {
     benchmark_payload().bundle
-}
-
-fn benchmark_session(profile: TestProfile) -> crate::engine::EngineSession {
-    let mut payload = benchmark_payload();
-    payload.engine_config = Some(EngineConfig {
-        hp_attr_key: payload
-            .engine_config
-            .as_ref()
-            .and_then(|config| config.hp_attr_key.clone()),
-        test_profile: Some(profile),
-    });
-    init_session(payload).unwrap()
-}
-
-fn benchmark_input_basic_attack() -> EngineRunInput {
-    EngineRunInput {
-        seed: None,
-        stop: StopCondition { max_seconds: 5.0 },
-        initial: InitialCombatants {
-            self_actor: CombatantInit {
-                hero_id: "ignored_self".into(),
-                level: None,
-                item_ids: vec![],
-            },
-            enemy: CombatantInit {
-                hero_id: "ignored_enemy".into(),
-                level: None,
-                item_ids: vec![],
-            },
-        },
-        overrides: None,
-        plan: EngineActionPlan::BasicAttack {
-            count: 1,
-            skill_id: None,
-        },
-    }
 }
 
 fn benchmark_config(profile: TestProfile) -> SimulationConfig {
@@ -76,8 +43,7 @@ fn replace_owned_item_id(item_ids: &mut [String], from: &str, to: &str) {
 
 #[test]
 fn review_basic_attack_triggers_black_cleaver_on_each_physical_component() {
-    let session = benchmark_session(TestProfile::Full);
-    let runtime = run_benchmark_runtime_for_test(&session, benchmark_input_basic_attack()).unwrap();
+    let runtime = run_first_basic_attack(benchmark_config(TestProfile::Full)).unwrap();
 
     let black_cleaver_changes = runtime
         .logs
@@ -265,13 +231,15 @@ fn review_item_abilities_follow_equipped_item_defs_instead_of_fixed_ids() {
         .expect("thornmail item def should exist");
     thornmail_def.item_id = alt_thornmail.to_string();
 
-    payload.engine_config = Some(EngineConfig {
-        hp_attr_key: None,
-        test_profile: Some(TestProfile::Full),
-    });
-
-    let session = init_session(payload).unwrap();
-    let runtime = run_benchmark_runtime_for_test(&session, benchmark_input_basic_attack()).unwrap();
+    let compiled = compile_benchmark_catalog(
+        &payload.bundle,
+        &EngineConfig {
+            hp_attr_key: None,
+            test_profile: Some(TestProfile::Full),
+        },
+    )
+    .unwrap();
+    let runtime = run_first_basic_attack(compiled.to_simulation_config(60_000, 100_000)).unwrap();
 
     let black_cleaver_applied = runtime.logs.iter().any(|entry| {
         matches!(
@@ -305,4 +273,68 @@ fn review_item_abilities_follow_equipped_item_defs_instead_of_fixed_ids() {
 
     assert_eq!(reflect_component.component.source_id, alt_thornmail);
     assert_eq!(reflect_component.component.damage_type, DamageType::Magic);
+}
+
+#[test]
+fn review_damage_taken_window_uses_recent_self_damage_in_a_followup_skill() {
+    let compiled = compile_benchmark_catalog(
+        &minimal_bundle(),
+        &EngineConfig {
+            hp_attr_key: None,
+            test_profile: Some(TestProfile::Full),
+        },
+    )
+    .unwrap();
+    let runtime = run_benchmark_action_sequence(
+        compiled.to_simulation_config(60_000, 128),
+        &[
+            BenchmarkSequenceStep::ExecuteAction {
+                actor_id: ActorId::SelfActor,
+                action_id: SKILL_BASIC_ATTACK.to_string(),
+                advance_after_ms: 1,
+            },
+            BenchmarkSequenceStep::ExecuteAction {
+                actor_id: ActorId::SelfActor,
+                action_id: SKILL_DAMAGE_TAKEN_WINDOW_PROBE.to_string(),
+                advance_after_ms: 0,
+            },
+        ],
+        BenchmarkSequenceFinish::Complete,
+    )
+    .unwrap();
+
+    let self_damage = runtime
+        .logs
+        .iter()
+        .find_map(|entry| match entry {
+            RuntimeLog::DamageResolved {
+                source_actor,
+                target_actor,
+                total_hp_damage,
+                ..
+            } if *source_actor == ActorId::Enemy && *target_actor == ActorId::SelfActor => Some(*total_hp_damage),
+            _ => None,
+        })
+        .expect("expected reflected damage to be recorded in the self damage window");
+    assert!(self_damage > 0.0);
+
+    let window_damage = runtime
+        .logs
+        .iter()
+        .find_map(|entry| match entry {
+            RuntimeLog::DamageResolved {
+                source_actor,
+                target_actor,
+                components,
+                ..
+            } if *source_actor == ActorId::SelfActor && *target_actor == ActorId::Enemy => components
+                .iter()
+                .find(|component| component.component.source_id == SKILL_DAMAGE_TAKEN_WINDOW_PROBE)
+                .map(|component| (component.component.raw_damage, component.component.dealt_damage)),
+            _ => None,
+        })
+        .expect("expected the window probe skill to resolve damage");
+
+    assert_eq!(window_damage.0, self_damage);
+    assert_eq!(window_damage.1, self_damage);
 }
