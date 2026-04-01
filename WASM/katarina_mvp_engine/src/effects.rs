@@ -156,6 +156,18 @@ pub fn apply_damage_packets_as_event(
         state.push_sample();
     }
     state.check_terminal_state();
+    let now_ms = state.now_ms;
+    {
+        let target = state.actor_mut(target_actor);
+        for component in &components {
+            target.record_damage_taken(
+                now_ms,
+                component.hp_damage,
+                component.component.damage_type,
+                &component.component.source_id,
+            );
+        }
+    }
 
     for action in post_hit_actions {
         execute_post_hit_action(state, action)?;

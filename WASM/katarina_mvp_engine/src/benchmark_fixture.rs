@@ -39,6 +39,7 @@ pub const SKILL_ARCANE_SHIFT: &str = "skill_arcane_shift";
 pub const SKILL_GENERATE_SHIELD: &str = "skill_generate_shield";
 pub const SKILL_STUN: &str = "skill_stun";
 pub const SKILL_BLACK_CLEAVER_PROBE: &str = "skill_benchmark_black_cleaver_probe";
+pub const SKILL_DAMAGE_WINDOW_BURST: &str = "skill_damage_taken_window_probe";
 pub const SKILL_FINAL_KILL: &str = "skill_benchmark_final_kill";
 
 pub const TYPE_CAN_TRIGGER_ON_HIT: &str = "type_can_trigger_on_hit";
@@ -53,6 +54,7 @@ pub const FORMULA_ARCANE_SHIFT_DAMAGE: &str = "formula_arcane_shift_damage";
 pub const FORMULA_MASK_DOT_DAMAGE: &str = "formula_mask_dot_damage";
 pub const FORMULA_GENERATE_SHIELD_AMOUNT: &str = "formula_generate_shield_amount";
 pub const FORMULA_COUNT_TO_THREE_DAMAGE: &str = "formula_count_to_three_damage";
+pub const FORMULA_DAMAGE_WINDOW_BURST: &str = "formula_damage_taken_window_probe";
 pub const FORMULA_THORN_ARMOR_DAMAGE: &str = "formula_thorn_armor_damage";
 
 pub fn sanitize_broken_label_lines(raw: &str) -> String {
