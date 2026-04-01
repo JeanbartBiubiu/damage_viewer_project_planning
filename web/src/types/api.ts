@@ -238,6 +238,22 @@ export type TypeRelationsResponse = {
   typeRelations: TypeRelation[];
 };
 
+export type TypeRelationReplaceItem = {
+  typeId: number;
+  extend?: JsonObject;
+};
+
+export type TypeRelationReplacePayload = {
+  relations: TypeRelationReplaceItem[];
+};
+
+export type TypeRelationsByTargetResponse = {
+  gameId: string;
+  targetCategory: string;
+  targetId: string;
+  typeRelations: TypeRelation[];
+};
+
 export type FormulaBindingsResponse = {
   gameId: string;
   formulaBindings: FormulaBinding[];

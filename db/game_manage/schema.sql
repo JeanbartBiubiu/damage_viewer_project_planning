@@ -167,6 +167,7 @@ CREATE TABLE public.type_relations (
     target_category varchar(32) NOT NULL CHECK (target_category IN ('equipment', 'attribute', 'skill', 'character', 'type')),
     target_id varchar(64) NOT NULL,
     extend jsonb,
+    deleted boolean NOT NULL DEFAULT FALSE,
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_type_relations PRIMARY KEY (game_id, type_id, target_category, target_id),
     CONSTRAINT fk_type_relations_type FOREIGN KEY (game_id, type_id)
@@ -187,12 +188,16 @@ CREATE TABLE public.type_relations_log (
     target_category varchar(32) NOT NULL CHECK (target_category IN ('equipment', 'attribute', 'skill', 'character', 'type')),
     target_id varchar(64) NOT NULL,
     extend jsonb,
+    deleted boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT pk_type_relations_log PRIMARY KEY (game_id, type_id, target_category, target_id, start_version_id),
     CONSTRAINT fk_type_relations_log_type FOREIGN KEY (game_id, type_id)
         REFERENCES public.types (game_id, type_id)
 ) PARTITION BY LIST (game_id);
 
 COMMENT ON TABLE public.type_relations_log IS 'type 关系日志表（用于多版本差异分析；按复合 id+start_version 唯一）';
+
+COMMENT ON COLUMN public.type_relations.deleted IS '软删除标记；TRUE 表示该关系已 tombstone，不参与读取与 bundle 构建，但保留用于发布差异记录';
+COMMENT ON COLUMN public.type_relations_log.deleted IS '删除 tombstone 标记；TRUE 表示该版本点把当前关系移除';
 
 CREATE TABLE public.owner_categories (
     game_id varchar(64) NOT NULL REFERENCES public.games(game_id),

@@ -44,4 +44,19 @@ public class TypeRelationAdminController {
         logHelper.log(auth, request, body, 200);
         return response;
     }
+
+    @PutMapping("/{targetCategory}/{targetId}")
+    public ObjectNode replaceTypeRelationsForTarget(
+        @PathVariable String gameId,
+        @PathVariable String targetCategory,
+        @PathVariable String targetId,
+        @RequestBody ObjectNode body,
+        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        HttpServletRequest request
+    ) {
+        ObjectNode response = gameDataService.replaceTypeRelationsForTarget(gameId, targetCategory, targetId, body);
+        logHelper.log(auth, request, body, 200);
+        return response;
+    }
+
 }

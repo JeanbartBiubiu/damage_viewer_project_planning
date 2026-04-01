@@ -1,12 +1,14 @@
-import { Button, Space, Typography } from '@arco-design/web-react';
+import { Button, Popconfirm, Space, Typography } from '@arco-design/web-react';
 import type { TypeRelationsRecord } from './types';
 
 type TypeRelationsTableActions = {
   onView: (record: TypeRelationsRecord) => void;
   onEdit: (record: TypeRelationsRecord) => void;
+  onDelete: (record: TypeRelationsRecord) => void;
+  deleteDisabled: boolean;
 };
 
-export function getTypeRelationsColumns({ onView, onEdit }: TypeRelationsTableActions) {
+export function getTypeRelationsColumns({ onView, onEdit, onDelete, deleteDisabled }: TypeRelationsTableActions) {
   return [
     {
       title: 'typeId',
@@ -29,7 +31,7 @@ export function getTypeRelationsColumns({ onView, onEdit }: TypeRelationsTableAc
     {
       title: '操作',
       fixed: 'right' as const,
-      width: 160,
+      width: 230,
       align: 'center' as const,
       render: (_: unknown, record: TypeRelationsRecord) => (
         <Space>
@@ -39,6 +41,11 @@ export function getTypeRelationsColumns({ onView, onEdit }: TypeRelationsTableAc
           <Button type="primary" size="mini" onClick={() => onEdit(record)}>
             编辑
           </Button>
+          <Popconfirm title="确认删除这条类型挂载吗？" onOk={() => onDelete(record)} disabled={deleteDisabled}>
+            <Button status="danger" size="mini" disabled={deleteDisabled}>
+              删除
+            </Button>
+          </Popconfirm>
         </Space>
       )
     }

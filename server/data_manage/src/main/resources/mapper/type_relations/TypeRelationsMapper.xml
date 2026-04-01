@@ -11,7 +11,21 @@
                extend::text AS extendJson
         FROM public.type_relations
         WHERE game_id = #{gameId}
-        ORDER BY type_id, target_category, target_id
+          AND deleted = FALSE
+        ORDER BY target_category, target_id, type_id
+    </select>
+
+    <select id="listTypeRelationsByTarget" resultType="map">
+        SELECT type_id AS typeId,
+               target_category AS targetCategory,
+               target_id AS targetId,
+               extend::text AS extendJson
+        FROM public.type_relations
+        WHERE game_id = #{gameId}
+          AND target_category = #{targetCategory}
+          AND target_id = #{targetId}
+          AND deleted = FALSE
+        ORDER BY type_id
     </select>
 
     <select id="findTypeRelationById" resultType="map">
@@ -24,13 +38,15 @@
           AND type_id = #{typeId}
           AND target_category = #{targetCategory}
           AND target_id = #{targetId}
+          AND deleted = FALSE
     </select>
 
     <select id="listChangedSince" resultType="map">
         SELECT type_id AS typeId,
                target_category AS targetCategory,
                target_id AS targetId,
-               extend::text AS extendJson
+               extend::text AS extendJson,
+               deleted AS deleted
         FROM public.type_relations
         WHERE game_id = #{gameId}
           AND updated_at &gt; #{updatedAfter}
@@ -39,14 +55,37 @@
 
     <update id="upsertTypeRelation">
         INSERT INTO public.type_relations
-            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend, updated_at)
+            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend, deleted, updated_at)
         VALUES
-            (#{gameId}, #{typeId}, #{versionId}, #{versionId}, #{targetCategory}, #{targetId}, CAST(#{extendJson} AS jsonb), NOW())
+            (
+                #{gameId},
+                #{typeId},
+                #{versionId},
+                #{versionId},
+                #{targetCategory},
+                #{targetId},
+                CAST(#{extendJson} AS jsonb),
+                #{deleted},
+                NOW()
+            )
         ON CONFLICT (game_id, type_id, target_category, target_id) DO UPDATE SET
             start_version_id = EXCLUDED.start_version_id,
             end_version_id = EXCLUDED.end_version_id,
             extend = EXCLUDED.extend,
+            deleted = EXCLUDED.deleted,
             updated_at = NOW()
+    </update>
+
+    <update id="markTypeRelationDeleted">
+        UPDATE public.type_relations
+        SET start_version_id = #{versionId},
+            end_version_id = #{versionId},
+            deleted = TRUE,
+            updated_at = NOW()
+        WHERE game_id = #{gameId}
+          AND type_id = #{typeId}
+          AND target_category = #{targetCategory}
+          AND target_id = #{targetId}
     </update>
 
     <update id="updateVersionRange">
@@ -61,11 +100,21 @@
 
     <update id="upsertTypeRelationLog">
         INSERT INTO public.type_relations_log
-            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend)
+            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend, deleted)
         VALUES
-            (#{gameId}, #{typeId}, #{versionId}, #{versionId}, #{targetCategory}, #{targetId}, CAST(#{extendJson} AS jsonb))
+            (
+                #{gameId},
+                #{typeId},
+                #{versionId},
+                #{versionId},
+                #{targetCategory},
+                #{targetId},
+                CAST(#{extendJson} AS jsonb),
+                #{deleted}
+            )
         ON CONFLICT (game_id, type_id, target_category, target_id, start_version_id) DO UPDATE SET
             end_version_id = EXCLUDED.end_version_id,
-            extend = EXCLUDED.extend
+            extend = EXCLUDED.extend,
+            deleted = EXCLUDED.deleted
     </update>
 </mapper>
