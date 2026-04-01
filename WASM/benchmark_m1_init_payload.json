@@ -89,7 +89,8 @@
       { "skillId": "skill_generate_shield", "name": "\u751f\u6210\u62a4\u76fe" },
       { "skillId": "skill_stun", "name": "\u7729\u6655" },
       { "skillId": "skill_benchmark_black_cleaver_probe", "name": "\u65703" },
-      { "skillId": "skill_benchmark_final_kill", "name": "Benchmark Final Kill" }
+      { "skillId": "skill_benchmark_final_kill", "name": "Benchmark Final Kill" },
+      { "skillId": "skill_damage_taken_window_probe", "name": "Damage Window Burst" }
     ],
     "items": [
       {
@@ -177,6 +178,7 @@
           "item_black_cleaver",
           "item_dorans_blade"
         ],
+        "requiresDamageTakenWindow": true,
         "priorities": [
           "skill_arcane_shift",
           "skill_mystic_shot",
@@ -214,6 +216,14 @@
             "behavior": "basic_attack",
             "cooldown": { "kind": "fixed_ms", "ms": 0 },
             "manaCost": 25.0
+          },
+          {
+            "actionId": "skill_damage_taken_window_probe",
+            "label": "Damage Window Burst",
+            "priority": 25,
+            "behavior": "damage_window_burst",
+            "cooldown": { "kind": "fixed_ms", "ms": 0 },
+            "manaCost": 0.0
           }
         ]
       },
@@ -360,6 +370,20 @@
           "label": "Benchmark Final Kill",
           "typeIds": ["type_reserved_benchmark"],
           "finalKillEnemyHpOverride": 180.0
+        },
+        {
+          "skillId": "skill_damage_taken_window_probe",
+          "label": "Damage Window Burst",
+          "typeIds": ["type_reserved_benchmark"],
+          "primaryFormulaId": "formula_damage_taken_window_probe",
+          "damageType": "true",
+          "flags": {
+            "canTriggerOnHit": false,
+            "canLifeSteal": false,
+            "canApplyBlackCleaver": false,
+            "countsAsAttack": false,
+            "isActiveSkillMagicDamage": false
+          }
         }
       ],
       "itemDefs": [
@@ -635,6 +659,16 @@
                 ]
               }
             ]
+          }
+        },
+        {
+          "formulaId": "formula_damage_taken_window_probe",
+          "label": "Damage taken window probe",
+          "bypassValue": 32.0,
+          "expr": {
+            "type": "damage_taken_in_window",
+            "actor": "self_actor",
+            "windowMs": 4000
           }
         }
       ]
