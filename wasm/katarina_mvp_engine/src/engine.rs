@@ -1,10 +1,11 @@
 use crate::catalog::{compile_benchmark_catalog, CompiledCatalog};
+use crate::combat_math::resolve_cooldown_ms;
 use crate::model::{
     CombatantOverride, CombatantOverrides, EngineActionPlan, EngineConfig, EngineError,
     EngineInitPayload, EngineRunInput, EngineRunOutput, ErrorCode,
 };
 use crate::runtime::RuntimeState;
-use crate::runtime::{ActionBehavior, ActorId, CooldownSpec};
+use crate::types::{ActionBehavior, ActorId, ActorTemplate, ActionRuntime, SimulationConfig, ATTR_HP};
 use crate::sim::{
     run_benchmark_action_sequence, run_minimal_benchmark_battle, BenchmarkSequenceFinish,
     BenchmarkSequenceStep,
@@ -95,7 +96,7 @@ fn find_benchmark_action<'a>(
     benchmark_catalog: &'a CompiledCatalog,
     actor_id: ActorId,
     action_id: &str,
-) -> Option<&'a crate::runtime::ActionRuntime> {
+) -> Option<&'a ActionRuntime> {
     match actor_id {
         ActorId::SelfActor => benchmark_catalog.self_actor.actions.get(action_id),
         ActorId::Enemy => benchmark_catalog.enemy_actor.actions.get(action_id),
@@ -296,7 +297,7 @@ fn run_benchmark_runtime(
 }
 
 fn build_basic_attack_sequence(
-    actor: &crate::runtime::ActorTemplate,
+    actor: &ActorTemplate,
     action_id: &str,
     count: u32,
 ) -> Result<Vec<BenchmarkSequenceStep>, EngineError> {
@@ -317,37 +318,18 @@ fn build_basic_attack_sequence(
 }
 
 fn resolve_actor_action_cooldown_ms(
-    actor: &crate::runtime::ActorTemplate,
+    actor: &ActorTemplate,
     action_id: &str,
 ) -> Result<u32, EngineError> {
     let action = actor
         .actions
         .get(action_id)
         .ok_or_else(|| semantic_error(format!("benchmark self action not found: {action_id}")))?;
-
-    Ok(match action.cooldown {
-        CooldownSpec::BasicAttackInterval => {
-            let total_attack_speed = actor.attrs.get(crate::runtime::ATTR_ATTACK_SPEED_BASE).copied().unwrap_or(0.0)
-                + actor.attrs.get(crate::runtime::ATTR_ATTACK_SPEED_BONUS).copied().unwrap_or(0.0)
-                    * actor.attrs.get(crate::runtime::ATTR_ATTACK_SPEED_RATIO).copied().unwrap_or(0.0);
-            let total_attack_speed = total_attack_speed.max(0.1);
-            (1000.0 / total_attack_speed).round() as u32
-        }
-        CooldownSpec::AbilityHasteScaled { base_ms } => {
-            let ability_haste = actor
-                .attrs
-                .get(crate::runtime::ATTR_ABILITY_HASTE)
-                .copied()
-                .unwrap_or(0.0)
-                .max(0.0);
-            ((base_ms as f64) * (100.0 / (100.0 + ability_haste))).round() as u32
-        }
-        CooldownSpec::FixedMs(base_ms) => base_ms,
-    })
+    Ok(resolve_cooldown_ms(action.cooldown, &actor.attrs))
 }
 
 fn run_benchmark_final_kill(
-    mut config: crate::runtime::SimulationConfig,
+    mut config: SimulationConfig,
     skill_id: &str,
 ) -> Result<RuntimeState, EngineError> {
     if let Some(enemy_hp_override) = config
@@ -359,13 +341,13 @@ fn run_benchmark_final_kill(
         config
             .enemy_actor
             .attrs
-            .insert(crate::runtime::ATTR_HP.to_string(), enemy_hp_override);
+            .insert(ATTR_HP.to_string(), enemy_hp_override);
     }
     run_minimal_benchmark_battle(config)
 }
 
 fn apply_benchmark_overrides(
-    simulation_config: &mut crate::runtime::SimulationConfig,
+    simulation_config: &mut SimulationConfig,
     overrides: Option<&CombatantOverrides>,
 ) {
     let Some(overrides) = overrides else {
@@ -376,7 +358,7 @@ fn apply_benchmark_overrides(
 }
 
 fn apply_benchmark_actor_override(
-    actor: &mut crate::runtime::ActorTemplate,
+    actor: &mut ActorTemplate,
     override_input: Option<&CombatantOverride>,
 ) {
     let Some(override_input) = override_input else {

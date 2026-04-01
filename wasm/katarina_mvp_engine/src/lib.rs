@@ -1,11 +1,14 @@
+#[cfg(test)]
 mod benchmark_fixture;
 mod catalog;
+mod combat_math;
 mod engine;
 mod effects;
 mod formula;
 mod model;
 mod runtime;
 mod sim;
+mod types;
 #[cfg(test)]
 mod benchmark_tests;
 #[cfg(test)]
