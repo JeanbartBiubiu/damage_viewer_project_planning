@@ -130,6 +130,8 @@ pub struct BenchmarkActorDefinition {
     #[serde(default)]
     pub attrs: HashMap<String, f64>,
     #[serde(default)]
+    pub requires_damage_taken_window: bool,
+    #[serde(default)]
     pub owned_item_ids: Vec<String>,
     #[serde(default)]
     pub priorities: Vec<String>,
@@ -155,6 +157,7 @@ pub enum ActionBehavior {
     BasicAttack,
     MysticShot,
     ArcaneShift,
+    DamageWindowBurst,
     GenerateShield,
     Stun,
 }
@@ -262,6 +265,10 @@ pub enum BenchmarkFormulaExpr {
     },
     ActorHpCurrent { actor: BenchmarkFormulaActorRef },
     ActorHpMax { actor: BenchmarkFormulaActorRef },
+    DamageTakenInWindow {
+        actor: BenchmarkFormulaActorRef,
+        window_ms: u32,
+    },
     Add { terms: Vec<BenchmarkFormulaExpr> },
     Multiply { factors: Vec<BenchmarkFormulaExpr> },
 }

@@ -4,7 +4,7 @@ use crate::model::{
     EngineInitPayload, EngineRunInput, EngineRunOutput, ErrorCode,
 };
 use crate::runtime::RuntimeState;
-use crate::runtime::{ActionBehavior, ActorId};
+use crate::runtime::{ActionBehavior, ActorId, CooldownSpec};
 use crate::sim::{
     run_benchmark_action_sequence, run_minimal_benchmark_battle, BenchmarkSequenceFinish,
     BenchmarkSequenceStep,
@@ -74,13 +74,9 @@ fn run_benchmark_skeleton(
 }
 
 enum BenchmarkRoute {
-    /// Full auto-battle loop using the resolved basic attack action.
-    /// `action_id` is resolved but not directly used — the battle loop
-    /// selects actions via `select_benchmark_action` which picks the
-    /// best ready action (typically basic attack) at each step.
-    BasicAttack {
-        #[allow(dead_code)]
+    BasicAttackSequence {
         action_id: String,
+        count: u32,
     },
     SelfAction {
         action_id: String,
@@ -152,7 +148,10 @@ fn resolve_benchmark_route(
                 None => find_first_action_by_behavior(benchmark_catalog, ActorId::SelfActor, ActionBehavior::BasicAttack)
                     .ok_or_else(|| semantic_error("benchmark self actor has no basic attack action"))?,
             };
-            Ok(BenchmarkRoute::BasicAttack { action_id })
+            Ok(BenchmarkRoute::BasicAttackSequence {
+                action_id,
+                count: *count,
+            })
         }
         EngineActionPlan::CastSkill {
             skill_id,
@@ -160,6 +159,29 @@ fn resolve_benchmark_route(
             ..
         } => {
             if let Some(action) = find_benchmark_action(benchmark_catalog, ActorId::SelfActor, skill_id) {
+                if action.behavior == ActionBehavior::DamageWindowBurst {
+                    let self_basic_attack_action = find_first_action_by_behavior(
+                        benchmark_catalog,
+                        ActorId::SelfActor,
+                        ActionBehavior::BasicAttack,
+                    )
+                    .ok_or_else(|| semantic_error("benchmark self actor has no basic attack action"))?;
+                    return Ok(BenchmarkRoute::ActionSequence {
+                        steps: vec![
+                            BenchmarkSequenceStep::ExecuteAction {
+                                actor_id: ActorId::SelfActor,
+                                action_id: self_basic_attack_action,
+                                advance_after_ms: 1,
+                            },
+                            BenchmarkSequenceStep::ExecuteAction {
+                                actor_id: ActorId::SelfActor,
+                                action_id: action.action_id.clone(),
+                                advance_after_ms: 0,
+                            },
+                        ],
+                        finish: BenchmarkSequenceFinish::Complete,
+                    });
+                }
                 let continue_until_stop =
                     action.behavior == ActionBehavior::ArcaneShift || action.behavior == ActionBehavior::BasicAttack;
                 return Ok(BenchmarkRoute::SelfAction {
@@ -251,12 +273,9 @@ fn run_benchmark_runtime(
     let mut simulation_config = benchmark_catalog.to_simulation_config(max_duration_ms, 1024);
     apply_benchmark_overrides(&mut simulation_config, overrides.as_ref());
     let runtime = match route {
-        BenchmarkRoute::BasicAttack { action_id: _ } => {
-            // Use the full battle loop which includes action selection (auto-attack),
-            // cooldown management, and stop conditions (enemy dead, max seconds).
-            // Previously this used run_single_benchmark_action(…, false) which only
-            // executed ONE attack and immediately set Completed.
-            run_minimal_benchmark_battle(simulation_config)?
+        BenchmarkRoute::BasicAttackSequence { action_id, count } => {
+            let steps = build_basic_attack_sequence(&simulation_config.self_actor, &action_id, count)?;
+            run_benchmark_action_sequence(simulation_config, &steps, BenchmarkSequenceFinish::Complete)?
         }
         BenchmarkRoute::SelfAction {
             action_id,
@@ -274,6 +293,57 @@ fn run_benchmark_runtime(
     };
 
     Ok(runtime)
+}
+
+fn build_basic_attack_sequence(
+    actor: &crate::runtime::ActorTemplate,
+    action_id: &str,
+    count: u32,
+) -> Result<Vec<BenchmarkSequenceStep>, EngineError> {
+    let advance_after_ms = resolve_actor_action_cooldown_ms(actor, action_id)?;
+    let mut steps = Vec::with_capacity(count as usize);
+    for index in 0..count {
+        steps.push(BenchmarkSequenceStep::ExecuteAction {
+            actor_id: ActorId::SelfActor,
+            action_id: action_id.to_string(),
+            advance_after_ms: if index + 1 < count {
+                advance_after_ms
+            } else {
+                0
+            },
+        });
+    }
+    Ok(steps)
+}
+
+fn resolve_actor_action_cooldown_ms(
+    actor: &crate::runtime::ActorTemplate,
+    action_id: &str,
+) -> Result<u32, EngineError> {
+    let action = actor
+        .actions
+        .get(action_id)
+        .ok_or_else(|| semantic_error(format!("benchmark self action not found: {action_id}")))?;
+
+    Ok(match action.cooldown {
+        CooldownSpec::BasicAttackInterval => {
+            let total_attack_speed = actor.attrs.get(crate::runtime::ATTR_ATTACK_SPEED_BASE).copied().unwrap_or(0.0)
+                + actor.attrs.get(crate::runtime::ATTR_ATTACK_SPEED_BONUS).copied().unwrap_or(0.0)
+                    * actor.attrs.get(crate::runtime::ATTR_ATTACK_SPEED_RATIO).copied().unwrap_or(0.0);
+            let total_attack_speed = total_attack_speed.max(0.1);
+            (1000.0 / total_attack_speed).round() as u32
+        }
+        CooldownSpec::AbilityHasteScaled { base_ms } => {
+            let ability_haste = actor
+                .attrs
+                .get(crate::runtime::ATTR_ABILITY_HASTE)
+                .copied()
+                .unwrap_or(0.0)
+                .max(0.0);
+            ((base_ms as f64) * (100.0 / (100.0 + ability_haste))).round() as u32
+        }
+        CooldownSpec::FixedMs(base_ms) => base_ms,
+    })
 }
 
 fn run_benchmark_final_kill(
