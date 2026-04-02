@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use crate::formula::CompiledFormulaCatalog;
 use crate::model::{DamageSourceKind, DamageType, EngineDamageComponent, TestProfile};
 use std::cmp::Ordering;
@@ -11,8 +9,6 @@ use std::fmt::Debug;
 pub const ATTR_HP: &str = "hp";
 pub const ATTR_MANA: &str = "mana";
 pub const ATTR_MANA_REGEN: &str = "mana_regen";
-pub const ATTR_AD: &str = "ad";
-pub const ATTR_AP: &str = "ap";
 pub const ATTR_ARMOR: &str = "armor";
 pub const ATTR_MAGIC_RESIST: &str = "magic_resist";
 pub const ATTR_ARMOR_PEN_FLAT: &str = "armor_pen_flat";
@@ -93,6 +89,7 @@ pub struct BenchmarkDotRuntime {
 }
 
 #[derive(Debug, Clone, Default)]
+#[allow(dead_code)] // Fields consumed in tests via pattern matching
 pub struct BenchmarkSkillMechanics {
     pub damage_formula_id: Option<String>,
     pub on_hit_cooldown_reduction_ms: Option<u32>,
@@ -102,6 +99,7 @@ pub struct BenchmarkSkillMechanics {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // Fields consumed in tests via pattern matching
 pub struct BenchmarkSkillRuntimeDef {
     pub skill_id: String,
     pub label: String,
@@ -210,6 +208,7 @@ impl<T: Clone + Debug> TemporalRingBuffer<T> {
             .fold(init, |acc, entry| f(acc, &entry.value))
     }
 
+    #[cfg(test)]
     pub fn len(&self) -> usize {
         self.len
     }
@@ -218,6 +217,7 @@ impl<T: Clone + Debug> TemporalRingBuffer<T> {
 // ===== Actor State Types =====
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // refreshed_at_ms pre-provisioned for shield-refresh logic
 pub struct ShieldState {
     pub amount: f64,
     pub refreshed_at_ms: u32,
@@ -236,6 +236,7 @@ pub struct StunState {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // Fields stored for windowed-damage tracking
 pub struct DamageReceivedEntry {
     pub amount: f64,
     pub damage_type: DamageType,
@@ -268,6 +269,7 @@ pub struct SimulationConfig {
 // ===== Damage Types =====
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // is_active_skill_magic_damage pre-provisioned for void-staff logic
 pub struct DamageFlags {
     pub can_trigger_on_hit: bool,
     pub can_life_steal: bool,
@@ -299,6 +301,7 @@ pub struct DamagePacket {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // Shield/heal fields pre-provisioned for detailed trace output
 pub struct DamageComponentTrace {
     pub component: EngineDamageComponent,
     pub shield_before: f64,
@@ -311,6 +314,7 @@ pub struct DamageComponentTrace {
 // ===== Runtime Logging =====
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // Variant fields consumed in tests via pattern matching
 pub enum RuntimeLog {
     ActionChosen {
         t_ms: u32,

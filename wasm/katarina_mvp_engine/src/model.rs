@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -29,20 +27,15 @@ pub struct EngineConfig {
     pub test_profile: Option<TestProfile>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum TestProfile {
+    #[default]
     Full,
     FormulaBypass,
     BucketIdentity,
     NoControl,
     NoShield,
-}
-
-impl Default for TestProfile {
-    fn default() -> Self {
-        Self::Full
-    }
 }
 
 impl EngineConfig {
@@ -505,6 +498,20 @@ pub struct EngineError {
     pub message: String,
 }
 
+impl EngineError {
+    pub fn invalid_input(message: impl Into<String>) -> Self {
+        Self { code: ErrorCode::InvalidInput, message: message.into() }
+    }
+
+    pub fn semantic(message: impl Into<String>) -> Self {
+        Self { code: ErrorCode::SemanticError, message: message.into() }
+    }
+
+    pub fn runtime(message: impl Into<String>) -> Self {
+        Self { code: ErrorCode::RuntimeError, message: message.into() }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum ErrorCode {
@@ -526,14 +533,14 @@ pub enum StopReason {
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct HostSuccess<T> {
+pub(crate) struct HostSuccess<T> {
     pub ok: bool,
     pub value: T,
 }
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct HostErrorResponse {
+pub(crate) struct HostErrorResponse {
     pub ok: bool,
     pub error: EngineError,
 }

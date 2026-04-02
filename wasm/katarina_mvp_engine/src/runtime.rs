@@ -1,5 +1,3 @@
-﻿#![allow(dead_code)]
-
 use crate::combat_math::{resolve_cooldown_ms, round_number};
 use crate::formula::FormulaRuntimeView;
 use crate::model::{
@@ -11,6 +9,7 @@ use std::collections::{BinaryHeap, HashMap};
 // ===== ActorRuntime =====
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // actor_id/label are identity fields for debug output
 pub struct ActorRuntime {
     pub actor_id: ActorId,
     pub label: String,
@@ -86,20 +85,12 @@ impl ActorRuntime {
         self.cooldowns.get(action_id).copied().unwrap_or(0)
     }
 
-    pub fn is_action_ready(&self, action_id: &str, now_ms: u32) -> bool {
-        self.action_ready_at(action_id) <= now_ms
-    }
-
     pub fn action_mana_cost(&self, action_id: &str) -> f64 {
         self.action(action_id).map(|action| action.mana_cost).unwrap_or(0.0)
     }
 
     pub fn is_dead(&self) -> bool {
         self.hp_current <= 0.0
-    }
-
-    pub fn is_stunned_at(&self, now_ms: u32) -> bool {
-        self.stun.as_ref().is_some_and(|stun| stun.until_ms > now_ms)
     }
 
     pub fn shield_amount(&self) -> f64 {
@@ -498,10 +489,6 @@ impl FormulaRuntimeView for RuntimeFormulaView<'_> {
 
     fn actor_hp_max(&self, actor: Self::ActorRef) -> f64 {
         self.state.actor(actor).hp_max
-    }
-
-    fn actor_mana_current(&self, actor: Self::ActorRef) -> f64 {
-        self.state.actor(actor).mana_current
     }
 
     fn actor_damage_taken_in_window(&self, actor: Self::ActorRef, window_ms: u32) -> f64 {
