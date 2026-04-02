@@ -17,18 +17,20 @@ mod benchmark_review_regressions;
 // Public re-exports for examples and external benchmarks
 pub use engine::{init_session, run, run_full_battle, EngineSession};
 pub use model::{
-    CombatantInit, EngineActionPlan, EngineConfig, EngineError, EngineInitPayload,
-    EngineRunInput, EngineMeta, InitialCombatants, StopCondition, TestProfile,
+    CombatantInit, DamageSourceKind, DamageType, EngineActionPlan, EngineConfig,
+    EngineDamageComponent, EngineDamageEvent, EngineError, EngineInitPayload,
+    EngineRunInput, EngineRunOutput, EngineRunResult, EngineMeta, EngineSamplePoint,
+    ErrorCode, InitialCombatants, StopCondition, StopReason, TestProfile,
 };
 
 use crate::model::{HostErrorResponse, HostSuccess};
 use std::slice;
-use std::sync::{Mutex, OnceLock};
+use std::sync::{Arc, Mutex, OnceLock};
 
-static ENGINE_SESSION: OnceLock<Mutex<Option<EngineSession>>> = OnceLock::new();
+static ENGINE_SESSION: OnceLock<Mutex<Option<Arc<EngineSession>>>> = OnceLock::new();
 static RESPONSE_BUFFER: OnceLock<Mutex<Vec<u8>>> = OnceLock::new();
 
-fn session_store() -> &'static Mutex<Option<EngineSession>> {
+fn session_store() -> &'static Mutex<Option<Arc<EngineSession>>> {
     ENGINE_SESSION.get_or_init(|| Mutex::new(None))
 }
 
@@ -45,6 +47,8 @@ pub extern "C" fn alloc(len: usize) -> *mut u8 {
 }
 
 #[no_mangle]
+/// # Safety
+/// `ptr` must have been allocated by `alloc` with the same `len`.
 pub unsafe extern "C" fn dealloc(ptr: *mut u8, len: usize) {
     if ptr.is_null() || len == 0 {
         return;
@@ -56,8 +60,15 @@ pub unsafe extern "C" fn dealloc(ptr: *mut u8, len: usize) {
 pub extern "C" fn engine_init(ptr: *const u8, len: usize) -> i32 {
     match read_json::<EngineInitPayload>(ptr, len).and_then(init_session) {
         Ok(session) => {
-            if let Ok(mut store) = session_store().lock() {
-                *store = Some(session);
+            match session_store().lock() {
+                Ok(mut store) => { *store = Some(Arc::new(session)); }
+                Err(_) => {
+                    write_error(EngineError {
+                        code: model::ErrorCode::RuntimeError,
+                        message: "Failed to acquire session lock during init".to_string(),
+                    });
+                    return 1;
+                }
             }
             write_success(serde_json::json!({ "initialized": true }));
             0
@@ -128,14 +139,10 @@ fn read_json<T: serde::de::DeserializeOwned>(ptr: *const u8, len: usize) -> Resu
 
 fn write_success<T: serde::Serialize>(value: T) {
     let payload = serde_json::to_vec(&HostSuccess { ok: true, value }).unwrap_or_else(|error| {
-        serde_json::to_vec(&HostErrorResponse {
-            ok: false,
-            error: EngineError {
-                code: model::ErrorCode::RuntimeError,
-                message: format!("Failed to serialize success response: {error}"),
-            },
-        })
-        .unwrap()
+        format!(
+            "{{\"ok\":false,\"error\":{{\"code\":\"RUNTIME_ERROR\",\"message\":\"Failed to serialize success response: {error}\"}}}}"
+        )
+        .into_bytes()
     });
     if let Ok(mut response) = response_store().lock() {
         *response = payload;

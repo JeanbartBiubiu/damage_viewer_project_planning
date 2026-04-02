@@ -32,7 +32,7 @@ fn required_skill_def(state: &RuntimeState, action_id: &str) -> Result<Benchmark
     state
         .skill_def(action_id)
         .cloned()
-        .ok_or_else(|| runtime_error(format!("missing benchmark skill def: {action_id}")))
+        .ok_or_else(|| EngineError::runtime(format!("missing benchmark skill def: {action_id}")))
 }
 
 fn action_label(state: &RuntimeState, actor_id: ActorId, action_id: &str, fallback: &str) -> String {
@@ -163,7 +163,7 @@ pub(super) fn execute_benchmark_action(
         .actor(actor_id)
         .action(action_id)
         .map(|action| action.behavior)
-        .ok_or_else(|| runtime_error(format!("actor '{}' missing action '{}'", actor_id.as_key(), action_id)))?;
+        .ok_or_else(|| EngineError::runtime(format!("actor '{}' missing action '{}'", actor_id.as_key(), action_id)))?;
 
     match behavior {
         ActionBehavior::BasicAttack
@@ -213,7 +213,7 @@ fn execute_damage_action(
         .mechanics
         .damage_formula_id
         .as_deref()
-        .ok_or_else(|| runtime_error(format!("{action_id} missing damage formula")))?;
+        .ok_or_else(|| EngineError::runtime(format!("{action_id} missing damage formula")))?;
     let mut packets = Vec::with_capacity(1 + skill_def.attach_on_hit_item_ids.len());
     packets.push(DamagePacket {
         source_kind,
@@ -352,7 +352,7 @@ pub(super) fn execute_mask_dot_tick(
     remaining_ticks: u32,
 ) -> Result<(), EngineError> {
     let dot = dot_effect_by_source_id(state, &source_id)
-        .ok_or_else(|| runtime_error(format!("missing dot config for source '{source_id}'")))?;
+        .ok_or_else(|| EngineError::runtime(format!("missing dot config for source '{source_id}'")))?;
     let tick_index = dot.ticks.saturating_sub(remaining_ticks).saturating_add(1);
     let tick_label = format!("{label} {tick_index}");
     apply_damage_packets_as_event(
@@ -376,11 +376,4 @@ pub(super) fn execute_mask_dot_tick(
         }],
     )?;
     Ok(())
-}
-
-pub(super) fn runtime_error(message: impl Into<String>) -> EngineError {
-    EngineError {
-        code: crate::model::ErrorCode::RuntimeError,
-        message: message.into(),
-    }
 }
