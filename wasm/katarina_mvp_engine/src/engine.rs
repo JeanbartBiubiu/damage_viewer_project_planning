@@ -2,7 +2,7 @@ use crate::catalog::{compile_benchmark_catalog, CompiledCatalog};
 use crate::combat_math::resolve_cooldown_ms;
 use crate::model::{
     CombatantOverride, CombatantOverrides, EngineActionPlan, EngineConfig, EngineError,
-    EngineInitPayload, EngineRunInput, EngineRunOutput, ErrorCode,
+    EngineInitPayload, EngineRunInput, EngineRunOutput,
 };
 use crate::runtime::RuntimeState;
 use crate::types::{ActionBehavior, ActorId, ActorTemplate, ActionRuntime, SimulationConfig, ATTR_HP};
@@ -132,14 +132,14 @@ fn resolve_benchmark_route(
     match plan {
         EngineActionPlan::BasicAttack { count, skill_id } => {
             if *count == 0 {
-                return Err(invalid_input("basic_attack.count must be greater than 0"));
+                return Err(EngineError::invalid_input("basic_attack.count must be greater than 0"));
             }
             let action_id = match skill_id {
                 Some(action_id) => {
                     let action = find_benchmark_action(benchmark_catalog, ActorId::SelfActor, action_id)
-                        .ok_or_else(|| semantic_error(format!("benchmark self action not found: {action_id}")))?;
+                        .ok_or_else(|| EngineError::semantic(format!("benchmark self action not found: {action_id}")))?;
                     if action.behavior != ActionBehavior::BasicAttack {
-                        return Err(semantic_error(format!(
+                        return Err(EngineError::semantic(format!(
                             "benchmark action '{}' is not a basic attack action",
                             action_id
                         )));
@@ -147,7 +147,7 @@ fn resolve_benchmark_route(
                     action_id.clone()
                 }
                 None => find_first_action_by_behavior(benchmark_catalog, ActorId::SelfActor, ActionBehavior::BasicAttack)
-                    .ok_or_else(|| semantic_error("benchmark self actor has no basic attack action"))?,
+                    .ok_or_else(|| EngineError::semantic("benchmark self actor has no basic attack action"))?,
             };
             Ok(BenchmarkRoute::BasicAttackSequence {
                 action_id,
@@ -166,7 +166,7 @@ fn resolve_benchmark_route(
                         ActorId::SelfActor,
                         ActionBehavior::BasicAttack,
                     )
-                    .ok_or_else(|| semantic_error("benchmark self actor has no basic attack action"))?;
+                    .ok_or_else(|| EngineError::semantic("benchmark self actor has no basic attack action"))?;
                     return Ok(BenchmarkRoute::ActionSequence {
                         steps: vec![
                             BenchmarkSequenceStep::ExecuteAction {
@@ -198,7 +198,7 @@ fn resolve_benchmark_route(
                             ActorId::SelfActor,
                             ActionBehavior::BasicAttack,
                         )
-                        .ok_or_else(|| semantic_error("benchmark self actor has no basic attack action"))?;
+                        .ok_or_else(|| EngineError::semantic("benchmark self actor has no basic attack action"))?;
                         Ok(BenchmarkRoute::ActionSequence {
                             steps: vec![
                                 BenchmarkSequenceStep::ExecuteAction {
@@ -234,25 +234,24 @@ fn resolve_benchmark_route(
                         ],
                         finish: BenchmarkSequenceFinish::UntilFirstDamageOrStop,
                     }),
-                    _ => Err(semantic_error(format!(
+                    _ => Err(EngineError::semantic(format!(
                         "benchmark enemy action '{}' is not mapped to a benchmark scenario",
                         skill_id
                     ))),
                 };
             }
-            if cast_count == &Some(BENCHMARK_FINAL_KILL_CAST_COUNT) {
-                if benchmark_catalog
+            if cast_count == &Some(BENCHMARK_FINAL_KILL_CAST_COUNT)
+                && benchmark_catalog
                     .benchmark
                     .skill_defs
                     .get(skill_id)
                     .is_some_and(|skill| skill.final_kill_enemy_hp_override.is_some())
-                {
-                    return Ok(BenchmarkRoute::FinalKill {
-                        skill_id: skill_id.clone(),
-                    });
-                }
+            {
+                return Ok(BenchmarkRoute::FinalKill {
+                    skill_id: skill_id.clone(),
+                });
             }
-            Err(semantic_error(format!(
+            Err(EngineError::semantic(format!(
                 "benchmark skeleton does not support action plan for skill '{}'",
                 skill_id
             )))
@@ -265,7 +264,7 @@ fn run_benchmark_runtime(
     input: EngineRunInput,
 ) -> Result<RuntimeState, EngineError> {
     if input.stop.max_seconds <= 0.0 {
-        return Err(invalid_input("stop.maxSeconds must be greater than 0"));
+        return Err(EngineError::invalid_input("stop.maxSeconds must be greater than 0"));
     }
     let route = resolve_benchmark_route(benchmark_catalog, &input.plan)?;
 
@@ -324,7 +323,7 @@ fn resolve_actor_action_cooldown_ms(
     let action = actor
         .actions
         .get(action_id)
-        .ok_or_else(|| semantic_error(format!("benchmark self action not found: {action_id}")))?;
+        .ok_or_else(|| EngineError::semantic(format!("benchmark self action not found: {action_id}")))?;
     Ok(resolve_cooldown_ms(action.cooldown, &actor.attrs))
 }
 
@@ -385,19 +384,5 @@ pub(crate) fn run_benchmark_runtime_for_test(
 fn merge_stats(target: &mut HashMap<String, f64>, source: &HashMap<String, f64>) {
     for (key, value) in source {
         *target.entry(key.clone()).or_insert(0.0) += value;
-    }
-}
-
-fn invalid_input(message: impl Into<String>) -> EngineError {
-    EngineError {
-        code: ErrorCode::InvalidInput,
-        message: message.into(),
-    }
-}
-
-fn semantic_error(message: impl Into<String>) -> EngineError {
-    EngineError {
-        code: ErrorCode::SemanticError,
-        message: message.into(),
     }
 }

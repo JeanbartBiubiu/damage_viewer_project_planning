@@ -1,8 +1,6 @@
-#![allow(dead_code)]
-
 use crate::combat_math::{mitigation_multiplier, round_number};
 use crate::model::{
-    DamageType, EngineDamageComponent, EngineDamageEvent, EngineError, ErrorCode,
+    DamageType, EngineDamageComponent, EngineDamageEvent, EngineError,
 };
 use crate::runtime::{apply_black_cleaver_stack, RuntimeState};
 use crate::types::{ActorId, DamageComponentTrace, DamagePacket, RuntimeLog};
@@ -10,6 +8,7 @@ use crate::types::{ActorId, DamageComponentTrace, DamagePacket, RuntimeLog};
 use super::status::queue_black_cleaver_expire;
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // Fields consumed in tests and via RuntimeLog::DamageResolved
 pub struct ResolvedDamage {
     pub total_raw_damage: f64,
     pub total_dealt_damage: f64,
@@ -70,7 +69,7 @@ pub fn apply_damage_packet(
         .components
         .into_iter()
         .next()
-        .ok_or_else(|| runtime_error("resolved event has no components"))?;
+        .ok_or_else(|| EngineError::runtime("resolved event has no components"))?;
     Ok(ResolvedDamage {
         total_raw_damage: resolved.total_raw_damage,
         total_dealt_damage: resolved.total_dealt_damage,
@@ -88,7 +87,7 @@ pub fn apply_damage_packets_as_event(
     packets: Vec<DamagePacket>,
 ) -> Result<ResolvedEvent, EngineError> {
     if packets.is_empty() {
-        return Err(runtime_error("damage event requires at least one packet"));
+        return Err(EngineError::runtime("damage event requires at least one packet"));
     }
 
     let target_hp_before = state.actor(target_actor).hp_current;
@@ -263,7 +262,7 @@ fn resolve_component(
     packet: &DamagePacket,
 ) -> Result<DamageComponentTrace, EngineError> {
     if packet.raw_damage.is_sign_negative() {
-        return Err(runtime_error(format!(
+        return Err(EngineError::runtime(format!(
             "damage packet '{}' has negative raw_damage",
             packet.label
         )));
@@ -440,11 +439,4 @@ fn equipped_item_defs(
         .iter()
         .filter_map(|item_id| state.item_def(item_id).cloned())
         .collect()
-}
-
-fn runtime_error(message: impl Into<String>) -> EngineError {
-    EngineError {
-        code: ErrorCode::RuntimeError,
-        message: message.into(),
-    }
 }

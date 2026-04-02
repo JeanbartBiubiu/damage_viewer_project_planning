@@ -1,10 +1,8 @@
-#![allow(dead_code)]
-
 use crate::formula::CompiledFormulaCatalog;
 use crate::model::{
     BenchmarkBundle, BenchmarkCountToThreeRule, BenchmarkCooldownDefinition,
     BenchmarkItemDefinition, BenchmarkRules, BenchmarkSkillDefinition, DamageType, EngineConfig, EngineError,
-    ErrorCode, GameDataBundle, TestProfile,
+    GameDataBundle, TestProfile,
 };
 use crate::types::{
     total_attack_speed_from_attrs, ActionRuntime, ActorId, ActorTemplate, BenchmarkBlackCleaverRuntime,
@@ -16,9 +14,8 @@ use crate::types::{
 use std::collections::{HashMap, HashSet};
 
 pub type CompiledActor = ActorTemplate;
-pub type CompiledSkill = BenchmarkSkillRuntimeDef;
-pub type CompiledItem = BenchmarkItemRuntimeDef;
 
+#[allow(dead_code)] // Pre-provisioned for future API surface
 #[derive(Debug, Clone)]
 pub struct CompiledActorInitSnapshot {
     pub hero_id: String,
@@ -31,20 +28,10 @@ pub struct CompiledActorInitSnapshot {
     pub equipped_item_ids: Vec<String>,
 }
 
-impl CompiledActorInitSnapshot {
-    pub fn attack_speed_triplet(&self) -> (f64, f64, f64) {
-        (
-            self.attack_speed_base,
-            self.attack_speed_bonus,
-            self.attack_speed_ratio,
-        )
-    }
-}
-
+#[allow(dead_code)] // Pre-provisioned for future API surface
 #[derive(Debug, Clone)]
 pub struct CompiledCatalog {
     pub profile: TestProfile,
-    pub requested_profile: TestProfile,
     pub hp_attr_key: String,
     pub self_hero_id: String,
     pub enemy_hero_id: String,
@@ -75,7 +62,7 @@ pub fn compile_benchmark_catalog(
     let benchmark = bundle
         .benchmark
         .as_ref()
-        .ok_or_else(|| semantic_error("bundle.benchmark is required for benchmark profile"))?;
+        .ok_or_else(|| EngineError::semantic("bundle.benchmark is required for benchmark profile"))?;
     validate_hp_attr_key(config, benchmark)?;
 
     let benchmark_runtime = compile_runtime_catalog(benchmark)?;
@@ -87,7 +74,6 @@ pub fn compile_benchmark_catalog(
 
     Ok(CompiledCatalog {
         profile: requested_profile,
-        requested_profile,
         hp_attr_key: benchmark.hp_attr_key.clone(),
         self_hero_id: benchmark.self_actor.hero_id.clone(),
         enemy_hero_id: benchmark.enemy_actor.hero_id.clone(),
@@ -105,7 +91,7 @@ fn compile_runtime_catalog(benchmark: &BenchmarkBundle) -> Result<BenchmarkRunti
     let mut skill_defs = HashMap::with_capacity(benchmark.skill_defs.len());
     for skill in &benchmark.skill_defs {
         if skill_defs.contains_key(&skill.skill_id) {
-            return Err(semantic_error(format!(
+            return Err(EngineError::semantic(format!(
                 "duplicate benchmark skill id '{}'",
                 skill.skill_id
             )));
@@ -138,7 +124,7 @@ fn compile_runtime_catalog(benchmark: &BenchmarkBundle) -> Result<BenchmarkRunti
     let mut item_defs = HashMap::with_capacity(benchmark.item_defs.len());
     for item in &benchmark.item_defs {
         if item_defs.contains_key(&item.item_id) {
-            return Err(semantic_error(format!(
+            return Err(EngineError::semantic(format!(
                 "duplicate benchmark item id '{}'",
                 item.item_id
             )));
@@ -189,13 +175,13 @@ fn compile_item_dot_runtime(
         return Ok(None);
     };
     let ticks = item.dot_ticks.ok_or_else(|| {
-        semantic_error(format!(
+        EngineError::semantic(format!(
             "item '{}' dot config requires dotTicks when dotFormulaId is present",
             item.item_id
         ))
     })?;
     let interval_ms = item.dot_interval_ms.ok_or_else(|| {
-        semantic_error(format!(
+        EngineError::semantic(format!(
             "item '{}' dot config requires dotIntervalMs when dotFormulaId is present",
             item.item_id
         ))
@@ -237,18 +223,18 @@ fn compile_count_to_three_runtime(
     };
 
     if rule.proc_every_hits == 0 {
-        return Err(semantic_error(
+        return Err(EngineError::semantic(
             "benchmark count_to_three.proc_every_hits must be greater than 0",
         ));
     }
     if !skill_defs.contains_key(&rule.source_skill_id) {
-        return Err(semantic_error(format!(
+        return Err(EngineError::semantic(format!(
             "count_to_three references unknown skill '{}'",
             rule.source_skill_id
         )));
     }
     if !formulas.contains(&rule.true_damage_formula_id) {
-        return Err(semantic_error(format!(
+        return Err(EngineError::semantic(format!(
             "count_to_three references unknown formula '{}'",
             rule.true_damage_formula_id
         )));
@@ -269,7 +255,7 @@ fn compile_actor_template(
     let mut actions = HashMap::with_capacity(actor.actions.len());
     for action in &actor.actions {
         if actions.contains_key(&action.action_id) {
-            return Err(semantic_error(format!(
+            return Err(EngineError::semantic(format!(
                 "duplicate benchmark action id '{}' for actor '{}'",
                 action.action_id, actor.hero_id
             )));
@@ -306,7 +292,7 @@ fn compile_actor_template(
         let mut seen = HashSet::with_capacity(actor.priorities.len());
         for action_id in &actor.priorities {
             if !actions.contains_key(action_id) {
-                return Err(semantic_error(format!(
+                return Err(EngineError::semantic(format!(
                     "actor '{}' priority references unknown action '{}'",
                     actor.hero_id, action_id
                 )));
@@ -350,13 +336,10 @@ fn build_actor_init_snapshot(
 fn validate_hp_attr_key(config: &EngineConfig, benchmark: &BenchmarkBundle) -> Result<(), EngineError> {
     let hp_attr_key = config.resolved_hp_attr_key();
     if hp_attr_key != benchmark.hp_attr_key.as_str() {
-        return Err(EngineError {
-            code: ErrorCode::SemanticError,
-            message: format!(
-                "Benchmark bundle only supports hpAttrKey='{}', got '{}'",
-                benchmark.hp_attr_key, hp_attr_key
-            ),
-        });
+        return Err(EngineError::semantic(format!(
+            "Benchmark bundle only supports hpAttrKey='{}', got '{}'",
+            benchmark.hp_attr_key, hp_attr_key
+        )));
     }
     Ok(())
 }
@@ -374,7 +357,7 @@ fn validate_skill_formula_refs(
     .flatten()
     {
         if !formulas.contains(formula_id) {
-            return Err(semantic_error(format!(
+            return Err(EngineError::semantic(format!(
                 "skill '{}' references unknown formula '{}'",
                 skill.skill_id, formula_id
             )));
@@ -396,7 +379,7 @@ fn validate_item_formula_refs(
     .flatten()
     {
         if !formulas.contains(formula_id) {
-            return Err(semantic_error(format!(
+            return Err(EngineError::semantic(format!(
                 "item '{}' references unknown formula '{}'",
                 item.item_id, formula_id
             )));
@@ -422,12 +405,5 @@ fn map_flags(flags: &crate::model::BenchmarkDamageFlags) -> DamageFlags {
         can_apply_black_cleaver: flags.can_apply_black_cleaver,
         counts_as_attack: flags.counts_as_attack,
         is_active_skill_magic_damage: flags.is_active_skill_magic_damage,
-    }
-}
-
-fn semantic_error(message: impl Into<String>) -> EngineError {
-    EngineError {
-        code: ErrorCode::SemanticError,
-        message: message.into(),
     }
 }

@@ -6,7 +6,7 @@ use crate::types::{
 };
 use super::action::{
     execute_benchmark_action, execute_mask_dot_tick, has_enough_mana_for_action,
-    log_mana_blocked, next_action_retry_ms, runtime_error,
+    log_mana_blocked, next_action_retry_ms,
 };
 
 enum BenchmarkActionSelection {
@@ -367,7 +367,7 @@ fn find_action_id_by_behavior(
                 .action(action_id)
                 .is_some_and(|action| action.behavior == behavior)
         })
-        .ok_or_else(|| runtime_error(format!(
+        .ok_or_else(|| EngineError::runtime(format!(
             "actor '{}' has no action with behavior '{behavior:?}'",
             actor_id.as_key()
         )))
