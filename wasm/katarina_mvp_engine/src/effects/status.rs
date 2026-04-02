@@ -46,7 +46,7 @@ pub fn apply_stun(
 
 pub fn expire_stun(state: &mut RuntimeState, actor_id: ActorId, until_ms: u32) {
     let actor = state.actor_mut(actor_id);
-    let should_expire = actor.stun.as_ref().map_or(false, |s| s.until_ms == until_ms);
+    let should_expire = actor.stun.as_ref().is_some_and(|s| s.until_ms == until_ms);
     if should_expire {
         actor.stun = None;
         state.log(RuntimeLog::StunExpired {

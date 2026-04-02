@@ -1,7 +1,5 @@
-#![allow(dead_code)]
-
 use crate::model::{
-    BenchmarkFormulaActorRef, BenchmarkFormulaDefinition, BenchmarkFormulaExpr, EngineError, ErrorCode,
+    BenchmarkFormulaActorRef, BenchmarkFormulaDefinition, BenchmarkFormulaExpr, EngineError,
 };
 use std::collections::HashMap;
 
@@ -15,7 +13,6 @@ pub enum FormulaActorRef {
 
 #[derive(Debug, Clone)]
 pub struct CompiledFormulaDefinition {
-    pub formula_id: String,
     pub expression: FormulaExpression,
     pub formula_bypass_value: Option<f64>,
 }
@@ -26,7 +23,6 @@ pub enum FormulaExpression {
     ActorAttr { actor: FormulaActorRef, attr_key: String },
     ActorHpCurrent { actor: FormulaActorRef },
     ActorHpMax { actor: FormulaActorRef },
-    ActorManaCurrent { actor: FormulaActorRef },
     DamageTakenInWindow { actor: FormulaActorRef, window_ms: u32 },
     Add(Vec<FormulaExpression>),
     Multiply(Vec<FormulaExpression>),
@@ -42,7 +38,7 @@ impl CompiledFormulaCatalog {
         let mut formulas = HashMap::with_capacity(inputs.len());
         for input in inputs {
             if formulas.contains_key(&input.formula_id) {
-                return Err(semantic_error(format!(
+                return Err(EngineError::semantic(format!(
                     "duplicate benchmark formula id '{}'",
                     input.formula_id
                 )));
@@ -50,7 +46,6 @@ impl CompiledFormulaCatalog {
             formulas.insert(
                 input.formula_id.clone(),
                 CompiledFormulaDefinition {
-                    formula_id: input.formula_id.clone(),
                     expression: compile_expression(&input.expr)?,
                     formula_bypass_value: input.bypass_value,
                 },
@@ -75,7 +70,7 @@ impl CompiledFormulaCatalog {
     ) -> Result<f64, EngineError> {
         let definition = self
             .get(formula_id)
-            .ok_or_else(|| semantic_error(format!("unknown benchmark formula id '{formula_id}'")))?;
+            .ok_or_else(|| EngineError::semantic(format!("unknown benchmark formula id '{formula_id}'")))?;
         if profile_uses_bypass {
             return Ok(definition.formula_bypass_value.unwrap_or(0.0));
         }
@@ -93,7 +88,6 @@ pub trait FormulaRuntimeView {
     fn actor_attr(&self, actor: Self::ActorRef, attr_key: &str) -> f64;
     fn actor_hp_current(&self, actor: Self::ActorRef) -> f64;
     fn actor_hp_max(&self, actor: Self::ActorRef) -> f64;
-    fn actor_mana_current(&self, actor: Self::ActorRef) -> f64;
     fn actor_damage_taken_in_window(&self, actor: Self::ActorRef, window_ms: u32) -> f64;
 }
 
@@ -118,7 +112,7 @@ fn compile_expression(input: &BenchmarkFormulaExpr) -> Result<FormulaExpression,
         }
         BenchmarkFormulaExpr::Add { terms } => {
             if terms.is_empty() {
-                return Err(semantic_error("benchmark formula add requires at least one term"));
+                return Err(EngineError::semantic("benchmark formula add requires at least one term"));
             }
             FormulaExpression::Add(
                 terms
@@ -129,7 +123,7 @@ fn compile_expression(input: &BenchmarkFormulaExpr) -> Result<FormulaExpression,
         }
         BenchmarkFormulaExpr::Multiply { factors } => {
             if factors.is_empty() {
-                return Err(semantic_error("benchmark formula multiply requires at least one factor"));
+                return Err(EngineError::semantic("benchmark formula multiply requires at least one factor"));
             }
             FormulaExpression::Multiply(
                 factors
@@ -161,9 +155,6 @@ fn evaluate_expression<V: FormulaRuntimeView>(
         }
         FormulaExpression::ActorHpCurrent { actor } => view.actor_hp_current(resolve_actor(*actor, view)),
         FormulaExpression::ActorHpMax { actor } => view.actor_hp_max(resolve_actor(*actor, view)),
-        FormulaExpression::ActorManaCurrent { actor } => {
-            view.actor_mana_current(resolve_actor(*actor, view))
-        }
         FormulaExpression::DamageTakenInWindow { actor, window_ms } => {
             view.actor_damage_taken_in_window(resolve_actor(*actor, view), *window_ms)
         }
@@ -188,13 +179,6 @@ fn resolve_actor<V: FormulaRuntimeView>(actor: FormulaActorRef, view: &V) -> V::
         FormulaActorRef::Target => view.target_actor(),
         FormulaActorRef::SelfActor => view.self_actor(),
         FormulaActorRef::Enemy => view.enemy_actor(),
-    }
-}
-
-fn semantic_error(message: impl Into<String>) -> EngineError {
-    EngineError {
-        code: ErrorCode::SemanticError,
-        message: message.into(),
     }
 }
 
@@ -247,10 +231,6 @@ mod tests {
         }
 
         fn actor_hp_max(&self, _actor: Self::ActorRef) -> f64 {
-            0.0
-        }
-
-        fn actor_mana_current(&self, _actor: Self::ActorRef) -> f64 {
             0.0
         }
 
