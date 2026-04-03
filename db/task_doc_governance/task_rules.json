@@ -1,0 +1,340 @@
+{
+  "docRoot": "文档记录",
+  "defaults": {
+    "execution_model": "gpt-5.4"
+  },
+  "exclude": [
+    "文档记录/模板/开发任务文档模板.md",
+    "文档记录/详细设计/20260402_开发任务文档管理子代理说明.md",
+    "文档记录/详细设计/20260402_docs_任务治理流程验证.md",
+    "文档记录/详细设计/任务与文档治理子Agent方案.md",
+    "文档记录/详细设计/SQLite任务文档治理方案.md"
+  ],
+  "tasks": [
+    {
+      "task_key": "planning-background-scope",
+      "title": "项目背景与范围澄清",
+      "module": "planning",
+      "feature": "background_scope",
+      "status": "完成",
+      "priority": 3,
+      "docs": [
+        "文档记录/需求澄清/项目/背景说明.md",
+        "文档记录/概要设计/项目/项目简介.md"
+      ]
+    },
+    {
+      "task_key": "planning-system-evaluation",
+      "title": "项目系统评估与改进建议",
+      "module": "planning",
+      "feature": "system_evaluation",
+      "status": "完成",
+      "priority": 3,
+      "docs": [
+        "文档记录/概要设计/项目/系统设计评估报告.md",
+        "文档记录/概要设计/项目/项目完善建议.md"
+      ]
+    },
+    {
+      "task_key": "planning-data-entry-roadmap",
+      "title": "数据录入推进路线",
+      "module": "planning",
+      "feature": "data_entry_roadmap",
+      "status": "进行中",
+      "priority": 2,
+      "docs": [
+        "文档记录/概要设计/项目/数据录入目标推进.md"
+      ]
+    },
+    {
+      "task_key": "planning-platform-roadmap",
+      "title": "平台推进路线",
+      "module": "planning",
+      "feature": "platform_roadmap",
+      "status": "进行中",
+      "priority": 2,
+      "docs": [
+        "文档记录/概要设计/项目/平台推进计划-Wasm与核心编辑后台.md"
+      ]
+    },
+    {
+      "task_key": "web-idb-cache-strategy",
+      "title": "Web 图片资源 IndexDB 缓存",
+      "module": "web",
+      "feature": "idb_cache",
+      "status": "未开始",
+      "priority": 2,
+      "docs": [
+        "文档记录/需求澄清/web/图片资源IndexDB缓存方案.md"
+      ]
+    },
+    {
+      "task_key": "web-scene-interaction",
+      "title": "Web 场景交互规划",
+      "module": "web",
+      "feature": "scene_interaction",
+      "status": "未开始",
+      "priority": 2,
+      "docs": [
+        "文档记录/概要设计/web/前端场景交互规划.md"
+      ]
+    },
+    {
+      "task_key": "web-core-editor-refactor",
+      "title": "Web 核心编辑后台重构",
+      "module": "web",
+      "feature": "core_editor_refactor",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/详细设计/web/前端开发方案-核心编辑后台重构.md"
+      ]
+    },
+    {
+      "task_key": "web-remaining-table-pages",
+      "title": "Web 剩余表格页面扩展",
+      "module": "web",
+      "feature": "remaining_table_pages",
+      "status": "未开始",
+      "priority": 2,
+      "docs": [
+        "文档记录/详细设计/web/前端开发方案-剩余管理页面扩展.md",
+        "文档记录/详细设计/web/剩余表格页面前端方案.md"
+      ]
+    },
+    {
+      "task_key": "web-bundle-compilation",
+      "title": "Web Bundle 编译层",
+      "module": "web",
+      "feature": "bundle_compilation",
+      "status": "进行中",
+      "priority": 2,
+      "docs": [
+        "文档记录/详细设计/web/Bundle编译层实施方案.md"
+      ]
+    },
+    {
+      "task_key": "server-backend-review",
+      "title": "Server 后端评审与改进项",
+      "module": "server",
+      "feature": "backend_review",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/需求澄清/server/backend-review-todo.md",
+        "文档记录/需求澄清/server/claude_suggestion.md"
+      ]
+    },
+    {
+      "task_key": "server-wasm-db-gap",
+      "title": "Server 与 Wasm 数据设计差距补齐",
+      "module": "server",
+      "feature": "wasm_db_gap",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/需求澄清/server/wasm-db-design-gap-todo.md"
+      ]
+    },
+    {
+      "task_key": "server-game-manage-api",
+      "title": "Server Game Manage 接口与后端实现",
+      "module": "server",
+      "feature": "game_manage_api",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/详细设计/server/Java后端开发方案.md",
+        "文档记录/详细设计/server/game_manage/接口定义.md"
+      ]
+    },
+    {
+      "task_key": "server-user-manage-api",
+      "title": "Server User Manage 接口实现",
+      "module": "server",
+      "feature": "user_manage_api",
+      "status": "未开始",
+      "priority": 2,
+      "docs": [
+        "文档记录/详细设计/server/user_manage/接口定义.md"
+      ]
+    },
+    {
+      "task_key": "server-katarina-import-runbook",
+      "title": "Server 卡特琳娜数据导入 Runbook",
+      "module": "server",
+      "feature": "katarina_import_runbook",
+      "status": "未开始",
+      "priority": 3,
+      "docs": [
+        "文档记录/详细设计/server/katarina-mvp-import-runbook.md"
+      ]
+    },
+    {
+      "task_key": "server-controller-db-it",
+      "title": "Server Controller 与 DB 集成测试 Runbook",
+      "module": "server",
+      "feature": "controller_db_it",
+      "status": "未开始",
+      "priority": 3,
+      "docs": [
+        "文档记录/详细设计/server/p1-controller-db-it-runbook.md"
+      ]
+    },
+    {
+      "task_key": "wasm-katarina-mvp",
+      "title": "Wasm 卡特琳娜 MVP 实现",
+      "module": "wasm",
+      "feature": "katarina_mvp",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/需求澄清/wasm/卡特琳娜.md",
+        "文档记录/详细设计/wasm/卡特琳娜-MVP实施方案.md",
+        "文档记录/详细设计/wasm/卡特琳娜MVP运行协议.md",
+        "文档记录/测试记录/wasm/卡特琳娜-MVP验证与回归.md",
+        "文档记录/测试记录/wasm/卡特琳娜-Wasm MVP验证与回归.md"
+      ]
+    },
+    {
+      "task_key": "wasm-gap-closure",
+      "title": "Wasm 机制差距补齐",
+      "module": "wasm",
+      "feature": "gap_closure",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/需求澄清/wasm/查漏补缺-数据对接与机制差距分析.md",
+        "文档记录/需求澄清/wasm/盘点报告-引擎机制实现差距分析.md",
+        "文档记录/需求澄清/wasm/需要可以完成的挑战.md",
+        "文档记录/详细设计/wasm/修复方案-20260328-review问题.md"
+      ]
+    },
+    {
+      "task_key": "wasm-core-runtime-dataflow",
+      "title": "Wasm 运行时数据流与协议主链路",
+      "module": "wasm",
+      "feature": "core_runtime_dataflow",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/概要设计/wasm/概要设计-WASM内部事件流.md",
+        "文档记录/概要设计/wasm/概要设计-数据流转.md",
+        "文档记录/概要设计/wasm/概要设计-运行时数据流与属性公式主链路.md",
+        "文档记录/详细设计/wasm/引擎协议与数据结构.md",
+        "文档记录/详细设计/wasm/subagent_tasks/20260328_Ptolemy_sim_flow.md"
+      ]
+    },
+    {
+      "task_key": "wasm-formula-heal-system",
+      "title": "Wasm 公式与治疗回复系统",
+      "module": "wasm",
+      "feature": "formula_heal_system",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/详细设计/wasm/MVP实现要点-公式与回复系统.md"
+      ]
+    },
+    {
+      "task_key": "wasm-shield-mechanism",
+      "title": "Wasm 护盾机制实现",
+      "module": "wasm",
+      "feature": "shield_mechanism",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "护盾生成、取大值刷新和吸收顺序已有运行时代码与回归测试覆盖。",
+      "completed_at": "2026-04-03",
+      "docs": [
+        "文档记录/概要设计/wasm/概要设计-护盾机制与跨游戏规则.md"
+      ]
+    },
+    {
+      "task_key": "wasm-control-interrupt",
+      "title": "Wasm 控制与打断机制实现",
+      "module": "wasm",
+      "feature": "control_interrupt",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "眩晕阻断与恢复调度已有实现，并有 benchmark 测试覆盖。",
+      "completed_at": "2026-04-03",
+      "docs": [
+        "文档记录/概要设计/wasm/概要设计-控制与打断状态机制.md"
+      ]
+    },
+    {
+      "task_key": "wasm-move-speed-mechanism",
+      "title": "Wasm 移动速度机制实现",
+      "module": "wasm",
+      "feature": "move_speed_mechanism",
+      "status": "未开始",
+      "priority": 2,
+      "docs": [
+        "文档记录/概要设计/wasm/概要设计-移动速度机制.md"
+      ]
+    },
+    {
+      "task_key": "wasm-mode-augment-rules",
+      "title": "Wasm 模式强化与海克斯规则实现",
+      "module": "wasm",
+      "feature": "mode_augment_rules",
+      "status": "未开始",
+      "priority": 2,
+      "docs": [
+        "文档记录/概要设计/wasm/概要设计-模式强化与海克斯规则.md"
+      ]
+    },
+    {
+      "task_key": "wasm-history-window",
+      "title": "Wasm 历史值追踪与时间窗口机制实现",
+      "module": "wasm",
+      "feature": "history_window",
+      "status": "未开始",
+      "priority": 2,
+      "docs": [
+        "文档记录/概要设计/wasm/概要设计-历史值追踪与时间窗口机制.md"
+      ]
+    },
+    {
+      "task_key": "wasm-benchmark-regression",
+      "title": "Wasm 测试基准与回归验证",
+      "module": "wasm",
+      "feature": "benchmark_regression",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/详细设计/wasm/详细设计-测试基准驱动Wasm实施方案.md",
+        "文档记录/详细设计/wasm/subagent_tasks/20260328_Raman_regression_tests.md",
+        "文档记录/测试记录/wasm/20260328版review报告.md",
+        "文档记录/测试记录/wasm/测试基准.md",
+        "文档记录/测试记录/wasm/验收方案-测试基准驱动Wasm.md",
+        "文档记录/测试记录/wasm/验收记录-第1轮主工作区检查.md",
+        "文档记录/测试记录/wasm/性能测试报告-当前M1基准.md"
+      ]
+    },
+    {
+      "task_key": "wasm-effects-runtime-hardening",
+      "title": "Wasm Effects 与 Runtime 加固",
+      "module": "wasm",
+      "feature": "effects_runtime_hardening",
+      "status": "进行中",
+      "priority": 1,
+      "docs": [
+        "文档记录/详细设计/wasm/subagent_tasks/20260328_Godel_effects_runtime.md"
+      ]
+    },
+    {
+      "task_key": "wasm-min-validation-data-spec",
+      "title": "Wasm 最小验证数据规范",
+      "module": "wasm",
+      "feature": "min_validation_data_spec",
+      "status": "进行中",
+      "priority": 2,
+      "docs": [
+        "文档记录/详细设计/最小验证/数据/lol_mvp_type_taxonomy说明.md",
+        "文档记录/详细设计/最小验证/数据/技能配置固定选项.md",
+        "文档记录/详细设计/最小验证/数据/技能配置说明.md"
+      ]
+    }
+  ]
+}
