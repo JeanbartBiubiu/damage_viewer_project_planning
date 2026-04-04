@@ -53,8 +53,17 @@ fn evaluate_formula(
     Ok(round_number(state.eval_formula(formula_id, source_actor, target_actor)?))
 }
 
-fn normalized_flags(state: &RuntimeState, source_actor: ActorId, template: &DamageFlags) -> DamageFlags {
+fn normalized_flags(
+    state: &RuntimeState,
+    source_actor: ActorId,
+    template: &DamageFlags,
+    skill_crit_type: Option<&str>,
+) -> DamageFlags {
     let mut flags = template.clone();
+    // Inherit skill-level default critType if the component doesn’t specify one
+    if flags.crit_type.is_none() {
+        flags.crit_type = skill_crit_type.map(|s| s.to_string());
+    }
     if flags.can_apply_black_cleaver {
         flags.can_apply_black_cleaver = state
             .actor(source_actor)
@@ -89,7 +98,7 @@ fn build_attached_on_hit_packets(
             label: item_def.label.clone(),
             damage_type: item_def.on_hit_damage_type.unwrap_or(DamageType::Physical),
             raw_damage: evaluate_formula(state, formula_id, source_actor, target_actor)?,
-            flags: normalized_flags(state, source_actor, &item_def.on_hit_flags),
+            flags: normalized_flags(state, source_actor, &item_def.on_hit_flags, None),
         });
     }
     Ok(packets)
@@ -215,13 +224,14 @@ fn execute_damage_action(
         .as_deref()
         .ok_or_else(|| EngineError::runtime(format!("{action_id} missing damage formula")))?;
     let mut packets = Vec::with_capacity(1 + skill_def.attach_on_hit_item_ids.len());
+    let skill_crit_type = skill_def.crit_type.clone();
     packets.push(DamagePacket {
         source_kind,
         source_id: skill_def.skill_id.clone(),
         label: resolved_label.clone(),
         damage_type: skill_def.damage_type.unwrap_or(DamageType::Physical),
         raw_damage: evaluate_formula(state, damage_formula_id, actor_id, target_actor)?,
-        flags: normalized_flags(state, actor_id, &skill_def.flags),
+        flags: normalized_flags(state, actor_id, &skill_def.flags, skill_crit_type.as_deref()),
     });
     packets.extend(build_attached_on_hit_packets(
         state,
@@ -372,6 +382,7 @@ pub(super) fn execute_mask_dot_tick(
                 can_apply_black_cleaver: false,
                 counts_as_attack: false,
                 is_active_skill_magic_damage: false,
+                crit_type: None,
             },
         }],
     )?;

@@ -2,6 +2,8 @@
 mod benchmark_fixture;
 mod catalog;
 mod combat_math;
+mod conversion_pipeline;
+mod critical_strike;
 mod engine;
 mod effects;
 mod formula;

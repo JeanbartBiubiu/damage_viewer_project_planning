@@ -83,21 +83,27 @@ export function TypesModal({
           />
         </Form.Item>
 
-        <Form.Item label="父类型（最多一层）">
+        <Form.Item label="父类型（最多一层，可多选）">
           <Select
+            mode="multiple"
             allowClear
             showSearch
-            value={formData.parentTypeId || undefined}
+            value={formData.parentTypeIds}
             disabled={readOnly}
             placeholder="可选，选择父类型"
-            onChange={(value) => onFieldChange('parentTypeId', value ? String(value) : '')}
+            onChange={(value) =>
+              onFieldChange(
+                'parentTypeIds',
+                Array.isArray(value) ? value.map((item) => String(item)).filter((item) => item.trim().length > 0) : []
+              )
+            }
             options={availableParentTypes.map((type) => ({
               label: `${type.name ?? '未命名类型'} / ${type.typeId}`,
               value: String(type.typeId)
             }))}
           />
           <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
-            保存时会同步旧父类型和新父类型的挂载集合，保持每个 child 最多只有一个 parent。
+            保存时会同步各父类型的挂载集合，同时维持“最多一层”约束。
           </Typography.Text>
         </Form.Item>
       </Form>

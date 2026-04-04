@@ -17,6 +17,21 @@ pub struct CompiledFormulaDefinition {
     pub formula_bypass_value: Option<f64>,
 }
 
+impl CompiledFormulaDefinition {
+    /// Evaluate this definition directly, injecting `input_value` for `InputValue` nodes.
+    pub fn evaluate<V: FormulaRuntimeView>(
+        &self,
+        view: &V,
+        input_value: Option<f64>,
+        profile_uses_bypass: bool,
+    ) -> Result<f64, EngineError> {
+        if profile_uses_bypass {
+            return Ok(self.formula_bypass_value.unwrap_or(0.0));
+        }
+        evaluate_expression(&self.expression, view, input_value)
+    }
+}
+
 #[derive(Debug, Clone)]
 pub enum FormulaExpression {
     Constant(f64),
@@ -26,6 +41,19 @@ pub enum FormulaExpression {
     DamageTakenInWindow { actor: FormulaActorRef, window_ms: u32 },
     Add(Vec<FormulaExpression>),
     Multiply(Vec<FormulaExpression>),
+    /// numerator / denominator; returns 0.0 when denominator is zero.
+    Divide {
+        numerator: Box<FormulaExpression>,
+        denominator: Box<FormulaExpression>,
+    },
+    /// Arithmetic negation: -operand.
+    Negate(Box<FormulaExpression>),
+    /// Maximum over one or more operands; returns 0.0 for empty list.
+    Max(Vec<FormulaExpression>),
+    /// Minimum over one or more operands; returns 0.0 for empty list.
+    Min(Vec<FormulaExpression>),
+    /// Pipeline injection: the scalar value provided by the caller (e.g. raw_damage).
+    InputValue,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -68,13 +96,25 @@ impl CompiledFormulaCatalog {
         view: &V,
         profile_uses_bypass: bool,
     ) -> Result<f64, EngineError> {
+        self.evaluate_with_input(formula_id, view, None, profile_uses_bypass)
+    }
+
+    /// Evaluate a formula, injecting `input_value` for any `InputValue` nodes.
+    /// Use this for pipeline formulas where the raw value (e.g. raw_damage) is the input.
+    pub fn evaluate_with_input<V: FormulaRuntimeView>(
+        &self,
+        formula_id: &str,
+        view: &V,
+        input_value: Option<f64>,
+        profile_uses_bypass: bool,
+    ) -> Result<f64, EngineError> {
         let definition = self
             .get(formula_id)
             .ok_or_else(|| EngineError::semantic(format!("unknown benchmark formula id '{formula_id}'")))?;
         if profile_uses_bypass {
             return Ok(definition.formula_bypass_value.unwrap_or(0.0));
         }
-        evaluate_expression(&definition.expression, view)
+        evaluate_expression(&definition.expression, view, input_value)
     }
 }
 
@@ -132,6 +172,36 @@ fn compile_expression(input: &BenchmarkFormulaExpr) -> Result<FormulaExpression,
                     .collect::<Result<Vec<_>, _>>()?,
             )
         }
+        BenchmarkFormulaExpr::Divide { numerator, denominator } => FormulaExpression::Divide {
+            numerator: Box::new(compile_expression(numerator)?),
+            denominator: Box::new(compile_expression(denominator)?),
+        },
+        BenchmarkFormulaExpr::Negate { operand } => {
+            FormulaExpression::Negate(Box::new(compile_expression(operand)?))
+        }
+        BenchmarkFormulaExpr::Max { operands } => {
+            if operands.is_empty() {
+                return Err(EngineError::semantic("benchmark formula max requires at least one operand"));
+            }
+            FormulaExpression::Max(
+                operands
+                    .iter()
+                    .map(compile_expression)
+                    .collect::<Result<Vec<_>, _>>()?,
+            )
+        }
+        BenchmarkFormulaExpr::Min { operands } => {
+            if operands.is_empty() {
+                return Err(EngineError::semantic("benchmark formula min requires at least one operand"));
+            }
+            FormulaExpression::Min(
+                operands
+                    .iter()
+                    .map(compile_expression)
+                    .collect::<Result<Vec<_>, _>>()?,
+            )
+        }
+        BenchmarkFormulaExpr::InputValue => FormulaExpression::InputValue,
     })
 }
 
@@ -147,6 +217,7 @@ fn compile_actor_ref(input: BenchmarkFormulaActorRef) -> FormulaActorRef {
 fn evaluate_expression<V: FormulaRuntimeView>(
     expression: &FormulaExpression,
     view: &V,
+    input_value: Option<f64>,
 ) -> Result<f64, EngineError> {
     Ok(match expression {
         FormulaExpression::Constant(value) => *value,
@@ -160,16 +231,41 @@ fn evaluate_expression<V: FormulaRuntimeView>(
         }
         FormulaExpression::Add(terms) => terms
             .iter()
-            .map(|term| evaluate_expression(term, view))
+            .map(|term| evaluate_expression(term, view, input_value))
             .collect::<Result<Vec<_>, _>>()?
             .into_iter()
             .sum(),
         FormulaExpression::Multiply(factors) => factors
             .iter()
-            .map(|factor| evaluate_expression(factor, view))
+            .map(|factor| evaluate_expression(factor, view, input_value))
             .collect::<Result<Vec<_>, _>>()?
             .into_iter()
             .product(),
+        FormulaExpression::Divide { numerator, denominator } => {
+            let num = evaluate_expression(numerator, view, input_value)?;
+            let den = evaluate_expression(denominator, view, input_value)?;
+            if den == 0.0 { 0.0 } else { num / den }
+        }
+        FormulaExpression::Negate(operand) => {
+            -evaluate_expression(operand, view, input_value)?
+        }
+        FormulaExpression::Max(operands) => {
+            operands
+                .iter()
+                .map(|op| evaluate_expression(op, view, input_value))
+                .collect::<Result<Vec<_>, _>>()?
+                .into_iter()
+                .fold(f64::NEG_INFINITY, f64::max)
+        }
+        FormulaExpression::Min(operands) => {
+            operands
+                .iter()
+                .map(|op| evaluate_expression(op, view, input_value))
+                .collect::<Result<Vec<_>, _>>()?
+                .into_iter()
+                .fold(f64::INFINITY, f64::min)
+        }
+        FormulaExpression::InputValue => input_value.unwrap_or(0.0),
     })
 }
 
@@ -321,5 +417,160 @@ mod tests {
             .expect("formula should evaluate");
 
         assert_eq!(value, 0.0);
+    }
+
+    // ===== Tests for new node types (T08) =====
+
+    fn make_catalog(id: &str, expr: BenchmarkFormulaExpr) -> CompiledFormulaCatalog {
+        CompiledFormulaCatalog::compile(&[BenchmarkFormulaDefinition {
+            formula_id: id.to_string(),
+            label: id.to_string(),
+            expr,
+            bypass_value: None,
+        }])
+        .expect("formula should compile")
+    }
+
+    fn empty_view() -> TestFormulaView {
+        TestFormulaView { damage_taken_window_value: 0.0 }
+    }
+
+    #[test]
+    fn divide_evaluates_correctly() {
+        let catalog = make_catalog(
+            "f",
+            BenchmarkFormulaExpr::Divide {
+                numerator: Box::new(BenchmarkFormulaExpr::Constant { value: 100.0 }),
+                denominator: Box::new(BenchmarkFormulaExpr::Constant { value: 4.0 }),
+            },
+        );
+        let v = catalog.evaluate("f", &empty_view(), false).unwrap();
+        assert_eq!(v, 25.0);
+    }
+
+    #[test]
+    fn divide_by_zero_returns_zero() {
+        let catalog = make_catalog(
+            "f",
+            BenchmarkFormulaExpr::Divide {
+                numerator: Box::new(BenchmarkFormulaExpr::Constant { value: 50.0 }),
+                denominator: Box::new(BenchmarkFormulaExpr::Constant { value: 0.0 }),
+            },
+        );
+        let v = catalog.evaluate("f", &empty_view(), false).unwrap();
+        assert_eq!(v, 0.0);
+    }
+
+    #[test]
+    fn negate_flips_sign() {
+        let catalog = make_catalog(
+            "f",
+            BenchmarkFormulaExpr::Negate {
+                operand: Box::new(BenchmarkFormulaExpr::Constant { value: 42.0 }),
+            },
+        );
+        let v = catalog.evaluate("f", &empty_view(), false).unwrap();
+        assert_eq!(v, -42.0);
+    }
+
+    #[test]
+    fn negate_of_negative_is_positive() {
+        let catalog = make_catalog(
+            "f",
+            BenchmarkFormulaExpr::Negate {
+                operand: Box::new(BenchmarkFormulaExpr::Constant { value: -7.5 }),
+            },
+        );
+        let v = catalog.evaluate("f", &empty_view(), false).unwrap();
+        assert_eq!(v, 7.5);
+    }
+
+    #[test]
+    fn max_returns_largest() {
+        let catalog = make_catalog(
+            "f",
+            BenchmarkFormulaExpr::Max {
+                operands: vec![
+                    BenchmarkFormulaExpr::Constant { value: 0.0 },
+                    BenchmarkFormulaExpr::Constant { value: 200.0 },
+                    BenchmarkFormulaExpr::Constant { value: -50.0 },
+                ],
+            },
+        );
+        let v = catalog.evaluate("f", &empty_view(), false).unwrap();
+        assert_eq!(v, 200.0);
+    }
+
+    #[test]
+    fn min_returns_smallest() {
+        let catalog = make_catalog(
+            "f",
+            BenchmarkFormulaExpr::Min {
+                operands: vec![
+                    BenchmarkFormulaExpr::Constant { value: 10.0 },
+                    BenchmarkFormulaExpr::Constant { value: -3.0 },
+                    BenchmarkFormulaExpr::Constant { value: 5.0 },
+                ],
+            },
+        );
+        let v = catalog.evaluate("f", &empty_view(), false).unwrap();
+        assert_eq!(v, -3.0);
+    }
+
+    #[test]
+    fn input_value_reads_injected_value() {
+        let catalog = make_catalog("f", BenchmarkFormulaExpr::InputValue);
+        let v = catalog
+            .evaluate_with_input("f", &empty_view(), Some(99.0), false)
+            .unwrap();
+        assert_eq!(v, 99.0);
+    }
+
+    #[test]
+    fn input_value_defaults_to_zero_when_none_injected() {
+        let catalog = make_catalog("f", BenchmarkFormulaExpr::InputValue);
+        // evaluate() passes None → InputValue returns 0.0
+        let v = catalog.evaluate("f", &empty_view(), false).unwrap();
+        assert_eq!(v, 0.0);
+    }
+
+    /// Simulate the LoL physical mitigation formula: x * 100 / (100 + max(0, resistance))
+    /// where x = InputValue (raw_damage) and resistance = 200.
+    #[test]
+    fn mitigation_formula_matches_hardcoded_result() {
+        // 100 / (100 + 200) = 0.333...
+        // With resistance = 200: mitigation_multiplier(200) = 100/300
+        let expected = 100.0_f64 / (100.0 + 200.0);
+
+        let catalog = make_catalog(
+            "mitigation.physical",
+            BenchmarkFormulaExpr::Multiply {
+                factors: vec![
+                    BenchmarkFormulaExpr::InputValue,
+                    BenchmarkFormulaExpr::Divide {
+                        numerator: Box::new(BenchmarkFormulaExpr::Constant { value: 100.0 }),
+                        denominator: Box::new(BenchmarkFormulaExpr::Add {
+                            terms: vec![
+                                BenchmarkFormulaExpr::Constant { value: 100.0 },
+                                BenchmarkFormulaExpr::Max {
+                                    operands: vec![
+                                        BenchmarkFormulaExpr::Constant { value: 0.0 },
+                                        BenchmarkFormulaExpr::Constant { value: 200.0 },
+                                    ],
+                                },
+                            ],
+                        }),
+                    },
+                ],
+            },
+        );
+
+        // InputValue = 1.0 so the result equals just the mitigation multiplier
+        let v = catalog
+            .evaluate_with_input("mitigation.physical", &empty_view(), Some(1.0), false)
+            .unwrap();
+
+        let diff = (v - expected).abs();
+        assert!(diff < 1e-12, "expected {expected}, got {v}");
     }
 }

@@ -22,6 +22,16 @@ export type BenchmarkBundle = {
    * key = 标准 bindingKey（如 "mitigation.physical"、"cooldown.ability"）
    */
   pipelineFormulas?: Record<string, BenchmarkFormulaDefinition>;
+  /**
+   * 属性转换规则（如派克被动：多余生命值转换为攻击力）。
+   * 在 Actor 初始化后按声明顺序执行一次。
+   */
+  extraConversionRules?: BenchmarkConversionRule[];
+  /**
+   * 暴击规则，用于判定暴击资格和计算暴击倍率。
+   * 与 DamageFlags.critType 匹配。
+   */
+  critRules?: BenchmarkCritRule[];
 };
 
 // ─── Actor ───────────────────────────────────────────────────
@@ -66,12 +76,16 @@ export type BenchmarkDamageFlags = {
   canApplyBlackCleaver?: boolean;
   countsAsAttack?: boolean;
   isActiveSkillMagicDamage?: boolean;
+  /** 暴击类型标签。为空则不参与暴击判定。 */
+  critType?: string;
 };
 
 export type BenchmarkSkillDefinition = {
   skillId: string;
   label: string;
   typeIds?: string[];
+  /** 技能所有伤害分量的默认暴击类型。当 flags.critType 为空时继承。 */
+  critType?: string;
   primaryFormulaId?: string;
   damageType?: DamageTypeTag;
   flags?: BenchmarkDamageFlags;
@@ -154,3 +168,35 @@ export type BenchmarkRules = {
 // ─── Shared ──────────────────────────────────────────────────
 
 export type DamageTypeTag = 'physical' | 'magic' | 'true';
+
+// ─── Conversion Pipeline ─────────────────────────────────────
+
+/** 对应 Rust ConversionPhase */
+export type ConversionPhase = 'after_base' | 'after_items' | 'after_buffs';
+
+/** 对应 Rust ConversionMode：convert = 扣减来源，grant = 保留来源 */
+export type ConversionMode = 'convert' | 'grant';
+
+export type BenchmarkConversionRule = {
+  /** 来源属性 key（如 "hp"） */
+  sourceAttr: string;
+  /** 目标属性 key（如 "ad"） */
+  targetAttr: string;
+  /** 计算转换量的公式 ID */
+  formulaId: string;
+  /** 在哪个阶段执行 */
+  phase: ConversionPhase;
+  /** 是否扣减来源属性 */
+  mode: ConversionMode;
+};
+// ─── Critical Strike ──────────────────────────────────────────────────────────
+
+export type BenchmarkCritRule = {
+  ruleId: string;
+  /** 匹配键——与 DamageFlags.critType 对比 */
+  critType: string;
+  /** BenchmarkBundle.formulas 中用于计算暴击倍率的公式 ID */
+  multiplierFormulaId: string;
+  /** 默认 true。可逆向禁用。 */
+  enabled?: boolean;
+};

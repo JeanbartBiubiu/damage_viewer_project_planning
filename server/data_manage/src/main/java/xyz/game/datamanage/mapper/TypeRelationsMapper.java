@@ -9,6 +9,10 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface TypeRelationsMapper {
 
+    boolean hasTypeRelationsDeletedColumn();
+
+    boolean hasTypeRelationsLogDeletedColumn();
+
     List<Map<String, Object>> listTypeRelations(@Param("gameId") String gameId);
 
     List<Map<String, Object>> listTypeRelationsByTarget(
@@ -36,7 +40,8 @@ public interface TypeRelationsMapper {
         @Param("targetCategory") String targetCategory,
         @Param("targetId") String targetId,
         @Param("extendJson") String extendJson,
-        @Param("deleted") boolean deleted
+        @Param("deleted") boolean deleted,
+        @Param("hasDeletedColumn") boolean hasDeletedColumn
     );
 
     int markTypeRelationDeleted(
@@ -44,7 +49,8 @@ public interface TypeRelationsMapper {
         @Param("typeId") int typeId,
         @Param("targetCategory") String targetCategory,
         @Param("targetId") String targetId,
-        @Param("versionId") long versionId
+        @Param("versionId") long versionId,
+        @Param("hasDeletedColumn") boolean hasDeletedColumn
     );
 
     int updateVersionRange(
@@ -62,6 +68,7 @@ public interface TypeRelationsMapper {
         @Param("targetCategory") String targetCategory,
         @Param("targetId") String targetId,
         @Param("extendJson") String extendJson,
-        @Param("deleted") boolean deleted
+        @Param("deleted") boolean deleted,
+        @Param("hasDeletedColumn") boolean hasDeletedColumn
     );
 }
