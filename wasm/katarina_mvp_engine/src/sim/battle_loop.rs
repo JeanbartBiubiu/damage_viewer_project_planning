@@ -35,7 +35,7 @@ pub enum BenchmarkSequenceFinish {
 
 #[allow(dead_code)]
 pub fn run_first_basic_attack(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
-    let mut state = build_runtime(config);
+    let mut state = build_runtime(config)?;
     let action_id = find_action_id_by_behavior(&state, ActorId::SelfActor, ActionBehavior::BasicAttack)?;
     execute_benchmark_action(&mut state, ActorId::SelfActor, &action_id)?;
     if state.stop_reason.is_none() {
@@ -49,7 +49,7 @@ pub fn run_benchmark_action_sequence(
     steps: &[BenchmarkSequenceStep],
     finish: BenchmarkSequenceFinish,
 ) -> Result<RuntimeState, EngineError> {
-    let mut state = build_runtime(config);
+    let mut state = build_runtime(config)?;
     for step in steps {
         match step {
             BenchmarkSequenceStep::ExecuteAction {
@@ -88,7 +88,7 @@ pub fn run_single_benchmark_action(
     action_id: &str,
     continue_until_stop: bool,
 ) -> Result<RuntimeState, EngineError> {
-    let mut state = build_runtime(config);
+    let mut state = build_runtime(config)?;
     execute_benchmark_action(&mut state, actor_id, action_id)?;
     if continue_until_stop {
         run_until_stop(&mut state)?;
@@ -99,7 +99,7 @@ pub fn run_single_benchmark_action(
 }
 
 pub fn run_minimal_benchmark_battle(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
-    let mut state = build_runtime(config);
+    let mut state = build_runtime(config)?;
     seed_full_battle_events(&mut state);
 
     while !state.should_stop() {

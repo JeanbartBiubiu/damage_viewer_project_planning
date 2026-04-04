@@ -1,15 +1,15 @@
-use crate::formula::CompiledFormulaCatalog;
+use crate::formula::{CompiledFormulaDefinition, CompiledFormulaCatalog};
 use crate::model::{
-    BenchmarkBundle, BenchmarkCountToThreeRule, BenchmarkCooldownDefinition,
-    BenchmarkItemDefinition, BenchmarkRules, BenchmarkSkillDefinition, DamageType, EngineConfig, EngineError,
-    GameDataBundle, TestProfile,
+    BenchmarkBundle, BenchmarkConversionRule, BenchmarkCritRule, BenchmarkCountToThreeRule, BenchmarkCooldownDefinition,
+    BenchmarkFormulaDefinition, BenchmarkItemDefinition, BenchmarkRules, BenchmarkSkillDefinition,
+    DamageType, EngineConfig, EngineError, GameDataBundle, TestProfile,
 };
 use crate::types::{
     total_attack_speed_from_attrs, ActionRuntime, ActorId, ActorTemplate, BenchmarkBlackCleaverRuntime,
     BenchmarkCountToThreeRuntime, BenchmarkDotRuntime, BenchmarkItemRuntimeDef, BenchmarkRulesRuntime,
     BenchmarkRuntimeCatalog, BenchmarkSchedulerRuntime, BenchmarkSkillMechanics, BenchmarkSkillRuntimeDef,
-    CooldownSpec, DamageFlags, SimulationConfig, ATTR_ATTACK_SPEED_BASE, ATTR_ATTACK_SPEED_BONUS,
-    ATTR_ATTACK_SPEED_RATIO,
+    CompiledConversionRule, CompiledCritRule, CooldownSpec, DamageFlags, SimulationConfig, ATTR_ATTACK_SPEED_BASE,
+    ATTR_ATTACK_SPEED_BONUS, ATTR_ATTACK_SPEED_RATIO,
 };
 use std::collections::{HashMap, HashSet};
 
@@ -103,6 +103,7 @@ fn compile_runtime_catalog(benchmark: &BenchmarkBundle) -> Result<BenchmarkRunti
                 skill_id: skill.skill_id.clone(),
                 label: skill.label.clone(),
                 type_ids: skill.type_ids.clone(),
+                crit_type: skill.crit_type.clone(),
                 damage_type: skill.damage_type,
                 flags: map_flags(&skill.flags),
                 attach_on_hit_item_ids: skill.attach_on_hit_item_ids.clone(),
@@ -160,12 +161,88 @@ fn compile_runtime_catalog(benchmark: &BenchmarkBundle) -> Result<BenchmarkRunti
     }
 
     let rules = compile_rules_runtime(&benchmark.rules, &formulas, &skill_defs)?;
+    let pipeline_formulas = compile_pipeline_formulas(&benchmark.pipeline_formulas)?;
+    let conversion_rules = compile_conversion_rules(&benchmark.conversion_rules, &formulas)?;
+    let crit_rules = compile_crit_rules(&benchmark.crit_rules, &formulas)?;
     Ok(BenchmarkRuntimeCatalog {
         skill_defs,
         item_defs,
         formulas,
         rules,
+        pipeline_formulas,
+        conversion_rules,
+        hp_attr_key: benchmark.hp_attr_key.clone(),
+        crit_rules,
     })
+}
+
+fn compile_pipeline_formulas(
+    pipeline_formulas: &HashMap<String, BenchmarkFormulaDefinition>,
+) -> Result<HashMap<String, CompiledFormulaDefinition>, EngineError> {
+    pipeline_formulas
+        .iter()
+        .map(|(binding_key, def)| {
+            // Compile via a single-element catalog, then extract the definition.
+            let catalog = CompiledFormulaCatalog::compile(std::slice::from_ref(def))?;
+            let compiled = catalog
+                .get(&def.formula_id)
+                .cloned()
+                .ok_or_else(|| EngineError::semantic(format!(
+                    "pipeline formula '{}' compiled but could not be retrieved",
+                    binding_key
+                )))?;
+            Ok((binding_key.clone(), compiled))
+        })
+        .collect()
+}
+
+fn compile_conversion_rules(
+    rules: &[BenchmarkConversionRule],
+    formulas: &CompiledFormulaCatalog,
+) -> Result<Vec<CompiledConversionRule>, EngineError> {
+    rules
+        .iter()
+        .enumerate()
+        .map(|(idx, rule)| {
+            let def = formulas.get(&rule.formula_id).ok_or_else(|| {
+                EngineError::semantic(format!(
+                    "conversion_rules[{idx}]: unknown formula id '{}'",
+                    rule.formula_id
+                ))
+            })?;
+            Ok(CompiledConversionRule {
+                source_attr: rule.source_attr.clone(),
+                target_attr: rule.target_attr.clone(),
+                formula: def.clone(),
+                phase: rule.phase,
+                mode: rule.mode,
+            })
+        })
+        .collect()
+}
+
+fn compile_crit_rules(
+    rules: &[BenchmarkCritRule],
+    formulas: &CompiledFormulaCatalog,
+) -> Result<Vec<CompiledCritRule>, EngineError> {
+    rules
+        .iter()
+        .enumerate()
+        .map(|(idx, rule)| {
+            let def = formulas.get(&rule.multiplier_formula_id).ok_or_else(|| {
+                EngineError::semantic(format!(
+                    "crit_rules[{idx}]: unknown formula id '{}'",
+                    rule.multiplier_formula_id
+                ))
+            })?;
+            Ok(CompiledCritRule {
+                rule_id: rule.rule_id.clone(),
+                crit_type: rule.crit_type.clone(),
+                multiplier_formula: def.clone(),
+                enabled: rule.enabled,
+            })
+        })
+        .collect()
 }
 
 fn compile_item_dot_runtime(
@@ -405,5 +482,6 @@ fn map_flags(flags: &crate::model::BenchmarkDamageFlags) -> DamageFlags {
         can_apply_black_cleaver: flags.can_apply_black_cleaver,
         counts_as_attack: flags.counts_as_attack,
         is_active_skill_magic_damage: flags.is_active_skill_magic_damage,
+        crit_type: flags.crit_type.clone(),
     }
 }

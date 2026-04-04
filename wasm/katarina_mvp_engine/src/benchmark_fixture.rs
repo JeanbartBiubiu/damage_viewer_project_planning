@@ -2,9 +2,7 @@
 
 pub const BENCHMARK_INIT_PAYLOAD_PATH: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/../benchmark_m1_init_payload.json");
 
-// Test-only attribute constants (not used by production code)
-pub const ATTR_CRIT_CHANCE: &str = "crit_chance";
-pub const ATTR_CRIT_MULTIPLIER: &str = "crit_multiplier";
+// ATTR_CRIT_CHANCE / ATTR_CRIT_MULTIPLIER are now defined in crate::types
 
 pub const HERO_SELF_BENCHMARK: &str = "hero_self_benchmark";
 pub const HERO_ENEMY_BENCHMARK: &str = "hero_enemy_benchmark";

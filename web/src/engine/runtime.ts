@@ -117,7 +117,8 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
           sourceId: skill?.skillId ?? 'basic_attack',
           label: skill?.name ?? '平A',
           damageType,
-          rawDamage: (self.stats.ad || 0) * attackRatio
+          rawDamage: (self.stats.ad || 0) * attackRatio,
+          isCritical: false
         }
       ];
 
@@ -127,7 +128,8 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
           sourceId: BORK_ITEM_ID,
           label: '破败王者之刃被动（当前生命值）',
           damageType: 'physical',
-          rawDamage: enemyCurrentHp * BORK_CURRENT_HP_RATIO
+          rawDamage: enemyCurrentHp * BORK_CURRENT_HP_RATIO,
+          isCritical: false
         });
       }
 
@@ -137,7 +139,8 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
           sourceId: NASHOR_ITEM_ID,
           label: '纳什之牙被动',
           damageType: 'magic',
-          rawDamage: NASHOR_ON_HIT_BASE + (self.stats.ap || 0) * NASHOR_AP_RATIO
+          rawDamage: NASHOR_ON_HIT_BASE + (self.stats.ap || 0) * NASHOR_AP_RATIO,
+          isCritical: false
         });
       }
 
@@ -181,7 +184,8 @@ export function runSimulation(bundle: GameDataBundle, input: EngineRunInput, con
           sourceId: skill.skillId,
           label: skill.name ?? skill.skillId,
           damageType,
-          rawDamage
+          rawDamage,
+          isCritical: false
         }
       ]);
       if (enemy.hp <= 0) {

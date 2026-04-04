@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../../../services/apiClient';
 import {
+  buildTypeParentIdsMap,
   buildTargetTypeIdsMap,
   buildTypeParentMap,
   buildTypeTree,
@@ -14,6 +15,7 @@ type UseTypeCatalogResult = {
   typeRelations: TypeRelation[];
   loading: boolean;
   error: string | null;
+  parentTypeIdsByChildId: Map<number, number[]>;
   parentTypeIdByChildId: Map<number, number>;
   targetTypeIdsByKey: Map<string, number[]>;
   treeRoots: ReturnType<typeof buildTypeTree>;
@@ -69,6 +71,7 @@ export function useTypeCatalog(
     };
   }, [adminToken, apiBaseUrl, refreshSeed, selectedGameId, token]);
 
+  const parentTypeIdsByChildId = useMemo(() => buildTypeParentIdsMap(typeRelations), [typeRelations]);
   const parentTypeIdByChildId = useMemo(() => buildTypeParentMap(typeRelations), [typeRelations]);
   const targetTypeIdsByKey = useMemo(() => buildTargetTypeIdsMap(typeRelations), [typeRelations]);
   const treeRoots = useMemo(() => buildTypeTree(types, typeRelations), [typeRelations, types]);
@@ -78,6 +81,7 @@ export function useTypeCatalog(
     typeRelations,
     loading,
     error,
+    parentTypeIdsByChildId,
     parentTypeIdByChildId,
     targetTypeIdsByKey,
     treeRoots,
