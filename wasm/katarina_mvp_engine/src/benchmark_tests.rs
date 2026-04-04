@@ -987,7 +987,7 @@ fn t18_enemy_stun_blocks_enemy_actions_until_expire() {
         test_profile: Some(TestProfile::Full),
     };
     let compiled = compile_benchmark_catalog(&minimal_bundle(), &config).unwrap();
-    let mut runtime = build_runtime(compiled.to_simulation_config(1_000, 128));
+    let mut runtime = build_runtime(compiled.to_simulation_config(1_000, 128)).expect("build_runtime should succeed");
 
     apply_stun(&mut runtime, ActorId::Enemy, 500);
     runtime.push_event(

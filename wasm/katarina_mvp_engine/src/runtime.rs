@@ -1,7 +1,8 @@
 use crate::combat_math::{resolve_cooldown_ms, round_number};
+use crate::conversion_pipeline::apply_static_conversions;
 use crate::formula::FormulaRuntimeView;
 use crate::model::{
-    DamageType, EngineDamageEvent, EngineRunResult, EngineSamplePoint, StopReason, TestProfile,
+    DamageType, EngineDamageEvent, EngineError, EngineRunResult, EngineSamplePoint, StopReason, TestProfile,
 };
 use crate::types::*;
 use std::collections::{BinaryHeap, HashMap};
@@ -24,6 +25,9 @@ pub struct ActorRuntime {
     pub shield: Option<ShieldState>,
     pub stun: Option<StunState>,
     pub damage_taken_window: Option<TemporalRingBuffer<DamageReceivedEntry>>,
+    /// Deterministic crit counter. Shared across all crit-eligible damage components.
+    /// Incremented on each crit-eligible hit; reset to 0 on crit.
+    pub crit_counter: u32,
     pub priorities: Vec<String>,
     pub actions: HashMap<String, ActionRuntime>,
     pub owned_items: Vec<String>,
@@ -55,6 +59,7 @@ impl ActorRuntime {
             damage_taken_window: template.requires_damage_taken_window.then(|| {
                 TemporalRingBuffer::new(DAMAGE_TAKEN_WINDOW_MS, DAMAGE_TAKEN_WINDOW_SAMPLE_INTERVAL_MS)
             }),
+            crit_counter: 0,
             priorities: template.priorities,
             actions: template.actions,
             owned_items: template.owned_items,
@@ -221,6 +226,28 @@ impl RuntimeState {
         )
     }
 
+    /// Evaluate a pipeline formula (e.g. "mitigation.physical") with an injected `input_value`.
+    /// Returns `None` if no pipeline formula is registered for the given binding key.
+    pub fn eval_pipeline_formula(
+        &self,
+        binding_key: &str,
+        input_value: f64,
+        source_actor: ActorId,
+        target_actor: ActorId,
+    ) -> Option<Result<f64, crate::model::EngineError>> {
+        let def = self.benchmark.pipeline_formulas.get(binding_key)?;
+        let view = RuntimeFormulaView {
+            state: self,
+            source_actor,
+            target_actor,
+        };
+        Some(def.evaluate(
+            &view,
+            Some(input_value),
+            matches!(self.profile, TestProfile::FormulaBypass),
+        ))
+    }
+
     pub fn push_event(&mut self, t_ms: u32, priority: i32, event: InternalEvent) {
         self.next_seq += 1;
         self.queue.push(ScheduledEvent {
@@ -350,8 +377,14 @@ impl RuntimeState {
     }
 }
 
-pub fn build_runtime(config: SimulationConfig) -> RuntimeState {
-    RuntimeState::new(config)
+pub fn build_runtime(config: SimulationConfig) -> Result<RuntimeState, EngineError> {
+    let uses_bypass = matches!(config.profile, TestProfile::FormulaBypass);
+    let hp_attr_key = config.benchmark.hp_attr_key.clone();
+    let rules = config.benchmark.conversion_rules.clone();
+    let mut state = RuntimeState::new(config);
+    apply_static_conversions(&mut state.self_actor, &rules, &hp_attr_key, uses_bypass)?;
+    apply_static_conversions(&mut state.enemy_actor, &rules, &hp_attr_key, uses_bypass)?;
+    Ok(state)
 }
 
 // ===== State mutation helpers =====
@@ -454,10 +487,10 @@ pub fn apply_black_cleaver_stack(
 
 // ===== Formula View Bridge =====
 
-struct RuntimeFormulaView<'a> {
-    state: &'a RuntimeState,
-    source_actor: ActorId,
-    target_actor: ActorId,
+pub(crate) struct RuntimeFormulaView<'a> {
+    pub(crate) state: &'a RuntimeState,
+    pub(crate) source_actor: ActorId,
+    pub(crate) target_actor: ActorId,
 }
 
 impl FormulaRuntimeView for RuntimeFormulaView<'_> {

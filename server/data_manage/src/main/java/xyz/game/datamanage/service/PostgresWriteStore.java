@@ -429,6 +429,7 @@ public class PostgresWriteStore {
         validateTypeRelationTarget(gameId, merged);
 
         long versionId = resolveVersionIdForWrite(gameId);
+        boolean hasTypeRelationsDeletedColumn = typeRelationsMapper.hasTypeRelationsDeletedColumn();
         typeRelationsMapper.upsertTypeRelation(
             gameId,
             typeId,
@@ -436,7 +437,8 @@ public class PostgresWriteStore {
             targetCategory,
             targetId,
             jsonSupport.toJsonStringOrNull(merged.get("extend")),
-            false
+            false,
+            hasTypeRelationsDeletedColumn
         );
         return merged;
     }
@@ -495,6 +497,7 @@ public class PostgresWriteStore {
         }
 
         long versionId = resolveVersionIdForWrite(gameId);
+        boolean hasTypeRelationsDeletedColumn = typeRelationsMapper.hasTypeRelationsDeletedColumn();
         List<Map<String, Object>> currentRelations = typeRelationsMapper.listTypeRelationsByTarget(gameId, normalizedTargetCategory, targetId);
         for (Map<String, Object> currentRelation : currentRelations) {
             Integer existingTypeId = mapInteger(currentRelation, "typeId");
@@ -503,7 +506,14 @@ public class PostgresWriteStore {
                 continue;
             }
             ensureUpdated(
-                typeRelationsMapper.markTypeRelationDeleted(gameId, safeTypeId, normalizedTargetCategory, targetId, versionId),
+                typeRelationsMapper.markTypeRelationDeleted(
+                    gameId,
+                    safeTypeId,
+                    normalizedTargetCategory,
+                    targetId,
+                    versionId,
+                    hasTypeRelationsDeletedColumn
+                ),
                 "typeRelation not found while deleting",
                 Map.of("gameId", gameId, "typeId", safeTypeId, "targetCategory", normalizedTargetCategory, "targetId", targetId)
             );
@@ -518,7 +528,8 @@ public class PostgresWriteStore {
                 normalizedTargetCategory,
                 targetId,
                 jsonSupport.toJsonStringOrNull(relation.get("extend")),
-                false
+                false,
+                hasTypeRelationsDeletedColumn
             );
         }
 
@@ -708,6 +719,7 @@ public class PostgresWriteStore {
                 mapInteger(row, "reservedTypeId")
             );
         }
+        boolean hasTypeRelationsLogDeletedColumn = typeRelationsMapper.hasTypeRelationsLogDeletedColumn();
         for (Map<String, Object> row : changedTypeRelations) {
             Integer typeId = mapInteger(row, "typeId");
             int safeTypeId = typeId == null ? -1 : typeId;
@@ -727,7 +739,8 @@ public class PostgresWriteStore {
                 safeTargetCategory,
                 safeTargetId,
                 mapText(row, "extendJson"),
-                Boolean.TRUE.equals(mapBoolean(row, "deleted"))
+                Boolean.TRUE.equals(mapBoolean(row, "deleted")),
+                hasTypeRelationsLogDeletedColumn
             );
         }
         for (Map<String, Object> row : changedHeroes) {
