@@ -12,5 +12,5 @@ export type TypesFormData = {
   name: string;
   description: string;
   reservedTypeId: string;
-  parentTypeId: string;
+  parentTypeIds: string[];
 };

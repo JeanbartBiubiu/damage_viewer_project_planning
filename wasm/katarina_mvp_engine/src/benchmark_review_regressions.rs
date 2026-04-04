@@ -92,7 +92,7 @@ fn review_basic_attack_triggers_black_cleaver_on_each_physical_component() {
 
 #[test]
 fn review_count_to_three_emits_true_damage_and_resets() {
-    let mut state = build_runtime(benchmark_config(TestProfile::Full));
+    let mut state = build_runtime(benchmark_config(TestProfile::Full)).expect("build_runtime should succeed");
     state.push_event(0, 0, InternalEvent::ActorDecide { actor_id: ActorId::SelfActor });
     state.push_event(1_000, 0, InternalEvent::ActorDecide { actor_id: ActorId::SelfActor });
     state.push_event(2_000, 0, InternalEvent::ActorDecide { actor_id: ActorId::SelfActor });
@@ -152,7 +152,7 @@ fn review_thornmail_reflects_magic_damage_to_attacker() {
 
 #[test]
 fn review_lifesteal_uses_dealt_damage_even_when_shield_is_present() {
-    let mut state = build_runtime(benchmark_config(TestProfile::Full));
+    let mut state = build_runtime(benchmark_config(TestProfile::Full)).expect("build_runtime should succeed");
     state.self_actor.hp_current = (state.self_actor.hp_max - 250.0).max(1.0);
     let requested_amount = 100.0 + state.actor(ActorId::Enemy).hp_max * 0.08;
     apply_generate_shield(&mut state, ActorId::Enemy, requested_amount);

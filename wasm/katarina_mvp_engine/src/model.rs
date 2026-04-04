@@ -87,6 +87,71 @@ pub struct BenchmarkBundle {
     pub item_defs: Vec<BenchmarkItemDefinition>,
     #[serde(default)]
     pub formulas: Vec<BenchmarkFormulaDefinition>,
+    /// Global pipeline formulas (mitigation, cooldown reduction, etc.).
+    /// Key = binding key (e.g. "mitigation.physical"), value = formula definition.
+    #[serde(default)]
+    pub pipeline_formulas: HashMap<String, BenchmarkFormulaDefinition>,    /// Attribute conversion rules applied once at actor initialization.
+    #[serde(default)]
+    pub conversion_rules: Vec<BenchmarkConversionRule>,
+    /// Crit rules matched against DamageFlags.crit_type to determine crit eligibility and multiplier.
+    #[serde(default)]
+    pub crit_rules: Vec<BenchmarkCritRule>,
+}
+
+// ─── Conversion Pipeline ─────────────────────────────────────────────────────
+
+/// When the attribute conversion is evaluated relative to the simulation lifecycle.
+/// All phases currently execute once at actor-initialization time (pre-simulation).
+/// `AfterBuffs` is reserved for future runtime-buff hooks.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ConversionPhase {
+    AfterBase,
+    AfterItems,
+    AfterBuffs,
+}
+
+/// Controls how the source attribute changes when a conversion is applied.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ConversionMode {
+    /// Reduce source by converted amount and increase target.
+    Convert,
+    /// Keep source unchanged; only increase target.
+    Grant,
+}
+
+/// A single attribute-to-attribute conversion rule.
+/// The formula receives the source attribute value as `InputValue`
+/// and must return the conversion amount (non-negative).
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkConversionRule {
+    pub source_attr: String,
+    pub target_attr: String,
+    /// Formula id in `BenchmarkBundle.formulas`. `InputValue` = current `source_attr` value.
+    pub formula_id: String,
+    pub phase: ConversionPhase,
+    pub mode: ConversionMode,
+}
+
+/// A single crit rule defining how a critType is resolved.
+/// The multiplier formula receives InputValue = 1.0 and should return the final multiplier.
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BenchmarkCritRule {
+    pub rule_id: String,
+    /// Matching key — compared against DamageFlags.crit_type
+    pub crit_type: String,
+    /// Formula in BenchmarkBundle.formulas that computes the crit damage multiplier.
+    pub multiplier_formula_id: String,
+    /// Whether the rule is active. Default true. Can be disabled by augment overlays.
+    #[serde(default = "default_true")]
+    pub enabled: bool,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -176,6 +241,10 @@ pub struct BenchmarkDamageFlags {
     pub counts_as_attack: bool,
     #[serde(default)]
     pub is_active_skill_magic_damage: bool,
+    /// Crit type tag for this damage component. None = not eligible for crit.
+    /// If set, matched against BenchmarkCritRule.crit_type.
+    #[serde(default)]
+    pub crit_type: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -185,6 +254,10 @@ pub struct BenchmarkSkillDefinition {
     pub label: String,
     #[serde(default)]
     pub type_ids: Vec<String>,
+    /// Default crit type for all damage components of this skill.
+    /// Inherited by DamageFlags if DamageFlags.crit_type is None.
+    #[serde(default)]
+    pub crit_type: Option<String>,
     #[serde(default)]
     pub primary_formula_id: Option<String>,
     #[serde(default)]
@@ -264,6 +337,15 @@ pub enum BenchmarkFormulaExpr {
     },
     Add { terms: Vec<BenchmarkFormulaExpr> },
     Multiply { factors: Vec<BenchmarkFormulaExpr> },
+    Divide {
+        numerator: Box<BenchmarkFormulaExpr>,
+        denominator: Box<BenchmarkFormulaExpr>,
+    },
+    Negate { operand: Box<BenchmarkFormulaExpr> },
+    Max { operands: Vec<BenchmarkFormulaExpr> },
+    Min { operands: Vec<BenchmarkFormulaExpr> },
+    /// Refers to the value injected by the pipeline caller (e.g. raw_damage for mitigation formulas).
+    InputValue,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
@@ -459,6 +541,9 @@ pub struct EngineDamageComponent {
     pub damage_type: DamageType,
     pub raw_damage: f64,
     pub dealt_damage: f64,
+    /// Whether this component was a critical strike.
+    #[serde(default)]
+    pub is_critical: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize)]

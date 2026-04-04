@@ -4,14 +4,34 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.game.datamanage.mapper.TypeRelationsMapper">
 
+    <select id="hasTypeRelationsDeletedColumn" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1
+            FROM information_schema.columns
+            WHERE table_schema = 'public'
+              AND table_name = 'type_relations'
+              AND column_name = 'deleted'
+        )
+    </select>
+
+    <select id="hasTypeRelationsLogDeletedColumn" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1
+            FROM information_schema.columns
+            WHERE table_schema = 'public'
+              AND table_name = 'type_relations_log'
+              AND column_name = 'deleted'
+        )
+    </select>
+
     <select id="listTypeRelations" resultType="map">
         SELECT type_id AS typeId,
                target_category AS targetCategory,
                target_id AS targetId,
                extend::text AS extendJson
-        FROM public.type_relations
+        FROM public.type_relations tr
         WHERE game_id = #{gameId}
-          AND deleted = FALSE
+          AND COALESCE((to_jsonb(tr) -&gt;&gt; 'deleted')::boolean, FALSE) = FALSE
         ORDER BY target_category, target_id, type_id
     </select>
 
@@ -20,11 +40,11 @@
                target_category AS targetCategory,
                target_id AS targetId,
                extend::text AS extendJson
-        FROM public.type_relations
+        FROM public.type_relations tr
         WHERE game_id = #{gameId}
           AND target_category = #{targetCategory}
           AND target_id = #{targetId}
-          AND deleted = FALSE
+          AND COALESCE((to_jsonb(tr) -&gt;&gt; 'deleted')::boolean, FALSE) = FALSE
         ORDER BY type_id
     </select>
 
@@ -33,12 +53,12 @@
                target_category AS targetCategory,
                target_id AS targetId,
                extend::text AS extendJson
-        FROM public.type_relations
+        FROM public.type_relations tr
         WHERE game_id = #{gameId}
           AND type_id = #{typeId}
           AND target_category = #{targetCategory}
           AND target_id = #{targetId}
-          AND deleted = FALSE
+          AND COALESCE((to_jsonb(tr) -&gt;&gt; 'deleted')::boolean, FALSE) = FALSE
     </select>
 
     <select id="listChangedSince" resultType="map">
@@ -46,8 +66,8 @@
                target_category AS targetCategory,
                target_id AS targetId,
                extend::text AS extendJson,
-               deleted AS deleted
-        FROM public.type_relations
+               COALESCE((to_jsonb(tr) -&gt;&gt; 'deleted')::boolean, FALSE) AS deleted
+        FROM public.type_relations tr
         WHERE game_id = #{gameId}
           AND updated_at &gt; #{updatedAfter}
         ORDER BY type_id, target_category, target_id
@@ -55,7 +75,9 @@
 
     <update id="upsertTypeRelation">
         INSERT INTO public.type_relations
-            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend, deleted, updated_at)
+            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend
+             <if test="hasDeletedColumn">, deleted</if>
+             , updated_at)
         VALUES
             (
                 #{gameId},
@@ -64,28 +86,42 @@
                 #{versionId},
                 #{targetCategory},
                 #{targetId},
-                CAST(#{extendJson} AS jsonb),
-                #{deleted},
+                CAST(#{extendJson} AS jsonb)
+                <if test="hasDeletedColumn">, #{deleted}</if>
+                ,
                 NOW()
             )
         ON CONFLICT (game_id, type_id, target_category, target_id) DO UPDATE SET
             start_version_id = EXCLUDED.start_version_id,
             end_version_id = EXCLUDED.end_version_id,
             extend = EXCLUDED.extend,
+            <if test="hasDeletedColumn">
             deleted = EXCLUDED.deleted,
+            </if>
             updated_at = NOW()
     </update>
 
     <update id="markTypeRelationDeleted">
-        UPDATE public.type_relations
-        SET start_version_id = #{versionId},
-            end_version_id = #{versionId},
-            deleted = TRUE,
-            updated_at = NOW()
-        WHERE game_id = #{gameId}
-          AND type_id = #{typeId}
-          AND target_category = #{targetCategory}
-          AND target_id = #{targetId}
+        <choose>
+            <when test="hasDeletedColumn">
+                UPDATE public.type_relations
+                SET start_version_id = #{versionId},
+                    end_version_id = #{versionId},
+                    deleted = TRUE,
+                    updated_at = NOW()
+                WHERE game_id = #{gameId}
+                  AND type_id = #{typeId}
+                  AND target_category = #{targetCategory}
+                  AND target_id = #{targetId}
+            </when>
+            <otherwise>
+                DELETE FROM public.type_relations
+                WHERE game_id = #{gameId}
+                  AND type_id = #{typeId}
+                  AND target_category = #{targetCategory}
+                  AND target_id = #{targetId}
+            </otherwise>
+        </choose>
     </update>
 
     <update id="updateVersionRange">
@@ -100,7 +136,8 @@
 
     <update id="upsertTypeRelationLog">
         INSERT INTO public.type_relations_log
-            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend, deleted)
+            (game_id, type_id, start_version_id, end_version_id, target_category, target_id, extend
+             <if test="hasDeletedColumn">, deleted</if>)
         VALUES
             (
                 #{gameId},
@@ -109,12 +146,14 @@
                 #{versionId},
                 #{targetCategory},
                 #{targetId},
-                CAST(#{extendJson} AS jsonb),
-                #{deleted}
+                CAST(#{extendJson} AS jsonb)
+                <if test="hasDeletedColumn">, #{deleted}</if>
             )
         ON CONFLICT (game_id, type_id, target_category, target_id, start_version_id) DO UPDATE SET
             end_version_id = EXCLUDED.end_version_id,
-            extend = EXCLUDED.extend,
-            deleted = EXCLUDED.deleted
+            extend = EXCLUDED.extend
+            <if test="hasDeletedColumn">
+            , deleted = EXCLUDED.deleted
+            </if>
     </update>
 </mapper>

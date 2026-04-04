@@ -50,6 +50,8 @@ export type EngineDamageComponent = {
   damageType: DamageType;
   rawDamage: number;
   dealtDamage: number;
+  /** 该分量是否为暴击伤害。 */
+  isCritical: boolean;
 };
 
 export type EngineDamageEvent = {

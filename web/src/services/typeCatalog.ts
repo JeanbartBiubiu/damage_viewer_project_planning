@@ -73,7 +73,18 @@ export function clearTypeCatalogCache(gameId?: string) {
 }
 
 export function buildTypeParentMap(typeRelations: TypeRelation[]): Map<number, number> {
+  const parentIdsMap = buildTypeParentIdsMap(typeRelations);
   const parentMap = new Map<number, number>();
+  for (const [childTypeId, parentTypeIds] of parentIdsMap.entries()) {
+    if (parentTypeIds.length > 0) {
+      parentMap.set(childTypeId, parentTypeIds[0]);
+    }
+  }
+  return parentMap;
+}
+
+export function buildTypeParentIdsMap(typeRelations: TypeRelation[]): Map<number, number[]> {
+  const parentMap = new Map<number, number[]>();
   for (const relation of typeRelations) {
     if (relation.targetCategory !== 'type') {
       continue;
@@ -82,8 +93,11 @@ export function buildTypeParentMap(typeRelations: TypeRelation[]): Map<number, n
     if (!Number.isFinite(parentTypeId) || parentTypeId <= 0 || parentTypeId === relation.typeId) {
       continue;
     }
-    if (!parentMap.has(relation.typeId)) {
-      parentMap.set(relation.typeId, parentTypeId);
+    const current = parentMap.get(relation.typeId) ?? [];
+    if (!current.includes(parentTypeId)) {
+      current.push(parentTypeId);
+      current.sort((left, right) => left - right);
+      parentMap.set(relation.typeId, current);
     }
   }
   return parentMap;

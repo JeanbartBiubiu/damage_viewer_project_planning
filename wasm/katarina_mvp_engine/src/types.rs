@@ -1,5 +1,5 @@
-use crate::formula::CompiledFormulaCatalog;
-use crate::model::{DamageSourceKind, DamageType, EngineDamageComponent, TestProfile};
+use crate::formula::{CompiledFormulaDefinition, CompiledFormulaCatalog};
+use crate::model::{ConversionMode, ConversionPhase, DamageSourceKind, DamageType, EngineDamageComponent, TestProfile};
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fmt::Debug;
@@ -20,6 +20,8 @@ pub const ATTR_HP_REGEN: &str = "hp_regen";
 pub const ATTR_ABILITY_HASTE: &str = "ability_haste";
 pub const ATTR_LIFE_STEAL: &str = "life_steal";
 pub const ATTR_HEAL_POWER: &str = "heal_power";
+pub const ATTR_CRIT_CHANCE: &str = "crit_chance";
+pub const ATTR_CRIT_MULTIPLIER: &str = "crit_multiplier";
 pub const DAMAGE_TAKEN_WINDOW_MS: u32 = 4_000;
 pub const DAMAGE_TAKEN_WINDOW_SAMPLE_INTERVAL_MS: u32 = 50;
 
@@ -104,6 +106,8 @@ pub struct BenchmarkSkillRuntimeDef {
     pub skill_id: String,
     pub label: String,
     pub type_ids: Vec<String>,
+    /// Default crit type for damage components produced by this skill.
+    pub crit_type: Option<String>,
     pub damage_type: Option<DamageType>,
     pub flags: DamageFlags,
     pub attach_on_hit_item_ids: Vec<String>,
@@ -153,12 +157,41 @@ pub struct BenchmarkRulesRuntime {
     pub count_to_three: Option<BenchmarkCountToThreeRuntime>,
 }
 
+/// Compiled form of a `BenchmarkConversionRule`.
+#[derive(Debug, Clone)]
+pub struct CompiledConversionRule {
+    pub source_attr: String,
+    pub target_attr: String,
+    pub formula: CompiledFormulaDefinition,
+    #[allow(dead_code)] // 预留字段：用于阶段过滤（after_base/after_items/after_buffs）
+    pub phase: ConversionPhase,
+    pub mode: ConversionMode,
+}
+
+/// Compiled form of a `BenchmarkCritRule`.
+#[derive(Debug, Clone)]
+#[allow(dead_code)] // rule_id pre-provisioned for diagnostics and augment overlays
+pub struct CompiledCritRule {
+    pub rule_id: String,
+    pub crit_type: String,
+    pub multiplier_formula: CompiledFormulaDefinition,
+    pub enabled: bool,
+}
+
 #[derive(Debug, Clone, Default)]
 pub struct BenchmarkRuntimeCatalog {
     pub skill_defs: HashMap<String, BenchmarkSkillRuntimeDef>,
     pub item_defs: HashMap<String, BenchmarkItemRuntimeDef>,
     pub formulas: CompiledFormulaCatalog,
     pub rules: BenchmarkRulesRuntime,
+    /// Pipeline formulas keyed by binding key (e.g. "mitigation.physical").
+    pub pipeline_formulas: HashMap<String, CompiledFormulaDefinition>,
+    /// Conversion rules applied at actor initialization.
+    pub conversion_rules: Vec<CompiledConversionRule>,
+    /// HP attribute key, used to re-sync hp_max after HP-attribute conversions.
+    pub hp_attr_key: String,
+    /// Compiled crit rules for crit eligibility and multiplier lookup.
+    pub crit_rules: Vec<CompiledCritRule>,
 }
 
 // ===== Temporal Ring Buffer =====
@@ -276,6 +309,8 @@ pub struct DamageFlags {
     pub can_apply_black_cleaver: bool,
     pub counts_as_attack: bool,
     pub is_active_skill_magic_damage: bool,
+    /// Crit type tag. None = not eligible for crit.
+    pub crit_type: Option<String>,
 }
 
 impl DamageFlags {
@@ -286,6 +321,7 @@ impl DamageFlags {
             can_apply_black_cleaver: false,
             counts_as_attack: false,
             is_active_skill_magic_damage: false,
+            crit_type: None,
         }
     }
 }

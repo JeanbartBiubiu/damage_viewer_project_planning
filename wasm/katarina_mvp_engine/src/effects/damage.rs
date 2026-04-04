@@ -1,4 +1,5 @@
 use crate::combat_math::{mitigation_multiplier, round_number};
+use crate::critical_strike::resolve_crit;
 use crate::model::{
     DamageType, EngineDamageComponent, EngineDamageEvent, EngineError,
 };
@@ -268,6 +269,15 @@ fn resolve_component(
         )));
     }
 
+    // ── 暴击判定 ─────────────────────────────────────────────────────
+    let crit = resolve_crit(state, source_actor, target_actor, &packet.flags)?;
+    let effective_raw = if crit.is_critical {
+        round_number(packet.raw_damage * crit.multiplier)
+    } else {
+        packet.raw_damage
+    };
+    // ── 暴击判定结束 ────────────────────────────────────────────────
+
     let source_pen_flat = match packet.damage_type {
         DamageType::Physical => state.actor(source_actor).attr(crate::types::ATTR_ARMOR_PEN_FLAT),
         DamageType::Magic => state.actor(source_actor).attr(crate::types::ATTR_MAGIC_PEN_FLAT),
@@ -279,14 +289,38 @@ fn resolve_component(
         DamageType::True => 0.0,
     };
     let effective_resistance = (target_resistance - source_pen_flat).max(-99.0);
+    // Attempt pipeline formula first; fall back to hardcoded mitigation_multiplier.
     let mitigation = match packet.damage_type {
         DamageType::True => 1.0,
-        _ => mitigation_multiplier(state.profile, effective_resistance),
+        DamageType::Physical => {
+            if let Some(result) = state.eval_pipeline_formula(
+                "mitigation.physical",
+                effective_resistance,
+                source_actor,
+                target_actor,
+            ) {
+                result?
+            } else {
+                mitigation_multiplier(state.profile, effective_resistance)
+            }
+        }
+        DamageType::Magic => {
+            if let Some(result) = state.eval_pipeline_formula(
+                "mitigation.magic",
+                effective_resistance,
+                source_actor,
+                target_actor,
+            ) {
+                result?
+            } else {
+                mitigation_multiplier(state.profile, effective_resistance)
+            }
+        }
     };
 
     let no_shield = matches!(state.profile, crate::model::TestProfile::NoShield);
     let target_shield_before = state.actor(target_actor).shield_amount();
-    let dealt_damage = round_number(packet.raw_damage * mitigation);
+    let dealt_damage = round_number(effective_raw * mitigation);
     let (shield_after, shield_absorbed, hp_damage) = {
         let target = state.actor_mut(target_actor);
         let mut remaining = dealt_damage;
@@ -318,8 +352,9 @@ fn resolve_component(
             source_id: packet.source_id.clone(),
             label: packet.label.clone(),
             damage_type: packet.damage_type,
-            raw_damage: round_number(packet.raw_damage),
+            raw_damage: round_number(effective_raw),
             dealt_damage,
+            is_critical: crit.is_critical,
         },
         shield_before: round_number(target_shield_before),
         shield_after: round_number(shield_after),
