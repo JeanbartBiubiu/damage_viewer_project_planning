@@ -1,4 +1,5 @@
 import { Button, Empty, InputNumber, Space, Typography } from '@arco-design/web-react';
+import { useMemo } from 'react';
 import { AttributeKeySelector } from '../AttributeKeySelector';
 import type { AttributeDefinition } from '../../types/api';
 import type { HeroStatsByLevelRow } from './heroStats';
@@ -10,11 +11,12 @@ type StatsByLevelEditorProps = {
   adminToken: string;
   definitions?: AttributeDefinition[];
   rows: HeroStatsByLevelRow[];
+  stageMin?: number;
+  stageMax?: number;
+  stageLabel?: string;
   disabled?: boolean;
   onChange: (rows: HeroStatsByLevelRow[]) => void;
 };
-
-const LEVELS = Array.from({ length: 18 }, (_, index) => index + 1);
 
 export function StatsByLevelEditor({
   apiBaseUrl,
@@ -22,13 +24,27 @@ export function StatsByLevelEditor({
   adminToken,
   definitions,
   rows,
+  stageMin = 1,
+  stageMax = 18,
+  stageLabel = 'Lv',
   disabled = false,
   onChange
 }: StatsByLevelEditorProps) {
+  const normalizedStageMin = Number.isFinite(stageMin) ? Math.max(1, Math.floor(stageMin)) : 1;
+  const normalizedStageMax = Number.isFinite(stageMax)
+    ? Math.max(normalizedStageMin, Math.floor(stageMax))
+    : 18;
+  const stageCount = normalizedStageMax - normalizedStageMin + 1;
+  const stages = useMemo(
+    () => Array.from({ length: stageCount }, (_, index) => normalizedStageMin + index),
+    [normalizedStageMin, stageCount]
+  );
+  const columnTemplate = `repeat(${stageCount}, minmax(96px, 1fr))`;
+
   const addRow = () => {
     const excludedKeys = rows.map((row) => row.attrKey);
     const nextAttrKey = definitions?.find((definition) => !excludedKeys.includes(definition.attrKey))?.attrKey ?? '';
-    onChange([...rows, { attrKey: nextAttrKey, values: createLevelArray() }]);
+    onChange([...rows, { attrKey: nextAttrKey, values: createLevelArray(stageCount) }]);
   };
 
   const updateAttrKey = (index: number, attrKey: string) => {
@@ -58,7 +74,7 @@ export function StatsByLevelEditor({
         <div>
           <Typography.Text bold>每级属性快照</Typography.Text>
           <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
-            录入 1~18 级的绝对值快照，保存为 “属性 `{'>'}` 数组” 结构。
+            录入 {normalizedStageMin}~{normalizedStageMax} 阶段的绝对值快照，保存为 “属性 `{'>'}` 数组” 结构。
           </Typography.Text>
         </div>
         <Button size="small" type="primary" onClick={addRow} disabled={disabled}>
@@ -94,17 +110,24 @@ export function StatsByLevelEditor({
             </Space>
 
             <div style={{ overflowX: 'auto' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(18, minmax(96px, 1fr))', gap: 8, minWidth: 1800 }}>
-                {LEVELS.map((level, levelIndex) => (
-                  <div key={level}>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: columnTemplate,
+                  gap: 8,
+                  minWidth: Math.max(stageCount * 108, 720)
+                }}
+              >
+                {stages.map((stage, stageIndex) => (
+                  <div key={stage}>
                     <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                      Lv{level}
+                      {stageLabel}{stage}
                     </Typography.Text>
                     <InputNumber
                       style={{ width: '100%' }}
-                      value={row.values[levelIndex] ?? 0}
+                      value={row.values[stageIndex] ?? 0}
                       disabled={disabled}
-                      onChange={(value) => updateLevelValue(rowIndex, levelIndex, Number(value ?? 0))}
+                      onChange={(value) => updateLevelValue(rowIndex, stageIndex, Number(value ?? 0))}
                     />
                   </div>
                 ))}

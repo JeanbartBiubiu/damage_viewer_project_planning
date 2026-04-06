@@ -10,6 +10,7 @@ import type {
   FormulaProfile,
   FormulaProfilesResponse,
   GameDataBundle,
+  GameProgressionSchema,
   GameSummary,
   Hero,
   HeroesResponse,
@@ -100,6 +101,29 @@ export async function getBundle(
 
 export async function getOwnerCategories(apiBaseUrl: string, gameId: string): Promise<ApiResult<OwnerCategoryResponse>> {
   return requestJson<OwnerCategoryResponse>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/owner-categories`);
+}
+
+export async function getAdminProgressionSchema(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<GameProgressionSchema>> {
+  return requestJson<GameProgressionSchema>(apiBaseUrl, adminPath(gameId, 'progression-schema'), {
+    token
+  });
+}
+
+export async function putAdminProgressionSchema(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string,
+  body: Partial<GameProgressionSchema>
+): Promise<ApiResult<GameProgressionSchema>> {
+  return requestJson<GameProgressionSchema>(apiBaseUrl, adminPath(gameId, 'progression-schema'), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
 }
 
 export async function getImages(

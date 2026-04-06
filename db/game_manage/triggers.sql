@@ -240,3 +240,16 @@ CREATE TRIGGER trg_games_after_insert_create_partitions
 AFTER INSERT ON public.games
 FOR EACH ROW
 EXECUTE FUNCTION public.trg_games_after_insert_create_partitions();
+
+DO $$
+DECLARE
+    v_game_id varchar;
+BEGIN
+    FOR v_game_id IN
+        SELECT game_id
+        FROM public.games
+    LOOP
+        PERFORM public.ensure_game_partitions(v_game_id);
+    END LOOP;
+END;
+$$;

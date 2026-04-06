@@ -1,10 +1,10 @@
 import type { AttributeDefinitionsFormData, AttributeDefinitionsSearchData } from './types';
 
 export const ATTRIBUTE_VALUE_KIND_OPTIONS = [
-  { label: 'scalar', value: 'scalar' },
-  { label: 'ratio', value: 'ratio' },
-  { label: 'rate', value: 'rate' },
-  { label: 'flag', value: 'flag' }
+  { label: '数值', value: 'scalar' },
+  { label: '比值', value: 'ratio' },
+  { label: '比率', value: 'rate' },
+  { label: '标记', value: 'flag' }
 ];
 
 export function createAttributeDefinitionsSearchData(): AttributeDefinitionsSearchData {
@@ -20,7 +20,7 @@ export function createAttributeDefinitionsFormData(): AttributeDefinitionsFormDa
   return {
     attrKey: '',
     attrName: '',
-    attrType: '',
+    attrType: 'number',
     defaultValue: '0',
     valueKind: 'scalar',
     rateTargetAttrKey: ''
