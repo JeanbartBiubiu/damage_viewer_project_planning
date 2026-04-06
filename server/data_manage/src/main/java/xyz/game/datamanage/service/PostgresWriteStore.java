@@ -14,10 +14,12 @@ import java.time.format.DateTimeParseException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,9 @@ import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
+import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
+import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
@@ -51,6 +55,7 @@ public class PostgresWriteStore {
     private static final Set<String> COEFFICIENT_BUCKET_RESOLUTION_DOMAINS = Set.of("attribute", "hp_change");
     private static final Set<String> COEFFICIENT_BUCKET_AGGREGATION_MODES = Set.of("add", "multiply", "pick_max", "set_final");
     private static final Set<String> STATUS_ACTION_CONTROL_RULE_KINDS = Set.of("forbid", "interrupt");
+    private static final Set<String> PROGRESSION_KINDS = Set.of("LEVEL", "STAR");
 
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
@@ -64,11 +69,14 @@ public class PostgresWriteStore {
     private final TypeRelationsMapper typeRelationsMapper;
     private final ImagesMapper imagesMapper;
     private final OwnerCategoriesMapper ownerCategoriesMapper;
+    private final GamesMapper gamesMapper;
+    private final GameProgressionSchemaMapper gameProgressionSchemaMapper;
     private final GameVersionsMapper gameVersionsMapper;
     private final EditLogMapper editLogMapper;
     private final ObjectMapper objectMapper;
     private final PostgresReadStore readStore;
     private final PostgresJsonSupport jsonSupport;
+    private final Set<String> ensuredPartitionGames = ConcurrentHashMap.newKeySet();
 
     public PostgresWriteStore(
         HeroesMapper heroesMapper,
@@ -83,6 +91,8 @@ public class PostgresWriteStore {
         TypeRelationsMapper typeRelationsMapper,
         ImagesMapper imagesMapper,
         OwnerCategoriesMapper ownerCategoriesMapper,
+        GamesMapper gamesMapper,
+        GameProgressionSchemaMapper gameProgressionSchemaMapper,
         GameVersionsMapper gameVersionsMapper,
         EditLogMapper editLogMapper,
         ObjectMapper objectMapper,
@@ -101,6 +111,8 @@ public class PostgresWriteStore {
         this.typeRelationsMapper = typeRelationsMapper;
         this.imagesMapper = imagesMapper;
         this.ownerCategoriesMapper = ownerCategoriesMapper;
+        this.gamesMapper = gamesMapper;
+        this.gameProgressionSchemaMapper = gameProgressionSchemaMapper;
         this.gameVersionsMapper = gameVersionsMapper;
         this.editLogMapper = editLogMapper;
         this.objectMapper = objectMapper;
@@ -116,6 +128,7 @@ public class PostgresWriteStore {
         if (baseStats == null || !baseStats.isObject()) {
             throw badRequest("hero.baseStats is required and must be object", Map.of("path", "/baseStats"));
         }
+        validateHeroStatsByLevelAgainstSchema(gameId, merged);
 
         long versionId = resolveVersionIdForWrite(gameId);
         heroesMapper.upsertHero(
@@ -129,6 +142,50 @@ public class PostgresWriteStore {
             jsonSupport.toJsonStringOrNull(merged.get("statsByLevel"))
         );
         return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertProgressionSchema(String gameId, ObjectNode body) {
+        if (body == null || body.isEmpty()) {
+            throw badRequest("Request body cannot be empty", Map.of("path", "/", "reason", "empty body"));
+        }
+
+        String progressionKindRaw = requireTextField(body, "progressionKind", "/progressionKind");
+        String progressionKind = progressionKindRaw.toUpperCase(Locale.ROOT);
+        if (!PROGRESSION_KINDS.contains(progressionKind)) {
+            throw badRequest("progressionSchema.progressionKind invalid", Map.of("path", "/progressionKind"));
+        }
+
+        int stageMin = requireIntegerField(body, "stageMin", "/stageMin");
+        if (stageMin < 1) {
+            throw badRequest("progressionSchema.stageMin must be >= 1", Map.of("path", "/stageMin"));
+        }
+
+        int stageMax = requireIntegerField(body, "stageMax", "/stageMax");
+        if (stageMax < stageMin) {
+            throw badRequest("progressionSchema.stageMax must be >= stageMin", Map.of("path", "/stageMax"));
+        }
+        if (stageMax > 100) {
+            throw badRequest("progressionSchema.stageMax must be <= 100", Map.of("path", "/stageMax"));
+        }
+
+        String stageLabel = requireTextField(body, "stageLabel", "/stageLabel");
+
+        JsonNode requireAllStagesNode = body.get("requireAllStages");
+        if (requireAllStagesNode == null || !requireAllStagesNode.isBoolean()) {
+            throw badRequest("progressionSchema.requireAllStages must be boolean", Map.of("path", "/requireAllStages"));
+        }
+        boolean requireAllStages = requireAllStagesNode.asBoolean();
+
+        gameProgressionSchemaMapper.upsert(gameId, progressionKind, stageMin, stageMax, stageLabel, requireAllStages);
+
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("progressionKind", progressionKind);
+        response.put("stageMin", stageMin);
+        response.put("stageMax", stageMax);
+        response.put("stageLabel", stageLabel);
+        response.put("requireAllStages", requireAllStages);
+        return response;
     }
 
     @Transactional
@@ -595,6 +652,7 @@ public class PostgresWriteStore {
 
     @Transactional
     public ObjectNode publishVersion(String gameId, long versionId) {
+        ensureGamePartitions(gameId);
         PostgresReadStore.VersionRecord version = readStore.findVersionById(gameId, versionId);
         if (version == null) {
             throw notFound("Version not found", Map.of("gameId", gameId, "versionId", versionId));
@@ -994,6 +1052,152 @@ public class PostgresWriteStore {
         JsonNode baseStats = hero.get("baseStats");
         if (baseStats == null || !baseStats.isObject()) {
             throw semantic("hero.baseStats is required and must be object", Map.of("path", "/heroes/baseStats"));
+        }
+    }
+
+    private void validateHeroStatsByLevelAgainstSchema(String gameId, ObjectNode hero) {
+        JsonNode statsByLevelNode = hero.get("statsByLevel");
+        if (statsByLevelNode == null || statsByLevelNode.isNull()) {
+            return;
+        }
+        if (!statsByLevelNode.isObject()) {
+            throw badRequest("hero.statsByLevel must be object", Map.of("path", "/statsByLevel"));
+        }
+
+        ObjectNode statsByLevel = (ObjectNode) statsByLevelNode;
+        PostgresReadStore.ProgressionSchemaRecord schema = readStore.loadProgressionSchemaRecordOrDefault(gameId);
+        int stageCount = schema.stageMax() - schema.stageMin() + 1;
+
+        boolean allArrayValues = true;
+        boolean allObjectValues = true;
+        Iterator<Map.Entry<String, JsonNode>> fields = statsByLevel.fields();
+        while (fields.hasNext()) {
+            JsonNode value = fields.next().getValue();
+            allArrayValues = allArrayValues && value.isArray();
+            allObjectValues = allObjectValues && value.isObject();
+        }
+
+        if (allArrayValues) {
+            validateStatsByLevelArrayStructure(statsByLevel, stageCount);
+            return;
+        }
+        if (allObjectValues) {
+            validateStatsByLevelStageStructure(statsByLevel, schema);
+            return;
+        }
+        throw badRequest(
+            "hero.statsByLevel must use one structure: attrKey->number[] or stageKey->{attrKey:number}",
+            Map.of("path", "/statsByLevel")
+        );
+    }
+
+    private void validateStatsByLevelArrayStructure(ObjectNode statsByLevel, int stageCount) {
+        Iterator<Map.Entry<String, JsonNode>> fields = statsByLevel.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
+            String attrKey = entry.getKey();
+            if (attrKey == null || attrKey.isBlank()) {
+                throw badRequest("hero.statsByLevel attrKey cannot be blank", Map.of("path", "/statsByLevel"));
+            }
+            ArrayNode values = requireArrayNode(entry.getValue(), "/statsByLevel/" + attrKey);
+            if (values.size() != stageCount) {
+                throw badRequest(
+                    "hero.statsByLevel number[] length must equal stageCount",
+                    Map.of("path", "/statsByLevel/" + attrKey, "expectedLength", stageCount)
+                );
+            }
+            for (int i = 0; i < values.size(); i++) {
+                if (!values.get(i).isNumber()) {
+                    throw badRequest("hero.statsByLevel array values must be numbers", Map.of("path", "/statsByLevel/" + attrKey + "/" + i));
+                }
+            }
+        }
+    }
+
+    private void validateStatsByLevelStageStructure(
+        ObjectNode statsByLevel,
+        PostgresReadStore.ProgressionSchemaRecord schema
+    ) {
+        Map<Integer, Set<String>> stageAttrKeys = new LinkedHashMap<>();
+
+        Iterator<Map.Entry<String, JsonNode>> fields = statsByLevel.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
+            String stageKey = entry.getKey();
+            int stage = parseStageKey(stageKey, "/statsByLevel/" + stageKey);
+            if (stage < schema.stageMin() || stage > schema.stageMax()) {
+                throw badRequest(
+                    "hero.statsByLevel stageKey out of range",
+                    Map.of("path", "/statsByLevel/" + stageKey, "stageMin", schema.stageMin(), "stageMax", schema.stageMax())
+                );
+            }
+
+            JsonNode stageValue = entry.getValue();
+            if (!stageValue.isObject()) {
+                throw badRequest("hero.statsByLevel stage payload must be object", Map.of("path", "/statsByLevel/" + stageKey));
+            }
+
+            Set<String> attrs = new LinkedHashSet<>();
+            Iterator<Map.Entry<String, JsonNode>> attrFields = stageValue.fields();
+            while (attrFields.hasNext()) {
+                Map.Entry<String, JsonNode> attrEntry = attrFields.next();
+                String attrKey = attrEntry.getKey();
+                if (attrKey == null || attrKey.isBlank()) {
+                    throw badRequest("hero.statsByLevel attrKey cannot be blank", Map.of("path", "/statsByLevel/" + stageKey));
+                }
+                if (!attrEntry.getValue().isNumber()) {
+                    throw badRequest(
+                        "hero.statsByLevel stage attr value must be number",
+                        Map.of("path", "/statsByLevel/" + stageKey + "/" + attrKey)
+                    );
+                }
+                attrs.add(attrKey);
+            }
+
+            stageAttrKeys.put(stage, attrs);
+        }
+
+        if (!schema.requireAllStages()) {
+            return;
+        }
+
+        Set<String> expectedAttrs = null;
+        for (int stage = schema.stageMin(); stage <= schema.stageMax(); stage++) {
+            Set<String> attrs = stageAttrKeys.get(stage);
+            if (attrs == null) {
+                throw badRequest(
+                    "hero.statsByLevel must contain all stages when requireAllStages=true",
+                    Map.of("path", "/statsByLevel", "missingStage", stage)
+                );
+            }
+            if (expectedAttrs == null) {
+                expectedAttrs = attrs;
+                continue;
+            }
+            if (!expectedAttrs.equals(attrs)) {
+                throw badRequest(
+                    "hero.statsByLevel stage attrs must be consistent when requireAllStages=true",
+                    Map.of("path", "/statsByLevel/" + stage)
+                );
+            }
+        }
+    }
+
+    private ArrayNode requireArrayNode(JsonNode value, String path) {
+        if (value == null || !value.isArray()) {
+            throw badRequest("hero.statsByLevel field must be array", Map.of("path", path));
+        }
+        return (ArrayNode) value;
+    }
+
+    private int parseStageKey(String stageKey, String path) {
+        if (stageKey == null || stageKey.isBlank()) {
+            throw badRequest("hero.statsByLevel stageKey cannot be blank", Map.of("path", path));
+        }
+        try {
+            return Integer.parseInt(stageKey);
+        } catch (NumberFormatException ex) {
+            throw badRequest("hero.statsByLevel stageKey must be integer string", Map.of("path", path));
         }
     }
 
@@ -1586,6 +1790,7 @@ public class PostgresWriteStore {
     }
 
     private long resolveVersionIdForWrite(String gameId) {
+        ensureGamePartitions(gameId);
         Long currentVersion = readStore.findCurrentVersionId(gameId);
         if (currentVersion != null) {
             return currentVersion;
@@ -1595,6 +1800,18 @@ public class PostgresWriteStore {
             return latestVersion;
         }
         throw semantic("No version available for write. Create version first.", Map.of("gameId", gameId));
+    }
+
+    private void ensureGamePartitions(String gameId) {
+        if (!ensuredPartitionGames.add(gameId)) {
+            return;
+        }
+        try {
+            gamesMapper.ensureGamePartitions(gameId);
+        } catch (RuntimeException ex) {
+            ensuredPartitionGames.remove(gameId);
+            throw ex;
+        }
     }
 
     private boolean ownerTypeExists(String gameId, String ownerType) {
@@ -1684,6 +1901,22 @@ public class PostgresWriteStore {
             }
         }
         return builder.toString();
+    }
+
+    private String requireTextField(ObjectNode body, String fieldName, String path) {
+        JsonNode value = body.get(fieldName);
+        if (value == null || !value.isTextual() || value.asText().isBlank()) {
+            throw badRequest("progressionSchema." + fieldName + " must be non-empty string", Map.of("path", path));
+        }
+        return value.asText();
+    }
+
+    private int requireIntegerField(ObjectNode body, String fieldName, String path) {
+        JsonNode value = body.get(fieldName);
+        if (value == null || !value.canConvertToInt()) {
+            throw badRequest("progressionSchema." + fieldName + " must be integer", Map.of("path", path));
+        }
+        return value.asInt();
     }
 
     private String nullableText(ObjectNode node, String fieldName) {

@@ -24,7 +24,7 @@ export function getAttributeDefinitionsColumns({ onView, onEdit }: AttributeDefi
       title: '属性类型',
       dataIndex: 'attrType',
       width: 140,
-      render: (_: unknown, record: AttributeDefinitionsRecord) => record.attrType ?? '--'
+      render: (_: unknown, record: AttributeDefinitionsRecord) => record.attrType ?? 'number'
     },
     {
       title: '默认值',

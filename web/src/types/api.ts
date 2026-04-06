@@ -18,6 +18,15 @@ export type GameSummary = {
   gameId: string;
   gameName: string;
   gameImgUrl?: string;
+  progressionSchema?: GameProgressionSchema;
+};
+
+export type GameProgressionSchema = {
+  progressionKind: 'LEVEL' | 'STAR';
+  stageMin: number;
+  stageMax: number;
+  stageLabel: string;
+  requireAllStages: boolean;
 };
 
 export type CurrentVersion = {

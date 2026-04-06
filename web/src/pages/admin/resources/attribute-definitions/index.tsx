@@ -23,7 +23,7 @@ function toAttributeDefinitionsFormData(record: AttributeDefinitionsRecord): Att
   return {
     attrKey: record.attrKey,
     attrName: record.attrName ?? '',
-    attrType: record.attrType ?? '',
+    attrType: record.attrType ?? 'number',
     defaultValue: record.defaultValue !== undefined ? String(record.defaultValue) : '',
     valueKind: record.valueKind ?? 'scalar',
     rateTargetAttrKey: record.rateTargetAttrKey ?? ''
@@ -73,7 +73,7 @@ async function saveAttributeDefinitionsRecord(
   const payload: JsonObject = {
     attrKey: formData.attrKey.trim(),
     attrName: formData.attrName.trim(),
-    attrType: formData.attrType.trim(),
+    attrType: 'number',
     valueKind: formData.valueKind.trim()
   };
 

@@ -72,10 +72,9 @@ export function AttributeDefinitionsModal({
 
           <Form.Item label="属性类型">
             <Input
-              value={formData.attrType}
-              disabled={readOnly}
-              onChange={(value) => onFieldChange('attrType', value)}
-              placeholder="请输入属性类型"
+              value="number"
+              disabled
+              placeholder="固定为 number"
             />
           </Form.Item>
         </div>
