@@ -30,6 +30,8 @@ import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
+import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
+import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
@@ -80,6 +82,12 @@ class PostgresWriteStorePublishTest {
     private OwnerCategoriesMapper ownerCategoriesMapper;
 
     @Mock
+    private GamesMapper gamesMapper;
+
+    @Mock
+    private GameProgressionSchemaMapper gameProgressionSchemaMapper;
+
+    @Mock
     private GameVersionsMapper gameVersionsMapper;
 
     @Mock
@@ -106,6 +114,8 @@ class PostgresWriteStorePublishTest {
             typeRelationsMapper,
             imagesMapper,
             ownerCategoriesMapper,
+            gamesMapper,
+            gameProgressionSchemaMapper,
             gameVersionsMapper,
             editLogMapper,
             objectMapper,
@@ -153,9 +163,34 @@ class PostgresWriteStorePublishTest {
         assertEquals("lol", response.path("gameId").asText());
         assertEquals(2L, response.path("versionId").asLong());
         assertFalse(response.path("dataHash").asText().isBlank());
+        verify(gamesMapper).ensureGamePartitions("lol");
         verify(heroesMapper).upsertHeroLog(eq("lol"), eq("hero_ahri"), eq(2L), anyString(), any(), any(), anyString(), any());
         verify(gameVersionsMapper).clearCurrentVersion("lol");
         verify(gameVersionsMapper).markVersionCurrent(anyString(), any(Timestamp.class), eq("lol"), eq(2L));
+    }
+
+    @Test
+    void upsertFormulaProfileEnsuresGamePartitionsBeforeWrite() {
+        when(readStore.findCurrentVersionId("lol")).thenReturn(5L);
+
+        ObjectNode body = JsonNodeFactory.instance.objectNode();
+        body.put("formulaType", "damage");
+        body.put("formulaKind", "linear");
+        body.putObject("params").put("baseVar", "damage");
+        body.put("description", "test");
+
+        writeStore.upsertFormulaProfile("lol", "formula_magic_damage", body);
+
+        verify(gamesMapper).ensureGamePartitions("lol");
+        verify(formulaProfilesMapper).upsertFormulaProfile(
+            "lol",
+            "formula_magic_damage",
+            5L,
+            "damage",
+            "linear",
+            "{\"baseVar\":\"damage\"}",
+            "test"
+        );
     }
 
     @Test
@@ -166,7 +201,7 @@ class PostgresWriteStorePublishTest {
         when(readStore.loadType("lol", 3)).thenReturn(JsonNodeFactory.instance.objectNode());
         when(typeRelationsMapper.listTypeRelationsByTarget("lol", "character", "hero_ahri"))
             .thenReturn(List.of(typeRelationRow(1, "character", "hero_ahri", "{\"slot\":1}", false), typeRelationRow(2, "character", "hero_ahri", null, false)));
-        when(typeRelationsMapper.markTypeRelationDeleted("lol", 2, "character", "hero_ahri", 5L)).thenReturn(1);
+        when(typeRelationsMapper.markTypeRelationDeleted("lol", 2, "character", "hero_ahri", 5L, false)).thenReturn(1);
 
         ObjectNode body = JsonNodeFactory.instance.objectNode();
         body.putArray("relations")
@@ -179,9 +214,9 @@ class PostgresWriteStorePublishTest {
         assertEquals("character", response.path("targetCategory").asText());
         assertEquals("hero_ahri", response.path("targetId").asText());
         assertEquals(2, response.withArray("typeRelations").size());
-        verify(typeRelationsMapper).markTypeRelationDeleted("lol", 2, "character", "hero_ahri", 5L);
-        verify(typeRelationsMapper).upsertTypeRelation("lol", 1, 5L, "character", "hero_ahri", null, false);
-        verify(typeRelationsMapper).upsertTypeRelation("lol", 3, 5L, "character", "hero_ahri", null, false);
+        verify(typeRelationsMapper).markTypeRelationDeleted("lol", 2, "character", "hero_ahri", 5L, false);
+        verify(typeRelationsMapper).upsertTypeRelation("lol", 1, 5L, "character", "hero_ahri", null, false, false);
+        verify(typeRelationsMapper).upsertTypeRelation("lol", 3, 5L, "character", "hero_ahri", null, false, false);
     }
 
     @Test
@@ -252,7 +287,7 @@ class PostgresWriteStorePublishTest {
 
         writeStore.publishVersion("lol", 2L);
 
-        verify(typeRelationsMapper).upsertTypeRelationLog("lol", 7, 2L, "character", "hero_ahri", null, true);
+        verify(typeRelationsMapper).upsertTypeRelationLog("lol", 7, 2L, "character", "hero_ahri", null, true, false);
     }
 
     @Test

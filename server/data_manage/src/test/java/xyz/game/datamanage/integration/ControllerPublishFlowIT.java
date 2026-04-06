@@ -147,6 +147,28 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void formulaProfileWrite_shouldRecreateMissingLogPartitionForExistingGame() {
+        createVersion("1.0.0");
+        String partitionTable = "formula_profiles_log_" + gameId;
+        jdbcTemplate.execute("DROP TABLE IF EXISTS public." + partitionTable + " CASCADE");
+        Integer partitionCountBefore = jdbcTemplate.queryForObject(
+            "SELECT COUNT(1) FROM pg_tables WHERE schemaname = 'public' AND tablename = ?",
+            Integer.class,
+            partitionTable
+        );
+        assertEquals(0, partitionCountBefore == null ? 0 : partitionCountBefore);
+
+        putFormulaProfile("formula_magic_damage");
+
+        Integer partitionCountAfter = jdbcTemplate.queryForObject(
+            "SELECT COUNT(1) FROM pg_tables WHERE schemaname = 'public' AND tablename = ?",
+            Integer.class,
+            partitionTable
+        );
+        assertEquals(1, partitionCountAfter == null ? 0 : partitionCountAfter);
+    }
+
+    @Test
     void katarinaMvpPublishFlow_shouldExposeEngineReadyBundle() {
         long versionId = createVersion("mvp_katarina_001");
         putKatarinaMvpEntities();
@@ -315,6 +337,81 @@ class ControllerPublishFlowIT {
         JsonNode typeRelation = findByField(requireBody(typeRelationListResponse).path("typeRelations"), "targetId", "attack_power");
         assertEquals(1001, typeRelation.path("typeId").asInt());
         assertEquals("attribute", typeRelation.path("targetCategory").asText());
+    }
+
+    @Test
+    void progressionSchemaAdminAndHeroStatsValidation_shouldApplyToGamesAndHeroWrite() {
+        createVersion("1.0.0");
+
+        ResponseEntity<JsonNode> defaultSchemaResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/progression-schema",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, defaultSchemaResponse.getStatusCode());
+        JsonNode defaultSchema = requireBody(defaultSchemaResponse);
+        assertEquals("LEVEL", defaultSchema.path("progressionKind").asText());
+        assertEquals(1, defaultSchema.path("stageMin").asInt());
+        assertEquals(18, defaultSchema.path("stageMax").asInt());
+        assertEquals("Lv", defaultSchema.path("stageLabel").asText());
+        assertTrue(defaultSchema.path("requireAllStages").asBoolean());
+
+        ResponseEntity<JsonNode> putSchemaResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/progression-schema",
+            HttpMethod.PUT,
+            Map.of(
+                "progressionKind", "LEVEL",
+                "stageMin", 1,
+                "stageMax", 3,
+                "stageLabel", "Lv",
+                "requireAllStages", true
+            )
+        );
+        assertEquals(HttpStatus.OK, putSchemaResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> gamesResponse = restTemplate.getForEntity("/api/games", JsonNode.class);
+        assertEquals(HttpStatus.OK, gamesResponse.getStatusCode());
+        JsonNode game = findByField(requireBody(gamesResponse), "gameId", gameId);
+        JsonNode progressionSchema = game.path("progressionSchema");
+        assertEquals("LEVEL", progressionSchema.path("progressionKind").asText());
+        assertEquals(1, progressionSchema.path("stageMin").asInt());
+        assertEquals(3, progressionSchema.path("stageMax").asInt());
+        assertEquals("Lv", progressionSchema.path("stageLabel").asText());
+        assertTrue(progressionSchema.path("requireAllStages").asBoolean());
+
+        ResponseEntity<JsonNode> validHeroResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/heroes/hero_schema_valid",
+            HttpMethod.PUT,
+            Map.of(
+                "name", "Schema Hero",
+                "title", "Validation",
+                "avatarUrl", "hero_schema_valid.png",
+                "baseStats", Map.of("hp", 500),
+                "statsByLevel", Map.of(
+                    "1", Map.of("hp", 500, "ad", 60),
+                    "2", Map.of("hp", 550, "ad", 65),
+                    "3", Map.of("hp", 600, "ad", 70)
+                )
+            )
+        );
+        assertEquals(HttpStatus.OK, validHeroResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> invalidHeroResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/heroes/hero_schema_invalid",
+            HttpMethod.PUT,
+            Map.of(
+                "name", "Schema Hero Invalid",
+                "title", "Validation",
+                "avatarUrl", "hero_schema_invalid.png",
+                "baseStats", Map.of("hp", 500),
+                "statsByLevel", Map.of(
+                    "1", Map.of("hp", 500, "ad", 60),
+                    "3", Map.of("hp", 600, "ad", 70)
+                )
+            )
+        );
+        assertEquals(HttpStatus.BAD_REQUEST, invalidHeroResponse.getStatusCode());
+        assertEquals("400.INVALID_BODY", requireBody(invalidHeroResponse).path("error").path("code").asText());
     }
 
     @Test

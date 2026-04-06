@@ -25,6 +25,8 @@ import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
+import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
+import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
@@ -75,6 +77,12 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
     private OwnerCategoriesMapper ownerCategoriesMapper;
 
     @Mock
+    private GamesMapper gamesMapper;
+
+    @Mock
+    private GameProgressionSchemaMapper gameProgressionSchemaMapper;
+
+    @Mock
     private GameVersionsMapper gameVersionsMapper;
 
     @Mock
@@ -101,6 +109,8 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
             typeRelationsMapper,
             imagesMapper,
             ownerCategoriesMapper,
+            gamesMapper,
+            gameProgressionSchemaMapper,
             gameVersionsMapper,
             editLogMapper,
             objectMapper,
@@ -121,7 +131,7 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
                 Map.of("typeId", 1003, "targetCategory", "character", "targetId", "hero_ahri")
             )
         );
-        when(typeRelationsMapper.markTypeRelationDeleted("lol", 1003, "character", "hero_ahri", 9L)).thenReturn(1);
+        when(typeRelationsMapper.markTypeRelationDeleted("lol", 1003, "character", "hero_ahri", 9L, false)).thenReturn(1);
 
         ObjectNode body = JsonNodeFactory.instance.objectNode();
         body.putArray("relations").addObject().put("typeId", 1002);
@@ -137,9 +147,9 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
         assertEquals("it", response.path("typeRelations").get(0).path("extend").path("source").asText());
         assertEquals(1002, response.path("typeRelations").get(1).path("typeId").asInt());
 
-        verify(typeRelationsMapper).markTypeRelationDeleted("lol", 1003, "character", "hero_ahri", 9L);
-        verify(typeRelationsMapper).upsertTypeRelation("lol", 1001, 9L, "character", "hero_ahri", "{\"source\":\"it\"}", false);
-        verify(typeRelationsMapper).upsertTypeRelation("lol", 1002, 9L, "character", "hero_ahri", null, false);
+        verify(typeRelationsMapper).markTypeRelationDeleted("lol", 1003, "character", "hero_ahri", 9L, false);
+        verify(typeRelationsMapper).upsertTypeRelation("lol", 1001, 9L, "character", "hero_ahri", "{\"source\":\"it\"}", false, false);
+        verify(typeRelationsMapper).upsertTypeRelation("lol", 1002, 9L, "character", "hero_ahri", null, false, false);
     }
 
     @Test
@@ -157,7 +167,8 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
         );
 
         assertEquals("400.INVALID_BODY", ex.getCode());
-        verify(typeRelationsMapper, never()).upsertTypeRelation(anyString(), eq(1001), anyLong(), anyString(), anyString(), anyString(), eq(false));
-        verify(typeRelationsMapper, never()).markTypeRelationDeleted(anyString(), eq(1001), anyString(), anyString(), anyLong());
+        verify(typeRelationsMapper, never())
+            .upsertTypeRelation(anyString(), eq(1001), anyLong(), anyString(), anyString(), anyString(), eq(false), eq(false));
+        verify(typeRelationsMapper, never()).markTypeRelationDeleted(anyString(), eq(1001), anyString(), anyString(), anyLong(), eq(false));
     }
 }
