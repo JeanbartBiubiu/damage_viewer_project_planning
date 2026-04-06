@@ -112,6 +112,12 @@ public class GameDataService {
         return readStore.getOwnerCategories(gameId);
     }
 
+    public ObjectNode getProgressionSchema(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.loadProgressionSchemaOrDefault(gameId);
+    }
+
     public ObjectNode listHeroes(String gameId) {
         validateGameId(gameId);
         assertGameExists(gameId);
@@ -153,6 +159,14 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertHero(gameId, heroId, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode upsertProgressionSchema(String gameId, ObjectNode body) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = writeStore.upsertProgressionSchema(gameId, body);
         evictNonPublishedReadCaches();
         return response;
     }

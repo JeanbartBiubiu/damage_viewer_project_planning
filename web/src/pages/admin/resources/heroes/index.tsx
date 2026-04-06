@@ -1,7 +1,15 @@
-import { Alert } from '@arco-design/web-react';
+import { Alert, Button, Form, Input, InputNumber, Modal, Select, Space, Typography } from '@arco-design/web-react';
+import { useEffect, useState } from 'react';
 import { Panel } from '../../../../components/Panel';
-import { getHeroes, putHero, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
-import type { JsonObject } from '../../../../types/api';
+import {
+  getAdminProgressionSchema,
+  getErrorMessage,
+  getHeroes,
+  putAdminProgressionSchema,
+  putHero,
+  replaceTypeRelationsForTarget
+} from '../../../../services/apiClient';
+import type { GameProgressionSchema, JsonObject } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonObjectText, stringifyJson } from '../shared/json';
 import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
@@ -16,6 +24,14 @@ type HeroesPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
+};
+
+const DEFAULT_PROGRESSION_SCHEMA: GameProgressionSchema = {
+  progressionKind: 'LEVEL',
+  stageMin: 1,
+  stageMax: 18,
+  stageLabel: 'Lv',
+  requireAllStages: true
 };
 
 function toHeroesFormData(record: HeroesRecord): HeroesFormData {
@@ -112,6 +128,12 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
     selectedGameId,
     adminToken
   );
+  const [progressionSchema, setProgressionSchema] = useState<GameProgressionSchema>(DEFAULT_PROGRESSION_SCHEMA);
+  const [progressionSchemaError, setProgressionSchemaError] = useState<string | null>(null);
+  const [progressionSchemaLoading, setProgressionSchemaLoading] = useState(false);
+  const [progressionModalVisible, setProgressionModalVisible] = useState(false);
+  const [progressionSaving, setProgressionSaving] = useState(false);
+  const [progressionFormData, setProgressionFormData] = useState<GameProgressionSchema>(DEFAULT_PROGRESSION_SCHEMA);
 
   const {
     filteredRecords,
@@ -148,6 +170,29 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
     }
   });
 
+  const refreshProgressionSchema = async () => {
+    if (!selectedGameId || !adminToken.trim()) {
+      setProgressionSchema(DEFAULT_PROGRESSION_SCHEMA);
+      setProgressionSchemaError(null);
+      return;
+    }
+    try {
+      setProgressionSchemaLoading(true);
+      const response = await getAdminProgressionSchema(apiBaseUrl, selectedGameId, adminToken.trim());
+      setProgressionSchema(response.data);
+      setProgressionSchemaError(null);
+    } catch (error) {
+      setProgressionSchema(DEFAULT_PROGRESSION_SCHEMA);
+      setProgressionSchemaError(getErrorMessage(error));
+    } finally {
+      setProgressionSchemaLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void refreshProgressionSchema();
+  }, [apiBaseUrl, selectedGameId, adminToken]);
+
   const applyHeroTypesToForm = (heroId: string) => {
     const persistedTypeIds = targetTypeIdsByKey.get(`character:${heroId}`) ?? [];
     updateFormData('persistedTypeIds', persistedTypeIds);
@@ -170,10 +215,53 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
     updateFormData('selectedTypeIds', []);
   };
 
+  const progressionSummary = `${progressionSchema.progressionKind === 'LEVEL' ? '等级制' : '星级制'} · ${
+    progressionSchema.stageLabel
+  }${progressionSchema.stageMin} ~ ${progressionSchema.stageLabel}${progressionSchema.stageMax} · ${
+    progressionSchema.requireAllStages ? '要求填满全部阶段' : '允许部分阶段'
+  }`;
+
+  const openProgressionModal = () => {
+    setProgressionFormData(progressionSchema);
+    setProgressionModalVisible(true);
+  };
+
+  const submitProgressionModal = async () => {
+    if (!selectedGameId || !adminToken.trim()) {
+      return;
+    }
+    try {
+      setProgressionSaving(true);
+      const response = await putAdminProgressionSchema(apiBaseUrl, selectedGameId, adminToken.trim(), progressionFormData);
+      setProgressionSchema(response.data);
+      setProgressionSchemaError(null);
+      setProgressionModalVisible(false);
+    } catch (error) {
+      setProgressionSchemaError(getErrorMessage(error));
+    } finally {
+      setProgressionSaving(false);
+    }
+  };
+
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
       {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
+
+      <Panel title="阶段配置" kicker="Schema">
+        {progressionSchemaError ? <Alert type="warning" content={progressionSchemaError} style={{ marginBottom: 12 }} /> : null}
+        <Space direction="vertical" size={8} style={{ width: '100%' }}>
+          <Typography.Text>{progressionSummary}</Typography.Text>
+          <Space>
+            <Button type="primary" onClick={openProgressionModal} disabled={actionsDisabled || progressionSchemaLoading}>
+              编辑阶段配置
+            </Button>
+            <Button onClick={() => void refreshProgressionSchema()} loading={progressionSchemaLoading} disabled={actionsDisabled}>
+              刷新
+            </Button>
+          </Space>
+        </Space>
+      </Panel>
 
       <Panel title="查询条件" kicker="Search">
         <HeroesSearch
@@ -210,10 +298,96 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
         mode={modalMode}
         formData={formData}
         saving={saving}
+        progressionSchema={progressionSchema}
+        progressionSchemaError={progressionSchemaError}
         onClose={closeModal}
         onFieldChange={updateFormData}
         onSubmit={submitModal}
       />
+
+      <Modal
+        title="编辑阶段配置"
+        visible={progressionModalVisible}
+        onCancel={() => setProgressionModalVisible(false)}
+        autoFocus={false}
+        focusLock
+        footer={
+          <Space>
+            <Button onClick={() => setProgressionModalVisible(false)}>取消</Button>
+            <Button type="primary" loading={progressionSaving} onClick={() => void submitProgressionModal()}>
+              保存
+            </Button>
+          </Space>
+        }
+      >
+        <Form layout="vertical">
+          <Form.Item label="progressionKind">
+            <Select
+              value={progressionFormData.progressionKind}
+              onChange={(value) =>
+                setProgressionFormData((prev) => ({
+                  ...prev,
+                  progressionKind: value === 'STAR' ? 'STAR' : 'LEVEL'
+                }))
+              }
+            >
+              <Select.Option value="LEVEL">LEVEL</Select.Option>
+              <Select.Option value="STAR">STAR</Select.Option>
+            </Select>
+          </Form.Item>
+          <div className="crud-form-grid">
+            <Form.Item label="stageMin">
+              <InputNumber
+                style={{ width: '100%' }}
+                value={progressionFormData.stageMin}
+                onChange={(value) =>
+                  setProgressionFormData((prev) => ({
+                    ...prev,
+                    stageMin: Math.max(1, Number(value ?? 1))
+                  }))
+                }
+              />
+            </Form.Item>
+            <Form.Item label="stageMax">
+              <InputNumber
+                style={{ width: '100%' }}
+                value={progressionFormData.stageMax}
+                onChange={(value) =>
+                  setProgressionFormData((prev) => ({
+                    ...prev,
+                    stageMax: Math.max(prev.stageMin, Number(value ?? prev.stageMin))
+                  }))
+                }
+              />
+            </Form.Item>
+          </div>
+          <Form.Item label="stageLabel">
+            <Input
+              value={progressionFormData.stageLabel}
+              onChange={(value) =>
+                setProgressionFormData((prev) => ({
+                  ...prev,
+                  stageLabel: value
+                }))
+              }
+            />
+          </Form.Item>
+          <Form.Item label="requireAllStages">
+            <Select
+              value={progressionFormData.requireAllStages ? 'true' : 'false'}
+              onChange={(value) =>
+                setProgressionFormData((prev) => ({
+                  ...prev,
+                  requireAllStages: value === 'true'
+                }))
+              }
+            >
+              <Select.Option value="true">是</Select.Option>
+              <Select.Option value="false">否</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

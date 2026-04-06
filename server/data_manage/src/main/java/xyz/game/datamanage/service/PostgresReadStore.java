@@ -17,6 +17,7 @@ import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
+import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
@@ -30,7 +31,14 @@ import xyz.game.datamanage.mapper.TypesMapper;
 @Component
 public class PostgresReadStore {
 
+    private static final String DEFAULT_PROGRESSION_KIND = "LEVEL";
+    private static final int DEFAULT_STAGE_MIN = 1;
+    private static final int DEFAULT_STAGE_MAX = 18;
+    private static final String DEFAULT_STAGE_LABEL = "Lv";
+    private static final boolean DEFAULT_REQUIRE_ALL_STAGES = true;
+
     private final GamesMapper gamesMapper;
+    private final GameProgressionSchemaMapper gameProgressionSchemaMapper;
     private final GameVersionsMapper gameVersionsMapper;
     private final ImagesMapper imagesMapper;
     private final OwnerCategoriesMapper ownerCategoriesMapper;
@@ -49,6 +57,7 @@ public class PostgresReadStore {
 
     public PostgresReadStore(
         GamesMapper gamesMapper,
+        GameProgressionSchemaMapper gameProgressionSchemaMapper,
         GameVersionsMapper gameVersionsMapper,
         ImagesMapper imagesMapper,
         OwnerCategoriesMapper ownerCategoriesMapper,
@@ -66,6 +75,7 @@ public class PostgresReadStore {
         PostgresJsonSupport jsonSupport
     ) {
         this.gamesMapper = gamesMapper;
+        this.gameProgressionSchemaMapper = gameProgressionSchemaMapper;
         this.gameVersionsMapper = gameVersionsMapper;
         this.imagesMapper = imagesMapper;
         this.ownerCategoriesMapper = ownerCategoriesMapper;
@@ -86,10 +96,12 @@ public class PostgresReadStore {
     public ArrayNode listGames() {
         ArrayNode array = objectMapper.createArrayNode();
         for (Map<String, Object> row : gamesMapper.listGames()) {
+            String gameId = text(row, "gameId");
             ObjectNode node = objectMapper.createObjectNode();
-            node.put("gameId", text(row, "gameId"));
+            node.put("gameId", gameId);
             node.put("gameName", text(row, "gameName"));
             putNullableText(node, "gameImgUrl", text(row, "gameImgUrl"));
+            node.set("progressionSchema", loadProgressionSchemaOrDefault(gameId));
             array.add(node);
         }
         return array;
@@ -98,6 +110,17 @@ public class PostgresReadStore {
     public boolean gameExists(String gameId) {
         Long count = gamesMapper.countGames(gameId);
         return count != null && count > 0;
+    }
+
+    public ObjectNode loadProgressionSchemaOrDefault(String gameId) {
+        return toProgressionSchemaNode(loadProgressionSchemaRecordOrDefault(gameId));
+    }
+
+    public ProgressionSchemaRecord loadProgressionSchemaRecordOrDefault(String gameId) {
+        Map<String, Object> row = gameProgressionSchemaMapper.findByGameId(gameId);
+        return row == null
+            ? defaultProgressionSchemaRecord()
+            : mapProgressionSchemaRecord(row);
     }
 
     public VersionRecord findCurrentPublishedVersion(String gameId) {
@@ -590,6 +613,36 @@ public class PostgresReadStore {
         );
     }
 
+    private ProgressionSchemaRecord mapProgressionSchemaRecord(Map<String, Object> row) {
+        return new ProgressionSchemaRecord(
+            text(row, "progressionKind"),
+            integer(row, "stageMin"),
+            integer(row, "stageMax"),
+            text(row, "stageLabel"),
+            booleanValue(row, "requireAllStages")
+        );
+    }
+
+    private ProgressionSchemaRecord defaultProgressionSchemaRecord() {
+        return new ProgressionSchemaRecord(
+            DEFAULT_PROGRESSION_KIND,
+            DEFAULT_STAGE_MIN,
+            DEFAULT_STAGE_MAX,
+            DEFAULT_STAGE_LABEL,
+            DEFAULT_REQUIRE_ALL_STAGES
+        );
+    }
+
+    private ObjectNode toProgressionSchemaNode(ProgressionSchemaRecord schema) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("progressionKind", schema.progressionKind());
+        node.put("stageMin", schema.stageMin());
+        node.put("stageMax", schema.stageMax());
+        node.put("stageLabel", schema.stageLabel());
+        node.put("requireAllStages", schema.requireAllStages());
+        return node;
+    }
+
     private void putNullableText(ObjectNode node, String fieldName, String value) {
         if (value != null) {
             node.put(fieldName, value);
@@ -716,5 +769,14 @@ public class PostgresReadStore {
     }
 
     public record VersionRecord(long versionId, String versionCode, String dataHash, Instant updatedAt, Instant publishedAt) {
+    }
+
+    public record ProgressionSchemaRecord(
+        String progressionKind,
+        int stageMin,
+        int stageMax,
+        String stageLabel,
+        boolean requireAllStages
+    ) {
     }
 }

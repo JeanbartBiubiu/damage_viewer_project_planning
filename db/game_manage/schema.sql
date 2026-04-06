@@ -36,6 +36,16 @@ COMMENT ON COLUMN public.game_versions.version_code IS '对外展示版本号（
 COMMENT ON COLUMN public.game_versions.is_current IS '是否为当前版本（用于前端轮询接口）';
 COMMENT ON COLUMN public.game_versions.data_hash IS '该版本全量数据 hash（用于前端校验/增量更新）';
 
+CREATE TABLE public.game_progression_schema (
+    game_id varchar(64) PRIMARY KEY REFERENCES public.games(game_id),
+    progression_kind varchar(16) NOT NULL CHECK (progression_kind IN ('LEVEL', 'STAR')),
+    stage_min int NOT NULL CHECK (stage_min >= 1),
+    stage_max int NOT NULL CHECK (stage_max >= stage_min AND stage_max <= 100),
+    stage_label varchar(32) NOT NULL,
+    require_all_stages boolean NOT NULL DEFAULT true,
+    updated_at timestamp NOT NULL DEFAULT NOW()
+);
+
 CREATE TABLE public.images (
     game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
     uri varchar(255) NOT NULL,

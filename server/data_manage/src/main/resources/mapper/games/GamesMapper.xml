@@ -15,4 +15,11 @@
         FROM public.games
         WHERE game_id = #{gameId}
     </select>
+
+    <select id="ensureGamePartitions" resultType="int">
+        WITH ensured AS (
+            SELECT public.ensure_game_partitions(#{gameId})
+        )
+        SELECT 1
+    </select>
 </mapper>
