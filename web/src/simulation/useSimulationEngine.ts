@@ -7,7 +7,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MvpEngineClient } from '../engine/client';
-import { compileAndInjectBenchmark, type CompileScenarioInput } from '../engine/bundleCompiler';
+import { compileEngineBundle, type CompileScenarioInput } from '../engine/bundleCompiler';
 import type { EngineMeta, EngineRunInput, EngineRunOutput } from '../engine/types';
 import type { GameDataBundle } from '../types/api';
 import type { EngineStatus } from './types';
@@ -71,8 +71,8 @@ export function useSimulationEngine(): UseSimulationEngineReturn {
       setErrorMessage(null);
 
       try {
-        // 编译 bundle
-        const compiledBundle = compileAndInjectBenchmark(compileInput);
+        // 编译供 Wasm init 使用的最小 bundle
+        const engineBundle = compileEngineBundle(compileInput);
 
         const meta: EngineMeta = {
           gameId: bundle.meta.gameId,
@@ -81,7 +81,7 @@ export function useSimulationEngine(): UseSimulationEngineReturn {
         };
 
         const client = new MvpEngineClient();
-        await client.init(meta, compiledBundle);
+        await client.init(meta, engineBundle);
 
         engineRef.current = { client, initializedHash: dataHash };
         setStatus('ready');
