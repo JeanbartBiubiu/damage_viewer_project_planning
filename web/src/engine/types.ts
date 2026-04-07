@@ -1,4 +1,5 @@
-import type { GameDataBundle } from '../types/api';
+import type { BundleMeta } from '../types/api';
+import type { BenchmarkBundle } from './benchmarkTypes';
 
 export type EngineMeta = {
   gameId: string;
@@ -6,7 +7,10 @@ export type EngineMeta = {
   dataHash: string;
 };
 
-export type EngineBundle = GameDataBundle;
+export type EngineBundle = {
+  meta: BundleMeta;
+  benchmark: BenchmarkBundle;
+};
 
 export type EngineError = {
   code: 'INVALID_INPUT' | 'SEMANTIC_ERROR' | 'RUNTIME_ERROR';
