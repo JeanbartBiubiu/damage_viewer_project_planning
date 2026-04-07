@@ -30,6 +30,7 @@ Use this skill if any of the following are true:
 - SQLite db file: `c:\project\damage_viewer_project_planning\db\task_doc_governance\task_doc_governance.sqlite`
 - CLI: `c:\project\damage_viewer_project_planning\tools\task-governance\cli.mjs`
 - local source of truth: `TASK_KEY` plus the SQLite database
+- Obsidian memory notes are supplementary context only, not the task/doc mapping source of truth
 
 Local document directories:
 
@@ -95,6 +96,7 @@ When this skill is used, the final response should include:
 ## Guardrails
 
 - Prefer local SQLite updates over any external tracker.
+- Do not let Obsidian notes become a second task source of truth; task mapping and task status still belong to `task_rules.json` and the rebuilt SQLite database.
 - Do not invent task granularity from folder names alone; inspect doc titles and, when needed, code context.
 - Keep `task_rules.json` authoritative for task/doc mapping.
 - Rebuild the database after mapping changes instead of hand-editing the SQLite file.
