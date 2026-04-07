@@ -11,6 +11,8 @@ Use this reference for normal local task/doc governance work in `c:\project\dama
 
 The primary local identifier is `TASK_KEY`.
 
+Obsidian notes may store project context, decisions, or session memory, but they are not the source of truth for task mapping or task status.
+
 ## Normal Workflow
 
 1. Inspect the relevant docs under `文档记录/`.
@@ -86,3 +88,5 @@ When you use this playbook, report:
 - rebuilt database path
 - changed docs and their `TASK_KEY`
 - any docs still hard to classify
+
+If the work only updates Obsidian memory or explanatory docs, say explicitly that no SQLite task mapping changes were made and no rebuild was required.

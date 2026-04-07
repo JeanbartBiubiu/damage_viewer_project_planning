@@ -5,9 +5,9 @@ import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
-import { compileAndInjectBenchmark } from '../engine/bundleCompiler';
+import { compileEngineBundle } from '../engine/bundleCompiler';
 import { MvpEngineClient } from '../engine/client';
-import type { EngineDamageComponent, EngineDamageEvent, EngineRunInput, EngineRunOutput } from '../engine/types';
+import type { EngineBundle, EngineDamageComponent, EngineDamageEvent, EngineRunInput, EngineRunOutput } from '../engine/types';
 import { getErrorMessage } from '../services/apiClient';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
@@ -208,10 +208,10 @@ export function KatarinaMvpPage({
           throw new Error(missingMessage);
         }
 
-        // 编译 benchmark 数据并注入 bundle
-        let enrichedBundle: GameDataBundle;
+        // 编译供 Wasm init 使用的最小 bundle
+        let engineBundle: EngineBundle;
         try {
-          enrichedBundle = compileAndInjectBenchmark({
+          engineBundle = compileEngineBundle({
             bundle: snapshot.bundle,
             selfHeroId: KATARINA_ID,
             selfItemIds: [...ITEM_IDS],
@@ -223,8 +223,8 @@ export function KatarinaMvpPage({
             enemyLevel: 1,
           });
         } catch (compileErr) {
-          console.warn('Bundle 编译失败，回退为原始 bundle:', compileErr);
-          enrichedBundle = snapshot.bundle;
+          console.warn('Engine bundle 编译失败:', compileErr);
+          throw compileErr;
         }
 
         const client = new MvpEngineClient();
@@ -234,7 +234,7 @@ export function KatarinaMvpPage({
             versionId: snapshot.bundle.meta.versionId,
             dataHash: snapshot.bundle.meta.dataHash
           },
-          enrichedBundle
+          engineBundle
         );
 
         if (cancelled) {

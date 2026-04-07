@@ -1,5 +1,4 @@
-import type { GameDataBundle } from '../types/api';
-import type { EngineError, EngineMeta, EngineRunInput, EngineRunOutput } from './types';
+import type { EngineBundle, EngineError, EngineMeta, EngineRunInput, EngineRunOutput } from './types';
 
 type RuntimeConfig = {
   hpAttrKey: string;
@@ -27,13 +26,20 @@ type HostFailure = {
 
 type HostResponse<T> = HostSuccess<T> | HostFailure;
 
+type DecodedHostResponse<T> = {
+  raw: string;
+  parsed: HostResponse<T>;
+};
+
 type EngineInitPayload = {
   meta: EngineMeta;
-  bundle: GameDataBundle;
+  bundle: EngineBundle;
   engineConfig?: {
     hpAttrKey?: string;
   };
 };
+
+type WasmInvokeName = 'engine_init' | 'engine_run';
 
 const WASM_URL = new URL('./wasm/katarina_mvp_engine.wasm', import.meta.url);
 const textEncoder = new TextEncoder();
@@ -58,7 +64,7 @@ export class KatarinaWasmBridge {
     this.exports = exports;
   }
 
-  static async create(meta: EngineMeta, bundle: GameDataBundle, config: RuntimeConfig): Promise<KatarinaWasmBridge> {
+  static async create(meta: EngineMeta, bundle: EngineBundle, config: RuntimeConfig): Promise<KatarinaWasmBridge> {
     const bridge = new KatarinaWasmBridge(await loadWasmExports());
     bridge.init(meta, bundle, config);
     return bridge;
@@ -68,7 +74,7 @@ export class KatarinaWasmBridge {
     return this.invoke<EngineRunOutput>('engine_run', input);
   }
 
-  private init(meta: EngineMeta, bundle: GameDataBundle, config: RuntimeConfig) {
+  private init(meta: EngineMeta, bundle: EngineBundle, config: RuntimeConfig) {
     const payload: EngineInitPayload = {
       meta,
       bundle,
@@ -79,24 +85,45 @@ export class KatarinaWasmBridge {
     this.invoke<{ initialized: true }>('engine_init', payload);
   }
 
-  private invoke<T>(fnName: 'engine_init' | 'engine_run', payload: unknown): T {
-    const rawPayload = textEncoder.encode(JSON.stringify(payload));
+  private invoke<T>(fnName: WasmInvokeName, payload: unknown): T {
+    const requestJson = JSON.stringify(payload);
+    const rawPayload = textEncoder.encode(requestJson);
     const ptr = this.exports.alloc(rawPayload.length);
+    const startedAt = performance.now();
+    let didLogExchange = false;
 
     try {
       new Uint8Array(this.exports.memory.buffer, ptr, rawPayload.length).set(rawPayload);
       this.exports[fnName](ptr, rawPayload.length);
       const response = this.readResponse<T>();
-      if (!response.ok) {
-        throw toRuntimeError(response.error);
+      logWasmExchange(fnName, {
+        durationMs: performance.now() - startedAt,
+        request: payload,
+        requestJson,
+        response: response.parsed,
+        responseJson: response.raw
+      });
+      didLogExchange = true;
+      if (!response.parsed.ok) {
+        throw toRuntimeError(response.parsed.error);
       }
-      return response.value;
+      return response.parsed.value;
+    } catch (error) {
+      if (!didLogExchange) {
+        logWasmExchange(fnName, {
+          durationMs: performance.now() - startedAt,
+          request: payload,
+          requestJson,
+          error: normalizeLogError(error)
+        });
+      }
+      throw error;
     } finally {
       this.exports.dealloc(ptr, rawPayload.length);
     }
   }
 
-  private readResponse<T>(): HostResponse<T> {
+  private readResponse<T>(): DecodedHostResponse<T> {
     const ptr = this.exports.engine_response_ptr();
     const len = this.exports.engine_response_len();
     if (!ptr || len <= 0) {
@@ -105,8 +132,51 @@ export class KatarinaWasmBridge {
 
     const bytes = new Uint8Array(this.exports.memory.buffer, ptr, len);
     const copy = new Uint8Array(bytes);
-    return JSON.parse(textDecoder.decode(copy)) as HostResponse<T>;
+    const raw = textDecoder.decode(copy);
+    return {
+      raw,
+      parsed: JSON.parse(raw) as HostResponse<T>
+    };
   }
+}
+
+function logWasmExchange(
+  fnName: WasmInvokeName,
+  payload: {
+    durationMs: number;
+    request: unknown;
+    requestJson: string;
+    response?: HostResponse<unknown>;
+    responseJson?: string;
+    error?: unknown;
+  }
+) {
+  const status = payload.error ? 'failed' : payload.response?.ok === false ? 'error' : 'ok';
+  const title = `[wasm] ${fnName} ${status} ${payload.durationMs.toFixed(1)}ms`;
+
+  if (typeof console.groupCollapsed === 'function') {
+    console.groupCollapsed(title);
+    console.info('[wasm] request', payload.request);
+    console.info('[wasm] requestJson', payload.requestJson);
+    if (payload.response) {
+      console.info('[wasm] response', payload.response);
+    }
+    if (payload.responseJson !== undefined) {
+      console.info('[wasm] responseJson', payload.responseJson);
+    }
+    if (payload.error !== undefined) {
+      console.error('[wasm] error', payload.error);
+    }
+    console.groupEnd();
+    return;
+  }
+  console.info(title, {
+    request: payload.request,
+    requestJson: payload.requestJson,
+    response: payload.response,
+    responseJson: payload.responseJson,
+    error: payload.error
+  });
 }
 
 async function loadWasmExports(): Promise<WasmExports> {
@@ -145,6 +215,17 @@ function toRuntimeError(error: EngineError): Error {
   const runtimeError = new Error(error.message);
   runtimeError.name = error.code;
   return runtimeError;
+}
+
+function normalizeLogError(error: unknown) {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    };
+  }
+  return error;
 }
 
 function assertWasmAbi(exports: WebAssembly.Exports): asserts exports is WasmExports {

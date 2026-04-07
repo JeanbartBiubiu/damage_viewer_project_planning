@@ -35,6 +35,7 @@ import type {
   ActionBehavior,
   DamageTypeTag,
 } from './benchmarkTypes';
+import type { EngineBundle } from './types';
 
 import {
   compileVarsToExprMap,
@@ -106,6 +107,16 @@ export function compileAndInjectBenchmark(
 ): GameDataBundle & { benchmark: BenchmarkBundle } {
   const benchmark = compileBenchmarkBundle(input);
   return { ...input.bundle, benchmark } as any;
+}
+
+/**
+ * 供 Wasm init 使用的最小 bundle：只保留 meta 和编译后的 benchmark。
+ */
+export function compileEngineBundle(input: CompileScenarioInput): EngineBundle {
+  return {
+    meta: input.bundle.meta,
+    benchmark: compileBenchmarkBundle(input),
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════
