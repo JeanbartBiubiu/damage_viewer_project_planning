@@ -23,6 +23,7 @@ public final class ActorRuntime {
     private final Map<String, CounterState> actorCounters;
     private final HistoryWindowState history;
     private double currentHp;
+    private int critCounter;
 
     private ActorRuntime(
             String actorId,
@@ -36,7 +37,8 @@ public final class ActorRuntime {
             Map<String, ResourceState> resources,
             Map<String, CounterState> actorCounters,
             HistoryWindowState history,
-            double currentHp) {
+            double currentHp,
+            int critCounter) {
         this.actorId = actorId;
         this.templateId = templateId;
         this.baseAttributes = baseAttributes;
@@ -49,6 +51,7 @@ public final class ActorRuntime {
         this.actorCounters = actorCounters;
         this.history = history;
         this.currentHp = currentHp;
+        this.critCounter = critCounter;
     }
 
     public static ActorRuntime fromTemplate(
@@ -87,7 +90,8 @@ public final class ActorRuntime {
                 resources,
                 new LinkedHashMap<>(),
                 new HistoryWindowState(),
-                currentHp);
+                currentHp,
+                0);
     }
 
     public String actorId() {
@@ -214,6 +218,14 @@ public final class ActorRuntime {
 
     public HistoryWindowState history() {
         return history;
+    }
+
+    public int critCounter() {
+        return critCounter;
+    }
+
+    public void setCritCounter(int critCounter) {
+        this.critCounter = critCounter;
     }
 
     public double shieldAmount() {

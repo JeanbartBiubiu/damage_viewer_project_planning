@@ -14,6 +14,8 @@ import xyz.game.enginev2demo.trigger.TriggerSubscriptionDef;
  * <p>
  * {@code maxCharges} 控制充能层数（默认 1 = 非充能动作），
  * {@code tags} 用于节奏修改效果的目标匹配（字符串交集命中）。
+ * <p>
+ * {@code critType} 标记该动作关联的暴击类型（可为 null = 不可暴击）。
  */
 public record ActionTemplate(
         String actionId,
@@ -26,7 +28,8 @@ public record ActionTemplate(
         List<String> tags,
         Map<String, Double> resourceCosts,
         List<ActionGateDef> actionGates,
-        List<TriggerSubscriptionDef> triggerSubscriptions) {
+        List<TriggerSubscriptionDef> triggerSubscriptions,
+        String critType) {
 
     public ActionTemplate {
         Objects.requireNonNull(actionId, "actionId");
@@ -45,5 +48,24 @@ public record ActionTemplate(
         resourceCosts = Map.copyOf(resourceCosts);
         actionGates = List.copyOf(actionGates);
         triggerSubscriptions = List.copyOf(triggerSubscriptions);
+    }
+
+    /**
+     * 向后兼容构造——不带 critType 时默认 null。
+     */
+    public ActionTemplate(
+            String actionId,
+            String label,
+            String damageProfileId,
+            String formulaId,
+            String cooldownFormulaId,
+            boolean autoRepeat,
+            int maxCharges,
+            List<String> tags,
+            Map<String, Double> resourceCosts,
+            List<ActionGateDef> actionGates,
+            List<TriggerSubscriptionDef> triggerSubscriptions) {
+        this(actionId, label, damageProfileId, formulaId, cooldownFormulaId,
+                autoRepeat, maxCharges, tags, resourceCosts, actionGates, triggerSubscriptions, null);
     }
 }
