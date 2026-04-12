@@ -11,7 +11,10 @@ public record DamagePacket(
         String actionId,
         String label,
         String damageProfileId,
-        double rawDamage) {
+        double rawDamage,
+        boolean isCritical,
+        double critMultiplier,
+        String critType) {
 
     public DamagePacket {
         Objects.requireNonNull(sourceActorId, "sourceActorId");
@@ -19,5 +22,16 @@ public record DamagePacket(
         Objects.requireNonNull(actionId, "actionId");
         Objects.requireNonNull(label, "label");
         Objects.requireNonNull(damageProfileId, "damageProfileId");
+    }
+
+    /** 向后兼容构造——不带暴击信息。 */
+    public DamagePacket(
+            String sourceActorId,
+            String targetActorId,
+            String actionId,
+            String label,
+            String damageProfileId,
+            double rawDamage) {
+        this(sourceActorId, targetActorId, actionId, label, damageProfileId, rawDamage, false, 1.0, null);
     }
 }

@@ -10,6 +10,11 @@ import xyz.game.enginev2demo.command.EngineCommand;
 import xyz.game.enginev2demo.command.EngineCommandExecutor;
 import xyz.game.enginev2demo.compile.CompiledSnapshot;
 import xyz.game.enginev2demo.control.ControlSubsystem;
+import xyz.game.enginev2demo.crit.CritSubsystem;
+import xyz.game.enginev2demo.crit.ExecutionCritResult;
+import xyz.game.enginev2demo.crit.ResolvedScalar;
+import xyz.game.enginev2demo.crit.ScalarResolutionService;
+import xyz.game.enginev2demo.crit.ScalarSpec;
 import xyz.game.enginev2demo.event.CastOrigin;
 import xyz.game.enginev2demo.event.InternalEvent;
 import xyz.game.enginev2demo.event.ScheduledEvent;
@@ -38,6 +43,8 @@ public final class ActionExecutor {
     private final TriggerDispatcher triggerDispatcher;
     private final CadenceSubsystem cadenceSubsystem;
     private final ControlSubsystem controlSubsystem;
+    private final CritSubsystem critSubsystem;
+    private final ScalarResolutionService scalarResolutionService;
 
     public ActionExecutor(
             CompiledSnapshot snapshot,
@@ -46,7 +53,9 @@ public final class ActionExecutor {
             EngineCommandExecutor engineCommandExecutor,
             TriggerDispatcher triggerDispatcher,
             CadenceSubsystem cadenceSubsystem,
-            ControlSubsystem controlSubsystem) {
+            ControlSubsystem controlSubsystem,
+            CritSubsystem critSubsystem,
+            ScalarResolutionService scalarResolutionService) {
         this.snapshot = snapshot;
         this.formulaService = formulaService;
         this.actionSelector = actionSelector;
@@ -54,6 +63,8 @@ public final class ActionExecutor {
         this.triggerDispatcher = triggerDispatcher;
         this.cadenceSubsystem = cadenceSubsystem;
         this.controlSubsystem = controlSubsystem;
+        this.critSubsystem = critSubsystem;
+        this.scalarResolutionService = scalarResolutionService;
     }
 
     public void execute(RuntimeState state, InternalEvent.ActionCast event) {
@@ -77,9 +88,16 @@ public final class ActionExecutor {
         actionTemplate = actionSelector.select(state, event.sourceActorId(), event.targetActorId(), event.actionId());
         ActorRuntime source = state.actor(event.sourceActorId());
         ActorRuntime target = state.actor(event.targetActorId());
-        double rawDamage = formulaService.evaluate(
-                snapshot.formulaCatalog().require(actionTemplate.formulaId()),
-                new FormulaEvalContext(state, source, target, Map.of()));
+
+        // ── 前置暴击判定：在所有 check 通过后、正式执行数值效果前 ──
+        ExecutionCritResult executionCritResult = critSubsystem.resolveExecutionCrit(state, source, target, actionTemplate);
+        String actionCritType = actionTemplate.critType();
+
+        // 主伤害公式求值（通过 ScalarResolutionService 接入暴击）
+        ScalarSpec damageSpec = new ScalarSpec(actionTemplate.formulaId(), true, null);
+        ResolvedScalar resolvedDamage = scalarResolutionService.resolveScalar(
+                damageSpec, state, source, target, Map.of(), actionCritType, executionCritResult);
+        double rawDamage = resolvedDamage.finalValue();
 
         state.log(new ActionLogEntry(
                 state.nowMs(),
@@ -96,12 +114,15 @@ public final class ActionExecutor {
         cadenceSubsystem.consumeOnCast(state, source, target, actionTemplate);
         engineCommandExecutor.executeAll(state, setupCommands);
 
+        // ON_ACTION_CAST 触发：携带 execution crit 上下文
         engineCommandExecutor.executeAll(
                 state,
                 triggerDispatcher.dispatch(state, TriggerEvent.actionCast(
                         event.sourceActorId(),
                         event.targetActorId(),
-                        actionTemplate.actionId())));
+                        actionTemplate.actionId(),
+                        executionCritResult,
+                        actionCritType)));
 
         if (rawDamage > 0.0) {
             engineCommandExecutor.executeDamagePacket(state, new DamagePacket(
@@ -110,7 +131,10 @@ public final class ActionExecutor {
                     actionTemplate.actionId(),
                     actionTemplate.label(),
                     actionTemplate.damageProfileId(),
-                    rawDamage));
+                    rawDamage,
+                    resolvedDamage.isCritical(),
+                    resolvedDamage.critMultiplier(),
+                    resolvedDamage.critType()));
         }
     }
 

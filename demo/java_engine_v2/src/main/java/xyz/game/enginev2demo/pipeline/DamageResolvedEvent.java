@@ -17,5 +17,8 @@ public record DamageResolvedEvent(
         double targetHpBefore,
         double targetHpAfter,
         double effectiveResistance,
-        double mitigationMultiplier) {
+        double mitigationMultiplier,
+        boolean isCritical,
+        double critMultiplier,
+        String critType) {
 }

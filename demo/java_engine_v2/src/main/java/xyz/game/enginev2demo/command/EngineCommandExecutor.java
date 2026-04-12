@@ -8,6 +8,12 @@ import xyz.game.enginev2demo.compile.CompiledSnapshot;
 import xyz.game.enginev2demo.control.ControlSubsystem;
 import xyz.game.enginev2demo.counter.CounterChangeResult;
 import xyz.game.enginev2demo.counter.CounterSubsystem;
+import xyz.game.enginev2demo.crit.CritSubsystem;
+import xyz.game.enginev2demo.crit.ExecutionCritResult;
+import xyz.game.enginev2demo.crit.ResolvedScalar;
+import xyz.game.enginev2demo.crit.ScalarEffectLogEntry;
+import xyz.game.enginev2demo.crit.ScalarResolutionService;
+import xyz.game.enginev2demo.crit.ScalarSpec;
 import xyz.game.enginev2demo.event.InternalEvent;
 import xyz.game.enginev2demo.event.ScheduledEvent;
 import xyz.game.enginev2demo.formula.FormulaEvalContext;
@@ -44,6 +50,8 @@ public final class EngineCommandExecutor {
     private final CounterSubsystem counterSubsystem;
     private final MarkSubsystem markSubsystem;
     private final CadenceSubsystem cadenceSubsystem;
+    private final CritSubsystem critSubsystem;
+    private final ScalarResolutionService scalarResolutionService;
 
     public EngineCommandExecutor(
             CompiledSnapshot snapshot,
@@ -55,7 +63,9 @@ public final class EngineCommandExecutor {
             HistorySubsystem historySubsystem,
             CounterSubsystem counterSubsystem,
             MarkSubsystem markSubsystem,
-            CadenceSubsystem cadenceSubsystem) {
+            CadenceSubsystem cadenceSubsystem,
+            CritSubsystem critSubsystem,
+            ScalarResolutionService scalarResolutionService) {
         this.snapshot = snapshot;
         this.formulaService = formulaService;
         this.pipelineRunner = pipelineRunner;
@@ -66,6 +76,8 @@ public final class EngineCommandExecutor {
         this.counterSubsystem = counterSubsystem;
         this.markSubsystem = markSubsystem;
         this.cadenceSubsystem = cadenceSubsystem;
+        this.critSubsystem = critSubsystem;
+        this.scalarResolutionService = scalarResolutionService;
     }
 
     public void executeAll(RuntimeState state, List<EngineCommand> commands) {
@@ -108,9 +120,12 @@ public final class EngineCommandExecutor {
     private void executeDealDamage(RuntimeState state, EngineCommand.DealDamageCommand command) {
         ActorRuntime source = state.actor(command.sourceActorId());
         ActorRuntime target = state.actor(command.targetActorId());
-        double rawDamage = formulaService.evaluate(
-                snapshot.formulaCatalog().require(command.formulaId()),
-                new FormulaEvalContext(state, source, target, command.inputValues()));
+
+        ScalarSpec spec = new ScalarSpec(command.formulaId(), command.allowCrit(), command.critTypeOverride());
+        ExecutionCritResult ecr = command.executionCritResult();
+        ResolvedScalar resolved = scalarResolutionService.resolveScalar(
+                spec, state, source, target, command.inputValues(), command.actionCritType(), ecr);
+        double rawDamage = resolved.finalValue();
         if (rawDamage <= 0.0) {
             return;
         }
@@ -120,15 +135,22 @@ public final class EngineCommandExecutor {
                 command.actionId(),
                 command.label(),
                 command.damageProfileId(),
-                rawDamage));
+                rawDamage,
+                resolved.isCritical(),
+                resolved.critMultiplier(),
+                resolved.critType()));
     }
 
     private void executeGrantShield(RuntimeState state, EngineCommand.GrantShieldCommand command) {
         ActorRuntime source = state.actor(command.sourceActorId());
         ActorRuntime target = state.actor(command.targetActorId());
-        double shieldAmount = formulaService.evaluate(
-                snapshot.formulaCatalog().require(command.formulaId()),
-                new FormulaEvalContext(state, source, target, command.inputValues()));
+
+        ScalarSpec spec = new ScalarSpec(command.formulaId(), command.allowCrit(), command.critTypeOverride());
+        ExecutionCritResult ecr = command.executionCritResult();
+        ResolvedScalar resolved = scalarResolutionService.resolveScalar(
+                spec, state, source, target, command.inputValues(), command.actionCritType(), ecr);
+        double shieldAmount = resolved.finalValue();
+
         ShieldGrantResult shieldGrantResult = shieldSubsystem.grantShield(target, state.nowMs(), command.label(), shieldAmount);
         state.log(new ShieldLogEntry(
                 state.nowMs(),
@@ -137,6 +159,19 @@ public final class EngineCommandExecutor {
                 shieldGrantResult.requestedAmount(),
                 shieldGrantResult.shieldBefore(),
                 shieldGrantResult.shieldAfter()));
+        if (resolved.isCritical() || resolved.baseValue() != resolved.finalValue()) {
+            state.log(new ScalarEffectLogEntry(
+                    state.nowMs(),
+                    command.sourceActorId(),
+                    target.actorId(),
+                    null,
+                    "shield",
+                    resolved.baseValue(),
+                    resolved.finalValue(),
+                    resolved.isCritical(),
+                    resolved.critMultiplier(),
+                    resolved.critType()));
+        }
     }
 
     private void executeApplyStatus(RuntimeState state, EngineCommand.ApplyStatusCommand command) {
@@ -146,22 +181,59 @@ public final class EngineCommandExecutor {
         if (!controlSubsystem.canApply(target, statusTemplate.statusKind())) {
             return;
         }
-        double magnitude = statusTemplate.magnitudeFormulaId() == null
-                ? 0.0
-                : formulaService.evaluate(
-                        snapshot.formulaCatalog().require(statusTemplate.magnitudeFormulaId()),
-                        new FormulaEvalContext(state, source, target, command.inputValues()));
-        long expireAtMs = statusTemplate.durationMs() > 0 ? state.nowMs() + statusTemplate.durationMs() : 0L;
+
+        boolean allowCrit = command.allowCrit();
+        String critTypeOverride = command.critTypeOverride();
+        String actionCritType = command.actionCritType();
+        ExecutionCritResult ecr = command.executionCritResult();
+
+        double magnitude = 0.0;
+        if (statusTemplate.magnitudeFormulaId() != null) {
+            ScalarSpec magSpec = new ScalarSpec(statusTemplate.magnitudeFormulaId(), allowCrit, critTypeOverride);
+            ResolvedScalar resolvedMag = scalarResolutionService.resolveScalar(
+                    magSpec, state, source, target, command.inputValues(), actionCritType, ecr);
+            magnitude = resolvedMag.finalValue();
+            if (resolvedMag.isCritical()) {
+                state.log(new ScalarEffectLogEntry(
+                        state.nowMs(), command.sourceActorId(), command.targetActorId(), null,
+                        "status_magnitude", resolvedMag.baseValue(), resolvedMag.finalValue(),
+                        true, resolvedMag.critMultiplier(), resolvedMag.critType()));
+            }
+        }
+
+        long baseDuration = statusTemplate.durationMs();
+        long expireAtMs = 0L;
+        if (baseDuration > 0) {
+            if (allowCrit && ecr != null && ecr.resolved() && ecr.isCritical()) {
+                // 持续时间也受暴击放大
+                long crittedDuration = Math.round(baseDuration * ecr.critMultiplier());
+                expireAtMs = state.nowMs() + crittedDuration;
+                state.log(new ScalarEffectLogEntry(
+                        state.nowMs(), command.sourceActorId(), command.targetActorId(), null,
+                        "status_duration", baseDuration, crittedDuration,
+                        true, ecr.critMultiplier(), ecr.critType()));
+            } else {
+                expireAtMs = state.nowMs() + baseDuration;
+            }
+        }
+
         List<AppliedAttrModifier> appliedAttrModifiers = new ArrayList<>();
         for (var attrModifierDef : statusTemplate.attrModifiers()) {
-            double modifierValue = formulaService.evaluate(
-                    snapshot.formulaCatalog().require(attrModifierDef.formulaId()),
-                    new FormulaEvalContext(state, source, target, command.inputValues()));
+            ScalarSpec attrSpec = new ScalarSpec(attrModifierDef.formulaId(), allowCrit, critTypeOverride);
+            ResolvedScalar resolvedAttr = scalarResolutionService.resolveScalar(
+                    attrSpec, state, source, target, command.inputValues(), actionCritType, ecr);
             appliedAttrModifiers.add(new AppliedAttrModifier(
                     attrModifierDef.attrKey(),
                     attrModifierDef.mode(),
-                    modifierValue));
+                    resolvedAttr.finalValue()));
+            if (resolvedAttr.isCritical()) {
+                state.log(new ScalarEffectLogEntry(
+                        state.nowMs(), command.sourceActorId(), command.targetActorId(), null,
+                        "attr_modifier", resolvedAttr.baseValue(), resolvedAttr.finalValue(),
+                        true, resolvedAttr.critMultiplier(), resolvedAttr.critType()));
+            }
         }
+
         StatusInstance statusInstance = new StatusInstance(
                 statusTemplate.statusId(),
                 source.actorId(),
@@ -253,11 +325,23 @@ public final class EngineCommandExecutor {
     }
 
     private void executeModifyCadence(RuntimeState state, EngineCommand.ModifyCadenceCommand command) {
+        double value = command.value();
+        // 如果 cadence value 允许暴击且有 execution crit 上下文
+        if (command.allowCrit() && command.executionCritResult() != null
+                && command.executionCritResult().resolved() && command.executionCritResult().isCritical()) {
+            double baseValue = value;
+            value = value * command.executionCritResult().critMultiplier();
+            state.log(new ScalarEffectLogEntry(
+                    state.nowMs(), command.affectedActorId(), command.affectedActorId(), null,
+                    "cadence_modify", baseValue, value,
+                    true, command.executionCritResult().critMultiplier(),
+                    command.executionCritResult().critType()));
+        }
         cadenceSubsystem.modifyCadence(
                 state,
                 state.actor(command.affectedActorId()),
                 command.targetActionTags(),
                 command.op(),
-                command.value());
+                value);
     }
 }

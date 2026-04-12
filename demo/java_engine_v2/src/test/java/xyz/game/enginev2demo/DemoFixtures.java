@@ -17,6 +17,8 @@ import xyz.game.enginev2demo.api.EngineRunInput;
 import xyz.game.enginev2demo.api.ItemTemplate;
 import xyz.game.enginev2demo.api.StatusTemplate;
 import xyz.game.enginev2demo.api.StopCondition;
+import xyz.game.enginev2demo.crit.CritRuleTemplate;
+import xyz.game.enginev2demo.crit.CritStrategyKind;
 import xyz.game.enginev2demo.formula.FormulaDefinition;
 import xyz.game.enginev2demo.formula.FormulaNode;
 import xyz.game.enginev2demo.pipeline.DamageProfileTemplate;
@@ -506,5 +508,137 @@ final class DemoFixtures {
                 trueEffectiveResistance,
                 standardMitigation,
                 trueMitigation);
+    }
+
+    // ──────────────── Crit Helpers ────────────────
+
+    /** 默认暴击倍率公式 ID（测试中常用 2.0）。 */
+    static final String FORMULA_CRIT_MULTIPLIER = "formula_crit_multiplier";
+
+    /** 默认暴击类型标签。 */
+    static final String CRIT_TYPE_PHYSICAL = "physical_crit";
+
+    /** 带 critType 的普通动作（零冷却，不自动重复）。 */
+    static ActionTemplate critAction(
+            String actionId,
+            String label,
+            String damageProfileId,
+            String formulaId,
+            String critType) {
+        return new ActionTemplate(actionId, label, damageProfileId, formulaId,
+                FORMULA_ZERO_COOLDOWN, false, 1, List.of(), Map.of(), List.of(), List.of(), critType);
+    }
+
+    /** 带 critType 和触发器的动作。 */
+    static ActionTemplate critActionWithTriggers(
+            String actionId,
+            String label,
+            String damageProfileId,
+            String formulaId,
+            String critType,
+            List<TriggerSubscriptionDef> triggerSubscriptions) {
+        return new ActionTemplate(actionId, label, damageProfileId, formulaId,
+                FORMULA_ZERO_COOLDOWN, false, 1, List.of(), Map.of(), List.of(), triggerSubscriptions, critType);
+    }
+
+    /** 带 critType 和自动重复的动作。 */
+    static ActionTemplate critRepeatingAction(
+            String actionId,
+            String label,
+            String damageProfileId,
+            String formulaId,
+            String cooldownFormulaId,
+            String critType) {
+        return new ActionTemplate(actionId, label, damageProfileId, formulaId,
+                cooldownFormulaId, true, 1, List.of(), Map.of(), List.of(), List.of(), critType);
+    }
+
+    /** 创建启用的暴击规则。 */
+    static CritRuleTemplate critRule(String critType, String multiplierFormulaId) {
+        return new CritRuleTemplate(critType, true, CritStrategyKind.DETERMINISTIC_COUNTER, multiplierFormulaId);
+    }
+
+    /** 创建禁用的暴击规则。 */
+    static CritRuleTemplate disabledCritRule(String critType, String multiplierFormulaId) {
+        return new CritRuleTemplate(critType, false, CritStrategyKind.DETERMINISTIC_COUNTER, multiplierFormulaId);
+    }
+
+    /** 允许暴击的 DealDamage 效果。 */
+    static EffectDef.DealDamageEffect critDealDamageEffect(
+            String actionId,
+            String label,
+            String damageProfileId,
+            String formulaId,
+            EventActorRole sourceActorRole,
+            EventActorRole targetActorRole) {
+        return new EffectDef.DealDamageEffect(actionId, label, damageProfileId, formulaId,
+                sourceActorRole, targetActorRole, true, null);
+    }
+
+    /** 允许暴击的 GrantShield 效果。 */
+    static EffectDef.GrantShieldEffect critGrantShieldEffect(
+            String label,
+            String formulaId,
+            EventActorRole sourceActorRole,
+            EventActorRole targetActorRole) {
+        return new EffectDef.GrantShieldEffect(label, formulaId, sourceActorRole, targetActorRole, true, null);
+    }
+
+    /** 允许暴击的 ApplyStatus 效果。 */
+    static EffectDef.ApplyStatusEffect critApplyStatusEffect(
+            String statusId,
+            EventActorRole sourceActorRole,
+            EventActorRole targetActorRole) {
+        return new EffectDef.ApplyStatusEffect(statusId, sourceActorRole, targetActorRole, true, null);
+    }
+
+    /** 允许暴击的 ModifyCadence 效果。 */
+    static EffectDef.ModifyCadenceEffect critModifyCadenceEffect(
+            EventActorRole affectedActorRole,
+            List<String> targetActionTags,
+            CadenceOp op,
+            String valueFormulaId) {
+        return new EffectDef.ModifyCadenceEffect(affectedActorRole, targetActionTags, op, valueFormulaId, true, null);
+    }
+
+    /** 带暴击规则的 bundle（最简形式）。 */
+    static EngineBundle bundleWithCrit(
+            Map<String, ActorTemplate> actorTemplates,
+            Map<String, ActionTemplate> actionTemplates,
+            Map<String, CritRuleTemplate> critRules,
+            FormulaDefinition... formulas) {
+        return bundleWithCrit(actorTemplates, actionTemplates, Map.of(), Map.of(), Map.of(), critRules, formulas);
+    }
+
+    /** 带暴击规则的 bundle（带 item 和 status）。 */
+    static EngineBundle bundleWithCrit(
+            Map<String, ActorTemplate> actorTemplates,
+            Map<String, ActionTemplate> actionTemplates,
+            Map<String, ItemTemplate> itemTemplates,
+            Map<String, StatusTemplate> statusTemplates,
+            Map<String, CritRuleTemplate> critRules,
+            FormulaDefinition... formulas) {
+        return bundleWithCrit(actorTemplates, actionTemplates, itemTemplates, statusTemplates, Map.of(), critRules, formulas);
+    }
+
+    /** 带暴击规则的 bundle（完整形式）。 */
+    static EngineBundle bundleWithCrit(
+            Map<String, ActorTemplate> actorTemplates,
+            Map<String, ActionTemplate> actionTemplates,
+            Map<String, ItemTemplate> itemTemplates,
+            Map<String, StatusTemplate> statusTemplates,
+            Map<String, DamageProfileTemplate> extraDamageProfiles,
+            Map<String, CritRuleTemplate> critRules,
+            FormulaDefinition... formulas) {
+        Map<String, DamageProfileTemplate> mergedProfiles = new LinkedHashMap<>(standardDamageProfiles());
+        mergedProfiles.putAll(extraDamageProfiles);
+        return new EngineBundle(
+                actorTemplates,
+                actionTemplates,
+                itemTemplates,
+                statusTemplates,
+                mergedProfiles,
+                mergeDefaultFormulas(formulas),
+                critRules);
     }
 }

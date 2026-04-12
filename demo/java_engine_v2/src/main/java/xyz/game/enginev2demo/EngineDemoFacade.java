@@ -9,6 +9,8 @@ import xyz.game.enginev2demo.action.ActionSelector;
 import xyz.game.enginev2demo.command.EngineCommandExecutor;
 import xyz.game.enginev2demo.control.ControlSubsystem;
 import xyz.game.enginev2demo.counter.CounterSubsystem;
+import xyz.game.enginev2demo.crit.CritSubsystem;
+import xyz.game.enginev2demo.crit.ScalarResolutionService;
 import xyz.game.enginev2demo.api.ActionRequest;
 import xyz.game.enginev2demo.api.ActorSnapshot;
 import xyz.game.enginev2demo.api.CombatantRunInit;
@@ -52,6 +54,10 @@ public final class EngineDemoFacade {
         CadenceSubsystem cadenceSubsystem = new CadenceSubsystem(
                 formulaService, snapshot.formulaCatalog(), snapshot.actionTemplates());
         ShieldSubsystem shieldSubsystem = new ShieldSubsystem();
+        CritSubsystem critSubsystem = new CritSubsystem(
+                bundle.critRules(), formulaService, snapshot.formulaCatalog());
+        ScalarResolutionService scalarResolutionService = new ScalarResolutionService(
+                formulaService, snapshot.formulaCatalog(), critSubsystem);
         TriggerDispatcher triggerDispatcher = new TriggerDispatcher(snapshot, formulaService, snapshot.triggerIndex());
         PipelineRunner pipelineRunner = new PipelineRunner(
                 snapshot,
@@ -69,7 +75,9 @@ public final class EngineDemoFacade {
                 historySubsystem,
                 counterSubsystem,
                 markSubsystem,
-                cadenceSubsystem);
+                cadenceSubsystem,
+                critSubsystem,
+                scalarResolutionService);
         ActionSelector actionSelector = new ActionSelector(
                 snapshot,
                 cadenceSubsystem,
@@ -82,7 +90,9 @@ public final class EngineDemoFacade {
                 engineCommandExecutor,
                 triggerDispatcher,
                 cadenceSubsystem,
-                controlSubsystem);
+                controlSubsystem,
+                critSubsystem,
+                scalarResolutionService);
         EventDispatcher eventDispatcher = new EventDispatcher(actionExecutor, engineCommandExecutor);
         return new EngineSession(snapshot, eventDispatcher);
     }

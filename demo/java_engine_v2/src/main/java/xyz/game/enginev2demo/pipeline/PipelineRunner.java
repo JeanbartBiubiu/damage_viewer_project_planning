@@ -83,7 +83,10 @@ public final class PipelineRunner {
                 targetHpBefore,
                 targetHpAfter,
                 effectiveResistance,
-                mitigationMultiplier);
+                mitigationMultiplier,
+                packet.isCritical(),
+                packet.critMultiplier(),
+                packet.critType());
         state.log(new DamageLogEntry(
                 resolvedEvent.timeMs(),
                 resolvedEvent.sourceActorId(),
@@ -98,7 +101,10 @@ public final class PipelineRunner {
                 resolvedEvent.targetHpBefore(),
                 resolvedEvent.targetHpAfter(),
                 resolvedEvent.effectiveResistance(),
-                resolvedEvent.mitigationMultiplier()));
+                resolvedEvent.mitigationMultiplier(),
+                resolvedEvent.isCritical(),
+                resolvedEvent.critMultiplier(),
+                resolvedEvent.critType()));
         return new DamagePipelineResult(
                 resolvedEvent,
                 List.of(TriggerEvent.damageDealt(resolvedEvent), TriggerEvent.damageTaken(resolvedEvent)));
