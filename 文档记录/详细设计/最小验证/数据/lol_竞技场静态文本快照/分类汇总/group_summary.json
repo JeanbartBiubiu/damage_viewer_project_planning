@@ -1,0 +1,1511 @@
+{
+  "比例与阈值": {
+    "count": 339,
+    "bySourceCategory": {
+      "champion": 173,
+      "item": 107,
+      "rune": 15,
+      "augment": 44
+    },
+    "byScopeAssessment": {
+      "out_of_scope": 78,
+      "needs_conversion": 101,
+      "in_scope": 160
+    },
+    "samples": [
+      {
+        "entryId": "champion:Aatrox:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "暗裔剑魔",
+        "nameZh": "赐死剑气",
+        "mechanismTags": [
+          "ally_partner",
+          "heal",
+          "hp_max_pct",
+          "on_hit"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aatrox.passive"
+      },
+      {
+        "entryId": "champion:Akali:spell:AkaliR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "离群之刺",
+        "nameZh": "我流秘奥义！表里杀缭乱",
+        "mechanismTags": [
+          "cooldown",
+          "duration",
+          "execute",
+          "hp_missing_pct",
+          "mobility_spatial",
+          "multi_target",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akali.spells[3]"
+      },
+      {
+        "entryId": "champion:Akshan:spell:AkshanR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "影哨",
+        "nameZh": "恩怨相抵",
+        "mechanismTags": [
+          "crit",
+          "duration",
+          "hp_missing_pct",
+          "mark_detonate",
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akshan.spells[3]"
+      },
+      {
+        "entryId": "champion:Ambessa:spell:AmbessaQ",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "铁血狼母",
+        "nameZh": "暗袭 / 裂斩",
+        "mechanismTags": [
+          "hp_max_pct",
+          "resource_cost",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ambessa.spells[0]"
+      },
+      {
+        "entryId": "champion:Amumu:spell:AuraofDespair",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "殇之木乃伊",
+        "nameZh": "绝望光环",
+        "mechanismTags": [
+          "duration",
+          "hp_max_pct",
+          "multi_target",
+          "regen",
+          "reset_refund",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Amumu.spells[1]"
+      },
+      {
+        "entryId": "champion:AurelionSol:spell:AurelionSolQ",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "铸星龙王",
+        "nameZh": "星河冲荡",
+        "mechanismTags": [
+          "duration",
+          "hp_max_pct",
+          "multi_target",
+          "regen",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.AurelionSol.spells[0]"
+      },
+      {
+        "entryId": "champion:AurelionSol:spell:AurelionSolE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "铸星龙王",
+        "nameZh": "星芒凝汇",
+        "mechanismTags": [
+          "buff_debuff",
+          "duration",
+          "execute",
+          "hp_max_pct",
+          "regen",
+          "resource_cost",
+          "summon_object",
+          "terrain_vision",
+          "threshold"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.AurelionSol.spells[2]"
+      },
+      {
+        "entryId": "champion:Aurora:spell:AuroraQ",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "双界灵兔",
+        "nameZh": "飞去来咒",
+        "mechanismTags": [
+          "ally_partner",
+          "autocast",
+          "duration",
+          "hp_missing_pct",
+          "mark_detonate",
+          "reset_refund",
+          "resource_cost",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aurora.spells[0]"
+      },
+      {
+        "entryId": "champion:Belveth:spell:BelvethE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "虚空女皇",
+        "nameZh": "搠面皇锋",
+        "mechanismTags": [
+          "attack_speed",
+          "buff_debuff",
+          "duration",
+          "hp_missing_pct",
+          "life_steal",
+          "multi_target",
+          "on_hit",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Belveth.spells[2]"
+      },
+      {
+        "entryId": "champion:Belveth:spell:BelvethR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "虚空女皇",
+        "nameZh": "万载豪筵",
+        "mechanismTags": [
+          "attack_speed",
+          "buff_debuff",
+          "duration",
+          "hp_max_pct",
+          "hp_missing_pct",
+          "move_speed",
+          "multi_target",
+          "on_hit",
+          "resource_cost",
+          "stack",
+          "stat_conversion",
+          "summon_object",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Belveth.spells[3]"
+      },
+      {
+        "entryId": "champion:Blitzcrank:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "蒸汽机器人",
+        "nameZh": "法力屏障",
+        "mechanismTags": [
+          "hp_current_pct",
+          "resource_cost",
+          "shield",
+          "stack"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Blitzcrank.passive"
+      },
+      {
+        "entryId": "champion:Briar:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "狂厄蔷薇",
+        "nameZh": "猩红诅咒",
+        "mechanismTags": [
+          "ally_partner",
+          "dot_burn",
+          "heal",
+          "hp_missing_pct",
+          "regen",
+          "stack",
+          "stat_conversion",
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Briar.passive"
+      }
+    ]
+  },
+  "护盾、治疗、吸血": {
+    "count": 360,
+    "bySourceCategory": {
+      "champion": 120,
+      "item": 199,
+      "rune": 10,
+      "augment": 31
+    },
+    "byScopeAssessment": {
+      "needs_conversion": 60,
+      "in_scope": 188,
+      "out_of_scope": 112
+    },
+    "samples": [
+      {
+        "entryId": "champion:Aatrox:spell:AatroxE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "暗裔剑魔",
+        "nameZh": "暗影冲决",
+        "mechanismTags": [
+          "heal",
+          "mobility_spatial",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aatrox.spells[2]"
+      },
+      {
+        "entryId": "champion:Aatrox:spell:AatroxR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "暗裔剑魔",
+        "nameZh": "大灭",
+        "mechanismTags": [
+          "duration",
+          "heal",
+          "move_speed",
+          "reset_refund",
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aatrox.spells[3]"
+      },
+      {
+        "entryId": "champion:Ahri:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "九尾妖狐",
+        "nameZh": "摄魂夺魄",
+        "mechanismTags": [
+          "heal"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ahri.passive"
+      },
+      {
+        "entryId": "champion:Akshan:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "影哨",
+        "nameZh": "无所不用",
+        "mechanismTags": [
+          "move_speed",
+          "shield",
+          "stack"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akshan.passive"
+      },
+      {
+        "entryId": "champion:Akshan:spell:AkshanW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "影哨",
+        "nameZh": "赴险夺人",
+        "mechanismTags": [
+          "ally_partner",
+          "economy_round_meta",
+          "mark_detonate",
+          "move_speed",
+          "regen",
+          "resource_cost",
+          "revive",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akshan.spells[1]"
+      },
+      {
+        "entryId": "champion:Alistar:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "牛头酋长",
+        "nameZh": "凯旋怒吼",
+        "mechanismTags": [
+          "buff_debuff",
+          "heal",
+          "mobility_spatial",
+          "multi_target",
+          "stack"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Alistar.passive"
+      },
+      {
+        "entryId": "champion:Ambessa:spell:AmbessaW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "铁血狼母",
+        "nameZh": "铁令",
+        "mechanismTags": [
+          "buff_debuff",
+          "duration",
+          "multi_target",
+          "resource_cost",
+          "shield"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ambessa.spells[1]"
+      },
+      {
+        "entryId": "champion:Ambessa:spell:AmbessaR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "铁血狼母",
+        "nameZh": "公开处刑",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "buff_debuff",
+          "duration",
+          "heal",
+          "life_steal",
+          "mobility_spatial",
+          "penetration",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ambessa.spells[3]"
+      },
+      {
+        "entryId": "champion:Annie:spell:AnnieE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "黑暗之女",
+        "nameZh": "熔岩护盾",
+        "mechanismTags": [
+          "ally_partner",
+          "duration",
+          "move_speed",
+          "resource_cost",
+          "shield",
+          "stack",
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Annie.spells[2]"
+      },
+      {
+        "entryId": "champion:Aurora:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "双界灵兔",
+        "nameZh": "驱灵奇术",
+        "mechanismTags": [
+          "heal"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aurora.passive"
+      },
+      {
+        "entryId": "champion:Azir:spell:AzirEWrapper",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "沙漠皇帝",
+        "nameZh": "流沙移形",
+        "mechanismTags": [
+          "duration",
+          "mobility_spatial",
+          "resource_cost",
+          "shield",
+          "stack"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Azir.spells[2]"
+      },
+      {
+        "entryId": "champion:Bard:spell:BardW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "星界游神",
+        "nameZh": "游神圣坛",
+        "mechanismTags": [
+          "ally_partner",
+          "duration",
+          "heal",
+          "move_speed",
+          "resource_cost",
+          "stack"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Bard.spells[1]"
+      }
+    ]
+  },
+  "命中触发与标记结算": {
+    "count": 361,
+    "bySourceCategory": {
+      "champion": 191,
+      "item": 135,
+      "rune": 7,
+      "augment": 28
+    },
+    "byScopeAssessment": {
+      "needs_conversion": 101,
+      "in_scope": 180,
+      "out_of_scope": 80
+    },
+    "samples": [
+      {
+        "entryId": "champion:Akali:spell:AkaliE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "离群之刺",
+        "nameZh": "我流奥义！隼舞",
+        "mechanismTags": [
+          "mark_detonate",
+          "mobility_spatial",
+          "resource_cost",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akali.spells[2]"
+      },
+      {
+        "entryId": "champion:Akshan:spell:AkshanQ",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "影哨",
+        "nameZh": "去而复还",
+        "mechanismTags": [
+          "duration",
+          "move_speed",
+          "on_hit",
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akshan.spells[0]"
+      },
+      {
+        "entryId": "champion:Alistar:spell:AlistarE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "牛头酋长",
+        "nameZh": "践踏",
+        "mechanismTags": [
+          "buff_debuff",
+          "dot_burn",
+          "duration",
+          "multi_target",
+          "on_hit",
+          "resource_cost",
+          "stack"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Alistar.spells[2]"
+      },
+      {
+        "entryId": "champion:Amumu:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "殇之木乃伊",
+        "nameZh": "诅咒之触",
+        "mechanismTags": [
+          "on_hit"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Amumu.passive"
+      },
+      {
+        "entryId": "champion:Amumu:spell:Tantrum",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "殇之木乃伊",
+        "nameZh": "阿木木的愤怒",
+        "mechanismTags": [
+          "ally_partner",
+          "cooldown",
+          "duration",
+          "multi_target",
+          "on_hit",
+          "reset_refund",
+          "resource_cost"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Amumu.spells[2]"
+      },
+      {
+        "entryId": "champion:Anivia:spell:FlashFrost",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "冰晶凤凰",
+        "nameZh": "寒冰闪耀",
+        "mechanismTags": [
+          "buff_debuff",
+          "duration",
+          "mark_detonate",
+          "multi_target",
+          "resource_cost",
+          "summon_object",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Anivia.spells[0]"
+      },
+      {
+        "entryId": "champion:Annie:spell:AnnieR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "黑暗之女",
+        "nameZh": "提伯斯之怒",
+        "mechanismTags": [
+          "ally_partner",
+          "attack_speed",
+          "buff_debuff",
+          "dot_burn",
+          "duration",
+          "move_speed",
+          "multi_target",
+          "penetration",
+          "resource_cost",
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Annie.spells[3]"
+      },
+      {
+        "entryId": "champion:Aphelios:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "残月之肃",
+        "nameZh": "传知者与真知者",
+        "mechanismTags": [
+          "on_hit",
+          "resource_cost",
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aphelios.passive"
+      },
+      {
+        "entryId": "champion:Aphelios:spell:ApheliosQ_ClientTooltipWrapper",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "残月之肃",
+        "nameZh": "武器技能",
+        "mechanismTags": [
+          "buff_debuff",
+          "mark_detonate",
+          "multi_target",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aphelios.spells[0]"
+      },
+      {
+        "entryId": "champion:Aphelios:spell:ApheliosW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "残月之肃",
+        "nameZh": "月相轮转",
+        "mechanismTags": [
+          "on_hit",
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aphelios.spells[1]"
+      },
+      {
+        "entryId": "champion:Aphelios:spell:ApheliosR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "残月之肃",
+        "nameZh": "清辉夜凝",
+        "mechanismTags": [
+          "mark_detonate",
+          "multi_target",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aphelios.spells[3]"
+      },
+      {
+        "entryId": "champion:Ashe:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "寒冰射手",
+        "nameZh": "冰霜射击",
+        "mechanismTags": [
+          "buff_debuff",
+          "crit"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ashe.passive"
+      }
+    ]
+  },
+  "资源与节奏": {
+    "count": 594,
+    "bySourceCategory": {
+      "champion": 343,
+      "item": 178,
+      "rune": 22,
+      "augment": 51
+    },
+    "byScopeAssessment": {
+      "in_scope": 280,
+      "needs_conversion": 190,
+      "out_of_scope": 124
+    },
+    "samples": [
+      {
+        "entryId": "champion:Aatrox:spell:AatroxQ",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "暗裔剑魔",
+        "nameZh": "暗裔利刃",
+        "mechanismTags": [
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aatrox.spells[0]"
+      },
+      {
+        "entryId": "champion:Aatrox:spell:AatroxW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "暗裔剑魔",
+        "nameZh": "恶火束链",
+        "mechanismTags": [
+          "buff_debuff",
+          "duration",
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Aatrox.spells[1]"
+      },
+      {
+        "entryId": "champion:Ahri:spell:AhriQ",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "九尾妖狐",
+        "nameZh": "欺诈宝珠",
+        "mechanismTags": [
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ahri.spells[0]"
+      },
+      {
+        "entryId": "champion:Ahri:spell:AhriW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "九尾妖狐",
+        "nameZh": "妖异狐火",
+        "mechanismTags": [
+          "duration",
+          "move_speed",
+          "multi_target",
+          "reset_refund",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ahri.spells[1]"
+      },
+      {
+        "entryId": "champion:Ahri:spell:AhriE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "九尾妖狐",
+        "nameZh": "魅惑妖术",
+        "mechanismTags": [
+          "duration",
+          "resource_cost",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ahri.spells[2]"
+      },
+      {
+        "entryId": "champion:Ahri:spell:AhriR",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "九尾妖狐",
+        "nameZh": "灵魄突袭",
+        "mechanismTags": [
+          "cooldown",
+          "duration",
+          "mobility_spatial",
+          "multi_target",
+          "resource_cost",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ahri.spells[3]"
+      },
+      {
+        "entryId": "champion:Akali:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "离群之刺",
+        "nameZh": "我流忍法！潜龙印",
+        "mechanismTags": [
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akali.passive"
+      },
+      {
+        "entryId": "champion:Akali:spell:AkaliQ",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "离群之刺",
+        "nameZh": "我流奥义！寒影",
+        "mechanismTags": [
+          "buff_debuff",
+          "duration",
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akali.spells[0]"
+      },
+      {
+        "entryId": "champion:Akali:spell:AkaliW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "离群之刺",
+        "nameZh": "我流奥义！霞阵",
+        "mechanismTags": [
+          "duration",
+          "move_speed",
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akali.spells[1]"
+      },
+      {
+        "entryId": "champion:Akshan:spell:AkshanE",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "影哨",
+        "nameZh": "骄行荡寇",
+        "mechanismTags": [
+          "cooldown",
+          "duration",
+          "reset_refund",
+          "resource_cost",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Akshan.spells[2]"
+      },
+      {
+        "entryId": "champion:Alistar:spell:Pulverize",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "牛头酋长",
+        "nameZh": "大地粉碎",
+        "mechanismTags": [
+          "duration",
+          "multi_target",
+          "resource_cost"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Alistar.spells[0]"
+      },
+      {
+        "entryId": "champion:Alistar:spell:Headbutt",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "牛头酋长",
+        "nameZh": "野蛮冲撞",
+        "mechanismTags": [
+          "resource_cost"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Alistar.spells[1]"
+      }
+    ]
+  },
+  "叠层与时效": {
+    "count": 43,
+    "bySourceCategory": {
+      "champion": 12,
+      "item": 16,
+      "rune": 3,
+      "augment": 12
+    },
+    "byScopeAssessment": {
+      "out_of_scope": 11,
+      "in_scope": 20,
+      "needs_conversion": 12
+    },
+    "samples": [
+      {
+        "entryId": "champion:Annie:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "黑暗之女",
+        "nameZh": "嗜火",
+        "mechanismTags": [
+          "buff_debuff",
+          "revive",
+          "stack"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Annie.passive"
+      },
+      {
+        "entryId": "champion:AurelionSol:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "铸星龙王",
+        "nameZh": "星海焕然",
+        "mechanismTags": [
+          "stack"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.AurelionSol.passive"
+      },
+      {
+        "entryId": "champion:Draven:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "荣耀行刑官",
+        "nameZh": "德莱文联盟",
+        "mechanismTags": [
+          "economy_round_meta",
+          "stack"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Draven.passive"
+      },
+      {
+        "entryId": "champion:Gangplank:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "海洋之灾",
+        "nameZh": "烈火审讯",
+        "mechanismTags": [
+          "duration"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Gangplank.passive"
+      },
+      {
+        "entryId": "champion:KogMaw:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "深渊巨口",
+        "nameZh": "来自艾卡西亚的惊喜",
+        "mechanismTags": [
+          "duration",
+          "multi_target"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.KogMaw.passive"
+      },
+      {
+        "entryId": "champion:Leona:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "曙光女神",
+        "nameZh": "日光",
+        "mechanismTags": [
+          "ally_partner",
+          "duration"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Leona.passive"
+      },
+      {
+        "entryId": "champion:Sejuani:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "北地之怒",
+        "nameZh": "北地之怒",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "buff_debuff"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Sejuani.passive"
+      },
+      {
+        "entryId": "champion:Shyvana:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "龙血武姬",
+        "nameZh": "龙鳞铁衣",
+        "mechanismTags": [
+          "stack"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Shyvana.passive"
+      },
+      {
+        "entryId": "champion:TahmKench:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "河流之王",
+        "nameZh": "培养品味",
+        "mechanismTags": [
+          "stack"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.TahmKench.passive"
+      },
+      {
+        "entryId": "champion:Vladimir:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "猩红收割者",
+        "nameZh": "血色契约",
+        "mechanismTags": [
+          "stack"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Vladimir.passive"
+      },
+      {
+        "entryId": "champion:Zaahen:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "不落魔锋",
+        "nameZh": "不落之志",
+        "mechanismTags": [
+          "revive",
+          "stack"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Zaahen.passive"
+      },
+      {
+        "entryId": "champion:Zyra:spell:ZyraW",
+        "sourceType": "champion_spell",
+        "ownerNameZh": "荆棘之兴",
+        "nameZh": "狂野生长",
+        "mechanismTags": [
+          "duration",
+          "stack",
+          "summon_object",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Zyra.spells[1]"
+      }
+    ]
+  },
+  "抗性、穿透、转化、适应之力": {
+    "count": 26,
+    "bySourceCategory": {
+      "champion": 2,
+      "item": 19,
+      "rune": 1,
+      "augment": 4
+    },
+    "byScopeAssessment": {
+      "in_scope": 25,
+      "needs_conversion": 1
+    },
+    "samples": [
+      {
+        "entryId": "champion:Rammus:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "披甲龙龟",
+        "nameZh": "锥刺甲壳",
+        "mechanismTags": [
+          "armor_mr_shred"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Rammus.passive"
+      },
+      {
+        "entryId": "champion:Thresh:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "魂锁典狱长",
+        "nameZh": "地狱诅咒",
+        "mechanismTags": [
+          "armor_mr_shred"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Thresh.passive"
+      },
+      {
+        "entryId": "item:1029",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "布甲",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1029"
+      },
+      {
+        "entryId": "item:1031",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "锁子甲",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1031"
+      },
+      {
+        "entryId": "item:1033",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "抗魔斗篷",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1033"
+      },
+      {
+        "entryId": "item:1057",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "负极斗篷",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1057"
+      },
+      {
+        "entryId": "item:1515",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "防御塔镀层",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1515"
+      },
+      {
+        "entryId": "item:1522",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "防御塔威力升温",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat",
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1522"
+      },
+      {
+        "entryId": "item:1524",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "增生",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat",
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1524"
+      },
+      {
+        "entryId": "item:2019",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "钢铁印章",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "defense_stat",
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.2019"
+      },
+      {
+        "entryId": "item:2421",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "碎裂的护臂",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "economy_round_meta"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.2421"
+      },
+      {
+        "entryId": "item:3035",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "最后的轻语",
+        "mechanismTags": [
+          "armor_mr_shred",
+          "offense_stat",
+          "penetration"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.3035"
+      }
+    ]
+  },
+  "基础属性加成": {
+    "count": 18,
+    "bySourceCategory": {
+      "item": 18
+    },
+    "byScopeAssessment": {
+      "in_scope": 16,
+      "out_of_scope": 2
+    },
+    "samples": [
+      {
+        "entryId": "item:1011",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "巨人腰带",
+        "mechanismTags": [
+          "health_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1011"
+      },
+      {
+        "entryId": "item:1026",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "爆裂魔杖",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1026"
+      },
+      {
+        "entryId": "item:1028",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "红水晶",
+        "mechanismTags": [
+          "health_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1028"
+      },
+      {
+        "entryId": "item:1036",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "长剑",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1036"
+      },
+      {
+        "entryId": "item:1037",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "十字镐",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1037"
+      },
+      {
+        "entryId": "item:1038",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "暴风之剑",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1038"
+      },
+      {
+        "entryId": "item:1052",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "增幅典籍",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1052"
+      },
+      {
+        "entryId": "item:1058",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "无用大棒",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1058"
+      },
+      {
+        "entryId": "item:2021",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "掘道钻头",
+        "mechanismTags": [
+          "health_stat",
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.2021"
+      },
+      {
+        "entryId": "item:2161",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "班德尔威能饮品",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.2161"
+      },
+      {
+        "entryId": "item:2162",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "班德尔活力饮品",
+        "mechanismTags": [
+          "ally_partner",
+          "health_stat"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.2162"
+      },
+      {
+        "entryId": "item:3089",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "灭世者的死亡之帽",
+        "mechanismTags": [
+          "offense_stat"
+        ],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.3089"
+      }
+    ]
+  },
+  "需过滤或转换": {
+    "count": 40,
+    "bySourceCategory": {
+      "champion": 8,
+      "item": 15,
+      "augment": 17
+    },
+    "byScopeAssessment": {
+      "out_of_scope": 17,
+      "needs_conversion": 23
+    },
+    "samples": [
+      {
+        "entryId": "champion:Anivia:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "冰晶凤凰",
+        "nameZh": "寒霜涅槃",
+        "mechanismTags": [
+          "revive"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Anivia.passive"
+      },
+      {
+        "entryId": "champion:Azir:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "沙漠皇帝",
+        "nameZh": "恕瑞玛的传承",
+        "mechanismTags": [
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Azir.passive"
+      },
+      {
+        "entryId": "champion:Ivern:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "翠神",
+        "nameZh": "森林之友",
+        "mechanismTags": [
+          "economy_round_meta"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Ivern.passive"
+      },
+      {
+        "entryId": "champion:Neeko:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "万花通灵",
+        "nameZh": "天生幻魅",
+        "mechanismTags": [
+          "ally_partner"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Neeko.passive"
+      },
+      {
+        "entryId": "champion:TwistedFate:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "卡牌大师",
+        "nameZh": "灌铅骰子",
+        "mechanismTags": [
+          "economy_round_meta"
+        ],
+        "scopeAssessment": "needs_conversion",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.TwistedFate.passive"
+      },
+      {
+        "entryId": "champion:Yorick:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "牧魂人",
+        "nameZh": "牧魂人",
+        "mechanismTags": [
+          "multi_target",
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Yorick.passive"
+      },
+      {
+        "entryId": "champion:Zilean:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "时光守护者",
+        "nameZh": "瓶中时光",
+        "mechanismTags": [
+          "ally_partner"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Zilean.passive"
+      },
+      {
+        "entryId": "champion:Zyra:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "荆棘之兴",
+        "nameZh": "荆棘花园",
+        "mechanismTags": [
+          "ally_partner",
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Zyra.passive"
+      },
+      {
+        "entryId": "item:1103",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "踏苔蜥幼苗",
+        "mechanismTags": [
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1103"
+      },
+      {
+        "entryId": "item:1105",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "踏苔蜥幼苗",
+        "mechanismTags": [
+          "summon_object"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1105"
+      },
+      {
+        "entryId": "item:1203",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "辅助任务",
+        "mechanismTags": [
+          "ally_partner",
+          "summon_object",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1203"
+      },
+      {
+        "entryId": "item:1204",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "打野任务",
+        "mechanismTags": [
+          "economy_round_meta",
+          "summon_object",
+          "terrain_vision"
+        ],
+        "scopeAssessment": "out_of_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1204"
+      }
+    ]
+  },
+  "待人工归类": {
+    "count": 48,
+    "bySourceCategory": {
+      "champion": 11,
+      "item": 15,
+      "rune": 3,
+      "augment": 19
+    },
+    "byScopeAssessment": {
+      "in_scope": 48
+    },
+    "samples": [
+      {
+        "entryId": "champion:Fiddlesticks:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "远古恐惧",
+        "nameZh": "巫骇草人",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Fiddlesticks.passive"
+      },
+      {
+        "entryId": "champion:Fizz:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "潮汐海灵",
+        "nameZh": "伶俐斗士",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Fizz.passive"
+      },
+      {
+        "entryId": "champion:Karthus:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "死亡颂唱者",
+        "nameZh": "死亡契约",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Karthus.passive"
+      },
+      {
+        "entryId": "champion:Kassadin:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "虚空行者",
+        "nameZh": "虚空之石",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Kassadin.passive"
+      },
+      {
+        "entryId": "champion:Malzahar:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "虚空先知",
+        "nameZh": "虚空穿越",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Malzahar.passive"
+      },
+      {
+        "entryId": "champion:Naafiri:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "百裂冥犬",
+        "nameZh": "狂烈种群",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Naafiri.passive"
+      },
+      {
+        "entryId": "champion:Orianna:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "发条魔灵",
+        "nameZh": "发条协奏",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Orianna.passive"
+      },
+      {
+        "entryId": "champion:Pantheon:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "不屈之枪",
+        "nameZh": "矢志不退",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Pantheon.passive"
+      },
+      {
+        "entryId": "champion:Tristana:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "麦林炮手",
+        "nameZh": "瞄准",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Tristana.passive"
+      },
+      {
+        "entryId": "champion:Veigar:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "邪恶小法师",
+        "nameZh": "超凡邪力",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Veigar.passive"
+      },
+      {
+        "entryId": "champion:Viktor:passive",
+        "sourceType": "champion_passive",
+        "ownerNameZh": "奥术先驱",
+        "nameZh": "光荣进化",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/championFull.json#data.Viktor.passive"
+      },
+      {
+        "entryId": "item:1090",
+        "sourceType": "item",
+        "ownerNameZh": "",
+        "nameZh": "任务：上路",
+        "mechanismTags": [],
+        "scopeAssessment": "in_scope",
+        "sourceRef": "ddragon/16.7.1/zh_CN/item.json#data.1090"
+      }
+    ]
+  }
+}
