@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import xyz.game.enginev2demo.cadence.CadenceOp;
+import xyz.game.enginev2demo.crit.ExecutionCritResult;
 import xyz.game.enginev2demo.runtime.CounterResetMode;
 import xyz.game.enginev2demo.runtime.CounterScope;
 
@@ -23,7 +24,11 @@ public sealed interface EngineCommand permits EngineCommand.DealDamageCommand, E
             String label,
             String damageProfileId,
             String formulaId,
-            Map<String, Double> inputValues) implements EngineCommand {
+            Map<String, Double> inputValues,
+            boolean allowCrit,
+            String critTypeOverride,
+            String actionCritType,
+            ExecutionCritResult executionCritResult) implements EngineCommand {
 
         public DealDamageCommand {
             Objects.requireNonNull(sourceActorId, "sourceActorId");
@@ -35,6 +40,18 @@ public sealed interface EngineCommand permits EngineCommand.DealDamageCommand, E
             Objects.requireNonNull(inputValues, "inputValues");
             inputValues = Map.copyOf(inputValues);
         }
+
+        public DealDamageCommand(
+                String sourceActorId,
+                String targetActorId,
+                String actionId,
+                String label,
+                String damageProfileId,
+                String formulaId,
+                Map<String, Double> inputValues) {
+            this(sourceActorId, targetActorId, actionId, label, damageProfileId,
+                    formulaId, inputValues, false, null, null, null);
+        }
     }
 
     record GrantShieldCommand(
@@ -42,7 +59,11 @@ public sealed interface EngineCommand permits EngineCommand.DealDamageCommand, E
             String targetActorId,
             String label,
             String formulaId,
-            Map<String, Double> inputValues) implements EngineCommand {
+            Map<String, Double> inputValues,
+            boolean allowCrit,
+            String critTypeOverride,
+            String actionCritType,
+            ExecutionCritResult executionCritResult) implements EngineCommand {
 
         public GrantShieldCommand {
             Objects.requireNonNull(sourceActorId, "sourceActorId");
@@ -52,13 +73,26 @@ public sealed interface EngineCommand permits EngineCommand.DealDamageCommand, E
             Objects.requireNonNull(inputValues, "inputValues");
             inputValues = Map.copyOf(inputValues);
         }
+
+        public GrantShieldCommand(
+                String sourceActorId,
+                String targetActorId,
+                String label,
+                String formulaId,
+                Map<String, Double> inputValues) {
+            this(sourceActorId, targetActorId, label, formulaId, inputValues, false, null, null, null);
+        }
     }
 
     record ApplyStatusCommand(
             String sourceActorId,
             String targetActorId,
             String statusId,
-            Map<String, Double> inputValues) implements EngineCommand {
+            Map<String, Double> inputValues,
+            boolean allowCrit,
+            String critTypeOverride,
+            String actionCritType,
+            ExecutionCritResult executionCritResult) implements EngineCommand {
 
         public ApplyStatusCommand {
             Objects.requireNonNull(sourceActorId, "sourceActorId");
@@ -66,6 +100,14 @@ public sealed interface EngineCommand permits EngineCommand.DealDamageCommand, E
             Objects.requireNonNull(statusId, "statusId");
             Objects.requireNonNull(inputValues, "inputValues");
             inputValues = Map.copyOf(inputValues);
+        }
+
+        public ApplyStatusCommand(
+                String sourceActorId,
+                String targetActorId,
+                String statusId,
+                Map<String, Double> inputValues) {
+            this(sourceActorId, targetActorId, statusId, inputValues, false, null, null, null);
         }
     }
 
@@ -169,13 +211,25 @@ public sealed interface EngineCommand permits EngineCommand.DealDamageCommand, E
             String affectedActorId,
             List<String> targetActionTags,
             CadenceOp op,
-            double value) implements EngineCommand {
+            double value,
+            boolean allowCrit,
+            String critTypeOverride,
+            String actionCritType,
+            ExecutionCritResult executionCritResult) implements EngineCommand {
 
         public ModifyCadenceCommand {
             Objects.requireNonNull(affectedActorId, "affectedActorId");
             Objects.requireNonNull(targetActionTags, "targetActionTags");
             Objects.requireNonNull(op, "op");
             targetActionTags = List.copyOf(targetActionTags);
+        }
+
+        public ModifyCadenceCommand(
+                String affectedActorId,
+                List<String> targetActionTags,
+                CadenceOp op,
+                double value) {
+            this(affectedActorId, targetActionTags, op, value, false, null, null, null);
         }
     }
 }

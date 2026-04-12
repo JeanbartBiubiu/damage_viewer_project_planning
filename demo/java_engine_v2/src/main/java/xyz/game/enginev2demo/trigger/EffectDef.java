@@ -20,7 +20,9 @@ public sealed interface EffectDef permits EffectDef.DealDamageEffect, EffectDef.
             String damageProfileId,
             String formulaId,
             EventActorRole sourceActorRole,
-            EventActorRole targetActorRole) implements EffectDef {
+            EventActorRole targetActorRole,
+            boolean allowCrit,
+            String critTypeOverride) implements EffectDef {
 
         public DealDamageEffect {
             Objects.requireNonNull(actionId, "actionId");
@@ -30,13 +32,26 @@ public sealed interface EffectDef permits EffectDef.DealDamageEffect, EffectDef.
             Objects.requireNonNull(sourceActorRole, "sourceActorRole");
             Objects.requireNonNull(targetActorRole, "targetActorRole");
         }
+
+        /** 向后兼容构造——不带暴击参数时 allowCrit=false。 */
+        public DealDamageEffect(
+                String actionId,
+                String label,
+                String damageProfileId,
+                String formulaId,
+                EventActorRole sourceActorRole,
+                EventActorRole targetActorRole) {
+            this(actionId, label, damageProfileId, formulaId, sourceActorRole, targetActorRole, false, null);
+        }
     }
 
     record GrantShieldEffect(
             String label,
             String formulaId,
             EventActorRole sourceActorRole,
-            EventActorRole targetActorRole) implements EffectDef {
+            EventActorRole targetActorRole,
+            boolean allowCrit,
+            String critTypeOverride) implements EffectDef {
 
         public GrantShieldEffect {
             Objects.requireNonNull(label, "label");
@@ -44,17 +59,36 @@ public sealed interface EffectDef permits EffectDef.DealDamageEffect, EffectDef.
             Objects.requireNonNull(sourceActorRole, "sourceActorRole");
             Objects.requireNonNull(targetActorRole, "targetActorRole");
         }
+
+        /** 向后兼容构造。 */
+        public GrantShieldEffect(
+                String label,
+                String formulaId,
+                EventActorRole sourceActorRole,
+                EventActorRole targetActorRole) {
+            this(label, formulaId, sourceActorRole, targetActorRole, false, null);
+        }
     }
 
     record ApplyStatusEffect(
             String statusId,
             EventActorRole sourceActorRole,
-            EventActorRole targetActorRole) implements EffectDef {
+            EventActorRole targetActorRole,
+            boolean allowCrit,
+            String critTypeOverride) implements EffectDef {
 
         public ApplyStatusEffect {
             Objects.requireNonNull(statusId, "statusId");
             Objects.requireNonNull(sourceActorRole, "sourceActorRole");
             Objects.requireNonNull(targetActorRole, "targetActorRole");
+        }
+
+        /** 向后兼容构造。 */
+        public ApplyStatusEffect(
+                String statusId,
+                EventActorRole sourceActorRole,
+                EventActorRole targetActorRole) {
+            this(statusId, sourceActorRole, targetActorRole, false, null);
         }
     }
 
@@ -114,7 +148,9 @@ public sealed interface EffectDef permits EffectDef.DealDamageEffect, EffectDef.
             EventActorRole affectedActorRole,
             List<String> targetActionTags,
             CadenceOp op,
-            String valueFormulaId) implements EffectDef {
+            String valueFormulaId,
+            boolean allowCrit,
+            String critTypeOverride) implements EffectDef {
 
         public ModifyCadenceEffect {
             Objects.requireNonNull(affectedActorRole, "affectedActorRole");
@@ -124,6 +160,15 @@ public sealed interface EffectDef permits EffectDef.DealDamageEffect, EffectDef.
             if (op != CadenceOp.RESET_CD && op != CadenceOp.GRANT_CHARGE && valueFormulaId == null) {
                 throw new IllegalArgumentException("valueFormulaId required for op " + op);
             }
+        }
+
+        /** 向后兼容构造。 */
+        public ModifyCadenceEffect(
+                EventActorRole affectedActorRole,
+                List<String> targetActionTags,
+                CadenceOp op,
+                String valueFormulaId) {
+            this(affectedActorRole, targetActionTags, op, valueFormulaId, false, null);
         }
     }
 }

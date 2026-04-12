@@ -79,18 +79,30 @@ public final class TriggerDispatcher {
                         dealDamageEffect.label(),
                         dealDamageEffect.damageProfileId(),
                         dealDamageEffect.formulaId(),
-                        event.inputValues()));
+                        event.inputValues(),
+                        dealDamageEffect.allowCrit(),
+                        dealDamageEffect.critTypeOverride(),
+                        event.actionCritType(),
+                        event.executionCritResult()));
                 case EffectDef.GrantShieldEffect grantShieldEffect -> commands.add(new EngineCommand.GrantShieldCommand(
                         actorIdForRole(event, grantShieldEffect.sourceActorRole()),
                         actorIdForRole(event, grantShieldEffect.targetActorRole()),
                         grantShieldEffect.label(),
                         grantShieldEffect.formulaId(),
-                        event.inputValues()));
+                        event.inputValues(),
+                        grantShieldEffect.allowCrit(),
+                        grantShieldEffect.critTypeOverride(),
+                        event.actionCritType(),
+                        event.executionCritResult()));
                 case EffectDef.ApplyStatusEffect applyStatusEffect -> commands.add(new EngineCommand.ApplyStatusCommand(
                         actorIdForRole(event, applyStatusEffect.sourceActorRole()),
                         actorIdForRole(event, applyStatusEffect.targetActorRole()),
                         applyStatusEffect.statusId(),
-                        event.inputValues()));
+                        event.inputValues(),
+                        applyStatusEffect.allowCrit(),
+                        applyStatusEffect.critTypeOverride(),
+                        event.actionCritType(),
+                        event.executionCritResult()));
                 case EffectDef.ApplyMarkEffect applyMarkEffect -> commands.add(new EngineCommand.ApplyMarkCommand(
                         actorIdForRole(event, applyMarkEffect.sourceActorRole()),
                         actorIdForRole(event, applyMarkEffect.targetActorRole()),
@@ -125,7 +137,11 @@ public final class TriggerDispatcher {
                             affectedActorId,
                             modifyCadenceEffect.targetActionTags(),
                             modifyCadenceEffect.op(),
-                            value));
+                            value,
+                            modifyCadenceEffect.allowCrit(),
+                            modifyCadenceEffect.critTypeOverride(),
+                            event.actionCritType(),
+                            event.executionCritResult()));
                 }
             }
         }
