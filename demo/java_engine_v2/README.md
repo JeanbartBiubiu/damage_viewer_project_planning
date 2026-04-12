@@ -6,10 +6,11 @@
 
 | 原则 | 说明 |
 |---|---|
-| **完全数据驱动** | 角色、技能、公式、触发器全部以模板声明，引擎不硬编码任何具体游戏机制 |
+| **完全数据驱动** | 角色、技能、公式、触发器、暴击规则全部以模板声明，引擎不硬编码任何具体游戏机制 |
 | **中央事件队列** | 主循环从优先队列取事件，Actor / Skill 不主动推进时间 |
 | **Command 闭环** | 所有 runtime 变更经 `EngineCommand` 通道，trigger 反馈也回流到同一条命令执行链 |
 | **统一节奏模型** | 冷却、充能、自动重复以及触发式节奏修改由同一个 `CadenceSubsystem` 统管 |
+| **统一数值解析** | 所有公式驱动的数值（伤害、护盾、状态持续/幅度、属性修正）经 `ScalarResolutionService` 统一求值，暴击倍率在此层透明应用 |
 | **零运行时依赖** | 生产代码只依赖 Java 标准库 |
 
 ## 技术栈
@@ -24,7 +25,7 @@
 # 编译
 mvn compile
 
-# 运行全部测试（55 tests）
+# 运行全部测试（69 tests）
 mvn test
 
 # 打包
@@ -37,8 +38,8 @@ mvn package
 init(bundle)                         run(session, input)
 ┌──────────────────────┐             ┌──────────────────────────────────┐
 │ EngineBundle          │             │ EngineRunInput                   │
-│ (模板 / 公式 / 触发器) │──compile──▶│ (角色实例 / 初始动作 / 停止条件)  │
-│                       │    │        │                                  │
+│ (模板 / 公式 / 触发器  │             │ (角色实例 / 初始动作 / 停止条件)  │
+│  / 暴击规则)          │──compile──▶│                                  │
 └──────────────────────┘    │        └──────────┬───────────────────────┘
                             ▼                   │
                      EngineSession              ▼
@@ -56,14 +57,14 @@ init(bundle)                         run(session, input)
 - 验证角色→动作引用
 - 构建 `TriggerIndex`（按 TriggerType 索引所有订阅）
 
-随后创建各子系统实例并组装依赖关系，返回不可变的 `EngineSession`。
+随后创建各子系统实例（含 `CritSubsystem` + `ScalarResolutionService`）并组装依赖关系，返回不可变的 `EngineSession`。
 
 ### `run(session, input) → EngineRunResult`
 
 1. 基于 `CompiledSnapshot` 实例化角色运行时、创建双向 PairState
 2. 初始状态过期事件 + 初始动作入队
 3. **主循环**——按 `(time → priority → sequence)` 从优先队列取事件，通过 `EventDispatcher` 分发：
-   - `ActionCast` → 动作校验 → 冷却 / 充能 / 资源检查 → 公式求值 → 触发器 → 伤害管线
+   - `ActionCast` → 动作校验 → 冷却 / 充能 / 资源检查 → 暴击判定 → 数值求值 → 触发器 → 伤害管线
    - `StatusExpire` → 状态移除 → 派生 `ON_STATUS_EXPIRED` 触发器
 4. 终止条件：队列为空（`queue_empty`）或达到 `maxEvents`（`max_events`）
 
@@ -78,6 +79,7 @@ xyz.game.enginev2demo
 ├── compile/            # 静态配置 → CompiledSnapshot 的编译 (2 文件)
 ├── control/            # 控制效果子系统 (眩晕 / 免控 / 零伤窗口) (1 文件)
 ├── counter/            # 计数器子系统 (N 次命中触发) (2 文件)
+├── crit/               # 暴击子系统——判定策略 + 统一数值解析 (12 文件)
 ├── event/              # 中央事件队列 + 调度器 (4 文件)
 ├── formula/            # AST 公式引擎 (FormulaNode sealed, 13 种节点) (5 文件)
 ├── history/            # 时间窗口历史聚合 (近期受伤 / 控制时长) (1 文件)
@@ -97,11 +99,13 @@ xyz.game.enginev2demo
 
 | 类型 | 用途 |
 |---|---|
-| `EngineBundle` | 静态配置包：角色 / 动作 / 装备 / 状态模板 + 公式定义 |
+| `EngineBundle` | 静态配置包：角色 / 动作 / 装备 / 状态模板 + 公式定义 + 暴击规则 |
 | `ActorTemplate` | 角色模板：基础属性、资源、可用动作、触发订阅 |
-| `ActionTemplate` | 动作模板：伤害类型、公式、冷却、充能、标签、资源消耗、施放门控 |
+| `ActionTemplate` | 动作模板：伤害类型、公式、冷却、充能、标签、资源消耗、施放门控、暴击类型 |
 | `ItemTemplate` | 装备模板：触发订阅 |
-| `StatusTemplate` | 状态模板：种类、持续时间、刷新策略、触发订阅 |
+| `StatusTemplate` | 状态模板：种类、持续时间、刷新策略、触发订阅、属性修正 |
+| `CritRuleTemplate` | 暴击规则模板：策略类型、倍率公式 |
+| `DamageProfileTemplate` | 伤害 profile：有效抗性公式 + 减伤倍率公式 |
 | `EngineRunInput` | 本次模拟输入：双方角色实例、初始动作序列、停止条件 |
 | `CombatantRunInit` | 角色实例：模板 ID、装备列表、初始状态列表 |
 | `ActionRequest` | 初始动作：触发时间、来源 / 目标 / 动作 ID |
@@ -112,9 +116,29 @@ xyz.game.enginev2demo
 |---|---|
 | `EngineRunResult` | 模拟结果：各角色终态快照、全量日志、终止原因 |
 | `ActorSnapshot` | 角色终态：当前 HP、护盾量、属性 |
-| `EngineLogEntry` | 日志条目（`ActionLogEntry` / `DamageLogEntry` / `ShieldLogEntry`） |
+| `EngineLogEntry` | 日志条目（`ActionLogEntry` / `DamageLogEntry` / `ShieldLogEntry` / `ScalarEffectLogEntry`） |
 
 ## 子系统
+
+### 暴击 (Crit) — 新增
+
+数据驱动的暴击判定与数值放大子系统，核心设计：**一次动作执行做一次暴击判定，结果复用到该次执行产生的所有可暴击数值**。
+
+**规则模板 `CritRuleTemplate`**：每个 `critType`（如 `"basic_attack"`）对应一条规则，声明启用状态、判定策略和暴击倍率公式。
+
+**判定策略 `CritStrategyKind`**：
+
+| 策略 | 说明 |
+|---|---|
+| `DETERMINISTIC_COUNTER` | 确定性计数器——`crit_chance >= 1` 必暴击；否则 `threshold = ⌈1/crit_chance⌉`，计数器达阈值暴击并重置 |
+| `RANDOM_FORMULA` | 随机公式（预留） |
+
+**统一数值解析 `ScalarResolutionService`**：所有公式驱动的数值字段（伤害、护盾、属性修正幅度、状态持续 / 幅度）通过 `ScalarSpec(formulaId, allowCrit, critTypeOverride)` 声明，由 `ScalarResolutionService` 统一求值——先公式求 base value，再根据暴击上下文决定是否放大，返回 `ResolvedScalar(baseValue, finalValue, isCritical, critMultiplier, critType)`。
+
+**集成方式**：
+- `ActionTemplate.critType` 标记动作关联的暴击类型（`null` = 不可暴击）
+- 各 `EffectDef` 子类型均携带 `allowCrit` + `critTypeOverride` 字段
+- `EngineBundle.critRules` 存放暴击规则，编译期注入 `CritSubsystem`
 
 ### 节奏 (Cadence)
 
@@ -147,8 +171,7 @@ LoL 风格结算链：
 原始伤害 → 穿透扣减(flat) → 有效抗性 → 减伤倍率 → 零伤窗口检查 → 护盾吸收 → HP 扣除
 ```
 
-- 物理穿透 `armor_pen_flat`，法术穿透 `magic_pen_flat`
-- 正抗性减伤：`100 / (100 + R)`；负抗性增伤：`2 - 100 / (100 - R)`
+- 抗性和减伤倍率通过 `DamageProfileTemplate` 声明的两条公式计算，不硬编码特定属性 key
 - 真实伤害 bypass 全部抗性
 - 结算完成后派生 `ON_DAMAGE_DEALT` + `ON_DAMAGE_TAKEN` 触发事件
 
@@ -166,6 +189,7 @@ LoL 风格结算链：
 | `CONTROL_IMMUNE` | 防止 STUN 被挂上 |
 | `FORCE_DAMAGE_TO_ZERO` | 强制零伤窗口 |
 | `SHIELD` | 护盾状态 |
+| `ATTRIBUTE_MODIFIER` | 属性修正（攻速 / 护甲等 buff/debuff） |
 
 ### 触发器 (Trigger)
 
@@ -203,13 +227,14 @@ record ActionTemplate(
     List<String> tags,        // 标签（用于节奏修改匹配）
     Map<String,Double> resourceCosts,       // 资源消耗
     List<ActionGateDef> actionGates,        // 施放门控
-    List<TriggerSubscriptionDef> triggerSubscriptions  // 动作级触发器
+    List<TriggerSubscriptionDef> triggerSubscriptions, // 动作级触发器
+    String critType           // 暴击类型（null = 不可暴击）
 )
 ```
 
 ## 测试覆盖
 
-55 个测试方法，分为端到端场景、机制单元测试与节奏修改测试。测试数据全部通过 Java 代码构造（`DemoFixtures` 工厂），无外部 JSON 文件。
+69 个测试方法，分为端到端场景、机制单元测试、节奏修改测试与暴击测试。测试数据全部通过 Java 代码构造（`DemoFixtures` 工厂），无外部 JSON 文件。
 
 ### 端到端场景
 
@@ -223,6 +248,25 @@ record ActionTemplate(
 | **攻速影响普攻节奏** | 攻速 buff → CD 公式重算 → 自动普攻间隔变化 |
 | **Benchmark 战斗时序** | 长回合模拟烟雾测试 |
 | **临时最大生命** | buff 授予 → buff 过期 → HP 钳位 |
+
+### 暴击测试
+
+| 场景 | 验证内容 |
+|---|---|
+| **100% 暴击率必暴击** | `crit_chance >= 1` 始终判定为暴击 |
+| **0% 暴击率不暴击** | `crit_chance = 0` 始终不暴击 |
+| **25% 暴击率每 4 次命中暴击** | 确定性计数器 `⌈1/0.25⌉ = 4` |
+| **50% 暴击率每 2 次命中暴击** | 确定性计数器 `⌈1/0.5⌉ = 2` |
+| **暴击计数器跨动作共享** | 同一 Actor 不同动作共享 critType 计数器 |
+| **暴击判定复用于伤害与护盾** | 同次执行的 DealDamage + GrantShield 复用判定结果 |
+| **触发器暴击** | 触发器 GrantShield 可通过 `allowCrit` 暴击 |
+| **属性修正暴击** | AttrModifier 的 value 可被暴击放大 |
+| **状态持续/幅度暴击** | 状态 duration / magnitude 可暴击 |
+| **节奏修改值暴击** | ModifyCadence 的 value 可暴击 |
+| **无 critType 跳过暴击** | `critType=null` 的动作不做判定 |
+| **规则禁用跳过暴击** | `enabled=false` 的规则不做判定 |
+| **反应触发器不继承暴击** | 目标 ON_DAMAGE_TAKEN 触发不复用来源暴击结果 |
+| **DamageProfile 公式路由** | 不同 profile 走各自的抗性 / 减伤公式 |
 
 ### 动作节奏测试
 
@@ -253,20 +297,22 @@ record ActionTemplate(
 
 ### 机制单元测试
 
-基础物理攻击 · 护甲穿透 · 法术减伤 · 护盾吸收 · 护盾刷新策略 · 眩晕阻止施放 · 零伤窗口 · 冷却阻止 · 法力不足 · 标记消耗 · RequireMarkGate · 计数器阈值重置 · 时间窗口伤害聚合 · 时间窗口控制聚合 · 空队列 · Session 初始化 · 四种归属作用域的触发器 · 属性修改器组合 · 临时 MaxHP
+基础物理攻击 · 护甲穿透 · 法术减伤 · 护盾吸收 · 护盾刷新策略 · 眩晕阻止施放 · 零伤窗口 · 冷却阻止 · 法力不足 · 标记消耗 · RequireMarkGate · 计数器阈值重置 · 时间窗口伤害聚合 · 时间窗口控制聚合 · 空队列 · Session 初始化 · 四种归属作用域的触发器 · 属性修改器组合 · 临时 MaxHP · Actor 快照使用 resolved 属性
 
 ## 项目统计
 
 | 指标 | 数值 |
 |---|---|
-| 生产代码 | 78 个 Java 文件 |
-| 测试代码 | 62 个 Java 文件（含工厂 / fixtures） |
-| 测试方法 | 55 |
-| 包数量 | 16 |
+| 生产代码 | 90 个 Java 文件 |
+| 测试代码 | 76 个 Java 文件（含工厂 / fixtures） |
+| 测试方法 | 69 |
+| 包数量 | 18 |
 | sealed interface | 5（`EngineCommand` · `EffectDef` · `FormulaNode` · `ActionGateDef` · `InternalEvent`） |
 | EngineCommand 子类型 | 11 |
 | EffectDef 子类型 | 7 |
 | FormulaNode 子类型 | 13 |
 | TriggerType | 8 |
 | CadenceOp | 6 |
+| CritStrategyKind | 2 |
+| StatusKind | 5 |
 | 运行时依赖 | 0 |
