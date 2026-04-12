@@ -19,7 +19,10 @@ public record DamageLogEntry(
         double targetHpBefore,
         double targetHpAfter,
         double effectiveResistance,
-        double mitigationMultiplier) implements EngineLogEntry {
+        double mitigationMultiplier,
+        boolean isCritical,
+        double critMultiplier,
+        String critType) implements EngineLogEntry {
 
     @Override
     public String type() {
