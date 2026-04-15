@@ -6,24 +6,28 @@
 2. 可以根据进展随时补充或细化 sub-agent 的工作范围与交付要求。
 3. 不要把用户提供的 API key、Bearer token、Cookie 或其他密钥写入仓库文件。
 
+## Git Worktree 路由约定
+
+当前仓库已按模块拆成多个 Git worktree 开发目录：
+
+- `C:\project\damage_viewer_project_planning`
+- `C:\project\damage_backend_dev`，当前分支：`backend/dev`
+- `C:\project\damage_web_dev`，当前分支：`web/dev`
+- `C:\project\damage_wasm_dev`，当前分支：`wasm/dev`
+
+每次新起对话，除遵守本文件通用规则外，还必须先识别当前 worktree 根目录和 Git 分支前缀，再决定是否继续读取 `agent_group/` 下的专项规则：
+
+1. 如果当前 worktree 根目录位于 `C:\project\damage_backend_dev`，或当前分支前缀为 `backend/` 或 `server/`，继续读取 `agent_group/AGENTS_BACKEND.md`。
+2. 如果当前 worktree 根目录位于 `C:\project\damage_web_dev`，或当前分支前缀为 `web/`，继续读取 `agent_group/AGENTS_WEB.md`。
+3. 如果当前 worktree 根目录位于 `C:\project\damage_wasm_dev`，或当前分支前缀为 `wasm/`，继续读取 `agent_group/AGENTS_WASM.md`。
+4. 如果 worktree 目录信号与分支前缀冲突，以当前 worktree 根目录为准，并在会话开始时明确说明。
+5. `agent_group/` 下的专项规则用于收紧当前模块的默认写入范围、Obsidian 目录和跨模块边界；若与本文件冲突，以专项规则在对应模块范围内优先。
+6. 如果未命中任何专项规则，或目标文件不存在，则继续沿用本文件作为默认规则。
+
 ## Obsidian 持久化记忆约定
 
 - Obsidian Vault 路径：`C:\project\obsidian-game\ai-remember`
 - Obsidian Local REST API URL：`https://127.0.0.1:27124`
-
-### 新对话启动流程
-
-每次新起对话，在开始实质性工作前，先读取 Obsidian 中的项目上下文。
-
-优先检查以下页面：
-
-1. `00-项目索引.md`
-2. `01-当前上下文.md`
-3. `02-决策日志.md`
-4. `03-任务地图.md`
-5. 与当前任务直接相关的专题页、任务页、会话记录页
-
-如果上述页面不存在，先创建最小骨架，再继续当前任务。
 
 ### 任务完成后的回写流程
 
