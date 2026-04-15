@@ -3,7 +3,7 @@
 ## 适用范围
 
 - 本文件适用于 `server/data_manage/**`。
-- 如果与仓库根 `AGENTS.md` 或 `agent_group/AGENTS_BACKEND.md` 冲突，以更近的本文件为准；未覆盖部分沿用上层规则。
+- 如果与仓库根 `AGENTS.md` 冲突，以更近的本文件为准；未覆盖部分沿用上层规则。
 
 ## 当前目录的主写入范围
 
