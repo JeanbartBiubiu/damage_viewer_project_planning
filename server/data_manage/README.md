@@ -107,4 +107,4 @@
 
 - 这不是独立仓，而是 monorepo 下的后端专用 worktree。
 - 涉及 `web / server / wasm` 边界的改动，优先先把后端口径、接口契约和会话记录收口，再决定是否同步改其他模块。
-- 长期协作规则见仓库根 `AGENTS.md` 和 `agent_group/AGENTS_BACKEND.md`；当前目录的就近规则见 `AGENTS.md`。
+- 长期协作规则见仓库根 `AGENTS.md`；当前目录的就近规则见 `AGENTS.md`。
