@@ -22,7 +22,7 @@ import xyz.game.datamanage.support.error.ApiException;
 public class GameDataService {
 
     private static final Pattern GAME_ID_PATTERN = Pattern.compile("^[a-z0-9_]+$");
-    private static final Set<String> VERSION_CREATE_ALLOWED_FIELDS = Set.of("versionCode", "releaseDate");
+    private static final Set<String> VERSION_PUBLISH_ALLOWED_FIELDS = Set.of("versionCode", "releaseDate");
     private static final List<String> READ_CACHE_NAMES = List.of(
         "games",
         "currentVersion",
@@ -69,32 +69,26 @@ public class GameDataService {
 
         ObjectNode response = JsonNodeFactory.instance.objectNode();
         response.put("gameId", gameId);
-        response.put("versionId", current.versionId());
         response.put("versionCode", current.versionCode());
-        response.put("dataHash", current.dataHash());
+        if (current.releaseDate() != null) {
+            response.put("releaseDate", current.releaseDate().toString());
+        }
+        if (current.publishedAt() != null) {
+            response.put("publishedAt", current.publishedAt().toString());
+        }
         response.put("updatedAt", current.updatedAt().toString());
         return response;
     }
 
-    public String getBundleDataHash(String gameId, long versionId) {
+    @Cacheable(cacheNames = "bundle", key = "#gameId + ':' + #versionCode")
+    public ObjectNode getBundle(String gameId, String versionCode) {
         validateGameId(gameId);
         assertGameExists(gameId);
-        PostgresReadStore.VersionRecord current = readStore.findCurrentPublishedVersion(gameId);
-        if (current == null || current.versionId() != versionId) {
-            throw notFound("Only current version bundle is supported", Map.of("gameId", gameId, "versionId", versionId));
+        ObjectNode snapshot = readStore.getPublishedBundleSnapshot(gameId, versionCode);
+        if (snapshot == null) {
+            throw notFound("Published bundle snapshot not found", Map.of("gameId", gameId, "versionCode", versionCode));
         }
-        return current.dataHash();
-    }
-
-    @Cacheable(cacheNames = "bundle", key = "#gameId + ':' + #versionId")
-    public ObjectNode getBundle(String gameId, long versionId) {
-        validateGameId(gameId);
-        assertGameExists(gameId);
-        PostgresReadStore.VersionRecord current = readStore.findCurrentPublishedVersion(gameId);
-        if (current == null || current.versionId() != versionId) {
-            throw notFound("Only current version bundle is supported", Map.of("gameId", gameId, "versionId", versionId));
-        }
-        return readStore.buildBundle(gameId, current, current.dataHash());
+        return snapshot;
     }
 
     @Cacheable(cacheNames = "images", key = "#gameId + ':' + (#updatedAfterRaw == null ? '' : #updatedAfterRaw)")
@@ -355,17 +349,11 @@ public class GameDataService {
         return response;
     }
 
-    public ObjectNode createVersion(String gameId, ObjectNode requestBody) {
+    public ObjectNode publishVersion(String gameId, ObjectNode requestBody) {
         validateGameId(gameId);
         assertGameExists(gameId);
-        jsonSupport.validateAllowedTopLevelFields(requestBody, VERSION_CREATE_ALLOWED_FIELDS);
-        return writeStore.createVersion(gameId, requestBody);
-    }
-
-    public ObjectNode publishVersion(String gameId, long versionId) {
-        validateGameId(gameId);
-        assertGameExists(gameId);
-        ObjectNode response = writeStore.publishVersion(gameId, versionId);
+        jsonSupport.validateAllowedTopLevelFields(requestBody, VERSION_PUBLISH_ALLOWED_FIELDS);
+        ObjectNode response = writeStore.publishVersion(gameId, requestBody);
         evictReadCaches();
         return response;
     }

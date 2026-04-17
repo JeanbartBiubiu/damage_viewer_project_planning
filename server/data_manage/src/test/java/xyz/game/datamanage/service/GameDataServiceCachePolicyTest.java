@@ -111,14 +111,15 @@ class GameDataServiceCachePolicyTest {
     @Test
     void publishEvictsAllReadCaches() {
         ObjectNode response = JsonNodeFactory.instance.objectNode();
-        when(writeStore.publishVersion("lol", 2L)).thenReturn(response);
+        ObjectNode body = JsonNodeFactory.instance.objectNode().put("versionCode", "1.0.0");
+        when(writeStore.publishVersion("lol", body)).thenReturn(response);
         when(cacheManager.getCache("games")).thenReturn(gamesCache);
         when(cacheManager.getCache("currentVersion")).thenReturn(currentVersionCache);
         when(cacheManager.getCache("bundle")).thenReturn(bundleCache);
         when(cacheManager.getCache("images")).thenReturn(imagesCache);
         when(cacheManager.getCache("ownerCategories")).thenReturn(ownerCategoriesCache);
 
-        service.publishVersion("lol", 2L);
+        service.publishVersion("lol", body);
 
         verify(gamesCache).clear();
         verify(imagesCache).clear();

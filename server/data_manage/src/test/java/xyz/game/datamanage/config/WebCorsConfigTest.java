@@ -55,7 +55,7 @@ class WebCorsConfigTest {
     @Test
     void adminPreflightRequestPassesWithoutAuthorization() throws Exception {
         mockMvc.perform(
-                options("/api/admin/games/lol/versions")
+            options("/api/admin/games/lol/versions:publish")
                     .header(HttpHeaders.ORIGIN, ORIGIN)
                     .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST")
                     .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "Authorization, Content-Type, If-None-Match")
