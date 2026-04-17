@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -37,15 +36,17 @@ import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
+import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 import xyz.game.datamanage.support.error.ApiException;
-import xyz.game.datamanage.support.http.EtagUtil;
 
 @Component
 public class PostgresWriteStore {
+
+    private static final String WORKSPACE_VERSION_CODE = "__workspace__";
 
     private static final Pattern OWNER_TYPE_PATTERN = Pattern.compile("^[a-z0-9_]+$");
     private static final Set<String> TARGET_CATEGORIES = Set.of("equipment", "attribute", "skill", "character", "type");
@@ -69,6 +70,7 @@ public class PostgresWriteStore {
     private final TypeRelationsMapper typeRelationsMapper;
     private final ImagesMapper imagesMapper;
     private final OwnerCategoriesMapper ownerCategoriesMapper;
+    private final PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
     private final GamesMapper gamesMapper;
     private final GameProgressionSchemaMapper gameProgressionSchemaMapper;
     private final GameVersionsMapper gameVersionsMapper;
@@ -91,6 +93,7 @@ public class PostgresWriteStore {
         TypeRelationsMapper typeRelationsMapper,
         ImagesMapper imagesMapper,
         OwnerCategoriesMapper ownerCategoriesMapper,
+        PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper,
         GamesMapper gamesMapper,
         GameProgressionSchemaMapper gameProgressionSchemaMapper,
         GameVersionsMapper gameVersionsMapper,
@@ -111,6 +114,7 @@ public class PostgresWriteStore {
         this.typeRelationsMapper = typeRelationsMapper;
         this.imagesMapper = imagesMapper;
         this.ownerCategoriesMapper = ownerCategoriesMapper;
+        this.publishedBundleSnapshotsMapper = publishedBundleSnapshotsMapper;
         this.gamesMapper = gamesMapper;
         this.gameProgressionSchemaMapper = gameProgressionSchemaMapper;
         this.gameVersionsMapper = gameVersionsMapper;
@@ -622,11 +626,16 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public ObjectNode createVersion(String gameId, ObjectNode requestBody) {
+    public ObjectNode publishVersion(String gameId, ObjectNode requestBody) {
+        ensureGamePartitions(gameId);
         if (requestBody == null || requestBody.isEmpty()) {
             throw badRequest("Request body cannot be empty", Map.of("path", "/", "reason", "empty body"));
         }
+
         String versionCode = jsonSupport.requireText(requestBody, "versionCode", "version");
+        if (WORKSPACE_VERSION_CODE.equals(versionCode)) {
+            throw badRequest("versionCode is reserved", Map.of("path", "/versionCode"));
+        }
         LocalDate releaseDate = null;
         if (requestBody.hasNonNull("releaseDate")) {
             try {
@@ -635,28 +644,25 @@ public class PostgresWriteStore {
                 throw badRequest("releaseDate must be ISO date", Map.of("path", "/releaseDate"));
             }
         }
-
-        Long versionId;
-        try {
-            versionId = gameVersionsMapper.createVersion(gameId, versionCode, releaseDate == null ? null : Date.valueOf(releaseDate));
-        } catch (DataIntegrityViolationException ex) {
+        if (readStore.findVersionByCode(gameId, versionCode) != null) {
             throw conflict("Version code already exists", Map.of("gameId", gameId, "versionCode", versionCode));
         }
 
-        ObjectNode response = objectMapper.createObjectNode();
-        response.put("gameId", gameId);
-        response.put("versionId", versionId == null ? -1L : versionId);
-        response.put("versionCode", versionCode);
-        return response;
-    }
-
-    @Transactional
-    public ObjectNode publishVersion(String gameId, long versionId) {
-        ensureGamePartitions(gameId);
-        PostgresReadStore.VersionRecord version = readStore.findVersionById(gameId, versionId);
-        if (version == null) {
-            throw notFound("Version not found", Map.of("gameId", gameId, "versionId", versionId));
+        Long versionId;
+        try {
+            versionId = gameVersionsMapper.createVersion(
+                gameId,
+                versionCode,
+                releaseDate == null ? null : java.sql.Date.valueOf(releaseDate)
+            );
+        } catch (DataIntegrityViolationException ex) {
+            throw conflict("Version code already exists", Map.of("gameId", gameId, "versionCode", versionCode));
         }
+        PostgresReadStore.VersionRecord version = readStore.findVersionById(gameId, versionId == null ? -1L : versionId);
+        if (version == null) {
+            throw notFound("Version not found", Map.of("gameId", gameId, "versionCode", versionCode));
+        }
+
         PostgresReadStore.VersionRecord currentVersion = readStore.findCurrentPublishedVersion(gameId);
         Instant prevPublishedAt = currentVersion == null || currentVersion.publishedAt() == null
             ? Instant.EPOCH
@@ -674,12 +680,13 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedCoefficientBuckets = coefficientBucketsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedStatusActionControlRules = statusActionControlRulesMapper.listChangedSince(gameId, changedAfter);
 
-        ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, "");
+        Instant publishedAt = Instant.now();
+        ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, publishedAt);
         validateBundleForPublish(gameId, unsignedBundle);
 
         applyVersionProgressAndLog(
             gameId,
-            versionId,
+            version.versionId(),
             changedAttributeDefinitions,
             changedTypes,
             changedTypeRelations,
@@ -692,18 +699,26 @@ public class PostgresWriteStore {
             changedStatusActionControlRules
         );
 
-        String dataHash = buildDataHash(unsignedBundle);
+        publishedBundleSnapshotsMapper.upsertBundleSnapshot(
+            gameId,
+            version.versionId(),
+            version.versionCode(),
+            serializeBundle(unsignedBundle)
+        );
         gameVersionsMapper.clearCurrentVersion(gameId);
-        int updatedRows = gameVersionsMapper.markVersionCurrent(dataHash, Timestamp.from(Instant.now()), gameId, versionId);
+        int updatedRows = gameVersionsMapper.markVersionCurrent(Timestamp.from(publishedAt), gameId, version.versionId());
         if (updatedRows == 0) {
-            throw notFound("Version not found", Map.of("gameId", gameId, "versionId", versionId));
+            throw notFound("Version not found", Map.of("gameId", gameId, "versionCode", version.versionCode()));
         }
 
         ObjectNode response = objectMapper.createObjectNode();
         response.put("gameId", gameId);
-        response.put("versionId", versionId);
         response.put("versionCode", version.versionCode());
-        response.put("dataHash", dataHash);
+        if (version.releaseDate() != null) {
+            response.put("releaseDate", version.releaseDate().toString());
+        }
+        response.put("publishedAt", publishedAt.toString());
+        response.put("updatedAt", publishedAt.toString());
         return response;
     }
 
@@ -1791,15 +1806,22 @@ public class PostgresWriteStore {
 
     private long resolveVersionIdForWrite(String gameId) {
         ensureGamePartitions(gameId);
-        Long currentVersion = readStore.findCurrentVersionId(gameId);
-        if (currentVersion != null) {
-            return currentVersion;
+        PostgresReadStore.VersionRecord workspaceVersion = readStore.findVersionByCode(gameId, WORKSPACE_VERSION_CODE);
+        if (workspaceVersion != null) {
+            return workspaceVersion.versionId();
         }
-        Long latestVersion = readStore.findLatestVersionId(gameId);
-        if (latestVersion != null) {
-            return latestVersion;
+        try {
+            Long workspaceVersionId = gameVersionsMapper.createVersion(gameId, WORKSPACE_VERSION_CODE, null);
+            if (workspaceVersionId != null) {
+                return workspaceVersionId;
+            }
+        } catch (DataIntegrityViolationException ex) {
+            PostgresReadStore.VersionRecord existingWorkspace = readStore.findVersionByCode(gameId, WORKSPACE_VERSION_CODE);
+            if (existingWorkspace != null) {
+                return existingWorkspace.versionId();
+            }
         }
-        throw semantic("No version available for write. Create version first.", Map.of("gameId", gameId));
+        throw semantic("No workspace version available for write.", Map.of("gameId", gameId));
     }
 
     private void ensureGamePartitions(String gameId) {
@@ -1819,11 +1841,12 @@ public class PostgresWriteStore {
         return count != null && count > 0;
     }
 
-    private String buildDataHash(ObjectNode bundle) {
-        ObjectNode hashSource = bundle.deepCopy();
-        ((ObjectNode) hashSource.get("meta")).remove("dataHash");
-        ((ObjectNode) hashSource.get("meta")).remove("generatedAt");
-        return EtagUtil.hashJson(hashSource, objectMapper);
+    private String serializeBundle(ObjectNode bundle) {
+        try {
+            return objectMapper.writeValueAsString(bundle);
+        } catch (JsonProcessingException ex) {
+            throw new IllegalStateException("Unable to serialize bundle snapshot", ex);
+        }
     }
 
     private String mapText(Map<String, Object> row, String key) {

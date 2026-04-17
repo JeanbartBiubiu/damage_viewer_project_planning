@@ -24,27 +24,15 @@ public class VersionAdminController {
         this.logHelper = logHelper;
     }
 
-    @PostMapping
-    public ObjectNode createVersion(
+    @PostMapping(":publish")
+    public ObjectNode publishVersion(
         @PathVariable String gameId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
     ) {
-        ObjectNode response = gameDataService.createVersion(gameId, body);
+        ObjectNode response = gameDataService.publishVersion(gameId, body);
         logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
-    @PostMapping("/{versionId}:publish")
-    public ObjectNode publishVersion(
-        @PathVariable String gameId,
-        @PathVariable long versionId,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = gameDataService.publishVersion(gameId, versionId);
-        logHelper.log(auth, request, null, 200);
         return response;
     }
 }

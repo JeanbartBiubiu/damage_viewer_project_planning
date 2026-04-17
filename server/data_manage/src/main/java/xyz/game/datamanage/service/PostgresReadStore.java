@@ -23,6 +23,7 @@ import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
+import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
@@ -42,6 +43,7 @@ public class PostgresReadStore {
     private final GameVersionsMapper gameVersionsMapper;
     private final ImagesMapper imagesMapper;
     private final OwnerCategoriesMapper ownerCategoriesMapper;
+    private final PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
     private final AttributeDefinitionsMapper attributeDefinitionsMapper;
     private final CoefficientBucketsMapper coefficientBucketsMapper;
     private final TypesMapper typesMapper;
@@ -61,6 +63,7 @@ public class PostgresReadStore {
         GameVersionsMapper gameVersionsMapper,
         ImagesMapper imagesMapper,
         OwnerCategoriesMapper ownerCategoriesMapper,
+        PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper,
         AttributeDefinitionsMapper attributeDefinitionsMapper,
         CoefficientBucketsMapper coefficientBucketsMapper,
         TypesMapper typesMapper,
@@ -79,6 +82,7 @@ public class PostgresReadStore {
         this.gameVersionsMapper = gameVersionsMapper;
         this.imagesMapper = imagesMapper;
         this.ownerCategoriesMapper = ownerCategoriesMapper;
+        this.publishedBundleSnapshotsMapper = publishedBundleSnapshotsMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
         this.coefficientBucketsMapper = coefficientBucketsMapper;
         this.typesMapper = typesMapper;
@@ -130,6 +134,11 @@ public class PostgresReadStore {
 
     public VersionRecord findVersionById(String gameId, long versionId) {
         Map<String, Object> row = gameVersionsMapper.findVersionById(gameId, versionId);
+        return row == null ? null : mapVersionRecord(row);
+    }
+
+    public VersionRecord findVersionByCode(String gameId, String versionCode) {
+        Map<String, Object> row = gameVersionsMapper.findVersionByCode(gameId, versionCode);
         return row == null ? null : mapVersionRecord(row);
     }
 
@@ -265,14 +274,18 @@ public class PostgresReadStore {
         return response;
     }
 
-    public ObjectNode buildBundle(String gameId, VersionRecord version, String dataHash) {
+    public ObjectNode buildBundle(String gameId, VersionRecord version, Instant generatedAt) {
         ObjectNode bundle = objectMapper.createObjectNode();
         ObjectNode meta = bundle.putObject("meta");
         meta.put("gameId", gameId);
-        meta.put("versionId", version.versionId());
         meta.put("versionCode", version.versionCode());
-        meta.put("dataHash", dataHash == null ? "" : dataHash);
-        meta.put("generatedAt", Instant.now().toString());
+        if (version.releaseDate() != null) {
+            meta.put("releaseDate", version.releaseDate().toString());
+        }
+        if (version.publishedAt() != null) {
+            meta.put("publishedAt", version.publishedAt().toString());
+        }
+        meta.put("generatedAt", (generatedAt == null ? Instant.now() : generatedAt).toString());
 
         ArrayNode attributeDefinitions = objectMapper.createArrayNode();
         for (Map<String, Object> row : attributeDefinitionsMapper.listAttributeDefinitions(gameId)) {
@@ -355,6 +368,18 @@ public class PostgresReadStore {
             bundle.set("dictionaries", dictionaries);
         }
         return bundle;
+    }
+
+    public ObjectNode getPublishedBundleSnapshot(String gameId, String versionCode) {
+        String raw = publishedBundleSnapshotsMapper.findBundleSnapshotJson(gameId, versionCode);
+        if (raw == null || raw.isBlank()) {
+            return null;
+        }
+        JsonNode node = jsonSupport.parseJsonOrNull(raw, "/bundle");
+        if (node == null || !node.isObject()) {
+            return null;
+        }
+        return (ObjectNode) node;
     }
 
     public ObjectNode loadHero(String gameId, String heroId) {
@@ -604,10 +629,17 @@ public class PostgresReadStore {
         Long versionId = longValue(row, "versionId");
         Timestamp updatedAt = timestamp(row, "updatedAt");
         Timestamp publishedAt = timestamp(row, "publishedAt");
+        java.sql.Date releaseDate = null;
+        Object releaseDateValue = value(row, "releaseDate");
+        if (releaseDateValue instanceof java.sql.Date sqlDate) {
+            releaseDate = sqlDate;
+        } else if (releaseDateValue instanceof java.util.Date utilDate) {
+            releaseDate = new java.sql.Date(utilDate.getTime());
+        }
         return new VersionRecord(
             versionId == null ? -1L : versionId,
             text(row, "versionCode"),
-            text(row, "dataHash"),
+            releaseDate == null ? null : releaseDate.toLocalDate(),
             updatedAt == null ? Instant.now() : updatedAt.toInstant(),
             publishedAt == null ? null : publishedAt.toInstant()
         );
@@ -768,7 +800,7 @@ public class PostgresReadStore {
         ObjectNode map(Map<String, Object> row);
     }
 
-    public record VersionRecord(long versionId, String versionCode, String dataHash, Instant updatedAt, Instant publishedAt) {
+    public record VersionRecord(long versionId, String versionCode, java.time.LocalDate releaseDate, Instant updatedAt, Instant publishedAt) {
     }
 
     public record ProgressionSchemaRecord(
