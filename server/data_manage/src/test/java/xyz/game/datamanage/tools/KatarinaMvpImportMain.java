@@ -165,24 +165,13 @@ public final class KatarinaMvpImportMain {
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
-        Long existingVersionId = null;
         if (options.bootstrapDb()) {
             DbOptions dbOptions = resolveDbOptions(options);
             ensureGameBootstrap(dbOptions, gameId, gameName, seedData.ownerCategories());
-            existingVersionId = findExistingVersionId(dbOptions, gameId, versionCode);
             out.println("Bootstrap ensured for gameId=" + gameId);
         } else {
             ensureOwnerCategoriesReady(httpClient, options.apiBaseUrl(), gameId, seedData.ownerCategories());
             out.println("Owner category precheck passed for gameId=" + gameId);
-        }
-
-        long versionId;
-        if (existingVersionId != null) {
-            versionId = existingVersionId;
-            out.println("Reused existing versionId=" + versionId + " for versionCode=" + versionCode);
-        } else {
-            versionId = createVersion(httpClient, options.apiBaseUrl(), adminToken, gameId, versionCode);
-            out.println("Created versionId=" + versionId);
         }
 
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/attribute-definitions/", "attrKey", seedData.attributeDefinitions());
@@ -191,18 +180,18 @@ public final class KatarinaMvpImportMain {
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/items/", "itemId", seedData.items());
 
         if (!options.publish()) {
-            out.println("Import finished without publish. versionId=" + versionId);
+            out.println("Import finished without publish.");
             return;
         }
 
         JsonNode publishResponse = requestJson(
             httpClient,
-            buildUri(options.apiBaseUrl(), "/api/admin/games/" + encodeSegment(gameId) + "/versions/" + versionId + ":publish"),
+            buildUri(options.apiBaseUrl(), "/api/admin/games/" + encodeSegment(gameId) + "/versions:publish"),
             "POST",
             adminToken,
-            null
+            OBJECT_MAPPER.createObjectNode().put("versionCode", versionCode)
         );
-        out.println("Published versionId=" + versionId + ", dataHash=" + publishResponse.path("dataHash").asText(""));
+        out.println("Published versionCode=" + publishResponse.path("versionCode").asText(versionCode));
 
         JsonNode currentResponse = requestJson(
             httpClient,
@@ -213,7 +202,7 @@ public final class KatarinaMvpImportMain {
         );
         JsonNode bundleResponse = requestJson(
             httpClient,
-            buildUri(options.apiBaseUrl(), "/api/games/" + encodeSegment(gameId) + "/versions/" + versionId + "/bundle"),
+            buildUri(options.apiBaseUrl(), "/api/games/" + encodeSegment(gameId) + "/versions/" + encodeSegment(versionCode) + "/bundle"),
             "GET",
             null,
             null
@@ -311,22 +300,6 @@ public final class KatarinaMvpImportMain {
         }
     }
 
-    private static Long findExistingVersionId(DbOptions dbOptions, String gameId, String versionCode) throws SQLException {
-        try (Connection connection = DriverManager.getConnection(dbOptions.dbUrl(), dbOptions.dbUsername(), dbOptions.dbPassword());
-             PreparedStatement statement = connection.prepareStatement(
-                 "SELECT version_id FROM public.game_versions WHERE game_id = ? AND version_code = ?"
-             )) {
-            statement.setString(1, gameId);
-            statement.setString(2, versionCode);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getLong("version_id");
-                }
-                return null;
-            }
-        }
-    }
-
     private static void ensureOwnerCategoriesReady(
         HttpClient httpClient,
         String apiBaseUrl,
@@ -377,29 +350,6 @@ public final class KatarinaMvpImportMain {
                     + ". Seed them first or rerun with --bootstrapDb."
             );
         }
-    }
-
-    private static long createVersion(
-        HttpClient httpClient,
-        String apiBaseUrl,
-        String adminToken,
-        String gameId,
-        String versionCode
-    ) throws Exception {
-        ObjectNode body = OBJECT_MAPPER.createObjectNode();
-        body.put("versionCode", versionCode);
-        JsonNode response = requestJson(
-            httpClient,
-            buildUri(apiBaseUrl, "/api/admin/games/" + encodeSegment(gameId) + "/versions"),
-            "POST",
-            adminToken,
-            body
-        );
-        long versionId = response.path("versionId").asLong(-1);
-        if (versionId <= 0) {
-            throw new IllegalStateException("Version creation response missing valid versionId");
-        }
-        return versionId;
     }
 
     private static void upsert(

@@ -101,7 +101,7 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterSkipsPreflightRequestsOnAdminRoutes() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("OPTIONS", "/api/admin/games/lol/versions");
+        MockHttpServletRequest request = new MockHttpServletRequest("OPTIONS", "/api/admin/games/lol/versions:publish");
         request.addHeader(HttpHeaders.ORIGIN, "http://localhost:5173");
         request.addHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST");
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -115,7 +115,7 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterBypassesAuthWhenVerifierIsDisabled() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/api/admin/games/lol/versions");
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/api/admin/games/lol/versions:publish");
         MockHttpServletResponse response = new MockHttpServletResponse();
         AuthContext authContext = new AuthContext("dev-local@example.com", true, true);
         when(jwtVerifier.isDisabled()).thenReturn(true);

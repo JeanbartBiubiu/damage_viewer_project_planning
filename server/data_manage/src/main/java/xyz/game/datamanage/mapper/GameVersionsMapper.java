@@ -13,6 +13,8 @@ public interface GameVersionsMapper {
 
     Map<String, Object> findVersionById(@Param("gameId") String gameId, @Param("versionId") long versionId);
 
+    Map<String, Object> findVersionByCode(@Param("gameId") String gameId, @Param("versionCode") String versionCode);
+
     Long findCurrentVersionId(@Param("gameId") String gameId);
 
     Long findLatestVersionId(@Param("gameId") String gameId);
@@ -26,7 +28,6 @@ public interface GameVersionsMapper {
     int clearCurrentVersion(@Param("gameId") String gameId);
 
     int markVersionCurrent(
-        @Param("dataHash") String dataHash,
         @Param("publishedAt") Timestamp publishedAt,
         @Param("gameId") String gameId,
         @Param("versionId") long versionId

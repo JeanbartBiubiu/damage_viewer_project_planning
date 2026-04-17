@@ -30,11 +30,28 @@ CREATE TABLE public.game_versions (
     CONSTRAINT uq_game_versions_game_version_id UNIQUE (game_id, version_id)
 );
 
-COMMENT ON TABLE public.game_versions IS '游戏版本表（用于版本发布、前端轮询、数据快照索引）';
-COMMENT ON COLUMN public.game_versions.version_id IS '内部版本自增 ID（用于发布版本与快照索引）';
+COMMENT ON TABLE public.game_versions IS '游戏版本表（用于版本发布、前端轮询、发布快照索引）';
+COMMENT ON COLUMN public.game_versions.version_id IS '内部版本自增 ID（用于发布记录与快照索引）';
 COMMENT ON COLUMN public.game_versions.version_code IS '对外展示版本号（如 14.1）';
 COMMENT ON COLUMN public.game_versions.is_current IS '是否为当前版本（用于前端轮询接口）';
-COMMENT ON COLUMN public.game_versions.data_hash IS '该版本全量数据 hash（用于前端校验/增量更新）';
+COMMENT ON COLUMN public.game_versions.data_hash IS '历史遗留字段；当前发布快照链路不再对外暴露该 hash';
+
+CREATE TABLE public.published_bundle_snapshots (
+    game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
+    version_id bigint NOT NULL,
+    version_code varchar(32) NOT NULL,
+    bundle_json jsonb NOT NULL,
+    created_at timestamp NOT NULL DEFAULT NOW(),
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_published_bundle_snapshots PRIMARY KEY (game_id, version_code),
+    CONSTRAINT uq_published_bundle_snapshots_version UNIQUE (game_id, version_id),
+    CONSTRAINT fk_published_bundle_snapshots_version FOREIGN KEY (game_id, version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+);
+
+COMMENT ON TABLE public.published_bundle_snapshots IS '已发布 bundle 快照表；Public 侧只读取这里的快照，不再从编辑工作区实时重建';
+COMMENT ON COLUMN public.published_bundle_snapshots.version_code IS '对外版本号；Public 通过 gameId + versionCode 获取快照';
+COMMENT ON COLUMN public.published_bundle_snapshots.bundle_json IS '发布时固化的完整 bundle JSON 快照';
 
 CREATE TABLE public.game_progression_schema (
     game_id varchar(64) PRIMARY KEY REFERENCES public.games(game_id),
