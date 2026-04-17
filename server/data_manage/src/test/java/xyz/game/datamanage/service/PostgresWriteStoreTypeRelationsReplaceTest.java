@@ -31,6 +31,7 @@ import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
+import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
@@ -77,6 +78,9 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
     private OwnerCategoriesMapper ownerCategoriesMapper;
 
     @Mock
+    private PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
+
+    @Mock
     private GamesMapper gamesMapper;
 
     @Mock
@@ -109,6 +113,7 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
             typeRelationsMapper,
             imagesMapper,
             ownerCategoriesMapper,
+            publishedBundleSnapshotsMapper,
             gamesMapper,
             gameProgressionSchemaMapper,
             gameVersionsMapper,
@@ -121,7 +126,8 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
 
     @Test
     void replaceTypeRelationsForTargetSyncsAddsAndDeletes() {
-        when(readStore.findCurrentVersionId("lol")).thenReturn(9L);
+        when(readStore.findVersionByCode("lol", "__workspace__"))
+            .thenReturn(new PostgresReadStore.VersionRecord(9L, "__workspace__", null, java.time.Instant.now(), null));
         when(readStore.loadHero("lol", "hero_ahri")).thenReturn(JsonNodeFactory.instance.objectNode().put("heroId", "hero_ahri"));
         when(readStore.loadType("lol", 1001)).thenReturn(JsonNodeFactory.instance.objectNode().put("typeId", 1001));
         when(readStore.loadType("lol", 1002)).thenReturn(JsonNodeFactory.instance.objectNode().put("typeId", 1002));

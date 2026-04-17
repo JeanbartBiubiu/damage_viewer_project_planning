@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
+import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
@@ -82,6 +84,9 @@ class PostgresWriteStorePublishTest {
     private OwnerCategoriesMapper ownerCategoriesMapper;
 
     @Mock
+    private PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
+
+    @Mock
     private GamesMapper gamesMapper;
 
     @Mock
@@ -114,6 +119,7 @@ class PostgresWriteStorePublishTest {
             typeRelationsMapper,
             imagesMapper,
             ownerCategoriesMapper,
+            publishedBundleSnapshotsMapper,
             gamesMapper,
             gameProgressionSchemaMapper,
             gameVersionsMapper,
@@ -129,20 +135,22 @@ class PostgresWriteStorePublishTest {
         PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
             2L,
             "14.2",
-            "",
+            LocalDate.parse("2026-02-26"),
             Instant.parse("2026-02-26T01:00:00Z"),
             null
         );
         PostgresReadStore.VersionRecord currentVersion = new PostgresReadStore.VersionRecord(
             1L,
             "14.1",
-            "oldHash",
+            LocalDate.parse("2026-02-25"),
             Instant.parse("2026-02-25T01:00:00Z"),
             Instant.parse("2026-02-25T01:00:00Z")
         );
+        when(readStore.findVersionByCode("lol", "14.2")).thenReturn(null);
+        when(gameVersionsMapper.createVersion("lol", "14.2", java.sql.Date.valueOf(LocalDate.parse("2026-02-26")))).thenReturn(2L);
         when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
         when(readStore.findCurrentPublishedVersion("lol")).thenReturn(currentVersion);
-        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(emptyBundle("lol", targetVersion));
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), any(Instant.class))).thenReturn(emptyBundle("lol", targetVersion));
 
         when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -156,22 +164,28 @@ class PostgresWriteStorePublishTest {
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of(changedHeroRow()));
 
         when(heroesMapper.updateVersionRange("lol", "hero_ahri", 2L)).thenReturn(1);
-        when(gameVersionsMapper.markVersionCurrent(anyString(), any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
+        when(gameVersionsMapper.markVersionCurrent(any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
 
-        ObjectNode response = writeStore.publishVersion("lol", 2L);
+        ObjectNode requestBody = JsonNodeFactory.instance.objectNode();
+        requestBody.put("versionCode", "14.2");
+        requestBody.put("releaseDate", "2026-02-26");
+        ObjectNode response = writeStore.publishVersion("lol", requestBody);
 
         assertEquals("lol", response.path("gameId").asText());
-        assertEquals(2L, response.path("versionId").asLong());
-        assertFalse(response.path("dataHash").asText().isBlank());
+        assertEquals("14.2", response.path("versionCode").asText());
+        assertEquals("2026-02-26", response.path("releaseDate").asText());
+        assertFalse(response.path("publishedAt").asText().isBlank());
         verify(gamesMapper).ensureGamePartitions("lol");
         verify(heroesMapper).upsertHeroLog(eq("lol"), eq("hero_ahri"), eq(2L), anyString(), any(), any(), anyString(), any());
+        verify(publishedBundleSnapshotsMapper).upsertBundleSnapshot(eq("lol"), eq(2L), eq("14.2"), anyString());
         verify(gameVersionsMapper).clearCurrentVersion("lol");
-        verify(gameVersionsMapper).markVersionCurrent(anyString(), any(Timestamp.class), eq("lol"), eq(2L));
+        verify(gameVersionsMapper).markVersionCurrent(any(Timestamp.class), eq("lol"), eq(2L));
     }
 
     @Test
     void upsertFormulaProfileEnsuresGamePartitionsBeforeWrite() {
-        when(readStore.findCurrentVersionId("lol")).thenReturn(5L);
+        when(readStore.findVersionByCode("lol", "__workspace__"))
+            .thenReturn(new PostgresReadStore.VersionRecord(5L, "__workspace__", null, Instant.now(), null));
 
         ObjectNode body = JsonNodeFactory.instance.objectNode();
         body.put("formulaType", "damage");
@@ -195,7 +209,8 @@ class PostgresWriteStorePublishTest {
 
     @Test
     void replaceTypeRelationsForTargetDiffsAgainstCurrentTargetSet() {
-        when(readStore.findCurrentVersionId("lol")).thenReturn(5L);
+        when(readStore.findVersionByCode("lol", "__workspace__"))
+            .thenReturn(new PostgresReadStore.VersionRecord(5L, "__workspace__", null, Instant.now(), null));
         when(readStore.loadHero("lol", "hero_ahri")).thenReturn(JsonNodeFactory.instance.objectNode());
         when(readStore.loadType("lol", 1)).thenReturn(JsonNodeFactory.instance.objectNode());
         when(readStore.loadType("lol", 3)).thenReturn(JsonNodeFactory.instance.objectNode());
@@ -224,13 +239,15 @@ class PostgresWriteStorePublishTest {
         PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
             2L,
             "14.2",
-            "",
+            null,
             Instant.parse("2026-02-26T01:00:00Z"),
             null
         );
+        when(readStore.findVersionByCode("lol", "14.2")).thenReturn(null);
+        when(gameVersionsMapper.createVersion("lol", "14.2", null)).thenReturn(2L);
         when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
         when(readStore.findCurrentPublishedVersion("lol")).thenReturn(null);
-        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(invalidBundle("lol", targetVersion));
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), any(Instant.class))).thenReturn(invalidBundle("lol", targetVersion));
         when(ownerCategoriesMapper.countOwnerCategory("lol", "hero")).thenReturn(1L);
 
         when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -244,10 +261,11 @@ class PostgresWriteStorePublishTest {
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
-        ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", 2L));
+        ObjectNode requestBody = JsonNodeFactory.instance.objectNode().put("versionCode", "14.2");
+        ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", requestBody));
 
         assertEquals("422.SEMANTIC_ERROR", ex.getCode());
-        verify(gameVersionsMapper, never()).markVersionCurrent(anyString(), any(Timestamp.class), anyString(), anyLong());
+        verify(gameVersionsMapper, never()).markVersionCurrent(any(Timestamp.class), anyString(), anyLong());
     }
 
     @Test
@@ -255,20 +273,22 @@ class PostgresWriteStorePublishTest {
         PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
             2L,
             "14.2",
-            "",
+            null,
             Instant.parse("2026-02-26T01:00:00Z"),
             null
         );
         PostgresReadStore.VersionRecord currentVersion = new PostgresReadStore.VersionRecord(
             1L,
             "14.1",
-            "oldHash",
+            LocalDate.parse("2026-02-25"),
             Instant.parse("2026-02-25T01:00:00Z"),
             Instant.parse("2026-02-25T01:00:00Z")
         );
+        when(readStore.findVersionByCode("lol", "14.2")).thenReturn(null);
+        when(gameVersionsMapper.createVersion("lol", "14.2", null)).thenReturn(2L);
         when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
         when(readStore.findCurrentPublishedVersion("lol")).thenReturn(currentVersion);
-        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(emptyBundle("lol", targetVersion));
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), any(Instant.class))).thenReturn(emptyBundle("lol", targetVersion));
 
         when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -283,9 +303,9 @@ class PostgresWriteStorePublishTest {
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
         when(typeRelationsMapper.updateVersionRange("lol", 7, "character", "hero_ahri", 2L)).thenReturn(1);
-        when(gameVersionsMapper.markVersionCurrent(anyString(), any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
+        when(gameVersionsMapper.markVersionCurrent(any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
 
-        writeStore.publishVersion("lol", 2L);
+        writeStore.publishVersion("lol", JsonNodeFactory.instance.objectNode().put("versionCode", "14.2"));
 
         verify(typeRelationsMapper).upsertTypeRelationLog("lol", 7, 2L, "character", "hero_ahri", null, true, false);
     }
@@ -295,13 +315,15 @@ class PostgresWriteStorePublishTest {
         PostgresReadStore.VersionRecord targetVersion = new PostgresReadStore.VersionRecord(
             2L,
             "14.2",
-            "",
+            null,
             Instant.parse("2026-02-26T01:00:00Z"),
             null
         );
+        when(readStore.findVersionByCode("lol", "14.2")).thenReturn(null);
+        when(gameVersionsMapper.createVersion("lol", "14.2", null)).thenReturn(2L);
         when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
         when(readStore.findCurrentPublishedVersion("lol")).thenReturn(null);
-        when(readStore.buildBundle(eq("lol"), eq(targetVersion), anyString())).thenReturn(invalidFormulaBundle("lol", targetVersion));
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), any(Instant.class))).thenReturn(invalidFormulaBundle("lol", targetVersion));
 
         when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -314,19 +336,26 @@ class PostgresWriteStorePublishTest {
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
-        ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", 2L));
+        ApiException ex = assertThrows(
+            ApiException.class,
+            () -> writeStore.publishVersion("lol", JsonNodeFactory.instance.objectNode().put("versionCode", "14.2"))
+        );
 
         assertEquals("422.SEMANTIC_ERROR", ex.getCode());
-        verify(gameVersionsMapper, never()).markVersionCurrent(anyString(), any(Timestamp.class), anyString(), anyLong());
+        verify(gameVersionsMapper, never()).markVersionCurrent(any(Timestamp.class), anyString(), anyLong());
     }
 
     private ObjectNode emptyBundle(String gameId, PostgresReadStore.VersionRecord version) {
         ObjectNode bundle = JsonNodeFactory.instance.objectNode();
         ObjectNode meta = bundle.putObject("meta");
         meta.put("gameId", gameId);
-        meta.put("versionId", version.versionId());
         meta.put("versionCode", version.versionCode());
-        meta.put("dataHash", "");
+        if (version.releaseDate() != null) {
+            meta.put("releaseDate", version.releaseDate().toString());
+        }
+        if (version.publishedAt() != null) {
+            meta.put("publishedAt", version.publishedAt().toString());
+        }
         meta.put("generatedAt", Instant.now().toString());
         bundle.putArray("attributeDefinitions");
         bundle.putArray("types");

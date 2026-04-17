@@ -112,23 +112,21 @@ class ControllerPublishFlowIT {
 
     @Test
     void controllerOnly_fullPublishFlow_shouldSucceed() {
-        long versionId = createVersion("1.0.0");
+        String versionCode = "1.0.0";
         putBaselineEntities("Ahri");
 
-        publish(versionId);
+        publish(versionCode);
 
         ResponseEntity<JsonNode> currentResponse = getCurrentVersion();
         assertEquals(HttpStatus.OK, currentResponse.getStatusCode());
         JsonNode current = requireBody(currentResponse);
-        assertEquals(versionId, current.path("versionId").asLong());
-        assertFalse(current.path("dataHash").asText().isBlank());
+        assertEquals(versionCode, current.path("versionCode").asText());
+        assertFalse(current.path("publishedAt").asText().isBlank());
 
-        ResponseEntity<JsonNode> bundleResponse = getBundle(versionId, null);
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
         assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
-        assertNotNull(bundleResponse.getHeaders().getETag());
         JsonNode bundle = requireBody(bundleResponse);
-        assertEquals(versionId, bundle.path("meta").path("versionId").asLong());
-        assertEquals(current.path("dataHash").asText(), bundle.path("meta").path("dataHash").asText());
+        assertEquals(versionCode, bundle.path("meta").path("versionCode").asText());
         assertTrue(containsByField(bundle.path("attributeDefinitions"), "attrKey", "attack_power"));
         assertTrue(containsByField(bundle.path("types"), "typeId", "1001"));
         assertTrue(containsByField(bundle.path("typeRelations"), "targetId", "attack_power"));
@@ -148,7 +146,6 @@ class ControllerPublishFlowIT {
 
     @Test
     void formulaProfileWrite_shouldRecreateMissingLogPartitionForExistingGame() {
-        createVersion("1.0.0");
         String partitionTable = "formula_profiles_log_" + gameId;
         jdbcTemplate.execute("DROP TABLE IF EXISTS public." + partitionTable + " CASCADE");
         Integer partitionCountBefore = jdbcTemplate.queryForObject(
@@ -170,23 +167,21 @@ class ControllerPublishFlowIT {
 
     @Test
     void katarinaMvpPublishFlow_shouldExposeEngineReadyBundle() {
-        long versionId = createVersion("mvp_katarina_001");
+        String versionCode = "mvp_katarina_001";
         putKatarinaMvpEntities();
 
-        publish(versionId);
+        publish(versionCode);
 
         ResponseEntity<JsonNode> currentResponse = getCurrentVersion();
         assertEquals(HttpStatus.OK, currentResponse.getStatusCode());
         JsonNode current = requireBody(currentResponse);
-        assertEquals(versionId, current.path("versionId").asLong());
-        assertEquals("mvp_katarina_001", current.path("versionCode").asText());
-        assertFalse(current.path("dataHash").asText().isBlank());
+        assertEquals(versionCode, current.path("versionCode").asText());
+        assertFalse(current.path("publishedAt").asText().isBlank());
 
-        ResponseEntity<JsonNode> bundleResponse = getBundle(versionId, null);
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
         assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
         JsonNode bundle = requireBody(bundleResponse);
-        assertEquals("mvp_katarina_001", bundle.path("meta").path("versionCode").asText());
-        assertEquals(current.path("dataHash").asText(), bundle.path("meta").path("dataHash").asText());
+        assertEquals(versionCode, bundle.path("meta").path("versionCode").asText());
         assertEquals(10, bundle.path("attributeDefinitions").size());
         assertEquals(2, bundle.path("heroes").size());
         assertEquals(2, bundle.path("skills").size());
@@ -233,64 +228,58 @@ class ControllerPublishFlowIT {
     }
 
     @Test
-    void bundle_ifNoneMatch_shouldReturn304() {
-        long versionId = createVersion("1.0.0");
+    void bundle_shouldReturnPublishedSnapshotForRequestedVersionCode() {
+        String versionCode = "1.0.0";
         putBaselineEntities("Ahri");
-        publish(versionId);
+        publish(versionCode);
 
-        ResponseEntity<JsonNode> firstBundle = getBundle(versionId, null);
+        ResponseEntity<JsonNode> firstBundle = getBundle(versionCode);
         assertEquals(HttpStatus.OK, firstBundle.getStatusCode());
-        String etag = firstBundle.getHeaders().getETag();
-        assertNotNull(etag);
+        JsonNode bundle = requireBody(firstBundle);
+        assertEquals(versionCode, bundle.path("meta").path("versionCode").asText());
 
-        ResponseEntity<JsonNode> secondBundle = getBundle(versionId, etag);
-        assertEquals(HttpStatus.NOT_MODIFIED, secondBundle.getStatusCode());
-        assertEquals(etag, secondBundle.getHeaders().getETag());
-        assertNull(secondBundle.getBody());
+        ResponseEntity<JsonNode> secondBundle = getBundle(versionCode);
+        assertEquals(HttpStatus.OK, secondBundle.getStatusCode());
+        assertEquals(versionCode, requireBody(secondBundle).path("meta").path("versionCode").asText());
     }
 
     @Test
-    void prePublishChanges_shouldNotAffectCurrentAndCachedBundle_untilPublish() {
-        long versionV1 = createVersion("1.0.0");
+    void prePublishChanges_shouldNotAffectCurrentAndSnapshot_untilPublish() {
+        String versionCodeV1 = "1.0.0";
         putBaselineEntities("Ahri");
-        publish(versionV1);
+        publish(versionCodeV1);
 
         JsonNode currentV1 = requireBody(getCurrentVersion());
-        String currentDataHashV1 = currentV1.path("dataHash").asText();
-        ResponseEntity<JsonNode> bundleV1Response = getBundle(versionV1, null);
-        String etagV1 = bundleV1Response.getHeaders().getETag();
+        assertEquals(versionCodeV1, currentV1.path("versionCode").asText());
+        ResponseEntity<JsonNode> bundleV1Response = getBundle(versionCodeV1);
         JsonNode bundleV1 = requireBody(bundleV1Response);
         assertEquals("Ahri", findByField(bundleV1.path("heroes"), "heroId", "hero_ahri").path("name").asText());
 
-        long versionV2 = createVersion("1.0.1");
+        String versionCodeV2 = "1.0.1";
         upsertHero("hero_ahri", "Ahri Rework");
 
         JsonNode currentBeforePublishV2 = requireBody(getCurrentVersion());
-        assertEquals(versionV1, currentBeforePublishV2.path("versionId").asLong());
-        assertEquals(currentDataHashV1, currentBeforePublishV2.path("dataHash").asText());
+        assertEquals(versionCodeV1, currentBeforePublishV2.path("versionCode").asText());
 
-        JsonNode bundleBeforePublishV2 = requireBody(getBundle(versionV1, null));
+        JsonNode bundleBeforePublishV2 = requireBody(getBundle(versionCodeV1));
         assertEquals("Ahri", findByField(bundleBeforePublishV2.path("heroes"), "heroId", "hero_ahri").path("name").asText());
 
-        ResponseEntity<JsonNode> notFoundBundle = getBundle(versionV2, null);
+        ResponseEntity<JsonNode> notFoundBundle = getBundle(versionCodeV2);
         assertEquals(HttpStatus.NOT_FOUND, notFoundBundle.getStatusCode());
 
-        publish(versionV2);
+        publish(versionCodeV2);
 
         JsonNode currentV2 = requireBody(getCurrentVersion());
-        assertEquals(versionV2, currentV2.path("versionId").asLong());
-        assertNotEquals(currentDataHashV1, currentV2.path("dataHash").asText());
+        assertEquals(versionCodeV2, currentV2.path("versionCode").asText());
 
-        ResponseEntity<JsonNode> bundleV2Response = getBundle(versionV2, null);
+        ResponseEntity<JsonNode> bundleV2Response = getBundle(versionCodeV2);
         assertEquals(HttpStatus.OK, bundleV2Response.getStatusCode());
         JsonNode bundleV2 = requireBody(bundleV2Response);
         assertEquals("Ahri Rework", findByField(bundleV2.path("heroes"), "heroId", "hero_ahri").path("name").asText());
-        assertNotEquals(etagV1, bundleV2Response.getHeaders().getETag());
     }
 
     @Test
     void adminListEndpoints_shouldExposeLatestDraftState_forEditableResources() {
-        createVersion("1.0.0");
         putBaselineEntities("Ahri");
         upsertHero("hero_ahri", "Ahri Draft");
 
@@ -341,8 +330,6 @@ class ControllerPublishFlowIT {
 
     @Test
     void progressionSchemaAdminAndHeroStatsValidation_shouldApplyToGamesAndHeroWrite() {
-        createVersion("1.0.0");
-
         ResponseEntity<JsonNode> defaultSchemaResponse = adminExchange(
             "/api/admin/games/" + gameId + "/progression-schema",
             HttpMethod.GET,
@@ -416,7 +403,7 @@ class ControllerPublishFlowIT {
 
     @Test
     void statusActionControlRuleCrud_andPublishBundle_shouldSucceed() {
-        long versionId = createVersion("1.0.0");
+        String versionCode = "1.0.0";
         putType(2001, "status_stun_test", "IT status");
         putType(2002, "action_basic_attack_test", "IT action");
         putType(2003, "action_cast_skill_test", "IT action");
@@ -472,9 +459,9 @@ class ControllerPublishFlowIT {
         assertEquals(HttpStatus.OK, updateResponse.getStatusCode());
         assertEquals(20, requireBody(updateResponse).path("priority").asInt());
 
-        publish(versionId);
+        publish(versionCode);
 
-        ResponseEntity<JsonNode> bundleResponse = getBundle(versionId, null);
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
         assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
         JsonNode bundle = requireBody(bundleResponse);
         JsonNode statusRule = findByField(bundle.path("statusActionControlRules"), "ruleId", "status_stun_test_forbid");
@@ -486,7 +473,7 @@ class ControllerPublishFlowIT {
 
     @Test
     void coefficientBucketCrud_andPublishBundle_shouldSucceed() {
-        long versionId = createVersion("1.0.0");
+        String versionCode = "1.0.0";
         putAttributeDefinition("move_speed");
 
         putCoefficientBucket(
@@ -543,9 +530,9 @@ class ControllerPublishFlowIT {
         assertFalse(updated.path("provisional").asBoolean());
         assertEquals("测试：PUT 后桶描述", updated.path("description").asText());
 
-        publish(versionId);
+        publish(versionCode);
 
-        ResponseEntity<JsonNode> bundleResponse = getBundle(versionId, null);
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
         assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
         JsonNode bundle = requireBody(bundleResponse);
         JsonNode bucket = findByField(bundle.path("coefficientBuckets"), "bucketKey", "it.move_speed.percent_bonus");
@@ -563,6 +550,7 @@ class ControllerPublishFlowIT {
             "IT " + targetGameId,
             null
         );
+        ensurePublishedSnapshotTable();
         ensureCoefficientBucketTables();
         ensureFormulaPartitions(targetGameId);
         ensureCoefficientBucketPartitions(targetGameId);
@@ -653,23 +641,30 @@ class ControllerPublishFlowIT {
         );
     }
 
-    private long createVersion(String versionCode) {
+    private void publish(String versionCode) {
         ResponseEntity<JsonNode> response = adminExchange(
-            "/api/admin/games/" + gameId + "/versions",
+            "/api/admin/games/" + gameId + "/versions:publish",
             HttpMethod.POST,
             Map.of("versionCode", versionCode)
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        return requireBody(response).path("versionId").asLong();
     }
 
-    private void publish(long versionId) {
-        ResponseEntity<JsonNode> response = adminExchange(
-            "/api/admin/games/" + gameId + "/versions/" + versionId + ":publish",
-            HttpMethod.POST,
-            null
+    private void ensurePublishedSnapshotTable() {
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.published_bundle_snapshots (
+                game_id varchar(64) NOT NULL,
+                version_id bigint NOT NULL,
+                version_code varchar(32) NOT NULL,
+                bundle_json jsonb NOT NULL,
+                created_at timestamp NOT NULL DEFAULT NOW(),
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_published_bundle_snapshots PRIMARY KEY (game_id, version_code),
+                CONSTRAINT uq_published_bundle_snapshots_version UNIQUE (game_id, version_id)
+            )
+            """
         );
-        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     private void putBaselineEntities(String heroName) {
@@ -1076,15 +1071,11 @@ class ControllerPublishFlowIT {
         return restTemplate.getForEntity("/api/games/" + gameId + "/versions/current", JsonNode.class);
     }
 
-    private ResponseEntity<JsonNode> getBundle(long versionId, String ifNoneMatch) {
-        HttpHeaders headers = new HttpHeaders();
-        if (ifNoneMatch != null && !ifNoneMatch.isBlank()) {
-            headers.set(HttpHeaders.IF_NONE_MATCH, ifNoneMatch);
-        }
+    private ResponseEntity<JsonNode> getBundle(String versionCode) {
         return restTemplate.exchange(
-            "/api/games/" + gameId + "/versions/" + versionId + "/bundle",
+            "/api/games/" + gameId + "/versions/" + versionCode + "/bundle",
             HttpMethod.GET,
-            new HttpEntity<>(headers),
+            HttpEntity.EMPTY,
             JsonNode.class
         );
     }
