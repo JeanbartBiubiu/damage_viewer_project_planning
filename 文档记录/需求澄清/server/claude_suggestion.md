@@ -259,7 +259,7 @@ export type ShieldInstance = {
 
 ### 1.2 RuntimeState 中的护盾容器
 
-在 `@/c:\project\damage_viewer_project_planning\wasm\概要设计-WASM内部事件流.md:15-20` 的 `RuntimeState` 中新增：
+在 `@/c:\project\damage_viewer_project_planning\wasm\WASM概要设计.md:15-20` 的 `RuntimeState` 中新增：
 
 ```ts
 // RuntimeState.combatants[id] 新增字段
@@ -491,7 +491,7 @@ damage 通道完整管线：
 
 ## 六、EngineSamplePoint 扩展
 
-`@/c:\project\damage_viewer_project_planning\wasm\引擎协议与数据结构.md:249-255` 的采样点需补充护盾和治疗数据：
+`文档记录/详细设计/wasm/WASM详细设计.md` 的采样点需补充护盾和治疗数据：
 
 ```ts
 export type EngineSamplePoint = {

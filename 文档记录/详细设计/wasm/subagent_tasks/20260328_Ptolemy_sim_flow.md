@@ -21,7 +21,7 @@ LAST_TRACKED_AT: pending
 ## 背景依据
 
 - `wasm/20260328版review报告.md`
-- `wasm/修复方案-20260328-review问题.md`
+- `wasm/WASM详细设计.md`
 
 ## 任务目标
 

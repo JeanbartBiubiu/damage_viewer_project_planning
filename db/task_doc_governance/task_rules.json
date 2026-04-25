@@ -200,9 +200,6 @@
       "status": "进行中",
       "priority": 1,
       "docs": [
-        "文档记录/需求澄清/wasm/卡特琳娜.md",
-        "文档记录/详细设计/wasm/卡特琳娜-MVP实施方案.md",
-        "文档记录/详细设计/wasm/卡特琳娜MVP运行协议.md",
         "文档记录/测试记录/wasm/卡特琳娜-MVP验证与回归.md",
         "文档记录/测试记录/wasm/卡特琳娜-Wasm MVP验证与回归.md"
       ]
@@ -214,12 +211,7 @@
       "feature": "gap_closure",
       "status": "进行中",
       "priority": 1,
-      "docs": [
-        "文档记录/需求澄清/wasm/查漏补缺-数据对接与机制差距分析.md",
-        "文档记录/需求澄清/wasm/盘点报告-引擎机制实现差距分析.md",
-        "文档记录/需求澄清/wasm/需要可以完成的挑战.md",
-        "文档记录/详细设计/wasm/修复方案-20260328-review问题.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "wasm-core-runtime-dataflow",
@@ -229,10 +221,6 @@
       "status": "进行中",
       "priority": 1,
       "docs": [
-        "文档记录/概要设计/wasm/概要设计-WASM内部事件流.md",
-        "文档记录/概要设计/wasm/概要设计-数据流转.md",
-        "文档记录/概要设计/wasm/概要设计-运行时数据流与属性公式主链路.md",
-        "文档记录/详细设计/wasm/引擎协议与数据结构.md",
         "文档记录/详细设计/wasm/subagent_tasks/20260328_Ptolemy_sim_flow.md"
       ]
     },
@@ -243,9 +231,7 @@
       "feature": "formula_heal_system",
       "status": "进行中",
       "priority": 1,
-      "docs": [
-        "文档记录/详细设计/wasm/MVP实现要点-公式与回复系统.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "wasm-shield-mechanism",
@@ -256,9 +242,7 @@
       "priority": 1,
       "completion_note": "护盾生成、取大值刷新和吸收顺序已有运行时代码与回归测试覆盖。",
       "completed_at": "2026-04-03",
-      "docs": [
-        "文档记录/概要设计/wasm/概要设计-护盾机制与跨游戏规则.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "wasm-control-interrupt",
@@ -269,9 +253,7 @@
       "priority": 1,
       "completion_note": "眩晕阻断与恢复调度已有实现，并有 benchmark 测试覆盖。",
       "completed_at": "2026-04-03",
-      "docs": [
-        "文档记录/概要设计/wasm/概要设计-控制与打断状态机制.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "wasm-move-speed-mechanism",
@@ -280,9 +262,7 @@
       "feature": "move_speed_mechanism",
       "status": "未开始",
       "priority": 2,
-      "docs": [
-        "文档记录/概要设计/wasm/概要设计-移动速度机制.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "wasm-mode-augment-rules",
@@ -291,9 +271,7 @@
       "feature": "mode_augment_rules",
       "status": "未开始",
       "priority": 2,
-      "docs": [
-        "文档记录/概要设计/wasm/概要设计-模式强化与海克斯规则.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "wasm-history-window",
@@ -302,9 +280,7 @@
       "feature": "history_window",
       "status": "未开始",
       "priority": 2,
-      "docs": [
-        "文档记录/概要设计/wasm/概要设计-历史值追踪与时间窗口机制.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "wasm-benchmark-regression",
@@ -314,7 +290,6 @@
       "status": "进行中",
       "priority": 1,
       "docs": [
-        "文档记录/详细设计/wasm/详细设计-测试基准驱动Wasm实施方案.md",
         "文档记录/详细设计/wasm/subagent_tasks/20260328_Raman_regression_tests.md",
         "文档记录/测试记录/wasm/20260328版review报告.md",
         "文档记录/测试记录/wasm/测试基准.md",
@@ -356,31 +331,9 @@
       "status": "进行中",
       "priority": 1,
       "docs": [
+        "文档记录/需求澄清/wasm/WASM机制覆盖需求.md",
         "文档记录/详细设计/wasm/subagent_tasks/20260410_LoL_entity_coverage_audit.md",
-        "文档记录/详细设计/最小验证/数据/lol_竞技场静态文本快照/分类汇总/LoL竞技场静态数据分类汇总.md",
-        "文档记录/需求澄清/wasm/LoL竞技场全量覆盖审计-英雄.md",
-        "文档记录/需求澄清/wasm/LoL竞技场全量覆盖审计-装备.md",
-        "文档记录/需求澄清/wasm/LoL竞技场全量覆盖审计-符文.md",
-        "文档记录/需求澄清/wasm/LoL竞技场全量覆盖审计-海克斯强化.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-后续拆分建议.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第1组-比例与阈值.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第2组-护盾治疗吸血.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第3组-命中触发与标记结算.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第4组-资源与节奏.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第5组-叠层与时效.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第6组-抗性穿透转化适应之力.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第8组-需过滤或转换.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-第9组-待人工归类.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-专题-标记附着与消费.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-专题-属性派生与穿透顺序.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-专题-充能阶段与冷却返还.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-专题-计数器初值阈值消费与周期触发.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-专题-暴击策略与暴击资格.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-横切缺口清单.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-缺口能力清单.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-跨专题统一实现口径.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-运行时状态结构草案.md",
-        "文档记录/需求澄清/wasm/LoL竞技场文本机制覆盖评估-补充专题-历史窗口与控制效果锁窗.md"
+        "文档记录/详细设计/最小验证/数据/lol_竞技场静态文本快照/分类汇总/LoL竞技场静态数据分类汇总.md"
       ]
     },
     {
@@ -391,12 +344,9 @@
       "status": "进行中",
       "priority": 1,
       "docs": [
-        "文档记录/概要设计/wasm/概要设计-通用战斗引擎V2架构.md",
-        "文档记录/概要设计/wasm/概要设计-通用战斗引擎V2对象化建模适配.md",
-        "文档记录/概要设计/wasm/概要设计-TinyGo事件管线与对象化数据流.md",
-        "文档记录/详细设计/wasm/2026-04-20_JavaDemo状态系统结论与后端交接.md",
-        "文档记录/详细设计/wasm/详细设计-通用战斗引擎V2-Java Demo实现方案.md",
-        "文档记录/详细设计/wasm/详细设计-通用战斗引擎V2-Java Demo任务拆解.md",
+        "文档记录/需求澄清/wasm/WASM需求澄清.md",
+        "文档记录/概要设计/wasm/WASM概要设计.md",
+        "文档记录/详细设计/wasm/WASM详细设计.md",
         "文档记录/详细设计/wasm/subagent_tasks/20260411_java_demo_phase_ab_worker.md"
       ]
     }
