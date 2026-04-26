@@ -472,6 +472,139 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void statusResourceCrud_andPublishBundle_shouldSucceed() {
+        String versionCode = "1.0.0";
+        putType(2101, "status_burning_test", "IT status");
+        putAttributeDefinition("move_speed");
+        putFormulaProfile("formula_status_tick");
+        putCoefficientBucket(
+            "it.status.move_speed.bucket",
+            Map.of(
+                "resolutionDomain", "attribute",
+                "stageKey", "status_bonus",
+                "targetAttrKey", "move_speed",
+                "aggregationMode", "add",
+                "provisional", false,
+                "name", "Status Move Speed Bucket",
+                "description", "测试：状态移速桶",
+                "editorHint", Map.of("groupLabel", "状态"),
+                "bucketConfig", Map.of("source", "it")
+            )
+        );
+
+        ResponseEntity<JsonNode> controlResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/control-state-profiles/it_stun_profile",
+            HttpMethod.PUT,
+            Map.of(
+                "name", "IT Stun",
+                "description", "测试：控制语义",
+                "controlKind", "stun",
+                "movementLockMode", "forbid_move",
+                "castLockMode", "interrupt_and_forbid",
+                "attackLockMode", "interrupt_and_forbid",
+                "inputOverrideMode", "force_stop",
+                "displacementKind", "none",
+                "blocksControlInput", true,
+                "priority", 10,
+                "extend", Map.of("source", "it")
+            )
+        );
+        assertEquals(HttpStatus.OK, controlResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> statusResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-definitions/it_burning",
+            HttpMethod.PUT,
+            Map.of(
+                "name", "IT Burning",
+                "description", "测试：状态定义",
+                "statusKind", "dot",
+                "statusTypeId", 2101,
+                "controlProfileId", "it_stun_profile",
+                "stackGroupKey", "it.burning",
+                "sourceScope", "same_source",
+                "stackMode", "stack",
+                "maxStacks", 3,
+                "durationMode", "timed",
+                "durationMs", 3000,
+                "snapshotPolicy", "on_apply",
+                "isDispellable", true,
+                "cleansePriority", 5,
+                "extend", Map.of("source", "it")
+            )
+        );
+        assertEquals(HttpStatus.OK, statusResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> groupResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-modifier-groups/it_burning/periodic",
+            HttpMethod.PUT,
+            Map.of(
+                "groupName", "Periodic Effects",
+                "phaseKey", "on_interval",
+                "snapshotPolicy", "per_tick",
+                "intervalMs", 1000,
+                "maxTicks", 3,
+                "priority", 1,
+                "extend", Map.of("source", "it")
+            )
+        );
+        assertEquals(HttpStatus.OK, groupResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> modifierResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-attribute-modifiers/it_burning/periodic/move_speed_bonus",
+            HttpMethod.PUT,
+            Map.of(
+                "attrKey", "move_speed",
+                "modifierMode", "bucket_add",
+                "value", 12,
+                "bucketKey", "it.status.move_speed.bucket",
+                "perStack", true,
+                "priority", 2,
+                "extend", Map.of("source", "it")
+            )
+        );
+        assertEquals(HttpStatus.OK, modifierResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> effectResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-periodic-hp-effects/it_burning/periodic/burning_tick",
+            HttpMethod.PUT,
+            Map.of(
+                "effectKind", "damage",
+                "tickFormulaId", "formula_status_tick",
+                "damageType", "magic",
+                "canCrit", false,
+                "perStack", true,
+                "extend", Map.of("source", "it")
+            )
+        );
+        assertEquals(HttpStatus.OK, effectResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> listResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-definitions",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, listResponse.getStatusCode());
+        assertTrue(containsByField(requireBody(listResponse).path("statusDefinitions"), "statusId", "it_burning"));
+
+        publish(versionCode);
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+        assertEquals("dot", findByField(bundle.path("statusDefinitions"), "statusId", "it_burning").path("statusKind").asText());
+        assertEquals(
+            "stun",
+            findByField(bundle.path("controlStateProfiles"), "controlProfileId", "it_stun_profile").path("controlKind").asText()
+        );
+        assertEquals("on_interval", findByField(bundle.path("statusModifierGroups"), "groupKey", "periodic").path("phaseKey").asText());
+        assertEquals(
+            "bucket_add",
+            findByField(bundle.path("statusAttributeModifiers"), "modifierId", "move_speed_bonus").path("modifierMode").asText()
+        );
+        assertEquals("damage", findByField(bundle.path("statusPeriodicHpEffects"), "effectId", "burning_tick").path("effectKind").asText());
+    }
+
+    @Test
     void coefficientBucketCrud_andPublishBundle_shouldSucceed() {
         String versionCode = "1.0.0";
         putAttributeDefinition("move_speed");
@@ -552,9 +685,11 @@ class ControllerPublishFlowIT {
         );
         ensurePublishedSnapshotTable();
         ensureCoefficientBucketTables();
+        ensureStatusResourceTables();
         ensureFormulaPartitions(targetGameId);
         ensureCoefficientBucketPartitions(targetGameId);
         ensureStatusActionControlRulePartitions(targetGameId);
+        ensureStatusResourcePartitions(targetGameId);
         jdbcTemplate.update(
             "INSERT INTO public.owner_categories (game_id, owner_type, name, description) VALUES (?, 'hero', ?, ?) "
                 + "ON CONFLICT (game_id, owner_type) DO NOTHING",
@@ -622,6 +757,242 @@ class ControllerPublishFlowIT {
         );
     }
 
+    private void ensureStatusResourceTables() {
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_definitions (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                name varchar(100) NOT NULL,
+                description text,
+                status_kind varchar(24) NOT NULL,
+                status_type_id int,
+                control_profile_id varchar(64),
+                stack_group_key varchar(64) NOT NULL,
+                source_scope varchar(24) NOT NULL DEFAULT 'any_source',
+                stack_mode varchar(24) NOT NULL DEFAULT 'refresh',
+                max_stacks int NOT NULL DEFAULT 1,
+                max_instances int,
+                duration_mode varchar(16) NOT NULL DEFAULT 'timed',
+                duration_ms int,
+                duration_formula_id varchar(64),
+                default_magnitude_formula_id varchar(64),
+                snapshot_policy varchar(16) NOT NULL DEFAULT 'on_apply',
+                is_dispellable boolean NOT NULL DEFAULT true,
+                cleanse_priority int NOT NULL DEFAULT 0,
+                extend jsonb NOT NULL DEFAULT '{}',
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_status_definitions PRIMARY KEY (game_id, status_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_definitions_log (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                name varchar(100) NOT NULL,
+                description text,
+                status_kind varchar(24) NOT NULL,
+                status_type_id int,
+                control_profile_id varchar(64),
+                stack_group_key varchar(64) NOT NULL,
+                source_scope varchar(24) NOT NULL,
+                stack_mode varchar(24) NOT NULL,
+                max_stacks int NOT NULL,
+                max_instances int,
+                duration_mode varchar(16) NOT NULL,
+                duration_ms int,
+                duration_formula_id varchar(64),
+                default_magnitude_formula_id varchar(64),
+                snapshot_policy varchar(16) NOT NULL,
+                is_dispellable boolean NOT NULL,
+                cleanse_priority int NOT NULL,
+                extend jsonb NOT NULL DEFAULT '{}',
+                CONSTRAINT pk_status_definitions_log PRIMARY KEY (game_id, status_id, start_version_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.control_state_profiles (
+                game_id varchar(64) NOT NULL,
+                control_profile_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                name varchar(100) NOT NULL,
+                description text,
+                control_kind varchar(24) NOT NULL,
+                movement_lock_mode varchar(24) NOT NULL DEFAULT 'none',
+                cast_lock_mode varchar(24) NOT NULL DEFAULT 'none',
+                attack_lock_mode varchar(24) NOT NULL DEFAULT 'none',
+                input_override_mode varchar(32) NOT NULL DEFAULT 'none',
+                displacement_kind varchar(24) NOT NULL DEFAULT 'none',
+                blocks_control_input boolean NOT NULL DEFAULT false,
+                grants_unstoppable boolean NOT NULL DEFAULT false,
+                breaks_on_damage boolean NOT NULL DEFAULT false,
+                tenacity_reducible boolean NOT NULL DEFAULT true,
+                priority int NOT NULL DEFAULT 0,
+                extend jsonb NOT NULL DEFAULT '{}',
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_control_state_profiles PRIMARY KEY (game_id, control_profile_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.control_state_profiles_log (
+                game_id varchar(64) NOT NULL,
+                control_profile_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                name varchar(100) NOT NULL,
+                description text,
+                control_kind varchar(24) NOT NULL,
+                movement_lock_mode varchar(24) NOT NULL,
+                cast_lock_mode varchar(24) NOT NULL,
+                attack_lock_mode varchar(24) NOT NULL,
+                input_override_mode varchar(32) NOT NULL,
+                displacement_kind varchar(24) NOT NULL,
+                blocks_control_input boolean NOT NULL,
+                grants_unstoppable boolean NOT NULL,
+                breaks_on_damage boolean NOT NULL,
+                tenacity_reducible boolean NOT NULL,
+                priority int NOT NULL,
+                extend jsonb NOT NULL DEFAULT '{}',
+                CONSTRAINT pk_control_state_profiles_log PRIMARY KEY (game_id, control_profile_id, start_version_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_modifier_groups (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                group_key varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                group_name varchar(100),
+                phase_key varchar(24) NOT NULL,
+                snapshot_policy varchar(16) NOT NULL DEFAULT 'on_apply',
+                interval_ms int,
+                max_ticks int,
+                priority int NOT NULL DEFAULT 0,
+                extend jsonb NOT NULL DEFAULT '{}',
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_status_modifier_groups PRIMARY KEY (game_id, status_id, group_key)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_modifier_groups_log (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                group_key varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                group_name varchar(100),
+                phase_key varchar(24) NOT NULL,
+                snapshot_policy varchar(16) NOT NULL,
+                interval_ms int,
+                max_ticks int,
+                priority int NOT NULL,
+                extend jsonb NOT NULL DEFAULT '{}',
+                CONSTRAINT pk_status_modifier_groups_log PRIMARY KEY (game_id, status_id, group_key, start_version_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_attribute_modifiers (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                group_key varchar(64) NOT NULL,
+                modifier_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                attr_key varchar(64) NOT NULL,
+                modifier_mode varchar(24) NOT NULL,
+                value numeric,
+                formula_id varchar(64),
+                bucket_key varchar(64),
+                per_stack boolean NOT NULL DEFAULT false,
+                priority int NOT NULL DEFAULT 0,
+                extend jsonb NOT NULL DEFAULT '{}',
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_status_attribute_modifiers PRIMARY KEY (game_id, status_id, group_key, modifier_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_attribute_modifiers_log (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                group_key varchar(64) NOT NULL,
+                modifier_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                attr_key varchar(64) NOT NULL,
+                modifier_mode varchar(24) NOT NULL,
+                value numeric,
+                formula_id varchar(64),
+                bucket_key varchar(64),
+                per_stack boolean NOT NULL,
+                priority int NOT NULL,
+                extend jsonb NOT NULL DEFAULT '{}',
+                CONSTRAINT pk_status_attribute_modifiers_log PRIMARY KEY (game_id, status_id, group_key, modifier_id, start_version_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_periodic_hp_effects (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                group_key varchar(64) NOT NULL,
+                effect_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                effect_kind varchar(16) NOT NULL,
+                tick_formula_id varchar(64) NOT NULL,
+                damage_type varchar(16),
+                can_crit boolean NOT NULL DEFAULT false,
+                affected_by_heal_modifier boolean,
+                per_stack boolean NOT NULL DEFAULT false,
+                extend jsonb NOT NULL DEFAULT '{}',
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_status_periodic_hp_effects PRIMARY KEY (game_id, status_id, group_key, effect_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.status_periodic_hp_effects_log (
+                game_id varchar(64) NOT NULL,
+                status_id varchar(64) NOT NULL,
+                group_key varchar(64) NOT NULL,
+                effect_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                effect_kind varchar(16) NOT NULL,
+                tick_formula_id varchar(64) NOT NULL,
+                damage_type varchar(16),
+                can_crit boolean NOT NULL,
+                affected_by_heal_modifier boolean,
+                per_stack boolean NOT NULL,
+                extend jsonb NOT NULL DEFAULT '{}',
+                CONSTRAINT pk_status_periodic_hp_effects_log PRIMARY KEY (game_id, status_id, group_key, effect_id, start_version_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+    }
+
     private void ensureCoefficientBucketPartitions(String targetGameId) {
         createGamePartition("coefficient_buckets", targetGameId);
         createGamePartition("coefficient_buckets_log", targetGameId);
@@ -630,6 +1001,19 @@ class ControllerPublishFlowIT {
     private void ensureStatusActionControlRulePartitions(String targetGameId) {
         createGamePartition("status_action_control_rules", targetGameId);
         createGamePartition("status_action_control_rules_log", targetGameId);
+    }
+
+    private void ensureStatusResourcePartitions(String targetGameId) {
+        createGamePartition("status_definitions", targetGameId);
+        createGamePartition("status_definitions_log", targetGameId);
+        createGamePartition("control_state_profiles", targetGameId);
+        createGamePartition("control_state_profiles_log", targetGameId);
+        createGamePartition("status_modifier_groups", targetGameId);
+        createGamePartition("status_modifier_groups_log", targetGameId);
+        createGamePartition("status_attribute_modifiers", targetGameId);
+        createGamePartition("status_attribute_modifiers_log", targetGameId);
+        createGamePartition("status_periodic_hp_effects", targetGameId);
+        createGamePartition("status_periodic_hp_effects_log", targetGameId);
     }
 
     private void createGamePartition(String parentTable, String targetGameId) {
