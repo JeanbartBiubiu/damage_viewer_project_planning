@@ -6,6 +6,7 @@ import (
 
 	"tinygo_engine_v2/internal/abi"
 	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/cadence"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/history"
@@ -27,6 +28,8 @@ type ActorRuntime struct {
 	Attrs       attribute.Store
 	Resources   resource.Store
 	DamageTaken history.Window
+	OwnsAction  []bool
+	ActionState []cadence.State
 	Pending     PendingIntent
 }
 
@@ -71,6 +74,27 @@ type RunContext struct {
 	Done            bool
 	aborted         bool
 	trace           model.TraceOptions
+}
+
+type CastBlockCode uint8
+
+const (
+	CastOK CastBlockCode = iota
+	CastUnknownAction
+	CastNotOwned
+	CastBlockedByStatus
+	CastMarkMissing
+	CastInsufficientResource
+	CastCooldown
+)
+
+type CastGateResult struct {
+	Code           CastBlockCode
+	RuleID         string
+	StatusID       uint16
+	RetryAtMs      int64
+	RetryOnRelease bool
+	Reason         string
 }
 
 type StepStatus struct {
@@ -163,11 +187,19 @@ func actorFrom(bundle compilebundle.CompiledBundle, template compilebundle.Compi
 	}
 	attrs := attribute.NewStore(attrDefs)
 	attrs.ResolveAll(0)
+	ownsAction := make([]bool, len(bundle.Actions))
+	for _, action := range template.Actions {
+		if int(action) < len(ownsAction) {
+			ownsAction[action] = true
+		}
+	}
 	return ActorRuntime{
 		ActorID: actorID, Template: templateID, HP: hp, MaxHP: template.MaxHP,
 		Attrs:       attrs,
 		Resources:   resource.NewStore(resourceSlots),
 		DamageTaken: history.NewWindow(128),
+		OwnsAction:  ownsAction,
+		ActionState: make([]cadence.State, len(bundle.Actions)),
 	}
 }
 
@@ -230,19 +262,16 @@ func (ctx *RunContext) dispatch(ev scheduler.Event) model.ErrCode {
 }
 
 func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
-	if ctx.isActionBlocked(ev.Source) {
-		ctx.Actors[ev.Source].Pending = PendingIntent{Active: true, Target: ev.Target, Action: ev.Action}
-		ctx.log("action_blocked", ev.Source, ev.Target, ev.Action, 0, 0, "pending intent stored")
+	gate := ctx.CanCast(ev.Source, ev.Action, ctx.NowMs)
+	if gate.Code != CastOK {
+		ctx.handleCastBlocked(ev, gate)
+		return model.ErrOK
+	}
+	if !ctx.commitCastStart(ev.Source, ev.Action, ctx.NowMs) {
+		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "cast commit failed")
 		return model.ErrOK
 	}
 	action := ctx.Bundle.Actions[ev.Action]
-	if action.RequiresMark != "" && !ctx.Pair.HasMark(action.RequiresMark) {
-		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "required mark missing")
-		return model.ErrOK
-	}
-	if action.ConsumesMark && action.RequiresMark != "" {
-		ctx.Pair.ConsumeMark(action.RequiresMark)
-	}
 	ctx.log("action_cast", ev.Source, ev.Target, ev.Action, 0, 0, "")
 	if code := ctx.fireTriggers(compilebundle.TriggerOnActionCast, ev.Source, ev.Target, 0, ev.ChainDepth); code != model.ErrOK {
 		return code
@@ -253,6 +282,188 @@ func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
 		}
 	}
 	return model.ErrOK
+}
+
+func (ctx *RunContext) CanCast(actor uint8, action uint16, nowMs int64) CastGateResult {
+	if int(action) >= len(ctx.Bundle.Actions) {
+		return CastGateResult{Code: CastUnknownAction}
+	}
+	if !ctx.actorOwnsAction(actor, action) {
+		return CastGateResult{Code: CastNotOwned}
+	}
+	if gate := ctx.blockedByStatus(actor, action, nowMs); gate.Code != CastOK {
+		return gate
+	}
+	template := ctx.Bundle.Actions[action]
+	if template.RequiresMark != "" && !ctx.Pair.HasMark(template.RequiresMark) {
+		return CastGateResult{Code: CastMarkMissing}
+	}
+	if ok, reason := ctx.canSpendActionCosts(actor, action); !ok {
+		return CastGateResult{Code: CastInsufficientResource, Reason: reason}
+	}
+	if int(action) >= len(ctx.Actors[actor].ActionState) {
+		return CastGateResult{Code: CastCooldown}
+	}
+	state := ctx.Actors[actor].ActionState[action]
+	if !state.Ready(nowMs) {
+		return CastGateResult{Code: CastCooldown, RetryAtMs: state.ReadyAtMs}
+	}
+	return CastGateResult{Code: CastOK}
+}
+
+func (ctx *RunContext) actorOwnsAction(actor uint8, action uint16) bool {
+	if int(actor) >= len(ctx.Actors) || int(action) >= len(ctx.Bundle.Actions) {
+		return false
+	}
+	owned := ctx.Actors[actor].OwnsAction
+	return int(action) < len(owned) && owned[action]
+}
+
+func (ctx *RunContext) blockedByStatus(actor uint8, action uint16, nowMs int64) CastGateResult {
+	if int(action) >= len(ctx.Bundle.Actions) {
+		return CastGateResult{Code: CastUnknownAction}
+	}
+	actionSet := ctx.Bundle.Actions[action].TypeSet
+	for i := range ctx.Statuses {
+		status := ctx.Statuses[i]
+		if !status.Alive || status.Actor != actor {
+			continue
+		}
+		statusSet := ctx.Bundle.Statuses[status.Def].TypeSet
+		for _, rule := range ctx.Bundle.ControlRules.Rules {
+			if rule.Kind != compilebundle.ControlRuleForbid {
+				continue
+			}
+			if !rule.StatusMatcher.Match(statusSet) || !rule.ActionMatcher.Match(actionSet) || !rule.ActionTagMatcher.Match(actionSet) {
+				continue
+			}
+			return CastGateResult{
+				Code:           CastBlockedByStatus,
+				RuleID:         rule.ID,
+				StatusID:       status.Def,
+				RetryOnRelease: rule.RetryOnRelease,
+			}
+		}
+	}
+	return CastGateResult{Code: CastOK}
+}
+
+func (ctx *RunContext) canSpendActionCosts(actor uint8, action uint16) (bool, string) {
+	amounts, reason, ok := ctx.actionCostAmounts(actor, action)
+	if !ok {
+		return false, reason
+	}
+	costs := ctx.Bundle.Actions[action].Costs
+	for i, cost := range costs {
+		if int(cost.Resource) >= len(ctx.Actors[actor].Resources.Slots) {
+			return false, "unknown resource"
+		}
+		if firstCostForResource(costs, i) != i {
+			continue
+		}
+		total := 0.0
+		for j, other := range costs {
+			if other.Resource == cost.Resource {
+				total += amounts[j]
+			}
+		}
+		if !ctx.Actors[actor].Resources.Slots[cost.Resource].CanSpend(total) {
+			return false, "insufficient resource"
+		}
+	}
+	return true, ""
+}
+
+func firstCostForResource(costs []compilebundle.CompiledResourceCost, index int) int {
+	resourceID := costs[index].Resource
+	for i, cost := range costs {
+		if cost.Resource == resourceID {
+			return i
+		}
+	}
+	return index
+}
+
+func (ctx *RunContext) commitCastStart(actor uint8, action uint16, nowMs int64) bool {
+	if ok, _ := ctx.canSpendActionCosts(actor, action); !ok {
+		return false
+	}
+	amounts, _, ok := ctx.actionCostAmounts(actor, action)
+	if !ok {
+		return false
+	}
+	costs := ctx.Bundle.Actions[action].Costs
+	for i, cost := range costs {
+		if int(cost.Resource) >= len(ctx.Actors[actor].Resources.Slots) {
+			return false
+		}
+		if ctx.Actors[actor].Resources.Slots[cost.Resource].Spend(amounts[i]).Code != resource.ErrOK {
+			return false
+		}
+	}
+	template := ctx.Bundle.Actions[action]
+	if template.ConsumesMark && template.RequiresMark != "" {
+		ctx.Pair.ConsumeMark(template.RequiresMark)
+	}
+	if int(action) >= len(ctx.Actors[actor].ActionState) {
+		return false
+	}
+	return ctx.Actors[actor].ActionState[action].Consume(nowMs, template.CooldownMs)
+}
+
+func (ctx *RunContext) actionCostAmounts(actor uint8, action uint16) ([]float64, string, bool) {
+	if int(actor) >= len(ctx.Actors) || int(action) >= len(ctx.Bundle.Actions) {
+		return nil, "unknown action", false
+	}
+	costs := ctx.Bundle.Actions[action].Costs
+	amounts := make([]float64, len(costs))
+	for i, cost := range costs {
+		amount := cost.Amount
+		if cost.HasFormula {
+			ctx.Actors[actor].Attrs.ResolveAll(ctx.NowMs)
+			value, err := ctx.Bundle.Formulas.Eval(cost.Formula, formula.EvalContext{
+				SourceAttrs: &ctx.Actors[actor].Attrs,
+				TargetAttrs: &ctx.Actors[actor].Attrs,
+				Resources:   &ctx.Actors[actor].Resources,
+			})
+			if err != nil {
+				return nil, "resource cost formula failed", false
+			}
+			amount = value
+		}
+		if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
+			return nil, "invalid resource cost", false
+		}
+		amounts[i] = amount
+	}
+	return amounts, "", true
+}
+
+func (ctx *RunContext) handleCastBlocked(ev scheduler.Event, gate CastGateResult) {
+	switch gate.Code {
+	case CastBlockedByStatus:
+		message := "blocked by status rule " + gate.RuleID
+		if gate.RetryOnRelease {
+			ctx.Actors[ev.Source].Pending = PendingIntent{Active: true, Target: ev.Target, Action: ev.Action}
+			ctx.log("action_blocked", ev.Source, ev.Target, ev.Action, gate.StatusID, 0, message)
+			return
+		}
+		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, gate.StatusID, 0, message)
+	case CastMarkMissing:
+		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "required mark missing")
+	case CastNotOwned:
+		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "action not owned")
+	case CastInsufficientResource:
+		message := gate.Reason
+		if message == "" {
+			message = "insufficient resource"
+		}
+		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, message)
+	case CastCooldown:
+		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "cooldown")
+	default:
+		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "unknown action")
+	}
 }
 
 func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source uint8, target uint8, chainDepth uint8) model.ErrCode {
@@ -452,9 +663,8 @@ func (ctx *RunContext) onStatusExpire(ev scheduler.Event) model.ErrCode {
 		return model.ErrOK
 	}
 	status.Alive = false
-	def := ctx.Bundle.Statuses[status.Def]
 	ctx.log("status_expire", status.Actor, status.Actor, 0, status.Def, 0, "")
-	if def.BlocksActions && ctx.Actors[status.Actor].Pending.Active {
+	if ctx.Actors[status.Actor].Pending.Active {
 		return ctx.Queue.Push(scheduler.Event{TimeMs: ctx.NowMs, Priority: 2, Kind: scheduler.EventIntentRecheck, Source: status.Actor, Target: ctx.Actors[status.Actor].Pending.Target})
 	}
 	return model.ErrOK
@@ -485,17 +695,8 @@ func (ctx *RunContext) onIntentRecheck(ev scheduler.Event) model.ErrCode {
 	})
 }
 
-func (ctx *RunContext) isActionBlocked(actor uint8) bool {
-	for i := range ctx.Statuses {
-		status := ctx.Statuses[i]
-		if !status.Alive || status.Actor != actor {
-			continue
-		}
-		if ctx.Bundle.Statuses[status.Def].BlocksActions {
-			return true
-		}
-	}
-	return false
+func (ctx *RunContext) InterruptExecutions(actor uint8, status uint16, nowMs int64) model.ErrCode {
+	return model.ErrOK
 }
 
 func (ctx *RunContext) EmitDone(reason string) {
