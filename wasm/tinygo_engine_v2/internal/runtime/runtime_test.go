@@ -66,6 +66,106 @@ func TestAkaliMarkGate(t *testing.T) {
 	}
 }
 
+func TestSilenceBlocksCastSkillButAllowsBasicAttack(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.Self.StatusIDs = []string{"silence"}
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "basic_attack"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "fireball"},
+	}
+	done := runBundle(t, bundle, input)
+	if got := actorHP(done, "enemy"); got != 990 {
+		t.Fatalf("enemy hp got %.2f, want only basic attack damage", got)
+	}
+}
+
+func TestDisarmBlocksBasicAttackButAllowsSkill(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.Self.StatusIDs = []string{"disarm"}
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "basic_attack"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "fireball"},
+	}
+	done := runBundle(t, bundle, input)
+	if got := actorHP(done, "enemy"); got != 970 {
+		t.Fatalf("enemy hp got %.2f, want only fireball damage", got)
+	}
+}
+
+func TestGroundBlocksDashTaggedAction(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.Self.StatusIDs = []string{"ground"}
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "fireball"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "dash_strike"},
+	}
+	done := runBundle(t, bundle, input)
+	if got := actorHP(done, "enemy"); got != 970 {
+		t.Fatalf("enemy hp got %.2f, want non-dash fireball only", got)
+	}
+}
+
+func TestUnownedActionIsDropped(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "enemy_only"}}
+	done := runBundle(t, bundle, input)
+	if got := actorHP(done, "enemy"); got != 1000 {
+		t.Fatalf("enemy hp got %.2f, want unowned action to be dropped", got)
+	}
+}
+
+func TestResourceCostSpendsAndInsufficientDoesNotConsumeMark(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "mark"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "expensive_marked"},
+		{TriggerAtMs: 2, SourceActorID: "self", TargetActorID: "enemy", ActionID: "free_marked"},
+		{TriggerAtMs: 3, SourceActorID: "self", TargetActorID: "enemy", ActionID: "fireball"},
+	}
+	done := runBundle(t, bundle, input)
+	if got := actorHP(done, "enemy"); got != 940 {
+		t.Fatalf("enemy hp got %.2f, want free marked and fireball damage", got)
+	}
+	if got := actor(done, "self").Resources["mana"].Current; got != 60 {
+		t.Fatalf("self mana got %.2f, want only fireball cost spent", got)
+	}
+}
+
+func TestCooldownBlocksUntilReady(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "cooldown_bolt"},
+		{TriggerAtMs: 500, SourceActorID: "self", TargetActorID: "enemy", ActionID: "cooldown_bolt"},
+		{TriggerAtMs: 1000, SourceActorID: "self", TargetActorID: "enemy", ActionID: "cooldown_bolt"},
+	}
+	done := runBundle(t, bundle, input)
+	if got := actorHP(done, "enemy"); got != 940 {
+		t.Fatalf("enemy hp got %.2f, want two cooldown bolt casts", got)
+	}
+}
+
+func TestResourceCostsArePrecheckedAtomically(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "double_cost"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "fireball"},
+	}
+	done := runBundle(t, bundle, input)
+	if got := actorHP(done, "enemy"); got != 970 {
+		t.Fatalf("enemy hp got %.2f, want double cost dropped and fireball cast", got)
+	}
+	if got := actor(done, "self").Resources["mana"].Current; got != 60 {
+		t.Fatalf("self mana got %.2f, want only fireball cost spent", got)
+	}
+}
+
 func TestSnapshotCarriesResolvedAttributeState(t *testing.T) {
 	done := run(t, testkit.BasicRunInput())
 	self := actor(done, "self")
@@ -93,12 +193,66 @@ func TestBadSchemaFailsFast(t *testing.T) {
 
 func run(t *testing.T, input model.EngineRunInput) model.DonePayload {
 	t.Helper()
+	return runBundle(t, testkit.BenchmarkBundle(), input)
+}
+
+func runBundle(t *testing.T, bundle model.EngineBundle, input model.EngineRunInput) model.DonePayload {
+	t.Helper()
 	session := runtime.NewSession()
-	mustCode(t, session.InitJSON(mustJSON(t, testkit.BenchmarkBundle())))
+	mustCode(t, session.InitJSON(mustJSON(t, bundle)))
 	mustCode(t, session.BeginRunJSON(mustJSON(t, input)))
 	for session.Step(64) == 1 {
 	}
 	return testkit.LastDone(session.OutboxBytes())
+}
+
+func controlRunInput() model.EngineRunInput {
+	return model.EngineRunInput{
+		Seed:          7,
+		Self:          model.CombatantRunInit{ActorID: "self", TemplateID: "fighter"},
+		Enemy:         model.CombatantRunInit{ActorID: "enemy", TemplateID: "dummy"},
+		StopCondition: model.StopCondition{MaxEvents: 20},
+		Trace:         model.TraceOptions{EnableLogs: true, SampleEvery: 1},
+	}
+}
+
+func controlGateBundle() model.EngineBundle {
+	return model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes:    []model.AttributeDefinitionV2{{ID: "attack_damage"}},
+		Resources:     []model.ResourceDefinitionV2{{ID: "mana", DefaultCurrent: 100, DefaultMax: 100}},
+		Actors: []model.ActorTemplate{
+			{ID: "fighter", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"attack_damage": {Base: 10}}, Resources: map[string]model.ResourceValueV2{"mana": {Current: 100, Max: 100}}, Actions: []string{"basic_attack", "fireball", "dash_strike", "mark", "expensive_marked", "free_marked", "cooldown_bolt", "double_cost"}},
+			{ID: "dummy", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"attack_damage": {Base: 10}}, Resources: map[string]model.ResourceValueV2{"mana": {Current: 100, Max: 100}}, Actions: []string{"basic_attack", "enemy_only"}},
+		},
+		Statuses: []model.StatusTemplate{
+			{ID: "silence", Kind: "control", Classifier: model.ClassifierV2{Types: []string{"status/silence"}}},
+			{ID: "disarm", Kind: "control", Classifier: model.ClassifierV2{Types: []string{"status/disarm"}}},
+			{ID: "ground", Kind: "control", Classifier: model.ClassifierV2{Types: []string{"status/ground"}}},
+		},
+		StatusActionControlRules: []model.StatusActionControlRuleV2{
+			{ID: "silence_forbid", RuleKind: "forbid", StatusTypes: model.TypeMatcherV2{Any: []string{"status/silence"}}, ActionTypes: model.TypeMatcherV2{Any: []string{"action/cast_skill"}}},
+			{ID: "disarm_forbid", RuleKind: "forbid", StatusTypes: model.TypeMatcherV2{Any: []string{"status/disarm"}}, ActionTypes: model.TypeMatcherV2{Any: []string{"action/basic_attack"}}},
+			{ID: "ground_forbid", RuleKind: "forbid", StatusTypes: model.TypeMatcherV2{Any: []string{"status/ground"}}, ActionTypes: model.TypeMatcherV2{Any: []string{"action/cast_skill"}}, ActionMatchTypes: model.TypeMatcherV2{Any: []string{"skill_tag/dash"}}},
+		},
+		Formulas: []model.FormulaDefinition{
+			{ID: "ad", Op: "attr", Attr: "attack_damage"},
+			{ID: "flat_30", Op: "const", Value: 30},
+			{ID: "flat_999", Op: "const", Value: 999},
+		},
+		Actions: []model.ActionTemplate{
+			{ID: "basic_attack", Label: "Basic Attack", Classifier: model.ClassifierV2{Types: []string{"action/basic_attack"}}, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "ad", DamageType: "physical", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "fireball", Label: "Fireball", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, ResourceCost: []model.ResourceCostV2{{ResourceID: "mana", Amount: 40}}, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "dash_strike", Label: "Dash Strike", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/dash"}}, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "physical", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "mark", Label: "Mark", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, Effects: []model.EffectDef{{Type: "apply_mark", MarkID: "test_mark", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "expensive_marked", Label: "Expensive Marked", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, RequiresMark: "test_mark", ConsumesMark: true, ResourceCost: []model.ResourceCostV2{{ResourceID: "mana", FormulaID: "flat_999"}}, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "free_marked", Label: "Free Marked", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, RequiresMark: "test_mark", ConsumesMark: true, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "cooldown_bolt", Label: "Cooldown Bolt", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, CooldownMs: 1000, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "double_cost", Label: "Double Cost", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, ResourceCost: []model.ResourceCostV2{{ResourceID: "mana", Amount: 70}, {ResourceID: "mana", Amount: 70}}, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "enemy_only", Label: "Enemy Only", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, Effects: []model.EffectDef{{Type: "deal_damage", Amount: 99, DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+		},
+		Settings: model.BundleSettings{MaxEvents: 1000, MaxCommandsPerEvent: 64},
+	}
 }
 
 func actorHP(done model.DonePayload, actorID string) float64 {
