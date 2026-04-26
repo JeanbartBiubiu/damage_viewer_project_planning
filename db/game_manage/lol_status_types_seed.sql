@@ -3,7 +3,6 @@
 -- =============================================================================
 --
 -- 来源：
--- - wasm/Types of Crowd Control _ League of Legends Wiki.mhtml
 -- - wasm/WASM概要设计.md
 --
 -- 说明：
