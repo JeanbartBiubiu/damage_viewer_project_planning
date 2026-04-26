@@ -2,8 +2,12 @@
 package compile
 
 import (
+	"math"
+	"sort"
+
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/typeset"
 )
 
 const (
@@ -23,6 +27,8 @@ type CompiledBundle struct {
 	Statuses      []CompiledStatus
 	StatusIndex   map[string]uint16
 	Formulas      formula.Registry
+	Types         typeset.Registry
+	ControlRules  ControlRuleIndex
 	Triggers      []CompiledTrigger
 	Settings      Settings
 }
@@ -67,20 +73,52 @@ type CompiledActor struct {
 type CompiledAction struct {
 	ID           string
 	Label        string
+	TypeSet      typeset.TypeSet
 	CooldownMs   int64
+	Costs        []CompiledResourceCost
 	Effects      []CompiledEffect
 	RequiresMark string
 	ConsumesMark bool
 }
 
+type CompiledResourceCost struct {
+	Resource   uint16
+	Formula    formula.ProgramID
+	HasFormula bool
+	Amount     float64
+}
+
 type CompiledStatus struct {
 	ID             string
 	Kind           string
+	TypeSet        typeset.TypeSet
 	DurationMs     int64
 	BlocksActions  bool
 	RetryOnRelease bool
 	Magnitude      float64
 	ShieldKind     string
+}
+
+type ControlRuleKind uint8
+
+const (
+	ControlRuleForbid ControlRuleKind = iota + 1
+	ControlRuleInterrupt
+)
+
+type CompiledStatusActionControlRule struct {
+	ID               string
+	Kind             ControlRuleKind
+	StatusMatcher    typeset.Matcher
+	ActionMatcher    typeset.Matcher
+	ActionTagMatcher typeset.Matcher
+	PhaseMatcher     typeset.Matcher
+	Priority         int16
+	RetryOnRelease   bool
+}
+
+type ControlRuleIndex struct {
+	Rules []CompiledStatusActionControlRule
 }
 
 type TriggerEvent uint8
@@ -145,6 +183,7 @@ func Bundle(input model.EngineBundle) Result {
 		ActorIndex:    make(map[string]uint8, len(input.Actors)),
 		ActionIndex:   make(map[string]uint16, len(input.Actions)),
 		StatusIndex:   make(map[string]uint16, len(input.Statuses)),
+		Types:         typeset.NewRegistry(),
 	}
 	cb.Settings.MaxEvents = input.Settings.MaxEvents
 	if cb.Settings.MaxEvents <= 0 {
@@ -157,7 +196,7 @@ func Bundle(input model.EngineBundle) Result {
 	cb.Settings.MaxQueueEvents = input.Settings.MaxQueueEvents
 	cb.Settings.MaxChainDepth = input.Settings.MaxChainDepth
 
-	for i, attr := range input.Attributes {
+	for _, attr := range input.Attributes {
 		if attr.ID == "" {
 			problems = append(problems, "attribute id is empty")
 			continue
@@ -166,7 +205,7 @@ func Bundle(input model.EngineBundle) Result {
 			problems = append(problems, "duplicate attribute: "+attr.ID)
 			continue
 		}
-		cb.AttrIndex[attr.ID] = uint16(i)
+		cb.AttrIndex[attr.ID] = uint16(len(cb.Attrs))
 		cb.Attrs = append(cb.Attrs, CompiledAttribute{
 			ID: attr.ID, DefaultBase: attr.DefaultBase, DefaultCurrent: attr.DefaultCurrent,
 			DefaultMax: attr.DefaultMax, HasDefaultCurrent: attr.HasDefaultCurrent,
@@ -174,7 +213,7 @@ func Bundle(input model.EngineBundle) Result {
 			ClampMax: attr.ClampMax, HasClampMax: attr.HasClampMax,
 		})
 	}
-	for i, resource := range input.Resources {
+	for _, resource := range input.Resources {
 		if resource.ID == "" {
 			problems = append(problems, "resource id is empty")
 			continue
@@ -183,7 +222,7 @@ func Bundle(input model.EngineBundle) Result {
 			problems = append(problems, "duplicate resource: "+resource.ID)
 			continue
 		}
-		cb.ResourceIndex[resource.ID] = uint16(i)
+		cb.ResourceIndex[resource.ID] = uint16(len(cb.Resources))
 		cb.Resources = append(cb.Resources, CompiledResource{
 			ID: resource.ID, DefaultCurrent: resource.DefaultCurrent, DefaultMax: resource.DefaultMax,
 		})
@@ -213,10 +252,17 @@ func Bundle(input model.EngineBundle) Result {
 			problems = append(problems, "status id is empty")
 			continue
 		}
+		if _, exists := cb.StatusIndex[status.ID]; exists {
+			problems = append(problems, "duplicate status: "+status.ID)
+			continue
+		}
+		typeSet, typeProblems := compileClassifierSet(statusClassifier(status), &cb.Types)
+		problems = append(problems, typeProblems...)
 		cb.StatusIndex[status.ID] = uint16(len(cb.Statuses))
 		cb.Statuses = append(cb.Statuses, CompiledStatus{
 			ID:             status.ID,
 			Kind:           status.Kind,
+			TypeSet:        typeSet,
 			DurationMs:     status.DurationMs,
 			BlocksActions:  status.BlocksActions,
 			RetryOnRelease: status.RetryOnRelease,
@@ -230,22 +276,40 @@ func Bundle(input model.EngineBundle) Result {
 			problems = append(problems, "action id is empty")
 			continue
 		}
+		if _, exists := cb.ActionIndex[action.ID]; exists {
+			problems = append(problems, "duplicate action: "+action.ID)
+			continue
+		}
+		typeSet, typeProblems := compileClassifierSet(actionClassifier(action), &cb.Types)
+		problems = append(problems, typeProblems...)
+		costs, costProblems := compileActionCosts(action, cb)
+		problems = append(problems, costProblems...)
 		compiledEffects, effectProblems := compileEffects(action.Effects, cb)
 		problems = append(problems, effectProblems...)
 		cb.ActionIndex[action.ID] = uint16(len(cb.Actions))
 		cb.Actions = append(cb.Actions, CompiledAction{
 			ID:           action.ID,
 			Label:        action.Label,
+			TypeSet:      typeSet,
 			CooldownMs:   action.CooldownMs,
+			Costs:        costs,
 			Effects:      compiledEffects,
 			RequiresMark: action.RequiresMark,
 			ConsumesMark: action.ConsumesMark,
 		})
 	}
 
+	controlRules, controlProblems := compileControlRules(input, &cb)
+	problems = append(problems, controlProblems...)
+	cb.ControlRules = controlRules
+
 	for _, actor := range input.Actors {
 		if actor.ID == "" {
 			problems = append(problems, "actor id is empty")
+			continue
+		}
+		if _, exists := cb.ActorIndex[actor.ID]; exists {
+			problems = append(problems, "duplicate actor: "+actor.ID)
 			continue
 		}
 		attrs := make([]model.AttributeValueV2, len(cb.Attrs))
@@ -312,6 +376,196 @@ func Bundle(input model.EngineBundle) Result {
 	}
 
 	return Result{Bundle: cb, Problems: problems}
+}
+
+func actionClassifier(action model.ActionTemplate) model.ClassifierV2 {
+	classifier := action.Classifier
+	if len(classifier.Types) == 0 {
+		classifier.Types = append(classifier.Types, "action/"+action.ID)
+	}
+	return classifier
+}
+
+func statusClassifier(status model.StatusTemplate) model.ClassifierV2 {
+	classifier := status.Classifier
+	if len(classifier.Types) == 0 {
+		classifier.Types = append(classifier.Types, "status/"+status.ID)
+	}
+	return classifier
+}
+
+func compileClassifierSet(classifier model.ClassifierV2, registry *typeset.Registry) (typeset.TypeSet, []string) {
+	var set typeset.TypeSet
+	var problems []string
+	for _, key := range classifier.Types {
+		addTypeKey(key, registry, &set, &problems)
+	}
+	for _, key := range classifier.Tags {
+		addTypeKey(key, registry, &set, &problems)
+	}
+	return set, problems
+}
+
+func addTypeKey(key string, registry *typeset.Registry, set *typeset.TypeSet, problems *[]string) {
+	if key == "" {
+		*problems = append(*problems, "type key is empty")
+		return
+	}
+	id, ok := registry.Intern(key)
+	if !ok {
+		*problems = append(*problems, "too many type keys")
+		return
+	}
+	set.Add(id)
+}
+
+func compileActionCosts(action model.ActionTemplate, cb CompiledBundle) ([]CompiledResourceCost, []string) {
+	compiled := make([]CompiledResourceCost, 0, len(action.ResourceCost))
+	var problems []string
+	for _, cost := range action.ResourceCost {
+		if cost.ResourceID == "" {
+			problems = append(problems, "action resource cost missing resource: "+action.ID)
+			continue
+		}
+		resourceID, ok := cb.ResourceIndex[cost.ResourceID]
+		if !ok {
+			problems = append(problems, "unknown action resource cost: "+action.ID+"."+cost.ResourceID)
+			continue
+		}
+		next := CompiledResourceCost{Resource: resourceID, Amount: cost.Amount}
+		if cost.FormulaID != "" {
+			pid, ok := cb.Formulas.Lookup(cost.FormulaID)
+			if !ok {
+				problems = append(problems, "unknown action resource cost formula: "+action.ID+"."+cost.FormulaID)
+				continue
+			}
+			next.Formula = pid
+			next.HasFormula = true
+		} else if invalidAmount(cost.Amount) {
+			problems = append(problems, "invalid action resource cost amount: "+action.ID+"."+cost.ResourceID)
+			continue
+		}
+		compiled = append(compiled, next)
+	}
+	return compiled, problems
+}
+
+func compileControlRules(input model.EngineBundle, cb *CompiledBundle) (ControlRuleIndex, []string) {
+	if len(input.StatusActionControlRules) == 0 {
+		return compileLegacyControlRules(cb)
+	}
+	rules := make([]CompiledStatusActionControlRule, 0, len(input.StatusActionControlRules))
+	var problems []string
+	seen := make(map[string]struct{}, len(input.StatusActionControlRules))
+	for _, rule := range input.StatusActionControlRules {
+		if rule.ID == "" {
+			problems = append(problems, "status action control rule id is empty")
+			continue
+		}
+		if _, exists := seen[rule.ID]; exists {
+			problems = append(problems, "duplicate status action control rule: "+rule.ID)
+			continue
+		}
+		seen[rule.ID] = struct{}{}
+		compiled := CompiledStatusActionControlRule{
+			ID:             rule.ID,
+			Priority:       int16(rule.Priority),
+			RetryOnRelease: rule.RetryOnRelease,
+		}
+		switch rule.RuleKind {
+		case "forbid":
+			compiled.Kind = ControlRuleForbid
+			if !emptyMatcher(rule.InterruptPhaseTypes) {
+				problems = append(problems, "forbid rule declares interrupt phases: "+rule.ID)
+				continue
+			}
+		case "interrupt":
+			compiled.Kind = ControlRuleInterrupt
+			if emptyMatcher(rule.InterruptPhaseTypes) {
+				problems = append(problems, "interrupt rule missing interrupt phases: "+rule.ID)
+				continue
+			}
+		default:
+			problems = append(problems, "unsupported status action control rule kind: "+rule.ID+"."+rule.RuleKind)
+			continue
+		}
+		if emptyMatcher(rule.StatusTypes) {
+			problems = append(problems, "status action control rule missing status types: "+rule.ID)
+			continue
+		}
+		if emptyMatcher(rule.ActionTypes) {
+			problems = append(problems, "status action control rule missing action types: "+rule.ID)
+			continue
+		}
+		compiled.StatusMatcher, problems = compileRuleMatcher(rule.ID+".statusTypes", rule.StatusTypes, cb.Types, problems)
+		compiled.ActionMatcher, problems = compileRuleMatcher(rule.ID+".actionTypes", rule.ActionTypes, cb.Types, problems)
+		compiled.ActionTagMatcher, problems = compileRuleMatcher(rule.ID+".actionMatchTypes", rule.ActionMatchTypes, cb.Types, problems)
+		compiled.PhaseMatcher, problems = compileRuleMatcher(rule.ID+".interruptPhaseTypes", rule.InterruptPhaseTypes, cb.Types, problems)
+		rules = append(rules, compiled)
+	}
+	sortControlRules(rules)
+	return ControlRuleIndex{Rules: rules}, problems
+}
+
+func compileLegacyControlRules(cb *CompiledBundle) (ControlRuleIndex, []string) {
+	legacyActionTypes := model.TypeMatcherV2{Any: model.TypeListV2{
+		"action/basic_attack", "action/cast_skill", "action/cast_item", "action/move",
+	}}
+	rules := make([]CompiledStatusActionControlRule, 0)
+	var problems []string
+	for _, key := range legacyActionTypes.Any {
+		if _, ok := cb.Types.Intern(key); !ok {
+			problems = append(problems, "too many type keys")
+		}
+	}
+	for _, status := range cb.Statuses {
+		if !status.BlocksActions {
+			continue
+		}
+		rule := CompiledStatusActionControlRule{
+			ID:             "legacy_" + status.ID + "_block_all",
+			Kind:           ControlRuleForbid,
+			Priority:       0,
+			RetryOnRelease: status.RetryOnRelease,
+		}
+		rule.StatusMatcher, problems = compileRuleMatcher(rule.ID+".statusTypes", model.TypeMatcherV2{Any: typeKeys(status.TypeSet, cb.Types)}, cb.Types, problems)
+		rule.ActionMatcher, problems = compileRuleMatcher(rule.ID+".actionTypes", legacyActionTypes, cb.Types, problems)
+		rules = append(rules, rule)
+	}
+	sortControlRules(rules)
+	return ControlRuleIndex{Rules: rules}, problems
+}
+
+func compileRuleMatcher(prefix string, input model.TypeMatcherV2, registry typeset.Registry, problems []string) (typeset.Matcher, []string) {
+	matcher, matcherProblems := typeset.CompileMatcher(input, registry)
+	for _, problem := range matcherProblems {
+		problems = append(problems, prefix+": "+problem)
+	}
+	return matcher, problems
+}
+
+func typeKeys(set typeset.TypeSet, registry typeset.Registry) model.TypeListV2 {
+	keys := make(model.TypeListV2, 0)
+	for i, key := range registry.Keys {
+		if set.Contains(typeset.TypeID(i)) {
+			keys = append(keys, key)
+		}
+	}
+	return keys
+}
+
+func emptyMatcher(input model.TypeMatcherV2) bool {
+	return len(input.Any) == 0 && len(input.All) == 0 && len(input.None) == 0
+}
+
+func sortControlRules(rules []CompiledStatusActionControlRule) {
+	sort.SliceStable(rules, func(i, j int) bool {
+		return rules[i].Priority > rules[j].Priority
+	})
+}
+
+func invalidAmount(amount float64) bool {
+	return amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0)
 }
 
 func compileEffects(effects []model.EffectDef, cb CompiledBundle) ([]CompiledEffect, []string) {
