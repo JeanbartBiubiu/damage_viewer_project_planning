@@ -6,7 +6,7 @@
 
 1. 从 `db/**` 定义的 PostgreSQL 结构中读取和写入草稿数据。
 2. 对外提供 `games / current version / bundle / owner-categories / images` 等公共读取接口。
-3. 对内提供 `versions publish`、`heroes`、`skills`、`items`、`formula-profiles`、`formula-bindings`、`attribute-definitions`、`coefficient-buckets`、`types`、`type-relations`、`status-action-control-rules`、`images`、`progression-schema` 等 Admin 接口。
+3. 对内提供 `versions publish`、`heroes`、`skills`、`items`、`formula-profiles`、`formula-bindings`、`attribute-definitions`、`coefficient-buckets`、`types`、`type-relations`、`status-action-control-rules`、`status-definitions`、`control-state-profiles`、`status-modifier-groups`、`status-attribute-modifiers`、`status-periodic-hp-effects`、`images`、`progression-schema` 等 Admin 接口。
 4. 为前端工作台和 Wasm 模拟提供发布后的稳定数据来源。
 
 ## 开发范围
