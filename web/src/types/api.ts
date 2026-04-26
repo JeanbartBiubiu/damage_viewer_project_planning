@@ -31,10 +31,14 @@ export type GameProgressionSchema = {
 
 export type CurrentVersion = {
   gameId: string;
-  versionId: number;
   versionCode: string;
-  dataHash: string;
+  releaseDate?: string;
+  publishedAt?: string;
   updatedAt: string;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  versionId: number;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  dataHash: string;
 };
 
 export type OwnerCategory = {
@@ -169,30 +173,33 @@ export type FormulaBinding = {
   [key: string]: unknown;
 };
 
-export type VersionCreatePayload = {
+export type VersionPublishPayload = {
   versionCode: string;
   releaseDate?: string;
 };
 
-export type VersionCreateResponse = {
-  gameId: string;
-  versionId: number;
-  versionCode: string;
-};
-
 export type VersionPublishResponse = {
   gameId: string;
-  versionId: number;
   versionCode: string;
+  releaseDate?: string;
+  publishedAt?: string;
+  updatedAt: string;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  versionId: number;
+  /** @deprecated 仅用于兼容未迁移页面。 */
   dataHash: string;
 };
 
 export type BundleMeta = {
   gameId: string;
-  versionId: number;
   versionCode: string;
-  dataHash: string;
+  releaseDate?: string;
+  publishedAt?: string;
   generatedAt: string;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  versionId: number;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  dataHash: string;
 };
 
 export type GameDataBundle = {

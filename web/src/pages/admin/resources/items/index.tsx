@@ -1,11 +1,14 @@
-import { Alert } from '@arco-design/web-react';
+import { Alert, Message } from '@arco-design/web-react';
+import { useState } from 'react';
 import { Panel } from '../../../../components/Panel';
-import { getItems, putItem, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
+import { getErrorMessage, getItems, putImage, putItem, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
+import { buildItemImageUri, readImageFileAsDataUrl } from '../../../../services/resourceImage';
 import type { JsonObject } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
 import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
+import { useResourceImageCache } from '../shared/useResourceImageCache';
 import { createItemsFormData, createItemsSearchData } from './constants';
 import { ItemsModal } from './modal';
 import { ItemsSearch } from './search';
@@ -23,7 +26,6 @@ function toItemsFormData(record: ItemsRecord): ItemsFormData {
     itemId: record.itemId,
     name: record.name ?? '',
     goldCost: record.goldCost !== undefined ? String(record.goldCost) : '',
-    iconUrl: record.iconUrl ?? '',
     statsModifierText: stringifyJson(record.statsModifier ?? {}),
     skillRefsText: stringifyJson(record.skillRefs ?? []),
     recipeIdsText: stringifyJson(record.recipeIds ?? []),
@@ -77,9 +79,6 @@ async function saveItemsRecord(
   if (formData.goldCost.trim()) {
     payload.goldCost = Number(formData.goldCost);
   }
-  if (formData.iconUrl.trim()) {
-    payload.iconUrl = formData.iconUrl.trim();
-  }
 
   const statsModifier = parseJsonObjectText(formData.statsModifierText, 'statsModifier');
   payload.statsModifier = statsModifier;
@@ -116,6 +115,9 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
     selectedGameId,
     adminToken
   );
+  const { imageSrcByUri, cacheError: imageCacheError, refreshImageCache, upsertImageAsset } = useResourceImageCache(selectedGameId);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
 
   const {
     filteredRecords,
@@ -152,6 +154,39 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
     }
   });
 
+  const currentImageUri = buildItemImageUri(formData.itemId);
+  const currentImageSrc = currentImageUri ? imageSrcByUri[currentImageUri] ?? null : null;
+
+  const handleUploadImage = async (file: File) => {
+    if (!selectedGameId) {
+      setImageUploadError('请先选择当前 gameId。');
+      return;
+    }
+    if (!adminToken.trim()) {
+      setImageUploadError('请先填写 Admin Token。');
+      return;
+    }
+    if (!currentImageUri) {
+      setImageUploadError('请先填写 itemId，再上传图片。');
+      return;
+    }
+
+    try {
+      setImageUploading(true);
+      setImageUploadError(null);
+      const imageBase64 = await readImageFileAsDataUrl(file);
+      const response = await putImage(apiBaseUrl, selectedGameId, currentImageUri, adminToken.trim(), imageBase64);
+      await upsertImageAsset(response.data);
+      Message.success('装备图片上传成功');
+    } catch (error) {
+      const message = getErrorMessage(error);
+      setImageUploadError(message);
+      Message.error(message);
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
   const applyItemTypesToForm = (itemId: string) => {
     const persistedTypeIds = targetTypeIdsByKey.get(`equipment:${itemId}`) ?? [];
     updateFormData('persistedTypeIds', persistedTypeIds);
@@ -159,25 +194,34 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
   };
 
   const openViewModalWithTypes = (record: ItemsRecord) => {
+    setImageUploadError(null);
     openViewModal(record);
     applyItemTypesToForm(record.itemId);
   };
 
   const openEditModalWithTypes = (record: ItemsRecord) => {
+    setImageUploadError(null);
     openEditModal(record);
     applyItemTypesToForm(record.itemId);
   };
 
   const openCreateModalWithTypes = () => {
+    setImageUploadError(null);
     openCreateModal();
     updateFormData('persistedTypeIds', []);
     updateFormData('selectedTypeIds', []);
+  };
+
+  const closeModalWithImageState = () => {
+    setImageUploadError(null);
+    closeModal();
   };
 
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
       {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
+      {imageCacheError ? <Alert type="warning" content={`图片缓存读取失败：${imageCacheError}`} className="resource-warning-alert" /> : null}
 
       <Panel title="查询条件" kicker="Search">
         <ItemsSearch
@@ -197,10 +241,15 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
           actionsDisabled={actionsDisabled}
           onView={openViewModalWithTypes}
           onEdit={openEditModalWithTypes}
+          resolveImageSrc={(record) => {
+            const imageUri = buildItemImageUri(record.itemId);
+            return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+          }}
           onCreate={openCreateModalWithTypes}
           onRefresh={() => {
             refreshRecords();
             refreshTypeCatalog();
+            void refreshImageCache();
           }}
         />
       </Panel>
@@ -214,8 +263,13 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
         mode={modalMode}
         formData={formData}
         saving={saving}
-        onClose={closeModal}
+        imageUri={currentImageUri}
+        imageSrc={currentImageSrc}
+        imageUploading={imageUploading}
+        imageError={imageUploadError}
+        onClose={closeModalWithImageState}
         onFieldChange={updateFormData}
+        onUploadImage={handleUploadImage}
         onSubmit={submitModal}
       />
     </div>

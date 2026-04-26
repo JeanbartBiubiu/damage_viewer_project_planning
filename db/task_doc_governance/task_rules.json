@@ -73,7 +73,7 @@
       "title": "Web 图片资源 IndexDB 缓存",
       "module": "web",
       "feature": "idb_cache",
-      "status": "未开始",
+      "status": "进行中",
       "priority": 2,
       "docs": [
         "文档记录/需求澄清/web/图片资源IndexDB缓存方案.md"
@@ -95,10 +95,23 @@
       "title": "Web 核心编辑后台重构",
       "module": "web",
       "feature": "core_editor_refactor",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "应用壳层、独立版本发布页和核心资源页 CRUD 架构已在 web 工作台落地。",
+      "completed_at": "2026-04-16",
+      "docs": [
+        "文档记录/详细设计/web/前端开发方案-核心编辑后台重构.md"
+      ]
+    },
+    {
+      "task_key": "web-console-non-wasm-iteration",
+      "title": "Web 非Wasm迭代任务清单",
+      "module": "web",
+      "feature": "non_wasm_iteration",
       "status": "进行中",
       "priority": 1,
       "docs": [
-        "文档记录/详细设计/web/前端开发方案-核心编辑后台重构.md"
+        "文档记录/详细设计/web/前端开发任务清单-非Wasm优先.md"
       ]
     },
     {
@@ -106,8 +119,10 @@
       "title": "Web 剩余表格页面扩展",
       "module": "web",
       "feature": "remaining_table_pages",
-      "status": "未开始",
+      "status": "完成",
       "priority": 2,
+      "completion_note": "heroes、skills、items、attribute-definitions、types、type-relations 页面已补齐并接入现有管理链路。",
+      "completed_at": "2026-04-16",
       "docs": [
         "文档记录/详细设计/web/前端开发方案-剩余管理页面扩展.md",
         "文档记录/详细设计/web/剩余表格页面前端方案.md"

@@ -48,18 +48,14 @@ export function VersionPublishPage({
   const {
     versionCodeDraft,
     releaseDateDraft,
-    publishVersionIdDraft,
     versionState,
     versionError,
     versionSuccess,
-    createdVersion,
     publishedVersion,
     publishedCurrentVersion,
     publishedBundleMeta,
     setVersionCodeDraft,
     setReleaseDateDraft,
-    setPublishVersionIdDraft,
-    handleCreateVersion,
     handlePublishVersion
   } = usePublishFlow({
     apiBaseUrl,
@@ -134,7 +130,7 @@ export function VersionPublishPage({
           <Col xs={24} lg={14}>
             <Space direction="vertical" size={10} style={{ width: '100%' }}>
               <Typography.Text type="secondary">
-                版本创建与发布集中在这一页处理，资源编辑页只负责维护表数据，不直接承载发布动作。
+                版本发布集中在这一页处理：提交 `versionCode`，发布后立即回读 `current` 与 bundle 快照。
               </Typography.Text>
               <div className="admin-resource-summary">
                 <div className="admin-summary-item">
@@ -146,13 +142,15 @@ export function VersionPublishPage({
                   <span className="admin-summary-label">当前版本</span>
                   <strong className="admin-summary-value">{displayedCurrentVersion?.versionCode ?? '--'}</strong>
                   <span className="admin-summary-note">
-                    {displayedCurrentVersion ? `versionId=${displayedCurrentVersion.versionId}` : '尚未读取到 current version'}
+                    {displayedCurrentVersion?.publishedAt ?? displayedCurrentVersion?.releaseDate ?? '尚未读取到 current version'}
                   </span>
                 </div>
                 <div className="admin-summary-item">
                   <span className="admin-summary-label">检查状态</span>
                   <strong className="admin-summary-value">{inspectState}</strong>
-                  <span className="admin-summary-note">{displayedBundleMeta?.dataHash ?? '等待读取 bundle meta'}</span>
+                  <span className="admin-summary-note">
+                    {displayedBundleMeta ? `generatedAt ${formatDate(displayedBundleMeta.generatedAt)}` : '等待读取 bundle meta'}
+                  </span>
                 </div>
               </div>
             </Space>
@@ -175,25 +173,21 @@ export function VersionPublishPage({
         {inspectError ? <Alert type="error" content={inspectError} style={{ marginTop: 16 }} /> : null}
       </Panel>
 
-      <Panel title="发布操作" kicker="Create / Publish">
+      <Panel title="发布操作" kicker="Publish Snapshot">
         <Row gutter={[16, 16]} align="stretch">
           <Col xs={24} xl={13}>
             <AdminPublishRail
               selectedGameId={selectedGameId}
               versionCodeDraft={versionCodeDraft}
               releaseDateDraft={releaseDateDraft}
-              publishVersionIdDraft={publishVersionIdDraft}
               versionState={versionState}
               versionError={versionError}
               versionSuccess={versionSuccess}
-              createdVersion={createdVersion}
               publishedVersion={publishedVersion}
               publishedCurrentVersion={displayedCurrentVersion}
               publishedBundleMeta={displayedBundleMeta}
               onVersionCodeDraftChange={setVersionCodeDraft}
               onReleaseDateDraftChange={setReleaseDateDraft}
-              onPublishVersionIdDraftChange={setPublishVersionIdDraft}
-              onCreateVersion={handleCreateVersion}
               onPublishVersion={handlePublishVersion}
             />
           </Col>
@@ -210,13 +204,13 @@ export function VersionPublishPage({
                       <MetricCard
                         label="current version"
                         value={displayedCurrentVersion?.versionCode ?? '--'}
-                        hint={displayedCurrentVersion ? `versionId=${displayedCurrentVersion.versionId}` : '等待读取'}
+                        hint={displayedCurrentVersion?.releaseDate ?? displayedCurrentVersion?.publishedAt ?? '等待读取'}
                       />
                     </Col>
                     <Col xs={24} sm={12}>
                       <MetricCard
-                        label="bundle hash"
-                        value={displayedBundleMeta?.dataHash.slice(0, 12) ?? '--'}
+                        label="bundle version"
+                        value={displayedBundleMeta?.versionCode ?? '--'}
                         hint={displayedBundleMeta ? `generatedAt ${formatDate(displayedBundleMeta.generatedAt)}` : '等待读取'}
                       />
                     </Col>
@@ -232,7 +226,6 @@ export function VersionPublishPage({
                   value={{
                     currentVersion: displayedCurrentVersion,
                     bundleMeta: displayedBundleMeta,
-                    createdVersion,
                     publishedVersion
                   }}
                 />
