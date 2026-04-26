@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
+import xyz.game.datamanage.mapper.ControlStateProfilesMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
@@ -39,6 +40,10 @@ import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
+import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
+import xyz.game.datamanage.mapper.StatusDefinitionsMapper;
+import xyz.game.datamanage.mapper.StatusModifierGroupsMapper;
+import xyz.game.datamanage.mapper.StatusPeriodicHpEffectsMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 import xyz.game.datamanage.support.error.ApiException;
@@ -56,6 +61,50 @@ public class PostgresWriteStore {
     private static final Set<String> COEFFICIENT_BUCKET_RESOLUTION_DOMAINS = Set.of("attribute", "hp_change");
     private static final Set<String> COEFFICIENT_BUCKET_AGGREGATION_MODES = Set.of("add", "multiply", "pick_max", "set_final");
     private static final Set<String> STATUS_ACTION_CONTROL_RULE_KINDS = Set.of("forbid", "interrupt");
+    private static final Set<String> STATUS_KINDS = Set.of("buff", "debuff", "control", "dot", "hot", "shield", "special");
+    private static final Set<String> STATUS_SOURCE_SCOPES = Set.of("any_source", "same_source", "same_target_source");
+    private static final Set<String> STATUS_STACK_MODES = Set.of(
+        "refresh",
+        "replace",
+        "stack",
+        "independent",
+        "take_max_duration",
+        "take_max_magnitude"
+    );
+    private static final Set<String> STATUS_DURATION_MODES = Set.of("timed", "permanent");
+    private static final Set<String> STATUS_SNAPSHOT_POLICIES = Set.of("on_apply", "dynamic");
+    private static final Set<String> STATUS_GROUP_PHASE_KEYS = Set.of("while_active", "on_apply", "on_expire", "on_interval");
+    private static final Set<String> STATUS_GROUP_SNAPSHOT_POLICIES = Set.of("on_apply", "dynamic", "per_tick");
+    private static final Set<String> STATUS_MODIFIER_MODES = Set.of("flat", "percent", "bucket_add", "bucket_mul", "set_final");
+    private static final Set<String> STATUS_PERIODIC_EFFECT_KINDS = Set.of("damage", "heal");
+    private static final Set<String> DAMAGE_TYPES = Set.of("physical", "magic", "true");
+    private static final Set<String> CONTROL_KINDS = Set.of(
+        "stun",
+        "root",
+        "silence",
+        "disarm",
+        "taunt",
+        "fear",
+        "charm",
+        "airborne",
+        "grounded",
+        "knockback",
+        "pull",
+        "suppress",
+        "special"
+    );
+    private static final Set<String> MOVEMENT_LOCK_MODES = Set.of("none", "forbid_move", "force_move", "forbid_turn");
+    private static final Set<String> CAST_LOCK_MODES = Set.of("none", "forbid_cast", "interrupt_cast", "forbid_channel", "interrupt_and_forbid");
+    private static final Set<String> ATTACK_LOCK_MODES = Set.of("none", "forbid_attack", "interrupt_attack", "interrupt_and_forbid");
+    private static final Set<String> INPUT_OVERRIDE_MODES = Set.of(
+        "none",
+        "force_to_source",
+        "force_from_source",
+        "force_to_target",
+        "force_along_path",
+        "force_stop"
+    );
+    private static final Set<String> DISPLACEMENT_KINDS = Set.of("none", "knockup", "knockback", "pull", "forced_dash");
     private static final Set<String> PROGRESSION_KINDS = Set.of("LEVEL", "STAR");
 
     private final HeroesMapper heroesMapper;
@@ -64,6 +113,11 @@ public class PostgresWriteStore {
     private final FormulaProfilesMapper formulaProfilesMapper;
     private final FormulaBindingsMapper formulaBindingsMapper;
     private final StatusActionControlRulesMapper statusActionControlRulesMapper;
+    private final StatusDefinitionsMapper statusDefinitionsMapper;
+    private final StatusModifierGroupsMapper statusModifierGroupsMapper;
+    private final StatusAttributeModifiersMapper statusAttributeModifiersMapper;
+    private final StatusPeriodicHpEffectsMapper statusPeriodicHpEffectsMapper;
+    private final ControlStateProfilesMapper controlStateProfilesMapper;
     private final CoefficientBucketsMapper coefficientBucketsMapper;
     private final AttributeDefinitionsMapper attributeDefinitionsMapper;
     private final TypesMapper typesMapper;
@@ -87,6 +141,11 @@ public class PostgresWriteStore {
         FormulaProfilesMapper formulaProfilesMapper,
         FormulaBindingsMapper formulaBindingsMapper,
         StatusActionControlRulesMapper statusActionControlRulesMapper,
+        StatusDefinitionsMapper statusDefinitionsMapper,
+        StatusModifierGroupsMapper statusModifierGroupsMapper,
+        StatusAttributeModifiersMapper statusAttributeModifiersMapper,
+        StatusPeriodicHpEffectsMapper statusPeriodicHpEffectsMapper,
+        ControlStateProfilesMapper controlStateProfilesMapper,
         CoefficientBucketsMapper coefficientBucketsMapper,
         AttributeDefinitionsMapper attributeDefinitionsMapper,
         TypesMapper typesMapper,
@@ -108,6 +167,11 @@ public class PostgresWriteStore {
         this.formulaProfilesMapper = formulaProfilesMapper;
         this.formulaBindingsMapper = formulaBindingsMapper;
         this.statusActionControlRulesMapper = statusActionControlRulesMapper;
+        this.statusDefinitionsMapper = statusDefinitionsMapper;
+        this.statusModifierGroupsMapper = statusModifierGroupsMapper;
+        this.statusAttributeModifiersMapper = statusAttributeModifiersMapper;
+        this.statusPeriodicHpEffectsMapper = statusPeriodicHpEffectsMapper;
+        this.controlStateProfilesMapper = controlStateProfilesMapper;
         this.coefficientBucketsMapper = coefficientBucketsMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
         this.typesMapper = typesMapper;
@@ -435,6 +499,209 @@ public class PostgresWriteStore {
     }
 
     @Transactional
+    public ObjectNode upsertStatusDefinition(String gameId, String statusId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "statusId", statusId);
+        String name = jsonSupport.requireText(merged, "name", "statusDefinition");
+        String statusKind = requireEnum(merged, "statusKind", "statusDefinition", STATUS_KINDS);
+        Integer statusTypeId = nullableExistingTypeId(gameId, merged.get("statusTypeId"), "/statusTypeId", "statusDefinition.statusTypeId");
+        String controlProfileId = nullableText(merged, "controlProfileId");
+        if (controlProfileId != null && readStore.loadControlStateProfile(gameId, controlProfileId) == null) {
+            throw semantic("statusDefinition.controlProfileId not found", Map.of("path", "/controlProfileId", "controlProfileId", controlProfileId));
+        }
+        String stackGroupKey = jsonSupport.requireText(merged, "stackGroupKey", "statusDefinition");
+        String sourceScope = defaultEnum(merged, "sourceScope", "any_source", "statusDefinition", STATUS_SOURCE_SCOPES);
+        String stackMode = defaultEnum(merged, "stackMode", "refresh", "statusDefinition", STATUS_STACK_MODES);
+        int maxStacks = defaultPositiveInteger(merged, "maxStacks", 1);
+        Integer maxInstances = nullablePositiveInteger(merged, "maxInstances");
+        String durationMode = defaultEnum(merged, "durationMode", "timed", "statusDefinition", STATUS_DURATION_MODES);
+        Integer durationMs = nullablePositiveInteger(merged, "durationMs");
+        String durationFormulaId = nullableText(merged, "durationFormulaId");
+        requireFormulaIfPresent(gameId, durationFormulaId, "/durationFormulaId", "statusDefinition.durationFormulaId");
+        String defaultMagnitudeFormulaId = nullableText(merged, "defaultMagnitudeFormulaId");
+        requireFormulaIfPresent(gameId, defaultMagnitudeFormulaId, "/defaultMagnitudeFormulaId", "statusDefinition.defaultMagnitudeFormulaId");
+        validateStatusDuration(durationMode, durationMs, durationFormulaId, "");
+        String snapshotPolicy = defaultEnum(merged, "snapshotPolicy", "on_apply", "statusDefinition", STATUS_SNAPSHOT_POLICIES);
+        boolean dispellable = defaultBoolean(merged, "isDispellable", true);
+        int cleansePriority = defaultInteger(merged, "cleansePriority", 0);
+        validateOptionalText(merged, "description", "/description");
+        validateOptionalObject(merged, "statusDefinition", "extend", "/extend");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        statusDefinitionsMapper.upsertStatusDefinition(
+            gameId,
+            statusId,
+            versionId,
+            name,
+            nullableText(merged, "description"),
+            statusKind,
+            statusTypeId,
+            controlProfileId,
+            stackGroupKey,
+            sourceScope,
+            stackMode,
+            maxStacks,
+            maxInstances,
+            durationMode,
+            durationMs,
+            durationFormulaId,
+            defaultMagnitudeFormulaId,
+            snapshotPolicy,
+            dispellable,
+            cleansePriority,
+            jsonSupport.toJsonStringOrNull(merged.get("extend"))
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertControlStateProfile(String gameId, String controlProfileId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "controlProfileId", controlProfileId);
+        String name = jsonSupport.requireText(merged, "name", "controlStateProfile");
+        String controlKind = requireEnum(merged, "controlKind", "controlStateProfile", CONTROL_KINDS);
+        String movementLockMode = defaultEnum(merged, "movementLockMode", "none", "controlStateProfile", MOVEMENT_LOCK_MODES);
+        String castLockMode = defaultEnum(merged, "castLockMode", "none", "controlStateProfile", CAST_LOCK_MODES);
+        String attackLockMode = defaultEnum(merged, "attackLockMode", "none", "controlStateProfile", ATTACK_LOCK_MODES);
+        String inputOverrideMode = defaultEnum(merged, "inputOverrideMode", "none", "controlStateProfile", INPUT_OVERRIDE_MODES);
+        String displacementKind = defaultEnum(merged, "displacementKind", "none", "controlStateProfile", DISPLACEMENT_KINDS);
+        boolean blocksControlInput = defaultBoolean(merged, "blocksControlInput", false);
+        boolean grantsUnstoppable = defaultBoolean(merged, "grantsUnstoppable", false);
+        boolean breaksOnDamage = defaultBoolean(merged, "breaksOnDamage", false);
+        boolean tenacityReducible = defaultBoolean(merged, "tenacityReducible", true);
+        int priority = defaultInteger(merged, "priority", 0);
+        validateOptionalText(merged, "description", "/description");
+        validateOptionalObject(merged, "controlStateProfile", "extend", "/extend");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        controlStateProfilesMapper.upsertControlStateProfile(
+            gameId,
+            controlProfileId,
+            versionId,
+            name,
+            nullableText(merged, "description"),
+            controlKind,
+            movementLockMode,
+            castLockMode,
+            attackLockMode,
+            inputOverrideMode,
+            displacementKind,
+            blocksControlInput,
+            grantsUnstoppable,
+            breaksOnDamage,
+            tenacityReducible,
+            priority,
+            jsonSupport.toJsonStringOrNull(merged.get("extend"))
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertStatusModifierGroup(String gameId, String statusId, String groupKey, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "groupKey", groupKey);
+        merged.put("statusId", statusId);
+        requireStatusDefinition(gameId, statusId, "/statusId");
+        validateOptionalText(merged, "groupName", "/groupName");
+        String phaseKey = requireEnum(merged, "phaseKey", "statusModifierGroup", STATUS_GROUP_PHASE_KEYS);
+        String snapshotPolicy = defaultEnum(merged, "snapshotPolicy", "on_apply", "statusModifierGroup", STATUS_GROUP_SNAPSHOT_POLICIES);
+        Integer intervalMs = nullablePositiveInteger(merged, "intervalMs");
+        Integer maxTicks = nullablePositiveInteger(merged, "maxTicks");
+        validateStatusGroupInterval(phaseKey, intervalMs, maxTicks, "");
+        int priority = defaultInteger(merged, "priority", 0);
+        validateOptionalObject(merged, "statusModifierGroup", "extend", "/extend");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        statusModifierGroupsMapper.upsertStatusModifierGroup(
+            gameId,
+            statusId,
+            groupKey,
+            versionId,
+            nullableText(merged, "groupName"),
+            phaseKey,
+            snapshotPolicy,
+            intervalMs,
+            maxTicks,
+            priority,
+            jsonSupport.toJsonStringOrNull(merged.get("extend"))
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertStatusAttributeModifier(String gameId, String statusId, String groupKey, String modifierId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "modifierId", modifierId);
+        merged.put("statusId", statusId);
+        merged.put("groupKey", groupKey);
+        requireStatusModifierGroup(gameId, statusId, groupKey, "/groupKey");
+        String attrKey = jsonSupport.requireText(merged, "attrKey", "statusAttributeModifier");
+        if (readStore.loadAttributeDefinition(gameId, attrKey) == null) {
+            throw semantic("statusAttributeModifier.attrKey not found", Map.of("path", "/attrKey", "attrKey", attrKey));
+        }
+        String modifierMode = requireEnum(merged, "modifierMode", "statusAttributeModifier", STATUS_MODIFIER_MODES);
+        BigDecimal value = nullableBigDecimal(merged, "value");
+        String formulaId = nullableText(merged, "formulaId");
+        requireFormulaIfPresent(gameId, formulaId, "/formulaId", "statusAttributeModifier.formulaId");
+        if (value == null && formulaId == null) {
+            throw badRequest("statusAttributeModifier.value or formulaId is required", Map.of("path", "/value"));
+        }
+        String bucketKey = nullableText(merged, "bucketKey");
+        validateStatusModifierBucket(gameId, modifierMode, bucketKey);
+        boolean perStack = defaultBoolean(merged, "perStack", false);
+        int priority = defaultInteger(merged, "priority", 0);
+        validateOptionalObject(merged, "statusAttributeModifier", "extend", "/extend");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        statusAttributeModifiersMapper.upsertStatusAttributeModifier(
+            gameId,
+            statusId,
+            groupKey,
+            modifierId,
+            versionId,
+            attrKey,
+            modifierMode,
+            value,
+            formulaId,
+            bucketKey,
+            perStack,
+            priority,
+            jsonSupport.toJsonStringOrNull(merged.get("extend"))
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertStatusPeriodicHpEffect(String gameId, String statusId, String groupKey, String effectId, ObjectNode body) {
+        ObjectNode merged = mergeUpsert(body, "effectId", effectId);
+        merged.put("statusId", statusId);
+        merged.put("groupKey", groupKey);
+        requireStatusModifierGroup(gameId, statusId, groupKey, "/groupKey");
+        String effectKind = requireEnum(merged, "effectKind", "statusPeriodicHpEffect", STATUS_PERIODIC_EFFECT_KINDS);
+        String tickFormulaId = jsonSupport.requireText(merged, "tickFormulaId", "statusPeriodicHpEffect");
+        requireFormulaIfPresent(gameId, tickFormulaId, "/tickFormulaId", "statusPeriodicHpEffect.tickFormulaId");
+        String damageType = nullableText(merged, "damageType");
+        Boolean affectedByHealModifier = nullableBoolean(merged, "affectedByHealModifier");
+        validatePeriodicHpEffectKind(effectKind, damageType, affectedByHealModifier, "");
+        boolean canCrit = defaultBoolean(merged, "canCrit", false);
+        boolean perStack = defaultBoolean(merged, "perStack", false);
+        validateOptionalObject(merged, "statusPeriodicHpEffect", "extend", "/extend");
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        statusPeriodicHpEffectsMapper.upsertStatusPeriodicHpEffect(
+            gameId,
+            statusId,
+            groupKey,
+            effectId,
+            versionId,
+            effectKind,
+            tickFormulaId,
+            damageType,
+            canCrit,
+            affectedByHealModifier,
+            perStack,
+            jsonSupport.toJsonStringOrNull(merged.get("extend"))
+        );
+        return merged;
+    }
+
+    @Transactional
     public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body) {
         ObjectNode merged = mergeUpsert(body, "attrKey", attrKey);
         if (merged.has("defaultValue") && !merged.path("defaultValue").isNull() && !merged.path("defaultValue").isNumber()) {
@@ -679,6 +946,11 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedFormulaBindings = formulaBindingsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedCoefficientBuckets = coefficientBucketsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedStatusActionControlRules = statusActionControlRulesMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedStatusDefinitions = statusDefinitionsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedControlStateProfiles = controlStateProfilesMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedStatusModifierGroups = statusModifierGroupsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedStatusAttributeModifiers = statusAttributeModifiersMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedStatusPeriodicHpEffects = statusPeriodicHpEffectsMapper.listChangedSince(gameId, changedAfter);
 
         Instant publishedAt = Instant.now();
         ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, publishedAt);
@@ -696,7 +968,12 @@ public class PostgresWriteStore {
             changedFormulaProfiles,
             changedFormulaBindings,
             changedCoefficientBuckets,
-            changedStatusActionControlRules
+            changedStatusActionControlRules,
+            changedStatusDefinitions,
+            changedControlStateProfiles,
+            changedStatusModifierGroups,
+            changedStatusAttributeModifiers,
+            changedStatusPeriodicHpEffects
         );
 
         publishedBundleSnapshotsMapper.upsertBundleSnapshot(
@@ -754,7 +1031,12 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedFormulaProfiles,
         List<Map<String, Object>> changedFormulaBindings,
         List<Map<String, Object>> changedCoefficientBuckets,
-        List<Map<String, Object>> changedStatusActionControlRules
+        List<Map<String, Object>> changedStatusActionControlRules,
+        List<Map<String, Object>> changedStatusDefinitions,
+        List<Map<String, Object>> changedControlStateProfiles,
+        List<Map<String, Object>> changedStatusModifierGroups,
+        List<Map<String, Object>> changedStatusAttributeModifiers,
+        List<Map<String, Object>> changedStatusPeriodicHpEffects
     ) {
         for (Map<String, Object> row : changedAttributeDefinitions) {
             String attrKey = mapText(row, "attrKey");
@@ -970,6 +1252,145 @@ public class PostgresWriteStore {
                 mapText(row, "extendJson")
             );
         }
+        for (Map<String, Object> row : changedStatusDefinitions) {
+            String statusId = mapText(row, "statusId");
+            String safeStatusId = statusId == null ? "" : statusId;
+            ensureUpdated(
+                statusDefinitionsMapper.updateVersionRange(gameId, safeStatusId, versionId),
+                "statusDefinition not found while publishing",
+                Map.of("gameId", gameId, "statusId", safeStatusId)
+            );
+            statusDefinitionsMapper.upsertStatusDefinitionLog(
+                gameId,
+                safeStatusId,
+                versionId,
+                mapText(row, "name"),
+                mapText(row, "description"),
+                mapText(row, "statusKind"),
+                mapInteger(row, "statusTypeId"),
+                mapText(row, "controlProfileId"),
+                mapText(row, "stackGroupKey"),
+                mapText(row, "sourceScope"),
+                mapText(row, "stackMode"),
+                mapInteger(row, "maxStacks") == null ? 1 : mapInteger(row, "maxStacks"),
+                mapInteger(row, "maxInstances"),
+                mapText(row, "durationMode"),
+                mapInteger(row, "durationMs"),
+                mapText(row, "durationFormulaId"),
+                mapText(row, "defaultMagnitudeFormulaId"),
+                mapText(row, "snapshotPolicy"),
+                !Boolean.FALSE.equals(mapBoolean(row, "isDispellable")),
+                mapInteger(row, "cleansePriority") == null ? 0 : mapInteger(row, "cleansePriority"),
+                mapText(row, "extendJson")
+            );
+        }
+        for (Map<String, Object> row : changedControlStateProfiles) {
+            String controlProfileId = mapText(row, "controlProfileId");
+            String safeControlProfileId = controlProfileId == null ? "" : controlProfileId;
+            ensureUpdated(
+                controlStateProfilesMapper.updateVersionRange(gameId, safeControlProfileId, versionId),
+                "controlStateProfile not found while publishing",
+                Map.of("gameId", gameId, "controlProfileId", safeControlProfileId)
+            );
+            controlStateProfilesMapper.upsertControlStateProfileLog(
+                gameId,
+                safeControlProfileId,
+                versionId,
+                mapText(row, "name"),
+                mapText(row, "description"),
+                mapText(row, "controlKind"),
+                mapText(row, "movementLockMode"),
+                mapText(row, "castLockMode"),
+                mapText(row, "attackLockMode"),
+                mapText(row, "inputOverrideMode"),
+                mapText(row, "displacementKind"),
+                Boolean.TRUE.equals(mapBoolean(row, "blocksControlInput")),
+                Boolean.TRUE.equals(mapBoolean(row, "grantsUnstoppable")),
+                Boolean.TRUE.equals(mapBoolean(row, "breaksOnDamage")),
+                !Boolean.FALSE.equals(mapBoolean(row, "tenacityReducible")),
+                mapInteger(row, "priority") == null ? 0 : mapInteger(row, "priority"),
+                mapText(row, "extendJson")
+            );
+        }
+        for (Map<String, Object> row : changedStatusModifierGroups) {
+            String statusId = mapText(row, "statusId");
+            String safeStatusId = statusId == null ? "" : statusId;
+            String groupKey = mapText(row, "groupKey");
+            String safeGroupKey = groupKey == null ? "" : groupKey;
+            ensureUpdated(
+                statusModifierGroupsMapper.updateVersionRange(gameId, safeStatusId, safeGroupKey, versionId),
+                "statusModifierGroup not found while publishing",
+                Map.of("gameId", gameId, "statusId", safeStatusId, "groupKey", safeGroupKey)
+            );
+            statusModifierGroupsMapper.upsertStatusModifierGroupLog(
+                gameId,
+                safeStatusId,
+                safeGroupKey,
+                versionId,
+                mapText(row, "groupName"),
+                mapText(row, "phaseKey"),
+                mapText(row, "snapshotPolicy"),
+                mapInteger(row, "intervalMs"),
+                mapInteger(row, "maxTicks"),
+                mapInteger(row, "priority") == null ? 0 : mapInteger(row, "priority"),
+                mapText(row, "extendJson")
+            );
+        }
+        for (Map<String, Object> row : changedStatusAttributeModifiers) {
+            String statusId = mapText(row, "statusId");
+            String safeStatusId = statusId == null ? "" : statusId;
+            String groupKey = mapText(row, "groupKey");
+            String safeGroupKey = groupKey == null ? "" : groupKey;
+            String modifierId = mapText(row, "modifierId");
+            String safeModifierId = modifierId == null ? "" : modifierId;
+            ensureUpdated(
+                statusAttributeModifiersMapper.updateVersionRange(gameId, safeStatusId, safeGroupKey, safeModifierId, versionId),
+                "statusAttributeModifier not found while publishing",
+                Map.of("gameId", gameId, "statusId", safeStatusId, "groupKey", safeGroupKey, "modifierId", safeModifierId)
+            );
+            statusAttributeModifiersMapper.upsertStatusAttributeModifierLog(
+                gameId,
+                safeStatusId,
+                safeGroupKey,
+                safeModifierId,
+                versionId,
+                mapText(row, "attrKey"),
+                mapText(row, "modifierMode"),
+                mapBigDecimal(row, "value"),
+                mapText(row, "formulaId"),
+                mapText(row, "bucketKey"),
+                Boolean.TRUE.equals(mapBoolean(row, "perStack")),
+                mapInteger(row, "priority") == null ? 0 : mapInteger(row, "priority"),
+                mapText(row, "extendJson")
+            );
+        }
+        for (Map<String, Object> row : changedStatusPeriodicHpEffects) {
+            String statusId = mapText(row, "statusId");
+            String safeStatusId = statusId == null ? "" : statusId;
+            String groupKey = mapText(row, "groupKey");
+            String safeGroupKey = groupKey == null ? "" : groupKey;
+            String effectId = mapText(row, "effectId");
+            String safeEffectId = effectId == null ? "" : effectId;
+            ensureUpdated(
+                statusPeriodicHpEffectsMapper.updateVersionRange(gameId, safeStatusId, safeGroupKey, safeEffectId, versionId),
+                "statusPeriodicHpEffect not found while publishing",
+                Map.of("gameId", gameId, "statusId", safeStatusId, "groupKey", safeGroupKey, "effectId", safeEffectId)
+            );
+            statusPeriodicHpEffectsMapper.upsertStatusPeriodicHpEffectLog(
+                gameId,
+                safeStatusId,
+                safeGroupKey,
+                safeEffectId,
+                versionId,
+                mapText(row, "effectKind"),
+                mapText(row, "tickFormulaId"),
+                mapText(row, "damageType"),
+                Boolean.TRUE.equals(mapBoolean(row, "canCrit")),
+                mapBoolean(row, "affectedByHealModifier"),
+                Boolean.TRUE.equals(mapBoolean(row, "perStack")),
+                mapText(row, "extendJson")
+            );
+        }
     }
 
     private void validateBundleForPublish(String gameId, ObjectNode bundle) {
@@ -983,6 +1404,11 @@ public class PostgresWriteStore {
         ArrayNode formulaProfiles = requireArray(bundle, "formulaProfiles");
         ArrayNode formulaBindings = requireArray(bundle, "formulaBindings");
         ArrayNode statusActionControlRules = requireArray(bundle, "statusActionControlRules");
+        ArrayNode statusDefinitions = requireArray(bundle, "statusDefinitions");
+        ArrayNode controlStateProfiles = requireArray(bundle, "controlStateProfiles");
+        ArrayNode statusModifierGroups = requireArray(bundle, "statusModifierGroups");
+        ArrayNode statusAttributeModifiers = requireArray(bundle, "statusAttributeModifiers");
+        ArrayNode statusPeriodicHpEffects = requireArray(bundle, "statusPeriodicHpEffects");
 
         Set<String> attrKeys = new HashSet<>();
         for (JsonNode node : attributeDefinitions) {
@@ -996,8 +1422,11 @@ public class PostgresWriteStore {
             validateAttributeDefinitionForPublish(attr, attrKeys);
         }
 
+        Set<String> bucketKeys = new HashSet<>();
         for (JsonNode node : coefficientBuckets) {
             ObjectNode coefficientBucket = requireObject(node, "/coefficientBuckets");
+            String bucketKey = requireTextForPublish(coefficientBucket, "bucketKey", "/coefficientBuckets/bucketKey");
+            bucketKeys.add(bucketKey);
             validateCoefficientBucketForPublish(coefficientBucket, attrKeys);
         }
 
@@ -1038,6 +1467,45 @@ public class PostgresWriteStore {
             String formulaId = requireTextForPublish(formulaProfile, "formulaId", "/formulaProfiles/formulaId");
             formulaIds.add(formulaId);
             validateFormulaProfileForPublish(formulaProfile);
+        }
+
+        Set<String> controlProfileIds = new HashSet<>();
+        for (JsonNode node : controlStateProfiles) {
+            ObjectNode controlStateProfile = requireObject(node, "/controlStateProfiles");
+            String controlProfileId = requireTextForPublish(
+                controlStateProfile,
+                "controlProfileId",
+                "/controlStateProfiles/controlProfileId"
+            );
+            controlProfileIds.add(controlProfileId);
+            validateControlStateProfileForPublish(controlStateProfile);
+        }
+
+        Set<String> statusIds = new HashSet<>();
+        for (JsonNode node : statusDefinitions) {
+            ObjectNode statusDefinition = requireObject(node, "/statusDefinitions");
+            String statusId = requireTextForPublish(statusDefinition, "statusId", "/statusDefinitions/statusId");
+            statusIds.add(statusId);
+            validateStatusDefinitionForPublish(statusDefinition, typeIds, controlProfileIds, formulaIds);
+        }
+
+        Set<String> statusGroupKeys = new HashSet<>();
+        for (JsonNode node : statusModifierGroups) {
+            ObjectNode statusModifierGroup = requireObject(node, "/statusModifierGroups");
+            String statusId = requireTextForPublish(statusModifierGroup, "statusId", "/statusModifierGroups/statusId");
+            String groupKey = requireTextForPublish(statusModifierGroup, "groupKey", "/statusModifierGroups/groupKey");
+            statusGroupKeys.add(statusGroupKey(statusId, groupKey));
+            validateStatusModifierGroupForPublish(statusModifierGroup, statusIds);
+        }
+
+        for (JsonNode node : statusAttributeModifiers) {
+            ObjectNode statusAttributeModifier = requireObject(node, "/statusAttributeModifiers");
+            validateStatusAttributeModifierForPublish(statusAttributeModifier, statusIds, statusGroupKeys, attrKeys, formulaIds, bucketKeys);
+        }
+
+        for (JsonNode node : statusPeriodicHpEffects) {
+            ObjectNode statusPeriodicHpEffect = requireObject(node, "/statusPeriodicHpEffects");
+            validateStatusPeriodicHpEffectForPublish(statusPeriodicHpEffect, statusIds, statusGroupKeys, formulaIds);
         }
 
         for (JsonNode node : skills) {
@@ -1388,6 +1856,171 @@ public class PostgresWriteStore {
         }
     }
 
+    private void validateStatusDefinitionForPublish(
+        ObjectNode statusDefinition,
+        Set<Integer> typeIds,
+        Set<String> controlProfileIds,
+        Set<String> formulaIds
+    ) {
+        requireEnumForPublish(statusDefinition, "statusKind", "/statusDefinitions/statusKind", STATUS_KINDS);
+        JsonNode statusTypeIdNode = statusDefinition.get("statusTypeId");
+        if (statusTypeIdNode != null && !statusTypeIdNode.isNull()) {
+            if (!statusTypeIdNode.canConvertToInt()) {
+                throw semantic("statusDefinition.statusTypeId must be integer", Map.of("path", "/statusDefinitions/statusTypeId"));
+            }
+            int statusTypeId = statusTypeIdNode.asInt();
+            if (!typeIds.contains(statusTypeId)) {
+                throw semantic("statusDefinition.statusTypeId not found", Map.of("path", "/statusDefinitions/statusTypeId", "typeId", statusTypeId));
+            }
+        }
+        String controlProfileId = optionalTextForPublish(statusDefinition, "controlProfileId", "/statusDefinitions/controlProfileId");
+        if (controlProfileId != null && !controlProfileIds.contains(controlProfileId)) {
+            throw semantic(
+                "statusDefinition.controlProfileId not found",
+                Map.of("path", "/statusDefinitions/controlProfileId", "controlProfileId", controlProfileId)
+            );
+        }
+        requireTextForPublish(statusDefinition, "stackGroupKey", "/statusDefinitions/stackGroupKey");
+        requireEnumForPublish(statusDefinition, "sourceScope", "/statusDefinitions/sourceScope", STATUS_SOURCE_SCOPES);
+        requireEnumForPublish(statusDefinition, "stackMode", "/statusDefinitions/stackMode", STATUS_STACK_MODES);
+        requirePositiveIntegerForPublish(statusDefinition, "maxStacks", "/statusDefinitions/maxStacks");
+        optionalPositiveIntegerForPublish(statusDefinition, "maxInstances", "/statusDefinitions/maxInstances");
+        String durationMode = requireEnumForPublish(statusDefinition, "durationMode", "/statusDefinitions/durationMode", STATUS_DURATION_MODES);
+        Integer durationMs = optionalPositiveIntegerForPublish(statusDefinition, "durationMs", "/statusDefinitions/durationMs");
+        String durationFormulaId = optionalTextForPublish(statusDefinition, "durationFormulaId", "/statusDefinitions/durationFormulaId");
+        if (durationFormulaId != null && !formulaIds.contains(durationFormulaId)) {
+            throw semantic("statusDefinition.durationFormulaId not found", Map.of("path", "/statusDefinitions/durationFormulaId", "formulaId", durationFormulaId));
+        }
+        String defaultMagnitudeFormulaId = optionalTextForPublish(
+            statusDefinition,
+            "defaultMagnitudeFormulaId",
+            "/statusDefinitions/defaultMagnitudeFormulaId"
+        );
+        if (defaultMagnitudeFormulaId != null && !formulaIds.contains(defaultMagnitudeFormulaId)) {
+            throw semantic(
+                "statusDefinition.defaultMagnitudeFormulaId not found",
+                Map.of("path", "/statusDefinitions/defaultMagnitudeFormulaId", "formulaId", defaultMagnitudeFormulaId)
+            );
+        }
+        validateStatusDuration(durationMode, durationMs, durationFormulaId, "/statusDefinitions");
+        requireEnumForPublish(statusDefinition, "snapshotPolicy", "/statusDefinitions/snapshotPolicy", STATUS_SNAPSHOT_POLICIES);
+        optionalBooleanForPublish(statusDefinition, "isDispellable", "/statusDefinitions/isDispellable");
+        optionalIntegerForPublish(statusDefinition, "cleansePriority", "/statusDefinitions/cleansePriority");
+        validateOptionalObjectForPublish(statusDefinition, "statusDefinition", "extend", "/statusDefinitions/extend");
+    }
+
+    private void validateControlStateProfileForPublish(ObjectNode controlStateProfile) {
+        requireTextForPublish(controlStateProfile, "name", "/controlStateProfiles/name");
+        requireEnumForPublish(controlStateProfile, "controlKind", "/controlStateProfiles/controlKind", CONTROL_KINDS);
+        requireEnumForPublish(controlStateProfile, "movementLockMode", "/controlStateProfiles/movementLockMode", MOVEMENT_LOCK_MODES);
+        requireEnumForPublish(controlStateProfile, "castLockMode", "/controlStateProfiles/castLockMode", CAST_LOCK_MODES);
+        requireEnumForPublish(controlStateProfile, "attackLockMode", "/controlStateProfiles/attackLockMode", ATTACK_LOCK_MODES);
+        requireEnumForPublish(controlStateProfile, "inputOverrideMode", "/controlStateProfiles/inputOverrideMode", INPUT_OVERRIDE_MODES);
+        requireEnumForPublish(controlStateProfile, "displacementKind", "/controlStateProfiles/displacementKind", DISPLACEMENT_KINDS);
+        optionalBooleanForPublish(controlStateProfile, "blocksControlInput", "/controlStateProfiles/blocksControlInput");
+        optionalBooleanForPublish(controlStateProfile, "grantsUnstoppable", "/controlStateProfiles/grantsUnstoppable");
+        optionalBooleanForPublish(controlStateProfile, "breaksOnDamage", "/controlStateProfiles/breaksOnDamage");
+        optionalBooleanForPublish(controlStateProfile, "tenacityReducible", "/controlStateProfiles/tenacityReducible");
+        optionalIntegerForPublish(controlStateProfile, "priority", "/controlStateProfiles/priority");
+        validateOptionalObjectForPublish(controlStateProfile, "controlStateProfile", "extend", "/controlStateProfiles/extend");
+    }
+
+    private void validateStatusModifierGroupForPublish(ObjectNode group, Set<String> statusIds) {
+        String statusId = requireTextForPublish(group, "statusId", "/statusModifierGroups/statusId");
+        if (!statusIds.contains(statusId)) {
+            throw semantic("statusModifierGroup.statusId not found", Map.of("path", "/statusModifierGroups/statusId", "statusId", statusId));
+        }
+        requireTextForPublish(group, "groupKey", "/statusModifierGroups/groupKey");
+        String phaseKey = requireEnumForPublish(group, "phaseKey", "/statusModifierGroups/phaseKey", STATUS_GROUP_PHASE_KEYS);
+        requireEnumForPublish(group, "snapshotPolicy", "/statusModifierGroups/snapshotPolicy", STATUS_GROUP_SNAPSHOT_POLICIES);
+        Integer intervalMs = optionalPositiveIntegerForPublish(group, "intervalMs", "/statusModifierGroups/intervalMs");
+        Integer maxTicks = optionalPositiveIntegerForPublish(group, "maxTicks", "/statusModifierGroups/maxTicks");
+        validateStatusGroupInterval(phaseKey, intervalMs, maxTicks, "/statusModifierGroups");
+        optionalIntegerForPublish(group, "priority", "/statusModifierGroups/priority");
+        validateOptionalObjectForPublish(group, "statusModifierGroup", "extend", "/statusModifierGroups/extend");
+    }
+
+    private void validateStatusAttributeModifierForPublish(
+        ObjectNode modifier,
+        Set<String> statusIds,
+        Set<String> statusGroupKeys,
+        Set<String> attrKeys,
+        Set<String> formulaIds,
+        Set<String> bucketKeys
+    ) {
+        String statusId = requireTextForPublish(modifier, "statusId", "/statusAttributeModifiers/statusId");
+        if (!statusIds.contains(statusId)) {
+            throw semantic("statusAttributeModifier.statusId not found", Map.of("path", "/statusAttributeModifiers/statusId", "statusId", statusId));
+        }
+        String groupKey = requireTextForPublish(modifier, "groupKey", "/statusAttributeModifiers/groupKey");
+        if (!statusGroupKeys.contains(statusGroupKey(statusId, groupKey))) {
+            throw semantic(
+                "statusAttributeModifier.groupKey not found",
+                Map.of("path", "/statusAttributeModifiers/groupKey", "statusId", statusId, "groupKey", groupKey)
+            );
+        }
+        requireTextForPublish(modifier, "modifierId", "/statusAttributeModifiers/modifierId");
+        String attrKey = requireTextForPublish(modifier, "attrKey", "/statusAttributeModifiers/attrKey");
+        if (!attrKeys.contains(attrKey)) {
+            throw semantic("statusAttributeModifier.attrKey not found", Map.of("path", "/statusAttributeModifiers/attrKey", "attrKey", attrKey));
+        }
+        String modifierMode = requireEnumForPublish(modifier, "modifierMode", "/statusAttributeModifiers/modifierMode", STATUS_MODIFIER_MODES);
+        JsonNode value = modifier.get("value");
+        if (value != null && !value.isNull() && !value.isNumber()) {
+            throw semantic("statusAttributeModifier.value must be number", Map.of("path", "/statusAttributeModifiers/value"));
+        }
+        String formulaId = optionalTextForPublish(modifier, "formulaId", "/statusAttributeModifiers/formulaId");
+        if (formulaId != null && !formulaIds.contains(formulaId)) {
+            throw semantic("statusAttributeModifier.formulaId not found", Map.of("path", "/statusAttributeModifiers/formulaId", "formulaId", formulaId));
+        }
+        if ((value == null || value.isNull()) && formulaId == null) {
+            throw semantic("statusAttributeModifier.value or formulaId is required", Map.of("path", "/statusAttributeModifiers/value"));
+        }
+        String bucketKey = optionalTextForPublish(modifier, "bucketKey", "/statusAttributeModifiers/bucketKey");
+        validateStatusModifierBucketForPublish(modifierMode, bucketKey, bucketKeys);
+        optionalBooleanForPublish(modifier, "perStack", "/statusAttributeModifiers/perStack");
+        optionalIntegerForPublish(modifier, "priority", "/statusAttributeModifiers/priority");
+        validateOptionalObjectForPublish(modifier, "statusAttributeModifier", "extend", "/statusAttributeModifiers/extend");
+    }
+
+    private void validateStatusPeriodicHpEffectForPublish(
+        ObjectNode effect,
+        Set<String> statusIds,
+        Set<String> statusGroupKeys,
+        Set<String> formulaIds
+    ) {
+        String statusId = requireTextForPublish(effect, "statusId", "/statusPeriodicHpEffects/statusId");
+        if (!statusIds.contains(statusId)) {
+            throw semantic("statusPeriodicHpEffect.statusId not found", Map.of("path", "/statusPeriodicHpEffects/statusId", "statusId", statusId));
+        }
+        String groupKey = requireTextForPublish(effect, "groupKey", "/statusPeriodicHpEffects/groupKey");
+        if (!statusGroupKeys.contains(statusGroupKey(statusId, groupKey))) {
+            throw semantic(
+                "statusPeriodicHpEffect.groupKey not found",
+                Map.of("path", "/statusPeriodicHpEffects/groupKey", "statusId", statusId, "groupKey", groupKey)
+            );
+        }
+        requireTextForPublish(effect, "effectId", "/statusPeriodicHpEffects/effectId");
+        String effectKind = requireEnumForPublish(effect, "effectKind", "/statusPeriodicHpEffects/effectKind", STATUS_PERIODIC_EFFECT_KINDS);
+        String tickFormulaId = requireTextForPublish(effect, "tickFormulaId", "/statusPeriodicHpEffects/tickFormulaId");
+        if (!formulaIds.contains(tickFormulaId)) {
+            throw semantic(
+                "statusPeriodicHpEffect.tickFormulaId not found",
+                Map.of("path", "/statusPeriodicHpEffects/tickFormulaId", "formulaId", tickFormulaId)
+            );
+        }
+        String damageType = optionalTextForPublish(effect, "damageType", "/statusPeriodicHpEffects/damageType");
+        Boolean affectedByHealModifier = optionalBooleanForPublish(
+            effect,
+            "affectedByHealModifier",
+            "/statusPeriodicHpEffects/affectedByHealModifier"
+        );
+        validatePeriodicHpEffectKind(effectKind, damageType, affectedByHealModifier, "/statusPeriodicHpEffects");
+        optionalBooleanForPublish(effect, "canCrit", "/statusPeriodicHpEffects/canCrit");
+        optionalBooleanForPublish(effect, "perStack", "/statusPeriodicHpEffects/perStack");
+        validateOptionalObjectForPublish(effect, "statusPeriodicHpEffect", "extend", "/statusPeriodicHpEffects/extend");
+    }
+
     private void validateItemForPublish(ObjectNode item, Set<String> skillIds, Set<String> itemIds) {
         String itemId = requireTextForPublish(item, "itemId", "/items/itemId");
         JsonNode skillRefs = item.get("skillRefs");
@@ -1490,6 +2123,263 @@ public class PostgresWriteStore {
                 throw semantic("typeId not found", Map.of("path", path + "/" + i, "typeId", typeId));
             }
         }
+    }
+
+    private Integer nullableExistingTypeId(String gameId, JsonNode value, String path, String fieldLabel) {
+        if (value == null || value.isNull()) {
+            return null;
+        }
+        return requireExistingTypeId(gameId, value, path, fieldLabel);
+    }
+
+    private String requireEnum(ObjectNode node, String fieldName, String objectName, Set<String> allowedValues) {
+        String value = jsonSupport.requireText(node, fieldName, objectName).toLowerCase(Locale.ROOT);
+        if (!allowedValues.contains(value)) {
+            throw badRequest(objectName + "." + fieldName + " invalid", Map.of("path", "/" + fieldName, fieldName, value));
+        }
+        node.put(fieldName, value);
+        return value;
+    }
+
+    private String defaultEnum(
+        ObjectNode node,
+        String fieldName,
+        String defaultValue,
+        String objectName,
+        Set<String> allowedValues
+    ) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || value.isNull()) {
+            node.put(fieldName, defaultValue);
+            return defaultValue;
+        }
+        return requireEnum(node, fieldName, objectName, allowedValues);
+    }
+
+    private boolean defaultBoolean(ObjectNode node, String fieldName, boolean defaultValue) {
+        Boolean value = nullableBoolean(node, fieldName);
+        if (value == null) {
+            node.put(fieldName, defaultValue);
+            return defaultValue;
+        }
+        return value;
+    }
+
+    private int defaultInteger(ObjectNode node, String fieldName, int defaultValue) {
+        Integer value = nullableInteger(node, fieldName);
+        if (value == null) {
+            node.put(fieldName, defaultValue);
+            return defaultValue;
+        }
+        return value;
+    }
+
+    private int defaultPositiveInteger(ObjectNode node, String fieldName, int defaultValue) {
+        int value = defaultInteger(node, fieldName, defaultValue);
+        if (value < 1) {
+            throw badRequest(fieldName + " must be positive integer", Map.of("path", "/" + fieldName));
+        }
+        return value;
+    }
+
+    private Integer nullablePositiveInteger(ObjectNode node, String fieldName) {
+        Integer value = nullableInteger(node, fieldName);
+        if (value != null && value < 1) {
+            throw badRequest(fieldName + " must be positive integer", Map.of("path", "/" + fieldName));
+        }
+        return value;
+    }
+
+    private void requireFormulaIfPresent(String gameId, String formulaId, String path, String fieldLabel) {
+        if (formulaId != null && readStore.loadFormulaProfile(gameId, formulaId) == null) {
+            throw semantic(fieldLabel + " not found", Map.of("path", path, "formulaId", formulaId));
+        }
+    }
+
+    private void requireStatusDefinition(String gameId, String statusId, String path) {
+        if (readStore.loadStatusDefinition(gameId, statusId) == null) {
+            throw semantic("statusDefinition not found", Map.of("path", path, "statusId", statusId));
+        }
+    }
+
+    private void requireStatusModifierGroup(String gameId, String statusId, String groupKey, String path) {
+        if (readStore.loadStatusModifierGroup(gameId, statusId, groupKey) == null) {
+            throw semantic("statusModifierGroup not found", Map.of("path", path, "statusId", statusId, "groupKey", groupKey));
+        }
+    }
+
+    private void validateStatusDuration(String durationMode, Integer durationMs, String durationFormulaId, String pathPrefix) {
+        String path = pathPrefix.isBlank() ? "/durationMode" : pathPrefix + "/durationMode";
+        if ("permanent".equals(durationMode)) {
+            if (durationMs != null || durationFormulaId != null) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusDefinition permanent duration must not set durationMs or durationFormulaId",
+                    Map.of("path", path)
+                );
+            }
+            return;
+        }
+        if (durationMs == null && durationFormulaId == null) {
+            throw statusValidationError(
+                pathPrefix,
+                "statusDefinition timed duration requires durationMs or durationFormulaId",
+                Map.of("path", path)
+            );
+        }
+    }
+
+    private void validateStatusGroupInterval(String phaseKey, Integer intervalMs, Integer maxTicks, String pathPrefix) {
+        String path = pathPrefix.isBlank() ? "/phaseKey" : pathPrefix + "/phaseKey";
+        if ("on_interval".equals(phaseKey)) {
+            if (intervalMs == null) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusModifierGroup.intervalMs is required when phaseKey=on_interval",
+                    Map.of("path", path)
+                );
+            }
+            return;
+        }
+        if (intervalMs != null || maxTicks != null) {
+            throw statusValidationError(
+                pathPrefix,
+                "statusModifierGroup intervalMs and maxTicks must be null unless phaseKey=on_interval",
+                Map.of("path", path)
+            );
+        }
+    }
+
+    private void validateStatusModifierBucket(String gameId, String modifierMode, String bucketKey) {
+        boolean bucketMode = "bucket_add".equals(modifierMode) || "bucket_mul".equals(modifierMode);
+        if (bucketMode && (bucketKey == null || bucketKey.isBlank())) {
+            throw badRequest("statusAttributeModifier.bucketKey is required for bucket modifier modes", Map.of("path", "/bucketKey"));
+        }
+        if (bucketKey != null && readStore.loadCoefficientBucket(gameId, bucketKey) == null) {
+            throw semantic("statusAttributeModifier.bucketKey not found", Map.of("path", "/bucketKey", "bucketKey", bucketKey));
+        }
+    }
+
+    private void validateStatusModifierBucketForPublish(String modifierMode, String bucketKey, Set<String> bucketKeys) {
+        boolean bucketMode = "bucket_add".equals(modifierMode) || "bucket_mul".equals(modifierMode);
+        if (bucketMode && (bucketKey == null || bucketKey.isBlank())) {
+            throw semantic(
+                "statusAttributeModifier.bucketKey is required for bucket modifier modes",
+                Map.of("path", "/statusAttributeModifiers/bucketKey")
+            );
+        }
+        if (bucketKey != null && !bucketKeys.contains(bucketKey)) {
+            throw semantic(
+                "statusAttributeModifier.bucketKey not found",
+                Map.of("path", "/statusAttributeModifiers/bucketKey", "bucketKey", bucketKey)
+            );
+        }
+    }
+
+    private void validatePeriodicHpEffectKind(
+        String effectKind,
+        String damageType,
+        Boolean affectedByHealModifier,
+        String pathPrefix
+    ) {
+        if ("damage".equals(effectKind)) {
+            if (damageType == null || !DAMAGE_TYPES.contains(damageType)) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.damageType is required for damage",
+                    Map.of("path", pathPrefix.isBlank() ? "/damageType" : pathPrefix + "/damageType")
+                );
+            }
+            if (affectedByHealModifier != null) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.affectedByHealModifier must be null for damage",
+                    Map.of("path", pathPrefix.isBlank() ? "/affectedByHealModifier" : pathPrefix + "/affectedByHealModifier")
+                );
+            }
+            return;
+        }
+        if (damageType != null) {
+            throw statusValidationError(
+                pathPrefix,
+                "statusPeriodicHpEffect.damageType must be null for heal",
+                Map.of("path", pathPrefix.isBlank() ? "/damageType" : pathPrefix + "/damageType")
+            );
+        }
+        if (affectedByHealModifier == null) {
+            throw statusValidationError(
+                pathPrefix,
+                "statusPeriodicHpEffect.affectedByHealModifier is required for heal",
+                Map.of("path", pathPrefix.isBlank() ? "/affectedByHealModifier" : pathPrefix + "/affectedByHealModifier")
+            );
+        }
+    }
+
+    private String requireEnumForPublish(ObjectNode node, String fieldName, String path, Set<String> allowedValues) {
+        String value = requireTextForPublish(node, fieldName, path).toLowerCase(Locale.ROOT);
+        if (!allowedValues.contains(value)) {
+            throw semantic(fieldName + " invalid", Map.of("path", path, fieldName, value));
+        }
+        return value;
+    }
+
+    private String optionalTextForPublish(ObjectNode node, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || value.isNull()) {
+            return null;
+        }
+        if (!value.isTextual() || value.asText().isBlank()) {
+            throw semantic(fieldName + " must be non-empty string", Map.of("path", path));
+        }
+        return value.asText();
+    }
+
+    private Integer optionalIntegerForPublish(ObjectNode node, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || value.isNull()) {
+            return null;
+        }
+        if (!value.canConvertToInt()) {
+            throw semantic(fieldName + " must be integer", Map.of("path", path));
+        }
+        return value.asInt();
+    }
+
+    private Integer requirePositiveIntegerForPublish(ObjectNode node, String fieldName, String path) {
+        Integer value = optionalIntegerForPublish(node, fieldName, path);
+        if (value == null || value < 1) {
+            throw semantic(fieldName + " must be positive integer", Map.of("path", path));
+        }
+        return value;
+    }
+
+    private Integer optionalPositiveIntegerForPublish(ObjectNode node, String fieldName, String path) {
+        Integer value = optionalIntegerForPublish(node, fieldName, path);
+        if (value != null && value < 1) {
+            throw semantic(fieldName + " must be positive integer", Map.of("path", path));
+        }
+        return value;
+    }
+
+    private Boolean optionalBooleanForPublish(ObjectNode node, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || value.isNull()) {
+            return null;
+        }
+        if (!value.isBoolean()) {
+            throw semantic(fieldName + " must be boolean", Map.of("path", path));
+        }
+        return value.asBoolean();
+    }
+
+    private String statusGroupKey(String statusId, String groupKey) {
+        return statusId + "\u0000" + groupKey;
+    }
+
+    private ApiException statusValidationError(String pathPrefix, String message, Map<String, Object> details) {
+        return pathPrefix == null || pathPrefix.isBlank()
+            ? badRequest(message, details)
+            : semantic(message, details);
     }
 
     private ArrayNode requireArray(ObjectNode node, String fieldName) {

@@ -218,6 +218,106 @@ BEGIN
     EXCEPTION WHEN duplicate_table THEN
         NULL;
     END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_definitions FOR VALUES IN (%L)',
+            'status_definitions_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_definitions_log FOR VALUES IN (%L)',
+            'status_definitions_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_modifier_groups FOR VALUES IN (%L)',
+            'status_modifier_groups_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_modifier_groups_log FOR VALUES IN (%L)',
+            'status_modifier_groups_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_attribute_modifiers FOR VALUES IN (%L)',
+            'status_attribute_modifiers_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_attribute_modifiers_log FOR VALUES IN (%L)',
+            'status_attribute_modifiers_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_periodic_hp_effects FOR VALUES IN (%L)',
+            'status_periodic_hp_effects_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.status_periodic_hp_effects_log FOR VALUES IN (%L)',
+            'status_periodic_hp_effects_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.control_state_profiles FOR VALUES IN (%L)',
+            'control_state_profiles_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.control_state_profiles_log FOR VALUES IN (%L)',
+            'control_state_profiles_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
 END;
 $$;
 

@@ -293,6 +293,149 @@ public class GameDataService {
         return response;
     }
 
+    public ObjectNode listStatusDefinitions(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getStatusDefinitions(gameId);
+    }
+
+    public ObjectNode getStatusDefinition(String gameId, String statusId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadStatusDefinition(gameId, statusId);
+        if (response == null) {
+            throw notFound("Status definition not found", Map.of("gameId", gameId, "statusId", statusId));
+        }
+        return response;
+    }
+
+    public ObjectNode upsertStatusDefinition(String gameId, String statusId, ObjectNode body) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertStatusDefinition(gameId, statusId, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode listControlStateProfiles(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getControlStateProfiles(gameId);
+    }
+
+    public ObjectNode getControlStateProfile(String gameId, String controlProfileId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadControlStateProfile(gameId, controlProfileId);
+        if (response == null) {
+            throw notFound("Control state profile not found", Map.of("gameId", gameId, "controlProfileId", controlProfileId));
+        }
+        return response;
+    }
+
+    public ObjectNode upsertControlStateProfile(String gameId, String controlProfileId, ObjectNode body) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertControlStateProfile(gameId, controlProfileId, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode listStatusModifierGroups(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getStatusModifierGroups(gameId);
+    }
+
+    public ObjectNode getStatusModifierGroup(String gameId, String statusId, String groupKey) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadStatusModifierGroup(gameId, statusId, groupKey);
+        if (response == null) {
+            throw notFound("Status modifier group not found", Map.of("gameId", gameId, "statusId", statusId, "groupKey", groupKey));
+        }
+        return response;
+    }
+
+    public ObjectNode upsertStatusModifierGroup(String gameId, String statusId, String groupKey, ObjectNode body) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertStatusModifierGroup(gameId, statusId, groupKey, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode listStatusAttributeModifiers(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getStatusAttributeModifiers(gameId);
+    }
+
+    public ObjectNode getStatusAttributeModifier(String gameId, String statusId, String groupKey, String modifierId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadStatusAttributeModifier(gameId, statusId, groupKey, modifierId);
+        if (response == null) {
+            throw notFound(
+                "Status attribute modifier not found",
+                Map.of("gameId", gameId, "statusId", statusId, "groupKey", groupKey, "modifierId", modifierId)
+            );
+        }
+        return response;
+    }
+
+    public ObjectNode upsertStatusAttributeModifier(
+        String gameId,
+        String statusId,
+        String groupKey,
+        String modifierId,
+        ObjectNode body
+    ) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertStatusAttributeModifier(gameId, statusId, groupKey, modifierId, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode listStatusPeriodicHpEffects(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getStatusPeriodicHpEffects(gameId);
+    }
+
+    public ObjectNode getStatusPeriodicHpEffect(String gameId, String statusId, String groupKey, String effectId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode response = readStore.loadStatusPeriodicHpEffect(gameId, statusId, groupKey, effectId);
+        if (response == null) {
+            throw notFound(
+                "Status periodic hp effect not found",
+                Map.of("gameId", gameId, "statusId", statusId, "groupKey", groupKey, "effectId", effectId)
+            );
+        }
+        return response;
+    }
+
+    public ObjectNode upsertStatusPeriodicHpEffect(
+        String gameId,
+        String statusId,
+        String groupKey,
+        String effectId,
+        ObjectNode body
+    ) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertStatusPeriodicHpEffect(gameId, statusId, groupKey, effectId, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
     public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body) {
         validateGameId(gameId);
         assertGameExists(gameId);
