@@ -4,6 +4,8 @@ import type {
   AttributeDefinitionsResponse,
   CoefficientBucket,
   CoefficientBucketsResponse,
+  ControlStateProfile,
+  ControlStateProfilesResponse,
   CurrentVersion,
   FormulaBinding,
   FormulaBindingsResponse,
@@ -24,6 +26,14 @@ import type {
   SkillsResponse,
   StatusActionControlRule,
   StatusActionControlRulesResponse,
+  StatusAttributeModifier,
+  StatusAttributeModifiersResponse,
+  StatusDefinition,
+  StatusDefinitionsResponse,
+  StatusModifierGroup,
+  StatusModifierGroupsResponse,
+  StatusPeriodicHpEffect,
+  StatusPeriodicHpEffectsResponse,
   TypeDefinition,
   TypeRelation,
   TypeRelationReplacePayload,
@@ -366,6 +376,207 @@ export async function putStatusActionControlRule(
     token,
     body: JSON.stringify(body)
   });
+}
+
+export async function getStatusDefinitions(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusDefinitionsResponse>> {
+  return requestJson<StatusDefinitionsResponse>(apiBaseUrl, adminPath(gameId, 'status-definitions'), {
+    token
+  });
+}
+
+export async function getStatusDefinition(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  token: string
+): Promise<ApiResult<StatusDefinition>> {
+  return requestJson<StatusDefinition>(apiBaseUrl, adminPath(gameId, 'status-definitions', statusId), {
+    token
+  });
+}
+
+export async function putStatusDefinition(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusDefinition>> {
+  return requestJson<StatusDefinition>(apiBaseUrl, adminPath(gameId, 'status-definitions', statusId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getControlStateProfiles(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<ControlStateProfilesResponse>> {
+  return requestJson<ControlStateProfilesResponse>(apiBaseUrl, adminPath(gameId, 'control-state-profiles'), {
+    token
+  });
+}
+
+export async function getControlStateProfile(
+  apiBaseUrl: string,
+  gameId: string,
+  controlProfileId: string,
+  token: string
+): Promise<ApiResult<ControlStateProfile>> {
+  return requestJson<ControlStateProfile>(apiBaseUrl, adminPath(gameId, 'control-state-profiles', controlProfileId), {
+    token
+  });
+}
+
+export async function putControlStateProfile(
+  apiBaseUrl: string,
+  gameId: string,
+  controlProfileId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<ControlStateProfile>> {
+  return requestJson<ControlStateProfile>(apiBaseUrl, adminPath(gameId, 'control-state-profiles', controlProfileId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getStatusModifierGroups(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusModifierGroupsResponse>> {
+  return requestJson<StatusModifierGroupsResponse>(apiBaseUrl, adminPath(gameId, 'status-modifier-groups'), {
+    token
+  });
+}
+
+export async function getStatusModifierGroup(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  token: string
+): Promise<ApiResult<StatusModifierGroup>> {
+  return requestJson<StatusModifierGroup>(apiBaseUrl, adminPath(gameId, 'status-modifier-groups', statusId, groupKey), {
+    token
+  });
+}
+
+export async function putStatusModifierGroup(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusModifierGroup>> {
+  return requestJson<StatusModifierGroup>(apiBaseUrl, adminPath(gameId, 'status-modifier-groups', statusId, groupKey), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getStatusAttributeModifiers(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusAttributeModifiersResponse>> {
+  return requestJson<StatusAttributeModifiersResponse>(apiBaseUrl, adminPath(gameId, 'status-attribute-modifiers'), {
+    token
+  });
+}
+
+export async function getStatusAttributeModifier(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  modifierId: string,
+  token: string
+): Promise<ApiResult<StatusAttributeModifier>> {
+  return requestJson<StatusAttributeModifier>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-attribute-modifiers', statusId, groupKey, modifierId),
+    {
+      token
+    }
+  );
+}
+
+export async function putStatusAttributeModifier(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  modifierId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusAttributeModifier>> {
+  return requestJson<StatusAttributeModifier>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-attribute-modifiers', statusId, groupKey, modifierId),
+    {
+      method: 'PUT',
+      token,
+      body: JSON.stringify(body)
+    }
+  );
+}
+
+export async function getStatusPeriodicHpEffects(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusPeriodicHpEffectsResponse>> {
+  return requestJson<StatusPeriodicHpEffectsResponse>(apiBaseUrl, adminPath(gameId, 'status-periodic-hp-effects'), {
+    token
+  });
+}
+
+export async function getStatusPeriodicHpEffect(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  effectId: string,
+  token: string
+): Promise<ApiResult<StatusPeriodicHpEffect>> {
+  return requestJson<StatusPeriodicHpEffect>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-periodic-hp-effects', statusId, groupKey, effectId),
+    {
+      token
+    }
+  );
+}
+
+export async function putStatusPeriodicHpEffect(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  effectId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusPeriodicHpEffect>> {
+  return requestJson<StatusPeriodicHpEffect>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-periodic-hp-effects', statusId, groupKey, effectId),
+    {
+      method: 'PUT',
+      token,
+      body: JSON.stringify(body)
+    }
+  );
 }
 
 export async function getFormulaProfiles(

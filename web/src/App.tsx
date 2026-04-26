@@ -9,6 +9,7 @@ import { HeroesPage } from './pages/admin/resources/heroes';
 import { ItemsPage } from './pages/admin/resources/items';
 import { SkillsPage } from './pages/admin/resources/skills';
 import { StatusActionControlRulesPage } from './pages/admin/resources/status-action-control-rules';
+import { StatusManagementPage } from './pages/admin/resources/status-management';
 import { TypeRelationsPage } from './pages/admin/resources/type-relations';
 import { TypesPage } from './pages/admin/resources/types';
 import { ImagesPage } from './pages/ImagesPage';
@@ -218,6 +219,9 @@ export default function App() {
       break;
     case 'attribute-definitions':
       pageContent = <AttributeDefinitionsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'status-management':
+      pageContent = <StatusManagementPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
       break;
     case 'types':
       pageContent = <TypesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
