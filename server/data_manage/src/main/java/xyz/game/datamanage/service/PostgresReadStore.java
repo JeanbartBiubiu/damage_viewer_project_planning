@@ -14,6 +14,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
+import xyz.game.datamanage.mapper.ControlStateProfilesMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
 import xyz.game.datamanage.mapper.GameVersionsMapper;
@@ -26,6 +27,10 @@ import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
+import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
+import xyz.game.datamanage.mapper.StatusDefinitionsMapper;
+import xyz.game.datamanage.mapper.StatusModifierGroupsMapper;
+import xyz.game.datamanage.mapper.StatusPeriodicHpEffectsMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 
@@ -54,6 +59,11 @@ public class PostgresReadStore {
     private final FormulaProfilesMapper formulaProfilesMapper;
     private final FormulaBindingsMapper formulaBindingsMapper;
     private final StatusActionControlRulesMapper statusActionControlRulesMapper;
+    private final StatusDefinitionsMapper statusDefinitionsMapper;
+    private final StatusModifierGroupsMapper statusModifierGroupsMapper;
+    private final StatusAttributeModifiersMapper statusAttributeModifiersMapper;
+    private final StatusPeriodicHpEffectsMapper statusPeriodicHpEffectsMapper;
+    private final ControlStateProfilesMapper controlStateProfilesMapper;
     private final ObjectMapper objectMapper;
     private final PostgresJsonSupport jsonSupport;
 
@@ -74,6 +84,11 @@ public class PostgresReadStore {
         FormulaProfilesMapper formulaProfilesMapper,
         FormulaBindingsMapper formulaBindingsMapper,
         StatusActionControlRulesMapper statusActionControlRulesMapper,
+        StatusDefinitionsMapper statusDefinitionsMapper,
+        StatusModifierGroupsMapper statusModifierGroupsMapper,
+        StatusAttributeModifiersMapper statusAttributeModifiersMapper,
+        StatusPeriodicHpEffectsMapper statusPeriodicHpEffectsMapper,
+        ControlStateProfilesMapper controlStateProfilesMapper,
         ObjectMapper objectMapper,
         PostgresJsonSupport jsonSupport
     ) {
@@ -93,6 +108,11 @@ public class PostgresReadStore {
         this.formulaProfilesMapper = formulaProfilesMapper;
         this.formulaBindingsMapper = formulaBindingsMapper;
         this.statusActionControlRulesMapper = statusActionControlRulesMapper;
+        this.statusDefinitionsMapper = statusDefinitionsMapper;
+        this.statusModifierGroupsMapper = statusModifierGroupsMapper;
+        this.statusAttributeModifiersMapper = statusAttributeModifiersMapper;
+        this.statusPeriodicHpEffectsMapper = statusPeriodicHpEffectsMapper;
+        this.controlStateProfilesMapper = controlStateProfilesMapper;
         this.objectMapper = objectMapper;
         this.jsonSupport = jsonSupport;
     }
@@ -274,6 +294,56 @@ public class PostgresReadStore {
         return response;
     }
 
+    public ObjectNode getStatusDefinitions(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode statusDefinitions = response.putArray("statusDefinitions");
+        for (Map<String, Object> row : statusDefinitionsMapper.listStatusDefinitions(gameId)) {
+            statusDefinitions.add(mapStatusDefinitionRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getControlStateProfiles(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode controlStateProfiles = response.putArray("controlStateProfiles");
+        for (Map<String, Object> row : controlStateProfilesMapper.listControlStateProfiles(gameId)) {
+            controlStateProfiles.add(mapControlStateProfileRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getStatusModifierGroups(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode statusModifierGroups = response.putArray("statusModifierGroups");
+        for (Map<String, Object> row : statusModifierGroupsMapper.listStatusModifierGroups(gameId)) {
+            statusModifierGroups.add(mapStatusModifierGroupRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getStatusAttributeModifiers(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode statusAttributeModifiers = response.putArray("statusAttributeModifiers");
+        for (Map<String, Object> row : statusAttributeModifiersMapper.listStatusAttributeModifiers(gameId)) {
+            statusAttributeModifiers.add(mapStatusAttributeModifierRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getStatusPeriodicHpEffects(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode statusPeriodicHpEffects = response.putArray("statusPeriodicHpEffects");
+        for (Map<String, Object> row : statusPeriodicHpEffectsMapper.listStatusPeriodicHpEffects(gameId)) {
+            statusPeriodicHpEffects.add(mapStatusPeriodicHpEffectRow(row));
+        }
+        return response;
+    }
+
     public ObjectNode buildBundle(String gameId, VersionRecord version, Instant generatedAt) {
         ObjectNode bundle = objectMapper.createObjectNode();
         ObjectNode meta = bundle.putObject("meta");
@@ -347,6 +417,36 @@ public class PostgresReadStore {
         }
         bundle.set("statusActionControlRules", statusActionControlRules);
 
+        ArrayNode statusDefinitions = objectMapper.createArrayNode();
+        for (Map<String, Object> row : statusDefinitionsMapper.listStatusDefinitions(gameId)) {
+            statusDefinitions.add(mapStatusDefinitionRow(row));
+        }
+        bundle.set("statusDefinitions", statusDefinitions);
+
+        ArrayNode controlStateProfiles = objectMapper.createArrayNode();
+        for (Map<String, Object> row : controlStateProfilesMapper.listControlStateProfiles(gameId)) {
+            controlStateProfiles.add(mapControlStateProfileRow(row));
+        }
+        bundle.set("controlStateProfiles", controlStateProfiles);
+
+        ArrayNode statusModifierGroups = objectMapper.createArrayNode();
+        for (Map<String, Object> row : statusModifierGroupsMapper.listStatusModifierGroups(gameId)) {
+            statusModifierGroups.add(mapStatusModifierGroupRow(row));
+        }
+        bundle.set("statusModifierGroups", statusModifierGroups);
+
+        ArrayNode statusAttributeModifiers = objectMapper.createArrayNode();
+        for (Map<String, Object> row : statusAttributeModifiersMapper.listStatusAttributeModifiers(gameId)) {
+            statusAttributeModifiers.add(mapStatusAttributeModifierRow(row));
+        }
+        bundle.set("statusAttributeModifiers", statusAttributeModifiers);
+
+        ArrayNode statusPeriodicHpEffects = objectMapper.createArrayNode();
+        for (Map<String, Object> row : statusPeriodicHpEffectsMapper.listStatusPeriodicHpEffects(gameId)) {
+            statusPeriodicHpEffects.add(mapStatusPeriodicHpEffectRow(row));
+        }
+        bundle.set("statusPeriodicHpEffects", statusPeriodicHpEffects);
+
         ObjectNode dictionaries = objectMapper.createObjectNode();
         ObjectNode attrKeyToName = dictionaries.putObject("attrKeyToName");
         for (JsonNode node : attributeDefinitions) {
@@ -416,6 +516,41 @@ public class PostgresReadStore {
         return querySingleNode(
             statusActionControlRulesMapper.findStatusActionControlRuleById(gameId, ruleId),
             this::mapStatusActionControlRuleRow
+        );
+    }
+
+    public ObjectNode loadStatusDefinition(String gameId, String statusId) {
+        return querySingleNode(
+            statusDefinitionsMapper.findStatusDefinitionById(gameId, statusId),
+            this::mapStatusDefinitionRow
+        );
+    }
+
+    public ObjectNode loadControlStateProfile(String gameId, String controlProfileId) {
+        return querySingleNode(
+            controlStateProfilesMapper.findControlStateProfileById(gameId, controlProfileId),
+            this::mapControlStateProfileRow
+        );
+    }
+
+    public ObjectNode loadStatusModifierGroup(String gameId, String statusId, String groupKey) {
+        return querySingleNode(
+            statusModifierGroupsMapper.findStatusModifierGroupById(gameId, statusId, groupKey),
+            this::mapStatusModifierGroupRow
+        );
+    }
+
+    public ObjectNode loadStatusAttributeModifier(String gameId, String statusId, String groupKey, String modifierId) {
+        return querySingleNode(
+            statusAttributeModifiersMapper.findStatusAttributeModifierById(gameId, statusId, groupKey, modifierId),
+            this::mapStatusAttributeModifierRow
+        );
+    }
+
+    public ObjectNode loadStatusPeriodicHpEffect(String gameId, String statusId, String groupKey, String effectId) {
+        return querySingleNode(
+            statusPeriodicHpEffectsMapper.findStatusPeriodicHpEffectById(gameId, statusId, groupKey, effectId),
+            this::mapStatusPeriodicHpEffectRow
         );
     }
 
@@ -564,6 +699,155 @@ public class PostgresReadStore {
         if (extend != null) {
             node.set("extend", extend);
         }
+        return node;
+    }
+
+    private ObjectNode mapStatusDefinitionRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("statusId", text(row, "statusId"));
+        node.put("name", text(row, "name"));
+        putNullableText(node, "description", text(row, "description"));
+        node.put("statusKind", text(row, "statusKind"));
+        Integer statusTypeId = integer(row, "statusTypeId");
+        if (statusTypeId != null) {
+            node.put("statusTypeId", statusTypeId);
+        }
+        putNullableText(node, "controlProfileId", text(row, "controlProfileId"));
+        node.put("stackGroupKey", text(row, "stackGroupKey"));
+        node.put("sourceScope", text(row, "sourceScope"));
+        node.put("stackMode", text(row, "stackMode"));
+        Integer maxStacks = integer(row, "maxStacks");
+        if (maxStacks != null) {
+            node.put("maxStacks", maxStacks);
+        }
+        Integer maxInstances = integer(row, "maxInstances");
+        if (maxInstances != null) {
+            node.put("maxInstances", maxInstances);
+        }
+        node.put("durationMode", text(row, "durationMode"));
+        Integer durationMs = integer(row, "durationMs");
+        if (durationMs != null) {
+            node.put("durationMs", durationMs);
+        }
+        putNullableText(node, "durationFormulaId", text(row, "durationFormulaId"));
+        putNullableText(node, "defaultMagnitudeFormulaId", text(row, "defaultMagnitudeFormulaId"));
+        node.put("snapshotPolicy", text(row, "snapshotPolicy"));
+        Boolean dispellable = booleanValue(row, "isDispellable");
+        if (dispellable != null) {
+            node.put("isDispellable", dispellable);
+        }
+        Integer cleansePriority = integer(row, "cleansePriority");
+        if (cleansePriority != null) {
+            node.put("cleansePriority", cleansePriority);
+        }
+        putNullableJson(node, "extend", text(row, "extendJson"));
+        return node;
+    }
+
+    private ObjectNode mapControlStateProfileRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("controlProfileId", text(row, "controlProfileId"));
+        node.put("name", text(row, "name"));
+        putNullableText(node, "description", text(row, "description"));
+        node.put("controlKind", text(row, "controlKind"));
+        node.put("movementLockMode", text(row, "movementLockMode"));
+        node.put("castLockMode", text(row, "castLockMode"));
+        node.put("attackLockMode", text(row, "attackLockMode"));
+        node.put("inputOverrideMode", text(row, "inputOverrideMode"));
+        node.put("displacementKind", text(row, "displacementKind"));
+        Boolean blocksControlInput = booleanValue(row, "blocksControlInput");
+        if (blocksControlInput != null) {
+            node.put("blocksControlInput", blocksControlInput);
+        }
+        Boolean grantsUnstoppable = booleanValue(row, "grantsUnstoppable");
+        if (grantsUnstoppable != null) {
+            node.put("grantsUnstoppable", grantsUnstoppable);
+        }
+        Boolean breaksOnDamage = booleanValue(row, "breaksOnDamage");
+        if (breaksOnDamage != null) {
+            node.put("breaksOnDamage", breaksOnDamage);
+        }
+        Boolean tenacityReducible = booleanValue(row, "tenacityReducible");
+        if (tenacityReducible != null) {
+            node.put("tenacityReducible", tenacityReducible);
+        }
+        Integer priority = integer(row, "priority");
+        if (priority != null) {
+            node.put("priority", priority);
+        }
+        putNullableJson(node, "extend", text(row, "extendJson"));
+        return node;
+    }
+
+    private ObjectNode mapStatusModifierGroupRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("statusId", text(row, "statusId"));
+        node.put("groupKey", text(row, "groupKey"));
+        putNullableText(node, "groupName", text(row, "groupName"));
+        node.put("phaseKey", text(row, "phaseKey"));
+        node.put("snapshotPolicy", text(row, "snapshotPolicy"));
+        Integer intervalMs = integer(row, "intervalMs");
+        if (intervalMs != null) {
+            node.put("intervalMs", intervalMs);
+        }
+        Integer maxTicks = integer(row, "maxTicks");
+        if (maxTicks != null) {
+            node.put("maxTicks", maxTicks);
+        }
+        Integer priority = integer(row, "priority");
+        if (priority != null) {
+            node.put("priority", priority);
+        }
+        putNullableJson(node, "extend", text(row, "extendJson"));
+        return node;
+    }
+
+    private ObjectNode mapStatusAttributeModifierRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("statusId", text(row, "statusId"));
+        node.put("groupKey", text(row, "groupKey"));
+        node.put("modifierId", text(row, "modifierId"));
+        node.put("attrKey", text(row, "attrKey"));
+        node.put("modifierMode", text(row, "modifierMode"));
+        BigDecimal value = decimal(row, "value");
+        if (value != null) {
+            node.put("value", value);
+        }
+        putNullableText(node, "formulaId", text(row, "formulaId"));
+        putNullableText(node, "bucketKey", text(row, "bucketKey"));
+        Boolean perStack = booleanValue(row, "perStack");
+        if (perStack != null) {
+            node.put("perStack", perStack);
+        }
+        Integer priority = integer(row, "priority");
+        if (priority != null) {
+            node.put("priority", priority);
+        }
+        putNullableJson(node, "extend", text(row, "extendJson"));
+        return node;
+    }
+
+    private ObjectNode mapStatusPeriodicHpEffectRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("statusId", text(row, "statusId"));
+        node.put("groupKey", text(row, "groupKey"));
+        node.put("effectId", text(row, "effectId"));
+        node.put("effectKind", text(row, "effectKind"));
+        node.put("tickFormulaId", text(row, "tickFormulaId"));
+        putNullableText(node, "damageType", text(row, "damageType"));
+        Boolean canCrit = booleanValue(row, "canCrit");
+        if (canCrit != null) {
+            node.put("canCrit", canCrit);
+        }
+        Boolean affectedByHealModifier = booleanValue(row, "affectedByHealModifier");
+        if (affectedByHealModifier != null) {
+            node.put("affectedByHealModifier", affectedByHealModifier);
+        }
+        Boolean perStack = booleanValue(row, "perStack");
+        if (perStack != null) {
+            node.put("perStack", perStack);
+        }
+        putNullableJson(node, "extend", text(row, "extendJson"));
         return node;
     }
 
