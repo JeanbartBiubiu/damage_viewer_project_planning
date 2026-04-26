@@ -20,7 +20,7 @@
 
 1. 如果当前 worktree 根目录位于 `C:\project\damage_backend_dev`，或当前分支前缀为 `backend/` 或 `server/`，优先读取最近的后端项目级规则；当前默认入口是 `server/data_manage/AGENTS.md`。
 2. 如果当前 worktree 根目录位于 `C:\project\damage_web_dev`，或当前分支前缀为 `web/`，继续读取 `agent_group/AGENTS_WEB.md`。
-3. 如果当前 worktree 根目录位于 `C:\project\damage_wasm_dev`，或当前分支前缀为 `wasm/`，继续读取 `wasm/katarina_mvp_engine/AGENTS.md`。
+3. 如果当前 worktree 根目录位于 `C:\project\damage_wasm_dev`，或当前分支前缀为 `wasm/`，按目标路径继续读取 Wasm 专项规则：TinyGo V2 任务优先读取 `wasm/tinygo_engine_v2/AGENTS.md`；旧 Rust/Katarina 任务读取 `wasm/katarina_mvp_engine/AGENTS.md`。
 4. 如果 worktree 目录信号与分支前缀冲突，以当前 worktree 根目录为准，并在会话开始时明确说明。
 5. 模块专项规则用于收紧当前模块的默认写入范围、Obsidian 目录和跨模块边界；若与本文件冲突，以专项规则在对应模块范围内优先。
 6. 如果未命中任何专项规则，或目标文件不存在，则继续沿用本文件作为默认规则。

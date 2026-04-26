@@ -4,7 +4,7 @@
 --
 -- 来源：
 -- - wasm/Types of Crowd Control _ League of Legends Wiki.mhtml
--- - wasm/概要设计-控制与打断状态机制.md
+-- - wasm/WASM概要设计.md
 --
 -- 说明：
 -- 1. 这里只整理“具体状态”，不包含 Summary / Notes / Forced action / Kinematics 这类分组标题。
