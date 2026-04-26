@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.StatusAttributeModifiersMapper">
+
+    <sql id="statusAttributeModifierColumns">
+        status_id AS statusId,
+        group_key AS groupKey,
+        modifier_id AS modifierId,
+        attr_key AS attrKey,
+        modifier_mode AS modifierMode,
+        value,
+        formula_id AS formulaId,
+        bucket_key AS bucketKey,
+        per_stack AS perStack,
+        priority,
+        extend::text AS extendJson
+    </sql>
+
+    <select id="listStatusAttributeModifiers" resultType="map">
+        SELECT <include refid="statusAttributeModifierColumns"/>
+        FROM public.status_attribute_modifiers
+        WHERE game_id = #{gameId}
+        ORDER BY status_id, group_key, priority, modifier_id
+    </select>
+
+    <select id="findStatusAttributeModifierById" resultType="map">
+        SELECT <include refid="statusAttributeModifierColumns"/>
+        FROM public.status_attribute_modifiers
+        WHERE game_id = #{gameId}
+          AND status_id = #{statusId}
+          AND group_key = #{groupKey}
+          AND modifier_id = #{modifierId}
+    </select>
+
+    <select id="listChangedSince" resultType="map">
+        SELECT <include refid="statusAttributeModifierColumns"/>
+        FROM public.status_attribute_modifiers
+        WHERE game_id = #{gameId}
+          AND updated_at &gt; #{updatedAfter}
+        ORDER BY status_id, group_key, priority, modifier_id
+    </select>
+
+    <update id="upsertStatusAttributeModifier">
+        INSERT INTO public.status_attribute_modifiers
+            (game_id, status_id, group_key, modifier_id, start_version_id, end_version_id,
+             attr_key, modifier_mode, value, formula_id, bucket_key, per_stack, priority, extend, updated_at)
+        VALUES
+            (#{gameId}, #{statusId}, #{groupKey}, #{modifierId}, #{versionId}, #{versionId},
+             #{attrKey}, #{modifierMode}, #{value}, #{formulaId}, #{bucketKey}, #{perStack}, #{priority},
+             COALESCE(CAST(#{extendJson} AS jsonb), '{}'::jsonb), NOW())
+        ON CONFLICT (game_id, status_id, group_key, modifier_id) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            attr_key = EXCLUDED.attr_key,
+            modifier_mode = EXCLUDED.modifier_mode,
+            value = EXCLUDED.value,
+            formula_id = EXCLUDED.formula_id,
+            bucket_key = EXCLUDED.bucket_key,
+            per_stack = EXCLUDED.per_stack,
+            priority = EXCLUDED.priority,
+            extend = EXCLUDED.extend,
+            updated_at = NOW()
+    </update>
+
+    <update id="updateVersionRange">
+        UPDATE public.status_attribute_modifiers
+        SET start_version_id = #{versionId},
+            end_version_id = #{versionId}
+        WHERE game_id = #{gameId}
+          AND status_id = #{statusId}
+          AND group_key = #{groupKey}
+          AND modifier_id = #{modifierId}
+    </update>
+
+    <update id="upsertStatusAttributeModifierLog">
+        INSERT INTO public.status_attribute_modifiers_log
+            (game_id, status_id, group_key, modifier_id, start_version_id, end_version_id,
+             attr_key, modifier_mode, value, formula_id, bucket_key, per_stack, priority, extend)
+        VALUES
+            (#{gameId}, #{statusId}, #{groupKey}, #{modifierId}, #{versionId}, #{versionId},
+             #{attrKey}, #{modifierMode}, #{value}, #{formulaId}, #{bucketKey}, #{perStack}, #{priority},
+             COALESCE(CAST(#{extendJson} AS jsonb), '{}'::jsonb))
+        ON CONFLICT (game_id, status_id, group_key, modifier_id, start_version_id) DO UPDATE SET
+            end_version_id = EXCLUDED.end_version_id,
+            attr_key = EXCLUDED.attr_key,
+            modifier_mode = EXCLUDED.modifier_mode,
+            value = EXCLUDED.value,
+            formula_id = EXCLUDED.formula_id,
+            bucket_key = EXCLUDED.bucket_key,
+            per_stack = EXCLUDED.per_stack,
+            priority = EXCLUDED.priority,
+            extend = EXCLUDED.extend
+    </update>
+</mapper>
