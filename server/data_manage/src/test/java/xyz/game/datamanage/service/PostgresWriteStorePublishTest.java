@@ -27,6 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
+import xyz.game.datamanage.mapper.ControlStateProfilesMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
@@ -40,6 +41,10 @@ import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
+import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
+import xyz.game.datamanage.mapper.StatusDefinitionsMapper;
+import xyz.game.datamanage.mapper.StatusModifierGroupsMapper;
+import xyz.game.datamanage.mapper.StatusPeriodicHpEffectsMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 import xyz.game.datamanage.support.error.ApiException;
@@ -67,6 +72,21 @@ class PostgresWriteStorePublishTest {
 
     @Mock
     private StatusActionControlRulesMapper statusActionControlRulesMapper;
+
+    @Mock
+    private StatusDefinitionsMapper statusDefinitionsMapper;
+
+    @Mock
+    private StatusModifierGroupsMapper statusModifierGroupsMapper;
+
+    @Mock
+    private StatusAttributeModifiersMapper statusAttributeModifiersMapper;
+
+    @Mock
+    private StatusPeriodicHpEffectsMapper statusPeriodicHpEffectsMapper;
+
+    @Mock
+    private ControlStateProfilesMapper controlStateProfilesMapper;
 
     @Mock
     private AttributeDefinitionsMapper attributeDefinitionsMapper;
@@ -113,6 +133,11 @@ class PostgresWriteStorePublishTest {
             formulaProfilesMapper,
             formulaBindingsMapper,
             statusActionControlRulesMapper,
+            statusDefinitionsMapper,
+            statusModifierGroupsMapper,
+            statusAttributeModifiersMapper,
+            statusPeriodicHpEffectsMapper,
+            controlStateProfilesMapper,
             coefficientBucketsMapper,
             attributeDefinitionsMapper,
             typesMapper,
@@ -161,6 +186,7 @@ class PostgresWriteStorePublishTest {
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of(changedHeroRow()));
 
         when(heroesMapper.updateVersionRange("lol", "hero_ahri", 2L)).thenReturn(1);
@@ -259,6 +285,7 @@ class PostgresWriteStorePublishTest {
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
         ObjectNode requestBody = JsonNodeFactory.instance.objectNode().put("versionCode", "14.2");
@@ -300,6 +327,7 @@ class PostgresWriteStorePublishTest {
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
         when(typeRelationsMapper.updateVersionRange("lol", 7, "character", "hero_ahri", 2L)).thenReturn(1);
@@ -334,6 +362,7 @@ class PostgresWriteStorePublishTest {
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
 
         ApiException ex = assertThrows(
@@ -343,6 +372,14 @@ class PostgresWriteStorePublishTest {
 
         assertEquals("422.SEMANTIC_ERROR", ex.getCode());
         verify(gameVersionsMapper, never()).markVersionCurrent(any(Timestamp.class), anyString(), anyLong());
+    }
+
+    private void stubNoStatusResourceChanges() {
+        when(statusDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(controlStateProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusModifierGroupsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusAttributeModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusPeriodicHpEffectsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
     }
 
     private ObjectNode emptyBundle(String gameId, PostgresReadStore.VersionRecord version) {
@@ -367,6 +404,11 @@ class PostgresWriteStorePublishTest {
         bundle.putArray("formulaBindings");
         bundle.putArray("coefficientBuckets");
         bundle.putArray("statusActionControlRules");
+        bundle.putArray("statusDefinitions");
+        bundle.putArray("controlStateProfiles");
+        bundle.putArray("statusModifierGroups");
+        bundle.putArray("statusAttributeModifiers");
+        bundle.putArray("statusPeriodicHpEffects");
         return bundle;
     }
 

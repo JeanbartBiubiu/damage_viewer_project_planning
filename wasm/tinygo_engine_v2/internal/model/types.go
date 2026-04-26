@@ -95,17 +95,31 @@ const (
 	EffectTypeModifyAttribute  EffectType = "modify_attribute"
 )
 
+type TypeListV2 []string
+
+type ClassifierV2 struct {
+	Types TypeListV2 `json:"types,omitempty"`
+	Tags  TypeListV2 `json:"tags,omitempty"`
+}
+
+type TypeMatcherV2 struct {
+	Any  TypeListV2 `json:"any,omitempty"`
+	All  TypeListV2 `json:"all,omitempty"`
+	None TypeListV2 `json:"none,omitempty"`
+}
+
 type EngineBundleV2 struct {
-	SchemaVersion  uint16                  `json:"schemaVersion"`
-	Attributes     []AttributeDefinitionV2 `json:"attributes"`
-	Resources      []ResourceDefinitionV2  `json:"resources,omitempty"`
-	Actors         []ActorTemplateV2       `json:"actors"`
-	Actions        []ActionTemplateV2      `json:"actions"`
-	Statuses       []StatusTemplateV2      `json:"statuses,omitempty"`
-	Formulas       []FormulaDefinitionV2   `json:"formulas,omitempty"`
-	Triggers       []TriggerDefinitionV2   `json:"triggers,omitempty"`
-	DamageProfiles []DamageProfileV2       `json:"damageProfiles,omitempty"`
-	Settings       BundleSettingsV2        `json:"settings"`
+	SchemaVersion            uint16                      `json:"schemaVersion"`
+	Attributes               []AttributeDefinitionV2     `json:"attributes"`
+	Resources                []ResourceDefinitionV2      `json:"resources,omitempty"`
+	Actors                   []ActorTemplateV2           `json:"actors"`
+	Actions                  []ActionTemplateV2          `json:"actions"`
+	Statuses                 []StatusTemplateV2          `json:"statuses,omitempty"`
+	StatusActionControlRules []StatusActionControlRuleV2 `json:"statusActionControlRules,omitempty"`
+	Formulas                 []FormulaDefinitionV2       `json:"formulas,omitempty"`
+	Triggers                 []TriggerDefinitionV2       `json:"triggers,omitempty"`
+	DamageProfiles           []DamageProfileV2           `json:"damageProfiles,omitempty"`
+	Settings                 BundleSettingsV2            `json:"settings"`
 }
 
 type AttributeDefinitionV2 struct {
@@ -161,6 +175,7 @@ type ActorTemplateV2 struct {
 type ActionTemplateV2 struct {
 	ID           string           `json:"id"`
 	Label        string           `json:"label,omitempty"`
+	Classifier   ClassifierV2     `json:"classifier,omitempty"`
 	CooldownMs   int64            `json:"cooldownMs,omitempty"`
 	Effects      []EffectDefV2    `json:"effects,omitempty"`
 	RequiresMark string           `json:"requiresMark,omitempty"`
@@ -177,12 +192,24 @@ type ResourceCostV2 struct {
 type StatusTemplateV2 struct {
 	ID             string              `json:"id"`
 	Kind           string              `json:"kind"`
+	Classifier     ClassifierV2        `json:"classifier,omitempty"`
 	DurationMs     int64               `json:"durationMs,omitempty"`
 	BlocksActions  bool                `json:"blocksActions,omitempty"`
 	RetryOnRelease bool                `json:"retryOnRelease,omitempty"`
 	Magnitude      float64             `json:"magnitude,omitempty"`
 	ShieldKind     string              `json:"shieldKind,omitempty"`
 	AttrModifiers  []AttrModifierDefV2 `json:"attrModifiers,omitempty"`
+}
+
+type StatusActionControlRuleV2 struct {
+	ID                  string        `json:"id"`
+	StatusTypes         TypeMatcherV2 `json:"statusTypes"`
+	RuleKind            string        `json:"ruleKind"`
+	ActionTypes         TypeMatcherV2 `json:"actionTypes"`
+	ActionMatchTypes    TypeMatcherV2 `json:"actionMatchTypes,omitempty"`
+	InterruptPhaseTypes TypeMatcherV2 `json:"interruptPhaseTypes,omitempty"`
+	Priority            int           `json:"priority,omitempty"`
+	RetryOnRelease      bool          `json:"retryOnRelease,omitempty"`
 }
 
 type AttrModifierDefV2 struct {

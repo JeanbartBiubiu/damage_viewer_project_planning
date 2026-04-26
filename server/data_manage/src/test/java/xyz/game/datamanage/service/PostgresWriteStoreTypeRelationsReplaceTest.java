@@ -21,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
+import xyz.game.datamanage.mapper.ControlStateProfilesMapper;
 import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.mapper.FormulaBindingsMapper;
 import xyz.game.datamanage.mapper.FormulaProfilesMapper;
@@ -34,6 +35,10 @@ import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
+import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
+import xyz.game.datamanage.mapper.StatusDefinitionsMapper;
+import xyz.game.datamanage.mapper.StatusModifierGroupsMapper;
+import xyz.game.datamanage.mapper.StatusPeriodicHpEffectsMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
 import xyz.game.datamanage.support.error.ApiException;
@@ -61,6 +66,21 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
 
     @Mock
     private StatusActionControlRulesMapper statusActionControlRulesMapper;
+
+    @Mock
+    private StatusDefinitionsMapper statusDefinitionsMapper;
+
+    @Mock
+    private StatusModifierGroupsMapper statusModifierGroupsMapper;
+
+    @Mock
+    private StatusAttributeModifiersMapper statusAttributeModifiersMapper;
+
+    @Mock
+    private StatusPeriodicHpEffectsMapper statusPeriodicHpEffectsMapper;
+
+    @Mock
+    private ControlStateProfilesMapper controlStateProfilesMapper;
 
     @Mock
     private AttributeDefinitionsMapper attributeDefinitionsMapper;
@@ -107,6 +127,11 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
             formulaProfilesMapper,
             formulaBindingsMapper,
             statusActionControlRulesMapper,
+            statusDefinitionsMapper,
+            statusModifierGroupsMapper,
+            statusAttributeModifiersMapper,
+            statusPeriodicHpEffectsMapper,
+            controlStateProfilesMapper,
             coefficientBucketsMapper,
             attributeDefinitionsMapper,
             typesMapper,
