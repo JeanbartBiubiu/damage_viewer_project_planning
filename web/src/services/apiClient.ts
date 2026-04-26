@@ -14,6 +14,7 @@ import type {
   GameSummary,
   Hero,
   HeroesResponse,
+  ImageAsset,
   ImageCollectionResponse,
   Item,
   ItemsResponse,
@@ -29,8 +30,7 @@ import type {
   TypeRelationsByTargetResponse,
   TypeRelationsResponse,
   TypesResponse,
-  VersionCreatePayload,
-  VersionCreateResponse,
+  VersionPublishPayload,
   VersionPublishResponse
 } from '../types/api';
 
@@ -81,22 +81,27 @@ export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSumma
 }
 
 export async function getCurrentVersion(apiBaseUrl: string, gameId: string): Promise<ApiResult<CurrentVersion>> {
-  return requestJson<CurrentVersion>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/versions/current`);
+  const result = await requestJson<CurrentVersion>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/versions/current`);
+  return {
+    ...result,
+    data: normalizeCurrentVersion(result.data)
+  };
 }
 
 export async function getBundle(
   apiBaseUrl: string,
   gameId: string,
-  versionId: number,
-  ifNoneMatch?: string
+  versionCode: string
 ): Promise<ApiResult<GameDataBundle>> {
-  return requestJson<GameDataBundle>(
+  const result = await requestJson<GameDataBundle>(
     apiBaseUrl,
-    `/api/games/${encodePathSegment(gameId)}/versions/${versionId}/bundle`,
-    {
-      ifNoneMatch
-    }
+    `/api/games/${encodePathSegment(gameId)}/versions/${encodePathSegment(versionCode)}/bundle`
   );
+
+  return {
+    ...result,
+    data: normalizeGameDataBundle(result.data)
+  };
 }
 
 export async function getOwnerCategories(apiBaseUrl: string, gameId: string): Promise<ApiResult<OwnerCategoryResponse>> {
@@ -136,6 +141,20 @@ export async function getImages(
     url.searchParams.set('updatedAfter', updatedAfter);
   }
   return requestJson<ImageCollectionResponse>(apiBaseUrl, `${url.pathname}${url.search}`);
+}
+
+export async function putImage(
+  apiBaseUrl: string,
+  gameId: string,
+  uri: string,
+  token: string,
+  imageBase64: string
+): Promise<ApiResult<ImageAsset>> {
+  return requestJson<ImageAsset>(apiBaseUrl, adminPath(gameId, 'images', uri), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify({ imageBase64 })
+  });
 }
 
 export async function getHeroes(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<HeroesResponse>> {
@@ -431,29 +450,22 @@ export async function putFormulaBinding(
   );
 }
 
-export async function createVersion(
+export async function publishVersion(
   apiBaseUrl: string,
   gameId: string,
   token: string,
-  body: VersionCreatePayload
-): Promise<ApiResult<VersionCreateResponse>> {
-  return requestJson<VersionCreateResponse>(apiBaseUrl, adminPath(gameId, 'versions'), {
+  body: VersionPublishPayload
+): Promise<ApiResult<VersionPublishResponse>> {
+  const result = await requestJson<VersionPublishResponse>(apiBaseUrl, adminPath(gameId, 'versions:publish'), {
     method: 'POST',
     token,
     body: JSON.stringify(body)
   });
-}
 
-export async function publishVersion(
-  apiBaseUrl: string,
-  gameId: string,
-  versionId: number,
-  token: string
-): Promise<ApiResult<VersionPublishResponse>> {
-  return requestJson<VersionPublishResponse>(apiBaseUrl, adminPath(gameId, 'versions', `${versionId}:publish`), {
-    method: 'POST',
-    token
-  });
+  return {
+    ...result,
+    data: normalizePublishedVersion(result.data)
+  };
 }
 
 async function requestJson<T>(apiBaseUrl: string, path: string, options: RequestOptions = {}): Promise<ApiResult<T>> {
@@ -488,6 +500,41 @@ async function requestJson<T>(apiBaseUrl: string, path: string, options: Request
     status: response.status,
     etag: response.headers.get('ETag')
   };
+}
+
+function normalizeCurrentVersion(version: CurrentVersion): CurrentVersion {
+  return {
+    ...version,
+    versionId: normalizeLegacyVersionId(version.versionId),
+    dataHash: normalizeLegacyDataHash(version.dataHash, version.versionCode)
+  };
+}
+
+function normalizePublishedVersion(version: VersionPublishResponse): VersionPublishResponse {
+  return {
+    ...version,
+    versionId: normalizeLegacyVersionId(version.versionId),
+    dataHash: normalizeLegacyDataHash(version.dataHash, version.versionCode)
+  };
+}
+
+function normalizeGameDataBundle(bundle: GameDataBundle): GameDataBundle {
+  return {
+    ...bundle,
+    meta: {
+      ...bundle.meta,
+      versionId: normalizeLegacyVersionId(bundle.meta.versionId),
+      dataHash: normalizeLegacyDataHash(bundle.meta.dataHash, bundle.meta.versionCode)
+    }
+  };
+}
+
+function normalizeLegacyVersionId(value: number | undefined): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : 0;
+}
+
+function normalizeLegacyDataHash(value: string | undefined, versionCode: string): string {
+  return value?.trim() || versionCode;
 }
 
 function adminPath(gameId: string, ...segments: string[]): string {

@@ -13,7 +13,6 @@ export type HeroesFormData = {
   heroId: string;
   name: string;
   title: string;
-  avatarUrl: string;
   baseStatsText: string;
   statsByLevelText: string;
   selectedTypeIds: number[];

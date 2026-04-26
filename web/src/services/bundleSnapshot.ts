@@ -14,27 +14,22 @@ export async function loadPublishedBundleSnapshot(apiBaseUrl: string, gameId: st
   const currentVersion = currentResult.data;
   const cachedRecord = await safeGetCachedBundle(gameId);
 
-  if (cachedRecord && cachedRecord.versionId === currentVersion.versionId && cachedRecord.dataHash === currentVersion.dataHash) {
-    if (cachedRecord.storageFormat === 'legacy') {
-      await safeUpsertCachedBundle(gameId, currentVersion, cachedRecord.bundle, cachedRecord.etag ?? currentVersion.dataHash);
-    }
-
+  if (cachedRecord && cachedRecord.versionCode === currentVersion.versionCode) {
     return {
       currentVersion,
       bundle: cachedRecord.bundle,
-      bundleEtag: cachedRecord.etag ?? currentVersion.dataHash,
+      bundleEtag: null,
       cacheStatus: 'hit'
     };
   }
 
-  const bundleResult = await getBundle(apiBaseUrl, gameId, currentVersion.versionId);
-  const bundleEtag = bundleResult.etag ?? bundleResult.data.meta.dataHash ?? currentVersion.dataHash;
-  await safeUpsertCachedBundle(gameId, currentVersion, bundleResult.data, bundleEtag);
+  const bundleResult = await getBundle(apiBaseUrl, gameId, currentVersion.versionCode);
+  await safeUpsertCachedBundle(gameId, currentVersion, bundleResult.data);
 
   return {
     currentVersion,
     bundle: bundleResult.data,
-    bundleEtag,
+    bundleEtag: null,
     cacheStatus: 'miss'
   };
 }
@@ -51,11 +46,10 @@ async function safeGetCachedBundle(gameId: string) {
 async function safeUpsertCachedBundle(
   gameId: string,
   currentVersion: CurrentVersion,
-  bundle: GameDataBundle,
-  etag: string | null
+  bundle: GameDataBundle
 ) {
   try {
-    await upsertCachedBundle(gameId, currentVersion, bundle, etag);
+    await upsertCachedBundle(gameId, currentVersion, bundle);
   } catch (error) {
     console.warn('Bundle cache write failed.', error);
     return;

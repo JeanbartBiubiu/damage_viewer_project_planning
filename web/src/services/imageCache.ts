@@ -35,6 +35,12 @@ export async function listCachedImages(gameId: string): Promise<CachedImageRecor
     .sort((left, right) => right.update_time.localeCompare(left.update_time));
 }
 
+export async function getCachedImage(gameId: string, uri: string): Promise<CachedImageRecord | null> {
+  const rows = await listCachedImages(gameId);
+  const key = toLocalUri(gameId, uri);
+  return rows.find((row) => row.uri === key) ?? null;
+}
+
 export async function getCacheSummary(gameId: string): Promise<GameImageCacheSummary> {
   const rows = await listCachedImages(gameId);
   return {
@@ -65,6 +71,10 @@ export async function upsertRemoteImages(gameId: string, remoteImages: ImageAsse
 
   await putRows(nextRows);
   return getCacheSummary(gameId);
+}
+
+export async function upsertRemoteImage(gameId: string, remoteImage: ImageAsset): Promise<GameImageCacheSummary> {
+  return upsertRemoteImages(gameId, [remoteImage]);
 }
 
 export async function clearGameImageCache(gameId: string): Promise<number> {

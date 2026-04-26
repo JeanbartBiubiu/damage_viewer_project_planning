@@ -2,26 +2,20 @@ import type { CurrentVersion, GameDataBundle } from '../types/api';
 
 export type CachedBundleRecord = {
   gameId: string;
-  versionId: number;
   versionCode: string;
-  dataHash: string;
   updatedAt: string;
-  etag: string | null;
   cachedAt: string;
   bundleSize: number;
-  storageFormat: 'json' | 'legacy';
   bundle: GameDataBundle;
 };
 
-type StoredBundleRecord = Omit<CachedBundleRecord, 'bundle' | 'storageFormat'> & {
-  bundleJson?: string;
-  bundle?: GameDataBundle;
-  storageFormat?: 'json' | 'legacy';
+type StoredBundleRecord = Omit<CachedBundleRecord, 'bundle'> & {
+  bundleJson: string;
 };
 
 export const bundleCacheDescriptor = {
   dbName: 'bundle_db',
-  dbVersion: 1,
+  dbVersion: 2,
   storeName: 'bundles'
 } as const;
 
@@ -60,20 +54,15 @@ export async function getCachedBundle(gameId: string): Promise<CachedBundleRecor
 export async function upsertCachedBundle(
   gameId: string,
   currentVersion: CurrentVersion,
-  bundle: GameDataBundle,
-  etag: string | null
+  bundle: GameDataBundle
 ): Promise<void> {
   const bundleJson = JSON.stringify(bundle);
   const nextRecord: CachedBundleRecord = {
     gameId,
-    versionId: currentVersion.versionId,
     versionCode: currentVersion.versionCode,
-    dataHash: currentVersion.dataHash,
     updatedAt: currentVersion.updatedAt,
-    etag,
     cachedAt: new Date().toISOString(),
     bundleSize: bundleJson.length,
-    storageFormat: 'json',
     bundle
   };
 
@@ -87,11 +76,8 @@ export async function upsertCachedBundle(
     const store = transaction.objectStore(bundleCacheDescriptor.storeName);
     const storedRecord: StoredBundleRecord = {
       gameId: nextRecord.gameId,
-      versionId: nextRecord.versionId,
       versionCode: nextRecord.versionCode,
-      dataHash: nextRecord.dataHash,
       updatedAt: nextRecord.updatedAt,
-      etag: nextRecord.etag,
       cachedAt: nextRecord.cachedAt,
       bundleSize: nextRecord.bundleSize,
       bundleJson
@@ -125,14 +111,15 @@ function openDatabase(): Promise<IDBDatabase> {
     request.onupgradeneeded = () => {
       const database = request.result;
 
-      if (!database.objectStoreNames.contains(bundleCacheDescriptor.storeName)) {
-        const store = database.createObjectStore(bundleCacheDescriptor.storeName, {
-          keyPath: 'gameId'
-        });
-        store.createIndex('versionId', 'versionId', { unique: false });
-        store.createIndex('dataHash', 'dataHash', { unique: false });
-        store.createIndex('cachedAt', 'cachedAt', { unique: false });
+      if (database.objectStoreNames.contains(bundleCacheDescriptor.storeName)) {
+        database.deleteObjectStore(bundleCacheDescriptor.storeName);
       }
+
+      const store = database.createObjectStore(bundleCacheDescriptor.storeName, {
+        keyPath: 'gameId'
+      });
+      store.createIndex('versionCode', 'versionCode', { unique: false });
+      store.createIndex('cachedAt', 'cachedAt', { unique: false });
     };
 
     request.onsuccess = () => {
@@ -147,21 +134,14 @@ function normalizeStoredRecord(storedRecord: StoredBundleRecord | null): CachedB
   }
 
   try {
-    const bundle = storedRecord.bundleJson ? (JSON.parse(storedRecord.bundleJson) as GameDataBundle) : storedRecord.bundle ?? null;
-    if (!bundle) {
-      return null;
-    }
+    const bundle = JSON.parse(storedRecord.bundleJson) as GameDataBundle;
 
     return {
       gameId: storedRecord.gameId,
-      versionId: storedRecord.versionId,
       versionCode: storedRecord.versionCode,
-      dataHash: storedRecord.dataHash,
       updatedAt: storedRecord.updatedAt,
-      etag: storedRecord.etag,
       cachedAt: storedRecord.cachedAt,
-      bundleSize: storedRecord.bundleSize ?? storedRecord.bundleJson?.length ?? JSON.stringify(bundle).length,
-      storageFormat: storedRecord.bundleJson ? 'json' : 'legacy',
+      bundleSize: storedRecord.bundleSize ?? storedRecord.bundleJson.length,
       bundle
     };
   } catch {

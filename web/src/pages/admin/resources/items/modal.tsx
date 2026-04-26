@@ -1,10 +1,11 @@
 import { Alert, Button, Collapse, Form, Input, Modal, Space } from '@arco-design/web-react';
+import { useMemo } from 'react';
+import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import { BaseStatsEditor } from '../../../../components/hero-editor/BaseStatsEditor';
 import { parseBaseStatsRows, stringifyBaseStatsRows } from '../../../../components/hero-editor/heroStats';
 import { ItemRecipeSelector } from '../../../../components/item-editor/ItemRecipeSelector';
 import { SkillRefSelector } from '../../../../components/item-editor/SkillRefSelector';
-import { useMemo } from 'react';
 import type { TypeDefinition } from '../../../../types/api';
 import type { ItemsFormData } from './types';
 
@@ -17,8 +18,13 @@ type ItemsModalProps = {
   mode: 'create' | 'view' | 'edit';
   formData: ItemsFormData;
   saving: boolean;
+  imageUri: string | null;
+  imageSrc: string | null;
+  imageUploading: boolean;
+  imageError?: string | null;
   onClose: () => void;
   onFieldChange: <K extends keyof ItemsFormData>(field: K, value: ItemsFormData[K]) => void;
+  onUploadImage: (file: File) => Promise<void>;
   onSubmit: () => Promise<void>;
 };
 
@@ -31,8 +37,13 @@ export function ItemsModal({
   mode,
   formData,
   saving,
+  imageUri,
+  imageSrc,
+  imageUploading,
+  imageError = null,
   onClose,
   onFieldChange,
+  onUploadImage,
   onSubmit
 }: ItemsModalProps) {
   const readOnly = mode === 'view';
@@ -79,7 +90,7 @@ export function ItemsModal({
         <Space>
           <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
-            <Button type="primary" loading={saving} onClick={() => void onSubmit()}>
+            <Button type="primary" loading={saving || imageUploading} onClick={() => void onSubmit()}>
               保存
             </Button>
           ) : null}
@@ -114,12 +125,18 @@ export function ItemsModal({
           </Form.Item>
         </div>
 
-        <Form.Item label="iconUrl">
-          <Input
-            value={formData.iconUrl}
-            disabled={readOnly}
-            onChange={(value) => onFieldChange('iconUrl', value)}
-            placeholder="可选"
+        <Form.Item label="装备图片">
+          <ResourceImageUploadField
+            src={imageSrc}
+            alt={formData.name || formData.itemId || '装备图片'}
+            imageUri={imageUri}
+            uriPlaceholder="请先填写 itemId 以生成图片标识。"
+            readOnly={readOnly}
+            uploading={imageUploading}
+            error={imageError}
+            emptyLabel="未上传"
+            helperText="缓存未命中时仅显示占位图。上传时会先居中裁切，再转成 64x64 后同步写入服务端和本地 IndexedDB。"
+            onUpload={onUploadImage}
           />
         </Form.Item>
 
