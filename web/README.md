@@ -4,7 +4,7 @@
 
 它在整条链路里的位置是：
 
-1. 读取后端提供的 `current version / bundle / images`。
+1. 读取后端提供的 `current version / published bundle snapshot / images`。
 2. 提供 Admin 页面维护游戏资源。
 3. 缓存图片与 Bundle 快照，降低联调成本。
 4. 通过 `worker.ts -> wasmBridge.ts -> .wasm` 运行 Wasm 模拟。
@@ -13,11 +13,31 @@
 
 - `src/App.tsx`：应用外壳、路由、API 基址和本地状态
 - `src/pages/OverviewPage.tsx`：系统总览和当前游戏快照
-- `src/pages/VersionPublishPage.tsx`：版本创建、发布和 `current / bundle` 校验
+- `src/pages/VersionPublishPage.tsx`：版本发布和 `current / bundle` 快照校验
 - `src/pages/KatarinaMvpPage.tsx`：围绕当前版本做 Katarina MVP 闭环验证
 - `src/pages/SimulationPage.tsx`：场景模拟与结果分析
 - `src/pages/ImagesPage.tsx`：图片缓存与同步
 - `src/pages/admin/**`：后台资源维护
+
+## 当前迭代优先级（非 Wasm）
+
+当前前端迭代默认先做非 Wasm 工作面，顺序如下：
+
+1. 系统总览、版本发布、图片缓存、Admin 资源页的工作面收口
+2. 版本发布页的校验与失败态补齐
+3. Admin 资源页通用体验增强
+4. 图片资源能力接入资源编辑链路
+5. 非 Wasm 回归清单与文档收口
+
+对应任务清单见：`../文档记录/详细设计/web/前端开发任务清单-非Wasm优先.md`
+
+说明：
+
+- `Katarina MVP`
+- `场景模拟`
+- `worker.ts -> wasmBridge.ts -> .wasm`
+
+以上链路当前保留现状，但不作为这一轮前端开发迭代主线。
 
 ## 关键入口地图
 
