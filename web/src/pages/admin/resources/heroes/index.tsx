@@ -1,19 +1,22 @@
-import { Alert, Button, Form, Input, InputNumber, Modal, Select, Space, Typography } from '@arco-design/web-react';
+import { Alert, Button, Form, Input, InputNumber, Message, Modal, Select, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useState } from 'react';
 import { Panel } from '../../../../components/Panel';
 import {
   getAdminProgressionSchema,
   getErrorMessage,
   getHeroes,
+  putImage,
   putAdminProgressionSchema,
   putHero,
   replaceTypeRelationsForTarget
 } from '../../../../services/apiClient';
+import { buildHeroImageUri, readImageFileAsDataUrl } from '../../../../services/resourceImage';
 import type { GameProgressionSchema, JsonObject } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonObjectText, stringifyJson } from '../shared/json';
 import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
+import { useResourceImageCache } from '../shared/useResourceImageCache';
 import { createHeroesFormData, createHeroesSearchData } from './constants';
 import { HeroesModal } from './modal';
 import { HeroesSearch } from './search';
@@ -39,7 +42,6 @@ function toHeroesFormData(record: HeroesRecord): HeroesFormData {
     heroId: record.heroId,
     name: record.name ?? '',
     title: record.title ?? '',
-    avatarUrl: record.avatarUrl ?? '',
     baseStatsText: stringifyJson(record.baseStats ?? {}),
     statsByLevelText: stringifyJson(record.statsByLevel ?? {}),
     selectedTypeIds: [],
@@ -92,9 +94,6 @@ async function saveHeroesRecord(
   if (formData.title.trim()) {
     payload.title = formData.title.trim();
   }
-  if (formData.avatarUrl.trim()) {
-    payload.avatarUrl = formData.avatarUrl.trim();
-  }
 
   const baseStats = parseJsonObjectText(formData.baseStatsText, 'baseStats');
   payload.baseStats = baseStats;
@@ -128,12 +127,15 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
     selectedGameId,
     adminToken
   );
+  const { imageSrcByUri, cacheError: imageCacheError, refreshImageCache, upsertImageAsset } = useResourceImageCache(selectedGameId);
   const [progressionSchema, setProgressionSchema] = useState<GameProgressionSchema>(DEFAULT_PROGRESSION_SCHEMA);
   const [progressionSchemaError, setProgressionSchemaError] = useState<string | null>(null);
   const [progressionSchemaLoading, setProgressionSchemaLoading] = useState(false);
   const [progressionModalVisible, setProgressionModalVisible] = useState(false);
   const [progressionSaving, setProgressionSaving] = useState(false);
   const [progressionFormData, setProgressionFormData] = useState<GameProgressionSchema>(DEFAULT_PROGRESSION_SCHEMA);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
 
   const {
     filteredRecords,
@@ -170,6 +172,39 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
     }
   });
 
+  const currentImageUri = buildHeroImageUri(formData.heroId);
+  const currentImageSrc = currentImageUri ? imageSrcByUri[currentImageUri] ?? null : null;
+
+  const handleUploadImage = async (file: File) => {
+    if (!selectedGameId) {
+      setImageUploadError('请先选择当前 gameId。');
+      return;
+    }
+    if (!adminToken.trim()) {
+      setImageUploadError('请先填写 Admin Token。');
+      return;
+    }
+    if (!currentImageUri) {
+      setImageUploadError('请先填写 heroId，再上传图片。');
+      return;
+    }
+
+    try {
+      setImageUploading(true);
+      setImageUploadError(null);
+      const imageBase64 = await readImageFileAsDataUrl(file);
+      const response = await putImage(apiBaseUrl, selectedGameId, currentImageUri, adminToken.trim(), imageBase64);
+      await upsertImageAsset(response.data);
+      Message.success('英雄图片上传成功');
+    } catch (error) {
+      const message = getErrorMessage(error);
+      setImageUploadError(message);
+      Message.error(message);
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
   const refreshProgressionSchema = async () => {
     if (!selectedGameId || !adminToken.trim()) {
       setProgressionSchema(DEFAULT_PROGRESSION_SCHEMA);
@@ -200,19 +235,27 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
   };
 
   const openViewModalWithTypes = (record: HeroesRecord) => {
+    setImageUploadError(null);
     openViewModal(record);
     applyHeroTypesToForm(record.heroId);
   };
 
   const openEditModalWithTypes = (record: HeroesRecord) => {
+    setImageUploadError(null);
     openEditModal(record);
     applyHeroTypesToForm(record.heroId);
   };
 
   const openCreateModalWithTypes = () => {
+    setImageUploadError(null);
     openCreateModal();
     updateFormData('persistedTypeIds', []);
     updateFormData('selectedTypeIds', []);
+  };
+
+  const closeModalWithImageState = () => {
+    setImageUploadError(null);
+    closeModal();
   };
 
   const progressionSummary = `${progressionSchema.progressionKind === 'LEVEL' ? '等级制' : '星级制'} · ${
@@ -247,6 +290,7 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
       {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
+      {imageCacheError ? <Alert type="warning" content={`图片缓存读取失败：${imageCacheError}`} className="resource-warning-alert" /> : null}
 
       <Panel title="阶段配置" kicker="Schema">
         {progressionSchemaError ? <Alert type="warning" content={progressionSchemaError} style={{ marginBottom: 12 }} /> : null}
@@ -281,10 +325,15 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
           actionsDisabled={actionsDisabled}
           onView={openViewModalWithTypes}
           onEdit={openEditModalWithTypes}
+          resolveImageSrc={(record) => {
+            const imageUri = buildHeroImageUri(record.heroId);
+            return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+          }}
           onCreate={openCreateModalWithTypes}
           onRefresh={() => {
             refreshRecords();
             refreshTypeCatalog();
+            void refreshImageCache();
           }}
         />
       </Panel>
@@ -298,10 +347,15 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
         mode={modalMode}
         formData={formData}
         saving={saving}
+        imageUri={currentImageUri}
+        imageSrc={currentImageSrc}
+        imageUploading={imageUploading}
+        imageError={imageUploadError}
         progressionSchema={progressionSchema}
         progressionSchemaError={progressionSchemaError}
-        onClose={closeModal}
+        onClose={closeModalWithImageState}
         onFieldChange={updateFormData}
+        onUploadImage={handleUploadImage}
         onSubmit={submitModal}
       />
 

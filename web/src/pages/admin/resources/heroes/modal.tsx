@@ -1,5 +1,6 @@
 import { Alert, Button, Collapse, Form, Input, Modal, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
+import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import {
   parseHeroStatsMatrix,
@@ -20,10 +21,15 @@ type HeroesModalProps = {
   mode: 'create' | 'view' | 'edit';
   formData: HeroesFormData;
   saving: boolean;
+  imageUri: string | null;
+  imageSrc: string | null;
+  imageUploading: boolean;
+  imageError?: string | null;
   progressionSchema?: GameProgressionSchema;
   progressionSchemaError?: string | null;
   onClose: () => void;
   onFieldChange: <K extends keyof HeroesFormData>(field: K, value: HeroesFormData[K]) => void;
+  onUploadImage: (file: File) => Promise<void>;
   onSubmit: () => Promise<void>;
 };
 
@@ -44,10 +50,15 @@ export function HeroesModal({
   mode,
   formData,
   saving,
+  imageUri,
+  imageSrc,
+  imageUploading,
+  imageError = null,
   progressionSchema = DEFAULT_PROGRESSION_SCHEMA,
   progressionSchemaError = null,
   onClose,
   onFieldChange,
+  onUploadImage,
   onSubmit
 }: HeroesModalProps) {
   const readOnly = mode === 'view';
@@ -114,7 +125,7 @@ export function HeroesModal({
         <Space>
           <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
-            <Button type="primary" loading={saving} onClick={() => void onSubmit()}>
+            <Button type="primary" loading={saving || imageUploading} onClick={() => void onSubmit()}>
               保存
             </Button>
           ) : null}
@@ -144,12 +155,18 @@ export function HeroesModal({
           </Form.Item>
         </div>
 
-        <Form.Item label="avatarUrl">
-          <Input
-            value={formData.avatarUrl}
-            disabled={readOnly}
-            onChange={(value) => onFieldChange('avatarUrl', value)}
-            placeholder="可选"
+        <Form.Item label="英雄图片">
+          <ResourceImageUploadField
+            src={imageSrc}
+            alt={formData.name || formData.heroId || '英雄图片'}
+            imageUri={imageUri}
+            uriPlaceholder="请先填写 heroId 以生成图片标识。"
+            readOnly={readOnly}
+            uploading={imageUploading}
+            error={imageError}
+            emptyLabel="未上传"
+            helperText="缓存未命中时仅显示占位图。上传时会先居中裁切，再转成 64x64 后同步写入服务端和本地 IndexedDB。"
+            onUpload={onUploadImage}
           />
         </Form.Item>
 

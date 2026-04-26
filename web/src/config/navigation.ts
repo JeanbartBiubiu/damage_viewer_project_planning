@@ -60,7 +60,7 @@ const baseNavigationItems: NavigationItem[] = [
   {
     id: 'workspace',
     label: '版本发布',
-    summary: '集中处理版本创建、发布以及 current / bundle 校验。'
+    summary: '集中处理版本发布以及 current / bundle 快照校验。'
   },
   {
     id: 'katarina-mvp',
@@ -133,13 +133,13 @@ export const publicSurfaceEndpoints: SurfaceEndpoint[] = [
     title: '当前版本',
     method: 'GET',
     path: '/api/games/{gameId}/versions/current',
-    description: '获取当前已发布版本，作为 Bundle 与缓存刷新的入口。'
+    description: '获取当前已发布快照信息，并用 versionCode 驱动 Bundle 刷新。'
   },
   {
     title: '版本 Bundle',
     method: 'GET',
-    path: '/api/games/{gameId}/versions/{versionId}/bundle',
-    description: '拉取工作面和 MVP 运行依赖的当前数据包。'
+    path: '/api/games/{gameId}/versions/{versionCode}/bundle',
+    description: '按 versionCode 拉取已发布快照，不再依赖 versionId / ETag。'
   },
   {
     title: '图片资源',
@@ -276,9 +276,9 @@ export const adminEndpoints: AdminEndpoint[] = [
     }
   },
   {
-    title: '版本创建与发布',
+    title: '版本发布',
     method: 'POST',
-    path: '/api/admin/games/{gameId}/versions + /versions/{versionId}:publish',
-    description: '在独立发布页创建版本并发布到当前读取链路。'
+    path: '/api/admin/games/{gameId}/versions:publish',
+    description: '在独立发布页直接提交 versionCode 与可选 releaseDate 并发布快照。'
   }
 ];

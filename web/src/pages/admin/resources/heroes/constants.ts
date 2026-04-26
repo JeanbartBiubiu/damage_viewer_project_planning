@@ -14,7 +14,6 @@ export function createHeroesFormData(): HeroesFormData {
     heroId: '',
     name: '',
     title: '',
-    avatarUrl: '',
     baseStatsText: '{\n  \n}',
     statsByLevelText: '{\n  \n}',
     selectedTypeIds: [],
