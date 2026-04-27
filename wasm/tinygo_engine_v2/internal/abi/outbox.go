@@ -45,7 +45,7 @@ func (o *Outbox) WriteJSON(kind model.FrameKind, payload any) model.ErrCode {
 func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) model.ErrCode {
 	frame := EncodeFrame(kind, flags, payload)
 	if len(frame) > cap(o.buf) {
-		if kind == model.FrameKindDone || kind == model.FrameKindError {
+		if isPriorityFrame(kind) {
 			o.buf = o.buf[:0]
 			if len(frame) <= cap(o.buf) {
 				o.buf = append(o.buf, frame...)
@@ -56,7 +56,7 @@ func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) 
 		return model.ErrOK
 	}
 	if len(o.buf)+len(frame) > cap(o.buf) {
-		if kind == model.FrameKindDone || kind == model.FrameKindError {
+		if isPriorityFrame(kind) {
 			o.buf = o.buf[:0]
 		} else {
 			o.dropped++
@@ -65,4 +65,8 @@ func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) 
 	}
 	o.buf = append(o.buf, frame...)
 	return model.ErrOK
+}
+
+func isPriorityFrame(kind model.FrameKind) bool {
+	return kind == model.FrameKindDone || kind == model.FrameKindError || kind == model.FrameKindSnapshot
 }
