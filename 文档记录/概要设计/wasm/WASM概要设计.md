@@ -3,7 +3,7 @@ DOC_TYPE: 概要设计
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-25 16:20:09
+LAST_TRACKED_AT: 2026-04-27
 
 # WASM 概要设计
 
@@ -22,7 +22,7 @@ graph TD
     Resolver["EffectResolver"]
     Pipeline["ValuePipeline"]
     Mutation["Mutation"]
-    Outbox["ready/log/sample/done/error"]
+    Outbox["ready/log/sample/done/error/snapshot"]
 
     Host --> ABI
     ABI --> Session
@@ -42,10 +42,11 @@ graph TD
 2. ABI 解 frame，JSON payload 反序列化为 `EngineBundleV2`。
 3. compile 层生成 `CompiledBundle`，并 fail-fast 输出所有校验问题。
 4. session 进入 `ready`。
-5. `engine_begin_run` 接收 `EngineRunInputV2`。
-6. runtime 创建 `RunContext`，初始化 1v1 actor、pair state、事件队列、RNG、arena 和 outbox。
-7. 宿主重复调用 `engine_step(maxEvents)`。
-8. run 完成、取消或失败后输出 `done/error`。
+5. M1 初始属性验证可调用 `engine_snapshot_initial`，接收 `EngineRunInputV2` 的 run frame/payload，初始化 self/enemy runtime 后输出 `snapshot`，不推进 scheduler。
+6. `engine_begin_run` 接收 `EngineRunInputV2`。
+7. runtime 创建 `RunContext`，初始化 1v1 actor、pair state、事件队列、RNG、arena 和 outbox。
+8. 宿主重复调用 `engine_step(maxEvents)`。
+9. run 完成、取消或失败后输出 `done/error`。
 
 ## 3. 分层
 
@@ -109,6 +110,7 @@ graph TD
 alloc(size)
 dealloc(ptr, size)
 engine_init(ptr, size)
+engine_snapshot_initial(ptr, size)
 engine_begin_run(ptr, size)
 engine_step(maxEvents)
 engine_abort_run()

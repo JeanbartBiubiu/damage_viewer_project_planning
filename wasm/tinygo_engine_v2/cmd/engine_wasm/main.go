@@ -38,6 +38,11 @@ func engine_begin_run(ptr uint32, size uint32) int32 {
 	return session.BeginRunFrame(abi.Bytes(ptr, size))
 }
 
+//export engine_snapshot_initial
+func engine_snapshot_initial(ptr uint32, size uint32) int32 {
+	return session.SnapshotInitialFrame(abi.Bytes(ptr, size))
+}
+
 //export engine_step
 func engine_step(maxEvents uint32) int32 {
 	return session.Step(maxEvents)
