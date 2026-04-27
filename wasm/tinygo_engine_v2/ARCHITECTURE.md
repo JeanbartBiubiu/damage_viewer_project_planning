@@ -59,10 +59,15 @@ graph TD
     H["outbox 写 error"]
     I["宿主写入 run frame"]
     J["engine_begin_run ptr size"]
+    J2["engine_snapshot_initial ptr size"]
     K["json.Unmarshal EngineRunInputV2"]
     L["runtime.NewRunContext"]
     M{"run 是否创建成功"}
     N["phase = running"]
+    K2["json.Unmarshal EngineRunInputV2"]
+    L2["runtime.NewRunContext 忽略 initialActions/trace"]
+    M2{"snapshot 是否创建成功"}
+    N2["outbox 写 snapshot"]
     O["engine_step maxEvents"]
     P["RunContext.Step 弹出事件"]
     Q["dispatch 处理事件并修改 runtime state"]
@@ -76,9 +81,13 @@ graph TD
     A --> B --> C --> D --> E --> F
     F -->|成功| G
     F -->|失败| H
-    G --> I --> J --> K --> L --> M
+    G --> I
+    I --> J --> K --> L --> M
+    I --> J2 --> K2 --> L2 --> M2
     M -->|成功| N --> O --> P --> Q --> R --> S
     M -->|失败| H
+    M2 -->|成功| N2 --> W
+    M2 -->|失败| H
     S -->|还有| T --> W --> O
     S -->|完成| U --> W
     H --> V --> W
@@ -214,7 +223,7 @@ graph TD
     AttrStore["attribute.Store: slots index ResolveAll ReadAttr"]
     ResStore["resource.Store: slots index Spend Refund ReadResource"]
     Heap["scheduler.Heap: Push Pop Less"]
-    Outbox["abi.Outbox: ready log sample done error"]
+    Outbox["abi.Outbox: ready log sample done error snapshot"]
 
     Session --> Compiled
     Session --> RunCtx
