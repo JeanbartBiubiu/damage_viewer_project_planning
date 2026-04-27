@@ -88,6 +88,22 @@ func LastDone(outbox []byte) model.DonePayload {
 	return done
 }
 
+func LastSnapshot(outbox []byte) model.SnapshotV2 {
+	var snapshot model.SnapshotV2
+	offset := 0
+	for offset+abi.HeaderLen <= len(outbox) {
+		frame, err := abi.DecodeFrame(outbox[offset:])
+		if err != nil {
+			break
+		}
+		if frame.Kind == model.FrameKindSnapshot {
+			_ = json.Unmarshal(frame.Payload, &snapshot)
+		}
+		offset += abi.HeaderLen + len(frame.Payload)
+	}
+	return snapshot
+}
+
 func LastError(outbox []byte) model.ErrorPayload {
 	var payload model.ErrorPayload
 	offset := 0

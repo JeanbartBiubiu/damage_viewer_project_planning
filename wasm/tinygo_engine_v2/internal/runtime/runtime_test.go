@@ -178,6 +178,36 @@ func TestSnapshotCarriesResolvedAttributeState(t *testing.T) {
 	}
 }
 
+func TestSnapshotInitialExportsActorStateWithoutRunningActions(t *testing.T) {
+	session := runtime.NewSession()
+	mustCode(t, session.InitJSON(mustJSON(t, testkit.BenchmarkBundle())))
+	input := testkit.BasicRunInput()
+	input.Self.StatusIDs = []string{"physical_shield"}
+
+	mustCode(t, session.SnapshotInitialJSON(mustJSON(t, input)))
+	snapshot := testkit.LastSnapshot(session.OutboxBytes())
+	self := snapshotActor(snapshot, "self")
+	enemy := snapshotActor(snapshot, "enemy")
+	if self.CurrentHP != 1000 || enemy.CurrentHP != 1000 {
+		t.Fatalf("initial snapshot hp self/enemy = %.2f/%.2f, want 1000/1000", self.CurrentHP, enemy.CurrentHP)
+	}
+	if self.ShieldAmount != 200 {
+		t.Fatalf("initial snapshot shield %.2f, want 200", self.ShieldAmount)
+	}
+	ad, ok := self.Attributes["attack_damage"]
+	if !ok || ad.Base != 100 || ad.Resolved != 100 {
+		t.Fatalf("initial attack_damage snapshot = %+v, ok=%v", ad, ok)
+	}
+
+	mustCode(t, session.BeginRunJSON(mustJSON(t, input)))
+	for session.Step(64) == 1 {
+	}
+	done := testkit.LastDone(session.OutboxBytes())
+	if got := actorHP(done, "enemy"); got != 900 {
+		t.Fatalf("begin_run after initial snapshot enemy hp got %.2f, want action to still run", got)
+	}
+}
+
 func TestBadSchemaFailsFast(t *testing.T) {
 	bundle := testkit.BenchmarkBundle()
 	bundle.SchemaVersion = 99
@@ -261,6 +291,15 @@ func actorHP(done model.DonePayload, actorID string) float64 {
 
 func actor(done model.DonePayload, actorID string) model.ActorSnapshot {
 	for _, actor := range done.Actors {
+		if actor.ActorID == actorID {
+			return actor
+		}
+	}
+	return model.ActorSnapshot{}
+}
+
+func snapshotActor(snapshot model.SnapshotV2, actorID string) model.ActorSnapshot {
+	for _, actor := range snapshot.Actors {
 		if actor.ActorID == actorID {
 			return actor
 		}
