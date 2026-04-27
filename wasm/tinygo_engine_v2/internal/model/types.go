@@ -14,6 +14,7 @@ const (
 	FrameKindDone      FrameKind = 13
 	FrameKindError     FrameKind = 14
 	FrameKindReady     FrameKind = 15
+	FrameKindSnapshot  FrameKind = 16
 	FrameKindBinaryRun FrameKind = 100
 )
 
