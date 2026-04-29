@@ -4,6 +4,8 @@ import type {
   AttributeDefinitionsResponse,
   CoefficientBucket,
   CoefficientBucketsResponse,
+  ControlStateProfile,
+  ControlStateProfilesResponse,
   CurrentVersion,
   FormulaBinding,
   FormulaBindingsResponse,
@@ -14,6 +16,7 @@ import type {
   GameSummary,
   Hero,
   HeroesResponse,
+  ImageAsset,
   ImageCollectionResponse,
   Item,
   ItemsResponse,
@@ -23,14 +26,21 @@ import type {
   SkillsResponse,
   StatusActionControlRule,
   StatusActionControlRulesResponse,
+  StatusAttributeModifier,
+  StatusAttributeModifiersResponse,
+  StatusDefinition,
+  StatusDefinitionsResponse,
+  StatusModifierGroup,
+  StatusModifierGroupsResponse,
+  StatusPeriodicHpEffect,
+  StatusPeriodicHpEffectsResponse,
   TypeDefinition,
   TypeRelation,
   TypeRelationReplacePayload,
   TypeRelationsByTargetResponse,
   TypeRelationsResponse,
   TypesResponse,
-  VersionCreatePayload,
-  VersionCreateResponse,
+  VersionPublishPayload,
   VersionPublishResponse
 } from '../types/api';
 
@@ -81,22 +91,27 @@ export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSumma
 }
 
 export async function getCurrentVersion(apiBaseUrl: string, gameId: string): Promise<ApiResult<CurrentVersion>> {
-  return requestJson<CurrentVersion>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/versions/current`);
+  const result = await requestJson<CurrentVersion>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/versions/current`);
+  return {
+    ...result,
+    data: normalizeCurrentVersion(result.data)
+  };
 }
 
 export async function getBundle(
   apiBaseUrl: string,
   gameId: string,
-  versionId: number,
-  ifNoneMatch?: string
+  versionCode: string
 ): Promise<ApiResult<GameDataBundle>> {
-  return requestJson<GameDataBundle>(
+  const result = await requestJson<GameDataBundle>(
     apiBaseUrl,
-    `/api/games/${encodePathSegment(gameId)}/versions/${versionId}/bundle`,
-    {
-      ifNoneMatch
-    }
+    `/api/games/${encodePathSegment(gameId)}/versions/${encodePathSegment(versionCode)}/bundle`
   );
+
+  return {
+    ...result,
+    data: normalizeGameDataBundle(result.data)
+  };
 }
 
 export async function getOwnerCategories(apiBaseUrl: string, gameId: string): Promise<ApiResult<OwnerCategoryResponse>> {
@@ -136,6 +151,20 @@ export async function getImages(
     url.searchParams.set('updatedAfter', updatedAfter);
   }
   return requestJson<ImageCollectionResponse>(apiBaseUrl, `${url.pathname}${url.search}`);
+}
+
+export async function putImage(
+  apiBaseUrl: string,
+  gameId: string,
+  uri: string,
+  token: string,
+  imageBase64: string
+): Promise<ApiResult<ImageAsset>> {
+  return requestJson<ImageAsset>(apiBaseUrl, adminPath(gameId, 'images', uri), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify({ imageBase64 })
+  });
 }
 
 export async function getHeroes(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<HeroesResponse>> {
@@ -349,6 +378,207 @@ export async function putStatusActionControlRule(
   });
 }
 
+export async function getStatusDefinitions(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusDefinitionsResponse>> {
+  return requestJson<StatusDefinitionsResponse>(apiBaseUrl, adminPath(gameId, 'status-definitions'), {
+    token
+  });
+}
+
+export async function getStatusDefinition(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  token: string
+): Promise<ApiResult<StatusDefinition>> {
+  return requestJson<StatusDefinition>(apiBaseUrl, adminPath(gameId, 'status-definitions', statusId), {
+    token
+  });
+}
+
+export async function putStatusDefinition(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusDefinition>> {
+  return requestJson<StatusDefinition>(apiBaseUrl, adminPath(gameId, 'status-definitions', statusId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getControlStateProfiles(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<ControlStateProfilesResponse>> {
+  return requestJson<ControlStateProfilesResponse>(apiBaseUrl, adminPath(gameId, 'control-state-profiles'), {
+    token
+  });
+}
+
+export async function getControlStateProfile(
+  apiBaseUrl: string,
+  gameId: string,
+  controlProfileId: string,
+  token: string
+): Promise<ApiResult<ControlStateProfile>> {
+  return requestJson<ControlStateProfile>(apiBaseUrl, adminPath(gameId, 'control-state-profiles', controlProfileId), {
+    token
+  });
+}
+
+export async function putControlStateProfile(
+  apiBaseUrl: string,
+  gameId: string,
+  controlProfileId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<ControlStateProfile>> {
+  return requestJson<ControlStateProfile>(apiBaseUrl, adminPath(gameId, 'control-state-profiles', controlProfileId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getStatusModifierGroups(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusModifierGroupsResponse>> {
+  return requestJson<StatusModifierGroupsResponse>(apiBaseUrl, adminPath(gameId, 'status-modifier-groups'), {
+    token
+  });
+}
+
+export async function getStatusModifierGroup(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  token: string
+): Promise<ApiResult<StatusModifierGroup>> {
+  return requestJson<StatusModifierGroup>(apiBaseUrl, adminPath(gameId, 'status-modifier-groups', statusId, groupKey), {
+    token
+  });
+}
+
+export async function putStatusModifierGroup(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusModifierGroup>> {
+  return requestJson<StatusModifierGroup>(apiBaseUrl, adminPath(gameId, 'status-modifier-groups', statusId, groupKey), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
+}
+
+export async function getStatusAttributeModifiers(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusAttributeModifiersResponse>> {
+  return requestJson<StatusAttributeModifiersResponse>(apiBaseUrl, adminPath(gameId, 'status-attribute-modifiers'), {
+    token
+  });
+}
+
+export async function getStatusAttributeModifier(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  modifierId: string,
+  token: string
+): Promise<ApiResult<StatusAttributeModifier>> {
+  return requestJson<StatusAttributeModifier>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-attribute-modifiers', statusId, groupKey, modifierId),
+    {
+      token
+    }
+  );
+}
+
+export async function putStatusAttributeModifier(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  modifierId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusAttributeModifier>> {
+  return requestJson<StatusAttributeModifier>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-attribute-modifiers', statusId, groupKey, modifierId),
+    {
+      method: 'PUT',
+      token,
+      body: JSON.stringify(body)
+    }
+  );
+}
+
+export async function getStatusPeriodicHpEffects(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<StatusPeriodicHpEffectsResponse>> {
+  return requestJson<StatusPeriodicHpEffectsResponse>(apiBaseUrl, adminPath(gameId, 'status-periodic-hp-effects'), {
+    token
+  });
+}
+
+export async function getStatusPeriodicHpEffect(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  effectId: string,
+  token: string
+): Promise<ApiResult<StatusPeriodicHpEffect>> {
+  return requestJson<StatusPeriodicHpEffect>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-periodic-hp-effects', statusId, groupKey, effectId),
+    {
+      token
+    }
+  );
+}
+
+export async function putStatusPeriodicHpEffect(
+  apiBaseUrl: string,
+  gameId: string,
+  statusId: string,
+  groupKey: string,
+  effectId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<StatusPeriodicHpEffect>> {
+  return requestJson<StatusPeriodicHpEffect>(
+    apiBaseUrl,
+    adminPath(gameId, 'status-periodic-hp-effects', statusId, groupKey, effectId),
+    {
+      method: 'PUT',
+      token,
+      body: JSON.stringify(body)
+    }
+  );
+}
+
 export async function getFormulaProfiles(
   apiBaseUrl: string,
   gameId: string,
@@ -431,29 +661,22 @@ export async function putFormulaBinding(
   );
 }
 
-export async function createVersion(
+export async function publishVersion(
   apiBaseUrl: string,
   gameId: string,
   token: string,
-  body: VersionCreatePayload
-): Promise<ApiResult<VersionCreateResponse>> {
-  return requestJson<VersionCreateResponse>(apiBaseUrl, adminPath(gameId, 'versions'), {
+  body: VersionPublishPayload
+): Promise<ApiResult<VersionPublishResponse>> {
+  const result = await requestJson<VersionPublishResponse>(apiBaseUrl, adminPath(gameId, 'versions:publish'), {
     method: 'POST',
     token,
     body: JSON.stringify(body)
   });
-}
 
-export async function publishVersion(
-  apiBaseUrl: string,
-  gameId: string,
-  versionId: number,
-  token: string
-): Promise<ApiResult<VersionPublishResponse>> {
-  return requestJson<VersionPublishResponse>(apiBaseUrl, adminPath(gameId, 'versions', `${versionId}:publish`), {
-    method: 'POST',
-    token
-  });
+  return {
+    ...result,
+    data: normalizePublishedVersion(result.data)
+  };
 }
 
 async function requestJson<T>(apiBaseUrl: string, path: string, options: RequestOptions = {}): Promise<ApiResult<T>> {
@@ -488,6 +711,41 @@ async function requestJson<T>(apiBaseUrl: string, path: string, options: Request
     status: response.status,
     etag: response.headers.get('ETag')
   };
+}
+
+function normalizeCurrentVersion(version: CurrentVersion): CurrentVersion {
+  return {
+    ...version,
+    versionId: normalizeLegacyVersionId(version.versionId),
+    dataHash: normalizeLegacyDataHash(version.dataHash, version.versionCode)
+  };
+}
+
+function normalizePublishedVersion(version: VersionPublishResponse): VersionPublishResponse {
+  return {
+    ...version,
+    versionId: normalizeLegacyVersionId(version.versionId),
+    dataHash: normalizeLegacyDataHash(version.dataHash, version.versionCode)
+  };
+}
+
+function normalizeGameDataBundle(bundle: GameDataBundle): GameDataBundle {
+  return {
+    ...bundle,
+    meta: {
+      ...bundle.meta,
+      versionId: normalizeLegacyVersionId(bundle.meta.versionId),
+      dataHash: normalizeLegacyDataHash(bundle.meta.dataHash, bundle.meta.versionCode)
+    }
+  };
+}
+
+function normalizeLegacyVersionId(value: number | undefined): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : 0;
+}
+
+function normalizeLegacyDataHash(value: string | undefined, versionCode: string): string {
+  return value?.trim() || versionCode;
 }
 
 function adminPath(gameId: string, ...segments: string[]): string {

@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Form, Input, Layout, Select, Space, Tag, Typography } from '@arco-design/web-react';
-import { adminResourceRouteMap, navigationItems, type RouteId } from './config/navigation';
+import { IconDown } from '@arco-design/web-react/icon';
+import {
+  adminResourceRouteMap,
+  navigationGroups,
+  navigationItems,
+  type NavigationGroupId,
+  type RouteId
+} from './config/navigation';
 import { AttributeDefinitionsPage } from './pages/admin/resources/attribute-definitions';
 import { CoefficientBucketsPage } from './pages/admin/resources/coefficient-buckets';
 import { FormulaBindingsPage } from './pages/admin/resources/formula-bindings';
@@ -9,6 +16,7 @@ import { HeroesPage } from './pages/admin/resources/heroes';
 import { ItemsPage } from './pages/admin/resources/items';
 import { SkillsPage } from './pages/admin/resources/skills';
 import { StatusActionControlRulesPage } from './pages/admin/resources/status-action-control-rules';
+import { StatusManagementPage } from './pages/admin/resources/status-management';
 import { TypeRelationsPage } from './pages/admin/resources/type-relations';
 import { TypesPage } from './pages/admin/resources/types';
 import { ImagesPage } from './pages/ImagesPage';
@@ -16,6 +24,7 @@ import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
 import { SimulationPage } from './pages/SimulationPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { VersionPublishPage } from './pages/VersionPublishPage';
+import { WasmValidationPage } from './pages/WasmValidationPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -92,6 +101,7 @@ export default function App() {
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
   const [bundleRefreshSeed, setBundleRefreshSeed] = useState(0);
+  const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState<Partial<Record<NavigationGroupId, boolean>>>({});
 
   useEffect(() => {
     const onHashChange = () => {
@@ -204,6 +214,16 @@ export default function App() {
         />
       );
       break;
+    case 'wasm-validation':
+      pageContent = (
+        <WasmValidationPage
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          selectedGameName={selectedGameName}
+          externalRefreshSeed={bundleRefreshSeed}
+        />
+      );
+      break;
     case 'images':
       pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
       break;
@@ -218,6 +238,9 @@ export default function App() {
       break;
     case 'attribute-definitions':
       pageContent = <AttributeDefinitionsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'status-management':
+      pageContent = <StatusManagementPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
       break;
     case 'types':
       pageContent = <TypesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
@@ -259,12 +282,46 @@ export default function App() {
         </div>
 
         <nav className="nav-stack" aria-label="Primary">
-          {navigationItems.map((item) => (
-            <a key={item.id} className={`nav-item${item.id === route ? ' is-active' : ''}`} href={`#/${item.id}`}>
-              <span className="nav-item-label">{item.label}</span>
-              <span className="nav-item-summary">{item.summary}</span>
-            </a>
-          ))}
+          {navigationGroups.map((group) => {
+            const isGroupActive = group.items.some((item) => item.id === route);
+            const isGroupExpanded = !collapsedNavigationGroups[group.id];
+            const navSubstackId = `nav-section-${group.id}`;
+
+            return (
+              <section key={group.id} className={`nav-section${isGroupActive ? ' is-active' : ''}`} aria-label={group.label}>
+                <button
+                  type="button"
+                  className="nav-section-trigger"
+                  aria-expanded={isGroupExpanded}
+                  aria-controls={navSubstackId}
+                  onClick={() =>
+                    setCollapsedNavigationGroups((current) => ({
+                      ...current,
+                      [group.id]: !current[group.id]
+                    }))
+                  }
+                >
+                  <span className="nav-section-label">{group.label}</span>
+                  <IconDown className={`nav-section-caret${isGroupExpanded ? ' is-expanded' : ''}`} aria-hidden="true" />
+                </button>
+                {isGroupExpanded ? (
+                  <div id={navSubstackId} className="nav-substack">
+                    {group.items.map((item) => (
+                      <a
+                        key={item.id}
+                        className={`nav-item nav-item-secondary${item.id === route ? ' is-active' : ''}`}
+                        href={`#/${item.id}`}
+                        aria-current={item.id === route ? 'page' : undefined}
+                      >
+                        <span className="nav-item-label">{item.label}</span>
+                        <span className="nav-item-summary">{item.summary}</span>
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </section>
+            );
+          })}
         </nav>
 
         <section className="sidebar-status">

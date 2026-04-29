@@ -1,12 +1,14 @@
 import { Button, Space, Typography } from '@arco-design/web-react';
+import { ResourceImageThumb } from '../../../../components/ResourceImageThumb';
 import type { HeroesRecord } from './types';
 
 type HeroesTableActions = {
   onView: (record: HeroesRecord) => void;
   onEdit: (record: HeroesRecord) => void;
+  resolveImageSrc: (record: HeroesRecord) => string | null;
 };
 
-export function getHeroesColumns({ onView, onEdit }: HeroesTableActions) {
+export function getHeroesColumns({ onView, onEdit, resolveImageSrc }: HeroesTableActions) {
   return [
     {
       title: 'heroId',
@@ -28,18 +30,9 @@ export function getHeroesColumns({ onView, onEdit }: HeroesTableActions) {
     },
     {
       title: '头像',
-      dataIndex: 'avatarUrl',
+      dataIndex: 'heroId',
       width: 120,
-      render: (_: unknown, record: HeroesRecord) =>
-        record.avatarUrl ? (
-          <img
-            src={record.avatarUrl}
-            alt={record.name ?? record.heroId}
-            style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'cover' }}
-          />
-        ) : (
-          '--'
-        )
+      render: (_: unknown, record: HeroesRecord) => <ResourceImageThumb src={resolveImageSrc(record)} alt={record.name ?? record.heroId} size={36} />
     },
     {
       title: '操作',

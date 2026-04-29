@@ -14,7 +14,6 @@ export function createItemsFormData(): ItemsFormData {
     itemId: '',
     name: '',
     goldCost: '',
-    iconUrl: '',
     statsModifierText: '{\n  \n}',
     skillRefsText: '[\n  \n]',
     recipeIdsText: '[\n  \n]',
