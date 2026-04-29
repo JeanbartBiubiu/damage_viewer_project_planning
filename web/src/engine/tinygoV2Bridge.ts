@@ -7,10 +7,12 @@ type TinyGoGlobal = typeof globalThis & {
 
 type TinyGoV2Exports = WebAssembly.Exports & {
   memory: WebAssembly.Memory;
+  _start?: () => void;
   alloc(len: number): number;
   dealloc(ptr: number, len: number): void;
   engine_init(ptr: number, len: number): number;
   engine_begin_run(ptr: number, len: number): number;
+  engine_snapshot_initial(ptr: number, len: number): number;
   engine_step(maxEvents: number): number;
   engine_abort_run(): number;
   engine_outbox_ptr(): number;
@@ -27,7 +29,7 @@ export type TinyGoV2Frame = {
 
 export type TinyGoV2BridgeOptions = {
   wasmUrl: URL | string;
-  wasmExecUrl: URL | string;
+  wasmExecUrl?: URL | string;
 };
 
 const MAGIC = 0x32475644;
@@ -43,6 +45,7 @@ const requiredExports = [
   'dealloc',
   'engine_init',
   'engine_begin_run',
+  'engine_snapshot_initial',
   'engine_step',
   'engine_abort_run',
   'engine_outbox_ptr',
@@ -54,17 +57,10 @@ export class TinyGoV2Bridge {
   private constructor(private readonly exports: TinyGoV2Exports) {}
 
   static async create(options: TinyGoV2BridgeOptions): Promise<TinyGoV2Bridge> {
-    await ensureTinyGoRuntime(options.wasmExecUrl);
-    const go = new (globalThis as TinyGoGlobal).Go!();
-    const response = await fetch(options.wasmUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to load TinyGo V2 wasm: ${response.status} ${response.statusText}`);
-    }
-
-    const { instance } = await WebAssembly.instantiate(await response.arrayBuffer(), go.importObject);
-    const exports = instance.exports;
+    const exports = options.wasmExecUrl
+      ? await instantiateWithWasmExec(options.wasmUrl, options.wasmExecUrl)
+      : await instantiateWithDirectImports(options.wasmUrl);
     assertTinyGoV2Exports(exports);
-    void go.run(instance);
     return new TinyGoV2Bridge(exports);
   }
 
@@ -78,6 +74,11 @@ export class TinyGoV2Bridge {
     return this.readOutbox();
   }
 
+  snapshotInitial(input: unknown): TinyGoV2Frame[] {
+    this.invoke('engine_snapshot_initial', FRAME_RUN, input);
+    return this.readOutbox();
+  }
+
   step(maxEvents = 64): { status: number; frames: TinyGoV2Frame[] } {
     const status = this.exports.engine_step(maxEvents);
     return { status, frames: this.readOutbox() };
@@ -88,7 +89,7 @@ export class TinyGoV2Bridge {
     return this.readOutbox();
   }
 
-  private invoke(fnName: 'engine_init' | 'engine_begin_run', kind: number, payload: unknown) {
+  private invoke(fnName: 'engine_init' | 'engine_begin_run' | 'engine_snapshot_initial', kind: number, payload: unknown) {
     const payloadBytes = textEncoder.encode(JSON.stringify(payload));
     const frame = encodeFrame(kind, payloadBytes);
     const ptr = this.exports.alloc(frame.length);
@@ -155,6 +156,33 @@ function decodeFrames(bytes: Uint8Array): TinyGoV2Frame[] {
   return frames;
 }
 
+async function instantiateWithWasmExec(wasmUrl: URL | string, wasmExecUrl: URL | string): Promise<WebAssembly.Exports> {
+  await ensureTinyGoRuntime(wasmExecUrl);
+  const go = new (globalThis as TinyGoGlobal).Go!();
+  const { instance } = await instantiateWasm(wasmUrl, go.importObject);
+  void go.run(instance);
+  return instance.exports;
+}
+
+async function instantiateWithDirectImports(wasmUrl: URL | string): Promise<WebAssembly.Exports> {
+  const state: TinyGoDirectImportState = { instance: null };
+  const { instance } = await instantiateWasm(wasmUrl, createTinyGoDirectImports(state));
+  state.instance = instance;
+  startTinyGoDirectRuntime(instance);
+  return instance.exports;
+}
+
+async function instantiateWasm(
+  wasmUrl: URL | string,
+  importObject: WebAssembly.Imports
+): Promise<WebAssembly.WebAssemblyInstantiatedSource> {
+  const response = await fetch(wasmUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to load TinyGo V2 wasm: ${response.status} ${response.statusText}`);
+  }
+  return WebAssembly.instantiate(await response.arrayBuffer(), importObject);
+}
+
 async function ensureTinyGoRuntime(wasmExecUrl: URL | string) {
   if ((globalThis as TinyGoGlobal).Go) {
     return;
@@ -179,5 +207,88 @@ function assertTinyGoV2Exports(exports: WebAssembly.Exports): asserts exports is
       `TinyGo V2 ABI mismatch. Missing: ${missing.join(', ') || 'none'}. `
         + `Invalid: ${invalid.join(', ') || 'none'}.`
     );
+  }
+}
+
+type TinyGoDirectImportState = {
+  instance: WebAssembly.Instance | null;
+};
+
+class TinyGoProcExit extends Error {
+  constructor(readonly code: number) {
+    super(`TinyGo proc_exit(${code})`);
+  }
+}
+
+function createTinyGoDirectImports(state: TinyGoDirectImportState): WebAssembly.Imports {
+  return {
+    wasi_snapshot_preview1: {
+      proc_exit(code: number) {
+        throw new TinyGoProcExit(code);
+      },
+      fd_write(_fd: number, iovs: number, iovsLen: number, nwritten: number) {
+        const memory = getDirectMemory(state);
+        if (!memory) {
+          return 0;
+        }
+        const view = new DataView(memory.buffer);
+        let written = 0;
+        for (let index = 0; index < iovsLen; index += 1) {
+          written += view.getUint32(iovs + index * 8 + 4, true);
+        }
+        if (nwritten) {
+          view.setUint32(nwritten, written, true);
+        }
+        return 0;
+      },
+      random_get(ptr: number, len: number) {
+        const memory = getDirectMemory(state);
+        if (!memory || !globalThis.crypto?.getRandomValues) {
+          return 0;
+        }
+        const target = new Uint8Array(memory.buffer, ptr, len);
+        for (let offset = 0; offset < target.length; offset += 65536) {
+          globalThis.crypto.getRandomValues(target.subarray(offset, Math.min(offset + 65536, target.length)));
+        }
+        return 0;
+      }
+    },
+    gojs: {
+      'runtime.ticks'() {
+        return BigInt(Date.now()) * 1_000_000n;
+      },
+      'syscall/js.valueGet'() {
+        return 0n;
+      },
+      'syscall/js.valuePrepareString'() {
+        return 0n;
+      },
+      'syscall/js.valueLoadString'() {
+        return 0n;
+      },
+      'syscall/js.finalizeRef'() {
+        return 0n;
+      }
+    }
+  };
+}
+
+function getDirectMemory(state: TinyGoDirectImportState): WebAssembly.Memory | null {
+  const memory = state.instance?.exports.memory;
+  return memory instanceof WebAssembly.Memory ? memory : null;
+}
+
+function startTinyGoDirectRuntime(instance: WebAssembly.Instance) {
+  const start = instance.exports._start;
+  if (typeof start !== 'function') {
+    return;
+  }
+  try {
+    start();
+  } catch (error) {
+    if (error instanceof TinyGoProcExit && error.code === 0) {
+      return;
+    }
+    throw error;
   }
 }
