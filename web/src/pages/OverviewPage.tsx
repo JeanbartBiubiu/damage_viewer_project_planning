@@ -115,7 +115,7 @@ export function OverviewPage({
             <MetricCard label="客户端定位" value="Rich Client" hint="Bundle + IndexedDB + WASM" />
           </Col>
           <Col xs={24} sm={12} lg={6}>
-            <MetricCard label="读取路径" value="ETag 驱动" hint="games -> current -> bundle" />
+            <MetricCard label="读取路径" value="versionCode 驱动" hint="games -> current -> bundle snapshot" />
           </Col>
           <Col xs={24} sm={12} lg={6}>
             <MetricCard label="图片策略" value="增量同步" hint="按 gameId 进入本地图片缓存" />
@@ -184,7 +184,7 @@ export function OverviewPage({
                 <MetricCard
                   label="当前版本"
                   value={currentVersion?.versionCode ?? '未发布'}
-                  hint={currentVersion ? `versionId=${currentVersion.versionId}` : '后端可能还没有 current version'}
+                  hint={currentVersion?.releaseDate ?? currentVersion?.publishedAt ?? '后端可能还没有 current version'}
                 />
               </Col>
               <Col xs={24} sm={12} lg={6}>
