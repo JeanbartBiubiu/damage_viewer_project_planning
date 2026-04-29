@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Form, Input, Layout, Select, Space, Tag, Typography } from '@arco-design/web-react';
-import { adminResourceRouteMap, navigationGroups, navigationItems, type RouteId } from './config/navigation';
+import { IconDown } from '@arco-design/web-react/icon';
+import {
+  adminResourceRouteMap,
+  navigationGroups,
+  navigationItems,
+  type NavigationGroupId,
+  type RouteId
+} from './config/navigation';
 import { AttributeDefinitionsPage } from './pages/admin/resources/attribute-definitions';
 import { CoefficientBucketsPage } from './pages/admin/resources/coefficient-buckets';
 import { FormulaBindingsPage } from './pages/admin/resources/formula-bindings';
@@ -94,6 +101,7 @@ export default function App() {
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
   const [bundleRefreshSeed, setBundleRefreshSeed] = useState(0);
+  const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState<Partial<Record<NavigationGroupId, boolean>>>({});
 
   useEffect(() => {
     const onHashChange = () => {
@@ -274,28 +282,46 @@ export default function App() {
         </div>
 
         <nav className="nav-stack" aria-label="Primary">
-          {navigationGroups.map((group) => (
-            <section
-              key={group.id}
-              className={`nav-section${group.items.some((item) => item.id === route) ? ' is-active' : ''}`}
-              aria-label={group.label}
-            >
-              <Typography.Text className="nav-section-label">{group.label}</Typography.Text>
-              <div className="nav-substack">
-                {group.items.map((item) => (
-                  <a
-                    key={item.id}
-                    className={`nav-item nav-item-secondary${item.id === route ? ' is-active' : ''}`}
-                    href={`#/${item.id}`}
-                    aria-current={item.id === route ? 'page' : undefined}
-                  >
-                    <span className="nav-item-label">{item.label}</span>
-                    <span className="nav-item-summary">{item.summary}</span>
-                  </a>
-                ))}
-              </div>
-            </section>
-          ))}
+          {navigationGroups.map((group) => {
+            const isGroupActive = group.items.some((item) => item.id === route);
+            const isGroupExpanded = !collapsedNavigationGroups[group.id];
+            const navSubstackId = `nav-section-${group.id}`;
+
+            return (
+              <section key={group.id} className={`nav-section${isGroupActive ? ' is-active' : ''}`} aria-label={group.label}>
+                <button
+                  type="button"
+                  className="nav-section-trigger"
+                  aria-expanded={isGroupExpanded}
+                  aria-controls={navSubstackId}
+                  onClick={() =>
+                    setCollapsedNavigationGroups((current) => ({
+                      ...current,
+                      [group.id]: !current[group.id]
+                    }))
+                  }
+                >
+                  <span className="nav-section-label">{group.label}</span>
+                  <IconDown className={`nav-section-caret${isGroupExpanded ? ' is-expanded' : ''}`} aria-hidden="true" />
+                </button>
+                {isGroupExpanded ? (
+                  <div id={navSubstackId} className="nav-substack">
+                    {group.items.map((item) => (
+                      <a
+                        key={item.id}
+                        className={`nav-item nav-item-secondary${item.id === route ? ' is-active' : ''}`}
+                        href={`#/${item.id}`}
+                        aria-current={item.id === route ? 'page' : undefined}
+                      >
+                        <span className="nav-item-label">{item.label}</span>
+                        <span className="nav-item-summary">{item.summary}</span>
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </section>
+            );
+          })}
         </nav>
 
         <section className="sidebar-status">
