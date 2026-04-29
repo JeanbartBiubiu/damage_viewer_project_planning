@@ -8,6 +8,11 @@ export function buildItemImageUri(itemId: string): string | null {
   return normalizedId ? `item_${normalizedId}` : null;
 }
 
+export function buildAttributeImageUri(attrKey: string): string | null {
+  const normalizedKey = attrKey.trim();
+  return normalizedKey ? `attribute_${normalizedKey}` : null;
+}
+
 const DEFAULT_RESOURCE_IMAGE_SIZE = 64;
 const DEFAULT_JPEG_QUALITY = 0.92;
 
