@@ -8,11 +8,12 @@ type HeroesTableProps = {
   actionsDisabled: boolean;
   onView: (record: HeroesRecord) => void;
   onEdit: (record: HeroesRecord) => void;
+  resolveImageSrc: (record: HeroesRecord) => string | null;
   onCreate: () => void;
   onRefresh: () => void;
 };
 
-export function HeroesTable({ loading, records, actionsDisabled, onView, onEdit, onCreate, onRefresh }: HeroesTableProps) {
+export function HeroesTable({ loading, records, actionsDisabled, onView, onEdit, resolveImageSrc, onCreate, onRefresh }: HeroesTableProps) {
   return (
     <Space direction="vertical" size={16} style={{ width: '100%' }}>
       <div className="crud-toolbar">
@@ -36,7 +37,7 @@ export function HeroesTable({ loading, records, actionsDisabled, onView, onEdit,
       <Table
         className="data-table-shell"
         loading={loading}
-        columns={getHeroesColumns({ onView, onEdit })}
+        columns={getHeroesColumns({ onView, onEdit, resolveImageSrc })}
         data={records}
         pagination={false}
         rowKey="heroId"

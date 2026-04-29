@@ -1,13 +1,22 @@
 import { Button, Space, Tag, Typography } from '@arco-design/web-react';
+import { ResourceImageThumb } from '../../../../components/ResourceImageThumb';
 import type { AttributeDefinitionsRecord } from './types';
 
 type AttributeDefinitionsTableActions = {
   onView: (record: AttributeDefinitionsRecord) => void;
   onEdit: (record: AttributeDefinitionsRecord) => void;
+  resolveImageSrc: (record: AttributeDefinitionsRecord) => string | null;
 };
 
-export function getAttributeDefinitionsColumns({ onView, onEdit }: AttributeDefinitionsTableActions) {
+export function getAttributeDefinitionsColumns({ onView, onEdit, resolveImageSrc }: AttributeDefinitionsTableActions) {
   return [
+    {
+      title: '图片',
+      width: 84,
+      render: (_: unknown, record: AttributeDefinitionsRecord) => (
+        <ResourceImageThumb src={resolveImageSrc(record)} alt={record.attrName ?? record.attrKey} size={36} />
+      )
+    },
     {
       title: 'attrKey',
       dataIndex: 'attrKey',

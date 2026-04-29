@@ -8,6 +8,7 @@ type AttributeDefinitionsTableProps = {
   actionsDisabled: boolean;
   onView: (record: AttributeDefinitionsRecord) => void;
   onEdit: (record: AttributeDefinitionsRecord) => void;
+  resolveImageSrc: (record: AttributeDefinitionsRecord) => string | null;
   onCreate: () => void;
   onRefresh: () => void;
 };
@@ -18,6 +19,7 @@ export function AttributeDefinitionsTable({
   actionsDisabled,
   onView,
   onEdit,
+  resolveImageSrc,
   onCreate,
   onRefresh
 }: AttributeDefinitionsTableProps) {
@@ -44,11 +46,11 @@ export function AttributeDefinitionsTable({
       <Table
         className="data-table-shell"
         loading={loading}
-        columns={getAttributeDefinitionsColumns({ onView, onEdit })}
+        columns={getAttributeDefinitionsColumns({ onView, onEdit, resolveImageSrc })}
         data={records}
         pagination={false}
         rowKey="attrKey"
-        scroll={{ x: 1040 }}
+        scroll={{ x: 1120 }}
       />
     </Space>
   );

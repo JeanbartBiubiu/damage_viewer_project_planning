@@ -1,8 +1,11 @@
-import { Alert } from '@arco-design/web-react';
+import { Alert, Message } from '@arco-design/web-react';
+import { useState } from 'react';
 import { Panel } from '../../../../components/Panel';
-import { getAttributeDefinitions, putAttributeDefinition } from '../../../../services/apiClient';
+import { getAttributeDefinitions, getErrorMessage, putAttributeDefinition, putImage } from '../../../../services/apiClient';
+import { buildAttributeImageUri, readImageFileAsDataUrl } from '../../../../services/resourceImage';
 import type { JsonObject } from '../../../../types/api';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
+import { useResourceImageCache } from '../shared/useResourceImageCache';
 import { createAttributeDefinitionsFormData, createAttributeDefinitionsSearchData } from './constants';
 import { AttributeDefinitionsModal } from './modal';
 import { AttributeDefinitionsSearch } from './search';
@@ -96,6 +99,10 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
 
+  const { imageSrcByUri, cacheError: imageCacheError, refreshImageCache, upsertImageAsset } = useResourceImageCache(selectedGameId);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
+
   const {
     filteredRecords,
     recordsState,
@@ -128,9 +135,63 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
     getSuccessMessage: (mode) => (mode === 'create' ? '属性定义新增成功' : '属性定义保存成功')
   });
 
+  const currentImageUri = buildAttributeImageUri(formData.attrKey);
+  const currentImageSrc = currentImageUri ? imageSrcByUri[currentImageUri] ?? null : null;
+
+  const handleUploadImage = async (file: File) => {
+    if (!selectedGameId) {
+      setImageUploadError('请先选择当前 gameId。');
+      return;
+    }
+    if (!adminToken.trim()) {
+      setImageUploadError('请先填写 Admin Token。');
+      return;
+    }
+    if (!currentImageUri) {
+      setImageUploadError('请先填写 attrKey，再上传图片。');
+      return;
+    }
+
+    try {
+      setImageUploading(true);
+      setImageUploadError(null);
+      const imageBase64 = await readImageFileAsDataUrl(file);
+      const response = await putImage(apiBaseUrl, selectedGameId, currentImageUri, adminToken.trim(), imageBase64);
+      await upsertImageAsset(response.data);
+      Message.success('属性图片上传成功');
+    } catch (error) {
+      const message = getErrorMessage(error);
+      setImageUploadError(message);
+      Message.error(message);
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
+  const openCreateModalWithImageState = () => {
+    setImageUploadError(null);
+    openCreateModal();
+  };
+
+  const openViewModalWithImageState = (record: AttributeDefinitionsRecord) => {
+    setImageUploadError(null);
+    openViewModal(record);
+  };
+
+  const openEditModalWithImageState = (record: AttributeDefinitionsRecord) => {
+    setImageUploadError(null);
+    openEditModal(record);
+  };
+
+  const closeModalWithImageState = () => {
+    setImageUploadError(null);
+    closeModal();
+  };
+
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
+      {imageCacheError ? <Alert type="warning" content={`图片缓存读取失败：${imageCacheError}`} className="resource-warning-alert" /> : null}
 
       <Panel title="查询条件" kicker="Search">
         <AttributeDefinitionsSearch
@@ -147,10 +208,17 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
           loading={recordsState === 'loading'}
           records={filteredRecords}
           actionsDisabled={actionsDisabled}
-          onView={openViewModal}
-          onEdit={openEditModal}
-          onCreate={openCreateModal}
-          onRefresh={refreshRecords}
+          onView={openViewModalWithImageState}
+          onEdit={openEditModalWithImageState}
+          resolveImageSrc={(record) => {
+            const imageUri = buildAttributeImageUri(record.attrKey);
+            return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+          }}
+          onCreate={openCreateModalWithImageState}
+          onRefresh={() => {
+            refreshRecords();
+            void refreshImageCache();
+          }}
         />
       </Panel>
 
@@ -162,8 +230,13 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
         mode={modalMode}
         formData={formData}
         saving={saving}
-        onClose={closeModal}
+        imageUri={currentImageUri}
+        imageSrc={currentImageSrc}
+        imageUploading={imageUploading}
+        imageError={imageUploadError}
+        onClose={closeModalWithImageState}
         onFieldChange={updateFormData}
+        onUploadImage={handleUploadImage}
         onSubmit={submitModal}
       />
     </div>
