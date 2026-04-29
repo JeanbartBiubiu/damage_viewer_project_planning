@@ -16,17 +16,33 @@ export type ExtendedAdminResourceRouteId =
   | 'skills'
   | 'items'
   | 'attribute-definitions'
+  | 'status-management'
   | 'types'
   | 'type-relations';
 
 export type AdminResourceRouteId = BuiltinAdminResourceRouteId | ExtendedAdminResourceRouteId;
 
-export type RouteId = 'overview' | 'workspace' | 'katarina-mvp' | 'simulation' | 'images' | AdminResourceRouteId;
+export type RouteId =
+  | 'overview'
+  | 'workspace'
+  | 'katarina-mvp'
+  | 'simulation'
+  | 'wasm-validation'
+  | 'images'
+  | AdminResourceRouteId;
 
 export type NavigationItem = {
   id: RouteId;
   label: string;
   summary: string;
+};
+
+export type NavigationGroupId = 'data-management' | 'wasm-simulation';
+
+export type NavigationGroup = {
+  id: NavigationGroupId;
+  label: string;
+  items: NavigationItem[];
 };
 
 export type SurfaceEndpoint = {
@@ -51,7 +67,7 @@ export const adminResourceRouteMap: Record<BuiltinAdminResourceRouteId, AdminRes
   'status-action-control-rules': 'statusActionControlRules'
 };
 
-const baseNavigationItems: NavigationItem[] = [
+const dataManagementBaseNavigationItems: NavigationItem[] = [
   {
     id: 'overview',
     label: '系统总览',
@@ -60,8 +76,16 @@ const baseNavigationItems: NavigationItem[] = [
   {
     id: 'workspace',
     label: '版本发布',
-    summary: '集中处理版本创建、发布以及 current / bundle 校验。'
+    summary: '集中处理版本发布以及 current / bundle 快照校验。'
   },
+  {
+    id: 'images',
+    label: '图片缓存',
+    summary: '查看并同步图片缓存资源。'
+  }
+];
+
+const wasmSimulationNavigationItems: NavigationItem[] = [
   {
     id: 'katarina-mvp',
     label: 'Katarina MVP',
@@ -73,9 +97,9 @@ const baseNavigationItems: NavigationItem[] = [
     summary: '场景配置、批量运行、图表对比与结果分析工作台。'
   },
   {
-    id: 'images',
-    label: '图片缓存',
-    summary: '查看并同步图片缓存资源。'
+    id: 'wasm-validation',
+    label: 'Wasm 验证',
+    summary: 'TinyGo V2 M1 Actor 初始化快照与人工字段对照。'
   }
 ];
 
@@ -101,6 +125,11 @@ const extendedAdminRouteItems: NavigationItem[] = [
     summary: '维护属性键、类型、默认值与取值语义。'
   },
   {
+    id: 'status-management',
+    label: '状态管理',
+    summary: '统一维护状态定义、控制语义、效果组和周期生命效果。'
+  },
+  {
     id: 'types',
     label: '类型定义',
     summary: '维护类型标签、描述与保留映射。'
@@ -118,7 +147,26 @@ const builtinAdminRouteItems: NavigationItem[] = adminResourceNavigationItemsFro
   summary: item.summary
 }));
 
-export const navigationItems: NavigationItem[] = [...baseNavigationItems, ...extendedAdminRouteItems, ...builtinAdminRouteItems];
+const dataManagementNavigationItems: NavigationItem[] = [
+  ...dataManagementBaseNavigationItems,
+  ...extendedAdminRouteItems,
+  ...builtinAdminRouteItems
+];
+
+export const navigationGroups: NavigationGroup[] = [
+  {
+    id: 'data-management',
+    label: '数据管理',
+    items: dataManagementNavigationItems
+  },
+  {
+    id: 'wasm-simulation',
+    label: 'wasm情景模拟',
+    items: wasmSimulationNavigationItems
+  }
+];
+
+export const navigationItems: NavigationItem[] = [...dataManagementNavigationItems, ...wasmSimulationNavigationItems];
 
 export const adminResourceNavigationItems: AdminResourceNavigationItem[] = adminResourceNavigationItemsFromAdminConfig;
 
@@ -133,13 +181,13 @@ export const publicSurfaceEndpoints: SurfaceEndpoint[] = [
     title: '当前版本',
     method: 'GET',
     path: '/api/games/{gameId}/versions/current',
-    description: '获取当前已发布版本，作为 Bundle 与缓存刷新的入口。'
+    description: '获取当前已发布快照信息，并用 versionCode 驱动 Bundle 刷新。'
   },
   {
     title: '版本 Bundle',
     method: 'GET',
-    path: '/api/games/{gameId}/versions/{versionId}/bundle',
-    description: '拉取工作面和 MVP 运行依赖的当前数据包。'
+    path: '/api/games/{gameId}/versions/{versionCode}/bundle',
+    description: '按 versionCode 拉取已发布快照，不再依赖 versionId / ETag。'
   },
   {
     title: '图片资源',
@@ -276,9 +324,9 @@ export const adminEndpoints: AdminEndpoint[] = [
     }
   },
   {
-    title: '版本创建与发布',
+    title: '版本发布',
     method: 'POST',
-    path: '/api/admin/games/{gameId}/versions + /versions/{versionId}:publish',
-    description: '在独立发布页创建版本并发布到当前读取链路。'
+    path: '/api/admin/games/{gameId}/versions:publish',
+    description: '在独立发布页直接提交 versionCode 与可选 releaseDate 并发布快照。'
   }
 ];

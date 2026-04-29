@@ -1,12 +1,14 @@
 import { Button, Space, Typography } from '@arco-design/web-react';
+import { ResourceImageThumb } from '../../../../components/ResourceImageThumb';
 import type { ItemsRecord } from './types';
 
 type ItemsTableActions = {
   onView: (record: ItemsRecord) => void;
   onEdit: (record: ItemsRecord) => void;
+  resolveImageSrc: (record: ItemsRecord) => string | null;
 };
 
-export function getItemsColumns({ onView, onEdit }: ItemsTableActions) {
+export function getItemsColumns({ onView, onEdit, resolveImageSrc }: ItemsTableActions) {
   return [
     {
       title: 'itemId',
@@ -28,18 +30,9 @@ export function getItemsColumns({ onView, onEdit }: ItemsTableActions) {
     },
     {
       title: '图标',
-      dataIndex: 'iconUrl',
+      dataIndex: 'itemId',
       width: 120,
-      render: (_: unknown, record: ItemsRecord) =>
-        record.iconUrl ? (
-          <img
-            src={record.iconUrl}
-            alt={record.name ?? record.itemId}
-            style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'cover' }}
-          />
-        ) : (
-          '--'
-        )
+      render: (_: unknown, record: ItemsRecord) => <ResourceImageThumb src={resolveImageSrc(record)} alt={record.name ?? record.itemId} size={36} />
     },
     {
       title: '操作',

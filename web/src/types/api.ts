@@ -31,10 +31,14 @@ export type GameProgressionSchema = {
 
 export type CurrentVersion = {
   gameId: string;
-  versionId: number;
   versionCode: string;
-  dataHash: string;
+  releaseDate?: string;
+  publishedAt?: string;
   updatedAt: string;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  versionId: number;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  dataHash: string;
 };
 
 export type OwnerCategory = {
@@ -113,6 +117,90 @@ export type StatusActionControlRule = {
   [key: string]: unknown;
 };
 
+export type StatusDefinition = {
+  statusId: string;
+  name?: string;
+  description?: string;
+  statusKind?: string;
+  statusTypeId?: number;
+  controlProfileId?: string;
+  stackGroupKey?: string;
+  sourceScope?: string;
+  stackMode?: string;
+  maxStacks?: number;
+  maxInstances?: number;
+  durationMode?: string;
+  durationMs?: number;
+  durationFormulaId?: string;
+  defaultMagnitudeFormulaId?: string;
+  snapshotPolicy?: string;
+  isDispellable?: boolean;
+  cleansePriority?: number;
+  extend?: JsonObject;
+  [key: string]: unknown;
+};
+
+export type ControlStateProfile = {
+  controlProfileId: string;
+  name?: string;
+  description?: string;
+  controlKind?: string;
+  movementLockMode?: string;
+  castLockMode?: string;
+  attackLockMode?: string;
+  inputOverrideMode?: string;
+  displacementKind?: string;
+  blocksControlInput?: boolean;
+  grantsUnstoppable?: boolean;
+  breaksOnDamage?: boolean;
+  tenacityReducible?: boolean;
+  priority?: number;
+  extend?: JsonObject;
+  [key: string]: unknown;
+};
+
+export type StatusModifierGroup = {
+  statusId: string;
+  groupKey: string;
+  groupName?: string;
+  phaseKey?: string;
+  snapshotPolicy?: string;
+  intervalMs?: number;
+  maxTicks?: number;
+  priority?: number;
+  extend?: JsonObject;
+  [key: string]: unknown;
+};
+
+export type StatusAttributeModifier = {
+  statusId: string;
+  groupKey: string;
+  modifierId: string;
+  attrKey?: string;
+  modifierMode?: string;
+  value?: number;
+  formulaId?: string;
+  bucketKey?: string;
+  perStack?: boolean;
+  priority?: number;
+  extend?: JsonObject;
+  [key: string]: unknown;
+};
+
+export type StatusPeriodicHpEffect = {
+  statusId: string;
+  groupKey: string;
+  effectId: string;
+  effectKind?: string;
+  tickFormulaId?: string;
+  damageType?: string;
+  canCrit?: boolean;
+  affectedByHealModifier?: boolean;
+  perStack?: boolean;
+  extend?: JsonObject;
+  [key: string]: unknown;
+};
+
 export type Hero = {
   heroId: string;
   name?: string;
@@ -169,30 +257,33 @@ export type FormulaBinding = {
   [key: string]: unknown;
 };
 
-export type VersionCreatePayload = {
+export type VersionPublishPayload = {
   versionCode: string;
   releaseDate?: string;
 };
 
-export type VersionCreateResponse = {
-  gameId: string;
-  versionId: number;
-  versionCode: string;
-};
-
 export type VersionPublishResponse = {
   gameId: string;
-  versionId: number;
   versionCode: string;
+  releaseDate?: string;
+  publishedAt?: string;
+  updatedAt: string;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  versionId: number;
+  /** @deprecated 仅用于兼容未迁移页面。 */
   dataHash: string;
 };
 
 export type BundleMeta = {
   gameId: string;
-  versionId: number;
   versionCode: string;
-  dataHash: string;
+  releaseDate?: string;
+  publishedAt?: string;
   generatedAt: string;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  versionId: number;
+  /** @deprecated 仅用于兼容未迁移页面。 */
+  dataHash: string;
 };
 
 export type GameDataBundle = {
@@ -202,6 +293,11 @@ export type GameDataBundle = {
   types: TypeDefinition[];
   typeRelations: TypeRelation[];
   statusActionControlRules: StatusActionControlRule[];
+  statusDefinitions?: StatusDefinition[];
+  controlStateProfiles?: ControlStateProfile[];
+  statusModifierGroups?: StatusModifierGroup[];
+  statusAttributeModifiers?: StatusAttributeModifier[];
+  statusPeriodicHpEffects?: StatusPeriodicHpEffect[];
   heroes: Hero[];
   skills: Skill[];
   items: Item[];
@@ -276,4 +372,29 @@ export type CoefficientBucketsResponse = {
 export type StatusActionControlRulesResponse = {
   gameId: string;
   statusActionControlRules: StatusActionControlRule[];
+};
+
+export type StatusDefinitionsResponse = {
+  gameId: string;
+  statusDefinitions: StatusDefinition[];
+};
+
+export type ControlStateProfilesResponse = {
+  gameId: string;
+  controlStateProfiles: ControlStateProfile[];
+};
+
+export type StatusModifierGroupsResponse = {
+  gameId: string;
+  statusModifierGroups: StatusModifierGroup[];
+};
+
+export type StatusAttributeModifiersResponse = {
+  gameId: string;
+  statusAttributeModifiers: StatusAttributeModifier[];
+};
+
+export type StatusPeriodicHpEffectsResponse = {
+  gameId: string;
+  statusPeriodicHpEffects: StatusPeriodicHpEffect[];
 };

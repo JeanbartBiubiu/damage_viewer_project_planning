@@ -39,6 +39,10 @@ LAST_TRACKED_AT: pending
 - 服务器接口使用的 `uri`：建议统一为 `{type}_{id}`，例如：
   - `equipment_100`
   - `character_ahri`（若 id 不是数字也允许，只要符合系统 `uri` 规范）
+  - `attribute_ad`
+  - `attribute_hp`
+
+attribute 图片 URI 按 `attribute_${attrKey}` 派生，例如 `attrKey = ad` 对应 `attribute_ad`，`attrKey = hp` 对应 `attribute_hp`；该派生 URI 只用于图片资源索引与缓存，不写入 `attribute_definitions` 本体。
 
 说明：这与现有契约里对 `uri` 的建议一致。
 
