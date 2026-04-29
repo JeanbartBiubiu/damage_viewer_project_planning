@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Form, Input, Layout, Select, Space, Tag, Typography } from '@arco-design/web-react';
-import { adminResourceRouteMap, navigationItems, type RouteId } from './config/navigation';
+import { adminResourceRouteMap, navigationGroups, navigationItems, type RouteId } from './config/navigation';
 import { AttributeDefinitionsPage } from './pages/admin/resources/attribute-definitions';
 import { CoefficientBucketsPage } from './pages/admin/resources/coefficient-buckets';
 import { FormulaBindingsPage } from './pages/admin/resources/formula-bindings';
@@ -17,6 +17,7 @@ import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
 import { SimulationPage } from './pages/SimulationPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { VersionPublishPage } from './pages/VersionPublishPage';
+import { WasmValidationPage } from './pages/WasmValidationPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -205,6 +206,16 @@ export default function App() {
         />
       );
       break;
+    case 'wasm-validation':
+      pageContent = (
+        <WasmValidationPage
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          selectedGameName={selectedGameName}
+          externalRefreshSeed={bundleRefreshSeed}
+        />
+      );
+      break;
     case 'images':
       pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
       break;
@@ -263,11 +274,27 @@ export default function App() {
         </div>
 
         <nav className="nav-stack" aria-label="Primary">
-          {navigationItems.map((item) => (
-            <a key={item.id} className={`nav-item${item.id === route ? ' is-active' : ''}`} href={`#/${item.id}`}>
-              <span className="nav-item-label">{item.label}</span>
-              <span className="nav-item-summary">{item.summary}</span>
-            </a>
+          {navigationGroups.map((group) => (
+            <section
+              key={group.id}
+              className={`nav-section${group.items.some((item) => item.id === route) ? ' is-active' : ''}`}
+              aria-label={group.label}
+            >
+              <Typography.Text className="nav-section-label">{group.label}</Typography.Text>
+              <div className="nav-substack">
+                {group.items.map((item) => (
+                  <a
+                    key={item.id}
+                    className={`nav-item nav-item-secondary${item.id === route ? ' is-active' : ''}`}
+                    href={`#/${item.id}`}
+                    aria-current={item.id === route ? 'page' : undefined}
+                  >
+                    <span className="nav-item-label">{item.label}</span>
+                    <span className="nav-item-summary">{item.summary}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
           ))}
         </nav>
 
