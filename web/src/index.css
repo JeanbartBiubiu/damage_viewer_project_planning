@@ -115,32 +115,73 @@ img {
 
 .nav-stack {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .nav-section {
   display: grid;
+  gap: 6px;
+}
+
+.nav-section-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.42);
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+.nav-section-trigger:focus-visible {
+  outline: 2px solid var(--line-strong);
+  outline-offset: 2px;
+}
+
+.nav-section-trigger:hover {
+  border-color: rgba(37, 99, 235, 0.12);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .nav-section-label {
-  padding: 0 8px;
   color: var(--text-muted);
-  font-size: 0.76rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
 
 .nav-section.is-active .nav-section-label {
-  color: var(--text-main);
+  color: var(--text);
+}
+
+.nav-section-caret {
+  display: inline-flex;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  transform: rotate(-90deg);
+  transition: transform 120ms ease;
+}
+
+.nav-section-caret.is-expanded {
+  transform: rotate(0deg);
 }
 
 .nav-substack {
   display: grid;
-  gap: 8px;
-  padding-left: 12px;
-  border-left: 1px solid rgba(37, 99, 235, 0.14);
+  gap: 6px;
+  padding: 2px 0 0 12px;
+  margin-left: 12px;
+  border-left: 1px solid rgba(37, 99, 235, 0.12);
 }
 
 .nav-item {
@@ -170,9 +211,9 @@ img {
 }
 
 .nav-item-secondary {
-  padding: 12px 12px 11px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.48);
+  padding: 10px 12px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.4);
   box-shadow: none;
 }
 
