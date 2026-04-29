@@ -128,8 +128,12 @@ img {
   color: var(--text-muted);
   font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.nav-section.is-active .nav-section-label {
+  color: var(--text-main);
 }
 
 .nav-substack {
@@ -405,6 +409,56 @@ img {
 .page-stack {
   display: grid;
   gap: 18px;
+}
+
+.wasm-validation-page {
+  display: grid;
+  gap: 18px;
+}
+
+.wasm-validation-grid .panel-shell {
+  height: 100%;
+}
+
+.wasm-selection-grid {
+  align-items: stretch;
+}
+
+.wasm-selector-pane {
+  display: grid;
+  gap: 12px;
+  height: 100%;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.wasm-selector-pane .arco-typography {
+  margin: 0;
+}
+
+.wasm-selector-pane .arco-form-item {
+  margin-bottom: 12px;
+}
+
+.wasm-selector-pane .arco-form-item:last-child {
+  margin-bottom: 0;
+}
+
+.wasm-validation-page .arco-card .json-shell {
+  max-height: 280px;
+}
+
+.baseline-textarea textarea,
+.baseline-textarea {
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.wasm-code-token {
+  white-space: nowrap;
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.86rem;
 }
 
 .page-admin-resource {
