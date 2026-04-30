@@ -122,7 +122,7 @@ export function VersionPublishPage({
         actions={
           <Space wrap>
             <Button onClick={() => setInspectSeed((value) => value + 1)}>刷新当前版本</Button>
-            <Button href="#/katarina-mvp">前往 Katarina MVP</Button>
+            <Button href="#/wasm-validation">前往 Wasm 验证</Button>
           </Space>
         }
       >

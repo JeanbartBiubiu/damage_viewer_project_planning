@@ -5,7 +5,7 @@
 ## 当前范围
 
 - Wasm ABI 已固定为显式导出函数：`alloc/dealloc/engine_init/engine_snapshot_initial/engine_begin_run/engine_step/engine_abort_run/outbox_*`。
-- 输入契约使用 `EngineBundleV2` 和 `EngineRunInputV2`，不继承 Rust MVP 的 `BenchmarkBundle`。
+- 输入契约使用 `EngineBundleV2` 和 `EngineRunInputV2`，不继承旧 `BenchmarkBundle`。
 - 输出契约使用 `DonePayloadV2`、`EngineEventLogV2`、`SnapshotV2`、`ValueTraceV2` 和结构化错误。
 - 属性已从单个 `float64` 升级为 `base/current/max/resolved/dirty` 运行时模型。
 - 资源已拆成独立 `ResourceRuntime`，支持 current/max、spend/refund/regen/clamp。
@@ -86,4 +86,4 @@ engine_outbox_clear()
 - 构建模式默认 `-scheduler=none -no-debug -opt=z`。
 - 核心热路径禁止 goroutine、channel、lock、panic/recover 控制流和反射。
 - 网络请求、缓存、版本协商、文件加载留在 JS/Worker；TinyGo 只接收准备好的 frame payload。
-- `wasm/katarina_mvp_engine` 只作为 Rust 历史 ABI、行为和性能回归基线。
+- 旧 Rust/Katarina crate 已移除；新增 Wasm 能力默认落在本目录。
