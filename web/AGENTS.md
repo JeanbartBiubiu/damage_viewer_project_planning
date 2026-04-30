@@ -26,9 +26,9 @@
 1. `src/App.tsx`：应用壳层、页面切换、游戏选择、API 基址和本地状态。
 2. `src/config/navigation.ts`：页面导航、公开接口与 Admin 资源入口定义。
 3. `src/services/apiClient.ts`：API 基址解析、请求封装、错误模型。
-4. `src/engine/worker.ts`：Web Worker 宿主。
-5. `src/engine/wasmBridge.ts`：前端到 Wasm 的桥接层。
-6. `src/engine/wasm/`：Wasm 构建产物目录。
+4. `src/engine/tinygoV2Bridge.ts`：TinyGo V2 Wasm ABI 桥接层。
+5. `src/engine/tinygoV2BundleAdapter.ts`：发布 Bundle 到 TinyGo V2 输入的适配层。
+6. `src/engine/wasm/`：Wasm 产物目录。
 7. `src/pages/admin/**`：后台资源维护页面。
 
 ## 4. 常用命令
@@ -36,10 +36,9 @@
 在 `web/` 目录执行：
 
 1. `npm install`：安装依赖。
-2. `npm run build:wasm`：调用 `..\wasm\katarina_mvp_engine\build-web-wasm.ps1` 生成并复制 Wasm 产物。
-3. `npm run dev`：启动 Vite；执行前会先跑 `predev -> build:wasm`。
-4. `npm run build`：执行 `build:wasm + tsc -b + vite build`。
-5. `npm run preview`：预览生产构建结果。
+2. `npm run dev`：启动 Vite。
+3. `npm run build`：执行 `tsc -b + vite build`。
+4. `npm run preview`：预览生产构建结果。
 
 ## 5. 运行时与配置约定
 
@@ -59,8 +58,8 @@
 
 1. 只改文档：无需构建，但要核对提到的入口文件、脚本和命令仍然存在。
 2. 改 `web/**` 代码：默认至少运行一次 `npm run build`。
-3. 改 Wasm 桥接、`worker.ts` 或 `wasmBridge.ts`：至少确认 `npm run build:wasm` 路径仍成立，并核对产物目录 `src/engine/wasm/`。
-4. 改页面或服务层时，至少按影响范围做 smoke check：`总览`、`版本发布`、`Katarina MVP`、`场景模拟`、`图片缓存`、相关 Admin 页面。
+3. 改 Wasm 桥接或 `tinygoV2Bridge.ts`：至少核对 `src/engine/wasm/tinygo_engine_v2.wasm` 与 ABI 导出函数仍匹配。
+4. 改页面或服务层时，至少按影响范围做 smoke check：`总览`、`版本发布`、`Wasm 验证`、`图片缓存`、相关 Admin 页面。
 
 ## 8. Obsidian 回写边界
 
