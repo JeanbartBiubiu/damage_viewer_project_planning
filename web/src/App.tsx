@@ -20,8 +20,6 @@ import { StatusManagementPage } from './pages/admin/resources/status-management'
 import { TypeRelationsPage } from './pages/admin/resources/type-relations';
 import { TypesPage } from './pages/admin/resources/types';
 import { ImagesPage } from './pages/ImagesPage';
-import { KatarinaMvpPage } from './pages/KatarinaMvpPage';
-import { SimulationPage } from './pages/SimulationPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { VersionPublishPage } from './pages/VersionPublishPage';
 import { WasmValidationPage } from './pages/WasmValidationPage';
@@ -194,26 +192,6 @@ export default function App() {
         />
       );
       break;
-    case 'katarina-mvp':
-      pageContent = (
-        <KatarinaMvpPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'simulation':
-      pageContent = (
-        <SimulationPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
     case 'wasm-validation':
       pageContent = (
         <WasmValidationPage
@@ -277,7 +255,7 @@ export default function App() {
             Web Console
           </Typography.Title>
           <Typography.Text className="brand-copy">
-            A focused web surface for resource editing, publishing, image sync, and MVP verification.
+            A focused web surface for resource editing, publishing, image sync, and Wasm validation.
           </Typography.Text>
         </div>
 

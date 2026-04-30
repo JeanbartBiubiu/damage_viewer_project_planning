@@ -59,7 +59,7 @@ export function AdminPublishRail({
             <Button type="primary" status="warning" onClick={() => void onPublishVersion()} loading={versionState === 'loading'} long>
               发布版本
             </Button>
-            <Button href="#/katarina-mvp">打开 Katarina MVP</Button>
+            <Button href="#/wasm-validation">打开 Wasm 验证</Button>
           </Space>
         </Form>
 
