@@ -4,7 +4,7 @@
 
 本文只适用于 `wasm/tinygo_engine_v2/**`。
 
-如果与仓库根目录 `AGENTS.md` 或旧 Rust 引擎 `wasm/katarina_mvp_engine/AGENTS.md` 冲突，在 `wasm/tinygo_engine_v2/**` 范围内以本文为准。`wasm/katarina_mvp_engine/**` 仍视为历史 Rust/Wasm 基线，不因为本文件而改变。
+如果与仓库根目录 `AGENTS.md` 冲突，在 `wasm/tinygo_engine_v2/**` 范围内以本文为准。旧 Rust/Katarina crate 已移除，不再作为开发、验证或对照目录。
 
 ## 2. 当前目标
 
@@ -23,17 +23,15 @@
 
 默认只读参考：
 
-1. `wasm/katarina_mvp_engine/**`
-2. `web/src/engine/**`
-3. `web/src/pages/**` 中与 Wasm 宿主或旧 Katarina MVP 页面相关的文件
-4. `文档记录/概要设计/wasm/网络归档/**`
-5. `文档记录/详细设计/最小验证/**`
+1. `web/src/engine/**`
+2. `web/src/pages/**` 中与 TinyGo V2 验证页面相关的文件
+3. `文档记录/概要设计/wasm/网络归档/**`
+4. `文档记录/详细设计/最小验证/**`
 
 跨模块写入规则：
 
 1. 只有实现浏览器 Worker adapter、桥接层或宿主验证时，才最小化修改 `web/**`。
-2. 只有明确要求维护旧 ABI、修复旧链路或做 Rust/TinyGo 对照时，才修改 `wasm/katarina_mvp_engine/**`。
-3. 不要重新引入 `demo/go_engine_v2` 或 `demo/java_engine_v2` 作为开发基线。
+2. 不要重新引入旧 Rust/Katarina crate、`demo/go_engine_v2` 或 `demo/java_engine_v2` 作为开发基线。
 
 ## 4. 启动时优先读取
 
@@ -112,7 +110,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\pa
 
 ## 10. 常见陷阱
 
-1. 不要把 `wasm/katarina_mvp_engine` 当成新能力默认落点；它只是历史 ABI、行为和性能对照。
+1. 不要恢复旧 Rust/Katarina crate 作为新能力落点；当前唯一正式实现目录是 `wasm/tinygo_engine_v2`。
 2. 不要把 Node 脚本写成正式运行宿主；正式宿主是浏览器 Worker。
 3. 不要让 `cmd/engine_wasm/main.go` 承担业务逻辑；导出函数之外的逻辑应下沉到 `internal/**`。
 4. 不要在编译期校验里遇到第一个错误就提前返回；需要尽量 collect-all，便于前后端一次修完输入。

@@ -7,12 +7,12 @@ LAST_TRACKED_AT: 2026-04-25 16:20:09
 
 # WASM 需求澄清
 
-本文是 Wasm 计算引擎的当前需求入口。旧的 Rust MVP、V1 草案、Java demo 与 deep research 资料只作为设计输入；当前正式实现路线以 `wasm/tinygo_engine_v2` 为准。
+本文是 Wasm 计算引擎的当前需求入口。旧的 Rust MVP 代码已删除；V1 草案、Java demo 与 deep research 资料只作为设计输入。当前正式实现路线以 `wasm/tinygo_engine_v2` 为准。
 
 ## 1. 当前结论
 
 1. 正式计算引擎路线采用 TinyGo，落点为 `wasm/tinygo_engine_v2`。
-2. `wasm/katarina_mvp_engine` 只作为 Rust 历史 ABI、行为和性能基线，不再作为新能力主实现。
+2. 旧 Rust/Katarina crate 已删除，不再作为历史 ABI、行为或性能基线目录；后续对照以文档记录和 TinyGo V2 验证样例为准。
 3. 浏览器 Worker 是正式宿主；Node 只保留为本地/CI instantiate、ABI smoke 和 benchmark 工具。
 4. 首期优化目标是 1v1 战斗，不提前为多单位战斗支付热路径复杂度。
 5. TinyGo 初始和最大内存默认固定为 256 MiB，后续只有在 benchmark 证明安全后再下探。

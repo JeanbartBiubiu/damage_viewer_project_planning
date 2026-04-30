@@ -23,10 +23,8 @@ LAST_TRACKED_AT: 2026-04-16
 
 当前明确跳过：
 
-- `Katarina MVP`
-- `场景模拟`
-- `web/src/engine/**`
-- `worker.ts / wasmBridge.ts / wasm 构建链`
+- 旧 `Katarina MVP` 与 `场景模拟` 页面
+- 旧 `worker.ts / wasmBridge.ts / wasm 构建链`
 - 任何以 Wasm 运行结果为前置条件的页面增强
 
 ## 2. 前端现状盘点
