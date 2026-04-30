@@ -25,8 +25,6 @@ export type AdminResourceRouteId = BuiltinAdminResourceRouteId | ExtendedAdminRe
 export type RouteId =
   | 'overview'
   | 'workspace'
-  | 'katarina-mvp'
-  | 'simulation'
   | 'wasm-validation'
   | 'images'
   | AdminResourceRouteId;
@@ -37,7 +35,7 @@ export type NavigationItem = {
   summary: string;
 };
 
-export type NavigationGroupId = 'data-management' | 'wasm-simulation';
+export type NavigationGroupId = 'data-management' | 'wasm-validation';
 
 export type NavigationGroup = {
   id: NavigationGroupId;
@@ -86,16 +84,6 @@ const dataManagementBaseNavigationItems: NavigationItem[] = [
 ];
 
 const wasmSimulationNavigationItems: NavigationItem[] = [
-  {
-    id: 'katarina-mvp',
-    label: 'Katarina MVP',
-    summary: '围绕 current + bundle 跑最小验证闭环。'
-  },
-  {
-    id: 'simulation',
-    label: '场景模拟',
-    summary: '场景配置、批量运行、图表对比与结果分析工作台。'
-  },
   {
     id: 'wasm-validation',
     label: 'Wasm 验证',
@@ -160,8 +148,8 @@ export const navigationGroups: NavigationGroup[] = [
     items: dataManagementNavigationItems
   },
   {
-    id: 'wasm-simulation',
-    label: 'wasm情景模拟',
+    id: 'wasm-validation',
+    label: 'Wasm 验证',
     items: wasmSimulationNavigationItems
   }
 ];
