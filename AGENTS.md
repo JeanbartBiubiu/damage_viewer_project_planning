@@ -19,8 +19,8 @@
 每次新起对话，除遵守本文件通用规则外，还必须先识别当前 worktree 根目录和 Git 分支前缀，再决定是否继续读取模块内更近的专项规则：
 
 1. 如果当前 worktree 根目录位于 `C:\project\damage_backend_dev`，或当前分支前缀为 `backend/` 或 `server/`，优先读取最近的后端项目级规则；当前默认入口是 `server/data_manage/AGENTS.md`。
-2. 如果当前 worktree 根目录位于 `C:\project\damage_web_dev`，或当前分支前缀为 `web/`，继续读取 `agent_group/AGENTS_WEB.md`。
-3. 如果当前 worktree 根目录位于 `C:\project\damage_wasm_dev`，或当前分支前缀为 `wasm/`，按目标路径继续读取 Wasm 专项规则：TinyGo V2 任务优先读取 `wasm/tinygo_engine_v2/AGENTS.md`；旧 Rust/Katarina 任务读取 `wasm/katarina_mvp_engine/AGENTS.md`。
+2. 如果当前 worktree 根目录位于 `C:\project\damage_web_dev`，或当前分支前缀为 `web/`，继续读取 `web/AGENTS_WEB.md`。
+3. 如果当前 worktree 根目录位于 `C:\project\damage_wasm_dev`，或当前分支前缀为 `wasm/`，按目标路径继续读取 Wasm 专项规则：TinyGo V2 任务优先读取 `wasm/tinygo_engine_v2/AGENTS.md`。
 4. 如果 worktree 目录信号与分支前缀冲突，以当前 worktree 根目录为准，并在会话开始时明确说明。
 5. 模块专项规则用于收紧当前模块的默认写入范围、Obsidian 目录和跨模块边界；若与本文件冲突，以专项规则在对应模块范围内优先。
 6. 如果未命中任何专项规则，或目标文件不存在，则继续沿用本文件作为默认规则。
@@ -29,11 +29,10 @@
 
 当前 `C:\project\damage_wasm_dev` worktree 的 Wasm 计算引擎默认开发语言改为 TinyGo。
 
-1. 新的 Wasm 引擎能力、性能实验、包体优化和浏览器宿主接入，默认优先落到 TinyGo 路线，不再默认扩展 Rust 版本作为主实现。
-2. 现有 `wasm/katarina_mvp_engine/**` Rust crate 视为历史实现、兼容参考或对照基线；只有在明确要求维护旧 ABI、修复旧链路或做 Rust/TinyGo 对照时，才继续改它。
-3. TinyGo 路线允许用较大的 Wasm 初始内存换取稳定延迟；当前已验证可接受的基线是 `256 MiB` 初始内存，后续可继续下探更小阈值，但不要默认回到“小内存优先”的假设。
-4. 低配置设备不是当前 Wasm 计算引擎的兼容目标。若设备资源明显不足，优先降级、禁用或不加载计算引擎，不为了兼容低端机器而回退 TinyGo 路线或削弱主计算能力。
-5. 如果后续任务想推翻这条决策，必须附带新的同口径 benchmark、包体和宿主侧延迟证据，再同步更新相关 AGENTS、README 和验证记录。
+1. 新的 Wasm 引擎能力、性能实验、包体优化和浏览器宿主接入，默认优先落到 TinyGo 路线，不再默认扩展 Rust 版本作为主实现。。
+2. TinyGo 路线允许用较大的 Wasm 初始内存换取稳定延迟；当前已验证可接受的基线是 `256 MiB` 初始内存，后续可继续下探更小阈值，但不要默认回到“小内存优先”的假设。
+3. 低配置设备不是当前 Wasm 计算引擎的兼容目标。若设备资源明显不足，优先降级、禁用或不加载计算引擎，不为了兼容低端机器而回退 TinyGo 路线或削弱主计算能力。
+4. 如果后续任务想推翻这条决策，必须附带新的同口径 benchmark、包体和宿主侧延迟证据，再同步更新相关 AGENTS、README 和验证记录。
 
 ## 2.6 记忆层与持久化边界
 
