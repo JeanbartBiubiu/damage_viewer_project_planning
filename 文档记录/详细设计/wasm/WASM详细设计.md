@@ -46,7 +46,7 @@ internal/testkit
 
 ## 2. EngineBundleV2
 
-`EngineBundleV2` 是正式输入契约，不继承 Rust MVP 的 `BenchmarkBundle`。
+`EngineBundleV2` 是正式输入契约，不继承旧 `BenchmarkBundle`。
 
 建议结构：
 
