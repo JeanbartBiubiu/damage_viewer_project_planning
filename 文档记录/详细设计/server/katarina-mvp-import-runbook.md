@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: server
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: pending
+LAST_TRACKED_AT: 2026-04-30
 
 # Katarina MVP Import Runbook
 
@@ -110,7 +110,7 @@ Use an explicit seed file:
 After publish, the tool also verifies:
 
 - `GET /api/games/{gameId}/versions/current`
-- `GET /api/games/{gameId}/versions/{versionId}/bundle`
+- `GET /api/games/{gameId}/versions/{versionCode}/bundle`
 
 It checks:
 
