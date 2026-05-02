@@ -41,7 +41,7 @@ LAST_TRACKED_AT: 2026-04-30
 ### Server / Admin
 
 1. 继续保证资源 CRUD 与发布链路稳定。
-2. 发布 Bundle 需要保留版本、dataHash、generatedAt 等快照元信息。
+2. 发布 Bundle 需要保留 `versionCode`、`publishedAt`、`generatedAt` 等快照元信息。
 3. 后续字段扩展以 Wasm 主文档和接口契约为准。
 
 ## 4. 关键入口

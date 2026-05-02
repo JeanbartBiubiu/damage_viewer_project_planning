@@ -707,6 +707,10 @@ public class PostgresWriteStore {
         if (merged.has("defaultValue") && !merged.path("defaultValue").isNull() && !merged.path("defaultValue").isNumber()) {
             throw badRequest("attributeDefinition.defaultValue must be number", Map.of("path", "/defaultValue"));
         }
+        int sortOrder = defaultInteger(merged, "sortOrder", 0);
+        if (sortOrder < 0) {
+            throw badRequest("sortOrder must be non-negative integer", Map.of("path", "/sortOrder"));
+        }
         String valueKind = normalizeAttributeDefinitionValueKind(merged);
         String rateTargetAttrKey = validateAttributeDefinitionRateTarget(gameId, merged, valueKind);
 
@@ -715,6 +719,7 @@ public class PostgresWriteStore {
             gameId,
             attrKey,
             versionId,
+            sortOrder,
             nullableText(merged, "attrName"),
             nullableText(merged, "attrType"),
             nullableBigDecimal(merged, "defaultValue"),
@@ -1041,6 +1046,7 @@ public class PostgresWriteStore {
         for (Map<String, Object> row : changedAttributeDefinitions) {
             String attrKey = mapText(row, "attrKey");
             String safeAttrKey = attrKey == null ? "" : attrKey;
+            Integer sortOrder = mapInteger(row, "sortOrder");
             ensureUpdated(
                 attributeDefinitionsMapper.updateVersionRange(gameId, safeAttrKey, versionId),
                 "attributeDefinition not found while publishing",
@@ -1050,6 +1056,7 @@ public class PostgresWriteStore {
                 gameId,
                 safeAttrKey,
                 versionId,
+                sortOrder == null ? 0 : sortOrder,
                 mapText(row, "attrName"),
                 mapText(row, "attrType"),
                 mapBigDecimal(row, "defaultValue"),

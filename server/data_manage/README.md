@@ -91,9 +91,9 @@
 
 1. `GET /api/games`
 2. `GET /api/games/{gameId}/versions/current`
-3. `GET /api/games/{gameId}/versions/{versionId}/bundle`
+3. `GET /api/games/{gameId}/versions/{versionCode}/bundle`
 4. 至少一类 Admin 资源的增删改查
-5. 发布后缓存刷新与 bundle hash 行为
+5. 发布后缓存刷新与 bundle 快照行为
 
 ## 常见失败与排查
 

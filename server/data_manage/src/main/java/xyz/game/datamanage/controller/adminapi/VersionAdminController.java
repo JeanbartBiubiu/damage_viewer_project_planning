@@ -13,7 +13,7 @@ import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
 
 @RestController
-@RequestMapping("/api/admin/games/{gameId}/versions")
+@RequestMapping("/api/admin/games/{gameId}")
 public class VersionAdminController {
 
     private final GameDataService gameDataService;
@@ -24,9 +24,9 @@ public class VersionAdminController {
         this.logHelper = logHelper;
     }
 
-    @PostMapping(":publish")
+    @PostMapping({"versions:publish", "versions/:publish", "versions/publish"})
     public ObjectNode publishVersion(
-        @PathVariable String gameId,
+        @PathVariable("gameId") String gameId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

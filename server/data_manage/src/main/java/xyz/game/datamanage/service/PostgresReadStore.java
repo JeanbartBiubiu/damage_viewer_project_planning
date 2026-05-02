@@ -854,6 +854,8 @@ public class PostgresReadStore {
     private ObjectNode mapAttributeDefinitionRow(Map<String, Object> row) {
         ObjectNode node = objectMapper.createObjectNode();
         node.put("attrKey", text(row, "attrKey"));
+        Integer sortOrder = integer(row, "sortOrder");
+        node.put("sortOrder", sortOrder == null ? 0 : sortOrder);
         putNullableText(node, "attrName", text(row, "attrName"));
         putNullableText(node, "attrType", text(row, "attrType"));
         BigDecimal defaultValue = decimal(row, "defaultValue");
