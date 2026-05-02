@@ -2,6 +2,7 @@ import { Alert, Tabs } from '@arco-design/web-react';
 import { useMemo, useState } from 'react';
 import { Panel } from '../../../../components/Panel';
 import { TypesTreeView } from '../../../../components/TypesTreeView';
+import { getNextGameLocalTypeId } from '../../../../config/reservedTypes';
 import { getTypes, putType, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import type { JsonObject } from '../../../../types/api';
@@ -191,6 +192,11 @@ export function TypesPage({ apiBaseUrl, selectedGameId, adminToken }: TypesPageP
     );
   };
 
+  const openCreateModalWithNextTypeId = () => {
+    openCreateModal();
+    updateFormData('typeId', String(getNextGameLocalTypeId(types)));
+  };
+
   const refreshAll = () => {
     refreshRecords();
     refreshTypeCatalog();
@@ -215,7 +221,7 @@ export function TypesPage({ apiBaseUrl, selectedGameId, adminToken }: TypesPageP
               actionsDisabled={actionsDisabled}
               onView={openViewModalWithParent}
               onEdit={openEditModalWithParent}
-              onCreate={openCreateModal}
+              onCreate={openCreateModalWithNextTypeId}
               onRefresh={refreshAll}
             />
           </Tabs.TabPane>

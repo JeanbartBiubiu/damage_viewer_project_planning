@@ -8,6 +8,10 @@ type AttributeDefinitionsTableProps = {
   actionsDisabled: boolean;
   onView: (record: AttributeDefinitionsRecord) => void;
   onEdit: (record: AttributeDefinitionsRecord) => void;
+  onToggleGrowth: (record: AttributeDefinitionsRecord) => void;
+  isGrowthAttribute: (record: AttributeDefinitionsRecord) => boolean;
+  growthTypeAvailable: boolean;
+  togglingAttrKey: string | null;
   resolveImageSrc: (record: AttributeDefinitionsRecord) => string | null;
   onCreate: () => void;
   onRefresh: () => void;
@@ -19,6 +23,10 @@ export function AttributeDefinitionsTable({
   actionsDisabled,
   onView,
   onEdit,
+  onToggleGrowth,
+  isGrowthAttribute,
+  growthTypeAvailable,
+  togglingAttrKey,
   resolveImageSrc,
   onCreate,
   onRefresh
@@ -46,11 +54,19 @@ export function AttributeDefinitionsTable({
       <Table
         className="data-table-shell"
         loading={loading}
-        columns={getAttributeDefinitionsColumns({ onView, onEdit, resolveImageSrc })}
+        columns={getAttributeDefinitionsColumns({
+          onView,
+          onEdit,
+          onToggleGrowth,
+          resolveImageSrc,
+          isGrowthAttribute,
+          canToggleGrowth: !actionsDisabled && growthTypeAvailable,
+          togglingAttrKey
+        })}
         data={records}
         pagination={false}
         rowKey="attrKey"
-        scroll={{ x: 1120 }}
+        scroll={{ x: 1360 }}
       />
     </Space>
   );
