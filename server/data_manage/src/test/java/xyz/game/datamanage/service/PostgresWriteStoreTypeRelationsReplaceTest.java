@@ -30,6 +30,7 @@ import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
+import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
@@ -54,6 +55,9 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
 
     @Mock
     private ItemsMapper itemsMapper;
+
+    @Mock
+    private ItemStatModifiersMapper itemStatModifiersMapper;
 
     @Mock
     private FormulaProfilesMapper formulaProfilesMapper;
@@ -124,6 +128,7 @@ class PostgresWriteStoreTypeRelationsReplaceTest {
             heroesMapper,
             skillsMapper,
             itemsMapper,
+            itemStatModifiersMapper,
             formulaProfilesMapper,
             formulaBindingsMapper,
             statusActionControlRulesMapper,

@@ -35,6 +35,7 @@ import xyz.game.datamanage.mapper.GameVersionsMapper;
 import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
+import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
@@ -110,6 +111,7 @@ public class PostgresWriteStore {
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
     private final ItemsMapper itemsMapper;
+    private final ItemStatModifiersMapper itemStatModifiersMapper;
     private final FormulaProfilesMapper formulaProfilesMapper;
     private final FormulaBindingsMapper formulaBindingsMapper;
     private final StatusActionControlRulesMapper statusActionControlRulesMapper;
@@ -138,6 +140,7 @@ public class PostgresWriteStore {
         HeroesMapper heroesMapper,
         SkillsMapper skillsMapper,
         ItemsMapper itemsMapper,
+        ItemStatModifiersMapper itemStatModifiersMapper,
         FormulaProfilesMapper formulaProfilesMapper,
         FormulaBindingsMapper formulaBindingsMapper,
         StatusActionControlRulesMapper statusActionControlRulesMapper,
@@ -164,6 +167,7 @@ public class PostgresWriteStore {
         this.heroesMapper = heroesMapper;
         this.skillsMapper = skillsMapper;
         this.itemsMapper = itemsMapper;
+        this.itemStatModifiersMapper = itemStatModifiersMapper;
         this.formulaProfilesMapper = formulaProfilesMapper;
         this.formulaBindingsMapper = formulaBindingsMapper;
         this.statusActionControlRulesMapper = statusActionControlRulesMapper;
@@ -304,6 +308,7 @@ public class PostgresWriteStore {
     @Transactional
     public ObjectNode upsertItem(String gameId, String itemId, ObjectNode body) {
         ObjectNode merged = mergeUpsert(body, "itemId", itemId);
+        ArrayNode statModifiers = validateAndNormalizeItemStatModifiersForWrite(gameId, merged);
         validateItemRefs(gameId, merged);
 
         long versionId = resolveVersionIdForWrite(gameId);
@@ -314,10 +319,21 @@ public class PostgresWriteStore {
             nullableText(merged, "name"),
             nullableInteger(merged, "goldCost"),
             nullableText(merged, "iconUrl"),
-            jsonSupport.toJsonStringOrNull(merged.get("statsModifier")),
             jsonSupport.toJsonStringOrNull(merged.get("skillRefs")),
             jsonSupport.toJsonStringOrNull(merged.get("recipeIds"))
         );
+        itemStatModifiersMapper.deleteItemStatModifiersByItemId(gameId, itemId);
+        for (JsonNode node : statModifiers) {
+            ObjectNode modifier = (ObjectNode) node;
+            itemStatModifiersMapper.upsertItemStatModifier(
+                gameId,
+                itemId,
+                modifier.path("attrKey").asText(),
+                versionId,
+                modifier.path("value").decimalValue()
+            );
+        }
+        merged.set("statModifiers", statModifiers);
         return merged;
     }
 
@@ -947,6 +963,7 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedHeroes = heroesMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedSkills = skillsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedItems = itemsMapper.listChangedSince(gameId, changedAfter);
+        List<Map<String, Object>> changedItemStatModifiers = itemStatModifiersMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedFormulaProfiles = formulaProfilesMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedFormulaBindings = formulaBindingsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedCoefficientBuckets = coefficientBucketsMapper.listChangedSince(gameId, changedAfter);
@@ -970,6 +987,7 @@ public class PostgresWriteStore {
             changedHeroes,
             changedSkills,
             changedItems,
+            changedItemStatModifiers,
             changedFormulaProfiles,
             changedFormulaBindings,
             changedCoefficientBuckets,
@@ -1033,6 +1051,7 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedHeroes,
         List<Map<String, Object>> changedSkills,
         List<Map<String, Object>> changedItems,
+        List<Map<String, Object>> changedItemStatModifiers,
         List<Map<String, Object>> changedFormulaProfiles,
         List<Map<String, Object>> changedFormulaBindings,
         List<Map<String, Object>> changedCoefficientBuckets,
@@ -1148,9 +1167,25 @@ public class PostgresWriteStore {
                 mapText(row, "mechanicsConfigJson")
             );
         }
+        Set<String> changedItemIds = new LinkedHashSet<>();
         for (Map<String, Object> row : changedItems) {
             String itemId = mapText(row, "itemId");
-            String safeItemId = itemId == null ? "" : itemId;
+            if (itemId != null && !itemId.isBlank()) {
+                changedItemIds.add(itemId);
+            }
+        }
+        for (Map<String, Object> row : changedItemStatModifiers) {
+            String itemId = mapText(row, "itemId");
+            if (itemId != null && !itemId.isBlank()) {
+                changedItemIds.add(itemId);
+            }
+        }
+
+        for (String safeItemId : changedItemIds) {
+            Map<String, Object> itemRow = itemsMapper.findItemById(gameId, safeItemId);
+            if (itemRow == null) {
+                throw notFound("item not found while publishing", Map.of("gameId", gameId, "itemId", safeItemId));
+            }
             ensureUpdated(
                 itemsMapper.updateVersionRange(gameId, safeItemId, versionId),
                 "item not found while publishing",
@@ -1160,13 +1195,30 @@ public class PostgresWriteStore {
                 gameId,
                 safeItemId,
                 versionId,
-                mapText(row, "name"),
-                mapInteger(row, "goldCost"),
-                mapText(row, "iconUrl"),
-                mapText(row, "statsModifierJson"),
-                mapText(row, "skillRefsJson"),
-                mapText(row, "recipeIdsJson")
+                mapText(itemRow, "name"),
+                mapInteger(itemRow, "goldCost"),
+                mapText(itemRow, "iconUrl"),
+                mapText(itemRow, "skillRefsJson"),
+                mapText(itemRow, "recipeIdsJson")
             );
+
+            List<Map<String, Object>> itemStatModifiers = itemStatModifiersMapper.listItemStatModifiersByItemId(gameId, safeItemId);
+            for (Map<String, Object> itemStatModifier : itemStatModifiers) {
+                String attrKey = mapText(itemStatModifier, "attrKey");
+                String safeAttrKey = attrKey == null ? "" : attrKey;
+                ensureUpdated(
+                    itemStatModifiersMapper.updateVersionRange(gameId, safeItemId, safeAttrKey, versionId),
+                    "itemStatModifier not found while publishing",
+                    Map.of("gameId", gameId, "itemId", safeItemId, "attrKey", safeAttrKey)
+                );
+                itemStatModifiersMapper.upsertItemStatModifierLog(
+                    gameId,
+                    safeItemId,
+                    safeAttrKey,
+                    versionId,
+                    mapBigDecimal(itemStatModifier, "value")
+                );
+            }
         }
         for (Map<String, Object> row : changedFormulaProfiles) {
             String formulaId = mapText(row, "formulaId");
@@ -1521,7 +1573,7 @@ public class PostgresWriteStore {
         }
         for (JsonNode node : items) {
             ObjectNode item = requireObject(node, "/items");
-            validateItemForPublish(item, skillIds, itemIds);
+            validateItemForPublish(item, skillIds, itemIds, attrKeys);
         }
         for (JsonNode node : typeRelations) {
             ObjectNode relation = requireObject(node, "/typeRelations");
@@ -2028,8 +2080,43 @@ public class PostgresWriteStore {
         validateOptionalObjectForPublish(effect, "statusPeriodicHpEffect", "extend", "/statusPeriodicHpEffects/extend");
     }
 
-    private void validateItemForPublish(ObjectNode item, Set<String> skillIds, Set<String> itemIds) {
+    private void validateItemForPublish(ObjectNode item, Set<String> skillIds, Set<String> itemIds, Set<String> attrKeys) {
         String itemId = requireTextForPublish(item, "itemId", "/items/itemId");
+        JsonNode statModifiers = item.get("statModifiers");
+        if (statModifiers != null && !statModifiers.isNull()) {
+            if (!statModifiers.isArray()) {
+                throw semantic("item.statModifiers must be array", Map.of("path", "/items/statModifiers"));
+            }
+            Set<String> seenAttrKeys = new HashSet<>();
+            for (int i = 0; i < statModifiers.size(); i++) {
+                JsonNode node = statModifiers.get(i);
+                if (node == null || !node.isObject()) {
+                    throw semantic("item.statModifiers must contain objects", Map.of("path", "/items/statModifiers/" + i));
+                }
+                JsonNode attrKeyNode = node.get("attrKey");
+                if (attrKeyNode == null || !attrKeyNode.isTextual() || attrKeyNode.asText().isBlank()) {
+                    throw semantic("item.statModifier.attrKey is required", Map.of("path", "/items/statModifiers/" + i + "/attrKey"));
+                }
+                String attrKey = attrKeyNode.asText();
+                if (!attrKeys.contains(attrKey)) {
+                    throw semantic(
+                        "item.statModifier.attrKey not found",
+                        Map.of("path", "/items/statModifiers/" + i + "/attrKey", "attrKey", attrKey)
+                    );
+                }
+                if (!seenAttrKeys.add(attrKey)) {
+                    throw semantic(
+                        "item.statModifier.attrKey duplicated",
+                        Map.of("path", "/items/statModifiers/" + i + "/attrKey", "attrKey", attrKey)
+                    );
+                }
+                JsonNode valueNode = node.get("value");
+                if (valueNode == null || !valueNode.isNumber()) {
+                    throw semantic("item.statModifier.value must be number", Map.of("path", "/items/statModifiers/" + i + "/value"));
+                }
+            }
+        }
+
         JsonNode skillRefs = item.get("skillRefs");
         if (skillRefs != null && !skillRefs.isNull()) {
             if (!skillRefs.isArray()) {
@@ -2571,6 +2658,46 @@ public class PostgresWriteStore {
         if (value != null && !value.isNull() && !value.isObject()) {
             throw semantic(resourceName + "." + fieldName + " must be object", Map.of("path", path));
         }
+    }
+
+    private ArrayNode validateAndNormalizeItemStatModifiersForWrite(String gameId, ObjectNode item) {
+        ArrayNode normalized = objectMapper.createArrayNode();
+        JsonNode statModifiers = item.get("statModifiers");
+        if (statModifiers == null || statModifiers.isNull()) {
+            item.set("statModifiers", normalized);
+            return normalized;
+        }
+        if (!statModifiers.isArray()) {
+            throw badRequest("item.statModifiers must be array", Map.of("path", "/statModifiers"));
+        }
+        Set<String> seenAttrKeys = new HashSet<>();
+        for (int i = 0; i < statModifiers.size(); i++) {
+            JsonNode node = statModifiers.get(i);
+            if (node == null || !node.isObject()) {
+                throw badRequest("item.statModifiers must contain objects", Map.of("path", "/statModifiers/" + i));
+            }
+            JsonNode attrKeyNode = node.get("attrKey");
+            if (attrKeyNode == null || !attrKeyNode.isTextual() || attrKeyNode.asText().isBlank()) {
+                throw badRequest("item.statModifier.attrKey is required", Map.of("path", "/statModifiers/" + i + "/attrKey"));
+            }
+            String attrKey = attrKeyNode.asText();
+            if (!seenAttrKeys.add(attrKey)) {
+                throw badRequest("item.statModifier.attrKey duplicated", Map.of("path", "/statModifiers/" + i + "/attrKey", "attrKey", attrKey));
+            }
+            if (readStore.loadAttributeDefinition(gameId, attrKey) == null) {
+                throw semantic("item.statModifier.attrKey not found", Map.of("path", "/statModifiers/" + i + "/attrKey", "attrKey", attrKey));
+            }
+            JsonNode valueNode = node.get("value");
+            if (valueNode == null || !valueNode.isNumber()) {
+                throw badRequest("item.statModifier.value must be number", Map.of("path", "/statModifiers/" + i + "/value"));
+            }
+            ObjectNode normalizedModifier = objectMapper.createObjectNode();
+            normalizedModifier.put("attrKey", attrKey);
+            normalizedModifier.put("value", valueNode.decimalValue());
+            normalized.add(normalizedModifier);
+        }
+        item.set("statModifiers", normalized);
+        return normalized;
     }
 
     private void validateItemRefs(String gameId, ObjectNode item) {
