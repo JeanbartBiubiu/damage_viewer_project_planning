@@ -330,6 +330,42 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void attributeDefinitionsSortOrder_shouldDriveAdminAndBundleOrdering() {
+        putBaselineEntities("Ahri");
+        JsonNode moveSpeedUpsert = putAttributeDefinition("move_speed", "Move Speed", "number", 0, "scalar", null);
+        assertEquals(0, moveSpeedUpsert.path("sortOrder").asInt());
+        putAttributeDefinition("ability_power", "Ability Power", "number", 0, "scalar", null, 10);
+        putAttributeDefinition("attack_power", "Attack Power", "number", 0, "scalar", null, 20);
+
+        ResponseEntity<JsonNode> attributeDefinitionListResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/attribute-definitions",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, attributeDefinitionListResponse.getStatusCode());
+        JsonNode attributeDefinitions = requireBody(attributeDefinitionListResponse).path("attributeDefinitions");
+        assertEquals(3, attributeDefinitions.size());
+        assertEquals("move_speed", attributeDefinitions.path(0).path("attrKey").asText());
+        assertEquals(0, attributeDefinitions.path(0).path("sortOrder").asInt());
+        assertEquals("ability_power", attributeDefinitions.path(1).path("attrKey").asText());
+        assertEquals(10, attributeDefinitions.path(1).path("sortOrder").asInt());
+        assertEquals("attack_power", attributeDefinitions.path(2).path("attrKey").asText());
+        assertEquals(20, attributeDefinitions.path(2).path("sortOrder").asInt());
+
+        String versionCode = "sort_order_001";
+        publish(versionCode);
+        JsonNode bundle = requireBody(getBundle(versionCode));
+        JsonNode bundleAttributeDefinitions = bundle.path("attributeDefinitions");
+        assertEquals(3, bundleAttributeDefinitions.size());
+        assertEquals("move_speed", bundleAttributeDefinitions.path(0).path("attrKey").asText());
+        assertEquals(0, bundleAttributeDefinitions.path(0).path("sortOrder").asInt());
+        assertEquals("ability_power", bundleAttributeDefinitions.path(1).path("attrKey").asText());
+        assertEquals(10, bundleAttributeDefinitions.path(1).path("sortOrder").asInt());
+        assertEquals("attack_power", bundleAttributeDefinitions.path(2).path("attrKey").asText());
+        assertEquals(20, bundleAttributeDefinitions.path(2).path("sortOrder").asInt());
+    }
+
+    @Test
     void progressionSchemaAdminAndHeroStatsValidation_shouldApplyToGamesAndHeroWrite() {
         ResponseEntity<JsonNode> defaultSchemaResponse = adminExchange(
             "/api/admin/games/" + gameId + "/progression-schema",
@@ -1238,17 +1274,29 @@ class ControllerPublishFlowIT {
         );
     }
 
-    private void putAttributeDefinition(String attrKey) {
-        putAttributeDefinition(attrKey, attrKey, "number", 0, "scalar", null);
+    private JsonNode putAttributeDefinition(String attrKey) {
+        return putAttributeDefinition(attrKey, attrKey, "number", 0, "scalar", null);
     }
 
-    private void putAttributeDefinition(
+    private JsonNode putAttributeDefinition(
         String attrKey,
         String attrName,
         String attrType,
         Number defaultValue,
         String valueKind,
         String rateTargetAttrKey
+    ) {
+        return putAttributeDefinition(attrKey, attrName, attrType, defaultValue, valueKind, rateTargetAttrKey, null);
+    }
+
+    private JsonNode putAttributeDefinition(
+        String attrKey,
+        String attrName,
+        String attrType,
+        Number defaultValue,
+        String valueKind,
+        String rateTargetAttrKey,
+        Integer sortOrder
     ) {
         Map<String, Object> body = new java.util.LinkedHashMap<>();
         body.put("attrName", attrName);
@@ -1258,6 +1306,9 @@ class ControllerPublishFlowIT {
         if (rateTargetAttrKey != null) {
             body.put("rateTargetAttrKey", rateTargetAttrKey);
         }
+        if (sortOrder != null) {
+            body.put("sortOrder", sortOrder);
+        }
 
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/attribute-definitions/" + attrKey,
@@ -1265,6 +1316,7 @@ class ControllerPublishFlowIT {
             body
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        return requireBody(response);
     }
 
     private void putType(int typeId) {
