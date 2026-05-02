@@ -1,5 +1,6 @@
 package xyz.game.datamanage.integration;
 
+import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -329,6 +330,42 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void attributeDefinitionsSortOrder_shouldDriveAdminAndBundleOrdering() {
+        putBaselineEntities("Ahri");
+        JsonNode moveSpeedUpsert = putAttributeDefinition("move_speed", "Move Speed", "number", 0, "scalar", null);
+        assertEquals(0, moveSpeedUpsert.path("sortOrder").asInt());
+        putAttributeDefinition("ability_power", "Ability Power", "number", 0, "scalar", null, 10);
+        putAttributeDefinition("attack_power", "Attack Power", "number", 0, "scalar", null, 20);
+
+        ResponseEntity<JsonNode> attributeDefinitionListResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/attribute-definitions",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, attributeDefinitionListResponse.getStatusCode());
+        JsonNode attributeDefinitions = requireBody(attributeDefinitionListResponse).path("attributeDefinitions");
+        assertEquals(3, attributeDefinitions.size());
+        assertEquals("move_speed", attributeDefinitions.path(0).path("attrKey").asText());
+        assertEquals(0, attributeDefinitions.path(0).path("sortOrder").asInt());
+        assertEquals("ability_power", attributeDefinitions.path(1).path("attrKey").asText());
+        assertEquals(10, attributeDefinitions.path(1).path("sortOrder").asInt());
+        assertEquals("attack_power", attributeDefinitions.path(2).path("attrKey").asText());
+        assertEquals(20, attributeDefinitions.path(2).path("sortOrder").asInt());
+
+        String versionCode = "sort_order_001";
+        publish(versionCode);
+        JsonNode bundle = requireBody(getBundle(versionCode));
+        JsonNode bundleAttributeDefinitions = bundle.path("attributeDefinitions");
+        assertEquals(3, bundleAttributeDefinitions.size());
+        assertEquals("move_speed", bundleAttributeDefinitions.path(0).path("attrKey").asText());
+        assertEquals(0, bundleAttributeDefinitions.path(0).path("sortOrder").asInt());
+        assertEquals("ability_power", bundleAttributeDefinitions.path(1).path("attrKey").asText());
+        assertEquals(10, bundleAttributeDefinitions.path(1).path("sortOrder").asInt());
+        assertEquals("attack_power", bundleAttributeDefinitions.path(2).path("attrKey").asText());
+        assertEquals(20, bundleAttributeDefinitions.path(2).path("sortOrder").asInt());
+    }
+
+    @Test
     void progressionSchemaAdminAndHeroStatsValidation_shouldApplyToGamesAndHeroWrite() {
         ResponseEntity<JsonNode> defaultSchemaResponse = adminExchange(
             "/api/admin/games/" + gameId + "/progression-schema",
@@ -495,18 +532,18 @@ class ControllerPublishFlowIT {
         ResponseEntity<JsonNode> controlResponse = adminExchange(
             "/api/admin/games/" + gameId + "/control-state-profiles/it_stun_profile",
             HttpMethod.PUT,
-            Map.of(
-                "name", "IT Stun",
-                "description", "测试：控制语义",
-                "controlKind", "stun",
-                "movementLockMode", "forbid_move",
-                "castLockMode", "interrupt_and_forbid",
-                "attackLockMode", "interrupt_and_forbid",
-                "inputOverrideMode", "force_stop",
-                "displacementKind", "none",
-                "blocksControlInput", true,
-                "priority", 10,
-                "extend", Map.of("source", "it")
+            Map.ofEntries(
+                entry("name", "IT Stun"),
+                entry("description", "测试：控制语义"),
+                entry("controlKind", "stun"),
+                entry("movementLockMode", "forbid_move"),
+                entry("castLockMode", "interrupt_and_forbid"),
+                entry("attackLockMode", "interrupt_and_forbid"),
+                entry("inputOverrideMode", "force_stop"),
+                entry("displacementKind", "none"),
+                entry("blocksControlInput", true),
+                entry("priority", 10),
+                entry("extend", Map.of("source", "it"))
             )
         );
         assertEquals(HttpStatus.OK, controlResponse.getStatusCode());
@@ -514,22 +551,22 @@ class ControllerPublishFlowIT {
         ResponseEntity<JsonNode> statusResponse = adminExchange(
             "/api/admin/games/" + gameId + "/status-definitions/it_burning",
             HttpMethod.PUT,
-            Map.of(
-                "name", "IT Burning",
-                "description", "测试：状态定义",
-                "statusKind", "dot",
-                "statusTypeId", 2101,
-                "controlProfileId", "it_stun_profile",
-                "stackGroupKey", "it.burning",
-                "sourceScope", "same_source",
-                "stackMode", "stack",
-                "maxStacks", 3,
-                "durationMode", "timed",
-                "durationMs", 3000,
-                "snapshotPolicy", "on_apply",
-                "isDispellable", true,
-                "cleansePriority", 5,
-                "extend", Map.of("source", "it")
+            Map.ofEntries(
+                entry("name", "IT Burning"),
+                entry("description", "测试：状态定义"),
+                entry("statusKind", "dot"),
+                entry("statusTypeId", 2101),
+                entry("controlProfileId", "it_stun_profile"),
+                entry("stackGroupKey", "it.burning"),
+                entry("sourceScope", "same_source"),
+                entry("stackMode", "stack"),
+                entry("maxStacks", 3),
+                entry("durationMode", "timed"),
+                entry("durationMs", 3000),
+                entry("snapshotPolicy", "on_apply"),
+                entry("isDispellable", true),
+                entry("cleansePriority", 5),
+                entry("extend", Map.of("source", "it"))
             )
         );
         assertEquals(HttpStatus.OK, statusResponse.getStatusCode());
@@ -1237,17 +1274,29 @@ class ControllerPublishFlowIT {
         );
     }
 
-    private void putAttributeDefinition(String attrKey) {
-        putAttributeDefinition(attrKey, attrKey, "number", 0, "scalar", null);
+    private JsonNode putAttributeDefinition(String attrKey) {
+        return putAttributeDefinition(attrKey, attrKey, "number", 0, "scalar", null);
     }
 
-    private void putAttributeDefinition(
+    private JsonNode putAttributeDefinition(
         String attrKey,
         String attrName,
         String attrType,
         Number defaultValue,
         String valueKind,
         String rateTargetAttrKey
+    ) {
+        return putAttributeDefinition(attrKey, attrName, attrType, defaultValue, valueKind, rateTargetAttrKey, null);
+    }
+
+    private JsonNode putAttributeDefinition(
+        String attrKey,
+        String attrName,
+        String attrType,
+        Number defaultValue,
+        String valueKind,
+        String rateTargetAttrKey,
+        Integer sortOrder
     ) {
         Map<String, Object> body = new java.util.LinkedHashMap<>();
         body.put("attrName", attrName);
@@ -1257,6 +1306,9 @@ class ControllerPublishFlowIT {
         if (rateTargetAttrKey != null) {
             body.put("rateTargetAttrKey", rateTargetAttrKey);
         }
+        if (sortOrder != null) {
+            body.put("sortOrder", sortOrder);
+        }
 
         ResponseEntity<JsonNode> response = adminExchange(
             "/api/admin/games/" + gameId + "/attribute-definitions/" + attrKey,
@@ -1264,6 +1316,7 @@ class ControllerPublishFlowIT {
             body
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        return requireBody(response);
     }
 
     private void putType(int typeId) {

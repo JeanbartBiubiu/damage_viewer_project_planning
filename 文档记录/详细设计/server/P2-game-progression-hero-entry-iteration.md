@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: server
 STATUS: draft
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: pending
+LAST_TRACKED_AT: 2026-04-30
 
 # P2 游戏阶段配置 + 英雄属性录入优化 迭代方案
 
@@ -13,7 +13,7 @@ LAST_TRACKED_AT: pending
 - 任务目标：消除硬编码 `1~18` 级依赖；属性自动展开减少手工操作
 - 任务类型：全栈迭代（DB + 后端 API + 前端页面改造）
 - 工作流模块：server / web
-- 关联文档：[backend-review-todo.md](../需求澄清/server/backend-review-todo.md) P2 段
+- 关联背景：原后端整改 TODO 中的 P2 阶段制度问题已由本方案承接。
 
 ## 背景
 
