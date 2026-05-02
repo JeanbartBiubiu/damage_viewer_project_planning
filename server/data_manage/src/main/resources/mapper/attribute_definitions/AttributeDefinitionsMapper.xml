@@ -6,6 +6,7 @@
 
     <select id="listAttributeDefinitions" resultType="map">
         SELECT attr_key AS attrKey,
+               sort_order AS sortOrder,
                attr_name AS attrName,
                attr_type AS attrType,
                default_value AS defaultValue,
@@ -13,11 +14,12 @@
                rate_target_attr_key AS rateTargetAttrKey
         FROM public.attribute_definitions
         WHERE game_id = #{gameId}
-        ORDER BY attr_key
+        ORDER BY sort_order, attr_key
     </select>
 
     <select id="findAttributeDefinitionById" resultType="map">
         SELECT attr_key AS attrKey,
+               sort_order AS sortOrder,
                attr_name AS attrName,
                attr_type AS attrType,
                default_value AS defaultValue,
@@ -30,6 +32,7 @@
 
     <select id="listChangedSince" resultType="map">
         SELECT attr_key AS attrKey,
+               sort_order AS sortOrder,
                attr_name AS attrName,
                attr_type AS attrType,
                default_value AS defaultValue,
@@ -38,17 +41,18 @@
         FROM public.attribute_definitions
         WHERE game_id = #{gameId}
           AND updated_at &gt; #{updatedAfter}
-        ORDER BY attr_key
+        ORDER BY sort_order, attr_key
     </select>
 
     <update id="upsertAttributeDefinition">
         INSERT INTO public.attribute_definitions
-            (game_id, attr_key, start_version_id, end_version_id, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, updated_at)
+            (game_id, attr_key, start_version_id, end_version_id, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, updated_at)
         VALUES
-            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, NOW())
+            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, NOW())
         ON CONFLICT (game_id, attr_key) DO UPDATE SET
             start_version_id = EXCLUDED.start_version_id,
             end_version_id = EXCLUDED.end_version_id,
+            sort_order = EXCLUDED.sort_order,
             attr_name = EXCLUDED.attr_name,
             attr_type = EXCLUDED.attr_type,
             default_value = EXCLUDED.default_value,
@@ -67,11 +71,12 @@
 
     <update id="upsertAttributeDefinitionLog">
         INSERT INTO public.attribute_definitions_log
-            (game_id, attr_key, start_version_id, end_version_id, attr_name, attr_type, default_value, value_kind, rate_target_attr_key)
+            (game_id, attr_key, start_version_id, end_version_id, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key)
         VALUES
-            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey})
+            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey})
         ON CONFLICT (game_id, attr_key, start_version_id) DO UPDATE SET
             end_version_id = EXCLUDED.end_version_id,
+            sort_order = EXCLUDED.sort_order,
             attr_name = EXCLUDED.attr_name,
             attr_type = EXCLUDED.attr_type,
             default_value = EXCLUDED.default_value,
