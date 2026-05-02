@@ -340,6 +340,7 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
 
       <HeroesModal
         typeDefinitions={types}
+        targetTypeIdsByKey={targetTypeIdsByKey}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
