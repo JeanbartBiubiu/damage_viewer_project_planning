@@ -1,5 +1,6 @@
 package xyz.game.datamanage.integration;
 
+import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -495,18 +496,18 @@ class ControllerPublishFlowIT {
         ResponseEntity<JsonNode> controlResponse = adminExchange(
             "/api/admin/games/" + gameId + "/control-state-profiles/it_stun_profile",
             HttpMethod.PUT,
-            Map.of(
-                "name", "IT Stun",
-                "description", "测试：控制语义",
-                "controlKind", "stun",
-                "movementLockMode", "forbid_move",
-                "castLockMode", "interrupt_and_forbid",
-                "attackLockMode", "interrupt_and_forbid",
-                "inputOverrideMode", "force_stop",
-                "displacementKind", "none",
-                "blocksControlInput", true,
-                "priority", 10,
-                "extend", Map.of("source", "it")
+            Map.ofEntries(
+                entry("name", "IT Stun"),
+                entry("description", "测试：控制语义"),
+                entry("controlKind", "stun"),
+                entry("movementLockMode", "forbid_move"),
+                entry("castLockMode", "interrupt_and_forbid"),
+                entry("attackLockMode", "interrupt_and_forbid"),
+                entry("inputOverrideMode", "force_stop"),
+                entry("displacementKind", "none"),
+                entry("blocksControlInput", true),
+                entry("priority", 10),
+                entry("extend", Map.of("source", "it"))
             )
         );
         assertEquals(HttpStatus.OK, controlResponse.getStatusCode());
@@ -514,22 +515,22 @@ class ControllerPublishFlowIT {
         ResponseEntity<JsonNode> statusResponse = adminExchange(
             "/api/admin/games/" + gameId + "/status-definitions/it_burning",
             HttpMethod.PUT,
-            Map.of(
-                "name", "IT Burning",
-                "description", "测试：状态定义",
-                "statusKind", "dot",
-                "statusTypeId", 2101,
-                "controlProfileId", "it_stun_profile",
-                "stackGroupKey", "it.burning",
-                "sourceScope", "same_source",
-                "stackMode", "stack",
-                "maxStacks", 3,
-                "durationMode", "timed",
-                "durationMs", 3000,
-                "snapshotPolicy", "on_apply",
-                "isDispellable", true,
-                "cleansePriority", 5,
-                "extend", Map.of("source", "it")
+            Map.ofEntries(
+                entry("name", "IT Burning"),
+                entry("description", "测试：状态定义"),
+                entry("statusKind", "dot"),
+                entry("statusTypeId", 2101),
+                entry("controlProfileId", "it_stun_profile"),
+                entry("stackGroupKey", "it.burning"),
+                entry("sourceScope", "same_source"),
+                entry("stackMode", "stack"),
+                entry("maxStacks", 3),
+                entry("durationMode", "timed"),
+                entry("durationMs", 3000),
+                entry("snapshotPolicy", "on_apply"),
+                entry("isDispellable", true),
+                entry("cleansePriority", 5),
+                entry("extend", Map.of("source", "it"))
             )
         );
         assertEquals(HttpStatus.OK, statusResponse.getStatusCode());
