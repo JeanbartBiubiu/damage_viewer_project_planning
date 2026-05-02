@@ -9,7 +9,6 @@
                name,
                gold_cost AS goldCost,
                icon_url AS iconUrl,
-               stats_modifier::text AS statsModifierJson,
                skill_refs::text AS skillRefsJson,
                recipe_ids::text AS recipeIdsJson
         FROM public.items
@@ -22,7 +21,6 @@
                name,
                gold_cost AS goldCost,
                icon_url AS iconUrl,
-               stats_modifier::text AS statsModifierJson,
                skill_refs::text AS skillRefsJson,
                recipe_ids::text AS recipeIdsJson
         FROM public.items
@@ -35,7 +33,6 @@
                name,
                gold_cost AS goldCost,
                icon_url AS iconUrl,
-               stats_modifier::text AS statsModifierJson,
                skill_refs::text AS skillRefsJson,
                recipe_ids::text AS recipeIdsJson
         FROM public.items
@@ -46,17 +43,16 @@
 
     <update id="upsertItem">
         INSERT INTO public.items
-            (game_id, item_id, start_version_id, end_version_id, name, gold_cost, icon_url, stats_modifier, skill_refs, recipe_ids, updated_at)
+            (game_id, item_id, start_version_id, end_version_id, name, gold_cost, icon_url, skill_refs, recipe_ids, updated_at)
         VALUES
             (#{gameId}, #{itemId}, #{versionId}, #{versionId}, #{name}, #{goldCost}, #{iconUrl},
-             CAST(#{statsModifierJson} AS jsonb), CAST(#{skillRefsJson} AS jsonb), CAST(#{recipeIdsJson} AS jsonb), NOW())
+             CAST(#{skillRefsJson} AS jsonb), CAST(#{recipeIdsJson} AS jsonb), NOW())
         ON CONFLICT (game_id, item_id) DO UPDATE SET
             start_version_id = EXCLUDED.start_version_id,
             end_version_id = EXCLUDED.end_version_id,
             name = EXCLUDED.name,
             gold_cost = EXCLUDED.gold_cost,
             icon_url = EXCLUDED.icon_url,
-            stats_modifier = EXCLUDED.stats_modifier,
             skill_refs = EXCLUDED.skill_refs,
             recipe_ids = EXCLUDED.recipe_ids,
             updated_at = NOW()
@@ -72,16 +68,15 @@
 
     <update id="upsertItemLog">
         INSERT INTO public.items_log
-            (game_id, item_id, start_version_id, end_version_id, name, gold_cost, icon_url, stats_modifier, skill_refs, recipe_ids)
+            (game_id, item_id, start_version_id, end_version_id, name, gold_cost, icon_url, skill_refs, recipe_ids)
         VALUES
             (#{gameId}, #{itemId}, #{versionId}, #{versionId}, #{name}, #{goldCost}, #{iconUrl},
-             CAST(#{statsModifierJson} AS jsonb), CAST(#{skillRefsJson} AS jsonb), CAST(#{recipeIdsJson} AS jsonb))
+             CAST(#{skillRefsJson} AS jsonb), CAST(#{recipeIdsJson} AS jsonb))
         ON CONFLICT (game_id, item_id, start_version_id) DO UPDATE SET
             end_version_id = EXCLUDED.end_version_id,
             name = EXCLUDED.name,
             gold_cost = EXCLUDED.gold_cost,
             icon_url = EXCLUDED.icon_url,
-            stats_modifier = EXCLUDED.stats_modifier,
             skill_refs = EXCLUDED.skill_refs,
             recipe_ids = EXCLUDED.recipe_ids
     </update>

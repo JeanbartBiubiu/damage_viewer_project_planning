@@ -219,13 +219,13 @@ class ControllerPublishFlowIT {
 
         JsonNode bork = findByField(bundle.path("items"), "itemId", "item_blade_of_the_ruined_king");
         assertEquals("破败王者之刃", bork.path("name").asText());
-        assertEquals(55.0, bork.path("statsModifier").path("ad").asDouble(), 0.001);
-        assertEquals(0.3, bork.path("statsModifier").path("attack_speed").asDouble(), 0.001);
+        assertEquals(55.0, findByField(bork.path("statModifiers"), "attrKey", "ad").path("value").asDouble(), 0.001);
+        assertEquals(0.3, findByField(bork.path("statModifiers"), "attrKey", "attack_speed").path("value").asDouble(), 0.001);
 
         JsonNode nashors = findByField(bundle.path("items"), "itemId", "item_nashors_tooth");
         assertEquals("纳什之牙", nashors.path("name").asText());
-        assertEquals(90.0, nashors.path("statsModifier").path("ap").asDouble(), 0.001);
-        assertEquals(15.0, nashors.path("statsModifier").path("ability_haste").asDouble(), 0.001);
+        assertEquals(90.0, findByField(nashors.path("statModifiers"), "attrKey", "ap").path("value").asDouble(), 0.001);
+        assertEquals(15.0, findByField(nashors.path("statModifiers"), "attrKey", "ability_haste").path("value").asDouble(), 0.001);
     }
 
     @Test
@@ -277,6 +277,41 @@ class ControllerPublishFlowIT {
         assertEquals(HttpStatus.OK, bundleV2Response.getStatusCode());
         JsonNode bundleV2 = requireBody(bundleV2Response);
         assertEquals("Ahri Rework", findByField(bundleV2.path("heroes"), "heroId", "hero_ahri").path("name").asText());
+    }
+
+    @Test
+    void itemStatModifiersOnlyChange_shouldAdvanceVersionAndUpdateSnapshot() {
+        String versionCodeV1 = "1.0.0";
+        putBaselineEntities("Ahri");
+        publish(versionCodeV1);
+
+        JsonNode bundleV1 = requireBody(getBundle(versionCodeV1));
+        JsonNode itemV1 = findByField(bundleV1.path("items"), "itemId", "item_tome");
+        assertEquals(20.0, findByField(itemV1.path("statModifiers"), "attrKey", "attack_power").path("value").asDouble(), 0.001);
+
+        putItem(
+            "item_tome",
+            "Amplifying Tome",
+            435,
+            "item_tome.png",
+            List.of(modifier("attack_power", 42.0)),
+            List.of("skill_orb"),
+            List.of("item_tome")
+        );
+
+        String versionCodeV2 = "1.0.1";
+        publish(versionCodeV2);
+
+        JsonNode currentV2 = requireBody(getCurrentVersion());
+        assertEquals(versionCodeV2, currentV2.path("versionCode").asText());
+
+        JsonNode bundleV2 = requireBody(getBundle(versionCodeV2));
+        JsonNode itemV2 = findByField(bundleV2.path("items"), "itemId", "item_tome");
+        assertEquals(42.0, findByField(itemV2.path("statModifiers"), "attrKey", "attack_power").path("value").asDouble(), 0.001);
+
+        JsonNode bundleV1Again = requireBody(getBundle(versionCodeV1));
+        JsonNode itemV1Again = findByField(bundleV1Again.path("items"), "itemId", "item_tome");
+        assertEquals(20.0, findByField(itemV1Again.path("statModifiers"), "attrKey", "attack_power").path("value").asDouble(), 0.001);
     }
 
     @Test
@@ -1252,9 +1287,9 @@ class ControllerPublishFlowIT {
             "破败王者之刃",
             3200,
             "item_blade_of_the_ruined_king.png",
-            Map.of(
-                "ad", 55.0,
-                "attack_speed", 0.3
+            List.of(
+                modifier("ad", 55.0),
+                modifier("attack_speed", 0.3)
             ),
             List.of(),
             List.of()
@@ -1264,10 +1299,10 @@ class ControllerPublishFlowIT {
             "纳什之牙",
             3000,
             "item_nashors_tooth.png",
-            Map.of(
-                "ap", 90.0,
-                "attack_speed", 0.5,
-                "ability_haste", 15.0
+            List.of(
+                modifier("ap", 90.0),
+                modifier("attack_speed", 0.5),
+                modifier("ability_haste", 15.0)
             ),
             List.of(),
             List.of()
@@ -1427,7 +1462,7 @@ class ControllerPublishFlowIT {
             "Amplifying Tome",
             435,
             "item_tome.png",
-            Map.of("attack_power", 20),
+            List.of(modifier("attack_power", 20.0)),
             skillRefs,
             recipeIds
         );
@@ -1438,7 +1473,7 @@ class ControllerPublishFlowIT {
         String name,
         Integer goldCost,
         String iconUrl,
-        Map<String, Object> statsModifier,
+        List<Map<String, Object>> statModifiers,
         List<String> skillRefs,
         List<String> recipeIds
     ) {
@@ -1449,12 +1484,16 @@ class ControllerPublishFlowIT {
                 "name", name,
                 "goldCost", goldCost,
                 "iconUrl", iconUrl,
-                "statsModifier", statsModifier,
+                "statModifiers", statModifiers,
                 "skillRefs", skillRefs,
                 "recipeIds", recipeIds
             )
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    private Map<String, Object> modifier(String attrKey, double value) {
+        return Map.of("attrKey", attrKey, "value", value);
     }
 
     private void putFormulaProfile(String formulaId) {

@@ -22,6 +22,7 @@ import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
+import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
@@ -56,6 +57,7 @@ public class PostgresReadStore {
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
     private final ItemsMapper itemsMapper;
+    private final ItemStatModifiersMapper itemStatModifiersMapper;
     private final FormulaProfilesMapper formulaProfilesMapper;
     private final FormulaBindingsMapper formulaBindingsMapper;
     private final StatusActionControlRulesMapper statusActionControlRulesMapper;
@@ -81,6 +83,7 @@ public class PostgresReadStore {
         HeroesMapper heroesMapper,
         SkillsMapper skillsMapper,
         ItemsMapper itemsMapper,
+        ItemStatModifiersMapper itemStatModifiersMapper,
         FormulaProfilesMapper formulaProfilesMapper,
         FormulaBindingsMapper formulaBindingsMapper,
         StatusActionControlRulesMapper statusActionControlRulesMapper,
@@ -105,6 +108,7 @@ public class PostgresReadStore {
         this.heroesMapper = heroesMapper;
         this.skillsMapper = skillsMapper;
         this.itemsMapper = itemsMapper;
+        this.itemStatModifiersMapper = itemStatModifiersMapper;
         this.formulaProfilesMapper = formulaProfilesMapper;
         this.formulaBindingsMapper = formulaBindingsMapper;
         this.statusActionControlRulesMapper = statusActionControlRulesMapper;
@@ -218,8 +222,9 @@ public class PostgresReadStore {
         ObjectNode response = objectMapper.createObjectNode();
         response.put("gameId", gameId);
         ArrayNode items = response.putArray("items");
+        Map<String, ArrayNode> statModifiersByItemId = loadItemStatModifiersByItemId(gameId);
         for (Map<String, Object> row : itemsMapper.listItems(gameId)) {
-            items.add(mapItemRow(row));
+            items.add(mapItemRow(row, statModifiersByItemId));
         }
         return response;
     }
@@ -394,8 +399,9 @@ public class PostgresReadStore {
         bundle.set("skills", skills);
 
         ArrayNode items = objectMapper.createArrayNode();
+        Map<String, ArrayNode> statModifiersByItemId = loadItemStatModifiersByItemId(gameId);
         for (Map<String, Object> row : itemsMapper.listItems(gameId)) {
-            items.add(mapItemRow(row));
+            items.add(mapItemRow(row, statModifiersByItemId));
         }
         bundle.set("items", items);
 
@@ -491,7 +497,11 @@ public class PostgresReadStore {
     }
 
     public ObjectNode loadItem(String gameId, String itemId) {
-        return querySingleNode(itemsMapper.findItemById(gameId, itemId), this::mapItemRow);
+        Map<String, Object> row = itemsMapper.findItemById(gameId, itemId);
+        if (row == null) {
+            return null;
+        }
+        return mapItemRow(row, loadItemStatModifiersByItemId(gameId));
     }
 
     public ObjectNode loadFormulaProfile(String gameId, String formulaId) {
@@ -619,19 +629,38 @@ public class PostgresReadStore {
         return node;
     }
 
-    private ObjectNode mapItemRow(Map<String, Object> row) {
+    private ObjectNode mapItemRow(Map<String, Object> row, Map<String, ArrayNode> statModifiersByItemId) {
         ObjectNode node = objectMapper.createObjectNode();
-        node.put("itemId", text(row, "itemId"));
+        String itemId = text(row, "itemId");
+        node.put("itemId", itemId);
         putNullableText(node, "name", text(row, "name"));
         Integer goldCost = integer(row, "goldCost");
         if (goldCost != null) {
             node.put("goldCost", goldCost);
         }
         putNullableText(node, "iconUrl", text(row, "iconUrl"));
-        putNullableJson(node, "statsModifier", text(row, "statsModifierJson"));
+        ArrayNode statModifiers = statModifiersByItemId.get(itemId);
+        node.set("statModifiers", statModifiers == null ? objectMapper.createArrayNode() : statModifiers.deepCopy());
         putNullableJson(node, "skillRefs", text(row, "skillRefsJson"));
         putNullableJson(node, "recipeIds", text(row, "recipeIdsJson"));
         return node;
+    }
+
+    private Map<String, ArrayNode> loadItemStatModifiersByItemId(String gameId) {
+        Map<String, ArrayNode> result = new java.util.LinkedHashMap<>();
+        for (Map<String, Object> row : itemStatModifiersMapper.listItemStatModifiers(gameId)) {
+            String itemId = text(row, "itemId");
+            if (itemId == null || itemId.isBlank()) {
+                continue;
+            }
+            ArrayNode statModifiers = result.computeIfAbsent(itemId, unused -> objectMapper.createArrayNode());
+            ObjectNode modifier = objectMapper.createObjectNode();
+            modifier.put("attrKey", text(row, "attrKey"));
+            BigDecimal value = decimal(row, "value");
+            modifier.put("value", value == null ? BigDecimal.ZERO : value);
+            statModifiers.add(modifier);
+        }
+        return result;
     }
 
     private ObjectNode mapFormulaProfileRow(Map<String, Object> row) {

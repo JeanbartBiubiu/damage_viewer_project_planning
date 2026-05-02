@@ -5,7 +5,7 @@ import { getErrorMessage, getItems, putImage, putItem, replaceTypeRelationsForTa
 import { buildItemImageUri, readImageFileAsDataUrl } from '../../../../services/resourceImage';
 import type { JsonObject } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
-import { parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
+import { parseJsonArrayText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
 import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { useResourceImageCache } from '../shared/useResourceImageCache';
@@ -21,12 +21,39 @@ type ItemsPageProps = {
   adminToken: string;
 };
 
+function parseStatModifiersText(text: string): Array<{ attrKey: string; value: number }> {
+  const parsed = parseJsonArrayText(text, 'statModifiers');
+  const seenAttrKeys = new Set<string>();
+  return parsed.map((entry, index) => {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
+      throw new Error(`statModifiers[${index}] must be object`);
+    }
+    const attrKeyRaw = (entry as JsonObject).attrKey;
+    const attrKey = typeof attrKeyRaw === 'string' ? attrKeyRaw.trim() : '';
+    if (!attrKey) {
+      throw new Error(`statModifiers[${index}].attrKey is required`);
+    }
+    if (seenAttrKeys.has(attrKey)) {
+      throw new Error(`statModifiers[${index}].attrKey duplicated: ${attrKey}`);
+    }
+    seenAttrKeys.add(attrKey);
+    const value = Number((entry as JsonObject).value);
+    if (!Number.isFinite(value)) {
+      throw new Error(`statModifiers[${index}].value must be number`);
+    }
+    return {
+      attrKey,
+      value
+    };
+  });
+}
+
 function toItemsFormData(record: ItemsRecord): ItemsFormData {
   return {
     itemId: record.itemId,
     name: record.name ?? '',
     goldCost: record.goldCost !== undefined ? String(record.goldCost) : '',
-    statsModifierText: stringifyJson(record.statsModifier ?? {}),
+    statModifiersText: stringifyJson(record.statModifiers ?? []),
     skillRefsText: stringifyJson(record.skillRefs ?? []),
     recipeIdsText: stringifyJson(record.recipeIds ?? []),
     selectedTypeIds: [],
@@ -80,8 +107,8 @@ async function saveItemsRecord(
     payload.goldCost = Number(formData.goldCost);
   }
 
-  const statsModifier = parseJsonObjectText(formData.statsModifierText, 'statsModifier');
-  payload.statsModifier = statsModifier;
+  const statModifiers = parseStatModifiersText(formData.statModifiersText);
+  payload.statModifiers = statModifiers;
 
   const skillRefs = parseJsonStringArrayText(formData.skillRefsText, 'skillRefs');
   payload.skillRefs = skillRefs;

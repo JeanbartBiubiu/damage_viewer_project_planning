@@ -25,7 +25,6 @@ public interface ItemsMapper {
         @Param("name") String name,
         @Param("goldCost") Integer goldCost,
         @Param("iconUrl") String iconUrl,
-        @Param("statsModifierJson") String statsModifierJson,
         @Param("skillRefsJson") String skillRefsJson,
         @Param("recipeIdsJson") String recipeIdsJson
     );
@@ -43,7 +42,6 @@ public interface ItemsMapper {
         @Param("name") String name,
         @Param("goldCost") Integer goldCost,
         @Param("iconUrl") String iconUrl,
-        @Param("statsModifierJson") String statsModifierJson,
         @Param("skillRefsJson") String skillRefsJson,
         @Param("recipeIdsJson") String recipeIdsJson
     );

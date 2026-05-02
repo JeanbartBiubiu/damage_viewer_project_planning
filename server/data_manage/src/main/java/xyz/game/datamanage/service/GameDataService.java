@@ -91,7 +91,11 @@ public class GameDataService {
         return snapshot;
     }
 
-    @Cacheable(cacheNames = "images", key = "#gameId + ':' + (#updatedAfterRaw == null ? '' : #updatedAfterRaw)")
+    @Cacheable(
+        cacheNames = "images",
+        key = "#gameId + ':' + #updatedAfterRaw",
+        condition = "#updatedAfterRaw != null && !#updatedAfterRaw.isBlank()"
+    )
     public ObjectNode getImages(String gameId, String updatedAfterRaw) {
         validateGameId(gameId);
         assertGameExists(gameId);
