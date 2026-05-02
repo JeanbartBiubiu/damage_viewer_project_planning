@@ -1,12 +1,12 @@
-import { Alert, Button, Collapse, Form, Input, Modal, Space } from '@arco-design/web-react';
+﻿import { Alert, Button, Collapse, Form, Input, Modal, Space } from '@arco-design/web-react';
 import { useMemo } from 'react';
 import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import { BaseStatsEditor } from '../../../../components/hero-editor/BaseStatsEditor';
-import { parseBaseStatsRows, stringifyBaseStatsRows } from '../../../../components/hero-editor/heroStats';
 import { ItemRecipeSelector } from '../../../../components/item-editor/ItemRecipeSelector';
 import { SkillRefSelector } from '../../../../components/item-editor/SkillRefSelector';
-import type { TypeDefinition } from '../../../../types/api';
+import type { JsonObject, TypeDefinition } from '../../../../types/api';
+import { parseJsonArrayText, stringifyJson } from '../shared/json';
 import type { ItemsFormData } from './types';
 
 type ItemsModalProps = {
@@ -27,6 +27,55 @@ type ItemsModalProps = {
   onUploadImage: (file: File) => Promise<void>;
   onSubmit: () => Promise<void>;
 };
+
+type StatModifierRow = {
+  attrKey: string;
+  value: number;
+};
+
+function parseStatModifierRows(text: string): StatModifierRow[] {
+  const parsed = parseJsonArrayText(text, 'statModifiers');
+  return parsed
+    .map((entry, index) => {
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
+        throw new Error(`statModifiers[${index}] must be object`);
+      }
+      const attrKey = typeof (entry as JsonObject).attrKey === 'string'
+        ? ((entry as JsonObject).attrKey as string).trim()
+        : '';
+      if (!attrKey) {
+        throw new Error(`statModifiers[${index}].attrKey is required`);
+      }
+      const value = Number((entry as JsonObject).value);
+      if (!Number.isFinite(value)) {
+        throw new Error(`statModifiers[${index}].value must be number`);
+      }
+      return { attrKey, value };
+    })
+    .sort((left, right) => left.attrKey.localeCompare(right.attrKey, 'zh-CN'));
+}
+
+function stringifyStatModifierRows(rows: StatModifierRow[]): string {
+  const normalized = rows
+    .map((row) => ({
+      attrKey: row.attrKey.trim(),
+      value: Number.isFinite(row.value) ? row.value : 0
+    }))
+    .filter((row) => row.attrKey.length > 0);
+  return stringifyJson(normalized);
+}
+
+function parseStringArrayText(text: string, label: string): { value: string[]; error: string | null } {
+  try {
+    const parsed = JSON.parse(text.trim() || '[]') as unknown;
+    if (!Array.isArray(parsed) || parsed.some((item) => typeof item !== 'string')) {
+      throw new Error(`${label} must be string[]`);
+    }
+    return { value: parsed as string[], error: null };
+  } catch (error) {
+    return { value: [], error: error instanceof Error ? error.message : String(error) };
+  }
+}
 
 export function ItemsModal({
   typeDefinitions,
@@ -49,49 +98,28 @@ export function ItemsModal({
   const readOnly = mode === 'view';
   const editingExisting = mode !== 'create';
 
-  const statsModifierState = useMemo(() => {
+  const statModifiersState = useMemo(() => {
     try {
-      return { rows: parseBaseStatsRows(formData.statsModifierText), error: null as string | null };
+      return { rows: parseStatModifierRows(formData.statModifiersText), error: null as string | null };
     } catch (error) {
-      return { rows: [], error: error instanceof Error ? error.message : String(error) };
+      return { rows: [] as StatModifierRow[], error: error instanceof Error ? error.message : String(error) };
     }
-  }, [formData.statsModifierText]);
+  }, [formData.statModifiersText]);
 
-  const skillRefsState = useMemo(() => {
-    try {
-      const parsed = JSON.parse(formData.skillRefsText.trim() || '[]') as unknown;
-      if (!Array.isArray(parsed) || parsed.some((item) => typeof item !== 'string')) {
-        throw new Error('skillRefs 必须是字符串数组。');
-      }
-      return { value: parsed as string[], error: null as string | null };
-    } catch (error) {
-      return { value: [] as string[], error: error instanceof Error ? error.message : String(error) };
-    }
-  }, [formData.skillRefsText]);
-
-  const recipeIdsState = useMemo(() => {
-    try {
-      const parsed = JSON.parse(formData.recipeIdsText.trim() || '[]') as unknown;
-      if (!Array.isArray(parsed) || parsed.some((item) => typeof item !== 'string')) {
-        throw new Error('recipeIds 必须是字符串数组。');
-      }
-      return { value: parsed as string[], error: null as string | null };
-    } catch (error) {
-      return { value: [] as string[], error: error instanceof Error ? error.message : String(error) };
-    }
-  }, [formData.recipeIdsText]);
+  const skillRefsState = useMemo(() => parseStringArrayText(formData.skillRefsText, 'skillRefs'), [formData.skillRefsText]);
+  const recipeIdsState = useMemo(() => parseStringArrayText(formData.recipeIdsText, 'recipeIds'), [formData.recipeIdsText]);
 
   return (
     <Modal
-      title={mode === 'create' ? '新增装备' : mode === 'edit' ? '编辑装备' : '查看装备'}
+      title={mode === 'create' ? 'Create Item' : mode === 'edit' ? 'Edit Item' : 'View Item'}
       visible={visible}
       onCancel={onClose}
       footer={
         <Space>
-          <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
+          <Button onClick={onClose}>{readOnly ? 'Close' : 'Cancel'}</Button>
           {!readOnly ? (
             <Button type="primary" loading={saving || imageUploading} onClick={() => void onSubmit()}>
-              保存
+              Save
             </Button>
           ) : null}
         </Space>
@@ -106,13 +134,13 @@ export function ItemsModal({
             value={formData.itemId}
             disabled={readOnly || editingExisting}
             onChange={(value) => onFieldChange('itemId', value)}
-            placeholder="请输入 itemId"
+            placeholder="Input itemId"
           />
         </Form.Item>
 
         <div className="crud-form-grid">
-          <Form.Item label="名称">
-            <Input value={formData.name} disabled={readOnly} onChange={(value) => onFieldChange('name', value)} placeholder="请输入名称" />
+          <Form.Item label="name">
+            <Input value={formData.name} disabled={readOnly} onChange={(value) => onFieldChange('name', value)} placeholder="Input name" />
           </Form.Item>
 
           <Form.Item label="goldCost">
@@ -120,27 +148,27 @@ export function ItemsModal({
               value={formData.goldCost}
               disabled={readOnly}
               onChange={(value) => onFieldChange('goldCost', value)}
-              placeholder="请输入 goldCost"
+              placeholder="Input goldCost"
             />
           </Form.Item>
         </div>
 
-        <Form.Item label="装备图片">
+        <Form.Item label="item image">
           <ResourceImageUploadField
             src={imageSrc}
-            alt={formData.name || formData.itemId || '装备图片'}
+            alt={formData.name || formData.itemId || 'item image'}
             imageUri={imageUri}
-            uriPlaceholder="请先填写 itemId 以生成图片标识。"
+            uriPlaceholder="Fill itemId first to generate uri"
             readOnly={readOnly}
             uploading={imageUploading}
             error={imageError}
-            emptyLabel="未上传"
-            helperText="缓存未命中时仅显示占位图。上传时会先居中裁切，再转成 64x64 后同步写入服务端和本地 IndexedDB。"
+            emptyLabel="No image"
+            helperText="Upload will center-crop and normalize to 64x64 before saving."
             onUpload={onUploadImage}
           />
         </Form.Item>
 
-        <Form.Item label="类型标签">
+        <Form.Item label="type tags">
           <TypeTagEditor
             definitions={typeDefinitions}
             persistedTypeIds={formData.persistedTypeIds}
@@ -150,20 +178,20 @@ export function ItemsModal({
           />
         </Form.Item>
 
-        <Form.Item label="statsModifier 结构化编辑">
-          {statsModifierState.error ? <Alert type="error" content={`statsModifier 解析失败：${statsModifierState.error}`} style={{ marginBottom: 12 }} /> : null}
+        <Form.Item label="statModifiers structured">
+          {statModifiersState.error ? <Alert type="error" content={`statModifiers parse failed: ${statModifiersState.error}`} style={{ marginBottom: 12 }} /> : null}
           <BaseStatsEditor
             apiBaseUrl={apiBaseUrl}
             selectedGameId={selectedGameId}
             adminToken={adminToken}
-            rows={statsModifierState.rows}
-            disabled={readOnly || !!statsModifierState.error}
-            onChange={(rows) => onFieldChange('statsModifierText', stringifyBaseStatsRows(rows))}
+            rows={statModifiersState.rows}
+            disabled={readOnly || !!statModifiersState.error}
+            onChange={(rows) => onFieldChange('statModifiersText', stringifyStatModifierRows(rows))}
           />
         </Form.Item>
 
-        <Form.Item label="skillRefs 结构化编辑">
-          {skillRefsState.error ? <Alert type="error" content={`skillRefs 解析失败：${skillRefsState.error}`} style={{ marginBottom: 12 }} /> : null}
+        <Form.Item label="skillRefs structured">
+          {skillRefsState.error ? <Alert type="error" content={`skillRefs parse failed: ${skillRefsState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillRefSelector
             apiBaseUrl={apiBaseUrl}
             selectedGameId={selectedGameId}
@@ -174,8 +202,8 @@ export function ItemsModal({
           />
         </Form.Item>
 
-        <Form.Item label="recipeIds 结构化编辑">
-          {recipeIdsState.error ? <Alert type="error" content={`recipeIds 解析失败：${recipeIdsState.error}`} style={{ marginBottom: 12 }} /> : null}
+        <Form.Item label="recipeIds structured">
+          {recipeIdsState.error ? <Alert type="error" content={`recipeIds parse failed: ${recipeIdsState.error}`} style={{ marginBottom: 12 }} /> : null}
           <ItemRecipeSelector
             apiBaseUrl={apiBaseUrl}
             selectedGameId={selectedGameId}
@@ -188,14 +216,14 @@ export function ItemsModal({
         </Form.Item>
 
         <Collapse defaultActiveKey={[]} style={{ marginTop: 8 }}>
-          <Collapse.Item name="advanced-json" header="高级 JSON 编辑（双向同步）">
-            <Form.Item label="statsModifier JSON">
+          <Collapse.Item name="advanced-json" header="Advanced JSON (two-way sync)">
+            <Form.Item label="statModifiers JSON">
               <Input.TextArea
-                value={formData.statsModifierText}
+                value={formData.statModifiersText}
                 disabled={readOnly}
                 autoSize={{ minRows: 8, maxRows: 14 }}
-                onChange={(value) => onFieldChange('statsModifierText', value)}
-                placeholder="{\n  \n}"
+                onChange={(value) => onFieldChange('statModifiersText', value)}
+                placeholder={'[\n  {\n    "attrKey": "",\n    "value": 0\n  }\n]'}
                 className="admin-json-input"
               />
             </Form.Item>
@@ -206,7 +234,7 @@ export function ItemsModal({
                 disabled={readOnly}
                 autoSize={{ minRows: 4, maxRows: 8 }}
                 onChange={(value) => onFieldChange('skillRefsText', value)}
-                placeholder="[\n  \n]"
+                placeholder={'[\n  \n]'}
                 className="admin-json-input"
               />
             </Form.Item>
@@ -217,7 +245,7 @@ export function ItemsModal({
                 disabled={readOnly}
                 autoSize={{ minRows: 4, maxRows: 8 }}
                 onChange={(value) => onFieldChange('recipeIdsText', value)}
-                placeholder="[\n  \n]"
+                placeholder={'[\n  \n]'}
                 className="admin-json-input"
               />
             </Form.Item>
