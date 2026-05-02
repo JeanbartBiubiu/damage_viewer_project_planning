@@ -29,9 +29,32 @@
                target_category AS targetCategory,
                target_id AS targetId,
                extend::text AS extendJson
-        FROM public.type_relations tr
-        WHERE game_id = #{gameId}
-          AND COALESCE((to_jsonb(tr) -&gt;&gt; 'deleted')::boolean, FALSE) = FALSE
+        FROM (
+                 SELECT tr.type_id,
+                        tr.target_category,
+                        tr.target_id,
+                        tr.extend
+                 FROM public.type_relations tr
+                 WHERE tr.game_id = #{gameId}
+                   AND COALESCE((to_jsonb(tr) -&gt;&gt; 'deleted')::boolean, FALSE) = FALSE
+
+                 UNION ALL
+
+                 SELECT rtr.type_id,
+                        'type' AS target_category,
+                        rtr.parent_type_id::text AS target_id,
+                        NULL::jsonb AS extend
+                 FROM public.reserved_type_relation rtr
+                 WHERE NOT EXISTS (
+                     SELECT 1
+                     FROM public.type_relations tr
+                     WHERE tr.game_id = #{gameId}
+                       AND tr.type_id = rtr.type_id
+                       AND tr.target_category = 'type'
+                       AND tr.target_id = rtr.parent_type_id::text
+                       AND COALESCE((to_jsonb(tr) -&gt;&gt; 'deleted')::boolean, FALSE) = FALSE
+                 )
+             ) relations
         ORDER BY target_category, target_id, type_id
     </select>
 
