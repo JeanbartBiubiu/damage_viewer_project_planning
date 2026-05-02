@@ -1,11 +1,20 @@
 import { Alert, Message } from '@arco-design/web-react';
 import { useState } from 'react';
 import { Panel } from '../../../../components/Panel';
-import { getAttributeDefinitions, getErrorMessage, putAttributeDefinition, putImage } from '../../../../services/apiClient';
+import { findTypeIdByReservedTypeId, RESERVED_TYPE_IDS } from '../../../../config/reservedTypes';
+import {
+  getAttributeDefinitions,
+  getErrorMessage,
+  putAttributeDefinition,
+  putImage,
+  replaceTypeRelationsForTarget
+} from '../../../../services/apiClient';
 import { buildAttributeImageUri, readImageFileAsDataUrl } from '../../../../services/resourceImage';
 import type { JsonObject } from '../../../../types/api';
+import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { useResourceImageCache } from '../shared/useResourceImageCache';
+import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { createAttributeDefinitionsFormData, createAttributeDefinitionsSearchData } from './constants';
 import { AttributeDefinitionsModal } from './modal';
 import { AttributeDefinitionsSearch } from './search';
@@ -93,15 +102,26 @@ async function saveAttributeDefinitionsRecord(
 
 export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToken }: AttributeDefinitionsPageProps) {
   const actionsDisabled = !selectedGameId || !adminToken.trim();
+  const token = adminToken.trim();
   const blockerMessage = !selectedGameId
     ? '请先选择当前 gameId。'
-    : !adminToken.trim()
+    : !token
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
 
+  const {
+    types,
+    targetTypeIdsByKey,
+    loading: typeCatalogLoading,
+    error: typeCatalogError,
+    refresh: refreshTypeCatalog
+  } = useTypeCatalog(apiBaseUrl, selectedGameId, adminToken);
   const { imageSrcByUri, cacheError: imageCacheError, refreshImageCache, upsertImageAsset } = useResourceImageCache(selectedGameId);
   const [imageUploading, setImageUploading] = useState(false);
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
+  const [togglingAttrKey, setTogglingAttrKey] = useState<string | null>(null);
+  const growthTypeId = findTypeIdByReservedTypeId(types, RESERVED_TYPE_IDS.ATTRIBUTE_HERO_PROGRESSION);
+  const growthTypeMissing = !!selectedGameId && !!token && !typeCatalogLoading && !typeCatalogError && growthTypeId === undefined;
 
   const {
     filteredRecords,
@@ -188,9 +208,56 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
     closeModal();
   };
 
+  const isGrowthAttribute = (record: AttributeDefinitionsRecord): boolean => {
+    if (growthTypeId === undefined) {
+      return false;
+    }
+    const typeIds = targetTypeIdsByKey.get(`attribute:${record.attrKey}`) ?? [];
+    return typeIds.includes(growthTypeId);
+  };
+
+  const handleToggleGrowth = async (record: AttributeDefinitionsRecord) => {
+    if (!selectedGameId || !token || growthTypeId === undefined) {
+      return;
+    }
+
+    const targetKey = `attribute:${record.attrKey}`;
+    const currentTypeIds = targetTypeIdsByKey.get(targetKey) ?? [];
+    const currentlyGrowth = currentTypeIds.includes(growthTypeId);
+    const nextTypeIds = currentlyGrowth
+      ? currentTypeIds.filter((typeId) => typeId !== growthTypeId)
+      : Array.from(new Set([...currentTypeIds, growthTypeId])).sort((left, right) => left - right);
+
+    try {
+      setTogglingAttrKey(record.attrKey);
+      await replaceTypeRelationsForTarget(
+        apiBaseUrl,
+        selectedGameId,
+        'attribute',
+        record.attrKey,
+        token,
+        buildTypeRelationReplacePayloadFromIds(nextTypeIds)
+      );
+      Message.success(currentlyGrowth ? '已切换为非成长属性' : '已切换为成长属性');
+      refreshTypeCatalog();
+    } catch (error) {
+      Message.error(getErrorMessage(error));
+    } finally {
+      setTogglingAttrKey(null);
+    }
+  };
+
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
+      {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
+      {growthTypeMissing ? (
+        <Alert
+          type="warning"
+          content="未找到保留类型“人物成长属性”（reservedTypeId=20000），请先在类型定义页完成配置。"
+          className="resource-warning-alert"
+        />
+      ) : null}
       {imageCacheError ? <Alert type="warning" content={`图片缓存读取失败：${imageCacheError}`} className="resource-warning-alert" /> : null}
 
       <Panel title="查询条件" kicker="Search">
@@ -210,6 +277,10 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
           actionsDisabled={actionsDisabled}
           onView={openViewModalWithImageState}
           onEdit={openEditModalWithImageState}
+          onToggleGrowth={(record) => void handleToggleGrowth(record)}
+          isGrowthAttribute={isGrowthAttribute}
+          growthTypeAvailable={growthTypeId !== undefined}
+          togglingAttrKey={togglingAttrKey}
           resolveImageSrc={(record) => {
             const imageUri = buildAttributeImageUri(record.attrKey);
             return imageUri ? imageSrcByUri[imageUri] ?? null : null;
@@ -217,6 +288,7 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
           onCreate={openCreateModalWithImageState}
           onRefresh={() => {
             refreshRecords();
+            refreshTypeCatalog();
             void refreshImageCache();
           }}
         />

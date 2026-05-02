@@ -18,6 +18,7 @@ import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
+import { ResourceImageThumb } from '../components/ResourceImageThumb';
 import {
   compileTinyGoV2ValidationInput,
   createDefaultWasmValidationSelection,
@@ -28,7 +29,9 @@ import {
 } from '../engine/tinygoV2BundleAdapter';
 import { TinyGoV2Bridge, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
 import { getErrorMessage } from '../services/apiClient';
+import { useResourceImageCache } from './admin/resources/shared/useResourceImageCache';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
+import { buildAttributeImageUri } from '../services/resourceImage';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
 
 type WasmValidationPageProps = {
@@ -241,12 +244,24 @@ function buildActorInputRows(input: TinyGoV2ValidationInput | null): ActorInputR
 
 function renderDiffTag(diff: number | null) {
   if (diff === null) {
-    return <Tag color="gray">--</Tag>;
+    return (
+      <Tag className="wasm-hud-diff-tag" color="gray">
+        --
+      </Tag>
+    );
   }
   if (Math.abs(diff) < 0.0001) {
-    return <Tag color="green">0</Tag>;
+    return (
+      <Tag className="wasm-hud-diff-tag" color="green">
+        0
+      </Tag>
+    );
   }
-  return <Tag color="red">{formatNumber(diff)}</Tag>;
+  return (
+    <Tag className="wasm-hud-diff-tag" color="red">
+      {formatNumber(diff)}
+    </Tag>
+  );
 }
 
 function toStringArray(value: unknown): string[] {
@@ -280,6 +295,7 @@ export function WasmValidationPage({
   const [durationMs, setDurationMs] = useState<number | null>(null);
   const [frames, setFrames] = useState<DecodedFrame[]>([]);
   const [baselineText, setBaselineText] = useState('');
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   useEffect(() => {
     let cancelled = false;
@@ -358,6 +374,45 @@ export function WasmValidationPage({
   const actorInputRows = useMemo(() => buildActorInputRows(inputPreview.value), [inputPreview.value]);
   const matchedRows = attributeRows.filter((row) => row.baseline !== null);
   const diffRows = matchedRows.filter((row) => row.diff !== null && Math.abs(row.diff) >= 0.0001);
+  const attributeNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const definition of bundle?.attributeDefinitions ?? []) {
+      const displayName = definition.attrName?.trim() ?? '';
+      if (displayName) {
+        map.set(definition.attrKey, displayName);
+      }
+    }
+    return map;
+  }, [bundle]);
+  const sideActorIds = useMemo(() => {
+    const normalize = (value: string) => value.trim().toLowerCase();
+    const selfActor = actorRows.find((row) => normalize(row.actorId) === 'self');
+    const enemyActor = actorRows.find((row) => normalize(row.actorId) === 'enemy');
+    const fallbackIds = actorRows.map((row) => row.actorId);
+    const selfId = selfActor?.actorId ?? fallbackIds[0] ?? 'self';
+    const enemyId = enemyActor?.actorId ?? fallbackIds.find((id) => id !== selfId) ?? 'enemy';
+
+    return {
+      selfId,
+      enemyId
+    };
+  }, [actorRows]);
+  const selfActorRows = useMemo(
+    () => actorRows.filter((row) => row.actorId === sideActorIds.selfId),
+    [actorRows, sideActorIds.selfId]
+  );
+  const enemyActorRows = useMemo(
+    () => actorRows.filter((row) => row.actorId === sideActorIds.enemyId),
+    [actorRows, sideActorIds.enemyId]
+  );
+  const selfAttributeRows = useMemo(
+    () => attributeRows.filter((row) => row.actorId === sideActorIds.selfId),
+    [attributeRows, sideActorIds.selfId]
+  );
+  const enemyAttributeRows = useMemo(
+    () => attributeRows.filter((row) => row.actorId === sideActorIds.enemyId),
+    [attributeRows, sideActorIds.enemyId]
+  );
 
   const updateSelection = useCallback((patch: Partial<WasmValidationSelection>) => {
     setSelection((current) => (current ? { ...current, ...patch } : current));
@@ -407,97 +462,155 @@ export function WasmValidationPage({
     await navigator.clipboard.writeText(JSON.stringify(snapshotPayload, null, 2));
   }, [snapshotPayload]);
 
+  const resolveAttributeImageSrc = useCallback(
+    (attrId: string) => {
+      const imageUri = buildAttributeImageUri(attrId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
+  const resolveAttributeDisplayName = useCallback(
+    (attrId: string) => attributeNameById.get(attrId) ?? attrId,
+    [attributeNameById]
+  );
+
   const actorInputColumns = [
     {
-      title: 'Side',
-      render: (_: unknown, record: ActorInputRow) => <Typography.Text className="wasm-code-token">{record.actorId}</Typography.Text>
+      title: <span className="wasm-hud-col-title">Side</span>,
+      render: (_: unknown, record: ActorInputRow) => (
+        <Typography.Text className="wasm-code-token wasm-hud-label">{record.actorId}</Typography.Text>
+      )
     },
     {
-      title: 'Hero',
+      title: <span className="wasm-hud-col-title">Hero</span>,
       render: (_: unknown, record: ActorInputRow) => (
         <Space direction="vertical" size={0}>
-          <Typography.Text>{record.heroName}</Typography.Text>
-          <Typography.Text type="secondary" className="wasm-code-token">
+          <Typography.Text className="wasm-hud-label">{record.heroName}</Typography.Text>
+          <Typography.Text type="secondary" className="wasm-code-token wasm-hud-sub-label">
             {record.heroId}
           </Typography.Text>
         </Space>
       )
     },
     {
-      title: 'Level',
-      render: (_: unknown, record: ActorInputRow) => String(record.level)
+      title: <span className="wasm-hud-col-title">Level</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorInputRow) => <span className="wasm-hud-value">{record.level}</span>
     },
     {
-      title: 'Items',
-      render: (_: unknown, record: ActorInputRow) => record.itemText
+      title: <span className="wasm-hud-col-title">Items</span>,
+      render: (_: unknown, record: ActorInputRow) => <span className="wasm-hud-label">{record.itemText}</span>
     },
     {
-      title: 'Max HP',
-      render: (_: unknown, record: ActorInputRow) => formatNumber(record.maxHp)
+      title: <span className="wasm-hud-col-title">Max HP</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorInputRow) => (
+        <span className="wasm-hud-value wasm-hud-value--gold">{formatNumber(record.maxHp)}</span>
+      )
     },
     {
-      title: 'Attrs',
-      render: (_: unknown, record: ActorInputRow) => String(record.attrCount)
+      title: <span className="wasm-hud-col-title">Attrs</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorInputRow) => <span className="wasm-hud-value">{record.attrCount}</span>
     }
   ];
 
   const actorColumns = [
     {
-      title: 'actorId',
-      render: (_: unknown, record: ActorRow) => <Typography.Text className="wasm-code-token">{record.actorId}</Typography.Text>
+      title: <span className="wasm-hud-col-title">actorId</span>,
+      render: (_: unknown, record: ActorRow) => (
+        <Typography.Text className="wasm-code-token wasm-hud-label">{record.actorId}</Typography.Text>
+      )
     },
     {
-      title: 'HP',
-      render: (_: unknown, record: ActorRow) => `${formatNumber(record.currentHp)} / ${formatNumber(record.maxHp)}`
+      title: <span className="wasm-hud-col-title">HP</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => (
+        <span className="wasm-hud-value wasm-hud-value--gold">
+          {formatNumber(record.currentHp)} / {formatNumber(record.maxHp)}
+        </span>
+      )
     },
     {
-      title: 'Shield',
-      render: (_: unknown, record: ActorRow) => formatNumber(record.shieldAmount)
+      title: <span className="wasm-hud-col-title">Shield</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{formatNumber(record.shieldAmount)}</span>
     },
     {
-      title: 'Attributes',
-      render: (_: unknown, record: ActorRow) => String(record.attributeCount)
+      title: <span className="wasm-hud-col-title">Attributes</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{record.attributeCount}</span>
     },
     {
-      title: 'Resources',
-      render: (_: unknown, record: ActorRow) => String(record.resourceCount)
+      title: <span className="wasm-hud-col-title">Resources</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{record.resourceCount}</span>
     }
   ];
 
   const attributeColumns = [
     {
-      title: 'Actor',
-      render: (_: unknown, record: AttributeRow) => <Typography.Text className="wasm-code-token">{record.actorId}</Typography.Text>
+      title: <span className="wasm-hud-col-title">Actor</span>,
+      render: (_: unknown, record: AttributeRow) => (
+        <Typography.Text className="wasm-code-token wasm-hud-label">{record.actorId}</Typography.Text>
+      )
     },
     {
-      title: 'Attribute',
-      render: (_: unknown, record: AttributeRow) => <Typography.Text className="wasm-code-token">{record.attrId}</Typography.Text>
+      title: <span className="wasm-hud-col-title">Attribute</span>,
+      render: (_: unknown, record: AttributeRow) => {
+        const displayName = resolveAttributeDisplayName(record.attrId);
+        const showId = displayName !== record.attrId;
+        return (
+          <span className="wasm-attr-cell">
+            <ResourceImageThumb
+              src={resolveAttributeImageSrc(record.attrId)}
+              alt={displayName}
+              size={20}
+              emptyLabel=""
+            />
+            <span className="wasm-attr-copy">
+              <Typography.Text className="wasm-hud-label">{displayName}</Typography.Text>
+              {showId ? <Typography.Text className="wasm-code-token wasm-hud-sub-label">{record.attrId}</Typography.Text> : null}
+            </span>
+          </span>
+        );
+      }
     },
     {
-      title: 'Base',
-      render: (_: unknown, record: AttributeRow) => formatNumber(record.base)
+      title: <span className="wasm-hud-col-title">Base</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.base)}</span>
     },
     {
-      title: 'Current',
-      render: (_: unknown, record: AttributeRow) => formatNumber(record.current)
+      title: <span className="wasm-hud-col-title">Current</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.current)}</span>
     },
     {
-      title: 'Max',
-      render: (_: unknown, record: AttributeRow) => formatNumber(record.max)
+      title: <span className="wasm-hud-col-title">Max</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.max)}</span>
     },
     {
-      title: 'Resolved',
-      render: (_: unknown, record: AttributeRow) => formatNumber(record.resolved)
+      title: <span className="wasm-hud-col-title">Resolved</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => (
+        <span className="wasm-hud-value wasm-hud-value--gold">{formatNumber(record.resolved)}</span>
+      )
     },
     {
-      title: 'Manual',
-      render: (_: unknown, record: AttributeRow) => formatNumber(record.baseline)
+      title: <span className="wasm-hud-col-title">Manual</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.baseline)}</span>
     },
     {
-      title: 'Diff',
+      title: <span className="wasm-hud-col-title">Diff</span>,
+      align: 'right' as const,
       render: (_: unknown, record: AttributeRow) => renderDiffTag(record.diff)
     }
   ];
+  const actorColumnsBySide = actorColumns.slice(1);
+  const attributeColumnsBySide = attributeColumns.slice(1);
 
   const heroOptions = bundle?.heroes ?? [];
   const itemOptions = bundle?.items ?? [];
@@ -696,7 +809,7 @@ export function WasmValidationPage({
             </Row>
 
             <Table
-              className="data-table-shell"
+              className="data-table-shell wasm-hud-table wasm-hud-table--input"
               columns={actorInputColumns}
               data={actorInputRows}
               pagination={false}
@@ -721,24 +834,54 @@ export function WasmValidationPage({
       >
         <Space direction="vertical" size={16} style={{ width: '100%' }}>
           {snapshotPayload ? null : <EmptyState title="还没有运行结果" description="选择人物和装备后运行一次 Wasm 快照。" />}
-          <Table
-            className="data-table-shell"
-            columns={actorColumns}
-            data={actorRows}
-            pagination={false}
-            rowKey="key"
-            size="small"
-            scroll={{ x: '100%' }}
-          />
-          <Table
-            className="data-table-shell"
-            columns={attributeColumns}
-            data={attributeRows}
-            pagination={false}
-            rowKey="key"
-            size="small"
-            scroll={{ x: '100%' }}
-          />
+          <Row gutter={[16, 16]} className="wasm-side-grid">
+            <Col xs={24} xl={12}>
+              <section className="wasm-side-panel">
+                <Typography.Text className="wasm-side-title">己方 / {sideActorIds.selfId}</Typography.Text>
+                <Table
+                  className="data-table-shell wasm-hud-table wasm-hud-table--actors"
+                  columns={actorColumnsBySide}
+                  data={selfActorRows}
+                  pagination={false}
+                  rowKey="key"
+                  size="small"
+                  scroll={{ x: '100%' }}
+                />
+                <Table
+                  className="data-table-shell wasm-hud-table wasm-hud-table--attributes"
+                  columns={attributeColumnsBySide}
+                  data={selfAttributeRows}
+                  pagination={false}
+                  rowKey="key"
+                  size="small"
+                  scroll={{ x: '100%' }}
+                />
+              </section>
+            </Col>
+            <Col xs={24} xl={12}>
+              <section className="wasm-side-panel">
+                <Typography.Text className="wasm-side-title">敌方 / {sideActorIds.enemyId}</Typography.Text>
+                <Table
+                  className="data-table-shell wasm-hud-table wasm-hud-table--actors"
+                  columns={actorColumnsBySide}
+                  data={enemyActorRows}
+                  pagination={false}
+                  rowKey="key"
+                  size="small"
+                  scroll={{ x: '100%' }}
+                />
+                <Table
+                  className="data-table-shell wasm-hud-table wasm-hud-table--attributes"
+                  columns={attributeColumnsBySide}
+                  data={enemyAttributeRows}
+                  pagination={false}
+                  rowKey="key"
+                  size="small"
+                  scroll={{ x: '100%' }}
+                />
+              </section>
+            </Col>
+          </Row>
         </Space>
       </Panel>
 
