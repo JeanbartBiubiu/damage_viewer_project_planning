@@ -66,7 +66,7 @@ export function AttributeDefinitionsTable({
         data={records}
         pagination={false}
         rowKey="attrKey"
-        scroll={{ x: 1360 }}
+        scroll={{ x: 1460 }}
       />
     </Space>
   );

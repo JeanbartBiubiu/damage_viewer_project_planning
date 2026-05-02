@@ -1,5 +1,6 @@
 import { Button, Space, Tag, Typography } from '@arco-design/web-react';
 import { ResourceImageThumb } from '../../../../components/ResourceImageThumb';
+import { resolveAttributeOrder } from './constants';
 import type { AttributeDefinitionsRecord } from './types';
 
 type AttributeDefinitionsTableActions = {
@@ -52,6 +53,12 @@ export function getAttributeDefinitionsColumns({
       dataIndex: 'defaultValue',
       width: 120,
       render: (_: unknown, record: AttributeDefinitionsRecord) => record.defaultValue ?? '--'
+    },
+    {
+      title: '排序',
+      dataIndex: 'order',
+      width: 100,
+      render: (_: unknown, record: AttributeDefinitionsRecord) => resolveAttributeOrder(record) ?? '--'
     },
     {
       title: 'valueKind',

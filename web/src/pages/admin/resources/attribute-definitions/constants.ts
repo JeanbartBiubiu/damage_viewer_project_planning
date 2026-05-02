@@ -22,7 +22,29 @@ export function createAttributeDefinitionsFormData(): AttributeDefinitionsFormDa
     attrName: '',
     attrType: 'number',
     defaultValue: '0',
+    order: '0',
     valueKind: 'scalar',
     rateTargetAttrKey: ''
   };
+}
+
+function toFiniteNumber(value: unknown): number | undefined {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+  return undefined;
+}
+
+export function resolveAttributeOrder(record: { order?: unknown; sortOrder?: unknown }): number | undefined {
+  const order = toFiniteNumber(record.order);
+  if (order !== undefined) {
+    return order;
+  }
+  return toFiniteNumber(record.sortOrder);
 }

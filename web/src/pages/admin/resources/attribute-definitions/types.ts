@@ -14,6 +14,7 @@ export type AttributeDefinitionsFormData = {
   attrName: string;
   attrType: string;
   defaultValue: string;
+  order: string;
   valueKind: string;
   rateTargetAttrKey: string;
 };
