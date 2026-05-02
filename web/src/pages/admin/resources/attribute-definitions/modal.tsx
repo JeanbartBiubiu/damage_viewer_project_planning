@@ -115,6 +115,18 @@ export function AttributeDefinitionsModal({
             />
           </Form.Item>
 
+          <Form.Item label="排序">
+            <Input
+              value={formData.order}
+              disabled={readOnly}
+              onChange={(value) => onFieldChange('order', value)}
+              placeholder="请输入排序值"
+            />
+          </Form.Item>
+
+        </div>
+
+        <div className="crud-form-grid">
           <Form.Item label="valueKind">
             <Select
               disabled={readOnly}
