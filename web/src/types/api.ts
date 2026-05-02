@@ -69,6 +69,8 @@ export type AttributeDefinition = {
   attrName?: string;
   attrType?: string;
   defaultValue?: number;
+  order?: number;
+  sortOrder?: number;
   valueKind?: 'scalar' | 'ratio' | 'rate' | 'flag';
   rateTargetAttrKey?: string;
   [key: string]: unknown;
