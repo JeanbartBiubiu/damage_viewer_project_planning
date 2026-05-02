@@ -3,9 +3,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import {
+  parseBaseStatsRows,
   parseHeroStatsMatrix,
-  stringifyHeroStatsMatrix
+  parseStatsByLevelRows,
+  stringifyBaseStatsRows,
+  stringifyHeroStatsMatrix,
+  stringifyStatsByLevelRows
 } from '../../../../components/hero-editor/heroStats';
+import { findTypeIdByReservedTypeId, RESERVED_TYPE_IDS } from '../../../../config/reservedTypes';
 import { HeroStatsMatrixEditor } from '../../../../components/hero-editor/HeroStatsMatrixEditor';
 import { loadAttributeDefinitions } from '../../../../services/attributeDefinitions';
 import { getErrorMessage } from '../../../../services/apiClient';
@@ -14,6 +19,7 @@ import type { HeroesFormData } from './types';
 
 type HeroesModalProps = {
   typeDefinitions: TypeDefinition[];
+  targetTypeIdsByKey: Map<string, number[]>;
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
@@ -43,6 +49,7 @@ const DEFAULT_PROGRESSION_SCHEMA: GameProgressionSchema = {
 
 export function HeroesModal({
   typeDefinitions,
+  targetTypeIdsByKey,
   apiBaseUrl,
   selectedGameId,
   adminToken,
@@ -65,15 +72,19 @@ export function HeroesModal({
   const editingExisting = mode !== 'create';
   const [attributeDefinitions, setAttributeDefinitions] = useState<AttributeDefinition[]>([]);
   const [attributeDefinitionsError, setAttributeDefinitionsError] = useState<string | null>(null);
+  const [attributeDefinitionsReady, setAttributeDefinitionsReady] = useState(false);
+  const growthTypeId = findTypeIdByReservedTypeId(typeDefinitions, RESERVED_TYPE_IDS.ATTRIBUTE_HERO_PROGRESSION);
 
   useEffect(() => {
     if (!visible || !selectedGameId || !adminToken.trim()) {
       setAttributeDefinitions([]);
       setAttributeDefinitionsError(null);
+      setAttributeDefinitionsReady(false);
       return;
     }
 
     let cancelled = false;
+    setAttributeDefinitionsReady(false);
     loadAttributeDefinitions({
       apiBaseUrl,
       gameId: selectedGameId,
@@ -85,6 +96,7 @@ export function HeroesModal({
         }
         setAttributeDefinitions(result.definitions);
         setAttributeDefinitionsError(null);
+        setAttributeDefinitionsReady(true);
       })
       .catch((error) => {
         if (cancelled) {
@@ -92,6 +104,7 @@ export function HeroesModal({
         }
         setAttributeDefinitions([]);
         setAttributeDefinitionsError(getErrorMessage(error));
+        setAttributeDefinitionsReady(true);
       });
 
     return () => {
@@ -99,22 +112,44 @@ export function HeroesModal({
     };
   }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
+  const growthFilterEnabled = attributeDefinitionsReady && !attributeDefinitionsError && growthTypeId !== undefined;
+  const growthAttributeKeys = useMemo(() => {
+    if (!growthFilterEnabled || growthTypeId === undefined) {
+      return null;
+    }
+    const keys = new Set<string>();
+    for (const definition of attributeDefinitions) {
+      const attrKey = `${definition.attrKey ?? ''}`.trim();
+      if (!attrKey) {
+        continue;
+      }
+      const typeIds = targetTypeIdsByKey.get(`attribute:${attrKey}`) ?? [];
+      if (typeIds.includes(growthTypeId)) {
+        keys.add(attrKey);
+      }
+    }
+    return keys;
+  }, [attributeDefinitions, growthFilterEnabled, growthTypeId, targetTypeIdsByKey]);
+
   const matrixState = useMemo(() => {
     try {
+      const parsedRows = parseHeroStatsMatrix(
+        formData.baseStatsText,
+        formData.statsByLevelText,
+        attributeDefinitions,
+        progressionSchema.stageMin,
+        progressionSchema.stageMax
+      );
       return {
-        rows: parseHeroStatsMatrix(
-          formData.baseStatsText,
-          formData.statsByLevelText,
-          attributeDefinitions,
-          progressionSchema.stageMin,
-          progressionSchema.stageMax
-        ),
+        rows: growthAttributeKeys
+          ? parsedRows.filter((row) => growthAttributeKeys.has(row.attrKey.trim()))
+          : parsedRows,
         error: null as string | null
       };
     } catch (error) {
       return { rows: [], error: error instanceof Error ? error.message : String(error) };
     }
-  }, [attributeDefinitions, formData.baseStatsText, formData.statsByLevelText, progressionSchema.stageMax, progressionSchema.stageMin]);
+  }, [attributeDefinitions, formData.baseStatsText, formData.statsByLevelText, growthAttributeKeys, progressionSchema.stageMax, progressionSchema.stageMin]);
 
   return (
     <Modal
@@ -198,8 +233,40 @@ export function HeroesModal({
             disabled={readOnly || !!matrixState.error}
             onChange={(rows) => {
               const next = stringifyHeroStatsMatrix(rows, progressionSchema.stageMin, progressionSchema.stageMax);
-              onFieldChange('baseStatsText', next.baseStatsText);
-              onFieldChange('statsByLevelText', next.statsByLevelText);
+              if (!growthAttributeKeys) {
+                onFieldChange('baseStatsText', next.baseStatsText);
+                onFieldChange('statsByLevelText', next.statsByLevelText);
+                return;
+              }
+
+              try {
+                const existingBaseRows = parseBaseStatsRows(formData.baseStatsText).filter(
+                  (row) => !growthAttributeKeys.has(row.attrKey.trim())
+                );
+                const nextBaseRows = parseBaseStatsRows(next.baseStatsText);
+                const mergedBaseRows = mergeRowsByAttrKey([...existingBaseRows, ...nextBaseRows]);
+
+                const existingStatsByLevelRows = parseStatsByLevelRows(
+                  formData.statsByLevelText,
+                  progressionSchema.stageMin,
+                  progressionSchema.stageMax
+                ).filter((row) => !growthAttributeKeys.has(row.attrKey.trim()));
+                const nextStatsByLevelRows = parseStatsByLevelRows(
+                  next.statsByLevelText,
+                  progressionSchema.stageMin,
+                  progressionSchema.stageMax
+                );
+                const mergedStatsByLevelRows = mergeRowsByAttrKey([...existingStatsByLevelRows, ...nextStatsByLevelRows]);
+
+                onFieldChange('baseStatsText', stringifyBaseStatsRows(mergedBaseRows));
+                onFieldChange(
+                  'statsByLevelText',
+                  stringifyStatsByLevelRows(mergedStatsByLevelRows, progressionSchema.stageMin, progressionSchema.stageMax)
+                );
+              } catch {
+                onFieldChange('baseStatsText', next.baseStatsText);
+                onFieldChange('statsByLevelText', next.statsByLevelText);
+              }
             }}
           />
         </Form.Item>
@@ -236,4 +303,16 @@ export function HeroesModal({
       </Form>
     </Modal>
   );
+}
+
+function mergeRowsByAttrKey<T extends { attrKey: string }>(rows: T[]): T[] {
+  const rowMap = new Map<string, T>();
+  for (const row of rows) {
+    const attrKey = row.attrKey.trim();
+    if (!attrKey) {
+      continue;
+    }
+    rowMap.set(attrKey, row);
+  }
+  return Array.from(rowMap.values()).sort((left, right) => left.attrKey.localeCompare(right.attrKey, 'zh-CN'));
 }

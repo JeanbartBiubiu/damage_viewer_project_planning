@@ -51,7 +51,7 @@ export function TypesModal({
             value={formData.typeId}
             disabled={readOnly || editingExisting}
             onChange={(value) => onFieldChange('typeId', value)}
-            placeholder="请输入 typeId"
+            placeholder="普通类型从 30000 起"
           />
         </Form.Item>
 
