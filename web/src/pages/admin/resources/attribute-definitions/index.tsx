@@ -15,7 +15,11 @@ import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations'
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { useResourceImageCache } from '../shared/useResourceImageCache';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
-import { createAttributeDefinitionsFormData, createAttributeDefinitionsSearchData } from './constants';
+import {
+  createAttributeDefinitionsFormData,
+  createAttributeDefinitionsSearchData,
+  resolveAttributeOrder
+} from './constants';
 import { AttributeDefinitionsModal } from './modal';
 import { AttributeDefinitionsSearch } from './search';
 import { AttributeDefinitionsTable } from './table';
@@ -32,11 +36,13 @@ type AttributeDefinitionsPageProps = {
 };
 
 function toAttributeDefinitionsFormData(record: AttributeDefinitionsRecord): AttributeDefinitionsFormData {
+  const resolvedOrder = resolveAttributeOrder(record);
   return {
     attrKey: record.attrKey,
     attrName: record.attrName ?? '',
     attrType: record.attrType ?? 'number',
     defaultValue: record.defaultValue !== undefined ? String(record.defaultValue) : '',
+    order: resolvedOrder !== undefined ? String(resolvedOrder) : '',
     valueKind: record.valueKind ?? 'scalar',
     rateTargetAttrKey: record.rateTargetAttrKey ?? ''
   };
@@ -86,8 +92,12 @@ async function saveAttributeDefinitionsRecord(
     attrKey: formData.attrKey.trim(),
     attrName: formData.attrName.trim(),
     attrType: 'number',
-    valueKind: formData.valueKind.trim()
+    valueKind: formData.valueKind.trim(),
+    sortOrder: 0
   };
+
+  const parsedOrder = Number(formData.order.trim());
+  payload.sortOrder = Number.isFinite(parsedOrder) ? parsedOrder : 0;
 
   if (formData.defaultValue.trim()) {
     payload.defaultValue = Number(formData.defaultValue);
