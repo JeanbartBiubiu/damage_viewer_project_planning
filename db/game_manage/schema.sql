@@ -81,6 +81,7 @@ CREATE TABLE public.attribute_definitions (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     attr_key varchar(64) NOT NULL,
+    sort_order int NOT NULL DEFAULT 0,
     attr_name varchar(100),
     attr_type varchar(32),
     default_value numeric DEFAULT 0,
@@ -94,6 +95,8 @@ CREATE TABLE public.attribute_definitions (
             (value_kind = 'rate' AND rate_target_attr_key IS NOT NULL)
             OR (value_kind <> 'rate' AND rate_target_attr_key IS NULL)
         ),
+    CONSTRAINT ck_attribute_definitions_sort_order
+        CHECK (sort_order >= 0),
     CONSTRAINT fk_attribute_definitions_start_version FOREIGN KEY (game_id, start_version_id)
         REFERENCES public.game_versions (game_id, version_id),
     CONSTRAINT fk_attribute_definitions_end_version FOREIGN KEY (game_id, end_version_id)
@@ -104,6 +107,7 @@ COMMENT ON TABLE public.attribute_definitions IS '属性定义（原始表：1�
 COMMENT ON COLUMN public.attribute_definitions.start_version_id IS '该记录覆盖区间的起始版本（含）';
 COMMENT ON COLUMN public.attribute_definitions.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
 COMMENT ON COLUMN public.attribute_definitions.attr_key IS '属性 key（建议全局唯一且稳定，用于计算引擎与前端组装）';
+COMMENT ON COLUMN public.attribute_definitions.sort_order IS '属性排序号（越小越靠前；同值按 attr_key 兜底）';
 COMMENT ON COLUMN public.attribute_definitions.value_kind IS '属性值类别：scalar(普通数值)/ratio(比例)/rate(每秒速率)/flag(开关)';
 COMMENT ON COLUMN public.attribute_definitions.rate_target_attr_key IS '仅 rate 生效：该速率作用到的目标属性 key（如 hp_regen -> hp）';
 
@@ -112,6 +116,7 @@ CREATE TABLE public.attribute_definitions_log (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     attr_key varchar(64) NOT NULL,
+    sort_order int NOT NULL DEFAULT 0,
     attr_name varchar(100),
     attr_type varchar(32),
     default_value numeric DEFAULT 0,
@@ -124,6 +129,8 @@ CREATE TABLE public.attribute_definitions_log (
             (value_kind = 'rate' AND rate_target_attr_key IS NOT NULL)
             OR (value_kind <> 'rate' AND rate_target_attr_key IS NULL)
         ),
+    CONSTRAINT ck_attribute_definitions_log_sort_order
+        CHECK (sort_order >= 0),
     CONSTRAINT fk_attribute_definitions_log_start_version FOREIGN KEY (game_id, start_version_id)
         REFERENCES public.game_versions (game_id, version_id),
     CONSTRAINT fk_attribute_definitions_log_end_version FOREIGN KEY (game_id, end_version_id)

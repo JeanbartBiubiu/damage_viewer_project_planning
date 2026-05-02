@@ -3,7 +3,7 @@ DOC_TYPE: 需求澄清
 WORKSTREAM: server
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: pending
+LAST_TRACKED_AT: 2026-04-30
 
 # WASM + DB 补充设计 TODO
 
@@ -53,7 +53,7 @@ LAST_TRACKED_AT: pending
   3. 补齐发布链路：
      - 版本推进
      - log 表回填
-     - 参与 `dataHash` 计算
+     - 参与发布快照生成
   4. `bundle` 增加 `formulaProfiles/formulaBindings` 字段，供前端/WASM 初始化消费。
   5. 语义校验：
      - binding 引用公式必须存在
@@ -154,7 +154,7 @@ LAST_TRACKED_AT: pending
      - 护盾交互矩阵
      - 护甲/魔抗曲线策略
      - 暴击与特殊伤害规则
-  2. 每个 `gameId/versionId` 绑定一个规则 profile。
+  2. 每个 `gameId/versionCode` 绑定一个规则 profile。
 - 验收标准：
   - 接入第二款规则差异大的游戏时，不需要改核心引擎代码。
 
@@ -178,4 +178,4 @@ LAST_TRACKED_AT: pending
 8. `P1-4` 契约同步门禁。
 
 ## 依赖与关联
-- 若 Public 读写隔离问题（`server/data_manage/todo/backend-review-todo.md` 的 P0）未完成，`bundle` 契约联调结论可能受缓存/可见性干扰，建议并行跟踪。
+- Bundle 读写隔离以当前发布快照链路为准：Public 侧通过 `versionCode` 读取已发布快照，不从编辑工作区临时拼装。
