@@ -448,7 +448,6 @@ CREATE TABLE public.items (
     name varchar(100),
     gold_cost int,
     icon_url text,
-    stats_modifier jsonb,
     skill_refs jsonb,
     recipe_ids jsonb,
     updated_at timestamp NOT NULL DEFAULT NOW(),
@@ -461,7 +460,6 @@ CREATE TABLE public.items (
 
 COMMENT ON TABLE public.items IS '装备/道具定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
 COMMENT ON COLUMN public.items.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
-COMMENT ON COLUMN public.items.stats_modifier IS '装备属性加成（推荐结构化 JSON，key 使用 attr_key）';
 COMMENT ON COLUMN public.items.skill_refs IS '装备关联技能引用（被动/主动 skill_id 列表等）';
 
 CREATE TABLE public.items_log (
@@ -472,7 +470,6 @@ CREATE TABLE public.items_log (
     name varchar(100),
     gold_cost int,
     icon_url text,
-    stats_modifier jsonb,
     skill_refs jsonb,
     recipe_ids jsonb,
     CONSTRAINT pk_items_log PRIMARY KEY (game_id, item_id, start_version_id),
@@ -484,6 +481,48 @@ CREATE TABLE public.items_log (
 
 COMMENT ON TABLE public.items_log IS '装备/道具日志表（用于多版本差异分析；按 id+start_version 唯一）';
 
+CREATE TABLE public.item_stat_modifiers (
+    game_id varchar(64) NOT NULL,
+    item_id varchar(64) NOT NULL,
+    attr_key varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    value numeric NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_item_stat_modifiers PRIMARY KEY (game_id, item_id, attr_key),
+    CONSTRAINT fk_item_stat_modifiers_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_item_stat_modifiers_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT ck_item_stat_modifiers_attr_key_format
+        CHECK (attr_key ~ '^[a-z0-9_\\.]+$'),
+    CONSTRAINT ck_item_stat_modifiers_version_range
+        CHECK (start_version_id <= end_version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.item_stat_modifiers IS '装备属性修饰行表：一条记录对应 item 的一个 attr_key 数值修饰。';
+COMMENT ON COLUMN public.item_stat_modifiers.value IS '装备对 attr_key 的固定数值加成。';
+
+CREATE TABLE public.item_stat_modifiers_log (
+    game_id varchar(64) NOT NULL,
+    item_id varchar(64) NOT NULL,
+    attr_key varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    value numeric NOT NULL,
+    CONSTRAINT pk_item_stat_modifiers_log PRIMARY KEY (game_id, item_id, attr_key, start_version_id),
+    CONSTRAINT fk_item_stat_modifiers_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_item_stat_modifiers_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT ck_item_stat_modifiers_log_attr_key_format
+        CHECK (attr_key ~ '^[a-z0-9_\\.]+$'),
+    CONSTRAINT ck_item_stat_modifiers_log_version_range
+        CHECK (start_version_id <= end_version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.item_stat_modifiers_log IS '装备属性修饰日志表（用于多版本差异分析；按 item+attr+start_version 唯一）';
+
 -- -----------------------------------------------------------------------------
 -- 4. 索引优化 (用于编辑器的查询)
 -- -----------------------------------------------------------------------------
@@ -494,6 +533,10 @@ CREATE INDEX idx_items_name ON public.items (game_id, name);
 CREATE INDEX idx_types_name ON public.types (game_id, name);
 CREATE INDEX idx_formula_profiles_type ON public.formula_profiles (game_id, formula_type);
 CREATE INDEX idx_formula_bindings_target ON public.formula_bindings (game_id, target_category, target_id);
+CREATE INDEX idx_item_stat_modifiers_item ON public.item_stat_modifiers (game_id, item_id);
+CREATE INDEX idx_item_stat_modifiers_attr ON public.item_stat_modifiers (game_id, attr_key);
+CREATE INDEX idx_item_stat_modifiers_version ON public.item_stat_modifiers (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_item_stat_modifiers_log_version ON public.item_stat_modifiers_log (game_id, start_version_id, end_version_id);
 
 CREATE INDEX idx_attribute_definitions_log_version ON public.attribute_definitions_log (game_id, start_version_id, end_version_id);
 CREATE INDEX idx_heroes_log_version ON public.heroes_log (game_id, start_version_id, end_version_id);

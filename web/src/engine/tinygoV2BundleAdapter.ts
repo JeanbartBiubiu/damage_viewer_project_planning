@@ -244,8 +244,15 @@ function resolveActorAttributes(
 
   for (const itemId of itemIds) {
     const item = bundle.items.find((candidate) => candidate.itemId === itemId);
-    if (item?.statsModifier && typeof item.statsModifier === 'object') {
-      mergeNumberMap(attrs, item.statsModifier);
+    if (!item || !Array.isArray(item.statModifiers)) {
+      continue;
+    }
+    for (const modifier of item.statModifiers) {
+      const attrKey = typeof modifier?.attrKey === 'string' ? modifier.attrKey.trim() : '';
+      if (!attrKey) {
+        continue;
+      }
+      attrs[attrKey] = (attrs[attrKey] ?? 0) + toNumber(modifier.value, 0);
     }
   }
 

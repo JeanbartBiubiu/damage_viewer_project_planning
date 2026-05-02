@@ -218,10 +218,15 @@ export type Item = {
   name?: string;
   goldCost?: number;
   iconUrl?: string;
-  statsModifier?: JsonObject;
+  statModifiers: ItemStatModifier[];
   skillRefs?: string[];
   recipeIds?: string[];
   [key: string]: unknown;
+};
+
+export type ItemStatModifier = {
+  attrKey: string;
+  value: number;
 };
 
 export type Skill = {

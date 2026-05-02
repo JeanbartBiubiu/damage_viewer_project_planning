@@ -36,6 +36,7 @@ import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.HeroesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
+import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
@@ -60,6 +61,9 @@ class PostgresWriteStorePublishTest {
 
     @Mock
     private ItemsMapper itemsMapper;
+
+    @Mock
+    private ItemStatModifiersMapper itemStatModifiersMapper;
 
     @Mock
     private FormulaProfilesMapper formulaProfilesMapper;
@@ -130,6 +134,7 @@ class PostgresWriteStorePublishTest {
             heroesMapper,
             skillsMapper,
             itemsMapper,
+            itemStatModifiersMapper,
             formulaProfilesMapper,
             formulaBindingsMapper,
             statusActionControlRulesMapper,
@@ -182,6 +187,7 @@ class PostgresWriteStorePublishTest {
         when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -281,6 +287,7 @@ class PostgresWriteStorePublishTest {
         when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -323,6 +330,7 @@ class PostgresWriteStorePublishTest {
             .thenReturn(List.of(typeRelationRow(7, "character", "hero_ahri", null, true)));
         when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -358,6 +366,7 @@ class PostgresWriteStorePublishTest {
         when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());

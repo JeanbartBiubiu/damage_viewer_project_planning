@@ -1,5 +1,6 @@
 package xyz.game.datamanage.mapper;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -7,42 +8,45 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface ItemsMapper {
+public interface ItemStatModifiersMapper {
 
-    List<Map<String, Object>> listItems(@Param("gameId") String gameId);
+    List<Map<String, Object>> listItemStatModifiers(@Param("gameId") String gameId);
+
+    List<Map<String, Object>> listItemStatModifiersByItemId(
+        @Param("gameId") String gameId,
+        @Param("itemId") String itemId
+    );
 
     List<Map<String, Object>> listChangedSince(
         @Param("gameId") String gameId,
         @Param("updatedAfter") Timestamp updatedAfter
     );
 
-    Map<String, Object> findItemById(@Param("gameId") String gameId, @Param("itemId") String itemId);
+    int deleteItemStatModifiersByItemId(
+        @Param("gameId") String gameId,
+        @Param("itemId") String itemId
+    );
 
-    int upsertItem(
+    int upsertItemStatModifier(
         @Param("gameId") String gameId,
         @Param("itemId") String itemId,
+        @Param("attrKey") String attrKey,
         @Param("versionId") long versionId,
-        @Param("name") String name,
-        @Param("goldCost") Integer goldCost,
-        @Param("iconUrl") String iconUrl,
-        @Param("skillRefsJson") String skillRefsJson,
-        @Param("recipeIdsJson") String recipeIdsJson
+        @Param("value") BigDecimal value
     );
 
     int updateVersionRange(
         @Param("gameId") String gameId,
         @Param("itemId") String itemId,
+        @Param("attrKey") String attrKey,
         @Param("versionId") long versionId
     );
 
-    int upsertItemLog(
+    int upsertItemStatModifierLog(
         @Param("gameId") String gameId,
         @Param("itemId") String itemId,
+        @Param("attrKey") String attrKey,
         @Param("versionId") long versionId,
-        @Param("name") String name,
-        @Param("goldCost") Integer goldCost,
-        @Param("iconUrl") String iconUrl,
-        @Param("skillRefsJson") String skillRefsJson,
-        @Param("recipeIdsJson") String recipeIdsJson
+        @Param("value") BigDecimal value
     );
 }

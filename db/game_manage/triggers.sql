@@ -141,6 +141,26 @@ BEGIN
 
     BEGIN
         EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.item_stat_modifiers FOR VALUES IN (%L)',
+            'item_stat_modifiers_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.item_stat_modifiers_log FOR VALUES IN (%L)',
+            'item_stat_modifiers_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
             'CREATE TABLE %I PARTITION OF public.formula_profiles FOR VALUES IN (%L)',
             'formula_profiles_' || v_game_id,
             v_game_id

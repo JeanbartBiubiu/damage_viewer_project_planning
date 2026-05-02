@@ -13,7 +13,7 @@ export type ItemsFormData = {
   itemId: string;
   name: string;
   goldCost: string;
-  statsModifierText: string;
+  statModifiersText: string;
   skillRefsText: string;
   recipeIdsText: string;
   selectedTypeIds: number[];
