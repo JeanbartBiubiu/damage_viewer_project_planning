@@ -83,7 +83,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\pa
 
 ## 7. 运行时与 ABI 约定
 
-1. ABI 固定为显式导出函数：`alloc`、`dealloc`、`engine_init`、`engine_snapshot_initial`、`engine_begin_run`、`engine_step`、`engine_abort_run`、`engine_outbox_ptr`、`engine_outbox_len`、`engine_outbox_clear`。
+1. ABI 固定为显式导出函数：`alloc`、`dealloc`、`engine_init`、`engine_snapshot_initial`、`engine_snapshot_actions_initial`、`engine_begin_run`、`engine_step`、`engine_abort_run`、`engine_outbox_ptr`、`engine_outbox_len`、`engine_outbox_clear`。
 2. 协议首期为二进制 frame header + UTF-8 JSON payload；frame header 包含 `magic/schemaVersion/kind/flags/payloadLen`。
 3. ABI 可预留二进制 payload kind，但首期不要实现 MessagePack/CBOR 快路径。
 4. outbox 使用固定容量缓冲；`done/error/snapshot` 记录必须优先保留，普通 `tick/log/sample` 可降采样或丢弃。

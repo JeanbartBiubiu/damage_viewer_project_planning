@@ -108,6 +108,19 @@ func (s *Session) SnapshotInitialFrame(input []byte) int32 {
 	return s.SnapshotInitialJSON(frame.Payload)
 }
 
+func (s *Session) SnapshotActionsInitialFrame(input []byte) int32 {
+	frame, err := abi.DecodeFrame(input)
+	if err != nil {
+		s.writeError(model.ErrBadMagic, err.Error(), nil)
+		return -1
+	}
+	if frame.Kind != model.FrameKindRun && frame.Kind != model.FrameKindBinaryRun {
+		s.writeError(model.ErrInvalidInput, "expected run frame", nil)
+		return -1
+	}
+	return s.SnapshotActionsInitialJSON(frame.Payload)
+}
+
 func (s *Session) SnapshotInitialJSON(payload []byte) int32 {
 	if s.phase != PhaseReady && s.phase != PhaseDone {
 		s.writeError(model.ErrNotReady, "session is not ready", nil)
@@ -128,6 +141,30 @@ func (s *Session) SnapshotInitialJSON(payload []byte) int32 {
 	s.outbox.WriteJSON(model.FrameKindSnapshot, model.SnapshotV2{
 		TimeMs: 0,
 		Actors: ctx.snapshots(),
+	})
+	return 0
+}
+
+func (s *Session) SnapshotActionsInitialJSON(payload []byte) int32 {
+	if s.phase != PhaseReady && s.phase != PhaseDone {
+		s.writeError(model.ErrNotReady, "session is not ready", nil)
+		return -1
+	}
+	var input model.EngineRunInput
+	if err := json.Unmarshal(payload, &input); err != nil {
+		s.writeError(model.ErrInvalidInput, err.Error(), nil)
+		return -1
+	}
+	input.InitialActions = nil
+	input.Trace = model.TraceOptions{}
+	ctx, errPayload := NewRunContext(s.bundle, input, &s.outbox)
+	if errPayload != nil {
+		s.writeError(errPayload.Code, errPayload.Message, errPayload.Details)
+		return -1
+	}
+	s.outbox.WriteJSON(model.FrameKindActionSnapshot, model.ActionSnapshotV2{
+		TimeMs: 0,
+		Actors: ctx.actionSnapshots(),
 	})
 	return 0
 }

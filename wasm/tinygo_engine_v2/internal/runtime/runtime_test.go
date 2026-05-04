@@ -208,6 +208,59 @@ func TestSnapshotInitialExportsActorStateWithoutRunningActions(t *testing.T) {
 	}
 }
 
+func TestActionSnapshotInitialExportsOwnedActionsAndResolvedRows(t *testing.T) {
+	bundle := controlGateBundle()
+	session := runtime.NewSession()
+	mustCode(t, session.InitJSON(mustJSON(t, bundle)))
+	input := controlRunInput()
+
+	mustCode(t, session.SnapshotActionsInitialJSON(mustJSON(t, input)))
+	snapshot := testkit.LastActionSnapshot(session.OutboxBytes())
+	self := actionSnapshotActor(snapshot, "self")
+	enemy := actionSnapshotActor(snapshot, "enemy")
+	if len(self.Actions) != 8 {
+		t.Fatalf("self actions len = %d, want 8", len(self.Actions))
+	}
+	if len(enemy.Actions) != 2 {
+		t.Fatalf("enemy actions len = %d, want 2", len(enemy.Actions))
+	}
+
+	fireball := actionState(self, "fireball")
+	if !fireball.CanCast {
+		t.Fatalf("fireball should be castable at time 0, got blockedReason=%q", fireball.BlockedReason)
+	}
+	if len(fireball.ResourceCosts) != 1 || fireball.ResourceCosts[0].ResourceID != "mana" || fireball.ResourceCosts[0].Amount != 40 {
+		t.Fatalf("fireball resource cost = %+v, want mana 40", fireball.ResourceCosts)
+	}
+	if len(fireball.EffectRows) != 1 || !fireball.EffectRows[0].HasResolvedAmount || fireball.EffectRows[0].ResolvedAmount != 30 {
+		t.Fatalf("fireball effect rows = %+v, want resolved 30", fireball.EffectRows)
+	}
+
+	cooldownBolt := actionState(self, "cooldown_bolt")
+	if cooldownBolt.CooldownMs != 1000 || cooldownBolt.ReadyAtMs != 0 || !cooldownBolt.CanCast {
+		t.Fatalf("cooldown_bolt snapshot = %+v, want cooldownMs=1000 readyAt=0 canCast=true", cooldownBolt)
+	}
+}
+
+func TestActionSnapshotInitialCarriesBlockedReason(t *testing.T) {
+	bundle := controlGateBundle()
+	session := runtime.NewSession()
+	mustCode(t, session.InitJSON(mustJSON(t, bundle)))
+	input := controlRunInput()
+	input.Self.StatusIDs = []string{"silence"}
+
+	mustCode(t, session.SnapshotActionsInitialJSON(mustJSON(t, input)))
+	snapshot := testkit.LastActionSnapshot(session.OutboxBytes())
+	self := actionSnapshotActor(snapshot, "self")
+	fireball := actionState(self, "fireball")
+	if fireball.CanCast {
+		t.Fatal("fireball should be blocked by silence")
+	}
+	if fireball.BlockedReason != "blocked_by_status:silence_forbid" {
+		t.Fatalf("fireball blockedReason = %q", fireball.BlockedReason)
+	}
+}
+
 func TestBadSchemaFailsFast(t *testing.T) {
 	bundle := testkit.BenchmarkBundle()
 	bundle.SchemaVersion = 99
@@ -305,6 +358,24 @@ func snapshotActor(snapshot model.SnapshotV2, actorID string) model.ActorSnapsho
 		}
 	}
 	return model.ActorSnapshot{}
+}
+
+func actionSnapshotActor(snapshot model.ActionSnapshotV2, actorID string) model.ActorActionSnapshotV2 {
+	for _, actor := range snapshot.Actors {
+		if actor.ActorID == actorID {
+			return actor
+		}
+	}
+	return model.ActorActionSnapshotV2{}
+}
+
+func actionState(actor model.ActorActionSnapshotV2, actionID string) model.ActionInitialStateV2 {
+	for _, action := range actor.Actions {
+		if action.ActionID == actionID {
+			return action
+		}
+	}
+	return model.ActionInitialStateV2{}
 }
 
 func mustCode(t *testing.T, code int32) {

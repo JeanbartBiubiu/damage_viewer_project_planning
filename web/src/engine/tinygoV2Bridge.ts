@@ -13,6 +13,7 @@ type TinyGoV2Exports = WebAssembly.Exports & {
   engine_init(ptr: number, len: number): number;
   engine_begin_run(ptr: number, len: number): number;
   engine_snapshot_initial(ptr: number, len: number): number;
+  engine_snapshot_actions_initial(ptr: number, len: number): number;
   engine_step(maxEvents: number): number;
   engine_abort_run(): number;
   engine_outbox_ptr(): number;
@@ -46,6 +47,7 @@ const requiredExports = [
   'engine_init',
   'engine_begin_run',
   'engine_snapshot_initial',
+  'engine_snapshot_actions_initial',
   'engine_step',
   'engine_abort_run',
   'engine_outbox_ptr',
@@ -79,6 +81,11 @@ export class TinyGoV2Bridge {
     return this.readOutbox();
   }
 
+  snapshotActionsInitial(input: unknown): TinyGoV2Frame[] {
+    this.invoke('engine_snapshot_actions_initial', FRAME_RUN, input);
+    return this.readOutbox();
+  }
+
   step(maxEvents = 64): { status: number; frames: TinyGoV2Frame[] } {
     const status = this.exports.engine_step(maxEvents);
     return { status, frames: this.readOutbox() };
@@ -89,7 +96,11 @@ export class TinyGoV2Bridge {
     return this.readOutbox();
   }
 
-  private invoke(fnName: 'engine_init' | 'engine_begin_run' | 'engine_snapshot_initial', kind: number, payload: unknown) {
+  private invoke(
+    fnName: 'engine_init' | 'engine_begin_run' | 'engine_snapshot_initial' | 'engine_snapshot_actions_initial',
+    kind: number,
+    payload: unknown
+  ) {
     const payloadBytes = textEncoder.encode(JSON.stringify(payload));
     const frame = encodeFrame(kind, payloadBytes);
     const ptr = this.exports.alloc(frame.length);

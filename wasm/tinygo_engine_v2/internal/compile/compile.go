@@ -77,6 +77,8 @@ type CompiledAction struct {
 	CooldownMs   int64
 	Costs        []CompiledResourceCost
 	Effects      []CompiledEffect
+	PanelCosts   []model.ActionPanelCostV2
+	PanelEffects []model.ActionPanelEffectV2
 	RequiresMark string
 	ConsumesMark bool
 }
@@ -294,6 +296,8 @@ func Bundle(input model.EngineBundle) Result {
 			CooldownMs:   action.CooldownMs,
 			Costs:        costs,
 			Effects:      compiledEffects,
+			PanelCosts:   append([]model.ActionPanelCostV2(nil), action.PanelCosts...),
+			PanelEffects: append([]model.ActionPanelEffectV2(nil), action.PanelEffects...),
 			RequiresMark: action.RequiresMark,
 			ConsumesMark: action.ConsumesMark,
 		})

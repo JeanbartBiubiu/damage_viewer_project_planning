@@ -466,6 +466,31 @@ func (ctx *RunContext) handleCastBlocked(ev scheduler.Event, gate CastGateResult
 	}
 }
 
+func castBlockedReason(gate CastGateResult) string {
+	switch gate.Code {
+	case CastOK:
+		return ""
+	case CastBlockedByStatus:
+		if gate.RuleID != "" {
+			return "blocked_by_status:" + gate.RuleID
+		}
+		return "blocked_by_status"
+	case CastMarkMissing:
+		return "required_mark_missing"
+	case CastNotOwned:
+		return "action_not_owned"
+	case CastInsufficientResource:
+		if gate.Reason != "" {
+			return gate.Reason
+		}
+		return "insufficient_resource"
+	case CastCooldown:
+		return "cooldown"
+	default:
+		return "unknown_action"
+	}
+}
+
 func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source uint8, target uint8, chainDepth uint8) model.ErrCode {
 	actualSource := roleActor(effect.SourceRole, source, target)
 	actualTarget := roleActor(effect.TargetRole, source, target)
@@ -719,6 +744,143 @@ func (ctx *RunContext) snapshots() []model.ActorSnapshot {
 	}
 }
 
+func (ctx *RunContext) actionSnapshots() []model.ActorActionSnapshotV2 {
+	return []model.ActorActionSnapshotV2{
+		ctx.actionSnapshot(0),
+		ctx.actionSnapshot(1),
+	}
+}
+
+func (ctx *RunContext) actionSnapshot(actor uint8) model.ActorActionSnapshotV2 {
+	if int(actor) >= len(ctx.Actors) {
+		return model.ActorActionSnapshotV2{}
+	}
+	templateID := ctx.Actors[actor].Template
+	if int(templateID) >= len(ctx.Bundle.Actors) {
+		return model.ActorActionSnapshotV2{ActorID: ctx.Actors[actor].ActorID}
+	}
+	template := ctx.Bundle.Actors[templateID]
+	actions := make([]model.ActionInitialStateV2, 0, len(template.Actions))
+	for _, actionID := range template.Actions {
+		if int(actionID) >= len(ctx.Bundle.Actions) {
+			continue
+		}
+		action := ctx.Bundle.Actions[actionID]
+		gate := ctx.CanCast(actor, actionID, ctx.NowMs)
+		readyAtMs := int64(0)
+		if int(actionID) < len(ctx.Actors[actor].ActionState) {
+			readyAtMs = ctx.Actors[actor].ActionState[actionID].ReadyAtMs
+		}
+		actions = append(actions, model.ActionInitialStateV2{
+			ActionID:      action.ID,
+			Label:         action.Label,
+			CooldownMs:    action.CooldownMs,
+			ReadyAtMs:     readyAtMs,
+			CanCast:       gate.Code == CastOK,
+			BlockedReason: castBlockedReason(gate),
+			ResourceCosts: ctx.actionCostSnapshotRows(actor, actionID),
+			EffectRows:    ctx.actionEffectSnapshotRows(actor, actionID),
+		})
+	}
+	return model.ActorActionSnapshotV2{
+		ActorID: ctx.Actors[actor].ActorID,
+		Actions: actions,
+	}
+}
+
+func (ctx *RunContext) actionCostSnapshotRows(actor uint8, action uint16) []model.ActionCostSnapshotV2 {
+	compiled := ctx.Bundle.Actions[action]
+	if len(compiled.PanelCosts) > 0 {
+		rows := make([]model.ActionCostSnapshotV2, 0, len(compiled.PanelCosts))
+		for _, cost := range compiled.PanelCosts {
+			rows = append(rows, model.ActionCostSnapshotV2{
+				ResourceID: cost.ResourceID,
+				FormulaID:  cost.FormulaID,
+				Amount:     cost.Amount,
+			})
+		}
+		return rows
+	}
+	amounts, _, ok := ctx.actionCostAmounts(actor, action)
+	if !ok {
+		return nil
+	}
+	rows := make([]model.ActionCostSnapshotV2, 0, len(compiled.Costs))
+	for i, cost := range compiled.Costs {
+		row := model.ActionCostSnapshotV2{
+			Amount: amounts[i],
+		}
+		if int(cost.Resource) < len(ctx.Bundle.Resources) {
+			row.ResourceID = ctx.Bundle.Resources[cost.Resource].ID
+		}
+		if cost.HasFormula && int(cost.Formula) < len(ctx.Bundle.Formulas.Programs) {
+			row.FormulaID = ctx.Bundle.Formulas.Programs[cost.Formula].ID
+		}
+		rows = append(rows, row)
+	}
+	return rows
+}
+
+func (ctx *RunContext) actionEffectSnapshotRows(actor uint8, action uint16) []model.ActionEffectSnapshotV2 {
+	compiled := ctx.Bundle.Actions[action]
+	if len(compiled.PanelEffects) > 0 {
+		rows := make([]model.ActionEffectSnapshotV2, 0, len(compiled.PanelEffects))
+		for _, effect := range compiled.PanelEffects {
+			rows = append(rows, model.ActionEffectSnapshotV2{
+				EffectIndex:       effect.EffectIndex,
+				Kind:              effect.Kind,
+				Label:             effect.Label,
+				FormulaID:         effect.FormulaID,
+				DamageType:        effect.DamageType,
+				StatusID:          effect.StatusID,
+				AttrID:            effect.AttrID,
+				MarkID:            effect.MarkID,
+				SourceRole:        effect.SourceRole,
+				TargetRole:        effect.TargetRole,
+				ResolvedAmount:    effect.Amount,
+				HasResolvedAmount: true,
+			})
+		}
+		return rows
+	}
+	rows := make([]model.ActionEffectSnapshotV2, 0, len(compiled.Effects))
+	for idx, effect := range compiled.Effects {
+		row := model.ActionEffectSnapshotV2{
+			EffectIndex: idx,
+			Kind:        effectKindString(effect.Type),
+			DamageType:  effect.DamageType,
+			MarkID:      effect.MarkID,
+			SourceRole:  effect.SourceRole,
+			TargetRole:  effect.TargetRole,
+		}
+		if effect.HasFormula && int(effect.Formula) < len(ctx.Bundle.Formulas.Programs) {
+			row.FormulaID = ctx.Bundle.Formulas.Programs[effect.Formula].ID
+		}
+		if int(effect.Status) < len(ctx.Bundle.Statuses) {
+			row.StatusID = ctx.Bundle.Statuses[effect.Status].ID
+		}
+		actualSource := roleActor(effect.SourceRole, actor, actor^1)
+		actualTarget := roleActor(effect.TargetRole, actor, actor^1)
+		switch effect.Type {
+		case compilebundle.EffectDealDamage, compilebundle.EffectHeal, compilebundle.EffectGrantShield:
+			amount, code := ctx.effectAmount(effect, actualSource, actualTarget, 0)
+			if code == model.ErrOK {
+				row.ResolvedAmount = amount
+				row.HasResolvedAmount = true
+			}
+		case compilebundle.EffectDamageFromRecent:
+			amount := ctx.Actors[actualSource].DamageTaken.Sum(ctx.NowMs, effect.HistoryWindowMs)
+			if effect.Amount != 0 {
+				amount *= effect.Amount
+			}
+			row.ResolvedAmount = amount
+			row.HasResolvedAmount = true
+		}
+		rows = append(rows, row)
+	}
+	return rows
+}
+
 func (ctx *RunContext) snapshot(actor uint8) model.ActorSnapshot {
 	ctx.Actors[actor].Attrs.ResolveAll(ctx.NowMs)
 	attrs := make(map[string]model.AttributeSnapshotV2, len(ctx.Bundle.Attrs))
@@ -809,4 +971,25 @@ func roleActor(role string, source uint8, target uint8) uint8 {
 
 func shieldMatches(kind string, damageType string) bool {
 	return kind == "" || kind == "all" || kind == damageType
+}
+
+func effectKindString(kind compilebundle.EffectType) string {
+	switch kind {
+	case compilebundle.EffectDealDamage:
+		return string(model.EffectTypeDealDamage)
+	case compilebundle.EffectHeal:
+		return string(model.EffectTypeHeal)
+	case compilebundle.EffectApplyStatus:
+		return string(model.EffectTypeApplyStatus)
+	case compilebundle.EffectGrantShield:
+		return string(model.EffectTypeGrantShield)
+	case compilebundle.EffectApplyMark:
+		return string(model.EffectTypeApplyMark)
+	case compilebundle.EffectConsumeMark:
+		return string(model.EffectTypeConsumeMark)
+	case compilebundle.EffectDamageFromRecent:
+		return string(model.EffectTypeDamageFromRecent)
+	default:
+		return "unknown"
+	}
 }
