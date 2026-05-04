@@ -30,7 +30,8 @@ export function getItemsColumns({ onView, onEdit, resolveImageSrc }: ItemsTableA
     },
     {
       title: '图标',
-      dataIndex: 'itemId',
+      key: 'icon',
+      dataIndex: 'icon',
       width: 120,
       render: (_: unknown, record: ItemsRecord) => <ResourceImageThumb src={resolveImageSrc(record)} alt={record.name ?? record.itemId} size={36} />
     },
