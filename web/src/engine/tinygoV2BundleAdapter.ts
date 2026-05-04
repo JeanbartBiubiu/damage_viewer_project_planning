@@ -240,7 +240,7 @@ function resolveActorAttributes(
   level: number
 ): Record<string, number> {
   const attrs = Object.fromEntries(attrDefinitions.map((definition) => [definition.id, toNumber(definition.defaultBase, 0)]));
-  mergeNumberMap(attrs, resolveHeroStatsAtLevel(hero, level));
+  applyNumberMap(attrs, resolveHeroStatsAtLevel(hero, level));
 
   for (const itemId of itemIds) {
     const item = bundle.items.find((candidate) => candidate.itemId === itemId);
@@ -259,31 +259,53 @@ function resolveActorAttributes(
   return attrs;
 }
 
-function resolveHeroStatsAtLevel(hero: Hero, level: number): Record<string, unknown> {
+function resolveHeroStatsAtLevel(hero: Hero, level: number): Record<string, number> {
+  const baseStats = toNumberMap(hero.baseStats as Record<string, unknown> | undefined);
   const statsByLevel = hero.statsByLevel;
   if (!statsByLevel || typeof statsByLevel !== 'object') {
-    return hero.baseStats ?? {};
+    return baseStats;
   }
 
   const levelEntry = statsByLevel[String(level)];
   if (levelEntry && typeof levelEntry === 'object' && !Array.isArray(levelEntry)) {
-    return levelEntry as Record<string, unknown>;
+    return addNumberMap(baseStats, levelEntry as Record<string, unknown>);
   }
 
-  const result: Record<string, number> = {};
+  const result: Record<string, number> = { ...baseStats };
+  let hasArrayLevels = false;
   for (const [attrKey, values] of Object.entries(statsByLevel)) {
     if (Array.isArray(values) && values.length > 0) {
       const index = clamp(level, 1, values.length) - 1;
-      result[attrKey] = toNumber((values as JsonValue[])[index], 0);
+      result[attrKey] = (result[attrKey] ?? 0) + toNumber((values as JsonValue[])[index], 0);
+      hasArrayLevels = true;
     }
   }
-  return Object.keys(result).length > 0 ? result : hero.baseStats ?? {};
+  return hasArrayLevels ? result : baseStats;
 }
 
-function mergeNumberMap(target: Record<string, number>, source: Record<string, unknown>) {
+function applyNumberMap(target: Record<string, number>, source: Record<string, number>) {
   for (const [key, value] of Object.entries(source)) {
-    target[key] = (target[key] ?? 0) + toNumber(value, 0);
+    target[key] = value;
   }
+}
+
+function addNumberMap(base: Record<string, number>, source: Record<string, unknown>): Record<string, number> {
+  const result: Record<string, number> = { ...base };
+  for (const [key, value] of Object.entries(source)) {
+    result[key] = (result[key] ?? 0) + toNumber(value, 0);
+  }
+  return result;
+}
+
+function toNumberMap(source: Record<string, unknown> | undefined): Record<string, number> {
+  if (!source) {
+    return {};
+  }
+  const result: Record<string, number> = {};
+  for (const [key, value] of Object.entries(source)) {
+    result[key] = toNumber(value, 0);
+  }
+  return result;
 }
 
 function toTinyGoAttributeValues(attrs: Record<string, number>): Record<string, TinyGoV2AttributeValue> {

@@ -217,22 +217,27 @@ export function AttributeKeySelector({
     const includeSet = includeAttrKeys?.length ? new Set(includeAttrKeys) : null;
     const excludeSet = excludeAttrKeys?.length ? new Set(excludeAttrKeys) : null;
     const valueKindSet = valueKindFilter?.length ? new Set(valueKindFilter) : null;
-
-    return loadedDefinitions.filter((definition) => {
-      if (!definition.attrKey) {
-        return false;
+    const deduped = new Map<string, AttributeDefinition>();
+    for (const definition of loadedDefinitions) {
+      const attrKey = String(definition.attrKey ?? '').trim();
+      if (!attrKey) {
+        continue;
       }
-      if (includeSet && !includeSet.has(definition.attrKey)) {
-        return false;
+      if (includeSet && !includeSet.has(attrKey)) {
+        continue;
       }
-      if (excludeSet && excludeSet.has(definition.attrKey) && !selectedAttrKeys.includes(definition.attrKey)) {
-        return false;
+      if (excludeSet && excludeSet.has(attrKey) && !selectedAttrKeys.includes(attrKey)) {
+        continue;
       }
       if (valueKindSet && !valueKindSet.has(definition.valueKind)) {
-        return false;
+        continue;
       }
-      return true;
-    });
+      if (deduped.has(attrKey)) {
+        continue;
+      }
+      deduped.set(attrKey, attrKey === definition.attrKey ? definition : { ...definition, attrKey });
+    }
+    return Array.from(deduped.values());
   }, [excludeAttrKeys, includeAttrKeys, loadedDefinitions, selectedAttrKeys, valueKindFilter]);
 
   const selectValue = mode === 'multiple' ? selectedAttrKeys : selectedAttrKeys[0];
