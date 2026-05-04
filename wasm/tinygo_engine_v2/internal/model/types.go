@@ -6,16 +6,17 @@ type FrameKind uint16
 const (
 	SchemaVersion uint16 = 1
 
-	FrameKindInit      FrameKind = 1
-	FrameKindRun       FrameKind = 2
-	FrameKindTick      FrameKind = 10
-	FrameKindLog       FrameKind = 11
-	FrameKindSample    FrameKind = 12
-	FrameKindDone      FrameKind = 13
-	FrameKindError     FrameKind = 14
-	FrameKindReady     FrameKind = 15
-	FrameKindSnapshot  FrameKind = 16
-	FrameKindBinaryRun FrameKind = 100
+	FrameKindInit           FrameKind = 1
+	FrameKindRun            FrameKind = 2
+	FrameKindTick           FrameKind = 10
+	FrameKindLog            FrameKind = 11
+	FrameKindSample         FrameKind = 12
+	FrameKindDone           FrameKind = 13
+	FrameKindError          FrameKind = 14
+	FrameKindReady          FrameKind = 15
+	FrameKindSnapshot       FrameKind = 16
+	FrameKindActionSnapshot FrameKind = 17
+	FrameKindBinaryRun      FrameKind = 100
 )
 
 type ErrCode string
@@ -174,20 +175,42 @@ type ActorTemplateV2 struct {
 }
 
 type ActionTemplateV2 struct {
-	ID           string           `json:"id"`
-	Label        string           `json:"label,omitempty"`
-	Classifier   ClassifierV2     `json:"classifier,omitempty"`
-	CooldownMs   int64            `json:"cooldownMs,omitempty"`
-	Effects      []EffectDefV2    `json:"effects,omitempty"`
-	RequiresMark string           `json:"requiresMark,omitempty"`
-	ConsumesMark bool             `json:"consumesMark,omitempty"`
-	ResourceCost []ResourceCostV2 `json:"resourceCost,omitempty"`
+	ID           string                `json:"id"`
+	Label        string                `json:"label,omitempty"`
+	Classifier   ClassifierV2          `json:"classifier,omitempty"`
+	CooldownMs   int64                 `json:"cooldownMs,omitempty"`
+	Effects      []EffectDefV2         `json:"effects,omitempty"`
+	RequiresMark string                `json:"requiresMark,omitempty"`
+	ConsumesMark bool                  `json:"consumesMark,omitempty"`
+	ResourceCost []ResourceCostV2      `json:"resourceCost,omitempty"`
+	PanelCosts   []ActionPanelCostV2   `json:"panelCosts,omitempty"`
+	PanelEffects []ActionPanelEffectV2 `json:"panelEffects,omitempty"`
 }
 
 type ResourceCostV2 struct {
 	ResourceID string  `json:"resourceId"`
 	Amount     float64 `json:"amount"`
 	FormulaID  string  `json:"formulaId,omitempty"`
+}
+
+type ActionPanelCostV2 struct {
+	ResourceID string  `json:"resourceId,omitempty"`
+	FormulaID  string  `json:"formulaId,omitempty"`
+	Amount     float64 `json:"amount"`
+}
+
+type ActionPanelEffectV2 struct {
+	EffectIndex int     `json:"effectIndex"`
+	Kind        string  `json:"kind"`
+	Label       string  `json:"label,omitempty"`
+	FormulaID   string  `json:"formulaId,omitempty"`
+	Amount      float64 `json:"amount,omitempty"`
+	DamageType  string  `json:"damageType,omitempty"`
+	StatusID    string  `json:"statusId,omitempty"`
+	AttrID      string  `json:"attrId,omitempty"`
+	MarkID      string  `json:"markId,omitempty"`
+	SourceRole  string  `json:"sourceRole,omitempty"`
+	TargetRole  string  `json:"targetRole,omitempty"`
 }
 
 type StatusTemplateV2 struct {
@@ -313,6 +336,43 @@ type ActorSnapshotV2 struct {
 	Resources    map[string]ResourceValueV2     `json:"resources,omitempty"`
 }
 
+type ActionCostSnapshotV2 struct {
+	ResourceID string  `json:"resourceId,omitempty"`
+	FormulaID  string  `json:"formulaId,omitempty"`
+	Amount     float64 `json:"amount"`
+}
+
+type ActionEffectSnapshotV2 struct {
+	EffectIndex       int     `json:"effectIndex"`
+	Kind              string  `json:"kind"`
+	Label             string  `json:"label,omitempty"`
+	FormulaID         string  `json:"formulaId,omitempty"`
+	DamageType        string  `json:"damageType,omitempty"`
+	StatusID          string  `json:"statusId,omitempty"`
+	AttrID            string  `json:"attrId,omitempty"`
+	MarkID            string  `json:"markId,omitempty"`
+	SourceRole        string  `json:"sourceRole,omitempty"`
+	TargetRole        string  `json:"targetRole,omitempty"`
+	ResolvedAmount    float64 `json:"resolvedAmount,omitempty"`
+	HasResolvedAmount bool    `json:"hasResolvedAmount,omitempty"`
+}
+
+type ActionInitialStateV2 struct {
+	ActionID      string                   `json:"actionId"`
+	Label         string                   `json:"label,omitempty"`
+	CooldownMs    int64                    `json:"cooldownMs"`
+	ReadyAtMs     int64                    `json:"readyAtMs"`
+	CanCast       bool                     `json:"canCast"`
+	BlockedReason string                   `json:"blockedReason,omitempty"`
+	ResourceCosts []ActionCostSnapshotV2   `json:"resourceCosts,omitempty"`
+	EffectRows    []ActionEffectSnapshotV2 `json:"effectRows,omitempty"`
+}
+
+type ActorActionSnapshotV2 struct {
+	ActorID string                 `json:"actorId"`
+	Actions []ActionInitialStateV2 `json:"actions"`
+}
+
 type EngineEventLogV2 struct {
 	TimeMs        int64      `json:"timeMs"`
 	Kind          string     `json:"kind"`
@@ -340,6 +400,11 @@ type ValueTraceV2 struct {
 type SnapshotV2 struct {
 	TimeMs int64             `json:"timeMs"`
 	Actors []ActorSnapshotV2 `json:"actors"`
+}
+
+type ActionSnapshotV2 struct {
+	TimeMs int64                   `json:"timeMs"`
+	Actors []ActorActionSnapshotV2 `json:"actors"`
 }
 
 type DonePayloadV2 struct {
