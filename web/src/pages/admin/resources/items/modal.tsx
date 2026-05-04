@@ -1,11 +1,13 @@
 ﻿import { Alert, Button, Collapse, Form, Input, Modal, Space } from '@arco-design/web-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import { BaseStatsEditor } from '../../../../components/hero-editor/BaseStatsEditor';
 import { ItemRecipeSelector } from '../../../../components/item-editor/ItemRecipeSelector';
 import { SkillRefSelector } from '../../../../components/item-editor/SkillRefSelector';
-import type { JsonObject, TypeDefinition } from '../../../../types/api';
+import { loadAttributeDefinitions } from '../../../../services/attributeDefinitions';
+import { getErrorMessage } from '../../../../services/apiClient';
+import type { AttributeDefinition, JsonObject, TypeDefinition } from '../../../../types/api';
 import { parseJsonArrayText, stringifyJson } from '../shared/json';
 import type { ItemsFormData } from './types';
 
@@ -97,6 +99,41 @@ export function ItemsModal({
 }: ItemsModalProps) {
   const readOnly = mode === 'view';
   const editingExisting = mode !== 'create';
+  const [attributeDefinitions, setAttributeDefinitions] = useState<AttributeDefinition[]>([]);
+  const [attributeDefinitionsError, setAttributeDefinitionsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!visible || !selectedGameId || !adminToken.trim()) {
+      setAttributeDefinitions([]);
+      setAttributeDefinitionsError(null);
+      return;
+    }
+
+    let cancelled = false;
+    loadAttributeDefinitions({
+      apiBaseUrl,
+      gameId: selectedGameId,
+      token: adminToken.trim()
+    })
+      .then((result) => {
+        if (cancelled) {
+          return;
+        }
+        setAttributeDefinitions(result.definitions);
+        setAttributeDefinitionsError(null);
+      })
+      .catch((error) => {
+        if (cancelled) {
+          return;
+        }
+        setAttributeDefinitions([]);
+        setAttributeDefinitionsError(getErrorMessage(error));
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
   const statModifiersState = useMemo(() => {
     try {
@@ -180,10 +217,14 @@ export function ItemsModal({
 
         <Form.Item label="statModifiers structured">
           {statModifiersState.error ? <Alert type="error" content={`statModifiers parse failed: ${statModifiersState.error}`} style={{ marginBottom: 12 }} /> : null}
+          {attributeDefinitionsError ? (
+            <Alert type="warning" content={`attribute definitions load failed: ${attributeDefinitionsError}`} style={{ marginBottom: 12 }} />
+          ) : null}
           <BaseStatsEditor
             apiBaseUrl={apiBaseUrl}
             selectedGameId={selectedGameId}
             adminToken={adminToken}
+            definitions={attributeDefinitions}
             rows={statModifiersState.rows}
             disabled={readOnly || !!statModifiersState.error}
             onChange={(rows) => onFieldChange('statModifiersText', stringifyStatModifierRows(rows))}

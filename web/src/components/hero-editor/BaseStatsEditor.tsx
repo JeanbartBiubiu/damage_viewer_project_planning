@@ -22,9 +22,12 @@ export function BaseStatsEditor({
   disabled = false,
   onChange
 }: BaseStatsEditorProps) {
+  const nextAttrKey = definitions?.find((definition) => !rows.some((row) => row.attrKey === definition.attrKey))?.attrKey ?? '';
+
   const addRow = () => {
-    const excludedKeys = rows.map((row) => row.attrKey);
-    const nextAttrKey = definitions?.find((definition) => !excludedKeys.includes(definition.attrKey))?.attrKey ?? '';
+    if (!nextAttrKey) {
+      return;
+    }
     onChange([...rows, { attrKey: nextAttrKey, value: 0 }]);
   };
 
@@ -40,7 +43,7 @@ export function BaseStatsEditor({
     <Space direction="vertical" size={12} style={{ width: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography.Text bold>基础属性</Typography.Text>
-        <Button size="small" type="primary" onClick={addRow} disabled={disabled}>
+        <Button size="small" type="primary" onClick={addRow} disabled={disabled || !nextAttrKey}>
           添加属性
         </Button>
       </div>
