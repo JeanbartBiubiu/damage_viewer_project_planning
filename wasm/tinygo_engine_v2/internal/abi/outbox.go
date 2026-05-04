@@ -68,5 +68,8 @@ func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) 
 }
 
 func isPriorityFrame(kind model.FrameKind) bool {
-	return kind == model.FrameKindDone || kind == model.FrameKindError || kind == model.FrameKindSnapshot
+	return kind == model.FrameKindDone ||
+		kind == model.FrameKindError ||
+		kind == model.FrameKindSnapshot ||
+		kind == model.FrameKindActionSnapshot
 }
