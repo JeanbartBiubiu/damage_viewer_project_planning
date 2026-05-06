@@ -150,6 +150,74 @@ func TestCooldownBlocksUntilReady(t *testing.T) {
 	}
 }
 
+func TestM3ActionResultCarriesSingleSkillEvidence(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m3_bolt"},
+	}
+	done := runBundle(t, bundle, input)
+	result := actionResult(done, "m3_bolt")
+	if !result.Accepted || result.BlockedReason != "" {
+		t.Fatalf("m3_bolt result = %+v, want accepted without blocked reason", result)
+	}
+	if result.SourceActorID != "self" || result.TargetActorID != "enemy" {
+		t.Fatalf("actor ids = %s -> %s", result.SourceActorID, result.TargetActorID)
+	}
+	if len(result.ResourceDeltas) != 1 || result.ResourceDeltas[0].ResourceID != "mana" || result.ResourceDeltas[0].Before != 100 || result.ResourceDeltas[0].After != 60 || result.ResourceDeltas[0].Delta != -40 {
+		t.Fatalf("resource deltas = %+v, want mana 100 -> 60", result.ResourceDeltas)
+	}
+	if result.CooldownBefore.ReadyAtMs != 0 || result.CooldownAfter.ReadyAtMs != 1000 || result.CooldownAfter.CooldownMs != 1000 {
+		t.Fatalf("cooldown = before %+v after %+v, want readyAt 0 -> 1000", result.CooldownBefore, result.CooldownAfter)
+	}
+	if len(result.Effects) != 1 {
+		t.Fatalf("effects = %+v, want one damage effect", result.Effects)
+	}
+	effect := result.Effects[0]
+	if effect.FormulaID != "flat_30" || !effect.HasRawAmount || effect.RawAmount != 30 || !effect.HasFinalDamage || effect.FinalDamage != 30 {
+		t.Fatalf("effect amount = %+v, want raw/final damage 30 from flat_30", effect)
+	}
+	if effect.TargetHPBefore != 1000 || effect.TargetHPAfter != 970 || effect.DamageType != "magic" {
+		t.Fatalf("effect target state = %+v, want magic damage hp 1000 -> 970", effect)
+	}
+	if len(effect.FormulaBreakdown) == 0 {
+		t.Fatalf("formula breakdown missing: %+v", effect)
+	}
+}
+
+func TestM3ActionResultCarriesBlockedReason(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "double_cost"},
+	}
+	done := runBundle(t, bundle, input)
+	result := actionResult(done, "double_cost")
+	if result.Accepted || result.BlockedReason != "insufficient resource" {
+		t.Fatalf("blocked result = %+v, want insufficient resource", result)
+	}
+	if len(result.ResourceDeltas) != 0 || len(result.Effects) != 0 {
+		t.Fatalf("blocked result should not carry deltas/effects: %+v", result)
+	}
+}
+
+func TestM3SingleSkillResultIsDeterministicForSameSeed(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m3_bolt"},
+	}
+	first := runBundle(t, bundle, input)
+	second := runBundle(t, bundle, input)
+	firstResult := actionResult(first, "m3_bolt")
+	secondResult := actionResult(second, "m3_bolt")
+	if firstResult.Effects[0].FinalDamage != secondResult.Effects[0].FinalDamage ||
+		firstResult.ResourceDeltas[0].After != secondResult.ResourceDeltas[0].After ||
+		firstResult.CooldownAfter.ReadyAtMs != secondResult.CooldownAfter.ReadyAtMs {
+		t.Fatalf("same seed result mismatch: first %+v second %+v", firstResult, secondResult)
+	}
+}
+
 func TestResourceCostsArePrecheckedAtomically(t *testing.T) {
 	bundle := controlGateBundle()
 	input := controlRunInput()
@@ -218,8 +286,8 @@ func TestActionSnapshotInitialExportsOwnedActionsAndResolvedRows(t *testing.T) {
 	snapshot := testkit.LastActionSnapshot(session.OutboxBytes())
 	self := actionSnapshotActor(snapshot, "self")
 	enemy := actionSnapshotActor(snapshot, "enemy")
-	if len(self.Actions) != 8 {
-		t.Fatalf("self actions len = %d, want 8", len(self.Actions))
+	if len(self.Actions) != 9 {
+		t.Fatalf("self actions len = %d, want 9", len(self.Actions))
 	}
 	if len(enemy.Actions) != 2 {
 		t.Fatalf("enemy actions len = %d, want 2", len(enemy.Actions))
@@ -258,6 +326,49 @@ func TestActionSnapshotInitialCarriesBlockedReason(t *testing.T) {
 	}
 	if fireball.BlockedReason != "blocked_by_status:silence_forbid" {
 		t.Fatalf("fireball blockedReason = %q", fireball.BlockedReason)
+	}
+}
+
+func TestActionSnapshotInitialCalculatesM2PanelFormulaRows(t *testing.T) {
+	bundle := m2PanelBundle()
+	session := runtime.NewSession()
+	mustCode(t, session.InitJSON(mustJSON(t, bundle)))
+	input := m2PanelRunInput()
+
+	mustCode(t, session.SnapshotActionsInitialJSON(mustJSON(t, input)))
+	snapshot := testkit.LastActionSnapshot(session.OutboxBytes())
+	self := actionSnapshotActor(snapshot, "self")
+	levelBolt := actionState(self, "level_bolt")
+
+	if levelBolt.SkillLevel != 4 || levelBolt.PanelInputs["skillLevel"] != 4 {
+		t.Fatalf("level_bolt inputs = level %d panel %+v, want level/panel skillLevel 4", levelBolt.SkillLevel, levelBolt.PanelInputs)
+	}
+	if levelBolt.CooldownMs != 400 || levelBolt.CooldownFormulaID != "level_cooldown" || len(levelBolt.CooldownBreakdown) == 0 {
+		t.Fatalf("level_bolt cooldown = %+v, want formula cooldown 400 with breakdown", levelBolt)
+	}
+	if len(levelBolt.ResourceCosts) != 1 {
+		t.Fatalf("level_bolt costs = %+v, want one panel cost row", levelBolt.ResourceCosts)
+	}
+	cost := levelBolt.ResourceCosts[0]
+	if cost.Source != "panel" || cost.ResourceID != "mana" || cost.FormulaID != "level_cost" || cost.Amount != 20 || cost.FinalAmount != 20 || len(cost.Breakdown) == 0 {
+		t.Fatalf("level_bolt cost = %+v, want calculated panel mana cost 20", cost)
+	}
+	if len(levelBolt.EffectRows) != 1 {
+		t.Fatalf("level_bolt effects = %+v, want one panel effect row", levelBolt.EffectRows)
+	}
+	effect := levelBolt.EffectRows[0]
+	if effect.Source != "panel" || effect.FormulaID != "level_damage" || !effect.HasResolvedAmount || effect.ResolvedAmount != 40 || effect.FinalAmount != 40 || len(effect.Breakdown) == 0 {
+		t.Fatalf("level_bolt effect = %+v, want calculated panel damage 40", effect)
+	}
+}
+
+func TestRunInputSkillLevelAffectsM2ResourceCostEffectAndCooldown(t *testing.T) {
+	done := runBundle(t, m2PanelBundle(), m2PanelRunInputWithAction())
+	if got := actorHP(done, "enemy"); got != 960 {
+		t.Fatalf("enemy hp got %.2f, want level-scaled damage to leave 960", got)
+	}
+	if got := actor(done, "self").Resources["mana"].Current; got != 80 {
+		t.Fatalf("self mana got %.2f, want level-scaled cost to leave 80", got)
 	}
 }
 
@@ -305,7 +416,7 @@ func controlGateBundle() model.EngineBundle {
 		Attributes:    []model.AttributeDefinitionV2{{ID: "attack_damage"}},
 		Resources:     []model.ResourceDefinitionV2{{ID: "mana", DefaultCurrent: 100, DefaultMax: 100}},
 		Actors: []model.ActorTemplate{
-			{ID: "fighter", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"attack_damage": {Base: 10}}, Resources: map[string]model.ResourceValueV2{"mana": {Current: 100, Max: 100}}, Actions: []string{"basic_attack", "fireball", "dash_strike", "mark", "expensive_marked", "free_marked", "cooldown_bolt", "double_cost"}},
+			{ID: "fighter", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"attack_damage": {Base: 10}}, Resources: map[string]model.ResourceValueV2{"mana": {Current: 100, Max: 100}}, Actions: []string{"basic_attack", "fireball", "dash_strike", "mark", "expensive_marked", "free_marked", "cooldown_bolt", "double_cost", "m3_bolt"}},
 			{ID: "dummy", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"attack_damage": {Base: 10}}, Resources: map[string]model.ResourceValueV2{"mana": {Current: 100, Max: 100}}, Actions: []string{"basic_attack", "enemy_only"}},
 		},
 		Statuses: []model.StatusTemplate{
@@ -332,7 +443,60 @@ func controlGateBundle() model.EngineBundle {
 			{ID: "free_marked", Label: "Free Marked", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, RequiresMark: "test_mark", ConsumesMark: true, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
 			{ID: "cooldown_bolt", Label: "Cooldown Bolt", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, CooldownMs: 1000, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
 			{ID: "double_cost", Label: "Double Cost", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, ResourceCost: []model.ResourceCostV2{{ResourceID: "mana", Amount: 70}, {ResourceID: "mana", Amount: 70}}, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+			{ID: "m3_bolt", Label: "M3 Bolt", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, CooldownMs: 1000, ResourceCost: []model.ResourceCostV2{{ResourceID: "mana", Amount: 40}}, Effects: []model.EffectDef{{Type: "deal_damage", FormulaID: "flat_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
 			{ID: "enemy_only", Label: "Enemy Only", Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}}, Effects: []model.EffectDef{{Type: "deal_damage", Amount: 99, DamageType: "magic", SourceRole: "source", TargetRole: "target"}}},
+		},
+		Settings: model.BundleSettings{MaxEvents: 1000, MaxCommandsPerEvent: 64},
+	}
+}
+
+func m2PanelRunInput() model.EngineRunInput {
+	input := controlRunInput()
+	input.Self.ActionInputs = map[string]model.ActionRunInput{
+		"level_bolt": {
+			SkillLevel:  4,
+			PanelInputs: map[string]float64{"skillLevel": 4},
+		},
+	}
+	return input
+}
+
+func m2PanelRunInputWithAction() model.EngineRunInput {
+	input := m2PanelRunInput()
+	input.InitialActions = []model.ActionRequest{{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "level_bolt"}}
+	return input
+}
+
+func m2PanelBundle() model.EngineBundle {
+	return model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes:    []model.AttributeDefinitionV2{{ID: "attack_damage"}},
+		Resources:     []model.ResourceDefinitionV2{{ID: "mana", DefaultCurrent: 100, DefaultMax: 100}},
+		Actors: []model.ActorTemplate{
+			{ID: "fighter", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"attack_damage": {Base: 10}}, Resources: map[string]model.ResourceValueV2{"mana": {Current: 100, Max: 100}}, Actions: []string{"level_bolt"}},
+			{ID: "dummy", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"attack_damage": {Base: 10}}, Resources: map[string]model.ResourceValueV2{"mana": {Current: 100, Max: 100}}},
+		},
+		Formulas: []model.FormulaDefinition{
+			{ID: "skill_level", Op: "input"},
+			{ID: "five", Op: "const", Value: 5},
+			{ID: "hundred", Op: "const", Value: 100},
+			{ID: "ad", Op: "attr", Attr: "attack_damage"},
+			{ID: "level_cost", Op: "mul", Left: "skill_level", Right: "five"},
+			{ID: "level_damage", Op: "mul", Left: "skill_level", Right: "ad"},
+			{ID: "level_cooldown", Op: "mul", Left: "skill_level", Right: "hundred"},
+		},
+		Actions: []model.ActionTemplate{
+			{
+				ID:                "level_bolt",
+				Label:             "Level Bolt",
+				SkillLevel:        2,
+				PanelInputs:       map[string]float64{"skillLevel": 2},
+				CooldownFormulaID: "level_cooldown",
+				ResourceCost:      []model.ResourceCostV2{{ResourceID: "mana", FormulaID: "level_cost"}},
+				PanelCosts:        []model.ActionPanelCostV2{{ResourceID: "mana", FormulaID: "level_cost"}},
+				Effects:           []model.EffectDef{{Type: "deal_damage", FormulaID: "level_damage", DamageType: "magic", SourceRole: "source", TargetRole: "target"}},
+				PanelEffects:      []model.ActionPanelEffectV2{{EffectIndex: 0, Kind: "deal_damage", FormulaID: "level_damage", DamageType: "magic", SourceRole: "source", TargetRole: "target"}},
+			},
 		},
 		Settings: model.BundleSettings{MaxEvents: 1000, MaxCommandsPerEvent: 64},
 	}
@@ -376,6 +540,15 @@ func actionState(actor model.ActorActionSnapshotV2, actionID string) model.Actio
 		}
 	}
 	return model.ActionInitialStateV2{}
+}
+
+func actionResult(done model.DonePayload, actionID string) model.ActionRunResultV2 {
+	for _, result := range done.ActionResults {
+		if result.ActionID == actionID {
+			return result
+		}
+	}
+	return model.ActionRunResultV2{}
 }
 
 func mustCode(t *testing.T, code int32) {

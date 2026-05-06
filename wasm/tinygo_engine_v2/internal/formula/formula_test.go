@@ -66,3 +66,31 @@ func TestFormulaReadsResource(t *testing.T) {
 		t.Fatalf("got %.2f, want 35", got)
 	}
 }
+
+func TestFormulaEvalTraceCarriesFieldEvidence(t *testing.T) {
+	reg, problems := CompileRegistry([]model.FormulaDefinition{
+		{ID: "skill_level", Op: "input"},
+		{ID: "ad", Op: "attr", Attr: "attack_damage"},
+		{ID: "scaled", Op: "mul", Left: "skill_level", Right: "ad"},
+	}, map[string]uint16{"attack_damage": 0}, nil)
+	if len(problems) != 0 {
+		t.Fatalf("compile problems: %v", problems)
+	}
+	id, ok := reg.Lookup("scaled")
+	if !ok {
+		t.Fatal("formula missing")
+	}
+	got, steps, err := reg.EvalTrace(id, EvalContext{SourceAttrs: testAttrs{10}, Input: 4})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != 40 {
+		t.Fatalf("got %.2f, want 40", got)
+	}
+	if len(steps) != 3 {
+		t.Fatalf("steps = %+v, want input/attr/mul", steps)
+	}
+	if steps[0].Op != "input" || steps[0].Value != 4 || steps[1].Op != "attr" || steps[1].Ref != "attack_damage" || steps[1].Value != 10 || steps[2].Op != "mul" || steps[2].Value != 40 {
+		t.Fatalf("unexpected steps: %+v", steps)
+	}
+}
