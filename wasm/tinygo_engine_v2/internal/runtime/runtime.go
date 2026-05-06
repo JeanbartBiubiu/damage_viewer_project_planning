@@ -21,16 +21,22 @@ const (
 )
 
 type ActorRuntime struct {
-	ActorID     string
-	Template    uint8
-	HP          float64
-	MaxHP       float64
-	Attrs       attribute.Store
-	Resources   resource.Store
-	DamageTaken history.Window
-	OwnsAction  []bool
-	ActionState []cadence.State
-	Pending     PendingIntent
+	ActorID      string
+	Template     uint8
+	HP           float64
+	MaxHP        float64
+	Attrs        attribute.Store
+	Resources    resource.Store
+	DamageTaken  history.Window
+	OwnsAction   []bool
+	ActionState  []cadence.State
+	ActionInputs []ActionInputState
+	Pending      PendingIntent
+}
+
+type ActionInputState struct {
+	SkillLevel  int
+	PanelInputs map[string]float64
 }
 
 type PendingIntent struct {
@@ -66,6 +72,7 @@ type RunContext struct {
 	Shields         [shieldArenaCap]ShieldInstance
 	Outbox          *abi.Outbox
 	Logs            []model.LogEntry
+	ActionResults   []model.ActionRunResultV2
 	NowMs           int64
 	ProcessedEvents int
 	ChainDepthPeak  int
@@ -118,14 +125,15 @@ func NewRunContext(bundle compilebundle.CompiledBundle, input model.EngineRunInp
 		RNG:           NewRNG(input.Seed),
 		Outbox:        outbox,
 		Logs:          make([]model.LogEntry, 0, 64),
+		ActionResults: make([]model.ActionRunResultV2, 0, 8),
 		StopMaxEvents: input.StopCondition.MaxEvents,
 		trace:         input.Trace,
 	}
 	if ctx.StopMaxEvents <= 0 {
 		ctx.StopMaxEvents = bundle.Settings.MaxEvents
 	}
-	ctx.Actors[0] = actorFrom(bundle, bundle.Actors[selfTemplate], input.Self.ActorID, selfTemplate)
-	ctx.Actors[1] = actorFrom(bundle, bundle.Actors[enemyTemplate], input.Enemy.ActorID, enemyTemplate)
+	ctx.Actors[0] = actorFrom(bundle, bundle.Actors[selfTemplate], input.Self, selfTemplate)
+	ctx.Actors[1] = actorFrom(bundle, bundle.Actors[enemyTemplate], input.Enemy, enemyTemplate)
 	for _, statusID := range input.Self.StatusIDs {
 		idx, ok := bundle.StatusIndex[statusID]
 		if !ok {
@@ -160,7 +168,7 @@ func NewRunContext(bundle compilebundle.CompiledBundle, input model.EngineRunInp
 	return ctx, nil
 }
 
-func actorFrom(bundle compilebundle.CompiledBundle, template compilebundle.CompiledActor, actorID string, templateID uint8) ActorRuntime {
+func actorFrom(bundle compilebundle.CompiledBundle, template compilebundle.CompiledActor, input model.CombatantRunInit, templateID uint8) ActorRuntime {
 	hp := template.InitialHP
 	if hp <= 0 {
 		hp = template.MaxHP
@@ -194,13 +202,83 @@ func actorFrom(bundle compilebundle.CompiledBundle, template compilebundle.Compi
 		}
 	}
 	return ActorRuntime{
-		ActorID: actorID, Template: templateID, HP: hp, MaxHP: template.MaxHP,
-		Attrs:       attrs,
-		Resources:   resource.NewStore(resourceSlots),
-		DamageTaken: history.NewWindow(128),
-		OwnsAction:  ownsAction,
-		ActionState: make([]cadence.State, len(bundle.Actions)),
+		ActorID:      input.ActorID,
+		Template:     templateID,
+		HP:           hp,
+		MaxHP:        template.MaxHP,
+		Attrs:        attrs,
+		Resources:    resource.NewStore(resourceSlots),
+		DamageTaken:  history.NewWindow(128),
+		OwnsAction:   ownsAction,
+		ActionState:  make([]cadence.State, len(bundle.Actions)),
+		ActionInputs: actionInputsFrom(bundle, template, input.ActionInputs),
 	}
+}
+
+func actionInputsFrom(bundle compilebundle.CompiledBundle, template compilebundle.CompiledActor, overrides map[string]model.ActionRunInput) []ActionInputState {
+	inputs := make([]ActionInputState, len(bundle.Actions))
+	for _, actionID := range template.Actions {
+		if int(actionID) >= len(bundle.Actions) {
+			continue
+		}
+		action := bundle.Actions[actionID]
+		inputs[actionID] = ActionInputState{
+			SkillLevel:  defaultSkillLevel(action.SkillLevel),
+			PanelInputs: copyFloatMap(action.PanelInputs),
+		}
+		if override, ok := overrides[action.ID]; ok {
+			if override.SkillLevel > 0 {
+				inputs[actionID].SkillLevel = override.SkillLevel
+			}
+			if len(override.PanelInputs) > 0 {
+				inputs[actionID].PanelInputs = mergeFloatMaps(inputs[actionID].PanelInputs, override.PanelInputs)
+			}
+		}
+	}
+	return inputs
+}
+
+func defaultSkillLevel(value int) int {
+	if value > 0 {
+		return value
+	}
+	return 1
+}
+
+func (ctx *RunContext) actionSkillLevel(actor uint8, action uint16) int {
+	if int(actor) >= len(ctx.Actors) || int(action) >= len(ctx.Actors[actor].ActionInputs) {
+		return 1
+	}
+	return defaultSkillLevel(ctx.Actors[actor].ActionInputs[action].SkillLevel)
+}
+
+func (ctx *RunContext) actionPanelInputs(actor uint8, action uint16) map[string]float64 {
+	if int(actor) >= len(ctx.Actors) || int(action) >= len(ctx.Actors[actor].ActionInputs) {
+		return nil
+	}
+	return copyFloatMap(ctx.Actors[actor].ActionInputs[action].PanelInputs)
+}
+
+func copyFloatMap(input map[string]float64) map[string]float64 {
+	if len(input) == 0 {
+		return nil
+	}
+	output := make(map[string]float64, len(input))
+	for key, value := range input {
+		output[key] = value
+	}
+	return output
+}
+
+func mergeFloatMaps(base map[string]float64, overrides map[string]float64) map[string]float64 {
+	merged := copyFloatMap(base)
+	if len(merged) == 0 {
+		merged = make(map[string]float64, len(overrides))
+	}
+	for key, value := range overrides {
+		merged[key] = value
+	}
+	return merged
 }
 
 func (ctx *RunContext) Step(maxEvents int) StepStatus {
@@ -262,25 +340,37 @@ func (ctx *RunContext) dispatch(ev scheduler.Event) model.ErrCode {
 }
 
 func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
+	result := ctx.newActionRunResult(ev)
 	gate := ctx.CanCast(ev.Source, ev.Action, ctx.NowMs)
 	if gate.Code != CastOK {
+		result.BlockedReason = castBlockedReason(gate)
+		ctx.ActionResults = append(ctx.ActionResults, result)
 		ctx.handleCastBlocked(ev, gate)
 		return model.ErrOK
 	}
+	resourceDeltas := ctx.actionResourceDeltasBefore(ev.Source, ev.Action)
+	result.CooldownBefore = ctx.actionCooldownRunState(ev.Source, ev.Action)
 	if !ctx.commitCastStart(ev.Source, ev.Action, ctx.NowMs) {
+		result.BlockedReason = "cast_commit_failed"
+		ctx.ActionResults = append(ctx.ActionResults, result)
 		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "cast commit failed")
 		return model.ErrOK
 	}
+	result.Accepted = true
+	result.ResourceDeltas = ctx.actionResourceDeltasAfter(ev.Source, resourceDeltas)
+	result.CooldownAfter = ctx.actionCooldownRunState(ev.Source, ev.Action)
 	action := ctx.Bundle.Actions[ev.Action]
 	ctx.log("action_cast", ev.Source, ev.Target, ev.Action, 0, 0, "")
 	if code := ctx.fireTriggers(compilebundle.TriggerOnActionCast, ev.Source, ev.Target, 0, ev.ChainDepth); code != model.ErrOK {
 		return code
 	}
-	for _, effect := range action.Effects {
-		if code := ctx.applyEffect(effect, ev.Source, ev.Target, ev.ChainDepth); code != model.ErrOK {
+	actionInput := float64(ctx.actionSkillLevel(ev.Source, ev.Action))
+	for index, effect := range action.Effects {
+		if code := ctx.applyEffect(effect, ev.Source, ev.Target, ev.ChainDepth, actionInput, &result, index); code != model.ErrOK {
 			return code
 		}
 	}
+	ctx.ActionResults = append(ctx.ActionResults, result)
 	return model.ErrOK
 }
 
@@ -408,7 +498,134 @@ func (ctx *RunContext) commitCastStart(actor uint8, action uint16, nowMs int64) 
 	if int(action) >= len(ctx.Actors[actor].ActionState) {
 		return false
 	}
-	return ctx.Actors[actor].ActionState[action].Consume(nowMs, template.CooldownMs)
+	cooldownMs, ok := ctx.actionCooldownMs(actor, action)
+	if !ok {
+		return false
+	}
+	return ctx.Actors[actor].ActionState[action].Consume(nowMs, cooldownMs)
+}
+
+func (ctx *RunContext) actionCooldownMs(actor uint8, action uint16) (int64, bool) {
+	if int(actor) >= len(ctx.Actors) || int(action) >= len(ctx.Bundle.Actions) {
+		return 0, false
+	}
+	template := ctx.Bundle.Actions[action]
+	if !template.HasCooldownFormula {
+		if template.CooldownMs < 0 {
+			return 0, false
+		}
+		return template.CooldownMs, true
+	}
+	value, _, ok := ctx.evalActionFormula(actor, actor, actor, action, template.CooldownFormula)
+	if !ok || value < 0 || math.IsNaN(value) || math.IsInf(value, 0) {
+		return 0, false
+	}
+	return int64(math.Round(value)), true
+}
+
+func (ctx *RunContext) actionCooldownSnapshot(actor uint8, action uint16) (int64, string, []model.ActionValueBreakdownStepV2) {
+	cooldownMs, ok := ctx.actionCooldownMs(actor, action)
+	if !ok {
+		return 0, "", nil
+	}
+	template := ctx.Bundle.Actions[action]
+	if !template.HasCooldownFormula || int(template.CooldownFormula) >= len(ctx.Bundle.Formulas.Programs) {
+		return cooldownMs, "", nil
+	}
+	_, steps, ok := ctx.evalActionFormula(actor, actor, actor, action, template.CooldownFormula)
+	if !ok {
+		return cooldownMs, ctx.Bundle.Formulas.Programs[template.CooldownFormula].ID, nil
+	}
+	return cooldownMs, ctx.Bundle.Formulas.Programs[template.CooldownFormula].ID, steps
+}
+
+func (ctx *RunContext) actionCooldownRunState(actor uint8, action uint16) model.ActionCooldownRunStateV2 {
+	cooldownMs, formulaID, breakdown := ctx.actionCooldownSnapshot(actor, action)
+	readyAtMs := int64(0)
+	if int(actor) < len(ctx.Actors) && int(action) < len(ctx.Actors[actor].ActionState) {
+		readyAtMs = ctx.Actors[actor].ActionState[action].ReadyAtMs
+	}
+	return model.ActionCooldownRunStateV2{
+		CooldownMs:        cooldownMs,
+		CooldownFormulaID: formulaID,
+		CooldownBreakdown: breakdown,
+		ReadyAtMs:         readyAtMs,
+	}
+}
+
+func (ctx *RunContext) newActionRunResult(ev scheduler.Event) model.ActionRunResultV2 {
+	result := model.ActionRunResultV2{TimeMs: ctx.NowMs}
+	if int(ev.Source) < len(ctx.Actors) {
+		result.SourceActorID = ctx.Actors[ev.Source].ActorID
+	}
+	if int(ev.Target) < len(ctx.Actors) {
+		result.TargetActorID = ctx.Actors[ev.Target].ActorID
+	}
+	if int(ev.Action) < len(ctx.Bundle.Actions) {
+		result.ActionID = ctx.Bundle.Actions[ev.Action].ID
+	}
+	return result
+}
+
+func (ctx *RunContext) actionResourceDeltasBefore(actor uint8, action uint16) []model.ActionResourceDeltaV2 {
+	if int(actor) >= len(ctx.Actors) || int(action) >= len(ctx.Bundle.Actions) {
+		return nil
+	}
+	costs := ctx.Bundle.Actions[action].Costs
+	if len(costs) == 0 {
+		return nil
+	}
+	deltas := make([]model.ActionResourceDeltaV2, 0, len(costs))
+	for index, cost := range costs {
+		if firstCostForResource(costs, index) != index || int(cost.Resource) >= len(ctx.Bundle.Resources) || int(cost.Resource) >= len(ctx.Actors[actor].Resources.Slots) {
+			continue
+		}
+		deltas = append(deltas, model.ActionResourceDeltaV2{
+			ResourceID: ctx.Bundle.Resources[cost.Resource].ID,
+			Before:     ctx.Actors[actor].Resources.Slots[cost.Resource].Current,
+		})
+	}
+	return deltas
+}
+
+func (ctx *RunContext) actionResourceDeltasAfter(actor uint8, deltas []model.ActionResourceDeltaV2) []model.ActionResourceDeltaV2 {
+	if int(actor) >= len(ctx.Actors) || len(deltas) == 0 {
+		return nil
+	}
+	for index := range deltas {
+		resourceID := deltas[index].ResourceID
+		resourceIndex := -1
+		for slotIndex, slot := range ctx.Actors[actor].Resources.Slots {
+			if slot.ID == resourceID {
+				resourceIndex = slotIndex
+				break
+			}
+		}
+		if resourceIndex < 0 {
+			continue
+		}
+		deltas[index].After = ctx.Actors[actor].Resources.Slots[resourceIndex].Current
+		deltas[index].Delta = deltas[index].After - deltas[index].Before
+	}
+	return deltas
+}
+
+func (ctx *RunContext) evalActionFormula(owner uint8, source uint8, target uint8, action uint16, formulaID formula.ProgramID) (float64, []model.ActionValueBreakdownStepV2, bool) {
+	if int(owner) >= len(ctx.Actors) || int(source) >= len(ctx.Actors) || int(target) >= len(ctx.Actors) || int(action) >= len(ctx.Bundle.Actions) {
+		return 0, nil, false
+	}
+	ctx.Actors[source].Attrs.ResolveAll(ctx.NowMs)
+	ctx.Actors[target].Attrs.ResolveAll(ctx.NowMs)
+	value, steps, err := ctx.Bundle.Formulas.EvalTrace(formulaID, formula.EvalContext{
+		SourceAttrs: &ctx.Actors[source].Attrs,
+		TargetAttrs: &ctx.Actors[target].Attrs,
+		Resources:   &ctx.Actors[source].Resources,
+		Input:       float64(ctx.actionSkillLevel(owner, action)),
+	})
+	if err != nil {
+		return 0, nil, false
+	}
+	return value, steps, true
 }
 
 func (ctx *RunContext) actionCostAmounts(actor uint8, action uint16) ([]float64, string, bool) {
@@ -425,6 +642,7 @@ func (ctx *RunContext) actionCostAmounts(actor uint8, action uint16) ([]float64,
 				SourceAttrs: &ctx.Actors[actor].Attrs,
 				TargetAttrs: &ctx.Actors[actor].Attrs,
 				Resources:   &ctx.Actors[actor].Resources,
+				Input:       float64(ctx.actionSkillLevel(actor, action)),
 			})
 			if err != nil {
 				return nil, "resource cost formula failed", false
@@ -491,24 +709,60 @@ func castBlockedReason(gate CastGateResult) string {
 	}
 }
 
-func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source uint8, target uint8, chainDepth uint8) model.ErrCode {
+func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source uint8, target uint8, chainDepth uint8, input float64, actionResult *model.ActionRunResultV2, effectIndex int) model.ErrCode {
 	actualSource := roleActor(effect.SourceRole, source, target)
 	actualTarget := roleActor(effect.TargetRole, source, target)
 	switch effect.Type {
 	case compilebundle.EffectDealDamage:
-		amount, code := ctx.effectAmount(effect, actualSource, actualTarget, 0)
+		amount, formulaID, breakdown, code := ctx.effectAmountTrace(effect, actualSource, actualTarget, input)
 		if code != model.ErrOK {
 			return code
 		}
-		return ctx.dealDamage(actualSource, actualTarget, amount, effect.DamageType, chainDepth)
+		hpBefore := ctx.Actors[actualTarget].HP
+		finalDamage, code := ctx.dealDamageResult(actualSource, actualTarget, amount, effect.DamageType, chainDepth)
+		if actionResult != nil {
+			actionResult.Effects = append(actionResult.Effects, model.ActionEffectRunResultV2{
+				EffectIndex:      effectIndex,
+				Kind:             string(model.EffectTypeDealDamage),
+				FormulaID:        formulaID,
+				FormulaBreakdown: breakdown,
+				RawAmount:        amount,
+				HasRawAmount:     true,
+				DamageType:       effect.DamageType,
+				FinalDamage:      finalDamage,
+				HasFinalDamage:   true,
+				TargetHPBefore:   hpBefore,
+				TargetHPAfter:    ctx.Actors[actualTarget].HP,
+				SourceActorID:    ctx.Actors[actualSource].ActorID,
+				TargetActorID:    ctx.Actors[actualTarget].ActorID,
+			})
+		}
+		return code
 	case compilebundle.EffectDamageFromRecent:
 		amount := ctx.Actors[actualSource].DamageTaken.Sum(ctx.NowMs, effect.HistoryWindowMs)
 		if effect.Amount != 0 {
 			amount *= effect.Amount
 		}
-		return ctx.dealDamage(actualSource, actualTarget, amount, effect.DamageType, chainDepth)
+		hpBefore := ctx.Actors[actualTarget].HP
+		finalDamage, code := ctx.dealDamageResult(actualSource, actualTarget, amount, effect.DamageType, chainDepth)
+		if actionResult != nil {
+			actionResult.Effects = append(actionResult.Effects, model.ActionEffectRunResultV2{
+				EffectIndex:    effectIndex,
+				Kind:           string(model.EffectTypeDamageFromRecent),
+				RawAmount:      amount,
+				HasRawAmount:   true,
+				DamageType:     effect.DamageType,
+				FinalDamage:    finalDamage,
+				HasFinalDamage: true,
+				TargetHPBefore: hpBefore,
+				TargetHPAfter:  ctx.Actors[actualTarget].HP,
+				SourceActorID:  ctx.Actors[actualSource].ActorID,
+				TargetActorID:  ctx.Actors[actualTarget].ActorID,
+			})
+		}
+		return code
 	case compilebundle.EffectHeal:
-		amount, code := ctx.effectAmount(effect, actualSource, actualTarget, 0)
+		amount, code := ctx.effectAmount(effect, actualSource, actualTarget, input)
 		if code != model.ErrOK {
 			return code
 		}
@@ -517,7 +771,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 	case compilebundle.EffectApplyStatus:
 		return ctx.applyStatus(actualTarget, effect.Status)
 	case compilebundle.EffectGrantShield:
-		amount, code := ctx.effectAmount(effect, actualSource, actualTarget, 0)
+		amount, code := ctx.effectAmount(effect, actualSource, actualTarget, input)
 		if code != model.ErrOK {
 			return code
 		}
@@ -552,27 +806,56 @@ func (ctx *RunContext) effectAmount(effect compilebundle.CompiledEffect, source 
 	return effect.Amount, model.ErrOK
 }
 
-func (ctx *RunContext) dealDamage(source uint8, target uint8, amount float64, damageType string, chainDepth uint8) model.ErrCode {
-	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
-		return model.ErrNumeric
+func (ctx *RunContext) effectAmountTrace(effect compilebundle.CompiledEffect, source uint8, target uint8, input float64) (float64, string, []model.ActionValueBreakdownStepV2, model.ErrCode) {
+	if effect.HasFormula {
+		ctx.Actors[source].Attrs.ResolveAll(ctx.NowMs)
+		ctx.Actors[target].Attrs.ResolveAll(ctx.NowMs)
+		value, steps, err := ctx.Bundle.Formulas.EvalTrace(effect.Formula, formula.EvalContext{
+			SourceAttrs: &ctx.Actors[source].Attrs,
+			TargetAttrs: &ctx.Actors[target].Attrs,
+			Resources:   &ctx.Actors[source].Resources,
+			Input:       input,
+		})
+		if err != nil {
+			return 0, "", nil, model.ErrNumeric
+		}
+		formulaID := ""
+		if int(effect.Formula) < len(ctx.Bundle.Formulas.Programs) {
+			formulaID = ctx.Bundle.Formulas.Programs[effect.Formula].ID
+		}
+		return value, formulaID, steps, model.ErrOK
 	}
+	return effect.Amount, "", nil, model.ErrOK
+}
+
+func (ctx *RunContext) dealDamage(source uint8, target uint8, amount float64, damageType string, chainDepth uint8) model.ErrCode {
+	_, code := ctx.dealDamageResult(source, target, amount, damageType, chainDepth)
+	return code
+}
+
+func (ctx *RunContext) dealDamageResult(source uint8, target uint8, amount float64, damageType string, chainDepth uint8) (float64, model.ErrCode) {
+	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
+		return 0, model.ErrNumeric
+	}
+	hpBefore := ctx.Actors[target].HP
 	remaining := ctx.consumeShields(target, amount, damageType)
 	ctx.Actors[target].HP -= remaining
 	if ctx.Actors[target].HP < 0 {
 		ctx.Actors[target].HP = 0
 	}
+	appliedDamage := hpBefore - ctx.Actors[target].HP
 	ctx.Actors[target].DamageTaken.Add(ctx.NowMs, remaining)
 	ctx.log("damage", source, target, 0, 0, remaining, damageType)
 	if code := ctx.fireTriggers(compilebundle.TriggerOnDamageDealt, source, target, remaining, chainDepth); code != model.ErrOK {
-		return code
+		return appliedDamage, code
 	}
 	if code := ctx.fireTriggers(compilebundle.TriggerOnDamageTaken, source, target, remaining, chainDepth); code != model.ErrOK {
-		return code
+		return appliedDamage, code
 	}
 	if ctx.Actors[target].HP <= 0 {
 		ctx.EmitDone("actor_dead")
 	}
-	return model.ErrOK
+	return appliedDamage, model.ErrOK
 }
 
 func (ctx *RunContext) fireTriggers(event compilebundle.TriggerEvent, source uint8, target uint8, damage float64, chainDepth uint8) model.ErrCode {
@@ -592,7 +875,7 @@ func (ctx *RunContext) fireTriggers(event compilebundle.TriggerEvent, source uin
 			return model.ErrUnsupported
 		}
 		for _, effect := range trigger.Effects {
-			if code := ctx.applyEffect(effect, source, target, chainDepth+1); code != model.ErrOK {
+			if code := ctx.applyEffect(effect, source, target, chainDepth+1, 0, nil, -1); code != model.ErrOK {
 				return code
 			}
 		}
@@ -732,7 +1015,7 @@ func (ctx *RunContext) EmitDone(reason string) {
 	payload := model.DonePayload{
 		StopReason: reason, FinalTimeMs: ctx.NowMs, ProcessedEvents: ctx.ProcessedEvents,
 		QueuePeak: ctx.Queue.Peak, ChainDepthPeak: ctx.ChainDepthPeak, TickEmitCount: ctx.TickEmitCount,
-		Actors: ctx.snapshots(), Logs: ctx.Logs, RNG: ctx.RNG.Draws(),
+		Actors: ctx.snapshots(), Logs: ctx.Logs, ActionResults: ctx.ActionResults, RNG: ctx.RNG.Draws(),
 	}
 	ctx.Outbox.WriteJSON(model.FrameKindDone, payload)
 }
@@ -767,19 +1050,24 @@ func (ctx *RunContext) actionSnapshot(actor uint8) model.ActorActionSnapshotV2 {
 		}
 		action := ctx.Bundle.Actions[actionID]
 		gate := ctx.CanCast(actor, actionID, ctx.NowMs)
+		cooldownMs, cooldownFormulaID, cooldownBreakdown := ctx.actionCooldownSnapshot(actor, actionID)
 		readyAtMs := int64(0)
 		if int(actionID) < len(ctx.Actors[actor].ActionState) {
 			readyAtMs = ctx.Actors[actor].ActionState[actionID].ReadyAtMs
 		}
 		actions = append(actions, model.ActionInitialStateV2{
-			ActionID:      action.ID,
-			Label:         action.Label,
-			CooldownMs:    action.CooldownMs,
-			ReadyAtMs:     readyAtMs,
-			CanCast:       gate.Code == CastOK,
-			BlockedReason: castBlockedReason(gate),
-			ResourceCosts: ctx.actionCostSnapshotRows(actor, actionID),
-			EffectRows:    ctx.actionEffectSnapshotRows(actor, actionID),
+			ActionID:          action.ID,
+			Label:             action.Label,
+			SkillLevel:        ctx.actionSkillLevel(actor, actionID),
+			PanelInputs:       ctx.actionPanelInputs(actor, actionID),
+			CooldownMs:        cooldownMs,
+			CooldownFormulaID: cooldownFormulaID,
+			CooldownBreakdown: cooldownBreakdown,
+			ReadyAtMs:         readyAtMs,
+			CanCast:           gate.Code == CastOK,
+			BlockedReason:     castBlockedReason(gate),
+			ResourceCosts:     ctx.actionCostSnapshotRows(actor, actionID),
+			EffectRows:        ctx.actionEffectSnapshotRows(actor, actionID),
 		})
 	}
 	return model.ActorActionSnapshotV2{
@@ -793,10 +1081,23 @@ func (ctx *RunContext) actionCostSnapshotRows(actor uint8, action uint16) []mode
 	if len(compiled.PanelCosts) > 0 {
 		rows := make([]model.ActionCostSnapshotV2, 0, len(compiled.PanelCosts))
 		for _, cost := range compiled.PanelCosts {
+			amount := cost.Amount
+			breakdown := []model.ActionValueBreakdownStepV2(nil)
+			if cost.HasFormula {
+				value, steps, ok := ctx.evalActionFormula(actor, actor, actor, action, cost.Formula)
+				if ok {
+					amount = value
+					breakdown = steps
+				}
+			}
 			rows = append(rows, model.ActionCostSnapshotV2{
-				ResourceID: cost.ResourceID,
-				FormulaID:  cost.FormulaID,
-				Amount:     cost.Amount,
+				ResourceID:  cost.ResourceID,
+				FormulaID:   cost.FormulaID,
+				Amount:      amount,
+				Source:      "panel",
+				BaseAmount:  cost.Amount,
+				FinalAmount: amount,
+				Breakdown:   breakdown,
 			})
 		}
 		return rows
@@ -808,13 +1109,19 @@ func (ctx *RunContext) actionCostSnapshotRows(actor uint8, action uint16) []mode
 	rows := make([]model.ActionCostSnapshotV2, 0, len(compiled.Costs))
 	for i, cost := range compiled.Costs {
 		row := model.ActionCostSnapshotV2{
-			Amount: amounts[i],
+			Amount:      amounts[i],
+			Source:      "resourceCost",
+			BaseAmount:  cost.Amount,
+			FinalAmount: amounts[i],
 		}
 		if int(cost.Resource) < len(ctx.Bundle.Resources) {
 			row.ResourceID = ctx.Bundle.Resources[cost.Resource].ID
 		}
 		if cost.HasFormula && int(cost.Formula) < len(ctx.Bundle.Formulas.Programs) {
 			row.FormulaID = ctx.Bundle.Formulas.Programs[cost.Formula].ID
+			if _, steps, ok := ctx.evalActionFormula(actor, actor, actor, action, cost.Formula); ok {
+				row.Breakdown = steps
+			}
 		}
 		rows = append(rows, row)
 	}
@@ -826,6 +1133,17 @@ func (ctx *RunContext) actionEffectSnapshotRows(actor uint8, action uint16) []mo
 	if len(compiled.PanelEffects) > 0 {
 		rows := make([]model.ActionEffectSnapshotV2, 0, len(compiled.PanelEffects))
 		for _, effect := range compiled.PanelEffects {
+			amount := effect.Amount
+			breakdown := []model.ActionValueBreakdownStepV2(nil)
+			actualSource := roleActor(effect.SourceRole, actor, actor^1)
+			actualTarget := roleActor(effect.TargetRole, actor, actor^1)
+			if effect.HasFormula {
+				value, steps, ok := ctx.evalActionFormula(actor, actualSource, actualTarget, action, effect.Formula)
+				if ok {
+					amount = value
+					breakdown = steps
+				}
+			}
 			rows = append(rows, model.ActionEffectSnapshotV2{
 				EffectIndex:       effect.EffectIndex,
 				Kind:              effect.Kind,
@@ -837,8 +1155,12 @@ func (ctx *RunContext) actionEffectSnapshotRows(actor uint8, action uint16) []mo
 				MarkID:            effect.MarkID,
 				SourceRole:        effect.SourceRole,
 				TargetRole:        effect.TargetRole,
-				ResolvedAmount:    effect.Amount,
+				ResolvedAmount:    amount,
 				HasResolvedAmount: true,
+				Source:            "panel",
+				BaseAmount:        effect.Amount,
+				FinalAmount:       amount,
+				Breakdown:         breakdown,
 			})
 		}
 		return rows
@@ -852,6 +1174,8 @@ func (ctx *RunContext) actionEffectSnapshotRows(actor uint8, action uint16) []mo
 			MarkID:      effect.MarkID,
 			SourceRole:  effect.SourceRole,
 			TargetRole:  effect.TargetRole,
+			Source:      "effects",
+			BaseAmount:  effect.Amount,
 		}
 		if effect.HasFormula && int(effect.Formula) < len(ctx.Bundle.Formulas.Programs) {
 			row.FormulaID = ctx.Bundle.Formulas.Programs[effect.Formula].ID
@@ -863,10 +1187,16 @@ func (ctx *RunContext) actionEffectSnapshotRows(actor uint8, action uint16) []mo
 		actualTarget := roleActor(effect.TargetRole, actor, actor^1)
 		switch effect.Type {
 		case compilebundle.EffectDealDamage, compilebundle.EffectHeal, compilebundle.EffectGrantShield:
-			amount, code := ctx.effectAmount(effect, actualSource, actualTarget, 0)
+			amount, code := ctx.effectAmount(effect, actualSource, actualTarget, float64(ctx.actionSkillLevel(actor, action)))
 			if code == model.ErrOK {
 				row.ResolvedAmount = amount
 				row.HasResolvedAmount = true
+				row.FinalAmount = amount
+				if effect.HasFormula {
+					if _, steps, ok := ctx.evalActionFormula(actor, actualSource, actualTarget, action, effect.Formula); ok {
+						row.Breakdown = steps
+					}
+				}
 			}
 		case compilebundle.EffectDamageFromRecent:
 			amount := ctx.Actors[actualSource].DamageTaken.Sum(ctx.NowMs, effect.HistoryWindowMs)
@@ -875,6 +1205,7 @@ func (ctx *RunContext) actionEffectSnapshotRows(actor uint8, action uint16) []mo
 			}
 			row.ResolvedAmount = amount
 			row.HasResolvedAmount = true
+			row.FinalAmount = amount
 		}
 		rows = append(rows, row)
 	}
