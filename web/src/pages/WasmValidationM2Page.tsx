@@ -84,6 +84,17 @@ type ActionCostSnapshot = {
   resourceId?: string;
   formulaId?: string;
   amount: number;
+  source?: string;
+  baseAmount?: number;
+  finalAmount?: number;
+  breakdown?: ActionValueBreakdownStep[];
+};
+
+type ActionValueBreakdownStep = {
+  formulaId?: string;
+  op: string;
+  ref?: string;
+  value: number;
 };
 
 type ActionEffectSnapshot = {
@@ -99,12 +110,20 @@ type ActionEffectSnapshot = {
   targetRole?: string;
   resolvedAmount?: number;
   hasResolvedAmount?: boolean;
+  source?: string;
+  baseAmount?: number;
+  finalAmount?: number;
+  breakdown?: ActionValueBreakdownStep[];
 };
 
 type ActionInitialState = {
   actionId: string;
   label: string;
+  skillLevel?: number;
+  panelInputs?: Record<string, number>;
   cooldownMs: number;
+  cooldownFormulaId?: string;
+  cooldownBreakdown?: ActionValueBreakdownStep[];
   readyAtMs: number;
   canCast: boolean;
   blockedReason: string;
@@ -157,6 +176,16 @@ type ActionRow = ActionInitialState & {
   actorId: string;
   baselineState: 'none' | 'match' | 'diff';
   baselineComparable: string | null;
+};
+
+type ActionEvidenceRow = {
+  key: string;
+  actorId: string;
+  actionId: string;
+  field: string;
+  wasmValue: string;
+  evidenceRef: string;
+  note: string;
 };
 
 type ManualBaseline = Record<string, unknown>;
@@ -317,8 +346,16 @@ function normalizeActionState(value: unknown): unknown {
   const effectRows = Array.isArray(record.effectRows)
     ? record.effectRows.map((row) => normalizeActionEffect(row)).filter(Boolean)
     : [];
+  const cooldownBreakdown = Array.isArray(record.cooldownBreakdown)
+    ? record.cooldownBreakdown.map((row) => normalizeBreakdownStep(row)).filter(Boolean)
+    : [];
+  const panelInputs = normalizeNumberMap(record.panelInputs);
   return {
+    skillLevel: toFiniteOptional(record.skillLevel),
+    panelInputs,
     cooldownMs: toFiniteNumber(record.cooldownMs),
+    cooldownFormulaId: typeof record.cooldownFormulaId === 'string' ? record.cooldownFormulaId : '',
+    cooldownBreakdown,
     readyAtMs: toFiniteNumber(record.readyAtMs),
     canCast: Boolean(record.canCast),
     blockedReason: typeof record.blockedReason === 'string' ? record.blockedReason : '',
@@ -335,7 +372,11 @@ function normalizeActionCost(value: unknown): unknown {
   return {
     resourceId: typeof record.resourceId === 'string' ? record.resourceId : '',
     formulaId: typeof record.formulaId === 'string' ? record.formulaId : '',
-    amount: roundComparable(toFiniteNumber(record.amount))
+    amount: roundComparable(toFiniteNumber(record.amount)),
+    source: typeof record.source === 'string' ? record.source : '',
+    baseAmount: roundComparableOptional(record.baseAmount),
+    finalAmount: roundComparableOptional(record.finalAmount),
+    breakdown: Array.isArray(record.breakdown) ? record.breakdown.map((row) => normalizeBreakdownStep(row)).filter(Boolean) : []
   };
 }
 
@@ -355,9 +396,37 @@ function normalizeActionEffect(value: unknown): unknown {
     markId: typeof record.markId === 'string' ? record.markId : '',
     sourceRole: typeof record.sourceRole === 'string' ? record.sourceRole : '',
     targetRole: typeof record.targetRole === 'string' ? record.targetRole : '',
-    resolvedAmount: roundComparable(toFiniteNumber(record.resolvedAmount)),
-    hasResolvedAmount: Boolean(record.hasResolvedAmount)
+    resolvedAmount: roundComparableOptional(record.resolvedAmount),
+    hasResolvedAmount: Boolean(record.hasResolvedAmount),
+    source: typeof record.source === 'string' ? record.source : '',
+    baseAmount: roundComparableOptional(record.baseAmount),
+    finalAmount: roundComparableOptional(record.finalAmount),
+    breakdown: Array.isArray(record.breakdown) ? record.breakdown.map((row) => normalizeBreakdownStep(row)).filter(Boolean) : []
   };
+}
+
+function normalizeBreakdownStep(value: unknown): ActionValueBreakdownStep | null {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return null;
+  }
+  const record = value as Record<string, unknown>;
+  return {
+    formulaId: typeof record.formulaId === 'string' ? record.formulaId : '',
+    op: typeof record.op === 'string' ? record.op : '',
+    ref: typeof record.ref === 'string' ? record.ref : '',
+    value: roundComparable(toFiniteNumber(record.value))
+  };
+}
+
+function normalizeNumberMap(value: unknown): Record<string, number> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return {};
+  }
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .map(([key, raw]) => [key, roundComparable(toFiniteNumber(raw))] as const)
+      .filter(([, raw]) => Number.isFinite(raw))
+  );
 }
 
 function readActionBaselineValue(baseline: ManualBaseline | null, actorId: string, actionId: string): string | null {
@@ -441,6 +510,51 @@ function buildActionRows(snapshot: ActionSnapshotPayload | null, baseline: Manua
   );
 }
 
+function buildActionEvidenceRows(actionRows: ActionRow[]): ActionEvidenceRow[] {
+  return actionRows.flatMap((action) => {
+    const rows: ActionEvidenceRow[] = [
+      actionEvidenceRow(action, 'skillLevel', formatNumber(action.skillLevel ?? 1, 0), 'action.skillLevel', 'run input 或 bundle 默认技能等级'),
+      actionEvidenceRow(action, 'cooldownMs', formatNumber(action.cooldownMs, 0), 'action.cooldownMs', action.cooldownFormulaId || 'static cooldown')
+    ];
+    for (const cost of action.resourceCosts ?? []) {
+      const resource = cost.resourceId || 'resource';
+      rows.push(
+        actionEvidenceRow(
+          action,
+          `cost.${resource}`,
+          formatNumber(cost.finalAmount ?? cost.amount),
+          `action.resourceCosts.${resource}`,
+          cost.formulaId || cost.source || 'resourceCost fallback'
+        )
+      );
+    }
+    for (const effect of action.effectRows ?? []) {
+      rows.push(
+        actionEvidenceRow(
+          action,
+          `effect.${effect.effectIndex}.${effect.kind}`,
+          effect.hasResolvedAmount ? formatNumber(effect.finalAmount ?? effect.resolvedAmount) : '',
+          `action.effectRows.${effect.effectIndex}`,
+          effect.formulaId || effect.source || 'effect fallback'
+        )
+      );
+    }
+    return rows;
+  });
+}
+
+function actionEvidenceRow(action: ActionRow, field: string, wasmValue: string, evidenceRef: string, note: string): ActionEvidenceRow {
+  return {
+    key: `${action.actorId}-${action.actionId}-${field}`,
+    actorId: action.actorId,
+    actionId: action.actionId,
+    field,
+    wasmValue,
+    evidenceRef,
+    note
+  };
+}
+
 function renderDiffTag(diff: number | null) {
   if (diff === null) {
     return <Tag color="gray">--</Tag>;
@@ -483,7 +597,9 @@ function formatActionCosts(rows: ActionCostSnapshot[] | undefined): string[] {
   return rows.map((row) => {
     const label = row.resourceId || 'resource';
     const formula = row.formulaId ? ` (${row.formulaId})` : '';
-    return `${label}=${formatNumber(row.amount)}${formula}`;
+    const source = row.source ? `[${row.source}] ` : '';
+    const breakdown = formatBreakdown(row.breakdown);
+    return `${source}${label}=${formatNumber(row.finalAmount ?? row.amount)}${formula}${breakdown ? ` | ${breakdown}` : ''}`;
   });
 }
 
@@ -494,11 +610,25 @@ function formatActionEffects(rows: ActionEffectSnapshot[] | undefined): string[]
   return rows.map((row) => {
     const meta = [row.damageType, row.attrId, row.statusId, row.markId].filter(Boolean).join('/');
     const roles = [row.sourceRole, row.targetRole].filter(Boolean).join('->');
-    const amount = row.hasResolvedAmount ? ` ${formatNumber(row.resolvedAmount)}` : '';
+    const amount = row.hasResolvedAmount ? ` ${formatNumber(row.finalAmount ?? row.resolvedAmount)}` : '';
     const formula = row.formulaId ? ` (${row.formulaId})` : '';
+    const source = row.source ? `[${row.source}] ` : '';
     const suffix = [meta, roles].filter(Boolean).join(' ');
-    return `#${row.effectIndex} ${row.kind}${amount}${suffix ? ` ${suffix}` : ''}${formula}`;
+    const breakdown = formatBreakdown(row.breakdown);
+    return `${source}#${row.effectIndex} ${row.kind}${amount}${suffix ? ` ${suffix}` : ''}${formula}${breakdown ? ` | ${breakdown}` : ''}`;
   });
+}
+
+function formatBreakdown(rows: ActionValueBreakdownStep[] | undefined): string {
+  if (!rows || rows.length === 0) {
+    return '';
+  }
+  return rows
+    .map((row) => {
+      const ref = row.ref ? `:${row.ref}` : '';
+      return `${row.op}${ref}=${formatNumber(row.value)}`;
+    })
+    .join(' -> ');
 }
 
 function toStringArray(value: unknown): string[] {
@@ -518,8 +648,18 @@ function toFiniteNumber(value: unknown): number {
   return Number.isFinite(numeric) ? numeric : 0;
 }
 
+function toFiniteOptional(value: unknown): number | undefined {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : undefined;
+}
+
 function roundComparable(value: number): number {
   return Math.round(value * 1000) / 1000;
+}
+
+function roundComparableOptional(value: unknown): number | undefined {
+  const numeric = toFiniteOptional(value);
+  return numeric === undefined ? undefined : roundComparable(numeric);
 }
 
 export function WasmValidationM2Page({
@@ -635,6 +775,7 @@ export function WasmValidationM2Page({
   const attributeRows = useMemo(() => buildAttributeRows(snapshotPayload, baseline), [snapshotPayload, baseline]);
   const actorInputRows = useMemo(() => buildActorInputRows(inputPreview.value), [inputPreview.value]);
   const actionRows = useMemo(() => buildActionRows(actionSnapshotPayload, actionBaseline), [actionSnapshotPayload, actionBaseline]);
+  const actionEvidenceRows = useMemo(() => buildActionEvidenceRows(actionRows), [actionRows]);
   const matchedRows = attributeRows.filter((row) => row.baseline !== null);
   const diffRows = matchedRows.filter((row) => row.diff !== null && Math.abs(row.diff) >= 0.0001);
   const matchedActionRows = actionRows.filter((row) => row.baselineState !== 'none');
@@ -1018,8 +1159,22 @@ export function WasmValidationM2Page({
       )
     },
     {
+      title: '输入',
+      render: (_: unknown, record: ActionRow) => {
+        const inputs = Object.entries(record.panelInputs ?? {}).map(([key, value]) => `${key}=${formatNumber(value)}`);
+        return renderLines([`skillLevel=${formatNumber(record.skillLevel ?? 1, 0)}`, ...inputs]);
+      }
+    },
+    {
       title: '冷却',
-      render: (_: unknown, record: ActionRow) => `${formatNumber(record.cooldownMs, 0)} / ${formatNumber(record.readyAtMs, 0)} ms`
+      render: (_: unknown, record: ActionRow) => {
+        const formula = record.cooldownFormulaId ? ` (${record.cooldownFormulaId})` : '';
+        const breakdown = formatBreakdown(record.cooldownBreakdown);
+        return renderLines([
+          `${formatNumber(record.cooldownMs, 0)} / ${formatNumber(record.readyAtMs, 0)} ms${formula}`,
+          ...(breakdown ? [breakdown] : [])
+        ]);
+      }
     },
     {
       title: '释放',
@@ -1037,6 +1192,33 @@ export function WasmValidationM2Page({
     {
       title: '差异',
       render: (_: unknown, record: ActionRow) => renderActionDiffTag(record.baselineState)
+    }
+  ];
+
+  const actionEvidenceColumns = [
+    {
+      title: 'actor',
+      dataIndex: 'actorId'
+    },
+    {
+      title: 'action',
+      dataIndex: 'actionId'
+    },
+    {
+      title: 'field',
+      dataIndex: 'field'
+    },
+    {
+      title: 'wasmValue',
+      dataIndex: 'wasmValue'
+    },
+    {
+      title: 'evidenceRef',
+      dataIndex: 'evidenceRef'
+    },
+    {
+      title: 'note',
+      dataIndex: 'note'
     }
   ];
 
@@ -1375,23 +1557,34 @@ export function WasmValidationM2Page({
         }
       >
         {actionSnapshotPayload ? (
-          <Row gutter={[16, 16]}>
-            {actionSnapshotPayload.actors.map((actor) => (
-              <Col key={actor.actorId} xs={24} lg={12}>
-                <Card size="small" title={`${actor.actorId} / ${actor.actions.length} actions`}>
-                  <Table
-                    className="data-table-shell"
-                    columns={actionColumns}
-                    data={actionRows.filter((row) => row.actorId === actor.actorId)}
-                    pagination={false}
-                    rowKey="key"
-                    size="small"
-                    scroll={{ x: '100%' }}
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Row gutter={[16, 16]}>
+              {actionSnapshotPayload.actors.map((actor) => (
+                <Col key={actor.actorId} xs={24} lg={12}>
+                  <Card size="small" title={`${actor.actorId} / ${actor.actions.length} actions`}>
+                    <Table
+                      className="data-table-shell"
+                      columns={actionColumns}
+                      data={actionRows.filter((row) => row.actorId === actor.actorId)}
+                      pagination={false}
+                      rowKey="key"
+                      size="small"
+                      scroll={{ x: '100%' }}
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+            <Table
+              className="data-table-shell"
+              columns={actionEvidenceColumns}
+              data={actionEvidenceRows}
+              pagination={false}
+              rowKey="key"
+              size="small"
+              scroll={{ x: '100%' }}
+            />
+          </Space>
         ) : (
           <EmptyState title="还没有动作快照" description="运行一次快照后，这里会展示 self/enemy 当前 run 的全部动作初始状态。" />
         )}
