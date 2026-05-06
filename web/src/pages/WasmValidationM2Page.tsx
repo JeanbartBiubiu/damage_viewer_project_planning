@@ -18,6 +18,7 @@ import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
+import { ResourceImageThumb } from '../components/ResourceImageThumb';
 import {
   compileTinyGoV2ValidationInput,
   createDefaultWasmValidationSelection,
@@ -30,7 +31,9 @@ import {
 } from '../engine/tinygoV2BundleAdapter';
 import { TinyGoV2Bridge, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
 import { getErrorMessage } from '../services/apiClient';
+import { buildAttributeImageUri } from '../services/resourceImage';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
+import { useResourceImageCache } from './admin/resources/shared/useResourceImageCache';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
 
 type WasmValidationM2PageProps = {
@@ -539,6 +542,8 @@ export function WasmValidationM2Page({
   const [frames, setFrames] = useState<DecodedFrame[]>([]);
   const [baselineText, setBaselineText] = useState('');
   const [actionBaselineText, setActionBaselineText] = useState('');
+  const [collapsedAttributeSides, setCollapsedAttributeSides] = useState({ self: false, enemy: false });
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   useEffect(() => {
     let cancelled = false;
@@ -634,6 +639,45 @@ export function WasmValidationM2Page({
   const diffRows = matchedRows.filter((row) => row.diff !== null && Math.abs(row.diff) >= 0.0001);
   const matchedActionRows = actionRows.filter((row) => row.baselineState !== 'none');
   const diffActionRows = actionRows.filter((row) => row.baselineState === 'diff');
+  const attributeNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const definition of bundle?.attributeDefinitions ?? []) {
+      const displayName = definition.attrName?.trim() ?? '';
+      if (displayName) {
+        map.set(definition.attrKey, displayName);
+      }
+    }
+    return map;
+  }, [bundle]);
+  const sideActorIds = useMemo(() => {
+    const normalize = (value: string) => value.trim().toLowerCase();
+    const selfActor = actorRows.find((row) => normalize(row.actorId) === 'self');
+    const enemyActor = actorRows.find((row) => normalize(row.actorId) === 'enemy');
+    const fallbackIds = actorRows.map((row) => row.actorId);
+    const selfId = selfActor?.actorId ?? fallbackIds[0] ?? 'self';
+    const enemyId = enemyActor?.actorId ?? fallbackIds.find((id) => id !== selfId) ?? 'enemy';
+
+    return {
+      selfId,
+      enemyId
+    };
+  }, [actorRows]);
+  const selfActorRows = useMemo(
+    () => actorRows.filter((row) => row.actorId === sideActorIds.selfId),
+    [actorRows, sideActorIds.selfId]
+  );
+  const enemyActorRows = useMemo(
+    () => actorRows.filter((row) => row.actorId === sideActorIds.enemyId),
+    [actorRows, sideActorIds.enemyId]
+  );
+  const selfAttributeRows = useMemo(
+    () => attributeRows.filter((row) => row.actorId === sideActorIds.selfId),
+    [attributeRows, sideActorIds.selfId]
+  );
+  const enemyAttributeRows = useMemo(
+    () => attributeRows.filter((row) => row.actorId === sideActorIds.enemyId),
+    [attributeRows, sideActorIds.enemyId]
+  );
 
   const updateSelection = useCallback((patch: Partial<WasmValidationSelection>) => {
     setSelection((current) => (current ? { ...current, ...patch } : current));
@@ -661,6 +705,12 @@ export function WasmValidationM2Page({
     setStatus('idle');
     setErrorMessage(null);
     setDurationMs(null);
+  }, []);
+  const toggleAttributeSide = useCallback((side: 'self' | 'enemy') => {
+    setCollapsedAttributeSides((current) => ({
+      ...current,
+      [side]: !current[side]
+    }));
   }, []);
 
   const runSnapshot = useCallback(async () => {
@@ -710,6 +760,17 @@ export function WasmValidationM2Page({
     }
     await navigator.clipboard.writeText(JSON.stringify(actionSnapshotPayload, null, 2));
   }, [actionSnapshotPayload]);
+  const resolveAttributeImageSrc = useCallback(
+    (attrId: string) => {
+      const imageUri = buildAttributeImageUri(attrId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
+  const resolveAttributeDisplayName = useCallback(
+    (attrId: string) => attributeNameById.get(attrId) ?? attrId,
+    [attributeNameById]
+  );
 
   const actorInputColumns = [
     {
@@ -843,6 +904,106 @@ export function WasmValidationM2Page({
       render: (_: unknown, record: AttributeRow) => renderDiffTag(record.diff)
     }
   ];
+
+  void actorColumns;
+  void attributeColumns;
+
+  const actorHudColumns = [
+    {
+      title: <span className="wasm-hud-col-title">actorId</span>,
+      render: (_: unknown, record: ActorRow) => (
+        <Typography.Text className="wasm-code-token wasm-hud-label">{record.actorId}</Typography.Text>
+      )
+    },
+    {
+      title: <span className="wasm-hud-col-title">HP</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => (
+        <span className="wasm-hud-value wasm-hud-value--gold">
+          {formatNumber(record.currentHp)} / {formatNumber(record.maxHp)}
+        </span>
+      )
+    },
+    {
+      title: <span className="wasm-hud-col-title">Shield</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{formatNumber(record.shieldAmount)}</span>
+    },
+    {
+      title: <span className="wasm-hud-col-title">Attributes</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{record.attributeCount}</span>
+    },
+    {
+      title: <span className="wasm-hud-col-title">Resources</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{record.resourceCount}</span>
+    }
+  ];
+
+  const attributeHudColumns = [
+    {
+      title: <span className="wasm-hud-col-title">Actor</span>,
+      render: (_: unknown, record: AttributeRow) => (
+        <Typography.Text className="wasm-code-token wasm-hud-label">{record.actorId}</Typography.Text>
+      )
+    },
+    {
+      title: <span className="wasm-hud-col-title">Attribute</span>,
+      render: (_: unknown, record: AttributeRow) => {
+        const displayName = resolveAttributeDisplayName(record.attrId);
+        const showId = displayName !== record.attrId;
+        return (
+          <span className="wasm-attr-cell">
+            <ResourceImageThumb
+              src={resolveAttributeImageSrc(record.attrId)}
+              alt={displayName}
+              size={20}
+              emptyLabel=""
+            />
+            <span className="wasm-attr-copy">
+              <Typography.Text className="wasm-hud-label">{displayName}</Typography.Text>
+              {showId ? <Typography.Text className="wasm-code-token wasm-hud-sub-label">{record.attrId}</Typography.Text> : null}
+            </span>
+          </span>
+        );
+      }
+    },
+    {
+      title: <span className="wasm-hud-col-title">Base</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.base)}</span>
+    },
+    {
+      title: <span className="wasm-hud-col-title">Current</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.current)}</span>
+    },
+    {
+      title: <span className="wasm-hud-col-title">Max</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.max)}</span>
+    },
+    {
+      title: <span className="wasm-hud-col-title">Resolved</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => (
+        <span className="wasm-hud-value wasm-hud-value--gold">{formatNumber(record.resolved)}</span>
+      )
+    },
+    {
+      title: <span className="wasm-hud-col-title">Manual</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => <span className="wasm-hud-value">{formatNumber(record.baseline)}</span>
+    },
+    {
+      title: <span className="wasm-hud-col-title">Diff</span>,
+      align: 'right' as const,
+      render: (_: unknown, record: AttributeRow) => renderDiffTag(record.diff)
+    }
+  ];
+  const actorHudColumnsBySide = actorHudColumns.slice(1);
+  const attributeHudColumnsBySide = attributeHudColumns.slice(1);
 
   const actionColumns = [
     {
@@ -1129,24 +1290,78 @@ export function WasmValidationM2Page({
       >
         <Space direction="vertical" size={16} style={{ width: '100%' }}>
           {snapshotPayload ? null : <EmptyState title="还没有运行结果" description="先运行一次 Wasm 快照，再查看当前角色的初始属性。" />}
-          <Table
-            className="data-table-shell"
-            columns={actorColumns}
-            data={actorRows}
-            pagination={false}
-            rowKey="key"
-            size="small"
-            scroll={{ x: '100%' }}
-          />
-          <Table
-            className="data-table-shell"
-            columns={attributeColumns}
-            data={attributeRows}
-            pagination={false}
-            rowKey="key"
-            size="small"
-            scroll={{ x: '100%' }}
-          />
+          <Row gutter={[16, 16]} className="wasm-side-grid">
+            <Col xs={24} xl={12}>
+              <section className="wasm-side-panel">
+                <div className="wasm-side-header">
+                  <Typography.Text className="wasm-side-title">己方 / {sideActorIds.selfId}</Typography.Text>
+                  <Button
+                    type="text"
+                    size="mini"
+                    className="wasm-side-toggle"
+                    onClick={() => toggleAttributeSide('self')}
+                  >
+                    {collapsedAttributeSides.self ? '展开属性' : '收起属性'}
+                  </Button>
+                </div>
+                <Table
+                  className="data-table-shell wasm-hud-table wasm-hud-table--actors"
+                  columns={actorHudColumnsBySide}
+                  data={selfActorRows}
+                  pagination={false}
+                  rowKey="key"
+                  size="small"
+                  scroll={{ x: '100%' }}
+                />
+                {collapsedAttributeSides.self ? null : (
+                  <Table
+                    className="data-table-shell wasm-hud-table wasm-hud-table--attributes"
+                    columns={attributeHudColumnsBySide}
+                    data={selfAttributeRows}
+                    pagination={false}
+                    rowKey="key"
+                    size="small"
+                    scroll={{ x: '100%' }}
+                  />
+                )}
+              </section>
+            </Col>
+            <Col xs={24} xl={12}>
+              <section className="wasm-side-panel">
+                <div className="wasm-side-header">
+                  <Typography.Text className="wasm-side-title">敌方 / {sideActorIds.enemyId}</Typography.Text>
+                  <Button
+                    type="text"
+                    size="mini"
+                    className="wasm-side-toggle"
+                    onClick={() => toggleAttributeSide('enemy')}
+                  >
+                    {collapsedAttributeSides.enemy ? '展开属性' : '收起属性'}
+                  </Button>
+                </div>
+                <Table
+                  className="data-table-shell wasm-hud-table wasm-hud-table--actors"
+                  columns={actorHudColumnsBySide}
+                  data={enemyActorRows}
+                  pagination={false}
+                  rowKey="key"
+                  size="small"
+                  scroll={{ x: '100%' }}
+                />
+                {collapsedAttributeSides.enemy ? null : (
+                  <Table
+                    className="data-table-shell wasm-hud-table wasm-hud-table--attributes"
+                    columns={attributeHudColumnsBySide}
+                    data={enemyAttributeRows}
+                    pagination={false}
+                    rowKey="key"
+                    size="small"
+                    scroll={{ x: '100%' }}
+                  />
+                )}
+              </section>
+            </Col>
+          </Row>
         </Space>
       </Panel>
 
