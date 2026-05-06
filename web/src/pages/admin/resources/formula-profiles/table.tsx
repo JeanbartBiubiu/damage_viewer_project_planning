@@ -5,6 +5,7 @@ import type { FormulaProfilesRecord } from './types';
 type FormulaProfilesTableProps = {
   loading: boolean;
   records: FormulaProfilesRecord[];
+  damageTypeLabelMap: Map<string, string>;
   actionsDisabled: boolean;
   onView: (record: FormulaProfilesRecord) => void;
   onEdit: (record: FormulaProfilesRecord) => void;
@@ -15,6 +16,7 @@ type FormulaProfilesTableProps = {
 export function FormulaProfilesTable({
   loading,
   records,
+  damageTypeLabelMap,
   actionsDisabled,
   onView,
   onEdit,
@@ -44,11 +46,11 @@ export function FormulaProfilesTable({
       <Table
         className="data-table-shell"
         loading={loading}
-        columns={getFormulaProfilesColumns({ onView, onEdit })}
+        columns={getFormulaProfilesColumns({ onView, onEdit, damageTypeLabelMap })}
         data={records}
         pagination={false}
         rowKey="formulaId"
-        scroll={{ x: 960 }}
+        scroll={{ x: 1120 }}
       />
     </Space>
   );

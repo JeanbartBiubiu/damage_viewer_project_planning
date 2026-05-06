@@ -1,5 +1,6 @@
 import { Alert, Button, Empty, Input, InputNumber, Select, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
+import { appendCurrentDamageTypeOption, type DamageTypeOption } from '../../pages/admin/resources/shared/damageTypes';
 import { AttributeKeySelector } from '../AttributeKeySelector';
 import type { SkillActionRow, SkillModifierStatRow, SkillStackRow, SkillTriggerRow } from './skillModels';
 import { createEmptyActionRow, createEmptyModifierStatRow, createEmptyStackRow, createEmptyTriggerRow, parseActionJson } from './skillModels';
@@ -8,10 +9,10 @@ type SkillMechanicsConfigEditorProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
+  damageTypeOptions: DamageTypeOption[];
   version: number;
   stacks: SkillStackRow[];
   rows: SkillTriggerRow[];
-  paramVarKeys: string[];
   disabled?: boolean;
   onVersionChange: (version: number) => void;
   onStacksChange: (rows: SkillStackRow[]) => void;
@@ -91,15 +92,16 @@ export function SkillMechanicsConfigEditor({
   apiBaseUrl,
   selectedGameId,
   adminToken,
+  damageTypeOptions,
   version,
   stacks,
   rows,
-  paramVarKeys,
   disabled = false,
   onVersionChange,
   onStacksChange,
   onChange
 }: SkillMechanicsConfigEditorProps) {
+  const defaultDamageTypeValue = damageTypeOptions[0]?.value ?? 'magic';
   const stackOptions = useMemo(
     () =>
       stacks
@@ -137,7 +139,11 @@ export function SkillMechanicsConfigEditor({
   };
 
   const addTrigger = () => {
-    onChange([...rows, createEmptyTriggerRow(rows.map((item) => item.id))]);
+    const nextTrigger = createEmptyTriggerRow(rows.map((item) => item.id));
+    if (nextTrigger.actions[0]?.type === 'deal_damage') {
+      nextTrigger.actions[0].damageType = defaultDamageTypeValue;
+    }
+    onChange([...rows, nextTrigger]);
   };
 
   const updateTrigger = (index: number, patch: Partial<SkillTriggerRow>) => {
@@ -149,9 +155,13 @@ export function SkillMechanicsConfigEditor({
   };
 
   const addAction = (triggerIndex: number) => {
+    const nextAction = createEmptyActionRow();
+    if (nextAction.type === 'deal_damage') {
+      nextAction.damageType = defaultDamageTypeValue;
+    }
     onChange(
       rows.map((row, currentIndex) =>
-        currentIndex === triggerIndex ? { ...row, actions: [...row.actions, createEmptyActionRow()] } : row
+        currentIndex === triggerIndex ? { ...row, actions: [...row.actions, nextAction] } : row
       )
     );
   };
@@ -199,10 +209,14 @@ export function SkillMechanicsConfigEditor({
               return action;
             }
             const nextType = type === 'schedule_tick' || type === 'apply_modifier' || type === '__raw__' ? type : 'deal_damage';
-            return {
+            const nextAction = {
               ...createEmptyActionRow(nextType),
               raw: action.raw
             };
+            if (nextAction.type === 'deal_damage') {
+              nextAction.damageType = defaultDamageTypeValue;
+            }
+            return nextAction;
           })
         };
       })
@@ -510,35 +524,27 @@ export function SkillMechanicsConfigEditor({
                             <Select
                               value={action.damageType}
                               disabled={disabled}
-                              options={[
-                                { label: '物理（physical）', value: 'physical' },
-                                { label: '魔法（magic）', value: 'magic' },
-                                { label: '真实（true）', value: 'true' }
-                              ]}
-                              onChange={(value) => updateAction(triggerIndex, actionIndex, { damageType: String(value ?? 'magic') })}
+                              options={appendCurrentDamageTypeOption(
+                                damageTypeOptions,
+                                action.damageType,
+                                action.damageType ? `${action.damageType} (legacy)` : undefined
+                              )}
+                              onChange={(value) =>
+                                updateAction(triggerIndex, actionIndex, { damageType: String(value ?? defaultDamageTypeValue) })
+                              }
                             />
                           </div>
                         </div>
 
                         <div>
                           <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                            公式文本
+                            绑定键
                           </Typography.Text>
-                          <Input value={action.formulaText} disabled={disabled} onChange={(value) => updateAction(triggerIndex, actionIndex, { formulaText: value })} />
-                        </div>
-
-                        <div>
-                          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                            依赖变量
-                          </Typography.Text>
-                          <Select
-                            mode="multiple"
-                            showSearch
-                            allowClear
-                            value={action.formulaVars}
+                          <Input
+                            value={action.bindingKey}
                             disabled={disabled}
-                            options={paramVarKeys.map((key) => ({ label: key, value: key }))}
-                            onChange={(value) => updateAction(triggerIndex, actionIndex, { formulaVars: Array.isArray(value) ? value.map(String) : [] })}
+                            onChange={(value) => updateAction(triggerIndex, actionIndex, { bindingKey: value })}
+                            placeholder="例如：damage.main"
                           />
                         </div>
                       </>
@@ -653,23 +659,13 @@ export function SkillMechanicsConfigEditor({
 
                                   <div>
                                     <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                                      公式文本
+                                      绑定键
                                     </Typography.Text>
-                                    <Input value={stat.formulaText} disabled={disabled} onChange={(value) => updateModifierStat(triggerIndex, actionIndex, statIndex, { formulaText: value })} />
-                                  </div>
-
-                                  <div>
-                                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                                      依赖变量
-                                    </Typography.Text>
-                                    <Select
-                                      mode="multiple"
-                                      showSearch
-                                      allowClear
-                                      value={stat.formulaVars}
+                                    <Input
+                                      value={stat.bindingKey}
                                       disabled={disabled}
-                                      options={paramVarKeys.map((key) => ({ label: key, value: key }))}
-                                      onChange={(value) => updateModifierStat(triggerIndex, actionIndex, statIndex, { formulaVars: Array.isArray(value) ? value.map(String) : [] })}
+                                      onChange={(value) => updateModifierStat(triggerIndex, actionIndex, statIndex, { bindingKey: value })}
+                                      placeholder="例如：modifier.attack_speed"
                                     />
                                   </div>
 

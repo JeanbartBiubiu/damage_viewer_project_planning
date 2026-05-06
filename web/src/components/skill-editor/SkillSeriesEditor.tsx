@@ -139,13 +139,13 @@ export function SkillSeriesEditor({ title, description, rows, disabled = false, 
               {row.kind === 'formula' ? (
                 <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    公式（formulaText）
+                    绑定键（bindingKey）
                   </Typography.Text>
                   <Input
-                    value={row.formulaText}
+                    value={row.bindingKey}
                     disabled={disabled}
-                    onChange={(value) => updateRow(index, { formulaText: value })}
-                    placeholder="例如：1 / self.attack_speed_current"
+                    onChange={(value) => updateRow(index, { bindingKey: value })}
+                    placeholder="例如：cooldown.base / cost.mana / damage.main"
                   />
                 </div>
               ) : null}
