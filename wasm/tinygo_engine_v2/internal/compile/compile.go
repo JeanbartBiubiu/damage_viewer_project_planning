@@ -71,16 +71,20 @@ type CompiledActor struct {
 }
 
 type CompiledAction struct {
-	ID           string
-	Label        string
-	TypeSet      typeset.TypeSet
-	CooldownMs   int64
-	Costs        []CompiledResourceCost
-	Effects      []CompiledEffect
-	PanelCosts   []model.ActionPanelCostV2
-	PanelEffects []model.ActionPanelEffectV2
-	RequiresMark string
-	ConsumesMark bool
+	ID                 string
+	Label              string
+	TypeSet            typeset.TypeSet
+	CooldownMs         int64
+	CooldownFormula    formula.ProgramID
+	HasCooldownFormula bool
+	SkillLevel         int
+	PanelInputs        map[string]float64
+	Costs              []CompiledResourceCost
+	Effects            []CompiledEffect
+	PanelCosts         []CompiledPanelCost
+	PanelEffects       []CompiledPanelEffect
+	RequiresMark       string
+	ConsumesMark       bool
 }
 
 type CompiledResourceCost struct {
@@ -88,6 +92,30 @@ type CompiledResourceCost struct {
 	Formula    formula.ProgramID
 	HasFormula bool
 	Amount     float64
+}
+
+type CompiledPanelCost struct {
+	ResourceID string
+	Formula    formula.ProgramID
+	HasFormula bool
+	FormulaID  string
+	Amount     float64
+}
+
+type CompiledPanelEffect struct {
+	EffectIndex int
+	Kind        string
+	Label       string
+	Formula     formula.ProgramID
+	HasFormula  bool
+	FormulaID   string
+	Amount      float64
+	DamageType  string
+	StatusID    string
+	AttrID      string
+	MarkID      string
+	SourceRole  string
+	TargetRole  string
 }
 
 type CompiledStatus struct {
@@ -284,22 +312,32 @@ func Bundle(input model.EngineBundle) Result {
 		}
 		typeSet, typeProblems := compileClassifierSet(actionClassifier(action), &cb.Types)
 		problems = append(problems, typeProblems...)
+		cooldownFormula, hasCooldownFormula, cooldownProblems := compileActionCooldown(action, cb)
+		problems = append(problems, cooldownProblems...)
 		costs, costProblems := compileActionCosts(action, cb)
 		problems = append(problems, costProblems...)
 		compiledEffects, effectProblems := compileEffects(action.Effects, cb)
 		problems = append(problems, effectProblems...)
+		panelCosts, panelCostProblems := compilePanelCosts(action, cb)
+		problems = append(problems, panelCostProblems...)
+		panelEffects, panelEffectProblems := compilePanelEffects(action, cb)
+		problems = append(problems, panelEffectProblems...)
 		cb.ActionIndex[action.ID] = uint16(len(cb.Actions))
 		cb.Actions = append(cb.Actions, CompiledAction{
-			ID:           action.ID,
-			Label:        action.Label,
-			TypeSet:      typeSet,
-			CooldownMs:   action.CooldownMs,
-			Costs:        costs,
-			Effects:      compiledEffects,
-			PanelCosts:   append([]model.ActionPanelCostV2(nil), action.PanelCosts...),
-			PanelEffects: append([]model.ActionPanelEffectV2(nil), action.PanelEffects...),
-			RequiresMark: action.RequiresMark,
-			ConsumesMark: action.ConsumesMark,
+			ID:                 action.ID,
+			Label:              action.Label,
+			TypeSet:            typeSet,
+			CooldownMs:         action.CooldownMs,
+			CooldownFormula:    cooldownFormula,
+			HasCooldownFormula: hasCooldownFormula,
+			SkillLevel:         action.SkillLevel,
+			PanelInputs:        copyFloatMap(action.PanelInputs),
+			Costs:              costs,
+			Effects:            compiledEffects,
+			PanelCosts:         panelCosts,
+			PanelEffects:       panelEffects,
+			RequiresMark:       action.RequiresMark,
+			ConsumesMark:       action.ConsumesMark,
 		})
 	}
 
@@ -390,6 +428,17 @@ func actionClassifier(action model.ActionTemplate) model.ClassifierV2 {
 	return classifier
 }
 
+func compileActionCooldown(action model.ActionTemplate, cb CompiledBundle) (formula.ProgramID, bool, []string) {
+	if action.CooldownFormulaID == "" {
+		return 0, false, nil
+	}
+	pid, ok := cb.Formulas.Lookup(action.CooldownFormulaID)
+	if !ok {
+		return 0, false, []string{"unknown action cooldown formula: " + action.ID + "." + action.CooldownFormulaID}
+	}
+	return pid, true, nil
+}
+
 func statusClassifier(status model.StatusTemplate) model.ClassifierV2 {
 	classifier := status.Classifier
 	if len(classifier.Types) == 0 {
@@ -448,6 +497,71 @@ func compileActionCosts(action model.ActionTemplate, cb CompiledBundle) ([]Compi
 		} else if invalidAmount(cost.Amount) {
 			problems = append(problems, "invalid action resource cost amount: "+action.ID+"."+cost.ResourceID)
 			continue
+		}
+		compiled = append(compiled, next)
+	}
+	return compiled, problems
+}
+
+func compilePanelCosts(action model.ActionTemplate, cb CompiledBundle) ([]CompiledPanelCost, []string) {
+	compiled := make([]CompiledPanelCost, 0, len(action.PanelCosts))
+	var problems []string
+	for _, cost := range action.PanelCosts {
+		next := CompiledPanelCost{
+			ResourceID: cost.ResourceID,
+			FormulaID:  cost.FormulaID,
+			Amount:     cost.Amount,
+		}
+		if cost.ResourceID != "" {
+			if _, ok := cb.ResourceIndex[cost.ResourceID]; !ok {
+				problems = append(problems, "unknown action panel cost resource: "+action.ID+"."+cost.ResourceID)
+			}
+		}
+		if cost.FormulaID != "" {
+			pid, ok := cb.Formulas.Lookup(cost.FormulaID)
+			if !ok {
+				problems = append(problems, "unknown action panel cost formula: "+action.ID+"."+cost.FormulaID)
+			} else {
+				next.Formula = pid
+				next.HasFormula = true
+			}
+		}
+		if cost.FormulaID == "" && invalidAmount(cost.Amount) {
+			problems = append(problems, "invalid action panel cost amount: "+action.ID)
+		}
+		compiled = append(compiled, next)
+	}
+	return compiled, problems
+}
+
+func compilePanelEffects(action model.ActionTemplate, cb CompiledBundle) ([]CompiledPanelEffect, []string) {
+	compiled := make([]CompiledPanelEffect, 0, len(action.PanelEffects))
+	var problems []string
+	for _, effect := range action.PanelEffects {
+		next := CompiledPanelEffect{
+			EffectIndex: effect.EffectIndex,
+			Kind:        effect.Kind,
+			Label:       effect.Label,
+			FormulaID:   effect.FormulaID,
+			Amount:      effect.Amount,
+			DamageType:  effect.DamageType,
+			StatusID:    effect.StatusID,
+			AttrID:      effect.AttrID,
+			MarkID:      effect.MarkID,
+			SourceRole:  effect.SourceRole,
+			TargetRole:  effect.TargetRole,
+		}
+		if effect.EffectIndex < 0 {
+			problems = append(problems, "invalid action panel effect index: "+action.ID)
+		}
+		if effect.FormulaID != "" {
+			pid, ok := cb.Formulas.Lookup(effect.FormulaID)
+			if !ok {
+				problems = append(problems, "unknown action panel effect formula: "+action.ID+"."+effect.FormulaID)
+			} else {
+				next.Formula = pid
+				next.HasFormula = true
+			}
 		}
 		compiled = append(compiled, next)
 	}
@@ -570,6 +684,17 @@ func sortControlRules(rules []CompiledStatusActionControlRule) {
 
 func invalidAmount(amount float64) bool {
 	return amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0)
+}
+
+func copyFloatMap(input map[string]float64) map[string]float64 {
+	if len(input) == 0 {
+		return nil
+	}
+	output := make(map[string]float64, len(input))
+	for key, value := range input {
+		output[key] = value
+	}
+	return output
 }
 
 func compileEffects(effects []model.EffectDef, cb CompiledBundle) ([]CompiledEffect, []string) {
