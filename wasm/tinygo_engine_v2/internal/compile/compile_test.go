@@ -185,6 +185,53 @@ func TestBundleCompilesResourceCost(t *testing.T) {
 	}
 }
 
+func TestBundleCompilesM2PanelFormulas(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes:    []model.AttributeDefinitionV2{{ID: "attack_damage"}},
+		Resources:     []model.ResourceDefinitionV2{{ID: "mana", DefaultCurrent: 100, DefaultMax: 100}},
+		Formulas: []model.FormulaDefinitionV2{
+			{ID: "skill_level", Op: "input"},
+			{ID: "five", Op: "const", Value: 5},
+			{ID: "level_cost", Op: "mul", Left: "skill_level", Right: "five"},
+			{ID: "level_damage", Op: "attr", Attr: "attack_damage"},
+			{ID: "level_cooldown", Op: "mul", Left: "skill_level", Right: "five"},
+		},
+		Actions: []model.ActionTemplateV2{{
+			ID:                "level_bolt",
+			CooldownFormulaID: "level_cooldown",
+			ResourceCost:      []model.ResourceCostV2{{ResourceID: "mana", FormulaID: "level_cost"}},
+			PanelCosts:        []model.ActionPanelCostV2{{ResourceID: "mana", FormulaID: "level_cost"}},
+			PanelEffects:      []model.ActionPanelEffectV2{{EffectIndex: 0, Kind: "deal_damage", FormulaID: "level_damage"}},
+		}},
+	})
+	if len(result.Problems) != 0 {
+		t.Fatalf("compile problems: %v", result.Problems)
+	}
+	action := result.Bundle.Actions[0]
+	if !action.HasCooldownFormula || len(action.PanelCosts) != 1 || !action.PanelCosts[0].HasFormula || len(action.PanelEffects) != 1 || !action.PanelEffects[0].HasFormula {
+		t.Fatalf("compiled M2 panel action = %+v", action)
+	}
+}
+
+func TestBundleRejectsBadM2PanelFormula(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Resources:     []model.ResourceDefinitionV2{{ID: "mana"}},
+		Actions: []model.ActionTemplateV2{{
+			ID:                "bad_panel",
+			CooldownFormulaID: "missing_cooldown",
+			PanelCosts:        []model.ActionPanelCostV2{{ResourceID: "mana", FormulaID: "missing_cost"}},
+			PanelEffects:      []model.ActionPanelEffectV2{{EffectIndex: 0, Kind: "deal_damage", FormulaID: "missing_effect"}},
+		}},
+	})
+	for _, want := range []string{"unknown action cooldown formula", "unknown action panel cost formula", "unknown action panel effect formula"} {
+		if !hasProblem(result.Problems, want) {
+			t.Fatalf("missing %q problem: %v", want, result.Problems)
+		}
+	}
+}
+
 func TestBundleRejectsBadResourceCost(t *testing.T) {
 	result := Bundle(model.EngineBundle{
 		SchemaVersion: model.SchemaVersion,
