@@ -87,6 +87,8 @@ export type TinyGoV2EffectDefinition = {
 export type TinyGoV2ActionTemplate = {
   id: string;
   label?: string;
+  skillLevel?: number;
+  panelInputs?: Record<string, number>;
   cooldownMs?: number;
   cooldownFormulaId?: string;
   effects?: TinyGoV2EffectDefinition[];
@@ -127,19 +129,34 @@ export type TinyGoV2RunInput = {
   self: {
     actorId: string;
     templateId: string;
+    actionInputs?: Record<string, TinyGoV2ActionRunInput>;
   };
   enemy: {
     actorId: string;
     templateId: string;
+    actionInputs?: Record<string, TinyGoV2ActionRunInput>;
   };
-  initialActions: [];
+  initialActions: TinyGoV2ActionRequest[];
   stopCondition: {
     maxEvents: number;
   };
   trace: {
     enableLogs: boolean;
     sampleEvery: number;
+    valueTrace?: boolean;
   };
+};
+
+export type TinyGoV2ActionRequest = {
+  triggerAtMs: number;
+  sourceActorId: 'self' | 'enemy';
+  targetActorId: 'self' | 'enemy';
+  actionId: string;
+};
+
+export type TinyGoV2ActionRunInput = {
+  skillLevel?: number;
+  panelInputs?: Record<string, number>;
 };
 
 export type WasmValidationSelection = {
@@ -224,6 +241,13 @@ type FormulaRegistryCompiler = {
     bindingKey: string,
     slotLabel: string
   ) => string;
+  resolveInlineFormula: (
+    selectedSkill: ResolvedActionSkill,
+    env: CompiledSkillEnvironment,
+    formulaText: string,
+    formulaVars: string[] | undefined,
+    slotLabel: string
+  ) => string;
 };
 
 const SELF_TEMPLATE_ID = 'self_template';
@@ -240,6 +264,17 @@ const RESOURCE_CANDIDATES = [
   { id: 'fury', currentKeys: ['fury', 'fury_current', 'current_fury'], maxKeys: ['max_fury', 'fury_max', 'fury'] },
   { id: 'focus', currentKeys: ['focus', 'focus_current', 'current_focus'], maxKeys: ['max_focus', 'focus_max', 'focus'] }
 ] as const;
+
+const FORMULA_ATTR_ALIASES: Record<string, string> = {
+  ability_power: 'ap',
+  abilityPower: 'ap',
+  magic_power: 'ap',
+  attack_damage: 'ad',
+  attackDamage: 'ad',
+  atk: 'ad',
+  health: 'hp',
+  max_health: 'hp'
+};
 
 export function createDefaultWasmValidationSelection(bundle: GameDataBundle): WasmValidationSelection {
   const firstHero = bundle.heroes[0];
@@ -309,11 +344,13 @@ export function compileTinyGoV2ValidationInput(
       seed: 7,
       self: {
         actorId: 'self',
-        templateId: SELF_TEMPLATE_ID
+        templateId: SELF_TEMPLATE_ID,
+        actionInputs: buildActionRunInputs(selfBase)
       },
       enemy: {
         actorId: 'enemy',
-        templateId: ENEMY_TEMPLATE_ID
+        templateId: ENEMY_TEMPLATE_ID,
+        actionInputs: buildActionRunInputs(enemyBase)
       },
       initialActions: [],
       stopCondition: {
@@ -325,6 +362,25 @@ export function compileTinyGoV2ValidationInput(
       }
     },
     summaries: [buildActorSummary(selfBase), buildActorSummary(enemyBase)]
+  };
+}
+
+export function buildTinyGoV2SingleActionRunInput(
+  input: TinyGoV2RunInput,
+  action: TinyGoV2ActionRequest,
+  options: { maxEvents?: number; enableLogs?: boolean; valueTrace?: boolean } = {}
+): TinyGoV2RunInput {
+  return {
+    ...input,
+    initialActions: [action],
+    stopCondition: {
+      maxEvents: options.maxEvents ?? Math.max(input.stopCondition.maxEvents, 8)
+    },
+    trace: {
+      ...input.trace,
+      enableLogs: options.enableLogs ?? true,
+      valueTrace: options.valueTrace ?? true
+    }
   };
 }
 
@@ -415,6 +471,17 @@ function buildActorTemplate(actor: ResolvedActorState): TinyGoV2ActorTemplate {
     resources: Object.keys(actor.resources).length > 0 ? actor.resources : undefined,
     actions: actor.skills.map((skill) => skill.actionId)
   };
+}
+
+function buildActionRunInputs(actor: ResolvedActorState): Record<string, TinyGoV2ActionRunInput> | undefined {
+  const entries = actor.skills.map((skill) => [
+    skill.actionId,
+    {
+      skillLevel: skill.level,
+      panelInputs: buildPanelInputs(skill, actor)
+    }
+  ] as const);
+  return entries.length > 0 ? Object.fromEntries(entries) : undefined;
 }
 
 function buildActorSummary(actor: ResolvedActorState): ActorInputSummary {
@@ -732,10 +799,19 @@ function compileSkillActionTemplate(
   return {
     id: selectedSkill.actionId,
     label: selectedSkill.label,
+    skillLevel: selectedSkill.level,
+    panelInputs: buildPanelInputs(selectedSkill, source),
     cooldownMs,
     cooldownFormulaId,
     effects: compiledEffects.effects.length > 0 ? compiledEffects.effects : undefined,
     resourceCost: resourceCosts.length > 0 ? resourceCosts : undefined
+  };
+}
+
+function buildPanelInputs(selectedSkill: ResolvedActionSkill, source: ResolvedActorState): Record<string, number> {
+  return {
+    skillLevel: selectedSkill.level,
+    championLevel: source.level
   };
 }
 
@@ -791,7 +867,7 @@ function compileActionEffects(
 
     for (const action of trigger.actions) {
       if (action.type === 'deal_damage') {
-        const formulaId = formulaCompiler.resolveBinding(selectedSkill, env, action.bindingKey, `damage:${effectIndex}`);
+        const formulaId = resolveDamageActionFormula(selectedSkill, env, formulaCompiler, action, `damage:${effectIndex}`);
         const sourceRole = normalizeActionRole(action.damageSource, 'source');
         const targetRole = normalizeActionRole(action.damageTarget, 'target');
         effects.push({
@@ -813,7 +889,7 @@ function compileActionEffects(
         }
         for (const tickAction of tickTrigger.actions) {
           if (tickAction.type === 'deal_damage') {
-            void formulaCompiler.resolveBinding(selectedSkill, env, tickAction.bindingKey, `tick_damage:${effectIndex}`);
+            void resolveDamageActionFormula(selectedSkill, env, formulaCompiler, tickAction, `tick_damage:${effectIndex}`);
             effectIndex += 1;
           }
         }
@@ -822,6 +898,40 @@ function compileActionEffects(
   }
 
   return { effects };
+}
+
+function resolveDamageActionFormula(
+  selectedSkill: ResolvedActionSkill,
+  env: CompiledSkillEnvironment,
+  formulaCompiler: FormulaRegistryCompiler,
+  action: Extract<SkillTriggerRow['actions'][number], { type: 'deal_damage' }>,
+  slotLabel: string
+): string {
+  if (action.bindingKey.trim()) {
+    return formulaCompiler.resolveBinding(selectedSkill, env, action.bindingKey, slotLabel);
+  }
+
+  const inline = readInlineDamageFormula(action.raw);
+  if (inline) {
+    return formulaCompiler.resolveInlineFormula(selectedSkill, env, inline.formulaText, inline.formulaVars, slotLabel);
+  }
+
+  return formulaCompiler.resolveBinding(selectedSkill, env, action.bindingKey, slotLabel);
+}
+
+function readInlineDamageFormula(rawAction: JsonObject): { formulaText: string; formulaVars?: string[] } | null {
+  const damage = isPlainObject(rawAction.damage) ? rawAction.damage : rawAction;
+  const formulaText = readString(damage.formulaText).trim();
+  if (!formulaText) {
+    return null;
+  }
+
+  const rawVars = Array.isArray(damage.formulaVars) ? damage.formulaVars : undefined;
+  const formulaVars = rawVars?.map(readString).map((value) => value.trim()).filter(Boolean);
+  return {
+    formulaText,
+    formulaVars: formulaVars && formulaVars.length > 0 ? formulaVars : undefined
+  };
 }
 
 function resolveValueDefinitionRow(row: SkillValueDefinitionRow, env: CompiledSkillEnvironment): number {
@@ -951,6 +1061,7 @@ function createFormulaRegistryCompiler(bundle: GameDataBundle): FormulaRegistryC
   const definitions: TinyGoV2FormulaDefinition[] = [];
   const emittedIds = new Set<string>();
   const bindingCache = new Map<string, string>();
+  const attrKeys = new Set(bundle.attributeDefinitions.map((definition) => definition.attrKey).filter(Boolean));
   const profiles = new Map((bundle.formulaProfiles ?? []).map((profile) => [profile.formulaId, profile]));
   const bindings = bundle.formulaBindings ?? [];
 
@@ -979,12 +1090,74 @@ function createFormulaRegistryCompiler(bundle: GameDataBundle): FormulaRegistryC
       }
 
       const rootFormulaId = `${selectedSkill.actionId}::${sanitizeFormulaKey(normalizedBindingKey)}`;
-      const expr = compileBoundFormulaExpr(profile, binding.overrideParams, env);
+      const expr = normalizeFormulaAttrRefs(compileBoundFormulaExpr(profile, binding.overrideParams, env), attrKeys);
+      emitFormulaExpr(rootFormulaId, expr, definitions, emittedIds);
+      bindingCache.set(cacheKey, rootFormulaId);
+      return rootFormulaId;
+    },
+    resolveInlineFormula(selectedSkill, env, formulaText, formulaVars, slotLabel) {
+      const normalizedFormulaText = formulaText.trim();
+      if (!normalizedFormulaText) {
+        throw new Error(`${selectedSkill.skillId}.${slotLabel} missing formulaText`);
+      }
+
+      const cacheKey = `${selectedSkill.actionId}::inline::${slotLabel}::${normalizedFormulaText}`;
+      const cached = bindingCache.get(cacheKey);
+      if (cached) {
+        return cached;
+      }
+
+      const rootFormulaId = `${selectedSkill.actionId}::${sanitizeFormulaKey(slotLabel)}::inline`;
+      const expr = normalizeFormulaAttrRefs(compileFormulaText(normalizedFormulaText, formulaVars, env.symbols), attrKeys);
       emitFormulaExpr(rootFormulaId, expr, definitions, emittedIds);
       bindingCache.set(cacheKey, rootFormulaId);
       return rootFormulaId;
     }
   };
+}
+
+function normalizeFormulaAttrRefs(expr: BenchmarkFormulaExpr, attrKeys: Set<string>): BenchmarkFormulaExpr {
+  switch (expr.type) {
+    case 'actor_attr':
+      return { ...expr, attrKey: normalizeFormulaAttrKey(expr.attrKey, attrKeys) };
+    case 'add':
+      return { ...expr, terms: expr.terms.map((term) => normalizeFormulaAttrRefs(term, attrKeys)) };
+    case 'multiply':
+      return { ...expr, factors: expr.factors.map((factor) => normalizeFormulaAttrRefs(factor, attrKeys)) };
+    case 'subtract':
+      return {
+        ...expr,
+        left: normalizeFormulaAttrRefs(expr.left, attrKeys),
+        right: normalizeFormulaAttrRefs(expr.right, attrKeys)
+      };
+    case 'divide':
+      return {
+        ...expr,
+        numerator: normalizeFormulaAttrRefs(expr.numerator, attrKeys),
+        denominator: normalizeFormulaAttrRefs(expr.denominator, attrKeys)
+      };
+    case 'max':
+      return { ...expr, operands: expr.operands.map((operand) => normalizeFormulaAttrRefs(operand, attrKeys)) };
+    case 'min':
+      return { ...expr, operands: expr.operands.map((operand) => normalizeFormulaAttrRefs(operand, attrKeys)) };
+    case 'negate':
+      return { ...expr, operand: normalizeFormulaAttrRefs(expr.operand, attrKeys) };
+    default:
+      return expr;
+  }
+}
+
+function normalizeFormulaAttrKey(attrKey: string, attrKeys: Set<string>): string {
+  if (attrKeys.has(attrKey)) {
+    return attrKey;
+  }
+
+  const alias = FORMULA_ATTR_ALIASES[attrKey];
+  if (alias && attrKeys.has(alias)) {
+    return alias;
+  }
+
+  return attrKey;
 }
 
 function resolveFormulaBindingRecord(
@@ -1289,8 +1462,22 @@ function resolveCostResourceId(
   if (resourceIds.length === 1) {
     return resourceIds[0];
   }
+  const positiveResourceIds = resourceIds.filter((resourceId) => {
+    const value = knownResources[resourceId];
+    return value && (value.current > 0 || value.max > 0);
+  });
+  if (positiveResourceIds.length === 1) {
+    return positiveResourceIds[0];
+  }
   const inferred = inferActorResources(attrs);
   const inferredIds = Object.keys(inferred);
+  const positiveInferredIds = inferredIds.filter((resourceId) => {
+    const value = inferred[resourceId];
+    return value && (value.current > 0 || value.max > 0);
+  });
+  if (positiveInferredIds.length === 1) {
+    return positiveInferredIds[0];
+  }
   return inferredIds.length === 1 ? inferredIds[0] : null;
 }
 
@@ -1383,11 +1570,20 @@ function detectHpAttrKey(definitions: AttributeDefinition[]): string {
   return attrKeys.find((attrKey) => /(^|_)(hp|health)($|_)/i.test(attrKey)) ?? attrKeys[0] ?? 'hp';
 }
 
-function safeParseValueRows(value: JsonValue[] | undefined, fieldName: string): SkillValueDefinitionRow[] {
-  if (!value || value.length === 0) {
+function safeParseValueRows(value: JsonValue[] | JsonValue | undefined, fieldName: string): SkillValueDefinitionRow[] {
+  if (value === undefined || value === null) {
     return [];
   }
-  return parseSkillValueRows(JSON.stringify(value), fieldName);
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return [];
+    }
+    return parseSkillValueRows(JSON.stringify(value), fieldName);
+  }
+  if (typeof value === 'number' || isPlainObject(value)) {
+    return parseSkillValueRows(JSON.stringify([value]), fieldName);
+  }
+  return [];
 }
 
 function dedupeById(definitions: TinyGoV2AttributeDefinition[]): TinyGoV2AttributeDefinition[] {
