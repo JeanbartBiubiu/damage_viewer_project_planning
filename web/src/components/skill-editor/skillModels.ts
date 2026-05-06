@@ -12,7 +12,7 @@ export type SkillValueDefinitionRow = {
   by: string;
   value: number;
   values: number[];
-  formulaText: string;
+  bindingKey: string;
 };
 
 export type SkillFlatParamsForm = {
@@ -58,8 +58,7 @@ export type SkillModifierStatRow = {
   raw: JsonObject;
   key: string;
   op: string;
-  formulaText: string;
-  formulaVars: string[];
+  bindingKey: string;
 };
 
 export type SkillStackRow = {
@@ -79,8 +78,7 @@ export type SkillActionRow =
       damageSource: string;
       damageTarget: string;
       damageType: string;
-      formulaText: string;
-      formulaVars: string[];
+      bindingKey: string;
     }
   | {
       raw: JsonObject;
@@ -135,7 +133,7 @@ export function createEmptyValueDefinitionRow(kind: SkillValueKind = 'const'): S
     by: 'skillLevel',
     value: 0,
     values: [],
-    formulaText: ''
+    bindingKey: ''
   };
 }
 
@@ -154,14 +152,14 @@ export function stringifySkillValueRows(rows: SkillValueDefinitionRow[]): string
         raw.value = normalizeNumber(row.value);
         delete raw.by;
         delete raw.values;
-        delete raw.formulaText;
+        delete raw.bindingKey;
       } else if (row.kind === 'table') {
         raw.by = row.by.trim() || 'skillLevel';
         raw.values = normalizeNumberArray(row.values);
         delete raw.value;
-        delete raw.formulaText;
+        delete raw.bindingKey;
       } else {
-        raw.formulaText = row.formulaText.trim();
+        raw.bindingKey = row.bindingKey.trim();
         delete raw.value;
         delete raw.by;
         delete raw.values;
@@ -385,8 +383,7 @@ export function createEmptyModifierStatRow(): SkillModifierStatRow {
     raw: {},
     key: '',
     op: 'add',
-    formulaText: '',
-    formulaVars: []
+    bindingKey: ''
   };
 }
 
@@ -429,8 +426,7 @@ export function createEmptyActionRow(type: SkillActionType = 'deal_damage'): Ski
     damageSource: 'self',
     damageTarget: 'enemy',
     damageType: 'magic',
-    formulaText: '',
-    formulaVars: []
+    bindingKey: ''
   };
 }
 
@@ -495,7 +491,7 @@ export function inferSkillShapeSummary(params: JsonObject | undefined, mechanics
 
 function parseValueDefinitionRow(entry: JsonValue, fieldName: string, index: number): SkillValueDefinitionRow {
   if (typeof entry === 'number') {
-    return { raw: {}, kind: 'const', by: 'skillLevel', value: normalizeNumber(entry), values: [], formulaText: '' };
+    return { raw: {}, kind: 'const', by: 'skillLevel', value: normalizeNumber(entry), values: [], bindingKey: '' };
   }
 
   if (!isPlainObject(entry)) {
@@ -510,7 +506,7 @@ function parseValueDefinitionRow(entry: JsonValue, fieldName: string, index: num
       by: asText(entry.by) || 'skillLevel',
       value: 0,
       values: normalizeNumberArray(Array.isArray(entry.values) ? entry.values : []),
-      formulaText: ''
+      bindingKey: ''
     };
   }
 
@@ -521,7 +517,7 @@ function parseValueDefinitionRow(entry: JsonValue, fieldName: string, index: num
       by: 'skillLevel',
       value: 0,
       values: [],
-      formulaText: asText(entry.formulaText)
+      bindingKey: asText(entry.bindingKey)
     };
   }
 
@@ -531,7 +527,7 @@ function parseValueDefinitionRow(entry: JsonValue, fieldName: string, index: num
     by: 'skillLevel',
     value: normalizeNumber(entry.value),
     values: [],
-    formulaText: ''
+    bindingKey: ''
   };
 }
 
@@ -629,8 +625,7 @@ function parseActionRow(value: JsonObject): SkillActionRow {
       damageSource: asText(damage.source) || 'self',
       damageTarget: asText(damage.target) || 'enemy',
       damageType: asText(damage.damageType) || 'magic',
-      formulaText: asText(damage.formulaText),
-      formulaVars: normalizeStringArray(damage.formulaVars)
+      bindingKey: asText(damage.bindingKey)
     };
   }
 
@@ -681,8 +676,9 @@ function stringifyActionRow(action: SkillActionRow): JsonObject {
     damage.source = action.damageSource || 'self';
     damage.target = action.damageTarget || 'enemy';
     damage.damageType = action.damageType || 'magic';
-    updateOptionalString(damage, 'formulaText', action.formulaText);
-    updateOptionalStringArray(damage, 'formulaVars', action.formulaVars);
+    updateOptionalString(damage, 'bindingKey', action.bindingKey);
+    delete damage.formulaText;
+    delete damage.formulaVars;
     raw.damage = damage;
     delete raw.tickKey;
     delete raw.everyMs;
@@ -724,8 +720,7 @@ function parseModifierStatRow(value: JsonObject): SkillModifierStatRow {
     raw: clonePlainObject(value),
     key: asText(value.key),
     op: asText(value.op) || 'add',
-    formulaText: asText(value.formulaText),
-    formulaVars: normalizeStringArray(value.formulaVars)
+    bindingKey: asText(value.bindingKey)
   };
 }
 
@@ -733,8 +728,9 @@ function stringifyModifierStatRow(row: SkillModifierStatRow): JsonObject {
   const raw = clonePlainObject(row.raw);
   updateOptionalString(raw, 'key', row.key);
   raw.op = row.op || 'add';
-  updateOptionalString(raw, 'formulaText', row.formulaText);
-  updateOptionalStringArray(raw, 'formulaVars', row.formulaVars);
+  updateOptionalString(raw, 'bindingKey', row.bindingKey);
+  delete raw.formulaText;
+  delete raw.formulaVars;
   return raw;
 }
 
@@ -746,7 +742,7 @@ function normalizeValueKind(value: JsonObject): SkillValueKind {
   if (kind === 'const') {
     return 'const';
   }
-  if (asText(value.formulaText)) {
+  if (asText(value.bindingKey)) {
     return 'formula';
   }
   if (Array.isArray(value.values)) {

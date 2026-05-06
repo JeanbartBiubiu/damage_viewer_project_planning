@@ -475,12 +475,32 @@ img {
   height: 100%;
 }
 
+.wasm-side-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .wasm-side-title {
   color: var(--text-muted);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.wasm-side-toggle {
+  padding: 0;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.wasm-side-toggle:hover,
+.wasm-side-toggle:focus {
+  color: var(--color-text-1);
 }
 
 .wasm-selector-pane {
