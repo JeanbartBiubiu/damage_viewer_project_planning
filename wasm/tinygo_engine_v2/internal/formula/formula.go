@@ -28,12 +28,15 @@ const (
 )
 
 type Instr struct {
-	Op       Op
-	Value    float64
-	Attr     uint16
-	ReadKind model.AttributeReadKind
-	Resource uint16
-	Counter  string
+	Op         Op
+	FormulaID  string
+	Value      float64
+	Attr       uint16
+	AttrID     string
+	ReadKind   model.AttributeReadKind
+	Resource   uint16
+	ResourceID string
+	Counter    string
 }
 
 type Program struct {
@@ -103,35 +106,59 @@ func (r Registry) Lookup(id string) (ProgramID, bool) {
 }
 
 func (r Registry) Eval(id ProgramID, ctx EvalContext) (float64, error) {
+	value, _, err := r.eval(id, ctx, false)
+	return value, err
+}
+
+func (r Registry) EvalTrace(id ProgramID, ctx EvalContext) (float64, []model.ActionValueBreakdownStepV2, error) {
+	return r.eval(id, ctx, true)
+}
+
+func (r Registry) eval(id ProgramID, ctx EvalContext, trace bool) (float64, []model.ActionValueBreakdownStepV2, error) {
 	if int(id) >= len(r.Programs) {
-		return 0, errors.New("formula id out of range")
+		return 0, nil, errors.New("formula id out of range")
 	}
 	stack := make([]float64, 0, 16)
+	steps := make([]model.ActionValueBreakdownStepV2, 0, len(r.Programs[id].Instr))
 	for _, instr := range r.Programs[id].Instr {
+		step := model.ActionValueBreakdownStepV2{
+			FormulaID: instr.FormulaID,
+			Op:        opName(instr.Op),
+		}
 		switch instr.Op {
 		case OpConst:
 			stack = append(stack, instr.Value)
+			step.Value = instr.Value
 		case OpAttr:
 			if ctx.SourceAttrs == nil {
-				return 0, errors.New("source attrs unavailable")
+				return 0, nil, errors.New("source attrs unavailable")
 			}
 			value, ok := ctx.SourceAttrs.ReadAttr(instr.Attr, instr.ReadKind)
 			if !ok {
-				return 0, errors.New("attr index out of range")
+				return 0, nil, errors.New("attr index out of range")
 			}
 			stack = append(stack, value)
+			step.Ref = instr.AttrID
+			step.Value = value
 		case OpResource:
 			if ctx.Resources == nil {
-				return 0, errors.New("resources unavailable")
+				return 0, nil, errors.New("resources unavailable")
 			}
 			current, _, ok := ctx.Resources.ReadResource(instr.Resource)
 			if !ok {
-				return 0, errors.New("resource index out of range")
+				return 0, nil, errors.New("resource index out of range")
 			}
 			stack = append(stack, current)
+			step.Ref = instr.ResourceID
+			step.Value = current
 		case OpCounter:
 			if ctx.Counters == nil {
 				stack = append(stack, 0)
+				step.Ref = instr.Counter
+				step.Value = 0
+				if trace {
+					steps = append(steps, step)
+				}
 				continue
 			}
 			value, ok := ctx.Counters.ReadCounter(instr.Counter)
@@ -139,11 +166,15 @@ func (r Registry) Eval(id ProgramID, ctx EvalContext) (float64, error) {
 				value = 0
 			}
 			stack = append(stack, value)
+			step.Ref = instr.Counter
+			step.Value = value
 		case OpInput:
 			stack = append(stack, ctx.Input)
+			step.Ref = "input"
+			step.Value = ctx.Input
 		case OpAdd, OpSub, OpMul, OpDiv, OpMax, OpMin:
 			if len(stack) < 2 {
-				return 0, errors.New("formula stack underflow")
+				return 0, nil, errors.New("formula stack underflow")
 			}
 			right := stack[len(stack)-1]
 			left := stack[len(stack)-2]
@@ -158,7 +189,7 @@ func (r Registry) Eval(id ProgramID, ctx EvalContext) (float64, error) {
 				value = left * right
 			case OpDiv:
 				if right == 0 {
-					return 0, errors.New("division by zero")
+					return 0, nil, errors.New("division by zero")
 				}
 				value = left / right
 			case OpMax:
@@ -167,31 +198,38 @@ func (r Registry) Eval(id ProgramID, ctx EvalContext) (float64, error) {
 				value = math.Min(left, right)
 			}
 			if math.IsNaN(value) || math.IsInf(value, 0) {
-				return 0, errors.New("non-finite formula result")
+				return 0, nil, errors.New("non-finite formula result")
 			}
 			stack = append(stack, value)
+			step.Value = value
 		case OpSign:
 			if len(stack) < 1 {
-				return 0, errors.New("formula stack underflow")
+				return 0, nil, errors.New("formula stack underflow")
 			}
 			value := stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
 			switch {
 			case value > 0:
 				stack = append(stack, 1)
+				step.Value = 1
 			case value < 0:
 				stack = append(stack, -1)
+				step.Value = -1
 			default:
 				stack = append(stack, 0)
+				step.Value = 0
 			}
 		default:
-			return 0, errors.New("unsupported formula opcode")
+			return 0, nil, errors.New("unsupported formula opcode")
+		}
+		if trace {
+			steps = append(steps, step)
 		}
 	}
 	if len(stack) != 1 {
-		return 0, errors.New("formula stack did not settle to one value")
+		return 0, nil, errors.New("formula stack did not settle to one value")
 	}
-	return stack[0], nil
+	return stack[0], steps, nil
 }
 
 func compile(id string, defs map[string]model.FormulaDefinition, attrIndex map[string]uint16, resourceIndex map[string]uint16, visiting map[string]bool, out *[]Instr) error {
@@ -207,7 +245,7 @@ func compile(id string, defs map[string]model.FormulaDefinition, attrIndex map[s
 
 	switch def.Op {
 	case "", "const":
-		*out = append(*out, Instr{Op: OpConst, Value: def.Value})
+		*out = append(*out, Instr{Op: OpConst, FormulaID: id, Value: def.Value})
 	case "attr":
 		idx, ok := attrIndex[def.Attr]
 		if !ok {
@@ -217,25 +255,25 @@ func compile(id string, defs map[string]model.FormulaDefinition, attrIndex map[s
 		if readKind == "" {
 			readKind = model.AttrReadResolved
 		}
-		*out = append(*out, Instr{Op: OpAttr, Attr: idx, ReadKind: readKind})
+		*out = append(*out, Instr{Op: OpAttr, FormulaID: id, Attr: idx, AttrID: def.Attr, ReadKind: readKind})
 	case "resource":
 		idx, ok := resourceIndex[def.Resource]
 		if !ok {
 			return errors.New("unknown resource: " + def.Resource)
 		}
-		*out = append(*out, Instr{Op: OpResource, Resource: idx})
+		*out = append(*out, Instr{Op: OpResource, FormulaID: id, Resource: idx, ResourceID: def.Resource})
 	case "counter":
 		if def.Counter == "" {
 			return errors.New("counter key is empty")
 		}
-		*out = append(*out, Instr{Op: OpCounter, Counter: def.Counter})
+		*out = append(*out, Instr{Op: OpCounter, FormulaID: id, Counter: def.Counter})
 	case "input":
-		*out = append(*out, Instr{Op: OpInput})
+		*out = append(*out, Instr{Op: OpInput, FormulaID: id})
 	case "sign":
 		if err := compile(def.Left, defs, attrIndex, resourceIndex, visiting, out); err != nil {
 			return err
 		}
-		*out = append(*out, Instr{Op: OpSign})
+		*out = append(*out, Instr{Op: OpSign, FormulaID: id})
 	case "add", "sub", "mul", "div", "max", "min":
 		if err := compile(def.Left, defs, attrIndex, resourceIndex, visiting, out); err != nil {
 			return err
@@ -243,7 +281,7 @@ func compile(id string, defs map[string]model.FormulaDefinition, attrIndex map[s
 		if err := compile(def.Right, defs, attrIndex, resourceIndex, visiting, out); err != nil {
 			return err
 		}
-		*out = append(*out, Instr{Op: opFor(def.Op)})
+		*out = append(*out, Instr{Op: opFor(def.Op), FormulaID: id})
 	default:
 		return errors.New("unsupported formula op: " + def.Op)
 	}
@@ -266,5 +304,36 @@ func opFor(op string) Op {
 		return OpMin
 	default:
 		return OpConst
+	}
+}
+
+func opName(op Op) string {
+	switch op {
+	case OpConst:
+		return "const"
+	case OpAttr:
+		return "attr"
+	case OpResource:
+		return "resource"
+	case OpCounter:
+		return "counter"
+	case OpInput:
+		return "input"
+	case OpAdd:
+		return "add"
+	case OpSub:
+		return "sub"
+	case OpMul:
+		return "mul"
+	case OpDiv:
+		return "div"
+	case OpMax:
+		return "max"
+	case OpMin:
+		return "min"
+	case OpSign:
+		return "sign"
+	default:
+		return "unknown"
 	}
 }
