@@ -1,8 +1,10 @@
 import { Input, Select, Space, Typography } from '@arco-design/web-react';
+import { appendCurrentDamageTypeOption, type DamageTypeOption } from '../../pages/admin/resources/shared/damageTypes';
 import type { SkillFlatParamsForm } from './skillModels';
 
 type SkillFlatParamsEditorProps = {
   form: SkillFlatParamsForm;
+  damageTypeOptions: DamageTypeOption[];
   disabled?: boolean;
   onChange: (form: SkillFlatParamsForm) => void;
 };
@@ -18,10 +20,17 @@ function renderNumberInput(label: string, value: string, disabled: boolean, onCh
   );
 }
 
-export function SkillFlatParamsEditor({ form, disabled = false, onChange }: SkillFlatParamsEditorProps) {
+export function SkillFlatParamsEditor({ form, damageTypeOptions, disabled = false, onChange }: SkillFlatParamsEditorProps) {
   const update = (patch: Partial<SkillFlatParamsForm>) => {
     onChange({ ...form, ...patch });
   };
+
+  const defaultDamageTypeValue = damageTypeOptions[0]?.value ?? '';
+  const mergedDamageTypeOptions = appendCurrentDamageTypeOption(
+    damageTypeOptions,
+    form.damageType,
+    form.damageType ? `${form.damageType} (legacy)` : undefined
+  );
 
   return (
     <Space direction="vertical" size={12} style={{ width: '100%' }}>
@@ -41,12 +50,8 @@ export function SkillFlatParamsEditor({ form, disabled = false, onChange }: Skil
             allowClear
             value={form.damageType || undefined}
             disabled={disabled}
-            options={[
-              { label: '物理', value: 'physical' },
-              { label: '魔法', value: 'magic' },
-              { label: '真实', value: 'true' }
-            ]}
-            onChange={(value) => update({ damageType: String(value ?? '') })}
+            options={mergedDamageTypeOptions}
+            onChange={(value) => update({ damageType: String(value ?? defaultDamageTypeValue) })}
           />
         </div>
 
@@ -58,7 +63,7 @@ export function SkillFlatParamsEditor({ form, disabled = false, onChange }: Skil
         form.baseDamageBySkillLevel,
         disabled,
         (value) => update({ baseDamageBySkillLevel: value }),
-        '例如：0, 115, 150, 185, 220'
+        '例如：80, 115, 150, 185, 220'
       )}
 
       <div className="crud-form-grid">
@@ -68,11 +73,8 @@ export function SkillFlatParamsEditor({ form, disabled = false, onChange }: Skil
 
       <div className="crud-form-grid">
         {renderNumberInput('AP 系数（apRatio）', form.apRatio, disabled, (value) => update({ apRatio: value }))}
-        {renderNumberInput(
-          '额外攻速系数（bonusAttackSpeedRatio）',
-          form.bonusAttackSpeedRatio,
-          disabled,
-          (value) => update({ bonusAttackSpeedRatio: value })
+        {renderNumberInput('额外攻速系数（bonusAttackSpeedRatio）', form.bonusAttackSpeedRatio, disabled, (value) =>
+          update({ bonusAttackSpeedRatio: value })
         )}
       </div>
 
@@ -82,17 +84,11 @@ export function SkillFlatParamsEditor({ form, disabled = false, onChange }: Skil
       </div>
 
       <div className="crud-form-grid">
-        {renderNumberInput(
-          '引导时长（channelDurationMs）',
-          form.channelDurationMs,
-          disabled,
-          (value) => update({ channelDurationMs: value })
+        {renderNumberInput('引导时长（channelDurationMs）', form.channelDurationMs, disabled, (value) =>
+          update({ channelDurationMs: value })
         )}
-        {renderNumberInput(
-          '默认技能等级（defaultSkillLevel）',
-          form.defaultSkillLevel,
-          disabled,
-          (value) => update({ defaultSkillLevel: value })
+        {renderNumberInput('默认技能等级（defaultSkillLevel）', form.defaultSkillLevel, disabled, (value) =>
+          update({ defaultSkillLevel: value })
         )}
       </div>
     </Space>

@@ -6,6 +6,7 @@ import {
   type SkillTriggerRow,
   type SkillValueDefinitionRow
 } from '../components/skill-editor/skillModels';
+import { parseFormulaParams, type FormulaParamVarRow } from '../components/formula-editor/formulaModels';
 import type { BenchmarkFormulaExpr, FormulaActorRef } from './benchmarkTypes';
 import { compileConstantSymbols, compileFormulaText, compileVarsToExprMap, type VarDefinition } from './formulaCompiler';
 import type { AttributeDefinition, GameDataBundle, Hero, Item, JsonObject, JsonValue, Skill } from '../types/api';
@@ -50,7 +51,8 @@ export type TinyGoV2ResourceDefinition = {
 
 export type TinyGoV2ResourceCost = {
   resourceId: string;
-  amount: number;
+  formulaId?: string;
+  amount?: number;
 };
 
 export type TinyGoV2ActionPanelCost = {
@@ -75,7 +77,8 @@ export type TinyGoV2ActionPanelEffect = {
 
 export type TinyGoV2EffectDefinition = {
   type: 'deal_damage';
-  amount: number;
+  formulaId?: string;
+  amount?: number;
   damageType?: string;
   sourceRole?: string;
   targetRole?: string;
@@ -85,10 +88,25 @@ export type TinyGoV2ActionTemplate = {
   id: string;
   label?: string;
   cooldownMs?: number;
+  cooldownFormulaId?: string;
   effects?: TinyGoV2EffectDefinition[];
   resourceCost?: TinyGoV2ResourceCost[];
   panelCosts?: TinyGoV2ActionPanelCost[];
   panelEffects?: TinyGoV2ActionPanelEffect[];
+};
+
+export type TinyGoV2FormulaDefinition = {
+  id: string;
+  op: string;
+  value?: number;
+  attr?: string;
+  attrRead?: string;
+  actor?: string;
+  resource?: string;
+  resourceRead?: string;
+  counter?: string;
+  left?: string;
+  right?: string;
 };
 
 export type TinyGoV2EngineBundle = {
@@ -97,7 +115,7 @@ export type TinyGoV2EngineBundle = {
   resources?: TinyGoV2ResourceDefinition[];
   actors: TinyGoV2ActorTemplate[];
   actions: TinyGoV2ActionTemplate[];
-  formulas: Array<{ id: string; op: string; value?: number; attr?: string }>;
+  formulas: TinyGoV2FormulaDefinition[];
   settings: {
     maxEvents: number;
     maxCommandsPerEvent: number;
@@ -190,25 +208,22 @@ type ResolvedActionSkill = WasmValidationSkillOption & {
   skill: Skill;
 };
 
-type FormulaEvalActor = {
-  attrs: Record<string, number>;
-  currentHp: number;
-  maxHp: number;
-};
-
-type FormulaEvalContext = {
-  source: FormulaEvalActor;
-  target: FormulaEvalActor;
-  inputValue: number;
-};
-
 type CompiledSkillEnvironment = {
   paramsRoot: JsonObject;
   symbols: Map<string, BenchmarkFormulaExpr>;
   skillLevel: number;
   championLevel: number;
-  evalContext: FormulaEvalContext;
   mechanicsRows: SkillTriggerRow[];
+};
+
+type FormulaRegistryCompiler = {
+  definitions: TinyGoV2FormulaDefinition[];
+  resolveBinding: (
+    selectedSkill: ResolvedActionSkill,
+    env: CompiledSkillEnvironment,
+    bindingKey: string,
+    slotLabel: string
+  ) => string;
 };
 
 const SELF_TEMPLATE_ID = 'self_template';
@@ -217,7 +232,6 @@ const HERO_SKILL_ORDER = ['P', 'Q', 'W', 'E', 'R'];
 const HERO_SKILL_ORDER_INDEX = new Map(HERO_SKILL_ORDER.map((key, index) => [key, index]));
 const PASSIVE_SKILL_KEYS = new Set(['P', 'PASSIVE']);
 const COOLDOWN_MS_MULTIPLIER = 1000;
-const EPSILON = 0.0001;
 
 const RESOURCE_CANDIDATES = [
   { id: 'mana', currentKeys: ['mana', 'mana_current', 'current_mana'], maxKeys: ['max_mana', 'mana_max', 'mana'] },
@@ -271,9 +285,10 @@ export function compileTinyGoV2ValidationInput(
   const attrDefinitions = normalizeAttributeDefinitions(bundle.attributeDefinitions);
   const selfBase = resolveActorState(bundle, attrDefinitions, selection, 'self');
   const enemyBase = resolveActorState(bundle, attrDefinitions, selection, 'enemy');
+  const formulaCompiler = createFormulaRegistryCompiler(bundle);
   const actionTemplates = [
-    ...compileActorActionTemplates(selfBase, enemyBase),
-    ...compileActorActionTemplates(enemyBase, selfBase)
+    ...compileActorActionTemplates(selfBase, enemyBase, formulaCompiler),
+    ...compileActorActionTemplates(enemyBase, selfBase, formulaCompiler)
   ];
   const resourceDefinitions = buildResourceDefinitions([selfBase, enemyBase]);
 
@@ -284,7 +299,7 @@ export function compileTinyGoV2ValidationInput(
       resources: resourceDefinitions.length > 0 ? resourceDefinitions : undefined,
       actors: [buildActorTemplate(selfBase), buildActorTemplate(enemyBase)],
       actions: actionTemplates,
-      formulas: [],
+      formulas: formulaCompiler.definitions,
       settings: {
         maxEvents: 1,
         maxCommandsPerEvent: 64
@@ -487,6 +502,12 @@ function toNumberMap(source: Record<string, unknown> | undefined): Record<string
     return {};
   }
   const result: Record<string, number> = {};
+  for (const [key, value] of Object.entries(source)) {
+    result[key] = toNumber(value, 0);
+  }
+  return result;
+}
+
 function collectActorActionSkills(
   bundle: GameDataBundle,
   hero: Hero,
@@ -658,30 +679,32 @@ function defaultSkillLevelForSkill(skill: Skill, championLevel: number, maxLevel
   return clamp(championLevel, 1, maxLevel);
 }
 
-function compileActorActionTemplates(source: ResolvedActorState, target: ResolvedActorState): TinyGoV2ActionTemplate[] {
-  return source.skills.map((skill) => compileSkillActionTemplate(skill, source, target));
+function compileActorActionTemplates(
+  source: ResolvedActorState,
+  target: ResolvedActorState,
+  formulaCompiler: FormulaRegistryCompiler
+): TinyGoV2ActionTemplate[] {
+  return source.skills.map((skill) => compileSkillActionTemplate(skill, source, target, formulaCompiler));
 }
 
 function compileSkillActionTemplate(
   selectedSkill: ResolvedActionSkill,
   source: ResolvedActorState,
-  target: ResolvedActorState
+  target: ResolvedActorState,
+  formulaCompiler: FormulaRegistryCompiler
 ): TinyGoV2ActionTemplate {
   const env = buildSkillEnvironment(selectedSkill, source, target);
-  const panelCosts: TinyGoV2ActionPanelCost[] = [];
   const resourceCosts: TinyGoV2ResourceCost[] = [];
   const cooldownRows = safeParseValueRows(selectedSkill.skill.cooldowns, 'cooldowns');
   const resourceRows = safeParseValueRows(selectedSkill.skill.resourceCosts, 'resourceCosts');
 
   for (const [index, row] of resourceRows.entries()) {
-    const amount = resolveValueDefinitionRow(row, env);
     const resourceId = resolveCostResourceId(row.raw, source.resources, source.attrs);
-    const formulaId = resolveStableFormulaId(readString(row.raw.formulaId), selectedSkill.skillId, `cost:${index}`, row.kind === 'formula');
-    panelCosts.push({
-      resourceId: resourceId ?? undefined,
-      formulaId,
-      amount
-    });
+    const formulaId =
+      row.kind === 'formula'
+        ? formulaCompiler.resolveBinding(selectedSkill, env, row.bindingKey, `resource_cost:${index}`)
+        : undefined;
+    const amount = row.kind === 'formula' ? undefined : resolveValueDefinitionRow(row, env);
 
     if (!resourceId || isHpLikeResource(resourceId)) {
       continue;
@@ -691,21 +714,28 @@ function compileSkillActionTemplate(
     }
     resourceCosts.push({
       resourceId,
+      formulaId,
       amount
     });
   }
 
-  const compiledEffects = compileActionEffects(selectedSkill, env);
-  const cooldownMs = cooldownRows.length > 0 ? resolveCooldownMs(resolveValueDefinitionRow(cooldownRows[0], env)) : 0;
+  const compiledEffects = compileActionEffects(selectedSkill, env, formulaCompiler);
+  const cooldownFormulaId =
+    cooldownRows[0]?.kind === 'formula'
+      ? formulaCompiler.resolveBinding(selectedSkill, env, cooldownRows[0].bindingKey, 'cooldown')
+      : undefined;
+  const cooldownMs =
+    cooldownRows.length > 0 && cooldownRows[0].kind !== 'formula'
+      ? resolveCooldownMs(resolveValueDefinitionRow(cooldownRows[0], env))
+      : undefined;
 
   return {
     id: selectedSkill.actionId,
     label: selectedSkill.label,
     cooldownMs,
+    cooldownFormulaId,
     effects: compiledEffects.effects.length > 0 ? compiledEffects.effects : undefined,
-    resourceCost: resourceCosts.length > 0 ? resourceCosts : undefined,
-    panelCosts: panelCosts.length > 0 ? panelCosts : undefined,
-    panelEffects: compiledEffects.panelEffects.length > 0 ? compiledEffects.panelEffects : undefined
+    resourceCost: resourceCosts.length > 0 ? resourceCosts : undefined
   };
 }
 
@@ -737,29 +767,16 @@ function buildSkillEnvironment(
     symbols,
     skillLevel: selectedSkill.level,
     championLevel: source.level,
-    evalContext: {
-      source: {
-        attrs: source.attrs,
-        currentHp: source.maxHp,
-        maxHp: source.maxHp
-      },
-      target: {
-        attrs: target.attrs,
-        currentHp: target.maxHp,
-        maxHp: target.maxHp
-      },
-      inputValue: 0
-    },
     mechanicsRows: mechanics.rows
   };
 }
 
 function compileActionEffects(
   selectedSkill: ResolvedActionSkill,
-  env: CompiledSkillEnvironment
-): { effects: TinyGoV2EffectDefinition[]; panelEffects: TinyGoV2ActionPanelEffect[] } {
+  env: CompiledSkillEnvironment,
+  formulaCompiler: FormulaRegistryCompiler
+): { effects: TinyGoV2EffectDefinition[] } {
   const effects: TinyGoV2EffectDefinition[] = [];
-  const panelEffects: TinyGoV2ActionPanelEffect[] = [];
   const tickTriggers = new Map(
     env.mechanicsRows
       .filter((row) => row.eventType === 'on_tick' && row.eventTickKey)
@@ -774,22 +791,12 @@ function compileActionEffects(
 
     for (const action of trigger.actions) {
       if (action.type === 'deal_damage') {
-        const amount = resolveFormulaText(action.formulaText, env);
+        const formulaId = formulaCompiler.resolveBinding(selectedSkill, env, action.bindingKey, `damage:${effectIndex}`);
         const sourceRole = normalizeActionRole(action.damageSource, 'source');
         const targetRole = normalizeActionRole(action.damageTarget, 'target');
         effects.push({
           type: 'deal_damage',
-          amount,
-          damageType: action.damageType || undefined,
-          sourceRole,
-          targetRole
-        });
-        panelEffects.push({
-          effectIndex,
-          kind: 'deal_damage',
-          label: trigger.id || selectedSkill.label,
-          formulaId: resolveStableFormulaId('', selectedSkill.skillId, `effect:${effectIndex}`, hasFormulaText(action.formulaText)),
-          amount,
+          formulaId,
           damageType: action.damageType || undefined,
           sourceRole,
           targetRole
@@ -798,73 +805,23 @@ function compileActionEffects(
         continue;
       }
 
-      if (action.type === 'apply_modifier') {
-        for (const stat of action.stats) {
-          const amount = resolveFormulaText(stat.formulaText, env);
-          panelEffects.push({
-            effectIndex,
-            kind: 'apply_modifier',
-            label: `${trigger.id || selectedSkill.label}:${stat.op}`,
-            formulaId: resolveStableFormulaId('', selectedSkill.skillId, `effect:${effectIndex}`, hasFormulaText(stat.formulaText)),
-            amount,
-            attrId: stat.key || undefined,
-            targetRole: normalizeActionRole(action.modifierTarget, 'source')
-          });
-          effectIndex += 1;
-        }
-        continue;
-      }
-
       if (action.type === 'schedule_tick') {
         const tickTrigger = tickTriggers.get(action.tickKey);
         if (!tickTrigger) {
-          panelEffects.push({
-            effectIndex,
-            kind: 'schedule_tick',
-            label: action.tickKey || trigger.id || selectedSkill.label,
-            amount: action.times
-          });
           effectIndex += 1;
           continue;
         }
-        const times = Math.max(1, action.times);
         for (const tickAction of tickTrigger.actions) {
           if (tickAction.type === 'deal_damage') {
-            const amount = resolveFormulaText(tickAction.formulaText, env) * times;
-            panelEffects.push({
-              effectIndex,
-              kind: 'deal_damage',
-              label: `${tickTrigger.id || action.tickKey} x${times}`,
-              formulaId: resolveStableFormulaId('', selectedSkill.skillId, `effect:${effectIndex}`, hasFormulaText(tickAction.formulaText)),
-              amount,
-              damageType: tickAction.damageType || undefined,
-              sourceRole: normalizeActionRole(tickAction.damageSource, 'source'),
-              targetRole: normalizeActionRole(tickAction.damageTarget, 'target')
-            });
+            void formulaCompiler.resolveBinding(selectedSkill, env, tickAction.bindingKey, `tick_damage:${effectIndex}`);
             effectIndex += 1;
-            continue;
-          }
-          if (tickAction.type === 'apply_modifier') {
-            for (const stat of tickAction.stats) {
-              const amount = resolveFormulaText(stat.formulaText, env) * times;
-              panelEffects.push({
-                effectIndex,
-                kind: 'apply_modifier',
-                label: `${tickTrigger.id || action.tickKey}:${stat.op} x${times}`,
-                formulaId: resolveStableFormulaId('', selectedSkill.skillId, `effect:${effectIndex}`, hasFormulaText(stat.formulaText)),
-                amount,
-                attrId: stat.key || undefined,
-                targetRole: normalizeActionRole(tickAction.modifierTarget, 'source')
-              });
-              effectIndex += 1;
-            }
           }
         }
       }
     }
   }
 
-  return { effects, panelEffects };
+  return { effects };
 }
 
 function resolveValueDefinitionRow(row: SkillValueDefinitionRow, env: CompiledSkillEnvironment): number {
@@ -875,66 +832,7 @@ function resolveValueDefinitionRow(row: SkillValueDefinitionRow, env: CompiledSk
     const indexBase = row.by === 'championLevel' ? env.championLevel : env.skillLevel;
     return toNumber(row.values[clamp(indexBase, 1, row.values.length) - 1], 0);
   }
-  if (row.kind === 'formula') {
-    return resolveFormulaText(row.formulaText, env);
-  }
   return toNumber(row.value, 0);
-}
-
-function resolveFormulaText(formulaText: string, env: CompiledSkillEnvironment): number {
-  if (!hasFormulaText(formulaText)) {
-    return 0;
-  }
-  const expr = compileFormulaText(formulaText, undefined, env.symbols);
-  return evaluateFormulaExpr(expr, env.evalContext);
-}
-
-function evaluateFormulaExpr(expr: BenchmarkFormulaExpr, context: FormulaEvalContext): number {
-  switch (expr.type) {
-    case 'constant':
-      return toNumber(expr.value, 0);
-    case 'actor_attr':
-      return readActorAttr(expr.actor, expr.attrKey, context);
-    case 'actor_hp_current':
-      return readActorRef(expr.actor, context).currentHp;
-    case 'actor_hp_max':
-      return readActorRef(expr.actor, context).maxHp;
-    case 'add':
-      return expr.terms.reduce((sum, term) => sum + evaluateFormulaExpr(term, context), 0);
-    case 'multiply':
-      return expr.factors.reduce((product, factor) => product * evaluateFormulaExpr(factor, context), 1);
-    case 'subtract':
-      return evaluateFormulaExpr(expr.left, context) - evaluateFormulaExpr(expr.right, context);
-    case 'divide': {
-      const denominator = evaluateFormulaExpr(expr.denominator, context);
-      if (Math.abs(denominator) < EPSILON) {
-        return 0;
-      }
-      return evaluateFormulaExpr(expr.numerator, context) / denominator;
-    }
-    case 'max':
-      return expr.operands.reduce((current, operand) => Math.max(current, evaluateFormulaExpr(operand, context)), Number.NEGATIVE_INFINITY);
-    case 'min':
-      return expr.operands.reduce((current, operand) => Math.min(current, evaluateFormulaExpr(operand, context)), Number.POSITIVE_INFINITY);
-    case 'negate':
-      return -evaluateFormulaExpr(expr.operand, context);
-    case 'input_value':
-      return context.inputValue;
-    default:
-      return 0;
-  }
-}
-
-function readActorRef(actor: FormulaActorRef, context: FormulaEvalContext): FormulaEvalActor {
-  if (actor === 'target' || actor === 'enemy') {
-    return context.target;
-  }
-  return context.source;
-}
-
-function readActorAttr(actor: FormulaActorRef, attrKey: string, context: FormulaEvalContext): number {
-  const value = readActorRef(actor, context).attrs[attrKey];
-  return toNumber(value, 0);
 }
 
 function addLegacyParamSymbols(
@@ -1047,6 +945,277 @@ function skillParamRowToVarDefinition(row: SkillParamVarRow): VarDefinition {
     formulaVars: row.formulaVars.length > 0 ? row.formulaVars : undefined,
     selector: row.selector || undefined
   };
+}
+
+function createFormulaRegistryCompiler(bundle: GameDataBundle): FormulaRegistryCompiler {
+  const definitions: TinyGoV2FormulaDefinition[] = [];
+  const emittedIds = new Set<string>();
+  const bindingCache = new Map<string, string>();
+  const profiles = new Map((bundle.formulaProfiles ?? []).map((profile) => [profile.formulaId, profile]));
+  const bindings = bundle.formulaBindings ?? [];
+
+  return {
+    definitions,
+    resolveBinding(selectedSkill, env, bindingKey, slotLabel) {
+      const normalizedBindingKey = bindingKey.trim();
+      if (!normalizedBindingKey) {
+        throw new Error(`${selectedSkill.skillId}.${slotLabel} missing bindingKey`);
+      }
+
+      const cacheKey = `${selectedSkill.actionId}::${normalizedBindingKey}`;
+      const cached = bindingCache.get(cacheKey);
+      if (cached) {
+        return cached;
+      }
+
+      const binding = resolveFormulaBindingRecord(bundle, bindings, selectedSkill, normalizedBindingKey);
+      if (!binding) {
+        throw new Error(`formula binding not found: ${selectedSkill.skillId}.${normalizedBindingKey}`);
+      }
+
+      const profile = profiles.get(binding.formulaId);
+      if (!profile) {
+        throw new Error(`formula profile not found: ${binding.formulaId}`);
+      }
+
+      const rootFormulaId = `${selectedSkill.actionId}::${sanitizeFormulaKey(normalizedBindingKey)}`;
+      const expr = compileBoundFormulaExpr(profile, binding.overrideParams, env);
+      emitFormulaExpr(rootFormulaId, expr, definitions, emittedIds);
+      bindingCache.set(cacheKey, rootFormulaId);
+      return rootFormulaId;
+    }
+  };
+}
+
+function resolveFormulaBindingRecord(
+  bundle: GameDataBundle,
+  bindings: NonNullable<GameDataBundle['formulaBindings']>,
+  selectedSkill: ResolvedActionSkill,
+  bindingKey: string
+) {
+  const candidates: Array<[string, string]> = [
+    ['skill', selectedSkill.skillId],
+    [selectedSkill.ownerType, selectedSkill.ownerId],
+    ['global', bundle.meta.gameId]
+  ];
+  return candidates
+    .map(([targetCategory, targetId]) =>
+      bindings.find((binding) => binding.targetCategory === targetCategory && binding.targetId === targetId && binding.bindingKey === bindingKey)
+    )
+    .find(Boolean);
+}
+
+function compileBoundFormulaExpr(
+  profile: NonNullable<GameDataBundle['formulaProfiles']>[number],
+  overrideParams: JsonObject | undefined,
+  env: CompiledSkillEnvironment
+): BenchmarkFormulaExpr {
+  const mergedParams: JsonObject = {
+    ...(isPlainObject(profile.params) ? profile.params : {}),
+    ...(isPlainObject(overrideParams) ? overrideParams : {})
+  };
+  const parsed = parseFormulaParams(JSON.stringify(mergedParams), profile.formulaId);
+  const externalSymbols = new Map(env.symbols);
+  mergeFormulaSymbols(externalSymbols, compileConstantSymbols(extractFormulaRootConstants(parsed.root)));
+  mergeFormulaSymbols(
+    externalSymbols,
+    compileConstantSymbols(isPlainObject(parsed.root.constants) ? (parsed.root.constants as Record<string, unknown>) : undefined)
+  );
+
+  const formulaVarDefs = Object.fromEntries(
+    parsed.vars.map((row) => [row.key, formulaParamVarRowToVarDefinition(row)])
+  ) as Record<string, VarDefinition>;
+  const compiledVars = compileVarsToExprMap(
+    formulaVarDefs,
+    {
+      skillLevel: env.skillLevel,
+      championLevel: env.championLevel
+    },
+    externalSymbols
+  );
+  mergeFormulaSymbols(externalSymbols, compiledVars);
+
+  if (!parsed.formulaText.trim()) {
+    throw new Error(`formula profile ${profile.formulaId} has empty params.formulaText`);
+  }
+  return compileFormulaText(parsed.formulaText, undefined, externalSymbols);
+}
+
+function formulaParamVarRowToVarDefinition(row: FormulaParamVarRow): VarDefinition {
+  if (row.kind === 'const') {
+    return {
+      kind: 'const',
+      value: row.value ?? 0
+    };
+  }
+
+  if (row.kind === 'table') {
+    return {
+      kind: 'table',
+      by: row.by,
+      values: row.values
+    };
+  }
+
+  if (row.kind === 'scaled_attr') {
+    return {
+      kind: 'scaled_attr',
+      attr: row.attr || undefined,
+      coefficient: row.coefficient ?? 1
+    };
+  }
+
+  if (row.kind === 'formula') {
+    return {
+      kind: 'formula',
+      formulaText: row.formulaText || undefined,
+      formulaVars: row.formulaVars.length > 0 ? row.formulaVars : undefined
+    };
+  }
+
+  return {
+    kind: 'mapping_scaled_attr',
+    selector: row.selector || undefined,
+    attr: row.attr || undefined,
+    coefficient: row.coefficient ?? 1,
+    values: Object.fromEntries(
+      row.mappingValues
+        .map((entry) => [entry.key.trim(), entry.value] as const)
+        .filter(([key]) => Boolean(key))
+    ) as unknown as number[] | undefined
+  };
+}
+
+function extractFormulaRootConstants(root: JsonObject): Record<string, unknown> {
+  const constants: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(root)) {
+    if (key === 'vars' || key === 'constants' || key === 'formulaText' || key === 'damageTypeId') {
+      continue;
+    }
+    constants[key] = value;
+  }
+  return constants;
+}
+
+function mergeFormulaSymbols(target: Map<string, BenchmarkFormulaExpr>, source: Map<string, BenchmarkFormulaExpr>) {
+  for (const [key, value] of source.entries()) {
+    target.set(key, value);
+  }
+}
+
+function emitFormulaExpr(
+  id: string,
+  expr: BenchmarkFormulaExpr,
+  definitions: TinyGoV2FormulaDefinition[],
+  emittedIds: Set<string>
+): string {
+  if (emittedIds.has(id)) {
+    return id;
+  }
+
+  switch (expr.type) {
+    case 'constant':
+      pushFormulaDefinition(definitions, emittedIds, { id, op: 'const', value: toNumber(expr.value, 0) });
+      return id;
+    case 'input_value':
+      pushFormulaDefinition(definitions, emittedIds, { id, op: 'input' });
+      return id;
+    case 'actor_attr':
+      pushFormulaDefinition(definitions, emittedIds, {
+        id,
+        op: 'attr',
+        attr: expr.attrKey,
+        actor: normalizeFormulaActor(expr.actor)
+      });
+      return id;
+    case 'actor_hp_current':
+      pushFormulaDefinition(definitions, emittedIds, {
+        id,
+        op: 'hp_current',
+        actor: normalizeFormulaActor(expr.actor)
+      });
+      return id;
+    case 'actor_hp_max':
+      pushFormulaDefinition(definitions, emittedIds, {
+        id,
+        op: 'hp_max',
+        actor: normalizeFormulaActor(expr.actor)
+      });
+      return id;
+    case 'add':
+      return emitNaryFormula('add', id, expr.terms, definitions, emittedIds, { type: 'constant', value: 0 });
+    case 'multiply':
+      return emitNaryFormula('mul', id, expr.factors, definitions, emittedIds, { type: 'constant', value: 1 });
+    case 'subtract': {
+      const left = emitFormulaExpr(`${id}::left`, expr.left, definitions, emittedIds);
+      const right = emitFormulaExpr(`${id}::right`, expr.right, definitions, emittedIds);
+      pushFormulaDefinition(definitions, emittedIds, { id, op: 'sub', left, right });
+      return id;
+    }
+    case 'divide': {
+      const left = emitFormulaExpr(`${id}::left`, expr.numerator, definitions, emittedIds);
+      const right = emitFormulaExpr(`${id}::right`, expr.denominator, definitions, emittedIds);
+      pushFormulaDefinition(definitions, emittedIds, { id, op: 'div', left, right });
+      return id;
+    }
+    case 'max':
+      return emitNaryFormula('max', id, expr.operands, definitions, emittedIds, { type: 'constant', value: 0 });
+    case 'min':
+      return emitNaryFormula('min', id, expr.operands, definitions, emittedIds, { type: 'constant', value: 0 });
+    case 'negate': {
+      const left = emitFormulaExpr(`${id}::const`, { type: 'constant', value: -1 }, definitions, emittedIds);
+      const right = emitFormulaExpr(`${id}::operand`, expr.operand, definitions, emittedIds);
+      pushFormulaDefinition(definitions, emittedIds, { id, op: 'mul', left, right });
+      return id;
+    }
+    default:
+      pushFormulaDefinition(definitions, emittedIds, { id, op: 'const', value: 0 });
+      return id;
+  }
+}
+
+function emitNaryFormula(
+  op: 'add' | 'mul' | 'max' | 'min',
+  id: string,
+  operands: BenchmarkFormulaExpr[],
+  definitions: TinyGoV2FormulaDefinition[],
+  emittedIds: Set<string>,
+  emptyFallback: BenchmarkFormulaExpr
+): string {
+  if (operands.length === 0) {
+    return emitFormulaExpr(id, emptyFallback, definitions, emittedIds);
+  }
+  if (operands.length === 1) {
+    return emitFormulaExpr(id, operands[0], definitions, emittedIds);
+  }
+  const left = emitFormulaExpr(`${id}::left`, operands[0], definitions, emittedIds);
+  const right = emitNaryFormula(op, `${id}::right`, operands.slice(1), definitions, emittedIds, emptyFallback);
+  pushFormulaDefinition(definitions, emittedIds, { id, op, left, right });
+  return id;
+}
+
+function pushFormulaDefinition(
+  definitions: TinyGoV2FormulaDefinition[],
+  emittedIds: Set<string>,
+  definition: TinyGoV2FormulaDefinition
+) {
+  if (emittedIds.has(definition.id)) {
+    return;
+  }
+  emittedIds.add(definition.id);
+  definitions.push(definition);
+}
+
+function normalizeFormulaActor(actor: FormulaActorRef): string {
+  if (actor === 'target' || actor === 'enemy') {
+    return 'target';
+  }
+  return 'source';
+}
+
+function sanitizeFormulaKey(value: string): string {
+  const normalized = value.trim().replace(/[^a-zA-Z0-9_.:-]+/g, '_');
+  return normalized || 'formula';
 }
 
 function extractNumericConstants(root: JsonObject): Record<string, unknown> {
@@ -1169,16 +1338,6 @@ function normalizeActionRole(value: string, fallback: 'source' | 'target'): 'sou
   return fallback;
 }
 
-function resolveStableFormulaId(explicitId: string, skillId: string, suffix: string, derived: boolean): string | undefined {
-  if (explicitId.trim()) {
-    return explicitId.trim();
-  }
-  if (!derived) {
-    return undefined;
-  }
-  return `${skillId}::${suffix}`;
-}
-
 function buildResourceDefinitions(actors: ResolvedActorState[]): TinyGoV2ResourceDefinition[] {
   const merged = new Map<string, TinyGoV2ResourceDefinition>();
   for (const actor of actors) {
@@ -1197,13 +1356,6 @@ function buildResourceDefinitions(actors: ResolvedActorState[]): TinyGoV2Resourc
     }
   }
   return Array.from(merged.values()).sort((left, right) => left.id.localeCompare(right.id, 'zh-CN'));
-}
-
-function mergeNumberMap(target: Record<string, number>, source: Record<string, unknown>) {
-  for (const [key, value] of Object.entries(source)) {
-    result[key] = toNumber(value, 0);
-  }
-  return result;
 }
 
 function toTinyGoAttributeValues(attrs: Record<string, number>): Record<string, TinyGoV2AttributeValue> {
@@ -1251,10 +1403,6 @@ function dedupeById(definitions: TinyGoV2AttributeDefinition[]): TinyGoV2Attribu
 
 function readString(value: unknown): string {
   return typeof value === 'string' ? value : '';
-}
-
-function hasFormulaText(value: string): boolean {
-  return value.trim().length > 0;
 }
 
 function toFiniteOptional(value: unknown): number | null {

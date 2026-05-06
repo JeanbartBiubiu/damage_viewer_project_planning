@@ -1,9 +1,16 @@
 import { Alert } from '@arco-design/web-react';
+import { useMemo } from 'react';
 import { Panel } from '../../../../components/Panel';
 import { getFormulaProfiles, putFormulaProfile } from '../../../../services/apiClient';
 import type { JsonObject } from '../../../../types/api';
+import {
+  buildDamageTypeLabelMap,
+  buildDamageTypeOptions,
+  normalizeDamageTypeValue
+} from '../shared/damageTypes';
 import { parseJsonObjectText, stringifyJson } from '../shared/json';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
+import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { createFormulaProfilesFormData, createFormulaProfilesSearchData } from './constants';
 import { FormulaProfilesModal } from './modal';
 import { FormulaProfilesSearch } from './search';
@@ -33,6 +40,7 @@ function toFormulaProfilesFormData(record: FormulaProfilesRecord): FormulaProfil
     formulaId: record.formulaId,
     formulaType: record.formulaType ?? '',
     formulaKind: record.formulaKind ?? '',
+    damageTypeId: normalizeDamageTypeValue(record.params?.damageTypeId),
     description: record.description ?? '',
     paramsText: stringifyJson(record.params ?? {}),
     extraFieldsText: stringifyJson(extractExtraFormulaProfileFields(record))
@@ -68,13 +76,25 @@ async function saveFormulaProfileRecord(
   token: string,
   formData: FormulaProfilesFormData
 ): Promise<FormulaProfilesRecord> {
+  const formulaType = formData.formulaType.trim();
+  const params = parseJsonObjectText(formData.paramsText, 'params');
   const payload: JsonObject = {
     ...parseJsonObjectText(formData.extraFieldsText, 'extraFields'),
     formulaId: formData.formulaId.trim(),
-    formulaType: formData.formulaType.trim(),
+    formulaType,
     formulaKind: formData.formulaKind.trim(),
-    params: parseJsonObjectText(formData.paramsText, 'params')
+    params
   };
+
+  if (formulaType === 'damage') {
+    const damageTypeId = Number(formData.damageTypeId);
+    if (!Number.isInteger(damageTypeId) || damageTypeId <= 0) {
+      throw new Error('damage formulas require a valid damage type');
+    }
+    params.damageTypeId = damageTypeId;
+  } else {
+    delete params.damageTypeId;
+  }
 
   if (formData.description.trim()) {
     payload.description = formData.description.trim();
@@ -90,6 +110,24 @@ export function FormulaProfilesPage({ apiBaseUrl, selectedGameId, adminToken }: 
     : !adminToken.trim()
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
+
+  const {
+    types,
+    loading: typeCatalogLoading,
+    error: typeCatalogError,
+    parentTypeIdsByChildId
+  } = useTypeCatalog(apiBaseUrl, selectedGameId, adminToken);
+  const damageTypeOptions = useMemo(
+    () => buildDamageTypeOptions(types, parentTypeIdsByChildId),
+    [parentTypeIdsByChildId, types]
+  );
+  const damageTypeLabelMap = useMemo(() => buildDamageTypeLabelMap(damageTypeOptions), [damageTypeOptions]);
+  const showDamageTypeWarning =
+    Boolean(selectedGameId) &&
+    Boolean(adminToken.trim()) &&
+    !typeCatalogLoading &&
+    !typeCatalogError &&
+    damageTypeOptions.length === 0;
 
   const {
     filteredRecords,
@@ -126,6 +164,14 @@ export function FormulaProfilesPage({ apiBaseUrl, selectedGameId, adminToken }: 
   return (
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
+      {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
+      {showDamageTypeWarning ? (
+        <Alert
+          type="warning"
+          content="No damage types found under reserved type 10001. Add game-local damage types there before configuring damage formulas."
+          className="resource-warning-alert"
+        />
+      ) : null}
 
       <Panel title="查询条件" kicker="Search">
         <FormulaProfilesSearch
@@ -141,6 +187,7 @@ export function FormulaProfilesPage({ apiBaseUrl, selectedGameId, adminToken }: 
         <FormulaProfilesTable
           loading={recordsState === 'loading'}
           records={filteredRecords}
+          damageTypeLabelMap={damageTypeLabelMap}
           actionsDisabled={actionsDisabled}
           onView={openViewModal}
           onEdit={openEditModal}
@@ -156,6 +203,7 @@ export function FormulaProfilesPage({ apiBaseUrl, selectedGameId, adminToken }: 
         visible={modalVisible}
         mode={modalMode}
         formData={formData}
+        damageTypeOptions={damageTypeOptions}
         saving={saving}
         onClose={closeModal}
         onFieldChange={updateFormData}
