@@ -27,6 +27,7 @@ export type RouteId =
   | 'workspace'
   | 'wasm-validation'
   | 'wasm-validation-m2'
+  | 'wasm-validation-m3'
   | 'images'
   | AdminResourceRouteId;
 
@@ -94,6 +95,11 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
     id: 'wasm-validation-m2',
     label: 'Wasm 验证 M2',
     summary: 'TinyGo V2 M2 Action 初始状态快照与人工基线对照。'
+  },
+  {
+    id: 'wasm-validation-m3',
+    label: 'Wasm 验证 M3',
+    summary: 'TinyGo V2 M3 单技能 1v 假人结算与字段级证据。'
   }
 ];
 
