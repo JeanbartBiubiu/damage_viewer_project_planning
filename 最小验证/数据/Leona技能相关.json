@@ -1,0 +1,449 @@
+{
+  "schemaVersion": 2,
+  "standard": "mvp_skill_v2",
+  "ownerType": "hero",
+  "ownerId": "Leona",
+  "ownerMeta": {
+    "key": "89",
+    "name": "曙光女神",
+    "title": "蕾欧娜",
+    "sourceVersion": "16.9.1-local+wiki-supplement"
+  },
+  "skills": [
+    {
+      "skillId": "hero_leona_a",
+      "ownerType": "hero",
+      "ownerId": "Leona",
+      "skillKey": "A",
+      "name": "普通攻击",
+      "description": "基础普攻伤害与命中流程交给通用攻击系统，这里只保留攻速驱动的最小动作占位。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 0
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "formula",
+          "formulaText": "1 / self.attack_speed_current"
+        }
+      ],
+      "params": {
+        "vars": {}
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": []
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "consumeOnHit": true
+        }
+      },
+      "notes": [
+        "基础普攻数值由通用攻击流程结算，这个 skill 只作为英雄动作清单中的普攻占位。"
+      ]
+    },
+    {
+      "skillId": "hero_leona_q",
+      "ownerType": "hero",
+      "ownerId": "Leona",
+      "skillKey": "Q",
+      "name": "破晓之盾",
+      "description": "强化下一次近战普攻，造成额外魔法伤害并晕眩目标。",
+      "resourceCosts": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            30,
+            35,
+            40,
+            45,
+            50
+          ]
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "const",
+          "value": 5
+        }
+      ],
+      "params": {
+        "vars": {
+          "base_damage": {
+            "label": "额外基础魔法伤害",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              10,
+              35,
+              60,
+              85,
+              110
+            ]
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.3
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "empowered_attack_damage",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_damage + ap_damage",
+                  "formulaVars": [
+                    "base_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "attackInteraction": {
+          "resetBasicAttackTimer": true
+        }
+      },
+      "notes": [
+        "真实游戏里 Q 会强化下一次普攻并在命中时结算。",
+        "当前最小验证为了兼容现有 TinyGo V2 on_spell_cast 动作链，先按近身立即命中近似处理。"
+      ]
+    },
+    {
+      "skillId": "hero_leona_w",
+      "ownerType": "hero",
+      "ownerId": "Leona",
+      "skillKey": "W",
+      "name": "日蚀",
+      "description": "短暂举盾后爆炸，对周围敌人造成魔法伤害。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 60
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            14,
+            13,
+            12,
+            11,
+            10
+          ]
+        }
+      ],
+      "params": {
+        "vars": {
+          "detonation_base_damage": {
+            "label": "爆炸基础魔法伤害",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              55,
+              85,
+              115,
+              145,
+              175
+            ]
+          },
+          "detonation_ap_damage": {
+            "label": "爆炸法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.4
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": [
+          {
+            "phaseKey": "guard",
+            "kind": "persistent_effect",
+            "durationMs": 3000
+          }
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "schedule_detonation",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "schedule_tick",
+                "tickKey": "leona_eclipse_detonation",
+                "everyMs": 3000,
+                "times": 1
+              }
+            ]
+          },
+          {
+            "id": "detonation_damage",
+            "event": {
+              "type": "on_tick",
+              "tickKey": "leona_eclipse_detonation"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "detonation_base_damage + detonation_ap_damage",
+                  "formulaVars": [
+                    "detonation_base_damage",
+                    "detonation_ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {},
+      "notes": [
+        "这里只保留 3 秒后爆炸的伤害结算。",
+        "护甲、魔抗、平伤减免和命中后延长防御姿态都属于防御向效果，首版先不录入。"
+      ]
+    },
+    {
+      "skillId": "hero_leona_e",
+      "ownerType": "hero",
+      "ownerId": "Leona",
+      "skillKey": "E",
+      "name": "天顶之刃",
+      "description": "命中路径上的敌人时造成魔法伤害，并冲向最后命中的英雄。",
+      "resourceCosts": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ]
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            12,
+            10.5,
+            9,
+            7.5,
+            6
+          ]
+        }
+      ],
+      "params": {
+        "vars": {
+          "base_damage": {
+            "label": "基础魔法伤害",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              50,
+              90,
+              130,
+              170,
+              210
+            ]
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.4
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": [
+          {
+            "phaseKey": "cast",
+            "kind": "cast",
+            "durationMs": 250
+          }
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "cast_line_damage",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_damage + ap_damage",
+                  "formulaVars": [
+                    "base_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {
+        "movement": {
+          "type": "dash"
+        }
+      },
+      "notes": [
+        "禁锢与位移保留在描述和 movement 扩展里，当前正式 DSL 只承载伤害。"
+      ]
+    },
+    {
+      "skillId": "hero_leona_r",
+      "ownerType": "hero",
+      "ownerId": "Leona",
+      "skillKey": "R",
+      "name": "日炎耀斑",
+      "description": "延迟落下的日光冲击，对范围内敌人造成魔法伤害。",
+      "resourceCosts": [
+        {
+          "kind": "const",
+          "value": 100
+        }
+      ],
+      "cooldowns": [
+        {
+          "kind": "table",
+          "by": "skillLevel",
+          "values": [
+            90,
+            75,
+            60
+          ]
+        }
+      ],
+      "params": {
+        "vars": {
+          "base_damage": {
+            "label": "基础魔法伤害",
+            "kind": "table",
+            "by": "skillLevel",
+            "values": [
+              150,
+              225,
+              300
+            ]
+          },
+          "ap_damage": {
+            "label": "法强加成伤害",
+            "kind": "scaled_attr",
+            "attr": "self.ability_power",
+            "coefficient": 0.8
+          }
+        }
+      },
+      "timingProfile": {
+        "phases": [
+          {
+            "phaseKey": "impact_delay",
+            "kind": "cast",
+            "durationMs": 625
+          }
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "schedule_solar_flare",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "schedule_tick",
+                "tickKey": "leona_solar_flare_impact",
+                "everyMs": 625,
+                "times": 1
+              }
+            ]
+          },
+          {
+            "id": "impact_damage",
+            "event": {
+              "type": "on_tick",
+              "tickKey": "leona_solar_flare_impact"
+            },
+            "actions": [
+              {
+                "type": "deal_damage",
+                "damage": {
+                  "source": "self",
+                  "target": "enemy",
+                  "damageType": "magic",
+                  "formulaText": "base_damage + ap_damage",
+                  "formulaVars": [
+                    "base_damage",
+                    "ap_damage"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "mvpExtensions": {},
+      "notes": [
+        "这里保留 0.625 秒落点延迟和主伤害结算。",
+        "中心晕眩与外圈减速属于控制效果，首版先不进 mechanics。"
+      ]
+    }
+  ],
+  "notes": [
+    "本文件是 Leona 的首版 mvp_skill_v2 录入样例，按 1v1 伤害验证优先。",
+    "被动 Sunlight 依赖友军触发，不属于纯 1v1 自身伤害链，因此本轮先跳过。",
+    "冷却、消耗、范围和英雄元数据主要参考本地 数据参考/champion/Leona.json。",
+    "Q/W/E/R 的 AP 比例与 R 基础伤害补自 League of Legends Wiki 的 Leona 数据模板页，录入时按 2026-05-04 可见内容整理。",
+    "为了兼容当前 TinyGo V2 只稳定消费 on_spell_cast 和 on_tick 的适配链，Q 被近似成近身立即命中的伤害技能。"
+  ]
+}
