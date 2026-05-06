@@ -1,5 +1,6 @@
 import { Button, Collapse, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
 import { FormulaParamsEditor } from '../../../../components/formula-editor/FormulaParamsEditor';
+import { appendCurrentDamageTypeOption, type DamageTypeOption } from '../shared/damageTypes';
 import { FORMULA_PROFILE_KIND_OPTIONS, FORMULA_PROFILE_TYPE_OPTIONS } from './constants';
 import type { FormulaProfilesFormData } from './types';
 
@@ -10,6 +11,7 @@ type FormulaProfilesModalProps = {
   visible: boolean;
   mode: 'create' | 'view' | 'edit';
   formData: FormulaProfilesFormData;
+  damageTypeOptions: DamageTypeOption[];
   saving: boolean;
   onClose: () => void;
   onFieldChange: <K extends keyof FormulaProfilesFormData>(field: K, value: FormulaProfilesFormData[K]) => void;
@@ -23,6 +25,7 @@ export function FormulaProfilesModal({
   visible,
   mode,
   formData,
+  damageTypeOptions,
   saving,
   onClose,
   onFieldChange,
@@ -32,6 +35,7 @@ export function FormulaProfilesModal({
   const editingExisting = mode !== 'create';
   const formulaTypeOptions = appendCurrentOption(FORMULA_PROFILE_TYPE_OPTIONS, formData.formulaType);
   const formulaKindOptions = appendCurrentOption(FORMULA_PROFILE_KIND_OPTIONS, formData.formulaKind);
+  const mergedDamageTypeOptions = appendCurrentDamageTypeOption(damageTypeOptions, formData.damageTypeId);
 
   return (
     <Modal
@@ -67,7 +71,13 @@ export function FormulaProfilesModal({
             <Select
               disabled={readOnly}
               value={formData.formulaType || undefined}
-              onChange={(value) => onFieldChange('formulaType', String(value ?? ''))}
+              onChange={(value) => {
+                const nextFormulaType = String(value ?? '');
+                onFieldChange('formulaType', nextFormulaType);
+                if (nextFormulaType !== 'damage' && formData.damageTypeId) {
+                  onFieldChange('damageTypeId', '');
+                }
+              }}
               placeholder="请选择"
               options={formulaTypeOptions}
             />
@@ -83,6 +93,23 @@ export function FormulaProfilesModal({
             />
           </Form.Item>
         </div>
+
+        {formData.formulaType === 'damage' ? (
+          <Form.Item
+            label="伤害类型"
+            required
+            validateStatus={!readOnly && !formData.damageTypeId ? 'error' : undefined}
+            help={!readOnly && !formData.damageTypeId ? '请选择 10001 伤害类型根节点下的一个类型。' : undefined}
+          >
+            <Select
+              disabled={readOnly}
+              value={formData.damageTypeId || undefined}
+              onChange={(value) => onFieldChange('damageTypeId', String(value ?? ''))}
+              placeholder="请选择伤害类型"
+              options={mergedDamageTypeOptions}
+            />
+          </Form.Item>
+        ) : null}
 
         <Form.Item label="说明">
           <Input.TextArea

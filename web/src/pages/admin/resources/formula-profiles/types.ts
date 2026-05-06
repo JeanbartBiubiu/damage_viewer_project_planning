@@ -12,6 +12,7 @@ export type FormulaProfilesFormData = {
   formulaId: string;
   formulaType: string;
   formulaKind: string;
+  damageTypeId: string;
   description: string;
   paramsText: string;
   extraFieldsText: string;

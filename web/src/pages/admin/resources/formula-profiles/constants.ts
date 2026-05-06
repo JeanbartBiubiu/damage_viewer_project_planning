@@ -33,6 +33,7 @@ export function createFormulaProfilesFormData(): FormulaProfilesFormData {
     formulaId: '',
     formulaType: '',
     formulaKind: '',
+    damageTypeId: '',
     description: '',
     paramsText: createEmptyFormulaParamsText(),
     extraFieldsText: '{\n  \n}'
