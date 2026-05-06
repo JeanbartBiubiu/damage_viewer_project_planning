@@ -21,10 +21,12 @@ import {
 } from '../../../../components/skill-editor/skillModels';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import type { TypeDefinition } from '../../../../types/api';
+import type { DamageTypeOption } from '../shared/damageTypes';
 import type { SkillsFormData } from './types';
 
 type SkillsModalProps = {
   typeDefinitions: TypeDefinition[];
+  damageTypeOptions: DamageTypeOption[];
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
@@ -39,6 +41,7 @@ type SkillsModalProps = {
 
 export function SkillsModal({
   typeDefinitions,
+  damageTypeOptions,
   apiBaseUrl,
   selectedGameId,
   adminToken,
@@ -238,10 +241,10 @@ export function SkillsModal({
             apiBaseUrl={apiBaseUrl}
             selectedGameId={selectedGameId}
             adminToken={adminToken}
+            damageTypeOptions={damageTypeOptions}
             version={mechanicsConfigState.version}
             stacks={mechanicsConfigState.stacks}
             rows={mechanicsConfigState.rows}
-            paramVarKeys={paramsState.rows.map((row) => row.key.trim()).filter(Boolean)}
             disabled={readOnly || !!mechanicsConfigState.error}
             onVersionChange={(version) =>
               onFieldChange(
@@ -270,6 +273,7 @@ export function SkillsModal({
               {flatParamsState.error ? <Alert type="error" content={`legacy params 解析失败：${flatParamsState.error}`} style={{ marginBottom: 12 }} /> : null}
               <SkillFlatParamsEditor
                 form={flatParamsState.form}
+                damageTypeOptions={damageTypeOptions}
                 disabled={readOnly || !!flatParamsState.error}
                 onChange={(form) => onFieldChange('paramsText', stringifyFlatSkillParams(flatParamsState.root, form))}
               />

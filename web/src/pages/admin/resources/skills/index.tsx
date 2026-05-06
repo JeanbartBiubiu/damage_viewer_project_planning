@@ -1,8 +1,10 @@
 import { Alert } from '@arco-design/web-react';
+import { useMemo } from 'react';
 import { createEmptyMechanicsConfig } from '../../../../components/skill-editor/skillModels';
 import { Panel } from '../../../../components/Panel';
 import { getSkills, putSkill, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import type { JsonObject, JsonValue } from '../../../../types/api';
+import { buildDamageTypeOptions } from '../shared/damageTypes';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonArrayText, parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
 import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
@@ -173,11 +175,28 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
       ? '请先在顶部会话区域填写 Admin Token。'
       : null;
 
-  const { types, targetTypeIdsByKey, error: typeCatalogError, refresh: refreshTypeCatalog } = useTypeCatalog(
+  const {
+    types,
+    loading: typeCatalogLoading,
+    error: typeCatalogError,
+    parentTypeIdsByChildId,
+    targetTypeIdsByKey,
+    refresh: refreshTypeCatalog
+  } = useTypeCatalog(
     apiBaseUrl,
     selectedGameId,
     adminToken
   );
+  const damageTypeOptions = useMemo(
+    () => buildDamageTypeOptions(types, parentTypeIdsByChildId),
+    [parentTypeIdsByChildId, types]
+  );
+  const showDamageTypeWarning =
+    Boolean(selectedGameId) &&
+    Boolean(adminToken.trim()) &&
+    !typeCatalogLoading &&
+    !typeCatalogError &&
+    damageTypeOptions.length === 0;
 
   const {
     filteredRecords,
@@ -240,6 +259,13 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
     <div className="page-admin-resource page-stack">
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
       {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
+      {showDamageTypeWarning ? (
+        <Alert
+          type="warning"
+          content="No damage types found under reserved type 10001. Add game-local damage types there before editing skill damage."
+          className="resource-warning-alert"
+        />
+      ) : null}
 
       <Panel title="查询条件" kicker="Search">
         <SkillsSearch
@@ -269,6 +295,7 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
 
       <SkillsModal
         typeDefinitions={types}
+        damageTypeOptions={damageTypeOptions}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
