@@ -4,7 +4,7 @@
 
 ## 当前范围
 
-- Wasm ABI 已固定为显式导出函数：`alloc/dealloc/engine_init/engine_snapshot_initial/engine_begin_run/engine_step/engine_abort_run/outbox_*`。
+- Wasm ABI 已固定为显式导出函数：`alloc/dealloc/engine_init/engine_snapshot_initial/engine_snapshot_actions_initial/engine_begin_run/engine_step/engine_abort_run/outbox_*`。
 - 输入契约使用 `EngineBundleV2` 和 `EngineRunInputV2`，不继承旧 `BenchmarkBundle`。
 - 输出契约使用 `DonePayloadV2`、`EngineEventLogV2`、`SnapshotV2`、`ValueTraceV2` 和结构化错误。
 - 属性已从单个 `float64` 升级为 `base/current/max/resolved/dirty` 运行时模型。
@@ -68,6 +68,7 @@ alloc(size) -> ptr
 dealloc(ptr, size)
 engine_init(ptr, size) -> 0/-1
 engine_snapshot_initial(ptr, size) -> 0/-1
+engine_snapshot_actions_initial(ptr, size) -> 0/-1
 engine_begin_run(ptr, size) -> 0/-1
 engine_step(maxEvents) -> 1/0/-1
 engine_abort_run() -> 0
@@ -77,6 +78,8 @@ engine_outbox_clear()
 ```
 
 `engine_snapshot_initial` 在 `engine_init` 后调用，接收与 `engine_begin_run` 相同的 run frame/payload，忽略 `initialActions`，不推进 scheduler，并向 outbox 写入 `snapshot` frame。
+
+`engine_snapshot_actions_initial` 同样在 `engine_init` 后调用，接收 run frame/payload，不推进 scheduler，并向 outbox 写入 `action_snapshot` frame。当前 M2 action 面板验证使用该输出查看 skill level、panel inputs、资源消耗、冷却、效果行和公式 breakdown。
 
 首期协议为二进制 frame header + JSON payload。frame header 包含 `magic/schemaVersion/kind/flags/payloadLen`；JSON 用于调试和前后端对齐，二进制 payload kind 只预留。
 
