@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-26 16:45:00
+LAST_TRACKED_AT: 2026-05-10
 
 # WASM TypeList 与状态动作控制详细设计
 
@@ -245,7 +245,7 @@ func (ctx *RunContext) blockedByStatus(actor uint8, action uint16, nowMs int64) 
 4. resource cost
 5. cooldown/charge
 
-P0 只实现 1、2、3；resource/cooldown 可保留 TODO 注释，但不得绕过 `CanCast` 入口。
+当前 `CanCast` 已接入 resource cost 与 cooldown gate；后续 TODO 只保留 charge/recharge 等更细的冷却扩展，不得绕过 `CanCast` 入口。
 
 替换 `onCastIntent` 开头的 `isActionBlocked`：
 

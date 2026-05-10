@@ -9,7 +9,7 @@ LAST_TRACKED_AT: 2026-04-30
 
 ## Goal
 
-Import [`最小验证/卡特琳娜-MVP种子数据.json`](../../最小验证/卡特琳娜-MVP种子数据.json) into a real `gameId`
+Import [`最小验证/卡特琳娜-MVP种子数据.json`](../../../最小验证/卡特琳娜-MVP种子数据.json) into a real `gameId`
 through admin HTTP APIs, then optionally publish `mvp_katarina_001`.
 
 Tool entry:
@@ -47,8 +47,8 @@ $env:APP_AUTH_JWT_DISABLED = "true"
 4. If `lol` or `owner_categories` may be missing, also export DB env vars for bootstrap:
 
 ```powershell
-$env:IT_DB_URL = "jdbc:postgresql://192.168.5.56:5432/test0221"
-$env:IT_DB_USERNAME = "postgres"
+$env:IT_DB_URL = "<jdbc-url-for-your-local-test-db>"
+$env:IT_DB_USERNAME = "<db-username>"
 $env:IT_DB_PASSWORD = "<已移除>"
 ```
 

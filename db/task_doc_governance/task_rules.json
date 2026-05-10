@@ -8,7 +8,10 @@
     "文档记录/详细设计/20260402_开发任务文档管理子代理说明.md",
     "文档记录/详细设计/20260402_docs_任务治理流程验证.md",
     "文档记录/详细设计/任务与文档治理子Agent方案.md",
-    "文档记录/详细设计/SQLite任务文档治理方案.md"
+    "文档记录/详细设计/SQLite任务文档治理方案.md",
+    "文档记录/需求澄清/server/claude_suggestion.md",
+    "文档记录/详细设计/server/game_manage/前端接口迁移清单-发布快照改造-2026-04-16.md",
+    "文档记录/详细设计/web/剩余表格页面前端方案.md"
   ],
   "tasks": [
     {
@@ -137,8 +140,7 @@
       "completion_note": "heroes、skills、items、attribute-definitions、types、type-relations 页面已补齐并接入现有管理链路。",
       "completed_at": "2026-04-16",
       "docs": [
-        "文档记录/详细设计/web/前端开发方案-剩余管理页面扩展.md",
-        "文档记录/详细设计/web/剩余表格页面前端方案.md"
+        "文档记录/详细设计/web/前端开发方案-剩余管理页面扩展.md"
       ]
     },
     {
@@ -159,9 +161,7 @@
       "feature": "backend_review",
       "status": "进行中",
       "priority": 1,
-      "docs": [
-        "文档记录/需求澄清/server/claude_suggestion.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "server-wasm-db-gap",
@@ -182,8 +182,7 @@
       "status": "进行中",
       "priority": 1,
       "docs": [
-        "文档记录/详细设计/server/game_manage/接口定义.md",
-        "文档记录/详细设计/server/game_manage/前端接口迁移清单-发布快照改造-2026-04-16.md"
+        "文档记录/详细设计/server/game_manage/接口定义.md"
       ]
     },
     {
@@ -191,8 +190,10 @@
       "title": "Server P2 游戏阶段配置与英雄录入优化",
       "module": "server",
       "feature": "game_progression_hero_entry",
-      "status": "未开始",
+      "status": "完成",
       "priority": 2,
+      "completion_note": "DB、后端 progression-schema API、GET /api/games progressionSchema 输出和前端英雄矩阵消费链路已落地；本轮文档清理仅同步治理状态。",
+      "completed_at": "2026-05-10",
       "docs": [
         "文档记录/详细设计/server/P2-game-progression-hero-entry-iteration.md"
       ]

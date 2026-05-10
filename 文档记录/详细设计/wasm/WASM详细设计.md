@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-25 16:20:09
+LAST_TRACKED_AT: 2026-05-10
 
 # WASM 详细设计
 
@@ -48,24 +48,25 @@ internal/testkit
 
 `EngineBundleV2` 是正式输入契约，不继承旧 `BenchmarkBundle`。
 
-建议结构：
+当前代码结构：
 
 ```go
 type EngineBundleV2 struct {
-    SchemaVersion uint16
-    TypeCatalog   TypeCatalogV2
-    Attributes    []AttributeDefinitionV2
-    Resources     []ResourceDefinitionV2
-    Actors        []ActorTemplateV2
-    Actions       []ActionTemplateV2
-    Items         []ItemTemplateV2
-    Statuses      []StatusTemplateV2
-    Formulas      []FormulaDefinitionV2
-    Triggers      []TriggerDefinitionV2
-    Augments      []AugmentDefinitionV2
-    Settings      BundleSettingsV2
+    SchemaVersion            uint16
+    Attributes               []AttributeDefinitionV2
+    Resources                []ResourceDefinitionV2
+    Actors                   []ActorTemplateV2
+    Actions                  []ActionTemplateV2
+    Statuses                 []StatusTemplateV2
+    StatusActionControlRules []StatusActionControlRuleV2
+    Formulas                 []FormulaDefinitionV2
+    Triggers                 []TriggerDefinitionV2
+    DamageProfiles           []DamageProfileV2
+    Settings                 BundleSettingsV2
 }
 ```
+
+`TypeCatalog`、`Items`、`Augments` 等仍属于后续扩展方向，不是当前 `internal/model` 的已落地字段。
 
 ## 3. TypeList 网络
 

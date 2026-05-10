@@ -13,19 +13,20 @@ LAST_TRACKED_AT: 2026-04-30
 - 状态标记：`[ ]` 未开始、`[~]` 进行中、`[x]` 已完成。
 
 ## 现状快照（重新审视结论）
-1. DB 已有 `formula_profiles/formula_bindings` 表，但 `data_manage` 当前无对应 mapper/controller/service 链路，`bundle` 也未带出这两类数据。
-2. DB 已有 `attribute_definitions.value_kind/rate_target_attr_key`，但当前 DTO/mapper/read-write 流程未完整透出。
-3. `mechanics_config` 契约当前只覆盖 `deal_damage/apply_modifier`，未显式建模 `heal/shield` 通道。
+1. `formula_profiles/formula_bindings` 已有 mapper、Admin controller、service 写入链路，并已进入发布 bundle。
+2. `attribute_definitions.value_kind/rate_target_attr_key` 已透出到 DTO/mapper/read-write 流程和 Public bundle。
+3. `mechanics_config` 契约当前仍主要覆盖 `deal_damage/apply_modifier`，`heal/shield` 通道需要继续由 Wasm/runtime 契约收口。
 4. WASM 文档是事件驱动主线，但“伤害/治疗/属性增减/护盾”尚未形成一套统一且可跨游戏切换的结算契约。
 
 ---
 
 ## P0（阻断后续联调）
 
-### [ ] P0-1 补齐 `attribute_definitions` 值类别契约闭环
-- 现状依据：
+### [x] P0-1 补齐 `attribute_definitions` 值类别契约闭环
+- 当前实现：
   - DB 已有 `value_kind/rate_target_attr_key` 约束。
-  - 接口契约与当前实现仍主要暴露 `attrName/attrType/defaultValue`。
+  - 后端 DTO/mapper/read-write 流程已暴露 `valueKind/rateTargetAttrKey`。
+  - Public bundle 已返回这两个字段。
 - 设计补充：
   1. 扩展 `AttributeDefinitionDTO` 与写入 DTO：新增 `valueKind`、`rateTargetAttrKey`。
   2. 明确默认值与兼容规则：未传时 `valueKind=scalar`，`rateTargetAttrKey=null`。
@@ -39,10 +40,11 @@ LAST_TRACKED_AT: 2026-04-30
   - Public bundle 可正确返回 `valueKind/rateTargetAttrKey`。
   - 非法组合可被拦截并返回明确错误码。
 
-### [ ] P0-2 公式中心（profile + binding）从“有表”变“可用链路”
-- 现状依据：
+### [x] P0-2 公式中心（profile + binding）从“有表”变“可用链路”
+- 当前实现：
   - DB 已有公式表与日志表。
-  - 后端未实现公式相关 Admin/Public 路径。
+  - 后端已实现公式相关 Admin 路径。
+  - 发布 bundle 已包含 `formulaProfiles/formulaBindings`。
 - 设计补充：
   1. 补齐接口契约：
      - `PUT/PATCH/GET` formula profiles
@@ -60,7 +62,7 @@ LAST_TRACKED_AT: 2026-04-30
      - target 必须存在（skill/hero/item/global）
 - 验收标准：
   - 公式模板和绑定可独立 CRUD。
-  - 发布后 bundle 包含公式数据且 hash 随变更变化。
+  - 发布后 bundle 包含公式数据；前端以 `versionCode` / published snapshot 作为一致性标识，不再要求 public `dataHash`。
   - 非法 binding 在写入或发布阶段被阻断。
 
 ### [ ] P0-3 明确四条“状态变更通道”并固化到 mechanics 契约
@@ -138,7 +140,7 @@ LAST_TRACKED_AT: 2026-04-30
 
 ### [ ] P1-4 接口文档与实现文档同步机制
 - 设计补充：
-  1. `接口/game_manage/接口定义.md` 与 `wasm/*.md` 的字段变更需双向更新。
+  1. `文档记录/详细设计/server/game_manage/接口定义.md` 与 `文档记录/需求澄清/wasm/**`、`文档记录/概要设计/wasm/**`、`文档记录/详细设计/wasm/**` 的字段变更需双向更新。
   2. 约定“先改契约文档，再改代码”的评审门禁。
   3. 为 formula/heal/shield 扩展增加变更记录章节。
 - 验收标准：
