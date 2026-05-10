@@ -10,7 +10,7 @@
 
 1. `wasm/tinygo_engine_v2` 是 Damage Viewer 的 TinyGo Wasm 计算引擎正式落点。
 2. 当前代码目标是按 V2 契约和子系统边界逐层实现、逐层 review，不再扩展临时 demo。
-3. 正式宿主目标是浏览器 Worker；Node 脚本只作为本地或 CI 的 instantiate、ABI smoke 和 benchmark 工具。
+3. 正式宿主目标是浏览器 Worker；Node 脚本只作为本地或 CI 的 instantiate、导出函数检查和 benchmark 工具。
 4. 首期优化目标是 1v1 单线程确定性计算，不提前为多单位战斗支付热路径复杂度。
 
 ## 3. 默认写入与参考边界

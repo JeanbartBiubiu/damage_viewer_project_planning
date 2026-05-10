@@ -3,7 +3,7 @@ DOC_TYPE: 需求澄清
 WORKSTREAM: web
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: pending
+LAST_TRACKED_AT: 2026-05-10
 
 # 前端 Image 处理方案（需求说明 V1）
 
@@ -13,7 +13,7 @@ LAST_TRACKED_AT: pending
 - 用户可手动触发“增量更新图片”，只拉取更新过的图片
 
 本需求按你前端 demo 的体系落地（URI 规则、IndexDB 表结构、同步流程），并要求后端接口满足调用需求。
-接口约束位置见：[接口定义](../../../接口/game_manage/接口定义.md#L49-L216)
+接口约束位置见：[接口定义](../../详细设计/server/game_manage/接口定义.md)
 
 ---
 
@@ -37,7 +37,7 @@ LAST_TRACKED_AT: pending
 
 ### 2.1 服务器侧 URI（对外契约）
 - 服务器接口使用的 `uri`：建议统一为 `{type}_{id}`，例如：
-  - `equipment_100`
+  - `item_100`
   - `character_ahri`（若 id 不是数字也允许，只要符合系统 `uri` 规范）
   - `attribute_ad`
   - `attribute_hp`
@@ -49,7 +49,7 @@ attribute 图片 URI 按 `attribute_${attrKey}` 派生，例如 `attrKey = ad` �
 ### 2.2 本地缓存 Key（IndexDB 主键）
 - 为避免不同 `gameId` 的 `uri` 冲突，本地存储主键使用拼接：
   - `localUri = {gameId}_{uri}`
-  - 示例：`lol_equipment_100`
+  - 示例：`lol_item_100`
 
 ## 3. 数据模型（IndexDB）
 
