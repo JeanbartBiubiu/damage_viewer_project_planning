@@ -3,7 +3,7 @@ DOC_TYPE: 需求澄清
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-25 16:20:09
+LAST_TRACKED_AT: 2026-05-10
 
 # WASM 需求澄清
 
@@ -24,7 +24,7 @@ LAST_TRACKED_AT: 2026-04-25 16:20:09
 
 1. 英雄、装备、符文、海克斯等静态数据进入统一 bundle。
 2. 动作、状态、护盾、资源、冷却、历史窗口、计数器、标记等机制在同一条确定性事件流里运行。
-3. 前端可以流式读取日志、快照、数值 trace、done/error，并派生页面展示。
+3. 前端可以读取日志、快照、done/error；`ValueTraceV2` 目前是 DTO 预留，尚不是运行时已稳定产出的证据面。
 4. 后续机制扩展不需要把英雄、装备或模式规则硬编码进引擎。
 5. 同输入、同版本、同 seed 必须得到同结果。
 
@@ -32,10 +32,10 @@ LAST_TRACKED_AT: 2026-04-25 16:20:09
 
 ### 3.1 P0 范围
 
-1. ABI：`alloc/dealloc/init/begin_run/step/abort/outbox_*`。
+1. ABI：`alloc/dealloc/engine_init/engine_snapshot_initial/engine_snapshot_actions_initial/engine_begin_run/engine_step/engine_abort_run/engine_outbox_*`。
 2. 协议：二进制 frame header + JSON payload。
 3. 输入：`EngineBundleV2`、`EngineRunInputV2`。
-4. 输出：ready、log、sample、done、error、snapshot、value trace。
+4. 输出：ready、log、sample、done、error、snapshot、action snapshot；`value trace` 当前只作为 DTO 预留。
 5. 编译层：字符串 ID 到短 ID、索引表、公式 bytecode、trigger/modifier/pipeline binding 校验。
 6. runtime：`EngineSession -> CompiledBundle -> RunContext`。
 7. scheduler：`(time, priority, seq)` 稳定事件堆、取消边界、过期句柄 lazy drop。
@@ -124,10 +124,12 @@ augment 应编译成 active policy，接入 attribute、crit、pipeline，不改
 
 ## 6. Review 入口
 
-当前只看三份主文档：
+当前 review 入口分为主入口和专题入口：
 
 1. `文档记录/需求澄清/wasm/WASM需求澄清.md`
 2. `文档记录/概要设计/wasm/WASM概要设计.md`
 3. `文档记录/详细设计/wasm/WASM详细设计.md`
+4. `文档记录/需求澄清/wasm/WASM机制覆盖需求.md`
+5. TypeList 与状态动作控制专题三层文档：需求澄清、概要设计、详细设计。
 
 旧的 `概要设计-*.md` 根文档已合并进主文档，不再作为 review 入口。

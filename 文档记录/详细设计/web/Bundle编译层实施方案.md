@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: web
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-30
+LAST_TRACKED_AT: 2026-05-10
 
 # 前端 Bundle 到 TinyGo V2 输入适配方案
 
@@ -14,9 +14,11 @@ LAST_TRACKED_AT: 2026-04-30
 当前保留的 Wasm 前端入口是 TinyGo V2 验证页：
 
 1. `web/src/pages/WasmValidationPage.tsx`
-2. `web/src/engine/tinygoV2Bridge.ts`
-3. `web/src/engine/tinygoV2BundleAdapter.ts`
-4. `web/src/engine/wasm/tinygo_engine_v2.wasm`
+2. `web/src/pages/WasmValidationM2Page.tsx`
+3. `web/src/pages/WasmValidationM3Page.tsx`
+4. `web/src/engine/tinygoV2Bridge.ts`
+5. `web/src/engine/tinygoV2BundleAdapter.ts`
+6. `web/src/engine/wasm/tinygo_engine_v2.wasm`
 
 ## 2. 当前目标
 
@@ -24,9 +26,9 @@ LAST_TRACKED_AT: 2026-04-30
 
 1. 从后端读取已发布 `GameDataBundle`。
 2. 选择攻击方、目标方、等级和装备。
-3. 将发布 Bundle 转成 TinyGo V2 的 M1 初始快照输入。
-4. 调用 `engine_init` 与 `engine_snapshot_initial`。
-5. 展示 TinyGo V2 输出 frame、actor 输入摘要和初始化快照，供人工逐字段比对。
+3. 将发布 Bundle 转成 TinyGo V2 的 M1 初始快照输入、M2 action 面板快照输入或 M3 单技能 run 输入。
+4. 调用 `engine_init`、`engine_snapshot_initial`、`engine_snapshot_actions_initial` 或 `engine_begin_run/engine_step`。
+5. 展示 TinyGo V2 输出 frame、actor/action 输入摘要和结果快照，供人工逐字段比对。
 
 正式战斗运行页面、完整场景模拟和多变体对比不属于当前前端主链。
 
@@ -37,12 +39,12 @@ loadPublishedBundleSnapshot
   -> compileTinyGoV2ValidationInput
   -> TinyGoV2Bridge.create({ wasmUrl })
   -> engine_init
-  -> engine_snapshot_initial
+  -> engine_snapshot_initial / engine_snapshot_actions_initial / engine_begin_run + engine_step
   -> decodeFramePayload
-  -> WasmValidationPage 展示
+  -> WasmValidationPage / WasmValidationM2Page / WasmValidationM3Page 展示
 ```
 
-`compileTinyGoV2ValidationInput` 只做 M1 需要的最小转换：
+`tinygoV2BundleAdapter` 只做验证页需要的最小转换：
 
 1. 属性定义归一化。
 2. 英雄等级属性解析。
@@ -54,8 +56,10 @@ loadPublishedBundleSnapshot
 
 | 文件 | 职责 |
 | --- | --- |
-| `web/src/pages/WasmValidationPage.tsx` | 页面状态、选择器、frame 解码和结果展示 |
-| `web/src/engine/tinygoV2BundleAdapter.ts` | 发布 Bundle 到 TinyGo V2 M1 输入的适配 |
+| `web/src/pages/WasmValidationPage.tsx` | M1 初始 actor 快照页面状态、选择器、frame 解码和结果展示 |
+| `web/src/pages/WasmValidationM2Page.tsx` | M2 action 面板快照页面状态、选择器、frame 解码和结果展示 |
+| `web/src/pages/WasmValidationM3Page.tsx` | M3 单技能 1v 假人运行页面状态、选择器、frame 解码和结果展示 |
+| `web/src/engine/tinygoV2BundleAdapter.ts` | 发布 Bundle 到 TinyGo V2 M1/M2/M3 输入的适配 |
 | `web/src/engine/tinygoV2Bridge.ts` | TinyGo V2 ABI frame 编码、内存拷贝、outbox 解码 |
 | `web/src/engine/wasm/tinygo_engine_v2.wasm` | 前端验证页消费的 TinyGo V2 产物 |
 | `web/src/engine/benchmarkTypes.ts` | 历史类型兼容引用，当前不作为新运行输入真源 |
@@ -78,4 +82,4 @@ cd web
 npm run build
 ```
 
-若改动 `tinygoV2Bridge.ts`、`tinygoV2BundleAdapter.ts` 或 TinyGo ABI，还需要在浏览器中打开 `#/wasm-validation`，确认当前发布 Bundle 能完成 `engine_init` 和 `engine_snapshot_initial`。
+若改动 `tinygoV2Bridge.ts`、`tinygoV2BundleAdapter.ts` 或 TinyGo ABI，还需要在浏览器中按影响范围打开 `#/wasm-validation`、`#/wasm-validation-m2`、`#/wasm-validation-m3`，确认当前发布 Bundle 能完成对应 ABI 调用。

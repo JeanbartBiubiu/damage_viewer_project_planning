@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: web
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-16
+LAST_TRACKED_AT: 2026-05-10
 
 # 前端开发任务清单-非Wasm优先
 
@@ -56,7 +56,7 @@ LAST_TRACKED_AT: 2026-04-16
    - 跨资源引用提示不统一
    - 校验规则主要停留在表单层
    - 保存后回读与联动提示还不够集中
-4. 图片能力目前主要停留在独立的缓存页，尚未真正接入英雄头像、装备图标等资源编辑链路。
+4. 图片能力已接入英雄、装备、属性定义等资源编辑链路；后续只保留跨资源体验与回归收口。
 5. 当前缺少一份只面向非 Wasm 范围的前端迭代顺序清单，容易让开发任务在多个页面之间来回切换。
 
 ## 3. 已完成 / 冻结 / 继续推进的任务判断
@@ -65,7 +65,7 @@ LAST_TRACKED_AT: 2026-04-16
 | --- | --- | --- |
 | 已完成基座 | `web-core-editor-refactor` | 应用壳层、独立发布页、资源页 CRUD 结构已经落地，可视为已完成基座任务。 |
 | 已完成基座 | `web-remaining-table-pages` | 6 个补齐页面已经落地，不再作为当前主线开发任务。 |
-| 继续推进 | `web-idb-cache-strategy` | 图片缓存页已落地，但上传、资源页复用、缓存回写闭环还未完成。 |
+| 继续推进 | `web-idb-cache-strategy` | 图片缓存页和资源页复用链路已落地，后续聚焦回归清单与边界体验。 |
 | 暂缓 | `web-bundle-compilation` | 该任务直接服务 Wasm 链路，当前迭代先不进入主开发顺序。 |
 | 暂缓 | `web-scene-interaction` | 该任务依赖场景模拟与 Wasm，当前先不推进。 |
 
@@ -82,7 +82,7 @@ LAST_TRACKED_AT: 2026-04-16
 **包含内容**
 
 1. 统一 README、页面说明和导航文案，明确当前迭代优先级是非 Wasm 工作面。
-2. 给 `Katarina MVP / 场景模拟` 标注“暂缓”或“冻结”，避免被误判为当前必验页面。
+2. 文档中统一说明旧 `Katarina MVP / 场景模拟` 已删除，避免被误判为当前必验页面。
 3. 收口全局空态与阻断态：
    - 未选择 `gameId`
    - 未填写 `adminToken`
@@ -226,12 +226,12 @@ LAST_TRACKED_AT: 2026-04-16
 
 以下内容保留现状，不纳入这一轮开发任务清单：
 
-1. `web/src/pages/KatarinaMvpPage.tsx`
-2. `web/src/pages/SimulationPage.tsx`
-3. `web/src/engine/**`
-4. `web/src/simulation/**`
-5. `web/src/pages/admin/AdminPublishRail.tsx` 以外任何为 Wasm 运行链路服务的扩展
-6. `wasm/**` 与 `build:wasm` 相关能力增强
+1. 已删除的旧 `KatarinaMvpPage` / `SimulationPage` 页面链路。
+2. 新增正式场景模拟工作台。
+3. `web/src/engine/**` 中 TinyGo V2 验证页以外的运行链扩展。
+4. 未来场景模拟专用目录或页面。
+5. `web/src/pages/admin/AdminPublishRail.tsx` 以外任何为 Wasm 运行链路服务的扩展。
+6. `wasm/**` 与 TinyGo 构建产物刷新相关能力增强。
 
 ## 6. 执行建议
 

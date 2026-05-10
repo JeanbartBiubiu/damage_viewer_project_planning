@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-09 16:35:22
+LAST_TRACKED_AT: 2026-05-10
 
 # LoL竞技场静态文本快照说明
 
@@ -27,7 +27,8 @@ LAST_TRACKED_AT: 2026-04-09 16:35:22
   - `item.json`
   - `runesReforged.json`
 - CommunityDragon
-  - `cdragon/arena/<locale>.json`
+  - 远端路径：`latest/cdragon/arena/<locale>.json`
+  - 本地快照输出：`communitydragon/latest/<locale>/arena.json`
 
 说明：
 
