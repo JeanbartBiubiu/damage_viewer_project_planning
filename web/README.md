@@ -7,14 +7,16 @@
 1. 读取后端提供的 `current version / published bundle snapshot / images`。
 2. 提供 Admin 页面维护游戏资源。
 3. 缓存图片与 Bundle 快照，降低联调成本。
-4. 通过 TinyGo V2 Wasm 快照验证页核对发布数据到计算输入的转换。
+4. 通过 TinyGo V2 Wasm M1/M2/M3 验证页核对发布数据到计算输入与输出证据的转换。
 
 ## 当前主要页面
 
 - `src/App.tsx`：应用外壳、路由、API 基址和本地状态
 - `src/pages/OverviewPage.tsx`：系统总览和当前游戏快照
 - `src/pages/VersionPublishPage.tsx`：版本发布和 `current / bundle` 快照校验
-- `src/pages/WasmValidationPage.tsx`：TinyGo V2 初始快照验证
+- `src/pages/WasmValidationPage.tsx`：TinyGo V2 M1 初始快照验证
+- `src/pages/WasmValidationM2Page.tsx`：TinyGo V2 M2 Action 面板值验证
+- `src/pages/WasmValidationM3Page.tsx`：TinyGo V2 M3 单技能 1v 假人验证
 - `src/pages/ImagesPage.tsx`：图片缓存与同步
 - `src/pages/admin/**`：后台资源维护
 
@@ -119,7 +121,7 @@ npm run build
 
 1. 总览页读取当前游戏与当前版本
 2. 版本发布页读取 `current / bundle`
-3. Wasm 验证页成功加载当前版本、Bundle 与 TinyGo V2 产物
+3. Wasm M1/M2/M3 验证页成功加载当前版本、Bundle 与 TinyGo V2 产物
 4. Admin 页面增删改查
 5. 图片缓存页同步
 

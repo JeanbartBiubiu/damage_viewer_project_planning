@@ -16,8 +16,8 @@ LAST_TRACKED_AT: pending
 ## 2. 环境变量（PowerShell）
 ```powershell
 $env:IT_DB_URL = "jdbc:postgresql://127.0.0.1:5432/damage_viewer_it"
-$env:IT_DB_USERNAME = "postgres"
-$env:IT_DB_PASSWORD = "postgres"
+$env:IT_DB_USERNAME = "<db-username>"
+$env:IT_DB_PASSWORD = "<db-password>"
 ```
 
 说明：`ControllerPublishFlowIT` 会在测试类内部动态生成 ES256 密钥对并注入公钥配置，

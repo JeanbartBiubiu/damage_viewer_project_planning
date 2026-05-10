@@ -1,9 +1,24 @@
 TASK_KEY: server-backend-review
 DOC_TYPE: 需求澄清
 WORKSTREAM: server
-STATUS: tracked
+STATUS: superseded
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: pending
+LAST_TRACKED_AT: 2026-05-10
+
+# Superseded / 历史参考
+
+本文是早期外部 AI 建议原文，保留为历史参考，不再作为当前后端或 Wasm 契约真源。
+
+当前实现与契约请优先看：
+
+- `文档记录/需求澄清/server/wasm-db-design-gap-todo.md`
+- `文档记录/详细设计/server/game_manage/接口定义.md`
+- `文档记录/需求澄清/wasm/WASM机制覆盖需求.md`
+- `文档记录/详细设计/wasm/WASM详细设计.md`
+
+下文中的绝对路径、`@/c:\...` 引用和早期 `接口/game_manage/接口定义.md` 引用均已过时。
+
+---
 
 Let me explore the existing designs across the project.
 

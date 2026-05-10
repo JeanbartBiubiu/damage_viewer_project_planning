@@ -6,10 +6,10 @@
 
 - Wasm ABI 已固定为显式导出函数：`alloc/dealloc/engine_init/engine_snapshot_initial/engine_snapshot_actions_initial/engine_begin_run/engine_step/engine_abort_run/outbox_*`。
 - 输入契约使用 `EngineBundleV2` 和 `EngineRunInputV2`，不继承旧 `BenchmarkBundle`。
-- 输出契约使用 `DonePayloadV2`、`EngineEventLogV2`、`SnapshotV2`、`ValueTraceV2` 和结构化错误。
+- 输出契约使用 `DonePayloadV2`、`EngineEventLogV2`、`SnapshotV2`、action snapshot 和结构化错误；`ValueTraceV2` 当前是 DTO 预留，runtime 尚未稳定产出。
 - 属性已从单个 `float64` 升级为 `base/current/max/resolved/dirty` 运行时模型。
 - 资源已拆成独立 `ResourceRuntime`，支持 current/max、spend/refund/regen/clamp。
-- Node 脚本只作为本地/CI instantiate 与 ABI smoke；正式宿主目标仍是浏览器 Worker。
+- Node 脚本只作为本地/CI instantiate、export 检查与性能 smoke；正式宿主目标仍是浏览器 Worker。
 
 ## 目录
 
@@ -59,7 +59,7 @@ node .\scripts\smoke-node.mjs
 node .\scripts\bench-node.mjs --iterations 10 --warmup 2
 ```
 
-Node 脚本只负责实例化/性能 smoke，不是正式运行宿主。
+Node 脚本当前只负责实例化、导出函数检查和性能 smoke，不是正式运行宿主，也不等同于完整 ABI round-trip 测试。
 
 ## ABI 摘要
 

@@ -1,5 +1,11 @@
 # TinyGo Engine V2 设计复核与详细设计报告
 
+## Superseded / 历史参考
+
+本文是早期外部 review 原文，保留用于追溯，不再作为当前 TinyGo V2 事实入口。文中关于 TypeList/Matcher、resource/cooldown、action ownership、snapshot/action_snapshot 和前端宿主接入的缺口判断已有部分被当前代码与文档替代；当前事实以 `wasm/tinygo_engine_v2/README.md`、`AGENTS.md`、`internal/**` 和 `文档记录/**/wasm/**` 为准。
+
+---
+
 ## 执行摘要
 
 这次审阅的实际设计基线，不应再以用户口述的旧根文档 `wasm/概要设计-TinyGo事件管线与对象化数据流.md` 作为唯一入口，因为仓库中的当前需求文档已经明确说明：旧的 `概要设计-*.md` 根文档已被合并进 `WASM需求澄清.md`、`WASM机制覆盖需求.md`、`WASM概要设计.md`、`WASM详细设计.md`，后续 review 只看这些主文档。也就是说，这次设计复核应以这四份主文档和 `wasm/tinygo_engine_v2` 当前代码为准。 fileciteturn18file0L1-L1 fileciteturn19file0L1-L1 fileciteturn16file0L1-L1 fileciteturn17file0L1-L1 fileciteturn66file0L1-L1

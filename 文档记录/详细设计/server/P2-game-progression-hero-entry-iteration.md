@@ -1,9 +1,9 @@
 TASK_KEY: server-p2-game-progression-hero-entry
 DOC_TYPE: 详细设计
 WORKSTREAM: server
-STATUS: draft
+STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-30
+LAST_TRACKED_AT: 2026-05-10
 
 # P2 游戏阶段配置 + 英雄属性录入优化 迭代方案
 
@@ -14,6 +14,17 @@ LAST_TRACKED_AT: 2026-04-30
 - 任务类型：全栈迭代（DB + 后端 API + 前端页面改造）
 - 工作流模块：server / web
 - 关联背景：原后端整改 TODO 中的 P2 阶段制度问题已由本方案承接。
+
+## 当前实现状态
+
+截至 2026-05-10，本方案的主链路已经落地：
+
+- DB 已有 `public.game_progression_schema`。
+- 后端已有 `/api/admin/games/{gameId}/progression-schema` 读取与写入接口。
+- `GET /api/games` 已返回 `progressionSchema`，供前端上下文使用。
+- 前端类型和英雄编辑矩阵已按 `progressionSchema` 消费阶段范围。
+
+本文保留为实现记录和后续校验入口；若继续扩展技能/装备阶段录入，应另开细分任务。
 
 ## 背景
 

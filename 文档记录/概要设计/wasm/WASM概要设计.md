@@ -3,7 +3,7 @@ DOC_TYPE: 概要设计
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-04-27
+LAST_TRACKED_AT: 2026-05-10
 
 # WASM 概要设计
 
@@ -111,6 +111,7 @@ alloc(size)
 dealloc(ptr, size)
 engine_init(ptr, size)
 engine_snapshot_initial(ptr, size)
+engine_snapshot_actions_initial(ptr, size)
 engine_begin_run(ptr, size)
 engine_step(maxEvents)
 engine_abort_run()
@@ -243,7 +244,8 @@ HP 可以被视为内建生命资源或特殊属性，但 HP 变动必须走 HP/
 4. `done`
 5. `error`
 6. `snapshot`
-7. `valueTrace`
+7. `actionSnapshot`
+8. `valueTrace`（DTO 预留；当前 runtime 未稳定产出）
 
 前端页面摘要由 adapter 派生，不作为 Wasm 核心输出契约。
 
