@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: draft
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-05-08
+LAST_TRACKED_AT: 2026-05-12
 
 # 集成测试报告与 OCR 基线方案
 
@@ -12,6 +12,7 @@ LAST_TRACKED_AT: 2026-05-08
 1. `文档记录/概要设计/验证里程碑.md`
 2. `文档记录/详细设计/验证计划编写说明.md`
 3. `文档记录/详细设计/最小验证/数据/技能配置说明.md`
+4. `文档记录/测试记录/M1-M3人工验收数据清单.md`
 
 ## 1. 目标与定位
 
@@ -106,6 +107,61 @@ baseline 规则：
 3. 游戏版本、发布快照或配置模型变化后，相关 baseline 必须标记为待复核。
 4. expected baseline 不应直接从当前 Wasm 输出反写，避免把实现错误固化成期望。
 
+### 4.1 人工 baseline 采集数据结构
+
+人工采集记录用于把游戏侧证据升级为 expected baseline。它不是普通用户输入，也不是 Wasm 输出的复制。
+
+```ts
+type ManualBaselineCapture = {
+  captureId: string;
+  caseId: string;
+  stage: 'M1' | 'M1.1' | 'M2' | 'M3' | `M4.${number}`;
+  gameClientVersion: string;
+  gameMode: string;
+  capturedAt: string;
+  reviewer: string;
+  versionCode?: string;
+  dataHash?: string;
+  wasmSha256?: string;
+  evidenceRefs: EvidenceRef[];
+  fields: ManualBaselineField[];
+};
+
+type EvidenceRef = {
+  evidenceRef: string;
+  type: 'screenshot' | 'video' | 'ocr_json' | 'manual_note' | 'page_export_json';
+  sourcePath?: string;
+  capturedAt?: string;
+  relatedFields: string[];
+  note?: string;
+};
+
+type ManualBaselineField = {
+  fieldKey: string;
+  fieldLabel: string;
+  wasmPath?: string;
+  wasmValue?: number | string | boolean | null;
+  baselineValue: number | string | boolean | null;
+  source: 'manual_game' | 'ocr_confirmed' | 'derived_fixture';
+  tolerance: number | 'exact';
+  unit?: string;
+  roundingRule?: string;
+  evidenceRef?: string;
+  confidence: 'high' | 'low';
+  status: 'match' | 'diff' | 'missing_evidence' | 'low_confidence' | 'todo';
+  reviewer?: string;
+  reviewedAt?: string;
+  note?: string;
+};
+```
+
+采集规则：
+
+1. `baselineValue` 为空时，不得把字段状态写成 `match` 或 `pass`。
+2. `source=ocr_confirmed` 必须同时存在 OCR 原始输出和人工确认记录。
+3. `source=derived_fixture` 只能表示开发侧自测、公式回扣或不可见字段，不得替代游戏侧证据。
+4. case 升级 `golden` 前，必须绑定游戏客户端版本、发布快照标识和 wasm artifact 标识。
+
 ## 5. 集成测试报告结构
 
 报告根对象建议：
@@ -191,6 +247,32 @@ M2 字段：
 4. 冷却。
 5. 技能等级影响。
 
+### 6.1 M3 字段边界
+
+M3 验证单技能 1v 假人结算。它可以回扣 M1 actor 初始化和 M2 action 面板值，但主证据来自施法后的 `done.actionResults[]`。
+
+M3 必填人工字段：
+
+| baseline 字段 | Wasm 路径 | 游戏侧证据 | 说明 |
+| --- | --- | --- | --- |
+| `action.accepted` | `done.actionResults[0].accepted` | 技能成功释放、命中或进入冷却的截图/人工确认 | 不能只凭 Wasm `true` 通过。 |
+| `target.hp.before` | `done.actionResults[0].effects[0].targetHpBefore` | 施法前目标 HP 截图/OCR | 最终伤害差值基准。 |
+| `target.hp.after` | `done.actionResults[0].effects[0].targetHpAfter` | 命中后目标 HP 截图/OCR | 最终伤害差值基准。 |
+| `effect.finalDamage` | `done.actionResults[0].effects[0].finalDamage` | `target.hp.before - target.hp.after` | 不从 Wasm 输出反写 baseline。 |
+| `resource.mana.before` | `done.actionResults[0].resourceDeltas[].before` | 施法前攻击方资源截图/OCR | 资源类型按 case 记录。 |
+| `resource.mana.after` | `done.actionResults[0].resourceDeltas[].after` | 施法后攻击方资源截图/OCR | 资源类型按 case 记录。 |
+| `resource.mana.delta` | `done.actionResults[0].resourceDeltas[].delta` | 前后资源差 | 可回扣 M2 消耗。 |
+| `cooldown.cooldownMs` | `done.actionResults[0].cooldownAfter.cooldownMs` | 技能冷却显示或配置复核 | 游戏秒级显示需要换算 ms。 |
+| `cooldown.readyAtMs` | `done.actionResults[0].cooldownAfter.readyAtMs` | 技能冷却显示或配置复核 | 单次 0ms 施法时可等同冷却结束时间。 |
+
+M3 开发侧自测字段：
+
+| 字段 | Wasm 路径 | 处理方式 |
+| --- | --- | --- |
+| `effect.rawAmount` | `done.actionResults[0].effects[0].rawAmount` | 游戏侧通常不可见，只能作为 M2/公式回扣或自测证据。 |
+| `done.stopReason` | `done.stopReason` | 页面导出 JSON 记录即可，不要求游戏截图。 |
+| `formulaId` | `done.actionResults[0].effects[0].formulaId` | 页面导出 JSON 记录即可，不要求游戏截图。 |
+
 ## 7. OCR 证据接入
 
 OCR 工具保持离线：
@@ -216,6 +298,34 @@ M1 当前 ROI 映射：
 | `crit_chance` | `hud.crit_chance` |
 | `move_speed` | `hud.move_speed` |
 | `gold` | `hud.gold`，可选上下文 |
+
+### 7.1 OCR 输出与人工确认表结构
+
+OCR 输出只负责把截图中的候选数值结构化，不能直接裁决 expected baseline。
+
+```ts
+type OcrCandidateField = {
+  caseId: string;
+  fieldKey: string;
+  evidenceRef: string;
+  roiKey?: string;
+  ocrRawValue: string;
+  ocrParsedValue?: number | string;
+  ocrConfidence?: number;
+  manualValue?: number | string;
+  reviewer?: string;
+  reviewedAt?: string;
+  reviewStatus: 'pending' | 'confirmed' | 'rejected' | 'low_confidence';
+  note?: string;
+};
+```
+
+人工确认规则：
+
+1. `reviewStatus=confirmed` 后，才允许把该字段写入 expected baseline。
+2. `manualValue` 与 `ocrParsedValue` 不一致时，以人工确认值为准，并在 `note` 记录原因。
+3. `ocrConfidence` 低、ROI 截错、截图被遮挡或字段不可见时，字段保持 `low_confidence` 或 `missing_evidence`。
+4. OCR JSON、截图和人工确认记录必须通过同一个 `evidenceRef` 串起来，方便复盘。
 
 ## 8. diff 归因规则
 
