@@ -6,6 +6,8 @@
 
 若与仓库根 `AGENTS.md` 冲突，以本文件为准。
 
+根 `AGENTS.md` 只负责 worktree 路由和治理摘要；Web 页面、路由、缓存、Admin、Wasm 宿主桥接、命令和验证细节以本文件和同目录 `README.md` 为准。
+
 ## 2. 默认写入与参考边界
 
 默认主写入范围：
@@ -22,6 +24,8 @@
 4. `接口/**`
 
 ## 3. 关键入口地图
+
+进入 `web/**` 工作时先读同目录 `README.md`，再按任务目标读取下列入口：
 
 1. `src/App.tsx`：应用壳层、页面切换、游戏选择、API 基址和本地状态。
 2. `src/config/navigation.ts`：页面导航、公开接口与 Admin 资源入口定义。
@@ -59,7 +63,7 @@
 1. 只改文档：无需构建，但要核对提到的入口文件、脚本和命令仍然存在。
 2. 改 `web/**` 代码：默认至少运行一次 `npm run build`。
 3. 改 Wasm 桥接或 `tinygoV2Bridge.ts`：至少核对 `src/engine/wasm/tinygo_engine_v2.wasm` 与 ABI 导出函数仍匹配。
-4. 改页面或服务层时，至少按影响范围做 smoke check：`总览`、`版本发布`、`Wasm 验证`、`图片缓存`、相关 Admin 页面。
+4. 改页面、交互或服务层时，至少按影响范围做浏览器 smoke check：`总览`、`版本发布`、`Wasm 验证`、`图片缓存`、相关 Admin 页面。
 
 ## 8. Obsidian 回写边界
 

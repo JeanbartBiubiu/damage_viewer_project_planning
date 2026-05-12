@@ -4,11 +4,19 @@
 
 - 本文件适用于 `server/data_manage/**`。
 - 如果与仓库根 `AGENTS.md` 冲突，以更近的本文件为准；未覆盖部分沿用上层规则。
+- 根 `AGENTS.md` 只负责 worktree 路由和治理摘要；后端入口、命令、验证和常见陷阱以本文件和同目录 `README.md` 为准。
 
 ## 当前目录的主写入范围
 
 1. `server/data_manage/**`
 2. 为支撑当前后端任务所必需的 `db/**`、`接口/**`、后端相关 `文档记录/**`
+3. 与后端构建、数据导入、验证直接相关的 `tools/**`
+
+默认只读参考：
+
+1. `web/**`
+2. `wasm/**`
+3. 非后端专题的 `文档记录/**`
 
 ## 启动时优先读取
 
@@ -29,6 +37,15 @@
 
 ## 默认运行与验证
 
+前置要求：
+
+1. JDK `21`
+2. Maven `3.9+`
+3. PostgreSQL
+4. Redis
+
+常用命令：
+
 1. 本地启动：`mvn spring-boot:run`
 2. 默认测试：`mvn test`
 3. 打包校验：`mvn package`
@@ -38,7 +55,7 @@
 
 1. 改 `controller/**`、`service/**`、`mapper/**`、`support/**`：至少跑 `mvn test`。
 2. 改 `pom.xml`、`application.yml`、缓存/JWT/启动配置：再补 `mvn package`。
-3. 改公共读取、发布链、缓存或数据库结构：至少验证 `current version`、`bundle`、Admin 资源写入、发布后缓存行为。
+3. 改公共读取、发布链、缓存或数据库结构：至少验证 `GET /api/games`、`GET /api/games/{gameId}/versions/current`、`GET /api/games/{gameId}/versions/{versionCode}/bundle`、至少一类 Admin 资源写入、发布后缓存行为。
 4. 改 SQL 或接口契约：同步检查 `db/**`、`接口/**`、README/设计文档口径。
 
 ## 常见陷阱
