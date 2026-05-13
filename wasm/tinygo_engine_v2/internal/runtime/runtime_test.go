@@ -2,6 +2,7 @@
 package runtime_test
 
 import (
+	"bytes"
 	"encoding/json"
 	"testing"
 
@@ -362,6 +363,38 @@ func TestActionSnapshotInitialCalculatesM2PanelFormulaRows(t *testing.T) {
 	}
 }
 
+func TestActionSnapshotInitialCalculatesM2AbilityHasteCooldown(t *testing.T) {
+	bundle := m2AbilityHasteCooldownBundle()
+	session := runtime.NewSession()
+	mustCode(t, session.InitJSON(mustJSON(t, bundle)))
+	input := m2AbilityHasteCooldownRunInput()
+
+	mustCode(t, session.SnapshotActionsInitialJSON(mustJSON(t, input)))
+	snapshot := testkit.LastActionSnapshot(session.OutboxBytes())
+	self := actionSnapshotActor(snapshot, "self")
+	hasteBurst := actionState(self, "haste_burst")
+
+	if hasteBurst.CooldownMs != 5833 {
+		t.Fatalf("haste_burst cooldownMs = %d, want rounded 5833 from 7000*100/(100+20)", hasteBurst.CooldownMs)
+	}
+	if hasteBurst.CooldownFormulaID != "haste_cooldown" {
+		t.Fatalf("haste_burst cooldownFormulaId = %q, want haste_cooldown", hasteBurst.CooldownFormulaID)
+	}
+	if len(hasteBurst.CooldownBreakdown) == 0 {
+		t.Fatalf("haste_burst cooldownBreakdown missing: %+v", hasteBurst)
+	}
+	if hasteBurst.ReadyAtMs != 0 || !hasteBurst.CanCast {
+		t.Fatalf("haste_burst readiness = readyAtMs %d canCast %v blockedReason %q, want ready at 0 and castable", hasteBurst.ReadyAtMs, hasteBurst.CanCast, hasteBurst.BlockedReason)
+	}
+
+	encoded := mustJSON(t, hasteBurst)
+	for _, field := range []string{"cooldownFormulaId", "cooldownBreakdown", "readyAtMs", "canCast"} {
+		if !bytes.Contains(encoded, []byte(`"`+field+`"`)) {
+			t.Fatalf("haste_burst action snapshot JSON missing %q: %s", field, encoded)
+		}
+	}
+}
+
 func TestRunInputSkillLevelAffectsM2ResourceCostEffectAndCooldown(t *testing.T) {
 	done := runBundle(t, m2PanelBundle(), m2PanelRunInputWithAction())
 	if got := actorHP(done, "enemy"); got != 960 {
@@ -467,6 +500,15 @@ func m2PanelRunInputWithAction() model.EngineRunInput {
 	return input
 }
 
+func m2AbilityHasteCooldownRunInput() model.EngineRunInput {
+	return model.EngineRunInput{
+		Seed:          7,
+		Self:          model.CombatantRunInit{ActorID: "self", TemplateID: "haste_mage"},
+		Enemy:         model.CombatantRunInit{ActorID: "enemy", TemplateID: "dummy"},
+		StopCondition: model.StopCondition{MaxEvents: 20},
+	}
+}
+
 func m2PanelBundle() model.EngineBundle {
 	return model.EngineBundle{
 		SchemaVersion: model.SchemaVersion,
@@ -496,6 +538,37 @@ func m2PanelBundle() model.EngineBundle {
 				PanelCosts:        []model.ActionPanelCostV2{{ResourceID: "mana", FormulaID: "level_cost"}},
 				Effects:           []model.EffectDef{{Type: "deal_damage", FormulaID: "level_damage", DamageType: "magic", SourceRole: "source", TargetRole: "target"}},
 				PanelEffects:      []model.ActionPanelEffectV2{{EffectIndex: 0, Kind: "deal_damage", FormulaID: "level_damage", DamageType: "magic", SourceRole: "source", TargetRole: "target"}},
+			},
+		},
+		Settings: model.BundleSettings{MaxEvents: 1000, MaxCommandsPerEvent: 64},
+	}
+}
+
+func m2AbilityHasteCooldownBundle() model.EngineBundle {
+	return model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes: []model.AttributeDefinitionV2{
+			{ID: "ability_haste"},
+		},
+		Actors: []model.ActorTemplate{
+			{ID: "haste_mage", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"ability_haste": {Base: 20}}, Actions: []string{"haste_burst"}},
+			{ID: "dummy", MaxHP: 1000, InitialHP: 1000, Attributes: map[string]model.AttributeValueV2{"ability_haste": {Base: 0}}},
+		},
+		Formulas: []model.FormulaDefinition{
+			{ID: "base_cooldown_ms", Op: "const", Value: 7000},
+			{ID: "hundred", Op: "const", Value: 100},
+			{ID: "ability_haste_value", Op: "attr", Attr: "ability_haste"},
+			{ID: "cooldown_numerator", Op: "mul", Left: "base_cooldown_ms", Right: "hundred"},
+			{ID: "cooldown_denominator", Op: "add", Left: "hundred", Right: "ability_haste_value"},
+			{ID: "haste_cooldown", Op: "div", Left: "cooldown_numerator", Right: "cooldown_denominator"},
+		},
+		Actions: []model.ActionTemplate{
+			{
+				ID:                "haste_burst",
+				Label:             "Haste Burst",
+				Classifier:        model.ClassifierV2{Types: []string{"action/cast_skill"}},
+				CooldownMs:        7000,
+				CooldownFormulaID: "haste_cooldown",
 			},
 		},
 		Settings: model.BundleSettings{MaxEvents: 1000, MaxCommandsPerEvent: 64},
