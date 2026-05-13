@@ -1,0 +1,310 @@
+﻿{
+    "caseId":  "M2-action-panel-ah-nonzero-001",
+    "capturedAt":  "2026-05-13T23:22:16+08:00",
+    "pageUrl":  "http://localhost:5173/#/wasm-validation-m2",
+    "versionCode":  "v16_9_ahri_validation_20260513",
+    "hero":  "hero_ahri",
+    "skillId":  "skill_ahri_q",
+    "skillLevel":  1,
+    "abilityHaste":  20,
+    "expectedCooldownMs":  5833,
+    "actionSnapshot":  {
+                           "timeMs":  0,
+                           "actors":  [
+                                          {
+                                              "actorId":  "self",
+                                              "actions":  [
+                                                              {
+                                                                  "actionId":  "self::skill_ahri_q",
+                                                                  "label":  "Q 欺诈宝珠",
+                                                                  "skillLevel":  1,
+                                                                  "panelInputs":  {
+                                                                                      "championLevel":  1,
+                                                                                      "skillLevel":  1
+                                                                                  },
+                                                                  "cooldownMs":  5833,
+                                                                  "cooldownFormulaId":  "self::skill_ahri_q::cooldown_ability_haste",
+                                                                  "cooldownBreakdown":  [
+                                                                                            {
+                                                                                                "formulaId":  "self::skill_ahri_q::cooldown_ability_haste::left::left",
+                                                                                                "op":  "const",
+                                                                                                "value":  7000
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "self::skill_ahri_q::cooldown_ability_haste::left::right",
+                                                                                                "op":  "const",
+                                                                                                "value":  100
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "self::skill_ahri_q::cooldown_ability_haste::left",
+                                                                                                "op":  "mul",
+                                                                                                "value":  700000
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "self::skill_ahri_q::cooldown_ability_haste::right::left",
+                                                                                                "op":  "const",
+                                                                                                "value":  100
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "self::skill_ahri_q::cooldown_ability_haste::right::right",
+                                                                                                "op":  "attr",
+                                                                                                "ref":  "ability_haste",
+                                                                                                "value":  20
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "self::skill_ahri_q::cooldown_ability_haste::right",
+                                                                                                "op":  "add",
+                                                                                                "value":  120
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "self::skill_ahri_q::cooldown_ability_haste",
+                                                                                                "op":  "div",
+                                                                                                "value":  5833.333333333333
+                                                                                            }
+                                                                                        ],
+                                                                  "readyAtMs":  0,
+                                                                  "canCast":  true,
+                                                                  "resourceCosts":  [
+                                                                                        {
+                                                                                            "resourceId":  "mana",
+                                                                                            "amount":  55,
+                                                                                            "source":  "resourceCost",
+                                                                                            "baseAmount":  55,
+                                                                                            "finalAmount":  55
+                                                                                        }
+                                                                                    ],
+                                                                  "effectRows":  [
+                                                                                     {
+                                                                                         "effectIndex":  0,
+                                                                                         "kind":  "deal_damage",
+                                                                                         "formulaId":  "self::skill_ahri_q::damage:0::inline",
+                                                                                         "damageType":  "magic",
+                                                                                         "sourceRole":  "source",
+                                                                                         "targetRole":  "target",
+                                                                                         "resolvedAmount":  44,
+                                                                                         "hasResolvedAmount":  true,
+                                                                                         "source":  "effects",
+                                                                                         "finalAmount":  44,
+                                                                                         "breakdown":  [
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::damage:0::inline::left",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  35
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::damage:0::inline::right::left",
+                                                                                                               "op":  "attr",
+                                                                                                               "ref":  "ap",
+                                                                                                               "value":  18
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::damage:0::inline::right::right",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  0.5
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::damage:0::inline::right",
+                                                                                                               "op":  "mul",
+                                                                                                               "value":  9
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::damage:0::inline",
+                                                                                                               "op":  "add",
+                                                                                                               "value":  44
+                                                                                                           }
+                                                                                                       ]
+                                                                                     },
+                                                                                     {
+                                                                                         "effectIndex":  1,
+                                                                                         "kind":  "deal_damage",
+                                                                                         "formulaId":  "self::skill_ahri_q::tick_damage:1::inline",
+                                                                                         "damageType":  "true",
+                                                                                         "sourceRole":  "source",
+                                                                                         "targetRole":  "target",
+                                                                                         "resolvedAmount":  44,
+                                                                                         "hasResolvedAmount":  true,
+                                                                                         "source":  "effects",
+                                                                                         "finalAmount":  44,
+                                                                                         "breakdown":  [
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::tick_damage:1::inline::left",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  35
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::tick_damage:1::inline::right::left",
+                                                                                                               "op":  "attr",
+                                                                                                               "ref":  "ap",
+                                                                                                               "value":  18
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::tick_damage:1::inline::right::right",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  0.5
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::tick_damage:1::inline::right",
+                                                                                                               "op":  "mul",
+                                                                                                               "value":  9
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "self::skill_ahri_q::tick_damage:1::inline",
+                                                                                                               "op":  "add",
+                                                                                                               "value":  44
+                                                                                                           }
+                                                                                                       ]
+                                                                                     }
+                                                                                 ]
+                                                              }
+                                                          ]
+                                          },
+                                          {
+                                              "actorId":  "enemy",
+                                              "actions":  [
+                                                              {
+                                                                  "actionId":  "enemy::skill_ahri_q",
+                                                                  "label":  "Q 欺诈宝珠",
+                                                                  "skillLevel":  1,
+                                                                  "panelInputs":  {
+                                                                                      "championLevel":  1,
+                                                                                      "skillLevel":  1
+                                                                                  },
+                                                                  "cooldownMs":  7000,
+                                                                  "cooldownFormulaId":  "enemy::skill_ahri_q::cooldown_ability_haste",
+                                                                  "cooldownBreakdown":  [
+                                                                                            {
+                                                                                                "formulaId":  "enemy::skill_ahri_q::cooldown_ability_haste::left::left",
+                                                                                                "op":  "const",
+                                                                                                "value":  7000
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "enemy::skill_ahri_q::cooldown_ability_haste::left::right",
+                                                                                                "op":  "const",
+                                                                                                "value":  100
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "enemy::skill_ahri_q::cooldown_ability_haste::left",
+                                                                                                "op":  "mul",
+                                                                                                "value":  700000
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "enemy::skill_ahri_q::cooldown_ability_haste::right::left",
+                                                                                                "op":  "const",
+                                                                                                "value":  100
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "enemy::skill_ahri_q::cooldown_ability_haste::right::right",
+                                                                                                "op":  "attr",
+                                                                                                "ref":  "ability_haste",
+                                                                                                "value":  0
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "enemy::skill_ahri_q::cooldown_ability_haste::right",
+                                                                                                "op":  "add",
+                                                                                                "value":  100
+                                                                                            },
+                                                                                            {
+                                                                                                "formulaId":  "enemy::skill_ahri_q::cooldown_ability_haste",
+                                                                                                "op":  "div",
+                                                                                                "value":  7000
+                                                                                            }
+                                                                                        ],
+                                                                  "readyAtMs":  0,
+                                                                  "canCast":  true,
+                                                                  "resourceCosts":  [
+                                                                                        {
+                                                                                            "resourceId":  "mana",
+                                                                                            "amount":  55,
+                                                                                            "source":  "resourceCost",
+                                                                                            "baseAmount":  55,
+                                                                                            "finalAmount":  55
+                                                                                        }
+                                                                                    ],
+                                                                  "effectRows":  [
+                                                                                     {
+                                                                                         "effectIndex":  0,
+                                                                                         "kind":  "deal_damage",
+                                                                                         "formulaId":  "enemy::skill_ahri_q::damage:0::inline",
+                                                                                         "damageType":  "magic",
+                                                                                         "sourceRole":  "source",
+                                                                                         "targetRole":  "target",
+                                                                                         "resolvedAmount":  44,
+                                                                                         "hasResolvedAmount":  true,
+                                                                                         "source":  "effects",
+                                                                                         "finalAmount":  44,
+                                                                                         "breakdown":  [
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::damage:0::inline::left",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  35
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::damage:0::inline::right::left",
+                                                                                                               "op":  "attr",
+                                                                                                               "ref":  "ap",
+                                                                                                               "value":  18
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::damage:0::inline::right::right",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  0.5
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::damage:0::inline::right",
+                                                                                                               "op":  "mul",
+                                                                                                               "value":  9
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::damage:0::inline",
+                                                                                                               "op":  "add",
+                                                                                                               "value":  44
+                                                                                                           }
+                                                                                                       ]
+                                                                                     },
+                                                                                     {
+                                                                                         "effectIndex":  1,
+                                                                                         "kind":  "deal_damage",
+                                                                                         "formulaId":  "enemy::skill_ahri_q::tick_damage:1::inline",
+                                                                                         "damageType":  "true",
+                                                                                         "sourceRole":  "source",
+                                                                                         "targetRole":  "target",
+                                                                                         "resolvedAmount":  44,
+                                                                                         "hasResolvedAmount":  true,
+                                                                                         "source":  "effects",
+                                                                                         "finalAmount":  44,
+                                                                                         "breakdown":  [
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::tick_damage:1::inline::left",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  35
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::tick_damage:1::inline::right::left",
+                                                                                                               "op":  "attr",
+                                                                                                               "ref":  "ap",
+                                                                                                               "value":  18
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::tick_damage:1::inline::right::right",
+                                                                                                               "op":  "const",
+                                                                                                               "value":  0.5
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::tick_damage:1::inline::right",
+                                                                                                               "op":  "mul",
+                                                                                                               "value":  9
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "formulaId":  "enemy::skill_ahri_q::tick_damage:1::inline",
+                                                                                                               "op":  "add",
+                                                                                                               "value":  44
+                                                                                                           }
+                                                                                                       ]
+                                                                                     }
+                                                                                 ]
+                                                              }
+                                                          ]
+                                          }
+                                      ]
+                       }
+}
