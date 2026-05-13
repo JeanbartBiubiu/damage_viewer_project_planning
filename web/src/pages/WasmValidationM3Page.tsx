@@ -277,6 +277,27 @@ function buildActionRows(options: WasmValidationSkillOption[]): ActionOptionRow[
 
 function createDefaultM3Selection(bundle: GameDataBundle): WasmValidationSelection {
   const fallback = createDefaultWasmValidationSelection(bundle);
+  const ahri = bundle.heroes.find((hero) => hero.heroId === 'hero_ahri');
+  if (bundle.meta.gameId === 'lol' && ahri) {
+    const candidate: WasmValidationSelection = {
+      ...fallback,
+      selfHeroId: ahri.heroId,
+      enemyHeroId: ahri.heroId,
+      selfLevel: fallback.selfLevel,
+      enemyLevel: 1,
+      selfSkillLevels: {},
+      enemySkillLevels: {},
+      enemyAttributeBonuses: {},
+      enemyAttributeOverrides: {
+        [fallback.hpAttrKey]: 1000,
+        armor: 0,
+        magic_resist: 0
+      }
+    };
+    if (listWasmValidationSkills(bundle, candidate, 'self').length > 0) {
+      return candidate;
+    }
+  }
   for (const hero of bundle.heroes) {
     const candidate = { ...fallback, selfHeroId: hero.heroId };
     if (listWasmValidationSkills(bundle, candidate, 'self').length > 0) {
