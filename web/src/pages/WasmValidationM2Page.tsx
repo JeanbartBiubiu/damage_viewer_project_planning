@@ -197,6 +197,8 @@ const TINYGO_V2_WASM_URL = new URL('../engine/wasm/tinygo_engine_v2.wasm', impor
 const WASM_ASSET_LABEL = 'src/engine/wasm/tinygo_engine_v2.wasm';
 const SNAPSHOT_FRAME_KIND = 16;
 const ACTION_SNAPSHOT_FRAME_KIND = 17;
+const M2_ABILITY_HASTE_CASE_BONUS = 20;
+const ABILITY_HASTE_ATTR_KEY = 'ability_haste';
 
 const FRAME_KIND_LABELS: Record<number, string> = {
   10: 'tick',
@@ -427,6 +429,50 @@ function normalizeNumberMap(value: unknown): Record<string, number> {
       .map(([key, raw]) => [key, roundComparable(toFiniteNumber(raw))] as const)
       .filter(([, raw]) => Number.isFinite(raw))
   );
+}
+
+function createDefaultM2Selection(bundle: GameDataBundle): WasmValidationSelection {
+  const fallback = createDefaultWasmValidationSelection(bundle);
+  const ahri = bundle.heroes.find((hero) => hero.heroId === 'hero_ahri');
+  if (bundle.meta.gameId !== 'lol' || !ahri) {
+    return fallback;
+  }
+
+  const candidate: WasmValidationSelection = {
+    ...fallback,
+    selfHeroId: ahri.heroId,
+    enemyHeroId: fallback.enemyHeroId || ahri.heroId,
+    selfLevel: 1,
+    enemyLevel: 1,
+    selfItemIds: [],
+    enemyItemIds: [],
+    selfSkillLevels: {},
+    enemySkillLevels: {},
+    selfAttributeBonuses: {
+      ...(fallback.selfAttributeBonuses ?? {}),
+      [ABILITY_HASTE_ATTR_KEY]: M2_ABILITY_HASTE_CASE_BONUS
+    },
+    enemyAttributeBonuses: fallback.enemyAttributeBonuses ?? {},
+    selfAttributeOverrides: {},
+    enemyAttributeOverrides: {}
+  };
+  const selfSkills = listWasmValidationSkills(bundle, candidate, 'self');
+  const ahriQ = selfSkills.find((skill) => skill.skillKey === 'Q');
+  return {
+    ...candidate,
+    selfSkillLevels: ahriQ ? { [ahriQ.skillId]: 1 } : {}
+  };
+}
+
+function formatAttributeModifiers(record: ActorInputRow): string[] {
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(record.attributeBonuses ?? {})) {
+    lines.push(`bonus.${key}=${formatNumber(value)}`);
+  }
+  for (const [key, value] of Object.entries(record.attributeOverrides ?? {})) {
+    lines.push(`override.${key}=${formatNumber(value)}`);
+  }
+  return lines;
 }
 
 function readActionBaselineValue(baseline: ManualBaseline | null, actorId: string, actionId: string): string | null {
@@ -717,7 +763,7 @@ export function WasmValidationM2Page({
         setBundle(snapshot.bundle);
         setCurrentVersion(snapshot.currentVersion);
         setCacheStatus(snapshot.cacheStatus);
-        setSelection(createDefaultWasmValidationSelection(snapshot.bundle));
+        setSelection(createDefaultM2Selection(snapshot.bundle));
         setBundleStatus('success');
       } catch (error) {
         if (cancelled) {
@@ -847,6 +893,40 @@ export function WasmValidationM2Page({
     setErrorMessage(null);
     setDurationMs(null);
   }, []);
+
+  const updateAttributeBonus = useCallback((side: 'self' | 'enemy', attrKey: string, value: unknown) => {
+    const parsed = Number(value);
+    const nextValue = Number.isFinite(parsed) ? parsed : 0;
+    setSelection((current) => {
+      if (!current) {
+        return current;
+      }
+      const field = side === 'self' ? 'selfAttributeBonuses' : 'enemyAttributeBonuses';
+      return {
+        ...current,
+        [field]: {
+          ...(current[field] ?? {}),
+          [attrKey]: nextValue
+        }
+      };
+    });
+    setFrames([]);
+    setStatus('idle');
+    setErrorMessage(null);
+    setDurationMs(null);
+  }, []);
+
+  const applyAbilityHasteCase = useCallback(() => {
+    if (!bundle) {
+      return;
+    }
+    setSelection(createDefaultM2Selection(bundle));
+    setFrames([]);
+    setStatus('idle');
+    setErrorMessage(null);
+    setDurationMs(null);
+  }, [bundle]);
+
   const toggleAttributeSide = useCallback((side: 'self' | 'enemy') => {
     setCollapsedAttributeSides((current) => ({
       ...current,
@@ -936,6 +1016,10 @@ export function WasmValidationM2Page({
     {
       title: '装备',
       render: (_: unknown, record: ActorInputRow) => record.itemText
+    },
+    {
+      title: '修正',
+      render: (_: unknown, record: ActorInputRow) => renderLines(formatAttributeModifiers(record))
     },
     {
       title: '最大生命',
@@ -1279,6 +1363,9 @@ export function WasmValidationM2Page({
             <Button icon={<IconRefresh />} loading={bundleStatus === 'loading'} onClick={() => setManualRefreshSeed((value) => value + 1)}>
               刷新发布包
             </Button>
+            <Button disabled={!bundle} onClick={applyAbilityHasteCase}>
+              M2 AH +20
+            </Button>
             <Button type="primary" icon={<IconRefresh />} loading={status === 'loading'} disabled={!canRun} onClick={() => void runSnapshot()}>
               运行快照
             </Button>
@@ -1333,6 +1420,14 @@ export function WasmValidationM2Page({
                           </Select.Option>
                         ))}
                       </Select>
+                    </Form.Item>
+                    <Form.Item label="技能急速修正">
+                      <InputNumber
+                        min={0}
+                        value={selection.selfAttributeBonuses?.[ABILITY_HASTE_ATTR_KEY] ?? 0}
+                        onChange={(value) => updateAttributeBonus('self', ABILITY_HASTE_ATTR_KEY, value)}
+                        style={{ width: '100%' }}
+                      />
                     </Form.Item>
                   </Form>
                 </section>

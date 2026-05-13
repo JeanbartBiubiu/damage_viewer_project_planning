@@ -168,6 +168,10 @@ export type WasmValidationSelection = {
   enemyItemIds: string[];
   selfSkillLevels: Record<string, number>;
   enemySkillLevels: Record<string, number>;
+  selfAttributeBonuses?: Record<string, number>;
+  enemyAttributeBonuses?: Record<string, number>;
+  selfAttributeOverrides?: Record<string, number>;
+  enemyAttributeOverrides?: Record<string, number>;
   hpAttrKey: string;
 };
 
@@ -194,6 +198,8 @@ export type ActorInputSummary = {
   level: number;
   itemIds: string[];
   itemNames: string[];
+  attributeBonuses?: Record<string, number>;
+  attributeOverrides?: Record<string, number>;
   maxHp: number;
   attrCount: number;
   actionCount: number;
@@ -215,6 +221,8 @@ type ResolvedActorState = {
   level: number;
   itemIds: string[];
   items: Item[];
+  attributeBonuses: Record<string, number>;
+  attributeOverrides: Record<string, number>;
   attrs: Record<string, number>;
   resources: Record<string, TinyGoV2ResourceValue>;
   skills: ResolvedActionSkill[];
@@ -235,6 +243,7 @@ type CompiledSkillEnvironment = {
 
 type FormulaRegistryCompiler = {
   definitions: TinyGoV2FormulaDefinition[];
+  resolveGeneratedFormula: (selectedSkill: ResolvedActionSkill, slotLabel: string, expr: BenchmarkFormulaExpr) => string;
   resolveBinding: (
     selectedSkill: ResolvedActionSkill,
     env: CompiledSkillEnvironment,
@@ -256,6 +265,9 @@ const HERO_SKILL_ORDER = ['P', 'Q', 'W', 'E', 'R'];
 const HERO_SKILL_ORDER_INDEX = new Map(HERO_SKILL_ORDER.map((key, index) => [key, index]));
 const PASSIVE_SKILL_KEYS = new Set(['P', 'PASSIVE']);
 const COOLDOWN_MS_MULTIPLIER = 1000;
+const ABILITY_HASTE_ATTR_KEY = 'ability_haste';
+const LOL_ABILITY_HASTE_COOLDOWN_FACTOR = 100;
+const LOL_ABILITY_HASTE_COOLDOWN_SLOT = 'cooldown_ability_haste';
 
 const RESOURCE_CANDIDATES = [
   { id: 'mana', currentKeys: ['mana', 'mana_current', 'current_mana'], maxKeys: ['max_mana', 'mana_max', 'mana'] },
@@ -264,6 +276,11 @@ const RESOURCE_CANDIDATES = [
   { id: 'fury', currentKeys: ['fury', 'fury_current', 'current_fury'], maxKeys: ['max_fury', 'fury_max', 'fury'] },
   { id: 'focus', currentKeys: ['focus', 'focus_current', 'current_focus'], maxKeys: ['max_focus', 'focus_max', 'focus'] }
 ] as const;
+
+const LOL_VALIDATION_RUNE_ATTRIBUTE_BONUSES: Record<string, number> = {
+  ap: 18,
+  hp: 65
+};
 
 const FORMULA_ATTR_ALIASES: Record<string, string> = {
   ability_power: 'ap',
@@ -280,6 +297,7 @@ export function createDefaultWasmValidationSelection(bundle: GameDataBundle): Wa
   const firstHero = bundle.heroes[0];
   const secondHero = bundle.heroes[1] ?? firstHero;
   const maxLevel = detectMaxLevel(bundle);
+  const runeBonuses = getDefaultValidationAttributeBonuses(bundle);
 
   return {
     selfHeroId: firstHero?.heroId ?? '',
@@ -290,8 +308,16 @@ export function createDefaultWasmValidationSelection(bundle: GameDataBundle): Wa
     enemyItemIds: [],
     selfSkillLevels: {},
     enemySkillLevels: {},
+    selfAttributeBonuses: runeBonuses,
+    enemyAttributeBonuses: runeBonuses,
+    selfAttributeOverrides: {},
+    enemyAttributeOverrides: {},
     hpAttrKey: detectHpAttrKey(bundle.attributeDefinitions)
   };
+}
+
+export function getDefaultValidationAttributeBonuses(bundle: GameDataBundle): Record<string, number> {
+  return bundle.meta.gameId === 'lol' ? { ...LOL_VALIDATION_RUNE_ATTRIBUTE_BONUSES } : {};
 }
 
 export function listWasmValidationSkills(
@@ -322,8 +348,8 @@ export function compileTinyGoV2ValidationInput(
   const enemyBase = resolveActorState(bundle, attrDefinitions, selection, 'enemy');
   const formulaCompiler = createFormulaRegistryCompiler(bundle);
   const actionTemplates = [
-    ...compileActorActionTemplates(selfBase, enemyBase, formulaCompiler),
-    ...compileActorActionTemplates(enemyBase, selfBase, formulaCompiler)
+    ...compileActorActionTemplates(bundle.meta.gameId, selfBase, enemyBase, formulaCompiler),
+    ...compileActorActionTemplates(bundle.meta.gameId, enemyBase, selfBase, formulaCompiler)
   ];
   const resourceDefinitions = buildResourceDefinitions([selfBase, enemyBase]);
 
@@ -434,6 +460,8 @@ function resolveActorState(
   const level = side === 'self' ? selection.selfLevel : selection.enemyLevel;
   const itemIds = side === 'self' ? selection.selfItemIds : selection.enemyItemIds;
   const skillLevels = side === 'self' ? selection.selfSkillLevels : selection.enemySkillLevels;
+  const attributeBonuses = side === 'self' ? selection.selfAttributeBonuses ?? {} : selection.enemyAttributeBonuses ?? {};
+  const attributeOverrides = side === 'self' ? selection.selfAttributeOverrides ?? {} : selection.enemyAttributeOverrides ?? {};
   const hero = bundle.heroes.find((candidate) => candidate.heroId === heroId);
   if (!hero) {
     throw new Error(`Hero not found in bundle: ${heroId || '(empty)'}`);
@@ -442,7 +470,7 @@ function resolveActorState(
   const items = itemIds
     .map((itemId) => bundle.items.find((candidate) => candidate.itemId === itemId))
     .filter((item): item is Item => Boolean(item));
-  const attrs = resolveActorAttributes(bundle, attrDefinitions, hero, itemIds, level);
+  const attrs = resolveActorAttributes(bundle, attrDefinitions, hero, itemIds, level, attributeBonuses, attributeOverrides);
   const resources = inferActorResources(attrs);
   const skills = collectActorActionSkills(bundle, hero, items, level, side, skillLevels);
   const maxHp = Math.max(toNumber(attrs[selection.hpAttrKey], 0), 1);
@@ -455,6 +483,8 @@ function resolveActorState(
     level,
     itemIds,
     items,
+    attributeBonuses,
+    attributeOverrides,
     attrs,
     resources,
     skills,
@@ -493,6 +523,8 @@ function buildActorSummary(actor: ResolvedActorState): ActorInputSummary {
     level: actor.level,
     itemIds: actor.itemIds,
     itemNames: actor.items.map((item) => item.name ?? item.itemId),
+    attributeBonuses: Object.keys(actor.attributeBonuses).length > 0 ? { ...actor.attributeBonuses } : undefined,
+    attributeOverrides: Object.keys(actor.attributeOverrides).length > 0 ? { ...actor.attributeOverrides } : undefined,
     maxHp: actor.maxHp,
     attrCount: Object.keys(actor.attrs).length,
     actionCount: actor.skills.length
@@ -504,7 +536,9 @@ function resolveActorAttributes(
   attrDefinitions: TinyGoV2AttributeDefinition[],
   hero: Hero,
   itemIds: string[],
-  level: number
+  level: number,
+  attributeBonuses: Record<string, number> = {},
+  attributeOverrides: Record<string, number> = {}
 ): Record<string, number> {
   const attrs = Object.fromEntries(attrDefinitions.map((definition) => [definition.id, toNumber(definition.defaultBase, 0)]));
   applyNumberMap(attrs, resolveHeroStatsAtLevel(hero, level));
@@ -522,6 +556,9 @@ function resolveActorAttributes(
       attrs[attrKey] = (attrs[attrKey] ?? 0) + toNumber(modifier.value, 0);
     }
   }
+
+  addNumberMapInPlace(attrs, attributeBonuses);
+  applyNumberMap(attrs, attributeOverrides);
 
   return attrs;
 }
@@ -553,6 +590,12 @@ function resolveHeroStatsAtLevel(hero: Hero, level: number): Record<string, numb
 function applyNumberMap(target: Record<string, number>, source: Record<string, number>) {
   for (const [key, value] of Object.entries(source)) {
     target[key] = value;
+  }
+}
+
+function addNumberMapInPlace(target: Record<string, number>, source: Record<string, number>) {
+  for (const [key, value] of Object.entries(source)) {
+    target[key] = (target[key] ?? 0) + toNumber(value, 0);
   }
 }
 
@@ -747,14 +790,16 @@ function defaultSkillLevelForSkill(skill: Skill, championLevel: number, maxLevel
 }
 
 function compileActorActionTemplates(
+  gameId: string,
   source: ResolvedActorState,
   target: ResolvedActorState,
   formulaCompiler: FormulaRegistryCompiler
 ): TinyGoV2ActionTemplate[] {
-  return source.skills.map((skill) => compileSkillActionTemplate(skill, source, target, formulaCompiler));
+  return source.skills.map((skill) => compileSkillActionTemplate(gameId, skill, source, target, formulaCompiler));
 }
 
 function compileSkillActionTemplate(
+  gameId: string,
   selectedSkill: ResolvedActionSkill,
   source: ResolvedActorState,
   target: ResolvedActorState,
@@ -787,24 +832,76 @@ function compileSkillActionTemplate(
   }
 
   const compiledEffects = compileActionEffects(selectedSkill, env, formulaCompiler);
-  const cooldownFormulaId =
-    cooldownRows[0]?.kind === 'formula'
-      ? formulaCompiler.resolveBinding(selectedSkill, env, cooldownRows[0].bindingKey, 'cooldown')
-      : undefined;
-  const cooldownMs =
-    cooldownRows.length > 0 && cooldownRows[0].kind !== 'formula'
-      ? resolveCooldownMs(resolveValueDefinitionRow(cooldownRows[0], env))
-      : undefined;
+  const cooldown = compileActionCooldown(gameId, selectedSkill, source, env, cooldownRows[0], formulaCompiler);
 
   return {
     id: selectedSkill.actionId,
     label: selectedSkill.label,
     skillLevel: selectedSkill.level,
     panelInputs: buildPanelInputs(selectedSkill, source),
-    cooldownMs,
-    cooldownFormulaId,
+    cooldownMs: cooldown.cooldownMs,
+    cooldownFormulaId: cooldown.cooldownFormulaId,
     effects: compiledEffects.effects.length > 0 ? compiledEffects.effects : undefined,
     resourceCost: resourceCosts.length > 0 ? resourceCosts : undefined
+  };
+}
+
+function compileActionCooldown(
+  gameId: string,
+  selectedSkill: ResolvedActionSkill,
+  source: ResolvedActorState,
+  env: CompiledSkillEnvironment,
+  row: SkillValueDefinitionRow | undefined,
+  formulaCompiler: FormulaRegistryCompiler
+): Pick<TinyGoV2ActionTemplate, 'cooldownMs' | 'cooldownFormulaId'> {
+  if (!row) {
+    return {};
+  }
+  if (row.kind === 'formula') {
+    return {
+      cooldownFormulaId: formulaCompiler.resolveBinding(selectedSkill, env, row.bindingKey, 'cooldown')
+    };
+  }
+
+  const baseCooldownMs = resolveCooldownMs(resolveValueDefinitionRow(row, env));
+  if (shouldProjectLoLAbilityHasteCooldown(gameId, source, baseCooldownMs)) {
+    return {
+      cooldownFormulaId: formulaCompiler.resolveGeneratedFormula(
+        selectedSkill,
+        LOL_ABILITY_HASTE_COOLDOWN_SLOT,
+        buildLoLAbilityHasteCooldownExpr(baseCooldownMs)
+      )
+    };
+  }
+
+  return { cooldownMs: baseCooldownMs };
+}
+
+function shouldProjectLoLAbilityHasteCooldown(gameId: string, source: ResolvedActorState, baseCooldownMs: number): boolean {
+  return (
+    gameId === 'lol' &&
+    baseCooldownMs > 0 &&
+    Object.prototype.hasOwnProperty.call(source.attrs, ABILITY_HASTE_ATTR_KEY)
+  );
+}
+
+function buildLoLAbilityHasteCooldownExpr(baseCooldownMs: number): BenchmarkFormulaExpr {
+  return {
+    type: 'divide',
+    numerator: {
+      type: 'multiply',
+      factors: [
+        { type: 'constant', value: baseCooldownMs },
+        { type: 'constant', value: LOL_ABILITY_HASTE_COOLDOWN_FACTOR }
+      ]
+    },
+    denominator: {
+      type: 'add',
+      terms: [
+        { type: 'constant', value: LOL_ABILITY_HASTE_COOLDOWN_FACTOR },
+        { type: 'actor_attr', actor: 'source', attrKey: ABILITY_HASTE_ATTR_KEY }
+      ]
+    }
   };
 }
 
@@ -889,7 +986,16 @@ function compileActionEffects(
         }
         for (const tickAction of tickTrigger.actions) {
           if (tickAction.type === 'deal_damage') {
-            void resolveDamageActionFormula(selectedSkill, env, formulaCompiler, tickAction, `tick_damage:${effectIndex}`);
+            const formulaId = resolveDamageActionFormula(selectedSkill, env, formulaCompiler, tickAction, `tick_damage:${effectIndex}`);
+            const sourceRole = normalizeActionRole(tickAction.damageSource, 'source');
+            const targetRole = normalizeActionRole(tickAction.damageTarget, 'target');
+            effects.push({
+              type: 'deal_damage',
+              formulaId,
+              damageType: tickAction.damageType || undefined,
+              sourceRole,
+              targetRole
+            });
             effectIndex += 1;
           }
         }
@@ -1067,6 +1173,18 @@ function createFormulaRegistryCompiler(bundle: GameDataBundle): FormulaRegistryC
 
   return {
     definitions,
+    resolveGeneratedFormula(selectedSkill, slotLabel, expr) {
+      const rootFormulaId = `${selectedSkill.actionId}::${sanitizeFormulaKey(slotLabel)}`;
+      const cacheKey = `${selectedSkill.actionId}::generated::${slotLabel}`;
+      const cached = bindingCache.get(cacheKey);
+      if (cached) {
+        return cached;
+      }
+
+      emitFormulaExpr(rootFormulaId, normalizeFormulaAttrRefs(expr, attrKeys), definitions, emittedIds);
+      bindingCache.set(cacheKey, rootFormulaId);
+      return rootFormulaId;
+    },
     resolveBinding(selectedSkill, env, bindingKey, slotLabel) {
       const normalizedBindingKey = bindingKey.trim();
       if (!normalizedBindingKey) {
