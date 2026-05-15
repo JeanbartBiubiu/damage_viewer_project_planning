@@ -77,6 +77,7 @@ type CompiledAction struct {
 	CooldownMs         int64
 	CooldownFormula    formula.ProgramID
 	HasCooldownFormula bool
+	ChannelDurationMs  int64
 	SkillLevel         int
 	PanelInputs        map[string]float64
 	Costs              []CompiledResourceCost
@@ -127,6 +128,13 @@ type CompiledStatus struct {
 	RetryOnRelease bool
 	Magnitude      float64
 	ShieldKind     string
+	TickIntervalMs int64
+	TickCount      int
+	TickEffect     EffectType
+	TickFormula    formula.ProgramID
+	HasTickFormula bool
+	TickAmount     float64
+	TickDamageType string
 }
 
 type ControlRuleKind uint8
@@ -178,6 +186,8 @@ const (
 	EffectApplyMark
 	EffectConsumeMark
 	EffectDamageFromRecent
+	EffectInterrupt
+	EffectIncrementCounter
 )
 
 type CompiledEffect struct {
@@ -192,6 +202,11 @@ type CompiledEffect struct {
 	HistoryWindowMs int64
 	CounterKey      string
 	MarkID          string
+	CritPolicy      string
+	CritChance      float64
+	CritMultiplier  float64
+	ModeAugmentID   string
+	ModeMultiplier  float64
 }
 
 type Result struct {
@@ -288,6 +303,8 @@ func Bundle(input model.EngineBundle) Result {
 		}
 		typeSet, typeProblems := compileClassifierSet(statusClassifier(status), &cb.Types)
 		problems = append(problems, typeProblems...)
+		tickEffect, tickFormula, hasTickFormula, tickProblems := compileStatusTick(status, cb)
+		problems = append(problems, tickProblems...)
 		cb.StatusIndex[status.ID] = uint16(len(cb.Statuses))
 		cb.Statuses = append(cb.Statuses, CompiledStatus{
 			ID:             status.ID,
@@ -298,6 +315,13 @@ func Bundle(input model.EngineBundle) Result {
 			RetryOnRelease: status.RetryOnRelease,
 			Magnitude:      status.Magnitude,
 			ShieldKind:     status.ShieldKind,
+			TickIntervalMs: status.TickIntervalMs,
+			TickCount:      status.TickCount,
+			TickEffect:     tickEffect,
+			TickFormula:    tickFormula,
+			HasTickFormula: hasTickFormula,
+			TickAmount:     status.TickAmount,
+			TickDamageType: status.TickDamageType,
 		})
 	}
 
@@ -330,6 +354,7 @@ func Bundle(input model.EngineBundle) Result {
 			CooldownMs:         action.CooldownMs,
 			CooldownFormula:    cooldownFormula,
 			HasCooldownFormula: hasCooldownFormula,
+			ChannelDurationMs:  action.ChannelDurationMs,
 			SkillLevel:         action.SkillLevel,
 			PanelInputs:        copyFloatMap(action.PanelInputs),
 			Costs:              costs,
@@ -457,6 +482,44 @@ func compileClassifierSet(classifier model.ClassifierV2, registry *typeset.Regis
 		addTypeKey(key, registry, &set, &problems)
 	}
 	return set, problems
+}
+
+func compileStatusTick(status model.StatusTemplate, cb CompiledBundle) (EffectType, formula.ProgramID, bool, []string) {
+	var problems []string
+	effect := effectType(status.TickEffectType)
+	hasTickConfig := status.TickIntervalMs != 0 || status.TickCount != 0 || status.TickFormulaID != "" || status.TickAmount != 0
+	if !hasTickConfig {
+		return 0, 0, false, nil
+	}
+	if effect == 0 {
+		switch status.Kind {
+		case "dot":
+			effect = EffectDealDamage
+		case "hot":
+			effect = EffectHeal
+		}
+	}
+	if effect != EffectDealDamage && effect != EffectHeal {
+		problems = append(problems, "unsupported status tick effect: "+status.ID+"."+string(status.TickEffectType))
+	}
+	if status.TickIntervalMs <= 0 {
+		problems = append(problems, "invalid status tick interval: "+status.ID)
+	}
+	if status.TickCount <= 0 {
+		problems = append(problems, "invalid status tick count: "+status.ID)
+	}
+	if status.TickFormulaID == "" && invalidAmount(status.TickAmount) {
+		problems = append(problems, "invalid status tick amount: "+status.ID)
+	}
+	if status.TickFormulaID == "" {
+		return effect, 0, false, problems
+	}
+	pid, ok := cb.Formulas.Lookup(status.TickFormulaID)
+	if !ok {
+		problems = append(problems, "unknown status tick formula: "+status.ID+"."+status.TickFormulaID)
+		return effect, 0, false, problems
+	}
+	return effect, pid, true, problems
 }
 
 func addTypeKey(key string, registry *typeset.Registry, set *typeset.TypeSet, problems *[]string) {
@@ -704,7 +767,9 @@ func compileEffects(effects []model.EffectDef, cb CompiledBundle) ([]CompiledEff
 		next := CompiledEffect{
 			Type: effectType(effect.Type), Amount: effect.Amount, DamageType: effect.DamageType,
 			SourceRole: effect.SourceRole, TargetRole: effect.TargetRole, HistoryWindowMs: effect.HistoryWindowMs,
-			CounterKey: effect.CounterKey, MarkID: effect.MarkID,
+			CounterKey: effect.CounterKey, MarkID: effect.MarkID, CritPolicy: effect.CritPolicy,
+			CritChance: effect.CritChance, CritMultiplier: effect.CritMultiplier,
+			ModeAugmentID: effect.ModeAugmentID, ModeMultiplier: effect.ModeMultiplier,
 		}
 		if next.Type == 0 {
 			problems = append(problems, "unsupported effect type: "+string(effect.Type))
@@ -748,6 +813,10 @@ func effectType(value model.EffectType) EffectType {
 		return EffectConsumeMark
 	case model.EffectTypeDamageFromRecent:
 		return EffectDamageFromRecent
+	case model.EffectTypeInterrupt:
+		return EffectInterrupt
+	case model.EffectTypeIncrementCounter:
+		return EffectIncrementCounter
 	default:
 		return 0
 	}

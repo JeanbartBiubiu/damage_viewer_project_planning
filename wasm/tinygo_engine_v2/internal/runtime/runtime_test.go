@@ -219,6 +219,530 @@ func TestM3SingleSkillResultIsDeterministicForSameSeed(t *testing.T) {
 	}
 }
 
+func TestM4DirectDamageRegressionUsesAhriQCanonicalEvidence(t *testing.T) {
+	done := runBundle(t, m4AhriQRegressionBundle(843), m4AhriQRegressionRunInput())
+	result := actionResult(done, "self::skill_ahri_q")
+
+	if done.StopReason != "queue_empty" {
+		t.Fatalf("stop reason = %s, want queue_empty", done.StopReason)
+	}
+	if !result.Accepted || result.BlockedReason != "" {
+		t.Fatalf("Ahri Q result = %+v, want accepted without blocked reason", result)
+	}
+	if len(result.ResourceDeltas) != 1 || result.ResourceDeltas[0].ResourceID != "mana" ||
+		result.ResourceDeltas[0].Before != 843 || result.ResourceDeltas[0].After != 748 || result.ResourceDeltas[0].Delta != -95 {
+		t.Fatalf("Ahri Q resource deltas = %+v, want mana 843 -> 748", result.ResourceDeltas)
+	}
+	if result.CooldownBefore.ReadyAtMs != 0 || result.CooldownAfter.CooldownMs != 7000 || result.CooldownAfter.ReadyAtMs != 7000 {
+		t.Fatalf("Ahri Q cooldown = before %+v after %+v, want readyAt 0 -> 7000", result.CooldownBefore, result.CooldownAfter)
+	}
+	if len(result.Effects) != 2 {
+		t.Fatalf("Ahri Q effects = %+v, want magic outbound and true return damage", result.Effects)
+	}
+
+	magic := result.Effects[0]
+	if magic.FormulaID != "ahri_q_out_damage" || !magic.HasRawAmount || magic.RawAmount != 144 || !magic.HasFinalDamage || magic.FinalDamage != 144 ||
+		magic.DamageType != "magic" || magic.TargetHPBefore != 1000 || magic.TargetHPAfter != 856 {
+		t.Fatalf("Ahri Q outbound effect = %+v, want 144 magic and target HP 1000 -> 856", magic)
+	}
+	if len(magic.FormulaBreakdown) == 0 {
+		t.Fatalf("Ahri Q outbound formula breakdown missing: %+v", magic)
+	}
+
+	returned := result.Effects[1]
+	if returned.FormulaID != "ahri_q_return_damage" || !returned.HasRawAmount || returned.RawAmount != 144 || !returned.HasFinalDamage || returned.FinalDamage != 144 ||
+		returned.DamageType != "true" || returned.TargetHPBefore != 856 || returned.TargetHPAfter != 712 {
+		t.Fatalf("Ahri Q return effect = %+v, want 144 true and target HP 856 -> 712", returned)
+	}
+	if len(returned.FormulaBreakdown) == 0 {
+		t.Fatalf("Ahri Q return formula breakdown missing: %+v", returned)
+	}
+	if got := actorHP(done, "enemy"); got != 712 {
+		t.Fatalf("enemy hp got %.2f, want 712 after 144 magic + 144 true", got)
+	}
+	if got := actor(done, "self").Resources["mana"].Current; got != 748 {
+		t.Fatalf("self mana got %.2f, want 748 after 95 mana cost", got)
+	}
+}
+
+func TestM4InsufficientResourceGateBlocksAhriQWithoutSideEffects(t *testing.T) {
+	done := runBundle(t, m4AhriQRegressionBundle(50), m4AhriQRegressionRunInput())
+	result := actionResult(done, "self::skill_ahri_q")
+
+	if result.Accepted || result.BlockedReason != "insufficient resource" {
+		t.Fatalf("Ahri Q blocked result = %+v, want insufficient resource", result)
+	}
+	if len(result.ResourceDeltas) != 0 || len(result.Effects) != 0 {
+		t.Fatalf("blocked Ahri Q should not carry resource deltas or effects: %+v", result)
+	}
+	if got := actorHP(done, "enemy"); got != 1000 {
+		t.Fatalf("enemy hp got %.2f, want unchanged target HP 1000", got)
+	}
+	if got := actor(done, "self").Resources["mana"].Current; got != 50 {
+		t.Fatalf("self mana got %.2f, want failed cast to preserve 50 mana", got)
+	}
+}
+
+func TestM4CooldownGateBlocksImmediateSecondCastWithoutSideEffects(t *testing.T) {
+	bundle := controlGateBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "cooldown_bolt"},
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "cooldown_bolt"},
+	}
+	done := runBundle(t, bundle, input)
+	results := actionResults(done, "cooldown_bolt")
+	if len(results) != 2 {
+		t.Fatalf("cooldown_bolt results = %+v, want accepted and blocked attempts", results)
+	}
+
+	first := results[0]
+	if !first.Accepted || first.BlockedReason != "" {
+		t.Fatalf("first cooldown_bolt result = %+v, want accepted", first)
+	}
+	if first.CooldownBefore.ReadyAtMs != 0 || first.CooldownAfter.CooldownMs != 1000 || first.CooldownAfter.ReadyAtMs != 1000 {
+		t.Fatalf("first cooldown evidence = before %+v after %+v, want readyAt 0 -> 1000", first.CooldownBefore, first.CooldownAfter)
+	}
+	if len(first.Effects) != 1 || first.Effects[0].FinalDamage != 30 || first.Effects[0].TargetHPBefore != 1000 || first.Effects[0].TargetHPAfter != 970 {
+		t.Fatalf("first cooldown_bolt effects = %+v, want one 30 damage segment", first.Effects)
+	}
+
+	blocked := results[1]
+	if blocked.Accepted || blocked.BlockedReason != "cooldown" {
+		t.Fatalf("second cooldown_bolt result = %+v, want blocked by cooldown", blocked)
+	}
+	if blocked.CooldownBefore.CooldownMs != 1000 || blocked.CooldownBefore.ReadyAtMs != 1000 ||
+		blocked.CooldownAfter.CooldownMs != 1000 || blocked.CooldownAfter.ReadyAtMs != 1000 {
+		t.Fatalf("blocked cooldown evidence = before %+v after %+v, want readyAt still 1000", blocked.CooldownBefore, blocked.CooldownAfter)
+	}
+	if len(blocked.ResourceDeltas) != 0 || len(blocked.Effects) != 0 {
+		t.Fatalf("blocked cooldown cast should not carry resource deltas or effects: %+v", blocked)
+	}
+	if got := actorHP(done, "enemy"); got != 970 {
+		t.Fatalf("enemy hp got %.2f, want only first cast damage to leave 970", got)
+	}
+	if got := actor(done, "self").Resources["mana"].Current; got != 100 {
+		t.Fatalf("self mana got %.2f, want cooldown-blocked cast to preserve mana", got)
+	}
+}
+
+func TestM4MultiHitDamageCarriesOrderedSegmentEvidence(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_multi_hit_combo"},
+	}
+	done := runBundle(t, m4Batch1MechanismBundle(), input)
+	result := actionResult(done, "m4_multi_hit_combo")
+
+	if !result.Accepted || result.BlockedReason != "" {
+		t.Fatalf("multi-hit result = %+v, want accepted", result)
+	}
+	if len(result.Effects) != 3 {
+		t.Fatalf("multi-hit effects = %+v, want three deterministic damage segments", result.Effects)
+	}
+	assertDamageSegment(t, result.Effects[0], 0, "m4_multi_hit_physical", "physical", 12, 1000, 988)
+	assertDamageSegment(t, result.Effects[1], 1, "m4_multi_hit_magic", "magic", 18, 988, 970)
+	assertDamageSegment(t, result.Effects[2], 2, "m4_multi_hit_true", "true", 5, 970, 965)
+	if got := actorHP(done, "enemy"); got != 965 {
+		t.Fatalf("enemy hp got %.2f, want final HP 965 after ordered multi-hit damage", got)
+	}
+}
+
+func TestM4ActionGateHasAcceptedAndOwnershipBlockedPaths(t *testing.T) {
+	acceptedInput := controlRunInput()
+	acceptedInput.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "fireball"},
+	}
+	acceptedDone := runBundle(t, controlGateBundle(), acceptedInput)
+	accepted := actionResult(acceptedDone, "fireball")
+	if !accepted.Accepted || accepted.BlockedReason != "" {
+		t.Fatalf("accepted gate path = %+v, want fireball accepted without blocked reason", accepted)
+	}
+	if len(accepted.ResourceDeltas) != 1 || accepted.ResourceDeltas[0].ResourceID != "mana" ||
+		accepted.ResourceDeltas[0].Before != 100 || accepted.ResourceDeltas[0].After != 60 || accepted.ResourceDeltas[0].Delta != -40 {
+		t.Fatalf("accepted gate resource evidence = %+v, want mana 100 -> 60", accepted.ResourceDeltas)
+	}
+	if len(accepted.Effects) != 1 || accepted.Effects[0].FinalDamage != 30 || accepted.Effects[0].TargetHPBefore != 1000 || accepted.Effects[0].TargetHPAfter != 970 {
+		t.Fatalf("accepted gate effect evidence = %+v, want fireball damage 30", accepted.Effects)
+	}
+
+	blockedInput := controlRunInput()
+	blockedInput.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "enemy", TargetActorID: "self", ActionID: "fireball"},
+	}
+	blockedDone := runBundle(t, controlGateBundle(), blockedInput)
+	blocked := actionResult(blockedDone, "fireball")
+	if blocked.Accepted || blocked.BlockedReason != "action_not_owned" {
+		t.Fatalf("blocked gate path = %+v, want ownership gate to block fireball", blocked)
+	}
+	if len(blocked.ResourceDeltas) != 0 || len(blocked.Effects) != 0 {
+		t.Fatalf("blocked action gate should not carry resource deltas or effects: %+v", blocked)
+	}
+	if got := actorHP(blockedDone, "self"); got != 1000 {
+		t.Fatalf("self hp got %.2f, want ownership-blocked cast to keep target HP 1000", got)
+	}
+	if got := actor(blockedDone, "enemy").Resources["mana"].Current; got != 100 {
+		t.Fatalf("enemy mana got %.2f, want ownership-blocked cast to preserve mana", got)
+	}
+}
+
+func TestM4ShieldAbsorbsDamageAndCarriesActionEvidence(t *testing.T) {
+	bundle := m4Batch2MechanismBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "self", ActionID: "m4_grant_shield"},
+		{TriggerAtMs: 1, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_shield_hit"},
+	}
+	done := runBundle(t, bundle, input)
+
+	grant := actionResult(done, "m4_grant_shield")
+	if !grant.Accepted || len(grant.Effects) != 1 {
+		t.Fatalf("grant shield result = %+v, want one accepted shield effect", grant)
+	}
+	shield := grant.Effects[0]
+	if shield.Kind != "grant_shield" || shield.StatusID != "m4_shield_50" || !shield.HasRawAmount || shield.RawAmount != 50 ||
+		!shield.HasShieldGranted || shield.ShieldGranted != 50 || !shield.HasShieldBefore || shield.ShieldBefore != 0 ||
+		!shield.HasShieldAfter || shield.ShieldAfter != 50 {
+		t.Fatalf("grant shield evidence = %+v, want 50 shield 0 -> 50", shield)
+	}
+
+	hit := actionResult(done, "m4_shield_hit")
+	if !hit.Accepted || len(hit.Effects) != 1 {
+		t.Fatalf("shield hit result = %+v, want one accepted damage effect", hit)
+	}
+	damage := hit.Effects[0]
+	if damage.Kind != "deal_damage" || damage.DamageType != "physical" || !damage.HasRawAmount || damage.RawAmount != 80 ||
+		!damage.HasShieldAbsorbed || damage.ShieldAbsorbed != 50 || !damage.HasShieldBefore || damage.ShieldBefore != 50 ||
+		!damage.HasShieldAfter || damage.ShieldAfter != 0 || !damage.HasFinalDamage || damage.FinalDamage != 30 ||
+		damage.TargetHPBefore != 1000 || damage.TargetHPAfter != 970 {
+		t.Fatalf("shield damage evidence = %+v, want 50 absorbed and HP 1000 -> 970", damage)
+	}
+	self := actor(done, "self")
+	if self.CurrentHP != 970 || self.ShieldAmount != 0 {
+		t.Fatalf("self final state = %+v, want HP 970 and no shield", self)
+	}
+}
+
+func TestM4HealClampsToMaxHPAndCarriesActionEvidence(t *testing.T) {
+	bundle := m4Batch2MechanismBundle()
+	bundle.Actors[0].InitialHP = 700
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "self", ActionID: "m4_heal_400"},
+	}
+	done := runBundle(t, bundle, input)
+	result := actionResult(done, "m4_heal_400")
+
+	if !result.Accepted || len(result.Effects) != 1 {
+		t.Fatalf("heal result = %+v, want one accepted heal effect", result)
+	}
+	heal := result.Effects[0]
+	if heal.Kind != "heal" || !heal.HasRawAmount || heal.RawAmount != 400 ||
+		!heal.HasHealApplied || heal.HealApplied != 300 || !heal.HasOverheal || heal.OverhealAmount != 100 ||
+		heal.TargetHPBefore != 700 || heal.TargetHPAfter != 1000 {
+		t.Fatalf("heal evidence = %+v, want raw 400 applied 300 overheal 100 and HP 700 -> 1000", heal)
+	}
+	if got := actorHP(done, "self"); got != 1000 {
+		t.Fatalf("self hp got %.2f, want 1000 after clamped heal", got)
+	}
+}
+
+func TestM4DotStatusSchedulesFixedDamageTicks(t *testing.T) {
+	done := runBundle(t, m4Batch2MechanismBundle(), m4Batch2RunInput("enemy", "m4_apply_dot"))
+	apply := actionResult(done, "m4_apply_dot")
+	if !apply.Accepted || len(apply.Effects) != 1 || apply.Effects[0].Kind != "apply_status" || apply.Effects[0].StatusID != "m4_burn_3x" {
+		t.Fatalf("dot apply result = %+v, want accepted apply_status m4_burn_3x", apply)
+	}
+	if len(done.TickResults) != 3 {
+		t.Fatalf("dot tick results = %+v, want three ticks", done.TickResults)
+	}
+	wantTimes := []int64{1000, 2000, 3000}
+	wantHP := []float64{980, 960, 940}
+	for i, tick := range done.TickResults {
+		if tick.StatusID != "m4_burn_3x" || tick.Kind != "deal_damage" || tick.TickIndex != i+1 || tick.TickCount != 3 ||
+			tick.TimeMs != wantTimes[i] || !tick.HasRawAmount || tick.RawAmount != 20 ||
+			tick.DamageType != "magic" || !tick.HasFinalDamage || tick.FinalDamage != 20 || tick.TargetHPAfter != wantHP[i] {
+			t.Fatalf("dot tick[%d] = %+v, want 20 magic at %d and hp %.2f", i, tick, wantTimes[i], wantHP[i])
+		}
+	}
+	if got := actorHP(done, "enemy"); got != 940 {
+		t.Fatalf("enemy hp got %.2f, want 940 after three dot ticks", got)
+	}
+}
+
+func TestM4HotStatusSchedulesFixedHealTicksAndClamps(t *testing.T) {
+	bundle := m4Batch2MechanismBundle()
+	bundle.Actors[0].InitialHP = 930
+	done := runBundle(t, bundle, m4Batch2RunInput("self", "m4_apply_hot"))
+	apply := actionResult(done, "m4_apply_hot")
+	if !apply.Accepted || len(apply.Effects) != 1 || apply.Effects[0].Kind != "apply_status" || apply.Effects[0].StatusID != "m4_regen_3x" {
+		t.Fatalf("hot apply result = %+v, want accepted apply_status m4_regen_3x", apply)
+	}
+	if len(done.TickResults) != 3 {
+		t.Fatalf("hot tick results = %+v, want three ticks", done.TickResults)
+	}
+	wantApplied := []float64{40, 30, 0}
+	wantOverheal := []float64{0, 10, 40}
+	wantHP := []float64{970, 1000, 1000}
+	for i, tick := range done.TickResults {
+		if tick.StatusID != "m4_regen_3x" || tick.Kind != "heal" || tick.TickIndex != i+1 || tick.TickCount != 3 ||
+			tick.TimeMs != int64((i+1)*1000) || !tick.HasRawAmount || tick.RawAmount != 40 ||
+			!tick.HasHealApplied || tick.HealApplied != wantApplied[i] || !tick.HasOverheal || tick.OverhealAmount != wantOverheal[i] ||
+			tick.TargetHPAfter != wantHP[i] {
+			t.Fatalf("hot tick[%d] = %+v, want applied %.2f overheal %.2f hp %.2f", i, tick, wantApplied[i], wantOverheal[i], wantHP[i])
+		}
+	}
+	if got := actorHP(done, "self"); got != 1000 {
+		t.Fatalf("self hp got %.2f, want 1000 after clamped hot ticks", got)
+	}
+}
+
+func TestM4MarkApplyCarriesStateEvidence(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "mark"},
+	}
+	done := runBundle(t, controlGateBundle(), input)
+	result := actionResult(done, "mark")
+
+	if !result.Accepted || result.BlockedReason != "" || len(result.Effects) != 1 {
+		t.Fatalf("mark result = %+v, want one accepted mark effect", result)
+	}
+	effect := result.Effects[0]
+	if effect.Kind != "apply_mark" || effect.MarkID != "test_mark" || !effect.HasMarkState ||
+		!effect.MarkActive || effect.MarkCount != 1 || effect.SourceActorID != "self" || effect.TargetActorID != "enemy" {
+		t.Fatalf("mark apply evidence = %+v, want active test_mark on enemy with count 1", effect)
+	}
+	if len(result.ResourceDeltas) != 0 || actorHP(done, "self") != 1000 || actorHP(done, "enemy") != 1000 {
+		t.Fatalf("mark apply should not spend resources or damage actors: result=%+v done=%+v", result, done.Actors)
+	}
+}
+
+func TestM4ConditionalHitUsesMarkConditionTrueAndFalse(t *testing.T) {
+	falseInput := controlRunInput()
+	falseInput.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "free_marked"},
+	}
+	falseDone := runBundle(t, controlGateBundle(), falseInput)
+	blocked := actionResult(falseDone, "free_marked")
+	if blocked.Accepted || blocked.BlockedReason != "required_mark_missing" || !blocked.HasCondition ||
+		blocked.ConditionKind != "mark" || blocked.ConditionID != "test_mark" || blocked.ConditionPassed {
+		t.Fatalf("false condition result = %+v, want required mark condition to fail", blocked)
+	}
+	if len(blocked.ResourceDeltas) != 0 || len(blocked.Effects) != 0 || actorHP(falseDone, "enemy") != 1000 {
+		t.Fatalf("false condition should have no side effects: result=%+v enemyHP=%.2f", blocked, actorHP(falseDone, "enemy"))
+	}
+
+	trueInput := controlRunInput()
+	trueInput.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "mark"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "free_marked"},
+	}
+	trueDone := runBundle(t, controlGateBundle(), trueInput)
+	accepted := actionResult(trueDone, "free_marked")
+	if !accepted.Accepted || accepted.BlockedReason != "" || !accepted.HasCondition ||
+		accepted.ConditionKind != "mark" || accepted.ConditionID != "test_mark" || !accepted.ConditionPassed {
+		t.Fatalf("true condition result = %+v, want required mark condition to pass", accepted)
+	}
+	if len(accepted.Effects) != 1 || accepted.Effects[0].FinalDamage != 30 ||
+		accepted.Effects[0].TargetHPBefore != 1000 || accepted.Effects[0].TargetHPAfter != 970 {
+		t.Fatalf("true condition damage evidence = %+v, want 30 damage after mark", accepted.Effects)
+	}
+	if got := actorHP(trueDone, "enemy"); got != 970 {
+		t.Fatalf("enemy hp got %.2f, want 970 after marked hit", got)
+	}
+}
+
+func TestM4CritDeterministicCarriesCritEvidence(t *testing.T) {
+	critDone := runBundle(t, m4Batch3MechanismBundle(), m4Batch3RunInput(7, "m4_crit_yes"))
+	critResult := actionResult(critDone, "m4_crit_yes")
+	if !critResult.Accepted || len(critResult.Effects) != 1 {
+		t.Fatalf("crit result = %+v, want one accepted effect", critResult)
+	}
+	critEffect := critResult.Effects[0]
+	if !critEffect.HasRawAmount || critEffect.RawAmount != 40 || !critEffect.HasFinalDamage || critEffect.FinalDamage != 80 ||
+		critEffect.HasCritRoll || !critEffect.HasCritResult || !critEffect.CritResult ||
+		!critEffect.HasCritMultiplier || critEffect.CritMultiplier != 2 || critEffect.TargetHPAfter != 920 {
+		t.Fatalf("deterministic crit evidence = %+v, want raw 40 final 80 crit x2", critEffect)
+	}
+
+	nonCritDone := runBundle(t, m4Batch3MechanismBundle(), m4Batch3RunInput(7, "m4_crit_no"))
+	nonCritResult := actionResult(nonCritDone, "m4_crit_no")
+	if !nonCritResult.Accepted || len(nonCritResult.Effects) != 1 {
+		t.Fatalf("non-crit result = %+v, want one accepted effect", nonCritResult)
+	}
+	nonCritEffect := nonCritResult.Effects[0]
+	if !nonCritEffect.HasRawAmount || nonCritEffect.RawAmount != 40 || !nonCritEffect.HasFinalDamage || nonCritEffect.FinalDamage != 40 ||
+		nonCritEffect.HasCritRoll || !nonCritEffect.HasCritResult || nonCritEffect.CritResult ||
+		!nonCritEffect.HasCritMultiplier || nonCritEffect.CritMultiplier != 2 || nonCritEffect.TargetHPAfter != 960 {
+		t.Fatalf("deterministic non-crit evidence = %+v, want raw/final 40 and crit=false", nonCritEffect)
+	}
+}
+
+func TestM4RNGSeededCritIsRepeatableAndBranchable(t *testing.T) {
+	seedOneFirst := runBundle(t, m4Batch3MechanismBundle(), m4Batch3RunInput(1, "m4_seeded_crit"))
+	seedOneSecond := runBundle(t, m4Batch3MechanismBundle(), m4Batch3RunInput(1, "m4_seeded_crit"))
+	seedTwo := runBundle(t, m4Batch3MechanismBundle(), m4Batch3RunInput(2, "m4_seeded_crit"))
+
+	firstEffect := actionResult(seedOneFirst, "m4_seeded_crit").Effects[0]
+	secondEffect := actionResult(seedOneSecond, "m4_seeded_crit").Effects[0]
+	otherEffect := actionResult(seedTwo, "m4_seeded_crit").Effects[0]
+	if len(seedOneFirst.RNG) != 1 || len(seedOneSecond.RNG) != 1 || len(seedTwo.RNG) != 1 {
+		t.Fatalf("rng draws = %+v / %+v / %+v, want one draw per run", seedOneFirst.RNG, seedOneSecond.RNG, seedTwo.RNG)
+	}
+	firstDraw := seedOneFirst.RNG[0]
+	secondDraw := seedOneSecond.RNG[0]
+	if firstDraw.Stream != "main" || firstDraw.Index != 0 || firstDraw.Use != "crit" {
+		t.Fatalf("seed 1 draw metadata = %+v, want main/0/crit", firstDraw)
+	}
+	if firstDraw != secondDraw || firstEffect.FinalDamage != secondEffect.FinalDamage || firstEffect.CritResult != secondEffect.CritResult {
+		t.Fatalf("same seed should repeat: draw %+v/%+v effect %+v/%+v", firstDraw, secondDraw, firstEffect, secondEffect)
+	}
+	if !firstEffect.HasCritRoll || !firstEffect.HasCritResult || !firstEffect.CritResult || firstEffect.FinalDamage != 80 || actorHP(seedOneFirst, "enemy") != 920 {
+		t.Fatalf("seed 1 effect = %+v, want crit branch with final 80", firstEffect)
+	}
+	if !otherEffect.HasCritRoll || !otherEffect.HasCritResult || otherEffect.CritResult || otherEffect.FinalDamage != 40 || actorHP(seedTwo, "enemy") != 960 {
+		t.Fatalf("seed 2 effect = %+v, want non-crit branch with final 40", otherEffect)
+	}
+	if seedTwo.RNG[0].Value == firstDraw.Value {
+		t.Fatalf("different seeds should document a different draw: seed1=%+v seed2=%+v", firstDraw, seedTwo.RNG[0])
+	}
+}
+
+func TestM4ControlAppliesStatusAndBlocksCastWhileActive(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_apply_silence"},
+		{TriggerAtMs: 1, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_enemy_cast"},
+	}
+	done := runBundle(t, m4Batch4MechanismBundle(), input)
+
+	apply := actionResult(done, "m4_apply_silence")
+	if !apply.Accepted || len(apply.Effects) != 1 || apply.Effects[0].Kind != "apply_status" || apply.Effects[0].StatusID != "m4_silence_1000" {
+		t.Fatalf("control apply result = %+v, want accepted apply_status m4_silence_1000", apply)
+	}
+	blocked := actionResult(done, "m4_enemy_cast")
+	if blocked.Accepted || blocked.BlockedReason != "blocked_by_status:silence_forbid" ||
+		blocked.BlockedRuleID != "silence_forbid" || blocked.BlockedStatusID != "m4_silence_1000" {
+		t.Fatalf("blocked control result = %+v, want silence_forbid with status id evidence", blocked)
+	}
+	if len(blocked.Effects) != 0 || actorHP(done, "self") != 1000 {
+		t.Fatalf("control-blocked action should not damage self: result=%+v selfHP=%.2f", blocked, actorHP(done, "self"))
+	}
+	if !hasLogAt(done, "status_apply", "m4_silence_1000", 0) || !hasLogAt(done, "status_expire", "m4_silence_1000", 1000) {
+		t.Fatalf("control logs = %+v, want status apply at 0ms and expire at 1000ms", done.Logs)
+	}
+}
+
+func TestM4InterruptStopsRunningActionBeforeCompletion(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_channel_blast"},
+		{TriggerAtMs: 500, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_interrupt"},
+	}
+	done := runBundle(t, m4Batch4MechanismBundle(), input)
+	start := actionResults(done, "m4_channel_blast")[0]
+	if !start.Accepted || !start.ExecutionStarted || start.ExecutionCompleted || start.Interrupted || start.ExecutionCompleteAtMs != 1000 {
+		t.Fatalf("channel start result = %+v, want running action scheduled to complete at 1000", start)
+	}
+	interrupt := actionResult(done, "m4_interrupt")
+	if !interrupt.Accepted || len(interrupt.Effects) != 1 || interrupt.Effects[0].Kind != "interrupt" ||
+		!interrupt.Effects[0].HasInterrupt || interrupt.Effects[0].InterruptedActionID != "m4_channel_blast" {
+		t.Fatalf("interrupt result = %+v, want m4_channel_blast interrupted", interrupt)
+	}
+	channelResults := actionResults(done, "m4_channel_blast")
+	if len(channelResults) != 2 || !channelResults[1].Interrupted || channelResults[1].ExecutionCompleted {
+		t.Fatalf("channel results = %+v, want start + interrupted record and no completion", channelResults)
+	}
+	if got := actorHP(done, "enemy"); got != 1000 {
+		t.Fatalf("enemy hp got %.2f, want interrupted channel to produce no completed damage", got)
+	}
+}
+
+func TestM4TriggerChainRunsOneFollowUpEffectInOrder(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_trigger_starter"},
+	}
+	done := runBundle(t, m4Batch4TriggerBundle(), input)
+	result := actionResult(done, "m4_trigger_starter")
+	if !result.Accepted || len(result.Effects) != 1 || result.Effects[0].FinalDamage != 10 {
+		t.Fatalf("trigger starter result = %+v, want accepted 10 damage starter", result)
+	}
+	if len(done.TriggerResults) != 1 || done.TriggerResults[0].TriggerID != "m4_followup_on_damage_taken" ||
+		done.TriggerResults[0].Event != "on_damage_taken" || done.TriggerResults[0].EffectCount != 1 || done.TriggerResults[0].ChainDepth != 1 {
+		t.Fatalf("trigger results = %+v, want one on_damage_taken follow-up at depth 1", done.TriggerResults)
+	}
+	if got := actorHP(done, "enemy"); got != 985 {
+		t.Fatalf("enemy hp got %.2f, want starter 10 + trigger 5 to leave 985", got)
+	}
+}
+
+func TestM4HistoryWindowReadsRecentDamageInsideAndOutsideWindow(t *testing.T) {
+	insideInput := controlRunInput()
+	insideInput.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_history_hit"},
+		{TriggerAtMs: 3000, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_recent_repay"},
+	}
+	insideDone := runBundle(t, m4Batch4MechanismBundle(), insideInput)
+	inside := actionResult(insideDone, "m4_recent_repay")
+	if !inside.Accepted || len(inside.Effects) != 1 || inside.Effects[0].Kind != "damage_from_recent" ||
+		!inside.Effects[0].HasHistoryWindow || inside.Effects[0].HistoryWindowMs != 4000 ||
+		inside.Effects[0].RawAmount != 30 || inside.Effects[0].FinalDamage != 30 || actorHP(insideDone, "enemy") != 970 {
+		t.Fatalf("inside history window result = %+v enemyHP=%.2f, want recent 30 damage reflected", inside, actorHP(insideDone, "enemy"))
+	}
+
+	outsideInput := controlRunInput()
+	outsideInput.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_history_hit"},
+		{TriggerAtMs: 5001, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_recent_repay"},
+	}
+	outsideDone := runBundle(t, m4Batch4MechanismBundle(), outsideInput)
+	outside := actionResult(outsideDone, "m4_recent_repay")
+	if !outside.Accepted || len(outside.Effects) != 1 || outside.Effects[0].RawAmount != 0 ||
+		outside.Effects[0].FinalDamage != 0 || actorHP(outsideDone, "enemy") != 1000 {
+		t.Fatalf("outside history window result = %+v enemyHP=%.2f, want expired window to read 0", outside, actorHP(outsideDone, "enemy"))
+	}
+}
+
+func TestM4CounterIncrementsThenFeedsFormulaRead(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_counter_increment"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_counter_damage"},
+	}
+	done := runBundle(t, m4Batch4MechanismBundle(), input)
+	increment := actionResult(done, "m4_counter_increment")
+	if !increment.Accepted || len(increment.Effects) != 1 || increment.Effects[0].Kind != "increment_counter" ||
+		increment.Effects[0].CounterKey != "m4_stack" || increment.Effects[0].CounterBefore != 0 || increment.Effects[0].CounterAfter != 1 {
+		t.Fatalf("counter increment result = %+v, want m4_stack 0 -> 1", increment)
+	}
+	damage := actionResult(done, "m4_counter_damage")
+	if !damage.Accepted || len(damage.Effects) != 1 || damage.Effects[0].RawAmount != 10 || damage.Effects[0].FinalDamage != 10 ||
+		!breakdownHas(damage.Effects[0].FormulaBreakdown, "counter", "m4_stack", 1) {
+		t.Fatalf("counter damage result = %+v, want formula read counter m4_stack=1 for 10 damage", damage)
+	}
+	if got := actorHP(done, "enemy"); got != 990 {
+		t.Fatalf("enemy hp got %.2f, want 990 after counter-fed damage", got)
+	}
+}
+
+func TestM4ModeAugmentChangesKnownActionResult(t *testing.T) {
+	normal := runBundle(t, m4Batch4MechanismBundle(), m4Batch4RunInput("m4_mode_damage", nil))
+	augmented := runBundle(t, m4Batch4MechanismBundle(), m4Batch4RunInput("m4_mode_damage", []string{"m4_empowered"}))
+
+	normalEffect := actionResult(normal, "m4_mode_damage").Effects[0]
+	if normalEffect.RawAmount != 40 || normalEffect.FinalDamage != 40 || !normalEffect.HasModeState ||
+		normalEffect.ModeAugmentID != "m4_empowered" || normalEffect.ModeActive || normalEffect.ModeMultiplier != 2 {
+		t.Fatalf("normal mode effect = %+v, want inactive augment and 40 damage", normalEffect)
+	}
+	augmentedEffect := actionResult(augmented, "m4_mode_damage").Effects[0]
+	if augmentedEffect.RawAmount != 40 || augmentedEffect.FinalDamage != 80 || !augmentedEffect.HasModeState ||
+		augmentedEffect.ModeAugmentID != "m4_empowered" || !augmentedEffect.ModeActive || augmentedEffect.ModeMultiplier != 2 {
+		t.Fatalf("augmented mode effect = %+v, want active augment and 80 damage", augmentedEffect)
+	}
+}
+
 func TestResourceCostsArePrecheckedAtomically(t *testing.T) {
 	bundle := controlGateBundle()
 	input := controlRunInput()
@@ -575,6 +1099,359 @@ func m2AbilityHasteCooldownBundle() model.EngineBundle {
 	}
 }
 
+func m4AhriQRegressionRunInput() model.EngineRunInput {
+	return model.EngineRunInput{
+		Seed: 7,
+		Self: model.CombatantRunInit{
+			ActorID:    "self",
+			TemplateID: "ahri",
+			ActionInputs: map[string]model.ActionRunInput{
+				"self::skill_ahri_q": {
+					SkillLevel:  5,
+					PanelInputs: map[string]float64{"skillLevel": 5},
+				},
+			},
+		},
+		Enemy: model.CombatantRunInit{
+			ActorID:    "enemy",
+			TemplateID: "training_dummy",
+		},
+		InitialActions: []model.ActionRequest{
+			{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "self::skill_ahri_q"},
+		},
+		StopCondition: model.StopCondition{MaxEvents: 8},
+		Trace:         model.TraceOptions{EnableLogs: true, SampleEvery: 1, ValueTrace: true},
+	}
+}
+
+func m4AhriQRegressionBundle(selfMana float64) model.EngineBundle {
+	return model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes: []model.AttributeDefinitionV2{
+			{ID: "ap"},
+		},
+		Resources: []model.ResourceDefinitionV2{
+			{ID: "mana", DefaultCurrent: 843, DefaultMax: 843},
+		},
+		Actors: []model.ActorTemplate{
+			{
+				ID:        "ahri",
+				MaxHP:     2000,
+				InitialHP: 2000,
+				Attributes: map[string]model.AttributeValueV2{
+					"ap": {Base: 18},
+				},
+				Resources: map[string]model.ResourceValueV2{
+					"mana": {Current: selfMana, Max: 843},
+				},
+				Actions: []string{"self::skill_ahri_q"},
+			},
+			{
+				ID:        "training_dummy",
+				MaxHP:     1000,
+				InitialHP: 1000,
+				Attributes: map[string]model.AttributeValueV2{
+					"ap": {Base: 0},
+				},
+			},
+		},
+		Formulas: []model.FormulaDefinition{
+			{ID: "ahri_q_rank5_base", Op: "const", Value: 135},
+			{ID: "ahri_q_ap_ratio", Op: "const", Value: 0.5},
+			{ID: "ahri_ap", Op: "attr", Attr: "ap"},
+			{ID: "ahri_q_ap_bonus", Op: "mul", Left: "ahri_ap", Right: "ahri_q_ap_ratio"},
+			{ID: "ahri_q_out_damage", Op: "add", Left: "ahri_q_rank5_base", Right: "ahri_q_ap_bonus"},
+			{ID: "ahri_q_return_damage", Op: "add", Left: "ahri_q_rank5_base", Right: "ahri_q_ap_bonus"},
+		},
+		Actions: []model.ActionTemplate{
+			{
+				ID:           "self::skill_ahri_q",
+				Label:        "Ahri Q Orb of Deception",
+				Classifier:   model.ClassifierV2{Types: []string{"action/cast_skill"}},
+				SkillLevel:   5,
+				PanelInputs:  map[string]float64{"skillLevel": 5},
+				CooldownMs:   7000,
+				ResourceCost: []model.ResourceCostV2{{ResourceID: "mana", Amount: 95}},
+				Effects: []model.EffectDef{
+					{Type: "deal_damage", FormulaID: "ahri_q_out_damage", DamageType: "magic", SourceRole: "source", TargetRole: "target"},
+					{Type: "deal_damage", FormulaID: "ahri_q_return_damage", DamageType: "true", SourceRole: "source", TargetRole: "target"},
+				},
+			},
+		},
+		Settings: model.BundleSettings{MaxEvents: 1000, MaxCommandsPerEvent: 64},
+	}
+}
+
+func m4Batch1MechanismBundle() model.EngineBundle {
+	bundle := controlGateBundle()
+	bundle.Formulas = append(bundle.Formulas,
+		model.FormulaDefinition{ID: "m4_multi_hit_physical", Op: "const", Value: 12},
+		model.FormulaDefinition{ID: "m4_multi_hit_magic", Op: "const", Value: 18},
+		model.FormulaDefinition{ID: "m4_multi_hit_true", Op: "const", Value: 5},
+	)
+	bundle.Actions = append(bundle.Actions, model.ActionTemplate{
+		ID:         "m4_multi_hit_combo",
+		Label:      "M4 Multi-hit Combo",
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+		Effects: []model.EffectDef{
+			{Type: "deal_damage", FormulaID: "m4_multi_hit_physical", DamageType: "physical", SourceRole: "source", TargetRole: "target"},
+			{Type: "deal_damage", FormulaID: "m4_multi_hit_magic", DamageType: "magic", SourceRole: "source", TargetRole: "target"},
+			{Type: "deal_damage", FormulaID: "m4_multi_hit_true", DamageType: "true", SourceRole: "source", TargetRole: "target"},
+		},
+	})
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "m4_multi_hit_combo")
+	return bundle
+}
+
+func m4Batch2MechanismBundle() model.EngineBundle {
+	bundle := controlGateBundle()
+	bundle.Statuses = append(bundle.Statuses,
+		model.StatusTemplate{ID: "m4_shield_50", Kind: "shield", DurationMs: 4000, Magnitude: 50, ShieldKind: "physical"},
+		model.StatusTemplate{ID: "m4_burn_3x", Kind: "dot", DurationMs: 3000, TickIntervalMs: 1000, TickCount: 3, TickAmount: 20, TickDamageType: "magic"},
+		model.StatusTemplate{ID: "m4_regen_3x", Kind: "hot", DurationMs: 3000, TickIntervalMs: 1000, TickCount: 3, TickEffectType: model.EffectTypeHeal, TickAmount: 40},
+	)
+	bundle.Formulas = append(bundle.Formulas,
+		model.FormulaDefinition{ID: "m4_shield_amount", Op: "const", Value: 50},
+		model.FormulaDefinition{ID: "m4_shield_hit_damage", Op: "const", Value: 80},
+		model.FormulaDefinition{ID: "m4_heal_amount", Op: "const", Value: 400},
+	)
+	bundle.Actions = append(bundle.Actions,
+		model.ActionTemplate{
+			ID:         "m4_grant_shield",
+			Label:      "M4 Grant Shield",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "grant_shield", StatusID: "m4_shield_50", FormulaID: "m4_shield_amount", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_shield_hit",
+			Label:      "M4 Shield Hit",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_shield_hit_damage", DamageType: "physical", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_heal_400",
+			Label:      "M4 Heal 400",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "heal", FormulaID: "m4_heal_amount", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_apply_dot",
+			Label:      "M4 Apply DoT",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "apply_status", StatusID: "m4_burn_3x", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_apply_hot",
+			Label:      "M4 Apply HoT",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "apply_status", StatusID: "m4_regen_3x", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+	)
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "m4_grant_shield", "m4_heal_400", "m4_apply_dot", "m4_apply_hot")
+	bundle.Actors[1].Actions = append(bundle.Actors[1].Actions, "m4_shield_hit")
+	return bundle
+}
+
+func m4Batch2RunInput(targetActorID string, actionID string) model.EngineRunInput {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: targetActorID, ActionID: actionID},
+	}
+	input.StopCondition.MaxEvents = 10
+	return input
+}
+
+func m4Batch3MechanismBundle() model.EngineBundle {
+	bundle := controlGateBundle()
+	bundle.Formulas = append(bundle.Formulas,
+		model.FormulaDefinition{ID: "m4_crit_flat", Op: "const", Value: 40},
+	)
+	bundle.Actions = append(bundle.Actions,
+		model.ActionTemplate{
+			ID:         "m4_crit_yes",
+			Label:      "M4 Deterministic Crit",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_crit_flat", DamageType: "physical", SourceRole: "source", TargetRole: "target", CritPolicy: "deterministic", CritChance: 1, CritMultiplier: 2},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_crit_no",
+			Label:      "M4 Deterministic Non-Crit",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_crit_flat", DamageType: "physical", SourceRole: "source", TargetRole: "target", CritPolicy: "deterministic", CritChance: 0, CritMultiplier: 2},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_seeded_crit",
+			Label:      "M4 Seeded Crit",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_crit_flat", DamageType: "physical", SourceRole: "source", TargetRole: "target", CritPolicy: "seeded_random", CritChance: 0.5, CritMultiplier: 2},
+			},
+		},
+	)
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "m4_crit_yes", "m4_crit_no", "m4_seeded_crit")
+	return bundle
+}
+
+func m4Batch3RunInput(seed uint64, actionID string) model.EngineRunInput {
+	input := controlRunInput()
+	input.Seed = seed
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: actionID},
+	}
+	return input
+}
+
+func m4Batch4MechanismBundle() model.EngineBundle {
+	bundle := controlGateBundle()
+	bundle.Statuses = append(bundle.Statuses,
+		model.StatusTemplate{ID: "m4_silence_1000", Kind: "control", Classifier: model.ClassifierV2{Types: []string{"status/silence"}}, DurationMs: 1000},
+	)
+	bundle.Formulas = append(bundle.Formulas,
+		model.FormulaDefinition{ID: "m4_damage_5", Op: "const", Value: 5},
+		model.FormulaDefinition{ID: "m4_damage_10", Op: "const", Value: 10},
+		model.FormulaDefinition{ID: "m4_damage_30", Op: "const", Value: 30},
+		model.FormulaDefinition{ID: "m4_damage_40", Op: "const", Value: 40},
+		model.FormulaDefinition{ID: "m4_damage_80", Op: "const", Value: 80},
+		model.FormulaDefinition{ID: "m4_counter_read", Op: "counter", Counter: "m4_stack"},
+		model.FormulaDefinition{ID: "m4_counter_scale", Op: "const", Value: 10},
+		model.FormulaDefinition{ID: "m4_counter_damage_formula", Op: "mul", Left: "m4_counter_read", Right: "m4_counter_scale"},
+	)
+	bundle.Actions = append(bundle.Actions,
+		model.ActionTemplate{
+			ID:         "m4_apply_silence",
+			Label:      "M4 Apply Silence",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "apply_status", StatusID: "m4_silence_1000", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_enemy_cast",
+			Label:      "M4 Enemy Cast",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_damage_30", DamageType: "magic", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:                "m4_channel_blast",
+			Label:             "M4 Channel Blast",
+			Classifier:        model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			ChannelDurationMs: 1000,
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_damage_80", DamageType: "magic", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_interrupt",
+			Label:      "M4 Interrupt",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "interrupt", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_trigger_starter",
+			Label:      "M4 Trigger Starter",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_damage_10", DamageType: "magic", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_history_hit",
+			Label:      "M4 History Hit",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_damage_30", DamageType: "physical", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_recent_repay",
+			Label:      "M4 Recent Repay",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "damage_from_recent", Amount: 1, HistoryWindowMs: 4000, DamageType: "true", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_counter_increment",
+			Label:      "M4 Counter Increment",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "increment_counter", CounterKey: "m4_stack", Amount: 1, SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_counter_damage",
+			Label:      "M4 Counter Damage",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_counter_damage_formula", DamageType: "magic", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_mode_damage",
+			Label:      "M4 Mode Damage",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_damage_40", DamageType: "magic", SourceRole: "source", TargetRole: "target", ModeAugmentID: "m4_empowered", ModeMultiplier: 2},
+			},
+		},
+	)
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions,
+		"m4_apply_silence", "m4_channel_blast", "m4_trigger_starter", "m4_recent_repay",
+		"m4_counter_increment", "m4_counter_damage", "m4_mode_damage",
+	)
+	bundle.Actors[1].Actions = append(bundle.Actors[1].Actions, "m4_enemy_cast", "m4_interrupt", "m4_history_hit")
+	return bundle
+}
+
+func m4Batch4TriggerBundle() model.EngineBundle {
+	bundle := m4Batch4MechanismBundle()
+	bundle.Triggers = append(bundle.Triggers, model.TriggerDefinition{
+		ID:             "m4_followup_on_damage_taken",
+		Event:          "on_damage_taken",
+		RequiresDamage: true,
+		Effects: []model.EffectDef{
+			{Type: "deal_damage", FormulaID: "m4_damage_5", DamageType: "true", SourceRole: "source", TargetRole: "target"},
+		},
+	})
+	return bundle
+}
+
+func m4Batch4RunInput(actionID string, modeAugments []string) model.EngineRunInput {
+	input := controlRunInput()
+	input.ModeAugments = modeAugments
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: actionID},
+	}
+	return input
+}
+
+func assertDamageSegment(t *testing.T, effect model.ActionEffectRunResultV2, effectIndex int, formulaID string, damageType string, damage float64, hpBefore float64, hpAfter float64) {
+	t.Helper()
+	if effect.EffectIndex != effectIndex || effect.FormulaID != formulaID || effect.DamageType != damageType ||
+		!effect.HasRawAmount || effect.RawAmount != damage || !effect.HasFinalDamage || effect.FinalDamage != damage ||
+		effect.TargetHPBefore != hpBefore || effect.TargetHPAfter != hpAfter {
+		t.Fatalf("damage segment = %+v, want index=%d formula=%s type=%s damage=%.2f hp %.2f -> %.2f", effect, effectIndex, formulaID, damageType, damage, hpBefore, hpAfter)
+	}
+}
+
 func actorHP(done model.DonePayload, actorID string) float64 {
 	return actor(done, actorID).CurrentHP
 }
@@ -622,6 +1499,43 @@ func actionResult(done model.DonePayload, actionID string) model.ActionRunResult
 		}
 	}
 	return model.ActionRunResultV2{}
+}
+
+func actionResults(done model.DonePayload, actionID string) []model.ActionRunResultV2 {
+	results := make([]model.ActionRunResultV2, 0)
+	for _, result := range done.ActionResults {
+		if result.ActionID == actionID {
+			results = append(results, result)
+		}
+	}
+	return results
+}
+
+func hasLog(done model.DonePayload, kind string, statusID string) bool {
+	for _, log := range done.Logs {
+		if log.Kind == kind && log.StatusID == statusID {
+			return true
+		}
+	}
+	return false
+}
+
+func hasLogAt(done model.DonePayload, kind string, statusID string, timeMs int64) bool {
+	for _, log := range done.Logs {
+		if log.Kind == kind && log.StatusID == statusID && log.TimeMs == timeMs {
+			return true
+		}
+	}
+	return false
+}
+
+func breakdownHas(steps []model.ActionValueBreakdownStepV2, op string, ref string, value float64) bool {
+	for _, step := range steps {
+		if step.Op == op && step.Ref == ref && step.Value == value {
+			return true
+		}
+	}
+	return false
 }
 
 func mustCode(t *testing.T, code int32) {
