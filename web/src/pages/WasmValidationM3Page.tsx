@@ -712,6 +712,27 @@ function buildActionRows(options: WasmValidationSkillOption[]): ActionOptionRow[
   }));
 }
 
+function filterSelectOption(inputValue: string, option: unknown): boolean {
+  const optionData = option as
+    | {
+        value?: unknown;
+        label?: unknown;
+        props?: { value?: unknown; label?: unknown; children?: unknown };
+      }
+    | undefined;
+  const searchText = [
+    optionData?.value,
+    optionData?.label,
+    optionData?.props?.value,
+    optionData?.props?.label,
+    optionData?.props?.children,
+  ]
+    .map((value) => String(value ?? ''))
+    .join(' ')
+    .toLowerCase();
+  return searchText.includes(inputValue.trim().toLowerCase());
+}
+
 function findCasePreset(id: ValidationCasePresetId): ValidationCasePreset {
   return CASE_PRESETS.find((preset) => preset.id === id) ?? CASE_PRESETS[0];
 }
@@ -1005,8 +1026,9 @@ export function WasmValidationM3Page({
     await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
   }, [currentVersion, donePayload, evidenceRows, inputPreview.value, selectedAction, selectedActionId, selectedCasePreset, selectedGameId]);
 
-  const heroOptions = (bundle?.heroes ?? []).map((hero) => ({ label: hero.name ?? hero.heroId, value: hero.heroId }));
-  const itemOptions = (bundle?.items ?? []).map((item) => ({ label: item.name ?? item.itemId, value: item.itemId }));
+  const heroOptions = (bundle?.heroes ?? []).map((hero) => ({ label: `${hero.heroId} / ${hero.name ?? hero.heroId}`, value: hero.heroId }));
+  const itemOptions = (bundle?.items ?? []).map((item) => ({ label: `${item.itemId} / ${item.name ?? item.itemId}`, value: item.itemId }));
+  const actionOptions = selfActionOptions.map((option) => ({ label: option.displayLabel, value: option.actionId }));
   const selectedSkillLevel = selectedAction ? selection?.selfSkillLevels[selectedAction.skillId] ?? selectedAction.level : 1;
 
   const evidenceColumns = [
@@ -1070,17 +1092,31 @@ export function WasmValidationM3Page({
               <Select
                 value={selectedCasePresetId}
                 options={CASE_PRESETS.map((preset) => ({ label: preset.label, value: preset.id }))}
+                showSearch
+                filterOption={filterSelectOption}
                 onChange={(value) => setSelectedCasePresetId(String(value) as ValidationCasePresetId)}
               />
             </Col>
             <Col span={6}>
-              <Select value={selection.selfHeroId} options={heroOptions} onChange={(value) => updateSelection({ selfHeroId: String(value) })} />
+              <Select
+                value={selection.selfHeroId}
+                options={heroOptions}
+                showSearch
+                filterOption={filterSelectOption}
+                onChange={(value) => updateSelection({ selfHeroId: String(value) })}
+              />
             </Col>
             <Col span={4}>
               <InputNumber min={1} value={selection.selfLevel} onChange={(value) => updateSelection({ selfLevel: Number(value ?? 1) })} />
             </Col>
             <Col span={6}>
-              <Select value={selection.enemyHeroId} options={heroOptions} onChange={(value) => updateSelection({ enemyHeroId: String(value) })} />
+              <Select
+                value={selection.enemyHeroId}
+                options={heroOptions}
+                showSearch
+                filterOption={filterSelectOption}
+                onChange={(value) => updateSelection({ enemyHeroId: String(value) })}
+              />
             </Col>
             <Col span={4}>
               <InputNumber min={1} value={selection.enemyLevel} onChange={(value) => updateSelection({ enemyLevel: Number(value ?? 1) })} />
@@ -1090,12 +1126,20 @@ export function WasmValidationM3Page({
                 mode="multiple"
                 value={selection.selfItemIds}
                 options={itemOptions}
+                showSearch
+                filterOption={filterSelectOption}
                 placeholder="攻击方装备"
                 onChange={(value) => updateSelection({ selfItemIds: Array.isArray(value) ? value.map(String) : [] })}
               />
             </Col>
             <Col span={8}>
-              <Select value={selectedActionId} options={selfActionOptions.map((option) => ({ label: option.displayLabel, value: option.actionId }))} onChange={(value) => setSelectedActionId(String(value))} />
+              <Select
+                value={selectedActionId}
+                options={actionOptions}
+                showSearch
+                filterOption={filterSelectOption}
+                onChange={(value) => setSelectedActionId(String(value))}
+              />
             </Col>
             <Col span={4}>
               <InputNumber
