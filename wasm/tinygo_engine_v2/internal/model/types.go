@@ -93,6 +93,8 @@ const (
 	EffectTypeApplyMark        EffectType = "apply_mark"
 	EffectTypeConsumeMark      EffectType = "consume_mark"
 	EffectTypeDamageFromRecent EffectType = "damage_from_recent"
+	EffectTypeInterrupt        EffectType = "interrupt"
+	EffectTypeIncrementCounter EffectType = "increment_counter"
 	EffectTypeSpendResource    EffectType = "spend_resource"
 	EffectTypeModifyAttribute  EffectType = "modify_attribute"
 )
@@ -180,6 +182,7 @@ type ActionTemplateV2 struct {
 	Classifier        ClassifierV2          `json:"classifier,omitempty"`
 	CooldownMs        int64                 `json:"cooldownMs,omitempty"`
 	CooldownFormulaID string                `json:"cooldownFormulaId,omitempty"`
+	ChannelDurationMs int64                 `json:"channelDurationMs,omitempty"`
 	SkillLevel        int                   `json:"skillLevel,omitempty"`
 	PanelInputs       map[string]float64    `json:"panelInputs,omitempty"`
 	Effects           []EffectDefV2         `json:"effects,omitempty"`
@@ -225,6 +228,12 @@ type StatusTemplateV2 struct {
 	RetryOnRelease bool                `json:"retryOnRelease,omitempty"`
 	Magnitude      float64             `json:"magnitude,omitempty"`
 	ShieldKind     string              `json:"shieldKind,omitempty"`
+	TickIntervalMs int64               `json:"tickIntervalMs,omitempty"`
+	TickCount      int                 `json:"tickCount,omitempty"`
+	TickEffectType EffectType          `json:"tickEffectType,omitempty"`
+	TickFormulaID  string              `json:"tickFormulaId,omitempty"`
+	TickAmount     float64             `json:"tickAmount,omitempty"`
+	TickDamageType string              `json:"tickDamageType,omitempty"`
 	AttrModifiers  []AttrModifierDefV2 `json:"attrModifiers,omitempty"`
 }
 
@@ -272,6 +281,11 @@ type EffectDefV2 struct {
 	ResourceID      string           `json:"resourceId,omitempty"`
 	AttrID          string           `json:"attrId,omitempty"`
 	ModifierMode    AttrModifierMode `json:"modifierMode,omitempty"`
+	CritPolicy      string           `json:"critPolicy,omitempty"`
+	CritChance      float64          `json:"critChance,omitempty"`
+	CritMultiplier  float64          `json:"critMultiplier,omitempty"`
+	ModeAugmentID   string           `json:"modeAugmentId,omitempty"`
+	ModeMultiplier  float64          `json:"modeMultiplier,omitempty"`
 }
 
 type DamageProfileV2 struct {
@@ -298,6 +312,7 @@ type EngineRunInputV2 struct {
 	InitialActions []ActionRequestV2  `json:"initialActions,omitempty"`
 	StopCondition  StopConditionV2    `json:"stopCondition,omitempty"`
 	Trace          TraceOptionsV2     `json:"trace,omitempty"`
+	ModeAugments   []string           `json:"modeAugments,omitempty"`
 }
 
 type CombatantRunInitV2 struct {
@@ -440,7 +455,61 @@ type ActionResourceDeltaV2 struct {
 }
 
 type ActionEffectRunResultV2 struct {
-	EffectIndex      int                          `json:"effectIndex"`
+	EffectIndex         int                          `json:"effectIndex"`
+	Kind                string                       `json:"kind"`
+	FormulaID           string                       `json:"formulaId,omitempty"`
+	FormulaBreakdown    []ActionValueBreakdownStepV2 `json:"formulaBreakdown,omitempty"`
+	RawAmount           float64                      `json:"rawAmount,omitempty"`
+	HasRawAmount        bool                         `json:"hasRawAmount,omitempty"`
+	DamageType          string                       `json:"damageType,omitempty"`
+	StatusID            string                       `json:"statusId,omitempty"`
+	FinalDamage         float64                      `json:"finalDamage,omitempty"`
+	HasFinalDamage      bool                         `json:"hasFinalDamage,omitempty"`
+	HealApplied         float64                      `json:"healApplied,omitempty"`
+	HasHealApplied      bool                         `json:"hasHealApplied,omitempty"`
+	OverhealAmount      float64                      `json:"overhealAmount,omitempty"`
+	HasOverheal         bool                         `json:"hasOverheal,omitempty"`
+	ShieldBefore        float64                      `json:"shieldBefore,omitempty"`
+	HasShieldBefore     bool                         `json:"hasShieldBefore,omitempty"`
+	ShieldAfter         float64                      `json:"shieldAfter,omitempty"`
+	HasShieldAfter      bool                         `json:"hasShieldAfter,omitempty"`
+	ShieldGranted       float64                      `json:"shieldGranted,omitempty"`
+	HasShieldGranted    bool                         `json:"hasShieldGranted,omitempty"`
+	ShieldAbsorbed      float64                      `json:"shieldAbsorbed,omitempty"`
+	HasShieldAbsorbed   bool                         `json:"hasShieldAbsorbed,omitempty"`
+	MarkID              string                       `json:"markId,omitempty"`
+	MarkActive          bool                         `json:"markActive,omitempty"`
+	HasMarkState        bool                         `json:"hasMarkState,omitempty"`
+	MarkCount           int                          `json:"markCount,omitempty"`
+	CritRoll            float64                      `json:"critRoll,omitempty"`
+	HasCritRoll         bool                         `json:"hasCritRoll,omitempty"`
+	CritResult          bool                         `json:"critResult,omitempty"`
+	HasCritResult       bool                         `json:"hasCritResult,omitempty"`
+	CritMultiplier      float64                      `json:"critMultiplier,omitempty"`
+	HasCritMultiplier   bool                         `json:"hasCritMultiplier,omitempty"`
+	InterruptedActionID string                       `json:"interruptedActionId,omitempty"`
+	HasInterrupt        bool                         `json:"hasInterrupt,omitempty"`
+	HistoryWindowMs     int64                        `json:"historyWindowMs,omitempty"`
+	HasHistoryWindow    bool                         `json:"hasHistoryWindow,omitempty"`
+	CounterKey          string                       `json:"counterKey,omitempty"`
+	CounterBefore       float64                      `json:"counterBefore,omitempty"`
+	CounterAfter        float64                      `json:"counterAfter,omitempty"`
+	HasCounterState     bool                         `json:"hasCounterState,omitempty"`
+	ModeAugmentID       string                       `json:"modeAugmentId,omitempty"`
+	ModeActive          bool                         `json:"modeActive,omitempty"`
+	ModeMultiplier      float64                      `json:"modeMultiplier,omitempty"`
+	HasModeState        bool                         `json:"hasModeState,omitempty"`
+	TargetHPBefore      float64                      `json:"targetHpBefore,omitempty"`
+	TargetHPAfter       float64                      `json:"targetHpAfter,omitempty"`
+	SourceActorID       string                       `json:"sourceActorId,omitempty"`
+	TargetActorID       string                       `json:"targetActorId,omitempty"`
+}
+
+type StatusTickRunResultV2 struct {
+	TimeMs           int64                        `json:"timeMs"`
+	StatusID         string                       `json:"statusId"`
+	TickIndex        int                          `json:"tickIndex"`
+	TickCount        int                          `json:"tickCount"`
 	Kind             string                       `json:"kind"`
 	FormulaID        string                       `json:"formulaId,omitempty"`
 	FormulaBreakdown []ActionValueBreakdownStepV2 `json:"formulaBreakdown,omitempty"`
@@ -449,6 +518,10 @@ type ActionEffectRunResultV2 struct {
 	DamageType       string                       `json:"damageType,omitempty"`
 	FinalDamage      float64                      `json:"finalDamage,omitempty"`
 	HasFinalDamage   bool                         `json:"hasFinalDamage,omitempty"`
+	HealApplied      float64                      `json:"healApplied,omitempty"`
+	HasHealApplied   bool                         `json:"hasHealApplied,omitempty"`
+	OverhealAmount   float64                      `json:"overhealAmount,omitempty"`
+	HasOverheal      bool                         `json:"hasOverheal,omitempty"`
 	TargetHPBefore   float64                      `json:"targetHpBefore,omitempty"`
 	TargetHPAfter    float64                      `json:"targetHpAfter,omitempty"`
 	SourceActorID    string                       `json:"sourceActorId,omitempty"`
@@ -456,16 +529,26 @@ type ActionEffectRunResultV2 struct {
 }
 
 type ActionRunResultV2 struct {
-	TimeMs         int64                     `json:"timeMs"`
-	ActionID       string                    `json:"actionId"`
-	SourceActorID  string                    `json:"sourceActorId"`
-	TargetActorID  string                    `json:"targetActorId"`
-	Accepted       bool                      `json:"accepted"`
-	BlockedReason  string                    `json:"blockedReason,omitempty"`
-	ResourceDeltas []ActionResourceDeltaV2   `json:"resourceDeltas,omitempty"`
-	CooldownBefore ActionCooldownRunStateV2  `json:"cooldownBefore,omitempty"`
-	CooldownAfter  ActionCooldownRunStateV2  `json:"cooldownAfter,omitempty"`
-	Effects        []ActionEffectRunResultV2 `json:"effects,omitempty"`
+	TimeMs                int64                     `json:"timeMs"`
+	ActionID              string                    `json:"actionId"`
+	SourceActorID         string                    `json:"sourceActorId"`
+	TargetActorID         string                    `json:"targetActorId"`
+	Accepted              bool                      `json:"accepted"`
+	BlockedReason         string                    `json:"blockedReason,omitempty"`
+	BlockedRuleID         string                    `json:"blockedRuleId,omitempty"`
+	BlockedStatusID       string                    `json:"blockedStatusId,omitempty"`
+	ConditionKind         string                    `json:"conditionKind,omitempty"`
+	ConditionID           string                    `json:"conditionId,omitempty"`
+	ConditionPassed       bool                      `json:"conditionPassed,omitempty"`
+	HasCondition          bool                      `json:"hasCondition,omitempty"`
+	ExecutionStarted      bool                      `json:"executionStarted,omitempty"`
+	ExecutionCompleted    bool                      `json:"executionCompleted,omitempty"`
+	Interrupted           bool                      `json:"interrupted,omitempty"`
+	ExecutionCompleteAtMs int64                     `json:"executionCompleteAtMs,omitempty"`
+	ResourceDeltas        []ActionResourceDeltaV2   `json:"resourceDeltas,omitempty"`
+	CooldownBefore        ActionCooldownRunStateV2  `json:"cooldownBefore,omitempty"`
+	CooldownAfter         ActionCooldownRunStateV2  `json:"cooldownAfter,omitempty"`
+	Effects               []ActionEffectRunResultV2 `json:"effects,omitempty"`
 }
 
 type SnapshotV2 struct {
@@ -478,18 +561,30 @@ type ActionSnapshotV2 struct {
 	Actors []ActorActionSnapshotV2 `json:"actors"`
 }
 
+type TriggerRunResultV2 struct {
+	TimeMs        int64  `json:"timeMs"`
+	TriggerID     string `json:"triggerId"`
+	Event         string `json:"event"`
+	SourceActorID string `json:"sourceActorId,omitempty"`
+	TargetActorID string `json:"targetActorId,omitempty"`
+	EffectCount   int    `json:"effectCount"`
+	ChainDepth    int    `json:"chainDepth"`
+}
+
 type DonePayloadV2 struct {
-	StopReason      string              `json:"stopReason"`
-	FinalTimeMs     int64               `json:"finalTimeMs"`
-	ProcessedEvents int                 `json:"processedEvents"`
-	QueuePeak       int                 `json:"queuePeak"`
-	ChainDepthPeak  int                 `json:"chainDepthPeak"`
-	TickEmitCount   int                 `json:"tickEmitCount"`
-	Actors          []ActorSnapshotV2   `json:"actors"`
-	Logs            []EngineEventLogV2  `json:"logs,omitempty"`
-	ValueTrace      []ValueTraceV2      `json:"valueTrace,omitempty"`
-	ActionResults   []ActionRunResultV2 `json:"actionResults,omitempty"`
-	RNG             []RNGDraw           `json:"rng,omitempty"`
+	StopReason      string                  `json:"stopReason"`
+	FinalTimeMs     int64                   `json:"finalTimeMs"`
+	ProcessedEvents int                     `json:"processedEvents"`
+	QueuePeak       int                     `json:"queuePeak"`
+	ChainDepthPeak  int                     `json:"chainDepthPeak"`
+	TickEmitCount   int                     `json:"tickEmitCount"`
+	Actors          []ActorSnapshotV2       `json:"actors"`
+	Logs            []EngineEventLogV2      `json:"logs,omitempty"`
+	ValueTrace      []ValueTraceV2          `json:"valueTrace,omitempty"`
+	ActionResults   []ActionRunResultV2     `json:"actionResults,omitempty"`
+	TickResults     []StatusTickRunResultV2 `json:"tickResults,omitempty"`
+	TriggerResults  []TriggerRunResultV2    `json:"triggerResults,omitempty"`
+	RNG             []RNGDraw               `json:"rng,omitempty"`
 }
 
 type OutboxRecordV2 struct {
