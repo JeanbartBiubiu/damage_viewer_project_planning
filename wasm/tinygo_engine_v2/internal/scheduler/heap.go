@@ -12,6 +12,8 @@ const (
 	EventStatusExpire
 	EventShieldExpire
 	EventIntentRecheck
+	EventStatusTick
+	EventActionComplete
 )
 
 type Handle struct {
@@ -29,6 +31,7 @@ type Event struct {
 	Action     uint16
 	Status     Handle
 	Shield     Handle
+	Execution  Handle
 	ChainDepth uint8
 }
 
