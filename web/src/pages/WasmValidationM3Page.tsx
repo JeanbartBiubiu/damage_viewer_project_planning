@@ -6,7 +6,6 @@ import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import {
-  buildTinyGoV2SingleActionRunInput,
   compileTinyGoV2ValidationInput,
   createDefaultWasmValidationSelection,
   listWasmValidationSkills,
@@ -77,8 +76,43 @@ type ActionEffectRunResult = {
   rawAmount?: number;
   hasRawAmount?: boolean;
   damageType?: string;
+  statusId?: string;
   finalDamage?: number;
   hasFinalDamage?: boolean;
+  markId?: string;
+  markActive?: boolean;
+  hasMarkState?: boolean;
+  markCount?: number;
+  critRoll?: number;
+  hasCritRoll?: boolean;
+  critResult?: boolean;
+  hasCritResult?: boolean;
+  critMultiplier?: number;
+  hasCritMultiplier?: boolean;
+  interruptedActionId?: string;
+  hasInterrupt?: boolean;
+  historyWindowMs?: number;
+  hasHistoryWindow?: boolean;
+  counterKey?: string;
+  counterBefore?: number;
+  counterAfter?: number;
+  hasCounterState?: boolean;
+  modeAugmentId?: string;
+  modeActive?: boolean;
+  modeMultiplier?: number;
+  hasModeState?: boolean;
+  healApplied?: number;
+  hasHealApplied?: boolean;
+  overhealAmount?: number;
+  hasOverheal?: boolean;
+  shieldBefore?: number;
+  hasShieldBefore?: boolean;
+  shieldAfter?: number;
+  hasShieldAfter?: boolean;
+  shieldGranted?: number;
+  hasShieldGranted?: boolean;
+  shieldAbsorbed?: number;
+  hasShieldAbsorbed?: boolean;
   targetHpBefore?: number;
   targetHpAfter?: number;
   sourceActorId?: string;
@@ -92,10 +126,59 @@ type ActionRunResult = {
   targetActorId: string;
   accepted: boolean;
   blockedReason?: string;
+  blockedRuleId?: string;
+  blockedStatusId?: string;
+  conditionKind?: string;
+  conditionId?: string;
+  conditionPassed?: boolean;
+  hasCondition?: boolean;
+  executionStarted?: boolean;
+  executionCompleted?: boolean;
+  interrupted?: boolean;
+  executionCompleteAtMs?: number;
   resourceDeltas?: ActionResourceDelta[];
   cooldownBefore?: ActionCooldownRunState;
   cooldownAfter?: ActionCooldownRunState;
   effects?: ActionEffectRunResult[];
+};
+
+type StatusTickRunResult = {
+  timeMs: number;
+  statusId: string;
+  tickIndex: number;
+  tickCount: number;
+  kind: string;
+  formulaId?: string;
+  rawAmount?: number;
+  hasRawAmount?: boolean;
+  damageType?: string;
+  finalDamage?: number;
+  hasFinalDamage?: boolean;
+  healApplied?: number;
+  hasHealApplied?: boolean;
+  overhealAmount?: number;
+  hasOverheal?: boolean;
+  targetHpBefore?: number;
+  targetHpAfter?: number;
+  sourceActorId?: string;
+  targetActorId?: string;
+};
+
+type RNGDraw = {
+  stream: string;
+  index: number;
+  use: string;
+  value: number;
+};
+
+type TriggerRunResult = {
+  timeMs: number;
+  triggerId: string;
+  event: string;
+  sourceActorId?: string;
+  targetActorId?: string;
+  effectCount: number;
+  chainDepth: number;
 };
 
 type DonePayload = {
@@ -107,6 +190,9 @@ type DonePayload = {
   actors: ActorSnapshot[];
   logs?: Array<Record<string, unknown>>;
   actionResults?: ActionRunResult[];
+  tickResults?: StatusTickRunResult[];
+  triggerResults?: TriggerRunResult[];
+  rng?: RNGDraw[];
 };
 
 type DecodedFrame = {
@@ -134,8 +220,182 @@ type ActionOptionRow = WasmValidationSkillOption & {
   displayLabel: string;
 };
 
+type ValidationCasePresetId =
+  | 'm3_single_skill'
+  | 'm4_direct_damage_regression'
+  | 'm4_insufficient_resource_gate'
+  | 'm4_cooldown_gate'
+  | 'm4_shield_min'
+  | 'm4_heal_min'
+  | 'm4_mark_apply'
+  | 'm4_conditional_hit'
+  | 'm4_dot_min'
+  | 'm4_hot_min'
+  | 'm4_multi_hit_damage'
+  | 'm4_crit_min'
+  | 'm4_rng_seed'
+  | 'm4_control_min'
+  | 'm4_interrupt_min'
+  | 'm4_trigger_chain_min'
+  | 'm4_history_window_min'
+  | 'm4_counter_min'
+  | 'm4_mode_augment_min'
+  | 'm4_action_gate';
+
+type ValidationCaseRunMode = 'single' | 'self_target' | 'repeat_same_tick' | 'self_then_enemy_unowned';
+
+type ValidationCasePreset = {
+  id: ValidationCasePresetId;
+  label: string;
+  milestone: 'M3' | 'M4';
+  caseId: string;
+  runMode?: ValidationCaseRunMode;
+  expectedBlockedReason?: string;
+  selfResourceOverride?: {
+    resourceId: string;
+    current: number;
+    max: number;
+  };
+};
+
 const TINYGO_V2_WASM_URL = new URL('../engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
 const DONE_FRAME_KIND = 13;
+
+const CASE_PRESETS: ValidationCasePreset[] = [
+  {
+    id: 'm4_direct_damage_regression',
+    label: 'M4.1 直伤回归',
+    milestone: 'M4',
+    caseId: 'M4.1-direct-damage-regression-001'
+  },
+  {
+    id: 'm4_insufficient_resource_gate',
+    label: 'M4.2 资源不足',
+    milestone: 'M4',
+    caseId: 'M4.2-insufficient-resource-gate-001',
+    expectedBlockedReason: 'insufficient resource',
+    selfResourceOverride: {
+      resourceId: 'mana',
+      current: 50,
+      max: 843
+    }
+  },
+  {
+    id: 'm4_cooldown_gate',
+    label: 'M4.3 冷却 gate',
+    milestone: 'M4',
+    caseId: 'M4.3-cooldown-gate-001',
+    runMode: 'repeat_same_tick',
+    expectedBlockedReason: 'cooldown'
+  },
+  {
+    id: 'm4_shield_min',
+    label: 'M4.4 护盾',
+    milestone: 'M4',
+    caseId: 'M4.4-shield-min-001',
+    runMode: 'self_target'
+  },
+  {
+    id: 'm4_heal_min',
+    label: 'M4.5 治疗',
+    milestone: 'M4',
+    caseId: 'M4.5-heal-min-001',
+    runMode: 'self_target'
+  },
+  {
+    id: 'm4_mark_apply',
+    label: 'M4.6 标记施加',
+    milestone: 'M4',
+    caseId: 'M4.6-mark-apply-001'
+  },
+  {
+    id: 'm4_conditional_hit',
+    label: 'M4.7 条件命中',
+    milestone: 'M4',
+    caseId: 'M4.7-conditional-hit-001'
+  },
+  {
+    id: 'm4_dot_min',
+    label: 'M4.8 DoT',
+    milestone: 'M4',
+    caseId: 'M4.8-dot-min-001'
+  },
+  {
+    id: 'm4_hot_min',
+    label: 'M4.9 HoT',
+    milestone: 'M4',
+    caseId: 'M4.9-hot-min-001',
+    runMode: 'self_target'
+  },
+  {
+    id: 'm4_multi_hit_damage',
+    label: 'M4.10 多段伤害',
+    milestone: 'M4',
+    caseId: 'M4.10-multi-hit-damage-001'
+  },
+  {
+    id: 'm4_crit_min',
+    label: 'M4.11 暴击',
+    milestone: 'M4',
+    caseId: 'M4.11-crit-min-001'
+  },
+  {
+    id: 'm4_rng_seed',
+    label: 'M4.12 随机数',
+    milestone: 'M4',
+    caseId: 'M4.12-rng-seed-001'
+  },
+  {
+    id: 'm4_control_min',
+    label: 'M4.13 控制',
+    milestone: 'M4',
+    caseId: 'M4.13-control-min-001'
+  },
+  {
+    id: 'm4_interrupt_min',
+    label: 'M4.14 打断',
+    milestone: 'M4',
+    caseId: 'M4.14-interrupt-min-001'
+  },
+  {
+    id: 'm4_trigger_chain_min',
+    label: 'M4.16 触发链',
+    milestone: 'M4',
+    caseId: 'M4.16-trigger-chain-min-001'
+  },
+  {
+    id: 'm4_history_window_min',
+    label: 'M4.17 历史窗口',
+    milestone: 'M4',
+    caseId: 'M4.17-history-window-min-001'
+  },
+  {
+    id: 'm4_counter_min',
+    label: 'M4.18 计数器',
+    milestone: 'M4',
+    caseId: 'M4.18-counter-min-001'
+  },
+  {
+    id: 'm4_mode_augment_min',
+    label: 'M4.19 模式强化',
+    milestone: 'M4',
+    caseId: 'M4.19-mode-augment-min-001'
+  },
+  {
+    id: 'm4_action_gate',
+    label: 'M4.15 动作 gate',
+    milestone: 'M4',
+    caseId: 'M4.15-action-gate-001',
+    runMode: 'self_then_enemy_unowned',
+    expectedBlockedReason: 'action_not_owned'
+  },
+  {
+    id: 'm3_single_skill',
+    label: 'M3 单技能',
+    milestone: 'M3',
+    caseId: 'M3-single-skill-dummy-canonical-001'
+  }
+];
 
 const FRAME_KIND_LABELS: Record<number, string> = {
   11: 'log',
@@ -211,46 +471,223 @@ function buildEvidenceRow(
   return { field, wasmValue, baselineValue: baselineValue ?? '', tolerance, status, evidenceRef, note };
 }
 
+function findActorSnapshot(done: DonePayload, actorId: string): ActorSnapshot | null {
+  return done.actors.find((actor) => actor.actorId === actorId) ?? null;
+}
+
+function appendActorOutcomeRows(rows: EvidenceRow[], baseline: BaselineInput | null, done: DonePayload): void {
+  for (const actorId of ['self', 'enemy']) {
+    const actor = findActorSnapshot(done, actorId);
+    if (!actor) {
+      continue;
+    }
+    rows.push(buildEvidenceRow(baseline, `actor.${actorId}.hp.after`, actor.currentHp, `done.actors.${actorId}.currentHp`));
+    rows.push(buildEvidenceRow(baseline, `actor.${actorId}.shield.after`, actor.shieldAmount, `done.actors.${actorId}.shieldAmount`));
+    for (const [resourceId, resource] of Object.entries(actor.resources ?? {})) {
+      rows.push(buildEvidenceRow(baseline, `actor.${actorId}.resource.${resourceId}.current`, resource.current, `done.actors.${actorId}.resources.${resourceId}.current`));
+      rows.push(buildEvidenceRow(baseline, `actor.${actorId}.resource.${resourceId}.max`, resource.max, `done.actors.${actorId}.resources.${resourceId}.max`));
+    }
+  }
+}
+
+function appendActionResultRows(
+  rows: EvidenceRow[],
+  baseline: BaselineInput | null,
+  result: ActionRunResult,
+  prefixes: {
+    action: string;
+    resource: string;
+    cooldown: string;
+    effect: string;
+    evidence: string;
+  }
+): void {
+  rows.push(buildEvidenceRow(baseline, `${prefixes.action}.timeMs`, result.timeMs, `${prefixes.evidence}.timeMs`));
+  rows.push(buildEvidenceRow(baseline, `${prefixes.action}.accepted`, result.accepted, `${prefixes.evidence}.accepted`));
+  rows.push(
+    buildEvidenceRow(baseline, `${prefixes.action}.blockedReason`, result.blockedReason ?? '', `${prefixes.evidence}.blockedReason`, '空字符串表示未阻塞')
+  );
+  rows.push(buildEvidenceRow(baseline, `${prefixes.action}.blockedRuleId`, result.blockedRuleId ?? '', `${prefixes.evidence}.blockedRuleId`));
+  rows.push(buildEvidenceRow(baseline, `${prefixes.action}.blockedStatusId`, result.blockedStatusId ?? '', `${prefixes.evidence}.blockedStatusId`));
+  if (result.hasCondition) {
+    rows.push(buildEvidenceRow(baseline, `${prefixes.action}.condition.kind`, result.conditionKind ?? '', `${prefixes.evidence}.conditionKind`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.action}.condition.id`, result.conditionId ?? '', `${prefixes.evidence}.conditionId`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.action}.condition.passed`, Boolean(result.conditionPassed), `${prefixes.evidence}.conditionPassed`));
+  }
+  if (result.executionStarted || result.executionCompleted || result.interrupted) {
+    rows.push(buildEvidenceRow(baseline, `${prefixes.action}.executionStarted`, Boolean(result.executionStarted), `${prefixes.evidence}.executionStarted`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.action}.executionCompleted`, Boolean(result.executionCompleted), `${prefixes.evidence}.executionCompleted`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.action}.interrupted`, Boolean(result.interrupted), `${prefixes.evidence}.interrupted`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.action}.executionCompleteAtMs`, result.executionCompleteAtMs ?? '', `${prefixes.evidence}.executionCompleteAtMs`));
+  }
+
+  for (const delta of result.resourceDeltas ?? []) {
+    rows.push(buildEvidenceRow(baseline, `${prefixes.resource}.${delta.resourceId}.before`, delta.before, `${prefixes.evidence}.resourceDeltas.${delta.resourceId}.before`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.resource}.${delta.resourceId}.after`, delta.after, `${prefixes.evidence}.resourceDeltas.${delta.resourceId}.after`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.resource}.${delta.resourceId}.delta`, delta.delta, `${prefixes.evidence}.resourceDeltas.${delta.resourceId}.delta`));
+  }
+
+  if (result.cooldownBefore) {
+    rows.push(buildEvidenceRow(baseline, `${prefixes.cooldown}.before.cooldownMs`, result.cooldownBefore.cooldownMs, `${prefixes.evidence}.cooldownBefore.cooldownMs`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.cooldown}.before.readyAtMs`, result.cooldownBefore.readyAtMs, `${prefixes.evidence}.cooldownBefore.readyAtMs`));
+  }
+  if (result.cooldownAfter) {
+    rows.push(buildEvidenceRow(baseline, `${prefixes.cooldown}.after.cooldownMs`, result.cooldownAfter.cooldownMs, `${prefixes.evidence}.cooldownAfter.cooldownMs`));
+    rows.push(buildEvidenceRow(baseline, `${prefixes.cooldown}.after.readyAtMs`, result.cooldownAfter.readyAtMs, `${prefixes.evidence}.cooldownAfter.readyAtMs`));
+  }
+
+  for (const effect of result.effects ?? []) {
+    const prefix = `${prefixes.effect}.${effect.effectIndex}`;
+    rows.push(buildEvidenceRow(baseline, `${prefix}.kind`, effect.kind, `${prefixes.evidence}.effects[${effect.effectIndex}].kind`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.formulaId`, effect.formulaId ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].formulaId`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.statusId`, effect.statusId ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].statusId`));
+    if (effect.hasRawAmount) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.rawAmount`, effect.rawAmount ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].rawAmount`));
+    }
+    if (effect.hasFinalDamage) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.finalDamage`, effect.finalDamage ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].finalDamage`));
+    }
+    if (effect.hasMarkState) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.markId`, effect.markId ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].markId`));
+      rows.push(buildEvidenceRow(baseline, `${prefix}.markActive`, Boolean(effect.markActive), `${prefixes.evidence}.effects[${effect.effectIndex}].markActive`));
+      rows.push(buildEvidenceRow(baseline, `${prefix}.markCount`, effect.markCount ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].markCount`));
+    }
+    if (effect.hasCritRoll) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.critRoll`, effect.critRoll ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].critRoll`));
+    }
+    if (effect.hasCritResult) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.critResult`, Boolean(effect.critResult), `${prefixes.evidence}.effects[${effect.effectIndex}].critResult`));
+    }
+    if (effect.hasCritMultiplier) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.critMultiplier`, effect.critMultiplier ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].critMultiplier`));
+    }
+    if (effect.hasInterrupt) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.interruptedActionId`, effect.interruptedActionId ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].interruptedActionId`));
+    }
+    if (effect.hasHistoryWindow) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.historyWindowMs`, effect.historyWindowMs ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].historyWindowMs`));
+    }
+    if (effect.hasCounterState) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.counterKey`, effect.counterKey ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].counterKey`));
+      rows.push(buildEvidenceRow(baseline, `${prefix}.counterBefore`, effect.counterBefore ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].counterBefore`));
+      rows.push(buildEvidenceRow(baseline, `${prefix}.counterAfter`, effect.counterAfter ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].counterAfter`));
+    }
+    if (effect.hasModeState) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.modeAugmentId`, effect.modeAugmentId ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].modeAugmentId`));
+      rows.push(buildEvidenceRow(baseline, `${prefix}.modeActive`, Boolean(effect.modeActive), `${prefixes.evidence}.effects[${effect.effectIndex}].modeActive`));
+      rows.push(buildEvidenceRow(baseline, `${prefix}.modeMultiplier`, effect.modeMultiplier ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].modeMultiplier`));
+    }
+    if (effect.hasHealApplied) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.healApplied`, effect.healApplied ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].healApplied`));
+    }
+    if (effect.hasOverheal) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.overhealAmount`, effect.overhealAmount ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].overhealAmount`));
+    }
+    if (effect.hasShieldBefore) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.shieldBefore`, effect.shieldBefore ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].shieldBefore`));
+    }
+    if (effect.hasShieldAfter) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.shieldAfter`, effect.shieldAfter ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].shieldAfter`));
+    }
+    if (effect.hasShieldGranted) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.shieldGranted`, effect.shieldGranted ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].shieldGranted`));
+    }
+    if (effect.hasShieldAbsorbed) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.shieldAbsorbed`, effect.shieldAbsorbed ?? 0, `${prefixes.evidence}.effects[${effect.effectIndex}].shieldAbsorbed`));
+    }
+    rows.push(buildEvidenceRow(baseline, `${prefix}.damageType`, effect.damageType ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].damageType`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.targetHpBefore`, effect.targetHpBefore ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].targetHpBefore`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.targetHpAfter`, effect.targetHpAfter ?? '', `${prefixes.evidence}.effects[${effect.effectIndex}].targetHpAfter`));
+  }
+}
+
+function appendTickResultRows(rows: EvidenceRow[], baseline: BaselineInput | null, done: DonePayload): void {
+  for (const [index, tick] of (done.tickResults ?? []).entries()) {
+    const prefix = `tickResults.${index}`;
+    const evidence = `done.tickResults[${index}]`;
+    rows.push(buildEvidenceRow(baseline, `${prefix}.timeMs`, tick.timeMs, `${evidence}.timeMs`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.statusId`, tick.statusId, `${evidence}.statusId`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.tickIndex`, tick.tickIndex, `${evidence}.tickIndex`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.tickCount`, tick.tickCount, `${evidence}.tickCount`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.kind`, tick.kind, `${evidence}.kind`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.formulaId`, tick.formulaId ?? '', `${evidence}.formulaId`));
+    if (tick.hasRawAmount) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.rawAmount`, tick.rawAmount ?? 0, `${evidence}.rawAmount`));
+    }
+    if (tick.hasFinalDamage) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.finalDamage`, tick.finalDamage ?? 0, `${evidence}.finalDamage`));
+    }
+    if (tick.hasHealApplied) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.healApplied`, tick.healApplied ?? 0, `${evidence}.healApplied`));
+    }
+    if (tick.hasOverheal) {
+      rows.push(buildEvidenceRow(baseline, `${prefix}.overhealAmount`, tick.overhealAmount ?? 0, `${evidence}.overhealAmount`));
+    }
+    rows.push(buildEvidenceRow(baseline, `${prefix}.damageType`, tick.damageType ?? '', `${evidence}.damageType`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.targetHpBefore`, tick.targetHpBefore ?? '', `${evidence}.targetHpBefore`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.targetHpAfter`, tick.targetHpAfter ?? '', `${evidence}.targetHpAfter`));
+  }
+}
+
+function appendTriggerRows(rows: EvidenceRow[], baseline: BaselineInput | null, done: DonePayload): void {
+  for (const [index, trigger] of (done.triggerResults ?? []).entries()) {
+    const prefix = `triggerResults.${index}`;
+    const evidence = `done.triggerResults[${index}]`;
+    rows.push(buildEvidenceRow(baseline, `${prefix}.timeMs`, trigger.timeMs, `${evidence}.timeMs`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.triggerId`, trigger.triggerId, `${evidence}.triggerId`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.event`, trigger.event, `${evidence}.event`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.effectCount`, trigger.effectCount, `${evidence}.effectCount`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.chainDepth`, trigger.chainDepth, `${evidence}.chainDepth`));
+  }
+}
+
+function appendRngRows(rows: EvidenceRow[], baseline: BaselineInput | null, done: DonePayload): void {
+  for (const [index, draw] of (done.rng ?? []).entries()) {
+    const prefix = `rng.${index}`;
+    const evidence = `done.rng[${index}]`;
+    rows.push(buildEvidenceRow(baseline, `${prefix}.stream`, draw.stream, `${evidence}.stream`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.index`, draw.index, `${evidence}.index`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.use`, draw.use, `${evidence}.use`));
+    rows.push(buildEvidenceRow(baseline, `${prefix}.value`, draw.value, `${evidence}.value`));
+  }
+}
+
 function buildEvidenceRows(done: DonePayload | null, baseline: BaselineInput | null): EvidenceRow[] {
-  const result = done?.actionResults?.[0];
-  if (!done || !result) {
+  if (!done) {
     return [];
   }
   const rows: EvidenceRow[] = [
     buildEvidenceRow(baseline, 'run.stopReason', done.stopReason, 'done.stopReason', ''),
-    buildEvidenceRow(baseline, 'run.processedEvents', done.processedEvents, 'done.processedEvents', ''),
-    buildEvidenceRow(baseline, 'action.accepted', result.accepted, 'done.actionResults[0].accepted', ''),
-    buildEvidenceRow(baseline, 'action.blockedReason', result.blockedReason ?? '', 'done.actionResults[0].blockedReason', '空字符串表示未阻塞')
+    buildEvidenceRow(baseline, 'run.processedEvents', done.processedEvents, 'done.processedEvents', '')
   ];
 
-  for (const delta of result.resourceDeltas ?? []) {
-    rows.push(buildEvidenceRow(baseline, `resource.${delta.resourceId}.before`, delta.before, `resourceDeltas.${delta.resourceId}.before`));
-    rows.push(buildEvidenceRow(baseline, `resource.${delta.resourceId}.after`, delta.after, `resourceDeltas.${delta.resourceId}.after`));
-    rows.push(buildEvidenceRow(baseline, `resource.${delta.resourceId}.delta`, delta.delta, `resourceDeltas.${delta.resourceId}.delta`));
+  appendActorOutcomeRows(rows, baseline, done);
+  const results = done.actionResults ?? [];
+  const first = results[0];
+
+  if (first) {
+    appendActionResultRows(rows, baseline, first, {
+      action: 'action',
+      resource: 'resource',
+      cooldown: 'cooldown',
+      effect: 'effect',
+      evidence: 'done.actionResults[0]'
+    });
   }
 
-  if (result.cooldownBefore) {
-    rows.push(buildEvidenceRow(baseline, 'cooldown.before.readyAtMs', result.cooldownBefore.readyAtMs, 'cooldownBefore.readyAtMs'));
-  }
-  if (result.cooldownAfter) {
-    rows.push(buildEvidenceRow(baseline, 'cooldown.after.cooldownMs', result.cooldownAfter.cooldownMs, 'cooldownAfter.cooldownMs'));
-    rows.push(buildEvidenceRow(baseline, 'cooldown.after.readyAtMs', result.cooldownAfter.readyAtMs, 'cooldownAfter.readyAtMs'));
-  }
+  results.forEach((result, index) =>
+    appendActionResultRows(rows, baseline, result, {
+      action: `actionResults.${index}.action`,
+      resource: `actionResults.${index}.resource`,
+      cooldown: `actionResults.${index}.cooldown`,
+      effect: `actionResults.${index}.effect`,
+      evidence: `done.actionResults[${index}]`
+    })
+  );
 
-  for (const effect of result.effects ?? []) {
-    const prefix = `effect.${effect.effectIndex}`;
-    rows.push(buildEvidenceRow(baseline, `${prefix}.kind`, effect.kind, `effects[${effect.effectIndex}].kind`));
-    rows.push(buildEvidenceRow(baseline, `${prefix}.formulaId`, effect.formulaId ?? '', `effects[${effect.effectIndex}].formulaId`));
-    if (effect.hasRawAmount) {
-      rows.push(buildEvidenceRow(baseline, `${prefix}.rawAmount`, effect.rawAmount ?? 0, `effects[${effect.effectIndex}].rawAmount`));
-    }
-    if (effect.hasFinalDamage) {
-      rows.push(buildEvidenceRow(baseline, `${prefix}.finalDamage`, effect.finalDamage ?? 0, `effects[${effect.effectIndex}].finalDamage`));
-    }
-    rows.push(buildEvidenceRow(baseline, `${prefix}.damageType`, effect.damageType ?? '', `effects[${effect.effectIndex}].damageType`));
-    rows.push(buildEvidenceRow(baseline, `${prefix}.targetHpBefore`, effect.targetHpBefore ?? '', `effects[${effect.effectIndex}].targetHpBefore`));
-    rows.push(buildEvidenceRow(baseline, `${prefix}.targetHpAfter`, effect.targetHpAfter ?? '', `effects[${effect.effectIndex}].targetHpAfter`));
-  }
+  appendTickResultRows(rows, baseline, done);
+  appendTriggerRows(rows, baseline, done);
+  appendRngRows(rows, baseline, done);
 
   return rows;
 }
@@ -273,6 +710,24 @@ function buildActionRows(options: WasmValidationSkillOption[]): ActionOptionRow[
     ...option,
     displayLabel: `${option.label} / ${option.actionId}`
   }));
+}
+
+function findCasePreset(id: ValidationCasePresetId): ValidationCasePreset {
+  return CASE_PRESETS.find((preset) => preset.id === id) ?? CASE_PRESETS[0];
+}
+
+function applyCasePresetToSelection(selection: WasmValidationSelection, preset: ValidationCasePreset): WasmValidationSelection {
+  if (!preset.selfResourceOverride) {
+    return selection;
+  }
+  const { resourceId, current, max } = preset.selfResourceOverride;
+  return {
+    ...selection,
+    selfResourceOverrides: {
+      ...(selection.selfResourceOverrides ?? {}),
+      [resourceId]: { current, max }
+    }
+  };
 }
 
 function createDefaultM3Selection(bundle: GameDataBundle): WasmValidationSelection {
@@ -307,14 +762,49 @@ function createDefaultM3Selection(bundle: GameDataBundle): WasmValidationSelecti
   return fallback;
 }
 
-function cloneValidationInputWithSingleAction(input: TinyGoV2ValidationInput, action: TinyGoV2ActionRequest): TinyGoV2ValidationInput {
+function buildPresetActionRequests(selectedActionId: string, preset: ValidationCasePreset): TinyGoV2ActionRequest[] {
+  const primary: TinyGoV2ActionRequest = {
+    triggerAtMs: 0,
+    sourceActorId: 'self',
+    targetActorId: 'enemy',
+    actionId: selectedActionId
+  };
+  if (preset.runMode === 'repeat_same_tick') {
+    return [primary, { ...primary }];
+  }
+  if (preset.runMode === 'self_target') {
+    return [{ ...primary, targetActorId: 'self' }];
+  }
+  if (preset.runMode === 'self_then_enemy_unowned') {
+    return [
+      primary,
+      {
+        triggerAtMs: 1,
+        sourceActorId: 'enemy',
+        targetActorId: 'self',
+        actionId: selectedActionId
+      }
+    ];
+  }
+  return [primary];
+}
+
+function cloneValidationInputWithPreset(input: TinyGoV2ValidationInput, selectedActionId: string, preset: ValidationCasePreset): TinyGoV2ValidationInput {
+  const initialActions = buildPresetActionRequests(selectedActionId, preset);
   return {
     ...input,
-    runInput: buildTinyGoV2SingleActionRunInput(input.runInput, action, {
-      maxEvents: 8,
-      enableLogs: true,
-      valueTrace: true
-    })
+    runInput: {
+      ...input.runInput,
+      initialActions,
+      stopCondition: {
+        maxEvents: Math.max(input.runInput.stopCondition.maxEvents, initialActions.length + 16)
+      },
+      trace: {
+        ...input.runInput.trace,
+        enableLogs: true,
+        valueTrace: true
+      }
+    }
   };
 }
 
@@ -329,6 +819,7 @@ export function WasmValidationM3Page({
   const [cacheStatus, setCacheStatus] = useState<string>('idle');
   const [bundleStatus, setBundleStatus] = useState<LoadState>('idle');
   const [bundleError, setBundleError] = useState<string | null>(null);
+  const [selectedCasePresetId, setSelectedCasePresetId] = useState<ValidationCasePresetId>('m4_direct_damage_regression');
   const [selection, setSelection] = useState<WasmValidationSelection | null>(null);
   const [selectedActionId, setSelectedActionId] = useState<string>('');
   const [baselineText, setBaselineText] = useState('');
@@ -377,9 +868,15 @@ export function WasmValidationM3Page({
     };
   }, [apiBaseUrl, selectedGameId, externalRefreshSeed]);
 
+  const selectedCasePreset = useMemo(() => findCasePreset(selectedCasePresetId), [selectedCasePresetId]);
+  const effectiveSelection = useMemo(
+    () => (selection ? applyCasePresetToSelection(selection, selectedCasePreset) : null),
+    [selectedCasePreset, selection]
+  );
+
   const selfActionOptions = useMemo(
-    () => (bundle && selection ? buildActionRows(listWasmValidationSkills(bundle, selection, 'self')) : []),
-    [bundle, selection]
+    () => (bundle && effectiveSelection ? buildActionRows(listWasmValidationSkills(bundle, effectiveSelection, 'self')) : []),
+    [bundle, effectiveSelection]
   );
 
   useEffect(() => {
@@ -391,27 +888,22 @@ export function WasmValidationM3Page({
   }, [selfActionOptions]);
 
   const inputPreview = useMemo((): { value: TinyGoV2ValidationInput | null; error: string | null } => {
-    if (!bundle || !selection) {
+    if (!bundle || !effectiveSelection) {
       return { value: null, error: null };
     }
     if (!selectedActionId) {
-      return { value: null, error: '请选择一个 self 技能作为 M3 单次施法。' };
+      return { value: null, error: '请选择一个 self 技能作为单次施法。' };
     }
     try {
-      const compiled = compileTinyGoV2ValidationInput(bundle, selection);
+      const compiled = compileTinyGoV2ValidationInput(bundle, effectiveSelection);
       return {
-        value: cloneValidationInputWithSingleAction(compiled, {
-          triggerAtMs: 0,
-          sourceActorId: 'self',
-          targetActorId: 'enemy',
-          actionId: selectedActionId
-        }),
+        value: cloneValidationInputWithPreset(compiled, selectedActionId, selectedCasePreset),
         error: null
       };
     } catch (error) {
       return { value: null, error: getErrorMessage(error) };
     }
-  }, [bundle, selectedActionId, selection]);
+  }, [bundle, effectiveSelection, selectedActionId, selectedCasePreset]);
 
   const { baseline, error: baselineError } = useMemo(() => parseBaseline(baselineText), [baselineText]);
   const readyPayload = useMemo(() => getPayload<ReadyPayload>(frames, 15), [frames]);
@@ -446,7 +938,7 @@ export function WasmValidationM3Page({
     setDurationMs(null);
     try {
       if (!inputPreview.value) {
-        throw new Error(inputPreview.error ?? 'M3 输入尚未准备好。');
+        throw new Error(inputPreview.error ?? '单技能输入尚未准备好。');
       }
       const startedAt = performance.now();
       const bridge = await TinyGoV2Bridge.create({ wasmUrl: TINYGO_V2_WASM_URL });
@@ -490,24 +982,28 @@ export function WasmValidationM3Page({
     }
     const payload = {
       case_meta: {
-        milestone: 'M3',
-        caseId: 'M3-single-skill-dummy-canonical',
+        milestone: selectedCasePreset.milestone,
+        caseId: selectedCasePreset.caseId,
         gameId: selectedGameId,
         versionCode: currentVersion?.versionCode ?? '',
         dataHash: currentVersion?.dataHash ?? '',
-        sourceActorId: 'self',
-        targetActorId: 'enemy',
+        sourceActorId: inputPreview.value.runInput.initialActions[0]?.sourceActorId ?? 'self',
+        targetActorId: inputPreview.value.runInput.initialActions[0]?.targetActorId ?? 'enemy',
         actionId: selectedActionId,
         skillId: selectedAction?.skillId ?? '',
         skillLevel: selectedAction?.level ?? 1,
-        seed: inputPreview.value.runInput.seed
+        seed: inputPreview.value.runInput.seed,
+        runMode: selectedCasePreset.runMode ?? 'single',
+        initialActionCount: inputPreview.value.runInput.initialActions.length,
+        expectedBlockedReason: selectedCasePreset.expectedBlockedReason ?? '',
+        selfResourceOverride: selectedCasePreset.selfResourceOverride ?? null
       },
       runInput: inputPreview.value.runInput,
       wasm_output: donePayload,
       evidenceRows
     };
     await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-  }, [currentVersion, donePayload, evidenceRows, inputPreview.value, selectedAction, selectedActionId, selectedGameId]);
+  }, [currentVersion, donePayload, evidenceRows, inputPreview.value, selectedAction, selectedActionId, selectedCasePreset, selectedGameId]);
 
   const heroOptions = (bundle?.heroes ?? []).map((hero) => ({ label: hero.name ?? hero.heroId, value: hero.heroId }));
   const itemOptions = (bundle?.items ?? []).map((item) => ({ label: item.name ?? item.itemId, value: item.itemId }));
@@ -532,12 +1028,12 @@ export function WasmValidationM3Page({
     <div className="wasm-validation-page">
       <section className="workspace-hero">
         <Space direction="vertical" size={8}>
-          <Typography.Text className="workspace-rail">Wasm 验证 M3 / {selectedGameName}</Typography.Text>
-          <Typography.Title heading={2}>M3 单技能 1v 假人验证</Typography.Title>
+          <Typography.Text className="workspace-rail">Wasm 验证 M3/M4 / {selectedGameName}</Typography.Text>
+          <Typography.Title heading={2}>单技能证据验证</Typography.Title>
         </Space>
         <Space>
           <Button icon={<IconRefresh />} onClick={() => void runM3()} loading={status === 'loading'} disabled={!inputPreview.value}>
-            运行 M3
+            运行单技能
           </Button>
           <Button icon={<IconCopy />} onClick={() => void handleCopyPackage()} disabled={!donePayload}>
             复制验收包
@@ -566,10 +1062,17 @@ export function WasmValidationM3Page({
       {baselineError ? <Alert type="warning" content={`人工基线 JSON: ${baselineError}`} /> : null}
       {!selectedGameId ? <Alert type="warning" content="请先选择游戏。" /> : null}
 
-      <Panel title="M3 输入" kicker="case meta">
+      <Panel title="单技能输入" kicker="case meta">
         {bundleStatus === 'loading' ? <EmptyState title="正在加载发布 Bundle" description="等待当前游戏的已发布快照返回。" /> : null}
         {bundle && selection ? (
           <Row gutter={[12, 12]}>
+            <Col span={8}>
+              <Select
+                value={selectedCasePresetId}
+                options={CASE_PRESETS.map((preset) => ({ label: preset.label, value: preset.id }))}
+                onChange={(value) => setSelectedCasePresetId(String(value) as ValidationCasePresetId)}
+              />
+            </Col>
             <Col span={6}>
               <Select value={selection.selfHeroId} options={heroOptions} onChange={(value) => updateSelection({ selfHeroId: String(value) })} />
             </Col>
@@ -610,7 +1113,7 @@ export function WasmValidationM3Page({
         {evidenceRows.length > 0 ? (
           <Table rowKey="field" columns={evidenceColumns} data={evidenceRows} pagination={false} size="small" />
         ) : (
-          <EmptyState title="还没有 M3 运行结果" description="选择技能后运行一次 M3 单次施法。" />
+          <EmptyState title="还没有运行结果" description="选择技能后运行一次单次施法。" />
         )}
       </Panel>
 
