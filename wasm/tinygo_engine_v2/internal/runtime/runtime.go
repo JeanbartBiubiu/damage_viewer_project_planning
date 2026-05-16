@@ -432,8 +432,25 @@ func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
 		ctx.handleCastBlocked(ev, gate)
 		return model.ErrOK
 	}
+	action := ctx.Bundle.Actions[ev.Action]
+	var executionHandle scheduler.Handle
+	executionStarted := false
+	if action.ChannelDurationMs > 0 {
+		handle, ok := ctx.startExecution(ev.Source, ev.Target, ev.Action, ctx.NowMs+action.ChannelDurationMs)
+		if !ok {
+			result.BlockedReason = "execution_arena_full"
+			result.CooldownAfter = ctx.actionCooldownRunState(ev.Source, ev.Action)
+			ctx.ActionResults = append(ctx.ActionResults, result)
+			return model.ErrOK
+		}
+		executionHandle = handle
+		executionStarted = true
+	}
 	resourceDeltas := ctx.actionResourceDeltasBefore(ev.Source, ev.Action)
 	if !ctx.commitCastStart(ev.Source, ev.Action, ctx.NowMs) {
+		if executionStarted {
+			ctx.cancelExecution(executionHandle)
+		}
 		result.BlockedReason = "cast_commit_failed"
 		result.CooldownAfter = ctx.actionCooldownRunState(ev.Source, ev.Action)
 		ctx.ActionResults = append(ctx.ActionResults, result)
@@ -443,21 +460,14 @@ func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
 	result.Accepted = true
 	result.ResourceDeltas = ctx.actionResourceDeltasAfter(ev.Source, resourceDeltas)
 	result.CooldownAfter = ctx.actionCooldownRunState(ev.Source, ev.Action)
-	action := ctx.Bundle.Actions[ev.Action]
 	if action.ChannelDurationMs > 0 {
-		handle, ok := ctx.startExecution(ev.Source, ev.Target, ev.Action, ctx.NowMs+action.ChannelDurationMs)
-		if !ok {
-			result.BlockedReason = "execution_arena_full"
-			ctx.ActionResults = append(ctx.ActionResults, result)
-			return model.ErrOK
-		}
 		result.ExecutionStarted = true
 		result.ExecutionCompleteAtMs = ctx.NowMs + action.ChannelDurationMs
 		ctx.ActionResults = append(ctx.ActionResults, result)
 		ctx.log("action_start", ev.Source, ev.Target, ev.Action, 0, 0, "")
 		return ctx.Queue.Push(scheduler.Event{
 			TimeMs: result.ExecutionCompleteAtMs, Priority: 5, Kind: scheduler.EventActionComplete,
-			Source: ev.Source, Target: ev.Target, Action: ev.Action, Execution: handle,
+			Source: ev.Source, Target: ev.Target, Action: ev.Action, Execution: executionHandle,
 		})
 	}
 	ctx.log("action_cast", ev.Source, ev.Target, ev.Action, 0, 0, "")
@@ -488,6 +498,16 @@ func (ctx *RunContext) startExecution(source uint8, target uint8, action uint16,
 		return scheduler.Handle{Index: uint16(i), Generation: ctx.Executions[i].Generation}, true
 	}
 	return scheduler.Handle{}, false
+}
+
+func (ctx *RunContext) cancelExecution(handle scheduler.Handle) {
+	if int(handle.Index) >= len(ctx.Executions) {
+		return
+	}
+	exec := &ctx.Executions[handle.Index]
+	if exec.Alive && exec.Generation == handle.Generation {
+		exec.Alive = false
+	}
 }
 
 func (ctx *RunContext) onActionComplete(ev scheduler.Event) model.ErrCode {
@@ -1238,12 +1258,12 @@ func (ctx *RunContext) dealDamageResult(source uint8, target uint8, amount float
 		ctx.Actors[target].HP = 0
 	}
 	appliedDamage := hpBefore - ctx.Actors[target].HP
-	ctx.Actors[target].DamageTaken.Add(ctx.NowMs, remaining)
-	ctx.log("damage", source, target, 0, 0, remaining, damageType)
-	if code := ctx.fireTriggers(compilebundle.TriggerOnDamageDealt, source, target, remaining, chainDepth); code != model.ErrOK {
+	ctx.Actors[target].DamageTaken.Add(ctx.NowMs, appliedDamage)
+	ctx.log("damage", source, target, 0, 0, appliedDamage, damageType)
+	if code := ctx.fireTriggers(compilebundle.TriggerOnDamageDealt, source, target, appliedDamage, chainDepth); code != model.ErrOK {
 		return damageApplication{FinalDamage: appliedDamage, ShieldBefore: shieldBefore, ShieldAfter: shieldAfter, ShieldAbsorbed: amount - remaining}, code
 	}
-	if code := ctx.fireTriggers(compilebundle.TriggerOnDamageTaken, source, target, remaining, chainDepth); code != model.ErrOK {
+	if code := ctx.fireTriggers(compilebundle.TriggerOnDamageTaken, source, target, appliedDamage, chainDepth); code != model.ErrOK {
 		return damageApplication{FinalDamage: appliedDamage, ShieldBefore: shieldBefore, ShieldAfter: shieldAfter, ShieldAbsorbed: amount - remaining}, code
 	}
 	if ctx.Actors[target].HP <= 0 {
@@ -1276,6 +1296,9 @@ func (ctx *RunContext) fireTriggers(event compilebundle.TriggerEvent, source uin
 		if trigger.Event != event {
 			continue
 		}
+		if !ctx.triggerOwnerMatches(trigger, source, target) {
+			continue
+		}
 		if trigger.RequiresDamage && damage <= 0 {
 			continue
 		}
@@ -1300,6 +1323,22 @@ func (ctx *RunContext) fireTriggers(event compilebundle.TriggerEvent, source uin
 		}
 	}
 	return model.ErrOK
+}
+
+func (ctx *RunContext) triggerOwnerMatches(trigger compilebundle.CompiledTrigger, source uint8, target uint8) bool {
+	if trigger.OwnerRole == "" && trigger.OwnerID == "" {
+		return true
+	}
+	switch trigger.OwnerRole {
+	case "source":
+		return trigger.OwnerID == "" || ctx.Actors[source].ActorID == trigger.OwnerID
+	case "target":
+		return trigger.OwnerID == "" || ctx.Actors[target].ActorID == trigger.OwnerID
+	case "":
+		return ctx.Actors[source].ActorID == trigger.OwnerID || ctx.Actors[target].ActorID == trigger.OwnerID
+	default:
+		return false
+	}
 }
 
 func triggerEventName(event compilebundle.TriggerEvent) string {
@@ -1460,7 +1499,9 @@ func (ctx *RunContext) onStatusTick(ev scheduler.Event) model.ErrCode {
 	}
 	switch def.TickEffect {
 	case compilebundle.EffectDealDamage:
-		damage, code := ctx.dealDamageResult(source, target, amount, def.TickDamageType, 1)
+		// DoT ticks are top-level damage events for M4 evidence. Trigger effects
+		// run at depth 1, so fireTriggers still prevents recursive expansion.
+		damage, code := ctx.dealDamageResult(source, target, amount, def.TickDamageType, ev.ChainDepth)
 		result.DamageType = def.TickDamageType
 		result.FinalDamage = damage.FinalDamage
 		result.HasFinalDamage = true
@@ -1888,6 +1929,10 @@ func effectKindString(kind compilebundle.EffectType) string {
 		return string(model.EffectTypeConsumeMark)
 	case compilebundle.EffectDamageFromRecent:
 		return string(model.EffectTypeDamageFromRecent)
+	case compilebundle.EffectInterrupt:
+		return string(model.EffectTypeInterrupt)
+	case compilebundle.EffectIncrementCounter:
+		return string(model.EffectTypeIncrementCounter)
 	default:
 		return "unknown"
 	}
