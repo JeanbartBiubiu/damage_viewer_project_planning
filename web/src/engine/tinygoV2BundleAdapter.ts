@@ -153,6 +153,7 @@ export type TinyGoV2EngineBundle = {
 
 export type TinyGoV2RunInput = {
   seed: number;
+  modeAugments?: string[];
   self: {
     actorId: string;
     templateId: string;
@@ -1442,6 +1443,13 @@ function resolveLegacyTable(value: unknown, level: number): number | null {
 }
 
 function skillParamRowToVarDefinition(row: SkillParamVarRow): VarDefinition {
+  if (readString(row.raw.kind) === 'counter') {
+    return {
+      label: row.label || undefined,
+      kind: 'counter',
+      counterKey: readString(row.raw.counterKey) || readString(row.raw.counter) || readString(row.raw.key) || row.key
+    };
+  }
   const rawValues = row.raw.values;
   return {
     label: row.label || undefined,
@@ -1669,6 +1677,12 @@ function compileBoundFormulaExpr(
 }
 
 function formulaParamVarRowToVarDefinition(row: FormulaParamVarRow): VarDefinition {
+  if (readString(row.raw.kind) === 'counter') {
+    return {
+      kind: 'counter',
+      counterKey: readString(row.raw.counterKey) || readString(row.raw.counter) || readString(row.raw.key) || row.key
+    };
+  }
   if (row.kind === 'const') {
     return {
       kind: 'const',
@@ -1767,6 +1781,13 @@ function emitFormulaExpr(
         id,
         op: 'hp_max',
         actor: normalizeFormulaActor(expr.actor)
+      });
+      return id;
+    case 'counter':
+      pushFormulaDefinition(definitions, emittedIds, {
+        id,
+        op: 'counter',
+        counter: expr.counterKey
       });
       return id;
     case 'add':

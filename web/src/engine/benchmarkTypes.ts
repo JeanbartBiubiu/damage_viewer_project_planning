@@ -126,6 +126,7 @@ export type BenchmarkFormulaExpr =
   | { type: 'actor_attr'; actor: FormulaActorRef; attrKey: string }
   | { type: 'actor_hp_current'; actor: FormulaActorRef }
   | { type: 'actor_hp_max'; actor: FormulaActorRef }
+  | { type: 'counter'; counterKey: string }
   | { type: 'add'; terms: BenchmarkFormulaExpr[] }
   | { type: 'multiply'; factors: BenchmarkFormulaExpr[] }
   // ─── 跨游戏扩展节点 ─────────────────────────────────────────
