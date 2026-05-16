@@ -453,6 +453,39 @@ func TestM4ShieldAbsorbsDamageAndCarriesActionEvidence(t *testing.T) {
 	}
 }
 
+func TestM4ShieldKindSuffixMatchesDamageType(t *testing.T) {
+	bundle := m4Batch2MechanismBundle()
+	for i := range bundle.Statuses {
+		if bundle.Statuses[i].ID == "m4_shield_50" {
+			bundle.Statuses[i].ShieldKind = "magic_shield"
+		}
+	}
+	for i := range bundle.Actions {
+		if bundle.Actions[i].ID == "m4_shield_hit" {
+			bundle.Actions[i].Effects[0].DamageType = "magic"
+		}
+	}
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "self", ActionID: "m4_grant_shield"},
+		{TriggerAtMs: 1, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_shield_hit"},
+	}
+	done := runBundle(t, bundle, input)
+
+	hit := actionResult(done, "m4_shield_hit")
+	if !hit.Accepted || len(hit.Effects) != 1 {
+		t.Fatalf("magic_shield hit result = %+v, want one accepted damage effect", hit)
+	}
+	damage := hit.Effects[0]
+	if damage.DamageType != "magic" || !damage.HasShieldAbsorbed || damage.ShieldAbsorbed != 50 ||
+		!damage.HasShieldAfter || damage.ShieldAfter != 0 || !damage.HasFinalDamage || damage.FinalDamage != 30 {
+		t.Fatalf("magic_shield damage evidence = %+v, want 50 absorbed and 30 HP damage", damage)
+	}
+	if got := actorHP(done, "self"); got != 970 {
+		t.Fatalf("self hp got %.2f, want magic_shield to absorb magic damage before HP", got)
+	}
+}
+
 func TestM4HealClampsToMaxHPAndCarriesActionEvidence(t *testing.T) {
 	bundle := m4Batch2MechanismBundle()
 	bundle.Actors[0].InitialHP = 700

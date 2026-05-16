@@ -254,8 +254,8 @@ function rebuildDatabase(db, rules) {
       const nextHeader = buildHeader({
         taskKey: task.task_key,
         docType,
-        workstream: task.module,
-        executionModel: rules.defaults.execution_model,
+        workstream: task.workstream ?? task.module,
+        executionModel: task.owner_model ?? rules.defaults.execution_model,
         lastTrackedAt:
           parsed.metadata.LAST_TRACKED_AT ??
           parsed.metadata.LAST_SYNC_AT ??

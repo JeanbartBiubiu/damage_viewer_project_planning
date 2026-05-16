@@ -3,6 +3,7 @@ package runtime
 
 import (
 	"math"
+	"strings"
 
 	"tinygo_engine_v2/internal/abi"
 	"tinygo_engine_v2/internal/attribute"
@@ -1910,7 +1911,27 @@ func roleActor(role string, source uint8, target uint8) uint8 {
 }
 
 func shieldMatches(kind string, damageType string) bool {
-	return kind == "" || kind == "all" || kind == damageType
+	normalizedKind := normalizeShieldKind(kind)
+	return normalizedKind == "" || normalizedKind == "all" || normalizedKind == damageType
+}
+
+func normalizeShieldKind(kind string) string {
+	switch kind {
+	case "", "all", "physical", "magic", "true":
+		return kind
+	case "shield", "all_shield":
+		return "all"
+	case "physical_shield":
+		return "physical"
+	case "magic_shield":
+		return "magic"
+	case "true_shield":
+		return "true"
+	}
+	if strings.HasSuffix(kind, "_shield") {
+		return strings.TrimSuffix(kind, "_shield")
+	}
+	return kind
 }
 
 func effectKindString(kind compilebundle.EffectType) string {
