@@ -10,6 +10,7 @@
  *   scaled_attr        → Multiply(ActorAttr(attr), Constant(coefficient))
  *   formula            → 递归解析 formulaText
  *   mapping_scaled_attr → Multiply(ActorAttr/…, Constant(mappedCoeff))
+ *   counter            → Runtime counter read
  *
  * formulaText 表达力（递归下降解析器）：
  *   运算符：+  -  *  /   （标准四则运算优先级）
@@ -40,6 +41,8 @@ export type VarDefinition = {
   formulaText?: string;
   formulaVars?: string[];
   selector?: string;
+  counterKey?: string;
+  counter?: string;
 };
 
 export type FormulaCompileContext = {
@@ -227,6 +230,9 @@ function compileVar(
       }
       return parseSimpleExpr(text, varExprs);
     }
+
+    case 'counter':
+      return { type: 'counter', counterKey: def.counterKey || def.counter || name };
 
     default:
       // 未知 kind，尝试当已知变量解析
