@@ -326,6 +326,36 @@ func TestM4CooldownGateBlocksImmediateSecondCastWithoutSideEffects(t *testing.T)
 	}
 }
 
+func TestM4ChannelExecutionArenaFullBlocksWithoutSideEffects(t *testing.T) {
+	bundle := m4ExecutionArenaBundle()
+	input := controlRunInput()
+	input.InitialActions = make([]model.ActionRequest, 0, 17)
+	for i := 0; i < 17; i++ {
+		input.InitialActions = append(input.InitialActions, model.ActionRequest{
+			TriggerAtMs:   0,
+			SourceActorID: "self",
+			TargetActorID: "enemy",
+			ActionID:      channelArenaActionID(i),
+		})
+	}
+	input.StopCondition.MaxEvents = 17
+
+	done := runBundle(t, bundle, input)
+	blocked := actionResult(done, channelArenaActionID(16))
+	if blocked.Accepted || blocked.BlockedReason != "execution_arena_full" || blocked.ExecutionStarted {
+		t.Fatalf("arena-full channel result = %+v, want blocked before execution starts", blocked)
+	}
+	if len(blocked.ResourceDeltas) != 0 || len(blocked.Effects) != 0 {
+		t.Fatalf("arena-full channel should not carry resource deltas or effects: %+v", blocked)
+	}
+	if blocked.CooldownBefore.ReadyAtMs != 0 || blocked.CooldownAfter.ReadyAtMs != 0 || blocked.CooldownAfter.CooldownMs != 1000 {
+		t.Fatalf("arena-full cooldown evidence = before %+v after %+v, want no readyAt change", blocked.CooldownBefore, blocked.CooldownAfter)
+	}
+	if got := actor(done, "self").Resources["mana"].Current; got != 84 {
+		t.Fatalf("self mana got %.2f, want only first 16 channel starts to spend mana", got)
+	}
+}
+
 func TestM4MultiHitDamageCarriesOrderedSegmentEvidence(t *testing.T) {
 	input := controlRunInput()
 	input.InitialActions = []model.ActionRequest{
@@ -467,6 +497,36 @@ func TestM4DotStatusSchedulesFixedDamageTicks(t *testing.T) {
 	}
 	if got := actorHP(done, "enemy"); got != 940 {
 		t.Fatalf("enemy hp got %.2f, want 940 after three dot ticks", got)
+	}
+}
+
+func TestM4DotDamageFiresOneLevelDamageTriggers(t *testing.T) {
+	done := runBundle(t, m4DotTriggerBundle(), m4Batch2RunInput("enemy", "m4_apply_dot"))
+	if len(done.TickResults) != 3 {
+		t.Fatalf("dot tick results = %+v, want three ticks", done.TickResults)
+	}
+	if len(done.TriggerResults) != 6 {
+		t.Fatalf("dot trigger results = %+v, want on_damage_dealt and on_damage_taken for each tick only", done.TriggerResults)
+	}
+	dealt, taken := 0, 0
+	for _, result := range done.TriggerResults {
+		if result.ChainDepth != 1 || result.EffectCount != 1 {
+			t.Fatalf("dot trigger result = %+v, want one-level trigger evidence", result)
+		}
+		switch result.Event {
+		case "on_damage_dealt":
+			dealt++
+		case "on_damage_taken":
+			taken++
+		default:
+			t.Fatalf("unexpected dot trigger event = %+v", result)
+		}
+	}
+	if dealt != 3 || taken != 3 {
+		t.Fatalf("dot trigger event counts dealt=%d taken=%d, want 3/3", dealt, taken)
+	}
+	if got := actorHP(done, "enemy"); got != 910 {
+		t.Fatalf("enemy hp got %.2f, want 60 dot + 30 trigger damage without recursive expansion", got)
 	}
 }
 
@@ -678,6 +738,25 @@ func TestM4TriggerChainRunsOneFollowUpEffectInOrder(t *testing.T) {
 	}
 }
 
+func TestM4OwnerScopedTriggerDoesNotFireGlobally(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_history_hit"},
+		{TriggerAtMs: 1, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_trigger_starter"},
+	}
+	done := runBundle(t, m4OwnerScopedTriggerBundle(), input)
+	if len(done.TriggerResults) != 1 || done.TriggerResults[0].TriggerID != "m4_self_takes_damage_thorns" ||
+		done.TriggerResults[0].SourceActorID != "enemy" || done.TriggerResults[0].TargetActorID != "self" {
+		t.Fatalf("owner-scoped trigger results = %+v, want only self-as-target damage to fire", done.TriggerResults)
+	}
+	if got := actorHP(done, "self"); got != 970 {
+		t.Fatalf("self hp got %.2f, want only initial 30 damage and no global trigger on enemy damage", got)
+	}
+	if got := actorHP(done, "enemy"); got != 985 {
+		t.Fatalf("enemy hp got %.2f, want 5 thorns + 10 starter damage", got)
+	}
+}
+
 func TestM4HistoryWindowReadsRecentDamageInsideAndOutsideWindow(t *testing.T) {
 	insideInput := controlRunInput()
 	insideInput.InitialActions = []model.ActionRequest{
@@ -702,6 +781,42 @@ func TestM4HistoryWindowReadsRecentDamageInsideAndOutsideWindow(t *testing.T) {
 	if !outside.Accepted || len(outside.Effects) != 1 || outside.Effects[0].RawAmount != 0 ||
 		outside.Effects[0].FinalDamage != 0 || actorHP(outsideDone, "enemy") != 1000 {
 		t.Fatalf("outside history window result = %+v enemyHP=%.2f, want expired window to read 0", outside, actorHP(outsideDone, "enemy"))
+	}
+}
+
+func TestM4HistoryWindowRecordsHPDamageAfterShieldAbsorb(t *testing.T) {
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "self", ActionID: "m4_grant_shield"},
+		{TriggerAtMs: 1, SourceActorID: "enemy", TargetActorID: "self", ActionID: "m4_shield_hit"},
+		{TriggerAtMs: 2, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_recent_repay"},
+	}
+	done := runBundle(t, m4HistoryShieldBundle(), input)
+	repay := actionResult(done, "m4_recent_repay")
+	if !repay.Accepted || len(repay.Effects) != 1 || repay.Effects[0].RawAmount != 30 || repay.Effects[0].FinalDamage != 30 {
+		t.Fatalf("shielded history repay = %+v, want only 30 HP damage recorded after shield absorb", repay)
+	}
+	if actorHP(done, "self") != 970 || actorHP(done, "enemy") != 970 {
+		t.Fatalf("final hp self/enemy = %.2f/%.2f, want shielded 30 and repay 30", actorHP(done, "self"), actorHP(done, "enemy"))
+	}
+}
+
+func TestM4HistoryWindowRecordsAppliedHPDamageOnOverkill(t *testing.T) {
+	bundle := m4OverkillHistoryBundle()
+	bundle.Actors[1].InitialHP = 20
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "m4_history_hit"},
+	}
+	done := runBundle(t, bundle, input)
+	if len(done.TriggerResults) != 1 || done.TriggerResults[0].TriggerID != "m4_overkill_history_repay" {
+		t.Fatalf("overkill trigger results = %+v, want one history repay trigger", done.TriggerResults)
+	}
+	if got := actorHP(done, "self"); got != 980 {
+		t.Fatalf("self hp got %.2f, want overkill history to record 20 actual HP loss only", got)
+	}
+	if got := actorHP(done, "enemy"); got != 0 {
+		t.Fatalf("enemy hp got %.2f, want overkill target dead", got)
 	}
 }
 
@@ -832,6 +947,25 @@ func TestActionSnapshotInitialExportsOwnedActionsAndResolvedRows(t *testing.T) {
 	cooldownBolt := actionState(self, "cooldown_bolt")
 	if cooldownBolt.CooldownMs != 1000 || cooldownBolt.ReadyAtMs != 0 || !cooldownBolt.CanCast {
 		t.Fatalf("cooldown_bolt snapshot = %+v, want cooldownMs=1000 readyAt=0 canCast=true", cooldownBolt)
+	}
+}
+
+func TestActionSnapshotInitialNamesM4Batch4EffectKinds(t *testing.T) {
+	session := runtime.NewSession()
+	mustCode(t, session.InitJSON(mustJSON(t, m4Batch4MechanismBundle())))
+	input := controlRunInput()
+
+	mustCode(t, session.SnapshotActionsInitialJSON(mustJSON(t, input)))
+	snapshot := testkit.LastActionSnapshot(session.OutboxBytes())
+	self := actionSnapshotActor(snapshot, "self")
+	enemy := actionSnapshotActor(snapshot, "enemy")
+	counterIncrement := actionState(self, "m4_counter_increment")
+	if len(counterIncrement.EffectRows) != 1 || counterIncrement.EffectRows[0].Kind != "increment_counter" {
+		t.Fatalf("counter increment action snapshot = %+v, want increment_counter effect kind", counterIncrement)
+	}
+	interrupt := actionState(enemy, "m4_interrupt")
+	if len(interrupt.EffectRows) != 1 || interrupt.EffectRows[0].Kind != "interrupt" {
+		t.Fatalf("interrupt action snapshot = %+v, want interrupt effect kind", interrupt)
 	}
 }
 
@@ -1429,6 +1563,112 @@ func m4Batch4TriggerBundle() model.EngineBundle {
 		RequiresDamage: true,
 		Effects: []model.EffectDef{
 			{Type: "deal_damage", FormulaID: "m4_damage_5", DamageType: "true", SourceRole: "source", TargetRole: "target"},
+		},
+	})
+	return bundle
+}
+
+func m4ExecutionArenaBundle() model.EngineBundle {
+	bundle := controlGateBundle()
+	for i := 0; i < 17; i++ {
+		actionID := channelArenaActionID(i)
+		bundle.Actions = append(bundle.Actions, model.ActionTemplate{
+			ID:                actionID,
+			Label:             actionID,
+			Classifier:        model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			CooldownMs:        1000,
+			ChannelDurationMs: 10000,
+			ResourceCost:      []model.ResourceCostV2{{ResourceID: "mana", Amount: 1}},
+		})
+		bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, actionID)
+	}
+	return bundle
+}
+
+func channelArenaActionID(index int) string {
+	return "m4_channel_arena_" + string(rune('a'+index))
+}
+
+func m4HistoryShieldBundle() model.EngineBundle {
+	bundle := m4Batch4MechanismBundle()
+	bundle.Statuses = append(bundle.Statuses,
+		model.StatusTemplate{ID: "m4_shield_50", Kind: "shield", DurationMs: 4000, Magnitude: 50, ShieldKind: "physical"},
+	)
+	bundle.Formulas = append(bundle.Formulas,
+		model.FormulaDefinition{ID: "m4_shield_amount", Op: "const", Value: 50},
+		model.FormulaDefinition{ID: "m4_shield_hit_damage", Op: "const", Value: 80},
+	)
+	bundle.Actions = append(bundle.Actions,
+		model.ActionTemplate{
+			ID:         "m4_grant_shield",
+			Label:      "M4 Grant Shield",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "grant_shield", StatusID: "m4_shield_50", FormulaID: "m4_shield_amount", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_shield_hit",
+			Label:      "M4 Shield Hit",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_shield_hit_damage", DamageType: "physical", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+	)
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "m4_grant_shield")
+	bundle.Actors[1].Actions = append(bundle.Actors[1].Actions, "m4_shield_hit")
+	return bundle
+}
+
+func m4OverkillHistoryBundle() model.EngineBundle {
+	bundle := m4Batch4MechanismBundle()
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "m4_history_hit")
+	bundle.Triggers = append(bundle.Triggers, model.TriggerDefinition{
+		ID:             "m4_overkill_history_repay",
+		Event:          "on_damage_taken",
+		RequiresDamage: true,
+		Effects: []model.EffectDef{
+			{Type: "damage_from_recent", Amount: 1, HistoryWindowMs: 4000, DamageType: "true", SourceRole: "target", TargetRole: "source"},
+		},
+	})
+	return bundle
+}
+
+func m4DotTriggerBundle() model.EngineBundle {
+	bundle := m4Batch2MechanismBundle()
+	bundle.Formulas = append(bundle.Formulas, model.FormulaDefinition{ID: "m4_damage_5", Op: "const", Value: 5})
+	bundle.Triggers = append(bundle.Triggers,
+		model.TriggerDefinition{
+			ID:             "m4_dot_on_damage_dealt",
+			Event:          "on_damage_dealt",
+			RequiresDamage: true,
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_damage_5", DamageType: "true", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.TriggerDefinition{
+			ID:             "m4_dot_on_damage_taken",
+			Event:          "on_damage_taken",
+			RequiresDamage: true,
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", FormulaID: "m4_damage_5", DamageType: "true", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+	)
+	return bundle
+}
+
+func m4OwnerScopedTriggerBundle() model.EngineBundle {
+	bundle := m4Batch4MechanismBundle()
+	bundle.Triggers = append(bundle.Triggers, model.TriggerDefinition{
+		ID:             "m4_self_takes_damage_thorns",
+		Event:          "on_damage_taken",
+		OwnerRole:      "target",
+		OwnerID:        "self",
+		RequiresDamage: true,
+		Effects: []model.EffectDef{
+			{Type: "deal_damage", FormulaID: "m4_damage_5", DamageType: "true", SourceRole: "target", TargetRole: "source"},
 		},
 	})
 	return bundle
