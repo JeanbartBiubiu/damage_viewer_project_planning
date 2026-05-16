@@ -75,11 +75,34 @@ export type TinyGoV2ActionPanelEffect = {
   targetRole?: string;
 };
 
+export type TinyGoV2StatusTemplate = {
+  id: string;
+  kind: string;
+  durationMs?: number;
+  magnitude?: number;
+  shieldKind?: string;
+  tickIntervalMs?: number;
+  tickCount?: number;
+  tickEffectType?: 'deal_damage' | 'heal';
+  tickFormulaId?: string;
+  tickAmount?: number;
+  tickDamageType?: string;
+};
+
 export type TinyGoV2EffectDefinition = {
-  type: 'deal_damage';
+  type: 'deal_damage' | 'heal' | 'grant_shield' | 'apply_status' | 'apply_mark' | 'consume_mark' | 'damage_from_recent' | 'interrupt' | 'increment_counter';
   formulaId?: string;
   amount?: number;
   damageType?: string;
+  statusId?: string;
+  markId?: string;
+  historyWindowMs?: number;
+  counterKey?: string;
+  critPolicy?: string;
+  critChance?: number;
+  critMultiplier?: number;
+  modeAugmentId?: string;
+  modeMultiplier?: number;
   sourceRole?: string;
   targetRole?: string;
 };
@@ -91,7 +114,10 @@ export type TinyGoV2ActionTemplate = {
   panelInputs?: Record<string, number>;
   cooldownMs?: number;
   cooldownFormulaId?: string;
+  channelDurationMs?: number;
   effects?: TinyGoV2EffectDefinition[];
+  requiresMark?: string;
+  consumesMark?: boolean;
   resourceCost?: TinyGoV2ResourceCost[];
   panelCosts?: TinyGoV2ActionPanelCost[];
   panelEffects?: TinyGoV2ActionPanelEffect[];
@@ -117,6 +143,7 @@ export type TinyGoV2EngineBundle = {
   resources?: TinyGoV2ResourceDefinition[];
   actors: TinyGoV2ActorTemplate[];
   actions: TinyGoV2ActionTemplate[];
+  statuses?: TinyGoV2StatusTemplate[];
   formulas: TinyGoV2FormulaDefinition[];
   settings: {
     maxEvents: number;
@@ -172,6 +199,8 @@ export type WasmValidationSelection = {
   enemyAttributeBonuses?: Record<string, number>;
   selfAttributeOverrides?: Record<string, number>;
   enemyAttributeOverrides?: Record<string, number>;
+  selfResourceOverrides?: Record<string, TinyGoV2ResourceValue>;
+  enemyResourceOverrides?: Record<string, TinyGoV2ResourceValue>;
   hpAttrKey: string;
 };
 
@@ -235,6 +264,7 @@ type ResolvedActionSkill = WasmValidationSkillOption & {
 
 type CompiledSkillEnvironment = {
   paramsRoot: JsonObject;
+  mechanicsRoot: JsonObject;
   symbols: Map<string, BenchmarkFormulaExpr>;
   skillLevel: number;
   championLevel: number;
@@ -257,6 +287,26 @@ type FormulaRegistryCompiler = {
     formulaVars: string[] | undefined,
     slotLabel: string
   ) => string;
+};
+
+type StatusRegistryCompiler = {
+  definitions: TinyGoV2StatusTemplate[];
+  registerShieldStatus: (actionId: string, slotLabel: string, options: { durationMs?: number; shieldKind?: string }) => string;
+  registerTickStatus: (
+    actionId: string,
+    slotLabel: string,
+    options: {
+      kind: 'dot' | 'hot';
+      tickIntervalMs: number;
+      tickCount: number;
+      tickEffectType: 'deal_damage' | 'heal';
+      tickFormulaId?: string;
+      tickAmount?: number;
+      tickDamageType?: string;
+      sourceStatusId?: string;
+    }
+  ) => string;
+  ensureStatus: (status: TinyGoV2StatusTemplate) => string;
 };
 
 const SELF_TEMPLATE_ID = 'self_template';
@@ -312,6 +362,8 @@ export function createDefaultWasmValidationSelection(bundle: GameDataBundle): Wa
     enemyAttributeBonuses: runeBonuses,
     selfAttributeOverrides: {},
     enemyAttributeOverrides: {},
+    selfResourceOverrides: {},
+    enemyResourceOverrides: {},
     hpAttrKey: detectHpAttrKey(bundle.attributeDefinitions)
   };
 }
@@ -347,9 +399,10 @@ export function compileTinyGoV2ValidationInput(
   const selfBase = resolveActorState(bundle, attrDefinitions, selection, 'self');
   const enemyBase = resolveActorState(bundle, attrDefinitions, selection, 'enemy');
   const formulaCompiler = createFormulaRegistryCompiler(bundle);
+  const statusCompiler = createStatusRegistryCompiler();
   const actionTemplates = [
-    ...compileActorActionTemplates(bundle.meta.gameId, selfBase, enemyBase, formulaCompiler),
-    ...compileActorActionTemplates(bundle.meta.gameId, enemyBase, selfBase, formulaCompiler)
+    ...compileActorActionTemplates(bundle.meta.gameId, selfBase, enemyBase, formulaCompiler, statusCompiler),
+    ...compileActorActionTemplates(bundle.meta.gameId, enemyBase, selfBase, formulaCompiler, statusCompiler)
   ];
   const resourceDefinitions = buildResourceDefinitions([selfBase, enemyBase]);
 
@@ -360,6 +413,7 @@ export function compileTinyGoV2ValidationInput(
       resources: resourceDefinitions.length > 0 ? resourceDefinitions : undefined,
       actors: [buildActorTemplate(selfBase), buildActorTemplate(enemyBase)],
       actions: actionTemplates,
+      statuses: statusCompiler.definitions.length > 0 ? statusCompiler.definitions : undefined,
       formulas: formulaCompiler.definitions,
       settings: {
         maxEvents: 1,
@@ -462,6 +516,7 @@ function resolveActorState(
   const skillLevels = side === 'self' ? selection.selfSkillLevels : selection.enemySkillLevels;
   const attributeBonuses = side === 'self' ? selection.selfAttributeBonuses ?? {} : selection.enemyAttributeBonuses ?? {};
   const attributeOverrides = side === 'self' ? selection.selfAttributeOverrides ?? {} : selection.enemyAttributeOverrides ?? {};
+  const resourceOverrides = side === 'self' ? selection.selfResourceOverrides ?? {} : selection.enemyResourceOverrides ?? {};
   const hero = bundle.heroes.find((candidate) => candidate.heroId === heroId);
   if (!hero) {
     throw new Error(`Hero not found in bundle: ${heroId || '(empty)'}`);
@@ -471,7 +526,7 @@ function resolveActorState(
     .map((itemId) => bundle.items.find((candidate) => candidate.itemId === itemId))
     .filter((item): item is Item => Boolean(item));
   const attrs = resolveActorAttributes(bundle, attrDefinitions, hero, itemIds, level, attributeBonuses, attributeOverrides);
-  const resources = inferActorResources(attrs);
+  const resources = applyResourceOverrides(inferActorResources(attrs), resourceOverrides);
   const skills = collectActorActionSkills(bundle, hero, items, level, side, skillLevels);
   const maxHp = Math.max(toNumber(attrs[selection.hpAttrKey], 0), 1);
 
@@ -793,9 +848,10 @@ function compileActorActionTemplates(
   gameId: string,
   source: ResolvedActorState,
   target: ResolvedActorState,
-  formulaCompiler: FormulaRegistryCompiler
+  formulaCompiler: FormulaRegistryCompiler,
+  statusCompiler: StatusRegistryCompiler
 ): TinyGoV2ActionTemplate[] {
-  return source.skills.map((skill) => compileSkillActionTemplate(gameId, skill, source, target, formulaCompiler));
+  return source.skills.map((skill) => compileSkillActionTemplate(gameId, skill, source, target, formulaCompiler, statusCompiler));
 }
 
 function compileSkillActionTemplate(
@@ -803,7 +859,8 @@ function compileSkillActionTemplate(
   selectedSkill: ResolvedActionSkill,
   source: ResolvedActorState,
   target: ResolvedActorState,
-  formulaCompiler: FormulaRegistryCompiler
+  formulaCompiler: FormulaRegistryCompiler,
+  statusCompiler: StatusRegistryCompiler
 ): TinyGoV2ActionTemplate {
   const env = buildSkillEnvironment(selectedSkill, source, target);
   const resourceCosts: TinyGoV2ResourceCost[] = [];
@@ -831,8 +888,10 @@ function compileSkillActionTemplate(
     });
   }
 
-  const compiledEffects = compileActionEffects(selectedSkill, env, formulaCompiler);
+  const compiledEffects = compileActionEffects(selectedSkill, env, formulaCompiler, statusCompiler);
   const cooldown = compileActionCooldown(gameId, selectedSkill, source, env, cooldownRows[0], formulaCompiler);
+  const markRequirement = readActionMarkRequirement(env.mechanicsRoot);
+  const channelDurationMs = readActionChannelDurationMs(env.mechanicsRoot);
 
   return {
     id: selectedSkill.actionId,
@@ -841,7 +900,9 @@ function compileSkillActionTemplate(
     panelInputs: buildPanelInputs(selectedSkill, source),
     cooldownMs: cooldown.cooldownMs,
     cooldownFormulaId: cooldown.cooldownFormulaId,
+    channelDurationMs,
     effects: compiledEffects.effects.length > 0 ? compiledEffects.effects : undefined,
+    ...markRequirement,
     resourceCost: resourceCosts.length > 0 ? resourceCosts : undefined
   };
 }
@@ -937,6 +998,7 @@ function buildSkillEnvironment(
 
   return {
     paramsRoot: params.root,
+    mechanicsRoot: mechanics.root,
     symbols,
     skillLevel: selectedSkill.level,
     championLevel: source.level,
@@ -947,7 +1009,8 @@ function buildSkillEnvironment(
 function compileActionEffects(
   selectedSkill: ResolvedActionSkill,
   env: CompiledSkillEnvironment,
-  formulaCompiler: FormulaRegistryCompiler
+  formulaCompiler: FormulaRegistryCompiler,
+  statusCompiler: StatusRegistryCompiler
 ): { effects: TinyGoV2EffectDefinition[] } {
   const effects: TinyGoV2EffectDefinition[] = [];
   const tickTriggers = new Map(
@@ -971,6 +1034,8 @@ function compileActionEffects(
           type: 'deal_damage',
           formulaId,
           damageType: action.damageType || undefined,
+          ...resolveCritOptions(action.raw),
+          ...resolveModeOptions(action.raw),
           sourceRole,
           targetRole
         });
@@ -989,21 +1054,250 @@ function compileActionEffects(
             const formulaId = resolveDamageActionFormula(selectedSkill, env, formulaCompiler, tickAction, `tick_damage:${effectIndex}`);
             const sourceRole = normalizeActionRole(tickAction.damageSource, 'source');
             const targetRole = normalizeActionRole(tickAction.damageTarget, 'target');
+            const statusId = statusCompiler.registerTickStatus(selectedSkill.actionId, action.tickKey || `tick:${effectIndex}`, {
+              kind: 'dot',
+              tickIntervalMs: action.everyMs,
+              tickCount: action.times,
+              tickEffectType: 'deal_damage',
+              tickFormulaId: formulaId,
+              tickDamageType: tickAction.damageType || undefined
+            });
             effects.push({
-              type: 'deal_damage',
-              formulaId,
-              damageType: tickAction.damageType || undefined,
+              type: 'apply_status',
+              statusId,
               sourceRole,
               targetRole
             });
             effectIndex += 1;
+            continue;
           }
+          if (tickAction.type === '__raw__') {
+            const rawTick = compileRawEffect(selectedSkill, env, formulaCompiler, statusCompiler, tickAction.raw, `tick:${effectIndex}`);
+            if (rawTick?.type === 'heal') {
+              const statusId = statusCompiler.registerTickStatus(selectedSkill.actionId, action.tickKey || `tick:${effectIndex}`, {
+                kind: 'hot',
+                tickIntervalMs: action.everyMs,
+                tickCount: action.times,
+                tickEffectType: 'heal',
+                tickFormulaId: rawTick.formulaId,
+                tickAmount: rawTick.amount,
+                sourceStatusId: rawTick.statusId
+              });
+              effects.push({
+                type: 'apply_status',
+                statusId,
+                sourceRole: rawTick.sourceRole,
+                targetRole: rawTick.targetRole
+              });
+              effectIndex += 1;
+            }
+          }
+        }
+        continue;
+      }
+
+      if (action.type === '__raw__') {
+        const rawEffect = compileRawEffect(selectedSkill, env, formulaCompiler, statusCompiler, action.raw, `raw:${effectIndex}`);
+        if (rawEffect) {
+          effects.push(rawEffect);
+          effectIndex += 1;
         }
       }
     }
   }
 
   return { effects };
+}
+
+function compileRawEffect(
+  selectedSkill: ResolvedActionSkill,
+  env: CompiledSkillEnvironment,
+  formulaCompiler: FormulaRegistryCompiler,
+  statusCompiler: StatusRegistryCompiler,
+  rawAction: JsonObject,
+  slotLabel: string
+): TinyGoV2EffectDefinition | null {
+  const rawType = readString(rawAction.type);
+  if (rawType === 'heal' || rawType === 'apply_heal') {
+    const heal = isPlainObject(rawAction.heal) ? rawAction.heal : rawAction;
+    return {
+      type: 'heal',
+      ...resolveAmountActionFormula(selectedSkill, env, formulaCompiler, heal, slotLabel),
+      sourceRole: normalizeActionRole(readString(heal.source), 'source'),
+      targetRole: normalizeActionRole(readString(heal.target), 'target')
+    };
+  }
+
+  if (rawType === 'grant_shield' || rawType === 'generate_shield' || rawType === 'shield') {
+    const shield = isPlainObject(rawAction.shield) ? rawAction.shield : rawAction;
+    const statusId =
+      readString(shield.statusId) ||
+      statusCompiler.registerShieldStatus(selectedSkill.actionId, slotLabel, {
+        durationMs: toFiniteOptional(shield.durationMs) ?? toFiniteOptional(rawAction.durationMs) ?? undefined,
+        shieldKind: readString(shield.shieldKind) || readString(shield.kind) || undefined
+      });
+    statusCompiler.ensureStatus({
+      id: statusId,
+      kind: 'shield',
+      durationMs: toFiniteOptional(shield.durationMs) ?? toFiniteOptional(rawAction.durationMs) ?? undefined,
+      shieldKind: readString(shield.shieldKind) || readString(shield.kind) || undefined
+    });
+    return {
+      type: 'grant_shield',
+      statusId,
+      ...resolveAmountActionFormula(selectedSkill, env, formulaCompiler, shield, slotLabel),
+      sourceRole: normalizeActionRole(readString(shield.source), 'source'),
+      targetRole: normalizeActionRole(readString(shield.target), 'target')
+    };
+  }
+
+  if (rawType === 'apply_status') {
+    const status = isPlainObject(rawAction.status) ? rawAction.status : rawAction;
+    const statusId = readString(status.statusId) || readString(status.id);
+    if (!statusId) {
+      return null;
+    }
+    statusCompiler.ensureStatus({
+      id: statusId,
+      kind: readString(status.kind) || 'status',
+      durationMs: toFiniteOptional(status.durationMs) ?? undefined
+    });
+    return {
+      type: 'apply_status',
+      statusId,
+      sourceRole: normalizeActionRole(readString(status.source), 'source'),
+      targetRole: normalizeActionRole(readString(status.target), 'target')
+    };
+  }
+
+  if (rawType === 'apply_mark' || rawType === 'mark') {
+    const mark = isPlainObject(rawAction.mark) ? rawAction.mark : rawAction;
+    const markId = readString(mark.markId) || readString(mark.id);
+    if (!markId) {
+      return null;
+    }
+    return {
+      type: 'apply_mark',
+      markId,
+      sourceRole: normalizeActionRole(readString(mark.source), 'source'),
+      targetRole: normalizeActionRole(readString(mark.target), 'target')
+    };
+  }
+
+  if (rawType === 'consume_mark') {
+    const mark = isPlainObject(rawAction.mark) ? rawAction.mark : rawAction;
+    const markId = readString(mark.markId) || readString(mark.id);
+    if (!markId) {
+      return null;
+    }
+    return {
+      type: 'consume_mark',
+      markId,
+      sourceRole: normalizeActionRole(readString(mark.source), 'source'),
+      targetRole: normalizeActionRole(readString(mark.target), 'target')
+    };
+  }
+
+  if (rawType === 'damage_from_recent') {
+    const recent = isPlainObject(rawAction.recent) ? rawAction.recent : rawAction;
+    return {
+      type: 'damage_from_recent',
+      amount: toFiniteOptional(recent.amount) ?? toFiniteOptional(recent.multiplier) ?? 1,
+      historyWindowMs: toFiniteOptional(recent.historyWindowMs) ?? toFiniteOptional(recent.windowMs) ?? undefined,
+      damageType: readString(recent.damageType) || undefined,
+      sourceRole: normalizeActionRole(readString(recent.source), 'source'),
+      targetRole: normalizeActionRole(readString(recent.target), 'target')
+    };
+  }
+
+  if (rawType === 'interrupt') {
+    const interrupt = isPlainObject(rawAction.interrupt) ? rawAction.interrupt : rawAction;
+    return {
+      type: 'interrupt',
+      sourceRole: normalizeActionRole(readString(interrupt.source), 'source'),
+      targetRole: normalizeActionRole(readString(interrupt.target), 'target')
+    };
+  }
+
+  if (rawType === 'increment_counter' || rawType === 'counter_increment') {
+    const counter = isPlainObject(rawAction.counter) ? rawAction.counter : rawAction;
+    const counterKey = readString(counter.counterKey) || readString(counter.key);
+    if (!counterKey) {
+      return null;
+    }
+    return {
+      type: 'increment_counter',
+      counterKey,
+      amount: toFiniteOptional(counter.amount) ?? toFiniteOptional(counter.delta) ?? 1,
+      sourceRole: normalizeActionRole(readString(counter.source), 'source'),
+      targetRole: normalizeActionRole(readString(counter.target), 'target')
+    };
+  }
+
+  return null;
+}
+
+function readActionMarkRequirement(root: JsonObject): Pick<TinyGoV2ActionTemplate, 'requiresMark' | 'consumesMark'> {
+  const condition = isPlainObject(root.condition) ? root.condition : {};
+  const markId = readString(root.requiresMark) || readString(condition.requiresMark) || readString(condition.markId);
+  if (!markId) {
+    return {};
+  }
+  return {
+    requiresMark: markId,
+    consumesMark: readBoolean(root.consumesMark) || readBoolean(condition.consumesMark)
+  };
+}
+
+function readActionChannelDurationMs(root: JsonObject): number | undefined {
+  const execution = isPlainObject(root.execution) ? root.execution : root;
+  return toFiniteOptional(execution.channelDurationMs) ?? toFiniteOptional(execution.castTimeMs) ?? undefined;
+}
+
+function resolveCritOptions(raw: JsonObject): Pick<TinyGoV2EffectDefinition, 'critPolicy' | 'critChance' | 'critMultiplier'> {
+  const crit = isPlainObject(raw.crit) ? raw.crit : raw;
+  const policy = readString(crit.critPolicy) || readString(crit.policy);
+  if (!policy) {
+    return {};
+  }
+  return {
+    critPolicy: policy,
+    critChance: toFiniteOptional(crit.critChance) ?? toFiniteOptional(crit.chance) ?? undefined,
+    critMultiplier: toFiniteOptional(crit.critMultiplier) ?? toFiniteOptional(crit.multiplier) ?? undefined
+  };
+}
+
+function resolveModeOptions(raw: JsonObject): Pick<TinyGoV2EffectDefinition, 'modeAugmentId' | 'modeMultiplier'> {
+  const mode = isPlainObject(raw.mode) ? raw.mode : raw;
+  const modeAugmentId = readString(mode.modeAugmentId) || readString(mode.augmentId);
+  if (!modeAugmentId) {
+    return {};
+  }
+  return {
+    modeAugmentId,
+    modeMultiplier: toFiniteOptional(mode.modeMultiplier) ?? toFiniteOptional(mode.multiplier) ?? undefined
+  };
+}
+
+function resolveAmountActionFormula(
+  selectedSkill: ResolvedActionSkill,
+  env: CompiledSkillEnvironment,
+  formulaCompiler: FormulaRegistryCompiler,
+  raw: JsonObject,
+  slotLabel: string
+): Pick<TinyGoV2EffectDefinition, 'formulaId' | 'amount'> {
+  const bindingKey = readString(raw.bindingKey).trim();
+  if (bindingKey) {
+    return { formulaId: formulaCompiler.resolveBinding(selectedSkill, env, bindingKey, slotLabel) };
+  }
+
+  const formulaText = readString(raw.formulaText).trim();
+  if (formulaText) {
+    const formulaVars = Array.isArray(raw.formulaVars) ? raw.formulaVars.map(readString).map((value) => value.trim()).filter(Boolean) : undefined;
+    return { formulaId: formulaCompiler.resolveInlineFormula(selectedSkill, env, formulaText, formulaVars, slotLabel) };
+  }
+
+  return { amount: toFiniteOptional(raw.amount) ?? toFiniteOptional(raw.value) ?? toFiniteOptional(raw.magnitude) ?? 0 };
 }
 
 function resolveDamageActionFormula(
@@ -1230,6 +1524,48 @@ function createFormulaRegistryCompiler(bundle: GameDataBundle): FormulaRegistryC
       emitFormulaExpr(rootFormulaId, expr, definitions, emittedIds);
       bindingCache.set(cacheKey, rootFormulaId);
       return rootFormulaId;
+    }
+  };
+}
+
+function createStatusRegistryCompiler(): StatusRegistryCompiler {
+  const definitions: TinyGoV2StatusTemplate[] = [];
+  const emittedIds = new Set<string>();
+
+  function ensureStatus(status: TinyGoV2StatusTemplate): string {
+    if (emittedIds.has(status.id)) {
+      return status.id;
+    }
+    emittedIds.add(status.id);
+    definitions.push(status);
+    return status.id;
+  }
+
+  return {
+    definitions,
+    ensureStatus,
+    registerShieldStatus(actionId, slotLabel, options) {
+      const statusId = `${actionId}::${sanitizeFormulaKey(slotLabel)}::shield`;
+      return ensureStatus({
+        id: statusId,
+        kind: 'shield',
+        durationMs: options.durationMs,
+        shieldKind: options.shieldKind || 'all'
+      });
+    },
+    registerTickStatus(actionId, slotLabel, options) {
+      const statusId = options.sourceStatusId || `${actionId}::${sanitizeFormulaKey(slotLabel)}::${options.kind}`;
+      return ensureStatus({
+        id: statusId,
+        kind: options.kind,
+        durationMs: options.tickIntervalMs * options.tickCount,
+        tickIntervalMs: options.tickIntervalMs,
+        tickCount: options.tickCount,
+        tickEffectType: options.tickEffectType,
+        tickFormulaId: options.tickFormulaId,
+        tickAmount: options.tickAmount,
+        tickDamageType: options.tickDamageType
+      });
     }
   };
 }
@@ -1531,6 +1867,19 @@ function inferActorResources(attrs: Record<string, number>): Record<string, Tiny
   return resources;
 }
 
+function applyResourceOverrides(
+  resources: Record<string, TinyGoV2ResourceValue>,
+  overrides: Record<string, TinyGoV2ResourceValue>
+): Record<string, TinyGoV2ResourceValue> {
+  const merged = { ...resources };
+  for (const [resourceId, override] of Object.entries(overrides)) {
+    const max = Math.max(toNumber(override.max, merged[resourceId]?.max ?? 0), 0);
+    const current = clampNumber(toNumber(override.current, merged[resourceId]?.current ?? max), 0, max || override.current || 0);
+    merged[resourceId] = { current, max };
+  }
+  return merged;
+}
+
 function ensureExecutableResource(
   resourceId: string,
   resources: Record<string, TinyGoV2ResourceValue>,
@@ -1717,6 +2066,10 @@ function dedupeById(definitions: TinyGoV2AttributeDefinition[]): TinyGoV2Attribu
 
 function readString(value: unknown): string {
   return typeof value === 'string' ? value : '';
+}
+
+function readBoolean(value: unknown): boolean {
+  return value === true || value === 'true' || value === 1 || value === '1';
 }
 
 function toFiniteOptional(value: unknown): number | null {
