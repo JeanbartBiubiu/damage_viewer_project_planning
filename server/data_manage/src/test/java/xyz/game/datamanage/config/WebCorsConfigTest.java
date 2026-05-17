@@ -12,9 +12,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.controller.adminapi.VersionAdminController;
@@ -32,13 +32,13 @@ class WebCorsConfigTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private GameDataService gameDataService;
 
-    @MockBean
+    @MockitoBean
     private AdminEditLogHelper adminEditLogHelper;
 
-    @MockBean
+    @MockitoBean
     private JwtVerifier jwtVerifier;
 
     @Test

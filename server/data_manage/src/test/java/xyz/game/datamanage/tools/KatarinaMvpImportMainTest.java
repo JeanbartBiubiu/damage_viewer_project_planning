@@ -76,6 +76,27 @@ class KatarinaMvpImportMainTest {
         assertEquals(2, seedData.heroes().size());
         assertEquals(2, seedData.skills().size());
         assertEquals(2, seedData.items().size());
+        assertEquals(0, seedData.types().size());
+        assertEquals(0, seedData.typeRelations().size());
         assertEquals(2, seedData.scenarios().size());
+    }
+
+    @Test
+    void loadSeed_shouldReadV2BatchATargetDummies() throws Exception {
+        Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-A-target-dummies.seed.json")
+            .toAbsolutePath()
+            .normalize();
+
+        KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(seedFile);
+
+        assertEquals("lol", seedData.gameId());
+        assertEquals("v2_batch_a_target_dummies_001", seedData.versionCode());
+        assertEquals(1, seedData.types().size());
+        assertEquals(3, seedData.heroes().size());
+        assertEquals(3, seedData.typeRelations().size());
+        assertEquals("target_dummy_fighter", seedData.heroes().get(1).path("heroId").asText());
+        assertEquals(3000, seedData.heroes().get(1).path("baseStats").path("hp").asInt());
+        assertEquals(100, seedData.heroes().get(1).path("baseStats").path("armor").asInt());
+        assertEquals(80, seedData.heroes().get(1).path("baseStats").path("magic_resist").asInt());
     }
 }
