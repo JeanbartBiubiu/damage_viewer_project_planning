@@ -29,6 +29,7 @@ export type RouteId =
   | 'wasm-validation-m2'
   | 'wasm-validation-m3'
   | 'wasm-validation-m4-closure'
+  | 'wasm-validation-v2-dps'
   | 'images'
   | AdminResourceRouteId;
 
@@ -106,6 +107,11 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
     id: 'wasm-validation-m4-closure',
     label: 'Wasm 验证 M4 闭环',
     summary: 'TinyGo V2 M4 剩余页面能力缺口的固定 preset 闭环验证。'
+  },
+  {
+    id: 'wasm-validation-v2-dps',
+    label: 'V2 DPS 验证',
+    summary: 'TinyGo V2 单攻击方站桩普攻 DPS 验证。'
   }
 ];
 
