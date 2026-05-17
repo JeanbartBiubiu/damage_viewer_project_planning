@@ -1,0 +1,998 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_b_hero_passives_002",
+  "ownerCategories": [
+    {
+      "ownerType": "hero",
+      "name": "英雄"
+    },
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [
+    {
+      "attrKey": "hp",
+      "attrName": "Health",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ad",
+      "attrName": "Attack Damage",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ap",
+      "attrName": "Ability Power",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "attack_speed",
+      "attrName": "Attack Speed",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "attack_speed_growth",
+      "attrName": "Attack Speed Growth",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "attack_speed_mult",
+      "attrName": "Attack Speed Multiplier",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "attack_range",
+      "attrName": "Attack Range",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "armor",
+      "attrName": "Armor",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_resist",
+      "attrName": "Magic Resist",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ability_haste",
+      "attrName": "Ability Haste",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "physical_pen",
+      "attrName": "Physical Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "armor_pen_flat",
+      "attrName": "Flat Armor Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "armor_pen_percent",
+      "attrName": "Percent Armor Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_pen",
+      "attrName": "Magic Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_pen_flat",
+      "attrName": "Flat Magic Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_pen_percent",
+      "attrName": "Percent Magic Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "hp_regen",
+      "attrName": "Health Regen",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "rate",
+      "rateTargetAttrKey": "hp"
+    },
+    {
+      "attrKey": "mana",
+      "attrName": "Mana",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "mana_regen",
+      "attrName": "Mana Regen",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "rate",
+      "rateTargetAttrKey": "mana"
+    },
+    {
+      "attrKey": "energy",
+      "attrName": "Energy",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "energy_regen",
+      "attrName": "Energy Regen",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "rate",
+      "rateTargetAttrKey": "energy"
+    },
+    {
+      "attrKey": "move_speed",
+      "attrName": "Move Speed",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ms_f",
+      "attrName": "Flat Move Speed",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ms_pct",
+      "attrName": "Percent Move Speed",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "crit_chance",
+      "attrName": "Critical Strike Chance",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "crit_damage",
+      "attrName": "Critical Strike Damage",
+      "attrType": "number",
+      "defaultValue": 2,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "life_steal",
+      "attrName": "Life Steal",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "omnivamp",
+      "attrName": "Omnivamp",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "heal_shield_power",
+      "attrName": "Heal And Shield Power",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "pv",
+      "attrName": "Physical Vamp",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    }
+  ],
+  "types": [
+    {
+      "typeId": 62001,
+      "name": "target_dummy",
+      "description": "V2 Batch B fixed DPS target actor"
+    }
+  ],
+  "heroes": [
+    {
+      "heroId": "target_dummy_squishy",
+      "name": "Target Dummy Squishy",
+      "title": "2000 HP / 50 armor / 50 magic resist",
+      "baseStats": {
+        "hp": 2000,
+        "ad": 0,
+        "ap": 0,
+        "attack_speed": 0,
+        "armor": 50,
+        "magic_resist": 50,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      }
+    },
+    {
+      "heroId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "title": "3000 HP / 100 armor / 80 magic resist",
+      "baseStats": {
+        "hp": 3000,
+        "ad": 0,
+        "ap": 0,
+        "attack_speed": 0,
+        "armor": 100,
+        "magic_resist": 80,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      }
+    },
+    {
+      "heroId": "target_dummy_tank",
+      "name": "Target Dummy Tank",
+      "title": "5000 HP / 200 armor / 150 magic resist",
+      "baseStats": {
+        "hp": 5000,
+        "ad": 0,
+        "ap": 0,
+        "attack_speed": 0,
+        "armor": 200,
+        "magic_resist": 150,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      }
+    },
+    {
+      "heroId": "hero_vayne",
+      "name": "薇恩",
+      "title": "暗夜猎手",
+      "avatarUrl": "character_hero_vayne",
+      "baseStats": {
+        "hp": 550,
+        "ad": 60,
+        "ap": 0,
+        "attack_speed": 0.658,
+        "attack_speed_growth": 0.033,
+        "attack_range": 550,
+        "armor": 23,
+        "magic_resist": 30,
+        "mana": 232,
+        "mana_regen": 1.4,
+        "hp_regen": 0.7,
+        "move_speed": 330,
+        "crit_chance": 0,
+        "crit_damage": 2.0
+      }
+    },
+    {
+      "heroId": "hero_teemo",
+      "name": "提莫",
+      "title": "迅捷斥候",
+      "avatarUrl": "character_hero_teemo",
+      "baseStats": {
+        "hp": 615,
+        "ad": 54,
+        "ap": 0,
+        "attack_speed": 0.69,
+        "attack_speed_growth": 0.0338,
+        "attack_range": 500,
+        "armor": 24,
+        "magic_resist": 30,
+        "mana": 334,
+        "mana_regen": 1.92,
+        "hp_regen": 1.1,
+        "move_speed": 330,
+        "crit_chance": 0,
+        "crit_damage": 2.0
+      }
+    },
+    {
+      "heroId": "hero_varus",
+      "name": "韦鲁斯",
+      "title": "惩戒之箭",
+      "avatarUrl": "character_hero_varus",
+      "baseStats": {
+        "hp": 600,
+        "ad": 59,
+        "ap": 0,
+        "attack_speed": 0.658,
+        "attack_speed_growth": 0.035,
+        "attack_range": 575,
+        "armor": 24,
+        "magic_resist": 30,
+        "mana": 320,
+        "mana_regen": 1.6,
+        "hp_regen": 0.7,
+        "move_speed": 330,
+        "crit_chance": 0,
+        "crit_damage": 2.0
+      }
+    },
+    {
+      "heroId": "hero_kaisa",
+      "name": "卡莎",
+      "title": "虚空之女",
+      "avatarUrl": "character_hero_kaisa",
+      "baseStats": {
+        "hp": 640,
+        "ad": 59,
+        "ap": 0,
+        "attack_speed": 0.644,
+        "attack_speed_growth": 0.018,
+        "attack_range": 525,
+        "armor": 25,
+        "magic_resist": 30,
+        "mana": 345,
+        "mana_regen": 1.64,
+        "hp_regen": 0.8,
+        "move_speed": 335,
+        "crit_chance": 0,
+        "crit_damage": 2.0
+      }
+    },
+    {
+      "heroId": "hero_twitch",
+      "name": "图奇",
+      "title": "瘟疫之源",
+      "avatarUrl": "character_hero_twitch",
+      "baseStats": {
+        "hp": 630,
+        "ad": 59,
+        "ap": 0,
+        "attack_speed": 0.679,
+        "attack_speed_growth": 0.03,
+        "attack_range": 550,
+        "armor": 27,
+        "magic_resist": 30,
+        "mana": 300,
+        "mana_regen": 1.45,
+        "hp_regen": 0.75,
+        "move_speed": 330,
+        "crit_chance": 0,
+        "crit_damage": 2.0
+      }
+    },
+    {
+      "heroId": "hero_kogmaw",
+      "name": "克格莫",
+      "title": "深渊巨口",
+      "avatarUrl": "character_hero_kogmaw",
+      "baseStats": {
+        "hp": 635,
+        "ad": 61,
+        "ap": 0,
+        "attack_speed": 0.665,
+        "attack_speed_growth": 0.0265,
+        "attack_range": 500,
+        "armor": 24,
+        "magic_resist": 30,
+        "mana": 325,
+        "mana_regen": 1.75,
+        "hp_regen": 0.75,
+        "move_speed": 330,
+        "crit_chance": 0,
+        "crit_damage": 2.0
+      }
+    }
+  ],
+  "skills": [
+    {
+      "skillId": "skill_vayne_w_silver_bolts_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_vayne",
+      "skillKey": "W",
+      "name": "薇恩 W 圣银弩箭 DPS 被动",
+      "description": "V2 Batch B: every third basic attack deals target max HP true damage.",
+      "params": {
+        "maxHealthRatio": 0.06,
+        "minDamage": 50
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "vayne_w_every_3_hit",
+            "triggerKind": "every_n_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_vayne_w_silver_bolts_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "vayne_w_every_3_hit",
+            "triggerKind": "every_n_basic_attack_hit",
+            "everyN": 3,
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "vayne_w_true_damage",
+                "damageType": "true",
+                "targetMaxHpRatio": 0.06,
+                "minAmount": 50,
+                "hasMinAmount": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_teemo_e_toxic_shot_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_teemo",
+      "skillKey": "E",
+      "name": "提莫 E 毒性射击 DPS 被动",
+      "description": "V2 Batch B: basic attacks deal on-hit magic damage and refresh a poison DoT.",
+      "params": {
+        "onHitMagicDamage": 9,
+        "dotMagicDamagePerTick": 6,
+        "dotDurationMs": 4000
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "teemo_e_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_teemo_e_toxic_shot_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_teemo_e_toxic_shot_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "teemo_e_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "teemo_e_on_hit",
+                "damageType": "magic",
+                "amount": 9
+              },
+              {
+                "kind": "apply_dot",
+                "source": "teemo_e_dot",
+                "damageType": "magic",
+                "amount": 6,
+                "durationMs": 4000,
+                "tickIntervalMs": 1000,
+                "refreshMode": "refresh"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_teemo",
+      "skillKey": "P",
+      "name": "提莫 P 游击队军备 DPS 离隐攻速预设",
+      "description": "V2 Batch B extension: optional full-window scenario state for Teemo's post-stealth attack speed bonus. Real 5s expiry is out of scope for the current wasm lifecycle.",
+      "params": {
+        "attackSpeedPercent": 0.2,
+        "sourceTooltipDurationMs": 5000
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "teemo_p_after_stealth_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "teemo_p_after_stealth_attack_speed",
+            "sourceType": "skill_passive",
+            "sourceId": "skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2",
+            "activation": "assumed_active_full_window",
+            "stacks": 1,
+            "startTimeMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "teemo_p_after_stealth_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier",
+            "requiresScenarioStateId": "teemo_p_after_stealth_attack_speed",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "teemo_p_attack_speed",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.2
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_varus_w_blighted_quiver_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_varus",
+      "skillKey": "W",
+      "name": "韦鲁斯 W 枯萎箭袋 DPS 被动",
+      "description": "V2 Batch B: basic attacks deal on-hit magic damage and add Blight stacks; active detonation is out of scope.",
+      "params": {
+        "onHitMagicDamage": 8,
+        "maxStacks": 3,
+        "stackDurationMs": 6000
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "varus_w_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_varus_w_blighted_quiver_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_varus_w_blighted_quiver_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "varus_w_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "varus_w_on_hit",
+                "damageType": "magic",
+                "amount": 8
+              },
+              {
+                "kind": "add_stack",
+                "source": "varus_w_blight_stack",
+                "stackKey": "varus_blight",
+                "maxStacks": 3,
+                "durationMs": 6000
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_varus_p_revenge_minion_kill_attack_speed_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_varus",
+      "skillKey": "P",
+      "name": "韦鲁斯 P 复仇之欲 DPS 击杀小兵攻速预设",
+      "description": "V2 Batch B extension: optional full-window scenario state for Varus passive attack speed after killing a non-champion enemy.",
+      "params": {
+        "attackSpeedPercent": 0.1
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "varus_p_minion_kill_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "varus_p_minion_kill_attack_speed",
+            "sourceType": "skill_passive",
+            "sourceId": "skill_varus_p_revenge_minion_kill_attack_speed_dps_v2",
+            "activation": "assumed_active_full_window",
+            "stacks": 1,
+            "startTimeMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_varus_p_revenge_minion_kill_attack_speed_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_varus_p_revenge_minion_kill_attack_speed_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "varus_p_minion_kill_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier",
+            "requiresScenarioStateId": "varus_p_minion_kill_attack_speed",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "varus_p_minion_kill_attack_speed",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_varus_p_revenge_champion_takedown_attack_speed_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_varus",
+      "skillKey": "P",
+      "name": "韦鲁斯 P 复仇之欲 DPS 参与击杀英雄攻速预设",
+      "description": "V2 Batch B extension: optional full-window scenario state for Varus passive attack speed after champion takedown.",
+      "params": {
+        "attackSpeedPercent": 0.5,
+        "canBreakAttackSpeedCap": true
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "varus_p_champion_takedown_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "varus_p_champion_takedown_attack_speed",
+            "sourceType": "skill_passive",
+            "sourceId": "skill_varus_p_revenge_champion_takedown_attack_speed_dps_v2",
+            "activation": "assumed_active_full_window",
+            "stacks": 1,
+            "startTimeMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_varus_p_revenge_champion_takedown_attack_speed_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_varus_p_revenge_champion_takedown_attack_speed_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "varus_p_champion_takedown_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier",
+            "requiresScenarioStateId": "varus_p_champion_takedown_attack_speed",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "varus_p_champion_takedown_attack_speed",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_kaisa_p_plasma_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_kaisa",
+      "skillKey": "P",
+      "name": "卡莎 P 电浆 DPS 被动",
+      "description": "V2 Batch B: basic attacks add Plasma stacks and trigger magic damage at 5 stacks; active skills are out of scope.",
+      "params": {
+        "onHitBaseDamage": 3,
+        "onHitDamagePerStack": 1,
+        "ruptureTargetMissingHpRatio": 0.15,
+        "ruptureTargetMissingHpBasis": "attack_start",
+        "triggerStacks": 5,
+        "stackDurationMs": 6000
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "kaisa_p_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_kaisa_p_plasma_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_kaisa_p_plasma_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "kaisa_p_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "add_stack",
+                "source": "kaisa_p_plasma_stack",
+                "stackKey": "kaisa_plasma",
+                "maxStacks": 5,
+                "durationMs": 6000
+              },
+              {
+                "kind": "damage",
+                "source": "kaisa_p_plasma_on_hit",
+                "stackKey": "kaisa_plasma",
+                "damageType": "magic",
+                "amount": 3,
+                "amountPerStack": 1
+              },
+              {
+                "kind": "trigger_damage_at_stacks",
+                "source": "kaisa_p_plasma_rupture",
+                "stackKey": "kaisa_plasma",
+                "triggerStacks": 5,
+                "resetStacks": true,
+                "damageType": "magic",
+                "targetMissingHpRatio": 0.15,
+                "targetMissingHpBasis": "attack_start"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_twitch_p_deadly_venom_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_twitch",
+      "skillKey": "P",
+      "name": "图奇 P 死亡毒液 DPS 被动",
+      "description": "V2 Batch B: basic attacks add Deadly Venom stacks and refresh true-damage DoT; Expunge is out of scope.",
+      "params": {
+        "trueDamagePerStackPerTick": 1,
+        "maxStacks": 6,
+        "durationMs": 6000
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "twitch_p_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_twitch_p_deadly_venom_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_twitch_p_deadly_venom_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "twitch_p_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "add_stack",
+                "source": "twitch_p_stack",
+                "stackKey": "twitch_deadly_venom",
+                "maxStacks": 6,
+                "durationMs": 6000
+              },
+              {
+                "kind": "apply_dot",
+                "source": "twitch_p_dot",
+                "stackKey": "twitch_deadly_venom",
+                "damageType": "true",
+                "amountPerStack": 1,
+                "durationMs": 6000,
+                "tickIntervalMs": 1000,
+                "refreshMode": "refresh"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_twitch_q_ambush_attack_speed_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_twitch",
+      "skillKey": "Q",
+      "name": "图奇 Q 埋伏 DPS 离隐攻速预设",
+      "description": "V2 Batch B extension: optional full-window scenario state for Twitch Q post-camouflage attack speed bonus. Real 6s expiry is out of scope for the current wasm lifecycle.",
+      "params": {
+        "attackSpeedPercent": 0.4,
+        "sourceTooltipDurationMs": 6000
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "twitch_q_after_camouflage_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "twitch_q_after_camouflage_attack_speed",
+            "sourceType": "skill_passive",
+            "sourceId": "skill_twitch_q_ambush_attack_speed_dps_v2",
+            "activation": "assumed_active_full_window",
+            "stacks": 1,
+            "startTimeMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_twitch_q_ambush_attack_speed_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_twitch_q_ambush_attack_speed_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "twitch_q_after_camouflage_attack_speed",
+            "triggerKind": "pre_enabled_state_modifier",
+            "requiresScenarioStateId": "twitch_q_after_camouflage_attack_speed",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "twitch_q_attack_speed",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_kogmaw_q_caustic_spittle_passive_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_kogmaw",
+      "skillKey": "Q",
+      "name": "克格莫 Q 腐蚀唾液 DPS 被动攻速",
+      "description": "V2 Batch B: always-on attack speed modifier from Q passive; active Q is out of scope.",
+      "params": {
+        "attackSpeedPercent": 0.05
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "kogmaw_q_stat_modifier",
+            "triggerKind": "stat_modifier_always_on"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_kogmaw_q_caustic_spittle_passive_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_kogmaw_q_caustic_spittle_passive_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "kogmaw_q_stat_modifier",
+            "triggerKind": "stat_modifier_always_on",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "kogmaw_q_attack_speed",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.05
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_kogmaw_w_bio_arcane_barrage_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_kogmaw",
+      "skillKey": "W",
+      "name": "克格莫 W 生化弹幕 DPS 预开启",
+      "description": "V2 Batch B: scenarioStates pre-enable W on-hit max HP magic damage; active cast is out of scope.",
+      "params": {
+        "targetMaxHpRatio": 0.03,
+        "durationMs": 8000
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "kogmaw_w_pre_enabled_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "kogmaw_w_pre_enabled",
+            "sourceType": "skill_passive",
+            "sourceId": "skill_kogmaw_w_bio_arcane_barrage_dps_v2",
+            "activation": "assumed_active_at_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 8000
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_kogmaw_w_bio_arcane_barrage_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_kogmaw_w_bio_arcane_barrage_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "kogmaw_w_pre_enabled_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "requiresScenarioStateId": "kogmaw_w_pre_enabled",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "kogmaw_w_on_hit",
+                "damageType": "magic",
+                "targetMaxHpRatio": 0.03
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [],
+  "typeRelations": [
+    {
+      "typeId": 62001,
+      "targetCategory": "character",
+      "targetId": "target_dummy_squishy",
+      "extend": {
+        "role": "target_dummy",
+        "profile": "squishy"
+      }
+    },
+    {
+      "typeId": 62001,
+      "targetCategory": "character",
+      "targetId": "target_dummy_fighter",
+      "extend": {
+        "role": "target_dummy",
+        "profile": "fighter"
+      }
+    },
+    {
+      "typeId": 62001,
+      "targetCategory": "character",
+      "targetId": "target_dummy_tank",
+      "extend": {
+        "role": "target_dummy",
+        "profile": "tank"
+      }
+    }
+  ],
+  "scenarios": []
+}
