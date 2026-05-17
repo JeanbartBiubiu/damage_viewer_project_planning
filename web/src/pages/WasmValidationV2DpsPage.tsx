@@ -7,7 +7,12 @@ import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import {
   createDefaultV2DpsSelection,
+  getDefaultV2DpsPassiveIdsForHero,
+  getDefaultV2DpsScenarioIdsForHero,
   listV2DpsAttackers,
+  listV2DpsEquipmentOptions,
+  listV2DpsPassiveOptionsForHero,
+  listV2DpsScenarioOptionsForHero,
   listV2DpsTargetGroups,
   prepareV2DpsInput,
   V2_DPS_CASE_ID,
@@ -75,6 +80,7 @@ export function WasmValidationV2DpsPage({
   const [wasmOutput, setWasmOutput] = useState<V2DpsOutput | null>(null);
   const [decodedFrames, setDecodedFrames] = useState<DecodedFrame[]>([]);
   const [wasmSha256, setWasmSha256] = useState('');
+  const [activeCurveId, setActiveCurveId] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -91,8 +97,9 @@ export function WasmValidationV2DpsPage({
 
       setBundleStatus('loading');
       setBundleError(null);
-      setWasmOutput(null);
-      setDecodedFrames([]);
+        setWasmOutput(null);
+        setDecodedFrames([]);
+        setActiveCurveId(null);
 
       try {
         const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, selectedGameId);
@@ -125,7 +132,19 @@ export function WasmValidationV2DpsPage({
 
   const attackerOptions = useMemo(() => (bundle ? listV2DpsAttackers(bundle) : []), [bundle]);
   const targetGroups = useMemo(() => (bundle ? listV2DpsTargetGroups(bundle) : []), [bundle]);
-  const curveResult = wasmOutput?.curveResults[0] ?? null;
+  const equipmentOptions = useMemo(() => (bundle ? listV2DpsEquipmentOptions(bundle) : []), [bundle]);
+  const passiveOptions = useMemo(() => listV2DpsPassiveOptionsForHero(selection?.attackerHeroId ?? ''), [selection?.attackerHeroId]);
+  const scenarioOptions = useMemo(() => listV2DpsScenarioOptionsForHero(selection?.attackerHeroId ?? ''), [selection?.attackerHeroId]);
+  const curveResults = wasmOutput?.curveResults ?? [];
+  const curveResult = useMemo(() => {
+    if (curveResults.length === 0) {
+      return null;
+    }
+    if (activeCurveId) {
+      return curveResults.find((result) => result.curveId === activeCurveId) ?? curveResults[0];
+    }
+    return curveResults.find((result) => result.curveId.endsWith('-selected-passives')) ?? curveResults[0];
+  }, [activeCurveId, curveResults]);
   const canRun = Boolean(bundle && currentVersion && selection && selectedGameId) && runStatus !== 'loading';
 
   const attackRows = useMemo<AttackRow[]>(
@@ -141,17 +160,21 @@ export function WasmValidationV2DpsPage({
     if (!wasmOutput || !preparedInput) {
       return null;
     }
-    const firstCurve = wasmOutput.curveResults[0];
+    const activeCurve = curveResult ?? wasmOutput.curveResults[0];
     return {
       caseId: wasmOutput.caseId,
       versionCode: wasmOutput.versionCode,
       wasmSha256: wasmOutput.wasmSha256,
-      selection: firstCurve?.selection ?? preparedInput.runInput.curves[0]?.selection,
-      resolvedSnapshot: firstCurve?.resolvedSnapshot ?? preparedInput.runInput.curves[0]?.resolvedSnapshot,
+      activeCurveId: activeCurve?.curveId,
+      selection: activeCurve?.selection ?? preparedInput.runInput.curves[0]?.selection,
+      resolvedSnapshot: activeCurve?.resolvedSnapshot ?? preparedInput.runInput.curves[0]?.resolvedSnapshot,
+      skillPassiveTriggers: activeCurve?.skillPassiveTriggers ?? [],
+      itemPassiveTriggers: activeCurve?.itemPassiveTriggers ?? [],
+      effectBreakdown: activeCurve?.effectBreakdown ?? [],
       runInput: preparedInput.runInput,
       wasmOutput
     };
-  }, [preparedInput, wasmOutput]);
+  }, [curveResult, preparedInput, wasmOutput]);
 
   const updateSelection = useCallback((patch: Partial<V2DpsSelection>) => {
     setSelection((current) => (current ? { ...current, ...patch } : current));
@@ -163,8 +186,9 @@ export function WasmValidationV2DpsPage({
     }
     setBundleStatus('loading');
     setBundleError(null);
-    setWasmOutput(null);
-    setDecodedFrames([]);
+      setWasmOutput(null);
+      setDecodedFrames([]);
+      setActiveCurveId(null);
     try {
       const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, selectedGameId);
       setBundle(snapshot.bundle);
@@ -184,8 +208,9 @@ export function WasmValidationV2DpsPage({
     }
     setRunStatus('loading');
     setRunError(null);
-    setWasmOutput(null);
-    setDecodedFrames([]);
+      setWasmOutput(null);
+      setDecodedFrames([]);
+      setActiveCurveId(null);
     let nextDecodedFrames: DecodedFrame[] = [];
 
     try {
@@ -206,6 +231,7 @@ export function WasmValidationV2DpsPage({
       setWasmSha256(nextWasmSha256);
       setPreparedInput(prepared);
       setWasmOutput(donePayload);
+      setActiveCurveId(donePayload.curveResults.find((result) => result.curveId.endsWith('-selected-passives'))?.curveId ?? donePayload.curveResults[0]?.curveId ?? null);
       setDecodedFrames(nextDecodedFrames);
       setRunStatus('success');
     } catch (error) {
@@ -309,7 +335,7 @@ export function WasmValidationV2DpsPage({
             <MetricCard label="Version" value={currentVersion?.versionCode ?? 'N/A'} hint={cacheStatus ? `bundle cache ${cacheStatus}` : 'bundle'} />
           </Col>
           <Col span={6}>
-            <MetricCard label="Case" value={V2_DPS_CASE_ID} hint="Batch A" />
+            <MetricCard label="Case" value={V2_DPS_CASE_ID} hint="Batch D" />
           </Col>
           <Col span={6}>
             <MetricCard label="Wasm" value={wasmSha256 ? wasmSha256.slice(0, 12) : formatLoadState(runStatus)} hint={WASM_ASSET_LABEL} />
@@ -324,7 +350,15 @@ export function WasmValidationV2DpsPage({
                   value={selection?.attackerHeroId ?? ''}
                   showSearch
                   filterOption={filterSelectOption}
-                  onChange={(value) => updateSelection({ attackerHeroId: String(value) })}
+                  onChange={(value) => {
+                    const attackerHeroId = String(value);
+                    updateSelection({
+                      attackerHeroId,
+                      equipmentItemIds: selection?.equipmentItemIds ?? [],
+                      enabledPassiveEffectIds: getDefaultV2DpsPassiveIdsForHero(attackerHeroId),
+                      enabledScenarioStateIds: getDefaultV2DpsScenarioIdsForHero(attackerHeroId)
+                    });
+                  }}
                   disabled={!selection}
                 >
                   {attackerOptions.map((option) => (
@@ -371,6 +405,59 @@ export function WasmValidationV2DpsPage({
                 <InputNumber value={3.0} disabled />
               </Form.Item>
             </Col>
+            <Col span={24}>
+              <Form.Item label="ADC 成装">
+                <Select
+                  mode="multiple"
+                  value={selection?.equipmentItemIds ?? []}
+                  showSearch
+                  filterOption={filterSelectOption}
+                  onChange={(value) => updateSelection({ equipmentItemIds: normalizeSelectValues(value) })}
+                  disabled={!selection || equipmentOptions.length === 0}
+                  placeholder="选择要合并到本次 DPS 的成装"
+                >
+                  {equipmentOptions.map((option) => (
+                    <Select.Option key={option.itemId} value={option.itemId}>
+                      {option.label} / {option.statsLabel}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Batch B 被动">
+                <Select
+                  mode="multiple"
+                  value={selection?.enabledPassiveEffectIds ?? []}
+                  onChange={(value) => updateSelection({ enabledPassiveEffectIds: normalizeSelectValues(value) })}
+                  disabled={!selection || passiveOptions.length === 0}
+                  placeholder="当前英雄没有 Batch B 被动配置"
+                >
+                  {passiveOptions.map((option) => (
+                    <Select.Option key={option.id} value={option.id}>
+                      {option.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="scenarioStates">
+                <Select
+                  mode="multiple"
+                  value={selection?.enabledScenarioStateIds ?? []}
+                  onChange={(value) => updateSelection({ enabledScenarioStateIds: normalizeSelectValues(value) })}
+                  disabled={!selection || scenarioOptions.length === 0}
+                  placeholder="无预设状态"
+                >
+                  {scenarioOptions.map((option) => (
+                    <Select.Option key={option.id} value={option.id}>
+                      {option.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
           </Row>
         </Form>
       </Panel>
@@ -392,6 +479,18 @@ export function WasmValidationV2DpsPage({
 
       {curveResult?.status === 'blocked' ? (
         <Alert type="warning" content={curveResult.blockedReasons.join(' / ') || 'blocked'} />
+      ) : null}
+
+      {curveResults.length > 1 ? (
+        <Panel title="Curve 选择" kicker="curveResults">
+          <Select value={curveResult?.curveId} onChange={(value) => setActiveCurveId(String(value))}>
+            {curveResults.map((result) => (
+              <Select.Option key={result.curveId} value={result.curveId}>
+                {result.curveId} / {result.status}
+              </Select.Option>
+            ))}
+          </Select>
+        </Panel>
       ) : null}
 
       <Row gutter={[16, 16]} className="wasm-validation-grid">
@@ -418,12 +517,33 @@ export function WasmValidationV2DpsPage({
       <Row gutter={[16, 16]} className="wasm-validation-grid">
         <Col span={12}>
           <Panel title="导出预览" kicker="selection + resolvedSnapshot">
-            {exportPayload ? <JsonBlock value={exportPayload} /> : <EmptyState title="导出为空" description="运行后生成 Batch A JSON。" />}
+            {exportPayload ? <JsonBlock value={exportPayload} /> : <EmptyState title="导出为空" description="运行后生成 V2 DPS JSON。" />}
           </Panel>
         </Col>
         <Col span={12}>
           <Panel title="Wasm Frames" kicker="decoded outbox">
             {decodedFrames.length > 0 ? <JsonBlock value={decodedFrames} /> : <EmptyState title="还没有 frame" description="运行后展示 decoded outbox。" />}
+          </Panel>
+        </Col>
+      </Row>
+
+      <Row gutter={[16, 16]} className="wasm-validation-grid">
+        <Col span={12}>
+          <Panel title="技能被动触发" kicker="skillPassiveTriggers">
+            {curveResult ? <JsonBlock value={curveResult.skillPassiveTriggers} /> : <EmptyState title="还没有触发明细" description="运行后展示 wasm 返回的 skillPassiveTriggers。" />}
+          </Panel>
+        </Col>
+        <Col span={12}>
+          <Panel title="装备被动触发" kicker="itemPassiveTriggers">
+            {curveResult ? <JsonBlock value={curveResult.itemPassiveTriggers} /> : <EmptyState title="还没有装备触发明细" description="运行后展示 wasm 返回的 itemPassiveTriggers。" />}
+          </Panel>
+        </Col>
+      </Row>
+
+      <Row gutter={[16, 16]} className="wasm-validation-grid">
+        <Col span={24}>
+          <Panel title="效果拆解" kicker="effectBreakdown">
+            {curveResult ? <JsonBlock value={curveResult.effectBreakdown} /> : <EmptyState title="还没有效果拆解" description="运行后展示 wasm 返回的 effectBreakdown。" />}
           </Panel>
         </Col>
       </Row>
@@ -464,6 +584,16 @@ function filterSelectOption(inputValue: string, option: unknown): boolean {
     .join(' ')
     .toLowerCase();
   return searchText.includes(inputValue.trim().toLowerCase());
+}
+
+function normalizeSelectValues(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item)).filter(Boolean);
+  }
+  if (value == null || value === '') {
+    return [];
+  }
+  return [String(value)];
 }
 
 function formatLoadState(status: LoadState): string {
