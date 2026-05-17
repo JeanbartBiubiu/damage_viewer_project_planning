@@ -1,0 +1,170 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_a_target_dummies_001",
+  "ownerCategories": [],
+  "attributeDefinitions": [
+    {
+      "attrKey": "hp",
+      "attrName": "Health",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ad",
+      "attrName": "Attack Damage",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ap",
+      "attrName": "Ability Power",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "attack_speed",
+      "attrName": "Attack Speed",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "armor",
+      "attrName": "Armor",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_resist",
+      "attrName": "Magic Resist",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ability_haste",
+      "attrName": "Ability Haste",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "physical_pen",
+      "attrName": "Physical Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_pen",
+      "attrName": "Magic Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "hp_regen",
+      "attrName": "Health Regen",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "rate",
+      "rateTargetAttrKey": "hp"
+    }
+  ],
+  "types": [
+    {
+      "typeId": 62001,
+      "name": "target_dummy",
+      "description": "V2 Batch A fixed DPS target actor"
+    }
+  ],
+  "heroes": [
+    {
+      "heroId": "target_dummy_squishy",
+      "name": "Target Dummy Squishy",
+      "title": "2000 HP / 50 armor / 50 magic resist",
+      "baseStats": {
+        "hp": 2000,
+        "ad": 0,
+        "ap": 0,
+        "attack_speed": 0,
+        "armor": 50,
+        "magic_resist": 50,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      }
+    },
+    {
+      "heroId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "title": "3000 HP / 100 armor / 80 magic resist",
+      "baseStats": {
+        "hp": 3000,
+        "ad": 0,
+        "ap": 0,
+        "attack_speed": 0,
+        "armor": 100,
+        "magic_resist": 80,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      }
+    },
+    {
+      "heroId": "target_dummy_tank",
+      "name": "Target Dummy Tank",
+      "title": "5000 HP / 200 armor / 150 magic resist",
+      "baseStats": {
+        "hp": 5000,
+        "ad": 0,
+        "ap": 0,
+        "attack_speed": 0,
+        "armor": 200,
+        "magic_resist": 150,
+        "ability_haste": 0,
+        "physical_pen": 0,
+        "magic_pen": 0,
+        "hp_regen": 0
+      }
+    }
+  ],
+  "typeRelations": [
+    {
+      "typeId": 62001,
+      "targetCategory": "character",
+      "targetId": "target_dummy_squishy",
+      "extend": {
+        "role": "target_dummy",
+        "profile": "squishy"
+      }
+    },
+    {
+      "typeId": 62001,
+      "targetCategory": "character",
+      "targetId": "target_dummy_fighter",
+      "extend": {
+        "role": "target_dummy",
+        "profile": "fighter"
+      }
+    },
+    {
+      "typeId": 62001,
+      "targetCategory": "character",
+      "targetId": "target_dummy_tank",
+      "extend": {
+        "role": "target_dummy",
+        "profile": "tank"
+      }
+    }
+  ],
+  "skills": [],
+  "items": [],
+  "scenarios": []
+}

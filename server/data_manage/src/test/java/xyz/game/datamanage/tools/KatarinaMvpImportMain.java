@@ -151,9 +151,11 @@ public final class KatarinaMvpImportMain {
         out.println("  authMode    = " + (adminToken == null ? "disabled/no-token" : "bearer-token"));
         out.println("  ownerTypes  = " + seedData.ownerCategories().size());
         out.println("  attributes  = " + seedData.attributeDefinitions().size());
+        out.println("  types       = " + seedData.types().size());
         out.println("  heroes      = " + seedData.heroes().size());
         out.println("  skills      = " + seedData.skills().size());
         out.println("  items       = " + seedData.items().size());
+        out.println("  typeRels    = " + seedData.typeRelations().size());
         out.println("  scenarios   = " + seedData.scenarios().size() + " (web/runtime only; not imported)");
 
         if (options.dryRun()) {
@@ -175,23 +177,29 @@ public final class KatarinaMvpImportMain {
         }
 
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/attribute-definitions/", "attrKey", seedData.attributeDefinitions());
+        upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/types/", "typeId", seedData.types());
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/heroes/", "heroId", seedData.heroes());
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/skills/", "skillId", seedData.skills());
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/items/", "itemId", seedData.items());
+        upsertTypeRelations(httpClient, options.apiBaseUrl(), adminToken, gameId, seedData.typeRelations());
 
         if (!options.publish()) {
             out.println("Import finished without publish.");
             return;
         }
 
-        JsonNode publishResponse = requestJson(
+        JsonNode publishResponse = requestJsonAllowingExistingVersion(
             httpClient,
             buildUri(options.apiBaseUrl(), "/api/admin/games/" + encodeSegment(gameId) + "/versions:publish"),
             "POST",
             adminToken,
             OBJECT_MAPPER.createObjectNode().put("versionCode", versionCode)
         );
-        out.println("Published versionCode=" + publishResponse.path("versionCode").asText(versionCode));
+        if (publishResponse.isMissingNode()) {
+            out.println("Publish skipped because versionCode already exists; verifying existing current + bundle.");
+        } else {
+            out.println("Published versionCode=" + publishResponse.path("versionCode").asText(versionCode));
+        }
 
         JsonNode currentResponse = requestJson(
             httpClient,
@@ -242,9 +250,11 @@ public final class KatarinaMvpImportMain {
             requireText(root, "versionCode"),
             readObjectArray(root, "ownerCategories"),
             readObjectArray(root, "attributeDefinitions"),
+            readOptionalObjectArray(root, "types"),
             readObjectArray(root, "heroes"),
             readObjectArray(root, "skills"),
             readObjectArray(root, "items"),
+            readOptionalObjectArray(root, "typeRelations"),
             readObjectArray(root, "scenarios")
         );
     }
@@ -362,13 +372,40 @@ public final class KatarinaMvpImportMain {
         List<ObjectNode> entities
     ) throws Exception {
         for (ObjectNode entity : entities) {
-            String entityId = requireText(entity, idField);
+            String entityId = requireIdSegment(entity, idField);
             requestJson(
                 httpClient,
                 buildUri(apiBaseUrl, "/api/admin/games/" + encodeSegment(gameId) + pathPrefix + encodeSegment(entityId)),
                 "PUT",
                 adminToken,
                 entity
+            );
+        }
+    }
+
+    private static void upsertTypeRelations(
+        HttpClient httpClient,
+        String apiBaseUrl,
+        String adminToken,
+        String gameId,
+        List<ObjectNode> relations
+    ) throws Exception {
+        for (ObjectNode relation : relations) {
+            String typeId = requireIdSegment(relation, "typeId");
+            String targetCategory = requireText(relation, "targetCategory");
+            String targetId = requireText(relation, "targetId");
+            requestJson(
+                httpClient,
+                buildUri(
+                    apiBaseUrl,
+                    "/api/admin/games/" + encodeSegment(gameId)
+                        + "/type-relations/" + encodeSegment(typeId)
+                        + "/" + encodeSegment(targetCategory)
+                        + "/" + encodeSegment(targetId)
+                ),
+                "PUT",
+                adminToken,
+                relation
             );
         }
     }
@@ -385,24 +422,97 @@ public final class KatarinaMvpImportMain {
         if (!expectedVersionCode.equals(bundleResponse.path("meta").path("versionCode").asText(""))) {
             throw new IllegalStateException("bundle.meta.versionCode mismatch");
         }
-        verifySize(bundleResponse.path("attributeDefinitions"), seedData.attributeDefinitions().size(), "attributeDefinitions");
-        verifySize(bundleResponse.path("heroes"), seedData.heroes().size(), "heroes");
-        verifySize(bundleResponse.path("skills"), seedData.skills().size(), "skills");
-        verifySize(bundleResponse.path("items"), seedData.items().size(), "items");
+        verifyEntitiesPresent(bundleResponse.path("attributeDefinitions"), seedData.attributeDefinitions(), "attributeDefinitions", "attrKey");
+        verifyEntitiesPresent(bundleResponse.path("types"), seedData.types(), "types", "typeId");
+        verifyEntitiesPresent(bundleResponse.path("heroes"), seedData.heroes(), "heroes", "heroId");
+        verifyEntitiesPresent(bundleResponse.path("skills"), seedData.skills(), "skills", "skillId");
+        verifyEntitiesPresent(bundleResponse.path("items"), seedData.items(), "items", "itemId");
+        verifyTypeRelationsPresent(bundleResponse.path("typeRelations"), seedData.typeRelations());
     }
 
-    private static void verifySize(JsonNode arrayNode, int expectedSize, String fieldName) {
+    private static void verifyEntitiesPresent(JsonNode arrayNode, List<ObjectNode> expectedEntities, String fieldName, String idField) {
         if (!arrayNode.isArray()) {
             throw new IllegalStateException("bundle field `" + fieldName + "` is not array");
         }
-        if (arrayNode.size() != expectedSize) {
-            throw new IllegalStateException(
-                "bundle field `" + fieldName + "` size mismatch. expected=" + expectedSize + ", actual=" + arrayNode.size()
-            );
+        for (ObjectNode expected : expectedEntities) {
+            String expectedId = requireIdSegment(expected, idField);
+            if (!containsEntity(arrayNode, idField, expectedId)) {
+                throw new IllegalStateException("bundle field `" + fieldName + "` is missing entity `" + expectedId + "`");
+            }
         }
     }
 
+    private static void verifyTypeRelationsPresent(JsonNode arrayNode, List<ObjectNode> expectedRelations) {
+        if (!arrayNode.isArray()) {
+            throw new IllegalStateException("bundle field `typeRelations` is not array");
+        }
+        for (ObjectNode expected : expectedRelations) {
+            String expectedTypeId = requireIdSegment(expected, "typeId");
+            String expectedTargetCategory = requireText(expected, "targetCategory");
+            String expectedTargetId = requireText(expected, "targetId");
+            boolean found = false;
+            for (JsonNode actual : arrayNode) {
+                if (expectedTypeId.equals(actual.path("typeId").asText())
+                    && expectedTargetCategory.equals(actual.path("targetCategory").asText())
+                    && expectedTargetId.equals(actual.path("targetId").asText())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new IllegalStateException(
+                    "bundle field `typeRelations` is missing relation typeId=" + expectedTypeId
+                        + ", targetCategory=" + expectedTargetCategory + ", targetId=" + expectedTargetId
+                );
+            }
+        }
+    }
+
+    private static boolean containsEntity(JsonNode arrayNode, String idField, String expectedId) {
+        for (JsonNode actual : arrayNode) {
+            if (expectedId.equals(actual.path(idField).asText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static JsonNode requestJson(
+        HttpClient httpClient,
+        URI uri,
+        String method,
+        String adminToken,
+        JsonNode requestBody
+    ) throws IOException, InterruptedException {
+        HttpJsonResponse response = sendJson(httpClient, uri, method, adminToken, requestBody);
+        if (response.statusCode() / 100 != 2) {
+            throw new IllegalStateException(
+                "HTTP " + method + " " + uri + " failed: status=" + response.statusCode() + ", body=" + response.body()
+            );
+        }
+        return readResponseJson(response.body());
+    }
+
+    private static JsonNode requestJsonAllowingExistingVersion(
+        HttpClient httpClient,
+        URI uri,
+        String method,
+        String adminToken,
+        JsonNode requestBody
+    ) throws IOException, InterruptedException {
+        HttpJsonResponse response = sendJson(httpClient, uri, method, adminToken, requestBody);
+        if (response.statusCode() == 409 && response.body().contains("\"409.CONFLICT\"")) {
+            return OBJECT_MAPPER.missingNode();
+        }
+        if (response.statusCode() / 100 != 2) {
+            throw new IllegalStateException(
+                "HTTP " + method + " " + uri + " failed: status=" + response.statusCode() + ", body=" + response.body()
+            );
+        }
+        return readResponseJson(response.body());
+    }
+
+    private static HttpJsonResponse sendJson(
         HttpClient httpClient,
         URI uri,
         String method,
@@ -428,15 +538,14 @@ public final class KatarinaMvpImportMain {
         }
 
         HttpResponse<String> response = httpClient.send(builder.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-        if (response.statusCode() / 100 != 2) {
-            throw new IllegalStateException(
-                "HTTP " + method + " " + uri + " failed: status=" + response.statusCode() + ", body=" + response.body()
-            );
-        }
-        if (response.body() == null || response.body().isBlank()) {
+        return new HttpJsonResponse(response.statusCode(), response.body() == null ? "" : response.body());
+    }
+
+    private static JsonNode readResponseJson(String body) throws IOException {
+        if (body == null || body.isBlank()) {
             return OBJECT_MAPPER.createObjectNode();
         }
-        return OBJECT_MAPPER.readTree(response.body());
+        return OBJECT_MAPPER.readTree(body);
     }
 
     private static URI buildUri(String apiBaseUrl, String path) {
@@ -510,6 +619,38 @@ public final class KatarinaMvpImportMain {
         return result;
     }
 
+    private static List<ObjectNode> readOptionalObjectArray(JsonNode node, String fieldName) {
+        JsonNode field = node.get(fieldName);
+        if (field == null || field.isNull()) {
+            return List.of();
+        }
+        if (!(field instanceof ArrayNode arrayNode)) {
+            throw new IllegalArgumentException("Field `" + fieldName + "` must be array when present");
+        }
+        List<ObjectNode> result = new ArrayList<>(arrayNode.size());
+        for (JsonNode item : arrayNode) {
+            if (!(item instanceof ObjectNode objectNode)) {
+                throw new IllegalArgumentException("Field `" + fieldName + "` must contain objects only");
+            }
+            result.add(objectNode.deepCopy());
+        }
+        return result;
+    }
+
+    private static String requireIdSegment(JsonNode node, String fieldName) {
+        JsonNode field = node.get(fieldName);
+        if (field == null || field.isNull()) {
+            throw new IllegalArgumentException("Missing required id field: " + fieldName);
+        }
+        if (field.isTextual() && !field.asText().isBlank()) {
+            return field.asText();
+        }
+        if (field.canConvertToLong()) {
+            return field.asText();
+        }
+        throw new IllegalArgumentException("Field `" + fieldName + "` must be string or integer id");
+    }
+
     private static String nullableText(JsonNode node, String fieldName) {
         JsonNode field = node.get(fieldName);
         if (field == null || field.isNull()) {
@@ -555,14 +696,19 @@ public final class KatarinaMvpImportMain {
     record DbOptions(String dbUrl, String dbUsername, String dbPassword) {
     }
 
+    record HttpJsonResponse(int statusCode, String body) {
+    }
+
     record SeedData(
         String gameId,
         String versionCode,
         List<ObjectNode> ownerCategories,
         List<ObjectNode> attributeDefinitions,
+        List<ObjectNode> types,
         List<ObjectNode> heroes,
         List<ObjectNode> skills,
         List<ObjectNode> items,
+        List<ObjectNode> typeRelations,
         List<ObjectNode> scenarios
     ) {
     }
