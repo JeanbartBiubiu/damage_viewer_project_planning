@@ -1,0 +1,260 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_d_item_passives_002",
+  "source": {
+    "baseSeed": "V2-Batch-C-adc-items.seed.json",
+    "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
+    "sourceVersion": "16.9.1",
+    "generatedAt": "2026-05-17",
+    "rule": "V2 Batch D item-owned DPS passive skills for selected ADC completed items. Requires Batch C items to exist before import."
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3124",
+      "skillKey": "p_wrath",
+      "name": "鬼索的狂暴之刃 怨怒 DPS 被动",
+      "description": "V2 Batch D: attacks deal 30 bonus magic damage on-hit. Stacking attack speed and phantom-hit duplication are tracked as follow-up scope.",
+      "params": {
+        "onHitMagicDamage": 30
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "guinsoos_wrath_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "guinsoos_wrath_on_hit",
+                "damageType": "magic",
+                "amount": 30
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3153",
+      "skillKey": "p_mist_edge",
+      "name": "破败王者之刃 雾之锋 DPS 被动",
+      "description": "V2 Batch D: ranged baseline attacks deal 6% target current HP as bonus physical on-hit damage. Third-hit slow is out of DPS damage scope.",
+      "params": {
+        "targetCurrentHpRatio": 0.06,
+        "targetCurrentHpBasis": "attack_start"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "blade_current_hp_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "blade_of_the_ruined_king_current_hp_on_hit",
+                "damageType": "physical",
+                "targetCurrentHpRatio": 0.06,
+                "targetCurrentHpBasis": "attack_start"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+      "ownerType": "item",
+      "ownerId": "6672",
+      "skillKey": "p_kraken",
+      "name": "海妖杀手 放倒它 DPS 被动",
+      "description": "V2 Batch D: every third attack deals base physical on-hit damage amplified by target missing HP percent. Game-side baseline: base * (1 + missingHpPct * 0.75).",
+      "params": {
+        "basePhysicalDamage": 120,
+        "targetMissingHpAmp": 0.75,
+        "targetMissingHpBasis": "attack_start"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "kraken_every_3_hit",
+            "triggerKind": "every_n_basic_attack_hit",
+            "everyN": 3
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+            "sourceType": "item",
+            "triggerId": "kraken_every_3_hit",
+            "triggerKind": "every_n_basic_attack_hit",
+            "everyN": 3,
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "kraken_slayer_bring_it_down",
+                "damageType": "physical",
+                "amount": 120,
+                "targetMissingHpAmp": 0.75,
+                "targetMissingHpBasis": "attack_start"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3124",
+      "name": "鬼索的狂暴之刃",
+      "goldCost": 3000,
+      "iconUrl": "item_3124",
+      "skillRefs": [
+        "item_3124_guinsoos_rageblade_wrath_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 30
+        },
+        {
+          "attrKey": "ap",
+          "value": 30
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3124",
+        "sourceTags": [
+          "Damage",
+          "AttackSpeed",
+          "SpellDamage",
+          "OnHit"
+        ],
+        "sourceGoldTotal": 3000,
+        "batch": "V2-Batch-D"
+      }
+    },
+    {
+      "itemId": "3153",
+      "name": "破败王者之刃",
+      "goldCost": 3200,
+      "iconUrl": "item_3153",
+      "skillRefs": [
+        "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 40
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.25
+        },
+        {
+          "attrKey": "life_steal",
+          "value": 0.1
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3153",
+        "sourceTags": [
+          "Damage",
+          "AttackSpeed",
+          "LifeSteal",
+          "Slow",
+          "OnHit"
+        ],
+        "sourceGoldTotal": 3200,
+        "batch": "V2-Batch-D"
+      }
+    },
+    {
+      "itemId": "6672",
+      "name": "海妖杀手",
+      "goldCost": 3000,
+      "iconUrl": "item_6672",
+      "skillRefs": [
+        "item_6672_kraken_slayer_bring_it_down_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 45
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.4
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "6672",
+        "sourceTags": [
+          "Damage",
+          "AttackSpeed",
+          "OnHit",
+          "NonbootsMovement"
+        ],
+        "sourceGoldTotal": 3000,
+        "batch": "V2-Batch-D"
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
