@@ -174,6 +174,20 @@ func (s *Session) BeginRunJSON(payload []byte) int32 {
 		s.writeError(model.ErrNotReady, "session is not ready", nil)
 		return -1
 	}
+	var header struct {
+		Mode string `json:"mode"`
+	}
+	if err := json.Unmarshal(payload, &header); err == nil && header.Mode == singleAttackerDPSMode {
+		var input model.SingleAttackerDPSInputV2
+		if err := json.Unmarshal(payload, &input); err != nil {
+			s.writeError(model.ErrInvalidInput, err.Error(), nil)
+			return -1
+		}
+		s.run = nil
+		s.phase = PhaseDone
+		s.outbox.WriteJSON(model.FrameKindDone, RunSingleAttackerDPS(input))
+		return 0
+	}
 	var input model.EngineRunInput
 	if err := json.Unmarshal(payload, &input); err != nil {
 		s.writeError(model.ErrInvalidInput, err.Error(), nil)

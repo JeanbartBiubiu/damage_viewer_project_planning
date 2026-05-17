@@ -344,6 +344,183 @@ type TraceOptionsV2 struct {
 	ValueTrace  bool `json:"valueTrace,omitempty"`
 }
 
+type SingleAttackerDPSInputV2 struct {
+	Mode            string              `json:"mode"`
+	CaseID          string              `json:"caseId,omitempty"`
+	VersionCode     string              `json:"versionCode,omitempty"`
+	WasmSha256      string              `json:"wasmSha256,omitempty"`
+	SimulationRules DPSimulationRulesV2 `json:"simulationRules"`
+	TargetSnapshot  DPSActorSnapshotV2  `json:"targetSnapshot,omitempty"`
+	Curves          []DPSCurveRunSpecV2 `json:"curves"`
+}
+
+type DPSimulationRulesV2 struct {
+	DurationMs        int64             `json:"durationMs"`
+	WarmupMs          int64             `json:"warmupMs"`
+	SampleBy          string            `json:"sampleBy"`
+	AttackSpeedCap    float64           `json:"attackSpeedCap"`
+	FirstAttackAtMs   int64             `json:"firstAttackAtMs"`
+	EventWindowPolicy string            `json:"eventWindowPolicy"`
+	DotTickIntervalMs int64             `json:"dotTickIntervalMs"`
+	CritPolicy        string            `json:"critPolicy"`
+	Seed              uint64            `json:"seed"`
+	AutoAttackPlan    DPSAutoAttackPlan `json:"autoAttackPlan"`
+	MaxEvents         int               `json:"maxEvents"`
+}
+
+type DPSAutoAttackPlan struct {
+	Enabled    bool   `json:"enabled"`
+	ActionID   string `json:"actionId"`
+	StartAtMs  int64  `json:"startAtMs"`
+	TargetRole string `json:"targetRole"`
+}
+
+type DPSCurveRunSpecV2 struct {
+	CurveID          string                `json:"curveId"`
+	Label            string                `json:"label,omitempty"`
+	Selection        DPSCurveSelectionV2   `json:"selection"`
+	ResolvedSnapshot DPSResolvedSnapshotV2 `json:"resolvedSnapshot"`
+}
+
+type DPSCurveSelectionV2 struct {
+	HeroID                string               `json:"heroId,omitempty"`
+	HeroLevel             int                  `json:"heroLevel,omitempty"`
+	TargetID              string               `json:"targetId,omitempty"`
+	TargetType            string               `json:"targetType,omitempty"`
+	SkillLevels           map[string]int       `json:"skillLevels"`
+	EquipmentSet          []string             `json:"equipmentSet"`
+	EnabledPassiveEffects []string             `json:"enabledPassiveEffects"`
+	ScenarioStates        []DPSScenarioStateV2 `json:"scenarioStates"`
+	CritPolicy            string               `json:"critPolicy,omitempty"`
+}
+
+type DPSResolvedSnapshotV2 struct {
+	AttackerSnapshot       DPSActorSnapshotV2   `json:"attackerSnapshot"`
+	TargetSnapshot         DPSActorSnapshotV2   `json:"targetSnapshot"`
+	EquipmentSet           []string             `json:"equipmentSet"`
+	EquipmentStats         map[string]float64   `json:"equipmentStats"`
+	EnabledPassiveEffects  []string             `json:"enabledPassiveEffects"`
+	ExternalPassiveEffects []string             `json:"externalPassiveEffects"`
+	ScenarioStates         []DPSScenarioStateV2 `json:"scenarioStates"`
+	RuneStatAdjustments    map[string]float64   `json:"runeStatAdjustments"`
+}
+
+type DPSActorSnapshotV2 struct {
+	ActorID    string             `json:"actorId"`
+	TemplateID string             `json:"templateId,omitempty"`
+	Name       string             `json:"name,omitempty"`
+	Level      int                `json:"level,omitempty"`
+	Types      []string           `json:"types"`
+	Attributes map[string]float64 `json:"attributes"`
+	CurrentHP  float64            `json:"currentHp"`
+	MaxHP      float64            `json:"maxHp"`
+}
+
+type DPSScenarioStateV2 struct {
+	StateID     string `json:"stateId,omitempty"`
+	SourceType  string `json:"sourceType,omitempty"`
+	SourceID    string `json:"sourceId,omitempty"`
+	Activation  string `json:"activation,omitempty"`
+	Stacks      int    `json:"stacks,omitempty"`
+	StartTimeMs int64  `json:"startTimeMs,omitempty"`
+	DurationMs  int64  `json:"durationMs,omitempty"`
+}
+
+type SingleAttackerDPSOutputV2 struct {
+	CaseID          string              `json:"caseId,omitempty"`
+	VersionCode     string              `json:"versionCode,omitempty"`
+	WasmSha256      string              `json:"wasmSha256,omitempty"`
+	SimulationRules DPSimulationRulesV2 `json:"simulationRules"`
+	TargetSnapshot  DPSActorSnapshotV2  `json:"targetSnapshot,omitempty"`
+	CurveResults    []DPSCurveResultV2  `json:"curveResults"`
+}
+
+type DPSCurveResultV2 struct {
+	CurveID                 string                 `json:"curveId"`
+	Status                  string                 `json:"status"`
+	Selection               DPSCurveSelectionV2    `json:"selection"`
+	ResolvedSnapshot        DPSResolvedSnapshotV2  `json:"resolvedSnapshot"`
+	DurationMs              int64                  `json:"durationMs"`
+	FinalTimeMs             int64                  `json:"finalTimeMs"`
+	StopReason              string                 `json:"stopReason"`
+	ProcessedEvents         int                    `json:"processedEvents"`
+	QueuePeak               int                    `json:"queuePeak"`
+	AttackCount             int                    `json:"attackCount"`
+	AttackTimeline          []DPSAttackEventV2     `json:"attackTimeline"`
+	AttackIntervalTimeline  []DPSAttackIntervalV2  `json:"attackIntervalTimeline"`
+	DamageTimeline          []DPSDamageEventV2     `json:"damageTimeline"`
+	TargetHPTimeline        []DPSTargetHPEventV2   `json:"targetHpTimeline"`
+	EffectTimeline          []DPSEffectEventV2     `json:"effectTimeline"`
+	TotalDamage             float64                `json:"totalDamage"`
+	TimeWindowDps           float64                `json:"timeWindowDps"`
+	KillDps                 *float64               `json:"killDps"`
+	KillTimeMs              *int64                 `json:"killTimeMs"`
+	DamageByType            map[string]float64     `json:"damageByType"`
+	DamageBySource          map[string]float64     `json:"damageBySource"`
+	SkillPassiveTriggers    []DPSPassiveTriggerV2  `json:"skillPassiveTriggers"`
+	ItemPassiveTriggers     []DPSPassiveTriggerV2  `json:"itemPassiveTriggers"`
+	ExternalPassiveTriggers []DPSPassiveTriggerV2  `json:"externalPassiveTriggers"`
+	EffectBreakdown         []DPSEffectBreakdownV2 `json:"effectBreakdown"`
+	CritPolicy              string                 `json:"critPolicy"`
+	Seed                    uint64                 `json:"seed"`
+	BlockedReasons          []string               `json:"blockedReasons"`
+}
+
+type DPSAttackEventV2 struct {
+	TimeMs        int64  `json:"timeMs"`
+	ActionID      string `json:"actionId"`
+	SourceActorID string `json:"sourceActorId"`
+	TargetActorID string `json:"targetActorId"`
+}
+
+type DPSAttackIntervalV2 struct {
+	TimeMs               int64   `json:"timeMs"`
+	RawAttackSpeed       float64 `json:"rawAttackSpeed"`
+	EffectiveAttackSpeed float64 `json:"effectiveAttackSpeed"`
+	OverflowAttackSpeed  float64 `json:"overflowAttackSpeed"`
+	AttackIntervalMs     int64   `json:"attackIntervalMs"`
+	NextAttackAtMs       int64   `json:"nextAttackAtMs"`
+	Source               string  `json:"source"`
+}
+
+type DPSDamageEventV2 struct {
+	TimeMs         int64   `json:"timeMs"`
+	Source         string  `json:"source"`
+	DamageType     string  `json:"damageType"`
+	RawDamage      float64 `json:"rawDamage"`
+	FinalDamage    float64 `json:"finalDamage"`
+	TargetHPBefore float64 `json:"targetHpBefore"`
+	TargetHPAfter  float64 `json:"targetHpAfter"`
+}
+
+type DPSTargetHPEventV2 struct {
+	TimeMs    int64   `json:"timeMs"`
+	CurrentHP float64 `json:"currentHp"`
+	MaxHP     float64 `json:"maxHp"`
+}
+
+type DPSEffectEventV2 struct {
+	TimeMs   int64  `json:"timeMs"`
+	SourceID string `json:"sourceId,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+}
+
+type DPSPassiveTriggerV2 struct {
+	TimeMs             int64  `json:"timeMs,omitempty"`
+	ProcSourceCategory string `json:"procSourceCategory,omitempty"`
+	SourceID           string `json:"sourceId,omitempty"`
+	SourceType         string `json:"sourceType,omitempty"`
+	TriggerID          string `json:"triggerId,omitempty"`
+}
+
+type DPSEffectBreakdownV2 struct {
+	TimeMs  int64   `json:"timeMs,omitempty"`
+	Source  string  `json:"source,omitempty"`
+	Kind    string  `json:"kind,omitempty"`
+	Amount  float64 `json:"amount,omitempty"`
+	Message string  `json:"message,omitempty"`
+}
+
 type AttributeSnapshotV2 struct {
 	Base     float64 `json:"base"`
 	Current  float64 `json:"current"`
