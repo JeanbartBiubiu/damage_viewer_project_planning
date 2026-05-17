@@ -16,6 +16,7 @@ import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.nio.file.Path;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.ECPrivateKey;
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -44,6 +46,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import xyz.game.datamanage.tools.KatarinaMvpImportMain;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("it")
@@ -64,6 +67,9 @@ class ControllerPublishFlowIT {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @LocalServerPort
+    private int port;
 
     private String gameId;
 
@@ -249,6 +255,56 @@ class ControllerPublishFlowIT {
         assertTrue(containsTypeRelation(bundle.path("typeRelations"), 62001, "character", "target_dummy_squishy"));
         assertTrue(containsTypeRelation(bundle.path("typeRelations"), 62001, "character", "target_dummy_fighter"));
         assertTrue(containsTypeRelation(bundle.path("typeRelations"), 62001, "character", "target_dummy_tank"));
+    }
+
+    @Test
+    void v2BatchBHeroPassivesSeedImportPublishFlow_shouldExposeSelfContainedBundle() throws Exception {
+        String versionCode = "v2_batch_b_hero_passives_it";
+        Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-B-hero-passives.seed.json")
+            .toAbsolutePath()
+            .normalize();
+
+        KatarinaMvpImportMain.main(new String[]{
+            "--apiBaseUrl=http://localhost:" + port,
+            "--seedFile=" + seedFile,
+            "--gameId=" + gameId,
+            "--gameName=IT " + gameId,
+            "--versionCode=" + versionCode,
+            "--adminToken=" + createAdminJwt()
+        });
+
+        ResponseEntity<JsonNode> currentResponse = getCurrentVersion();
+        assertEquals(HttpStatus.OK, currentResponse.getStatusCode());
+        assertEquals(versionCode, requireBody(currentResponse).path("versionCode").asText());
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+        assertEquals(versionCode, bundle.path("meta").path("versionCode").asText());
+        assertEquals(30, bundle.path("attributeDefinitions").size());
+        assertEquals(9, bundle.path("heroes").size());
+        assertEquals(7, bundle.path("skills").size());
+
+        JsonNode targetDummyType = findByField(bundle.path("types"), "typeId", "62001");
+        assertEquals("target_dummy", targetDummyType.path("name").asText());
+        assertTargetDummyStats(bundle, "target_dummy_squishy", 2000, 50, 50);
+        assertTargetDummyStats(bundle, "target_dummy_fighter", 3000, 100, 80);
+        assertTargetDummyStats(bundle, "target_dummy_tank", 5000, 200, 150);
+        assertHeroStat(bundle, "hero_vayne", "ad", 60);
+        assertHeroStat(bundle, "hero_teemo", "attack_speed", 0.69);
+        assertHeroStat(bundle, "hero_varus", "attack_range", 575);
+        assertHeroStat(bundle, "hero_kaisa", "hp", 640);
+        assertHeroStat(bundle, "hero_twitch", "armor", 27);
+        assertHeroStat(bundle, "hero_kogmaw", "attack_speed", 0.665);
+
+        JsonNode vayne = findByField(bundle.path("skills"), "skillId", "skill_vayne_w_silver_bolts_dps_v2");
+        assertEquals("hero_vayne", vayne.path("ownerId").asText());
+        assertEquals("every_n_basic_attack_hit", vayne.path("mechanicsConfig").path("dpsPassiveEffects").get(0).path("triggerKind").asText());
+        assertEquals(3, vayne.path("mechanicsConfig").path("dpsPassiveEffects").get(0).path("everyN").asInt());
+
+        JsonNode kogmawW = findByField(bundle.path("skills"), "skillId", "skill_kogmaw_w_bio_arcane_barrage_dps_v2");
+        assertEquals("kogmaw_w_pre_enabled", kogmawW.path("mechanicsConfig").path("dpsScenarioStates").get(0).path("stateId").asText());
+        assertTrue(containsTypeRelation(bundle.path("typeRelations"), 62001, "character", "target_dummy_fighter"));
     }
 
     @Test
@@ -1690,6 +1746,11 @@ class ControllerPublishFlowIT {
         assertEquals(hp, targetDummy.path("baseStats").path("hp").asDouble(), 0.001);
         assertEquals(armor, targetDummy.path("baseStats").path("armor").asDouble(), 0.001);
         assertEquals(magicResist, targetDummy.path("baseStats").path("magic_resist").asDouble(), 0.001);
+    }
+
+    private void assertHeroStat(JsonNode bundle, String heroId, String attrKey, double expectedValue) {
+        JsonNode hero = findByField(bundle.path("heroes"), "heroId", heroId);
+        assertEquals(expectedValue, hero.path("baseStats").path(attrKey).asDouble(), 0.001);
     }
 
     private JsonNode findByField(JsonNode arrayNode, String fieldName, String expectedValue) {
