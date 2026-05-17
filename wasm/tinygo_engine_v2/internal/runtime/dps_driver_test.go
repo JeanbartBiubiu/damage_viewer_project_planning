@@ -1,8 +1,12 @@
 package runtime
 
 import (
+	"encoding/json"
+	"math"
+	"strings"
 	"testing"
 
+	"tinygo_engine_v2/internal/abi"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -77,6 +81,266 @@ func TestSingleAttackerDPSAttackSpeedCapOnlyConstrainsCadence(t *testing.T) {
 	}
 	if !almostEqual(result.TotalDamage, 360) {
 		t.Fatalf("totalDamage = %.4f, want four uncapped damage applications", result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSExpectedCritDamageForBasicAttacks(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0.25
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" || result.AttackCount != 1 {
+		t.Fatalf("result = %+v, want one ok attack", result)
+	}
+	if !almostEqual(result.TotalDamage, 125) || !almostEqual(result.DamageTimeline[0].RawDamage, 125) {
+		t.Fatalf("damage = %+v total=%.4f, want expected crit raw damage 125", result.DamageTimeline, result.TotalDamage)
+	}
+
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 1
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	result = RunSingleAttackerDPS(input).CurveResults[0]
+	if !almostEqual(result.TotalDamage, 200) || !almostEqual(result.DamageTimeline[0].RawDamage, 200) {
+		t.Fatalf("damage = %+v total=%.4f, want guaranteed crit damage 200", result.DamageTimeline, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSArmorPenetrationAppliesToPhysicalDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["armor_pen_percent"] = 0.3
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["armor_pen_flat"] = 10
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" || result.AttackCount != 1 {
+		t.Fatalf("result = %+v, want one ok attack", result)
+	}
+	if !almostEqual(result.TotalDamage, 62.5) || !almostEqual(result.DamageTimeline[0].FinalDamage, 62.5) {
+		t.Fatalf("damage = %+v total=%.4f, want armor 100 -> 60 after pen, final 62.5", result.DamageTimeline, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSEquipmentStatsAreMergedIntoAttackerAttributes(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].Selection.EquipmentSet = []string{"3031", "3046"}
+	input.Curves[0].ResolvedSnapshot.EquipmentSet = []string{"3031", "3046"}
+	input.Curves[0].ResolvedSnapshot.EquipmentStats = map[string]float64{
+		"ad":           75,
+		"attack_speed": 0.65,
+		"crit_chance":  0.25,
+	}
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.CurrentHP = 3000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 3000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"]; !almostEqual(got, 135) {
+		t.Fatalf("merged ad = %.4f, want 135", got)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"]; !almostEqual(got, 1.308) {
+		t.Fatalf("merged attack_speed = %.4f, want 1.308", got)
+	}
+	if got := result.ResolvedSnapshot.EquipmentStats["crit_chance"]; !almostEqual(got, 0.25) {
+		t.Fatalf("equipmentStats crit_chance = %.4f, want preserved evidence 0.25", got)
+	}
+	if result.AttackCount != 14 {
+		t.Fatalf("attackCount = %d, want 14 attacks with merged attack speed", result.AttackCount)
+	}
+	if !almostEqual(result.TotalDamage, 945) {
+		t.Fatalf("totalDamage = %.4f, want 14 armor-mitigated attacks for 945", result.TotalDamage)
+	}
+	firstDamage := result.DamageTimeline[0]
+	if !almostEqual(firstDamage.RawDamage, 135) || !almostEqual(firstDamage.FinalDamage, 67.5) {
+		t.Fatalf("firstDamage = %+v, want merged AD then armor mitigation", firstDamage)
+	}
+}
+
+func TestSingleAttackerDPSEquipmentCritStatsAffectBasicAttackDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].Selection.EquipmentSet = []string{"3031", "3046"}
+	input.Curves[0].ResolvedSnapshot.EquipmentSet = []string{"3031", "3046"}
+	input.Curves[0].ResolvedSnapshot.EquipmentStats = map[string]float64{
+		"ad":           75,
+		"attack_speed": 0.65,
+		"crit_chance":  0.50,
+		"crit_damage":  0.30,
+	}
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.CurrentHP = 3000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 3000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.AttackCount != 14 {
+		t.Fatalf("attackCount = %d, want 14 attacks with merged attack speed", result.AttackCount)
+	}
+	firstDamage := result.DamageTimeline[0]
+	if !almostEqual(firstDamage.RawDamage, 222.75) || !almostEqual(firstDamage.FinalDamage, 111.375) {
+		t.Fatalf("firstDamage = %+v, want AD 135 with expected crit then armor mitigation", firstDamage)
+	}
+	if !almostEqual(result.TotalDamage, 1559.25) {
+		t.Fatalf("totalDamage = %.4f, want 14 expected-crit armor-mitigated attacks", result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSItemOnHitPassiveRoutesToItemTriggers(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.Selection.EquipmentSet = []string{"3124"}
+	curve.Selection.EnabledPassiveEffects = []string{"item_3124_guinsoos_rageblade_wrath_dps_v2"}
+	curve.ResolvedSnapshot.EquipmentSet = []string{"3124"}
+	curve.ResolvedSnapshot.EquipmentStats = map[string]float64{"ad": 30, "ap": 30, "attack_speed": 0.25}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"item_3124_guinsoos_rageblade_wrath_dps_v2"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{guinsoosWrathPassive()}
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.SkillPassiveTriggers) != 0 || len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("passive triggers skill=%v item=%v, want one item trigger", result.SkillPassiveTriggers, result.ItemPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource["guinsoos_wrath_on_hit"], 30) || !almostEqual(result.DamageByType["magic"], 30) {
+		t.Fatalf("damageBySource=%v damageByType=%v, want 30 magic item on-hit", result.DamageBySource, result.DamageByType)
+	}
+	encoded := string(mustJSONForDPSTest(t, result))
+	if !strings.Contains(encoded, `"itemPassiveTriggers":[{"timeMs":0`) {
+		t.Fatalf("encoded itemPassiveTriggers should retain timeMs=0: %s", encoded)
+	}
+	if !strings.Contains(encoded, `"effectBreakdown":[{"timeMs":0`) {
+		t.Fatalf("encoded effectBreakdown should retain timeMs=0: %s", encoded)
+	}
+}
+
+func TestSingleAttackerDPSItemCurrentHPOnHitUsesAttackStartBasis(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.Selection.EquipmentSet = []string{"3153"}
+	curve.Selection.EnabledPassiveEffects = []string{"item_3153_blade_of_the_ruined_king_mists_edge_dps_v2"}
+	curve.ResolvedSnapshot.EquipmentSet = []string{"3153"}
+	curve.ResolvedSnapshot.EquipmentStats = map[string]float64{"ad": 40, "attack_speed": 0.25, "life_steal": 0.1}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"item_3153_blade_of_the_ruined_king_mists_edge_dps_v2"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{bladeOfTheRuinedKingPassive()}
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !almostEqual(result.DamageBySource["blade_of_the_ruined_king_current_hp_on_hit"], 60) {
+		t.Fatalf("damageBySource=%v, want 6%% of 1000 attack-start HP for ranged holder", result.DamageBySource)
+	}
+	if !almostEqual(result.TotalDamage, 160) {
+		t.Fatalf("totalDamage = %.4f, want 100 basic physical + 60 item physical", result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSItemCurrentHPOnHitUsesCurrentBasis(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.Selection.EquipmentSet = []string{"3153"}
+	curve.Selection.EnabledPassiveEffects = []string{"item_3153_blade_of_the_ruined_king_mists_edge_dps_v2"}
+	curve.ResolvedSnapshot.EquipmentSet = []string{"3153"}
+	curve.ResolvedSnapshot.EquipmentStats = map[string]float64{"ad": 40, "attack_speed": 0.25, "life_steal": 0.1}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"item_3153_blade_of_the_ruined_king_mists_edge_dps_v2"}
+	passive := bladeOfTheRuinedKingPassive()
+	passive.Operations[0].TargetCurrentHPBasis = "current"
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{passive}
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !almostEqual(result.DamageBySource["blade_of_the_ruined_king_current_hp_on_hit"], 54) {
+		t.Fatalf("damageBySource=%v, want 6%% of post-basic current HP 900", result.DamageBySource)
+	}
+	if !almostEqual(result.TotalDamage, 154) {
+		t.Fatalf("totalDamage = %.4f, want 100 basic physical + 54 current-HP item physical", result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSItemEveryThirdHitSupportsMissingHPScaling(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 700
+	curve := &input.Curves[0]
+	curve.Selection.EquipmentSet = []string{"6672"}
+	curve.Selection.EnabledPassiveEffects = []string{"item_6672_kraken_slayer_bring_it_down_dps_v2"}
+	curve.ResolvedSnapshot.EquipmentSet = []string{"6672"}
+	curve.ResolvedSnapshot.EquipmentStats = map[string]float64{"ad": 45, "attack_speed": 0.4, "ms_pct": 0.04}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"item_6672_kraken_slayer_bring_it_down_dps_v2"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{krakenSlayerPassive()}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 3
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.AttackCount != 3 || len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("attackCount=%d itemTriggers=%v, want three attacks and one Kraken trigger", result.AttackCount, result.ItemPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource["kraken_slayer_bring_it_down"], 138.9) {
+		t.Fatalf("damageBySource=%v, want base 120 amplified by 21%% missing HP * 75%% at attack start", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSBlocksEquipmentSetWithoutResolvedStats(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].Selection.EquipmentSet = []string{"3031"}
+	input.Curves[0].ResolvedSnapshot.EquipmentSet = []string{"3031"}
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "resolvedSnapshot.equipmentStats is required") {
+		t.Fatalf("blockedReasons=%v, want missing equipmentStats reason", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSBlocksMismatchedEquipmentSet(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].Selection.EquipmentSet = []string{"3031"}
+	input.Curves[0].ResolvedSnapshot.EquipmentSet = []string{"3046"}
+	input.Curves[0].ResolvedSnapshot.EquipmentStats = map[string]float64{"attack_speed": 0.65}
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "selection.equipmentSet must match resolvedSnapshot.equipmentSet") {
+		t.Fatalf("blockedReasons=%v, want mismatched equipmentSet reason", result.BlockedReasons)
 	}
 }
 
@@ -238,6 +502,309 @@ func TestSingleAttackerDPSBlockedWhenBatchARulesAreUnsupported(t *testing.T) {
 	}
 }
 
+func TestSingleAttackerDPSMultipleCurvesIsolateOKAndBlockedResults(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	blockedCurve := input.Curves[0]
+	blockedCurve.CurveID = "missing-passive"
+	blockedCurve.Selection.EnabledPassiveEffects = []string{"missing_passive"}
+	blockedCurve.ResolvedSnapshot.EnabledPassiveEffects = []string{"missing_passive"}
+	input.Curves = append(input.Curves, blockedCurve)
+
+	output := RunSingleAttackerDPS(input)
+	if len(output.CurveResults) != 2 {
+		t.Fatalf("curveResults length = %d, want 2", len(output.CurveResults))
+	}
+	if output.CurveResults[0].Status != "ok" || output.CurveResults[0].TotalDamage <= 0 {
+		t.Fatalf("first curve = %+v, want independent ok result", output.CurveResults[0])
+	}
+	if output.CurveResults[1].Status != "blocked" || len(output.CurveResults[1].BlockedReasons) == 0 || output.CurveResults[1].TotalDamage != 0 {
+		t.Fatalf("second curve = %+v, want blocked without synthesized damage", output.CurveResults[1])
+	}
+}
+
+func TestSessionBeginRunJSONDispatchesSingleAttackerDPSDoneFrame(t *testing.T) {
+	session := NewSession()
+	initBundle := model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Settings:      model.BundleSettings{MaxEvents: 1, MaxCommandsPerEvent: 64},
+	}
+	if code := session.InitJSON(mustJSONForDPSTest(t, initBundle)); code != 0 {
+		t.Fatalf("InitJSON code = %d", code)
+	}
+	if code := session.BeginRunJSON(mustJSONForDPSTest(t, baseSingleAttackerDPSInput())); code != 0 {
+		t.Fatalf("BeginRunJSON code = %d", code)
+	}
+	output := lastDPSOutput(t, session.OutboxBytes())
+	if output.CaseID != "V2-BatchA-basic-aa-001" || len(output.CurveResults) != 1 || output.CurveResults[0].Status != "ok" {
+		t.Fatalf("DPS done payload = %+v, want single_attacker_dps ok result", output)
+	}
+}
+
+func TestSessionBeginRunJSONDispatchesEquipmentSetDPSDoneFrame(t *testing.T) {
+	session := NewSession()
+	initBundle := model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Settings:      model.BundleSettings{MaxEvents: 1, MaxCommandsPerEvent: 64},
+	}
+	if code := session.InitJSON(mustJSONForDPSTest(t, initBundle)); code != 0 {
+		t.Fatalf("InitJSON code = %d", code)
+	}
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].Selection.EquipmentSet = []string{"3031", "3046"}
+	input.Curves[0].ResolvedSnapshot.EquipmentSet = []string{"3031", "3046"}
+	input.Curves[0].ResolvedSnapshot.EquipmentStats = map[string]float64{
+		"ad":           75,
+		"attack_speed": 0.65,
+	}
+	if code := session.BeginRunJSON(mustJSONForDPSTest(t, input)); code != 0 {
+		t.Fatalf("BeginRunJSON code = %d", code)
+	}
+	output := lastDPSOutput(t, session.OutboxBytes())
+	if len(output.CurveResults) != 1 {
+		t.Fatalf("curveResults length = %d, want 1", len(output.CurveResults))
+	}
+	result := output.CurveResults[0]
+	if result.Status != "ok" || result.AttackCount != 14 || !almostEqual(result.TotalDamage, 945) {
+		t.Fatalf("equipment DPS result = %+v, want ok with merged equipment stats", result)
+	}
+}
+
+func TestSingleAttackerDPSVayneSilverBoltsEveryThirdHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2501
+	curve := &input.Curves[0]
+	curve.CurveID = "vayne-silver-bolts"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_vayne_w_silver_bolts"}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_vayne_w_silver_bolts"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{vayneSilverBoltsPassive()}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 3000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 3000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["hp"] = 3000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 3 {
+		t.Fatalf("attackCount = %d, want 3", result.AttackCount)
+	}
+	if !almostEqual(result.DamageByType["true"], 300) || !almostEqual(result.TotalDamage, 300) {
+		t.Fatalf("damageByType=%v total=%.2f, want 300 true damage", result.DamageByType, result.TotalDamage)
+	}
+	if len(result.SkillPassiveTriggers) != 1 || result.SkillPassiveTriggers[0].TimeMs != 2000 {
+		t.Fatalf("skillPassiveTriggers = %+v, want one third-hit trigger at 2000ms", result.SkillPassiveTriggers)
+	}
+	if len(result.EffectBreakdown) == 0 {
+		t.Fatal("effectBreakdown should record passive true damage")
+	}
+}
+
+func TestSingleAttackerDPSTeemoToxicShotOnHitAndDoT(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 4500
+	curve := &input.Curves[0]
+	curve.CurveID = "teemo-toxic-shot"
+	curve.Selection.HeroID = "hero_teemo"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_teemo_e_toxic_shot"}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_teemo_e_toxic_shot"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{teemoToxicShotPassive()}
+	curve.ResolvedSnapshot.AttackerSnapshot.ActorID = "hero_teemo"
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 0.2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["hp"] = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 1 {
+		t.Fatalf("attackCount = %d, want 1", result.AttackCount)
+	}
+	if !almostEqual(result.DamageByType["magic"], 30) || !almostEqual(result.TotalDamage, 30) {
+		t.Fatalf("damageByType=%v total=%.2f, want 10 on-hit + 20 DoT magic", result.DamageByType, result.TotalDamage)
+	}
+	if got := damageCountBySource(result, "teemo_e_dot"); got != 4 {
+		t.Fatalf("teemo dot tick count = %d, want 4", got)
+	}
+}
+
+func TestSingleAttackerDPSBlocksDotTickIntervalOverride(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	curve.CurveID = "dot-tick-override"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_teemo_e_toxic_shot"}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_teemo_e_toxic_shot"}
+	passive := teemoToxicShotPassive()
+	passive.Operations[1].TickIntervalMs = 500
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{passive}
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "blocked" || result.StopReason != "blocked" {
+		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
+	}
+	if !blockedReasonContains(result, "tickIntervalMs override") {
+		t.Fatalf("blockedReasons = %v, want tickIntervalMs override reason", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSBlocksUnsupportedDotRefreshMode(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	curve.CurveID = "dot-refresh-mode"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_teemo_e_toxic_shot"}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_teemo_e_toxic_shot"}
+	passive := teemoToxicShotPassive()
+	passive.Operations[1].RefreshMode = "extend"
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{passive}
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "blocked" || result.StopReason != "blocked" {
+		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
+	}
+	if !blockedReasonContains(result, "unsupported refreshMode") {
+		t.Fatalf("blockedReasons = %v, want unsupported refreshMode reason", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSVarusBlightedQuiverOnHitAndStacks(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2100
+	curve := &input.Curves[0]
+	curve.CurveID = "varus-blighted-quiver"
+	curve.Selection.HeroID = "hero_varus"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_varus_w_blighted_quiver"}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_varus_w_blighted_quiver"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{varusBlightedQuiverPassive()}
+	curve.ResolvedSnapshot.AttackerSnapshot.ActorID = "hero_varus"
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 3 || !almostEqual(result.DamageByType["magic"], 24) {
+		t.Fatalf("attackCount=%d damageByType=%v, want 3 attacks and 24 magic", result.AttackCount, result.DamageByType)
+	}
+	if !hasBreakdown(result, dpsOpAddStack, 3) {
+		t.Fatalf("effectBreakdown = %+v, want third Blight stack", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSKaisaPlasmaStacksAndTriggerDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 4001
+	curve := &input.Curves[0]
+	curve.CurveID = "kaisa-plasma"
+	curve.Selection.HeroID = "hero_kaisa"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_kaisa_p_plasma"}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_kaisa_p_plasma"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{kaisaPlasmaPassive()}
+	curve.ResolvedSnapshot.AttackerSnapshot.ActorID = "hero_kaisa"
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 59
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["hp"] = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 5 || !almostEqual(result.DamageByType["physical"], 295) || !almostEqual(result.DamageByType["magic"], 68.7) {
+		t.Fatalf("attackCount=%d damageByType=%v, want 5 attacks, 295 physical, 68.7 magic", result.AttackCount, result.DamageByType)
+	}
+	if !almostEqual(lastTargetHPAfterTime(result, 3000), 742) || !almostEqual(lastTargetHPAfterTime(result, 4000), 636.3) {
+		t.Fatalf("damageTimeline = %+v, want HP 742 after 4 stacks and 636.3 after 5th trigger", result.DamageTimeline)
+	}
+	if !hasBreakdown(result, dpsOpTriggerDamageAtStacks, 38.7) {
+		t.Fatalf("effectBreakdown = %+v, want Plasma trigger damage", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSTwitchDeadlyVenomStacksAndDoT(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 3500
+	curve := &input.Curves[0]
+	curve.CurveID = "twitch-deadly-venom"
+	curve.Selection.HeroID = "hero_twitch"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_twitch_p_deadly_venom"}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_twitch_p_deadly_venom"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{twitchDeadlyVenomPassive()}
+	curve.ResolvedSnapshot.AttackerSnapshot.ActorID = "hero_twitch"
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 4 || !almostEqual(result.DamageByType["true"], 12) {
+		t.Fatalf("attackCount=%d damageByType=%v, want 4 attacks and 12 true DoT", result.AttackCount, result.DamageByType)
+	}
+	if got := damageCountBySource(result, "twitch_p_dot"); got != 3 {
+		t.Fatalf("twitch dot tick count = %d, want 3", got)
+	}
+}
+
+func TestSingleAttackerDPSKogMawQPassiveAndWScenarioState(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1001
+	scenario := model.DPSScenarioStateV2{
+		StateID:     "kogmaw_w_pre_enabled",
+		SourceType:  "skill_passive",
+		SourceID:    "skill_kogmaw_w_bio_arcane_barrage",
+		Activation:  "assumed_active_at_start",
+		Stacks:      1,
+		StartTimeMs: 0,
+		DurationMs:  8000,
+	}
+	curve := &input.Curves[0]
+	curve.CurveID = "kogmaw-q-w"
+	curve.Selection.HeroID = "hero_kogmaw"
+	curve.Selection.EnabledPassiveEffects = []string{"skill_kogmaw_q_caustic_spittle_passive", "skill_kogmaw_w_bio_arcane_barrage"}
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"skill_kogmaw_q_caustic_spittle_passive", "skill_kogmaw_w_bio_arcane_barrage"}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{kogMawQPassiveAttackSpeed(), kogMawWScenarioPassive()}
+	curve.ResolvedSnapshot.AttackerSnapshot.ActorID = "hero_kogmaw"
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["hp"] = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 3 {
+		t.Fatalf("attackCount = %d, want 3 attacks at 2.0 AS", result.AttackCount)
+	}
+	if got := result.AttackIntervalTimeline[0]; got.RawAttackSpeed != 2 || got.AttackIntervalMs != 500 {
+		t.Fatalf("first interval = %+v, want raw AS 2 interval 500", got)
+	}
+	if !almostEqual(result.DamageByType["magic"], 90) {
+		t.Fatalf("damageByType=%v, want three W hits for 90 magic", result.DamageByType)
+	}
+}
+
 func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 	return model.SingleAttackerDPSInputV2{
 		Mode:        "single_attacker_dps",
@@ -292,6 +859,7 @@ func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 				EquipmentSet:           []string{},
 				EquipmentStats:         map[string]float64{},
 				EnabledPassiveEffects:  []string{},
+				PassiveEffects:         []model.DPSPassiveEffectV2{},
 				ExternalPassiveEffects: []string{},
 				ScenarioStates:         []model.DPSScenarioStateV2{},
 				RuneStatAdjustments:    map[string]float64{},
@@ -306,4 +874,240 @@ func almostEqual(left float64, right float64) bool {
 		diff = -diff
 	}
 	return diff < 0.000001
+}
+
+func blockedReasonContains(result model.DPSCurveResultV2, needle string) bool {
+	for _, reason := range result.BlockedReasons {
+		if strings.Contains(reason, needle) {
+			return true
+		}
+	}
+	return false
+}
+
+func vayneSilverBoltsPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "skill_vayne_w_silver_bolts",
+		SourceCategory: "skill_passive",
+		SourceID:       "skill_vayne_w_silver_bolts",
+		SourceType:     "skill",
+		TriggerID:      "vayne_w_every_3_hit",
+		TriggerKind:    dpsTriggerEveryNBasicAttack,
+		EveryN:         3,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:             dpsOpDamage,
+			Source:           "vayne_w_true_damage",
+			DamageType:       "true",
+			TargetMaxHPRatio: 0.10,
+		}},
+	}
+}
+
+func teemoToxicShotPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "skill_teemo_e_toxic_shot",
+		SourceCategory: "skill_passive",
+		SourceID:       "skill_teemo_e_toxic_shot",
+		SourceType:     "skill",
+		TriggerID:      "teemo_e_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpDamage, Source: "teemo_e_on_hit", DamageType: "magic", Amount: 10},
+			{Kind: dpsOpApplyDot, Source: "teemo_e_dot", DamageType: "magic", Amount: 5, DurationMs: 4000, TickIntervalMs: 1000, RefreshMode: "refresh"},
+		},
+	}
+}
+
+func varusBlightedQuiverPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "skill_varus_w_blighted_quiver",
+		SourceCategory: "skill_passive",
+		SourceID:       "skill_varus_w_blighted_quiver",
+		SourceType:     "skill",
+		TriggerID:      "varus_w_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpDamage, Source: "varus_w_on_hit", DamageType: "magic", Amount: 8},
+			{Kind: dpsOpAddStack, Source: "varus_w_blight_stack", StackKey: "varus_blight", MaxStacks: 3, DurationMs: 6000},
+		},
+	}
+}
+
+func kaisaPlasmaPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "skill_kaisa_p_plasma",
+		SourceCategory: "skill_passive",
+		SourceID:       "skill_kaisa_p_plasma",
+		SourceType:     "skill",
+		TriggerID:      "kaisa_p_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpAddStack, Source: "kaisa_p_plasma_stack", StackKey: "kaisa_plasma", MaxStacks: 5, DurationMs: 6000},
+			{Kind: dpsOpDamage, Source: "kaisa_p_plasma_on_hit", DamageType: "magic", Amount: 3, AmountPerStack: 1, StackKey: "kaisa_plasma"},
+			{Kind: dpsOpTriggerDamageAtStacks, Source: "kaisa_p_plasma_rupture", StackKey: "kaisa_plasma", TriggerStacks: 5, ResetStacks: true, DamageType: "magic", TargetMissingHPRatio: 0.15, TargetMissingHPBasis: "attack_start"},
+		},
+	}
+}
+
+func twitchDeadlyVenomPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "skill_twitch_p_deadly_venom",
+		SourceCategory: "skill_passive",
+		SourceID:       "skill_twitch_p_deadly_venom",
+		SourceType:     "skill",
+		TriggerID:      "twitch_p_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpAddStack, Source: "twitch_p_stack", StackKey: "twitch_deadly_venom", MaxStacks: 6, DurationMs: 6000},
+			{Kind: dpsOpApplyDot, Source: "twitch_p_dot", StackKey: "twitch_deadly_venom", DamageType: "true", AmountPerStack: 2, DurationMs: 6000, TickIntervalMs: 1000, RefreshMode: "refresh"},
+		},
+	}
+}
+
+func kogMawQPassiveAttackSpeed() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "skill_kogmaw_q_caustic_spittle_passive",
+		SourceCategory: "skill_passive",
+		SourceID:       "skill_kogmaw_q_caustic_spittle_passive",
+		SourceType:     "skill",
+		TriggerID:      "kogmaw_q_stat_modifier",
+		TriggerKind:    dpsTriggerStatAlwaysOn,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:         dpsOpStatModifier,
+			Source:       "kogmaw_q_attack_speed",
+			AttrKey:      "attack_speed",
+			ModifierMode: "percent",
+			Value:        1.0,
+		}},
+	}
+}
+
+func kogMawWScenarioPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:               "skill_kogmaw_w_bio_arcane_barrage",
+		SourceCategory:          "skill_passive",
+		SourceID:                "skill_kogmaw_w_bio_arcane_barrage",
+		SourceType:              "skill",
+		TriggerID:               "kogmaw_w_pre_enabled_on_hit",
+		TriggerKind:             dpsTriggerOnBasicAttackHit,
+		RequiresScenarioStateID: "kogmaw_w_pre_enabled",
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:             dpsOpDamage,
+			Source:           "kogmaw_w_on_hit",
+			DamageType:       "magic",
+			TargetMaxHPRatio: 0.03,
+		}},
+	}
+}
+
+func guinsoosWrathPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_3124_guinsoos_rageblade_wrath_dps_v2",
+		SourceCategory: "item_passive",
+		SourceID:       "item_3124_guinsoos_rageblade",
+		SourceType:     "item",
+		TriggerID:      "guinsoos_wrath_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "guinsoos_wrath_on_hit",
+			DamageType: "magic",
+			Amount:     30,
+		}},
+	}
+}
+
+func bladeOfTheRuinedKingPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+		SourceCategory: "item_passive",
+		SourceID:       "item_3153_blade_of_the_ruined_king",
+		SourceType:     "item",
+		TriggerID:      "blade_current_hp_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:                 dpsOpDamage,
+			Source:               "blade_of_the_ruined_king_current_hp_on_hit",
+			DamageType:           "physical",
+			TargetCurrentHPRatio: 0.06,
+			TargetCurrentHPBasis: "attack_start",
+		}},
+	}
+}
+
+func krakenSlayerPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_6672_kraken_slayer_bring_it_down_dps_v2",
+		SourceCategory: "item_passive",
+		SourceID:       "item_6672_kraken_slayer",
+		SourceType:     "item",
+		TriggerID:      "kraken_every_3_hit",
+		TriggerKind:    dpsTriggerEveryNBasicAttack,
+		EveryN:         3,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:                 dpsOpDamage,
+			Source:               "kraken_slayer_bring_it_down",
+			DamageType:           "physical",
+			Amount:               120,
+			TargetMissingHPAmp:   0.75,
+			TargetMissingHPBasis: "attack_start",
+		}},
+	}
+}
+
+func damageCountBySource(result model.DPSCurveResultV2, source string) int {
+	count := 0
+	for _, event := range result.DamageTimeline {
+		if event.Source == source {
+			count++
+		}
+	}
+	return count
+}
+
+func lastTargetHPAfterTime(result model.DPSCurveResultV2, timeMs int64) float64 {
+	hp := math.NaN()
+	for _, event := range result.DamageTimeline {
+		if event.TimeMs == timeMs {
+			hp = event.TargetHPAfter
+		}
+	}
+	return hp
+}
+
+func hasBreakdown(result model.DPSCurveResultV2, kind string, amount float64) bool {
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == kind && almostEqual(event.Amount, amount) {
+			return true
+		}
+	}
+	return false
+}
+
+func mustJSONForDPSTest(t *testing.T, value any) []byte {
+	t.Helper()
+	encoded, err := json.Marshal(value)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return encoded
+}
+
+func lastDPSOutput(t *testing.T, outbox []byte) model.SingleAttackerDPSOutputV2 {
+	t.Helper()
+	var output model.SingleAttackerDPSOutputV2
+	offset := 0
+	for offset+abi.HeaderLen <= len(outbox) {
+		frame, err := abi.DecodeFrame(outbox[offset:])
+		if err != nil {
+			t.Fatal(err)
+		}
+		if frame.Kind == model.FrameKindDone {
+			if err := json.Unmarshal(frame.Payload, &output); err != nil {
+				t.Fatal(err)
+			}
+		}
+		offset += abi.HeaderLen + len(frame.Payload)
+	}
+	return output
 }

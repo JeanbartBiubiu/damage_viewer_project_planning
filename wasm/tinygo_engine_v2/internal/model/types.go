@@ -400,6 +400,7 @@ type DPSResolvedSnapshotV2 struct {
 	EquipmentSet           []string             `json:"equipmentSet"`
 	EquipmentStats         map[string]float64   `json:"equipmentStats"`
 	EnabledPassiveEffects  []string             `json:"enabledPassiveEffects"`
+	PassiveEffects         []DPSPassiveEffectV2 `json:"passiveEffects,omitempty"`
 	ExternalPassiveEffects []string             `json:"externalPassiveEffects"`
 	ScenarioStates         []DPSScenarioStateV2 `json:"scenarioStates"`
 	RuneStatAdjustments    map[string]float64   `json:"runeStatAdjustments"`
@@ -424,6 +425,48 @@ type DPSScenarioStateV2 struct {
 	Stacks      int    `json:"stacks,omitempty"`
 	StartTimeMs int64  `json:"startTimeMs,omitempty"`
 	DurationMs  int64  `json:"durationMs,omitempty"`
+}
+
+type DPSPassiveEffectV2 struct {
+	PassiveID               string                  `json:"passiveId,omitempty"`
+	EffectID                string                  `json:"effectId,omitempty"`
+	SourceCategory          string                  `json:"sourceCategory,omitempty"`
+	SourceID                string                  `json:"sourceId,omitempty"`
+	SourceType              string                  `json:"sourceType,omitempty"`
+	TriggerID               string                  `json:"triggerId,omitempty"`
+	TriggerKind             string                  `json:"triggerKind,omitempty"`
+	EveryN                  int                     `json:"everyN,omitempty"`
+	RequiresScenarioStateID string                  `json:"requiresScenarioStateId,omitempty"`
+	Operations              []DPSPassiveOperationV2 `json:"operations,omitempty"`
+}
+
+type DPSPassiveOperationV2 struct {
+	Kind                 string  `json:"kind"`
+	Source               string  `json:"source,omitempty"`
+	DamageType           string  `json:"damageType,omitempty"`
+	Amount               float64 `json:"amount,omitempty"`
+	AmountPerStack       float64 `json:"amountPerStack,omitempty"`
+	TargetCurrentHPRatio float64 `json:"targetCurrentHpRatio,omitempty"`
+	TargetCurrentHPBasis string  `json:"targetCurrentHpBasis,omitempty"`
+	TargetMaxHPRatio     float64 `json:"targetMaxHpRatio,omitempty"`
+	TargetMissingHPRatio float64 `json:"targetMissingHpRatio,omitempty"`
+	TargetMissingHPBasis string  `json:"targetMissingHpBasis,omitempty"`
+	TargetMissingHPAmp   float64 `json:"targetMissingHpAmp,omitempty"`
+	AttackerAttr         string  `json:"attackerAttr,omitempty"`
+	AttackerAttrRatio    float64 `json:"attackerAttrRatio,omitempty"`
+	MinAmount            float64 `json:"minAmount,omitempty"`
+	HasMinAmount         bool    `json:"hasMinAmount,omitempty"`
+	StackKey             string  `json:"stackKey,omitempty"`
+	MaxStacks            int     `json:"maxStacks,omitempty"`
+	TriggerStacks        int     `json:"triggerStacks,omitempty"`
+	ResetStacks          bool    `json:"resetStacks,omitempty"`
+	DurationMs           int64   `json:"durationMs,omitempty"`
+	TickIntervalMs       int64   `json:"tickIntervalMs,omitempty"`
+	RefreshMode          string  `json:"refreshMode,omitempty"`
+	AttrKey              string  `json:"attrKey,omitempty"`
+	ModifierMode         string  `json:"modifierMode,omitempty"`
+	Value                float64 `json:"value,omitempty"`
+	PerStack             bool    `json:"perStack,omitempty"`
 }
 
 type SingleAttackerDPSOutputV2 struct {
@@ -506,7 +549,7 @@ type DPSEffectEventV2 struct {
 }
 
 type DPSPassiveTriggerV2 struct {
-	TimeMs             int64  `json:"timeMs,omitempty"`
+	TimeMs             int64  `json:"timeMs"`
 	ProcSourceCategory string `json:"procSourceCategory,omitempty"`
 	SourceID           string `json:"sourceId,omitempty"`
 	SourceType         string `json:"sourceType,omitempty"`
@@ -514,7 +557,7 @@ type DPSPassiveTriggerV2 struct {
 }
 
 type DPSEffectBreakdownV2 struct {
-	TimeMs  int64   `json:"timeMs,omitempty"`
+	TimeMs  int64   `json:"timeMs"`
 	Source  string  `json:"source,omitempty"`
 	Kind    string  `json:"kind,omitempty"`
 	Amount  float64 `json:"amount,omitempty"`

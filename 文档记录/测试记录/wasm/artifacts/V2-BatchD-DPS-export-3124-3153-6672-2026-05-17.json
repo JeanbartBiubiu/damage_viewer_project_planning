@@ -1,0 +1,3079 @@
+{
+  "caseId": "V2-BatchD-item-passives-001",
+  "versionCode": "v2_batch_d_item_passives_001",
+  "wasmSha256": "a463ce2dad9f67551cee2ddd0f83743ee7ae4f6a046fc1bbc2c42b06959e7c1b",
+  "activeCurveId": "hero_vayne-selected-passives",
+  "selection": {
+    "heroId": "hero_vayne",
+    "heroLevel": 1,
+    "targetId": "target_dummy_fighter",
+    "targetType": "target_dummy",
+    "skillLevels": {},
+    "equipmentSet": [
+      "3124",
+      "3153",
+      "6672"
+    ],
+    "enabledPassiveEffects": [
+      "skill_vayne_w_silver_bolts_dps_v2",
+      "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "item_6672_kraken_slayer_bring_it_down_dps_v2"
+    ],
+    "scenarioStates": [],
+    "critPolicy": "expected"
+  },
+  "resolvedSnapshot": {
+    "attackerSnapshot": {
+      "actorId": "hero_vayne",
+      "templateId": "hero_vayne",
+      "name": "薇恩",
+      "level": 1,
+      "types": [],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 175,
+        "ap": 30,
+        "armor": 23,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 550,
+        "attack_speed": 1.558,
+        "attack_speed_growth": 0.033,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 2,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 550,
+        "hp_regen": 0.7,
+        "life_steal": 0.1,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 30,
+        "mana": 232,
+        "mana_regen": 1.4,
+        "move_speed": 330,
+        "ms_f": 0,
+        "ms_pct": 0.04,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0,
+        "tenacity": 0
+      },
+      "currentHp": 550,
+      "maxHp": 550
+    },
+    "targetSnapshot": {
+      "actorId": "target_dummy_fighter",
+      "templateId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "level": 1,
+      "types": [
+        "target_dummy"
+      ],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 0,
+        "ap": 0,
+        "armor": 100,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 0,
+        "attack_speed": 0,
+        "attack_speed_growth": 0,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 2,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 3000,
+        "hp_regen": 0,
+        "life_steal": 0,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 80,
+        "mana": 0,
+        "mana_regen": 0,
+        "move_speed": 0,
+        "ms_f": 0,
+        "ms_pct": 0,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0,
+        "tenacity": 0
+      },
+      "currentHp": 3000,
+      "maxHp": 3000
+    },
+    "equipmentSet": [
+      "3124",
+      "3153",
+      "6672"
+    ],
+    "equipmentStats": {
+      "ad": 115,
+      "ap": 30,
+      "attack_speed": 0.9,
+      "life_steal": 0.1,
+      "ms_pct": 0.04
+    },
+    "enabledPassiveEffects": [
+      "skill_vayne_w_silver_bolts_dps_v2",
+      "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "item_6672_kraken_slayer_bring_it_down_dps_v2"
+    ],
+    "passiveEffects": [
+      {
+        "passiveId": "skill_vayne_w_silver_bolts_dps_v2",
+        "sourceCategory": "skill_passive",
+        "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+        "sourceType": "skill",
+        "triggerId": "vayne_w_every_3_hit",
+        "triggerKind": "every_n_basic_attack_hit",
+        "everyN": 3,
+        "operations": [
+          {
+            "kind": "damage",
+            "source": "vayne_w_true_damage",
+            "damageType": "true",
+            "targetMaxHpRatio": 0.06,
+            "minAmount": 50,
+            "hasMinAmount": true
+          }
+        ]
+      },
+      {
+        "passiveId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+        "sourceCategory": "item_passive",
+        "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+        "sourceType": "item",
+        "triggerId": "guinsoos_wrath_on_hit",
+        "triggerKind": "on_basic_attack_hit",
+        "operations": [
+          {
+            "kind": "damage",
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "amount": 30
+          }
+        ]
+      },
+      {
+        "passiveId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+        "sourceCategory": "item_passive",
+        "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+        "sourceType": "item",
+        "triggerId": "blade_current_hp_on_hit",
+        "triggerKind": "on_basic_attack_hit",
+        "operations": [
+          {
+            "kind": "damage",
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "targetCurrentHpRatio": 0.1,
+            "targetCurrentHpBasis": "attack_start"
+          }
+        ]
+      },
+      {
+        "passiveId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+        "sourceCategory": "item_passive",
+        "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+        "sourceType": "item",
+        "triggerId": "kraken_every_3_hit",
+        "triggerKind": "every_n_basic_attack_hit",
+        "everyN": 3,
+        "operations": [
+          {
+            "kind": "damage",
+            "source": "kraken_slayer_bring_it_down",
+            "damageType": "physical",
+            "amount": 95,
+            "targetMissingHpRatio": 0.15,
+            "targetMissingHpBasis": "attack_start"
+          }
+        ]
+      }
+    ],
+    "externalPassiveEffects": [],
+    "scenarioStates": [],
+    "runeStatAdjustments": {}
+  },
+  "skillPassiveTriggers": [
+    {
+      "timeMs": 1284,
+      "procSourceCategory": "skill_passive",
+      "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+      "sourceType": "skill",
+      "triggerId": "vayne_w_every_3_hit"
+    },
+    {
+      "timeMs": 3210,
+      "procSourceCategory": "skill_passive",
+      "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+      "sourceType": "skill",
+      "triggerId": "vayne_w_every_3_hit"
+    },
+    {
+      "timeMs": 5136,
+      "procSourceCategory": "skill_passive",
+      "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+      "sourceType": "skill",
+      "triggerId": "vayne_w_every_3_hit"
+    }
+  ],
+  "itemPassiveTriggers": [
+    {
+      "timeMs": 0,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 0,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 642,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 642,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 1284,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 1284,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 1284,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+      "sourceType": "item",
+      "triggerId": "kraken_every_3_hit"
+    },
+    {
+      "timeMs": 1926,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 1926,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 2568,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 2568,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 3210,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 3210,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 3210,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+      "sourceType": "item",
+      "triggerId": "kraken_every_3_hit"
+    },
+    {
+      "timeMs": 3852,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 3852,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 4494,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 4494,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 5136,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 5136,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 5136,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+      "sourceType": "item",
+      "triggerId": "kraken_every_3_hit"
+    },
+    {
+      "timeMs": 5778,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 5778,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    },
+    {
+      "timeMs": 6420,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "sourceType": "item",
+      "triggerId": "guinsoos_wrath_on_hit"
+    },
+    {
+      "timeMs": 6420,
+      "procSourceCategory": "item_passive",
+      "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+      "sourceType": "item",
+      "triggerId": "blade_current_hp_on_hit"
+    }
+  ],
+  "effectBreakdown": [
+    {
+      "timeMs": 0,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 0,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 300,
+      "message": "physical"
+    },
+    {
+      "timeMs": 642,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 642,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 274.58333333333337,
+      "message": "physical"
+    },
+    {
+      "timeMs": 1284,
+      "source": "vayne_w_true_damage",
+      "kind": "damage",
+      "amount": 180,
+      "message": "true"
+    },
+    {
+      "timeMs": 1284,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 1284,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 250.43750000000006,
+      "message": "physical"
+    },
+    {
+      "timeMs": 1284,
+      "source": "kraken_slayer_bring_it_down",
+      "kind": "damage",
+      "amount": 169.34374999999994,
+      "message": "physical"
+    },
+    {
+      "timeMs": 1926,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 1926,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 201.0317708333334,
+      "message": "physical"
+    },
+    {
+      "timeMs": 2568,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 2568,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 180.56351562500006,
+      "message": "physical"
+    },
+    {
+      "timeMs": 3210,
+      "source": "vayne_w_true_damage",
+      "kind": "damage",
+      "amount": 180,
+      "message": "true"
+    },
+    {
+      "timeMs": 3210,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 3210,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 161.1186731770834,
+      "message": "physical"
+    },
+    {
+      "timeMs": 3210,
+      "source": "kraken_slayer_bring_it_down",
+      "kind": "damage",
+      "amount": 303.3219902343749,
+      "message": "physical"
+    },
+    {
+      "timeMs": 3852,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 3852,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 109.4799733398438,
+      "message": "physical"
+    },
+    {
+      "timeMs": 4494,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 4494,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 93.58930800618494,
+      "message": "physical"
+    },
+    {
+      "timeMs": 5136,
+      "source": "vayne_w_true_damage",
+      "kind": "damage",
+      "amount": 180,
+      "message": "true"
+    },
+    {
+      "timeMs": 5136,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 5136,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 78.49317593920904,
+      "message": "physical"
+    },
+    {
+      "timeMs": 5136,
+      "source": "kraken_slayer_bring_it_down",
+      "kind": "damage",
+      "amount": 427.2602360911864,
+      "message": "physical"
+    },
+    {
+      "timeMs": 5778,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 5778,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 24.788838671022592,
+      "message": "physical"
+    },
+    {
+      "timeMs": 6420,
+      "source": "guinsoos_wrath_on_hit",
+      "kind": "damage",
+      "amount": 30,
+      "message": "magic"
+    },
+    {
+      "timeMs": 6420,
+      "source": "blade_of_the_ruined_king_current_hp_on_hit",
+      "kind": "damage",
+      "amount": 13.132730070804797,
+      "message": "physical"
+    }
+  ],
+  "runInput": {
+    "mode": "single_attacker_dps",
+    "caseId": "V2-BatchD-item-passives-001",
+    "versionCode": "v2_batch_d_item_passives_001",
+    "wasmSha256": "a463ce2dad9f67551cee2ddd0f83743ee7ae4f6a046fc1bbc2c42b06959e7c1b",
+    "simulationRules": {
+      "durationMs": 10000,
+      "warmupMs": 0,
+      "sampleBy": "none",
+      "attackSpeedCap": 3,
+      "firstAttackAtMs": 0,
+      "eventWindowPolicy": "timeMs < durationMs",
+      "dotTickIntervalMs": 1000,
+      "critPolicy": "expected",
+      "seed": 0,
+      "autoAttackPlan": {
+        "enabled": true,
+        "actionId": "basic_attack",
+        "startAtMs": 0,
+        "targetRole": "target"
+      },
+      "maxEvents": 10000
+    },
+    "targetSnapshot": {
+      "actorId": "target_dummy_fighter",
+      "templateId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "level": 1,
+      "types": [
+        "target_dummy"
+      ],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 0,
+        "ap": 0,
+        "armor": 100,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 0,
+        "attack_speed": 0,
+        "attack_speed_growth": 0,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 2,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 3000,
+        "hp_regen": 0,
+        "life_steal": 0,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 80,
+        "mana": 0,
+        "mana_regen": 0,
+        "move_speed": 0,
+        "ms_f": 0,
+        "ms_pct": 0,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0,
+        "tenacity": 0
+      },
+      "currentHp": 3000,
+      "maxHp": 3000
+    },
+    "curves": [
+      {
+        "curveId": "hero_vayne-basic-aa",
+        "label": "薇恩 basic attack",
+        "selection": {
+          "heroId": "hero_vayne",
+          "heroLevel": 1,
+          "targetId": "target_dummy_fighter",
+          "targetType": "target_dummy",
+          "skillLevels": {},
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "enabledPassiveEffects": [],
+          "scenarioStates": [],
+          "critPolicy": "expected"
+        },
+        "resolvedSnapshot": {
+          "attackerSnapshot": {
+            "actorId": "hero_vayne",
+            "templateId": "hero_vayne",
+            "name": "薇恩",
+            "level": 1,
+            "types": [],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 60,
+              "ap": 0,
+              "armor": 23,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 550,
+              "attack_speed": 0.658,
+              "attack_speed_growth": 0.033,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 550,
+              "hp_regen": 0.7,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 30,
+              "mana": 232,
+              "mana_regen": 1.4,
+              "move_speed": 330,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 550,
+            "maxHp": 550
+          },
+          "targetSnapshot": {
+            "actorId": "target_dummy_fighter",
+            "templateId": "target_dummy_fighter",
+            "name": "Target Dummy Fighter",
+            "level": 1,
+            "types": [
+              "target_dummy"
+            ],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 0,
+              "ap": 0,
+              "armor": 100,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 0,
+              "attack_speed": 0,
+              "attack_speed_growth": 0,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 3000,
+              "hp_regen": 0,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 80,
+              "mana": 0,
+              "mana_regen": 0,
+              "move_speed": 0,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "equipmentStats": {
+            "ad": 115,
+            "ap": 30,
+            "attack_speed": 0.9,
+            "life_steal": 0.1,
+            "ms_pct": 0.04
+          },
+          "enabledPassiveEffects": [],
+          "passiveEffects": [],
+          "externalPassiveEffects": [],
+          "scenarioStates": [],
+          "runeStatAdjustments": {}
+        }
+      },
+      {
+        "curveId": "hero_vayne-selected-passives",
+        "label": "薇恩 selected passives",
+        "selection": {
+          "heroId": "hero_vayne",
+          "heroLevel": 1,
+          "targetId": "target_dummy_fighter",
+          "targetType": "target_dummy",
+          "skillLevels": {},
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "enabledPassiveEffects": [
+            "skill_vayne_w_silver_bolts_dps_v2",
+            "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "item_6672_kraken_slayer_bring_it_down_dps_v2"
+          ],
+          "scenarioStates": [],
+          "critPolicy": "expected"
+        },
+        "resolvedSnapshot": {
+          "attackerSnapshot": {
+            "actorId": "hero_vayne",
+            "templateId": "hero_vayne",
+            "name": "薇恩",
+            "level": 1,
+            "types": [],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 60,
+              "ap": 0,
+              "armor": 23,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 550,
+              "attack_speed": 0.658,
+              "attack_speed_growth": 0.033,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 550,
+              "hp_regen": 0.7,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 30,
+              "mana": 232,
+              "mana_regen": 1.4,
+              "move_speed": 330,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 550,
+            "maxHp": 550
+          },
+          "targetSnapshot": {
+            "actorId": "target_dummy_fighter",
+            "templateId": "target_dummy_fighter",
+            "name": "Target Dummy Fighter",
+            "level": 1,
+            "types": [
+              "target_dummy"
+            ],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 0,
+              "ap": 0,
+              "armor": 100,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 0,
+              "attack_speed": 0,
+              "attack_speed_growth": 0,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 3000,
+              "hp_regen": 0,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 80,
+              "mana": 0,
+              "mana_regen": 0,
+              "move_speed": 0,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "equipmentStats": {
+            "ad": 115,
+            "ap": 30,
+            "attack_speed": 0.9,
+            "life_steal": 0.1,
+            "ms_pct": 0.04
+          },
+          "enabledPassiveEffects": [
+            "skill_vayne_w_silver_bolts_dps_v2",
+            "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "item_6672_kraken_slayer_bring_it_down_dps_v2"
+          ],
+          "passiveEffects": [
+            {
+              "everyN": 3,
+              "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+              "passiveId": "skill_vayne_w_silver_bolts_dps_v2",
+              "triggerId": "vayne_w_every_3_hit",
+              "operations": [
+                {
+                  "kind": "damage",
+                  "source": "vayne_w_true_damage",
+                  "minAmount": 50,
+                  "damageType": "true",
+                  "hasMinAmount": true,
+                  "targetMaxHpRatio": 0.06
+                }
+              ],
+              "sourceType": "skill",
+              "triggerKind": "every_n_basic_attack_hit",
+              "sourceCategory": "skill_passive"
+            },
+            {
+              "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+              "passiveId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+              "triggerId": "guinsoos_wrath_on_hit",
+              "operations": [
+                {
+                  "kind": "damage",
+                  "amount": 30,
+                  "source": "guinsoos_wrath_on_hit",
+                  "damageType": "magic"
+                }
+              ],
+              "sourceType": "item",
+              "triggerKind": "on_basic_attack_hit",
+              "sourceCategory": "item_passive"
+            },
+            {
+              "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+              "passiveId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+              "triggerId": "blade_current_hp_on_hit",
+              "operations": [
+                {
+                  "kind": "damage",
+                  "source": "blade_of_the_ruined_king_current_hp_on_hit",
+                  "damageType": "physical",
+                  "targetCurrentHpBasis": "attack_start",
+                  "targetCurrentHpRatio": 0.1
+                }
+              ],
+              "sourceType": "item",
+              "triggerKind": "on_basic_attack_hit",
+              "sourceCategory": "item_passive"
+            },
+            {
+              "everyN": 3,
+              "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+              "passiveId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+              "triggerId": "kraken_every_3_hit",
+              "operations": [
+                {
+                  "kind": "damage",
+                  "amount": 95,
+                  "source": "kraken_slayer_bring_it_down",
+                  "damageType": "physical",
+                  "targetMissingHpBasis": "attack_start",
+                  "targetMissingHpRatio": 0.15
+                }
+              ],
+              "sourceType": "item",
+              "triggerKind": "every_n_basic_attack_hit",
+              "sourceCategory": "item_passive"
+            }
+          ],
+          "externalPassiveEffects": [],
+          "scenarioStates": [],
+          "runeStatAdjustments": {}
+        }
+      }
+    ]
+  },
+  "wasmOutput": {
+    "caseId": "V2-BatchD-item-passives-001",
+    "versionCode": "v2_batch_d_item_passives_001",
+    "wasmSha256": "a463ce2dad9f67551cee2ddd0f83743ee7ae4f6a046fc1bbc2c42b06959e7c1b",
+    "simulationRules": {
+      "durationMs": 10000,
+      "warmupMs": 0,
+      "sampleBy": "none",
+      "attackSpeedCap": 3,
+      "firstAttackAtMs": 0,
+      "eventWindowPolicy": "timeMs < durationMs",
+      "dotTickIntervalMs": 1000,
+      "critPolicy": "expected",
+      "seed": 0,
+      "autoAttackPlan": {
+        "enabled": true,
+        "actionId": "basic_attack",
+        "startAtMs": 0,
+        "targetRole": "target"
+      },
+      "maxEvents": 10000
+    },
+    "targetSnapshot": {
+      "actorId": "target_dummy_fighter",
+      "templateId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "level": 1,
+      "types": [
+        "target_dummy"
+      ],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 0,
+        "ap": 0,
+        "armor": 100,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 0,
+        "attack_speed": 0,
+        "attack_speed_growth": 0,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 2,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 3000,
+        "hp_regen": 0,
+        "life_steal": 0,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 80,
+        "mana": 0,
+        "mana_regen": 0,
+        "move_speed": 0,
+        "ms_f": 0,
+        "ms_pct": 0,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0,
+        "tenacity": 0
+      },
+      "currentHp": 3000,
+      "maxHp": 3000
+    },
+    "curveResults": [
+      {
+        "curveId": "hero_vayne-basic-aa",
+        "status": "ok",
+        "selection": {
+          "heroId": "hero_vayne",
+          "heroLevel": 1,
+          "targetId": "target_dummy_fighter",
+          "targetType": "target_dummy",
+          "skillLevels": {},
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "enabledPassiveEffects": [],
+          "scenarioStates": [],
+          "critPolicy": "expected"
+        },
+        "resolvedSnapshot": {
+          "attackerSnapshot": {
+            "actorId": "hero_vayne",
+            "templateId": "hero_vayne",
+            "name": "薇恩",
+            "level": 1,
+            "types": [],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 175,
+              "ap": 30,
+              "armor": 23,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 550,
+              "attack_speed": 1.558,
+              "attack_speed_growth": 0.033,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 550,
+              "hp_regen": 0.7,
+              "life_steal": 0.1,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 30,
+              "mana": 232,
+              "mana_regen": 1.4,
+              "move_speed": 330,
+              "ms_f": 0,
+              "ms_pct": 0.04,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 550,
+            "maxHp": 550
+          },
+          "targetSnapshot": {
+            "actorId": "target_dummy_fighter",
+            "templateId": "target_dummy_fighter",
+            "name": "Target Dummy Fighter",
+            "level": 1,
+            "types": [
+              "target_dummy"
+            ],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 0,
+              "ap": 0,
+              "armor": 100,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 0,
+              "attack_speed": 0,
+              "attack_speed_growth": 0,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 3000,
+              "hp_regen": 0,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 80,
+              "mana": 0,
+              "mana_regen": 0,
+              "move_speed": 0,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "equipmentStats": {
+            "ad": 115,
+            "ap": 30,
+            "attack_speed": 0.9,
+            "life_steal": 0.1,
+            "ms_pct": 0.04
+          },
+          "enabledPassiveEffects": [],
+          "externalPassiveEffects": [],
+          "scenarioStates": [],
+          "runeStatAdjustments": {}
+        },
+        "durationMs": 10000,
+        "finalTimeMs": 10000,
+        "stopReason": "duration_elapsed",
+        "processedEvents": 16,
+        "queuePeak": 1,
+        "attackCount": 16,
+        "attackTimeline": [
+          {
+            "timeMs": 0,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 642,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 1284,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 1926,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 2568,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 3210,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 3852,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 4494,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 5136,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 5778,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 6420,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 7062,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 7704,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 8346,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 8988,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 9630,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          }
+        ],
+        "attackIntervalTimeline": [
+          {
+            "timeMs": 0,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 642,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 642,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 1284,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 1284,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 1926,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 1926,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 2568,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 2568,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 3210,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 3210,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 3852,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 3852,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 4494,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 4494,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 5136,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 5136,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 5778,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 5778,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 6420,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 6420,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 7062,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 7062,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 7704,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 7704,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 8346,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 8346,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 8988,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 8988,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 9630,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 9630,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 10272,
+            "source": "attacker.attributes.attack_speed"
+          }
+        ],
+        "damageTimeline": [
+          {
+            "timeMs": 0,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 3000,
+            "targetHpAfter": 2912.5
+          },
+          {
+            "timeMs": 642,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2912.5,
+            "targetHpAfter": 2825
+          },
+          {
+            "timeMs": 1284,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2825,
+            "targetHpAfter": 2737.5
+          },
+          {
+            "timeMs": 1926,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2737.5,
+            "targetHpAfter": 2650
+          },
+          {
+            "timeMs": 2568,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2650,
+            "targetHpAfter": 2562.5
+          },
+          {
+            "timeMs": 3210,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2562.5,
+            "targetHpAfter": 2475
+          },
+          {
+            "timeMs": 3852,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2475,
+            "targetHpAfter": 2387.5
+          },
+          {
+            "timeMs": 4494,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2387.5,
+            "targetHpAfter": 2300
+          },
+          {
+            "timeMs": 5136,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2300,
+            "targetHpAfter": 2212.5
+          },
+          {
+            "timeMs": 5778,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2212.5,
+            "targetHpAfter": 2125
+          },
+          {
+            "timeMs": 6420,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2125,
+            "targetHpAfter": 2037.5
+          },
+          {
+            "timeMs": 7062,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2037.5,
+            "targetHpAfter": 1950
+          },
+          {
+            "timeMs": 7704,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 1950,
+            "targetHpAfter": 1862.5
+          },
+          {
+            "timeMs": 8346,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 1862.5,
+            "targetHpAfter": 1775
+          },
+          {
+            "timeMs": 8988,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 1775,
+            "targetHpAfter": 1687.5
+          },
+          {
+            "timeMs": 9630,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 1687.5,
+            "targetHpAfter": 1600
+          }
+        ],
+        "targetHpTimeline": [
+          {
+            "timeMs": 0,
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 0,
+            "currentHp": 2912.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 642,
+            "currentHp": 2825,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1284,
+            "currentHp": 2737.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1926,
+            "currentHp": 2650,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 2568,
+            "currentHp": 2562.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3210,
+            "currentHp": 2475,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3852,
+            "currentHp": 2387.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 4494,
+            "currentHp": 2300,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5136,
+            "currentHp": 2212.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5778,
+            "currentHp": 2125,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 6420,
+            "currentHp": 2037.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 7062,
+            "currentHp": 1950,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 7704,
+            "currentHp": 1862.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 8346,
+            "currentHp": 1775,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 8988,
+            "currentHp": 1687.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 9630,
+            "currentHp": 1600,
+            "maxHp": 3000
+          }
+        ],
+        "effectTimeline": [],
+        "totalDamage": 1400,
+        "timeWindowDps": 140,
+        "killDps": null,
+        "killTimeMs": null,
+        "damageByType": {
+          "physical": 1400
+        },
+        "damageBySource": {
+          "basic_attack": 1400
+        },
+        "skillPassiveTriggers": [],
+        "itemPassiveTriggers": [],
+        "externalPassiveTriggers": [],
+        "effectBreakdown": [],
+        "critPolicy": "expected",
+        "seed": 0,
+        "blockedReasons": []
+      },
+      {
+        "curveId": "hero_vayne-selected-passives",
+        "status": "ok",
+        "selection": {
+          "heroId": "hero_vayne",
+          "heroLevel": 1,
+          "targetId": "target_dummy_fighter",
+          "targetType": "target_dummy",
+          "skillLevels": {},
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "enabledPassiveEffects": [
+            "skill_vayne_w_silver_bolts_dps_v2",
+            "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "item_6672_kraken_slayer_bring_it_down_dps_v2"
+          ],
+          "scenarioStates": [],
+          "critPolicy": "expected"
+        },
+        "resolvedSnapshot": {
+          "attackerSnapshot": {
+            "actorId": "hero_vayne",
+            "templateId": "hero_vayne",
+            "name": "薇恩",
+            "level": 1,
+            "types": [],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 175,
+              "ap": 30,
+              "armor": 23,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 550,
+              "attack_speed": 1.558,
+              "attack_speed_growth": 0.033,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 550,
+              "hp_regen": 0.7,
+              "life_steal": 0.1,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 30,
+              "mana": 232,
+              "mana_regen": 1.4,
+              "move_speed": 330,
+              "ms_f": 0,
+              "ms_pct": 0.04,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 550,
+            "maxHp": 550
+          },
+          "targetSnapshot": {
+            "actorId": "target_dummy_fighter",
+            "templateId": "target_dummy_fighter",
+            "name": "Target Dummy Fighter",
+            "level": 1,
+            "types": [
+              "target_dummy"
+            ],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 0,
+              "ap": 0,
+              "armor": 100,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 0,
+              "attack_speed": 0,
+              "attack_speed_growth": 0,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 3000,
+              "hp_regen": 0,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 80,
+              "mana": 0,
+              "mana_regen": 0,
+              "move_speed": 0,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0,
+              "tenacity": 0
+            },
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          "equipmentSet": [
+            "3124",
+            "3153",
+            "6672"
+          ],
+          "equipmentStats": {
+            "ad": 115,
+            "ap": 30,
+            "attack_speed": 0.9,
+            "life_steal": 0.1,
+            "ms_pct": 0.04
+          },
+          "enabledPassiveEffects": [
+            "skill_vayne_w_silver_bolts_dps_v2",
+            "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "item_6672_kraken_slayer_bring_it_down_dps_v2"
+          ],
+          "passiveEffects": [
+            {
+              "passiveId": "skill_vayne_w_silver_bolts_dps_v2",
+              "sourceCategory": "skill_passive",
+              "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+              "sourceType": "skill",
+              "triggerId": "vayne_w_every_3_hit",
+              "triggerKind": "every_n_basic_attack_hit",
+              "everyN": 3,
+              "operations": [
+                {
+                  "kind": "damage",
+                  "source": "vayne_w_true_damage",
+                  "damageType": "true",
+                  "targetMaxHpRatio": 0.06,
+                  "minAmount": 50,
+                  "hasMinAmount": true
+                }
+              ]
+            },
+            {
+              "passiveId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+              "sourceCategory": "item_passive",
+              "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+              "sourceType": "item",
+              "triggerId": "guinsoos_wrath_on_hit",
+              "triggerKind": "on_basic_attack_hit",
+              "operations": [
+                {
+                  "kind": "damage",
+                  "source": "guinsoos_wrath_on_hit",
+                  "damageType": "magic",
+                  "amount": 30
+                }
+              ]
+            },
+            {
+              "passiveId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+              "sourceCategory": "item_passive",
+              "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+              "sourceType": "item",
+              "triggerId": "blade_current_hp_on_hit",
+              "triggerKind": "on_basic_attack_hit",
+              "operations": [
+                {
+                  "kind": "damage",
+                  "source": "blade_of_the_ruined_king_current_hp_on_hit",
+                  "damageType": "physical",
+                  "targetCurrentHpRatio": 0.1,
+                  "targetCurrentHpBasis": "attack_start"
+                }
+              ]
+            },
+            {
+              "passiveId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+              "sourceCategory": "item_passive",
+              "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+              "sourceType": "item",
+              "triggerId": "kraken_every_3_hit",
+              "triggerKind": "every_n_basic_attack_hit",
+              "everyN": 3,
+              "operations": [
+                {
+                  "kind": "damage",
+                  "source": "kraken_slayer_bring_it_down",
+                  "damageType": "physical",
+                  "amount": 95,
+                  "targetMissingHpRatio": 0.15,
+                  "targetMissingHpBasis": "attack_start"
+                }
+              ]
+            }
+          ],
+          "externalPassiveEffects": [],
+          "scenarioStates": [],
+          "runeStatAdjustments": {}
+        },
+        "durationMs": 10000,
+        "finalTimeMs": 10000,
+        "stopReason": "target_dead",
+        "processedEvents": 12,
+        "queuePeak": 1,
+        "attackCount": 12,
+        "attackTimeline": [
+          {
+            "timeMs": 0,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 642,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 1284,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 1926,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 2568,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 3210,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 3852,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 4494,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 5136,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 5778,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 6420,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 7062,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          }
+        ],
+        "attackIntervalTimeline": [
+          {
+            "timeMs": 0,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 642,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 642,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 1284,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 1284,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 1926,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 1926,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 2568,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 2568,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 3210,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 3210,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 3852,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 3852,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 4494,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 4494,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 5136,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 5136,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 5778,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 5778,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 6420,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 6420,
+            "rawAttackSpeed": 1.558,
+            "effectiveAttackSpeed": 1.558,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 642,
+            "nextAttackAtMs": 7062,
+            "source": "attacker.attributes.attack_speed"
+          }
+        ],
+        "damageTimeline": [
+          {
+            "timeMs": 0,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 3000,
+            "targetHpAfter": 2912.5
+          },
+          {
+            "timeMs": 0,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666515,
+            "targetHpBefore": 2912.5,
+            "targetHpAfter": 2895.8333333333335
+          },
+          {
+            "timeMs": 0,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 300,
+            "finalDamage": 150,
+            "targetHpBefore": 2895.8333333333335,
+            "targetHpAfter": 2745.8333333333335
+          },
+          {
+            "timeMs": 642,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2745.8333333333335,
+            "targetHpAfter": 2658.3333333333335
+          },
+          {
+            "timeMs": 642,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666515,
+            "targetHpBefore": 2658.3333333333335,
+            "targetHpAfter": 2641.666666666667
+          },
+          {
+            "timeMs": 642,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 274.58333333333337,
+            "finalDamage": 137.29166666666652,
+            "targetHpBefore": 2641.666666666667,
+            "targetHpAfter": 2504.3750000000005
+          },
+          {
+            "timeMs": 1284,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2504.3750000000005,
+            "targetHpAfter": 2416.8750000000005
+          },
+          {
+            "timeMs": 1284,
+            "source": "vayne_w_true_damage",
+            "damageType": "true",
+            "rawDamage": 180,
+            "finalDamage": 180,
+            "targetHpBefore": 2416.8750000000005,
+            "targetHpAfter": 2236.8750000000005
+          },
+          {
+            "timeMs": 1284,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666515,
+            "targetHpBefore": 2236.8750000000005,
+            "targetHpAfter": 2220.208333333334
+          },
+          {
+            "timeMs": 1284,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 250.43750000000006,
+            "finalDamage": 125.21875,
+            "targetHpBefore": 2220.208333333334,
+            "targetHpAfter": 2094.989583333334
+          },
+          {
+            "timeMs": 1284,
+            "source": "kraken_slayer_bring_it_down",
+            "damageType": "physical",
+            "rawDamage": 169.34374999999994,
+            "finalDamage": 84.671875,
+            "targetHpBefore": 2094.989583333334,
+            "targetHpAfter": 2010.317708333334
+          },
+          {
+            "timeMs": 1926,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 2010.317708333334,
+            "targetHpAfter": 1922.817708333334
+          },
+          {
+            "timeMs": 1926,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666742,
+            "targetHpBefore": 1922.817708333334,
+            "targetHpAfter": 1906.1510416666672
+          },
+          {
+            "timeMs": 1926,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 201.0317708333334,
+            "finalDamage": 100.5158854166666,
+            "targetHpBefore": 1906.1510416666672,
+            "targetHpAfter": 1805.6351562500006
+          },
+          {
+            "timeMs": 2568,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 1805.6351562500006,
+            "targetHpAfter": 1718.1351562500006
+          },
+          {
+            "timeMs": 2568,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666742,
+            "targetHpBefore": 1718.1351562500006,
+            "targetHpAfter": 1701.4684895833338
+          },
+          {
+            "timeMs": 2568,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 180.56351562500006,
+            "finalDamage": 90.28175781250002,
+            "targetHpBefore": 1701.4684895833338,
+            "targetHpAfter": 1611.1867317708338
+          },
+          {
+            "timeMs": 3210,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 1611.1867317708338,
+            "targetHpAfter": 1523.6867317708338
+          },
+          {
+            "timeMs": 3210,
+            "source": "vayne_w_true_damage",
+            "damageType": "true",
+            "rawDamage": 180,
+            "finalDamage": 180,
+            "targetHpBefore": 1523.6867317708338,
+            "targetHpAfter": 1343.6867317708338
+          },
+          {
+            "timeMs": 3210,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666742,
+            "targetHpBefore": 1343.6867317708338,
+            "targetHpAfter": 1327.020065104167
+          },
+          {
+            "timeMs": 3210,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 161.1186731770834,
+            "finalDamage": 80.55933658854178,
+            "targetHpBefore": 1327.020065104167,
+            "targetHpAfter": 1246.4607285156253
+          },
+          {
+            "timeMs": 3210,
+            "source": "kraken_slayer_bring_it_down",
+            "damageType": "physical",
+            "rawDamage": 303.3219902343749,
+            "finalDamage": 151.66099511718744,
+            "targetHpBefore": 1246.4607285156253,
+            "targetHpAfter": 1094.7997333984379
+          },
+          {
+            "timeMs": 3852,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 1094.7997333984379,
+            "targetHpAfter": 1007.2997333984379
+          },
+          {
+            "timeMs": 3852,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.66666666666663,
+            "targetHpBefore": 1007.2997333984379,
+            "targetHpAfter": 990.6330667317712
+          },
+          {
+            "timeMs": 3852,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 109.4799733398438,
+            "finalDamage": 54.739986669921905,
+            "targetHpBefore": 990.6330667317712,
+            "targetHpAfter": 935.8930800618493
+          },
+          {
+            "timeMs": 4494,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 935.8930800618493,
+            "targetHpAfter": 848.3930800618493
+          },
+          {
+            "timeMs": 4494,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.66666666666663,
+            "targetHpBefore": 848.3930800618493,
+            "targetHpAfter": 831.7264133951827
+          },
+          {
+            "timeMs": 4494,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 93.58930800618494,
+            "finalDamage": 46.79465400309243,
+            "targetHpBefore": 831.7264133951827,
+            "targetHpAfter": 784.9317593920903
+          },
+          {
+            "timeMs": 5136,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 784.9317593920903,
+            "targetHpAfter": 697.4317593920903
+          },
+          {
+            "timeMs": 5136,
+            "source": "vayne_w_true_damage",
+            "damageType": "true",
+            "rawDamage": 180,
+            "finalDamage": 180,
+            "targetHpBefore": 697.4317593920903,
+            "targetHpAfter": 517.4317593920903
+          },
+          {
+            "timeMs": 5136,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666686,
+            "targetHpBefore": 517.4317593920903,
+            "targetHpAfter": 500.7650927254236
+          },
+          {
+            "timeMs": 5136,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 78.49317593920904,
+            "finalDamage": 39.24658796960449,
+            "targetHpBefore": 500.7650927254236,
+            "targetHpAfter": 461.5185047558191
+          },
+          {
+            "timeMs": 5136,
+            "source": "kraken_slayer_bring_it_down",
+            "damageType": "physical",
+            "rawDamage": 427.2602360911864,
+            "finalDamage": 213.63011804559318,
+            "targetHpBefore": 461.5185047558191,
+            "targetHpAfter": 247.88838671022592
+          },
+          {
+            "timeMs": 5778,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 247.88838671022592,
+            "targetHpAfter": 160.38838671022592
+          },
+          {
+            "timeMs": 5778,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666657,
+            "targetHpBefore": 160.38838671022592,
+            "targetHpAfter": 143.72172004355926
+          },
+          {
+            "timeMs": 5778,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 24.788838671022592,
+            "finalDamage": 12.394419335511287,
+            "targetHpBefore": 143.72172004355926,
+            "targetHpAfter": 131.32730070804797
+          },
+          {
+            "timeMs": 6420,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 87.5,
+            "targetHpBefore": 131.32730070804797,
+            "targetHpAfter": 43.82730070804797
+          },
+          {
+            "timeMs": 6420,
+            "source": "guinsoos_wrath_on_hit",
+            "damageType": "magic",
+            "rawDamage": 30,
+            "finalDamage": 16.666666666666668,
+            "targetHpBefore": 43.82730070804797,
+            "targetHpAfter": 27.160634041381304
+          },
+          {
+            "timeMs": 6420,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "damageType": "physical",
+            "rawDamage": 13.132730070804797,
+            "finalDamage": 6.566365035402399,
+            "targetHpBefore": 27.160634041381304,
+            "targetHpAfter": 20.594269005978905
+          },
+          {
+            "timeMs": 7062,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 175,
+            "finalDamage": 20.594269005978905,
+            "targetHpBefore": 20.594269005978905,
+            "targetHpAfter": 0
+          }
+        ],
+        "targetHpTimeline": [
+          {
+            "timeMs": 0,
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 0,
+            "currentHp": 2912.5,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 0,
+            "currentHp": 2895.8333333333335,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 0,
+            "currentHp": 2745.8333333333335,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 642,
+            "currentHp": 2658.3333333333335,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 642,
+            "currentHp": 2641.666666666667,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 642,
+            "currentHp": 2504.3750000000005,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1284,
+            "currentHp": 2416.8750000000005,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1284,
+            "currentHp": 2236.8750000000005,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1284,
+            "currentHp": 2220.208333333334,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1284,
+            "currentHp": 2094.989583333334,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1284,
+            "currentHp": 2010.317708333334,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1926,
+            "currentHp": 1922.817708333334,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1926,
+            "currentHp": 1906.1510416666672,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1926,
+            "currentHp": 1805.6351562500006,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 2568,
+            "currentHp": 1718.1351562500006,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 2568,
+            "currentHp": 1701.4684895833338,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 2568,
+            "currentHp": 1611.1867317708338,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3210,
+            "currentHp": 1523.6867317708338,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3210,
+            "currentHp": 1343.6867317708338,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3210,
+            "currentHp": 1327.020065104167,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3210,
+            "currentHp": 1246.4607285156253,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3210,
+            "currentHp": 1094.7997333984379,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3852,
+            "currentHp": 1007.2997333984379,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3852,
+            "currentHp": 990.6330667317712,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3852,
+            "currentHp": 935.8930800618493,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 4494,
+            "currentHp": 848.3930800618493,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 4494,
+            "currentHp": 831.7264133951827,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 4494,
+            "currentHp": 784.9317593920903,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5136,
+            "currentHp": 697.4317593920903,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5136,
+            "currentHp": 517.4317593920903,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5136,
+            "currentHp": 500.7650927254236,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5136,
+            "currentHp": 461.5185047558191,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5136,
+            "currentHp": 247.88838671022592,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5778,
+            "currentHp": 160.38838671022592,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5778,
+            "currentHp": 143.72172004355926,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 5778,
+            "currentHp": 131.32730070804797,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 6420,
+            "currentHp": 43.82730070804797,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 6420,
+            "currentHp": 27.160634041381304,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 6420,
+            "currentHp": 20.594269005978905,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 7062,
+            "currentHp": 0,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 10000,
+            "currentHp": 0,
+            "maxHp": 3000
+          }
+        ],
+        "effectTimeline": [],
+        "totalDamage": 2999.9999999999995,
+        "timeWindowDps": 299.99999999999994,
+        "killDps": 424.80883602378924,
+        "killTimeMs": 7062,
+        "damageByType": {
+          "magic": 183.33333333333303,
+          "physical": 2276.666666666667,
+          "true": 540
+        },
+        "damageBySource": {
+          "basic_attack": 983.094269005979,
+          "blade_of_the_ruined_king_current_hp_on_hit": 843.6094094979074,
+          "guinsoos_wrath_on_hit": 183.33333333333303,
+          "kraken_slayer_bring_it_down": 449.9629881627806,
+          "vayne_w_true_damage": 540
+        },
+        "skillPassiveTriggers": [
+          {
+            "timeMs": 1284,
+            "procSourceCategory": "skill_passive",
+            "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "vayne_w_every_3_hit"
+          },
+          {
+            "timeMs": 3210,
+            "procSourceCategory": "skill_passive",
+            "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "vayne_w_every_3_hit"
+          },
+          {
+            "timeMs": 5136,
+            "procSourceCategory": "skill_passive",
+            "sourceId": "skill_vayne_w_silver_bolts_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "vayne_w_every_3_hit"
+          }
+        ],
+        "itemPassiveTriggers": [
+          {
+            "timeMs": 0,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 0,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 642,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 642,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 1284,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 1284,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 1284,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+            "sourceType": "item",
+            "triggerId": "kraken_every_3_hit"
+          },
+          {
+            "timeMs": 1926,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 1926,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 2568,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 2568,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 3210,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 3210,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 3210,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+            "sourceType": "item",
+            "triggerId": "kraken_every_3_hit"
+          },
+          {
+            "timeMs": 3852,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 3852,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 4494,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 4494,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 5136,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 5136,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 5136,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_6672_kraken_slayer_bring_it_down_dps_v2",
+            "sourceType": "item",
+            "triggerId": "kraken_every_3_hit"
+          },
+          {
+            "timeMs": 5778,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 5778,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          },
+          {
+            "timeMs": 6420,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit"
+          },
+          {
+            "timeMs": 6420,
+            "procSourceCategory": "item_passive",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_dps_v2",
+            "sourceType": "item",
+            "triggerId": "blade_current_hp_on_hit"
+          }
+        ],
+        "externalPassiveTriggers": [],
+        "effectBreakdown": [
+          {
+            "timeMs": 0,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 0,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 300,
+            "message": "physical"
+          },
+          {
+            "timeMs": 642,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 642,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 274.58333333333337,
+            "message": "physical"
+          },
+          {
+            "timeMs": 1284,
+            "source": "vayne_w_true_damage",
+            "kind": "damage",
+            "amount": 180,
+            "message": "true"
+          },
+          {
+            "timeMs": 1284,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 1284,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 250.43750000000006,
+            "message": "physical"
+          },
+          {
+            "timeMs": 1284,
+            "source": "kraken_slayer_bring_it_down",
+            "kind": "damage",
+            "amount": 169.34374999999994,
+            "message": "physical"
+          },
+          {
+            "timeMs": 1926,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 1926,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 201.0317708333334,
+            "message": "physical"
+          },
+          {
+            "timeMs": 2568,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 2568,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 180.56351562500006,
+            "message": "physical"
+          },
+          {
+            "timeMs": 3210,
+            "source": "vayne_w_true_damage",
+            "kind": "damage",
+            "amount": 180,
+            "message": "true"
+          },
+          {
+            "timeMs": 3210,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 3210,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 161.1186731770834,
+            "message": "physical"
+          },
+          {
+            "timeMs": 3210,
+            "source": "kraken_slayer_bring_it_down",
+            "kind": "damage",
+            "amount": 303.3219902343749,
+            "message": "physical"
+          },
+          {
+            "timeMs": 3852,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 3852,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 109.4799733398438,
+            "message": "physical"
+          },
+          {
+            "timeMs": 4494,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 4494,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 93.58930800618494,
+            "message": "physical"
+          },
+          {
+            "timeMs": 5136,
+            "source": "vayne_w_true_damage",
+            "kind": "damage",
+            "amount": 180,
+            "message": "true"
+          },
+          {
+            "timeMs": 5136,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 5136,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 78.49317593920904,
+            "message": "physical"
+          },
+          {
+            "timeMs": 5136,
+            "source": "kraken_slayer_bring_it_down",
+            "kind": "damage",
+            "amount": 427.2602360911864,
+            "message": "physical"
+          },
+          {
+            "timeMs": 5778,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 5778,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 24.788838671022592,
+            "message": "physical"
+          },
+          {
+            "timeMs": 6420,
+            "source": "guinsoos_wrath_on_hit",
+            "kind": "damage",
+            "amount": 30,
+            "message": "magic"
+          },
+          {
+            "timeMs": 6420,
+            "source": "blade_of_the_ruined_king_current_hp_on_hit",
+            "kind": "damage",
+            "amount": 13.132730070804797,
+            "message": "physical"
+          }
+        ],
+        "critPolicy": "expected",
+        "seed": 0,
+        "blockedReasons": []
+      }
+    ]
+  }
+}
