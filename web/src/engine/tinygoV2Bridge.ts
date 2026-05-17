@@ -33,6 +33,17 @@ export type TinyGoV2BridgeOptions = {
   wasmExecUrl?: URL | string;
 };
 
+export class TinyGoV2InvocationError extends Error {
+  constructor(
+    readonly fnName: string,
+    readonly code: number,
+    readonly frames: TinyGoV2Frame[]
+  ) {
+    super(`${fnName} failed with code ${code}${formatInvocationErrorFrames(frames)}`);
+    this.name = 'TinyGoV2InvocationError';
+  }
+}
+
 const MAGIC = 0x32475644;
 const SCHEMA_VERSION = 1;
 const HEADER_LEN = 16;
@@ -67,23 +78,19 @@ export class TinyGoV2Bridge {
   }
 
   init(bundle: unknown): TinyGoV2Frame[] {
-    this.invoke('engine_init', FRAME_INIT, bundle);
-    return this.readOutbox();
+    return this.invoke('engine_init', FRAME_INIT, bundle);
   }
 
   beginRun(input: unknown): TinyGoV2Frame[] {
-    this.invoke('engine_begin_run', FRAME_RUN, input);
-    return this.readOutbox();
+    return this.invoke('engine_begin_run', FRAME_RUN, input);
   }
 
   snapshotInitial(input: unknown): TinyGoV2Frame[] {
-    this.invoke('engine_snapshot_initial', FRAME_RUN, input);
-    return this.readOutbox();
+    return this.invoke('engine_snapshot_initial', FRAME_RUN, input);
   }
 
   snapshotActionsInitial(input: unknown): TinyGoV2Frame[] {
-    this.invoke('engine_snapshot_actions_initial', FRAME_RUN, input);
-    return this.readOutbox();
+    return this.invoke('engine_snapshot_actions_initial', FRAME_RUN, input);
   }
 
   step(maxEvents = 64): { status: number; frames: TinyGoV2Frame[] } {
@@ -100,19 +107,22 @@ export class TinyGoV2Bridge {
     fnName: 'engine_init' | 'engine_begin_run' | 'engine_snapshot_initial' | 'engine_snapshot_actions_initial',
     kind: number,
     payload: unknown
-  ) {
+  ): TinyGoV2Frame[] {
     const payloadBytes = textEncoder.encode(JSON.stringify(payload));
     const frame = encodeFrame(kind, payloadBytes);
     const ptr = this.exports.alloc(frame.length);
+    let code = -1;
     try {
       new Uint8Array(this.exports.memory.buffer, ptr, frame.length).set(frame);
-      const code = this.exports[fnName](ptr, frame.length);
-      if (code !== 0) {
-        throw new Error(`${fnName} failed with code ${code}`);
-      }
+      code = this.exports[fnName](ptr, frame.length);
     } finally {
       this.exports.dealloc(ptr, frame.length);
     }
+    const frames = this.readOutbox();
+    if (code !== 0) {
+      throw new TinyGoV2InvocationError(fnName, code, frames);
+    }
+    return frames;
   }
 
   private readOutbox(): TinyGoV2Frame[] {
@@ -165,6 +175,21 @@ function decodeFrames(bytes: Uint8Array): TinyGoV2Frame[] {
     offset = end;
   }
   return frames;
+}
+
+function formatInvocationErrorFrames(frames: TinyGoV2Frame[]): string {
+  if (frames.length === 0) {
+    return '';
+  }
+  const textDecoder = new TextDecoder();
+  const payloads = frames.map((frame) => {
+    try {
+      return textDecoder.decode(frame.payload);
+    } catch {
+      return `kind_${frame.kind}`;
+    }
+  });
+  return `: ${payloads.join(' | ')}`;
 }
 
 async function instantiateWithWasmExec(wasmUrl: URL | string, wasmExecUrl: URL | string): Promise<WebAssembly.Exports> {
@@ -278,6 +303,21 @@ function createTinyGoDirectImports(state: TinyGoDirectImportState): WebAssembly.
         return 0n;
       },
       'syscall/js.finalizeRef'() {
+        return 0n;
+      },
+      'syscall/js.valueSetIndex'() {
+        return 0n;
+      },
+      'syscall/js.stringVal'() {
+        return 0n;
+      },
+      'syscall/js.valueSet'() {
+        return 0n;
+      },
+      'syscall/js.valueNew'() {
+        return 0n;
+      },
+      'syscall/js.valueCall'() {
         return 0n;
       }
     }
