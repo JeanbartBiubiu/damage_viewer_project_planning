@@ -229,6 +229,29 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void v2BatchATargetDummiesPublishFlow_shouldExposeTargetDummyActorsAndRelations() {
+        String versionCode = "v2_batch_a_target_dummies_it";
+        putV2BatchATargetDummyEntities();
+
+        publish(versionCode);
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+
+        JsonNode targetDummyType = findByField(bundle.path("types"), "typeId", "62001");
+        assertEquals("target_dummy", targetDummyType.path("name").asText());
+
+        assertTargetDummyStats(bundle, "target_dummy_squishy", 2000, 50, 50);
+        assertTargetDummyStats(bundle, "target_dummy_fighter", 3000, 100, 80);
+        assertTargetDummyStats(bundle, "target_dummy_tank", 5000, 200, 150);
+
+        assertTrue(containsTypeRelation(bundle.path("typeRelations"), 62001, "character", "target_dummy_squishy"));
+        assertTrue(containsTypeRelation(bundle.path("typeRelations"), 62001, "character", "target_dummy_fighter"));
+        assertTrue(containsTypeRelation(bundle.path("typeRelations"), 62001, "character", "target_dummy_tank"));
+    }
+
+    @Test
     void bundle_shouldReturnPublishedSnapshotForRequestedVersionCode() {
         String versionCode = "1.0.0";
         putBaselineEntities("Ahri");
@@ -1309,6 +1332,52 @@ class ControllerPublishFlowIT {
         );
     }
 
+    private void putV2BatchATargetDummyEntities() {
+        putAttributeDefinition("hp", "Health", "number", 0, "scalar", null);
+        putAttributeDefinition("ad", "Attack Damage", "number", 0, "scalar", null);
+        putAttributeDefinition("ap", "Ability Power", "number", 0, "scalar", null);
+        putAttributeDefinition("attack_speed", "Attack Speed", "number", 0, "scalar", null);
+        putAttributeDefinition("armor", "Armor", "number", 0, "scalar", null);
+        putAttributeDefinition("magic_resist", "Magic Resist", "number", 0, "scalar", null);
+        putAttributeDefinition("ability_haste", "Ability Haste", "number", 0, "scalar", null);
+        putAttributeDefinition("physical_pen", "Physical Penetration", "number", 0, "scalar", null);
+        putAttributeDefinition("magic_pen", "Magic Penetration", "number", 0, "scalar", null);
+        putAttributeDefinition("hp_regen", "Health Regen", "number", 0, "rate", "hp");
+
+        putType(62001, "target_dummy", "V2 Batch A fixed DPS target actor");
+        putTargetDummy("target_dummy_squishy", "Target Dummy Squishy", 2000, 50, 50);
+        putTargetDummy("target_dummy_fighter", "Target Dummy Fighter", 3000, 100, 80);
+        putTargetDummy("target_dummy_tank", "Target Dummy Tank", 5000, 200, 150);
+        putTypeRelation(62001, "character", "target_dummy_squishy");
+        putTypeRelation(62001, "character", "target_dummy_fighter");
+        putTypeRelation(62001, "character", "target_dummy_tank");
+    }
+
+    private void putTargetDummy(String heroId, String name, int hp, int armor, int magicResist) {
+        ResponseEntity<JsonNode> response = adminExchange(
+            "/api/admin/games/" + gameId + "/heroes/" + heroId,
+            HttpMethod.PUT,
+            Map.of(
+                "name", name,
+                "title", hp + " HP / " + armor + " armor / " + magicResist + " magic resist",
+                "avatarUrl", heroId + ".png",
+                "baseStats", Map.ofEntries(
+                    Map.entry("hp", hp),
+                    Map.entry("ad", 0),
+                    Map.entry("ap", 0),
+                    Map.entry("attack_speed", 0),
+                    Map.entry("armor", armor),
+                    Map.entry("magic_resist", magicResist),
+                    Map.entry("ability_haste", 0),
+                    Map.entry("physical_pen", 0),
+                    Map.entry("magic_pen", 0),
+                    Map.entry("hp_regen", 0)
+                )
+            )
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
     private JsonNode putAttributeDefinition(String attrKey) {
         return putAttributeDefinition(attrKey, attrKey, "number", 0, "scalar", null);
     }
@@ -1600,6 +1669,27 @@ class ControllerPublishFlowIT {
             }
         }
         return false;
+    }
+
+    private boolean containsTypeRelation(JsonNode arrayNode, int typeId, String targetCategory, String targetId) {
+        if (arrayNode == null || !arrayNode.isArray()) {
+            return false;
+        }
+        for (JsonNode node : arrayNode) {
+            if (node.path("typeId").asInt() == typeId
+                && targetCategory.equals(node.path("targetCategory").asText())
+                && targetId.equals(node.path("targetId").asText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void assertTargetDummyStats(JsonNode bundle, String heroId, double hp, double armor, double magicResist) {
+        JsonNode targetDummy = findByField(bundle.path("heroes"), "heroId", heroId);
+        assertEquals(hp, targetDummy.path("baseStats").path("hp").asDouble(), 0.001);
+        assertEquals(armor, targetDummy.path("baseStats").path("armor").asDouble(), 0.001);
+        assertEquals(magicResist, targetDummy.path("baseStats").path("magic_resist").asDouble(), 0.001);
     }
 
     private JsonNode findByField(JsonNode arrayNode, String fieldName, String expectedValue) {
