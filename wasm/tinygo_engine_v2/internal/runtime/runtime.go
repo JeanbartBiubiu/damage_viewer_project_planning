@@ -1247,18 +1247,18 @@ func (ctx *RunContext) dealDamage(source uint8, target uint8, amount float64, da
 }
 
 func (ctx *RunContext) dealDamageResult(source uint8, target uint8, amount float64, damageType string, chainDepth uint8) (damageApplication, model.ErrCode) {
-	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
-		return damageApplication{}, model.ErrNumeric
+	if code := validateDamageAmount(amount); code != model.ErrOK {
+		return damageApplication{}, code
 	}
 	hpBefore := ctx.Actors[target].HP
 	shieldBefore := ctx.shieldTotal(target)
 	remaining := ctx.consumeShields(target, amount, damageType)
 	shieldAfter := ctx.shieldTotal(target)
-	ctx.Actors[target].HP -= remaining
-	if ctx.Actors[target].HP < 0 {
-		ctx.Actors[target].HP = 0
+	hpAfter, appliedDamage, code := applyDamageToHP(hpBefore, remaining)
+	if code != model.ErrOK {
+		return damageApplication{}, code
 	}
-	appliedDamage := hpBefore - ctx.Actors[target].HP
+	ctx.Actors[target].HP = hpAfter
 	ctx.Actors[target].DamageTaken.Add(ctx.NowMs, appliedDamage)
 	ctx.log("damage", source, target, 0, 0, appliedDamage, damageType)
 	if code := ctx.fireTriggers(compilebundle.TriggerOnDamageDealt, source, target, appliedDamage, chainDepth); code != model.ErrOK {

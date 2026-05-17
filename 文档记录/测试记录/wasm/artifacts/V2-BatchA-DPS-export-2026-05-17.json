@@ -1,0 +1,699 @@
+﻿{
+  "caseId": "V2-BatchA-basic-aa-001",
+  "versionCode": "v2_batch_a_target_dummies_001",
+  "wasmSha256": "bf9016331a151c33b5638daeccb8c594f01c36b16888b34f1590382ef2905de2",
+  "selection": {
+    "heroId": "hero_vayne",
+    "heroLevel": 1,
+    "targetId": "target_dummy_fighter",
+    "targetType": "target_dummy",
+    "skillLevels": {},
+    "equipmentSet": [],
+    "enabledPassiveEffects": [],
+    "scenarioStates": [],
+    "critPolicy": "expected"
+  },
+  "resolvedSnapshot": {
+    "attackerSnapshot": {
+      "actorId": "hero_vayne",
+      "templateId": "hero_vayne",
+      "name": "薇恩",
+      "level": 1,
+      "types": [],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 60,
+        "ap": 0,
+        "armor": 23,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 550,
+        "attack_speed": 0.658,
+        "attack_speed_growth": 0.033,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 1.75,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 550,
+        "hp_regen": 0.7,
+        "life_steal": 0,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 30,
+        "mana": 232,
+        "mana_regen": 1.4,
+        "move_speed": 330,
+        "ms_f": 0,
+        "ms_pct": 0,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0
+      },
+      "currentHp": 550,
+      "maxHp": 550
+    },
+    "targetSnapshot": {
+      "actorId": "target_dummy_fighter",
+      "templateId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "level": 1,
+      "types": [
+        "target_dummy"
+      ],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 0,
+        "ap": 0,
+        "armor": 100,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 0,
+        "attack_speed": 0,
+        "attack_speed_growth": 0,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 2,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 3000,
+        "hp_regen": 0,
+        "life_steal": 0,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 80,
+        "mana": 0,
+        "mana_regen": 0,
+        "move_speed": 0,
+        "ms_f": 0,
+        "ms_pct": 0,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0
+      },
+      "currentHp": 3000,
+      "maxHp": 3000
+    },
+    "equipmentSet": [],
+    "equipmentStats": {},
+    "enabledPassiveEffects": [],
+    "externalPassiveEffects": [],
+    "scenarioStates": [],
+    "runeStatAdjustments": {}
+  },
+  "runInput": {
+    "mode": "single_attacker_dps",
+    "caseId": "V2-BatchA-basic-aa-001",
+    "versionCode": "v2_batch_a_target_dummies_001",
+    "wasmSha256": "bf9016331a151c33b5638daeccb8c594f01c36b16888b34f1590382ef2905de2",
+    "simulationRules": {
+      "durationMs": 10000,
+      "warmupMs": 0,
+      "sampleBy": "none",
+      "attackSpeedCap": 3,
+      "firstAttackAtMs": 0,
+      "eventWindowPolicy": "timeMs < durationMs",
+      "dotTickIntervalMs": 1000,
+      "critPolicy": "expected",
+      "seed": 0,
+      "autoAttackPlan": {
+        "enabled": true,
+        "actionId": "basic_attack",
+        "startAtMs": 0,
+        "targetRole": "target"
+      },
+      "maxEvents": 10000
+    },
+    "targetSnapshot": {
+      "actorId": "target_dummy_fighter",
+      "templateId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "level": 1,
+      "types": [
+        "target_dummy"
+      ],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 0,
+        "ap": 0,
+        "armor": 100,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 0,
+        "attack_speed": 0,
+        "attack_speed_growth": 0,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 2,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 3000,
+        "hp_regen": 0,
+        "life_steal": 0,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 80,
+        "mana": 0,
+        "mana_regen": 0,
+        "move_speed": 0,
+        "ms_f": 0,
+        "ms_pct": 0,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0
+      },
+      "currentHp": 3000,
+      "maxHp": 3000
+    },
+    "curves": [
+      {
+        "curveId": "hero_vayne-basic-aa",
+        "label": "薇恩 basic attack",
+        "selection": {
+          "heroId": "hero_vayne",
+          "heroLevel": 1,
+          "targetId": "target_dummy_fighter",
+          "targetType": "target_dummy",
+          "skillLevels": {},
+          "equipmentSet": [],
+          "enabledPassiveEffects": [],
+          "scenarioStates": [],
+          "critPolicy": "expected"
+        },
+        "resolvedSnapshot": {
+          "attackerSnapshot": {
+            "actorId": "hero_vayne",
+            "templateId": "hero_vayne",
+            "name": "薇恩",
+            "level": 1,
+            "types": [],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 60,
+              "ap": 0,
+              "armor": 23,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 550,
+              "attack_speed": 0.658,
+              "attack_speed_growth": 0.033,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 1.75,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 550,
+              "hp_regen": 0.7,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 30,
+              "mana": 232,
+              "mana_regen": 1.4,
+              "move_speed": 330,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0
+            },
+            "currentHp": 550,
+            "maxHp": 550
+          },
+          "targetSnapshot": {
+            "actorId": "target_dummy_fighter",
+            "templateId": "target_dummy_fighter",
+            "name": "Target Dummy Fighter",
+            "level": 1,
+            "types": [
+              "target_dummy"
+            ],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 0,
+              "ap": 0,
+              "armor": 100,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 0,
+              "attack_speed": 0,
+              "attack_speed_growth": 0,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 3000,
+              "hp_regen": 0,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 80,
+              "mana": 0,
+              "mana_regen": 0,
+              "move_speed": 0,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0
+            },
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          "equipmentSet": [],
+          "equipmentStats": {},
+          "enabledPassiveEffects": [],
+          "externalPassiveEffects": [],
+          "scenarioStates": [],
+          "runeStatAdjustments": {}
+        }
+      }
+    ]
+  },
+  "wasmOutput": {
+    "caseId": "V2-BatchA-basic-aa-001",
+    "versionCode": "v2_batch_a_target_dummies_001",
+    "wasmSha256": "bf9016331a151c33b5638daeccb8c594f01c36b16888b34f1590382ef2905de2",
+    "simulationRules": {
+      "durationMs": 10000,
+      "warmupMs": 0,
+      "sampleBy": "none",
+      "attackSpeedCap": 3,
+      "firstAttackAtMs": 0,
+      "eventWindowPolicy": "timeMs < durationMs",
+      "dotTickIntervalMs": 1000,
+      "critPolicy": "expected",
+      "seed": 0,
+      "autoAttackPlan": {
+        "enabled": true,
+        "actionId": "basic_attack",
+        "startAtMs": 0,
+        "targetRole": "target"
+      },
+      "maxEvents": 10000
+    },
+    "targetSnapshot": {
+      "actorId": "target_dummy_fighter",
+      "templateId": "target_dummy_fighter",
+      "name": "Target Dummy Fighter",
+      "level": 1,
+      "types": [
+        "target_dummy"
+      ],
+      "attributes": {
+        "ability_haste": 0,
+        "ad": 0,
+        "ap": 0,
+        "armor": 100,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "attack_range": 0,
+        "attack_speed": 0,
+        "attack_speed_growth": 0,
+        "attack_speed_mult": 0,
+        "crit_chance": 0,
+        "crit_damage": 2,
+        "energy": 0,
+        "energy_regen": 0,
+        "heal_shield_power": 0,
+        "hp": 3000,
+        "hp_regen": 0,
+        "life_steal": 0,
+        "magic_pen": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_resist": 80,
+        "mana": 0,
+        "mana_regen": 0,
+        "move_speed": 0,
+        "ms_f": 0,
+        "ms_pct": 0,
+        "omnivamp": 0,
+        "physical_pen": 0,
+        "pv": 0
+      },
+      "currentHp": 3000,
+      "maxHp": 3000
+    },
+    "curveResults": [
+      {
+        "curveId": "hero_vayne-basic-aa",
+        "status": "ok",
+        "selection": {
+          "heroId": "hero_vayne",
+          "heroLevel": 1,
+          "targetId": "target_dummy_fighter",
+          "targetType": "target_dummy",
+          "skillLevels": {},
+          "equipmentSet": [],
+          "enabledPassiveEffects": [],
+          "scenarioStates": [],
+          "critPolicy": "expected"
+        },
+        "resolvedSnapshot": {
+          "attackerSnapshot": {
+            "actorId": "hero_vayne",
+            "templateId": "hero_vayne",
+            "name": "薇恩",
+            "level": 1,
+            "types": [],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 60,
+              "ap": 0,
+              "armor": 23,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 550,
+              "attack_speed": 0.658,
+              "attack_speed_growth": 0.033,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 1.75,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 550,
+              "hp_regen": 0.7,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 30,
+              "mana": 232,
+              "mana_regen": 1.4,
+              "move_speed": 330,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0
+            },
+            "currentHp": 550,
+            "maxHp": 550
+          },
+          "targetSnapshot": {
+            "actorId": "target_dummy_fighter",
+            "templateId": "target_dummy_fighter",
+            "name": "Target Dummy Fighter",
+            "level": 1,
+            "types": [
+              "target_dummy"
+            ],
+            "attributes": {
+              "ability_haste": 0,
+              "ad": 0,
+              "ap": 0,
+              "armor": 100,
+              "armor_pen_flat": 0,
+              "armor_pen_percent": 0,
+              "attack_range": 0,
+              "attack_speed": 0,
+              "attack_speed_growth": 0,
+              "attack_speed_mult": 0,
+              "crit_chance": 0,
+              "crit_damage": 2,
+              "energy": 0,
+              "energy_regen": 0,
+              "heal_shield_power": 0,
+              "hp": 3000,
+              "hp_regen": 0,
+              "life_steal": 0,
+              "magic_pen": 0,
+              "magic_pen_flat": 0,
+              "magic_pen_percent": 0,
+              "magic_resist": 80,
+              "mana": 0,
+              "mana_regen": 0,
+              "move_speed": 0,
+              "ms_f": 0,
+              "ms_pct": 0,
+              "omnivamp": 0,
+              "physical_pen": 0,
+              "pv": 0
+            },
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          "equipmentSet": [],
+          "equipmentStats": {},
+          "enabledPassiveEffects": [],
+          "externalPassiveEffects": [],
+          "scenarioStates": [],
+          "runeStatAdjustments": {}
+        },
+        "durationMs": 10000,
+        "finalTimeMs": 10000,
+        "stopReason": "duration_elapsed",
+        "processedEvents": 7,
+        "queuePeak": 1,
+        "attackCount": 7,
+        "attackTimeline": [
+          {
+            "timeMs": 0,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 1520,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 3040,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 4560,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 6080,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 7600,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          },
+          {
+            "timeMs": 9120,
+            "actionId": "basic_attack",
+            "sourceActorId": "hero_vayne",
+            "targetActorId": "target_dummy_fighter"
+          }
+        ],
+        "attackIntervalTimeline": [
+          {
+            "timeMs": 0,
+            "rawAttackSpeed": 0.658,
+            "effectiveAttackSpeed": 0.658,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 1520,
+            "nextAttackAtMs": 1520,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 1520,
+            "rawAttackSpeed": 0.658,
+            "effectiveAttackSpeed": 0.658,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 1520,
+            "nextAttackAtMs": 3040,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 3040,
+            "rawAttackSpeed": 0.658,
+            "effectiveAttackSpeed": 0.658,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 1520,
+            "nextAttackAtMs": 4560,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 4560,
+            "rawAttackSpeed": 0.658,
+            "effectiveAttackSpeed": 0.658,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 1520,
+            "nextAttackAtMs": 6080,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 6080,
+            "rawAttackSpeed": 0.658,
+            "effectiveAttackSpeed": 0.658,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 1520,
+            "nextAttackAtMs": 7600,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 7600,
+            "rawAttackSpeed": 0.658,
+            "effectiveAttackSpeed": 0.658,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 1520,
+            "nextAttackAtMs": 9120,
+            "source": "attacker.attributes.attack_speed"
+          },
+          {
+            "timeMs": 9120,
+            "rawAttackSpeed": 0.658,
+            "effectiveAttackSpeed": 0.658,
+            "overflowAttackSpeed": 0,
+            "attackIntervalMs": 1520,
+            "nextAttackAtMs": 10640,
+            "source": "attacker.attributes.attack_speed"
+          }
+        ],
+        "damageTimeline": [
+          {
+            "timeMs": 0,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 60,
+            "finalDamage": 30,
+            "targetHpBefore": 3000,
+            "targetHpAfter": 2970
+          },
+          {
+            "timeMs": 1520,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 60,
+            "finalDamage": 30,
+            "targetHpBefore": 2970,
+            "targetHpAfter": 2940
+          },
+          {
+            "timeMs": 3040,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 60,
+            "finalDamage": 30,
+            "targetHpBefore": 2940,
+            "targetHpAfter": 2910
+          },
+          {
+            "timeMs": 4560,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 60,
+            "finalDamage": 30,
+            "targetHpBefore": 2910,
+            "targetHpAfter": 2880
+          },
+          {
+            "timeMs": 6080,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 60,
+            "finalDamage": 30,
+            "targetHpBefore": 2880,
+            "targetHpAfter": 2850
+          },
+          {
+            "timeMs": 7600,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 60,
+            "finalDamage": 30,
+            "targetHpBefore": 2850,
+            "targetHpAfter": 2820
+          },
+          {
+            "timeMs": 9120,
+            "source": "basic_attack",
+            "damageType": "physical",
+            "rawDamage": 60,
+            "finalDamage": 30,
+            "targetHpBefore": 2820,
+            "targetHpAfter": 2790
+          }
+        ],
+        "targetHpTimeline": [
+          {
+            "timeMs": 0,
+            "currentHp": 3000,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 0,
+            "currentHp": 2970,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 1520,
+            "currentHp": 2940,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 3040,
+            "currentHp": 2910,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 4560,
+            "currentHp": 2880,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 6080,
+            "currentHp": 2850,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 7600,
+            "currentHp": 2820,
+            "maxHp": 3000
+          },
+          {
+            "timeMs": 9120,
+            "currentHp": 2790,
+            "maxHp": 3000
+          }
+        ],
+        "effectTimeline": [],
+        "totalDamage": 210,
+        "timeWindowDps": 21,
+        "killDps": null,
+        "killTimeMs": null,
+        "damageByType": {
+          "physical": 210
+        },
+        "damageBySource": {
+          "basic_attack": 210
+        },
+        "skillPassiveTriggers": [],
+        "itemPassiveTriggers": [],
+        "externalPassiveTriggers": [],
+        "effectBreakdown": [],
+        "critPolicy": "expected",
+        "seed": 0,
+        "blockedReasons": []
+      }
+    ]
+  }
+}
