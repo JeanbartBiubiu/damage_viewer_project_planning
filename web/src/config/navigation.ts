@@ -30,6 +30,7 @@ export type RouteId =
   | 'wasm-validation-m3'
   | 'wasm-validation-m4-closure'
   | 'wasm-validation-v2-dps'
+  | 'wasm-validation-v2-dps-multi-hero'
   | 'images'
   | AdminResourceRouteId;
 
@@ -112,6 +113,11 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
     id: 'wasm-validation-v2-dps',
     label: 'V2 DPS 验证',
     summary: 'TinyGo V2 单攻击方站桩普攻 DPS 验证。'
+  },
+  {
+    id: 'wasm-validation-v2-dps-multi-hero',
+    label: 'V2 DPS 多英雄',
+    summary: '多英雄共用同一目标与装备的 TinyGo V2 DPS 对比。'
   }
 ];
 
