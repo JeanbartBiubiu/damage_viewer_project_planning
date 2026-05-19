@@ -805,6 +805,220 @@ func TestSingleAttackerDPSKogMawQPassiveAndWScenarioState(t *testing.T) {
 	}
 }
 
+func TestSingleAttackerDPSCanonicalBuffExpiresAtNextAttackBoundary(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchF-F1-buff-boundary"
+	input.SimulationRules.DurationMs = 2000
+	scenario := model.DPSScenarioStateV2{
+		StateID:     "canonical_as_buff",
+		SourceType:  "skill_passive",
+		SourceID:    "canonical_as_buff",
+		Activation:  "assumed_active_at_start",
+		Stacks:      1,
+		StartTimeMs: 0,
+		DurationMs:  500,
+	}
+	passive := canonicalAttackSpeedBuffPassive("canonical_as_buff")
+	curve := &input.Curves[0]
+	curve.CurveID = "canonical-buff-boundary"
+	curve.Selection.EnabledPassiveEffects = []string{passive.PassiveID}
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{passive.PassiveID}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{passive}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 10
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := attackTimes(result); !sameInt64s(got, []int64{0, 500, 1500}) {
+		t.Fatalf("attack times = %v, want first buffed interval then expired cadence 0/500/1500", got)
+	}
+	if len(result.AttackIntervalTimeline) != 3 {
+		t.Fatalf("attackIntervalTimeline = %+v, want three interval evidence rows", result.AttackIntervalTimeline)
+	}
+	if got := result.AttackIntervalTimeline[0]; got.RawAttackSpeed != 2 || got.EffectiveAttackSpeed != 2 || got.AttackIntervalMs != 500 || got.NextAttackAtMs != 500 {
+		t.Fatalf("first interval = %+v, want active buff raw/effective=2 interval=500", got)
+	}
+	if got := result.AttackIntervalTimeline[1]; got.RawAttackSpeed != 1 || got.EffectiveAttackSpeed != 1 || got.AttackIntervalMs != 1000 || got.NextAttackAtMs != 1500 {
+		t.Fatalf("second interval = %+v, want buff expired at boundary and base interval=1000", got)
+	}
+	if !hasBreakdown(result, dpsOpStatModifier, 2) {
+		t.Fatalf("effectBreakdown = %+v, want initial stat modifier evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSCanonicalAttackSpeedCapBoundary(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchF-F2-as-cap"
+	input.SimulationRules.DurationMs = 1000
+	base := input.Curves[0]
+	base.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 1
+	base.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	base.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	base.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	base.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+	input.Curves = []model.DPSCurveRunSpecV2{
+		canonicalAttackSpeedCurve(base, "as-2.99", 2.99),
+		canonicalAttackSpeedCurve(base, "as-3.00", 3.0),
+		canonicalAttackSpeedCurve(base, "as-3.01", 3.01),
+	}
+
+	output := RunSingleAttackerDPS(input)
+	if len(output.CurveResults) != 3 {
+		t.Fatalf("curveResults length = %d, want 3", len(output.CurveResults))
+	}
+	want := []struct {
+		raw       float64
+		effective float64
+		overflow  float64
+		interval  int64
+	}{
+		{raw: 2.99, effective: 2.99, overflow: 0, interval: 334},
+		{raw: 3.0, effective: 3.0, overflow: 0, interval: 333},
+		{raw: 3.01, effective: 3.0, overflow: 0.01, interval: 333},
+	}
+	for i, result := range output.CurveResults {
+		if result.Status != "ok" {
+			t.Fatalf("curve %d status=%s blockedReasons=%v, want ok", i, result.Status, result.BlockedReasons)
+		}
+		if len(result.AttackIntervalTimeline) == 0 {
+			t.Fatalf("curve %d missing attackIntervalTimeline", i)
+		}
+		got := result.AttackIntervalTimeline[0]
+		if !almostEqual(got.RawAttackSpeed, want[i].raw) ||
+			!almostEqual(got.EffectiveAttackSpeed, want[i].effective) ||
+			!almostEqual(got.OverflowAttackSpeed, want[i].overflow) ||
+			got.AttackIntervalMs != want[i].interval {
+			t.Fatalf("curve %d interval = %+v, want raw %.2f effective %.2f overflow %.2f interval %d", i, got, want[i].raw, want[i].effective, want[i].overflow, want[i].interval)
+		}
+	}
+}
+
+func TestSingleAttackerDPSCanonicalDotTicksAtExpireBoundary(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchF-F3-dot-expire"
+	input.SimulationRules.DurationMs = 4001
+	passive := canonicalDotOnlyPassive()
+	curve := &input.Curves[0]
+	curve.CurveID = "canonical-dot-expire"
+	curve.Selection.EnabledPassiveEffects = []string{passive.PassiveID}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{passive.PassiveID}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{passive}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 0.1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageTimesBySource(result, "canonical_dot_tick"); !sameInt64s(got, []int64{1000, 2000, 3000, 4000}) {
+		t.Fatalf("dot tick times = %v, want ticks including expireAt=4000", got)
+	}
+	if !hasEffectBreakdown(result, "dot_tick", "canonical_dot_tick", 5) {
+		t.Fatalf("effectBreakdown = %+v, want dot_tick evidence at expire boundary", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSCanonicalSourceOrderForAttackPassivesAndDot(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchF-F4-source-order"
+	input.SimulationRules.DurationMs = 1001
+	heroPassive := canonicalHeroOnHitPassive()
+	itemPassive := canonicalItemOnHitPassive()
+	dotPassive := canonicalDotOnlyPassive()
+	curve := &input.Curves[0]
+	curve.CurveID = "canonical-source-order"
+	curve.Selection.EnabledPassiveEffects = []string{heroPassive.PassiveID, itemPassive.PassiveID, dotPassive.PassiveID}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{heroPassive.PassiveID, itemPassive.PassiveID, dotPassive.PassiveID}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{heroPassive, itemPassive, dotPassive}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 0.1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageSources(result); !sameStrings(got, []string{"basic_attack", "canonical_hero_on_hit", "canonical_item_on_hit", "canonical_dot_tick"}) {
+		t.Fatalf("damage source order = %v, want basic -> hero -> item -> dot tick", got)
+	}
+	if got := effectBreakdownKindsAndSources(result); !sameStrings(got, []string{
+		"damage:canonical_hero_on_hit",
+		"damage:canonical_item_on_hit",
+		"apply_dot:canonical_dot_tick",
+		"dot_tick:canonical_dot_tick",
+	}) {
+		t.Fatalf("effectBreakdown order = %v, want hero -> item -> dot apply -> dot tick", got)
+	}
+}
+
+func TestSingleAttackerDPSCanonicalBlockedCurveDoesNotPoisonBatch(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchF-F5-blocked-isolation"
+	blockedCurve := input.Curves[0]
+	blockedCurve.CurveID = "canonical-missing-passive"
+	blockedCurve.Selection.EnabledPassiveEffects = []string{"canonical_missing_passive"}
+	blockedCurve.ResolvedSnapshot.EnabledPassiveEffects = []string{"canonical_missing_passive"}
+	input.Curves = append(input.Curves, blockedCurve)
+
+	output := RunSingleAttackerDPS(input)
+	if len(output.CurveResults) != 2 {
+		t.Fatalf("curveResults length = %d, want 2", len(output.CurveResults))
+	}
+	okResult := output.CurveResults[0]
+	blockedResult := output.CurveResults[1]
+	if okResult.Status != "ok" || okResult.TotalDamage <= 0 || len(okResult.DamageTimeline) == 0 {
+		t.Fatalf("first curve = %+v, want independent ok result", okResult)
+	}
+	if blockedResult.Status != "blocked" || blockedResult.StopReason != "blocked" || len(blockedResult.BlockedReasons) == 0 {
+		t.Fatalf("second curve = %+v, want blocked with reasons", blockedResult)
+	}
+	if blockedResult.TotalDamage != 0 || len(blockedResult.DamageTimeline) != 0 || len(blockedResult.TargetHPTimeline) != 0 || len(blockedResult.EffectBreakdown) != 0 {
+		t.Fatalf("blocked curve should expose safe empty evidence: %+v", blockedResult)
+	}
+}
+
+func TestSingleAttackerDPSCanonicalCritPolicyExpectedAndUnsupportedRandom(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchF-F6-crit-policy"
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0.5
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" || result.CritPolicy != "expected" || len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].RawDamage, 150) {
+		t.Fatalf("expected crit result = %+v, want expected raw basic attack damage 150", result)
+	}
+
+	input.SimulationRules.CritPolicy = "seeded_random"
+	result = RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "blocked" || result.CritPolicy != "seeded_random" {
+		t.Fatalf("seeded random result = %+v, want explicit blocked unsupported policy", result)
+	}
+	if !blockedReasonContains(result, "critPolicy=expected") {
+		t.Fatalf("blockedReasons = %v, want supported crit policy reason", result.BlockedReasons)
+	}
+}
+
 func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 	return model.SingleAttackerDPSInputV2{
 		Mode:        "single_attacker_dps",
@@ -1053,6 +1267,154 @@ func krakenSlayerPassive() model.DPSPassiveEffectV2 {
 			TargetMissingHPBasis: "attack_start",
 		}},
 	}
+}
+
+func canonicalAttackSpeedCurve(base model.DPSCurveRunSpecV2, curveID string, attackSpeed float64) model.DPSCurveRunSpecV2 {
+	curve := base
+	curve.CurveID = curveID
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes = copyDPSFloatMap(base.ResolvedSnapshot.AttackerSnapshot.Attributes)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = attackSpeed
+	return curve
+}
+
+func canonicalAttackSpeedBuffPassive(stateID string) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:               "canonical_attack_speed_buff",
+		SourceCategory:          "skill_passive",
+		SourceID:                "canonical_attack_speed_buff",
+		SourceType:              "skill",
+		TriggerID:               "canonical_attack_speed_modifier",
+		TriggerKind:             dpsTriggerPreEnabledModifier,
+		RequiresScenarioStateID: stateID,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:         dpsOpStatModifier,
+			Source:       "canonical_attack_speed_buff",
+			AttrKey:      "attack_speed",
+			ModifierMode: "percent",
+			Value:        1,
+		}},
+	}
+}
+
+func canonicalHeroOnHitPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "canonical_hero_on_hit_passive",
+		SourceCategory: "skill_passive",
+		SourceID:       "canonical_hero_on_hit_passive",
+		SourceType:     "skill",
+		TriggerID:      "canonical_hero_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "canonical_hero_on_hit",
+			DamageType: "magic",
+			Amount:     10,
+		}},
+	}
+}
+
+func canonicalItemOnHitPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "canonical_item_on_hit_passive",
+		SourceCategory: "item_passive",
+		SourceID:       "canonical_item_on_hit_passive",
+		SourceType:     "item",
+		TriggerID:      "canonical_item_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "canonical_item_on_hit",
+			DamageType: "magic",
+			Amount:     20,
+		}},
+	}
+}
+
+func canonicalDotOnlyPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "canonical_dot_apply_passive",
+		SourceCategory: "skill_passive",
+		SourceID:       "canonical_dot_apply_passive",
+		SourceType:     "skill",
+		TriggerID:      "canonical_dot_apply",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:           dpsOpApplyDot,
+			Source:         "canonical_dot_tick",
+			DamageType:     "magic",
+			Amount:         5,
+			DurationMs:     4000,
+			TickIntervalMs: 1000,
+			RefreshMode:    "refresh",
+		}},
+	}
+}
+
+func attackTimes(result model.DPSCurveResultV2) []int64 {
+	times := make([]int64, 0, len(result.AttackTimeline))
+	for _, event := range result.AttackTimeline {
+		times = append(times, event.TimeMs)
+	}
+	return times
+}
+
+func damageTimesBySource(result model.DPSCurveResultV2, source string) []int64 {
+	times := make([]int64, 0)
+	for _, event := range result.DamageTimeline {
+		if event.Source == source {
+			times = append(times, event.TimeMs)
+		}
+	}
+	return times
+}
+
+func damageSources(result model.DPSCurveResultV2) []string {
+	sources := make([]string, 0, len(result.DamageTimeline))
+	for _, event := range result.DamageTimeline {
+		sources = append(sources, event.Source)
+	}
+	return sources
+}
+
+func effectBreakdownKindsAndSources(result model.DPSCurveResultV2) []string {
+	values := make([]string, 0, len(result.EffectBreakdown))
+	for _, event := range result.EffectBreakdown {
+		values = append(values, event.Kind+":"+event.Source)
+	}
+	return values
+}
+
+func hasEffectBreakdown(result model.DPSCurveResultV2, kind string, source string, amount float64) bool {
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == kind && event.Source == source && almostEqual(event.Amount, amount) {
+			return true
+		}
+	}
+	return false
+}
+
+func sameInt64s(left []int64, right []int64) bool {
+	if len(left) != len(right) {
+		return false
+	}
+	for i := range left {
+		if left[i] != right[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func sameStrings(left []string, right []string) bool {
+	if len(left) != len(right) {
+		return false
+	}
+	for i := range left {
+		if left[i] != right[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func damageCountBySource(result model.DPSCurveResultV2, source string) int {
