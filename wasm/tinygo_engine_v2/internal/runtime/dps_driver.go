@@ -38,22 +38,24 @@ type activeDPSDot struct {
 }
 
 type dpsCurveState struct {
-	rules               model.DPSimulationRulesV2
-	curve               model.DPSCurveRunSpecV2
-	result              *model.DPSCurveResultV2
-	attacker            model.DPSActorSnapshotV2
-	target              model.DPSActorSnapshotV2
-	attrs               map[string]float64
-	targetHP            float64
-	targetMaxHP         float64
-	attackStartTargetHP float64
-	armor               float64
-	magicResist         float64
-	passives            []model.DPSPassiveEffectV2
-	stacks              map[string]int
-	stackExpiry         map[string]int64
-	hitCounts           map[string]int
-	dots                []activeDPSDot
+	rules                model.DPSimulationRulesV2
+	curve                model.DPSCurveRunSpecV2
+	result               *model.DPSCurveResultV2
+	attacker             model.DPSActorSnapshotV2
+	target               model.DPSActorSnapshotV2
+	baseAttrs            map[string]float64
+	attrs                map[string]float64
+	targetHP             float64
+	targetMaxHP          float64
+	attackStartTargetHP  float64
+	armor                float64
+	magicResist          float64
+	passives             []model.DPSPassiveEffectV2
+	stacks               map[string]int
+	stackExpiry          map[string]int64
+	hitCounts            map[string]int
+	statModifierTriggers map[string]bool
+	dots                 []activeDPSDot
 }
 
 func RunSingleAttackerDPS(input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
@@ -211,21 +213,23 @@ func newDPSCurveState(
 		targetHP = targetMaxHP
 	}
 	return &dpsCurveState{
-		rules:       rules,
-		curve:       curve,
-		result:      result,
-		attacker:    attacker,
-		target:      target,
-		attrs:       copyDPSFloatMap(attacker.Attributes),
-		targetHP:    targetHP,
-		targetMaxHP: targetMaxHP,
-		armor:       readFirstFiniteAttr(target.Attributes, "armor", "armour"),
-		magicResist: readFirstFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block"),
-		passives:    enabledDPSPassives(curve),
-		stacks:      map[string]int{},
-		stackExpiry: map[string]int64{},
-		hitCounts:   map[string]int{},
-		dots:        make([]activeDPSDot, 0),
+		rules:                rules,
+		curve:                curve,
+		result:               result,
+		attacker:             attacker,
+		target:               target,
+		baseAttrs:            copyDPSFloatMap(attacker.Attributes),
+		attrs:                copyDPSFloatMap(attacker.Attributes),
+		targetHP:             targetHP,
+		targetMaxHP:          targetMaxHP,
+		armor:                readFirstFiniteAttr(target.Attributes, "armor", "armour"),
+		magicResist:          readFirstFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block"),
+		passives:             enabledDPSPassives(curve),
+		stacks:               map[string]int{},
+		stackExpiry:          map[string]int64{},
+		hitCounts:            map[string]int{},
+		statModifierTriggers: map[string]bool{},
+		dots:                 make([]activeDPSDot, 0),
 	}
 }
 
@@ -253,6 +257,10 @@ func (state *dpsCurveState) TargetHPTimelineAppend(timeMs int64) {
 
 func (state *dpsCurveState) processAttack(timeMs int64) int64 {
 	state.expireStacks(timeMs)
+	state.refreshActiveStatModifiers(timeMs)
+	if state.result.Status == dpsStatusBlocked {
+		return -1
+	}
 	state.attackStartTargetHP = state.targetHP
 	state.result.ProcessedEvents++
 	state.updateQueuePeak()
@@ -357,28 +365,38 @@ func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DP
 	case dpsOpTriggerDamageAtStacks:
 		state.triggerDamageAtStacks(timeMs, passive, op)
 	case dpsOpStatModifier:
-		state.applyStatModifier(timeMs, passive, op)
+		state.applyStatModifier(timeMs, passive, op, true)
 	}
 }
 
 func (state *dpsCurveState) applyInitialStatModifiers() {
+	state.refreshActiveStatModifiers(0)
+}
+
+func (state *dpsCurveState) refreshActiveStatModifiers(timeMs int64) {
+	state.attrs = copyDPSFloatMap(state.baseAttrs)
 	for _, passive := range state.passives {
 		if passive.TriggerKind != dpsTriggerStatAlwaysOn && passive.TriggerKind != dpsTriggerPreEnabledModifier {
 			continue
 		}
-		if !state.passiveActiveAt(passive, 0) {
+		if !state.passiveActiveAt(passive, timeMs) {
 			continue
 		}
-		state.recordPassiveTrigger(0, passive)
+		triggerKey := "stat_modifier:" + passiveRuntimeKey(passive)
+		record := !state.statModifierTriggers[triggerKey]
+		if record {
+			state.recordPassiveTrigger(timeMs, passive)
+			state.statModifierTriggers[triggerKey] = true
+		}
 		for _, op := range passive.Operations {
 			if op.Kind == dpsOpStatModifier {
-				state.applyStatModifier(0, passive, op)
+				state.applyStatModifier(timeMs, passive, op, record)
 			}
 		}
 	}
 }
 
-func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2) {
+func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2, record bool) {
 	if op.AttrKey == "" {
 		state.block("passive stat_modifier operation requires attrKey")
 		return
@@ -397,6 +415,9 @@ func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPas
 		state.attrs[op.AttrKey] = op.Value
 	default:
 		state.block("unsupported passive stat modifier mode " + op.ModifierMode)
+		return
+	}
+	if !record {
 		return
 	}
 	state.result.EffectTimeline = append(state.result.EffectTimeline, model.DPSEffectEventV2{
