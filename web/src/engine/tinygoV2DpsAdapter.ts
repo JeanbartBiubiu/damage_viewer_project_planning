@@ -2,6 +2,7 @@ import type { GameDataBundle, Hero, Item, JsonObject, Skill, TypeDefinition, Typ
 import type { TinyGoV2AttributeDefinition, TinyGoV2EngineBundle } from './tinygoV2BundleAdapter';
 
 export const V2_DPS_CASE_ID = 'V2-BatchE-1-single-hero-multicurve-001';
+export const V2_DPS_MULTI_HERO_CASE_ID = 'V2-BatchE-B-multi-hero-same-equipment-001';
 export const V2_DPS_TARGET_DUMMY_TYPE_NAME = 'target_dummy';
 const V2_DPS_BASIC_ATTACK_ACTION_ID = 'basic_attack';
 const V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID = 62002;
@@ -23,6 +24,7 @@ const V2_DPS_PASSIVE_OPERATION_LEVEL_FIELDS = [
 export type V2DpsCurveSelection = {
   curveId: string;
   label: string;
+  attackerHeroId?: string;
   heroLevel: number;
   skillLevels: Record<string, number>;
   equipmentItemIds: string[];
@@ -32,6 +34,7 @@ export type V2DpsCurveSelection = {
 };
 
 export type V2DpsSelection = {
+  caseId?: string;
   attackerHeroId: string;
   targetActorId: string;
   durationMs: number;
@@ -305,13 +308,7 @@ const V2_DPS_BATCH_B_SCENARIO_OPTIONS: V2DpsScenarioOption[] = [
 ];
 
 export function createDefaultV2DpsSelection(bundle: GameDataBundle): V2DpsSelection {
-  const targetGroups = listV2DpsTargetGroups(bundle);
-  const targetDummyGroup = targetGroups.find((group) => group.isTargetDummy);
-  const targetActorId =
-    targetDummyGroup?.actors.find((actor) => actor.actorId === 'target_dummy_fighter')?.actorId
-    ?? targetDummyGroup?.actors[0]?.actorId
-    ?? targetGroups[0]?.actors[0]?.actorId
-    ?? '';
+  const targetActorId = findDefaultTargetActorId(bundle);
   const attackerHeroId = findDefaultAttacker(bundle);
   return {
     attackerHeroId,
@@ -320,6 +317,24 @@ export function createDefaultV2DpsSelection(bundle: GameDataBundle): V2DpsSelect
     attackSpeedCap: 3.0,
     critPolicy: 'expected',
     curves: createDefaultV2DpsCurveSelections(attackerHeroId, bundle)
+  };
+}
+
+export function createDefaultV2DpsMultiHeroSelection(bundle: GameDataBundle): V2DpsSelection {
+  const targetActorId = findDefaultTargetActorId(bundle);
+  const attackerHeroIds = findDefaultMultiHeroAttackers(bundle);
+  const equipmentItemIds = findDefaultMultiHeroEquipmentItemIds(bundle);
+  const fallbackAttackerHeroId = attackerHeroIds[0] ?? findDefaultAttacker(bundle);
+  return {
+    caseId: V2_DPS_MULTI_HERO_CASE_ID,
+    attackerHeroId: fallbackAttackerHeroId,
+    targetActorId,
+    durationMs: 10000,
+    attackSpeedCap: 3.0,
+    critPolicy: 'expected',
+    curves: attackerHeroIds.length > 0
+      ? attackerHeroIds.map((attackerHeroId, index) => createV2DpsMultiHeroCurveSelection(bundle, attackerHeroId, equipmentItemIds, index))
+      : [createV2DpsMultiHeroCurveSelection(bundle, fallbackAttackerHeroId, equipmentItemIds, 0)]
   };
 }
 
@@ -349,6 +364,7 @@ export function createV2DpsCurveSelection(
   return {
     curveId,
     label,
+    attackerHeroId,
     heroLevel: V2_DPS_DEFAULT_HERO_LEVEL,
     skillLevels: createDefaultSkillLevels(),
     equipmentItemIds,
@@ -356,6 +372,33 @@ export function createV2DpsCurveSelection(
     enabledScenarioStateIds,
     runeStatAdjustments: {}
   };
+}
+
+export function createV2DpsMultiHeroCurveSelection(
+  bundle: GameDataBundle,
+  attackerHeroId: string,
+  equipmentItemIds: string[],
+  index: number,
+  enabledScenarioStateIds = defaultScenarioIdsForHero(attackerHeroId),
+  runeStatAdjustments: Record<string, number> = {}
+): V2DpsCurveSelection {
+  const curveId = createMultiHeroCurveId(attackerHeroId, index);
+  return {
+    ...createV2DpsCurveSelection(
+      curveId,
+      formatMultiHeroCurveLabel(bundle, attackerHeroId, equipmentItemIds),
+      equipmentItemIds,
+      attackerHeroId,
+      defaultPassiveIdsForHero(attackerHeroId),
+      enabledScenarioStateIds
+    ),
+    attackerHeroId,
+    runeStatAdjustments
+  };
+}
+
+export function formatV2DpsMultiHeroCurveLabel(bundle: GameDataBundle, attackerHeroId: string, equipmentItemIds: string[]): string {
+  return formatMultiHeroCurveLabel(bundle, attackerHeroId, equipmentItemIds);
 }
 
 export function getDefaultV2DpsPassiveIdsForHero(heroId: string): string[] {
@@ -442,7 +485,6 @@ export function prepareV2DpsInput(
   wasmSha256: string
 ): V2DpsPreparedInput {
   const attrDefinitions = normalizeAttributeDefinitions(bundle.attributeDefinitions);
-  const attackerHero = bundle.heroes.find((hero) => hero.heroId === selection.attackerHeroId);
   const targetHero = bundle.heroes.find((hero) => hero.heroId === selection.targetActorId);
   const targetSnapshot = targetHero
     ? buildActorSnapshot(bundle, attrDefinitions, targetHero, 1)
@@ -470,8 +512,8 @@ export function prepareV2DpsInput(
   const curves = selection.curves.map((curveSelection, index) => buildV2DpsCurveRunSpec({
     bundle,
     attrDefinitions,
-    attackerHero,
-    attackerHeroId: selection.attackerHeroId,
+    attackerHero: bundle.heroes.find((hero) => hero.heroId === (curveSelection.attackerHeroId ?? selection.attackerHeroId)),
+    attackerHeroId: curveSelection.attackerHeroId ?? selection.attackerHeroId,
     targetActorId: selection.targetActorId,
     targetSnapshot,
     targetType,
@@ -483,7 +525,7 @@ export function prepareV2DpsInput(
     engineBundle: createV2DpsInitBundle(),
     runInput: {
       mode: 'single_attacker_dps',
-      caseId: V2_DPS_CASE_ID,
+      caseId: selection.caseId ?? V2_DPS_CASE_ID,
       versionCode,
       wasmSha256,
       simulationRules,
@@ -581,6 +623,15 @@ function createV2DpsInitBundle(): TinyGoV2EngineBundle {
   };
 }
 
+function findDefaultTargetActorId(bundle: GameDataBundle): string {
+  const targetGroups = listV2DpsTargetGroups(bundle);
+  const targetDummyGroup = targetGroups.find((group) => group.isTargetDummy);
+  return targetDummyGroup?.actors.find((actor) => actor.actorId === 'target_dummy_fighter')?.actorId
+    ?? targetDummyGroup?.actors[0]?.actorId
+    ?? targetGroups[0]?.actors[0]?.actorId
+    ?? '';
+}
+
 function findDefaultAttacker(bundle: GameDataBundle): string {
   const attackers = listV2DpsAttackers(bundle);
   return attackers.find((actor) => actor.actorId === 'hero_vayne')?.actorId
@@ -588,6 +639,39 @@ function findDefaultAttacker(bundle: GameDataBundle): string {
     ?? attackers.find((actor) => /vayne|薇恩/i.test(actor.label))?.actorId
     ?? attackers[0]?.actorId
     ?? '';
+}
+
+function findDefaultMultiHeroAttackers(bundle: GameDataBundle): string[] {
+  const attackers = listV2DpsAttackers(bundle);
+  const selected: string[] = [];
+  for (const heroKey of ['vayne', 'teemo', 'kogmaw']) {
+    const match = attackers.find((actor) => normalizeHeroKey(actor.actorId) === heroKey)
+      ?? attackers.find((actor) => normalizeHeroKey(actor.label) === heroKey)
+      ?? attackers.find((actor) => actor.label.toLowerCase().includes(heroKey));
+    if (match && !selected.includes(match.actorId)) {
+      selected.push(match.actorId);
+    }
+  }
+  if (selected.length > 0) {
+    return selected;
+  }
+  return attackers[0]?.actorId ? [attackers[0].actorId] : [];
+}
+
+function findDefaultMultiHeroEquipmentItemIds(bundle: GameDataBundle): string[] {
+  const availableItemIds = new Set(listV2DpsEquipmentOptions(bundle).map((option) => option.itemId));
+  return ['3153', '6672', '3124'].filter((itemId) => availableItemIds.has(itemId));
+}
+
+function createMultiHeroCurveId(attackerHeroId: string, index: number): string {
+  const heroKey = normalizeHeroKey(attackerHeroId) || 'hero';
+  return `${heroKey}-same-equipment-${index + 1}`;
+}
+
+function formatMultiHeroCurveLabel(bundle: GameDataBundle, attackerHeroId: string, equipmentItemIds: string[]): string {
+  const heroName = bundle.heroes.find((hero) => hero.heroId === attackerHeroId)?.name?.trim() || attackerHeroId;
+  const equipmentLabel = formatDefaultCurveLabel(bundle, equipmentItemIds);
+  return `${heroName} / ${equipmentLabel}`;
 }
 
 function addHeroToGroup(
