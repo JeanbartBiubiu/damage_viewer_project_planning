@@ -492,6 +492,8 @@ Batch A 不要求用户提供截图。
 
 ## 9.1 Canonical 回归 case
 
+执行计划：[V2-BatchF-Canonical回归硬化计划.md](./V2-BatchF-Canonical回归硬化计划.md)
+
 每类机制先用一个 canonical case 证明语义，不用英雄数量堆覆盖：
 
 1. 同刻 buff 失效：攻速 buff 在下一次普攻时刻恰好结束，验证同时间点优先级。
