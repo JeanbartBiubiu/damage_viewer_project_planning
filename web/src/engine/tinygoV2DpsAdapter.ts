@@ -1,19 +1,43 @@
 import type { GameDataBundle, Hero, Item, JsonObject, Skill, TypeDefinition, TypeRelation } from '../types/api';
 import type { TinyGoV2AttributeDefinition, TinyGoV2EngineBundle } from './tinygoV2BundleAdapter';
 
-export const V2_DPS_CASE_ID = 'V2-BatchD-item-passives-001';
+export const V2_DPS_CASE_ID = 'V2-BatchE-1-single-hero-multicurve-001';
 export const V2_DPS_TARGET_DUMMY_TYPE_NAME = 'target_dummy';
 const V2_DPS_BASIC_ATTACK_ACTION_ID = 'basic_attack';
 const V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID = 62002;
 const V2_DPS_ADC_COMPLETED_ITEM_TYPE_NAME = 'adc_completed_item';
+const V2_DPS_DEFAULT_HERO_LEVEL = 11;
+const V2_DPS_PASSIVE_LEVEL_EFFECT_FIELDS = ['everyN'] as const;
+const V2_DPS_PASSIVE_OPERATION_LEVEL_FIELDS = [
+  'amount',
+  'amountPerStack',
+  'targetCurrentHpRatio',
+  'targetMaxHpRatio',
+  'targetMissingHpRatio',
+  'targetMissingHpAmp',
+  'attackerAttrRatio',
+  'minAmount',
+  'value'
+] as const;
+
+export type V2DpsCurveSelection = {
+  curveId: string;
+  label: string;
+  heroLevel: number;
+  skillLevels: Record<string, number>;
+  equipmentItemIds: string[];
+  enabledPassiveEffectIds: string[];
+  enabledScenarioStateIds: string[];
+  runeStatAdjustments: Record<string, number>;
+};
 
 export type V2DpsSelection = {
   attackerHeroId: string;
   targetActorId: string;
   durationMs: number;
-  equipmentItemIds: string[];
-  enabledPassiveEffectIds: string[];
-  enabledScenarioStateIds: string[];
+  attackSpeedCap: 3.0;
+  critPolicy: 'expected';
+  curves: V2DpsCurveSelection[];
 };
 
 export type V2DpsActorOption = {
@@ -222,6 +246,8 @@ export type V2DpsCurveResult = {
   itemPassiveTriggers: unknown[];
   externalPassiveTriggers: unknown[];
   effectBreakdown: Array<{ timeMs?: number; source?: string; kind?: string; amount?: number; message?: string }>;
+  critPolicy: 'expected';
+  seed: number;
   blockedReasons: string[];
   selection: V2DpsCurveRunSpec['selection'];
   resolvedSnapshot: V2DpsCurveRunSpec['resolvedSnapshot'];
@@ -291,9 +317,44 @@ export function createDefaultV2DpsSelection(bundle: GameDataBundle): V2DpsSelect
     attackerHeroId,
     targetActorId,
     durationMs: 10000,
-    equipmentItemIds: [],
-    enabledPassiveEffectIds: defaultPassiveIdsForHero(attackerHeroId),
-    enabledScenarioStateIds: defaultScenarioIdsForHero(attackerHeroId)
+    attackSpeedCap: 3.0,
+    critPolicy: 'expected',
+    curves: createDefaultV2DpsCurveSelections(attackerHeroId, bundle)
+  };
+}
+
+export function createDefaultV2DpsCurveSelections(attackerHeroId: string, bundle?: GameDataBundle): V2DpsCurveSelection[] {
+  const passiveIds = defaultPassiveIdsForHero(attackerHeroId);
+  const scenarioIds = defaultScenarioIdsForHero(attackerHeroId);
+  const heroKey = normalizeHeroKey(attackerHeroId) || 'hero';
+  const noItems: string[] = [];
+  const bladeKraken = ['3153', '6672'];
+  const bladeKrakenGuinsoo = ['3153', '6672', '3124'];
+  return [
+    createV2DpsCurveSelection(`${heroKey}-no-items`, formatDefaultCurveLabel(bundle, noItems), noItems, attackerHeroId, passiveIds, scenarioIds),
+    createV2DpsCurveSelection(`${heroKey}-3153`, formatDefaultCurveLabel(bundle, ['3153']), ['3153'], attackerHeroId, passiveIds, scenarioIds),
+    createV2DpsCurveSelection(`${heroKey}-3153-6672`, formatDefaultCurveLabel(bundle, bladeKraken), bladeKraken, attackerHeroId, passiveIds, scenarioIds),
+    createV2DpsCurveSelection(`${heroKey}-3153-6672-3124`, formatDefaultCurveLabel(bundle, bladeKrakenGuinsoo), bladeKrakenGuinsoo, attackerHeroId, passiveIds, scenarioIds)
+  ];
+}
+
+export function createV2DpsCurveSelection(
+  curveId: string,
+  label: string,
+  equipmentItemIds: string[],
+  attackerHeroId: string,
+  enabledPassiveEffectIds = defaultPassiveIdsForHero(attackerHeroId),
+  enabledScenarioStateIds = defaultScenarioIdsForHero(attackerHeroId)
+): V2DpsCurveSelection {
+  return {
+    curveId,
+    label,
+    heroLevel: V2_DPS_DEFAULT_HERO_LEVEL,
+    skillLevels: createDefaultSkillLevels(),
+    equipmentItemIds,
+    enabledPassiveEffectIds,
+    enabledScenarioStateIds,
+    runeStatAdjustments: {}
   };
 }
 
@@ -383,36 +444,20 @@ export function prepareV2DpsInput(
   const attrDefinitions = normalizeAttributeDefinitions(bundle.attributeDefinitions);
   const attackerHero = bundle.heroes.find((hero) => hero.heroId === selection.attackerHeroId);
   const targetHero = bundle.heroes.find((hero) => hero.heroId === selection.targetActorId);
-  const attackerSnapshot = attackerHero
-    ? buildActorSnapshot(bundle, attrDefinitions, attackerHero, 1)
-    : emptyActorSnapshot(selection.attackerHeroId);
   const targetSnapshot = targetHero
     ? buildActorSnapshot(bundle, attrDefinitions, targetHero, 1)
     : emptyActorSnapshot(selection.targetActorId);
   const targetTypeNames = targetHero ? resolveHeroTypeNames(bundle, targetHero.heroId) : [];
   const targetType = targetTypeNames.includes(V2_DPS_TARGET_DUMMY_TYPE_NAME) ? V2_DPS_TARGET_DUMMY_TYPE_NAME : targetTypeNames[0] ?? '';
-  const selectedScenarioIds = normalizeStringList(selection.enabledScenarioStateIds);
-  const selectedEquipmentItemIds = normalizeStringList(selection.equipmentItemIds);
-  const equipmentStats = resolveEquipmentStats(bundle, selectedEquipmentItemIds);
-  const selectedPassiveIds = normalizeStringList([
-    ...selection.enabledPassiveEffectIds,
-    ...passiveIdsRequiredByScenarioIds(selection.attackerHeroId, selectedScenarioIds)
-  ]);
-  const selectedItemPassiveIds = itemPassiveIdsForEquipment(bundle, selectedEquipmentItemIds);
-  const selectedEnabledPassiveIds = normalizeStringList([...selectedPassiveIds, ...selectedItemPassiveIds]);
-  const resolvedHeroPassiveEffects = resolveDpsPassiveEffects(bundle, selection.attackerHeroId, selectedPassiveIds);
-  const resolvedItemPassiveEffects = resolveDpsItemPassiveEffects(bundle, selectedEquipmentItemIds, selectedItemPassiveIds);
-  const resolvedPassiveEffects = [...resolvedHeroPassiveEffects, ...resolvedItemPassiveEffects];
-  const resolvedScenarioStates = resolveDpsScenarioStates(bundle, selection.attackerHeroId, selectedScenarioIds);
   const simulationRules: V2DpsRunInput['simulationRules'] = {
     durationMs: selection.durationMs,
     warmupMs: 0,
     sampleBy: 'none',
-    attackSpeedCap: 3.0,
+    attackSpeedCap: selection.attackSpeedCap,
     firstAttackAtMs: 0,
     eventWindowPolicy: 'timeMs < durationMs',
     dotTickIntervalMs: 1000,
-    critPolicy: 'expected',
+    critPolicy: selection.critPolicy,
     seed: 0,
     autoAttackPlan: {
       enabled: true,
@@ -422,61 +467,17 @@ export function prepareV2DpsInput(
     },
     maxEvents: 10000
   };
-  const baselineCurve: V2DpsCurveRunSpec = {
-    curveId: `${selection.attackerHeroId || 'missing_attacker'}-basic-aa`,
-    label: `${attackerHero?.name ?? (selection.attackerHeroId || 'missing attacker')} basic attack`,
-    selection: {
-      heroId: selection.attackerHeroId,
-      heroLevel: 1,
-      targetId: selection.targetActorId,
-      targetType,
-      skillLevels: {},
-      equipmentSet: selectedEquipmentItemIds,
-      enabledPassiveEffects: [],
-      scenarioStates: [],
-      critPolicy: 'expected'
-    },
-    resolvedSnapshot: {
-      attackerSnapshot,
-      targetSnapshot,
-      equipmentSet: selectedEquipmentItemIds,
-      equipmentStats,
-      enabledPassiveEffects: [],
-      passiveEffects: [],
-      externalPassiveEffects: [],
-      scenarioStates: [],
-      runeStatAdjustments: {}
-    }
-  };
-  const curves = [baselineCurve];
-  if (selectedEnabledPassiveIds.length > 0 || selectedScenarioIds.length > 0) {
-    curves.push({
-      curveId: `${selection.attackerHeroId || 'missing_attacker'}-selected-passives`,
-      label: `${attackerHero?.name ?? (selection.attackerHeroId || 'missing attacker')} selected passives`,
-      selection: {
-        heroId: selection.attackerHeroId,
-        heroLevel: 1,
-        targetId: selection.targetActorId,
-        targetType,
-        skillLevels: {},
-        equipmentSet: selectedEquipmentItemIds,
-        enabledPassiveEffects: selectedEnabledPassiveIds,
-        scenarioStates: selectedScenarioIds.map((stateId) => ({ stateId, activation: 'selected_in_page' })),
-        critPolicy: 'expected'
-      },
-      resolvedSnapshot: {
-        attackerSnapshot,
-        targetSnapshot,
-        equipmentSet: selectedEquipmentItemIds,
-        equipmentStats,
-        enabledPassiveEffects: selectedEnabledPassiveIds,
-        passiveEffects: resolvedPassiveEffects,
-        externalPassiveEffects: [],
-        scenarioStates: resolvedScenarioStates,
-        runeStatAdjustments: {}
-      }
-    });
-  }
+  const curves = selection.curves.map((curveSelection, index) => buildV2DpsCurveRunSpec({
+    bundle,
+    attrDefinitions,
+    attackerHero,
+    attackerHeroId: selection.attackerHeroId,
+    targetActorId: selection.targetActorId,
+    targetSnapshot,
+    targetType,
+    curveSelection,
+    index
+  }));
 
   return {
     engineBundle: createV2DpsInitBundle(),
@@ -488,6 +489,80 @@ export function prepareV2DpsInput(
       simulationRules,
       targetSnapshot,
       curves
+    }
+  };
+}
+
+type BuildCurveSpecArgs = {
+  bundle: GameDataBundle;
+  attrDefinitions: TinyGoV2AttributeDefinition[];
+  attackerHero: Hero | undefined;
+  attackerHeroId: string;
+  targetActorId: string;
+  targetSnapshot: V2DpsActorSnapshot;
+  targetType: string;
+  curveSelection: V2DpsCurveSelection;
+  index: number;
+};
+
+function buildV2DpsCurveRunSpec({
+  bundle,
+  attrDefinitions,
+  attackerHero,
+  attackerHeroId,
+  targetActorId,
+  targetSnapshot,
+  targetType,
+  curveSelection,
+  index
+}: BuildCurveSpecArgs): V2DpsCurveRunSpec {
+  const heroLevel = clamp(curveSelection.heroLevel, 1, 18);
+  const skillLevels = normalizeSkillLevels(curveSelection.skillLevels);
+  const attackerSnapshot = attackerHero
+    ? applyRuneStatAdjustments(
+      buildActorSnapshot(bundle, attrDefinitions, attackerHero, heroLevel),
+      curveSelection.runeStatAdjustments
+    )
+    : emptyActorSnapshot(attackerHeroId);
+  const selectedScenarioIds = normalizeStringList(curveSelection.enabledScenarioStateIds);
+  const selectedEquipmentItemIds = normalizeStringList(curveSelection.equipmentItemIds);
+  const equipment = resolveEquipmentSelection(bundle, selectedEquipmentItemIds);
+  const selectedPassiveIds = normalizeStringList([
+    ...curveSelection.enabledPassiveEffectIds,
+    ...passiveIdsRequiredByScenarioIds(attackerHeroId, selectedScenarioIds)
+  ]);
+  const selectedEnabledPassiveIds = normalizeStringList([...selectedPassiveIds, ...equipment.passiveIds]);
+  const resolvedHeroPassiveEffects = resolveDpsPassiveEffects(bundle, attackerHeroId, selectedPassiveIds, skillLevels);
+  const resolvedItemPassiveEffects = resolveDpsItemPassiveEffects(bundle, equipment.itemIds, equipment.passiveIds);
+  const resolvedPassiveEffects = [...resolvedHeroPassiveEffects, ...resolvedItemPassiveEffects];
+  const resolvedScenarioStates = resolveDpsScenarioStates(bundle, attackerHeroId, selectedScenarioIds);
+  const curveId = curveSelection.curveId.trim() || `${attackerHeroId || 'missing_attacker'}-curve-${index + 1}`;
+  const label = curveSelection.label.trim() || `Curve ${index + 1}`;
+
+  return {
+    curveId,
+    label,
+    selection: {
+      heroId: attackerHeroId,
+      heroLevel,
+      targetId: targetActorId,
+      targetType,
+      skillLevels,
+      equipmentSet: selectedEquipmentItemIds,
+      enabledPassiveEffects: selectedEnabledPassiveIds,
+      scenarioStates: selectedScenarioIds.map((stateId) => ({ stateId, activation: 'selected_in_page' })),
+      critPolicy: 'expected'
+    },
+    resolvedSnapshot: {
+      attackerSnapshot,
+      targetSnapshot,
+      equipmentSet: equipment.itemIds,
+      equipmentStats: equipment.stats,
+      enabledPassiveEffects: selectedEnabledPassiveIds,
+      passiveEffects: resolvedPassiveEffects,
+      externalPassiveEffects: [],
+      scenarioStates: resolvedScenarioStates,
+      runeStatAdjustments: normalizeNumberMap(curveSelection.runeStatAdjustments)
     }
   };
 }
@@ -593,6 +668,27 @@ function resolveEquipmentStats(bundle: GameDataBundle, itemIds: string[]): Recor
   return stats;
 }
 
+function resolveEquipmentSelection(bundle: GameDataBundle, itemIds: string[]): { itemIds: string[]; stats: Record<string, number>; passiveIds: string[] } {
+  const allowedIds = adcCompletedEquipmentIds(bundle);
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const resolvedItemIds = itemIds.filter((itemId) => allowedIds.has(itemId) && itemById.has(itemId));
+  return {
+    itemIds: resolvedItemIds,
+    stats: resolveEquipmentStats(bundle, resolvedItemIds),
+    passiveIds: itemPassiveIdsForEquipment(bundle, resolvedItemIds)
+  };
+}
+
+function formatDefaultCurveLabel(bundle: GameDataBundle | undefined, itemIds: string[]): string {
+  if (itemIds.length === 0) {
+    return '无装备';
+  }
+  const itemById = new Map((bundle?.items ?? []).map((item) => [item.itemId, item]));
+  return itemIds
+    .map((itemId) => itemById.get(itemId)?.name?.trim() || itemId)
+    .join(' + ');
+}
+
 function formatEquipmentStats(item: Item): string {
   if (!Array.isArray(item.statModifiers) || item.statModifiers.length === 0) {
     return 'no stats';
@@ -692,6 +788,34 @@ function resolveHeroStatsAtLevel(hero: Hero, level: number): Record<string, numb
   return hasArrayLevels ? result : baseStats;
 }
 
+function applyRuneStatAdjustments(snapshot: V2DpsActorSnapshot, adjustments: Record<string, number>): V2DpsActorSnapshot {
+  const normalized = normalizeNumberMap(adjustments);
+  if (Object.keys(normalized).length === 0) {
+    return snapshot;
+  }
+  const attributes = { ...snapshot.attributes };
+  for (const [attrKey, value] of Object.entries(normalized)) {
+    attributes[attrKey] = (attributes[attrKey] ?? 0) + value;
+  }
+  const maxHp = Math.max(readFirstNumber(attributes, ['hp', 'health', 'max_hp', 'max_health']) ?? snapshot.maxHp, 0);
+  return {
+    ...snapshot,
+    attributes,
+    currentHp: snapshot.currentHp > 0 ? snapshot.currentHp : maxHp,
+    maxHp
+  };
+}
+
+function createDefaultSkillLevels(): Record<string, number> {
+  return {
+    P: 1,
+    Q: 1,
+    W: 1,
+    E: 1,
+    R: 1
+  };
+}
+
 function defaultPassiveIdsForHero(heroId: string): string[] {
   return listV2DpsPassiveOptionsForHero(heroId)
     .filter((option) => option.defaultEnabled !== false)
@@ -714,13 +838,19 @@ function passiveIdsRequiredByScenarioIds(heroId: string, scenarioIds: string[]):
     .flatMap((option) => option.requiredSkillIds);
 }
 
-function resolveDpsPassiveEffects(bundle: GameDataBundle, heroId: string, passiveIds: string[]): V2DpsPassiveEffect[] {
+function resolveDpsPassiveEffects(
+  bundle: GameDataBundle,
+  heroId: string,
+  passiveIds: string[],
+  skillLevels: Record<string, number>
+): V2DpsPassiveEffect[] {
   const wanted = new Set(passiveIds);
   if (wanted.size === 0) {
     return [];
   }
   const heroSkillIds = new Set(listV2DpsPassiveOptionsForHero(heroId).flatMap((option) => option.requiredSkillIds));
   const effects: V2DpsPassiveEffect[] = [];
+  const blockedIds = new Set<string>();
   for (const skill of bundle.skills) {
     if (!skillBelongsToHero(skill, heroId) && !heroSkillIds.has(skill.skillId)) {
       continue;
@@ -728,11 +858,26 @@ function resolveDpsPassiveEffects(bundle: GameDataBundle, heroId: string, passiv
     for (const effect of readDpsPassiveEffects(skill)) {
       const ids = [effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
       if (ids.some((id) => wanted.has(id))) {
-        effects.push(effect);
+        const projected = resolveDpsPassiveEffectBySkillLevel(effect, skill, skillLevels);
+        if (projected) {
+          effects.push(projected);
+        } else {
+          for (const id of ids) {
+            if (wanted.has(id)) {
+              blockedIds.add(id);
+            }
+          }
+        }
       }
     }
   }
-  return effects;
+  if (blockedIds.size === 0) {
+    return effects;
+  }
+  return effects.filter((effect) => {
+    const ids = [effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
+    return ids.every((id) => !blockedIds.has(id));
+  });
 }
 
 function itemPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[]): string[] {
@@ -810,6 +955,259 @@ function readDpsPassiveEffects(skill: Skill): V2DpsPassiveEffect[] {
   return values.filter(isObjectRecord).map((value) => value as V2DpsPassiveEffect);
 }
 
+function resolveDpsPassiveEffectBySkillLevel(
+  effect: V2DpsPassiveEffect,
+  skill: Skill,
+  skillLevels: Record<string, number>
+): V2DpsPassiveEffect | null {
+  const skillLevel = skillLevelForDpsSkill(skill, skillLevels);
+  const params = skill.params as JsonObject | undefined;
+  const effectRecord = effect as Record<string, unknown>;
+  const nextEffect: V2DpsPassiveEffect = { ...effect };
+  const nextEffectRecord = nextEffect as Record<string, unknown>;
+
+  for (const field of V2_DPS_PASSIVE_LEVEL_EFFECT_FIELDS) {
+    const resolved = resolveDpsLevelNumber({
+      skill,
+      skillLevel,
+      params,
+      field,
+      rawValue: effectRecord[field]
+    });
+    if (resolved.missingLevelTable) {
+      return null;
+    }
+    if (resolved.value !== null) {
+      nextEffectRecord[field] = resolved.value;
+    }
+  }
+
+  if (Array.isArray(effect.operations)) {
+    nextEffect.operations = effect.operations.map((operation) => {
+      const operationRecord = operation as Record<string, unknown>;
+      const nextOperation: V2DpsPassiveOperation = { ...operation };
+      const nextOperationRecord = nextOperation as Record<string, unknown>;
+      for (const field of V2_DPS_PASSIVE_OPERATION_LEVEL_FIELDS) {
+        const resolved = resolveDpsLevelNumber({
+          skill,
+          skillLevel,
+          params,
+          field,
+          operation,
+          rawValue: operationRecord[field]
+        });
+        if (resolved.missingLevelTable) {
+          return null;
+        }
+        if (resolved.value !== null) {
+          nextOperationRecord[field] = resolved.value;
+        }
+      }
+      return nextOperation;
+    }).filter((operation): operation is V2DpsPassiveOperation => operation !== null);
+    if (nextEffect.operations.length !== effect.operations.length) {
+      return null;
+    }
+  }
+
+  return nextEffect;
+}
+
+type LevelNumberResolution = {
+  value: number | null;
+  missingLevelTable: boolean;
+};
+
+type ResolveDpsLevelNumberArgs = {
+  skill: Skill;
+  skillLevel: number;
+  params: JsonObject | undefined;
+  field: string;
+  operation?: V2DpsPassiveOperation;
+  rawValue: unknown;
+};
+
+function resolveDpsLevelNumber({
+  skill,
+  skillLevel,
+  params,
+  field,
+  operation,
+  rawValue
+}: ResolveDpsLevelNumberArgs): LevelNumberResolution {
+  const explicitValue = resolveLevelTableNumber(rawValue, skillLevel);
+  if (explicitValue !== null) {
+    return { value: explicitValue, missingLevelTable: false };
+  }
+
+  const paramValue = resolveParamLevelNumber(params, candidateParamKeysForDpsField(field, operation), skillLevel);
+  if (paramValue !== null) {
+    return { value: paramValue, missingLevelTable: false };
+  }
+
+  const scalarValue = resolveScalarNumber(rawValue);
+  const paramScalarValue = resolveParamScalarNumber(params, candidateParamKeysForDpsField(field, operation));
+  const resolvedScalarValue = scalarValue ?? paramScalarValue;
+  if (resolvedScalarValue !== null && requiresBundleLevelTable(skill, field, skillLevel)) {
+    return { value: null, missingLevelTable: true };
+  }
+  return { value: resolvedScalarValue, missingLevelTable: false };
+}
+
+function resolveParamLevelNumber(params: JsonObject | undefined, keys: string[], skillLevel: number): number | null {
+  if (!params || keys.length === 0) {
+    return null;
+  }
+  const vars = isObjectRecord(params.vars) ? params.vars : undefined;
+  for (const key of keys) {
+    const direct = resolveLevelTableNumber(params[key], skillLevel);
+    if (direct !== null) {
+      return direct;
+    }
+    const fromVars = vars ? resolveLevelTableNumber(vars[key], skillLevel) : null;
+    if (fromVars !== null) {
+      return fromVars;
+    }
+  }
+  return null;
+}
+
+function resolveParamScalarNumber(params: JsonObject | undefined, keys: string[]): number | null {
+  if (!params || keys.length === 0) {
+    return null;
+  }
+  const vars = isObjectRecord(params.vars) ? params.vars : undefined;
+  for (const key of keys) {
+    const direct = resolveScalarNumber(params[key]);
+    if (direct !== null) {
+      return direct;
+    }
+    const fromVars = vars ? resolveScalarNumber(vars[key]) : null;
+    if (fromVars !== null) {
+      return fromVars;
+    }
+  }
+  return null;
+}
+
+function resolveLevelTableNumber(value: unknown, skillLevel: number): number | null {
+  if (Array.isArray(value)) {
+    return readLevelArrayNumber(value, skillLevel);
+  }
+  if (!isObjectRecord(value)) {
+    return null;
+  }
+
+  const kind = typeof value.kind === 'string' ? value.kind : '';
+  if (kind === 'table') {
+    return readLevelArrayNumber(value.values, skillLevel);
+  }
+
+  for (const key of ['values', 'skillLevels', 'levels', 'levelValues', 'rankValues']) {
+    const resolved = readLevelArrayNumber(value[key], skillLevel);
+    if (resolved !== null) {
+      return resolved;
+    }
+  }
+
+  for (const key of ['bySkillLevel', 'valuesByLevel', 'valueByLevel']) {
+    const resolved = readLevelMapNumber(value[key], skillLevel);
+    if (resolved !== null) {
+      return resolved;
+    }
+  }
+
+  return readLevelMapNumber(value, skillLevel);
+}
+
+function resolveScalarNumber(value: unknown): number | null {
+  if (isObjectRecord(value) && value.kind === 'const') {
+    return toFiniteNumber(value.value);
+  }
+  return toFiniteNumber(value);
+}
+
+function readLevelArrayNumber(value: unknown, skillLevel: number): number | null {
+  if (!Array.isArray(value) || value.length === 0) {
+    return null;
+  }
+  const index = clamp(skillLevel, 1, value.length) - 1;
+  return toFiniteNumber(value[index]);
+}
+
+function readLevelMapNumber(value: unknown, skillLevel: number): number | null {
+  if (!isObjectRecord(value)) {
+    return null;
+  }
+  const exact = toFiniteNumber(value[String(skillLevel)]);
+  if (exact !== null) {
+    return exact;
+  }
+  const oneBasedEntries = Object.entries(value)
+    .map(([key, entry]) => [Number(key), entry] as const)
+    .filter(([key]) => Number.isInteger(key) && key >= 1)
+    .sort((left, right) => left[0] - right[0]);
+  if (oneBasedEntries.length === 0) {
+    return null;
+  }
+  const boundedIndex = clamp(skillLevel, oneBasedEntries[0][0], oneBasedEntries[oneBasedEntries.length - 1][0]);
+  return toFiniteNumber(oneBasedEntries.find(([key]) => key === boundedIndex)?.[1]);
+}
+
+function candidateParamKeysForDpsField(field: string, operation: V2DpsPassiveOperation | undefined): string[] {
+  const source = operation?.source ?? '';
+  if (field === 'targetMaxHpRatio') {
+    return ['targetMaxHpRatio', 'maxHealthRatio', 'maxHealthDamage', 'targetMaxHealthRatio'];
+  }
+  if (field === 'minAmount') {
+    return ['minAmount', 'minDamage', 'damageFloor'];
+  }
+  if (field === 'amount') {
+    if (source.includes('dot')) {
+      return ['amount', 'dotMagicDamagePerTick', 'tickDamage', 'dotDamagePerTick'];
+    }
+    return ['amount', 'onHitMagicDamage', 'onHitDamage', 'baseDamage'];
+  }
+  if (field === 'amountPerStack') {
+    return ['amountPerStack', 'trueDamagePerStackPerTick', 'onHitDamagePerStack', 'damagePerStack'];
+  }
+  if (field === 'value' && operation?.kind === 'stat_modifier') {
+    return ['value', 'attackSpeedPercent', 'attackSpeedRatio'];
+  }
+  if (field === 'durationMs' && source.includes('dot')) {
+    return ['durationMs', 'dotDurationMs'];
+  }
+  return [field];
+}
+
+function skillLevelForDpsSkill(skill: Skill, skillLevels: Record<string, number>): number {
+  const skillKey = normalizeSkillKey(skill.skillKey);
+  if (!skillKey) {
+    return 1;
+  }
+  const defaults = createDefaultSkillLevels();
+  return clamp(toNumber(skillLevels[skillKey], defaults[skillKey] ?? 1), skillKey === 'P' ? 0 : 1, skillKey === 'P' ? 1 : 5);
+}
+
+function normalizeSkillKey(skillKey: string | undefined): string {
+  const normalized = (skillKey ?? '').trim().toUpperCase();
+  if (normalized === 'PASSIVE') {
+    return 'P';
+  }
+  return ['P', 'Q', 'W', 'E', 'R'].includes(normalized) ? normalized : '';
+}
+
+function requiresBundleLevelTable(skill: Skill, field: string, skillLevel: number): boolean {
+  if (field === 'everyN') {
+    return false;
+  }
+  if (skillLevel <= 1) {
+    return false;
+  }
+  const skillKey = normalizeSkillKey(skill.skillKey);
+  return skillKey === 'Q' || skillKey === 'W' || skillKey === 'E' || skillKey === 'R';
+}
+
 function readDpsScenarioStates(skill: Skill): V2DpsScenarioState[] {
   const mechanicsConfig = skill.mechanicsConfig as JsonObject | undefined;
   const raw = mechanicsConfig?.dpsScenarioStates ?? mechanicsConfig?.scenarioStates;
@@ -856,6 +1254,31 @@ function addNumberMap(base: Record<string, number>, source: Record<string, unkno
   return result;
 }
 
+function normalizeSkillLevels(source: Record<string, number> | undefined): Record<string, number> {
+  const defaults = createDefaultSkillLevels();
+  const sourceRecord = source ?? {};
+  const result: Record<string, number> = {};
+  for (const key of ['P', 'Q', 'W', 'E', 'R']) {
+    result[key] = clamp(toNumber(sourceRecord[key], defaults[key] ?? 1), key === 'P' ? 0 : 1, key === 'P' ? 1 : 5);
+  }
+  return result;
+}
+
+function normalizeNumberMap(source: Record<string, number> | undefined): Record<string, number> {
+  if (!source) {
+    return {};
+  }
+  const result: Record<string, number> = {};
+  for (const [key, value] of Object.entries(source)) {
+    const attrKey = key.trim();
+    const numericValue = toNumber(value, Number.NaN);
+    if (attrKey && Number.isFinite(numericValue) && numericValue !== 0) {
+      result[attrKey] = numericValue;
+    }
+  }
+  return result;
+}
+
 function toNumberMap(source: Record<string, unknown> | undefined): Record<string, number> {
   if (!source) {
     return {};
@@ -879,6 +1302,17 @@ function toNumber(value: unknown, fallback = 0): number {
   }
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function toFiniteNumber(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
 }
 
 function formatCompactNumber(value: number): string {
