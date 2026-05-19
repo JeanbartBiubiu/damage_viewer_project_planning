@@ -8,8 +8,11 @@ import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import {
   createDefaultV2DpsCurveSelections,
+  createDefaultV2DpsMultiHeroSelection,
   createDefaultV2DpsSelection,
+  createV2DpsMultiHeroCurveSelection,
   createV2DpsCurveSelection,
+  formatV2DpsMultiHeroCurveLabel,
   getDefaultV2DpsPassiveIdsForHero,
   getDefaultV2DpsScenarioIdsForHero,
   listV2DpsAttackers,
@@ -44,6 +47,12 @@ type WasmValidationV2DpsPageProps = {
   selectedGameId: string | null;
   selectedGameName: string;
   externalRefreshSeed: number;
+};
+
+type V2DpsPageMode = 'singleHero' | 'multiHero';
+
+type WasmValidationV2DpsWorkbenchProps = WasmValidationV2DpsPageProps & {
+  mode: V2DpsPageMode;
 };
 
 type DecodedFrame = {
@@ -83,12 +92,22 @@ const frameKindLabel: Record<number, string> = {
   [ERROR_FRAME_KIND]: 'error'
 };
 
-export function WasmValidationV2DpsPage({
+export function WasmValidationV2DpsPage(props: WasmValidationV2DpsPageProps) {
+  return <WasmValidationV2DpsWorkbench {...props} mode="singleHero" />;
+}
+
+export function WasmValidationV2DpsMultiHeroPage(props: WasmValidationV2DpsPageProps) {
+  return <WasmValidationV2DpsWorkbench {...props} mode="multiHero" />;
+}
+
+function WasmValidationV2DpsWorkbench({
   apiBaseUrl,
   selectedGameId,
   selectedGameName,
-  externalRefreshSeed
-}: WasmValidationV2DpsPageProps) {
+  externalRefreshSeed,
+  mode
+}: WasmValidationV2DpsWorkbenchProps) {
+  const isMultiHero = mode === 'multiHero';
   const [bundleStatus, setBundleStatus] = useState<LoadState>('idle');
   const [runStatus, setRunStatus] = useState<LoadState>('idle');
   const [bundleError, setBundleError] = useState<string | null>(null);
@@ -141,7 +160,7 @@ export function WasmValidationV2DpsPage({
         if (cancelled) {
           return;
         }
-        const defaultSelection = createDefaultV2DpsSelection(snapshot.bundle);
+        const defaultSelection = createDefaultSelectionForMode(snapshot.bundle, mode);
         setBundle(snapshot.bundle);
         setCurrentVersion(snapshot.currentVersion);
         setCacheStatus(snapshot.cacheStatus);
@@ -169,7 +188,7 @@ export function WasmValidationV2DpsPage({
     return () => {
       cancelled = true;
     };
-  }, [apiBaseUrl, externalRefreshSeed, resetRunArtifacts, selectedGameId]);
+  }, [apiBaseUrl, externalRefreshSeed, mode, resetRunArtifacts, selectedGameId]);
 
   const attackerOptions = useMemo(() => (bundle ? listV2DpsAttackers(bundle) : []), [bundle]);
   const targetGroups = useMemo(() => (bundle ? listV2DpsTargetGroups(bundle) : []), [bundle]);
@@ -181,8 +200,31 @@ export function WasmValidationV2DpsPage({
     }
     return labels;
   }, [equipmentOptions]);
-  const passiveOptions = useMemo(() => listV2DpsPassiveOptionsForHero(selection?.attackerHeroId ?? ''), [selection?.attackerHeroId]);
-  const scenarioOptions = useMemo(() => listV2DpsScenarioOptionsForHero(selection?.attackerHeroId ?? ''), [selection?.attackerHeroId]);
+  const heroLabelById = useMemo(() => {
+    const labels = new Map<string, string>();
+    for (const option of attackerOptions) {
+      labels.set(option.actorId, stripActorIdPrefix(option.label));
+    }
+    return labels;
+  }, [attackerOptions]);
+  const multiHeroGlobalEquipmentItemIds = selection?.curves[0]?.equipmentItemIds ?? [];
+  const multiHeroGlobalRuneDraft = selection?.curves[0]
+    ? runeDraftByCurveId[selection.curves[0].curveId] ?? formatRuneAdjustments(selection.curves[0].runeStatAdjustments)
+    : '';
+  const multiHeroGlobalScenarioStateIds = selection?.curves[0]?.enabledScenarioStateIds ?? [];
+  const multiHeroScenarioOptions = useMemo(() => {
+    const options = new Map<string, { id: string; label: string }>();
+    for (const curve of selection?.curves ?? []) {
+      const heroId = selection ? getCurveHeroId(selection, curve) : curve.attackerHeroId ?? '';
+      const heroLabel = heroLabelById.get(heroId) ?? heroId;
+      for (const option of listV2DpsScenarioOptionsForHero(heroId)) {
+        if (!options.has(option.id)) {
+          options.set(option.id, { id: option.id, label: `${heroLabel} / ${option.label}` });
+        }
+      }
+    }
+    return Array.from(options.values());
+  }, [heroLabelById, selection]);
   const curveResults = wasmOutput?.curveResults ?? [];
   const curveLabelById = useMemo(() => {
     const labels = new Map<string, string>();
@@ -306,7 +348,7 @@ export function WasmValidationV2DpsPage({
     setActiveCurveId(null);
     try {
       const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, selectedGameId);
-      const defaultSelection = createDefaultV2DpsSelection(snapshot.bundle);
+      const defaultSelection = createDefaultSelectionForMode(snapshot.bundle, mode);
       setBundle(snapshot.bundle);
       setCurrentVersion(snapshot.currentVersion);
       setCacheStatus(snapshot.cacheStatus);
@@ -319,7 +361,7 @@ export function WasmValidationV2DpsPage({
       setBundleStatus('error');
       setBundleError(getErrorMessage(error));
     }
-  }, [apiBaseUrl, resetRunArtifacts, selectedGameId]);
+  }, [apiBaseUrl, mode, resetRunArtifacts, selectedGameId]);
 
   const handleRun = useCallback(async () => {
     if (!bundle || !currentVersion || !selection) {
@@ -381,6 +423,26 @@ export function WasmValidationV2DpsPage({
 
   const handleAddCurve = useCallback(() => {
     updateSelection((current) => {
+      if (isMultiHero) {
+        const existingHeroIds = new Set(current.curves.map((curve) => getCurveHeroId(current, curve)));
+        const nextHeroId = attackerOptions.find((option) => !existingHeroIds.has(option.actorId))?.actorId
+          ?? attackerOptions[0]?.actorId
+          ?? current.attackerHeroId;
+        const equipmentItemIds = current.curves[0]?.equipmentItemIds ?? [];
+        const enabledScenarioStateIds = current.curves[0]?.enabledScenarioStateIds ?? [];
+        const runeStatAdjustments = current.curves[0]?.runeStatAdjustments ?? {};
+        const curve = createV2DpsMultiHeroCurveSelection(
+          bundle ?? emptyGameDataBundle(),
+          nextHeroId,
+          equipmentItemIds,
+          current.curves.length,
+          enabledScenarioStateIds,
+          runeStatAdjustments
+        );
+        setActiveCurveId(curve.curveId);
+        setExpandedCurveIds((currentExpanded) => [...currentExpanded, curve.curveId]);
+        return { ...current, curves: [...current.curves, curve] };
+      }
       const { curveId, label } = createUniqueCurveIdentity(current.attackerHeroId, current.curves);
       const curve = createV2DpsCurveSelection(
         curveId,
@@ -394,7 +456,72 @@ export function WasmValidationV2DpsPage({
       setExpandedCurveIds((currentExpanded) => [...currentExpanded, curve.curveId]);
       return { ...current, curves: [...current.curves, curve] };
     });
+  }, [attackerOptions, bundle, isMultiHero, updateSelection]);
+
+  const updateMultiHeroGlobalEquipment = useCallback((equipmentItemIds: string[]) => {
+    updateSelection((current) => ({
+      ...current,
+      curves: current.curves.map((curve) => ({
+        ...curve,
+        equipmentItemIds,
+        label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, getCurveHeroId(current, curve), equipmentItemIds) : curve.label
+      }))
+    }));
+  }, [bundle, updateSelection]);
+
+  const updateMultiHeroGlobalScenarioStates = useCallback((enabledScenarioStateIds: string[]) => {
+    updateSelection((current) => ({
+      ...current,
+      curves: current.curves.map((curve) => ({
+        ...curve,
+        enabledScenarioStateIds
+      }))
+    }));
   }, [updateSelection]);
+
+  const handleMultiHeroRuneDraftChange = useCallback((value: string) => {
+    setRuneDraftByCurveId((current) => {
+      const next = { ...current };
+      for (const curve of selection?.curves ?? []) {
+        next[curve.curveId] = value;
+      }
+      return next;
+    });
+    resetRunArtifacts();
+  }, [resetRunArtifacts, selection?.curves]);
+
+  const handleMultiHeroRuneDraftBlur = useCallback(() => {
+    const parsed = parseRuneAdjustments(multiHeroGlobalRuneDraft);
+    const formatted = formatRuneAdjustments(parsed);
+    setRuneDraftByCurveId((current) => {
+      const next = { ...current };
+      for (const curve of selection?.curves ?? []) {
+        next[curve.curveId] = formatted;
+      }
+      return next;
+    });
+    updateSelection((current) => ({
+      ...current,
+      curves: current.curves.map((curve) => ({
+        ...curve,
+        runeStatAdjustments: parsed
+      }))
+    }));
+  }, [multiHeroGlobalRuneDraft, selection?.curves, updateSelection]);
+
+  const updateMultiHeroCurveHero = useCallback((curveId: string, attackerHeroId: string) => {
+    updateSelection((current) => ({
+      ...current,
+      attackerHeroId: current.curves[0]?.curveId === curveId ? attackerHeroId : current.attackerHeroId,
+      curves: current.curves.map((curve) => curve.curveId === curveId ? {
+        ...curve,
+        attackerHeroId,
+        label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, attackerHeroId, curve.equipmentItemIds) : curve.label,
+        enabledPassiveEffectIds: getDefaultV2DpsPassiveIdsForHero(attackerHeroId),
+        enabledScenarioStateIds: current.curves[0]?.enabledScenarioStateIds ?? []
+      } : curve)
+    }));
+  }, [bundle, updateSelection]);
 
   const handleRuneDraftChange = useCallback((curveId: string, value: string) => {
     setRuneDraftByCurveId((current) => ({ ...current, [curveId]: value }));
@@ -417,10 +544,14 @@ export function WasmValidationV2DpsPage({
         return current;
       }
       const nextCurves = current.curves.filter((curve) => curve.curveId !== curveId);
-      return { ...current, curves: nextCurves };
+      return {
+        ...current,
+        attackerHeroId: isMultiHero ? getCurveHeroId(current, nextCurves[0]) : current.attackerHeroId,
+        curves: nextCurves
+      };
     });
     setExpandedCurveIds((current) => current.filter((expandedCurveId) => expandedCurveId !== curveId));
-  }, [updateSelection]);
+  }, [isMultiHero, updateSelection]);
 
   const handleToggleCurveExpanded = useCallback((curveId: string) => {
     setActiveCurveId(curveId);
@@ -541,11 +672,17 @@ export function WasmValidationV2DpsPage({
     }
   ];
 
+  const displayCaseId = selection?.caseId ?? V2_DPS_CASE_ID;
+  const pageTitle = isMultiHero ? 'V2 DPS 多英雄同装备' : 'V2 DPS 单英雄多曲线';
+  const pageKicker = isMultiHero ? 'single_attacker_dps / Batch E-B' : 'single_attacker_dps / Batch E-1';
+  const curvePanelTitle = isMultiHero ? '英雄行配置' : 'Curve 配置';
+  const curvePanelKicker = isMultiHero ? 'same equipment -> per-hero curves' : 'published bundle -> resolvedSnapshot';
+
   return (
     <div className="wasm-validation-page">
       <Panel
-        title="V2 DPS 单英雄多曲线"
-        kicker="single_attacker_dps / Batch E-1"
+        title={pageTitle}
+        kicker={pageKicker}
         actions={
           <Space wrap>
             <Tag color={bundleStatus === 'success' ? 'green' : bundleStatus === 'error' ? 'red' : 'gray'}>{bundleStatus}</Tag>
@@ -573,7 +710,7 @@ export function WasmValidationV2DpsPage({
             <MetricCard label="Version" value={currentVersion?.versionCode ?? 'N/A'} hint={cacheStatus ? `bundle cache ${cacheStatus}` : 'bundle'} />
           </Col>
           <Col span={6}>
-            <MetricCard label="Case" value={V2_DPS_CASE_ID} hint={`${selection?.curves.length ?? 0} curves`} />
+            <MetricCard label="Case" value={displayCaseId} hint={`${selection?.curves.length ?? 0} curves`} />
           </Col>
           <Col span={6}>
             <MetricCard label="Wasm" value={wasmSha256 ? wasmSha256.slice(0, 12) : formatLoadState(runStatus)} hint={WASM_ASSET_LABEL} />
@@ -582,34 +719,36 @@ export function WasmValidationV2DpsPage({
 
         <Form layout="vertical">
           <Row gutter={[16, 16]}>
-            <Col span={8}>
-              <Form.Item label="英雄">
-                <Select
-                  value={selection?.attackerHeroId ?? ''}
-                  showSearch
-                  filterOption={filterSelectOption}
-                  onChange={(value) => {
-                    const attackerHeroId = String(value);
-                    const curves = createDefaultV2DpsCurveSelections(attackerHeroId, bundle ?? undefined);
-                    setRuneDraftByCurveId(createRuneDrafts(curves));
-                    setExpandedCurveIds([]);
-                    updateSelection((current) => ({
-                      ...current,
-                      attackerHeroId,
-                      curves
-                    }));
-                    setActiveCurveId(curves[0]?.curveId ?? null);
-                  }}
-                  disabled={!selection}
-                >
-                  {attackerOptions.map((option) => (
-                    <Select.Option key={option.actorId} value={option.actorId}>
-                      {option.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
+            {!isMultiHero ? (
+              <Col span={8}>
+                <Form.Item label="英雄">
+                  <Select
+                    value={selection?.attackerHeroId ?? ''}
+                    showSearch
+                    filterOption={filterSelectOption}
+                    onChange={(value) => {
+                      const attackerHeroId = String(value);
+                      const curves = createDefaultV2DpsCurveSelections(attackerHeroId, bundle ?? undefined);
+                      setRuneDraftByCurveId(createRuneDrafts(curves));
+                      setExpandedCurveIds([]);
+                      updateSelection((current) => ({
+                        ...current,
+                        attackerHeroId,
+                        curves
+                      }));
+                      setActiveCurveId(curves[0]?.curveId ?? null);
+                    }}
+                    disabled={!selection}
+                  >
+                    {attackerOptions.map((option) => (
+                      <Select.Option key={option.actorId} value={option.actorId}>
+                        {option.label}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+            ) : null}
             <Col span={8}>
               <Form.Item label="目标 actor">
                 <Select
@@ -654,25 +793,79 @@ export function WasmValidationV2DpsPage({
               </Form.Item>
             </Col>
           </Row>
+          {isMultiHero ? (
+            <Row gutter={[16, 16]} className="v2-dps-global-row">
+              <Col span={10}>
+                <Form.Item label="全局装备">
+                  <Select
+                    mode="multiple"
+                    value={multiHeroGlobalEquipmentItemIds}
+                    showSearch
+                    filterOption={filterSelectOption}
+                    onChange={(value) => updateMultiHeroGlobalEquipment(normalizeSelectValues(value))}
+                    disabled={!selection || equipmentOptions.length === 0}
+                    placeholder="选择同一套装备"
+                  >
+                    {equipmentOptions.map((option) => (
+                      <Select.Option key={option.itemId} value={option.itemId}>
+                        {option.label} / {option.statsLabel}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col span={7}>
+                <Form.Item label="全局场景预设">
+                  <Select
+                    mode="multiple"
+                    value={multiHeroGlobalScenarioStateIds}
+                    showSearch
+                    filterOption={filterSelectOption}
+                    onChange={(value) => updateMultiHeroGlobalScenarioStates(normalizeSelectValues(value))}
+                    disabled={!selection || multiHeroScenarioOptions.length === 0}
+                    placeholder="可选；仅匹配对应英雄/装备来源"
+                  >
+                    {multiHeroScenarioOptions.map((option) => (
+                      <Select.Option key={option.id} value={option.id}>
+                        {option.label}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col span={7}>
+                <Form.Item label="符文/属性调整">
+                  <Input
+                    value={multiHeroGlobalRuneDraft}
+                    onChange={handleMultiHeroRuneDraftChange}
+                    onBlur={handleMultiHeroRuneDraftBlur}
+                    placeholder="ad=10, attack_speed=0.1"
+                    disabled={!selection}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          ) : null}
         </Form>
       </Panel>
 
       <Panel
-        title="Curve 配置"
-        kicker="published bundle -> resolvedSnapshot"
+        title={curvePanelTitle}
+        kicker={curvePanelKicker}
         actions={
           <Space wrap>
             <Button icon={<IconPlus />} onClick={handleAddCurve} disabled={!selection}>
-              添加 curve
+              {isMultiHero ? '添加英雄行' : '添加 curve'}
             </Button>
             <Button onClick={() => selection && updateSelection((current) => {
-              const curves = createDefaultV2DpsCurveSelections(current.attackerHeroId, bundle ?? undefined);
-              setRuneDraftByCurveId(createRuneDrafts(curves));
+              if (!bundle) {
+                return current;
+              }
+              const nextSelection = createDefaultSelectionForMode(bundle, mode);
+              setRuneDraftByCurveId(createRuneDrafts(nextSelection.curves));
               setExpandedCurveIds([]);
-              return {
-                ...current,
-                curves
-              };
+              setActiveCurveId(nextSelection.curves[0]?.curveId ?? null);
+              return nextSelection;
             })} disabled={!selection}>
               重置默认
             </Button>
@@ -685,6 +878,10 @@ export function WasmValidationV2DpsPage({
           <div className="v2-dps-curve-list">
             {selection.curves.map((curve) => {
               const isExpanded = expandedCurveIds.includes(curve.curveId);
+              const curveHeroId = getCurveHeroId(selection, curve);
+              const curveHeroLabel = heroLabelById.get(curveHeroId) ?? curveHeroId;
+              const curvePassiveOptions = listV2DpsPassiveOptionsForHero(curveHeroId);
+              const curveScenarioOptions = listV2DpsScenarioOptionsForHero(curveHeroId);
               const equipmentSummary = formatCurveEquipmentLabel(curve, equipmentLabelById);
               return (
                 <section
@@ -697,6 +894,7 @@ export function WasmValidationV2DpsPage({
                       <Typography.Text className="panel-kicker">{formatCurveLevelSummary(curve)}</Typography.Text>
                       <Typography.Title heading={5} className="v2-dps-curve-title">{curve.label || equipmentSummary}</Typography.Title>
                       <div className="v2-dps-curve-tags">
+                        {isMultiHero ? <Tag>{curveHeroLabel}</Tag> : null}
                         <Tag>{equipmentSummary}</Tag>
                         <Tag>技能 {formatSkillLevelSummary(curve.skillLevels)}</Tag>
                       </div>
@@ -720,10 +918,27 @@ export function WasmValidationV2DpsPage({
                   {isExpanded ? (
                     <Form layout="vertical">
                   <Row gutter={[12, 12]}>
-                    <Col span={6}>
-                      <Form.Item label="curve 名称">
-                        <Input value={curve.label} onChange={(value) => updateCurve(curve.curveId, { label: value })} />
-                      </Form.Item>
+                    <Col span={isMultiHero ? 8 : 6}>
+                      {isMultiHero ? (
+                        <Form.Item label="英雄">
+                          <Select
+                            value={curveHeroId}
+                            showSearch
+                            filterOption={filterSelectOption}
+                            onChange={(value) => updateMultiHeroCurveHero(curve.curveId, String(value))}
+                          >
+                            {attackerOptions.map((option) => (
+                              <Select.Option key={option.actorId} value={option.actorId}>
+                                {option.label}
+                              </Select.Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                      ) : (
+                        <Form.Item label="curve 名称">
+                          <Input value={curve.label} onChange={(value) => updateCurve(curve.curveId, { label: value })} />
+                        </Form.Item>
+                      )}
                     </Col>
                     <Col span={4}>
                       <Form.Item label="英雄等级">
@@ -735,7 +950,7 @@ export function WasmValidationV2DpsPage({
                         />
                       </Form.Item>
                     </Col>
-                    <Col span={14}>
+                    <Col span={isMultiHero ? 12 : 14}>
                       <Form.Item label="技能等级">
                         <Space wrap className="v2-dps-skill-levels">
                           {SKILL_KEYS.map((skillKey) => (
@@ -756,6 +971,7 @@ export function WasmValidationV2DpsPage({
                         </Space>
                       </Form.Item>
                     </Col>
+                    {!isMultiHero ? (
                     <Col span={24}>
                       <Form.Item label="装备">
                         <Select
@@ -775,16 +991,17 @@ export function WasmValidationV2DpsPage({
                         </Select>
                       </Form.Item>
                     </Col>
-                    <Col span={12}>
+                    ) : null}
+                    <Col span={isMultiHero ? 24 : 12}>
                       <Form.Item label="启用技能被动">
                         <Select
                           mode="multiple"
                           value={curve.enabledPassiveEffectIds}
                           onChange={(value) => updateCurve(curve.curveId, { enabledPassiveEffectIds: normalizeSelectValues(value) })}
-                          disabled={passiveOptions.length === 0}
+                          disabled={curvePassiveOptions.length === 0}
                           placeholder="当前英雄没有可选技能被动"
                         >
-                          {passiveOptions.map((option) => (
+                          {curvePassiveOptions.map((option) => (
                             <Select.Option key={option.id} value={option.id}>
                               {option.label}
                             </Select.Option>
@@ -792,16 +1009,17 @@ export function WasmValidationV2DpsPage({
                         </Select>
                       </Form.Item>
                     </Col>
+                    {!isMultiHero ? (
                     <Col span={12}>
                       <Form.Item label="场景预设">
                         <Select
                           mode="multiple"
                           value={curve.enabledScenarioStateIds}
                           onChange={(value) => updateCurve(curve.curveId, { enabledScenarioStateIds: normalizeSelectValues(value) })}
-                          disabled={scenarioOptions.length === 0}
+                          disabled={curveScenarioOptions.length === 0}
                           placeholder="无预设状态"
                         >
-                          {scenarioOptions.map((option) => (
+                          {curveScenarioOptions.map((option) => (
                             <Select.Option key={option.id} value={option.id}>
                               {option.label}
                             </Select.Option>
@@ -809,6 +1027,8 @@ export function WasmValidationV2DpsPage({
                         </Select>
                       </Form.Item>
                     </Col>
+                    ) : null}
+                    {!isMultiHero ? (
                     <Col span={24}>
                       <Form.Item label="符文/属性调整">
                         <Input
@@ -819,6 +1039,7 @@ export function WasmValidationV2DpsPage({
                         />
                       </Form.Item>
                     </Col>
+                    ) : null}
                   </Row>
                     </Form>
                   ) : null}
@@ -954,6 +1175,40 @@ function findDonePayload(frames: DecodedFrame[]): V2DpsOutput | null {
   return doneFrame ? doneFrame.payload as V2DpsOutput : null;
 }
 
+function createDefaultSelectionForMode(bundle: GameDataBundle, mode: V2DpsPageMode): V2DpsSelection {
+  return mode === 'multiHero'
+    ? createDefaultV2DpsMultiHeroSelection(bundle)
+    : createDefaultV2DpsSelection(bundle);
+}
+
+function getCurveHeroId(selection: V2DpsSelection, curve: V2DpsCurveSelection): string {
+  return curve.attackerHeroId ?? selection.attackerHeroId;
+}
+
+function stripActorIdPrefix(label: string): string {
+  return label.replace(/^hero_[^/]+\s*\/\s*/, '').trim() || label;
+}
+
+function emptyGameDataBundle(): GameDataBundle {
+  return {
+    meta: {
+      gameId: '',
+      versionCode: '',
+      generatedAt: '',
+      versionId: 0,
+      dataHash: ''
+    },
+    attributeDefinitions: [],
+    coefficientBuckets: [],
+    types: [],
+    typeRelations: [],
+    statusActionControlRules: [],
+    heroes: [],
+    skills: [],
+    items: []
+  };
+}
+
 function buildSummaryRows(results: V2DpsCurveResult[], curveLabelById: Map<string, string>): SummaryRow[] {
   return results.map((result) => ({
     key: result.curveId,
@@ -1047,6 +1302,7 @@ function buildExportSelection(preparedInput: V2DpsPreparedInput) {
     durationMs: preparedInput.runInput.simulationRules.durationMs,
     attackSpeedCap: preparedInput.runInput.simulationRules.attackSpeedCap,
     critPolicy: preparedInput.runInput.simulationRules.critPolicy,
+    equipmentSet: firstCurve?.selection.equipmentSet ?? [],
     curves: preparedInput.runInput.curves.map((curve) => ({
       curveId: curve.curveId,
       label: curve.label,
