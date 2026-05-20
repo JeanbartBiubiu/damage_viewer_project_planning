@@ -503,6 +503,12 @@ Batch A 不要求用户提供截图。
 5. 暴击策略：同输入分别跑 `expected` 与 `seeded_random`，验证导出字段可区分；涉及状态变化的 on-crit 不允许只用 expected。
 6. blocked：published bundle 缺少所需被动、装备效果、公式或标靶数据时，curve 输出 `blocked`，不得本地私造。
 
+## 9.2 Batch G 覆盖审计
+
+执行计划：[V2-BatchG-ADC被动覆盖审计与录入计划.md](./V2-BatchG-ADC被动覆盖审计与录入计划.md)
+
+Batch G 先审计 33 个 Marksman 英雄和 53 件 ADC 成装的 DPS 相关被动，按 `ready_to_encode`、`needs_runtime_extension`、`out_of_scope_for_single_target_dps`、`needs_manual_baseline`、`already_covered` 分级。只把当前 runtime 能准确表达的项录入 seed；其余进入机制 backlog，不做近似录入。
+
 ## 10. 验证命令
 
 具体命令由各 worktree 最近层 `AGENTS.md` 和 README 决定。默认验收链：
