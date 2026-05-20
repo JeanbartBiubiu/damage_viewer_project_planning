@@ -853,23 +853,67 @@ function emptyActorSnapshot(actorId: string): V2DpsActorSnapshot {
 function resolveHeroStatsAtLevel(hero: Hero, level: number): Record<string, number> {
   const baseStats = toNumberMap(hero.baseStats as Record<string, unknown> | undefined);
   const statsByLevel = hero.statsByLevel;
+  const result: Record<string, number> = { ...baseStats };
+  const explicitLevelAttrs = new Set<string>();
   if (!statsByLevel || typeof statsByLevel !== 'object') {
-    return baseStats;
+    return applyGrowthStatsAtLevel(result, baseStats, level, explicitLevelAttrs);
   }
   const levelEntry = statsByLevel[String(level)];
   if (levelEntry && typeof levelEntry === 'object' && !Array.isArray(levelEntry)) {
-    return addNumberMap(baseStats, levelEntry as Record<string, unknown>);
+    for (const [attrKey, value] of Object.entries(levelEntry as Record<string, unknown>)) {
+      result[attrKey] = (result[attrKey] ?? 0) + toNumber(value, 0);
+      explicitLevelAttrs.add(attrKey);
+    }
+    return applyGrowthStatsAtLevel(result, baseStats, level, explicitLevelAttrs);
   }
-  const result: Record<string, number> = { ...baseStats };
   let hasArrayLevels = false;
   for (const [attrKey, values] of Object.entries(statsByLevel)) {
     if (Array.isArray(values) && values.length > 0) {
       const index = clamp(level, 1, values.length) - 1;
       result[attrKey] = (result[attrKey] ?? 0) + toNumber(values[index], 0);
+      explicitLevelAttrs.add(attrKey);
       hasArrayLevels = true;
     }
   }
-  return hasArrayLevels ? result : baseStats;
+  return applyGrowthStatsAtLevel(hasArrayLevels ? result : { ...baseStats }, baseStats, level, explicitLevelAttrs);
+}
+
+function applyGrowthStatsAtLevel(
+  stats: Record<string, number>,
+  baseStats: Record<string, number>,
+  level: number,
+  explicitLevelAttrs: Set<string>
+): Record<string, number> {
+  const extraLevels = clamp(level, 1, 18) - 1;
+  if (extraLevels <= 0) {
+    return stats;
+  }
+  for (const [growthKey, growthValue] of Object.entries(stats)) {
+    const targetKey = growthTargetKey(growthKey);
+    if (!targetKey || explicitLevelAttrs.has(targetKey)) {
+      continue;
+    }
+    const baseValue = stats[targetKey] ?? baseStats[targetKey] ?? 0;
+    if (growthKey === 'attack_speed_growth') {
+      stats[targetKey] = baseValue * (1 + normalizeGrowthRatio(growthValue) * extraLevels);
+    } else {
+      stats[targetKey] = baseValue + growthValue * extraLevels;
+    }
+  }
+  return stats;
+}
+
+function growthTargetKey(growthKey: string): string | null {
+  const suffix = '_growth';
+  if (!growthKey.endsWith(suffix)) {
+    return null;
+  }
+  const targetKey = growthKey.slice(0, -suffix.length);
+  return targetKey || null;
+}
+
+function normalizeGrowthRatio(value: number): number {
+  return Math.abs(value) > 1 ? value / 100 : value;
 }
 
 function applyRuneStatAdjustments(snapshot: V2DpsActorSnapshot, adjustments: Record<string, number>): V2DpsActorSnapshot {
@@ -934,7 +978,6 @@ function resolveDpsPassiveEffects(
   }
   const heroSkillIds = new Set(listV2DpsPassiveOptionsForHero(heroId).flatMap((option) => option.requiredSkillIds));
   const effects: V2DpsPassiveEffect[] = [];
-  const blockedIds = new Set<string>();
   for (const skill of bundle.skills) {
     if (!skillBelongsToHero(skill, heroId) && !heroSkillIds.has(skill.skillId)) {
       continue;
@@ -946,22 +989,20 @@ function resolveDpsPassiveEffects(
         if (projected) {
           effects.push(projected);
         } else {
-          for (const id of ids) {
-            if (wanted.has(id)) {
-              blockedIds.add(id);
-            }
-          }
+          effects.push(createUnresolvedDpsPassiveEffect(effect));
         }
       }
     }
   }
-  if (blockedIds.size === 0) {
-    return effects;
-  }
-  return effects.filter((effect) => {
-    const ids = [effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
-    return ids.every((id) => !blockedIds.has(id));
-  });
+  return effects;
+}
+
+function createUnresolvedDpsPassiveEffect(effect: V2DpsPassiveEffect): V2DpsPassiveEffect {
+  return {
+    ...effect,
+    passiveId: effect.passiveId ?? effect.effectId ?? effect.sourceId,
+    operations: [{ kind: 'missing_level_table', source: 'dps_level_projection' }]
+  };
 }
 
 function itemPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[]): string[] {
@@ -1288,6 +1329,15 @@ function requiresBundleLevelTable(skill: Skill, field: string, skillLevel: numbe
   if (skillLevel <= 1) {
     return false;
   }
+  const mechanicsConfig = skill.mechanicsConfig as JsonObject | undefined;
+  const levelScaledFields = mechanicsConfig?.dpsLevelScaledFields ?? mechanicsConfig?.levelScaledFields;
+  if (Array.isArray(levelScaledFields)) {
+    return levelScaledFields.some((value) => String(value) === field);
+  }
+  const constantFields = mechanicsConfig?.dpsConstantFields ?? mechanicsConfig?.constantFields;
+  if (Array.isArray(constantFields) && constantFields.some((value) => String(value) === field)) {
+    return false;
+  }
   const skillKey = normalizeSkillKey(skill.skillKey);
   return skillKey === 'Q' || skillKey === 'W' || skillKey === 'E' || skillKey === 'R';
 }
@@ -1328,14 +1378,6 @@ function applyNumberMap(target: Record<string, number>, source: Record<string, n
   for (const [key, value] of Object.entries(source)) {
     target[key] = value;
   }
-}
-
-function addNumberMap(base: Record<string, number>, source: Record<string, unknown>): Record<string, number> {
-  const result: Record<string, number> = { ...base };
-  for (const [key, value] of Object.entries(source)) {
-    result[key] = (result[key] ?? 0) + toNumber(value, 0);
-  }
-  return result;
 }
 
 function normalizeSkillLevels(source: Record<string, number> | undefined): Record<string, number> {
