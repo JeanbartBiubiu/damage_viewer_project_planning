@@ -1,0 +1,100 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_g_adc_passives_001",
+  "source": {
+    "auditJson": "最小验证/V2-Batch-G-adc-passive-audit.json",
+    "baseItemSeed": "最小验证/V2-Batch-C-adc-items.seed.json",
+    "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
+    "sourceVersion": "16.9.1",
+    "generatedAt": "2026-05-20",
+    "rule": "V2 Batch G ready_to_encode ADC passive effects only. Unsupported or missing-baseline passives remain in audit backlog."
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3302_terminus_shadow_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3302",
+      "skillKey": "p_shadow",
+      "name": "界弓 晦影 DPS 被动",
+      "description": "V2 Batch G: attacks deal 30 bonus magic damage on-hit. Terminus alternating Light/Dark stat effects are tracked as runtime extension backlog.",
+      "params": {
+        "onHitMagicDamage": 30
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "terminus_shadow_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3302_terminus_shadow_dps_v2",
+            "effectId": "item_3302_terminus_shadow_dps_v2",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_3302_terminus_shadow_dps_v2",
+            "sourceType": "item",
+            "triggerId": "terminus_shadow_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "item_3302_terminus_shadow_dps_v2",
+                "damageType": "magic",
+                "amount": 30
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3302",
+      "name": "界弓",
+      "goldCost": 3000,
+      "iconUrl": "item_3302",
+      "skillRefs": [
+        "item_3302_terminus_shadow_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 30
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.35
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3302",
+        "sourceTags": [
+          "Damage",
+          "AttackSpeed",
+          "OnHit",
+          "MagicPenetration",
+          "ArmorPenetration"
+        ],
+        "sourceGoldTotal": 3000,
+        "batch": "V2-Batch-G"
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
