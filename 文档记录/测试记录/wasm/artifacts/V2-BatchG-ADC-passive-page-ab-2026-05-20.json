@@ -1,0 +1,56 @@
+{
+  "versionCode": "v2_batch_g_adc_passives_001",
+  "generatedAt": "2026-05-20T16:07:10.609Z",
+  "cases": [
+    {
+      "page": "A",
+      "route": "#/wasm-validation-v2-dps",
+      "itemPassiveId": "item_3302_terminus_shadow_dps_v2",
+      "high": {
+        "heroId": "hero_vayne",
+        "heroLevel": 18,
+        "wLevel": 5,
+        "attackerAd": 129.95,
+        "attackCount": 14,
+        "totalDamage": 2342.9833333333313,
+        "killTimeMs": null,
+        "itemTriggerCount": 14,
+        "passiveOperationAmount": 30
+      },
+      "low": {
+        "heroId": "hero_vayne",
+        "heroLevel": 1,
+        "wLevel": 1,
+        "attackerAd": 90,
+        "attackCount": 11,
+        "totalDamage": 1218.3333333333323,
+        "killTimeMs": null,
+        "itemTriggerCount": 11
+      }
+    },
+    {
+      "page": "B",
+      "route": "#/wasm-validation-v2-dps-multi-hero",
+      "heroId": "hero_kogmaw",
+      "itemPassiveId": "item_3302_terminus_shadow_dps_v2",
+      "high": {
+        "qLevel": 5,
+        "wLevel": 5,
+        "kogmawWTargetMaxHpRatio": 0.06,
+        "attackCount": 10,
+        "totalDamage": 3000,
+        "killTimeMs": 3483,
+        "itemTriggerCount": 30
+      },
+      "low": {
+        "qLevel": 1,
+        "wLevel": 1,
+        "kogmawWTargetMaxHpRatio": 0.03,
+        "attackCount": 12,
+        "totalDamage": 2999.999999999999,
+        "killTimeMs": 5060,
+        "itemTriggerCount": 36
+      }
+    }
+  ]
+}
