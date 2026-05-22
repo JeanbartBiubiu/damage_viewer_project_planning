@@ -20,7 +20,7 @@ COMMENT ON COLUMN public.games.game_id IS '游戏唯一标识（小写字母/数
 CREATE TABLE public.game_versions (
     version_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
-    version_code varchar(32) NOT NULL,
+    version_code varchar(64) NOT NULL,
     release_date date,
     is_current boolean DEFAULT false,
     data_hash varchar(64),
@@ -39,7 +39,7 @@ COMMENT ON COLUMN public.game_versions.data_hash IS '历史遗留字段；当前
 CREATE TABLE public.published_bundle_snapshots (
     game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
     version_id bigint NOT NULL,
-    version_code varchar(32) NOT NULL,
+    version_code varchar(64) NOT NULL,
     bundle_json jsonb NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW(),
