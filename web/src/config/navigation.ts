@@ -31,6 +31,7 @@ export type RouteId =
   | 'wasm-validation-m4-closure'
   | 'wasm-validation-v2-dps'
   | 'wasm-validation-v2-dps-multi-hero'
+  | 'wasm-validation-v2-dps-stacking-passive'
   | 'images'
   | AdminResourceRouteId;
 
@@ -118,6 +119,11 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
     id: 'wasm-validation-v2-dps-multi-hero',
     label: 'V2 DPS 多英雄',
     summary: '多英雄共用同一目标与装备的 TinyGo V2 DPS 对比。'
+  },
+  {
+    id: 'wasm-validation-v2-dps-stacking-passive',
+    label: 'V2 DPS Batch H',
+    summary: '验证 3124 Guinsoo p_boiling 叠层攻速被动从 published bundle 到 Wasm 输出的链路。'
   }
 ];
 
