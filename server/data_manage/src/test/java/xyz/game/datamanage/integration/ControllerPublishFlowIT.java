@@ -324,6 +324,23 @@ class ControllerPublishFlowIT {
     }
 
     @Test
+    void publish_shouldPersistVersionCodesLongerThanLegacyVarchar32() {
+        String versionCode = "v2_batch_h_stacking_stat_passives_001";
+        assertTrue(versionCode.length() > 32);
+        putBaselineEntities("Ahri");
+
+        publish(versionCode);
+
+        JsonNode current = requireBody(getCurrentVersion());
+        assertEquals(versionCode, current.path("versionCode").asText());
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+        assertEquals(versionCode, bundle.path("meta").path("versionCode").asText());
+    }
+
+    @Test
     void prePublishChanges_shouldNotAffectCurrentAndSnapshot_untilPublish() {
         String versionCodeV1 = "1.0.0";
         putBaselineEntities("Ahri");
@@ -1191,7 +1208,7 @@ class ControllerPublishFlowIT {
             CREATE TABLE IF NOT EXISTS public.published_bundle_snapshots (
                 game_id varchar(64) NOT NULL,
                 version_id bigint NOT NULL,
-                version_code varchar(32) NOT NULL,
+                version_code varchar(64) NOT NULL,
                 bundle_json jsonb NOT NULL,
                 created_at timestamp NOT NULL DEFAULT NOW(),
                 updated_at timestamp NOT NULL DEFAULT NOW(),
