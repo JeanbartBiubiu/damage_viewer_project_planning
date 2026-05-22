@@ -10,11 +10,15 @@ import {
   createDefaultV2DpsCurveSelections,
   createDefaultV2DpsMultiHeroSelection,
   createDefaultV2DpsSelection,
+  createDefaultV2DpsStackingPassiveSelection,
   createV2DpsMultiHeroCurveSelection,
   createV2DpsCurveSelection,
+  createV2DpsStackingPassiveCurveSelections,
+  createV2DpsStackingPassiveSyntheticBundle,
   formatV2DpsMultiHeroCurveLabel,
   getDefaultV2DpsPassiveIdsForHero,
   getDefaultV2DpsScenarioIdsForHero,
+  inspectV2DpsStackingPassiveBundle,
   listV2DpsAttackers,
   listV2DpsEquipmentOptions,
   listV2DpsPassiveOptionsForHero,
@@ -22,11 +26,15 @@ import {
   listV2DpsTargetGroups,
   prepareV2DpsInput,
   V2_DPS_CASE_ID,
+  V2_DPS_STACKING_PASSIVE_CASE_ID,
+  V2_DPS_STACKING_PASSIVE_ITEM_ID,
+  V2_DPS_STACKING_PASSIVE_SKILL_ID,
   type V2DpsCurveResult,
   type V2DpsCurveSelection,
   type V2DpsOutput,
   type V2DpsPreparedInput,
-  type V2DpsSelection
+  type V2DpsSelection,
+  type V2DpsStackingPassiveBundleCheck
 } from '../engine/tinygoV2DpsAdapter';
 import { TinyGoV2Bridge, TinyGoV2InvocationError, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
 import { getErrorMessage } from '../services/apiClient';
@@ -49,7 +57,7 @@ type WasmValidationV2DpsPageProps = {
   externalRefreshSeed: number;
 };
 
-type V2DpsPageMode = 'singleHero' | 'multiHero';
+type V2DpsPageMode = 'singleHero' | 'multiHero' | 'stackingPassive';
 
 type WasmValidationV2DpsWorkbenchProps = WasmValidationV2DpsPageProps & {
   mode: V2DpsPageMode;
@@ -84,6 +92,17 @@ type SummaryRow = {
   blockedReasons: string[];
 };
 
+type StackingPassiveEvidence = {
+  stackApplied: boolean;
+  capReached: boolean;
+  expiryObserved: boolean;
+  invalidBlocked: boolean;
+  stackHint: string;
+  capHint: string;
+  expiryHint: string;
+  invalidHint: string;
+};
+
 type ChartMode = 'damage' | 'hp';
 
 const frameKindLabel: Record<number, string> = {
@@ -100,6 +119,10 @@ export function WasmValidationV2DpsMultiHeroPage(props: WasmValidationV2DpsPageP
   return <WasmValidationV2DpsWorkbench {...props} mode="multiHero" />;
 }
 
+export function WasmValidationV2DpsStackingPassivePage(props: WasmValidationV2DpsPageProps) {
+  return <WasmValidationV2DpsWorkbench {...props} mode="stackingPassive" />;
+}
+
 function WasmValidationV2DpsWorkbench({
   apiBaseUrl,
   selectedGameId,
@@ -108,10 +131,12 @@ function WasmValidationV2DpsWorkbench({
   mode
 }: WasmValidationV2DpsWorkbenchProps) {
   const isMultiHero = mode === 'multiHero';
+  const isStackingPassive = mode === 'stackingPassive';
   const [bundleStatus, setBundleStatus] = useState<LoadState>('idle');
   const [runStatus, setRunStatus] = useState<LoadState>('idle');
   const [bundleError, setBundleError] = useState<string | null>(null);
   const [runError, setRunError] = useState<string | null>(null);
+  const [syntheticFallbackReason, setSyntheticFallbackReason] = useState<string | null>(null);
   const [bundle, setBundle] = useState<GameDataBundle | null>(null);
   const [currentVersion, setCurrentVersion] = useState<CurrentVersion | null>(null);
   const [cacheStatus, setCacheStatus] = useState<'hit' | 'miss' | null>(null);
@@ -146,6 +171,7 @@ function WasmValidationV2DpsWorkbench({
         setSelection(null);
         setBundleStatus('idle');
         setBundleError(null);
+        setSyntheticFallbackReason(null);
         resetRunArtifacts();
         return;
       }
@@ -164,6 +190,7 @@ function WasmValidationV2DpsWorkbench({
         setBundle(snapshot.bundle);
         setCurrentVersion(snapshot.currentVersion);
         setCacheStatus(snapshot.cacheStatus);
+        setSyntheticFallbackReason(null);
         setSelection(defaultSelection);
         setRuneDraftByCurveId(createRuneDrafts(defaultSelection.curves));
         setExpandedCurveIds([]);
@@ -173,6 +200,21 @@ function WasmValidationV2DpsWorkbench({
         if (cancelled) {
           return;
         }
+        if (isStackingPassive) {
+          const fallbackBundle = createV2DpsStackingPassiveSyntheticBundle(selectedGameId);
+          const fallbackSelection = createDefaultV2DpsStackingPassiveSelection(fallbackBundle);
+          setBundle(fallbackBundle);
+          setCurrentVersion(createSyntheticCurrentVersion(fallbackBundle));
+          setCacheStatus(null);
+          setSelection(fallbackSelection);
+          setRuneDraftByCurveId(createRuneDrafts(fallbackSelection.curves));
+          setExpandedCurveIds([]);
+          setActiveCurveId(fallbackSelection.curves[0]?.curveId ?? null);
+          setBundleStatus('success');
+          setBundleError(null);
+          setSyntheticFallbackReason(getErrorMessage(error));
+          return;
+        }
         setBundle(null);
         setCurrentVersion(null);
         setSelection(null);
@@ -180,6 +222,7 @@ function WasmValidationV2DpsWorkbench({
         setExpandedCurveIds([]);
         setBundleStatus('error');
         setBundleError(getErrorMessage(error));
+        setSyntheticFallbackReason(null);
       }
     }
 
@@ -188,7 +231,7 @@ function WasmValidationV2DpsWorkbench({
     return () => {
       cancelled = true;
     };
-  }, [apiBaseUrl, externalRefreshSeed, mode, resetRunArtifacts, selectedGameId]);
+  }, [apiBaseUrl, externalRefreshSeed, isStackingPassive, mode, resetRunArtifacts, selectedGameId]);
 
   const attackerOptions = useMemo(() => (bundle ? listV2DpsAttackers(bundle) : []), [bundle]);
   const targetGroups = useMemo(() => (bundle ? listV2DpsTargetGroups(bundle) : []), [bundle]);
@@ -256,7 +299,12 @@ function WasmValidationV2DpsWorkbench({
     }
     return selection.curves[0];
   }, [activeCurveId, selection]);
-  const canRun = Boolean(bundle && currentVersion && selection && selectedGameId && selection.curves.length > 0) && runStatus !== 'loading';
+  const stackingPassiveCheck = useMemo<V2DpsStackingPassiveBundleCheck | null>(
+    () => (bundle && isStackingPassive ? inspectV2DpsStackingPassiveBundle(bundle) : null),
+    [bundle, isStackingPassive]
+  );
+  const canRun = Boolean(bundle && currentVersion && selection && selectedGameId && selection.curves.length > 0)
+    && runStatus !== 'loading';
 
   const attackRows = useMemo<AttackRow[]>(
     () => activeCurveResult?.attackTimeline.map((row, index) => ({ ...row, key: `${index}-${row.timeMs}` })) ?? [],
@@ -269,6 +317,10 @@ function WasmValidationV2DpsWorkbench({
   const summaryRows = useMemo<SummaryRow[]>(
     () => buildSummaryRows(curveResults, curveLabelById),
     [curveLabelById, curveResults]
+  );
+  const stackingPassiveEvidence = useMemo<StackingPassiveEvidence | null>(
+    () => (isStackingPassive && wasmOutput ? buildStackingPassiveEvidence(wasmOutput.curveResults) : null),
+    [isStackingPassive, wasmOutput]
   );
   const exportPayload = useMemo(() => {
     if (!wasmOutput || !preparedInput) {
@@ -352,16 +404,33 @@ function WasmValidationV2DpsWorkbench({
       setBundle(snapshot.bundle);
       setCurrentVersion(snapshot.currentVersion);
       setCacheStatus(snapshot.cacheStatus);
+      setSyntheticFallbackReason(null);
       setSelection(defaultSelection);
       setRuneDraftByCurveId(createRuneDrafts(defaultSelection.curves));
       setExpandedCurveIds([]);
       setActiveCurveId(defaultSelection.curves[0]?.curveId ?? null);
       setBundleStatus('success');
     } catch (error) {
+      if (isStackingPassive) {
+        const fallbackBundle = createV2DpsStackingPassiveSyntheticBundle(selectedGameId);
+        const fallbackSelection = createDefaultV2DpsStackingPassiveSelection(fallbackBundle);
+        setBundle(fallbackBundle);
+        setCurrentVersion(createSyntheticCurrentVersion(fallbackBundle));
+        setCacheStatus(null);
+        setSelection(fallbackSelection);
+        setRuneDraftByCurveId(createRuneDrafts(fallbackSelection.curves));
+        setExpandedCurveIds([]);
+        setActiveCurveId(fallbackSelection.curves[0]?.curveId ?? null);
+        setBundleStatus('success');
+        setBundleError(null);
+        setSyntheticFallbackReason(getErrorMessage(error));
+        return;
+      }
       setBundleStatus('error');
       setBundleError(getErrorMessage(error));
+      setSyntheticFallbackReason(null);
     }
-  }, [apiBaseUrl, mode, resetRunArtifacts, selectedGameId]);
+  }, [apiBaseUrl, isStackingPassive, mode, resetRunArtifacts, selectedGameId]);
 
   const handleRun = useCallback(async () => {
     if (!bundle || !currentVersion || !selection) {
@@ -672,11 +741,17 @@ function WasmValidationV2DpsWorkbench({
     }
   ];
 
-  const displayCaseId = selection?.caseId ?? V2_DPS_CASE_ID;
-  const pageTitle = isMultiHero ? 'V2 DPS 多英雄同装备' : 'V2 DPS 单英雄多曲线';
-  const pageKicker = isMultiHero ? 'single_attacker_dps / Batch E-B' : 'single_attacker_dps / Batch E-1';
+  const displayCaseId = selection?.caseId ?? (isStackingPassive ? V2_DPS_STACKING_PASSIVE_CASE_ID : V2_DPS_CASE_ID);
+  const pageTitle = isStackingPassive
+    ? 'V2 DPS Batch H Stacking Passive'
+    : isMultiHero ? 'V2 DPS 多英雄同装备' : 'V2 DPS 单英雄多曲线';
+  const pageKicker = isStackingPassive
+    ? 'single_attacker_dps / v2_batch_h_stacking_stat_passives_001'
+    : isMultiHero ? 'single_attacker_dps / Batch E-B' : 'single_attacker_dps / Batch E-1';
   const curvePanelTitle = isMultiHero ? '英雄行配置' : 'Curve 配置';
-  const curvePanelKicker = isMultiHero ? 'same equipment -> per-hero curves' : 'published bundle -> resolvedSnapshot';
+  const curvePanelKicker = isStackingPassive
+    ? 'synthetic presets + published bundle item passive -> Wasm output'
+    : isMultiHero ? 'same equipment -> per-hero curves' : 'published bundle -> resolvedSnapshot';
 
   return (
     <div className="wasm-validation-page">
@@ -701,6 +776,18 @@ function WasmValidationV2DpsWorkbench({
         {!selectedGameId ? <Alert type="warning" content="当前没有选中的 gameId。" /> : null}
         {bundleError ? <Alert type="error" content={bundleError} /> : null}
         {runError ? <Alert type="error" content={runError} /> : null}
+        {isStackingPassive && syntheticFallbackReason ? (
+          <Alert
+            type="warning"
+            content={`Published bundle load failed; Batch H synthetic runtime preset is active. ${syntheticFallbackReason}`}
+          />
+        ) : null}
+        {isStackingPassive && stackingPassiveCheck ? (
+          <Alert
+            type={stackingPassiveCheck.ready ? 'success' : 'warning'}
+            content={formatStackingPassiveCheckMessage(stackingPassiveCheck)}
+          />
+        ) : null}
 
         <Row gutter={[16, 16]} className="wasm-selection-grid">
           <Col span={6}>
@@ -728,7 +815,7 @@ function WasmValidationV2DpsWorkbench({
                     filterOption={filterSelectOption}
                     onChange={(value) => {
                       const attackerHeroId = String(value);
-                      const curves = createDefaultV2DpsCurveSelections(attackerHeroId, bundle ?? undefined);
+                      const curves = createCurveSelectionsForMode(bundle ?? undefined, mode, attackerHeroId);
                       setRuneDraftByCurveId(createRuneDrafts(curves));
                       setExpandedCurveIds([]);
                       updateSelection((current) => ({
@@ -1070,6 +1157,41 @@ function WasmValidationV2DpsWorkbench({
           <Alert type="warning" content={activeCurveResult.blockedReasons.join(' / ') || 'blocked'} />
         ) : null}
 
+        {stackingPassiveEvidence ? (
+          <Panel title="Batch H Assertions" kicker="wasm output evidence">
+            <Row gutter={[16, 16]} className="wasm-validation-grid">
+              <Col span={6}>
+                <MetricCard
+                  label="Stack Applies"
+                  value={formatPassStatus(stackingPassiveEvidence.stackApplied)}
+                  hint={stackingPassiveEvidence.stackHint}
+                />
+              </Col>
+              <Col span={6}>
+                <MetricCard
+                  label="Cap"
+                  value={formatPassStatus(stackingPassiveEvidence.capReached)}
+                  hint={stackingPassiveEvidence.capHint}
+                />
+              </Col>
+              <Col span={6}>
+                <MetricCard
+                  label="Expiry"
+                  value={formatPassStatus(stackingPassiveEvidence.expiryObserved)}
+                  hint={stackingPassiveEvidence.expiryHint}
+                />
+              </Col>
+              <Col span={6}>
+                <MetricCard
+                  label="Invalid Contract"
+                  value={formatPassStatus(stackingPassiveEvidence.invalidBlocked)}
+                  hint={stackingPassiveEvidence.invalidHint}
+                />
+              </Col>
+            </Row>
+          </Panel>
+        ) : null}
+
         <Panel
           title={chartMode === 'damage' ? '累计伤害对比' : '目标 HP 对比'}
           kicker="曲线按装备方案命名"
@@ -1176,9 +1298,118 @@ function findDonePayload(frames: DecodedFrame[]): V2DpsOutput | null {
 }
 
 function createDefaultSelectionForMode(bundle: GameDataBundle, mode: V2DpsPageMode): V2DpsSelection {
-  return mode === 'multiHero'
-    ? createDefaultV2DpsMultiHeroSelection(bundle)
-    : createDefaultV2DpsSelection(bundle);
+  if (mode === 'multiHero') {
+    return createDefaultV2DpsMultiHeroSelection(bundle);
+  }
+  if (mode === 'stackingPassive') {
+    return createDefaultV2DpsStackingPassiveSelection(bundle);
+  }
+  return createDefaultV2DpsSelection(bundle);
+}
+
+function createCurveSelectionsForMode(bundle: GameDataBundle | undefined, mode: V2DpsPageMode, attackerHeroId: string): V2DpsCurveSelection[] {
+  if (mode === 'stackingPassive') {
+    return createV2DpsStackingPassiveCurveSelections(attackerHeroId);
+  }
+  return createDefaultV2DpsCurveSelections(attackerHeroId, bundle);
+}
+
+function formatStackingPassiveCheckMessage(check: V2DpsStackingPassiveBundleCheck): string {
+  const prefix = `Batch H real-data contract: item ${V2_DPS_STACKING_PASSIVE_ITEM_ID}, skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID}, skillKey ${check.skillKey}.`;
+  if (check.ready) {
+    return `${prefix} Published bundle is ready for the 3124 sub-mechanism; synthetic presets can run independently and all mechanics are executed by Wasm.`;
+  }
+  return `${prefix} Published real-data gate is not ready: ${check.missingReasons.join(' / ')}. Synthetic presets can still run for runtime evidence.`;
+}
+
+function createSyntheticCurrentVersion(bundle: GameDataBundle): CurrentVersion {
+  return {
+    gameId: bundle.meta.gameId,
+    versionCode: bundle.meta.versionCode,
+    updatedAt: bundle.meta.generatedAt,
+    publishedAt: bundle.meta.generatedAt,
+    versionId: bundle.meta.versionId,
+    dataHash: bundle.meta.dataHash
+  };
+}
+
+function buildStackingPassiveEvidence(results: V2DpsCurveResult[]): StackingPassiveEvidence {
+  const cap = results.find((result) => result.curveId.includes('synthetic-cap'));
+  const expiry = results.find((result) => result.curveId.includes('synthetic-expiry'));
+  const invalid = results.find((result) => result.curveId.includes('synthetic-invalid'));
+
+  const capAddStack = parseStackMessages(filterEffectBreakdown(cap, 'add_stack', 'synthetic_batch_h_cap'));
+  const capStatModifier = parseStackMessages(filterEffectBreakdown(cap, 'stat_modifier', 'synthetic_batch_h_cap'));
+  const capSpeeds = cap?.attackIntervalTimeline.map((row) => row.rawAttackSpeed).filter(Number.isFinite) ?? [];
+  const capMaxAfter = maxObserved(capAddStack.map((entry) => entry.after));
+  const capMaxStatStacks = maxObserved(capStatModifier.map((entry) => entry.stacks));
+  const capMinSpeed = minObserved(capSpeeds);
+  const capMaxSpeed = maxObserved(capSpeeds);
+
+  const expiryAddStack = parseStackMessages(filterEffectBreakdown(expiry, 'add_stack', 'synthetic_batch_h_expiry'));
+  const expiryStatModifier = parseStackMessages(filterEffectBreakdown(expiry, 'stat_modifier', 'synthetic_batch_h_expiry'));
+  const expiryMaxStatStacks = maxObserved(expiryStatModifier.map((entry) => entry.stacks));
+
+  const invalidReasons = invalid?.blockedReasons ?? [];
+  const stackApplied = cap?.status === 'ok'
+    && capAddStack.length > 0
+    && capStatModifier.length > 0
+    && capMaxSpeed > capMinSpeed;
+  const capReached = cap?.status === 'ok'
+    && capMaxAfter === 4
+    && capMaxStatStacks === 4
+    && capAddStack.every((entry) => entry.after <= 4);
+  const expiryObserved = expiry?.status === 'ok'
+    && expiryAddStack.length > 1
+    && expiryAddStack.every((entry) => entry.before === 0 && entry.after === 1)
+    && expiryMaxStatStacks === 1;
+  const invalidBlocked = invalid?.status === 'blocked'
+    && invalidReasons.some((reason) => reason.includes('requires matching add_stack'));
+
+  return {
+    stackApplied,
+    capReached,
+    expiryObserved,
+    invalidBlocked,
+    stackHint: `add_stack=${capAddStack.length}, stat_modifier=${capStatModifier.length}, rawAS=${formatEvidenceRange(capMinSpeed, capMaxSpeed)}`,
+    capHint: `max after=${capMaxAfter}, max modifier stacks=${capMaxStatStacks}`,
+    expiryHint: `resets=${expiryAddStack.length}, max modifier stacks=${expiryMaxStatStacks}`,
+    invalidHint: invalidReasons.join(' / ') || 'not blocked'
+  };
+}
+
+function filterEffectBreakdown(result: V2DpsCurveResult | undefined, kind: string, sourceToken: string): V2DpsCurveResult['effectBreakdown'] {
+  return result?.effectBreakdown.filter((entry) => entry.kind === kind && String(entry.source ?? '').includes(sourceToken)) ?? [];
+}
+
+function parseStackMessages(entries: V2DpsCurveResult['effectBreakdown']): Array<{ before: number; after: number; stacks: number }> {
+  return entries.map((entry) => ({
+    before: readMessageInt(entry.message, 'before'),
+    after: readMessageInt(entry.message, 'after'),
+    stacks: readMessageInt(entry.message, 'stacks')
+  }));
+}
+
+function readMessageInt(message: string | undefined, key: string): number {
+  const match = (message ?? '').match(new RegExp(`${key}=(\\d+)`));
+  const value = Number(match?.[1] ?? NaN);
+  return Number.isFinite(value) ? value : 0;
+}
+
+function maxObserved(values: number[]): number {
+  return values.length > 0 ? Math.max(...values) : 0;
+}
+
+function minObserved(values: number[]): number {
+  return values.length > 0 ? Math.min(...values) : 0;
+}
+
+function formatEvidenceRange(min: number, max: number): string {
+  return `${formatCompactNumber(min)} -> ${formatCompactNumber(max)}`;
+}
+
+function formatPassStatus(passed: boolean): string {
+  return passed ? 'pass' : 'missing';
 }
 
 function getCurveHeroId(selection: V2DpsSelection, curve: V2DpsCurveSelection): string {
