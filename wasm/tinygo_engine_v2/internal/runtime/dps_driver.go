@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"math"
+	"strconv"
 	"strings"
 
 	"tinygo_engine_v2/internal/model"
@@ -312,6 +313,7 @@ func (state *dpsCurveState) processAttack(timeMs int64) int64 {
 }
 
 func (state *dpsCurveState) processAttackPassives(timeMs int64) {
+	refreshStackStatModifiers := false
 	for _, passive := range state.passives {
 		if !state.passiveActiveAt(passive, timeMs) {
 			continue
@@ -341,6 +343,12 @@ func (state *dpsCurveState) processAttackPassives(timeMs int64) {
 			}
 			state.applyPassiveOperation(timeMs, passive, op)
 		}
+		if passiveHasPerStackStatModifier(passive) {
+			refreshStackStatModifiers = true
+		}
+	}
+	if refreshStackStatModifiers && state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		state.refreshActiveStatModifiers(timeMs)
 	}
 }
 
@@ -349,7 +357,7 @@ func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DP
 	case dpsOpDamage:
 		stacks := 0
 		if op.StackKey != "" {
-			stacks = state.stacks[op.StackKey]
+			stacks = state.stacks[stackRuntimeKey(passive, op.StackKey)]
 		}
 		amount, ok := state.resolveOperationAmount(op, stacks)
 		if !ok {
@@ -365,6 +373,9 @@ func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DP
 	case dpsOpTriggerDamageAtStacks:
 		state.triggerDamageAtStacks(timeMs, passive, op)
 	case dpsOpStatModifier:
+		if op.PerStack {
+			return
+		}
 		state.applyStatModifier(timeMs, passive, op, true)
 	}
 }
@@ -376,22 +387,32 @@ func (state *dpsCurveState) applyInitialStatModifiers() {
 func (state *dpsCurveState) refreshActiveStatModifiers(timeMs int64) {
 	state.attrs = copyDPSFloatMap(state.baseAttrs)
 	for _, passive := range state.passives {
-		if passive.TriggerKind != dpsTriggerStatAlwaysOn && passive.TriggerKind != dpsTriggerPreEnabledModifier {
-			continue
-		}
 		if !state.passiveActiveAt(passive, timeMs) {
 			continue
 		}
-		triggerKey := "stat_modifier:" + passiveRuntimeKey(passive)
-		record := !state.statModifierTriggers[triggerKey]
-		if record {
-			state.recordPassiveTrigger(timeMs, passive)
-			state.statModifierTriggers[triggerKey] = true
+		isInitialModifier := passive.TriggerKind == dpsTriggerStatAlwaysOn || passive.TriggerKind == dpsTriggerPreEnabledModifier
+		if isInitialModifier {
+			triggerKey := "stat_modifier:" + passiveRuntimeKey(passive)
+			record := !state.statModifierTriggers[triggerKey]
+			if record {
+				state.recordPassiveTrigger(timeMs, passive)
+				state.statModifierTriggers[triggerKey] = true
+			}
+			for _, op := range passive.Operations {
+				if op.Kind == dpsOpStatModifier && !op.PerStack {
+					state.applyStatModifier(timeMs, passive, op, record)
+				}
+			}
 		}
 		for _, op := range passive.Operations {
-			if op.Kind == dpsOpStatModifier {
-				state.applyStatModifier(timeMs, passive, op, record)
+			if op.Kind != dpsOpStatModifier || !op.PerStack {
+				continue
 			}
+			stacks := state.stacks[stackRuntimeKey(passive, op.StackKey)]
+			if stacks <= 0 {
+				continue
+			}
+			state.applyStatModifier(timeMs, passive, op, true)
 		}
 	}
 }
@@ -406,13 +427,26 @@ func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPas
 		state.block("passive stat_modifier operation requires existing attr " + op.AttrKey)
 		return
 	}
+	stacks := 1
+	value := op.Value
+	if op.PerStack {
+		if op.StackKey == "" {
+			state.block("passive perStack stat_modifier operation requires stackKey")
+			return
+		}
+		stacks = state.stacks[stackRuntimeKey(passive, op.StackKey)]
+		if stacks <= 0 {
+			return
+		}
+		value *= float64(stacks)
+	}
 	switch op.ModifierMode {
 	case "", "flat":
-		state.attrs[op.AttrKey] = current + op.Value
+		state.attrs[op.AttrKey] = current + value
 	case "percent":
-		state.attrs[op.AttrKey] = current * (1 + op.Value)
+		state.attrs[op.AttrKey] = current * (1 + value)
 	case "override", "override_base", "override_current", "override_max":
-		state.attrs[op.AttrKey] = op.Value
+		state.attrs[op.AttrKey] = value
 	default:
 		state.block("unsupported passive stat modifier mode " + op.ModifierMode)
 		return
@@ -428,7 +462,7 @@ func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPas
 		Source:  passiveDamageSource(passive, op),
 		Kind:    dpsOpStatModifier,
 		Amount:  state.attrs[op.AttrKey],
-		Message: op.AttrKey + "=" + op.ModifierMode,
+		Message: statModifierBreakdownMessage(op, stacks),
 	})
 }
 
@@ -437,13 +471,21 @@ func (state *dpsCurveState) addStack(timeMs int64, passive model.DPSPassiveEffec
 		state.block("passive add_stack operation requires stackKey")
 		return
 	}
-	current := state.stacks[op.StackKey] + 1
+	if op.RefreshMode != "" && op.RefreshMode != "refresh" {
+		state.block("passive add_stack operation has unsupported refreshMode " + op.RefreshMode)
+		return
+	}
+	key := stackRuntimeKey(passive, op.StackKey)
+	before := state.stacks[key]
+	current := before + 1
 	if op.MaxStacks > 0 && current > op.MaxStacks {
 		current = op.MaxStacks
 	}
-	state.stacks[op.StackKey] = current
+	state.stacks[key] = current
+	expireAt := int64(0)
 	if op.DurationMs > 0 {
-		state.stackExpiry[op.StackKey] = timeMs + op.DurationMs
+		expireAt = timeMs + op.DurationMs
+		state.stackExpiry[key] = expireAt
 	}
 	state.result.EffectTimeline = append(state.result.EffectTimeline, model.DPSEffectEventV2{
 		TimeMs: timeMs, SourceID: nonEmpty(passive.SourceID, passiveID(passive)), Kind: dpsOpAddStack,
@@ -453,7 +495,7 @@ func (state *dpsCurveState) addStack(timeMs int64, passive model.DPSPassiveEffec
 		Source:  passiveDamageSource(passive, op),
 		Kind:    dpsOpAddStack,
 		Amount:  float64(current),
-		Message: op.StackKey,
+		Message: stackBreakdownMessage(op.StackKey, before, current, op.MaxStacks, expireAt),
 	})
 }
 
@@ -466,10 +508,11 @@ func (state *dpsCurveState) triggerDamageAtStacks(timeMs int64, passive model.DP
 	if triggerStacks <= 0 {
 		triggerStacks = op.MaxStacks
 	}
-	if triggerStacks <= 0 || state.stacks[op.StackKey] < triggerStacks {
+	key := stackRuntimeKey(passive, op.StackKey)
+	if triggerStacks <= 0 || state.stacks[key] < triggerStacks {
 		return
 	}
-	amount, ok := state.resolveOperationAmount(op, state.stacks[op.StackKey])
+	amount, ok := state.resolveOperationAmount(op, state.stacks[key])
 	if !ok {
 		return
 	}
@@ -478,8 +521,8 @@ func (state *dpsCurveState) triggerDamageAtStacks(timeMs int64, passive model.DP
 	}
 	state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpTriggerDamageAtStacks)
 	if op.ResetStacks {
-		delete(state.stacks, op.StackKey)
-		delete(state.stackExpiry, op.StackKey)
+		delete(state.stacks, key)
+		delete(state.stackExpiry, key)
 	}
 }
 
@@ -499,9 +542,9 @@ func (state *dpsCurveState) applyDot(timeMs int64, passive model.DPSPassiveEffec
 	}
 	stacks := 0
 	if op.StackKey != "" {
-		stacks = state.stacks[op.StackKey]
+		stacks = state.stacks[stackRuntimeKey(passive, op.StackKey)]
 	}
-	key := nonEmpty(op.Source, passiveRuntimeKey(passive)) + ":" + op.StackKey
+	key := nonEmpty(op.Source, passiveRuntimeKey(passive)) + ":" + stackRuntimeKey(passive, op.StackKey)
 	if op.RefreshMode == "" || op.RefreshMode == "refresh" {
 		state.removeDot(key)
 	}
@@ -531,6 +574,10 @@ func (state *dpsCurveState) applyDot(timeMs int64, passive model.DPSPassiveEffec
 
 func (state *dpsCurveState) processDotTick(timeMs int64) {
 	state.expireStacks(timeMs)
+	state.refreshActiveStatModifiers(timeMs)
+	if state.result.Status == dpsStatusBlocked {
+		return
+	}
 	for i := range state.dots {
 		dot := &state.dots[i]
 		if dot.NextTickAtMs != timeMs || dot.NextTickAtMs > dot.ExpireAtMs {
@@ -1044,8 +1091,21 @@ func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRu
 	if len(passive.Operations) == 0 {
 		reasons = append(reasons, "passive effect "+id+" requires operations")
 	}
+	addStackKeys := map[string]bool{}
+	for _, op := range passive.Operations {
+		if op.Kind == dpsOpAddStack && op.StackKey != "" {
+			addStackKeys[op.StackKey] = true
+		}
+	}
 	for _, op := range passive.Operations {
 		reasons = append(reasons, validateDPSPassiveOperation(id, op)...)
+		if op.Kind == dpsOpStatModifier && op.PerStack {
+			if op.StackKey == "" {
+				reasons = append(reasons, "passive effect "+id+" perStack stat_modifier requires stackKey")
+			} else if !addStackKeys[op.StackKey] {
+				reasons = append(reasons, "passive effect "+id+" perStack stat_modifier requires matching add_stack for stackKey "+op.StackKey)
+			}
+		}
 	}
 	return reasons
 }
@@ -1094,6 +1154,9 @@ func validateDPSPassiveOperation(passiveID string, op model.DPSPassiveOperationV
 	case dpsOpAddStack:
 		if op.StackKey == "" || op.MaxStacks <= 0 {
 			reasons = append(reasons, "passive effect "+passiveID+" add_stack requires stackKey and maxStacks")
+		}
+		if op.RefreshMode != "" && op.RefreshMode != "refresh" {
+			reasons = append(reasons, "passive effect "+passiveID+" add_stack has unsupported refreshMode "+op.RefreshMode)
 		}
 	case dpsOpStatModifier:
 		if op.AttrKey == "" {
@@ -1189,8 +1252,30 @@ func passiveRuntimeKey(passive model.DPSPassiveEffectV2) string {
 	return nonEmpty(passive.TriggerID, passiveID(passive))
 }
 
+func passiveEffectRuntimeKey(passive model.DPSPassiveEffectV2) string {
+	passiveKey := nonEmpty(passive.PassiveID, nonEmpty(passive.SourceID, passiveID(passive)))
+	effectKey := nonEmpty(passive.EffectID, passive.TriggerID)
+	if effectKey == "" || effectKey == passiveKey {
+		return passiveKey
+	}
+	return passiveKey + "/" + effectKey
+}
+
+func stackRuntimeKey(passive model.DPSPassiveEffectV2, stackKey string) string {
+	return passiveEffectRuntimeKey(passive) + "#" + stackKey
+}
+
 func passiveDamageSource(passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2) string {
 	return nonEmpty(op.Source, nonEmpty(passive.SourceID, passiveID(passive)))
+}
+
+func passiveHasPerStackStatModifier(passive model.DPSPassiveEffectV2) bool {
+	for _, op := range passive.Operations {
+		if op.Kind == dpsOpStatModifier && op.PerStack {
+			return true
+		}
+	}
+	return false
 }
 
 func supportedDPSTrigger(triggerKind string) bool {
@@ -1208,6 +1293,38 @@ func supportedDPSDamageType(damageType string) bool {
 
 func hasDamageFormula(op model.DPSPassiveOperationV2) bool {
 	return op.Amount != 0 || op.AmountPerStack != 0 || op.TargetCurrentHPRatio != 0 || op.TargetMaxHPRatio != 0 || op.TargetMissingHPRatio != 0 || op.TargetMissingHPAmp != 0 || op.AttackerAttrRatio != 0 || op.HasMinAmount
+}
+
+func stackBreakdownMessage(stackKey string, before int, after int, maxStacks int, expireAt int64) string {
+	message := "stackKey=" + stackKey + " before=" + intToString(before) + " after=" + intToString(after) + " maxStacks=" + intToString(maxStacks)
+	if expireAt > 0 {
+		message += " expireAtMs=" + int64ToString(expireAt)
+	}
+	return message
+}
+
+func statModifierBreakdownMessage(op model.DPSPassiveOperationV2, stacks int) string {
+	mode := op.ModifierMode
+	if mode == "" {
+		mode = "flat"
+	}
+	message := "attrKey=" + op.AttrKey + " modifierMode=" + mode + " value=" + floatToString(op.Value)
+	if op.PerStack {
+		message += " perStack=true stackKey=" + op.StackKey + " stacks=" + intToString(stacks)
+	}
+	return message
+}
+
+func intToString(value int) string {
+	return strconv.Itoa(value)
+}
+
+func int64ToString(value int64) string {
+	return strconv.FormatInt(value, 10)
+}
+
+func floatToString(value float64) string {
+	return strconv.FormatFloat(value, 'f', -1, 64)
 }
 
 func hasScenarioState(states []model.DPSScenarioStateV2, stateID string) bool {
