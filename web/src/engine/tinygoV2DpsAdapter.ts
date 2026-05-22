@@ -3,8 +3,16 @@ import type { TinyGoV2AttributeDefinition, TinyGoV2EngineBundle } from './tinygo
 
 export const V2_DPS_CASE_ID = 'V2-BatchE-1-single-hero-multicurve-001';
 export const V2_DPS_MULTI_HERO_CASE_ID = 'V2-BatchE-B-multi-hero-same-equipment-001';
+export const V2_DPS_STACKING_PASSIVE_CASE_ID = 'V2-BatchH-stacking-stat-passive-001';
 export const V2_DPS_TARGET_DUMMY_TYPE_NAME = 'target_dummy';
+export const V2_DPS_STACKING_PASSIVE_ITEM_ID = '3124';
+export const V2_DPS_STACKING_PASSIVE_SKILL_ID = 'item_3124_guinsoos_boiling_strike_dps_v2';
+export const V2_DPS_SYNTHETIC_STACKING_CAP_PASSIVE_ID = 'synthetic_batch_h_capped_stack_dps_v2';
+export const V2_DPS_SYNTHETIC_STACKING_EXPIRY_PASSIVE_ID = 'synthetic_batch_h_expiring_stack_dps_v2';
+export const V2_DPS_SYNTHETIC_STACKING_INVALID_PASSIVE_ID = 'synthetic_batch_h_invalid_stack_dps_v2';
 const V2_DPS_BASIC_ATTACK_ACTION_ID = 'basic_attack';
+const V2_DPS_SYNTHETIC_CHAMPION_TYPE_ID = 62000;
+const V2_DPS_SYNTHETIC_TARGET_DUMMY_TYPE_ID = 62001;
 const V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID = 62002;
 const V2_DPS_ADC_COMPLETED_ITEM_TYPE_NAME = 'adc_completed_item';
 const V2_DPS_DEFAULT_HERO_LEVEL = 11;
@@ -31,6 +39,7 @@ export type V2DpsCurveSelection = {
   enabledPassiveEffectIds: string[];
   enabledScenarioStateIds: string[];
   runeStatAdjustments: Record<string, number>;
+  syntheticPassiveEffects?: V2DpsPassiveEffect[];
 };
 
 export type V2DpsSelection = {
@@ -60,6 +69,19 @@ export type V2DpsEquipmentOption = {
   itemId: string;
   label: string;
   statsLabel: string;
+};
+
+export type V2DpsStackingPassiveBundleCheck = {
+  itemId: string;
+  passiveId: string;
+  skillKey: string;
+  itemFound: boolean;
+  itemSelectable: boolean;
+  passiveFound: boolean;
+  passiveLinkedByItem: boolean;
+  stackingOperationsFound: boolean;
+  ready: boolean;
+  missingReasons: string[];
 };
 
 export type V2DpsActorSnapshot = {
@@ -338,6 +360,159 @@ export function createDefaultV2DpsMultiHeroSelection(bundle: GameDataBundle): V2
   };
 }
 
+export function createDefaultV2DpsStackingPassiveSelection(bundle: GameDataBundle): V2DpsSelection {
+  const targetActorId = findDefaultTargetActorId(bundle);
+  const attackerHeroId = findDefaultAttacker(bundle);
+  return {
+    caseId: V2_DPS_STACKING_PASSIVE_CASE_ID,
+    attackerHeroId,
+    targetActorId,
+    durationMs: 10000,
+    attackSpeedCap: 3.0,
+    critPolicy: 'expected',
+    curves: createV2DpsStackingPassiveCurveSelections(attackerHeroId)
+  };
+}
+
+export function createV2DpsStackingPassiveSyntheticBundle(gameId: string): GameDataBundle {
+  return {
+    meta: {
+      gameId,
+      versionCode: 'synthetic_batch_h_runtime_preset',
+      generatedAt: '2026-05-21T00:00:00.000Z',
+      versionId: 0,
+      dataHash: 'synthetic_batch_h_runtime_preset'
+    },
+    attributeDefinitions: [
+      { attrKey: 'ad', defaultValue: 0 },
+      { attrKey: 'ap', defaultValue: 0 },
+      { attrKey: 'attack_speed', defaultValue: 0 },
+      { attrKey: 'hp', defaultValue: 0 },
+      { attrKey: 'armor', defaultValue: 0 },
+      { attrKey: 'magic_resist', defaultValue: 0 }
+    ],
+    coefficientBuckets: [],
+    types: [
+      { typeId: V2_DPS_SYNTHETIC_CHAMPION_TYPE_ID, name: 'champion' },
+      { typeId: V2_DPS_SYNTHETIC_TARGET_DUMMY_TYPE_ID, name: V2_DPS_TARGET_DUMMY_TYPE_NAME }
+    ],
+    typeRelations: [
+      {
+        typeId: V2_DPS_SYNTHETIC_CHAMPION_TYPE_ID,
+        targetCategory: 'character',
+        targetId: 'hero_vayne'
+      },
+      {
+        typeId: V2_DPS_SYNTHETIC_TARGET_DUMMY_TYPE_ID,
+        targetCategory: 'character',
+        targetId: 'target_dummy_fighter',
+        extend: { role: V2_DPS_TARGET_DUMMY_TYPE_NAME }
+      }
+    ],
+    statusActionControlRules: [],
+    heroes: [
+      {
+        heroId: 'hero_vayne',
+        name: 'Synthetic Vayne',
+        baseStats: {
+          hp: 1800,
+          ad: 70,
+          ap: 0,
+          attack_speed: 1,
+          armor: 30,
+          magic_resist: 30
+        }
+      },
+      {
+        heroId: 'target_dummy_fighter',
+        name: 'Synthetic target dummy',
+        baseStats: {
+          hp: 100000,
+          ad: 0,
+          ap: 0,
+          attack_speed: 0,
+          armor: 0,
+          magic_resist: 0
+        }
+      }
+    ],
+    skills: [],
+    items: []
+  };
+}
+
+export function createV2DpsStackingPassiveCurveSelections(attackerHeroId: string): V2DpsCurveSelection[] {
+  const heroKey = normalizeHeroKey(attackerHeroId) || 'hero';
+  const syntheticCapCurve = createV2DpsCurveSelection(
+    `${heroKey}-batch-h-synthetic-cap`,
+    'Batch H synthetic stack cap / no item',
+    [],
+    attackerHeroId,
+    [],
+    []
+  );
+  syntheticCapCurve.syntheticPassiveEffects = [
+    createSyntheticBatchHStackingPassive({
+      passiveId: V2_DPS_SYNTHETIC_STACKING_CAP_PASSIVE_ID,
+      effectId: 'synthetic_batch_h_capped_stack_effect',
+      sourcePrefix: 'synthetic_batch_h_cap',
+      stackKey: 'synthetic_batch_h_cap_stack',
+      durationMs: 6000,
+      maxStacks: 4,
+      attackSpeedPerStack: 0.5
+    })
+  ];
+  const syntheticExpiryCurve = createV2DpsCurveSelection(
+    `${heroKey}-batch-h-synthetic-expiry`,
+    'Batch H synthetic expiry / no item',
+    [],
+    attackerHeroId,
+    [],
+    []
+  );
+  syntheticExpiryCurve.syntheticPassiveEffects = [
+    createSyntheticBatchHStackingPassive({
+      passiveId: V2_DPS_SYNTHETIC_STACKING_EXPIRY_PASSIVE_ID,
+      effectId: 'synthetic_batch_h_expiring_stack_effect',
+      sourcePrefix: 'synthetic_batch_h_expiry',
+      stackKey: 'synthetic_batch_h_short_stack',
+      durationMs: 500,
+      maxStacks: 4,
+      attackSpeedPerStack: 0.5
+    })
+  ];
+  const syntheticInvalidCurve = createV2DpsCurveSelection(
+    `${heroKey}-batch-h-synthetic-invalid`,
+    'Batch H synthetic invalid contract / no item',
+    [],
+    attackerHeroId,
+    [],
+    []
+  );
+  syntheticInvalidCurve.syntheticPassiveEffects = [createSyntheticBatchHInvalidPassive()];
+  return [
+    createV2DpsCurveSelection(
+      `${heroKey}-batch-h-baseline`,
+      'Batch H baseline / no item',
+      [],
+      attackerHeroId,
+      [],
+      []
+    ),
+    syntheticCapCurve,
+    syntheticExpiryCurve,
+    syntheticInvalidCurve,
+    createV2DpsCurveSelection(
+      `${heroKey}-batch-h-guinsoo-3124`,
+      'Batch H / 3124 Guinsoo',
+      [V2_DPS_STACKING_PASSIVE_ITEM_ID],
+      attackerHeroId,
+      [],
+      []
+    )
+  ];
+}
+
 export function createDefaultV2DpsCurveSelections(attackerHeroId: string, bundle?: GameDataBundle): V2DpsCurveSelection[] {
   const passiveIds = defaultPassiveIdsForHero(attackerHeroId);
   const scenarioIds = defaultScenarioIdsForHero(attackerHeroId);
@@ -478,6 +653,71 @@ export function listV2DpsEquipmentOptions(bundle: GameDataBundle): V2DpsEquipmen
     .sort((left, right) => Number(left.itemId) - Number(right.itemId));
 }
 
+export function inspectV2DpsStackingPassiveBundle(bundle: GameDataBundle): V2DpsStackingPassiveBundleCheck {
+  const item = bundle.items.find((candidate) => candidate.itemId === V2_DPS_STACKING_PASSIVE_ITEM_ID);
+  const itemFound = Boolean(item);
+  const itemSelectable = adcCompletedEquipmentIds(bundle).has(V2_DPS_STACKING_PASSIVE_ITEM_ID);
+  const itemSkillRefs = new Set((item?.skillRefs ?? []).filter(Boolean));
+  const passiveSkill = bundle.skills.find((skill) => (
+    skill.ownerType === 'item'
+    && skill.ownerId === V2_DPS_STACKING_PASSIVE_ITEM_ID
+    && skill.skillId === V2_DPS_STACKING_PASSIVE_SKILL_ID
+  ));
+  const passiveEffects = passiveSkill ? readDpsPassiveEffects(passiveSkill) : [];
+  const passiveFound = passiveEffects.some((effect) => {
+    const ids = [passiveSkill?.skillId, effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
+    return ids.includes(V2_DPS_STACKING_PASSIVE_SKILL_ID);
+  });
+  const stackingOperationsFound = passiveEffects.some((effect) => {
+    const operations = effect.operations ?? [];
+    return operations.some((operation) => (
+      operation.kind === 'add_stack'
+      && operation.maxStacks === 4
+      && operation.durationMs === 3000
+      && operation.refreshMode === 'refresh'
+    )) && operations.some((operation) => (
+      operation.kind === 'stat_modifier'
+      && operation.attrKey === 'attack_speed'
+      && operation.perStack === true
+      && operation.value === 0.08
+    ));
+  });
+  const passiveLinkedByItem = itemSkillRefs.size === 0
+    ? Boolean(passiveSkill)
+    : itemSkillRefs.has(V2_DPS_STACKING_PASSIVE_SKILL_ID);
+  const missingReasons: string[] = [];
+  if (!itemFound) {
+    missingReasons.push('published bundle is missing item 3124');
+  }
+  if (!itemSelectable) {
+    missingReasons.push('item 3124 is not tagged as selectable DPS equipment');
+  }
+  if (!passiveSkill) {
+    missingReasons.push(`published bundle is missing item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID}`);
+  }
+  if (passiveSkill && !passiveFound) {
+    missingReasons.push(`item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID} has no dpsPassiveEffects entry`);
+  }
+  if (passiveFound && !stackingOperationsFound) {
+    missingReasons.push(`item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID} is missing add_stack/stat_modifier p_boiling operations`);
+  }
+  if (itemFound && passiveSkill && !passiveLinkedByItem) {
+    missingReasons.push(`item 3124 skillRefs does not link ${V2_DPS_STACKING_PASSIVE_SKILL_ID}`);
+  }
+  return {
+    itemId: V2_DPS_STACKING_PASSIVE_ITEM_ID,
+    passiveId: V2_DPS_STACKING_PASSIVE_SKILL_ID,
+    skillKey: 'p_boiling',
+    itemFound,
+    itemSelectable,
+    passiveFound,
+    passiveLinkedByItem,
+    stackingOperationsFound,
+    ready: missingReasons.length === 0,
+    missingReasons
+  };
+}
+
 export function prepareV2DpsInput(
   bundle: GameDataBundle,
   selection: V2DpsSelection,
@@ -569,14 +809,16 @@ function buildV2DpsCurveRunSpec({
   const selectedScenarioIds = normalizeStringList(curveSelection.enabledScenarioStateIds);
   const selectedEquipmentItemIds = normalizeStringList(curveSelection.equipmentItemIds);
   const equipment = resolveEquipmentSelection(bundle, selectedEquipmentItemIds);
+  const syntheticPassiveEffects = curveSelection.syntheticPassiveEffects ?? [];
+  const syntheticPassiveIds = normalizeStringList(syntheticPassiveEffects.map((effect) => effect.passiveId ?? effect.sourceId ?? effect.effectId ?? ''));
   const selectedPassiveIds = normalizeStringList([
     ...curveSelection.enabledPassiveEffectIds,
     ...passiveIdsRequiredByScenarioIds(attackerHeroId, selectedScenarioIds)
   ]);
-  const selectedEnabledPassiveIds = normalizeStringList([...selectedPassiveIds, ...equipment.passiveIds]);
+  const selectedEnabledPassiveIds = normalizeStringList([...selectedPassiveIds, ...equipment.passiveIds, ...syntheticPassiveIds]);
   const resolvedHeroPassiveEffects = resolveDpsPassiveEffects(bundle, attackerHeroId, selectedPassiveIds, skillLevels);
   const resolvedItemPassiveEffects = resolveDpsItemPassiveEffects(bundle, equipment.itemIds, equipment.passiveIds);
-  const resolvedPassiveEffects = [...resolvedHeroPassiveEffects, ...resolvedItemPassiveEffects];
+  const resolvedPassiveEffects = [...resolvedHeroPassiveEffects, ...resolvedItemPassiveEffects, ...syntheticPassiveEffects];
   const resolvedScenarioStates = resolveDpsScenarioStates(bundle, attackerHeroId, selectedScenarioIds);
   const curveId = curveSelection.curveId.trim() || `${attackerHeroId || 'missing_attacker'}-curve-${index + 1}`;
   const label = curveSelection.label.trim() || `Curve ${index + 1}`;
@@ -602,10 +844,88 @@ function buildV2DpsCurveRunSpec({
       equipmentStats: equipment.stats,
       enabledPassiveEffects: selectedEnabledPassiveIds,
       passiveEffects: resolvedPassiveEffects,
-      externalPassiveEffects: [],
+      externalPassiveEffects: syntheticPassiveIds,
       scenarioStates: resolvedScenarioStates,
       runeStatAdjustments: normalizeNumberMap(curveSelection.runeStatAdjustments)
     }
+  };
+}
+
+function createSyntheticBatchHStackingPassive({
+  passiveId,
+  effectId,
+  sourcePrefix,
+  stackKey,
+  durationMs,
+  maxStacks,
+  attackSpeedPerStack
+}: {
+  passiveId: string;
+  effectId: string;
+  sourcePrefix: string;
+  stackKey: string;
+  durationMs: number;
+  maxStacks: number;
+  attackSpeedPerStack: number;
+}): V2DpsPassiveEffect {
+  return {
+    passiveId,
+    effectId,
+    sourceCategory: 'synthetic_runtime_fixture',
+    sourceId: passiveId,
+    sourceType: 'synthetic',
+    triggerId: `${sourcePrefix}_stack_on_hit`,
+    triggerKind: 'stack_on_hit',
+    operations: [
+      {
+        kind: 'add_stack',
+        source: `${sourcePrefix}_add_stack`,
+        stackKey,
+        maxStacks,
+        durationMs,
+        refreshMode: 'refresh'
+      },
+      {
+        kind: 'stat_modifier',
+        source: `${sourcePrefix}_attack_speed`,
+        stackKey,
+        attrKey: 'attack_speed',
+        modifierMode: 'percent',
+        value: attackSpeedPerStack,
+        perStack: true
+      }
+    ]
+  };
+}
+
+function createSyntheticBatchHInvalidPassive(): V2DpsPassiveEffect {
+  return {
+    passiveId: V2_DPS_SYNTHETIC_STACKING_INVALID_PASSIVE_ID,
+    effectId: 'synthetic_batch_h_invalid_stack_effect',
+    sourceCategory: 'synthetic_runtime_fixture',
+    sourceId: V2_DPS_SYNTHETIC_STACKING_INVALID_PASSIVE_ID,
+    sourceType: 'synthetic',
+    triggerId: 'synthetic_batch_h_invalid_stack_on_hit',
+    triggerKind: 'stack_on_hit',
+    operations: [
+      {
+        kind: 'add_stack',
+        source: 'synthetic_batch_h_invalid_add_stack',
+        stackKey: 'synthetic_batch_h_valid_stack',
+        maxStacks: 4,
+        durationMs: 6000,
+        refreshMode: 'refresh'
+      },
+      {
+        kind: 'stat_modifier',
+        source: 'synthetic_batch_h_invalid_attack_speed',
+        stackKey: 'synthetic_batch_h_missing_stack',
+        attrKey: 'attack_speed',
+        modifierMode: 'percent',
+        value: 0.5,
+        perStack: true
+      }
+    ]
   };
 }
 
