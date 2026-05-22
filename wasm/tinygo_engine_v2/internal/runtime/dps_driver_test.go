@@ -1019,6 +1019,150 @@ func TestSingleAttackerDPSCanonicalCritPolicyExpectedAndUnsupportedRandom(t *tes
 	}
 }
 
+func TestSingleAttackerDPSStackingStatModifierOnHitAffectsCadenceAndCaps(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchH-H1-stacking-stat-cadence"
+	input.SimulationRules.DurationMs = 1800
+	passive := canonicalStackingStatModifierPassive("canonical_stacking_stat", "canonical_stack", 6000, 3, 0.5, 10)
+	curve := &input.Curves[0]
+	curve.CurveID = "stacking-stat-cadence"
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 10
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := attackTimes(result); !sameInt64s(got, []int64{0, 667, 1167, 1567}) {
+		t.Fatalf("attack times = %v, want stack-modified cadence after first hit", got)
+	}
+	if got := rawAttackSpeeds(result); !sameFloat64s(got, []float64{1.5, 2.0, 2.5, 2.5}) {
+		t.Fatalf("raw attack speeds = %v, want per-stack AS capped at 3 stacks", got)
+	}
+	if got := rawDamagesBySource(result, "basic_attack"); len(got) < 2 || !almostEqual(got[0], 10) || !almostEqual(got[1], 20) {
+		t.Fatalf("basic raw damages = %v, want first attack unmodified and second attack with one stack", got)
+	}
+	if maxBreakdownAmount(result, dpsOpAddStack) != 3 {
+		t.Fatalf("effectBreakdown = %+v, want add_stack evidence capped at 3", result.EffectBreakdown)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpStatModifier, "perStack=true stackKey=canonical_stack stacks=3") {
+		t.Fatalf("effectBreakdown = %+v, want per-stack stat modifier evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSStackingStatModifierExpiresBeforeNextHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchH-H1-stacking-stat-expire"
+	input.SimulationRules.DurationMs = 1100
+	passive := canonicalStackingStatModifierPassive("canonical_expiring_stacking_stat", "expiring_stack", 200, 5, 1.0, 10)
+	curve := &input.Curves[0]
+	curve.CurveID = "stacking-stat-expires"
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 10
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := attackTimes(result); !sameInt64s(got, []int64{0, 500, 1000}) {
+		t.Fatalf("attack times = %v, want scheduled next attack not rescheduled by expiry", got)
+	}
+	if got := rawDamagesBySource(result, "basic_attack"); !sameFloat64s(got, []float64{10, 10, 10}) {
+		t.Fatalf("basic raw damages = %v, want expired stack lazily cleared before each next hit", got)
+	}
+	if result.ProcessedEvents != result.AttackCount {
+		t.Fatalf("processedEvents=%d attackCount=%d, want no independent expiry event", result.ProcessedEvents, result.AttackCount)
+	}
+	if got := rawAttackSpeeds(result); !sameFloat64s(got, []float64{2, 2, 2}) {
+		t.Fatalf("raw attack speeds = %v, want each hit to regain exactly one fresh stack", got)
+	}
+}
+
+func TestSingleAttackerDPSBlocksInvalidStackingStatModifierContracts(t *testing.T) {
+	cases := []struct {
+		name   string
+		mutate func(*model.DPSPassiveEffectV2)
+		needle string
+	}{
+		{
+			name: "per-stack stat modifier missing stack key",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[1].StackKey = ""
+			},
+			needle: "perStack stat_modifier requires stackKey",
+		},
+		{
+			name: "per-stack stat modifier missing matching add stack",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[1].StackKey = "missing_stack"
+			},
+			needle: "requires matching add_stack",
+		},
+		{
+			name: "unsupported add stack refresh mode",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[0].RefreshMode = "extend"
+			},
+			needle: "add_stack has unsupported refreshMode extend",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			passive := canonicalStackingStatModifierPassive("canonical_invalid_stacking_stat", "invalid_stack", 6000, 3, 0.5, 0)
+			tc.mutate(&passive)
+			curve := &input.Curves[0]
+			enableDPSPassivesForTest(curve, passive)
+
+			result := RunSingleAttackerDPS(input).CurveResults[0]
+			if result.Status != "blocked" || result.StopReason != "blocked" {
+				t.Fatalf("result = %+v, want blocked", result)
+			}
+			if !blockedReasonContains(result, tc.needle) {
+				t.Fatalf("blockedReasons = %v, want %q", result.BlockedReasons, tc.needle)
+			}
+		})
+	}
+}
+
+func TestSingleAttackerDPSStackingStatModifierStackKeysArePassiveScoped(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchH-H1-stacking-stat-key-isolation"
+	input.SimulationRules.DurationMs = 500
+	first := canonicalStackingStatModifierPassive("canonical_stack_scope_a", "shared_stack", 6000, 5, 0.1, 0)
+	second := canonicalStackingStatModifierPassive("canonical_stack_scope_b", "shared_stack", 6000, 5, 0.2, 0)
+	curve := &input.Curves[0]
+	curve.CurveID = "stacking-stat-scope"
+	enableDPSPassivesForTest(curve, first, second)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := RunSingleAttackerDPS(input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.AttackIntervalTimeline[0].RawAttackSpeed; !almostEqual(got, 1.32) {
+		t.Fatalf("first rawAttackSpeed = %.4f, want isolated shared_stack values 1.1*1.2=1.32", got)
+	}
+	if maxBreakdownAmount(result, dpsOpAddStack) != 1 {
+		t.Fatalf("effectBreakdown = %+v, want each passive-scoped stack to stay at 1 after first hit", result.EffectBreakdown)
+	}
+}
+
 func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 	return model.SingleAttackerDPSInputV2{
 		Mode:        "single_attacker_dps",
@@ -1350,6 +1494,44 @@ func canonicalDotOnlyPassive() model.DPSPassiveEffectV2 {
 	}
 }
 
+func canonicalStackingStatModifierPassive(passiveID string, stackKey string, durationMs int64, maxStacks int, attackSpeedPerStack float64, adPerStack float64) model.DPSPassiveEffectV2 {
+	operations := []model.DPSPassiveOperationV2{
+		{Kind: dpsOpAddStack, Source: passiveID + "_add_stack", StackKey: stackKey, MaxStacks: maxStacks, DurationMs: durationMs, RefreshMode: "refresh"},
+		{Kind: dpsOpStatModifier, Source: passiveID + "_attack_speed", StackKey: stackKey, AttrKey: "attack_speed", ModifierMode: "percent", Value: attackSpeedPerStack, PerStack: true},
+	}
+	if adPerStack != 0 {
+		operations = append(operations, model.DPSPassiveOperationV2{
+			Kind:         dpsOpStatModifier,
+			Source:       passiveID + "_ad",
+			StackKey:     stackKey,
+			AttrKey:      "ad",
+			ModifierMode: "flat",
+			Value:        adPerStack,
+			PerStack:     true,
+		})
+	}
+	return model.DPSPassiveEffectV2{
+		PassiveID:      passiveID,
+		EffectID:       passiveID + "_effect",
+		SourceCategory: "skill_passive",
+		SourceID:       passiveID,
+		SourceType:     "skill",
+		TriggerID:      passiveID + "_on_hit",
+		TriggerKind:    dpsTriggerStackOnHit,
+		Operations:     operations,
+	}
+}
+
+func enableDPSPassivesForTest(curve *model.DPSCurveRunSpecV2, passives ...model.DPSPassiveEffectV2) {
+	ids := make([]string, 0, len(passives))
+	for _, passive := range passives {
+		ids = append(ids, passive.PassiveID)
+	}
+	curve.Selection.EnabledPassiveEffects = ids
+	curve.ResolvedSnapshot.EnabledPassiveEffects = ids
+	curve.ResolvedSnapshot.PassiveEffects = passives
+}
+
 func attackTimes(result model.DPSCurveResultV2) []int64 {
 	times := make([]int64, 0, len(result.AttackTimeline))
 	for _, event := range result.AttackTimeline {
@@ -1376,6 +1558,24 @@ func damageSources(result model.DPSCurveResultV2) []string {
 	return sources
 }
 
+func rawDamagesBySource(result model.DPSCurveResultV2, source string) []float64 {
+	values := make([]float64, 0)
+	for _, event := range result.DamageTimeline {
+		if event.Source == source {
+			values = append(values, event.RawDamage)
+		}
+	}
+	return values
+}
+
+func rawAttackSpeeds(result model.DPSCurveResultV2) []float64 {
+	values := make([]float64, 0, len(result.AttackIntervalTimeline))
+	for _, event := range result.AttackIntervalTimeline {
+		values = append(values, event.RawAttackSpeed)
+	}
+	return values
+}
+
 func effectBreakdownKindsAndSources(result model.DPSCurveResultV2) []string {
 	values := make([]string, 0, len(result.EffectBreakdown))
 	for _, event := range result.EffectBreakdown {
@@ -1399,6 +1599,18 @@ func sameInt64s(left []int64, right []int64) bool {
 	}
 	for i := range left {
 		if left[i] != right[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func sameFloat64s(left []float64, right []float64) bool {
+	if len(left) != len(right) {
+		return false
+	}
+	for i := range left {
+		if !almostEqual(left[i], right[i]) {
 			return false
 		}
 	}
@@ -1440,6 +1652,25 @@ func lastTargetHPAfterTime(result model.DPSCurveResultV2, timeMs int64) float64 
 func hasBreakdown(result model.DPSCurveResultV2, kind string, amount float64) bool {
 	for _, event := range result.EffectBreakdown {
 		if event.Kind == kind && almostEqual(event.Amount, amount) {
+			return true
+		}
+	}
+	return false
+}
+
+func maxBreakdownAmount(result model.DPSCurveResultV2, kind string) float64 {
+	maxAmount := 0.0
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == kind && event.Amount > maxAmount {
+			maxAmount = event.Amount
+		}
+	}
+	return maxAmount
+}
+
+func effectBreakdownMessageContains(result model.DPSCurveResultV2, kind string, needle string) bool {
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == kind && strings.Contains(event.Message, needle) {
 			return true
 		}
 	}

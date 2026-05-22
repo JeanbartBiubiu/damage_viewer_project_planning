@@ -1,0 +1,125 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_h_stacking_stat_passives_001",
+  "source": {
+    "auditJson": "最小验证/V2-Batch-G-adc-passive-audit.json",
+    "baseItemSeed": "最小验证/V2-Batch-C-adc-items.seed.json",
+    "priorPassiveSeed": "最小验证/V2-Batch-D-adc-item-passives.seed.json",
+    "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
+    "sourceVersion": "16.9.1",
+    "generatedAt": "2026-05-21",
+    "rule": "V2 Batch H encodes only attacker-side stacking_stat_modifier_on_hit. Ezreal P lacks local auditable per-stack value and duration, so this seed uses Guinsoo's Rageblade Boiling Strike stacking attack-speed sub-mechanism. Phantom-hit remains out of scope.",
+    "gateStatus": "H-real-data-blocked; 3124 Boiling Strike is published sub-mechanism evidence only because the same passive also requires phantom_hit_on_hit_repeat."
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3124_guinsoos_boiling_strike_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3124",
+      "skillKey": "p_boiling",
+      "name": "鬼索的狂暴之刃 沸腾打击 DPS 叠攻速被动",
+      "description": "V2 Batch H: attacks add one Boiling Strike stack. Each unexpired stack grants 8% attack speed for 3 seconds, capped at 4 stacks. The full-stack phantom-hit/on-hit duplication text is intentionally not encoded in Batch H.",
+      "params": {
+        "perStackAttackSpeed": 0.08,
+        "durationMs": 3000,
+        "maxStacks": 4,
+        "refreshMode": "refresh",
+        "excludedMechanics": [
+          "phantom_hit_on_hit_repeat"
+        ],
+        "sourceRef": "数据参考/item.json#data.3124.description/effect"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "guinsoos_boiling_strike_stack_on_hit",
+            "triggerKind": "stack_on_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3124_guinsoos_boiling_strike_dps_v2",
+            "effectId": "item_3124_guinsoos_boiling_strike_effect",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_boiling_strike_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_boiling_strike_stack_on_hit",
+            "triggerKind": "stack_on_hit",
+            "operations": [
+              {
+                "kind": "add_stack",
+                "source": "guinsoos_boiling_strike_add_stack",
+                "stackKey": "guinsoos_boiling_strike",
+                "maxStacks": 4,
+                "durationMs": 3000,
+                "refreshMode": "refresh"
+              },
+              {
+                "kind": "stat_modifier",
+                "source": "guinsoos_boiling_strike_attack_speed",
+                "stackKey": "guinsoos_boiling_strike",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.08,
+                "perStack": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3124",
+      "name": "鬼索的狂暴之刃",
+      "goldCost": 3000,
+      "iconUrl": "item_3124",
+      "skillRefs": [
+        "item_3124_guinsoos_rageblade_wrath_dps_v2",
+        "item_3124_guinsoos_boiling_strike_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 30
+        },
+        {
+          "attrKey": "ap",
+          "value": 30
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3124",
+        "sourceTags": [
+          "Damage",
+          "AttackSpeed",
+          "SpellDamage",
+          "OnHit"
+        ],
+        "sourceGoldTotal": 3000,
+        "batch": "V2-Batch-H",
+        "sourceText": "攻击会提供8%攻击速度，持续3秒(可叠加4次)。在满层状态下，每第三次攻击会附带2次攻击特效。Batch H only encodes the stacking attack-speed clause."
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
