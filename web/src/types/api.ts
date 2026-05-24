@@ -231,8 +231,8 @@ export type ItemStatModifier = {
 
 export type Skill = {
   skillId: string;
-  ownerType: string;
-  ownerId: string;
+  ownerType: string | null;
+  ownerId: string | null;
   skillKey?: string;
   name?: string;
   description?: string;
@@ -260,6 +260,16 @@ export type FormulaBinding = {
   bindingKey: string;
   formulaId: string;
   overrideParams?: JsonObject;
+  updatedAt?: string;
+  [key: string]: unknown;
+};
+
+export type SkillMount = {
+  targetCategory: string;
+  targetId: string;
+  skillId: string;
+  enabled: boolean;
+  extend?: JsonObject;
   updatedAt?: string;
   [key: string]: unknown;
 };
@@ -310,6 +320,7 @@ export type GameDataBundle = {
   items: Item[];
   formulaProfiles?: FormulaProfile[];
   formulaBindings?: FormulaBinding[];
+  skillMounts?: SkillMount[];
   dictionaries?: JsonObject;
   /** 编译后的 benchmark 数据，供 Wasm 引擎消费 */
   benchmark?: import('../engine/benchmarkTypes').BenchmarkBundle;
@@ -369,6 +380,11 @@ export type TypeRelationsByTargetResponse = {
 export type FormulaBindingsResponse = {
   gameId: string;
   formulaBindings: FormulaBinding[];
+};
+
+export type SkillMountsResponse = {
+  gameId: string;
+  skillMounts: SkillMount[];
 };
 
 export type CoefficientBucketsResponse = {

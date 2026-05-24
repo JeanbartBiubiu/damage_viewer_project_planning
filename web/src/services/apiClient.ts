@@ -23,6 +23,8 @@ import type {
   JsonObject,
   OwnerCategoryResponse,
   Skill,
+  SkillMount,
+  SkillMountsResponse,
   SkillsResponse,
   StatusActionControlRule,
   StatusActionControlRulesResponse,
@@ -659,6 +661,45 @@ export async function putFormulaBinding(
       body: JSON.stringify(body)
     }
   );
+}
+
+export async function getSkillMounts(
+  apiBaseUrl: string,
+  gameId: string,
+  token: string
+): Promise<ApiResult<SkillMountsResponse>> {
+  return requestJson<SkillMountsResponse>(apiBaseUrl, adminPath(gameId, 'skill-mounts'), {
+    token
+  });
+}
+
+export async function getSkillMount(
+  apiBaseUrl: string,
+  gameId: string,
+  targetCategory: string,
+  targetId: string,
+  skillId: string,
+  token: string
+): Promise<ApiResult<SkillMount>> {
+  return requestJson<SkillMount>(apiBaseUrl, adminPath(gameId, 'skill-mounts', targetCategory, targetId, skillId), {
+    token
+  });
+}
+
+export async function putSkillMount(
+  apiBaseUrl: string,
+  gameId: string,
+  targetCategory: string,
+  targetId: string,
+  skillId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<SkillMount>> {
+  return requestJson<SkillMount>(apiBaseUrl, adminPath(gameId, 'skill-mounts', targetCategory, targetId, skillId), {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(body)
+  });
 }
 
 export async function publishVersion(

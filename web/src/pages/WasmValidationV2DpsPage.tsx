@@ -23,12 +23,15 @@ import {
   listV2DpsEquipmentOptions,
   listV2DpsPassiveOptionsForHero,
   listV2DpsScenarioOptionsForHero,
-  listV2DpsTargetGroups,
+  listV2DpsTargetDummyGroups,
   prepareV2DpsInput,
   V2_DPS_CASE_ID,
+  V2_DPS_INVALID_TARGET_REASON,
+  V2_DPS_MISSING_BASIC_ATTACK_REASON,
   V2_DPS_STACKING_PASSIVE_CASE_ID,
   V2_DPS_STACKING_PASSIVE_ITEM_ID,
   V2_DPS_STACKING_PASSIVE_SKILL_ID,
+  type V2DpsBasicAttackAction,
   type V2DpsCurveResult,
   type V2DpsCurveSelection,
   type V2DpsOutput,
@@ -104,6 +107,12 @@ type StackingPassiveEvidence = {
 };
 
 type ChartMode = 'damage' | 'hp';
+
+type BasicAttackEvidenceRow = V2DpsBasicAttackAction & {
+  key: string;
+  curveId: string;
+  curveLabel: string;
+};
 
 const frameKindLabel: Record<number, string> = {
   [READY_FRAME_KIND]: 'ready',
@@ -234,7 +243,11 @@ function WasmValidationV2DpsWorkbench({
   }, [apiBaseUrl, externalRefreshSeed, isStackingPassive, mode, resetRunArtifacts, selectedGameId]);
 
   const attackerOptions = useMemo(() => (bundle ? listV2DpsAttackers(bundle) : []), [bundle]);
-  const targetGroups = useMemo(() => (bundle ? listV2DpsTargetGroups(bundle) : []), [bundle]);
+  const targetDummyGroups = useMemo(() => (bundle ? listV2DpsTargetDummyGroups(bundle) : []), [bundle]);
+  const targetDummyActorIds = useMemo(
+    () => new Set(targetDummyGroups.flatMap((group) => group.actors.map((actor) => actor.actorId))),
+    [targetDummyGroups]
+  );
   const equipmentOptions = useMemo(() => (bundle ? listV2DpsEquipmentOptions(bundle) : []), [bundle]);
   const equipmentLabelById = useMemo(() => {
     const labels = new Map<string, string>();
@@ -303,8 +316,6 @@ function WasmValidationV2DpsWorkbench({
     () => (bundle && isStackingPassive ? inspectV2DpsStackingPassiveBundle(bundle) : null),
     [bundle, isStackingPassive]
   );
-  const canRun = Boolean(bundle && currentVersion && selection && selectedGameId && selection.curves.length > 0)
-    && runStatus !== 'loading';
 
   const attackRows = useMemo<AttackRow[]>(
     () => activeCurveResult?.attackTimeline.map((row, index) => ({ ...row, key: `${index}-${row.timeMs}` })) ?? [],
@@ -322,6 +333,64 @@ function WasmValidationV2DpsWorkbench({
     () => (isStackingPassive && wasmOutput ? buildStackingPassiveEvidence(wasmOutput.curveResults) : null),
     [isStackingPassive, wasmOutput]
   );
+  const dpsInputPreview = useMemo(() => {
+    if (!bundle || !selection || !currentVersion) {
+      return null;
+    }
+    return prepareV2DpsInput(bundle, selection, currentVersion.versionCode, '');
+  }, [bundle, currentVersion, selection]);
+  const preflightBlockedReasons = dpsInputPreview?.preflightBlockedReasons ?? [];
+  const canRun = Boolean(
+    bundle
+    && currentVersion
+    && selection
+    && selectedGameId
+    && selection.curves.length > 0
+    && selection.targetActorId
+    && targetDummyActorIds.has(selection.targetActorId)
+  )
+    && preflightBlockedReasons.length === 0
+    && runStatus !== 'loading';
+  const curveEvidenceInput = preparedInput ?? dpsInputPreview;
+  const preparedCurveById = useMemo(() => {
+    const map = new Map(curveEvidenceInput?.runInput.curves.map((curve) => [curve.curveId, curve]) ?? []);
+    return map;
+  }, [curveEvidenceInput]);
+  const resolvedActiveCurveId = useMemo(() => {
+    if (activeCurveResult?.curveId) {
+      return activeCurveResult.curveId;
+    }
+    if (activeCurveId) {
+      return activeCurveId;
+    }
+    return curveEvidenceInput?.runInput.curves[0]?.curveId ?? null;
+  }, [activeCurveId, activeCurveResult, curveEvidenceInput]);
+  const activeCurvePrepared = useMemo(
+    () => (resolvedActiveCurveId ? preparedCurveById.get(resolvedActiveCurveId) : undefined),
+    [preparedCurveById, resolvedActiveCurveId]
+  );
+  const basicAttackEvidenceRows = useMemo<BasicAttackEvidenceRow[]>(() => {
+    if (!curveEvidenceInput) {
+      return [];
+    }
+    return curveEvidenceInput.runInput.curves.flatMap((curve) => (
+      curve.resolvedSnapshot.basicAttackActions.map((action, index) => ({
+        ...action,
+        key: `${curve.curveId}-${action.actionId}-${action.skillId}-${index}`,
+        curveId: curve.curveId,
+        curveLabel: curve.label
+      }))
+    ));
+  }, [curveEvidenceInput]);
+  const activeBasicAttackActions = activeCurvePrepared?.resolvedSnapshot.basicAttackActions ?? [];
+  const activeBasicAttackActionsForDisplay = useMemo(() => {
+    if (activeBasicAttackActions.length > 0) {
+      return activeBasicAttackActions;
+    }
+    return basicAttackEvidenceRows
+      .filter((row) => row.curveId === resolvedActiveCurveId)
+      .map(({ key: _key, curveId: _curveId, curveLabel: _curveLabel, ...action }) => action);
+  }, [activeBasicAttackActions, basicAttackEvidenceRows, resolvedActiveCurveId]);
   const exportPayload = useMemo(() => {
     if (!wasmOutput || !preparedInput) {
       return null;
@@ -331,6 +400,7 @@ function WasmValidationV2DpsWorkbench({
       versionCode: wasmOutput.versionCode,
       wasmSha256: wasmOutput.wasmSha256,
       activeCurveId: activeCurveResult?.curveId ?? wasmOutput.curveResults[0]?.curveId,
+      preflightBlockedReasons: preparedInput.preflightBlockedReasons,
       selection: buildExportSelection(preparedInput),
       resolvedSnapshot: buildExportResolvedSnapshot(preparedInput),
       simulationRules: wasmOutput.simulationRules,
@@ -450,6 +520,12 @@ function WasmValidationV2DpsWorkbench({
     try {
       const nextWasmSha256 = await computeWasmSha256(TINYGO_V2_WASM_URL);
       const prepared = prepareV2DpsInput(bundle, committedSelection, currentVersion.versionCode, nextWasmSha256);
+      if (prepared.preflightBlockedReasons.length > 0) {
+        setPreparedInput(prepared);
+        setRunStatus('error');
+        setRunError(formatPreflightBlockedMessage(prepared.preflightBlockedReasons));
+        return;
+      }
       const bridge = await TinyGoV2Bridge.create({ wasmUrl: TINYGO_V2_WASM_URL });
       const initFrames = decodeFrames(bridge.init(prepared.engineBundle), 'init');
       nextDecodedFrames = [...nextDecodedFrames, ...initFrames];
@@ -776,6 +852,12 @@ function WasmValidationV2DpsWorkbench({
         {!selectedGameId ? <Alert type="warning" content="当前没有选中的 gameId。" /> : null}
         {bundleError ? <Alert type="error" content={bundleError} /> : null}
         {runError ? <Alert type="error" content={runError} /> : null}
+        {curveEvidenceInput && curveEvidenceInput.preflightBlockedReasons.length > 0 ? (
+          <Alert
+            type="warning"
+            content={formatPreflightBlockedMessage(curveEvidenceInput.preflightBlockedReasons)}
+          />
+        ) : null}
         {isStackingPassive && syntheticFallbackReason ? (
           <Alert
             type="warning"
@@ -837,15 +919,16 @@ function WasmValidationV2DpsWorkbench({
               </Col>
             ) : null}
             <Col span={8}>
-              <Form.Item label="目标 actor">
+              <Form.Item label="目标 actor (target_dummy)">
                 <Select
                   value={selection?.targetActorId ?? ''}
                   showSearch
                   filterOption={filterSelectOption}
                   onChange={(value) => updateSelection((current) => ({ ...current, targetActorId: String(value) }))}
-                  disabled={!selection}
+                  disabled={!selection || targetDummyGroups.length === 0}
+                  placeholder={targetDummyGroups.length === 0 ? 'published bundle 缺少 target_dummy' : '选择 target_dummy'}
                 >
-                  {targetGroups.map((group) => (
+                  {targetDummyGroups.map((group) => (
                     <Select.OptGroup key={group.typeKey} label={group.label}>
                       {group.actors.map((option) => (
                         <Select.Option key={option.actorId} value={option.actorId}>
@@ -984,6 +1067,9 @@ function WasmValidationV2DpsWorkbench({
                         {isMultiHero ? <Tag>{curveHeroLabel}</Tag> : null}
                         <Tag>{equipmentSummary}</Tag>
                         <Tag>技能 {formatSkillLevelSummary(curve.skillLevels)}</Tag>
+                        <Tag color={getCurveBasicAttackCount(preparedCurveById.get(curve.curveId)) > 0 ? 'green' : 'orange'}>
+                          普攻 {formatCurveBasicAttackSummary(preparedCurveById.get(curve.curveId))}
+                        </Tag>
                       </div>
                     </Space>
                     <Space wrap>
@@ -1156,6 +1242,37 @@ function WasmValidationV2DpsWorkbench({
         {activeCurveResult?.status === 'blocked' ? (
           <Alert type="warning" content={activeCurveResult.blockedReasons.join(' / ') || 'blocked'} />
         ) : null}
+
+        <Panel title="普攻 Skill 解析" kicker="bundle.skillMounts -> skill -> action classifier -> basicAttackActions">
+          {curveEvidenceInput ? (
+            <>
+              {activeBasicAttackActionsForDisplay.length > 0 ? (
+                <JsonBlock value={activeBasicAttackActionsForDisplay} />
+              ) : (
+                <Alert
+                  type="warning"
+                  content={formatMissingBasicAttackMessage(activeCurvePrepared?.resolvedSnapshot.preflightBlockedReasons)}
+                />
+              )}
+              {basicAttackEvidenceRows.length > 0 ? (
+                <Table
+                  rowKey="key"
+                  size="small"
+                  pagination={false}
+                  className="data-table-shell"
+                  style={{ marginTop: 12 }}
+                  data={basicAttackEvidenceRows}
+                  columns={basicAttackEvidenceColumns}
+                />
+              ) : null}
+            </>
+          ) : (
+            <EmptyState
+              title="尚未解析普攻 skill"
+              description="运行后将根据 published bundle.skillMounts 与 typeRelations 展示当前曲线解析到的 action/basic_attack。"
+            />
+          )}
+        </Panel>
 
         {stackingPassiveEvidence ? (
           <Panel title="Batch H Assertions" kicker="wasm output evidence">
@@ -1525,6 +1642,33 @@ function buildHpSeries(result: V2DpsCurveResult): Array<[number, number]> {
   return points;
 }
 
+const basicAttackEvidenceColumns = [
+  {
+    title: 'Curve',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => record.curveLabel
+  },
+  {
+    title: 'skillId',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => <Typography.Text code>{record.skillId}</Typography.Text>
+  },
+  {
+    title: 'sourceKind',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => (
+      <Typography.Text code>{record.sourceKind ?? '—'}</Typography.Text>
+    )
+  },
+  {
+    title: 'actionId',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => <Typography.Text code>{record.actionId}</Typography.Text>
+  },
+  {
+    title: 'classifier',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => (
+      <Typography.Text className="wasm-code-token">{formatClassifierSummary(record.classifier)}</Typography.Text>
+    )
+  }
+];
+
 function buildExportSelection(preparedInput: V2DpsPreparedInput) {
   const firstCurve = preparedInput.runInput.curves[0];
   return {
@@ -1534,9 +1678,12 @@ function buildExportSelection(preparedInput: V2DpsPreparedInput) {
     attackSpeedCap: preparedInput.runInput.simulationRules.attackSpeedCap,
     critPolicy: preparedInput.runInput.simulationRules.critPolicy,
     equipmentSet: firstCurve?.selection.equipmentSet ?? [],
+    preflightBlockedReasons: preparedInput.preflightBlockedReasons,
     curves: preparedInput.runInput.curves.map((curve) => ({
       curveId: curve.curveId,
       label: curve.label,
+      basicAttackActions: curve.resolvedSnapshot.basicAttackActions,
+      preflightBlockedReasons: curve.resolvedSnapshot.preflightBlockedReasons,
       ...curve.selection
     }))
   };
@@ -1548,9 +1695,45 @@ function buildExportResolvedSnapshot(preparedInput: V2DpsPreparedInput) {
     curves: preparedInput.runInput.curves.map((curve) => ({
       curveId: curve.curveId,
       label: curve.label,
-      resolvedSnapshot: curve.resolvedSnapshot
+      resolvedSnapshot: curve.resolvedSnapshot,
+      basicAttackActions: curve.resolvedSnapshot.basicAttackActions
     }))
   };
+}
+
+function getCurveBasicAttackCount(curve: V2DpsPreparedInput['runInput']['curves'][number] | undefined): number {
+  return curve?.resolvedSnapshot.basicAttackActions.length ?? 0;
+}
+
+function formatCurveBasicAttackSummary(curve: V2DpsPreparedInput['runInput']['curves'][number] | undefined): string {
+  const actions = curve?.resolvedSnapshot.basicAttackActions ?? [];
+  if (actions.length === 0) {
+    return '缺失';
+  }
+  return `${actions.length} 条`;
+}
+
+function formatClassifierSummary(classifier: V2DpsBasicAttackAction['classifier']): string {
+  const types = classifier?.types ?? [];
+  return types.length > 0 ? types.join(', ') : '—';
+}
+
+function formatPreflightBlockedMessage(reasons: string[]): string {
+  const details = reasons.map((reason) => {
+    if (reason === V2_DPS_INVALID_TARGET_REASON) {
+      return `${reason}：DPS target 必须是 typeRelations 标记为 target_dummy 的 actor；普通 hero 不能作为 target 运行。`;
+    }
+    if (reason === V2_DPS_MISSING_BASIC_ATTACK_REASON) {
+      return `${reason}：未从 bundle.skillMounts 解析到 action/basic_attack skill；不会 fallback 到硬编码 basic_attack。`;
+    }
+    return reason;
+  });
+  return `Preflight blocked：${details.join(' / ')}`;
+}
+
+function formatMissingBasicAttackMessage(reasons: string[] | undefined): string {
+  const normalized = reasons && reasons.length > 0 ? reasons : [V2_DPS_MISSING_BASIC_ATTACK_REASON];
+  return `${normalized.join(' / ')}：未从 bundle.skillMounts 解析到 action/basic_attack skill；不会 fallback 到硬编码 basic_attack。`;
 }
 
 function filterSelectOption(inputValue: string, option: unknown): boolean {
