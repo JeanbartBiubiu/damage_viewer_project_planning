@@ -1,10 +1,15 @@
 package runtime
 
 import (
+	"errors"
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
 
+	"tinygo_engine_v2/internal/abi"
+	"tinygo_engine_v2/internal/attribute"
+	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -26,6 +31,12 @@ const (
 	dpsOpStatModifier          = "stat_modifier"
 )
 
+type dpsBasicAttackSchedule struct {
+	ref         model.DPSBasicAttackActionRefV2
+	actionIndex uint16
+	nextAtMs    int64
+}
+
 type activeDPSDot struct {
 	Key            string
 	SourceCategory string
@@ -39,11 +50,16 @@ type activeDPSDot struct {
 }
 
 type dpsCurveState struct {
+	bundle               compilebundle.CompiledBundle
+	runCtx               *RunContext
+	attackerIdx          uint8
+	targetIdx            uint8
 	rules                model.DPSimulationRulesV2
 	curve                model.DPSCurveRunSpecV2
 	result               *model.DPSCurveResultV2
 	attacker             model.DPSActorSnapshotV2
 	target               model.DPSActorSnapshotV2
+	attackerTemplateID   string
 	baseAttrs            map[string]float64
 	attrs                map[string]float64
 	targetHP             float64
@@ -51,6 +67,7 @@ type dpsCurveState struct {
 	attackStartTargetHP  float64
 	armor                float64
 	magicResist          float64
+	schedules            []dpsBasicAttackSchedule
 	passives             []model.DPSPassiveEffectV2
 	stacks               map[string]int
 	stackExpiry          map[string]int64
@@ -60,6 +77,10 @@ type dpsCurveState struct {
 }
 
 func RunSingleAttackerDPS(input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
+	return RunSingleAttackerDPSWithBundle(compilebundle.CompiledBundle{}, input)
+}
+
+func RunSingleAttackerDPSWithBundle(bundle compilebundle.CompiledBundle, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
 	rules := normalizeDPSRules(input.SimulationRules)
 	output := model.SingleAttackerDPSOutputV2{
 		CaseID:          input.CaseID,
@@ -70,7 +91,7 @@ func RunSingleAttackerDPS(input model.SingleAttackerDPSInputV2) model.SingleAtta
 		CurveResults:    make([]model.DPSCurveResultV2, 0, len(input.Curves)),
 	}
 	for _, curve := range input.Curves {
-		output.CurveResults = append(output.CurveResults, runSingleAttackerDPSCurve(rules, curve))
+		output.CurveResults = append(output.CurveResults, runSingleAttackerDPSCurve(bundle, rules, curve))
 	}
 	return output
 }
@@ -95,9 +116,6 @@ func normalizeDPSRules(input model.DPSimulationRulesV2) model.DPSimulationRulesV
 	if rules.MaxEvents <= 0 {
 		rules.MaxEvents = 10000
 	}
-	if rules.AutoAttackPlan.ActionID == "" {
-		rules.AutoAttackPlan.ActionID = "basic_attack"
-	}
 	if rules.AutoAttackPlan.TargetRole == "" {
 		rules.AutoAttackPlan.TargetRole = "target"
 	}
@@ -111,6 +129,7 @@ func normalizeDPSRules(input model.DPSimulationRulesV2) model.DPSimulationRulesV
 }
 
 func runSingleAttackerDPSCurve(
+	bundle compilebundle.CompiledBundle,
 	rules model.DPSimulationRulesV2,
 	curve model.DPSCurveRunSpecV2,
 ) model.DPSCurveResultV2 {
@@ -147,7 +166,7 @@ func runSingleAttackerDPSCurve(
 	attacker := resolvedSnapshot.AttackerSnapshot
 	target := resolvedSnapshot.TargetSnapshot
 
-	blockedReasons := validateDPSCurve(rules, curve, attacker, target)
+	blockedReasons := validateDPSCurve(bundle, rules, curve, attacker, target)
 	blockedReasons = append(equipmentReasons, blockedReasons...)
 	if len(blockedReasons) > 0 {
 		result.Status = dpsStatusBlocked
@@ -156,22 +175,21 @@ func runSingleAttackerDPSCurve(
 		return result
 	}
 
-	state := newDPSCurveState(rules, curve, &result, attacker, target)
+	state := newDPSCurveState(bundle, rules, curve, &result, attacker, target)
+	if result.Status == dpsStatusBlocked {
+		return result
+	}
 	state.applyInitialStatModifiers()
 	if result.Status == dpsStatusBlocked {
 		return result
 	}
+	state.initBasicAttackSchedules()
 	state.TargetHPTimelineAppend(0)
-
-	nextAttackAtMs := rules.AutoAttackPlan.StartAtMs
-	if nextAttackAtMs < 0 {
-		nextAttackAtMs = 0
-	}
 	result.FinalTimeMs = rules.DurationMs
 
 	for {
 		nextDotAtMs, hasDot := state.nextDotTick()
-		hasAttack := nextAttackAtMs >= 0 && nextAttackAtMs < rules.DurationMs
+		nextAttackAtMs, hasAttack := state.nextBasicAttackAtMs()
 		if !hasDot && !hasAttack {
 			break
 		}
@@ -183,8 +201,8 @@ func runSingleAttackerDPSCurve(
 			continue
 		}
 
-		nextAttackAtMs = state.processAttack(nextAttackAtMs)
-		if state.shouldStopAfterEvent(result.FinalTimeMs) {
+		state.processBasicAttacksAt(nextAttackAtMs)
+		if state.shouldStopAfterEvent(nextAttackAtMs) {
 			break
 		}
 	}
@@ -199,6 +217,7 @@ func runSingleAttackerDPSCurve(
 }
 
 func newDPSCurveState(
+	bundle compilebundle.CompiledBundle,
 	rules model.DPSimulationRulesV2,
 	curve model.DPSCurveRunSpecV2,
 	result *model.DPSCurveResultV2,
@@ -213,18 +232,32 @@ func newDPSCurveState(
 	if targetHP <= 0 {
 		targetHP = targetMaxHP
 	}
+	attackerTemplateID := nonEmpty(attacker.TemplateID, "dps_attacker")
+	runCtx, attackerIdx, targetIdx, err := newDPSRunContext(bundle, rules, attacker, target)
+	if err != nil {
+		result.Status = dpsStatusBlocked
+		result.StopReason = "blocked"
+		result.BlockedReasons = append(result.BlockedReasons, err.Error())
+		return &dpsCurveState{result: result}
+	}
 	return &dpsCurveState{
+		bundle:               bundle,
+		runCtx:               runCtx,
+		attackerIdx:          attackerIdx,
+		targetIdx:            targetIdx,
 		rules:                rules,
 		curve:                curve,
 		result:               result,
 		attacker:             attacker,
 		target:               target,
+		attackerTemplateID:   attackerTemplateID,
 		baseAttrs:            copyDPSFloatMap(attacker.Attributes),
 		attrs:                copyDPSFloatMap(attacker.Attributes),
 		targetHP:             targetHP,
 		targetMaxHP:          targetMaxHP,
 		armor:                readFirstFiniteAttr(target.Attributes, "armor", "armour"),
 		magicResist:          readFirstFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block"),
+		schedules:            make([]dpsBasicAttackSchedule, 0),
 		passives:             enabledDPSPassives(curve),
 		stacks:               map[string]int{},
 		stackExpiry:          map[string]int64{},
@@ -232,6 +265,138 @@ func newDPSCurveState(
 		statModifierTriggers: map[string]bool{},
 		dots:                 make([]activeDPSDot, 0),
 	}
+}
+
+func errorFromPayload(p *model.ErrorPayload) error {
+	if p == nil {
+		return nil
+	}
+	msg := p.Message
+	if msg == "" {
+		msg = string(p.Code)
+	}
+	if len(p.Details) > 0 {
+		return fmt.Errorf("%s: %s", msg, strings.Join(p.Details, "; "))
+	}
+	return errors.New(msg)
+}
+
+func newDPSRunContext(
+	bundle compilebundle.CompiledBundle,
+	rules model.DPSimulationRulesV2,
+	attacker model.DPSActorSnapshotV2,
+	target model.DPSActorSnapshotV2,
+) (*RunContext, uint8, uint8, error) {
+	attackerTemplateID := nonEmpty(attacker.TemplateID, "dps_attacker")
+	targetTemplateID := nonEmpty(target.TemplateID, "target_dummy_fighter")
+	input := model.EngineRunInput{
+		Seed:          rules.Seed,
+		Self:          model.CombatantRunInit{ActorID: nonEmpty(attacker.ActorID, "attacker"), TemplateID: attackerTemplateID, StatusIDs: attacker.StatusIDs},
+		Enemy:         model.CombatantRunInit{ActorID: nonEmpty(target.ActorID, "target"), TemplateID: targetTemplateID},
+		StopCondition: model.StopCondition{MaxEvents: rules.MaxEvents},
+	}
+	outbox := abi.NewOutbox(abi.DefaultOutboxCapacity)
+	ctx, errPayload := NewRunContext(bundle, input, &outbox)
+	if errPayload != nil {
+		return nil, 0, 0, errorFromPayload(errPayload)
+	}
+	applyDPSAttributesToStore(&ctx.Actors[0].Attrs, bundle.AttrIndex, attacker.Attributes)
+	attackerHP := attacker.CurrentHP
+	if attackerHP <= 0 {
+		attackerHP = attacker.MaxHP
+	}
+	if attackerHP <= 0 {
+		attackerHP = ctx.Actors[0].MaxHP
+	}
+	ctx.Actors[0].HP = attackerHP
+	targetHP := target.CurrentHP
+	if targetHP <= 0 {
+		targetHP = target.MaxHP
+	}
+	if targetHP <= 0 {
+		targetHP = ctx.Actors[1].MaxHP
+	}
+	ctx.Actors[1].HP = targetHP
+	ctx.Done = false
+	return ctx, 0, 1, nil
+}
+
+func (state *dpsCurveState) initBasicAttackSchedules() {
+	startAt := state.rules.AutoAttackPlan.StartAtMs
+	if startAt < 0 {
+		startAt = 0
+	}
+	for _, ref := range state.curve.ResolvedSnapshot.BasicAttackActions {
+		actionIndex, ok := state.bundle.ActionIndex[ref.ActionID]
+		if !ok {
+			continue
+		}
+		state.schedules = append(state.schedules, dpsBasicAttackSchedule{
+			ref:         ref,
+			actionIndex: actionIndex,
+			nextAtMs:    startAt,
+		})
+	}
+}
+
+func (state *dpsCurveState) nextBasicAttackAtMs() (int64, bool) {
+	var next int64
+	found := false
+	for _, sched := range state.schedules {
+		if sched.nextAtMs < 0 || sched.nextAtMs >= state.rules.DurationMs {
+			continue
+		}
+		if !found || sched.nextAtMs < next {
+			next = sched.nextAtMs
+			found = true
+		}
+	}
+	return next, found
+}
+
+func (state *dpsCurveState) processBasicAttacksAt(timeMs int64) {
+	for i := range state.schedules {
+		if state.schedules[i].nextAtMs != timeMs {
+			continue
+		}
+		state.processBasicAttack(i, timeMs)
+		if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
+			for j := i + 1; j < len(state.schedules); j++ {
+				if state.schedules[j].nextAtMs == timeMs {
+					state.schedules[j].nextAtMs = -1
+				}
+			}
+			return
+		}
+	}
+}
+
+func (state *dpsCurveState) syncRunContextFromDPSState(timeMs int64) {
+	if state.runCtx == nil {
+		return
+	}
+	state.runCtx.NowMs = timeMs
+	applyDPSAttributesToStore(&state.runCtx.Actors[state.attackerIdx].Attrs, state.bundle.AttrIndex, state.attrs)
+	state.runCtx.Actors[state.attackerIdx].HP = state.runCtx.Actors[state.attackerIdx].MaxHP
+	state.runCtx.Actors[state.targetIdx].HP = state.targetHP
+	state.runCtx.Done = false
+}
+
+func (state *dpsCurveState) setDPSActionReadyAt(actionIndex uint16, readyAtMs int64) {
+	if state.runCtx == nil {
+		return
+	}
+	if int(actionIndex) >= len(state.runCtx.Actors[state.attackerIdx].ActionState) {
+		return
+	}
+	state.runCtx.Actors[state.attackerIdx].ActionState[actionIndex].ReadyAtMs = readyAtMs
+}
+
+func (state *dpsCurveState) syncRunContextHPFromDPS() {
+	if state.runCtx == nil {
+		return
+	}
+	state.runCtx.Actors[state.targetIdx].HP = state.targetHP
 }
 
 func applyEquipmentStatsToResolvedSnapshot(snapshot model.DPSResolvedSnapshotV2) model.DPSResolvedSnapshotV2 {
@@ -256,60 +421,124 @@ func (state *dpsCurveState) TargetHPTimelineAppend(timeMs int64) {
 	})
 }
 
-func (state *dpsCurveState) processAttack(timeMs int64) int64 {
+func (state *dpsCurveState) processBasicAttack(schedIdx int, timeMs int64) {
+	if state.runCtx == nil || schedIdx < 0 || schedIdx >= len(state.schedules) {
+		return
+	}
+	sched := &state.schedules[schedIdx]
+	actionID := sched.ref.ActionID
+	damageSource := nonEmpty(sched.ref.SkillID, actionID)
+
 	state.expireStacks(timeMs)
 	state.refreshActiveStatModifiers(timeMs)
 	if state.result.Status == dpsStatusBlocked {
-		return -1
+		sched.nextAtMs = -1
+		return
 	}
 	state.attackStartTargetHP = state.targetHP
 	state.result.ProcessedEvents++
 	state.updateQueuePeak()
+
+	state.syncRunContextFromDPSState(timeMs)
+	targetHPBefore := state.targetHP
+	castResult := state.runCtx.PerformCastAt(timeMs, state.attackerIdx, state.targetIdx, sched.actionIndex)
+	state.runCtx.Actors[state.targetIdx].HP = targetHPBefore
+
+	if !castResult.Accepted {
+		reason := "basic_attack_cast_blocked"
+		if blocked := strings.TrimSpace(castResult.BlockedReason); blocked != "" {
+			reason += ":" + blocked
+		}
+		state.block(reason)
+		sched.nextAtMs = -1
+		return
+	}
+
 	state.result.AttackCount++
 	state.result.AttackTimeline = append(state.result.AttackTimeline, model.DPSAttackEventV2{
 		TimeMs:        timeMs,
-		ActionID:      state.rules.AutoAttackPlan.ActionID,
+		ActionID:      actionID,
 		SourceActorID: nonEmpty(state.attacker.ActorID, "self"),
 		TargetActorID: nonEmpty(state.target.ActorID, "target"),
 	})
 
-	attackDamage := state.resolveBasicAttackRawDamage(readFirstFiniteAttr(state.attrs, "ad", "attack_damage", "attackDamage"))
-	if !state.applyDamage(timeMs, state.rules.AutoAttackPlan.ActionID, "physical", attackDamage) {
-		return -1
+	actionDamageProcessed := false
+	for _, effect := range castResult.Effects {
+		if effect.Kind != string(model.EffectTypeDealDamage) || !effect.HasRawAmount {
+			continue
+		}
+		actionDamageProcessed = true
+		damageType := effect.DamageType
+		if damageType == "" {
+			damageType = "physical"
+		}
+		state.applyDamage(timeMs, damageSource, damageType, effect.RawAmount)
 	}
-	if state.targetHP <= 0 {
-		return -1
+	state.syncRunContextHPFromDPS()
+	if actionDamageProcessed {
+		state.processAttackPassives(timeMs)
 	}
 
-	state.processAttackPassives(timeMs)
 	if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
-		return -1
+		sched.nextAtMs = -1
+		return
 	}
-	if state.result.ProcessedEvents >= state.rules.MaxEvents {
-		state.result.FinalTimeMs = timeMs
-		state.result.StopReason = "event_limit"
-		return -1
+
+	state.syncRunContextFromDPSState(timeMs)
+	cooldownMs, ok := state.runCtx.actionCooldownMs(state.attackerIdx, sched.actionIndex)
+	if !ok || cooldownMs <= 0 {
+		state.block("invalid_basic_attack_cooldown:" + actionID)
+		sched.nextAtMs = -1
+		return
 	}
+	nextAtMs := timeMs + cooldownMs
+	sched.nextAtMs = nextAtMs
+	state.setDPSActionReadyAt(sched.actionIndex, nextAtMs)
 
 	rawAttackSpeed := readFirstPositiveAttr(state.attrs, "attack_speed", "attackSpeed", "as", "attacks_per_second")
 	effectiveAttackSpeed := math.Min(rawAttackSpeed, state.rules.AttackSpeedCap)
 	overflowAttackSpeed := math.Max(0, rawAttackSpeed-state.rules.AttackSpeedCap)
-	intervalMs := attackIntervalMs(effectiveAttackSpeed)
-	if intervalMs <= 0 {
-		state.block("effective attack speed is required")
-		return -1
+	intervalMs := cooldownMs
+	if intervalMs < 1 {
+		intervalMs = 1
 	}
-	nextAttackAtMs := timeMs + intervalMs
 	state.result.AttackIntervalTimeline = append(state.result.AttackIntervalTimeline, model.DPSAttackIntervalV2{
 		TimeMs:               timeMs,
 		RawAttackSpeed:       rawAttackSpeed,
 		EffectiveAttackSpeed: effectiveAttackSpeed,
 		OverflowAttackSpeed:  overflowAttackSpeed,
 		AttackIntervalMs:     intervalMs,
-		NextAttackAtMs:       nextAttackAtMs,
-		Source:               "attacker.attributes.attack_speed",
+		NextAttackAtMs:       nextAtMs,
+		Source:               basicAttackCooldownIntervalSource(state.bundle, sched.actionIndex),
 	})
-	return nextAttackAtMs
+
+	if state.result.Status == dpsStatusBlocked {
+		sched.nextAtMs = -1
+		return
+	}
+	if state.result.ProcessedEvents >= state.rules.MaxEvents {
+		state.result.FinalTimeMs = timeMs
+		state.result.StopReason = "event_limit"
+		for i := range state.schedules {
+			state.schedules[i].nextAtMs = -1
+		}
+	}
+}
+
+func basicAttackCooldownIntervalSource(bundle compilebundle.CompiledBundle, actionIndex uint16) string {
+	if int(actionIndex) >= len(bundle.Actions) {
+		return "action.cooldown"
+	}
+	action := bundle.Actions[actionIndex]
+	if action.HasCooldownFormula && int(action.CooldownFormula) < len(bundle.Formulas.Programs) {
+		if formulaID := strings.TrimSpace(bundle.Formulas.Programs[action.CooldownFormula].ID); formulaID != "" {
+			return formulaID
+		}
+	}
+	if action.CooldownMs > 0 {
+		return "action.cooldown"
+	}
+	return "action.cooldown"
 }
 
 func (state *dpsCurveState) processAttackPassives(timeMs int64) {
@@ -760,15 +989,6 @@ func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType 
 	return true
 }
 
-func (state *dpsCurveState) resolveBasicAttackRawDamage(baseDamage float64) float64 {
-	critChance := clampFloat(readFirstFiniteAttr(state.attrs, "crit_chance", "critChance"), 0, 1)
-	critDamage := readFirstPositiveAttr(state.attrs, "crit_damage", "critDamage")
-	if critChance <= 0 || critDamage <= 1 {
-		return baseDamage
-	}
-	return baseDamage * (1 + critChance*(critDamage-1))
-}
-
 func (state *dpsCurveState) effectiveResistance(damageType string, resistance float64) float64 {
 	switch damageType {
 	case "physical":
@@ -940,6 +1160,7 @@ func (state *dpsCurveState) expireStacks(timeMs int64) {
 }
 
 func validateDPSCurve(
+	bundle compilebundle.CompiledBundle,
 	rules model.DPSimulationRulesV2,
 	curve model.DPSCurveRunSpecV2,
 	attacker model.DPSActorSnapshotV2,
@@ -973,11 +1194,33 @@ func validateDPSCurve(
 	if !rules.AutoAttackPlan.Enabled {
 		reasons = append(reasons, "simulationRules.autoAttackPlan.enabled must be true")
 	}
-	if rules.AutoAttackPlan.ActionID != "basic_attack" {
-		reasons = append(reasons, "single_attacker_dps only supports autoAttackPlan.actionId=basic_attack")
-	}
 	if rules.AutoAttackPlan.TargetRole != "target" {
 		reasons = append(reasons, "single_attacker_dps only supports autoAttackPlan.targetRole=target")
+	}
+	if len(bundle.Actions) == 0 {
+		reasons = append(reasons, "compiled bundle is required for single_attacker_dps")
+	}
+	if len(curve.ResolvedSnapshot.BasicAttackActions) == 0 {
+		reasons = append(reasons, "missing_basic_attack_action")
+	}
+	attackerTemplateID := nonEmpty(attacker.TemplateID, "dps_attacker")
+	for _, ref := range curve.ResolvedSnapshot.BasicAttackActions {
+		if strings.TrimSpace(ref.ActionID) == "" {
+			reasons = append(reasons, "basicAttackActions.actionId is required")
+			continue
+		}
+		actionIndex, ok := bundle.ActionIndex[ref.ActionID]
+		if !ok {
+			reasons = append(reasons, "action_not_found:"+ref.ActionID)
+			continue
+		}
+		if !attackerOwnsCompiledAction(bundle, attackerTemplateID, actionIndex) {
+			reasons = append(reasons, "action_not_owned:"+ref.ActionID)
+			continue
+		}
+		if !compiledActionHasBasicAttackClassifier(bundle, actionIndex) {
+			reasons = append(reasons, "invalid_basic_attack_classifier:"+ref.ActionID)
+		}
 	}
 	if attacker.ActorID == "" {
 		reasons = append(reasons, "resolvedSnapshot.attackerSnapshot is required")
@@ -998,9 +1241,6 @@ func validateDPSCurve(
 	}
 	if readFirstPositiveAttr(attacker.Attributes, "attack_speed", "attackSpeed", "as", "attacks_per_second") <= 0 {
 		reasons = append(reasons, "attacker attack speed is required")
-	}
-	if !hasAnyFiniteAttr(attacker.Attributes, "ad", "attack_damage", "attackDamage") {
-		reasons = append(reasons, "attacker attack damage is required")
 	}
 	targetMaxHP := target.MaxHP
 	if targetMaxHP <= 0 {
@@ -1428,4 +1668,51 @@ func nonEmpty(value string, fallback string) string {
 		return value
 	}
 	return fallback
+}
+
+var dpsAttrAliases = map[string]string{
+	"ad":           "attack_damage",
+	"attackDamage": "attack_damage",
+}
+
+func applyDPSAttributesToStore(store *attribute.Store, attrIndex map[string]uint16, values map[string]float64) {
+	if store == nil || len(values) == 0 {
+		return
+	}
+	for key, value := range values {
+		attrID := strings.TrimSpace(key)
+		if alias, ok := dpsAttrAliases[attrID]; ok {
+			attrID = alias
+		}
+		index, ok := attrIndex[attrID]
+		if !ok || int(index) >= len(store.Slots) {
+			continue
+		}
+		store.Slots[index].SetBase(value)
+	}
+	store.ResolveAll(0)
+}
+
+func attackerOwnsCompiledAction(bundle compilebundle.CompiledBundle, attackerTemplateID string, actionIndex uint16) bool {
+	templateIndex, ok := bundle.ActorIndex[attackerTemplateID]
+	if !ok || int(templateIndex) >= len(bundle.Actors) {
+		return false
+	}
+	for _, owned := range bundle.Actors[templateIndex].Actions {
+		if owned == actionIndex {
+			return true
+		}
+	}
+	return false
+}
+
+func compiledActionHasBasicAttackClassifier(bundle compilebundle.CompiledBundle, actionIndex uint16) bool {
+	if int(actionIndex) >= len(bundle.Actions) {
+		return false
+	}
+	typeID, ok := bundle.Types.Lookup("action/basic_attack")
+	if !ok {
+		return false
+	}
+	return bundle.Actions[actionIndex].TypeSet.Contains(typeID)
 }
