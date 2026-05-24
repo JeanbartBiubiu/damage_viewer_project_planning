@@ -394,16 +394,24 @@ type DPSCurveSelectionV2 struct {
 	CritPolicy            string               `json:"critPolicy,omitempty"`
 }
 
+type DPSBasicAttackActionRefV2 struct {
+	ActionID   string       `json:"actionId"`
+	SkillID    string       `json:"skillId"`
+	Label      string       `json:"label,omitempty"`
+	Classifier ClassifierV2 `json:"classifier,omitempty"`
+}
+
 type DPSResolvedSnapshotV2 struct {
-	AttackerSnapshot       DPSActorSnapshotV2   `json:"attackerSnapshot"`
-	TargetSnapshot         DPSActorSnapshotV2   `json:"targetSnapshot"`
-	EquipmentSet           []string             `json:"equipmentSet"`
-	EquipmentStats         map[string]float64   `json:"equipmentStats"`
-	EnabledPassiveEffects  []string             `json:"enabledPassiveEffects"`
-	PassiveEffects         []DPSPassiveEffectV2 `json:"passiveEffects,omitempty"`
-	ExternalPassiveEffects []string             `json:"externalPassiveEffects"`
-	ScenarioStates         []DPSScenarioStateV2 `json:"scenarioStates"`
-	RuneStatAdjustments    map[string]float64   `json:"runeStatAdjustments"`
+	AttackerSnapshot       DPSActorSnapshotV2          `json:"attackerSnapshot"`
+	TargetSnapshot         DPSActorSnapshotV2          `json:"targetSnapshot"`
+	BasicAttackActions     []DPSBasicAttackActionRefV2 `json:"basicAttackActions,omitempty"`
+	EquipmentSet           []string                    `json:"equipmentSet"`
+	EquipmentStats         map[string]float64          `json:"equipmentStats"`
+	EnabledPassiveEffects  []string                    `json:"enabledPassiveEffects"`
+	PassiveEffects         []DPSPassiveEffectV2        `json:"passiveEffects,omitempty"`
+	ExternalPassiveEffects []string                    `json:"externalPassiveEffects"`
+	ScenarioStates         []DPSScenarioStateV2        `json:"scenarioStates"`
+	RuneStatAdjustments    map[string]float64          `json:"runeStatAdjustments"`
 }
 
 type DPSActorSnapshotV2 struct {
@@ -412,6 +420,7 @@ type DPSActorSnapshotV2 struct {
 	Name       string             `json:"name,omitempty"`
 	Level      int                `json:"level,omitempty"`
 	Types      []string           `json:"types"`
+	StatusIDs  []string           `json:"statusIds,omitempty"`
 	Attributes map[string]float64 `json:"attributes"`
 	CurrentHP  float64            `json:"currentHp"`
 	MaxHP      float64            `json:"maxHp"`

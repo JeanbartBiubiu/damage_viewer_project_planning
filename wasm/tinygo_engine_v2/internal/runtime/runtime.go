@@ -417,7 +417,36 @@ func (ctx *RunContext) dispatch(ev scheduler.Event) model.ErrCode {
 	}
 }
 
+func (ctx *RunContext) PerformCastAt(timeMs int64, source uint8, target uint8, action uint16) model.ActionRunResultV2 {
+	wasDone := ctx.Done
+	ctx.NowMs = timeMs
+	ev := scheduler.Event{TimeMs: timeMs, Source: source, Target: target, Action: action}
+	result, _, code := ctx.castIntentResult(ev)
+	if code != model.ErrOK {
+		result.BlockedReason = string(code)
+	}
+	ctx.Done = wasDone
+	return result
+}
+
 func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
+	result, executionHandle, code := ctx.castIntentResult(ev)
+	if code != model.ErrOK {
+		return code
+	}
+	if result.ExecutionStarted && !result.ExecutionCompleted {
+		ctx.ActionResults = append(ctx.ActionResults, result)
+		ctx.log("action_start", ev.Source, ev.Target, ev.Action, 0, 0, "")
+		return ctx.Queue.Push(scheduler.Event{
+			TimeMs: result.ExecutionCompleteAtMs, Priority: 5, Kind: scheduler.EventActionComplete,
+			Source: ev.Source, Target: ev.Target, Action: ev.Action, Execution: executionHandle,
+		})
+	}
+	ctx.ActionResults = append(ctx.ActionResults, result)
+	return model.ErrOK
+}
+
+func (ctx *RunContext) castIntentResult(ev scheduler.Event) (model.ActionRunResultV2, scheduler.Handle, model.ErrCode) {
 	result := ctx.newActionRunResult(ev)
 	result.CooldownBefore = ctx.actionCooldownRunState(ev.Source, ev.Action)
 	if int(ev.Action) < len(ctx.Bundle.Actions) {
@@ -429,9 +458,8 @@ func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
 		result.BlockedRuleID = gate.RuleID
 		result.BlockedStatusID = ctx.statusID(gate.StatusID)
 		result.CooldownAfter = ctx.actionCooldownRunState(ev.Source, ev.Action)
-		ctx.ActionResults = append(ctx.ActionResults, result)
 		ctx.handleCastBlocked(ev, gate)
-		return model.ErrOK
+		return result, scheduler.Handle{}, model.ErrOK
 	}
 	action := ctx.Bundle.Actions[ev.Action]
 	var executionHandle scheduler.Handle
@@ -441,8 +469,7 @@ func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
 		if !ok {
 			result.BlockedReason = "execution_arena_full"
 			result.CooldownAfter = ctx.actionCooldownRunState(ev.Source, ev.Action)
-			ctx.ActionResults = append(ctx.ActionResults, result)
-			return model.ErrOK
+			return result, scheduler.Handle{}, model.ErrOK
 		}
 		executionHandle = handle
 		executionStarted = true
@@ -454,9 +481,8 @@ func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
 		}
 		result.BlockedReason = "cast_commit_failed"
 		result.CooldownAfter = ctx.actionCooldownRunState(ev.Source, ev.Action)
-		ctx.ActionResults = append(ctx.ActionResults, result)
 		ctx.log("action_dropped", ev.Source, ev.Target, ev.Action, 0, 0, "cast commit failed")
-		return model.ErrOK
+		return result, scheduler.Handle{}, model.ErrOK
 	}
 	result.Accepted = true
 	result.ResourceDeltas = ctx.actionResourceDeltasAfter(ev.Source, resourceDeltas)
@@ -464,25 +490,19 @@ func (ctx *RunContext) onCastIntent(ev scheduler.Event) model.ErrCode {
 	if action.ChannelDurationMs > 0 {
 		result.ExecutionStarted = true
 		result.ExecutionCompleteAtMs = ctx.NowMs + action.ChannelDurationMs
-		ctx.ActionResults = append(ctx.ActionResults, result)
-		ctx.log("action_start", ev.Source, ev.Target, ev.Action, 0, 0, "")
-		return ctx.Queue.Push(scheduler.Event{
-			TimeMs: result.ExecutionCompleteAtMs, Priority: 5, Kind: scheduler.EventActionComplete,
-			Source: ev.Source, Target: ev.Target, Action: ev.Action, Execution: executionHandle,
-		})
+		return result, executionHandle, model.ErrOK
 	}
 	ctx.log("action_cast", ev.Source, ev.Target, ev.Action, 0, 0, "")
 	if code := ctx.fireTriggers(compilebundle.TriggerOnActionCast, ev.Source, ev.Target, 0, ev.ChainDepth); code != model.ErrOK {
-		return code
+		return result, scheduler.Handle{}, code
 	}
 	actionInput := float64(ctx.actionSkillLevel(ev.Source, ev.Action))
 	for index, effect := range action.Effects {
 		if code := ctx.applyEffect(effect, ev.Source, ev.Target, ev.ChainDepth, actionInput, &result, index); code != model.ErrOK {
-			return code
+			return result, scheduler.Handle{}, code
 		}
 	}
-	ctx.ActionResults = append(ctx.ActionResults, result)
-	return model.ErrOK
+	return result, scheduler.Handle{}, model.ErrOK
 }
 
 func (ctx *RunContext) startExecution(source uint8, target uint8, action uint16, completeAt int64) (scheduler.Handle, bool) {
