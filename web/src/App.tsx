@@ -14,6 +14,7 @@ import { FormulaBindingsPage } from './pages/admin/resources/formula-bindings';
 import { FormulaProfilesPage } from './pages/admin/resources/formula-profiles';
 import { HeroesPage } from './pages/admin/resources/heroes';
 import { ItemsPage } from './pages/admin/resources/items';
+import { SkillMountsPage } from './pages/admin/resources/skill-mounts';
 import { SkillsPage } from './pages/admin/resources/skills';
 import { StatusActionControlRulesPage } from './pages/admin/resources/status-action-control-rules';
 import { StatusManagementPage } from './pages/admin/resources/status-management';
@@ -289,6 +290,9 @@ export default function App() {
       break;
     case 'type-relations':
       pageContent = <TypeRelationsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
+      break;
+    case 'skill-mounts':
+      pageContent = <SkillMountsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
       break;
     case 'formula-profiles':
       pageContent = <FormulaProfilesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;

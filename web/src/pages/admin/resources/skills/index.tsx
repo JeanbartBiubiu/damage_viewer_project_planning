@@ -50,8 +50,8 @@ function extractExtraSkillFields(record: SkillsRecord): JsonObject {
 function toSkillsFormData(record: SkillsRecord): SkillsFormData {
   return {
     skillId: record.skillId,
-    ownerType: record.ownerType,
-    ownerId: record.ownerId,
+    ownerType: record.ownerType ?? '',
+    ownerId: record.ownerId ?? '',
     skillKey: record.skillKey ?? '',
     name: record.name ?? '',
     description: record.description ?? '',
@@ -79,10 +79,10 @@ function filterSkills(records: SkillsRecord[], searchData: SkillsSearchData, tar
     if (skillId && !record.skillId.toLowerCase().includes(skillId)) {
       return false;
     }
-    if (ownerType && !record.ownerType.toLowerCase().includes(ownerType)) {
+    if (ownerType && !(record.ownerType ?? '').toLowerCase().includes(ownerType)) {
       return false;
     }
-    if (ownerId && !record.ownerId.toLowerCase().includes(ownerId)) {
+    if (ownerId && !(record.ownerId ?? '').toLowerCase().includes(ownerId)) {
       return false;
     }
     if (skillKey && !(record.skillKey ?? '').toLowerCase().includes(skillKey)) {
