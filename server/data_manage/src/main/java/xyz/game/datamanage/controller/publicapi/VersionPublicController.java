@@ -19,13 +19,12 @@ public class VersionPublicController {
     }
 
     @GetMapping("/current")
-    public ObjectNode getCurrentVersion(@PathVariable String gameId) {
+    public ObjectNode getCurrentVersion(@PathVariable("gameId") String gameId) {
         return gameDataService.getCurrentVersion(gameId);
     }
 
     @GetMapping("/{versionCode}/bundle")
-    public ResponseEntity<ObjectNode> getBundle(@PathVariable String gameId, @PathVariable String versionCode) {
+    public ResponseEntity<ObjectNode> getBundle(@PathVariable("gameId") String gameId, @PathVariable("versionCode") String versionCode) {
         return ResponseEntity.ok(gameDataService.getBundle(gameId, versionCode));
     }
 }
-

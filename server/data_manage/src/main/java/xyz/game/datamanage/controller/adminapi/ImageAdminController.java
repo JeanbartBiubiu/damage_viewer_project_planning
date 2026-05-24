@@ -26,8 +26,8 @@ public class ImageAdminController {
 
     @PutMapping("/{uri}")
     public ObjectNode putImage(
-        @PathVariable String gameId,
-        @PathVariable String uri,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("uri") String uri,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

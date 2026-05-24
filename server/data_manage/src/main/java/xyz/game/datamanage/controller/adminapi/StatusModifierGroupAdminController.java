@@ -26,24 +26,24 @@ public class StatusModifierGroupAdminController {
     }
 
     @GetMapping
-    public ObjectNode listStatusModifierGroups(@PathVariable String gameId) {
+    public ObjectNode listStatusModifierGroups(@PathVariable("gameId") String gameId) {
         return gameDataService.listStatusModifierGroups(gameId);
     }
 
     @GetMapping("/{statusId}/{groupKey}")
     public ObjectNode getStatusModifierGroup(
-        @PathVariable String gameId,
-        @PathVariable String statusId,
-        @PathVariable String groupKey
+        @PathVariable("gameId") String gameId,
+        @PathVariable("statusId") String statusId,
+        @PathVariable("groupKey") String groupKey
     ) {
         return gameDataService.getStatusModifierGroup(gameId, statusId, groupKey);
     }
 
     @PutMapping("/{statusId}/{groupKey}")
     public ObjectNode putStatusModifierGroup(
-        @PathVariable String gameId,
-        @PathVariable String statusId,
-        @PathVariable String groupKey,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("statusId") String statusId,
+        @PathVariable("groupKey") String groupKey,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

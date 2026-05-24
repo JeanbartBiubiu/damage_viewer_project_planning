@@ -26,6 +26,7 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.SkillMountsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
@@ -56,6 +57,7 @@ public class PostgresReadStore {
     private final TypeRelationsMapper typeRelationsMapper;
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
+    private final SkillMountsMapper skillMountsMapper;
     private final ItemsMapper itemsMapper;
     private final ItemStatModifiersMapper itemStatModifiersMapper;
     private final FormulaProfilesMapper formulaProfilesMapper;
@@ -82,6 +84,7 @@ public class PostgresReadStore {
         TypeRelationsMapper typeRelationsMapper,
         HeroesMapper heroesMapper,
         SkillsMapper skillsMapper,
+        SkillMountsMapper skillMountsMapper,
         ItemsMapper itemsMapper,
         ItemStatModifiersMapper itemStatModifiersMapper,
         FormulaProfilesMapper formulaProfilesMapper,
@@ -107,6 +110,7 @@ public class PostgresReadStore {
         this.typeRelationsMapper = typeRelationsMapper;
         this.heroesMapper = heroesMapper;
         this.skillsMapper = skillsMapper;
+        this.skillMountsMapper = skillMountsMapper;
         this.itemsMapper = itemsMapper;
         this.itemStatModifiersMapper = itemStatModifiersMapper;
         this.formulaProfilesMapper = formulaProfilesMapper;
@@ -214,6 +218,16 @@ public class PostgresReadStore {
         ArrayNode skills = response.putArray("skills");
         for (Map<String, Object> row : skillsMapper.listSkills(gameId)) {
             skills.add(mapSkillRow(row));
+        }
+        return response;
+    }
+
+    public ObjectNode getSkillMounts(String gameId) {
+        ObjectNode response = objectMapper.createObjectNode();
+        response.put("gameId", gameId);
+        ArrayNode skillMounts = response.putArray("skillMounts");
+        for (Map<String, Object> row : skillMountsMapper.listSkillMounts(gameId)) {
+            skillMounts.add(mapSkillMountRow(row));
         }
         return response;
     }
@@ -398,6 +412,12 @@ public class PostgresReadStore {
         }
         bundle.set("skills", skills);
 
+        ArrayNode skillMounts = objectMapper.createArrayNode();
+        for (Map<String, Object> row : skillMountsMapper.listSkillMounts(gameId)) {
+            skillMounts.add(mapSkillMountRow(row));
+        }
+        bundle.set("skillMounts", skillMounts);
+
         ArrayNode items = objectMapper.createArrayNode();
         Map<String, ArrayNode> statModifiersByItemId = loadItemStatModifiersByItemId(gameId);
         for (Map<String, Object> row : itemsMapper.listItems(gameId)) {
@@ -494,6 +514,13 @@ public class PostgresReadStore {
 
     public ObjectNode loadSkill(String gameId, String skillId) {
         return querySingleNode(skillsMapper.findSkillById(gameId, skillId), this::mapSkillRow);
+    }
+
+    public ObjectNode loadSkillMount(String gameId, String targetCategory, String targetId, String skillId) {
+        return querySingleNode(
+            skillMountsMapper.findSkillMountByNaturalKey(gameId, targetCategory, targetId, skillId),
+            this::mapSkillMountRow
+        );
     }
 
     public ObjectNode loadItem(String gameId, String itemId) {
@@ -604,8 +631,18 @@ public class PostgresReadStore {
     private ObjectNode mapSkillRow(Map<String, Object> row) {
         ObjectNode node = objectMapper.createObjectNode();
         node.put("skillId", text(row, "skillId"));
-        node.put("ownerType", text(row, "ownerType"));
-        node.put("ownerId", text(row, "ownerId"));
+        String ownerType = text(row, "ownerType");
+        if (ownerType == null) {
+            node.putNull("ownerType");
+        } else {
+            node.put("ownerType", ownerType);
+        }
+        String ownerId = text(row, "ownerId");
+        if (ownerId == null) {
+            node.putNull("ownerId");
+        } else {
+            node.put("ownerId", ownerId);
+        }
         putNullableText(node, "skillKey", text(row, "skillKey"));
         putNullableText(node, "name", text(row, "name"));
         putNullableText(node, "description", text(row, "description"));
@@ -670,6 +707,20 @@ public class PostgresReadStore {
         node.put("formulaKind", text(row, "formulaKind"));
         node.set("params", jsonSupport.parseJsonObject(text(row, "paramsJson"), "/params"));
         putNullableText(node, "description", text(row, "description"));
+        return node;
+    }
+
+    private ObjectNode mapSkillMountRow(Map<String, Object> row) {
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("targetCategory", text(row, "targetCategory"));
+        node.put("targetId", text(row, "targetId"));
+        node.put("skillId", text(row, "skillId"));
+        Boolean enabled = booleanValue(row, "enabled");
+        node.put("enabled", enabled == null || enabled);
+        putNullableJson(node, "extend", text(row, "extendJson"));
+        if (!node.has("extend")) {
+            node.set("extend", objectMapper.createObjectNode());
+        }
         return node;
     }
 

@@ -26,14 +26,14 @@ public class AttributeDefinitionAdminController {
     }
 
     @GetMapping
-    public ObjectNode listAttributeDefinitions(@PathVariable String gameId) {
+    public ObjectNode listAttributeDefinitions(@PathVariable("gameId") String gameId) {
         return gameDataService.listAttributeDefinitions(gameId);
     }
 
     @PutMapping("/{attrKey}")
     public ObjectNode putAttributeDefinition(
-        @PathVariable String gameId,
-        @PathVariable String attrKey,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("attrKey") String attrKey,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

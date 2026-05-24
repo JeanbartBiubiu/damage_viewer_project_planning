@@ -20,7 +20,7 @@ public class ImagePublicController {
 
     @GetMapping
     public ObjectNode getImages(
-        @PathVariable String gameId,
+        @PathVariable("gameId") String gameId,
         @RequestParam(name = "updatedAfter", required = false) String updatedAfter
     ) {
         return gameDataService.getImages(gameId, updatedAfter);

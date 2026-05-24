@@ -26,7 +26,7 @@ public class OwnerCategoryPublicController {
 
     @GetMapping
     public ResponseEntity<ObjectNode> getOwnerCategories(
-        @PathVariable String gameId,
+        @PathVariable("gameId") String gameId,
         @RequestHeader(name = HttpHeaders.IF_NONE_MATCH, required = false) String ifNoneMatch
     ) {
         ObjectNode response = gameDataService.getOwnerCategories(gameId);

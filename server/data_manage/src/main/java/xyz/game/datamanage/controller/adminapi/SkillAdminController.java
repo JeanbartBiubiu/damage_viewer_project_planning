@@ -26,14 +26,14 @@ public class SkillAdminController {
     }
 
     @GetMapping
-    public ObjectNode listSkills(@PathVariable String gameId) {
+    public ObjectNode listSkills(@PathVariable("gameId") String gameId) {
         return gameDataService.listSkills(gameId);
     }
 
     @PutMapping("/{skillId}")
     public ObjectNode putSkill(
-        @PathVariable String gameId,
-        @PathVariable String skillId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("skillId") String skillId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

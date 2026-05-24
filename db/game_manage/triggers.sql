@@ -338,6 +338,26 @@ BEGIN
     EXCEPTION WHEN duplicate_table THEN
         NULL;
     END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.skill_mounts FOR VALUES IN (%L)',
+            'skill_mounts_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.skill_mounts_log FOR VALUES IN (%L)',
+            'skill_mounts_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
 END;
 $$;
 
