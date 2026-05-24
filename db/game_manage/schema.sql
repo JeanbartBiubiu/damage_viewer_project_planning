@@ -386,8 +386,8 @@ CREATE TABLE public.skills (
     skill_id varchar(64) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
-    owner_id varchar(64) NOT NULL,
-    owner_type varchar(32) NOT NULL,
+    owner_id varchar(64),
+    owner_type varchar(32),
     skill_key varchar(16),
     name varchar(100),
     description text,
@@ -398,6 +398,11 @@ CREATE TABLE public.skills (
     mechanics_config jsonb NOT NULL DEFAULT '{}',
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_skills PRIMARY KEY (game_id, skill_id),
+    CONSTRAINT ck_skills_owner_pair
+        CHECK (
+            (owner_type IS NULL AND owner_id IS NULL)
+            OR (owner_type IS NOT NULL AND owner_id IS NOT NULL)
+        ),
     CONSTRAINT fk_skills_owner_type FOREIGN KEY (game_id, owner_type)
         REFERENCES public.owner_categories (game_id, owner_type),
     CONSTRAINT fk_skills_start_version FOREIGN KEY (game_id, start_version_id)
@@ -408,8 +413,8 @@ CREATE TABLE public.skills (
 
 COMMENT ON TABLE public.skills IS '技能定义（原始表：1条记录覆盖一个版本区间，发布时更新 start/end）';
 COMMENT ON COLUMN public.skills.end_version_id IS '该记录覆盖区间的结束版本（含）；有更新时发布版本区间为 [v,v]';
-COMMENT ON COLUMN public.skills.owner_type IS '归属类型（由 owner_categories 定义）';
-COMMENT ON COLUMN public.skills.owner_id IS '归属实体 ID（与 owner_type 组合确定归属）';
+COMMENT ON COLUMN public.skills.owner_type IS '归属类型（由 owner_categories 定义）；NULL 表示 shared/template skill';
+COMMENT ON COLUMN public.skills.owner_id IS '归属实体 ID（与 owner_type 组合确定归属）；NULL 表示 shared/template skill';
 COMMENT ON COLUMN public.skills.params IS '技能静态参数（基础值/系数/段数/持续时间等，供公式与效果引用）';
 COMMENT ON COLUMN public.skills.timing_profile IS '技能时序配置（前摇/后摇/读条/引导/tick 间隔/多段时点等）';
 COMMENT ON COLUMN public.skills.mechanics_config IS '技能核心机制配置（推荐结构化 JSON，避免脚本字符串）';
@@ -419,8 +424,8 @@ CREATE TABLE public.skills_log (
     skill_id varchar(64) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
-    owner_id varchar(64) NOT NULL,
-    owner_type varchar(32) NOT NULL,
+    owner_id varchar(64),
+    owner_type varchar(32),
     skill_key varchar(16),
     name varchar(100),
     description text,
@@ -430,6 +435,11 @@ CREATE TABLE public.skills_log (
     timing_profile jsonb,
     mechanics_config jsonb NOT NULL DEFAULT '{}',
     CONSTRAINT pk_skills_log PRIMARY KEY (game_id, skill_id, start_version_id),
+    CONSTRAINT ck_skills_log_owner_pair
+        CHECK (
+            (owner_type IS NULL AND owner_id IS NULL)
+            OR (owner_type IS NOT NULL AND owner_id IS NOT NULL)
+        ),
     CONSTRAINT fk_skills_log_owner_type FOREIGN KEY (game_id, owner_type)
         REFERENCES public.owner_categories (game_id, owner_type),
     CONSTRAINT fk_skills_log_start_version FOREIGN KEY (game_id, start_version_id)
@@ -523,6 +533,49 @@ CREATE TABLE public.item_stat_modifiers_log (
 
 COMMENT ON TABLE public.item_stat_modifiers_log IS '装备属性修饰日志表（用于多版本差异分析；按 item+attr+start_version 唯一）';
 
+CREATE TABLE public.skill_mounts (
+    game_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    target_category varchar(32) NOT NULL,
+    target_id varchar(64) NOT NULL,
+    skill_id varchar(64) NOT NULL,
+    enabled boolean NOT NULL DEFAULT TRUE,
+    extend jsonb NOT NULL DEFAULT '{}',
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_skill_mounts PRIMARY KEY (game_id, target_category, target_id, skill_id),
+    CONSTRAINT fk_skill_mounts_skill FOREIGN KEY (game_id, skill_id)
+        REFERENCES public.skills (game_id, skill_id),
+    CONSTRAINT fk_skill_mounts_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_skill_mounts_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.skill_mounts IS '技能挂载表（把 shared/hero/item 等 skill 挂到目标实体）';
+COMMENT ON COLUMN public.skill_mounts.target_category IS '挂载目标类别：hero/item/global/skill/type 等';
+COMMENT ON COLUMN public.skill_mounts.target_id IS '目标 ID；hero 时为 hero_id';
+COMMENT ON COLUMN public.skill_mounts.skill_id IS '被挂载 skill_id';
+COMMENT ON COLUMN public.skill_mounts.enabled IS '是否生效；缺省 true';
+
+CREATE TABLE public.skill_mounts_log (
+    game_id varchar(64) NOT NULL,
+    start_version_id bigint NOT NULL,
+    end_version_id bigint NOT NULL,
+    target_category varchar(32) NOT NULL,
+    target_id varchar(64) NOT NULL,
+    skill_id varchar(64) NOT NULL,
+    enabled boolean NOT NULL DEFAULT TRUE,
+    extend jsonb NOT NULL DEFAULT '{}',
+    CONSTRAINT pk_skill_mounts_log PRIMARY KEY (game_id, target_category, target_id, skill_id, start_version_id),
+    CONSTRAINT fk_skill_mounts_log_start_version FOREIGN KEY (game_id, start_version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_skill_mounts_log_end_version FOREIGN KEY (game_id, end_version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+) PARTITION BY LIST (game_id);
+
+COMMENT ON TABLE public.skill_mounts_log IS '技能挂载日志表（用于多版本差异分析；按自然键+start_version 唯一）';
+
 -- -----------------------------------------------------------------------------
 -- 4. 索引优化 (用于编辑器的查询)
 -- -----------------------------------------------------------------------------
@@ -546,3 +599,6 @@ CREATE INDEX idx_types_log_version ON public.types_log (game_id, start_version_i
 CREATE INDEX idx_type_relations_log_version ON public.type_relations_log (game_id, start_version_id, end_version_id);
 CREATE INDEX idx_formula_profiles_log_version ON public.formula_profiles_log (game_id, start_version_id, end_version_id);
 CREATE INDEX idx_formula_bindings_log_version ON public.formula_bindings_log (game_id, start_version_id, end_version_id);
+CREATE INDEX idx_skill_mounts_target ON public.skill_mounts (game_id, target_category, target_id);
+CREATE INDEX idx_skill_mounts_skill ON public.skill_mounts (game_id, skill_id);
+CREATE INDEX idx_skill_mounts_log_version ON public.skill_mounts_log (game_id, start_version_id, end_version_id);

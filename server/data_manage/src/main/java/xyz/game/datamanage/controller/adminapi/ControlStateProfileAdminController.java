@@ -26,19 +26,19 @@ public class ControlStateProfileAdminController {
     }
 
     @GetMapping
-    public ObjectNode listControlStateProfiles(@PathVariable String gameId) {
+    public ObjectNode listControlStateProfiles(@PathVariable("gameId") String gameId) {
         return gameDataService.listControlStateProfiles(gameId);
     }
 
     @GetMapping("/{controlProfileId}")
-    public ObjectNode getControlStateProfile(@PathVariable String gameId, @PathVariable String controlProfileId) {
+    public ObjectNode getControlStateProfile(@PathVariable("gameId") String gameId, @PathVariable("controlProfileId") String controlProfileId) {
         return gameDataService.getControlStateProfile(gameId, controlProfileId);
     }
 
     @PutMapping("/{controlProfileId}")
     public ObjectNode putControlStateProfile(
-        @PathVariable String gameId,
-        @PathVariable String controlProfileId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("controlProfileId") String controlProfileId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

@@ -35,6 +35,7 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.SkillMountsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
@@ -53,6 +54,12 @@ class PostgresWriteStoreItemStatModifiersTest {
 
     @Mock
     private SkillsMapper skillsMapper;
+
+    @Mock
+    private SkillMountsMapper skillMountsMapper;
+
+    @Mock
+    private DefaultBasicAttackProvisioner defaultBasicAttackProvisioner;
 
     @Mock
     private ItemsMapper itemsMapper;
@@ -128,6 +135,8 @@ class PostgresWriteStoreItemStatModifiersTest {
         writeStore = new PostgresWriteStore(
             heroesMapper,
             skillsMapper,
+            skillMountsMapper,
+            defaultBasicAttackProvisioner,
             itemsMapper,
             itemStatModifiersMapper,
             formulaProfilesMapper,

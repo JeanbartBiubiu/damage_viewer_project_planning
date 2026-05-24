@@ -58,7 +58,7 @@ public class GameDataService {
         return readStore.listGames();
     }
 
-    @Cacheable(cacheNames = "currentVersion", key = "#gameId")
+    @Cacheable(cacheNames = "currentVersion", key = "#p0")
     public ObjectNode getCurrentVersion(String gameId) {
         validateGameId(gameId);
         assertGameExists(gameId);
@@ -80,7 +80,7 @@ public class GameDataService {
         return response;
     }
 
-    @Cacheable(cacheNames = "bundle", key = "#gameId + ':' + #versionCode")
+    @Cacheable(cacheNames = "bundle", key = "#p0 + ':' + #p1")
     public ObjectNode getBundle(String gameId, String versionCode) {
         validateGameId(gameId);
         assertGameExists(gameId);
@@ -93,8 +93,8 @@ public class GameDataService {
 
     @Cacheable(
         cacheNames = "images",
-        key = "#gameId + ':' + #updatedAfterRaw",
-        condition = "#updatedAfterRaw != null && !#updatedAfterRaw.isBlank()"
+        key = "#p0 + ':' + #p1",
+        condition = "#p1 != null && !#p1.isBlank()"
     )
     public ObjectNode getImages(String gameId, String updatedAfterRaw) {
         validateGameId(gameId);
@@ -103,7 +103,7 @@ public class GameDataService {
         return readStore.getImages(gameId, updatedAfter);
     }
 
-    @Cacheable(cacheNames = "ownerCategories", key = "#gameId")
+    @Cacheable(cacheNames = "ownerCategories", key = "#p0")
     public ObjectNode getOwnerCategories(String gameId) {
         validateGameId(gameId);
         assertGameExists(gameId);
@@ -174,6 +174,46 @@ public class GameDataService {
         assertGameExists(gameId);
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertSkill(gameId, skillId, body);
+        evictNonPublishedReadCaches();
+        return response;
+    }
+
+    public ObjectNode listSkillMounts(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        return readStore.getSkillMounts(gameId);
+    }
+
+    public ObjectNode getSkillMount(String gameId, String targetCategory, String targetId, String skillId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        String normalizedTargetCategory = targetCategory == null ? null : targetCategory.toLowerCase(Locale.ROOT);
+        ObjectNode response = readStore.loadSkillMount(gameId, normalizedTargetCategory, targetId, skillId);
+        if (response == null) {
+            throw notFound(
+                "Skill mount not found",
+                Map.of(
+                    "gameId", gameId,
+                    "targetCategory", normalizedTargetCategory,
+                    "targetId", targetId,
+                    "skillId", skillId
+                )
+            );
+        }
+        return response;
+    }
+
+    public ObjectNode upsertSkillMount(
+        String gameId,
+        String targetCategory,
+        String targetId,
+        String skillId,
+        ObjectNode body
+    ) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        ObjectNode response = writeStore.upsertSkillMount(gameId, targetCategory, targetId, skillId, body);
         evictNonPublishedReadCaches();
         return response;
     }

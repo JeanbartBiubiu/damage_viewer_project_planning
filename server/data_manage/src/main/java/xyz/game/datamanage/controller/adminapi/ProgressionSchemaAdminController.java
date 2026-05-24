@@ -26,13 +26,13 @@ public class ProgressionSchemaAdminController {
     }
 
     @GetMapping
-    public ObjectNode getProgressionSchema(@PathVariable String gameId) {
+    public ObjectNode getProgressionSchema(@PathVariable("gameId") String gameId) {
         return gameDataService.getProgressionSchema(gameId);
     }
 
     @PutMapping
     public ObjectNode putProgressionSchema(
-        @PathVariable String gameId,
+        @PathVariable("gameId") String gameId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

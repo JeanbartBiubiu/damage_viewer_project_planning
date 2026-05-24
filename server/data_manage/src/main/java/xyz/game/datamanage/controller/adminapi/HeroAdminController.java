@@ -26,14 +26,14 @@ public class HeroAdminController {
     }
 
     @GetMapping
-    public ObjectNode listHeroes(@PathVariable String gameId) {
+    public ObjectNode listHeroes(@PathVariable("gameId") String gameId) {
         return gameDataService.listHeroes(gameId);
     }
 
     @PutMapping("/{heroId}")
     public ObjectNode putHero(
-        @PathVariable String gameId,
-        @PathVariable String heroId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("heroId") String heroId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

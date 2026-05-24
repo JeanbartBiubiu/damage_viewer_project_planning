@@ -16,6 +16,9 @@ import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.nio.file.Path;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -46,6 +49,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import xyz.game.datamanage.service.DefaultBasicAttackProvisioner;
 import xyz.game.datamanage.tools.KatarinaMvpImportMain;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -149,6 +153,240 @@ class ControllerPublishFlowIT {
         assertEquals("damage", formulaProfile.path("formulaType").asText());
         JsonNode formulaBinding = findFormulaBinding(bundle.path("formulaBindings"), "skill", "skill_orb", "damage_raw");
         assertEquals("formula_magic_damage", formulaBinding.path("formulaId").asText());
+    }
+
+    @Test
+    void skillMountsBatchI_shouldSupportSharedSkillMountsAndPublish() {
+        String versionCode = "batch_i_skill_mounts";
+        putAttributeDefinition("attack_damage");
+        putAttributeDefinition("crit_chance");
+        putAttributeDefinition("crit_damage");
+        putAttributeDefinition("attack_speed");
+        putType(DefaultBasicAttackProvisioner.BASIC_ATTACK_TYPE_ID, "basic_attack", "action/basic_attack");
+        upsertHero("hero_ahri", "Ahri");
+
+        ObjectNode sharedSkill = JsonNodeFactory.instance.objectNode();
+        sharedSkill.putNull("ownerType");
+        sharedSkill.putNull("ownerId");
+        sharedSkill.put("skillKey", "AA");
+        sharedSkill.put("name", "默认普通攻击");
+        sharedSkill.put("description", "shared basic attack template");
+        sharedSkill.set("cooldowns", JsonNodeFactory.instance.arrayNode().add(
+            JsonNodeFactory.instance.objectNode()
+                .put("kind", "formula")
+                .put("bindingKey", "cooldown.basic_attack")
+        ));
+        ObjectNode params = sharedSkill.putObject("params");
+        params.put("version", 1);
+        params.putArray("vars");
+        ObjectNode mechanicsConfig = sharedSkill.putObject("mechanicsConfig");
+        mechanicsConfig.put("version", 1);
+        ObjectNode trigger = JsonNodeFactory.instance.objectNode();
+        trigger.put("id", "basic_attack_cast");
+        trigger.set("event", JsonNodeFactory.instance.objectNode().put("type", "on_spell_cast"));
+        ArrayNode actions = JsonNodeFactory.instance.arrayNode();
+        ObjectNode dealDamage = JsonNodeFactory.instance.objectNode();
+        dealDamage.put("type", "deal_damage");
+        dealDamage.put("damageSource", "self");
+        dealDamage.put("damageTarget", "enemy");
+        dealDamage.put("damageType", "physical");
+        dealDamage.set("amount", JsonNodeFactory.instance.objectNode()
+            .put("kind", "formula")
+            .put("bindingKey", "damage.basic_attack.expected"));
+        actions.add(dealDamage);
+        trigger.set("actions", actions);
+        mechanicsConfig.putArray("triggers").add(trigger);
+        ResponseEntity<JsonNode> sharedSkillResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skills/" + DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID,
+            HttpMethod.PUT,
+            sharedSkill
+        );
+        assertEquals(HttpStatus.OK, sharedSkillResponse.getStatusCode());
+        JsonNode savedSharedSkill = requireBody(sharedSkillResponse);
+        assertTrue(savedSharedSkill.path("ownerType").isNull());
+        assertTrue(savedSharedSkill.path("ownerId").isNull());
+
+        ResponseEntity<JsonNode> listSkillsResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skills",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, listSkillsResponse.getStatusCode());
+        JsonNode listedSkill = findByField(requireBody(listSkillsResponse).path("skills"), "skillId",
+            DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID);
+        assertTrue(listedSkill.path("ownerType").isNull());
+
+        String defaultSkillId = DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID;
+        String extraSkillId = "skill_extra_basic_attack";
+        ResponseEntity<JsonNode> mountResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skill-mounts/hero/hero_ahri/" + defaultSkillId,
+            HttpMethod.PUT,
+            Map.of(
+                "targetCategory", "hero",
+                "targetId", "hero_ahri",
+                "skillId", defaultSkillId,
+                "enabled", true,
+                "extend", Map.of()
+            )
+        );
+        assertEquals(HttpStatus.OK, mountResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> getMountResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skill-mounts/hero/hero_ahri/" + defaultSkillId,
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, getMountResponse.getStatusCode());
+        assertEquals("hero", requireBody(getMountResponse).path("targetCategory").asText());
+
+        publish(versionCode);
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+        JsonNode publishedSkill = findByField(bundle.path("skills"), "skillId", defaultSkillId);
+        assertTrue(publishedSkill.path("ownerType").isNull());
+        assertTrue(containsSkillMount(bundle.path("skillMounts"), "hero", "hero_ahri", defaultSkillId));
+
+        ObjectNode extraSkill = JsonNodeFactory.instance.objectNode();
+        extraSkill.putNull("ownerType");
+        extraSkill.putNull("ownerId");
+        extraSkill.put("skillKey", "AA2");
+        extraSkill.put("name", "额外普攻");
+        ObjectNode extraMechanicsConfig = extraSkill.putObject("mechanicsConfig");
+        extraMechanicsConfig.put("version", 1);
+        extraMechanicsConfig.putArray("triggers");
+        ResponseEntity<JsonNode> extraSkillResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skills/" + extraSkillId,
+            HttpMethod.PUT,
+            extraSkill
+        );
+        assertEquals(HttpStatus.OK, extraSkillResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> extraMountResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skill-mounts/hero/hero_ahri/" + extraSkillId,
+            HttpMethod.PUT,
+            Map.of(
+                "targetCategory", "hero",
+                "targetId", "hero_ahri",
+                "skillId", extraSkillId,
+                "enabled", true,
+                "extend", Map.of()
+            )
+        );
+        assertEquals(HttpStatus.OK, extraMountResponse.getStatusCode());
+
+        publish("batch_i_multi_mount");
+
+        ResponseEntity<JsonNode> multiBundleResponse = getBundle("batch_i_multi_mount");
+        assertEquals(HttpStatus.OK, multiBundleResponse.getStatusCode());
+        JsonNode multiBundle = requireBody(multiBundleResponse);
+        assertTrue(containsSkillMount(multiBundle.path("skillMounts"), "hero", "hero_ahri", defaultSkillId));
+        assertTrue(containsSkillMount(multiBundle.path("skillMounts"), "hero", "hero_ahri", extraSkillId));
+        assertEquals(2, countSkillMountsForHero(multiBundle.path("skillMounts"), "hero_ahri"));
+    }
+
+    @Test
+    void defaultBasicAttackBatchI_publishShouldExposeCompilableFormulaProfiles() {
+        String versionCode = "batch_i_default_formula_text";
+        putAttributeDefinition("attack_damage");
+        putAttributeDefinition("crit_chance");
+        putAttributeDefinition("crit_damage");
+        putAttributeDefinition("attack_speed");
+        putType(DefaultBasicAttackProvisioner.BASIC_ATTACK_TYPE_ID, "basic_attack", "action/basic_attack");
+        upsertHero("hero_ahri", "Ahri");
+
+        publish(versionCode);
+
+        ResponseEntity<JsonNode> bundleResponse = getBundle(versionCode);
+        assertEquals(HttpStatus.OK, bundleResponse.getStatusCode());
+        JsonNode bundle = requireBody(bundleResponse);
+
+        String defaultSkillId = DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID;
+
+        assertTrue(containsByField(bundle.path("skills"), "skillId", defaultSkillId));
+        assertTrue(containsTypeRelation(
+            bundle.path("typeRelations"),
+            DefaultBasicAttackProvisioner.BASIC_ATTACK_TYPE_ID,
+            "skill",
+            defaultSkillId
+        ));
+        assertTrue(containsSkillMount(bundle.path("skillMounts"), "hero", "hero_ahri", defaultSkillId));
+
+        JsonNode defaultSkill = findByField(bundle.path("skills"), "skillId", defaultSkillId);
+        assertTrue(defaultSkill.path("ownerType").isNull());
+        assertTrue(defaultSkill.path("ownerId").isNull());
+        assertEquals(
+            "on_spell_cast",
+            defaultSkill.path("mechanicsConfig").path("triggers").get(0).path("event").path("type").asText()
+        );
+
+        JsonNode cooldownProfile = findByField(
+            bundle.path("formulaProfiles"),
+            "formulaId",
+            DefaultBasicAttackProvisioner.FORMULA_COOLDOWN_ID
+        );
+        assertEquals("cooldown", cooldownProfile.path("formulaType").asText());
+        assertEquals(
+            DefaultBasicAttackProvisioner.COOLDOWN_FORMULA_TEXT,
+            cooldownProfile.path("params").path("formulaText").asText()
+        );
+
+        JsonNode damageProfile = findByField(
+            bundle.path("formulaProfiles"),
+            "formulaId",
+            DefaultBasicAttackProvisioner.FORMULA_DAMAGE_ID
+        );
+        assertEquals("damage", damageProfile.path("formulaType").asText());
+        assertEquals(
+            DefaultBasicAttackProvisioner.DAMAGE_FORMULA_TEXT,
+            damageProfile.path("params").path("formulaText").asText()
+        );
+
+        assertTrue(containsFormulaBinding(
+            bundle.path("formulaBindings"),
+            "skill",
+            defaultSkillId,
+            "cooldown.basic_attack"
+        ));
+        assertTrue(containsFormulaBinding(
+            bundle.path("formulaBindings"),
+            "skill",
+            defaultSkillId,
+            "damage.basic_attack.expected"
+        ));
+    }
+
+    @Test
+    void skillMountsBatchI_publishShouldBlockWhenHeroTargetMissing() {
+        ObjectNode sharedSkill = JsonNodeFactory.instance.objectNode();
+        sharedSkill.putNull("ownerType");
+        sharedSkill.putNull("ownerId");
+        sharedSkill.put("skillKey", "AA");
+        sharedSkill.put("name", "默认普通攻击");
+        ObjectNode mechanicsConfig = sharedSkill.putObject("mechanicsConfig");
+        mechanicsConfig.put("version", 1);
+        mechanicsConfig.putArray("triggers");
+        ResponseEntity<JsonNode> sharedSkillResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skills/" + DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID,
+            HttpMethod.PUT,
+            sharedSkill
+        );
+        assertEquals(HttpStatus.OK, sharedSkillResponse.getStatusCode());
+
+        String defaultSkillId = DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID;
+        ResponseEntity<JsonNode> mountResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/skill-mounts/hero/hero_missing/" + defaultSkillId,
+            HttpMethod.PUT,
+            Map.of(
+                "targetCategory", "hero",
+                "targetId", "hero_missing",
+                "skillId", defaultSkillId,
+                "enabled", true,
+                "extend", Map.of()
+            )
+        );
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, mountResponse.getStatusCode());
     }
 
     @Test
@@ -854,7 +1092,9 @@ class ControllerPublishFlowIT {
         ensurePublishedSnapshotTable();
         ensureCoefficientBucketTables();
         ensureStatusResourceTables();
+        ensureSkillMountSchema();
         ensureFormulaPartitions(targetGameId);
+        ensureSkillMountPartitions(targetGameId);
         ensureCoefficientBucketPartitions(targetGameId);
         ensureStatusActionControlRulePartitions(targetGameId);
         ensureStatusResourcePartitions(targetGameId);
@@ -879,6 +1119,49 @@ class ControllerPublishFlowIT {
         createGamePartition("formula_profiles_log", targetGameId);
         createGamePartition("formula_bindings", targetGameId);
         createGamePartition("formula_bindings_log", targetGameId);
+    }
+
+    private void ensureSkillMountPartitions(String targetGameId) {
+        createGamePartition("skill_mounts", targetGameId);
+        createGamePartition("skill_mounts_log", targetGameId);
+    }
+
+    private void ensureSkillMountSchema() {
+        jdbcTemplate.execute("ALTER TABLE public.skills ALTER COLUMN owner_id DROP NOT NULL");
+        jdbcTemplate.execute("ALTER TABLE public.skills ALTER COLUMN owner_type DROP NOT NULL");
+        jdbcTemplate.execute("ALTER TABLE public.skills_log ALTER COLUMN owner_id DROP NOT NULL");
+        jdbcTemplate.execute("ALTER TABLE public.skills_log ALTER COLUMN owner_type DROP NOT NULL");
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.skill_mounts (
+                game_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                target_category varchar(32) NOT NULL,
+                target_id varchar(64) NOT NULL,
+                skill_id varchar(64) NOT NULL,
+                enabled boolean NOT NULL DEFAULT TRUE,
+                extend jsonb NOT NULL DEFAULT '{}',
+                updated_at timestamp NOT NULL DEFAULT NOW(),
+                CONSTRAINT pk_skill_mounts PRIMARY KEY (game_id, target_category, target_id, skill_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
+        jdbcTemplate.execute(
+            """
+            CREATE TABLE IF NOT EXISTS public.skill_mounts_log (
+                game_id varchar(64) NOT NULL,
+                start_version_id bigint NOT NULL,
+                end_version_id bigint NOT NULL,
+                target_category varchar(32) NOT NULL,
+                target_id varchar(64) NOT NULL,
+                skill_id varchar(64) NOT NULL,
+                enabled boolean NOT NULL DEFAULT TRUE,
+                extend jsonb NOT NULL DEFAULT '{}',
+                CONSTRAINT pk_skill_mounts_log PRIMARY KEY (game_id, target_category, target_id, skill_id, start_version_id)
+            ) PARTITION BY LIST (game_id)
+            """
+        );
     }
 
     private void ensureCoefficientBucketTables() {
@@ -1730,6 +2013,35 @@ class ControllerPublishFlowIT {
     private JsonNode requireBody(ResponseEntity<JsonNode> response) {
         assertNotNull(response.getBody());
         return response.getBody();
+    }
+
+    private boolean containsSkillMount(JsonNode skillMounts, String targetCategory, String targetId, String skillId) {
+        if (skillMounts == null || !skillMounts.isArray()) {
+            return false;
+        }
+        for (JsonNode node : skillMounts) {
+            if (targetCategory.equals(node.path("targetCategory").asText())
+                && targetId.equals(node.path("targetId").asText())
+                && skillId.equals(node.path("skillId").asText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int countSkillMountsForHero(JsonNode skillMounts, String heroId) {
+        if (skillMounts == null || !skillMounts.isArray()) {
+            return 0;
+        }
+        int count = 0;
+        for (JsonNode node : skillMounts) {
+            if ("hero".equals(node.path("targetCategory").asText())
+                && heroId.equals(node.path("targetId").asText())
+                && node.path("enabled").asBoolean(true)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private boolean containsByField(JsonNode arrayNode, String fieldName, String expectedValue) {
