@@ -9,7 +9,7 @@ import {
 import { parseFormulaParams, type FormulaParamVarRow } from '../components/formula-editor/formulaModels';
 import type { BenchmarkFormulaExpr, FormulaActorRef } from './benchmarkTypes';
 import { compileConstantSymbols, compileFormulaText, compileVarsToExprMap, type VarDefinition } from './formulaCompiler';
-import type { AttributeDefinition, GameDataBundle, Hero, Item, JsonObject, JsonValue, Skill } from '../types/api';
+import type { AttributeDefinition, GameDataBundle, Hero, Item, JsonObject, JsonValue, Skill, TypeDefinition } from '../types/api';
 
 export type TinyGoV2AttributeDefinition = {
   id: string;
@@ -107,6 +107,13 @@ export type TinyGoV2EffectDefinition = {
   targetRole?: string;
 };
 
+export type TinyGoV2Classifier = {
+  types?: string[];
+  tags?: string[];
+};
+
+export const ACTION_BASIC_ATTACK_CLASSIFIER = 'action/basic_attack';
+
 export type TinyGoV2ActionTemplate = {
   id: string;
   label?: string;
@@ -116,6 +123,7 @@ export type TinyGoV2ActionTemplate = {
   cooldownFormulaId?: string;
   channelDurationMs?: number;
   effects?: TinyGoV2EffectDefinition[];
+  classifier?: TinyGoV2Classifier;
   requiresMark?: string;
   consumesMark?: boolean;
   resourceCost?: TinyGoV2ResourceCost[];
@@ -210,7 +218,7 @@ export type WasmValidationSkillOption = {
   actionId: string;
   label: string;
   skillKey: string;
-  sourceKind: 'hero' | 'item';
+  sourceKind: 'hero' | 'item' | 'mount';
   sourceLabel: string;
   ownerType: string;
   ownerId: string;
@@ -218,6 +226,16 @@ export type WasmValidationSkillOption = {
   defaultLevel: number;
   maxLevel: number;
   editableLevel: boolean;
+};
+
+export type DpsAttackerCompileResult = {
+  actorTemplate: TinyGoV2ActorTemplate;
+  actionTemplates: TinyGoV2ActionTemplate[];
+  skillOptions: WasmValidationSkillOption[];
+  formulas: TinyGoV2FormulaDefinition[];
+  statuses?: TinyGoV2StatusTemplate[];
+  attributes: TinyGoV2AttributeDefinition[];
+  resources?: TinyGoV2ResourceDefinition[];
 };
 
 export type ActorInputSummary = {
@@ -392,6 +410,83 @@ export function listWasmValidationSkills(
   return collectActorActionSkills(bundle, hero, items, championLevel, side, selectedSkillLevels).map(stripSkillRecord);
 }
 
+export function actionTemplateHasBasicAttackClassifier(template: TinyGoV2ActionTemplate): boolean {
+  return (template.classifier?.types ?? []).includes(ACTION_BASIC_ATTACK_CLASSIFIER);
+}
+
+export function buildSkillActionClassifier(bundle: GameDataBundle, skillId: string): TinyGoV2Classifier | undefined {
+  const types = collectSkillActionClassifierTypes(bundle, skillId);
+  return types.length > 0 ? { types } : undefined;
+}
+
+export function buildDpsTargetActorTemplateFromSnapshot(snapshot: {
+  actorId: string;
+  templateId?: string;
+  attributes: Record<string, number>;
+  currentHp: number;
+  maxHp: number;
+}): TinyGoV2ActorTemplate {
+  const templateId = snapshot.templateId?.trim() || snapshot.actorId.trim();
+  const maxHp = Math.max(snapshot.maxHp, 1);
+  const initialHp = snapshot.currentHp > 0 ? snapshot.currentHp : maxHp;
+  return {
+    id: templateId,
+    maxHp,
+    initialHp,
+    attributes: toTinyGoAttributeValues(snapshot.attributes),
+    actions: []
+  };
+}
+
+export function compileDpsAttackerBundle(
+  bundle: GameDataBundle,
+  options: {
+    heroId: string;
+    level: number;
+    itemIds: string[];
+    skillLevels: Record<string, number>;
+    attributeBonuses?: Record<string, number>;
+    attributeOverrides?: Record<string, number>;
+    hpAttrKey?: string;
+  }
+): DpsAttackerCompileResult {
+  const attrDefinitions = normalizeAttributeDefinitions(bundle.attributeDefinitions);
+  const hpAttrKey = options.hpAttrKey ?? detectHpAttrKey(bundle.attributeDefinitions);
+  const selection: WasmValidationSelection = {
+    selfHeroId: options.heroId,
+    enemyHeroId: bundle.heroes.find((hero) => hero.heroId !== options.heroId)?.heroId ?? options.heroId,
+    selfLevel: options.level,
+    enemyLevel: 1,
+    selfItemIds: options.itemIds,
+    enemyItemIds: [],
+    selfSkillLevels: options.skillLevels,
+    enemySkillLevels: {},
+    selfAttributeBonuses: options.attributeBonuses,
+    enemyAttributeBonuses: {},
+    selfAttributeOverrides: options.attributeOverrides,
+    enemyAttributeOverrides: {},
+    selfResourceOverrides: {},
+    enemyResourceOverrides: {},
+    hpAttrKey
+  };
+  const selfBase = resolveActorState(bundle, attrDefinitions, selection, 'self');
+  const enemyBase = resolveActorState(bundle, attrDefinitions, selection, 'enemy');
+  const formulaCompiler = createFormulaRegistryCompiler(bundle);
+  const statusCompiler = createStatusRegistryCompiler();
+  const actionTemplates = compileActorActionTemplates(bundle, selfBase, enemyBase, formulaCompiler, statusCompiler);
+  const resourceDefinitions = buildResourceDefinitions([selfBase]);
+
+  return {
+    attributes: attrDefinitions,
+    resources: resourceDefinitions.length > 0 ? resourceDefinitions : undefined,
+    actorTemplate: buildActorTemplate(selfBase),
+    actionTemplates,
+    skillOptions: selfBase.skills.map(stripSkillRecord),
+    formulas: formulaCompiler.definitions,
+    statuses: statusCompiler.definitions.length > 0 ? statusCompiler.definitions : undefined
+  };
+}
+
 export function compileTinyGoV2ValidationInput(
   bundle: GameDataBundle,
   selection: WasmValidationSelection
@@ -402,8 +497,8 @@ export function compileTinyGoV2ValidationInput(
   const formulaCompiler = createFormulaRegistryCompiler(bundle);
   const statusCompiler = createStatusRegistryCompiler();
   const actionTemplates = [
-    ...compileActorActionTemplates(bundle.meta.gameId, selfBase, enemyBase, formulaCompiler, statusCompiler),
-    ...compileActorActionTemplates(bundle.meta.gameId, enemyBase, selfBase, formulaCompiler, statusCompiler)
+    ...compileActorActionTemplates(bundle, selfBase, enemyBase, formulaCompiler, statusCompiler),
+    ...compileActorActionTemplates(bundle, enemyBase, selfBase, formulaCompiler, statusCompiler)
   ];
   const resourceDefinitions = buildResourceDefinitions([selfBase, enemyBase]);
 
@@ -682,8 +777,14 @@ function collectActorActionSkills(
   side: ValidationSide,
   selectedSkillLevels: Record<string, number>
 ): ResolvedActionSkill[] {
-  const orderedSkills: Array<{ skill: Skill; sourceKind: 'hero' | 'item'; sourceLabel: string }> = [];
+  const orderedSkills: Array<{
+    skill: Skill;
+    sourceKind: 'hero' | 'item' | 'mount';
+    sourceLabel: string;
+    actionId?: string;
+  }> = [];
   const seenSkillIds = new Set<string>();
+  const seenMountNaturalKeys = new Set<string>();
 
   for (const skill of bundle.skills) {
     if (skill.ownerType !== 'hero' || skill.ownerId !== hero.heroId || !isCastableSkill(skill)) {
@@ -715,21 +816,42 @@ function collectActorActionSkills(
     }
   }
 
+  for (const mount of bundle.skillMounts ?? []) {
+    if (mount.targetCategory !== 'hero' || mount.targetId !== hero.heroId || mount.enabled === false) {
+      continue;
+    }
+    const naturalKey = `${mount.targetCategory}:${mount.targetId}:${mount.skillId}`;
+    if (seenMountNaturalKeys.has(naturalKey)) {
+      continue;
+    }
+    const skill = bundle.skills.find((candidate) => candidate.skillId === mount.skillId);
+    if (!skill || !isCastableSkill(skill)) {
+      continue;
+    }
+    seenMountNaturalKeys.add(naturalKey);
+    orderedSkills.push({
+      skill,
+      sourceKind: 'mount',
+      sourceLabel: `${mount.targetCategory}/${mount.targetId}`,
+      actionId: `${side}::${skill.skillId}`
+    });
+  }
+
   return orderedSkills
-    .map(({ skill, sourceKind, sourceLabel }) => {
+    .map(({ skill, sourceKind, sourceLabel, actionId }) => {
       const maxLevel = detectSkillMaxLevel(skill);
       const defaultLevel = defaultSkillLevelForSkill(skill, championLevel, maxLevel);
       const selectedLevel = clampLevelInput(selectedSkillLevels[skill.skillId], maxLevel, defaultLevel);
       return {
         skill,
         skillId: skill.skillId,
-        actionId: `${side}::${skill.skillId}`,
+        actionId: actionId ?? `${side}::${skill.skillId}`,
         label: buildSkillLabel(skill),
         skillKey: (skill.skillKey ?? '').trim().toUpperCase(),
         sourceKind,
         sourceLabel,
-        ownerType: skill.ownerType,
-        ownerId: skill.ownerId,
+        ownerType: skill.ownerType ?? '',
+        ownerId: skill.ownerId ?? '',
         level: selectedLevel,
         defaultLevel,
         maxLevel,
@@ -746,7 +868,12 @@ function stripSkillRecord(skill: ResolvedActionSkill): WasmValidationSkillOption
 
 function compareSkillOptions(left: WasmValidationSkillOption, right: WasmValidationSkillOption): number {
   if (left.sourceKind !== right.sourceKind) {
-    return left.sourceKind === 'hero' ? -1 : 1;
+    const order = { hero: 0, mount: 1, item: 2 } as const;
+    const leftOrder = order[left.sourceKind] ?? 3;
+    const rightOrder = order[right.sourceKind] ?? 3;
+    if (leftOrder !== rightOrder) {
+      return leftOrder - rightOrder;
+    }
   }
   const leftOrder = HERO_SKILL_ORDER_INDEX.get(left.skillKey) ?? HERO_SKILL_ORDER.length;
   const rightOrder = HERO_SKILL_ORDER_INDEX.get(right.skillKey) ?? HERO_SKILL_ORDER.length;
@@ -846,17 +973,17 @@ function defaultSkillLevelForSkill(skill: Skill, championLevel: number, maxLevel
 }
 
 function compileActorActionTemplates(
-  gameId: string,
+  bundle: GameDataBundle,
   source: ResolvedActorState,
   target: ResolvedActorState,
   formulaCompiler: FormulaRegistryCompiler,
   statusCompiler: StatusRegistryCompiler
 ): TinyGoV2ActionTemplate[] {
-  return source.skills.map((skill) => compileSkillActionTemplate(gameId, skill, source, target, formulaCompiler, statusCompiler));
+  return source.skills.map((skill) => compileSkillActionTemplate(bundle, skill, source, target, formulaCompiler, statusCompiler));
 }
 
 function compileSkillActionTemplate(
-  gameId: string,
+  bundle: GameDataBundle,
   selectedSkill: ResolvedActionSkill,
   source: ResolvedActorState,
   target: ResolvedActorState,
@@ -890,7 +1017,7 @@ function compileSkillActionTemplate(
   }
 
   const compiledEffects = compileActionEffects(selectedSkill, env, formulaCompiler, statusCompiler);
-  const cooldown = compileActionCooldown(gameId, selectedSkill, source, env, cooldownRows[0], formulaCompiler);
+  const cooldown = compileActionCooldown(bundle.meta.gameId, selectedSkill, source, env, cooldownRows[0], formulaCompiler);
   const markRequirement = readActionMarkRequirement(env.mechanicsRoot);
   const channelDurationMs = readActionChannelDurationMs(env.mechanicsRoot);
 
@@ -902,6 +1029,7 @@ function compileSkillActionTemplate(
     cooldownMs: cooldown.cooldownMs,
     cooldownFormulaId: cooldown.cooldownFormulaId,
     channelDurationMs,
+    classifier: buildSkillActionClassifier(bundle, selectedSkill.skillId),
     effects: compiledEffects.effects.length > 0 ? compiledEffects.effects : undefined,
     ...markRequirement,
     resourceCost: resourceCosts.length > 0 ? resourceCosts : undefined
@@ -1301,6 +1429,12 @@ function resolveAmountActionFormula(
   return { amount: toFiniteOptional(raw.amount) ?? toFiniteOptional(raw.value) ?? toFiniteOptional(raw.magnitude) ?? 0 };
 }
 
+type DealDamageFormulaInput = {
+  bindingKey?: string;
+  formulaText?: string;
+  formulaVars?: string[];
+};
+
 function resolveDamageActionFormula(
   selectedSkill: ResolvedActionSkill,
   env: CompiledSkillEnvironment,
@@ -1308,26 +1442,59 @@ function resolveDamageActionFormula(
   action: Extract<SkillTriggerRow['actions'][number], { type: 'deal_damage' }>,
   slotLabel: string
 ): string {
-  if (action.bindingKey.trim()) {
-    return formulaCompiler.resolveBinding(selectedSkill, env, action.bindingKey, slotLabel);
+  const topLevelBindingKey = action.bindingKey.trim();
+  if (topLevelBindingKey) {
+    return formulaCompiler.resolveBinding(selectedSkill, env, topLevelBindingKey, slotLabel);
   }
 
-  const inline = readInlineDamageFormula(action.raw);
-  if (inline) {
-    return formulaCompiler.resolveInlineFormula(selectedSkill, env, inline.formulaText, inline.formulaVars, slotLabel);
+  const formulaInput = readDealDamageFormulaInput(action.raw);
+  if (formulaInput?.bindingKey) {
+    return formulaCompiler.resolveBinding(selectedSkill, env, formulaInput.bindingKey, slotLabel);
+  }
+  if (formulaInput?.formulaText) {
+    return formulaCompiler.resolveInlineFormula(
+      selectedSkill,
+      env,
+      formulaInput.formulaText,
+      formulaInput.formulaVars,
+      slotLabel
+    );
   }
 
   return formulaCompiler.resolveBinding(selectedSkill, env, action.bindingKey, slotLabel);
 }
 
-function readInlineDamageFormula(rawAction: JsonObject): { formulaText: string; formulaVars?: string[] } | null {
-  const damage = isPlainObject(rawAction.damage) ? rawAction.damage : rawAction;
-  const formulaText = readString(damage.formulaText).trim();
+function readDealDamageFormulaInput(rawAction: JsonObject): DealDamageFormulaInput | null {
+  const candidates: JsonObject[] = [];
+  if (isPlainObject(rawAction.amount)) {
+    candidates.push(rawAction.amount);
+  }
+  if (isPlainObject(rawAction.damage)) {
+    candidates.push(rawAction.damage);
+  }
+  candidates.push(rawAction);
+
+  for (const candidate of candidates) {
+    const parsed = readFormulaBindingOrInline(candidate);
+    if (parsed) {
+      return parsed;
+    }
+  }
+  return null;
+}
+
+function readFormulaBindingOrInline(raw: JsonObject): DealDamageFormulaInput | null {
+  const bindingKey = readString(raw.bindingKey).trim();
+  if (bindingKey) {
+    return { bindingKey };
+  }
+
+  const formulaText = readString(raw.formulaText).trim();
   if (!formulaText) {
     return null;
   }
 
-  const rawVars = Array.isArray(damage.formulaVars) ? damage.formulaVars : undefined;
+  const rawVars = Array.isArray(raw.formulaVars) ? raw.formulaVars : undefined;
   const formulaVars = rawVars?.map(readString).map((value) => value.trim()).filter(Boolean);
   return {
     formulaText,
@@ -1630,7 +1797,7 @@ function resolveFormulaBindingRecord(
 ) {
   const candidates: Array<[string, string]> = [
     ['skill', selectedSkill.skillId],
-    [selectedSkill.ownerType, selectedSkill.ownerId],
+    ...(selectedSkill.ownerType && selectedSkill.ownerId ? [[selectedSkill.ownerType, selectedSkill.ownerId] as [string, string]] : []),
     ['global', bundle.meta.gameId]
   ];
   return candidates
@@ -2137,6 +2304,88 @@ function findFirstNumber(record: Record<string, number>, keys: readonly string[]
     }
   }
   return null;
+}
+
+function collectSkillActionClassifierTypes(bundle: GameDataBundle, skillId: string): string[] {
+  const normalized = new Set<string>();
+  for (const token of collectTypeRelationClassifierTokens(bundle, 'skill', skillId)) {
+    const mapped = normalizeActionClassifierTypeToken(token);
+    if (mapped) {
+      normalized.add(mapped);
+    }
+  }
+  return Array.from(normalized);
+}
+
+function collectTypeRelationClassifierTokens(bundle: GameDataBundle, targetCategory: string, targetId: string): string[] {
+  const typeById = new Map(bundle.types.map((type) => [type.typeId, type]));
+  const tokens: string[] = [];
+  for (const relation of bundle.typeRelations) {
+    if (relation.targetCategory !== targetCategory || relation.targetId !== targetId) {
+      continue;
+    }
+    const type = typeById.get(relation.typeId);
+    tokens.push(...collectClassifierTokensFromTypeDefinition(type));
+    tokens.push(...collectClassifierTokensFromExtend(relation.extend));
+  }
+  return tokens;
+}
+
+function collectClassifierTokensFromTypeDefinition(type: TypeDefinition | undefined): string[] {
+  if (!type) {
+    return [];
+  }
+  const tokens: string[] = [];
+  if (type.name) {
+    tokens.push(type.name);
+  }
+  if (type.description) {
+    tokens.push(type.description);
+  }
+  const extend = type.extend;
+  if (isPlainObject(extend)) {
+    tokens.push(...collectClassifierTokensFromExtend(extend));
+  }
+  return tokens;
+}
+
+function collectClassifierTokensFromExtend(extend: JsonObject | undefined): string[] {
+  if (!extend) {
+    return [];
+  }
+  const tokens: string[] = [];
+  for (const [key, value] of Object.entries(extend)) {
+    if (typeof value === 'string') {
+      tokens.push(value);
+      if (key === 'path' || key === 'type' || key === 'role') {
+        tokens.push(value);
+      }
+      continue;
+    }
+    if (Array.isArray(value)) {
+      for (const entry of value) {
+        if (typeof entry === 'string') {
+          tokens.push(entry);
+        }
+      }
+    }
+  }
+  return tokens;
+}
+
+function normalizeActionClassifierTypeToken(raw: string): string | null {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return null;
+  }
+  const lower = trimmed.toLowerCase().replace(/\\/g, '/');
+  if (lower === 'basic_attack' || lower === 'action/basic_attack' || lower.endsWith('/basic_attack')) {
+    return ACTION_BASIC_ATTACK_CLASSIFIER;
+  }
+  if (lower.startsWith('action/')) {
+    return trimmed;
+  }
+  return trimmed;
 }
 
 function isPlainObject(value: unknown): value is JsonObject {
