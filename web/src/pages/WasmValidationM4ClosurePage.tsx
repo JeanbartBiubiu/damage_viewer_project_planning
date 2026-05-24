@@ -296,7 +296,7 @@ function findPublishedDamageSkill(bundle: GameDataBundle, excludedHeroId?: strin
   const preferredSkillIds = ['skill_ahri_q', 'skill_gangplank_q', 'skill_ksante_r_all_out'];
   for (const skillId of preferredSkillIds) {
     const skill = findSkill(bundle, skillId);
-    if (skill?.ownerType === 'hero' && skill.ownerId !== excludedHeroId && hasHero(bundle, skill.ownerId)) {
+    if (skill?.ownerType === 'hero' && skill.ownerId && skill.ownerId !== excludedHeroId && hasHero(bundle, skill.ownerId)) {
       return { heroId: skill.ownerId, skillId };
     }
   }
@@ -304,6 +304,7 @@ function findPublishedDamageSkill(bundle: GameDataBundle, excludedHeroId?: strin
     const skillKey = (skill.skillKey ?? '').trim().toUpperCase();
     return (
       skill.ownerType === 'hero' &&
+      skill.ownerId &&
       skill.ownerId !== excludedHeroId &&
       hasHero(bundle, skill.ownerId) &&
       skillKey !== 'P' &&
@@ -311,7 +312,7 @@ function findPublishedDamageSkill(bundle: GameDataBundle, excludedHeroId?: strin
       skillHasDamageAction(skill)
     );
   });
-  return fallback ? { heroId: fallback.ownerId, skillId: fallback.skillId } : null;
+  return fallback?.ownerId ? { heroId: fallback.ownerId, skillId: fallback.skillId } : null;
 }
 
 function makeSelection(

@@ -19,13 +19,13 @@ export function getSkillsColumns({ onView, onEdit }: SkillsTableActions) {
       title: 'ownerType',
       dataIndex: 'ownerType',
       width: 140,
-      render: (_: unknown, record: SkillsRecord) => record.ownerType
+      render: (_: unknown, record: SkillsRecord) => record.ownerType ?? '—'
     },
     {
       title: 'ownerId',
       dataIndex: 'ownerId',
       width: 220,
-      render: (_: unknown, record: SkillsRecord) => record.ownerId
+      render: (_: unknown, record: SkillsRecord) => record.ownerId ?? '—'
     },
     {
       title: 'skillKey',
