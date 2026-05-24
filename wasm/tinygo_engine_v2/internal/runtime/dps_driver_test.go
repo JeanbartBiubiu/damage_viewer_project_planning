@@ -7,8 +7,151 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/abi"
+	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
+
+const (
+	dpsTestDefaultBasicAttackActionID   = "self::skill_lol_basic_attack_default"
+	dpsTestDefaultBasicAttackSkillID    = "skill_lol_basic_attack_default"
+	dpsTestSecondaryBasicAttackActionID = "self::skill_lol_basic_attack_secondary"
+	dpsTestSecondaryBasicAttackSkillID  = "skill_lol_basic_attack_secondary"
+)
+
+func dpsTestEngineBundle() model.EngineBundle {
+	return model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes: []model.AttributeDefinitionV2{
+			{ID: "attack_damage"},
+			{ID: "attack_speed"},
+			{ID: "crit_chance"},
+			{ID: "crit_damage", DefaultBase: 1},
+			{ID: "hp"},
+			{ID: "armor"},
+			{ID: "magic_resist"},
+			{ID: "armor_pen_percent"},
+			{ID: "armor_pen_flat"},
+			{ID: "magic_pen_percent"},
+			{ID: "magic_pen_flat"},
+			{ID: "ap"},
+			{ID: "ms_pct"},
+			{ID: "life_steal"},
+		},
+		Actors: []model.ActorTemplate{
+			{
+				ID:        "dps_attacker",
+				MaxHP:     10000,
+				InitialHP: 10000,
+				Attributes: map[string]model.AttributeValueV2{
+					"attack_damage": {Base: 60},
+					"attack_speed":  {Base: 0.658},
+				},
+				Actions: []string{dpsTestDefaultBasicAttackActionID, dpsTestSecondaryBasicAttackActionID},
+			},
+			{
+				ID:        "target_dummy_fighter",
+				MaxHP:     10000,
+				InitialHP: 10000,
+				Attributes: map[string]model.AttributeValueV2{
+					"hp":           {Base: 3000},
+					"armor":        {Base: 100},
+					"magic_resist": {Base: 80},
+				},
+			},
+		},
+		Statuses: []model.StatusTemplate{
+			{ID: "disarm", Kind: "control", Classifier: model.ClassifierV2{Types: []string{"status/disarm"}}},
+		},
+		StatusActionControlRules: []model.StatusActionControlRuleV2{
+			{
+				ID:          "disarm_forbid_basic_attack",
+				RuleKind:    "forbid",
+				StatusTypes: model.TypeMatcherV2{Any: []string{"status/disarm"}},
+				ActionTypes: model.TypeMatcherV2{Any: []string{"action/basic_attack"}},
+			},
+		},
+		Formulas: []model.FormulaDefinition{
+			{ID: "one", Op: "const", Value: 1},
+			{ID: "as_floor", Op: "const", Value: 0.01},
+			{ID: "as_cap", Op: "const", Value: 3.0},
+			{ID: "thousand", Op: "const", Value: 1000},
+			{ID: "attack_damage", Op: "attr", Attr: "attack_damage"},
+			{ID: "crit_chance", Op: "attr", Attr: "crit_chance"},
+			{ID: "crit_damage", Op: "attr", Attr: "crit_damage"},
+			{ID: "attack_speed", Op: "attr", Attr: "attack_speed"},
+			{ID: "aa_crit_bonus", Op: "sub", Left: "crit_damage", Right: "one"},
+			{ID: "aa_crit_mult", Op: "mul", Left: "crit_chance", Right: "aa_crit_bonus"},
+			{ID: "aa_crit_factor", Op: "add", Left: "one", Right: "aa_crit_mult"},
+			{ID: "aa_expected_damage", Op: "mul", Left: "attack_damage", Right: "aa_crit_factor"},
+			{ID: "as_capped_low", Op: "max", Left: "attack_speed", Right: "as_floor"},
+			{ID: "as_capped", Op: "min", Left: "as_capped_low", Right: "as_cap"},
+			{ID: "aa_cooldown_ms", Op: "div", Left: "thousand", Right: "as_capped"},
+		},
+		Actions: []model.ActionTemplate{
+			{
+				ID:                dpsTestDefaultBasicAttackActionID,
+				Label:             "Default Basic Attack",
+				Classifier:        model.ClassifierV2{Types: []string{"action/basic_attack"}},
+				CooldownFormulaID: "aa_cooldown_ms",
+				Effects: []model.EffectDef{
+					{
+						Type:       "deal_damage",
+						FormulaID:  "aa_expected_damage",
+						DamageType: "physical",
+						SourceRole: "source",
+						TargetRole: "target",
+					},
+				},
+			},
+			{
+				ID:                dpsTestSecondaryBasicAttackActionID,
+				Label:             "Secondary Basic Attack",
+				Classifier:        model.ClassifierV2{Types: []string{"action/basic_attack"}},
+				CooldownFormulaID: "aa_cooldown_ms",
+				Effects: []model.EffectDef{
+					{
+						Type:       "deal_damage",
+						FormulaID:  "aa_expected_damage",
+						DamageType: "physical",
+						SourceRole: "source",
+						TargetRole: "target",
+					},
+				},
+			},
+		},
+		Settings: model.BundleSettings{MaxEvents: 10000, MaxCommandsPerEvent: 64},
+	}
+}
+
+func compileDPSTestBundle(t *testing.T) compilebundle.CompiledBundle {
+	t.Helper()
+	result := compilebundle.Bundle(dpsTestEngineBundle())
+	if len(result.Problems) > 0 {
+		t.Fatalf("compile dps test bundle: %v", result.Problems)
+	}
+	return result.Bundle
+}
+
+func runSingleAttackerDPSForTest(t *testing.T, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
+	t.Helper()
+	return RunSingleAttackerDPSWithBundle(compileDPSTestBundle(t), input)
+}
+
+func defaultDPSBasicAttackActionRef() model.DPSBasicAttackActionRefV2 {
+	return model.DPSBasicAttackActionRefV2{
+		ActionID:   dpsTestDefaultBasicAttackActionID,
+		SkillID:    dpsTestDefaultBasicAttackSkillID,
+		Classifier: model.ClassifierV2{Types: []string{"action/basic_attack"}},
+	}
+}
+
+func secondaryDPSBasicAttackActionRef() model.DPSBasicAttackActionRefV2 {
+	return model.DPSBasicAttackActionRefV2{
+		ActionID:   dpsTestSecondaryBasicAttackActionID,
+		SkillID:    dpsTestSecondaryBasicAttackSkillID,
+		Classifier: model.ClassifierV2{Types: []string{"action/basic_attack"}},
+	}
+}
 
 func TestSingleAttackerDPSBasicAttackTimelineStopsOnTargetDeath(t *testing.T) {
 	input := baseSingleAttackerDPSInput()
@@ -19,7 +162,7 @@ func TestSingleAttackerDPSBasicAttackTimelineStopsOnTargetDeath(t *testing.T) {
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 125
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
 
-	output := RunSingleAttackerDPS(input)
+	output := runSingleAttackerDPSForTest(t, input)
 	if len(output.CurveResults) != 1 {
 		t.Fatalf("curveResults length = %d, want 1", len(output.CurveResults))
 	}
@@ -71,7 +214,7 @@ func TestSingleAttackerDPSAttackSpeedCapOnlyConstrainsCadence(t *testing.T) {
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if got := result.AttackTimeline; len(got) != 4 || got[0].TimeMs != 0 || got[1].TimeMs != 333 || got[2].TimeMs != 666 || got[3].TimeMs != 999 {
 		t.Fatalf("attack timeline = %+v, want cap-derived attacks at 0/333/666/999", got)
 	}
@@ -95,7 +238,7 @@ func TestSingleAttackerDPSExpectedCritDamageForBasicAttacks(t *testing.T) {
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" || result.AttackCount != 1 {
 		t.Fatalf("result = %+v, want one ok attack", result)
 	}
@@ -105,7 +248,7 @@ func TestSingleAttackerDPSExpectedCritDamageForBasicAttacks(t *testing.T) {
 
 	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 1
 	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
-	result = RunSingleAttackerDPS(input).CurveResults[0]
+	result = runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if !almostEqual(result.TotalDamage, 200) || !almostEqual(result.DamageTimeline[0].RawDamage, 200) {
 		t.Fatalf("damage = %+v total=%.4f, want guaranteed crit damage 200", result.DamageTimeline, result.TotalDamage)
 	}
@@ -122,7 +265,7 @@ func TestSingleAttackerDPSArmorPenetrationAppliesToPhysicalDamage(t *testing.T) 
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" || result.AttackCount != 1 {
 		t.Fatalf("result = %+v, want one ok attack", result)
 	}
@@ -144,7 +287,7 @@ func TestSingleAttackerDPSEquipmentStatsAreMergedIntoAttackerAttributes(t *testi
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 3000
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -184,7 +327,7 @@ func TestSingleAttackerDPSEquipmentCritStatsAffectBasicAttackDamage(t *testing.T
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 3000
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -215,7 +358,7 @@ func TestSingleAttackerDPSItemOnHitPassiveRoutesToItemTriggers(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -248,7 +391,7 @@ func TestSingleAttackerDPSItemCurrentHPOnHitUsesAttackStartBasis(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -276,7 +419,7 @@ func TestSingleAttackerDPSItemCurrentHPOnHitUsesCurrentBasis(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -303,7 +446,7 @@ func TestSingleAttackerDPSItemEveryThirdHitSupportsMissingHPScaling(t *testing.T
 	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -320,7 +463,7 @@ func TestSingleAttackerDPSBlocksEquipmentSetWithoutResolvedStats(t *testing.T) {
 	input.Curves[0].Selection.EquipmentSet = []string{"3031"}
 	input.Curves[0].ResolvedSnapshot.EquipmentSet = []string{"3031"}
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" {
 		t.Fatalf("status = %s, want blocked", result.Status)
 	}
@@ -335,7 +478,7 @@ func TestSingleAttackerDPSBlocksMismatchedEquipmentSet(t *testing.T) {
 	input.Curves[0].ResolvedSnapshot.EquipmentSet = []string{"3046"}
 	input.Curves[0].ResolvedSnapshot.EquipmentStats = map[string]float64{"attack_speed": 0.65}
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" {
 		t.Fatalf("status = %s, want blocked", result.Status)
 	}
@@ -348,7 +491,7 @@ func TestSingleAttackerDPSBlockedWhenPublishedSnapshotDataIsMissing(t *testing.T
 	input := baseSingleAttackerDPSInput()
 	delete(input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes, "armor")
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.StopReason != "blocked" {
 		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 	}
@@ -365,7 +508,7 @@ func TestSingleAttackerDPSBlockedWhenTargetIsNotTargetDummy(t *testing.T) {
 	input.Curves[0].Selection.TargetType = "target_dummy"
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Types = []string{"champion"}
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.StopReason != "blocked" {
 		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 	}
@@ -378,7 +521,7 @@ func TestSingleAttackerDPSBlockedWhenSelectionTargetDoesNotMatchResolvedTarget(t
 	input := baseSingleAttackerDPSInput()
 	input.Curves[0].Selection.TargetID = "target_dummy_tank"
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.StopReason != "blocked" {
 		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 	}
@@ -391,7 +534,7 @@ func TestSingleAttackerDPSBlockedWhenSelectionTargetIsMissing(t *testing.T) {
 	input := baseSingleAttackerDPSInput()
 	input.Curves[0].Selection.TargetID = ""
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.StopReason != "blocked" {
 		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 	}
@@ -404,7 +547,7 @@ func TestSingleAttackerDPSBlockedWhenResolvedTargetIsMissing(t *testing.T) {
 	input := baseSingleAttackerDPSInput()
 	input.Curves[0].ResolvedSnapshot.TargetSnapshot = model.DPSActorSnapshotV2{}
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.StopReason != "blocked" {
 		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 	}
@@ -473,9 +616,9 @@ func TestSingleAttackerDPSBlockedWhenBatchARulesAreUnsupported(t *testing.T) {
 			},
 		},
 		{
-			name: "autoAttackAction",
+			name: "missingBasicAttackAction",
 			mutate: func(input *model.SingleAttackerDPSInputV2) {
-				input.SimulationRules.AutoAttackPlan.ActionID = "skill_q"
+				input.Curves[0].ResolvedSnapshot.BasicAttackActions[0].ActionID = "missing_action"
 			},
 		},
 		{
@@ -491,14 +634,143 @@ func TestSingleAttackerDPSBlockedWhenBatchARulesAreUnsupported(t *testing.T) {
 			input := baseSingleAttackerDPSInput()
 			tt.mutate(&input)
 
-			result := RunSingleAttackerDPS(input).CurveResults[0]
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 			if result.Status != "blocked" || result.StopReason != "blocked" {
 				t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 			}
 			if len(result.BlockedReasons) == 0 {
 				t.Fatal("blockedReasons should explain unsupported Batch A rules")
 			}
+			if tt.name == "missingBasicAttackAction" && !blockedReasonContains(result, "action_not_found:") {
+				t.Fatalf("blockedReasons = %v, want action_not_found", result.BlockedReasons)
+			}
 		})
+	}
+}
+
+func TestSingleAttackerDPSBlocksMissingBasicAttackSkill(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].ResolvedSnapshot.BasicAttackActions = nil
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" || result.StopReason != "blocked" {
+		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
+	}
+	if !blockedReasonContains(result, "missing_basic_attack_action") {
+		t.Fatalf("blockedReasons = %v, want missing_basic_attack_action", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSRunsMountedBasicAttackAction(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" || result.AttackCount != 1 {
+		t.Fatalf("result = %+v, want one mounted basic attack", result)
+	}
+	if got := result.AttackTimeline[0].ActionID; got != dpsTestDefaultBasicAttackActionID {
+		t.Fatalf("attack actionId = %q, want %q", got, dpsTestDefaultBasicAttackActionID)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestDefaultBasicAttackSkillID], 100) {
+		t.Fatalf("damageBySource = %v, want %q physical basic attack damage", result.DamageBySource, dpsTestDefaultBasicAttackSkillID)
+	}
+}
+
+func TestSingleAttackerDPSRunsMultipleMountedBasicAttackActions(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	input.Curves[0].ResolvedSnapshot.BasicAttackActions = []model.DPSBasicAttackActionRefV2{
+		defaultDPSBasicAttackActionRef(),
+		secondaryDPSBasicAttackActionRef(),
+	}
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 50
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 2 {
+		t.Fatalf("attackCount = %d, want both mounted basic attacks at t=0", result.AttackCount)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestDefaultBasicAttackSkillID], 50) ||
+		!almostEqual(result.DamageBySource[dpsTestSecondaryBasicAttackSkillID], 50) {
+		t.Fatalf("damageBySource = %v, want 50 from each mounted basic attack", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSBasicAttackCooldownUsesAttackSpeedFormula(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 1
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" || len(result.AttackIntervalTimeline) < 2 {
+		t.Fatalf("result = %+v, want ok with interval evidence", result)
+	}
+	if got := result.AttackIntervalTimeline[0]; got.AttackIntervalMs != 500 || got.Source != "aa_cooldown_ms" {
+		t.Fatalf("first interval = %+v, want 500ms from aa_cooldown_ms", got)
+	}
+	if got := attackTimes(result); !sameInt64s(got, []int64{0, 500, 1000, 1500}) {
+		t.Fatalf("attack times = %v, want cooldown formula cadence at 2.0 AS", got)
+	}
+}
+
+func TestSingleAttackerDPSBasicAttackHitTriggersPassivesAfterActionDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	passive := canonicalHeroOnHitPassive()
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if len(result.SkillPassiveTriggers) != 1 {
+		t.Fatalf("skillPassiveTriggers = %v, want on-hit passive after basic attack damage", result.SkillPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestDefaultBasicAttackSkillID], 100) ||
+		!almostEqual(result.DamageBySource["canonical_hero_on_hit"], 10) {
+		t.Fatalf("damageBySource = %v, want basic attack then on-hit passive", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSDisarmBlocksClassifiedBasicAttack(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.StatusIDs = []string{"disarm"}
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	input.Curves[0].ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" || result.StopReason != "blocked" {
+		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
+	}
+	if !blockedReasonContains(result, "basic_attack_cast_blocked") {
+		t.Fatalf("blockedReasons = %v, want basic_attack_cast_blocked", result.BlockedReasons)
+	}
+	if result.AttackCount != 0 || len(result.DamageTimeline) != 0 {
+		t.Fatalf("disarmed curve should not record attacks or damage: attacks=%d timeline=%d", result.AttackCount, len(result.DamageTimeline))
 	}
 }
 
@@ -510,7 +782,7 @@ func TestSingleAttackerDPSMultipleCurvesIsolateOKAndBlockedResults(t *testing.T)
 	blockedCurve.ResolvedSnapshot.EnabledPassiveEffects = []string{"missing_passive"}
 	input.Curves = append(input.Curves, blockedCurve)
 
-	output := RunSingleAttackerDPS(input)
+	output := runSingleAttackerDPSForTest(t, input)
 	if len(output.CurveResults) != 2 {
 		t.Fatalf("curveResults length = %d, want 2", len(output.CurveResults))
 	}
@@ -524,11 +796,7 @@ func TestSingleAttackerDPSMultipleCurvesIsolateOKAndBlockedResults(t *testing.T)
 
 func TestSessionBeginRunJSONDispatchesSingleAttackerDPSDoneFrame(t *testing.T) {
 	session := NewSession()
-	initBundle := model.EngineBundle{
-		SchemaVersion: model.SchemaVersion,
-		Settings:      model.BundleSettings{MaxEvents: 1, MaxCommandsPerEvent: 64},
-	}
-	if code := session.InitJSON(mustJSONForDPSTest(t, initBundle)); code != 0 {
+	if code := session.InitJSON(mustJSONForDPSTest(t, dpsTestEngineBundle())); code != 0 {
 		t.Fatalf("InitJSON code = %d", code)
 	}
 	if code := session.BeginRunJSON(mustJSONForDPSTest(t, baseSingleAttackerDPSInput())); code != 0 {
@@ -542,11 +810,7 @@ func TestSessionBeginRunJSONDispatchesSingleAttackerDPSDoneFrame(t *testing.T) {
 
 func TestSessionBeginRunJSONDispatchesEquipmentSetDPSDoneFrame(t *testing.T) {
 	session := NewSession()
-	initBundle := model.EngineBundle{
-		SchemaVersion: model.SchemaVersion,
-		Settings:      model.BundleSettings{MaxEvents: 1, MaxCommandsPerEvent: 64},
-	}
-	if code := session.InitJSON(mustJSONForDPSTest(t, initBundle)); code != 0 {
+	if code := session.InitJSON(mustJSONForDPSTest(t, dpsTestEngineBundle())); code != 0 {
 		t.Fatalf("InitJSON code = %d", code)
 	}
 	input := baseSingleAttackerDPSInput()
@@ -585,7 +849,7 @@ func TestSingleAttackerDPSVayneSilverBoltsEveryThirdHit(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("result = %+v, want ok", result)
 	}
@@ -621,7 +885,7 @@ func TestSingleAttackerDPSTeemoToxicShotOnHitAndDoT(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("result = %+v, want ok", result)
 	}
@@ -646,7 +910,7 @@ func TestSingleAttackerDPSBlocksDotTickIntervalOverride(t *testing.T) {
 	passive.Operations[1].TickIntervalMs = 500
 	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{passive}
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.StopReason != "blocked" {
 		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 	}
@@ -665,7 +929,7 @@ func TestSingleAttackerDPSBlocksUnsupportedDotRefreshMode(t *testing.T) {
 	passive.Operations[1].RefreshMode = "extend"
 	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{passive}
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.StopReason != "blocked" {
 		t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
 	}
@@ -689,7 +953,7 @@ func TestSingleAttackerDPSVarusBlightedQuiverOnHitAndStacks(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("result = %+v, want ok", result)
 	}
@@ -719,7 +983,7 @@ func TestSingleAttackerDPSKaisaPlasmaStacksAndTriggerDamage(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("result = %+v, want ok", result)
 	}
@@ -749,7 +1013,7 @@ func TestSingleAttackerDPSTwitchDeadlyVenomStacksAndDoT(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("result = %+v, want ok", result)
 	}
@@ -790,7 +1054,7 @@ func TestSingleAttackerDPSKogMawQPassiveAndWScenarioState(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("result = %+v, want ok", result)
 	}
@@ -833,7 +1097,7 @@ func TestSingleAttackerDPSCanonicalBuffExpiresAtNextAttackBoundary(t *testing.T)
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -870,7 +1134,7 @@ func TestSingleAttackerDPSCanonicalAttackSpeedCapBoundary(t *testing.T) {
 		canonicalAttackSpeedCurve(base, "as-3.01", 3.01),
 	}
 
-	output := RunSingleAttackerDPS(input)
+	output := runSingleAttackerDPSForTest(t, input)
 	if len(output.CurveResults) != 3 {
 		t.Fatalf("curveResults length = %d, want 3", len(output.CurveResults))
 	}
@@ -918,7 +1182,7 @@ func TestSingleAttackerDPSCanonicalDotTicksAtExpireBoundary(t *testing.T) {
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -949,11 +1213,11 @@ func TestSingleAttackerDPSCanonicalSourceOrderForAttackPassivesAndDot(t *testing
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
-	if got := damageSources(result); !sameStrings(got, []string{"basic_attack", "canonical_hero_on_hit", "canonical_item_on_hit", "canonical_dot_tick"}) {
+	if got := damageSources(result); !sameStrings(got, []string{dpsTestDefaultBasicAttackSkillID, "canonical_hero_on_hit", "canonical_item_on_hit", "canonical_dot_tick"}) {
 		t.Fatalf("damage source order = %v, want basic -> hero -> item -> dot tick", got)
 	}
 	if got := effectBreakdownKindsAndSources(result); !sameStrings(got, []string{
@@ -975,7 +1239,7 @@ func TestSingleAttackerDPSCanonicalBlockedCurveDoesNotPoisonBatch(t *testing.T) 
 	blockedCurve.ResolvedSnapshot.EnabledPassiveEffects = []string{"canonical_missing_passive"}
 	input.Curves = append(input.Curves, blockedCurve)
 
-	output := RunSingleAttackerDPS(input)
+	output := runSingleAttackerDPSForTest(t, input)
 	if len(output.CurveResults) != 2 {
 		t.Fatalf("curveResults length = %d, want 2", len(output.CurveResults))
 	}
@@ -1004,13 +1268,13 @@ func TestSingleAttackerDPSCanonicalCritPolicyExpectedAndUnsupportedRandom(t *tes
 	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" || result.CritPolicy != "expected" || len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].RawDamage, 150) {
 		t.Fatalf("expected crit result = %+v, want expected raw basic attack damage 150", result)
 	}
 
 	input.SimulationRules.CritPolicy = "seeded_random"
-	result = RunSingleAttackerDPS(input).CurveResults[0]
+	result = runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "blocked" || result.CritPolicy != "seeded_random" {
 		t.Fatalf("seeded random result = %+v, want explicit blocked unsupported policy", result)
 	}
@@ -1034,7 +1298,7 @@ func TestSingleAttackerDPSStackingStatModifierOnHitAffectsCadenceAndCaps(t *test
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -1044,7 +1308,7 @@ func TestSingleAttackerDPSStackingStatModifierOnHitAffectsCadenceAndCaps(t *test
 	if got := rawAttackSpeeds(result); !sameFloat64s(got, []float64{1.5, 2.0, 2.5, 2.5}) {
 		t.Fatalf("raw attack speeds = %v, want per-stack AS capped at 3 stacks", got)
 	}
-	if got := rawDamagesBySource(result, "basic_attack"); len(got) < 2 || !almostEqual(got[0], 10) || !almostEqual(got[1], 20) {
+	if got := rawDamagesBySource(result, dpsTestDefaultBasicAttackSkillID); len(got) < 2 || !almostEqual(got[0], 10) || !almostEqual(got[1], 20) {
 		t.Fatalf("basic raw damages = %v, want first attack unmodified and second attack with one stack", got)
 	}
 	if maxBreakdownAmount(result, dpsOpAddStack) != 3 {
@@ -1070,14 +1334,14 @@ func TestSingleAttackerDPSStackingStatModifierExpiresBeforeNextHit(t *testing.T)
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
 	if got := attackTimes(result); !sameInt64s(got, []int64{0, 500, 1000}) {
 		t.Fatalf("attack times = %v, want scheduled next attack not rescheduled by expiry", got)
 	}
-	if got := rawDamagesBySource(result, "basic_attack"); !sameFloat64s(got, []float64{10, 10, 10}) {
+	if got := rawDamagesBySource(result, dpsTestDefaultBasicAttackSkillID); !sameFloat64s(got, []float64{10, 10, 10}) {
 		t.Fatalf("basic raw damages = %v, want expired stack lazily cleared before each next hit", got)
 	}
 	if result.ProcessedEvents != result.AttackCount {
@@ -1124,7 +1388,7 @@ func TestSingleAttackerDPSBlocksInvalidStackingStatModifierContracts(t *testing.
 			curve := &input.Curves[0]
 			enableDPSPassivesForTest(curve, passive)
 
-			result := RunSingleAttackerDPS(input).CurveResults[0]
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 			if result.Status != "blocked" || result.StopReason != "blocked" {
 				t.Fatalf("result = %+v, want blocked", result)
 			}
@@ -1151,7 +1415,7 @@ func TestSingleAttackerDPSStackingStatModifierStackKeysArePassiveScoped(t *testi
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := RunSingleAttackerDPS(input).CurveResults[0]
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
 	if result.Status != "ok" {
 		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
 	}
@@ -1172,11 +1436,12 @@ func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 			DurationMs:     10000,
 			AttackSpeedCap: 3,
 			CritPolicy:     "expected",
-			AutoAttackPlan: model.DPSAutoAttackPlan{Enabled: true, ActionID: "basic_attack", StartAtMs: 0, TargetRole: "target"},
+			AutoAttackPlan: model.DPSAutoAttackPlan{Enabled: true, StartAtMs: 0, TargetRole: "target"},
 			MaxEvents:      10000,
 		},
 		TargetSnapshot: model.DPSActorSnapshotV2{
 			ActorID:    "target_dummy_fighter",
+			TemplateID: "target_dummy_fighter",
 			Name:       "Target Dummy Fighter",
 			Types:      []string{"target_dummy"},
 			CurrentHP:  3000,
@@ -1197,8 +1462,10 @@ func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 				CritPolicy:            "expected",
 			},
 			ResolvedSnapshot: model.DPSResolvedSnapshotV2{
+				BasicAttackActions: []model.DPSBasicAttackActionRefV2{defaultDPSBasicAttackActionRef()},
 				AttackerSnapshot: model.DPSActorSnapshotV2{
 					ActorID:    "Vayne",
+					TemplateID: "dps_attacker",
 					Name:       "Vayne",
 					Level:      1,
 					Types:      []string{"champion"},
@@ -1208,6 +1475,7 @@ func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 				},
 				TargetSnapshot: model.DPSActorSnapshotV2{
 					ActorID:    "target_dummy_fighter",
+					TemplateID: "target_dummy_fighter",
 					Name:       "Target Dummy Fighter",
 					Types:      []string{"target_dummy"},
 					CurrentHP:  3000,
