@@ -26,19 +26,19 @@ public class FormulaProfileAdminController {
     }
 
     @GetMapping
-    public ObjectNode listFormulaProfiles(@PathVariable String gameId) {
+    public ObjectNode listFormulaProfiles(@PathVariable("gameId") String gameId) {
         return gameDataService.listFormulaProfiles(gameId);
     }
 
     @GetMapping("/{formulaId}")
-    public ObjectNode getFormulaProfile(@PathVariable String gameId, @PathVariable String formulaId) {
+    public ObjectNode getFormulaProfile(@PathVariable("gameId") String gameId, @PathVariable("formulaId") String formulaId) {
         return gameDataService.getFormulaProfile(gameId, formulaId);
     }
 
     @PutMapping("/{formulaId}")
     public ObjectNode putFormulaProfile(
-        @PathVariable String gameId,
-        @PathVariable String formulaId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("formulaId") String formulaId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

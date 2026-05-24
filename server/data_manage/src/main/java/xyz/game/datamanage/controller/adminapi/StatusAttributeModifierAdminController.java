@@ -26,26 +26,26 @@ public class StatusAttributeModifierAdminController {
     }
 
     @GetMapping
-    public ObjectNode listStatusAttributeModifiers(@PathVariable String gameId) {
+    public ObjectNode listStatusAttributeModifiers(@PathVariable("gameId") String gameId) {
         return gameDataService.listStatusAttributeModifiers(gameId);
     }
 
     @GetMapping("/{statusId}/{groupKey}/{modifierId}")
     public ObjectNode getStatusAttributeModifier(
-        @PathVariable String gameId,
-        @PathVariable String statusId,
-        @PathVariable String groupKey,
-        @PathVariable String modifierId
+        @PathVariable("gameId") String gameId,
+        @PathVariable("statusId") String statusId,
+        @PathVariable("groupKey") String groupKey,
+        @PathVariable("modifierId") String modifierId
     ) {
         return gameDataService.getStatusAttributeModifier(gameId, statusId, groupKey, modifierId);
     }
 
     @PutMapping("/{statusId}/{groupKey}/{modifierId}")
     public ObjectNode putStatusAttributeModifier(
-        @PathVariable String gameId,
-        @PathVariable String statusId,
-        @PathVariable String groupKey,
-        @PathVariable String modifierId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("statusId") String statusId,
+        @PathVariable("groupKey") String groupKey,
+        @PathVariable("modifierId") String modifierId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

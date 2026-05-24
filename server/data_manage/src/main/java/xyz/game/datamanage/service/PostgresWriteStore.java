@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,7 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.SkillMountsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
@@ -59,6 +61,7 @@ public class PostgresWriteStore {
     private static final Set<String> ATTRIBUTE_VALUE_KINDS = Set.of("scalar", "ratio", "rate", "flag");
     private static final Set<String> FORMULA_TYPES = Set.of("cooldown", "regen", "attribute", "damage", "resource_cost", "other");
     private static final Set<String> FORMULA_BINDING_TARGET_CATEGORIES = Set.of("skill", "hero", "item", "global");
+    private static final Set<String> SKILL_MOUNT_TARGET_CATEGORIES = Set.of("hero", "item", "global", "skill", "type");
     private static final Set<String> COEFFICIENT_BUCKET_RESOLUTION_DOMAINS = Set.of("attribute", "hp_change");
     private static final Set<String> COEFFICIENT_BUCKET_AGGREGATION_MODES = Set.of("add", "multiply", "pick_max", "set_final");
     private static final Set<String> STATUS_ACTION_CONTROL_RULE_KINDS = Set.of("forbid", "interrupt");
@@ -110,6 +113,8 @@ public class PostgresWriteStore {
 
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
+    private final SkillMountsMapper skillMountsMapper;
+    private final DefaultBasicAttackProvisioner defaultBasicAttackProvisioner;
     private final ItemsMapper itemsMapper;
     private final ItemStatModifiersMapper itemStatModifiersMapper;
     private final FormulaProfilesMapper formulaProfilesMapper;
@@ -139,6 +144,8 @@ public class PostgresWriteStore {
     public PostgresWriteStore(
         HeroesMapper heroesMapper,
         SkillsMapper skillsMapper,
+        SkillMountsMapper skillMountsMapper,
+        @Lazy DefaultBasicAttackProvisioner defaultBasicAttackProvisioner,
         ItemsMapper itemsMapper,
         ItemStatModifiersMapper itemStatModifiersMapper,
         FormulaProfilesMapper formulaProfilesMapper,
@@ -166,6 +173,8 @@ public class PostgresWriteStore {
     ) {
         this.heroesMapper = heroesMapper;
         this.skillsMapper = skillsMapper;
+        this.skillMountsMapper = skillMountsMapper;
+        this.defaultBasicAttackProvisioner = defaultBasicAttackProvisioner;
         this.itemsMapper = itemsMapper;
         this.itemStatModifiersMapper = itemStatModifiersMapper;
         this.formulaProfilesMapper = formulaProfilesMapper;
@@ -213,6 +222,7 @@ public class PostgresWriteStore {
             jsonSupport.toJsonString(merged.get("baseStats"), "/baseStats"),
             jsonSupport.toJsonStringOrNull(merged.get("statsByLevel"))
         );
+        defaultBasicAttackProvisioner.ensureHeroMount(gameId, heroId);
         return merged;
     }
 
@@ -263,19 +273,34 @@ public class PostgresWriteStore {
     @Transactional
     public ObjectNode upsertSkill(String gameId, String skillId, ObjectNode body) {
         ObjectNode merged = mergeUpsert(body, "skillId", skillId);
-        String ownerType = jsonSupport.requireText(merged, "ownerType", "skill");
+        String ownerType = nullableText(merged, "ownerType");
+        String ownerId = nullableText(merged, "ownerId");
+        boolean ownerTypeMissing = ownerType == null || ownerType.isBlank();
+        boolean ownerIdMissing = ownerId == null || ownerId.isBlank();
+        if (ownerTypeMissing != ownerIdMissing) {
+            throw badRequest(
+                "skill.ownerType and skill.ownerId must both be null or both be set",
+                Map.of("path", "/ownerType")
+            );
+        }
+        if (!ownerTypeMissing) {
         if (!OWNER_TYPE_PATTERN.matcher(ownerType).matches()) {
             throw badRequest("skill.ownerType format invalid", Map.of("path", "/ownerType"));
         }
         if (!ownerTypeExists(gameId, ownerType)) {
             throw semantic("skill.ownerType not registered", Map.of("path", "/ownerType", "ownerType", ownerType));
         }
-        String ownerId = jsonSupport.requireText(merged, "ownerId", "skill");
         if ("hero".equals(ownerType) && readStore.loadHero(gameId, ownerId) == null) {
             throw semantic("skill.ownerId hero not found", Map.of("path", "/ownerId", "ownerId", ownerId));
         }
         if ("item".equals(ownerType) && readStore.loadItem(gameId, ownerId) == null) {
             throw semantic("skill.ownerId item not found", Map.of("path", "/ownerId", "ownerId", ownerId));
+        }
+        } else {
+            ownerType = null;
+            ownerId = null;
+            merged.putNull("ownerType");
+            merged.putNull("ownerId");
         }
 
         JsonNode mechanicsConfig = merged.get("mechanicsConfig");
@@ -301,6 +326,62 @@ public class PostgresWriteStore {
             jsonSupport.toJsonStringOrNull(merged.get("params")),
             jsonSupport.toJsonStringOrNull(merged.get("timingProfile")),
             jsonSupport.toJsonString(merged.get("mechanicsConfig"), "/mechanicsConfig")
+        );
+        return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertSkillMount(
+        String gameId,
+        String targetCategory,
+        String targetId,
+        String skillId,
+        ObjectNode body
+    ) {
+        String normalizedTargetCategory = targetCategory == null ? "" : targetCategory.toLowerCase(Locale.ROOT);
+        ObjectNode merged = mergeUpsert(body, "skillId", skillId);
+        merged.put("targetCategory", normalizedTargetCategory);
+        merged.put("targetId", targetId);
+        merged.put("skillId", skillId);
+        if (!SKILL_MOUNT_TARGET_CATEGORIES.contains(normalizedTargetCategory)) {
+            throw badRequest(
+                "skillMount.targetCategory invalid",
+                Map.of("path", "/targetCategory", "targetCategory", normalizedTargetCategory)
+            );
+        }
+        if (readStore.loadSkill(gameId, skillId) == null) {
+            throw semantic("skillMount.skillId not found", Map.of("path", "/skillId", "skillId", skillId));
+        }
+        validateSkillMountTarget(gameId, normalizedTargetCategory, targetId);
+
+        boolean enabled = true;
+        JsonNode enabledNode = merged.get("enabled");
+        if (enabledNode != null && !enabledNode.isNull()) {
+            if (!enabledNode.isBoolean()) {
+                throw badRequest("skillMount.enabled must be boolean", Map.of("path", "/enabled"));
+            }
+            enabled = enabledNode.asBoolean();
+        }
+        merged.put("enabled", enabled);
+
+        JsonNode extend = merged.get("extend");
+        if (extend == null || extend.isNull()) {
+            extend = objectMapper.createObjectNode();
+            merged.set("extend", extend);
+        }
+        if (!extend.isObject()) {
+            throw badRequest("skillMount.extend must be object", Map.of("path", "/extend"));
+        }
+
+        long versionId = resolveVersionIdForWrite(gameId);
+        skillMountsMapper.upsertSkillMount(
+            gameId,
+            versionId,
+            normalizedTargetCategory,
+            targetId,
+            skillId,
+            enabled,
+            jsonSupport.toJsonString(extend, "/extend")
         );
         return merged;
     }
@@ -973,6 +1054,8 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedStatusModifierGroups = statusModifierGroupsMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedStatusAttributeModifiers = statusAttributeModifiersMapper.listChangedSince(gameId, changedAfter);
         List<Map<String, Object>> changedStatusPeriodicHpEffects = statusPeriodicHpEffectsMapper.listChangedSince(gameId, changedAfter);
+        defaultBasicAttackProvisioner.ensureForGame(gameId);
+        List<Map<String, Object>> changedSkillMounts = skillMountsMapper.listChangedSince(gameId, changedAfter);
 
         Instant publishedAt = Instant.now();
         ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, publishedAt);
@@ -996,7 +1079,8 @@ public class PostgresWriteStore {
             changedControlStateProfiles,
             changedStatusModifierGroups,
             changedStatusAttributeModifiers,
-            changedStatusPeriodicHpEffects
+            changedStatusPeriodicHpEffects,
+            changedSkillMounts
         );
 
         publishedBundleSnapshotsMapper.upsertBundleSnapshot(
@@ -1060,7 +1144,8 @@ public class PostgresWriteStore {
         List<Map<String, Object>> changedControlStateProfiles,
         List<Map<String, Object>> changedStatusModifierGroups,
         List<Map<String, Object>> changedStatusAttributeModifiers,
-        List<Map<String, Object>> changedStatusPeriodicHpEffects
+        List<Map<String, Object>> changedStatusPeriodicHpEffects,
+        List<Map<String, Object>> changedSkillMounts
     ) {
         for (Map<String, Object> row : changedAttributeDefinitions) {
             String attrKey = mapText(row, "attrKey");
@@ -1263,6 +1348,40 @@ public class PostgresWriteStore {
                 versionId,
                 mapText(row, "formulaId"),
                 mapText(row, "overrideParamsJson")
+            );
+        }
+        for (Map<String, Object> row : changedSkillMounts) {
+            String targetCategory = mapText(row, "targetCategory");
+            String safeTargetCategory = targetCategory == null ? "" : targetCategory;
+            String targetId = mapText(row, "targetId");
+            String safeTargetId = targetId == null ? "" : targetId;
+            String skillId = mapText(row, "skillId");
+            String safeSkillId = skillId == null ? "" : skillId;
+            ensureUpdated(
+                skillMountsMapper.updateVersionRange(
+                    gameId,
+                    safeTargetCategory,
+                    safeTargetId,
+                    safeSkillId,
+                    versionId
+                ),
+                "skillMount not found while publishing",
+                Map.of(
+                    "gameId", gameId,
+                    "targetCategory", safeTargetCategory,
+                    "targetId", safeTargetId,
+                    "skillId", safeSkillId
+                )
+            );
+            Boolean enabled = mapBoolean(row, "enabled");
+            skillMountsMapper.upsertSkillMountLog(
+                gameId,
+                versionId,
+                safeTargetCategory,
+                safeTargetId,
+                safeSkillId,
+                enabled == null || enabled,
+                mapText(row, "extendJson")
             );
         }
         for (Map<String, Object> row : changedCoefficientBuckets) {
@@ -1468,6 +1587,7 @@ public class PostgresWriteStore {
         ArrayNode statusModifierGroups = requireArray(bundle, "statusModifierGroups");
         ArrayNode statusAttributeModifiers = requireArray(bundle, "statusAttributeModifiers");
         ArrayNode statusPeriodicHpEffects = requireArray(bundle, "statusPeriodicHpEffects");
+        ArrayNode skillMounts = requireArray(bundle, "skillMounts");
 
         Set<String> attrKeys = new HashSet<>();
         for (JsonNode node : attributeDefinitions) {
@@ -1582,6 +1702,10 @@ public class PostgresWriteStore {
         for (JsonNode node : formulaBindings) {
             ObjectNode formulaBinding = requireObject(node, "/formulaBindings");
             validateFormulaBindingForPublish(formulaBinding, formulaIds, skillIds, heroIds, itemIds);
+        }
+        for (JsonNode node : skillMounts) {
+            ObjectNode skillMount = requireObject(node, "/skillMounts");
+            validateSkillMountForPublish(skillMount, skillIds, heroIds, itemIds);
         }
         for (JsonNode node : statusActionControlRules) {
             ObjectNode rule = requireObject(node, "/statusActionControlRules");
@@ -1744,19 +1868,33 @@ public class PostgresWriteStore {
     }
 
     private void validateSkillForPublish(String gameId, ObjectNode skill, Set<String> heroIds, Set<String> itemIds) {
-        String ownerType = requireTextForPublish(skill, "ownerType", "/skills/ownerType");
+        JsonNode ownerTypeNode = skill.get("ownerType");
+        JsonNode ownerIdNode = skill.get("ownerId");
+        boolean ownerTypeMissing = ownerTypeNode == null || ownerTypeNode.isNull()
+            || (ownerTypeNode.isTextual() && ownerTypeNode.asText().isBlank());
+        boolean ownerIdMissing = ownerIdNode == null || ownerIdNode.isNull()
+            || (ownerIdNode.isTextual() && ownerIdNode.asText().isBlank());
+        if (ownerTypeMissing != ownerIdMissing) {
+            throw semantic(
+                "skill.ownerType and skill.ownerId must both be null or both be set",
+                Map.of("path", "/skills/ownerType")
+            );
+        }
+        if (!ownerTypeMissing) {
+            String ownerType = ownerTypeNode.asText();
         if (!OWNER_TYPE_PATTERN.matcher(ownerType).matches()) {
             throw semantic("skill.ownerType format invalid", Map.of("path", "/skills/ownerType", "ownerType", ownerType));
         }
         if (!ownerTypeExists(gameId, ownerType)) {
             throw semantic("skill.ownerType not registered", Map.of("path", "/skills/ownerType", "ownerType", ownerType));
         }
-        String ownerId = requireTextForPublish(skill, "ownerId", "/skills/ownerId");
+            String ownerId = ownerIdNode.asText();
         if ("hero".equals(ownerType) && !heroIds.contains(ownerId)) {
             throw semantic("skill.ownerId hero not found", Map.of("path", "/skills/ownerId", "ownerId", ownerId));
         }
         if ("item".equals(ownerType) && !itemIds.contains(ownerId)) {
             throw semantic("skill.ownerId item not found", Map.of("path", "/skills/ownerId", "ownerId", ownerId));
+        }
         }
 
         JsonNode mechanicsConfig = skill.get("mechanicsConfig");
@@ -1783,6 +1921,62 @@ public class PostgresWriteStore {
         JsonNode params = formulaProfile.get("params");
         if (params == null || !params.isObject()) {
             throw semantic("formulaProfile.params is required and must be object", Map.of("path", "/formulaProfiles/params"));
+        }
+    }
+
+    private void validateSkillMountForPublish(
+        ObjectNode skillMount,
+        Set<String> skillIds,
+        Set<String> heroIds,
+        Set<String> itemIds
+    ) {
+        String targetCategory = requireTextForPublish(skillMount, "targetCategory", "/skillMounts/targetCategory")
+            .toLowerCase(Locale.ROOT);
+        if (!SKILL_MOUNT_TARGET_CATEGORIES.contains(targetCategory)) {
+            throw semantic(
+                "skillMount.targetCategory invalid",
+                Map.of("path", "/skillMounts/targetCategory", "targetCategory", targetCategory)
+            );
+        }
+        String targetId = requireTextForPublish(skillMount, "targetId", "/skillMounts/targetId");
+        String skillId = requireTextForPublish(skillMount, "skillId", "/skillMounts/skillId");
+        if (!skillIds.contains(skillId)) {
+            throw semantic("skillMount.skillId not found", Map.of("path", "/skillMounts/skillId", "skillId", skillId));
+        }
+        if ("hero".equals(targetCategory) && !heroIds.contains(targetId)) {
+            throw semantic(
+                "skillMount target hero not found",
+                Map.of("path", "/skillMounts/targetId", "targetCategory", targetCategory, "targetId", targetId)
+            );
+        }
+        if ("item".equals(targetCategory) && !itemIds.contains(targetId)) {
+            throw semantic(
+                "skillMount target item not found",
+                Map.of("path", "/skillMounts/targetId", "targetCategory", targetCategory, "targetId", targetId)
+            );
+        }
+        JsonNode enabledNode = skillMount.get("enabled");
+        if (enabledNode != null && !enabledNode.isNull() && !enabledNode.isBoolean()) {
+            throw semantic("skillMount.enabled must be boolean", Map.of("path", "/skillMounts/enabled"));
+        }
+        JsonNode extend = skillMount.get("extend");
+        if (extend != null && !extend.isNull() && !extend.isObject()) {
+            throw semantic("skillMount.extend must be object", Map.of("path", "/skillMounts/extend"));
+        }
+    }
+
+    private void validateSkillMountTarget(String gameId, String targetCategory, String targetId) {
+        if ("hero".equals(targetCategory) && readStore.loadHero(gameId, targetId) == null) {
+            throw semantic(
+                "skillMount target hero not found",
+                Map.of("path", "/targetId", "targetCategory", targetCategory, "targetId", targetId)
+            );
+        }
+        if ("item".equals(targetCategory) && readStore.loadItem(gameId, targetId) == null) {
+            throw semantic(
+                "skillMount target item not found",
+                Map.of("path", "/targetId", "targetCategory", targetCategory, "targetId", targetId)
+            );
         }
     }
 

@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: draft
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: 2026-05-22
+LAST_TRACKED_AT: 2026-05-23
 
 # Cursor-GPT协同开发流程说明
 
@@ -87,8 +87,10 @@ model: {
 
 1. 显式传入 `apiKey`，不要只依赖 `process.env.CURSOR_API_KEY`。
 2. `cwd` 指向真实目标 worktree，不要误指到临时目录或 Codex 隔离 worktree。
-3. 记录 `agentId`、`runId`、`cwd`、`model`、prompt、结果和 transcript 路径。
-4. 不打印 API key、Bearer token、Cookie 或其他密钥。
+3. 记录 `agentId`、`runId`、`cwd`、`model`、prompt、原始 status 序列，并持久化事件日志。
+4. 如果 SDK 提供 transcript、artifact 或 conversation 线索，一并记录路径或清单。
+5. 不打印 API key、Bearer token、Cookie 或其他密钥。
+6. 真实任务执行前先跑 preflight，至少检查 Node runtime、`CURSOR_USE_HTTP1`、`CURSOR_API_KEY`、`@cursor/sdk` 可解析性，以及是否真的存在可编排的 CLI fallback。
 
 本地调用规则以仓库内 skill 为准：
 
@@ -121,6 +123,7 @@ GPT 收到用户需求后先判断：
 6. 验证命令：本轮期望 Cursor 自测哪些命令。
 7. 停止条件：遇到哪些问题必须停止并返回 GPT。
 8. 汇报格式：列出改动文件、验证结果、失败项和风险。
+9. 如果使用标准 runner，要求落标准产物目录：`prompt.txt`、`summary.json`、`events.jsonl`、`diff.patch`、`review.md`。
 
 ### 4.3 Cursor 执行开发
 
@@ -136,11 +139,17 @@ GPT 调用 Cursor 后，Cursor 在指定 worktree 内完成开发。Cursor 可�
 
 只有第 4 类才直接进入 Cursor fix；前 1 到 3 类优先由 GPT 查证或打断让人介入。
 
+补充规则：
+
+1. Cursor run 的 `status=error` 只表示本轮没有干净收敛，不表示“没有落代码”。
+2. 只要 Cursor 实际执行过写入任务，GPT 都必须先检查 worktree diff、事件日志和生成文件，再判断是 fix loop 还是按无改动处理。
+3. 不能把 “run 失败” 直接等价成 “本轮无产物”。
+
 ### 4.4 GPT Review
 
 Cursor 完成一轮后，GPT 必须检查：
 
-1. `git diff` 是否只包含本轮范围。
+1. 无论 Cursor run 最终状态是 `finished` 还是 `error`，都先检查 `git diff` 是否只包含本轮范围。
 2. 是否违反 `AGENTS.md`、README 或既有架构约束。
 3. 是否引入兼容性风险、数据契约风险或 UI 回归。
 4. 是否缺少测试、构建或页面验证。
@@ -164,11 +173,16 @@ Review 输出按严重级别组织，优先指出阻塞项。没有阻塞项时�
 
 当 review 无阻塞问题后，GPT 负责最终自动验证：
 
-1. 运行最近层 `AGENTS.md` / README 要求的构建、单测和 smoke 命令。
-2. 对前端或页面流程使用 Playwright 做真实浏览器验证。
-3. 对页面变更截屏或导出关键 DOM/请求/控制台证据。
-4. 对后端接口变更检查 API 响应、错误码和兼容字段。
-5. 对 wasm 或验证页变更检查 wasm 输出、页面证据和测试记录。
+1. 先按依赖顺序执行构建、发布、生成和刷新步骤，再执行消费这些产物的 smoke / E2E；不要把存在前后依赖的验证并行化。
+2. 运行最近层 `AGENTS.md` / README 要求的构建、单测和 smoke 命令。
+3. 如果验证目标涉及 published bundle 契约变化，先 fresh republish，再以这次新发布的版本或 snapshot 作为验收权威；不要拿历史旧 snapshot 判定新契约。
+4. 如果验证目标涉及 TinyGo / wasm 产物，先完成 TinyGo rebuild，再执行 Node smoke 或页面验证；不要对旧产物做 smoke。
+5. 浏览器 E2E 前先检查目标端口是否被旧服务占用；必要时清理旧进程或改用新端口，并记录实际 URL。证据采集后关闭本轮临时启动的服务。
+6. 如果 SDK preflight 失败，不要默认认为可以直接切 Cursor CLI。先验证当前环境是否真的有可编排的 `cursor-agent` 二进制，以及 CLI 是否能满足模型约束；不能验证时按 blocked 处理。
+7. 对前端或页面流程使用 Playwright 做真实浏览器验证。
+8. 对页面变更截屏或导出关键 DOM、请求、控制台证据。
+9. 对后端接口变更检查 API 响应、错误码和兼容字段。
+10. 对 wasm 或验证页变更检查 wasm 输出、页面证据和测试记录。
 
 Cursor 自测可以作为参考，但不能替代 GPT 这一轮验证。
 
@@ -179,10 +193,11 @@ GPT 自动验证通过后，输出人工验收包：
 1. 改动文件列表。
 2. 需求到实现的对应关系。
 3. Review 循环次数和最终结论。
-4. 运行过的命令和结果。
-5. Playwright 验证入口、截图或导出证据。
-6. 未覆盖风险。
-7. 需要人工判断的验收项。
+4. 每轮 Cursor 的 `agentId` / `runId` / `cwd` / `model` / 原始 status 摘要，以及事件日志或 transcript / artifact 线索。
+5. 运行过的命令、执行顺序和结果。
+6. Playwright 验证入口、实际 URL、截图或导出证据。
+7. 未覆盖风险。
+8. 需要人工判断的验收项。
 
 人工验收通过后，本功能才算完成。若人工验收发现问题，回到 `4.5 Fix Loop`。
 
@@ -216,25 +231,52 @@ GPT 自动验证通过后，输出人工验收包：
 1. 用户原始需求。
 2. GPT 技术任务说明。
 3. Cursor `agentId` / `runId` / `cwd` / `model`。
-4. Cursor transcript 或摘要。
-5. 每轮 `git diff` 摘要。
+4. Cursor 原始 status 序列、事件日志，以及 transcript / artifact 路径或清单（如果可得）。
+5. 每轮 `git diff` 摘要；即使 Cursor run 最终是 `error`，也不能省略这一项。
 6. GPT review findings。
 7. Cursor fix prompt 和结果。
-8. GPT 最终验证命令、Playwright 证据和结论。
+8. GPT 最终验证命令、执行顺序、Playwright 证据和结论。
 9. 人工验收结论。
 
 不记录密钥、Cookie、Bearer token、完整账号凭据或无法脱敏的私密数据。
+
+## 6.2 标准产物目录
+
+如果本轮使用标准 Cursor runner，至少生成以下产物：
+
+1. `prompt.txt`：本轮发给 Cursor 的原始 prompt。
+2. `summary.json`：结构化元数据、preflight、agent/run 标识、结果状态、warnings/blocking。
+3. `events.jsonl`：原始事件流或等价逐行记录。
+4. `diff.patch`：按允许写入范围导出的 scoped patch；如果允许路径在运行前已脏，必须显式标记“不是纯 per-run delta”。
+5. `review.md`：供 GPT review / fix loop / 验收整理使用的工作底稿。
+
+可选附加产物：
+
+1. `preflight.md`
+2. `git-status-before.txt`
+3. `git-status-after.txt`
+4. CLI fallback 的 `stderr` 日志
+
+## 6.1 常见假信号
+
+以下现象不能直接当作结论：
+
+1. **Cursor run `status=error`**：可能已经落下部分有效代码，先看 diff 和验证结果。
+2. **历史 published snapshot 字段不对**：如果本轮改的是发布契约，先 fresh republish，再看新版本，不要让旧 snapshot 混淆判断。
+3. **浏览器端口被占用**：这通常是旧服务残留，不是新代码自动失败的直接证据。
+4. **Node smoke 命中旧 wasm 产物**：如果 TinyGo rebuild 还没完成，smoke 结论无效。
 
 ## 7. 完成定义
 
 新功能只有同时满足以下条件才算开发完成：
 
 1. Cursor 使用 `composer-2.5` 且 `fast=false` 完成开发。
-2. GPT review 没有阻塞问题。
-3. 所有约定测试、构建或 smoke 命令已运行并通过，或失败原因已被明确接受。
-4. 前端相关改动已经通过 Playwright 验证。
-5. 变更范围与用户需求一致，没有无关重构。
-6. 验收包已交给人工。
-7. 人工验收通过。
+2. GPT review 没有阻塞问题，且 review 覆盖了 Cursor 本轮实际 diff。
+3. 每轮 Cursor 调用的关键证据已留存：prompt、`agentId`、`runId`、status、事件日志或等价记录。
+4. 所有约定测试、构建或 smoke 命令已按依赖顺序运行并通过，或失败原因已被明确接受。
+5. 前端相关改动已经通过 Playwright 验证。
+6. 变更范围与用户需求一致，没有无关重构。
+7. 验收包已交给人工。
+8. 人工验收通过。
 
 如果只完成到 GPT 自动验证，还不能标记为“人工验收完成”。

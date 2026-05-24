@@ -26,26 +26,26 @@ public class StatusPeriodicHpEffectAdminController {
     }
 
     @GetMapping
-    public ObjectNode listStatusPeriodicHpEffects(@PathVariable String gameId) {
+    public ObjectNode listStatusPeriodicHpEffects(@PathVariable("gameId") String gameId) {
         return gameDataService.listStatusPeriodicHpEffects(gameId);
     }
 
     @GetMapping("/{statusId}/{groupKey}/{effectId}")
     public ObjectNode getStatusPeriodicHpEffect(
-        @PathVariable String gameId,
-        @PathVariable String statusId,
-        @PathVariable String groupKey,
-        @PathVariable String effectId
+        @PathVariable("gameId") String gameId,
+        @PathVariable("statusId") String statusId,
+        @PathVariable("groupKey") String groupKey,
+        @PathVariable("effectId") String effectId
     ) {
         return gameDataService.getStatusPeriodicHpEffect(gameId, statusId, groupKey, effectId);
     }
 
     @PutMapping("/{statusId}/{groupKey}/{effectId}")
     public ObjectNode putStatusPeriodicHpEffect(
-        @PathVariable String gameId,
-        @PathVariable String statusId,
-        @PathVariable String groupKey,
-        @PathVariable String effectId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("statusId") String statusId,
+        @PathVariable("groupKey") String groupKey,
+        @PathVariable("effectId") String effectId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

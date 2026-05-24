@@ -26,19 +26,19 @@ public class StatusActionControlRuleAdminController {
     }
 
     @GetMapping
-    public ObjectNode listStatusActionControlRules(@PathVariable String gameId) {
+    public ObjectNode listStatusActionControlRules(@PathVariable("gameId") String gameId) {
         return gameDataService.listStatusActionControlRules(gameId);
     }
 
     @GetMapping("/{ruleId}")
-    public ObjectNode getStatusActionControlRule(@PathVariable String gameId, @PathVariable String ruleId) {
+    public ObjectNode getStatusActionControlRule(@PathVariable("gameId") String gameId, @PathVariable("ruleId") String ruleId) {
         return gameDataService.getStatusActionControlRule(gameId, ruleId);
     }
 
     @PutMapping("/{ruleId}")
     public ObjectNode putStatusActionControlRule(
-        @PathVariable String gameId,
-        @PathVariable String ruleId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("ruleId") String ruleId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
