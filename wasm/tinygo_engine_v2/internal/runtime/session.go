@@ -185,7 +185,7 @@ func (s *Session) BeginRunJSON(payload []byte) int32 {
 		}
 		s.run = nil
 		s.phase = PhaseDone
-		s.outbox.WriteJSON(model.FrameKindDone, RunSingleAttackerDPS(input))
+		s.outbox.WriteJSON(model.FrameKindDone, RunSingleAttackerDPSWithBundle(s.bundle, input))
 		return 0
 	}
 	var input model.EngineRunInput
