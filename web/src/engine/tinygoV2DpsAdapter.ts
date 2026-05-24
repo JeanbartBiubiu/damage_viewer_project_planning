@@ -1,5 +1,18 @@
 import type { GameDataBundle, Hero, Item, JsonObject, Skill, TypeDefinition, TypeRelation } from '../types/api';
-import type { TinyGoV2AttributeDefinition, TinyGoV2EngineBundle } from './tinygoV2BundleAdapter';
+import {
+  actionTemplateHasBasicAttackClassifier,
+  buildDpsTargetActorTemplateFromSnapshot,
+  compileDpsAttackerBundle,
+  type DpsAttackerCompileResult,
+  type TinyGoV2ActionTemplate,
+  type TinyGoV2AttributeDefinition,
+  type TinyGoV2Classifier,
+  type TinyGoV2EngineBundle,
+  type TinyGoV2FormulaDefinition,
+  type TinyGoV2ActorTemplate,
+  type TinyGoV2StatusTemplate,
+  type WasmValidationSkillOption
+} from './tinygoV2BundleAdapter';
 
 export const V2_DPS_CASE_ID = 'V2-BatchE-1-single-hero-multicurve-001';
 export const V2_DPS_MULTI_HERO_CASE_ID = 'V2-BatchE-B-multi-hero-same-equipment-001';
@@ -10,7 +23,8 @@ export const V2_DPS_STACKING_PASSIVE_SKILL_ID = 'item_3124_guinsoos_boiling_stri
 export const V2_DPS_SYNTHETIC_STACKING_CAP_PASSIVE_ID = 'synthetic_batch_h_capped_stack_dps_v2';
 export const V2_DPS_SYNTHETIC_STACKING_EXPIRY_PASSIVE_ID = 'synthetic_batch_h_expiring_stack_dps_v2';
 export const V2_DPS_SYNTHETIC_STACKING_INVALID_PASSIVE_ID = 'synthetic_batch_h_invalid_stack_dps_v2';
-const V2_DPS_BASIC_ATTACK_ACTION_ID = 'basic_attack';
+export const V2_DPS_MISSING_BASIC_ATTACK_REASON = 'missing_basic_attack_action';
+export const V2_DPS_INVALID_TARGET_REASON = 'target_not_target_dummy';
 const V2_DPS_SYNTHETIC_CHAMPION_TYPE_ID = 62000;
 const V2_DPS_SYNTHETIC_TARGET_DUMMY_TYPE_ID = 62001;
 const V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID = 62002;
@@ -163,9 +177,20 @@ export type V2DpsScenarioOption = {
   defaultEnabled?: boolean;
 };
 
+export type V2DpsActionClassifier = TinyGoV2Classifier;
+
+export type V2DpsBasicAttackAction = {
+  actionId: string;
+  skillId: string;
+  sourceKind?: 'mount';
+  label?: string;
+  classifier?: V2DpsActionClassifier;
+};
+
 export type V2DpsPreparedInput = {
   engineBundle: TinyGoV2EngineBundle;
   runInput: V2DpsRunInput;
+  preflightBlockedReasons: string[];
 };
 
 export type V2DpsRunInput = {
@@ -185,7 +210,8 @@ export type V2DpsRunInput = {
     seed: number;
     autoAttackPlan: {
       enabled: true;
-      actionId: 'basic_attack';
+      /** 兼容占位；普攻语义由 resolvedSnapshot.basicAttackActions 提供。 */
+      actionId?: string;
       startAtMs: number;
       targetRole: 'target';
     };
@@ -219,6 +245,8 @@ export type V2DpsCurveRunSpec = {
     externalPassiveEffects: string[];
     scenarioStates: V2DpsScenarioState[];
     runeStatAdjustments: Record<string, number>;
+    basicAttackActions: V2DpsBasicAttackAction[];
+    preflightBlockedReasons?: string[];
   };
 };
 
@@ -609,6 +637,10 @@ export function listV2DpsAttackers(bundle: GameDataBundle): V2DpsActorOption[] {
     .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'));
 }
 
+export function listV2DpsTargetDummyGroups(bundle: GameDataBundle): V2DpsActorTypeGroup[] {
+  return listV2DpsTargetGroups(bundle).filter((group) => group.isTargetDummy);
+}
+
 export function listV2DpsTargetGroups(bundle: GameDataBundle): V2DpsActorTypeGroup[] {
   const typeById = new Map(bundle.types.map((type) => [type.typeId, type]));
   const groups = new Map<string, V2DpsActorTypeGroup>();
@@ -730,7 +762,12 @@ export function prepareV2DpsInput(
     ? buildActorSnapshot(bundle, attrDefinitions, targetHero, 1)
     : emptyActorSnapshot(selection.targetActorId);
   const targetTypeNames = targetHero ? resolveHeroTypeNames(bundle, targetHero.heroId) : [];
-  const targetType = targetTypeNames.includes(V2_DPS_TARGET_DUMMY_TYPE_NAME) ? V2_DPS_TARGET_DUMMY_TYPE_NAME : targetTypeNames[0] ?? '';
+  const isTargetDummy = targetTypeNames.includes(V2_DPS_TARGET_DUMMY_TYPE_NAME);
+  const targetType = isTargetDummy ? V2_DPS_TARGET_DUMMY_TYPE_NAME : targetTypeNames[0] ?? '';
+  const targetActorTemplate = isTargetDummy
+    ? buildDpsTargetActorTemplateFromSnapshot(targetSnapshot)
+    : undefined;
+  const targetPreflightBlockedReasons = isTargetDummy ? [] : [V2_DPS_INVALID_TARGET_REASON];
   const simulationRules: V2DpsRunInput['simulationRules'] = {
     durationMs: selection.durationMs,
     warmupMs: 0,
@@ -743,13 +780,12 @@ export function prepareV2DpsInput(
     seed: 0,
     autoAttackPlan: {
       enabled: true,
-      actionId: V2_DPS_BASIC_ATTACK_ACTION_ID,
       startAtMs: 0,
       targetRole: 'target'
     },
     maxEvents: 10000
   };
-  const curves = selection.curves.map((curveSelection, index) => buildV2DpsCurveRunSpec({
+  const curveBuilds = selection.curves.map((curveSelection, index) => buildV2DpsCurveRunSpec({
     bundle,
     attrDefinitions,
     attackerHero: bundle.heroes.find((hero) => hero.heroId === (curveSelection.attackerHeroId ?? selection.attackerHeroId)),
@@ -760,9 +796,15 @@ export function prepareV2DpsInput(
     curveSelection,
     index
   }));
+  const curves = curveBuilds.map((build) => build.spec);
+  const preflightBlockedReasons = dedupeStrings([
+    ...targetPreflightBlockedReasons,
+    ...curveBuilds.flatMap((build) => build.preflightBlockedReasons)
+  ]);
 
   return {
-    engineBundle: createV2DpsInitBundle(),
+    engineBundle: mergeDpsEngineBundles(curveBuilds.map((build) => build.compile), targetActorTemplate),
+    preflightBlockedReasons,
     runInput: {
       mode: 'single_attacker_dps',
       caseId: selection.caseId ?? V2_DPS_CASE_ID,
@@ -787,6 +829,12 @@ type BuildCurveSpecArgs = {
   index: number;
 };
 
+type BuildCurveSpecResult = {
+  spec: V2DpsCurveRunSpec;
+  compile: DpsAttackerCompileResult;
+  preflightBlockedReasons: string[];
+};
+
 function buildV2DpsCurveRunSpec({
   bundle,
   attrDefinitions,
@@ -797,7 +845,7 @@ function buildV2DpsCurveRunSpec({
   targetType,
   curveSelection,
   index
-}: BuildCurveSpecArgs): V2DpsCurveRunSpec {
+}: BuildCurveSpecArgs): BuildCurveSpecResult {
   const heroLevel = clamp(curveSelection.heroLevel, 1, 18);
   const skillLevels = normalizeSkillLevels(curveSelection.skillLevels);
   const attackerSnapshot = attackerHero
@@ -822,32 +870,57 @@ function buildV2DpsCurveRunSpec({
   const resolvedScenarioStates = resolveDpsScenarioStates(bundle, attackerHeroId, selectedScenarioIds);
   const curveId = curveSelection.curveId.trim() || `${attackerHeroId || 'missing_attacker'}-curve-${index + 1}`;
   const label = curveSelection.label.trim() || `Curve ${index + 1}`;
+  const attackerCompile = compileDpsAttackerBundle(bundle, {
+    heroId: attackerHeroId,
+    level: heroLevel,
+    itemIds: equipment.itemIds,
+    skillLevels: mapDpsSkillLevelsToSkillIds(bundle, attackerHeroId, skillLevels),
+    attributeBonuses: normalizeNumberMap(curveSelection.runeStatAdjustments),
+    hpAttrKey: detectHpAttrKey(bundle.attributeDefinitions)
+  });
+  const compile: DpsAttackerCompileResult = {
+    ...attackerCompile,
+    actorTemplate: {
+      ...attackerCompile.actorTemplate,
+      id: attackerHeroId
+    }
+  };
+  const basicAttackActions = resolveBasicAttackActions(compile.skillOptions, compile.actionTemplates);
+  const preflightBlockedReasons = basicAttackActions.length === 0
+    ? [V2_DPS_MISSING_BASIC_ATTACK_REASON]
+    : [];
 
   return {
-    curveId,
-    label,
-    selection: {
-      heroId: attackerHeroId,
-      heroLevel,
-      targetId: targetActorId,
-      targetType,
-      skillLevels,
-      equipmentSet: selectedEquipmentItemIds,
-      enabledPassiveEffects: selectedEnabledPassiveIds,
-      scenarioStates: selectedScenarioIds.map((stateId) => ({ stateId, activation: 'selected_in_page' })),
-      critPolicy: 'expected'
+    spec: {
+      curveId,
+      label,
+      selection: {
+        heroId: attackerHeroId,
+        heroLevel,
+        targetId: targetActorId,
+        targetType,
+        skillLevels,
+        equipmentSet: selectedEquipmentItemIds,
+        enabledPassiveEffects: selectedEnabledPassiveIds,
+        scenarioStates: selectedScenarioIds.map((stateId) => ({ stateId, activation: 'selected_in_page' })),
+        critPolicy: 'expected'
+      },
+      resolvedSnapshot: {
+        attackerSnapshot,
+        targetSnapshot,
+        equipmentSet: equipment.itemIds,
+        equipmentStats: equipment.stats,
+        enabledPassiveEffects: selectedEnabledPassiveIds,
+        passiveEffects: resolvedPassiveEffects,
+        externalPassiveEffects: syntheticPassiveIds,
+        scenarioStates: resolvedScenarioStates,
+        runeStatAdjustments: normalizeNumberMap(curveSelection.runeStatAdjustments),
+        basicAttackActions,
+        preflightBlockedReasons: preflightBlockedReasons.length > 0 ? preflightBlockedReasons : undefined
+      }
     },
-    resolvedSnapshot: {
-      attackerSnapshot,
-      targetSnapshot,
-      equipmentSet: equipment.itemIds,
-      equipmentStats: equipment.stats,
-      enabledPassiveEffects: selectedEnabledPassiveIds,
-      passiveEffects: resolvedPassiveEffects,
-      externalPassiveEffects: syntheticPassiveIds,
-      scenarioStates: resolvedScenarioStates,
-      runeStatAdjustments: normalizeNumberMap(curveSelection.runeStatAdjustments)
-    }
+    compile,
+    preflightBlockedReasons
   };
 }
 
@@ -929,7 +1002,113 @@ function createSyntheticBatchHInvalidPassive(): V2DpsPassiveEffect {
   };
 }
 
-function createV2DpsInitBundle(): TinyGoV2EngineBundle {
+function resolveBasicAttackActions(
+  skillOptions: WasmValidationSkillOption[],
+  actionTemplates: TinyGoV2ActionTemplate[]
+): V2DpsBasicAttackAction[] {
+  const templateById = new Map(actionTemplates.map((template) => [template.id, template]));
+  const basicAttackActions: V2DpsBasicAttackAction[] = [];
+  for (const skill of skillOptions) {
+    if (skill.sourceKind !== 'mount') {
+      continue;
+    }
+    const template = templateById.get(skill.actionId);
+    if (!template || !actionTemplateHasBasicAttackClassifier(template)) {
+      continue;
+    }
+    basicAttackActions.push({
+      actionId: skill.actionId,
+      skillId: skill.skillId,
+      sourceKind: 'mount',
+      label: skill.label,
+      classifier: template.classifier
+    });
+  }
+  return basicAttackActions;
+}
+
+function mergeDpsEngineBundles(
+  compiles: DpsAttackerCompileResult[],
+  targetActorTemplate?: TinyGoV2ActorTemplate
+): TinyGoV2EngineBundle {
+  if (compiles.length === 0 && !targetActorTemplate) {
+    return emptyDpsEngineBundle();
+  }
+
+  const attributeIds = new Set<string>();
+  const attributes: TinyGoV2AttributeDefinition[] = [];
+  const actionIds = new Set<string>();
+  const actions: TinyGoV2ActionTemplate[] = [];
+  const formulaIds = new Set<string>();
+  const formulas: TinyGoV2FormulaDefinition[] = [];
+  const statusIds = new Set<string>();
+  const statuses: TinyGoV2StatusTemplate[] = [];
+  const actorIds = new Set<string>();
+  const actors: DpsAttackerCompileResult['actorTemplate'][] = [];
+  const resourceIds = new Set<string>();
+  const resources: NonNullable<DpsAttackerCompileResult['resources']> = [];
+
+  for (const compile of compiles) {
+    for (const definition of compile.attributes) {
+      if (!attributeIds.has(definition.id)) {
+        attributeIds.add(definition.id);
+        attributes.push(definition);
+      }
+    }
+    for (const template of compile.actionTemplates) {
+      if (!actionIds.has(template.id)) {
+        actionIds.add(template.id);
+        actions.push(template);
+      }
+    }
+    for (const definition of compile.formulas) {
+      if (!formulaIds.has(definition.id)) {
+        formulaIds.add(definition.id);
+        formulas.push(definition);
+      }
+    }
+    for (const status of compile.statuses ?? []) {
+      if (!statusIds.has(status.id)) {
+        statusIds.add(status.id);
+        statuses.push(status);
+      }
+    }
+    if (!actorIds.has(compile.actorTemplate.id)) {
+      actorIds.add(compile.actorTemplate.id);
+      actors.push(compile.actorTemplate);
+    }
+  }
+
+  if (targetActorTemplate && !actorIds.has(targetActorTemplate.id)) {
+    actorIds.add(targetActorTemplate.id);
+    actors.push(targetActorTemplate);
+  }
+
+  for (const compile of compiles) {
+    for (const resource of compile.resources ?? []) {
+      if (!resourceIds.has(resource.id)) {
+        resourceIds.add(resource.id);
+        resources.push(resource);
+      }
+    }
+  }
+
+  return {
+    schemaVersion: 1,
+    attributes,
+    resources: resources.length > 0 ? resources : undefined,
+    actors,
+    actions,
+    statuses: statuses.length > 0 ? statuses : undefined,
+    formulas,
+    settings: {
+      maxEvents: 10000,
+      maxCommandsPerEvent: 64
+    }
+  };
+}
+
+function emptyDpsEngineBundle(): TinyGoV2EngineBundle {
   return {
     schemaVersion: 1,
     attributes: [],
@@ -937,18 +1116,69 @@ function createV2DpsInitBundle(): TinyGoV2EngineBundle {
     actions: [],
     formulas: [],
     settings: {
-      maxEvents: 1,
+      maxEvents: 10000,
       maxCommandsPerEvent: 64
     }
   };
 }
 
+function mapDpsSkillLevelsToSkillIds(
+  bundle: GameDataBundle,
+  heroId: string,
+  skillLevels: Record<string, number>
+): Record<string, number> {
+  const result: Record<string, number> = {};
+  const skillIdsForHero = new Set<string>();
+
+  for (const skill of bundle.skills) {
+    if (skill.ownerType === 'hero' && skill.ownerId === heroId) {
+      skillIdsForHero.add(skill.skillId);
+    }
+  }
+  for (const mount of bundle.skillMounts ?? []) {
+    if (mount.targetCategory === 'hero' && mount.targetId === heroId && mount.enabled !== false) {
+      skillIdsForHero.add(mount.skillId);
+    }
+  }
+
+  for (const skillId of skillIdsForHero) {
+    const skill = bundle.skills.find((candidate) => candidate.skillId === skillId);
+    if (!skill) {
+      continue;
+    }
+    const skillKey = normalizeSkillKey(skill.skillKey);
+    if (!skillKey) {
+      continue;
+    }
+    const level = skillLevels[skillKey];
+    if (level !== undefined) {
+      result[skillId] = level;
+    }
+  }
+
+  return result;
+}
+
+function detectHpAttrKey(definitions: GameDataBundle['attributeDefinitions']): string {
+  const attrKeys = definitions.map((definition) => definition.attrKey).filter(Boolean);
+  const exact = attrKeys.find((attrKey) => ['hp', 'health', 'max_hp', 'max_health'].includes(attrKey));
+  if (exact) {
+    return exact;
+  }
+  return attrKeys.find((attrKey) => /(^|_)(hp|health)($|_)/i.test(attrKey)) ?? attrKeys[0] ?? 'hp';
+}
+
+function dedupeStrings(values: string[]): string[] {
+  return Array.from(new Set(values.filter(Boolean)));
+}
+
 function findDefaultTargetActorId(bundle: GameDataBundle): string {
-  const targetGroups = listV2DpsTargetGroups(bundle);
-  const targetDummyGroup = targetGroups.find((group) => group.isTargetDummy);
-  return targetDummyGroup?.actors.find((actor) => actor.actorId === 'target_dummy_fighter')?.actorId
-    ?? targetDummyGroup?.actors[0]?.actorId
-    ?? targetGroups[0]?.actors[0]?.actorId
+  const targetDummyGroups = listV2DpsTargetDummyGroups(bundle);
+  const preferredGroup = targetDummyGroups.find((group) => (
+    group.actors.some((actor) => actor.actorId === 'target_dummy_fighter')
+  )) ?? targetDummyGroups[0];
+  return preferredGroup?.actors.find((actor) => actor.actorId === 'target_dummy_fighter')?.actorId
+    ?? preferredGroup?.actors[0]?.actorId
     ?? '';
 }
 
@@ -1356,7 +1586,7 @@ function resolveDpsItemPassiveEffects(bundle: GameDataBundle, itemIds: string[],
   }
   const effects: V2DpsPassiveEffect[] = [];
   for (const skill of bundle.skills) {
-    if (skill.ownerType !== 'item' || !selected.has(skill.ownerId)) {
+    if (skill.ownerType !== 'item' || !skill.ownerId || !selected.has(skill.ownerId)) {
       continue;
     }
     const skillRefs = skillRefsByItemId.get(skill.ownerId);
@@ -1670,7 +1900,7 @@ function readDpsScenarioStates(skill: Skill): V2DpsScenarioState[] {
 }
 
 function skillBelongsToHero(skill: Skill, heroId: string): boolean {
-  if (skill.ownerType !== 'hero') {
+  if (skill.ownerType !== 'hero' || !skill.ownerId) {
     return false;
   }
   if (skill.ownerId === heroId) {

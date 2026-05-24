@@ -18,7 +18,8 @@ export type ExtendedAdminResourceRouteId =
   | 'attribute-definitions'
   | 'status-management'
   | 'types'
-  | 'type-relations';
+  | 'type-relations'
+  | 'skill-mounts';
 
 export type AdminResourceRouteId = BuiltinAdminResourceRouteId | ExtendedAdminResourceRouteId;
 
@@ -162,6 +163,11 @@ const extendedAdminRouteItems: NavigationItem[] = [
     id: 'type-relations',
     label: '类型挂载',
     summary: '把类型挂到目标实体并维护附加扩展信息。'
+  },
+  {
+    id: 'skill-mounts',
+    label: '技能挂载',
+    summary: '把技能挂到英雄、装备或其它目标并维护槽位与扩展信息。'
   }
 ];
 
@@ -291,6 +297,19 @@ export const adminEndpoints: AdminEndpoint[] = [
     path: '/api/admin/games/{gameId}/type-relations/{typeId}/{targetCategory}/{targetId}',
     description: '列表读取与整条 PUT 保存类型挂载关系。',
     sampleBody: {
+      extend: {}
+    }
+  },
+  {
+    title: '技能挂载',
+    method: 'GET/PUT',
+    path: '/api/admin/games/{gameId}/skill-mounts/{targetCategory}/{targetId}/{skillId}',
+    description: '列表读取与整条 PUT 保存技能挂载关系；自然键为 targetCategory + targetId + skillId。',
+    sampleBody: {
+      targetCategory: 'hero',
+      targetId: 'hero_ezreal',
+      skillId: 'skill_lol_basic_attack_default',
+      enabled: true,
       extend: {}
     }
   },
