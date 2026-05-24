@@ -26,26 +26,26 @@ public class FormulaBindingAdminController {
     }
 
     @GetMapping
-    public ObjectNode listFormulaBindings(@PathVariable String gameId) {
+    public ObjectNode listFormulaBindings(@PathVariable("gameId") String gameId) {
         return gameDataService.listFormulaBindings(gameId);
     }
 
     @GetMapping("/{targetCategory}/{targetId}/{bindingKey}")
     public ObjectNode getFormulaBinding(
-        @PathVariable String gameId,
-        @PathVariable String targetCategory,
-        @PathVariable String targetId,
-        @PathVariable String bindingKey
+        @PathVariable("gameId") String gameId,
+        @PathVariable("targetCategory") String targetCategory,
+        @PathVariable("targetId") String targetId,
+        @PathVariable("bindingKey") String bindingKey
     ) {
         return gameDataService.getFormulaBinding(gameId, targetCategory, targetId, bindingKey);
     }
 
     @PutMapping("/{targetCategory}/{targetId}/{bindingKey}")
     public ObjectNode putFormulaBinding(
-        @PathVariable String gameId,
-        @PathVariable String targetCategory,
-        @PathVariable String targetId,
-        @PathVariable String bindingKey,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("targetCategory") String targetCategory,
+        @PathVariable("targetId") String targetId,
+        @PathVariable("bindingKey") String bindingKey,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

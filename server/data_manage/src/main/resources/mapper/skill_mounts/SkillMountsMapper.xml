@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.SkillMountsMapper">
+
+    <select id="listSkillMounts" resultType="map">
+        SELECT target_category AS targetCategory,
+               target_id AS targetId,
+               skill_id AS skillId,
+               enabled,
+               extend::text AS extendJson
+        FROM public.skill_mounts
+        WHERE game_id = #{gameId}
+        ORDER BY target_category, target_id, skill_id
+    </select>
+
+    <select id="findSkillMountByNaturalKey" resultType="map">
+        SELECT target_category AS targetCategory,
+               target_id AS targetId,
+               skill_id AS skillId,
+               enabled,
+               extend::text AS extendJson
+        FROM public.skill_mounts
+        WHERE game_id = #{gameId}
+          AND target_category = #{targetCategory}
+          AND target_id = #{targetId}
+          AND skill_id = #{skillId}
+    </select>
+
+    <select id="listChangedSince" resultType="map">
+        SELECT target_category AS targetCategory,
+               target_id AS targetId,
+               skill_id AS skillId,
+               enabled,
+               extend::text AS extendJson
+        FROM public.skill_mounts
+        WHERE game_id = #{gameId}
+          AND updated_at &gt; #{updatedAfter}
+        ORDER BY target_category, target_id, skill_id
+    </select>
+
+    <update id="upsertSkillMount">
+        INSERT INTO public.skill_mounts
+            (game_id, start_version_id, end_version_id, target_category, target_id, skill_id, enabled, extend, updated_at)
+        VALUES
+            (#{gameId}, #{versionId}, #{versionId}, #{targetCategory}, #{targetId}, #{skillId}, #{enabled},
+             CAST(#{extendJson} AS jsonb), NOW())
+        ON CONFLICT (game_id, target_category, target_id, skill_id) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            enabled = EXCLUDED.enabled,
+            extend = EXCLUDED.extend,
+            updated_at = NOW()
+    </update>
+
+    <update id="updateVersionRange">
+        UPDATE public.skill_mounts
+        SET start_version_id = #{versionId},
+            end_version_id = #{versionId}
+        WHERE game_id = #{gameId}
+          AND target_category = #{targetCategory}
+          AND target_id = #{targetId}
+          AND skill_id = #{skillId}
+    </update>
+
+    <update id="upsertSkillMountLog">
+        INSERT INTO public.skill_mounts_log
+            (game_id, start_version_id, end_version_id, target_category, target_id, skill_id, enabled, extend)
+        VALUES
+            (#{gameId}, #{versionId}, #{versionId}, #{targetCategory}, #{targetId}, #{skillId}, #{enabled},
+             CAST(#{extendJson} AS jsonb))
+        ON CONFLICT (game_id, target_category, target_id, skill_id, start_version_id) DO UPDATE SET
+            end_version_id = EXCLUDED.end_version_id,
+            enabled = EXCLUDED.enabled,
+            extend = EXCLUDED.extend
+    </update>
+</mapper>

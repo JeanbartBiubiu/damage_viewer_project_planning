@@ -40,6 +40,7 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.SkillMountsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
@@ -58,6 +59,12 @@ class PostgresWriteStorePublishTest {
 
     @Mock
     private SkillsMapper skillsMapper;
+
+    @Mock
+    private SkillMountsMapper skillMountsMapper;
+
+    @Mock
+    private DefaultBasicAttackProvisioner defaultBasicAttackProvisioner;
 
     @Mock
     private ItemsMapper itemsMapper;
@@ -133,6 +140,8 @@ class PostgresWriteStorePublishTest {
         writeStore = new PostgresWriteStore(
             heroesMapper,
             skillsMapper,
+            skillMountsMapper,
+            defaultBasicAttackProvisioner,
             itemsMapper,
             itemStatModifiersMapper,
             formulaProfilesMapper,
@@ -190,10 +199,12 @@ class PostgresWriteStorePublishTest {
         when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillMountsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of(changedHeroRow()));
+        stubDefaultBasicAttackProvisioning();
 
         when(heroesMapper.updateVersionRange("lol", "hero_ahri", 2L)).thenReturn(1);
         when(gameVersionsMapper.markVersionCurrent(any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
@@ -290,10 +301,12 @@ class PostgresWriteStorePublishTest {
         when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillMountsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubDefaultBasicAttackProvisioning();
 
         ObjectNode requestBody = JsonNodeFactory.instance.objectNode().put("versionCode", "14.2");
         ApiException ex = assertThrows(ApiException.class, () -> writeStore.publishVersion("lol", requestBody));
@@ -333,10 +346,12 @@ class PostgresWriteStorePublishTest {
         when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillMountsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubDefaultBasicAttackProvisioning();
 
         when(typeRelationsMapper.updateVersionRange("lol", 7, "character", "hero_ahri", 2L)).thenReturn(1);
         when(gameVersionsMapper.markVersionCurrent(any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
@@ -369,10 +384,12 @@ class PostgresWriteStorePublishTest {
         when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillMountsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         stubNoStatusResourceChanges();
         when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubDefaultBasicAttackProvisioning();
 
         ApiException ex = assertThrows(
             ApiException.class,
@@ -408,6 +425,7 @@ class PostgresWriteStorePublishTest {
         bundle.putArray("typeRelations");
         bundle.putArray("heroes");
         bundle.putArray("skills");
+        bundle.putArray("skillMounts");
         bundle.putArray("items");
         bundle.putArray("formulaProfiles");
         bundle.putArray("formulaBindings");
@@ -454,6 +472,10 @@ class PostgresWriteStorePublishTest {
         row.put("baseStatsJson", "{\"hp\":500}");
         row.put("statsByLevelJson", null);
         return row;
+    }
+
+    private void stubDefaultBasicAttackProvisioning() {
+        org.mockito.Mockito.doNothing().when(defaultBasicAttackProvisioner).ensureForGame(anyString());
     }
 
     private Map<String, Object> typeRelationRow(int typeId, String targetCategory, String targetId, String extendJson, boolean deleted) {

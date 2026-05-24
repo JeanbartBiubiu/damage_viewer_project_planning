@@ -26,14 +26,14 @@ public class TypeAdminController {
     }
 
     @GetMapping
-    public ObjectNode listTypes(@PathVariable String gameId) {
+    public ObjectNode listTypes(@PathVariable("gameId") String gameId) {
         return gameDataService.listTypes(gameId);
     }
 
     @PutMapping("/{typeId}")
     public ObjectNode putType(
-        @PathVariable String gameId,
-        @PathVariable int typeId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("typeId") int typeId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

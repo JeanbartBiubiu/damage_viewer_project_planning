@@ -26,19 +26,19 @@ public class CoefficientBucketAdminController {
     }
 
     @GetMapping
-    public ObjectNode listCoefficientBuckets(@PathVariable String gameId) {
+    public ObjectNode listCoefficientBuckets(@PathVariable("gameId") String gameId) {
         return gameDataService.listCoefficientBuckets(gameId);
     }
 
     @GetMapping("/{bucketKey}")
-    public ObjectNode getCoefficientBucket(@PathVariable String gameId, @PathVariable String bucketKey) {
+    public ObjectNode getCoefficientBucket(@PathVariable("gameId") String gameId, @PathVariable("bucketKey") String bucketKey) {
         return gameDataService.getCoefficientBucket(gameId, bucketKey);
     }
 
     @PutMapping("/{bucketKey}")
     public ObjectNode putCoefficientBucket(
-        @PathVariable String gameId,
-        @PathVariable String bucketKey,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("bucketKey") String bucketKey,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

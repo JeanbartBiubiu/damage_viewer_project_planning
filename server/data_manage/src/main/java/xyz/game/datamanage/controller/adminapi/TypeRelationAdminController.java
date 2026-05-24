@@ -26,16 +26,16 @@ public class TypeRelationAdminController {
     }
 
     @GetMapping
-    public ObjectNode listTypeRelations(@PathVariable String gameId) {
+    public ObjectNode listTypeRelations(@PathVariable("gameId") String gameId) {
         return gameDataService.listTypeRelations(gameId);
     }
 
     @PutMapping("/{typeId}/{targetCategory}/{targetId}")
     public ObjectNode putTypeRelation(
-        @PathVariable String gameId,
-        @PathVariable int typeId,
-        @PathVariable String targetCategory,
-        @PathVariable String targetId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("typeId") int typeId,
+        @PathVariable("targetCategory") String targetCategory,
+        @PathVariable("targetId") String targetId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
@@ -47,9 +47,9 @@ public class TypeRelationAdminController {
 
     @PutMapping("/{targetCategory}/{targetId}")
     public ObjectNode replaceTypeRelationsForTarget(
-        @PathVariable String gameId,
-        @PathVariable String targetCategory,
-        @PathVariable String targetId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("targetCategory") String targetCategory,
+        @PathVariable("targetId") String targetId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request

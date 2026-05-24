@@ -26,19 +26,19 @@ public class StatusDefinitionAdminController {
     }
 
     @GetMapping
-    public ObjectNode listStatusDefinitions(@PathVariable String gameId) {
+    public ObjectNode listStatusDefinitions(@PathVariable("gameId") String gameId) {
         return gameDataService.listStatusDefinitions(gameId);
     }
 
     @GetMapping("/{statusId}")
-    public ObjectNode getStatusDefinition(@PathVariable String gameId, @PathVariable String statusId) {
+    public ObjectNode getStatusDefinition(@PathVariable("gameId") String gameId, @PathVariable("statusId") String statusId) {
         return gameDataService.getStatusDefinition(gameId, statusId);
     }
 
     @PutMapping("/{statusId}")
     public ObjectNode putStatusDefinition(
-        @PathVariable String gameId,
-        @PathVariable String statusId,
+        @PathVariable("gameId") String gameId,
+        @PathVariable("statusId") String statusId,
         @RequestBody ObjectNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request
