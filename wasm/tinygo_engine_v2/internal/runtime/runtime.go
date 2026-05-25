@@ -913,7 +913,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 		if code != model.ErrOK {
 			return code
 		}
-		critResult, code := ctx.resolveEffectCrit(effect)
+		critResult, code := ctx.resolveEffectCrit(effect, actualSource)
 		if code != model.ErrOK {
 			return code
 		}
@@ -938,6 +938,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 				HasShieldAfter:    true,
 				ShieldAbsorbed:    damage.ShieldAbsorbed,
 				HasShieldAbsorbed: true,
+				CritPolicy:        effect.CritPolicy,
 				CritRoll:          critResult.Roll,
 				HasCritRoll:       critResult.HasRoll,
 				CritResult:        critResult.Result,
@@ -960,7 +961,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 		if effect.Amount != 0 {
 			amount *= effect.Amount
 		}
-		critResult, code := ctx.resolveEffectCrit(effect)
+		critResult, code := ctx.resolveEffectCrit(effect, actualSource)
 		if code != model.ErrOK {
 			return code
 		}
@@ -983,6 +984,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 				HasShieldAfter:    true,
 				ShieldAbsorbed:    damage.ShieldAbsorbed,
 				HasShieldAbsorbed: true,
+				CritPolicy:        effect.CritPolicy,
 				CritRoll:          critResult.Roll,
 				HasCritRoll:       critResult.HasRoll,
 				CritResult:        critResult.Result,
@@ -1007,23 +1009,34 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 		if code != model.ErrOK {
 			return code
 		}
-		heal, code := ctx.applyHeal(actualSource, actualTarget, amount)
+		critResult, code := ctx.resolveEffectCrit(effect, actualSource)
+		if code != model.ErrOK {
+			return code
+		}
+		heal, code := ctx.applyHeal(actualSource, actualTarget, amount*critResult.Scalar)
 		if actionResult != nil {
 			actionResult.Effects = append(actionResult.Effects, model.ActionEffectRunResultV2{
-				EffectIndex:      effectIndex,
-				Kind:             string(model.EffectTypeHeal),
-				FormulaID:        formulaID,
-				FormulaBreakdown: breakdown,
-				RawAmount:        amount,
-				HasRawAmount:     true,
-				HealApplied:      heal.Applied,
-				HasHealApplied:   true,
-				OverhealAmount:   heal.Overheal,
-				HasOverheal:      true,
-				TargetHPBefore:   heal.HPBefore,
-				TargetHPAfter:    heal.HPAfter,
-				SourceActorID:    ctx.Actors[actualSource].ActorID,
-				TargetActorID:    ctx.Actors[actualTarget].ActorID,
+				EffectIndex:       effectIndex,
+				Kind:              string(model.EffectTypeHeal),
+				FormulaID:         formulaID,
+				FormulaBreakdown:  breakdown,
+				RawAmount:         amount,
+				HasRawAmount:      true,
+				CritPolicy:        effect.CritPolicy,
+				HealApplied:       heal.Applied,
+				HasHealApplied:    true,
+				OverhealAmount:    heal.Overheal,
+				HasOverheal:       true,
+				CritRoll:          critResult.Roll,
+				HasCritRoll:       critResult.HasRoll,
+				CritResult:        critResult.Result,
+				HasCritResult:     critResult.HasResult,
+				CritMultiplier:    critResult.Multiplier,
+				HasCritMultiplier: critResult.HasMultiplier,
+				TargetHPBefore:    heal.HPBefore,
+				TargetHPAfter:     heal.HPAfter,
+				SourceActorID:     ctx.Actors[actualSource].ActorID,
+				TargetActorID:     ctx.Actors[actualTarget].ActorID,
 			})
 		}
 		return code
@@ -1202,22 +1215,32 @@ func (ctx *RunContext) statusTickAmountTrace(status compilebundle.CompiledStatus
 	return status.TickAmount, "", nil, model.ErrOK
 }
 
-func (ctx *RunContext) resolveEffectCrit(effect compilebundle.CompiledEffect) (critApplication, model.ErrCode) {
-	if effect.CritPolicy == "" {
+func (ctx *RunContext) resolveEffectCrit(effect compilebundle.CompiledEffect, source uint8) (critApplication, model.ErrCode) {
+	return ctx.resolveCritApplication(effect.CritPolicy, effect.CritChanceSource, effect.CritChance, effect.CritMultiplier, source)
+}
+
+func (ctx *RunContext) resolveStatusTickCrit(status compilebundle.CompiledStatus, source uint8) (critApplication, model.ErrCode) {
+	return ctx.resolveCritApplication(status.TickCritPolicy, status.TickCritChanceSource, status.TickCritChance, status.TickCritMultiplier, source)
+}
+
+func (ctx *RunContext) resolveCritApplication(policy string, chanceSource string, fixedChance float64, multiplier float64, source uint8) (critApplication, model.ErrCode) {
+	if policy == "" {
 		return critApplication{Scalar: 1}, model.ErrOK
 	}
-	chance := effect.CritChance
+	chance, code := ctx.resolveCritChance(chanceSource, fixedChance, source)
+	if code != model.ErrOK {
+		return critApplication{}, code
+	}
 	if chance < 0 || chance > 1 || math.IsNaN(chance) || math.IsInf(chance, 0) {
 		return critApplication{}, model.ErrNumeric
 	}
-	multiplier := effect.CritMultiplier
 	if multiplier == 0 {
 		multiplier = 1
 	}
 	if multiplier < 0 || math.IsNaN(multiplier) || math.IsInf(multiplier, 0) {
 		return critApplication{}, model.ErrNumeric
 	}
-	switch effect.CritPolicy {
+	switch policy {
 	case "seeded_random":
 		roll := ctx.RNG.Float("crit")
 		result := roll < chance
@@ -1237,6 +1260,41 @@ func (ctx *RunContext) resolveEffectCrit(effect compilebundle.CompiledEffect) (c
 	default:
 		return critApplication{}, model.ErrUnsupported
 	}
+}
+
+func (ctx *RunContext) resolveCritChance(chanceSource string, fixedChance float64, source uint8) (float64, model.ErrCode) {
+	switch chanceSource {
+	case "", "fixed":
+		return fixedChance, model.ErrOK
+	case "none":
+		return 0, model.ErrOK
+	case "attacker_crit_chance":
+		value, ok := ctx.actorCritChance(source)
+		if !ok {
+			return 0, model.ErrUnknownAttr
+		}
+		return value, model.ErrOK
+	default:
+		return 0, model.ErrUnsupported
+	}
+}
+
+func (ctx *RunContext) actorCritChance(actor uint8) (float64, bool) {
+	if int(actor) >= len(ctx.Actors) {
+		return 0, false
+	}
+	for _, attrID := range []string{"crit_chance", "critChance"} {
+		index, ok := ctx.Bundle.AttrIndex[attrID]
+		if !ok {
+			continue
+		}
+		ctx.Actors[actor].Attrs.ResolveAll(ctx.NowMs)
+		value, ok := ctx.Actors[actor].Attrs.ReadAttr(index, model.AttrReadResolved)
+		if ok {
+			return value, true
+		}
+	}
+	return 0, false
 }
 
 func (ctx *RunContext) resolveEffectMode(effect compilebundle.CompiledEffect) modeApplication {
@@ -1504,25 +1562,37 @@ func (ctx *RunContext) onStatusTick(ev scheduler.Event) model.ErrCode {
 	if code != model.ErrOK {
 		return code
 	}
+	critResult, code := ctx.resolveStatusTickCrit(def, source)
+	if code != model.ErrOK {
+		return code
+	}
+	effectiveAmount := amount * critResult.Scalar
 	result := model.StatusTickRunResultV2{
-		TimeMs:           ctx.NowMs,
-		StatusID:         def.ID,
-		TickIndex:        tickIndex,
-		TickCount:        def.TickCount,
-		Kind:             effectKindString(def.TickEffect),
-		FormulaID:        formulaID,
-		FormulaBreakdown: breakdown,
-		RawAmount:        amount,
-		HasRawAmount:     true,
-		TargetHPBefore:   ctx.Actors[target].HP,
-		SourceActorID:    ctx.Actors[source].ActorID,
-		TargetActorID:    ctx.Actors[target].ActorID,
+		TimeMs:            ctx.NowMs,
+		StatusID:          def.ID,
+		TickIndex:         tickIndex,
+		TickCount:         def.TickCount,
+		Kind:              effectKindString(def.TickEffect),
+		FormulaID:         formulaID,
+		FormulaBreakdown:  breakdown,
+		RawAmount:         amount,
+		HasRawAmount:      true,
+		CritPolicy:        def.TickCritPolicy,
+		CritRoll:          critResult.Roll,
+		HasCritRoll:       critResult.HasRoll,
+		CritResult:        critResult.Result,
+		HasCritResult:     critResult.HasResult,
+		CritMultiplier:    critResult.Multiplier,
+		HasCritMultiplier: critResult.HasMultiplier,
+		TargetHPBefore:    ctx.Actors[target].HP,
+		SourceActorID:     ctx.Actors[source].ActorID,
+		TargetActorID:     ctx.Actors[target].ActorID,
 	}
 	switch def.TickEffect {
 	case compilebundle.EffectDealDamage:
 		// DoT ticks are top-level damage events for M4 evidence. Trigger effects
 		// run at depth 1, so fireTriggers still prevents recursive expansion.
-		damage, code := ctx.dealDamageResult(source, target, amount, def.TickDamageType, ev.ChainDepth)
+		damage, code := ctx.dealDamageResult(source, target, effectiveAmount, def.TickDamageType, ev.ChainDepth)
 		result.DamageType = def.TickDamageType
 		result.FinalDamage = damage.FinalDamage
 		result.HasFinalDamage = true
@@ -1532,7 +1602,7 @@ func (ctx *RunContext) onStatusTick(ev scheduler.Event) model.ErrCode {
 			return code
 		}
 	case compilebundle.EffectHeal:
-		heal, code := ctx.applyHeal(source, target, amount)
+		heal, code := ctx.applyHeal(source, target, effectiveAmount)
 		result.HealApplied = heal.Applied
 		result.HasHealApplied = true
 		result.OverhealAmount = heal.Overheal
@@ -1545,7 +1615,7 @@ func (ctx *RunContext) onStatusTick(ev scheduler.Event) model.ErrCode {
 	default:
 		return model.ErrUnsupported
 	}
-	ctx.log("status_tick", source, target, 0, status.Def, amount, effectKindString(def.TickEffect))
+	ctx.log("status_tick", source, target, 0, status.Def, effectiveAmount, effectKindString(def.TickEffect))
 	if status.TickDone < def.TickCount {
 		nextAt := ctx.NowMs + def.TickIntervalMs
 		if def.DurationMs <= 0 || nextAt <= status.ExpireAt {
