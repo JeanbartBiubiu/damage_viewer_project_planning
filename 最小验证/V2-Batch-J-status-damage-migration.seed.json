@@ -1,0 +1,162 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_j_status_damage_001",
+  "source": {
+    "plan": "V2-BatchJ-状态资源迁移与1v1伤害闭环计划.md",
+    "generatedAt": "2026-05-24",
+    "migrateSkillIds": [
+      "skill_malzahar_e"
+    ],
+    "preserveSkillIds": [
+      "skill_brand_w",
+      "skill_ahri_q",
+      "skill_katarina_r",
+      "skill_leona_r",
+      "skill_leona_w",
+      "skill_drmundo_r"
+    ]
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "hero",
+      "name": "英雄"
+    }
+  ],
+  "attributeDefinitions": [
+    {
+      "attrKey": "ap",
+      "attrName": "法术强度",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "tick_damage",
+      "attrName": "Malzahar E 每跳基础伤害",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    }
+  ],
+  "types": [],
+  "formulaProfiles": [
+    {
+      "formulaId": "formula_malzahar_e_dot_tick",
+      "formulaType": "damage",
+      "formulaKind": "linear",
+      "params": {
+        "baseVar": "tick_damage",
+        "terms": [
+          {
+            "var": "ap",
+            "coef": 1.0
+          }
+        ]
+      },
+      "description": "Malzahar E DoT tick: tick_damage + ap"
+    }
+  ],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [
+    {
+      "statusId": "status_malzahar_e_dot",
+      "name": "Malzahar E Malefic Visions",
+      "description": "Batch J published DoT status migrated from schedule_tick",
+      "statusKind": "dot",
+      "stackGroupKey": "malzahar.e_dot",
+      "sourceScope": "same_source",
+      "stackMode": "refresh",
+      "maxStacks": 1,
+      "durationMode": "timed",
+      "durationMs": 4000,
+      "snapshotPolicy": "on_apply",
+      "isDispellable": true,
+      "cleansePriority": 0,
+      "extend": {
+        "source": "v2_batch_j"
+      }
+    }
+  ],
+  "statusModifierGroups": [
+    {
+      "statusId": "status_malzahar_e_dot",
+      "groupKey": "tick_main",
+      "groupName": "Malzahar E tick",
+      "phaseKey": "on_interval",
+      "snapshotPolicy": "per_tick",
+      "intervalMs": 1000,
+      "maxTicks": 4,
+      "priority": 0,
+      "extend": {
+        "source": "v2_batch_j"
+      }
+    }
+  ],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [
+    {
+      "statusId": "status_malzahar_e_dot",
+      "groupKey": "tick_main",
+      "effectId": "dot_tick",
+      "effectKind": "damage",
+      "tickFormulaId": "formula_malzahar_e_dot_tick",
+      "damageType": "magic",
+      "canCrit": false,
+      "critChanceSource": "none",
+      "perStack": false,
+      "extend": {
+        "source": "v2_batch_j"
+      }
+    }
+  ],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "skill_malzahar_e",
+      "ownerType": "hero",
+      "ownerId": "hero_malzahar",
+      "skillKey": "E",
+      "name": "Malefic Visions",
+      "description": "Batch J: apply published status resource instead of schedule_tick DoT",
+      "resourceCosts": {
+        "mana": 60
+      },
+      "cooldowns": {
+        "baseMs": 11000
+      },
+      "params": {
+        "vars": {
+          "tick_damage": 5.6,
+          "tick_interval_ms": 1000,
+          "tick_count": 4
+        }
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "id": "cast_apply_dot",
+            "event": {
+              "type": "on_spell_cast"
+            },
+            "actions": [
+              {
+                "type": "apply_status",
+                "status": {
+                  "statusId": "status_malzahar_e_dot",
+                  "kind": "dot",
+                  "source": "self",
+                  "target": "enemy"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [],
+  "typeRelations": [],
+  "scenarios": []
+}

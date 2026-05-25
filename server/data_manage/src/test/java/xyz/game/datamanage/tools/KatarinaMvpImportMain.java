@@ -155,6 +155,11 @@ public final class KatarinaMvpImportMain {
         out.println("  heroes      = " + seedData.heroes().size());
         out.println("  skills      = " + seedData.skills().size());
         out.println("  items       = " + seedData.items().size());
+        out.println("  formulas    = " + seedData.formulaProfiles().size());
+        out.println("  formulaBind = " + seedData.formulaBindings().size());
+        out.println("  statuses    = " + seedData.statusDefinitions().size());
+        out.println("  statusGroups= " + seedData.statusModifierGroups().size());
+        out.println("  statusHpFx  = " + seedData.statusPeriodicHpEffects().size());
         out.println("  typeRels    = " + seedData.typeRelations().size());
         out.println("  scenarios   = " + seedData.scenarios().size() + " (web/runtime only; not imported)");
 
@@ -178,6 +183,13 @@ public final class KatarinaMvpImportMain {
 
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/attribute-definitions/", "attrKey", seedData.attributeDefinitions());
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/types/", "typeId", seedData.types());
+        upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/formula-profiles/", "formulaId", seedData.formulaProfiles());
+        upsertFormulaBindings(httpClient, options.apiBaseUrl(), adminToken, gameId, seedData.formulaBindings());
+        upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/control-state-profiles/", "controlProfileId", seedData.controlStateProfiles());
+        upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/status-definitions/", "statusId", seedData.statusDefinitions());
+        upsertStatusModifierGroups(httpClient, options.apiBaseUrl(), adminToken, gameId, seedData.statusModifierGroups());
+        upsertStatusAttributeModifiers(httpClient, options.apiBaseUrl(), adminToken, gameId, seedData.statusAttributeModifiers());
+        upsertStatusPeriodicHpEffects(httpClient, options.apiBaseUrl(), adminToken, gameId, seedData.statusPeriodicHpEffects());
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/heroes/", "heroId", seedData.heroes());
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/skills/", "skillId", seedData.skills());
         upsert(httpClient, options.apiBaseUrl(), adminToken, gameId, "/items/", "itemId", seedData.items());
@@ -251,6 +263,13 @@ public final class KatarinaMvpImportMain {
             readObjectArray(root, "ownerCategories"),
             readObjectArray(root, "attributeDefinitions"),
             readOptionalObjectArray(root, "types"),
+            readOptionalObjectArray(root, "formulaProfiles"),
+            readOptionalObjectArray(root, "formulaBindings"),
+            readOptionalObjectArray(root, "controlStateProfiles"),
+            readOptionalObjectArray(root, "statusDefinitions"),
+            readOptionalObjectArray(root, "statusModifierGroups"),
+            readOptionalObjectArray(root, "statusAttributeModifiers"),
+            readOptionalObjectArray(root, "statusPeriodicHpEffects"),
             readObjectArray(root, "heroes"),
             readObjectArray(root, "skills"),
             readObjectArray(root, "items"),
@@ -383,6 +402,112 @@ public final class KatarinaMvpImportMain {
         }
     }
 
+    private static void upsertFormulaBindings(
+        HttpClient httpClient,
+        String apiBaseUrl,
+        String adminToken,
+        String gameId,
+        List<ObjectNode> bindings
+    ) throws Exception {
+        for (ObjectNode binding : bindings) {
+            String targetCategory = requireText(binding, "targetCategory");
+            String targetId = requireText(binding, "targetId");
+            String bindingKey = requireText(binding, "bindingKey");
+            requestJson(
+                httpClient,
+                buildUri(
+                    apiBaseUrl,
+                    "/api/admin/games/" + encodeSegment(gameId)
+                        + "/formula-bindings/" + encodeSegment(targetCategory)
+                        + "/" + encodeSegment(targetId)
+                        + "/" + encodeSegment(bindingKey)
+                ),
+                "PUT",
+                adminToken,
+                binding
+            );
+        }
+    }
+
+    private static void upsertStatusModifierGroups(
+        HttpClient httpClient,
+        String apiBaseUrl,
+        String adminToken,
+        String gameId,
+        List<ObjectNode> groups
+    ) throws Exception {
+        for (ObjectNode group : groups) {
+            String statusId = requireIdSegment(group, "statusId");
+            String groupKey = requireIdSegment(group, "groupKey");
+            requestJson(
+                httpClient,
+                buildUri(
+                    apiBaseUrl,
+                    "/api/admin/games/" + encodeSegment(gameId)
+                        + "/status-modifier-groups/" + encodeSegment(statusId)
+                        + "/" + encodeSegment(groupKey)
+                ),
+                "PUT",
+                adminToken,
+                group
+            );
+        }
+    }
+
+    private static void upsertStatusAttributeModifiers(
+        HttpClient httpClient,
+        String apiBaseUrl,
+        String adminToken,
+        String gameId,
+        List<ObjectNode> modifiers
+    ) throws Exception {
+        for (ObjectNode modifier : modifiers) {
+            String statusId = requireIdSegment(modifier, "statusId");
+            String groupKey = requireIdSegment(modifier, "groupKey");
+            String modifierId = requireIdSegment(modifier, "modifierId");
+            requestJson(
+                httpClient,
+                buildUri(
+                    apiBaseUrl,
+                    "/api/admin/games/" + encodeSegment(gameId)
+                        + "/status-attribute-modifiers/" + encodeSegment(statusId)
+                        + "/" + encodeSegment(groupKey)
+                        + "/" + encodeSegment(modifierId)
+                ),
+                "PUT",
+                adminToken,
+                modifier
+            );
+        }
+    }
+
+    private static void upsertStatusPeriodicHpEffects(
+        HttpClient httpClient,
+        String apiBaseUrl,
+        String adminToken,
+        String gameId,
+        List<ObjectNode> effects
+    ) throws Exception {
+        for (ObjectNode effect : effects) {
+            String statusId = requireIdSegment(effect, "statusId");
+            String groupKey = requireIdSegment(effect, "groupKey");
+            String effectId = requireIdSegment(effect, "effectId");
+            requestJson(
+                httpClient,
+                buildUri(
+                    apiBaseUrl,
+                    "/api/admin/games/" + encodeSegment(gameId)
+                        + "/status-periodic-hp-effects/" + encodeSegment(statusId)
+                        + "/" + encodeSegment(groupKey)
+                        + "/" + encodeSegment(effectId)
+                ),
+                "PUT",
+                adminToken,
+                effect
+            );
+        }
+    }
+
     private static void upsertTypeRelations(
         HttpClient httpClient,
         String apiBaseUrl,
@@ -427,6 +552,21 @@ public final class KatarinaMvpImportMain {
         verifyEntitiesPresent(bundleResponse.path("heroes"), seedData.heroes(), "heroes", "heroId");
         verifyEntitiesPresent(bundleResponse.path("skills"), seedData.skills(), "skills", "skillId");
         verifyEntitiesPresent(bundleResponse.path("items"), seedData.items(), "items", "itemId");
+        verifyEntitiesPresent(bundleResponse.path("formulaProfiles"), seedData.formulaProfiles(), "formulaProfiles", "formulaId");
+        verifyFormulaBindingsPresent(bundleResponse.path("formulaBindings"), seedData.formulaBindings());
+        verifyEntitiesPresent(
+            bundleResponse.path("statusDefinitions"),
+            seedData.statusDefinitions(),
+            "statusDefinitions",
+            "statusId"
+        );
+        verifyStatusModifierGroupsPresent(bundleResponse.path("statusModifierGroups"), seedData.statusModifierGroups());
+        verifyEntitiesPresent(
+            bundleResponse.path("statusPeriodicHpEffects"),
+            seedData.statusPeriodicHpEffects(),
+            "statusPeriodicHpEffects",
+            "effectId"
+        );
         verifyTypeRelationsPresent(bundleResponse.path("typeRelations"), seedData.typeRelations());
     }
 
@@ -438,6 +578,62 @@ public final class KatarinaMvpImportMain {
             String expectedId = requireIdSegment(expected, idField);
             if (!containsEntity(arrayNode, idField, expectedId)) {
                 throw new IllegalStateException("bundle field `" + fieldName + "` is missing entity `" + expectedId + "`");
+            }
+        }
+    }
+
+    private static void verifyFormulaBindingsPresent(JsonNode arrayNode, List<ObjectNode> expectedBindings) {
+        if (!arrayNode.isArray()) {
+            throw new IllegalStateException("bundle field `formulaBindings` is not array");
+        }
+        for (ObjectNode expected : expectedBindings) {
+            String expectedTargetCategory = requireText(expected, "targetCategory");
+            String expectedTargetId = requireText(expected, "targetId");
+            String expectedBindingKey = requireText(expected, "bindingKey");
+            boolean found = false;
+            for (JsonNode actual : arrayNode) {
+                if (expectedTargetCategory.equals(actual.path("targetCategory").asText())
+                    && expectedTargetId.equals(actual.path("targetId").asText())
+                    && expectedBindingKey.equals(actual.path("bindingKey").asText())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new IllegalStateException(
+                    "bundle field `formulaBindings` is missing binding targetCategory="
+                        + expectedTargetCategory
+                        + ", targetId="
+                        + expectedTargetId
+                        + ", bindingKey="
+                        + expectedBindingKey
+                );
+            }
+        }
+    }
+
+    private static void verifyStatusModifierGroupsPresent(JsonNode arrayNode, List<ObjectNode> expectedGroups) {
+        if (!arrayNode.isArray()) {
+            throw new IllegalStateException("bundle field `statusModifierGroups` is not array");
+        }
+        for (ObjectNode expected : expectedGroups) {
+            String expectedStatusId = requireIdSegment(expected, "statusId");
+            String expectedGroupKey = requireIdSegment(expected, "groupKey");
+            boolean found = false;
+            for (JsonNode actual : arrayNode) {
+                if (expectedStatusId.equals(actual.path("statusId").asText())
+                    && expectedGroupKey.equals(actual.path("groupKey").asText())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new IllegalStateException(
+                    "bundle field `statusModifierGroups` is missing statusId="
+                        + expectedStatusId
+                        + ", groupKey="
+                        + expectedGroupKey
+                );
             }
         }
     }
@@ -705,6 +901,13 @@ public final class KatarinaMvpImportMain {
         List<ObjectNode> ownerCategories,
         List<ObjectNode> attributeDefinitions,
         List<ObjectNode> types,
+        List<ObjectNode> formulaProfiles,
+        List<ObjectNode> formulaBindings,
+        List<ObjectNode> controlStateProfiles,
+        List<ObjectNode> statusDefinitions,
+        List<ObjectNode> statusModifierGroups,
+        List<ObjectNode> statusAttributeModifiers,
+        List<ObjectNode> statusPeriodicHpEffects,
         List<ObjectNode> heroes,
         List<ObjectNode> skills,
         List<ObjectNode> items,
