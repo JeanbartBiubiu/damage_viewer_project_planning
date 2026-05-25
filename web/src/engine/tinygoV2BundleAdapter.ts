@@ -9,7 +9,20 @@ import {
 import { parseFormulaParams, type FormulaParamVarRow } from '../components/formula-editor/formulaModels';
 import type { BenchmarkFormulaExpr, FormulaActorRef } from './benchmarkTypes';
 import { compileConstantSymbols, compileFormulaText, compileVarsToExprMap, type VarDefinition } from './formulaCompiler';
-import type { AttributeDefinition, GameDataBundle, Hero, Item, JsonObject, JsonValue, Skill, TypeDefinition } from '../types/api';
+import type {
+  AttributeDefinition,
+  GameDataBundle,
+  Hero,
+  Item,
+  JsonObject,
+  JsonValue,
+  FormulaProfile,
+  Skill,
+  StatusAttributeModifier,
+  StatusModifierGroup,
+  StatusPeriodicHpEffect,
+  TypeDefinition
+} from '../types/api';
 
 export type TinyGoV2AttributeDefinition = {
   id: string;
@@ -75,6 +88,21 @@ export type TinyGoV2ActionPanelEffect = {
   targetRole?: string;
 };
 
+export type TinyGoV2CritChanceSource = 'none' | 'attacker_crit_chance' | 'fixed';
+
+export type TinyGoV2StatusSource = 'published_status_resource' | 'synthetic_from_mechanics_config';
+
+export type TinyGoV2StatusAttrModifier = {
+  attrId: string;
+  mode: string;
+  value?: number;
+  formulaId?: string;
+  bucketKey?: string;
+  perStack?: boolean;
+  priority?: number;
+  sourceGroupKey?: string;
+};
+
 export type TinyGoV2StatusTemplate = {
   id: string;
   kind: string;
@@ -87,6 +115,16 @@ export type TinyGoV2StatusTemplate = {
   tickFormulaId?: string;
   tickAmount?: number;
   tickDamageType?: string;
+  tickCritPolicy?: string;
+  tickCritChanceSource?: TinyGoV2CritChanceSource;
+  tickCritChance?: number;
+  tickCritMultiplier?: number;
+  attrModifiers?: TinyGoV2StatusAttrModifier[];
+  statusSource?: TinyGoV2StatusSource;
+  sourceStatusId?: string;
+  sourceGroupKey?: string;
+  sourceEffectId?: string;
+  snapshotPolicy?: string;
 };
 
 export type TinyGoV2EffectDefinition = {
@@ -99,6 +137,7 @@ export type TinyGoV2EffectDefinition = {
   historyWindowMs?: number;
   counterKey?: string;
   critPolicy?: string;
+  critChanceSource?: TinyGoV2CritChanceSource;
   critChance?: number;
   critMultiplier?: number;
   modeAugmentId?: string;
@@ -259,6 +298,20 @@ export type TinyGoV2ValidationInput = {
   summaries: ActorInputSummary[];
 };
 
+export type CompiledStatusEvidence = {
+  statusId: string;
+  statusSource: TinyGoV2StatusSource;
+  kind?: string;
+  tickFormulaId?: string;
+  tickCritMultiplier?: number;
+  tickCritChanceSource?: TinyGoV2CritChanceSource;
+  tickIntervalMs?: number;
+  tickCount?: number;
+  sourceGroupKey?: string;
+  sourceEffectId?: string;
+  snapshotPolicy?: string;
+};
+
 type ValidationSide = 'self' | 'enemy';
 
 type ResolvedActorState = {
@@ -306,10 +359,12 @@ type FormulaRegistryCompiler = {
     formulaVars: string[] | undefined,
     slotLabel: string
   ) => string;
+  ensurePublishedFormulaProfile: (formulaId: string, env?: CompiledSkillEnvironment) => string;
 };
 
 type StatusRegistryCompiler = {
   definitions: TinyGoV2StatusTemplate[];
+  ensurePublishedStatus: (statusId: string, env?: CompiledSkillEnvironment) => string | null;
   registerShieldStatus: (actionId: string, slotLabel: string, options: { durationMs?: number; shieldKind?: string }) => string;
   registerTickStatus: (
     actionId: string,
@@ -322,10 +377,19 @@ type StatusRegistryCompiler = {
       tickFormulaId?: string;
       tickAmount?: number;
       tickDamageType?: string;
+      tickCritPolicy?: string;
+      tickCritChanceSource?: TinyGoV2CritChanceSource;
+      tickCritChance?: number;
+      tickCritMultiplier?: number;
       sourceStatusId?: string;
     }
   ) => string;
   ensureStatus: (status: TinyGoV2StatusTemplate) => string;
+};
+
+type PublishedStatusCompilation = {
+  template: TinyGoV2StatusTemplate;
+  tickGroupPriority: number;
 };
 
 const SELF_TEMPLATE_ID = 'self_template';
@@ -472,7 +536,7 @@ export function compileDpsAttackerBundle(
   const selfBase = resolveActorState(bundle, attrDefinitions, selection, 'self');
   const enemyBase = resolveActorState(bundle, attrDefinitions, selection, 'enemy');
   const formulaCompiler = createFormulaRegistryCompiler(bundle);
-  const statusCompiler = createStatusRegistryCompiler();
+  const statusCompiler = createStatusRegistryCompiler(bundle, formulaCompiler);
   const actionTemplates = compileActorActionTemplates(bundle, selfBase, enemyBase, formulaCompiler, statusCompiler);
   const resourceDefinitions = buildResourceDefinitions([selfBase]);
 
@@ -495,7 +559,7 @@ export function compileTinyGoV2ValidationInput(
   const selfBase = resolveActorState(bundle, attrDefinitions, selection, 'self');
   const enemyBase = resolveActorState(bundle, attrDefinitions, selection, 'enemy');
   const formulaCompiler = createFormulaRegistryCompiler(bundle);
-  const statusCompiler = createStatusRegistryCompiler();
+  const statusCompiler = createStatusRegistryCompiler(bundle, formulaCompiler);
   const actionTemplates = [
     ...compileActorActionTemplates(bundle, selfBase, enemyBase, formulaCompiler, statusCompiler),
     ...compileActorActionTemplates(bundle, enemyBase, selfBase, formulaCompiler, statusCompiler)
@@ -1183,13 +1247,18 @@ function compileActionEffects(
             const formulaId = resolveDamageActionFormula(selectedSkill, env, formulaCompiler, tickAction, `tick_damage:${effectIndex}`);
             const sourceRole = normalizeActionRole(tickAction.damageSource, 'source');
             const targetRole = normalizeActionRole(tickAction.damageTarget, 'target');
+            const tickCrit = resolveCritOptions(tickAction.raw);
             const statusId = statusCompiler.registerTickStatus(selectedSkill.actionId, action.tickKey || `tick:${effectIndex}`, {
               kind: 'dot',
               tickIntervalMs: action.everyMs,
               tickCount: action.times,
               tickEffectType: 'deal_damage',
               tickFormulaId: formulaId,
-              tickDamageType: tickAction.damageType || undefined
+              tickDamageType: tickAction.damageType || undefined,
+              tickCritPolicy: tickCrit.critPolicy,
+              tickCritChanceSource: tickCrit.critChanceSource,
+              tickCritChance: tickCrit.critChance,
+              tickCritMultiplier: tickCrit.critMultiplier
             });
             effects.push({
               type: 'apply_status',
@@ -1210,6 +1279,10 @@ function compileActionEffects(
                 tickEffectType: 'heal',
                 tickFormulaId: rawTick.formulaId,
                 tickAmount: rawTick.amount,
+                tickCritPolicy: rawTick.critPolicy,
+                tickCritChanceSource: rawTick.critChanceSource,
+                tickCritChance: rawTick.critChance,
+                tickCritMultiplier: rawTick.critMultiplier,
                 sourceStatusId: rawTick.statusId
               });
               effects.push({
@@ -1252,6 +1325,7 @@ function compileRawEffect(
     return {
       type: 'heal',
       ...resolveAmountActionFormula(selectedSkill, env, formulaCompiler, heal, slotLabel),
+      ...resolveCritOptions(rawAction, heal),
       sourceRole: normalizeActionRole(readString(heal.source), 'source'),
       targetRole: normalizeActionRole(readString(heal.target), 'target')
     };
@@ -1286,14 +1360,19 @@ function compileRawEffect(
     if (!statusId) {
       return null;
     }
-    statusCompiler.ensureStatus({
-      id: statusId,
-      kind: readString(status.kind) || 'status',
-      durationMs: toFiniteOptional(status.durationMs) ?? undefined
-    });
+    const publishedStatusId = statusCompiler.ensurePublishedStatus(statusId, env);
+    if (!publishedStatusId) {
+      statusCompiler.ensureStatus({
+        id: statusId,
+        kind: readString(status.kind) || 'status',
+        durationMs: toFiniteOptional(status.durationMs) ?? undefined,
+        statusSource: 'synthetic_from_mechanics_config',
+        sourceStatusId: statusId
+      });
+    }
     return {
       type: 'apply_status',
-      statusId,
+      statusId: publishedStatusId ?? statusId,
       sourceRole: normalizeActionRole(readString(status.source), 'source'),
       targetRole: normalizeActionRole(readString(status.target), 'target')
     };
@@ -1383,17 +1462,27 @@ function readActionChannelDurationMs(root: JsonObject): number | undefined {
   return toFiniteOptional(execution.channelDurationMs) ?? toFiniteOptional(execution.castTimeMs) ?? undefined;
 }
 
-function resolveCritOptions(raw: JsonObject): Pick<TinyGoV2EffectDefinition, 'critPolicy' | 'critChance' | 'critMultiplier'> {
-  const crit = isPlainObject(raw.crit) ? raw.crit : raw;
-  const policy = readString(crit.critPolicy) || readString(crit.policy);
-  if (!policy) {
-    return {};
+function resolveCritOptions(...rawCandidates: Array<JsonObject | undefined>): Pick<TinyGoV2EffectDefinition, 'critPolicy' | 'critChanceSource' | 'critChance' | 'critMultiplier'> {
+  for (const raw of rawCandidates) {
+    if (!raw) {
+      continue;
+    }
+    const crit = isPlainObject(raw.crit) ? raw.crit : raw;
+    const chanceSource = normalizeCritChanceSource(readString(crit.critChanceSource) || readString(crit.chanceSource));
+    const critChance = toFiniteOptional(crit.critChance) ?? toFiniteOptional(crit.chance) ?? undefined;
+    const critMultiplier = toFiniteOptional(crit.critMultiplier) ?? toFiniteOptional(crit.multiplier) ?? undefined;
+    const policy = readString(crit.critPolicy) || readString(crit.policy) || (chanceSource !== 'none' || critChance !== undefined || critMultiplier !== undefined ? 'expected' : '');
+    if (!policy) {
+      continue;
+    }
+    return {
+      critPolicy: policy,
+      critChanceSource: chanceSource !== 'none' ? chanceSource : undefined,
+      critChance,
+      critMultiplier
+    };
   }
-  return {
-    critPolicy: policy,
-    critChance: toFiniteOptional(crit.critChance) ?? toFiniteOptional(crit.chance) ?? undefined,
-    critMultiplier: toFiniteOptional(crit.critMultiplier) ?? toFiniteOptional(crit.multiplier) ?? undefined
-  };
+  return {};
 }
 
 function resolveModeOptions(raw: JsonObject): Pick<TinyGoV2EffectDefinition, 'modeAugmentId' | 'modeMultiplier'> {
@@ -1677,7 +1766,7 @@ function createFormulaRegistryCompiler(bundle: GameDataBundle): FormulaRegistryC
       }
 
       const rootFormulaId = `${selectedSkill.actionId}::${sanitizeFormulaKey(normalizedBindingKey)}`;
-      const expr = normalizeFormulaAttrRefs(compileBoundFormulaExpr(profile, binding.overrideParams, env), attrKeys);
+      const expr = normalizeFormulaAttrRefs(compileBoundFormulaExpr(profile, binding.overrideParams, env, attrKeys), attrKeys);
       emitFormulaExpr(rootFormulaId, expr, definitions, emittedIds);
       bindingCache.set(cacheKey, rootFormulaId);
       return rootFormulaId;
@@ -1699,13 +1788,172 @@ function createFormulaRegistryCompiler(bundle: GameDataBundle): FormulaRegistryC
       emitFormulaExpr(rootFormulaId, expr, definitions, emittedIds);
       bindingCache.set(cacheKey, rootFormulaId);
       return rootFormulaId;
+    },
+    ensurePublishedFormulaProfile(formulaId, env) {
+      const normalizedFormulaId = formulaId.trim();
+      if (!normalizedFormulaId) {
+        throw new Error('published status formula id is empty');
+      }
+      if (emittedIds.has(normalizedFormulaId)) {
+        return normalizedFormulaId;
+      }
+
+      const profile = profiles.get(normalizedFormulaId);
+      if (!profile) {
+        throw new Error(`published formula profile not found: ${normalizedFormulaId}`);
+      }
+
+      const expr = normalizeFormulaAttrRefs(compileFormulaProfileExpr(profile, undefined, env, attrKeys), attrKeys);
+      emitFormulaExpr(normalizedFormulaId, expr, definitions, emittedIds);
+      return normalizedFormulaId;
     }
   };
 }
 
-function createStatusRegistryCompiler(): StatusRegistryCompiler {
+export function summarizeCompiledStatusEvidence(statuses: TinyGoV2StatusTemplate[] | undefined): {
+  published: CompiledStatusEvidence[];
+  synthetic: CompiledStatusEvidence[];
+} {
+  const published: CompiledStatusEvidence[] = [];
+  const synthetic: CompiledStatusEvidence[] = [];
+  for (const status of statuses ?? []) {
+    const evidence: CompiledStatusEvidence = {
+      statusId: status.id,
+      statusSource: status.statusSource ?? 'synthetic_from_mechanics_config',
+      kind: status.kind,
+      tickFormulaId: status.tickFormulaId,
+      tickCritMultiplier: status.tickCritMultiplier,
+      tickCritChanceSource: status.tickCritChanceSource,
+      tickIntervalMs: status.tickIntervalMs,
+      tickCount: status.tickCount,
+      sourceGroupKey: status.sourceGroupKey,
+      sourceEffectId: status.sourceEffectId,
+      snapshotPolicy: status.snapshotPolicy
+    };
+    if (evidence.statusSource === 'published_status_resource') {
+      published.push(evidence);
+    } else {
+      synthetic.push(evidence);
+    }
+  }
+  return { published, synthetic };
+}
+
+function normalizeCritChanceSource(value: string): TinyGoV2CritChanceSource {
+  const normalized = value.trim().toLowerCase();
+  if (normalized === 'attacker_crit_chance' || normalized === 'fixed') {
+    return normalized;
+  }
+  return 'none';
+}
+
+function resolvePublishedTickCritFields(
+  effect: StatusPeriodicHpEffect
+): Pick<TinyGoV2StatusTemplate, 'tickCritPolicy' | 'tickCritChanceSource' | 'tickCritChance' | 'tickCritMultiplier'> {
+  if (!effect.canCrit) {
+    return {};
+  }
+  const tickCritChanceSource = normalizeCritChanceSource(effect.critChanceSource ?? 'attacker_crit_chance');
+  if (tickCritChanceSource === 'none') {
+    return {};
+  }
+  return {
+    tickCritPolicy: 'expected',
+    tickCritChanceSource,
+    tickCritChance: tickCritChanceSource === 'fixed' ? effect.critChance : undefined,
+    tickCritMultiplier: effect.critMultiplier
+  };
+}
+
+function mapPublishedStatusAttrModifiers(modifiers: StatusAttributeModifier[]): TinyGoV2StatusAttrModifier[] {
+  return modifiers
+    .map((modifier): TinyGoV2StatusAttrModifier => ({
+      attrId: readString(modifier.attrKey),
+      mode: readString(modifier.modifierMode) || 'flat',
+      value: toFiniteOptional(modifier.value) ?? undefined,
+      formulaId: readString(modifier.formulaId) || undefined,
+      bucketKey: readString(modifier.bucketKey) || undefined,
+      perStack: modifier.perStack,
+      priority: toFiniteOptional(modifier.priority) ?? undefined,
+      sourceGroupKey: readString(modifier.groupKey) || undefined
+    }))
+    .filter((modifier) => modifier.attrId);
+}
+
+function registerPublishedStatusFormulas(
+  template: TinyGoV2StatusTemplate,
+  formulaCompiler: FormulaRegistryCompiler,
+  env?: CompiledSkillEnvironment
+) {
+  if (template.tickFormulaId) {
+    formulaCompiler.ensurePublishedFormulaProfile(template.tickFormulaId, env);
+  }
+  for (const modifier of template.attrModifiers ?? []) {
+    if (modifier.formulaId) {
+      formulaCompiler.ensurePublishedFormulaProfile(modifier.formulaId, env);
+    }
+  }
+}
+
+function compilePublishedStatusResource(bundle: GameDataBundle, statusId: string): PublishedStatusCompilation | null {
+  const definition = (bundle.statusDefinitions ?? []).find((item) => item.statusId === statusId);
+  if (!definition) {
+    return null;
+  }
+
+  const groups = (bundle.statusModifierGroups ?? []).filter((item) => item.statusId === statusId);
+  const periodicEffects = (bundle.statusPeriodicHpEffects ?? []).filter((item) => item.statusId === statusId);
+  const intervalCandidates = groups
+    .filter((group) => group.phaseKey === 'on_interval')
+    .map((group) => ({
+      group,
+      effect: periodicEffects.find((item) => item.groupKey === group.groupKey)
+    }))
+    .filter((candidate): candidate is { group: StatusModifierGroup; effect: StatusPeriodicHpEffect } => Boolean(candidate.effect));
+
+  const picked = intervalCandidates.sort((left, right) => (right.group.priority ?? 0) - (left.group.priority ?? 0))[0];
+  if (!picked) {
+    return null;
+  }
+
+  const { group, effect } = picked;
+  const intervalMs = toFiniteOptional(group.intervalMs) ?? undefined;
+  const maxTicks = toFiniteOptional(group.maxTicks) ?? undefined;
+  const durationMs =
+    (toFiniteOptional(definition.durationMs) ?? undefined) ??
+    (intervalMs !== undefined && maxTicks !== undefined ? intervalMs * maxTicks : undefined);
+  const attrModifiers = mapPublishedStatusAttrModifiers(
+    (bundle.statusAttributeModifiers ?? []).filter((modifier) => modifier.statusId === statusId)
+  );
+
+  const template: TinyGoV2StatusTemplate = {
+    id: statusId,
+    kind: readString(definition.statusKind) || (effect.effectKind === 'heal' ? 'hot' : 'dot'),
+    durationMs,
+    tickIntervalMs: intervalMs,
+    tickCount: maxTicks,
+    tickEffectType: effect.effectKind === 'heal' ? 'heal' : 'deal_damage',
+    tickFormulaId: readString(effect.tickFormulaId) || undefined,
+    tickDamageType: effect.effectKind === 'damage' ? readString(effect.damageType) || undefined : undefined,
+    ...resolvePublishedTickCritFields(effect),
+    attrModifiers: attrModifiers.length > 0 ? attrModifiers : undefined,
+    snapshotPolicy: readString(group.snapshotPolicy) || readString(definition.snapshotPolicy) || undefined,
+    statusSource: 'published_status_resource',
+    sourceStatusId: statusId,
+    sourceGroupKey: readString(group.groupKey) || undefined,
+    sourceEffectId: readString(effect.effectId) || undefined
+  };
+
+  return {
+    template,
+    tickGroupPriority: toFiniteOptional(group.priority) ?? 0
+  };
+}
+
+function createStatusRegistryCompiler(bundle: GameDataBundle, formulaCompiler: FormulaRegistryCompiler): StatusRegistryCompiler {
   const definitions: TinyGoV2StatusTemplate[] = [];
   const emittedIds = new Set<string>();
+  const publishedCache = new Map<string, string | null>();
 
   function ensureStatus(status: TinyGoV2StatusTemplate): string {
     if (emittedIds.has(status.id)) {
@@ -1716,8 +1964,30 @@ function createStatusRegistryCompiler(): StatusRegistryCompiler {
     return status.id;
   }
 
+  function ensurePublishedStatus(statusId: string, env?: CompiledSkillEnvironment): string | null {
+    const normalizedStatusId = statusId.trim();
+    if (!normalizedStatusId) {
+      return null;
+    }
+    if (publishedCache.has(normalizedStatusId)) {
+      return publishedCache.get(normalizedStatusId) ?? null;
+    }
+
+    const compiled = compilePublishedStatusResource(bundle, normalizedStatusId);
+    if (!compiled) {
+      publishedCache.set(normalizedStatusId, null);
+      return null;
+    }
+
+    registerPublishedStatusFormulas(compiled.template, formulaCompiler, env);
+    const registeredId = ensureStatus(compiled.template);
+    publishedCache.set(normalizedStatusId, registeredId);
+    return registeredId;
+  }
+
   return {
     definitions,
+    ensurePublishedStatus,
     ensureStatus,
     registerShieldStatus(actionId, slotLabel, options) {
       const statusId = `${actionId}::${sanitizeFormulaKey(slotLabel)}::shield`;
@@ -1725,7 +1995,8 @@ function createStatusRegistryCompiler(): StatusRegistryCompiler {
         id: statusId,
         kind: 'shield',
         durationMs: options.durationMs,
-        shieldKind: options.shieldKind || 'all'
+        shieldKind: options.shieldKind || 'all',
+        statusSource: 'synthetic_from_mechanics_config'
       });
     },
     registerTickStatus(actionId, slotLabel, options) {
@@ -1739,7 +2010,13 @@ function createStatusRegistryCompiler(): StatusRegistryCompiler {
         tickEffectType: options.tickEffectType,
         tickFormulaId: options.tickFormulaId,
         tickAmount: options.tickAmount,
-        tickDamageType: options.tickDamageType
+        tickDamageType: options.tickDamageType,
+        tickCritPolicy: options.tickCritPolicy,
+        tickCritChanceSource: options.tickCritChanceSource,
+        tickCritChance: options.tickCritChance,
+        tickCritMultiplier: options.tickCritMultiplier,
+        statusSource: 'synthetic_from_mechanics_config',
+        sourceStatusId: options.sourceStatusId
       });
     }
   };
@@ -1808,14 +2085,33 @@ function resolveFormulaBindingRecord(
 }
 
 function compileBoundFormulaExpr(
-  profile: NonNullable<GameDataBundle['formulaProfiles']>[number],
+  profile: FormulaProfile,
   overrideParams: JsonObject | undefined,
-  env: CompiledSkillEnvironment
+  env: CompiledSkillEnvironment,
+  attrKeys: Set<string>
+): BenchmarkFormulaExpr {
+  return compileFormulaProfileExpr(profile, overrideParams, env, attrKeys);
+}
+
+function compileFormulaProfileExpr(
+  profile: FormulaProfile,
+  overrideParams: JsonObject | undefined,
+  env: CompiledSkillEnvironment | undefined,
+  attrKeys: Set<string>
 ): BenchmarkFormulaExpr {
   const mergedParams: JsonObject = {
     ...(isPlainObject(profile.params) ? profile.params : {}),
     ...(isPlainObject(overrideParams) ? overrideParams : {})
   };
+  const formulaKind = readString(profile.formulaKind).trim().toLowerCase();
+  if (formulaKind === 'linear' || (readString(mergedParams.baseVar).trim() && Array.isArray(mergedParams.terms))) {
+    return compileLinearFormulaParams(mergedParams, env, attrKeys);
+  }
+
+  if (!env) {
+    throw new Error(`formula profile ${profile.formulaId} requires skill compile context for vars_expr`);
+  }
+
   const parsed = parseFormulaParams(JSON.stringify(mergedParams), profile.formulaId);
   const externalSymbols = new Map(env.symbols);
   mergeFormulaSymbols(externalSymbols, compileConstantSymbols(extractFormulaRootConstants(parsed.root)));
@@ -1841,6 +2137,66 @@ function compileBoundFormulaExpr(
     throw new Error(`formula profile ${profile.formulaId} has empty params.formulaText`);
   }
   return compileFormulaText(parsed.formulaText, undefined, externalSymbols);
+}
+
+function compileLinearFormulaParams(
+  params: JsonObject,
+  env: CompiledSkillEnvironment | undefined,
+  attrKeys: Set<string>
+): BenchmarkFormulaExpr {
+  const terms: BenchmarkFormulaExpr[] = [];
+  const baseVar = readString(params.baseVar).trim();
+  if (baseVar) {
+    terms.push(resolveLinearFormulaOperand(baseVar, env, attrKeys));
+  }
+
+  if (Array.isArray(params.terms)) {
+    for (const rawTerm of params.terms) {
+      if (!isPlainObject(rawTerm)) {
+        continue;
+      }
+      const varName = readString(rawTerm.var).trim();
+      if (!varName) {
+        continue;
+      }
+      const coefficient = toNumber(rawTerm.coef, 1);
+      const operand = resolveLinearFormulaOperand(varName, env, attrKeys);
+      terms.push(
+        coefficient === 1
+          ? operand
+          : {
+              type: 'multiply',
+              factors: [operand, { type: 'constant', value: coefficient }]
+            }
+      );
+    }
+  }
+
+  if (terms.length === 0) {
+    return { type: 'constant', value: 0 };
+  }
+  if (terms.length === 1) {
+    return terms[0];
+  }
+  return { type: 'add', terms };
+}
+
+function resolveLinearFormulaOperand(
+  name: string,
+  env: CompiledSkillEnvironment | undefined,
+  attrKeys: Set<string>
+): BenchmarkFormulaExpr {
+  const fromEnv = env?.symbols.get(name);
+  if (fromEnv) {
+    return fromEnv;
+  }
+
+  const attrKey = normalizeFormulaAttrKey(name, attrKeys);
+  if (attrKeys.has(attrKey)) {
+    return { type: 'actor_attr', actor: 'source', attrKey };
+  }
+
+  throw new Error(`linear formula operand not found in skill context or attributes: ${name}`);
 }
 
 function formulaParamVarRowToVarDefinition(row: FormulaParamVarRow): VarDefinition {
