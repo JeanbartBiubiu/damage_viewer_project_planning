@@ -919,6 +919,15 @@ public class PostgresReadStore {
         if (canCrit != null) {
             node.put("canCrit", canCrit);
         }
+        putNullableText(node, "critChanceSource", text(row, "critChanceSource"));
+        BigDecimal critChance = decimal(row, "critChance");
+        if (critChance != null) {
+            node.putPOJO("critChance", critChance);
+        }
+        BigDecimal critMultiplier = decimal(row, "critMultiplier");
+        if (critMultiplier != null) {
+            node.putPOJO("critMultiplier", critMultiplier);
+        }
         Boolean affectedByHealModifier = booleanValue(row, "affectedByHealModifier");
         if (affectedByHealModifier != null) {
             node.put("affectedByHealModifier", affectedByHealModifier);

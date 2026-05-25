@@ -406,6 +406,10 @@ CREATE TABLE public.status_periodic_hp_effects (
         CHECK (damage_type IS NULL OR damage_type IN ('physical', 'magic', 'true')),
 
     can_crit boolean NOT NULL DEFAULT false,
+    crit_chance_source varchar(32) NOT NULL DEFAULT 'none'
+        CHECK (crit_chance_source IN ('none', 'attacker_crit_chance', 'fixed')),
+    crit_chance numeric(10, 6),
+    crit_multiplier numeric(10, 6),
     affected_by_heal_modifier boolean,
     per_stack boolean NOT NULL DEFAULT false,
 
@@ -428,6 +432,21 @@ CREATE TABLE public.status_periodic_hp_effects (
             (effect_kind = 'damage' AND damage_type IS NOT NULL AND affected_by_heal_modifier IS NULL)
             OR
             (effect_kind = 'heal' AND damage_type IS NULL AND affected_by_heal_modifier IS NOT NULL)
+        ),
+    CONSTRAINT ck_status_periodic_hp_effects_crit_usage
+        CHECK (
+            (NOT can_crit AND crit_chance_source = 'none' AND crit_chance IS NULL AND crit_multiplier IS NULL)
+            OR
+            (
+                can_crit
+                AND crit_multiplier IS NOT NULL
+                AND crit_multiplier > 0
+                AND (
+                    (crit_chance_source = 'fixed' AND crit_chance IS NOT NULL AND crit_chance >= 0 AND crit_chance <= 1)
+                    OR
+                    (crit_chance_source = 'attacker_crit_chance' AND crit_chance IS NULL)
+                )
+            )
         )
 ) PARTITION BY LIST (game_id);
 
@@ -442,6 +461,9 @@ COMMENT ON COLUMN public.status_periodic_hp_effects.effect_kind IS '效果类型
 COMMENT ON COLUMN public.status_periodic_hp_effects.tick_formula_id IS 'tick 数值公式 ID；由服务层校验其存在。';
 COMMENT ON COLUMN public.status_periodic_hp_effects.damage_type IS '仅 damage 使用：physical/magic/true。';
 COMMENT ON COLUMN public.status_periodic_hp_effects.can_crit IS '通常用于 damage；若某些游戏治疗也支持暴击语义，可在 heal 侧按需开启。';
+COMMENT ON COLUMN public.status_periodic_hp_effects.crit_chance_source IS '暴击概率来源：none / attacker_crit_chance / fixed。';
+COMMENT ON COLUMN public.status_periodic_hp_effects.crit_chance IS '固定暴击概率；仅 crit_chance_source=fixed 时使用，范围 [0,1]。';
+COMMENT ON COLUMN public.status_periodic_hp_effects.crit_multiplier IS '暴击倍率；仅 can_crit=true 时使用，且必须大于 0。';
 COMMENT ON COLUMN public.status_periodic_hp_effects.affected_by_heal_modifier IS '仅 heal 使用：该周期治疗是否受治疗增减修正影响。';
 COMMENT ON COLUMN public.status_periodic_hp_effects.per_stack IS 'true 表示该周期效果按当前 stackCount 参与结算。';
 COMMENT ON COLUMN public.status_periodic_hp_effects.extend IS '扩展字段；预留少量特例配置。';
@@ -459,6 +481,9 @@ CREATE TABLE public.status_periodic_hp_effects_log (
     tick_formula_id varchar(64) NOT NULL,
     damage_type varchar(16),
     can_crit boolean NOT NULL,
+    crit_chance_source varchar(32) NOT NULL,
+    crit_chance numeric(10, 6),
+    crit_multiplier numeric(10, 6),
     affected_by_heal_modifier boolean,
     per_stack boolean NOT NULL,
 
@@ -477,6 +502,8 @@ CREATE TABLE public.status_periodic_hp_effects_log (
         CHECK (effect_kind IN ('damage', 'heal')),
     CONSTRAINT ck_status_periodic_hp_effects_log_damage_type
         CHECK (damage_type IS NULL OR damage_type IN ('physical', 'magic', 'true')),
+    CONSTRAINT ck_status_periodic_hp_effects_log_crit_chance_source
+        CHECK (crit_chance_source IN ('none', 'attacker_crit_chance', 'fixed')),
     CONSTRAINT ck_status_periodic_hp_effects_log_version_range
         CHECK (start_version_id <= end_version_id),
     CONSTRAINT ck_status_periodic_hp_effects_log_damage_type_usage
@@ -484,6 +511,21 @@ CREATE TABLE public.status_periodic_hp_effects_log (
             (effect_kind = 'damage' AND damage_type IS NOT NULL AND affected_by_heal_modifier IS NULL)
             OR
             (effect_kind = 'heal' AND damage_type IS NULL AND affected_by_heal_modifier IS NOT NULL)
+        ),
+    CONSTRAINT ck_status_periodic_hp_effects_log_crit_usage
+        CHECK (
+            (NOT can_crit AND crit_chance_source = 'none' AND crit_chance IS NULL AND crit_multiplier IS NULL)
+            OR
+            (
+                can_crit
+                AND crit_multiplier IS NOT NULL
+                AND crit_multiplier > 0
+                AND (
+                    (crit_chance_source = 'fixed' AND crit_chance IS NOT NULL AND crit_chance >= 0 AND crit_chance <= 1)
+                    OR
+                    (crit_chance_source = 'attacker_crit_chance' AND crit_chance IS NULL)
+                )
+            )
         )
 ) PARTITION BY LIST (game_id);
 
