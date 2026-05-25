@@ -590,6 +590,18 @@ func TestM4HotStatusSchedulesFixedHealTicksAndClamps(t *testing.T) {
 	}
 }
 
+func TestLegacyStatusWithoutCritFieldsKeepsBehavior(t *testing.T) {
+	done := runBundle(t, m4Batch2MechanismBundle(), m4Batch2RunInput("enemy", "m4_apply_dot"))
+	if len(done.TickResults) != 3 {
+		t.Fatalf("dot tick results = %+v, want three ticks", done.TickResults)
+	}
+	for i, tick := range done.TickResults {
+		if tick.CritPolicy != "" || tick.HasCritRoll || tick.HasCritResult || tick.HasCritMultiplier {
+			t.Fatalf("legacy tick[%d] unexpectedly carries crit evidence: %+v", i, tick)
+		}
+	}
+}
+
 func TestM4MarkApplyCarriesStateEvidence(t *testing.T) {
 	input := controlRunInput()
 	input.InitialActions = []model.ActionRequest{
@@ -699,6 +711,86 @@ func TestM4RNGSeededCritIsRepeatableAndBranchable(t *testing.T) {
 	}
 	if seedTwo.RNG[0].Value == firstDraw.Value {
 		t.Fatalf("different seeds should document a different draw: seed1=%+v seed2=%+v", firstDraw, seedTwo.RNG[0])
+	}
+}
+
+func TestDirectEffectCritReadsAttackerCritChance(t *testing.T) {
+	done := runBundle(t, m4BatchJCritBundle(0.5), m4BatchJCritRunInput("m4_attr_crit_damage"))
+	result := actionResult(done, "m4_attr_crit_damage")
+	if !result.Accepted || len(result.Effects) != 1 {
+		t.Fatalf("direct attr crit result = %+v, want one accepted effect", result)
+	}
+	effect := result.Effects[0]
+	if effect.CritPolicy != "expected" || effect.HasCritRoll || !effect.HasCritResult || effect.CritResult ||
+		!effect.HasCritMultiplier || effect.CritMultiplier != 1.45 {
+		t.Fatalf("direct attr crit evidence = %+v, want expected policy with x1.45 and no roll", effect)
+	}
+	if !effect.HasRawAmount || effect.RawAmount != 40 || !effect.HasFinalDamage || effect.FinalDamage != 49 {
+		t.Fatalf("direct attr crit damage = %+v, want raw 40 final 49", effect)
+	}
+	if got := actorHP(done, "enemy"); got != 951 {
+		t.Fatalf("enemy hp got %.2f, want 951 after expected crit damage", got)
+	}
+}
+
+func TestStatusTickDamageUsesPublishedCritMultiplier(t *testing.T) {
+	done := runBundle(t, m4BatchJCritBundle(0.5), m4BatchJCritRunInput("m4_apply_crit_dot"))
+	if len(done.TickResults) != 1 {
+		t.Fatalf("tick results = %+v, want one crit dot tick", done.TickResults)
+	}
+	tick := done.TickResults[0]
+	if tick.CritPolicy != "expected" || tick.HasCritRoll || !tick.HasCritResult || tick.CritResult ||
+		!tick.HasCritMultiplier || tick.CritMultiplier != 1.45 {
+		t.Fatalf("tick crit evidence = %+v, want expected policy with x1.45 and no roll", tick)
+	}
+	if !tick.HasRawAmount || tick.RawAmount != 40 || !tick.HasFinalDamage || tick.FinalDamage != 49 {
+		t.Fatalf("tick damage = %+v, want raw 40 final 49", tick)
+	}
+	if got := actorHP(done, "enemy"); got != 951 {
+		t.Fatalf("enemy hp got %.2f, want 951 after crit dot tick", got)
+	}
+}
+
+func TestStatusTickHealUsesPublishedCritMultiplier(t *testing.T) {
+	bundle := m4BatchJCritBundle(0.5)
+	bundle.Actors[0].InitialHP = 900
+	done := runBundle(t, bundle, m4BatchJCritRunInput("m4_apply_crit_hot"))
+	if len(done.TickResults) != 1 {
+		t.Fatalf("tick results = %+v, want one crit hot tick", done.TickResults)
+	}
+	tick := done.TickResults[0]
+	if tick.CritPolicy != "expected" || tick.HasCritRoll || !tick.HasCritResult || tick.CritResult ||
+		!tick.HasCritMultiplier || tick.CritMultiplier != 1.45 {
+		t.Fatalf("tick heal crit evidence = %+v, want expected policy with x1.45 and no roll", tick)
+	}
+	if !tick.HasRawAmount || tick.RawAmount != 40 || !tick.HasHealApplied || tick.HealApplied != 49 ||
+		!tick.HasOverheal || tick.OverhealAmount != 0 || tick.TargetHPAfter != 949 {
+		t.Fatalf("tick heal = %+v, want raw 40 applied 49 hp 900 -> 949", tick)
+	}
+	if got := actorHP(done, "self"); got != 949 {
+		t.Fatalf("self hp got %.2f, want 949 after crit hot tick", got)
+	}
+}
+
+func TestDirectHealCritReadsAttackerCritChance(t *testing.T) {
+	bundle := m4BatchJCritBundle(0.5)
+	bundle.Actors[0].InitialHP = 900
+	done := runBundle(t, bundle, m4BatchJCritRunInput("m4_attr_crit_heal"))
+	result := actionResult(done, "m4_attr_crit_heal")
+	if !result.Accepted || len(result.Effects) != 1 {
+		t.Fatalf("direct attr crit heal result = %+v, want one accepted effect", result)
+	}
+	effect := result.Effects[0]
+	if effect.CritPolicy != "expected" || effect.HasCritRoll || !effect.HasCritResult || effect.CritResult ||
+		!effect.HasCritMultiplier || effect.CritMultiplier != 1.45 {
+		t.Fatalf("direct attr crit heal evidence = %+v, want expected policy with x1.45 and no roll", effect)
+	}
+	if !effect.HasRawAmount || effect.RawAmount != 40 || !effect.HasHealApplied || effect.HealApplied != 49 ||
+		!effect.HasOverheal || effect.OverhealAmount != 0 || effect.TargetHPBefore != 900 || effect.TargetHPAfter != 949 {
+		t.Fatalf("direct attr crit heal = %+v, want raw 40 applied 49 hp 900 -> 949", effect)
+	}
+	if got := actorHP(done, "self"); got != 949 {
+		t.Fatalf("self hp got %.2f, want 949 after expected crit heal", got)
 	}
 }
 
@@ -1479,6 +1571,88 @@ func m4Batch3RunInput(seed uint64, actionID string) model.EngineRunInput {
 	input.InitialActions = []model.ActionRequest{
 		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: actionID},
 	}
+	return input
+}
+
+func m4BatchJCritBundle(attackerCritChance float64) model.EngineBundle {
+	bundle := controlGateBundle()
+	bundle.Attributes = append(bundle.Attributes, model.AttributeDefinitionV2{ID: "crit_chance"})
+	bundle.Actors[0].Attributes["crit_chance"] = model.AttributeValueV2{Base: attackerCritChance}
+	bundle.Actors[1].Attributes["crit_chance"] = model.AttributeValueV2{Base: 0}
+	bundle.Statuses = append(bundle.Statuses,
+		model.StatusTemplate{
+			ID:                   "m4_crit_dot_status",
+			Kind:                 "dot",
+			DurationMs:           1000,
+			TickIntervalMs:       1000,
+			TickCount:            1,
+			TickAmount:           40,
+			TickDamageType:       "magic",
+			TickCritPolicy:       "expected",
+			TickCritChanceSource: "attacker_crit_chance",
+			TickCritMultiplier:   1.45,
+		},
+		model.StatusTemplate{
+			ID:                   "m4_crit_hot_status",
+			Kind:                 "hot",
+			DurationMs:           1000,
+			TickIntervalMs:       1000,
+			TickCount:            1,
+			TickEffectType:       model.EffectTypeHeal,
+			TickAmount:           40,
+			TickCritPolicy:       "expected",
+			TickCritChanceSource: "attacker_crit_chance",
+			TickCritMultiplier:   1.45,
+		},
+	)
+	bundle.Actions = append(bundle.Actions,
+		model.ActionTemplate{
+			ID:         "m4_attr_crit_damage",
+			Label:      "M4 Attr Crit Damage",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "deal_damage", Amount: 40, DamageType: "magic", SourceRole: "source", TargetRole: "target", CritPolicy: "expected", CritChanceSource: "attacker_crit_chance", CritMultiplier: 1.45},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_attr_crit_heal",
+			Label:      "M4 Attr Crit Heal",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "heal", Amount: 40, SourceRole: "source", TargetRole: "target", CritPolicy: "expected", CritChanceSource: "attacker_crit_chance", CritMultiplier: 1.45},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_apply_crit_dot",
+			Label:      "M4 Apply Crit Dot",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "apply_status", StatusID: "m4_crit_dot_status", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+		model.ActionTemplate{
+			ID:         "m4_apply_crit_hot",
+			Label:      "M4 Apply Crit Hot",
+			Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+			Effects: []model.EffectDef{
+				{Type: "apply_status", StatusID: "m4_crit_hot_status", SourceRole: "source", TargetRole: "target"},
+			},
+		},
+	)
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "m4_attr_crit_damage", "m4_attr_crit_heal", "m4_apply_crit_dot", "m4_apply_crit_hot")
+	return bundle
+}
+
+func m4BatchJCritRunInput(actionID string) model.EngineRunInput {
+	input := controlRunInput()
+	targetActorID := "enemy"
+	if actionID == "m4_attr_crit_heal" || actionID == "m4_apply_crit_hot" {
+		targetActorID = "self"
+	}
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: targetActorID, ActionID: actionID},
+	}
+	input.StopCondition.MaxEvents = 10
 	return input
 }
 
