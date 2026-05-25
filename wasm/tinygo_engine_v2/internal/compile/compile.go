@@ -120,21 +120,25 @@ type CompiledPanelEffect struct {
 }
 
 type CompiledStatus struct {
-	ID             string
-	Kind           string
-	TypeSet        typeset.TypeSet
-	DurationMs     int64
-	BlocksActions  bool
-	RetryOnRelease bool
-	Magnitude      float64
-	ShieldKind     string
-	TickIntervalMs int64
-	TickCount      int
-	TickEffect     EffectType
-	TickFormula    formula.ProgramID
-	HasTickFormula bool
-	TickAmount     float64
-	TickDamageType string
+	ID                   string
+	Kind                 string
+	TypeSet              typeset.TypeSet
+	DurationMs           int64
+	BlocksActions        bool
+	RetryOnRelease       bool
+	Magnitude            float64
+	ShieldKind           string
+	TickIntervalMs       int64
+	TickCount            int
+	TickEffect           EffectType
+	TickFormula          formula.ProgramID
+	HasTickFormula       bool
+	TickAmount           float64
+	TickDamageType       string
+	TickCritPolicy       string
+	TickCritChanceSource string
+	TickCritChance       float64
+	TickCritMultiplier   float64
 }
 
 type ControlRuleKind uint8
@@ -191,22 +195,23 @@ const (
 )
 
 type CompiledEffect struct {
-	Type            EffectType
-	Formula         formula.ProgramID
-	HasFormula      bool
-	Amount          float64
-	DamageType      string
-	Status          uint16
-	SourceRole      string
-	TargetRole      string
-	HistoryWindowMs int64
-	CounterKey      string
-	MarkID          string
-	CritPolicy      string
-	CritChance      float64
-	CritMultiplier  float64
-	ModeAugmentID   string
-	ModeMultiplier  float64
+	Type             EffectType
+	Formula          formula.ProgramID
+	HasFormula       bool
+	Amount           float64
+	DamageType       string
+	Status           uint16
+	SourceRole       string
+	TargetRole       string
+	HistoryWindowMs  int64
+	CounterKey       string
+	MarkID           string
+	CritPolicy       string
+	CritChanceSource string
+	CritChance       float64
+	CritMultiplier   float64
+	ModeAugmentID    string
+	ModeMultiplier   float64
 }
 
 type Result struct {
@@ -307,21 +312,25 @@ func Bundle(input model.EngineBundle) Result {
 		problems = append(problems, tickProblems...)
 		cb.StatusIndex[status.ID] = uint16(len(cb.Statuses))
 		cb.Statuses = append(cb.Statuses, CompiledStatus{
-			ID:             status.ID,
-			Kind:           status.Kind,
-			TypeSet:        typeSet,
-			DurationMs:     status.DurationMs,
-			BlocksActions:  status.BlocksActions,
-			RetryOnRelease: status.RetryOnRelease,
-			Magnitude:      status.Magnitude,
-			ShieldKind:     status.ShieldKind,
-			TickIntervalMs: status.TickIntervalMs,
-			TickCount:      status.TickCount,
-			TickEffect:     tickEffect,
-			TickFormula:    tickFormula,
-			HasTickFormula: hasTickFormula,
-			TickAmount:     status.TickAmount,
-			TickDamageType: status.TickDamageType,
+			ID:                   status.ID,
+			Kind:                 status.Kind,
+			TypeSet:              typeSet,
+			DurationMs:           status.DurationMs,
+			BlocksActions:        status.BlocksActions,
+			RetryOnRelease:       status.RetryOnRelease,
+			Magnitude:            status.Magnitude,
+			ShieldKind:           status.ShieldKind,
+			TickIntervalMs:       status.TickIntervalMs,
+			TickCount:            status.TickCount,
+			TickEffect:           tickEffect,
+			TickFormula:          tickFormula,
+			HasTickFormula:       hasTickFormula,
+			TickAmount:           status.TickAmount,
+			TickDamageType:       status.TickDamageType,
+			TickCritPolicy:       status.TickCritPolicy,
+			TickCritChanceSource: status.TickCritChanceSource,
+			TickCritChance:       status.TickCritChance,
+			TickCritMultiplier:   status.TickCritMultiplier,
 		})
 	}
 
@@ -768,7 +777,8 @@ func compileEffects(effects []model.EffectDef, cb CompiledBundle) ([]CompiledEff
 			Type: effectType(effect.Type), Amount: effect.Amount, DamageType: effect.DamageType,
 			SourceRole: effect.SourceRole, TargetRole: effect.TargetRole, HistoryWindowMs: effect.HistoryWindowMs,
 			CounterKey: effect.CounterKey, MarkID: effect.MarkID, CritPolicy: effect.CritPolicy,
-			CritChance: effect.CritChance, CritMultiplier: effect.CritMultiplier,
+			CritChanceSource: effect.CritChanceSource,
+			CritChance:       effect.CritChance, CritMultiplier: effect.CritMultiplier,
 			ModeAugmentID: effect.ModeAugmentID, ModeMultiplier: effect.ModeMultiplier,
 		}
 		if next.Type == 0 {
