@@ -136,6 +136,9 @@ type StatusPeriodicHpEffectFormData = {
   tickFormulaId: string;
   damageType: string;
   canCrit: boolean;
+  critChanceSource: 'none' | 'attacker_crit_chance' | 'fixed';
+  critChance: string;
+  critMultiplier: string;
   affectedByHealModifier: boolean;
   perStack: boolean;
   extendText: string;
@@ -189,6 +192,7 @@ const STATUS_GROUP_SNAPSHOT_POLICY_OPTIONS = toOptions(['on_apply', 'dynamic', '
 const STATUS_MODIFIER_MODE_OPTIONS = toOptions(['flat', 'percent', 'bucket_add', 'bucket_mul', 'set_final']);
 const PERIODIC_EFFECT_KIND_OPTIONS = toOptions(['damage', 'heal']);
 const DAMAGE_TYPE_OPTIONS = toOptions(['physical', 'magic', 'true']);
+const CRIT_CHANCE_SOURCE_OPTIONS = toOptions(['none', 'attacker_crit_chance', 'fixed']);
 const CONTROL_KIND_OPTIONS = toOptions([
   'stun',
   'root',
@@ -304,6 +308,9 @@ function createStatusPeriodicHpEffectFormData(statusId = '', groupKey = ''): Sta
     tickFormulaId: '',
     damageType: 'physical',
     canCrit: false,
+    critChanceSource: 'none',
+    critChance: '',
+    critMultiplier: '',
     affectedByHealModifier: true,
     perStack: false,
     extendText: stringifyJson({})
@@ -393,6 +400,9 @@ function toStatusPeriodicHpEffectFormData(record: StatusPeriodicHpEffect): Statu
     tickFormulaId: record.tickFormulaId ?? '',
     damageType: record.damageType ?? 'physical',
     canCrit: record.canCrit ?? false,
+    critChanceSource: record.critChanceSource ?? (record.canCrit ? 'attacker_crit_chance' : 'none'),
+    critChance: record.critChance !== undefined ? String(record.critChance) : '',
+    critMultiplier: record.critMultiplier !== undefined ? String(record.critMultiplier) : '',
     affectedByHealModifier: record.affectedByHealModifier ?? true,
     perStack: record.perStack ?? false,
     extendText: stringifyJson(record.extend ?? {})
@@ -438,6 +448,16 @@ function statusAttributeModifierKey(record: Pick<StatusAttributeModifier, 'statu
 
 function statusPeriodicHpEffectKey(record: Pick<StatusPeriodicHpEffect, 'statusId' | 'groupKey' | 'effectId'>): string {
   return `${record.statusId}|${record.groupKey}|${record.effectId}`;
+}
+
+function formatStatusPeriodicHpEffectCrit(record: StatusPeriodicHpEffect): string {
+  if (!record.canCrit) {
+    return 'disabled';
+  }
+  const source = record.critChanceSource ?? 'attacker_crit_chance';
+  const chance = source === 'fixed' && record.critChance !== undefined ? ` / ${record.critChance}` : '';
+  const multiplier = record.critMultiplier !== undefined ? ` / x${record.critMultiplier}` : '';
+  return `${source}${chance}${multiplier}`;
 }
 
 function buildStatusDefinitionPayload(formData: StatusDefinitionFormData): JsonObject {
@@ -541,6 +561,26 @@ function buildStatusPeriodicHpEffectPayload(formData: StatusPeriodicHpEffectForm
     payload.damageType = formData.damageType;
   } else {
     payload.affectedByHealModifier = formData.affectedByHealModifier;
+  }
+  if (!formData.canCrit) {
+    payload.critChanceSource = 'none';
+  } else {
+    if (formData.critChanceSource === 'none') {
+      throw new Error('canCrit=true 时必须选择 critChanceSource。');
+    }
+    payload.critChanceSource = formData.critChanceSource;
+    if (formData.critChanceSource === 'fixed') {
+      const critChance = Number(formData.critChance);
+      if (!Number.isFinite(critChance) || critChance < 0 || critChance > 1) {
+        throw new Error('critChanceSource=fixed 时，critChance 必须是 0 到 1 之间的数字。');
+      }
+      payload.critChance = critChance;
+    }
+    const critMultiplier = Number(formData.critMultiplier);
+    if (!Number.isFinite(critMultiplier) || critMultiplier <= 0) {
+      throw new Error('canCrit=true 时，critMultiplier 必须大于 0。');
+    }
+    payload.critMultiplier = critMultiplier;
   }
   putExtend(payload, formData.extendText);
   return payload;
@@ -1135,7 +1175,7 @@ function renderStatusPeriodicHpEffectsTable(
         pagination={false}
         rowKey={statusPeriodicHpEffectKey}
         data={records}
-        scroll={{ x: 1180 }}
+        scroll={{ x: 1380 }}
         columns={[
           { title: 'statusId', dataIndex: 'statusId', width: 200, render: (_: unknown, record: StatusPeriodicHpEffect) => <Typography.Text code>{record.statusId}</Typography.Text> },
           { title: 'groupKey', dataIndex: 'groupKey', width: 160 },
@@ -1148,6 +1188,11 @@ function renderStatusPeriodicHpEffectsTable(
             width: 160,
             render: (_: unknown, record: StatusPeriodicHpEffect) =>
               record.effectKind === 'damage' ? record.damageType ?? '--' : record.affectedByHealModifier ? 'heal modified' : 'heal raw'
+          },
+          {
+            title: 'crit',
+            width: 220,
+            render: (_: unknown, record: StatusPeriodicHpEffect) => formatStatusPeriodicHpEffectCrit(record)
           },
           {
             title: '操作',
@@ -1571,6 +1616,34 @@ function renderStatusPeriodicHpEffectForm(
           />
         </Form.Item>
       </div>
+
+      <div className="crud-form-grid">
+        <Form.Item label="critChanceSource">
+          <Select
+            value={formData.critChanceSource}
+            disabled={readOnly || !formData.canCrit}
+            options={CRIT_CHANCE_SOURCE_OPTIONS}
+            onChange={(value) => onFieldChange('critChanceSource', String(value ?? 'none'))}
+          />
+        </Form.Item>
+        <Form.Item label="critMultiplier">
+          <Input
+            value={formData.critMultiplier}
+            disabled={readOnly || !formData.canCrit}
+            onChange={(value) => onFieldChange('critMultiplier', value)}
+            placeholder="canCrit=true 时必填"
+          />
+        </Form.Item>
+      </div>
+
+      <Form.Item label="critChance">
+        <Input
+          value={formData.critChance}
+          disabled={readOnly || !formData.canCrit || formData.critChanceSource !== 'fixed'}
+          onChange={(value) => onFieldChange('critChance', value)}
+          placeholder="仅 critChanceSource=fixed 时填写，范围 0~1"
+        />
+      </Form.Item>
 
       <Space wrap size={24}>
         {renderSwitch('canCrit', formData.canCrit, readOnly, onFieldChange)}
