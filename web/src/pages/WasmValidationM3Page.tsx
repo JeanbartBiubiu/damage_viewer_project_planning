@@ -9,6 +9,7 @@ import {
   compileTinyGoV2ValidationInput,
   createDefaultWasmValidationSelection,
   listWasmValidationSkills,
+  summarizeCompiledStatusEvidence,
   type TinyGoV2ActionRequest,
   type TinyGoV2ValidationInput,
   type WasmValidationSelection,
@@ -692,6 +693,24 @@ function buildEvidenceRows(done: DonePayload | null, baseline: BaselineInput | n
   return rows;
 }
 
+const compiledStatusEvidenceColumns = [
+  { title: 'statusId', dataIndex: 'statusId', render: (value: string) => <Typography.Text code>{value}</Typography.Text> },
+  { title: 'statusSource', dataIndex: 'statusSource', render: (value: string) => <Tag>{value}</Tag> },
+  { title: 'tickFormulaId', dataIndex: 'tickFormulaId', render: (value: string | undefined) => value || '—' },
+  {
+    title: 'tickCritMultiplier',
+    dataIndex: 'tickCritMultiplier',
+    render: (value: number | undefined) => (value !== undefined ? String(value) : '—')
+  },
+  {
+    title: 'tickInterval / count',
+    render: (_: unknown, record: { tickIntervalMs?: number; tickCount?: number }) =>
+      record.tickIntervalMs !== undefined && record.tickCount !== undefined
+        ? `${record.tickIntervalMs}ms x ${record.tickCount}`
+        : '—'
+  }
+];
+
 function formatValue(value: unknown): string {
   if (value === undefined || value === null || value === '') {
     return '待人工填写';
@@ -930,6 +949,10 @@ export function WasmValidationM3Page({
   const readyPayload = useMemo(() => getPayload<ReadyPayload>(frames, 15), [frames]);
   const donePayload = useMemo(() => getPayload<DonePayload>(frames, DONE_FRAME_KIND), [frames]);
   const evidenceRows = useMemo(() => buildEvidenceRows(donePayload, baseline), [baseline, donePayload]);
+  const compiledStatusEvidence = useMemo(
+    () => summarizeCompiledStatusEvidence(inputPreview.value?.engineBundle.statuses),
+    [inputPreview.value]
+  );
   const selectedAction = selfActionOptions.find((option) => option.actionId === selectedActionId) ?? null;
 
   const updateSelection = useCallback((patch: Partial<WasmValidationSelection>) => {
@@ -1020,11 +1043,13 @@ export function WasmValidationM3Page({
         selfResourceOverride: selectedCasePreset.selfResourceOverride ?? null
       },
       runInput: inputPreview.value.runInput,
+      compiledStatuses: inputPreview.value.engineBundle.statuses,
+      compiledStatusEvidence,
       wasm_output: donePayload,
       evidenceRows
     };
     await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-  }, [currentVersion, donePayload, evidenceRows, inputPreview.value, selectedAction, selectedActionId, selectedCasePreset, selectedGameId]);
+  }, [compiledStatusEvidence, currentVersion, donePayload, evidenceRows, inputPreview.value, selectedAction, selectedActionId, selectedCasePreset, selectedGameId]);
 
   const heroOptions = (bundle?.heroes ?? []).map((hero) => ({ label: `${hero.heroId} / ${hero.name ?? hero.heroId}`, value: hero.heroId }));
   const itemOptions = (bundle?.items ?? []).map((item) => ({ label: `${item.itemId} / ${item.name ?? item.itemId}`, value: item.itemId }));
@@ -1151,6 +1176,41 @@ export function WasmValidationM3Page({
             </Col>
           </Row>
         ) : null}
+      </Panel>
+
+      <Panel title="编译状态来源" kicker="engineBundle.statuses">
+        <Row gutter={[16, 16]}>
+          <Col span={12}>
+            <Typography.Text bold>Published status resources</Typography.Text>
+            {compiledStatusEvidence.published.length > 0 ? (
+              <Table
+                rowKey="statusId"
+                size="small"
+                pagination={false}
+                style={{ marginTop: 8 }}
+                data={compiledStatusEvidence.published}
+                columns={compiledStatusEvidenceColumns}
+              />
+            ) : (
+              <Typography.Text type="secondary">本次编译未命中 published status resource。</Typography.Text>
+            )}
+          </Col>
+          <Col span={12}>
+            <Typography.Text bold>Synthetic statuses</Typography.Text>
+            {compiledStatusEvidence.synthetic.length > 0 ? (
+              <Table
+                rowKey="statusId"
+                size="small"
+                pagination={false}
+                style={{ marginTop: 8 }}
+                data={compiledStatusEvidence.synthetic}
+                columns={compiledStatusEvidenceColumns}
+              />
+            ) : (
+              <Typography.Text type="secondary">无 synthetic fallback 状态。</Typography.Text>
+            )}
+          </Col>
+        </Row>
       </Panel>
 
       <Panel title="字段级证据" kicker="done.actionResults" actions={<Tag color={donePayload ? 'green' : 'gray'}>{donePayload ? 'ready' : 'empty'}</Tag>}>
