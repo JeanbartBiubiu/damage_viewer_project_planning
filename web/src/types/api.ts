@@ -197,6 +197,9 @@ export type StatusPeriodicHpEffect = {
   tickFormulaId?: string;
   damageType?: string;
   canCrit?: boolean;
+  critChanceSource?: 'none' | 'attacker_crit_chance' | 'fixed';
+  critChance?: number;
+  critMultiplier?: number;
   affectedByHealModifier?: boolean;
   perStack?: boolean;
   extend?: JsonObject;
