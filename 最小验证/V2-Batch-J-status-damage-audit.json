@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "generatedAt": "2026-05-24T00:00:00Z",
+    "gameId": "lol",
+    "source": "build-v2-batch-j-status-damage-audit.mjs",
+    "rule": "Explicit whitelist only; no automatic schedule_tick migration",
+    "scannedSkillCount": 0
+  },
+  "records": [
+    {
+      "skillId": "skill_malzahar_e",
+      "classification": "migrate_to_status_resource",
+      "reason": "true dot with persistent interval semantics",
+      "targetStatusId": "status_malzahar_e_dot"
+    },
+    {
+      "skillId": "skill_brand_w",
+      "classification": "keep_mechanics_config",
+      "reason": "delayed detonation hit, not a persistent attached status"
+    },
+    {
+      "skillId": "skill_ahri_q",
+      "classification": "keep_mechanics_config",
+      "reason": "multi-segment hit timing, not a status entity"
+    },
+    {
+      "skillId": "skill_katarina_r",
+      "classification": "keep_mechanics_config",
+      "reason": "multi-tick cast channel damage, not a status lifecycle"
+    },
+    {
+      "skillId": "skill_leona_r",
+      "classification": "keep_mechanics_config",
+      "reason": "delayed explosion hit, not a persistent attached status"
+    },
+    {
+      "skillId": "skill_leona_w",
+      "classification": "keep_mechanics_config",
+      "reason": "delayed shield detonation hit, not a persistent attached status"
+    },
+    {
+      "skillId": "skill_drmundo_r",
+      "classification": "out_of_scope",
+      "reason": "HoT sustain migration deferred for 1v1 damage-only validation scope"
+    }
+  ]
+}
