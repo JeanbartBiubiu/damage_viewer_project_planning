@@ -1,6 +1,7 @@
 package xyz.game.datamanage.mapper;
 
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,6 +34,9 @@ public interface StatusPeriodicHpEffectsMapper {
         @Param("tickFormulaId") String tickFormulaId,
         @Param("damageType") String damageType,
         @Param("canCrit") boolean canCrit,
+        @Param("critChanceSource") String critChanceSource,
+        @Param("critChance") BigDecimal critChance,
+        @Param("critMultiplier") BigDecimal critMultiplier,
         @Param("affectedByHealModifier") Boolean affectedByHealModifier,
         @Param("perStack") boolean perStack,
         @Param("extendJson") String extendJson
@@ -56,6 +60,9 @@ public interface StatusPeriodicHpEffectsMapper {
         @Param("tickFormulaId") String tickFormulaId,
         @Param("damageType") String damageType,
         @Param("canCrit") boolean canCrit,
+        @Param("critChanceSource") String critChanceSource,
+        @Param("critChance") BigDecimal critChance,
+        @Param("critMultiplier") BigDecimal critMultiplier,
         @Param("affectedByHealModifier") Boolean affectedByHealModifier,
         @Param("perStack") boolean perStack,
         @Param("extendJson") String extendJson

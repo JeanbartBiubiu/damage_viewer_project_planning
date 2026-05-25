@@ -973,16 +973,34 @@ class ControllerPublishFlowIT {
         ResponseEntity<JsonNode> effectResponse = adminExchange(
             "/api/admin/games/" + gameId + "/status-periodic-hp-effects/it_burning/periodic/burning_tick",
             HttpMethod.PUT,
-            Map.of(
-                "effectKind", "damage",
-                "tickFormulaId", "formula_status_tick",
-                "damageType", "magic",
-                "canCrit", false,
-                "perStack", true,
-                "extend", Map.of("source", "it")
+            Map.ofEntries(
+                entry("effectKind", "damage"),
+                entry("tickFormulaId", "formula_status_tick"),
+                entry("damageType", "magic"),
+                entry("canCrit", false),
+                entry("critChanceSource", "none"),
+                entry("perStack", true),
+                entry("extend", Map.of("source", "it"))
             )
         );
         assertEquals(HttpStatus.OK, effectResponse.getStatusCode());
+
+        ResponseEntity<JsonNode> critEffectResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/status-periodic-hp-effects/it_burning/periodic/burning_crit_tick",
+            HttpMethod.PUT,
+            Map.ofEntries(
+                entry("effectKind", "damage"),
+                entry("tickFormulaId", "formula_status_tick"),
+                entry("damageType", "magic"),
+                entry("canCrit", true),
+                entry("critChanceSource", "fixed"),
+                entry("critChance", 0.35),
+                entry("critMultiplier", 1.45),
+                entry("perStack", false),
+                entry("extend", Map.of("source", "it"))
+            )
+        );
+        assertEquals(HttpStatus.OK, critEffectResponse.getStatusCode());
 
         ResponseEntity<JsonNode> listResponse = adminExchange(
             "/api/admin/games/" + gameId + "/status-definitions",
@@ -1008,6 +1026,15 @@ class ControllerPublishFlowIT {
             findByField(bundle.path("statusAttributeModifiers"), "modifierId", "move_speed_bonus").path("modifierMode").asText()
         );
         assertEquals("damage", findByField(bundle.path("statusPeriodicHpEffects"), "effectId", "burning_tick").path("effectKind").asText());
+        assertEquals(
+            "none",
+            findByField(bundle.path("statusPeriodicHpEffects"), "effectId", "burning_tick").path("critChanceSource").asText()
+        );
+        JsonNode burningCritTick = findByField(bundle.path("statusPeriodicHpEffects"), "effectId", "burning_crit_tick");
+        assertEquals(true, burningCritTick.path("canCrit").asBoolean());
+        assertEquals("fixed", burningCritTick.path("critChanceSource").asText());
+        assertEquals(0.35, burningCritTick.path("critChance").asDouble(), 0.001);
+        assertEquals(1.45, burningCritTick.path("critMultiplier").asDouble(), 0.001);
     }
 
     @Test
@@ -1414,6 +1441,9 @@ class ControllerPublishFlowIT {
                 tick_formula_id varchar(64) NOT NULL,
                 damage_type varchar(16),
                 can_crit boolean NOT NULL DEFAULT false,
+                crit_chance_source varchar(32) NOT NULL DEFAULT 'none',
+                crit_chance numeric(10, 6),
+                crit_multiplier numeric(10, 6),
                 affected_by_heal_modifier boolean,
                 per_stack boolean NOT NULL DEFAULT false,
                 extend jsonb NOT NULL DEFAULT '{}',
@@ -1435,6 +1465,9 @@ class ControllerPublishFlowIT {
                 tick_formula_id varchar(64) NOT NULL,
                 damage_type varchar(16),
                 can_crit boolean NOT NULL,
+                crit_chance_source varchar(32) NOT NULL DEFAULT 'none',
+                crit_chance numeric(10, 6),
+                crit_multiplier numeric(10, 6),
                 affected_by_heal_modifier boolean,
                 per_stack boolean NOT NULL,
                 extend jsonb NOT NULL DEFAULT '{}',

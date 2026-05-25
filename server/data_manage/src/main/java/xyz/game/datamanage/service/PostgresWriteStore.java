@@ -81,6 +81,7 @@ public class PostgresWriteStore {
     private static final Set<String> STATUS_GROUP_SNAPSHOT_POLICIES = Set.of("on_apply", "dynamic", "per_tick");
     private static final Set<String> STATUS_MODIFIER_MODES = Set.of("flat", "percent", "bucket_add", "bucket_mul", "set_final");
     private static final Set<String> STATUS_PERIODIC_EFFECT_KINDS = Set.of("damage", "heal");
+    private static final Set<String> STATUS_PERIODIC_CRIT_CHANCE_SOURCES = Set.of("none", "attacker_crit_chance", "fixed");
     private static final Set<String> DAMAGE_TYPES = Set.of("physical", "magic", "true");
     private static final Set<String> CONTROL_KINDS = Set.of(
         "stun",
@@ -777,6 +778,21 @@ public class PostgresWriteStore {
         Boolean affectedByHealModifier = nullableBoolean(merged, "affectedByHealModifier");
         validatePeriodicHpEffectKind(effectKind, damageType, affectedByHealModifier, "");
         boolean canCrit = defaultBoolean(merged, "canCrit", false);
+        String critChanceSource = resolveStatusPeriodicCritChanceSource(merged, canCrit);
+        BigDecimal critChance = nullableBigDecimal(merged, "critChance");
+        BigDecimal critMultiplier = nullableBigDecimal(merged, "critMultiplier");
+        validateStatusPeriodicHpEffectCrit(canCrit, critChanceSource, critChance, critMultiplier, "");
+        merged.put("critChanceSource", critChanceSource);
+        if (critChance != null) {
+            merged.put("critChance", critChance);
+        } else {
+            merged.remove("critChance");
+        }
+        if (critMultiplier != null) {
+            merged.put("critMultiplier", critMultiplier);
+        } else {
+            merged.remove("critMultiplier");
+        }
         boolean perStack = defaultBoolean(merged, "perStack", false);
         validateOptionalObject(merged, "statusPeriodicHpEffect", "extend", "/extend");
 
@@ -791,6 +807,9 @@ public class PostgresWriteStore {
             tickFormulaId,
             damageType,
             canCrit,
+            critChanceSource,
+            critChance,
+            critMultiplier,
             affectedByHealModifier,
             perStack,
             jsonSupport.toJsonStringOrNull(merged.get("extend"))
@@ -1564,6 +1583,9 @@ public class PostgresWriteStore {
                 mapText(row, "tickFormulaId"),
                 mapText(row, "damageType"),
                 Boolean.TRUE.equals(mapBoolean(row, "canCrit")),
+                mapText(row, "critChanceSource"),
+                mapBigDecimal(row, "critChance"),
+                mapBigDecimal(row, "critMultiplier"),
                 mapBoolean(row, "affectedByHealModifier"),
                 Boolean.TRUE.equals(mapBoolean(row, "perStack")),
                 mapText(row, "extendJson")
@@ -2269,7 +2291,22 @@ public class PostgresWriteStore {
             "/statusPeriodicHpEffects/affectedByHealModifier"
         );
         validatePeriodicHpEffectKind(effectKind, damageType, affectedByHealModifier, "/statusPeriodicHpEffects");
-        optionalBooleanForPublish(effect, "canCrit", "/statusPeriodicHpEffects/canCrit");
+        boolean canCrit = Boolean.TRUE.equals(optionalBooleanForPublish(effect, "canCrit", "/statusPeriodicHpEffects/canCrit"));
+        String critChanceSource = optionalTextForPublish(effect, "critChanceSource", "/statusPeriodicHpEffects/critChanceSource");
+        if (critChanceSource == null) {
+            critChanceSource = "none";
+        } else {
+            critChanceSource = critChanceSource.toLowerCase(Locale.ROOT);
+            if (!STATUS_PERIODIC_CRIT_CHANCE_SOURCES.contains(critChanceSource)) {
+                throw semantic(
+                    "statusPeriodicHpEffect.critChanceSource invalid",
+                    Map.of("path", "/statusPeriodicHpEffects/critChanceSource", "critChanceSource", critChanceSource)
+                );
+            }
+        }
+        BigDecimal critChance = optionalBigDecimalForPublish(effect, "critChance", "/statusPeriodicHpEffects/critChance");
+        BigDecimal critMultiplier = optionalBigDecimalForPublish(effect, "critMultiplier", "/statusPeriodicHpEffects/critMultiplier");
+        validateStatusPeriodicHpEffectCrit(canCrit, critChanceSource, critChance, critMultiplier, "/statusPeriodicHpEffects");
         optionalBooleanForPublish(effect, "perStack", "/statusPeriodicHpEffects/perStack");
         validateOptionalObjectForPublish(effect, "statusPeriodicHpEffect", "extend", "/statusPeriodicHpEffects/extend");
     }
@@ -2564,6 +2601,116 @@ public class PostgresWriteStore {
         }
     }
 
+    private String resolveStatusPeriodicCritChanceSource(ObjectNode merged, boolean canCrit) {
+        JsonNode value = merged.get("critChanceSource");
+        if (value == null || value.isNull()) {
+            String defaultSource = "none";
+            merged.put("critChanceSource", defaultSource);
+            return defaultSource;
+        }
+        if (!value.isTextual() || value.asText().isBlank()) {
+            throw badRequest(
+                "statusPeriodicHpEffect.critChanceSource must be non-empty string",
+                Map.of("path", "/critChanceSource")
+            );
+        }
+        String critChanceSource = value.asText().toLowerCase(Locale.ROOT);
+        if (!STATUS_PERIODIC_CRIT_CHANCE_SOURCES.contains(critChanceSource)) {
+            throw badRequest(
+                "statusPeriodicHpEffect.critChanceSource invalid",
+                Map.of("path", "/critChanceSource", "critChanceSource", critChanceSource)
+            );
+        }
+        if (!canCrit && !"none".equals(critChanceSource)) {
+            throw badRequest(
+                "statusPeriodicHpEffect.critChanceSource must be none when canCrit=false",
+                Map.of("path", "/critChanceSource", "critChanceSource", critChanceSource)
+            );
+        }
+        merged.put("critChanceSource", critChanceSource);
+        return critChanceSource;
+    }
+
+    private void validateStatusPeriodicHpEffectCrit(
+        boolean canCrit,
+        String critChanceSource,
+        BigDecimal critChance,
+        BigDecimal critMultiplier,
+        String pathPrefix
+    ) {
+        String basePath = pathPrefix.isBlank() ? "" : pathPrefix;
+        if (!canCrit) {
+            if (!"none".equals(critChanceSource)) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.critChanceSource must be none when canCrit=false",
+                    Map.of("path", basePath + "/critChanceSource", "critChanceSource", critChanceSource)
+                );
+            }
+            if (critChance != null) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.critChance must be null when canCrit=false",
+                    Map.of("path", basePath + "/critChance")
+                );
+            }
+            if (critMultiplier != null) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.critMultiplier must be null when canCrit=false",
+                    Map.of("path", basePath + "/critMultiplier")
+                );
+            }
+            return;
+        }
+        if ("none".equals(critChanceSource)) {
+            throw statusValidationError(
+                pathPrefix,
+                "statusPeriodicHpEffect.critChanceSource cannot be none when canCrit=true",
+                Map.of("path", basePath + "/critChanceSource", "critChanceSource", critChanceSource)
+            );
+        }
+        if (critMultiplier == null || critMultiplier.compareTo(BigDecimal.ZERO) <= 0) {
+            throw statusValidationError(
+                pathPrefix,
+                "statusPeriodicHpEffect.critMultiplier must be > 0 when canCrit=true",
+                Map.of("path", basePath + "/critMultiplier")
+            );
+        }
+        if ("fixed".equals(critChanceSource)) {
+            if (critChance == null) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.critChance is required when critChanceSource=fixed",
+                    Map.of("path", basePath + "/critChance")
+                );
+            }
+            if (critChance.compareTo(BigDecimal.ZERO) < 0 || critChance.compareTo(BigDecimal.ONE) > 0) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.critChance must be within [0,1] when critChanceSource=fixed",
+                    Map.of("path", basePath + "/critChance", "critChance", critChance)
+                );
+            }
+            return;
+        }
+        if ("attacker_crit_chance".equals(critChanceSource)) {
+            if (critChance != null) {
+                throw statusValidationError(
+                    pathPrefix,
+                    "statusPeriodicHpEffect.critChance must be null when critChanceSource=attacker_crit_chance",
+                    Map.of("path", basePath + "/critChance")
+                );
+            }
+            return;
+        }
+        throw statusValidationError(
+            pathPrefix,
+            "statusPeriodicHpEffect.critChanceSource invalid",
+            Map.of("path", basePath + "/critChanceSource", "critChanceSource", critChanceSource)
+        );
+    }
+
     private void validatePeriodicHpEffectKind(
         String effectKind,
         String damageType,
@@ -2631,6 +2778,17 @@ public class PostgresWriteStore {
             throw semantic(fieldName + " must be integer", Map.of("path", path));
         }
         return value.asInt();
+    }
+
+    private BigDecimal optionalBigDecimalForPublish(ObjectNode node, String fieldName, String path) {
+        JsonNode value = node.get(fieldName);
+        if (value == null || value.isNull()) {
+            return null;
+        }
+        if (!value.isNumber()) {
+            throw semantic(fieldName + " must be number", Map.of("path", path));
+        }
+        return value.decimalValue();
     }
 
     private Integer requirePositiveIntegerForPublish(ObjectNode node, String fieldName, String path) {

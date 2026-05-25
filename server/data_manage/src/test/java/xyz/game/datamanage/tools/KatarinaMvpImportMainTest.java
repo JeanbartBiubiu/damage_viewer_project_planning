@@ -218,6 +218,38 @@ class KatarinaMvpImportMainTest {
     }
 
     @Test
+    void loadSeed_shouldReadV2BatchJStatusDamageSeed() throws Exception {
+        Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-J-status-damage-migration.seed.json")
+            .toAbsolutePath()
+            .normalize();
+
+        KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(seedFile);
+
+        assertEquals("lol", seedData.gameId());
+        assertEquals("v2_batch_j_status_damage_001", seedData.versionCode());
+        assertEquals(1, seedData.formulaProfiles().size());
+        assertEquals(1, seedData.statusDefinitions().size());
+        assertEquals(1, seedData.statusModifierGroups().size());
+        assertEquals(1, seedData.statusPeriodicHpEffects().size());
+        assertEquals(1, seedData.skills().size());
+        assertEquals(
+            "apply_status",
+            findByField(seedData.skills(), "skillId", "skill_malzahar_e")
+                .path("mechanicsConfig")
+                .path("triggers")
+                .get(0)
+                .path("actions")
+                .get(0)
+                .path("type")
+                .asText()
+        );
+        assertEquals(
+            "none",
+            seedData.statusPeriodicHpEffects().get(0).path("critChanceSource").asText()
+        );
+    }
+
+    @Test
     void loadSeed_shouldReadV2BatchDAdcItemPassives() throws Exception {
         Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-D-adc-item-passives.seed.json")
             .toAbsolutePath()
