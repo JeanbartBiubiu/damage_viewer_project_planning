@@ -39,6 +39,7 @@ import {
   type V2DpsSelection,
   type V2DpsStackingPassiveBundleCheck
 } from '../engine/tinygoV2DpsAdapter';
+import { summarizeCompiledStatusEvidence } from '../engine/tinygoV2BundleAdapter';
 import { TinyGoV2Bridge, TinyGoV2InvocationError, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
 import { getErrorMessage } from '../services/apiClient';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
@@ -391,6 +392,10 @@ function WasmValidationV2DpsWorkbench({
       .filter((row) => row.curveId === resolvedActiveCurveId)
       .map(({ key: _key, curveId: _curveId, curveLabel: _curveLabel, ...action }) => action);
   }, [activeBasicAttackActions, basicAttackEvidenceRows, resolvedActiveCurveId]);
+  const compiledStatusEvidence = useMemo(
+    () => summarizeCompiledStatusEvidence(preparedInput?.engineBundle.statuses),
+    [preparedInput]
+  );
   const exportPayload = useMemo(() => {
     if (!wasmOutput || !preparedInput) {
       return null;
@@ -403,12 +408,27 @@ function WasmValidationV2DpsWorkbench({
       preflightBlockedReasons: preparedInput.preflightBlockedReasons,
       selection: buildExportSelection(preparedInput),
       resolvedSnapshot: buildExportResolvedSnapshot(preparedInput),
+      compileEvidence: {
+        basicAttackCritByCurve: preparedInput.runInput.curves.map((curve) => ({
+          curveId: curve.curveId,
+          label: curve.label,
+          basicAttackActions: curve.resolvedSnapshot.basicAttackActions.map((action) => ({
+            actionId: action.actionId,
+            skillId: action.skillId,
+            critPolicy: action.critPolicy,
+            critChanceSource: action.critChanceSource,
+            critChance: action.critChance,
+            critMultiplier: action.critMultiplier
+          }))
+        })),
+        compiledStatusEvidence
+      },
       simulationRules: wasmOutput.simulationRules,
       targetSnapshot: wasmOutput.targetSnapshot,
       runInput: preparedInput.runInput,
       wasmOutput
     };
-  }, [activeCurveResult, preparedInput, wasmOutput]);
+  }, [activeCurveResult, compiledStatusEvidence, preparedInput, wasmOutput]);
 
   useEffect(() => {
     if (!chartElementRef.current) {
@@ -1665,6 +1685,18 @@ const basicAttackEvidenceColumns = [
     title: 'classifier',
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text className="wasm-code-token">{formatClassifierSummary(record.classifier)}</Typography.Text>
+    )
+  },
+  {
+    title: 'critPolicy',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => (
+      <Typography.Text code>{record.critPolicy ?? '—'}</Typography.Text>
+    )
+  },
+  {
+    title: 'critMultiplier',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => (
+      <Typography.Text code>{record.critMultiplier !== undefined ? String(record.critMultiplier) : '—'}</Typography.Text>
     )
   }
 ];
