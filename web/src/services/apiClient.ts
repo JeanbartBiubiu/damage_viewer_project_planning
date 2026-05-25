@@ -777,7 +777,19 @@ function normalizeGameDataBundle(bundle: GameDataBundle): GameDataBundle {
       ...bundle.meta,
       versionId: normalizeLegacyVersionId(bundle.meta.versionId),
       dataHash: normalizeLegacyDataHash(bundle.meta.dataHash, bundle.meta.versionCode)
-    }
+    },
+    statusDefinitions: bundle.statusDefinitions ?? [],
+    controlStateProfiles: bundle.controlStateProfiles ?? [],
+    statusModifierGroups: bundle.statusModifierGroups ?? [],
+    statusAttributeModifiers: bundle.statusAttributeModifiers ?? [],
+    statusPeriodicHpEffects: (bundle.statusPeriodicHpEffects ?? []).map(normalizeStatusPeriodicHpEffect)
+  };
+}
+
+function normalizeStatusPeriodicHpEffect(effect: StatusPeriodicHpEffect): StatusPeriodicHpEffect {
+  return {
+    ...effect,
+    critChanceSource: effect.critChanceSource ?? (effect.canCrit ? 'attacker_crit_chance' : 'none')
   };
 }
 
