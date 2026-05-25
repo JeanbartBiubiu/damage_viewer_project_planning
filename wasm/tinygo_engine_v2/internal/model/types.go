@@ -220,21 +220,25 @@ type ActionPanelEffectV2 struct {
 }
 
 type StatusTemplateV2 struct {
-	ID             string              `json:"id"`
-	Kind           string              `json:"kind"`
-	Classifier     ClassifierV2        `json:"classifier,omitempty"`
-	DurationMs     int64               `json:"durationMs,omitempty"`
-	BlocksActions  bool                `json:"blocksActions,omitempty"`
-	RetryOnRelease bool                `json:"retryOnRelease,omitempty"`
-	Magnitude      float64             `json:"magnitude,omitempty"`
-	ShieldKind     string              `json:"shieldKind,omitempty"`
-	TickIntervalMs int64               `json:"tickIntervalMs,omitempty"`
-	TickCount      int                 `json:"tickCount,omitempty"`
-	TickEffectType EffectType          `json:"tickEffectType,omitempty"`
-	TickFormulaID  string              `json:"tickFormulaId,omitempty"`
-	TickAmount     float64             `json:"tickAmount,omitempty"`
-	TickDamageType string              `json:"tickDamageType,omitempty"`
-	AttrModifiers  []AttrModifierDefV2 `json:"attrModifiers,omitempty"`
+	ID                   string              `json:"id"`
+	Kind                 string              `json:"kind"`
+	Classifier           ClassifierV2        `json:"classifier,omitempty"`
+	DurationMs           int64               `json:"durationMs,omitempty"`
+	BlocksActions        bool                `json:"blocksActions,omitempty"`
+	RetryOnRelease       bool                `json:"retryOnRelease,omitempty"`
+	Magnitude            float64             `json:"magnitude,omitempty"`
+	ShieldKind           string              `json:"shieldKind,omitempty"`
+	TickIntervalMs       int64               `json:"tickIntervalMs,omitempty"`
+	TickCount            int                 `json:"tickCount,omitempty"`
+	TickEffectType       EffectType          `json:"tickEffectType,omitempty"`
+	TickFormulaID        string              `json:"tickFormulaId,omitempty"`
+	TickAmount           float64             `json:"tickAmount,omitempty"`
+	TickDamageType       string              `json:"tickDamageType,omitempty"`
+	TickCritPolicy       string              `json:"tickCritPolicy,omitempty"`
+	TickCritChanceSource string              `json:"tickCritChanceSource,omitempty"`
+	TickCritChance       float64             `json:"tickCritChance,omitempty"`
+	TickCritMultiplier   float64             `json:"tickCritMultiplier,omitempty"`
+	AttrModifiers        []AttrModifierDefV2 `json:"attrModifiers,omitempty"`
 }
 
 type StatusActionControlRuleV2 struct {
@@ -268,24 +272,25 @@ type TriggerDefinitionV2 struct {
 }
 
 type EffectDefV2 struct {
-	Type            EffectType       `json:"type"`
-	FormulaID       string           `json:"formulaId,omitempty"`
-	Amount          float64          `json:"amount,omitempty"`
-	DamageType      string           `json:"damageType,omitempty"`
-	StatusID        string           `json:"statusId,omitempty"`
-	SourceRole      string           `json:"sourceRole,omitempty"`
-	TargetRole      string           `json:"targetRole,omitempty"`
-	HistoryWindowMs int64            `json:"historyWindowMs,omitempty"`
-	CounterKey      string           `json:"counterKey,omitempty"`
-	MarkID          string           `json:"markId,omitempty"`
-	ResourceID      string           `json:"resourceId,omitempty"`
-	AttrID          string           `json:"attrId,omitempty"`
-	ModifierMode    AttrModifierMode `json:"modifierMode,omitempty"`
-	CritPolicy      string           `json:"critPolicy,omitempty"`
-	CritChance      float64          `json:"critChance,omitempty"`
-	CritMultiplier  float64          `json:"critMultiplier,omitempty"`
-	ModeAugmentID   string           `json:"modeAugmentId,omitempty"`
-	ModeMultiplier  float64          `json:"modeMultiplier,omitempty"`
+	Type             EffectType       `json:"type"`
+	FormulaID        string           `json:"formulaId,omitempty"`
+	Amount           float64          `json:"amount,omitempty"`
+	DamageType       string           `json:"damageType,omitempty"`
+	StatusID         string           `json:"statusId,omitempty"`
+	SourceRole       string           `json:"sourceRole,omitempty"`
+	TargetRole       string           `json:"targetRole,omitempty"`
+	HistoryWindowMs  int64            `json:"historyWindowMs,omitempty"`
+	CounterKey       string           `json:"counterKey,omitempty"`
+	MarkID           string           `json:"markId,omitempty"`
+	ResourceID       string           `json:"resourceId,omitempty"`
+	AttrID           string           `json:"attrId,omitempty"`
+	ModifierMode     AttrModifierMode `json:"modifierMode,omitempty"`
+	CritPolicy       string           `json:"critPolicy,omitempty"`
+	CritChanceSource string           `json:"critChanceSource,omitempty"`
+	CritChance       float64          `json:"critChance,omitempty"`
+	CritMultiplier   float64          `json:"critMultiplier,omitempty"`
+	ModeAugmentID    string           `json:"modeAugmentId,omitempty"`
+	ModeMultiplier   float64          `json:"modeMultiplier,omitempty"`
 }
 
 type DamageProfileV2 struct {
@@ -710,6 +715,7 @@ type ActionEffectRunResultV2 struct {
 	MarkActive          bool                         `json:"markActive,omitempty"`
 	HasMarkState        bool                         `json:"hasMarkState,omitempty"`
 	MarkCount           int                          `json:"markCount,omitempty"`
+	CritPolicy          string                       `json:"critPolicy,omitempty"`
 	CritRoll            float64                      `json:"critRoll,omitempty"`
 	HasCritRoll         bool                         `json:"hasCritRoll,omitempty"`
 	CritResult          bool                         `json:"critResult,omitempty"`
@@ -735,26 +741,33 @@ type ActionEffectRunResultV2 struct {
 }
 
 type StatusTickRunResultV2 struct {
-	TimeMs           int64                        `json:"timeMs"`
-	StatusID         string                       `json:"statusId"`
-	TickIndex        int                          `json:"tickIndex"`
-	TickCount        int                          `json:"tickCount"`
-	Kind             string                       `json:"kind"`
-	FormulaID        string                       `json:"formulaId,omitempty"`
-	FormulaBreakdown []ActionValueBreakdownStepV2 `json:"formulaBreakdown,omitempty"`
-	RawAmount        float64                      `json:"rawAmount,omitempty"`
-	HasRawAmount     bool                         `json:"hasRawAmount,omitempty"`
-	DamageType       string                       `json:"damageType,omitempty"`
-	FinalDamage      float64                      `json:"finalDamage,omitempty"`
-	HasFinalDamage   bool                         `json:"hasFinalDamage,omitempty"`
-	HealApplied      float64                      `json:"healApplied,omitempty"`
-	HasHealApplied   bool                         `json:"hasHealApplied,omitempty"`
-	OverhealAmount   float64                      `json:"overhealAmount,omitempty"`
-	HasOverheal      bool                         `json:"hasOverheal,omitempty"`
-	TargetHPBefore   float64                      `json:"targetHpBefore,omitempty"`
-	TargetHPAfter    float64                      `json:"targetHpAfter,omitempty"`
-	SourceActorID    string                       `json:"sourceActorId,omitempty"`
-	TargetActorID    string                       `json:"targetActorId,omitempty"`
+	TimeMs            int64                        `json:"timeMs"`
+	StatusID          string                       `json:"statusId"`
+	TickIndex         int                          `json:"tickIndex"`
+	TickCount         int                          `json:"tickCount"`
+	Kind              string                       `json:"kind"`
+	FormulaID         string                       `json:"formulaId,omitempty"`
+	FormulaBreakdown  []ActionValueBreakdownStepV2 `json:"formulaBreakdown,omitempty"`
+	RawAmount         float64                      `json:"rawAmount,omitempty"`
+	HasRawAmount      bool                         `json:"hasRawAmount,omitempty"`
+	CritPolicy        string                       `json:"critPolicy,omitempty"`
+	DamageType        string                       `json:"damageType,omitempty"`
+	FinalDamage       float64                      `json:"finalDamage,omitempty"`
+	HasFinalDamage    bool                         `json:"hasFinalDamage,omitempty"`
+	HealApplied       float64                      `json:"healApplied,omitempty"`
+	HasHealApplied    bool                         `json:"hasHealApplied,omitempty"`
+	OverhealAmount    float64                      `json:"overhealAmount,omitempty"`
+	HasOverheal       bool                         `json:"hasOverheal,omitempty"`
+	CritRoll          float64                      `json:"critRoll,omitempty"`
+	HasCritRoll       bool                         `json:"hasCritRoll,omitempty"`
+	CritResult        bool                         `json:"critResult,omitempty"`
+	HasCritResult     bool                         `json:"hasCritResult,omitempty"`
+	CritMultiplier    float64                      `json:"critMultiplier,omitempty"`
+	HasCritMultiplier bool                         `json:"hasCritMultiplier,omitempty"`
+	TargetHPBefore    float64                      `json:"targetHpBefore,omitempty"`
+	TargetHPAfter     float64                      `json:"targetHpAfter,omitempty"`
+	SourceActorID     string                       `json:"sourceActorId,omitempty"`
+	TargetActorID     string                       `json:"targetActorId,omitempty"`
 }
 
 type ActionRunResultV2 struct {
