@@ -185,6 +185,10 @@ export type V2DpsBasicAttackAction = {
   sourceKind?: 'mount';
   label?: string;
   classifier?: V2DpsActionClassifier;
+  critPolicy?: string;
+  critChanceSource?: string;
+  critChance?: number;
+  critMultiplier?: number;
 };
 
 export type V2DpsPreparedInput = {
@@ -1016,12 +1020,17 @@ function resolveBasicAttackActions(
     if (!template || !actionTemplateHasBasicAttackClassifier(template)) {
       continue;
     }
+    const damageEffect = template.effects?.find((effect) => effect.type === 'deal_damage');
     basicAttackActions.push({
       actionId: skill.actionId,
       skillId: skill.skillId,
       sourceKind: 'mount',
       label: skill.label,
-      classifier: template.classifier
+      classifier: template.classifier,
+      critPolicy: damageEffect?.critPolicy,
+      critChanceSource: damageEffect?.critChanceSource,
+      critChance: damageEffect?.critChance,
+      critMultiplier: damageEffect?.critMultiplier
     });
   }
   return basicAttackActions;
