@@ -198,7 +198,6 @@ export type V2DpsPreparedInput = {
 };
 
 export type V2DpsRunInput = {
-  mode: 'single_attacker_dps';
   caseId: string;
   versionCode: string;
   wasmSha256: string;
@@ -810,7 +809,6 @@ export function prepareV2DpsInput(
     engineBundle: mergeDpsEngineBundles(curveBuilds.map((build) => build.compile), targetActorTemplate),
     preflightBlockedReasons,
     runInput: {
-      mode: 'single_attacker_dps',
       caseId: selection.caseId ?? V2_DPS_CASE_ID,
       versionCode,
       wasmSha256,
