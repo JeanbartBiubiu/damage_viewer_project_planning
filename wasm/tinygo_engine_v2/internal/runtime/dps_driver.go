@@ -14,9 +14,8 @@ import (
 )
 
 const (
-	singleAttackerDPSMode = "single_attacker_dps"
-	dpsStatusOK           = "ok"
-	dpsStatusBlocked      = "blocked"
+	dpsStatusOK      = "ok"
+	dpsStatusBlocked = "blocked"
 
 	dpsTriggerOnBasicAttackHit   = "on_basic_attack_hit"
 	dpsTriggerEveryNBasicAttack  = "every_n_basic_attack_hit"
@@ -76,11 +75,7 @@ type dpsCurveState struct {
 	dots                 []activeDPSDot
 }
 
-func RunSingleAttackerDPS(input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
-	return RunSingleAttackerDPSWithBundle(compilebundle.CompiledBundle{}, input)
-}
-
-func RunSingleAttackerDPSWithBundle(bundle compilebundle.CompiledBundle, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
+func runSingleAttackerDPS(bundle compilebundle.CompiledBundle, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
 	rules := normalizeDPSRules(input.SimulationRules)
 	output := model.SingleAttackerDPSOutputV2{
 		CaseID:          input.CaseID,
