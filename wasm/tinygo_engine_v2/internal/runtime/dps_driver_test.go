@@ -134,7 +134,7 @@ func compileDPSTestBundle(t *testing.T) compilebundle.CompiledBundle {
 
 func runSingleAttackerDPSForTest(t *testing.T, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
 	t.Helper()
-	return RunSingleAttackerDPSWithBundle(compileDPSTestBundle(t), input)
+	return runSingleAttackerDPS(compileDPSTestBundle(t), input)
 }
 
 func defaultDPSBasicAttackActionRef() model.DPSBasicAttackActionRefV2 {
@@ -1429,7 +1429,6 @@ func TestSingleAttackerDPSStackingStatModifierStackKeysArePassiveScoped(t *testi
 
 func baseSingleAttackerDPSInput() model.SingleAttackerDPSInputV2 {
 	return model.SingleAttackerDPSInputV2{
-		Mode:        "single_attacker_dps",
 		CaseID:      "V2-BatchA-basic-aa-001",
 		VersionCode: "test-version",
 		SimulationRules: model.DPSimulationRulesV2{
