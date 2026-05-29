@@ -8,9 +8,10 @@
 4. 不要把 API key、Bearer token、Cookie、Obsidian REST API 密钥或其他密钥写入仓库、Codex Memory 或 Obsidian。
 5. 优先做最小必要改动，避免跨模块顺手重构；发现无关脏改时不要回滚，除非用户明确要求。
 6. 只改文档时通常不需要运行构建；如果文档更新了命令、脚本、入口或路径，至少核对对应文件仍存在。改代码时按最近层 `AGENTS.md` / `README.md` 的完成定义验证。
-7. 当前 worktree 已初始化 `.codegraph/`。涉及源码符号搜索、调用链、引用解析、影响面分析或为 AI 组装实现上下文时，优先使用 `npx @colbymchenry/codegraph query|callers|callees|impact|context`，不要先在源码里用 `grep`/`rg` 盲扫符号名。
-8. `rg` / `rg --files` 仍用于精确文本匹配、文件名检索，以及 `Markdown/SQL/XML/YAML/JSON/日志/生成物/配置` 等 CodeGraph 不能可靠建图的内容；当需要核对字面量、报错文本、注释或文档原文时，同样优先用 `rg`。
-9. CodeGraph 结果可能因未同步而过期；大改后或结果可疑时，先运行 `npx @colbymchenry/codegraph status` 或 `npx @colbymchenry/codegraph sync`，不要把 `.codegraph/*.db*` 之类本地索引产物提交入库。
+7. 当前 worktree 已初始化 `.codegraph/`。涉及源码符号搜索、调用链、引用解析、影响面分析、跨层入口定位或先建立代码地图时，优先使用 `npx @colbymchenry/codegraph query|callers|callees|impact`；`context` 只在问题范围已经收敛、需要为 AI 组装小段实现上下文时使用，不要一上来生成大段无边界 `context`，也不要先在源码里用 `grep`/`rg` 盲扫符号名。
+8. `rg` / `rg --files` 仍用于精确文本匹配、文件名检索，以及 `Markdown/SQL/XML/YAML/JSON/日志/生成物/配置` 等 CodeGraph 不能可靠建图的内容；当需要核对字面量、报错文本、HTTP 路径、注释、文档原文，或最终确认具体 callsite / state 写入点时，同样优先用 `rg`、`Select-String` 或定点读文件。
+9. 用 CodeGraph 得到候选链路后，最终结论仍要回到源码做定点核对；大改后、跨 worktree 切换后或结果可疑时，先运行 `npx @colbymchenry/codegraph status` 或 `npx @colbymchenry/codegraph sync`，不要把 `.codegraph/*.db*` 之类本地索引产物提交入库。
+10. 如果 CodeGraph 或 sub-agent 查询在当前问题粒度下长时间无返回、输出明显过量，主动缩小问题、减少命令数，并切回 `rg` / 定点读文件继续推进；不要为了“全程只用 CodeGraph”无限等待。
 
 ## 2. 渐进式披露与 worktree 路由
 
