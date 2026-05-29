@@ -8,6 +8,8 @@ import { webcrypto } from "node:crypto";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const moduleRoot = resolve(scriptDir, "..");
+const workspaceRoot = resolve(moduleRoot, "..", "..");
+const projectRoot = resolve(workspaceRoot, "..");
 
 function parseArgs(argv) {
   const args = {
@@ -61,6 +63,11 @@ function findWasmExec() {
     candidates.push(process.env.TINYGO_WASM_EXEC);
   }
 
+  candidates.push(
+    resolve(workspaceRoot, ".tools", "tinygo0.40.1", "tinygo", "targets", "wasm_exec.js"),
+    resolve(projectRoot, "tinygo0.40.1", "tinygo", "targets", "wasm_exec.js")
+  );
+
   try {
     const tinygoRoot = execFileSync("tinygo", ["env", "TINYGOROOT"], {
       encoding: "utf8",
@@ -80,7 +87,9 @@ function findWasmExec() {
     }
   }
 
-  throw new Error("Could not find TinyGo wasm_exec.js. Set TINYGO_WASM_EXEC or install tinygo on PATH.");
+  throw new Error(
+    "Could not find TinyGo wasm_exec.js. Set TINYGO_WASM_EXEC, keep the repo-local .tools TinyGo bundle, or install tinygo on PATH."
+  );
 }
 
 function loadGoRuntime() {

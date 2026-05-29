@@ -174,10 +174,7 @@ func (s *Session) BeginRunJSON(payload []byte) int32 {
 		s.writeError(model.ErrNotReady, "session is not ready", nil)
 		return -1
 	}
-	var header struct {
-		Mode string `json:"mode"`
-	}
-	if err := json.Unmarshal(payload, &header); err == nil && header.Mode == singleAttackerDPSMode {
+	if isSingleAttackerDPSPayload(payload) {
 		var input model.SingleAttackerDPSInputV2
 		if err := json.Unmarshal(payload, &input); err != nil {
 			s.writeError(model.ErrInvalidInput, err.Error(), nil)
@@ -185,7 +182,7 @@ func (s *Session) BeginRunJSON(payload []byte) int32 {
 		}
 		s.run = nil
 		s.phase = PhaseDone
-		s.outbox.WriteJSON(model.FrameKindDone, RunSingleAttackerDPSWithBundle(s.bundle, input))
+		s.outbox.WriteJSON(model.FrameKindDone, runSingleAttackerDPS(s.bundle, input))
 		return 0
 	}
 	var input model.EngineRunInput
@@ -202,6 +199,22 @@ func (s *Session) BeginRunJSON(payload []byte) int32 {
 	s.run = ctx
 	s.phase = PhaseRunning
 	return 0
+}
+
+func isSingleAttackerDPSPayload(payload []byte) bool {
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(payload, &raw); err != nil {
+		return false
+	}
+	if _, hasSelf := raw["self"]; hasSelf {
+		return false
+	}
+	if _, hasEnemy := raw["enemy"]; hasEnemy {
+		return false
+	}
+	_, hasCurves := raw["curves"]
+	_, hasSimulationRules := raw["simulationRules"]
+	return hasCurves || hasSimulationRules
 }
 
 func (s *Session) Step(maxEvents uint32) int32 {
