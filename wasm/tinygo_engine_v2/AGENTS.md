@@ -83,6 +83,14 @@ node .\scripts\bench-node.mjs --iterations 10 --warmup 2
 powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\path\to\tinygo.exe"
 ```
 
+当前仓库默认优先使用 repo-local 工具路径；`build-wasm.ps1`、`smoke-node.mjs` 和 `bench-node.mjs` 会先尝试发现：
+
+1. `C:\project\damage_wasm_dev\.tools\tinygo0.40.1\tinygo\bin\tinygo.exe`
+2. `C:\project\damage_wasm_dev\.tools\tinygo0.40.1\tinygo\targets\wasm_exec.js`
+3. `C:\project\damage_wasm_dev\.tools\binaryen-version_129\bin\wasm-opt.exe`
+
+只有 repo-local 工具缺失时，才回退到 `PATH`、`TINYGO_WASM_EXEC` 或手工 `-TinyGo` 参数。
+
 `wasm_exec.js` 必须来自同一 TinyGo 版本的 `TINYGOROOT`。
 
 ## 7. 运行时与 ABI 约定
@@ -120,3 +128,4 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\pa
 4. 不要在编译期校验里遇到第一个错误就提前返回；需要尽量 collect-all，便于前后端一次修完输入。
 5. 不要从输出日志倒推机制状态；历史窗口、counter、pair state、mark 都应有独立 runtime 状态。
 6. 不要把临时 fixture 或 benchmark 结果写成正式契约；正式契约以 `internal/model` 和 Wasm 主文档为准。
+7. 本机验证优先复用仓内 `.tools/**` 提供的 TinyGo / Binaryen；只有这些路径不存在时，才把问题归因到“本机缺工具”。
