@@ -350,7 +350,6 @@ type TraceOptionsV2 struct {
 }
 
 type SingleAttackerDPSInputV2 struct {
-	Mode            string              `json:"mode"`
 	CaseID          string              `json:"caseId,omitempty"`
 	VersionCode     string              `json:"versionCode,omitempty"`
 	WasmSha256      string              `json:"wasmSha256,omitempty"`
