@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Form, Grid, Input, Space, Typography } from '@arco-design/web-react';
-import { JsonBlock } from '../components/JsonBlock';
+import { DetailGrid, type DetailGridItem } from '../components/DataTable';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import { getErrorMessage } from '../services/apiClient';
@@ -113,6 +113,37 @@ export function VersionPublishPage({
 
   const displayedCurrentVersion = publishedCurrentVersion ?? currentVersion;
   const displayedBundleMeta = publishedBundleMeta ?? bundleMeta;
+  const publishSummaryItems: DetailGridItem[] = [
+    {
+      label: 'current version',
+      value: displayedCurrentVersion?.versionCode ? <Typography.Text code>{displayedCurrentVersion.versionCode}</Typography.Text> : '--',
+      hint: displayedCurrentVersion?.publishedAt ?? displayedCurrentVersion?.releaseDate ?? '尚未读取到 current version'
+    },
+    {
+      label: 'bundle version',
+      value: displayedBundleMeta?.versionCode ? <Typography.Text code>{displayedBundleMeta.versionCode}</Typography.Text> : '--',
+      hint: displayedBundleMeta
+        ? displayedBundleMeta.versionId
+          ? `versionId=${displayedBundleMeta.versionId}`
+          : `generatedAt ${formatDate(displayedBundleMeta.generatedAt)}`
+        : '尚未读取到 bundle meta'
+    },
+    {
+      label: 'dataHash',
+      value: displayedBundleMeta?.dataHash ? <Typography.Text code>{displayedBundleMeta.dataHash.slice(0, 16)}</Typography.Text> : '--',
+      hint: displayedBundleMeta?.dataHash ? '已截断显示前 16 位' : '等待 bundle meta'
+    },
+    {
+      label: 'bundle 生成时间',
+      value: formatDate(displayedBundleMeta?.generatedAt),
+      hint: '发布成功后应与线上 bundle 快照一致'
+    },
+    {
+      label: '最近发布结果',
+      value: publishedVersion?.versionCode ? <Typography.Text code>{publishedVersion.versionCode}</Typography.Text> : '本次未发布',
+      hint: publishedVersion?.publishedAt ?? publishedVersion?.releaseDate ?? '还没有新的发布回执'
+    }
+  ];
 
   return (
     <div className="page-workspace page-stack version-publish-page">
@@ -219,16 +250,12 @@ export function VersionPublishPage({
               </Card>
 
               <Card size="small">
-                <Typography.Title heading={5} style={{ marginTop: 0 }}>
-                  发布摘要
-                </Typography.Title>
-                <JsonBlock
-                  value={{
-                    currentVersion: displayedCurrentVersion,
-                    bundleMeta: displayedBundleMeta,
-                    publishedVersion
-                  }}
-                />
+                <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    发布摘要
+                  </Typography.Title>
+                  <DetailGrid items={publishSummaryItems} />
+                </Space>
               </Card>
             </Space>
           </Col>

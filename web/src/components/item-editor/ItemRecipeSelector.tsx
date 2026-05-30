@@ -1,6 +1,9 @@
 import { Alert, Select, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
+import { createEntitySelectOption, filterEntitySelectOption } from '../EntitySelectOption';
 import { getErrorMessage, getItems } from '../../services/apiClient';
+import { useResourceImageCache } from '../../pages/admin/resources/shared/useResourceImageCache';
+import { buildItemImageUri } from '../../services/resourceImage';
 import type { Item } from '../../types/api';
 
 type ItemRecipeSelectorProps = {
@@ -26,6 +29,7 @@ export function ItemRecipeSelector({
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   useEffect(() => {
     if (!selectedGameId || !token) {
@@ -65,11 +69,18 @@ export function ItemRecipeSelector({
     () =>
       items
         .filter((item) => item.itemId !== currentItemId)
-        .map((item) => ({
-          label: `${item.name ?? item.itemId} · ${item.itemId}`,
-          value: item.itemId
-        })),
-    [currentItemId, items]
+        .map((item) => {
+          const imageUri = buildItemImageUri(item.itemId);
+          return createEntitySelectOption({
+            value: item.itemId,
+            primary: item.name ?? item.itemId,
+            secondary: item.name ? item.itemId : undefined,
+            imageSrc: (imageUri ? imageSrcByUri[imageUri] ?? null : null) ?? item.iconUrl ?? null,
+            showImage: true,
+            imageAlt: item.name ?? item.itemId
+          });
+        }),
+    [currentItemId, imageSrcByUri, items]
   );
 
   return (
@@ -79,23 +90,19 @@ export function ItemRecipeSelector({
         showSearch
         allowClear
         maxTagCount={3}
-        placeholder="选择合成配方子件"
+        placeholder="閫夋嫨鍚堟垚閰嶆柟瀛愪欢"
         value={value}
         disabled={disabled || !selectedGameId || !token}
         loading={loading}
         options={options}
         onChange={(nextValue) => onChange(Array.isArray(nextValue) ? nextValue.map(String) : [])}
-        filterOption={(inputValue, option) => {
-          const optionData = option as { value?: unknown; label?: unknown } | undefined;
-          const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
-          return searchText.includes(inputValue.trim().toLowerCase());
-        }}
+        filterOption={filterEntitySelectOption}
       />
 
-      {error ? <Alert type="error" content={`装备列表加载失败：${error}`} style={{ marginTop: 8 }} /> : null}
+      {error ? <Alert type="error" content={`瑁呭鍒楄〃鍔犺浇澶辫触锛?{error}`} style={{ marginTop: 8 }} /> : null}
       {!error ? (
         <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
-          可多选多个子件，保存时回写 `recipeIds` 数组。
+          鍙閫夊涓瓙浠讹紝淇濆瓨鏃跺洖鍐?`recipeIds` 鏁扮粍銆?
         </Typography.Text>
       ) : null}
     </div>

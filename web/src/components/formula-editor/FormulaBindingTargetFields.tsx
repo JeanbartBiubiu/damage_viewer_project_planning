@@ -1,6 +1,9 @@
 import { Alert, Input, Select, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
+import { createEntitySelectOption, buildSelectSearchText, filterEntitySelectOption } from '../EntitySelectOption';
 import { getErrorMessage, getHeroes, getItems, getSkills } from '../../services/apiClient';
+import { useResourceImageCache } from '../../pages/admin/resources/shared/useResourceImageCache';
+import { buildHeroImageUri, buildItemImageUri } from '../../services/resourceImage';
 import type { Hero, Item, Skill } from '../../types/api';
 
 type FormulaBindingTargetFieldsProps = {
@@ -39,6 +42,7 @@ export function FormulaBindingTargetFields({
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loadingTargets, setLoadingTargets] = useState(false);
   const [targetError, setTargetError] = useState<string | null>(null);
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   useEffect(() => {
     if (targetCategory !== 'global' || !selectedGameId || targetId.trim()) {
@@ -132,25 +136,40 @@ export function FormulaBindingTargetFields({
 
   const targetOptions = useMemo(() => {
     if (targetCategory === 'hero') {
-      return heroes.map((hero) => ({
-        label: `${hero.name ?? hero.heroId} / ${hero.heroId}`,
-        value: hero.heroId
-      }));
+      return heroes.map((hero) => {
+        const imageUri = buildHeroImageUri(hero.heroId);
+        return createEntitySelectOption({
+          value: hero.heroId,
+          primary: hero.name ?? hero.heroId,
+          secondary: hero.name ? hero.heroId : undefined,
+          imageSrc: (imageUri ? imageSrcByUri[imageUri] ?? null : null) ?? hero.avatarUrl ?? null,
+          showImage: true,
+          imageAlt: hero.name ?? hero.heroId
+        });
+      });
     }
     if (targetCategory === 'item') {
-      return items.map((item) => ({
-        label: `${item.name ?? item.itemId} / ${item.itemId}`,
-        value: item.itemId
-      }));
+      return items.map((item) => {
+        const imageUri = buildItemImageUri(item.itemId);
+        return createEntitySelectOption({
+          value: item.itemId,
+          primary: item.name ?? item.itemId,
+          secondary: item.name ? item.itemId : undefined,
+          imageSrc: (imageUri ? imageSrcByUri[imageUri] ?? null : null) ?? item.iconUrl ?? null,
+          showImage: true,
+          imageAlt: item.name ?? item.itemId
+        });
+      });
     }
     if (targetCategory === 'skill') {
       return skills.map((skill) => ({
         label: `${skill.name ?? skill.skillId} / ${skill.skillId}`,
-        value: skill.skillId
+        value: skill.skillId,
+        searchText: buildSelectSearchText(skill.skillId, skill.name, skill.skillKey)
       }));
     }
     return [];
-  }, [heroes, items, skills, targetCategory]);
+  }, [heroes, imageSrcByUri, items, skills, targetCategory]);
 
   const targetCategoryLabel = targetCategory === 'hero' ? '英雄' : targetCategory === 'item' ? '装备' : '技能';
 
@@ -165,11 +184,7 @@ export function FormulaBindingTargetFields({
         loading={loadingTargets}
         options={targetOptions}
         onChange={(value) => onTargetIdChange(String(value ?? ''))}
-        filterOption={(inputValue, option) => {
-          const optionData = option as { value?: unknown; label?: unknown } | undefined;
-          const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
-          return searchText.includes(inputValue.trim().toLowerCase());
-        }}
+        filterOption={filterEntitySelectOption}
       />
     ) : (
       <Input

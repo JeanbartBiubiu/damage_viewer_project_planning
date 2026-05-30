@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Button, Card, Grid, Space, Typography } from '@arco-design/web-react';
-import { DataTable } from '../components/DataTable';
+import { DataTable, DetailGrid, type DetailGridItem } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
-import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import { getErrorMessage, getImages } from '../services/apiClient';
@@ -167,13 +166,38 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
 
   const previewRows = cacheRows.slice(0, 12);
   const previewSample = previewRows[0]
-    ? {
-        localUri: previewRows[0].uri,
-        serverUri: selectedGameId ? toRemoteUri(selectedGameId, previewRows[0].uri) : previewRows[0].uri,
-        create_time: previewRows[0].create_time,
-        update_time: previewRows[0].update_time
-      }
-    : { message: '当前还没有本地图片记录。' };
+    ? previewRows[0]
+    : null;
+  const previewSampleDetails: DetailGridItem[] = previewSample
+    ? [
+        {
+          label: 'serverUri',
+          value: <Typography.Text code>{selectedGameId ? toRemoteUri(selectedGameId, previewSample.uri) : previewSample.uri}</Typography.Text>,
+          hint: '远端接口返回的资源路径'
+        },
+        {
+          label: 'localUri',
+          value: <Typography.Text code>{previewSample.uri}</Typography.Text>,
+          hint: 'IndexedDB 里的主键片段'
+        },
+        {
+          label: '创建时间',
+          value: formatDate(previewSample.create_time),
+          hint: '首次写入本地缓存的时间'
+        },
+        {
+          label: '最近更新时间',
+          value: formatDate(previewSample.update_time),
+          hint: '增量同步会基于这个时间继续追数据'
+        }
+      ]
+    : [
+        {
+          label: '示例记录',
+          value: '暂无',
+          hint: '同步完成后这里会展示首条缓存记录。'
+        }
+      ];
 
   return (
     <div className="page-images page-stack">
@@ -265,7 +289,12 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
 
             <Col xs={24} lg={10}>
               <Card size="small">
-                <JsonBlock value={previewSample} />
+                <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                  <Typography.Title heading={5} style={{ margin: 0 }}>
+                    示例记录
+                  </Typography.Title>
+                  <DetailGrid items={previewSampleDetails} />
+                </Space>
               </Card>
             </Col>
           </Row>

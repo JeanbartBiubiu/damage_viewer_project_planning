@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Grid, Space, Tag, Typography } from '@arco-design/web-react';
-import { DataTable } from '../components/DataTable';
+import { DataTable, DetailGrid, type DetailGridItem } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
-import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import { publicSurfaceEndpoints } from '../config/navigation';
@@ -106,6 +105,37 @@ export function OverviewPage({
       cancelled = true;
     };
   }, [apiBaseUrl, refreshSeed, selectedGameId]);
+
+  const currentVersionDetails: DetailGridItem[] = currentVersion
+    ? [
+        {
+          label: 'versionCode',
+          value: <Typography.Text code>{currentVersion.versionCode}</Typography.Text>,
+          hint: '当前线上版本标识'
+        },
+        {
+          label: 'versionId',
+          value: <Typography.Text code>{String(currentVersion.versionId)}</Typography.Text>,
+          hint: '后端 current version 主键'
+        },
+        {
+          label: '发布时间',
+          value: currentVersion.publishedAt ?? currentVersion.releaseDate ?? '未记录',
+          hint: 'publishedAt 优先，其次 releaseDate'
+        },
+        {
+          label: '最近更新',
+          value: formatDate(currentVersion.updatedAt),
+          hint: ownerCategoriesEtag ? `Owner Categories ETag: ${ownerCategoriesEtag}` : 'owner categories 尚未返回 ETag'
+        }
+      ]
+    : [
+        {
+          label: '当前版本',
+          value: '未发布',
+          hint: '当前 gameId 还没有 current version。'
+        }
+      ];
 
   return (
     <div className="page-overview page-stack">
@@ -218,7 +248,23 @@ export function OverviewPage({
               </Col>
               <Col xs={24} lg={10}>
                 <Card size="small">
-                  <JsonBlock value={currentVersion ?? { message: '当前 gameId 还没有已发布版本。' }} />
+                  <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                    <Typography.Title heading={5} style={{ margin: 0 }}>
+                      当前版本详情
+                    </Typography.Title>
+                    <DetailGrid items={currentVersionDetails} />
+                    {ownerCategories.length > 0 ? (
+                      <Space direction="vertical" size={8} style={{ width: '100%' }}>
+                        <Typography.Text type="secondary">ownerType 预览</Typography.Text>
+                        <Space wrap>
+                          {ownerCategories.slice(0, 8).map((category) => (
+                            <Tag key={category.ownerType}>{category.ownerType}</Tag>
+                          ))}
+                          {ownerCategories.length > 8 ? <Tag>+{ownerCategories.length - 8}</Tag> : null}
+                        </Space>
+                      </Space>
+                    ) : null}
+                  </Space>
                 </Card>
               </Col>
             </Row>

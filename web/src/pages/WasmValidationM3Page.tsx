@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, Button, Grid, Input, InputNumber, Select, Space, Table, Tag, Typography } from '@arco-design/web-react';
 import { IconCopy, IconRefresh } from '@arco-design/web-react/icon';
+import {
+  buildSelectSearchText,
+  createEntitySelectOption,
+  filterEntitySelectOption
+} from '../components/EntitySelectOption';
 import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
@@ -18,6 +23,8 @@ import {
 import { TinyGoV2Bridge, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
 import { getErrorMessage } from '../services/apiClient';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
+import { buildHeroImageUri, buildItemImageUri } from '../services/resourceImage';
+import { useResourceImageCache } from './admin/resources/shared/useResourceImageCache';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
 
 type WasmValidationM3PageProps = {
@@ -731,27 +738,6 @@ function buildActionRows(options: WasmValidationSkillOption[]): ActionOptionRow[
   }));
 }
 
-function filterSelectOption(inputValue: string, option: unknown): boolean {
-  const optionData = option as
-    | {
-        value?: unknown;
-        label?: unknown;
-        props?: { value?: unknown; label?: unknown; children?: unknown };
-      }
-    | undefined;
-  const searchText = [
-    optionData?.value,
-    optionData?.label,
-    optionData?.props?.value,
-    optionData?.props?.label,
-    optionData?.props?.children,
-  ]
-    .map((value) => String(value ?? ''))
-    .join(' ')
-    .toLowerCase();
-  return searchText.includes(inputValue.trim().toLowerCase());
-}
-
 function findCasePreset(id: ValidationCasePresetId): ValidationCasePreset {
   return CASE_PRESETS.find((preset) => preset.id === id) ?? CASE_PRESETS[0];
 }
@@ -868,6 +854,7 @@ export function WasmValidationM3Page({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [durationMs, setDurationMs] = useState<number | null>(null);
   const runIdRef = useRef(0);
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   useEffect(() => {
     let cancelled = false;
@@ -1051,9 +1038,57 @@ export function WasmValidationM3Page({
     await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
   }, [compiledStatusEvidence, currentVersion, donePayload, evidenceRows, inputPreview.value, selectedAction, selectedActionId, selectedCasePreset, selectedGameId]);
 
-  const heroOptions = (bundle?.heroes ?? []).map((hero) => ({ label: `${hero.heroId} / ${hero.name ?? hero.heroId}`, value: hero.heroId }));
-  const itemOptions = (bundle?.items ?? []).map((item) => ({ label: `${item.itemId} / ${item.name ?? item.itemId}`, value: item.itemId }));
-  const actionOptions = selfActionOptions.map((option) => ({ label: option.displayLabel, value: option.actionId }));
+  const resolveHeroImageSrc = useCallback(
+    (heroId: string) => {
+      const imageUri = buildHeroImageUri(heroId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
+  const resolveItemImageSrc = useCallback(
+    (itemId: string) => {
+      const imageUri = buildItemImageUri(itemId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
+  const heroOptions = useMemo(
+    () =>
+      (bundle?.heroes ?? []).map((hero) =>
+        createEntitySelectOption({
+          value: hero.heroId,
+          primary: hero.name ?? hero.heroId,
+          secondary: hero.name ? hero.heroId : undefined,
+          imageSrc: resolveHeroImageSrc(hero.heroId),
+          showImage: true,
+          imageAlt: hero.name ?? hero.heroId
+        })
+      ),
+    [bundle, resolveHeroImageSrc]
+  );
+  const itemOptions = useMemo(
+    () =>
+      (bundle?.items ?? []).map((item) =>
+        createEntitySelectOption({
+          value: item.itemId,
+          primary: item.name ?? item.itemId,
+          secondary: item.name ? item.itemId : undefined,
+          imageSrc: resolveItemImageSrc(item.itemId),
+          showImage: true,
+          imageAlt: item.name ?? item.itemId
+        })
+      ),
+    [bundle, resolveItemImageSrc]
+  );
+  const actionOptions = useMemo(
+    () =>
+      selfActionOptions.map((option) => ({
+        label: option.displayLabel,
+        value: option.actionId,
+        searchText: buildSelectSearchText(option.displayLabel, option.actionId, option.skillId)
+      })),
+    [selfActionOptions]
+  );
   const selectedSkillLevel = selectedAction ? selection?.selfSkillLevels[selectedAction.skillId] ?? selectedAction.level : 1;
 
   const evidenceColumns = [
@@ -1118,7 +1153,7 @@ export function WasmValidationM3Page({
                 value={selectedCasePresetId}
                 options={CASE_PRESETS.map((preset) => ({ label: preset.label, value: preset.id }))}
                 showSearch
-                filterOption={filterSelectOption}
+                filterOption={filterEntitySelectOption}
                 onChange={(value) => setSelectedCasePresetId(String(value) as ValidationCasePresetId)}
               />
             </Col>
@@ -1127,7 +1162,7 @@ export function WasmValidationM3Page({
                 value={selection.selfHeroId}
                 options={heroOptions}
                 showSearch
-                filterOption={filterSelectOption}
+                filterOption={filterEntitySelectOption}
                 onChange={(value) => updateSelection({ selfHeroId: String(value) })}
               />
             </Col>
@@ -1139,7 +1174,7 @@ export function WasmValidationM3Page({
                 value={selection.enemyHeroId}
                 options={heroOptions}
                 showSearch
-                filterOption={filterSelectOption}
+                filterOption={filterEntitySelectOption}
                 onChange={(value) => updateSelection({ enemyHeroId: String(value) })}
               />
             </Col>
@@ -1152,7 +1187,7 @@ export function WasmValidationM3Page({
                 value={selection.selfItemIds}
                 options={itemOptions}
                 showSearch
-                filterOption={filterSelectOption}
+                filterOption={filterEntitySelectOption}
                 placeholder="攻击方装备"
                 onChange={(value) => updateSelection({ selfItemIds: Array.isArray(value) ? value.map(String) : [] })}
               />
@@ -1162,7 +1197,7 @@ export function WasmValidationM3Page({
                 value={selectedActionId}
                 options={actionOptions}
                 showSearch
-                filterOption={filterSelectOption}
+                filterOption={filterEntitySelectOption}
                 onChange={(value) => setSelectedActionId(String(value))}
               />
             </Col>
