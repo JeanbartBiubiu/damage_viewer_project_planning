@@ -38,15 +38,17 @@ class DefaultBasicAttackProvisionerTest {
     private SkillMountsMapper skillMountsMapper;
 
     private DefaultBasicAttackProvisioner provisioner;
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
+        objectMapper = new ObjectMapper();
         provisioner = new DefaultBasicAttackProvisioner(
             writeStore,
             readStore,
             heroesMapper,
             skillMountsMapper,
-            new ObjectMapper()
+            objectMapper
         );
     }
 
@@ -105,17 +107,96 @@ class DefaultBasicAttackProvisionerTest {
         );
     }
 
+    @Test
+    void ensureForGameRepairsLegacySharedBasicAttackSkill() {
+        stubSharedDefaultsExceptSkill(buildLegacySharedBasicAttackSkill());
+
+        provisioner.ensureForGame(GAME_ID);
+
+        ArgumentCaptor<ObjectNode> skillCaptor = ArgumentCaptor.forClass(ObjectNode.class);
+        verify(writeStore).upsertSkill(
+            eq(GAME_ID),
+            eq(DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID),
+            skillCaptor.capture()
+        );
+        ObjectNode dealDamage = findDealDamageAction(skillCaptor.getValue());
+        org.junit.jupiter.api.Assertions.assertEquals(
+            DefaultBasicAttackProvisioner.DAMAGE_BINDING_KEY,
+            dealDamage.path("amount").path("bindingKey").asText()
+        );
+        org.junit.jupiter.api.Assertions.assertEquals(
+            "expected",
+            dealDamage.path("crit").path("policy").asText()
+        );
+        org.junit.jupiter.api.Assertions.assertEquals(
+            "attacker_crit_chance",
+            dealDamage.path("crit").path("chanceSource").asText()
+        );
+        org.junit.jupiter.api.Assertions.assertEquals(
+            "attacker_crit_damage",
+            dealDamage.path("crit").path("multiplierSource").asText()
+        );
+    }
+
+    @Test
+    void ensureForGameUpsertsBaseDamageFormulaBindingWhenLegacyExpectedBindingExists() {
+        stubSharedDefaultsAlreadyPresent();
+        when(readStore.loadFormulaBinding(
+            GAME_ID,
+            "skill",
+            DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID,
+            "damage.basic_attack.expected"
+        )).thenReturn(objectMapper.createObjectNode().put("formulaId", "formula_lol_basic_attack_damage_expected"));
+        when(readStore.loadFormulaBinding(
+            GAME_ID,
+            "skill",
+            DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID,
+            DefaultBasicAttackProvisioner.DAMAGE_BINDING_KEY
+        )).thenReturn(null);
+
+        provisioner.ensureForGame(GAME_ID);
+
+        verify(writeStore).upsertFormulaBinding(
+            eq(GAME_ID),
+            eq("skill"),
+            eq(DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID),
+            eq(DefaultBasicAttackProvisioner.DAMAGE_BINDING_KEY),
+            any(ObjectNode.class)
+        );
+    }
+
+    @Test
+    void ensureForGameUpsertsBaseDamageFormulaProfileWhenLegacyFormulaTextPresent() {
+        stubSharedDefaultsAlreadyPresent();
+        when(readStore.loadFormulaProfile(GAME_ID, DefaultBasicAttackProvisioner.FORMULA_DAMAGE_ID))
+            .thenReturn(buildFormulaProfile(
+                "self.attack_damage * (1 + self.crit_chance * (self.crit_damage - 1))"
+            ));
+
+        provisioner.ensureForGame(GAME_ID);
+
+        verify(writeStore).upsertFormulaProfile(
+            eq(GAME_ID),
+            eq(DefaultBasicAttackProvisioner.FORMULA_DAMAGE_ID),
+            any(ObjectNode.class)
+        );
+    }
+
     private void stubSharedDefaultsAlreadyPresent() {
+        stubSharedDefaultsExceptSkill(buildCurrentSharedBasicAttackSkill());
+    }
+
+    private void stubSharedDefaultsExceptSkill(ObjectNode skill) {
         when(readStore.loadSkill(GAME_ID, DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID))
-            .thenReturn(new ObjectMapper().createObjectNode());
+            .thenReturn(skill);
         when(readStore.loadType(GAME_ID, DefaultBasicAttackProvisioner.BASIC_ATTACK_TYPE_ID))
-            .thenReturn(new ObjectMapper().createObjectNode());
+            .thenReturn(objectMapper.createObjectNode());
         when(readStore.loadTypeRelation(
             GAME_ID,
             DefaultBasicAttackProvisioner.BASIC_ATTACK_TYPE_ID,
             "skill",
             DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID
-        )).thenReturn(new ObjectMapper().createObjectNode());
+        )).thenReturn(objectMapper.createObjectNode());
         when(readStore.loadFormulaProfile(GAME_ID, DefaultBasicAttackProvisioner.FORMULA_COOLDOWN_ID))
             .thenReturn(buildFormulaProfile(DefaultBasicAttackProvisioner.COOLDOWN_FORMULA_TEXT));
         when(readStore.loadFormulaProfile(GAME_ID, DefaultBasicAttackProvisioner.FORMULA_DAMAGE_ID))
@@ -125,17 +206,62 @@ class DefaultBasicAttackProvisionerTest {
             "skill",
             DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID,
             "cooldown.basic_attack"
-        )).thenReturn(new ObjectMapper().createObjectNode());
+        )).thenReturn(objectMapper.createObjectNode());
+        when(readStore.loadFormulaBinding(
+            GAME_ID,
+            "skill",
+            DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID,
+            DefaultBasicAttackProvisioner.DAMAGE_BINDING_KEY
+        )).thenReturn(objectMapper.createObjectNode().put(
+            "formulaId",
+            DefaultBasicAttackProvisioner.FORMULA_DAMAGE_ID
+        ));
         when(readStore.loadFormulaBinding(
             GAME_ID,
             "skill",
             DefaultBasicAttackProvisioner.DEFAULT_BASIC_ATTACK_SKILL_ID,
             "damage.basic_attack.expected"
-        )).thenReturn(new ObjectMapper().createObjectNode());
+        )).thenReturn(null);
+    }
+
+    private ObjectNode buildCurrentSharedBasicAttackSkill() {
+        ObjectNode skill = objectMapper.createObjectNode();
+        ObjectNode mechanicsConfig = skill.putObject("mechanicsConfig");
+        ObjectNode trigger = mechanicsConfig.putArray("triggers").addObject();
+        ObjectNode dealDamage = trigger.putArray("actions").addObject();
+        dealDamage.put("type", "deal_damage");
+        dealDamage.putObject("amount")
+            .put("kind", "formula")
+            .put("bindingKey", DefaultBasicAttackProvisioner.DAMAGE_BINDING_KEY);
+        ObjectNode crit = dealDamage.putObject("crit");
+        crit.put("policy", "expected");
+        crit.put("chanceSource", "attacker_crit_chance");
+        crit.put("multiplierSource", "attacker_crit_damage");
+        skill.putObject("params").putArray("vars");
+        return skill;
+    }
+
+    private ObjectNode buildLegacySharedBasicAttackSkill() {
+        ObjectNode skill = objectMapper.createObjectNode();
+        ObjectNode mechanicsConfig = skill.putObject("mechanicsConfig");
+        ObjectNode trigger = mechanicsConfig.putArray("triggers").addObject();
+        ObjectNode dealDamage = trigger.putArray("actions").addObject();
+        dealDamage.put("type", "deal_damage");
+        dealDamage.putObject("amount")
+            .put("kind", "formula")
+            .put("bindingKey", "damage.basic_attack.expected");
+        ObjectNode params = skill.putObject("params");
+        ObjectNode damageVar = params.putArray("vars").addObject();
+        damageVar.put("key", "expected_basic_attack_damage");
+        return skill;
+    }
+
+    private ObjectNode findDealDamageAction(ObjectNode skill) {
+        return (ObjectNode) skill.path("mechanicsConfig").path("triggers").get(0).path("actions").get(0);
     }
 
     private ObjectNode buildFormulaProfile(String formulaText) {
-        ObjectNode profile = new ObjectMapper().createObjectNode();
+        ObjectNode profile = objectMapper.createObjectNode();
         profile.putObject("params").put("formulaText", formulaText);
         return profile;
     }
