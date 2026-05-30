@@ -139,6 +139,7 @@ export type TinyGoV2EffectDefinition = {
   critPolicy?: string;
   critChanceSource?: TinyGoV2CritChanceSource;
   critChance?: number;
+  critMultiplierSource?: string;
   critMultiplier?: number;
   modeAugmentId?: string;
   modeMultiplier?: number;
@@ -1462,7 +1463,7 @@ function readActionChannelDurationMs(root: JsonObject): number | undefined {
   return toFiniteOptional(execution.channelDurationMs) ?? toFiniteOptional(execution.castTimeMs) ?? undefined;
 }
 
-function resolveCritOptions(...rawCandidates: Array<JsonObject | undefined>): Pick<TinyGoV2EffectDefinition, 'critPolicy' | 'critChanceSource' | 'critChance' | 'critMultiplier'> {
+function resolveCritOptions(...rawCandidates: Array<JsonObject | undefined>): Pick<TinyGoV2EffectDefinition, 'critPolicy' | 'critChanceSource' | 'critChance' | 'critMultiplierSource' | 'critMultiplier'> {
   for (const raw of rawCandidates) {
     if (!raw) {
       continue;
@@ -1470,8 +1471,17 @@ function resolveCritOptions(...rawCandidates: Array<JsonObject | undefined>): Pi
     const crit = isPlainObject(raw.crit) ? raw.crit : raw;
     const chanceSource = normalizeCritChanceSource(readString(crit.critChanceSource) || readString(crit.chanceSource));
     const critChance = toFiniteOptional(crit.critChance) ?? toFiniteOptional(crit.chance) ?? undefined;
+    const critMultiplierSource =
+      readString(crit.multiplierSource) ||
+      readString(crit.critMultiplierSource) ||
+      (crit !== raw ? readString(raw.critMultiplierSource) : '');
     const critMultiplier = toFiniteOptional(crit.critMultiplier) ?? toFiniteOptional(crit.multiplier) ?? undefined;
-    const policy = readString(crit.critPolicy) || readString(crit.policy) || (chanceSource !== 'none' || critChance !== undefined || critMultiplier !== undefined ? 'expected' : '');
+    const policy =
+      readString(crit.critPolicy) ||
+      readString(crit.policy) ||
+      (chanceSource !== 'none' || critChance !== undefined || critMultiplier !== undefined || critMultiplierSource
+        ? 'expected'
+        : '');
     if (!policy) {
       continue;
     }
@@ -1479,6 +1489,7 @@ function resolveCritOptions(...rawCandidates: Array<JsonObject | undefined>): Pi
       critPolicy: policy,
       critChanceSource: chanceSource !== 'none' ? chanceSource : undefined,
       critChance,
+      critMultiplierSource: critMultiplierSource || undefined,
       critMultiplier
     };
   }
