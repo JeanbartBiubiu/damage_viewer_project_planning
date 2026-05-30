@@ -1,7 +1,11 @@
 import { Alert, Button, Form, Input, Modal, Select, Space, Switch } from '@arco-design/web-react';
+import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
+import { createEntitySelectOption, buildSelectSearchText, filterEntitySelectOption } from '../../../../components/EntitySelectOption';
 import { getErrorMessage, getHeroes, getSkills } from '../../../../services/apiClient';
+import { buildHeroImageUri } from '../../../../services/resourceImage';
 import type { Hero, Skill } from '../../../../types/api';
+import { useResourceImageCache } from '../shared/useResourceImageCache';
 import { SKILL_MOUNT_TARGET_CATEGORY_OPTIONS } from './constants';
 import type { SkillMountsFormData } from './types';
 
@@ -19,15 +23,10 @@ type SkillMountsModalProps = {
 };
 
 type SelectOption = {
-  label: string;
+  label: ReactNode;
   value: string;
+  searchText?: string;
 };
-
-function filterOption(inputValue: string, option?: unknown): boolean {
-  const optionData = option as { value?: unknown; label?: unknown } | undefined;
-  const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
-  return searchText.includes(inputValue.trim().toLowerCase());
-}
 
 function appendCurrentOption(options: SelectOption[], currentValue: string): SelectOption[] {
   if (!currentValue || options.some((option) => option.value === currentValue)) {
@@ -55,6 +54,7 @@ export function SkillMountsModal({
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loadingOptions, setLoadingOptions] = useState(false);
   const [optionsError, setOptionsError] = useState<string | null>(null);
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   useEffect(() => {
     if (!visible || !selectedGameId || !token) {
@@ -94,18 +94,26 @@ export function SkillMountsModal({
   }, [apiBaseUrl, selectedGameId, token, visible]);
 
   const heroOptions = useMemo(() => {
-    const options = heroes.map((hero) => ({
-      label: `${hero.name ?? hero.title ?? hero.heroId} / ${hero.heroId}`,
-      value: hero.heroId
-    }));
+    const options = heroes.map((hero) => {
+      const imageUri = buildHeroImageUri(hero.heroId);
+      return createEntitySelectOption({
+        value: hero.heroId,
+        primary: hero.name ?? hero.title ?? hero.heroId,
+        secondary: hero.heroId,
+        imageSrc: (imageUri ? imageSrcByUri[imageUri] ?? null : null) ?? hero.avatarUrl ?? null,
+        showImage: true,
+        imageAlt: hero.name ?? hero.title ?? hero.heroId
+      });
+    });
     const currentValue = formData.targetCategory === 'hero' ? formData.targetId.trim() : '';
     return appendCurrentOption(options, currentValue);
-  }, [formData.targetCategory, formData.targetId, heroes]);
+  }, [formData.targetCategory, formData.targetId, heroes, imageSrcByUri]);
 
   const skillOptions = useMemo(() => {
     const options = skills.map((skill) => ({
       label: `${skill.name ?? skill.skillId} / ${skill.skillKey ?? '-'} / ${skill.skillId}`,
-      value: skill.skillId
+      value: skill.skillId,
+      searchText: buildSelectSearchText(skill.skillId, skill.name, skill.skillKey)
     }));
     return appendCurrentOption(options, formData.skillId.trim());
   }, [formData.skillId, skills]);
@@ -161,7 +169,7 @@ export function SkillMountsModal({
                 options={heroOptions}
                 placeholder="搜索并选择英雄"
                 onChange={(value) => onFieldChange('targetId', String(value ?? ''))}
-                filterOption={filterOption}
+                filterOption={filterEntitySelectOption}
               />
             ) : (
               <Input
@@ -184,7 +192,7 @@ export function SkillMountsModal({
             options={skillOptions}
             placeholder="搜索并选择技能"
             onChange={(value) => onFieldChange('skillId', String(value ?? ''))}
-            filterOption={filterOption}
+            filterOption={filterEntitySelectOption}
           />
         </Form.Item>
 

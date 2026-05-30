@@ -15,6 +15,7 @@ import {
 } from '@arco-design/web-react';
 import { IconCopy, IconRefresh } from '@arco-design/web-react/icon';
 import { EmptyState } from '../components/EmptyState';
+import { EntitySelectOptionLabel, filterEntitySelectOption } from '../components/EntitySelectOption';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
@@ -31,7 +32,7 @@ import {
 } from '../engine/tinygoV2BundleAdapter';
 import { TinyGoV2Bridge, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
 import { getErrorMessage } from '../services/apiClient';
-import { buildAttributeImageUri } from '../services/resourceImage';
+import { buildAttributeImageUri, buildHeroImageUri, buildItemImageUri } from '../services/resourceImage';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
 import { useResourceImageCache } from './admin/resources/shared/useResourceImageCache';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
@@ -988,6 +989,20 @@ export function WasmValidationM2Page({
     },
     [imageSrcByUri]
   );
+  const resolveHeroImageSrc = useCallback(
+    (heroId: string) => {
+      const imageUri = buildHeroImageUri(heroId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
+  const resolveItemImageSrc = useCallback(
+    (itemId: string) => {
+      const imageUri = buildItemImageUri(itemId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
   const resolveAttributeDisplayName = useCallback(
     (attrId: string) => attributeNameById.get(attrId) ?? attrId,
     [attributeNameById]
@@ -1385,12 +1400,22 @@ export function WasmValidationM2Page({
                       <Select
                         value={selection.selfHeroId}
                         showSearch
+                        filterOption={filterEntitySelectOption}
                         disabled={heroOptions.length === 0}
                         onChange={(value) => updateSelection({ selfHeroId: String(value ?? '') })}
                       >
                         {heroOptions.map((hero) => (
-                          <Select.Option key={hero.heroId} value={hero.heroId}>
-                            {hero.heroId} / {hero.name ?? hero.heroId}
+                          <Select.Option
+                            key={hero.heroId}
+                            value={hero.heroId}
+                          >
+                            <EntitySelectOptionLabel
+                              primary={hero.name ?? hero.heroId}
+                              secondary={hero.name ? hero.heroId : undefined}
+                              imageSrc={resolveHeroImageSrc(hero.heroId)}
+                              showImage
+                              imageAlt={hero.name ?? hero.heroId}
+                            />
                           </Select.Option>
                         ))}
                       </Select>
@@ -1411,12 +1436,22 @@ export function WasmValidationM2Page({
                         showSearch
                         allowClear
                         maxTagCount={3}
+                        filterOption={filterEntitySelectOption}
                         disabled={itemOptions.length === 0}
                         onChange={(value) => updateSelection({ selfItemIds: toStringArray(value) })}
                       >
                         {itemOptions.map((item) => (
-                          <Select.Option key={item.itemId} value={item.itemId}>
-                            {item.itemId} / {item.name ?? item.itemId}
+                          <Select.Option
+                            key={item.itemId}
+                            value={item.itemId}
+                          >
+                            <EntitySelectOptionLabel
+                              primary={item.name ?? item.itemId}
+                              secondary={item.name ? item.itemId : undefined}
+                              imageSrc={resolveItemImageSrc(item.itemId)}
+                              showImage
+                              imageAlt={item.name ?? item.itemId}
+                            />
                           </Select.Option>
                         ))}
                       </Select>
@@ -1441,12 +1476,22 @@ export function WasmValidationM2Page({
                       <Select
                         value={selection.enemyHeroId}
                         showSearch
+                        filterOption={filterEntitySelectOption}
                         disabled={heroOptions.length === 0}
                         onChange={(value) => updateSelection({ enemyHeroId: String(value ?? '') })}
                       >
                         {heroOptions.map((hero) => (
-                          <Select.Option key={hero.heroId} value={hero.heroId}>
-                            {hero.heroId} / {hero.name ?? hero.heroId}
+                          <Select.Option
+                            key={hero.heroId}
+                            value={hero.heroId}
+                          >
+                            <EntitySelectOptionLabel
+                              primary={hero.name ?? hero.heroId}
+                              secondary={hero.name ? hero.heroId : undefined}
+                              imageSrc={resolveHeroImageSrc(hero.heroId)}
+                              showImage
+                              imageAlt={hero.name ?? hero.heroId}
+                            />
                           </Select.Option>
                         ))}
                       </Select>
@@ -1467,12 +1512,22 @@ export function WasmValidationM2Page({
                         showSearch
                         allowClear
                         maxTagCount={3}
+                        filterOption={filterEntitySelectOption}
                         disabled={itemOptions.length === 0}
                         onChange={(value) => updateSelection({ enemyItemIds: toStringArray(value) })}
                       >
                         {itemOptions.map((item) => (
-                          <Select.Option key={item.itemId} value={item.itemId}>
-                            {item.itemId} / {item.name ?? item.itemId}
+                          <Select.Option
+                            key={item.itemId}
+                            value={item.itemId}
+                          >
+                            <EntitySelectOptionLabel
+                              primary={item.name ?? item.itemId}
+                              secondary={item.name ? item.itemId : undefined}
+                              imageSrc={resolveItemImageSrc(item.itemId)}
+                              showImage
+                              imageAlt={item.name ?? item.itemId}
+                            />
                           </Select.Option>
                         ))}
                       </Select>

@@ -1,6 +1,9 @@
 import { Alert, Input, Select, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
+import { createEntitySelectOption, buildSelectSearchText, filterEntitySelectOption } from '../EntitySelectOption';
 import { getErrorMessage, getHeroes, getItems, getOwnerCategories } from '../../services/apiClient';
+import { useResourceImageCache } from '../../pages/admin/resources/shared/useResourceImageCache';
+import { buildHeroImageUri, buildItemImageUri } from '../../services/resourceImage';
 import type { Hero, Item, OwnerCategory } from '../../types/api';
 
 type SkillOwnerBindingFieldsProps = {
@@ -32,6 +35,7 @@ export function SkillOwnerBindingFields({
   const [ownerError, setOwnerError] = useState<string | null>(null);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [loadingOwners, setLoadingOwners] = useState(false);
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   useEffect(() => {
     if (!selectedGameId) {
@@ -123,20 +127,41 @@ export function SkillOwnerBindingFields({
     () =>
       categories.map((category) => ({
         label: `${category.name ?? category.ownerType} / ${category.ownerType}`,
-        value: category.ownerType
+        value: category.ownerType,
+        searchText: buildSelectSearchText(category.ownerType, category.name)
       })),
     [categories]
   );
 
   const ownerIdOptions = useMemo(() => {
     if (ownerType === 'hero') {
-      return heroes.map((hero) => ({ label: `${hero.title ?? hero.heroId} / ${hero.heroId}`, value: hero.heroId }));
+      return heroes.map((hero) => {
+        const imageUri = buildHeroImageUri(hero.heroId);
+        return createEntitySelectOption({
+          value: hero.heroId,
+          primary: hero.title ?? hero.name ?? hero.heroId,
+          secondary: hero.heroId,
+          imageSrc: (imageUri ? imageSrcByUri[imageUri] ?? null : null) ?? hero.avatarUrl ?? null,
+          showImage: true,
+          imageAlt: hero.title ?? hero.name ?? hero.heroId
+        });
+      });
     }
     if (ownerType === 'item') {
-      return items.map((item) => ({ label: `${item.name ?? item.itemId} / ${item.itemId}`, value: item.itemId }));
+      return items.map((item) => {
+        const imageUri = buildItemImageUri(item.itemId);
+        return createEntitySelectOption({
+          value: item.itemId,
+          primary: item.name ?? item.itemId,
+          secondary: item.name ? item.itemId : undefined,
+          imageSrc: (imageUri ? imageSrcByUri[imageUri] ?? null : null) ?? item.iconUrl ?? null,
+          showImage: true,
+          imageAlt: item.name ?? item.itemId
+        });
+      });
     }
     return [];
-  }, [heroes, items, ownerType]);
+  }, [heroes, imageSrcByUri, items, ownerType]);
 
   return (
     <div>
@@ -154,11 +179,7 @@ export function SkillOwnerBindingFields({
             loading={loadingCategories}
             options={ownerTypeOptions}
             onChange={(value) => onOwnerTypeChange(String(value ?? ''))}
-            filterOption={(inputValue, option) => {
-              const optionData = option as { value?: unknown; label?: unknown } | undefined;
-              const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
-              return searchText.includes(inputValue.trim().toLowerCase());
-            }}
+            filterOption={filterEntitySelectOption}
           />
         </div>
 
@@ -176,11 +197,7 @@ export function SkillOwnerBindingFields({
               loading={loadingOwners}
               options={ownerIdOptions}
               onChange={(value) => onOwnerIdChange(String(value ?? ''))}
-              filterOption={(inputValue, option) => {
-                const optionData = option as { value?: unknown; label?: unknown } | undefined;
-                const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
-                return searchText.includes(inputValue.trim().toLowerCase());
-              }}
+              filterOption={filterEntitySelectOption}
             />
           ) : (
             <Input value={ownerId} disabled={disabled} onChange={onOwnerIdChange} placeholder="请输入 ownerId" />

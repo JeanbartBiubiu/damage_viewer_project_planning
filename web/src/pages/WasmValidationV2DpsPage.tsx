@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 import { Alert, Button, Form, Grid, Input, InputNumber, Select, Space, Table, Tag, Typography } from '@arco-design/web-react';
 import { IconCopy, IconDelete, IconPlayArrow, IconPlus, IconRefresh } from '@arco-design/web-react/icon';
+import { EntitySelectOptionLabel, filterEntitySelectOption } from '../components/EntitySelectOption';
 import { EmptyState } from '../components/EmptyState';
 import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
@@ -43,6 +44,8 @@ import { summarizeCompiledStatusEvidence } from '../engine/tinygoV2BundleAdapter
 import { TinyGoV2Bridge, TinyGoV2InvocationError, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
 import { getErrorMessage } from '../services/apiClient';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
+import { buildHeroImageUri, buildItemImageUri } from '../services/resourceImage';
+import { useResourceImageCache } from './admin/resources/shared/useResourceImageCache';
 import type { CurrentVersion, GameDataBundle, LoadState } from '../types/api';
 
 const { Row, Col } = Grid;
@@ -162,6 +165,7 @@ function WasmValidationV2DpsWorkbench({
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const chartElementRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   const resetRunArtifacts = useCallback(() => {
     setPreparedInput(null);
@@ -242,6 +246,46 @@ function WasmValidationV2DpsWorkbench({
       cancelled = true;
     };
   }, [apiBaseUrl, externalRefreshSeed, isStackingPassive, mode, resetRunArtifacts, selectedGameId]);
+
+  const resolveHeroImageSrc = useCallback(
+    (heroId: string) => {
+      const imageUri = buildHeroImageUri(heroId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
+  const resolveItemImageSrc = useCallback(
+    (itemId: string) => {
+      const imageUri = buildItemImageUri(itemId);
+      return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+    },
+    [imageSrcByUri]
+  );
+  const renderHeroOptionLabel = useCallback(
+    (heroId: string, label: string) => (
+      <EntitySelectOptionLabel
+        primary={stripActorIdPrefix(label)}
+        secondary={heroId}
+        imageSrc={resolveHeroImageSrc(heroId)}
+        showImage
+        imageAlt={stripActorIdPrefix(label)}
+      />
+    ),
+    [resolveHeroImageSrc]
+  );
+  const renderItemOptionLabel = useCallback(
+    (itemId: string, label: string, statsLabel?: string) => (
+      <EntitySelectOptionLabel
+        primary={stripItemIdPrefix(label)}
+        secondary={itemId}
+        meta={statsLabel}
+        imageSrc={resolveItemImageSrc(itemId)}
+        showImage
+        imageAlt={stripItemIdPrefix(label)}
+      />
+    ),
+    [resolveItemImageSrc]
+  );
 
   const attackerOptions = useMemo(() => (bundle ? listV2DpsAttackers(bundle) : []), [bundle]);
   const targetDummyGroups = useMemo(() => (bundle ? listV2DpsTargetDummyGroups(bundle) : []), [bundle]);
@@ -914,7 +958,7 @@ function WasmValidationV2DpsWorkbench({
                   <Select
                     value={selection?.attackerHeroId ?? ''}
                     showSearch
-                    filterOption={filterSelectOption}
+                    filterOption={filterEntitySelectOption}
                     onChange={(value) => {
                       const attackerHeroId = String(value);
                       const curves = createCurveSelectionsForMode(bundle ?? undefined, mode, attackerHeroId);
@@ -930,8 +974,11 @@ function WasmValidationV2DpsWorkbench({
                     disabled={!selection}
                   >
                     {attackerOptions.map((option) => (
-                      <Select.Option key={option.actorId} value={option.actorId}>
-                        {option.label}
+                      <Select.Option
+                        key={option.actorId}
+                        value={option.actorId}
+                      >
+                        {renderHeroOptionLabel(option.actorId, option.label)}
                       </Select.Option>
                     ))}
                   </Select>
@@ -943,7 +990,7 @@ function WasmValidationV2DpsWorkbench({
                 <Select
                   value={selection?.targetActorId ?? ''}
                   showSearch
-                  filterOption={filterSelectOption}
+                  filterOption={filterEntitySelectOption}
                   onChange={(value) => updateSelection((current) => ({ ...current, targetActorId: String(value) }))}
                   disabled={!selection || targetDummyGroups.length === 0}
                   placeholder={targetDummyGroups.length === 0 ? 'published bundle 缺少 target_dummy' : '选择 target_dummy'}
@@ -951,8 +998,11 @@ function WasmValidationV2DpsWorkbench({
                   {targetDummyGroups.map((group) => (
                     <Select.OptGroup key={group.typeKey} label={group.label}>
                       {group.actors.map((option) => (
-                        <Select.Option key={option.actorId} value={option.actorId}>
-                          {option.label}
+                        <Select.Option
+                          key={option.actorId}
+                          value={option.actorId}
+                        >
+                          {renderHeroOptionLabel(option.actorId, option.label)}
                         </Select.Option>
                       ))}
                     </Select.OptGroup>
@@ -991,14 +1041,17 @@ function WasmValidationV2DpsWorkbench({
                     mode="multiple"
                     value={multiHeroGlobalEquipmentItemIds}
                     showSearch
-                    filterOption={filterSelectOption}
+                    filterOption={filterEntitySelectOption}
                     onChange={(value) => updateMultiHeroGlobalEquipment(normalizeSelectValues(value))}
                     disabled={!selection || equipmentOptions.length === 0}
                     placeholder="选择同一套装备"
                   >
                     {equipmentOptions.map((option) => (
-                      <Select.Option key={option.itemId} value={option.itemId}>
-                        {option.label} / {option.statsLabel}
+                      <Select.Option
+                        key={option.itemId}
+                        value={option.itemId}
+                      >
+                        {renderItemOptionLabel(option.itemId, option.label, option.statsLabel)}
                       </Select.Option>
                     ))}
                   </Select>
@@ -1010,7 +1063,7 @@ function WasmValidationV2DpsWorkbench({
                     mode="multiple"
                     value={multiHeroGlobalScenarioStateIds}
                     showSearch
-                    filterOption={filterSelectOption}
+                    filterOption={filterEntitySelectOption}
                     onChange={(value) => updateMultiHeroGlobalScenarioStates(normalizeSelectValues(value))}
                     disabled={!selection || multiHeroScenarioOptions.length === 0}
                     placeholder="可选；仅匹配对应英雄/装备来源"
@@ -1117,12 +1170,15 @@ function WasmValidationV2DpsWorkbench({
                           <Select
                             value={curveHeroId}
                             showSearch
-                            filterOption={filterSelectOption}
+                            filterOption={filterEntitySelectOption}
                             onChange={(value) => updateMultiHeroCurveHero(curve.curveId, String(value))}
                           >
                             {attackerOptions.map((option) => (
-                              <Select.Option key={option.actorId} value={option.actorId}>
-                                {option.label}
+                              <Select.Option
+                                key={option.actorId}
+                                value={option.actorId}
+                              >
+                                {renderHeroOptionLabel(option.actorId, option.label)}
                               </Select.Option>
                             ))}
                           </Select>
@@ -1171,14 +1227,17 @@ function WasmValidationV2DpsWorkbench({
                           mode="multiple"
                           value={curve.equipmentItemIds}
                           showSearch
-                          filterOption={filterSelectOption}
+                          filterOption={filterEntitySelectOption}
                           onChange={(value) => updateCurve(curve.curveId, { equipmentItemIds: normalizeSelectValues(value) })}
                           disabled={equipmentOptions.length === 0}
                           placeholder="选择 ADC 成装；缺失 published bundle 数据时该 curve 会 blocked"
                         >
                           {equipmentOptions.map((option) => (
-                            <Select.Option key={option.itemId} value={option.itemId}>
-                              {option.label} / {option.statsLabel}
+                            <Select.Option
+                              key={option.itemId}
+                              value={option.itemId}
+                            >
+                              {renderItemOptionLabel(option.itemId, option.label, option.statsLabel)}
                             </Select.Option>
                           ))}
                         </Select>
@@ -1766,27 +1825,6 @@ function formatPreflightBlockedMessage(reasons: string[]): string {
 function formatMissingBasicAttackMessage(reasons: string[] | undefined): string {
   const normalized = reasons && reasons.length > 0 ? reasons : [V2_DPS_MISSING_BASIC_ATTACK_REASON];
   return `${normalized.join(' / ')}：未从 bundle.skillMounts 解析到 action/basic_attack skill；不会 fallback 到硬编码 basic_attack。`;
-}
-
-function filterSelectOption(inputValue: string, option: unknown): boolean {
-  const optionData = option as
-    | {
-        value?: unknown;
-        label?: unknown;
-        props?: { value?: unknown; label?: unknown; children?: unknown };
-      }
-    | undefined;
-  const searchText = [
-    optionData?.value,
-    optionData?.label,
-    optionData?.props?.value,
-    optionData?.props?.label,
-    optionData?.props?.children
-  ]
-    .map((value) => String(value ?? ''))
-    .join(' ')
-    .toLowerCase();
-  return searchText.includes(inputValue.trim().toLowerCase());
 }
 
 function normalizeSelectValues(value: unknown): string[] {
