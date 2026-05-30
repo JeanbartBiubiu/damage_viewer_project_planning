@@ -1216,14 +1216,35 @@ func (ctx *RunContext) statusTickAmountTrace(status compilebundle.CompiledStatus
 }
 
 func (ctx *RunContext) resolveEffectCrit(effect compilebundle.CompiledEffect, source uint8) (critApplication, model.ErrCode) {
-	return ctx.resolveCritApplication(effect.CritPolicy, effect.CritChanceSource, effect.CritChance, effect.CritMultiplier, source)
+	return ctx.resolveCritApplication(
+		effect.CritPolicy,
+		effect.CritChanceSource,
+		effect.CritChance,
+		effect.CritMultiplierSource,
+		effect.CritMultiplier,
+		source,
+	)
 }
 
 func (ctx *RunContext) resolveStatusTickCrit(status compilebundle.CompiledStatus, source uint8) (critApplication, model.ErrCode) {
-	return ctx.resolveCritApplication(status.TickCritPolicy, status.TickCritChanceSource, status.TickCritChance, status.TickCritMultiplier, source)
+	return ctx.resolveCritApplication(
+		status.TickCritPolicy,
+		status.TickCritChanceSource,
+		status.TickCritChance,
+		"",
+		status.TickCritMultiplier,
+		source,
+	)
 }
 
-func (ctx *RunContext) resolveCritApplication(policy string, chanceSource string, fixedChance float64, multiplier float64, source uint8) (critApplication, model.ErrCode) {
+func (ctx *RunContext) resolveCritApplication(
+	policy string,
+	chanceSource string,
+	fixedChance float64,
+	multiplierSource string,
+	fixedMultiplier float64,
+	source uint8,
+) (critApplication, model.ErrCode) {
 	if policy == "" {
 		return critApplication{Scalar: 1}, model.ErrOK
 	}
@@ -1233,6 +1254,10 @@ func (ctx *RunContext) resolveCritApplication(policy string, chanceSource string
 	}
 	if chance < 0 || chance > 1 || math.IsNaN(chance) || math.IsInf(chance, 0) {
 		return critApplication{}, model.ErrNumeric
+	}
+	multiplier, code := ctx.resolveCritMultiplier(multiplierSource, fixedMultiplier, source)
+	if code != model.ErrOK {
+		return critApplication{}, code
 	}
 	if multiplier == 0 {
 		multiplier = 1
@@ -1280,10 +1305,18 @@ func (ctx *RunContext) resolveCritChance(chanceSource string, fixedChance float6
 }
 
 func (ctx *RunContext) actorCritChance(actor uint8) (float64, bool) {
+	return ctx.actorCritAttribute(actor, "crit_chance", "critChance")
+}
+
+func (ctx *RunContext) actorCritDamage(actor uint8) (float64, bool) {
+	return ctx.actorCritAttribute(actor, "crit_damage", "critDamage")
+}
+
+func (ctx *RunContext) actorCritAttribute(actor uint8, attrIDs ...string) (float64, bool) {
 	if int(actor) >= len(ctx.Actors) {
 		return 0, false
 	}
-	for _, attrID := range []string{"crit_chance", "critChance"} {
+	for _, attrID := range attrIDs {
 		index, ok := ctx.Bundle.AttrIndex[attrID]
 		if !ok {
 			continue
@@ -1295,6 +1328,21 @@ func (ctx *RunContext) actorCritChance(actor uint8) (float64, bool) {
 		}
 	}
 	return 0, false
+}
+
+func (ctx *RunContext) resolveCritMultiplier(multiplierSource string, fixedMultiplier float64, source uint8) (float64, model.ErrCode) {
+	switch multiplierSource {
+	case "", "fixed":
+		return fixedMultiplier, model.ErrOK
+	case "attacker_crit_damage":
+		value, ok := ctx.actorCritDamage(source)
+		if !ok {
+			return 0, model.ErrUnknownAttr
+		}
+		return value, model.ErrOK
+	default:
+		return 0, model.ErrUnsupported
+	}
 }
 
 func (ctx *RunContext) resolveEffectMode(effect compilebundle.CompiledEffect) modeApplication {
