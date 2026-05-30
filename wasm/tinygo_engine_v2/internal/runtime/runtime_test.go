@@ -733,6 +733,41 @@ func TestDirectEffectCritReadsAttackerCritChance(t *testing.T) {
 	}
 }
 
+func TestDirectEffectCritReadsAttackerCritDamage(t *testing.T) {
+	bundle := m4BatchJCritBundle(0.5)
+	bundle.Attributes = append(bundle.Attributes, model.AttributeDefinitionV2{ID: "crit_damage", DefaultBase: 1})
+	bundle.Actors[0].Attributes["crit_damage"] = model.AttributeValueV2{Base: 1.45}
+	bundle.Actions = append(bundle.Actions, model.ActionTemplate{
+		ID:         "m4_attr_crit_mult_damage",
+		Label:      "M4 Attr Crit Mult Damage",
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+		Effects: []model.EffectDef{
+			{
+				Type: "deal_damage", Amount: 40, DamageType: "magic", SourceRole: "source", TargetRole: "target",
+				CritPolicy: "expected", CritChanceSource: "attacker_crit_chance", CritMultiplierSource: "attacker_crit_damage",
+			},
+		},
+	})
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "m4_attr_crit_mult_damage")
+
+	done := runBundle(t, bundle, m4BatchJCritRunInput("m4_attr_crit_mult_damage"))
+	result := actionResult(done, "m4_attr_crit_mult_damage")
+	if !result.Accepted || len(result.Effects) != 1 {
+		t.Fatalf("direct attr crit mult result = %+v, want one accepted effect", result)
+	}
+	effect := result.Effects[0]
+	if effect.CritPolicy != "expected" || effect.HasCritRoll || !effect.HasCritResult || effect.CritResult ||
+		!effect.HasCritMultiplier || effect.CritMultiplier != 1.45 {
+		t.Fatalf("direct attr crit mult evidence = %+v, want expected policy with x1.45 from crit_damage", effect)
+	}
+	if !effect.HasRawAmount || effect.RawAmount != 40 || !effect.HasFinalDamage || effect.FinalDamage != 49 {
+		t.Fatalf("direct attr crit mult damage = %+v, want raw 40 final 49", effect)
+	}
+	if got := actorHP(done, "enemy"); got != 951 {
+		t.Fatalf("enemy hp got %.2f, want 951 after expected crit damage", got)
+	}
+}
+
 func TestStatusTickDamageUsesPublishedCritMultiplier(t *testing.T) {
 	done := runBundle(t, m4BatchJCritBundle(0.5), m4BatchJCritRunInput("m4_apply_crit_dot"))
 	if len(done.TickResults) != 1 {
