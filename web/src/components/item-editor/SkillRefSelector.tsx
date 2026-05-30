@@ -1,5 +1,6 @@
 import { Alert, Select, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
+import { buildSelectSearchText, filterEntitySelectOption } from '../EntitySelectOption';
 import { getErrorMessage, getSkills } from '../../services/apiClient';
 import type { Skill } from '../../types/api';
 
@@ -62,8 +63,9 @@ export function SkillRefSelector({
   const options = useMemo(
     () =>
       skills.map((skill) => ({
-        label: `${skill.name ?? skill.skillId} · ${skill.skillId}`,
-        value: skill.skillId
+        label: `${skill.name ?? skill.skillId} 路 ${skill.skillId}`,
+        value: skill.skillId,
+        searchText: buildSelectSearchText(skill.skillId, skill.name, skill.skillKey, skill.ownerId)
       })),
     [skills]
   );
@@ -75,23 +77,19 @@ export function SkillRefSelector({
         showSearch
         allowClear
         maxTagCount={3}
-        placeholder="选择装备关联技能"
+        placeholder="閫夋嫨瑁呭鍏宠仈鎶€鑳?"
         value={value}
         disabled={disabled || !selectedGameId || !token}
         loading={loading}
         options={options}
         onChange={(nextValue) => onChange(Array.isArray(nextValue) ? nextValue.map(String) : [])}
-        filterOption={(inputValue, option) => {
-          const optionData = option as { value?: unknown; label?: unknown } | undefined;
-          const searchText = `${String(optionData?.value ?? '')} ${String(optionData?.label ?? '')}`.toLowerCase();
-          return searchText.includes(inputValue.trim().toLowerCase());
-        }}
+        filterOption={filterEntitySelectOption}
       />
 
-      {error ? <Alert type="error" content={`技能列表加载失败：${error}`} style={{ marginTop: 8 }} /> : null}
+      {error ? <Alert type="error" content={`鎶€鑳藉垪琛ㄥ姞杞藉け璐ワ細${error}`} style={{ marginTop: 8 }} /> : null}
       {!error ? (
         <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
-          仅展示 `ownerType=item` 的技能，保存时回写 `skillRefs` 数组。
+          浠呭睍绀?`ownerType=item` 鐨勬妧鑳斤紝淇濆瓨鏃跺洖鍐?`skillRefs` 鏁扮粍銆?
         </Typography.Text>
       ) : null}
     </div>
