@@ -139,7 +139,7 @@ export function OverviewPage({
 
   return (
     <div className="page-overview page-stack">
-      <Panel title="产品取向" kicker="Architecture">
+      <Panel title="产品取向" kicker="架构">
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={12} lg={6}>
             <MetricCard label="客户端定位" value="Rich Client" hint="Bundle + IndexedDB + WASM" />
@@ -156,7 +156,7 @@ export function OverviewPage({
         </Row>
       </Panel>
 
-      <Panel title="游戏入口" kicker="Discovery">
+      <Panel title="游戏入口" kicker="发现">
         {games.length === 0 ? (
           <EmptyState title="还没有可选游戏" description="先确认后端 /api/games 是否返回了数据。" />
         ) : (
@@ -195,7 +195,7 @@ export function OverviewPage({
 
       <Panel
         title="当前游戏快照"
-        kicker="Live Snapshot"
+        kicker="实时快照"
         actions={
           <Button onClick={() => setRefreshSeed((value) => value + 1)} type="primary">
             刷新快照
@@ -272,7 +272,7 @@ export function OverviewPage({
         )}
       </Panel>
 
-      <Panel title="公共接口面" kicker="Public Surface">
+      <Panel title="公共接口面" kicker="公共接口">
         <Row gutter={[16, 16]}>
           {publicSurfaceEndpoints.map((endpoint) => (
             <Col xs={24} sm={12} lg={8} key={endpoint.path}>
