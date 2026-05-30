@@ -353,8 +353,17 @@ class ControllerPublishFlowIT {
             bundle.path("formulaBindings"),
             "skill",
             defaultSkillId,
-            "damage.basic_attack.expected"
+            DefaultBasicAttackProvisioner.DAMAGE_BINDING_KEY
         ));
+        JsonNode dealDamage = defaultSkill.path("mechanicsConfig").path("triggers").get(0).path("actions").get(0);
+        assertEquals("deal_damage", dealDamage.path("type").asText());
+        assertEquals(
+            DefaultBasicAttackProvisioner.DAMAGE_BINDING_KEY,
+            dealDamage.path("amount").path("bindingKey").asText()
+        );
+        assertEquals("expected", dealDamage.path("crit").path("policy").asText());
+        assertEquals("attacker_crit_chance", dealDamage.path("crit").path("chanceSource").asText());
+        assertEquals("attacker_crit_damage", dealDamage.path("crit").path("multiplierSource").asText());
     }
 
     @Test

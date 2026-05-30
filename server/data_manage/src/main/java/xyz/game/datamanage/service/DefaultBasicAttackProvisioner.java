@@ -17,11 +17,14 @@ public class DefaultBasicAttackProvisioner {
     public static final String DEFAULT_BASIC_ATTACK_SKILL_ID = "skill_lol_basic_attack_default";
     public static final int BASIC_ATTACK_TYPE_ID = 50101;
     public static final String FORMULA_COOLDOWN_ID = "formula_lol_basic_attack_cooldown";
-    public static final String FORMULA_DAMAGE_ID = "formula_lol_basic_attack_damage_expected";
+    public static final String FORMULA_DAMAGE_ID = "formula_lol_basic_attack_damage_base";
+    public static final String DAMAGE_BINDING_KEY = "damage.basic_attack.base";
     public static final String COOLDOWN_FORMULA_TEXT =
         "1000 / min(max(self.attack_speed, 0.01), 3.0)";
-    public static final String DAMAGE_FORMULA_TEXT =
-        "self.attack_damage * (1 + self.crit_chance * (self.crit_damage - 1))";
+    public static final String DAMAGE_FORMULA_TEXT = "self.attack_damage";
+
+    private static final String LEGACY_DAMAGE_BINDING_KEY = "damage.basic_attack.expected";
+    private static final String LEGACY_EXPECTED_DAMAGE_VAR_KEY = "expected_basic_attack_damage";
 
     private final PostgresWriteStore writeStore;
     private final PostgresReadStore readStore;
@@ -44,9 +47,7 @@ public class DefaultBasicAttackProvisioner {
     }
 
     public void ensureForGame(String gameId) {
-        if (readStore.loadSkill(gameId, DEFAULT_BASIC_ATTACK_SKILL_ID) == null) {
-            writeStore.upsertSkill(gameId, DEFAULT_BASIC_ATTACK_SKILL_ID, buildDefaultBasicAttackSkillBody());
-        }
+        ensureSharedBasicAttackSkill(gameId);
         ensureBasicAttackType(gameId);
         ensureBasicAttackTypeRelation(gameId);
         ensureFormulaProfiles(gameId);
@@ -57,6 +58,72 @@ public class DefaultBasicAttackProvisioner {
     public void ensureHeroMount(String gameId, String heroId) {
         ensureForGame(gameId);
         upsertHeroMountIfMissing(gameId, heroId);
+    }
+
+    private void ensureSharedBasicAttackSkill(String gameId) {
+        ObjectNode existing = readStore.loadSkill(gameId, DEFAULT_BASIC_ATTACK_SKILL_ID);
+        if (existing == null || needsSharedBasicAttackRepair(existing)) {
+            writeStore.upsertSkill(gameId, DEFAULT_BASIC_ATTACK_SKILL_ID, buildDefaultBasicAttackSkillBody());
+        }
+    }
+
+    private boolean needsSharedBasicAttackRepair(ObjectNode existing) {
+        if (usesLegacyDamageBinding(existing)) {
+            return true;
+        }
+        if (hasLegacyExpectedDamageVar(existing)) {
+            return true;
+        }
+        return !hasEffectLevelExpectedCrit(existing);
+    }
+
+    private boolean usesLegacyDamageBinding(ObjectNode skill) {
+        JsonNode dealDamage = findBasicAttackDealDamageAction(skill);
+        if (dealDamage == null || !dealDamage.isObject()) {
+            return true;
+        }
+        return LEGACY_DAMAGE_BINDING_KEY.equals(dealDamage.path("amount").path("bindingKey").asText(""));
+    }
+
+    private boolean hasLegacyExpectedDamageVar(ObjectNode skill) {
+        JsonNode vars = skill.path("params").path("vars");
+        if (!vars.isArray()) {
+            return false;
+        }
+        for (JsonNode var : vars) {
+            if (LEGACY_EXPECTED_DAMAGE_VAR_KEY.equals(var.path("key").asText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasEffectLevelExpectedCrit(ObjectNode skill) {
+        JsonNode dealDamage = findBasicAttackDealDamageAction(skill);
+        if (dealDamage == null || !dealDamage.isObject()) {
+            return false;
+        }
+        JsonNode crit = dealDamage.path("crit");
+        return "expected".equals(crit.path("policy").asText())
+            && "attacker_crit_chance".equals(crit.path("chanceSource").asText())
+            && "attacker_crit_damage".equals(crit.path("multiplierSource").asText());
+    }
+
+    private JsonNode findBasicAttackDealDamageAction(ObjectNode skill) {
+        JsonNode triggers = skill.path("mechanicsConfig").path("triggers");
+        if (!triggers.isArray() || triggers.isEmpty()) {
+            return null;
+        }
+        JsonNode actions = triggers.get(0).path("actions");
+        if (!actions.isArray()) {
+            return null;
+        }
+        for (JsonNode action : actions) {
+            if ("deal_damage".equals(action.path("type").asText())) {
+                return action;
+            }
+        }
+        return null;
     }
 
     private void ensureBasicAttackType(String gameId) {
@@ -88,11 +155,23 @@ public class DefaultBasicAttackProvisioner {
             FORMULA_COOLDOWN_ID,
             buildDefaultCooldownFormulaProfile()
         );
-        upsertDefaultFormulaProfileIfNeeded(
-            gameId,
-            FORMULA_DAMAGE_ID,
-            buildDefaultDamageFormulaProfile()
-        );
+        upsertDefaultDamageFormulaProfileIfNeeded(gameId);
+    }
+
+    private void upsertDefaultDamageFormulaProfileIfNeeded(String gameId) {
+        ObjectNode desired = buildDefaultDamageFormulaProfile();
+        ObjectNode existing = readStore.loadFormulaProfile(gameId, FORMULA_DAMAGE_ID);
+        if (existing == null || needsDamageFormulaProfileRepair(existing)) {
+            writeStore.upsertFormulaProfile(gameId, FORMULA_DAMAGE_ID, desired);
+        }
+    }
+
+    private boolean needsDamageFormulaProfileRepair(ObjectNode existing) {
+        if (!hasCompilableFormulaText(existing.path("params"))) {
+            return true;
+        }
+        String formulaText = existing.path("params").path("formulaText").asText("");
+        return !DAMAGE_FORMULA_TEXT.equals(formulaText.trim());
     }
 
     private void upsertDefaultFormulaProfileIfNeeded(String gameId, String formulaId, ObjectNode desired) {
@@ -123,7 +202,7 @@ public class DefaultBasicAttackProvisioner {
         ObjectNode damage = objectMapper.createObjectNode();
         damage.put("formulaType", "damage");
         damage.put("formulaKind", "vars_expr");
-        damage.put("description", "默认普攻期望伤害");
+        damage.put("description", "默认普攻基础伤害");
         damage.putObject("params").put("formulaText", DAMAGE_FORMULA_TEXT);
         return damage;
     }
@@ -140,17 +219,37 @@ public class DefaultBasicAttackProvisioner {
                 binding
             );
         }
-        if (readStore.loadFormulaBinding(gameId, "skill", DEFAULT_BASIC_ATTACK_SKILL_ID, "damage.basic_attack.expected") == null) {
-            ObjectNode binding = objectMapper.createObjectNode();
-            binding.put("formulaId", FORMULA_DAMAGE_ID);
-            writeStore.upsertFormulaBinding(
-                gameId,
-                "skill",
-                DEFAULT_BASIC_ATTACK_SKILL_ID,
-                "damage.basic_attack.expected",
-                binding
-            );
+        ensureDefaultDamageFormulaBinding(gameId);
+    }
+
+    private void ensureDefaultDamageFormulaBinding(String gameId) {
+        ObjectNode legacyBinding = readStore.loadFormulaBinding(
+            gameId,
+            "skill",
+            DEFAULT_BASIC_ATTACK_SKILL_ID,
+            LEGACY_DAMAGE_BINDING_KEY
+        );
+        ObjectNode baseBinding = readStore.loadFormulaBinding(
+            gameId,
+            "skill",
+            DEFAULT_BASIC_ATTACK_SKILL_ID,
+            DAMAGE_BINDING_KEY
+        );
+        boolean needsUpsert = legacyBinding != null
+            || baseBinding == null
+            || !FORMULA_DAMAGE_ID.equals(baseBinding.path("formulaId").asText(""));
+        if (!needsUpsert) {
+            return;
         }
+        ObjectNode binding = objectMapper.createObjectNode();
+        binding.put("formulaId", FORMULA_DAMAGE_ID);
+        writeStore.upsertFormulaBinding(
+            gameId,
+            "skill",
+            DEFAULT_BASIC_ATTACK_SKILL_ID,
+            DAMAGE_BINDING_KEY,
+            binding
+        );
     }
 
     private void ensureHeroMounts(String gameId) {
@@ -239,18 +338,7 @@ public class DefaultBasicAttackProvisioner {
 
         ObjectNode params = objectMapper.createObjectNode();
         params.put("version", 1);
-        ArrayNode vars = objectMapper.createArrayNode();
-        ObjectNode damageVar = objectMapper.createObjectNode();
-        damageVar.put("key", "expected_basic_attack_damage");
-        damageVar.put("kind", "formula");
-        damageVar.put("formulaText", "attack_damage * (1 + crit_chance * (crit_damage - 1))");
-        ArrayNode formulaVars = objectMapper.createArrayNode();
-        formulaVars.add("attack_damage");
-        formulaVars.add("crit_chance");
-        formulaVars.add("crit_damage");
-        damageVar.set("formulaVars", formulaVars);
-        vars.add(damageVar);
-        params.set("vars", vars);
+        params.set("vars", objectMapper.createArrayNode());
         skill.set("params", params);
 
         ObjectNode mechanicsConfig = objectMapper.createObjectNode();
@@ -267,8 +355,13 @@ public class DefaultBasicAttackProvisioner {
         dealDamage.put("damageType", "physical");
         ObjectNode amount = objectMapper.createObjectNode();
         amount.put("kind", "formula");
-        amount.put("bindingKey", "damage.basic_attack.expected");
+        amount.put("bindingKey", DAMAGE_BINDING_KEY);
         dealDamage.set("amount", amount);
+        ObjectNode crit = objectMapper.createObjectNode();
+        crit.put("policy", "expected");
+        crit.put("chanceSource", "attacker_crit_chance");
+        crit.put("multiplierSource", "attacker_crit_damage");
+        dealDamage.set("crit", crit);
         actions.add(dealDamage);
         trigger.set("actions", actions);
         triggers.add(trigger);
