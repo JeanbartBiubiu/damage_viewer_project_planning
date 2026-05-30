@@ -188,6 +188,7 @@ export type V2DpsBasicAttackAction = {
   critPolicy?: string;
   critChanceSource?: string;
   critChance?: number;
+  critMultiplierSource?: string;
   critMultiplier?: number;
 };
 
@@ -1028,6 +1029,7 @@ function resolveBasicAttackActions(
       critPolicy: damageEffect?.critPolicy,
       critChanceSource: damageEffect?.critChanceSource,
       critChance: damageEffect?.critChance,
+      critMultiplierSource: damageEffect?.critMultiplierSource,
       critMultiplier: damageEffect?.critMultiplier
     });
   }
