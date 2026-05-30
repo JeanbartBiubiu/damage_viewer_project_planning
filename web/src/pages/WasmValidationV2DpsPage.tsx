@@ -462,6 +462,7 @@ function WasmValidationV2DpsWorkbench({
             critPolicy: action.critPolicy,
             critChanceSource: action.critChanceSource,
             critChance: action.critChance,
+            critMultiplierSource: action.critMultiplierSource,
             critMultiplier: action.critMultiplier
           }))
         })),
@@ -1653,18 +1654,22 @@ function buildSummaryRows(results: V2DpsCurveResult[], curveLabelById: Map<strin
 }
 
 function buildChartOption(results: V2DpsCurveResult[], curveLabelById: Map<string, string>, chartMode: ChartMode): echarts.EChartsOption {
-  const series = results.map((result) => ({
+  const rawSeries = results.map((result) => ({
+    result,
+    points: chartMode === 'damage' ? buildDamageSeries(result) : buildHpSeries(result)
+  }));
+  const series = rawSeries.map(({ result, points }) => ({
     name: curveLabelById.get(result.curveId) ?? result.curveId,
     type: 'line' as const,
     showSymbol: false,
     smooth: false,
-    data: chartMode === 'damage' ? buildDamageSeries(result) : buildHpSeries(result)
+    data: points
   }));
   return {
     animation: false,
     tooltip: {
       trigger: 'axis',
-      valueFormatter: (value) => formatNumber(typeof value === 'number' ? value : Number(value))
+      formatter: (params) => formatChartTooltip(params, rawSeries, curveLabelById)
     },
     legend: {
       type: 'scroll',
@@ -1690,6 +1695,68 @@ function buildChartOption(results: V2DpsCurveResult[], curveLabelById: Map<strin
   };
 }
 
+function formatChartTooltip(
+  params: unknown,
+  rawSeries: Array<{ result: V2DpsCurveResult, points: Array<[number, number]> }>,
+  curveLabelById: Map<string, string>
+): string {
+  const entries = Array.isArray(params) ? params : [params];
+  const firstEntry = entries[0] as { axisValue?: unknown } | undefined;
+  const axisValue = Number(firstEntry?.axisValue);
+  if (!Number.isFinite(axisValue)) {
+    return '';
+  }
+  const markerByName = new Map<string, string>();
+  for (const entry of entries as Array<{ seriesName?: unknown, marker?: unknown }>) {
+    if (typeof entry.seriesName === 'string' && typeof entry.marker === 'string') {
+      markerByName.set(entry.seriesName, entry.marker);
+    }
+  }
+  const rows = rawSeries.map(({ result, points }) => {
+    const label = curveLabelById.get(result.curveId) ?? result.curveId;
+    const value = findChartValueAtTime(points, axisValue);
+    const marker = markerByName.get(label) ?? '&#9679;';
+    return `${marker} ${escapeHtml(label)}&nbsp;&nbsp;<strong>${formatNumber(value)}</strong>`;
+  });
+  return [`${formatCompactNumber(axisValue)}`, ...rows].join('<br/>');
+}
+
+function findChartValueAtTime(points: Array<[number, number]>, timeMs: number): number | null {
+  if (points.length === 0) {
+    return null;
+  }
+  let currentValue = points[0][1];
+  for (const [pointTimeMs, value] of points) {
+    if (pointTimeMs > timeMs) {
+      break;
+    }
+    currentValue = value;
+  }
+  return currentValue;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function collapseChartPoints(points: Array<[number, number]>): Array<[number, number]> {
+  const collapsed: Array<[number, number]> = [];
+  for (const [timeMs, value] of [...points].sort((left, right) => left[0] - right[0])) {
+    const last = collapsed[collapsed.length - 1];
+    if (last && last[0] === timeMs) {
+      last[1] = value;
+      continue;
+    }
+    collapsed.push([timeMs, value]);
+  }
+  return collapsed;
+}
+
 function buildDamageSeries(result: V2DpsCurveResult): Array<[number, number]> {
   if (result.status !== 'ok') {
     return [];
@@ -1700,10 +1767,11 @@ function buildDamageSeries(result: V2DpsCurveResult): Array<[number, number]> {
     total += event.finalDamage;
     points.push([event.timeMs, Number(total.toFixed(6))]);
   }
-  if (points[points.length - 1]?.[0] !== result.durationMs) {
-    points.push([result.durationMs, Number(total.toFixed(6))]);
+  const collapsedPoints = collapseChartPoints(points);
+  if (collapsedPoints[collapsedPoints.length - 1]?.[0] !== result.durationMs) {
+    collapsedPoints.push([result.durationMs, Number(total.toFixed(6))]);
   }
-  return points;
+  return collapsedPoints;
 }
 
 function buildHpSeries(result: V2DpsCurveResult): Array<[number, number]> {
@@ -1713,7 +1781,9 @@ function buildHpSeries(result: V2DpsCurveResult): Array<[number, number]> {
   const hpPoints = result.targetHpTimeline.length > 0
     ? result.targetHpTimeline.map((event) => [event.timeMs, event.currentHp] as [number, number])
     : result.damageTimeline.map((event) => [event.timeMs, event.targetHpAfter] as [number, number]);
-  const points = hpPoints.length > 0 ? hpPoints : [[0, result.resolvedSnapshot.targetSnapshot.currentHp]] as Array<[number, number]>;
+  const points = collapseChartPoints(
+    [[0, result.resolvedSnapshot.targetSnapshot.currentHp], ...hpPoints] as Array<[number, number]>
+  );
   const last = points[points.length - 1];
   if (last && last[0] !== result.durationMs) {
     points.push([result.durationMs, last[1]]);
@@ -1750,6 +1820,12 @@ const basicAttackEvidenceColumns = [
     title: 'critPolicy',
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text code>{record.critPolicy ?? '—'}</Typography.Text>
+    )
+  },
+  {
+    title: 'critMultiplierSource',
+    render: (_: unknown, record: BasicAttackEvidenceRow) => (
+      <Typography.Text code>{record.critMultiplierSource ?? '—'}</Typography.Text>
     )
   },
   {
