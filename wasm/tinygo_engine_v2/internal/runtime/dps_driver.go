@@ -458,7 +458,8 @@ func (state *dpsCurveState) processBasicAttack(schedIdx int, timeMs int64) {
 	})
 
 	actionDamageProcessed := false
-	for _, effect := range castResult.Effects {
+	compiledAction := state.bundle.Actions[sched.actionIndex]
+	for effectIndex, effect := range castResult.Effects {
 		if effect.Kind != string(model.EffectTypeDealDamage) || !effect.HasRawAmount {
 			continue
 		}
@@ -467,7 +468,20 @@ func (state *dpsCurveState) processBasicAttack(schedIdx int, timeMs int64) {
 		if damageType == "" {
 			damageType = "physical"
 		}
-		state.applyDamage(timeMs, damageSource, damageType, effect.RawAmount)
+		damageAmount := effect.RawAmount
+		if effectIndex < len(compiledAction.Effects) {
+			compiledEffect := compiledAction.Effects[effectIndex]
+			if compiledEffect.CritPolicy != "" {
+				critResult, code := state.runCtx.resolveEffectCrit(compiledEffect, state.attackerIdx)
+				if code != model.ErrOK {
+					state.block("basic_attack_crit_unresolved:" + actionID)
+					sched.nextAtMs = -1
+					return
+				}
+				damageAmount = effect.RawAmount * critResult.Scalar
+			}
+		}
+		state.applyDamage(timeMs, damageSource, damageType, damageAmount)
 	}
 	state.syncRunContextHPFromDPS()
 	if actionDamageProcessed {
