@@ -207,9 +207,10 @@ type CompiledEffect struct {
 	CounterKey       string
 	MarkID           string
 	CritPolicy       string
-	CritChanceSource string
-	CritChance       float64
-	CritMultiplier   float64
+	CritChanceSource     string
+	CritChance           float64
+	CritMultiplierSource string
+	CritMultiplier       float64
 	ModeAugmentID    string
 	ModeMultiplier   float64
 }
@@ -778,7 +779,9 @@ func compileEffects(effects []model.EffectDef, cb CompiledBundle) ([]CompiledEff
 			SourceRole: effect.SourceRole, TargetRole: effect.TargetRole, HistoryWindowMs: effect.HistoryWindowMs,
 			CounterKey: effect.CounterKey, MarkID: effect.MarkID, CritPolicy: effect.CritPolicy,
 			CritChanceSource: effect.CritChanceSource,
-			CritChance:       effect.CritChance, CritMultiplier: effect.CritMultiplier,
+			CritChance:       effect.CritChance,
+			CritMultiplierSource: effect.CritMultiplierSource,
+			CritMultiplier:       effect.CritMultiplier,
 			ModeAugmentID: effect.ModeAugmentID, ModeMultiplier: effect.ModeMultiplier,
 		}
 		if next.Type == 0 {
