@@ -13,7 +13,20 @@
 9. 用 CodeGraph 得到候选链路后，最终结论仍要回到源码做定点核对；大改后、跨 worktree 切换后或结果可疑时，先运行 `npx @colbymchenry/codegraph status` 或 `npx @colbymchenry/codegraph sync`，不要把 `.codegraph/*.db*` 之类本地索引产物提交入库。
 10. 如果 CodeGraph 或 sub-agent 查询在当前问题粒度下长时间无返回、输出明显过量，主动缩小问题、减少命令数，并切回 `rg` / 定点读文件继续推进；不要为了“全程只用 CodeGraph”无限等待。
 
-## 2. 渐进式披露与 worktree 路由
+## 2. Cursor 开发流程（强制）
+
+以下规则用于所有“要落代码/脚本/配置改动”的开发任务；纯只读分析、纯文档小改不强制走 Cursor。
+
+1. 开发任务默认先走 Cursor 协同流程；GPT 不得在主会话里未经收敛就直接改代码，偏离该流程须有用户明确许可。
+2. `goal`、需求描述或任务页只定义目标与范围。GPT 先从代码库、最近层 `AGENTS.md`、`README.md`、脚本和现有文档自行收敛；只有本地无法确定时，才一次向用户提一个问题并给推荐答案。范围收敛后，才可编写 Cursor prompt。
+3. Cursor prompt 必须写清：目标、允许写入范围、非目标、验证命令、停止条件；范围未收敛，或写入范围未限制时，不得启动 Cursor。
+4. Cursor 只负责受限编码执行，不负责自行扩写需求、扩大范围、跳过限制或替代最终验收。
+5. 通过 SDK / local agent 调 Cursor 时，固定使用 `composer-2.5` + `fast=false`；不得使用 `composer-latest`、`composer` 或默认 `composer-2.5`。接线、runner 和 smoke 规则见 `.agents/skills/cursor-local-agent/SKILL.md`。
+6. GPT 每轮先检查 Cursor 产物、事件日志和 `git diff` 再 review；即使 Cursor 返回 `status=error` 也要先看 diff。最终验证仍由 GPT 亲自完成，包括本地命令、必要时 Playwright 和人工验收交接；若 Cursor 链路、权限、环境或验证异常，先报告阻塞，除非用户明确同意，否则不要退回成 “GPT 直接改代码”。
+
+流程说明真源见 `.\文档记录\详细设计\Cursor-GPT协同开发流程说明.md`。
+
+## 3. 渐进式披露与 worktree 路由
 
 当前仓库按模块拆分为多个 Git worktree：
 
@@ -31,19 +44,13 @@
 5. 主 planning 仓内如果目标子目录存在更近的 `AGENTS.md` / `README.md`，同样按最近层规则执行。
 6. 根 `AGENTS.md` 只保留跨 worktree 的协作底线、路由和治理摘要；Backend、Web、Wasm/TinyGo 的入口地图、命令、运行时、验证和技术路线细节由各模块 `AGENTS.md` / `README.md` 承接，不在根文件重复。
 
-## 3. 记忆层与持久化边界
+## 4. 记忆与治理边界
 
 当前同时使用 Codex Memory、Obsidian 和本仓库 SQLite 任务治理，三者职责不同：
 
 1. Codex Memory 只保存高层协作偏好、长期技术路线和常见约束，不保存精确模板、大段原文、完整命令输出或可审计任务记录。
-2. Obsidian 是长期记忆和审计层，只在出现稳定决策、复杂排查结论、跨 worktree 上下文、任务页状态变化，或用户明确要求记录时回写；普通小改动和一次性问答不强制回写。
-3. `文档记录/**/*.md` 是实现文档真源；`db/task_doc_governance/task_rules.json` 是任务与文档映射真源；`db/task_doc_governance/task_doc_governance.sqlite` 是从规则重建得到的查询索引。
+2. Obsidian 是长期记忆和审计层，只在出现稳定决策、复杂排查结论、跨 worktree 上下文、任务页状态变化，或用户明确要求记录时回写；回写时优先写会话记录页或既有任务页，非汇总会话不要直接修改共享上下文页。
+3. `文档记录/**/*.md` 是实现文档真源；`db/task_doc_governance/task_rules.json` 是任务与文档映射真源；`db/task_doc_governance/task_doc_governance.sqlite` 只作为从规则重建得到的查询索引，不直接手改。
 4. 当 Codex Memory、Obsidian 与仓库内 `AGENTS.md`、`README.md`、`文档记录/**/*.md` 或 `task_rules.json` 冲突时，以仓库当前文件为准。
-5. 需要回写 Obsidian 时，优先写会话记录页或既有任务页；非汇总会话不要直接修改共享上下文页。
-
-## 4. SQLite 任务治理摘要
-
-1. 修改任务粒度、归属、状态或文档映射时，更新 `db/task_doc_governance/task_rules.json`。
-2. `db/task_doc_governance/task_doc_governance.sqlite` 只通过重建生成，不直接手改。
-3. 映射变化后运行 `node tools/task-governance/cli.mjs rebuild`。
-4. 只改 AGENTS/README 且不改变任务映射时，不需要重建 SQLite。
+5. 修改任务粒度、归属、状态或文档映射时，更新 `db/task_doc_governance/task_rules.json` 并运行 `node tools/task-governance/cli.mjs rebuild`。
+6. 只改 AGENTS/README 且不改变任务映射时，不需要重建 SQLite。
