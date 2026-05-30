@@ -286,9 +286,10 @@ type EffectDefV2 struct {
 	AttrID           string           `json:"attrId,omitempty"`
 	ModifierMode     AttrModifierMode `json:"modifierMode,omitempty"`
 	CritPolicy       string           `json:"critPolicy,omitempty"`
-	CritChanceSource string           `json:"critChanceSource,omitempty"`
-	CritChance       float64          `json:"critChance,omitempty"`
-	CritMultiplier   float64          `json:"critMultiplier,omitempty"`
+	CritChanceSource     string  `json:"critChanceSource,omitempty"`
+	CritChance           float64 `json:"critChance,omitempty"`
+	CritMultiplierSource string  `json:"critMultiplierSource,omitempty"`
+	CritMultiplier       float64 `json:"critMultiplier,omitempty"`
 	ModeAugmentID    string           `json:"modeAugmentId,omitempty"`
 	ModeMultiplier   float64          `json:"modeMultiplier,omitempty"`
 }
