@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "generatedAt": "2026-06-03",
+    "gameId": "lol",
+    "versionCode": "v2_batch_k_guinsoo_phantom_hit_001",
+    "seedFile": "最小验证/V2-Batch-K-guinsoo-phantom-hit.seed.json",
+    "auditJson": "最小验证/V2-Batch-G-adc-passive-audit.json",
+    "priorSeeds": [
+      "最小验证/V2-Batch-D-adc-item-passives.seed.json",
+      "最小验证/V2-Batch-H-stacking-stat-passives.seed.json"
+    ],
+    "rule": "Batch K completes item 3124 Boiling Strike + wrath on-hit in one published passive; phantom-hit copies copyable on-hit operations from the same dpsPassiveEffects entry."
+  },
+  "gateTransition": {
+    "ownerId": "3124",
+    "ownerName": "鬼索的狂暴之刃",
+    "passiveSkillId": "item_3124_guinsoos_boiling_strike_dps_v2",
+    "batchGPassiveName": "沸腾打击",
+    "fromGate": "H-real-data-blocked",
+    "toGate": "K-real-data-ready",
+    "reason": "Batch H only published stacking attack speed and excluded phantom_hit_on_hit_repeat; Batch K merges Batch D wrath on-hit, Batch H stacking, and phantom repeat without excludedMechanics.",
+    "publishCondition": "Public bundle item 3124 skillRefs is only item_3124_guinsoos_boiling_strike_dps_v2 and mechanicsConfig.dpsPassiveEffects[0].operations retains all four operation kinds."
+  },
+  "expectedVerification": {
+    "itemId": "3124",
+    "itemSkillRefs": [
+      "item_3124_guinsoos_boiling_strike_dps_v2"
+    ],
+    "skillId": "item_3124_guinsoos_boiling_strike_dps_v2",
+    "passiveId": "item_3124_guinsoos_boiling_strike_dps_v2",
+    "effectId": "item_3124_guinsoos_boiling_strike_effect",
+    "triggerId": "guinsoos_wrath_on_hit",
+    "triggerKind": "on_basic_attack_hit",
+    "mustNotIncludeSkillRefs": [
+      "item_3124_guinsoos_rageblade_wrath_dps_v2"
+    ],
+    "mustNotIncludeParams": [
+      "excludedMechanics"
+    ],
+    "operations": [
+      {
+        "kind": "damage",
+        "source": "guinsoos_wrath_on_hit",
+        "damageType": "magic",
+        "amount": 30,
+        "phantomHitCopyable": true
+      },
+      {
+        "kind": "add_stack",
+        "source": "guinsoos_boiling_strike_add_stack",
+        "stackKey": "guinsoos_boiling_strike",
+        "maxStacks": 4,
+        "durationMs": 3000,
+        "refreshMode": "refresh"
+      },
+      {
+        "kind": "stat_modifier",
+        "source": "guinsoos_boiling_strike_attack_speed",
+        "stackKey": "guinsoos_boiling_strike",
+        "attrKey": "attack_speed",
+        "modifierMode": "percent",
+        "value": 0.08,
+        "perStack": true
+      },
+      {
+        "kind": "phantom_hit_on_hit_repeat",
+        "source": "guinsoos_phantom_hit",
+        "stackKey": "guinsoos_boiling_strike",
+        "triggerStacks": 4,
+        "repeatCount": 1,
+        "repeatTag": "phantom_hit",
+        "repeatScope": "copyable_on_hit"
+      }
+    ]
+  }
+}
