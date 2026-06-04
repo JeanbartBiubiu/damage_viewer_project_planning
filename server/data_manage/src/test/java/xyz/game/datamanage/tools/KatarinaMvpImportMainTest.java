@@ -308,6 +308,61 @@ class KatarinaMvpImportMainTest {
         assertEquals("attack_start", krakenEffect.path("operations").get(0).path("targetMissingHpBasis").asText());
     }
 
+    @Test
+    void loadSeed_shouldReadV2BatchKGuinsooPhantomHit() throws Exception {
+        Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-K-guinsoo-phantom-hit.seed.json")
+            .toAbsolutePath()
+            .normalize();
+
+        KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(seedFile);
+
+        assertEquals("lol", seedData.gameId());
+        assertEquals("v2_batch_k_guinsoo_phantom_hit_001", seedData.versionCode());
+        assertEquals(1, seedData.ownerCategories().size());
+        assertEquals(1, seedData.skills().size());
+        assertEquals(1, seedData.items().size());
+
+        JsonNode guinsooItem = findByField(seedData.items(), "itemId", "3124");
+        assertEquals(1, guinsooItem.path("skillRefs").size());
+        assertEquals("item_3124_guinsoos_boiling_strike_dps_v2", guinsooItem.path("skillRefs").get(0).asText());
+
+        JsonNode mergedSkill = findByField(seedData.skills(), "skillId", "item_3124_guinsoos_boiling_strike_dps_v2");
+        assertFalse(mergedSkill.path("params").has("excludedMechanics"));
+
+        JsonNode operations = mergedSkill
+            .path("mechanicsConfig")
+            .path("dpsPassiveEffects")
+            .get(0)
+            .path("operations");
+        assertEquals(4, operations.size());
+
+        JsonNode wrathDamage = findOperationByKind(operations, "damage");
+        assertEquals("guinsoos_wrath_on_hit", wrathDamage.path("source").asText());
+        assertEquals("magic", wrathDamage.path("damageType").asText());
+        assertEquals(30.0, wrathDamage.path("amount").asDouble(), 0.001);
+        assertTrue(wrathDamage.path("phantomHitCopyable").asBoolean());
+
+        JsonNode addStack = findOperationByKind(operations, "add_stack");
+        assertEquals("guinsoos_boiling_strike", addStack.path("stackKey").asText());
+        assertEquals(4, addStack.path("maxStacks").asInt());
+        assertEquals(3000, addStack.path("durationMs").asInt());
+        assertEquals("refresh", addStack.path("refreshMode").asText());
+
+        JsonNode attackSpeed = findOperationByKind(operations, "stat_modifier");
+        assertEquals("guinsoos_boiling_strike", attackSpeed.path("stackKey").asText());
+        assertEquals("attack_speed", attackSpeed.path("attrKey").asText());
+        assertEquals(0.08, attackSpeed.path("value").asDouble(), 0.001);
+        assertTrue(attackSpeed.path("perStack").asBoolean());
+
+        JsonNode phantomHit = findOperationByKind(operations, "phantom_hit_on_hit_repeat");
+        assertEquals("guinsoos_phantom_hit", phantomHit.path("source").asText());
+        assertEquals("guinsoos_boiling_strike", phantomHit.path("stackKey").asText());
+        assertEquals(4, phantomHit.path("triggerStacks").asInt());
+        assertEquals(1, phantomHit.path("repeatCount").asInt());
+        assertEquals("phantom_hit", phantomHit.path("repeatTag").asText());
+        assertEquals("copyable_on_hit", phantomHit.path("repeatScope").asText());
+    }
+
     private static Set<String> collectText(Iterable<? extends JsonNode> nodes, String fieldName) {
         Set<String> result = new HashSet<>();
         for (JsonNode node : nodes) {
@@ -323,5 +378,14 @@ class KatarinaMvpImportMainTest {
             }
         }
         throw new AssertionError("Cannot find item where " + fieldName + "=" + expectedValue);
+    }
+
+    private static JsonNode findOperationByKind(JsonNode operations, String kind) {
+        for (JsonNode operation : operations) {
+            if (kind.equals(operation.path("kind").asText())) {
+                return operation;
+            }
+        }
+        throw new AssertionError("Cannot find operation where kind=" + kind);
     }
 }
