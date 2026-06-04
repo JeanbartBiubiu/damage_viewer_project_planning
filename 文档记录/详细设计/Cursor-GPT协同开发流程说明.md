@@ -1,3 +1,10 @@
+TASK_KEY: planning-cursor-agent-dev-workflow
+DOC_TYPE: 详细设计
+WORKSTREAM: planning
+STATUS: tracked
+EXECUTION_MODEL: gpt-5.4
+LAST_TRACKED_AT: 2026-06-03 17:03:14
+
 # Cursor-GPT协同开发流程说明
 
 1. `goal` 文档只定义目标与范围，不覆盖流程。

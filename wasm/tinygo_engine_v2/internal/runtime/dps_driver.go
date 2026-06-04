@@ -23,11 +23,13 @@ const (
 	dpsTriggerStatAlwaysOn       = "stat_modifier_always_on"
 	dpsTriggerPreEnabledModifier = "pre_enabled_state_modifier"
 
-	dpsOpDamage                = "damage"
-	dpsOpApplyDot              = "apply_dot"
-	dpsOpAddStack              = "add_stack"
-	dpsOpTriggerDamageAtStacks = "trigger_damage_at_stacks"
-	dpsOpStatModifier          = "stat_modifier"
+	dpsOpDamage                 = "damage"
+	dpsOpApplyDot               = "apply_dot"
+	dpsOpAddStack               = "add_stack"
+	dpsOpTriggerDamageAtStacks  = "trigger_damage_at_stacks"
+	dpsOpStatModifier           = "stat_modifier"
+	dpsOpPhantomHitOnHitRepeat  = "phantom_hit_on_hit_repeat"
+	dpsRepeatScopeCopyableOnHit = "copyable_on_hit"
 )
 
 type dpsBasicAttackSchedule struct {
@@ -73,6 +75,7 @@ type dpsCurveState struct {
 	hitCounts            map[string]int
 	statModifierTriggers map[string]bool
 	dots                 []activeDPSDot
+	phantomDepth         int
 }
 
 func runSingleAttackerDPS(bundle compilebundle.CompiledBundle, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
@@ -588,6 +591,114 @@ func (state *dpsCurveState) processAttackPassives(timeMs int64) {
 	if refreshStackStatModifiers && state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
 		state.refreshActiveStatModifiers(timeMs)
 	}
+	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		state.processPhantomHits(timeMs)
+	}
+}
+
+func (state *dpsCurveState) processPhantomHits(timeMs int64) {
+	if state.phantomDepth > 0 {
+		return
+	}
+	for _, passive := range state.passives {
+		if !state.passiveActiveAt(passive, timeMs) {
+			continue
+		}
+		triggerKind := passive.TriggerKind
+		if triggerKind == "" {
+			triggerKind = dpsTriggerOnBasicAttackHit
+		}
+		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
+			continue
+		}
+		if triggerKind == dpsTriggerEveryNBasicAttack {
+			key := passiveRuntimeKey(passive)
+			everyN := passive.EveryN
+			if everyN <= 0 {
+				everyN = 1
+			}
+			if state.hitCounts[key]%everyN != 0 {
+				continue
+			}
+		}
+		for _, op := range passive.Operations {
+			if op.Kind != dpsOpPhantomHitOnHitRepeat {
+				continue
+			}
+			if !state.phantomHitShouldFire(passive, op) {
+				continue
+			}
+			state.phantomDepth++
+			state.applyPhantomHit(timeMs, passive, op)
+			state.phantomDepth--
+			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
+				return
+			}
+		}
+	}
+}
+
+func (state *dpsCurveState) phantomHitShouldFire(passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2) bool {
+	if op.StackKey == "" {
+		return false
+	}
+	triggerStacks := op.TriggerStacks
+	if triggerStacks <= 0 {
+		return false
+	}
+	return state.stacks[stackRuntimeKey(passive, op.StackKey)] >= triggerStacks
+}
+
+func (state *dpsCurveState) applyPhantomHit(timeMs int64, passive model.DPSPassiveEffectV2, phantomOp model.DPSPassiveOperationV2) {
+	repeatTag := strings.TrimSpace(phantomOp.RepeatTag)
+	state.recordPhantomPassiveTrigger(timeMs, passive, repeatTag)
+	for _, op := range passive.Operations {
+		if op.Kind != dpsOpDamage || !op.PhantomHitCopyable {
+			continue
+		}
+		if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
+			return
+		}
+		state.copyPhantomPassiveDamage(timeMs, passive, op, repeatTag)
+	}
+}
+
+func (state *dpsCurveState) copyPhantomPassiveDamage(
+	timeMs int64,
+	passive model.DPSPassiveEffectV2,
+	op model.DPSPassiveOperationV2,
+	repeatTag string,
+) {
+	stacks := 0
+	if op.StackKey != "" {
+		stacks = state.stacks[stackRuntimeKey(passive, op.StackKey)]
+	}
+	amount, ok := state.resolveOperationAmount(op, stacks)
+	if !ok {
+		return
+	}
+	source := passiveDamageSource(passive, op)
+	if !state.applyDamage(timeMs, source, op.DamageType, amount) {
+		return
+	}
+	last := len(state.result.DamageTimeline) - 1
+	if last >= 0 {
+		state.result.DamageTimeline[last].PhantomHit = true
+		state.result.DamageTimeline[last].RepeatTag = repeatTag
+	}
+	message := op.DamageType
+	if repeatTag != "" {
+		message = "repeatTag=" + repeatTag + " " + message
+	}
+	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+		TimeMs:     timeMs,
+		Source:     source,
+		Kind:       dpsOpDamage,
+		Amount:     amount,
+		Message:    message,
+		PhantomHit: true,
+		RepeatTag:  repeatTag,
+	})
 }
 
 func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2) {
@@ -1088,12 +1199,22 @@ func (state *dpsCurveState) updateQueuePeak() {
 }
 
 func (state *dpsCurveState) recordPassiveTrigger(timeMs int64, passive model.DPSPassiveEffectV2) {
+	state.appendPassiveTrigger(timeMs, passive, false, "")
+}
+
+func (state *dpsCurveState) recordPhantomPassiveTrigger(timeMs int64, passive model.DPSPassiveEffectV2, repeatTag string) {
+	state.appendPassiveTrigger(timeMs, passive, true, repeatTag)
+}
+
+func (state *dpsCurveState) appendPassiveTrigger(timeMs int64, passive model.DPSPassiveEffectV2, phantomHit bool, repeatTag string) {
 	trigger := model.DPSPassiveTriggerV2{
 		TimeMs:             timeMs,
 		ProcSourceCategory: passive.SourceCategory,
 		SourceID:           nonEmpty(passive.SourceID, passiveID(passive)),
 		SourceType:         passive.SourceType,
 		TriggerID:          passive.TriggerID,
+		PhantomHit:         phantomHit,
+		RepeatTag:          repeatTag,
 	}
 	switch passive.SourceCategory {
 	case "item_passive":
@@ -1341,9 +1462,16 @@ func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRu
 		reasons = append(reasons, "passive effect "+id+" requires operations")
 	}
 	addStackKeys := map[string]bool{}
+	hasCopyableDamage := false
 	for _, op := range passive.Operations {
 		if op.Kind == dpsOpAddStack && op.StackKey != "" {
 			addStackKeys[op.StackKey] = true
+		}
+		if op.Kind == dpsOpDamage && op.PhantomHitCopyable {
+			hasCopyableDamage = true
+		}
+		if op.PhantomHitCopyable && op.Kind != dpsOpDamage {
+			reasons = append(reasons, "passive effect "+id+" phantomHitCopyable is only supported on damage operations")
 		}
 	}
 	for _, op := range passive.Operations {
@@ -1355,6 +1483,40 @@ func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRu
 				reasons = append(reasons, "passive effect "+id+" perStack stat_modifier requires matching add_stack for stackKey "+op.StackKey)
 			}
 		}
+		if op.Kind == dpsOpPhantomHitOnHitRepeat {
+			reasons = append(reasons, validateDPSPhantomHitOperation(id, op, addStackKeys, hasCopyableDamage)...)
+		}
+	}
+	return reasons
+}
+
+func validateDPSPhantomHitOperation(
+	passiveID string,
+	op model.DPSPassiveOperationV2,
+	addStackKeys map[string]bool,
+	hasCopyableDamage bool,
+) []string {
+	reasons := make([]string, 0)
+	if op.StackKey == "" {
+		reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires stackKey")
+	}
+	if op.TriggerStacks <= 0 {
+		reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires triggerStacks > 0")
+	}
+	if op.RepeatCount != 1 {
+		reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatCount=1")
+	}
+	if strings.TrimSpace(op.RepeatTag) == "" {
+		reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatTag")
+	}
+	if op.RepeatScope != dpsRepeatScopeCopyableOnHit {
+		reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatScope="+dpsRepeatScopeCopyableOnHit)
+	}
+	if op.StackKey != "" && !addStackKeys[op.StackKey] {
+		reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires matching add_stack for stackKey "+op.StackKey)
+	}
+	if !hasCopyableDamage {
+		reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires at least one phantomHitCopyable damage operation")
 	}
 	return reasons
 }
@@ -1413,6 +1575,22 @@ func validateDPSPassiveOperation(passiveID string, op model.DPSPassiveOperationV
 		}
 		if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
 			reasons = append(reasons, "passive effect "+passiveID+" stat_modifier has invalid value")
+		}
+	case dpsOpPhantomHitOnHitRepeat:
+		if op.StackKey == "" {
+			reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires stackKey")
+		}
+		if op.TriggerStacks <= 0 {
+			reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires triggerStacks > 0")
+		}
+		if op.RepeatCount != 1 {
+			reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatCount=1")
+		}
+		if strings.TrimSpace(op.RepeatTag) == "" {
+			reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatTag")
+		}
+		if op.RepeatScope != dpsRepeatScopeCopyableOnHit {
+			reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatScope="+dpsRepeatScopeCopyableOnHit)
 		}
 	default:
 		reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation "+op.Kind)
