@@ -272,26 +272,26 @@ type TriggerDefinitionV2 struct {
 }
 
 type EffectDefV2 struct {
-	Type             EffectType       `json:"type"`
-	FormulaID        string           `json:"formulaId,omitempty"`
-	Amount           float64          `json:"amount,omitempty"`
-	DamageType       string           `json:"damageType,omitempty"`
-	StatusID         string           `json:"statusId,omitempty"`
-	SourceRole       string           `json:"sourceRole,omitempty"`
-	TargetRole       string           `json:"targetRole,omitempty"`
-	HistoryWindowMs  int64            `json:"historyWindowMs,omitempty"`
-	CounterKey       string           `json:"counterKey,omitempty"`
-	MarkID           string           `json:"markId,omitempty"`
-	ResourceID       string           `json:"resourceId,omitempty"`
-	AttrID           string           `json:"attrId,omitempty"`
-	ModifierMode     AttrModifierMode `json:"modifierMode,omitempty"`
-	CritPolicy       string           `json:"critPolicy,omitempty"`
-	CritChanceSource     string  `json:"critChanceSource,omitempty"`
-	CritChance           float64 `json:"critChance,omitempty"`
-	CritMultiplierSource string  `json:"critMultiplierSource,omitempty"`
-	CritMultiplier       float64 `json:"critMultiplier,omitempty"`
-	ModeAugmentID    string           `json:"modeAugmentId,omitempty"`
-	ModeMultiplier   float64          `json:"modeMultiplier,omitempty"`
+	Type                 EffectType       `json:"type"`
+	FormulaID            string           `json:"formulaId,omitempty"`
+	Amount               float64          `json:"amount,omitempty"`
+	DamageType           string           `json:"damageType,omitempty"`
+	StatusID             string           `json:"statusId,omitempty"`
+	SourceRole           string           `json:"sourceRole,omitempty"`
+	TargetRole           string           `json:"targetRole,omitempty"`
+	HistoryWindowMs      int64            `json:"historyWindowMs,omitempty"`
+	CounterKey           string           `json:"counterKey,omitempty"`
+	MarkID               string           `json:"markId,omitempty"`
+	ResourceID           string           `json:"resourceId,omitempty"`
+	AttrID               string           `json:"attrId,omitempty"`
+	ModifierMode         AttrModifierMode `json:"modifierMode,omitempty"`
+	CritPolicy           string           `json:"critPolicy,omitempty"`
+	CritChanceSource     string           `json:"critChanceSource,omitempty"`
+	CritChance           float64          `json:"critChance,omitempty"`
+	CritMultiplierSource string           `json:"critMultiplierSource,omitempty"`
+	CritMultiplier       float64          `json:"critMultiplier,omitempty"`
+	ModeAugmentID        string           `json:"modeAugmentId,omitempty"`
+	ModeMultiplier       float64          `json:"modeMultiplier,omitempty"`
 }
 
 type DamageProfileV2 struct {
@@ -481,6 +481,10 @@ type DPSPassiveOperationV2 struct {
 	ModifierMode         string  `json:"modifierMode,omitempty"`
 	Value                float64 `json:"value,omitempty"`
 	PerStack             bool    `json:"perStack,omitempty"`
+	RepeatCount          int     `json:"repeatCount,omitempty"`
+	RepeatTag            string  `json:"repeatTag,omitempty"`
+	RepeatScope          string  `json:"repeatScope,omitempty"`
+	PhantomHitCopyable   bool    `json:"phantomHitCopyable,omitempty"`
 }
 
 type SingleAttackerDPSOutputV2 struct {
@@ -548,6 +552,8 @@ type DPSDamageEventV2 struct {
 	FinalDamage    float64 `json:"finalDamage"`
 	TargetHPBefore float64 `json:"targetHpBefore"`
 	TargetHPAfter  float64 `json:"targetHpAfter"`
+	PhantomHit     bool    `json:"phantomHit,omitempty"`
+	RepeatTag      string  `json:"repeatTag,omitempty"`
 }
 
 type DPSTargetHPEventV2 struct {
@@ -568,14 +574,18 @@ type DPSPassiveTriggerV2 struct {
 	SourceID           string `json:"sourceId,omitempty"`
 	SourceType         string `json:"sourceType,omitempty"`
 	TriggerID          string `json:"triggerId,omitempty"`
+	PhantomHit         bool   `json:"phantomHit,omitempty"`
+	RepeatTag          string `json:"repeatTag,omitempty"`
 }
 
 type DPSEffectBreakdownV2 struct {
-	TimeMs  int64   `json:"timeMs"`
-	Source  string  `json:"source,omitempty"`
-	Kind    string  `json:"kind,omitempty"`
-	Amount  float64 `json:"amount,omitempty"`
-	Message string  `json:"message,omitempty"`
+	TimeMs     int64   `json:"timeMs"`
+	Source     string  `json:"source,omitempty"`
+	Kind       string  `json:"kind,omitempty"`
+	Amount     float64 `json:"amount,omitempty"`
+	Message    string  `json:"message,omitempty"`
+	PhantomHit bool    `json:"phantomHit,omitempty"`
+	RepeatTag  string  `json:"repeatTag,omitempty"`
 }
 
 type AttributeSnapshotV2 struct {
