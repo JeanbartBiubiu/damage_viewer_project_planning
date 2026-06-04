@@ -1,0 +1,139 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_k_guinsoo_phantom_hit_001",
+  "source": {
+    "auditJson": "最小验证/V2-Batch-G-adc-passive-audit.json",
+    "priorPassiveSeedD": "最小验证/V2-Batch-D-adc-item-passives.seed.json",
+    "priorPassiveSeedH": "最小验证/V2-Batch-H-stacking-stat-passives.seed.json",
+    "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
+    "sourceVersion": "16.9.1",
+    "generatedAt": "2026-06-03",
+    "rule": "V2 Batch K publishes the full item 3124 Guinsoo's Rageblade DPS passive in one item-owned skill: Batch D wrath on-hit magic damage, Batch H Boiling Strike stacking attack speed, and Batch K phantom-hit on-hit repeat in the same dpsPassiveEffects entry.",
+    "gateStatus": "K-real-data-ready when published bundle preserves the merged dpsPassiveEffects operations on item_3124_guinsoos_boiling_strike_dps_v2"
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3124_guinsoos_boiling_strike_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3124",
+      "skillKey": "p_boiling",
+      "name": "鬼索的狂暴之刃 完整 DPS 被动",
+      "description": "V2 Batch K: attacks deal 30 bonus magic on-hit damage (phantom-hit copyable), add Boiling Strike stacks granting 8% attack speed per stack for 3 seconds up to 4 stacks, and at 4 stacks repeat copyable on-hit effects once as phantom_hit.",
+      "params": {
+        "onHitMagicDamage": 30,
+        "perStackAttackSpeed": 0.08,
+        "durationMs": 3000,
+        "maxStacks": 4,
+        "refreshMode": "refresh",
+        "phantomRepeatCount": 1,
+        "sourceRef": "数据参考/item.json#data.3124.description/effect"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "guinsoos_wrath_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3124_guinsoos_boiling_strike_dps_v2",
+            "effectId": "item_3124_guinsoos_boiling_strike_effect",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_3124_guinsoos_boiling_strike_dps_v2",
+            "sourceType": "item",
+            "triggerId": "guinsoos_wrath_on_hit",
+            "triggerKind": "on_basic_attack_hit",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "guinsoos_wrath_on_hit",
+                "damageType": "magic",
+                "amount": 30,
+                "phantomHitCopyable": true
+              },
+              {
+                "kind": "add_stack",
+                "source": "guinsoos_boiling_strike_add_stack",
+                "stackKey": "guinsoos_boiling_strike",
+                "maxStacks": 4,
+                "durationMs": 3000,
+                "refreshMode": "refresh"
+              },
+              {
+                "kind": "stat_modifier",
+                "source": "guinsoos_boiling_strike_attack_speed",
+                "stackKey": "guinsoos_boiling_strike",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.08,
+                "perStack": true
+              },
+              {
+                "kind": "phantom_hit_on_hit_repeat",
+                "source": "guinsoos_phantom_hit",
+                "stackKey": "guinsoos_boiling_strike",
+                "triggerStacks": 4,
+                "repeatCount": 1,
+                "repeatTag": "phantom_hit",
+                "repeatScope": "copyable_on_hit"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3124",
+      "name": "鬼索的狂暴之刃",
+      "goldCost": 3000,
+      "iconUrl": "item_3124",
+      "skillRefs": [
+        "item_3124_guinsoos_boiling_strike_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 30
+        },
+        {
+          "attrKey": "ap",
+          "value": 30
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3124",
+        "sourceTags": [
+          "Damage",
+          "AttackSpeed",
+          "SpellDamage",
+          "OnHit"
+        ],
+        "sourceGoldTotal": 3000,
+        "batch": "V2-Batch-K",
+        "sourceText": "攻击造成30额外魔法伤害攻击特效。攻击会提供8%攻击速度，持续3秒(可叠加4次)。在满层状态下，每第三次攻击会附带2次攻击特效。Batch K merges wrath on-hit, Boiling Strike stacking, and phantom-hit repeat into one published skill."
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
