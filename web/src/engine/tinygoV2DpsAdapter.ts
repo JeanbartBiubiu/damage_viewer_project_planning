@@ -94,6 +94,8 @@ export type V2DpsStackingPassiveBundleCheck = {
   passiveFound: boolean;
   passiveLinkedByItem: boolean;
   stackingOperationsFound: boolean;
+  onHitDamageFound: boolean;
+  phantomHitOperationFound: boolean;
   ready: boolean;
   missingReasons: string[];
 };
@@ -142,6 +144,10 @@ export type V2DpsPassiveOperation = {
   durationMs?: number;
   tickIntervalMs?: number;
   refreshMode?: string;
+  repeatCount?: number;
+  repeatTag?: string;
+  repeatScope?: string;
+  phantomHitCopyable?: boolean;
   attrKey?: string;
   modifierMode?: string;
   value?: number;
@@ -290,6 +296,8 @@ export type V2DpsCurveResult = {
     finalDamage: number;
     targetHpBefore: number;
     targetHpAfter: number;
+    phantomHit?: boolean;
+    repeatTag?: string;
   }>;
   targetHpTimeline: Array<{ timeMs: number; currentHp: number; maxHp: number }>;
   effectTimeline: Array<{ timeMs: number; sourceId?: string; kind?: string }>;
@@ -302,7 +310,15 @@ export type V2DpsCurveResult = {
   skillPassiveTriggers: unknown[];
   itemPassiveTriggers: unknown[];
   externalPassiveTriggers: unknown[];
-  effectBreakdown: Array<{ timeMs?: number; source?: string; kind?: string; amount?: number; message?: string }>;
+  effectBreakdown: Array<{
+    timeMs?: number;
+    source?: string;
+    kind?: string;
+    amount?: number;
+    message?: string;
+    phantomHit?: boolean;
+    repeatTag?: string;
+  }>;
   critPolicy: 'expected';
   seed: number;
   blockedReasons: string[];
@@ -536,7 +552,7 @@ export function createV2DpsStackingPassiveCurveSelections(attackerHeroId: string
     syntheticInvalidCurve,
     createV2DpsCurveSelection(
       `${heroKey}-batch-h-guinsoo-3124`,
-      'Batch H / 3124 Guinsoo',
+      'Batch K / 3124 Guinsoo',
       [V2_DPS_STACKING_PASSIVE_ITEM_ID],
       attackerHeroId,
       [],
@@ -718,6 +734,27 @@ export function inspectV2DpsStackingPassiveBundle(bundle: GameDataBundle): V2Dps
       && operation.value === 0.08
     ));
   });
+  const onHitDamageFound = passiveEffects.some((effect) => {
+    const operations = effect.operations ?? [];
+    return operations.some((operation) => (
+      operation.kind === 'damage'
+      && operation.source === 'guinsoos_wrath_on_hit'
+      && operation.damageType === 'magic'
+      && operation.amount === 30
+      && operation.phantomHitCopyable === true
+    ));
+  });
+  const phantomHitOperationFound = passiveEffects.some((effect) => {
+    const operations = effect.operations ?? [];
+    return operations.some((operation) => (
+      operation.kind === 'phantom_hit_on_hit_repeat'
+      && operation.stackKey === 'guinsoos_boiling_strike'
+      && operation.triggerStacks === 4
+      && operation.repeatCount === 1
+      && operation.repeatTag === 'phantom_hit'
+      && operation.repeatScope === 'copyable_on_hit'
+    ));
+  });
   const passiveLinkedByItem = itemSkillRefs.size === 0
     ? Boolean(passiveSkill)
     : itemSkillRefs.has(V2_DPS_STACKING_PASSIVE_SKILL_ID);
@@ -735,7 +772,13 @@ export function inspectV2DpsStackingPassiveBundle(bundle: GameDataBundle): V2Dps
     missingReasons.push(`item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID} has no dpsPassiveEffects entry`);
   }
   if (passiveFound && !stackingOperationsFound) {
-    missingReasons.push(`item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID} is missing add_stack/stat_modifier p_boiling operations`);
+    missingReasons.push(`item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID} is missing Batch H/K add_stack/stat_modifier p_boiling operations`);
+  }
+  if (passiveFound && !onHitDamageFound) {
+    missingReasons.push(`item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID} is missing Batch K copyable on-hit damage (guinsoos_wrath_on_hit magic 30, phantomHitCopyable=true)`);
+  }
+  if (passiveFound && !phantomHitOperationFound) {
+    missingReasons.push(`item skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID} is missing Batch K phantom_hit_on_hit_repeat operation (phantom_hit / copyable_on_hit)`);
   }
   if (itemFound && passiveSkill && !passiveLinkedByItem) {
     missingReasons.push(`item 3124 skillRefs does not link ${V2_DPS_STACKING_PASSIVE_SKILL_ID}`);
@@ -749,6 +792,8 @@ export function inspectV2DpsStackingPassiveBundle(bundle: GameDataBundle): V2Dps
     passiveFound,
     passiveLinkedByItem,
     stackingOperationsFound,
+    onHitDamageFound,
+    phantomHitOperationFound,
     ready: missingReasons.length === 0,
     missingReasons
   };
