@@ -22,7 +22,7 @@
 3. Cursor prompt 必须写清：目标、允许写入范围、非目标、验证命令、停止条件；范围未收敛，或写入范围未限制时，不得启动 Cursor。
 4. Cursor 只负责受限编码执行，不负责自行扩写需求、扩大范围、跳过限制或替代最终验收。
 5. 通过 SDK / local agent 调 Cursor 时，固定使用 `composer-2.5` + `fast=false`；不得使用 `composer-latest`、`composer` 或默认 `composer-2.5`。接线、runner 和 smoke 规则见 `.agents/skills/cursor-local-agent/SKILL.md`。
-6. GPT 每轮先检查 Cursor 产物、事件日志和 `git diff` 再 review；即使 Cursor 返回 `status=error` 也要先看 diff。最终验证仍由 GPT 亲自完成，包括本地命令、必要时 Playwright 和人工验收交接；若 Cursor 链路、权限、环境或验证异常，先报告阻塞，除非用户明确同意，否则不要退回成 “GPT 直接改代码”。
+6. GPT 每轮先检查 Cursor 产物、事件日志和 `git diff` 再 review；即使 Cursor 返回 `status=error` 也要先看 diff。最终验证仍由 GPT 亲自完成，包括本地命令、必要时启动/复用前后端并用 Playwright 走完整用户流；不得把可自动化页面验收直接交给用户。只有登录/验证码、游戏客户端读数、人工 baseline、权限密钥或本机权限等不可自动化项才交接给用户，并说明已验证内容和剩余确认项；若 Cursor 链路、权限、环境或验证异常，先报告阻塞，除非用户明确同意，否则不要退回成 “GPT 直接改代码”。
 
 流程说明真源见 `.\文档记录\详细设计\Cursor-GPT协同开发流程说明.md`。
 

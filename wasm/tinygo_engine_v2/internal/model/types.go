@@ -420,15 +420,16 @@ type DPSResolvedSnapshotV2 struct {
 }
 
 type DPSActorSnapshotV2 struct {
-	ActorID    string             `json:"actorId"`
-	TemplateID string             `json:"templateId,omitempty"`
-	Name       string             `json:"name,omitempty"`
-	Level      int                `json:"level,omitempty"`
-	Types      []string           `json:"types"`
-	StatusIDs  []string           `json:"statusIds,omitempty"`
-	Attributes map[string]float64 `json:"attributes"`
-	CurrentHP  float64            `json:"currentHp"`
-	MaxHP      float64            `json:"maxHp"`
+	ActorID          string                         `json:"actorId"`
+	TemplateID       string                         `json:"templateId,omitempty"`
+	Name             string                         `json:"name,omitempty"`
+	Level            int                            `json:"level,omitempty"`
+	Types            []string                       `json:"types"`
+	StatusIDs        []string                       `json:"statusIds,omitempty"`
+	Attributes       map[string]float64             `json:"attributes"`
+	AttributeViews   map[string]AttributeSnapshotV2 `json:"attributeViews,omitempty"`
+	CurrentHP        float64                        `json:"currentHp"`
+	MaxHP            float64                        `json:"maxHp"`
 }
 
 type DPSScenarioStateV2 struct {
@@ -466,8 +467,9 @@ type DPSPassiveOperationV2 struct {
 	TargetMissingHPRatio float64 `json:"targetMissingHpRatio,omitempty"`
 	TargetMissingHPBasis string  `json:"targetMissingHpBasis,omitempty"`
 	TargetMissingHPAmp   float64 `json:"targetMissingHpAmp,omitempty"`
-	AttackerAttr         string  `json:"attackerAttr,omitempty"`
-	AttackerAttrRatio    float64 `json:"attackerAttrRatio,omitempty"`
+	AttackerAttr         string              `json:"attackerAttr,omitempty"`
+	AttackerAttrRead     AttributeReadKind   `json:"attackerAttrRead,omitempty"`
+	AttackerAttrRatio    float64             `json:"attackerAttrRatio,omitempty"`
 	MinAmount            float64 `json:"minAmount,omitempty"`
 	HasMinAmount         bool    `json:"hasMinAmount,omitempty"`
 	StackKey             string  `json:"stackKey,omitempty"`
