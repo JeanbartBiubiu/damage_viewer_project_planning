@@ -1,0 +1,132 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_m_attr_read_trinity_base_ad_001",
+  "source": {
+    "auditJson": "V2-Batch-M-attr-read-trinity-base-ad-audit.json",
+    "priorItemSeed": "V2-Batch-C-adc-items.seed.json",
+    "passiveAudit": "V2-Batch-G-adc-passive-audit.json",
+    "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
+    "sourceVersion": "16.9.1",
+    "generatedAt": "2026-06-05",
+    "rule": "V2 Batch M publishes Trinity Force Spellblade with attackerAttrRead=base so the proc scales from hero-level base AD via attributeViews, not equipment-included resolved AD. Wasm/Web already support attribute read views; the page must still preselect scenario state item_3078_spellblade_ready and consume it once on the next eligible basic attack hit.",
+    "gateStatus": "M-trinity-data-pass when published bundle preserves dpsScenarioStates, triggerKind=next_basic_attack_after_state, requiresScenarioStateId, attackerAttrRead=base on the Trinity Force spellblade damage operation, and item 3078 statModifiers still include ad +36."
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "Items"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3078_trinity_force_spellblade_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3078",
+      "skillKey": "p_spellblade",
+      "name": "Trinity Force Spellblade DPS passive",
+      "description": "V2 Batch M: assumes a spell was cast before the DPS window, then consumes item_3078_spellblade_ready on the next basic attack hit to deal one physical Spellblade proc scaled from ad base view (2 * base AD), not resolved total AD.",
+      "params": {
+        "scenarioStateId": "item_3078_spellblade_ready",
+        "attackerAttr": "ad",
+        "attackerAttrRead": "base",
+        "attackerAttrRatio": 2.0,
+        "formulaAssumption": "Use attacker ad ratio with attackerAttrRead=base as the Batch M proof. Trinity Spellblade reads attributeViews.ad.base and ignores equipment ad +36 in contribution. Batch M does not model active spell casting, cooldown, or full rotation.",
+        "sourceRef": "数据参考/item.json#data.3078.description"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "trinity_force_spellblade_next_attack",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3078_spellblade_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3078",
+            "activation": "assumed_spell_cast_before_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3078_trinity_force_spellblade_dps_v2",
+            "effectId": "item_3078_trinity_force_spellblade_effect",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_3078_trinity_force_spellblade_dps_v2",
+            "sourceType": "item",
+            "triggerId": "trinity_force_spellblade_next_attack",
+            "triggerKind": "next_basic_attack_after_state",
+            "requiresScenarioStateId": "item_3078_spellblade_ready",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "trinity_force_spellblade",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 2.0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3078",
+      "name": "Trinity Force",
+      "goldCost": 3333,
+      "iconUrl": "item_3078",
+      "skillRefs": [
+        "item_3078_trinity_force_spellblade_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ability_haste",
+          "value": 15
+        },
+        {
+          "attrKey": "ad",
+          "value": 36
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.3
+        },
+        {
+          "attrKey": "hp",
+          "value": 333
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3078",
+        "sourceTags": [
+          "Health",
+          "Damage",
+          "AttackSpeed",
+          "CooldownReduction",
+          "OnHit",
+          "NonbootsMovement",
+          "AbilityHaste"
+        ],
+        "sourceGoldTotal": 3333,
+        "batch": "V2-Batch-M",
+        "sourceText": "Spellblade: after casting a spell, the next basic attack is empowered and deals bonus physical damage on-hit equal to 2 * base AD. Batch M models this with attackerAttrRead=base on ad while preserving the explicit ready scenario state from Batch L, not active spell rotation."
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
