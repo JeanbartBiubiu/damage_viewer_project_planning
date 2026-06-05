@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as echarts from 'echarts';
-import { Alert, Button, Form, Grid, Input, InputNumber, Select, Space, Table, Tag, Typography } from '@arco-design/web-react';
+import { Alert, Button, Collapse, Form, Grid, Input, InputNumber, Select, Space, Table, Tag, Typography } from '@arco-design/web-react';
 import { IconCopy, IconDelete, IconPlayArrow, IconPlus, IconRefresh } from '@arco-design/web-react/icon';
 import { EntitySelectOptionLabel, filterEntitySelectOption } from '../components/EntitySelectOption';
 import { EmptyState } from '../components/EmptyState';
@@ -16,6 +16,7 @@ import {
   createV2DpsCurveSelection,
   createV2DpsStackingPassiveCurveSelections,
   createV2DpsStackingPassiveSyntheticBundle,
+  resolveV2DpsEnabledScenarioStateIds,
   formatV2DpsMultiHeroCurveLabel,
   getDefaultV2DpsPassiveIdsForHero,
   getDefaultV2DpsScenarioIdsForHero,
@@ -23,6 +24,7 @@ import {
   listV2DpsAttackers,
   listV2DpsEquipmentOptions,
   listV2DpsPassiveOptionsForHero,
+  listV2DpsScenarioOptions,
   listV2DpsScenarioOptionsForHero,
   listV2DpsTargetDummyGroups,
   prepareV2DpsInput,
@@ -104,13 +106,46 @@ type StackingPassiveEvidence = {
   capReached: boolean;
   expiryObserved: boolean;
   invalidBlocked: boolean;
+  phantomEvidencePass: boolean;
   stackHint: string;
   capHint: string;
   expiryHint: string;
   invalidHint: string;
+  phantomHint: string;
 };
 
 type ChartMode = 'damage' | 'hp';
+
+type EventTimelineIconHints = {
+  curveLabel: string;
+  heroIconSrc: string | null;
+  itemIconSrc: string | null;
+};
+
+type EventTimelineLane = {
+  id: 'attack' | 'damage' | 'itemPassive' | 'skillPassive' | 'effect' | 'hp';
+  label: string;
+};
+
+type EventTimelinePoint = {
+  id: string;
+  timeMs: number;
+  laneIndex: number;
+  laneLabel: string;
+  y: number;
+  category: string;
+  label: string;
+  source?: string;
+  detailRows: string[];
+  symbol: string;
+  symbolSize: number;
+  color: string;
+};
+
+type EventTimelineConnector = {
+  from: [number, number];
+  to: [number, number];
+};
 
 type BasicAttackEvidenceRow = V2DpsBasicAttackAction & {
   key: string;
@@ -165,6 +200,8 @@ function WasmValidationV2DpsWorkbench({
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const chartElementRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
+  const eventTimelineElementRef = useRef<HTMLDivElement | null>(null);
+  const eventTimelineChartRef = useRef<echarts.ECharts | null>(null);
   const { imageSrcByUri } = useResourceImageCache(selectedGameId);
 
   const resetRunArtifacts = useCallback(() => {
@@ -314,18 +351,22 @@ function WasmValidationV2DpsWorkbench({
     : '';
   const multiHeroGlobalScenarioStateIds = selection?.curves[0]?.enabledScenarioStateIds ?? [];
   const multiHeroScenarioOptions = useMemo(() => {
+    if (!bundle || !selection) {
+      return [];
+    }
     const options = new Map<string, { id: string; label: string }>();
-    for (const curve of selection?.curves ?? []) {
-      const heroId = selection ? getCurveHeroId(selection, curve) : curve.attackerHeroId ?? '';
+    for (const curve of selection.curves) {
+      const heroId = getCurveHeroId(selection, curve);
       const heroLabel = heroLabelById.get(heroId) ?? heroId;
-      for (const option of listV2DpsScenarioOptionsForHero(heroId)) {
+      for (const option of listV2DpsScenarioOptions(bundle, heroId, multiHeroGlobalEquipmentItemIds)) {
         if (!options.has(option.id)) {
-          options.set(option.id, { id: option.id, label: `${heroLabel} / ${option.label}` });
+          const prefix = option.itemId ? '' : `${heroLabel} / `;
+          options.set(option.id, { id: option.id, label: `${prefix}${option.label}` });
         }
       }
     }
     return Array.from(options.values());
-  }, [heroLabelById, selection]);
+  }, [bundle, heroLabelById, multiHeroGlobalEquipmentItemIds, selection]);
   const curveResults = wasmOutput?.curveResults ?? [];
   const curveLabelById = useMemo(() => {
     const labels = new Map<string, string>();
@@ -436,6 +477,15 @@ function WasmValidationV2DpsWorkbench({
       .filter((row) => row.curveId === resolvedActiveCurveId)
       .map(({ key: _key, curveId: _curveId, curveLabel: _curveLabel, ...action }) => action);
   }, [activeBasicAttackActions, basicAttackEvidenceRows, resolvedActiveCurveId]);
+  const activeCurveLabel = activeCurveResult
+    ? curveLabelById.get(activeCurveResult.curveId) ?? activeCurveResult.curveId
+    : activeCurveConfig?.label ?? '';
+  const activeHeroIconSrc = activeCurveResult?.selection.heroId
+    ? resolveHeroImageSrc(activeCurveResult.selection.heroId)
+    : null;
+  const activeItemIconSrc = activeCurveResult?.selection.equipmentSet[0]
+    ? resolveItemImageSrc(activeCurveResult.selection.equipmentSet[0])
+    : null;
   const compiledStatusEvidence = useMemo(
     () => summarizeCompiledStatusEvidence(preparedInput?.engineBundle.statuses),
     [preparedInput]
@@ -471,6 +521,7 @@ function WasmValidationV2DpsWorkbench({
       simulationRules: wasmOutput.simulationRules,
       targetSnapshot: wasmOutput.targetSnapshot,
       runInput: preparedInput.runInput,
+      curveResults: wasmOutput.curveResults,
       wasmOutput
     };
   }, [activeCurveResult, compiledStatusEvidence, preparedInput, wasmOutput]);
@@ -490,9 +541,30 @@ function WasmValidationV2DpsWorkbench({
     };
   }, [chartMode, curveLabelById, curveResults]);
 
+  useEffect(() => {
+    if (!eventTimelineElementRef.current) {
+      return;
+    }
+    const chart = eventTimelineChartRef.current ?? echarts.init(eventTimelineElementRef.current);
+    eventTimelineChartRef.current = chart;
+    chart.setOption(buildEventTimelineOption(activeCurveResult, {
+      curveLabel: activeCurveLabel,
+      heroIconSrc: activeHeroIconSrc,
+      itemIconSrc: activeItemIconSrc
+    }), true);
+
+    const handleResize = () => chart.resize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [activeCurveLabel, activeCurveResult, activeHeroIconSrc, activeItemIconSrc]);
+
   useEffect(() => () => {
     chartRef.current?.dispose();
     chartRef.current = null;
+    eventTimelineChartRef.current?.dispose();
+    eventTimelineChartRef.current = null;
   }, []);
 
   useEffect(() => {
@@ -671,11 +743,18 @@ function WasmValidationV2DpsWorkbench({
   const updateMultiHeroGlobalEquipment = useCallback((equipmentItemIds: string[]) => {
     updateSelection((current) => ({
       ...current,
-      curves: current.curves.map((curve) => ({
-        ...curve,
-        equipmentItemIds,
-        label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, getCurveHeroId(current, curve), equipmentItemIds) : curve.label
-      }))
+      curves: current.curves.map((curve) => {
+        const heroId = getCurveHeroId(current, curve);
+        const enabledScenarioStateIds = bundle
+          ? resolveV2DpsEnabledScenarioStateIds(bundle, heroId, equipmentItemIds, curve.enabledScenarioStateIds)
+          : curve.enabledScenarioStateIds;
+        return {
+          ...curve,
+          equipmentItemIds,
+          enabledScenarioStateIds,
+          label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, heroId, equipmentItemIds) : curve.label
+        };
+      })
     }));
   }, [bundle, updateSelection]);
 
@@ -723,13 +802,21 @@ function WasmValidationV2DpsWorkbench({
     updateSelection((current) => ({
       ...current,
       attackerHeroId: current.curves[0]?.curveId === curveId ? attackerHeroId : current.attackerHeroId,
-      curves: current.curves.map((curve) => curve.curveId === curveId ? {
-        ...curve,
-        attackerHeroId,
-        label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, attackerHeroId, curve.equipmentItemIds) : curve.label,
-        enabledPassiveEffectIds: getDefaultV2DpsPassiveIdsForHero(attackerHeroId),
-        enabledScenarioStateIds: current.curves[0]?.enabledScenarioStateIds ?? []
-      } : curve)
+      curves: current.curves.map((curve) => {
+        if (curve.curveId !== curveId) {
+          return curve;
+        }
+        const enabledScenarioStateIds = bundle
+          ? resolveV2DpsEnabledScenarioStateIds(bundle, attackerHeroId, curve.equipmentItemIds, curve.enabledScenarioStateIds)
+          : curve.enabledScenarioStateIds;
+        return {
+          ...curve,
+          attackerHeroId,
+          label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, attackerHeroId, curve.equipmentItemIds) : curve.label,
+          enabledPassiveEffectIds: getDefaultV2DpsPassiveIdsForHero(attackerHeroId),
+          enabledScenarioStateIds
+        };
+      })
     }));
   }, [bundle, updateSelection]);
 
@@ -808,6 +895,14 @@ function WasmValidationV2DpsWorkbench({
       render: (_: unknown, record: DamageRow) => <Tag color="arcoblue">{record.damageType}</Tag>
     },
     {
+      title: <span className="wasm-hud-col-title">source</span>,
+      render: (_: unknown, record: DamageRow) => <Typography.Text className="wasm-code-token">{record.source}</Typography.Text>
+    },
+    {
+      title: <span className="wasm-hud-col-title">evidence</span>,
+      render: (_: unknown, record: DamageRow) => formatDamageEvidenceTags(record)
+    },
+    {
       title: <span className="wasm-hud-col-title">raw</span>,
       align: 'right' as const,
       render: (_: unknown, record: DamageRow) => <span className="wasm-hud-value">{formatNumber(record.rawDamage)}</span>
@@ -884,10 +979,10 @@ function WasmValidationV2DpsWorkbench({
 
   const displayCaseId = selection?.caseId ?? (isStackingPassive ? V2_DPS_STACKING_PASSIVE_CASE_ID : V2_DPS_CASE_ID);
   const pageTitle = isStackingPassive
-    ? 'V2 DPS Batch H Stacking Passive'
+    ? 'V2 DPS Batch K Stacking Passive'
     : isMultiHero ? 'V2 DPS 多英雄同装备' : 'V2 DPS 单英雄多曲线';
   const pageKicker = isStackingPassive
-    ? 'single_attacker_dps / v2_batch_h_stacking_stat_passives_001'
+    ? 'single_attacker_dps / v2_batch_k_guinsoo_phantom_hit'
     : isMultiHero ? 'single_attacker_dps / Batch E-B' : 'single_attacker_dps / Batch E-1';
   const curvePanelTitle = isMultiHero ? '英雄行配置' : 'Curve 配置';
   const curvePanelKicker = isStackingPassive
@@ -926,7 +1021,7 @@ function WasmValidationV2DpsWorkbench({
         {isStackingPassive && syntheticFallbackReason ? (
           <Alert
             type="warning"
-            content={`Published bundle load failed; Batch H synthetic runtime preset is active. ${syntheticFallbackReason}`}
+            content={`Published bundle load failed; Batch H/K synthetic runtime preset is active. ${syntheticFallbackReason}`}
           />
         ) : null}
         {isStackingPassive && stackingPassiveCheck ? (
@@ -1125,7 +1220,9 @@ function WasmValidationV2DpsWorkbench({
               const curveHeroId = getCurveHeroId(selection, curve);
               const curveHeroLabel = heroLabelById.get(curveHeroId) ?? curveHeroId;
               const curvePassiveOptions = listV2DpsPassiveOptionsForHero(curveHeroId);
-              const curveScenarioOptions = listV2DpsScenarioOptionsForHero(curveHeroId);
+              const curveScenarioOptions = bundle
+                ? listV2DpsScenarioOptions(bundle, curveHeroId, curve.equipmentItemIds)
+                : listV2DpsScenarioOptionsForHero(curveHeroId);
               const equipmentSummary = formatCurveEquipmentLabel(curve, equipmentLabelById);
               return (
                 <section
@@ -1229,7 +1326,13 @@ function WasmValidationV2DpsWorkbench({
                           value={curve.equipmentItemIds}
                           showSearch
                           filterOption={filterEntitySelectOption}
-                          onChange={(value) => updateCurve(curve.curveId, { equipmentItemIds: normalizeSelectValues(value) })}
+                          onChange={(value) => {
+                            const equipmentItemIds = normalizeSelectValues(value);
+                            const enabledScenarioStateIds = bundle
+                              ? resolveV2DpsEnabledScenarioStateIds(bundle, curveHeroId, equipmentItemIds, curve.enabledScenarioStateIds)
+                              : curve.enabledScenarioStateIds;
+                            updateCurve(curve.curveId, { equipmentItemIds, enabledScenarioStateIds });
+                          }}
                           disabled={equipmentOptions.length === 0}
                           placeholder="选择 ADC 成装；缺失 published bundle 数据时该 curve 会 blocked"
                         >
@@ -1355,7 +1458,7 @@ function WasmValidationV2DpsWorkbench({
         </Panel>
 
         {stackingPassiveEvidence ? (
-          <Panel title="Batch H Assertions" kicker="wasm output evidence">
+          <Panel title="Batch K Assertions" kicker="Batch H synthetic presets + published 3124 phantom-hit wasm evidence">
             <Row gutter={[16, 16]} className="wasm-validation-grid">
               <Col span={6}>
                 <MetricCard
@@ -1383,6 +1486,15 @@ function WasmValidationV2DpsWorkbench({
                   label="Invalid Contract"
                   value={formatPassStatus(stackingPassiveEvidence.invalidBlocked)}
                   hint={stackingPassiveEvidence.invalidHint}
+                />
+              </Col>
+            </Row>
+            <Row gutter={[16, 16]} className="wasm-validation-grid">
+              <Col span={6}>
+                <MetricCard
+                  label="Phantom Hit (3124)"
+                  value={formatPassStatus(stackingPassiveEvidence.phantomEvidencePass)}
+                  hint={stackingPassiveEvidence.phantomHint}
                 />
               </Col>
             </Row>
@@ -1423,8 +1535,31 @@ function WasmValidationV2DpsWorkbench({
             })}
           </Select>
         </Panel>
+
+        <Panel
+          title="事件时间线"
+          kicker="attack -> passive -> damage -> hp"
+          actions={<Tag color={activeCurveResult ? 'green' : 'gray'}>{activeCurveResult ? 'hover for details' : 'not run'}</Tag>}
+        >
+          {activeCurveResult ? (
+            <>
+              <div ref={eventTimelineElementRef} className="v2-dps-event-timeline" data-testid="v2-dps-event-timeline" />
+              <Typography.Text type="secondary" className="v2-dps-event-timeline-note">
+                虚线连接表示按同一 timeMs 或最近上一普攻推断出的触发关系；完整字段仍保留在下方调试明细。
+              </Typography.Text>
+            </>
+          ) : (
+            <EmptyState title="还没有事件时间线" description="运行后将把普攻、伤害、被动触发、效果拆解和 HP 汇总到同一张时间图。" />
+          )}
+        </Panel>
       </div>
 
+      <Panel title="调试明细" kicker="raw timelines / JSON" actions={<Tag color="gray">默认收起</Tag>}>
+        <Collapse defaultActiveKey={[]} className="v2-dps-debug-collapse">
+          <Collapse.Item
+            name="raw-v2-dps-timelines"
+            header={`原始明细：attack ${attackRows.length} / damage ${damageRows.length} / itemPassive ${activeCurveResult?.itemPassiveTriggers.length ?? 0} / effect ${activeCurveResult?.effectBreakdown.length ?? 0}`}
+          >
       <Row gutter={[16, 16]} className="wasm-validation-grid">
         <Col span={12}>
           <Panel title="普攻时间线" kicker="attackTimeline">
@@ -1441,6 +1576,27 @@ function WasmValidationV2DpsWorkbench({
               <Table rowKey="key" columns={damageColumns} data={damageRows} pagination={false} size="small" />
             ) : (
               <EmptyState title="还没有伤害事件" description="运行后展示 wasm 返回的 damageTimeline。" />
+            )}
+          </Panel>
+        </Col>
+      </Row>
+
+      <Row gutter={[16, 16]} className="wasm-validation-grid">
+        <Col span={12}>
+          <Panel title="攻击间隔证据" kicker="attackIntervalTimeline">
+            {activeCurveResult ? (
+              <JsonBlock value={activeCurveResult.attackIntervalTimeline} />
+            ) : (
+              <EmptyState title="还没有攻击间隔证据" description="运行后展示 wasm 返回的 attackIntervalTimeline。" />
+            )}
+          </Panel>
+        </Col>
+        <Col span={12}>
+          <Panel title="目标 HP 时间线" kicker="targetHpTimeline">
+            {activeCurveResult ? (
+              <JsonBlock value={activeCurveResult.targetHpTimeline} />
+            ) : (
+              <EmptyState title="还没有目标 HP 时间线" description="运行后展示 wasm 返回的 targetHpTimeline。" />
             )}
           </Panel>
         </Col>
@@ -1476,6 +1632,9 @@ function WasmValidationV2DpsWorkbench({
           </Panel>
         </Col>
       </Row>
+          </Collapse.Item>
+        </Collapse>
+      </Panel>
     </div>
   );
 }
@@ -1512,11 +1671,11 @@ function createCurveSelectionsForMode(bundle: GameDataBundle | undefined, mode: 
 }
 
 function formatStackingPassiveCheckMessage(check: V2DpsStackingPassiveBundleCheck): string {
-  const prefix = `Batch H real-data contract: item ${V2_DPS_STACKING_PASSIVE_ITEM_ID}, skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID}, skillKey ${check.skillKey}.`;
+  const prefix = `Batch K real-data contract: item ${V2_DPS_STACKING_PASSIVE_ITEM_ID}, skill ${V2_DPS_STACKING_PASSIVE_SKILL_ID}, skillKey ${check.skillKey}.`;
   if (check.ready) {
-    return `${prefix} Published bundle is ready for the 3124 sub-mechanism; synthetic presets can run independently and all mechanics are executed by Wasm.`;
+    return `${prefix} Published bundle is ready for stacking, copyable on-hit damage, and phantom-hit repeat; synthetic presets can run independently and all mechanics are executed by Wasm.`;
   }
-  return `${prefix} Published real-data gate is not ready: ${check.missingReasons.join(' / ')}. Synthetic presets can still run for runtime evidence.`;
+  return `${prefix} Published real-data gate is not ready: ${check.missingReasons.join(' / ')}. Synthetic presets can still run for Batch H runtime evidence; phantom-hit requires published bundle + Wasm output.`;
 }
 
 function createSyntheticCurrentVersion(bundle: GameDataBundle): CurrentVersion {
@@ -1534,6 +1693,7 @@ function buildStackingPassiveEvidence(results: V2DpsCurveResult[]): StackingPass
   const cap = results.find((result) => result.curveId.includes('synthetic-cap'));
   const expiry = results.find((result) => result.curveId.includes('synthetic-expiry'));
   const invalid = results.find((result) => result.curveId.includes('synthetic-invalid'));
+  const phantom = buildGuinsooPhantomEvidence(results);
 
   const capAddStack = parseStackMessages(filterEffectBreakdown(cap, 'add_stack', 'synthetic_batch_h_cap'));
   const capStatModifier = parseStackMessages(filterEffectBreakdown(cap, 'stat_modifier', 'synthetic_batch_h_cap'));
@@ -1568,11 +1728,85 @@ function buildStackingPassiveEvidence(results: V2DpsCurveResult[]): StackingPass
     capReached,
     expiryObserved,
     invalidBlocked,
+    phantomEvidencePass: phantom.pass,
     stackHint: `add_stack=${capAddStack.length}, stat_modifier=${capStatModifier.length}, rawAS=${formatEvidenceRange(capMinSpeed, capMaxSpeed)}`,
     capHint: `max after=${capMaxAfter}, max modifier stacks=${capMaxStatStacks}`,
     expiryHint: `resets=${expiryAddStack.length}, max modifier stacks=${expiryMaxStatStacks}`,
-    invalidHint: invalidReasons.join(' / ') || 'not blocked'
+    invalidHint: invalidReasons.join(' / ') || 'not blocked',
+    phantomHint: phantom.hint
   };
+}
+
+function findGuinsoo3124CurveResult(results: V2DpsCurveResult[]): V2DpsCurveResult | undefined {
+  return results.find((result) => result.curveId.includes('guinsoo-3124'));
+}
+
+function buildGuinsooPhantomEvidence(results: V2DpsCurveResult[]): { pass: boolean; hint: string } {
+  const guinsoo = findGuinsoo3124CurveResult(results);
+  if (!guinsoo) {
+    return { pass: false, hint: 'guinsoo 3124 curve not found in curveResults' };
+  }
+  if (guinsoo.status !== 'ok') {
+    return { pass: false, hint: `guinsoo 3124 curve status=${guinsoo.status}` };
+  }
+
+  const damageTimelineMatch = guinsoo.damageTimeline.some((row) => (
+    row.source === 'guinsoos_wrath_on_hit'
+    && row.phantomHit === true
+    && row.repeatTag === 'phantom_hit'
+  ));
+  const itemPassiveTriggerMatch = guinsoo.itemPassiveTriggers.some((entry) => hasPhantomHitEvidence(entry));
+  const effectBreakdownMatch = guinsoo.effectBreakdown.some((entry) => (
+    entry.source === 'guinsoos_wrath_on_hit'
+    && entry.phantomHit === true
+    && entry.repeatTag === 'phantom_hit'
+  ));
+
+  const missing: string[] = [];
+  if (!damageTimelineMatch) {
+    missing.push('damageTimeline guinsoos_wrath_on_hit phantom_hit');
+  }
+  if (!itemPassiveTriggerMatch) {
+    missing.push('itemPassiveTriggers phantom_hit');
+  }
+  if (!effectBreakdownMatch) {
+    missing.push('effectBreakdown guinsoos_wrath_on_hit phantom_hit');
+  }
+
+  if (missing.length === 0) {
+    return { pass: true, hint: 'damageTimeline + itemPassiveTriggers + effectBreakdown observed from Wasm' };
+  }
+  return { pass: false, hint: `missing: ${missing.join(' / ')}` };
+}
+
+function hasPhantomHitEvidence(entry: unknown): boolean {
+  if (!entry || typeof entry !== 'object') {
+    return false;
+  }
+  const record = entry as Record<string, unknown>;
+  return record.phantomHit === true && record.repeatTag === 'phantom_hit';
+}
+
+function formatDamageEvidenceTags(record: DamageRow) {
+  const tags: string[] = [];
+  if (record.phantomHit === true) {
+    tags.push('phantom');
+  }
+  if (record.repeatTag) {
+    tags.push(record.repeatTag);
+  }
+  if (tags.length === 0) {
+    return <Typography.Text type="secondary">—</Typography.Text>;
+  }
+  return (
+    <Space size={4} wrap>
+      {tags.map((tag) => (
+        <Tag key={tag} color={tag === 'phantom_hit' ? 'purple' : 'gray'}>
+          {tag}
+        </Tag>
+      ))}
+    </Space>
+  );
 }
 
 function filterEffectBreakdown(result: V2DpsCurveResult | undefined, kind: string, sourceToken: string): V2DpsCurveResult['effectBreakdown'] {
@@ -1651,6 +1885,385 @@ function buildSummaryRows(results: V2DpsCurveResult[], curveLabelById: Map<strin
     damageBySource: result.damageBySource,
     blockedReasons: result.blockedReasons
   }));
+}
+
+const EVENT_TIMELINE_LANES: EventTimelineLane[] = [
+  { id: 'attack', label: '普攻/主动' },
+  { id: 'damage', label: '伤害' },
+  { id: 'itemPassive', label: '装备被动' },
+  { id: 'skillPassive', label: '技能被动' },
+  { id: 'effect', label: '效果/叠层' },
+  { id: 'hp', label: 'HP' }
+];
+
+const EVENT_TIMELINE_LANE_INDEX = new Map(EVENT_TIMELINE_LANES.map((lane, index) => [lane.id, index]));
+
+function buildEventTimelineOption(result: V2DpsCurveResult | null, icons: EventTimelineIconHints): echarts.EChartsOption {
+  if (!result) {
+    return {
+      animation: false,
+      xAxis: { type: 'value', min: 0 },
+      yAxis: { type: 'value', show: false },
+      series: []
+    };
+  }
+
+  const points = spreadEventTimelinePoints(buildEventTimelinePoints(result, icons));
+  const connectors = buildEventTimelineConnectors(points);
+  const durationMs = Math.max(result.durationMs, ...points.map((point) => point.timeMs), 0);
+
+  return {
+    animation: false,
+    tooltip: {
+      trigger: 'item',
+      confine: true,
+      borderWidth: 0,
+      backgroundColor: 'rgba(17, 24, 39, 0.94)',
+      textStyle: { color: '#f8fafc' },
+      formatter: (params) => {
+        const data = (params as { data?: unknown }).data as Partial<EventTimelinePoint> | undefined;
+        if (!data?.detailRows) {
+          return '';
+        }
+        return formatEventTimelineTooltip(data as EventTimelinePoint);
+      }
+    },
+    grid: {
+      left: 92,
+      right: 28,
+      top: 28,
+      bottom: 60
+    },
+    dataZoom: [
+      { type: 'inside', xAxisIndex: 0, filterMode: 'none' },
+      { type: 'slider', xAxisIndex: 0, height: 18, bottom: 14, filterMode: 'none' }
+    ],
+    xAxis: {
+      type: 'value',
+      name: 'timeMs',
+      min: 0,
+      max: durationMs,
+      axisLabel: {
+        formatter: (value: number) => `${formatCompactNumber(value)}ms`
+      },
+      splitLine: {
+        lineStyle: { color: '#e5e7eb', type: 'dashed' }
+      }
+    },
+    yAxis: {
+      type: 'value',
+      min: -0.6,
+      max: EVENT_TIMELINE_LANES.length - 0.4,
+      interval: 1,
+      inverse: true,
+      axisTick: { show: false },
+      splitLine: { show: false },
+      axisLine: { show: false },
+      axisLabel: {
+        formatter: (value: number) => EVENT_TIMELINE_LANES[Math.round(value)]?.label ?? ''
+      }
+    },
+    series: [
+      {
+        name: 'trigger links',
+        type: 'lines',
+        coordinateSystem: 'cartesian2d',
+        silent: true,
+        symbol: ['none', 'none'],
+        lineStyle: {
+          color: '#94a3b8',
+          width: 1,
+          opacity: 0.56,
+          type: 'dashed'
+        },
+        data: connectors.map((connector) => ({
+          coords: [connector.from, connector.to]
+        })),
+        z: 1
+      },
+      {
+        name: icons.curveLabel || result.curveId,
+        type: 'scatter',
+        data: points.map((point) => ({
+          ...point,
+          value: [point.timeMs, point.y],
+          itemStyle: {
+            color: point.color,
+            borderColor: point.category === 'attack' ? '#0f172a' : '#ffffff',
+            borderWidth: point.category === 'attack' ? 2 : 1,
+            shadowColor: 'rgba(15, 23, 42, 0.2)',
+            shadowBlur: point.category === 'attack' ? 8 : 4
+          }
+        })),
+        symbol: (_value: unknown, params: { data?: Partial<EventTimelinePoint> }) => params.data?.symbol ?? 'circle',
+        symbolSize: (_value: unknown, params: { data?: Partial<EventTimelinePoint> }) => params.data?.symbolSize ?? 14,
+        emphasis: {
+          scale: 1.28,
+          focus: 'self'
+        },
+        z: 2
+      }
+    ]
+  } as echarts.EChartsOption;
+}
+
+function buildEventTimelinePoints(result: V2DpsCurveResult, icons: EventTimelineIconHints): EventTimelinePoint[] {
+  const points: EventTimelinePoint[] = [];
+  const heroSymbol = icons.heroIconSrc ? `image://${icons.heroIconSrc}` : 'circle';
+  const itemSymbol = icons.itemIconSrc ? `image://${icons.itemIconSrc}` : 'roundRect';
+
+  result.attackTimeline.forEach((event, index) => {
+    points.push(createEventTimelinePoint({
+      id: `attack-${index}`,
+      timeMs: event.timeMs,
+      laneId: 'attack',
+      category: 'attack',
+      label: 'AA',
+      source: event.actionId,
+      detailRows: [
+        `curve=${icons.curveLabel || result.curveId}`,
+        `actionId=${event.actionId}`,
+        `sourceActorId=${event.sourceActorId}`,
+        `targetActorId=${event.targetActorId}`
+      ],
+      symbol: heroSymbol,
+      symbolSize: heroSymbol.startsWith('image://') ? 30 : 24,
+      color: '#0f172a'
+    }));
+  });
+
+  result.damageTimeline.forEach((event, index) => {
+    const isPhantom = event.phantomHit === true;
+    const isItemDamage = event.source.includes('guinsoo') || event.source.includes('item_');
+    points.push(createEventTimelinePoint({
+      id: `damage-${index}`,
+      timeMs: event.timeMs,
+      laneId: 'damage',
+      category: isPhantom ? 'phantom damage' : 'damage',
+      label: isPhantom ? 'PH' : formatDamageTypeLabel(event.damageType),
+      source: event.source,
+      detailRows: [
+        `source=${event.source}`,
+        `damageType=${event.damageType}`,
+        `rawDamage=${formatNumber(event.rawDamage)}`,
+        `finalDamage=${formatNumber(event.finalDamage)}`,
+        `HP=${formatNumber(event.targetHpBefore)} -> ${formatNumber(event.targetHpAfter)}`,
+        ...(event.phantomHit ? ['phantomHit=true'] : []),
+        ...(event.repeatTag ? [`repeatTag=${event.repeatTag}`] : [])
+      ],
+      symbol: isItemDamage ? itemSymbol : 'circle',
+      symbolSize: isPhantom ? 18 : 15,
+      color: isPhantom ? '#db2777' : event.damageType === 'magic' ? '#3b82f6' : '#f97316'
+    }));
+  });
+
+  result.itemPassiveTriggers.forEach((entry, index) => {
+    const record = readTimelineRecord(entry);
+    const timeMs = readTimelineNumber(record, 'timeMs');
+    if (timeMs === null) {
+      return;
+    }
+    const triggerId = readTimelineString(record, 'triggerId') ?? 'item passive';
+    points.push(createEventTimelinePoint({
+      id: `item-passive-${index}`,
+      timeMs,
+      laneId: 'itemPassive',
+      category: readTimelineBoolean(record, 'phantomHit') ? 'phantom passive' : 'item passive',
+      label: readTimelineBoolean(record, 'phantomHit') ? 'PH' : 'ITEM',
+      source: readTimelineString(record, 'sourceId') ?? triggerId,
+      detailRows: summarizeTimelineRecord(record, ['timeMs', 'sourceId', 'sourceType', 'triggerId', 'phantomHit', 'repeatTag']),
+      symbol: itemSymbol,
+      symbolSize: readTimelineBoolean(record, 'phantomHit') ? 17 : 15,
+      color: readTimelineBoolean(record, 'phantomHit') ? '#db2777' : '#0ea5e9'
+    }));
+  });
+
+  result.skillPassiveTriggers.forEach((entry, index) => {
+    const record = readTimelineRecord(entry);
+    const timeMs = readTimelineNumber(record, 'timeMs');
+    if (timeMs === null) {
+      return;
+    }
+    const triggerId = readTimelineString(record, 'triggerId') ?? 'skill passive';
+    points.push(createEventTimelinePoint({
+      id: `skill-passive-${index}`,
+      timeMs,
+      laneId: 'skillPassive',
+      category: 'skill passive',
+      label: 'SK',
+      source: readTimelineString(record, 'sourceId') ?? triggerId,
+      detailRows: summarizeTimelineRecord(record, ['timeMs', 'sourceId', 'sourceType', 'triggerId', 'phantomHit', 'repeatTag']),
+      symbol: 'diamond',
+      symbolSize: 14,
+      color: '#10b981'
+    }));
+  });
+
+  result.effectBreakdown.forEach((event, index) => {
+    if (typeof event.timeMs !== 'number') {
+      return;
+    }
+    const isPhantom = event.phantomHit === true;
+    points.push(createEventTimelinePoint({
+      id: `effect-${index}`,
+      timeMs: event.timeMs,
+      laneId: 'effect',
+      category: isPhantom ? 'phantom effect' : 'effect',
+      label: event.kind ?? 'FX',
+      source: event.source,
+      detailRows: [
+        `kind=${event.kind ?? '-'}`,
+        `source=${event.source ?? '-'}`,
+        `amount=${formatNumber(event.amount)}`,
+        ...(event.message ? [`message=${event.message}`] : []),
+        ...(event.phantomHit ? ['phantomHit=true'] : []),
+        ...(event.repeatTag ? [`repeatTag=${event.repeatTag}`] : [])
+      ],
+      symbol: isPhantom ? 'pin' : 'rect',
+      symbolSize: isPhantom ? 15 : 10,
+      color: isPhantom ? '#db2777' : '#64748b'
+    }));
+  });
+
+  const hpEvents = result.targetHpTimeline.length > 0
+    ? result.targetHpTimeline
+    : result.damageTimeline.map((event) => ({ timeMs: event.timeMs, currentHp: event.targetHpAfter, maxHp: result.resolvedSnapshot.targetSnapshot.maxHp }));
+  hpEvents.forEach((event, index) => {
+    points.push(createEventTimelinePoint({
+      id: `hp-${index}`,
+      timeMs: event.timeMs,
+      laneId: 'hp',
+      category: 'hp',
+      label: 'HP',
+      detailRows: [
+        `currentHp=${formatNumber(event.currentHp)}`,
+        `maxHp=${formatNumber(event.maxHp)}`
+      ],
+      symbol: 'triangle',
+      symbolSize: 9,
+      color: '#14b8a6'
+    }));
+  });
+
+  return points.sort((left, right) => left.timeMs - right.timeMs || left.laneIndex - right.laneIndex);
+}
+
+function createEventTimelinePoint(input: Omit<EventTimelinePoint, 'laneIndex' | 'laneLabel' | 'y'> & { laneId: EventTimelineLane['id'] }): EventTimelinePoint {
+  const laneIndex = EVENT_TIMELINE_LANE_INDEX.get(input.laneId) ?? 0;
+  return {
+    ...input,
+    laneIndex,
+    laneLabel: EVENT_TIMELINE_LANES[laneIndex]?.label ?? input.laneId,
+    y: laneIndex
+  };
+}
+
+function spreadEventTimelinePoints(points: EventTimelinePoint[]): EventTimelinePoint[] {
+  const groups = new Map<string, EventTimelinePoint[]>();
+  for (const point of points) {
+    const key = `${point.timeMs}:${point.laneIndex}`;
+    groups.set(key, [...groups.get(key) ?? [], point]);
+  }
+  for (const group of groups.values()) {
+    const step = group.length > 5 ? 0.09 : 0.14;
+    group.forEach((point, index) => {
+      point.y = point.laneIndex + (index - (group.length - 1) / 2) * step;
+    });
+  }
+  return points;
+}
+
+function buildEventTimelineConnectors(points: EventTimelinePoint[]): EventTimelineConnector[] {
+  const attacks = points
+    .filter((point) => point.category === 'attack')
+    .sort((left, right) => left.timeMs - right.timeMs);
+  if (attacks.length === 0) {
+    return [];
+  }
+  return points
+    .filter((point) => point.category !== 'attack' && point.category !== 'hp')
+    .map((point) => {
+      const attack = findInferredTriggerAttack(attacks, point.timeMs);
+      return attack ? { from: [attack.timeMs, attack.y] as [number, number], to: [point.timeMs, point.y] as [number, number] } : null;
+    })
+    .filter((connector): connector is EventTimelineConnector => connector !== null);
+}
+
+function findInferredTriggerAttack(attacks: EventTimelinePoint[], timeMs: number): EventTimelinePoint | null {
+  const exact = attacks.find((attack) => attack.timeMs === timeMs);
+  if (exact) {
+    return exact;
+  }
+  let previous: EventTimelinePoint | null = null;
+  for (const attack of attacks) {
+    if (attack.timeMs > timeMs) {
+      break;
+    }
+    previous = attack;
+  }
+  return previous;
+}
+
+function formatEventTimelineTooltip(point: EventTimelinePoint): string {
+  const rows = [
+    `<strong>${escapeHtml(point.laneLabel)} · ${escapeHtml(point.category)}</strong>`,
+    `${formatCompactNumber(point.timeMs)}ms · ${escapeHtml(point.label)}`,
+    ...point.detailRows.map((row) => escapeHtml(row))
+  ];
+  return rows.join('<br/>');
+}
+
+function readTimelineRecord(entry: unknown): Record<string, unknown> {
+  return entry && typeof entry === 'object' ? entry as Record<string, unknown> : {};
+}
+
+function readTimelineString(record: Record<string, unknown>, key: string): string | null {
+  const value = record[key];
+  return typeof value === 'string' && value.length > 0 ? value : null;
+}
+
+function readTimelineNumber(record: Record<string, unknown>, key: string): number | null {
+  const value = record[key];
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function readTimelineBoolean(record: Record<string, unknown>, key: string): boolean {
+  return record[key] === true;
+}
+
+function summarizeTimelineRecord(record: Record<string, unknown>, preferredKeys: string[]): string[] {
+  const rows: string[] = [];
+  for (const key of preferredKeys) {
+    if (record[key] !== undefined) {
+      rows.push(`${key}=${formatTimelineValue(record[key])}`);
+    }
+  }
+  for (const [key, value] of Object.entries(record)) {
+    if (!preferredKeys.includes(key) && rows.length < 12) {
+      rows.push(`${key}=${formatTimelineValue(value)}`);
+    }
+  }
+  return rows;
+}
+
+function formatTimelineValue(value: unknown): string {
+  if (typeof value === 'number') {
+    return formatNumber(value);
+  }
+  if (typeof value === 'string' || typeof value === 'boolean') {
+    return String(value);
+  }
+  if (value === null || value === undefined) {
+    return '-';
+  }
+  return JSON.stringify(value);
+}
+
+function formatDamageTypeLabel(damageType: string): string {
+  if (!damageType) {
+    return 'DMG';
+  }
+  return damageType.length <= 4 ? damageType.toUpperCase() : damageType.slice(0, 4).toUpperCase();
 }
 
 function buildChartOption(results: V2DpsCurveResult[], curveLabelById: Map<string, string>, chartMode: ChartMode): echarts.EChartsOption {
