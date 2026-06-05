@@ -314,6 +314,144 @@ func TestSingleAttackerDPSEquipmentStatsAreMergedIntoAttackerAttributes(t *testi
 	}
 }
 
+func TestSingleAttackerDPSAttackerAttrReadDefaultsToResolved(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 500
+	passive := attackerAttrRatioOnHitPassive("item_attr_ratio_default", "ad", 1, "")
+	curve := &input.Curves[0]
+	curve.CurveID = "attacker-attr-read-default-resolved"
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 60
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.EquipmentSet = []string{"3078"}
+	curve.ResolvedSnapshot.EquipmentStats = map[string]float64{"ad": 36}
+	curve.Selection.EquipmentSet = []string{"3078"}
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := rawDamagesBySource(result, "item_attr_ratio_default"); len(got) != 1 || !almostEqual(got[0], 96) {
+		t.Fatalf("passive raw damages = %v, want resolved ad 96 on first hit", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpDamage, "attackerAttr=ad attackerAttrRead=resolved attrValue=96 attackerAttrRatio=1 contribution=96") {
+		t.Fatalf("effectBreakdown = %+v, want resolved attr read evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSAttackerAttrReadBaseIgnoresEquipmentStats(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 500
+	passive := attackerAttrRatioOnHitPassive("trinity_force_spellblade", "ad", 2, model.AttrReadBase)
+	curve := &input.Curves[0]
+	curve.CurveID = "attacker-attr-read-base-ignores-equipment"
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 60
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.AttributeViews = map[string]model.AttributeSnapshotV2{
+		"ad": {Base: 60, Current: 60, Max: 60, Resolved: 60},
+	}
+	curve.ResolvedSnapshot.EquipmentSet = []string{"3078"}
+	curve.ResolvedSnapshot.EquipmentStats = map[string]float64{"ad": 36}
+	curve.Selection.EquipmentSet = []string{"3078"}
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"]; !almostEqual(got, 96) {
+		t.Fatalf("merged resolved ad = %.4f, want 96", got)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.AttributeViews["ad"].Base; !almostEqual(got, 60) {
+		t.Fatalf("attributeViews.ad.base = %.4f, want equipment not to pollute base", got)
+	}
+	if got := rawDamagesBySource(result, "trinity_force_spellblade"); len(got) != 1 || !almostEqual(got[0], 120) {
+		t.Fatalf("spellblade raw damages = %v, want 2 * base ad 120", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpDamage, "attackerAttr=ad attackerAttrRead=base attrValue=60 attackerAttrRatio=2 contribution=120") {
+		t.Fatalf("effectBreakdown = %+v, want base attr read evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSAttackerAttrReadBaseIgnoresRuntimeStatModifiers(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1200
+	passive := attackerAttrRatioOnHitPassive("base_ad_passive", "ad", 1, model.AttrReadBase)
+	stacking := canonicalStackingStatModifierPassive("stacking_ad", "stack_ad", 6000, 3, 0, 10)
+	curve := &input.Curves[0]
+	curve.CurveID = "attacker-attr-read-base-ignores-runtime-modifiers"
+	enableDPSPassivesForTest(curve, passive, stacking)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 60
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.AttributeViews = map[string]model.AttributeSnapshotV2{
+		"ad": {Base: 60, Current: 60, Max: 60, Resolved: 60},
+	}
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	got := rawDamagesBySource(result, "base_ad_passive")
+	if len(got) < 2 || !almostEqual(got[0], 60) || !almostEqual(got[1], 60) {
+		t.Fatalf("base ad passive raw damages = %v, want 60 even after stack modifiers", got)
+	}
+}
+
+func TestSingleAttackerDPSAttackerAttrReadBaseBlocksWhenMissingView(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 500
+	passive := attackerAttrRatioOnHitPassive("missing_base_view", "ad", 2, model.AttrReadBase)
+	curve := &input.Curves[0]
+	curve.CurveID = "attacker-attr-read-base-blocks-missing-view"
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 96
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked when base view is missing", result.Status)
+	}
+	if !blockedReasonContains(result, "requires attacker attr view ad for read base") {
+		t.Fatalf("blockedReasons = %v, want missing base view block", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSAttackerAttrReadResolvedKeepsStackModifiers(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1200
+	passive := attackerAttrRatioOnHitPassive("resolved_ad_passive", "ad", 1, model.AttrReadResolved)
+	stacking := canonicalStackingStatModifierPassive("stacking_ad_resolved", "stack_ad", 6000, 3, 0, 10)
+	curve := &input.Curves[0]
+	curve.CurveID = "attacker-attr-read-resolved-keeps-stack-modifiers"
+	enableDPSPassivesForTest(curve, passive, stacking)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 60
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	got := rawDamagesBySource(result, "resolved_ad_passive")
+	if len(got) < 2 || !almostEqual(got[0], 60) || !almostEqual(got[1], 70) {
+		t.Fatalf("resolved ad passive raw damages = %v, want 60 then 70 with one stack", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpDamage, "attackerAttrRead=resolved attrValue=70") {
+		t.Fatalf("effectBreakdown = %+v, want resolved stack-modified attr evidence on second hit", result.EffectBreakdown)
+	}
+}
+
 func TestSingleAttackerDPSEquipmentCritStatsAffectBasicAttackDamage(t *testing.T) {
 	input := baseSingleAttackerDPSInput()
 	input.Curves[0].Selection.EquipmentSet = []string{"3031", "3046"}
@@ -1068,6 +1206,226 @@ func TestSingleAttackerDPSKogMawQPassiveAndWScenarioState(t *testing.T) {
 	}
 	if !almostEqual(result.DamageByType["magic"], 90) {
 		t.Fatalf("damageByType=%v, want three W hits for 90 magic", result.DamageByType)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateFiresOnceWithEvidence(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2500
+	stateID := "spellblade_ready"
+	scenario := spellbladeScenarioState(stateID, 0, 8000)
+	passive := spellbladeNextAttackPassive(stateID)
+	curve := &input.Curves[0]
+	curve.CurveID = "spellblade-next-attack-once"
+	enableDPSPassivesForTest(curve, passive)
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.AttackCount != 3 {
+		t.Fatalf("attackCount = %d, want 3", result.AttackCount)
+	}
+	if got := damageCountBySource(result, "spellblade_proc"); got != 1 {
+		t.Fatalf("spellblade_proc damage count = %d, want 1", got)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %+v, want one proc", result.ItemPassiveTriggers)
+	}
+	if !hasEffectBreakdown(result, dpsOpDamage, "spellblade_proc", 100) {
+		t.Fatalf("effectBreakdown = %+v, want spellblade_proc damage evidence", result.EffectBreakdown)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectNextAttackStateConsume, "consumedScenarioStateId="+stateID) {
+		t.Fatalf("effectBreakdown = %+v, want consume evidence for %s", result.EffectBreakdown, stateID)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateLongDurationTriggersOnceOnly(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2500
+	stateID := "spellblade_ready"
+	scenario := spellbladeScenarioState(stateID, 0, 10000)
+	passive := spellbladeNextAttackPassive(stateID)
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageCountBySource(result, "spellblade_proc"); got != 1 {
+		t.Fatalf("spellblade_proc damage count = %d, want 1 even while scenario state duration remains active", got)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %+v, want one proc", result.ItemPassiveTriggers)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateBlocksMissingRequiresScenarioStateID(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	passive := spellbladeNextAttackPassive("")
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "next_basic_attack_after_state") || !blockedReasonContains(result, "requiresScenarioStateId") {
+		t.Fatalf("blockedReasons = %v, want next_basic_attack_after_state and requiresScenarioStateId", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateBlocksMissingResolvedScenarioState(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	passive := spellbladeNextAttackPassive("spellblade_missing")
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "scenarioState") || !blockedReasonContains(result, "spellblade_missing") {
+		t.Fatalf("blockedReasons = %v, want scenarioState evidence and missing state id spellblade_missing", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateDoesNotFireAfterStateExpires(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2500
+	stateID := "spellblade_ready"
+	// Active only during (500ms, 900ms); first basic attack at 1000ms sees an expired state.
+	scenario := spellbladeScenarioState(stateID, 500, 400)
+	passive := spellbladeNextAttackPassive(stateID)
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageCountBySource(result, "spellblade_proc"); got != 0 {
+		t.Fatalf("spellblade_proc damage count = %d, want 0 after scenario state expired before first eligible attack", got)
+	}
+	if len(result.ItemPassiveTriggers) != 0 {
+		t.Fatalf("itemPassiveTriggers = %+v, want no proc after state expiry", result.ItemPassiveTriggers)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateRespectsScenarioTiming(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 3500
+	stateID := "spellblade_ready"
+	scenario := spellbladeScenarioState(stateID, 1000, 5000)
+	passive := spellbladeNextAttackPassive(stateID)
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageTimesBySource(result, "spellblade_proc"); !sameInt64s(got, []int64{1000}) {
+		t.Fatalf("spellblade_proc times = %v, want first eligible attack at 1000ms", got)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStatePhantomHitDoesNotDuplicate(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 4000
+	stateID := "spellblade_ready"
+	scenario := spellbladeScenarioState(stateID, 0, 8000)
+	spellblade := spellbladeNextAttackPassive(stateID)
+	spellblade.Operations[0].PhantomHitCopyable = true
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, spellblade, testPhantomHitPassive())
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageCountBySource(result, "spellblade_proc"); got != 1 {
+		t.Fatalf("spellblade_proc damage count = %d, want 1 without phantom duplication", got)
+	}
+	fourthHitMs := int64(3000)
+	if !hasPhantomItemTriggerAt(result, fourthHitMs, "phantom_hit") {
+		t.Fatalf("itemPassiveTriggers = %+v, want phantom hit evidence on fourth attack", result.ItemPassiveTriggers)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateDoesNotChangeCadence(t *testing.T) {
+	baselineInput := baseSingleAttackerDPSInput()
+	baselineInput.SimulationRules.DurationMs = 2500
+	baselineCurve := &baselineInput.Curves[0]
+	baselineCurve.CurveID = "spellblade-cadence-baseline"
+	baselineCurve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	baselineCurve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	baselineCurve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+
+	spellbladeInput := baseSingleAttackerDPSInput()
+	spellbladeInput.SimulationRules.DurationMs = 2500
+	spellbladeInput.CaseID = "spellblade-cadence-with-proc"
+	stateID := "spellblade_ready"
+	scenario := spellbladeScenarioState(stateID, 0, 8000)
+	passive := spellbladeNextAttackPassive(stateID)
+	spellbladeCurve := &spellbladeInput.Curves[0]
+	spellbladeCurve.CurveID = "spellblade-cadence-with-proc"
+	spellbladeCurve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	spellbladeCurve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	spellbladeCurve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	enableDPSPassivesForTest(spellbladeCurve, passive)
+	spellbladeCurve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	spellbladeCurve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+
+	baseline := runSingleAttackerDPSForTest(t, baselineInput).CurveResults[0]
+	withSpellblade := runSingleAttackerDPSForTest(t, spellbladeInput).CurveResults[0]
+	if baseline.Status != "ok" || withSpellblade.Status != "ok" {
+		t.Fatalf("status baseline=%s spellblade=%s, want ok", baseline.Status, withSpellblade.Status)
+	}
+	if baseline.AttackCount != withSpellblade.AttackCount {
+		t.Fatalf("attackCount baseline=%d spellblade=%d, want unchanged cadence", baseline.AttackCount, withSpellblade.AttackCount)
+	}
+	if !sameInt64s(attackTimes(baseline), attackTimes(withSpellblade)) {
+		t.Fatalf("attack times baseline=%v spellblade=%v, want identical cadence", attackTimes(baseline), attackTimes(withSpellblade))
+	}
+	if !sameFloat64s(rawAttackSpeeds(baseline), rawAttackSpeeds(withSpellblade)) {
+		t.Fatalf("raw attack speeds baseline=%v spellblade=%v, want identical interval evidence", rawAttackSpeeds(baseline), rawAttackSpeeds(withSpellblade))
 	}
 }
 
@@ -1907,6 +2265,36 @@ func kogMawQPassiveAttackSpeed() model.DPSPassiveEffectV2 {
 	}
 }
 
+func spellbladeScenarioState(stateID string, startTimeMs int64, durationMs int64) model.DPSScenarioStateV2 {
+	return model.DPSScenarioStateV2{
+		StateID:     stateID,
+		SourceType:  "item_passive",
+		SourceID:    "item_spellblade_sheen",
+		Activation:  "assumed_active_at_start",
+		Stacks:      1,
+		StartTimeMs: startTimeMs,
+		DurationMs:  durationMs,
+	}
+}
+
+func spellbladeNextAttackPassive(stateID string) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:               "item_spellblade_sheen_next_attack",
+		SourceCategory:          "item_passive",
+		SourceID:                "item_spellblade_sheen",
+		SourceType:              "item",
+		TriggerID:               "spellblade_on_next_attack",
+		TriggerKind:             dpsTriggerNextBasicAttackAfterState,
+		RequiresScenarioStateID: stateID,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "spellblade_proc",
+			DamageType: "physical",
+			Amount:     100,
+		}},
+	}
+}
+
 func kogMawWScenarioPassive() model.DPSPassiveEffectV2 {
 	return model.DPSPassiveEffectV2{
 		PassiveID:               "skill_kogmaw_w_bio_arcane_barrage",
@@ -2057,6 +2445,26 @@ func canonicalDotOnlyPassive() model.DPSPassiveEffectV2 {
 			DurationMs:     4000,
 			TickIntervalMs: 1000,
 			RefreshMode:    "refresh",
+		}},
+	}
+}
+
+func attackerAttrRatioOnHitPassive(source string, attr string, ratio float64, readKind model.AttributeReadKind) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      source,
+		EffectID:       source + "_effect",
+		SourceCategory: "item_passive",
+		SourceID:       source,
+		SourceType:     "item",
+		TriggerID:      source + "_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:              dpsOpDamage,
+			Source:            source,
+			DamageType:        "physical",
+			AttackerAttr:      attr,
+			AttackerAttrRead:  readKind,
+			AttackerAttrRatio: ratio,
 		}},
 	}
 }

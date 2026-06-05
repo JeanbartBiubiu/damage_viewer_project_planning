@@ -17,19 +17,21 @@ const (
 	dpsStatusOK      = "ok"
 	dpsStatusBlocked = "blocked"
 
-	dpsTriggerOnBasicAttackHit   = "on_basic_attack_hit"
-	dpsTriggerEveryNBasicAttack  = "every_n_basic_attack_hit"
-	dpsTriggerStackOnHit         = "stack_on_hit"
-	dpsTriggerStatAlwaysOn       = "stat_modifier_always_on"
-	dpsTriggerPreEnabledModifier = "pre_enabled_state_modifier"
+	dpsTriggerOnBasicAttackHit          = "on_basic_attack_hit"
+	dpsTriggerEveryNBasicAttack         = "every_n_basic_attack_hit"
+	dpsTriggerStackOnHit                = "stack_on_hit"
+	dpsTriggerStatAlwaysOn              = "stat_modifier_always_on"
+	dpsTriggerPreEnabledModifier        = "pre_enabled_state_modifier"
+	dpsTriggerNextBasicAttackAfterState = "next_basic_attack_after_state"
 
-	dpsOpDamage                 = "damage"
-	dpsOpApplyDot               = "apply_dot"
-	dpsOpAddStack               = "add_stack"
-	dpsOpTriggerDamageAtStacks  = "trigger_damage_at_stacks"
-	dpsOpStatModifier           = "stat_modifier"
-	dpsOpPhantomHitOnHitRepeat  = "phantom_hit_on_hit_repeat"
-	dpsRepeatScopeCopyableOnHit = "copyable_on_hit"
+	dpsOpDamage                     = "damage"
+	dpsEffectNextAttackStateConsume = "next_attack_state_consume"
+	dpsOpApplyDot                   = "apply_dot"
+	dpsOpAddStack                   = "add_stack"
+	dpsOpTriggerDamageAtStacks      = "trigger_damage_at_stacks"
+	dpsOpStatModifier               = "stat_modifier"
+	dpsOpPhantomHitOnHitRepeat      = "phantom_hit_on_hit_repeat"
+	dpsRepeatScopeCopyableOnHit     = "copyable_on_hit"
 )
 
 type dpsBasicAttackSchedule struct {
@@ -51,31 +53,33 @@ type activeDPSDot struct {
 }
 
 type dpsCurveState struct {
-	bundle               compilebundle.CompiledBundle
-	runCtx               *RunContext
-	attackerIdx          uint8
-	targetIdx            uint8
-	rules                model.DPSimulationRulesV2
-	curve                model.DPSCurveRunSpecV2
-	result               *model.DPSCurveResultV2
-	attacker             model.DPSActorSnapshotV2
-	target               model.DPSActorSnapshotV2
-	attackerTemplateID   string
-	baseAttrs            map[string]float64
-	attrs                map[string]float64
-	targetHP             float64
-	targetMaxHP          float64
-	attackStartTargetHP  float64
-	armor                float64
-	magicResist          float64
-	schedules            []dpsBasicAttackSchedule
-	passives             []model.DPSPassiveEffectV2
-	stacks               map[string]int
-	stackExpiry          map[string]int64
-	hitCounts            map[string]int
-	statModifierTriggers map[string]bool
-	dots                 []activeDPSDot
-	phantomDepth         int
+	bundle                 compilebundle.CompiledBundle
+	runCtx                 *RunContext
+	attackerIdx            uint8
+	targetIdx              uint8
+	rules                  model.DPSimulationRulesV2
+	curve                  model.DPSCurveRunSpecV2
+	result                 *model.DPSCurveResultV2
+	attacker               model.DPSActorSnapshotV2
+	target                 model.DPSActorSnapshotV2
+	attackerTemplateID     string
+	baseAttrs              map[string]float64
+	attrs                  map[string]float64
+	attributeViews         map[string]model.AttributeSnapshotV2
+	targetHP               float64
+	targetMaxHP            float64
+	attackStartTargetHP    float64
+	armor                  float64
+	magicResist            float64
+	schedules              []dpsBasicAttackSchedule
+	passives               []model.DPSPassiveEffectV2
+	stacks                 map[string]int
+	stackExpiry            map[string]int64
+	hitCounts              map[string]int
+	statModifierTriggers   map[string]bool
+	dots                   []activeDPSDot
+	phantomDepth           int
+	consumedScenarioStates map[string]bool
 }
 
 func runSingleAttackerDPS(bundle compilebundle.CompiledBundle, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
@@ -239,29 +243,31 @@ func newDPSCurveState(
 		return &dpsCurveState{result: result}
 	}
 	return &dpsCurveState{
-		bundle:               bundle,
-		runCtx:               runCtx,
-		attackerIdx:          attackerIdx,
-		targetIdx:            targetIdx,
-		rules:                rules,
-		curve:                curve,
-		result:               result,
-		attacker:             attacker,
-		target:               target,
-		attackerTemplateID:   attackerTemplateID,
-		baseAttrs:            copyDPSFloatMap(attacker.Attributes),
-		attrs:                copyDPSFloatMap(attacker.Attributes),
-		targetHP:             targetHP,
-		targetMaxHP:          targetMaxHP,
-		armor:                readFirstFiniteAttr(target.Attributes, "armor", "armour"),
-		magicResist:          readFirstFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block"),
-		schedules:            make([]dpsBasicAttackSchedule, 0),
-		passives:             enabledDPSPassives(curve),
-		stacks:               map[string]int{},
-		stackExpiry:          map[string]int64{},
-		hitCounts:            map[string]int{},
-		statModifierTriggers: map[string]bool{},
-		dots:                 make([]activeDPSDot, 0),
+		bundle:                 bundle,
+		runCtx:                 runCtx,
+		attackerIdx:            attackerIdx,
+		targetIdx:              targetIdx,
+		rules:                  rules,
+		curve:                  curve,
+		result:                 result,
+		attacker:               attacker,
+		target:                 target,
+		attackerTemplateID:     attackerTemplateID,
+		baseAttrs:              copyDPSFloatMap(attacker.Attributes),
+		attrs:                  copyDPSFloatMap(attacker.Attributes),
+		attributeViews:         copyDPSAttributeViews(attacker.AttributeViews),
+		targetHP:               targetHP,
+		targetMaxHP:            targetMaxHP,
+		armor:                  readFirstFiniteAttr(target.Attributes, "armor", "armour"),
+		magicResist:            readFirstFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block"),
+		schedules:              make([]dpsBasicAttackSchedule, 0),
+		passives:               enabledDPSPassives(curve),
+		stacks:                 map[string]int{},
+		stackExpiry:            map[string]int64{},
+		hitCounts:              map[string]int{},
+		statModifierTriggers:   map[string]bool{},
+		dots:                   make([]activeDPSDot, 0),
+		consumedScenarioStates: map[string]bool{},
 	}
 }
 
@@ -402,14 +408,24 @@ func applyEquipmentStatsToResolvedSnapshot(snapshot model.DPSResolvedSnapshotV2)
 		return snapshot
 	}
 	attrs := copyDPSFloatMap(snapshot.AttackerSnapshot.Attributes)
+	views := copyDPSAttributeViews(snapshot.AttackerSnapshot.AttributeViews)
 	for attrKey, value := range snapshot.EquipmentStats {
 		attrKey = strings.TrimSpace(attrKey)
 		if attrKey == "" {
 			continue
 		}
 		attrs[attrKey] += value
+		if view, ok := views[attrKey]; ok {
+			view.Resolved += value
+			view.Current += value
+			view.Max += value
+			views[attrKey] = view
+		}
 	}
 	snapshot.AttackerSnapshot.Attributes = attrs
+	if len(views) > 0 {
+		snapshot.AttackerSnapshot.AttributeViews = views
+	}
 	return snapshot
 }
 
@@ -556,12 +572,16 @@ func basicAttackCooldownIntervalSource(bundle compilebundle.CompiledBundle, acti
 func (state *dpsCurveState) processAttackPassives(timeMs int64) {
 	refreshStackStatModifiers := false
 	for _, passive := range state.passives {
-		if !state.passiveActiveAt(passive, timeMs) {
-			continue
-		}
 		triggerKind := passive.TriggerKind
 		if triggerKind == "" {
 			triggerKind = dpsTriggerOnBasicAttackHit
+		}
+		if triggerKind == dpsTriggerNextBasicAttackAfterState {
+			if !state.nextAttackStateReady(passive, timeMs) {
+				continue
+			}
+		} else if !state.passiveActiveAt(passive, timeMs) {
+			continue
 		}
 		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
 			continue
@@ -583,6 +603,9 @@ func (state *dpsCurveState) processAttackPassives(timeMs int64) {
 				return
 			}
 			state.applyPassiveOperation(timeMs, passive, op)
+		}
+		if triggerKind == dpsTriggerNextBasicAttackAfterState {
+			state.consumeScenarioState(timeMs, passive.RequiresScenarioStateID)
 		}
 		if passiveHasPerStackStatModifier(passive) {
 			refreshStackStatModifiers = true
@@ -609,6 +632,9 @@ func (state *dpsCurveState) processPhantomHits(timeMs int64) {
 			triggerKind = dpsTriggerOnBasicAttackHit
 		}
 		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
+			continue
+		}
+		if triggerKind == dpsTriggerNextBasicAttackAfterState {
 			continue
 		}
 		if triggerKind == dpsTriggerEveryNBasicAttack {
@@ -673,7 +699,7 @@ func (state *dpsCurveState) copyPhantomPassiveDamage(
 	if op.StackKey != "" {
 		stacks = state.stacks[stackRuntimeKey(passive, op.StackKey)]
 	}
-	amount, ok := state.resolveOperationAmount(op, stacks)
+	amount, attrEvidence, ok := state.resolveOperationAmount(op, stacks)
 	if !ok {
 		return
 	}
@@ -686,7 +712,7 @@ func (state *dpsCurveState) copyPhantomPassiveDamage(
 		state.result.DamageTimeline[last].PhantomHit = true
 		state.result.DamageTimeline[last].RepeatTag = repeatTag
 	}
-	message := op.DamageType
+	message := passiveDamageBreakdownMessage(op, attrEvidence)
 	if repeatTag != "" {
 		message = "repeatTag=" + repeatTag + " " + message
 	}
@@ -708,12 +734,12 @@ func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DP
 		if op.StackKey != "" {
 			stacks = state.stacks[stackRuntimeKey(passive, op.StackKey)]
 		}
-		amount, ok := state.resolveOperationAmount(op, stacks)
+		amount, attrEvidence, ok := state.resolveOperationAmount(op, stacks)
 		if !ok {
 			return
 		}
 		if state.applyDamage(timeMs, passiveDamageSource(passive, op), op.DamageType, amount) {
-			state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpDamage)
+			state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpDamage, attrEvidence)
 		}
 	case dpsOpApplyDot:
 		state.applyDot(timeMs, passive, op)
@@ -861,14 +887,14 @@ func (state *dpsCurveState) triggerDamageAtStacks(timeMs int64, passive model.DP
 	if triggerStacks <= 0 || state.stacks[key] < triggerStacks {
 		return
 	}
-	amount, ok := state.resolveOperationAmount(op, state.stacks[key])
+	amount, attrEvidence, ok := state.resolveOperationAmount(op, state.stacks[key])
 	if !ok {
 		return
 	}
 	if !state.applyDamage(timeMs, passiveDamageSource(passive, op), op.DamageType, amount) {
 		return
 	}
-	state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpTriggerDamageAtStacks)
+	state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpTriggerDamageAtStacks, attrEvidence)
 	if op.ResetStacks {
 		delete(state.stacks, key)
 		delete(state.stackExpiry, key)
@@ -934,7 +960,7 @@ func (state *dpsCurveState) processDotTick(timeMs int64) {
 		}
 		state.result.ProcessedEvents++
 		state.updateQueuePeak()
-		amount, ok := state.resolveOperationAmount(dot.Operation, dot.Stacks)
+		amount, _, ok := state.resolveOperationAmount(dot.Operation, dot.Stacks)
 		if !ok {
 			return
 		}
@@ -963,17 +989,88 @@ func (state *dpsCurveState) recordPassiveDamageBreakdown(
 	op model.DPSPassiveOperationV2,
 	amount float64,
 	kind string,
+	attrEvidence *dpsAttackerAttrEvidence,
 ) {
 	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
 		TimeMs:  timeMs,
 		Source:  passiveDamageSource(passive, op),
 		Kind:    kind,
 		Amount:  amount,
-		Message: op.DamageType,
+		Message: passiveDamageBreakdownMessage(op, attrEvidence),
 	})
 }
 
-func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV2, stacks int) (float64, bool) {
+type dpsAttackerAttrEvidence struct {
+	attrKey      string
+	readKind     model.AttributeReadKind
+	attrValue    float64
+	ratio        float64
+	contribution float64
+}
+
+func normalizeAttackerAttrRead(kind model.AttributeReadKind) model.AttributeReadKind {
+	switch kind {
+	case "", model.AttrReadResolved, "total":
+		return model.AttrReadResolved
+	default:
+		return kind
+	}
+}
+
+func (state *dpsCurveState) readAttackerAttrValue(attrKey string, readKind model.AttributeReadKind) (float64, bool) {
+	attrKey = strings.TrimSpace(attrKey)
+	if attrKey == "" {
+		state.block("passive damage formula requires attackerAttr")
+		return 0, false
+	}
+	kind := normalizeAttackerAttrRead(readKind)
+	switch kind {
+	case model.AttrReadResolved:
+		value, ok := state.attrs[attrKey]
+		if !ok || math.IsNaN(value) || math.IsInf(value, 0) {
+			state.block("passive damage formula requires attacker attr " + attrKey)
+			return 0, false
+		}
+		return value, true
+	case model.AttrReadBase, model.AttrReadCurrent, model.AttrReadMax:
+		view, ok := state.attributeViews[attrKey]
+		if !ok {
+			state.block("passive damage formula requires attacker attr view " + attrKey + " for read " + string(kind))
+			return 0, false
+		}
+		var value float64
+		switch kind {
+		case model.AttrReadBase:
+			value = view.Base
+		case model.AttrReadCurrent:
+			value = view.Current
+		case model.AttrReadMax:
+			value = view.Max
+		}
+		if math.IsNaN(value) || math.IsInf(value, 0) {
+			state.block("passive damage formula requires valid attacker attr view " + attrKey + " for read " + string(kind))
+			return 0, false
+		}
+		return value, true
+	default:
+		state.block("unsupported passive damage attackerAttrRead " + string(kind))
+		return 0, false
+	}
+}
+
+func passiveDamageBreakdownMessage(op model.DPSPassiveOperationV2, attrEvidence *dpsAttackerAttrEvidence) string {
+	message := op.DamageType
+	if attrEvidence == nil {
+		return message
+	}
+	return message + " attackerAttr=" + attrEvidence.attrKey +
+		" attackerAttrRead=" + string(attrEvidence.readKind) +
+		" attrValue=" + floatToString(attrEvidence.attrValue) +
+		" attackerAttrRatio=" + floatToString(attrEvidence.ratio) +
+		" contribution=" + floatToString(attrEvidence.contribution)
+}
+
+func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV2, stacks int) (float64, *dpsAttackerAttrEvidence, bool) {
 	amount := op.Amount
 	if op.TargetCurrentHPRatio != 0 {
 		hpForCurrent := state.targetHP
@@ -983,7 +1080,7 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 			hpForCurrent = state.attackStartTargetHP
 		default:
 			state.block("unsupported target current hp basis " + op.TargetCurrentHPBasis)
-			return 0, false
+			return 0, nil, false
 		}
 		if hpForCurrent < 0 {
 			hpForCurrent = 0
@@ -993,14 +1090,14 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 	if op.TargetMaxHPRatio != 0 {
 		if state.targetMaxHP <= 0 {
 			state.block("passive damage formula requires target max hp")
-			return 0, false
+			return 0, nil, false
 		}
 		amount += state.targetMaxHP * op.TargetMaxHPRatio
 	}
 	if op.TargetMissingHPRatio != 0 {
 		if state.targetMaxHP <= 0 {
 			state.block("passive damage formula requires target max hp")
-			return 0, false
+			return 0, nil, false
 		}
 		hpForMissing := state.targetHP
 		switch op.TargetMissingHPBasis {
@@ -1009,7 +1106,7 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 			hpForMissing = state.attackStartTargetHP
 		default:
 			state.block("unsupported target missing hp basis " + op.TargetMissingHPBasis)
-			return 0, false
+			return 0, nil, false
 		}
 		missingHP := state.targetMaxHP - hpForMissing
 		if missingHP < 0 {
@@ -1020,7 +1117,7 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 	if op.TargetMissingHPAmp != 0 {
 		if state.targetMaxHP <= 0 {
 			state.block("passive damage amp requires target max hp")
-			return 0, false
+			return 0, nil, false
 		}
 		hpForMissing := state.targetHP
 		switch op.TargetMissingHPBasis {
@@ -1029,7 +1126,7 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 			hpForMissing = state.attackStartTargetHP
 		default:
 			state.block("unsupported target missing hp basis " + op.TargetMissingHPBasis)
-			return 0, false
+			return 0, nil, false
 		}
 		missingRatio := (state.targetMaxHP - hpForMissing) / state.targetMaxHP
 		if missingRatio < 0 {
@@ -1040,17 +1137,21 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 		}
 		amount *= 1 + missingRatio*op.TargetMissingHPAmp
 	}
+	var attrEvidence *dpsAttackerAttrEvidence
 	if op.AttackerAttrRatio != 0 {
-		if op.AttackerAttr == "" {
-			state.block("passive damage formula requires attackerAttr")
-			return 0, false
+		attrValue, ok := state.readAttackerAttrValue(op.AttackerAttr, op.AttackerAttrRead)
+		if !ok {
+			return 0, nil, false
 		}
-		attrValue, ok := state.attrs[op.AttackerAttr]
-		if !ok || math.IsNaN(attrValue) || math.IsInf(attrValue, 0) {
-			state.block("passive damage formula requires attacker attr " + op.AttackerAttr)
-			return 0, false
+		contribution := attrValue * op.AttackerAttrRatio
+		amount += contribution
+		attrEvidence = &dpsAttackerAttrEvidence{
+			attrKey:      op.AttackerAttr,
+			readKind:     normalizeAttackerAttrRead(op.AttackerAttrRead),
+			attrValue:    attrValue,
+			ratio:        op.AttackerAttrRatio,
+			contribution: contribution,
 		}
-		amount += attrValue * op.AttackerAttrRatio
 	}
 	if op.AmountPerStack != 0 {
 		amount += float64(stacks) * op.AmountPerStack
@@ -1060,9 +1161,9 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 	}
 	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
 		state.block("passive damage formula resolved invalid amount")
-		return 0, false
+		return 0, nil, false
 	}
-	return amount, true
+	return amount, attrEvidence, true
 }
 
 func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType string, rawAmount float64) bool {
@@ -1230,8 +1331,15 @@ func (state *dpsCurveState) passiveActiveAt(passive model.DPSPassiveEffectV2, ti
 	if passive.RequiresScenarioStateID == "" {
 		return true
 	}
+	return state.scenarioStateActiveAt(passive.RequiresScenarioStateID, timeMs)
+}
+
+func (state *dpsCurveState) scenarioStateActiveAt(stateID string, timeMs int64) bool {
+	if stateID == "" {
+		return false
+	}
 	for _, scenario := range state.curve.ResolvedSnapshot.ScenarioStates {
-		if scenario.StateID != passive.RequiresScenarioStateID {
+		if scenario.StateID != stateID {
 			continue
 		}
 		if scenario.StartTimeMs > timeMs {
@@ -1243,6 +1351,31 @@ func (state *dpsCurveState) passiveActiveAt(passive model.DPSPassiveEffectV2, ti
 		return true
 	}
 	return false
+}
+
+func (state *dpsCurveState) nextAttackStateReady(passive model.DPSPassiveEffectV2, timeMs int64) bool {
+	if passive.TriggerKind != dpsTriggerNextBasicAttackAfterState {
+		return false
+	}
+	stateID := strings.TrimSpace(passive.RequiresScenarioStateID)
+	if stateID == "" {
+		return false
+	}
+	return state.scenarioStateActiveAt(stateID, timeMs) && !state.consumedScenarioStates[stateID]
+}
+
+func (state *dpsCurveState) consumeScenarioState(timeMs int64, stateID string) {
+	stateID = strings.TrimSpace(stateID)
+	if stateID == "" || state.consumedScenarioStates[stateID] {
+		return
+	}
+	state.consumedScenarioStates[stateID] = true
+	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+		TimeMs:  timeMs,
+		Source:  stateID,
+		Kind:    dpsEffectNextAttackStateConsume,
+		Message: "consumedScenarioStateId=" + stateID,
+	})
 }
 
 func (state *dpsCurveState) nextDotTick() (int64, bool) {
@@ -1454,6 +1587,9 @@ func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRu
 	}
 	if passive.TriggerKind == dpsTriggerEveryNBasicAttack && passive.EveryN <= 0 {
 		reasons = append(reasons, "passive effect "+id+" requires everyN")
+	}
+	if passive.TriggerKind == dpsTriggerNextBasicAttackAfterState && strings.TrimSpace(passive.RequiresScenarioStateID) == "" {
+		reasons = append(reasons, "passive effect "+id+" triggerKind next_basic_attack_after_state requires requiresScenarioStateId or scenarioState")
 	}
 	if passive.RequiresScenarioStateID != "" && !hasScenarioState(curve.ResolvedSnapshot.ScenarioStates, passive.RequiresScenarioStateID) {
 		reasons = append(reasons, "passive effect "+id+" requires missing scenarioState "+passive.RequiresScenarioStateID)
@@ -1707,7 +1843,7 @@ func passiveHasPerStackStatModifier(passive model.DPSPassiveEffectV2) bool {
 
 func supportedDPSTrigger(triggerKind string) bool {
 	switch triggerKind {
-	case "", dpsTriggerOnBasicAttackHit, dpsTriggerEveryNBasicAttack, dpsTriggerStackOnHit, dpsTriggerStatAlwaysOn, dpsTriggerPreEnabledModifier:
+	case "", dpsTriggerOnBasicAttackHit, dpsTriggerEveryNBasicAttack, dpsTriggerStackOnHit, dpsTriggerStatAlwaysOn, dpsTriggerPreEnabledModifier, dpsTriggerNextBasicAttackAfterState:
 		return true
 	default:
 		return false
@@ -1769,6 +1905,17 @@ func dotInterval(_ model.DPSPassiveOperationV2, rules model.DPSimulationRulesV2)
 
 func copyDPSFloatMap(input map[string]float64) map[string]float64 {
 	output := make(map[string]float64, len(input))
+	for key, value := range input {
+		output[key] = value
+	}
+	return output
+}
+
+func copyDPSAttributeViews(input map[string]model.AttributeSnapshotV2) map[string]model.AttributeSnapshotV2 {
+	if len(input) == 0 {
+		return nil
+	}
+	output := make(map[string]model.AttributeSnapshotV2, len(input))
 	for key, value := range input {
 		output[key] = value
 	}
