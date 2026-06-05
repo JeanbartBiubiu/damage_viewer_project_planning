@@ -509,6 +509,12 @@ Batch A 不要求用户提供截图。
 
 Batch G 先审计 33 个 Marksman 英雄和 53 件 ADC 成装的 DPS 相关被动，按 `ready_to_encode`、`needs_runtime_extension`、`out_of_scope_for_single_target_dps`、`needs_manual_baseline`、`already_covered` 分级。只把当前 runtime 能准确表达的项录入 seed；其余进入机制 backlog，不做近似录入。
 
+## 9.3 Batch L 咒刃下一次普攻状态
+
+执行计划：[V2-BatchL-单攻击方DPS咒刃下一次普攻状态计划.md](./V2-BatchL-单攻击方DPS咒刃下一次普攻状态计划.md)
+
+Batch L 从 Batch G backlog 中优先处理 `spellblade_next_attack_state`，新增 `next_basic_attack_after_state` 触发语义。该批只允许通过 `scenarioStates` 显式假定“下一次普攻状态已经准备好”，在单攻击方站桩平 A DPS 中消费一次并输出证据；不引入主动技能轮转、移动充能、距离模型或随机暴击序列。
+
 ## 10. 验证命令
 
 具体命令由各 worktree 最近层 `AGENTS.md` 和 README 决定。默认验收链：
