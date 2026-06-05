@@ -16,6 +16,7 @@ import {
   createV2DpsCurveSelection,
   createV2DpsStackingPassiveCurveSelections,
   createV2DpsStackingPassiveSyntheticBundle,
+  resolveV2DpsEnabledScenarioStateIds,
   formatV2DpsMultiHeroCurveLabel,
   getDefaultV2DpsPassiveIdsForHero,
   getDefaultV2DpsScenarioIdsForHero,
@@ -23,6 +24,7 @@ import {
   listV2DpsAttackers,
   listV2DpsEquipmentOptions,
   listV2DpsPassiveOptionsForHero,
+  listV2DpsScenarioOptions,
   listV2DpsScenarioOptionsForHero,
   listV2DpsTargetDummyGroups,
   prepareV2DpsInput,
@@ -349,18 +351,22 @@ function WasmValidationV2DpsWorkbench({
     : '';
   const multiHeroGlobalScenarioStateIds = selection?.curves[0]?.enabledScenarioStateIds ?? [];
   const multiHeroScenarioOptions = useMemo(() => {
+    if (!bundle || !selection) {
+      return [];
+    }
     const options = new Map<string, { id: string; label: string }>();
-    for (const curve of selection?.curves ?? []) {
-      const heroId = selection ? getCurveHeroId(selection, curve) : curve.attackerHeroId ?? '';
+    for (const curve of selection.curves) {
+      const heroId = getCurveHeroId(selection, curve);
       const heroLabel = heroLabelById.get(heroId) ?? heroId;
-      for (const option of listV2DpsScenarioOptionsForHero(heroId)) {
+      for (const option of listV2DpsScenarioOptions(bundle, heroId, multiHeroGlobalEquipmentItemIds)) {
         if (!options.has(option.id)) {
-          options.set(option.id, { id: option.id, label: `${heroLabel} / ${option.label}` });
+          const prefix = option.itemId ? '' : `${heroLabel} / `;
+          options.set(option.id, { id: option.id, label: `${prefix}${option.label}` });
         }
       }
     }
     return Array.from(options.values());
-  }, [heroLabelById, selection]);
+  }, [bundle, heroLabelById, multiHeroGlobalEquipmentItemIds, selection]);
   const curveResults = wasmOutput?.curveResults ?? [];
   const curveLabelById = useMemo(() => {
     const labels = new Map<string, string>();
@@ -737,11 +743,18 @@ function WasmValidationV2DpsWorkbench({
   const updateMultiHeroGlobalEquipment = useCallback((equipmentItemIds: string[]) => {
     updateSelection((current) => ({
       ...current,
-      curves: current.curves.map((curve) => ({
-        ...curve,
-        equipmentItemIds,
-        label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, getCurveHeroId(current, curve), equipmentItemIds) : curve.label
-      }))
+      curves: current.curves.map((curve) => {
+        const heroId = getCurveHeroId(current, curve);
+        const enabledScenarioStateIds = bundle
+          ? resolveV2DpsEnabledScenarioStateIds(bundle, heroId, equipmentItemIds, curve.enabledScenarioStateIds)
+          : curve.enabledScenarioStateIds;
+        return {
+          ...curve,
+          equipmentItemIds,
+          enabledScenarioStateIds,
+          label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, heroId, equipmentItemIds) : curve.label
+        };
+      })
     }));
   }, [bundle, updateSelection]);
 
@@ -789,13 +802,21 @@ function WasmValidationV2DpsWorkbench({
     updateSelection((current) => ({
       ...current,
       attackerHeroId: current.curves[0]?.curveId === curveId ? attackerHeroId : current.attackerHeroId,
-      curves: current.curves.map((curve) => curve.curveId === curveId ? {
-        ...curve,
-        attackerHeroId,
-        label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, attackerHeroId, curve.equipmentItemIds) : curve.label,
-        enabledPassiveEffectIds: getDefaultV2DpsPassiveIdsForHero(attackerHeroId),
-        enabledScenarioStateIds: current.curves[0]?.enabledScenarioStateIds ?? []
-      } : curve)
+      curves: current.curves.map((curve) => {
+        if (curve.curveId !== curveId) {
+          return curve;
+        }
+        const enabledScenarioStateIds = bundle
+          ? resolveV2DpsEnabledScenarioStateIds(bundle, attackerHeroId, curve.equipmentItemIds, curve.enabledScenarioStateIds)
+          : curve.enabledScenarioStateIds;
+        return {
+          ...curve,
+          attackerHeroId,
+          label: bundle ? formatV2DpsMultiHeroCurveLabel(bundle, attackerHeroId, curve.equipmentItemIds) : curve.label,
+          enabledPassiveEffectIds: getDefaultV2DpsPassiveIdsForHero(attackerHeroId),
+          enabledScenarioStateIds
+        };
+      })
     }));
   }, [bundle, updateSelection]);
 
@@ -1199,7 +1220,9 @@ function WasmValidationV2DpsWorkbench({
               const curveHeroId = getCurveHeroId(selection, curve);
               const curveHeroLabel = heroLabelById.get(curveHeroId) ?? curveHeroId;
               const curvePassiveOptions = listV2DpsPassiveOptionsForHero(curveHeroId);
-              const curveScenarioOptions = listV2DpsScenarioOptionsForHero(curveHeroId);
+              const curveScenarioOptions = bundle
+                ? listV2DpsScenarioOptions(bundle, curveHeroId, curve.equipmentItemIds)
+                : listV2DpsScenarioOptionsForHero(curveHeroId);
               const equipmentSummary = formatCurveEquipmentLabel(curve, equipmentLabelById);
               return (
                 <section
@@ -1303,7 +1326,13 @@ function WasmValidationV2DpsWorkbench({
                           value={curve.equipmentItemIds}
                           showSearch
                           filterOption={filterEntitySelectOption}
-                          onChange={(value) => updateCurve(curve.curveId, { equipmentItemIds: normalizeSelectValues(value) })}
+                          onChange={(value) => {
+                            const equipmentItemIds = normalizeSelectValues(value);
+                            const enabledScenarioStateIds = bundle
+                              ? resolveV2DpsEnabledScenarioStateIds(bundle, curveHeroId, equipmentItemIds, curve.enabledScenarioStateIds)
+                              : curve.enabledScenarioStateIds;
+                            updateCurve(curve.curveId, { equipmentItemIds, enabledScenarioStateIds });
+                          }}
                           disabled={equipmentOptions.length === 0}
                           placeholder="选择 ADC 成装；缺失 published bundle 数据时该 curve 会 blocked"
                         >

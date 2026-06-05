@@ -100,6 +100,13 @@ export type V2DpsStackingPassiveBundleCheck = {
   missingReasons: string[];
 };
 
+export type V2DpsAttributeView = {
+  base: number;
+  current: number;
+  max: number;
+  resolved: number;
+};
+
 export type V2DpsActorSnapshot = {
   actorId: string;
   templateId?: string;
@@ -107,6 +114,7 @@ export type V2DpsActorSnapshot = {
   level?: number;
   types: string[];
   attributes: Record<string, number>;
+  attributeViews?: Record<string, V2DpsAttributeView>;
   currentHp: number;
   maxHp: number;
 };
@@ -121,6 +129,8 @@ export type V2DpsScenarioState = {
   durationMs?: number;
 };
 
+export type V2DpsAttackerAttrRead = 'resolved' | 'base' | 'current' | 'max' | 'total' | (string & {});
+
 export type V2DpsPassiveOperation = {
   kind: string;
   source?: string;
@@ -134,6 +144,7 @@ export type V2DpsPassiveOperation = {
   targetMissingHpBasis?: string;
   targetMissingHpAmp?: number;
   attackerAttr?: string;
+  attackerAttrRead?: V2DpsAttackerAttrRead;
   attackerAttrRatio?: number;
   minAmount?: number;
   hasMinAmount?: boolean;
@@ -178,7 +189,8 @@ export type V2DpsPassiveOption = {
 export type V2DpsScenarioOption = {
   id: string;
   label: string;
-  heroKey: string;
+  heroKey?: string;
+  itemId?: string;
   requiredSkillIds: string[];
   defaultEnabled?: boolean;
 };
@@ -642,6 +654,50 @@ export function listV2DpsScenarioOptionsForHero(heroId: string): V2DpsScenarioOp
   return V2_DPS_BATCH_B_SCENARIO_OPTIONS.filter((option) => option.heroKey === heroKey);
 }
 
+export function listV2DpsScenarioOptions(
+  bundle: GameDataBundle,
+  heroId: string,
+  equipmentItemIds: string[] = []
+): V2DpsScenarioOption[] {
+  const byId = new Map<string, V2DpsScenarioOption>();
+  for (const option of listV2DpsScenarioOptionsForHero(heroId)) {
+    byId.set(option.id, option);
+  }
+  for (const option of listV2DpsItemScenarioOptionsFromEquipment(bundle, equipmentItemIds)) {
+    if (!byId.has(option.id)) {
+      byId.set(option.id, option);
+    }
+  }
+  return Array.from(byId.values());
+}
+
+export function filterV2DpsEnabledScenarioStateIds(
+  bundle: GameDataBundle,
+  heroId: string,
+  equipmentItemIds: string[],
+  enabledScenarioStateIds: string[]
+): string[] {
+  const availableIds = new Set(listV2DpsScenarioOptions(bundle, heroId, equipmentItemIds).map((option) => option.id));
+  return normalizeStringList(enabledScenarioStateIds).filter((stateId) => availableIds.has(stateId));
+}
+
+export function resolveV2DpsEnabledScenarioStateIds(
+  bundle: GameDataBundle,
+  heroId: string,
+  equipmentItemIds: string[],
+  enabledScenarioStateIds: string[]
+): string[] {
+  const options = listV2DpsScenarioOptions(bundle, heroId, equipmentItemIds);
+  const availableIds = new Set(options.map((option) => option.id));
+  const defaultIds = options
+    .filter((option) => option.defaultEnabled !== false)
+    .map((option) => option.id);
+  const retained = normalizeStringList(enabledScenarioStateIds).filter((stateId) => availableIds.has(stateId));
+  const retainedSet = new Set(retained);
+  const appendedDefaults = defaultIds.filter((stateId) => !retainedSet.has(stateId));
+  return [...retained, ...appendedDefaults];
+}
+
 export function listV2DpsAttackers(bundle: GameDataBundle): V2DpsActorOption[] {
   const targetIds = new Set(
     listV2DpsTargetGroups(bundle)
@@ -909,13 +965,13 @@ function buildV2DpsCurveRunSpec({
   const syntheticPassiveIds = normalizeStringList(syntheticPassiveEffects.map((effect) => effect.passiveId ?? effect.sourceId ?? effect.effectId ?? ''));
   const selectedPassiveIds = normalizeStringList([
     ...curveSelection.enabledPassiveEffectIds,
-    ...passiveIdsRequiredByScenarioIds(attackerHeroId, selectedScenarioIds)
+    ...passiveIdsRequiredByScenarioIds(bundle, attackerHeroId, selectedEquipmentItemIds, selectedScenarioIds)
   ]);
   const selectedEnabledPassiveIds = normalizeStringList([...selectedPassiveIds, ...equipment.passiveIds, ...syntheticPassiveIds]);
   const resolvedHeroPassiveEffects = resolveDpsPassiveEffects(bundle, attackerHeroId, selectedPassiveIds, skillLevels);
   const resolvedItemPassiveEffects = resolveDpsItemPassiveEffects(bundle, equipment.itemIds, equipment.passiveIds);
   const resolvedPassiveEffects = [...resolvedHeroPassiveEffects, ...resolvedItemPassiveEffects, ...syntheticPassiveEffects];
-  const resolvedScenarioStates = resolveDpsScenarioStates(bundle, attackerHeroId, selectedScenarioIds);
+  const resolvedScenarioStates = resolveDpsScenarioStates(bundle, attackerHeroId, selectedEquipmentItemIds, selectedScenarioIds);
   const curveId = curveSelection.curveId.trim() || `${attackerHeroId || 'missing_attacker'}-curve-${index + 1}`;
   const label = curveSelection.label.trim() || `Curve ${index + 1}`;
   const attackerCompile = compileDpsAttackerBundle(bundle, {
@@ -950,7 +1006,7 @@ function buildV2DpsCurveRunSpec({
         skillLevels,
         equipmentSet: selectedEquipmentItemIds,
         enabledPassiveEffects: selectedEnabledPassiveIds,
-        scenarioStates: selectedScenarioIds.map((stateId) => ({ stateId, activation: 'selected_in_page' })),
+        scenarioStates: buildSelectionScenarioStates(selectedScenarioIds, resolvedScenarioStates),
         critPolicy: 'expected'
       },
       resolvedSnapshot: {
@@ -1423,6 +1479,19 @@ function normalizeAttributeDefinitions(definitions: GameDataBundle['attributeDef
   return result;
 }
 
+function buildAttributeViewsFromNaturalAttrs(attrs: Record<string, number>): Record<string, V2DpsAttributeView> {
+  const views: Record<string, V2DpsAttributeView> = {};
+  for (const [attrKey, value] of Object.entries(attrs)) {
+    views[attrKey] = {
+      base: value,
+      current: value,
+      max: value,
+      resolved: value
+    };
+  }
+  return views;
+}
+
 function buildActorSnapshot(
   bundle: GameDataBundle,
   attrDefinitions: TinyGoV2AttributeDefinition[],
@@ -1439,6 +1508,7 @@ function buildActorSnapshot(
     level,
     types: resolveHeroTypeNames(bundle, hero.heroId),
     attributes: attrs,
+    attributeViews: buildAttributeViewsFromNaturalAttrs(attrs),
     currentHp: maxHp,
     maxHp
   };
@@ -1526,13 +1596,32 @@ function applyRuneStatAdjustments(snapshot: V2DpsActorSnapshot, adjustments: Rec
     return snapshot;
   }
   const attributes = { ...snapshot.attributes };
+  const attributeViews = snapshot.attributeViews ? { ...snapshot.attributeViews } : {};
   for (const [attrKey, value] of Object.entries(normalized)) {
     attributes[attrKey] = (attributes[attrKey] ?? 0) + value;
+    const existingView = attributeViews[attrKey];
+    if (existingView) {
+      attributeViews[attrKey] = {
+        base: existingView.base,
+        current: existingView.current + value,
+        max: existingView.max + value,
+        resolved: existingView.resolved + value
+      };
+    } else {
+      const attrValue = attributes[attrKey];
+      attributeViews[attrKey] = {
+        base: 0,
+        current: attrValue,
+        max: attrValue,
+        resolved: attrValue
+      };
+    }
   }
   const maxHp = Math.max(readFirstNumber(attributes, ['hp', 'health', 'max_hp', 'max_health']) ?? snapshot.maxHp, 0);
   return {
     ...snapshot,
     attributes,
+    attributeViews: Object.keys(attributeViews).length > 0 ? attributeViews : snapshot.attributeViews,
     currentHp: snapshot.currentHp > 0 ? snapshot.currentHp : maxHp,
     maxHp
   };
@@ -1560,12 +1649,17 @@ function defaultScenarioIdsForHero(heroId: string): string[] {
     .map((option) => option.id);
 }
 
-function passiveIdsRequiredByScenarioIds(heroId: string, scenarioIds: string[]): string[] {
+function passiveIdsRequiredByScenarioIds(
+  bundle: GameDataBundle,
+  heroId: string,
+  equipmentItemIds: string[],
+  scenarioIds: string[]
+): string[] {
   const wanted = new Set(scenarioIds);
   if (wanted.size === 0) {
     return [];
   }
-  return listV2DpsScenarioOptionsForHero(heroId)
+  return listV2DpsScenarioOptions(bundle, heroId, equipmentItemIds)
     .filter((option) => wanted.has(option.id))
     .flatMap((option) => option.requiredSkillIds);
 }
@@ -1657,24 +1751,110 @@ function resolveDpsItemPassiveEffects(bundle: GameDataBundle, itemIds: string[],
   return effects;
 }
 
-function resolveDpsScenarioStates(bundle: GameDataBundle, heroId: string, scenarioIds: string[]): V2DpsScenarioState[] {
+function resolveDpsScenarioStates(
+  bundle: GameDataBundle,
+  heroId: string,
+  equipmentItemIds: string[],
+  scenarioIds: string[]
+): V2DpsScenarioState[] {
   const wanted = new Set(scenarioIds);
   if (wanted.size === 0) {
     return [];
   }
   const heroSkillIds = new Set(listV2DpsScenarioOptionsForHero(heroId).flatMap((option) => option.requiredSkillIds));
+  const selectedItems = new Set(normalizeStringList(equipmentItemIds));
+  const skillRefsByItemId = new Map<string, Set<string>>();
+  for (const item of bundle.items) {
+    if (!selectedItems.has(item.itemId)) {
+      continue;
+    }
+    skillRefsByItemId.set(item.itemId, new Set((item.skillRefs ?? []).filter(Boolean)));
+  }
   const states: V2DpsScenarioState[] = [];
+  const seenStateIds = new Set<string>();
   for (const skill of bundle.skills) {
-    if (!skillBelongsToHero(skill, heroId) && !heroSkillIds.has(skill.skillId)) {
+    const isHeroScenarioSkill = skillBelongsToHero(skill, heroId) || heroSkillIds.has(skill.skillId);
+    const isItemScenarioSkill = skill.ownerType === 'item'
+      && typeof skill.ownerId === 'string'
+      && skill.ownerId.length > 0
+      && selectedItems.has(skill.ownerId)
+      && itemSkillLinkedByRefs(skillRefsByItemId.get(skill.ownerId), skill.skillId);
+    if (!isHeroScenarioSkill && !isItemScenarioSkill) {
       continue;
     }
     for (const state of readDpsScenarioStates(skill)) {
-      if (state.stateId && wanted.has(state.stateId)) {
+      if (state.stateId && wanted.has(state.stateId) && !seenStateIds.has(state.stateId)) {
+        seenStateIds.add(state.stateId);
         states.push(state);
       }
     }
   }
   return states;
+}
+
+function itemSkillLinkedByRefs(skillRefs: Set<string> | undefined, skillId: string): boolean {
+  return !skillRefs || skillRefs.size === 0 || skillRefs.has(skillId);
+}
+
+function listV2DpsItemScenarioOptionsFromEquipment(
+  bundle: GameDataBundle,
+  equipmentItemIds: string[]
+): V2DpsScenarioOption[] {
+  const selectedItems = normalizeStringList(equipmentItemIds);
+  if (selectedItems.length === 0) {
+    return [];
+  }
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const options: V2DpsScenarioOption[] = [];
+  const seenStateIds = new Set<string>();
+  for (const itemId of selectedItems) {
+    const item = itemById.get(itemId);
+    if (!item) {
+      continue;
+    }
+    const skillRefs = new Set((item.skillRefs ?? []).filter(Boolean));
+    const itemLabel = item.name?.trim() || itemId;
+    for (const skill of bundle.skills) {
+      if (skill.ownerType !== 'item' || skill.ownerId !== itemId) {
+        continue;
+      }
+      if (skillRefs.size > 0 && !skillRefs.has(skill.skillId)) {
+        continue;
+      }
+      for (const state of readDpsScenarioStates(skill)) {
+        if (!state.stateId || seenStateIds.has(state.stateId)) {
+          continue;
+        }
+        seenStateIds.add(state.stateId);
+        const skillLabel = skill.name?.trim() || state.stateId;
+        options.push({
+          id: state.stateId,
+          label: `${itemLabel} / ${skillLabel}`,
+          itemId,
+          requiredSkillIds: [skill.skillId]
+        });
+      }
+    }
+  }
+  return options;
+}
+
+function buildSelectionScenarioStates(
+  selectedScenarioIds: string[],
+  resolvedScenarioStates: V2DpsScenarioState[]
+): V2DpsScenarioState[] {
+  const resolvedById = new Map(
+    resolvedScenarioStates
+      .filter((state) => Boolean(state.stateId))
+      .map((state) => [state.stateId as string, state])
+  );
+  return selectedScenarioIds.map((stateId) => {
+    const resolved = resolvedById.get(stateId);
+    if (resolved) {
+      return { ...resolved };
+    }
+    return { stateId, activation: 'selected_in_page' };
+  });
 }
 
 function readDpsPassiveEffects(skill: Skill): V2DpsPassiveEffect[] {
