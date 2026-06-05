@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "generatedAt": "2026-06-05",
+    "gameId": "lol",
+    "versionCode": "v2_batch_m_attr_read_trinity_base_ad_001",
+    "seedFile": "V2-Batch-M-attr-read-trinity-base-ad.seed.json",
+    "priorSeeds": [
+      "V2-Batch-C-adc-items.seed.json",
+      "V2-Batch-L-spellblade-next-attack.seed.json"
+    ],
+    "priorAudit": "V2-Batch-L-spellblade-next-attack-audit.json",
+    "rule": "Batch M corrects Trinity Force Spellblade from resolved total AD to base AD via attackerAttrRead=base while preserving Batch L next-basic-attack state semantics."
+  },
+  "gateTransition": {
+    "ownerId": "3078",
+    "ownerName": "Trinity Force",
+    "passiveSkillId": "item_3078_trinity_force_spellblade_dps_v2",
+    "mechanismTag": "spellblade_next_attack_state_base_ad_read",
+    "fromGate": "L-real-data-ready",
+    "toGate": "M-trinity-data-pass",
+    "reason": "Wasm/Web now support attributeViews and attackerAttrRead; Trinity Spellblade must scale from ad base view instead of resolved total AD that includes item 3078 ad +36.",
+    "publishCondition": "Public bundle item 3078 skillRefs contains item_3078_trinity_force_spellblade_dps_v2, the skill preserves dpsScenarioStates plus one next-attack passive operation, and the damage operation keeps attackerAttr=ad with attackerAttrRead=base and attackerAttrRatio=2.0."
+  },
+  "expectedVerification": {
+    "itemId": "3078",
+    "itemSkillRefs": [
+      "item_3078_trinity_force_spellblade_dps_v2"
+    ],
+    "skillId": "item_3078_trinity_force_spellblade_dps_v2",
+    "scenarioStateId": "item_3078_spellblade_ready",
+    "triggerId": "trinity_force_spellblade_next_attack",
+    "triggerKind": "next_basic_attack_after_state",
+    "passiveId": "item_3078_trinity_force_spellblade_dps_v2",
+    "effectId": "item_3078_trinity_force_spellblade_effect",
+    "requiresScenarioStateId": "item_3078_spellblade_ready",
+    "operation": {
+      "kind": "damage",
+      "source": "trinity_force_spellblade",
+      "damageType": "physical",
+      "attackerAttr": "ad",
+      "attackerAttrRead": "base",
+      "attackerAttrRatio": 2.0
+    },
+    "expectedRuntimeEvidence": [
+      "selection.scenarioStates contains item_3078_spellblade_ready",
+      "resolvedSnapshot.passiveEffects contains triggerKind=next_basic_attack_after_state",
+      "resolvedSnapshot.attackerSnapshot.attributeViews.ad.base excludes item 3078 ad +36",
+      "curveResults.itemPassiveTriggers has one Trinity Force Spellblade proc",
+      "effectBreakdown contains kind=next_attack_state_consume",
+      "effectBreakdown contains attackerAttrRead=base",
+      "effectBreakdown contribution equals 2 * attributeViews.ad.base",
+      "damageTimeline contains source=trinity_force_spellblade exactly once"
+    ]
+  }
+}
