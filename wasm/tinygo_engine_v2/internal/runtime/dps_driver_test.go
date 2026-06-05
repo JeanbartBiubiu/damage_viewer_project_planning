@@ -1401,6 +1401,256 @@ func TestSingleAttackerDPSBlocksInvalidStackingStatModifierContracts(t *testing.
 	}
 }
 
+func testPhantomHitPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "test_phantom_hit_passive",
+		SourceCategory: "item_passive",
+		SourceID:       "test_phantom_hit_item",
+		SourceType:     "item",
+		TriggerID:      "test_phantom_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpAddStack, Source: "test_phantom_stack", StackKey: "test_phantom_stack", MaxStacks: 4, RefreshMode: "refresh"},
+			{Kind: dpsOpDamage, Source: "test_copyable_on_hit", DamageType: "magic", Amount: 25, PhantomHitCopyable: true},
+			{
+				Kind:          dpsOpPhantomHitOnHitRepeat,
+				Source:        "test_phantom_repeat",
+				StackKey:      "test_phantom_stack",
+				TriggerStacks: 4,
+				RepeatCount:   1,
+				RepeatTag:     "phantom_hit",
+				RepeatScope:   dpsRepeatScopeCopyableOnHit,
+			},
+		},
+	}
+}
+
+func guinsoosPhantomHitPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_3124_guinsoos_rageblade_wrath_dps_v2",
+		SourceCategory: "item_passive",
+		SourceID:       "item_3124_guinsoos_rageblade",
+		SourceType:     "item",
+		TriggerID:      "guinsoos_wrath_on_hit",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpAddStack, Source: "guinsoos_boiling_strike_stack", StackKey: "guinsoos_boiling_strike", MaxStacks: 4, RefreshMode: "refresh"},
+			{Kind: dpsOpStatModifier, Source: "guinsoos_boiling_strike_as", StackKey: "guinsoos_boiling_strike", AttrKey: "attack_speed", ModifierMode: "percent", Value: 0.08, PerStack: true},
+			{Kind: dpsOpDamage, Source: "guinsoos_wrath_on_hit", DamageType: "magic", Amount: 30, PhantomHitCopyable: true},
+			{
+				Kind:          dpsOpPhantomHitOnHitRepeat,
+				Source:        "guinsoos_phantom_hit",
+				StackKey:      "guinsoos_boiling_strike",
+				TriggerStacks: 4,
+				RepeatCount:   1,
+				RepeatTag:     "phantom_hit",
+				RepeatScope:   dpsRepeatScopeCopyableOnHit,
+			},
+		},
+	}
+}
+
+func TestSingleAttackerDPSPhantomHitRepeatsCopyableOnHitDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchK-K1-phantom-hit-copyable-damage"
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, testPhantomHitPassive())
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons = %v, want ok", result.Status, result.BlockedReasons)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if result.AttackCount != 4 || len(result.AttackTimeline) != 4 {
+		t.Fatalf("attackCount/timeline = %d/%d, want 4 attacks without phantom cadence", result.AttackCount, len(result.AttackTimeline))
+	}
+	if got := damageCountBySourceAt(result, "test_copyable_on_hit", fourthHitMs); got != 2 {
+		t.Fatalf("copyable on-hit damage count at %dms = %d, want original + phantom", fourthHitMs, got)
+	}
+	if got := phantomDamageCountBySourceAt(result, "test_copyable_on_hit", fourthHitMs); got != 1 {
+		t.Fatalf("phantom copyable damage count at %dms = %d, want 1", fourthHitMs, got)
+	}
+	if got := damageCountBySourceAt(result, "test_copyable_on_hit", 0); got != 1 {
+		t.Fatalf("first hit copyable damage count = %d, want only original on-hit before trigger stacks", got)
+	}
+	if !hasPhantomItemTriggerAt(result, fourthHitMs, "phantom_hit") {
+		t.Fatalf("itemPassiveTriggers = %+v, want phantom evidence at %dms", result.ItemPassiveTriggers, fourthHitMs)
+	}
+	if !hasPhantomEffectBreakdown(result, "test_copyable_on_hit", "phantom_hit") {
+		t.Fatalf("effectBreakdown = %+v, want phantom-hit damage evidence", result.EffectBreakdown)
+	}
+	mitigatedOnHit := 25.0 * 100.0 / (100.0 + 80.0)
+	if !almostEqual(result.DamageBySource["test_copyable_on_hit"], mitigatedOnHit*5) {
+		t.Fatalf("damageBySource = %v, want 4 original + 1 phantom mitigated on-hit total", result.DamageBySource["test_copyable_on_hit"])
+	}
+}
+
+func TestSingleAttackerDPSPhantomHitDoesNotRecurse(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchK-K1-phantom-hit-no-recursion"
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, testPhantomHitPassive())
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if got := phantomDamageCountBySourceAt(result, "test_copyable_on_hit", fourthHitMs); got != 1 {
+		t.Fatalf("phantom damage count at trigger hit = %d, want exactly one copy", got)
+	}
+	if got := damageCountBySourceAt(result, "test_copyable_on_hit", fourthHitMs); got != 2 {
+		t.Fatalf("total copyable damage at trigger hit = %d, want original + single phantom", got)
+	}
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == dpsOpPhantomHitOnHitRepeat {
+			t.Fatalf("effectBreakdown must not replay phantom operation: %+v", event)
+		}
+	}
+}
+
+func TestSingleAttackerDPSPhantomHitDoesNotIncrementEveryNOrStacks(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchK-K1-phantom-hit-no-every-n-or-stack"
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, testPhantomHitPassive(), krakenSlayerPassive())
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	thirdHitMs := result.AttackTimeline[2].TimeMs
+	if got := addStackBreakdownCountAt(result, fourthHitMs); got != 1 {
+		t.Fatalf("add_stack breakdown count at %dms = %d, want single stack increment", fourthHitMs, got)
+	}
+	if got := damageCountBySourceAt(result, "kraken_slayer_bring_it_down", fourthHitMs); got != 0 {
+		t.Fatalf("kraken proc count at phantom trigger hit = %d, want every-N not advanced by phantom", got)
+	}
+	if got := damageCountBySourceAt(result, "kraken_slayer_bring_it_down", thirdHitMs); got != 1 {
+		t.Fatalf("kraken proc count at 3rd hit = %d, want every-N still on cadence", got)
+	}
+}
+
+func TestSingleAttackerDPSBlocksInvalidPhantomHitContracts(t *testing.T) {
+	cases := []struct {
+		name   string
+		mutate func(*model.DPSPassiveEffectV2)
+		needle string
+	}{
+		{
+			name: "missing stack key",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[2].StackKey = ""
+			},
+			needle: "phantom_hit_on_hit_repeat requires stackKey",
+		},
+		{
+			name: "trigger stacks not positive",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[2].TriggerStacks = 0
+			},
+			needle: "phantom_hit_on_hit_repeat requires triggerStacks > 0",
+		},
+		{
+			name: "repeat count not one",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[2].RepeatCount = 2
+			},
+			needle: "phantom_hit_on_hit_repeat requires repeatCount=1",
+		},
+		{
+			name: "missing repeat tag",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[2].RepeatTag = ""
+			},
+			needle: "phantom_hit_on_hit_repeat requires repeatTag",
+		},
+		{
+			name: "unsupported repeat scope",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[2].RepeatScope = "all_on_hit"
+			},
+			needle: "phantom_hit_on_hit_repeat requires repeatScope=copyable_on_hit",
+		},
+		{
+			name: "missing matching add stack",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[2].StackKey = "missing_stack"
+			},
+			needle: "phantom_hit_on_hit_repeat requires matching add_stack",
+		},
+		{
+			name: "no copyable damage operation",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[1].PhantomHitCopyable = false
+			},
+			needle: "phantom_hit_on_hit_repeat requires at least one phantomHitCopyable damage operation",
+		},
+		{
+			name: "copyable flag on non-damage operation",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[0].PhantomHitCopyable = true
+			},
+			needle: "phantomHitCopyable is only supported on damage operations",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			passive := testPhantomHitPassive()
+			tc.mutate(&passive)
+			curve := &input.Curves[0]
+			enableDPSPassivesForTest(curve, passive)
+
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+			if result.Status != "blocked" || result.StopReason != "blocked" {
+				t.Fatalf("result = %+v, want blocked", result)
+			}
+			if !blockedReasonContains(result, tc.needle) {
+				t.Fatalf("blockedReasons = %v, want %q", result.BlockedReasons, tc.needle)
+			}
+		})
+	}
+}
+
+func TestSingleAttackerDPSGuinsooPhantomHitFixture(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.CaseID = "V2-BatchK-K1-guinsoo-phantom-hit-fixture"
+	input.SimulationRules.DurationMs = 4000
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, guinsoosPhantomHitPassive())
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons = %v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.AttackTimeline) < 4 {
+		t.Fatalf("attack timeline = %+v, want at least 4 hits", result.AttackTimeline)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if got := phantomDamageCountBySourceAt(result, "guinsoos_wrath_on_hit", fourthHitMs); got != 1 {
+		t.Fatalf("phantom guinsoo on-hit count at %dms = %d, want 1", fourthHitMs, got)
+	}
+	if !hasPhantomItemTriggerAt(result, fourthHitMs, "phantom_hit") {
+		t.Fatalf("itemPassiveTriggers = %+v, want phantom trigger evidence", result.ItemPassiveTriggers)
+	}
+	if !hasPhantomEffectBreakdown(result, "guinsoos_wrath_on_hit", "phantom_hit") {
+		t.Fatalf("effectBreakdown = %+v, want guinsoo phantom-hit evidence", result.EffectBreakdown)
+	}
+	mitigatedOnHit := 30.0 * 100.0 / (100.0 + 80.0)
+	if result.DamageBySource["guinsoos_wrath_on_hit"] <= mitigatedOnHit*4 {
+		t.Fatalf("damageBySource guinsoos_wrath_on_hit = %.4f, want more than four hits worth including phantom copy", result.DamageBySource["guinsoos_wrath_on_hit"])
+	}
+}
+
 func TestSingleAttackerDPSStackingStatModifierStackKeysArePassiveScoped(t *testing.T) {
 	input := baseSingleAttackerDPSInput()
 	input.CaseID = "V2-BatchH-H1-stacking-stat-key-isolation"
@@ -1501,6 +1751,54 @@ func almostEqual(left float64, right float64) bool {
 		diff = -diff
 	}
 	return diff < 0.000001
+}
+
+func damageCountBySourceAt(result model.DPSCurveResultV2, source string, timeMs int64) int {
+	count := 0
+	for _, event := range result.DamageTimeline {
+		if event.Source == source && event.TimeMs == timeMs {
+			count++
+		}
+	}
+	return count
+}
+
+func phantomDamageCountBySourceAt(result model.DPSCurveResultV2, source string, timeMs int64) int {
+	count := 0
+	for _, event := range result.DamageTimeline {
+		if event.Source == source && event.TimeMs == timeMs && event.PhantomHit {
+			count++
+		}
+	}
+	return count
+}
+
+func hasPhantomItemTriggerAt(result model.DPSCurveResultV2, timeMs int64, repeatTag string) bool {
+	for _, trigger := range result.ItemPassiveTriggers {
+		if trigger.TimeMs == timeMs && trigger.PhantomHit && trigger.RepeatTag == repeatTag {
+			return true
+		}
+	}
+	return false
+}
+
+func hasPhantomEffectBreakdown(result model.DPSCurveResultV2, source string, repeatTag string) bool {
+	for _, event := range result.EffectBreakdown {
+		if event.Source == source && event.PhantomHit && event.RepeatTag == repeatTag && event.Kind == dpsOpDamage {
+			return true
+		}
+	}
+	return false
+}
+
+func addStackBreakdownCountAt(result model.DPSCurveResultV2, timeMs int64) int {
+	count := 0
+	for _, event := range result.EffectBreakdown {
+		if event.TimeMs == timeMs && event.Kind == dpsOpAddStack {
+			count++
+		}
+	}
+	return count
 }
 
 func blockedReasonContains(result model.DPSCurveResultV2, needle string) bool {
