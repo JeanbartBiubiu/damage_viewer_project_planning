@@ -363,6 +363,47 @@ class KatarinaMvpImportMainTest {
         assertEquals("copyable_on_hit", phantomHit.path("repeatScope").asText());
     }
 
+    @Test
+    void loadSeed_shouldReadV2BatchNEnergizedChargeAndConsume() throws Exception {
+        Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-N-energized-charge-and-consume.seed.json")
+            .toAbsolutePath()
+            .normalize();
+
+        KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(seedFile);
+
+        assertEquals("lol", seedData.gameId());
+        assertEquals("v2_batch_n_energized_charge_001", seedData.versionCode());
+        assertEquals(1, seedData.ownerCategories().size());
+        assertEquals(1, seedData.skills().size());
+        assertEquals(1, seedData.items().size());
+
+        JsonNode voltaicItem = findByField(seedData.items(), "itemId", "6699");
+        assertEquals("item_6699_voltaic_cyclosword_energized_dps_v2", voltaicItem.path("skillRefs").get(0).asText());
+
+        JsonNode mergedSkill = findByField(seedData.skills(), "skillId", "item_6699_voltaic_cyclosword_energized_dps_v2");
+        JsonNode mechanicsConfig = mergedSkill.path("mechanicsConfig");
+        assertEquals("item_6699_energized", mechanicsConfig.path("dpsScenarioStates").get(0).path("stateId").asText());
+        assertEquals(
+            "assumed_charge_before_start",
+            mechanicsConfig.path("dpsScenarioStates").get(0).path("activation").asText()
+        );
+
+        JsonNode energizedEffect = mechanicsConfig.path("dpsPassiveEffects").get(0);
+        assertEquals("energized_charge_and_consume", energizedEffect.path("triggerKind").asText());
+        assertEquals("item_6699_energized", energizedEffect.path("chargeKey").asText());
+        assertEquals(25, energizedEffect.path("chargeGainPerBasicAttack").asInt());
+        assertEquals(100, energizedEffect.path("chargeThreshold").asInt());
+        assertEquals(100, energizedEffect.path("chargeCap").asInt());
+        assertEquals("next_basic_attack_after_threshold_reached", energizedEffect.path("chargeReadyPolicy").asText());
+        assertTrue(energizedEffect.path("consumeChargeOnTrigger").asBoolean());
+        assertEquals("real_basic_attack_only", energizedEffect.path("procScope").asText());
+
+        JsonNode energizedDamage = findOperationByKind(energizedEffect.path("operations"), "damage");
+        assertEquals("voltaic_cyclosword_energized", energizedDamage.path("source").asText());
+        assertEquals("physical", energizedDamage.path("damageType").asText());
+        assertEquals(100.0, energizedDamage.path("amount").asDouble(), 0.001);
+    }
+
     private static Set<String> collectText(Iterable<? extends JsonNode> nodes, String fieldName) {
         Set<String> result = new HashSet<>();
         for (JsonNode node : nodes) {
