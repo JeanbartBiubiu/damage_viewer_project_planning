@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "generatedAt": "2026-06-06",
+    "gameId": "lol",
+    "versionCode": "v2_batch_n_energized_charge_001",
+    "seedFile": "最小验证/V2-Batch-N-energized-charge-and-consume.seed.json",
+    "priorSeeds": [
+      "最小验证/V2-Batch-C-adc-items.seed.json"
+    ],
+    "priorAudit": "最小验证/V2-Batch-G-adc-passive-audit.json",
+    "rule": "Batch N completes the first item-owned energized charge-and-consume proof with Voltaic Cyclosword item 6699."
+  },
+  "gateTransition": {
+    "ownerId": "6699",
+    "ownerName": "电震涡流剑",
+    "passiveSkillId": "item_6699_voltaic_cyclosword_energized_dps_v2",
+    "mechanismTag": "energized_charge_and_consume",
+    "batchGPassiveNames": [
+      "通电",
+      "苍穹"
+    ],
+    "fromGate": "G-needs-runtime-extension",
+    "toGate": "N-real-data-ready",
+    "reason": "Runtime now supports triggerKind=energized_charge_and_consume with charge gain, threshold, ready policy, consume-on-trigger, and initial full-charge comparison scenario state.",
+    "publishCondition": "Public bundle item 6699 skillRefs contains item_6699_voltaic_cyclosword_energized_dps_v2 and the skill preserves dpsScenarioStates, energized charge fields, and one flat energized proc damage operation.",
+    "simplification": "Only real basic attacks grant charge. Movement/stealth charge acceleration and melee slow are recorded_not_simulated."
+  },
+  "expectedVerification": {
+    "itemId": "6699",
+    "itemSkillRefs": [
+      "item_6699_voltaic_cyclosword_energized_dps_v2"
+    ],
+    "skillId": "item_6699_voltaic_cyclosword_energized_dps_v2",
+    "scenarioStateId": "item_6699_energized",
+    "scenarioActivation": "assumed_charge_before_start",
+    "triggerId": "voltaic_cyclosword_energized_charge",
+    "triggerKind": "energized_charge_and_consume",
+    "passiveId": "item_6699_voltaic_cyclosword_energized_dps_v2",
+    "effectId": "item_6699_voltaic_cyclosword_energized_effect",
+    "chargeKey": "item_6699_energized",
+    "chargeGainPerBasicAttack": 25,
+    "chargeThreshold": 100,
+    "chargeCap": 100,
+    "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+    "consumeChargeOnTrigger": true,
+    "procScope": "real_basic_attack_only",
+    "operation": {
+      "kind": "damage",
+      "source": "voltaic_cyclosword_energized",
+      "damageType": "physical",
+      "amount": 100
+    },
+    "simplification": "Only real basic attacks grant charge. Movement/stealth charge acceleration and melee slow are recorded_not_simulated.",
+    "expectedRuntimeEvidence": [
+      "selection.scenarioStates contains item_6699_energized with activation=assumed_charge_before_start and stacks=100",
+      "resolvedSnapshot.passiveEffects contains triggerKind=energized_charge_and_consume",
+      "effectBreakdown contains kind=energized_charge_check",
+      "effectBreakdown contains kind=energized_charge_gain with chargeGainPerBasicAttack=25",
+      "effectBreakdown contains kind=energized_charge_consume with consumeChargeOnTrigger=true",
+      "curveResults.itemPassiveTriggers has Voltaic Cyclosword energized proc entries",
+      "damageTimeline contains source=voltaic_cyclosword_energized"
+    ]
+  }
+}
