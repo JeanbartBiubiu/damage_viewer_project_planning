@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -11,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/attribute"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/typeset"
 )
 
 const (
@@ -38,9 +40,72 @@ const (
 	dpsOpAddStack                   = "add_stack"
 	dpsOpTriggerDamageAtStacks      = "trigger_damage_at_stacks"
 	dpsOpStatModifier               = "stat_modifier"
+	dpsOpDamageModifier             = "damage_modifier"
 	dpsOpPhantomHitOnHitRepeat      = "phantom_hit_on_hit_repeat"
 	dpsRepeatScopeCopyableOnHit     = "copyable_on_hit"
+
+	dpsEventOnBasicAttackHit = "on_basic_attack_hit"
+	dpsEventOnSpellHit       = "on_spell_hit"
+	dpsEventOnHit            = "on_hit"
+	dpsEventOnDamageDealt    = "on_damage_dealt"
+	dpsEventOnDamageTaken    = "on_damage_taken"
+	dpsEventDotTick          = "dot_tick"
+
+	dpsValuePhaseIncoming = "incoming"
+
+	dpsRoleAttacker = "attacker"
+	dpsRoleTarget   = "target"
 )
+
+type dpsCombatEventContext struct {
+	Event string
+
+	TimeMs     int64
+	SourceRole string
+	TargetRole string
+
+	ActionID       string
+	ActionTypes    []string
+	EffectTypes    []string
+	EffectTags     []string
+	SourceType     string
+	SourceCategory string
+	SourceID       string
+
+	DamageType     string
+	RawDamage      float64
+	FinalDamage    float64
+	TargetHPBefore float64
+	TargetHPAfter  float64
+
+	IsBasicAttack  bool
+	IsSpell        bool
+	IsOnHit        bool
+	IsDotTick      bool
+	IsPhantomHit   bool
+	HasCritContext bool
+	ProcScope      string
+}
+
+type dpsDamageApplication struct {
+	Applied        bool
+	RawDamage      float64
+	FinalDamage    float64
+	TargetHPBefore float64
+	TargetHPAfter  float64
+}
+
+type dpsLinkedPassiveEntry struct {
+	originalIndex int
+	passive       model.DPSPassiveEffectV2
+}
+
+type dpsIncomingDamageModifierEntry struct {
+	originalIndex  int
+	operationIndex int
+	passive        model.DPSPassiveEffectV2
+	op             model.DPSPassiveOperationV2
+}
 
 type dpsBasicAttackSchedule struct {
 	ref         model.DPSBasicAttackActionRefV2
@@ -74,6 +139,8 @@ type dpsCurveState struct {
 	baseAttrs              map[string]float64
 	attrs                  map[string]float64
 	attributeViews         map[string]model.AttributeSnapshotV2
+	targetBaseAttrs        map[string]float64
+	targetAttrs            map[string]float64
 	targetHP               float64
 	targetMaxHP            float64
 	attackStartTargetHP    float64
@@ -155,6 +222,8 @@ func runSingleAttackerDPSCurve(
 		AttackTimeline:          make([]model.DPSAttackEventV2, 0),
 		AttackIntervalTimeline:  make([]model.DPSAttackIntervalV2, 0),
 		DamageTimeline:          make([]model.DPSDamageEventV2, 0),
+		AttackerDamageTimeline:  make([]model.DPSAttackerDamageEventV2, 0),
+		AttackerDamageBySource:  map[string]float64{},
 		TargetHPTimeline:        make([]model.DPSTargetHPEventV2, 0),
 		EffectTimeline:          make([]model.DPSEffectEventV2, 0),
 		DamageByType:            map[string]float64{},
@@ -270,6 +339,8 @@ func newDPSCurveState(
 		baseAttrs:              copyDPSFloatMap(attacker.Attributes),
 		attrs:                  copyDPSFloatMap(attacker.Attributes),
 		attributeViews:         copyDPSAttributeViews(attacker.AttributeViews),
+		targetBaseAttrs:        copyDPSFloatMap(target.Attributes),
+		targetAttrs:            copyDPSFloatMap(target.Attributes),
 		targetHP:               targetHP,
 		targetMaxHP:            targetMaxHP,
 		armor:                  readFirstFiniteAttr(target.Attributes, "armor", "armour"),
@@ -493,6 +564,8 @@ func (state *dpsCurveState) processBasicAttack(schedIdx int, timeMs int64) {
 	})
 
 	actionDamageProcessed := false
+	var combatCtx dpsCombatEventContext
+	hasCombatCtx := false
 	compiledAction := state.bundle.Actions[sched.actionIndex]
 	for effectIndex, effect := range castResult.Effects {
 		if effect.Kind != string(model.EffectTypeDealDamage) || !effect.HasRawAmount {
@@ -516,11 +589,43 @@ func (state *dpsCurveState) processBasicAttack(schedIdx int, timeMs int64) {
 				damageAmount = effect.RawAmount * critResult.Scalar
 			}
 		}
-		state.applyDamage(timeMs, damageSource, damageType, damageAmount)
+		actionTypes := classifierTypeList(sched.ref.Classifier)
+		if len(actionTypes) == 0 {
+			actionTypes = typeKeysFromCompiledAction(state.bundle, compiledAction)
+		}
+		preDamageCtx := dpsCombatEventContext{
+			Event:          dpsEventOnDamageTaken,
+			TimeMs:         timeMs,
+			SourceRole:     dpsRoleAttacker,
+			TargetRole:     dpsRoleTarget,
+			ActionID:       actionID,
+			ActionTypes:    actionTypes,
+			EffectTypes:    []string{string(model.EffectTypeDealDamage)},
+			SourceType:     "basic_attack",
+			SourceCategory: "basic_attack",
+			SourceID:       damageSource,
+			DamageType:     damageType,
+			RawDamage:      damageAmount,
+			TargetHPBefore: targetHPBefore,
+			IsBasicAttack:  true,
+			IsOnHit:        true,
+			HasCritContext: false,
+			ProcScope:      dpsProcScopeRealBasicAttackOnly,
+		}
+		modifiedAmount, ok := state.applyIncomingDamageModifiers(preDamageCtx, damageAmount)
+		if !ok {
+			sched.nextAtMs = -1
+			return
+		}
+		app := state.applyDamage(timeMs, damageSource, damageType, modifiedAmount)
+		if app.Applied {
+			combatCtx = state.buildBasicAttackCombatContext(timeMs, *sched, compiledAction, damageType, app)
+			hasCombatCtx = true
+		}
 	}
 	state.syncRunContextHPFromDPS()
-	if actionDamageProcessed {
-		state.processAttackPassives(timeMs)
+	if actionDamageProcessed && hasCombatCtx {
+		state.processAttackPassives(combatCtx)
 	}
 
 	if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
@@ -585,29 +690,130 @@ func basicAttackCooldownIntervalSource(bundle compilebundle.CompiledBundle, acti
 	return "action.cooldown"
 }
 
-func (state *dpsCurveState) processAttackPassives(timeMs int64) {
+func (state *dpsCurveState) processAttackPassives(ctx dpsCombatEventContext) {
+	onHitCtx := ctx
+	onHitCtx.Event = dpsEventOnBasicAttackHit
+	refreshStackStatModifiers := state.dispatchDPSLinkedEffects(onHitCtx)
+	if refreshStackStatModifiers && state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		state.refreshActiveStatModifiers(ctx.TimeMs)
+	}
+	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		dealtCtx := ctx
+		dealtCtx.Event = dpsEventOnDamageDealt
+		if state.dispatchDPSLinkedEffects(dealtCtx) && state.targetHP > 0 {
+			state.refreshActiveStatModifiers(ctx.TimeMs)
+		}
+	}
+	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		takenCtx := ctx
+		takenCtx.Event = dpsEventOnDamageTaken
+		if state.dispatchDPSLinkedEffects(takenCtx) && state.targetHP > 0 {
+			state.refreshActiveStatModifiers(ctx.TimeMs)
+		}
+	}
+	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		state.processPhantomHits(onHitCtx)
+	}
+}
+
+func (state *dpsCurveState) buildBasicAttackCombatContext(
+	timeMs int64,
+	sched dpsBasicAttackSchedule,
+	action compilebundle.CompiledAction,
+	damageType string,
+	app dpsDamageApplication,
+) dpsCombatEventContext {
+	actionTypes := classifierTypeList(sched.ref.Classifier)
+	if len(actionTypes) == 0 {
+		actionTypes = typeKeysFromCompiledAction(state.bundle, action)
+	}
+	return dpsCombatEventContext{
+		Event:          dpsEventOnBasicAttackHit,
+		TimeMs:         timeMs,
+		SourceRole:     dpsRoleAttacker,
+		TargetRole:     dpsRoleTarget,
+		ActionID:       sched.ref.ActionID,
+		ActionTypes:    actionTypes,
+		EffectTypes:    []string{string(model.EffectTypeDealDamage)},
+		SourceType:     "basic_attack",
+		SourceCategory: "basic_attack",
+		SourceID:       nonEmpty(sched.ref.SkillID, sched.ref.ActionID),
+		DamageType:     damageType,
+		RawDamage:      app.RawDamage,
+		FinalDamage:    app.FinalDamage,
+		TargetHPBefore: app.TargetHPBefore,
+		TargetHPAfter:  app.TargetHPAfter,
+		IsBasicAttack:  true,
+		IsOnHit:        true,
+		ProcScope:      dpsProcScopeRealBasicAttackOnly,
+	}
+}
+
+func classifierTypeList(classifier model.ClassifierV2) []string {
+	if len(classifier.Types) == 0 && len(classifier.Tags) == 0 {
+		return nil
+	}
+	types := make([]string, 0, len(classifier.Types)+len(classifier.Tags))
+	types = append(types, classifier.Types...)
+	types = append(types, classifier.Tags...)
+	return types
+}
+
+func typeKeysFromCompiledAction(bundle compilebundle.CompiledBundle, action compilebundle.CompiledAction) []string {
+	keys := make([]string, 0)
+	for i, key := range bundle.Types.Keys {
+		if action.TypeSet.Contains(typeset.TypeID(i)) {
+			keys = append(keys, key)
+		}
+	}
+	return keys
+}
+
+func (state *dpsCurveState) collectDPSLinkedPassiveEntries(ctx dpsCombatEventContext) []dpsLinkedPassiveEntry {
+	entries := make([]dpsLinkedPassiveEntry, 0, len(state.passives))
+	for index, passive := range state.passives {
+		if !state.linkedPassiveMatchesEvent(ctx, passive) {
+			continue
+		}
+		entries = append(entries, dpsLinkedPassiveEntry{originalIndex: index, passive: passive})
+	}
+	sort.SliceStable(entries, func(i, j int) bool {
+		left := resolvedDPSPassivePriority(entries[i].passive)
+		right := resolvedDPSPassivePriority(entries[j].passive)
+		if left != right {
+			return left < right
+		}
+		return entries[i].originalIndex < entries[j].originalIndex
+	})
+	return entries
+}
+
+func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) bool {
+	entries := state.collectDPSLinkedPassiveEntries(ctx)
+
 	refreshStackStatModifiers := false
-	for _, passive := range state.passives {
-		triggerKind := passive.TriggerKind
-		if triggerKind == "" {
-			triggerKind = dpsTriggerOnBasicAttackHit
+	for _, entry := range entries {
+		passive := entry.passive
+		if ctx.Event == dpsEventOnDamageTaken && passiveOnlyDamageModifierOperations(passive) {
+			continue
+		}
+		triggerKind := resolvedDPSTriggerKind(passive)
+		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
+			continue
 		}
 		if triggerKind == dpsTriggerEnergizedChargeAndConsume {
-			if state.passiveActiveAt(passive, timeMs) {
-				if state.processEnergizedChargePassive(timeMs, passive) && passiveHasPerStackStatModifier(passive) {
+			if state.passiveActiveAt(passive, ctx.TimeMs) {
+				if state.processEnergizedChargePassive(ctx.TimeMs, passive) && passiveHasPerStackStatModifier(passive) {
 					refreshStackStatModifiers = true
 				}
 			}
 			continue
 		}
 		if triggerKind == dpsTriggerNextBasicAttackAfterState {
-			if !state.nextAttackStateReady(passive, timeMs) {
+			if !state.nextAttackStateReady(passive, ctx.TimeMs) {
 				continue
 			}
-		} else if !state.passiveActiveAt(passive, timeMs) {
-			continue
-		}
-		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
+		} else if !state.passiveActiveAt(passive, ctx.TimeMs) {
 			continue
 		}
 		if triggerKind == dpsTriggerEveryNBasicAttack {
@@ -621,40 +827,313 @@ func (state *dpsCurveState) processAttackPassives(timeMs int64) {
 				continue
 			}
 		}
-		state.recordPassiveTrigger(timeMs, passive)
+		state.recordPassiveTrigger(ctx.TimeMs, passive)
 		for _, op := range passive.Operations {
-			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
-				return
+			if op.Kind == dpsOpPhantomHitOnHitRepeat || op.Kind == dpsOpDamageModifier {
+				continue
 			}
-			state.applyPassiveOperation(timeMs, passive, op)
+			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
+				return refreshStackStatModifiers
+			}
+			state.applyPassiveOperation(ctx.TimeMs, passive, op)
 		}
 		if triggerKind == dpsTriggerNextBasicAttackAfterState {
-			state.consumeScenarioState(timeMs, passive.RequiresScenarioStateID)
+			state.consumeScenarioState(ctx.TimeMs, passive.RequiresScenarioStateID)
 		}
 		if passiveHasPerStackStatModifier(passive) {
 			refreshStackStatModifiers = true
 		}
 	}
-	if refreshStackStatModifiers && state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
-		state.refreshActiveStatModifiers(timeMs)
+	return refreshStackStatModifiers
+}
+
+func passiveOnlyDamageModifierOperations(passive model.DPSPassiveEffectV2) bool {
+	if len(passive.Operations) == 0 {
+		return false
 	}
-	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
-		state.processPhantomHits(timeMs)
+	for _, op := range passive.Operations {
+		if op.Kind != dpsOpDamageModifier {
+			return false
+		}
+	}
+	return true
+}
+
+func (state *dpsCurveState) collectIncomingDamageModifierEntries(ctx dpsCombatEventContext) []dpsIncomingDamageModifierEntry {
+	entries := make([]dpsIncomingDamageModifierEntry, 0)
+	for index, passive := range state.passives {
+		if !state.linkedPassiveMatchesEvent(ctx, passive) {
+			continue
+		}
+		triggerKind := resolvedDPSTriggerKind(passive)
+		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
+			continue
+		}
+		if triggerKind == dpsTriggerEnergizedChargeAndConsume || triggerKind == dpsTriggerNextBasicAttackAfterState {
+			continue
+		}
+		if !state.passiveActiveAt(passive, ctx.TimeMs) {
+			continue
+		}
+		if triggerKind == dpsTriggerEveryNBasicAttack {
+			key := passiveRuntimeKey(passive)
+			everyN := passive.EveryN
+			if everyN <= 0 {
+				everyN = 1
+			}
+			if state.hitCounts[key]%everyN != 0 {
+				continue
+			}
+		}
+		for opIndex, op := range passive.Operations {
+			if op.Kind != dpsOpDamageModifier {
+				continue
+			}
+			entries = append(entries, dpsIncomingDamageModifierEntry{
+				originalIndex:  index,
+				operationIndex: opIndex,
+				passive:        passive,
+				op:             op,
+			})
+		}
+	}
+	sort.SliceStable(entries, func(i, j int) bool {
+		leftPriority := resolvedDPSPassivePriority(entries[i].passive)
+		rightPriority := resolvedDPSPassivePriority(entries[j].passive)
+		if leftPriority != rightPriority {
+			return leftPriority < rightPriority
+		}
+		if entries[i].originalIndex != entries[j].originalIndex {
+			return entries[i].originalIndex < entries[j].originalIndex
+		}
+		return entries[i].operationIndex < entries[j].operationIndex
+	})
+	return entries
+}
+
+func (state *dpsCurveState) applyIncomingDamageModifiers(ctx dpsCombatEventContext, amount float64) (float64, bool) {
+	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
+		state.block("incoming damage modifier requires valid raw amount")
+		return 0, false
+	}
+	entries := state.collectIncomingDamageModifierEntries(ctx)
+	current := amount
+	triggered := map[string]bool{}
+	for _, entry := range entries {
+		passive := entry.passive
+		op := entry.op
+		valuePhase := strings.TrimSpace(op.ValuePhase)
+		if valuePhase == "" {
+			valuePhase = dpsValuePhaseIncoming
+		}
+		if valuePhase != dpsValuePhaseIncoming {
+			state.block("passive damage_modifier only supports valuePhase incoming")
+			return 0, false
+		}
+		modifierMode := strings.TrimSpace(op.ModifierMode)
+		if modifierMode == "" {
+			modifierMode = "percent"
+		}
+		if modifierMode != "percent" {
+			state.block("passive damage_modifier only supports modifierMode percent")
+			return 0, false
+		}
+		targetRole := resolvedDPSOperationTargetRole(op, dpsOpDamageModifier)
+		if targetRole != dpsRoleTarget {
+			state.block("passive damage_modifier only supports targetRole target")
+			return 0, false
+		}
+		if op.CritOnly && !ctx.HasCritContext {
+			state.block("passive damage_modifier critOnly requires crit context")
+			return 0, false
+		}
+		raw := current
+		modified := current * (1 + op.Value)
+		if modified < 0 || math.IsNaN(modified) || math.IsInf(modified, 0) {
+			state.block("passive damage_modifier resolved invalid amount")
+			return 0, false
+		}
+		runtimeKey := passiveRuntimeKey(passive)
+		if !triggered[runtimeKey] {
+			state.recordPassiveTrigger(ctx.TimeMs, passive)
+			triggered[runtimeKey] = true
+		}
+		state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+			TimeMs:  ctx.TimeMs,
+			Source:  passiveDamageSource(passive, op),
+			Kind:    dpsOpDamageModifier,
+			Amount:  modified - raw,
+			Message: incomingDamageModifierBreakdownMessage(valuePhase, raw, modified, op.Value),
+		})
+		current = modified
+	}
+	return current, true
+}
+
+func incomingDamageModifierBreakdownMessage(valuePhase string, raw float64, modified float64, value float64) string {
+	return "valuePhase=" + valuePhase +
+		" raw=" + floatToString(raw) +
+		" modified=" + floatToString(modified) +
+		" value=" + floatToString(value)
+}
+
+func dpsPassiveEventMatchesContext(passiveEvent string, ctx dpsCombatEventContext) bool {
+	if passiveEvent == ctx.Event {
+		return true
+	}
+	if passiveEvent == dpsEventOnHit && ctx.IsOnHit && ctx.Event == dpsEventOnBasicAttackHit {
+		return true
+	}
+	return false
+}
+
+func (state *dpsCurveState) linkedPassiveMatchesEvent(ctx dpsCombatEventContext, passive model.DPSPassiveEffectV2) bool {
+	ownerRole := resolvedDPSOwnerRole(passive)
+	event := resolvedDPSTriggerEvent(passive)
+	if !dpsPassiveEventMatchesContext(event, ctx) {
+		return false
+	}
+	switch ctx.Event {
+	case dpsEventOnBasicAttackHit, dpsEventOnHit, dpsEventOnSpellHit:
+		if ownerRole != dpsRoleAttacker {
+			return false
+		}
+	case dpsEventOnDamageDealt:
+		if ownerRole != ctx.SourceRole {
+			return false
+		}
+	case dpsEventOnDamageTaken:
+		if ownerRole != ctx.TargetRole {
+			return false
+		}
+	}
+	return state.linkedPassiveMatchesMatcher(ctx, passive)
+}
+
+func (state *dpsCurveState) linkedPassiveMatchesMatcher(ctx dpsCombatEventContext, passive model.DPSPassiveEffectV2) bool {
+	matcher := passive.Trigger.Matcher
+	if len(matcher.DamageTypes) > 0 && !stringInList(matcher.DamageTypes, ctx.DamageType) {
+		return false
+	}
+	if !dpsTypeMatcherEmpty(matcher.ActionTypes) && !matchDPSTypeMatcher(matcher.ActionTypes, ctx.ActionTypes) {
+		return false
+	}
+	if !dpsTypeMatcherEmpty(matcher.EffectTypes) && !matchDPSTypeMatcher(matcher.EffectTypes, ctx.EffectTypes) {
+		return false
+	}
+	if !dpsTypeMatcherEmpty(matcher.EffectTags) && !matchDPSTypeMatcher(matcher.EffectTags, ctx.EffectTags) {
+		return false
+	}
+	if len(matcher.SourceTypes) > 0 && !stringInList(matcher.SourceTypes, ctx.SourceType) {
+		return false
+	}
+	if len(matcher.SourceCategories) > 0 && !stringInList(matcher.SourceCategories, ctx.SourceCategory) {
+		return false
+	}
+	procScope := ctx.ProcScope
+	if procScope == "" {
+		procScope = dpsProcScopeRealBasicAttackOnly
+	}
+	if len(matcher.ProcScopes) > 0 && !stringInList(matcher.ProcScopes, procScope) {
+		return false
+	}
+	if matcher.IncludePhantom && !ctx.IsPhantomHit {
+		return false
+	}
+	if matcher.ExcludePhantom && ctx.IsPhantomHit {
+		return false
+	}
+	return true
+}
+
+func resolvedDPSOwnerRole(passive model.DPSPassiveEffectV2) string {
+	role := strings.TrimSpace(passive.OwnerRole)
+	if role == "" {
+		return dpsRoleAttacker
+	}
+	return role
+}
+
+func resolvedDPSPassivePriority(passive model.DPSPassiveEffectV2) int {
+	return passive.Priority
+}
+
+func resolvedDPSTriggerKind(passive model.DPSPassiveEffectV2) string {
+	triggerKind := strings.TrimSpace(passive.TriggerKind)
+	if triggerKind == "" {
+		return dpsTriggerOnBasicAttackHit
+	}
+	return triggerKind
+}
+
+func resolvedDPSTriggerEvent(passive model.DPSPassiveEffectV2) string {
+	if event := strings.TrimSpace(passive.Trigger.Event); event != "" {
+		return event
+	}
+	switch resolvedDPSTriggerKind(passive) {
+	case dpsTriggerOnBasicAttackHit, dpsTriggerEveryNBasicAttack, dpsTriggerStackOnHit, dpsTriggerNextBasicAttackAfterState, dpsTriggerEnergizedChargeAndConsume:
+		return dpsEventOnBasicAttackHit
+	case dpsTriggerStatAlwaysOn:
+		return dpsTriggerStatAlwaysOn
+	case dpsTriggerPreEnabledModifier:
+		return dpsTriggerPreEnabledModifier
+	default:
+		return resolvedDPSTriggerKind(passive)
 	}
 }
 
-func (state *dpsCurveState) processPhantomHits(timeMs int64) {
+func dpsTypeMatcherEmpty(matcher model.TypeMatcherV2) bool {
+	return len(matcher.Any) == 0 && len(matcher.All) == 0 && len(matcher.None) == 0
+}
+
+func matchDPSTypeMatcher(matcher model.TypeMatcherV2, types []string) bool {
+	set := normalizeStringSet(types)
+	if len(matcher.Any) > 0 {
+		found := false
+		for _, candidate := range matcher.Any {
+			if set[strings.TrimSpace(candidate)] {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+	for _, candidate := range matcher.All {
+		if !set[strings.TrimSpace(candidate)] {
+			return false
+		}
+	}
+	for _, candidate := range matcher.None {
+		if set[strings.TrimSpace(candidate)] {
+			return false
+		}
+	}
+	return true
+}
+
+func stringInList(values []string, target string) bool {
+	target = strings.TrimSpace(target)
+	for _, value := range values {
+		if strings.TrimSpace(value) == target {
+			return true
+		}
+	}
+	return false
+}
+
+func (state *dpsCurveState) processPhantomHits(ctx dpsCombatEventContext) {
 	if state.phantomDepth > 0 {
 		return
 	}
-	for _, passive := range state.passives {
+	timeMs := ctx.TimeMs
+	for _, entry := range state.collectDPSLinkedPassiveEntries(ctx) {
+		passive := entry.passive
 		if !state.passiveActiveAt(passive, timeMs) {
 			continue
 		}
-		triggerKind := passive.TriggerKind
-		if triggerKind == "" {
-			triggerKind = dpsTriggerOnBasicAttackHit
-		}
+		triggerKind := resolvedDPSTriggerKind(passive)
 		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
 			continue
 		}
@@ -731,7 +1210,7 @@ func (state *dpsCurveState) copyPhantomPassiveDamage(
 		return
 	}
 	source := passiveDamageSource(passive, op)
-	if !state.applyDamage(timeMs, source, op.DamageType, amount) {
+	if !state.applyDamage(timeMs, source, op.DamageType, amount).Applied {
 		return
 	}
 	last := len(state.result.DamageTimeline) - 1
@@ -754,6 +1233,19 @@ func (state *dpsCurveState) copyPhantomPassiveDamage(
 	})
 }
 
+func resolvedDPSOperationTargetRole(op model.DPSPassiveOperationV2, kind string) string {
+	role := strings.TrimSpace(op.TargetRole)
+	if role == "" {
+		switch kind {
+		case dpsOpDamage, dpsOpApplyDot, dpsOpTriggerDamageAtStacks, dpsOpDamageModifier:
+			return dpsRoleTarget
+		default:
+			return dpsRoleAttacker
+		}
+	}
+	return role
+}
+
 func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2) {
 	switch op.Kind {
 	case dpsOpDamage:
@@ -765,8 +1257,16 @@ func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DP
 		if !ok {
 			return
 		}
-		if state.applyDamage(timeMs, passiveDamageSource(passive, op), op.DamageType, amount) {
-			state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpDamage, attrEvidence)
+		source := passiveDamageSource(passive, op)
+		switch resolvedDPSOperationTargetRole(op, dpsOpDamage) {
+		case dpsRoleAttacker:
+			if state.applyAttackerDamage(timeMs, source, op.DamageType, amount) {
+				state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpDamage, attrEvidence)
+			}
+		default:
+			if state.applyDamage(timeMs, source, op.DamageType, amount).Applied {
+				state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpDamage, attrEvidence)
+			}
 		}
 	case dpsOpApplyDot:
 		state.applyDot(timeMs, passive, op)
@@ -786,8 +1286,14 @@ func (state *dpsCurveState) applyInitialStatModifiers() {
 	state.refreshActiveStatModifiers(0)
 }
 
+func (state *dpsCurveState) syncTargetResistancesFromAttrs() {
+	state.armor = readFirstFiniteAttr(state.targetAttrs, "armor", "armour")
+	state.magicResist = readFirstFiniteAttr(state.targetAttrs, "magic_resist", "mr", "spellblock", "spell_block")
+}
+
 func (state *dpsCurveState) refreshActiveStatModifiers(timeMs int64) {
 	state.attrs = copyDPSFloatMap(state.baseAttrs)
+	state.targetAttrs = copyDPSFloatMap(state.targetBaseAttrs)
 	for _, passive := range state.passives {
 		if !state.passiveActiveAt(passive, timeMs) {
 			continue
@@ -817,6 +1323,7 @@ func (state *dpsCurveState) refreshActiveStatModifiers(timeMs int64) {
 			state.applyStatModifier(timeMs, passive, op, true)
 		}
 	}
+	state.syncTargetResistancesFromAttrs()
 }
 
 func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2, record bool) {
@@ -824,7 +1331,12 @@ func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPas
 		state.block("passive stat_modifier operation requires attrKey")
 		return
 	}
-	current, ok := state.attrs[op.AttrKey]
+	targetRole := resolvedDPSOperationTargetRole(op, dpsOpStatModifier)
+	attrMap := state.attrs
+	if targetRole == dpsRoleTarget {
+		attrMap = state.targetAttrs
+	}
+	current, ok := attrMap[op.AttrKey]
 	if !ok || math.IsNaN(current) || math.IsInf(current, 0) {
 		state.block("passive stat_modifier operation requires existing attr " + op.AttrKey)
 		return
@@ -844,14 +1356,17 @@ func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPas
 	}
 	switch op.ModifierMode {
 	case "", "flat":
-		state.attrs[op.AttrKey] = current + value
+		attrMap[op.AttrKey] = current + value
 	case "percent":
-		state.attrs[op.AttrKey] = current * (1 + value)
+		attrMap[op.AttrKey] = current * (1 + value)
 	case "override", "override_base", "override_current", "override_max":
-		state.attrs[op.AttrKey] = value
+		attrMap[op.AttrKey] = value
 	default:
 		state.block("unsupported passive stat modifier mode " + op.ModifierMode)
 		return
+	}
+	if targetRole == dpsRoleTarget {
+		state.syncTargetResistancesFromAttrs()
 	}
 	if !record {
 		return
@@ -859,12 +1374,16 @@ func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPas
 	state.result.EffectTimeline = append(state.result.EffectTimeline, model.DPSEffectEventV2{
 		TimeMs: timeMs, SourceID: nonEmpty(passive.SourceID, passiveID(passive)), Kind: dpsOpStatModifier,
 	})
+	amount := state.attrs[op.AttrKey]
+	if targetRole == dpsRoleTarget {
+		amount = state.targetAttrs[op.AttrKey]
+	}
 	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
 		TimeMs:  timeMs,
 		Source:  passiveDamageSource(passive, op),
 		Kind:    dpsOpStatModifier,
-		Amount:  state.attrs[op.AttrKey],
-		Message: statModifierBreakdownMessage(op, stacks),
+		Amount:  amount,
+		Message: statModifierBreakdownMessage(op, stacks, targetRole),
 	})
 }
 
@@ -918,7 +1437,7 @@ func (state *dpsCurveState) triggerDamageAtStacks(timeMs int64, passive model.DP
 	if !ok {
 		return
 	}
-	if !state.applyDamage(timeMs, passiveDamageSource(passive, op), op.DamageType, amount) {
+	if !state.applyDamage(timeMs, passiveDamageSource(passive, op), op.DamageType, amount).Applied {
 		return
 	}
 	state.recordPassiveDamageBreakdown(timeMs, passive, op, amount, dpsOpTriggerDamageAtStacks, attrEvidence)
@@ -995,7 +1514,7 @@ func (state *dpsCurveState) processDotTick(timeMs int64) {
 		if source == "" {
 			source = dot.SourceID
 		}
-		if state.applyDamage(timeMs, source, dot.Operation.DamageType, amount) {
+		if state.applyDamage(timeMs, source, dot.Operation.DamageType, amount).Applied {
 			state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
 				TimeMs:  timeMs,
 				Source:  source,
@@ -1193,7 +1712,8 @@ func (state *dpsCurveState) resolveOperationAmount(op model.DPSPassiveOperationV
 	return amount, attrEvidence, true
 }
 
-func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType string, rawAmount float64) bool {
+func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType string, rawAmount float64) dpsDamageApplication {
+	result := dpsDamageApplication{RawDamage: rawAmount}
 	resistance := 0.0
 	switch damageType {
 	case "physical":
@@ -1203,19 +1723,19 @@ func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType 
 	case "true":
 	default:
 		state.block("unsupported damage type " + damageType)
-		return false
+		return result
 	}
 	resistance = state.effectiveResistance(damageType, resistance)
 	mitigatedDamage, code := mitigateDamageByResistance(rawAmount, resistance, damageType)
 	if code != model.ErrOK {
 		state.block("damage could not be resolved")
-		return false
+		return result
 	}
 	hpBefore := state.targetHP
 	hpAfter, finalDamage, code := applyDamageToHP(state.targetHP, mitigatedDamage)
 	if code != model.ErrOK {
 		state.block("damage could not be applied")
-		return false
+		return result
 	}
 	state.targetHP = hpAfter
 	state.result.TotalDamage += finalDamage
@@ -1234,6 +1754,34 @@ func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType 
 	if state.targetHP <= 0 {
 		state.markKilled(timeMs)
 	}
+	result.Applied = true
+	result.FinalDamage = finalDamage
+	result.TargetHPBefore = hpBefore
+	result.TargetHPAfter = state.targetHP
+	return result
+}
+
+func (state *dpsCurveState) applyAttackerDamage(timeMs int64, source string, damageType string, rawAmount float64) bool {
+	if rawAmount < 0 || math.IsNaN(rawAmount) || math.IsInf(rawAmount, 0) {
+		state.block("passive retaliation damage resolved invalid amount")
+		return false
+	}
+	if !supportedDPSDamageType(damageType) {
+		state.block("unsupported retaliation damage type " + damageType)
+		return false
+	}
+	finalDamage := rawAmount
+	state.result.AttackerDamageTimeline = append(state.result.AttackerDamageTimeline, model.DPSAttackerDamageEventV2{
+		TimeMs:      timeMs,
+		Source:      source,
+		DamageType:  damageType,
+		RawDamage:   rawAmount,
+		FinalDamage: finalDamage,
+	})
+	if state.result.AttackerDamageBySource == nil {
+		state.result.AttackerDamageBySource = map[string]float64{}
+	}
+	state.result.AttackerDamageBySource[source] += finalDamage
 	return true
 }
 
@@ -1291,6 +1839,8 @@ func (state *dpsCurveState) block(reason string) {
 	state.result.StopReason = "blocked"
 	state.result.BlockedReasons = append(state.result.BlockedReasons, reason)
 	state.result.DamageTimeline = nil
+	state.result.AttackerDamageTimeline = nil
+	state.result.AttackerDamageBySource = map[string]float64{}
 	state.result.AttackTimeline = nil
 	state.result.AttackIntervalTimeline = nil
 	state.result.TargetHPTimeline = nil
@@ -1752,18 +2302,55 @@ func validateDPSEquipment(curve model.DPSCurveRunSpecV2) []string {
 			reasons = append(reasons, "resolvedSnapshot.equipmentStats."+attrKey+" must be finite")
 		}
 	}
+	reasons = append(reasons, validateDPSTargetEquipment(curve)...)
+	return reasons
+}
+
+func validateDPSTargetEquipment(curve model.DPSCurveRunSpecV2) []string {
+	reasons := make([]string, 0)
+	selectionSet := normalizeStringSet(curve.Selection.TargetEquipmentSet)
+	resolvedSet := normalizeStringSet(curve.ResolvedSnapshot.TargetEquipmentSet)
+	if len(selectionSet) > 0 && len(resolvedSet) == 0 {
+		reasons = append(reasons, "resolvedSnapshot.targetEquipmentSet is required when selection.targetEquipmentSet is present")
+	}
+	if len(selectionSet) > 0 && len(resolvedSet) > 0 && !sameStringSet(selectionSet, resolvedSet) {
+		reasons = append(reasons, "selection.targetEquipmentSet must match resolvedSnapshot.targetEquipmentSet")
+	}
+	if len(resolvedSet) > 0 && curve.ResolvedSnapshot.TargetEquipmentStats == nil {
+		reasons = append(reasons, "resolvedSnapshot.targetEquipmentStats is required when targetEquipmentSet is present")
+	}
+	for attrKey, value := range curve.ResolvedSnapshot.TargetEquipmentStats {
+		if strings.TrimSpace(attrKey) == "" {
+			reasons = append(reasons, "resolvedSnapshot.targetEquipmentStats contains empty attr key")
+			continue
+		}
+		if math.IsNaN(value) || math.IsInf(value, 0) {
+			reasons = append(reasons, "resolvedSnapshot.targetEquipmentStats."+attrKey+" must be finite")
+		}
+	}
 	return reasons
 }
 
 func validateDPSPassiveSelection(curve model.DPSCurveRunSpecV2) []string {
 	reasons := make([]string, 0)
 	enabled := enabledPassiveIDSet(curve)
-	if len(enabled) == 0 {
+	targetEnabled := targetEnabledPassiveIDSet(curve)
+	if len(enabled) == 0 && len(targetEnabled) == 0 {
 		return reasons
 	}
 	for id := range enabled {
 		if findPassiveByID(curve.ResolvedSnapshot.PassiveEffects, id) == nil {
 			reasons = append(reasons, "enabled passive effect "+id+" is missing from resolvedSnapshot.passiveEffects")
+		}
+	}
+	for id := range targetEnabled {
+		passive := findPassiveByID(curve.ResolvedSnapshot.PassiveEffects, id)
+		if passive == nil {
+			reasons = append(reasons, "target enabled passive effect "+id+" is missing from resolvedSnapshot.passiveEffects")
+			continue
+		}
+		if resolvedDPSOwnerRole(*passive) != dpsRoleTarget {
+			reasons = append(reasons, "target enabled passive effect "+id+" requires ownerRole target")
 		}
 	}
 	for _, passive := range curve.ResolvedSnapshot.PassiveEffects {
@@ -1793,6 +2380,7 @@ func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRu
 	if !supportedDPSTrigger(passive.TriggerKind) {
 		reasons = append(reasons, "passive effect "+id+" has unsupported triggerKind "+passive.TriggerKind)
 	}
+	reasons = append(reasons, validateDPSLinkedPassiveTrigger(id, passive)...)
 	if passive.TriggerKind == dpsTriggerEveryNBasicAttack && passive.EveryN <= 0 {
 		reasons = append(reasons, "passive effect "+id+" requires everyN")
 	}
@@ -1870,6 +2458,7 @@ func validateDPSPhantomHitOperation(
 
 func validateDPSPassiveOperation(passiveID string, op model.DPSPassiveOperationV2) []string {
 	reasons := make([]string, 0)
+	reasons = append(reasons, validateDPSOperationTargetRole(passiveID, op)...)
 	switch op.Kind {
 	case dpsOpDamage, dpsOpTriggerDamageAtStacks:
 		if !supportedDPSDamageType(op.DamageType) {
@@ -1922,6 +2511,18 @@ func validateDPSPassiveOperation(passiveID string, op model.DPSPassiveOperationV
 		}
 		if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
 			reasons = append(reasons, "passive effect "+passiveID+" stat_modifier has invalid value")
+		}
+	case dpsOpDamageModifier:
+		valuePhase := strings.TrimSpace(op.ValuePhase)
+		if valuePhase != "" && valuePhase != dpsValuePhaseIncoming {
+			reasons = append(reasons, "passive effect "+passiveID+" damage_modifier only supports valuePhase incoming")
+		}
+		modifierMode := strings.TrimSpace(op.ModifierMode)
+		if modifierMode != "" && modifierMode != "percent" {
+			reasons = append(reasons, "passive effect "+passiveID+" damage_modifier only supports modifierMode percent")
+		}
+		if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
+			reasons = append(reasons, "passive effect "+passiveID+" damage_modifier has invalid value")
 		}
 	case dpsOpPhantomHitOnHitRepeat:
 		if op.StackKey == "" {
@@ -1976,6 +2577,35 @@ func enabledPassiveIDSet(curve model.DPSCurveRunSpecV2) map[string]bool {
 		}
 	}
 	for _, id := range curve.ResolvedSnapshot.EnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	for _, id := range curve.Selection.TargetEnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	for _, id := range curve.ResolvedSnapshot.TargetEnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	return result
+}
+
+func targetEnabledPassiveIDSet(curve model.DPSCurveRunSpecV2) map[string]bool {
+	result := map[string]bool{}
+	for _, id := range curve.Selection.TargetEnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	for _, id := range curve.ResolvedSnapshot.TargetEnabledPassiveEffects {
 		id = strings.TrimSpace(id)
 		if id != "" {
 			result[id] = true
@@ -2095,6 +2725,58 @@ func supportedDPSTrigger(triggerKind string) bool {
 	}
 }
 
+func validateDPSOperationTargetRole(passiveID string, op model.DPSPassiveOperationV2) []string {
+	reasons := make([]string, 0)
+	role := strings.TrimSpace(op.TargetRole)
+	if role == "" {
+		return reasons
+	}
+	switch op.Kind {
+	case dpsOpDamage, dpsOpStatModifier:
+		if role != dpsRoleAttacker && role != dpsRoleTarget {
+			reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
+		}
+	case dpsOpDamageModifier:
+		if role == dpsRoleAttacker {
+			reasons = append(reasons, "passive effect "+passiveID+" operation damage_modifier does not support targetRole attacker")
+		} else if role != "" && role != dpsRoleTarget {
+			reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
+		}
+	case dpsOpApplyDot, dpsOpTriggerDamageAtStacks:
+		if role == dpsRoleAttacker {
+			reasons = append(reasons, "passive effect "+passiveID+" operation "+op.Kind+" does not support targetRole attacker")
+		} else if role != dpsRoleTarget {
+			reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
+		}
+	case dpsOpAddStack, dpsOpPhantomHitOnHitRepeat:
+		reasons = append(reasons, "passive effect "+passiveID+" operation "+op.Kind+" does not support targetRole")
+	default:
+		reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
+	}
+	return reasons
+}
+
+func validateDPSLinkedPassiveTrigger(id string, passive model.DPSPassiveEffectV2) []string {
+	reasons := make([]string, 0)
+	ownerRole := resolvedDPSOwnerRole(passive)
+	if ownerRole != dpsRoleAttacker && ownerRole != dpsRoleTarget {
+		reasons = append(reasons, "passive effect "+id+" has unsupported ownerRole "+passive.OwnerRole)
+	}
+	if event := strings.TrimSpace(passive.Trigger.Event); event != "" && !supportedDPSLinkedTriggerEvent(event) {
+		reasons = append(reasons, "passive effect "+id+" has unsupported trigger.event "+event)
+	}
+	return reasons
+}
+
+func supportedDPSLinkedTriggerEvent(event string) bool {
+	switch event {
+	case dpsEventOnBasicAttackHit, dpsEventOnSpellHit, dpsEventOnHit, dpsEventOnDamageDealt, dpsEventOnDamageTaken, dpsTriggerStatAlwaysOn, dpsTriggerPreEnabledModifier, dpsEventDotTick:
+		return true
+	default:
+		return false
+	}
+}
+
 func supportedDPSDamageType(damageType string) bool {
 	return damageType == "physical" || damageType == "magic" || damageType == "true"
 }
@@ -2111,12 +2793,15 @@ func stackBreakdownMessage(stackKey string, before int, after int, maxStacks int
 	return message
 }
 
-func statModifierBreakdownMessage(op model.DPSPassiveOperationV2, stacks int) string {
+func statModifierBreakdownMessage(op model.DPSPassiveOperationV2, stacks int, targetRole string) string {
 	mode := op.ModifierMode
 	if mode == "" {
 		mode = "flat"
 	}
 	message := "attrKey=" + op.AttrKey + " modifierMode=" + mode + " value=" + floatToString(op.Value)
+	if targetRole != "" && targetRole != dpsRoleAttacker {
+		message += " targetRole=" + targetRole
+	}
 	if op.PerStack {
 		message += " perStack=true stackKey=" + op.StackKey + " stacks=" + intToString(stacks)
 	}
