@@ -1,0 +1,138 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_n_energized_charge_001",
+  "source": {
+    "auditJson": "最小验证/V2-Batch-N-energized-charge-and-consume-audit.json",
+    "priorItemSeed": "最小验证/V2-Batch-C-adc-items.seed.json",
+    "passiveAudit": "最小验证/V2-Batch-G-adc-passive-audit.json",
+    "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
+    "sourceVersion": "16.9.1",
+    "generatedAt": "2026-06-06",
+    "rule": "V2 Batch N publishes a simplified Voltaic Cyclosword energized charge-and-consume DPS passive. Only real basic attacks grant charge; movement/stealth acceleration and melee slow are recorded_not_simulated.",
+    "gateStatus": "N-real-data-ready when published bundle preserves dpsScenarioStates, triggerKind=energized_charge_and_consume, charge fields, and one flat energized proc damage operation."
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_6699_voltaic_cyclosword_energized_dps_v2",
+      "ownerType": "item",
+      "ownerId": "6699",
+      "skillKey": "p_energized",
+      "name": "电震涡流剑 盈能 DPS 被动",
+      "description": "V2 Batch N simplified Voltaic Cyclosword energized DPS passive: real basic attacks grant 25 charge up to 100, then the next basic attack consumes charge to deal 100 bonus physical damage. Movement/stealth charge acceleration and melee slow are recorded_not_simulated.",
+      "params": {
+        "chargeKey": "item_6699_energized",
+        "chargeGainPerBasicAttack": 25,
+        "chargeThreshold": 100,
+        "chargeCap": 100,
+        "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+        "consumeChargeOnTrigger": true,
+        "procScope": "real_basic_attack_only",
+        "simplification": "Only real basic attacks grant charge. Movement/stealth acceleration and melee slow are recorded_not_simulated.",
+        "sourceRef": "数据参考/item.json#data.6699.description"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "voltaic_cyclosword_energized_charge",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_6699_energized",
+            "sourceType": "item_passive",
+            "sourceId": "6699",
+            "activation": "assumed_charge_before_start",
+            "stacks": 100,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_6699_voltaic_cyclosword_energized_dps_v2",
+            "effectId": "item_6699_voltaic_cyclosword_energized_effect",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_6699_voltaic_cyclosword_energized_dps_v2",
+            "sourceType": "item",
+            "triggerId": "voltaic_cyclosword_energized_charge",
+            "triggerKind": "energized_charge_and_consume",
+            "chargeKey": "item_6699_energized",
+            "chargeGainPerBasicAttack": 25,
+            "chargeThreshold": 100,
+            "chargeCap": 100,
+            "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+            "consumeChargeOnTrigger": true,
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "voltaic_cyclosword_energized",
+                "damageType": "physical",
+                "amount": 100
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "6699",
+      "name": "电震涡流剑",
+      "goldCost": 2900,
+      "iconUrl": "item_6699",
+      "skillRefs": [
+        "item_6699_voltaic_cyclosword_energized_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ability_haste",
+          "value": 10
+        },
+        {
+          "attrKey": "ad",
+          "value": 55
+        },
+        {
+          "attrKey": "armor_pen_flat",
+          "value": 10
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "6699",
+        "sourceTags": [
+          "Damage",
+          "Active",
+          "CooldownReduction",
+          "ArmorPenetration",
+          "AbilityHaste"
+        ],
+        "sourceGoldTotal": 2900,
+        "batch": "V2-Batch-N",
+        "sourceText": "Voltaic Cyclosword energized charge-and-consume simplified proof. Movement/stealth charge acceleration and melee slow are recorded_not_simulated.",
+        "recordedNotSimulated": [
+          "movement_charge_acceleration",
+          "stealth_charge_acceleration",
+          "melee_slow_on_energized_attack"
+        ]
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
