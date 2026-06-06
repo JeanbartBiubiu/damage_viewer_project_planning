@@ -388,15 +388,17 @@ type DPSCurveRunSpecV2 struct {
 }
 
 type DPSCurveSelectionV2 struct {
-	HeroID                string               `json:"heroId,omitempty"`
-	HeroLevel             int                  `json:"heroLevel,omitempty"`
-	TargetID              string               `json:"targetId,omitempty"`
-	TargetType            string               `json:"targetType,omitempty"`
-	SkillLevels           map[string]int       `json:"skillLevels"`
-	EquipmentSet          []string             `json:"equipmentSet"`
-	EnabledPassiveEffects []string             `json:"enabledPassiveEffects"`
-	ScenarioStates        []DPSScenarioStateV2 `json:"scenarioStates"`
-	CritPolicy            string               `json:"critPolicy,omitempty"`
+	HeroID                      string               `json:"heroId,omitempty"`
+	HeroLevel                   int                  `json:"heroLevel,omitempty"`
+	TargetID                    string               `json:"targetId,omitempty"`
+	TargetType                  string               `json:"targetType,omitempty"`
+	SkillLevels                 map[string]int       `json:"skillLevels"`
+	EquipmentSet                []string             `json:"equipmentSet"`
+	EnabledPassiveEffects       []string             `json:"enabledPassiveEffects"`
+	TargetEquipmentSet          []string             `json:"targetEquipmentSet,omitempty"`
+	TargetEnabledPassiveEffects []string             `json:"targetEnabledPassiveEffects,omitempty"`
+	ScenarioStates              []DPSScenarioStateV2 `json:"scenarioStates"`
+	CritPolicy                  string               `json:"critPolicy,omitempty"`
 }
 
 type DPSBasicAttackActionRefV2 struct {
@@ -407,16 +409,19 @@ type DPSBasicAttackActionRefV2 struct {
 }
 
 type DPSResolvedSnapshotV2 struct {
-	AttackerSnapshot       DPSActorSnapshotV2          `json:"attackerSnapshot"`
-	TargetSnapshot         DPSActorSnapshotV2          `json:"targetSnapshot"`
-	BasicAttackActions     []DPSBasicAttackActionRefV2 `json:"basicAttackActions,omitempty"`
-	EquipmentSet           []string                    `json:"equipmentSet"`
-	EquipmentStats         map[string]float64          `json:"equipmentStats"`
-	EnabledPassiveEffects  []string                    `json:"enabledPassiveEffects"`
-	PassiveEffects         []DPSPassiveEffectV2        `json:"passiveEffects,omitempty"`
-	ExternalPassiveEffects []string                    `json:"externalPassiveEffects"`
-	ScenarioStates         []DPSScenarioStateV2        `json:"scenarioStates"`
-	RuneStatAdjustments    map[string]float64          `json:"runeStatAdjustments"`
+	AttackerSnapshot              DPSActorSnapshotV2          `json:"attackerSnapshot"`
+	TargetSnapshot                DPSActorSnapshotV2          `json:"targetSnapshot"`
+	BasicAttackActions            []DPSBasicAttackActionRefV2 `json:"basicAttackActions,omitempty"`
+	EquipmentSet                  []string                    `json:"equipmentSet"`
+	EquipmentStats                map[string]float64          `json:"equipmentStats"`
+	EnabledPassiveEffects         []string                    `json:"enabledPassiveEffects"`
+	TargetEquipmentSet            []string                    `json:"targetEquipmentSet,omitempty"`
+	TargetEquipmentStats          map[string]float64          `json:"targetEquipmentStats,omitempty"`
+	TargetEnabledPassiveEffects   []string                    `json:"targetEnabledPassiveEffects,omitempty"`
+	PassiveEffects                []DPSPassiveEffectV2        `json:"passiveEffects,omitempty"`
+	ExternalPassiveEffects        []string                    `json:"externalPassiveEffects"`
+	ScenarioStates                []DPSScenarioStateV2        `json:"scenarioStates"`
+	RuneStatAdjustments           map[string]float64          `json:"runeStatAdjustments"`
 }
 
 type DPSActorSnapshotV2 struct {

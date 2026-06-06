@@ -2302,18 +2302,55 @@ func validateDPSEquipment(curve model.DPSCurveRunSpecV2) []string {
 			reasons = append(reasons, "resolvedSnapshot.equipmentStats."+attrKey+" must be finite")
 		}
 	}
+	reasons = append(reasons, validateDPSTargetEquipment(curve)...)
+	return reasons
+}
+
+func validateDPSTargetEquipment(curve model.DPSCurveRunSpecV2) []string {
+	reasons := make([]string, 0)
+	selectionSet := normalizeStringSet(curve.Selection.TargetEquipmentSet)
+	resolvedSet := normalizeStringSet(curve.ResolvedSnapshot.TargetEquipmentSet)
+	if len(selectionSet) > 0 && len(resolvedSet) == 0 {
+		reasons = append(reasons, "resolvedSnapshot.targetEquipmentSet is required when selection.targetEquipmentSet is present")
+	}
+	if len(selectionSet) > 0 && len(resolvedSet) > 0 && !sameStringSet(selectionSet, resolvedSet) {
+		reasons = append(reasons, "selection.targetEquipmentSet must match resolvedSnapshot.targetEquipmentSet")
+	}
+	if len(resolvedSet) > 0 && curve.ResolvedSnapshot.TargetEquipmentStats == nil {
+		reasons = append(reasons, "resolvedSnapshot.targetEquipmentStats is required when targetEquipmentSet is present")
+	}
+	for attrKey, value := range curve.ResolvedSnapshot.TargetEquipmentStats {
+		if strings.TrimSpace(attrKey) == "" {
+			reasons = append(reasons, "resolvedSnapshot.targetEquipmentStats contains empty attr key")
+			continue
+		}
+		if math.IsNaN(value) || math.IsInf(value, 0) {
+			reasons = append(reasons, "resolvedSnapshot.targetEquipmentStats."+attrKey+" must be finite")
+		}
+	}
 	return reasons
 }
 
 func validateDPSPassiveSelection(curve model.DPSCurveRunSpecV2) []string {
 	reasons := make([]string, 0)
 	enabled := enabledPassiveIDSet(curve)
-	if len(enabled) == 0 {
+	targetEnabled := targetEnabledPassiveIDSet(curve)
+	if len(enabled) == 0 && len(targetEnabled) == 0 {
 		return reasons
 	}
 	for id := range enabled {
 		if findPassiveByID(curve.ResolvedSnapshot.PassiveEffects, id) == nil {
 			reasons = append(reasons, "enabled passive effect "+id+" is missing from resolvedSnapshot.passiveEffects")
+		}
+	}
+	for id := range targetEnabled {
+		passive := findPassiveByID(curve.ResolvedSnapshot.PassiveEffects, id)
+		if passive == nil {
+			reasons = append(reasons, "target enabled passive effect "+id+" is missing from resolvedSnapshot.passiveEffects")
+			continue
+		}
+		if resolvedDPSOwnerRole(*passive) != dpsRoleTarget {
+			reasons = append(reasons, "target enabled passive effect "+id+" requires ownerRole target")
 		}
 	}
 	for _, passive := range curve.ResolvedSnapshot.PassiveEffects {
@@ -2540,6 +2577,35 @@ func enabledPassiveIDSet(curve model.DPSCurveRunSpecV2) map[string]bool {
 		}
 	}
 	for _, id := range curve.ResolvedSnapshot.EnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	for _, id := range curve.Selection.TargetEnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	for _, id := range curve.ResolvedSnapshot.TargetEnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	return result
+}
+
+func targetEnabledPassiveIDSet(curve model.DPSCurveRunSpecV2) map[string]bool {
+	result := map[string]bool{}
+	for _, id := range curve.Selection.TargetEnabledPassiveEffects {
+		id = strings.TrimSpace(id)
+		if id != "" {
+			result[id] = true
+		}
+	}
+	for _, id := range curve.ResolvedSnapshot.TargetEnabledPassiveEffects {
 		id = strings.TrimSpace(id)
 		if id != "" {
 			result[id] = true
