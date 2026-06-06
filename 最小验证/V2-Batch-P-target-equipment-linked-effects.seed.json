@@ -1,0 +1,256 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_p_target_equipment_linked_effects_002",
+  "source": {
+    "auditJson": "最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json",
+    "priorItemSeed": "最小验证/V2-Batch-C-adc-items.seed.json",
+    "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
+    "sourceVersion": "16.9.1",
+    "generatedAt": "2026-06-06",
+    "rule": "V2 Batch P publishes attacker-owned on_damage_dealt armor shred (Black Cleaver 3071) and target-owned on_damage_taken retaliation (Thornmail 3075). Randuin 3143 is present as target equipment data only; crit-only mitigation remains blocked until crit context is supported.",
+    "gateStatus": "P-real-data-ready when published bundle preserves mechanicsConfig passthrough for 3071 carve and 3075 thorns; 3143 has no fake runtime passive."
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3071_black_cleaver_carve_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3071",
+      "skillKey": "p_carve",
+      "name": "黑色切割者 切割 DPS 被动",
+      "description": "V2 Batch P minimal DPS proof: physical basic-attack damage dealt adds Carve stacks on the target, each stack shreds 4 flat armor for 6 seconds up to 5 stacks. Simplified from live LoL Carve; not an exact formula claim.",
+      "params": {
+        "maxStacks": 5,
+        "durationMs": 6000,
+        "armorShredPerStack": -4,
+        "refreshMode": "refresh",
+        "sourceRef": "数据参考/item.json#data.3071.description"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "black_cleaver_carve_physical_damage_dealt",
+            "triggerKind": "on_damage_dealt"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3071_black_cleaver_carve_dps_v2",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3071_black_cleaver_carve_dps_v2",
+            "triggerId": "black_cleaver_carve_physical_damage_dealt",
+            "ownerRole": "attacker",
+            "trigger": {
+              "event": "on_damage_dealt",
+              "matcher": {
+                "damageTypes": [
+                  "physical"
+                ],
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            },
+            "operations": [
+              {
+                "kind": "add_stack",
+                "source": "black_cleaver_carve_stack",
+                "stackKey": "black_cleaver_carve",
+                "maxStacks": 5,
+                "durationMs": 6000,
+                "refreshMode": "refresh"
+              },
+              {
+                "kind": "stat_modifier",
+                "source": "black_cleaver_carve_armor_shred",
+                "stackKey": "black_cleaver_carve",
+                "attrKey": "armor",
+                "modifierMode": "flat",
+                "value": -4,
+                "perStack": true,
+                "targetRole": "target"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3075_thornmail_thorns_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3075",
+      "skillKey": "p_thorns",
+      "name": "荆棘之甲 荆棘 DPS 被动",
+      "description": "V2 Batch P minimal retaliation proof: when the wearer takes physical basic-attack damage, reflect 20 magic damage to the attacker. Grievous Wounds is recorded_not_simulated.",
+      "params": {
+        "reflectAmount": 20,
+        "reflectDamageType": "magic",
+        "sourceRef": "数据参考/item.json#data.3075.description"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "thornmail_thorns_damage_taken",
+            "triggerKind": "on_damage_taken"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3075_thornmail_thorns_dps_v2",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3075_thornmail_thorns_dps_v2",
+            "triggerId": "thornmail_thorns_damage_taken",
+            "ownerRole": "target",
+            "priority": 100,
+            "trigger": {
+              "event": "on_damage_taken",
+              "matcher": {
+                "damageTypes": [
+                  "physical"
+                ],
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            },
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "thornmail_reflect",
+                "damageType": "magic",
+                "amount": 20,
+                "targetRole": "attacker"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3071",
+      "name": "黑色切割者",
+      "goldCost": 3000,
+      "iconUrl": "item_3071",
+      "skillRefs": [
+        "item_3071_black_cleaver_carve_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ability_haste",
+          "value": 20
+        },
+        {
+          "attrKey": "ad",
+          "value": 40
+        },
+        {
+          "attrKey": "hp",
+          "value": 400
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3071",
+        "sourceTags": [
+          "Health",
+          "Damage",
+          "CooldownReduction",
+          "OnHit",
+          "NonbootsMovement",
+          "ArmorPenetration",
+          "AbilityHaste"
+        ],
+        "sourceGoldTotal": 3000,
+        "batch": "V2-Batch-P"
+      }
+    },
+    {
+      "itemId": "3075",
+      "name": "荆棘之甲",
+      "goldCost": 2700,
+      "iconUrl": "item_3075",
+      "skillRefs": [
+        "item_3075_thornmail_thorns_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "hp",
+          "value": 350
+        },
+        {
+          "attrKey": "armor",
+          "value": 70
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3075",
+        "sourceTags": [
+          "Health",
+          "Armor"
+        ],
+        "sourceGoldTotal": 2700,
+        "batch": "V2-Batch-P",
+        "recordedNotSimulated": [
+          "grievous_wounds_on_hero_attacker"
+        ]
+      }
+    },
+    {
+      "itemId": "3143",
+      "name": "兰顿之兆",
+      "goldCost": 2700,
+      "iconUrl": "item_3143",
+      "skillRefs": [],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "hp",
+          "value": 350
+        },
+        {
+          "attrKey": "armor",
+          "value": 75
+        }
+      ],
+      "source": {
+        "dataSource": "数据参考/item.json",
+        "sourceVersion": "16.9.1",
+        "sourceItemId": "3143",
+        "sourceTags": [
+          "Health",
+          "Armor",
+          "Active",
+          "Slow"
+        ],
+        "sourceGoldTotal": 2700,
+        "batch": "V2-Batch-P",
+        "blockedPassive": "crit_restoration_crit_only_damage_modifier_requires_crit_context",
+        "recordedNotSimulated": [
+          "active_slow_aura",
+          "crit_damage_mitigation"
+        ]
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
