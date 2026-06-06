@@ -1,10 +1,15 @@
 package xyz.game.datamanage.tools;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -14,6 +19,7 @@ import org.junit.jupiter.api.Test;
 class KatarinaMvpImportMainTest {
 
     private static final String DEFAULT_SEED_FILE = "\u5361\u7279\u7433\u5a1c-MVP\u79cd\u5b50\u6570\u636e.json";
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Test
     void parseArgs_shouldApplyOverrides() {
@@ -364,6 +370,93 @@ class KatarinaMvpImportMainTest {
     }
 
     @Test
+    void loadSeed_shouldReadV2BatchPTargetEquipmentLinkedEffects() throws Exception {
+        Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-P-target-equipment-linked-effects.seed.json")
+            .toAbsolutePath()
+            .normalize();
+
+        KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(seedFile);
+
+        assertEquals("lol", seedData.gameId());
+        assertEquals("v2_batch_p_target_equipment_linked_effects_002", seedData.versionCode());
+        assertEquals(2, seedData.skills().size());
+        assertEquals(3, seedData.items().size());
+
+        JsonNode blackCleaver = findByField(seedData.items(), "itemId", "3071");
+        assertEquals("item_3071_black_cleaver_carve_dps_v2", blackCleaver.path("skillRefs").get(0).asText());
+
+        JsonNode thornmail = findByField(seedData.items(), "itemId", "3075");
+        assertEquals("item_3075_thornmail_thorns_dps_v2", thornmail.path("skillRefs").get(0).asText());
+
+        JsonNode randuin = findByField(seedData.items(), "itemId", "3143");
+        assertEquals(0, randuin.path("skillRefs").size());
+
+        JsonNode blackCleaverPassive = findByField(seedData.skills(), "skillId", "item_3071_black_cleaver_carve_dps_v2")
+            .path("mechanicsConfig")
+            .path("dpsPassiveEffects")
+            .get(0);
+        assertEquals("attacker", blackCleaverPassive.path("ownerRole").asText());
+        assertEquals("black_cleaver_carve_physical_damage_dealt", blackCleaverPassive.path("triggerId").asText());
+        assertEquals("on_damage_dealt", blackCleaverPassive.path("trigger").path("event").asText());
+        assertEquals("physical", blackCleaverPassive.path("trigger").path("matcher").path("damageTypes").get(0).asText());
+        JsonNode blackCleaverOperations = blackCleaverPassive.path("operations");
+        assertEquals("add_stack", blackCleaverOperations.get(0).path("kind").asText());
+        assertEquals("stat_modifier", blackCleaverOperations.get(1).path("kind").asText());
+        assertEquals("target", blackCleaverOperations.get(1).path("targetRole").asText());
+        assertEquals("armor", blackCleaverOperations.get(1).path("attrKey").asText());
+
+        JsonNode thornmailPassive = findByField(seedData.skills(), "skillId", "item_3075_thornmail_thorns_dps_v2")
+            .path("mechanicsConfig")
+            .path("dpsPassiveEffects")
+            .get(0);
+        assertEquals("target", thornmailPassive.path("ownerRole").asText());
+        assertEquals("thornmail_thorns_damage_taken", thornmailPassive.path("triggerId").asText());
+        assertEquals("on_damage_taken", thornmailPassive.path("trigger").path("event").asText());
+        JsonNode thornmailDamage = thornmailPassive.path("operations").get(0);
+        assertEquals("damage", thornmailDamage.path("kind").asText());
+        assertEquals("attacker", thornmailDamage.path("targetRole").asText());
+        assertEquals("thornmail_reflect", thornmailDamage.path("source").asText());
+    }
+
+    @Test
+    void verifyPublishedResult_shouldDetectBatchPPassthroughMutations() throws Exception {
+        Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-P-target-equipment-linked-effects.seed.json")
+            .toAbsolutePath()
+            .normalize();
+        KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(seedFile);
+        ObjectNode current = OBJECT_MAPPER.createObjectNode().put("versionCode", seedData.versionCode());
+        ObjectNode bundle = buildPublishedBundleFromSeed(seedData);
+
+        assertDoesNotThrow(() -> KatarinaMvpImportMain.verifyPublishedResult(current, bundle, seedData.versionCode(), seedData));
+
+        ObjectNode mutatedDpsPassive = bundle.deepCopy();
+        ObjectNode thornmailPassive = (ObjectNode) findByField(mutatedDpsPassive.path("skills"), "skillId", "item_3075_thornmail_thorns_dps_v2")
+            .path("mechanicsConfig")
+            .path("dpsPassiveEffects")
+            .get(0);
+        thornmailPassive.put("ownerRole", "attacker");
+        IllegalStateException dpsPassiveFailure = assertThrows(
+            IllegalStateException.class,
+            () -> KatarinaMvpImportMain.verifyPublishedResult(current, mutatedDpsPassive, seedData.versionCode(), seedData)
+        );
+        assertTrue(dpsPassiveFailure.getMessage().contains("skills"));
+        assertTrue(dpsPassiveFailure.getMessage().contains("item_3075_thornmail_thorns_dps_v2"));
+        assertTrue(dpsPassiveFailure.getMessage().contains("dpsPassiveEffects"));
+
+        ObjectNode mutatedSkillRefs = bundle.deepCopy();
+        ((ObjectNode) findByField(mutatedSkillRefs.path("items"), "itemId", "3143"))
+            .putArray("skillRefs")
+            .add("item_3143_fake_passive_dps_v2");
+        IllegalStateException skillRefsFailure = assertThrows(
+            IllegalStateException.class,
+            () -> KatarinaMvpImportMain.verifyPublishedResult(current, mutatedSkillRefs, seedData.versionCode(), seedData)
+        );
+        assertTrue(skillRefsFailure.getMessage().contains("items"));
+        assertTrue(skillRefsFailure.getMessage().contains("3143"));
+        assertTrue(skillRefsFailure.getMessage().contains("skillRefs"));
+    }
+
+    @Test
     void loadSeed_shouldReadV2BatchNEnergizedChargeAndConsume() throws Exception {
         Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", "V2-Batch-N-energized-charge-and-consume.seed.json")
             .toAbsolutePath()
@@ -402,6 +495,30 @@ class KatarinaMvpImportMainTest {
         assertEquals("voltaic_cyclosword_energized", energizedDamage.path("source").asText());
         assertEquals("physical", energizedDamage.path("damageType").asText());
         assertEquals(100.0, energizedDamage.path("amount").asDouble(), 0.001);
+    }
+
+    private static ObjectNode buildPublishedBundleFromSeed(KatarinaMvpImportMain.SeedData seedData) {
+        ObjectNode bundle = OBJECT_MAPPER.createObjectNode();
+        bundle.putObject("meta").put("versionCode", seedData.versionCode());
+        putEntityArray(bundle, "attributeDefinitions", seedData.attributeDefinitions());
+        putEntityArray(bundle, "types", seedData.types());
+        putEntityArray(bundle, "heroes", seedData.heroes());
+        putEntityArray(bundle, "skills", seedData.skills());
+        putEntityArray(bundle, "items", seedData.items());
+        putEntityArray(bundle, "formulaProfiles", seedData.formulaProfiles());
+        putEntityArray(bundle, "formulaBindings", seedData.formulaBindings());
+        putEntityArray(bundle, "statusDefinitions", seedData.statusDefinitions());
+        putEntityArray(bundle, "statusModifierGroups", seedData.statusModifierGroups());
+        putEntityArray(bundle, "statusPeriodicHpEffects", seedData.statusPeriodicHpEffects());
+        putEntityArray(bundle, "typeRelations", seedData.typeRelations());
+        return bundle;
+    }
+
+    private static void putEntityArray(ObjectNode bundle, String fieldName, Iterable<ObjectNode> entities) {
+        ArrayNode arrayNode = bundle.putArray(fieldName);
+        for (ObjectNode entity : entities) {
+            arrayNode.add(entity.deepCopy());
+        }
     }
 
     private static Set<String> collectText(Iterable<? extends JsonNode> nodes, String fieldName) {

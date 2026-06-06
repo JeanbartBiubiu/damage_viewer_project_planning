@@ -535,7 +535,7 @@ public final class KatarinaMvpImportMain {
         }
     }
 
-    private static void verifyPublishedResult(
+    static void verifyPublishedResult(
         JsonNode currentResponse,
         JsonNode bundleResponse,
         String expectedVersionCode,
@@ -568,6 +568,57 @@ public final class KatarinaMvpImportMain {
             "effectId"
         );
         verifyTypeRelationsPresent(bundleResponse.path("typeRelations"), seedData.typeRelations());
+        verifyDpsPassiveEffectsPassthrough(bundleResponse.path("skills"), seedData.skills());
+        verifyItemSkillRefsPassthrough(bundleResponse.path("items"), seedData.items());
+    }
+
+    private static void verifyDpsPassiveEffectsPassthrough(JsonNode bundleSkills, List<ObjectNode> seedSkills) {
+        if (!bundleSkills.isArray()) {
+            throw new IllegalStateException("bundle field `skills` is not array");
+        }
+        for (ObjectNode seedSkill : seedSkills) {
+            JsonNode seedDpsPassiveEffects = seedSkill.path("mechanicsConfig").path("dpsPassiveEffects");
+            if (!seedDpsPassiveEffects.isArray() || seedDpsPassiveEffects.isEmpty()) {
+                continue;
+            }
+            String skillId = requireIdSegment(seedSkill, "skillId");
+            JsonNode publishedSkill = findPublishedEntity(bundleSkills, "skillId", skillId, "skills");
+            JsonNode publishedDpsPassiveEffects = publishedSkill.path("mechanicsConfig").path("dpsPassiveEffects");
+            if (!seedDpsPassiveEffects.equals(publishedDpsPassiveEffects)) {
+                throw new IllegalStateException(
+                    "bundle field `skills` entity `" + skillId + "` mechanicsConfig.dpsPassiveEffects mismatch"
+                );
+            }
+        }
+    }
+
+    private static void verifyItemSkillRefsPassthrough(JsonNode bundleItems, List<ObjectNode> seedItems) {
+        if (!bundleItems.isArray()) {
+            throw new IllegalStateException("bundle field `items` is not array");
+        }
+        for (ObjectNode seedItem : seedItems) {
+            JsonNode seedSkillRefs = seedItem.get("skillRefs");
+            if (seedSkillRefs == null || !seedSkillRefs.isArray()) {
+                continue;
+            }
+            String itemId = requireIdSegment(seedItem, "itemId");
+            JsonNode publishedItem = findPublishedEntity(bundleItems, "itemId", itemId, "items");
+            JsonNode publishedSkillRefs = publishedItem.path("skillRefs");
+            if (!seedSkillRefs.equals(publishedSkillRefs)) {
+                throw new IllegalStateException(
+                    "bundle field `items` entity `" + itemId + "` skillRefs mismatch"
+                );
+            }
+        }
+    }
+
+    private static JsonNode findPublishedEntity(JsonNode arrayNode, String idField, String expectedId, String fieldName) {
+        for (JsonNode actual : arrayNode) {
+            if (expectedId.equals(actual.path(idField).asText())) {
+                return actual;
+            }
+        }
+        throw new IllegalStateException("bundle field `" + fieldName + "` is missing entity `" + expectedId + "`");
     }
 
     private static void verifyEntitiesPresent(JsonNode arrayNode, List<ObjectNode> expectedEntities, String fieldName, String idField) {

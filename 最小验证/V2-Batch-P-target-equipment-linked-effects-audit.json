@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "generatedAt": "2026-06-06",
+    "gameId": "lol",
+    "versionCode": "v2_batch_p_target_equipment_linked_effects_002",
+    "seedFile": "最小验证/V2-Batch-P-target-equipment-linked-effects.seed.json",
+    "priorSeeds": [
+      "最小验证/V2-Batch-C-adc-items.seed.json",
+      "最小验证/V2-Batch-D-adc-item-passives.seed.json",
+      "最小验证/V2-Batch-K-guinsoo-phantom-hit.seed.json",
+      "最小验证/V2-Batch-L-spellblade-next-attack.seed.json",
+      "最小验证/V2-Batch-N-energized-charge-and-consume.seed.json"
+    ],
+    "rule": "Batch P completes the first target-equipment-linked DPS proof for single_attacker_dps: attacker-owned on_damage_dealt armor shred and target-owned on_damage_taken retaliation."
+  },
+  "publishConditions": {
+    "3071": {
+      "ownerId": "3071",
+      "ownerName": "黑色切割者",
+      "passiveSkillId": "item_3071_black_cleaver_carve_dps_v2",
+      "ownerRole": "attacker",
+      "triggerEvent": "on_damage_dealt",
+      "publishCondition": "Public bundle item 3071 skillRefs contains item_3071_black_cleaver_carve_dps_v2 and the skill preserves mechanicsConfig.triggers, dpsPassiveEffects triggerId=black_cleaver_carve_physical_damage_dealt, ownerRole=attacker, trigger.event=on_damage_dealt, matcher damageTypes includes physical, procScopes includes real_basic_attack_only, and operations add_stack then stat_modifier with targetRole=target and attrKey=armor."
+    },
+    "3075": {
+      "ownerId": "3075",
+      "ownerName": "荆棘之甲",
+      "passiveSkillId": "item_3075_thornmail_thorns_dps_v2",
+      "ownerRole": "target",
+      "triggerEvent": "on_damage_taken",
+      "publishCondition": "Public bundle item 3075 skillRefs contains item_3075_thornmail_thorns_dps_v2 and the skill preserves mechanicsConfig.triggers, dpsPassiveEffects triggerId=thornmail_thorns_damage_taken, ownerRole=target, trigger.event=on_damage_taken, matcher damageTypes includes physical, procScopes includes real_basic_attack_only, and one damage operation source=thornmail_reflect with targetRole=attacker."
+    }
+  },
+  "blockedItems": {
+    "3143": {
+      "ownerId": "3143",
+      "ownerName": "兰顿之兆",
+      "skillRefs": [],
+      "blockedReason": "Full crit-only mitigation requires reliable crit damage event context; current single_attacker_dps expected crit path sets/uses insufficient concrete crit context for critOnly target damage_modifier.",
+      "presentData": "Item 3143 is included with defensive statModifiers (hp, armor) but no runtime dps fake passive.",
+      "recordedNotSimulated": [
+        "active_slow_aura",
+        "crit_damage_mitigation"
+      ]
+    }
+  },
+  "mechanismCoverageNote": "Other attacker on-hit item passives remain covered by prior Batch D/K/L/N seeds and are regression scope, not duplicated in Batch P."
+}
