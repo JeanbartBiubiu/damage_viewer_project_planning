@@ -24,6 +24,7 @@ import {
   inspectV2DpsStackingPassiveBundle,
   listV2DpsAttackers,
   listV2DpsEquipmentOptions,
+  listV2DpsTargetEquipmentOptions,
   listV2DpsPassiveOptionsForHero,
   listV2DpsScenarioOptions,
   listV2DpsScenarioOptionsForHero,
@@ -32,6 +33,8 @@ import {
   V2_DPS_CASE_ID,
   V2_DPS_INVALID_TARGET_REASON,
   V2_DPS_MISSING_BASIC_ATTACK_REASON,
+  V2_DPS_TARGET_PASSIVE_MISSING_TARGET_OWNER_ROLE_REASON,
+  V2_DPS_TARGET_PASSIVE_OWNER_ROLE_MISMATCH_REASON,
   V2_DPS_ENERGIZED_DAMAGE_SOURCE,
   V2_DPS_ENERGIZED_ITEM_ID,
   V2_DPS_ENERGIZED_SCENARIO_STATE_ID,
@@ -43,6 +46,7 @@ import {
   type V2DpsCurveResult,
   type V2DpsCurveSelection,
   type V2DpsOutput,
+  type V2DpsPassiveEffect,
   type V2DpsPreparedInput,
   type V2DpsSelection,
   type V2DpsEnergizedBundleCheck,
@@ -353,13 +357,26 @@ function WasmValidationV2DpsWorkbench({
     [targetDummyGroups]
   );
   const equipmentOptions = useMemo(() => (bundle ? listV2DpsEquipmentOptions(bundle) : []), [bundle]);
+  const targetEquipmentOptions = useMemo(() => (bundle ? listV2DpsTargetEquipmentOptions(bundle) : []), [bundle]);
   const equipmentLabelById = useMemo(() => {
     const labels = new Map<string, string>();
     for (const option of equipmentOptions) {
       labels.set(option.itemId, stripItemIdPrefix(option.label));
     }
+    for (const option of targetEquipmentOptions) {
+      if (!labels.has(option.itemId)) {
+        labels.set(option.itemId, stripItemIdPrefix(option.label));
+      }
+    }
     return labels;
-  }, [equipmentOptions]);
+  }, [equipmentOptions, targetEquipmentOptions]);
+  const targetEquipmentStatsLabelById = useMemo(() => {
+    const labels = new Map<string, string>();
+    for (const option of targetEquipmentOptions) {
+      labels.set(option.itemId, option.statsLabel);
+    }
+    return labels;
+  }, [targetEquipmentOptions]);
   const heroLabelById = useMemo(() => {
     const labels = new Map<string, string>();
     for (const option of attackerOptions) {
@@ -512,6 +529,19 @@ function WasmValidationV2DpsWorkbench({
     ));
   }, [curveEvidenceInput]);
   const activeBasicAttackActions = activeCurvePrepared?.resolvedSnapshot.basicAttackActions ?? [];
+  const activePassiveEffectsByOwnerRole = useMemo(
+    () => groupPassiveEffectsByOwnerRole(activeCurvePrepared?.resolvedSnapshot.passiveEffects ?? []),
+    [activeCurvePrepared]
+  );
+  const selectedTargetEquipmentSummary = useMemo(() => {
+    const itemIds = selection?.targetEquipmentItemIds ?? [];
+    if (itemIds.length === 0) {
+      return { labels: '无目标装备', statsLabel: '—' };
+    }
+    const labels = itemIds.map((itemId) => `${itemId} / ${equipmentLabelById.get(itemId) ?? itemId}`).join(' + ');
+    const statsLabel = formatEquipmentStatsRecord(activeCurvePrepared?.resolvedSnapshot.targetEquipmentStats ?? {});
+    return { labels, statsLabel: statsLabel || 'no stats' };
+  }, [activeCurvePrepared, equipmentLabelById, selection?.targetEquipmentItemIds]);
   const activeBasicAttackActionsForDisplay = useMemo(() => {
     if (activeBasicAttackActions.length > 0) {
       return activeBasicAttackActions;
@@ -1155,6 +1185,46 @@ function WasmValidationV2DpsWorkbench({
                 </Select>
               </Form.Item>
             </Col>
+            <Col span={16}>
+              <Form.Item label="目标装备 (全局)">
+                <Select
+                  mode="multiple"
+                  value={selection?.targetEquipmentItemIds ?? []}
+                  showSearch
+                  filterOption={filterEntitySelectOption}
+                  onChange={(value) => updateSelection((current) => ({
+                    ...current,
+                    targetEquipmentItemIds: normalizeSelectValues(value)
+                  }))}
+                  disabled={!selection || targetEquipmentOptions.length === 0}
+                  placeholder="选择目标侧防御装备；反甲/兰顿等需 published bundle 含 ownerRole=target 被动"
+                >
+                  {targetEquipmentOptions.map((option) => (
+                    <Select.Option
+                      key={option.itemId}
+                      value={option.itemId}
+                    >
+                      {renderItemOptionLabel(option.itemId, option.label, option.statsLabel)}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="目标装备摘要">
+                <Space direction="vertical" size={4}>
+                  <Typography.Text>{selectedTargetEquipmentSummary.labels}</Typography.Text>
+                  <Typography.Text type="secondary">
+                    装备属性合并: {selectedTargetEquipmentSummary.statsLabel}
+                  </Typography.Text>
+                  {(selection?.targetEquipmentItemIds ?? []).map((itemId) => (
+                    <Typography.Text key={itemId} type="secondary" className="wasm-code-token">
+                      {itemId}: {targetEquipmentStatsLabelById.get(itemId) ?? 'no stats'}
+                    </Typography.Text>
+                  ))}
+                </Space>
+              </Form.Item>
+            </Col>
             <Col span={4}>
               <Form.Item label="durationMs">
                 <InputNumber
@@ -1474,6 +1544,38 @@ function WasmValidationV2DpsWorkbench({
         {activeCurveResult?.status === 'blocked' ? (
           <Alert type="warning" content={activeCurveResult.blockedReasons.join(' / ') || 'blocked'} />
         ) : null}
+
+        <Panel title="DPS Passive 摘要" kicker="resolvedSnapshot.passiveEffects grouped by ownerRole">
+          {curveEvidenceInput && activeCurvePrepared ? (
+            <Space direction="vertical" size={12} style={{ width: '100%' }}>
+              {(['attacker', 'target', 'other'] as const).map((ownerRole) => {
+                const passives = activePassiveEffectsByOwnerRole.get(ownerRole) ?? [];
+                if (passives.length === 0) {
+                  return null;
+                }
+                return (
+                  <div key={ownerRole}>
+                    <Typography.Text bold>{formatPassiveOwnerRoleLabel(ownerRole)} ({passives.length})</Typography.Text>
+                    <JsonBlock value={passives.map(formatPassiveEffectSummary)} />
+                  </div>
+                );
+              })}
+              {activePassiveEffectsByOwnerRole.size === 0 ? (
+                <Typography.Text type="secondary">当前曲线没有解析到 passiveEffects。</Typography.Text>
+              ) : null}
+              {activeCurvePrepared.resolvedSnapshot.targetEnabledPassiveEffects?.length ? (
+                <Typography.Text type="secondary">
+                  targetEnabledPassiveEffects: {activeCurvePrepared.resolvedSnapshot.targetEnabledPassiveEffects.join(', ')}
+                </Typography.Text>
+              ) : null}
+            </Space>
+          ) : (
+            <EmptyState
+              title="尚未解析 passive"
+              description="配置目标/攻击者装备后，adapter 会把 bundle dpsPassiveEffects 投影进 resolvedSnapshot.passiveEffects。"
+            />
+          )}
+        </Panel>
 
         <Panel title="普攻 Skill 解析" kicker="bundle.skillMounts -> skill -> action classifier -> basicAttackActions">
           {curveEvidenceInput ? (
@@ -2678,10 +2780,13 @@ function buildExportSelection(preparedInput: V2DpsPreparedInput) {
   return {
     attackerHeroId: firstCurve?.selection.heroId ?? '',
     targetActorId: preparedInput.runInput.targetSnapshot.actorId,
+    targetEquipmentItemIds: firstCurve?.selection.targetEquipmentSet ?? [],
     durationMs: preparedInput.runInput.simulationRules.durationMs,
     attackSpeedCap: preparedInput.runInput.simulationRules.attackSpeedCap,
     critPolicy: preparedInput.runInput.simulationRules.critPolicy,
     equipmentSet: firstCurve?.selection.equipmentSet ?? [],
+    targetEquipmentSet: firstCurve?.selection.targetEquipmentSet ?? [],
+    targetEnabledPassiveEffects: firstCurve?.selection.targetEnabledPassiveEffects ?? [],
     preflightBlockedReasons: preparedInput.preflightBlockedReasons,
     curves: preparedInput.runInput.curves.map((curve) => ({
       curveId: curve.curveId,
@@ -2730,9 +2835,61 @@ function formatPreflightBlockedMessage(reasons: string[]): string {
     if (reason === V2_DPS_MISSING_BASIC_ATTACK_REASON) {
       return `${reason}：未从 bundle.skillMounts 解析到 action/basic_attack skill；不会 fallback 到硬编码 basic_attack。`;
     }
+    if (reason.startsWith(V2_DPS_TARGET_PASSIVE_OWNER_ROLE_MISMATCH_REASON)) {
+      return `${reason}：目标装备技能存在 dpsPassiveEffects，但 ownerRole 不是 target；不会当作攻击者被动执行。`;
+    }
+    if (reason.startsWith(V2_DPS_TARGET_PASSIVE_MISSING_TARGET_OWNER_ROLE_REASON)) {
+      return `${reason}：目标装备技能有 dpsPassiveEffects，但缺少 ownerRole=target 的被动；请通过 seed/publish 补齐真实配置。`;
+    }
     return reason;
   });
   return `Preflight blocked：${details.join(' / ')}`;
+}
+
+function groupPassiveEffectsByOwnerRole(passives: V2DpsPassiveEffect[]): Map<string, V2DpsPassiveEffect[]> {
+  const groups = new Map<string, V2DpsPassiveEffect[]>();
+  for (const passive of passives) {
+    const normalizedRole = (passive.ownerRole ?? '').trim().toLowerCase();
+    const ownerRole = normalizedRole === 'target'
+      ? 'target'
+      : normalizedRole === 'attacker' || normalizedRole === ''
+        ? 'attacker'
+        : 'other';
+    const bucket = groups.get(ownerRole) ?? [];
+    bucket.push(passive);
+    groups.set(ownerRole, bucket);
+  }
+  return groups;
+}
+
+function formatPassiveOwnerRoleLabel(ownerRole: string): string {
+  if (ownerRole === 'target') {
+    return 'target passives';
+  }
+  if (ownerRole === 'attacker') {
+    return 'attacker passives';
+  }
+  return `${ownerRole} passives`;
+}
+
+function formatPassiveEffectSummary(passive: V2DpsPassiveEffect) {
+  return {
+    passiveId: passive.passiveId ?? passive.effectId ?? passive.sourceId,
+    ownerRole: passive.ownerRole ?? 'attacker',
+    sourceType: passive.sourceType,
+    sourceId: passive.sourceId,
+    triggerEvent: passive.trigger?.event ?? passive.triggerKind,
+    operationKinds: (passive.operations ?? []).map((operation) => operation.kind),
+    operations: passive.operations
+  };
+}
+
+function formatEquipmentStatsRecord(stats: Record<string, number>): string {
+  const entries = Object.entries(stats).filter(([, value]) => Number.isFinite(value) && value !== 0);
+  if (entries.length === 0) {
+    return '';
+  }
+  return entries.map(([attrKey, value]) => `${attrKey}+${formatCompactNumber(value)}`).join(' / ');
 }
 
 function formatMissingBasicAttackMessage(reasons: string[] | undefined): string {
