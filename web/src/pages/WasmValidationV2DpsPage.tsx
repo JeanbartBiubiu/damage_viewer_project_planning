@@ -20,6 +20,7 @@ import {
   formatV2DpsMultiHeroCurveLabel,
   getDefaultV2DpsPassiveIdsForHero,
   getDefaultV2DpsScenarioIdsForHero,
+  inspectV2DpsEnergizedBundle,
   inspectV2DpsStackingPassiveBundle,
   listV2DpsAttackers,
   listV2DpsEquipmentOptions,
@@ -31,6 +32,10 @@ import {
   V2_DPS_CASE_ID,
   V2_DPS_INVALID_TARGET_REASON,
   V2_DPS_MISSING_BASIC_ATTACK_REASON,
+  V2_DPS_ENERGIZED_DAMAGE_SOURCE,
+  V2_DPS_ENERGIZED_ITEM_ID,
+  V2_DPS_ENERGIZED_SCENARIO_STATE_ID,
+  V2_DPS_ENERGIZED_SKILL_ID,
   V2_DPS_STACKING_PASSIVE_CASE_ID,
   V2_DPS_STACKING_PASSIVE_ITEM_ID,
   V2_DPS_STACKING_PASSIVE_SKILL_ID,
@@ -40,6 +45,7 @@ import {
   type V2DpsOutput,
   type V2DpsPreparedInput,
   type V2DpsSelection,
+  type V2DpsEnergizedBundleCheck,
   type V2DpsStackingPassiveBundleCheck
 } from '../engine/tinygoV2DpsAdapter';
 import { summarizeCompiledStatusEvidence } from '../engine/tinygoV2BundleAdapter';
@@ -114,6 +120,21 @@ type StackingPassiveEvidence = {
   phantomHint: string;
 };
 
+type EnergizedEvidence = {
+  naturalStatusOk: boolean;
+  naturalChargeKinds: boolean;
+  naturalGainReady: boolean;
+  naturalProcDamage: boolean;
+  fullChargeImmediateProc: boolean;
+  itemPassiveTriggersPresent: boolean;
+  naturalStatusHint: string;
+  naturalChargeKindsHint: string;
+  naturalGainReadyHint: string;
+  naturalProcDamageHint: string;
+  fullChargeImmediateProcHint: string;
+  itemPassiveTriggersHint: string;
+};
+
 type ChartMode = 'damage' | 'hp';
 
 type EventTimelineIconHints = {
@@ -180,6 +201,7 @@ function WasmValidationV2DpsWorkbench({
 }: WasmValidationV2DpsWorkbenchProps) {
   const isMultiHero = mode === 'multiHero';
   const isStackingPassive = mode === 'stackingPassive';
+  const isSingleHero = mode === 'singleHero';
   const [bundleStatus, setBundleStatus] = useState<LoadState>('idle');
   const [runStatus, setRunStatus] = useState<LoadState>('idle');
   const [bundleError, setBundleError] = useState<string | null>(null);
@@ -402,6 +424,23 @@ function WasmValidationV2DpsWorkbench({
     () => (bundle && isStackingPassive ? inspectV2DpsStackingPassiveBundle(bundle) : null),
     [bundle, isStackingPassive]
   );
+  const energizedBundleCheck = useMemo<V2DpsEnergizedBundleCheck | null>(
+    () => (bundle && isSingleHero ? inspectV2DpsEnergizedBundle(bundle) : null),
+    [bundle, isSingleHero]
+  );
+  const hasBatchNCurveSelection = useMemo(
+    () => selection?.curves.some((curve) => isBatchNCurveId(curve.curveId)) ?? false,
+    [selection]
+  );
+  const hasBatchNCurveOutput = useMemo(
+    () => wasmOutput?.curveResults.some((result) => isBatchNCurveId(result.curveId)) ?? false,
+    [wasmOutput]
+  );
+  const showBatchNAssertions = isSingleHero && (
+    energizedBundleCheck?.itemFound === true
+    || hasBatchNCurveSelection
+    || hasBatchNCurveOutput
+  );
 
   const attackRows = useMemo<AttackRow[]>(
     () => activeCurveResult?.attackTimeline.map((row, index) => ({ ...row, key: `${index}-${row.timeMs}` })) ?? [],
@@ -418,6 +457,10 @@ function WasmValidationV2DpsWorkbench({
   const stackingPassiveEvidence = useMemo<StackingPassiveEvidence | null>(
     () => (isStackingPassive && wasmOutput ? buildStackingPassiveEvidence(wasmOutput.curveResults) : null),
     [isStackingPassive, wasmOutput]
+  );
+  const energizedEvidence = useMemo<EnergizedEvidence | null>(
+    () => (showBatchNAssertions && wasmOutput ? buildEnergizedEvidence(wasmOutput.curveResults) : null),
+    [showBatchNAssertions, wasmOutput]
   );
   const dpsInputPreview = useMemo(() => {
     if (!bundle || !selection || !currentVersion) {
@@ -1030,6 +1073,12 @@ function WasmValidationV2DpsWorkbench({
             content={formatStackingPassiveCheckMessage(stackingPassiveCheck)}
           />
         ) : null}
+        {showBatchNAssertions && energizedBundleCheck ? (
+          <Alert
+            type={energizedBundleCheck.ready ? 'success' : 'warning'}
+            content={formatEnergizedCheckMessage(energizedBundleCheck)}
+          />
+        ) : null}
 
         <Row gutter={[16, 16]} className="wasm-selection-grid">
           <Col span={6}>
@@ -1457,6 +1506,57 @@ function WasmValidationV2DpsWorkbench({
           )}
         </Panel>
 
+        {energizedEvidence ? (
+          <Panel title="Batch N Assertions" kicker="published 6699 Voltaic energized charge wasm evidence">
+            <Row gutter={[16, 16]} className="wasm-validation-grid">
+              <Col span={6}>
+                <MetricCard
+                  label="Natural Status"
+                  value={formatPassStatus(energizedEvidence.naturalStatusOk)}
+                  hint={energizedEvidence.naturalStatusHint}
+                />
+              </Col>
+              <Col span={6}>
+                <MetricCard
+                  label="Charge Breakdown"
+                  value={formatPassStatus(energizedEvidence.naturalChargeKinds)}
+                  hint={energizedEvidence.naturalChargeKindsHint}
+                />
+              </Col>
+              <Col span={6}>
+                <MetricCard
+                  label="Gain Ready"
+                  value={formatPassStatus(energizedEvidence.naturalGainReady)}
+                  hint={energizedEvidence.naturalGainReadyHint}
+                />
+              </Col>
+              <Col span={6}>
+                <MetricCard
+                  label="Natural Proc"
+                  value={formatPassStatus(energizedEvidence.naturalProcDamage)}
+                  hint={energizedEvidence.naturalProcDamageHint}
+                />
+              </Col>
+            </Row>
+            <Row gutter={[16, 16]} className="wasm-validation-grid">
+              <Col span={6}>
+                <MetricCard
+                  label="Full Charge t=0"
+                  value={formatPassStatus(energizedEvidence.fullChargeImmediateProc)}
+                  hint={energizedEvidence.fullChargeImmediateProcHint}
+                />
+              </Col>
+              <Col span={6}>
+                <MetricCard
+                  label="Item Passive Triggers"
+                  value={formatPassStatus(energizedEvidence.itemPassiveTriggersPresent)}
+                  hint={energizedEvidence.itemPassiveTriggersHint}
+                />
+              </Col>
+            </Row>
+          </Panel>
+        ) : null}
+
         {stackingPassiveEvidence ? (
           <Panel title="Batch K Assertions" kicker="Batch H synthetic presets + published 3124 phantom-hit wasm evidence">
             <Row gutter={[16, 16]} className="wasm-validation-grid">
@@ -1678,6 +1778,14 @@ function formatStackingPassiveCheckMessage(check: V2DpsStackingPassiveBundleChec
   return `${prefix} Published real-data gate is not ready: ${check.missingReasons.join(' / ')}. Synthetic presets can still run for Batch H runtime evidence; phantom-hit requires published bundle + Wasm output.`;
 }
 
+function formatEnergizedCheckMessage(check: V2DpsEnergizedBundleCheck): string {
+  const prefix = `Batch N real-data contract: item ${V2_DPS_ENERGIZED_ITEM_ID}, skill ${V2_DPS_ENERGIZED_SKILL_ID}, scenario ${V2_DPS_ENERGIZED_SCENARIO_STATE_ID}, skillKey ${check.skillKey}.`;
+  if (check.ready) {
+    return `${prefix} Published bundle is ready for energized charge gain/consume and ${V2_DPS_ENERGIZED_DAMAGE_SOURCE} proc evidence; mechanics are executed by Wasm.`;
+  }
+  return `${prefix} Published real-data gate is not ready: ${check.missingReasons.join(' / ')}. Batch N wasm evidence requires published bundle + Wasm output.`;
+}
+
 function createSyntheticCurrentVersion(bundle: GameDataBundle): CurrentVersion {
   return {
     gameId: bundle.meta.gameId,
@@ -1686,6 +1794,122 @@ function createSyntheticCurrentVersion(bundle: GameDataBundle): CurrentVersion {
     publishedAt: bundle.meta.generatedAt,
     versionId: bundle.meta.versionId,
     dataHash: bundle.meta.dataHash
+  };
+}
+
+function isBatchNCurveId(curveId: string): boolean {
+  return curveId.includes('batch-n-voltaic-6699');
+}
+
+function isBatchNNaturalCurveId(curveId: string): boolean {
+  return curveId.includes('batch-n-voltaic-6699') && !curveId.includes('full-charge');
+}
+
+function isBatchNFullChargeCurveId(curveId: string): boolean {
+  return curveId.includes('batch-n-voltaic-6699-full-charge');
+}
+
+function findBatchNNaturalCurveResult(results: V2DpsCurveResult[]): V2DpsCurveResult | undefined {
+  return results.find((result) => isBatchNNaturalCurveId(result.curveId));
+}
+
+function findBatchNFullChargeCurveResult(results: V2DpsCurveResult[]): V2DpsCurveResult | undefined {
+  return results.find((result) => isBatchNFullChargeCurveId(result.curveId));
+}
+
+function energizedMessageContains(message: string | undefined, fragment: string): boolean {
+  return (message ?? '').includes(fragment);
+}
+
+function countEffectBreakdownByKind(result: V2DpsCurveResult | undefined, kind: string): number {
+  return result?.effectBreakdown.filter((entry) => entry.kind === kind).length ?? 0;
+}
+
+function buildEnergizedEvidence(results: V2DpsCurveResult[]): EnergizedEvidence {
+  const natural = findBatchNNaturalCurveResult(results);
+  const fullCharge = findBatchNFullChargeCurveResult(results);
+  const energizedCurves = results.filter((result) => isBatchNCurveId(result.curveId));
+
+  const naturalStatusOk = natural?.status === 'ok';
+  const checkCount = countEffectBreakdownByKind(natural, 'energized_charge_check');
+  const gainCount = countEffectBreakdownByKind(natural, 'energized_charge_gain');
+  const consumeCount = countEffectBreakdownByKind(natural, 'energized_charge_consume');
+  const naturalChargeKinds = checkCount > 0 && gainCount > 0 && consumeCount > 0;
+
+  const gainReadyEntries = natural?.effectBreakdown.filter((entry) => (
+    entry.kind === 'energized_charge_gain'
+    && energizedMessageContains(entry.message, 'postCharge=100')
+    && energizedMessageContains(entry.message, 'readyAfterHit=true')
+    && energizedMessageContains(entry.message, 'triggered=false')
+  )) ?? [];
+  const naturalGainReady = gainReadyEntries.length > 0;
+
+  const naturalProcHits = natural?.damageTimeline.filter((row) => (
+    row.source === V2_DPS_ENERGIZED_DAMAGE_SOURCE
+    && row.timeMs > 0
+  )) ?? [];
+  const naturalProcDamage = naturalProcHits.length > 0;
+
+  const fullChargeImmediateHits = fullCharge?.damageTimeline.filter((row) => (
+    row.source === V2_DPS_ENERGIZED_DAMAGE_SOURCE
+    && row.timeMs === 0
+  )) ?? [];
+  const fullChargeImmediateProc = fullChargeImmediateHits.length > 0;
+
+  const triggerCounts = energizedCurves.map((curve) => curve.itemPassiveTriggers.length);
+  const itemPassiveTriggersPresent = energizedCurves.length > 0 && energizedCurves.every((curve) => curve.itemPassiveTriggers.length > 0);
+
+  const naturalMissing: string[] = [];
+  if (!natural) {
+    naturalMissing.push('natural curve missing');
+  } else if (!naturalStatusOk) {
+    naturalMissing.push(`status=${natural.status}`);
+  }
+  if (!naturalChargeKinds) {
+    naturalMissing.push(`check=${checkCount}, gain=${gainCount}, consume=${consumeCount}`);
+  }
+  if (!naturalGainReady) {
+    naturalMissing.push(`gainReady=${gainReadyEntries.length}`);
+  }
+  if (!naturalProcDamage) {
+    naturalMissing.push(`procHits=${naturalProcHits.length}`);
+  }
+
+  const fullChargeMissing: string[] = [];
+  if (!fullCharge) {
+    fullChargeMissing.push('full-charge curve missing');
+  } else if (!fullChargeImmediateProc) {
+    fullChargeMissing.push(`t0Hits=${fullChargeImmediateHits.length}`);
+  }
+
+  const triggerMissing: string[] = [];
+  if (energizedCurves.length === 0) {
+    triggerMissing.push('no batch-n curves');
+  } else if (!itemPassiveTriggersPresent) {
+    triggerMissing.push(`triggers=${triggerCounts.join('+')}`);
+  }
+
+  return {
+    naturalStatusOk,
+    naturalChargeKinds,
+    naturalGainReady,
+    naturalProcDamage,
+    fullChargeImmediateProc,
+    itemPassiveTriggersPresent,
+    naturalStatusHint: naturalMissing.length === 0 ? `status=ok, attacks=${natural?.attackCount ?? 0}` : naturalMissing.join(' / '),
+    naturalChargeKindsHint: `check=${checkCount}, gain=${gainCount}, consume=${consumeCount}`,
+    naturalGainReadyHint: naturalGainReady
+      ? `gainReady=${gainReadyEntries.length}`
+      : `missing postCharge=100 readyAfterHit=true triggered=false (${gainReadyEntries.length})`,
+    naturalProcDamageHint: naturalProcDamage
+      ? `procHits=${naturalProcHits.length}, firstAt=${naturalProcHits[0]?.timeMs ?? 'n/a'}ms`
+      : `missing ${V2_DPS_ENERGIZED_DAMAGE_SOURCE} after threshold`,
+    fullChargeImmediateProcHint: fullChargeMissing.length === 0
+      ? `t0Hits=${fullChargeImmediateHits.length}`
+      : fullChargeMissing.join(' / '),
+    itemPassiveTriggersHint: triggerMissing.length === 0
+      ? `curves=${energizedCurves.length}, triggers=${triggerCounts.join('+')}`
+      : triggerMissing.join(' / ')
   };
 }
 
