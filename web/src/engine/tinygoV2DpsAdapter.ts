@@ -31,6 +31,18 @@ export const V2_DPS_SYNTHETIC_STACKING_EXPIRY_PASSIVE_ID = 'synthetic_batch_h_ex
 export const V2_DPS_SYNTHETIC_STACKING_INVALID_PASSIVE_ID = 'synthetic_batch_h_invalid_stack_dps_v2';
 export const V2_DPS_MISSING_BASIC_ATTACK_REASON = 'missing_basic_attack_action';
 export const V2_DPS_INVALID_TARGET_REASON = 'target_not_target_dummy';
+export const V2_DPS_TARGET_PASSIVE_OWNER_ROLE_MISMATCH_REASON = 'target_item_passive_owner_role_mismatch';
+export const V2_DPS_TARGET_PASSIVE_MISSING_TARGET_OWNER_ROLE_REASON = 'target_item_passive_missing_target_owner_role';
+const V2_DPS_PRIORITY_TARGET_EQUIPMENT_ITEM_IDS = ['3075', '3143'] as const;
+const V2_DPS_DEFENSIVE_EQUIPMENT_STAT_ATTR_KEYS = new Set([
+  'armor',
+  'magic_resist',
+  'mr',
+  'hp',
+  'health',
+  'max_hp',
+  'max_health'
+]);
 const V2_DPS_SYNTHETIC_CHAMPION_TYPE_ID = 62000;
 const V2_DPS_SYNTHETIC_TARGET_DUMMY_TYPE_ID = 62001;
 const V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID = 62002;
@@ -60,12 +72,15 @@ export type V2DpsCurveSelection = {
   enabledScenarioStateIds: string[];
   runeStatAdjustments: Record<string, number>;
   syntheticPassiveEffects?: V2DpsPassiveEffect[];
+  targetEquipmentSet?: string[];
+  targetEnabledPassiveEffects?: string[];
 };
 
 export type V2DpsSelection = {
   caseId?: string;
   attackerHeroId: string;
   targetActorId: string;
+  targetEquipmentItemIds?: string[];
   durationMs: number;
   attackSpeedCap: 3.0;
   critPolicy: 'expected';
@@ -153,6 +168,17 @@ export type V2DpsScenarioState = {
 
 export type V2DpsAttackerAttrRead = 'resolved' | 'base' | 'current' | 'max' | 'total' | (string & {});
 
+export type V2DpsPassiveTrigger = {
+  event?: string;
+  matcher?: {
+    damageType?: string | string[];
+    actionTypes?: string[];
+    effectTags?: string[];
+    sourceType?: string | string[];
+    procScope?: string;
+  };
+};
+
 export type V2DpsPassiveOperation = {
   kind: string;
   source?: string;
@@ -185,6 +211,9 @@ export type V2DpsPassiveOperation = {
   modifierMode?: string;
   value?: number;
   perStack?: boolean;
+  targetRole?: 'attacker' | 'target' | (string & {});
+  valuePhase?: 'raw' | 'final' | (string & {});
+  critOnly?: boolean;
 };
 
 export type V2DpsPassiveEffect = {
@@ -193,6 +222,9 @@ export type V2DpsPassiveEffect = {
   sourceCategory?: string;
   sourceId?: string;
   sourceType?: string;
+  ownerRole?: 'attacker' | 'target' | (string & {});
+  priority?: number;
+  trigger?: V2DpsPassiveTrigger;
   triggerId?: string;
   triggerKind?: string;
   everyN?: number;
@@ -283,6 +315,8 @@ export type V2DpsCurveRunSpec = {
     skillLevels: Record<string, number>;
     equipmentSet: string[];
     enabledPassiveEffects: string[];
+    targetEquipmentSet?: string[];
+    targetEnabledPassiveEffects?: string[];
     scenarioStates: V2DpsScenarioState[];
     critPolicy: 'expected';
   };
@@ -292,6 +326,9 @@ export type V2DpsCurveRunSpec = {
     equipmentSet: string[];
     equipmentStats: Record<string, number>;
     enabledPassiveEffects: string[];
+    targetEquipmentSet?: string[];
+    targetEquipmentStats?: Record<string, number>;
+    targetEnabledPassiveEffects?: string[];
     passiveEffects: V2DpsPassiveEffect[];
     externalPassiveEffects: string[];
     scenarioStates: V2DpsScenarioState[];
@@ -811,6 +848,32 @@ export function listV2DpsEquipmentOptions(bundle: GameDataBundle): V2DpsEquipmen
     .sort((left, right) => Number(left.itemId) - Number(right.itemId));
 }
 
+export function listV2DpsTargetEquipmentOptions(bundle: GameDataBundle): V2DpsEquipmentOption[] {
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const candidateIds = new Set<string>();
+  for (const item of bundle.items) {
+    if (!item.itemId) {
+      continue;
+    }
+    if ((V2_DPS_PRIORITY_TARGET_EQUIPMENT_ITEM_IDS as readonly string[]).includes(item.itemId)) {
+      candidateIds.add(item.itemId);
+      continue;
+    }
+    if (itemHasDefensiveEquipmentStats(item) || itemHasTargetOwnedDpsPassive(bundle, item)) {
+      candidateIds.add(item.itemId);
+    }
+  }
+  return Array.from(candidateIds)
+    .map((itemId) => itemById.get(itemId))
+    .filter((item): item is Item => Boolean(item))
+    .map((item) => ({
+      itemId: item.itemId,
+      label: `${item.itemId} / ${item.name ?? item.itemId}`,
+      statsLabel: formatEquipmentStats(item)
+    }))
+    .sort((left, right) => Number(left.itemId) - Number(right.itemId));
+}
+
 export function inspectV2DpsStackingPassiveBundle(bundle: GameDataBundle): V2DpsStackingPassiveBundleCheck {
   const item = bundle.items.find((candidate) => candidate.itemId === V2_DPS_STACKING_PASSIVE_ITEM_ID);
   const itemFound = Boolean(item);
@@ -976,15 +1039,18 @@ export function prepareV2DpsInput(
 ): V2DpsPreparedInput {
   const attrDefinitions = normalizeAttributeDefinitions(bundle.attributeDefinitions);
   const targetHero = bundle.heroes.find((hero) => hero.heroId === selection.targetActorId);
-  const targetSnapshot = targetHero
+  const targetSnapshotBase = targetHero
     ? buildActorSnapshot(bundle, attrDefinitions, targetHero, 1)
     : emptyActorSnapshot(selection.targetActorId);
+  const targetEquipment = resolveTargetEquipmentSelection(bundle, selection.targetEquipmentItemIds);
+  const targetSnapshot = applyEquipmentStatsToActorSnapshot(targetSnapshotBase, targetEquipment.stats);
   const targetTypeNames = targetHero ? resolveHeroTypeNames(bundle, targetHero.heroId) : [];
   const isTargetDummy = targetTypeNames.includes(V2_DPS_TARGET_DUMMY_TYPE_NAME);
   const targetType = isTargetDummy ? V2_DPS_TARGET_DUMMY_TYPE_NAME : targetTypeNames[0] ?? '';
   const targetActorTemplate = isTargetDummy
     ? buildDpsTargetActorTemplateFromSnapshot(targetSnapshot)
     : undefined;
+  const targetPassiveBlockedReasons = collectTargetEquipmentPassiveBlockedReasons(bundle, targetEquipment.itemIds);
   const targetPreflightBlockedReasons = isTargetDummy ? [] : [V2_DPS_INVALID_TARGET_REASON];
   const simulationRules: V2DpsRunInput['simulationRules'] = {
     durationMs: selection.durationMs,
@@ -1011,12 +1077,14 @@ export function prepareV2DpsInput(
     targetActorId: selection.targetActorId,
     targetSnapshot,
     targetType,
+    targetEquipment,
     curveSelection,
     index
   }));
   const curves = curveBuilds.map((build) => build.spec);
   const preflightBlockedReasons = dedupeStrings([
     ...targetPreflightBlockedReasons,
+    ...targetPassiveBlockedReasons,
     ...curveBuilds.flatMap((build) => build.preflightBlockedReasons)
   ]);
 
@@ -1034,6 +1102,12 @@ export function prepareV2DpsInput(
   };
 }
 
+type TargetEquipmentSelection = {
+  itemIds: string[];
+  stats: Record<string, number>;
+  passiveIds: string[];
+};
+
 type BuildCurveSpecArgs = {
   bundle: GameDataBundle;
   attrDefinitions: TinyGoV2AttributeDefinition[];
@@ -1042,6 +1116,7 @@ type BuildCurveSpecArgs = {
   targetActorId: string;
   targetSnapshot: V2DpsActorSnapshot;
   targetType: string;
+  targetEquipment: TargetEquipmentSelection;
   curveSelection: V2DpsCurveSelection;
   index: number;
 };
@@ -1060,6 +1135,7 @@ function buildV2DpsCurveRunSpec({
   targetActorId,
   targetSnapshot,
   targetType,
+  targetEquipment,
   curveSelection,
   index
 }: BuildCurveSpecArgs): BuildCurveSpecResult {
@@ -1083,7 +1159,25 @@ function buildV2DpsCurveRunSpec({
   const selectedEnabledPassiveIds = normalizeStringList([...selectedPassiveIds, ...equipment.passiveIds, ...syntheticPassiveIds]);
   const resolvedHeroPassiveEffects = resolveDpsPassiveEffects(bundle, attackerHeroId, selectedPassiveIds, skillLevels);
   const resolvedItemPassiveEffects = resolveDpsItemPassiveEffects(bundle, equipment.itemIds, equipment.passiveIds);
-  const resolvedPassiveEffects = [...resolvedHeroPassiveEffects, ...resolvedItemPassiveEffects, ...syntheticPassiveEffects];
+  const targetEnabledPassiveIds = normalizeStringList([
+    ...(curveSelection.targetEnabledPassiveEffects ?? []),
+    ...targetEquipment.passiveIds
+  ]);
+  const resolvedTargetPassiveEffects = resolveDpsTargetItemPassiveEffects(
+    bundle,
+    targetEquipment.itemIds,
+    targetEnabledPassiveIds
+  );
+  const resolvedPassiveEffects = [
+    ...resolvedHeroPassiveEffects,
+    ...resolvedItemPassiveEffects,
+    ...resolvedTargetPassiveEffects,
+    ...syntheticPassiveEffects
+  ];
+  const targetEquipmentSet = normalizeStringList([
+    ...(curveSelection.targetEquipmentSet ?? []),
+    ...targetEquipment.itemIds
+  ]);
   const resolvedScenarioStates = resolveDpsScenarioStates(bundle, attackerHeroId, selectedEquipmentItemIds, selectedScenarioIds);
   const curveId = curveSelection.curveId.trim() || `${attackerHeroId || 'missing_attacker'}-curve-${index + 1}`;
   const label = curveSelection.label.trim() || `Curve ${index + 1}`;
@@ -1119,6 +1213,8 @@ function buildV2DpsCurveRunSpec({
         skillLevels,
         equipmentSet: selectedEquipmentItemIds,
         enabledPassiveEffects: selectedEnabledPassiveIds,
+        targetEquipmentSet,
+        targetEnabledPassiveEffects: targetEnabledPassiveIds,
         scenarioStates: buildSelectionScenarioStates(selectedScenarioIds, resolvedScenarioStates),
         critPolicy: 'expected'
       },
@@ -1128,6 +1224,9 @@ function buildV2DpsCurveRunSpec({
         equipmentSet: equipment.itemIds,
         equipmentStats: equipment.stats,
         enabledPassiveEffects: selectedEnabledPassiveIds,
+        targetEquipmentSet,
+        targetEquipmentStats: targetEquipment.stats,
+        targetEnabledPassiveEffects: targetEnabledPassiveIds,
         passiveEffects: resolvedPassiveEffects,
         externalPassiveEffects: syntheticPassiveIds,
         scenarioStates: resolvedScenarioStates,
@@ -1536,6 +1635,147 @@ function resolveEquipmentSelection(bundle: GameDataBundle, itemIds: string[]): {
   };
 }
 
+function resolveTargetEquipmentSelection(bundle: GameDataBundle, itemIds: string[] | undefined): TargetEquipmentSelection {
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const resolvedItemIds = normalizeStringList(itemIds).filter((itemId) => itemById.has(itemId));
+  return {
+    itemIds: resolvedItemIds,
+    stats: resolveTargetEquipmentStats(bundle, resolvedItemIds),
+    passiveIds: targetPassiveIdsForEquipment(bundle, resolvedItemIds)
+  };
+}
+
+function resolveTargetEquipmentStats(bundle: GameDataBundle, itemIds: string[]): Record<string, number> {
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const stats: Record<string, number> = {};
+  for (const itemId of itemIds) {
+    const item = itemById.get(itemId);
+    if (!item || !Array.isArray(item.statModifiers)) {
+      continue;
+    }
+    for (const modifier of item.statModifiers) {
+      const attrKey = modifier.attrKey?.trim();
+      const value = toNumber(modifier.value, 0);
+      if (!attrKey || !Number.isFinite(value) || value === 0) {
+        continue;
+      }
+      stats[attrKey] = (stats[attrKey] ?? 0) + value;
+    }
+  }
+  return stats;
+}
+
+function itemHasDefensiveEquipmentStats(item: Item): boolean {
+  if (!Array.isArray(item.statModifiers)) {
+    return false;
+  }
+  return item.statModifiers.some((modifier) => {
+    const attrKey = modifier.attrKey?.trim().toLowerCase();
+    const value = toNumber(modifier.value, 0);
+    return Boolean(attrKey) && value !== 0 && V2_DPS_DEFENSIVE_EQUIPMENT_STAT_ATTR_KEYS.has(attrKey);
+  });
+}
+
+function itemHasTargetOwnedDpsPassive(bundle: GameDataBundle, item: Item): boolean {
+  const skillRefs = new Set((item.skillRefs ?? []).filter(Boolean));
+  for (const skill of bundle.skills) {
+    if (skill.ownerType !== 'item' || skill.ownerId !== item.itemId) {
+      continue;
+    }
+    if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+      continue;
+    }
+    for (const effect of readDpsPassiveEffects(skill)) {
+      if (normalizeDpsOwnerRole(effect.ownerRole) === 'target') {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function collectTargetEquipmentPassiveBlockedReasons(bundle: GameDataBundle, targetItemIds: string[]): string[] {
+  if (targetItemIds.length === 0) {
+    return [];
+  }
+  const reasons: string[] = [];
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  for (const itemId of targetItemIds) {
+    const item = itemById.get(itemId);
+    const skillRefs = new Set((item?.skillRefs ?? []).filter(Boolean));
+    let hasAnyPassive = false;
+    let hasTargetPassive = false;
+    let hasWrongRolePassive = false;
+    for (const skill of bundle.skills) {
+      if (skill.ownerType !== 'item' || skill.ownerId !== itemId) {
+        continue;
+      }
+      if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+        continue;
+      }
+      for (const effect of readDpsPassiveEffects(skill)) {
+        hasAnyPassive = true;
+        const ownerRole = normalizeDpsOwnerRole(effect.ownerRole);
+        if (ownerRole === 'target') {
+          hasTargetPassive = true;
+        } else {
+          hasWrongRolePassive = true;
+        }
+      }
+    }
+    if (hasWrongRolePassive) {
+      reasons.push(`${V2_DPS_TARGET_PASSIVE_OWNER_ROLE_MISMATCH_REASON}:item_${itemId}`);
+    } else if (hasAnyPassive && !hasTargetPassive) {
+      reasons.push(`${V2_DPS_TARGET_PASSIVE_MISSING_TARGET_OWNER_ROLE_REASON}:item_${itemId}`);
+    }
+  }
+  return reasons;
+}
+
+function applyEquipmentStatsToActorSnapshot(
+  snapshot: V2DpsActorSnapshot,
+  equipmentStats: Record<string, number>
+): V2DpsActorSnapshot {
+  const normalizedStats = normalizeNumberMap(equipmentStats);
+  if (Object.keys(normalizedStats).length === 0) {
+    return snapshot;
+  }
+  const attributes = { ...snapshot.attributes };
+  const attributeViews = snapshot.attributeViews ? { ...snapshot.attributeViews } : {};
+  for (const [attrKey, value] of Object.entries(normalizedStats)) {
+    attributes[attrKey] = (attributes[attrKey] ?? 0) + value;
+    const existingView = attributeViews[attrKey];
+    if (existingView) {
+      attributeViews[attrKey] = {
+        base: existingView.base,
+        current: existingView.current + value,
+        max: existingView.max + value,
+        resolved: existingView.resolved + value
+      };
+    } else {
+      const attrValue = attributes[attrKey];
+      attributeViews[attrKey] = {
+        base: 0,
+        current: attrValue,
+        max: attrValue,
+        resolved: attrValue
+      };
+    }
+  }
+  const maxHp = Math.max(readFirstNumber(attributes, ['hp', 'health', 'max_hp', 'max_health']) ?? snapshot.maxHp, 0);
+  return {
+    ...snapshot,
+    attributes,
+    attributeViews: Object.keys(attributeViews).length > 0 ? attributeViews : snapshot.attributeViews,
+    currentHp: snapshot.currentHp > 0 ? snapshot.currentHp + (maxHp - snapshot.maxHp) : maxHp,
+    maxHp
+  };
+}
+
+function normalizeDpsOwnerRole(ownerRole: string | undefined): string {
+  return (ownerRole ?? '').trim().toLowerCase();
+}
+
 function formatDefaultCurveLabel(bundle: GameDataBundle | undefined, itemIds: string[]): string {
   if (itemIds.length === 0) {
     return '无装备';
@@ -1832,6 +2072,38 @@ function itemPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[]): 
   return normalizeStringList(ids);
 }
 
+function targetPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[]): string[] {
+  const selected = new Set(itemIds);
+  if (selected.size === 0) {
+    return [];
+  }
+  const ids: string[] = [];
+  const skillRefsByItemId = new Map<string, Set<string>>();
+  for (const item of bundle.items) {
+    if (!selected.has(item.itemId)) {
+      continue;
+    }
+    skillRefsByItemId.set(item.itemId, new Set((item.skillRefs ?? []).filter(Boolean)));
+  }
+  for (const skill of bundle.skills) {
+    if (skill.ownerType !== 'item' || !skill.ownerId || !selected.has(skill.ownerId)) {
+      continue;
+    }
+    const skillRefs = skillRefsByItemId.get(skill.ownerId);
+    if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+      continue;
+    }
+    for (const effect of readDpsPassiveEffects(skill)) {
+      if (normalizeDpsOwnerRole(effect.ownerRole) !== 'target') {
+        continue;
+      }
+      const passiveIds = [skill.skillId, effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
+      ids.push(...passiveIds);
+    }
+  }
+  return normalizeStringList(ids);
+}
+
 function resolveDpsItemPassiveEffects(bundle: GameDataBundle, itemIds: string[], passiveIds: string[]): V2DpsPassiveEffect[] {
   const selected = new Set(itemIds);
   const wanted = new Set(passiveIds);
@@ -1855,6 +2127,49 @@ function resolveDpsItemPassiveEffects(bundle: GameDataBundle, itemIds: string[],
       continue;
     }
     for (const effect of readDpsPassiveEffects(skill)) {
+      const ownerRole = normalizeDpsOwnerRole(effect.ownerRole);
+      if (ownerRole === 'target') {
+        continue;
+      }
+      const ids = [skill.skillId, effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
+      if (ids.some((id) => wanted.has(id))) {
+        effects.push(effect);
+      }
+    }
+  }
+  return effects;
+}
+
+function resolveDpsTargetItemPassiveEffects(
+  bundle: GameDataBundle,
+  itemIds: string[],
+  passiveIds: string[]
+): V2DpsPassiveEffect[] {
+  const selected = new Set(itemIds);
+  const wanted = new Set(passiveIds);
+  if (selected.size === 0 || wanted.size === 0) {
+    return [];
+  }
+  const skillRefsByItemId = new Map<string, Set<string>>();
+  for (const item of bundle.items) {
+    if (!selected.has(item.itemId)) {
+      continue;
+    }
+    skillRefsByItemId.set(item.itemId, new Set((item.skillRefs ?? []).filter(Boolean)));
+  }
+  const effects: V2DpsPassiveEffect[] = [];
+  for (const skill of bundle.skills) {
+    if (skill.ownerType !== 'item' || !skill.ownerId || !selected.has(skill.ownerId)) {
+      continue;
+    }
+    const skillRefs = skillRefsByItemId.get(skill.ownerId);
+    if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+      continue;
+    }
+    for (const effect of readDpsPassiveEffects(skill)) {
+      if (normalizeDpsOwnerRole(effect.ownerRole) !== 'target') {
+        continue;
+      }
       const ids = [skill.skillId, effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
       if (ids.some((id) => wanted.has(id))) {
         effects.push(effect);
