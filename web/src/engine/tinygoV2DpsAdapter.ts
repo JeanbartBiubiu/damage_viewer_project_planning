@@ -20,6 +20,12 @@ export const V2_DPS_STACKING_PASSIVE_CASE_ID = 'V2-BatchH-stacking-stat-passive-
 export const V2_DPS_TARGET_DUMMY_TYPE_NAME = 'target_dummy';
 export const V2_DPS_STACKING_PASSIVE_ITEM_ID = '3124';
 export const V2_DPS_STACKING_PASSIVE_SKILL_ID = 'item_3124_guinsoos_boiling_strike_dps_v2';
+export const V2_DPS_ENERGIZED_ITEM_ID = '6699';
+export const V2_DPS_ENERGIZED_SKILL_ID = 'item_6699_voltaic_cyclosword_energized_dps_v2';
+export const V2_DPS_ENERGIZED_SCENARIO_STATE_ID = 'item_6699_energized';
+export const V2_DPS_ENERGIZED_DAMAGE_SOURCE = 'voltaic_cyclosword_energized';
+export const V2_DPS_ENERGIZED_CHARGE_READY_POLICY = 'next_basic_attack_after_threshold_reached';
+export const V2_DPS_ENERGIZED_PROC_SCOPE = 'real_basic_attack_only';
 export const V2_DPS_SYNTHETIC_STACKING_CAP_PASSIVE_ID = 'synthetic_batch_h_capped_stack_dps_v2';
 export const V2_DPS_SYNTHETIC_STACKING_EXPIRY_PASSIVE_ID = 'synthetic_batch_h_expiring_stack_dps_v2';
 export const V2_DPS_SYNTHETIC_STACKING_INVALID_PASSIVE_ID = 'synthetic_batch_h_invalid_stack_dps_v2';
@@ -100,6 +106,22 @@ export type V2DpsStackingPassiveBundleCheck = {
   missingReasons: string[];
 };
 
+export type V2DpsEnergizedBundleCheck = {
+  itemId: string;
+  skillId: string;
+  skillKey: string;
+  itemFound: boolean;
+  itemSelectable: boolean;
+  skillFound: boolean;
+  skillLinkedByItem: boolean;
+  scenarioStateFound: boolean;
+  energizedPassiveFound: boolean;
+  chargeFieldsFound: boolean;
+  energizedDamageFound: boolean;
+  ready: boolean;
+  missingReasons: string[];
+};
+
 export type V2DpsAttributeView = {
   base: number;
   current: number;
@@ -175,6 +197,13 @@ export type V2DpsPassiveEffect = {
   triggerKind?: string;
   everyN?: number;
   requiresScenarioStateId?: string;
+  chargeKey?: string;
+  chargeGainPerBasicAttack?: number;
+  chargeThreshold?: number;
+  chargeCap?: number;
+  chargeReadyPolicy?: string;
+  consumeChargeOnTrigger?: boolean;
+  procScope?: string;
   operations?: V2DpsPassiveOperation[];
 };
 
@@ -580,12 +609,33 @@ export function createDefaultV2DpsCurveSelections(attackerHeroId: string, bundle
   const noItems: string[] = [];
   const bladeKraken = ['3153', '6672'];
   const bladeKrakenGuinsoo = ['3153', '6672', '3124'];
-  return [
+  const curves = [
     createV2DpsCurveSelection(`${heroKey}-no-items`, formatDefaultCurveLabel(bundle, noItems), noItems, attackerHeroId, passiveIds, scenarioIds),
     createV2DpsCurveSelection(`${heroKey}-3153`, formatDefaultCurveLabel(bundle, ['3153']), ['3153'], attackerHeroId, passiveIds, scenarioIds),
     createV2DpsCurveSelection(`${heroKey}-3153-6672`, formatDefaultCurveLabel(bundle, bladeKraken), bladeKraken, attackerHeroId, passiveIds, scenarioIds),
     createV2DpsCurveSelection(`${heroKey}-3153-6672-3124`, formatDefaultCurveLabel(bundle, bladeKrakenGuinsoo), bladeKrakenGuinsoo, attackerHeroId, passiveIds, scenarioIds)
   ];
+  if (bundle && inspectV2DpsEnergizedBundle(bundle).ready) {
+    curves.push(
+      createV2DpsCurveSelection(
+        `${heroKey}-batch-n-voltaic-6699`,
+        'Batch N / 6699 Voltaic natural charge',
+        [V2_DPS_ENERGIZED_ITEM_ID],
+        attackerHeroId,
+        passiveIds,
+        scenarioIds
+      ),
+      createV2DpsCurveSelection(
+        `${heroKey}-batch-n-voltaic-6699-full-charge`,
+        'Batch N / 6699 Voltaic initial full charge',
+        [V2_DPS_ENERGIZED_ITEM_ID],
+        attackerHeroId,
+        passiveIds,
+        [V2_DPS_ENERGIZED_SCENARIO_STATE_ID]
+      )
+    );
+  }
+  return curves;
 }
 
 export function createV2DpsCurveSelection(
@@ -850,6 +900,69 @@ export function inspectV2DpsStackingPassiveBundle(bundle: GameDataBundle): V2Dps
     stackingOperationsFound,
     onHitDamageFound,
     phantomHitOperationFound,
+    ready: missingReasons.length === 0,
+    missingReasons
+  };
+}
+
+export function inspectV2DpsEnergizedBundle(bundle: GameDataBundle): V2DpsEnergizedBundleCheck {
+  const item = bundle.items.find((candidate) => candidate.itemId === V2_DPS_ENERGIZED_ITEM_ID);
+  const itemFound = Boolean(item);
+  const itemSelectable = adcCompletedEquipmentIds(bundle).has(V2_DPS_ENERGIZED_ITEM_ID);
+  const itemSkillRefs = new Set((item?.skillRefs ?? []).filter(Boolean));
+  const passiveSkill = bundle.skills.find((skill) => (
+    skill.ownerType === 'item'
+    && skill.ownerId === V2_DPS_ENERGIZED_ITEM_ID
+    && skill.skillId === V2_DPS_ENERGIZED_SKILL_ID
+  ));
+  const passiveEffects = passiveSkill ? readDpsPassiveEffects(passiveSkill) : [];
+  const scenarioStates = passiveSkill ? readDpsScenarioStates(passiveSkill) : [];
+  const skillFound = Boolean(passiveSkill);
+  const scenarioStateFound = scenarioStates.some((state) => state.stateId === V2_DPS_ENERGIZED_SCENARIO_STATE_ID);
+  const energizedEffect = passiveEffects.find((effect) => effect.triggerKind === 'energized_charge_and_consume');
+  const energizedPassiveFound = Boolean(energizedEffect);
+  const chargeFieldsFound = energizedEffect ? hasPublishedEnergizedChargeFields(energizedEffect) : false;
+  const energizedDamageFound = energizedEffect ? hasPublishedEnergizedDamageOperation(energizedEffect) : false;
+  const skillLinkedByItem = itemSkillRefs.size === 0
+    ? Boolean(passiveSkill)
+    : itemSkillRefs.has(V2_DPS_ENERGIZED_SKILL_ID);
+  const missingReasons: string[] = [];
+  if (!itemFound) {
+    missingReasons.push('published bundle is missing item 6699');
+  }
+  if (!itemSelectable) {
+    missingReasons.push('item 6699 is not tagged as selectable DPS equipment');
+  }
+  if (!passiveSkill) {
+    missingReasons.push(`published bundle is missing item skill ${V2_DPS_ENERGIZED_SKILL_ID}`);
+  }
+  if (passiveSkill && !scenarioStateFound) {
+    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} is missing dpsScenarioStates ${V2_DPS_ENERGIZED_SCENARIO_STATE_ID}`);
+  }
+  if (passiveSkill && !energizedPassiveFound) {
+    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} has no energized_charge_and_consume dpsPassiveEffects entry`);
+  }
+  if (energizedPassiveFound && !chargeFieldsFound) {
+    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} is missing Batch N charge fields on energized_charge_and_consume`);
+  }
+  if (energizedPassiveFound && !energizedDamageFound) {
+    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} is missing Batch N physical damage (${V2_DPS_ENERGIZED_DAMAGE_SOURCE} amount 100)`);
+  }
+  if (itemFound && passiveSkill && !skillLinkedByItem) {
+    missingReasons.push(`item 6699 skillRefs does not link ${V2_DPS_ENERGIZED_SKILL_ID}`);
+  }
+  return {
+    itemId: V2_DPS_ENERGIZED_ITEM_ID,
+    skillId: V2_DPS_ENERGIZED_SKILL_ID,
+    skillKey: normalizeSkillKey(passiveSkill?.skillKey) || 'p_energized',
+    itemFound,
+    itemSelectable,
+    skillFound,
+    skillLinkedByItem,
+    scenarioStateFound,
+    energizedPassiveFound,
+    chargeFieldsFound,
+    energizedDamageFound,
     ready: missingReasons.length === 0,
     missingReasons
   };
@@ -1855,6 +1968,26 @@ function buildSelectionScenarioStates(
     }
     return { stateId, activation: 'selected_in_page' };
   });
+}
+
+function hasPublishedEnergizedChargeFields(effect: V2DpsPassiveEffect): boolean {
+  return effect.chargeKey === V2_DPS_ENERGIZED_SCENARIO_STATE_ID
+    && effect.chargeGainPerBasicAttack === 25
+    && effect.chargeThreshold === 100
+    && effect.chargeCap === 100
+    && effect.chargeReadyPolicy === V2_DPS_ENERGIZED_CHARGE_READY_POLICY
+    && effect.consumeChargeOnTrigger === true
+    && effect.procScope === V2_DPS_ENERGIZED_PROC_SCOPE;
+}
+
+function hasPublishedEnergizedDamageOperation(effect: V2DpsPassiveEffect): boolean {
+  const operations = effect.operations ?? [];
+  return operations.some((operation) => (
+    operation.kind === 'damage'
+    && operation.source === V2_DPS_ENERGIZED_DAMAGE_SOURCE
+    && operation.damageType === 'physical'
+    && operation.amount === 100
+  ));
 }
 
 function readDpsPassiveEffects(skill: Skill): V2DpsPassiveEffect[] {
