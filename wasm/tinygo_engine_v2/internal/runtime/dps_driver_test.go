@@ -627,6 +627,104 @@ func TestSingleAttackerDPSBlocksMismatchedEquipmentSet(t *testing.T) {
 	}
 }
 
+func TestSingleAttackerDPSTargetEquipmentBackwardCompatibleAttackerOnly(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, canonicalHeroOnHitPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok without target equipment fields", result.Status, result.BlockedReasons)
+	}
+	if len(result.SkillPassiveTriggers)+len(result.ItemPassiveTriggers) == 0 {
+		t.Fatalf("passive triggers = skill:%v item:%v, want attacker-only passives to still execute", result.SkillPassiveTriggers, result.ItemPassiveTriggers)
+	}
+}
+
+func TestSingleAttackerDPSBlocksMismatchedTargetEquipmentSet(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].Selection.TargetEquipmentSet = []string{"3075"}
+	input.Curves[0].ResolvedSnapshot.TargetEquipmentSet = []string{"3143"}
+	input.Curves[0].ResolvedSnapshot.TargetEquipmentStats = map[string]float64{}
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "selection.targetEquipmentSet must match resolvedSnapshot.targetEquipmentSet") {
+		t.Fatalf("blockedReasons=%v, want mismatched targetEquipmentSet reason", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSBlocksTargetEquipmentSetWithoutResolvedStats(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.Curves[0].Selection.TargetEquipmentSet = []string{"3075"}
+	input.Curves[0].ResolvedSnapshot.TargetEquipmentSet = []string{"3075"}
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "resolvedSnapshot.targetEquipmentStats is required when targetEquipmentSet is present") {
+		t.Fatalf("blockedReasons=%v, want missing targetEquipmentStats reason", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSAllowsEmptyTargetEquipmentStatsObject(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "3075", syntheticThornmailRetaliationPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok with empty targetEquipmentStats object", result.Status, result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSBlocksMissingTargetEnabledPassive(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	curve.Selection.TargetEquipmentSet = []string{"3075"}
+	curve.ResolvedSnapshot.TargetEquipmentSet = []string{"3075"}
+	curve.ResolvedSnapshot.TargetEquipmentStats = map[string]float64{}
+	curve.Selection.TargetEnabledPassiveEffects = []string{"item_thornmail_retaliation_test"}
+	curve.ResolvedSnapshot.TargetEnabledPassiveEffects = []string{"item_thornmail_retaliation_test"}
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "target enabled passive effect item_thornmail_retaliation_test is missing from resolvedSnapshot.passiveEffects") {
+		t.Fatalf("blockedReasons=%v, want missing target enabled passive reason", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSBlocksTargetEnabledPassiveWithAttackerOwnerRole(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	passive := syntheticBlackCleaverArmorShredPassive()
+	enableTargetDPSPassivesForTest(curve, "3071", passive)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	if !blockedReasonContains(result, "target enabled passive effect item_black_cleaver_armor_shred_test requires ownerRole target") {
+		t.Fatalf("blockedReasons=%v, want attacker ownerRole blocked in targetEnabledPassiveEffects", result.BlockedReasons)
+	}
+}
+
 func TestSingleAttackerDPSBlockedWhenPublishedSnapshotDataIsMissing(t *testing.T) {
 	input := baseSingleAttackerDPSInput()
 	delete(input.Curves[0].ResolvedSnapshot.TargetSnapshot.Attributes, "armor")
@@ -2507,6 +2605,47 @@ func enableDPSPassivesForTest(curve *model.DPSCurveRunSpecV2, passives ...model.
 	curve.ResolvedSnapshot.PassiveEffects = passives
 }
 
+func enableTargetDPSPassivesForTest(curve *model.DPSCurveRunSpecV2, targetItemID string, passives ...model.DPSPassiveEffectV2) {
+	ids := make([]string, 0, len(passives))
+	for _, passive := range passives {
+		ids = append(ids, passive.PassiveID)
+	}
+	curve.Selection.TargetEquipmentSet = []string{targetItemID}
+	curve.ResolvedSnapshot.TargetEquipmentSet = []string{targetItemID}
+	curve.ResolvedSnapshot.TargetEquipmentStats = map[string]float64{}
+	curve.Selection.TargetEnabledPassiveEffects = ids
+	curve.ResolvedSnapshot.TargetEnabledPassiveEffects = ids
+	curve.ResolvedSnapshot.PassiveEffects = passives
+}
+
+func enableMixedDPSPassivesForTest(
+	curve *model.DPSCurveRunSpecV2,
+	targetItemID string,
+	attackerPassives []model.DPSPassiveEffectV2,
+	targetPassives []model.DPSPassiveEffectV2,
+) {
+	attackerIDs := make([]string, 0, len(attackerPassives))
+	for _, passive := range attackerPassives {
+		attackerIDs = append(attackerIDs, passive.PassiveID)
+	}
+	targetIDs := make([]string, 0, len(targetPassives))
+	for _, passive := range targetPassives {
+		targetIDs = append(targetIDs, passive.PassiveID)
+	}
+	allPassives := make([]model.DPSPassiveEffectV2, 0, len(attackerPassives)+len(targetPassives))
+	allPassives = append(allPassives, attackerPassives...)
+	allPassives = append(allPassives, targetPassives...)
+
+	curve.Selection.EnabledPassiveEffects = attackerIDs
+	curve.ResolvedSnapshot.EnabledPassiveEffects = attackerIDs
+	curve.Selection.TargetEquipmentSet = []string{targetItemID}
+	curve.ResolvedSnapshot.TargetEquipmentSet = []string{targetItemID}
+	curve.ResolvedSnapshot.TargetEquipmentStats = map[string]float64{}
+	curve.Selection.TargetEnabledPassiveEffects = targetIDs
+	curve.ResolvedSnapshot.TargetEnabledPassiveEffects = targetIDs
+	curve.ResolvedSnapshot.PassiveEffects = allPassives
+}
+
 func attackTimes(result model.DPSCurveResultV2) []int64 {
 	times := make([]int64, 0, len(result.AttackTimeline))
 	for _, event := range result.AttackTimeline {
@@ -3060,4 +3199,930 @@ func energizedBreakdownCountAt(result model.DPSCurveResultV2, kind string, timeM
 		}
 	}
 	return count
+}
+
+func TestSingleAttackerDPSLinkedEffectDispatcherKeepsLegacyOnHitPassives(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.Selection.EquipmentSet = []string{"3124"}
+	curve.Selection.EnabledPassiveEffects = []string{"item_3124_guinsoos_rageblade_wrath_dps_v2"}
+	curve.ResolvedSnapshot.EquipmentSet = []string{"3124"}
+	curve.ResolvedSnapshot.EquipmentStats = map[string]float64{"ad": 30, "ap": 30, "attack_speed": 0.25}
+	curve.ResolvedSnapshot.EnabledPassiveEffects = []string{"item_3124_guinsoos_rageblade_wrath_dps_v2"}
+	curve.ResolvedSnapshot.PassiveEffects = []model.DPSPassiveEffectV2{guinsoosWrathPassive()}
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one legacy on-hit trigger", result.ItemPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource["guinsoos_wrath_on_hit"], 30) {
+		t.Fatalf("damageBySource = %v, want legacy guinsoos on-hit damage", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSLinkedEffectDispatcherKeepsEveryNAndStacks(t *testing.T) {
+	t.Run("every-N basic attack hit", func(t *testing.T) {
+		input := baseSingleAttackerDPSInput()
+		input.SimulationRules.DurationMs = 2501
+		curve := &input.Curves[0]
+		enableDPSPassivesForTest(curve, vayneSilverBoltsPassive())
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+		curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 3000
+		curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 3000
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["hp"] = 3000
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+		result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		if len(result.SkillPassiveTriggers) != 1 || result.SkillPassiveTriggers[0].TimeMs != 2000 {
+			t.Fatalf("skillPassiveTriggers = %+v, want every-N proc on third hit at 2000ms", result.SkillPassiveTriggers)
+		}
+	})
+
+	t.Run("stack on hit", func(t *testing.T) {
+		input := baseSingleAttackerDPSInput()
+		input.SimulationRules.DurationMs = 2100
+		curve := &input.Curves[0]
+		enableDPSPassivesForTest(curve, varusBlightedQuiverPassive())
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+		result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		if !hasBreakdown(result, dpsOpAddStack, 3) {
+			t.Fatalf("effectBreakdown = %+v, want stack_on_hit to reach third stack", result.EffectBreakdown)
+		}
+	})
+}
+
+func TestSingleAttackerDPSLinkedEffectDispatcherKeepsPhantomHitCopyRules(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, testPhantomHitPassive())
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	phantomSources := make([]string, 0)
+	for _, event := range result.DamageTimeline {
+		if event.PhantomHit && event.TimeMs == fourthHitMs {
+			phantomSources = append(phantomSources, event.Source)
+		}
+	}
+	if !sameStrings(phantomSources, []string{"test_copyable_on_hit"}) {
+		t.Fatalf("phantom damage sources = %v, want only copyable on-hit damage on fourth attack", phantomSources)
+	}
+}
+
+func TestSingleAttackerDPSLinkedEffectPriorityStableByInputOrder(t *testing.T) {
+	t.Run("same priority keeps resolvedSnapshot order", func(t *testing.T) {
+		input := baseSingleAttackerDPSInput()
+		input.SimulationRules.DurationMs = 1
+		first := canonicalHeroOnHitPassive()
+		first.Operations[0].Source = "linked_first_on_hit"
+		second := canonicalItemOnHitPassive()
+		second.Operations[0].Source = "linked_second_on_hit"
+		curve := &input.Curves[0]
+		enableDPSPassivesForTest(curve, first, second)
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+		curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+		curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+		result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		if got := damageSources(result); !sameStrings(got, []string{dpsTestDefaultBasicAttackSkillID, "linked_first_on_hit", "linked_second_on_hit"}) {
+			t.Fatalf("damage source order = %v, want input-order passives after basic attack", got)
+		}
+	})
+
+	t.Run("lower priority executes first", func(t *testing.T) {
+		input := baseSingleAttackerDPSInput()
+		input.SimulationRules.DurationMs = 1
+		late := canonicalHeroOnHitPassive()
+		late.Priority = 10
+		late.Operations[0].Source = "linked_late_on_hit"
+		early := canonicalItemOnHitPassive()
+		early.Priority = 1
+		early.Operations[0].Source = "linked_early_on_hit"
+		curve := &input.Curves[0]
+		enableDPSPassivesForTest(curve, late, early)
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+		curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+		curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+		result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		if got := damageSources(result); !sameStrings(got, []string{dpsTestDefaultBasicAttackSkillID, "linked_early_on_hit", "linked_late_on_hit"}) {
+			t.Fatalf("damage source order = %v, want priority-sorted passives", got)
+		}
+	})
+}
+
+func TestSingleAttackerDPSLinkedEffectOnHitEventTriggersOnBasicAttack(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	passive := canonicalHeroOnHitPassive()
+	passive.TriggerKind = ""
+	passive.Trigger = model.DPSPassiveTriggerSpecV2{Event: dpsEventOnHit}
+	passive.Operations[0].Source = "linked_on_hit_event"
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.SkillPassiveTriggers) != 1 {
+		t.Fatalf("skillPassiveTriggers = %v, want one on_hit trigger", result.SkillPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource["linked_on_hit_event"], 10) {
+		t.Fatalf("damageBySource = %v, want on_hit passive damage on basic attack", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSLinkedEffectOnSpellHitDoesNotTriggerOnBasicAttack(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	passive := testPhantomHitPassive()
+	passive.Trigger = model.DPSPassiveTriggerSpecV2{Event: dpsEventOnSpellHit}
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.ItemPassiveTriggers) != 0 {
+		t.Fatalf("itemPassiveTriggers = %v, want no spell-hit passive proc during basic attack", result.ItemPassiveTriggers)
+	}
+	if result.DamageBySource["test_copyable_on_hit"] != 0 {
+		t.Fatalf("damageBySource = %v, want no copyable on-hit damage from spell-hit passive", result.DamageBySource)
+	}
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == dpsOpAddStack {
+			t.Fatalf("effectBreakdown = %+v, want no add_stack from spell-hit passive during basic attack", result.EffectBreakdown)
+		}
+	}
+	for _, event := range result.DamageTimeline {
+		if event.Source == "test_copyable_on_hit" || event.PhantomHit {
+			t.Fatalf("damageTimeline = %+v, want no spell-hit passive or phantom damage during basic attack", result.DamageTimeline)
+		}
+	}
+}
+
+func TestSingleAttackerDPSBlocksUnsupportedLinkedEffectTrigger(t *testing.T) {
+	cases := []struct {
+		name   string
+		mutate func(*model.DPSPassiveEffectV2)
+		needle string
+	}{
+		{
+			name: "unsupported trigger event",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.TriggerKind = ""
+				passive.Trigger = model.DPSPassiveTriggerSpecV2{Event: "on_cast_complete"}
+			},
+			needle: "unsupported trigger.event on_cast_complete",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			passive := canonicalHeroOnHitPassive()
+			tc.mutate(&passive)
+			curve := &input.Curves[0]
+			enableDPSPassivesForTest(curve, passive)
+
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+			if result.Status != "blocked" {
+				t.Fatalf("status = %s, want blocked", result.Status)
+			}
+			if !blockedReasonContains(result, tc.needle) {
+				t.Fatalf("blockedReasons = %v, want %q", result.BlockedReasons, tc.needle)
+			}
+		})
+	}
+}
+
+func syntheticThornmailRetaliationPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_thornmail_retaliation_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_thornmail",
+		SourceType:     "item",
+		TriggerID:      "thornmail_reflect",
+		OwnerRole:      "target",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnDamageTaken,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes:    []string{"physical"},
+				ActionTypes:    model.TypeMatcherV2{Any: []string{"action/basic_attack"}},
+				ExcludePhantom: true,
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "thornmail_reflect",
+			TargetRole: "attacker",
+			DamageType: "magic",
+			Amount:     20,
+		}},
+	}
+}
+
+func syntheticBlackCleaverArmorShredPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_black_cleaver_armor_shred_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_black_cleaver",
+		SourceType:     "item",
+		TriggerID:      "black_cleaver_carve",
+		OwnerRole:      "attacker",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnDamageDealt,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes:    []string{"physical"},
+				ExcludePhantom: true,
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{
+			{
+				Kind:        dpsOpAddStack,
+				Source:      "black_cleaver_carve_stack",
+				StackKey:    "black_cleaver_carve",
+				MaxStacks:   5,
+				DurationMs:  6000,
+				RefreshMode: "refresh",
+			},
+			{
+				Kind:         dpsOpStatModifier,
+				Source:       "black_cleaver_armor_shred",
+				TargetRole:   "target",
+				StackKey:     "black_cleaver_carve",
+				AttrKey:      "armor",
+				ModifierMode: "percent",
+				Value:        -0.04,
+				PerStack:     true,
+			},
+		},
+	}
+}
+
+func TestSingleAttackerDPSTargetOwnedOnDamageTakenRetaliates(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "3075", syntheticThornmailRetaliationPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one retaliation trigger", result.ItemPassiveTriggers)
+	}
+	if len(result.AttackerDamageTimeline) != 1 {
+		t.Fatalf("attackerDamageTimeline = %+v, want one retaliation evidence event", result.AttackerDamageTimeline)
+	}
+	retaliation := result.AttackerDamageTimeline[0]
+	if retaliation.Source != "thornmail_reflect" || retaliation.DamageType != "magic" || !almostEqual(retaliation.FinalDamage, 20) {
+		t.Fatalf("attackerDamageTimeline[0] = %+v, want thornmail_reflect magic retaliation 20", retaliation)
+	}
+	if !almostEqual(result.AttackerDamageBySource["thornmail_reflect"], 20) {
+		t.Fatalf("attackerDamageBySource = %v, want retaliation tracked separately from target damage", result.AttackerDamageBySource)
+	}
+	if result.DamageBySource["thornmail_reflect"] != 0 {
+		t.Fatalf("damageBySource = %v, want retaliation excluded from target damage totals", result.DamageBySource)
+	}
+	if !almostEqual(result.TotalDamage, 100) {
+		t.Fatalf("totalDamage = %.4f, want only basic attack target damage", result.TotalDamage)
+	}
+	targetHPAfterHit := result.DamageTimeline[0].TargetHPAfter
+	if !almostEqual(targetHPAfterHit, 900) {
+		t.Fatalf("target hp after hit = %.4f, want retaliation to leave target hp unchanged at 900", targetHPAfterHit)
+	}
+}
+
+func TestSingleAttackerDPSTargetOwnedRetaliationDoesNotRecurse(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "3075", syntheticThornmailRetaliationPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.AttackerDamageTimeline) != 2 {
+		t.Fatalf("attackerDamageTimeline length = %d, want exactly one retaliation per basic attack without recursion", len(result.AttackerDamageTimeline))
+	}
+	if !almostEqual(result.AttackerDamageBySource["thornmail_reflect"], 40) {
+		t.Fatalf("attackerDamageBySource = %v, want linear retaliation total 40", result.AttackerDamageBySource)
+	}
+	if len(result.ItemPassiveTriggers) != 2 {
+		t.Fatalf("itemPassiveTriggers = %v, want one trigger per attack", result.ItemPassiveTriggers)
+	}
+}
+
+func TestSingleAttackerDPSAttackerOwnedPhysicalDamageAddsTargetArmorShredStack(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1000
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticBlackCleaverArmorShredPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 50) {
+		t.Fatalf("first hit finalDamage = %.4f, want original armor mitigation before shred applies", result.DamageTimeline[0].FinalDamage)
+	}
+	if maxBreakdownAmount(result, dpsOpAddStack) != 1 {
+		t.Fatalf("effectBreakdown = %+v, want one black_cleaver carve stack after first physical hit", result.EffectBreakdown)
+	}
+	foundArmorShred := false
+	for _, entry := range result.EffectBreakdown {
+		if entry.Kind == dpsOpStatModifier && entry.Source == "black_cleaver_armor_shred" {
+			foundArmorShred = true
+			if !almostEqual(entry.Amount, 96) {
+				t.Fatalf("armor shred breakdown amount = %.4f, want target armor reduced to 96", entry.Amount)
+			}
+		}
+	}
+	if !foundArmorShred {
+		t.Fatalf("effectBreakdown = %+v, want target armor shred evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSTargetArmorShredAffectsNextPhysicalHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticBlackCleaverArmorShredPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) < 2 {
+		t.Fatalf("damageTimeline = %+v, want at least two basic attack hits", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 50) {
+		t.Fatalf("first hit finalDamage = %.4f, want 50 with base armor 100", result.DamageTimeline[0].FinalDamage)
+	}
+	secondHit := result.DamageTimeline[1].FinalDamage
+	wantSecondHit := 100.0 * 100.0 / (100.0 + 96.0)
+	if !almostEqual(secondHit, wantSecondHit) {
+		t.Fatalf("second hit finalDamage = %.4f, want %.4f after one shred stack", secondHit, wantSecondHit)
+	}
+	if secondHit <= result.DamageTimeline[0].FinalDamage {
+		t.Fatalf("damage timeline = %+v, want second physical hit to increase after armor shred", result.DamageTimeline)
+	}
+}
+
+func TestSingleAttackerDPSTargetOwnedPassiveMergeDoesNotRegressAttackerPassives(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	enableMixedDPSPassivesForTest(
+		curve,
+		"3075",
+		[]model.DPSPassiveEffectV2{syntheticBlackCleaverArmorShredPassive()},
+		[]model.DPSPassiveEffectV2{syntheticThornmailRetaliationPassive()},
+	)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if maxBreakdownAmount(result, dpsOpAddStack) != 2 {
+		t.Fatalf("effectBreakdown = %+v, want black cleaver stacks on both hits", result.EffectBreakdown)
+	}
+	if !almostEqual(result.AttackerDamageBySource["thornmail_reflect"], 40) {
+		t.Fatalf("attackerDamageBySource = %v, want thornmail retaliation on both hits", result.AttackerDamageBySource)
+	}
+	if len(result.DamageTimeline) < 2 || !almostEqual(result.DamageTimeline[1].FinalDamage, 100.0*100.0/(100.0+96.0)) {
+		t.Fatalf("damageTimeline = %+v, want second hit to benefit from black cleaver shred after merge", result.DamageTimeline)
+	}
+}
+
+func TestSingleAttackerDPSPhantomHitDoesNotCopyTargetRetaliation(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableMixedDPSPassivesForTest(
+		curve,
+		"3075",
+		[]model.DPSPassiveEffectV2{testPhantomHitPassive()},
+		[]model.DPSPassiveEffectV2{syntheticThornmailRetaliationPassive()},
+	)
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if len(phantomDamageSourcesAt(result, fourthHitMs)) == 0 {
+		t.Fatalf("damageTimeline = %+v, want phantom hit evidence on fourth attack", result.DamageTimeline)
+	}
+	retaliationAtFourthHit := 0
+	for _, event := range result.AttackerDamageTimeline {
+		if event.Source == "thornmail_reflect" && event.TimeMs == fourthHitMs {
+			retaliationAtFourthHit++
+		}
+	}
+	if retaliationAtFourthHit != 1 {
+		t.Fatalf("attackerDamageTimeline = %+v, want one retaliation at real fourth hit without phantom duplication", result.AttackerDamageTimeline)
+	}
+	if result.AttackerDamageBySource["thornmail_reflect"] != 80 {
+		t.Fatalf("attackerDamageBySource = %v, want retaliation only from four real basic attacks", result.AttackerDamageBySource)
+	}
+	thornmailTriggerCount := 0
+	for _, trigger := range result.ItemPassiveTriggers {
+		if trigger.TriggerID == "thornmail_reflect" {
+			thornmailTriggerCount++
+		}
+	}
+	if thornmailTriggerCount != 4 {
+		t.Fatalf("itemPassiveTriggers = %v, want thornmail to proc once per real hit only", result.ItemPassiveTriggers)
+	}
+}
+
+func TestSingleAttackerDPSBlocksInvalidOwnerRoleOrTargetRole(t *testing.T) {
+	cases := []struct {
+		name   string
+		mutate func(*model.DPSPassiveEffectV2)
+		needle string
+	}{
+		{
+			name: "invalid ownerRole",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.OwnerRole = "ally"
+			},
+			needle: "unsupported ownerRole ally",
+		},
+		{
+			name: "invalid operation targetRole",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.Operations[0].TargetRole = "self"
+			},
+			needle: "unsupported operation targetRole self",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			passive := syntheticThornmailRetaliationPassive()
+			tc.mutate(&passive)
+			curve := &input.Curves[0]
+			enableDPSPassivesForTest(curve, passive)
+
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+			if result.Status != "blocked" {
+				t.Fatalf("status = %s, want blocked", result.Status)
+			}
+			if !blockedReasonContains(result, tc.needle) {
+				t.Fatalf("blockedReasons = %v, want %q", result.BlockedReasons, tc.needle)
+			}
+		})
+	}
+}
+
+func phantomHitPassiveWithRepeat(priority int, passiveID, copySource, repeatTag string) model.DPSPassiveEffectV2 {
+	stackKey := passiveID + "_stack"
+	return model.DPSPassiveEffectV2{
+		PassiveID:      passiveID,
+		Priority:       priority,
+		SourceCategory: "item_passive",
+		SourceID:       passiveID + "_item",
+		SourceType:     "item",
+		TriggerID:      passiveID + "_trigger",
+		TriggerKind:    dpsTriggerOnBasicAttackHit,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpAddStack, Source: stackKey, StackKey: stackKey, MaxStacks: 4, RefreshMode: "refresh"},
+			{Kind: dpsOpDamage, Source: copySource, DamageType: "magic", Amount: 25, PhantomHitCopyable: true},
+			{
+				Kind:          dpsOpPhantomHitOnHitRepeat,
+				Source:        passiveID + "_repeat",
+				StackKey:      stackKey,
+				TriggerStacks: 4,
+				RepeatCount:   1,
+				RepeatTag:     repeatTag,
+				RepeatScope:   dpsRepeatScopeCopyableOnHit,
+			},
+		},
+	}
+}
+
+func phantomDamageSourcesAt(result model.DPSCurveResultV2, timeMs int64) []string {
+	sources := make([]string, 0)
+	for _, event := range result.DamageTimeline {
+		if event.TimeMs == timeMs && event.PhantomHit {
+			sources = append(sources, event.Source)
+		}
+	}
+	return sources
+}
+
+func TestSingleAttackerDPSPhantomHitRepeatPriorityStableByInputOrder(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	late := phantomHitPassiveWithRepeat(10, "phantom_late_passive", "phantom_late_damage", "late_repeat")
+	early := phantomHitPassiveWithRepeat(1, "phantom_early_passive", "phantom_early_damage", "early_repeat")
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, late, early)
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if got := phantomDamageSourcesAt(result, fourthHitMs); !sameStrings(got, []string{"phantom_early_damage", "phantom_late_damage"}) {
+		t.Fatalf("phantom damage source order at %dms = %v, want priority-sorted repeats not input order", fourthHitMs, got)
+	}
+}
+
+func TestSingleAttackerDPSBlocksUnsupportedOperationTargetRole(t *testing.T) {
+	cases := []struct {
+		name    string
+		passive model.DPSPassiveEffectV2
+		needle  string
+	}{
+		{
+			name: "apply_dot targetRole attacker",
+			passive: func() model.DPSPassiveEffectV2 {
+				passive := canonicalDotOnlyPassive()
+				passive.Operations[0].TargetRole = "attacker"
+				return passive
+			}(),
+			needle: "apply_dot does not support targetRole attacker",
+		},
+		{
+			name: "trigger_damage_at_stacks targetRole attacker",
+			passive: func() model.DPSPassiveEffectV2 {
+				passive := kaisaPlasmaPassive()
+				passive.Operations[2].TargetRole = "attacker"
+				return passive
+			}(),
+			needle: "trigger_damage_at_stacks does not support targetRole attacker",
+		},
+		{
+			name: "add_stack targetRole attacker",
+			passive: func() model.DPSPassiveEffectV2 {
+				passive := syntheticBlackCleaverArmorShredPassive()
+				passive.Operations[0].TargetRole = "attacker"
+				return passive
+			}(),
+			needle: "add_stack does not support targetRole",
+		},
+		{
+			name: "add_stack targetRole target",
+			passive: func() model.DPSPassiveEffectV2 {
+				passive := syntheticBlackCleaverArmorShredPassive()
+				passive.Operations[0].TargetRole = "target"
+				return passive
+			}(),
+			needle: "add_stack does not support targetRole",
+		},
+		{
+			name: "phantom_hit_on_hit_repeat targetRole attacker",
+			passive: func() model.DPSPassiveEffectV2 {
+				passive := testPhantomHitPassive()
+				passive.Operations[2].TargetRole = "attacker"
+				return passive
+			}(),
+			needle: "phantom_hit_on_hit_repeat does not support targetRole",
+		},
+		{
+			name: "apply_dot targetRole target allowed",
+			passive: func() model.DPSPassiveEffectV2 {
+				passive := canonicalDotOnlyPassive()
+				passive.Operations[0].TargetRole = "target"
+				return passive
+			}(),
+			needle: "",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			curve := &input.Curves[0]
+			enableDPSPassivesForTest(curve, tc.passive)
+
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+			if tc.needle == "" {
+				if result.Status != "ok" {
+					t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+				}
+				return
+			}
+			if result.Status != "blocked" {
+				t.Fatalf("status = %s, want blocked", result.Status)
+			}
+			if !blockedReasonContains(result, tc.needle) {
+				t.Fatalf("blockedReasons = %v, want %q", result.BlockedReasons, tc.needle)
+			}
+		})
+	}
+}
+
+func syntheticIncomingDamageModifierPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_randuins_incoming_reduction_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_randuins",
+		SourceType:     "item",
+		TriggerID:      "randuins_incoming_reduction",
+		OwnerRole:      "target",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnDamageTaken,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes:    []string{"physical"},
+				ExcludePhantom: true,
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:         dpsOpDamageModifier,
+			Source:       "randuins_incoming_reduction",
+			TargetRole:   "target",
+			ModifierMode: "percent",
+			Value:        -0.2,
+			ValuePhase:   "incoming",
+		}},
+	}
+}
+
+func syntheticCritOnlyIncomingDamageModifierPassive() model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.PassiveID = "item_crit_only_incoming_reduction_test"
+	passive.SourceID = "item_crit_only_reduction"
+	passive.TriggerID = "crit_only_incoming_reduction"
+	passive.Operations[0].Source = "crit_only_incoming_reduction"
+	passive.Operations[0].CritOnly = true
+	return passive
+}
+
+func syntheticLudenSpellHitPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_luden_spell_hit_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_luden",
+		SourceType:     "item",
+		TriggerID:      "luden_spell_hit",
+		OwnerRole:      "attacker",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnSpellHit,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes: []string{"magic"},
+				ActionTypes: model.TypeMatcherV2{Any: []string{"action/cast_skill"}},
+				EffectTags:  model.TypeMatcherV2{Any: []string{"skill_tag/spell_damage"}},
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "luden_spell_hit_proc",
+			DamageType: "magic",
+			Amount:     40,
+		}},
+	}
+}
+
+func dispatchSyntheticSpellHitForTest(t *testing.T, passives ...model.DPSPassiveEffectV2) model.DPSCurveResultV2 {
+	t.Helper()
+	bundle := compileDPSTestBundle(t)
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passives...)
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := model.DPSCurveResultV2{
+		Status:                  dpsStatusOK,
+		DamageTimeline:          make([]model.DPSDamageEventV2, 0),
+		DamageByType:            map[string]float64{},
+		DamageBySource:          map[string]float64{},
+		SkillPassiveTriggers:    make([]model.DPSPassiveTriggerV2, 0),
+		ItemPassiveTriggers:     make([]model.DPSPassiveTriggerV2, 0),
+		ExternalPassiveTriggers: make([]model.DPSPassiveTriggerV2, 0),
+		EffectBreakdown:         make([]model.DPSEffectBreakdownV2, 0),
+		BlockedReasons:          make([]string, 0),
+	}
+	rules := normalizeDPSRules(input.SimulationRules)
+	state := newDPSCurveState(bundle, rules, *curve, &result, curve.ResolvedSnapshot.AttackerSnapshot, curve.ResolvedSnapshot.TargetSnapshot)
+	if result.Status == dpsStatusBlocked {
+		t.Fatalf("newDPSCurveState blocked: %v", result.BlockedReasons)
+	}
+	ctx := dpsCombatEventContext{
+		Event:          dpsEventOnSpellHit,
+		TimeMs:         500,
+		SourceRole:     dpsRoleAttacker,
+		TargetRole:     dpsRoleTarget,
+		ActionID:       "synthetic_spell",
+		ActionTypes:    []string{"action/cast_skill"},
+		EffectTypes:    []string{string(model.EffectTypeDealDamage)},
+		EffectTags:     []string{"skill_tag/spell_damage"},
+		SourceType:     "spell",
+		SourceCategory: "spell",
+		SourceID:       "synthetic_spell",
+		DamageType:     "magic",
+		RawDamage:      100,
+		TargetHPBefore: state.targetHP,
+		IsSpell:        true,
+		IsOnHit:        true,
+	}
+	state.dispatchDPSLinkedEffects(ctx)
+	return result
+}
+
+func TestSingleAttackerDPSIncomingDamageModifierAppliesBeforeTimeline(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticIncomingDamageModifierPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	basicAttack := result.DamageTimeline[0]
+	if !almostEqual(basicAttack.RawDamage, 80) || !almostEqual(basicAttack.FinalDamage, 80) {
+		t.Fatalf("basic attack damage = raw %.4f final %.4f, want 80 before and after zero armor", basicAttack.RawDamage, basicAttack.FinalDamage)
+	}
+	if !almostEqual(result.TotalDamage, 80) {
+		t.Fatalf("totalDamage = %.4f, want incoming modifier applied before timeline", result.TotalDamage)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one pre-damage modifier trigger", result.ItemPassiveTriggers)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpDamageModifier, "valuePhase=incoming raw=100 modified=80 value=-0.2") {
+		t.Fatalf("effectBreakdown = %+v, want incoming damage modifier evidence", result.EffectBreakdown)
+	}
+	modifierTriggerCount := 0
+	for _, trigger := range result.ItemPassiveTriggers {
+		if trigger.TriggerID == "randuins_incoming_reduction" {
+			modifierTriggerCount++
+		}
+	}
+	if modifierTriggerCount != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want no duplicate post-damage trigger for pure damage_modifier passive", result.ItemPassiveTriggers)
+	}
+}
+
+func TestSingleAttackerDPSIncomingCritOnlyModifierRequiresCritContext(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticCritOnlyIncomingDamageModifierPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked when critOnly lacks crit context", result.Status)
+	}
+	if !blockedReasonContains(result, "critOnly requires crit context") {
+		t.Fatalf("blockedReasons = %v, want critOnly crit context block", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSLinkedEffectCanDispatchSyntheticSpellHit(t *testing.T) {
+	result := dispatchSyntheticSpellHitForTest(t, syntheticLudenSpellHitPassive())
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one spell-hit trigger", result.ItemPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource["luden_spell_hit_proc"], 40) {
+		t.Fatalf("damageBySource = %v, want luden spell-hit proc damage", result.DamageBySource)
+	}
+	if len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].FinalDamage, 40) {
+		t.Fatalf("damageTimeline = %+v, want synthetic spell-hit proc damage", result.DamageTimeline)
+	}
+}
+
+func TestSingleAttackerDPSPhantomHitDoesNotCopySpellProc(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	enableDPSPassivesForTest(curve, testPhantomHitPassive(), syntheticLudenSpellHitPassive())
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if damageCountBySourceAt(result, "luden_spell_hit_proc", fourthHitMs) != 0 {
+		t.Fatalf("damageTimeline = %+v, want no spell proc copied on phantom hit", result.DamageTimeline)
+	}
+	if result.DamageBySource["luden_spell_hit_proc"] != 0 {
+		t.Fatalf("damageBySource = %v, want no spell proc during basic attack simulation", result.DamageBySource)
+	}
+	phantomSources := make([]string, 0)
+	for _, event := range result.DamageTimeline {
+		if event.PhantomHit && event.TimeMs == fourthHitMs {
+			phantomSources = append(phantomSources, event.Source)
+		}
+	}
+	if !sameStrings(phantomSources, []string{"test_copyable_on_hit"}) {
+		t.Fatalf("phantom damage sources = %v, want only copyable basic on-hit damage", phantomSources)
+	}
+	for _, trigger := range result.ItemPassiveTriggers {
+		if trigger.TriggerID == "luden_spell_hit" {
+			t.Fatalf("itemPassiveTriggers = %v, want no spell-hit trigger from basic attack or phantom hit", result.ItemPassiveTriggers)
+		}
+	}
 }
