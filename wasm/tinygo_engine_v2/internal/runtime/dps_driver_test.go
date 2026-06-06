@@ -2679,3 +2679,385 @@ func lastDPSOutput(t *testing.T, outbox []byte) model.SingleAttackerDPSOutputV2 
 	}
 	return output
 }
+
+func testEnergizedPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:                "test_energized_passive",
+		SourceCategory:           "item_passive",
+		SourceID:                 "test_energized_item",
+		SourceType:               "item",
+		TriggerID:                "test_energized_on_charge",
+		TriggerKind:              dpsTriggerEnergizedChargeAndConsume,
+		ChargeKey:                "test_energized_charge",
+		ChargeGainPerBasicAttack: 1,
+		ChargeThreshold:          3,
+		ChargeCap:                3,
+		ChargeReadyPolicy:        dpsChargeReadyPolicyNextBasicAttackAfterThreshold,
+		ConsumeChargeOnTrigger:   true,
+		ProcScope:                dpsProcScopeRealBasicAttackOnly,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "test_energized_proc",
+			DamageType: "magic",
+			Amount:     50,
+		}},
+	}
+}
+
+func energizedScenarioCharge(stateID string, stacks int) model.DPSScenarioStateV2 {
+	return model.DPSScenarioStateV2{
+		StateID:     stateID,
+		SourceType:  "item_passive",
+		SourceID:    "test_energized_item",
+		Activation:  "assumed_charge_before_start",
+		Stacks:      stacks,
+		StartTimeMs: 0,
+	}
+}
+
+func configureEnergizedCurve(curve *model.DPSCurveRunSpecV2, durationMs int64, attackSpeed float64) {
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = attackSpeed
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+}
+
+func energizedBreakdownCount(result model.DPSCurveResultV2, kind string) int {
+	count := 0
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == kind {
+			count++
+		}
+	}
+	return count
+}
+
+func energizedBreakdownAt(result model.DPSCurveResultV2, kind string, timeMs int64) *model.DPSEffectBreakdownV2 {
+	for i := range result.EffectBreakdown {
+		event := &result.EffectBreakdown[i]
+		if event.Kind == kind && event.TimeMs == timeMs {
+			return event
+		}
+	}
+	return nil
+}
+
+func energizedGainAt(result model.DPSCurveResultV2, timeMs int64) *model.DPSEffectBreakdownV2 {
+	return energizedBreakdownAt(result, dpsEffectEnergizedChargeGain, timeMs)
+}
+
+func TestSingleAttackerDPSEnergizedChargesAfterRealBasicAttack(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2500
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testEnergizedPassive())
+	configureEnergizedCurve(curve, 2500, 1)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.AttackCount != 3 {
+		t.Fatalf("attackCount = %d, want 3", result.AttackCount)
+	}
+	if got := damageCountBySource(result, "test_energized_proc"); got != 0 {
+		t.Fatalf("energized proc count = %d, want 0 before ready hit", got)
+	}
+	if gain := energizedGainAt(result, 0); gain == nil || !almostEqual(gain.Amount, 1) {
+		t.Fatalf("first gain = %+v, want postCharge amount 1", gain)
+	}
+	if gain := energizedGainAt(result, 2000); gain == nil || !strings.Contains(gain.Message, "readyAfterHit=true") || strings.Contains(gain.Message, "triggered=true") {
+		t.Fatalf("third hit gain = %+v, want readyAfterHit=true without trigger on threshold hit", gain)
+	}
+	if got := energizedBreakdownCount(result, dpsEffectEnergizedChargeGain); got != 3 {
+		t.Fatalf("gain breakdown count = %d, want one per real basic attack", got)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedThresholdDoesNotProcSameHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2500
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testEnergizedPassive())
+	configureEnergizedCurve(curve, 2500, 1)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	thresholdHitMs := int64(2000)
+	if got := damageCountBySourceAt(result, "test_energized_proc", thresholdHitMs); got != 0 {
+		t.Fatalf("proc count at threshold hit %dms = %d, want same-hit no proc", thresholdHitMs, got)
+	}
+	check := energizedBreakdownAt(result, dpsEffectEnergizedChargeCheck, thresholdHitMs)
+	if check == nil || strings.Contains(check.Message, "triggered=true") {
+		t.Fatalf("threshold hit check = %+v, want triggered=false on same hit", check)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedReadyConsumesOnNextHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 3500
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testEnergizedPassive())
+	configureEnergizedCurve(curve, 3500, 1)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	procHitMs := int64(3000)
+	if got := damageCountBySourceAt(result, "test_energized_proc", procHitMs); got != 1 {
+		t.Fatalf("proc count at %dms = %d, want ready proc on next hit after threshold", procHitMs, got)
+	}
+	if len(result.ItemPassiveTriggers) != 1 || result.ItemPassiveTriggers[0].TimeMs != procHitMs {
+		t.Fatalf("itemPassiveTriggers = %+v, want one proc at %dms", result.ItemPassiveTriggers, procHitMs)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectEnergizedChargeConsume, "consumed=true") {
+		t.Fatalf("effectBreakdown = %+v, want consume evidence on proc hit", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedConsumeStartsNextCycle(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 7000
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testEnergizedPassive())
+	configureEnergizedCurve(curve, 7000, 1)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	if got := damageTimesBySource(result, "test_energized_proc"); !sameInt64s(got, []int64{3000, 6000}) {
+		t.Fatalf("proc times = %v, want consume to restart cycle for second proc at 6000ms", got)
+	}
+	if gain := energizedGainAt(result, 3000); gain == nil || !almostEqual(gain.Amount, 1) {
+		t.Fatalf("post-proc gain at 3000ms = %+v, want charge reset then gain to 1", gain)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedInitialChargeScenarioTriggersFirstHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1500
+	chargeKey := "test_energized_charge"
+	scenario := energizedScenarioCharge(chargeKey, 3)
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testEnergizedPassive())
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	configureEnergizedCurve(curve, 1500, 1)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	if got := damageCountBySourceAt(result, "test_energized_proc", 0); got != 1 {
+		t.Fatalf("first hit proc count = %d, want initial charged scenario to proc immediately", got)
+	}
+	check := energizedBreakdownAt(result, dpsEffectEnergizedChargeCheck, 0)
+	if check == nil || !strings.Contains(check.Message, "readyBeforeHit=true") || !strings.Contains(check.Message, "triggered=true") {
+		t.Fatalf("first hit check = %+v, want ready charged proc evidence", check)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedTriggeredHitCanReadyNextCycle(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1500
+	chargeKey := "test_energized_charge"
+	scenario := energizedScenarioCharge(chargeKey, 3)
+	passive := testEnergizedPassive()
+	passive.ChargeGainPerBasicAttack = 3
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	configureEnergizedCurve(curve, 1500, 1)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	if got := damageTimesBySource(result, "test_energized_proc"); !sameInt64s(got, []int64{0, 1000}) {
+		t.Fatalf("proc times = %v, want first proc and next-cycle proc", got)
+	}
+	if gain := energizedGainAt(result, 0); gain == nil || !strings.Contains(gain.Message, "readyAfterHit=true") {
+		t.Fatalf("post-proc gain = %+v, want same real hit to ready next cycle after gain", gain)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedDoesNotChargeFromPhantomHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testEnergizedPassive(), testPhantomHitPassive())
+	configureEnergizedCurve(curve, 2000, 2)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	if result.AttackCount != 4 {
+		t.Fatalf("attackCount = %d, want 4 real attacks", result.AttackCount)
+	}
+	if got := energizedBreakdownCount(result, dpsEffectEnergizedChargeGain); got != 4 {
+		t.Fatalf("energized gain count = %d, want only real basic attacks", got)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if got := energizedBreakdownCountAt(result, dpsEffectEnergizedChargeGain, fourthHitMs); got != 1 {
+		t.Fatalf("gain count at phantom trigger hit = %d, want single real-attack gain", got)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedDoesNotProcFromPhantomHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2000
+	curve := &input.Curves[0]
+	energized := testEnergizedPassive()
+	energized.Operations[0].PhantomHitCopyable = true
+	enableDPSPassivesForTest(curve, energized, testPhantomHitPassive())
+	configureEnergizedCurve(curve, 2000, 2)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	fourthHitMs := result.AttackTimeline[3].TimeMs
+	if got := damageCountBySource(result, "test_energized_proc"); got != 1 {
+		t.Fatalf("energized proc count = %d, want one ready proc on fourth real basic attack", got)
+	}
+	if got := damageCountBySourceAt(result, "test_energized_proc", fourthHitMs); got != 1 {
+		t.Fatalf("energized proc count at %dms = %d, want single real-hit proc without phantom duplication", fourthHitMs, got)
+	}
+	if got := phantomDamageCountBySourceAt(result, "test_energized_proc", fourthHitMs); got != 0 {
+		t.Fatalf("phantom energized proc count = %d, want phantom to skip energized proc/copy", got)
+	}
+	if got := energizedBreakdownCountAt(result, dpsEffectEnergizedChargeCheck, fourthHitMs); got != 1 {
+		t.Fatalf("energized check count at phantom hit = %d, want only real basic attack charge phase", got)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedBlocksInvalidChargeConfig(t *testing.T) {
+	cases := []struct {
+		name   string
+		mutate func(*model.DPSPassiveEffectV2)
+		needle string
+	}{
+		{
+			name: "missing charge key",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.ChargeKey = ""
+			},
+			needle: "requires chargeKey",
+		},
+		{
+			name: "non-positive gain",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.ChargeGainPerBasicAttack = 0
+			},
+			needle: "requires chargeGainPerBasicAttack > 0",
+		},
+		{
+			name: "non-positive threshold",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.ChargeThreshold = 0
+			},
+			needle: "requires chargeThreshold > 0",
+		},
+		{
+			name: "cap below threshold",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.ChargeCap = 2
+			},
+			needle: "requires chargeCap >= chargeThreshold",
+		},
+		{
+			name: "missing consume on trigger",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.ConsumeChargeOnTrigger = false
+			},
+			needle: "requires consumeChargeOnTrigger=true",
+		},
+		{
+			name: "unsupported ready policy",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.ChargeReadyPolicy = "immediate_on_threshold"
+			},
+			needle: "unsupported chargeReadyPolicy",
+		},
+		{
+			name: "unsupported proc scope",
+			mutate: func(passive *model.DPSPassiveEffectV2) {
+				passive.ProcScope = "all_hits"
+			},
+			needle: "unsupported procScope",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			passive := testEnergizedPassive()
+			tc.mutate(&passive)
+			curve := &input.Curves[0]
+			enableDPSPassivesForTest(curve, passive)
+
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+			if result.Status != "blocked" {
+				t.Fatalf("status = %s, want blocked", result.Status)
+			}
+			if !blockedReasonContains(result, tc.needle) {
+				t.Fatalf("blockedReasons = %v, want %q", result.BlockedReasons, tc.needle)
+			}
+		})
+	}
+}
+
+func TestSingleAttackerDPSEnergizedRecordsChargeBreakdown(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1500
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testEnergizedPassive())
+	configureEnergizedCurve(curve, 1500, 1)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s, want ok", result.Status)
+	}
+	required := []string{
+		"chargeKey=test_energized_charge",
+		"preCharge=",
+		"postCharge=",
+		"chargeGain=",
+		"chargeThreshold=3",
+		"readyBeforeHit=",
+		"readyAfterHit=",
+		"consumed=",
+		"triggered=",
+	}
+	for _, kind := range []string{dpsEffectEnergizedChargeCheck, dpsEffectEnergizedChargeGain} {
+		if energizedBreakdownCount(result, kind) == 0 {
+			t.Fatalf("effectBreakdown missing kind %s", kind)
+		}
+		for _, event := range result.EffectBreakdown {
+			if event.Kind != kind {
+				continue
+			}
+			for _, needle := range required {
+				if !strings.Contains(event.Message, needle) {
+					t.Fatalf("breakdown %+v missing %q", event, needle)
+				}
+			}
+		}
+	}
+}
+
+func energizedBreakdownCountAt(result model.DPSCurveResultV2, kind string, timeMs int64) int {
+	count := 0
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == kind && event.TimeMs == timeMs {
+			count++
+		}
+	}
+	return count
+}
