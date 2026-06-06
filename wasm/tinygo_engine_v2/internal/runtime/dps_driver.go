@@ -23,6 +23,14 @@ const (
 	dpsTriggerStatAlwaysOn              = "stat_modifier_always_on"
 	dpsTriggerPreEnabledModifier        = "pre_enabled_state_modifier"
 	dpsTriggerNextBasicAttackAfterState = "next_basic_attack_after_state"
+	dpsTriggerEnergizedChargeAndConsume = "energized_charge_and_consume"
+
+	dpsChargeReadyPolicyNextBasicAttackAfterThreshold = "next_basic_attack_after_threshold_reached"
+	dpsProcScopeRealBasicAttackOnly                   = "real_basic_attack_only"
+
+	dpsEffectEnergizedChargeCheck   = "energized_charge_check"
+	dpsEffectEnergizedChargeConsume = "energized_charge_consume"
+	dpsEffectEnergizedChargeGain    = "energized_charge_gain"
 
 	dpsOpDamage                     = "damage"
 	dpsEffectNextAttackStateConsume = "next_attack_state_consume"
@@ -80,6 +88,8 @@ type dpsCurveState struct {
 	dots                   []activeDPSDot
 	phantomDepth           int
 	consumedScenarioStates map[string]bool
+	energizedCharge        map[string]float64
+	energizedReady         map[string]bool
 }
 
 func runSingleAttackerDPS(bundle compilebundle.CompiledBundle, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
@@ -185,6 +195,10 @@ func runSingleAttackerDPSCurve(
 	if result.Status == dpsStatusBlocked {
 		return result
 	}
+	state.initEnergizedCharge()
+	if result.Status == dpsStatusBlocked {
+		return result
+	}
 	state.initBasicAttackSchedules()
 	state.TargetHPTimelineAppend(0)
 	result.FinalTimeMs = rules.DurationMs
@@ -268,6 +282,8 @@ func newDPSCurveState(
 		statModifierTriggers:   map[string]bool{},
 		dots:                   make([]activeDPSDot, 0),
 		consumedScenarioStates: map[string]bool{},
+		energizedCharge:        map[string]float64{},
+		energizedReady:         map[string]bool{},
 	}
 }
 
@@ -576,6 +592,14 @@ func (state *dpsCurveState) processAttackPassives(timeMs int64) {
 		if triggerKind == "" {
 			triggerKind = dpsTriggerOnBasicAttackHit
 		}
+		if triggerKind == dpsTriggerEnergizedChargeAndConsume {
+			if state.passiveActiveAt(passive, timeMs) {
+				if state.processEnergizedChargePassive(timeMs, passive) && passiveHasPerStackStatModifier(passive) {
+					refreshStackStatModifiers = true
+				}
+			}
+			continue
+		}
 		if triggerKind == dpsTriggerNextBasicAttackAfterState {
 			if !state.nextAttackStateReady(passive, timeMs) {
 				continue
@@ -632,6 +656,9 @@ func (state *dpsCurveState) processPhantomHits(timeMs int64) {
 			triggerKind = dpsTriggerOnBasicAttackHit
 		}
 		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
+			continue
+		}
+		if triggerKind == dpsTriggerEnergizedChargeAndConsume {
 			continue
 		}
 		if triggerKind == dpsTriggerNextBasicAttackAfterState {
@@ -1364,6 +1391,187 @@ func (state *dpsCurveState) nextAttackStateReady(passive model.DPSPassiveEffectV
 	return state.scenarioStateActiveAt(stateID, timeMs) && !state.consumedScenarioStates[stateID]
 }
 
+func (state *dpsCurveState) initEnergizedCharge() {
+	for _, passive := range state.passives {
+		if passive.TriggerKind != dpsTriggerEnergizedChargeAndConsume {
+			continue
+		}
+		chargeKey := strings.TrimSpace(passive.ChargeKey)
+		if chargeKey == "" {
+			continue
+		}
+		if _, exists := state.energizedCharge[chargeKey]; exists {
+			continue
+		}
+		cap := effectiveDPSChargeCap(passive)
+		initial := 0.0
+		for _, scenario := range state.curve.ResolvedSnapshot.ScenarioStates {
+			if scenario.StateID != chargeKey || scenario.Activation != "assumed_charge_before_start" {
+				continue
+			}
+			initial = float64(scenario.Stacks)
+			break
+		}
+		initial = clampDPSCharge(initial, cap)
+		state.energizedCharge[chargeKey] = initial
+		if initial >= passive.ChargeThreshold {
+			state.energizedReady[chargeKey] = true
+		}
+	}
+}
+
+func effectiveDPSChargeCap(passive model.DPSPassiveEffectV2) float64 {
+	if passive.ChargeCap > 0 {
+		return passive.ChargeCap
+	}
+	return passive.ChargeThreshold
+}
+
+func clampDPSCharge(value float64, cap float64) float64 {
+	if value < 0 {
+		return 0
+	}
+	if value > cap {
+		return cap
+	}
+	return value
+}
+
+func (state *dpsCurveState) processEnergizedChargePassive(timeMs int64, passive model.DPSPassiveEffectV2) bool {
+	chargeKey := strings.TrimSpace(passive.ChargeKey)
+	if chargeKey == "" {
+		state.block("passive energized_charge_and_consume requires chargeKey")
+		return false
+	}
+	if _, ok := state.energizedCharge[chargeKey]; !ok {
+		state.initEnergizedChargeForKey(passive, chargeKey)
+	}
+	if !passive.ConsumeChargeOnTrigger {
+		state.block("passive energized_charge_and_consume requires consumeChargeOnTrigger=true")
+		return false
+	}
+
+	cap := effectiveDPSChargeCap(passive)
+	threshold := passive.ChargeThreshold
+	gain := passive.ChargeGainPerBasicAttack
+
+	preCharge := state.energizedCharge[chargeKey]
+	readyBefore := state.energizedReady[chargeKey]
+
+	triggered := false
+	consumed := false
+	chargeAfterProc := preCharge
+
+	if readyBefore && preCharge >= threshold {
+		triggered = true
+		state.recordPassiveTrigger(timeMs, passive)
+		for _, op := range passive.Operations {
+			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
+				return triggered
+			}
+			state.applyPassiveOperation(timeMs, passive, op)
+		}
+		if passive.ConsumeChargeOnTrigger {
+			consumed = true
+			chargeAfterProc = 0
+			state.energizedReady[chargeKey] = false
+		} else {
+			state.energizedReady[chargeKey] = false
+		}
+	}
+
+	state.energizedCharge[chargeKey] = chargeAfterProc
+	state.recordEnergizedChargeEvidence(timeMs, passive, dpsEffectEnergizedChargeCheck, chargeKey, preCharge, chargeAfterProc, 0, threshold, readyBefore, state.energizedReady[chargeKey], consumed, triggered)
+	if consumed {
+		state.recordEnergizedChargeEvidence(timeMs, passive, dpsEffectEnergizedChargeConsume, chargeKey, preCharge, chargeAfterProc, 0, threshold, readyBefore, state.energizedReady[chargeKey], consumed, triggered)
+	}
+
+	preGainCharge := state.energizedCharge[chargeKey]
+	postCharge := preGainCharge + gain
+	if postCharge > cap {
+		postCharge = cap
+	}
+	state.energizedCharge[chargeKey] = postCharge
+
+	readyAfter := state.energizedReady[chargeKey]
+	if postCharge >= threshold {
+		state.energizedReady[chargeKey] = true
+		readyAfter = true
+	}
+
+	state.recordEnergizedChargeEvidence(timeMs, passive, dpsEffectEnergizedChargeGain, chargeKey, preGainCharge, postCharge, gain, threshold, readyBefore, readyAfter, consumed, triggered)
+	return triggered
+}
+
+func (state *dpsCurveState) initEnergizedChargeForKey(passive model.DPSPassiveEffectV2, chargeKey string) {
+	cap := effectiveDPSChargeCap(passive)
+	initial := 0.0
+	for _, scenario := range state.curve.ResolvedSnapshot.ScenarioStates {
+		if scenario.StateID != chargeKey || scenario.Activation != "assumed_charge_before_start" {
+			continue
+		}
+		initial = float64(scenario.Stacks)
+		break
+	}
+	initial = clampDPSCharge(initial, cap)
+	state.energizedCharge[chargeKey] = initial
+	if initial >= passive.ChargeThreshold {
+		state.energizedReady[chargeKey] = true
+	}
+}
+
+func (state *dpsCurveState) recordEnergizedChargeEvidence(
+	timeMs int64,
+	passive model.DPSPassiveEffectV2,
+	kind string,
+	chargeKey string,
+	preCharge float64,
+	postCharge float64,
+	chargeGain float64,
+	chargeThreshold float64,
+	readyBeforeHit bool,
+	readyAfterHit bool,
+	consumed bool,
+	triggered bool,
+) {
+	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+		TimeMs:  timeMs,
+		Source:  nonEmpty(passive.SourceID, passiveID(passive)),
+		Kind:    kind,
+		Amount:  postCharge,
+		Message: energizedChargeBreakdownMessage(chargeKey, preCharge, postCharge, chargeGain, chargeThreshold, readyBeforeHit, readyAfterHit, consumed, triggered),
+	})
+}
+
+func energizedChargeBreakdownMessage(
+	chargeKey string,
+	preCharge float64,
+	postCharge float64,
+	chargeGain float64,
+	chargeThreshold float64,
+	readyBeforeHit bool,
+	readyAfterHit bool,
+	consumed bool,
+	triggered bool,
+) string {
+	return "chargeKey=" + chargeKey +
+		" preCharge=" + floatToString(preCharge) +
+		" postCharge=" + floatToString(postCharge) +
+		" chargeGain=" + floatToString(chargeGain) +
+		" chargeThreshold=" + floatToString(chargeThreshold) +
+		" readyBeforeHit=" + boolToString(readyBeforeHit) +
+		" readyAfterHit=" + boolToString(readyAfterHit) +
+		" consumed=" + boolToString(consumed) +
+		" triggered=" + boolToString(triggered)
+}
+
+func boolToString(value bool) string {
+	if value {
+		return "true"
+	}
+	return "false"
+}
+
 func (state *dpsCurveState) consumeScenarioState(timeMs int64, stateID string) {
 	stateID = strings.TrimSpace(stateID)
 	if stateID == "" || state.consumedScenarioStates[stateID] {
@@ -1590,6 +1798,9 @@ func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRu
 	}
 	if passive.TriggerKind == dpsTriggerNextBasicAttackAfterState && strings.TrimSpace(passive.RequiresScenarioStateID) == "" {
 		reasons = append(reasons, "passive effect "+id+" triggerKind next_basic_attack_after_state requires requiresScenarioStateId or scenarioState")
+	}
+	if passive.TriggerKind == dpsTriggerEnergizedChargeAndConsume {
+		reasons = append(reasons, validateDPSEnergizedPassive(id, passive)...)
 	}
 	if passive.RequiresScenarioStateID != "" && !hasScenarioState(curve.ResolvedSnapshot.ScenarioStates, passive.RequiresScenarioStateID) {
 		reasons = append(reasons, "passive effect "+id+" requires missing scenarioState "+passive.RequiresScenarioStateID)
@@ -1841,9 +2052,43 @@ func passiveHasPerStackStatModifier(passive model.DPSPassiveEffectV2) bool {
 	return false
 }
 
+func validateDPSEnergizedPassive(id string, passive model.DPSPassiveEffectV2) []string {
+	reasons := make([]string, 0)
+	if strings.TrimSpace(passive.ChargeKey) == "" {
+		reasons = append(reasons, "passive effect "+id+" energized_charge_and_consume requires chargeKey")
+	}
+	if passive.ChargeGainPerBasicAttack <= 0 {
+		reasons = append(reasons, "passive effect "+id+" energized_charge_and_consume requires chargeGainPerBasicAttack > 0")
+	}
+	if passive.ChargeThreshold <= 0 {
+		reasons = append(reasons, "passive effect "+id+" energized_charge_and_consume requires chargeThreshold > 0")
+	}
+	if passive.ChargeCap > 0 && passive.ChargeCap < passive.ChargeThreshold {
+		reasons = append(reasons, "passive effect "+id+" energized_charge_and_consume requires chargeCap >= chargeThreshold")
+	}
+	if !passive.ConsumeChargeOnTrigger {
+		reasons = append(reasons, "passive effect "+id+" energized_charge_and_consume requires consumeChargeOnTrigger=true")
+	}
+	policy := passive.ChargeReadyPolicy
+	if policy == "" {
+		policy = dpsChargeReadyPolicyNextBasicAttackAfterThreshold
+	}
+	if policy != dpsChargeReadyPolicyNextBasicAttackAfterThreshold {
+		reasons = append(reasons, "passive effect "+id+" energized_charge_and_consume has unsupported chargeReadyPolicy "+passive.ChargeReadyPolicy)
+	}
+	scope := passive.ProcScope
+	if scope == "" {
+		scope = dpsProcScopeRealBasicAttackOnly
+	}
+	if scope != dpsProcScopeRealBasicAttackOnly {
+		reasons = append(reasons, "passive effect "+id+" energized_charge_and_consume has unsupported procScope "+passive.ProcScope)
+	}
+	return reasons
+}
+
 func supportedDPSTrigger(triggerKind string) bool {
 	switch triggerKind {
-	case "", dpsTriggerOnBasicAttackHit, dpsTriggerEveryNBasicAttack, dpsTriggerStackOnHit, dpsTriggerStatAlwaysOn, dpsTriggerPreEnabledModifier, dpsTriggerNextBasicAttackAfterState:
+	case "", dpsTriggerOnBasicAttackHit, dpsTriggerEveryNBasicAttack, dpsTriggerStackOnHit, dpsTriggerStatAlwaysOn, dpsTriggerPreEnabledModifier, dpsTriggerNextBasicAttackAfterState, dpsTriggerEnergizedChargeAndConsume:
 		return true
 	default:
 		return false
