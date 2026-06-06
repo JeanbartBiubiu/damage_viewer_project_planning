@@ -622,10 +622,10 @@ function parseActionRow(value: JsonObject): SkillActionRow {
       raw: clonePlainObject(value),
       type,
       rawType: type,
-      damageSource: asText(damage.source) || 'self',
-      damageTarget: asText(damage.target) || 'enemy',
-      damageType: asText(damage.damageType) || 'magic',
-      bindingKey: asText(damage.bindingKey)
+      damageSource: asText(damage.source) || asText(value.damageSource) || 'self',
+      damageTarget: asText(damage.target) || asText(value.damageTarget) || 'enemy',
+      damageType: asText(damage.damageType) || asText(value.damageType) || 'magic',
+      bindingKey: asText(damage.bindingKey) || asText(value.bindingKey)
     };
   }
 
