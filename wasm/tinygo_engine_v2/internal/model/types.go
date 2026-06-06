@@ -420,16 +420,16 @@ type DPSResolvedSnapshotV2 struct {
 }
 
 type DPSActorSnapshotV2 struct {
-	ActorID          string                         `json:"actorId"`
-	TemplateID       string                         `json:"templateId,omitempty"`
-	Name             string                         `json:"name,omitempty"`
-	Level            int                            `json:"level,omitempty"`
-	Types            []string                       `json:"types"`
-	StatusIDs        []string                       `json:"statusIds,omitempty"`
-	Attributes       map[string]float64             `json:"attributes"`
-	AttributeViews   map[string]AttributeSnapshotV2 `json:"attributeViews,omitempty"`
-	CurrentHP        float64                        `json:"currentHp"`
-	MaxHP            float64                        `json:"maxHp"`
+	ActorID        string                         `json:"actorId"`
+	TemplateID     string                         `json:"templateId,omitempty"`
+	Name           string                         `json:"name,omitempty"`
+	Level          int                            `json:"level,omitempty"`
+	Types          []string                       `json:"types"`
+	StatusIDs      []string                       `json:"statusIds,omitempty"`
+	Attributes     map[string]float64             `json:"attributes"`
+	AttributeViews map[string]AttributeSnapshotV2 `json:"attributeViews,omitempty"`
+	CurrentHP      float64                        `json:"currentHp"`
+	MaxHP          float64                        `json:"maxHp"`
 }
 
 type DPSScenarioStateV2 struct {
@@ -443,50 +443,57 @@ type DPSScenarioStateV2 struct {
 }
 
 type DPSPassiveEffectV2 struct {
-	PassiveID               string                  `json:"passiveId,omitempty"`
-	EffectID                string                  `json:"effectId,omitempty"`
-	SourceCategory          string                  `json:"sourceCategory,omitempty"`
-	SourceID                string                  `json:"sourceId,omitempty"`
-	SourceType              string                  `json:"sourceType,omitempty"`
-	TriggerID               string                  `json:"triggerId,omitempty"`
-	TriggerKind             string                  `json:"triggerKind,omitempty"`
-	EveryN                  int                     `json:"everyN,omitempty"`
-	RequiresScenarioStateID string                  `json:"requiresScenarioStateId,omitempty"`
-	Operations              []DPSPassiveOperationV2 `json:"operations,omitempty"`
+	PassiveID                string                  `json:"passiveId,omitempty"`
+	EffectID                 string                  `json:"effectId,omitempty"`
+	SourceCategory           string                  `json:"sourceCategory,omitempty"`
+	SourceID                 string                  `json:"sourceId,omitempty"`
+	SourceType               string                  `json:"sourceType,omitempty"`
+	TriggerID                string                  `json:"triggerId,omitempty"`
+	TriggerKind              string                  `json:"triggerKind,omitempty"`
+	EveryN                   int                     `json:"everyN,omitempty"`
+	RequiresScenarioStateID  string                  `json:"requiresScenarioStateId,omitempty"`
+	ChargeKey                string                  `json:"chargeKey,omitempty"`
+	ChargeGainPerBasicAttack float64                 `json:"chargeGainPerBasicAttack,omitempty"`
+	ChargeThreshold          float64                 `json:"chargeThreshold,omitempty"`
+	ChargeCap                float64                 `json:"chargeCap,omitempty"`
+	ChargeReadyPolicy        string                  `json:"chargeReadyPolicy,omitempty"`
+	ConsumeChargeOnTrigger   bool                    `json:"consumeChargeOnTrigger,omitempty"`
+	ProcScope                string                  `json:"procScope,omitempty"`
+	Operations               []DPSPassiveOperationV2 `json:"operations,omitempty"`
 }
 
 type DPSPassiveOperationV2 struct {
-	Kind                 string  `json:"kind"`
-	Source               string  `json:"source,omitempty"`
-	DamageType           string  `json:"damageType,omitempty"`
-	Amount               float64 `json:"amount,omitempty"`
-	AmountPerStack       float64 `json:"amountPerStack,omitempty"`
-	TargetCurrentHPRatio float64 `json:"targetCurrentHpRatio,omitempty"`
-	TargetCurrentHPBasis string  `json:"targetCurrentHpBasis,omitempty"`
-	TargetMaxHPRatio     float64 `json:"targetMaxHpRatio,omitempty"`
-	TargetMissingHPRatio float64 `json:"targetMissingHpRatio,omitempty"`
-	TargetMissingHPBasis string  `json:"targetMissingHpBasis,omitempty"`
-	TargetMissingHPAmp   float64 `json:"targetMissingHpAmp,omitempty"`
-	AttackerAttr         string              `json:"attackerAttr,omitempty"`
-	AttackerAttrRead     AttributeReadKind   `json:"attackerAttrRead,omitempty"`
-	AttackerAttrRatio    float64             `json:"attackerAttrRatio,omitempty"`
-	MinAmount            float64 `json:"minAmount,omitempty"`
-	HasMinAmount         bool    `json:"hasMinAmount,omitempty"`
-	StackKey             string  `json:"stackKey,omitempty"`
-	MaxStacks            int     `json:"maxStacks,omitempty"`
-	TriggerStacks        int     `json:"triggerStacks,omitempty"`
-	ResetStacks          bool    `json:"resetStacks,omitempty"`
-	DurationMs           int64   `json:"durationMs,omitempty"`
-	TickIntervalMs       int64   `json:"tickIntervalMs,omitempty"`
-	RefreshMode          string  `json:"refreshMode,omitempty"`
-	AttrKey              string  `json:"attrKey,omitempty"`
-	ModifierMode         string  `json:"modifierMode,omitempty"`
-	Value                float64 `json:"value,omitempty"`
-	PerStack             bool    `json:"perStack,omitempty"`
-	RepeatCount          int     `json:"repeatCount,omitempty"`
-	RepeatTag            string  `json:"repeatTag,omitempty"`
-	RepeatScope          string  `json:"repeatScope,omitempty"`
-	PhantomHitCopyable   bool    `json:"phantomHitCopyable,omitempty"`
+	Kind                 string            `json:"kind"`
+	Source               string            `json:"source,omitempty"`
+	DamageType           string            `json:"damageType,omitempty"`
+	Amount               float64           `json:"amount,omitempty"`
+	AmountPerStack       float64           `json:"amountPerStack,omitempty"`
+	TargetCurrentHPRatio float64           `json:"targetCurrentHpRatio,omitempty"`
+	TargetCurrentHPBasis string            `json:"targetCurrentHpBasis,omitempty"`
+	TargetMaxHPRatio     float64           `json:"targetMaxHpRatio,omitempty"`
+	TargetMissingHPRatio float64           `json:"targetMissingHpRatio,omitempty"`
+	TargetMissingHPBasis string            `json:"targetMissingHpBasis,omitempty"`
+	TargetMissingHPAmp   float64           `json:"targetMissingHpAmp,omitempty"`
+	AttackerAttr         string            `json:"attackerAttr,omitempty"`
+	AttackerAttrRead     AttributeReadKind `json:"attackerAttrRead,omitempty"`
+	AttackerAttrRatio    float64           `json:"attackerAttrRatio,omitempty"`
+	MinAmount            float64           `json:"minAmount,omitempty"`
+	HasMinAmount         bool              `json:"hasMinAmount,omitempty"`
+	StackKey             string            `json:"stackKey,omitempty"`
+	MaxStacks            int               `json:"maxStacks,omitempty"`
+	TriggerStacks        int               `json:"triggerStacks,omitempty"`
+	ResetStacks          bool              `json:"resetStacks,omitempty"`
+	DurationMs           int64             `json:"durationMs,omitempty"`
+	TickIntervalMs       int64             `json:"tickIntervalMs,omitempty"`
+	RefreshMode          string            `json:"refreshMode,omitempty"`
+	AttrKey              string            `json:"attrKey,omitempty"`
+	ModifierMode         string            `json:"modifierMode,omitempty"`
+	Value                float64           `json:"value,omitempty"`
+	PerStack             bool              `json:"perStack,omitempty"`
+	RepeatCount          int               `json:"repeatCount,omitempty"`
+	RepeatTag            string            `json:"repeatTag,omitempty"`
+	RepeatScope          string            `json:"repeatScope,omitempty"`
+	PhantomHitCopyable   bool              `json:"phantomHitCopyable,omitempty"`
 }
 
 type SingleAttackerDPSOutputV2 struct {
