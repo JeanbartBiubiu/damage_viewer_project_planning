@@ -1,4 +1,9 @@
-// 本文件是 TinyGo Wasm 导出入口，只保留 ABI 函数、内存分配桥接和全局 session 装配。
+// TinyGo Wasm 导出入口：仅保留 ABI 函数、alloc 桥接和全局 Session 装配。
+//
+// Review 要点：
+//   - 业务逻辑必须下沉 internal/runtime，此处不得新增机制代码
+//   - 全局 session 是唯一跨 export 调用的状态持有者
+//   - outbox 通过 engine_outbox_* 由宿主轮询读取，export 内不阻塞
 package main
 
 import (

@@ -1,4 +1,7 @@
-// 本文件集中定义 TinyGo Engine V2 的输入、输出、枚举和 ABI payload DTO 契约。
+// V2 公共契约层：输入/输出 DTO、枚举、frame kind、错误码。
+//
+// 不变量：字段语义变更必须先改本包，再同步 compile/runtime/前端；此处不含任何运行时逻辑。
+// 文件内 alias（EngineBundle 等）仅作旧名兼容，不是新契约入口。
 package model
 
 type FrameKind uint16
@@ -112,6 +115,7 @@ type TypeMatcherV2 struct {
 	None TypeListV2 `json:"none,omitempty"`
 }
 
+// EngineBundleV2 是 init frame 的 JSON 根对象；compile.Bundle 将其编译为只读 CompiledBundle。
 type EngineBundleV2 struct {
 	SchemaVersion            uint16                      `json:"schemaVersion"`
 	Attributes               []AttributeDefinitionV2     `json:"attributes"`
@@ -311,6 +315,7 @@ type FormulaDefinitionV2 struct {
 	Right    string            `json:"right,omitempty"`
 }
 
+// EngineRunInputV2 是普通 run frame 的 JSON 根对象；snapshot 类调用会忽略 InitialActions/Trace。
 type EngineRunInputV2 struct {
 	Seed           uint64             `json:"seed"`
 	Self           CombatantRunInitV2 `json:"self"`
@@ -350,6 +355,7 @@ type TraceOptionsV2 struct {
 	ValueTrace  bool `json:"valueTrace,omitempty"`
 }
 
+// SingleAttackerDPSInputV2 由 session 在 begin_run 时识别（无 self/enemy，有 curves/simulationRules），同步产出 done。
 type SingleAttackerDPSInputV2 struct {
 	CaseID          string              `json:"caseId,omitempty"`
 	VersionCode     string              `json:"versionCode,omitempty"`
@@ -409,19 +415,19 @@ type DPSBasicAttackActionRefV2 struct {
 }
 
 type DPSResolvedSnapshotV2 struct {
-	AttackerSnapshot              DPSActorSnapshotV2          `json:"attackerSnapshot"`
-	TargetSnapshot                DPSActorSnapshotV2          `json:"targetSnapshot"`
-	BasicAttackActions            []DPSBasicAttackActionRefV2 `json:"basicAttackActions,omitempty"`
-	EquipmentSet                  []string                    `json:"equipmentSet"`
-	EquipmentStats                map[string]float64          `json:"equipmentStats"`
-	EnabledPassiveEffects         []string                    `json:"enabledPassiveEffects"`
-	TargetEquipmentSet            []string                    `json:"targetEquipmentSet,omitempty"`
-	TargetEquipmentStats          map[string]float64          `json:"targetEquipmentStats,omitempty"`
-	TargetEnabledPassiveEffects   []string                    `json:"targetEnabledPassiveEffects,omitempty"`
-	PassiveEffects                []DPSPassiveEffectV2        `json:"passiveEffects,omitempty"`
-	ExternalPassiveEffects        []string                    `json:"externalPassiveEffects"`
-	ScenarioStates                []DPSScenarioStateV2        `json:"scenarioStates"`
-	RuneStatAdjustments           map[string]float64          `json:"runeStatAdjustments"`
+	AttackerSnapshot            DPSActorSnapshotV2          `json:"attackerSnapshot"`
+	TargetSnapshot              DPSActorSnapshotV2          `json:"targetSnapshot"`
+	BasicAttackActions          []DPSBasicAttackActionRefV2 `json:"basicAttackActions,omitempty"`
+	EquipmentSet                []string                    `json:"equipmentSet"`
+	EquipmentStats              map[string]float64          `json:"equipmentStats"`
+	EnabledPassiveEffects       []string                    `json:"enabledPassiveEffects"`
+	TargetEquipmentSet          []string                    `json:"targetEquipmentSet,omitempty"`
+	TargetEquipmentStats        map[string]float64          `json:"targetEquipmentStats,omitempty"`
+	TargetEnabledPassiveEffects []string                    `json:"targetEnabledPassiveEffects,omitempty"`
+	PassiveEffects              []DPSPassiveEffectV2        `json:"passiveEffects,omitempty"`
+	ExternalPassiveEffects      []string                    `json:"externalPassiveEffects"`
+	ScenarioStates              []DPSScenarioStateV2        `json:"scenarioStates"`
+	RuneStatAdjustments         map[string]float64          `json:"runeStatAdjustments"`
 }
 
 type DPSActorSnapshotV2 struct {

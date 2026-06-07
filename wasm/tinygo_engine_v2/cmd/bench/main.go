@@ -1,4 +1,5 @@
-// 本文件提供原生 Go benchmark smoke，用来快速验证 TinyGo V2 引擎在非 Wasm 环境下的运行成本和结果稳定性。
+// 原生 Go benchmark smoke：通过 testkit 跑完整 battle，测延迟分布。
+// 非 Wasm 路径，不验证 ABI/outbox；改 runtime 热路径后应与本命令结果一并核对。
 package main
 
 import (

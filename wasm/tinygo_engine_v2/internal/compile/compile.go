@@ -1,4 +1,9 @@
-// 本文件负责把面向传输和编辑的 EngineBundleV2 编译成运行时只读的 CompiledBundle。
+// compile 包：EngineBundleV2 → CompiledBundle，纯编译期、无 runtime/outbox 副作用。
+//
+// 不变量：
+//   - 短 ID 等于对应 slice 下标；runtime 只通过 uint16/uint8 索引访问
+//   - Bundle 尽量 collect-all 返回 Problems，便于前后端一次修完
+//   - 不在此包写 scheduler、session 或 HP 变更逻辑
 package compile
 
 import (
@@ -15,6 +20,7 @@ const (
 	DefaultMaxEvents           = 10000
 )
 
+// CompiledBundle 是 Session.init 成功后持有的只读规则快照；每次 run 复用同一份。
 type CompiledBundle struct {
 	Attrs         []CompiledAttribute
 	AttrIndex     map[string]uint16
@@ -195,24 +201,24 @@ const (
 )
 
 type CompiledEffect struct {
-	Type             EffectType
-	Formula          formula.ProgramID
-	HasFormula       bool
-	Amount           float64
-	DamageType       string
-	Status           uint16
-	SourceRole       string
-	TargetRole       string
-	HistoryWindowMs  int64
-	CounterKey       string
-	MarkID           string
-	CritPolicy       string
+	Type                 EffectType
+	Formula              formula.ProgramID
+	HasFormula           bool
+	Amount               float64
+	DamageType           string
+	Status               uint16
+	SourceRole           string
+	TargetRole           string
+	HistoryWindowMs      int64
+	CounterKey           string
+	MarkID               string
+	CritPolicy           string
 	CritChanceSource     string
 	CritChance           float64
 	CritMultiplierSource string
 	CritMultiplier       float64
-	ModeAugmentID    string
-	ModeMultiplier   float64
+	ModeAugmentID        string
+	ModeMultiplier       float64
 }
 
 type Result struct {
@@ -220,6 +226,7 @@ type Result struct {
 	Problems []string
 }
 
+// Bundle 是编译唯一入口；Problems 非空时 Session 应写 error 帧并进入 PhaseFailed。
 func Bundle(input model.EngineBundle) Result {
 	var problems []string
 	if input.SchemaVersion != 0 && input.SchemaVersion != model.SchemaVersion {
@@ -778,11 +785,11 @@ func compileEffects(effects []model.EffectDef, cb CompiledBundle) ([]CompiledEff
 			Type: effectType(effect.Type), Amount: effect.Amount, DamageType: effect.DamageType,
 			SourceRole: effect.SourceRole, TargetRole: effect.TargetRole, HistoryWindowMs: effect.HistoryWindowMs,
 			CounterKey: effect.CounterKey, MarkID: effect.MarkID, CritPolicy: effect.CritPolicy,
-			CritChanceSource: effect.CritChanceSource,
-			CritChance:       effect.CritChance,
+			CritChanceSource:     effect.CritChanceSource,
+			CritChance:           effect.CritChance,
 			CritMultiplierSource: effect.CritMultiplierSource,
 			CritMultiplier:       effect.CritMultiplier,
-			ModeAugmentID: effect.ModeAugmentID, ModeMultiplier: effect.ModeMultiplier,
+			ModeAugmentID:        effect.ModeAugmentID, ModeMultiplier: effect.ModeMultiplier,
 		}
 		if next.Type == 0 {
 			problems = append(problems, "unsupported effect type: "+string(effect.Type))
