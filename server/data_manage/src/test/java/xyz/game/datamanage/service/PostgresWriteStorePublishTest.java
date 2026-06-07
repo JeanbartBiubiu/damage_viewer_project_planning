@@ -3,6 +3,7 @@ package xyz.game.datamanage.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -400,6 +402,93 @@ class PostgresWriteStorePublishTest {
         verify(gameVersionsMapper, never()).markVersionCurrent(any(Timestamp.class), anyString(), anyLong());
     }
 
+    @Test
+    void publishVersionFailsWhenDpsPassiveEffectsMalformed() {
+        record MalformedCase(String label, Consumer<ObjectNode> mutator, String expectedPath) {}
+
+        List<MalformedCase> cases = List.of(
+            new MalformedCase(
+                "dpsPassiveEffects not array",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig"))
+                    .set("dpsPassiveEffects", JsonNodeFactory.instance.objectNode()),
+                "/skills/mechanicsConfig/dpsPassiveEffects"
+            ),
+            new MalformedCase(
+                "passive entry not object",
+                skill -> {
+                    ObjectNode mechanicsConfig = (ObjectNode) skill.path("mechanicsConfig");
+                    mechanicsConfig.remove("dpsPassiveEffects");
+                    mechanicsConfig.putArray("dpsPassiveEffects").add("not-an-object");
+                },
+                "/skills/mechanicsConfig/dpsPassiveEffects/0"
+            ),
+            new MalformedCase(
+                "ownerRole invalid",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                    .put("ownerRole", "ally"),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/ownerRole"
+            ),
+            new MalformedCase(
+                "trigger not object",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                    .put("trigger", "not-an-object"),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/trigger"
+            ),
+            new MalformedCase(
+                "trigger.event invalid",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0).path("trigger"))
+                    .put("event", "on_unknown_event"),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/trigger/event"
+            ),
+            new MalformedCase(
+                "operations not array",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                    .set("operations", JsonNodeFactory.instance.objectNode()),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/operations"
+            ),
+            new MalformedCase(
+                "operation entry not object",
+                skill -> {
+                    ObjectNode passive = (ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0);
+                    passive.remove("operations");
+                    passive.putArray("operations").add("not-an-object");
+                },
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/operations/0"
+            ),
+            new MalformedCase(
+                "operation targetRole invalid",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0).path("operations").get(0))
+                    .put("targetRole", "source"),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/operations/0/targetRole"
+            )
+        );
+
+        PostgresReadStore.VersionRecord targetVersion = publishTargetVersion();
+        for (MalformedCase testCase : cases) {
+            ObjectNode bundle = bundleWithValidDpsPassiveSkill("lol", targetVersion);
+            testCase.mutator().accept((ObjectNode) bundle.withArray("skills").get(0));
+            stubPublishVersionSemanticFailureSetup(targetVersion, bundle);
+
+            ApiException ex = assertThrows(
+                ApiException.class,
+                () -> writeStore.publishVersion("lol", JsonNodeFactory.instance.objectNode().put("versionCode", "14.2")),
+                testCase.label()
+            );
+
+            assertEquals("422.SEMANTIC_ERROR", ex.getCode(), testCase.label());
+            Object path = ex.getDetails().get("path");
+            assertTrue(
+                testCase.expectedPath().equals(path) || (path != null && path.toString().contains("dpsPassiveEffects")),
+                () -> testCase.label() + " expected path " + testCase.expectedPath() + " but got " + path
+            );
+            assertTrue(
+                ex.getMessage().contains("dpsPassiveEffects") || testCase.expectedPath().equals(path),
+                () -> testCase.label() + " message should reference dpsPassiveEffects: " + ex.getMessage()
+            );
+            verify(gameVersionsMapper, never()).markVersionCurrent(any(Timestamp.class), anyString(), anyLong());
+        }
+    }
+
     private void stubNoStatusResourceChanges() {
         when(statusDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
         when(controlStateProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
@@ -449,6 +538,64 @@ class PostgresWriteStorePublishTest {
         mechanicsConfig.put("version", 1);
         mechanicsConfig.putArray("triggers");
         bundle.withArray("skills").add(skill);
+        return bundle;
+    }
+
+    private PostgresReadStore.VersionRecord publishTargetVersion() {
+        return new PostgresReadStore.VersionRecord(
+            2L,
+            "14.2",
+            null,
+            Instant.parse("2026-02-26T01:00:00Z"),
+            null
+        );
+    }
+
+    private void stubPublishVersionSemanticFailureSetup(PostgresReadStore.VersionRecord targetVersion, ObjectNode bundle) {
+        when(readStore.findVersionByCode("lol", "14.2")).thenReturn(null);
+        when(gameVersionsMapper.createVersion("lol", "14.2", null)).thenReturn(2L);
+        when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
+        when(readStore.findCurrentPublishedVersion("lol")).thenReturn(null);
+        when(readStore.buildBundle(eq("lol"), eq(targetVersion), any(Instant.class))).thenReturn(bundle);
+        when(ownerCategoriesMapper.countOwnerCategory("lol", "hero")).thenReturn(1L);
+
+        when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(skillMountsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubNoStatusResourceChanges();
+        when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+        stubDefaultBasicAttackProvisioning();
+    }
+
+    private ObjectNode bundleWithValidDpsPassiveSkill(String gameId, PostgresReadStore.VersionRecord version) {
+        ObjectNode bundle = emptyBundle(gameId, version);
+        ObjectNode hero = bundle.withArray("heroes").addObject();
+        hero.put("heroId", "hero_ahri");
+        hero.put("name", "Ahri");
+        hero.putObject("baseStats").put("hp", 500);
+
+        ObjectNode skill = bundle.withArray("skills").addObject();
+        skill.put("skillId", "skill_dps_passive_test");
+        skill.put("ownerType", "hero");
+        skill.put("ownerId", "hero_ahri");
+        ObjectNode mechanicsConfig = skill.putObject("mechanicsConfig");
+        mechanicsConfig.put("version", 1);
+        mechanicsConfig.putArray("triggers");
+        ObjectNode passive = mechanicsConfig.putArray("dpsPassiveEffects").addObject();
+        passive.put("passiveId", "test_passive");
+        passive.put("ownerRole", "attacker");
+        passive.putObject("trigger").put("event", "on_damage_dealt");
+        ObjectNode operation = passive.putArray("operations").addObject();
+        operation.put("kind", "damage");
+        operation.put("targetRole", "target");
         return bundle;
     }
 
