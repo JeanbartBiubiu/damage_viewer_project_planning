@@ -1,29 +1,43 @@
-// 普攻与 DoT 调度容器及时间推进。
+// Active action 与 DoT 调度容器及时间推进。
 package runtime
 
 import (
+	"sort"
+
 	"tinygo_engine_v2/internal/model"
 )
 
-func (state *dpsCurveState) initBasicAttackSchedules() {
-	startAt := state.rules.AutoAttackPlan.StartAtMs
-	if startAt < 0 {
-		startAt = 0
+func (state *dpsCurveState) initActiveActionSchedules() {
+	defaultStartAt := state.rules.AutoAttackPlan.StartAtMs
+	if defaultStartAt < 0 {
+		defaultStartAt = 0
 	}
-	for _, ref := range state.curve.ResolvedSnapshot.BasicAttackActions {
+	useExplicitStartAt := len(state.curve.ResolvedSnapshot.ActiveActions) > 0
+	refs := resolvedDPSActiveActions(state.curve.ResolvedSnapshot)
+	for listOrder, ref := range refs {
 		actionIndex, ok := state.bundle.ActionIndex[ref.ActionID]
 		if !ok {
 			continue
 		}
-		state.schedules = append(state.schedules, dpsBasicAttackSchedule{
+		kind := resolveActiveActionKind(state.bundle, ref, actionIndex)
+		startAt := defaultStartAt
+		if useExplicitStartAt {
+			startAt = ref.StartAtMs
+			if startAt < 0 {
+				startAt = 0
+			}
+		}
+		state.schedules = append(state.schedules, dpsActiveActionSchedule{
 			ref:         ref,
 			actionIndex: actionIndex,
 			nextAtMs:    startAt,
+			listOrder:   listOrder,
+			kind:        kind,
 		})
 	}
 }
 
-func (state *dpsCurveState) nextBasicAttackAtMs() (int64, bool) {
+func (state *dpsCurveState) nextActiveActionAtMs() (int64, bool) {
 	var next int64
 	found := false
 	for _, sched := range state.schedules {
@@ -38,16 +52,31 @@ func (state *dpsCurveState) nextBasicAttackAtMs() (int64, bool) {
 	return next, found
 }
 
-func (state *dpsCurveState) processBasicAttacksAt(timeMs int64) {
+func (state *dpsCurveState) processActiveActionsAt(timeMs int64) {
+	indices := make([]int, 0)
 	for i := range state.schedules {
-		if state.schedules[i].nextAtMs != timeMs {
+		if state.schedules[i].nextAtMs == timeMs {
+			indices = append(indices, i)
+		}
+	}
+	sort.SliceStable(indices, func(i, j int) bool {
+		left := state.schedules[indices[i]]
+		right := state.schedules[indices[j]]
+		if left.ref.Priority != right.ref.Priority {
+			return left.ref.Priority < right.ref.Priority
+		}
+		return left.listOrder < right.listOrder
+	})
+	for pos, schedIdx := range indices {
+		if state.schedules[schedIdx].nextAtMs != timeMs {
 			continue
 		}
-		state.processBasicAttack(i, timeMs)
-		if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
-			for j := i + 1; j < len(state.schedules); j++ {
-				if state.schedules[j].nextAtMs == timeMs {
-					state.schedules[j].nextAtMs = -1
+		state.processActiveAction(schedIdx, timeMs)
+		if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 || state.shouldStopAfterEvent(timeMs) {
+			for j := pos + 1; j < len(indices); j++ {
+				cancelIdx := indices[j]
+				if state.schedules[cancelIdx].nextAtMs == timeMs {
+					state.schedules[cancelIdx].nextAtMs = -1
 				}
 			}
 			return

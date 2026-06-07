@@ -114,17 +114,17 @@ func runSingleAttackerDPSCurve(
 	if result.Status == dpsStatusBlocked {
 		return result
 	}
-	state.initBasicAttackSchedules()
+	state.initActiveActionSchedules()
 	state.TargetHPTimelineAppend(0)
 	result.FinalTimeMs = rules.DurationMs
 
 	for {
 		nextDotAtMs, hasDot := state.nextDotTick()
-		nextAttackAtMs, hasAttack := state.nextBasicAttackAtMs()
-		if !hasDot && !hasAttack {
+		nextActionAtMs, hasAction := state.nextActiveActionAtMs()
+		if !hasDot && !hasAction {
 			break
 		}
-		if hasDot && (!hasAttack || nextDotAtMs <= nextAttackAtMs) {
+		if hasDot && (!hasAction || nextDotAtMs <= nextActionAtMs) {
 			state.processDotTick(nextDotAtMs)
 			if state.shouldStopAfterEvent(nextDotAtMs) {
 				break
@@ -132,8 +132,8 @@ func runSingleAttackerDPSCurve(
 			continue
 		}
 
-		state.processBasicAttacksAt(nextAttackAtMs)
-		if state.shouldStopAfterEvent(nextAttackAtMs) {
+		state.processActiveActionsAt(nextActionAtMs)
+		if state.shouldStopAfterEvent(nextActionAtMs) {
 			break
 		}
 	}
