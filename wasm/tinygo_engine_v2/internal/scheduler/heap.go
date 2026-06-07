@@ -1,4 +1,6 @@
-// 本文件实现按 time、priority、seq 排序的确定性事件堆和 generation handle 基础类型。
+// 确定性事件堆：(TimeMs, Priority, Seq) 稳定排序，Seq 在 Push 时自动分配。
+//
+// Handle 携带 Generation，arena 实例过期后 lazy drop；Pop 顺序即 simulation 时间线。
 package scheduler
 
 import "tinygo_engine_v2/internal/model"
@@ -93,6 +95,7 @@ func (h *Heap) PeekTime() (int64, bool) {
 	return h.items[0].TimeMs, true
 }
 
+// Less 定义堆序：同毫秒按 Priority，再按 Seq 保证确定性 tie-break。
 func Less(a, b Event) bool {
 	if a.TimeMs != b.TimeMs {
 		return a.TimeMs < b.TimeMs

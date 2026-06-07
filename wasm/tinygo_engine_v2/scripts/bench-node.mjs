@@ -1,3 +1,5 @@
+// Node benchmark：重复 instantiate/调用导出，统计 Wasm 加载与调用延迟。
+// 非正式宿主；与 bench_wasm.mjs 配合可用于 CI 性能 smoke，结果不代表浏览器 Worker 口径。
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, isAbsolute, resolve } from "node:path";
