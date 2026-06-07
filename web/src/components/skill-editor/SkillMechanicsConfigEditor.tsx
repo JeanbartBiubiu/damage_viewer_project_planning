@@ -1,15 +1,25 @@
-import { Alert, Button, Empty, Input, InputNumber, Select, Space, Typography } from '@arco-design/web-react';
+import { Alert, Button, Empty, Input, InputNumber, Select, Space, Tag, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { appendCurrentDamageTypeOption, type DamageTypeOption } from '../../pages/admin/resources/shared/damageTypes';
+import type { JsonObject } from '../../types/api';
 import { AttributeKeySelector } from '../AttributeKeySelector';
-import type { SkillActionRow, SkillModifierStatRow, SkillStackRow, SkillTriggerRow } from './skillModels';
-import { createEmptyActionRow, createEmptyModifierStatRow, createEmptyStackRow, createEmptyTriggerRow, parseActionJson } from './skillModels';
+import type { SkillActionRow, SkillDpsPassiveSummaryRow, SkillModifierStatRow, SkillStackRow, SkillTriggerRow } from './skillModels';
+import {
+  createEmptyActionRow,
+  createEmptyModifierStatRow,
+  createEmptyStackRow,
+  createEmptyTriggerRow,
+  parseActionJson,
+  summarizeDpsPassiveEffects,
+  validateDpsPassiveEffects
+} from './skillModels';
 
 type SkillMechanicsConfigEditorProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
   damageTypeOptions: DamageTypeOption[];
+  root: JsonObject;
   version: number;
   stacks: SkillStackRow[];
   rows: SkillTriggerRow[];
@@ -18,6 +28,8 @@ type SkillMechanicsConfigEditorProps = {
   onStacksChange: (rows: SkillStackRow[]) => void;
   onChange: (rows: SkillTriggerRow[]) => void;
 };
+
+const DPS_PASSIVE_OWNER_GROUP_ORDER = ['attacker', 'target', 'other'] as const;
 
 const EVENT_OPTIONS = [
   { label: '施法时（on_spell_cast）', value: 'on_spell_cast' },
@@ -88,11 +100,35 @@ function RawActionFallbackEditor({
   );
 }
 
+function groupDpsPassiveRowsByOwnerRole(rows: SkillDpsPassiveSummaryRow[]): Map<string, SkillDpsPassiveSummaryRow[]> {
+  const groups = new Map<string, SkillDpsPassiveSummaryRow[]>();
+  rows.forEach((row) => {
+    const normalizedOwnerRole = row.ownerRole.replace('(default)', '').trim() || 'attacker';
+    const groupKey =
+      normalizedOwnerRole === 'attacker' || normalizedOwnerRole === 'target' ? normalizedOwnerRole : 'other';
+    const bucket = groups.get(groupKey) ?? [];
+    bucket.push(row);
+    groups.set(groupKey, bucket);
+  });
+  return groups;
+}
+
+function formatDpsPassiveOwnerGroupLabel(groupKey: string): string {
+  if (groupKey === 'attacker') {
+    return 'attacker';
+  }
+  if (groupKey === 'target') {
+    return 'target';
+  }
+  return 'other';
+}
+
 export function SkillMechanicsConfigEditor({
   apiBaseUrl,
   selectedGameId,
   adminToken,
   damageTypeOptions,
+  root,
   version,
   stacks,
   rows,
@@ -102,6 +138,11 @@ export function SkillMechanicsConfigEditor({
   onChange
 }: SkillMechanicsConfigEditorProps) {
   const defaultDamageTypeValue = damageTypeOptions[0]?.value ?? 'magic';
+  const dpsPassiveSummaryRows = useMemo(() => summarizeDpsPassiveEffects(root), [root]);
+  const dpsPassiveIssues = useMemo(() => validateDpsPassiveEffects(root), [root]);
+  const dpsPassiveErrors = useMemo(() => dpsPassiveIssues.filter((issue) => issue.severity === 'error'), [dpsPassiveIssues]);
+  const dpsPassiveWarnings = useMemo(() => dpsPassiveIssues.filter((issue) => issue.severity === 'warning'), [dpsPassiveIssues]);
+  const dpsPassiveGroups = useMemo(() => groupDpsPassiveRowsByOwnerRole(dpsPassiveSummaryRows), [dpsPassiveSummaryRows]);
   const stackOptions = useMemo(
     () =>
       stacks
@@ -699,6 +740,147 @@ export function SkillMechanicsConfigEditor({
           </div>
         ))
       )}
+
+      <div style={{ border: '1px solid var(--color-border-2)', borderRadius: 8, padding: 12 }}>
+        <Space direction="vertical" size={12} style={{ width: '100%' }}>
+          <div>
+            <Typography.Text bold>DPS Passive 摘要</Typography.Text>
+            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+              只读展示 mechanicsConfig.dpsPassiveEffects；完整编辑请使用下方 mechanicsConfig JSON。
+            </Typography.Text>
+          </div>
+
+          {dpsPassiveErrors.length > 0 ? (
+            <Alert
+              type="error"
+              content={
+                <div>
+                  {dpsPassiveErrors.map((issue) => (
+                    <div key={`${issue.path}:${issue.message}`}>
+                      {issue.path}: {issue.message}
+                    </div>
+                  ))}
+                </div>
+              }
+            />
+          ) : null}
+
+          {dpsPassiveWarnings.length > 0 ? (
+            <Alert
+              type="warning"
+              content={
+                <div>
+                  {dpsPassiveWarnings.map((issue) => (
+                    <div key={`${issue.path}:${issue.message}`}>
+                      {issue.path}: {issue.message}
+                    </div>
+                  ))}
+                </div>
+              }
+            />
+          ) : null}
+
+          {dpsPassiveSummaryRows.length === 0 ? (
+            <Empty description="未配置 dpsPassiveEffects；旧技能可不填，完整编辑请使用 mechanicsConfig JSON。" />
+          ) : (
+            DPS_PASSIVE_OWNER_GROUP_ORDER.filter((groupKey) => (dpsPassiveGroups.get(groupKey) ?? []).length > 0).map((groupKey) => (
+              <div key={groupKey}>
+                <Typography.Text bold style={{ display: 'block', marginBottom: 8 }}>
+                  {formatDpsPassiveOwnerGroupLabel(groupKey)}（{(dpsPassiveGroups.get(groupKey) ?? []).length}）
+                </Typography.Text>
+                <Space direction="vertical" size={10} style={{ width: '100%' }}>
+                  {(dpsPassiveGroups.get(groupKey) ?? []).map((summaryRow) => (
+                    <div
+                      key={`${summaryRow.passiveId}-${summaryRow.index}`}
+                      style={{ border: '1px dashed var(--color-border-3)', borderRadius: 8, padding: 12 }}
+                    >
+                      <Space direction="vertical" size={8} style={{ width: '100%' }}>
+                        <div className="crud-form-grid">
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              passiveId
+                            </Typography.Text>
+                            <Typography.Text>{summaryRow.passiveId}</Typography.Text>
+                          </div>
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              source
+                            </Typography.Text>
+                            <Typography.Text>{summaryRow.source}</Typography.Text>
+                          </div>
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              ownerRole
+                            </Typography.Text>
+                            <Typography.Text>{summaryRow.ownerRole}</Typography.Text>
+                          </div>
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              trigger.event
+                            </Typography.Text>
+                            <Typography.Text>{summaryRow.triggerEvent || '(missing)'}</Typography.Text>
+                          </div>
+                        </div>
+
+                        {summaryRow.matcherSummary ? (
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              matcher
+                            </Typography.Text>
+                            <Typography.Text>{summaryRow.matcherSummary}</Typography.Text>
+                          </div>
+                        ) : null}
+
+                        <div className="crud-form-grid">
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              operation kinds
+                            </Typography.Text>
+                            <Typography.Text>
+                              {summaryRow.operationKinds.length > 0 ? summaryRow.operationKinds.join(', ') : '(none)'}
+                            </Typography.Text>
+                          </div>
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              targetRoles
+                            </Typography.Text>
+                            <Typography.Text>
+                              {summaryRow.targetRoles.length > 0 ? summaryRow.targetRoles.join(', ') : '(none)'}
+                            </Typography.Text>
+                          </div>
+                          {summaryRow.priority !== null ? (
+                            <div>
+                              <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                                priority
+                              </Typography.Text>
+                              <Typography.Text>{summaryRow.priority}</Typography.Text>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        {summaryRow.warnings.length > 0 ? (
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                              warnings
+                            </Typography.Text>
+                            <Space wrap size={6}>
+                              {summaryRow.warnings.map((warning) => (
+                                <Tag key={warning} color="orangered">
+                                  {warning}
+                                </Tag>
+                              ))}
+                            </Space>
+                          </div>
+                        ) : null}
+                      </Space>
+                    </div>
+                  ))}
+                </Space>
+              </div>
+            ))
+          )}
+        </Space>
+      </div>
     </Space>
   );
 }
