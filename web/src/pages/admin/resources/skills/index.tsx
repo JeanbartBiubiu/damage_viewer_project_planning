@@ -1,6 +1,10 @@
 import { Alert } from '@arco-design/web-react';
 import { useMemo } from 'react';
-import { createEmptyMechanicsConfig } from '../../../../components/skill-editor/skillModels';
+import {
+  createEmptyMechanicsConfig,
+  hasDpsPassiveValidationErrors,
+  validateDpsPassiveEffects
+} from '../../../../components/skill-editor/skillModels';
 import { Panel } from '../../../../components/Panel';
 import { getSkills, putSkill, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import type { JsonObject, JsonValue } from '../../../../types/api';
@@ -142,6 +146,14 @@ async function saveSkillsRecord(
 
   const mechanicsConfigText = formData.mechanicsConfigText.trim() ? formData.mechanicsConfigText : createEmptyMechanicsConfig();
   const mechanicsConfig = parseJsonObjectText(mechanicsConfigText, 'mechanicsConfig');
+  const dpsPassiveIssues = validateDpsPassiveEffects(mechanicsConfig);
+  if (hasDpsPassiveValidationErrors(dpsPassiveIssues)) {
+    const messages = dpsPassiveIssues
+      .filter((issue) => issue.severity === 'error')
+      .map((issue) => `${issue.path}: ${issue.message}`)
+      .join('；');
+    throw new Error(`mechanicsConfig 校验失败：${messages}`);
+  }
   payload.mechanicsConfig = mechanicsConfig;
 
   const mvpExtensions = parseJsonObjectText(formData.mvpExtensionsText, 'mvpExtensions');
