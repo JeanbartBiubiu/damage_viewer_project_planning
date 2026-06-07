@@ -111,6 +111,16 @@ public class PostgresWriteStore {
     );
     private static final Set<String> DISPLACEMENT_KINDS = Set.of("none", "knockup", "knockback", "pull", "forced_dash");
     private static final Set<String> PROGRESSION_KINDS = Set.of("LEVEL", "STAR");
+    private static final Set<String> DPS_PASSIVE_OWNER_ROLES = Set.of("attacker", "target");
+    private static final Set<String> DPS_PASSIVE_TRIGGER_EVENTS = Set.of(
+        "on_basic_attack_hit",
+        "on_spell_hit",
+        "on_hit",
+        "on_damage_dealt",
+        "on_damage_taken",
+        "dot_tick"
+    );
+    private static final Set<String> DPS_PASSIVE_TARGET_ROLES = Set.of("attacker", "target");
 
     private final HeroesMapper heroesMapper;
     private final SkillsMapper skillsMapper;
@@ -1932,6 +1942,7 @@ public class PostgresWriteStore {
         if (!mechanicsConfig.path("triggers").isArray()) {
             throw semantic("mechanicsConfig.triggers is required and must be array", Map.of("path", "/skills/mechanicsConfig/triggers"));
         }
+        validateDpsPassiveEffects((ObjectNode) mechanicsConfig, "/skills/mechanicsConfig", true);
     }
 
     private void validateFormulaProfileForPublish(ObjectNode formulaProfile) {
@@ -2864,6 +2875,110 @@ public class PostgresWriteStore {
         if (!config.path("triggers").isArray()) {
             throw badRequest("mechanicsConfig.triggers is required and must be array", Map.of("path", "/mechanicsConfig/triggers"));
         }
+        validateDpsPassiveEffects(config, "/mechanicsConfig", false);
+    }
+
+    private void validateDpsPassiveEffects(ObjectNode config, String pathPrefix, boolean forPublish) {
+        JsonNode dpsPassiveEffects = config.get("dpsPassiveEffects");
+        if (dpsPassiveEffects == null || dpsPassiveEffects.isNull()) {
+            return;
+        }
+
+        String basePath = pathPrefix + "/dpsPassiveEffects";
+        if (!dpsPassiveEffects.isArray()) {
+            throw dpsPassiveValidationError(
+                forPublish,
+                "mechanicsConfig.dpsPassiveEffects must be array",
+                Map.of("path", basePath)
+            );
+        }
+
+        for (int passiveIndex = 0; passiveIndex < dpsPassiveEffects.size(); passiveIndex++) {
+            validateDpsPassiveEffect(dpsPassiveEffects.get(passiveIndex), basePath, passiveIndex, forPublish);
+        }
+    }
+
+    private void validateDpsPassiveEffect(JsonNode passive, String basePath, int passiveIndex, boolean forPublish) {
+        String passivePath = basePath + "/" + passiveIndex;
+        if (passive == null || !passive.isObject()) {
+            throw dpsPassiveValidationError(
+                forPublish,
+                "mechanicsConfig.dpsPassiveEffects entry must be object",
+                Map.of("path", passivePath)
+            );
+        }
+
+        JsonNode ownerRole = passive.get("ownerRole");
+        if (ownerRole != null && !ownerRole.isNull()) {
+            if (!ownerRole.isTextual() || !DPS_PASSIVE_OWNER_ROLES.contains(ownerRole.asText())) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects ownerRole invalid",
+                    Map.of("path", passivePath + "/ownerRole", "ownerRole", ownerRole.asText())
+                );
+            }
+        }
+
+        JsonNode trigger = passive.get("trigger");
+        if (trigger != null && !trigger.isNull()) {
+            if (!trigger.isObject()) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects trigger must be object",
+                    Map.of("path", passivePath + "/trigger")
+                );
+            }
+            JsonNode triggerEvent = trigger.get("event");
+            if (triggerEvent != null && !triggerEvent.isNull()) {
+                if (!triggerEvent.isTextual() || !DPS_PASSIVE_TRIGGER_EVENTS.contains(triggerEvent.asText())) {
+                    throw dpsPassiveValidationError(
+                        forPublish,
+                        "mechanicsConfig.dpsPassiveEffects trigger.event invalid",
+                        Map.of("path", passivePath + "/trigger/event", "event", triggerEvent.asText())
+                    );
+                }
+            }
+        }
+
+        JsonNode operations = passive.get("operations");
+        if (operations != null && !operations.isNull()) {
+            if (!operations.isArray()) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects operations must be array",
+                    Map.of("path", passivePath + "/operations")
+                );
+            }
+            for (int operationIndex = 0; operationIndex < operations.size(); operationIndex++) {
+                validateDpsPassiveOperation(operations.get(operationIndex), passivePath, operationIndex, forPublish);
+            }
+        }
+    }
+
+    private void validateDpsPassiveOperation(JsonNode operation, String passivePath, int operationIndex, boolean forPublish) {
+        String operationPath = passivePath + "/operations/" + operationIndex;
+        if (operation == null || !operation.isObject()) {
+            throw dpsPassiveValidationError(
+                forPublish,
+                "mechanicsConfig.dpsPassiveEffects operation must be object",
+                Map.of("path", operationPath)
+            );
+        }
+
+        JsonNode targetRole = operation.get("targetRole");
+        if (targetRole != null && !targetRole.isNull()) {
+            if (!targetRole.isTextual() || !DPS_PASSIVE_TARGET_ROLES.contains(targetRole.asText())) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects operation targetRole invalid",
+                    Map.of("path", operationPath + "/targetRole", "targetRole", targetRole.asText())
+                );
+            }
+        }
+    }
+
+    private ApiException dpsPassiveValidationError(boolean forPublish, String message, Map<String, Object> details) {
+        return forPublish ? semantic(message, details) : badRequest(message, details);
     }
 
     private String normalizeAttributeDefinitionValueKind(ObjectNode attributeDefinition) {
