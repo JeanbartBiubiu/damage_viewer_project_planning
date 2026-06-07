@@ -472,6 +472,105 @@ export function parseActionJson(text: string): SkillActionRow {
   return parseActionRow(parsed);
 }
 
+export type SkillDpsPassiveSummaryRow = {
+  index: number;
+  passiveId: string;
+  source: string;
+  ownerRole: string;
+  triggerEvent: string;
+  matcherSummary: string;
+  priority: number | null;
+  operationKinds: string[];
+  targetRoles: string[];
+  warnings: string[];
+};
+
+export type SkillDpsPassiveValidationIssue = {
+  severity: 'error' | 'warning';
+  path: string;
+  message: string;
+};
+
+const DPS_PASSIVE_TRIGGER_EVENTS = new Set([
+  'on_basic_attack_hit',
+  'on_spell_hit',
+  'on_hit',
+  'on_damage_dealt',
+  'on_damage_taken',
+  'dot_tick'
+]);
+
+const DPS_PASSIVE_OPERATION_KINDS = new Set([
+  'damage',
+  'apply_dot',
+  'add_stack',
+  'trigger_damage_at_stacks',
+  'stat_modifier',
+  'damage_modifier',
+  'phantom_hit_on_hit_repeat',
+  'energized_charge_check',
+  'energized_charge_consume',
+  'energized_charge_gain',
+  'next_attack_state_consume'
+]);
+
+const DPS_PASSIVE_OWNER_ROLES = new Set(['attacker', 'target']);
+
+export function summarizeDpsPassiveEffects(root: JsonObject): SkillDpsPassiveSummaryRow[] {
+  if (!isPlainObject(root)) {
+    return [];
+  }
+
+  const rawPassives = root.dpsPassiveEffects;
+  if (!Array.isArray(rawPassives)) {
+    return [];
+  }
+
+  return rawPassives.map((passive, index) => summarizeDpsPassiveRow(passive, index));
+}
+
+export function validateDpsPassiveEffects(root: JsonObject): SkillDpsPassiveValidationIssue[] {
+  const issues: SkillDpsPassiveValidationIssue[] = [];
+
+  if (!isPlainObject(root)) {
+    pushDpsPassiveIssue(issues, 'error', '/mechanicsConfig', 'mechanicsConfig 必须是 JSON 对象。');
+    return issues;
+  }
+
+  if (root.version !== 1) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      '/mechanicsConfig/version',
+      `version 必须为 1，当前为 ${String(root.version)}。`
+    );
+  }
+
+  if (!('triggers' in root) || !Array.isArray(root.triggers)) {
+    pushDpsPassiveIssue(issues, 'error', '/mechanicsConfig/triggers', 'triggers 必须存在且为数组。');
+  }
+
+  if (!('dpsPassiveEffects' in root) || root.dpsPassiveEffects === undefined) {
+    return issues;
+  }
+
+  const passives = root.dpsPassiveEffects;
+  if (!Array.isArray(passives)) {
+    pushDpsPassiveIssue(issues, 'error', '/mechanicsConfig/dpsPassiveEffects', 'dpsPassiveEffects 必须是数组。');
+    return issues;
+  }
+
+  passives.forEach((passive, index) => {
+    validateDpsPassiveEffectEntry(issues, passive, index);
+  });
+
+  return issues;
+}
+
+export function hasDpsPassiveValidationErrors(issues: SkillDpsPassiveValidationIssue[]): boolean {
+  return issues.some((issue) => issue.severity === 'error');
+}
+
 export function inferSkillShapeSummary(params: JsonObject | undefined, mechanicsConfig: JsonObject | undefined): string {
   const hasFlat = Boolean(params && LEGACY_FLAT_PARAM_KEYS.some((key) => params[key] !== undefined));
   const hasVars = Boolean(params && isPlainObject(params.vars) && Object.keys(params.vars).length > 0);
@@ -890,4 +989,250 @@ function asText(value: unknown): string {
 
 function isPlainObject(value: unknown): value is JsonObject {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function pushDpsPassiveIssue(
+  issues: SkillDpsPassiveValidationIssue[],
+  severity: 'error' | 'warning',
+  path: string,
+  message: string
+) {
+  issues.push({ severity, path, message });
+}
+
+function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiveSummaryRow {
+  const warnings: string[] = [];
+
+  if (!isPlainObject(passive)) {
+    return {
+      index,
+      passiveId: `#${index}`,
+      source: 'unknown',
+      ownerRole: 'attacker(default)',
+      triggerEvent: '',
+      matcherSummary: '',
+      priority: null,
+      operationKinds: [],
+      targetRoles: [],
+      warnings: ['passive 不是对象']
+    };
+  }
+
+  const passiveId = asText(passive.passiveId) || asText(passive.effectId) || `#${index}`;
+  const source = formatDpsPassiveSource(passive);
+  const ownerRoleRaw = asText(passive.ownerRole);
+  if (!ownerRoleRaw) {
+    warnings.push('ownerRole 缺失，将按旧兼容默认 attacker');
+  }
+  const ownerRole = ownerRoleRaw || 'attacker(default)';
+
+  const trigger = isPlainObject(passive.trigger) ? passive.trigger : null;
+  const triggerEvent = asText(trigger?.event) || asText(passive.triggerKind);
+  const matcherSummary = trigger && isPlainObject(trigger.matcher) ? summarizeDpsPassiveMatcher(trigger.matcher) : '';
+
+  const priority = typeof passive.priority === 'number' && Number.isFinite(passive.priority) ? passive.priority : null;
+
+  const operations = Array.isArray(passive.operations) ? passive.operations : [];
+  if (!Array.isArray(passive.operations)) {
+    if (passive.operations !== undefined) {
+      warnings.push('operations 不是数组');
+    } else {
+      warnings.push('operations 缺失');
+    }
+  } else if (operations.length === 0) {
+    warnings.push('operations 为空');
+  }
+
+  const operationKinds: string[] = [];
+  const targetRoles: string[] = [];
+
+  operations.forEach((operation, operationIndex) => {
+    if (!isPlainObject(operation)) {
+      warnings.push(`operations[${operationIndex}] 不是对象`);
+      return;
+    }
+
+    const kind = asText(operation.kind);
+    operationKinds.push(kind || '(missing kind)');
+    if (kind && !DPS_PASSIVE_OPERATION_KINDS.has(kind)) {
+      warnings.push(`operations[${operationIndex}].kind=${kind} 为未知 operation kind`);
+    }
+
+    const targetRole = asText(operation.targetRole);
+    if (targetRole) {
+      targetRoles.push(targetRole);
+    }
+
+    if (kind === 'damage_modifier' && operation.critOnly === true) {
+      warnings.push(
+        `operations[${operationIndex}] damage_modifier.critOnly=true：当前 DPS 缺少真实 crit context 时会被 blocked，不能宣称兰顿已通过`
+      );
+    }
+  });
+
+  return {
+    index,
+    passiveId,
+    source,
+    ownerRole,
+    triggerEvent,
+    matcherSummary,
+    priority,
+    operationKinds,
+    targetRoles,
+    warnings
+  };
+}
+
+function validateDpsPassiveEffectEntry(issues: SkillDpsPassiveValidationIssue[], passive: unknown, index: number) {
+  const basePath = `/mechanicsConfig/dpsPassiveEffects/${index}`;
+
+  if (!isPlainObject(passive)) {
+    pushDpsPassiveIssue(issues, 'error', basePath, 'passive 必须是对象。');
+    return;
+  }
+
+  const ownerRole = asText(passive.ownerRole);
+  if (ownerRole && !DPS_PASSIVE_OWNER_ROLES.has(ownerRole)) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/ownerRole`,
+      `ownerRole 必须是 attacker 或 target，当前为 ${ownerRole}。`
+    );
+  } else if (!ownerRole) {
+    pushDpsPassiveIssue(
+      issues,
+      'warning',
+      `${basePath}/ownerRole`,
+      'ownerRole 缺失，将按旧兼容默认 attacker。'
+    );
+  }
+
+  if ('trigger' in passive && passive.trigger !== undefined) {
+    if (!isPlainObject(passive.trigger)) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/trigger`, 'trigger 必须是对象。');
+    } else {
+      const event = asText(passive.trigger.event);
+      if (event && !DPS_PASSIVE_TRIGGER_EVENTS.has(event)) {
+        pushDpsPassiveIssue(
+          issues,
+          'error',
+          `${basePath}/trigger/event`,
+          `trigger.event 不受支持：${event}。`
+        );
+      }
+    }
+  }
+
+  if ('operations' in passive && passive.operations !== undefined) {
+    if (!Array.isArray(passive.operations)) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/operations`, 'operations 必须是数组。');
+      return;
+    }
+
+    if (passive.operations.length === 0) {
+      pushDpsPassiveIssue(issues, 'warning', `${basePath}/operations`, 'operations 为空。');
+    }
+
+    passive.operations.forEach((operation, operationIndex) => {
+      validateDpsPassiveOperationEntry(issues, operation, index, operationIndex);
+    });
+  } else {
+    pushDpsPassiveIssue(issues, 'warning', `${basePath}/operations`, 'operations 缺失。');
+  }
+}
+
+function validateDpsPassiveOperationEntry(
+  issues: SkillDpsPassiveValidationIssue[],
+  operation: unknown,
+  passiveIndex: number,
+  operationIndex: number
+) {
+  const basePath = `/mechanicsConfig/dpsPassiveEffects/${passiveIndex}/operations/${operationIndex}`;
+
+  if (!isPlainObject(operation)) {
+    pushDpsPassiveIssue(issues, 'error', basePath, 'operation 必须是对象。');
+    return;
+  }
+
+  const kind = asText(operation.kind);
+  if (kind && !DPS_PASSIVE_OPERATION_KINDS.has(kind)) {
+    pushDpsPassiveIssue(issues, 'warning', `${basePath}/kind`, `未知 operation kind：${kind}。`);
+  }
+
+  const targetRole = asText(operation.targetRole);
+  if (targetRole && !DPS_PASSIVE_OWNER_ROLES.has(targetRole)) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/targetRole`,
+      `targetRole 必须是 attacker 或 target，当前为 ${targetRole}。`
+    );
+  }
+
+  if (kind === 'damage_modifier' && operation.critOnly === true) {
+    pushDpsPassiveIssue(
+      issues,
+      'warning',
+      `${basePath}/critOnly`,
+      'damage_modifier.critOnly=true：当前 DPS 缺少真实 crit context 时会被 blocked，不能宣称兰顿已通过。'
+    );
+  }
+}
+
+function formatDpsPassiveSource(passive: JsonObject): string {
+  const parts = [asText(passive.sourceCategory), asText(passive.sourceType), asText(passive.sourceId)].filter(Boolean);
+  return parts.length > 0 ? parts.join('/') : 'unknown';
+}
+
+function summarizeDpsPassiveMatcher(matcher: JsonObject): string {
+  const parts = [
+    formatDpsPassiveMatcherField('damageTypes', matcher.damageTypes ?? matcher.damageType),
+    formatDpsPassiveMatcherField('actionTypes', matcher.actionTypes),
+    formatDpsPassiveMatcherField('effectTypes', matcher.effectTypes),
+    formatDpsPassiveMatcherField('effectTags', matcher.effectTags),
+    formatDpsPassiveMatcherField('sourceTypes', matcher.sourceTypes ?? matcher.sourceType),
+    formatDpsPassiveMatcherField('sourceCategories', matcher.sourceCategories),
+    formatDpsPassiveMatcherField('procScopes', matcher.procScopes ?? matcher.procScope),
+    matcher.includePhantom === true ? 'includePhantom=true' : null,
+    matcher.excludePhantom === true ? 'excludePhantom=true' : null
+  ].filter((part): part is string => Boolean(part));
+
+  return parts.join('; ');
+}
+
+function formatDpsPassiveMatcherField(label: string, value: unknown): string | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed ? `${label}=${trimmed}` : null;
+  }
+
+  if (Array.isArray(value)) {
+    const normalized = value.map((entry) => String(entry).trim()).filter(Boolean);
+    return normalized.length > 0 ? `${label}=${normalized.join('|')}` : null;
+  }
+
+  if (isPlainObject(value)) {
+    const nested: string[] = [];
+    if (Array.isArray(value.include)) {
+      const include = value.include.map((entry) => String(entry).trim()).filter(Boolean);
+      if (include.length > 0) {
+        nested.push(`include:${include.join('|')}`);
+      }
+    }
+    if (Array.isArray(value.exclude)) {
+      const exclude = value.exclude.map((entry) => String(entry).trim()).filter(Boolean);
+      if (exclude.length > 0) {
+        nested.push(`exclude:${exclude.join('|')}`);
+      }
+    }
+    return nested.length > 0 ? `${label}=${nested.join(';')}` : null;
+  }
+
+  return null;
 }
