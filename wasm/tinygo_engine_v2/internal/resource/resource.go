@@ -1,4 +1,6 @@
-// 本文件实现资源运行时底座，负责 current/max、spend、refund、regen 和 clamp。
+// 资源运行时：current/max，spend/refund 带 clamp。
+//
+// 不变量：CanCast/canSpendActionCosts 先查再 commit；Spend 失败不得部分扣减。
 package resource
 
 import "math"

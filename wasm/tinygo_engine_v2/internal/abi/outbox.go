@@ -1,4 +1,7 @@
-// 本文件实现 Wasm outbox 缓冲区，用于把 ready、log、sample、done、error 等记录返回给宿主。
+// 固定容量 outbox：宿主经 engine_outbox_ptr/len 读取，WriteJSON 追加 frame。
+//
+// 不变量：done/error/snapshot/action_snapshot 为优先帧，溢出时可清空缓冲重试；
+// tick/log/sample 可丢弃（dropped 计数）。Clear 后 dropped 归零。
 package abi
 
 import (

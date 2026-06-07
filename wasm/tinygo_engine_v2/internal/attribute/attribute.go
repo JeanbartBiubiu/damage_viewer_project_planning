@@ -1,4 +1,7 @@
-// 本文件实现 V2 属性运行时底座，负责 base/current/max/resolved、dirty 刷新和 modifier 聚合。
+// 属性运行时：base/current/max/resolved + dirty 惰性 Resolve。
+//
+// 不变量：公式通过 ReadAttr 读 resolved；modifier 过期在 ResolveAll 前处理；
+// runtime 改属性应经 Store API，避免直接改 Slot 破坏 Dirty 语义。
 package attribute
 
 import (
@@ -47,6 +50,7 @@ type Slot struct {
 	Modifiers  []Modifier
 }
 
+// Store 按 compile 后 AttrIndex 顺序持有 Slot；Index 仅用于按字符串 id 查找。
 type Store struct {
 	Slots []Slot
 	Index map[string]uint16
