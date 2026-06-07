@@ -90,7 +90,7 @@ export function ItemRecipeSelector({
         showSearch
         allowClear
         maxTagCount={3}
-        placeholder="閫夋嫨鍚堟垚閰嶆柟瀛愪欢"
+        placeholder="选择合成配方子件"
         value={value}
         disabled={disabled || !selectedGameId || !token}
         loading={loading}
@@ -99,10 +99,10 @@ export function ItemRecipeSelector({
         filterOption={filterEntitySelectOption}
       />
 
-      {error ? <Alert type="error" content={`瑁呭鍒楄〃鍔犺浇澶辫触锛?{error}`} style={{ marginTop: 8 }} /> : null}
+      {error ? <Alert type="error" content={`装备列表加载失败：${error}`} style={{ marginTop: 8 }} /> : null}
       {!error ? (
         <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
-          鍙閫夊涓瓙浠讹紝淇濆瓨鏃跺洖鍐?`recipeIds` 鏁扮粍銆?
+          可多选多个子件，保存时回写 `recipeIds` 数组。
         </Typography.Text>
       ) : null}
     </div>
