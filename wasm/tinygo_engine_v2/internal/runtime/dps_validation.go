@@ -49,13 +49,18 @@ func validateDPSCurve(
 	if len(bundle.Actions) == 0 {
 		reasons = append(reasons, "compiled bundle is required for single_attacker_dps")
 	}
-	if len(curve.ResolvedSnapshot.BasicAttackActions) == 0 {
+	activeRefs := resolvedDPSActiveActions(curve.ResolvedSnapshot)
+	if len(activeRefs) == 0 {
 		reasons = append(reasons, "missing_basic_attack_action")
 	}
 	attackerTemplateID := nonEmpty(attacker.TemplateID, "dps_attacker")
-	for _, ref := range curve.ResolvedSnapshot.BasicAttackActions {
+	for _, ref := range activeRefs {
 		if strings.TrimSpace(ref.ActionID) == "" {
-			reasons = append(reasons, "basicAttackActions.actionId is required")
+			if len(curve.ResolvedSnapshot.ActiveActions) > 0 {
+				reasons = append(reasons, "activeActions.actionId is required")
+			} else {
+				reasons = append(reasons, "basicAttackActions.actionId is required")
+			}
 			continue
 		}
 		actionIndex, ok := bundle.ActionIndex[ref.ActionID]
@@ -67,8 +72,15 @@ func validateDPSCurve(
 			reasons = append(reasons, "action_not_owned:"+ref.ActionID)
 			continue
 		}
-		if !compiledActionHasBasicAttackClassifier(bundle, actionIndex) {
-			reasons = append(reasons, "invalid_basic_attack_classifier:"+ref.ActionID)
+		kind := resolveActiveActionKind(bundle, ref, actionIndex)
+		switch kind {
+		case dpsActiveActionKindBasicAttack:
+			if !compiledActionHasBasicAttackClassifier(bundle, actionIndex) {
+				reasons = append(reasons, "invalid_basic_attack_classifier:"+ref.ActionID)
+			}
+		case dpsActiveActionKindSkill:
+		default:
+			reasons = append(reasons, "unsupported_active_action_kind:"+kind)
 		}
 	}
 	if attacker.ActorID == "" {
