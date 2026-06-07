@@ -7,6 +7,7 @@ import { SkillParamsVarsEditor } from '../../../../components/skill-editor/Skill
 import { SkillSeriesEditor } from '../../../../components/skill-editor/SkillSeriesEditor';
 import { SkillTimingProfileEditor } from '../../../../components/skill-editor/SkillTimingProfileEditor';
 import {
+  hasDpsPassiveValidationErrors,
   inferSkillShapeSummary,
   parseFlatSkillParams,
   parseSkillParams,
@@ -17,7 +18,8 @@ import {
   stringifyMechanicsConfig,
   stringifySkillParams,
   stringifySkillValueRows,
-  stringifyTimingProfile
+  stringifyTimingProfile,
+  validateDpsPassiveEffects
 } from '../../../../components/skill-editor/skillModels';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import type { TypeDefinition } from '../../../../types/api';
@@ -109,6 +111,22 @@ export function SkillsModal({
     [paramsState.root, mechanicsConfigState.root]
   );
 
+  const dpsPassiveIssues = useMemo(() => {
+    if (mechanicsConfigState.error) {
+      return [];
+    }
+    return validateDpsPassiveEffects(mechanicsConfigState.root);
+  }, [mechanicsConfigState.error, mechanicsConfigState.root]);
+
+  const hasBlockingDpsPassiveErrors = hasDpsPassiveValidationErrors(dpsPassiveIssues);
+  const saveBlocked =
+    !!resourceCostsState.error ||
+    !!cooldownsState.error ||
+    !!paramsState.error ||
+    !!timingProfileState.error ||
+    !!mechanicsConfigState.error ||
+    hasBlockingDpsPassiveErrors;
+
   return (
     <Modal
       title={mode === 'create' ? '新增技能' : mode === 'edit' ? '编辑技能' : '查看技能'}
@@ -118,7 +136,7 @@ export function SkillsModal({
         <Space>
           <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
-            <Button type="primary" loading={saving} onClick={() => void onSubmit()}>
+            <Button type="primary" loading={saving} disabled={saveBlocked} onClick={() => void onSubmit()}>
               保存
             </Button>
           ) : null}
@@ -242,6 +260,7 @@ export function SkillsModal({
             selectedGameId={selectedGameId}
             adminToken={adminToken}
             damageTypeOptions={damageTypeOptions}
+            root={mechanicsConfigState.root}
             version={mechanicsConfigState.version}
             stacks={mechanicsConfigState.stacks}
             rows={mechanicsConfigState.rows}
