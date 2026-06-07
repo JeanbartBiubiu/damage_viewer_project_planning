@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,9 +16,44 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import xyz.game.datamanage.mapper.AttributeDefinitionsMapper;
+import xyz.game.datamanage.mapper.CoefficientBucketsMapper;
+import xyz.game.datamanage.mapper.ControlStateProfilesMapper;
+import xyz.game.datamanage.mapper.EditLogMapper;
+import xyz.game.datamanage.mapper.FormulaBindingsMapper;
+import xyz.game.datamanage.mapper.FormulaProfilesMapper;
+import xyz.game.datamanage.mapper.GameProgressionSchemaMapper;
+import xyz.game.datamanage.mapper.GameVersionsMapper;
+import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.HeroesMapper;
+import xyz.game.datamanage.mapper.ImagesMapper;
+import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
+import xyz.game.datamanage.mapper.ItemsMapper;
+import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
+import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.SkillMountsMapper;
+import xyz.game.datamanage.mapper.SkillsMapper;
+import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
+import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
+import xyz.game.datamanage.mapper.StatusDefinitionsMapper;
+import xyz.game.datamanage.mapper.StatusModifierGroupsMapper;
+import xyz.game.datamanage.mapper.StatusPeriodicHpEffectsMapper;
+import xyz.game.datamanage.mapper.TypeRelationsMapper;
+import xyz.game.datamanage.mapper.TypesMapper;
+import xyz.game.datamanage.service.PostgresJsonSupport;
+import xyz.game.datamanage.service.PostgresReadStore;
+import xyz.game.datamanage.service.PostgresWriteStore;
+import xyz.game.datamanage.service.DefaultBasicAttackProvisioner;
+import xyz.game.datamanage.support.error.ApiException;
 
 class KatarinaMvpImportMainTest {
 
@@ -545,5 +584,208 @@ class KatarinaMvpImportMainTest {
             }
         }
         throw new AssertionError("Cannot find operation where kind=" + kind);
+    }
+
+    @Nested
+    @ExtendWith(MockitoExtension.class)
+    class DpsPassiveEffectsValidationTest {
+
+        private static final Path BATCH_P_SEED_FILE = Path.of(
+            "..",
+            "..",
+            "\u6700\u5c0f\u9a8c\u8bc1",
+            "V2-Batch-P-target-equipment-linked-effects.seed.json"
+        ).toAbsolutePath().normalize();
+
+        @Mock
+        private HeroesMapper heroesMapper;
+        @Mock
+        private SkillsMapper skillsMapper;
+        @Mock
+        private SkillMountsMapper skillMountsMapper;
+        @Mock
+        private DefaultBasicAttackProvisioner defaultBasicAttackProvisioner;
+        @Mock
+        private ItemsMapper itemsMapper;
+        @Mock
+        private ItemStatModifiersMapper itemStatModifiersMapper;
+        @Mock
+        private FormulaProfilesMapper formulaProfilesMapper;
+        @Mock
+        private FormulaBindingsMapper formulaBindingsMapper;
+        @Mock
+        private CoefficientBucketsMapper coefficientBucketsMapper;
+        @Mock
+        private StatusActionControlRulesMapper statusActionControlRulesMapper;
+        @Mock
+        private StatusDefinitionsMapper statusDefinitionsMapper;
+        @Mock
+        private StatusModifierGroupsMapper statusModifierGroupsMapper;
+        @Mock
+        private StatusAttributeModifiersMapper statusAttributeModifiersMapper;
+        @Mock
+        private StatusPeriodicHpEffectsMapper statusPeriodicHpEffectsMapper;
+        @Mock
+        private ControlStateProfilesMapper controlStateProfilesMapper;
+        @Mock
+        private AttributeDefinitionsMapper attributeDefinitionsMapper;
+        @Mock
+        private TypesMapper typesMapper;
+        @Mock
+        private TypeRelationsMapper typeRelationsMapper;
+        @Mock
+        private ImagesMapper imagesMapper;
+        @Mock
+        private OwnerCategoriesMapper ownerCategoriesMapper;
+        @Mock
+        private PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
+        @Mock
+        private GamesMapper gamesMapper;
+        @Mock
+        private GameProgressionSchemaMapper gameProgressionSchemaMapper;
+        @Mock
+        private GameVersionsMapper gameVersionsMapper;
+        @Mock
+        private EditLogMapper editLogMapper;
+        @Mock
+        private PostgresReadStore readStore;
+
+        private PostgresWriteStore writeStore;
+
+        @BeforeEach
+        void setUp() {
+            ObjectMapper objectMapper = new ObjectMapper();
+            writeStore = new PostgresWriteStore(
+                heroesMapper,
+                skillsMapper,
+                skillMountsMapper,
+                defaultBasicAttackProvisioner,
+                itemsMapper,
+                itemStatModifiersMapper,
+                formulaProfilesMapper,
+                formulaBindingsMapper,
+                statusActionControlRulesMapper,
+                statusDefinitionsMapper,
+                statusModifierGroupsMapper,
+                statusAttributeModifiersMapper,
+                statusPeriodicHpEffectsMapper,
+                controlStateProfilesMapper,
+                coefficientBucketsMapper,
+                attributeDefinitionsMapper,
+                typesMapper,
+                typeRelationsMapper,
+                imagesMapper,
+                ownerCategoriesMapper,
+                publishedBundleSnapshotsMapper,
+                gamesMapper,
+                gameProgressionSchemaMapper,
+                gameVersionsMapper,
+                editLogMapper,
+                objectMapper,
+                readStore,
+                new PostgresJsonSupport(objectMapper)
+            );
+            lenient().when(readStore.findVersionByCode("lol", "__workspace__"))
+                .thenReturn(new PostgresReadStore.VersionRecord(9L, "__workspace__", null, Instant.now(), null));
+            lenient().when(ownerCategoriesMapper.countOwnerCategory("lol", "item")).thenReturn(1L);
+            lenient().when(readStore.loadItem(eq("lol"), anyString())).thenReturn(OBJECT_MAPPER.createObjectNode());
+            lenient().when(gamesMapper.ensureGamePartitions("lol")).thenReturn(1);
+        }
+
+        @Test
+        void upsertSkill_acceptsBatchPSeedDpsPassiveEffects() throws Exception {
+            KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(BATCH_P_SEED_FILE);
+
+            for (ObjectNode skill : seedData.skills()) {
+                assertDoesNotThrow(() -> writeStore.upsertSkill(
+                    "lol",
+                    skill.path("skillId").asText(),
+                    skill.deepCopy()
+                ));
+            }
+        }
+
+        @Test
+        void upsertSkill_rejectsDpsPassiveEffectsWhenNotArray() throws Exception {
+            ObjectNode skill = loadBatchPSkill("item_3071_black_cleaver_carve_dps_v2");
+            ((ObjectNode) skill.path("mechanicsConfig")).set("dpsPassiveEffects", OBJECT_MAPPER.createObjectNode());
+
+            ApiException ex = assertThrows(
+                ApiException.class,
+                () -> writeStore.upsertSkill("lol", "item_3071_black_cleaver_carve_dps_v2", skill)
+            );
+
+            assertEquals("400.INVALID_BODY", ex.getCode());
+            assertTrue(ex.getMessage().contains("dpsPassiveEffects"));
+            assertEquals("/mechanicsConfig/dpsPassiveEffects", ex.getDetails().get("path"));
+        }
+
+        @Test
+        void upsertSkill_rejectsInvalidOwnerRole() throws Exception {
+            ObjectNode skill = loadBatchPSkill("item_3071_black_cleaver_carve_dps_v2");
+            ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0)).put("ownerRole", "ally");
+
+            ApiException ex = assertThrows(
+                ApiException.class,
+                () -> writeStore.upsertSkill("lol", "item_3071_black_cleaver_carve_dps_v2", skill)
+            );
+
+            assertEquals("400.INVALID_BODY", ex.getCode());
+            assertTrue(ex.getMessage().contains("ownerRole"));
+            assertEquals("/mechanicsConfig/dpsPassiveEffects/0/ownerRole", ex.getDetails().get("path"));
+        }
+
+        @Test
+        void upsertSkill_rejectsInvalidTriggerEvent() throws Exception {
+            ObjectNode skill = loadBatchPSkill("item_3071_black_cleaver_carve_dps_v2");
+            ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0).path("trigger"))
+                .put("event", "on_unknown_event");
+
+            ApiException ex = assertThrows(
+                ApiException.class,
+                () -> writeStore.upsertSkill("lol", "item_3071_black_cleaver_carve_dps_v2", skill)
+            );
+
+            assertEquals("400.INVALID_BODY", ex.getCode());
+            assertTrue(ex.getMessage().contains("trigger.event"));
+            assertEquals("/mechanicsConfig/dpsPassiveEffects/0/trigger/event", ex.getDetails().get("path"));
+        }
+
+        @Test
+        void upsertSkill_rejectsOperationsWhenNotArray() throws Exception {
+            ObjectNode skill = loadBatchPSkill("item_3071_black_cleaver_carve_dps_v2");
+            ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                .set("operations", OBJECT_MAPPER.createObjectNode());
+
+            ApiException ex = assertThrows(
+                ApiException.class,
+                () -> writeStore.upsertSkill("lol", "item_3071_black_cleaver_carve_dps_v2", skill)
+            );
+
+            assertEquals("400.INVALID_BODY", ex.getCode());
+            assertTrue(ex.getMessage().contains("operations"));
+            assertEquals("/mechanicsConfig/dpsPassiveEffects/0/operations", ex.getDetails().get("path"));
+        }
+
+        @Test
+        void upsertSkill_rejectsInvalidOperationTargetRole() throws Exception {
+            ObjectNode skill = loadBatchPSkill("item_3075_thornmail_thorns_dps_v2");
+            ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0).path("operations").get(0))
+                .put("targetRole", "source");
+
+            ApiException ex = assertThrows(
+                ApiException.class,
+                () -> writeStore.upsertSkill("lol", "item_3075_thornmail_thorns_dps_v2", skill)
+            );
+
+            assertEquals("400.INVALID_BODY", ex.getCode());
+            assertTrue(ex.getMessage().contains("targetRole"));
+            assertEquals("/mechanicsConfig/dpsPassiveEffects/0/operations/0/targetRole", ex.getDetails().get("path"));
+        }
+
+        private ObjectNode loadBatchPSkill(String skillId) throws Exception {
+            KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(BATCH_P_SEED_FILE);
+            return findByField(seedData.skills(), "skillId", skillId).deepCopy();
+        }
     }
 }
