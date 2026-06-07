@@ -1,4 +1,6 @@
-// 本文件实现公式 bytecode 编译和执行，用于把公式 DTO 转成热路径可执行的短指令。
+// 公式 bytecode：compile 期 CompileRegistry，runtime 期 Registry.Eval/EvalTrace。
+//
+// EvalContext 注入 source/target 属性、资源、counter；热路径无 map 查找（ProgramID 索引）。
 package formula
 
 import (
@@ -61,6 +63,7 @@ type CounterReader interface {
 	ReadCounter(key string) (float64, bool)
 }
 
+// EvalContext 是公式执行时的只读视图；由 RunContext.evalActionFormula 等组装。
 type EvalContext struct {
 	SourceAttrs AttributeReader
 	TargetAttrs AttributeReader

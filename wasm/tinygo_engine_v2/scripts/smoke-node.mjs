@@ -1,3 +1,5 @@
+// Node smoke：实例化 dist/tinygo_engine_v2.wasm 并检查导出函数是否存在。
+// 非正式宿主（正式宿主为浏览器 Worker）；默认不做完整 ABI round-trip，仅验证 load/instantiate。
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, isAbsolute, resolve } from "node:path";

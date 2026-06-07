@@ -1,4 +1,6 @@
-// 本文件定义 Wasm ABI 的二进制 frame header 编解码，包括 magic、schema、kind、flags 和 payload 长度。
+// Wasm ABI 二进制 frame：16 字节 header + payload。
+//
+// 不变量：Magic/SchemaVersion 与 model 常量一致；DecodeFrame 失败时 session 写 E_BAD_MAGIC。
 package abi
 
 import (
