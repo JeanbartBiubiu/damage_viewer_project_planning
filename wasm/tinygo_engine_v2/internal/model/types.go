@@ -414,10 +414,21 @@ type DPSBasicAttackActionRefV2 struct {
 	Classifier ClassifierV2 `json:"classifier,omitempty"`
 }
 
+type DPSActiveActionRefV2 struct {
+	ActionID   string       `json:"actionId"`
+	SkillID    string       `json:"skillId,omitempty"`
+	Label      string       `json:"label,omitempty"`
+	Kind       string       `json:"kind,omitempty"`
+	Priority   int          `json:"priority,omitempty"`
+	StartAtMs  int64        `json:"startAtMs,omitempty"`
+	Classifier ClassifierV2 `json:"classifier,omitempty"`
+}
+
 type DPSResolvedSnapshotV2 struct {
 	AttackerSnapshot            DPSActorSnapshotV2          `json:"attackerSnapshot"`
 	TargetSnapshot              DPSActorSnapshotV2          `json:"targetSnapshot"`
 	BasicAttackActions          []DPSBasicAttackActionRefV2 `json:"basicAttackActions,omitempty"`
+	ActiveActions               []DPSActiveActionRefV2      `json:"activeActions,omitempty"`
 	EquipmentSet                []string                    `json:"equipmentSet"`
 	EquipmentStats              map[string]float64          `json:"equipmentStats"`
 	EnabledPassiveEffects       []string                    `json:"enabledPassiveEffects"`

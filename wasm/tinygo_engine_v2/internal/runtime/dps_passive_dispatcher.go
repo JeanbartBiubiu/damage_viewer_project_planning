@@ -8,6 +8,28 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+func (state *dpsCurveState) processSkillPassives(ctx dpsCombatEventContext) {
+	spellCtx := ctx
+	spellCtx.Event = dpsEventOnSpellHit
+	if state.dispatchDPSLinkedEffects(spellCtx) && state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		state.refreshActiveStatModifiers(ctx.TimeMs)
+	}
+	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		dealtCtx := ctx
+		dealtCtx.Event = dpsEventOnDamageDealt
+		if state.dispatchDPSLinkedEffects(dealtCtx) && state.targetHP > 0 {
+			state.refreshActiveStatModifiers(ctx.TimeMs)
+		}
+	}
+	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
+		takenCtx := ctx
+		takenCtx.Event = dpsEventOnDamageTaken
+		if state.dispatchDPSLinkedEffects(takenCtx) && state.targetHP > 0 {
+			state.refreshActiveStatModifiers(ctx.TimeMs)
+		}
+	}
+}
+
 func (state *dpsCurveState) processAttackPassives(ctx dpsCombatEventContext) {
 	onHitCtx := ctx
 	onHitCtx.Event = dpsEventOnBasicAttackHit
