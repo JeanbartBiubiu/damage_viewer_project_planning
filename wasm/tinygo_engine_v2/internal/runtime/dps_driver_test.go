@@ -16,6 +16,8 @@ const (
 	dpsTestDefaultBasicAttackSkillID    = "skill_lol_basic_attack_default"
 	dpsTestSecondaryBasicAttackActionID = "self::skill_lol_basic_attack_secondary"
 	dpsTestSecondaryBasicAttackSkillID  = "skill_lol_basic_attack_secondary"
+	dpsTestCooldownSkillActionID        = "self::skill_lol_q_test"
+	dpsTestCooldownSkillSkillID         = "skill_lol_q_test"
 )
 
 func dpsTestEngineBundle() model.EngineBundle {
@@ -48,7 +50,7 @@ func dpsTestEngineBundle() model.EngineBundle {
 					"crit_chance":   {Base: 0},
 					"crit_damage":   {Base: 1},
 				},
-				Actions: []string{dpsTestDefaultBasicAttackActionID, dpsTestSecondaryBasicAttackActionID},
+				Actions: []string{dpsTestDefaultBasicAttackActionID, dpsTestSecondaryBasicAttackActionID, dpsTestCooldownSkillActionID},
 			},
 			{
 				ID:        "target_dummy_fighter",
@@ -78,6 +80,7 @@ func dpsTestEngineBundle() model.EngineBundle {
 			{ID: "as_cap", Op: "const", Value: 3.0},
 			{ID: "thousand", Op: "const", Value: 1000},
 			{ID: "attack_damage", Op: "attr", Attr: "attack_damage"},
+			{ID: "ap", Op: "attr", Attr: "ap"},
 			{ID: "attack_speed", Op: "attr", Attr: "attack_speed"},
 			{ID: "as_capped_low", Op: "max", Left: "attack_speed", Right: "as_floor"},
 			{ID: "as_capped", Op: "min", Left: "as_capped_low", Right: "as_cap"},
@@ -117,6 +120,21 @@ func dpsTestEngineBundle() model.EngineBundle {
 						CritPolicy:           "expected",
 						CritChanceSource:     "attacker_crit_chance",
 						CritMultiplierSource: "attacker_crit_damage",
+					},
+				},
+			},
+			{
+				ID:         dpsTestCooldownSkillActionID,
+				Label:      "Cooldown Skill",
+				Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+				CooldownMs: 500,
+				Effects: []model.EffectDef{
+					{
+						Type:       "deal_damage",
+						FormulaID:  "ap",
+						DamageType: "magic",
+						SourceRole: "source",
+						TargetRole: "target",
 					},
 				},
 			},
@@ -917,6 +935,207 @@ func TestSingleAttackerDPSRunsMountedBasicAttackAction(t *testing.T) {
 	}
 	if !almostEqual(result.DamageBySource[dpsTestDefaultBasicAttackSkillID], 100) {
 		t.Fatalf("damageBySource = %v, want %q physical basic attack damage", result.DamageBySource, dpsTestDefaultBasicAttackSkillID)
+	}
+}
+
+func TestSingleAttackerDPSRunsActiveSkillOnCooldownWithoutAttackCount(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1100
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{{
+		ActionID:   dpsTestCooldownSkillActionID,
+		SkillID:    dpsTestCooldownSkillSkillID,
+		Kind:       dpsActiveActionKindSkill,
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+	}}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 0 {
+		t.Fatalf("attackCount = %d, want 0 for skill-only activeActions", result.AttackCount)
+	}
+	if len(result.AttackTimeline) != 0 || len(result.AttackIntervalTimeline) != 0 {
+		t.Fatalf("attack timelines = %+v / %+v, want empty for skill actions", result.AttackTimeline, result.AttackIntervalTimeline)
+	}
+	if got := damageCountBySourceAt(result, dpsTestCooldownSkillSkillID, 0); got != 1 {
+		t.Fatalf("damage at 0ms = %d, want 1", got)
+	}
+	if got := damageCountBySourceAt(result, dpsTestCooldownSkillSkillID, 500); got != 1 {
+		t.Fatalf("damage at 500ms = %d, want 1", got)
+	}
+	if got := damageCountBySourceAt(result, dpsTestCooldownSkillSkillID, 1000); got != 1 {
+		t.Fatalf("damage at 1000ms = %d, want 1", got)
+	}
+	if got := damageCountBySourceAt(result, dpsTestCooldownSkillSkillID, 1100); got != 0 {
+		t.Fatalf("damage at 1100ms = %d, want 0 (next cast at 1500ms)", got)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 300) {
+		t.Fatalf("damageBySource = %v, want 300 from three 100-damage skill casts", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSActiveSkillTriggersSpellHitPassive(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{{
+		ActionID:   dpsTestCooldownSkillActionID,
+		SkillID:    dpsTestCooldownSkillSkillID,
+		Kind:       dpsActiveActionKindSkill,
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+	}}
+	enableDPSPassivesForTest(curve, syntheticLudenSpellHitPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 100
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 0 {
+		t.Fatalf("attackCount = %d, want 0 for skill-only activeActions", result.AttackCount)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %+v, want one spell-hit trigger", result.ItemPassiveTriggers)
+	}
+	if result.ItemPassiveTriggers[0].TriggerID != "luden_spell_hit" {
+		t.Fatalf("itemPassiveTriggers = %+v, want luden_spell_hit trigger", result.ItemPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource["luden_spell_hit_proc"], 40) {
+		t.Fatalf("damageBySource = %v, want luden spell-hit proc damage", result.DamageBySource)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 100) {
+		t.Fatalf("damageBySource = %v, want active skill plus spell-hit proc damage", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSActiveSkillDoesNotTriggerBasicOnHitPassive(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{{
+		ActionID:   dpsTestCooldownSkillActionID,
+		SkillID:    dpsTestCooldownSkillSkillID,
+		Kind:       dpsActiveActionKindSkill,
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+	}}
+	passive := canonicalHeroOnHitPassive()
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 100
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.AttackCount != 0 {
+		t.Fatalf("attackCount = %d, want 0 for skill-only activeActions", result.AttackCount)
+	}
+	if got := result.DamageBySource["canonical_hero_on_hit"]; got != 0 {
+		t.Fatalf("canonical on-hit damage = %.4f, want 0 for skill action", got)
+	}
+	if len(result.SkillPassiveTriggers) != 0 {
+		t.Fatalf("skillPassiveTriggers = %+v, want no basic on-hit trigger from skill action", result.SkillPassiveTriggers)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 100) {
+		t.Fatalf("damageBySource = %v, want only active skill damage", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSActiveSkillDoesNotTriggerRealBasicAttackOnlySpellHitPassive(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{{
+		ActionID:   dpsTestCooldownSkillActionID,
+		SkillID:    dpsTestCooldownSkillSkillID,
+		Kind:       dpsActiveActionKindSkill,
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+	}}
+	passive := syntheticLudenSpellHitPassive()
+	passive.Trigger.Matcher.ProcScopes = []string{dpsProcScopeRealBasicAttackOnly}
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 100
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if len(result.ItemPassiveTriggers) != 0 {
+		t.Fatalf("itemPassiveTriggers = %+v, want no proc from real_basic_attack_only spell-hit passive", result.ItemPassiveTriggers)
+	}
+	if got := result.DamageBySource["luden_spell_hit_proc"]; got != 0 {
+		t.Fatalf("luden proc damage = %.4f, want 0 for active skill with real_basic_attack_only procScope", got)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 100) {
+		t.Fatalf("damageBySource = %v, want only active skill damage", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSSameTimeActiveActionsStopAtEventLimit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	input.SimulationRules.MaxEvents = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{
+		{
+			ActionID:   dpsTestDefaultBasicAttackActionID,
+			SkillID:    dpsTestDefaultBasicAttackSkillID,
+			Kind:       dpsActiveActionKindBasicAttack,
+			StartAtMs:  0,
+			Classifier: model.ClassifierV2{Types: []string{"action/basic_attack"}},
+		},
+		{
+			ActionID:   dpsTestSecondaryBasicAttackActionID,
+			SkillID:    dpsTestSecondaryBasicAttackSkillID,
+			Kind:       dpsActiveActionKindBasicAttack,
+			StartAtMs:  0,
+			Classifier: model.ClassifierV2{Types: []string{"action/basic_attack"}},
+		},
+	}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 50
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("result = %+v, want ok", result)
+	}
+	if result.StopReason != "event_limit" {
+		t.Fatalf("stopReason = %q, want event_limit", result.StopReason)
+	}
+	if result.AttackCount != 1 {
+		t.Fatalf("attackCount = %d, want only one same-time action before event_limit", result.AttackCount)
+	}
+	if result.ProcessedEvents != 1 {
+		t.Fatalf("processedEvents = %d, want 1", result.ProcessedEvents)
+	}
+	defaultDamage := result.DamageBySource[dpsTestDefaultBasicAttackSkillID]
+	secondaryDamage := result.DamageBySource[dpsTestSecondaryBasicAttackSkillID]
+	if (defaultDamage == 0 && secondaryDamage == 0) || (defaultDamage > 0 && secondaryDamage > 0) {
+		t.Fatalf("damageBySource = %v, want exactly one of the two same-time basic attacks to fire", result.DamageBySource)
 	}
 }
 

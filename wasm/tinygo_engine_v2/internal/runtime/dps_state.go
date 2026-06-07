@@ -54,7 +54,7 @@ func newDPSCurveState(
 		targetMaxHP:            targetMaxHP,
 		armor:                  readFirstFiniteAttr(target.Attributes, "armor", "armour"),
 		magicResist:            readFirstFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block"),
-		schedules:              make([]dpsBasicAttackSchedule, 0),
+		schedules:              make([]dpsActiveActionSchedule, 0),
 		passives:               enabledDPSPassives(curve),
 		stacks:                 map[string]int{},
 		stackExpiry:            map[string]int64{},

@@ -20,6 +20,7 @@ const (
 
 	dpsChargeReadyPolicyNextBasicAttackAfterThreshold = "next_basic_attack_after_threshold_reached"
 	dpsProcScopeRealBasicAttackOnly                   = "real_basic_attack_only"
+	dpsProcScopeActiveSkill                           = "active_skill"
 
 	dpsEffectEnergizedChargeCheck   = "energized_charge_check"
 	dpsEffectEnergizedChargeConsume = "energized_charge_consume"
@@ -46,6 +47,9 @@ const (
 
 	dpsRoleAttacker = "attacker"
 	dpsRoleTarget   = "target"
+
+	dpsActiveActionKindBasicAttack = "basic_attack"
+	dpsActiveActionKindSkill       = "skill"
 )
 
 type dpsCombatEventContext struct {
@@ -98,10 +102,12 @@ type dpsIncomingDamageModifierEntry struct {
 	op             model.DPSPassiveOperationV2
 }
 
-type dpsBasicAttackSchedule struct {
-	ref         model.DPSBasicAttackActionRefV2
+type dpsActiveActionSchedule struct {
+	ref         model.DPSActiveActionRefV2
 	actionIndex uint16
 	nextAtMs    int64
+	listOrder   int
+	kind        string
 }
 
 type activeDPSDot struct {
@@ -137,7 +143,7 @@ type dpsCurveState struct {
 	attackStartTargetHP    float64
 	armor                  float64
 	magicResist            float64
-	schedules              []dpsBasicAttackSchedule
+	schedules              []dpsActiveActionSchedule
 	passives               []model.DPSPassiveEffectV2
 	stacks                 map[string]int
 	stackExpiry            map[string]int64
