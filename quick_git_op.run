@@ -5,22 +5,22 @@ git -C C:\project\damage_wasm_dev push origin wasm/dev
 git -C C:\project\damage_web_dev push origin web/dev
 
 git -C C:\project\damage_viewer_project_planning checkout master
-git -C C:\project\damage_viewer_project_planning merge backend/dev
-git -C C:\project\damage_viewer_project_planning merge wasm/dev
-git -C C:\project\damage_viewer_project_planning merge web/dev
+git -C C:\project\damage_viewer_project_planning merge --no-edit backend/dev
+git -C C:\project\damage_viewer_project_planning merge --no-edit wasm/dev
+git -C C:\project\damage_viewer_project_planning merge --no-edit web/dev
 npx @colbymchenry/codegraph sync C:\project\damage_viewer_project_planning
 git -C C:\project\damage_viewer_project_planning push origin master
 
 git -C C:\project\damage_backend_dev checkout backend/dev
-git -C C:\project\damage_backend_dev merge master
+git -C C:\project\damage_backend_dev merge --no-edit master
 npx @colbymchenry/codegraph sync C:\project\damage_backend_dev
 
 git -C C:\project\damage_wasm_dev checkout wasm/dev
-git -C C:\project\damage_wasm_dev merge master
+git -C C:\project\damage_wasm_dev merge --no-edit master
 npx @colbymchenry/codegraph sync C:\project\damage_wasm_dev
 
 git -C C:\project\damage_web_dev checkout web/dev
-git -C C:\project\damage_web_dev merge master
+git -C C:\project\damage_web_dev merge --no-edit master
 npx @colbymchenry/codegraph sync C:\project\damage_web_dev
 
 git push github master
