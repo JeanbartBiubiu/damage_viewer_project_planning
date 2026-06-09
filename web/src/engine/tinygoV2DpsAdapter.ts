@@ -3,6 +3,7 @@ import {
   actionTemplateHasBasicAttackClassifier,
   buildDpsTargetActorTemplateFromSnapshot,
   compileDpsAttackerBundle,
+  resolvePublishedCoefficientBuckets,
   type DpsAttackerCompileResult,
   type TinyGoV2ActionTemplate,
   type TinyGoV2AttributeDefinition,
@@ -214,6 +215,62 @@ export type V2DpsPassiveOperation = {
   targetRole?: 'attacker' | 'target' | (string & {});
   valuePhase?: 'raw' | 'final' | (string & {});
   critOnly?: boolean;
+  bucketKey?: string;
+  valueSpec?: JsonObject;
+  conditions?: JsonObject[];
+  priority?: number;
+  evidenceKey?: string;
+  [key: string]: unknown;
+};
+
+/** Batch R structured coefficient bucket candidate evidence from Wasm effectBreakdown. */
+export type V2DpsCoefficientBucketCandidateEvidence = {
+  source?: string;
+  sourceType?: string;
+  passiveId?: string;
+  operationKind?: string;
+  value?: number;
+  priority?: number;
+  evidenceKey?: string;
+  applied?: boolean;
+  skipReason?: string;
+  [key: string]: unknown;
+};
+
+/** Batch R structured coefficient bucket resolution evidence from Wasm effectBreakdown. */
+export type V2DpsCoefficientBucketEvidence = {
+  source?: string;
+  sourceType?: string;
+  passiveId?: string;
+  operationKind?: string;
+  value?: number;
+  priority?: number;
+  evidenceKey?: string;
+  applied?: boolean;
+  skipReason?: string;
+  domain?: string;
+  stageKey?: string;
+  bucketKey?: string;
+  aggregationMode?: string;
+  valueUnit?: string;
+  raw?: number;
+  result?: number;
+  evidenceKeys?: string[];
+  candidates?: V2DpsCoefficientBucketCandidateEvidence[];
+  skipped?: V2DpsCoefficientBucketCandidateEvidence[];
+  [key: string]: unknown;
+};
+
+export type V2DpsEffectBreakdownEntry = {
+  timeMs?: number;
+  source?: string;
+  kind?: string;
+  amount?: number;
+  message?: string;
+  phantomHit?: boolean;
+  repeatTag?: string;
+  coefficientBucket?: V2DpsCoefficientBucketEvidence;
+  [key: string]: unknown;
 };
 
 export type V2DpsPassiveEffect = {
@@ -388,15 +445,7 @@ export type V2DpsCurveResult = {
   skillPassiveTriggers: unknown[];
   itemPassiveTriggers: unknown[];
   externalPassiveTriggers: unknown[];
-  effectBreakdown: Array<{
-    timeMs?: number;
-    source?: string;
-    kind?: string;
-    amount?: number;
-    message?: string;
-    phantomHit?: boolean;
-    repeatTag?: string;
-  }>;
+  effectBreakdown: V2DpsEffectBreakdownEntry[];
   critPolicy: 'expected';
   seed: number;
   blockedReasons: string[];
@@ -1089,7 +1138,11 @@ export function prepareV2DpsInput(
   ]);
 
   return {
-    engineBundle: mergeDpsEngineBundles(curveBuilds.map((build) => build.compile), targetActorTemplate),
+    engineBundle: mergeDpsEngineBundles(
+      curveBuilds.map((build) => build.compile),
+      targetActorTemplate,
+      resolvePublishedCoefficientBuckets(bundle)
+    ),
     preflightBlockedReasons,
     runInput: {
       caseId: selection.caseId ?? V2_DPS_CASE_ID,
@@ -1351,10 +1404,11 @@ function resolveBasicAttackActions(
 
 function mergeDpsEngineBundles(
   compiles: DpsAttackerCompileResult[],
-  targetActorTemplate?: TinyGoV2ActorTemplate
+  targetActorTemplate?: TinyGoV2ActorTemplate,
+  coefficientBuckets: TinyGoV2EngineBundle['coefficientBuckets'] = []
 ): TinyGoV2EngineBundle {
   if (compiles.length === 0 && !targetActorTemplate) {
-    return emptyDpsEngineBundle();
+    return emptyDpsEngineBundle(coefficientBuckets);
   }
 
   const attributeIds = new Set<string>();
@@ -1423,6 +1477,7 @@ function mergeDpsEngineBundles(
     actions,
     statuses: statuses.length > 0 ? statuses : undefined,
     formulas,
+    coefficientBuckets,
     settings: {
       maxEvents: 10000,
       maxCommandsPerEvent: 64
@@ -1430,13 +1485,16 @@ function mergeDpsEngineBundles(
   };
 }
 
-function emptyDpsEngineBundle(): TinyGoV2EngineBundle {
+function emptyDpsEngineBundle(
+  coefficientBuckets: TinyGoV2EngineBundle['coefficientBuckets'] = []
+): TinyGoV2EngineBundle {
   return {
     schemaVersion: 1,
     attributes: [],
     actors: [],
     actions: [],
     formulas: [],
+    coefficientBuckets,
     settings: {
       maxEvents: 10000,
       maxCommandsPerEvent: 64
@@ -2097,7 +2155,7 @@ function targetPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[])
       if (normalizeDpsOwnerRole(effect.ownerRole) !== 'target') {
         continue;
       }
-      const passiveIds = [skill.skillId, effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
+      const passiveIds = [effect.passiveId, effect.effectId, effect.sourceId].filter((value): value is string => Boolean(value));
       ids.push(...passiveIds);
     }
   }
