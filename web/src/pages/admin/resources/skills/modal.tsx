@@ -283,6 +283,17 @@ export function SkillsModal({
                 stringifyMechanicsConfig(mechanicsConfigState.root, mechanicsConfigState.version, mechanicsConfigState.stacks, rows)
               )
             }
+            onDpsPassiveEffectsChange={(passives) =>
+              onFieldChange(
+                'mechanicsConfigText',
+                stringifyMechanicsConfig(
+                  { ...mechanicsConfigState.root, dpsPassiveEffects: passives },
+                  mechanicsConfigState.version,
+                  mechanicsConfigState.stacks,
+                  mechanicsConfigState.rows
+                )
+              )
+            }
           />
         </Form.Item>
 
