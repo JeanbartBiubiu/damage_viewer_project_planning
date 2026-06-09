@@ -1,7 +1,8 @@
 import { Alert, Button, Empty, Input, InputNumber, Select, Space, Tag, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { appendCurrentDamageTypeOption, type DamageTypeOption } from '../../pages/admin/resources/shared/damageTypes';
-import type { JsonObject } from '../../types/api';
+import { getCoefficientBuckets } from '../../services/apiClient';
+import type { CoefficientBucket, JsonObject, JsonValue } from '../../types/api';
 import { AttributeKeySelector } from '../AttributeKeySelector';
 import type { SkillActionRow, SkillDpsPassiveSummaryRow, SkillModifierStatRow, SkillStackRow, SkillTriggerRow } from './skillModels';
 import {
@@ -27,6 +28,7 @@ type SkillMechanicsConfigEditorProps = {
   onVersionChange: (version: number) => void;
   onStacksChange: (rows: SkillStackRow[]) => void;
   onChange: (rows: SkillTriggerRow[]) => void;
+  onDpsPassiveEffectsChange?: (passives: JsonObject[]) => void;
 };
 
 const DPS_PASSIVE_OWNER_GROUP_ORDER = ['attacker', 'target', 'other'] as const;
@@ -123,6 +125,137 @@ function formatDpsPassiveOwnerGroupLabel(groupKey: string): string {
   return 'other';
 }
 
+function isPlainObject(value: unknown): value is JsonObject {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function formatCoefficientBucketLabel(bucket: CoefficientBucket): string {
+  const tail = bucket.targetAttrKey?.trim() || bucket.aggregationMode?.trim() || '';
+  return [bucket.bucketKey, bucket.resolutionDomain, bucket.stageKey, tail].filter(Boolean).join(' · ');
+}
+
+function cloneDpsPassiveEffects(passives: JsonObject[]): JsonObject[] {
+  return passives.map((passive) => (isPlainObject(passive) ? { ...passive } : passive));
+}
+
+function updateDpsPassiveOperationField(
+  passives: JsonObject[],
+  passiveIndex: number,
+  operationIndex: number,
+  apply: (operation: JsonObject) => JsonObject
+): JsonObject[] {
+  return passives.map((passive, currentPassiveIndex) => {
+    if (currentPassiveIndex !== passiveIndex || !isPlainObject(passive)) {
+      return passive;
+    }
+
+    const operations = Array.isArray(passive.operations) ? passive.operations : [];
+    return {
+      ...passive,
+      operations: operations.map((operation, currentOperationIndex) => {
+        if (currentOperationIndex !== operationIndex || !isPlainObject(operation)) {
+          return operation;
+        }
+        return apply({ ...operation });
+      })
+    };
+  });
+}
+
+function setOptionalStringField(target: JsonObject, key: string, value: string) {
+  const trimmed = value.trim();
+  if (trimmed) {
+    target[key] = trimmed;
+    return;
+  }
+  delete target[key];
+}
+
+function setOptionalNumberField(target: JsonObject, key: string, value: number | undefined) {
+  if (value !== undefined && Number.isFinite(value)) {
+    target[key] = value;
+    return;
+  }
+  delete target[key];
+}
+
+function setOptionalJsonField(target: JsonObject, key: string, value: JsonValue | undefined) {
+  if (value === undefined) {
+    delete target[key];
+    return;
+  }
+  target[key] = value;
+}
+
+function OptionalJsonFieldEditor({
+  label,
+  value,
+  expectedKind,
+  disabled,
+  onCommit
+}: {
+  label: string;
+  value: unknown;
+  expectedKind: 'object' | 'array';
+  disabled: boolean;
+  onCommit: (nextValue: unknown) => void;
+}) {
+  const initialValue = value === undefined ? '' : JSON.stringify(value, null, 2);
+  const [draft, setDraft] = useState(initialValue);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setDraft(initialValue);
+    setError(null);
+  }, [initialValue]);
+
+  const commit = () => {
+    const trimmed = draft.trim();
+    if (!trimmed) {
+      onCommit(undefined);
+      setError(null);
+      return;
+    }
+
+    try {
+      const parsed: unknown = JSON.parse(trimmed);
+      if (expectedKind === 'object') {
+        if (!isPlainObject(parsed)) {
+          setError('必须是 JSON 对象。');
+          return;
+        }
+      } else if (!Array.isArray(parsed)) {
+        setError('必须是 JSON 数组。');
+        return;
+      }
+      onCommit(parsed);
+      setError(null);
+    } catch (commitError) {
+      setError(commitError instanceof Error ? commitError.message : String(commitError));
+    }
+  };
+
+  return (
+    <div>
+      <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+        {label}
+      </Typography.Text>
+      <Input.TextArea
+        value={draft}
+        disabled={disabled}
+        autoSize={{ minRows: 4, maxRows: 10 }}
+        className="admin-json-input"
+        onChange={setDraft}
+        onBlur={commit}
+      />
+      {error ? <Alert type="error" content={`JSON 提交失败：${error}`} style={{ marginTop: 8 }} /> : null}
+      <Button size="small" style={{ marginTop: 8 }} onClick={commit} disabled={disabled}>
+        应用 JSON
+      </Button>
+    </div>
+  );
+}
+
 export function SkillMechanicsConfigEditor({
   apiBaseUrl,
   selectedGameId,
@@ -135,9 +268,17 @@ export function SkillMechanicsConfigEditor({
   disabled = false,
   onVersionChange,
   onStacksChange,
-  onChange
+  onChange,
+  onDpsPassiveEffectsChange
 }: SkillMechanicsConfigEditorProps) {
   const defaultDamageTypeValue = damageTypeOptions[0]?.value ?? 'magic';
+  const [coefficientBuckets, setCoefficientBuckets] = useState<CoefficientBucket[]>([]);
+  const dpsPassiveEffects = useMemo((): JsonObject[] | null => {
+    if (!Array.isArray(root.dpsPassiveEffects)) {
+      return null;
+    }
+    return root.dpsPassiveEffects as JsonObject[];
+  }, [root.dpsPassiveEffects]);
   const dpsPassiveSummaryRows = useMemo(() => summarizeDpsPassiveEffects(root), [root]);
   const dpsPassiveIssues = useMemo(() => validateDpsPassiveEffects(root), [root]);
   const dpsPassiveErrors = useMemo(() => dpsPassiveIssues.filter((issue) => issue.severity === 'error'), [dpsPassiveIssues]);
@@ -150,6 +291,39 @@ export function SkillMechanicsConfigEditor({
         .filter(Boolean)
         .map((stackId) => ({ label: stackId, value: stackId })),
     [stacks]
+  );
+
+  useEffect(() => {
+    if (!apiBaseUrl || !selectedGameId) {
+      setCoefficientBuckets([]);
+      return;
+    }
+
+    let cancelled = false;
+    void getCoefficientBuckets(apiBaseUrl, selectedGameId, adminToken)
+      .then((result) => {
+        if (!cancelled) {
+          setCoefficientBuckets(result.data.coefficientBuckets ?? []);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCoefficientBuckets([]);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [apiBaseUrl, selectedGameId, adminToken]);
+
+  const coefficientBucketOptions = useMemo(
+    () =>
+      coefficientBuckets.map((bucket) => ({
+        label: formatCoefficientBucketLabel(bucket),
+        value: bucket.bucketKey
+      })),
+    [coefficientBuckets]
   );
 
   const tickOptions = useMemo(() => {
@@ -320,6 +494,21 @@ export function SkillMechanicsConfigEditor({
         };
       })
     );
+  };
+
+  const commitDpsPassiveEffects = (nextPassives: JsonObject[]) => {
+    onDpsPassiveEffectsChange?.(cloneDpsPassiveEffects(nextPassives));
+  };
+
+  const updateDpsPassiveOperation = (
+    passiveIndex: number,
+    operationIndex: number,
+    apply: (operation: JsonObject) => JsonObject
+  ) => {
+    if (!dpsPassiveEffects) {
+      return;
+    }
+    commitDpsPassiveEffects(updateDpsPassiveOperationField(dpsPassiveEffects, passiveIndex, operationIndex, apply));
   };
 
   const removeModifierStat = (triggerIndex: number, actionIndex: number, statIndex: number) => {
@@ -744,9 +933,9 @@ export function SkillMechanicsConfigEditor({
       <div style={{ border: '1px solid var(--color-border-2)', borderRadius: 8, padding: 12 }}>
         <Space direction="vertical" size={12} style={{ width: '100%' }}>
           <div>
-            <Typography.Text bold>DPS Passive 摘要</Typography.Text>
+            <Typography.Text bold>DPS Passive</Typography.Text>
             <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
-              只读展示 mechanicsConfig.dpsPassiveEffects；完整编辑请使用下方 mechanicsConfig JSON。
+              展示 mechanicsConfig.dpsPassiveEffects；operations 支持维护 Batch R 乘区字段。
             </Typography.Text>
           </div>
 
@@ -780,8 +969,12 @@ export function SkillMechanicsConfigEditor({
             />
           ) : null}
 
+          {dpsPassiveEffects === null && 'dpsPassiveEffects' in root ? (
+            <Alert type="error" content="dpsPassiveEffects 不是数组，无法结构化编辑；请修正 JSON 或使用下方 mechanicsConfig JSON。" />
+          ) : null}
+
           {dpsPassiveSummaryRows.length === 0 ? (
-            <Empty description="未配置 dpsPassiveEffects；旧技能可不填，完整编辑请使用 mechanicsConfig JSON。" />
+            <Empty description="未配置 dpsPassiveEffects；旧技能可不填。" />
           ) : (
             DPS_PASSIVE_OWNER_GROUP_ORDER.filter((groupKey) => (dpsPassiveGroups.get(groupKey) ?? []).length > 0).map((groupKey) => (
               <div key={groupKey}>
@@ -856,7 +1049,169 @@ export function SkillMechanicsConfigEditor({
                               <Typography.Text>{summaryRow.priority}</Typography.Text>
                             </div>
                           ) : null}
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              bucketKeys
+                            </Typography.Text>
+                            <Typography.Text>
+                              {summaryRow.hasBucketOperations
+                                ? summaryRow.bucketKeys.length > 0
+                                  ? summaryRow.bucketKeys.join(', ')
+                                  : '(empty bucketKey)'
+                                : '(none)'}
+                            </Typography.Text>
+                          </div>
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              evidenceKeys
+                            </Typography.Text>
+                            <Typography.Text>
+                              {summaryRow.evidenceKeys.length > 0 ? summaryRow.evidenceKeys.join(', ') : '(none)'}
+                            </Typography.Text>
+                          </div>
                         </div>
+
+                        {dpsPassiveEffects && onDpsPassiveEffectsChange ? (
+                          <div>
+                            <Typography.Text bold style={{ display: 'block', marginBottom: 8 }}>
+                              Batch R 乘区（operations）
+                            </Typography.Text>
+                            {(() => {
+                              const passive = dpsPassiveEffects[summaryRow.index];
+                              const operations = isPlainObject(passive) && Array.isArray(passive.operations) ? passive.operations : [];
+                              if (operations.length === 0) {
+                                return <Empty description="当前 passive 暂无 operations。" />;
+                              }
+
+                              return (
+                                <Space direction="vertical" size={10} style={{ width: '100%' }}>
+                                  {operations.map((operation, operationIndex) => {
+                                    if (!isPlainObject(operation)) {
+                                      return (
+                                        <Alert
+                                          key={`operation-invalid-${operationIndex}`}
+                                          type="warning"
+                                          content={`operations[${operationIndex}] 不是对象，跳过编辑。`}
+                                        />
+                                      );
+                                    }
+
+                                    const operationKind = typeof operation.kind === 'string' ? operation.kind : `#${operationIndex}`;
+                                    const operationPriority =
+                                      typeof operation.priority === 'number' && Number.isFinite(operation.priority)
+                                        ? operation.priority
+                                        : undefined;
+
+                                    return (
+                                      <div
+                                        key={`operation-${summaryRow.index}-${operationIndex}`}
+                                        style={{ border: '1px solid var(--color-border-3)', borderRadius: 8, padding: 12 }}
+                                      >
+                                        <Space direction="vertical" size={10} style={{ width: '100%' }}>
+                                          <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+                                            operation[{operationIndex}] · kind={operationKind || '(missing)'}
+                                          </Typography.Text>
+
+                                          <div className="crud-form-grid">
+                                            <div>
+                                              <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                                bucketKey
+                                              </Typography.Text>
+                                              <Select
+                                                allowClear
+                                                showSearch
+                                                value={typeof operation.bucketKey === 'string' ? operation.bucketKey : undefined}
+                                                disabled={disabled}
+                                                options={coefficientBucketOptions}
+                                                placeholder="选择 coefficient bucket"
+                                                onChange={(value) =>
+                                                  updateDpsPassiveOperation(summaryRow.index, operationIndex, (nextOperation) => {
+                                                    setOptionalStringField(nextOperation, 'bucketKey', String(value ?? ''));
+                                                    return nextOperation;
+                                                  })
+                                                }
+                                              />
+                                            </div>
+                                            <div>
+                                              <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                                priority
+                                              </Typography.Text>
+                                              <InputNumber
+                                                style={{ width: '100%' }}
+                                                value={operationPriority}
+                                                disabled={disabled}
+                                                onChange={(value) =>
+                                                  updateDpsPassiveOperation(summaryRow.index, operationIndex, (nextOperation) => {
+                                                    setOptionalNumberField(
+                                                      nextOperation,
+                                                      'priority',
+                                                      value === undefined || value === null ? undefined : Number(value)
+                                                    );
+                                                    return nextOperation;
+                                                  })
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+
+                                          <div>
+                                            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                              evidenceKey
+                                            </Typography.Text>
+                                            <Input
+                                              value={typeof operation.evidenceKey === 'string' ? operation.evidenceKey : ''}
+                                              disabled={disabled}
+                                              onChange={(value) =>
+                                                updateDpsPassiveOperation(summaryRow.index, operationIndex, (nextOperation) => {
+                                                  setOptionalStringField(nextOperation, 'evidenceKey', value);
+                                                  return nextOperation;
+                                                })
+                                              }
+                                            />
+                                          </div>
+
+                                          <OptionalJsonFieldEditor
+                                            label="valueSpec（JSON 对象）"
+                                            value={operation.valueSpec}
+                                            expectedKind="object"
+                                            disabled={disabled}
+                                            onCommit={(nextValue) =>
+                                              updateDpsPassiveOperation(summaryRow.index, operationIndex, (nextOperation) => {
+                                                setOptionalJsonField(
+                                                  nextOperation,
+                                                  'valueSpec',
+                                                  nextValue === undefined ? undefined : (nextValue as JsonObject)
+                                                );
+                                                return nextOperation;
+                                              })
+                                            }
+                                          />
+
+                                          <OptionalJsonFieldEditor
+                                            label="conditions（JSON 数组）"
+                                            value={operation.conditions}
+                                            expectedKind="array"
+                                            disabled={disabled}
+                                            onCommit={(nextValue) =>
+                                              updateDpsPassiveOperation(summaryRow.index, operationIndex, (nextOperation) => {
+                                                setOptionalJsonField(
+                                                  nextOperation,
+                                                  'conditions',
+                                                  nextValue === undefined ? undefined : (nextValue as JsonValue[])
+                                                );
+                                                return nextOperation;
+                                              })
+                                            }
+                                          />
+                                        </Space>
+                                      </div>
+                                    );
+                                  })}
+                                </Space>
+                              );
+                            })()}
+                          </div>
+                        ) : null}
 
                         {summaryRow.warnings.length > 0 ? (
                           <div>
