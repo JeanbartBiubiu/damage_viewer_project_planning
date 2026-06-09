@@ -116,7 +116,7 @@ func validateDPSCurve(
 	if !hasAnyFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block") {
 		reasons = append(reasons, "target magic resist is required")
 	}
-	reasons = append(reasons, validateDPSPassiveSelection(curve)...)
+	reasons = append(reasons, validateDPSPassiveSelection(bundle, curve)...)
 	return reasons
 }
 
@@ -171,7 +171,7 @@ func validateDPSTargetEquipment(curve model.DPSCurveRunSpecV2) []string {
 	return reasons
 }
 
-func validateDPSPassiveSelection(curve model.DPSCurveRunSpecV2) []string {
+func validateDPSPassiveSelection(bundle compilebundle.CompiledBundle, curve model.DPSCurveRunSpecV2) []string {
 	reasons := make([]string, 0)
 	enabled := enabledPassiveIDSet(curve)
 	targetEnabled := targetEnabledPassiveIDSet(curve)
@@ -197,12 +197,12 @@ func validateDPSPassiveSelection(curve model.DPSCurveRunSpecV2) []string {
 		if !passiveIsEnabled(passive, enabled) {
 			continue
 		}
-		reasons = append(reasons, validateDPSPassive(passive, curve)...)
+		reasons = append(reasons, validateDPSPassive(bundle, passive, curve)...)
 	}
 	return reasons
 }
 
-func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRunSpecV2) []string {
+func validateDPSPassive(bundle compilebundle.CompiledBundle, passive model.DPSPassiveEffectV2, curve model.DPSCurveRunSpecV2) []string {
 	reasons := make([]string, 0)
 	id := passiveID(passive)
 	if id == "" {
@@ -250,7 +250,7 @@ func validateDPSPassive(passive model.DPSPassiveEffectV2, curve model.DPSCurveRu
 		}
 	}
 	for _, op := range passive.Operations {
-		reasons = append(reasons, validateDPSPassiveOperation(id, op)...)
+		reasons = append(reasons, validateDPSPassiveOperation(bundle, id, op)...)
 		if op.Kind == dpsOpStatModifier && op.PerStack {
 			if op.StackKey == "" {
 				reasons = append(reasons, "passive effect "+id+" perStack stat_modifier requires stackKey")
@@ -296,7 +296,7 @@ func validateDPSPhantomHitOperation(
 	return reasons
 }
 
-func validateDPSPassiveOperation(passiveID string, op model.DPSPassiveOperationV2) []string {
+func validateDPSPassiveOperation(bundle compilebundle.CompiledBundle, passiveID string, op model.DPSPassiveOperationV2) []string {
 	reasons := make([]string, 0)
 	reasons = append(reasons, validateDPSOperationTargetRole(passiveID, op)...)
 	switch op.Kind {
@@ -346,23 +346,46 @@ func validateDPSPassiveOperation(passiveID string, op model.DPSPassiveOperationV
 			reasons = append(reasons, "passive effect "+passiveID+" add_stack has unsupported refreshMode "+op.RefreshMode)
 		}
 	case dpsOpStatModifier:
-		if op.AttrKey == "" {
-			reasons = append(reasons, "passive effect "+passiveID+" stat_modifier requires attrKey")
-		}
-		if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
-			reasons = append(reasons, "passive effect "+passiveID+" stat_modifier has invalid value")
+		bucketKey := strings.TrimSpace(op.BucketKey)
+		if bucketKey == "" {
+			if op.AttrKey == "" {
+				reasons = append(reasons, "passive effect "+passiveID+" stat_modifier requires attrKey")
+			}
+			if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
+				reasons = append(reasons, "passive effect "+passiveID+" stat_modifier has invalid value")
+			}
+		} else {
+			reasons = append(reasons, validateDPSBucketModifierValueSpec(bundle, passiveID, "stat_modifier", op)...)
 		}
 	case dpsOpDamageModifier:
-		valuePhase := strings.TrimSpace(op.ValuePhase)
-		if valuePhase != "" && valuePhase != dpsValuePhaseIncoming {
-			reasons = append(reasons, "passive effect "+passiveID+" damage_modifier only supports valuePhase incoming")
+		bucketKey := strings.TrimSpace(op.BucketKey)
+		if bucketKey == "" {
+			valuePhase := strings.TrimSpace(op.ValuePhase)
+			if valuePhase != "" && valuePhase != dpsValuePhaseIncoming {
+				reasons = append(reasons, "passive effect "+passiveID+" damage_modifier only supports valuePhase incoming")
+			}
+			modifierMode := strings.TrimSpace(op.ModifierMode)
+			if modifierMode != "" && modifierMode != "percent" {
+				reasons = append(reasons, "passive effect "+passiveID+" damage_modifier only supports modifierMode percent")
+			}
+			if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
+				reasons = append(reasons, "passive effect "+passiveID+" damage_modifier has invalid value")
+			}
+		} else {
+			reasons = append(reasons, validateDPSBucketModifierValueSpec(bundle, passiveID, "damage_modifier", op)...)
 		}
-		modifierMode := strings.TrimSpace(op.ModifierMode)
-		if modifierMode != "" && modifierMode != "percent" {
-			reasons = append(reasons, "passive effect "+passiveID+" damage_modifier only supports modifierMode percent")
-		}
-		if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
-			reasons = append(reasons, "passive effect "+passiveID+" damage_modifier has invalid value")
+	case dpsOpCoefficientModifier:
+		bucketKey := strings.TrimSpace(op.BucketKey)
+		if bucketKey == "" {
+			reasons = append(reasons, "passive effect "+passiveID+" coefficient_modifier requires bucketKey")
+		} else {
+			bucket, ok := lookupDPSCoefficientBucket(bundle, bucketKey)
+			if !ok {
+				reasons = append(reasons, "passive effect "+passiveID+" coefficient_modifier references unknown coefficient bucket "+bucketKey)
+			} else {
+				reasons = append(reasons, validateDPSBucketModifierValueSpec(bundle, passiveID, "coefficient_modifier", op)...)
+				reasons = append(reasons, validateDPSCoefficientModifierTargetRole(passiveID, op, bucket)...)
+			}
 		}
 	case dpsOpPhantomHitOnHitRepeat:
 		if op.StackKey == "" {
@@ -382,6 +405,86 @@ func validateDPSPassiveOperation(passiveID string, op model.DPSPassiveOperationV
 		}
 	default:
 		reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation "+op.Kind)
+	}
+	return reasons
+}
+
+func validateDPSBucketModifierValueSpec(
+	bundle compilebundle.CompiledBundle,
+	passiveID string,
+	operationKind string,
+	op model.DPSPassiveOperationV2,
+) []string {
+	reasons := make([]string, 0)
+	valueSpecKind := strings.TrimSpace(op.ValueSpec.Kind)
+	if valueSpecKind == "" {
+		if math.IsNaN(op.Value) || math.IsInf(op.Value, 0) {
+			reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" has invalid value")
+		}
+		return reasons
+	}
+	switch valueSpecKind {
+	case "literal":
+		if math.IsNaN(op.ValueSpec.Value) || math.IsInf(op.ValueSpec.Value, 0) {
+			reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec literal has invalid value")
+		}
+	case "attr_ratio", "hp_ratio", "hp_diff_ratio":
+	case "formula":
+		reasons = append(reasons, validateDPSModifierFormulaValueSpec(bundle, passiveID, operationKind, op.ValueSpec)...)
+	default:
+		reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec has unsupported kind "+valueSpecKind)
+	}
+	return reasons
+}
+
+func validateDPSCoefficientModifierTargetRole(
+	passiveID string,
+	op model.DPSPassiveOperationV2,
+	bucket compilebundle.CompiledCoefficientBucket,
+) []string {
+	reasons := make([]string, 0)
+	role := strings.TrimSpace(op.TargetRole)
+	if bucket.ResolutionDomain == compilebundle.ResolutionDomainAttribute {
+		if role != "" && role != dpsRoleAttacker && role != dpsRoleTarget {
+			reasons = append(reasons, "passive effect "+passiveID+" coefficient_modifier has unsupported operation targetRole "+op.TargetRole)
+		}
+		return reasons
+	}
+	if bucket.StageKey == dpsHPChangeStageOutgoingPreMitigation {
+		if role != "" && role != dpsRoleAttacker {
+			reasons = append(reasons, "passive effect "+passiveID+" coefficient_modifier outgoing bucket requires targetRole attacker")
+		}
+		return reasons
+	}
+	if role != "" && role != dpsRoleTarget {
+		reasons = append(reasons, "passive effect "+passiveID+" coefficient_modifier hp_change bucket requires targetRole target")
+	}
+	return reasons
+}
+
+func validateDPSModifierFormulaValueSpec(
+	bundle compilebundle.CompiledBundle,
+	passiveID string,
+	operationKind string,
+	spec model.DPSModifierValueSpecV2,
+) []string {
+	reasons := make([]string, 0)
+	formulaID := strings.TrimSpace(spec.FormulaID)
+	if formulaID == "" {
+		reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec formula requires formulaId")
+		return reasons
+	}
+	programID, ok := bundle.Formulas.Lookup(formulaID)
+	if !ok {
+		reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec formula references unknown formula "+formulaID)
+		return reasons
+	}
+	if int(programID) >= len(bundle.Formulas.Programs) {
+		reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec formula references invalid formula "+formulaID)
+		return reasons
+	}
+	if formulaProgramUsesUnsupportedDPSModifierReaders(bundle.Formulas.Programs[programID]) {
+		reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec formula requires unsupported runtime readers")
 	}
 	return reasons
 }
@@ -442,7 +545,9 @@ func validateDPSOperationTargetRole(passiveID string, op model.DPSPassiveOperati
 		}
 	case dpsOpDamageModifier:
 		if role == dpsRoleAttacker {
-			reasons = append(reasons, "passive effect "+passiveID+" operation damage_modifier does not support targetRole attacker")
+			if strings.TrimSpace(op.BucketKey) == "" {
+				reasons = append(reasons, "passive effect "+passiveID+" operation damage_modifier does not support targetRole attacker")
+			}
 		} else if role != "" && role != dpsRoleTarget {
 			reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
 		}
@@ -452,6 +557,7 @@ func validateDPSOperationTargetRole(passiveID string, op model.DPSPassiveOperati
 		} else if role != dpsRoleTarget {
 			reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
 		}
+	case dpsOpCoefficientModifier:
 	case dpsOpAddStack, dpsOpPhantomHitOnHitRepeat:
 		reasons = append(reasons, "passive effect "+passiveID+" operation "+op.Kind+" does not support targetRole")
 	default:

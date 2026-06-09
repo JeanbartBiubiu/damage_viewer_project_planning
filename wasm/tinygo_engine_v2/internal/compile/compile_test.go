@@ -299,3 +299,272 @@ func hasProblem(problems []string, needle string) bool {
 	}
 	return false
 }
+
+func TestBundleCompilesCoefficientBuckets(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes: []model.AttributeDefinitionV2{
+			{ID: "ability_power"},
+		},
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{
+				BucketKey:        "ap_final_mult",
+				ResolutionDomain: "attribute",
+				StageKey:         "attribute/final_multiplier",
+				TargetAttrKey:    "ability_power",
+				AggregationMode:  "multiply",
+				Name:             "AP Final Multiplier",
+				EditorHint:       map[string]interface{}{"group": "attributes"},
+				BucketConfig: model.CoefficientBucketConfigV2{
+					Priority:      10,
+					ValueUnit:     "factor",
+					ClampMin:      0,
+					HasClampMin:   true,
+					EvidenceLabel: "ap_final",
+				},
+			},
+			{
+				BucketKey:        "incoming_damage",
+				ResolutionDomain: "hp_change",
+				StageKey:         "hp_change/incoming/pre_mitigation",
+				AggregationMode:  "add",
+				BucketConfig: model.CoefficientBucketConfigV2{
+					ValueUnit:   "percent_delta",
+					ClampMax:    0,
+					HasClampMax: true,
+				},
+			},
+		},
+	})
+	if len(result.Problems) != 0 {
+		t.Fatalf("compile problems: %v", result.Problems)
+	}
+	if got := len(result.Bundle.CoefficientBuckets); got != 2 {
+		t.Fatalf("bucket count = %d, want 2", got)
+	}
+	attrBucket := result.Bundle.CoefficientBuckets[0]
+	if attrBucket.ID != 0 || attrBucket.BucketKey != "ap_final_mult" {
+		t.Fatalf("attr bucket = %+v", attrBucket)
+	}
+	if attrBucket.ResolutionDomain != ResolutionDomainAttribute || attrBucket.StageKey != "attribute/final_multiplier" {
+		t.Fatalf("attr bucket domain/stage = %+v", attrBucket)
+	}
+	if !attrBucket.HasTargetAttr || attrBucket.TargetAttr != 0 {
+		t.Fatalf("attr bucket target = attr %d has=%v, want 0 true", attrBucket.TargetAttr, attrBucket.HasTargetAttr)
+	}
+	if attrBucket.AggregationMode != AggregationModeMultiply || attrBucket.Name != "AP Final Multiplier" {
+		t.Fatalf("attr bucket mode/name = %+v", attrBucket)
+	}
+	if got := attrBucket.EditorHint["group"]; got != "attributes" {
+		t.Fatalf("attr bucket editorHint = %+v", attrBucket.EditorHint)
+	}
+	if attrBucket.Config.Priority != 10 || attrBucket.Config.ValueUnit != "factor" ||
+		!attrBucket.Config.HasClampMin || attrBucket.Config.ClampMin != 0 ||
+		attrBucket.Config.EvidenceLabel != "ap_final" {
+		t.Fatalf("attr bucket config = %+v", attrBucket.Config)
+	}
+	hpBucket := result.Bundle.CoefficientBuckets[1]
+	if hpBucket.ID != 1 || hpBucket.ResolutionDomain != ResolutionDomainHPChange {
+		t.Fatalf("hp bucket = %+v", hpBucket)
+	}
+	if hpBucket.HasTargetAttr || hpBucket.Config.ValueUnit != "percent_delta" ||
+		!hpBucket.Config.HasClampMax || hpBucket.Config.ClampMax != 0 {
+		t.Fatalf("hp bucket config = %+v", hpBucket)
+	}
+	if result.Bundle.CoefficientBucketIndex["ap_final_mult"] != 0 ||
+		result.Bundle.CoefficientBucketIndex["incoming_damage"] != 1 {
+		t.Fatalf("bucket index = %+v", result.Bundle.CoefficientBucketIndex)
+	}
+}
+
+func TestBundleRejectsInvalidCoefficientBuckets(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes:    []model.AttributeDefinitionV2{{ID: "ability_power"}},
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{BucketKey: "bad_domain", ResolutionDomain: "damage", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "add"},
+			{BucketKey: "bad_mode", ResolutionDomain: "hp_change", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "average"},
+			{BucketKey: "dup", ResolutionDomain: "hp_change", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "add"},
+			{BucketKey: "dup", ResolutionDomain: "hp_change", StageKey: "hp_change/outgoing/pre_mitigation", AggregationMode: "multiply"},
+			{BucketKey: "missing_attr", ResolutionDomain: "attribute", StageKey: "attribute/base_bonus", AggregationMode: "add"},
+			{BucketKey: "unknown_attr", ResolutionDomain: "attribute", StageKey: "attribute/base_bonus", TargetAttrKey: "missing", AggregationMode: "add"},
+			{BucketKey: "hp_with_attr", ResolutionDomain: "hp_change", StageKey: "hp_change/incoming/pre_mitigation", TargetAttrKey: "ability_power", AggregationMode: "add"},
+		},
+	})
+	for _, want := range []string{
+		"unsupported coefficient bucket resolution domain",
+		"unsupported coefficient bucket aggregation mode",
+		"duplicate coefficient bucket",
+		"coefficient bucket missing target attr",
+		"unknown coefficient bucket target attr",
+		"coefficient bucket must not declare target attr for hp_change",
+	} {
+		if !hasProblem(result.Problems, want) {
+			t.Fatalf("missing %q problem: %v", want, result.Problems)
+		}
+	}
+}
+
+func TestBundleCollectsAllCoefficientBucketProblems(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{BucketKey: "", ResolutionDomain: "hp_change", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "add"},
+			{BucketKey: "bad_domain", ResolutionDomain: "unknown", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "add"},
+			{BucketKey: "missing_stage", ResolutionDomain: "hp_change", StageKey: "", AggregationMode: "add"},
+			{BucketKey: "bad_stage", ResolutionDomain: "hp_change", StageKey: "incoming", AggregationMode: "add"},
+			{BucketKey: "bad_mode", ResolutionDomain: "hp_change", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "bad"},
+			{
+				BucketKey: "bad_value_unit", ResolutionDomain: "hp_change", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "add",
+				BucketConfig: model.CoefficientBucketConfigV2{ValueUnit: "percent"},
+			},
+			{
+				BucketKey: "bad_clamp", ResolutionDomain: "hp_change", StageKey: "hp_change/incoming/pre_mitigation", AggregationMode: "add",
+				BucketConfig: model.CoefficientBucketConfigV2{HasClampMin: true, ClampMin: 10, HasClampMax: true, ClampMax: 1},
+			},
+		},
+	})
+	for _, want := range []string{
+		"coefficient bucket key is empty",
+		"unsupported coefficient bucket resolution domain",
+		"coefficient bucket stage key is empty",
+		"unsupported coefficient bucket stage key",
+		"unsupported coefficient bucket aggregation mode",
+		"unsupported coefficient bucket value unit",
+		"coefficient bucket clamp range invalid",
+	} {
+		if !hasProblem(result.Problems, want) {
+			t.Fatalf("missing %q problem: %v", want, result.Problems)
+		}
+	}
+}
+
+func TestBundleRejectsInvalidCoefficientBucketStageForAttribute(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes:    []model.AttributeDefinitionV2{{ID: "ability_power"}},
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{
+				BucketKey:        "bad_attr_stage",
+				ResolutionDomain: "attribute",
+				StageKey:         "attr_final",
+				TargetAttrKey:    "ability_power",
+				AggregationMode:  "multiply",
+			},
+		},
+	})
+	if !hasProblem(result.Problems, "unsupported coefficient bucket stage key") {
+		t.Fatalf("missing stage key problem: %v", result.Problems)
+	}
+}
+
+func TestBundleRejectsInvalidCoefficientBucketStageForHPChange(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{
+				BucketKey:        "bad_hp_stage",
+				ResolutionDomain: "hp_change",
+				StageKey:         "incoming",
+				AggregationMode:  "add",
+			},
+		},
+	})
+	if !hasProblem(result.Problems, "unsupported coefficient bucket stage key") {
+		t.Fatalf("missing stage key problem: %v", result.Problems)
+	}
+}
+
+func TestBundleRejectsInvalidCoefficientBucketValueUnit(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{
+				BucketKey:        "bad_value_unit",
+				ResolutionDomain: "hp_change",
+				StageKey:         "hp_change/incoming/pre_mitigation",
+				AggregationMode:  "add",
+				BucketConfig: model.CoefficientBucketConfigV2{
+					ValueUnit: "percent",
+				},
+			},
+		},
+	})
+	if !hasProblem(result.Problems, "unsupported coefficient bucket value unit") {
+		t.Fatalf("missing value unit problem: %v", result.Problems)
+	}
+}
+
+func TestBundleRejectsSetFinalWithoutFinalValue(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{
+				BucketKey:        "set_final_bad",
+				ResolutionDomain: "hp_change",
+				StageKey:         "hp_change/final/post_mitigation",
+				AggregationMode:  "set_final",
+			},
+			{
+				BucketKey:        "set_final_wrong_unit",
+				ResolutionDomain: "hp_change",
+				StageKey:         "hp_change/final/post_mitigation",
+				AggregationMode:  "set_final",
+				BucketConfig: model.CoefficientBucketConfigV2{
+					ValueUnit: "percent_delta",
+				},
+			},
+		},
+	})
+	if !hasProblem(result.Problems, "coefficient bucket set_final requires valueUnit final_value") {
+		t.Fatalf("missing set_final problem: %v", result.Problems)
+	}
+	if len(result.Problems) < 2 {
+		t.Fatalf("expected at least 2 set_final problems, got %v", result.Problems)
+	}
+}
+
+func TestBundleAcceptsSetFinalWithFinalValue(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{
+				BucketKey:        "set_final_ok",
+				ResolutionDomain: "hp_change",
+				StageKey:         "hp_change/final/post_mitigation",
+				AggregationMode:  "set_final",
+				BucketConfig: model.CoefficientBucketConfigV2{
+					ValueUnit: "final_value",
+				},
+			},
+		},
+	})
+	if len(result.Problems) != 0 {
+		t.Fatalf("compile problems: %v", result.Problems)
+	}
+	if len(result.Bundle.CoefficientBuckets) != 1 {
+		t.Fatalf("bucket count = %d, want 1", len(result.Bundle.CoefficientBuckets))
+	}
+	bucket := result.Bundle.CoefficientBuckets[0]
+	if bucket.AggregationMode != AggregationModeSetFinal || bucket.Config.ValueUnit != "final_value" {
+		t.Fatalf("set_final bucket = %+v", bucket)
+	}
+}
+
+func TestBundleWithoutCoefficientBucketsStillCompiles(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes: []model.AttributeDefinitionV2{
+			{ID: "attack_damage", DefaultBase: 10},
+		},
+	})
+	if len(result.Problems) != 0 {
+		t.Fatalf("compile problems: %v", result.Problems)
+	}
+	if result.Bundle.CoefficientBuckets != nil {
+		t.Fatalf("expected nil coefficient buckets, got %+v", result.Bundle.CoefficientBuckets)
+	}
+	if result.Bundle.CoefficientBucketIndex != nil {
+		t.Fatalf("expected nil coefficient bucket index, got %+v", result.Bundle.CoefficientBucketIndex)
+	}
+}

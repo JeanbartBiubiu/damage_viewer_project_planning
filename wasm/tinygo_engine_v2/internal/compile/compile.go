@@ -22,21 +22,23 @@ const (
 
 // CompiledBundle 是 Session.init 成功后持有的只读规则快照；每次 run 复用同一份。
 type CompiledBundle struct {
-	Attrs         []CompiledAttribute
-	AttrIndex     map[string]uint16
-	Resources     []CompiledResource
-	ResourceIndex map[string]uint16
-	Actors        []CompiledActor
-	ActorIndex    map[string]uint8
-	Actions       []CompiledAction
-	ActionIndex   map[string]uint16
-	Statuses      []CompiledStatus
-	StatusIndex   map[string]uint16
-	Formulas      formula.Registry
-	Types         typeset.Registry
-	ControlRules  ControlRuleIndex
-	Triggers      []CompiledTrigger
-	Settings      Settings
+	Attrs                  []CompiledAttribute
+	AttrIndex              map[string]uint16
+	Resources              []CompiledResource
+	ResourceIndex          map[string]uint16
+	Actors                 []CompiledActor
+	ActorIndex             map[string]uint8
+	Actions                []CompiledAction
+	ActionIndex            map[string]uint16
+	Statuses               []CompiledStatus
+	StatusIndex            map[string]uint16
+	Formulas               formula.Registry
+	Types                  typeset.Registry
+	ControlRules           ControlRuleIndex
+	Triggers               []CompiledTrigger
+	CoefficientBuckets     []CompiledCoefficientBucket
+	CoefficientBucketIndex map[string]uint16
+	Settings               Settings
 }
 
 type Settings struct {
@@ -304,6 +306,11 @@ func Bundle(input model.EngineBundle) Result {
 		cb.Attrs[compiledIdx].DerivedFormula = pid
 		cb.Attrs[compiledIdx].HasDerivedFormula = true
 	}
+
+	coefficientBuckets, coefficientBucketIndex, coefficientProblems := compileCoefficientBuckets(input.CoefficientBuckets, cb)
+	problems = append(problems, coefficientProblems...)
+	cb.CoefficientBuckets = coefficientBuckets
+	cb.CoefficientBucketIndex = coefficientBucketIndex
 
 	for _, status := range input.Statuses {
 		if status.ID == "" {

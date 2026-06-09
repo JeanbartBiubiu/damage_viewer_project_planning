@@ -138,10 +138,13 @@ func (s *Session) SnapshotInitialJSON(payload []byte) int32 {
 		s.writeError(errPayload.Code, errPayload.Message, errPayload.Details)
 		return -1
 	}
-	s.outbox.WriteJSON(model.FrameKindSnapshot, model.SnapshotV2{
+	if code := s.outbox.WriteJSON(model.FrameKindSnapshot, model.SnapshotV2{
 		TimeMs: 0,
 		Actors: ctx.snapshots(),
-	})
+	}); code != model.ErrOK {
+		s.writeError(code, "snapshot frame write failed", nil)
+		return -1
+	}
 	return 0
 }
 
@@ -162,10 +165,13 @@ func (s *Session) SnapshotActionsInitialJSON(payload []byte) int32 {
 		s.writeError(errPayload.Code, errPayload.Message, errPayload.Details)
 		return -1
 	}
-	s.outbox.WriteJSON(model.FrameKindActionSnapshot, model.ActionSnapshotV2{
+	if code := s.outbox.WriteJSON(model.FrameKindActionSnapshot, model.ActionSnapshotV2{
 		TimeMs: 0,
 		Actors: ctx.actionSnapshots(),
-	})
+	}); code != model.ErrOK {
+		s.writeError(code, "action snapshot frame write failed", nil)
+		return -1
+	}
 	return 0
 }
 
@@ -181,8 +187,12 @@ func (s *Session) BeginRunJSON(payload []byte) int32 {
 			return -1
 		}
 		s.run = nil
+		if code := s.outbox.WriteJSON(model.FrameKindDone, runSingleAttackerDPS(s.bundle, input)); code != model.ErrOK {
+			s.phase = PhaseFailed
+			s.writeError(code, "DPS done frame write failed", nil)
+			return -1
+		}
 		s.phase = PhaseDone
-		s.outbox.WriteJSON(model.FrameKindDone, runSingleAttackerDPS(s.bundle, input))
 		return 0
 	}
 	var input model.EngineRunInput
@@ -240,7 +250,11 @@ func (s *Session) Step(maxEvents uint32) int32 {
 func (s *Session) AbortRun() int32 {
 	if s.run != nil && s.phase == PhaseRunning {
 		s.run.Abort()
-		s.run.EmitDone("cancelled")
+		if code := s.run.EmitDone("cancelled"); code != model.ErrOK {
+			s.phase = PhaseFailed
+			s.writeError(code, "done frame write failed", nil)
+			return -1
+		}
 		s.phase = PhaseDone
 		return 0
 	}
