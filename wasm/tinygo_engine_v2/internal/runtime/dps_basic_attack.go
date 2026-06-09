@@ -115,7 +115,7 @@ func (state *dpsCurveState) processBasicAttackAction(sched *dpsActiveActionSched
 			sched.nextAtMs = -1
 			return
 		}
-		app := state.applyDamage(timeMs, damageSource, damageType, modifiedAmount)
+		app := state.applyDamageWithContext(timeMs, damageSource, damageType, modifiedAmount, &preDamageCtx)
 		if app.Applied {
 			combatCtx = state.buildBasicAttackCombatContext(timeMs, *sched, compiledAction, damageType, app)
 			hasCombatCtx = true
@@ -213,7 +213,7 @@ func (state *dpsCurveState) processSkillAction(sched *dpsActiveActionSchedule, t
 			sched.nextAtMs = -1
 			return
 		}
-		app := state.applyDamage(timeMs, damageSource, damageType, modifiedAmount)
+		app := state.applyDamageWithContext(timeMs, damageSource, damageType, modifiedAmount, &preDamageCtx)
 		if app.Applied {
 			combatCtx = state.buildSkillCombatContext(timeMs, *sched, compiledAction, damageType, app)
 			hasCombatCtx = true

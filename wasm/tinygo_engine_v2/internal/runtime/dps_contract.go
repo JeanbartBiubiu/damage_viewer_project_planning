@@ -33,8 +33,19 @@ const (
 	dpsOpTriggerDamageAtStacks      = "trigger_damage_at_stacks"
 	dpsOpStatModifier               = "stat_modifier"
 	dpsOpDamageModifier             = "damage_modifier"
-	dpsOpPhantomHitOnHitRepeat      = "phantom_hit_on_hit_repeat"
-	dpsRepeatScopeCopyableOnHit     = "copyable_on_hit"
+	dpsOpCoefficientModifier        = "coefficient_modifier"
+	dpsEffectCoefficientBucket      = "coefficient_bucket"
+
+	dpsHPChangeStageOutgoingPreMitigation = "hp_change/outgoing/pre_mitigation"
+	dpsHPChangeStageIncomingPreMitigation = "hp_change/incoming/pre_mitigation"
+	dpsHPChangeStageFinalPostMitigation   = "hp_change/final/post_mitigation"
+	dpsHPChangeStageFlatPostPercent       = "hp_change/flat/post_percent"
+
+	dpsAttributeStageBaseBonus        = "attribute/base_bonus"
+	dpsAttributeStageFlatBonus        = "attribute/flat_bonus"
+	dpsAttributeStageFinalMultiplier  = "attribute/final_multiplier"
+	dpsOpPhantomHitOnHitRepeat            = "phantom_hit_on_hit_repeat"
+	dpsRepeatScopeCopyableOnHit           = "copyable_on_hit"
 
 	dpsEventOnBasicAttackHit = "on_basic_attack_hit"
 	dpsEventOnSpellHit       = "on_spell_hit"
@@ -79,6 +90,7 @@ type dpsCombatEventContext struct {
 	IsDotTick      bool
 	IsPhantomHit   bool
 	HasCritContext bool
+	IsCrit         bool
 	ProcScope      string
 }
 
@@ -100,6 +112,19 @@ type dpsIncomingDamageModifierEntry struct {
 	operationIndex int
 	passive        model.DPSPassiveEffectV2
 	op             model.DPSPassiveOperationV2
+}
+
+type dpsAttributeStatModifierEntry struct {
+	passive       model.DPSPassiveEffectV2
+	op            model.DPSPassiveOperationV2
+	recordTrigger bool
+}
+
+type dpsAttributeBucketCandidate struct {
+	passive model.DPSPassiveEffectV2
+	op      model.DPSPassiveOperationV2
+	value   float64
+	bucket  compilebundle.CompiledCoefficientBucket
 }
 
 type dpsActiveActionSchedule struct {

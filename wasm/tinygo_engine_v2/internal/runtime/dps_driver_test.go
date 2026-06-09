@@ -36,6 +36,8 @@ func dpsTestEngineBundle() model.EngineBundle {
 			{ID: "magic_pen_percent"},
 			{ID: "magic_pen_flat"},
 			{ID: "ap"},
+			{ID: "adaptive_force"},
+			{ID: "health_regen"},
 			{ID: "ms_pct"},
 			{ID: "life_steal"},
 		},
@@ -85,6 +87,7 @@ func dpsTestEngineBundle() model.EngineBundle {
 			{ID: "as_capped_low", Op: "max", Left: "attack_speed", Right: "as_floor"},
 			{ID: "as_capped", Op: "min", Left: "as_capped_low", Right: "as_cap"},
 			{ID: "aa_cooldown_ms", Op: "div", Left: "thousand", Right: "as_capped"},
+			{ID: "ad_percent_delta", Op: "div", Left: "attack_damage", Right: "thousand"},
 		},
 		Actions: []model.ActionTemplate{
 			{
@@ -140,6 +143,105 @@ func dpsTestEngineBundle() model.EngineBundle {
 			},
 		},
 		Settings: model.BundleSettings{MaxEvents: 10000, MaxCommandsPerEvent: 64},
+		CoefficientBuckets: []model.CoefficientBucketV2{
+			{
+				BucketKey:        "incoming_physical_reduction",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageIncomingPreMitigation,
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "percent_delta"},
+			},
+			{
+				BucketKey:        "incoming_magic_reduction",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageIncomingPreMitigation,
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "percent_delta"},
+			},
+			{
+				BucketKey:        "final_post_mitigation",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageFinalPostMitigation,
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "percent_delta"},
+			},
+			{
+				BucketKey:        "flat_post_percent",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageFlatPostPercent,
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "flat_delta"},
+			},
+			{
+				BucketKey:        "outgoing_add_priority_late",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageOutgoingPreMitigation,
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "percent_delta", Priority: 20},
+			},
+			{
+				BucketKey:        "outgoing_multiply_priority_early",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageOutgoingPreMitigation,
+				AggregationMode:  "multiply",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "factor", Priority: 10},
+			},
+			{
+				BucketKey:        "ap_final_multiplier",
+				ResolutionDomain: "attribute",
+				StageKey:         dpsAttributeStageFinalMultiplier,
+				TargetAttrKey:    "ap",
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "percent_delta"},
+			},
+			{
+				BucketKey:        "hp_flat_bonus",
+				ResolutionDomain: "attribute",
+				StageKey:         dpsAttributeStageFlatBonus,
+				TargetAttrKey:    "hp",
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "flat_delta"},
+			},
+			{
+				BucketKey:        "adaptive_force_flat_bonus",
+				ResolutionDomain: "attribute",
+				StageKey:         dpsAttributeStageFlatBonus,
+				TargetAttrKey:    "adaptive_force",
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "flat_delta"},
+			},
+			{
+				BucketKey:        "health_regen_flat_bonus",
+				ResolutionDomain: "attribute",
+				StageKey:         dpsAttributeStageFlatBonus,
+				TargetAttrKey:    "health_regen",
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "flat_delta"},
+			},
+			{
+				BucketKey:        "target_armor_flat_bonus",
+				ResolutionDomain: "attribute",
+				StageKey:         dpsAttributeStageFlatBonus,
+				TargetAttrKey:    "armor",
+				AggregationMode:  "add",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "flat_delta"},
+			},
+			{
+				BucketKey:        "hp_flat_pick_max",
+				ResolutionDomain: "attribute",
+				StageKey:         dpsAttributeStageFlatBonus,
+				TargetAttrKey:    "hp",
+				AggregationMode:  "pick_max",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "flat_delta"},
+			},
+			{
+				BucketKey:        "incoming_set_final_test",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageIncomingPreMitigation,
+				AggregationMode:  "set_final",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "final_value"},
+			},
+		},
 	}
 }
 
@@ -1262,6 +1364,37 @@ func TestSessionBeginRunJSONDispatchesSingleAttackerDPSDoneFrame(t *testing.T) {
 	output := lastDPSOutput(t, session.OutboxBytes())
 	if output.CaseID != "V2-BatchA-basic-aa-001" || len(output.CurveResults) != 1 || output.CurveResults[0].Status != "ok" {
 		t.Fatalf("DPS done payload = %+v, want single_attacker_dps ok result", output)
+	}
+}
+
+func TestSessionBeginRunJSONDispatchesMultiCurveDPSDoneFrame(t *testing.T) {
+	session := NewSession()
+	if code := session.InitJSON(mustJSONForDPSTest(t, dpsTestEngineBundle())); code != 0 {
+		t.Fatalf("InitJSON code = %d", code)
+	}
+	input := baseSingleAttackerDPSInput()
+	baseCurve := input.Curves[0]
+	input.Curves = make([]model.DPSCurveRunSpecV2, 6)
+	for i := range input.Curves {
+		curve := baseCurve
+		curve.CurveID = "vayne-basic-aa-" + string(rune('a'+i))
+		input.Curves[i] = curve
+	}
+	if code := session.BeginRunJSON(mustJSONForDPSTest(t, input)); code != 0 {
+		t.Fatalf("BeginRunJSON code = %d, want 0 with non-empty outbox", code)
+	}
+	outbox := session.OutboxBytes()
+	if len(outbox) == 0 {
+		t.Fatal("outbox is empty after multi-curve DPS begin_run")
+	}
+	output := lastDPSOutput(t, outbox)
+	if len(output.CurveResults) != 6 {
+		t.Fatalf("curveResults length = %d, want 6", len(output.CurveResults))
+	}
+	for i, result := range output.CurveResults {
+		if result.Status != "ok" {
+			t.Fatalf("curveResults[%d] = %+v, want ok", i, result)
+		}
 	}
 }
 
@@ -3010,6 +3143,18 @@ func effectBreakdownMessageContains(result model.DPSCurveResultV2, kind string, 
 	return false
 }
 
+func findCoefficientBucketEffectBreakdown(result model.DPSCurveResultV2, messageNeedle string) *model.DPSEffectBreakdownV2 {
+	for i := range result.EffectBreakdown {
+		event := &result.EffectBreakdown[i]
+		if event.Kind == dpsEffectCoefficientBucket &&
+			strings.Contains(event.Message, messageNeedle) &&
+			event.CoefficientBucket != nil {
+			return event
+		}
+	}
+	return nil
+}
+
 func mustJSONForDPSTest(t *testing.T, value any) []byte {
 	t.Helper()
 	encoded, err := json.Marshal(value)
@@ -4273,6 +4418,577 @@ func TestSingleAttackerDPSIncomingDamageModifierAppliesBeforeTimeline(t *testing
 	}
 }
 
+func syntheticHPChangeIncomingPhysicalBucketPassive(value float64) model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.PassiveID = "item_hp_change_incoming_physical_test"
+	passive.SourceID = "item_hp_change_incoming_physical"
+	passive.TriggerID = "hp_change_incoming_physical"
+	passive.Operations = []model.DPSPassiveOperationV2{{
+		Kind:       dpsOpDamageModifier,
+		Source:     "hp_change_incoming_physical",
+		TargetRole: "target",
+		BucketKey:  "incoming_physical_reduction",
+		Value:      value,
+	}}
+	return passive
+}
+
+func syntheticHPChangeIncomingMagicBucketPassive(value float64) model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.PassiveID = "item_hp_change_incoming_magic_test"
+	passive.SourceID = "item_hp_change_incoming_magic"
+	passive.TriggerID = "hp_change_incoming_magic"
+	passive.Trigger.Matcher.DamageTypes = []string{"magic"}
+	passive.Operations = []model.DPSPassiveOperationV2{{
+		Kind:       dpsOpDamageModifier,
+		Source:     "hp_change_incoming_magic",
+		TargetRole: "target",
+		BucketKey:  "incoming_magic_reduction",
+		Value:      value,
+	}}
+	return passive
+}
+
+func syntheticHPChangeFinalPostMitigationBucketPassive(value float64) model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.PassiveID = "item_hp_change_final_post_test"
+	passive.SourceID = "item_hp_change_final_post"
+	passive.TriggerID = "hp_change_final_post"
+	passive.Trigger.Matcher.DamageTypes = []string{"magic"}
+	passive.Operations = []model.DPSPassiveOperationV2{{
+		Kind:       dpsOpDamageModifier,
+		Source:     "hp_change_final_post",
+		TargetRole: "target",
+		BucketKey:  "final_post_mitigation",
+		Value:      value,
+	}}
+	return passive
+}
+
+func syntheticHPChangeFlatPostPercentBucketPassive(value float64) model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.PassiveID = "item_hp_change_flat_post_test"
+	passive.SourceID = "item_hp_change_flat_post"
+	passive.TriggerID = "hp_change_flat_post"
+	passive.Operations = []model.DPSPassiveOperationV2{{
+		Kind:       dpsOpDamageModifier,
+		Source:     "hp_change_flat_post",
+		TargetRole: "target",
+		BucketKey:  "flat_post_percent",
+		Value:      value,
+	}}
+	return passive
+}
+
+func syntheticHPChangeOutgoingAddPassive(value float64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_hp_change_outgoing_add_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_hp_change_outgoing_add",
+		SourceType:     "item",
+		TriggerID:      "hp_change_outgoing_add",
+		OwnerRole:      "attacker",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnDamageDealt,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes:    []string{"physical"},
+				ExcludePhantom: true,
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamageModifier,
+			Source:     "hp_change_outgoing_add",
+			TargetRole: "attacker",
+			BucketKey:  "outgoing_add_priority_late",
+			Value:      value,
+		}},
+	}
+}
+
+func syntheticHPChangeOutgoingPriorityPairPassive(multiplyFactor float64, addPercent float64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_hp_change_outgoing_priority_pair_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_hp_change_outgoing_priority_pair",
+		SourceType:     "item",
+		TriggerID:      "hp_change_outgoing_priority_pair",
+		OwnerRole:      "attacker",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnDamageDealt,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes:    []string{"physical"},
+				ExcludePhantom: true,
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{
+			{
+				Kind:       dpsOpDamageModifier,
+				Source:     "hp_change_outgoing_add",
+				TargetRole: "attacker",
+				BucketKey:  "outgoing_add_priority_late",
+				Value:      addPercent,
+			},
+			{
+				Kind:       dpsOpDamageModifier,
+				Source:     "hp_change_outgoing_multiply",
+				TargetRole: "attacker",
+				BucketKey:  "outgoing_multiply_priority_early",
+				Value:      multiplyFactor,
+			},
+		},
+	}
+}
+
+func TestSingleAttackerDPSHPChangeIncomingPercentMatchesLegacyDamageModifier(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", syntheticHPChangeIncomingPhysicalBucketPassive(-0.2))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	basicAttack := result.DamageTimeline[0]
+	if !almostEqual(basicAttack.RawDamage, 80) || !almostEqual(basicAttack.FinalDamage, 80) {
+		t.Fatalf("basic attack damage = raw %.4f final %.4f, want 80 before and after zero armor", basicAttack.RawDamage, basicAttack.FinalDamage)
+	}
+	if !almostEqual(result.TotalDamage, 80) {
+		t.Fatalf("totalDamage = %.4f, want hp_change incoming bucket applied before timeline", result.TotalDamage)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one bucket modifier trigger", result.ItemPassiveTriggers)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=hp_change stageKey="+dpsHPChangeStageIncomingPreMitigation+" bucketKey=incoming_physical_reduction aggregationMode=add valueUnit=percent_delta raw=100 result=80") {
+		t.Fatalf("effectBreakdown = %+v, want coefficient_bucket evidence", result.EffectBreakdown)
+	}
+	bucketEvidence := findCoefficientBucketEffectBreakdown(result, "bucketKey=incoming_physical_reduction aggregationMode=add valueUnit=percent_delta raw=100 result=80")
+	if bucketEvidence == nil {
+		t.Fatalf("effectBreakdown = %+v, want structured coefficient_bucket evidence", result.EffectBreakdown)
+	}
+	cb := bucketEvidence.CoefficientBucket
+	if cb.Domain != "hp_change" || cb.BucketKey != "incoming_physical_reduction" || !almostEqual(cb.Raw, 100) || !almostEqual(cb.Result, 80) {
+		t.Fatalf("coefficientBucket = %+v, want hp_change incoming_physical_reduction raw=100 result=80", cb)
+	}
+	if len(cb.Candidates) == 0 {
+		t.Fatalf("coefficientBucket.candidates = %+v, want non-empty applied candidates", cb.Candidates)
+	}
+	first := cb.Candidates[0]
+	if !first.Applied || first.Source == "" || first.SourceType == "" || first.PassiveID == "" || first.OperationKind == "" {
+		t.Fatalf("coefficientBucket.candidates[0] = %+v, want applied candidate metadata", first)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeSameBucketAdditivePercent(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
+	passive.Operations = append(passive.Operations, model.DPSPassiveOperationV2{
+		Kind:       dpsOpDamageModifier,
+		Source:     "hp_change_incoming_physical_second",
+		TargetRole: "target",
+		BucketKey:  "incoming_physical_reduction",
+		Value:      -0.1,
+	})
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one damage event", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 70) || !almostEqual(result.TotalDamage, 70) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want additive bucket result 70 not serial 72",
+			result.DamageTimeline[0].RawDamage, result.DamageTimeline[0].FinalDamage, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeMagicPreMitigationBeforeResistance(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{{
+		ActionID:   dpsTestCooldownSkillActionID,
+		SkillID:    dpsTestCooldownSkillSkillID,
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+	}}
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_magic", syntheticHPChangeIncomingMagicBucketPassive(-0.2))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 100
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one magic skill damage event", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 40) || !almostEqual(result.TotalDamage, 40) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 40 after incoming bucket and MR 100",
+			result.DamageTimeline[0].RawDamage, result.DamageTimeline[0].FinalDamage, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeFinalPostMitigationAfterResistance(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{{
+		ActionID:   dpsTestCooldownSkillActionID,
+		SkillID:    dpsTestCooldownSkillSkillID,
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+	}}
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_final_post", syntheticHPChangeFinalPostMitigationBucketPassive(-0.2))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 100
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one magic skill damage event", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 40) || !almostEqual(result.TotalDamage, 40) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 40 after MR 100 then final/post -20%%",
+			result.DamageTimeline[0].RawDamage, result.DamageTimeline[0].FinalDamage, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeFlatPostPercentClampsToZero(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(
+		curve,
+		"item_hp_change_flat_post",
+		syntheticHPChangeIncomingPhysicalBucketPassive(-0.3),
+		syntheticHPChangeFlatPostPercentBucketPassive(-80),
+	)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one damage event", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 0) || !almostEqual(result.TotalDamage, 0) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want flat post_percent clamped to 0",
+			result.DamageTimeline[0].RawDamage, result.DamageTimeline[0].FinalDamage, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeOutgoingAttackerOwnedDamageDealtAppliesBeforeMitigation(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticHPChangeOutgoingAddPassive(0.2))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	basicAttack := result.DamageTimeline[0]
+	if !almostEqual(basicAttack.RawDamage, 120) || !almostEqual(basicAttack.FinalDamage, 120) {
+		t.Fatalf("basic attack damage = raw %.4f final %.4f, want outgoing bucket applied before mitigation",
+			basicAttack.RawDamage, basicAttack.FinalDamage)
+	}
+	if !almostEqual(result.TotalDamage, 120) {
+		t.Fatalf("totalDamage = %.4f, want outgoing bucket applied before timeline", result.TotalDamage)
+	}
+	modifierTriggerCount := 0
+	for _, trigger := range result.ItemPassiveTriggers {
+		if trigger.TriggerID == "hp_change_outgoing_add" {
+			modifierTriggerCount++
+		}
+	}
+	if modifierTriggerCount != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one outgoing bucket trigger without post-dispatch duplicate", result.ItemPassiveTriggers)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=hp_change stageKey="+dpsHPChangeStageOutgoingPreMitigation+" bucketKey=outgoing_add_priority_late aggregationMode=add valueUnit=percent_delta raw=100 result=120") {
+		t.Fatalf("effectBreakdown = %+v, want outgoing coefficient_bucket evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeBucketPriorityOrdersBeforeID(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticHPChangeOutgoingPriorityPairPassive(2.0, 0.2))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].RawDamage, 240) || !almostEqual(result.DamageTimeline[0].FinalDamage, 240) || !almostEqual(result.TotalDamage, 240) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want priority-ordered buckets 100 -> 200 -> 240 not ID order 220",
+			result.DamageTimeline[0].RawDamage, result.DamageTimeline[0].FinalDamage, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeConditionMaxHPGatesCandidate(t *testing.T) {
+	condition := model.DPSModifierConditionV2{
+		Metric:      "max_hp",
+		SubjectRole: "target",
+		Operator:    "gte",
+		Value:       1500,
+	}
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
+	passive.Operations[0].Conditions = []model.DPSModifierConditionV2{condition}
+
+	setup := func(t *testing.T, targetMaxHP float64) model.DPSCurveResultV2 {
+		t.Helper()
+		input := baseSingleAttackerDPSInput()
+		input.SimulationRules.DurationMs = 1
+		curve := &input.Curves[0]
+		enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+		curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = targetMaxHP
+		curve.ResolvedSnapshot.TargetSnapshot.MaxHP = targetMaxHP
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+		return runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	}
+
+	t.Run("target max hp below threshold", func(t *testing.T) {
+		result := setup(t, 1000)
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		if len(result.DamageTimeline) != 1 {
+			t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+		}
+		basicAttack := result.DamageTimeline[0]
+		if !almostEqual(basicAttack.RawDamage, 100) || !almostEqual(basicAttack.FinalDamage, 100) || !almostEqual(result.TotalDamage, 100) {
+			t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 100 when max_hp condition fails",
+				basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage)
+		}
+		for _, trigger := range result.ItemPassiveTriggers {
+			if trigger.TriggerID == "hp_change_incoming_physical" {
+				t.Fatalf("itemPassiveTriggers = %v, want no hp_change trigger when condition fails", result.ItemPassiveTriggers)
+			}
+		}
+		bucketEvidence := findCoefficientBucketEffectBreakdown(result, "bucketKey=incoming_physical_reduction aggregationMode=add valueUnit=percent_delta raw=100 result=100")
+		if bucketEvidence == nil {
+			t.Fatalf("effectBreakdown = %+v, want skipped-only coefficient_bucket evidence", result.EffectBreakdown)
+		}
+		cb := bucketEvidence.CoefficientBucket
+		if len(cb.Candidates) != 0 || len(cb.Skipped) == 0 {
+			t.Fatalf("coefficientBucket = %+v, want empty candidates and skipped entries", cb)
+		}
+		skipped := cb.Skipped[0]
+		if skipped.Applied || skipped.SkipReason == "" || skipped.SkipReason != "condition_not_met:max_hp" {
+			t.Fatalf("coefficientBucket.skipped[0] = %+v, want applied=false with max_hp skip reason", skipped)
+		}
+	})
+
+	t.Run("target max hp meets threshold", func(t *testing.T) {
+		result := setup(t, 2000)
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		if len(result.DamageTimeline) != 1 {
+			t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+		}
+		basicAttack := result.DamageTimeline[0]
+		if !almostEqual(basicAttack.RawDamage, 80) || !almostEqual(basicAttack.FinalDamage, 80) || !almostEqual(result.TotalDamage, 80) {
+			t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 80 when max_hp condition passes",
+				basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage)
+		}
+		if len(result.ItemPassiveTriggers) != 1 || result.ItemPassiveTriggers[0].TriggerID != "hp_change_incoming_physical" {
+			t.Fatalf("itemPassiveTriggers = %v, want one hp_change incoming physical trigger", result.ItemPassiveTriggers)
+		}
+	})
+}
+
+func TestSingleAttackerDPSHPChangeConditionMissingHPPctGatesCandidate(t *testing.T) {
+	condition := model.DPSModifierConditionV2{
+		Metric:      "missing_hp_pct",
+		SubjectRole: "target",
+		Operator:    "gte",
+		Value:       0.5,
+	}
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
+	passive.Operations[0].Conditions = []model.DPSModifierConditionV2{condition}
+
+	setup := func(t *testing.T, targetCurrentHP float64) model.DPSCurveResultV2 {
+		t.Helper()
+		input := baseSingleAttackerDPSInput()
+		input.SimulationRules.DurationMs = 1
+		curve := &input.Curves[0]
+		enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+		curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+		curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = targetCurrentHP
+		curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+		curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+		return runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	}
+
+	t.Run("missing hp pct meets threshold", func(t *testing.T) {
+		result := setup(t, 500)
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		basicAttack := result.DamageTimeline[0]
+		if !almostEqual(basicAttack.RawDamage, 80) || !almostEqual(basicAttack.FinalDamage, 80) || !almostEqual(result.TotalDamage, 80) {
+			t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 80 when missing_hp_pct condition passes",
+				basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage)
+		}
+	})
+
+	t.Run("missing hp pct below threshold", func(t *testing.T) {
+		result := setup(t, 900)
+		if result.Status != "ok" {
+			t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+		}
+		basicAttack := result.DamageTimeline[0]
+		if !almostEqual(basicAttack.RawDamage, 100) || !almostEqual(basicAttack.FinalDamage, 100) || !almostEqual(result.TotalDamage, 100) {
+			t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 100 when missing_hp_pct condition fails",
+				basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage)
+		}
+		for _, trigger := range result.ItemPassiveTriggers {
+			if trigger.TriggerID == "hp_change_incoming_physical" {
+				t.Fatalf("itemPassiveTriggers = %v, want no hp_change trigger when condition fails", result.ItemPassiveTriggers)
+			}
+		}
+		bucketEvidence := findCoefficientBucketEffectBreakdown(result, "bucketKey=incoming_physical_reduction aggregationMode=add valueUnit=percent_delta raw=100 result=100")
+		if bucketEvidence == nil {
+			t.Fatalf("effectBreakdown = %+v, want skipped-only coefficient_bucket evidence", result.EffectBreakdown)
+		}
+		cb := bucketEvidence.CoefficientBucket
+		if len(cb.Candidates) != 0 || len(cb.Skipped) == 0 {
+			t.Fatalf("coefficientBucket = %+v, want empty candidates and skipped entries", cb)
+		}
+		skipped := cb.Skipped[0]
+		if skipped.Applied || skipped.SkipReason == "" || skipped.SkipReason != "condition_not_met:missing_hp_pct" {
+			t.Fatalf("coefficientBucket.skipped[0] = %+v, want applied=false with missing_hp_pct skip reason", skipped)
+		}
+	})
+}
+
+func TestSingleAttackerDPSHPChangeHPDiffRatioValueSpec(t *testing.T) {
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(0)
+	passive.Operations[0].ValueSpec = model.DPSModifierValueSpecV2{
+		Kind:        "hp_diff_ratio",
+		OwnerRole:   "attacker",
+		CompareRole: "target",
+		Ratio:       0.0001,
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.AttackerSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 2000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 2000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	basicAttack := result.DamageTimeline[0]
+	if !almostEqual(basicAttack.RawDamage, 110) || !almostEqual(basicAttack.FinalDamage, 110) || !almostEqual(result.TotalDamage, 110) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 110 from hp_diff_ratio percent_delta 0.1",
+			basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=hp_change stageKey="+dpsHPChangeStageIncomingPreMitigation+" bucketKey=incoming_physical_reduction aggregationMode=add valueUnit=percent_delta raw=100 result=110") {
+		t.Fatalf("effectBreakdown = %+v, want hp_diff_ratio coefficient_bucket evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeCritConditionRequiresCritContext(t *testing.T) {
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
+	passive.Operations[0].Conditions = []model.DPSModifierConditionV2{{
+		Metric:    "crit",
+		Operator:  "eq",
+		TextValue: "true",
+	}}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked when crit condition lacks crit context", result.Status)
+	}
+	if !blockedReasonContains(result, "crit condition requires crit context") {
+		t.Fatalf("blockedReasons = %v, want crit condition crit context block", result.BlockedReasons)
+	}
+}
+
 func TestSingleAttackerDPSIncomingCritOnlyModifierRequiresCritContext(t *testing.T) {
 	input := baseSingleAttackerDPSInput()
 	input.SimulationRules.DurationMs = 1
@@ -4343,5 +5059,746 @@ func TestSingleAttackerDPSPhantomHitDoesNotCopySpellProc(t *testing.T) {
 		if trigger.TriggerID == "luden_spell_hit" {
 			t.Fatalf("itemPassiveTriggers = %v, want no spell-hit trigger from basic attack or phantom hit", result.ItemPassiveTriggers)
 		}
+	}
+}
+
+func syntheticRabadonAPFinalMultiplierPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_rabadons_deathcap_ap_multiplier",
+		SourceCategory: "item_passive",
+		SourceID:       "item_rabadons_deathcap",
+		SourceType:     "item",
+		TriggerID:      "rabadon_ap_final_multiplier",
+		TriggerKind:    dpsTriggerStatAlwaysOn,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:      dpsOpStatModifier,
+			Source:    "rabadon_ap_final_multiplier",
+			AttrKey:   "ap",
+			BucketKey: "ap_final_multiplier",
+			Value:     0.3,
+		}},
+	}
+}
+
+func syntheticGoliathAugmentAttributePassives() []model.DPSPassiveEffectV2 {
+	return []model.DPSPassiveEffectV2{
+		{
+			PassiveID:      "augment_goliath_hp_bonus",
+			SourceCategory: "external_passive",
+			SourceID:       "augment_goliath_giant",
+			SourceType:     "augment",
+			TriggerID:      "goliath_hp_flat_bonus",
+			TriggerKind:    dpsTriggerStatAlwaysOn,
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:      dpsOpStatModifier,
+				Source:    "goliath_hp_flat_bonus",
+				AttrKey:   "hp",
+				BucketKey: "hp_flat_bonus",
+				Value:     800,
+			}},
+		},
+		{
+			PassiveID:      "augment_goliath_adaptive_force",
+			SourceCategory: "external_passive",
+			SourceID:       "augment_goliath_giant",
+			SourceType:     "augment",
+			TriggerID:      "goliath_adaptive_force_flat_bonus",
+			TriggerKind:    dpsTriggerStatAlwaysOn,
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:      dpsOpStatModifier,
+				Source:    "goliath_adaptive_force_flat_bonus",
+				AttrKey:   "adaptive_force",
+				BucketKey: "adaptive_force_flat_bonus",
+				Value:     25,
+			}},
+		},
+	}
+}
+
+func syntheticWarmogAttributePassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_warmogs_armor_hp_regen",
+		SourceCategory: "item_passive",
+		SourceID:       "item_warmogs_armor",
+		SourceType:     "item",
+		TriggerID:      "warmog_hp_regen_bonus",
+		TriggerKind:    dpsTriggerStatAlwaysOn,
+		Operations: []model.DPSPassiveOperationV2{
+			{
+				Kind:      dpsOpStatModifier,
+				Source:    "warmog_hp_flat_bonus",
+				AttrKey:   "hp",
+				BucketKey: "hp_flat_bonus",
+				Value:     500,
+			},
+			{
+				Kind:      dpsOpStatModifier,
+				Source:    "warmog_health_regen_flat_bonus",
+				AttrKey:   "health_regen",
+				BucketKey: "health_regen_flat_bonus",
+				Value:     12,
+			},
+		},
+	}
+}
+
+func syntheticTargetArmorFlatBonusPassive(flatDelta float64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_target_armor_shred_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_target_armor_shred",
+		SourceType:     "item",
+		OwnerRole:      "target",
+		TriggerID:      "target_armor_flat_bonus",
+		TriggerKind:    dpsTriggerStatAlwaysOn,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpStatModifier,
+			Source:     "target_armor_flat_bonus",
+			AttrKey:    "armor",
+			TargetRole: "target",
+			BucketKey:  "target_armor_flat_bonus",
+			Value:      flatDelta,
+		}},
+	}
+}
+
+func skillOnlyDPSCurveSetup(curve *model.DPSCurveRunSpecV2) {
+	curve.ResolvedSnapshot.BasicAttackActions = nil
+	curve.ResolvedSnapshot.ActiveActions = []model.DPSActiveActionRefV2{{
+		ActionID:   dpsTestCooldownSkillActionID,
+		SkillID:    dpsTestCooldownSkillSkillID,
+		Kind:       dpsActiveActionKindSkill,
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}, Tags: []string{"skill_tag/spell_damage"}},
+	}}
+}
+
+func TestSingleAttackerDPSRabadonAPFinalMultiplierFeedsSkillDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	skillOnlyDPSCurveSetup(curve)
+	enableDPSPassivesForTest(curve, syntheticRabadonAPFinalMultiplierPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 300
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"]; !almostEqual(got, 390) {
+		t.Fatalf("resolved ap = %.4f, want 390 after +30%% final multiplier bucket", got)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 390) {
+		t.Fatalf("damageBySource = %v, want skill damage 390 from resolved ap", result.DamageBySource)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=attribute stageKey="+dpsAttributeStageFinalMultiplier+" bucketKey=ap_final_multiplier aggregationMode=add valueUnit=percent_delta raw=300 result=390") {
+		t.Fatalf("effectBreakdown = %+v, want ap_final_multiplier coefficient_bucket evidence", result.EffectBreakdown)
+	}
+	bucketEvidence := findCoefficientBucketEffectBreakdown(result, "bucketKey=ap_final_multiplier aggregationMode=add valueUnit=percent_delta raw=300 result=390")
+	if bucketEvidence == nil {
+		t.Fatalf("effectBreakdown = %+v, want structured coefficient_bucket evidence", result.EffectBreakdown)
+	}
+	cb := bucketEvidence.CoefficientBucket
+	if cb.Domain != "attribute" || cb.BucketKey != "ap_final_multiplier" || !almostEqual(cb.Raw, 300) || !almostEqual(cb.Result, 390) {
+		t.Fatalf("coefficientBucket = %+v, want attribute ap_final_multiplier raw=300 result=390", cb)
+	}
+	if len(cb.Candidates) == 0 {
+		t.Fatalf("coefficientBucket.candidates = %+v, want non-empty applied candidates", cb.Candidates)
+	}
+}
+
+func TestSingleAttackerDPSGoliathAugmentAttributeBucketsResolve(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticGoliathAugmentAttributePassives()...)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"] = 550
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["adaptive_force"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"]; !almostEqual(got, 1350) {
+		t.Fatalf("resolved hp = %.4f, want 1350 after +800 flat bucket", got)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["adaptive_force"]; !almostEqual(got, 25) {
+		t.Fatalf("resolved adaptive_force = %.4f, want 25 after +25 flat bucket", got)
+	}
+	if len(result.ExternalPassiveTriggers) != 2 {
+		t.Fatalf("externalPassiveTriggers = %+v, want two augment triggers", result.ExternalPassiveTriggers)
+	}
+	for _, trigger := range result.ExternalPassiveTriggers {
+		if trigger.SourceType != "augment" {
+			t.Fatalf("trigger = %+v, want sourceType augment in evidence", trigger)
+		}
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=attribute stageKey="+dpsAttributeStageFlatBonus+" bucketKey=hp_flat_bonus") {
+		t.Fatalf("effectBreakdown = %+v, want hp_flat_bonus coefficient_bucket evidence", result.EffectBreakdown)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "bucketKey=adaptive_force_flat_bonus") ||
+		!effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "bucketKey=adaptive_force_flat_bonus aggregationMode=add valueUnit=flat_delta raw=0 result=25") {
+		t.Fatalf("effectBreakdown = %+v, want adaptive_force_flat_bonus coefficient_bucket evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSWarmogLikeHPAndRegenAttributeBucketsResolve(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticWarmogAttributePassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"] = 1000
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["health_regen"] = 5
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"]; !almostEqual(got, 1500) {
+		t.Fatalf("resolved hp = %.4f, want 1500 after +500 flat bucket", got)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["health_regen"]; !almostEqual(got, 17) {
+		t.Fatalf("resolved health_regen = %.4f, want 17 after +12 flat bucket", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "bucketKey=health_regen_flat_bonus aggregationMode=add valueUnit=flat_delta raw=5 result=17") {
+		t.Fatalf("effectBreakdown = %+v, want health_regen_flat_bonus coefficient_bucket evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSLegacyStackingStatModifierUnchangedWithoutBucketKey(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 6000
+	curve := &input.Curves[0]
+	passive := canonicalStackingStatModifierPassive("legacy_guinsoo_stack", "legacy_guinsoo_stack", 6000, 3, 0.08, 0)
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpStatModifier, "perStack=true stackKey=legacy_guinsoo_stack stacks=3") {
+		t.Fatalf("effectBreakdown = %+v, want legacy stat_modifier evidence without bucket", result.EffectBreakdown)
+	}
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == dpsEffectCoefficientBucket {
+			t.Fatalf("effectBreakdown = %+v, want no coefficient_bucket for legacy stacking stat_modifier", result.EffectBreakdown)
+		}
+	}
+	if got := maxBreakdownAmount(result, dpsOpStatModifier); !almostEqual(got, 1.24) {
+		t.Fatalf("max stat_modifier amount = %.4f, want 1.24 attack_speed after 3 stacks * 8%%", got)
+	}
+}
+
+func TestSingleAttackerDPSTargetArmorAttributeBucketAffectsMitigation(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_target_armor_shred", syntheticTargetArmorFlatBonusPassive(-50))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 100
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.TargetSnapshot.Attributes["armor"]; !almostEqual(got, 50) {
+		t.Fatalf("resolved target armor = %.4f, want 50 after -50 flat bucket", got)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 66.66666666666667) {
+		t.Fatalf("final damage = %.4f, want ~66.67 with 50 armor (100 ad)", result.DamageTimeline[0].FinalDamage)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "bucketKey=target_armor_flat_bonus aggregationMode=add valueUnit=flat_delta raw=100 result=50") {
+		t.Fatalf("effectBreakdown = %+v, want target_armor_flat_bonus coefficient_bucket evidence", result.EffectBreakdown)
+	}
+}
+
+func syntheticBucketKeyStatModifiersWithoutAttrKey() []model.DPSPassiveEffectV2 {
+	return []model.DPSPassiveEffectV2{
+		{
+			PassiveID:      "item_rabadon_ap_no_attr_key",
+			SourceCategory: "item_passive",
+			SourceID:       "item_rabadon_ap_no_attr_key",
+			SourceType:     "item",
+			TriggerID:      "rabadon_ap_no_attr_key",
+			TriggerKind:    dpsTriggerStatAlwaysOn,
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:      dpsOpStatModifier,
+				Source:    "rabadon_ap_no_attr_key",
+				BucketKey: "ap_final_multiplier",
+				Value:     0.3,
+			}},
+		},
+		{
+			PassiveID:      "augment_hp_no_attr_key",
+			SourceCategory: "external_passive",
+			SourceID:       "augment_hp_no_attr_key",
+			SourceType:     "augment",
+			TriggerID:      "hp_no_attr_key",
+			TriggerKind:    dpsTriggerStatAlwaysOn,
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:      dpsOpStatModifier,
+				Source:    "hp_no_attr_key",
+				BucketKey: "hp_flat_bonus",
+				Value:     200,
+			}},
+		},
+	}
+}
+
+func TestSingleAttackerDPSBucketKeyStatModifierWithoutAttrKeyResolvesTargetAttr(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	skillOnlyDPSCurveSetup(curve)
+	enableDPSPassivesForTest(curve, syntheticBucketKeyStatModifiersWithoutAttrKey()...)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 300
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"] = 1000
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"]; !almostEqual(got, 390) {
+		t.Fatalf("resolved ap = %.4f, want 390 from bucket targetAttrKey without op attrKey", got)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"]; !almostEqual(got, 1200) {
+		t.Fatalf("resolved hp = %.4f, want 1200 from bucket targetAttrKey without op attrKey", got)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 390) {
+		t.Fatalf("damageBySource = %v, want skill damage 390 from resolved ap", result.DamageBySource)
+	}
+}
+
+func syntheticPickMaxHPFlatBonusPassives() []model.DPSPassiveEffectV2 {
+	return []model.DPSPassiveEffectV2{
+		{
+			PassiveID:      "pick_max_hp_candidate_low",
+			SourceCategory: "item_passive",
+			SourceID:       "pick_max_hp_candidate_low",
+			SourceType:     "item",
+			TriggerID:      "pick_max_hp_candidate_low",
+			TriggerKind:    dpsTriggerStatAlwaysOn,
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:      dpsOpStatModifier,
+				Source:    "pick_max_hp_candidate_low",
+				BucketKey: "hp_flat_pick_max",
+				Value:     10,
+			}},
+		},
+		{
+			PassiveID:      "pick_max_hp_candidate_high",
+			SourceCategory: "item_passive",
+			SourceID:       "pick_max_hp_candidate_high",
+			SourceType:     "item",
+			TriggerID:      "pick_max_hp_candidate_high",
+			TriggerKind:    dpsTriggerStatAlwaysOn,
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:      dpsOpStatModifier,
+				Source:    "pick_max_hp_candidate_high",
+				BucketKey: "hp_flat_pick_max",
+				Value:     25,
+			}},
+		},
+	}
+}
+
+func TestSingleAttackerDPSAttributePickMaxFlatBucketTakesMaximumCandidate(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, syntheticPickMaxHPFlatBonusPassives()...)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"] = 1000
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["hp"]; !almostEqual(got, 1025) {
+		t.Fatalf("resolved hp = %.4f, want 1025 after pick_max flat_delta +25 over +10", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "bucketKey=hp_flat_pick_max aggregationMode=pick_max valueUnit=flat_delta raw=1000 result=1025") {
+		t.Fatalf("effectBreakdown = %+v, want hp_flat_pick_max pick_max coefficient_bucket evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeFormulaValueSpecUsesAttackerAttributeFormula(t *testing.T) {
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(0)
+	passive.Operations[0].ValueSpec = model.DPSModifierValueSpecV2{
+		Kind:      "formula",
+		FormulaID: "ad_percent_delta",
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	basicAttack := result.DamageTimeline[0]
+	if !almostEqual(basicAttack.RawDamage, 110) || !almostEqual(basicAttack.FinalDamage, 110) || !almostEqual(result.TotalDamage, 110) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 110 from formula ad_percent_delta",
+			basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSAttributeFormulaValueSpecUsesAttackerAttributeFormula(t *testing.T) {
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:      "item_formula_ap_multiplier",
+		SourceCategory: "item_passive",
+		SourceID:       "item_formula_ap_multiplier",
+		SourceType:     "item",
+		TriggerID:      "formula_ap_multiplier",
+		TriggerKind:    dpsTriggerStatAlwaysOn,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:      dpsOpStatModifier,
+			Source:    "formula_ap_multiplier",
+			BucketKey: "ap_final_multiplier",
+			ValueSpec: model.DPSModifierValueSpecV2{
+				Kind:      "formula",
+				FormulaID: "ad_percent_delta",
+			},
+		}},
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 300
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"]; !almostEqual(got, 330) {
+		t.Fatalf("resolved ap = %.4f, want 330 from formula ad_percent_delta percent_delta 0.1", got)
+	}
+}
+
+func syntheticHPChangeSetFinalPriorityPassives() []model.DPSPassiveEffectV2 {
+	return []model.DPSPassiveEffectV2{
+		{
+			PassiveID:      "set_final_low_priority",
+			SourceCategory: "item_passive",
+			SourceID:       "set_final_low_priority",
+			SourceType:     "item",
+			TriggerID:      "set_final_low_priority",
+			OwnerRole:      "target",
+			Trigger: model.DPSPassiveTriggerSpecV2{
+				Event: dpsEventOnDamageTaken,
+				Matcher: model.DPSPassiveTriggerMatcherV2{
+					DamageTypes:    []string{"physical"},
+					ExcludePhantom: true,
+				},
+			},
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:       dpsOpDamageModifier,
+				Source:     "set_final_low_priority",
+				TargetRole: "target",
+				BucketKey:  "incoming_set_final_test",
+				Priority:   10,
+				ValueSpec:  model.DPSModifierValueSpecV2{Kind: "literal", Value: 50},
+			}},
+		},
+		{
+			PassiveID:      "set_final_high_priority",
+			SourceCategory: "item_passive",
+			SourceID:       "set_final_high_priority",
+			SourceType:     "item",
+			TriggerID:      "set_final_high_priority",
+			OwnerRole:      "target",
+			Trigger: model.DPSPassiveTriggerSpecV2{
+				Event: dpsEventOnDamageTaken,
+				Matcher: model.DPSPassiveTriggerMatcherV2{
+					DamageTypes:    []string{"physical"},
+					ExcludePhantom: true,
+				},
+			},
+			Operations: []model.DPSPassiveOperationV2{{
+				Kind:       dpsOpDamageModifier,
+				Source:     "set_final_high_priority",
+				TargetRole: "target",
+				BucketKey:  "incoming_set_final_test",
+				Priority:   20,
+				ValueSpec:  model.DPSModifierValueSpecV2{Kind: "literal", Value: 80},
+			}},
+		},
+	}
+}
+
+func TestSingleAttackerDPSHPChangeOperationPriorityDeterminesSetFinalResult(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "set_final_low_priority", syntheticHPChangeSetFinalPriorityPassives()...)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	basicAttack := result.DamageTimeline[0]
+	if !almostEqual(basicAttack.RawDamage, 80) || !almostEqual(basicAttack.FinalDamage, 80) || !almostEqual(result.TotalDamage, 80) {
+		t.Fatalf("damage = raw %.4f final %.4f total %.4f, want 80 from higher-priority set_final candidate",
+			basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage)
+	}
+}
+
+func TestSingleAttackerDPSCoefficientBucketEvidenceIncludesEvidenceKey(t *testing.T) {
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
+	passive.Operations[0].EvidenceKey = "incoming_physical_reduction_evidence"
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "evidenceKey=incoming_physical_reduction_evidence") {
+		t.Fatalf("effectBreakdown = %+v, want coefficient_bucket evidenceKey", result.EffectBreakdown)
+	}
+}
+
+func syntheticHPChangeCoefficientModifierPassive(value float64) model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.PassiveID = "item_hp_change_coefficient_modifier_test"
+	passive.SourceID = "item_hp_change_coefficient_modifier"
+	passive.TriggerID = "hp_change_coefficient_modifier"
+	passive.Operations = []model.DPSPassiveOperationV2{{
+		Kind:      dpsOpCoefficientModifier,
+		Source:    "hp_change_coefficient_modifier",
+		BucketKey: "incoming_physical_reduction",
+		Value:     value,
+	}}
+	return passive
+}
+
+func syntheticAttributeCoefficientModifierPassive(value float64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_attribute_coefficient_modifier_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_attribute_coefficient_modifier",
+		SourceType:     "item",
+		TriggerID:      "attribute_coefficient_modifier",
+		TriggerKind:    dpsTriggerStatAlwaysOn,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:      dpsOpCoefficientModifier,
+			Source:    "attribute_coefficient_modifier",
+			BucketKey: "ap_final_multiplier",
+			Value:     value,
+		}},
+	}
+}
+
+func TestSingleAttackerDPSCoefficientModifierDrivesHPChangeBucket(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_coefficient_modifier", syntheticHPChangeCoefficientModifierPassive(-0.2))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+	}
+	basicAttack := result.DamageTimeline[0]
+	if !almostEqual(basicAttack.RawDamage, 80) || !almostEqual(basicAttack.FinalDamage, 80) {
+		t.Fatalf("basic attack damage = raw %.4f final %.4f, want 80 from coefficient_modifier hp_change bucket", basicAttack.RawDamage, basicAttack.FinalDamage)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=hp_change stageKey="+dpsHPChangeStageIncomingPreMitigation+" bucketKey=incoming_physical_reduction aggregationMode=add valueUnit=percent_delta raw=100 result=80") {
+		t.Fatalf("effectBreakdown = %+v, want coefficient_bucket evidence for hp_change coefficient_modifier", result.EffectBreakdown)
+	}
+}
+
+func syntheticSpellHitAttributeCoefficientModifierPassive(value float64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_spell_hit_attribute_coefficient_modifier_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_spell_hit_attribute_coefficient_modifier",
+		SourceType:     "item",
+		TriggerID:      "spell_hit_attribute_coefficient_modifier",
+		OwnerRole:      "attacker",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnSpellHit,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes: []string{"magic"},
+				ActionTypes: model.TypeMatcherV2{Any: []string{"action/cast_skill"}},
+				EffectTags:  model.TypeMatcherV2{Any: []string{"skill_tag/spell_damage"}},
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:      dpsOpCoefficientModifier,
+			Source:    "spell_hit_attribute_coefficient_modifier",
+			BucketKey: "ap_final_multiplier",
+			Value:     value,
+		}},
+	}
+}
+
+func TestSingleAttackerDPSDispatchAttributeCoefficientModifierOnSpellHit(t *testing.T) {
+	passive := syntheticSpellHitAttributeCoefficientModifierPassive(0.3)
+	bundle := compileDPSTestBundle(t)
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 300
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := model.DPSCurveResultV2{
+		Status:                  dpsStatusOK,
+		DamageTimeline:          make([]model.DPSDamageEventV2, 0),
+		DamageByType:            map[string]float64{},
+		DamageBySource:          map[string]float64{},
+		SkillPassiveTriggers:    make([]model.DPSPassiveTriggerV2, 0),
+		ItemPassiveTriggers:     make([]model.DPSPassiveTriggerV2, 0),
+		ExternalPassiveTriggers: make([]model.DPSPassiveTriggerV2, 0),
+		EffectBreakdown:         make([]model.DPSEffectBreakdownV2, 0),
+		BlockedReasons:          make([]string, 0),
+	}
+	rules := normalizeDPSRules(input.SimulationRules)
+	state := newDPSCurveState(bundle, rules, *curve, &result, curve.ResolvedSnapshot.AttackerSnapshot, curve.ResolvedSnapshot.TargetSnapshot)
+	if result.Status == dpsStatusBlocked {
+		t.Fatalf("newDPSCurveState blocked: %v", result.BlockedReasons)
+	}
+	ctx := dpsCombatEventContext{
+		Event:          dpsEventOnSpellHit,
+		TimeMs:         500,
+		SourceRole:     dpsRoleAttacker,
+		TargetRole:     dpsRoleTarget,
+		ActionID:       "synthetic_spell",
+		ActionTypes:    []string{"action/cast_skill"},
+		EffectTypes:    []string{string(model.EffectTypeDealDamage)},
+		EffectTags:     []string{"skill_tag/spell_damage"},
+		SourceType:     "spell",
+		SourceCategory: "spell",
+		SourceID:       "synthetic_spell",
+		DamageType:     "magic",
+		RawDamage:      100,
+		TargetHPBefore: state.targetHP,
+		IsSpell:        true,
+		IsOnHit:        true,
+	}
+	state.dispatchDPSLinkedEffects(ctx)
+	if result.Status != dpsStatusOK {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := state.attrs["ap"]; !almostEqual(got, 390) {
+		t.Fatalf("resolved ap = %.4f, want 390 after event-triggered attribute coefficient_modifier", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=attribute stageKey="+dpsAttributeStageFinalMultiplier+" bucketKey=ap_final_multiplier aggregationMode=add valueUnit=percent_delta raw=300 result=390") {
+		t.Fatalf("effectBreakdown = %+v, want coefficient_bucket evidence from dispatch path", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSCoefficientModifierDrivesAttributeBucket(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	skillOnlyDPSCurveSetup(curve)
+	enableDPSPassivesForTest(curve, syntheticAttributeCoefficientModifierPassive(0.3))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 300
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"]; !almostEqual(got, 390) {
+		t.Fatalf("resolved ap = %.4f, want 390 after coefficient_modifier attribute bucket", got)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 390) {
+		t.Fatalf("damageBySource = %v, want skill damage 390 from coefficient_modifier attribute bucket", result.DamageBySource)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "domain=attribute stageKey="+dpsAttributeStageFinalMultiplier+" bucketKey=ap_final_multiplier aggregationMode=add valueUnit=percent_delta raw=300 result=390") {
+		t.Fatalf("effectBreakdown = %+v, want coefficient_bucket evidence for attribute coefficient_modifier", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSCoefficientModifierRejectsUnsupportedValueSpecKind(t *testing.T) {
+	passive := syntheticHPChangeCoefficientModifierPassive(-0.2)
+	passive.Operations[0].Value = 0
+	passive.Operations[0].ValueSpec = model.DPSModifierValueSpecV2{Kind: "unsupported_kind", Value: 1}
+
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_coefficient_modifier", passive)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked for unsupported valueSpec kind", result.Status)
+	}
+	if !blockedReasonContains(result, "coefficient_modifier valueSpec has unsupported kind unsupported_kind") {
+		t.Fatalf("blockedReasons = %v, want unsupported valueSpec kind rejection", result.BlockedReasons)
 	}
 }
