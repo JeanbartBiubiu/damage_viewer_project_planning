@@ -14,26 +14,51 @@ func (state *dpsCurveState) TargetHPTimelineAppend(timeMs int64) {
 }
 
 func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType string, rawAmount float64) dpsDamageApplication {
+	return state.applyDamageWithContext(timeMs, source, damageType, rawAmount, nil)
+}
+
+func (state *dpsCurveState) applyDamageWithContext(
+	timeMs int64,
+	source string,
+	damageType string,
+	rawAmount float64,
+	ctx *dpsCombatEventContext,
+) dpsDamageApplication {
 	result := dpsDamageApplication{RawDamage: rawAmount}
-	resistance := 0.0
-	switch damageType {
-	case "physical":
-		resistance = state.armor
-	case "magic":
-		resistance = state.magicResist
-	case "true":
-	default:
-		state.block("unsupported damage type " + damageType)
-		return result
+	amount := rawAmount
+	if ctx != nil {
+		preMitigation, finalAmount, ok := state.resolveCombatDamageAmount(*ctx, damageType, rawAmount)
+		if !ok {
+			return result
+		}
+		result.RawDamage = preMitigation
+		amount = finalAmount
+	} else {
+		resistance := 0.0
+		switch damageType {
+		case "physical":
+			resistance = state.armor
+		case "magic":
+			resistance = state.magicResist
+		case "true":
+		default:
+			state.block("unsupported damage type " + damageType)
+			return result
+		}
+		resistance = state.effectiveResistance(damageType, resistance)
+		mitigatedDamage, code := mitigateDamageByResistance(rawAmount, resistance, damageType)
+		if code != model.ErrOK {
+			state.block("damage could not be resolved")
+			return result
+		}
+		amount = mitigatedDamage
 	}
-	resistance = state.effectiveResistance(damageType, resistance)
-	mitigatedDamage, code := mitigateDamageByResistance(rawAmount, resistance, damageType)
-	if code != model.ErrOK {
+	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
 		state.block("damage could not be resolved")
 		return result
 	}
 	hpBefore := state.targetHP
-	hpAfter, finalDamage, code := applyDamageToHP(state.targetHP, mitigatedDamage)
+	hpAfter, finalDamage, code := applyDamageToHP(state.targetHP, amount)
 	if code != model.ErrOK {
 		state.block("damage could not be applied")
 		return result
@@ -46,7 +71,7 @@ func (state *dpsCurveState) applyDamage(timeMs int64, source string, damageType 
 		TimeMs:         timeMs,
 		Source:         source,
 		DamageType:     damageType,
-		RawDamage:      rawAmount,
+		RawDamage:      result.RawDamage,
 		FinalDamage:    finalDamage,
 		TargetHPBefore: hpBefore,
 		TargetHPAfter:  state.targetHP,

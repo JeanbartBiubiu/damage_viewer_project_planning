@@ -52,8 +52,29 @@ func (state *dpsCurveState) applyPassiveOperation(timeMs int64, passive model.DP
 		if op.PerStack {
 			return
 		}
+		if strings.TrimSpace(op.BucketKey) != "" {
+			state.applyAttributeBucketModifier(timeMs, passive, op)
+			return
+		}
 		state.applyStatModifier(timeMs, passive, op, true)
+	case dpsOpCoefficientModifier:
+		if op.PerStack {
+			return
+		}
+		if !dpsOperationUsesAttributeBucket(state.bundle, op) {
+			return
+		}
+		state.applyAttributeBucketModifier(timeMs, passive, op)
 	}
+}
+
+func (state *dpsCurveState) applyAttributeBucketModifier(timeMs int64, passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2) {
+	gate := state.buildModifierGateContext(dpsCombatEventContext{TimeMs: timeMs})
+	entries := []dpsAttributeStatModifierEntry{{passive: passive, op: op, recordTrigger: true}}
+	if !state.applyAttributeCoefficientBuckets(timeMs, entries, gate) {
+		return
+	}
+	state.syncTargetResistancesFromAttrs()
 }
 
 func (state *dpsCurveState) applyInitialStatModifiers() {
@@ -68,6 +89,8 @@ func (state *dpsCurveState) syncTargetResistancesFromAttrs() {
 func (state *dpsCurveState) refreshActiveStatModifiers(timeMs int64) {
 	state.attrs = copyDPSFloatMap(state.baseAttrs)
 	state.targetAttrs = copyDPSFloatMap(state.targetBaseAttrs)
+	bucketEntries := make([]dpsAttributeStatModifierEntry, 0)
+	gate := state.buildModifierGateContext(dpsCombatEventContext{TimeMs: timeMs})
 	for _, passive := range state.passives {
 		if !state.passiveActiveAt(passive, timeMs) {
 			continue
@@ -81,20 +104,48 @@ func (state *dpsCurveState) refreshActiveStatModifiers(timeMs int64) {
 				state.statModifierTriggers[triggerKey] = true
 			}
 			for _, op := range passive.Operations {
-				if op.Kind == dpsOpStatModifier && !op.PerStack {
-					state.applyStatModifier(timeMs, passive, op, record)
+				if op.PerStack {
+					continue
 				}
+				if dpsOperationUsesAttributeBucket(state.bundle, op) {
+					bucketEntries = append(bucketEntries, dpsAttributeStatModifierEntry{
+						passive:       passive,
+						op:            op,
+						recordTrigger: record,
+					})
+					continue
+				}
+				if op.Kind != dpsOpStatModifier {
+					continue
+				}
+				state.applyStatModifier(timeMs, passive, op, record)
 			}
 		}
 		for _, op := range passive.Operations {
-			if op.Kind != dpsOpStatModifier || !op.PerStack {
+			if !op.PerStack {
 				continue
 			}
 			stacks := state.stacks[stackRuntimeKey(passive, op.StackKey)]
 			if stacks <= 0 {
 				continue
 			}
+			if dpsOperationUsesAttributeBucket(state.bundle, op) {
+				bucketEntries = append(bucketEntries, dpsAttributeStatModifierEntry{
+					passive:       passive,
+					op:            op,
+					recordTrigger: true,
+				})
+				continue
+			}
+			if op.Kind != dpsOpStatModifier {
+				continue
+			}
 			state.applyStatModifier(timeMs, passive, op, true)
+		}
+	}
+	if len(bucketEntries) > 0 {
+		if !state.applyAttributeCoefficientBuckets(timeMs, bucketEntries, gate) {
+			return
 		}
 	}
 	state.syncTargetResistancesFromAttrs()

@@ -35,7 +35,9 @@ func (ctx *RunContext) dealDamageResult(source uint8, target uint8, amount float
 		return damageApplication{FinalDamage: appliedDamage, ShieldBefore: shieldBefore, ShieldAfter: shieldAfter, ShieldAbsorbed: amount - remaining}, code
 	}
 	if ctx.Actors[target].HP <= 0 {
-		ctx.EmitDone("actor_dead")
+		if code := ctx.EmitDone("actor_dead"); code != model.ErrOK {
+			return damageApplication{FinalDamage: appliedDamage, ShieldBefore: shieldBefore, ShieldAfter: shieldAfter, ShieldAbsorbed: amount - remaining}, code
+		}
 	}
 	return damageApplication{FinalDamage: appliedDamage, ShieldBefore: shieldBefore, ShieldAfter: shieldAfter, ShieldAbsorbed: amount - remaining}, model.ErrOK
 }

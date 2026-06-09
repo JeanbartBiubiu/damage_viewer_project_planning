@@ -38,6 +38,63 @@ func TestOutboxKeepsTerminalRecord(t *testing.T) {
 	}
 }
 
+func TestOutboxDropsOversizedNonPriorityFrame(t *testing.T) {
+	outbox := NewOutbox(32)
+	payload := make([]byte, 48)
+	for i := range payload {
+		payload[i] = 'x'
+	}
+	if code := outbox.WriteFrame(model.FrameKindLog, 0, payload); code != model.ErrOK {
+		t.Fatalf("write log code = %s, want OK", code)
+	}
+	if outbox.Dropped() != 1 {
+		t.Fatalf("dropped = %d, want 1", outbox.Dropped())
+	}
+	if len(outbox.Bytes()) != 0 {
+		t.Fatalf("outbox len = %d, want empty buffer", len(outbox.Bytes()))
+	}
+}
+
+func TestOutboxRejectsOversizedPriorityFrame(t *testing.T) {
+	outbox := NewOutbox(32)
+	for i := 0; i < 4; i++ {
+		if code := outbox.WriteFrame(model.FrameKindLog, 0, []byte("drop")); code != model.ErrOK {
+			t.Fatalf("write log failed: %s", code)
+		}
+	}
+	payload := make([]byte, 48)
+	for i := range payload {
+		payload[i] = 'd'
+	}
+	if code := outbox.WriteFrame(model.FrameKindDone, 0, payload); code != model.ErrQueueOverflow {
+		t.Fatalf("write done code = %s, want E_QUEUE_OVERFLOW", code)
+	}
+	if len(outbox.Bytes()) != 0 {
+		t.Fatalf("outbox len = %d, want no partial frame", len(outbox.Bytes()))
+	}
+	if _, err := DecodeFrame(outbox.Bytes()); err == nil {
+		t.Fatal("decoded invalid frame from empty outbox")
+	}
+}
+
+func TestDefaultOutboxCapacityFitsLargeDoneFrame(t *testing.T) {
+	outbox := NewOutbox(DefaultOutboxCapacity)
+	payload := make([]byte, 300*1024)
+	for i := range payload {
+		payload[i] = byte('a' + (i % 26))
+	}
+	if code := outbox.WriteFrame(model.FrameKindDone, 0, payload); code != model.ErrOK {
+		t.Fatalf("write done code = %s, want OK", code)
+	}
+	frame, err := DecodeFrame(outbox.Bytes())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if frame.Kind != model.FrameKindDone || len(frame.Payload) != len(payload) {
+		t.Fatalf("bad done frame: kind=%v payloadLen=%d", frame.Kind, len(frame.Payload))
+	}
+}
+
 func TestOutboxKeepsSnapshotRecord(t *testing.T) {
 	outbox := NewOutbox(64)
 	for i := 0; i < 8; i++ {

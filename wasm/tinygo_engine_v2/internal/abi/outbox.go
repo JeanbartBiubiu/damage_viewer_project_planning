@@ -1,7 +1,7 @@
 // 固定容量 outbox：宿主经 engine_outbox_ptr/len 读取，WriteJSON 追加 frame。
 //
-// 不变量：done/error/snapshot/action_snapshot 为优先帧，溢出时可清空缓冲重试；
-// tick/log/sample 可丢弃（dropped 计数）。Clear 后 dropped 归零。
+// 不变量：done/error/snapshot/action_snapshot 为优先帧，与已有内容冲突时清空缓冲后重试；
+// 单帧超过 capacity 的优先帧返回 E_QUEUE_OVERFLOW；tick/log/sample 可丢弃（dropped 计数）。
 package abi
 
 import (
@@ -10,7 +10,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-const DefaultOutboxCapacity = 256 * 1024
+const DefaultOutboxCapacity = 1024 * 1024
 
 type Outbox struct {
 	buf     []byte
@@ -47,18 +47,18 @@ func (o *Outbox) WriteJSON(kind model.FrameKind, payload any) model.ErrCode {
 
 func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) model.ErrCode {
 	frame := EncodeFrame(kind, flags, payload)
-	if len(frame) > cap(o.buf) {
+	capacity := cap(o.buf)
+
+	if len(frame) > capacity {
 		if isPriorityFrame(kind) {
 			o.buf = o.buf[:0]
-			if len(frame) <= cap(o.buf) {
-				o.buf = append(o.buf, frame...)
-				return model.ErrOK
-			}
+			return model.ErrQueueOverflow
 		}
 		o.dropped++
 		return model.ErrOK
 	}
-	if len(o.buf)+len(frame) > cap(o.buf) {
+
+	if len(o.buf)+len(frame) > capacity {
 		if isPriorityFrame(kind) {
 			o.buf = o.buf[:0]
 		} else {
@@ -66,6 +66,7 @@ func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) 
 			return model.ErrOK
 		}
 	}
+
 	o.buf = append(o.buf, frame...)
 	return model.ErrOK
 }
