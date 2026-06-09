@@ -11,6 +11,7 @@ import type { BenchmarkFormulaExpr, FormulaActorRef } from './benchmarkTypes';
 import { compileConstantSymbols, compileFormulaText, compileVarsToExprMap, type VarDefinition } from './formulaCompiler';
 import type {
   AttributeDefinition,
+  CoefficientBucket,
   GameDataBundle,
   Hero,
   Item,
@@ -193,6 +194,7 @@ export type TinyGoV2EngineBundle = {
   actions: TinyGoV2ActionTemplate[];
   statuses?: TinyGoV2StatusTemplate[];
   formulas: TinyGoV2FormulaDefinition[];
+  coefficientBuckets?: CoefficientBucket[];
   settings: {
     maxEvents: number;
     maxCommandsPerEvent: number;
@@ -552,6 +554,11 @@ export function compileDpsAttackerBundle(
   };
 }
 
+export function resolvePublishedCoefficientBuckets(bundle: GameDataBundle): CoefficientBucket[] {
+  const raw = bundle.coefficientBuckets;
+  return Array.isArray(raw) ? raw : [];
+}
+
 export function compileTinyGoV2ValidationInput(
   bundle: GameDataBundle,
   selection: WasmValidationSelection
@@ -576,6 +583,7 @@ export function compileTinyGoV2ValidationInput(
       actions: actionTemplates,
       statuses: statusCompiler.definitions.length > 0 ? statusCompiler.definitions : undefined,
       formulas: formulaCompiler.definitions,
+      coefficientBuckets: resolvePublishedCoefficientBuckets(bundle),
       settings: {
         maxEvents: 1,
         maxCommandsPerEvent: 64
