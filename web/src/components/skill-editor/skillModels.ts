@@ -482,6 +482,9 @@ export type SkillDpsPassiveSummaryRow = {
   priority: number | null;
   operationKinds: string[];
   targetRoles: string[];
+  bucketKeys: string[];
+  evidenceKeys: string[];
+  hasBucketOperations: boolean;
   warnings: string[];
 };
 
@@ -507,6 +510,7 @@ const DPS_PASSIVE_OPERATION_KINDS = new Set([
   'trigger_damage_at_stacks',
   'stat_modifier',
   'damage_modifier',
+  'coefficient_modifier',
   'phantom_hit_on_hit_repeat',
   'energized_charge_check',
   'energized_charge_consume',
@@ -1014,6 +1018,9 @@ function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiv
       priority: null,
       operationKinds: [],
       targetRoles: [],
+      bucketKeys: [],
+      evidenceKeys: [],
+      hasBucketOperations: false,
       warnings: ['passive 不是对象']
     };
   }
@@ -1045,6 +1052,9 @@ function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiv
 
   const operationKinds: string[] = [];
   const targetRoles: string[] = [];
+  const bucketKeys: string[] = [];
+  const evidenceKeys: string[] = [];
+  let hasBucketOperations = false;
 
   operations.forEach((operation, operationIndex) => {
     if (!isPlainObject(operation)) {
@@ -1061,6 +1071,17 @@ function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiv
     const targetRole = asText(operation.targetRole);
     if (targetRole) {
       targetRoles.push(targetRole);
+    }
+
+    const bucketKey = asText(operation.bucketKey);
+    if (bucketKey) {
+      bucketKeys.push(bucketKey);
+      hasBucketOperations = true;
+    }
+
+    const evidenceKey = asText(operation.evidenceKey);
+    if (evidenceKey) {
+      evidenceKeys.push(evidenceKey);
     }
 
     if (kind === 'damage_modifier' && operation.critOnly === true) {
@@ -1080,6 +1101,9 @@ function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiv
     priority,
     operationKinds,
     targetRoles,
+    bucketKeys,
+    evidenceKeys,
+    hasBucketOperations,
     warnings
   };
 }
@@ -1178,6 +1202,36 @@ function validateDpsPassiveOperationEntry(
       `${basePath}/critOnly`,
       'damage_modifier.critOnly=true：当前 DPS 缺少真实 crit context 时会被 blocked，不能宣称兰顿已通过。'
     );
+  }
+
+  if ('bucketKey' in operation && operation.bucketKey !== undefined) {
+    if (!asText(operation.bucketKey)) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/bucketKey`, 'bucketKey 必须是非空字符串。');
+    }
+  }
+
+  if ('valueSpec' in operation && operation.valueSpec !== undefined) {
+    if (!isPlainObject(operation.valueSpec)) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/valueSpec`, 'valueSpec 必须是对象。');
+    }
+  }
+
+  if ('conditions' in operation && operation.conditions !== undefined) {
+    if (!Array.isArray(operation.conditions)) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/conditions`, 'conditions 必须是数组。');
+    }
+  }
+
+  if ('priority' in operation && operation.priority !== undefined) {
+    if (typeof operation.priority !== 'number' || !Number.isFinite(operation.priority)) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/priority`, 'priority 必须是有限数字。');
+    }
+  }
+
+  if ('evidenceKey' in operation && operation.evidenceKey !== undefined) {
+    if (!asText(operation.evidenceKey)) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/evidenceKey`, 'evidenceKey 必须是非空字符串。');
+    }
   }
 }
 
