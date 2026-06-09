@@ -144,5 +144,9 @@ func runSingleAttackerDPSCurve(
 	if rules.DurationMs > 0 {
 		result.TimeWindowDps = result.TotalDamage / (float64(rules.DurationMs) / 1000)
 	}
+	if state != nil {
+		result.ResolvedSnapshot.AttackerSnapshot.Attributes = copyDPSFloatMap(state.attrs)
+		result.ResolvedSnapshot.TargetSnapshot.Attributes = copyDPSFloatMap(state.targetAttrs)
+	}
 	return result
 }

@@ -81,8 +81,11 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 	refreshStackStatModifiers := false
 	for _, entry := range entries {
 		passive := entry.passive
-		if ctx.Event == dpsEventOnDamageTaken && passiveOnlyDamageModifierOperations(passive) {
-			continue
+		if passiveOnlyHPChangeModifierOperations(state.bundle, passive) {
+			switch ctx.Event {
+			case dpsEventOnDamageTaken, dpsEventOnDamageDealt:
+				continue
+			}
 		}
 		triggerKind := resolvedDPSTriggerKind(passive)
 		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
@@ -119,6 +122,9 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 			if op.Kind == dpsOpPhantomHitOnHitRepeat || op.Kind == dpsOpDamageModifier {
 				continue
 			}
+			if op.Kind == dpsOpCoefficientModifier && dpsOperationUsesHPChangeBucket(state.bundle, op) {
+				continue
+			}
 			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
 				return refreshStackStatModifiers
 			}
@@ -132,18 +138,6 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 		}
 	}
 	return refreshStackStatModifiers
-}
-
-func passiveOnlyDamageModifierOperations(passive model.DPSPassiveEffectV2) bool {
-	if len(passive.Operations) == 0 {
-		return false
-	}
-	for _, op := range passive.Operations {
-		if op.Kind != dpsOpDamageModifier {
-			return false
-		}
-	}
-	return true
 }
 
 func (state *dpsCurveState) collectIncomingDamageModifierEntries(ctx dpsCombatEventContext) []dpsIncomingDamageModifierEntry {
@@ -173,7 +167,7 @@ func (state *dpsCurveState) collectIncomingDamageModifierEntries(ctx dpsCombatEv
 			}
 		}
 		for opIndex, op := range passive.Operations {
-			if op.Kind != dpsOpDamageModifier {
+			if op.Kind != dpsOpDamageModifier || strings.TrimSpace(op.BucketKey) != "" {
 				continue
 			}
 			entries = append(entries, dpsIncomingDamageModifierEntry{

@@ -14,12 +14,16 @@ func (ctx *RunContext) Step(maxEvents int) StepStatus {
 	handled := 0
 	for handled < maxEvents && !ctx.Done {
 		if ctx.aborted {
-			ctx.EmitDone("cancelled")
+			if code := ctx.EmitDone("cancelled"); code != model.ErrOK {
+				return StepStatus{Code: code, Message: "done frame write failed"}
+			}
 			return StepStatus{Code: model.ErrOK}
 		}
 		ev, ok := ctx.Queue.Pop()
 		if !ok {
-			ctx.EmitDone("queue_empty")
+			if code := ctx.EmitDone("queue_empty"); code != model.ErrOK {
+				return StepStatus{Code: code, Message: "done frame write failed"}
+			}
 			return StepStatus{Code: model.ErrOK}
 		}
 		ctx.NowMs = ev.TimeMs
@@ -33,7 +37,9 @@ func (ctx *RunContext) Step(maxEvents int) StepStatus {
 		ctx.ProcessedEvents++
 		handled++
 		if ctx.StopMaxEvents > 0 && ctx.ProcessedEvents >= ctx.StopMaxEvents {
-			ctx.EmitDone("max_events")
+			if code := ctx.EmitDone("max_events"); code != model.ErrOK {
+				return StepStatus{Code: code, Message: "done frame write failed"}
+			}
 		}
 	}
 	if !ctx.Done {
@@ -70,9 +76,9 @@ func (ctx *RunContext) dispatch(ev scheduler.Event) model.ErrCode {
 	}
 }
 
-func (ctx *RunContext) EmitDone(reason string) {
+func (ctx *RunContext) EmitDone(reason string) model.ErrCode {
 	if ctx.Done {
-		return
+		return model.ErrOK
 	}
 	ctx.Done = true
 	payload := model.DonePayload{
@@ -81,7 +87,7 @@ func (ctx *RunContext) EmitDone(reason string) {
 		Actors: ctx.snapshots(), Logs: ctx.Logs, ActionResults: ctx.ActionResults,
 		TickResults: ctx.TickResults, TriggerResults: ctx.TriggerResults, RNG: ctx.RNG.Draws(),
 	}
-	ctx.Outbox.WriteJSON(model.FrameKindDone, payload)
+	return ctx.Outbox.WriteJSON(model.FrameKindDone, payload)
 }
 
 func (ctx *RunContext) emitSample() {
