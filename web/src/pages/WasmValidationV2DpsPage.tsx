@@ -30,6 +30,7 @@ import {
   listV2DpsScenarioOptionsForHero,
   listV2DpsTargetDummyGroups,
   prepareV2DpsInput,
+  STRICT_DPS_SKILL_REF_OPTIONS,
   V2_DPS_CASE_ID,
   V2_DPS_INVALID_TARGET_REASON,
   V2_DPS_MISSING_BASIC_ATTACK_REASON,
@@ -50,7 +51,8 @@ import {
   type V2DpsPreparedInput,
   type V2DpsSelection,
   type V2DpsEnergizedBundleCheck,
-  type V2DpsStackingPassiveBundleCheck
+  type V2DpsStackingPassiveBundleCheck,
+  type EquipmentSkillRefDiagnostic
 } from '../engine/tinygoV2DpsAdapter';
 import { summarizeCompiledStatusEvidence } from '../engine/tinygoV2BundleAdapter';
 import { TinyGoV2Bridge, TinyGoV2InvocationError, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
@@ -483,7 +485,7 @@ function WasmValidationV2DpsWorkbench({
     if (!bundle || !selection || !currentVersion) {
       return null;
     }
-    return prepareV2DpsInput(bundle, selection, currentVersion.versionCode, '');
+    return prepareV2DpsInput(bundle, selection, currentVersion.versionCode, '', STRICT_DPS_SKILL_REF_OPTIONS);
   }, [bundle, currentVersion, selection]);
   const preflightBlockedReasons = dpsInputPreview?.preflightBlockedReasons ?? [];
   const canRun = Boolean(
@@ -729,7 +731,7 @@ function WasmValidationV2DpsWorkbench({
 
     try {
       const nextWasmSha256 = await computeWasmSha256(TINYGO_V2_WASM_URL);
-      const prepared = prepareV2DpsInput(bundle, committedSelection, currentVersion.versionCode, nextWasmSha256);
+      const prepared = prepareV2DpsInput(bundle, committedSelection, currentVersion.versionCode, nextWasmSha256, STRICT_DPS_SKILL_REF_OPTIONS);
       if (prepared.preflightBlockedReasons.length > 0) {
         setPreparedInput(prepared);
         setRunStatus('error');
@@ -1568,6 +1570,24 @@ function WasmValidationV2DpsWorkbench({
                   targetEnabledPassiveEffects: {activeCurvePrepared.resolvedSnapshot.targetEnabledPassiveEffects.join(', ')}
                 </Typography.Text>
               ) : null}
+              {curveEvidenceInput.equipmentSkillRefDiagnostics.length > 0 ? (
+                <div>
+                  <Typography.Text bold>
+                    equipmentSkillRefDiagnostics ({curveEvidenceInput.equipmentSkillRefDiagnostics.length})
+                  </Typography.Text>
+                  <Table
+                    rowKey={(record) => `${record.audience}-${record.itemId}-${record.skillId ?? ''}-${record.code}`}
+                    size="small"
+                    pagination={false}
+                    className="data-table-shell"
+                    style={{ marginTop: 8 }}
+                    data={curveEvidenceInput.equipmentSkillRefDiagnostics}
+                    columns={equipmentSkillRefDiagnosticColumns}
+                  />
+                </div>
+              ) : (
+                <Typography.Text type="secondary">equipmentSkillRefDiagnostics: 无</Typography.Text>
+              )}
             </Space>
           ) : (
             <EmptyState
@@ -2772,6 +2792,41 @@ const basicAttackEvidenceColumns = [
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text code>{record.critMultiplier !== undefined ? String(record.critMultiplier) : '—'}</Typography.Text>
     )
+  }
+];
+
+const equipmentSkillRefDiagnosticColumns = [
+  {
+    title: 'severity',
+    width: 88,
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
+      <Tag color={record.severity === 'error' ? 'red' : record.severity === 'warning' ? 'orangered' : 'arcoblue'}>
+        {record.severity}
+      </Tag>
+    )
+  },
+  {
+    title: 'code',
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => <Typography.Text code>{record.code}</Typography.Text>
+  },
+  {
+    title: 'audience',
+    width: 88,
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => <Typography.Text code>{record.audience}</Typography.Text>
+  },
+  {
+    title: 'itemId',
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => <Typography.Text code>{record.itemId}</Typography.Text>
+  },
+  {
+    title: 'skillId',
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
+      <Typography.Text code>{record.skillId ?? '—'}</Typography.Text>
+    )
+  },
+  {
+    title: 'message',
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => record.message
   }
 ];
 

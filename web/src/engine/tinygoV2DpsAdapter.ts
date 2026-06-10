@@ -328,10 +328,64 @@ export type V2DpsBasicAttackAction = {
   critMultiplier?: number;
 };
 
+export type EquipmentSkillRefSeverity = 'info' | 'warning' | 'error';
+
+export type EquipmentSkillRefAudience = 'attacker' | 'target';
+
+export type EquipmentSkillRefDiagnosticCode =
+  | 'skillRefs_missing'
+  | 'skillRefs_empty'
+  | 'skillRefs_duplicate'
+  | 'skillRef_unknown_skill'
+  | 'skillRef_ownerType_mismatch'
+  | 'skillRef_ownerId_mismatch'
+  | 'skillRef_ownerRole_mismatch'
+  | 'skillRef_legacy_match_all';
+
+export type EquipmentSkillRefDiagnostic = {
+  itemId: string;
+  itemName?: string;
+  skillId?: string;
+  skillName?: string;
+  audience: EquipmentSkillRefAudience;
+  severity: EquipmentSkillRefSeverity;
+  code: EquipmentSkillRefDiagnosticCode;
+  message: string;
+};
+
+export type ResolveItemSkillRefsOptions = {
+  /** When skillRefs is undefined, match all item-owned skills (migration only). */
+  legacyMatchAllWhenSkillRefsMissing?: boolean;
+  /** When skillRefs is [], match all item-owned skills (migration only). */
+  legacyMatchAllWhenSkillRefsEmpty?: boolean;
+};
+
+export type ResolveItemSkillRefsResult = {
+  linkedSkillIds: Set<string>;
+  diagnostics: EquipmentSkillRefDiagnostic[];
+  legacySkillRefsFallback: boolean;
+};
+
+/** Strict semantics for diagnostics and new data. */
+export const STRICT_DPS_SKILL_REF_OPTIONS: ResolveItemSkillRefsOptions = {
+  legacyMatchAllWhenSkillRefsMissing: false,
+  legacyMatchAllWhenSkillRefsEmpty: false
+};
+
+/**
+ * Migration-friendly defaults for prepareV2DpsInput: still resolves passives for legacy
+ * bundles with missing/empty skillRefs, but emits skillRef_legacy_match_all warnings.
+ */
+export const LEGACY_DPS_SKILL_REF_OPTIONS: ResolveItemSkillRefsOptions = {
+  legacyMatchAllWhenSkillRefsMissing: true,
+  legacyMatchAllWhenSkillRefsEmpty: true
+};
+
 export type V2DpsPreparedInput = {
   engineBundle: TinyGoV2EngineBundle;
   runInput: V2DpsRunInput;
   preflightBlockedReasons: string[];
+  equipmentSkillRefDiagnostics: EquipmentSkillRefDiagnostic[];
 };
 
 export type V2DpsRunInput = {
@@ -1080,18 +1134,182 @@ export function inspectV2DpsEnergizedBundle(bundle: GameDataBundle): V2DpsEnergi
   };
 }
 
+export function resolveItemSkillRefs(
+  bundle: GameDataBundle,
+  item: Item,
+  audience: EquipmentSkillRefAudience,
+  options: ResolveItemSkillRefsOptions = STRICT_DPS_SKILL_REF_OPTIONS
+): ResolveItemSkillRefsResult {
+  const diagnostics: EquipmentSkillRefDiagnostic[] = [];
+  const itemId = item.itemId;
+  const itemName = item.name?.trim() || undefined;
+  const linkedSkillIds = new Set<string>();
+  let legacySkillRefsFallback = false;
+  const itemOwnedSkills = bundle.skills.filter((skill) => skill.ownerType === 'item' && skill.ownerId === itemId);
+
+  const applyLegacyMatchAll = (reason: 'missing' | 'empty') => {
+    const useLegacy = reason === 'missing'
+      ? options.legacyMatchAllWhenSkillRefsMissing
+      : options.legacyMatchAllWhenSkillRefsEmpty;
+    if (!useLegacy) {
+      return;
+    }
+    legacySkillRefsFallback = true;
+    for (const skill of itemOwnedSkills) {
+      linkedSkillIds.add(skill.skillId);
+    }
+    diagnostics.push({
+      itemId,
+      itemName,
+      audience,
+      severity: 'warning',
+      code: 'skillRef_legacy_match_all',
+      message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: legacy fallback matched ${linkedSkillIds.size} item-owned skill(s) because skillRefs is ${reason === 'missing' ? 'missing' : 'empty'}`
+    });
+  };
+
+  if (!Array.isArray(item.skillRefs)) {
+    diagnostics.push({
+      itemId,
+      itemName,
+      audience,
+      severity: 'warning',
+      code: 'skillRefs_missing',
+      message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: skillRefs missing; DPS passive links are stats-only under strict mode`
+    });
+    applyLegacyMatchAll('missing');
+    appendOwnerRoleDiagnostics(bundle, item, audience, linkedSkillIds, diagnostics);
+    return { linkedSkillIds, diagnostics, legacySkillRefsFallback };
+  }
+
+  const rawRefs = item.skillRefs.map((ref) => ref.trim()).filter(Boolean);
+  if (rawRefs.length === 0) {
+    diagnostics.push({
+      itemId,
+      itemName,
+      audience,
+      severity: 'info',
+      code: 'skillRefs_empty',
+      message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: skillRefs is empty; DPS passive links are stats-only under strict mode`
+    });
+    applyLegacyMatchAll('empty');
+    appendOwnerRoleDiagnostics(bundle, item, audience, linkedSkillIds, diagnostics);
+    return { linkedSkillIds, diagnostics, legacySkillRefsFallback };
+  }
+
+  const seenRefs = new Set<string>();
+  const uniqueRefs: string[] = [];
+  for (const skillId of rawRefs) {
+    if (seenRefs.has(skillId)) {
+      diagnostics.push({
+        itemId,
+        itemName,
+        skillId,
+        audience,
+        severity: 'warning',
+        code: 'skillRefs_duplicate',
+        message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: duplicate skillRef ${skillId}`
+      });
+      continue;
+    }
+    seenRefs.add(skillId);
+    uniqueRefs.push(skillId);
+  }
+
+  const skillById = new Map(bundle.skills.map((skill) => [skill.skillId, skill]));
+  for (const skillId of uniqueRefs) {
+    const skill = skillById.get(skillId);
+    if (!skill) {
+      diagnostics.push({
+        itemId,
+        itemName,
+        skillId,
+        audience,
+        severity: 'error',
+        code: 'skillRef_unknown_skill',
+        message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: references unknown skill ${skillId}`
+      });
+      continue;
+    }
+    const skillName = skill.name?.trim() || undefined;
+    if (skill.ownerType !== 'item') {
+      diagnostics.push({
+        itemId,
+        itemName,
+        skillId,
+        skillName,
+        audience,
+        severity: 'error',
+        code: 'skillRef_ownerType_mismatch',
+        message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: skill ${skillId}${skillName ? ` (${skillName})` : ''} ownerType is ${skill.ownerType ?? 'undefined'}, expected item`
+      });
+      continue;
+    }
+    if (skill.ownerId !== itemId) {
+      diagnostics.push({
+        itemId,
+        itemName,
+        skillId,
+        skillName,
+        audience,
+        severity: 'error',
+        code: 'skillRef_ownerId_mismatch',
+        message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: references skill ${skillId}${skillName ? ` (${skillName})` : ''} owned by item ${skill.ownerId}`
+      });
+      continue;
+    }
+    linkedSkillIds.add(skillId);
+  }
+
+  appendOwnerRoleDiagnostics(bundle, item, audience, linkedSkillIds, diagnostics);
+  return { linkedSkillIds, diagnostics, legacySkillRefsFallback };
+}
+
+export function collectEquipmentSkillRefDiagnostics(
+  bundle: GameDataBundle,
+  itemIds: string[],
+  audience: EquipmentSkillRefAudience,
+  options: ResolveItemSkillRefsOptions = STRICT_DPS_SKILL_REF_OPTIONS
+): EquipmentSkillRefDiagnostic[] {
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const diagnostics: EquipmentSkillRefDiagnostic[] = [];
+  for (const itemId of normalizeStringList(itemIds)) {
+    const item = itemById.get(itemId);
+    if (!item) {
+      continue;
+    }
+    diagnostics.push(...resolveItemSkillRefs(bundle, item, audience, options).diagnostics);
+  }
+  return diagnostics;
+}
+
+export function formatEquipmentSkillRefDiagnostic(diagnostic: EquipmentSkillRefDiagnostic): string {
+  const parts = [diagnostic.code, `item=${diagnostic.itemId}`];
+  if (diagnostic.itemName) {
+    parts.push(`itemName=${diagnostic.itemName}`);
+  }
+  if (diagnostic.skillId) {
+    parts.push(`skillId=${diagnostic.skillId}`);
+  }
+  if (diagnostic.skillName) {
+    parts.push(`skillName=${diagnostic.skillName}`);
+  }
+  return `${parts.join(' ')}: ${diagnostic.message}`;
+}
+
 export function prepareV2DpsInput(
   bundle: GameDataBundle,
   selection: V2DpsSelection,
   versionCode: string,
-  wasmSha256: string
+  wasmSha256: string,
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
 ): V2DpsPreparedInput {
   const attrDefinitions = normalizeAttributeDefinitions(bundle.attributeDefinitions);
   const targetHero = bundle.heroes.find((hero) => hero.heroId === selection.targetActorId);
   const targetSnapshotBase = targetHero
     ? buildActorSnapshot(bundle, attrDefinitions, targetHero, 1)
     : emptyActorSnapshot(selection.targetActorId);
-  const targetEquipment = resolveTargetEquipmentSelection(bundle, selection.targetEquipmentItemIds);
+  const targetEquipment = resolveTargetEquipmentSelection(bundle, selection.targetEquipmentItemIds, skillRefOptions);
   const targetSnapshot = applyEquipmentStatsToActorSnapshot(targetSnapshotBase, targetEquipment.stats);
   const targetTypeNames = targetHero ? resolveHeroTypeNames(bundle, targetHero.heroId) : [];
   const isTargetDummy = targetTypeNames.includes(V2_DPS_TARGET_DUMMY_TYPE_NAME);
@@ -1099,8 +1317,22 @@ export function prepareV2DpsInput(
   const targetActorTemplate = isTargetDummy
     ? buildDpsTargetActorTemplateFromSnapshot(targetSnapshot)
     : undefined;
-  const targetPassiveBlockedReasons = collectTargetEquipmentPassiveBlockedReasons(bundle, targetEquipment.itemIds);
+  const targetPassiveBlockedReasons = collectTargetEquipmentPassiveBlockedReasons(
+    bundle,
+    targetEquipment.itemIds,
+    skillRefOptions
+  );
   const targetPreflightBlockedReasons = isTargetDummy ? [] : [V2_DPS_INVALID_TARGET_REASON];
+  const attackerEquipmentItemIds = dedupeStrings(
+    selection.curves.flatMap((curve) => normalizeStringList(curve.equipmentItemIds))
+  );
+  const equipmentSkillRefDiagnostics = dedupeEquipmentSkillRefDiagnostics([
+    ...collectEquipmentSkillRefDiagnostics(bundle, attackerEquipmentItemIds, 'attacker', skillRefOptions),
+    ...collectEquipmentSkillRefDiagnostics(bundle, targetEquipment.itemIds, 'target', skillRefOptions)
+  ]);
+  const skillRefBlockedReasons = equipmentSkillRefDiagnostics
+    .filter((diagnostic) => diagnostic.severity === 'error')
+    .map(formatEquipmentSkillRefDiagnostic);
   const simulationRules: V2DpsRunInput['simulationRules'] = {
     durationMs: selection.durationMs,
     warmupMs: 0,
@@ -1128,12 +1360,14 @@ export function prepareV2DpsInput(
     targetType,
     targetEquipment,
     curveSelection,
-    index
+    index,
+    skillRefOptions
   }));
   const curves = curveBuilds.map((build) => build.spec);
   const preflightBlockedReasons = dedupeStrings([
     ...targetPreflightBlockedReasons,
     ...targetPassiveBlockedReasons,
+    ...skillRefBlockedReasons,
     ...curveBuilds.flatMap((build) => build.preflightBlockedReasons)
   ]);
 
@@ -1144,6 +1378,7 @@ export function prepareV2DpsInput(
       resolvePublishedCoefficientBuckets(bundle)
     ),
     preflightBlockedReasons,
+    equipmentSkillRefDiagnostics,
     runInput: {
       caseId: selection.caseId ?? V2_DPS_CASE_ID,
       versionCode,
@@ -1172,6 +1407,7 @@ type BuildCurveSpecArgs = {
   targetEquipment: TargetEquipmentSelection;
   curveSelection: V2DpsCurveSelection;
   index: number;
+  skillRefOptions: ResolveItemSkillRefsOptions;
 };
 
 type BuildCurveSpecResult = {
@@ -1190,7 +1426,8 @@ function buildV2DpsCurveRunSpec({
   targetType,
   targetEquipment,
   curveSelection,
-  index
+  index,
+  skillRefOptions
 }: BuildCurveSpecArgs): BuildCurveSpecResult {
   const heroLevel = clamp(curveSelection.heroLevel, 1, 18);
   const skillLevels = normalizeSkillLevels(curveSelection.skillLevels);
@@ -1202,7 +1439,7 @@ function buildV2DpsCurveRunSpec({
     : emptyActorSnapshot(attackerHeroId);
   const selectedScenarioIds = normalizeStringList(curveSelection.enabledScenarioStateIds);
   const selectedEquipmentItemIds = normalizeStringList(curveSelection.equipmentItemIds);
-  const equipment = resolveEquipmentSelection(bundle, selectedEquipmentItemIds);
+  const equipment = resolveEquipmentSelection(bundle, selectedEquipmentItemIds, skillRefOptions);
   const syntheticPassiveEffects = curveSelection.syntheticPassiveEffects ?? [];
   const syntheticPassiveIds = normalizeStringList(syntheticPassiveEffects.map((effect) => effect.passiveId ?? effect.sourceId ?? effect.effectId ?? ''));
   const selectedPassiveIds = normalizeStringList([
@@ -1211,7 +1448,12 @@ function buildV2DpsCurveRunSpec({
   ]);
   const selectedEnabledPassiveIds = normalizeStringList([...selectedPassiveIds, ...equipment.passiveIds, ...syntheticPassiveIds]);
   const resolvedHeroPassiveEffects = resolveDpsPassiveEffects(bundle, attackerHeroId, selectedPassiveIds, skillLevels);
-  const resolvedItemPassiveEffects = resolveDpsItemPassiveEffects(bundle, equipment.itemIds, equipment.passiveIds);
+  const resolvedItemPassiveEffects = resolveDpsItemPassiveEffects(
+    bundle,
+    equipment.itemIds,
+    equipment.passiveIds,
+    skillRefOptions
+  );
   const targetEnabledPassiveIds = normalizeStringList([
     ...(curveSelection.targetEnabledPassiveEffects ?? []),
     ...targetEquipment.passiveIds
@@ -1219,7 +1461,8 @@ function buildV2DpsCurveRunSpec({
   const resolvedTargetPassiveEffects = resolveDpsTargetItemPassiveEffects(
     bundle,
     targetEquipment.itemIds,
-    targetEnabledPassiveIds
+    targetEnabledPassiveIds,
+    skillRefOptions
   );
   const resolvedPassiveEffects = [
     ...resolvedHeroPassiveEffects,
@@ -1231,7 +1474,13 @@ function buildV2DpsCurveRunSpec({
     ...(curveSelection.targetEquipmentSet ?? []),
     ...targetEquipment.itemIds
   ]);
-  const resolvedScenarioStates = resolveDpsScenarioStates(bundle, attackerHeroId, selectedEquipmentItemIds, selectedScenarioIds);
+  const resolvedScenarioStates = resolveDpsScenarioStates(
+    bundle,
+    attackerHeroId,
+    selectedEquipmentItemIds,
+    selectedScenarioIds,
+    skillRefOptions
+  );
   const curveId = curveSelection.curveId.trim() || `${attackerHeroId || 'missing_attacker'}-curve-${index + 1}`;
   const label = curveSelection.label.trim() || `Curve ${index + 1}`;
   const attackerCompile = compileDpsAttackerBundle(bundle, {
@@ -1682,24 +1931,32 @@ function resolveEquipmentStats(bundle: GameDataBundle, itemIds: string[]): Recor
   return stats;
 }
 
-function resolveEquipmentSelection(bundle: GameDataBundle, itemIds: string[]): { itemIds: string[]; stats: Record<string, number>; passiveIds: string[] } {
+function resolveEquipmentSelection(
+  bundle: GameDataBundle,
+  itemIds: string[],
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
+): { itemIds: string[]; stats: Record<string, number>; passiveIds: string[] } {
   const allowedIds = adcCompletedEquipmentIds(bundle);
   const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
   const resolvedItemIds = itemIds.filter((itemId) => allowedIds.has(itemId) && itemById.has(itemId));
   return {
     itemIds: resolvedItemIds,
     stats: resolveEquipmentStats(bundle, resolvedItemIds),
-    passiveIds: itemPassiveIdsForEquipment(bundle, resolvedItemIds)
+    passiveIds: itemPassiveIdsForEquipment(bundle, resolvedItemIds, skillRefOptions)
   };
 }
 
-function resolveTargetEquipmentSelection(bundle: GameDataBundle, itemIds: string[] | undefined): TargetEquipmentSelection {
+function resolveTargetEquipmentSelection(
+  bundle: GameDataBundle,
+  itemIds: string[] | undefined,
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
+): TargetEquipmentSelection {
   const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
   const resolvedItemIds = normalizeStringList(itemIds).filter((itemId) => itemById.has(itemId));
   return {
     itemIds: resolvedItemIds,
     stats: resolveTargetEquipmentStats(bundle, resolvedItemIds),
-    passiveIds: targetPassiveIdsForEquipment(bundle, resolvedItemIds)
+    passiveIds: targetPassiveIdsForEquipment(bundle, resolvedItemIds, skillRefOptions)
   };
 }
 
@@ -1735,12 +1992,12 @@ function itemHasDefensiveEquipmentStats(item: Item): boolean {
 }
 
 function itemHasTargetOwnedDpsPassive(bundle: GameDataBundle, item: Item): boolean {
-  const skillRefs = new Set((item.skillRefs ?? []).filter(Boolean));
+  const { linkedSkillIds } = resolveItemSkillRefs(bundle, item, 'target', STRICT_DPS_SKILL_REF_OPTIONS);
   for (const skill of bundle.skills) {
     if (skill.ownerType !== 'item' || skill.ownerId !== item.itemId) {
       continue;
     }
-    if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+    if (!linkedSkillIds.has(skill.skillId)) {
       continue;
     }
     for (const effect of readDpsPassiveEffects(skill)) {
@@ -1752,7 +2009,11 @@ function itemHasTargetOwnedDpsPassive(bundle: GameDataBundle, item: Item): boole
   return false;
 }
 
-function collectTargetEquipmentPassiveBlockedReasons(bundle: GameDataBundle, targetItemIds: string[]): string[] {
+function collectTargetEquipmentPassiveBlockedReasons(
+  bundle: GameDataBundle,
+  targetItemIds: string[],
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
+): string[] {
   if (targetItemIds.length === 0) {
     return [];
   }
@@ -1760,7 +2021,10 @@ function collectTargetEquipmentPassiveBlockedReasons(bundle: GameDataBundle, tar
   const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
   for (const itemId of targetItemIds) {
     const item = itemById.get(itemId);
-    const skillRefs = new Set((item?.skillRefs ?? []).filter(Boolean));
+    if (!item) {
+      continue;
+    }
+    const { linkedSkillIds } = resolveItemSkillRefs(bundle, item, 'target', skillRefOptions);
     let hasAnyPassive = false;
     let hasTargetPassive = false;
     let hasWrongRolePassive = false;
@@ -1768,7 +2032,7 @@ function collectTargetEquipmentPassiveBlockedReasons(bundle: GameDataBundle, tar
       if (skill.ownerType !== 'item' || skill.ownerId !== itemId) {
         continue;
       }
-      if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+      if (!linkedSkillIds.has(skill.skillId)) {
         continue;
       }
       for (const effect of readDpsPassiveEffects(skill)) {
@@ -2114,41 +2378,39 @@ function createUnresolvedDpsPassiveEffect(effect: V2DpsPassiveEffect): V2DpsPass
   };
 }
 
-function itemPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[]): string[] {
-  const selected = new Set(itemIds);
-  if (selected.size === 0) {
+function itemPassiveIdsForEquipment(
+  bundle: GameDataBundle,
+  itemIds: string[],
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
+): string[] {
+  if (itemIds.length === 0) {
     return [];
   }
+  const { skillRefsByItemId } = buildSkillRefsByItemId(bundle, itemIds, 'attacker', skillRefOptions);
   const ids: string[] = [];
-  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
-  for (const itemId of selected) {
-    const item = itemById.get(itemId);
-    if (Array.isArray(item?.skillRefs)) {
-      ids.push(...item.skillRefs.filter(Boolean));
-    }
+  for (const linkedSkillIds of skillRefsByItemId.values()) {
+    ids.push(...linkedSkillIds);
   }
   return normalizeStringList(ids);
 }
 
-function targetPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[]): string[] {
+function targetPassiveIdsForEquipment(
+  bundle: GameDataBundle,
+  itemIds: string[],
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
+): string[] {
   const selected = new Set(itemIds);
   if (selected.size === 0) {
     return [];
   }
+  const { skillRefsByItemId } = buildSkillRefsByItemId(bundle, itemIds, 'target', skillRefOptions);
   const ids: string[] = [];
-  const skillRefsByItemId = new Map<string, Set<string>>();
-  for (const item of bundle.items) {
-    if (!selected.has(item.itemId)) {
-      continue;
-    }
-    skillRefsByItemId.set(item.itemId, new Set((item.skillRefs ?? []).filter(Boolean)));
-  }
   for (const skill of bundle.skills) {
     if (skill.ownerType !== 'item' || !skill.ownerId || !selected.has(skill.ownerId)) {
       continue;
     }
-    const skillRefs = skillRefsByItemId.get(skill.ownerId);
-    if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+    const linkedSkillIds = skillRefsByItemId.get(skill.ownerId);
+    if (!linkedSkillIds?.has(skill.skillId)) {
       continue;
     }
     for (const effect of readDpsPassiveEffects(skill)) {
@@ -2162,26 +2424,25 @@ function targetPassiveIdsForEquipment(bundle: GameDataBundle, itemIds: string[])
   return normalizeStringList(ids);
 }
 
-function resolveDpsItemPassiveEffects(bundle: GameDataBundle, itemIds: string[], passiveIds: string[]): V2DpsPassiveEffect[] {
+function resolveDpsItemPassiveEffects(
+  bundle: GameDataBundle,
+  itemIds: string[],
+  passiveIds: string[],
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
+): V2DpsPassiveEffect[] {
   const selected = new Set(itemIds);
   const wanted = new Set(passiveIds);
   if (selected.size === 0 || wanted.size === 0) {
     return [];
   }
-  const skillRefsByItemId = new Map<string, Set<string>>();
-  for (const item of bundle.items) {
-    if (!selected.has(item.itemId)) {
-      continue;
-    }
-    skillRefsByItemId.set(item.itemId, new Set((item.skillRefs ?? []).filter(Boolean)));
-  }
+  const { skillRefsByItemId } = buildSkillRefsByItemId(bundle, itemIds, 'attacker', skillRefOptions);
   const effects: V2DpsPassiveEffect[] = [];
   for (const skill of bundle.skills) {
     if (skill.ownerType !== 'item' || !skill.ownerId || !selected.has(skill.ownerId)) {
       continue;
     }
-    const skillRefs = skillRefsByItemId.get(skill.ownerId);
-    if (skillRefs && skillRefs.size > 0 && !skillRefs.has(skill.skillId)) {
+    const linkedSkillIds = skillRefsByItemId.get(skill.ownerId);
+    if (!linkedSkillIds?.has(skill.skillId)) {
       continue;
     }
     for (const effect of readDpsPassiveEffects(skill)) {
@@ -2201,27 +2462,22 @@ function resolveDpsItemPassiveEffects(bundle: GameDataBundle, itemIds: string[],
 function resolveDpsTargetItemPassiveEffects(
   bundle: GameDataBundle,
   itemIds: string[],
-  passiveIds: string[]
+  passiveIds: string[],
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
 ): V2DpsPassiveEffect[] {
   const selected = new Set(itemIds);
   const wanted = new Set(passiveIds);
   if (selected.size === 0 || wanted.size === 0) {
     return [];
   }
-  const skillRefsByItemId = new Map<string, Set<string>>();
-  for (const item of bundle.items) {
-    if (!selected.has(item.itemId)) {
-      continue;
-    }
-    skillRefsByItemId.set(item.itemId, new Set((item.skillRefs ?? []).filter(Boolean)));
-  }
+  const { skillRefsByItemId } = buildSkillRefsByItemId(bundle, itemIds, 'target', skillRefOptions);
   const effects: V2DpsPassiveEffect[] = [];
   for (const skill of bundle.skills) {
     if (skill.ownerType !== 'item' || !skill.ownerId || !selected.has(skill.ownerId)) {
       continue;
     }
-    const skillRefs = skillRefsByItemId.get(skill.ownerId);
-    if (!itemSkillLinkedByRefs(skillRefs, skill.skillId)) {
+    const linkedSkillIds = skillRefsByItemId.get(skill.ownerId);
+    if (!linkedSkillIds?.has(skill.skillId)) {
       continue;
     }
     for (const effect of readDpsPassiveEffects(skill)) {
@@ -2241,21 +2497,17 @@ function resolveDpsScenarioStates(
   bundle: GameDataBundle,
   heroId: string,
   equipmentItemIds: string[],
-  scenarioIds: string[]
+  scenarioIds: string[],
+  skillRefOptions: ResolveItemSkillRefsOptions = LEGACY_DPS_SKILL_REF_OPTIONS
 ): V2DpsScenarioState[] {
   const wanted = new Set(scenarioIds);
   if (wanted.size === 0) {
     return [];
   }
   const heroSkillIds = new Set(listV2DpsScenarioOptionsForHero(heroId).flatMap((option) => option.requiredSkillIds));
-  const selectedItems = new Set(normalizeStringList(equipmentItemIds));
-  const skillRefsByItemId = new Map<string, Set<string>>();
-  for (const item of bundle.items) {
-    if (!selectedItems.has(item.itemId)) {
-      continue;
-    }
-    skillRefsByItemId.set(item.itemId, new Set((item.skillRefs ?? []).filter(Boolean)));
-  }
+  const selectedItems = normalizeStringList(equipmentItemIds);
+  const { skillRefsByItemId } = buildSkillRefsByItemId(bundle, selectedItems, 'attacker', skillRefOptions);
+  const selectedItemSet = new Set(selectedItems);
   const states: V2DpsScenarioState[] = [];
   const seenStateIds = new Set<string>();
   for (const skill of bundle.skills) {
@@ -2263,8 +2515,8 @@ function resolveDpsScenarioStates(
     const isItemScenarioSkill = skill.ownerType === 'item'
       && typeof skill.ownerId === 'string'
       && skill.ownerId.length > 0
-      && selectedItems.has(skill.ownerId)
-      && itemSkillLinkedByRefs(skillRefsByItemId.get(skill.ownerId), skill.skillId);
+      && selectedItemSet.has(skill.ownerId)
+      && skillRefsByItemId.get(skill.ownerId)?.has(skill.skillId);
     if (!isHeroScenarioSkill && !isItemScenarioSkill) {
       continue;
     }
@@ -2278,8 +2530,107 @@ function resolveDpsScenarioStates(
   return states;
 }
 
-function itemSkillLinkedByRefs(skillRefs: Set<string> | undefined, skillId: string): boolean {
-  return !skillRefs || skillRefs.size === 0 || skillRefs.has(skillId);
+function buildSkillRefsByItemId(
+  bundle: GameDataBundle,
+  itemIds: string[],
+  audience: EquipmentSkillRefAudience,
+  skillRefOptions: ResolveItemSkillRefsOptions
+): { skillRefsByItemId: Map<string, Set<string>>; diagnostics: EquipmentSkillRefDiagnostic[] } {
+  const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const skillRefsByItemId = new Map<string, Set<string>>();
+  const diagnostics: EquipmentSkillRefDiagnostic[] = [];
+  for (const itemId of normalizeStringList(itemIds)) {
+    const item = itemById.get(itemId);
+    if (!item) {
+      continue;
+    }
+    const resolved = resolveItemSkillRefs(bundle, item, audience, skillRefOptions);
+    skillRefsByItemId.set(itemId, resolved.linkedSkillIds);
+    diagnostics.push(...resolved.diagnostics);
+  }
+  return { skillRefsByItemId, diagnostics };
+}
+
+function appendOwnerRoleDiagnostics(
+  bundle: GameDataBundle,
+  item: Item,
+  audience: EquipmentSkillRefAudience,
+  linkedSkillIds: Set<string>,
+  diagnostics: EquipmentSkillRefDiagnostic[]
+) {
+  if (linkedSkillIds.size === 0) {
+    return;
+  }
+  const itemId = item.itemId;
+  const itemName = item.name?.trim() || undefined;
+  const skillById = new Map(bundle.skills.map((skill) => [skill.skillId, skill]));
+  for (const skillId of linkedSkillIds) {
+    const skill = skillById.get(skillId);
+    if (!skill) {
+      continue;
+    }
+    const skillName = skill.name?.trim() || undefined;
+    const effects = readDpsPassiveEffects(skill);
+    if (effects.length === 0) {
+      continue;
+    }
+    if (audience === 'target') {
+      const hasTargetPassive = effects.some((effect) => normalizeDpsOwnerRole(effect.ownerRole) === 'target');
+      if (!hasTargetPassive) {
+        diagnostics.push({
+          itemId,
+          itemName,
+          skillId,
+          skillName,
+          audience,
+          severity: 'error',
+          code: 'skillRef_ownerRole_mismatch',
+          message: `target item ${itemId}${itemName ? ` (${itemName})` : ''}: skill ${skillId}${skillName ? ` (${skillName})` : ''} is referenced but has no dpsPassiveEffects with ownerRole=target`
+        });
+      }
+      continue;
+    }
+    const hasAttackerPassive = effects.some((effect) => {
+      const ownerRole = normalizeDpsOwnerRole(effect.ownerRole);
+      return ownerRole !== 'target';
+    });
+    const hasTargetOnlyPassive = effects.every((effect) => normalizeDpsOwnerRole(effect.ownerRole) === 'target');
+    if (hasTargetOnlyPassive && !hasAttackerPassive) {
+      diagnostics.push({
+        itemId,
+        itemName,
+        skillId,
+        skillName,
+        audience,
+        severity: 'warning',
+        code: 'skillRef_ownerRole_mismatch',
+        message: `attacker item ${itemId}${itemName ? ` (${itemName})` : ''}: skill ${skillId}${skillName ? ` (${skillName})` : ''} only has ownerRole=target passives; will not execute on attacker`
+      });
+    }
+  }
+}
+
+function dedupeEquipmentSkillRefDiagnostics(
+  diagnostics: EquipmentSkillRefDiagnostic[]
+): EquipmentSkillRefDiagnostic[] {
+  const seen = new Set<string>();
+  const result: EquipmentSkillRefDiagnostic[] = [];
+  for (const diagnostic of diagnostics) {
+    const key = [
+      diagnostic.audience,
+      diagnostic.code,
+      diagnostic.itemId,
+      diagnostic.skillId ?? '',
+      diagnostic.severity,
+      diagnostic.message
+    ].join('|');
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    result.push(diagnostic);
+  }
+  return result;
 }
 
 function listV2DpsItemScenarioOptionsFromEquipment(
@@ -2291,6 +2642,12 @@ function listV2DpsItemScenarioOptionsFromEquipment(
     return [];
   }
   const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
+  const { skillRefsByItemId } = buildSkillRefsByItemId(
+    bundle,
+    selectedItems,
+    'attacker',
+    LEGACY_DPS_SKILL_REF_OPTIONS
+  );
   const options: V2DpsScenarioOption[] = [];
   const seenStateIds = new Set<string>();
   for (const itemId of selectedItems) {
@@ -2298,13 +2655,13 @@ function listV2DpsItemScenarioOptionsFromEquipment(
     if (!item) {
       continue;
     }
-    const skillRefs = new Set((item.skillRefs ?? []).filter(Boolean));
+    const linkedSkillIds = skillRefsByItemId.get(itemId) ?? new Set<string>();
     const itemLabel = item.name?.trim() || itemId;
     for (const skill of bundle.skills) {
       if (skill.ownerType !== 'item' || skill.ownerId !== itemId) {
         continue;
       }
-      if (skillRefs.size > 0 && !skillRefs.has(skill.skillId)) {
+      if (!linkedSkillIds.has(skill.skillId)) {
         continue;
       }
       for (const state of readDpsScenarioStates(skill)) {
