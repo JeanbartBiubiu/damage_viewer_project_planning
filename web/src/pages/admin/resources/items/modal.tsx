@@ -1,4 +1,4 @@
-﻿import { Alert, Button, Collapse, Form, Input, Modal, Space } from '@arco-design/web-react';
+﻿import { Alert, Button, Collapse, Form, Input, Modal, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
@@ -233,6 +233,9 @@ export function ItemsModal({
 
         <Form.Item label="skillRefs structured">
           {skillRefsState.error ? <Alert type="error" content={`skillRefs parse failed: ${skillRefsState.error}`} style={{ marginBottom: 12 }} /> : null}
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8 }}>
+            空 skillRefs 表示不接入装备被动，不表示自动匹配该 item 下所有 skill。
+          </Typography.Text>
           <SkillRefSelector
             apiBaseUrl={apiBaseUrl}
             selectedGameId={selectedGameId}
