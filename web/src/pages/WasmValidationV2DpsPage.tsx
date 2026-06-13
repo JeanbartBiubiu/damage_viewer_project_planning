@@ -46,6 +46,8 @@ import {
   type V2DpsBasicAttackAction,
   type V2DpsCurveResult,
   type V2DpsCurveSelection,
+  type V2DpsCritContext,
+  type V2DpsNumericBoundEvidence,
   type V2DpsOutput,
   type V2DpsPassiveEffect,
   type V2DpsPreparedInput,
@@ -2141,18 +2143,108 @@ function formatDamageEvidenceTags(record: DamageRow) {
   if (record.repeatTag) {
     tags.push(record.repeatTag);
   }
+
+  const critTag = formatCritChanceEvidenceTag(record.critContext);
+  if (critTag) {
+    tags.push(critTag);
+  }
+
+  const boundTag = formatNumericBoundEvidenceTag(record.critContext?.boundEvidence);
+  if (boundTag) {
+    tags.push(boundTag);
+  }
+
   if (tags.length === 0) {
     return <Typography.Text type="secondary">—</Typography.Text>;
   }
   return (
     <Space size={4} wrap>
       {tags.map((tag) => (
-        <Tag key={tag} color={tag === 'phantom_hit' ? 'purple' : 'gray'}>
+        <Tag
+          key={tag}
+          color={tag.includes('CLAMP') ? 'orangered' : tag.startsWith('crit ') ? 'gold' : tag === 'phantom_hit' ? 'purple' : 'gray'}
+        >
           {tag}
         </Tag>
       ))}
     </Space>
   );
+}
+
+function formatCritChanceEvidenceTag(critContext?: V2DpsCritContext): string | null {
+  if (!critContext?.hasContext) {
+    return null;
+  }
+  if (critContext.chanceRaw === undefined || critContext.chanceEffective === undefined) {
+    return null;
+  }
+  const raw = formatNumber(critContext.chanceRaw);
+  const effective = formatNumber(critContext.chanceEffective);
+  if (raw === effective) {
+    return `crit ${effective}`;
+  }
+  return `crit ${raw}→${effective}`;
+}
+
+function formatNumericBoundEvidenceTag(bound?: V2DpsNumericBoundEvidence): string | null {
+  if (!bound) {
+    return null;
+  }
+  if (bound.rawValue === undefined || bound.boundedValue === undefined) {
+    return bound.wasClamped ? 'CLAMP' : null;
+  }
+  const raw = formatNumber(bound.rawValue);
+  const bounded = formatNumber(bound.boundedValue);
+  const label = bound.key ? `${bound.key} ` : '';
+  if (raw === bounded) {
+    return bound.wasClamped ? `${label}${bounded} CLAMP` : null;
+  }
+  return bound.wasClamped ? `${label}${raw}→${bounded} CLAMP` : `${label}${raw}→${bounded}`;
+}
+
+function formatCritContextDetailRows(critContext?: V2DpsCritContext): string[] {
+  if (!critContext?.hasContext) {
+    return [];
+  }
+  const rows = [
+    `critPolicy=${critContext.policy ?? '-'}`,
+    `critChanceRaw=${formatNumber(critContext.chanceRaw)}`,
+    `critChanceEffective=${formatNumber(critContext.chanceEffective)}`,
+    `critMultiplier=${formatNumber(critContext.multiplier)}`
+  ];
+  if (critContext.expectedNormalPart !== undefined) {
+    rows.push(`expectedNormalPart=${formatNumber(critContext.expectedNormalPart)}`);
+  }
+  if (critContext.expectedCritPart !== undefined) {
+    rows.push(`expectedCritPart=${formatNumber(critContext.expectedCritPart)}`);
+  }
+  if (critContext.hasActualResult) {
+    rows.push(`hasActualResult=true isCrit=${critContext.isCrit === true}`);
+  }
+  return rows;
+}
+
+function formatNumericBoundDetailRows(bound?: V2DpsNumericBoundEvidence): string[] {
+  if (!bound) {
+    return [];
+  }
+  const rows = [
+    `boundKey=${bound.key ?? '-'}`,
+    `boundSource=${bound.source ?? '-'}`,
+    `boundMode=${bound.mode ?? '-'}`,
+    `boundRaw=${formatNumber(bound.rawValue)}`,
+    `boundEffective=${formatNumber(bound.boundedValue)}`
+  ];
+  if (bound.hasMin) {
+    rows.push(`boundMin=${formatNumber(bound.min)}`);
+  }
+  if (bound.hasMax) {
+    rows.push(`boundMax=${formatNumber(bound.max)}`);
+  }
+  if (bound.wasClamped) {
+    rows.push('wasClamped=true');
+  }
+  return rows;
 }
 
 function filterEffectBreakdown(result: V2DpsCurveResult | undefined, kind: string, sourceToken: string): V2DpsCurveResult['effectBreakdown'] {
@@ -2395,7 +2487,9 @@ function buildEventTimelinePoints(result: V2DpsCurveResult, icons: EventTimeline
         `finalDamage=${formatNumber(event.finalDamage)}`,
         `HP=${formatNumber(event.targetHpBefore)} -> ${formatNumber(event.targetHpAfter)}`,
         ...(event.phantomHit ? ['phantomHit=true'] : []),
-        ...(event.repeatTag ? [`repeatTag=${event.repeatTag}`] : [])
+        ...(event.repeatTag ? [`repeatTag=${event.repeatTag}`] : []),
+        ...formatCritContextDetailRows(event.critContext),
+        ...formatNumericBoundDetailRows(event.critContext?.boundEvidence)
       ],
       symbol: isItemDamage ? itemSymbol : 'circle',
       symbolSize: isPhantom ? 18 : 15,
@@ -2463,7 +2557,10 @@ function buildEventTimelinePoints(result: V2DpsCurveResult, icons: EventTimeline
         `amount=${formatNumber(event.amount)}`,
         ...(event.message ? [`message=${event.message}`] : []),
         ...(event.phantomHit ? ['phantomHit=true'] : []),
-        ...(event.repeatTag ? [`repeatTag=${event.repeatTag}`] : [])
+        ...(event.repeatTag ? [`repeatTag=${event.repeatTag}`] : []),
+        ...formatCritContextDetailRows(event.critContext),
+        ...formatNumericBoundDetailRows(event.numericBound),
+        ...formatNumericBoundDetailRows(event.critContext?.boundEvidence)
       ],
       symbol: isPhantom ? 'pin' : 'rect',
       symbolSize: isPhantom ? 15 : 10,
