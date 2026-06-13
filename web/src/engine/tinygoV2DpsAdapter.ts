@@ -12,7 +12,8 @@ import {
   type TinyGoV2FormulaDefinition,
   type TinyGoV2ActorTemplate,
   type TinyGoV2StatusTemplate,
-  type WasmValidationSkillOption
+  type WasmValidationSkillOption,
+  mapAttributeDefinitionBounds
 } from './tinygoV2BundleAdapter';
 
 export const V2_DPS_CASE_ID = 'V2-BatchE-1-single-hero-multicurve-001';
@@ -237,6 +238,36 @@ export type V2DpsCoefficientBucketCandidateEvidence = {
   [key: string]: unknown;
 };
 
+/** Batch T numeric bound evidence from Wasm damage/effect output. */
+export type V2DpsNumericBoundEvidence = {
+  key?: string;
+  source?: string;
+  mode?: string;
+  rawValue?: number;
+  boundedValue?: number;
+  min?: number;
+  hasMin?: boolean;
+  max?: number;
+  hasMax?: boolean;
+  wasClamped?: boolean;
+  [key: string]: unknown;
+};
+
+/** Batch T crit context evidence from Wasm DPS output. */
+export type V2DpsCritContext = {
+  hasContext?: boolean;
+  policy?: string;
+  chanceRaw?: number;
+  chanceEffective?: number;
+  multiplier?: number;
+  isCrit?: boolean;
+  hasActualResult?: boolean;
+  expectedNormalPart?: number;
+  expectedCritPart?: number;
+  boundEvidence?: V2DpsNumericBoundEvidence;
+  [key: string]: unknown;
+};
+
 /** Batch R structured coefficient bucket resolution evidence from Wasm effectBreakdown. */
 export type V2DpsCoefficientBucketEvidence = {
   source?: string;
@@ -270,6 +301,8 @@ export type V2DpsEffectBreakdownEntry = {
   phantomHit?: boolean;
   repeatTag?: string;
   coefficientBucket?: V2DpsCoefficientBucketEvidence;
+  numericBound?: V2DpsNumericBoundEvidence;
+  critContext?: V2DpsCritContext;
   [key: string]: unknown;
 };
 
@@ -487,6 +520,7 @@ export type V2DpsCurveResult = {
     targetHpAfter: number;
     phantomHit?: boolean;
     repeatTag?: string;
+    critContext?: V2DpsCritContext;
   }>;
   targetHpTimeline: Array<{ timeMs: number; currentHp: number; maxHp: number }>;
   effectTimeline: Array<{ timeMs: number; sourceId?: string; kind?: string }>;
@@ -2148,7 +2182,8 @@ function normalizeAttributeDefinitions(definitions: GameDataBundle['attributeDef
       defaultCurrent: defaultValue,
       defaultMax: defaultValue,
       hasDefaultCurrent: true,
-      hasDefaultMax: true
+      hasDefaultMax: true,
+      ...mapAttributeDefinitionBounds(definition)
     });
   }
   return result;

@@ -64,6 +64,8 @@ export type OwnerCategoryResponse = {
   ownerCategories: OwnerCategory[];
 };
 
+export type AttributeBoundsMode = 'clamp' | 'reject' | 'warn';
+
 export type AttributeDefinition = {
   attrKey: string;
   attrName?: string;
@@ -73,6 +75,18 @@ export type AttributeDefinition = {
   sortOrder?: number;
   valueKind?: 'scalar' | 'ratio' | 'rate' | 'flag';
   rateTargetAttrKey?: string;
+  minValue?: number;
+  maxValue?: number;
+  /** @deprecated 兼容旧 bundle；优先使用 minValue。 */
+  hasClampMin?: boolean;
+  /** @deprecated 兼容旧 bundle；优先使用 minValue。 */
+  clampMin?: number;
+  /** @deprecated 兼容旧 bundle；优先使用 maxValue。 */
+  hasClampMax?: boolean;
+  /** @deprecated 兼容旧 bundle；优先使用 maxValue。 */
+  clampMax?: number;
+  /** @deprecated 后端不持久化；仅兼容旧 bundle。 */
+  boundsMode?: AttributeBoundsMode;
   [key: string]: unknown;
 };
 
