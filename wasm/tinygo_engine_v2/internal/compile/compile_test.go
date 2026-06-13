@@ -291,6 +291,31 @@ func TestBundleRejectsDuplicateEntityIDs(t *testing.T) {
 	}
 }
 
+func TestBundleCollectsAllAttributeClampProblems(t *testing.T) {
+	result := Bundle(model.EngineBundle{
+		SchemaVersion: model.SchemaVersion,
+		Attributes: []model.AttributeDefinitionV2{
+			{ID: "crit_chance", HasClampMin: true, ClampMin: 2, HasClampMax: true, ClampMax: 1},
+			{ID: "attack_speed", HasClampMin: true, ClampMin: 10, HasClampMax: true, ClampMax: 5},
+		},
+		Actors: []model.ActorTemplateV2{
+			{ID: "fighter", Attributes: map[string]model.AttributeValueV2{"missing": {Base: 1}}},
+		},
+	})
+	if !hasProblem(result.Problems, "attribute clamp range invalid: crit_chance") {
+		t.Fatalf("missing crit_chance clamp problem: %v", result.Problems)
+	}
+	if !hasProblem(result.Problems, "attribute clamp range invalid: attack_speed") {
+		t.Fatalf("missing attack_speed clamp problem: %v", result.Problems)
+	}
+	if !hasProblem(result.Problems, "unknown actor attr") {
+		t.Fatalf("missing unknown actor attr problem: %v", result.Problems)
+	}
+	if len(result.Problems) < 3 {
+		t.Fatalf("expected at least 3 problems, got %v", result.Problems)
+	}
+}
+
 func hasProblem(problems []string, needle string) bool {
 	for _, problem := range problems {
 		if strings.Contains(problem, needle) {

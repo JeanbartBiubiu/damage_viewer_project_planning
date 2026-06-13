@@ -4,6 +4,7 @@ package runtime
 import (
 	"errors"
 	"fmt"
+	"math"
 	"strings"
 	"tinygo_engine_v2/internal/abi"
 	compilebundle "tinygo_engine_v2/internal/compile"
@@ -34,7 +35,7 @@ func newDPSCurveState(
 		result.BlockedReasons = append(result.BlockedReasons, err.Error())
 		return &dpsCurveState{result: result}
 	}
-	return &dpsCurveState{
+	state := &dpsCurveState{
 		bundle:                 bundle,
 		runCtx:                 runCtx,
 		attackerIdx:            attackerIdx,
@@ -52,8 +53,6 @@ func newDPSCurveState(
 		targetAttrs:            copyDPSFloatMap(target.Attributes),
 		targetHP:               targetHP,
 		targetMaxHP:            targetMaxHP,
-		armor:                  readFirstFiniteAttr(target.Attributes, "armor", "armour"),
-		magicResist:            readFirstFiniteAttr(target.Attributes, "magic_resist", "mr", "spellblock", "spell_block"),
 		schedules:              make([]dpsActiveActionSchedule, 0),
 		passives:               enabledDPSPassives(curve),
 		stacks:                 map[string]int{},
@@ -64,6 +63,52 @@ func newDPSCurveState(
 		consumedScenarioStates: map[string]bool{},
 		energizedCharge:        map[string]float64{},
 		energizedReady:         map[string]bool{},
+	}
+	state.boundDPSAttrMap(state.baseAttrs)
+	state.boundDPSAttrMap(state.attrs)
+	state.boundDPSAttrMap(state.targetBaseAttrs)
+	state.boundDPSAttrMap(state.targetAttrs)
+	state.armor = readFirstFiniteAttr(state.targetAttrs, "armor", "armour")
+	state.magicResist = readFirstFiniteAttr(state.targetAttrs, "magic_resist", "mr", "spellblock", "spell_block")
+	return state
+}
+
+func (state *dpsCurveState) dpsBoundAttrDefinition(attrKey string) (compilebundle.CompiledAttribute, bool) {
+	for _, key := range dpsModifierAttrLookupKeys(attrKey) {
+		index, ok := state.bundle.AttrIndex[key]
+		if !ok || int(index) >= len(state.bundle.Attrs) {
+			continue
+		}
+		return state.bundle.Attrs[index], true
+	}
+	return compilebundle.CompiledAttribute{}, false
+}
+
+func (state *dpsCurveState) boundDPSAttrValue(attrKey string, value float64) float64 {
+	if math.IsNaN(value) || math.IsInf(value, 0) {
+		return value
+	}
+	def, ok := state.dpsBoundAttrDefinition(attrKey)
+	if !ok {
+		return value
+	}
+	if def.HasClampMin && value < def.ClampMin {
+		value = def.ClampMin
+	}
+	if def.HasClampMax && value > def.ClampMax {
+		value = def.ClampMax
+	}
+	return value
+}
+
+func (state *dpsCurveState) boundDPSAttrMap(values map[string]float64) {
+	if len(values) == 0 {
+		return
+	}
+	for key, value := range values {
+		if bounded := state.boundDPSAttrValue(key, value); bounded != value {
+			values[key] = bounded
+		}
 	}
 }
 

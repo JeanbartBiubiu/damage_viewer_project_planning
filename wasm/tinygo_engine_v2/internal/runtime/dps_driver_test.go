@@ -3143,6 +3143,15 @@ func effectBreakdownMessageContains(result model.DPSCurveResultV2, kind string, 
 	return false
 }
 
+func effectBreakdownAmountBySource(result model.DPSCurveResultV2, kind string, source string) float64 {
+	for _, event := range result.EffectBreakdown {
+		if event.Kind == kind && event.Source == source {
+			return event.Amount
+		}
+	}
+	return 0
+}
+
 func findCoefficientBucketEffectBreakdown(result model.DPSCurveResultV2, messageNeedle string) *model.DPSEffectBreakdownV2 {
 	for i := range result.EffectBreakdown {
 		event := &result.EffectBreakdown[i]
@@ -4962,6 +4971,16 @@ func TestSingleAttackerDPSHPChangeHPDiffRatioValueSpec(t *testing.T) {
 }
 
 func TestSingleAttackerDPSHPChangeCritConditionRequiresCritContext(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, action := range bundle.Actions {
+			if action.ID != dpsTestDefaultBasicAttackActionID {
+				continue
+			}
+			for j := range action.Effects {
+				bundle.Actions[i].Effects[j].CritPolicy = ""
+			}
+		}
+	})
 	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
 	passive.Operations[0].Conditions = []model.DPSModifierConditionV2{{
 		Metric:    "crit",
@@ -4980,7 +4999,7 @@ func TestSingleAttackerDPSHPChangeCritConditionRequiresCritContext(t *testing.T)
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
 	if result.Status != "blocked" {
 		t.Fatalf("status = %s, want blocked when crit condition lacks crit context", result.Status)
 	}
@@ -4990,6 +5009,16 @@ func TestSingleAttackerDPSHPChangeCritConditionRequiresCritContext(t *testing.T)
 }
 
 func TestSingleAttackerDPSIncomingCritOnlyModifierRequiresCritContext(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, action := range bundle.Actions {
+			if action.ID != dpsTestDefaultBasicAttackActionID {
+				continue
+			}
+			for j := range action.Effects {
+				bundle.Actions[i].Effects[j].CritPolicy = ""
+			}
+		}
+	})
 	input := baseSingleAttackerDPSInput()
 	input.SimulationRules.DurationMs = 1
 	curve := &input.Curves[0]
@@ -5001,12 +5030,390 @@ func TestSingleAttackerDPSIncomingCritOnlyModifierRequiresCritContext(t *testing
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
 	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
 
-	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
 	if result.Status != "blocked" {
 		t.Fatalf("status = %s, want blocked when critOnly lacks crit context", result.Status)
 	}
 	if !blockedReasonContains(result, "critOnly requires crit context") {
 		t.Fatalf("blockedReasons = %v, want critOnly crit context block", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSExpectedCritOnlyModifierAppliesToCritPortion(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_crit_only_incoming_reduction", syntheticCritOnlyIncomingDamageModifierPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0.5
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].FinalDamage, 130) {
+		t.Fatalf("damageTimeline = %+v, want final expected damage 130", result.DamageTimeline)
+	}
+	critCtx := result.DamageTimeline[0].CritContext
+	if critCtx == nil || !almostEqual(critCtx.ExpectedNormalPart, 50) || !almostEqual(critCtx.ExpectedCritPart, 80) {
+		t.Fatalf("critContext = %+v, want expectedNormalPart=50 expectedCritPart=80", critCtx)
+	}
+	modifierAmount := effectBreakdownAmountBySource(result, dpsOpDamageModifier, "crit_only_incoming_reduction")
+	if !almostEqual(modifierAmount, -20) {
+		t.Fatalf("critOnly modifier amount = %.4f, want -20 total delta", modifierAmount)
+	}
+}
+
+func TestSingleAttackerDPSOnCritExpectedZeroChancePureDamage(t *testing.T) {
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:      "champion_zero_chance_on_crit_test",
+		SourceCategory: "skill_passive",
+		SourceID:       "zero_chance_passive",
+		SourceType:     "skill",
+		TriggerID:      "zero_chance_on_crit_magic",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnCrit,
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "zero_chance_on_crit_magic",
+			DamageType: "magic",
+			Amount:     20,
+		}},
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.DamageBySource["zero_chance_on_crit_magic"] != 0 {
+		t.Fatalf("damageBySource = %v, want no onCrit damage at zero chance", result.DamageBySource)
+	}
+	for _, trigger := range result.SkillPassiveTriggers {
+		if trigger.TriggerID == "zero_chance_on_crit_magic" {
+			t.Fatalf("skillPassiveTriggers = %v, want no onCrit trigger at zero chance", result.SkillPassiveTriggers)
+		}
+	}
+}
+
+func TestSingleAttackerDPSOnCritExpectedZeroChanceStatefulDoesNotBlock(t *testing.T) {
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:      "champion_zero_chance_stateful_on_crit_test",
+		SourceCategory: "skill_passive",
+		SourceID:       "zero_chance_stateful_on_crit",
+		SourceType:     "skill",
+		TriggerID:      "zero_chance_stateful_on_crit_stack",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnCrit,
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:      dpsOpAddStack,
+			Source:    "zero_chance_stateful_on_crit_stack",
+			StackKey:  "on_crit_stack",
+			MaxStacks: 3,
+		}},
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok without stateful onCrit block", result.Status, result.BlockedReasons)
+	}
+	for _, trigger := range result.SkillPassiveTriggers {
+		if trigger.TriggerID == "zero_chance_stateful_on_crit_stack" {
+			t.Fatalf("skillPassiveTriggers = %v, want no onCrit trigger at zero chance", result.SkillPassiveTriggers)
+		}
+	}
+}
+
+func TestSingleAttackerDPSTargetCritOnlyModifierAffectsCritPortionOnly(t *testing.T) {
+	passive := syntheticCritOnlyIncomingDamageModifierPassive()
+	passive.Operations[0].Value = -0.3
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_randuin_crit_only", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0.5
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].FinalDamage, 120) {
+		t.Fatalf("damageTimeline = %+v, want final damage 120 from crit-only -30%% on crit portion", result.DamageTimeline)
+	}
+}
+
+func TestSingleAttackerDPSForceCritContextModifier(t *testing.T) {
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:      "item_fentian_force_crit_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_fentian",
+		SourceType:     "item",
+		TriggerID:      "fentian_force_crit",
+		TriggerKind:    dpsTriggerPreEnabledModifier,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:                      dpsOpCritContextModifier,
+			Source:                    "fentian_force_crit",
+			ForceCrit:                 true,
+			HasCritMultiplierOverride: true,
+			CritMultiplierOverride:    2,
+		}},
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].FinalDamage, 200) {
+		t.Fatalf("damageTimeline = %+v, want forceCrit final damage 200", result.DamageTimeline)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpCritContextModifier, "forceCrit=true") {
+		t.Fatalf("effectBreakdown = %+v, want forceCrit evidence", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackCritContextModifierDoesNotApplyToSkillDamage(t *testing.T) {
+	stateID := "next_attack_force_crit_ready"
+	scenario := spellbladeScenarioState(stateID, 0, 8000)
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:               "item_next_attack_force_crit_test",
+		SourceCategory:          "item_passive",
+		SourceID:                "item_next_attack_force_crit",
+		SourceType:              "item",
+		TriggerID:               "next_attack_force_crit",
+		TriggerKind:             dpsTriggerNextBasicAttackAfterState,
+		RequiresScenarioStateID: stateID,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:      dpsOpCritContextModifier,
+			Source:    "next_attack_force_crit",
+			ForceCrit: true,
+		}},
+	}
+
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, action := range bundle.Actions {
+			if action.ID != dpsTestCooldownSkillActionID {
+				continue
+			}
+			for j := range action.Effects {
+				bundle.Actions[i].Effects[j].CritPolicy = "expected"
+				bundle.Actions[i].Effects[j].CritChanceSource = "attacker_crit_chance"
+				bundle.Actions[i].Effects[j].CritMultiplierSource = "attacker_crit_damage"
+			}
+		}
+	})
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	skillOnlyDPSCurveSetup(curve)
+	enableDPSPassivesForTest(curve, passive)
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0.5
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !almostEqual(result.DamageBySource[dpsTestCooldownSkillSkillID], 150) {
+		t.Fatalf("damageBySource = %v, want expected crit skill damage 150 without next-attack forceCrit", result.DamageBySource)
+	}
+	if effectBreakdownMessageContains(result, dpsOpCritContextModifier, "forceCrit=true") {
+		t.Fatalf("effectBreakdown = %+v, want no next-attack forceCrit on skill damage", result.EffectBreakdown)
+	}
+}
+
+func TestSingleAttackerDPSOnCritExpectedPureDamage(t *testing.T) {
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:      "champion_yunara_on_crit_test",
+		SourceCategory: "skill_passive",
+		SourceID:       "yunara_passive",
+		SourceType:     "skill",
+		TriggerID:      "yunara_on_crit_magic",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnCrit,
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "yunara_on_crit_magic",
+			DamageType: "magic",
+			Amount:     20,
+		}},
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0.5
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !almostEqual(result.DamageBySource["yunara_on_crit_magic"], 10) {
+		t.Fatalf("damageBySource = %v, want onCrit expected magic damage 10", result.DamageBySource)
+	}
+}
+
+func TestSingleAttackerDPSStatefulOnCritBlocksUnderExpectedPolicy(t *testing.T) {
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:      "champion_stateful_on_crit_test",
+		SourceCategory: "skill_passive",
+		SourceID:       "stateful_on_crit",
+		SourceType:     "skill",
+		TriggerID:      "stateful_on_crit_stack",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnCrit,
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:      dpsOpAddStack,
+			Source:    "stateful_on_crit_stack",
+			StackKey:  "on_crit_stack",
+			MaxStacks: 3,
+		}},
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 0.5
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked for stateful onCrit under expected policy", result.Status)
+	}
+	if !blockedReasonContains(result, "on_crit stateful operation requires actual or seeded crit result") {
+		t.Fatalf("blockedReasons = %v, want stateful onCrit block reason", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSCritScalingValueSpecUsesBoundedChance(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, attr := range bundle.Attributes {
+			if attr.ID != "crit_chance" {
+				continue
+			}
+			bundle.Attributes[i].HasClampMin = true
+			bundle.Attributes[i].ClampMin = 0
+			bundle.Attributes[i].HasClampMax = true
+			bundle.Attributes[i].ClampMax = 1
+		}
+	})
+	passive := model.DPSPassiveEffectV2{
+		PassiveID:      "item_navori_crit_scaling_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_navori",
+		SourceType:     "item",
+		TriggerID:      "navori_outgoing_crit_scaling",
+		OwnerRole:      "attacker",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnDamageDealt,
+			Matcher: model.DPSPassiveTriggerMatcherV2{
+				DamageTypes: []string{"physical"},
+			},
+		},
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:         dpsOpDamageModifier,
+			Source:       "navori_outgoing_crit_scaling",
+			TargetRole:   "attacker",
+			BucketKey:    "outgoing_add_priority_late",
+			ModifierMode: "percent",
+			ValueSpec: model.DPSModifierValueSpecV2{
+				Kind:    "crit_scaling",
+				AttrKey: "crit_chance_effective",
+				Ratio:   0.1,
+			},
+		}},
+	}
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 1.25
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].FinalDamage, 220) {
+		t.Fatalf("damageTimeline = %+v, want final damage 220 from bounded crit chance 1 scaling + expected crit", result.DamageTimeline)
 	}
 }
 
@@ -5800,5 +6207,136 @@ func TestSingleAttackerDPSCoefficientModifierRejectsUnsupportedValueSpecKind(t *
 	}
 	if !blockedReasonContains(result, "coefficient_modifier valueSpec has unsupported kind unsupported_kind") {
 		t.Fatalf("blockedReasons = %v, want unsupported valueSpec kind rejection", result.BlockedReasons)
+	}
+}
+
+func compileDPSTestBundlePatched(t *testing.T, patch func(*model.EngineBundle)) compilebundle.CompiledBundle {
+	t.Helper()
+	bundle := dpsTestEngineBundle()
+	if patch != nil {
+		patch(&bundle)
+	}
+	result := compilebundle.Bundle(bundle)
+	if len(result.Problems) > 0 {
+		t.Fatalf("compile dps test bundle: %v", result.Problems)
+	}
+	return result.Bundle
+}
+
+func runSingleAttackerDPSWithBundle(t *testing.T, bundle compilebundle.CompiledBundle, input model.SingleAttackerDPSInputV2) model.SingleAttackerDPSOutputV2 {
+	t.Helper()
+	return runSingleAttackerDPS(bundle, input)
+}
+
+func findStatModifierBreakdownAmount(result model.DPSCurveResultV2, source string) (float64, bool) {
+	for _, item := range result.EffectBreakdown {
+		if item.Kind != dpsOpStatModifier || item.Source != source {
+			continue
+		}
+		return item.Amount, true
+	}
+	return 0, false
+}
+
+func TestSingleAttackerDPSInitialSnapshotAttributeBounds(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, attr := range bundle.Attributes {
+			if attr.ID != "crit_chance" {
+				continue
+			}
+			bundle.Attributes[i].HasClampMin = true
+			bundle.Attributes[i].ClampMin = 0
+			bundle.Attributes[i].HasClampMax = true
+			bundle.Attributes[i].ClampMax = 1
+		}
+	})
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 1.25
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"]; !almostEqual(got, 1) {
+		t.Fatalf("resolved crit_chance = %.4f, want 1", got)
+	}
+}
+
+func TestSingleAttackerDPSStatModifierAttributeBounds(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, attr := range bundle.Attributes {
+			if attr.ID != "attack_speed" {
+				continue
+			}
+			bundle.Attributes[i].HasClampMin = true
+			bundle.Attributes[i].ClampMin = 0
+			bundle.Attributes[i].HasClampMax = true
+			bundle.Attributes[i].ClampMax = 2
+		}
+	})
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, model.DPSPassiveEffectV2{
+		PassiveID:      "test_attack_speed_buff",
+		SourceCategory: "item_passive",
+		SourceID:       "test_attack_speed_buff",
+		SourceType:     "item",
+		TriggerID:      "test_attack_speed_buff",
+		TriggerKind:    dpsTriggerStatAlwaysOn,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:         dpsOpStatModifier,
+			Source:       "test_attack_speed_buff",
+			AttrKey:      "attack_speed",
+			ModifierMode: "percent",
+			Value:        1,
+		}},
+	})
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1.5
+
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"]; !almostEqual(got, 2) {
+		t.Fatalf("resolved attack_speed = %.4f, want 2", got)
+	}
+	amount, ok := findStatModifierBreakdownAmount(result, "test_attack_speed_buff")
+	if !ok || !almostEqual(amount, 2) {
+		t.Fatalf("stat_modifier breakdown amount = %.4f ok=%v, want 2", amount, ok)
+	}
+}
+
+func TestSingleAttackerDPSAttributeBucketAttributeBounds(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, attr := range bundle.Attributes {
+			if attr.ID != "ap" {
+				continue
+			}
+			bundle.Attributes[i].HasClampMax = true
+			bundle.Attributes[i].ClampMax = 350
+		}
+	})
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	skillOnlyDPSCurveSetup(curve)
+	enableDPSPassivesForTest(curve, syntheticRabadonAPFinalMultiplierPassive())
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"] = 300
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"]; !almostEqual(got, 350) {
+		t.Fatalf("resolved ap = %.4f, want 350 after bucket + attribute bounds", got)
 	}
 }

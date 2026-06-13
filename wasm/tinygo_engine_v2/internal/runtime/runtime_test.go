@@ -807,6 +807,98 @@ func TestStatusTickHealUsesPublishedCritMultiplier(t *testing.T) {
 	}
 }
 
+func TestDirectEffectBoundedCritChanceDoesNotErrNumeric(t *testing.T) {
+	bundle := boundedCritChanceRuntimeBundle()
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "bounded_crit_damage"},
+	}
+	done := runBundle(t, bundle, input)
+	result := actionResult(done, "bounded_crit_damage")
+	if !result.Accepted || len(result.Effects) != 1 {
+		t.Fatalf("bounded crit result = %+v, want accepted effect", result)
+	}
+	effect := result.Effects[0]
+	if !effect.HasCritChance || !almostEqualFloat(effect.CritChanceRaw, 1.25) || !almostEqualFloat(effect.CritChanceEffective, 1) {
+		t.Fatalf("crit chance evidence = %+v, want raw 1.25 effective 1", effect)
+	}
+	if effect.CritChanceBound == nil || !effect.CritChanceBound.WasClamped {
+		t.Fatalf("critChanceBound = %+v, want wasClamped evidence", effect.CritChanceBound)
+	}
+	if !effect.HasRawAmount || !almostEqualFloat(effect.RawAmount, 100) || !effect.HasFinalDamage || !almostEqualFloat(effect.FinalDamage, 200) {
+		t.Fatalf("bounded crit damage = %+v, want raw 100 final 200 with effective chance 1", effect)
+	}
+}
+
+func TestStatusTickBoundedCritChanceEvidence(t *testing.T) {
+	bundle := boundedCritChanceRuntimeBundle()
+	bundle.Statuses = append(bundle.Statuses, model.StatusTemplate{
+		ID:                   "bounded_crit_dot",
+		Kind:                 "dot",
+		DurationMs:           1000,
+		TickIntervalMs:       1000,
+		TickCount:            1,
+		TickAmount:           40,
+		TickDamageType:       "magic",
+		TickCritPolicy:       "expected",
+		TickCritChanceSource: "attacker_crit_chance",
+		TickCritMultiplier:   2,
+	})
+	bundle.Actions = append(bundle.Actions, model.ActionTemplate{
+		ID:         "apply_bounded_crit_dot",
+		Label:      "Apply Bounded Crit Dot",
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+		Effects:    []model.EffectDef{{Type: "apply_status", StatusID: "bounded_crit_dot", SourceRole: "source", TargetRole: "target"}},
+	})
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "apply_bounded_crit_dot")
+
+	input := controlRunInput()
+	input.InitialActions = []model.ActionRequest{
+		{TriggerAtMs: 0, SourceActorID: "self", TargetActorID: "enemy", ActionID: "apply_bounded_crit_dot"},
+	}
+	done := runBundle(t, bundle, input)
+	if len(done.TickResults) != 1 {
+		t.Fatalf("tick results = %+v, want one bounded crit dot tick", done.TickResults)
+	}
+	tick := done.TickResults[0]
+	if !tick.HasCritChance || !almostEqualFloat(tick.CritChanceRaw, 1.25) || !almostEqualFloat(tick.CritChanceEffective, 1) {
+		t.Fatalf("tick crit chance evidence = %+v, want raw 1.25 effective 1", tick)
+	}
+	if tick.CritChanceBound == nil || !tick.CritChanceBound.WasClamped {
+		t.Fatalf("tick critChanceBound = %+v, want wasClamped evidence", tick.CritChanceBound)
+	}
+	if !tick.HasFinalDamage || !almostEqualFloat(tick.FinalDamage, 80) {
+		t.Fatalf("tick damage = %+v, want final 80 from bounded chance 1 and multiplier 2", tick)
+	}
+}
+
+func boundedCritChanceRuntimeBundle() model.EngineBundle {
+	bundle := controlGateBundle()
+	bundle.Attributes = append(bundle.Attributes, model.AttributeDefinitionV2{
+		ID: "crit_chance", HasClampMin: true, ClampMin: 0, HasClampMax: true, ClampMax: 1,
+	})
+	bundle.Actors[0].Attributes["crit_chance"] = model.AttributeValueV2{Base: 1.25}
+	bundle.Actions = append(bundle.Actions, model.ActionTemplate{
+		ID:         "bounded_crit_damage",
+		Label:      "Bounded Crit Damage",
+		Classifier: model.ClassifierV2{Types: []string{"action/cast_skill"}},
+		Effects: []model.EffectDef{{
+			Type: "deal_damage", Amount: 100, DamageType: "physical", SourceRole: "source", TargetRole: "target",
+			CritPolicy: "expected", CritChanceSource: "attacker_crit_chance", CritMultiplier: 2,
+		}},
+	})
+	bundle.Actors[0].Actions = append(bundle.Actors[0].Actions, "bounded_crit_damage")
+	return bundle
+}
+
+func almostEqualFloat(left float64, right float64) bool {
+	diff := left - right
+	if diff < 0 {
+		diff = -diff
+	}
+	return diff < 0.000001
+}
+
 func TestDirectHealCritReadsAttackerCritChance(t *testing.T) {
 	bundle := m4BatchJCritBundle(0.5)
 	bundle.Actors[0].InitialHP = 900
