@@ -16,9 +16,11 @@ import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { useResourceImageCache } from '../shared/useResourceImageCache';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import {
+  collectAttributeBoundsWarnings,
   createAttributeDefinitionsFormData,
   createAttributeDefinitionsSearchData,
-  resolveAttributeOrder
+  resolveAttributeOrder,
+  validateAttributeBoundsForm
 } from './constants';
 import { AttributeDefinitionsModal } from './modal';
 import { AttributeDefinitionsSearch } from './search';
@@ -37,6 +39,8 @@ type AttributeDefinitionsPageProps = {
 
 function toAttributeDefinitionsFormData(record: AttributeDefinitionsRecord): AttributeDefinitionsFormData {
   const resolvedOrder = resolveAttributeOrder(record);
+  const resolvedMinValue = resolveRecordMinValue(record);
+  const resolvedMaxValue = resolveRecordMaxValue(record);
   return {
     attrKey: record.attrKey,
     attrName: record.attrName ?? '',
@@ -44,8 +48,32 @@ function toAttributeDefinitionsFormData(record: AttributeDefinitionsRecord): Att
     defaultValue: record.defaultValue !== undefined ? String(record.defaultValue) : '',
     order: resolvedOrder !== undefined ? String(resolvedOrder) : '',
     valueKind: record.valueKind ?? 'scalar',
-    rateTargetAttrKey: record.rateTargetAttrKey ?? ''
+    rateTargetAttrKey: record.rateTargetAttrKey ?? '',
+    hasMinValue: resolvedMinValue !== undefined,
+    minValue: resolvedMinValue !== undefined ? String(resolvedMinValue) : '0',
+    hasMaxValue: resolvedMaxValue !== undefined,
+    maxValue: resolvedMaxValue !== undefined ? String(resolvedMaxValue) : '1'
   };
+}
+
+function resolveRecordMinValue(record: AttributeDefinitionsRecord): number | undefined {
+  if (record.minValue !== undefined && Number.isFinite(record.minValue)) {
+    return record.minValue;
+  }
+  if (record.hasClampMin === true && record.clampMin !== undefined && Number.isFinite(record.clampMin)) {
+    return record.clampMin;
+  }
+  return undefined;
+}
+
+function resolveRecordMaxValue(record: AttributeDefinitionsRecord): number | undefined {
+  if (record.maxValue !== undefined && Number.isFinite(record.maxValue)) {
+    return record.maxValue;
+  }
+  if (record.hasClampMax === true && record.clampMax !== undefined && Number.isFinite(record.clampMax)) {
+    return record.clampMax;
+  }
+  return undefined;
 }
 
 function filterAttributeDefinitions(
@@ -88,6 +116,11 @@ async function saveAttributeDefinitionsRecord(
   token: string,
   formData: AttributeDefinitionsFormData
 ): Promise<AttributeDefinitionsRecord> {
+  validateAttributeBoundsForm(formData);
+  for (const warning of collectAttributeBoundsWarnings(formData)) {
+    Message.warning(warning);
+  }
+
   const payload: JsonObject = {
     attrKey: formData.attrKey.trim(),
     attrName: formData.attrName.trim(),
@@ -105,6 +138,14 @@ async function saveAttributeDefinitionsRecord(
 
   if (formData.rateTargetAttrKey.trim()) {
     payload.rateTargetAttrKey = formData.rateTargetAttrKey.trim();
+  }
+
+  if (formData.hasMinValue) {
+    payload.minValue = Number(formData.minValue.trim());
+  }
+
+  if (formData.hasMaxValue) {
+    payload.maxValue = Number(formData.maxValue.trim());
   }
 
   return (await putAttributeDefinition(apiBaseUrl, gameId, formData.attrKey.trim(), token, payload)).data;

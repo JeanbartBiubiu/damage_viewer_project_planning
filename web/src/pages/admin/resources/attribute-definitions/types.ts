@@ -17,4 +17,8 @@ export type AttributeDefinitionsFormData = {
   order: string;
   valueKind: string;
   rateTargetAttrKey: string;
+  hasMinValue: boolean;
+  minValue: string;
+  hasMaxValue: boolean;
+  maxValue: string;
 };
