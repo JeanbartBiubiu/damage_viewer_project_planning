@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -364,12 +365,18 @@ class KatarinaMvpImportMainTest {
         assertEquals("lol", seedData.gameId());
         assertEquals("v2_batch_k_guinsoo_phantom_hit_001", seedData.versionCode());
         assertEquals(1, seedData.ownerCategories().size());
-        assertEquals(1, seedData.skills().size());
+        assertEquals(2, seedData.skills().size());
         assertEquals(1, seedData.items().size());
 
         JsonNode guinsooItem = findByField(seedData.items(), "itemId", "3124");
         assertEquals(1, guinsooItem.path("skillRefs").size());
         assertEquals("item_3124_guinsoos_boiling_strike_dps_v2", guinsooItem.path("skillRefs").get(0).asText());
+
+        JsonNode supersededWrathSkill = findByField(seedData.skills(), "skillId", "item_3124_guinsoos_rageblade_wrath_dps_v2");
+        assertEquals("p_wrath", supersededWrathSkill.path("skillKey").asText());
+        assertEquals("item_3124_guinsoos_boiling_strike_dps_v2", supersededWrathSkill.path("params").path("supersededBy").asText());
+        assertEquals(0, supersededWrathSkill.path("mechanicsConfig").path("triggers").size());
+        assertEquals(0, supersededWrathSkill.path("mechanicsConfig").path("dpsPassiveEffects").size());
 
         JsonNode mergedSkill = findByField(seedData.skills(), "skillId", "item_3124_guinsoos_boiling_strike_dps_v2");
         assertFalse(mergedSkill.path("params").has("excludedMechanics"));
@@ -493,6 +500,45 @@ class KatarinaMvpImportMainTest {
         assertTrue(skillRefsFailure.getMessage().contains("items"));
         assertTrue(skillRefsFailure.getMessage().contains("3143"));
         assertTrue(skillRefsFailure.getMessage().contains("skillRefs"));
+    }
+
+    @Test
+    void loadSeed_itemOwnedAttackerDpsPassives_shouldDeclareExplicitOwnerRole() throws Exception {
+        List<String> seedFileNames = List.of(
+            "V2-Batch-D-adc-item-passives.seed.json",
+            "V2-Batch-G-adc-passives-ready.seed.json",
+            "V2-Batch-H-stacking-stat-passives.seed.json",
+            "V2-Batch-K-guinsoo-phantom-hit.seed.json",
+            "V2-Batch-L-spellblade-next-attack.seed.json",
+            "V2-Batch-M-attr-read-trinity-base-ad.seed.json",
+            "V2-Batch-N-energized-charge-and-consume.seed.json"
+        );
+
+        for (String seedFileName : seedFileNames) {
+            Path seedFile = Path.of("..", "..", "\u6700\u5c0f\u9a8c\u8bc1", seedFileName)
+                .toAbsolutePath()
+                .normalize();
+            KatarinaMvpImportMain.SeedData seedData = KatarinaMvpImportMain.loadSeed(seedFile);
+
+            for (JsonNode skill : seedData.skills()) {
+                if (!"item".equals(skill.path("ownerType").asText())) {
+                    continue;
+                }
+                JsonNode dpsPassiveEffects = skill.path("mechanicsConfig").path("dpsPassiveEffects");
+                if (!dpsPassiveEffects.isArray() || dpsPassiveEffects.isEmpty()) {
+                    continue;
+                }
+                for (JsonNode passive : dpsPassiveEffects) {
+                    assertEquals(
+                        "attacker",
+                        passive.path("ownerRole").asText(),
+                        seedFileName + " skill " + skill.path("skillId").asText()
+                            + " passive " + passive.path("passiveId").asText()
+                            + " must declare ownerRole=attacker"
+                    );
+                }
+            }
+        }
     }
 
     @Test
