@@ -403,6 +403,13 @@ func validateDPSPassiveOperation(bundle compilebundle.CompiledBundle, passiveID 
 		if op.RepeatScope != dpsRepeatScopeCopyableOnHit {
 			reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatScope="+dpsRepeatScopeCopyableOnHit)
 		}
+	case dpsOpCritContextModifier:
+		if !op.ForceCrit && !op.HasCritMultiplierOverride {
+			reasons = append(reasons, "passive effect "+passiveID+" crit_context_modifier requires forceCrit or critMultiplierOverride")
+		}
+		if op.HasCritMultiplierOverride && (math.IsNaN(op.CritMultiplierOverride) || math.IsInf(op.CritMultiplierOverride, 0) || op.CritMultiplierOverride <= 0) {
+			reasons = append(reasons, "passive effect "+passiveID+" crit_context_modifier has invalid critMultiplierOverride")
+		}
 	default:
 		reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation "+op.Kind)
 	}
@@ -429,6 +436,16 @@ func validateDPSBucketModifierValueSpec(
 			reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec literal has invalid value")
 		}
 	case "attr_ratio", "hp_ratio", "hp_diff_ratio":
+	case "crit_scaling":
+		metric := strings.TrimSpace(op.ValueSpec.AttrKey)
+		if metric == "" {
+			metric = "crit_chance_effective"
+		}
+		switch metric {
+		case "crit_chance", "crit_chance_raw", "crit_chance_effective", "crit_multiplier", "crit_multiplier_effective", "crit_damage":
+		default:
+			reasons = append(reasons, "passive effect "+passiveID+" "+operationKind+" valueSpec crit_scaling has unsupported attrKey "+metric)
+		}
 	case "formula":
 		reasons = append(reasons, validateDPSModifierFormulaValueSpec(bundle, passiveID, operationKind, op.ValueSpec)...)
 	default:
@@ -580,7 +597,7 @@ func validateDPSLinkedPassiveTrigger(id string, passive model.DPSPassiveEffectV2
 
 func supportedDPSLinkedTriggerEvent(event string) bool {
 	switch event {
-	case dpsEventOnBasicAttackHit, dpsEventOnSpellHit, dpsEventOnHit, dpsEventOnDamageDealt, dpsEventOnDamageTaken, dpsTriggerStatAlwaysOn, dpsTriggerPreEnabledModifier, dpsEventDotTick:
+	case dpsEventOnBasicAttackHit, dpsEventOnSpellHit, dpsEventOnHit, dpsEventOnDamageDealt, dpsEventOnDamageTaken, dpsEventOnCrit, dpsTriggerStatAlwaysOn, dpsTriggerPreEnabledModifier, dpsEventDotTick:
 		return true
 	default:
 		return false

@@ -227,6 +227,7 @@ func (state *dpsCurveState) applyAttributeStageBuckets(
 			return false
 		}
 		modified = clampCoefficientBucketAmount(modified, bucket)
+		modified = state.boundDPSAttrValue(targetAttrKey, modified)
 		if !validateCoefficientBucketFinite(modified) {
 			state.block("passive stat_modifier coefficient bucket resolved invalid attr value")
 			return false
