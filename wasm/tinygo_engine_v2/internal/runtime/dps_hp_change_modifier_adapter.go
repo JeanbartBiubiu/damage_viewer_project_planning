@@ -39,18 +39,23 @@ func (state *dpsCurveState) buildModifierGateContext(ctx dpsCombatEventContext) 
 		}
 	}
 	return dpsModifierGateContext{
-		DamageType:     ctx.DamageType,
-		ActionTypes:    ctx.ActionTypes,
-		ProcScope:      ctx.ProcScope,
-		HasCritContext: ctx.HasCritContext,
-		IsCrit:         ctx.IsCrit,
-		AttackerHP:     attackerHP,
-		AttackerMaxHP:  attackerMaxHP,
-		TargetHP:       state.targetHP,
-		TargetMaxHP:    state.targetMaxHP,
-		AttackerAttrs:  state.attrs,
-		TargetAttrs:    state.targetAttrs,
-		AttackerViews:  state.attributeViews,
+		DamageType:          ctx.DamageType,
+		ActionTypes:         ctx.ActionTypes,
+		ProcScope:           ctx.ProcScope,
+		HasCritContext:      ctx.HasCritContext,
+		IsCrit:              ctx.IsCrit,
+		CritPolicy:          ctx.CritPolicy,
+		CritChanceRaw:       ctx.CritChanceRaw,
+		CritChanceEffective: ctx.CritChanceEffective,
+		CritMultiplier:      ctx.CritMultiplier,
+		HasActualCritResult: ctx.HasActualCritResult,
+		AttackerHP:          attackerHP,
+		AttackerMaxHP:       attackerMaxHP,
+		TargetHP:            state.targetHP,
+		TargetMaxHP:         state.targetMaxHP,
+		AttackerAttrs:       state.attrs,
+		TargetAttrs:         state.targetAttrs,
+		AttackerViews:       state.attributeViews,
 	}
 }
 
@@ -160,6 +165,10 @@ func (state *dpsCurveState) resolveHPChangeBucketCandidates(
 		}
 		if op.CritOnly && !ctx.HasCritContext {
 			state.block("passive damage_modifier critOnly requires crit context")
+			return nil, false
+		}
+		if op.CritOnly && ctx.HasCritContext && ctx.CritPolicy == "expected" {
+			state.block("passive damage_modifier critOnly hp_change bucket is unsupported under expected crit policy")
 			return nil, false
 		}
 		value, ok, reason := resolveDPSModifierValue(state.bundle, op, gate)

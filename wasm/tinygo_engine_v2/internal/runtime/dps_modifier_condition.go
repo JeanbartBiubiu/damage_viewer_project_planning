@@ -9,18 +9,23 @@ import (
 )
 
 type dpsModifierGateContext struct {
-	DamageType     string
-	ActionTypes    []string
-	ProcScope      string
-	HasCritContext bool
-	IsCrit         bool
-	AttackerHP     float64
-	AttackerMaxHP  float64
-	TargetHP       float64
-	TargetMaxHP    float64
-	AttackerAttrs  map[string]float64
-	TargetAttrs    map[string]float64
-	AttackerViews  map[string]model.AttributeSnapshotV2
+	DamageType          string
+	ActionTypes         []string
+	ProcScope           string
+	HasCritContext      bool
+	IsCrit              bool
+	CritPolicy          string
+	CritChanceRaw       float64
+	CritChanceEffective float64
+	CritMultiplier      float64
+	HasActualCritResult bool
+	AttackerHP          float64
+	AttackerMaxHP       float64
+	TargetHP            float64
+	TargetMaxHP         float64
+	AttackerAttrs       map[string]float64
+	TargetAttrs         map[string]float64
+	AttackerViews       map[string]model.AttributeSnapshotV2
 }
 
 func evaluateDPSModifierConditions(conditions []model.DPSModifierConditionV2, gate dpsModifierGateContext) (bool, string) {

@@ -28,7 +28,6 @@ func (state *dpsCurveState) processActiveAction(schedIdx int, timeMs int64) {
 
 func (state *dpsCurveState) processBasicAttackAction(sched *dpsActiveActionSchedule, timeMs int64) {
 	actionID := sched.ref.ActionID
-	damageSource := nonEmpty(sched.ref.SkillID, actionID)
 
 	state.expireStacks(timeMs)
 	state.refreshActiveStatModifiers(timeMs)
@@ -71,55 +70,14 @@ func (state *dpsCurveState) processBasicAttackAction(sched *dpsActiveActionSched
 		if effect.Kind != string(model.EffectTypeDealDamage) || !effect.HasRawAmount {
 			continue
 		}
-		actionDamageProcessed = true
-		damageType := effect.DamageType
-		if damageType == "" {
-			damageType = "physical"
-		}
-		damageAmount := effect.RawAmount
-		if effectIndex < len(compiledAction.Effects) {
-			compiledEffect := compiledAction.Effects[effectIndex]
-			if compiledEffect.CritPolicy != "" {
-				critResult, code := state.runCtx.resolveEffectCrit(compiledEffect, state.attackerIdx)
-				if code != model.ErrOK {
-					state.block("basic_attack_crit_unresolved:" + actionID)
-					sched.nextAtMs = -1
-					return
-				}
-				damageAmount = effect.RawAmount * critResult.Scalar
-			}
-		}
-		actionTypes, effectTags := resolveActiveActionClassifier(sched.ref.Classifier, state.bundle, compiledAction)
-		preDamageCtx := dpsCombatEventContext{
-			Event:          dpsEventOnDamageTaken,
-			TimeMs:         timeMs,
-			SourceRole:     dpsRoleAttacker,
-			TargetRole:     dpsRoleTarget,
-			ActionID:       actionID,
-			ActionTypes:    actionTypes,
-			EffectTypes:    []string{string(model.EffectTypeDealDamage)},
-			EffectTags:     effectTags,
-			SourceType:     "basic_attack",
-			SourceCategory: "basic_attack",
-			SourceID:       damageSource,
-			DamageType:     damageType,
-			RawDamage:      damageAmount,
-			TargetHPBefore: targetHPBefore,
-			IsBasicAttack:  true,
-			IsOnHit:        true,
-			HasCritContext: false,
-			ProcScope:      dpsProcScopeRealBasicAttackOnly,
-		}
-		modifiedAmount, ok := state.applyIncomingDamageModifiers(preDamageCtx, damageAmount)
+		ctx, _, ok := state.processActiveActionDamageEffect(timeMs, sched, compiledAction, castResult, effectIndex, effect, targetHPBefore, true)
 		if !ok {
 			sched.nextAtMs = -1
 			return
 		}
-		app := state.applyDamageWithContext(timeMs, damageSource, damageType, modifiedAmount, &preDamageCtx)
-		if app.Applied {
-			combatCtx = state.buildBasicAttackCombatContext(timeMs, *sched, compiledAction, damageType, app)
-			hasCombatCtx = true
-		}
+		actionDamageProcessed = true
+		combatCtx = ctx
+		hasCombatCtx = true
 	}
 	state.syncRunContextHPFromDPS()
 	if actionDamageProcessed && hasCombatCtx {
@@ -136,7 +94,6 @@ func (state *dpsCurveState) processBasicAttackAction(sched *dpsActiveActionSched
 
 func (state *dpsCurveState) processSkillAction(sched *dpsActiveActionSchedule, timeMs int64) {
 	actionID := sched.ref.ActionID
-	damageSource := nonEmpty(sched.ref.SkillID, actionID)
 
 	state.expireStacks(timeMs)
 	state.refreshActiveStatModifiers(timeMs)
@@ -170,54 +127,14 @@ func (state *dpsCurveState) processSkillAction(sched *dpsActiveActionSchedule, t
 		if effect.Kind != string(model.EffectTypeDealDamage) || !effect.HasRawAmount {
 			continue
 		}
-		actionDamageProcessed = true
-		damageType := effect.DamageType
-		if damageType == "" {
-			damageType = "physical"
-		}
-		damageAmount := effect.RawAmount
-		if effectIndex < len(compiledAction.Effects) {
-			compiledEffect := compiledAction.Effects[effectIndex]
-			if compiledEffect.CritPolicy != "" {
-				critResult, code := state.runCtx.resolveEffectCrit(compiledEffect, state.attackerIdx)
-				if code != model.ErrOK {
-					state.block("skill_crit_unresolved:" + actionID)
-					sched.nextAtMs = -1
-					return
-				}
-				damageAmount = effect.RawAmount * critResult.Scalar
-			}
-		}
-		actionTypes, effectTags := resolveActiveActionClassifier(sched.ref.Classifier, state.bundle, compiledAction)
-		preDamageCtx := dpsCombatEventContext{
-			Event:          dpsEventOnDamageTaken,
-			TimeMs:         timeMs,
-			SourceRole:     dpsRoleAttacker,
-			TargetRole:     dpsRoleTarget,
-			ActionID:       actionID,
-			ActionTypes:    actionTypes,
-			EffectTypes:    []string{string(model.EffectTypeDealDamage)},
-			EffectTags:     effectTags,
-			SourceType:     "spell",
-			SourceCategory: "spell",
-			SourceID:       damageSource,
-			DamageType:     damageType,
-			RawDamage:      damageAmount,
-			TargetHPBefore: targetHPBefore,
-			IsSpell:        true,
-			HasCritContext: false,
-			ProcScope:      dpsProcScopeActiveSkill,
-		}
-		modifiedAmount, ok := state.applyIncomingDamageModifiers(preDamageCtx, damageAmount)
+		ctx, _, ok := state.processActiveActionDamageEffect(timeMs, sched, compiledAction, castResult, effectIndex, effect, targetHPBefore, false)
 		if !ok {
 			sched.nextAtMs = -1
 			return
 		}
-		app := state.applyDamageWithContext(timeMs, damageSource, damageType, modifiedAmount, &preDamageCtx)
-		if app.Applied {
-			combatCtx = state.buildSkillCombatContext(timeMs, *sched, compiledAction, damageType, app)
-			hasCombatCtx = true
-		}
+		actionDamageProcessed = true
+		combatCtx = ctx
+		hasCombatCtx = true
 	}
 	state.syncRunContextHPFromDPS()
 	if actionDamageProcessed && hasCombatCtx {
