@@ -32,6 +32,11 @@ export type TinyGoV2AttributeDefinition = {
   defaultMax?: number;
   hasDefaultCurrent?: boolean;
   hasDefaultMax?: boolean;
+  clampMin?: number;
+  hasClampMin?: boolean;
+  clampMax?: number;
+  hasClampMax?: boolean;
+  boundsMode?: string;
 };
 
 export type TinyGoV2AttributeValue = {
@@ -666,11 +671,42 @@ function normalizeAttributeDefinitions(definitions: AttributeDefinition[]): Tiny
         defaultCurrent: defaultValue,
         defaultMax: defaultValue,
         hasDefaultCurrent: true,
-        hasDefaultMax: true
+        hasDefaultMax: true,
+        ...mapAttributeDefinitionBounds(definition)
       };
     });
 
   return dedupeById(normalized);
+}
+
+export function mapAttributeDefinitionBounds(definition: AttributeDefinition): Partial<TinyGoV2AttributeDefinition> {
+  const result: Partial<TinyGoV2AttributeDefinition> = {};
+
+  const minValue = toFiniteOptional(definition.minValue);
+  if (minValue !== null) {
+    result.hasClampMin = true;
+    result.clampMin = minValue;
+  } else if (definition.hasClampMin === true) {
+    result.hasClampMin = true;
+    const clampMin = toFiniteOptional(definition.clampMin);
+    if (clampMin !== null) {
+      result.clampMin = clampMin;
+    }
+  }
+
+  const maxValue = toFiniteOptional(definition.maxValue);
+  if (maxValue !== null) {
+    result.hasClampMax = true;
+    result.clampMax = maxValue;
+  } else if (definition.hasClampMax === true) {
+    result.hasClampMax = true;
+    const clampMax = toFiniteOptional(definition.clampMax);
+    if (clampMax !== null) {
+      result.clampMax = clampMax;
+    }
+  }
+
+  return result;
 }
 
 function resolveActorState(
