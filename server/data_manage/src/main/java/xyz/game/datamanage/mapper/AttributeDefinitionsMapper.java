@@ -28,7 +28,9 @@ public interface AttributeDefinitionsMapper {
         @Param("attrType") String attrType,
         @Param("defaultValue") BigDecimal defaultValue,
         @Param("valueKind") String valueKind,
-        @Param("rateTargetAttrKey") String rateTargetAttrKey
+        @Param("rateTargetAttrKey") String rateTargetAttrKey,
+        @Param("minValue") BigDecimal minValue,
+        @Param("maxValue") BigDecimal maxValue
     );
 
     int updateVersionRange(
@@ -46,6 +48,8 @@ public interface AttributeDefinitionsMapper {
         @Param("attrType") String attrType,
         @Param("defaultValue") BigDecimal defaultValue,
         @Param("valueKind") String valueKind,
-        @Param("rateTargetAttrKey") String rateTargetAttrKey
+        @Param("rateTargetAttrKey") String rateTargetAttrKey,
+        @Param("minValue") BigDecimal minValue,
+        @Param("maxValue") BigDecimal maxValue
     );
 }

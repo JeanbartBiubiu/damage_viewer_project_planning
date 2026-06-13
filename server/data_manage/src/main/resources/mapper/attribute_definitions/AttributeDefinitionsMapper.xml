@@ -11,7 +11,9 @@
                attr_type AS attrType,
                default_value AS defaultValue,
                value_kind AS valueKind,
-               rate_target_attr_key AS rateTargetAttrKey
+               rate_target_attr_key AS rateTargetAttrKey,
+               min_value AS minValue,
+               max_value AS maxValue
         FROM public.attribute_definitions
         WHERE game_id = #{gameId}
         ORDER BY sort_order, attr_key
@@ -24,7 +26,9 @@
                attr_type AS attrType,
                default_value AS defaultValue,
                value_kind AS valueKind,
-               rate_target_attr_key AS rateTargetAttrKey
+               rate_target_attr_key AS rateTargetAttrKey,
+               min_value AS minValue,
+               max_value AS maxValue
         FROM public.attribute_definitions
         WHERE game_id = #{gameId}
           AND attr_key = #{attrKey}
@@ -37,7 +41,9 @@
                attr_type AS attrType,
                default_value AS defaultValue,
                value_kind AS valueKind,
-               rate_target_attr_key AS rateTargetAttrKey
+               rate_target_attr_key AS rateTargetAttrKey,
+               min_value AS minValue,
+               max_value AS maxValue
         FROM public.attribute_definitions
         WHERE game_id = #{gameId}
           AND updated_at &gt; #{updatedAfter}
@@ -46,9 +52,9 @@
 
     <update id="upsertAttributeDefinition">
         INSERT INTO public.attribute_definitions
-            (game_id, attr_key, start_version_id, end_version_id, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, updated_at)
+            (game_id, attr_key, start_version_id, end_version_id, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value, updated_at)
         VALUES
-            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, NOW())
+            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, #{minValue}, #{maxValue}, NOW())
         ON CONFLICT (game_id, attr_key) DO UPDATE SET
             start_version_id = EXCLUDED.start_version_id,
             end_version_id = EXCLUDED.end_version_id,
@@ -58,6 +64,8 @@
             default_value = EXCLUDED.default_value,
             value_kind = EXCLUDED.value_kind,
             rate_target_attr_key = EXCLUDED.rate_target_attr_key,
+            min_value = EXCLUDED.min_value,
+            max_value = EXCLUDED.max_value,
             updated_at = NOW()
     </update>
 
@@ -71,9 +79,9 @@
 
     <update id="upsertAttributeDefinitionLog">
         INSERT INTO public.attribute_definitions_log
-            (game_id, attr_key, start_version_id, end_version_id, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key)
+            (game_id, attr_key, start_version_id, end_version_id, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value)
         VALUES
-            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey})
+            (#{gameId}, #{attrKey}, #{versionId}, #{versionId}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, #{minValue}, #{maxValue})
         ON CONFLICT (game_id, attr_key, start_version_id) DO UPDATE SET
             end_version_id = EXCLUDED.end_version_id,
             sort_order = EXCLUDED.sort_order,
@@ -81,6 +89,8 @@
             attr_type = EXCLUDED.attr_type,
             default_value = EXCLUDED.default_value,
             value_kind = EXCLUDED.value_kind,
-            rate_target_attr_key = EXCLUDED.rate_target_attr_key
+            rate_target_attr_key = EXCLUDED.rate_target_attr_key,
+            min_value = EXCLUDED.min_value,
+            max_value = EXCLUDED.max_value
     </update>
 </mapper>
