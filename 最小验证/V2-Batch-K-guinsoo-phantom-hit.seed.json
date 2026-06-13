@@ -8,8 +8,8 @@
     "itemJsonPath": "C:\\project\\damage_wasm_dev\\数据参考\\item.json",
     "sourceVersion": "16.9.1",
     "generatedAt": "2026-06-03",
-    "rule": "V2 Batch K publishes the full item 3124 Guinsoo's Rageblade DPS passive in one item-owned skill: Batch D wrath on-hit magic damage, Batch H Boiling Strike stacking attack speed, and Batch K phantom-hit on-hit repeat in the same dpsPassiveEffects entry.",
-    "gateStatus": "K-real-data-ready when published bundle preserves the merged dpsPassiveEffects operations on item_3124_guinsoos_boiling_strike_dps_v2"
+    "rule": "V2 Batch K publishes item 3124 Guinsoo's Rageblade DPS through one item-owned execution skill only: item_3124_guinsoos_boiling_strike_dps_v2 merges Batch D wrath on-hit magic damage, Batch H Boiling Strike stacking attack speed, and Batch K phantom-hit repeat. The historical Batch D wrath skill item_3124_guinsoos_rageblade_wrath_dps_v2 is retained as a superseded stub with empty triggers and dpsPassiveEffects so strict item.skillRefs does not double-count on-hit damage.",
+    "gateStatus": "K-real-data-ready when item 3124 skillRefs reference only item_3124_guinsoos_boiling_strike_dps_v2 and the superseded wrath stub keeps mechanicsConfig.triggers=[] and mechanicsConfig.dpsPassiveEffects=[]"
   },
   "ownerCategories": [
     {
@@ -53,6 +53,7 @@
             "sourceId": "item_3124_guinsoos_boiling_strike_dps_v2",
             "sourceType": "item",
             "triggerId": "guinsoos_wrath_on_hit",
+            "ownerRole": "attacker",
             "triggerKind": "on_basic_attack_hit",
             "operations": [
               {
@@ -92,6 +93,24 @@
           }
         ]
       }
+    },
+    {
+      "skillId": "item_3124_guinsoos_rageblade_wrath_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3124",
+      "skillKey": "p_wrath",
+      "name": "鬼索的狂暴之刃 怨怒 DPS 被动（已由 Batch K 合并技能取代）",
+      "description": "Superseded by item_3124_guinsoos_boiling_strike_dps_v2. Batch D wrath on-hit magic damage now executes only through the merged Boiling Strike DPS skill; this historical skill is retained for audit continuity with empty mechanics.",
+      "params": {
+        "supersededBy": "item_3124_guinsoos_boiling_strike_dps_v2",
+        "onHitMagicDamage": 30,
+        "supersedeReason": "Batch K merged wrath on-hit, Boiling Strike stacking, and phantom-hit repeat into one item.skillRefs execution chain."
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [],
+        "dpsPassiveEffects": []
+      }
     }
   ],
   "items": [
@@ -130,7 +149,7 @@
         ],
         "sourceGoldTotal": 3000,
         "batch": "V2-Batch-K",
-        "sourceText": "攻击造成30额外魔法伤害攻击特效。攻击会提供8%攻击速度，持续3秒(可叠加4次)。在满层状态下，每第三次攻击会附带2次攻击特效。Batch K merges wrath on-hit, Boiling Strike stacking, and phantom-hit repeat into one published skill."
+        "sourceText": "攻击造成30额外魔法伤害攻击特效。攻击会提供8%攻击速度，持续3秒(可叠加4次)。在满层状态下，每第三次攻击会附带2次攻击特效。Batch K item 3124 skillRefs reference only item_3124_guinsoos_boiling_strike_dps_v2; the historical Batch D wrath skill is superseded with empty dpsPassiveEffects."
       }
     }
   ],
