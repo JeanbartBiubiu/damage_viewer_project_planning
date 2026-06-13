@@ -949,7 +949,15 @@ public class PostgresReadStore {
         putNullableText(node, "attrType", text(row, "attrType"));
         BigDecimal defaultValue = decimal(row, "defaultValue");
         if (defaultValue != null) {
-            node.putPOJO("defaultValue", defaultValue);
+            node.put("defaultValue", defaultValue);
+        }
+        BigDecimal minValue = decimal(row, "minValue");
+        if (minValue != null) {
+            node.put("minValue", minValue);
+        }
+        BigDecimal maxValue = decimal(row, "maxValue");
+        if (maxValue != null) {
+            node.put("maxValue", maxValue);
         }
         String valueKind = text(row, "valueKind");
         node.put("valueKind", valueKind == null || valueKind.isBlank() ? "scalar" : valueKind);
