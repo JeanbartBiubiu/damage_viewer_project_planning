@@ -1,6 +1,6 @@
 import { Button, Space, Tag, Typography } from '@arco-design/web-react';
 import { ResourceImageThumb } from '../../../../components/ResourceImageThumb';
-import { resolveAttributeOrder } from './constants';
+import { resolveAttributeOrder, formatAttributeBoundsLabel } from './constants';
 import type { AttributeDefinitionsRecord } from './types';
 
 type AttributeDefinitionsTableActions = {
@@ -65,6 +65,13 @@ export function getAttributeDefinitionsColumns({
       dataIndex: 'valueKind',
       width: 120,
       render: (_: unknown, record: AttributeDefinitionsRecord) => <Tag>{record.valueKind ?? '--'}</Tag>
+    },
+    {
+      title: 'bounds',
+      width: 160,
+      render: (_: unknown, record: AttributeDefinitionsRecord) => (
+        <Typography.Text className="wasm-code-token">{formatAttributeBoundsLabel(record)}</Typography.Text>
+      )
     },
     {
       title: '成长属性',
