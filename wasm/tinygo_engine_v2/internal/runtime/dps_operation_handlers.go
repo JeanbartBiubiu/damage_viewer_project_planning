@@ -148,6 +148,8 @@ func (state *dpsCurveState) refreshActiveStatModifiers(timeMs int64) {
 			return
 		}
 	}
+	state.boundDPSAttrMap(state.attrs)
+	state.boundDPSAttrMap(state.targetAttrs)
 	state.syncTargetResistancesFromAttrs()
 }
 
@@ -190,6 +192,7 @@ func (state *dpsCurveState) applyStatModifier(timeMs int64, passive model.DPSPas
 		state.block("unsupported passive stat modifier mode " + op.ModifierMode)
 		return
 	}
+	attrMap[op.AttrKey] = state.boundDPSAttrValue(op.AttrKey, attrMap[op.AttrKey])
 	if targetRole == dpsRoleTarget {
 		state.syncTargetResistancesFromAttrs()
 	}
