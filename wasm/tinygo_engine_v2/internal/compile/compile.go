@@ -265,6 +265,9 @@ func Bundle(input model.EngineBundle) Result {
 			problems = append(problems, "duplicate attribute: "+attr.ID)
 			continue
 		}
+		if attr.HasClampMin && attr.HasClampMax && attr.ClampMin > attr.ClampMax {
+			problems = append(problems, "attribute clamp range invalid: "+attr.ID)
+		}
 		cb.AttrIndex[attr.ID] = uint16(len(cb.Attrs))
 		cb.Attrs = append(cb.Attrs, CompiledAttribute{
 			ID: attr.ID, DefaultBase: attr.DefaultBase, DefaultCurrent: attr.DefaultCurrent,

@@ -28,6 +28,7 @@ func (state *dpsCurveState) processSkillPassives(ctx dpsCombatEventContext) {
 			state.refreshActiveStatModifiers(ctx.TimeMs)
 		}
 	}
+	state.processOnCritPassives(ctx)
 }
 
 func (state *dpsCurveState) processAttackPassives(ctx dpsCombatEventContext) {
@@ -53,6 +54,81 @@ func (state *dpsCurveState) processAttackPassives(ctx dpsCombatEventContext) {
 	}
 	if state.result.Status != dpsStatusBlocked && state.targetHP > 0 {
 		state.processPhantomHits(onHitCtx)
+	}
+	state.processOnCritPassives(ctx)
+}
+
+func (state *dpsCurveState) processOnCritPassives(ctx dpsCombatEventContext) {
+	if !ctx.HasCritContext || !shouldDispatchOnCrit(ctx) {
+		return
+	}
+	onCritCtx := ctx
+	onCritCtx.Event = dpsEventOnCrit
+	state.dispatchOnCritLinkedEffects(onCritCtx)
+}
+
+func shouldDispatchOnCrit(ctx dpsCombatEventContext) bool {
+	if ctx.CritPolicy == "expected" {
+		return ctx.CritChanceEffective > 0
+	}
+	return ctx.HasActualCritResult && ctx.IsCrit
+}
+
+func (state *dpsCurveState) dispatchOnCritLinkedEffects(ctx dpsCombatEventContext) {
+	entries := state.collectDPSLinkedPassiveEntries(ctx)
+	for _, entry := range entries {
+		passive := entry.passive
+		if resolvedDPSTriggerEvent(passive) != dpsEventOnCrit && strings.TrimSpace(passive.Trigger.Event) != dpsEventOnCrit {
+			continue
+		}
+		if !state.passiveActiveAt(passive, ctx.TimeMs) {
+			continue
+		}
+		state.recordPassiveTrigger(ctx.TimeMs, passive)
+		for _, op := range passive.Operations {
+			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
+				return
+			}
+			switch op.Kind {
+			case dpsOpDamage:
+				if ctx.CritPolicy == "expected" {
+					amount := op.Amount
+					if amount == 0 {
+						continue
+					}
+					weighted := amount * ctx.CritChanceEffective
+					if weighted <= 0 {
+						continue
+					}
+					source := passiveDamageSource(passive, op)
+					if state.applyDamage(ctx.TimeMs, source, op.DamageType, weighted).Applied {
+						state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+							TimeMs:      ctx.TimeMs,
+							Source:      source,
+							Kind:        dpsOpDamage,
+							Amount:      weighted,
+							Message:     "onCrit expected weighted amount=" + floatToString(weighted) + " chanceEffective=" + floatToString(ctx.CritChanceEffective),
+							CritContext: dpsCritContextFromCombat(&ctx),
+						})
+					}
+					continue
+				}
+				if ctx.HasActualCritResult && ctx.IsCrit {
+					state.applyPassiveOperation(ctx.TimeMs, passive, op)
+				}
+			default:
+				if ctx.CritPolicy == "expected" {
+					if ctx.CritChanceEffective > 0 {
+						state.block("on_crit stateful operation requires actual or seeded crit result")
+						return
+					}
+					continue
+				}
+				if ctx.HasActualCritResult && ctx.IsCrit {
+					state.applyPassiveOperation(ctx.TimeMs, passive, op)
+				}
+			}
+		}
 	}
 }
 
@@ -91,6 +167,9 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 		if triggerKind == dpsTriggerStatAlwaysOn || triggerKind == dpsTriggerPreEnabledModifier {
 			continue
 		}
+		if resolvedDPSTriggerEvent(passive) == dpsEventOnCrit {
+			continue
+		}
 		if triggerKind == dpsTriggerEnergizedChargeAndConsume {
 			if state.passiveActiveAt(passive, ctx.TimeMs) {
 				if state.processEnergizedChargePassive(ctx.TimeMs, passive) && passiveHasPerStackStatModifier(passive) {
@@ -119,7 +198,7 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 		}
 		state.recordPassiveTrigger(ctx.TimeMs, passive)
 		for _, op := range passive.Operations {
-			if op.Kind == dpsOpPhantomHitOnHitRepeat || op.Kind == dpsOpDamageModifier {
+			if op.Kind == dpsOpPhantomHitOnHitRepeat || op.Kind == dpsOpDamageModifier || op.Kind == dpsOpCritContextModifier {
 				continue
 			}
 			if op.Kind == dpsOpCoefficientModifier && dpsOperationUsesHPChangeBucket(state.bundle, op) {
@@ -192,13 +271,21 @@ func (state *dpsCurveState) collectIncomingDamageModifierEntries(ctx dpsCombatEv
 	return entries
 }
 
-func (state *dpsCurveState) applyIncomingDamageModifiers(ctx dpsCombatEventContext, amount float64) (float64, bool) {
+func (state *dpsCurveState) applyIncomingDamageModifiers(ctx *dpsCombatEventContext, amount float64) (float64, bool) {
 	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
 		state.block("incoming damage modifier requires valid raw amount")
 		return 0, false
 	}
-	entries := state.collectIncomingDamageModifierEntries(ctx)
+	entries := state.collectIncomingDamageModifierEntries(*ctx)
 	current := amount
+	normalPart := 0.0
+	critPart := 0.0
+	useExpectedParts := ctx.HasCritContext && ctx.CritPolicy == "expected"
+	if useExpectedParts {
+		normalPart = ctx.ExpectedNormalPart
+		critPart = ctx.ExpectedCritPart
+		current = normalPart + critPart
+	}
 	triggered := map[string]bool{}
 	for _, entry := range entries {
 		passive := entry.passive
@@ -216,7 +303,11 @@ func (state *dpsCurveState) applyIncomingDamageModifiers(ctx dpsCombatEventConte
 			modifierMode = "percent"
 		}
 		if modifierMode != "percent" {
-			state.block("passive damage_modifier only supports modifierMode percent")
+			if op.CritOnly {
+				state.block("passive damage_modifier critOnly flat_delta is unsupported")
+			} else {
+				state.block("passive damage_modifier only supports modifierMode percent")
+			}
 			return 0, false
 		}
 		targetRole := resolvedDPSOperationTargetRole(op, dpsOpDamageModifier)
@@ -229,8 +320,39 @@ func (state *dpsCurveState) applyIncomingDamageModifiers(ctx dpsCombatEventConte
 			return 0, false
 		}
 		raw := current
-		modified := current * (1 + op.Value)
-		if modified < 0 || math.IsNaN(modified) || math.IsInf(modified, 0) {
+		modified := current
+		breakdownAmount := 0.0
+		skipped := false
+		if op.CritOnly {
+			if useExpectedParts {
+				beforeTotal := current
+				critPart = critPart * (1 + op.Value)
+				modified = normalPart + critPart
+				raw = beforeTotal
+				breakdownAmount = modified - beforeTotal
+			} else if ctx.HasActualCritResult {
+				if !ctx.IsCrit {
+					skipped = true
+					modified = current
+				} else {
+					modified = current * (1 + op.Value)
+					breakdownAmount = modified - current
+				}
+			} else {
+				modified = current * (1 + op.Value)
+				breakdownAmount = modified - current
+			}
+		} else if useExpectedParts {
+			normalPart = normalPart * (1 + op.Value)
+			critPart = critPart * (1 + op.Value)
+			modified = normalPart + critPart
+			breakdownAmount = modified - current
+			raw = current
+		} else {
+			modified = current * (1 + op.Value)
+			breakdownAmount = modified - current
+		}
+		if !skipped && (modified < 0 || math.IsNaN(modified) || math.IsInf(modified, 0)) {
 			state.block("passive damage_modifier resolved invalid amount")
 			return 0, false
 		}
@@ -239,14 +361,28 @@ func (state *dpsCurveState) applyIncomingDamageModifiers(ctx dpsCombatEventConte
 			state.recordPassiveTrigger(ctx.TimeMs, passive)
 			triggered[runtimeKey] = true
 		}
-		state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+		if useExpectedParts {
+			ctx.ExpectedNormalPart = normalPart
+			ctx.ExpectedCritPart = critPart
+		}
+		breakdown := model.DPSEffectBreakdownV2{
 			TimeMs:  ctx.TimeMs,
 			Source:  passiveDamageSource(passive, op),
 			Kind:    dpsOpDamageModifier,
-			Amount:  modified - raw,
+			Amount:  breakdownAmount,
 			Message: incomingDamageModifierBreakdownMessage(valuePhase, raw, modified, op.Value),
-		})
-		current = modified
+		}
+		if ctx.HasCritContext {
+			breakdown.CritContext = dpsCritContextFromCombat(ctx)
+		}
+		if skipped {
+			breakdown.Message += " skipped=true reason=non_crit"
+			breakdown.Amount = 0
+		}
+		state.result.EffectBreakdown = append(state.result.EffectBreakdown, breakdown)
+		if !skipped {
+			current = modified
+		}
 	}
 	return current, true
 }
@@ -275,7 +411,7 @@ func (state *dpsCurveState) linkedPassiveMatchesEvent(ctx dpsCombatEventContext,
 		return false
 	}
 	switch ctx.Event {
-	case dpsEventOnBasicAttackHit, dpsEventOnHit, dpsEventOnSpellHit:
+	case dpsEventOnBasicAttackHit, dpsEventOnHit, dpsEventOnSpellHit, dpsEventOnCrit:
 		if ownerRole != dpsRoleAttacker {
 			return false
 		}

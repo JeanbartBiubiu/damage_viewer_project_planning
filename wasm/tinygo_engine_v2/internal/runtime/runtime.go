@@ -148,13 +148,17 @@ type healApplication struct {
 }
 
 type critApplication struct {
-	Scalar        float64
-	Roll          float64
-	HasRoll       bool
-	Result        bool
-	HasResult     bool
-	Multiplier    float64
-	HasMultiplier bool
+	Scalar          float64
+	Roll            float64
+	HasRoll         bool
+	Result          bool
+	HasResult       bool
+	Multiplier      float64
+	HasMultiplier   bool
+	ChanceRaw       float64
+	ChanceEffective float64
+	HasChance       bool
+	ChanceBound     *model.NumericBoundEvidenceV2
 }
 
 type modeApplication struct {
@@ -250,6 +254,8 @@ func actorFrom(bundle compilebundle.CompiledBundle, template compilebundle.Compi
 		}
 		attrDefs = append(attrDefs, attribute.AttributeDefinition{
 			ID: def.ID, Base: value.Base, Max: maxValue, Current: current,
+			ClampMin: def.ClampMin, HasClampMin: def.HasClampMin,
+			ClampMax: def.ClampMax, HasClampMax: def.HasClampMax,
 		})
 	}
 	resourceSlots := make([]resource.Slot, 0, len(bundle.Resources))
