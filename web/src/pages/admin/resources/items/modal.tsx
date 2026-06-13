@@ -1,14 +1,18 @@
-﻿import { Alert, Button, Collapse, Form, Input, Modal, Space, Typography } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+﻿import { Alert, Button, Collapse, Form, Input, Modal, Space, Tag, Typography } from '@arco-design/web-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
 import { BaseStatsEditor } from '../../../../components/hero-editor/BaseStatsEditor';
 import { ItemRecipeSelector } from '../../../../components/item-editor/ItemRecipeSelector';
-import { SkillRefSelector } from '../../../../components/item-editor/SkillRefSelector';
+import { SkillRefSelector, type SkillRefSelectorLoadState } from '../../../../components/item-editor/SkillRefSelector';
 import { loadAttributeDefinitions } from '../../../../services/attributeDefinitions';
 import { getErrorMessage } from '../../../../services/apiClient';
 import type { AttributeDefinition, JsonObject, TypeDefinition } from '../../../../types/api';
 import { parseJsonArrayText, stringifyJson } from '../shared/json';
+import {
+  formatItemSkillRefSummaryStatus,
+  validateItemSkillRefs
+} from './itemSkillRefsValidation';
 import type { ItemsFormData } from './types';
 
 type ItemsModalProps = {
@@ -101,6 +105,12 @@ export function ItemsModal({
   const editingExisting = mode !== 'create';
   const [attributeDefinitions, setAttributeDefinitions] = useState<AttributeDefinition[]>([]);
   const [attributeDefinitionsError, setAttributeDefinitionsError] = useState<string | null>(null);
+  const [skillSelectorLoadState, setSkillSelectorLoadState] = useState<SkillRefSelectorLoadState>({
+    skills: [],
+    loading: false,
+    error: null,
+    loaded: false
+  });
 
   useEffect(() => {
     if (!visible || !selectedGameId || !adminToken.trim()) {
@@ -145,6 +155,40 @@ export function ItemsModal({
 
   const skillRefsState = useMemo(() => parseStringArrayText(formData.skillRefsText, 'skillRefs'), [formData.skillRefsText]);
   const recipeIdsState = useMemo(() => parseStringArrayText(formData.recipeIdsText, 'recipeIds'), [formData.recipeIdsText]);
+  const handleSkillSelectorLoadStateChange = useCallback((next: SkillRefSelectorLoadState) => {
+    setSkillSelectorLoadState((prev) => {
+      if (
+        prev.skills === next.skills
+        && prev.loading === next.loading
+        && prev.loaded === next.loaded
+        && prev.error === next.error
+      ) {
+        return prev;
+      }
+      return next;
+    });
+  }, []);
+
+  const skillRefsValidation = useMemo(
+    () =>
+      validateItemSkillRefs({
+        currentItemId: formData.itemId,
+        skillRefs: skillRefsState.value,
+        skills: skillSelectorLoadState.skills,
+        skillsLoaded: skillSelectorLoadState.loaded && !skillSelectorLoadState.error,
+        skillsLoading: skillSelectorLoadState.loading,
+        skillsLoadError: skillSelectorLoadState.error
+      }),
+    [
+      formData.itemId,
+      skillRefsState.value,
+      skillSelectorLoadState.skills,
+      skillSelectorLoadState.loaded,
+      skillSelectorLoadState.error,
+      skillSelectorLoadState.loading
+    ]
+  );
+  const skillRefsSaveBlocked = !!skillRefsState.error || skillRefsValidation.hasBlockingErrors;
 
   return (
     <Modal
@@ -155,7 +199,12 @@ export function ItemsModal({
         <Space>
           <Button onClick={onClose}>{readOnly ? 'Close' : 'Cancel'}</Button>
           {!readOnly ? (
-            <Button type="primary" loading={saving || imageUploading} onClick={() => void onSubmit()}>
+            <Button
+              type="primary"
+              loading={saving || imageUploading}
+              disabled={skillRefsSaveBlocked}
+              onClick={() => void onSubmit()}
+            >
               Save
             </Button>
           ) : null}
@@ -233,6 +282,12 @@ export function ItemsModal({
 
         <Form.Item label="skillRefs structured">
           {skillRefsState.error ? <Alert type="error" content={`skillRefs parse failed: ${skillRefsState.error}`} style={{ marginBottom: 12 }} /> : null}
+          {skillRefsValidation.errors.map((issue, issueIndex) => (
+            <Alert key={`error:${issueIndex}:${issue.code}:${issue.skillId ?? ''}`} type="error" content={issue.message} style={{ marginBottom: 8 }} />
+          ))}
+          {skillRefsValidation.warnings.map((issue, issueIndex) => (
+            <Alert key={`warning:${issueIndex}:${issue.code}:${issue.skillId ?? ''}`} type="warning" content={issue.message} style={{ marginBottom: 8 }} />
+          ))}
           <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8 }}>
             空 skillRefs 表示不接入装备被动，不表示自动匹配该 item 下所有 skill。
           </Typography.Text>
@@ -240,10 +295,68 @@ export function ItemsModal({
             apiBaseUrl={apiBaseUrl}
             selectedGameId={selectedGameId}
             adminToken={adminToken}
+            currentItemId={formData.itemId}
             value={skillRefsState.value}
             disabled={readOnly || !!skillRefsState.error}
+            onSkillsLoadStateChange={handleSkillSelectorLoadStateChange}
             onChange={(value) => onFieldChange('skillRefsText', JSON.stringify(value, null, 2))}
           />
+          {skillRefsValidation.summaries.length > 0 ? (
+            <div style={{ marginTop: 12 }}>
+              <Typography.Text bold style={{ display: 'block', marginBottom: 8, fontSize: 12 }}>
+                已选 skillRefs 摘要
+              </Typography.Text>
+              <Space direction="vertical" size={8} style={{ width: '100%' }}>
+                {skillRefsValidation.summaries.map((summary) => {
+                  const statusColor =
+                    summary.status === 'ok'
+                      ? 'green'
+                      : summary.status === 'unchecked'
+                        ? 'gray'
+                        : summary.status === 'blank' || summary.status === 'missing'
+                          ? 'red'
+                          : 'orangered';
+                  const ownerRoleEntries = Object.entries(summary.ownerRoleDistribution);
+                  return (
+                    <div
+                      key={`${summary.index}:${summary.skillId}`}
+                      style={{ border: '1px solid var(--color-border-2)', borderRadius: 6, padding: '8px 10px' }}
+                    >
+                      <Space wrap size={6}>
+                        <Typography.Text style={{ fontSize: 12 }}>
+                          [{summary.index}] {summary.skillId}
+                          {summary.name ? ` · ${summary.name}` : ''}
+                        </Typography.Text>
+                        <Tag size="small" color={statusColor}>
+                          {formatItemSkillRefSummaryStatus(summary.status)}
+                        </Tag>
+                        <Tag size="small" color="gray">
+                          {summary.ownerType ?? '?'} / {summary.ownerId ?? '?'}
+                        </Tag>
+                        <Tag size="small" color="arcoblue">
+                          passive {summary.passiveCount}
+                        </Tag>
+                      </Space>
+                      {ownerRoleEntries.length > 0 ? (
+                        <Typography.Text type="secondary" style={{ display: 'block', marginTop: 4, fontSize: 12 }}>
+                          ownerRole: {ownerRoleEntries.map(([role, count]) => `${role}×${count}`).join(', ')}
+                        </Typography.Text>
+                      ) : null}
+                      {summary.triggerCategorySummary.length > 0 ? (
+                        <Space wrap size={4} style={{ marginTop: 4 }}>
+                          {summary.triggerCategorySummary.map((category) => (
+                            <Tag key={`${summary.skillId}:${category}`} size="small" color="purple">
+                              {category}
+                            </Tag>
+                          ))}
+                        </Space>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </Space>
+            </div>
+          ) : null}
         </Form.Item>
 
         <Form.Item label="recipeIds structured">
