@@ -142,6 +142,7 @@ func (ctx *RunContext) onStatusTick(ev scheduler.Event) model.ErrCode {
 		SourceActorID:     ctx.Actors[source].ActorID,
 		TargetActorID:     ctx.Actors[target].ActorID,
 	}
+	fillStatusTickCritChance(&result, critResult)
 	switch def.TickEffect {
 	case compilebundle.EffectDealDamage:
 		// DoT ticks are top-level damage events for M4 evidence. Trigger effects
