@@ -830,15 +830,19 @@ public class PostgresWriteStore {
     @Transactional
     public ObjectNode upsertAttributeDefinition(String gameId, String attrKey, ObjectNode body) {
         ObjectNode merged = mergeUpsert(body, "attrKey", attrKey);
-        if (merged.has("defaultValue") && !merged.path("defaultValue").isNull() && !merged.path("defaultValue").isNumber()) {
-            throw badRequest("attributeDefinition.defaultValue must be number", Map.of("path", "/defaultValue"));
-        }
         int sortOrder = defaultInteger(merged, "sortOrder", 0);
         if (sortOrder < 0) {
             throw badRequest("sortOrder must be non-negative integer", Map.of("path", "/sortOrder"));
         }
         String valueKind = normalizeAttributeDefinitionValueKind(merged);
         String rateTargetAttrKey = validateAttributeDefinitionRateTarget(gameId, merged, valueKind);
+        AttributeDefinitionBounds bounds = validateAttributeDefinitionBounds(
+            merged,
+            "/minValue",
+            "/maxValue",
+            "/defaultValue",
+            false
+        );
 
         long versionId = resolveVersionIdForWrite(gameId);
         attributeDefinitionsMapper.upsertAttributeDefinition(
@@ -848,9 +852,11 @@ public class PostgresWriteStore {
             sortOrder,
             nullableText(merged, "attrName"),
             nullableText(merged, "attrType"),
-            nullableBigDecimal(merged, "defaultValue"),
+            bounds.defaultValue(),
             valueKind,
-            rateTargetAttrKey
+            rateTargetAttrKey,
+            bounds.minValue(),
+            bounds.maxValue()
         );
         return merged;
     }
@@ -1194,7 +1200,9 @@ public class PostgresWriteStore {
                 mapText(row, "attrType"),
                 mapBigDecimal(row, "defaultValue"),
                 mapText(row, "valueKind"),
-                mapText(row, "rateTargetAttrKey")
+                mapText(row, "rateTargetAttrKey"),
+                mapBigDecimal(row, "minValue"),
+                mapBigDecimal(row, "maxValue")
             );
         }
         for (Map<String, Object> row : changedTypes) {
@@ -3025,6 +3033,50 @@ public class PostgresWriteStore {
         return null;
     }
 
+    private record AttributeDefinitionBounds(BigDecimal minValue, BigDecimal maxValue, BigDecimal defaultValue) {}
+
+    private AttributeDefinitionBounds validateAttributeDefinitionBounds(
+        ObjectNode attributeDefinition,
+        String minPath,
+        String maxPath,
+        String defaultPath,
+        boolean forPublish
+    ) {
+        BigDecimal minValue = nullableAttributeDefinitionBigDecimal(attributeDefinition, "minValue", minPath, forPublish);
+        BigDecimal maxValue = nullableAttributeDefinitionBigDecimal(attributeDefinition, "maxValue", maxPath, forPublish);
+        BigDecimal defaultValue = nullableAttributeDefinitionBigDecimal(attributeDefinition, "defaultValue", defaultPath, forPublish);
+
+        if (minValue != null && maxValue != null && minValue.compareTo(maxValue) > 0) {
+            throw attributeDefinitionBoundsError(
+                forPublish,
+                "attributeDefinition.minValue must be <= maxValue",
+                Map.of("path", minPath, "minValue", minValue, "maxValue", maxValue)
+            );
+        }
+
+        if (defaultValue != null && minValue != null && defaultValue.compareTo(minValue) < 0) {
+            throw attributeDefinitionBoundsError(
+                forPublish,
+                "attributeDefinition.defaultValue must be >= minValue",
+                Map.of("path", defaultPath, "defaultValue", defaultValue, "minValue", minValue)
+            );
+        }
+
+        if (defaultValue != null && maxValue != null && defaultValue.compareTo(maxValue) > 0) {
+            throw attributeDefinitionBoundsError(
+                forPublish,
+                "attributeDefinition.defaultValue must be <= maxValue",
+                Map.of("path", defaultPath, "defaultValue", defaultValue, "maxValue", maxValue)
+            );
+        }
+
+        return new AttributeDefinitionBounds(minValue, maxValue, defaultValue);
+    }
+
+    private ApiException attributeDefinitionBoundsError(boolean forPublish, String message, Map<String, Object> details) {
+        return forPublish ? semantic(message, details) : badRequest(message, details);
+    }
+
     private void validateAttributeDefinitionForPublish(ObjectNode attributeDefinition, Set<String> attrKeys) {
         String valueKind = attributeDefinition.path("valueKind").asText("scalar").toLowerCase(Locale.ROOT);
         if (!ATTRIBUTE_VALUE_KINDS.contains(valueKind)) {
@@ -3033,6 +3085,14 @@ public class PostgresWriteStore {
                 Map.of("path", "/attributeDefinitions/valueKind", "valueKind", valueKind)
             );
         }
+
+        validateAttributeDefinitionBounds(
+            attributeDefinition,
+            "/attributeDefinitions/minValue",
+            "/attributeDefinitions/maxValue",
+            "/attributeDefinitions/defaultValue",
+            true
+        );
 
         String rateTargetAttrKey = nullableText(attributeDefinition, "rateTargetAttrKey");
         if ("rate".equals(valueKind)) {
@@ -3466,6 +3526,22 @@ public class PostgresWriteStore {
         }
         if (!node.get(fieldName).isNumber()) {
             throw badRequest(fieldName + " must be number", Map.of("path", "/" + fieldName));
+        }
+        return node.get(fieldName).decimalValue();
+    }
+
+    private BigDecimal nullableAttributeDefinitionBigDecimal(
+        ObjectNode node,
+        String fieldName,
+        String path,
+        boolean forPublish
+    ) {
+        if (!node.has(fieldName) || node.get(fieldName).isNull()) {
+            return null;
+        }
+        if (!node.get(fieldName).isNumber()) {
+            String message = "attributeDefinition." + fieldName + " must be number";
+            throw forPublish ? semantic(message, Map.of("path", path)) : badRequest(message, Map.of("path", path));
         }
         return node.get(fieldName).decimalValue();
     }

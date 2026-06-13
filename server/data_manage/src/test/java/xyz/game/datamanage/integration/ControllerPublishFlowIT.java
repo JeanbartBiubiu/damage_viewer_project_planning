@@ -709,7 +709,6 @@ class ControllerPublishFlowIT {
 
     @Test
     void attributeDefinitionsSortOrder_shouldDriveAdminAndBundleOrdering() {
-        putBaselineEntities("Ahri");
         JsonNode moveSpeedUpsert = putAttributeDefinition("move_speed", "Move Speed", "number", 0, "scalar", null);
         assertEquals(0, moveSpeedUpsert.path("sortOrder").asInt());
         putAttributeDefinition("ability_power", "Ability Power", "number", 0, "scalar", null, 10);
@@ -741,6 +740,87 @@ class ControllerPublishFlowIT {
         assertEquals(10, bundleAttributeDefinitions.path(1).path("sortOrder").asInt());
         assertEquals("attack_power", bundleAttributeDefinitions.path(2).path("attrKey").asText());
         assertEquals(20, bundleAttributeDefinitions.path(2).path("sortOrder").asInt());
+    }
+
+    @Test
+    void attributeDefinitionsBounds_shouldPersistThroughAdminListAndPublishedBundle() {
+        JsonNode upsert = putAttributeDefinition(
+            "attack_power",
+            "Attack Power",
+            "number",
+            50,
+            "scalar",
+            null,
+            null,
+            0,
+            100
+        );
+        assertEquals(0, upsert.path("minValue").asDouble(), 0.001);
+        assertEquals(100, upsert.path("maxValue").asDouble(), 0.001);
+        assertEquals(50, upsert.path("defaultValue").asDouble(), 0.001);
+
+        ResponseEntity<JsonNode> attributeDefinitionListResponse = adminExchange(
+            "/api/admin/games/" + gameId + "/attribute-definitions",
+            HttpMethod.GET,
+            null
+        );
+        assertEquals(HttpStatus.OK, attributeDefinitionListResponse.getStatusCode());
+        JsonNode attributeDefinition = findByField(
+            requireBody(attributeDefinitionListResponse).path("attributeDefinitions"),
+            "attrKey",
+            "attack_power"
+        );
+        assertEquals(0, attributeDefinition.path("minValue").asDouble(), 0.001);
+        assertEquals(100, attributeDefinition.path("maxValue").asDouble(), 0.001);
+        assertEquals(50, attributeDefinition.path("defaultValue").asDouble(), 0.001);
+
+        String versionCode = "bounds_001";
+        publish(versionCode);
+        JsonNode bundle = requireBody(getBundle(versionCode));
+        JsonNode bundleAttributeDefinition = findByField(
+            bundle.path("attributeDefinitions"),
+            "attrKey",
+            "attack_power"
+        );
+        assertEquals(0, bundleAttributeDefinition.path("minValue").asDouble(), 0.001);
+        assertEquals(100, bundleAttributeDefinition.path("maxValue").asDouble(), 0.001);
+        assertEquals(50, bundleAttributeDefinition.path("defaultValue").asDouble(), 0.001);
+    }
+
+    @Test
+    void attributeDefinitionsBounds_invalidMinGreaterThanMax_shouldReturnInvalidBody() {
+        ResponseEntity<JsonNode> response = adminExchange(
+            "/api/admin/games/" + gameId + "/attribute-definitions/bounded_attr",
+            HttpMethod.PUT,
+            Map.of(
+                "attrName", "Bounded Attr",
+                "attrType", "number",
+                "defaultValue", 50,
+                "valueKind", "scalar",
+                "minValue", 100,
+                "maxValue", 0
+            )
+        );
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("400.INVALID_BODY", requireBody(response).path("error").path("code").asText());
+    }
+
+    @Test
+    void attributeDefinitionsBounds_defaultValueOutsideBounds_shouldReturnInvalidBody() {
+        ResponseEntity<JsonNode> response = adminExchange(
+            "/api/admin/games/" + gameId + "/attribute-definitions/bounded_attr",
+            HttpMethod.PUT,
+            Map.of(
+                "attrName", "Bounded Attr",
+                "attrType", "number",
+                "defaultValue", 150,
+                "valueKind", "scalar",
+                "minValue", 0,
+                "maxValue", 100
+            )
+        );
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("400.INVALID_BODY", requireBody(response).path("error").path("code").asText());
     }
 
     @Test
@@ -1524,7 +1604,7 @@ class ControllerPublishFlowIT {
             HttpMethod.POST,
             Map.of("versionCode", versionCode)
         );
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode(), () -> String.valueOf(response.getBody()));
     }
 
     private void ensurePublishedSnapshotTable() {
@@ -1800,6 +1880,20 @@ class ControllerPublishFlowIT {
         String rateTargetAttrKey,
         Integer sortOrder
     ) {
+        return putAttributeDefinition(attrKey, attrName, attrType, defaultValue, valueKind, rateTargetAttrKey, sortOrder, null, null);
+    }
+
+    private JsonNode putAttributeDefinition(
+        String attrKey,
+        String attrName,
+        String attrType,
+        Number defaultValue,
+        String valueKind,
+        String rateTargetAttrKey,
+        Integer sortOrder,
+        Number minValue,
+        Number maxValue
+    ) {
         Map<String, Object> body = new java.util.LinkedHashMap<>();
         body.put("attrName", attrName);
         body.put("attrType", attrType);
@@ -1810,6 +1904,12 @@ class ControllerPublishFlowIT {
         }
         if (sortOrder != null) {
             body.put("sortOrder", sortOrder);
+        }
+        if (minValue != null) {
+            body.put("minValue", minValue);
+        }
+        if (maxValue != null) {
+            body.put("maxValue", maxValue);
         }
 
         ResponseEntity<JsonNode> response = adminExchange(
@@ -1853,7 +1953,10 @@ class ControllerPublishFlowIT {
             "Nine-Tailed Fox",
             "hero_ahri.png",
             Map.of("hp", 500),
-            Map.of("hp", 80)
+            Map.of(
+                "hp",
+                List.of(500, 580, 660, 740, 820, 900, 980, 1060, 1140, 1220, 1300, 1380, 1460, 1540, 1620, 1700, 1780, 1860)
+            )
         );
     }
 
