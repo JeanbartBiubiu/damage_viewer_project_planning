@@ -88,12 +88,20 @@ CREATE TABLE public.attribute_definitions (
     value_kind varchar(16) NOT NULL DEFAULT 'scalar'
         CHECK (value_kind IN ('scalar', 'ratio', 'rate', 'flag')),
     rate_target_attr_key varchar(64),
+    min_value numeric,
+    max_value numeric,
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_attribute_definitions PRIMARY KEY (game_id, attr_key),
     CONSTRAINT ck_attribute_definitions_rate_target
         CHECK (
             (value_kind = 'rate' AND rate_target_attr_key IS NOT NULL)
             OR (value_kind <> 'rate' AND rate_target_attr_key IS NULL)
+        ),
+    CONSTRAINT ck_attribute_definitions_bounds
+        CHECK (
+            min_value IS NULL
+            OR max_value IS NULL
+            OR min_value <= max_value
         ),
     CONSTRAINT ck_attribute_definitions_sort_order
         CHECK (sort_order >= 0),
@@ -110,6 +118,8 @@ COMMENT ON COLUMN public.attribute_definitions.attr_key IS '属性 key（建议�
 COMMENT ON COLUMN public.attribute_definitions.sort_order IS '属性排序号（越小越靠前；同值按 attr_key 兜底）';
 COMMENT ON COLUMN public.attribute_definitions.value_kind IS '属性值类别：scalar(普通数值)/ratio(比例)/rate(每秒速率)/flag(开关)';
 COMMENT ON COLUMN public.attribute_definitions.rate_target_attr_key IS '仅 rate 生效：该速率作用到的目标属性 key（如 hp_regen -> hp）';
+COMMENT ON COLUMN public.attribute_definitions.min_value IS '可选数值下界；与 default_value / max_value 一起在应用层校验';
+COMMENT ON COLUMN public.attribute_definitions.max_value IS '可选数值上界；与 default_value / min_value 一起在应用层校验';
 
 CREATE TABLE public.attribute_definitions_log (
     game_id varchar(64) NOT NULL,
@@ -123,11 +133,19 @@ CREATE TABLE public.attribute_definitions_log (
     value_kind varchar(16) NOT NULL DEFAULT 'scalar'
         CHECK (value_kind IN ('scalar', 'ratio', 'rate', 'flag')),
     rate_target_attr_key varchar(64),
+    min_value numeric,
+    max_value numeric,
     CONSTRAINT pk_attribute_definitions_log PRIMARY KEY (game_id, attr_key, start_version_id),
     CONSTRAINT ck_attribute_definitions_log_rate_target
         CHECK (
             (value_kind = 'rate' AND rate_target_attr_key IS NOT NULL)
             OR (value_kind <> 'rate' AND rate_target_attr_key IS NULL)
+        ),
+    CONSTRAINT ck_attribute_definitions_log_bounds
+        CHECK (
+            min_value IS NULL
+            OR max_value IS NULL
+            OR min_value <= max_value
         ),
     CONSTRAINT ck_attribute_definitions_log_sort_order
         CHECK (sort_order >= 0),
@@ -138,6 +156,8 @@ CREATE TABLE public.attribute_definitions_log (
 ) PARTITION BY LIST (game_id);
 
 COMMENT ON TABLE public.attribute_definitions_log IS '属性定义日志表（用于多版本差异分析；按 id+start_version 唯一）';
+COMMENT ON COLUMN public.attribute_definitions_log.min_value IS '可选数值下界快照';
+COMMENT ON COLUMN public.attribute_definitions_log.max_value IS '可选数值上界快照';
 
 CREATE TABLE public.reserved_type (
     type_id int NOT NULL,
