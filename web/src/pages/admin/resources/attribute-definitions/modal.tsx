@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
+import { Button, Checkbox, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
 import { AttributeKeySelector } from '../../../../components/AttributeKeySelector';
 import { ResourceImageUploadField } from '../../../../components/ResourceImageUploadField';
 import { ATTRIBUTE_VALUE_KIND_OPTIONS } from './constants';
@@ -156,6 +156,41 @@ export function AttributeDefinitionsModal({
             placeholder={formData.valueKind === 'rate' ? '请选择比率目标属性' : '仅 valueKind=rate 时可设置'}
             helperText={formData.valueKind === 'rate' ? undefined : '当 valueKind 为 rate 时，再选择关联目标属性。'}
           />
+        </Form.Item>
+
+        <Form.Item label="数值边界（minValue / maxValue）">
+          <Space direction="vertical" size={12} style={{ width: '100%' }}>
+            <div className="crud-form-grid">
+              <Checkbox
+                checked={formData.hasMinValue}
+                disabled={readOnly}
+                onChange={(checked) => onFieldChange('hasMinValue', checked)}
+              >
+                启用下界 minValue
+              </Checkbox>
+              <Input
+                value={formData.minValue}
+                disabled={readOnly || !formData.hasMinValue}
+                onChange={(value) => onFieldChange('minValue', value)}
+                placeholder="minValue"
+              />
+            </div>
+            <div className="crud-form-grid">
+              <Checkbox
+                checked={formData.hasMaxValue}
+                disabled={readOnly}
+                onChange={(checked) => onFieldChange('hasMaxValue', checked)}
+              >
+                启用上界 maxValue
+              </Checkbox>
+              <Input
+                value={formData.maxValue}
+                disabled={readOnly || !formData.hasMaxValue}
+                onChange={(value) => onFieldChange('maxValue', value)}
+                placeholder="maxValue"
+              />
+            </div>
+          </Space>
         </Form.Item>
       </Form>
     </Modal>

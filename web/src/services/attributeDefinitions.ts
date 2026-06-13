@@ -105,7 +105,8 @@ function normalizeDefinitions(definitions: AttributeDefinition[]): AttributeDefi
       attrKey,
       attrName: definition.attrName ? String(definition.attrName).trim() : undefined,
       attrType: definition.attrType ? String(definition.attrType).trim() : undefined,
-      rateTargetAttrKey: definition.rateTargetAttrKey ? String(definition.rateTargetAttrKey).trim() : undefined
+      rateTargetAttrKey: definition.rateTargetAttrKey ? String(definition.rateTargetAttrKey).trim() : undefined,
+      ...normalizeAttributeBoundsFields(definition)
     });
   }
 
@@ -114,4 +115,55 @@ function normalizeDefinitions(definitions: AttributeDefinition[]): AttributeDefi
     const rightLabel = `${right.attrName ?? ''}${right.attrKey}`.toLowerCase();
     return leftLabel.localeCompare(rightLabel, 'zh-CN');
   });
+}
+
+function normalizeAttributeBoundsFields(definition: AttributeDefinition): Partial<AttributeDefinition> {
+  const result: Partial<AttributeDefinition> = {};
+
+  const minValue = resolvePersistedMinValue(definition);
+  if (minValue !== undefined) {
+    result.minValue = minValue;
+  }
+
+  const maxValue = resolvePersistedMaxValue(definition);
+  if (maxValue !== undefined) {
+    result.maxValue = maxValue;
+  }
+
+  return result;
+}
+
+function resolvePersistedMinValue(definition: AttributeDefinition): number | undefined {
+  const minValue = toFiniteNumber(definition.minValue);
+  if (minValue !== undefined) {
+    return minValue;
+  }
+  if (definition.hasClampMin === true) {
+    return toFiniteNumber(definition.clampMin);
+  }
+  return undefined;
+}
+
+function resolvePersistedMaxValue(definition: AttributeDefinition): number | undefined {
+  const maxValue = toFiniteNumber(definition.maxValue);
+  if (maxValue !== undefined) {
+    return maxValue;
+  }
+  if (definition.hasClampMax === true) {
+    return toFiniteNumber(definition.clampMax);
+  }
+  return undefined;
+}
+
+function toFiniteNumber(value: unknown): number | undefined {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+  return undefined;
 }
