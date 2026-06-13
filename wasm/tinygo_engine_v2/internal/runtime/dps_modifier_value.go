@@ -97,6 +97,20 @@ func resolveDPSModifierValue(
 		return clampDPSModifierValue(result, spec), true, ""
 	case "formula":
 		return resolveDPSModifierFormulaValue(bundle, spec, gate)
+	case "crit_scaling":
+		metric := strings.TrimSpace(spec.AttrKey)
+		if metric == "" {
+			metric = "crit_chance_effective"
+		}
+		value, ok := dpsModifierCritScalingValue(metric, gate)
+		if !ok {
+			return 0, false, "passive damage_modifier valueSpec crit_scaling could not resolve crit metric " + metric
+		}
+		result := value * spec.Ratio
+		if math.IsNaN(result) || math.IsInf(result, 0) {
+			return 0, false, "passive damage_modifier valueSpec crit_scaling resolved invalid value"
+		}
+		return clampDPSModifierValue(result, spec), true, ""
 	default:
 		return 0, false, "passive damage_modifier valueSpec has unsupported kind " + kind
 	}
@@ -214,4 +228,23 @@ func clampDPSModifierValue(value float64, spec model.DPSModifierValueSpecV2) flo
 		value = spec.ClampMax
 	}
 	return value
+}
+
+func dpsModifierCritScalingValue(metric string, gate dpsModifierGateContext) (float64, bool) {
+	if !gate.HasCritContext {
+		return 0, false
+	}
+	switch metric {
+	case "crit_chance", "crit_chance_raw":
+		return gate.CritChanceRaw, true
+	case "crit_chance_effective":
+		return gate.CritChanceEffective, true
+	case "crit_multiplier", "crit_multiplier_effective", "crit_damage":
+		if gate.CritMultiplier == 0 {
+			return 1, true
+		}
+		return gate.CritMultiplier, true
+	default:
+		return 0, false
+	}
 }

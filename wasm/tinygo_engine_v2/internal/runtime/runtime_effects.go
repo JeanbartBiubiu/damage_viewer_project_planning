@@ -28,7 +28,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 		hpBefore := ctx.Actors[actualTarget].HP
 		damage, code := ctx.dealDamageResult(actualSource, actualTarget, effectiveAmount, effect.DamageType, chainDepth)
 		if actionResult != nil {
-			actionResult.Effects = append(actionResult.Effects, model.ActionEffectRunResultV2{
+			effectResult := model.ActionEffectRunResultV2{
 				EffectIndex:       effectIndex,
 				Kind:              string(model.EffectTypeDealDamage),
 				FormulaID:         formulaID,
@@ -59,7 +59,9 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 				TargetHPAfter:     ctx.Actors[actualTarget].HP,
 				SourceActorID:     ctx.Actors[actualSource].ActorID,
 				TargetActorID:     ctx.Actors[actualTarget].ActorID,
-			})
+			}
+			fillActionEffectCritChance(&effectResult, critResult)
+			actionResult.Effects = append(actionResult.Effects, effectResult)
 		}
 		return code
 	case compilebundle.EffectDamageFromRecent:
@@ -76,7 +78,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 		hpBefore := ctx.Actors[actualTarget].HP
 		damage, code := ctx.dealDamageResult(actualSource, actualTarget, effectiveAmount, effect.DamageType, chainDepth)
 		if actionResult != nil {
-			actionResult.Effects = append(actionResult.Effects, model.ActionEffectRunResultV2{
+			effectResult := model.ActionEffectRunResultV2{
 				EffectIndex:       effectIndex,
 				Kind:              string(model.EffectTypeDamageFromRecent),
 				RawAmount:         amount,
@@ -107,7 +109,9 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 				TargetHPAfter:     ctx.Actors[actualTarget].HP,
 				SourceActorID:     ctx.Actors[actualSource].ActorID,
 				TargetActorID:     ctx.Actors[actualTarget].ActorID,
-			})
+			}
+			fillActionEffectCritChance(&effectResult, critResult)
+			actionResult.Effects = append(actionResult.Effects, effectResult)
 		}
 		return code
 	case compilebundle.EffectHeal:
@@ -121,7 +125,7 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 		}
 		heal, code := ctx.applyHeal(actualSource, actualTarget, amount*critResult.Scalar)
 		if actionResult != nil {
-			actionResult.Effects = append(actionResult.Effects, model.ActionEffectRunResultV2{
+			effectResult := model.ActionEffectRunResultV2{
 				EffectIndex:       effectIndex,
 				Kind:              string(model.EffectTypeHeal),
 				FormulaID:         formulaID,
@@ -143,7 +147,9 @@ func (ctx *RunContext) applyEffect(effect compilebundle.CompiledEffect, source u
 				TargetHPAfter:     heal.HPAfter,
 				SourceActorID:     ctx.Actors[actualSource].ActorID,
 				TargetActorID:     ctx.Actors[actualTarget].ActorID,
-			})
+			}
+			fillActionEffectCritChance(&effectResult, critResult)
+			actionResult.Effects = append(actionResult.Effects, effectResult)
 		}
 		return code
 	case compilebundle.EffectApplyStatus:
@@ -358,9 +364,6 @@ func (ctx *RunContext) resolveCritApplication(
 	if code != model.ErrOK {
 		return critApplication{}, code
 	}
-	if chance < 0 || chance > 1 || math.IsNaN(chance) || math.IsInf(chance, 0) {
-		return critApplication{}, model.ErrNumeric
-	}
 	multiplier, code := ctx.resolveCritMultiplier(multiplierSource, fixedMultiplier, source)
 	if code != model.ErrOK {
 		return critApplication{}, code
@@ -371,47 +374,126 @@ func (ctx *RunContext) resolveCritApplication(
 	if multiplier < 0 || math.IsNaN(multiplier) || math.IsInf(multiplier, 0) {
 		return critApplication{}, model.ErrNumeric
 	}
+	chanceApp := critApplication{
+		ChanceRaw:       chance.Raw,
+		ChanceEffective: chance.Effective,
+		HasChance:       true,
+		ChanceBound:     chance.Bound,
+		Multiplier:      multiplier,
+		HasMultiplier:   true,
+	}
 	switch policy {
 	case "seeded_random":
 		roll := ctx.RNG.Float("crit")
-		result := roll < chance
+		result := roll < chance.Effective
 		scalar := 1.0
 		if result {
 			scalar = multiplier
 		}
-		return critApplication{Scalar: scalar, Roll: roll, HasRoll: true, Result: result, HasResult: true, Multiplier: multiplier, HasMultiplier: true}, model.ErrOK
+		chanceApp.Scalar = scalar
+		chanceApp.Roll = roll
+		chanceApp.HasRoll = true
+		chanceApp.Result = result
+		chanceApp.HasResult = true
+		return chanceApp, model.ErrOK
 	case "deterministic":
-		result := crit.Resolve(crit.Spec{Policy: crit.PolicyDeterministic, Chance: chance, Multiplier: multiplier})
-		return critApplication{Scalar: result.Scalar, Result: result.Crit, HasResult: true, Multiplier: multiplier, HasMultiplier: true}, model.ErrOK
+		result := crit.Resolve(crit.Spec{Policy: crit.PolicyDeterministic, Chance: chance.Effective, Multiplier: multiplier})
+		chanceApp.Scalar = result.Scalar
+		chanceApp.Result = result.Crit
+		chanceApp.HasResult = true
+		return chanceApp, model.ErrOK
 	case "expected":
-		result := crit.Resolve(crit.Spec{Policy: crit.PolicyExpected, Chance: chance, Multiplier: multiplier})
-		return critApplication{Scalar: result.Scalar, Result: false, HasResult: true, Multiplier: multiplier, HasMultiplier: true}, model.ErrOK
+		result := crit.Resolve(crit.Spec{Policy: crit.PolicyExpected, Chance: chance.Effective, Multiplier: multiplier})
+		chanceApp.Scalar = result.Scalar
+		chanceApp.Result = false
+		chanceApp.HasResult = true
+		return chanceApp, model.ErrOK
 	case "never":
-		return critApplication{Scalar: 1, Result: false, HasResult: true, Multiplier: multiplier, HasMultiplier: true}, model.ErrOK
+		chanceApp.Scalar = 1
+		chanceApp.Result = false
+		chanceApp.HasResult = true
+		return chanceApp, model.ErrOK
 	default:
 		return critApplication{}, model.ErrUnsupported
 	}
 }
 
-func (ctx *RunContext) resolveCritChance(chanceSource string, fixedChance float64, source uint8) (float64, model.ErrCode) {
+type critChanceResolution struct {
+	Raw       float64
+	Effective float64
+	Bound     *model.NumericBoundEvidenceV2
+}
+
+func (ctx *RunContext) resolveCritChance(chanceSource string, fixedChance float64, source uint8) (critChanceResolution, model.ErrCode) {
 	switch chanceSource {
 	case "", "fixed":
-		return fixedChance, model.ErrOK
-	case "none":
-		return 0, model.ErrOK
-	case "attacker_crit_chance":
-		value, ok := ctx.actorCritChance(source)
-		if !ok {
-			return 0, model.ErrUnknownAttr
+		if math.IsNaN(fixedChance) || math.IsInf(fixedChance, 0) {
+			return critChanceResolution{}, model.ErrNumeric
 		}
-		return value, model.ErrOK
+		effective, evidence := crit.ClampValue("crit_chance", "crit_field", fixedChance, crit.ProbabilityBounds())
+		return critChanceResolution{Raw: fixedChance, Effective: effective, Bound: evidence}, model.ErrOK
+	case "none":
+		return critChanceResolution{Raw: 0, Effective: 0}, model.ErrOK
+	case "attacker_crit_chance":
+		raw, effective, ok := ctx.actorCritChanceValues(source)
+		if !ok {
+			return critChanceResolution{}, model.ErrUnknownAttr
+		}
+		if raw != effective {
+			bounds, hasBounds := ctx.actorCritChanceBounds()
+			evidence := &model.NumericBoundEvidenceV2{
+				Key: "crit_chance", Source: "attribute_definition", Mode: "clamp",
+				RawValue: raw, BoundedValue: effective, WasClamped: true,
+			}
+			if hasBounds {
+				evidence.Min = bounds.Min
+				evidence.HasMin = bounds.HasMin
+				evidence.Max = bounds.Max
+				evidence.HasMax = bounds.HasMax
+			}
+			return critChanceResolution{Raw: raw, Effective: effective, Bound: evidence}, model.ErrOK
+		}
+		return critChanceResolution{Raw: raw, Effective: effective}, model.ErrOK
 	default:
-		return 0, model.ErrUnsupported
+		return critChanceResolution{}, model.ErrUnsupported
 	}
+}
+
+func (ctx *RunContext) actorCritChanceValues(actor uint8) (raw float64, effective float64, ok bool) {
+	if int(actor) >= len(ctx.Actors) {
+		return 0, 0, false
+	}
+	for _, attrID := range []string{"crit_chance", "critChance"} {
+		index, found := ctx.Bundle.AttrIndex[attrID]
+		if !found {
+			continue
+		}
+		ctx.Actors[actor].Attrs.ResolveAll(ctx.NowMs)
+		return ctx.Actors[actor].Attrs.ReadResolvedClampEvidence(index)
+	}
+	return 0, 0, false
 }
 
 func (ctx *RunContext) actorCritChance(actor uint8) (float64, bool) {
 	return ctx.actorCritAttribute(actor, "crit_chance", "critChance")
+}
+
+func (ctx *RunContext) actorCritChanceBounds() (crit.Bounds, bool) {
+	for _, attrID := range []string{"crit_chance", "critChance"} {
+		index, ok := ctx.Bundle.AttrIndex[attrID]
+		if !ok || int(index) >= len(ctx.Bundle.Attrs) {
+			continue
+		}
+		def := ctx.Bundle.Attrs[index]
+		if !def.HasClampMin && !def.HasClampMax {
+			return crit.Bounds{}, false
+		}
+		return crit.Bounds{
+			Min: def.ClampMin, HasMin: def.HasClampMin,
+			Max: def.ClampMax, HasMax: def.HasClampMax,
+		}, true
+	}
+	return crit.Bounds{}, false
 }
 
 func (ctx *RunContext) actorCritDamage(actor uint8) (float64, bool) {
@@ -471,6 +553,26 @@ func (ctx *RunContext) resolveEffectMode(effect compilebundle.CompiledEffect) mo
 		HasModeState: true,
 		Multiplier:   multiplier,
 	}
+}
+
+func fillActionEffectCritChance(dst *model.ActionEffectRunResultV2, critResult critApplication) {
+	if !critResult.HasChance {
+		return
+	}
+	dst.HasCritChance = true
+	dst.CritChanceRaw = critResult.ChanceRaw
+	dst.CritChanceEffective = critResult.ChanceEffective
+	dst.CritChanceBound = critResult.ChanceBound
+}
+
+func fillStatusTickCritChance(dst *model.StatusTickRunResultV2, critResult critApplication) {
+	if !critResult.HasChance {
+		return
+	}
+	dst.HasCritChance = true
+	dst.CritChanceRaw = critResult.ChanceRaw
+	dst.CritChanceEffective = critResult.ChanceEffective
+	dst.CritChanceBound = critResult.ChanceBound
 }
 
 func effectKindString(kind compilebundle.EffectType) string {

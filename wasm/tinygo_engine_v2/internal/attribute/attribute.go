@@ -26,10 +26,14 @@ const (
 )
 
 type AttributeDefinition struct {
-	ID      string
-	Base    float64
-	Max     float64
-	Current float64
+	ID          string
+	Base        float64
+	Max         float64
+	Current     float64
+	ClampMin    float64
+	HasClampMin bool
+	ClampMax    float64
+	HasClampMax bool
 }
 
 type Modifier struct {
@@ -41,13 +45,15 @@ type Modifier struct {
 }
 
 type Slot struct {
-	Definition AttributeDefinition
-	Base       float64
-	Current    float64
-	Max        float64
-	Resolved   float64
-	Dirty      bool
-	Modifiers  []Modifier
+	Definition       AttributeDefinition
+	BasePreClamp     float64
+	Base             float64
+	Current          float64
+	Max              float64
+	Resolved         float64
+	ResolvedPreClamp float64
+	Dirty            bool
+	Modifiers        []Modifier
 }
 
 // Store 按 compile 后 AttrIndex 顺序持有 Slot；Index 仅用于按字符串 id 查找。
@@ -68,26 +74,46 @@ func NewStore(defs []AttributeDefinition) Store {
 	return store
 }
 
+func applyBounds(value float64, def AttributeDefinition) float64 {
+	if math.IsNaN(value) || math.IsInf(value, 0) {
+		return value
+	}
+	if def.HasClampMin && value < def.ClampMin {
+		value = def.ClampMin
+	}
+	if def.HasClampMax && value > def.ClampMax {
+		value = def.ClampMax
+	}
+	return value
+}
+
 func NewSlot(def AttributeDefinition) Slot {
 	base := def.Base
 	maxValue := def.Max
 	if maxValue <= 0 {
-		maxValue = base
+		maxValue = applyBounds(base, def)
+	} else {
+		maxValue = applyBounds(maxValue, def)
 	}
 	current := def.Current
 	if current <= 0 {
 		current = maxValue
+	} else {
+		current = applyBounds(current, def)
 	}
 	if current > maxValue {
 		current = maxValue
 	}
+	clampedBase := applyBounds(base, def)
 	return Slot{
-		Definition: def,
-		Base:       base,
-		Current:    current,
-		Max:        maxValue,
-		Resolved:   base,
-		Dirty:      true,
+		Definition:       def,
+		BasePreClamp:     base,
+		Base:             clampedBase,
+		Current:          current,
+		Max:              maxValue,
+		Resolved:         clampedBase,
+		ResolvedPreClamp: base,
+		Dirty:            true,
 	}
 }
 
@@ -107,13 +133,14 @@ func (s *Store) ResolveAll(nowMs int64) {
 }
 
 func (s *Slot) SetCurrent(value float64) {
-	s.Current = value
+	s.Current = applyBounds(value, s.Definition)
 	s.ClampCurrent()
 	s.Dirty = true
 }
 
 func (s *Slot) SetBase(value float64) {
-	s.Base = value
+	s.BasePreClamp = value
+	s.Base = applyBounds(value, s.Definition)
 	s.Dirty = true
 }
 
@@ -159,12 +186,14 @@ func (s *Slot) Resolve() {
 	if !s.Dirty {
 		return
 	}
-	s.Resolved = resolveValue(s.Base, s.Modifiers, TargetValue)
+	preClamp := resolveValue(s.BasePreClamp, s.Modifiers, TargetValue)
+	s.ResolvedPreClamp = preClamp
+	s.Resolved = applyBounds(preClamp, s.Definition)
 	nextMax := resolveValue(s.definitionMax(), s.Modifiers, TargetMax)
 	if nextMax < 0 || math.IsNaN(nextMax) || math.IsInf(nextMax, 0) {
 		nextMax = 0
 	}
-	s.Max = nextMax
+	s.Max = applyBounds(nextMax, s.Definition)
 	s.ClampCurrent()
 	s.Dirty = false
 }
@@ -196,6 +225,16 @@ func (s *Store) ReadAttr(index uint16, kind model.AttributeReadKind) (float64, b
 	default:
 		return 0, false
 	}
+}
+
+// ReadResolvedClampEvidence returns resolved value before and after attribute clamp.
+func (s *Store) ReadResolvedClampEvidence(index uint16) (preClamp float64, clamped float64, ok bool) {
+	if int(index) >= len(s.Slots) {
+		return 0, 0, false
+	}
+	slot := &s.Slots[index]
+	slot.Resolve()
+	return slot.ResolvedPreClamp, slot.Resolved, true
 }
 
 func (s *Slot) definitionMax() float64 {

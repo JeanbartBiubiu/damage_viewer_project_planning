@@ -34,18 +34,21 @@ const (
 	dpsOpStatModifier               = "stat_modifier"
 	dpsOpDamageModifier             = "damage_modifier"
 	dpsOpCoefficientModifier        = "coefficient_modifier"
+	dpsOpCritContextModifier        = "crit_context_modifier"
 	dpsEffectCoefficientBucket      = "coefficient_bucket"
+
+	dpsEventOnCrit = "on_crit"
 
 	dpsHPChangeStageOutgoingPreMitigation = "hp_change/outgoing/pre_mitigation"
 	dpsHPChangeStageIncomingPreMitigation = "hp_change/incoming/pre_mitigation"
 	dpsHPChangeStageFinalPostMitigation   = "hp_change/final/post_mitigation"
 	dpsHPChangeStageFlatPostPercent       = "hp_change/flat/post_percent"
 
-	dpsAttributeStageBaseBonus        = "attribute/base_bonus"
-	dpsAttributeStageFlatBonus        = "attribute/flat_bonus"
-	dpsAttributeStageFinalMultiplier  = "attribute/final_multiplier"
-	dpsOpPhantomHitOnHitRepeat            = "phantom_hit_on_hit_repeat"
-	dpsRepeatScopeCopyableOnHit           = "copyable_on_hit"
+	dpsAttributeStageBaseBonus       = "attribute/base_bonus"
+	dpsAttributeStageFlatBonus       = "attribute/flat_bonus"
+	dpsAttributeStageFinalMultiplier = "attribute/final_multiplier"
+	dpsOpPhantomHitOnHitRepeat       = "phantom_hit_on_hit_repeat"
+	dpsRepeatScopeCopyableOnHit      = "copyable_on_hit"
 
 	dpsEventOnBasicAttackHit = "on_basic_attack_hit"
 	dpsEventOnSpellHit       = "on_spell_hit"
@@ -84,14 +87,22 @@ type dpsCombatEventContext struct {
 	TargetHPBefore float64
 	TargetHPAfter  float64
 
-	IsBasicAttack  bool
-	IsSpell        bool
-	IsOnHit        bool
-	IsDotTick      bool
-	IsPhantomHit   bool
-	HasCritContext bool
-	IsCrit         bool
-	ProcScope      string
+	IsBasicAttack       bool
+	IsSpell             bool
+	IsOnHit             bool
+	IsDotTick           bool
+	IsPhantomHit        bool
+	HasCritContext      bool
+	CritPolicy          string
+	CritChanceRaw       float64
+	CritChanceEffective float64
+	CritMultiplier      float64
+	HasActualCritResult bool
+	IsCrit              bool
+	ExpectedNormalPart  float64
+	ExpectedCritPart    float64
+	CritBound           *model.NumericBoundEvidenceV2
+	ProcScope           string
 }
 
 type dpsDamageApplication struct {
