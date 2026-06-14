@@ -3,6 +3,7 @@ package runtime
 import (
 	"encoding/json"
 	"math"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -3143,6 +3144,29 @@ func effectBreakdownMessageContains(result model.DPSCurveResultV2, kind string, 
 	return false
 }
 
+func effectBreakdownResolvedMultiplierAlmostEqual(result model.DPSCurveResultV2, kind string, want float64) bool {
+	const prefix = "resolvedMultiplier="
+	for _, event := range result.EffectBreakdown {
+		if event.Kind != kind {
+			continue
+		}
+		index := strings.Index(event.Message, prefix)
+		if index < 0 {
+			continue
+		}
+		valueText := event.Message[index+len(prefix):]
+		if comma := strings.IndexByte(valueText, ' '); comma >= 0 {
+			valueText = valueText[:comma]
+		}
+		value, err := strconv.ParseFloat(valueText, 64)
+		if err != nil {
+			continue
+		}
+		return almostEqual(value, want)
+	}
+	return false
+}
+
 func effectBreakdownAmountBySource(result model.DPSCurveResultV2, kind string, source string) float64 {
 	for _, event := range result.EffectBreakdown {
 		if event.Kind == kind && event.Source == source {
@@ -5180,6 +5204,153 @@ func TestSingleAttackerDPSTargetCritOnlyModifierAffectsCritPortionOnly(t *testin
 	}
 }
 
+func sunderedSkyCritContextModifierPassive() model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "item_sundered_sky_crit_scale_test",
+		SourceCategory: "item_passive",
+		SourceID:       "item_sundered_sky",
+		SourceType:     "item",
+		TriggerID:      "sundered_sky_first_attack_crit",
+		TriggerKind:    dpsTriggerPreEnabledModifier,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:                   dpsOpCritContextModifier,
+			Source:                 "sundered_sky_first_attack_crit",
+			ForceCrit:              true,
+			HasCritMultiplierScale: true,
+			CritMultiplierScale:    0.8,
+		}},
+	}
+}
+
+func runSunderedSkyTrainingFieldDPSForTest(
+	t *testing.T,
+	ad float64,
+	critChance float64,
+	critDamage float64,
+	armor float64,
+	targetHP float64,
+	passives ...model.DPSPassiveEffectV2,
+) model.DPSCurveResultV2 {
+	t.Helper()
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	if len(passives) > 0 {
+		enableDPSPassivesForTest(curve, passives...)
+	}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = ad
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = critChance
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = critDamage
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = targetHP
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = targetHP
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = armor
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline length = %d, want 1", len(result.DamageTimeline))
+	}
+	return result
+}
+
+func runRanduinTargetCritOnlyDPSForTest(
+	t *testing.T,
+	ad float64,
+	critChance float64,
+	critDamage float64,
+	armor float64,
+	targetHP float64,
+	attackerPassives []model.DPSPassiveEffectV2,
+) model.DPSCurveResultV2 {
+	t.Helper()
+	randuinPassive := syntheticCritOnlyIncomingDamageModifierPassive()
+	randuinPassive.Operations[0].Value = -0.3
+
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableMixedDPSPassivesForTest(curve, "item_randuin_crit_only", attackerPassives, []model.DPSPassiveEffectV2{randuinPassive})
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = ad
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = critChance
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = critDamage
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = targetHP
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = targetHP
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = armor
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline length = %d, want 1", len(result.DamageTimeline))
+	}
+	return result
+}
+
+func TestSingleAttackerDPSSunderedSkyCritMultiplierScaleEzrealTrainingData(t *testing.T) {
+	sunderedPassive := sunderedSkyCritContextModifierPassive()
+
+	t.Run("AD105_no_infinity_edge_armor0", func(t *testing.T) {
+		result := runSunderedSkyTrainingFieldDPSForTest(t, 105, 0, 2, 0, 1000, sunderedPassive)
+		if !almostEqual(result.DamageTimeline[0].FinalDamage, 168) {
+			t.Fatalf("finalDamage = %.4f, want 168 (105 * 2.0 * 0.8)", result.DamageTimeline[0].FinalDamage)
+		}
+	})
+
+	t.Run("AD180_no_infinity_edge_armor0", func(t *testing.T) {
+		result := runSunderedSkyTrainingFieldDPSForTest(t, 180, 0, 2, 0, 1000, sunderedPassive)
+		if !almostEqual(result.DamageTimeline[0].FinalDamage, 288) {
+			t.Fatalf("finalDamage = %.4f, want 288 (180 * 2.0 * 0.8)", result.DamageTimeline[0].FinalDamage)
+		}
+	})
+
+	t.Run("AD180_infinity_edge_armor0", func(t *testing.T) {
+		result := runSunderedSkyTrainingFieldDPSForTest(t, 180, 0, 2.3, 0, 1000, sunderedPassive)
+		if !almostEqual(result.DamageTimeline[0].FinalDamage, 331.2) {
+			t.Fatalf("finalDamage = %.4f, want 331.2 (180 * 2.3 * 0.8)", result.DamageTimeline[0].FinalDamage)
+		}
+		if !effectBreakdownMessageContains(result, dpsOpCritContextModifier, "multiplierScale=0.8") {
+			t.Fatalf("effectBreakdown = %+v, want multiplierScale evidence", result.EffectBreakdown)
+		}
+		if !effectBreakdownResolvedMultiplierAlmostEqual(result, dpsOpCritContextModifier, 1.84) {
+			t.Fatalf("effectBreakdown = %+v, want resolvedMultiplier≈1.84 evidence", result.EffectBreakdown)
+		}
+	})
+
+	t.Run("AD180_infinity_edge_full_crit_armor0", func(t *testing.T) {
+		result := runSunderedSkyTrainingFieldDPSForTest(t, 180, 1, 2.3, 0, 1000)
+		if !almostEqual(result.DamageTimeline[0].FinalDamage, 414) {
+			t.Fatalf("finalDamage = %.4f, want 414 (180 * 2.3)", result.DamageTimeline[0].FinalDamage)
+		}
+	})
+
+	t.Run("randuin_sundered_infinity_edge_armor75", func(t *testing.T) {
+		result := runRanduinTargetCritOnlyDPSForTest(t, 180, 0, 2.3, 75, 1750, []model.DPSPassiveEffectV2{sunderedPassive})
+		if !almostEqual(result.DamageTimeline[0].FinalDamage, 132.48) {
+			t.Fatalf("finalDamage = %.4f, want 132.48", result.DamageTimeline[0].FinalDamage)
+		}
+	})
+
+	t.Run("randuin_infinity_edge_full_crit_armor75", func(t *testing.T) {
+		result := runRanduinTargetCritOnlyDPSForTest(t, 180, 1, 2.3, 75, 1750, nil)
+		if !almostEqual(result.DamageTimeline[0].FinalDamage, 165.6) {
+			t.Fatalf("finalDamage = %.4f, want 165.6", result.DamageTimeline[0].FinalDamage)
+		}
+	})
+
+	t.Run("randuin_non_crit_armor75", func(t *testing.T) {
+		result := runRanduinTargetCritOnlyDPSForTest(t, 180, 0, 2.3, 75, 1750, nil)
+		want := 180.0 * 100.0 / (100.0 + 75.0)
+		if !almostEqual(result.DamageTimeline[0].FinalDamage, want) {
+			t.Fatalf("finalDamage = %.6f, want %.6f (critOnly must not affect non-crit)", result.DamageTimeline[0].FinalDamage, want)
+		}
+	})
+}
+
 func TestSingleAttackerDPSForceCritContextModifier(t *testing.T) {
 	passive := model.DPSPassiveEffectV2{
 		PassiveID:      "item_fentian_force_crit_test",
@@ -6338,5 +6509,211 @@ func TestSingleAttackerDPSAttributeBucketAttributeBounds(t *testing.T) {
 	}
 	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["ap"]; !almostEqual(got, 350) {
 		t.Fatalf("resolved ap = %.4f, want 350 after bucket + attribute bounds", got)
+	}
+}
+
+func collectorExecutePassive(thresholdType string, thresholdValue float64, checkTiming string) model.DPSPassiveEffectV2 {
+	op := model.DPSPassiveOperationV2{
+		Kind:           dpsOpExecuteThreshold,
+		Source:         "collector_execute",
+		TargetRole:     "target",
+		ThresholdType:  thresholdType,
+		ThresholdValue: thresholdValue,
+	}
+	if checkTiming != "" {
+		op.CheckTiming = checkTiming
+	}
+	return model.DPSPassiveEffectV2{
+		PassiveID:      "collector_execute_test",
+		SourceCategory: "item_passive",
+		SourceID:       "collector_execute",
+		SourceType:     "item",
+		TriggerID:      "collector_execute_on_damage_dealt",
+		Trigger: model.DPSPassiveTriggerSpecV2{
+			Event: dpsEventOnDamageDealt,
+		},
+		Operations: []model.DPSPassiveOperationV2{op},
+	}
+}
+
+func configureExecuteThresholdAttackSetup(curve *model.DPSCurveRunSpecV2, targetCurrentHP float64, targetMaxHP float64) {
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = targetCurrentHP
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = targetMaxHP
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["hp"] = targetMaxHP
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+}
+
+func findExecuteThresholdBreakdown(result model.DPSCurveResultV2, triggered bool) (model.DPSEffectBreakdownV2, bool) {
+	wantTriggered := "triggered=" + boolToString(triggered)
+	for _, entry := range result.EffectBreakdown {
+		if entry.Kind != dpsOpExecuteThreshold {
+			continue
+		}
+		if strings.Contains(entry.Message, wantTriggered) {
+			return entry, true
+		}
+	}
+	return model.DPSEffectBreakdownV2{}, false
+}
+
+func TestSingleAttackerDPSExecuteThresholdRatioNotReached(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 500
+	curve := &input.Curves[0]
+	configureExecuteThresholdAttackSetup(curve, 160, 1000)
+	enableDPSPassivesForTest(curve, collectorExecutePassive(dpsThresholdTypeCurrentHPRatio, 0.05, dpsCheckTimingAfterDamage))
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.StopReason == dpsStopReasonExecuteThreshold {
+		t.Fatalf("stopReason = %q, want no execute stop", result.StopReason)
+	}
+	if result.TargetHPTimeline[len(result.TargetHPTimeline)-1].CurrentHP <= 0 {
+		t.Fatalf("target HP should remain above 0, timeline=%v", result.TargetHPTimeline)
+	}
+	if _, ok := findExecuteThresholdBreakdown(result, true); ok {
+		t.Fatal("execute evidence should not report triggered=true")
+	}
+}
+
+func TestSingleAttackerDPSExecuteThresholdRatioReached(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 5000
+	curve := &input.Curves[0]
+	configureExecuteThresholdAttackSetup(curve, 140, 1000)
+	enableDPSPassivesForTest(curve, collectorExecutePassive(dpsThresholdTypeCurrentHPRatio, 0.05, dpsCheckTimingAfterDamage))
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" || result.StopReason != dpsStopReasonExecuteThreshold {
+		t.Fatalf("status/stopReason = %s/%s, want ok/%s", result.Status, result.StopReason, dpsStopReasonExecuteThreshold)
+	}
+	if result.KillTimeMs == nil || *result.KillTimeMs != 0 {
+		t.Fatalf("killTimeMs = %v, want 0", result.KillTimeMs)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damage timeline length = %d, want only normal damage", len(result.DamageTimeline))
+	}
+	if got := result.DamageBySource[dpsTestDefaultBasicAttackSkillID]; !almostEqual(got, 100) {
+		t.Fatalf("damageBySource basic attack = %.4f, want 100 without execute amount", got)
+	}
+	if _, ok := result.DamageBySource["collector_execute"]; ok {
+		t.Fatalf("damageBySource should not contain execute source: %v", result.DamageBySource)
+	}
+	breakdown, ok := findExecuteThresholdBreakdown(result, true)
+	if !ok {
+		t.Fatal("missing triggered execute_threshold effect evidence")
+	}
+	if breakdown.Amount != 0 {
+		t.Fatalf("execute evidence amount = %.4f, want 0", breakdown.Amount)
+	}
+	if !strings.Contains(breakdown.Message, "thresholdType=current_hp_ratio") ||
+		!strings.Contains(breakdown.Message, "hpBeforeCheck=40") ||
+		!strings.Contains(breakdown.Message, "maxHp=1000") ||
+		!strings.Contains(breakdown.Message, "currentHpRatio=0.04") {
+		t.Fatalf("execute evidence message = %q, want threshold inspection fields", breakdown.Message)
+	}
+	lastHP := result.TargetHPTimeline[len(result.TargetHPTimeline)-2]
+	if lastHP.CurrentHP != 0 || lastHP.TimeMs != 0 {
+		t.Fatalf("target HP timeline at execute = %+v, want HP=0 at 0ms", lastHP)
+	}
+}
+
+func TestSingleAttackerDPSExecuteThresholdValueReached(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 5000
+	curve := &input.Curves[0]
+	configureExecuteThresholdAttackSetup(curve, 140, 1000)
+	enableDPSPassivesForTest(curve, collectorExecutePassive(dpsThresholdTypeCurrentHPValue, 50, dpsCheckTimingAfterDamage))
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" || result.StopReason != dpsStopReasonExecuteThreshold {
+		t.Fatalf("status/stopReason = %s/%s, want ok/%s", result.Status, result.StopReason, dpsStopReasonExecuteThreshold)
+	}
+	breakdown, ok := findExecuteThresholdBreakdown(result, true)
+	if !ok {
+		t.Fatal("missing triggered execute_threshold effect evidence")
+	}
+	if !strings.Contains(breakdown.Message, "thresholdType=current_hp_value") ||
+		!strings.Contains(breakdown.Message, "hpBeforeCheck=40") {
+		t.Fatalf("execute evidence message = %q, want value threshold fields", breakdown.Message)
+	}
+}
+
+func TestSingleAttackerDPSExecuteThresholdSkippedWhenNormalDamageKills(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 5000
+	curve := &input.Curves[0]
+	configureExecuteThresholdAttackSetup(curve, 80, 1000)
+	enableDPSPassivesForTest(curve, collectorExecutePassive(dpsThresholdTypeCurrentHPRatio, 0.05, dpsCheckTimingAfterDamage))
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" || result.StopReason != "target_dead" {
+		t.Fatalf("status/stopReason = %s/%s, want ok/target_dead", result.Status, result.StopReason)
+	}
+	if _, ok := findExecuteThresholdBreakdown(result, true); ok {
+		t.Fatal("execute evidence should not trigger when normal damage already killed target")
+	}
+	if _, ok := findExecuteThresholdBreakdown(result, false); ok {
+		t.Fatal("execute evidence should not be appended when target already dead")
+	}
+}
+
+func TestSingleAttackerDPSBlocksInvalidExecuteThresholdContracts(t *testing.T) {
+	cases := []struct {
+		name   string
+		mutate func(*model.DPSPassiveOperationV2)
+		needle string
+	}{
+		{
+			name: "negative threshold value",
+			mutate: func(op *model.DPSPassiveOperationV2) {
+				op.ThresholdValue = -0.01
+			},
+			needle: "execute_threshold has invalid thresholdValue",
+		},
+		{
+			name: "non-finite threshold value",
+			mutate: func(op *model.DPSPassiveOperationV2) {
+				op.ThresholdValue = math.NaN()
+			},
+			needle: "execute_threshold has invalid thresholdValue",
+		},
+		{
+			name: "unsupported threshold type",
+			mutate: func(op *model.DPSPassiveOperationV2) {
+				op.ThresholdType = "missing_hp_ratio"
+			},
+			needle: "execute_threshold has unsupported thresholdType",
+		},
+		{
+			name: "unsupported check timing",
+			mutate: func(op *model.DPSPassiveOperationV2) {
+				op.CheckTiming = "before_damage"
+			},
+			needle: "execute_threshold has unsupported checkTiming",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			curve := &input.Curves[0]
+			configureExecuteThresholdAttackSetup(curve, 140, 1000)
+			passive := collectorExecutePassive(dpsThresholdTypeCurrentHPRatio, 0.05, dpsCheckTimingAfterDamage)
+			tc.mutate(&passive.Operations[0])
+			enableDPSPassivesForTest(curve, passive)
+
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+			if result.Status != "blocked" || result.StopReason != "blocked" {
+				t.Fatalf("status/stopReason = %s/%s, want blocked/blocked", result.Status, result.StopReason)
+			}
+			if !blockedReasonContains(result, tc.needle) {
+				t.Fatalf("blockedReasons = %v, want %q", result.BlockedReasons, tc.needle)
+			}
+		})
 	}
 }
