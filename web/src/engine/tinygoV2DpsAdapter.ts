@@ -295,6 +295,16 @@ export type V2DpsCoefficientBucketEvidence = {
   [key: string]: unknown;
 };
 
+export type V2DpsPassiveCooldownEvidence = {
+  passiveKey?: string;
+  internalCooldownMs?: number;
+  readyAtMs?: number;
+  nextReadyAtMs?: number;
+  triggered?: boolean;
+  skipped?: boolean;
+  [key: string]: unknown;
+};
+
 export type V2DpsEffectBreakdownEntry = {
   timeMs?: number;
   source?: string;
@@ -306,6 +316,7 @@ export type V2DpsEffectBreakdownEntry = {
   coefficientBucket?: V2DpsCoefficientBucketEvidence;
   numericBound?: V2DpsNumericBoundEvidence;
   critContext?: V2DpsCritContext;
+  passiveCooldown?: V2DpsPassiveCooldownEvidence;
   [key: string]: unknown;
 };
 
@@ -329,6 +340,7 @@ export type V2DpsPassiveEffect = {
   chargeReadyPolicy?: string;
   consumeChargeOnTrigger?: boolean;
   procScope?: string;
+  internalCooldownMs?: number;
   operations?: V2DpsPassiveOperation[];
 };
 
@@ -421,6 +433,31 @@ export type V2DpsExecuteEvidence = {
 export type V2DpsExecuteEvidenceByCurve = {
   activeCurve?: string;
   byCurve: Record<string, V2DpsExecuteEvidence>;
+};
+
+export type V2DpsPassiveCooldownEvidenceEntry = {
+  timeMs?: number;
+  source?: string;
+  message?: string;
+  passiveKey?: string;
+  internalCooldownMs?: number;
+  readyAtMs?: number;
+  nextReadyAtMs?: number;
+  triggered?: boolean;
+  skipped?: boolean;
+};
+
+export type V2DpsPassiveCooldownEvidenceSummary = {
+  count: number;
+  triggeredCount: number;
+  skippedCount: number;
+  sources: string[];
+  entries: V2DpsPassiveCooldownEvidenceEntry[];
+};
+
+export type V2DpsPassiveCooldownEvidenceByCurve = {
+  activeCurve?: string;
+  byCurve: Record<string, V2DpsPassiveCooldownEvidenceSummary>;
 };
 
 export type ResolveItemSkillRefsOptions = {
@@ -1510,6 +1547,59 @@ export function buildExecuteEvidenceByCurve(
   const byCurve: Record<string, V2DpsExecuteEvidence> = {};
   for (const result of curveResults) {
     byCurve[result.curveId] = buildExecuteEvidenceFromCurveResult(result);
+  }
+  return {
+    activeCurve: activeCurveId ?? curveResults[0]?.curveId,
+    byCurve
+  };
+}
+
+function isPassiveCooldownBreakdownEntry(entry: V2DpsEffectBreakdownEntry): boolean {
+  return entry.kind === 'passive_cooldown' || entry.passiveCooldown !== undefined;
+}
+
+export function buildPassiveCooldownEvidenceFromCurveResult(
+  result: V2DpsCurveResult
+): V2DpsPassiveCooldownEvidenceSummary {
+  const entries = result.effectBreakdown
+    .filter(isPassiveCooldownBreakdownEntry)
+    .map((entry) => {
+      const cooldown = entry.passiveCooldown;
+      return {
+        timeMs: entry.timeMs,
+        source: entry.source,
+        message: entry.message,
+        passiveKey: cooldown?.passiveKey,
+        internalCooldownMs: cooldown?.internalCooldownMs,
+        readyAtMs: cooldown?.readyAtMs,
+        nextReadyAtMs: cooldown?.nextReadyAtMs,
+        triggered: cooldown?.triggered,
+        skipped: cooldown?.skipped
+      };
+    });
+  const sources = [
+    ...new Set(
+      entries
+        .map((entry) => entry.passiveKey ?? entry.source)
+        .filter((value): value is string => Boolean(value))
+    )
+  ];
+  return {
+    count: entries.length,
+    triggeredCount: entries.filter((entry) => entry.triggered === true).length,
+    skippedCount: entries.filter((entry) => entry.skipped === true).length,
+    sources,
+    entries
+  };
+}
+
+export function buildPassiveCooldownEvidenceByCurve(
+  curveResults: V2DpsCurveResult[],
+  activeCurveId?: string
+): V2DpsPassiveCooldownEvidenceByCurve {
+  const byCurve: Record<string, V2DpsPassiveCooldownEvidenceSummary> = {};
+  for (const result of curveResults) {
+    byCurve[result.curveId] = buildPassiveCooldownEvidenceFromCurveResult(result);
   }
   return {
     activeCurve: activeCurveId ?? curveResults[0]?.curveId,
