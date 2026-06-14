@@ -33,6 +33,7 @@ import {
   STRICT_DPS_SKILL_REF_OPTIONS,
   buildExecuteEvidenceByCurve,
   buildExecuteEvidenceFromCurveResult,
+  buildPassiveCooldownEvidenceFromCurveResult,
   V2_DPS_CASE_ID,
   V2_DPS_INVALID_TARGET_REASON,
   V2_DPS_MISSING_BASIC_ATTACK_REASON,
@@ -57,6 +58,8 @@ import {
   type V2DpsEnergizedBundleCheck,
   type V2DpsStackingPassiveBundleCheck,
   type V2DpsExecuteEvidence,
+  type V2DpsPassiveCooldownEvidence,
+  type V2DpsPassiveCooldownEvidenceSummary,
   type EquipmentSkillRefDiagnostic
 } from '../engine/tinygoV2DpsAdapter';
 import { summarizeCompiledStatusEvidence } from '../engine/tinygoV2BundleAdapter';
@@ -579,6 +582,12 @@ function WasmValidationV2DpsWorkbench({
       return null;
     }
     return buildExecuteEvidenceFromCurveResult(activeCurveResult);
+  }, [activeCurveResult]);
+  const activePassiveCooldownEvidence = useMemo<V2DpsPassiveCooldownEvidenceSummary | null>(() => {
+    if (!activeCurveResult) {
+      return null;
+    }
+    return buildPassiveCooldownEvidenceFromCurveResult(activeCurveResult);
   }, [activeCurveResult]);
   const exportPayload = useMemo(() => {
     if (!wasmOutput || !preparedInput) {
@@ -1577,6 +1586,24 @@ function WasmValidationV2DpsWorkbench({
               ) : null}
               {activeExecuteEvidence.entries.length > 0 ? (
                 <JsonBlock value={activeExecuteEvidence.entries} />
+              ) : null}
+            </Space>
+          </Panel>
+        ) : null}
+
+        {activePassiveCooldownEvidence && activePassiveCooldownEvidence.count > 0 ? (
+          <Panel title="Passive Cooldown 证据" kicker="effectBreakdown kind=passive_cooldown">
+            <Space direction="vertical" size={8} style={{ width: '100%' }}>
+              <Typography.Text>
+                当前曲线 passive cooldown 证据：count={activePassiveCooldownEvidence.count}
+                ，triggered={activePassiveCooldownEvidence.triggeredCount}
+                ，skipped={activePassiveCooldownEvidence.skippedCount}
+                {activePassiveCooldownEvidence.sources.length > 0
+                  ? `，sources=${activePassiveCooldownEvidence.sources.join(', ')}`
+                  : ''}
+              </Typography.Text>
+              {activePassiveCooldownEvidence.entries.length > 0 ? (
+                <JsonBlock value={activePassiveCooldownEvidence.entries} />
               ) : null}
             </Space>
           </Panel>
@@ -2593,7 +2620,8 @@ function buildEventTimelinePoints(result: V2DpsCurveResult, icons: EventTimeline
         ...(event.repeatTag ? [`repeatTag=${event.repeatTag}`] : []),
         ...formatCritContextDetailRows(event.critContext),
         ...formatNumericBoundDetailRows(event.numericBound),
-        ...formatNumericBoundDetailRows(event.critContext?.boundEvidence)
+        ...formatNumericBoundDetailRows(event.critContext?.boundEvidence),
+        ...formatPassiveCooldownDetailRows(event.passiveCooldown)
       ],
       symbol: isPhantom ? 'pin' : 'rect',
       symbolSize: isPhantom ? 15 : 10,
@@ -3075,10 +3103,37 @@ function formatPassiveEffectSummary(passive: V2DpsPassiveEffect) {
     ownerRole: passive.ownerRole ?? 'attacker',
     sourceType: passive.sourceType,
     sourceId: passive.sourceId,
+    internalCooldownMs: passive.internalCooldownMs,
     triggerEvent: passive.trigger?.event ?? passive.triggerKind,
     operationKinds: (passive.operations ?? []).map((operation) => operation.kind),
     operations: passive.operations
   };
+}
+
+function formatPassiveCooldownDetailRows(evidence: V2DpsPassiveCooldownEvidence | undefined): string[] {
+  if (!evidence) {
+    return [];
+  }
+  const rows: string[] = [];
+  if (evidence.passiveKey) {
+    rows.push(`passiveKey=${evidence.passiveKey}`);
+  }
+  if (typeof evidence.internalCooldownMs === 'number' && Number.isFinite(evidence.internalCooldownMs)) {
+    rows.push(`internalCooldownMs=${evidence.internalCooldownMs}`);
+  }
+  if (typeof evidence.readyAtMs === 'number' && Number.isFinite(evidence.readyAtMs)) {
+    rows.push(`readyAtMs=${evidence.readyAtMs}`);
+  }
+  if (typeof evidence.nextReadyAtMs === 'number' && Number.isFinite(evidence.nextReadyAtMs)) {
+    rows.push(`nextReadyAtMs=${evidence.nextReadyAtMs}`);
+  }
+  if (evidence.triggered === true) {
+    rows.push('triggered=true');
+  }
+  if (evidence.skipped === true) {
+    rows.push('skipped=true');
+  }
+  return rows;
 }
 
 function formatEquipmentStatsRecord(stats: Record<string, number>): string {

@@ -162,6 +162,19 @@ function updateDpsPassiveOperationField(
   });
 }
 
+function updateDpsPassiveField(
+  passives: JsonObject[],
+  passiveIndex: number,
+  apply: (passive: JsonObject) => JsonObject
+): JsonObject[] {
+  return passives.map((passive, currentPassiveIndex) => {
+    if (currentPassiveIndex !== passiveIndex || !isPlainObject(passive)) {
+      return passive;
+    }
+    return apply({ ...passive });
+  });
+}
+
 function setOptionalStringField(target: JsonObject, key: string, value: string) {
   const trimmed = value.trim();
   if (trimmed) {
@@ -509,6 +522,13 @@ export function SkillMechanicsConfigEditor({
       return;
     }
     commitDpsPassiveEffects(updateDpsPassiveOperationField(dpsPassiveEffects, passiveIndex, operationIndex, apply));
+  };
+
+  const updateDpsPassive = (passiveIndex: number, apply: (passive: JsonObject) => JsonObject) => {
+    if (!dpsPassiveEffects) {
+      return;
+    }
+    commitDpsPassiveEffects(updateDpsPassiveField(dpsPassiveEffects, passiveIndex, apply));
   };
 
   const removeModifierStat = (triggerIndex: number, actionIndex: number, statIndex: number) => {
@@ -1051,6 +1071,16 @@ export function SkillMechanicsConfigEditor({
                           ) : null}
                           <div>
                             <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
+                              cooldown
+                            </Typography.Text>
+                            <Typography.Text>
+                              {summaryRow.internalCooldownMs != null && summaryRow.internalCooldownMs > 0
+                                ? `${summaryRow.internalCooldownMs}ms`
+                                : 'none'}
+                            </Typography.Text>
+                          </div>
+                          <div>
+                            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
                               bucketKeys
                             </Typography.Text>
                             <Typography.Text>
@@ -1070,6 +1100,48 @@ export function SkillMechanicsConfigEditor({
                             </Typography.Text>
                           </div>
                         </div>
+
+                        {dpsPassiveEffects && onDpsPassiveEffectsChange ? (
+                          <div className="crud-form-grid">
+                            <div>
+                              <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                internalCooldownMs
+                              </Typography.Text>
+                              {(() => {
+                                const passive = dpsPassiveEffects[summaryRow.index];
+                                const cooldownValue = isPlainObject(passive) && typeof passive.internalCooldownMs === 'number' && Number.isFinite(passive.internalCooldownMs)
+                                  ? passive.internalCooldownMs
+                                  : undefined;
+                                return (
+                                  <InputNumber
+                                    style={{ width: '100%' }}
+                                    min={0}
+                                    step={1}
+                                    precision={0}
+                                    value={cooldownValue}
+                                    disabled={disabled}
+                                    placeholder="none"
+                                    onChange={(value) =>
+                                      updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                        if (value === undefined || value === null) {
+                                          setOptionalNumberField(nextPassive, 'internalCooldownMs', undefined);
+                                        } else {
+                                          const numeric = Number(value);
+                                          setOptionalNumberField(
+                                            nextPassive,
+                                            'internalCooldownMs',
+                                            Number.isFinite(numeric) ? Math.trunc(numeric) : undefined
+                                          );
+                                        }
+                                        return nextPassive;
+                                      })
+                                    }
+                                  />
+                                );
+                              })()}
+                            </div>
+                          </div>
+                        ) : null}
 
                         {dpsPassiveEffects && onDpsPassiveEffectsChange ? (
                           <div>
