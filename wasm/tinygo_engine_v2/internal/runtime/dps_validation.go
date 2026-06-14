@@ -3,6 +3,7 @@ package runtime
 
 import (
 	"math"
+	"strconv"
 	"strings"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -229,6 +230,9 @@ func validateDPSPassive(bundle compilebundle.CompiledBundle, passive model.DPSPa
 	}
 	if passive.TriggerKind == dpsTriggerEnergizedChargeAndConsume {
 		reasons = append(reasons, validateDPSEnergizedPassive(id, passive)...)
+	}
+	if passive.InternalCooldownMs < 0 {
+		reasons = append(reasons, "passive effect "+id+" internalCooldownMs="+strconv.FormatInt(passive.InternalCooldownMs, 10)+" must be >= 0")
 	}
 	if passive.RequiresScenarioStateID != "" && !hasScenarioState(curve.ResolvedSnapshot.ScenarioStates, passive.RequiresScenarioStateID) {
 		reasons = append(reasons, "passive effect "+id+" requires missing scenarioState "+passive.RequiresScenarioStateID)
