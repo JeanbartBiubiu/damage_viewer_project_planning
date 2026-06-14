@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { getErrorMessage, publishVersion } from '../../services/apiClient';
+import { getErrorMessage, getItems, getSkills, publishVersion } from '../../services/apiClient';
 import { loadPublishedBundleSnapshot } from '../../services/bundleSnapshot';
+import {
+  buildPublishedContractDiagnostics,
+  type PublishedContractDiagnostic
+} from '../../engine/tinygoV2DpsAdapter';
 import type { CurrentVersion, GameDataBundle, LoadState, VersionPublishResponse } from '../../types/api';
 
 type UsePublishFlowArgs = {
@@ -19,6 +23,7 @@ type UsePublishFlowResult = {
   publishedVersion: VersionPublishResponse | null;
   publishedCurrentVersion: CurrentVersion | null;
   publishedBundleMeta: GameDataBundle['meta'] | null;
+  publishedContractDiagnostics: PublishedContractDiagnostic[];
   setVersionCodeDraft: (value: string) => void;
   setReleaseDateDraft: (value: string) => void;
   handlePublishVersion: () => Promise<void>;
@@ -39,6 +44,7 @@ export function usePublishFlow({
   const [publishedVersion, setPublishedVersion] = useState<VersionPublishResponse | null>(null);
   const [publishedCurrentVersion, setPublishedCurrentVersion] = useState<CurrentVersion | null>(null);
   const [publishedBundleMeta, setPublishedBundleMeta] = useState<GameDataBundle['meta'] | null>(null);
+  const [publishedContractDiagnostics, setPublishedContractDiagnostics] = useState<PublishedContractDiagnostic[]>([]);
 
   async function handlePublishVersion() {
     if (!selectedGameId || !token) {
@@ -56,8 +62,22 @@ export function usePublishFlow({
     setVersionState('loading');
     setVersionError(null);
     setVersionSuccess(null);
+    setPublishedContractDiagnostics([]);
 
     try {
+      const [itemsResult, skillsResult] = await Promise.all([
+        getItems(apiBaseUrl, selectedGameId, token),
+        getSkills(apiBaseUrl, selectedGameId, token)
+      ]);
+      const diagnostics = buildPublishedContractDiagnostics(itemsResult.data.items, skillsResult.data.skills);
+      setPublishedContractDiagnostics(diagnostics);
+      const blockingDiagnostics = diagnostics.filter((diagnostic) => diagnostic.severity === 'error');
+      if (blockingDiagnostics.length > 0) {
+        setVersionState('error');
+        setVersionError(`发布前契约检查发现 ${blockingDiagnostics.length} 个 error 级问题，已阻止发布。`);
+        return;
+      }
+
       const publishResult = await publishVersion(apiBaseUrl, selectedGameId, token, {
         versionCode,
         releaseDate: releaseDateDraft.trim() || undefined
@@ -85,6 +105,7 @@ export function usePublishFlow({
     publishedVersion,
     publishedCurrentVersion,
     publishedBundleMeta,
+    publishedContractDiagnostics,
     setVersionCodeDraft,
     setReleaseDateDraft,
     handlePublishVersion
