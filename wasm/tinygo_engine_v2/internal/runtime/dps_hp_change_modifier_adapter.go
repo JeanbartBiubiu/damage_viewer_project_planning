@@ -116,6 +116,7 @@ func (state *dpsCurveState) resolveHPChangeBucketCandidates(
 	stageKey string,
 	entries []dpsIncomingDamageModifierEntry,
 	gate dpsModifierGateContext,
+	cooldownGate *passiveCooldownGate,
 ) ([]dpsHPChangeBucketGroup, bool) {
 	byBucket := map[uint16]*dpsHPChangeBucketGroup{}
 	for _, entry := range entries {
@@ -160,6 +161,15 @@ func (state *dpsCurveState) resolveHPChangeBucketCandidates(
 				op:         op,
 				bucket:     bucket,
 				skipReason: describeDPSModifierConditionSkipReason(op.Conditions, gate),
+			})
+			continue
+		}
+		if !state.checkPassiveCooldownGate(ctx.TimeMs, entry.passive, cooldownGate) {
+			group.skipped = append(group.skipped, dpsCoefficientBucketSkippedCandidate{
+				passive:    entry.passive,
+				op:         op,
+				bucket:     bucket,
+				skipReason: "passive_cooldown",
 			})
 			continue
 		}
@@ -244,9 +254,9 @@ func (state *dpsCurveState) applyHPChangeStageBuckets(
 	amount float64,
 	entries []dpsIncomingDamageModifierEntry,
 	gate dpsModifierGateContext,
-	triggered map[string]bool,
+	cooldownGate *passiveCooldownGate,
 ) (float64, bool) {
-	groups, ok := state.resolveHPChangeBucketCandidates(ctx, stageKey, entries, gate)
+	groups, ok := state.resolveHPChangeBucketCandidates(ctx, stageKey, entries, gate, cooldownGate)
 	if !ok {
 		return 0, false
 	}
@@ -295,7 +305,7 @@ func (state *dpsCurveState) applyHPChangeStageBuckets(
 			return 0, false
 		}
 		for runtimeKey := range appliedPassives {
-			if triggered[runtimeKey] {
+			if cooldownGate.triggered[runtimeKey] {
 				continue
 			}
 			for _, candidate := range group.applied {
@@ -303,7 +313,7 @@ func (state *dpsCurveState) applyHPChangeStageBuckets(
 					continue
 				}
 				state.recordPassiveTrigger(ctx.TimeMs, candidate.passive)
-				triggered[runtimeKey] = true
+				state.markPassiveCooldownTriggeredOnce(ctx.TimeMs, candidate.passive, cooldownGate)
 				break
 			}
 		}
@@ -318,29 +328,32 @@ func (state *dpsCurveState) applyHPChangeStageBuckets(
 }
 
 func (state *dpsCurveState) resolveCombatDamageAmount(
-	ctx dpsCombatEventContext,
+	ctx *dpsCombatEventContext,
 	damageType string,
 	amount float64,
 ) (preMitigationAmount float64, finalAmount float64, ok bool) {
+	if ctx == nil {
+		return amount, amount, true
+	}
 	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
 		state.block("hp_change coefficient bucket requires valid raw amount")
 		return 0, 0, false
 	}
-	incomingCtx := ctx
-	outgoingCtx := ctx
+	incomingCtx := *ctx
+	outgoingCtx := *ctx
 	outgoingCtx.Event = dpsEventOnDamageDealt
 	incomingEntries := state.collectHPChangeBucketModifierEntries(incomingCtx)
 	outgoingEntries := state.collectHPChangeBucketModifierEntries(outgoingCtx)
-	gate := state.buildModifierGateContext(ctx)
-	triggered := map[string]bool{}
+	gate := state.buildModifierGateContext(incomingCtx)
+	cooldownGate := ensurePassiveCooldownGate(ctx)
 
 	current := amount
-	next, stageOK := state.applyHPChangeStageBuckets(outgoingCtx, dpsHPChangeStageOutgoingPreMitigation, current, outgoingEntries, gate, triggered)
+	next, stageOK := state.applyHPChangeStageBuckets(outgoingCtx, dpsHPChangeStageOutgoingPreMitigation, current, outgoingEntries, gate, cooldownGate)
 	if !stageOK {
 		return 0, 0, false
 	}
 	current = next
-	next, stageOK = state.applyHPChangeStageBuckets(incomingCtx, dpsHPChangeStageIncomingPreMitigation, current, incomingEntries, gate, triggered)
+	next, stageOK = state.applyHPChangeStageBuckets(incomingCtx, dpsHPChangeStageIncomingPreMitigation, current, incomingEntries, gate, cooldownGate)
 	if !stageOK {
 		return 0, 0, false
 	}
@@ -366,12 +379,12 @@ func (state *dpsCurveState) resolveCombatDamageAmount(
 	}
 	current = mitigatedDamage
 
-	next, stageOK = state.applyHPChangeStageBuckets(incomingCtx, dpsHPChangeStageFinalPostMitigation, current, incomingEntries, gate, triggered)
+	next, stageOK = state.applyHPChangeStageBuckets(incomingCtx, dpsHPChangeStageFinalPostMitigation, current, incomingEntries, gate, cooldownGate)
 	if !stageOK {
 		return 0, 0, false
 	}
 	current = next
-	next, stageOK = state.applyHPChangeStageBuckets(incomingCtx, dpsHPChangeStageFlatPostPercent, current, incomingEntries, gate, triggered)
+	next, stageOK = state.applyHPChangeStageBuckets(incomingCtx, dpsHPChangeStageFlatPostPercent, current, incomingEntries, gate, cooldownGate)
 	if !stageOK {
 		return 0, 0, false
 	}
