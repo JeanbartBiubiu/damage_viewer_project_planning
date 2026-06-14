@@ -460,6 +460,30 @@ class PostgresWriteStorePublishTest {
                 skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0).path("operations").get(0))
                     .put("targetRole", "source"),
                 "/skills/mechanicsConfig/dpsPassiveEffects/0/operations/0/targetRole"
+            ),
+            new MalformedCase(
+                "internalCooldownMs negative",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                    .put("internalCooldownMs", -1),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/internalCooldownMs"
+            ),
+            new MalformedCase(
+                "internalCooldownMs float",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                    .put("internalCooldownMs", 1.5),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/internalCooldownMs"
+            ),
+            new MalformedCase(
+                "internalCooldownMs text",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                    .put("internalCooldownMs", "1000"),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/internalCooldownMs"
+            ),
+            new MalformedCase(
+                "internalCooldownMs object",
+                skill -> ((ObjectNode) skill.path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                    .set("internalCooldownMs", JsonNodeFactory.instance.objectNode().put("ms", 1000)),
+                "/skills/mechanicsConfig/dpsPassiveEffects/0/internalCooldownMs"
             )
         );
 
@@ -482,10 +506,60 @@ class PostgresWriteStorePublishTest {
                 () -> testCase.label() + " expected path " + testCase.expectedPath() + " but got " + path
             );
             assertTrue(
-                ex.getMessage().contains("dpsPassiveEffects") || testCase.expectedPath().equals(path),
-                () -> testCase.label() + " message should reference dpsPassiveEffects: " + ex.getMessage()
+                ex.getMessage().contains("dpsPassiveEffects")
+                    || ex.getMessage().contains("internalCooldownMs")
+                    || testCase.expectedPath().equals(path),
+                () -> testCase.label() + " message should reference dpsPassiveEffects or internalCooldownMs: " + ex.getMessage()
             );
             verify(gameVersionsMapper, never()).markVersionCurrent(any(Timestamp.class), anyString(), anyLong());
+        }
+    }
+
+    @Test
+    void publishVersionAcceptsDpsPassiveInternalCooldownMs() {
+        PostgresReadStore.VersionRecord targetVersion = publishTargetVersion();
+        PostgresReadStore.VersionRecord currentVersion = new PostgresReadStore.VersionRecord(
+            1L,
+            "14.1",
+            LocalDate.parse("2026-02-25"),
+            Instant.parse("2026-02-25T01:00:00Z"),
+            Instant.parse("2026-02-25T01:00:00Z")
+        );
+
+        for (long cooldownMs : List.of(0L, 1000L)) {
+            ObjectNode bundle = bundleWithValidDpsPassiveSkill("lol", targetVersion);
+            ((ObjectNode) bundle.withArray("skills").get(0).path("mechanicsConfig").path("dpsPassiveEffects").get(0))
+                .put("internalCooldownMs", cooldownMs);
+
+            when(readStore.findVersionByCode("lol", "14.2")).thenReturn(null);
+            when(gameVersionsMapper.createVersion("lol", "14.2", null)).thenReturn(2L);
+            when(readStore.findVersionById("lol", 2L)).thenReturn(targetVersion);
+            when(readStore.findCurrentPublishedVersion("lol")).thenReturn(currentVersion);
+            when(readStore.buildBundle(eq("lol"), eq(targetVersion), any(Instant.class))).thenReturn(bundle);
+            when(ownerCategoriesMapper.countOwnerCategory("lol", "hero")).thenReturn(1L);
+
+            when(attributeDefinitionsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(typesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(typeRelationsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(skillsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(itemsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(itemStatModifiersMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(formulaProfilesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(formulaBindingsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(skillMountsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(coefficientBucketsMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            when(statusActionControlRulesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            stubNoStatusResourceChanges();
+            when(heroesMapper.listChangedSince(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+            stubDefaultBasicAttackProvisioning();
+            when(gameVersionsMapper.markVersionCurrent(any(Timestamp.class), eq("lol"), eq(2L))).thenReturn(1);
+
+            ObjectNode response = writeStore.publishVersion(
+                "lol",
+                JsonNodeFactory.instance.objectNode().put("versionCode", "14.2")
+            );
+
+            assertEquals("14.2", response.path("versionCode").asText(), "internalCooldownMs=" + cooldownMs);
         }
     }
 
@@ -592,6 +666,7 @@ class PostgresWriteStorePublishTest {
         ObjectNode passive = mechanicsConfig.putArray("dpsPassiveEffects").addObject();
         passive.put("passiveId", "test_passive");
         passive.put("ownerRole", "attacker");
+        passive.put("internalCooldownMs", 1000);
         passive.putObject("trigger").put("event", "on_damage_dealt");
         ObjectNode operation = passive.putArray("operations").addObject();
         operation.put("kind", "damage");

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -2945,6 +2946,40 @@ public class PostgresWriteStore {
                         Map.of("path", passivePath + "/trigger/event", "event", triggerEvent.asText())
                     );
                 }
+            }
+        }
+
+        JsonNode internalCooldownMs = passive.get("internalCooldownMs");
+        if (internalCooldownMs != null && !internalCooldownMs.isNull()) {
+            String internalCooldownPath = passivePath + "/internalCooldownMs";
+            if (!internalCooldownMs.isNumber()) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects internalCooldownMs must be non-negative integer",
+                    Map.of("path", internalCooldownPath, "internalCooldownMs", internalCooldownMs.toString())
+                );
+            }
+            if (!internalCooldownMs.isIntegralNumber()) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects internalCooldownMs must be non-negative integer",
+                    Map.of("path", internalCooldownPath, "internalCooldownMs", internalCooldownMs.asText())
+                );
+            }
+            BigInteger cooldownValue = internalCooldownMs.bigIntegerValue();
+            if (cooldownValue.signum() < 0) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects internalCooldownMs must be non-negative integer",
+                    Map.of("path", internalCooldownPath, "internalCooldownMs", cooldownValue.toString())
+                );
+            }
+            if (cooldownValue.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
+                throw dpsPassiveValidationError(
+                    forPublish,
+                    "mechanicsConfig.dpsPassiveEffects internalCooldownMs exceeds long range",
+                    Map.of("path", internalCooldownPath, "internalCooldownMs", cooldownValue.toString())
+                );
             }
         }
 
