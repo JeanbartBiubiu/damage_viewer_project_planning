@@ -33,6 +33,20 @@ import type { GameSummary, LoadState } from './types/api';
 
 const API_BASE_STORAGE_KEY = 'damage-viewer.web.api-base-url';
 const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
+const PREFERRED_DEFAULT_GAME_ID = 'lol';
+
+function resolveSelectedGameId(current: string | null, games: GameSummary[]): string | null {
+  if (current && games.some((game) => game.gameId === current)) {
+    return current;
+  }
+
+  const preferredGame = games.find((game) => game.gameId === PREFERRED_DEFAULT_GAME_ID);
+  if (preferredGame) {
+    return preferredGame.gameId;
+  }
+
+  return games[0]?.gameId ?? null;
+}
 
 const { Sider, Content } = Layout;
 
@@ -141,12 +155,7 @@ export default function App() {
         setGames(result.data);
         setGamesEtag(result.etag);
         setGamesStatus('success');
-        setSelectedGameId((current) => {
-          if (current && result.data.some((game) => game.gameId === current)) {
-            return current;
-          }
-          return result.data[0]?.gameId ?? null;
-        });
+        setSelectedGameId((current) => resolveSelectedGameId(current, result.data));
       } catch (error) {
         if (cancelled) {
           return;
