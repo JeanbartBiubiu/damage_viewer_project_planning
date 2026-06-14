@@ -221,6 +221,9 @@ export type V2DpsPassiveOperation = {
   conditions?: JsonObject[];
   priority?: number;
   evidenceKey?: string;
+  thresholdType?: string;
+  thresholdValue?: number;
+  checkTiming?: string;
   [key: string]: unknown;
 };
 
@@ -384,6 +387,40 @@ export type EquipmentSkillRefDiagnostic = {
   severity: EquipmentSkillRefSeverity;
   code: EquipmentSkillRefDiagnosticCode;
   message: string;
+};
+
+export type PublishedContractDiagnostic = {
+  scope: 'dps_equipment_skill_refs';
+  itemId?: string;
+  itemName?: string;
+  skillId?: string;
+  skillName?: string;
+  severity: EquipmentSkillRefSeverity;
+  code: string;
+  message: string;
+};
+
+export type V2DpsExecuteThresholdEvidenceEntry = {
+  timeMs?: number;
+  source?: string;
+  message?: string;
+  triggered?: boolean;
+  thresholdType?: string;
+  thresholdValue?: number;
+  checkTiming?: string;
+};
+
+export type V2DpsExecuteEvidence = {
+  count: number;
+  triggeredCount: number;
+  sources: string[];
+  entries: V2DpsExecuteThresholdEvidenceEntry[];
+  stopReason?: string;
+};
+
+export type V2DpsExecuteEvidenceByCurve = {
+  activeCurve?: string;
+  byCurve: Record<string, V2DpsExecuteEvidence>;
 };
 
 export type ResolveItemSkillRefsOptions = {
@@ -1329,6 +1366,155 @@ export function formatEquipmentSkillRefDiagnostic(diagnostic: EquipmentSkillRefD
     parts.push(`skillName=${diagnostic.skillName}`);
   }
   return `${parts.join(' ')}: ${diagnostic.message}`;
+}
+
+export function readSkillDpsPassiveEffects(skill: Skill): V2DpsPassiveEffect[] {
+  return readDpsPassiveEffects(skill);
+}
+
+export function isPublishedContractCandidateItem(item: Item, skills: Skill[]): boolean {
+  if (Array.isArray(item.skillRefs) && item.skillRefs.some((ref) => ref.trim().length > 0)) {
+    return true;
+  }
+  return skills.some((skill) => (
+    skill.ownerType === 'item'
+    && skill.ownerId === item.itemId
+    && hasDpsPassiveEffectsFieldPresent(skill)
+  ));
+}
+
+export function buildPublishedContractDiagnostics(
+  items: Item[],
+  skills: Skill[]
+): PublishedContractDiagnostic[] {
+  const bundle: GameDataBundle = {
+    meta: {
+      gameId: 'published-contract-preflight',
+      versionCode: 'draft',
+      generatedAt: '',
+      versionId: 0,
+      dataHash: ''
+    },
+    attributeDefinitions: [],
+    coefficientBuckets: [],
+    types: [],
+    typeRelations: [],
+    statusActionControlRules: [],
+    heroes: [],
+    skills,
+    items
+  };
+  const diagnostics: PublishedContractDiagnostic[] = [];
+  const seen = new Set<string>();
+
+  const pushDiagnostic = (diagnostic: PublishedContractDiagnostic) => {
+    const key = [
+      diagnostic.scope,
+      diagnostic.code,
+      diagnostic.itemId ?? '',
+      diagnostic.skillId ?? '',
+      diagnostic.severity,
+      diagnostic.message
+    ].join('|');
+    if (seen.has(key)) {
+      return;
+    }
+    seen.add(key);
+    diagnostics.push(diagnostic);
+  };
+
+  for (const item of items) {
+    if (!isPublishedContractCandidateItem(item, skills)) {
+      continue;
+    }
+    for (const diagnostic of collectDpsPassiveEffectsShapeDiagnostics(item, skills)) {
+      pushDiagnostic(diagnostic);
+    }
+    for (const audience of resolvePublishedContractAudiences(item, skills)) {
+      const resolved = resolveItemSkillRefs(bundle, item, audience, STRICT_DPS_SKILL_REF_OPTIONS);
+      for (const diagnostic of resolved.diagnostics) {
+        pushDiagnostic(toPublishedContractDiagnostic(diagnostic));
+      }
+    }
+  }
+
+  return diagnostics;
+}
+
+export function parseExecuteThresholdBreakdownMessage(message: string | undefined): {
+  triggered?: boolean;
+  thresholdType?: string;
+  thresholdValue?: number;
+} {
+  if (!message) {
+    return {};
+  }
+  const parsed: {
+    triggered?: boolean;
+    thresholdType?: string;
+    thresholdValue?: number;
+  } = {};
+  for (const token of message.split(/\s+/)) {
+    const separator = token.indexOf('=');
+    if (separator <= 0) {
+      continue;
+    }
+    const key = token.slice(0, separator);
+    const value = token.slice(separator + 1);
+    if (key === 'triggered') {
+      parsed.triggered = value === 'true';
+    } else if (key === 'thresholdType') {
+      parsed.thresholdType = value;
+    } else if (key === 'thresholdValue') {
+      const numeric = Number(value);
+      if (Number.isFinite(numeric)) {
+        parsed.thresholdValue = numeric;
+      }
+    }
+  }
+  return parsed;
+}
+
+export function buildExecuteEvidenceFromCurveResult(result: V2DpsCurveResult): V2DpsExecuteEvidence {
+  const entries = result.effectBreakdown
+    .filter((entry) => entry.kind === 'execute_threshold')
+    .map((entry) => {
+      const parsed = parseExecuteThresholdBreakdownMessage(entry.message);
+      return {
+        timeMs: entry.timeMs,
+        source: entry.source,
+        message: entry.message,
+        triggered: parsed.triggered,
+        thresholdType: parsed.thresholdType,
+        thresholdValue: parsed.thresholdValue
+      };
+    });
+  const sources = [...new Set(entries.map((entry) => entry.source).filter((value): value is string => Boolean(value)))];
+  const triggeredCount = entries.filter((entry) => entry.triggered === true).length;
+  const evidence: V2DpsExecuteEvidence = {
+    count: entries.length,
+    triggeredCount,
+    sources,
+    entries
+  };
+  if (result.stopReason === 'execute_threshold') {
+    evidence.stopReason = result.stopReason;
+  }
+  return evidence;
+}
+
+export function buildExecuteEvidenceByCurve(
+  curveResults: V2DpsCurveResult[],
+  activeCurveId?: string
+): V2DpsExecuteEvidenceByCurve {
+  const byCurve: Record<string, V2DpsExecuteEvidence> = {};
+  for (const result of curveResults) {
+    byCurve[result.curveId] = buildExecuteEvidenceFromCurveResult(result);
+  }
+  return {
+    activeCurve: activeCurveId ?? curveResults[0]?.curveId,
+    byCurve
+  };
 }
 
 export function prepareV2DpsInput(
@@ -2759,7 +2945,100 @@ function readDpsPassiveEffects(skill: Skill): V2DpsPassiveEffect[] {
   const mechanicsConfig = skill.mechanicsConfig as JsonObject | undefined;
   const raw = mechanicsConfig?.dpsPassiveEffects ?? mechanicsConfig?.dpsPassiveEffect;
   const values = Array.isArray(raw) ? raw : raw && typeof raw === 'object' ? [raw] : [];
-  return values.filter(isObjectRecord).map((value) => value as V2DpsPassiveEffect);
+  return values.filter(isObjectRecord).map((value) => preserveDpsPassiveEffectShape(value as V2DpsPassiveEffect));
+}
+
+function preserveDpsPassiveEffectShape(effect: V2DpsPassiveEffect): V2DpsPassiveEffect {
+  const operations = Array.isArray(effect.operations)
+    ? effect.operations.map((operation) => ({ ...operation }))
+    : effect.operations;
+  return {
+    ...effect,
+    operations
+  };
+}
+
+function hasDpsPassiveEffectsFieldPresent(skill: Skill): boolean {
+  const mechanicsConfig = skill.mechanicsConfig;
+  if (!mechanicsConfig || typeof mechanicsConfig !== 'object') {
+    return false;
+  }
+  const raw = mechanicsConfig.dpsPassiveEffects ?? mechanicsConfig.dpsPassiveEffect;
+  return raw !== undefined && raw !== null;
+}
+
+function resolvePublishedContractAudiences(item: Item, skills: Skill[]): EquipmentSkillRefAudience[] {
+  const ownedSkills = skills.filter((skill) => skill.ownerType === 'item' && skill.ownerId === item.itemId);
+  let hasTargetPassive = false;
+  let hasAttackerPassive = false;
+  for (const skill of ownedSkills) {
+    for (const effect of readDpsPassiveEffects(skill)) {
+      const ownerRole = normalizeDpsOwnerRole(effect.ownerRole);
+      if (ownerRole === 'target') {
+        hasTargetPassive = true;
+      } else {
+        hasAttackerPassive = true;
+      }
+    }
+  }
+  const audiences: EquipmentSkillRefAudience[] = [];
+  if (hasAttackerPassive || !hasTargetPassive) {
+    audiences.push('attacker');
+  }
+  if (hasTargetPassive) {
+    audiences.push('target');
+  }
+  if (audiences.length === 0) {
+    audiences.push('attacker');
+  }
+  return audiences;
+}
+
+function collectDpsPassiveEffectsShapeDiagnostics(item: Item, skills: Skill[]): PublishedContractDiagnostic[] {
+  const diagnostics: PublishedContractDiagnostic[] = [];
+  const itemId = item.itemId;
+  const itemName = item.name?.trim() || undefined;
+  for (const skill of skills) {
+    if (skill.ownerType !== 'item' || skill.ownerId !== itemId) {
+      continue;
+    }
+    const mechanicsConfig = skill.mechanicsConfig;
+    if (!mechanicsConfig || typeof mechanicsConfig !== 'object' || !('dpsPassiveEffects' in mechanicsConfig)) {
+      continue;
+    }
+    const raw = mechanicsConfig.dpsPassiveEffects;
+    if (raw === undefined || raw === null || Array.isArray(raw)) {
+      continue;
+    }
+    const skillName = skill.name?.trim() || undefined;
+    diagnostics.push({
+      scope: 'dps_equipment_skill_refs',
+      itemId,
+      itemName,
+      skillId: skill.skillId,
+      skillName,
+      severity: 'error',
+      code: 'dpsPassiveEffects_not_array',
+      message: `item ${itemId}${itemName ? ` (${itemName})` : ''}: skill ${skill.skillId}${skillName ? ` (${skillName})` : ''} mechanicsConfig.dpsPassiveEffects must be an array`
+    });
+  }
+  return diagnostics;
+}
+
+function toPublishedContractDiagnostic(diagnostic: EquipmentSkillRefDiagnostic): PublishedContractDiagnostic {
+  const severity = diagnostic.code === 'skillRef_ownerRole_mismatch'
+    ? 'warning'
+    : diagnostic.severity;
+  return {
+    scope: 'dps_equipment_skill_refs',
+    itemId: diagnostic.itemId,
+    itemName: diagnostic.itemName,
+    skillId: diagnostic.skillId,
+    skillName: diagnostic.skillName,
+    severity,
+    code: diagnostic.code,
+    message: diagnostic.message
+  };
 }
 
 function resolveDpsPassiveEffectBySkillLevel(

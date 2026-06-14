@@ -31,6 +31,8 @@ import {
   listV2DpsTargetDummyGroups,
   prepareV2DpsInput,
   STRICT_DPS_SKILL_REF_OPTIONS,
+  buildExecuteEvidenceByCurve,
+  buildExecuteEvidenceFromCurveResult,
   V2_DPS_CASE_ID,
   V2_DPS_INVALID_TARGET_REASON,
   V2_DPS_MISSING_BASIC_ATTACK_REASON,
@@ -54,6 +56,7 @@ import {
   type V2DpsSelection,
   type V2DpsEnergizedBundleCheck,
   type V2DpsStackingPassiveBundleCheck,
+  type V2DpsExecuteEvidence,
   type EquipmentSkillRefDiagnostic
 } from '../engine/tinygoV2DpsAdapter';
 import { summarizeCompiledStatusEvidence } from '../engine/tinygoV2BundleAdapter';
@@ -567,6 +570,16 @@ function WasmValidationV2DpsWorkbench({
     () => summarizeCompiledStatusEvidence(preparedInput?.engineBundle.statuses),
     [preparedInput]
   );
+  const executeEvidenceByCurve = useMemo(
+    () => buildExecuteEvidenceByCurve(wasmOutput?.curveResults ?? [], activeCurveResult?.curveId),
+    [activeCurveResult?.curveId, wasmOutput?.curveResults]
+  );
+  const activeExecuteEvidence = useMemo<V2DpsExecuteEvidence | null>(() => {
+    if (!activeCurveResult) {
+      return null;
+    }
+    return buildExecuteEvidenceFromCurveResult(activeCurveResult);
+  }, [activeCurveResult]);
   const exportPayload = useMemo(() => {
     if (!wasmOutput || !preparedInput) {
       return null;
@@ -599,9 +612,10 @@ function WasmValidationV2DpsWorkbench({
       targetSnapshot: wasmOutput.targetSnapshot,
       runInput: preparedInput.runInput,
       curveResults: wasmOutput.curveResults,
+      executeEvidence: executeEvidenceByCurve,
       wasmOutput
     };
-  }, [activeCurveResult, compiledStatusEvidence, preparedInput, wasmOutput]);
+  }, [activeCurveResult, compiledStatusEvidence, executeEvidenceByCurve, preparedInput, wasmOutput]);
 
   useEffect(() => {
     if (!chartElementRef.current) {
@@ -1547,6 +1561,25 @@ function WasmValidationV2DpsWorkbench({
 
         {activeCurveResult?.status === 'blocked' ? (
           <Alert type="warning" content={activeCurveResult.blockedReasons.join(' / ') || 'blocked'} />
+        ) : null}
+
+        {activeExecuteEvidence && (activeExecuteEvidence.count > 0 || activeExecuteEvidence.stopReason) ? (
+          <Panel title="Execute Threshold 证据" kicker="effectBreakdown kind=execute_threshold">
+            <Space direction="vertical" size={8} style={{ width: '100%' }}>
+              <Typography.Text>
+                当前曲线 execute 证据：count={activeExecuteEvidence.count}，triggered={activeExecuteEvidence.triggeredCount}
+                {activeExecuteEvidence.sources.length > 0 ? `，sources=${activeExecuteEvidence.sources.join(', ')}` : ''}
+              </Typography.Text>
+              {activeExecuteEvidence.stopReason ? (
+                <Typography.Text type="warning">
+                  stopReason={activeExecuteEvidence.stopReason}
+                </Typography.Text>
+              ) : null}
+              {activeExecuteEvidence.entries.length > 0 ? (
+                <JsonBlock value={activeExecuteEvidence.entries} />
+              ) : null}
+            </Space>
+          </Panel>
         ) : null}
 
         <Panel title="DPS Passive 摘要" kicker="resolvedSnapshot.passiveEffects grouped by ownerRole">
@@ -2916,9 +2949,21 @@ const equipmentSkillRefDiagnosticColumns = [
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => <Typography.Text code>{record.itemId}</Typography.Text>
   },
   {
+    title: 'itemName',
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
+      <Typography.Text>{record.itemName?.trim() || '—'}</Typography.Text>
+    )
+  },
+  {
     title: 'skillId',
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
       <Typography.Text code>{record.skillId ?? '—'}</Typography.Text>
+    )
+  },
+  {
+    title: 'skillName',
+    render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
+      <Typography.Text>{record.skillName?.trim() || '—'}</Typography.Text>
     )
   },
   {
