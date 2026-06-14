@@ -404,11 +404,33 @@ func validateDPSPassiveOperation(bundle compilebundle.CompiledBundle, passiveID 
 			reasons = append(reasons, "passive effect "+passiveID+" phantom_hit_on_hit_repeat requires repeatScope="+dpsRepeatScopeCopyableOnHit)
 		}
 	case dpsOpCritContextModifier:
-		if !op.ForceCrit && !op.HasCritMultiplierOverride {
-			reasons = append(reasons, "passive effect "+passiveID+" crit_context_modifier requires forceCrit or critMultiplierOverride")
+		if !op.ForceCrit && !op.HasCritMultiplierOverride && !op.HasCritMultiplierScale {
+			reasons = append(reasons, "passive effect "+passiveID+" crit_context_modifier requires forceCrit, critMultiplierOverride, or critMultiplierScale")
+		}
+		if op.HasCritMultiplierOverride && op.HasCritMultiplierScale {
+			reasons = append(reasons, "passive effect "+passiveID+" crit_context_modifier cannot combine critMultiplierOverride and critMultiplierScale")
 		}
 		if op.HasCritMultiplierOverride && (math.IsNaN(op.CritMultiplierOverride) || math.IsInf(op.CritMultiplierOverride, 0) || op.CritMultiplierOverride <= 0) {
 			reasons = append(reasons, "passive effect "+passiveID+" crit_context_modifier has invalid critMultiplierOverride")
+		}
+		if op.HasCritMultiplierScale && (math.IsNaN(op.CritMultiplierScale) || math.IsInf(op.CritMultiplierScale, 0) || op.CritMultiplierScale <= 0) {
+			reasons = append(reasons, "passive effect "+passiveID+" crit_context_modifier has invalid critMultiplierScale")
+		}
+	case dpsOpExecuteThreshold:
+		switch strings.TrimSpace(op.ThresholdType) {
+		case dpsThresholdTypeCurrentHPRatio, dpsThresholdTypeCurrentHPValue:
+		default:
+			reasons = append(reasons, "passive effect "+passiveID+" execute_threshold has unsupported thresholdType "+op.ThresholdType)
+		}
+		if math.IsNaN(op.ThresholdValue) || math.IsInf(op.ThresholdValue, 0) || op.ThresholdValue < 0 {
+			reasons = append(reasons, "passive effect "+passiveID+" execute_threshold has invalid thresholdValue")
+		}
+		checkTiming := strings.TrimSpace(op.CheckTiming)
+		if checkTiming == "" {
+			checkTiming = dpsCheckTimingAfterDamage
+		}
+		if checkTiming != dpsCheckTimingAfterDamage {
+			reasons = append(reasons, "passive effect "+passiveID+" execute_threshold has unsupported checkTiming "+op.CheckTiming)
 		}
 	default:
 		reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation "+op.Kind)
@@ -568,10 +590,10 @@ func validateDPSOperationTargetRole(passiveID string, op model.DPSPassiveOperati
 		} else if role != "" && role != dpsRoleTarget {
 			reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
 		}
-	case dpsOpApplyDot, dpsOpTriggerDamageAtStacks:
+	case dpsOpApplyDot, dpsOpTriggerDamageAtStacks, dpsOpExecuteThreshold:
 		if role == dpsRoleAttacker {
 			reasons = append(reasons, "passive effect "+passiveID+" operation "+op.Kind+" does not support targetRole attacker")
-		} else if role != dpsRoleTarget {
+		} else if role != "" && role != dpsRoleTarget {
 			reasons = append(reasons, "passive effect "+passiveID+" has unsupported operation targetRole "+op.TargetRole)
 		}
 	case dpsOpCoefficientModifier:
