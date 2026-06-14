@@ -28,6 +28,7 @@ const (
 
 	dpsOpDamage                     = "damage"
 	dpsEffectNextAttackStateConsume = "next_attack_state_consume"
+	dpsEffectPassiveCooldown        = "passive_cooldown"
 	dpsOpApplyDot                   = "apply_dot"
 	dpsOpAddStack                   = "add_stack"
 	dpsOpTriggerDamageAtStacks      = "trigger_damage_at_stacks"
@@ -109,6 +110,8 @@ type dpsCombatEventContext struct {
 	ExpectedCritPart    float64
 	CritBound           *model.NumericBoundEvidenceV2
 	ProcScope           string
+
+	PassiveCooldownGate *passiveCooldownGate
 }
 
 type dpsDamageApplication struct {
@@ -196,4 +199,9 @@ type dpsCurveState struct {
 	consumedScenarioStates map[string]bool
 	energizedCharge        map[string]float64
 	energizedReady         map[string]bool
+	passiveCooldownReadyAt map[string]int64
+
+	critChanceEvidenceKey       string
+	critChanceRawForEvidence    float64
+	hasCritChanceRawForEvidence bool
 }

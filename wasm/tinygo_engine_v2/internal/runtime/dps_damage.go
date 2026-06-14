@@ -31,7 +31,7 @@ func (state *dpsCurveState) applyDamageWithContext(
 	result := dpsDamageApplication{RawDamage: rawAmount}
 	amount := rawAmount
 	if ctx != nil {
-		preMitigation, finalAmount, ok := state.resolveCombatDamageAmount(*ctx, damageType, rawAmount)
+		preMitigation, finalAmount, ok := state.resolveCombatDamageAmount(ctx, damageType, rawAmount)
 		if !ok {
 			return result
 		}
@@ -255,17 +255,21 @@ func resolveCritContextModifierMultiplier(critCtx *model.DPSCritContextV2, op mo
 }
 
 func (state *dpsCurveState) applyCritContextModifiers(
-	ctx dpsCombatEventContext,
+	ctx *dpsCombatEventContext,
 	critCtx *model.DPSCritContextV2,
 	rawAmount float64,
 ) *model.DPSCritContextV2 {
-	if critCtx == nil || !critCtx.HasContext {
+	if critCtx == nil || !critCtx.HasContext || ctx == nil {
 		return critCtx
 	}
-	entries := state.collectCritContextModifierEntries(ctx)
+	entries := state.collectCritContextModifierEntries(*ctx)
+	cooldownGate := ensurePassiveCooldownGate(ctx)
 	for _, entry := range entries {
 		passive := entry.passive
 		op := entry.op
+		if !state.checkPassiveCooldownGate(ctx.TimeMs, passive, cooldownGate) {
+			continue
+		}
 		resolvedMultiplier := resolveCritContextModifierMultiplier(critCtx, op)
 		if op.ForceCrit {
 			critCtx.Multiplier = resolvedMultiplier
@@ -282,7 +286,10 @@ func (state *dpsCurveState) applyCritContextModifiers(
 				critCtx.ExpectedCritPart = critPart
 			}
 		}
-		state.recordPassiveTrigger(ctx.TimeMs, passive)
+		runtimeKey := passiveRuntimeKey(passive)
+		if !cooldownGate.triggered[runtimeKey] {
+			state.recordPassiveTrigger(ctx.TimeMs, passive)
+		}
 		message := "forceCrit=" + boolToString(op.ForceCrit)
 		if op.HasCritMultiplierOverride {
 			message += " multiplierOverride=" + floatToString(op.CritMultiplierOverride)
@@ -299,6 +306,7 @@ func (state *dpsCurveState) applyCritContextModifiers(
 			Message:     message,
 			CritContext: cloneDPSCritContext(critCtx),
 		})
+		state.markPassiveCooldownTriggeredOnce(ctx.TimeMs, passive, cooldownGate)
 	}
 	return critCtx
 }
@@ -446,8 +454,9 @@ func (state *dpsCurveState) processActiveActionDamageEffect(
 		IsOnHit:        true,
 		ProcScope:      procScope,
 	}
+	preDamageCtx.PassiveCooldownGate = newPassiveCooldownGate()
 	if critCtx.HasContext {
-		critCtx = *state.applyCritContextModifiers(preDamageCtx, &critCtx, rawAmount)
+		critCtx = *state.applyCritContextModifiers(&preDamageCtx, &critCtx, rawAmount)
 		expectedDamage = critCtx.ExpectedNormalPart + critCtx.ExpectedCritPart
 		preDamageCtx.RawDamage = expectedDamage
 		state.applyCritContextToCombat(&preDamageCtx, critCtx)
@@ -470,6 +479,7 @@ func (state *dpsCurveState) processActiveActionDamageEffect(
 	} else {
 		combatCtx = state.buildSkillCombatContext(timeMs, *sched, compiledAction, damageType, app)
 	}
+	combatCtx.PassiveCooldownGate = preDamageCtx.PassiveCooldownGate
 	state.applyCritContextToCombat(&combatCtx, critCtx)
 	return combatCtx, app, true
 }

@@ -3216,6 +3216,640 @@ func lastDPSOutput(t *testing.T, outbox []byte) model.SingleAttackerDPSOutputV2 
 	return output
 }
 
+func testOnHitCooldownPassive(internalCooldownMs int64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:          "test_on_hit_cooldown",
+		SourceCategory:     "item_passive",
+		SourceID:           "test_on_hit_cooldown_item",
+		SourceType:         "item",
+		TriggerID:          "test_on_hit_cooldown_trigger",
+		TriggerKind:        dpsTriggerOnBasicAttackHit,
+		InternalCooldownMs: internalCooldownMs,
+		Operations: []model.DPSPassiveOperationV2{{
+			Kind:       dpsOpDamage,
+			Source:     "test_on_hit_cooldown_proc",
+			DamageType: "magic",
+			Amount:     10,
+		}},
+	}
+}
+
+func passiveCooldownEvidenceCount(result model.DPSCurveResultV2, triggered bool, skipped bool) int {
+	count := 0
+	for _, event := range result.EffectBreakdown {
+		if event.Kind != dpsEffectPassiveCooldown || event.PassiveCooldown == nil {
+			continue
+		}
+		if triggered && event.PassiveCooldown.Triggered {
+			count++
+		}
+		if skipped && event.PassiveCooldown.Skipped {
+			count++
+		}
+	}
+	return count
+}
+
+func passiveCooldownEvidenceAt(result model.DPSCurveResultV2, timeMs int64) *model.DPSEffectBreakdownV2 {
+	for i := range result.EffectBreakdown {
+		event := &result.EffectBreakdown[i]
+		if event.Kind == dpsEffectPassiveCooldown && event.TimeMs == timeMs {
+			return event
+		}
+	}
+	return nil
+}
+
+func TestSingleAttackerDPSPassiveInternalCooldownSkipsUntilReady(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1001
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testOnHitCooldownPassive(1000))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.AttackCount != 3 {
+		t.Fatalf("attackCount = %d, want 3 attacks despite cooldown skip", result.AttackCount)
+	}
+	if got := damageCountBySourceAt(result, "test_on_hit_cooldown_proc", 0); got != 1 {
+		t.Fatalf("proc at 0ms = %d, want 1", got)
+	}
+	if got := damageCountBySourceAt(result, "test_on_hit_cooldown_proc", 500); got != 0 {
+		t.Fatalf("proc at 500ms = %d, want cooldown skip", got)
+	}
+	if got := damageCountBySourceAt(result, "test_on_hit_cooldown_proc", 1000); got != 1 {
+		t.Fatalf("proc at 1000ms = %d, want 1 after cooldown", got)
+	}
+	if got := result.DamageBySource["test_on_hit_cooldown_proc"]; !almostEqual(got, 20) {
+		t.Fatalf("damageBySource proc = %.4f, want 20 from two triggers only", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 2 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 2", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got != 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want 1 at 500ms", got)
+	}
+	if skipped := passiveCooldownEvidenceAt(result, 500); skipped == nil || !skipped.PassiveCooldown.Skipped {
+		t.Fatalf("skipped evidence at 500ms = %+v, want skipped=true", skipped)
+	}
+}
+
+func TestSingleAttackerDPSPassiveInternalCooldownDoesNotBlockBaseAttack(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 501
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, testOnHitCooldownPassive(1000))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.AttackCount != 2 {
+		t.Fatalf("attackCount = %d, want 2", result.AttackCount)
+	}
+	if got := damageCountBySourceAt(result, "test_on_hit_cooldown_proc", 500); got != 0 {
+		t.Fatalf("passive proc at 500ms = %d, want cooldown skip", got)
+	}
+	basicAttackDamage := 0.0
+	for _, event := range result.DamageTimeline {
+		if event.TimeMs == 500 && !event.PhantomHit {
+			basicAttackDamage += event.FinalDamage
+		}
+	}
+	if !almostEqual(basicAttackDamage, 100) {
+		t.Fatalf("basic attack damage at 500ms = %.4f, want 100 despite passive cooldown", basicAttackDamage)
+	}
+}
+
+func TestSingleAttackerDPSEveryNPassiveCooldownOrder(t *testing.T) {
+	passive := vayneSilverBoltsPassive()
+	passive.InternalCooldownMs = 1000
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 2501
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 0
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.SkillPassiveTriggers) != 1 || result.SkillPassiveTriggers[0].TimeMs != 2000 {
+		t.Fatalf("skillPassiveTriggers = %+v, want every-N proc on third hit at 2000ms", result.SkillPassiveTriggers)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want one proc at third hit", got)
+	}
+}
+
+func TestSingleAttackerDPSIncomingModifierInternalCooldown(t *testing.T) {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.InternalCooldownMs = 1000
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 501
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "target_item_slot", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) < 2 {
+		t.Fatalf("damageTimeline = %+v, want at least two basic attacks", result.DamageTimeline)
+	}
+	firstHit := result.DamageTimeline[0]
+	secondHit := result.DamageTimeline[1]
+	if !almostEqual(firstHit.FinalDamage, 80) {
+		t.Fatalf("first hit finalDamage = %.4f, want 80 with incoming modifier", firstHit.FinalDamage)
+	}
+	if !almostEqual(secondHit.FinalDamage, 100) {
+		t.Fatalf("second hit finalDamage = %.4f, want 100 without modifier during cooldown", secondHit.FinalDamage)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one modifier trigger", result.ItemPassiveTriggers)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got != 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want 1 on second hit", got)
+	}
+}
+
+func TestSingleAttackerDPSHPChangeBucketInternalCooldown(t *testing.T) {
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
+	passive.InternalCooldownMs = 1000
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 501
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) < 2 {
+		t.Fatalf("damageTimeline = %+v, want at least two basic attacks", result.DamageTimeline)
+	}
+	firstHit := result.DamageTimeline[0]
+	secondHit := result.DamageTimeline[1]
+	if !almostEqual(firstHit.FinalDamage, 80) {
+		t.Fatalf("first hit finalDamage = %.4f, want 80 with bucket modifier", firstHit.FinalDamage)
+	}
+	if !almostEqual(secondHit.FinalDamage, 100) {
+		t.Fatalf("second hit finalDamage = %.4f, want 100 without modifier during cooldown", secondHit.FinalDamage)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one modifier trigger", result.ItemPassiveTriggers)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got != 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want 1 on second hit", got)
+	}
+	bucketEvidence := findCoefficientBucketEffectBreakdown(result, "bucketKey=incoming_physical_reduction aggregationMode=add valueUnit=percent_delta raw=100 result=100")
+	if bucketEvidence == nil || bucketEvidence.CoefficientBucket == nil {
+		t.Fatalf("effectBreakdown = %+v, want skipped coefficient_bucket evidence on cooldown hit", result.EffectBreakdown)
+	}
+	foundCooldownSkip := false
+	for _, candidate := range bucketEvidence.CoefficientBucket.Skipped {
+		if !candidate.Applied && candidate.SkipReason == "passive_cooldown" {
+			foundCooldownSkip = true
+			break
+		}
+	}
+	if !foundCooldownSkip {
+		t.Fatalf("coefficientBucket.skipped = %+v, want skipped reason passive_cooldown", bucketEvidence.CoefficientBucket.Skipped)
+	}
+}
+
+func TestSingleAttackerDPSIncomingModifierMultiOpSharesCooldownGate(t *testing.T) {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.InternalCooldownMs = 1000
+	passive.Operations = append(passive.Operations, model.DPSPassiveOperationV2{
+		Kind:         dpsOpDamageModifier,
+		Source:       "randuins_incoming_reduction_second",
+		TargetRole:   "target",
+		ModifierMode: "percent",
+		Value:        -0.1,
+		ValuePhase:   "incoming",
+	})
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "target_item_slot", passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 {
+		t.Fatalf("damageTimeline = %+v, want one basic attack", result.DamageTimeline)
+	}
+	if !almostEqual(result.DamageTimeline[0].FinalDamage, 72) {
+		t.Fatalf("finalDamage = %.4f, want 72 from both modifiers in one event", result.DamageTimeline[0].FinalDamage)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1 shared gate for both operations", got)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one shared passive trigger", result.ItemPassiveTriggers)
+	}
+}
+
+func physicalBasicAttackFinalDamageAt(result model.DPSCurveResultV2, timeMs int64) float64 {
+	for _, event := range result.DamageTimeline {
+		if event.TimeMs == timeMs && event.DamageType == "physical" && !event.PhantomHit {
+			return event.FinalDamage
+		}
+	}
+	return 0
+}
+
+func mixedCooldownCritContextAndDamagePassive(internalCooldownMs int64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:          "test_crit_damage_shared_gate",
+		SourceCategory:     "item_passive",
+		SourceID:           "test_crit_damage_item",
+		SourceType:         "item",
+		TriggerID:          "test_crit_damage_trigger",
+		TriggerKind:        dpsTriggerOnBasicAttackHit,
+		InternalCooldownMs: internalCooldownMs,
+		Operations: []model.DPSPassiveOperationV2{
+			{
+				Kind:                      dpsOpCritContextModifier,
+				Source:                    "test_crit_mod",
+				ForceCrit:                 true,
+				HasCritMultiplierOverride: true,
+				CritMultiplierOverride:    2,
+			},
+			{
+				Kind:       dpsOpDamage,
+				Source:     "test_crit_damage_proc",
+				DamageType: "magic",
+				Amount:     10,
+			},
+		},
+	}
+}
+
+func mixedCooldownIncomingModifierAndDamagePassive(internalCooldownMs int64) model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.InternalCooldownMs = internalCooldownMs
+	passive.Operations = append(passive.Operations, model.DPSPassiveOperationV2{
+		Kind:       dpsOpDamage,
+		Source:     "randuins_bonus_damage",
+		DamageType: "magic",
+		Amount:     15,
+	})
+	return passive
+}
+
+func mixedCooldownHPBucketAndDamagePassive(internalCooldownMs int64) model.DPSPassiveEffectV2 {
+	passive := syntheticHPChangeIncomingPhysicalBucketPassive(-0.2)
+	passive.InternalCooldownMs = internalCooldownMs
+	passive.Operations = append(passive.Operations, model.DPSPassiveOperationV2{
+		Kind:       dpsOpDamage,
+		Source:     "hp_bucket_bonus_damage",
+		DamageType: "magic",
+		Amount:     12,
+	})
+	return passive
+}
+
+func mixedCooldownNextAttackPassive(stateID string, internalCooldownMs int64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:               "item_next_attack_mixed_cooldown_test",
+		SourceCategory:          "item_passive",
+		SourceID:                "item_next_attack_mixed_cooldown",
+		SourceType:              "item",
+		TriggerID:               "next_attack_mixed_cooldown",
+		TriggerKind:             dpsTriggerNextBasicAttackAfterState,
+		RequiresScenarioStateID: stateID,
+		InternalCooldownMs:      internalCooldownMs,
+		Operations: []model.DPSPassiveOperationV2{
+			{
+				Kind:                      dpsOpCritContextModifier,
+				Source:                    "next_attack_mixed_crit",
+				ForceCrit:                 true,
+				HasCritMultiplierOverride: true,
+				CritMultiplierOverride:    2,
+			},
+			{
+				Kind:       dpsOpDamage,
+				Source:     "next_attack_mixed_proc",
+				DamageType: "physical",
+				Amount:     50,
+			},
+		},
+	}
+}
+
+func mixedCooldownPhantomPassive(internalCooldownMs int64) model.DPSPassiveEffectV2 {
+	return model.DPSPassiveEffectV2{
+		PassiveID:          "test_phantom_shared_gate",
+		SourceCategory:     "item_passive",
+		SourceID:           "test_phantom_shared_gate_item",
+		SourceType:         "item",
+		TriggerID:          "test_phantom_shared_gate_trigger",
+		TriggerKind:        dpsTriggerOnBasicAttackHit,
+		InternalCooldownMs: internalCooldownMs,
+		Operations: []model.DPSPassiveOperationV2{
+			{Kind: dpsOpAddStack, Source: "test_phantom_gate_stack", StackKey: "test_phantom_gate_stack", MaxStacks: 4, RefreshMode: "refresh"},
+			{Kind: dpsOpDamage, Source: "test_phantom_gate_copyable", DamageType: "magic", Amount: 20, PhantomHitCopyable: true},
+			{
+				Kind:          dpsOpPhantomHitOnHitRepeat,
+				Source:        "test_phantom_gate_repeat",
+				StackKey:      "test_phantom_gate_stack",
+				TriggerStacks: 1,
+				RepeatCount:   1,
+				RepeatTag:     "phantom_gate",
+				RepeatScope:   dpsRepeatScopeCopyableOnHit,
+			},
+		},
+	}
+}
+
+func TestSingleAttackerDPSPassiveCooldownSharesGateAcrossCritContextAndDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 501
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, mixedCooldownCritContextAndDamagePassive(1000))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if result.AttackCount != 2 {
+		t.Fatalf("attackCount = %d, want 2 basic attacks despite cooldown skip", result.AttackCount)
+	}
+	if got := damageCountBySourceAt(result, "test_crit_damage_proc", 0); got != 1 {
+		t.Fatalf("proc at 0ms = %d, want crit modifier and damage op both firing once", got)
+	}
+	if got := damageCountBySourceAt(result, "test_crit_damage_proc", 500); got != 0 {
+		t.Fatalf("proc at 500ms = %d, want cooldown skip", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsOpCritContextModifier, "forceCrit=true") {
+		t.Fatalf("effectBreakdown = %+v, want crit modifier evidence on first hit", result.EffectBreakdown)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one shared passive trigger", result.ItemPassiveTriggers)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got != 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want 1 at 500ms", got)
+	}
+	if got := result.DamageBySource["test_crit_damage_proc"]; !almostEqual(got, 10) {
+		t.Fatalf("damageBySource proc = %.4f, want 10 from first hit only", got)
+	}
+}
+
+func TestSingleAttackerDPSPassiveCooldownSharesGateAcrossIncomingModifierAndDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 501
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "target_item_slot", mixedCooldownIncomingModifierAndDamagePassive(1000))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) < 2 {
+		t.Fatalf("damageTimeline = %+v, want at least two basic attacks", result.DamageTimeline)
+	}
+	if !almostEqual(physicalBasicAttackFinalDamageAt(result, 0), 80) {
+		t.Fatalf("first hit basic attack = %.4f, want 80 with incoming modifier", physicalBasicAttackFinalDamageAt(result, 0))
+	}
+	if !almostEqual(physicalBasicAttackFinalDamageAt(result, 500), 100) {
+		t.Fatalf("second hit basic attack = %.4f, want 100 without modifier during cooldown", physicalBasicAttackFinalDamageAt(result, 500))
+	}
+	if got := damageCountBySourceAt(result, "randuins_bonus_damage", 0); got != 1 {
+		t.Fatalf("bonus damage at 0ms = %d, want incoming modifier and damage op both firing", got)
+	}
+	if got := damageCountBySourceAt(result, "randuins_bonus_damage", 500); got != 0 {
+		t.Fatalf("bonus damage at 500ms = %d, want cooldown skip", got)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one shared passive trigger", result.ItemPassiveTriggers)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got != 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want 1 at 500ms", got)
+	}
+}
+
+func TestSingleAttackerDPSPassiveCooldownSharesGateAcrossHPBucketAndDamage(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 501
+	curve := &input.Curves[0]
+	enableTargetDPSPassivesForTest(curve, "item_hp_change_incoming_physical", mixedCooldownHPBucketAndDamagePassive(1000))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if !almostEqual(physicalBasicAttackFinalDamageAt(result, 0), 80) {
+		t.Fatalf("first hit basic attack = %.4f, want 80 with hp_change bucket", physicalBasicAttackFinalDamageAt(result, 0))
+	}
+	if !almostEqual(physicalBasicAttackFinalDamageAt(result, 500), 100) {
+		t.Fatalf("second hit basic attack = %.4f, want 100 without bucket during cooldown", physicalBasicAttackFinalDamageAt(result, 500))
+	}
+	if got := damageCountBySourceAt(result, "hp_bucket_bonus_damage", 0); got != 1 {
+		t.Fatalf("bonus damage at 0ms = %d, want bucket and damage op both firing", got)
+	}
+	if got := damageCountBySourceAt(result, "hp_bucket_bonus_damage", 500); got != 0 {
+		t.Fatalf("bonus damage at 500ms = %d, want cooldown skip", got)
+	}
+	if len(result.ItemPassiveTriggers) != 1 {
+		t.Fatalf("itemPassiveTriggers = %v, want one shared passive trigger", result.ItemPassiveTriggers)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got != 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want 1 at 500ms", got)
+	}
+}
+
+func TestSingleAttackerDPSNextAttackStateCooldownMixedPreDamageConsumesOnlyOnTriggered(t *testing.T) {
+	stateID := "next_attack_mixed_cooldown_ready"
+	scenario := spellbladeScenarioState(stateID, 0, 8000)
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1501
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, mixedCooldownNextAttackPassive(stateID, 1000))
+	curve.Selection.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{scenario}
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageCountBySource(result, "next_attack_mixed_proc"); got != 1 {
+		t.Fatalf("next_attack proc count = %d, want one trigger on first hit only", got)
+	}
+	if got := damageCountBySourceAt(result, "next_attack_mixed_proc", 500); got != 0 {
+		t.Fatalf("proc at 500ms = %d, want cooldown skip without extra state consume", got)
+	}
+	if got := energizedBreakdownCount(result, dpsEffectNextAttackStateConsume); got != 1 {
+		t.Fatalf("next_attack_state_consume evidence = %d, want exactly one consume on triggered hit", got)
+	}
+	if !effectBreakdownMessageContains(result, dpsEffectNextAttackStateConsume, "consumedScenarioStateId="+stateID) {
+		t.Fatalf("effectBreakdown = %+v, want consume evidence for %s", result.EffectBreakdown, stateID)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1", got)
+	}
+}
+
+func TestSingleAttackerDPSPhantomCooldownSharesGateWithRealHit(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 501
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, mixedCooldownPhantomPassive(1000))
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageCountBySourceAt(result, "test_phantom_gate_copyable", 0); got != 2 {
+		t.Fatalf("copyable damage at 0ms = %d, want real hit + phantom on same event", got)
+	}
+	if got := phantomDamageCountBySourceAt(result, "test_phantom_gate_copyable", 0); got != 1 {
+		t.Fatalf("phantom copyable damage at 0ms = %d, want 1", got)
+	}
+	if got := damageCountBySourceAt(result, "test_phantom_gate_copyable", 500); got != 0 {
+		t.Fatalf("copyable damage at 500ms = %d, want cooldown skip for future attack", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, true, false); got != 1 {
+		t.Fatalf("triggered passive_cooldown evidence = %d, want 1", got)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got != 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want 1 at 500ms", got)
+	}
+}
+
+func TestSingleAttackerDPSEnergizedInternalCooldownDoesNotConsumeWhenSkipped(t *testing.T) {
+	passive := testEnergizedPassive()
+	passive.InternalCooldownMs = 5000
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 3501
+	curve := &input.Curves[0]
+	enableDPSPassivesForTest(curve, passive)
+	configureEnergizedCurve(curve, 3501, 1)
+	curve.ResolvedSnapshot.ScenarioStates = []model.DPSScenarioStateV2{
+		energizedScenarioCharge("test_energized_charge", 3),
+	}
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if got := damageCountBySourceAt(result, "test_energized_proc", 0); got != 1 {
+		t.Fatalf("proc at 0ms = %d, want initial ready proc", got)
+	}
+	if got := damageCountBySourceAt(result, "test_energized_proc", 3000); got != 0 {
+		t.Fatalf("proc at 3000ms = %d, want cooldown skip", got)
+	}
+	check := energizedBreakdownAt(result, dpsEffectEnergizedChargeCheck, 3000)
+	if check == nil || strings.Contains(check.Message, "consumed=true") || strings.Contains(check.Message, "triggered=true") {
+		t.Fatalf("check at 3000ms = %+v, want no consume/trigger during cooldown", check)
+	}
+	if got := passiveCooldownEvidenceCount(result, false, true); got < 1 {
+		t.Fatalf("skipped passive_cooldown evidence = %d, want at least one", got)
+	}
+}
+
+func TestSingleAttackerDPSRejectsNegativeInternalCooldownMs(t *testing.T) {
+	input := baseSingleAttackerDPSInput()
+	curve := &input.Curves[0]
+	passive := testOnHitCooldownPassive(-1)
+	enableDPSPassivesForTest(curve, passive)
+
+	result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked", result.Status)
+	}
+	found := false
+	for _, reason := range result.BlockedReasons {
+		if strings.Contains(reason, "test_on_hit_cooldown") && strings.Contains(reason, "internalCooldownMs=-1") {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Fatalf("blockedReasons = %v, want passive id and negative internalCooldownMs", result.BlockedReasons)
+	}
+}
+
 func testEnergizedPassive() model.DPSPassiveEffectV2 {
 	return model.DPSPassiveEffectV2{
 		PassiveID:                "test_energized_passive",
@@ -6433,6 +7067,80 @@ func TestSingleAttackerDPSInitialSnapshotAttributeBounds(t *testing.T) {
 	}
 	if got := result.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"]; !almostEqual(got, 1) {
 		t.Fatalf("resolved crit_chance = %.4f, want 1", got)
+	}
+}
+
+func TestSingleAttackerDPSOverCapCritChanceEvidenceDoesNotSynthesizeAttributeView(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, attr := range bundle.Attributes {
+			if attr.ID != "crit_chance" {
+				continue
+			}
+			bundle.Attributes[i].HasClampMin = true
+			bundle.Attributes[i].ClampMin = 0
+			bundle.Attributes[i].HasClampMax = true
+			bundle.Attributes[i].ClampMax = 1
+		}
+	})
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 500
+	passive := attackerAttrRatioOnHitPassive("missing_crit_base_view", "crit_chance", 2, model.AttrReadBase)
+	curve := &input.Curves[0]
+	curve.CurveID = "over-cap-crit-evidence-no-view-synthesis"
+	enableDPSPassivesForTest(curve, passive)
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 1.25
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
+	if result.Status != "blocked" {
+		t.Fatalf("status = %s, want blocked when base view is missing even with over-cap crit_chance", result.Status)
+	}
+	if !blockedReasonContains(result, "requires attacker attr view crit_chance for read base") {
+		t.Fatalf("blockedReasons = %v, want missing base view block", result.BlockedReasons)
+	}
+}
+
+func TestSingleAttackerDPSBasicAttackCritChanceBoundEvidence(t *testing.T) {
+	bundle := compileDPSTestBundlePatched(t, func(bundle *model.EngineBundle) {
+		for i, attr := range bundle.Attributes {
+			if attr.ID != "crit_chance" {
+				continue
+			}
+			bundle.Attributes[i].HasClampMin = true
+			bundle.Attributes[i].ClampMin = 0
+			bundle.Attributes[i].HasClampMax = true
+			bundle.Attributes[i].ClampMax = 1
+		}
+	})
+	input := baseSingleAttackerDPSInput()
+	input.SimulationRules.DurationMs = 1
+	curve := &input.Curves[0]
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = 100
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_chance"] = 1.25
+	curve.ResolvedSnapshot.AttackerSnapshot.Attributes["crit_damage"] = 2
+	curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 10000
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+	curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+	result := runSingleAttackerDPSWithBundle(t, bundle, input).CurveResults[0]
+	if result.Status != "ok" {
+		t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+	}
+	if len(result.DamageTimeline) != 1 || !almostEqual(result.DamageTimeline[0].FinalDamage, 200) {
+		t.Fatalf("damageTimeline = %+v, want bounded expected crit damage 200", result.DamageTimeline)
+	}
+	critCtx := result.DamageTimeline[0].CritContext
+	if critCtx == nil {
+		t.Fatalf("critContext missing, want bound evidence for raw 1.25 -> 1")
+	}
+	if !almostEqual(critCtx.ChanceRaw, 1.25) || !almostEqual(critCtx.ChanceEffective, 1) {
+		t.Fatalf("critContext chance = raw %.4f effective %.4f, want raw 1.25 effective 1", critCtx.ChanceRaw, critCtx.ChanceEffective)
+	}
+	bound := critCtx.BoundEvidence
+	if bound == nil || !bound.WasClamped || !almostEqual(bound.RawValue, 1.25) || !almostEqual(bound.BoundedValue, 1) {
+		t.Fatalf("critContext.boundEvidence = %+v, want wasClamped raw=1.25 bounded=1", bound)
 	}
 }
 

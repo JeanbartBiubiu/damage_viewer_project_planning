@@ -63,7 +63,9 @@ func newDPSCurveState(
 		consumedScenarioStates: map[string]bool{},
 		energizedCharge:        map[string]float64{},
 		energizedReady:         map[string]bool{},
+		passiveCooldownReadyAt: map[string]int64{},
 	}
+	state.captureDPSCritChanceRawForEvidence(state.attrs)
 	state.boundDPSAttrMap(state.baseAttrs)
 	state.boundDPSAttrMap(state.attrs)
 	state.boundDPSAttrMap(state.targetBaseAttrs)
@@ -171,10 +173,41 @@ func (state *dpsCurveState) syncRunContextFromDPSState(timeMs int64) {
 		return
 	}
 	state.runCtx.NowMs = timeMs
-	applyDPSAttributesToStore(&state.runCtx.Actors[state.attackerIdx].Attrs, state.bundle.AttrIndex, state.attrs)
+	attrsForSync := copyDPSFloatMap(state.attrs)
+	if state.hasCritChanceRawForEvidence {
+		attrsForSync[state.critChanceEvidenceKey] = state.critChanceRawForEvidence
+	}
+	applyDPSAttributesToStore(&state.runCtx.Actors[state.attackerIdx].Attrs, state.bundle.AttrIndex, attrsForSync)
 	state.runCtx.Actors[state.attackerIdx].HP = state.runCtx.Actors[state.attackerIdx].MaxHP
 	state.runCtx.Actors[state.targetIdx].HP = state.targetHP
 	state.runCtx.Done = false
+}
+
+func (state *dpsCurveState) captureDPSCritChanceRawForEvidence(preBoundAttrs map[string]float64) {
+	if len(preBoundAttrs) == 0 {
+		return
+	}
+	attrKey, raw, ok := dpsFirstFiniteAttrKey(preBoundAttrs, "crit_chance", "critChance")
+	if !ok {
+		return
+	}
+	if state.boundDPSAttrValue(attrKey, raw) == raw {
+		return
+	}
+	state.critChanceEvidenceKey = attrKey
+	state.critChanceRawForEvidence = raw
+	state.hasCritChanceRawForEvidence = true
+}
+
+func dpsFirstFiniteAttrKey(attrs map[string]float64, keys ...string) (string, float64, bool) {
+	for _, key := range keys {
+		value, ok := attrs[key]
+		if !ok || math.IsNaN(value) || math.IsInf(value, 0) {
+			continue
+		}
+		return key, value, true
+	}
+	return "", 0, false
 }
 
 func (state *dpsCurveState) setDPSActionReadyAt(actionIndex uint16, readyAtMs int64) {
@@ -322,4 +355,128 @@ func (state *dpsCurveState) expireStacks(timeMs int64) {
 			delete(state.stacks, key)
 		}
 	}
+}
+
+func (state *dpsCurveState) passiveInternalCooldownMs(passive model.DPSPassiveEffectV2) int64 {
+	if passive.InternalCooldownMs <= 0 {
+		return 0
+	}
+	return passive.InternalCooldownMs
+}
+
+func (state *dpsCurveState) passiveCooldownReady(passive model.DPSPassiveEffectV2, timeMs int64) (ready bool, readyAt int64) {
+	cd := state.passiveInternalCooldownMs(passive)
+	if cd <= 0 {
+		return true, 0
+	}
+	key := passiveRuntimeKey(passive)
+	readyAt = state.passiveCooldownReadyAt[key]
+	return timeMs >= readyAt, readyAt
+}
+
+func (state *dpsCurveState) tryPassiveInternalCooldown(timeMs int64, passive model.DPSPassiveEffectV2) bool {
+	gate := newPassiveCooldownGate()
+	return state.checkPassiveCooldownGate(timeMs, passive, gate)
+}
+
+func ensurePassiveCooldownGate(ctx *dpsCombatEventContext) *passiveCooldownGate {
+	if ctx == nil {
+		return newPassiveCooldownGate()
+	}
+	if ctx.PassiveCooldownGate == nil {
+		ctx.PassiveCooldownGate = newPassiveCooldownGate()
+	}
+	return ctx.PassiveCooldownGate
+}
+
+type passiveCooldownGate struct {
+	allowed   map[string]bool
+	skipped   map[string]bool
+	triggered map[string]bool
+}
+
+func newPassiveCooldownGate() *passiveCooldownGate {
+	return &passiveCooldownGate{
+		allowed:   map[string]bool{},
+		skipped:   map[string]bool{},
+		triggered: map[string]bool{},
+	}
+}
+
+func (state *dpsCurveState) checkPassiveCooldownGate(timeMs int64, passive model.DPSPassiveEffectV2, gate *passiveCooldownGate) bool {
+	key := passiveRuntimeKey(passive)
+	if gate.allowed[key] {
+		return true
+	}
+	ready, readyAt := state.passiveCooldownReady(passive, timeMs)
+	if ready {
+		gate.allowed[key] = true
+		return true
+	}
+	if !gate.skipped[key] {
+		state.recordPassiveCooldownSkipped(timeMs, passive, readyAt)
+		gate.skipped[key] = true
+	}
+	return false
+}
+
+func (state *dpsCurveState) markPassiveCooldownTriggeredOnce(timeMs int64, passive model.DPSPassiveEffectV2, gate *passiveCooldownGate) {
+	key := passiveRuntimeKey(passive)
+	if gate.triggered[key] {
+		return
+	}
+	gate.triggered[key] = true
+	gate.allowed[key] = true
+	state.markPassiveCooldownTriggered(timeMs, passive)
+}
+
+func (state *dpsCurveState) recordPassiveCooldownSkipped(timeMs int64, passive model.DPSPassiveEffectV2, readyAt int64) {
+	cd := state.passiveInternalCooldownMs(passive)
+	if cd <= 0 {
+		return
+	}
+	key := passiveRuntimeKey(passive)
+	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+		TimeMs:  timeMs,
+		Source:  nonEmpty(passive.SourceID, passiveID(passive)),
+		Kind:    dpsEffectPassiveCooldown,
+		Message: "passive cooldown skipped",
+		PassiveCooldown: &model.DPSPassiveCooldownEvidenceV2{
+			PassiveKey:         key,
+			InternalCooldownMs: cd,
+			ReadyAtMs:          readyAt,
+			Skipped:            true,
+		},
+	})
+}
+
+func (state *dpsCurveState) recordPassiveCooldownStarted(timeMs int64, passive model.DPSPassiveEffectV2, nextReadyAt int64) {
+	cd := state.passiveInternalCooldownMs(passive)
+	if cd <= 0 {
+		return
+	}
+	key := passiveRuntimeKey(passive)
+	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+		TimeMs:  timeMs,
+		Source:  nonEmpty(passive.SourceID, passiveID(passive)),
+		Kind:    dpsEffectPassiveCooldown,
+		Message: "passive cooldown started",
+		PassiveCooldown: &model.DPSPassiveCooldownEvidenceV2{
+			PassiveKey:         key,
+			InternalCooldownMs: cd,
+			NextReadyAtMs:      nextReadyAt,
+			Triggered:          true,
+		},
+	})
+}
+
+func (state *dpsCurveState) markPassiveCooldownTriggered(timeMs int64, passive model.DPSPassiveEffectV2) {
+	cd := state.passiveInternalCooldownMs(passive)
+	if cd <= 0 {
+		return
+	}
+	key := passiveRuntimeKey(passive)
+	nextReadyAt := timeMs + cd
+	state.passiveCooldownReadyAt[key] = nextReadyAt
+	state.recordPassiveCooldownStarted(timeMs, passive, nextReadyAt)
 }
