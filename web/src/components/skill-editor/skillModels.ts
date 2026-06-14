@@ -480,6 +480,7 @@ export type SkillDpsPassiveSummaryRow = {
   triggerEvent: string;
   matcherSummary: string;
   priority: number | null;
+  internalCooldownMs: number | null;
   operationKinds: string[];
   targetRoles: string[];
   bucketKeys: string[];
@@ -1016,6 +1017,7 @@ function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiv
       triggerEvent: '',
       matcherSummary: '',
       priority: null,
+      internalCooldownMs: null,
       operationKinds: [],
       targetRoles: [],
       bucketKeys: [],
@@ -1038,6 +1040,9 @@ function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiv
   const matcherSummary = trigger && isPlainObject(trigger.matcher) ? summarizeDpsPassiveMatcher(trigger.matcher) : '';
 
   const priority = typeof passive.priority === 'number' && Number.isFinite(passive.priority) ? passive.priority : null;
+  const internalCooldownMs = typeof passive.internalCooldownMs === 'number' && Number.isFinite(passive.internalCooldownMs)
+    ? passive.internalCooldownMs
+    : null;
 
   const operations = Array.isArray(passive.operations) ? passive.operations : [];
   if (!Array.isArray(passive.operations)) {
@@ -1099,6 +1104,7 @@ function summarizeDpsPassiveRow(passive: unknown, index: number): SkillDpsPassiv
     triggerEvent,
     matcherSummary,
     priority,
+    internalCooldownMs,
     operationKinds,
     targetRoles,
     bucketKeys,
@@ -1146,6 +1152,23 @@ function validateDpsPassiveEffectEntry(issues: SkillDpsPassiveValidationIssue[],
           `trigger.event 不受支持：${event}。`
         );
       }
+    }
+  }
+
+  if ('internalCooldownMs' in passive && passive.internalCooldownMs !== undefined && passive.internalCooldownMs !== null) {
+    const cooldownMs = passive.internalCooldownMs;
+    if (
+      typeof cooldownMs !== 'number'
+      || !Number.isFinite(cooldownMs)
+      || !Number.isInteger(cooldownMs)
+      || cooldownMs < 0
+    ) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/internalCooldownMs`,
+        'internalCooldownMs 必须是非负整数。'
+      );
     }
   }
 
