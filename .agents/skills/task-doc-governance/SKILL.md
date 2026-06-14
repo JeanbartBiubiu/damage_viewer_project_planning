@@ -7,6 +7,8 @@ description: Use when work in c:\project\damage_viewer_project_planning needs SQ
 
 Use this skill when the work includes task tracking, document classification, or local governance updates in addition to code changes.
 
+The project copy under `c:\project\damage_viewer_project_planning\.agents\skills\task-doc-governance` is the canonical version. If a user-level copy exists under `C:\Users\Administrator\.codex\skills`, keep it synchronized or make it an explicit pointer to this project copy.
+
 Read:
 
 - `references/sqlite-governance-playbook.md`
@@ -64,6 +66,7 @@ LAST_TRACKED_AT: pending
 Rules:
 
 - `TASK_KEY` is required for local governance.
+- `EXECUTION_MODEL` should name the actual model or agent route used for the document, not a stale default copied from another session.
 - `STATUS` should describe local governance state such as `draft` or `tracked`.
 - Do not add extra metadata lines unless the workflow truly requires them.
 
