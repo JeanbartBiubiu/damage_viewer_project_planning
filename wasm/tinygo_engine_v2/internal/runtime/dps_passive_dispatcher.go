@@ -76,6 +76,7 @@ func shouldDispatchOnCrit(ctx dpsCombatEventContext) bool {
 
 func (state *dpsCurveState) dispatchOnCritLinkedEffects(ctx dpsCombatEventContext) {
 	entries := state.collectDPSLinkedPassiveEntries(ctx)
+	cooldownGate := ensurePassiveCooldownGate(&ctx)
 	for _, entry := range entries {
 		passive := entry.passive
 		if resolvedDPSTriggerEvent(passive) != dpsEventOnCrit && strings.TrimSpace(passive.Trigger.Event) != dpsEventOnCrit {
@@ -84,7 +85,13 @@ func (state *dpsCurveState) dispatchOnCritLinkedEffects(ctx dpsCombatEventContex
 		if !state.passiveActiveAt(passive, ctx.TimeMs) {
 			continue
 		}
-		state.recordPassiveTrigger(ctx.TimeMs, passive)
+		if !state.checkPassiveCooldownGate(ctx.TimeMs, passive, cooldownGate) {
+			continue
+		}
+		runtimeKey := passiveRuntimeKey(passive)
+		if !cooldownGate.triggered[runtimeKey] {
+			state.recordPassiveTrigger(ctx.TimeMs, passive)
+		}
 		for _, op := range passive.Operations {
 			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
 				return
@@ -129,6 +136,7 @@ func (state *dpsCurveState) dispatchOnCritLinkedEffects(ctx dpsCombatEventContex
 				}
 			}
 		}
+		state.markPassiveCooldownTriggeredOnce(ctx.TimeMs, passive, cooldownGate)
 	}
 }
 
@@ -153,6 +161,7 @@ func (state *dpsCurveState) collectDPSLinkedPassiveEntries(ctx dpsCombatEventCon
 
 func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) bool {
 	entries := state.collectDPSLinkedPassiveEntries(ctx)
+	cooldownGate := ensurePassiveCooldownGate(&ctx)
 
 	refreshStackStatModifiers := false
 	for _, entry := range entries {
@@ -196,7 +205,13 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 				continue
 			}
 		}
-		state.recordPassiveTrigger(ctx.TimeMs, passive)
+		if !state.checkPassiveCooldownGate(ctx.TimeMs, passive, cooldownGate) {
+			continue
+		}
+		runtimeKey := passiveRuntimeKey(passive)
+		if !cooldownGate.triggered[runtimeKey] {
+			state.recordPassiveTrigger(ctx.TimeMs, passive)
+		}
 		for _, op := range passive.Operations {
 			if op.Kind == dpsOpPhantomHitOnHitRepeat || op.Kind == dpsOpDamageModifier || op.Kind == dpsOpCritContextModifier {
 				continue
@@ -219,6 +234,7 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 		if triggerKind == dpsTriggerNextBasicAttackAfterState {
 			state.consumeScenarioState(ctx.TimeMs, passive.RequiresScenarioStateID)
 		}
+		state.markPassiveCooldownTriggeredOnce(ctx.TimeMs, passive, cooldownGate)
 		if passiveHasPerStackStatModifier(passive) {
 			refreshStackStatModifiers = true
 		}
@@ -293,10 +309,13 @@ func (state *dpsCurveState) applyIncomingDamageModifiers(ctx *dpsCombatEventCont
 		critPart = ctx.ExpectedCritPart
 		current = normalPart + critPart
 	}
-	triggered := map[string]bool{}
+	cooldownGate := ensurePassiveCooldownGate(ctx)
 	for _, entry := range entries {
 		passive := entry.passive
 		op := entry.op
+		if !state.checkPassiveCooldownGate(ctx.TimeMs, passive, cooldownGate) {
+			continue
+		}
 		valuePhase := strings.TrimSpace(op.ValuePhase)
 		if valuePhase == "" {
 			valuePhase = dpsValuePhaseIncoming
@@ -364,9 +383,8 @@ func (state *dpsCurveState) applyIncomingDamageModifiers(ctx *dpsCombatEventCont
 			return 0, false
 		}
 		runtimeKey := passiveRuntimeKey(passive)
-		if !triggered[runtimeKey] {
+		if !cooldownGate.triggered[runtimeKey] {
 			state.recordPassiveTrigger(ctx.TimeMs, passive)
-			triggered[runtimeKey] = true
 		}
 		if useExpectedParts {
 			ctx.ExpectedNormalPart = normalPart
@@ -389,6 +407,7 @@ func (state *dpsCurveState) applyIncomingDamageModifiers(ctx *dpsCombatEventCont
 		state.result.EffectBreakdown = append(state.result.EffectBreakdown, breakdown)
 		if !skipped {
 			current = modified
+			state.markPassiveCooldownTriggeredOnce(ctx.TimeMs, passive, cooldownGate)
 		}
 	}
 	return current, true
@@ -552,6 +571,7 @@ func (state *dpsCurveState) processPhantomHits(ctx dpsCombatEventContext) {
 		return
 	}
 	timeMs := ctx.TimeMs
+	cooldownGate := ensurePassiveCooldownGate(&ctx)
 	for _, entry := range state.collectDPSLinkedPassiveEntries(ctx) {
 		passive := entry.passive
 		if !state.passiveActiveAt(passive, timeMs) {
@@ -584,8 +604,11 @@ func (state *dpsCurveState) processPhantomHits(ctx dpsCombatEventContext) {
 			if !state.phantomHitShouldFire(passive, op) {
 				continue
 			}
+			if !state.checkPassiveCooldownGate(timeMs, passive, cooldownGate) {
+				continue
+			}
 			state.phantomDepth++
-			state.applyPhantomHit(timeMs, passive, op)
+			state.applyPhantomHit(timeMs, passive, op, cooldownGate)
 			state.phantomDepth--
 			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
 				return
@@ -605,7 +628,7 @@ func (state *dpsCurveState) phantomHitShouldFire(passive model.DPSPassiveEffectV
 	return state.stacks[stackRuntimeKey(passive, op.StackKey)] >= triggerStacks
 }
 
-func (state *dpsCurveState) applyPhantomHit(timeMs int64, passive model.DPSPassiveEffectV2, phantomOp model.DPSPassiveOperationV2) {
+func (state *dpsCurveState) applyPhantomHit(timeMs int64, passive model.DPSPassiveEffectV2, phantomOp model.DPSPassiveOperationV2, cooldownGate *passiveCooldownGate) {
 	repeatTag := strings.TrimSpace(phantomOp.RepeatTag)
 	state.recordPhantomPassiveTrigger(timeMs, passive, repeatTag)
 	for _, op := range passive.Operations {
@@ -617,6 +640,7 @@ func (state *dpsCurveState) applyPhantomHit(timeMs int64, passive model.DPSPassi
 		}
 		state.copyPhantomPassiveDamage(timeMs, passive, op, repeatTag)
 	}
+	state.markPassiveCooldownTriggeredOnce(timeMs, passive, cooldownGate)
 }
 
 func (state *dpsCurveState) copyPhantomPassiveDamage(

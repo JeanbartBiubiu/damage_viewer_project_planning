@@ -78,20 +78,23 @@ func (state *dpsCurveState) processEnergizedChargePassive(timeMs int64, passive 
 	chargeAfterProc := preCharge
 
 	if readyBefore && preCharge >= threshold {
-		triggered = true
-		state.recordPassiveTrigger(timeMs, passive)
-		for _, op := range passive.Operations {
-			if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
-				return triggered
+		if state.tryPassiveInternalCooldown(timeMs, passive) {
+			triggered = true
+			state.recordPassiveTrigger(timeMs, passive)
+			for _, op := range passive.Operations {
+				if state.result.Status == dpsStatusBlocked || state.targetHP <= 0 {
+					return triggered
+				}
+				state.applyPassiveOperation(timeMs, passive, op)
 			}
-			state.applyPassiveOperation(timeMs, passive, op)
-		}
-		if passive.ConsumeChargeOnTrigger {
-			consumed = true
-			chargeAfterProc = 0
-			state.energizedReady[chargeKey] = false
-		} else {
-			state.energizedReady[chargeKey] = false
+			if passive.ConsumeChargeOnTrigger {
+				consumed = true
+				chargeAfterProc = 0
+				state.energizedReady[chargeKey] = false
+			} else {
+				state.energizedReady[chargeKey] = false
+			}
+			state.markPassiveCooldownTriggered(timeMs, passive)
 		}
 	}
 
