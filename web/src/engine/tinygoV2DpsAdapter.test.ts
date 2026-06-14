@@ -4,6 +4,7 @@ import {
   STRICT_DPS_SKILL_REF_OPTIONS,
   buildPublishedContractDiagnostics,
   buildExecuteEvidenceFromCurveResult,
+  buildPassiveCooldownEvidenceFromCurveResult,
   isPublishedContractCandidateItem,
   readSkillDpsPassiveEffects,
   type EquipmentSkillRefDiagnostic,
@@ -20,6 +21,7 @@ type PassiveShape = {
   passiveId: string;
   ownerRole?: string;
   triggerKind?: string;
+  internalCooldownMs?: number;
   operations?: Array<Record<string, unknown>>;
 };
 
@@ -430,6 +432,68 @@ function testExecuteEvidenceFromCurveResult(): void {
   assert(evidence.stopReason === 'execute_threshold', 'execute stopReason must be preserved');
 }
 
+function testPreserveInternalCooldownMsShape(): void {
+  const skill = makeSkill('proc_skill', 'item_proc', {
+    passives: [{
+      passiveId: 'item_example_proc',
+      ownerRole: 'attacker',
+      triggerKind: 'on_basic_attack_hit',
+      internalCooldownMs: 1000,
+      operations: [{
+        kind: 'damage',
+        source: 'item_example_proc',
+        damageType: 'magic',
+        amount: 45
+      }]
+    }]
+  });
+  const effects = readSkillDpsPassiveEffects(skill);
+  assert(effects.length === 1, 'internalCooldownMs skill must expose one passive effect');
+  assert(effects[0]?.internalCooldownMs === 1000, 'internalCooldownMs must be preserved on passive');
+  const operation = effects[0]?.operations?.[0];
+  assert(operation?.kind === 'damage', 'operation kind must be preserved');
+}
+
+function testPassiveCooldownEvidenceFromCurveResult(): void {
+  const result = {
+    curveId: 'curve_a',
+    status: 'ok',
+    effectBreakdown: [
+      {
+        kind: 'passive_cooldown',
+        source: 'item_example_proc',
+        timeMs: 0,
+        message: 'passive cooldown started',
+        passiveCooldown: {
+          passiveKey: 'item_example_proc',
+          internalCooldownMs: 1000,
+          nextReadyAtMs: 1000,
+          triggered: true
+        }
+      },
+      {
+        kind: 'passive_cooldown',
+        source: 'item_example_proc',
+        timeMs: 500,
+        message: 'passive cooldown skipped',
+        passiveCooldown: {
+          passiveKey: 'item_example_proc',
+          internalCooldownMs: 1000,
+          readyAtMs: 1000,
+          skipped: true
+        }
+      }
+    ]
+  } as V2DpsCurveResult;
+  const evidence = buildPassiveCooldownEvidenceFromCurveResult(result);
+  assert(evidence.count === 2, 'passive cooldown evidence must count all passive_cooldown entries');
+  assert(evidence.triggeredCount === 1, 'passive cooldown evidence must count triggered entries');
+  assert(evidence.skippedCount === 1, 'passive cooldown evidence must count skipped entries');
+  assert(evidence.sources.includes('item_example_proc'), 'passive cooldown evidence must list sources');
+  assert(evidence.entries[0]?.triggered === true, 'triggered entry must preserve triggered flag');
+  assert(evidence.entries[1]?.skipped === true, 'skipped entry must preserve skipped flag');
+}
+
 const CONTRACT_TESTS: Array<{ name: string; run: () => void }> = [
   { name: 'empty refs (STRICT)', run: testEmptyRefsStrict },
   { name: 'missing refs (STRICT)', run: testMissingRefsStrict },
@@ -453,7 +517,9 @@ const CONTRACT_TESTS: Array<{ name: string; run: () => void }> = [
   { name: 'published dpsPassiveEffects not array', run: testPublishedDpsPassiveEffectsNotArrayIsError },
   { name: 'published candidate filtering', run: testPublishedCandidateFilteringSkipsIrrelevantItems },
   { name: 'preserve execute_threshold operation shape', run: testPreserveExecuteThresholdOperationShape },
-  { name: 'execute evidence from curve result', run: testExecuteEvidenceFromCurveResult }
+  { name: 'execute evidence from curve result', run: testExecuteEvidenceFromCurveResult },
+  { name: 'preserve internalCooldownMs passive shape', run: testPreserveInternalCooldownMsShape },
+  { name: 'passive cooldown evidence from curve result', run: testPassiveCooldownEvidenceFromCurveResult }
 ];
 
 export function runTinygoV2DpsAdapterContractTests(): { passed: number; failed: Array<{ name: string; error: string }> } {
