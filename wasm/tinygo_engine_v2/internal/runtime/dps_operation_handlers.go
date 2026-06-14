@@ -11,7 +11,7 @@ func resolvedDPSOperationTargetRole(op model.DPSPassiveOperationV2, kind string)
 	role := strings.TrimSpace(op.TargetRole)
 	if role == "" {
 		switch kind {
-		case dpsOpDamage, dpsOpApplyDot, dpsOpTriggerDamageAtStacks, dpsOpDamageModifier:
+		case dpsOpDamage, dpsOpApplyDot, dpsOpTriggerDamageAtStacks, dpsOpDamageModifier, dpsOpExecuteThreshold:
 			return dpsRoleTarget
 		default:
 			return dpsRoleAttacker
@@ -462,6 +462,88 @@ func stackBreakdownMessage(stackKey string, before int, after int, maxStacks int
 	message := "stackKey=" + stackKey + " before=" + intToString(before) + " after=" + intToString(after) + " maxStacks=" + intToString(maxStacks)
 	if expireAt > 0 {
 		message += " expireAtMs=" + int64ToString(expireAt)
+	}
+	return message
+}
+
+func (state *dpsCurveState) applyExecuteThreshold(timeMs int64, passive model.DPSPassiveEffectV2, op model.DPSPassiveOperationV2) {
+	checkTiming := strings.TrimSpace(op.CheckTiming)
+	if checkTiming == "" {
+		checkTiming = dpsCheckTimingAfterDamage
+	}
+	if checkTiming != dpsCheckTimingAfterDamage {
+		return
+	}
+	targetRole := resolvedDPSOperationTargetRole(op, dpsOpExecuteThreshold)
+	if targetRole != dpsRoleTarget {
+		state.block("execute_threshold only supports targetRole target")
+		return
+	}
+	if state.targetHP <= 0 {
+		return
+	}
+	hpBeforeCheck := state.targetHP
+	maxHp := state.targetMaxHP
+	currentHpRatio := 0.0
+	if maxHp > 0 {
+		currentHpRatio = hpBeforeCheck / maxHp
+	}
+	triggered := false
+	switch op.ThresholdType {
+	case dpsThresholdTypeCurrentHPRatio:
+		triggered = maxHp > 0 && currentHpRatio <= op.ThresholdValue
+	case dpsThresholdTypeCurrentHPValue:
+		triggered = hpBeforeCheck <= op.ThresholdValue
+	default:
+		state.block("unsupported execute_threshold thresholdType " + op.ThresholdType)
+		return
+	}
+	state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
+		TimeMs:  timeMs,
+		Source:  passiveDamageSource(passive, op),
+		Kind:    dpsOpExecuteThreshold,
+		Message: executeThresholdBreakdownMessage(op, hpBeforeCheck, maxHp, currentHpRatio, triggered),
+	})
+	if !triggered {
+		return
+	}
+	state.targetHP = 0
+	state.TargetHPTimelineAppend(timeMs)
+	state.markExecutedThreshold(timeMs)
+}
+
+func (state *dpsCurveState) markExecutedThreshold(timeMs int64) {
+	if state.result.KillTimeMs == nil {
+		killTimeMs := timeMs
+		state.result.KillTimeMs = &killTimeMs
+		if killTimeMs > 0 {
+			killDPS := state.result.TotalDamage / (float64(killTimeMs) / 1000)
+			state.result.KillDps = &killDPS
+		}
+	}
+	if state.rules.DurationMs > timeMs {
+		state.result.TargetHPTimeline = append(state.result.TargetHPTimeline, model.DPSTargetHPEventV2{
+			TimeMs: state.rules.DurationMs, CurrentHP: 0, MaxHP: state.targetMaxHP,
+		})
+	}
+	state.result.FinalTimeMs = state.rules.DurationMs
+	state.result.StopReason = dpsStopReasonExecuteThreshold
+}
+
+func executeThresholdBreakdownMessage(
+	op model.DPSPassiveOperationV2,
+	hpBeforeCheck float64,
+	maxHp float64,
+	currentHpRatio float64,
+	triggered bool,
+) string {
+	message := "thresholdType=" + op.ThresholdType +
+		" thresholdValue=" + floatToString(op.ThresholdValue) +
+		" hpBeforeCheck=" + floatToString(hpBeforeCheck) +
+		" maxHp=" + floatToString(maxHp) +
+		" triggered=" + boolToString(triggered)
+	if op.ThresholdType == dpsThresholdTypeCurrentHPRatio {
+		message += " currentHpRatio=" + floatToString(currentHpRatio)
 	}
 	return message
 }

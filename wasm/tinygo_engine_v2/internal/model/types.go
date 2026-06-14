@@ -593,11 +593,16 @@ type DPSPassiveOperationV2 struct {
 	ForceCrit                 bool                     `json:"forceCrit,omitempty"`
 	CritMultiplierOverride    float64                  `json:"critMultiplierOverride,omitempty"`
 	HasCritMultiplierOverride bool                     `json:"hasCritMultiplierOverride,omitempty"`
+	CritMultiplierScale       float64                  `json:"critMultiplierScale,omitempty"`
+	HasCritMultiplierScale    bool                     `json:"hasCritMultiplierScale,omitempty"`
 	BucketKey                 string                   `json:"bucketKey,omitempty"`
 	ValueSpec                 DPSModifierValueSpecV2   `json:"valueSpec,omitempty"`
 	Conditions                []DPSModifierConditionV2 `json:"conditions,omitempty"`
 	Priority                  int                      `json:"priority,omitempty"`
 	EvidenceKey               string                   `json:"evidenceKey,omitempty"`
+	ThresholdType             string                   `json:"thresholdType,omitempty"`
+	ThresholdValue            float64                  `json:"thresholdValue,omitempty"`
+	CheckTiming               string                   `json:"checkTiming,omitempty"`
 }
 
 type DPSModifierValueSpecV2 struct {
