@@ -76,12 +76,16 @@ try {
 For real development tasks, prefer the dedicated runner:
 
 ```powershell
-node C:\project\damage_wasm_dev\.agents\skills\cursor-local-agent\scripts\cursor_local_agent_run.mjs `
-  --cwd C:\project\damage_wasm_dev `
+$repo = "C:\project\damage_viewer_project_planning"
+$skillRoot = Join-Path $repo ".agents\skills\cursor-local-agent"
+node (Join-Path $skillRoot "scripts\cursor_local_agent_run.mjs") `
+  --cwd $repo `
   --prompt-file C:\task\cursor-task.txt `
-  --allowed-path wasm\tinygo_engine_v2 `
-  --out-dir C:\project\damage_wasm_dev\.agents\artifacts\cursor-task-001
+  --allowed-path 文档记录 `
+  --out-dir (Join-Path $repo ".agents\artifacts\cursor-task-001")
 ```
+
+Set `$repo` to the actual target worktree before copying a command. For Wasm work use `C:\project\damage_wasm_dev`; for Web use `C:\project\damage_web_dev`; for backend use `C:\project\damage_backend_dev`. If the target worktree does not contain this skill directory, use the planning repo's `.agents\skills\cursor-local-agent\scripts\...` path but keep `--cwd` pointed at the target repo.
 
 The runner writes a standard artifact set:
 
@@ -98,8 +102,10 @@ Plus optional support files such as `preflight.md` and git status snapshots.
 Use `scripts/cursor_local_agent_smoke.mjs` for a safe smoke check:
 
 ```powershell
-node C:\project\damage_wasm_dev\.agents\skills\cursor-local-agent\scripts\cursor_local_agent_smoke.mjs --dry-run
-node C:\project\damage_wasm_dev\.agents\skills\cursor-local-agent\scripts\cursor_local_agent_smoke.mjs --cwd C:\project\damage_wasm_dev --send --out-dir C:\project\damage_wasm_dev\.agents\artifacts\cursor-smoke
+$repo = "C:\project\damage_viewer_project_planning"
+$skillRoot = Join-Path $repo ".agents\skills\cursor-local-agent"
+node (Join-Path $skillRoot "scripts\cursor_local_agent_smoke.mjs") --dry-run
+node (Join-Path $skillRoot "scripts\cursor_local_agent_smoke.mjs") --cwd $repo --send --out-dir (Join-Path $repo ".agents\artifacts\cursor-smoke")
 ```
 
 The successful send result must include:
