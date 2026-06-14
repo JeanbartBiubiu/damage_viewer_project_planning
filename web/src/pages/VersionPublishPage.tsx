@@ -54,6 +54,7 @@ export function VersionPublishPage({
     publishedVersion,
     publishedCurrentVersion,
     publishedBundleMeta,
+    publishedContractDiagnostics,
     setVersionCodeDraft,
     setReleaseDateDraft,
     handlePublishVersion
@@ -217,6 +218,7 @@ export function VersionPublishPage({
               publishedVersion={publishedVersion}
               publishedCurrentVersion={displayedCurrentVersion}
               publishedBundleMeta={displayedBundleMeta}
+              publishedContractDiagnostics={publishedContractDiagnostics}
               onVersionCodeDraftChange={setVersionCodeDraft}
               onReleaseDateDraftChange={setReleaseDateDraft}
               onPublishVersion={handlePublishVersion}
