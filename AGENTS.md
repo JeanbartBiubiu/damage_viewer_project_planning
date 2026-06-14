@@ -12,6 +12,9 @@
 8. `rg` / `rg --files` 仍用于精确文本匹配、文件名检索，以及 `Markdown/SQL/XML/YAML/JSON/日志/生成物/配置` 等 CodeGraph 不能可靠建图的内容；当需要核对字面量、报错文本、HTTP 路径、注释、文档原文，或最终确认具体 callsite / state 写入点时，同样优先用 `rg`、`Select-String` 或定点读文件。
 9. 用 CodeGraph 得到候选链路后，最终结论仍要回到源码做定点核对；大改后、跨 worktree 切换后或结果可疑时，先运行 `npx @colbymchenry/codegraph status` 或 `npx @colbymchenry/codegraph sync`，不要把 `.codegraph/*.db*` 之类本地索引产物提交入库。
 10. 如果 CodeGraph 或 sub-agent 查询在当前问题粒度下长时间无返回、输出明显过量，主动缩小问题、减少命令数，并切回 `rg` / 定点读文件继续推进；不要为了“全程只用 CodeGraph”无限等待。
+11. 读取协作规则时忽略生成目录和依赖目录里的副本，例如 `target/`、`dist/`、`build/`、`node_modules/`、`.codegraph/`、`output/`；这些位置里的 `AGENTS.md`、`README.md` 或脚本说明不是规则真源，除非用户明确要求检查生成产物。
+12. Codex skill 通常只预加载 `name` / `description` 元数据，正文按需读取。不要仅因担心上下文占用而删除 skill；优先收窄 description、保持项目级 `.agents/skills` 为真源，并让用户级副本与项目真源同步或明确只作转发。
+13. 新增或修改 skill 时先使用 `writing-skills` 做轻量压力场景或基线检查；机械同步副本时至少说明真源和同步范围。
 
 ## 2. Cursor 开发流程（强制）
 
