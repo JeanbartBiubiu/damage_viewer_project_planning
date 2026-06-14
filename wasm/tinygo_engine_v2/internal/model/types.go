@@ -552,6 +552,7 @@ type DPSPassiveEffectV2 struct {
 	ChargeReadyPolicy        string                  `json:"chargeReadyPolicy,omitempty"`
 	ConsumeChargeOnTrigger   bool                    `json:"consumeChargeOnTrigger,omitempty"`
 	ProcScope                string                  `json:"procScope,omitempty"`
+	InternalCooldownMs       int64                   `json:"internalCooldownMs,omitempty"`
 	Operations               []DPSPassiveOperationV2 `json:"operations,omitempty"`
 }
 
@@ -771,6 +772,16 @@ type DPSEffectBreakdownV2 struct {
 	CoefficientBucket *DPSCoefficientBucketEvidenceV2 `json:"coefficientBucket,omitempty"`
 	NumericBound      *NumericBoundEvidenceV2         `json:"numericBound,omitempty"`
 	CritContext       *DPSCritContextV2               `json:"critContext,omitempty"`
+	PassiveCooldown   *DPSPassiveCooldownEvidenceV2   `json:"passiveCooldown,omitempty"`
+}
+
+type DPSPassiveCooldownEvidenceV2 struct {
+	PassiveKey         string `json:"passiveKey,omitempty"`
+	InternalCooldownMs int64  `json:"internalCooldownMs,omitempty"`
+	ReadyAtMs          int64  `json:"readyAtMs,omitempty"`
+	NextReadyAtMs      int64  `json:"nextReadyAtMs,omitempty"`
+	Triggered          bool   `json:"triggered,omitempty"`
+	Skipped            bool   `json:"skipped,omitempty"`
 }
 
 type AttributeSnapshotV2 struct {
