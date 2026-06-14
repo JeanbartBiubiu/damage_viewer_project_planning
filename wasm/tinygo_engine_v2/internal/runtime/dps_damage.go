@@ -240,6 +240,20 @@ func dpsCritContextFromCombat(ctx *dpsCombatEventContext) *model.DPSCritContextV
 	}
 }
 
+func resolveCritContextModifierMultiplier(critCtx *model.DPSCritContextV2, op model.DPSPassiveOperationV2) float64 {
+	multiplier := critCtx.Multiplier
+	if multiplier == 0 {
+		multiplier = 1
+	}
+	if op.HasCritMultiplierScale {
+		multiplier *= op.CritMultiplierScale
+	}
+	if op.HasCritMultiplierOverride {
+		multiplier = op.CritMultiplierOverride
+	}
+	return multiplier
+}
+
 func (state *dpsCurveState) applyCritContextModifiers(
 	ctx dpsCombatEventContext,
 	critCtx *model.DPSCritContextV2,
@@ -252,24 +266,18 @@ func (state *dpsCurveState) applyCritContextModifiers(
 	for _, entry := range entries {
 		passive := entry.passive
 		op := entry.op
+		resolvedMultiplier := resolveCritContextModifierMultiplier(critCtx, op)
 		if op.ForceCrit {
-			multiplier := critCtx.Multiplier
-			if op.HasCritMultiplierOverride {
-				multiplier = op.CritMultiplierOverride
-			}
-			if multiplier == 0 {
-				multiplier = 1
-			}
-			critCtx.Multiplier = multiplier
+			critCtx.Multiplier = resolvedMultiplier
 			critCtx.ChanceEffective = 1
 			critCtx.ExpectedNormalPart = 0
-			critCtx.ExpectedCritPart = rawAmount * multiplier
+			critCtx.ExpectedCritPart = rawAmount * resolvedMultiplier
 			critCtx.IsCrit = false
 			critCtx.HasActualResult = false
-		} else if op.HasCritMultiplierOverride {
-			critCtx.Multiplier = op.CritMultiplierOverride
+		} else if op.HasCritMultiplierScale || op.HasCritMultiplierOverride {
+			critCtx.Multiplier = resolvedMultiplier
 			if critCtx.Policy == "expected" {
-				normal, critPart := crit.ExpectedParts(rawAmount, critCtx.ChanceEffective, critCtx.Multiplier)
+				normal, critPart := crit.ExpectedParts(rawAmount, critCtx.ChanceEffective, resolvedMultiplier)
 				critCtx.ExpectedNormalPart = normal
 				critCtx.ExpectedCritPart = critPart
 			}
@@ -279,6 +287,10 @@ func (state *dpsCurveState) applyCritContextModifiers(
 		if op.HasCritMultiplierOverride {
 			message += " multiplierOverride=" + floatToString(op.CritMultiplierOverride)
 		}
+		if op.HasCritMultiplierScale {
+			message += " multiplierScale=" + floatToString(op.CritMultiplierScale)
+		}
+		message += " resolvedMultiplier=" + floatToString(resolvedMultiplier)
 		state.result.EffectBreakdown = append(state.result.EffectBreakdown, model.DPSEffectBreakdownV2{
 			TimeMs:      ctx.TimeMs,
 			Source:      passiveDamageSource(passive, op),

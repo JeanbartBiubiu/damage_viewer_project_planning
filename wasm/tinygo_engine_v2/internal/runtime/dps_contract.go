@@ -48,7 +48,13 @@ const (
 	dpsAttributeStageFlatBonus       = "attribute/flat_bonus"
 	dpsAttributeStageFinalMultiplier = "attribute/final_multiplier"
 	dpsOpPhantomHitOnHitRepeat       = "phantom_hit_on_hit_repeat"
+	dpsOpExecuteThreshold            = "execute_threshold"
 	dpsRepeatScopeCopyableOnHit      = "copyable_on_hit"
+
+	dpsThresholdTypeCurrentHPRatio = "current_hp_ratio"
+	dpsThresholdTypeCurrentHPValue = "current_hp_value"
+	dpsCheckTimingAfterDamage      = "after_damage"
+	dpsStopReasonExecuteThreshold  = "execute_threshold"
 
 	dpsEventOnBasicAttackHit = "on_basic_attack_hit"
 	dpsEventOnSpellHit       = "on_spell_hit"

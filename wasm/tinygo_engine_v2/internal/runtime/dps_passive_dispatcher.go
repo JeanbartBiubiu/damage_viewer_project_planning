@@ -201,6 +201,13 @@ func (state *dpsCurveState) dispatchDPSLinkedEffects(ctx dpsCombatEventContext) 
 			if op.Kind == dpsOpPhantomHitOnHitRepeat || op.Kind == dpsOpDamageModifier || op.Kind == dpsOpCritContextModifier {
 				continue
 			}
+			if op.Kind == dpsOpExecuteThreshold {
+				if ctx.Event != dpsEventOnDamageDealt && ctx.Event != dpsEventOnDamageTaken {
+					continue
+				}
+				state.applyExecuteThreshold(ctx.TimeMs, passive, op)
+				continue
+			}
 			if op.Kind == dpsOpCoefficientModifier && dpsOperationUsesHPChangeBucket(state.bundle, op) {
 				continue
 			}
