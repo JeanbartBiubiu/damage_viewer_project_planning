@@ -1,9 +1,19 @@
-import { Alert, Button, Empty, Input, InputNumber, Select, Space, Tag, Typography } from '@arco-design/web-react';
+import { Alert, Button, Checkbox, Empty, Input, InputNumber, Select, Space, Tag, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { appendCurrentDamageTypeOption, type DamageTypeOption } from '../../pages/admin/resources/shared/damageTypes';
 import { getCoefficientBuckets } from '../../services/apiClient';
 import type { CoefficientBucket, JsonObject, JsonValue } from '../../types/api';
 import { AttributeKeySelector } from '../AttributeKeySelector';
+import {
+  appendOperationsToPassive,
+  buildDpsPassiveTemplateContext,
+  createDpsPassiveFromTemplate,
+  createDpsPassiveTemplateOperations,
+  duplicateDpsPassive,
+  getDpsPassiveTemplate,
+  getDpsPassiveTemplateOptions,
+  type DpsPassiveTemplateId
+} from './dpsPassiveTemplates';
 import type { SkillActionRow, SkillDpsPassiveSummaryRow, SkillModifierStatRow, SkillStackRow, SkillTriggerRow } from './skillModels';
 import {
   createEmptyActionRow,
@@ -24,6 +34,9 @@ type SkillMechanicsConfigEditorProps = {
   version: number;
   stacks: SkillStackRow[];
   rows: SkillTriggerRow[];
+  skillId?: string;
+  ownerId?: string;
+  ownerType?: string;
   disabled?: boolean;
   onVersionChange: (version: number) => void;
   onStacksChange: (rows: SkillStackRow[]) => void;
@@ -53,6 +66,30 @@ const STACK_RESET_OPTIONS = [
   { label: '战斗结束（combat_end）', value: 'combat_end' },
   { label: '超时（timeout）', value: 'timeout' }
 ];
+
+const EXECUTE_THRESHOLD_TYPE_OPTIONS = [
+  { label: '当前血量比例（current_hp_ratio）', value: 'current_hp_ratio' },
+  { label: '当前血量数值（current_hp_value）', value: 'current_hp_value' }
+];
+
+const EXECUTE_THRESHOLD_CHECK_TIMING_OPTIONS = [{ label: '伤害后（after_damage）', value: 'after_damage' }];
+
+const ENERGIZED_CHARGE_READY_POLICY_OPTIONS = [
+  { label: '阈值后下次普攻（next_basic_attack_after_threshold_reached）', value: 'next_basic_attack_after_threshold_reached' }
+];
+
+const ENERGIZED_PROC_SCOPE_OPTIONS = [
+  { label: '仅真实普攻（real_basic_attack_only）', value: 'real_basic_attack_only' }
+];
+
+const STAT_MODIFIER_MODE_OPTIONS = [
+  { label: '百分比（percent）', value: 'percent' },
+  { label: '固定值（flat）', value: 'flat' }
+];
+
+const DOT_REFRESH_MODE_OPTIONS = [{ label: '刷新（refresh）', value: 'refresh' }];
+
+const PHANTOM_REPEAT_SCOPE_OPTIONS = [{ label: 'copyable_on_hit', value: 'copyable_on_hit' }];
 
 function RawActionFallbackEditor({
   action,
@@ -200,6 +237,701 @@ function setOptionalJsonField(target: JsonObject, key: string, value: JsonValue 
   target[key] = value;
 }
 
+function setOptionalBooleanField(target: JsonObject, key: string, value: boolean) {
+  target[key] = value;
+}
+
+function readOptionalFiniteNumber(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+function readOptionalPositiveInteger(value: unknown): number | undefined {
+  const numeric = readOptionalFiniteNumber(value);
+  if (numeric === undefined || !Number.isInteger(numeric) || numeric < 1) {
+    return undefined;
+  }
+  return numeric;
+}
+
+function DpsPassiveOperationKindFields({
+  operation,
+  operationKind,
+  disabled,
+  damageTypeOptions,
+  defaultDamageTypeValue,
+  onPatch
+}: {
+  operation: JsonObject;
+  operationKind: string;
+  disabled: boolean;
+  damageTypeOptions: DamageTypeOption[];
+  defaultDamageTypeValue: string;
+  onPatch: (apply: (nextOperation: JsonObject) => JsonObject) => void;
+}) {
+  const damageTypeValue = typeof operation.damageType === 'string' ? operation.damageType : '';
+  const amountValue = readOptionalFiniteNumber(operation.amount);
+  const valueAmount = readOptionalFiniteNumber(operation.value);
+  const thresholdValue = readOptionalFiniteNumber(operation.thresholdValue);
+  const critMultiplierOverride = readOptionalFiniteNumber(operation.critMultiplierOverride);
+  const critMultiplierScale = readOptionalFiniteNumber(operation.critMultiplierScale);
+  const maxStacksValue = readOptionalPositiveInteger(operation.maxStacks);
+  const triggerStacksValue = readOptionalPositiveInteger(operation.triggerStacks);
+
+  const renderDamageFields = (includePhantomCopyable = false) => (
+    <div className="crud-form-grid">
+      <div>
+        <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+          damageType
+        </Typography.Text>
+        <Select
+          value={damageTypeValue || undefined}
+          disabled={disabled}
+          options={appendCurrentDamageTypeOption(
+            damageTypeOptions,
+            damageTypeValue,
+            damageTypeValue ? `${damageTypeValue} (legacy)` : undefined
+          )}
+          onChange={(value) =>
+            onPatch((nextOperation) => {
+              setOptionalStringField(nextOperation, 'damageType', String(value ?? defaultDamageTypeValue));
+              return nextOperation;
+            })
+          }
+        />
+      </div>
+      <div>
+        <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+          amount
+        </Typography.Text>
+        <InputNumber
+          style={{ width: '100%' }}
+          value={amountValue}
+          disabled={disabled}
+          placeholder="未设置"
+          onChange={(value) =>
+            onPatch((nextOperation) => {
+              setOptionalNumberField(
+                nextOperation,
+                'amount',
+                value === undefined || value === null ? undefined : Number(value)
+              );
+              return nextOperation;
+            })
+          }
+        />
+      </div>
+      {includePhantomCopyable ? (
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Checkbox
+            checked={operation.phantomHitCopyable === true}
+            disabled={disabled}
+            onChange={(checked) =>
+              onPatch((nextOperation) => {
+                setOptionalBooleanField(nextOperation, 'phantomHitCopyable', checked);
+                return nextOperation;
+              })
+            }
+          >
+            phantomHitCopyable
+          </Checkbox>
+        </div>
+      ) : null}
+    </div>
+  );
+
+  if (operationKind === 'damage') {
+    return renderDamageFields(true);
+  }
+
+  if (operationKind === 'damage_modifier') {
+    return (
+      <div className="crud-form-grid">
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            value
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            value={valueAmount}
+            disabled={disabled}
+            placeholder="未设置"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalNumberField(
+                  nextOperation,
+                  'value',
+                  value === undefined || value === null ? undefined : Number(value)
+                );
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Checkbox
+            checked={operation.critOnly === true}
+            disabled={disabled}
+            onChange={(checked) =>
+              onPatch((nextOperation) => {
+                setOptionalBooleanField(nextOperation, 'critOnly', checked);
+                return nextOperation;
+              })
+            }
+          >
+            critOnly
+          </Checkbox>
+        </div>
+      </div>
+    );
+  }
+
+  if (operationKind === 'execute_threshold') {
+    const thresholdType = typeof operation.thresholdType === 'string' ? operation.thresholdType : undefined;
+    const checkTiming = typeof operation.checkTiming === 'string' ? operation.checkTiming : undefined;
+    return (
+      <div className="crud-form-grid">
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            thresholdType
+          </Typography.Text>
+          <Select
+            value={thresholdType}
+            disabled={disabled}
+            options={EXECUTE_THRESHOLD_TYPE_OPTIONS}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'thresholdType', String(value ?? ''));
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            thresholdValue
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            min={0}
+            value={thresholdValue}
+            disabled={disabled}
+            placeholder="必填"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalNumberField(
+                  nextOperation,
+                  'thresholdValue',
+                  value === undefined || value === null ? undefined : Number(value)
+                );
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            checkTiming
+          </Typography.Text>
+          <Select
+            allowClear
+            value={checkTiming}
+            disabled={disabled}
+            placeholder="未设置"
+            options={EXECUTE_THRESHOLD_CHECK_TIMING_OPTIONS}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'checkTiming', String(value ?? ''));
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (operationKind === 'crit_context_modifier') {
+    return (
+      <div className="crud-form-grid">
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Checkbox
+            checked={operation.forceCrit === true}
+            disabled={disabled}
+            onChange={(checked) =>
+              onPatch((nextOperation) => {
+                setOptionalBooleanField(nextOperation, 'forceCrit', checked);
+                return nextOperation;
+              })
+            }
+          >
+            forceCrit
+          </Checkbox>
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            critMultiplierOverride
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            value={critMultiplierOverride}
+            disabled={disabled}
+            placeholder="未设置"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalNumberField(
+                  nextOperation,
+                  'critMultiplierOverride',
+                  value === undefined || value === null ? undefined : Number(value)
+                );
+                if (value !== undefined && value !== null) {
+                  delete nextOperation.critMultiplierScale;
+                  delete nextOperation.hasCritMultiplierScale;
+                }
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            critMultiplierScale
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            value={critMultiplierScale}
+            disabled={disabled}
+            placeholder="未设置"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalNumberField(
+                  nextOperation,
+                  'critMultiplierScale',
+                  value === undefined || value === null ? undefined : Number(value)
+                );
+                if (value !== undefined && value !== null) {
+                  delete nextOperation.critMultiplierOverride;
+                  delete nextOperation.hasCritMultiplierOverride;
+                }
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (operationKind === 'add_stack') {
+    return (
+      <div className="crud-form-grid">
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            stackKey
+          </Typography.Text>
+          <Input
+            value={typeof operation.stackKey === 'string' ? operation.stackKey : ''}
+            disabled={disabled}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'stackKey', value);
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            maxStacks
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            min={1}
+            step={1}
+            precision={0}
+            value={maxStacksValue}
+            disabled={disabled}
+            placeholder="正整数"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                if (value === undefined || value === null) {
+                  setOptionalNumberField(nextOperation, 'maxStacks', undefined);
+                } else {
+                  const numeric = Math.trunc(Number(value));
+                  setOptionalNumberField(
+                    nextOperation,
+                    'maxStacks',
+                    Number.isFinite(numeric) && numeric >= 1 ? numeric : undefined
+                  );
+                }
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (operationKind === 'trigger_damage_at_stacks') {
+    return (
+      <Space direction="vertical" size={10} style={{ width: '100%' }}>
+        <div className="crud-form-grid">
+          <div>
+            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+              stackKey
+            </Typography.Text>
+            <Input
+              value={typeof operation.stackKey === 'string' ? operation.stackKey : ''}
+              disabled={disabled}
+              onChange={(value) =>
+                onPatch((nextOperation) => {
+                  setOptionalStringField(nextOperation, 'stackKey', value);
+                  return nextOperation;
+                })
+              }
+            />
+          </div>
+          <div>
+            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+              triggerStacks
+            </Typography.Text>
+            <InputNumber
+              style={{ width: '100%' }}
+              min={1}
+              step={1}
+              precision={0}
+              value={triggerStacksValue}
+              disabled={disabled}
+              placeholder="正整数"
+              onChange={(value) =>
+                onPatch((nextOperation) => {
+                  if (value === undefined || value === null) {
+                    setOptionalNumberField(nextOperation, 'triggerStacks', undefined);
+                  } else {
+                    const numeric = Math.trunc(Number(value));
+                    setOptionalNumberField(
+                      nextOperation,
+                      'triggerStacks',
+                      Number.isFinite(numeric) && numeric >= 1 ? numeric : undefined
+                    );
+                  }
+                  return nextOperation;
+                })
+              }
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <Checkbox
+              checked={operation.resetStacks === true}
+              disabled={disabled}
+              onChange={(checked) =>
+                onPatch((nextOperation) => {
+                  setOptionalBooleanField(nextOperation, 'resetStacks', checked);
+                  return nextOperation;
+                })
+              }
+            >
+              resetStacks
+            </Checkbox>
+          </div>
+        </div>
+        {renderDamageFields()}
+      </Space>
+    );
+  }
+
+  if (operationKind === 'apply_dot') {
+    const durationMs = readOptionalFiniteNumber(operation.durationMs);
+    const tickIntervalMs = readOptionalFiniteNumber(operation.tickIntervalMs);
+    const refreshMode = typeof operation.refreshMode === 'string' ? operation.refreshMode : undefined;
+    return (
+      <Space direction="vertical" size={10} style={{ width: '100%' }}>
+        {renderDamageFields()}
+        <div className="crud-form-grid">
+          <div>
+            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+              durationMs
+            </Typography.Text>
+            <InputNumber
+              style={{ width: '100%' }}
+              min={1}
+              step={1}
+              precision={0}
+              value={durationMs}
+              disabled={disabled}
+              placeholder="正整数"
+              onChange={(value) =>
+                onPatch((nextOperation) => {
+                  if (value === undefined || value === null) {
+                    setOptionalNumberField(nextOperation, 'durationMs', undefined);
+                  } else {
+                    const numeric = Math.trunc(Number(value));
+                    setOptionalNumberField(
+                      nextOperation,
+                      'durationMs',
+                      Number.isFinite(numeric) && numeric >= 1 ? numeric : undefined
+                    );
+                  }
+                  return nextOperation;
+                })
+              }
+            />
+          </div>
+          <div>
+            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+              tickIntervalMs
+            </Typography.Text>
+            <InputNumber
+              style={{ width: '100%' }}
+              min={1000}
+              step={1000}
+              precision={0}
+              value={tickIntervalMs}
+              disabled={disabled}
+              placeholder="默认 1000"
+              onChange={(value) =>
+                onPatch((nextOperation) => {
+                  if (value === undefined || value === null) {
+                    setOptionalNumberField(nextOperation, 'tickIntervalMs', undefined);
+                  } else {
+                    const numeric = Math.trunc(Number(value));
+                    setOptionalNumberField(
+                      nextOperation,
+                      'tickIntervalMs',
+                      Number.isFinite(numeric) && numeric >= 1 ? numeric : undefined
+                    );
+                  }
+                  return nextOperation;
+                })
+              }
+            />
+          </div>
+          <div>
+            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+              refreshMode
+            </Typography.Text>
+            <Select
+              allowClear
+              value={refreshMode}
+              disabled={disabled}
+              placeholder="未设置"
+              options={DOT_REFRESH_MODE_OPTIONS}
+              onChange={(value) =>
+                onPatch((nextOperation) => {
+                  setOptionalStringField(nextOperation, 'refreshMode', String(value ?? ''));
+                  return nextOperation;
+                })
+              }
+            />
+          </div>
+        </div>
+      </Space>
+    );
+  }
+
+  if (operationKind === 'stat_modifier') {
+    const perStack = operation.perStack === true;
+    return (
+      <div className="crud-form-grid">
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            attrKey
+          </Typography.Text>
+          <Input
+            value={typeof operation.attrKey === 'string' ? operation.attrKey : ''}
+            disabled={disabled}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'attrKey', value);
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            modifierMode
+          </Typography.Text>
+          <Select
+            allowClear
+            value={typeof operation.modifierMode === 'string' ? operation.modifierMode : undefined}
+            disabled={disabled}
+            options={STAT_MODIFIER_MODE_OPTIONS}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'modifierMode', String(value ?? ''));
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            value
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            value={valueAmount}
+            disabled={disabled}
+            placeholder="未设置"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalNumberField(
+                  nextOperation,
+                  'value',
+                  value === undefined || value === null ? undefined : Number(value)
+                );
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            stackKey
+          </Typography.Text>
+          <Input
+            value={typeof operation.stackKey === 'string' ? operation.stackKey : ''}
+            disabled={disabled}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'stackKey', value);
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Checkbox
+            checked={perStack}
+            disabled={disabled}
+            onChange={(checked) =>
+              onPatch((nextOperation) => {
+                setOptionalBooleanField(nextOperation, 'perStack', checked);
+                return nextOperation;
+              })
+            }
+          >
+            perStack
+          </Checkbox>
+        </div>
+      </div>
+    );
+  }
+
+  if (operationKind === 'phantom_hit_on_hit_repeat') {
+    const repeatCount = readOptionalFiniteNumber(operation.repeatCount);
+    const repeatTag = typeof operation.repeatTag === 'string' ? operation.repeatTag : '';
+    const repeatScope = typeof operation.repeatScope === 'string' ? operation.repeatScope : undefined;
+    return (
+      <div className="crud-form-grid">
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            stackKey
+          </Typography.Text>
+          <Input
+            value={typeof operation.stackKey === 'string' ? operation.stackKey : ''}
+            disabled={disabled}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'stackKey', value);
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            triggerStacks
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            min={1}
+            step={1}
+            precision={0}
+            value={triggerStacksValue}
+            disabled={disabled}
+            placeholder="正整数"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                if (value === undefined || value === null) {
+                  setOptionalNumberField(nextOperation, 'triggerStacks', undefined);
+                } else {
+                  const numeric = Math.trunc(Number(value));
+                  setOptionalNumberField(
+                    nextOperation,
+                    'triggerStacks',
+                    Number.isFinite(numeric) && numeric >= 1 ? numeric : undefined
+                  );
+                }
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            repeatCount
+          </Typography.Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            min={1}
+            max={1}
+            step={1}
+            precision={0}
+            value={repeatCount}
+            disabled={disabled}
+            placeholder="1"
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                if (value === undefined || value === null) {
+                  setOptionalNumberField(nextOperation, 'repeatCount', undefined);
+                } else {
+                  setOptionalNumberField(nextOperation, 'repeatCount', 1);
+                }
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            repeatTag
+          </Typography.Text>
+          <Input
+            value={repeatTag}
+            disabled={disabled}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'repeatTag', value);
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+            repeatScope
+          </Typography.Text>
+          <Select
+            value={repeatScope}
+            disabled={disabled}
+            options={PHANTOM_REPEAT_SCOPE_OPTIONS}
+            onChange={(value) =>
+              onPatch((nextOperation) => {
+                setOptionalStringField(nextOperation, 'repeatScope', String(value ?? ''));
+                return nextOperation;
+              })
+            }
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 function OptionalJsonFieldEditor({
   label,
   value,
@@ -278,6 +1010,9 @@ export function SkillMechanicsConfigEditor({
   version,
   stacks,
   rows,
+  skillId,
+  ownerId,
+  ownerType,
   disabled = false,
   onVersionChange,
   onStacksChange,
@@ -286,6 +1021,8 @@ export function SkillMechanicsConfigEditor({
 }: SkillMechanicsConfigEditorProps) {
   const defaultDamageTypeValue = damageTypeOptions[0]?.value ?? 'magic';
   const [coefficientBuckets, setCoefficientBuckets] = useState<CoefficientBucket[]>([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<DpsPassiveTemplateId>('attacker_on_hit_damage');
+  const [selectedPassiveIndex, setSelectedPassiveIndex] = useState<number | undefined>(undefined);
   const dpsPassiveEffects = useMemo((): JsonObject[] | null => {
     if (!Array.isArray(root.dpsPassiveEffects)) {
       return null;
@@ -297,6 +1034,28 @@ export function SkillMechanicsConfigEditor({
   const dpsPassiveErrors = useMemo(() => dpsPassiveIssues.filter((issue) => issue.severity === 'error'), [dpsPassiveIssues]);
   const dpsPassiveWarnings = useMemo(() => dpsPassiveIssues.filter((issue) => issue.severity === 'warning'), [dpsPassiveIssues]);
   const dpsPassiveGroups = useMemo(() => groupDpsPassiveRowsByOwnerRole(dpsPassiveSummaryRows), [dpsPassiveSummaryRows]);
+  const dpsPassiveTemplateOptions = useMemo(() => getDpsPassiveTemplateOptions(), []);
+  const selectedTemplate = useMemo(() => getDpsPassiveTemplate(selectedTemplateId), [selectedTemplateId]);
+  const dpsPassiveTemplateContext = useMemo(
+    () => buildDpsPassiveTemplateContext({ skillId, ownerId, ownerType }),
+    [skillId, ownerId, ownerType]
+  );
+  const dpsPassiveMalformed = 'dpsPassiveEffects' in root && !Array.isArray(root.dpsPassiveEffects);
+  const canEditDpsPassives = Boolean(onDpsPassiveEffectsChange) && !disabled && !dpsPassiveMalformed;
+  const editablePassiveCount = Array.isArray(root.dpsPassiveEffects) ? root.dpsPassiveEffects.length : 0;
+
+  useEffect(() => {
+    if (editablePassiveCount === 0) {
+      setSelectedPassiveIndex(undefined);
+      return;
+    }
+    setSelectedPassiveIndex((current) => {
+      if (current === undefined || current >= editablePassiveCount) {
+        return 0;
+      }
+      return current;
+    });
+  }, [editablePassiveCount]);
   const stackOptions = useMemo(
     () =>
       stacks
@@ -512,6 +1271,86 @@ export function SkillMechanicsConfigEditor({
   const commitDpsPassiveEffects = (nextPassives: JsonObject[]) => {
     onDpsPassiveEffectsChange?.(cloneDpsPassiveEffects(nextPassives));
   };
+
+  const resolveEditablePassives = (): JsonObject[] => {
+    if (Array.isArray(root.dpsPassiveEffects)) {
+      return root.dpsPassiveEffects as JsonObject[];
+    }
+    return [];
+  };
+
+  const addPassiveFromTemplate = () => {
+    if (!canEditDpsPassives) {
+      return;
+    }
+    const passive = createDpsPassiveFromTemplate(selectedTemplateId, dpsPassiveTemplateContext);
+    const nextPassives = [...resolveEditablePassives(), passive];
+    commitDpsPassiveEffects(nextPassives);
+    setSelectedPassiveIndex(nextPassives.length - 1);
+  };
+
+  const appendOperationTemplateToSelectedPassive = () => {
+    if (!canEditDpsPassives || !dpsPassiveEffects || selectedPassiveIndex === undefined) {
+      return;
+    }
+    const operations = createDpsPassiveTemplateOperations(selectedTemplateId, dpsPassiveTemplateContext);
+    if (operations.length === 0) {
+      return;
+    }
+    commitDpsPassiveEffects(
+      dpsPassiveEffects.map((passive, index) =>
+        index === selectedPassiveIndex && isPlainObject(passive)
+          ? appendOperationsToPassive(passive, operations)
+          : passive
+      )
+    );
+  };
+
+  const duplicatePassive = (passiveIndex: number) => {
+    if (!canEditDpsPassives || !dpsPassiveEffects) {
+      return;
+    }
+    const passive = dpsPassiveEffects[passiveIndex];
+    if (!isPlainObject(passive)) {
+      return;
+    }
+    const duplicate = duplicateDpsPassive(passive, dpsPassiveEffects);
+    const nextPassives = [...dpsPassiveEffects];
+    nextPassives.splice(passiveIndex + 1, 0, duplicate);
+    commitDpsPassiveEffects(nextPassives);
+    setSelectedPassiveIndex(passiveIndex + 1);
+  };
+
+  const deletePassive = (passiveIndex: number) => {
+    if (!canEditDpsPassives || !dpsPassiveEffects) {
+      return;
+    }
+    commitDpsPassiveEffects(dpsPassiveEffects.filter((_, index) => index !== passiveIndex));
+  };
+
+  const movePassive = (passiveIndex: number, direction: -1 | 1) => {
+    if (!canEditDpsPassives || !dpsPassiveEffects) {
+      return;
+    }
+    const targetIndex = passiveIndex + direction;
+    if (targetIndex < 0 || targetIndex >= dpsPassiveEffects.length) {
+      return;
+    }
+    const nextPassives = [...dpsPassiveEffects];
+    const [moved] = nextPassives.splice(passiveIndex, 1);
+    nextPassives.splice(targetIndex, 0, moved);
+    commitDpsPassiveEffects(nextPassives);
+    setSelectedPassiveIndex(targetIndex);
+  };
+
+  const passiveSelectOptions = useMemo(
+    () =>
+      dpsPassiveSummaryRows.map((row) => ({
+        label: `[${row.index}] ${row.passiveId}`,
+        value: row.index
+      })),
+    [dpsPassiveSummaryRows]
+  );
 
   const updateDpsPassiveOperation = (
     passiveIndex: number,
@@ -955,9 +1794,83 @@ export function SkillMechanicsConfigEditor({
           <div>
             <Typography.Text bold>DPS Passive</Typography.Text>
             <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
-              展示 mechanicsConfig.dpsPassiveEffects；operations 支持维护 Batch R 乘区字段。
+              展示 mechanicsConfig.dpsPassiveEffects；支持模板辅助创建与 Batch R 乘区字段维护。
             </Typography.Text>
           </div>
+
+          {canEditDpsPassives ? (
+            <div style={{ border: '1px dashed var(--color-border-3)', borderRadius: 8, padding: 12 }}>
+              <Space direction="vertical" size={10} style={{ width: '100%' }}>
+                <Typography.Text bold style={{ fontSize: 12 }}>
+                  模板工具条
+                </Typography.Text>
+                <div className="crud-form-grid">
+                  <div>
+                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                      模板
+                    </Typography.Text>
+                    <Select
+                      value={selectedTemplateId}
+                      options={dpsPassiveTemplateOptions}
+                      onChange={(value) => setSelectedTemplateId(String(value) as DpsPassiveTemplateId)}
+                    />
+                  </div>
+                  <div>
+                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                      目标 passive（追加 operation）
+                    </Typography.Text>
+                    <Select
+                      allowClear
+                      placeholder="选择 passive"
+                      value={selectedPassiveIndex}
+                      disabled={passiveSelectOptions.length === 0}
+                      options={passiveSelectOptions}
+                      onChange={(value) =>
+                        setSelectedPassiveIndex(value === undefined || value === null ? undefined : Number(value))
+                      }
+                    />
+                  </div>
+                </div>
+                <Space wrap>
+                  <Button size="small" type="primary" onClick={addPassiveFromTemplate}>
+                    新增 passive
+                  </Button>
+                  <Button
+                    size="small"
+                    onClick={appendOperationTemplateToSelectedPassive}
+                    disabled={selectedPassiveIndex === undefined}
+                  >
+                    追加 operation 模板
+                  </Button>
+                </Space>
+                {selectedTemplate ? (
+                  <div>
+                    <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12, marginBottom: 4 }}>
+                      {selectedTemplate.description}
+                    </Typography.Text>
+                    <Space wrap size={6}>
+                      <Tag size="small" color="arcoblue">
+                        ownerRole={selectedTemplate.ownerRole}
+                      </Tag>
+                      <Tag size="small" color={selectedTemplate.supported === 'runtime' ? 'green' : 'gray'}>
+                        {selectedTemplate.supported}
+                      </Tag>
+                      {selectedTemplate.requiresRealData ? (
+                        <Tag size="small" color="orangered">
+                          需真实数据
+                        </Tag>
+                      ) : null}
+                      {selectedTemplate.keyFields.map((field) => (
+                        <Tag key={field} size="small" color="purple">
+                          {field}
+                        </Tag>
+                      ))}
+                    </Space>
+                  </div>
+                ) : null}
+              </Space>
+            </div>
+          ) : null}
 
           {dpsPassiveErrors.length > 0 ? (
             <Alert
@@ -994,7 +1907,7 @@ export function SkillMechanicsConfigEditor({
           ) : null}
 
           {dpsPassiveSummaryRows.length === 0 ? (
-            <Empty description="未配置 dpsPassiveEffects；旧技能可不填。" />
+            <Empty description="未配置 dpsPassiveEffects；可使用上方模板新增，旧技能可不填。" />
           ) : (
             DPS_PASSIVE_OWNER_GROUP_ORDER.filter((groupKey) => (dpsPassiveGroups.get(groupKey) ?? []).length > 0).map((groupKey) => (
               <div key={groupKey}>
@@ -1008,6 +1921,30 @@ export function SkillMechanicsConfigEditor({
                       style={{ border: '1px dashed var(--color-border-3)', borderRadius: 8, padding: 12 }}
                     >
                       <Space direction="vertical" size={8} style={{ width: '100%' }}>
+                        {canEditDpsPassives ? (
+                          <Space wrap>
+                            <Button size="small" onClick={() => duplicatePassive(summaryRow.index)}>
+                              复制
+                            </Button>
+                            <Button size="small" status="danger" onClick={() => deletePassive(summaryRow.index)}>
+                              删除
+                            </Button>
+                            <Button
+                              size="small"
+                              onClick={() => movePassive(summaryRow.index, -1)}
+                              disabled={summaryRow.index === 0}
+                            >
+                              上移
+                            </Button>
+                            <Button
+                              size="small"
+                              onClick={() => movePassive(summaryRow.index, 1)}
+                              disabled={summaryRow.index >= dpsPassiveSummaryRows.length - 1}
+                            >
+                              下移
+                            </Button>
+                          </Space>
+                        ) : null}
                         <div className="crud-form-grid">
                           <div>
                             <Typography.Text type="secondary" style={{ display: 'block', fontSize: 12 }}>
@@ -1144,6 +2081,167 @@ export function SkillMechanicsConfigEditor({
                         ) : null}
 
                         {dpsPassiveEffects && onDpsPassiveEffectsChange ? (
+                          (() => {
+                            const passive = dpsPassiveEffects[summaryRow.index];
+                            if (!isPlainObject(passive)) {
+                              return null;
+                            }
+                            const triggerKind = typeof passive.triggerKind === 'string' ? passive.triggerKind : '';
+                            const showEnergizedFields =
+                              triggerKind === 'energized_charge_and_consume'
+                              || 'chargeKey' in passive
+                              || 'chargeGainPerBasicAttack' in passive
+                              || 'chargeThreshold' in passive;
+                            if (!showEnergizedFields) {
+                              return null;
+                            }
+                            const chargeKey = typeof passive.chargeKey === 'string' ? passive.chargeKey : '';
+                            const chargeGain = readOptionalFiniteNumber(passive.chargeGainPerBasicAttack);
+                            const chargeThreshold = readOptionalFiniteNumber(passive.chargeThreshold);
+                            const chargeCap = readOptionalFiniteNumber(passive.chargeCap);
+                            const chargeReadyPolicy =
+                              typeof passive.chargeReadyPolicy === 'string' ? passive.chargeReadyPolicy : undefined;
+                            const procScope = typeof passive.procScope === 'string' ? passive.procScope : undefined;
+                            return (
+                              <div>
+                                <Typography.Text bold style={{ display: 'block', marginBottom: 8 }}>
+                                  energized charge 字段
+                                </Typography.Text>
+                                <div className="crud-form-grid">
+                                  <div>
+                                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                      chargeKey
+                                    </Typography.Text>
+                                    <Input
+                                      value={chargeKey}
+                                      disabled={disabled}
+                                      onChange={(value) =>
+                                        updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                          setOptionalStringField(nextPassive, 'chargeKey', value);
+                                          return nextPassive;
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                      chargeGainPerBasicAttack
+                                    </Typography.Text>
+                                    <InputNumber
+                                      style={{ width: '100%' }}
+                                      min={0}
+                                      value={chargeGain}
+                                      disabled={disabled}
+                                      onChange={(value) =>
+                                        updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                          setOptionalNumberField(
+                                            nextPassive,
+                                            'chargeGainPerBasicAttack',
+                                            value === undefined || value === null ? undefined : Number(value)
+                                          );
+                                          return nextPassive;
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                      chargeThreshold
+                                    </Typography.Text>
+                                    <InputNumber
+                                      style={{ width: '100%' }}
+                                      min={0}
+                                      value={chargeThreshold}
+                                      disabled={disabled}
+                                      onChange={(value) =>
+                                        updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                          setOptionalNumberField(
+                                            nextPassive,
+                                            'chargeThreshold',
+                                            value === undefined || value === null ? undefined : Number(value)
+                                          );
+                                          return nextPassive;
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                      chargeCap
+                                    </Typography.Text>
+                                    <InputNumber
+                                      style={{ width: '100%' }}
+                                      min={0}
+                                      value={chargeCap}
+                                      disabled={disabled}
+                                      placeholder="可选"
+                                      onChange={(value) =>
+                                        updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                          setOptionalNumberField(
+                                            nextPassive,
+                                            'chargeCap',
+                                            value === undefined || value === null ? undefined : Number(value)
+                                          );
+                                          return nextPassive;
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                      chargeReadyPolicy
+                                    </Typography.Text>
+                                    <Select
+                                      allowClear
+                                      value={chargeReadyPolicy}
+                                      disabled={disabled}
+                                      options={ENERGIZED_CHARGE_READY_POLICY_OPTIONS}
+                                      onChange={(value) =>
+                                        updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                          setOptionalStringField(nextPassive, 'chargeReadyPolicy', String(value ?? ''));
+                                          return nextPassive;
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
+                                      procScope
+                                    </Typography.Text>
+                                    <Select
+                                      allowClear
+                                      value={procScope}
+                                      disabled={disabled}
+                                      options={ENERGIZED_PROC_SCOPE_OPTIONS}
+                                      onChange={(value) =>
+                                        updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                          setOptionalStringField(nextPassive, 'procScope', String(value ?? ''));
+                                          return nextPassive;
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                  <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                                    <Checkbox
+                                      checked={passive.consumeChargeOnTrigger === true}
+                                      disabled={disabled}
+                                      onChange={(checked) =>
+                                        updateDpsPassive(summaryRow.index, (nextPassive) => {
+                                          setOptionalBooleanField(nextPassive, 'consumeChargeOnTrigger', checked);
+                                          return nextPassive;
+                                        })
+                                      }
+                                    >
+                                      consumeChargeOnTrigger
+                                    </Checkbox>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })()
+                        ) : null}
+
+                        {dpsPassiveEffects && onDpsPassiveEffectsChange ? (
                           <div>
                             <Typography.Text bold style={{ display: 'block', marginBottom: 8 }}>
                               Batch R 乘区（operations）
@@ -1183,6 +2281,17 @@ export function SkillMechanicsConfigEditor({
                                           <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                                             operation[{operationIndex}] · kind={operationKind || '(missing)'}
                                           </Typography.Text>
+
+                                          <DpsPassiveOperationKindFields
+                                            operation={operation}
+                                            operationKind={operationKind}
+                                            disabled={disabled}
+                                            damageTypeOptions={damageTypeOptions}
+                                            defaultDamageTypeValue={defaultDamageTypeValue}
+                                            onPatch={(apply) =>
+                                              updateDpsPassiveOperation(summaryRow.index, operationIndex, apply)
+                                            }
+                                          />
 
                                           <div className="crud-form-grid">
                                             <div>
