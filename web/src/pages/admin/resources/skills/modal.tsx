@@ -264,6 +264,9 @@ export function SkillsModal({
             version={mechanicsConfigState.version}
             stacks={mechanicsConfigState.stacks}
             rows={mechanicsConfigState.rows}
+            skillId={formData.skillId}
+            ownerId={formData.ownerId}
+            ownerType={formData.ownerType}
             disabled={readOnly || !!mechanicsConfigState.error}
             onVersionChange={(version) =>
               onFieldChange(
