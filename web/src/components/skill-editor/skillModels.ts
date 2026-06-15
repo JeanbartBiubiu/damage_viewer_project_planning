@@ -516,10 +516,32 @@ const DPS_PASSIVE_OPERATION_KINDS = new Set([
   'energized_charge_check',
   'energized_charge_consume',
   'energized_charge_gain',
-  'next_attack_state_consume'
+  'next_attack_state_consume',
+  'execute_threshold',
+  'crit_context_modifier'
 ]);
 
+const DPS_PASSIVE_EXECUTE_THRESHOLD_TYPES = new Set(['current_hp_ratio', 'current_hp_value']);
+
 const DPS_PASSIVE_OWNER_ROLES = new Set(['attacker', 'target']);
+
+const DPS_PASSIVE_DAMAGE_TYPES = new Set(['physical', 'magic', 'true']);
+
+const DPS_PASSIVE_TRIGGER_KINDS = new Set([
+  'on_basic_attack_hit',
+  'every_n_basic_attack_hit',
+  'stack_on_hit',
+  'stat_modifier_always_on',
+  'pre_enabled_state_modifier',
+  'next_basic_attack_after_state',
+  'energized_charge_and_consume'
+]);
+
+const DPS_PASSIVE_CHARGE_READY_POLICIES = new Set(['next_basic_attack_after_threshold_reached']);
+
+const DPS_PASSIVE_PROC_SCOPES = new Set(['real_basic_attack_only']);
+
+const DPS_PASSIVE_PHANTOM_REPEAT_SCOPE = 'copyable_on_hit';
 
 export function summarizeDpsPassiveEffects(root: JsonObject): SkillDpsPassiveSummaryRow[] {
   if (!isPlainObject(root)) {
@@ -1122,6 +1144,17 @@ function validateDpsPassiveEffectEntry(issues: SkillDpsPassiveValidationIssue[],
     return;
   }
 
+  const passiveId = asText(passive.passiveId);
+  const effectId = asText(passive.effectId);
+  if (!passiveId && !effectId) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/passiveId`,
+      'passiveId 与 effectId 不能同时为空。'
+    );
+  }
+
   const ownerRole = asText(passive.ownerRole);
   if (ownerRole && !DPS_PASSIVE_OWNER_ROLES.has(ownerRole)) {
     pushDpsPassiveIssue(
@@ -1155,6 +1188,35 @@ function validateDpsPassiveEffectEntry(issues: SkillDpsPassiveValidationIssue[],
     }
   }
 
+  const triggerKind = asText(passive.triggerKind);
+  if (triggerKind && !DPS_PASSIVE_TRIGGER_KINDS.has(triggerKind)) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/triggerKind`,
+      `triggerKind 不受支持：${triggerKind}。`
+    );
+  }
+
+  if (triggerKind === 'energized_charge_and_consume') {
+    validateDpsPassiveEnergizedFields(issues, passive, basePath);
+  }
+
+  if (triggerKind === 'stat_modifier_always_on') {
+    const operations = Array.isArray(passive.operations) ? passive.operations : [];
+    const hasStatModifier = operations.some(
+      (operation) => isPlainObject(operation) && asText(operation.kind) === 'stat_modifier'
+    );
+    if (!hasStatModifier) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/operations`,
+        'stat_modifier_always_on 至少需要一条 stat_modifier operation。'
+      );
+    }
+  }
+
   if ('internalCooldownMs' in passive && passive.internalCooldownMs !== undefined && passive.internalCooldownMs !== null) {
     const cooldownMs = passive.internalCooldownMs;
     if (
@@ -1185,6 +1247,9 @@ function validateDpsPassiveEffectEntry(issues: SkillDpsPassiveValidationIssue[],
     passive.operations.forEach((operation, operationIndex) => {
       validateDpsPassiveOperationEntry(issues, operation, index, operationIndex);
     });
+
+    validateDpsPassivePhantomHitCrossChecks(issues, passive, index);
+    validateDpsPassivePerStackStatModifierCrossChecks(issues, passive, index);
   } else {
     pushDpsPassiveIssue(issues, 'warning', `${basePath}/operations`, 'operations 缺失。');
   }
@@ -1255,6 +1320,501 @@ function validateDpsPassiveOperationEntry(
     if (!asText(operation.evidenceKey)) {
       pushDpsPassiveIssue(issues, 'error', `${basePath}/evidenceKey`, 'evidenceKey 必须是非空字符串。');
     }
+  }
+
+  if (kind === 'execute_threshold') {
+    const thresholdType = asText(operation.thresholdType);
+    if (thresholdType && !DPS_PASSIVE_EXECUTE_THRESHOLD_TYPES.has(thresholdType)) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/thresholdType`,
+        `execute_threshold.thresholdType 必须是 current_hp_ratio 或 current_hp_value，当前为 ${thresholdType}。`
+      );
+    }
+
+    if (!('thresholdValue' in operation) || operation.thresholdValue === undefined || operation.thresholdValue === null) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/thresholdValue`,
+        'execute_threshold.thresholdValue 必须显式填写为有限非负数。'
+      );
+    } else if (typeof operation.thresholdValue === 'string' && !operation.thresholdValue.trim()) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/thresholdValue`,
+        'execute_threshold.thresholdValue 不能为空白字符串。'
+      );
+    } else {
+      const thresholdValue = Number(operation.thresholdValue);
+      if (!Number.isFinite(thresholdValue) || thresholdValue < 0) {
+        pushDpsPassiveIssue(
+          issues,
+          'error',
+          `${basePath}/thresholdValue`,
+          'execute_threshold.thresholdValue 必须是有限非负数。'
+        );
+      }
+    }
+
+    const checkTiming = asText(operation.checkTiming);
+    if (checkTiming && checkTiming !== 'after_damage') {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/checkTiming`,
+        `execute_threshold.checkTiming 必须为空或 after_damage，当前为 ${checkTiming}。`
+      );
+    }
+  }
+
+  if (kind === 'damage_modifier') {
+    const valuePhase = asText(operation.valuePhase);
+    if (valuePhase && valuePhase !== 'incoming') {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/valuePhase`,
+        `damage_modifier.valuePhase 必须为空或 incoming，当前为 ${valuePhase}。`
+      );
+    }
+
+    const modifierMode = asText(operation.modifierMode);
+    if (modifierMode && modifierMode !== 'percent') {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/modifierMode`,
+        `damage_modifier.modifierMode 必须为空或 percent，当前为 ${modifierMode}。`
+      );
+    }
+
+    if (operation.amount === 0) {
+      pushDpsPassiveIssue(issues, 'warning', `${basePath}/amount`, 'amount=0 为草稿值，需按数据来源确认。');
+    }
+    if (operation.value === 0) {
+      pushDpsPassiveIssue(issues, 'warning', `${basePath}/value`, 'value=0 为草稿值，需按数据来源确认。');
+    }
+    const valueSpec = operation.valueSpec;
+    if (isPlainObject(valueSpec) && valueSpec.value === 0) {
+      pushDpsPassiveIssue(
+        issues,
+        'warning',
+        `${basePath}/valueSpec/value`,
+        'valueSpec.value=0 为草稿值，需按数据来源确认。'
+      );
+    }
+  }
+
+  if (kind === 'crit_context_modifier') {
+    validateDpsPassiveCritContextModifierOperation(issues, operation, basePath);
+  }
+
+  if (kind === 'damage' && operation.amount === 0) {
+    pushDpsPassiveIssue(issues, 'warning', `${basePath}/amount`, 'amount=0 为草稿值，需按数据来源确认。');
+  }
+
+  if (kind === 'trigger_damage_at_stacks' && operation.amount === 0) {
+    pushDpsPassiveIssue(issues, 'warning', `${basePath}/amount`, 'amount=0 为草稿值，需按数据来源确认。');
+  }
+
+  if (operation.phantomHitCopyable === true && kind !== 'damage') {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/phantomHitCopyable`,
+      'phantomHitCopyable 仅支持 damage operation。'
+    );
+  }
+
+  if (kind === 'apply_dot') {
+    validateDpsPassiveApplyDotOperation(issues, operation, basePath);
+  }
+
+  if (kind === 'stat_modifier') {
+    validateDpsPassiveStatModifierOperation(issues, operation, basePath);
+  }
+
+  if (kind === 'phantom_hit_on_hit_repeat') {
+    validateDpsPassivePhantomHitOperationFields(issues, operation, basePath);
+  }
+}
+
+function readOptionalFiniteNumber(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+function isDpsCritMultiplierOverrideConfigured(operation: JsonObject): boolean {
+  if (operation.hasCritMultiplierOverride === true) {
+    return true;
+  }
+  const overrideValue = readOptionalFiniteNumber(operation.critMultiplierOverride);
+  return overrideValue !== undefined && overrideValue > 0;
+}
+
+function isDpsCritMultiplierScaleConfigured(operation: JsonObject): boolean {
+  if (operation.hasCritMultiplierScale === true) {
+    return true;
+  }
+  const scaleValue = readOptionalFiniteNumber(operation.critMultiplierScale);
+  return scaleValue !== undefined && scaleValue > 0 && scaleValue !== 1;
+}
+
+function isDpsCritMultiplierOverridePresent(operation: JsonObject): boolean {
+  return operation.hasCritMultiplierOverride === true || readOptionalFiniteNumber(operation.critMultiplierOverride) !== undefined;
+}
+
+function isDpsCritMultiplierScalePresent(operation: JsonObject): boolean {
+  return operation.hasCritMultiplierScale === true || readOptionalFiniteNumber(operation.critMultiplierScale) !== undefined;
+}
+
+function validateDpsPassiveCritContextModifierOperation(
+  issues: SkillDpsPassiveValidationIssue[],
+  operation: JsonObject,
+  basePath: string
+) {
+  const forceCrit = operation.forceCrit === true;
+  const overrideValue = readOptionalFiniteNumber(operation.critMultiplierOverride);
+  const scaleValue = readOptionalFiniteNumber(operation.critMultiplierScale);
+  const overrideConfigured = isDpsCritMultiplierOverrideConfigured(operation);
+  const scaleConfigured = isDpsCritMultiplierScaleConfigured(operation);
+
+  if (!forceCrit && !overrideConfigured && !scaleConfigured) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      basePath,
+      'crit_context_modifier 至少需要 forceCrit=true、critMultiplierOverride 或 critMultiplierScale≠1 之一。'
+    );
+  }
+
+  if (overrideConfigured && scaleConfigured) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      basePath,
+      'crit_context_modifier 不能同时配置 critMultiplierOverride 与 critMultiplierScale。'
+    );
+  }
+
+  if (isDpsCritMultiplierOverridePresent(operation)) {
+    if (overrideValue === undefined || overrideValue <= 0) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/critMultiplierOverride`,
+        'crit_context_modifier critMultiplierOverride 必须是有限正数。'
+      );
+    }
+  }
+
+  if (isDpsCritMultiplierScalePresent(operation)) {
+    if (scaleValue === undefined || scaleValue <= 0) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${basePath}/critMultiplierScale`,
+        'crit_context_modifier critMultiplierScale 必须是有限正数。'
+      );
+    }
+  }
+}
+
+function hasDpsPassiveDamageFormula(operation: JsonObject): boolean {
+  const amount = readOptionalFiniteNumber(operation.amount);
+  const amountPerStack = readOptionalFiniteNumber(operation.amountPerStack);
+  const targetCurrentHpRatio = readOptionalFiniteNumber(operation.targetCurrentHpRatio);
+  const targetMaxHpRatio = readOptionalFiniteNumber(operation.targetMaxHpRatio);
+  const targetMissingHpRatio = readOptionalFiniteNumber(operation.targetMissingHpRatio);
+  const targetMissingHpAmp = readOptionalFiniteNumber(operation.targetMissingHpAmp);
+  const attackerAttrRatio = readOptionalFiniteNumber(operation.attackerAttrRatio);
+  return (
+    (amount !== undefined && amount !== 0)
+    || (amountPerStack !== undefined && amountPerStack !== 0)
+    || (targetCurrentHpRatio !== undefined && targetCurrentHpRatio !== 0)
+    || (targetMaxHpRatio !== undefined && targetMaxHpRatio !== 0)
+    || (targetMissingHpRatio !== undefined && targetMissingHpRatio !== 0)
+    || (targetMissingHpAmp !== undefined && targetMissingHpAmp !== 0)
+    || (attackerAttrRatio !== undefined && attackerAttrRatio !== 0)
+    || operation.hasMinAmount === true
+  );
+}
+
+function collectDpsPassiveAddStackKeys(passive: JsonObject): Set<string> {
+  const keys = new Set<string>();
+  const operations = Array.isArray(passive.operations) ? passive.operations : [];
+  operations.forEach((operation) => {
+    if (!isPlainObject(operation) || asText(operation.kind) !== 'add_stack') {
+      return;
+    }
+    const stackKey = asText(operation.stackKey);
+    if (stackKey) {
+      keys.add(stackKey);
+    }
+  });
+  return keys;
+}
+
+function validateDpsPassiveEnergizedFields(
+  issues: SkillDpsPassiveValidationIssue[],
+  passive: JsonObject,
+  basePath: string
+) {
+  if (!asText(passive.chargeKey)) {
+    pushDpsPassiveIssue(issues, 'error', `${basePath}/chargeKey`, 'energized_charge_and_consume 需要 chargeKey。');
+  }
+
+  const chargeGain = readOptionalFiniteNumber(passive.chargeGainPerBasicAttack);
+  if (chargeGain === undefined || chargeGain <= 0) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/chargeGainPerBasicAttack`,
+      'energized_charge_and_consume 需要 chargeGainPerBasicAttack > 0。'
+    );
+  }
+
+  const chargeThreshold = readOptionalFiniteNumber(passive.chargeThreshold);
+  if (chargeThreshold === undefined || chargeThreshold <= 0) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/chargeThreshold`,
+      'energized_charge_and_consume 需要 chargeThreshold > 0。'
+    );
+  }
+
+  const chargeCap = readOptionalFiniteNumber(passive.chargeCap);
+  if (chargeCap !== undefined && chargeCap > 0 && chargeThreshold !== undefined && chargeCap < chargeThreshold) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/chargeCap`,
+      'energized_charge_and_consume 需要 chargeCap 缺失或 >= chargeThreshold。'
+    );
+  }
+
+  if (passive.consumeChargeOnTrigger !== true) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/consumeChargeOnTrigger`,
+      'energized_charge_and_consume 需要 consumeChargeOnTrigger=true。'
+    );
+  }
+
+  const chargeReadyPolicy = asText(passive.chargeReadyPolicy) || 'next_basic_attack_after_threshold_reached';
+  if (!DPS_PASSIVE_CHARGE_READY_POLICIES.has(chargeReadyPolicy)) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/chargeReadyPolicy`,
+      `energized_charge_and_consume 不支持 chargeReadyPolicy=${chargeReadyPolicy}。`
+    );
+  }
+
+  const procScope = asText(passive.procScope) || 'real_basic_attack_only';
+  if (!DPS_PASSIVE_PROC_SCOPES.has(procScope)) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/procScope`,
+      `energized_charge_and_consume 不支持 procScope=${procScope}。`
+    );
+  }
+}
+
+function validateDpsPassiveApplyDotOperation(
+  issues: SkillDpsPassiveValidationIssue[],
+  operation: JsonObject,
+  basePath: string
+) {
+  const damageType = asText(operation.damageType);
+  if (damageType && !DPS_PASSIVE_DAMAGE_TYPES.has(damageType)) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/damageType`,
+      `apply_dot damageType 不受支持：${damageType}。`
+    );
+  }
+
+  if (!hasDpsPassiveDamageFormula(operation)) {
+    pushDpsPassiveIssue(
+      issues,
+      'warning',
+      basePath,
+      'apply_dot 缺少有效伤害公式字段（amount 等为 0 或未设置时为草稿值）。'
+    );
+  } else if (operation.amount === 0) {
+    pushDpsPassiveIssue(issues, 'warning', `${basePath}/amount`, 'amount=0 为草稿值，需按数据来源确认。');
+  }
+
+  const durationMs = readOptionalFiniteNumber(operation.durationMs);
+  if (durationMs === undefined || durationMs <= 0) {
+    pushDpsPassiveIssue(issues, 'error', `${basePath}/durationMs`, 'apply_dot 需要 durationMs > 0。');
+  }
+
+  const tickIntervalMs = readOptionalFiniteNumber(operation.tickIntervalMs);
+  if (tickIntervalMs !== undefined && tickIntervalMs !== 1000) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/tickIntervalMs`,
+      'apply_dot tickIntervalMs 必须为空或 1000。'
+    );
+  }
+
+  const refreshMode = asText(operation.refreshMode);
+  if (refreshMode && refreshMode !== 'refresh') {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/refreshMode`,
+      `apply_dot refreshMode 必须为空或 refresh，当前为 ${refreshMode}。`
+    );
+  }
+}
+
+function validateDpsPassiveStatModifierOperation(
+  issues: SkillDpsPassiveValidationIssue[],
+  operation: JsonObject,
+  basePath: string
+) {
+  const bucketKey = asText(operation.bucketKey);
+  const attrKey = asText(operation.attrKey);
+  if (!bucketKey && !attrKey) {
+    pushDpsPassiveIssue(issues, 'error', basePath, 'stat_modifier 需要 attrKey 或 bucketKey。');
+  }
+
+  if ('value' in operation && operation.value !== undefined) {
+    const value = readOptionalFiniteNumber(operation.value);
+    if (value === undefined) {
+      pushDpsPassiveIssue(issues, 'error', `${basePath}/value`, 'stat_modifier value 必须是有限数字。');
+    } else if (value === 0) {
+      pushDpsPassiveIssue(issues, 'warning', `${basePath}/value`, 'value=0 为草稿值，需按数据来源确认。');
+    }
+  }
+}
+
+function validateDpsPassivePerStackStatModifierCrossChecks(
+  issues: SkillDpsPassiveValidationIssue[],
+  passive: JsonObject,
+  passiveIndex: number
+) {
+  const basePath = `/mechanicsConfig/dpsPassiveEffects/${passiveIndex}`;
+  const addStackKeys = collectDpsPassiveAddStackKeys(passive);
+  const operations = Array.isArray(passive.operations) ? passive.operations : [];
+
+  operations.forEach((operation, operationIndex) => {
+    if (!isPlainObject(operation) || asText(operation.kind) !== 'stat_modifier' || operation.perStack !== true) {
+      return;
+    }
+    const stackKey = asText(operation.stackKey);
+    const operationPath = `${basePath}/operations/${operationIndex}`;
+    if (!stackKey) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${operationPath}/stackKey`,
+        'perStack stat_modifier 需要 stackKey。'
+      );
+      return;
+    }
+    if (!addStackKeys.has(stackKey)) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${operationPath}/stackKey`,
+        `perStack stat_modifier 需要匹配的 add_stack：${stackKey}。`
+      );
+    }
+  });
+}
+
+function validateDpsPassivePhantomHitOperationFields(
+  issues: SkillDpsPassiveValidationIssue[],
+  operation: JsonObject,
+  basePath: string
+) {
+  if (!asText(operation.stackKey)) {
+    pushDpsPassiveIssue(issues, 'error', `${basePath}/stackKey`, 'phantom_hit_on_hit_repeat 需要 stackKey。');
+  }
+
+  const triggerStacks = readOptionalFiniteNumber(operation.triggerStacks);
+  if (triggerStacks === undefined || triggerStacks <= 0 || !Number.isInteger(triggerStacks)) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/triggerStacks`,
+      'phantom_hit_on_hit_repeat 需要 triggerStacks > 0。'
+    );
+  }
+
+  const repeatCount = readOptionalFiniteNumber(operation.repeatCount);
+  if (repeatCount !== 1) {
+    pushDpsPassiveIssue(issues, 'error', `${basePath}/repeatCount`, 'phantom_hit_on_hit_repeat 需要 repeatCount=1。');
+  }
+
+  if (!asText(operation.repeatTag)) {
+    pushDpsPassiveIssue(issues, 'error', `${basePath}/repeatTag`, 'phantom_hit_on_hit_repeat 需要 repeatTag。');
+  }
+
+  const repeatScope = asText(operation.repeatScope);
+  if (repeatScope !== DPS_PASSIVE_PHANTOM_REPEAT_SCOPE) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/repeatScope`,
+      `phantom_hit_on_hit_repeat 需要 repeatScope=${DPS_PASSIVE_PHANTOM_REPEAT_SCOPE}。`
+    );
+  }
+}
+
+function validateDpsPassivePhantomHitCrossChecks(
+  issues: SkillDpsPassiveValidationIssue[],
+  passive: JsonObject,
+  passiveIndex: number
+) {
+  const basePath = `/mechanicsConfig/dpsPassiveEffects/${passiveIndex}`;
+  const addStackKeys = collectDpsPassiveAddStackKeys(passive);
+  const operations = Array.isArray(passive.operations) ? passive.operations : [];
+  const hasCopyableDamage = operations.some(
+    (operation) => isPlainObject(operation) && asText(operation.kind) === 'damage' && operation.phantomHitCopyable === true
+  );
+  const hasPhantomRepeat = operations.some(
+    (operation) => isPlainObject(operation) && asText(operation.kind) === 'phantom_hit_on_hit_repeat'
+  );
+
+  if (!hasPhantomRepeat) {
+    return;
+  }
+
+  operations.forEach((operation, operationIndex) => {
+    if (!isPlainObject(operation) || asText(operation.kind) !== 'phantom_hit_on_hit_repeat') {
+      return;
+    }
+    const stackKey = asText(operation.stackKey);
+    const operationPath = `${basePath}/operations/${operationIndex}`;
+    if (stackKey && !addStackKeys.has(stackKey)) {
+      pushDpsPassiveIssue(
+        issues,
+        'error',
+        `${operationPath}/stackKey`,
+        `phantom_hit_on_hit_repeat 需要匹配的 add_stack：${stackKey}。`
+      );
+    }
+  });
+
+  if (!hasCopyableDamage) {
+    pushDpsPassiveIssue(
+      issues,
+      'error',
+      `${basePath}/operations`,
+      'phantom_hit_on_hit_repeat 需要至少一条 phantomHitCopyable=true 的 damage operation。'
+    );
   }
 }
 
