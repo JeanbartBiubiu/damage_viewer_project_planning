@@ -34,6 +34,7 @@ export type ItemSkillRefSummary = {
   passiveCount: number;
   ownerRoleDistribution: Record<string, number>;
   triggerCategorySummary: string[];
+  operationKindSummary: string[];
 };
 
 export type ItemSkillRefsValidationResult = {
@@ -141,6 +142,29 @@ function summarizeTriggerCategories(passives: unknown[]): string[] {
     inferPassiveCategories(passive).forEach((category) => categories.add(category));
   });
   return [...categories].map((category) => PASSIVE_CATEGORY_LABELS[category] ?? category);
+}
+
+function summarizeOperationKinds(passives: unknown[]): string[] {
+  const kinds = new Set<string>();
+  passives.forEach((passive) => {
+    if (!isPlainObject(passive)) {
+      return;
+    }
+    const operations = passive.operations;
+    if (!Array.isArray(operations)) {
+      return;
+    }
+    operations.forEach((operation) => {
+      if (!isPlainObject(operation)) {
+        return;
+      }
+      const kind = asText(operation.kind);
+      if (kind) {
+        kinds.add(kind);
+      }
+    });
+  });
+  return [...kinds].sort();
 }
 
 function resolveRefStatus(
@@ -372,7 +396,8 @@ export function validateItemSkillRefs(input: ItemSkillRefsValidationInput): Item
       status: resolveRefStatus(skillRef, currentItemId, skill, input.skillsLoaded),
       passiveCount: passives.length,
       ownerRoleDistribution: summarizeOwnerRoleDistribution(passives),
-      triggerCategorySummary: summarizeTriggerCategories(passives)
+      triggerCategorySummary: summarizeTriggerCategories(passives),
+      operationKindSummary: summarizeOperationKinds(passives)
     });
   });
 
