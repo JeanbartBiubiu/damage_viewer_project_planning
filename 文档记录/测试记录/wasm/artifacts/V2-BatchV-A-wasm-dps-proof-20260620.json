@@ -1,0 +1,645 @@
+{
+  "generatedAt": "2026-06-20T10:48:35.195Z",
+  "apiBase": "http://127.0.0.1:8080",
+  "current": {
+    "gameId": "lol",
+    "versionCode": "v2_batch_v_a_data_policy_items_001",
+    "publishedAt": "2026-06-20T09:25:31.060361Z",
+    "updatedAt": "2026-06-20T09:25:31.060361Z"
+  },
+  "wasmPath": "C:\\project\\damage_wasm_dev\\wasm\\tinygo_engine_v2\\dist\\tinygo_engine_v2.wasm",
+  "wasmSizeBytes": 731928,
+  "wasmSha256": "329E83A8B95DD9C988981359E8B2F53ECFB3C06D37FB30C4017C8CD6371E5C9F",
+  "engineBundleSummary": {
+    "attributes": 37,
+    "actions": [
+      {
+        "id": "basic_attack",
+        "classifier": {
+          "types": [
+            "action/basic_attack"
+          ]
+        }
+      }
+    ],
+    "coefficientBuckets": [
+      {
+        "bucketKey": "ad_flat_bonus",
+        "stageKey": "attribute/flat_bonus",
+        "resolutionDomain": "attribute",
+        "targetAttrKey": "ad",
+        "aggregationMode": "add",
+        "bucketConfig": {
+          "valueUnit": "flat_delta",
+          "evidenceLabel": "ad_flat_bonus"
+        }
+      },
+      {
+        "bucketKey": "target_armor_flat_bonus",
+        "stageKey": "attribute/flat_bonus",
+        "resolutionDomain": "attribute",
+        "targetAttrKey": "armor",
+        "aggregationMode": "add",
+        "bucketConfig": {
+          "valueUnit": "flat_delta",
+          "evidenceLabel": "target_armor_flat_bonus"
+        }
+      },
+      {
+        "bucketKey": "target_magic_resist_flat_bonus",
+        "stageKey": "attribute/flat_bonus",
+        "resolutionDomain": "attribute",
+        "targetAttrKey": "magic_resist",
+        "aggregationMode": "add",
+        "bucketConfig": {
+          "valueUnit": "flat_delta",
+          "evidenceLabel": "target_magic_resist_flat_bonus"
+        }
+      },
+      {
+        "bucketKey": "flat_post_percent",
+        "stageKey": "hp_change/flat/post_percent",
+        "resolutionDomain": "hp_change",
+        "aggregationMode": "add",
+        "bucketConfig": {
+          "clampMin": 0,
+          "valueUnit": "flat_delta",
+          "hasClampMin": true,
+          "evidenceLabel": "flat_post_percent"
+        }
+      },
+      {
+        "bucketKey": "outgoing_damage_amp",
+        "stageKey": "hp_change/outgoing/pre_mitigation",
+        "resolutionDomain": "hp_change",
+        "aggregationMode": "add",
+        "bucketConfig": {
+          "priority": 20,
+          "valueUnit": "percent_delta",
+          "evidenceLabel": "outgoing_damage_amp"
+        }
+      }
+    ]
+  },
+  "runInputSummary": {
+    "caseId": "V2-BatchV-A-published-wasm-dps-proof-20260620",
+    "versionCode": "v2_batch_v_a_data_policy_items_001",
+    "simulationRules": {
+      "durationMs": 1,
+      "warmupMs": 0,
+      "sampleBy": "none",
+      "attackSpeedCap": 3,
+      "firstAttackAtMs": 0,
+      "eventWindowPolicy": "timeMs < durationMs",
+      "dotTickIntervalMs": 1000,
+      "critPolicy": "expected",
+      "seed": 0,
+      "autoAttackPlan": {
+        "enabled": true,
+        "startAtMs": 0,
+        "targetRole": "target"
+      },
+      "maxEvents": 10000
+    },
+    "curves": [
+      {
+        "curveId": "baseline_no_batch_v_a_item",
+        "equipmentSet": [],
+        "targetEquipmentSet": [],
+        "enabledPassiveEffects": [],
+        "targetEnabledPassiveEffects": [],
+        "equipmentStats": {},
+        "targetEquipmentStats": {},
+        "attackerAttrs": {
+          "ad": 100,
+          "attack_speed": 1,
+          "crit_chance": 0,
+          "crit_damage": 1,
+          "mana": 1000
+        },
+        "targetAttrs": {
+          "hp": 10000,
+          "armor": 0,
+          "magic_resist": 0,
+          "target_bonus_health": 0,
+          "bonus_armor": 0,
+          "bonus_magic_resist": 0
+        },
+        "passiveIds": []
+      },
+      {
+        "curveId": "target_2051_guardians_horn",
+        "equipmentSet": [],
+        "targetEquipmentSet": [
+          "2051"
+        ],
+        "enabledPassiveEffects": [],
+        "targetEnabledPassiveEffects": [
+          "item_2051_guardians_horn_undaunted_batch_v_a"
+        ],
+        "equipmentStats": {},
+        "targetEquipmentStats": {
+          "hp": 150,
+          "hp_regen": 20
+        },
+        "attackerAttrs": {
+          "ad": 100,
+          "attack_speed": 1,
+          "crit_chance": 0,
+          "crit_damage": 1,
+          "mana": 1000
+        },
+        "targetAttrs": {
+          "hp": 150,
+          "armor": 0,
+          "magic_resist": 0,
+          "target_bonus_health": 0,
+          "bonus_armor": 0,
+          "bonus_magic_resist": 0,
+          "hp_regen": 20
+        },
+        "passiveIds": [
+          "item_2051_guardians_horn_undaunted_batch_v_a"
+        ]
+      },
+      {
+        "curveId": "attacker_3004_manamune",
+        "equipmentSet": [
+          "3004"
+        ],
+        "targetEquipmentSet": [],
+        "enabledPassiveEffects": [
+          "item_3004_manamune_awe_batch_v_a"
+        ],
+        "targetEnabledPassiveEffects": [],
+        "equipmentStats": {
+          "ability_haste": 15,
+          "ad": 35,
+          "mana": 500
+        },
+        "targetEquipmentStats": {},
+        "attackerAttrs": {
+          "ad": 100,
+          "attack_speed": 1,
+          "crit_chance": 0,
+          "crit_damage": 1,
+          "mana": 1000
+        },
+        "targetAttrs": {
+          "hp": 10000,
+          "armor": 0,
+          "magic_resist": 0,
+          "target_bonus_health": 0,
+          "bonus_armor": 0,
+          "bonus_magic_resist": 0
+        },
+        "passiveIds": [
+          "item_3004_manamune_awe_batch_v_a"
+        ]
+      },
+      {
+        "curveId": "attacker_3036_lord_dominiks",
+        "equipmentSet": [
+          "3036"
+        ],
+        "targetEquipmentSet": [],
+        "enabledPassiveEffects": [
+          "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+        ],
+        "targetEnabledPassiveEffects": [],
+        "equipmentStats": {
+          "ad": 35,
+          "armor_pen_percent": 0.35,
+          "crit_chance": 0.25
+        },
+        "targetEquipmentStats": {},
+        "attackerAttrs": {
+          "ad": 100,
+          "attack_speed": 1,
+          "crit_chance": 0,
+          "crit_damage": 1,
+          "mana": 1000
+        },
+        "targetAttrs": {
+          "hp": 10000,
+          "armor": 0,
+          "magic_resist": 0,
+          "target_bonus_health": 1500,
+          "bonus_armor": 0,
+          "bonus_magic_resist": 0
+        },
+        "passiveIds": [
+          "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+        ]
+      },
+      {
+        "curveId": "target_6665_jaksho",
+        "equipmentSet": [],
+        "targetEquipmentSet": [
+          "6665"
+        ],
+        "enabledPassiveEffects": [],
+        "targetEnabledPassiveEffects": [
+          "item_6665_jaksho_voidborn_resilience_batch_v_a"
+        ],
+        "equipmentStats": {},
+        "targetEquipmentStats": {
+          "armor": 45,
+          "hp": 350,
+          "magic_resist": 45
+        },
+        "attackerAttrs": {
+          "ad": 100,
+          "attack_speed": 1,
+          "crit_chance": 0,
+          "crit_damage": 1,
+          "mana": 1000
+        },
+        "targetAttrs": {
+          "hp": 350,
+          "armor": 45,
+          "magic_resist": 45,
+          "target_bonus_health": 0,
+          "bonus_armor": 100,
+          "bonus_magic_resist": 80
+        },
+        "passiveIds": [
+          "item_6665_jaksho_voidborn_resilience_batch_v_a"
+        ]
+      }
+    ]
+  },
+  "assertions": {
+    "baselineTotalDamage": 100,
+    "guardiansHornTotalDamage": 85,
+    "manamuneResolvedAdAndDamage": 165,
+    "lordDominiksDamageAt1500TargetBonusHealth": 155.25,
+    "jakshoResolvedArmor": 75,
+    "jakshoResolvedMagicResist": 69,
+    "jakshoTotalDamageWith75Armor": 57.142857
+  },
+  "curveResults": [
+    {
+      "curveId": "baseline_no_batch_v_a_item",
+      "status": "ok",
+      "stopReason": "duration_elapsed",
+      "blockedReasons": [],
+      "totalDamage": 100,
+      "firstDamage": {
+        "source": "skill_lol_basic_attack_default",
+        "rawDamage": 100,
+        "finalDamage": 100,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9900
+      },
+      "resolvedAttackerAttrs": {
+        "ad": 100,
+        "attack_speed": 1,
+        "crit_chance": 0,
+        "crit_damage": 1,
+        "mana": 1000
+      },
+      "resolvedTargetAttrs": {
+        "armor": 0,
+        "bonus_armor": 0,
+        "bonus_magic_resist": 0,
+        "hp": 10000,
+        "magic_resist": 0,
+        "target_bonus_health": 0
+      },
+      "itemPassiveTriggers": [],
+      "coefficientBuckets": []
+    },
+    {
+      "curveId": "target_2051_guardians_horn",
+      "status": "ok",
+      "stopReason": "duration_elapsed",
+      "blockedReasons": [],
+      "totalDamage": 85,
+      "firstDamage": {
+        "source": "skill_lol_basic_attack_default",
+        "rawDamage": 100,
+        "finalDamage": 85,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9915
+      },
+      "resolvedAttackerAttrs": {
+        "ad": 100,
+        "attack_speed": 1,
+        "crit_chance": 0,
+        "crit_damage": 1,
+        "mana": 1000
+      },
+      "resolvedTargetAttrs": {
+        "armor": 0,
+        "bonus_armor": 0,
+        "bonus_magic_resist": 0,
+        "hp": 150,
+        "hp_regen": 20,
+        "magic_resist": 0,
+        "target_bonus_health": 0
+      },
+      "itemPassiveTriggers": [
+        {
+          "timeMs": 0,
+          "procSourceCategory": "item_passive",
+          "sourceId": "item_2051_guardians_horn_undaunted_batch_v_a",
+          "sourceType": "item",
+          "triggerId": "guardians_horn_undaunted_damage_taken"
+        }
+      ],
+      "coefficientBuckets": [
+        {
+          "bucketKey": "flat_post_percent",
+          "stageKey": "hp_change/flat/post_percent",
+          "aggregationMode": "add",
+          "valueUnit": "flat_delta",
+          "raw": 100,
+          "result": 85,
+          "evidenceKeys": [
+            "item_2051_undaunted_flat_minus_15_basic_non_dot"
+          ],
+          "candidates": [
+            {
+              "source": "guardians_horn_undaunted_flat_reduction",
+              "passiveId": "item_2051_guardians_horn_undaunted_batch_v_a",
+              "operationKind": "damage_modifier",
+              "value": -15,
+              "evidenceKey": "item_2051_undaunted_flat_minus_15_basic_non_dot",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "curveId": "attacker_3004_manamune",
+      "status": "ok",
+      "stopReason": "duration_elapsed",
+      "blockedReasons": [],
+      "totalDamage": 165,
+      "firstDamage": {
+        "source": "skill_lol_basic_attack_default",
+        "rawDamage": 165,
+        "finalDamage": 165,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9835
+      },
+      "resolvedAttackerAttrs": {
+        "ability_haste": 15,
+        "ad": 165,
+        "attack_speed": 1,
+        "crit_chance": 0,
+        "crit_damage": 1,
+        "mana": 1500
+      },
+      "resolvedTargetAttrs": {
+        "armor": 0,
+        "bonus_armor": 0,
+        "bonus_magic_resist": 0,
+        "hp": 10000,
+        "magic_resist": 0,
+        "target_bonus_health": 0
+      },
+      "itemPassiveTriggers": [
+        {
+          "timeMs": 0,
+          "procSourceCategory": "item_passive",
+          "sourceId": "item_3004_manamune_awe_batch_v_a",
+          "sourceType": "item",
+          "triggerId": "manamune_awe_always_on"
+        }
+      ],
+      "coefficientBuckets": [
+        {
+          "bucketKey": "ad_flat_bonus",
+          "stageKey": "attribute/flat_bonus",
+          "aggregationMode": "add",
+          "valueUnit": "flat_delta",
+          "raw": 135,
+          "result": 165,
+          "evidenceKeys": [
+            "item_3004_awe_bonus_ad_2pct_resolved_mana"
+          ],
+          "candidates": [
+            {
+              "source": "manamune_awe_bonus_ad_from_mana",
+              "passiveId": "item_3004_manamune_awe_batch_v_a",
+              "operationKind": "stat_modifier",
+              "value": 30,
+              "evidenceKey": "item_3004_awe_bonus_ad_2pct_resolved_mana",
+              "applied": true
+            }
+          ]
+        },
+        {
+          "bucketKey": "ad_flat_bonus",
+          "stageKey": "attribute/flat_bonus",
+          "aggregationMode": "add",
+          "valueUnit": "flat_delta",
+          "raw": 135,
+          "result": 165,
+          "evidenceKeys": [
+            "item_3004_awe_bonus_ad_2pct_resolved_mana"
+          ],
+          "candidates": [
+            {
+              "source": "manamune_awe_bonus_ad_from_mana",
+              "passiveId": "item_3004_manamune_awe_batch_v_a",
+              "operationKind": "stat_modifier",
+              "value": 30,
+              "evidenceKey": "item_3004_awe_bonus_ad_2pct_resolved_mana",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "curveId": "attacker_3036_lord_dominiks",
+      "status": "ok",
+      "stopReason": "duration_elapsed",
+      "blockedReasons": [],
+      "totalDamage": 155.25,
+      "firstDamage": {
+        "source": "skill_lol_basic_attack_default",
+        "rawDamage": 155.25,
+        "finalDamage": 155.25,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9844.75
+      },
+      "resolvedAttackerAttrs": {
+        "ad": 135,
+        "armor_pen_percent": 0.35,
+        "attack_speed": 1,
+        "crit_chance": 0.25,
+        "crit_damage": 1,
+        "mana": 1000
+      },
+      "resolvedTargetAttrs": {
+        "armor": 0,
+        "bonus_armor": 0,
+        "bonus_magic_resist": 0,
+        "hp": 10000,
+        "magic_resist": 0,
+        "target_bonus_health": 1500
+      },
+      "itemPassiveTriggers": [
+        {
+          "timeMs": 0,
+          "procSourceCategory": "item_passive",
+          "sourceId": "item_3036_lord_dominiks_giant_slayer_batch_v_a",
+          "sourceType": "item",
+          "triggerId": "lord_dominiks_giant_slayer_damage_dealt"
+        }
+      ],
+      "coefficientBuckets": [
+        {
+          "bucketKey": "outgoing_damage_amp",
+          "stageKey": "hp_change/outgoing/pre_mitigation",
+          "aggregationMode": "add",
+          "valueUnit": "percent_delta",
+          "raw": 135,
+          "result": 155.25,
+          "evidenceKeys": [
+            "item_3036_giant_slayer_0_to_15pct_target_bonus_health"
+          ],
+          "candidates": [
+            {
+              "source": "lord_dominiks_giant_slayer_bonus_damage",
+              "passiveId": "item_3036_lord_dominiks_giant_slayer_batch_v_a",
+              "operationKind": "damage_modifier",
+              "value": 0.15,
+              "evidenceKey": "item_3036_giant_slayer_0_to_15pct_target_bonus_health",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "curveId": "target_6665_jaksho",
+      "status": "ok",
+      "stopReason": "duration_elapsed",
+      "blockedReasons": [],
+      "totalDamage": 57.142857,
+      "firstDamage": {
+        "source": "skill_lol_basic_attack_default",
+        "rawDamage": 100,
+        "finalDamage": 57.142857,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9942.857143
+      },
+      "resolvedAttackerAttrs": {
+        "ad": 100,
+        "attack_speed": 1,
+        "crit_chance": 0,
+        "crit_damage": 1,
+        "mana": 1000
+      },
+      "resolvedTargetAttrs": {
+        "armor": 75,
+        "bonus_armor": 100,
+        "bonus_magic_resist": 80,
+        "hp": 350,
+        "magic_resist": 69,
+        "target_bonus_health": 0
+      },
+      "itemPassiveTriggers": [
+        {
+          "timeMs": 0,
+          "procSourceCategory": "item_passive",
+          "sourceId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+          "sourceType": "item",
+          "triggerId": "jaksho_voidborn_resilience_full_stacks"
+        }
+      ],
+      "coefficientBuckets": [
+        {
+          "bucketKey": "target_armor_flat_bonus",
+          "stageKey": "attribute/flat_bonus",
+          "aggregationMode": "add",
+          "valueUnit": "flat_delta",
+          "raw": 45,
+          "result": 75,
+          "evidenceKeys": [
+            "item_6665_voidborn_30pct_bonus_armor_full_stack"
+          ],
+          "candidates": [
+            {
+              "source": "jaksho_full_stack_bonus_armor",
+              "passiveId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+              "operationKind": "stat_modifier",
+              "value": 30,
+              "evidenceKey": "item_6665_voidborn_30pct_bonus_armor_full_stack",
+              "applied": true
+            }
+          ]
+        },
+        {
+          "bucketKey": "target_magic_resist_flat_bonus",
+          "stageKey": "attribute/flat_bonus",
+          "aggregationMode": "add",
+          "valueUnit": "flat_delta",
+          "raw": 45,
+          "result": 69,
+          "evidenceKeys": [
+            "item_6665_voidborn_30pct_bonus_magic_resist_full_stack"
+          ],
+          "candidates": [
+            {
+              "source": "jaksho_full_stack_bonus_magic_resist",
+              "passiveId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+              "operationKind": "stat_modifier",
+              "value": 24,
+              "evidenceKey": "item_6665_voidborn_30pct_bonus_magic_resist_full_stack",
+              "applied": true
+            }
+          ]
+        },
+        {
+          "bucketKey": "target_armor_flat_bonus",
+          "stageKey": "attribute/flat_bonus",
+          "aggregationMode": "add",
+          "valueUnit": "flat_delta",
+          "raw": 45,
+          "result": 75,
+          "evidenceKeys": [
+            "item_6665_voidborn_30pct_bonus_armor_full_stack"
+          ],
+          "candidates": [
+            {
+              "source": "jaksho_full_stack_bonus_armor",
+              "passiveId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+              "operationKind": "stat_modifier",
+              "value": 30,
+              "evidenceKey": "item_6665_voidborn_30pct_bonus_armor_full_stack",
+              "applied": true
+            }
+          ]
+        },
+        {
+          "bucketKey": "target_magic_resist_flat_bonus",
+          "stageKey": "attribute/flat_bonus",
+          "aggregationMode": "add",
+          "valueUnit": "flat_delta",
+          "raw": 45,
+          "result": 69,
+          "evidenceKeys": [
+            "item_6665_voidborn_30pct_bonus_magic_resist_full_stack"
+          ],
+          "candidates": [
+            {
+              "source": "jaksho_full_stack_bonus_magic_resist",
+              "passiveId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+              "operationKind": "stat_modifier",
+              "value": 24,
+              "evidenceKey": "item_6665_voidborn_30pct_bonus_magic_resist_full_stack",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
