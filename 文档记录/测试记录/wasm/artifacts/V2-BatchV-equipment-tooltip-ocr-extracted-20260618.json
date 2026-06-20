@@ -1,0 +1,992 @@
+{
+  "schema_version": "equipment_tooltip_extract.v1.damage_wasm_artifact",
+  "created_at": "2026-06-17T15:59:37.985Z",
+  "source_root": "C:/project/ocr_data/装备数据",
+  "ocr_output_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_20260617.json",
+  "roi_profile_path": "C:\\project\\ocr_tools\\configs\\equipment_tooltip_2560x1440.json",
+  "roi_profile_hash": "de4215d9ab29013456a407bb2fbf67546aef3a80c4e17f27f7dcaee6c5d55629",
+  "engine": "paddle",
+  "image_count": 8,
+  "unique_item_count": 7,
+  "notes": [
+    "Screen39 and Screen40 are both Essence Reaver; Screen40 is a dynamic cross-check after stat change, not a separate item.",
+    "Template candidates are OCR/manual extraction evidence and still need conversion into Damage Viewer item passive seed format.",
+    "Ranged champion tooltip values are captured for Hullbreaker and Titanic Hydra because the screenshots use Vayne."
+  ],
+  "entries": [
+    {
+      "screen": "Screen37.png",
+      "candidate_item_id": "3115",
+      "item_name": "纳什之牙",
+      "price": 2900,
+      "tag": "攻击附带魔法伤害",
+      "stats": [
+        {
+          "stat": "ability_power",
+          "value": 80,
+          "unit": "flat"
+        },
+        {
+          "stat": "attack_speed",
+          "value": 50,
+          "unit": "percent"
+        },
+        {
+          "stat": "ability_haste",
+          "value": 15,
+          "unit": "flat"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "high",
+        "notes": [
+          "OCR 清晰；当前显示值 15 对应 AP=0 的客户端代入。"
+        ],
+        "passives": [
+          {
+            "name": "艾卡西亚之咬",
+            "text": "普攻造成 15 = (15 + 15%法术强度) 额外魔法伤害，攻击特效。",
+            "template_candidate": {
+              "trigger": "basic_attack_on_hit",
+              "damage_type": "magic",
+              "formula": "15 + 0.15 * ability_power"
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen37.png",
+        "source_sha256": "dca517369f3194af75426e9c0569909fa1de0d6a419e35678e713dbd2d4da5b1",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen37__item_tooltip.full.png",
+        "avg_score": 0.8677331137436407,
+        "raw_text": "00 850 900 900 900 900 1100 1100 1200 300 1600 1600 购买 100 2600 2600 2650 2700 2700 2750 2800 2800 350 2900 2900 2900 纳什之牙 2900 攻击附带魔法伤害 DO0 3100 3100 3200 80法术强度 撤销 500任务 50%攻击速度 15技能急速 艾卡西亚之咬 福 普攻造成15=(15 +15% )额外魔法伤害攻击特效。 來 升级！ +1 □ ø 口 水 > 入 > >",
+        "raw_texts": [
+          "00",
+          "850",
+          "900",
+          "900",
+          "900",
+          "900",
+          "1100",
+          "1100",
+          "1200",
+          "300",
+          "1600",
+          "1600",
+          "购买",
+          "100",
+          "2600",
+          "2600",
+          "2650",
+          "2700",
+          "2700",
+          "2750",
+          "2800",
+          "2800",
+          "350",
+          "2900",
+          "2900",
+          "2900",
+          "纳什之牙",
+          "2900",
+          "攻击附带魔法伤害",
+          "DO0",
+          "3100",
+          "3100",
+          "3200",
+          "80法术强度",
+          "撤销",
+          "500任务",
+          "50%攻击速度",
+          "15技能急速",
+          "艾卡西亚之咬",
+          "福",
+          "普攻造成15=(15",
+          "+15%",
+          ")额外魔法伤害攻击特效。",
+          "來",
+          "升级！",
+          "+1",
+          "□",
+          "ø",
+          "口",
+          "水",
+          ">",
+          "入",
+          ">",
+          ">"
+        ]
+      }
+    },
+    {
+      "screen": "Screen38.png",
+      "candidate_item_id": "3100",
+      "item_name": "巫妖之祸",
+      "price": 2900,
+      "tag": "爆发伤害",
+      "unique": "咒刃",
+      "stats": [
+        {
+          "stat": "ability_power",
+          "value": 100,
+          "unit": "flat"
+        },
+        {
+          "stat": "move_speed",
+          "value": 6,
+          "unit": "percent"
+        },
+        {
+          "stat": "ability_haste",
+          "value": 10,
+          "unit": "flat"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "high",
+        "notes": [
+          "OCR 把 6%移动速度误读成 26%；人工 crop 复核为 6%。"
+        ],
+        "passives": [
+          {
+            "name": "咒刃",
+            "cooldown_seconds": 1.5,
+            "text": "施放技能后，10秒内下一次攻击获得 50% 攻击速度，并造成 41 = (75%基础攻击力 + 45%法术强度) 额外魔法伤害，攻击特效。",
+            "template_candidate": {
+              "trigger": "after_cast_next_attack",
+              "buff_window_seconds": 10,
+              "temporary_attack_speed_percent": 50,
+              "damage_type": "magic",
+              "formula": "0.75 * base_attack_damage + 0.45 * ability_power"
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen38.png",
+        "source_sha256": "a724aaf1291028c70d9fa437c51342fb825923354522cd9396c133eecaaac233",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen38__item_tooltip.full.png",
+        "avg_score": 0.9043049139399377,
+        "raw_text": "900 900 850 00 850 900 900 900 900 1100 1100 1200 250 400 300 1600 1600 排序装备 巫妖之祸 2900 100 2600 2600 2650 2700 2700 2750 2800 2800 100法术强度 26%移动速度 350 2900 2900 200A O 2000 巫妖之祸 2900 爆发伤害 唯一： 咒刃 0Oo 3100 3100 100法术强度 撤销 5 26%移动速度 区10技能急速 品 咒刃 (1.5秒) 施放技能后，你在10秒内的下一次攻击会获得50%攻击速度并造成41=(75%基础 5 +45% ）额外魔法伤害攻击特效。 來 升级！ +1 🌈💥 入 入",
+        "raw_texts": [
+          "900",
+          "900",
+          "850",
+          "00",
+          "850",
+          "900",
+          "900",
+          "900",
+          "900",
+          "1100",
+          "1100",
+          "1200",
+          "250",
+          "400",
+          "300",
+          "1600",
+          "1600",
+          "排序装备",
+          "巫妖之祸",
+          "2900",
+          "100",
+          "2600",
+          "2600",
+          "2650",
+          "2700",
+          "2700",
+          "2750",
+          "2800",
+          "2800",
+          "100法术强度",
+          "26%移动速度",
+          "350",
+          "2900",
+          "2900",
+          "200A",
+          "O",
+          "2000",
+          "巫妖之祸",
+          "2900",
+          "爆发伤害",
+          "唯一：",
+          "咒刃",
+          "0Oo",
+          "3100",
+          "3100",
+          "100法术强度",
+          "撤销",
+          "5",
+          "26%移动速度",
+          "区10技能急速",
+          "品",
+          "咒刃",
+          "(1.5秒)",
+          "施放技能后，你在10秒内的下一次攻击会获得50%攻击速度并造成41=(75%基础",
+          "5",
+          "+45%",
+          "）额外魔法伤害攻击特效。",
+          "來",
+          "升级！",
+          "+1",
+          "🌈💥",
+          "入",
+          "入"
+        ]
+      }
+    },
+    {
+      "screen": "Screen39.png",
+      "candidate_item_id": "3508",
+      "item_name": "夺萃之镰",
+      "price": 3050,
+      "tag": "法力回复",
+      "unique": "咒刃",
+      "capture_role": "before_purchase_dynamic_tooltip",
+      "stats": [
+        {
+          "stat": "attack_damage",
+          "value": 50,
+          "unit": "flat"
+        },
+        {
+          "stat": "ability_haste",
+          "value": 20,
+          "unit": "flat"
+        },
+        {
+          "stat": "crit_chance",
+          "value": 25,
+          "unit": "percent"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "medium_high",
+        "notes": [
+          "Screen39 当前 bonus AD 为 0；括号里是客户端当前属性代入，不应录成常量。",
+          "与 Screen40 对照可推断 +50 AD 时伤害加成 +50、法力加成 +25。"
+        ],
+        "passives": [
+          {
+            "name": "咒刃",
+            "cooldown_seconds": 1.5,
+            "text": "施放技能后，下一次普通攻击造成 68 (+0额外攻击力) 额外物理伤害，并提供 34 (+0额外攻击力) 法力值，攻击特效。",
+            "template_candidate": {
+              "trigger": "after_cast_next_attack",
+              "damage_type": "physical",
+              "damage_formula_inferred_from_screen39_40": "1.00 * base_attack_damage + 1.00 * bonus_attack_damage",
+              "mana_restore_formula_inferred_from_screen39_40": "0.50 * base_attack_damage + 0.50 * bonus_attack_damage"
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen39.png",
+        "source_sha256": "92ff818c164b6ca7486a43028df36c837b19872869b7d203c7e4c073ddf0e13d",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen39__item_tooltip.full.png",
+        "avg_score": 0.9132613177950445,
+        "raw_text": "900 1050 600 00 775 800 900 900 1000 1050 1100 1200 250 350 250 350 300 1300 1300 1450 务已收到 排序装备 在上 各参与击杀/摧毁英雄、小兵和防御塔， 来完 成你的任务。 夺萃之镰 3050 350 2650265026502800 2800 2900 2900 3000 50攻击力 Z20技能急速 DO0 3000 3000 3000 3000 3050 3100 3100 3200 W25%显几率 S0w 夺萃之镰 3050 法力回复 唯一： 咒刃 200 32003 3300 34003500 撤销 500 50攻击力 Z20技能急速 25%暴击几率 茶 咒刃 (1.5秒) 施放技能后，你的下一次普通攻击会造成68ノ（+0￥)额外物理伤害并提供34 5 5 來 (+0 ）)法力值攻击特效。 升级！ +1 入 入 入 入",
+        "raw_texts": [
+          "900",
+          "1050",
+          "600",
+          "00",
+          "775",
+          "800",
+          "900",
+          "900",
+          "1000",
+          "1050",
+          "1100",
+          "1200",
+          "250",
+          "350",
+          "250",
+          "350",
+          "300",
+          "1300",
+          "1300",
+          "1450",
+          "务已收到",
+          "排序装备",
+          "在上",
+          "各参与击杀/摧毁英雄、小兵和防御塔，",
+          "来完",
+          "成你的任务。",
+          "夺萃之镰",
+          "3050",
+          "350",
+          "2650265026502800",
+          "2800",
+          "2900",
+          "2900",
+          "3000",
+          "50攻击力",
+          "Z20技能急速",
+          "DO0",
+          "3000",
+          "3000",
+          "3000",
+          "3000",
+          "3050",
+          "3100",
+          "3100",
+          "3200",
+          "W25%显几率",
+          "S0w",
+          "夺萃之镰",
+          "3050",
+          "法力回复",
+          "唯一：",
+          "咒刃",
+          "200",
+          "32003",
+          "3300",
+          "34003500",
+          "撤销",
+          "500",
+          "50攻击力",
+          "Z20技能急速",
+          "25%暴击几率",
+          "茶",
+          "咒刃",
+          "(1.5秒)",
+          "施放技能后，你的下一次普通攻击会造成68ノ（+0￥)额外物理伤害并提供34",
+          "5",
+          "5",
+          "來",
+          "(+0",
+          "）)法力值攻击特效。",
+          "升级！",
+          "+1",
+          "入",
+          "入",
+          "入",
+          "入"
+        ]
+      }
+    },
+    {
+      "screen": "Screen40.png",
+      "candidate_item_id": "3508",
+      "item_name": "夺萃之镰",
+      "price": 3050,
+      "tag": "法力回复",
+      "unique": "咒刃",
+      "capture_role": "after_purchase_dynamic_tooltip_cross_check",
+      "stats": [
+        {
+          "stat": "attack_damage",
+          "value": 50,
+          "unit": "flat"
+        },
+        {
+          "stat": "ability_haste",
+          "value": 20,
+          "unit": "flat"
+        },
+        {
+          "stat": "crit_chance",
+          "value": 25,
+          "unit": "percent"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "medium_high",
+        "notes": [
+          "这是 Screen39 同一装备的动态对照，不算新增装备。",
+          "OCR 中暴击率前多出 1/5 等噪声，人工复核为 25%。"
+        ],
+        "passives": [
+          {
+            "name": "咒刃",
+            "cooldown_seconds": 1.5,
+            "text": "当前显示为造成 68 (+50额外攻击力) 额外物理伤害，并提供 34 (+25额外攻击力) 法力值，攻击特效。",
+            "template_candidate": {
+              "trigger": "after_cast_next_attack",
+              "damage_type": "physical",
+              "damage_formula_inferred_from_screen39_40": "1.00 * base_attack_damage + 1.00 * bonus_attack_damage",
+              "mana_restore_formula_inferred_from_screen39_40": "0.50 * base_attack_damage + 0.50 * bonus_attack_damage"
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen40.png",
+        "source_sha256": "66f22aba75aabe9be36dbe5e37e3f952692b76bd75128f8f6731e4d48226e4f2",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen40__item_tooltip.full.png",
+        "avg_score": 0.8992285105503268,
+        "raw_text": "1050 600 00 775 800 900 1000 1050 1100 600 8 250 350 250 350 00 1300 1300 1450 装备不可用 夺萃之镰 3050 D50 2050 2050 2050 2200 2800 2900 2900 3000 50攻击力 Z20技能急速 100 2400 2400 3000 3000 3100 3100 2600 W550/显+0率 夺萃之镰 3050 Sslna 法力回复 唯一：咒刃 200 3200 2700 3400 2900 撤销 14450 50攻击力 Z20技能急速 125%暴击几率 福 咒刃 (1.5秒) 施放技能后，你的下一次普通攻击会造成68／（+50） )额外物理伤害并提供34 5 來 2 (+25 5)法力值￥攻击特效。 升级！ +1 入 > 入",
+        "raw_texts": [
+          "1050",
+          "600",
+          "00",
+          "775",
+          "800",
+          "900",
+          "1000",
+          "1050",
+          "1100",
+          "600",
+          "8",
+          "250",
+          "350",
+          "250",
+          "350",
+          "00",
+          "1300",
+          "1300",
+          "1450",
+          "装备不可用",
+          "夺萃之镰",
+          "3050",
+          "D50",
+          "2050",
+          "2050",
+          "2050",
+          "2200",
+          "2800",
+          "2900",
+          "2900",
+          "3000",
+          "50攻击力",
+          "Z20技能急速",
+          "100",
+          "2400",
+          "2400",
+          "3000",
+          "3000",
+          "3100",
+          "3100",
+          "2600",
+          "W550/显+0率",
+          "夺萃之镰",
+          "3050",
+          "Sslna",
+          "法力回复",
+          "唯一：咒刃",
+          "200",
+          "3200",
+          "2700",
+          "3400",
+          "2900",
+          "撤销",
+          "14450",
+          "50攻击力",
+          "Z20技能急速",
+          "125%暴击几率",
+          "福",
+          "咒刃",
+          "(1.5秒)",
+          "施放技能后，你的下一次普通攻击会造成68／（+50）",
+          ")额外物理伤害并提供34",
+          "5",
+          "來",
+          "2",
+          "(+25",
+          "5)法力值￥攻击特效。",
+          "升级！",
+          "+1",
+          "入",
+          ">",
+          "入"
+        ]
+      }
+    },
+    {
+      "screen": "Screen41.png",
+      "candidate_item_id": "3087",
+      "item_name": "斯塔缇克电刃",
+      "price": 3000,
+      "tag": "连锁附伤",
+      "stats": [
+        {
+          "stat": "attack_damage",
+          "value": 45,
+          "unit": "flat"
+        },
+        {
+          "stat": "ability_power",
+          "value": 45,
+          "unit": "flat"
+        },
+        {
+          "stat": "attack_speed",
+          "value": 30,
+          "unit": "percent"
+        },
+        {
+          "stat": "move_speed",
+          "value": 4,
+          "unit": "percent"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "medium_high",
+        "notes": [
+          "4-7 后面的缩放图标无法从截图可靠识别；单体 DPS 可先只用主目标 60 魔法伤害和额外 9 层盈能。"
+        ],
+        "passives": [
+          {
+            "name": "电火花",
+            "text": "你的盈能攻击会发射连锁闪电，对最多 4 = (4-7) 个目标造成 60 魔法伤害，攻击小兵和野怪时提升至 90 魔法伤害。附带攻击特效至次级弹射目标们。",
+            "template_candidate": {
+              "trigger": "energized_attack",
+              "damage_type": "magic",
+              "primary_target_damage": 60,
+              "minion_monster_damage": 90,
+              "bounce_target_count": "4 to 7, scaling icon not identified from crop"
+            }
+          },
+          {
+            "name": "电疗",
+            "text": "普通攻击提供 9 额外盈能层数。",
+            "template_candidate": {
+              "trigger": "basic_attack",
+              "energized_stack_gain_bonus": 9
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen41.png",
+        "source_sha256": "2c2474431bc89df6c695d61bd52d1a67a2a0840a039ef1b68ce09ba983727bcb",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen41__item_tooltip.full.png",
+        "avg_score": 0.914349816513784,
+        "raw_text": "600 900 875 00 775 800 900 900 1000 1050 1100 1200 250 250 400 300 1300 1300 1450 购买装备 斯塔缇克电刃 3000 350 2650 2650 2650 2800 2800 2900 2900 3000 斯塔缇克电刃 3000 连锁附伤 D00 3000 3000 3000 3000 305031003100 32 asla 45攻击力 45法术强度 200 3200 3300 3400 3500 30%攻击速度 4%移动速度 撤销 18685 电火花 你的盈能攻击会发射连锁闪电，对最多4=(4-7)个目标造成60魔法伤害，攻击 小兵和野怪时提升至90魔法伤害。附带攻击特效至次级弹射目标们。 电疗 來 福 普通攻击提供9额外盈能层数。 升级！ +1 > 入 ^ 人",
+        "raw_texts": [
+          "600",
+          "900",
+          "875",
+          "00",
+          "775",
+          "800",
+          "900",
+          "900",
+          "1000",
+          "1050",
+          "1100",
+          "1200",
+          "250",
+          "250",
+          "400",
+          "300",
+          "1300",
+          "1300",
+          "1450",
+          "购买装备",
+          "斯塔缇克电刃",
+          "3000",
+          "350",
+          "2650",
+          "2650",
+          "2650",
+          "2800",
+          "2800",
+          "2900",
+          "2900",
+          "3000",
+          "斯塔缇克电刃",
+          "3000",
+          "连锁附伤",
+          "D00",
+          "3000",
+          "3000",
+          "3000",
+          "3000",
+          "305031003100",
+          "32",
+          "asla",
+          "45攻击力",
+          "45法术强度",
+          "200",
+          "3200",
+          "3300",
+          "3400",
+          "3500",
+          "30%攻击速度",
+          "4%移动速度",
+          "撤销",
+          "18685",
+          "电火花",
+          "你的盈能攻击会发射连锁闪电，对最多4=(4-7)个目标造成60魔法伤害，攻击",
+          "小兵和野怪时提升至90魔法伤害。附带攻击特效至次级弹射目标们。",
+          "电疗",
+          "來",
+          "福",
+          "普通攻击提供9额外盈能层数。",
+          "升级！",
+          "+1",
+          ">",
+          "入",
+          "^",
+          "人"
+        ]
+      }
+    },
+    {
+      "screen": "Screen42.png",
+      "candidate_item_id": "3181",
+      "item_name": "破舰者",
+      "price": 3000,
+      "tag": "建筑物克星",
+      "stats": [
+        {
+          "stat": "attack_damage",
+          "value": 40,
+          "unit": "flat"
+        },
+        {
+          "stat": "health",
+          "value": 500,
+          "unit": "flat"
+        },
+        {
+          "stat": "move_speed",
+          "value": 4,
+          "unit": "percent"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "medium_high",
+        "notes": [
+          "截图来自薇恩/远程单位，百分比应作为 ranged tooltip 数据录入；近战值不在这批截图中。"
+        ],
+        "passives": [
+          {
+            "name": "船长",
+            "text": "对英雄和史诗级野怪的每第五次攻击造成 68 = (84%基础攻击力 + 3.5%生命值) 额外物理伤害；对建筑物提升至 159 = (210%基础攻击力 + 7%生命值)。",
+            "template_candidate": {
+              "trigger": "every_nth_attack",
+              "n": 5,
+              "damage_type": "physical",
+              "champion_or_epic_formula": "0.84 * base_attack_damage + 0.035 * health",
+              "building_formula": "2.10 * base_attack_damage + 0.07 * health",
+              "capture_policy": "ranged champion tooltip values"
+            }
+          },
+          {
+            "name": "登舰小组",
+            "text": "附近的友军攻城兵和超级士兵获得 35 = (35-65) 护甲和魔法抗性。",
+            "template_candidate": {
+              "scope": "out_of_single_attacker_dps"
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen42.png",
+        "source_sha256": "bbde37cb97b5fbc804c51a8fd7a805d2421c18d54b0595ace397de63c5c9b489",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen42__item_tooltip.full.png",
+        "avg_score": 0.9406096199110373,
+        "raw_text": "1150 800 875 75 800 800 800 800 850 900 900 1050 350 400 400 I00 1150 1200 1200 1300 购买装备 破舰者 300 2900 2900 2900 3000 3000 3000 3000 30 破舰者 3000 建筑物克星 100 3100 3100 3200 3200 3200 3200 3300 33 40攻击力 500生命值 4%移动速度 300 3300 3333 3400 撤销 18703 船长 对英雄和史诗级野怪的每第五次攻击造成68=(84%基础 +3.5% )额外物理 伤害，对建筑物提升至159=(210%基础，  +7% 登舰小组 附近的友军攻城兵和超级士兵获得35=(35-65)护甲和魔法抗性。 來 2 升级！ +1 入 入 入",
+        "raw_texts": [
+          "1150",
+          "800",
+          "875",
+          "75",
+          "800",
+          "800",
+          "800",
+          "800",
+          "850",
+          "900",
+          "900",
+          "1050",
+          "350",
+          "400",
+          "400",
+          "I00",
+          "1150",
+          "1200",
+          "1200",
+          "1300",
+          "购买装备",
+          "破舰者",
+          "300",
+          "2900",
+          "2900",
+          "2900",
+          "3000",
+          "3000",
+          "3000",
+          "3000",
+          "30",
+          "破舰者",
+          "3000",
+          "建筑物克星",
+          "100",
+          "3100",
+          "3100",
+          "3200",
+          "3200",
+          "3200",
+          "3200",
+          "3300",
+          "33",
+          "40攻击力",
+          "500生命值",
+          "4%移动速度",
+          "300",
+          "3300",
+          "3333",
+          "3400",
+          "撤销",
+          "18703",
+          "船长",
+          "对英雄和史诗级野怪的每第五次攻击造成68=(84%基础",
+          "+3.5%",
+          ")额外物理",
+          "伤害，对建筑物提升至159=(210%基础，",
+          " +7%",
+          "登舰小组",
+          "附近的友军攻城兵和超级士兵获得35=(35-65)护甲和魔法抗性。",
+          "來",
+          "2",
+          "升级！",
+          "+1",
+          "入",
+          "入",
+          "入"
+        ]
+      }
+    },
+    {
+      "screen": "Screen43.png",
+      "candidate_item_id": "3748",
+      "item_name": "巨型九头蛇",
+      "price": 3300,
+      "tag": "范围攻击",
+      "unique": "九头蛇",
+      "stats": [
+        {
+          "stat": "attack_damage",
+          "value": 40,
+          "unit": "flat"
+        },
+        {
+          "stat": "health",
+          "value": 600,
+          "unit": "flat"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "high",
+        "notes": [
+          "顺劈冲击波不在建筑物触发；单体 DPS 可先只纳入主目标 on-hit。"
+        ],
+        "passives": [
+          {
+            "name": "顺劈",
+            "text": "攻击附带 3 = (0.5%生命值) 物理伤害，并对目标身后的敌人们造成 10 = (1.5%生命值) 物理伤害。",
+            "template_candidate": {
+              "trigger": "basic_attack_on_hit",
+              "damage_type": "physical",
+              "primary_target_formula": "0.005 * health",
+              "behind_targets_formula": "0.015 * health",
+              "capture_policy": "ranged champion tooltip values"
+            }
+          },
+          {
+            "name": "刚斩",
+            "cooldown_seconds": 10,
+            "text": "强化下一次顺劈，使其造成 13 = (2%生命值) 额外物理伤害，攻击特效，并对目标身后的敌人们造成 29 = (4.5%生命值) 额外物理伤害。",
+            "template_candidate": {
+              "trigger": "active_next_cleave",
+              "damage_type": "physical",
+              "primary_target_formula": "0.02 * health",
+              "behind_targets_formula": "0.045 * health",
+              "cooldown_seconds": 10
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen43.png",
+        "source_sha256": "88753dccb9528e66031a0ef3eb0eeda2e652d5da76340a4f3f7d135ad63812d0",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen43__item_tooltip.full.png",
+        "avg_score": 0.8393344140797854,
+        "raw_text": "900 巨型九头蛇 3300 75 范围攻击 唯一： 九头蛇 400 40攻击力 I00 600生命值 顺劈 攻击附带)3=(0.5% )物理伤害并对目标身后的敌人们造成10=(1.5% )物理 伤害。 300 刚斩 （10秒） 强化你的下一次顺劈，使其造成λ13=(2% ）额外物理伤害?攻击特效并对目标身 后的敌人们造成λ29 =(4.5% ）额外物理伤害。 100 顺劈的冲击波不会在建筑物上触发。 伤害并对目标 300 3300 3333 3400 身后的敌人们造成10 =(1.5% 物理伤害。 撤销 18725 刚斩 (10秒) 人 川H口立 1++牛 1 神 5 來 26 升级！ +1 入 > 入 入",
+        "raw_texts": [
+          "900",
+          "巨型九头蛇",
+          "3300",
+          "75",
+          "范围攻击",
+          "唯一：",
+          "九头蛇",
+          "400",
+          "40攻击力",
+          "I00",
+          "600生命值",
+          "顺劈",
+          "攻击附带)3=(0.5%",
+          ")物理伤害并对目标身后的敌人们造成10=(1.5%",
+          ")物理",
+          "伤害。",
+          "300",
+          "刚斩",
+          "（10秒）",
+          "强化你的下一次顺劈，使其造成λ13=(2%",
+          "）额外物理伤害?攻击特效并对目标身",
+          "后的敌人们造成λ29 =(4.5%",
+          "）额外物理伤害。",
+          "100",
+          "顺劈的冲击波不会在建筑物上触发。",
+          "伤害并对目标",
+          "300",
+          "3300",
+          "3333",
+          "3400",
+          "身后的敌人们造成10 =(1.5%",
+          "物理伤害。",
+          "撤销",
+          "18725",
+          "刚斩",
+          "(10秒)",
+          "人",
+          "川H口立",
+          "1++牛",
+          "1",
+          "神",
+          "5",
+          "來",
+          "26",
+          "升级！",
+          "+1",
+          "入",
+          ">",
+          "入",
+          "入"
+        ]
+      }
+    },
+    {
+      "screen": "Screen44.png",
+      "candidate_item_id": "3036",
+      "item_name": "多米尼克领主的致意",
+      "price": 3300,
+      "tag": "护甲克星",
+      "unique": "夺命",
+      "stats": [
+        {
+          "stat": "attack_damage",
+          "value": 35,
+          "unit": "flat"
+        },
+        {
+          "stat": "armor_penetration",
+          "value": 35,
+          "unit": "percent"
+        },
+        {
+          "stat": "crit_chance",
+          "value": 25,
+          "unit": "percent"
+        }
+      ],
+      "manual_extract": {
+        "confidence": "high",
+        "notes": [
+          "需要 DPS 输入或默认目标数据提供 target_bonus_health 才能在模拟中生效。"
+        ],
+        "passives": [
+          {
+            "name": "巨人杀手",
+            "text": "基于敌方英雄的额外生命值，对其至多造成 15% 额外伤害。最大伤害加成在 1500 额外生命值时达成。",
+            "template_candidate": {
+              "trigger": "damage_modifier_vs_champion_bonus_health",
+              "max_bonus_damage_percent": 15,
+              "max_at_target_bonus_health": 1500
+            }
+          }
+        ]
+      },
+      "evidence": {
+        "source_path": "C:\\project\\ocr_data\\装备数据\\Screen44.png",
+        "source_sha256": "af79ec636c0f4e812f039a3577daa93f8257884c0b645bdaac49c929107685fc",
+        "crop_path": "C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen44__item_tooltip.full.png",
+        "avg_score": 0.9465949247755548,
+        "raw_text": "1450 1300 00 775 800 900 900 1000 1050 1100 1200 350 350 350 600 3 300 1300 1300 1450 购买装备 多米尼克领主的致意 3300 350 2650 2650 2650 2800 2800 2900 2900 3000 35攻击力 535%护甲穿透 D00 3000 3000 3000 3000 3050 3100 3100 3200 25%暴击几率 cslnun 巨人杀手 基于敌方英雄的额外生命值，对其至多造成 200 3200 3300 3400 3500 多米尼克领主的致意 3300 撤销 18 护甲克星 唯一：夺命 35攻击力 福 535%护甲穿透 25%暴击几率 來 210 升级！ 巨人杀手 基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额 外生命值时达成",
+        "raw_texts": [
+          "1450",
+          "1300",
+          "00",
+          "775",
+          "800",
+          "900",
+          "900",
+          "1000",
+          "1050",
+          "1100",
+          "1200",
+          "350",
+          "350",
+          "350",
+          "600",
+          "3",
+          "300",
+          "1300",
+          "1300",
+          "1450",
+          "购买装备",
+          "多米尼克领主的致意",
+          "3300",
+          "350",
+          "2650",
+          "2650",
+          "2650",
+          "2800",
+          "2800",
+          "2900",
+          "2900",
+          "3000",
+          "35攻击力",
+          "535%护甲穿透",
+          "D00",
+          "3000",
+          "3000",
+          "3000",
+          "3000",
+          "3050",
+          "3100",
+          "3100",
+          "3200",
+          "25%暴击几率",
+          "cslnun",
+          "巨人杀手",
+          "基于敌方英雄的额外生命值，对其至多造成",
+          "200",
+          "3200",
+          "3300",
+          "3400",
+          "3500",
+          "多米尼克领主的致意",
+          "3300",
+          "撤销",
+          "18",
+          "护甲克星",
+          "唯一：夺命",
+          "35攻击力",
+          "福",
+          "535%护甲穿透",
+          "25%暴击几率",
+          "來",
+          "210",
+          "升级！",
+          "巨人杀手",
+          "基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额",
+          "外生命值时达成"
+        ]
+      }
+    }
+  ],
+  "damage_wasm_artifact_generated_at": "2026-06-18T12:24:37.652Z",
+  "copied_from": "C:/project/ocr_tools/out/equipment_tooltip_extracted_20260617.json",
+  "seed_candidate_path": "最小验证/V2-BatchV-equipment-tooltip-passive-candidates.seed.json",
+  "extraction_decisions": [
+    "Screen39 and Screen40 are the same Essence Reaver tooltip before/after stat change and are used as a dynamic formula cross-check.",
+    "Only single-target primary-target DPS behavior is encoded in the seed candidate.",
+    "Unsupported clauses are preserved as recordedNotSimulated or blockedPassive rather than encoded as fake runtime behavior."
+  ]
+}
