@@ -181,19 +181,9 @@ func (state *dpsCurveState) resolveHPChangeBucketCandidates(
 			state.block("passive damage_modifier critOnly hp_change bucket is unsupported under expected crit policy")
 			return nil, false
 		}
-		value, ok, reason := resolveDPSModifierValue(state.bundle, op, gate)
-		if !ok {
-			if reason != "" {
-				state.block(reason)
-			} else {
-				state.block("passive damage_modifier could not resolve bucket value")
-			}
-			return nil, false
-		}
 		group.applied = append(group.applied, dpsHPChangeBucketCandidate{
 			passive: entry.passive,
 			op:      op,
-			value:   value,
 			bucket:  bucket,
 		})
 	}
@@ -266,7 +256,7 @@ func (state *dpsCurveState) applyHPChangeStageBuckets(
 	current := amount
 	for _, group := range groups {
 		bucket := group.bucket
-		appliedEvidence, skippedEvidence := hpChangeBucketCandidateEvidence(group)
+		_, skippedEvidence := hpChangeBucketCandidateEvidence(group)
 		passive, op := hpChangeBucketEffectSource(group)
 		source := passiveDamageSource(passive, op)
 		if len(group.applied) == 0 {
@@ -278,12 +268,33 @@ func (state *dpsCurveState) applyHPChangeStageBuckets(
 			continue
 		}
 		sortDPSHPChangeBucketCandidatesByOperationPriority(group.applied)
+		resolvedCandidates := make([]dpsHPChangeBucketCandidate, 0, len(group.applied))
 		values := make([]float64, 0, len(group.applied))
 		appliedPassives := map[string]bool{}
 		for _, candidate := range group.applied {
-			values = append(values, candidate.value)
+			value, ok, reason := resolveDPSModifierValue(state.bundle, candidate.op, gate, &current)
+			if !ok {
+				if reason != "" {
+					state.block(reason)
+				} else {
+					state.block("passive damage_modifier could not resolve bucket value")
+				}
+				return 0, false
+			}
+			resolvedCandidates = append(resolvedCandidates, dpsHPChangeBucketCandidate{
+				passive: candidate.passive,
+				op:      candidate.op,
+				value:   value,
+				bucket:  candidate.bucket,
+			})
+			values = append(values, value)
 			appliedPassives[passiveRuntimeKey(candidate.passive)] = true
 		}
+		appliedEvidence, skippedEvidence := hpChangeBucketCandidateEvidence(dpsHPChangeBucketGroup{
+			bucket:  bucket,
+			applied: resolvedCandidates,
+			skipped: group.skipped,
+		})
 		aggregate, hasAggregate, reason := aggregateCoefficientBucketValues(bucket, values)
 		if !hasAggregate {
 			if reason != "" {
