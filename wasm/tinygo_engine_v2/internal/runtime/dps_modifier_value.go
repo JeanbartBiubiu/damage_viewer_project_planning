@@ -18,6 +18,7 @@ func resolveDPSModifierValue(
 	bundle compilebundle.CompiledBundle,
 	op model.DPSPassiveOperationV2,
 	gate dpsModifierGateContext,
+	formulaInput *float64,
 ) (float64, bool, string) {
 	spec := op.ValueSpec
 	kind := strings.TrimSpace(spec.Kind)
@@ -96,7 +97,7 @@ func resolveDPSModifierValue(
 		}
 		return clampDPSModifierValue(result, spec), true, ""
 	case "formula":
-		return resolveDPSModifierFormulaValue(bundle, spec, gate)
+		return resolveDPSModifierFormulaValue(bundle, spec, gate, formulaInput)
 	case "crit_scaling":
 		metric := strings.TrimSpace(spec.AttrKey)
 		if metric == "" {
@@ -120,6 +121,7 @@ func resolveDPSModifierFormulaValue(
 	bundle compilebundle.CompiledBundle,
 	spec model.DPSModifierValueSpecV2,
 	gate dpsModifierGateContext,
+	formulaInput *float64,
 ) (float64, bool, string) {
 	formulaID := strings.TrimSpace(spec.FormulaID)
 	if formulaID == "" {
@@ -136,7 +138,7 @@ func resolveDPSModifierFormulaValue(
 	if formulaProgramUsesUnsupportedDPSModifierReaders(program) {
 		return 0, false, "passive damage_modifier valueSpec formula requires unsupported runtime readers"
 	}
-	evalCtx := buildDPSModifierFormulaEvalContext(bundle, gate)
+	evalCtx := buildDPSModifierFormulaEvalContext(bundle, gate, formulaInput)
 	value, err := bundle.Formulas.Eval(programID, evalCtx)
 	if err != nil {
 		return 0, false, "passive damage_modifier valueSpec formula could not evaluate " + formulaID + ": " + err.Error()
@@ -174,8 +176,12 @@ func (r dpsModifierFormulaAttrReader) ReadAttr(index uint16, kind model.Attribut
 	return readDPSModifierAttr(r.attrs, r.views, attrKey, kind)
 }
 
-func buildDPSModifierFormulaEvalContext(bundle compilebundle.CompiledBundle, gate dpsModifierGateContext) formula.EvalContext {
-	return formula.EvalContext{
+func buildDPSModifierFormulaEvalContext(
+	bundle compilebundle.CompiledBundle,
+	gate dpsModifierGateContext,
+	formulaInput *float64,
+) formula.EvalContext {
+	evalCtx := formula.EvalContext{
 		SourceAttrs: dpsModifierFormulaAttrReader{
 			bundle: bundle,
 			attrs:  gate.AttackerAttrs,
@@ -187,6 +193,10 @@ func buildDPSModifierFormulaEvalContext(bundle compilebundle.CompiledBundle, gat
 			views:  nil,
 		},
 	}
+	if formulaInput != nil {
+		evalCtx.Input = *formulaInput
+	}
+	return evalCtx
 }
 
 func dpsModifierHPMeterValue(role string, meter string, gate dpsModifierGateContext) (float64, bool) {
