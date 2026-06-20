@@ -18,7 +18,7 @@ CREATE TABLE public.coefficient_buckets (
     end_version_id bigint NOT NULL,
     resolution_domain varchar(16) NOT NULL
         CHECK (resolution_domain IN ('attribute', 'hp_change')),
-    stage_key varchar(32) NOT NULL,
+    stage_key varchar(64) NOT NULL,
     target_attr_key varchar(64),
     aggregation_mode varchar(16) NOT NULL
         CHECK (aggregation_mode IN ('add', 'multiply', 'pick_max', 'set_final')),
@@ -60,7 +60,7 @@ CREATE TABLE public.coefficient_buckets_log (
     end_version_id bigint NOT NULL,
     resolution_domain varchar(16) NOT NULL
         CHECK (resolution_domain IN ('attribute', 'hp_change')),
-    stage_key varchar(32) NOT NULL,
+    stage_key varchar(64) NOT NULL,
     target_attr_key varchar(64),
     aggregation_mode varchar(16) NOT NULL
         CHECK (aggregation_mode IN ('add', 'multiply', 'pick_max', 'set_final')),

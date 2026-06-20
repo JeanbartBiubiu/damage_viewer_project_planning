@@ -219,7 +219,7 @@ CREATE TABLE public.type_relations (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     target_category varchar(32) NOT NULL CHECK (target_category IN ('equipment', 'attribute', 'skill', 'character', 'type')),
-    target_id varchar(64) NOT NULL,
+    target_id varchar(256) NOT NULL,
     extend jsonb,
     deleted boolean NOT NULL DEFAULT FALSE,
     updated_at timestamp NOT NULL DEFAULT NOW(),
@@ -240,7 +240,7 @@ CREATE TABLE public.type_relations_log (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     target_category varchar(32) NOT NULL CHECK (target_category IN ('equipment', 'attribute', 'skill', 'character', 'type')),
-    target_id varchar(64) NOT NULL,
+    target_id varchar(256) NOT NULL,
     extend jsonb,
     deleted boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT pk_type_relations_log PRIMARY KEY (game_id, type_id, target_category, target_id, start_version_id),
@@ -315,8 +315,8 @@ COMMENT ON TABLE public.formula_profiles_log IS '公式模板日志表（用于�
 CREATE TABLE public.formula_bindings (
     game_id varchar(64) NOT NULL,
     target_category varchar(32) NOT NULL CHECK (target_category IN ('skill', 'hero', 'item', 'global')),
-    target_id varchar(64) NOT NULL,
-    binding_key varchar(64) NOT NULL,
+    target_id varchar(256) NOT NULL,
+    binding_key varchar(256) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     formula_id varchar(64) NOT NULL,
@@ -338,8 +338,8 @@ COMMENT ON COLUMN public.formula_bindings.override_params IS '可选覆盖参数
 CREATE TABLE public.formula_bindings_log (
     game_id varchar(64) NOT NULL,
     target_category varchar(32) NOT NULL CHECK (target_category IN ('skill', 'hero', 'item', 'global')),
-    target_id varchar(64) NOT NULL,
-    binding_key varchar(64) NOT NULL,
+    target_id varchar(256) NOT NULL,
+    binding_key varchar(256) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     formula_id varchar(64) NOT NULL,
@@ -403,12 +403,12 @@ COMMENT ON TABLE public.heroes_log IS '英雄/角色日志表（用于多版本�
 
 CREATE TABLE public.skills (
     game_id varchar(64) NOT NULL,
-    skill_id varchar(64) NOT NULL,
+    skill_id varchar(256) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
-    owner_id varchar(64),
+    owner_id varchar(256),
     owner_type varchar(32),
-    skill_key varchar(16),
+    skill_key varchar(256),
     name varchar(100),
     description text,
     resource_costs jsonb,
@@ -441,12 +441,12 @@ COMMENT ON COLUMN public.skills.mechanics_config IS '技能核心机制配置（
 
 CREATE TABLE public.skills_log (
     game_id varchar(64) NOT NULL,
-    skill_id varchar(64) NOT NULL,
+    skill_id varchar(256) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
-    owner_id varchar(64),
+    owner_id varchar(256),
     owner_type varchar(32),
-    skill_key varchar(16),
+    skill_key varchar(256),
     name varchar(100),
     description text,
     resource_costs jsonb,
@@ -472,7 +472,7 @@ COMMENT ON TABLE public.skills_log IS '技能日志表（用于多版本差异�
 
 CREATE TABLE public.items (
     game_id varchar(64) NOT NULL,
-    item_id varchar(64) NOT NULL,
+    item_id varchar(256) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     name varchar(100),
@@ -494,7 +494,7 @@ COMMENT ON COLUMN public.items.skill_refs IS '装备关联技能引用（被动/
 
 CREATE TABLE public.items_log (
     game_id varchar(64) NOT NULL,
-    item_id varchar(64) NOT NULL,
+    item_id varchar(256) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     name varchar(100),
@@ -513,7 +513,7 @@ COMMENT ON TABLE public.items_log IS '装备/道具日志表（用于多版本�
 
 CREATE TABLE public.item_stat_modifiers (
     game_id varchar(64) NOT NULL,
-    item_id varchar(64) NOT NULL,
+    item_id varchar(256) NOT NULL,
     attr_key varchar(64) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
@@ -535,7 +535,7 @@ COMMENT ON COLUMN public.item_stat_modifiers.value IS '装备对 attr_key 的固
 
 CREATE TABLE public.item_stat_modifiers_log (
     game_id varchar(64) NOT NULL,
-    item_id varchar(64) NOT NULL,
+    item_id varchar(256) NOT NULL,
     attr_key varchar(64) NOT NULL,
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
@@ -558,8 +558,8 @@ CREATE TABLE public.skill_mounts (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     target_category varchar(32) NOT NULL,
-    target_id varchar(64) NOT NULL,
-    skill_id varchar(64) NOT NULL,
+    target_id varchar(256) NOT NULL,
+    skill_id varchar(256) NOT NULL,
     enabled boolean NOT NULL DEFAULT TRUE,
     extend jsonb NOT NULL DEFAULT '{}',
     updated_at timestamp NOT NULL DEFAULT NOW(),
@@ -583,8 +583,8 @@ CREATE TABLE public.skill_mounts_log (
     start_version_id bigint NOT NULL,
     end_version_id bigint NOT NULL,
     target_category varchar(32) NOT NULL,
-    target_id varchar(64) NOT NULL,
-    skill_id varchar(64) NOT NULL,
+    target_id varchar(256) NOT NULL,
+    skill_id varchar(256) NOT NULL,
     enabled boolean NOT NULL DEFAULT TRUE,
     extend jsonb NOT NULL DEFAULT '{}',
     CONSTRAINT pk_skill_mounts_log PRIMARY KEY (game_id, target_category, target_id, skill_id, start_version_id),
