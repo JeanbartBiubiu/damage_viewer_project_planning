@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "lol_wiki_current_items_db_candidates.v1.summary",
+  "generatedAt": "2026-06-19T04:29:20.670Z",
+  "source": {
+    "inputFile": "current-items.normalized.json",
+    "manifest": {
+      "apiTitle": "Module:ItemData/data",
+      "apiUrl": "https://wiki.leagueoflegends.com/en-us/api.php?action=query&prop=revisions&rvprop=ids|timestamp|content&rvslots=main&titles=Module:ItemData/data&format=json&origin=*",
+      "contentSha256": "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z",
+      "outputFiles": [
+        "current-items.raw.lua",
+        "current-items.normalized.json",
+        "current-items.summary.json",
+        "manifest.json"
+      ],
+      "removedIncluded": false,
+      "revid": 4030984,
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module:ItemData/data",
+      "timestamp": "2026-06-17T23:47:20Z"
+    },
+    "normalizedMeta": {
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z"
+    }
+  },
+  "summary": {
+    "itemCount": 333,
+    "skillCandidateCount": 7,
+    "blockedPassiveCount": 3,
+    "aiReviewQueueCount": 385,
+    "unresolvedCount": 0,
+    "collisionGroupCount": 12,
+    "importEligible": {
+      "playerFacing": 228,
+      "classicSr": 237,
+      "dps": 121
+    },
+    "effectSlotCounts": {
+      "pass": 219,
+      "pass2": 75,
+      "pass3": 14,
+      "pass4": 1,
+      "act": 49,
+      "consume": 32
+    },
+    "highConfidenceGuessesByTrigger": {
+      "on_basic_attack_hit": 5,
+      "next_basic_attack_after_state": 1,
+      "energized_charge_and_consume": 1
+    },
+    "inheritedFieldResolutionCount": 52
+  },
+  "outputFiles": [
+    "current-items.db-candidates.json",
+    "current-items.db-candidates.summary.json",
+    "current-items.ai-review-queue.jsonl"
+  ]
+}

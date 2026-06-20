@@ -1,0 +1,1940 @@
+{
+  "gameId": "lol",
+  "versionCode": "wiki_current_items_reviewed_tank_adc_4030984",
+  "source": {
+    "reviewWorkbook": "C:\\project\\damage_wasm_dev\\数据参考\\lol-wiki-current-items\\review\\current-items-effect-review-neutral-zh-tank-adc.xlsx",
+    "reviewSheet": "需要你拍板",
+    "reviewedAtSourceTimestamp": "2026-06-19T21:42:41+08:00",
+    "generatedAt": "2026-06-19T15:02:06.700427+00:00",
+    "conversionRule": "reviewed_tank_adc_seed.v2",
+    "inputFiles": [
+      "current-items.base-items.seed-candidate.json",
+      "current-items.high-confidence-skills.seed-candidate.json",
+      "current-items.ai-review-queue.jsonl",
+      "current-items.db-candidates.json"
+    ],
+    "manifest": {
+      "apiTitle": "Module:ItemData/data",
+      "apiUrl": "https://wiki.leagueoflegends.com/en-us/api.php?action=query&prop=revisions&rvprop=ids|timestamp|content&rvslots=main&titles=Module:ItemData/data&format=json&origin=*",
+      "contentSha256": "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z",
+      "outputFiles": [
+        "current-items.raw.lua",
+        "current-items.normalized.json",
+        "current-items.summary.json",
+        "manifest.json"
+      ],
+      "removedIncluded": false,
+      "revid": 4030984,
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module:ItemData/data",
+      "timestamp": "2026-06-17T23:47:20Z"
+    },
+    "candidateOnly": true,
+    "dependsOn": [
+      "current-items.base-items.seed-candidate.json",
+      "current-items.high-confidence-skills.seed-candidate.json"
+    ],
+    "dependsOnVersionCodes": [
+      "wiki_current_items_base_4030984",
+      "wiki_current_items_skills_4030984"
+    ],
+    "rule": "Incremental reviewed tank/ADC current-item effects. Only supported rows are converted; already imported high-confidence rows are not duplicated.",
+    "httpImportCompatibility": {
+      "generatedFrom": "current-items.reviewed-tank-adc.seed-candidate.json",
+      "reason": "Backend Admin body validation recursively rejects version metadata fields inside entity request bodies; IDs remain uncompressed after DB varchar(256) migration",
+      "removedForbiddenEntityFields": [
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode",
+        "/items/source/importEligibility/isCurrent",
+        "/items/source/reviewedTankAdcSeed/versionCode"
+      ]
+    }
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "formulaProfiles": [],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [],
+  "statusModifierGroups": [],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [],
+  "heroes": [],
+  "typeRelations": [],
+  "scenarios": [],
+  "skills": [
+    {
+      "skillId": "item_3094_rapid_firecannon_energized_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3094",
+      "skillKey": "p_energized_reviewed",
+      "name": "Rapid Firecannon Sharpshooter reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "energized_charge_and_consume",
+        "sourceItemName": "Rapid Firecannon",
+        "reviewKeys": [
+          "3094|3094|rapid_firecannon|pass|Energized",
+          "3094|3094|rapid_firecannon|pass2|Sharpshooter"
+        ],
+        "recordedNotSimulated": [
+          "bonus_attack_range",
+          "movement_charge_gain"
+        ],
+        "assumptions": [
+          "assumes_charge_at_threshold_before_dps_window"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "chargeThreshold": 100,
+        "chargeGainPerBasicAttack": 25,
+        "damageAmount": 40,
+        "damageType": "magic"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "rapid_firecannon_energized_charge_and_consume",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3094_rapid_firecannon_energized_reviewed_tank_adc",
+            "effectId": "item_3094_rapid_firecannon_energized_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3094_rapid_firecannon_energized_reviewed_tank_adc",
+            "triggerId": "rapid_firecannon_energized_charge_and_consume",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "rapid_firecannon_energized_damage",
+                "damageType": "magic",
+                "amount": 40,
+                "evidenceKey": "item_3094_energized_damage_magic_40"
+              }
+            ],
+            "triggerKind": "energized_charge_and_consume",
+            "chargeKey": "item_3094_energized",
+            "chargeThreshold": 100,
+            "chargeCap": 100,
+            "chargeGainPerBasicAttack": 25,
+            "consumeChargeOnTrigger": true,
+            "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+            "procScope": "real_basic_attack_only"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3094_energized_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3094",
+            "activation": "assumed_charge_before_start",
+            "stacks": 100,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3097_stormrazor_energized_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3097",
+      "skillKey": "p_energized_reviewed",
+      "name": "Stormrazor Bolt reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "energized_charge_and_consume",
+        "sourceItemName": "Stormrazor",
+        "reviewKeys": [
+          "3097|3097|stormrazor|pass|Energized",
+          "3097|3097|stormrazor|pass2|Bolt"
+        ],
+        "recordedNotSimulated": [
+          "bonus_movement_speed",
+          "movement_charge_gain"
+        ],
+        "assumptions": [
+          "assumes_charge_at_threshold_before_dps_window"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "chargeThreshold": 100,
+        "chargeGainPerBasicAttack": 25,
+        "damageAmount": 100,
+        "damageType": "magic"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "stormrazor_energized_charge_and_consume",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3097_stormrazor_energized_reviewed_tank_adc",
+            "effectId": "item_3097_stormrazor_energized_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3097_stormrazor_energized_reviewed_tank_adc",
+            "triggerId": "stormrazor_energized_charge_and_consume",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "stormrazor_energized_damage",
+                "damageType": "magic",
+                "amount": 100,
+                "evidenceKey": "item_3097_energized_damage_magic_100"
+              }
+            ],
+            "triggerKind": "energized_charge_and_consume",
+            "chargeKey": "item_3097_energized",
+            "chargeThreshold": 100,
+            "chargeCap": 100,
+            "chargeGainPerBasicAttack": 25,
+            "consumeChargeOnTrigger": true,
+            "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+            "procScope": "real_basic_attack_only"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3097_energized_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3097",
+            "activation": "assumed_charge_before_start",
+            "stacks": 100,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3508_essence_reaver_spellblade_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3508",
+      "skillKey": "p_spellblade_reviewed",
+      "name": "Essence Reaver Spellblade reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "next_basic_attack_after_state",
+        "sourceItemName": "Essence Reaver",
+        "reviewKeys": [
+          "3508|3508|essence_reaver|pass|Spellblade"
+        ],
+        "recordedNotSimulated": [
+          "mana_restore_not_encoded_no_resource_restore_op"
+        ],
+        "assumptions": [
+          "assumes_spell_cast_before_dps_window"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "encodedMechanism": "base_ad_ratio_spellblade_plus_crit_chance_scaling",
+        "spellbladeBaseAdRatio": 1.25,
+        "spellbladeBaseAdAttr": "ad",
+        "spellbladeBaseAdAttrRead": "base",
+        "critChanceBonusAttr": "crit_chance",
+        "critChanceBonusAttrRatio": 50,
+        "damageType": "physical"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "essence_reaver_spellblade_next_attack",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3508_essence_reaver_spellblade_reviewed_tank_adc",
+            "effectId": "item_3508_essence_reaver_spellblade_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3508_essence_reaver_spellblade_reviewed_tank_adc",
+            "triggerId": "essence_reaver_spellblade_next_attack",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "essence_reaver_spellblade_base_ad",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 1.25,
+                "evidenceKey": "item_3508_spellblade_base_ad_1.25"
+              },
+              {
+                "kind": "damage",
+                "source": "essence_reaver_spellblade_crit_chance_bonus",
+                "damageType": "physical",
+                "attackerAttr": "crit_chance",
+                "attackerAttrRatio": 50,
+                "evidenceKey": "item_3508_spellblade_crit_chance_bonus_50"
+              }
+            ],
+            "triggerKind": "next_basic_attack_after_state",
+            "requiresScenarioStateId": "item_3508_spellblade_ready",
+            "procScope": "real_basic_attack_only"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3508_spellblade_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3508",
+            "activation": "assumed_spell_cast_before_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3078_trinity_force_spellblade_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3078",
+      "skillKey": "p_spellblade_reviewed",
+      "name": "Trinity Force Spellblade reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "next_basic_attack_after_state",
+        "sourceItemName": "Trinity Force",
+        "reviewKeys": [
+          "3078|3078|trinity_force|pass|Spellblade"
+        ],
+        "recordedNotSimulated": [],
+        "assumptions": [
+          "assumes_spell_cast_before_dps_window"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "attackerAttr": "ad",
+        "attackerAttrRead": "base",
+        "attackerAttrRatio": 2,
+        "damageType": "physical",
+        "encodedMechanism": "base_ad_ratio_spellblade"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "trinity_force_spellblade_next_attack",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3078_trinity_force_spellblade_reviewed_tank_adc",
+            "effectId": "item_3078_trinity_force_spellblade_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3078_trinity_force_spellblade_reviewed_tank_adc",
+            "triggerId": "trinity_force_spellblade_next_attack",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "trinity_force_spellblade_base_ad",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 2,
+                "evidenceKey": "item_3078_spellblade_base_ad_2.0"
+              }
+            ],
+            "triggerKind": "next_basic_attack_after_state",
+            "requiresScenarioStateId": "item_3078_spellblade_ready",
+            "procScope": "real_basic_attack_only"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3078_spellblade_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3078",
+            "activation": "assumed_spell_cast_before_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3057_sheen_spellblade_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3057",
+      "skillKey": "p_spellblade_reviewed",
+      "name": "Sheen Spellblade reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "next_basic_attack_after_state",
+        "sourceItemName": "Sheen",
+        "reviewKeys": [
+          "3057|3057|sheen|pass|Spellblade"
+        ],
+        "recordedNotSimulated": [],
+        "assumptions": [
+          "assumes_spell_cast_before_dps_window"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "attackerAttr": "ad",
+        "attackerAttrRead": "base",
+        "attackerAttrRatio": 1,
+        "damageType": "physical",
+        "encodedMechanism": "base_ad_ratio_spellblade"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "sheen_spellblade_next_attack",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3057_sheen_spellblade_reviewed_tank_adc",
+            "effectId": "item_3057_sheen_spellblade_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3057_sheen_spellblade_reviewed_tank_adc",
+            "triggerId": "sheen_spellblade_next_attack",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "sheen_spellblade_base_ad",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 1,
+                "evidenceKey": "item_3057_spellblade_base_ad_1.0"
+              }
+            ],
+            "triggerKind": "next_basic_attack_after_state",
+            "requiresScenarioStateId": "item_3057_spellblade_ready",
+            "procScope": "real_basic_attack_only"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3057_spellblade_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3057",
+            "activation": "assumed_spell_cast_before_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3110_frozen_heart_winters_caress_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3110",
+      "skillKey": "p_winters_caress_reviewed",
+      "name": "Frozen Heart Winter's Caress reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "stat_modifier_always_on",
+        "sourceItemName": "Frozen Heart",
+        "reviewKeys": [
+          "3110|3110|frozen_heart|pass|Winter's Caress"
+        ],
+        "recordedNotSimulated": [],
+        "assumptions": [
+          "assumes_attacker_within_700_units_aura"
+        ],
+        "userNotes": [
+          "reviewer: attack speed suppression is useful for ADC target testing"
+        ],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "targetRole": "attacker",
+        "attackSpeedMultiplierDelta": -0.2
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "frozen_heart_winters_caress_aura",
+            "triggerKind": "stat_modifier_always_on"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3110_frozen_heart_winters_caress_reviewed_tank_adc",
+            "effectId": "item_3110_frozen_heart_winters_caress_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3110_frozen_heart_winters_caress_reviewed_tank_adc",
+            "triggerId": "frozen_heart_winters_caress_aura",
+            "ownerRole": "target",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "frozen_heart_attack_speed_cripple",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": -0.2,
+                "targetRole": "attacker",
+                "evidenceKey": "item_3110_winters_caress_attack_speed_minus_20pct"
+              }
+            ],
+            "triggerKind": "stat_modifier_always_on"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_228001_anathemas_chains_vendetta_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "228001",
+      "skillKey": "p_vendetta_reviewed",
+      "name": "Anathema's Chains Vendetta reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "on_damage_taken",
+        "sourceItemName": "Anathema's Chains",
+        "reviewKeys": [
+          "228001|228001|anathema_s_chains|pass|Vendetta"
+        ],
+        "recordedNotSimulated": [
+          "tenacity_reduction"
+        ],
+        "assumptions": [
+          "assumes_single_attacker_is_selected_nemesis_and_in_range",
+          "assumes_max_30_percent_incoming_damage_reduction"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "incomingDamageMultiplierDelta": -0.3,
+        "maxIncomingDamageReduction": 0.3
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "anathemas_chains_vendetta_damage_taken",
+            "triggerKind": "on_damage_taken"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_228001_anathemas_chains_vendetta_reviewed_tank_adc",
+            "effectId": "item_228001_anathemas_chains_vendetta_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_228001_anathemas_chains_vendetta_reviewed_tank_adc",
+            "triggerId": "anathemas_chains_vendetta_damage_taken",
+            "ownerRole": "target",
+            "operations": [
+              {
+                "kind": "damage_modifier",
+                "source": "anathemas_chains_vendetta_damage_reduction",
+                "targetRole": "target",
+                "modifierMode": "percent",
+                "value": -0.3,
+                "valuePhase": "incoming",
+                "evidenceKey": "item_228001_vendetta_damage_reduction_30pct_max"
+              }
+            ],
+            "trigger": {
+              "event": "on_damage_taken",
+              "matcher": {}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3124_guinsoos_rageblade_seething_strike_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3124",
+      "skillKey": "p_seething_strike_reviewed",
+      "name": "Guinsoo's Rageblade Seething Strike reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "on_basic_attack_hit",
+        "sourceItemName": "Guinsoo's Rageblade",
+        "reviewKeys": [
+          "3124|3124|guinsoo_s_rageblade|pass2|Seething Strike"
+        ],
+        "recordedNotSimulated": [],
+        "assumptions": [],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "onHitMagicDamage": 30,
+        "perStackAttackSpeed": 0.08,
+        "maxStacks": 4,
+        "durationMs": 3000,
+        "phantomRepeatCount": 1,
+        "supersedesHighConfidenceSkillId": "item_3124_on_basic_attack_hit_wiki_candidate",
+        "importPolicy": "replace_or_merge_not_append_to_avoid_double_counting"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "guinsoos_seething_strike_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3124_guinsoos_rageblade_seething_strike_reviewed_tank_adc",
+            "effectId": "item_3124_guinsoos_rageblade_seething_strike_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3124_guinsoos_rageblade_seething_strike_reviewed_tank_adc",
+            "triggerId": "guinsoos_seething_strike_on_hit",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "guinsoos_wrath_on_hit",
+                "damageType": "magic",
+                "amount": 30,
+                "phantomHitCopyable": true,
+                "evidenceKey": "item_3124_wrath_on_hit_magic_30"
+              },
+              {
+                "kind": "add_stack",
+                "source": "guinsoos_seething_strike_add_stack",
+                "stackKey": "guinsoos_seething_strike",
+                "maxStacks": 4,
+                "durationMs": 3000,
+                "refreshMode": "refresh",
+                "evidenceKey": "item_3124_seething_add_stack"
+              },
+              {
+                "kind": "stat_modifier",
+                "source": "guinsoos_seething_strike_attack_speed",
+                "attrKey": "attack_speed",
+                "modifierMode": "percent",
+                "value": 0.08,
+                "perStack": true,
+                "stackKey": "guinsoos_seething_strike",
+                "evidenceKey": "item_3124_seething_attack_speed_per_stack"
+              },
+              {
+                "kind": "phantom_hit_on_hit_repeat",
+                "source": "guinsoos_phantom_hit",
+                "stackKey": "guinsoos_seething_strike",
+                "triggerStacks": 4,
+                "repeatCount": 1,
+                "repeatTag": "phantom_hit",
+                "repeatScope": "copyable_on_hit",
+                "evidenceKey": "item_3124_phantom_hit_repeat_at_4_stacks"
+              }
+            ],
+            "triggerKind": "on_basic_attack_hit",
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_6672_kraken_slayer_bring_it_down_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "6672",
+      "skillKey": "p_bring_it_down_reviewed",
+      "name": "Kraken Slayer Bring It Down reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "every_n_basic_attack_hit",
+        "sourceItemName": "Kraken Slayer",
+        "reviewKeys": [
+          "6672|6672|kraken_slayer|pass|Bring It Down"
+        ],
+        "recordedNotSimulated": [
+          "level_scaling_120_to_160_not_dynamically_modeled",
+          "melee_proc_value_not_dynamically_modeled"
+        ],
+        "assumptions": [
+          "uses_ranged_ADC_baseline_amount_120",
+          "missing_hp_amp_expression_supported_in_single_attacker_dps"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "everyN": 3,
+        "basePhysicalDamage": 120,
+        "targetMissingHpAmp": 0.75
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "kraken_slayer_every_3_hit",
+            "triggerKind": "every_n_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_6672_kraken_slayer_bring_it_down_reviewed_tank_adc",
+            "effectId": "item_6672_kraken_slayer_bring_it_down_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_6672_kraken_slayer_bring_it_down_reviewed_tank_adc",
+            "triggerId": "kraken_slayer_every_3_hit",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "kraken_slayer_bring_it_down",
+                "damageType": "physical",
+                "amount": 120,
+                "targetMissingHpAmp": 0.75,
+                "targetMissingHpBasis": "attack_start",
+                "evidenceKey": "item_6672_bring_it_down_ranged_baseline"
+              }
+            ],
+            "triggerKind": "every_n_basic_attack_hit",
+            "everyN": 3,
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3075_thornmail_thorns_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3075",
+      "skillKey": "p_thorns_reviewed",
+      "name": "Thornmail Thorns reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "on_damage_taken",
+        "sourceItemName": "Thornmail",
+        "reviewKeys": [
+          "3075|3075|thornmail|pass|Thorns"
+        ],
+        "recordedNotSimulated": [
+          "bonus_armor_scaling_10pct_reflect_not_encoded_no_target_bonus_armor_read",
+          "grievous_wounds_not_encoded"
+        ],
+        "assumptions": [],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "reflectAmount": 20,
+        "reflectDamageType": "magic",
+        "encodedMechanism": "flat_20_magic_reflect_on_basic_attack_damage_taken"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "thornmail_thorns_damage_taken",
+            "triggerKind": "on_damage_taken"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3075_thornmail_thorns_reviewed_tank_adc",
+            "effectId": "item_3075_thornmail_thorns_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3075_thornmail_thorns_reviewed_tank_adc",
+            "triggerId": "thornmail_thorns_damage_taken",
+            "ownerRole": "target",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "thornmail_thorns_reflect_flat",
+                "damageType": "magic",
+                "amount": 20,
+                "targetRole": "attacker",
+                "evidenceKey": "item_3075_thorns_reflect_flat_20"
+              }
+            ],
+            "trigger": {
+              "event": "on_damage_taken",
+              "matcher": {
+                "damageTypes": [
+                  "physical"
+                ],
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3153_blade_of_the_ruined_king_mists_edge_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3153",
+      "skillKey": "p_mists_edge_reviewed",
+      "name": "Blade of the Ruined King Mist's Edge reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "on_basic_attack_hit",
+        "sourceItemName": "Blade of the Ruined King",
+        "reviewKeys": [
+          "3153|3153|blade_of_the_ruined_king|pass|Mist's Edge"
+        ],
+        "recordedNotSimulated": [
+          "melee_9pct_value_not_modeled_informational_for_adc_review_slice",
+          "minion_monster_cap_not_relevant_to_target_dummy"
+        ],
+        "assumptions": [
+          "uses_ranged_ADC_value_6pct"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "targetCurrentHpRatio": 0.06,
+        "targetCurrentHpBasis": "attack_start"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "blade_of_the_ruined_king_mists_edge_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3153_blade_of_the_ruined_king_mists_edge_reviewed_tank_adc",
+            "effectId": "item_3153_blade_of_the_ruined_king_mists_edge_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3153_blade_of_the_ruined_king_mists_edge_reviewed_tank_adc",
+            "triggerId": "blade_of_the_ruined_king_mists_edge_on_hit",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "blade_of_the_ruined_king_current_hp_on_hit",
+                "damageType": "physical",
+                "targetCurrentHpRatio": 0.06,
+                "targetCurrentHpBasis": "attack_start",
+                "evidenceKey": "item_3153_mists_edge_ranged_current_hp_6pct"
+              }
+            ],
+            "triggerKind": "on_basic_attack_hit",
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3032_yun_tal_wildarrows_practice_makes_lethal_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3032",
+      "skillKey": "p_practice_makes_lethal_reviewed",
+      "name": "Yun Tal Wildarrows Practice Makes Lethal reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "stat_modifier_always_on",
+        "sourceItemName": "Yun Tal Wildarrows",
+        "reviewKeys": [
+          "3032|3032|yun_tal_wildarrows|pass|Practice Makes Lethal"
+        ],
+        "recordedNotSimulated": [
+          "per_attack_permanent_growth_curve_not_modelled"
+        ],
+        "assumptions": [
+          "reviewer_requested_fixed_25_percent_crit_chance"
+        ],
+        "userNotes": [
+          "reviewer: use 25% crit directly"
+        ],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "critChanceBonus": 0.25
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "yun_tal_practice_makes_lethal_max_crit",
+            "triggerKind": "stat_modifier_always_on"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3032_yun_tal_wildarrows_practice_makes_lethal_reviewed_tank_adc",
+            "effectId": "item_3032_yun_tal_wildarrows_practice_makes_lethal_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3032_yun_tal_wildarrows_practice_makes_lethal_reviewed_tank_adc",
+            "triggerId": "yun_tal_practice_makes_lethal_max_crit",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "yun_tal_practice_makes_lethal_crit_chance",
+                "attrKey": "crit_chance",
+                "modifierMode": "flat",
+                "value": 0.25,
+                "evidenceKey": "item_3032_practice_makes_lethal_crit_25pct"
+              }
+            ],
+            "triggerKind": "stat_modifier_always_on"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_4401_force_of_nature_steadfast_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "4401",
+      "skillKey": "p_steadfast_reviewed",
+      "name": "Force of Nature Steadfast reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "on_damage_taken",
+        "sourceItemName": "Force of Nature",
+        "reviewKeys": [
+          "4401|4401|force_of_nature|pass|Steadfast"
+        ],
+        "recordedNotSimulated": [
+          "movement_speed_not_modelled",
+          "immobilize_trigger_plus_2_stacks_not_modelled",
+          "outgoing_damage_refreshes_stacks_not_modelled",
+          "once_per_cast_instance_and_1s_gate_not_modelled"
+        ],
+        "assumptions": [
+          "models_70_magic_resist_as_8_75_per_stack_up_to_8_stacks"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "perStackMagicResist": 8.75,
+        "maxStacks": 8,
+        "durationMs": 7000,
+        "totalMagicResistAtMaxStacks": 70,
+        "stackGainMatcher": {
+          "damageTypes": [
+            "magic"
+          ]
+        }
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "force_of_nature_steadfast_on_magic_damage_taken",
+            "triggerKind": "on_damage_taken"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_4401_force_of_nature_steadfast_reviewed_tank_adc",
+            "effectId": "item_4401_force_of_nature_steadfast_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_4401_force_of_nature_steadfast_reviewed_tank_adc",
+            "triggerId": "force_of_nature_steadfast_on_magic_damage_taken",
+            "ownerRole": "target",
+            "operations": [
+              {
+                "kind": "add_stack",
+                "source": "force_of_nature_steadfast_add_stack",
+                "stackKey": "force_of_nature_steadfast",
+                "maxStacks": 8,
+                "durationMs": 7000,
+                "refreshMode": "refresh",
+                "evidenceKey": "item_4401_steadfast_add_stack"
+              },
+              {
+                "kind": "stat_modifier",
+                "source": "force_of_nature_steadfast_magic_resist",
+                "attrKey": "magic_resist",
+                "modifierMode": "flat",
+                "value": 8.75,
+                "targetRole": "target",
+                "perStack": true,
+                "stackKey": "force_of_nature_steadfast",
+                "evidenceKey": "item_4401_steadfast_mr_per_stack_8_75"
+              }
+            ],
+            "trigger": {
+              "event": "on_damage_taken",
+              "matcher": {
+                "damageTypes": [
+                  "magic"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3143_randuins_omen_resilience_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "3143",
+      "skillKey": "p_resilience_reviewed",
+      "name": "Randuin's Omen Resilience reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "on_damage_taken",
+        "sourceItemName": "Randuin's Omen",
+        "reviewKeys": [
+          "3143|3143|randuin_s_omen|pass|Resilience"
+        ],
+        "recordedNotSimulated": [],
+        "assumptions": [
+          "requires_basic_attack_crit_context"
+        ],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "critOnly": true,
+        "incomingCritDamageMultiplierDelta": -0.3
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "randuins_omen_resilience_crit_damage_taken",
+            "triggerKind": "on_damage_taken"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3143_randuins_omen_resilience_reviewed_tank_adc",
+            "effectId": "item_3143_randuins_omen_resilience_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3143_randuins_omen_resilience_reviewed_tank_adc",
+            "triggerId": "randuins_omen_resilience_crit_damage_taken",
+            "ownerRole": "target",
+            "operations": [
+              {
+                "kind": "damage_modifier",
+                "source": "randuins_omen_crit_damage_reduction",
+                "targetRole": "target",
+                "modifierMode": "percent",
+                "value": -0.3,
+                "valuePhase": "incoming",
+                "critOnly": true,
+                "evidenceKey": "item_3143_resilience_crit_damage_minus_30pct"
+              }
+            ],
+            "trigger": {
+              "event": "on_damage_taken",
+              "matcher": {
+                "damageTypes": [
+                  "physical"
+                ],
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_6676_the_collector_death_reviewed_tank_adc",
+      "ownerType": "item",
+      "ownerId": "6676",
+      "skillKey": "p_death_reviewed",
+      "name": "The Collector Death reviewed wiki DPS candidate",
+      "description": "Reviewed tank/ADC LoL Wiki current item effect candidate. Candidate only; see params and conversion audit.",
+      "params": {
+        "triggerKind": "on_damage_dealt",
+        "sourceItemName": "The Collector",
+        "reviewKeys": [
+          "6676|6676|the_collector|pass|Death"
+        ],
+        "recordedNotSimulated": [],
+        "assumptions": [],
+        "userNotes": [],
+        "candidateOnly": true,
+        "conversionRule": "reviewed_tank_adc_seed.v2",
+        "executeThresholdCurrentHpRatio": 0.05
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "the_collector_death_on_damage_dealt",
+            "triggerKind": "on_damage_dealt"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_6676_the_collector_death_reviewed_tank_adc",
+            "effectId": "item_6676_the_collector_death_reviewed_tank_adc_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_6676_the_collector_death_reviewed_tank_adc",
+            "triggerId": "the_collector_death_on_damage_dealt",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "execute_threshold",
+                "source": "the_collector_death_execute",
+                "targetRole": "target",
+                "thresholdType": "current_hp_ratio",
+                "thresholdValue": 0.05,
+                "checkTiming": "after_damage",
+                "evidenceKey": "item_6676_death_execute_5pct"
+              }
+            ],
+            "trigger": {
+              "event": "on_damage_dealt",
+              "matcher": {}
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3032",
+      "name": "Yun Tal Wildarrows",
+      "goldCost": 3100,
+      "iconUrl": "item_3032",
+      "skillRefs": [
+        "item_3032_yun_tal_wildarrows_practice_makes_lethal_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "1038",
+        "3144",
+        "1036"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 50
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.4
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3032",
+        "sourceKey": "yun_tal_wildarrows",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3057",
+      "name": "Sheen",
+      "goldCost": 900,
+      "iconUrl": "item_3057",
+      "skillRefs": [
+        "item_3057_sheen_spellblade_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "2022"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ability_haste",
+          "value": 10
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3057",
+        "sourceKey": "sheen",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": false
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3075",
+      "name": "Thornmail",
+      "goldCost": 2450,
+      "iconUrl": "item_3075",
+      "skillRefs": [
+        "item_3075_thornmail_thorns_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "3076",
+        "1031",
+        "1028"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "armor",
+          "value": 75
+        },
+        {
+          "attrKey": "hp",
+          "value": 150
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3075",
+        "sourceKey": "thornmail",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3078",
+      "name": "Trinity Force",
+      "goldCost": 3333,
+      "iconUrl": "item_3078",
+      "skillRefs": [
+        "item_3078_trinity_force_spellblade_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "3057",
+        "3044",
+        "3051"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 36
+        },
+        {
+          "attrKey": "ability_haste",
+          "value": 15
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.3
+        },
+        {
+          "attrKey": "hp",
+          "value": 333
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3078",
+        "sourceKey": "trinity_force",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3094",
+      "name": "Rapid Firecannon",
+      "goldCost": 2650,
+      "iconUrl": "item_3094",
+      "skillRefs": [
+        "item_3094_rapid_firecannon_energized_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "3086",
+        "3144"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "attack_speed",
+          "value": 0.35
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3094",
+        "sourceKey": "rapid_firecannon",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "HasOnAttack"
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3097",
+      "name": "Stormrazor",
+      "goldCost": 3200,
+      "iconUrl": "item_3097",
+      "skillRefs": [
+        "item_3097_stormrazor_energized_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "1038",
+        "1018",
+        "3144"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 50
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.2
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3097",
+        "sourceKey": "stormrazor",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "HasOnAttack"
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3110",
+      "name": "Frozen Heart",
+      "goldCost": 2500,
+      "iconUrl": "item_3110",
+      "skillRefs": [
+        "item_3110_frozen_heart_winters_caress_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "3082",
+        "3024"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ability_haste",
+          "value": 20
+        },
+        {
+          "attrKey": "armor",
+          "value": 75
+        },
+        {
+          "attrKey": "mana",
+          "value": 400
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3110",
+        "sourceKey": "frozen_heart",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": false,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3124",
+      "name": "Guinsoo's Rageblade",
+      "goldCost": 3000,
+      "iconUrl": "item_3124",
+      "skillRefs": [
+        "item_3124_guinsoos_rageblade_seething_strike_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "1052",
+        "1043",
+        "1037"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 30
+        },
+        {
+          "attrKey": "ap",
+          "value": 30
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3124",
+        "sourceKey": "guinsoo_s_rageblade",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3143",
+      "name": "Randuin's Omen",
+      "goldCost": 2700,
+      "iconUrl": "item_3143",
+      "skillRefs": [
+        "item_3143_randuins_omen_resilience_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "3082",
+        "1011"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "armor",
+          "value": 75
+        },
+        {
+          "attrKey": "hp",
+          "value": 350
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3143",
+        "sourceKey": "randuin_s_omen",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3153",
+      "name": "Blade of the Ruined King",
+      "goldCost": 3200,
+      "iconUrl": "item_3153",
+      "skillRefs": [
+        "item_3153_blade_of_the_ruined_king_mists_edge_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "1053",
+        "1043",
+        "1037"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 40
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.25
+        },
+        {
+          "attrKey": "life_steal",
+          "value": 0.1
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3153",
+        "sourceKey": "blade_of_the_ruined_king",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ],
+        "statModifierSources": [
+          {
+            "canonicalAttrKey": "life_steal",
+            "contributions": [
+              {
+                "sourceAttrKey": "lifesteal_pct",
+                "sourceStatKey": "lifesteal",
+                "sourceValue": 10,
+                "value": 0.1,
+                "mode": "percent"
+              }
+            ]
+          }
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "3508",
+      "name": "Essence Reaver",
+      "goldCost": 3050,
+      "iconUrl": "item_3508",
+      "skillRefs": [
+        "item_3508_essence_reaver_spellblade_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "3057",
+        "3133",
+        "1018"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 50
+        },
+        {
+          "attrKey": "ability_haste",
+          "value": 20
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3508",
+        "sourceKey": "essence_reaver",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit"
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "4401",
+      "name": "Force of Nature",
+      "goldCost": 2800,
+      "iconUrl": "item_4401",
+      "skillRefs": [
+        "item_4401_force_of_nature_steadfast_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "1057",
+        "1028",
+        "3066"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "hp",
+          "value": 400
+        },
+        {
+          "attrKey": "magic_resist",
+          "value": 55
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "4401",
+        "sourceKey": "force_of_nature",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [],
+        "statModifierSources": [
+          {
+            "canonicalAttrKey": "magic_resist",
+            "contributions": [
+              {
+                "sourceAttrKey": "mr",
+                "sourceStatKey": "mr",
+                "sourceValue": 55,
+                "value": 55,
+                "mode": "flat"
+              }
+            ]
+          }
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "6672",
+      "name": "Kraken Slayer",
+      "goldCost": 3000,
+      "iconUrl": "item_6672",
+      "skillRefs": [
+        "item_6672_kraken_slayer_bring_it_down_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "6690",
+        "3051",
+        "1043"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 45
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.4
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "6672",
+        "sourceKey": "kraken_slayer",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "6676",
+      "name": "The Collector",
+      "goldCost": 3000,
+      "iconUrl": "item_6676",
+      "skillRefs": [
+        "item_6676_the_collector_death_reviewed_tank_adc"
+      ],
+      "recipeIds": [
+        "1037",
+        "3134",
+        "1018"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 50
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        },
+        {
+          "attrKey": "armor_pen_flat",
+          "value": 10
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "6676",
+        "sourceKey": "the_collector",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [],
+        "statModifierSources": [
+          {
+            "canonicalAttrKey": "armor_pen_flat",
+            "contributions": [
+              {
+                "sourceAttrKey": "lethality",
+                "sourceStatKey": "lethality",
+                "sourceValue": 10,
+                "value": 10,
+                "mode": "flat"
+              }
+            ]
+          }
+        ],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    },
+    {
+      "itemId": "228001",
+      "name": "Anathema's Chains",
+      "goldCost": 2500,
+      "iconUrl": "item_228001",
+      "skillRefs": [
+        "item_228001_anathemas_chains_vendetta_reviewed_tank_adc"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "hp",
+          "value": 650
+        },
+        {
+          "attrKey": "ability_haste",
+          "value": 20
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "228001",
+        "sourceKey": "anathema_s_chains",
+        "importEligibility": {
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": false,
+          "isDpsCandidate": false,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": false,
+          "aram": false,
+          "nb": false,
+          "ar": true
+        },
+        "tags": [],
+        "reviewedTankAdcSeed": {
+          "conversionRule": "reviewed_tank_adc_seed.v2",
+          "note": "Incremental reviewed tank/ADC candidate; merge with already imported base/high-confidence item skill refs before publishing."
+        }
+      }
+    }
+  ]
+}

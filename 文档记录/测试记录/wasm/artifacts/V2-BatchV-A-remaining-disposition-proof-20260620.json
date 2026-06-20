@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "v2_batch_v_a_remaining_disposition_proof.v1",
+  "generatedAt": "2026-06-20T10:47:12.095Z",
+  "apiBase": "http://127.0.0.1:8080",
+  "currentVersion": {
+    "gameId": "lol",
+    "versionCode": "v2_batch_v_a_data_policy_items_001",
+    "publishedAt": "2026-06-20T09:25:31.060361Z",
+    "updatedAt": "2026-06-20T09:25:31.060361Z"
+  },
+  "sourceFiles": {
+    "grouping": "C:\\project\\damage_wasm_dev\\数据参考\\lol-wiki-current-items\\current-items.reviewed-tank-adc.remaining-23.grouping.json",
+    "publishedBundleEndpoint": "http://127.0.0.1:8080/api/games/lol/versions/v2_batch_v_a_data_policy_items_001/bundle"
+  },
+  "scope": {
+    "group": "Batch V A remaining data/seed/policy items after the 4-item import",
+    "readyImportedItemIds": [
+      "2051",
+      "3004",
+      "3036",
+      "6665"
+    ],
+    "remainingAItemIds": [
+      "1083",
+      "2512",
+      "2523",
+      "3033",
+      "3083",
+      "3123",
+      "8020"
+    ],
+    "assertion": "The remaining A items are closed as excluded or policy/source blocked, not silently imported as ready DPS seed."
+  },
+  "summary": {
+    "remainingAItemCount": 7,
+    "publishedBaseItemFoundCount": 7,
+    "unexpectedBatchVImportCount": 0,
+    "unexpectedBatchVImports": [],
+    "closureCounts": {
+      "closed_excluded_no_current_basic_dps_value": 5,
+      "blocked_source_or_policy_resolution": 1,
+      "blocked_data_policy_resolution": 1
+    }
+  },
+  "items": [
+    {
+      "itemId": "1083",
+      "itemName": "Cull",
+      "groupingSubcategory": "keep_excluded_no_current_dps",
+      "closureStatus": "closed_excluded_no_current_basic_dps_value",
+      "publishedItemFound": true,
+      "publishedName": "Cull",
+      "publishedSkillRefs": [],
+      "ownedItemSkillIds": [],
+      "ownedDpsPassiveCount": 0,
+      "batchVSkillRefs": [],
+      "batchVOwnedSkills": [],
+      "unexpectedBatchVImport": false,
+      "reasons": [
+        {
+          "effectName": "Reap",
+          "disposition": "excluded",
+          "reason": "economy_gold_effect"
+        }
+      ],
+      "nextAction": "保持排除；DB 可只保留基础属性/面板数据。",
+      "rationale": "只影响补刀金币，不改变单攻方 DPS 或靶子承伤。"
+    },
+    {
+      "itemId": "2512",
+      "itemName": "Fiendhunter Bolts",
+      "groupingSubcategory": "keep_excluded_no_current_dps",
+      "closureStatus": "closed_excluded_no_current_basic_dps_value",
+      "publishedItemFound": true,
+      "publishedName": "Fiendhunter Bolts",
+      "publishedSkillRefs": [],
+      "ownedItemSkillIds": [],
+      "ownedDpsPassiveCount": 0,
+      "batchVSkillRefs": [],
+      "batchVOwnedSkills": [],
+      "unexpectedBatchVImport": false,
+      "reasons": [
+        {
+          "effectName": "Night Vigil",
+          "disposition": "excluded",
+          "reason": "ultimate_haste_not_single_attacker_basic_dps"
+        }
+      ],
+      "nextAction": "保持排除；等主动技能/大招 DPS 建模后再重新评估。",
+      "rationale": "只影响大招急速，当前基础普攻 DPS 不消费该属性。"
+    },
+    {
+      "itemId": "2523",
+      "itemName": "Hexoptics C44",
+      "groupingSubcategory": "needs_source_resolution_before_seed",
+      "closureStatus": "blocked_source_or_policy_resolution",
+      "publishedItemFound": true,
+      "publishedName": "Hexoptics C44",
+      "publishedSkillRefs": [],
+      "ownedItemSkillIds": [],
+      "ownedDpsPassiveCount": 0,
+      "batchVSkillRefs": [],
+      "batchVOwnedSkills": [],
+      "unexpectedBatchVImport": false,
+      "reasons": [
+        {
+          "effectName": "Arcane Aim",
+          "disposition": "blocked",
+          "reason": "source_text_is_range_on_takedown_but_user_note_requests_damage_multiplier; needs_source_resolution_before_seed"
+        },
+        {
+          "effectName": "Magnification",
+          "disposition": "backlog",
+          "reason": "requires_outgoing_hp_change_coefficient_bucket_or_damage_multiplier_runtime_seed; user_requested_fixed_10_percent"
+        }
+      ],
+      "nextAction": "先保留 source_resolution 标记；确认后再转换，不需要先补 runtime。",
+      "rationale": "Magnification 可用 hp_change/outgoing/pre_mitigation 百分比增伤表达；Arcane Aim 与用户标注存在文本冲突，先不能自动发布。"
+    },
+    {
+      "itemId": "3033",
+      "itemName": "Mortal Reminder",
+      "groupingSubcategory": "keep_excluded_no_current_dps",
+      "closureStatus": "closed_excluded_no_current_basic_dps_value",
+      "publishedItemFound": true,
+      "publishedName": "Mortal Reminder",
+      "publishedSkillRefs": [],
+      "ownedItemSkillIds": [],
+      "ownedDpsPassiveCount": 0,
+      "batchVSkillRefs": [],
+      "batchVOwnedSkills": [],
+      "unexpectedBatchVImport": false,
+      "reasons": [
+        {
+          "effectName": "Grievous Wounds",
+          "disposition": "excluded",
+          "reason": "grievous_wounds_only_matters_with_target_healing_model"
+        }
+      ],
+      "nextAction": "保持排除；等治疗模型进入 DPS 再回收。",
+      "rationale": "重伤只影响目标治疗；当前单攻方基础 DPS 不模拟目标治疗。"
+    },
+    {
+      "itemId": "3083",
+      "itemName": "Warmog's Armor",
+      "groupingSubcategory": "needs_data_policy_before_convert",
+      "closureStatus": "blocked_data_policy_resolution",
+      "publishedItemFound": true,
+      "publishedName": "Warmog's Armor",
+      "publishedSkillRefs": [],
+      "ownedItemSkillIds": [],
+      "ownedDpsPassiveCount": 0,
+      "batchVSkillRefs": [],
+      "batchVOwnedSkills": [],
+      "unexpectedBatchVImport": false,
+      "reasons": [
+        {
+          "effectName": "",
+          "disposition": "excluded",
+          "reason": "conditional_regen_enable_no_direct_damage_effect"
+        },
+        {
+          "effectName": "Warmog's Heart",
+          "disposition": "backlog",
+          "reason": "out_of_combat_regen_not_single_attacker_dps_damage_seed"
+        },
+        {
+          "effectName": "Warmog's Vitality",
+          "disposition": "backlog",
+          "reason": "bonus_health_from_items_requires_item_sourced_hp_attribute_bucket"
+        }
+      ],
+      "nextAction": "先导基础属性；Vitality 等目标装备属性聚合策略明确后再导。",
+      "rationale": "战斗外回血不进当前 DPS；Vitality 是靶子最大生命值基线/装备来源属性问题，不必先补 Wasm runtime。"
+    },
+    {
+      "itemId": "3123",
+      "itemName": "Executioner's Calling",
+      "groupingSubcategory": "keep_excluded_no_current_dps",
+      "closureStatus": "closed_excluded_no_current_basic_dps_value",
+      "publishedItemFound": true,
+      "publishedName": "Executioner's Calling",
+      "publishedSkillRefs": [],
+      "ownedItemSkillIds": [],
+      "ownedDpsPassiveCount": 0,
+      "batchVSkillRefs": [],
+      "batchVOwnedSkills": [],
+      "unexpectedBatchVImport": false,
+      "reasons": [
+        {
+          "effectName": "Grievous Wounds",
+          "disposition": "excluded",
+          "reason": "grievous_wounds_only_matters_with_target_healing_model"
+        }
+      ],
+      "nextAction": "保持排除。",
+      "rationale": "同凡性的提醒，当前没有目标治疗模型。"
+    },
+    {
+      "itemId": "8020",
+      "itemName": "Abyssal Mask",
+      "groupingSubcategory": "keep_excluded_no_current_dps",
+      "closureStatus": "closed_excluded_no_current_basic_dps_value",
+      "publishedItemFound": true,
+      "publishedName": "Abyssal Mask",
+      "publishedSkillRefs": [],
+      "ownedItemSkillIds": [],
+      "ownedDpsPassiveCount": 0,
+      "batchVSkillRefs": [],
+      "batchVOwnedSkills": [],
+      "unexpectedBatchVImport": false,
+      "reasons": [
+        {
+          "effectName": "Unmake",
+          "disposition": "excluded",
+          "reason": "target_wearing_item_increases_damage_taken_by_nearby_enemies_not_damage_taken_by_target_dummy"
+        }
+      ],
+      "nextAction": "保持排除；除非以后支持 aura target inversion 或 attacker wearing 语义。",
+      "rationale": "靶子穿深渊面具时，效果是让靶子附近敌人受到更多魔法伤害，不是让靶子自己更易受伤；当前目标语义下不能导成靶子承伤增益。"
+    }
+  ]
+}
