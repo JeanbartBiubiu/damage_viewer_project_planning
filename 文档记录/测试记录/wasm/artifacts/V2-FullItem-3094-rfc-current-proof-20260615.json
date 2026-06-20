@@ -1,0 +1,299 @@
+{
+  "generatedAt": "2026-06-15T15:57:09.312Z",
+  "currentVersion": {
+    "gameId": "lol",
+    "versionCode": "v2_full_item_3094_rfc_energized_20260615_001",
+    "publishedAt": "2026-06-15T15:54:46.993684Z",
+    "updatedAt": "2026-06-15T15:54:46.993684Z"
+  },
+  "bundleMeta": {
+    "gameId": "lol",
+    "generatedAt": "2026-06-15T15:54:46.993684200Z",
+    "versionCode": "v2_full_item_3094_rfc_energized_20260615_001"
+  },
+  "wasmSha256": "329E83A8B95DD9C988981359E8B2F53ECFB3C06D37FB30C4017C8CD6371E5C9F",
+  "rapidFirecannonItem": {
+    "name": "疾射火炮",
+    "itemId": "3094",
+    "iconUrl": "item_3094",
+    "goldCost": 2650,
+    "recipeIds": [],
+    "skillRefs": [
+      "item_3094_rapid_firecannon_energized_dps_v2"
+    ],
+    "statModifiers": [
+      {
+        "value": 0.35,
+        "attrKey": "attack_speed"
+      },
+      {
+        "value": 0.25,
+        "attrKey": "crit_chance"
+      },
+      {
+        "value": 0.04,
+        "attrKey": "ms_pct"
+      }
+    ]
+  },
+  "rapidFirecannonSkill": {
+    "name": "Rapid Firecannon Energized DPS passive",
+    "params": {
+      "chargeCap": 100,
+      "chargeKey": "item_3094_energized",
+      "procScope": "real_basic_attack_only",
+      "sourceRef": "文档记录/详细设计/最小验证/数据/lol_竞技场静态文本快照/ddragon/16.7.1/zh_CN/item.json#data.3094.description",
+      "chargeThreshold": 100,
+      "bonusMagicDamage": 40,
+      "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+      "recordedNotSimulated": [
+        "movement_charge_gain",
+        "bonus_attack_range_35_percent"
+      ],
+      "consumeChargeOnTrigger": true,
+      "chargeGainPerBasicAttack": 25
+    },
+    "ownerId": "3094",
+    "skillId": "item_3094_rapid_firecannon_energized_dps_v2",
+    "skillKey": "p_energized",
+    "ownerType": "item",
+    "description": "V2 full item entry: Rapid Firecannon energized attack deals 40 bonus magic damage. Attack range bonus is recorded_not_simulated because single_attacker_dps does not model attack range.",
+    "mechanicsConfig": {
+      "version": 1,
+      "triggers": [
+        {
+          "triggerId": "rapid_firecannon_energized_charge",
+          "triggerKind": "energized_charge_and_consume"
+        }
+      ],
+      "dpsPassiveEffects": [
+        {
+          "effectId": "item_3094_rapid_firecannon_energized_effect",
+          "sourceId": "item_3094_rapid_firecannon_energized_dps_v2",
+          "chargeCap": 100,
+          "chargeKey": "item_3094_energized",
+          "ownerRole": "attacker",
+          "passiveId": "item_3094_rapid_firecannon_energized_dps_v2",
+          "procScope": "real_basic_attack_only",
+          "triggerId": "rapid_firecannon_energized_charge",
+          "operations": [
+            {
+              "kind": "damage",
+              "amount": 40,
+              "source": "rapid_firecannon_energized",
+              "damageType": "magic",
+              "targetRole": "target",
+              "evidenceKey": "item_3094_rapid_firecannon_energized_damage"
+            }
+          ],
+          "sourceType": "item",
+          "triggerKind": "energized_charge_and_consume",
+          "sourceCategory": "item_passive",
+          "chargeThreshold": 100,
+          "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+          "consumeChargeOnTrigger": true,
+          "chargeGainPerBasicAttack": 25
+        }
+      ],
+      "dpsScenarioStates": [
+        {
+          "stacks": 100,
+          "stateId": "item_3094_energized",
+          "sourceId": "3094",
+          "activation": "assumed_charge_before_start",
+          "durationMs": 0,
+          "sourceType": "item_passive",
+          "startTimeMs": 0
+        }
+      ]
+    }
+  },
+  "assertions": {
+    "currentVersion": "v2_full_item_3094_rfc_energized_20260615_001",
+    "goldCost": 2650,
+    "stats": {
+      "attackSpeed": 0.35,
+      "critChance": 0.25,
+      "moveSpeedPercent": 0.04
+    },
+    "passive": {
+      "ownerRole": "attacker",
+      "triggerKind": "energized_charge_and_consume",
+      "chargeKey": "item_3094_energized",
+      "chargeGainPerBasicAttack": 25,
+      "chargeThreshold": 100,
+      "chargeCap": 100,
+      "consumeChargeOnTrigger": true,
+      "procScope": "real_basic_attack_only",
+      "damageSource": "rapid_firecannon_energized",
+      "damageType": "magic",
+      "amount": 40
+    },
+    "wasm": {
+      "rfcDamageRaw": 40,
+      "rfcDamageFinal": 40,
+      "rfcDamageCount": 1,
+      "triggerCount": 1,
+      "breakdownKinds": [
+        "damage",
+        "energized_charge_check",
+        "energized_charge_consume",
+        "energized_charge_gain"
+      ]
+    }
+  },
+  "case": {
+    "curveId": "full_item_3094_rfc_full_charge",
+    "stopReason": "duration_elapsed",
+    "attackCount": 3,
+    "totalDamage": 220,
+    "damageByType": {
+      "magic": 40,
+      "physical": 180
+    },
+    "damageBySource": {
+      "rapid_firecannon_energized": 40,
+      "skill_lol_basic_attack_default": 180
+    },
+    "passiveEffects": [
+      {
+        "passiveId": "item_3094_rapid_firecannon_energized_dps_v2",
+        "ownerRole": "attacker",
+        "triggerKind": "energized_charge_and_consume",
+        "chargeKey": "item_3094_energized",
+        "operations": [
+          {
+            "kind": "damage",
+            "source": "rapid_firecannon_energized",
+            "damageType": "magic",
+            "amount": 40,
+            "targetRole": "target",
+            "valueSpec": {},
+            "evidenceKey": "item_3094_rapid_firecannon_energized_damage"
+          }
+        ]
+      }
+    ],
+    "itemPassiveTriggers": [
+      {
+        "timeMs": 0,
+        "procSourceCategory": "item_passive",
+        "sourceId": "item_3094_rapid_firecannon_energized_dps_v2",
+        "sourceType": "item",
+        "triggerId": "rapid_firecannon_energized_charge"
+      }
+    ],
+    "damageTimeline": [
+      {
+        "timeMs": 0,
+        "source": "skill_lol_basic_attack_default",
+        "damageType": "physical",
+        "rawDamage": 60,
+        "finalDamage": 60,
+        "targetHpBefore": 1000,
+        "targetHpAfter": 940,
+        "critContext": {
+          "chanceEffective": 0,
+          "multiplier": 2,
+          "expectedNormalPart": 60,
+          "expectedCritPart": 0
+        }
+      },
+      {
+        "timeMs": 0,
+        "source": "rapid_firecannon_energized",
+        "damageType": "magic",
+        "rawDamage": 40,
+        "finalDamage": 40,
+        "targetHpBefore": 940,
+        "targetHpAfter": 900
+      },
+      {
+        "timeMs": 1026,
+        "source": "skill_lol_basic_attack_default",
+        "damageType": "physical",
+        "rawDamage": 60,
+        "finalDamage": 60,
+        "targetHpBefore": 900,
+        "targetHpAfter": 840,
+        "critContext": {
+          "chanceEffective": 0,
+          "multiplier": 2,
+          "expectedNormalPart": 60,
+          "expectedCritPart": 0
+        }
+      },
+      {
+        "timeMs": 2052,
+        "source": "skill_lol_basic_attack_default",
+        "damageType": "physical",
+        "rawDamage": 60,
+        "finalDamage": 60,
+        "targetHpBefore": 840,
+        "targetHpAfter": 780,
+        "critContext": {
+          "chanceEffective": 0,
+          "multiplier": 2,
+          "expectedNormalPart": 60,
+          "expectedCritPart": 0
+        }
+      }
+    ],
+    "effectBreakdown": [
+      {
+        "timeMs": 0,
+        "source": "rapid_firecannon_energized",
+        "kind": "damage",
+        "amount": 40,
+        "message": "magic"
+      },
+      {
+        "timeMs": 0,
+        "source": "item_3094_rapid_firecannon_energized_dps_v2",
+        "kind": "energized_charge_check",
+        "message": "chargeKey=item_3094_energized preCharge=100 postCharge=0 chargeGain=0 chargeThreshold=100 readyBeforeHit=true readyAfterHit=false consumed=true triggered=true"
+      },
+      {
+        "timeMs": 0,
+        "source": "item_3094_rapid_firecannon_energized_dps_v2",
+        "kind": "energized_charge_consume",
+        "message": "chargeKey=item_3094_energized preCharge=100 postCharge=0 chargeGain=0 chargeThreshold=100 readyBeforeHit=true readyAfterHit=false consumed=true triggered=true"
+      },
+      {
+        "timeMs": 0,
+        "source": "item_3094_rapid_firecannon_energized_dps_v2",
+        "kind": "energized_charge_gain",
+        "amount": 25,
+        "message": "chargeKey=item_3094_energized preCharge=0 postCharge=25 chargeGain=25 chargeThreshold=100 readyBeforeHit=true readyAfterHit=false consumed=true triggered=true"
+      },
+      {
+        "timeMs": 1026,
+        "source": "item_3094_rapid_firecannon_energized_dps_v2",
+        "kind": "energized_charge_check",
+        "amount": 25,
+        "message": "chargeKey=item_3094_energized preCharge=25 postCharge=25 chargeGain=0 chargeThreshold=100 readyBeforeHit=false readyAfterHit=false consumed=false triggered=false"
+      },
+      {
+        "timeMs": 1026,
+        "source": "item_3094_rapid_firecannon_energized_dps_v2",
+        "kind": "energized_charge_gain",
+        "amount": 50,
+        "message": "chargeKey=item_3094_energized preCharge=25 postCharge=50 chargeGain=25 chargeThreshold=100 readyBeforeHit=false readyAfterHit=false consumed=false triggered=false"
+      },
+      {
+        "timeMs": 2052,
+        "source": "item_3094_rapid_firecannon_energized_dps_v2",
+        "kind": "energized_charge_check",
+        "amount": 50,
+        "message": "chargeKey=item_3094_energized preCharge=50 postCharge=50 chargeGain=0 chargeThreshold=100 readyBeforeHit=false readyAfterHit=false consumed=false triggered=false"
+      },
+      {
+        "timeMs": 2052,
+        "source": "item_3094_rapid_firecannon_energized_dps_v2",
+        "kind": "energized_charge_gain",
+        "amount": 75,
+        "message": "chargeKey=item_3094_energized preCharge=50 postCharge=75 chargeGain=25 chargeThreshold=100 readyBeforeHit=false readyAfterHit=false consumed=false triggered=false"
+      }
+    ]
+  }
+}

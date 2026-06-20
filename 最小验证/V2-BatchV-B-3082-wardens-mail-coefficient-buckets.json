@@ -1,0 +1,26 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_v_b_3082_wardens_mail_001",
+  "coefficientBuckets": [
+    {
+      "bucketKey": "wardens_mail_post_mitigation_final",
+      "resolutionDomain": "hp_change",
+      "stageKey": "hp_change/final/post_mitigation",
+      "aggregationMode": "set_final",
+      "provisional": false,
+      "name": "守望者铠甲最终伤害写回",
+      "description": "守望者铠甲 Rock Solid uses formula input as current post-mitigation damage and writes finalDamageAfter = max(input - 15, input * 0.8).",
+      "bucketConfig": {
+        "valueUnit": "final_value",
+        "priority": 100,
+        "evidenceLabel": "wardens_mail_post_mitigation_final"
+      },
+      "editorHint": {
+        "group": "hp_change",
+        "stageLabel": "final post mitigation",
+        "itemId": "3082",
+        "itemName": "守望者铠甲"
+      }
+    }
+  ]
+}

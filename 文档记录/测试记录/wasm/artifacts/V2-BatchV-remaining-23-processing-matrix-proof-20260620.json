@@ -1,0 +1,730 @@
+{
+  "schemaVersion": "v2_batch_v_remaining_23_processing_matrix_proof.v1",
+  "generatedAt": "2026-06-20T11:08:12.982Z",
+  "apiBase": "http://127.0.0.1:8080",
+  "currentVersion": {
+    "gameId": "lol",
+    "versionCode": "v2_batch_v_a_data_policy_items_001",
+    "publishedAt": "2026-06-20T09:25:31.060361Z",
+    "updatedAt": "2026-06-20T09:25:31.060361Z"
+  },
+  "sourceFiles": {
+    "grouping": "C:\\project\\damage_wasm_dev\\数据参考\\lol-wiki-current-items\\current-items.reviewed-tank-adc.remaining-23.grouping.json",
+    "publishedBundleEndpoint": "http://127.0.0.1:8080/api/games/lol/versions/v2_batch_v_a_data_policy_items_001/bundle"
+  },
+  "scope": {
+    "originalRemainingItemCount": 23,
+    "dataSeedOrPolicyGroupCount": 11,
+    "runtimePlanRequiredGroupCount": 12,
+    "note": "23 is the original remaining reviewed tank/ADC item set. Four items are imported/tested in Batch V A; item 3082 now has its generic runtime slice completed but is not imported as a real item seed."
+  },
+  "summary": {
+    "totalItems": 23,
+    "importedAndWasmDpsTestedCount": 4,
+    "runtimeSliceCompletedNotImportedCount": 1,
+    "notImportedOrDeferredCount": 19,
+    "dataSeedOrPolicyGroupCount": 11,
+    "runtimePlanRequiredGroupCount": 12,
+    "statusCounts": {
+      "closed_excluded_no_current_basic_dps_value": 5,
+      "imported_and_wasm_dps_tested": 4,
+      "blocked_source_or_policy_resolution": 1,
+      "blocked_data_policy_resolution": 1,
+      "deferred_runtime_backlog_by_current_scope": 9,
+      "runtime_slice_completed_not_imported": 1,
+      "pre_wasm_adapter_or_manual_baseline_plan": 1,
+      "generic_formula_modulo_hit_count_plan": 1
+    },
+    "importedMissingBatchVA": [],
+    "notImportedWithUnexpectedBatchVA": []
+  },
+  "groups": {
+    "data_seed_or_policy": [
+      {
+        "itemId": "1083",
+        "itemName": "Cull",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "closed_excluded_no_current_basic_dps_value",
+        "groupingSubcategory": "keep_excluded_no_current_dps",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Cull",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Reap",
+            "disposition": "excluded",
+            "reason": "economy_gold_effect"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "保持排除；DB 可只保留基础属性/面板数据。",
+        "rationale": "只影响补刀金币，不改变单攻方 DPS 或靶子承伤。"
+      },
+      {
+        "itemId": "2051",
+        "itemName": "Guardian's Horn",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "imported_and_wasm_dps_tested",
+        "groupingSubcategory": "ready_to_convert_basic_dps",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Guardian's Horn",
+          "publishedSkillRefs": [
+            "item_2051_guardians_horn_undaunted_batch_v_a"
+          ],
+          "ownedItemSkillIds": [
+            "item_2051_guardians_horn_undaunted_batch_v_a"
+          ],
+          "ownedDpsPassiveCount": 1,
+          "batchVASkillRefs": [
+            "item_2051_guardians_horn_undaunted_batch_v_a"
+          ],
+          "batchVAOwnedSkills": [
+            "item_2051_guardians_horn_undaunted_batch_v_a"
+          ]
+        },
+        "effectReasons": [
+          {
+            "effectName": "Undaunted",
+            "disposition": "backlog",
+            "reason": "flat_incoming_damage_reduction_requires_hp_change_flat_post_percent_bucket"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "作为数据转换候选导入并单件测试；若以后要精确 DoT 分支，再补条件指标。",
+        "rationale": "现有 hp_change/flat/post_percent + flat_delta 已可表达普通伤害固定减免；DoT 3.75 分支在当前基础普攻 DPS 流程中不触发。"
+      },
+      {
+        "itemId": "2512",
+        "itemName": "Fiendhunter Bolts",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "closed_excluded_no_current_basic_dps_value",
+        "groupingSubcategory": "keep_excluded_no_current_dps",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Fiendhunter Bolts",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Night Vigil",
+            "disposition": "excluded",
+            "reason": "ultimate_haste_not_single_attacker_basic_dps"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "保持排除；等主动技能/大招 DPS 建模后再重新评估。",
+        "rationale": "只影响大招急速，当前基础普攻 DPS 不消费该属性。"
+      },
+      {
+        "itemId": "2523",
+        "itemName": "Hexoptics C44",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "blocked_source_or_policy_resolution",
+        "groupingSubcategory": "needs_source_resolution_before_seed",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Hexoptics C44",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Arcane Aim",
+            "disposition": "blocked",
+            "reason": "source_text_is_range_on_takedown_but_user_note_requests_damage_multiplier; needs_source_resolution_before_seed"
+          },
+          {
+            "effectName": "Magnification",
+            "disposition": "backlog",
+            "reason": "requires_outgoing_hp_change_coefficient_bucket_or_damage_multiplier_runtime_seed; user_requested_fixed_10_percent"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "先保留 source_resolution 标记；确认后再转换，不需要先补 runtime。",
+        "rationale": "Magnification 可用 hp_change/outgoing/pre_mitigation 百分比增伤表达；Arcane Aim 与用户标注存在文本冲突，先不能自动发布。"
+      },
+      {
+        "itemId": "3004",
+        "itemName": "Manamune",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "imported_and_wasm_dps_tested",
+        "groupingSubcategory": "needs_data_policy_before_convert",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Manamune",
+          "publishedSkillRefs": [
+            "item_3004_manamune_awe_batch_v_a"
+          ],
+          "ownedItemSkillIds": [
+            "item_3004_manamune_awe_batch_v_a"
+          ],
+          "ownedDpsPassiveCount": 1,
+          "batchVASkillRefs": [
+            "item_3004_manamune_awe_batch_v_a"
+          ],
+          "batchVAOwnedSkills": [
+            "item_3004_manamune_awe_batch_v_a"
+          ]
+        },
+        "effectReasons": [
+          {
+            "effectName": "Manaflow",
+            "disposition": "backlog",
+            "reason": "mana_charge_growth_not_direct_dps_seed; needs_max_mana_baseline_policy"
+          },
+          {
+            "effectName": "Awe",
+            "disposition": "backlog",
+            "reason": "bonus_ad_from_maximum_mana_requires_explicit_mana_baseline_or_attribute_bucket"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "先按 mana 属性策略准备转换；不要为 resource reader 直接改 runtime。",
+        "rationale": "如果把 maximum mana 作为 DPS 属性 mana 的 resolved 值，Awe 可用 attr_ratio 转成 AD；Manaflow 叠最大法力属于成长/基线政策，不直接进单件 DPS。"
+      },
+      {
+        "itemId": "3033",
+        "itemName": "Mortal Reminder",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "closed_excluded_no_current_basic_dps_value",
+        "groupingSubcategory": "keep_excluded_no_current_dps",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Mortal Reminder",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Grievous Wounds",
+            "disposition": "excluded",
+            "reason": "grievous_wounds_only_matters_with_target_healing_model"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "保持排除；等治疗模型进入 DPS 再回收。",
+        "rationale": "重伤只影响目标治疗；当前单攻方基础 DPS 不模拟目标治疗。"
+      },
+      {
+        "itemId": "3036",
+        "itemName": "Lord Dominik's Regards",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "imported_and_wasm_dps_tested",
+        "groupingSubcategory": "needs_data_policy_before_convert",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Lord Dominik's Regards",
+          "publishedSkillRefs": [
+            "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+          ],
+          "ownedItemSkillIds": [
+            "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+          ],
+          "ownedDpsPassiveCount": 1,
+          "batchVASkillRefs": [
+            "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+          ],
+          "batchVAOwnedSkills": [
+            "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+          ]
+        },
+        "effectReasons": [
+          {
+            "effectName": "Giant Slayer",
+            "disposition": "backlog",
+            "reason": "target_bonus_health_damage_multiplier_requires_outgoing_hp_change_coefficient_bucket"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "先作为数据/适配策略项；确认目标 bonus health 来源后导入。",
+        "rationale": "现有 hp_change/outgoing/pre_mitigation 可表达增伤乘区；缺的是 target_bonus_health 的数据来源。可由 Web/转换层给目标快照补 item-sourced bonus health 属性，或受控测试中显式给定。"
+      },
+      {
+        "itemId": "3083",
+        "itemName": "Warmog's Armor",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "blocked_data_policy_resolution",
+        "groupingSubcategory": "needs_data_policy_before_convert",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Warmog's Armor",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "",
+            "disposition": "excluded",
+            "reason": "conditional_regen_enable_no_direct_damage_effect"
+          },
+          {
+            "effectName": "Warmog's Heart",
+            "disposition": "backlog",
+            "reason": "out_of_combat_regen_not_single_attacker_dps_damage_seed"
+          },
+          {
+            "effectName": "Warmog's Vitality",
+            "disposition": "backlog",
+            "reason": "bonus_health_from_items_requires_item_sourced_hp_attribute_bucket"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "先导基础属性；Vitality 等目标装备属性聚合策略明确后再导。",
+        "rationale": "战斗外回血不进当前 DPS；Vitality 是靶子最大生命值基线/装备来源属性问题，不必先补 Wasm runtime。"
+      },
+      {
+        "itemId": "3123",
+        "itemName": "Executioner's Calling",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "closed_excluded_no_current_basic_dps_value",
+        "groupingSubcategory": "keep_excluded_no_current_dps",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Executioner's Calling",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Grievous Wounds",
+            "disposition": "excluded",
+            "reason": "grievous_wounds_only_matters_with_target_healing_model"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "保持排除。",
+        "rationale": "同凡性的提醒，当前没有目标治疗模型。"
+      },
+      {
+        "itemId": "6665",
+        "itemName": "Jak'Sho, The Protean",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "imported_and_wasm_dps_tested",
+        "groupingSubcategory": "needs_data_policy_before_convert",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Jak'Sho, The Protean",
+          "publishedSkillRefs": [
+            "item_6665_jaksho_voidborn_resilience_batch_v_a"
+          ],
+          "ownedItemSkillIds": [
+            "item_6665_jaksho_voidborn_resilience_batch_v_a"
+          ],
+          "ownedDpsPassiveCount": 1,
+          "batchVASkillRefs": [
+            "item_6665_jaksho_voidborn_resilience_batch_v_a"
+          ],
+          "batchVAOwnedSkills": [
+            "item_6665_jaksho_voidborn_resilience_batch_v_a"
+          ]
+        },
+        "effectReasons": [
+          {
+            "effectName": "Voidborn Resilience",
+            "disposition": "backlog",
+            "reason": "bonus_armor_mr_percent_requires_bonus_only_attribute_bucket_not_total_resist_percent"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "先列为数据/适配策略项；不先补 runtime。",
+        "rationale": "现有 attribute bucket 可把某个属性按 attr_ratio 加到 armor/magic_resist；真正缺的是 bonus_armor/bonus_magic_resist 的数据属性和满层政策。"
+      },
+      {
+        "itemId": "8020",
+        "itemName": "Abyssal Mask",
+        "sourceGroup": "data_seed_or_policy",
+        "processingStatus": "closed_excluded_no_current_basic_dps_value",
+        "groupingSubcategory": "keep_excluded_no_current_dps",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Abyssal Mask",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Unmake",
+            "disposition": "excluded",
+            "reason": "target_wearing_item_increases_damage_taken_by_nearby_enemies_not_damage_taken_by_target_dummy"
+          }
+        ],
+        "planBucket": null,
+        "runtimeNeed": null,
+        "nextAction": "保持排除；除非以后支持 aura target inversion 或 attacker wearing 语义。",
+        "rationale": "靶子穿深渊面具时，效果是让靶子附近敌人受到更多魔法伤害，不是让靶子自己更易受伤；当前目标语义下不能导成靶子承伤增益。"
+      }
+    ],
+    "runtime_plan_required": [
+      {
+        "itemId": "2504",
+        "itemName": "Kaenic Rookern",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_shield_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Kaenic Rookern",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Magebane",
+            "disposition": "backlog",
+            "reason": "magic_shield_runtime_not_expressed_as_dps_passive_seed"
+          }
+        ],
+        "planBucket": "shield_and_lifeline",
+        "runtimeNeed": "DPS lane needs item-owned pre-enabled/timed magic shield state and shield evidence for target equipment.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3065",
+        "itemName": "Spirit Visage",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_heal_shield_amp_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Spirit Visage",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Boundless Vitality",
+            "disposition": "backlog",
+            "reason": "healing_shielding_amp_not_relevant_without_heal_or_shield_runtime_target"
+          }
+        ],
+        "planBucket": "shield_and_heal_amplification",
+        "runtimeNeed": "If target shields/heals enter DPS, received heal/shield amplification must be applied in the shield/heal pipeline instead of being approximated in item data.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3068",
+        "itemName": "Sunfire Aegis",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_target_aura_dot_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Sunfire Aegis",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Immolate",
+            "disposition": "backlog",
+            "reason": "periodic_aura_damage_to_attacker_from_target_item_is_not_encoded_without_target_role_dot_support"
+          }
+        ],
+        "planBucket": "target_owned_periodic_aura",
+        "runtimeNeed": "Target-owned periodic aura needs to damage attacker side on combat/taken/dealt activation; current DPS dot ticks damage target only.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3072",
+        "itemName": "Bloodthirster",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_overheal_shield_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Bloodthirster",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Ichorshield",
+            "disposition": "backlog",
+            "reason": "overheal_to_shield_runtime_not_expressed_as_dps_passive_seed"
+          }
+        ],
+        "planBucket": "shield_and_lifeline",
+        "runtimeNeed": "Life steal overheal needs healing event capture, max-health overflow calculation, and shield creation in DPS evidence.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3082",
+        "itemName": "Warden's Mail",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "runtime_slice_completed_not_imported",
+        "groupingSubcategory": "needs_general_formula_damage_input_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Warden's Mail",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Rock Solid",
+            "disposition": "backlog",
+            "reason": "flat_basic_damage_reduction_with_20pct_cap_requires_formula_input_damage_amount_and_formula_driven_final_delta"
+          }
+        ],
+        "planBucket": "general_formula_damage_input",
+        "runtimeNeed": "Exact Warden's Mail is not missing max: formula already has max/min. It needs the DPS hp_change/formula path to expose the current post-mitigation damage amount as formula input and let the formula result drive final damage or damage delta.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3084",
+        "itemName": "Heartsteel",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "pre_wasm_adapter_or_manual_baseline_plan",
+        "groupingSubcategory": "needs_runtime_or_controlled_baseline_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Heartsteel",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Colossal Consumption",
+            "disposition": "backlog",
+            "reason": "attacker_owned_on_hit_and_permanent_hp_growth_not_target_side_incoming_effect; needs_target_hp_customization_scope"
+          },
+          {
+            "effectName": "Goliath",
+            "disposition": "excluded",
+            "reason": "size_increase_no_dps_effect"
+          }
+        ],
+        "planBucket": "permanent_stat_growth_or_manual_baseline",
+        "runtimeNeed": "Exact behavior needs per-target stack readiness, on-hit damage, and permanent max-HP growth. For target dummy use, a manual bonus-HP preset may be acceptable but must be declared separately.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3155",
+        "itemName": "Hexdrinker",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_lifeline_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Hexdrinker",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Lifeline",
+            "disposition": "backlog",
+            "reason": "threshold_magic_shield_runtime_not_expressed_as_dps_passive_seed"
+          }
+        ],
+        "planBucket": "shield_and_lifeline",
+        "runtimeNeed": "Damage-that-would-drop-below-threshold must be intercepted before HP loss and grant a magic shield.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3156",
+        "itemName": "Maw of Malmortius",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_lifeline_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Maw of Malmortius",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Lifeline",
+            "disposition": "backlog",
+            "reason": "threshold_magic_shield_and_omnivamp_runtime_not_expressed_as_dps_passive_seed"
+          }
+        ],
+        "planBucket": "shield_and_lifeline",
+        "runtimeNeed": "Same threshold magic shield as Hexdrinker, plus post-trigger omnivamp/healing interaction if modeled.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "3302",
+        "itemName": "Terminus",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "generic_formula_modulo_hit_count_plan",
+        "groupingSubcategory": "needs_general_formula_modulo_condition_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Terminus",
+          "publishedSkillRefs": [
+            "item_3302_on_basic_attack_hit_wiki_candidate"
+          ],
+          "ownedItemSkillIds": [
+            "item_3302_on_basic_attack_hit_wiki_candidate",
+            "item_3302_terminus_shadow_dps_v2"
+          ],
+          "ownedDpsPassiveCount": 2,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Juxtaposition",
+            "disposition": "backlog",
+            "reason": "light_dark_alternation_should_use_generic_formula_modulo_and_hit_count_metric_not_item_specific_state_patch"
+          }
+        ],
+        "planBucket": "general_formula_modulo_and_hit_count_metric",
+        "runtimeNeed": "Existing every_n_basic_attack_hit uses modulo internally, but formula AST/bytecode has no mod op and DPS formula conditions do not expose a hit sequence/count metric. Exact Terminus should be planned as generic formula modulo plus hit-count/parity source, then encoded with ordinary stack modifiers where possible.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "6664",
+        "itemName": "Hollow Radiance",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_target_aura_dot_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Hollow Radiance",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Immolate",
+            "disposition": "backlog",
+            "reason": "periodic_aura_damage_to_attacker_from_target_item_is_not_encoded_without_target_role_dot_support"
+          }
+        ],
+        "planBucket": "target_owned_periodic_aura",
+        "runtimeNeed": "Same target-owned aura as Sunfire, with Hollow Radiance numeric profile.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "6673",
+        "itemName": "Immortal Shieldbow",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_lifeline_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Immortal Shieldbow",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Lifeline",
+            "disposition": "backlog",
+            "reason": "threshold_shield_runtime_not_expressed_as_dps_passive_seed"
+          }
+        ],
+        "planBucket": "shield_and_lifeline",
+        "runtimeNeed": "Damage-that-would-drop-below-threshold must trigger all-damage shield before HP damage resolves.",
+        "nextAction": "",
+        "rationale": ""
+      },
+      {
+        "itemId": "6675",
+        "itemName": "Navori Flickerblade",
+        "sourceGroup": "runtime_plan_required",
+        "processingStatus": "deferred_runtime_backlog_by_current_scope",
+        "groupingSubcategory": "needs_runtime_active_skill_cooldown_plan",
+        "published": {
+          "publishedItemFound": true,
+          "publishedName": "Navori Flickerblade",
+          "publishedSkillRefs": [],
+          "ownedItemSkillIds": [],
+          "ownedDpsPassiveCount": 0,
+          "batchVASkillRefs": [],
+          "batchVAOwnedSkills": []
+        },
+        "effectReasons": [
+          {
+            "effectName": "Transcendence",
+            "disposition": "backlog",
+            "reason": "basic_ability_cooldown_reduction_not_modeled_in_single_attacker_dps"
+          }
+        ],
+        "planBucket": "active_skill_cooldown_mutation",
+        "runtimeNeed": "Current basic-only DPS has no user-facing value for this passive. If active skill DPS is enabled, basic attack hits must reduce scheduled basic ability cooldowns.",
+        "nextAction": "",
+        "rationale": ""
+      }
+    ]
+  }
+}

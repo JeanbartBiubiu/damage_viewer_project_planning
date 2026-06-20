@@ -89,6 +89,12 @@ func dpsTestEngineBundle() model.EngineBundle {
 			{ID: "as_capped", Op: "min", Left: "as_capped_low", Right: "as_cap"},
 			{ID: "aa_cooldown_ms", Op: "div", Left: "thousand", Right: "as_capped"},
 			{ID: "ad_percent_delta", Op: "div", Left: "attack_damage", Right: "thousand"},
+			{ID: "damage_input", Op: "input"},
+			{ID: "fifteen", Op: "const", Value: 15},
+			{ID: "point_eight", Op: "const", Value: 0.8},
+			{ID: "warden_flat_reduction", Op: "sub", Left: "damage_input", Right: "fifteen"},
+			{ID: "warden_percent_floor", Op: "mul", Left: "damage_input", Right: "point_eight"},
+			{ID: "warden_final_damage", Op: "max", Left: "warden_flat_reduction", Right: "warden_percent_floor"},
 		},
 		Actions: []model.ActionTemplate{
 			{
@@ -239,6 +245,13 @@ func dpsTestEngineBundle() model.EngineBundle {
 				BucketKey:        "incoming_set_final_test",
 				ResolutionDomain: "hp_change",
 				StageKey:         dpsHPChangeStageIncomingPreMitigation,
+				AggregationMode:  "set_final",
+				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "final_value"},
+			},
+			{
+				BucketKey:        "wardens_mail_post_mitigation_final",
+				ResolutionDomain: "hp_change",
+				StageKey:         dpsHPChangeStageFinalPostMitigation,
 				AggregationMode:  "set_final",
 				BucketConfig:     model.CoefficientBucketConfigV2{ValueUnit: "final_value"},
 			},
@@ -6654,6 +6667,72 @@ func TestSingleAttackerDPSAttributePickMaxFlatBucketTakesMaximumCandidate(t *tes
 	}
 	if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, "bucketKey=hp_flat_pick_max aggregationMode=pick_max valueUnit=flat_delta raw=1000 result=1025") {
 		t.Fatalf("effectBreakdown = %+v, want hp_flat_pick_max pick_max coefficient_bucket evidence", result.EffectBreakdown)
+	}
+}
+
+func syntheticWardensMailLikeHPChangeFormulaPassive() model.DPSPassiveEffectV2 {
+	passive := syntheticIncomingDamageModifierPassive()
+	passive.PassiveID = "item_wardens_mail_formula_test"
+	passive.SourceID = "item_wardens_mail_formula"
+	passive.TriggerID = "wardens_mail_formula"
+	passive.Operations = []model.DPSPassiveOperationV2{{
+		Kind:       dpsOpDamageModifier,
+		Source:     "wardens_mail_formula",
+		TargetRole: "target",
+		BucketKey:  "wardens_mail_post_mitigation_final",
+		ValueSpec: model.DPSModifierValueSpecV2{
+			Kind:      "formula",
+			FormulaID: "warden_final_damage",
+		},
+	}}
+	return passive
+}
+
+func TestSingleAttackerDPSHPChangeFormulaInputDrivesSetFinalPostMitigation(t *testing.T) {
+	passive := syntheticWardensMailLikeHPChangeFormulaPassive()
+
+	cases := []struct {
+		name      string
+		ad        float64
+		wantFinal float64
+		wantRaw   float64
+	}{
+		{name: "input100", ad: 100, wantFinal: 85, wantRaw: 100},
+		{name: "input40", ad: 40, wantFinal: 32, wantRaw: 40},
+		{name: "input10", ad: 10, wantFinal: 8, wantRaw: 10},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			input := baseSingleAttackerDPSInput()
+			input.SimulationRules.DurationMs = 1
+			curve := &input.Curves[0]
+			enableTargetDPSPassivesForTest(curve, "item_wardens_mail_formula", passive)
+			curve.ResolvedSnapshot.AttackerSnapshot.Attributes["ad"] = tc.ad
+			curve.ResolvedSnapshot.AttackerSnapshot.Attributes["attack_speed"] = 1
+			curve.ResolvedSnapshot.TargetSnapshot.CurrentHP = 1000
+			curve.ResolvedSnapshot.TargetSnapshot.MaxHP = 1000
+			curve.ResolvedSnapshot.TargetSnapshot.Attributes["armor"] = 0
+			curve.ResolvedSnapshot.TargetSnapshot.Attributes["magic_resist"] = 0
+
+			result := runSingleAttackerDPSForTest(t, input).CurveResults[0]
+			if result.Status != "ok" {
+				t.Fatalf("status = %s blockedReasons=%v, want ok", result.Status, result.BlockedReasons)
+			}
+			if len(result.DamageTimeline) != 1 {
+				t.Fatalf("damageTimeline = %+v, want one basic attack damage event", result.DamageTimeline)
+			}
+			basicAttack := result.DamageTimeline[0]
+			if !almostEqual(basicAttack.FinalDamage, tc.wantFinal) || !almostEqual(result.TotalDamage, tc.wantFinal) {
+				t.Fatalf("damage = raw %.4f final %.4f total %.4f, want final %.4f from warden_final_damage formula input",
+					basicAttack.RawDamage, basicAttack.FinalDamage, result.TotalDamage, tc.wantFinal)
+			}
+			evidence := "domain=hp_change stageKey=" + dpsHPChangeStageFinalPostMitigation +
+				" bucketKey=wardens_mail_post_mitigation_final aggregationMode=set_final valueUnit=final_value raw=" +
+				floatToString(tc.wantRaw) + " result=" + floatToString(tc.wantFinal)
+			if !effectBreakdownMessageContains(result, dpsEffectCoefficientBucket, evidence) {
+				t.Fatalf("effectBreakdown = %+v, want coefficient_bucket evidence %q", result.EffectBreakdown, evidence)
+			}
+		})
 	}
 }
 
