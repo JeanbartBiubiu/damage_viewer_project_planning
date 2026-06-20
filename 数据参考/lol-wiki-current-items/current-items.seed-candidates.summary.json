@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "lol_wiki_current_items_seed_candidates.v1.summary",
+  "generatedAt": "2026-06-20T10:12:10.977Z",
+  "source": {
+    "candidatesFile": "current-items.db-candidates.json",
+    "candidatesSummaryFile": "current-items.db-candidates.summary.json",
+    "reviewQueueFile": "current-items.ai-review-queue.jsonl",
+    "manifest": {
+      "apiTitle": "Module:ItemData/data",
+      "apiUrl": "https://wiki.leagueoflegends.com/en-us/api.php?action=query&prop=revisions&rvprop=ids|timestamp|content&rvslots=main&titles=Module:ItemData/data&format=json&origin=*",
+      "contentSha256": "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z",
+      "outputFiles": [
+        "current-items.raw.lua",
+        "current-items.normalized.json",
+        "current-items.summary.json",
+        "manifest.json"
+      ],
+      "removedIncluded": false,
+      "revid": 4030984,
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module:ItemData/data",
+      "timestamp": "2026-06-17T23:47:20Z"
+    },
+    "normalizedMeta": {
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z"
+    }
+  },
+  "counts": {
+    "baseItemCount": 333,
+    "baseAttributeDefinitionCount": 23,
+    "skillSeedCount": 7,
+    "skillOwnerItemCount": 7,
+    "reviewOverridePendingCount": 385,
+    "rejectedOrSkippedCount": 0
+  },
+  "highConfidenceSkillIds": [
+    "item_1043_on_basic_attack_hit_wiki_candidate",
+    "item_3087_energized_charge_and_consume_wiki_candidate",
+    "item_3091_on_basic_attack_hit_wiki_candidate",
+    "item_3100_next_basic_attack_after_state_wiki_candidate",
+    "item_3115_on_basic_attack_hit_wiki_candidate",
+    "item_3124_on_basic_attack_hit_wiki_candidate",
+    "item_3302_on_basic_attack_hit_wiki_candidate"
+  ],
+  "highConfidenceOwnerItemIds": [
+    "1043",
+    "3087",
+    "3091",
+    "3100",
+    "3115",
+    "3124",
+    "3302"
+  ],
+  "canonicalAttrKeyCounts": {
+    "ability_haste": 103,
+    "ad": 83,
+    "ap": 77,
+    "armor": 39,
+    "armor_pen_flat": 20,
+    "armor_pen_percent": 7,
+    "attack_speed": 43,
+    "crit_chance": 25,
+    "crit_damage": 2,
+    "gold_per_10": 8,
+    "heal_shield_power": 16,
+    "hp": 103,
+    "hp_regen": 22,
+    "life_steal": 8,
+    "magic_pen_flat": 7,
+    "magic_pen_percent": 6,
+    "magic_resist": 33,
+    "mana": 24,
+    "mana_regen": 26,
+    "ms_f": 19,
+    "ms_pct": 38,
+    "omnivamp": 10,
+    "tenacity": 8
+  },
+  "versionCodes": {
+    "baseItems": "wiki_current_items_base_4030984",
+    "highConfidenceSkills": "wiki_current_items_skills_4030984"
+  },
+  "outputFiles": [
+    "current-items.base-items.seed-candidate.json",
+    "current-items.high-confidence-skills.seed-candidate.json",
+    "current-items.seed-review-overrides.template.json",
+    "current-items.seed-candidates.summary.json"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "lol-static-data",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "convert:wiki-current-items": "node convert-lol-wiki-current-items.mjs",
+    "convert:wiki-current-items:repo": "node convert-lol-wiki-current-items.mjs --input-root ../../数据参考/lol-wiki-current-items --output-root ../../数据参考/lol-wiki-current-items",
+    "seed:wiki-current-items": "node build-lol-wiki-current-items-seed.mjs",
+    "seed:wiki-current-items:repo": "node build-lol-wiki-current-items-seed.mjs --input-root ../../数据参考/lol-wiki-current-items --output-root ../../数据参考/lol-wiki-current-items"
+  },
+  "dependencies": {
+    "luaparse": "^0.3.1"
+  }
+}

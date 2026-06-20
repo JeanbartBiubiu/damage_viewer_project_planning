@@ -1,0 +1,647 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_v_equipment_tooltip_passive_candidates_20260618_001",
+  "source": {
+    "ocrEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+    "ocrToolOutput": "C:/project/ocr_tools/out/equipment_tooltip_extracted_20260617.json",
+    "ocrProfile": "C:\\project\\ocr_tools\\configs\\equipment_tooltip_2560x1440.json",
+    "ocrProfileHash": "de4215d9ab29013456a407bb2fbf67546aef3a80c4e17f27f7dcaee6c5d55629",
+    "generatedAt": "2026-06-18T12:24:37.652Z",
+    "rule": "Batch V OCR-to-seed candidate bundle. Only runtime-supported single_attacker_dps portions are encoded; unsupported tooltip clauses are preserved in recordedNotSimulated or blockedPassive.",
+    "gateStatus": "candidate-only until imported/published bundle preserves skillRefs, dpsPassiveEffects, scenario states, and OCR evidence links.",
+    "uniqueItemsFromOCR": 7,
+    "runtimeReadySkillCount": 6,
+    "blockedOrDataPolicyItems": [
+      "3036"
+    ]
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "formulaProfiles": [],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [],
+  "statusModifierGroups": [],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3115_nashors_tooth_icathian_bite_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3115",
+      "skillKey": "p_icathian_bite",
+      "name": "纳什之牙 艾卡西亚之咬 DPS 被动",
+      "description": "Client tooltip OCR candidate: basic attacks deal 15 + 15% AP bonus magic damage on-hit.",
+      "params": {
+        "flatMagicDamage": 15,
+        "attackerAttr": "ap",
+        "attackerAttrRatio": 0.15,
+        "sourceRef": "C:\\project\\ocr_data\\装备数据\\Screen37.png; crop=C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen37__item_tooltip.full.png; sha256=dca517369f3194af75426e9c0569909fa1de0d6a419e35678e713dbd2d4da5b1"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "nashors_tooth_icathian_bite_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3115_nashors_tooth_icathian_bite_dps_v2",
+            "effectId": "item_3115_nashors_tooth_icathian_bite_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3115_nashors_tooth_icathian_bite_dps_v2",
+            "triggerId": "nashors_tooth_icathian_bite_on_hit",
+            "ownerRole": "attacker",
+            "trigger": {
+              "event": "on_basic_attack_hit",
+              "matcher": {
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            },
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "nashors_tooth_icathian_bite",
+                "damageType": "magic",
+                "amount": 15,
+                "attackerAttr": "ap",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 0.15,
+                "evidenceKey": "item_3115_icathian_bite_damage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3100_lich_bane_spellblade_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3100",
+      "skillKey": "p_spellblade",
+      "name": "巫妖之祸 咒刃 DPS 被动",
+      "description": "Client tooltip OCR candidate: assumes a spell was cast before the DPS window; next basic attack deals 75% base AD + 45% AP bonus magic damage. The temporary 50% attack speed on that attack is recorded but not simulated.",
+      "params": {
+        "scenarioStateId": "item_3100_spellblade_ready",
+        "baseAdRatio": 0.75,
+        "apRatio": 0.45,
+        "temporaryAttackSpeedPercent": 50,
+        "sourceRef": "C:\\project\\ocr_data\\装备数据\\Screen38.png; crop=C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen38__item_tooltip.full.png; sha256=a724aaf1291028c70d9fa437c51342fb825923354522cd9396c133eecaaac233"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "lich_bane_spellblade_next_attack",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3100_spellblade_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3100",
+            "activation": "assumed_spell_cast_before_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3100_lich_bane_spellblade_dps_v2",
+            "effectId": "item_3100_lich_bane_spellblade_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3100_lich_bane_spellblade_dps_v2",
+            "triggerId": "lich_bane_spellblade_next_attack",
+            "ownerRole": "attacker",
+            "triggerKind": "next_basic_attack_after_state",
+            "requiresScenarioStateId": "item_3100_spellblade_ready",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "lich_bane_spellblade_base_ad",
+                "damageType": "magic",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 0.75,
+                "evidenceKey": "item_3100_spellblade_base_ad_damage"
+              },
+              {
+                "kind": "damage",
+                "source": "lich_bane_spellblade_ap",
+                "damageType": "magic",
+                "attackerAttr": "ap",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 0.45,
+                "evidenceKey": "item_3100_spellblade_ap_damage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3508_essence_reaver_spellblade_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3508",
+      "skillKey": "p_spellblade",
+      "name": "夺萃之镰 咒刃 DPS 被动",
+      "description": "Client tooltip OCR candidate: Screen39/40 dynamic comparison infers next basic attack physical damage scales with resolved AD. Mana restore is recorded_not_simulated.",
+      "params": {
+        "scenarioStateId": "item_3508_spellblade_ready",
+        "attackerAttr": "ad",
+        "attackerAttrRead": "resolved",
+        "attackerAttrRatio": 1,
+        "manaRestoreFormula": "0.5 * resolved ad",
+        "sourceRefs": [
+          "C:\\project\\ocr_data\\装备数据\\Screen39.png; crop=C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen39__item_tooltip.full.png; sha256=92ff818c164b6ca7486a43028df36c837b19872869b7d203c7e4c073ddf0e13d",
+          "C:\\project\\ocr_data\\装备数据\\Screen40.png; crop=C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen40__item_tooltip.full.png; sha256=66f22aba75aabe9be36dbe5e37e3f952692b76bd75128f8f6731e4d48226e4f2"
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "essence_reaver_spellblade_next_attack",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3508_spellblade_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3508",
+            "activation": "assumed_spell_cast_before_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3508_essence_reaver_spellblade_dps_v2",
+            "effectId": "item_3508_essence_reaver_spellblade_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3508_essence_reaver_spellblade_dps_v2",
+            "triggerId": "essence_reaver_spellblade_next_attack",
+            "ownerRole": "attacker",
+            "triggerKind": "next_basic_attack_after_state",
+            "requiresScenarioStateId": "item_3508_spellblade_ready",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "essence_reaver_spellblade",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 1,
+                "evidenceKey": "item_3508_spellblade_damage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3087_statikk_shiv_electrospark_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3087",
+      "skillKey": "p_electrospark",
+      "name": "斯塔缇克电刃 电火花 DPS 被动",
+      "description": "Client tooltip OCR candidate: energized attack deals 60 magic damage to the primary target; bounce targets and minion/monster 90 damage are recorded_not_simulated. Basic attacks grant 9 extra energized stacks, represented as 25 base + 9 extra = 34 charge per basic attack.",
+      "params": {
+        "chargeKey": "item_3087_energized",
+        "chargeGainPerBasicAttack": 34,
+        "chargeThreshold": 100,
+        "chargeCap": 100,
+        "bonusMagicDamage": 60,
+        "extraEnergizedStacksPerBasicAttack": 9,
+        "sourceRef": "C:\\project\\ocr_data\\装备数据\\Screen41.png; crop=C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen41__item_tooltip.full.png; sha256=2c2474431bc89df6c695d61bd52d1a67a2a0840a039ef1b68ce09ba983727bcb"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "statikk_shiv_energized_charge",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3087_energized",
+            "sourceType": "item_passive",
+            "sourceId": "3087",
+            "activation": "assumed_charge_before_start",
+            "stacks": 100,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3087_statikk_shiv_electrospark_dps_v2",
+            "effectId": "item_3087_statikk_shiv_electrospark_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3087_statikk_shiv_electrospark_dps_v2",
+            "triggerId": "statikk_shiv_energized_charge",
+            "ownerRole": "attacker",
+            "triggerKind": "energized_charge_and_consume",
+            "chargeKey": "item_3087_energized",
+            "chargeGainPerBasicAttack": 34,
+            "chargeThreshold": 100,
+            "chargeCap": 100,
+            "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+            "consumeChargeOnTrigger": true,
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "statikk_shiv_electrospark",
+                "damageType": "magic",
+                "amount": 60,
+                "evidenceKey": "item_3087_electrospark_primary_damage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3181_hullbreaker_skipper_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3181",
+      "skillKey": "p_skipper",
+      "name": "破舰者 船长 DPS 被动",
+      "description": "Client tooltip OCR candidate from Vayne/ranged tooltip: every fifth attack against champions/epic monsters deals 84% base AD + 3.5% health bonus physical damage. Building damage and minion aura are recorded_not_simulated.",
+      "params": {
+        "everyN": 5,
+        "baseAdRatio": 0.84,
+        "hpRatio": 0.035,
+        "capturePolicy": "ranged champion tooltip values",
+        "sourceRef": "C:\\project\\ocr_data\\装备数据\\Screen42.png; crop=C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen42__item_tooltip.full.png; sha256=bbde37cb97b5fbc804c51a8fd7a805d2421c18d54b0595ace397de63c5c9b489"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "hullbreaker_skipper_every_fifth_attack",
+            "triggerKind": "every_n_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3181_hullbreaker_skipper_dps_v2",
+            "effectId": "item_3181_hullbreaker_skipper_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3181_hullbreaker_skipper_dps_v2",
+            "triggerId": "hullbreaker_skipper_every_fifth_attack",
+            "ownerRole": "attacker",
+            "triggerKind": "every_n_basic_attack_hit",
+            "everyN": 5,
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "hullbreaker_skipper_base_ad",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 0.84,
+                "evidenceKey": "item_3181_skipper_base_ad_damage"
+              },
+              {
+                "kind": "damage",
+                "source": "hullbreaker_skipper_hp",
+                "damageType": "physical",
+                "attackerAttr": "hp",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 0.035,
+                "evidenceKey": "item_3181_skipper_hp_damage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3748_titanic_hydra_cleave_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3748",
+      "skillKey": "p_cleave",
+      "name": "巨型九头蛇 顺劈 DPS 被动",
+      "description": "Client tooltip OCR candidate from Vayne/ranged tooltip: basic attacks deal 0.5% health physical damage to the primary target. Behind-target cleave and Gash active are recorded_not_simulated for single-target DPS baseline.",
+      "params": {
+        "hpRatio": 0.005,
+        "capturePolicy": "ranged champion tooltip values",
+        "sourceRef": "C:\\project\\ocr_data\\装备数据\\Screen43.png; crop=C:\\project\\ocr_tools\\out\\equipment_tooltip_ocr_crops\\Screen43__item_tooltip.full.png; sha256=88753dccb9528e66031a0ef3eb0eeda2e652d5da76340a4f3f7d135ad63812d0"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "titanic_hydra_cleave_on_hit",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3748_titanic_hydra_cleave_dps_v2",
+            "effectId": "item_3748_titanic_hydra_cleave_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3748_titanic_hydra_cleave_dps_v2",
+            "triggerId": "titanic_hydra_cleave_on_hit",
+            "ownerRole": "attacker",
+            "trigger": {
+              "event": "on_basic_attack_hit",
+              "matcher": {
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            },
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "titanic_hydra_cleave_primary",
+                "damageType": "physical",
+                "attackerAttr": "hp",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 0.005,
+                "evidenceKey": "item_3748_cleave_primary_damage"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3115",
+      "name": "纳什之牙",
+      "goldCost": 2900,
+      "iconUrl": "item_3115",
+      "skillRefs": [
+        "item_3115_nashors_tooth_icathian_bite_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ap",
+          "value": 80
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.5
+        },
+        {
+          "attrKey": "ability_haste",
+          "value": 15
+        }
+      ],
+      "source": {
+        "dataSource": "client_tooltip_ocr_manual_extract",
+        "sourceVersion": "client_screenshot_2026-06-17",
+        "sourceItemId": "3115",
+        "sourceScreen": "Screen37.png",
+        "sourceEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+        "sourceText": "80 AP, 50% attack speed, 15 ability haste. Icathian Bite: basic attacks deal 15 + 15% AP bonus magic damage on-hit.",
+        "recordedNotSimulated": []
+      }
+    },
+    {
+      "itemId": "3100",
+      "name": "巫妖之祸",
+      "goldCost": 2900,
+      "iconUrl": "item_3100",
+      "skillRefs": [
+        "item_3100_lich_bane_spellblade_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ap",
+          "value": 100
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.06
+        },
+        {
+          "attrKey": "ability_haste",
+          "value": 10
+        }
+      ],
+      "source": {
+        "dataSource": "client_tooltip_ocr_manual_extract",
+        "sourceVersion": "client_screenshot_2026-06-17",
+        "sourceItemId": "3100",
+        "sourceScreen": "Screen38.png",
+        "sourceEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+        "sourceText": "100 AP, 6% move speed, 10 ability haste. Spellblade: after casting a spell, next attack gains 50% attack speed and deals 75% base AD + 45% AP bonus magic damage on-hit.",
+        "recordedNotSimulated": [
+          "temporary_attack_speed_on_next_attack"
+        ]
+      }
+    },
+    {
+      "itemId": "3508",
+      "name": "夺萃之镰",
+      "goldCost": 3050,
+      "iconUrl": "item_3508",
+      "skillRefs": [
+        "item_3508_essence_reaver_spellblade_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 50
+        },
+        {
+          "attrKey": "ability_haste",
+          "value": 20
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "client_tooltip_ocr_manual_extract",
+        "sourceVersion": "client_screenshot_2026-06-17",
+        "sourceItemId": "3508",
+        "sourceScreen": "Screen39.png/Screen40.png",
+        "sourceEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+        "sourceText": "50 AD, 20 ability haste, 25% crit chance. Spellblade dynamic tooltip shows 68 (+0)/34 (+0) before item stats and 68 (+50)/34 (+25) after item stats; damage candidate uses resolved AD, mana restore is not simulated.",
+        "recordedNotSimulated": [
+          "mana_restore"
+        ]
+      }
+    },
+    {
+      "itemId": "3087",
+      "name": "斯塔缇克电刃",
+      "goldCost": 3000,
+      "iconUrl": "item_3087",
+      "skillRefs": [
+        "item_3087_statikk_shiv_electrospark_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 45
+        },
+        {
+          "attrKey": "ap",
+          "value": 45
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.3
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "client_tooltip_ocr_manual_extract",
+        "sourceVersion": "client_screenshot_2026-06-17",
+        "sourceItemId": "3087",
+        "sourceScreen": "Screen41.png",
+        "sourceEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+        "sourceText": "45 AD, 45 AP, 30% attack speed, 4% move speed. Energized attack deals 60 magic damage; minion/monster tooltip value is 90; basic attacks grant 9 extra energized stacks.",
+        "recordedNotSimulated": [
+          "secondary_bounce_targets",
+          "minion_monster_90_damage",
+          "bounce_count_scaling_icon"
+        ]
+      }
+    },
+    {
+      "itemId": "3181",
+      "name": "破舰者",
+      "goldCost": 3000,
+      "iconUrl": "item_3181",
+      "skillRefs": [
+        "item_3181_hullbreaker_skipper_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 40
+        },
+        {
+          "attrKey": "hp",
+          "value": 500
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "client_tooltip_ocr_manual_extract",
+        "sourceVersion": "client_screenshot_2026-06-17",
+        "sourceItemId": "3181",
+        "sourceScreen": "Screen42.png",
+        "sourceEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+        "sourceText": "40 AD, 500 health, 4% move speed. Ranged tooltip: every fifth attack vs champions/epic monsters deals 84% base AD + 3.5% health bonus physical damage; buildings use 210% base AD + 7% health.",
+        "recordedNotSimulated": [
+          "building_damage_formula",
+          "siege_super_minion_resist_aura"
+        ],
+        "capturePolicy": "ranged champion tooltip values"
+      }
+    },
+    {
+      "itemId": "3748",
+      "name": "巨型九头蛇",
+      "goldCost": 3300,
+      "iconUrl": "item_3748",
+      "skillRefs": [
+        "item_3748_titanic_hydra_cleave_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 40
+        },
+        {
+          "attrKey": "hp",
+          "value": 600
+        }
+      ],
+      "source": {
+        "dataSource": "client_tooltip_ocr_manual_extract",
+        "sourceVersion": "client_screenshot_2026-06-17",
+        "sourceItemId": "3748",
+        "sourceScreen": "Screen43.png",
+        "sourceEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+        "sourceText": "40 AD, 600 health. Ranged tooltip: attacks deal 0.5% health physical damage to the primary target; behind targets take 1.5% health. Gash active empowers next cleave.",
+        "recordedNotSimulated": [
+          "behind_target_cleave_damage",
+          "gash_active_next_cleave"
+        ],
+        "capturePolicy": "ranged champion tooltip values"
+      }
+    },
+    {
+      "itemId": "3036",
+      "name": "多米尼克领主的致意",
+      "goldCost": 3300,
+      "iconUrl": "item_3036",
+      "skillRefs": [],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 35
+        },
+        {
+          "attrKey": "armor_pen_percent",
+          "value": 0.35
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "client_tooltip_ocr_manual_extract",
+        "sourceVersion": "client_screenshot_2026-06-17",
+        "sourceItemId": "3036",
+        "sourceScreen": "Screen44.png",
+        "sourceEvidence": "文档记录/测试记录/wasm/artifacts/V2-BatchV-equipment-tooltip-ocr-extracted-20260618.json",
+        "sourceText": "35 AD, 35% armor penetration, 25% crit chance. Giant Slayer: up to 15% bonus damage based on enemy champion bonus health, maxed at 1500 bonus health.",
+        "recordedNotSimulated": [
+          "giant_slayer_damage_modifier_requires_target_bonus_health_input"
+        ],
+        "blockedPassive": "requires target_bonus_health input or target bonus health attr before a safe runtime seed can be published"
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}

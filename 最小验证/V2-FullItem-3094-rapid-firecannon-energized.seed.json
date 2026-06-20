@@ -1,0 +1,147 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_full_item_3094_rfc_energized_20260615_001",
+  "source": {
+    "coverageMatrix": "V2-full-item-dps-coverage-20260615.json",
+    "priorItemSeed": "V2-Batch-C-adc-items.seed.json",
+    "sourceVersion": "16.7.1",
+    "generatedAt": "2026-06-15",
+    "rule": "Full item DPS entry: publish Rapid Firecannon energized proc as a single-target DPS passive. Static text provides the 40 bonus magic damage value; range bonus is recorded_not_simulated.",
+    "gateStatus": "full-item-3094-ready when current bundle preserves item skillRefs, triggerKind=energized_charge_and_consume, charge fields, and one flat 40 magic damage operation."
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "Items"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "formulaProfiles": [],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [],
+  "statusModifierGroups": [],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3094_rapid_firecannon_energized_dps_v2",
+      "ownerType": "item",
+      "ownerId": "3094",
+      "skillKey": "p_energized",
+      "name": "Rapid Firecannon Energized DPS passive",
+      "description": "V2 full item entry: Rapid Firecannon energized attack deals 40 bonus magic damage. Attack range bonus is recorded_not_simulated because single_attacker_dps does not model attack range.",
+      "params": {
+        "chargeKey": "item_3094_energized",
+        "chargeGainPerBasicAttack": 25,
+        "chargeThreshold": 100,
+        "chargeCap": 100,
+        "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+        "consumeChargeOnTrigger": true,
+        "procScope": "real_basic_attack_only",
+        "bonusMagicDamage": 40,
+        "recordedNotSimulated": [
+          "movement_charge_gain",
+          "bonus_attack_range_35_percent"
+        ],
+        "sourceRef": "文档记录/详细设计/最小验证/数据/lol_竞技场静态文本快照/ddragon/16.7.1/zh_CN/item.json#data.3094.description"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "rapid_firecannon_energized_charge",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3094_energized",
+            "sourceType": "item_passive",
+            "sourceId": "3094",
+            "activation": "assumed_charge_before_start",
+            "stacks": 100,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3094_rapid_firecannon_energized_dps_v2",
+            "effectId": "item_3094_rapid_firecannon_energized_effect",
+            "sourceCategory": "item_passive",
+            "sourceId": "item_3094_rapid_firecannon_energized_dps_v2",
+            "sourceType": "item",
+            "triggerId": "rapid_firecannon_energized_charge",
+            "ownerRole": "attacker",
+            "triggerKind": "energized_charge_and_consume",
+            "chargeKey": "item_3094_energized",
+            "chargeGainPerBasicAttack": 25,
+            "chargeThreshold": 100,
+            "chargeCap": 100,
+            "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+            "consumeChargeOnTrigger": true,
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "rapid_firecannon_energized",
+                "targetRole": "target",
+                "damageType": "magic",
+                "amount": 40,
+                "evidenceKey": "item_3094_rapid_firecannon_energized_damage"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3094",
+      "name": "疾射火炮",
+      "goldCost": 2650,
+      "iconUrl": "item_3094",
+      "skillRefs": [
+        "item_3094_rapid_firecannon_energized_dps_v2"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "attack_speed",
+          "value": 0.35
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "文档记录/详细设计/最小验证/数据/lol_竞技场静态文本快照/ddragon/16.7.1/zh_CN/item.json",
+        "sourceVersion": "16.7.1",
+        "sourceItemId": "3094",
+        "sourceTags": [
+          "CriticalStrike",
+          "AttackSpeed",
+          "NonbootsMovement"
+        ],
+        "sourceGoldTotal": 2650,
+        "batch": "V2-FullItem-3094",
+        "sourceText": "35% attack speed, 25% crit chance, 4% move speed. Energized attack deals 40 bonus magic damage and gains 35% bonus attack range.",
+        "recordedNotSimulated": [
+          "movement_charge_gain",
+          "bonus_attack_range_35_percent"
+        ]
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
