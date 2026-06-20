@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-06-20T12:01:58.528Z",
+  "apiBase": "http://127.0.0.1:8080",
+  "current": {
+    "gameId": "lol",
+    "versionCode": "v2_batch_v_b_3082_wardens_mail_001",
+    "publishedAt": "2026-06-20T11:58:51.473290Z",
+    "updatedAt": "2026-06-20T11:58:51.473290Z"
+  },
+  "item": {
+    "found": true,
+    "itemId": "3082",
+    "name": "守望者铠甲",
+    "skillRefs": [
+      "item_3082_wardens_mail_rock_solid_batch_v_b"
+    ],
+    "statModifiers": [
+      {
+        "value": 40,
+        "attrKey": "armor"
+      }
+    ]
+  },
+  "skill": {
+    "found": true,
+    "skillId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+    "name": "守望者铠甲 坚如磐石 DPS 被动",
+    "ownerType": "item",
+    "ownerId": "3082",
+    "passive": {
+      "trigger": {
+        "event": "on_damage_taken",
+        "matcher": {
+          "procScopes": [
+            "real_basic_attack_only"
+          ]
+        }
+      },
+      "effectId": "item_3082_wardens_mail_rock_solid_batch_v_b_effect",
+      "priority": 100,
+      "sourceId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+      "ownerRole": "target",
+      "passiveId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+      "triggerId": "wardens_mail_rock_solid_damage_taken",
+      "operations": [
+        {
+          "kind": "damage_modifier",
+          "source": "wardens_mail_rock_solid_final_damage",
+          "bucketKey": "wardens_mail_post_mitigation_final",
+          "valueSpec": {
+            "kind": "formula",
+            "formulaId": "formula_3082_rock_solid_final_damage"
+          },
+          "targetRole": "target",
+          "evidenceKey": "item_3082_rock_solid_max_input_minus_15_input_times_0_8"
+        }
+      ],
+      "sourceType": "item",
+      "sourceCategory": "item_passive"
+    }
+  },
+  "formulaProfile": {
+    "found": true,
+    "formulaId": "formula_3082_rock_solid_final_damage",
+    "formulaKind": "vars_expr",
+    "formulaText": "max(x - 15, x * 0.8)",
+    "engineDefinitions": [
+      {
+        "id": "formula_3082_rock_solid_input",
+        "op": "input"
+      },
+      {
+        "id": "formula_3082_rock_solid_flat_reduction",
+        "op": "const",
+        "value": 15
+      },
+      {
+        "id": "formula_3082_rock_solid_minimum_damage_ratio",
+        "op": "const",
+        "value": 0.8
+      },
+      {
+        "id": "formula_3082_rock_solid_after_flat",
+        "op": "sub",
+        "left": "formula_3082_rock_solid_input",
+        "right": "formula_3082_rock_solid_flat_reduction"
+      },
+      {
+        "id": "formula_3082_rock_solid_after_cap",
+        "op": "mul",
+        "left": "formula_3082_rock_solid_input",
+        "right": "formula_3082_rock_solid_minimum_damage_ratio"
+      },
+      {
+        "id": "formula_3082_rock_solid_final_damage",
+        "op": "max",
+        "left": "formula_3082_rock_solid_after_flat",
+        "right": "formula_3082_rock_solid_after_cap"
+      }
+    ]
+  },
+  "bucket": {
+    "found": true,
+    "bucketKey": "wardens_mail_post_mitigation_final",
+    "resolutionDomain": "hp_change",
+    "stageKey": "hp_change/final/post_mitigation",
+    "aggregationMode": "set_final",
+    "bucketConfig": {
+      "priority": 100,
+      "valueUnit": "final_value",
+      "evidenceLabel": "wardens_mail_post_mitigation_final"
+    }
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "generatedAt": "2026-06-20T10:48:35.124Z",
+  "apiBase": "http://127.0.0.1:8080",
+  "current": {
+    "gameId": "lol",
+    "versionCode": "v2_batch_v_a_data_policy_items_001",
+    "publishedAt": "2026-06-20T09:25:31.060361Z",
+    "updatedAt": "2026-06-20T09:25:31.060361Z"
+  },
+  "counts": {
+    "items": 588,
+    "types": 37,
+    "heroes": 177,
+    "skills": 81,
+    "skillMounts": 177,
+    "typeRelations": 75,
+    "formulaBindings": 3,
+    "formulaProfiles": 11,
+    "statusDefinitions": 9,
+    "coefficientBuckets": 7,
+    "attributeDefinitions": 36,
+    "controlStateProfiles": 0,
+    "statusModifierGroups": 8,
+    "statusPeriodicHpEffects": 3,
+    "statusActionControlRules": 31,
+    "statusAttributeModifiers": 5
+  },
+  "items": [
+    {
+      "itemId": "2051",
+      "found": true,
+      "name": "Guardian's Horn",
+      "skillRefs": [
+        "item_2051_guardians_horn_undaunted_batch_v_a"
+      ],
+      "statModifiers": [
+        {
+          "value": 150,
+          "attrKey": "hp"
+        },
+        {
+          "value": 20,
+          "attrKey": "hp_regen"
+        }
+      ]
+    },
+    {
+      "itemId": "3004",
+      "found": true,
+      "name": "Manamune",
+      "skillRefs": [
+        "item_3004_manamune_awe_batch_v_a"
+      ],
+      "statModifiers": [
+        {
+          "value": 15,
+          "attrKey": "ability_haste"
+        },
+        {
+          "value": 35,
+          "attrKey": "ad"
+        },
+        {
+          "value": 500,
+          "attrKey": "mana"
+        }
+      ]
+    },
+    {
+      "itemId": "3036",
+      "found": true,
+      "name": "Lord Dominik's Regards",
+      "skillRefs": [
+        "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+      ],
+      "statModifiers": [
+        {
+          "value": 35,
+          "attrKey": "ad"
+        },
+        {
+          "value": 0.35,
+          "attrKey": "armor_pen_percent"
+        },
+        {
+          "value": 0.25,
+          "attrKey": "crit_chance"
+        }
+      ]
+    },
+    {
+      "itemId": "6665",
+      "found": true,
+      "name": "Jak'Sho, The Protean",
+      "skillRefs": [
+        "item_6665_jaksho_voidborn_resilience_batch_v_a"
+      ],
+      "statModifiers": [
+        {
+          "value": 45,
+          "attrKey": "armor"
+        },
+        {
+          "value": 350,
+          "attrKey": "hp"
+        },
+        {
+          "value": 45,
+          "attrKey": "magic_resist"
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "skillId": "item_2051_guardians_horn_undaunted_batch_v_a",
+      "found": true,
+      "ownerType": "item",
+      "ownerId": "2051",
+      "passiveCount": 1
+    },
+    {
+      "skillId": "item_3004_manamune_awe_batch_v_a",
+      "found": true,
+      "ownerType": "item",
+      "ownerId": "3004",
+      "passiveCount": 1
+    },
+    {
+      "skillId": "item_3036_lord_dominiks_giant_slayer_batch_v_a",
+      "found": true,
+      "ownerType": "item",
+      "ownerId": "3036",
+      "passiveCount": 1
+    },
+    {
+      "skillId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+      "found": true,
+      "ownerType": "item",
+      "ownerId": "6665",
+      "passiveCount": 1
+    }
+  ],
+  "buckets": [
+    {
+      "bucketKey": "flat_post_percent",
+      "found": true,
+      "stageKey": "hp_change/flat/post_percent",
+      "resolutionDomain": "hp_change",
+      "aggregationMode": "add",
+      "bucketConfig": {
+        "clampMin": 0,
+        "valueUnit": "flat_delta",
+        "hasClampMin": true,
+        "evidenceLabel": "flat_post_percent"
+      }
+    },
+    {
+      "bucketKey": "ad_flat_bonus",
+      "found": true,
+      "stageKey": "attribute/flat_bonus",
+      "resolutionDomain": "attribute",
+      "targetAttrKey": "ad",
+      "aggregationMode": "add",
+      "bucketConfig": {
+        "valueUnit": "flat_delta",
+        "evidenceLabel": "ad_flat_bonus"
+      }
+    },
+    {
+      "bucketKey": "outgoing_damage_amp",
+      "found": true,
+      "stageKey": "hp_change/outgoing/pre_mitigation",
+      "resolutionDomain": "hp_change",
+      "aggregationMode": "add",
+      "bucketConfig": {
+        "priority": 20,
+        "valueUnit": "percent_delta",
+        "evidenceLabel": "outgoing_damage_amp"
+      }
+    },
+    {
+      "bucketKey": "target_armor_flat_bonus",
+      "found": true,
+      "stageKey": "attribute/flat_bonus",
+      "resolutionDomain": "attribute",
+      "targetAttrKey": "armor",
+      "aggregationMode": "add",
+      "bucketConfig": {
+        "valueUnit": "flat_delta",
+        "evidenceLabel": "target_armor_flat_bonus"
+      }
+    },
+    {
+      "bucketKey": "target_magic_resist_flat_bonus",
+      "found": true,
+      "stageKey": "attribute/flat_bonus",
+      "resolutionDomain": "attribute",
+      "targetAttrKey": "magic_resist",
+      "aggregationMode": "add",
+      "bucketConfig": {
+        "valueUnit": "flat_delta",
+        "evidenceLabel": "target_magic_resist_flat_bonus"
+      }
+    }
+  ],
+  "attrs": [
+    {
+      "attrKey": "target_bonus_health",
+      "found": true
+    },
+    {
+      "attrKey": "bonus_armor",
+      "found": true
+    },
+    {
+      "attrKey": "bonus_magic_resist",
+      "found": true
+    },
+    {
+      "attrKey": "mana",
+      "found": true
+    },
+    {
+      "attrKey": "ad",
+      "found": true
+    },
+    {
+      "attrKey": "armor",
+      "found": true
+    },
+    {
+      "attrKey": "magic_resist",
+      "found": true
+    }
+  ]
+}
