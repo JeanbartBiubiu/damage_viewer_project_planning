@@ -127,6 +127,9 @@ export type V2DpsEnergizedBundleCheck = {
   itemId: string;
   skillId: string;
   skillKey: string;
+  resolvedSkillId?: string;
+  resolvedScenarioStateId?: string;
+  resolvedPassiveEffectId?: string;
   itemFound: boolean;
   itemSelectable: boolean;
   skillFound: boolean;
@@ -863,14 +866,16 @@ export function createDefaultV2DpsCurveSelections(attackerHeroId: string, bundle
     createV2DpsCurveSelection(`${heroKey}-3153-6672`, formatDefaultCurveLabel(bundle, bladeKraken), bladeKraken, attackerHeroId, passiveIds, scenarioIds),
     createV2DpsCurveSelection(`${heroKey}-3153-6672-3124`, formatDefaultCurveLabel(bundle, bladeKrakenGuinsoo), bladeKrakenGuinsoo, attackerHeroId, passiveIds, scenarioIds)
   ];
-  if (bundle && inspectV2DpsEnergizedBundle(bundle).ready) {
+  const energizedCheck = bundle ? inspectV2DpsEnergizedBundle(bundle) : null;
+  if (energizedCheck?.ready && energizedCheck.resolvedSkillId && energizedCheck.resolvedScenarioStateId) {
+    const energizedPassiveIds = appendV2DpsEnergizedPassiveIds(passiveIds, energizedCheck);
     curves.push(
       createV2DpsCurveSelection(
         `${heroKey}-batch-n-voltaic-6699`,
         'Batch N / 6699 Voltaic natural charge',
         [V2_DPS_ENERGIZED_ITEM_ID],
         attackerHeroId,
-        passiveIds,
+        energizedPassiveIds,
         scenarioIds
       ),
       createV2DpsCurveSelection(
@@ -878,8 +883,8 @@ export function createDefaultV2DpsCurveSelections(attackerHeroId: string, bundle
         'Batch N / 6699 Voltaic initial full charge',
         [V2_DPS_ENERGIZED_ITEM_ID],
         attackerHeroId,
-        passiveIds,
-        [V2_DPS_ENERGIZED_SCENARIO_STATE_ID]
+        energizedPassiveIds,
+        [energizedCheck.resolvedScenarioStateId]
       )
     );
   }
@@ -1183,52 +1188,64 @@ export function inspectV2DpsEnergizedBundle(bundle: GameDataBundle): V2DpsEnergi
   const item = bundle.items.find((candidate) => candidate.itemId === V2_DPS_ENERGIZED_ITEM_ID);
   const itemFound = Boolean(item);
   const itemSelectable = adcCompletedEquipmentIds(bundle).has(V2_DPS_ENERGIZED_ITEM_ID);
-  const itemSkillRefs = new Set((item?.skillRefs ?? []).filter(Boolean));
-  const passiveSkill = bundle.skills.find((skill) => (
-    skill.ownerType === 'item'
-    && skill.ownerId === V2_DPS_ENERGIZED_ITEM_ID
-    && skill.skillId === V2_DPS_ENERGIZED_SKILL_ID
-  ));
-  const passiveEffects = passiveSkill ? readDpsPassiveEffects(passiveSkill) : [];
-  const scenarioStates = passiveSkill ? readDpsScenarioStates(passiveSkill) : [];
+  const itemSkillRefs = normalizeStringList(item?.skillRefs);
+  const skillRefsMissing = itemFound && !Array.isArray(item?.skillRefs);
+  const skillRefsEmpty = itemFound && Array.isArray(item?.skillRefs) && itemSkillRefs.length === 0;
+  const hasStrictSkillRefs = itemSkillRefs.length > 0;
+  const energizedCandidates = listV2DpsEnergizedPassiveCandidates(bundle);
+  const selectedCandidate = selectV2DpsEnergizedPassiveCandidate(itemSkillRefs, energizedCandidates);
+  const passiveSkill = selectedCandidate?.skill;
+  const energizedEffect = selectedCandidate?.energizedEffect;
+  const resolvedSkillId = passiveSkill?.skillId;
+  const resolvedScenarioStateId = selectedCandidate?.scenarioStateId;
+  const resolvedPassiveEffectId = passiveSkill && energizedEffect
+    ? resolveV2DpsEnergizedPassiveSelectionId(passiveSkill, energizedEffect)
+    : undefined;
   const skillFound = Boolean(passiveSkill);
-  const scenarioStateFound = scenarioStates.some((state) => state.stateId === V2_DPS_ENERGIZED_SCENARIO_STATE_ID);
-  const energizedEffect = passiveEffects.find((effect) => effect.triggerKind === 'energized_charge_and_consume');
+  const scenarioStateFound = Boolean(resolvedScenarioStateId);
   const energizedPassiveFound = Boolean(energizedEffect);
   const chargeFieldsFound = energizedEffect ? hasPublishedEnergizedChargeFields(energizedEffect) : false;
   const energizedDamageFound = energizedEffect ? hasPublishedEnergizedDamageOperation(energizedEffect) : false;
-  const skillLinkedByItem = itemSkillRefs.size === 0
-    ? Boolean(passiveSkill)
-    : itemSkillRefs.has(V2_DPS_ENERGIZED_SKILL_ID);
+  const skillLinkedByItem = hasStrictSkillRefs
+    && Boolean(resolvedSkillId && itemSkillRefs.includes(resolvedSkillId));
   const missingReasons: string[] = [];
+  const reportedSkillId = resolvedSkillId ?? V2_DPS_ENERGIZED_SKILL_ID;
   if (!itemFound) {
     missingReasons.push('published bundle is missing item 6699');
   }
   if (!itemSelectable) {
     missingReasons.push('item 6699 is not tagged as selectable DPS equipment');
   }
-  if (!passiveSkill) {
-    missingReasons.push(`published bundle is missing item skill ${V2_DPS_ENERGIZED_SKILL_ID}`);
+  if (skillRefsMissing) {
+    missingReasons.push('item 6699 skillRefs missing; strict DPS page cannot resolve item passive without a linked skillRef');
   }
-  if (passiveSkill && !scenarioStateFound) {
-    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} is missing dpsScenarioStates ${V2_DPS_ENERGIZED_SCENARIO_STATE_ID}`);
+  if (skillRefsEmpty) {
+    missingReasons.push('item 6699 skillRefs is empty; strict DPS page cannot resolve item passive without a linked skillRef');
   }
-  if (passiveSkill && !energizedPassiveFound) {
-    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} has no energized_charge_and_consume dpsPassiveEffects entry`);
+  if (energizedCandidates.length === 0) {
+    missingReasons.push('published bundle has no item-owned 6699 skill with energized_charge_and_consume dpsPassiveEffects');
+  } else if (hasStrictSkillRefs && !selectedCandidate) {
+    missingReasons.push(`item 6699 skillRefs does not link a runnable energized_charge_and_consume passive (${itemSkillRefs.join(', ')})`);
+  }
+  if (selectedCandidate && !scenarioStateFound) {
+    missingReasons.push(`item skill ${reportedSkillId} is missing dpsScenarioStates for chargeKey ${energizedEffect?.chargeKey ?? 'unknown'}`);
+  }
+  if (selectedCandidate && !energizedPassiveFound) {
+    missingReasons.push(`item skill ${reportedSkillId} has no energized_charge_and_consume dpsPassiveEffects entry`);
   }
   if (energizedPassiveFound && !chargeFieldsFound) {
-    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} is missing Batch N charge fields on energized_charge_and_consume`);
+    missingReasons.push(`item skill ${reportedSkillId} is missing Batch N charge fields on energized_charge_and_consume`);
   }
   if (energizedPassiveFound && !energizedDamageFound) {
-    missingReasons.push(`item skill ${V2_DPS_ENERGIZED_SKILL_ID} is missing Batch N physical damage (${V2_DPS_ENERGIZED_DAMAGE_SOURCE} amount 100)`);
-  }
-  if (itemFound && passiveSkill && !skillLinkedByItem) {
-    missingReasons.push(`item 6699 skillRefs does not link ${V2_DPS_ENERGIZED_SKILL_ID}`);
+    missingReasons.push(`item skill ${reportedSkillId} is missing Batch N physical damage (${V2_DPS_ENERGIZED_DAMAGE_SOURCE} amount 100)`);
   }
   return {
     itemId: V2_DPS_ENERGIZED_ITEM_ID,
     skillId: V2_DPS_ENERGIZED_SKILL_ID,
     skillKey: normalizeSkillKey(passiveSkill?.skillKey) || 'p_energized',
+    resolvedSkillId,
+    resolvedScenarioStateId,
+    resolvedPassiveEffectId,
     itemFound,
     itemSelectable,
     skillFound,
@@ -1685,7 +1702,8 @@ export function prepareV2DpsInput(
     engineBundle: mergeDpsEngineBundles(
       curveBuilds.map((build) => build.compile),
       targetActorTemplate,
-      resolvePublishedCoefficientBuckets(bundle)
+      resolvePublishedCoefficientBuckets(bundle),
+      curveBuilds.flatMap((build) => build.formulaDefinitions)
     ),
     preflightBlockedReasons,
     equipmentSkillRefDiagnostics,
@@ -1723,6 +1741,7 @@ type BuildCurveSpecArgs = {
 type BuildCurveSpecResult = {
   spec: V2DpsCurveRunSpec;
   compile: DpsAttackerCompileResult;
+  formulaDefinitions: TinyGoV2FormulaDefinition[];
   preflightBlockedReasons: string[];
 };
 
@@ -1780,6 +1799,7 @@ function buildV2DpsCurveRunSpec({
     ...resolvedTargetPassiveEffects,
     ...syntheticPassiveEffects
   ];
+  const formulaDefinitions = collectDpsPassiveFormulaDefinitions(bundle, resolvedPassiveEffects);
   const targetEquipmentSet = normalizeStringList([
     ...(curveSelection.targetEquipmentSet ?? []),
     ...targetEquipment.itemIds
@@ -1848,8 +1868,119 @@ function buildV2DpsCurveRunSpec({
       }
     },
     compile,
+    formulaDefinitions,
     preflightBlockedReasons
   };
+}
+
+function collectDpsPassiveFormulaDefinitions(
+  bundle: GameDataBundle,
+  passiveEffects: V2DpsPassiveEffect[]
+): TinyGoV2FormulaDefinition[] {
+  const referencedFormulaIds = collectDpsPassiveValueSpecFormulaIds(passiveEffects);
+  if (referencedFormulaIds.length === 0) {
+    return [];
+  }
+
+  const profiles = new Map((bundle.formulaProfiles ?? []).map((profile) => [profile.formulaId, profile]));
+  const emittedIds = new Set<string>();
+  const definitions: TinyGoV2FormulaDefinition[] = [];
+  for (const formulaId of referencedFormulaIds) {
+    const profile = profiles.get(formulaId);
+    if (!profile) {
+      continue;
+    }
+    for (const definition of readPublishedEngineFormulaDefinitions(profile)) {
+      if (!emittedIds.has(definition.id)) {
+        emittedIds.add(definition.id);
+        definitions.push(definition);
+      }
+    }
+  }
+  return definitions;
+}
+
+function collectDpsPassiveValueSpecFormulaIds(passiveEffects: V2DpsPassiveEffect[]): string[] {
+  const formulaIds: string[] = [];
+  for (const effect of passiveEffects) {
+    for (const operation of effect.operations ?? []) {
+      const valueSpec = operation.valueSpec;
+      if (!isObjectRecord(valueSpec) || valueSpec.kind !== 'formula') {
+        continue;
+      }
+      if (typeof valueSpec.formulaId !== 'string') {
+        continue;
+      }
+      const formulaId = valueSpec.formulaId.trim();
+      if (formulaId) {
+        formulaIds.push(formulaId);
+      }
+    }
+  }
+  return dedupeStrings(formulaIds);
+}
+
+function readPublishedEngineFormulaDefinitions(
+  profile: NonNullable<GameDataBundle['formulaProfiles']>[number]
+): TinyGoV2FormulaDefinition[] {
+  const params = profile.params;
+  const rawDefinitions = isObjectRecord(params) && Array.isArray(params.engineDefinitions)
+    ? params.engineDefinitions
+    : [];
+  return rawDefinitions
+    .map(normalizePublishedEngineFormulaDefinition)
+    .filter((definition): definition is TinyGoV2FormulaDefinition => Boolean(definition));
+}
+
+function normalizePublishedEngineFormulaDefinition(raw: unknown): TinyGoV2FormulaDefinition | null {
+  if (!isObjectRecord(raw)) {
+    return null;
+  }
+  const id = typeof raw.id === 'string' ? raw.id.trim() : '';
+  const op = typeof raw.op === 'string' ? raw.op.trim() : '';
+  if (!id || !op) {
+    return null;
+  }
+
+  const definition: TinyGoV2FormulaDefinition = { id, op };
+  const value = toFiniteNumber(raw.value);
+  if (value !== null) {
+    definition.value = value;
+  }
+  copyStringFormulaField(definition, raw, 'attr');
+  copyStringFormulaField(definition, raw, 'attrRead');
+  copyStringFormulaField(definition, raw, 'actor');
+  copyStringFormulaField(definition, raw, 'resource');
+  copyStringFormulaField(definition, raw, 'resourceRead');
+  copyStringFormulaField(definition, raw, 'counter');
+  copyStringFormulaField(definition, raw, 'left');
+  copyStringFormulaField(definition, raw, 'right');
+  return definition;
+}
+
+type TinyGoV2FormulaStringField =
+  | 'attr'
+  | 'attrRead'
+  | 'actor'
+  | 'resource'
+  | 'resourceRead'
+  | 'counter'
+  | 'left'
+  | 'right';
+
+function copyStringFormulaField(
+  target: TinyGoV2FormulaDefinition,
+  source: Record<string, unknown>,
+  field: TinyGoV2FormulaStringField
+) {
+  const value = source[field];
+  if (typeof value !== 'string') {
+    return;
+  }
+  const normalized = value.trim();
+  if (normalized) {
+    target[field] = normalized;
+  }
 }
 
 function createSyntheticBatchHStackingPassive({
@@ -1964,9 +2095,10 @@ function resolveBasicAttackActions(
 function mergeDpsEngineBundles(
   compiles: DpsAttackerCompileResult[],
   targetActorTemplate?: TinyGoV2ActorTemplate,
-  coefficientBuckets: TinyGoV2EngineBundle['coefficientBuckets'] = []
+  coefficientBuckets: TinyGoV2EngineBundle['coefficientBuckets'] = [],
+  extraFormulaDefinitions: TinyGoV2FormulaDefinition[] = []
 ): TinyGoV2EngineBundle {
-  if (compiles.length === 0 && !targetActorTemplate) {
+  if (compiles.length === 0 && !targetActorTemplate && extraFormulaDefinitions.length === 0) {
     return emptyDpsEngineBundle(coefficientBuckets);
   }
 
@@ -2011,6 +2143,13 @@ function mergeDpsEngineBundles(
     if (!actorIds.has(compile.actorTemplate.id)) {
       actorIds.add(compile.actorTemplate.id);
       actors.push(compile.actorTemplate);
+    }
+  }
+
+  for (const definition of extraFormulaDefinitions) {
+    if (!formulaIds.has(definition.id)) {
+      formulaIds.add(definition.id);
+      formulas.push(definition);
     }
   }
 
@@ -3011,9 +3150,82 @@ function buildSelectionScenarioStates(
   });
 }
 
+type V2DpsEnergizedPassiveCandidate = {
+  skill: Skill;
+  energizedEffect: V2DpsPassiveEffect;
+  scenarioStateId: string;
+};
+
+function listV2DpsEnergizedPassiveCandidates(bundle: GameDataBundle): V2DpsEnergizedPassiveCandidate[] {
+  const candidates: V2DpsEnergizedPassiveCandidate[] = [];
+  for (const skill of bundle.skills) {
+    if (skill.ownerType !== 'item' || skill.ownerId !== V2_DPS_ENERGIZED_ITEM_ID) {
+      continue;
+    }
+    const scenarioStateIds = new Set(
+      readDpsScenarioStates(skill)
+        .map((state) => state.stateId?.trim())
+        .filter((stateId): stateId is string => Boolean(stateId))
+    );
+    for (const effect of readDpsPassiveEffects(skill)) {
+      if (effect.triggerKind !== 'energized_charge_and_consume') {
+        continue;
+      }
+      const chargeKey = effect.chargeKey?.trim();
+      if (!chargeKey || !scenarioStateIds.has(chargeKey)) {
+        continue;
+      }
+      candidates.push({
+        skill,
+        energizedEffect: effect,
+        scenarioStateId: chargeKey
+      });
+    }
+  }
+  return candidates;
+}
+
+function selectV2DpsEnergizedPassiveCandidate(
+  itemSkillRefs: string[],
+  candidates: V2DpsEnergizedPassiveCandidate[]
+): V2DpsEnergizedPassiveCandidate | undefined {
+  if (candidates.length === 0 || itemSkillRefs.length === 0) {
+    return undefined;
+  }
+  const linkedCandidates = candidates.filter((candidate) => itemSkillRefs.includes(candidate.skill.skillId));
+  if (linkedCandidates.length === 0) {
+    return undefined;
+  }
+  if (linkedCandidates.length === 1) {
+    return linkedCandidates[0];
+  }
+  return linkedCandidates.find((candidate) => candidate.skill.skillId === V2_DPS_ENERGIZED_SKILL_ID) ?? linkedCandidates[0];
+}
+
+function resolveV2DpsEnergizedPassiveSelectionId(skill: Skill, effect: V2DpsPassiveEffect): string {
+  return effect.passiveId?.trim()
+    || effect.effectId?.trim()
+    || effect.sourceId?.trim()
+    || skill.skillId;
+}
+
+function appendV2DpsEnergizedPassiveIds(
+  passiveIds: string[],
+  energizedCheck: V2DpsEnergizedBundleCheck
+): string[] {
+  return normalizeStringList([
+    ...passiveIds,
+    energizedCheck.resolvedSkillId ?? '',
+    energizedCheck.resolvedPassiveEffectId ?? ''
+  ]);
+}
+
 function hasPublishedEnergizedChargeFields(effect: V2DpsPassiveEffect): boolean {
-  return effect.chargeKey === V2_DPS_ENERGIZED_SCENARIO_STATE_ID
-    && effect.chargeGainPerBasicAttack === 25
+  const chargeKey = effect.chargeKey?.trim();
+  if (!chargeKey) {
+    return false;
+  }
+  return effect.chargeGainPerBasicAttack === 25
     && effect.chargeThreshold === 100
     && effect.chargeCap === 100
     && effect.chargeReadyPolicy === V2_DPS_ENERGIZED_CHARGE_READY_POLICY
