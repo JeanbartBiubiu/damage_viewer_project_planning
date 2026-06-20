@@ -90,7 +90,7 @@ func (state *dpsCurveState) resolveAttributeBucketCandidates(
 			})
 			continue
 		}
-		value, ok, reason := resolveDPSModifierValue(state.bundle, op, gate)
+		value, ok, reason := resolveDPSModifierValue(state.bundle, op, gate, nil)
 		if !ok {
 			if reason != "" {
 				state.block(reason)
