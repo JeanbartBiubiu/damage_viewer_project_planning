@@ -1,0 +1,518 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_v_a_data_policy_items_001",
+  "metadata": {
+    "batch": "V2-BatchV-A",
+    "source": "lol-wiki-current-items",
+    "scope": "A group data-policy import: Guardian's Horn, Manamune, Lord Dominik's Regards, Jak'Sho.",
+    "policyNotes": [
+      "Guardian's Horn Undaunted is modeled for non-DoT basic DPS as a flat -15 hp_change delta after percent modifiers; the DoT 3.75 branch is recorded but not simulated.",
+      "Manamune Awe reads resolved mana as the DPS maximum mana policy and adds 2% of that value as flat attack damage; Manaflow charge growth is recorded but not simulated.",
+      "Lord Dominik's Regards Giant Slayer reads an explicit target_bonus_health target attribute and clamps the outgoing damage increase to 0..15%.",
+      "Jak'Sho Voidborn Resilience is modeled as a controlled full-stack policy: target bonus_armor and bonus_magic_resist attributes each add 30% of their value to final target armor and magic_resist."
+    ],
+    "requiresCoefficientBucketsFile": "V2-BatchV-A-coefficient-buckets.json"
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "hero",
+      "name": "Hero"
+    },
+    {
+      "ownerType": "item",
+      "name": "Item"
+    }
+  ],
+  "attributeDefinitions": [
+    {
+      "attrKey": "ad",
+      "attrName": "Attack Damage",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "hp",
+      "attrName": "Health",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "mana",
+      "attrName": "Mana",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "armor",
+      "attrName": "Armor",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "magic_resist",
+      "attrName": "Magic Resist",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "ability_haste",
+      "attrName": "Ability Haste",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "crit_chance",
+      "attrName": "Critical Strike Chance",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "armor_pen_percent",
+      "attrName": "Percent Armor Penetration",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "hp_regen",
+      "attrName": "Health Regen",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "rate",
+      "rateTargetAttrKey": "hp"
+    },
+    {
+      "attrKey": "target_bonus_health",
+      "attrName": "Target Bonus Health",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "bonus_armor",
+      "attrName": "Bonus Armor",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    },
+    {
+      "attrKey": "bonus_magic_resist",
+      "attrName": "Bonus Magic Resist",
+      "attrType": "number",
+      "defaultValue": 0,
+      "valueKind": "scalar"
+    }
+  ],
+  "types": [],
+  "formulaProfiles": [],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [],
+  "statusModifierGroups": [],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_2051_guardians_horn_undaunted_batch_v_a",
+      "ownerType": "item",
+      "ownerId": "2051",
+      "skillKey": "p_undaunted",
+      "name": "Guardian's Horn Undaunted DPS passive",
+      "description": "Batch V A controlled data-policy seed: reduces incoming champion basic DPS damage by 15 after percent modifiers. DoT 3.75 branch is recorded_not_simulated.",
+      "params": {
+        "flatDamageReduction": 15,
+        "dotDamageReduction": 3.75,
+        "sourceRef": "lol-wiki-current-items#2051.effects.pass",
+        "recordedNotSimulated": [
+          "dot_branch_3_75_damage_reduction"
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "guardians_horn_undaunted_damage_taken",
+            "triggerKind": "on_damage_taken"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_2051_guardians_horn_undaunted_batch_v_a",
+            "effectId": "item_2051_guardians_horn_undaunted_batch_v_a_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_2051_guardians_horn_undaunted_batch_v_a",
+            "triggerId": "guardians_horn_undaunted_damage_taken",
+            "ownerRole": "target",
+            "trigger": {
+              "event": "on_damage_taken",
+              "matcher": {
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            },
+            "operations": [
+              {
+                "kind": "damage_modifier",
+                "source": "guardians_horn_undaunted_flat_reduction",
+                "targetRole": "target",
+                "bucketKey": "flat_post_percent",
+                "valueSpec": {
+                  "kind": "literal",
+                  "value": -15
+                },
+                "evidenceKey": "item_2051_undaunted_flat_minus_15_basic_non_dot"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3004_manamune_awe_batch_v_a",
+      "ownerType": "item",
+      "ownerId": "3004",
+      "skillKey": "p_awe",
+      "name": "Manamune Awe DPS passive",
+      "description": "Batch V A data-policy seed: adds flat attack damage equal to 2% resolved mana. Manaflow charge growth and Muramana transform are recorded_not_simulated.",
+      "params": {
+        "bonusAdManaRatio": 0.02,
+        "manaPolicy": "read resolved mana as maximum mana in single_attacker_dps",
+        "sourceRef": "lol-wiki-current-items#3004.effects.pass",
+        "recordedNotSimulated": [
+          "manaflow_charge_growth",
+          "muramana_transform"
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "manamune_awe_always_on",
+            "triggerKind": "stat_modifier_always_on"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3004_manamune_awe_batch_v_a",
+            "effectId": "item_3004_manamune_awe_batch_v_a_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3004_manamune_awe_batch_v_a",
+            "triggerId": "manamune_awe_always_on",
+            "ownerRole": "attacker",
+            "triggerKind": "stat_modifier_always_on",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "manamune_awe_bonus_ad_from_mana",
+                "targetRole": "attacker",
+                "bucketKey": "ad_flat_bonus",
+                "valueSpec": {
+                  "kind": "attr_ratio",
+                  "ownerRole": "attacker",
+                  "attrKey": "mana",
+                  "ratio": 0.02
+                },
+                "evidenceKey": "item_3004_awe_bonus_ad_2pct_resolved_mana"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3036_lord_dominiks_giant_slayer_batch_v_a",
+      "ownerType": "item",
+      "ownerId": "3036",
+      "skillKey": "p_giant_slayer",
+      "name": "Lord Dominik's Regards Giant Slayer DPS passive",
+      "description": "Batch V A data-policy seed: increases outgoing damage by 1% per 100 target_bonus_health, clamped to 15% at 1500 target bonus health.",
+      "params": {
+        "targetBonusHealthRatio": 0.0001,
+        "maxDamageIncrease": 0.15,
+        "sourceRef": "lol-wiki-current-items#3036.effects.pass",
+        "requiredTargetInput": "target_bonus_health"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "lord_dominiks_giant_slayer_damage_dealt",
+            "triggerKind": "on_damage_dealt"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3036_lord_dominiks_giant_slayer_batch_v_a",
+            "effectId": "item_3036_lord_dominiks_giant_slayer_batch_v_a_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3036_lord_dominiks_giant_slayer_batch_v_a",
+            "triggerId": "lord_dominiks_giant_slayer_damage_dealt",
+            "ownerRole": "attacker",
+            "trigger": {
+              "event": "on_damage_dealt",
+              "matcher": {
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            },
+            "operations": [
+              {
+                "kind": "damage_modifier",
+                "source": "lord_dominiks_giant_slayer_bonus_damage",
+                "targetRole": "attacker",
+                "bucketKey": "outgoing_damage_amp",
+                "valueSpec": {
+                  "kind": "attr_ratio",
+                  "ownerRole": "target",
+                  "attrKey": "target_bonus_health",
+                  "ratio": 0.0001,
+                  "clampMin": 0,
+                  "hasClampMin": true,
+                  "clampMax": 0.15,
+                  "hasClampMax": true
+                },
+                "evidenceKey": "item_3036_giant_slayer_0_to_15pct_target_bonus_health"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+      "ownerType": "item",
+      "ownerId": "6665",
+      "skillKey": "p_voidborn_resilience",
+      "name": "Jak'Sho Voidborn Resilience DPS passive",
+      "description": "Batch V A controlled data-policy seed: treats Jak'Sho as full-stack, adding 30% of explicit target bonus_armor and bonus_magic_resist to target armor and magic_resist.",
+      "params": {
+        "fullStackBonusResistRatio": 0.3,
+        "stackPolicy": "controlled_full_stacks",
+        "sourceRef": "lol-wiki-current-items#6665.effects.pass",
+        "requiredTargetInputs": [
+          "bonus_armor",
+          "bonus_magic_resist"
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "jaksho_voidborn_resilience_full_stacks",
+            "triggerKind": "stat_modifier_always_on"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+            "effectId": "item_6665_jaksho_voidborn_resilience_batch_v_a_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_6665_jaksho_voidborn_resilience_batch_v_a",
+            "triggerId": "jaksho_voidborn_resilience_full_stacks",
+            "ownerRole": "target",
+            "triggerKind": "stat_modifier_always_on",
+            "operations": [
+              {
+                "kind": "stat_modifier",
+                "source": "jaksho_full_stack_bonus_armor",
+                "targetRole": "target",
+                "bucketKey": "target_armor_flat_bonus",
+                "valueSpec": {
+                  "kind": "attr_ratio",
+                  "ownerRole": "target",
+                  "attrKey": "bonus_armor",
+                  "ratio": 0.3,
+                  "clampMin": 0,
+                  "hasClampMin": true
+                },
+                "evidenceKey": "item_6665_voidborn_30pct_bonus_armor_full_stack"
+              },
+              {
+                "kind": "stat_modifier",
+                "source": "jaksho_full_stack_bonus_magic_resist",
+                "targetRole": "target",
+                "bucketKey": "target_magic_resist_flat_bonus",
+                "valueSpec": {
+                  "kind": "attr_ratio",
+                  "ownerRole": "target",
+                  "attrKey": "bonus_magic_resist",
+                  "ratio": 0.3,
+                  "clampMin": 0,
+                  "hasClampMin": true
+                },
+                "evidenceKey": "item_6665_voidborn_30pct_bonus_magic_resist_full_stack"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "2051",
+      "name": "Guardian's Horn",
+      "goldCost": 950,
+      "iconUrl": "item_2051",
+      "skillRefs": [
+        "item_2051_guardians_horn_undaunted_batch_v_a"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "hp",
+          "value": 150
+        },
+        {
+          "attrKey": "hp_regen",
+          "value": 20
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "2051",
+        "sourceKey": "guardian_s_horn",
+        "batch": "V2-BatchV-A",
+        "modes": {
+          "classic sr 5v5": false,
+          "aram": true,
+          "nb": false,
+          "ar": true
+        },
+        "recordedNotSimulated": [
+          "dot_branch_3_75_damage_reduction"
+        ]
+      }
+    },
+    {
+      "itemId": "3004",
+      "name": "Manamune",
+      "goldCost": 2900,
+      "iconUrl": "item_3004",
+      "skillRefs": [
+        "item_3004_manamune_awe_batch_v_a"
+      ],
+      "recipeIds": [
+        "3070",
+        "3133",
+        "1036"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 35
+        },
+        {
+          "attrKey": "ability_haste",
+          "value": 15
+        },
+        {
+          "attrKey": "mana",
+          "value": 500
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3004",
+        "sourceKey": "manamune",
+        "batch": "V2-BatchV-A",
+        "tags": [
+          "HasOnHit"
+        ],
+        "recordedNotSimulated": [
+          "manaflow_charge_growth",
+          "muramana_transform"
+        ]
+      }
+    },
+    {
+      "itemId": "3036",
+      "name": "Lord Dominik's Regards",
+      "goldCost": 3300,
+      "iconUrl": "item_3036",
+      "skillRefs": [
+        "item_3036_lord_dominiks_giant_slayer_batch_v_a"
+      ],
+      "recipeIds": [
+        "3035",
+        "6670"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 35
+        },
+        {
+          "attrKey": "crit_chance",
+          "value": 0.25
+        },
+        {
+          "attrKey": "armor_pen_percent",
+          "value": 0.35
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3036",
+        "sourceKey": "lord_dominik_s_regards",
+        "batch": "V2-BatchV-A",
+        "requiredTargetInput": "target_bonus_health"
+      }
+    },
+    {
+      "itemId": "6665",
+      "name": "Jak'Sho, The Protean",
+      "goldCost": 3200,
+      "iconUrl": "item_6665",
+      "skillRefs": [
+        "item_6665_jaksho_voidborn_resilience_batch_v_a"
+      ],
+      "recipeIds": [
+        "1011",
+        "1031",
+        "1057"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "armor",
+          "value": 45
+        },
+        {
+          "attrKey": "magic_resist",
+          "value": 45
+        },
+        {
+          "attrKey": "hp",
+          "value": 350
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "6665",
+        "sourceKey": "jak_sho_the_protean",
+        "batch": "V2-BatchV-A",
+        "stackPolicy": "controlled_full_stacks",
+        "requiredTargetInputs": [
+          "bonus_armor",
+          "bonus_magic_resist"
+        ]
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}

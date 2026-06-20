@@ -1,0 +1,799 @@
+{
+  "gameId": "lol",
+  "versionCode": "wiki_current_items_skills_4030984",
+  "source": {
+    "candidatesFile": "current-items.db-candidates.json",
+    "candidatesSummaryFile": "current-items.db-candidates.summary.json",
+    "reviewQueueFile": "current-items.ai-review-queue.jsonl",
+    "manifest": {
+      "apiTitle": "Module:ItemData/data",
+      "apiUrl": "https://wiki.leagueoflegends.com/en-us/api.php?action=query&prop=revisions&rvprop=ids|timestamp|content&rvslots=main&titles=Module:ItemData/data&format=json&origin=*",
+      "contentSha256": "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z",
+      "outputFiles": [
+        "current-items.raw.lua",
+        "current-items.normalized.json",
+        "current-items.summary.json",
+        "manifest.json"
+      ],
+      "removedIncluded": false,
+      "revid": 4030984,
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module:ItemData/data",
+      "timestamp": "2026-06-17T23:47:20Z"
+    },
+    "normalizedMeta": {
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z"
+    },
+    "generatedAt": "2026-06-20T10:12:10.977Z",
+    "rule": "Follow-up high-confidence wiki item passive seed; requires base item seed import first.",
+    "candidateOnly": true,
+    "dependsOn": "current-items.base-items.seed-candidate.json",
+    "dependsOnVersionCode": "wiki_current_items_base_4030984",
+    "skillCount": 7,
+    "skillOwnerItemCount": 7
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "formulaProfiles": [],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [],
+  "statusModifierGroups": [],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [],
+  "heroes": [],
+  "typeRelations": [],
+  "scenarios": [],
+  "skills": [
+    {
+      "skillId": "item_3124_on_basic_attack_hit_wiki_candidate",
+      "ownerType": "item",
+      "ownerId": "3124",
+      "skillKey": "p_on_basic_attack_hit",
+      "name": "Guinsoo's Rageblade Wrath wiki DPS candidate",
+      "description": "Wiki current-items converter candidate from Guinsoo's Rageblade; confidence=high.",
+      "params": {
+        "triggerKind": "on_basic_attack_hit",
+        "sourceItemName": "Guinsoo's Rageblade",
+        "sourceSlot": "pass",
+        "recordedNotSimulated": [],
+        "assumptions": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "item_3124_on_basic_attack_hit_wiki_candidate_trigger",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3124_on_basic_attack_hit_wiki_candidate",
+            "effectId": "item_3124_on_basic_attack_hit_wiki_candidate_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3124_on_basic_attack_hit_wiki_candidate",
+            "triggerId": "item_3124_on_basic_attack_hit_wiki_candidate_trigger",
+            "ownerRole": "attacker",
+            "triggerKind": "on_basic_attack_hit",
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 30,
+                "source": "guinsoo_s_rageblade_wrath_damage_magic_30_0",
+                "evidenceKey": "item_3124_wrath_damage_magic_30_0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3100_next_basic_attack_after_state_wiki_candidate",
+      "ownerType": "item",
+      "ownerId": "3100",
+      "skillKey": "p_next_basic_attack_after_state",
+      "name": "Lich Bane Spellblade wiki DPS candidate",
+      "description": "Wiki current-items converter candidate from Lich Bane; confidence=high.",
+      "params": {
+        "triggerKind": "next_basic_attack_after_state",
+        "sourceItemName": "Lich Bane",
+        "sourceSlot": "pass",
+        "recordedNotSimulated": [
+          "temporary_attack_speed_50_percent"
+        ],
+        "assumptions": [
+          "assumes_spell_cast_before_dps_window"
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "item_3100_next_basic_attack_after_state_wiki_candidate_trigger",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3100_spellblade_ready",
+            "sourceType": "item_passive",
+            "sourceId": "3100",
+            "activation": "assumed_spell_cast_before_start",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3100_next_basic_attack_after_state_wiki_candidate",
+            "effectId": "item_3100_next_basic_attack_after_state_wiki_candidate_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3100_next_basic_attack_after_state_wiki_candidate",
+            "triggerId": "item_3100_next_basic_attack_after_state_wiki_candidate_trigger",
+            "ownerRole": "attacker",
+            "triggerKind": "next_basic_attack_after_state",
+            "procScope": "real_basic_attack_only",
+            "requiresScenarioStateId": "item_3100_spellblade_ready",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 0.75,
+                "source": "lich_bane_spellblade_damage_magic_ad_base_0",
+                "evidenceKey": "item_3100_spellblade_damage_magic_ad_base_0"
+              },
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "attackerAttr": "ap",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 0.45,
+                "source": "lich_bane_spellblade_damage_magic_ap_resolved_1",
+                "evidenceKey": "item_3100_spellblade_damage_magic_ap_resolved_1"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3115_on_basic_attack_hit_wiki_candidate",
+      "ownerType": "item",
+      "ownerId": "3115",
+      "skillKey": "p_on_basic_attack_hit",
+      "name": "Nashor's Tooth Icathian Bite wiki DPS candidate",
+      "description": "Wiki current-items converter candidate from Nashor's Tooth; confidence=high.",
+      "params": {
+        "triggerKind": "on_basic_attack_hit",
+        "sourceItemName": "Nashor's Tooth",
+        "sourceSlot": "pass",
+        "recordedNotSimulated": [],
+        "assumptions": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "item_3115_on_basic_attack_hit_wiki_candidate_trigger",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3115_on_basic_attack_hit_wiki_candidate",
+            "effectId": "item_3115_on_basic_attack_hit_wiki_candidate_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3115_on_basic_attack_hit_wiki_candidate",
+            "triggerId": "item_3115_on_basic_attack_hit_wiki_candidate_trigger",
+            "ownerRole": "attacker",
+            "triggerKind": "on_basic_attack_hit",
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 15,
+                "attackerAttr": "ap",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 0.15,
+                "source": "nashor_s_tooth_icathian_bite_damage_magic_ap_resolved_15_0",
+                "evidenceKey": "item_3115_icathian_bite_damage_magic_ap_resolved_15_0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_1043_on_basic_attack_hit_wiki_candidate",
+      "ownerType": "item",
+      "ownerId": "1043",
+      "skillKey": "p_on_basic_attack_hit",
+      "name": "Recurve Bow Sting wiki DPS candidate",
+      "description": "Wiki current-items converter candidate from Recurve Bow; confidence=high.",
+      "params": {
+        "triggerKind": "on_basic_attack_hit",
+        "sourceItemName": "Recurve Bow",
+        "sourceSlot": "pass",
+        "recordedNotSimulated": [],
+        "assumptions": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "item_1043_on_basic_attack_hit_wiki_candidate_trigger",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_1043_on_basic_attack_hit_wiki_candidate",
+            "effectId": "item_1043_on_basic_attack_hit_wiki_candidate_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_1043_on_basic_attack_hit_wiki_candidate",
+            "triggerId": "item_1043_on_basic_attack_hit_wiki_candidate_trigger",
+            "ownerRole": "attacker",
+            "triggerKind": "on_basic_attack_hit",
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "physical",
+                "amount": 15,
+                "source": "recurve_bow_sting_damage_physical_15_0",
+                "evidenceKey": "item_1043_sting_damage_physical_15_0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3087_energized_charge_and_consume_wiki_candidate",
+      "ownerType": "item",
+      "ownerId": "3087",
+      "skillKey": "p_energized_charge_and_consume",
+      "name": "Statikk Shiv energized_charge_and_consume wiki DPS candidate",
+      "description": "Wiki current-items converter candidate from Statikk Shiv; confidence=high.",
+      "params": {
+        "triggerKind": "energized_charge_and_consume",
+        "sourceItemName": "Statikk Shiv",
+        "sourceSlot": null,
+        "recordedNotSimulated": [
+          "chain_bounce_clause",
+          "chain_lightning_clause",
+          "closest_target_clause",
+          "repeating_target_clause",
+          "secondary_targets_clause",
+          "movement_charge_gain"
+        ],
+        "assumptions": [
+          "assumes_charge_at_threshold_before_dps_window"
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "item_3087_energized_charge_and_consume_wiki_candidate_trigger",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "item_3087_energized",
+            "sourceType": "item_passive",
+            "sourceId": "3087",
+            "activation": "assumed_charge_before_start",
+            "stacks": 100,
+            "startTimeMs": 0,
+            "durationMs": 0
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3087_energized_charge_and_consume_wiki_candidate",
+            "effectId": "item_3087_energized_charge_and_consume_wiki_candidate_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3087_energized_charge_and_consume_wiki_candidate",
+            "triggerId": "item_3087_energized_charge_and_consume_wiki_candidate_trigger",
+            "ownerRole": "attacker",
+            "triggerKind": "energized_charge_and_consume",
+            "chargeKey": "item_3087_energized",
+            "chargeThreshold": 100,
+            "chargeCap": 100,
+            "chargeGainPerBasicAttack": 15,
+            "consumeChargeOnTrigger": true,
+            "chargeReadyPolicy": "next_basic_attack_after_threshold_reached",
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 60,
+                "source": "statikk_shiv_energized_damage_magic_60_0",
+                "evidenceKey": "item_3087_energized_damage_magic_60_0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3302_on_basic_attack_hit_wiki_candidate",
+      "ownerType": "item",
+      "ownerId": "3302",
+      "skillKey": "p_on_basic_attack_hit",
+      "name": "Terminus Shadow wiki DPS candidate",
+      "description": "Wiki current-items converter candidate from Terminus; confidence=high.",
+      "params": {
+        "triggerKind": "on_basic_attack_hit",
+        "sourceItemName": "Terminus",
+        "sourceSlot": "pass",
+        "recordedNotSimulated": [],
+        "assumptions": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "item_3302_on_basic_attack_hit_wiki_candidate_trigger",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3302_on_basic_attack_hit_wiki_candidate",
+            "effectId": "item_3302_on_basic_attack_hit_wiki_candidate_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3302_on_basic_attack_hit_wiki_candidate",
+            "triggerId": "item_3302_on_basic_attack_hit_wiki_candidate_trigger",
+            "ownerRole": "attacker",
+            "triggerKind": "on_basic_attack_hit",
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 30,
+                "source": "terminus_shadow_damage_magic_30_0",
+                "evidenceKey": "item_3302_shadow_damage_magic_30_0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3091_on_basic_attack_hit_wiki_candidate",
+      "ownerType": "item",
+      "ownerId": "3091",
+      "skillKey": "p_on_basic_attack_hit",
+      "name": "Wit's End Fray wiki DPS candidate",
+      "description": "Wiki current-items converter candidate from Wit's End; confidence=high.",
+      "params": {
+        "triggerKind": "on_basic_attack_hit",
+        "sourceItemName": "Wit's End",
+        "sourceSlot": "pass",
+        "recordedNotSimulated": [],
+        "assumptions": []
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "item_3091_on_basic_attack_hit_wiki_candidate_trigger",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3091_on_basic_attack_hit_wiki_candidate",
+            "effectId": "item_3091_on_basic_attack_hit_wiki_candidate_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3091_on_basic_attack_hit_wiki_candidate",
+            "triggerId": "item_3091_on_basic_attack_hit_wiki_candidate_trigger",
+            "ownerRole": "attacker",
+            "triggerKind": "on_basic_attack_hit",
+            "procScope": "real_basic_attack_only",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 45,
+                "source": "wit_s_end_fray_damage_magic_45_0",
+                "evidenceKey": "item_3091_fray_damage_magic_45_0"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3124",
+      "name": "Guinsoo's Rageblade",
+      "goldCost": 3000,
+      "iconUrl": "item_3124",
+      "skillRefs": [
+        "item_3124_on_basic_attack_hit_wiki_candidate"
+      ],
+      "recipeIds": [
+        "1052",
+        "1043",
+        "1037"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 30
+        },
+        {
+          "attrKey": "ap",
+          "value": 30
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.25
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3124",
+        "sourceKey": "guinsoo_s_rageblade",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ]
+      }
+    },
+    {
+      "itemId": "3100",
+      "name": "Lich Bane",
+      "goldCost": 2900,
+      "iconUrl": "item_3100",
+      "skillRefs": [
+        "item_3100_next_basic_attack_after_state_wiki_candidate"
+      ],
+      "recipeIds": [
+        "3057",
+        "3113",
+        "1026"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ability_haste",
+          "value": 10
+        },
+        {
+          "attrKey": "ap",
+          "value": 100
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.06
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3100",
+        "sourceKey": "lich_bane",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ]
+      }
+    },
+    {
+      "itemId": "3115",
+      "name": "Nashor's Tooth",
+      "goldCost": 2900,
+      "iconUrl": "item_3115",
+      "skillRefs": [
+        "item_3115_on_basic_attack_hit_wiki_candidate"
+      ],
+      "recipeIds": [
+        "1043",
+        "1026",
+        "3108"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ability_haste",
+          "value": 15
+        },
+        {
+          "attrKey": "ap",
+          "value": 80
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.5
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3115",
+        "sourceKey": "nashor_s_tooth",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ]
+      }
+    },
+    {
+      "itemId": "1043",
+      "name": "Recurve Bow",
+      "goldCost": 700,
+      "iconUrl": "item_1043",
+      "skillRefs": [
+        "item_1043_on_basic_attack_hit_wiki_candidate"
+      ],
+      "recipeIds": [
+        "1042"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "attack_speed",
+          "value": 0.15
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "1043",
+        "sourceKey": "recurve_bow",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": false
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ]
+      }
+    },
+    {
+      "itemId": "3087",
+      "name": "Statikk Shiv",
+      "goldCost": 3000,
+      "iconUrl": "item_3087",
+      "skillRefs": [
+        "item_3087_energized_charge_and_consume_wiki_candidate"
+      ],
+      "recipeIds": [
+        "3144",
+        "1037",
+        "3113"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 45
+        },
+        {
+          "attrKey": "ap",
+          "value": 45
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.3
+        },
+        {
+          "attrKey": "ms_pct",
+          "value": 0.04
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3087",
+        "sourceKey": "statikk_shiv",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": []
+      }
+    },
+    {
+      "itemId": "3302",
+      "name": "Terminus",
+      "goldCost": 3000,
+      "iconUrl": "item_3302",
+      "skillRefs": [
+        "item_3302_on_basic_attack_hit_wiki_candidate"
+      ],
+      "recipeIds": [
+        "3051",
+        "1043"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "ad",
+          "value": 30
+        },
+        {
+          "attrKey": "attack_speed",
+          "value": 0.35
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3302",
+        "sourceKey": "terminus",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ]
+      }
+    },
+    {
+      "itemId": "3091",
+      "name": "Wit's End",
+      "goldCost": 2800,
+      "iconUrl": "item_3091",
+      "skillRefs": [
+        "item_3091_on_basic_attack_hit_wiki_candidate"
+      ],
+      "recipeIds": [
+        "1043",
+        "1057",
+        "1043"
+      ],
+      "statModifiers": [
+        {
+          "attrKey": "attack_speed",
+          "value": 0.5
+        },
+        {
+          "attrKey": "magic_resist",
+          "value": 45
+        },
+        {
+          "attrKey": "tenacity",
+          "value": 0.2
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items",
+        "sourceItemId": "3091",
+        "sourceKey": "wit_s_end",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ],
+        "statModifierSources": [
+          {
+            "canonicalAttrKey": "magic_resist",
+            "contributions": [
+              {
+                "sourceAttrKey": "mr",
+                "sourceStatKey": "mr",
+                "sourceValue": 45,
+                "value": 45,
+                "mode": "flat"
+              }
+            ]
+          },
+          {
+            "canonicalAttrKey": "tenacity",
+            "contributions": [
+              {
+                "sourceAttrKey": "tenacity_pct",
+                "sourceStatKey": "tenacity",
+                "sourceValue": 20,
+                "value": 0.2,
+                "mode": "percent"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

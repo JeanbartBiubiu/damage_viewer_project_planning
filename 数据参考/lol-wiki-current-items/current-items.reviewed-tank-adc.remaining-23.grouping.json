@@ -1,0 +1,600 @@
+{
+  "schemaVersion": "reviewed_tank_adc_remaining_grouping.v1",
+  "generatedAt": "2026-06-20T00:00:00+08:00",
+  "scope": {
+    "sourceReviewChoice": "现在做",
+    "sourceAudience": "tank_adc_only",
+    "historyRemovedItemsIncluded": false,
+    "description": "23 unique items from the reviewed tank/ADC set that currently have no imported/testable passive effect in the current seed bundle."
+  },
+  "sourceFiles": {
+    "conversionAudit": "C:\\project\\damage_wasm_dev\\数据参考\\lol-wiki-current-items\\current-items.reviewed-tank-adc.conversion-audit.json",
+    "backlog": "C:\\project\\damage_wasm_dev\\数据参考\\lol-wiki-current-items\\current-items.reviewed-tank-adc.backlog.json",
+    "seedCandidate": "C:\\project\\damage_wasm_dev\\数据参考\\lol-wiki-current-items\\current-items.reviewed-tank-adc.seed-candidate.json",
+    "reviewWorkbook": "C:\\project\\damage_wasm_dev\\数据参考\\lol-wiki-current-items\\review\\current-items-effect-review-neutral-zh-tank-adc.xlsx"
+  },
+  "currentFacts": {
+    "reviewNowRows": 54,
+    "reviewNowUniqueItems": 39,
+    "uniqueItemsWithImportedOrTestableEffect": 16,
+    "remainingUniqueItemsWithoutImportedEffect": 23,
+    "groupCounts": {
+      "data_seed_or_policy": 11,
+      "runtime_plan_required": 12
+    }
+  },
+  "userDecision20260620": {
+    "decisionSource": "User review after B-group capability explanation.",
+    "summary": "Current near-term DPS scope only cares about outgoing/basic-attack damage. Most defensive, healing, aura, lifeline, and active-skill cooldown capabilities are deferred. Keep 3082 and 3302 as generic formula/expression capability backlog, not item-specific light patches.",
+    "postDecisionCounts": {
+      "deferredRuntimeBacklog": 9,
+      "preWasmAdapterOrDataPolicy": 1,
+      "generalFormulaExpressionCapabilityBacklog": 2
+    },
+    "deferredRuntimeBacklog": [
+      {
+        "capability": "threshold shield / lifeline / overheal shield",
+        "itemIds": [
+          "2504",
+          "3072",
+          "3155",
+          "3156",
+          "6673"
+        ],
+        "userDecision": "暂时不做"
+      },
+      {
+        "capability": "heal/shield/regen amplification",
+        "itemIds": [
+          "3065"
+        ],
+        "userDecision": "暂时不做；现在 DPS 只测输出"
+      },
+      {
+        "capability": "target-owned periodic aura damage to attacker",
+        "itemIds": [
+          "3068",
+          "6664"
+        ],
+        "userDecision": "暂时不做"
+      },
+      {
+        "capability": "basic attack reduces active skill cooldown",
+        "itemIds": [
+          "6675"
+        ],
+        "userDecision": "后面再开发；现在只管平 A"
+      }
+    ],
+    "preWasmAdapterOrDataPolicy": [
+      {
+        "capability": "Heartsteel permanent/max HP growth baseline",
+        "itemIds": [
+          "3084"
+        ],
+        "userDecision": "晚点；更适合在传结构体给 Wasm 前拦截修改，不作为近期 runtime 能力开发"
+      }
+    ],
+    "generalFormulaExpressionCapabilityBacklog": [
+      {
+        "capability": "formula damage input and final/delta expression",
+        "itemIds": [
+          "3082"
+        ],
+        "answerToUserQuestion": "用户理解正确：3082 不应该按单件 raw-relative cap 补丁处理。公式字节码已有 max/min/input，真正缺口是 DPS hp_change/公式路径要能把本次伤害量暴露为 formula input，并允许公式结果驱动 final damage 或 damage delta。"
+      },
+      {
+        "capability": "formula modulo plus hit-count/parity metric",
+        "itemIds": [
+          "3302"
+        ],
+        "answerToUserQuestion": "用户理解正确：不要为了界弓写次数%2的轻量专用分支。现有 every_n_basic_attack_hit 只是专用触发器内部用取余；后续应补公式 AST/bytecode 的 mod 运算，并给公式条件暴露 hit count/parity 这类通用指标。"
+      }
+    ]
+  },
+  "sourceCodeCapabilitySnapshot": {
+    "dpsEntry": "wasm/tinygo_engine_v2/internal/runtime/dps_driver.go#runSingleAttackerDPS",
+    "hpChangeBucketStages": [
+      "hp_change/outgoing/pre_mitigation",
+      "hp_change/incoming/pre_mitigation",
+      "hp_change/final/post_mitigation",
+      "hp_change/flat/post_percent"
+    ],
+    "supportedModifierValueSpecs": [
+      "literal",
+      "attr_ratio",
+      "hp_ratio",
+      "hp_diff_ratio",
+      "formula",
+      "crit_scaling"
+    ],
+    "importantLimits": [
+      "formula bytecode already supports max/min/input, but DPS modifier evaluation does not yet bind input to the current damage amount.",
+      "formula valueSpec currently rejects resource and counter readers in DPS modifier context.",
+      "formula bytecode does not yet have a generic mod/remainder opcode; every_n_basic_attack_hit only uses modulo internally as a dedicated trigger kind.",
+      "target bonus health and item-sourced bonus armor/MR are not first-class DPS metrics; they need adapter/data policy attributes if used without runtime changes.",
+      "flat post-percent bucket clamp is absolute, not relative to the incoming raw amount; Warden's Mail 20% cap is not exact with current data-only encoding.",
+      "DPS apply_dot ticks currently damage the target side; target-owned aura damage back to attacker needs runtime work.",
+      "Single-attacker DPS has generic shield support in normal runtime, but no item passive lifeline/threshold shield dispatcher in the DPS lane."
+    ]
+  },
+  "groups": {
+    "data_seed_or_policy": {
+      "meaning": "Can be handled without adding new Wasm runtime capability: convert now, resolve source/policy first, or keep excluded because it has no current single-attacker DPS value.",
+      "items": [
+        {
+          "itemId": "1083",
+          "itemName": "Cull",
+          "itemNameZh": "萃取",
+          "subcategory": "keep_excluded_no_current_dps",
+          "effects": [
+            {
+              "effectName": "Reap",
+              "sourceKey": "cull",
+              "currentDisposition": "excluded",
+              "currentReason": "economy_gold_effect"
+            }
+          ],
+          "rationale": "只影响补刀金币，不改变单攻方 DPS 或靶子承伤。",
+          "nextAction": "保持排除；DB 可只保留基础属性/面板数据。"
+        },
+        {
+          "itemId": "2051",
+          "itemName": "Guardian's Horn",
+          "itemNameZh": "守护者号角",
+          "subcategory": "ready_to_convert_basic_dps",
+          "effects": [
+            {
+              "effectName": "Undaunted",
+              "sourceKey": "guardian_s_horn",
+              "currentDisposition": "backlog",
+              "currentReason": "flat_incoming_damage_reduction_requires_hp_change_flat_post_percent_bucket"
+            }
+          ],
+          "rationale": "现有 hp_change/flat/post_percent + flat_delta 已可表达普通伤害固定减免；DoT 3.75 分支在当前基础普攻 DPS 流程中不触发。",
+          "dependencies": [
+            "转换层补 hp_change/flat/post_percent bucket",
+            "仅声明 basic/non-dot 受控范围"
+          ],
+          "nextAction": "作为数据转换候选导入并单件测试；若以后要精确 DoT 分支，再补条件指标。"
+        },
+        {
+          "itemId": "2512",
+          "itemName": "Fiendhunter Bolts",
+          "itemNameZh": "猎魔人弩箭",
+          "subcategory": "keep_excluded_no_current_dps",
+          "effects": [
+            {
+              "effectName": "Night Vigil",
+              "sourceKey": "fiendhunter_bolts",
+              "currentDisposition": "excluded",
+              "currentReason": "ultimate_haste_not_single_attacker_basic_dps"
+            }
+          ],
+          "rationale": "只影响大招急速，当前基础普攻 DPS 不消费该属性。",
+          "nextAction": "保持排除；等主动技能/大招 DPS 建模后再重新评估。"
+        },
+        {
+          "itemId": "2523",
+          "itemName": "Hexoptics C44",
+          "itemNameZh": "海克斯镜片 C44",
+          "subcategory": "needs_source_resolution_before_seed",
+          "effects": [
+            {
+              "effectName": "Arcane Aim",
+              "sourceKey": "hexoptics_c44",
+              "currentDisposition": "blocked",
+              "currentReason": "source_text_is_range_on_takedown_but_user_note_requests_damage_multiplier; needs_source_resolution_before_seed"
+            },
+            {
+              "effectName": "Magnification",
+              "sourceKey": "hexoptics_c44",
+              "currentDisposition": "backlog",
+              "currentReason": "requires_outgoing_hp_change_coefficient_bucket_or_damage_multiplier_runtime_seed; user_requested_fixed_10_percent"
+            }
+          ],
+          "rationale": "Magnification 可用 hp_change/outgoing/pre_mitigation 百分比增伤表达；Arcane Aim 与用户标注存在文本冲突，先不能自动发布。",
+          "dependencies": [
+            "人工确认 Hexoptics C44 哪个效果进入当前 DPS 范围",
+            "如采纳用户固定 10%，转换层写成受控政策值"
+          ],
+          "nextAction": "先保留 source_resolution 标记；确认后再转换，不需要先补 runtime。"
+        },
+        {
+          "itemId": "3004",
+          "itemName": "Manamune",
+          "itemNameZh": "魔宗",
+          "subcategory": "needs_data_policy_before_convert",
+          "effects": [
+            {
+              "effectName": "Manaflow",
+              "sourceKey": "manamune",
+              "currentDisposition": "backlog",
+              "currentReason": "mana_charge_growth_not_direct_dps_seed; needs_max_mana_baseline_policy"
+            },
+            {
+              "effectName": "Awe",
+              "sourceKey": "manamune",
+              "currentDisposition": "backlog",
+              "currentReason": "bonus_ad_from_maximum_mana_requires_explicit_mana_baseline_or_attribute_bucket"
+            }
+          ],
+          "rationale": "如果把 maximum mana 作为 DPS 属性 mana 的 resolved 值，Awe 可用 attr_ratio 转成 AD；Manaflow 叠最大法力属于成长/基线政策，不直接进单件 DPS。",
+          "dependencies": [
+            "明确 mana 在 DPS 中按属性而不是 resource reader 处理",
+            "转换层只导 Awe 或导入一个满/未满充能政策版本"
+          ],
+          "nextAction": "先按 mana 属性策略准备转换；不要为 resource reader 直接改 runtime。"
+        },
+        {
+          "itemId": "3033",
+          "itemName": "Mortal Reminder",
+          "itemNameZh": "凡性的提醒",
+          "subcategory": "keep_excluded_no_current_dps",
+          "effects": [
+            {
+              "effectName": "Grievous Wounds",
+              "sourceKey": "mortal_reminder",
+              "currentDisposition": "excluded",
+              "currentReason": "grievous_wounds_only_matters_with_target_healing_model"
+            }
+          ],
+          "rationale": "重伤只影响目标治疗；当前单攻方基础 DPS 不模拟目标治疗。",
+          "nextAction": "保持排除；等治疗模型进入 DPS 再回收。"
+        },
+        {
+          "itemId": "3036",
+          "itemName": "Lord Dominik's Regards",
+          "itemNameZh": "多米尼克领主的致意",
+          "subcategory": "needs_data_policy_before_convert",
+          "effects": [
+            {
+              "effectName": "Giant Slayer",
+              "sourceKey": "lord_dominik_s_regards",
+              "currentDisposition": "backlog",
+              "currentReason": "target_bonus_health_damage_multiplier_requires_outgoing_hp_change_coefficient_bucket"
+            }
+          ],
+          "rationale": "现有 hp_change/outgoing/pre_mitigation 可表达增伤乘区；缺的是 target_bonus_health 的数据来源。可由 Web/转换层给目标快照补 item-sourced bonus health 属性，或受控测试中显式给定。",
+          "dependencies": [
+            "target_bonus_health 或等价输入政策",
+            "转换层写 clamp 0..15% 的 valueSpec"
+          ],
+          "nextAction": "先作为数据/适配策略项；确认目标 bonus health 来源后导入。"
+        },
+        {
+          "itemId": "3083",
+          "itemName": "Warmog's Armor",
+          "itemNameZh": "狂徒铠甲",
+          "subcategory": "needs_data_policy_before_convert",
+          "effects": [
+            {
+              "effectName": "",
+              "sourceKey": "warmog_s_armor",
+              "currentDisposition": "excluded",
+              "currentReason": "conditional_regen_enable_no_direct_damage_effect"
+            },
+            {
+              "effectName": "Warmog's Heart",
+              "sourceKey": "warmog_s_armor",
+              "currentDisposition": "backlog",
+              "currentReason": "out_of_combat_regen_not_single_attacker_dps_damage_seed"
+            },
+            {
+              "effectName": "Warmog's Vitality",
+              "sourceKey": "warmog_s_armor",
+              "currentDisposition": "backlog",
+              "currentReason": "bonus_health_from_items_requires_item_sourced_hp_attribute_bucket"
+            }
+          ],
+          "rationale": "战斗外回血不进当前 DPS；Vitality 是靶子最大生命值基线/装备来源属性问题，不必先补 Wasm runtime。",
+          "dependencies": [
+            "item_sourced_bonus_health 或 bonus_health_from_items 计算政策"
+          ],
+          "nextAction": "先导基础属性；Vitality 等目标装备属性聚合策略明确后再导。"
+        },
+        {
+          "itemId": "3123",
+          "itemName": "Executioner's Calling",
+          "itemNameZh": "死刑宣告",
+          "subcategory": "keep_excluded_no_current_dps",
+          "effects": [
+            {
+              "effectName": "Grievous Wounds",
+              "sourceKey": "executioner_s_calling",
+              "currentDisposition": "excluded",
+              "currentReason": "grievous_wounds_only_matters_with_target_healing_model"
+            }
+          ],
+          "rationale": "同凡性的提醒，当前没有目标治疗模型。",
+          "nextAction": "保持排除。"
+        },
+        {
+          "itemId": "6665",
+          "itemName": "Jak'Sho, The Protean",
+          "itemNameZh": "千变者贾修",
+          "subcategory": "needs_data_policy_before_convert",
+          "effects": [
+            {
+              "effectName": "Voidborn Resilience",
+              "sourceKey": "jak_sho_the_protean",
+              "currentDisposition": "backlog",
+              "currentReason": "bonus_armor_mr_percent_requires_bonus_only_attribute_bucket_not_total_resist_percent"
+            }
+          ],
+          "rationale": "现有 attribute bucket 可把某个属性按 attr_ratio 加到 armor/magic_resist；真正缺的是 bonus_armor/bonus_magic_resist 的数据属性和满层政策。",
+          "dependencies": [
+            "target bonus armor/MR from items 的适配层属性",
+            "受控测试可先按满层 30% 处理"
+          ],
+          "nextAction": "先列为数据/适配策略项；不先补 runtime。"
+        },
+        {
+          "itemId": "8020",
+          "itemName": "Abyssal Mask",
+          "itemNameZh": "深渊面具",
+          "subcategory": "keep_excluded_no_current_dps",
+          "effects": [
+            {
+              "effectName": "Unmake",
+              "sourceKey": "abyssal_mask",
+              "currentDisposition": "excluded",
+              "currentReason": "target_wearing_item_increases_damage_taken_by_nearby_enemies_not_damage_taken_by_target_dummy"
+            }
+          ],
+          "rationale": "靶子穿深渊面具时，效果是让靶子附近敌人受到更多魔法伤害，不是让靶子自己更易受伤；当前目标语义下不能导成靶子承伤增益。",
+          "nextAction": "保持排除；除非以后支持 aura target inversion 或 attacker wearing 语义。"
+        }
+      ]
+    },
+    "runtime_plan_required": {
+      "meaning": "Do not convert directly yet. These need a runtime capability design first, or at least an explicit controlled-baseline plan before any code is written.",
+      "items": [
+        {
+          "itemId": "2504",
+          "itemName": "Kaenic Rookern",
+          "itemNameZh": "败魔",
+          "subcategory": "needs_runtime_shield_plan",
+          "effects": [
+            {
+              "effectName": "Magebane",
+              "sourceKey": "kaenic_rookern",
+              "currentDisposition": "backlog",
+              "currentReason": "magic_shield_runtime_not_expressed_as_dps_passive_seed"
+            }
+          ],
+          "runtimeNeed": "DPS lane needs item-owned pre-enabled/timed magic shield state and shield evidence for target equipment.",
+          "planBucket": "shield_and_lifeline"
+        },
+        {
+          "itemId": "3065",
+          "itemName": "Spirit Visage",
+          "itemNameZh": "振奋盔甲",
+          "subcategory": "needs_runtime_heal_shield_amp_plan",
+          "effects": [
+            {
+              "effectName": "Boundless Vitality",
+              "sourceKey": "spirit_visage",
+              "currentDisposition": "backlog",
+              "currentReason": "healing_shielding_amp_not_relevant_without_heal_or_shield_runtime_target"
+            }
+          ],
+          "runtimeNeed": "If target shields/heals enter DPS, received heal/shield amplification must be applied in the shield/heal pipeline instead of being approximated in item data.",
+          "planBucket": "shield_and_heal_amplification"
+        },
+        {
+          "itemId": "3068",
+          "itemName": "Sunfire Aegis",
+          "itemNameZh": "日炎圣盾",
+          "subcategory": "needs_runtime_target_aura_dot_plan",
+          "effects": [
+            {
+              "effectName": "Immolate",
+              "sourceKey": "sunfire_aegis",
+              "currentDisposition": "backlog",
+              "currentReason": "periodic_aura_damage_to_attacker_from_target_item_is_not_encoded_without_target_role_dot_support"
+            }
+          ],
+          "runtimeNeed": "Target-owned periodic aura needs to damage attacker side on combat/taken/dealt activation; current DPS dot ticks damage target only.",
+          "planBucket": "target_owned_periodic_aura"
+        },
+        {
+          "itemId": "3072",
+          "itemName": "Bloodthirster",
+          "itemNameZh": "饮血剑",
+          "subcategory": "needs_runtime_overheal_shield_plan",
+          "effects": [
+            {
+              "effectName": "Ichorshield",
+              "sourceKey": "bloodthirster",
+              "currentDisposition": "backlog",
+              "currentReason": "overheal_to_shield_runtime_not_expressed_as_dps_passive_seed"
+            }
+          ],
+          "runtimeNeed": "Life steal overheal needs healing event capture, max-health overflow calculation, and shield creation in DPS evidence.",
+          "planBucket": "shield_and_lifeline"
+        },
+        {
+          "itemId": "3082",
+          "itemName": "Warden's Mail",
+          "itemNameZh": "守望者铠甲",
+          "subcategory": "needs_general_formula_damage_input_plan",
+          "effects": [
+            {
+              "effectName": "Rock Solid",
+              "sourceKey": "warden_s_mail",
+              "currentDisposition": "backlog",
+              "currentReason": "flat_basic_damage_reduction_with_20pct_cap_requires_formula_input_damage_amount_and_formula_driven_final_delta"
+            }
+          ],
+          "runtimeNeed": "Exact Warden's Mail is not missing max: formula already has max/min. It needs the DPS hp_change/formula path to expose the current post-mitigation damage amount as formula input and let the formula result drive final damage or damage delta.",
+          "planBucket": "general_formula_damage_input"
+        },
+        {
+          "itemId": "3084",
+          "itemName": "Heartsteel",
+          "itemNameZh": "心之钢",
+          "subcategory": "needs_runtime_or_controlled_baseline_plan",
+          "effects": [
+            {
+              "effectName": "Colossal Consumption",
+              "sourceKey": "heartsteel",
+              "currentDisposition": "backlog",
+              "currentReason": "attacker_owned_on_hit_and_permanent_hp_growth_not_target_side_incoming_effect; needs_target_hp_customization_scope"
+            },
+            {
+              "effectName": "Goliath",
+              "sourceKey": "heartsteel",
+              "currentDisposition": "excluded",
+              "currentReason": "size_increase_no_dps_effect"
+            }
+          ],
+          "runtimeNeed": "Exact behavior needs per-target stack readiness, on-hit damage, and permanent max-HP growth. For target dummy use, a manual bonus-HP preset may be acceptable but must be declared separately.",
+          "planBucket": "permanent_stat_growth_or_manual_baseline"
+        },
+        {
+          "itemId": "3155",
+          "itemName": "Hexdrinker",
+          "itemNameZh": "海克斯饮魔刀",
+          "subcategory": "needs_runtime_lifeline_plan",
+          "effects": [
+            {
+              "effectName": "Lifeline",
+              "sourceKey": "hexdrinker",
+              "currentDisposition": "backlog",
+              "currentReason": "threshold_magic_shield_runtime_not_expressed_as_dps_passive_seed"
+            }
+          ],
+          "runtimeNeed": "Damage-that-would-drop-below-threshold must be intercepted before HP loss and grant a magic shield.",
+          "planBucket": "shield_and_lifeline"
+        },
+        {
+          "itemId": "3156",
+          "itemName": "Maw of Malmortius",
+          "itemNameZh": "玛莫提乌斯之噬",
+          "subcategory": "needs_runtime_lifeline_plan",
+          "effects": [
+            {
+              "effectName": "Lifeline",
+              "sourceKey": "maw_of_malmortius",
+              "currentDisposition": "backlog",
+              "currentReason": "threshold_magic_shield_and_omnivamp_runtime_not_expressed_as_dps_passive_seed"
+            }
+          ],
+          "runtimeNeed": "Same threshold magic shield as Hexdrinker, plus post-trigger omnivamp/healing interaction if modeled.",
+          "planBucket": "shield_and_lifeline"
+        },
+        {
+          "itemId": "3302",
+          "itemName": "Terminus",
+          "itemNameZh": "界弓",
+          "subcategory": "needs_general_formula_modulo_condition_plan",
+          "effects": [
+            {
+              "effectName": "Juxtaposition",
+              "sourceKey": "terminus",
+              "currentDisposition": "backlog",
+              "currentReason": "light_dark_alternation_should_use_generic_formula_modulo_and_hit_count_metric_not_item_specific_state_patch"
+            }
+          ],
+          "runtimeNeed": "Existing every_n_basic_attack_hit uses modulo internally, but formula AST/bytecode has no mod op and DPS formula conditions do not expose a hit sequence/count metric. Exact Terminus should be planned as generic formula modulo plus hit-count/parity source, then encoded with ordinary stack modifiers where possible.",
+          "planBucket": "general_formula_modulo_and_hit_count_metric"
+        },
+        {
+          "itemId": "6664",
+          "itemName": "Hollow Radiance",
+          "itemNameZh": "璀璨回响",
+          "subcategory": "needs_runtime_target_aura_dot_plan",
+          "effects": [
+            {
+              "effectName": "Immolate",
+              "sourceKey": "hollow_radiance",
+              "currentDisposition": "backlog",
+              "currentReason": "periodic_aura_damage_to_attacker_from_target_item_is_not_encoded_without_target_role_dot_support"
+            }
+          ],
+          "runtimeNeed": "Same target-owned aura as Sunfire, with Hollow Radiance numeric profile.",
+          "planBucket": "target_owned_periodic_aura"
+        },
+        {
+          "itemId": "6673",
+          "itemName": "Immortal Shieldbow",
+          "itemNameZh": "不朽盾弓",
+          "subcategory": "needs_runtime_lifeline_plan",
+          "effects": [
+            {
+              "effectName": "Lifeline",
+              "sourceKey": "immortal_shieldbow",
+              "currentDisposition": "backlog",
+              "currentReason": "threshold_shield_runtime_not_expressed_as_dps_passive_seed"
+            }
+          ],
+          "runtimeNeed": "Damage-that-would-drop-below-threshold must trigger all-damage shield before HP damage resolves.",
+          "planBucket": "shield_and_lifeline"
+        },
+        {
+          "itemId": "6675",
+          "itemName": "Navori Flickerblade",
+          "itemNameZh": "纳沃利烁刃",
+          "subcategory": "needs_runtime_active_skill_cooldown_plan",
+          "effects": [
+            {
+              "effectName": "Transcendence",
+              "sourceKey": "navori_flickerblade",
+              "currentDisposition": "backlog",
+              "currentReason": "basic_ability_cooldown_reduction_not_modeled_in_single_attacker_dps"
+            }
+          ],
+          "runtimeNeed": "Current basic-only DPS has no user-facing value for this passive. If active skill DPS is enabled, basic attack hits must reduce scheduled basic ability cooldowns.",
+          "planBucket": "active_skill_cooldown_mutation"
+        }
+      ]
+    }
+  },
+  "recommendedExecutionOrder": [
+    {
+      "step": 1,
+      "name": "Data/policy conversions",
+      "items": [
+        "2051",
+        "3004",
+        "3036",
+        "6665"
+      ],
+      "note": "Only after the required target bonus/mana/bonus-resist policy is encoded. Keep excluded items excluded."
+    },
+    {
+      "step": 2,
+      "name": "Pre-Wasm adapter/data policy",
+      "items": [
+        "3084"
+      ],
+      "note": "Heartsteel target HP baseline should be handled before passing the structure to Wasm, not as near-term runtime work."
+    },
+    {
+      "step": 3,
+      "name": "General formula/expression capability planning",
+      "items": [
+        "3082",
+        "3302"
+      ],
+      "note": "Plan as shared formula capability: damage amount input/final-delta formulas for 3082, and generic mod plus hit-count/parity metric for 3302."
+    },
+    {
+      "step": 4,
+      "name": "Deferred runtime backlog",
+      "items": [
+        "2504",
+        "3065",
+        "3068",
+        "3072",
+        "3155",
+        "3156",
+        "6664",
+        "6673",
+        "6675"
+      ],
+      "note": "Deferred by user decision for the current basic-attack DPS-only scope."
+    }
+  ]
+}
