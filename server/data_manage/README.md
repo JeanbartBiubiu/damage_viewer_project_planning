@@ -60,6 +60,7 @@
 
 `db/game_manage/schema.sql` 适用于新库初始化；已有库不会因为 `CREATE TABLE IF NOT EXISTS` 自动调整列宽。
 如果已有环境的 `game_versions.version_code` 或 `published_bundle_snapshots.version_code` 仍是 `varchar(32)`，先执行 `db/game_manage/version_code_varchar64_compatibility_migration.sql`，再发布长度超过 32 的版本码。
+如果已有环境的 `coefficient_buckets.stage_key` 或 `coefficient_buckets_log.stage_key` 仍是 `varchar(32)`，先执行 `db/game_manage/coefficient_bucket_stage_key_varchar64_compatibility_migration.sql`。
 
 ## 配置与环境变量
 
