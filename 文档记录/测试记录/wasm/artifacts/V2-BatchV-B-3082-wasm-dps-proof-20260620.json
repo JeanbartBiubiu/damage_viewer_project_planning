@@ -1,0 +1,170 @@
+{
+  "generatedAt": "2026-06-20T12:01:58.594Z",
+  "caseId": "V2-BatchV-B-3082-published-wasm-dps-proof-20260620",
+  "versionCode": "v2_batch_v_b_3082_wardens_mail_001",
+  "wasmPath": "C:\\project\\damage_wasm_dev\\wasm\\tinygo_engine_v2\\dist\\tinygo_engine_v2.wasm",
+  "wasmBytes": 736544,
+  "wasmSha256": "D12B7D109BA48595862C02066C9D68049D59C429E6940B57050CE2A593C86852",
+  "expectations": {
+    "baseline_no_3082": 100,
+    "target_3082_formula_input_100": 85,
+    "target_3082_formula_input_40": 32,
+    "target_3082_formula_input_10": 8,
+    "target_3082_with_40_armor_stat": 57.142857
+  },
+  "curves": [
+    {
+      "curveId": "baseline_no_3082",
+      "status": "ok",
+      "blockedReasons": [],
+      "totalDamage": 100,
+      "firstDamage": {
+        "rawDamage": 100,
+        "finalDamage": 100,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9900
+      },
+      "coefficientBuckets": []
+    },
+    {
+      "curveId": "target_3082_formula_input_100",
+      "status": "ok",
+      "blockedReasons": [],
+      "totalDamage": 85,
+      "firstDamage": {
+        "rawDamage": 100,
+        "finalDamage": 85,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9915
+      },
+      "coefficientBuckets": [
+        {
+          "bucketKey": "wardens_mail_post_mitigation_final",
+          "stageKey": "hp_change/final/post_mitigation",
+          "aggregationMode": "set_final",
+          "valueUnit": "final_value",
+          "raw": 100,
+          "result": 85,
+          "evidenceKeys": [
+            "item_3082_rock_solid_max_input_minus_15_input_times_0_8"
+          ],
+          "candidates": [
+            {
+              "source": "wardens_mail_rock_solid_final_damage",
+              "passiveId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+              "operationKind": "damage_modifier",
+              "value": 85,
+              "evidenceKey": "item_3082_rock_solid_max_input_minus_15_input_times_0_8",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "curveId": "target_3082_formula_input_40",
+      "status": "ok",
+      "blockedReasons": [],
+      "totalDamage": 32,
+      "firstDamage": {
+        "rawDamage": 40,
+        "finalDamage": 32,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9968
+      },
+      "coefficientBuckets": [
+        {
+          "bucketKey": "wardens_mail_post_mitigation_final",
+          "stageKey": "hp_change/final/post_mitigation",
+          "aggregationMode": "set_final",
+          "valueUnit": "final_value",
+          "raw": 40,
+          "result": 32,
+          "evidenceKeys": [
+            "item_3082_rock_solid_max_input_minus_15_input_times_0_8"
+          ],
+          "candidates": [
+            {
+              "source": "wardens_mail_rock_solid_final_damage",
+              "passiveId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+              "operationKind": "damage_modifier",
+              "value": 32,
+              "evidenceKey": "item_3082_rock_solid_max_input_minus_15_input_times_0_8",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "curveId": "target_3082_formula_input_10",
+      "status": "ok",
+      "blockedReasons": [],
+      "totalDamage": 8,
+      "firstDamage": {
+        "rawDamage": 10,
+        "finalDamage": 8,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9992
+      },
+      "coefficientBuckets": [
+        {
+          "bucketKey": "wardens_mail_post_mitigation_final",
+          "stageKey": "hp_change/final/post_mitigation",
+          "aggregationMode": "set_final",
+          "valueUnit": "final_value",
+          "raw": 10,
+          "result": 8,
+          "evidenceKeys": [
+            "item_3082_rock_solid_max_input_minus_15_input_times_0_8"
+          ],
+          "candidates": [
+            {
+              "source": "wardens_mail_rock_solid_final_damage",
+              "passiveId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+              "operationKind": "damage_modifier",
+              "value": 8,
+              "evidenceKey": "item_3082_rock_solid_max_input_minus_15_input_times_0_8",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "curveId": "target_3082_with_40_armor_stat",
+      "status": "ok",
+      "blockedReasons": [],
+      "totalDamage": 57.142857,
+      "firstDamage": {
+        "rawDamage": 100,
+        "finalDamage": 57.142857,
+        "targetHpBefore": 10000,
+        "targetHpAfter": 9942.857143
+      },
+      "coefficientBuckets": [
+        {
+          "bucketKey": "wardens_mail_post_mitigation_final",
+          "stageKey": "hp_change/final/post_mitigation",
+          "aggregationMode": "set_final",
+          "valueUnit": "final_value",
+          "raw": 71.428571,
+          "result": 57.142857,
+          "evidenceKeys": [
+            "item_3082_rock_solid_max_input_minus_15_input_times_0_8"
+          ],
+          "candidates": [
+            {
+              "source": "wardens_mail_rock_solid_final_damage",
+              "passiveId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+              "operationKind": "damage_modifier",
+              "value": 57.142857,
+              "evidenceKey": "item_3082_rock_solid_max_input_minus_15_input_times_0_8",
+              "applied": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

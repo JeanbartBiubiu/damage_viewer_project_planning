@@ -1,0 +1,97 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_v_a_data_policy_items_001",
+  "coefficientBuckets": [
+    {
+      "bucketKey": "flat_post_percent",
+      "resolutionDomain": "hp_change",
+      "stageKey": "hp_change/flat/post_percent",
+      "aggregationMode": "add",
+      "provisional": false,
+      "name": "Flat HP delta after percent modifiers",
+      "description": "Shared hp_change bucket for flat post-percent damage deltas such as Guardian's Horn basic non-DoT reduction.",
+      "bucketConfig": {
+        "valueUnit": "flat_delta",
+        "clampMin": 0,
+        "hasClampMin": true,
+        "evidenceLabel": "flat_post_percent"
+      },
+      "editorHint": {
+        "group": "hp_change",
+        "stageLabel": "flat post percent"
+      }
+    },
+    {
+      "bucketKey": "outgoing_damage_amp",
+      "resolutionDomain": "hp_change",
+      "stageKey": "hp_change/outgoing/pre_mitigation",
+      "aggregationMode": "add",
+      "provisional": false,
+      "name": "Outgoing damage amplification",
+      "description": "Shared outgoing pre-mitigation percent-delta bucket for attacker damage amps such as Lord Dominik's Regards Giant Slayer.",
+      "bucketConfig": {
+        "valueUnit": "percent_delta",
+        "priority": 20,
+        "evidenceLabel": "outgoing_damage_amp"
+      },
+      "editorHint": {
+        "group": "hp_change",
+        "stageLabel": "outgoing pre mitigation"
+      }
+    },
+    {
+      "bucketKey": "ad_flat_bonus",
+      "resolutionDomain": "attribute",
+      "stageKey": "attribute/flat_bonus",
+      "targetAttrKey": "ad",
+      "aggregationMode": "add",
+      "provisional": false,
+      "name": "Attack damage flat bonus",
+      "description": "Shared attribute bucket for dynamic flat attack damage bonuses such as Manamune Awe.",
+      "bucketConfig": {
+        "valueUnit": "flat_delta",
+        "evidenceLabel": "ad_flat_bonus"
+      },
+      "editorHint": {
+        "group": "attribute",
+        "stageLabel": "flat bonus"
+      }
+    },
+    {
+      "bucketKey": "target_armor_flat_bonus",
+      "resolutionDomain": "attribute",
+      "stageKey": "attribute/flat_bonus",
+      "targetAttrKey": "armor",
+      "aggregationMode": "add",
+      "provisional": false,
+      "name": "Target armor flat bonus",
+      "description": "Shared target armor flat-delta bucket for target-side item passives such as Jak'Sho full-stack bonus armor.",
+      "bucketConfig": {
+        "valueUnit": "flat_delta",
+        "evidenceLabel": "target_armor_flat_bonus"
+      },
+      "editorHint": {
+        "group": "attribute",
+        "stageLabel": "flat bonus"
+      }
+    },
+    {
+      "bucketKey": "target_magic_resist_flat_bonus",
+      "resolutionDomain": "attribute",
+      "stageKey": "attribute/flat_bonus",
+      "targetAttrKey": "magic_resist",
+      "aggregationMode": "add",
+      "provisional": false,
+      "name": "Target magic resist flat bonus",
+      "description": "Shared target magic-resist flat-delta bucket for target-side item passives such as Jak'Sho full-stack bonus magic resist.",
+      "bucketConfig": {
+        "valueUnit": "flat_delta",
+        "evidenceLabel": "target_magic_resist_flat_bonus"
+      },
+      "editorHint": {
+        "group": "attribute",
+        "stageLabel": "flat bonus"
+      }
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "gameId": "lol",
+  "versionCode": "v2_batch_v_b_3082_wardens_mail_001",
+  "metadata": {
+    "batch": "V2-BatchV-B-3082",
+    "source": "lol-wiki-current-items",
+    "scope": "3082 守望者铠甲 Warden's Mail Rock Solid exact post-mitigation damage cap.",
+    "policyNotes": [
+      "Data owns the 40 armor stat, Rock Solid numeric knobs, formula profile id, bucket key, ownerRole=target, trigger matcher and published bundle contents.",
+      "Wasm owns the generic hp_change formula-input evaluation path and set_final final-damage writeback.",
+      "Rock Solid is encoded as finalDamageAfter = max(input - 15, input * 0.8) on real basic attack damage taken."
+    ],
+    "requiresCoefficientBucketsFile": "V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json"
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "formulaProfiles": [
+    {
+      "formulaId": "formula_3082_rock_solid_final_damage",
+      "formulaType": "damage",
+      "formulaKind": "vars_expr",
+      "params": {
+        "formulaText": "max(x - 15, x * 0.8)",
+        "formulaInput": "current hp_change stage damage amount",
+        "flatReduction": 15,
+        "minimumDamageRatio": 0.8,
+        "engineDefinitions": [
+          {
+            "id": "formula_3082_rock_solid_input",
+            "op": "input"
+          },
+          {
+            "id": "formula_3082_rock_solid_flat_reduction",
+            "op": "const",
+            "value": 15
+          },
+          {
+            "id": "formula_3082_rock_solid_minimum_damage_ratio",
+            "op": "const",
+            "value": 0.8
+          },
+          {
+            "id": "formula_3082_rock_solid_after_flat",
+            "op": "sub",
+            "left": "formula_3082_rock_solid_input",
+            "right": "formula_3082_rock_solid_flat_reduction"
+          },
+          {
+            "id": "formula_3082_rock_solid_after_cap",
+            "op": "mul",
+            "left": "formula_3082_rock_solid_input",
+            "right": "formula_3082_rock_solid_minimum_damage_ratio"
+          },
+          {
+            "id": "formula_3082_rock_solid_final_damage",
+            "op": "max",
+            "left": "formula_3082_rock_solid_after_flat",
+            "right": "formula_3082_rock_solid_after_cap"
+          }
+        ],
+        "evidenceCases": [
+          {
+            "input": 100,
+            "expectedFinalDamage": 85
+          },
+          {
+            "input": 40,
+            "expectedFinalDamage": 32
+          },
+          {
+            "input": 10,
+            "expectedFinalDamage": 8
+          }
+        ]
+      },
+      "description": "守望者铠甲 Rock Solid: finalDamageAfter = max(input - 15, input * 0.8)."
+    }
+  ],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [],
+  "statusModifierGroups": [],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [],
+  "heroes": [],
+  "skills": [
+    {
+      "skillId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+      "ownerType": "item",
+      "ownerId": "3082",
+      "skillKey": "p_rock_solid",
+      "name": "守望者铠甲 坚如磐石 DPS 被动",
+      "description": "Batch V B seed: target-owned Rock Solid reduces each modeled real basic-attack damage instance by 15 after mitigation, capped at 20% of that instance.",
+      "params": {
+        "flatDamageReduction": 15,
+        "maximumReductionRatio": 0.2,
+        "minimumDamageRatio": 0.8,
+        "formulaId": "formula_3082_rock_solid_final_damage",
+        "sourceRef": "lol-wiki-current-items#3082.effects.pass",
+        "sourceEffectName": "Rock Solid",
+        "sourceEffectDescription": "Every first incoming instance of post-mitigation basic damage per cast instance is reduced by 15, with a maximum of 20% reduction each.",
+        "recordedNotSimulated": [
+          "first incoming instance per cast instance distinction beyond real_basic_attack_only"
+        ]
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "wardens_mail_rock_solid_damage_taken",
+            "triggerKind": "on_damage_taken"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+            "effectId": "item_3082_wardens_mail_rock_solid_batch_v_b_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3082_wardens_mail_rock_solid_batch_v_b",
+            "triggerId": "wardens_mail_rock_solid_damage_taken",
+            "ownerRole": "target",
+            "priority": 100,
+            "trigger": {
+              "event": "on_damage_taken",
+              "matcher": {
+                "procScopes": [
+                  "real_basic_attack_only"
+                ]
+              }
+            },
+            "operations": [
+              {
+                "kind": "damage_modifier",
+                "source": "wardens_mail_rock_solid_final_damage",
+                "targetRole": "target",
+                "bucketKey": "wardens_mail_post_mitigation_final",
+                "valueSpec": {
+                  "kind": "formula",
+                  "formulaId": "formula_3082_rock_solid_final_damage"
+                },
+                "evidenceKey": "item_3082_rock_solid_max_input_minus_15_input_times_0_8"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "3082",
+      "name": "守望者铠甲",
+      "goldCost": 1000,
+      "iconUrl": "item_3082",
+      "skillRefs": [
+        "item_3082_wardens_mail_rock_solid_batch_v_b"
+      ],
+      "recipeIds": [],
+      "statModifiers": [
+        {
+          "attrKey": "armor",
+          "value": 40
+        }
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items/current-items.normalized.json",
+        "sourceItemId": "3082",
+        "sourceName": "Warden's Mail",
+        "sourceGoldTotal": 1000,
+        "sourceStats": {
+          "armor": 40
+        },
+        "sourceEffectName": "Rock Solid",
+        "sourceEffectDescription": "Every first incoming instance of post-mitigation basic damage per cast instance is reduced by 15, with a maximum of 20% reduction each.",
+        "batch": "V2-BatchV-B-3082"
+      }
+    }
+  ],
+  "typeRelations": [],
+  "scenarios": []
+}
