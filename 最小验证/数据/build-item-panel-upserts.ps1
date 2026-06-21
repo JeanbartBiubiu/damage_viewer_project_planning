@@ -38,19 +38,19 @@ $statKeyToAttrKey = [ordered]@{
 }
 
 $attrMeta = @{
-    ad = @{ attrName = 'Attack Damage'; valueKind = 'scalar' }
-    ap = @{ attrName = 'Ability Power'; valueKind = 'scalar' }
-    hp = @{ attrName = 'Health'; valueKind = 'scalar' }
-    mana = @{ attrName = 'Mana'; valueKind = 'scalar' }
-    armor = @{ attrName = 'Armor'; valueKind = 'scalar' }
-    magic_resist = @{ attrName = 'Magic Resist'; valueKind = 'scalar' }
-    hp_regen = @{ attrName = 'Health Regen'; valueKind = 'rate' }
-    crit_chance = @{ attrName = 'Critical Chance'; valueKind = 'scalar' }
-    attack_speed = @{ attrName = 'Attack Speed'; valueKind = 'scalar' }
-    life_steal = @{ attrName = 'Life Steal'; valueKind = 'scalar' }
-    ms_f = @{ attrName = 'Flat Move Speed'; valueKind = 'scalar' }
-    ms_pct = @{ attrName = 'Percent Move Speed'; valueKind = 'scalar' }
-    ability_haste = @{ attrName = 'Ability Haste'; valueKind = 'scalar' }
+    ad = @{ attrName = '攻击力'; valueKind = 'scalar' }
+    ap = @{ attrName = '法术强度'; valueKind = 'scalar' }
+    hp = @{ attrName = '生命值'; valueKind = 'scalar' }
+    mana = @{ attrName = '法力值'; valueKind = 'scalar' }
+    armor = @{ attrName = '护甲'; valueKind = 'scalar' }
+    magic_resist = @{ attrName = '魔法抗性'; valueKind = 'scalar' }
+    hp_regen = @{ attrName = '生命回复'; valueKind = 'rate' }
+    crit_chance = @{ attrName = '暴击几率'; valueKind = 'scalar' }
+    attack_speed = @{ attrName = '攻击速度'; valueKind = 'scalar' }
+    life_steal = @{ attrName = '生命偷取'; valueKind = 'scalar' }
+    ms_f = @{ attrName = '固定移动速度'; valueKind = 'scalar' }
+    ms_pct = @{ attrName = '百分比移动速度'; valueKind = 'scalar' }
+    ability_haste = @{ attrName = '技能极速'; valueKind = 'scalar' }
 }
 
 function To-JsonUtf8NoBom {
