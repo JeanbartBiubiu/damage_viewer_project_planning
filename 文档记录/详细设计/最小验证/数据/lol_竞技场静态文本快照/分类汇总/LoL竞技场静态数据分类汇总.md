@@ -2,7 +2,7 @@ TASK_KEY: wasm-lol-entity-coverage-audit
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-04-09 16:35:22
 
 # LoL竞技场静态数据分类汇总

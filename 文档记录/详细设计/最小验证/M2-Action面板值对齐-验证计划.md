@@ -2,7 +2,7 @@ TASK_KEY: wasm-validation-m2-action-panel
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: active
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-06
 
 # M2 Action 面板值对齐验证计划

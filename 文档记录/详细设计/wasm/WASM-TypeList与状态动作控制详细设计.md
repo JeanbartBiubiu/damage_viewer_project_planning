@@ -2,7 +2,7 @@ TASK_KEY: wasm-engine-v2-architecture
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-10
 
 # WASM TypeList 与状态动作控制详细设计

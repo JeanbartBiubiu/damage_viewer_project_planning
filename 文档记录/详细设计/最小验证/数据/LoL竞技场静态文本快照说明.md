@@ -2,7 +2,7 @@ TASK_KEY: wasm-min-validation-data-spec
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-10
 
 # LoL竞技场静态文本快照说明
