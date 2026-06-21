@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 测试记录
 WORKSTREAM: planning
 STATUS: done
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-22
 
 # V2 Batch H 状态型普攻被动 Runtime 扩展测试记录 2026-05-21

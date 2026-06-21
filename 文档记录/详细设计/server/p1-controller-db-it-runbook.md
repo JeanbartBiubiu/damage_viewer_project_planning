@@ -2,7 +2,7 @@ TASK_KEY: server-controller-db-it
 DOC_TYPE: 详细设计
 WORKSTREAM: server
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: pending
 
 # P1 Controller-Only 真实 DB 集成测试 Runbook

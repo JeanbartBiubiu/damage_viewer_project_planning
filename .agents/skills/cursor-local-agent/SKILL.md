@@ -1,6 +1,6 @@
 ---
 name: cursor-local-agent
-description: Use when calling Cursor's TypeScript SDK or local agent from Codex, especially for GPT-to-Cursor development automation, Cursor SDK smoke tests, local agent runs, or Composer 2.5 model selection where fast mode must be disabled.
+description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm), especially for driving-model-to-Cursor development automation, Cursor SDK smoke tests, local agent runs, or Composer 2.5 model selection where fast mode must be disabled.
 ---
 
 # Cursor Local Agent

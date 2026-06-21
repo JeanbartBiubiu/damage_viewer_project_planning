@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 测试记录
 WORKSTREAM: planning
 STATUS: done
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-06-05
 
 # V2 Batch M Wasm 属性读取语义与三相基础 AD 修正测试记录 2026-06-05

@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: draft
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-06-07
 
 # V2 Batch Q-2 DPS 联动结构化编辑器计划
