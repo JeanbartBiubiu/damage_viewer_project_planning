@@ -189,9 +189,6 @@ export default function App() {
     <OverviewPage
       apiBaseUrl={apiBaseUrl}
       games={games}
-      gamesStatus={gamesStatus}
-      gamesError={gamesError}
-      gamesEtag={gamesEtag}
       selectedGameId={selectedGameId}
       onSelectGameId={setSelectedGameId}
     />
