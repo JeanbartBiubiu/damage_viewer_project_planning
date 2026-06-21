@@ -13,7 +13,7 @@ export const FORMULA_PROFILE_TYPE_OPTIONS = [
 export const FORMULA_PROFILE_KIND_OPTIONS = [
   { label: '变量表达式', value: 'vars_expr' },
   { label: '扁平参数', value: 'flat_params' },
-  { label: 'AST', value: 'ast' },
+  { label: '抽象语法树', value: 'ast' },
   { label: '基础型', value: 'base' },
   { label: '线性', value: 'linear' },
   { label: '比例', value: 'ratio' },

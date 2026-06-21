@@ -171,12 +171,12 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
   const previewSampleDetails: DetailGridItem[] = previewSample
     ? [
         {
-          label: 'serverUri',
+          label: '服务器资源标识',
           value: <Typography.Text code>{selectedGameId ? toRemoteUri(selectedGameId, previewSample.uri) : previewSample.uri}</Typography.Text>,
           hint: '远端接口返回的资源路径'
         },
         {
-          label: 'localUri',
+          label: '本地资源标识',
           value: <Typography.Text code>{previewSample.uri}</Typography.Text>,
           hint: 'IndexedDB 里的主键片段'
         },

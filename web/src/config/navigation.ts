@@ -123,7 +123,7 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
   },
   {
     id: 'wasm-validation-v2-dps-stacking-passive',
-    label: 'V2 DPS Batch H',
+    label: 'V2 DPS 批量英雄',
     summary: '验证 3124 Guinsoo p_boiling 叠层攻速被动从 published bundle 到 Wasm 输出的链路。'
   }
 ];

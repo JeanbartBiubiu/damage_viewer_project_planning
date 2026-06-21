@@ -89,7 +89,7 @@ const STAT_MODIFIER_MODE_OPTIONS = [
 
 const DOT_REFRESH_MODE_OPTIONS = [{ label: '刷新（refresh）', value: 'refresh' }];
 
-const PHANTOM_REPEAT_SCOPE_OPTIONS = [{ label: 'copyable_on_hit', value: 'copyable_on_hit' }];
+const PHANTOM_REPEAT_SCOPE_OPTIONS = [{ label: '可复制普攻命中', value: 'copyable_on_hit' }];
 
 function RawActionFallbackEditor({
   action,

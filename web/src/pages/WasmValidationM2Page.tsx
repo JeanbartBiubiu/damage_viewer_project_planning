@@ -1089,11 +1089,11 @@ export function WasmValidationM2Page({
 
   const actorColumns = [
     {
-      title: 'actorId',
+      title: '角色 ID',
       render: (_: unknown, record: ActorRow) => <Typography.Text className="wasm-code-token">{record.actorId}</Typography.Text>
     },
     {
-      title: 'HP',
+      title: '生命值',
       render: (_: unknown, record: ActorRow) => `${formatNumber(record.currentHp)} / ${formatNumber(record.maxHp)}`
     },
     {
@@ -1150,13 +1150,13 @@ export function WasmValidationM2Page({
 
   const actorHudColumns = [
     {
-      title: <span className="wasm-hud-col-title">actorId</span>,
+      title: <span className="wasm-hud-col-title">角色 ID</span>,
       render: (_: unknown, record: ActorRow) => (
         <Typography.Text className="wasm-code-token wasm-hud-label">{record.actorId}</Typography.Text>
       )
     },
     {
-      title: <span className="wasm-hud-col-title">HP</span>,
+      title: <span className="wasm-hud-col-title">生命值</span>,
       align: 'right' as const,
       render: (_: unknown, record: ActorRow) => (
         <span className="wasm-hud-value wasm-hud-value--gold">
@@ -1165,17 +1165,17 @@ export function WasmValidationM2Page({
       )
     },
     {
-      title: <span className="wasm-hud-col-title">Shield</span>,
+      title: <span className="wasm-hud-col-title">护盾</span>,
       align: 'right' as const,
       render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{formatNumber(record.shieldAmount)}</span>
     },
     {
-      title: <span className="wasm-hud-col-title">Attributes</span>,
+      title: <span className="wasm-hud-col-title">属性</span>,
       align: 'right' as const,
       render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{record.attributeCount}</span>
     },
     {
-      title: <span className="wasm-hud-col-title">Resources</span>,
+      title: <span className="wasm-hud-col-title">资源</span>,
       align: 'right' as const,
       render: (_: unknown, record: ActorRow) => <span className="wasm-hud-value">{record.resourceCount}</span>
     }
@@ -1183,13 +1183,13 @@ export function WasmValidationM2Page({
 
   const attributeHudColumns = [
     {
-      title: <span className="wasm-hud-col-title">Actor</span>,
+      title: <span className="wasm-hud-col-title">角色</span>,
       render: (_: unknown, record: AttributeRow) => (
         <Typography.Text className="wasm-code-token wasm-hud-label">{record.actorId}</Typography.Text>
       )
     },
     {
-      title: <span className="wasm-hud-col-title">Attribute</span>,
+      title: <span className="wasm-hud-col-title">属性</span>,
       render: (_: unknown, record: AttributeRow) => {
         const displayName = resolveAttributeDisplayName(record.attrId);
         const showId = displayName !== record.attrId;

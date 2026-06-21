@@ -31,7 +31,7 @@ export function getAttributeDefinitionsColumns({
       )
     },
     {
-      title: 'attrKey',
+      title: '属性 Key',
       dataIndex: 'attrKey',
       width: 220,
       render: (_: unknown, record: AttributeDefinitionsRecord) => <Typography.Text code>{record.attrKey}</Typography.Text>
@@ -61,13 +61,13 @@ export function getAttributeDefinitionsColumns({
       render: (_: unknown, record: AttributeDefinitionsRecord) => resolveAttributeOrder(record) ?? '--'
     },
     {
-      title: 'valueKind',
+      title: '取值语义',
       dataIndex: 'valueKind',
       width: 120,
       render: (_: unknown, record: AttributeDefinitionsRecord) => <Tag>{record.valueKind ?? '--'}</Tag>
     },
     {
-      title: 'bounds',
+      title: '取值范围',
       width: 160,
       render: (_: unknown, record: AttributeDefinitionsRecord) => (
         <Typography.Text className="wasm-code-token">{formatAttributeBoundsLabel(record)}</Typography.Text>

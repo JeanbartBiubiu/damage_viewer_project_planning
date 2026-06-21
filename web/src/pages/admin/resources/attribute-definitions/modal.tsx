@@ -62,7 +62,7 @@ export function AttributeDefinitionsModal({
       style={{ width: 760 }}
     >
       <Form layout="vertical">
-        <Form.Item label="attrKey">
+        <Form.Item label="属性 Key">
           <Input
             value={formData.attrKey}
             disabled={readOnly || editingExisting}
@@ -127,7 +127,7 @@ export function AttributeDefinitionsModal({
         </div>
 
         <div className="crud-form-grid">
-          <Form.Item label="valueKind">
+          <Form.Item label="取值语义">
             <Select
               disabled={readOnly}
               value={formData.valueKind || undefined}
@@ -143,7 +143,7 @@ export function AttributeDefinitionsModal({
           </Form.Item>
         </div>
 
-        <Form.Item label="rateTargetAttrKey">
+        <Form.Item label="比率目标属性 Key">
           <AttributeKeySelector
             apiBaseUrl={apiBaseUrl}
             gameId={selectedGameId}

@@ -1027,7 +1027,7 @@ function WasmValidationV2DpsWorkbench({
 
   const summaryColumns = [
     {
-      title: 'Curve',
+      title: '曲线',
       render: (_: unknown, record: SummaryRow) => (
         <Space direction="vertical" size={2}>
           <Typography.Text className="wasm-code-token">{record.label}</Typography.Text>
@@ -1036,11 +1036,11 @@ function WasmValidationV2DpsWorkbench({
       )
     },
     {
-      title: 'Status',
+      title: '状态',
       render: (_: unknown, record: SummaryRow) => <Tag color={record.status === 'ok' ? 'green' : record.status === 'blocked' ? 'orange' : 'gray'}>{record.status}</Tag>
     },
     {
-      title: 'Blocked Reasons',
+      title: '阻挡原因',
       render: (_: unknown, record: SummaryRow) => (
         record.blockedReasons.length > 0
           ? <Typography.Text className="wasm-code-token">{record.blockedReasons.join(' / ')}</Typography.Text>
@@ -1048,43 +1048,43 @@ function WasmValidationV2DpsWorkbench({
       )
     },
     {
-      title: 'Total',
+      title: '总计',
       align: 'right' as const,
       render: (_: unknown, record: SummaryRow) => <span className="wasm-hud-value">{formatNumber(record.totalDamage)}</span>
     },
     {
-      title: 'DPS',
+      title: '每秒伤害',
       align: 'right' as const,
       render: (_: unknown, record: SummaryRow) => <span className="wasm-hud-value">{formatNumber(record.timeWindowDps)}</span>
     },
     {
-      title: 'Kill',
+      title: '击杀',
       align: 'right' as const,
       render: (_: unknown, record: SummaryRow) => <span className="wasm-hud-value">{record.killTimeMs == null ? 'N/A' : `${record.killTimeMs}ms`}</span>
     },
     {
-      title: 'Attacks',
+      title: '攻击次数',
       align: 'right' as const,
       render: (_: unknown, record: SummaryRow) => <span className="wasm-hud-value">{record.attackCount ?? 'N/A'}</span>
     },
     {
-      title: 'Damage By Type',
+      title: '按伤害类型',
       render: (_: unknown, record: SummaryRow) => <Typography.Text className="wasm-code-token">{formatNumberRecord(record.damageByType)}</Typography.Text>
     },
     {
-      title: 'Damage By Source',
+      title: '按伤害来源',
       render: (_: unknown, record: SummaryRow) => <Typography.Text className="wasm-code-token">{formatNumberRecord(record.damageBySource)}</Typography.Text>
     }
   ];
 
   const displayCaseId = selection?.caseId ?? (isStackingPassive ? V2_DPS_STACKING_PASSIVE_CASE_ID : V2_DPS_CASE_ID);
   const pageTitle = isStackingPassive
-    ? 'V2 DPS Batch K Stacking Passive'
+    ? 'V2 DPS 批量 K 叠层被动'
     : isMultiHero ? 'V2 DPS 多英雄同装备' : 'V2 DPS 单英雄多曲线';
   const pageKicker = isStackingPassive
     ? 'single_attacker_dps / v2_batch_k_guinsoo_phantom_hit'
     : isMultiHero ? 'single_attacker_dps / Batch E-B' : 'single_attacker_dps / Batch E-1';
-  const curvePanelTitle = isMultiHero ? '英雄行配置' : 'Curve 配置';
+  const curvePanelTitle = isMultiHero ? '英雄行配置' : '曲线配置';
   const curvePanelKicker = isStackingPassive
     ? 'synthetic presets + published bundle item passive -> Wasm output'
     : isMultiHero ? 'same equipment -> per-hero curves' : 'published bundle -> resolvedSnapshot';
@@ -2391,7 +2391,7 @@ const EVENT_TIMELINE_LANES: EventTimelineLane[] = [
   { id: 'itemPassive', label: '装备被动' },
   { id: 'skillPassive', label: '技能被动' },
   { id: 'effect', label: '效果/叠层' },
-  { id: 'hp', label: 'HP' }
+  { id: 'hp', label: '生命值' }
 ];
 
 const EVENT_TIMELINE_LANE_INDEX = new Map(EVENT_TIMELINE_LANES.map((lane, index) => [lane.id, index]));
@@ -2516,7 +2516,7 @@ function buildEventTimelinePoints(result: V2DpsCurveResult, icons: EventTimeline
       timeMs: event.timeMs,
       laneId: 'attack',
       category: 'attack',
-      label: 'AA',
+      label: '普攻',
       source: event.actionId,
       detailRows: [
         `curve=${icons.curveLabel || result.curveId}`,
@@ -2590,7 +2590,7 @@ function buildEventTimelinePoints(result: V2DpsCurveResult, icons: EventTimeline
       timeMs,
       laneId: 'skillPassive',
       category: 'skill passive',
-      label: 'SK',
+      label: '技能',
       source: readTimelineString(record, 'sourceId') ?? triggerId,
       detailRows: summarizeTimelineRecord(record, ['timeMs', 'sourceId', 'sourceType', 'triggerId', 'phantomHit', 'repeatTag']),
       symbol: 'diamond',
@@ -2638,7 +2638,7 @@ function buildEventTimelinePoints(result: V2DpsCurveResult, icons: EventTimeline
       timeMs: event.timeMs,
       laneId: 'hp',
       category: 'hp',
-      label: 'HP',
+      label: '生命值',
       detailRows: [
         `currentHp=${formatNumber(event.currentHp)}`,
         `maxHp=${formatNumber(event.maxHp)}`
@@ -2910,43 +2910,43 @@ function buildHpSeries(result: V2DpsCurveResult): Array<[number, number]> {
 
 const basicAttackEvidenceColumns = [
   {
-    title: 'Curve',
+    title: '曲线',
     render: (_: unknown, record: BasicAttackEvidenceRow) => record.curveLabel
   },
   {
-    title: 'skillId',
+    title: '技能 ID',
     render: (_: unknown, record: BasicAttackEvidenceRow) => <Typography.Text code>{record.skillId}</Typography.Text>
   },
   {
-    title: 'sourceKind',
+    title: '来源类型',
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text code>{record.sourceKind ?? '—'}</Typography.Text>
     )
   },
   {
-    title: 'actionId',
+    title: '动作 ID',
     render: (_: unknown, record: BasicAttackEvidenceRow) => <Typography.Text code>{record.actionId}</Typography.Text>
   },
   {
-    title: 'classifier',
+    title: '分类器',
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text className="wasm-code-token">{formatClassifierSummary(record.classifier)}</Typography.Text>
     )
   },
   {
-    title: 'critPolicy',
+    title: '暴击策略',
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text code>{record.critPolicy ?? '—'}</Typography.Text>
     )
   },
   {
-    title: 'critMultiplierSource',
+    title: '暴击倍率来源',
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text code>{record.critMultiplierSource ?? '—'}</Typography.Text>
     )
   },
   {
-    title: 'critMultiplier',
+    title: '暴击倍率',
     render: (_: unknown, record: BasicAttackEvidenceRow) => (
       <Typography.Text code>{record.critMultiplier !== undefined ? String(record.critMultiplier) : '—'}</Typography.Text>
     )
@@ -2955,7 +2955,7 @@ const basicAttackEvidenceColumns = [
 
 const equipmentSkillRefDiagnosticColumns = [
   {
-    title: 'severity',
+    title: '严重度',
     width: 88,
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
       <Tag color={record.severity === 'error' ? 'red' : record.severity === 'warning' ? 'orangered' : 'arcoblue'}>
@@ -2964,38 +2964,38 @@ const equipmentSkillRefDiagnosticColumns = [
     )
   },
   {
-    title: 'code',
+    title: '代码',
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => <Typography.Text code>{record.code}</Typography.Text>
   },
   {
-    title: 'audience',
+    title: '受众',
     width: 88,
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => <Typography.Text code>{record.audience}</Typography.Text>
   },
   {
-    title: 'itemId',
+    title: '装备 ID',
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => <Typography.Text code>{record.itemId}</Typography.Text>
   },
   {
-    title: 'itemName',
+    title: '装备名称',
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
       <Typography.Text>{record.itemName?.trim() || '—'}</Typography.Text>
     )
   },
   {
-    title: 'skillId',
+    title: '技能 ID',
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
       <Typography.Text code>{record.skillId ?? '—'}</Typography.Text>
     )
   },
   {
-    title: 'skillName',
+    title: '技能名称',
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => (
       <Typography.Text>{record.skillName?.trim() || '—'}</Typography.Text>
     )
   },
   {
-    title: 'message',
+    title: '消息',
     render: (_: unknown, record: EquipmentSkillRefDiagnostic) => record.message
   }
 ];

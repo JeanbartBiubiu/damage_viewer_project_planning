@@ -116,12 +116,12 @@ export function VersionPublishPage({
   const displayedBundleMeta = publishedBundleMeta ?? bundleMeta;
   const publishSummaryItems: DetailGridItem[] = [
     {
-      label: 'current version',
+      label: '当前版本',
       value: displayedCurrentVersion?.versionCode ? <Typography.Text code>{displayedCurrentVersion.versionCode}</Typography.Text> : '--',
       hint: displayedCurrentVersion?.publishedAt ?? displayedCurrentVersion?.releaseDate ?? '尚未读取到 current version'
     },
     {
-      label: 'bundle version',
+      label: '数据包版本',
       value: displayedBundleMeta?.versionCode ? <Typography.Text code>{displayedBundleMeta.versionCode}</Typography.Text> : '--',
       hint: displayedBundleMeta
         ? displayedBundleMeta.versionId
@@ -130,7 +130,7 @@ export function VersionPublishPage({
         : '尚未读取到 bundle meta'
     },
     {
-      label: 'dataHash',
+      label: '数据哈希',
       value: displayedBundleMeta?.dataHash ? <Typography.Text code>{displayedBundleMeta.dataHash.slice(0, 16)}</Typography.Text> : '--',
       hint: displayedBundleMeta?.dataHash ? '已截断显示前 16 位' : '等待 bundle meta'
     },
