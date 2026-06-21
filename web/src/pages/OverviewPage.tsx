@@ -109,12 +109,12 @@ export function OverviewPage({
   const currentVersionDetails: DetailGridItem[] = currentVersion
     ? [
         {
-          label: 'versionCode',
+          label: '版本代码',
           value: <Typography.Text code>{currentVersion.versionCode}</Typography.Text>,
           hint: '当前线上版本标识'
         },
         {
-          label: 'versionId',
+          label: '版本 ID',
           value: <Typography.Text code>{String(currentVersion.versionId)}</Typography.Text>,
           hint: '后端 current version 主键'
         },

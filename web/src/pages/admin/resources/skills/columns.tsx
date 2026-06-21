@@ -10,25 +10,25 @@ type SkillsTableActions = {
 export function getSkillsColumns({ onView, onEdit }: SkillsTableActions) {
   return [
     {
-      title: 'skillId',
+      title: '技能 ID',
       dataIndex: 'skillId',
       width: 220,
       render: (_: unknown, record: SkillsRecord) => <Typography.Text code>{record.skillId}</Typography.Text>
     },
     {
-      title: 'ownerType',
+      title: '所有者类型',
       dataIndex: 'ownerType',
       width: 140,
       render: (_: unknown, record: SkillsRecord) => record.ownerType ?? '—'
     },
     {
-      title: 'ownerId',
+      title: '所有者 ID',
       dataIndex: 'ownerId',
       width: 220,
       render: (_: unknown, record: SkillsRecord) => record.ownerId ?? '—'
     },
     {
-      title: 'skillKey',
+      title: '技能 Key',
       dataIndex: 'skillKey',
       width: 120,
       render: (_: unknown, record: SkillsRecord) => record.skillKey ?? '--'

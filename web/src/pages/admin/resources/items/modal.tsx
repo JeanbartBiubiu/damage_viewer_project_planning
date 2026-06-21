@@ -201,7 +201,7 @@ function ItemDpsPassiveSkillCreator({
     try {
       const normalizedSkillId = skillId.trim();
       if (!normalizedSkillId) {
-        throw new Error('skillId 不能为空。');
+        throw new Error('技能 ID 不能为空。');
       }
       const payload = buildItemOwnedDpsPassiveSkillPayload({
         itemId: itemId.trim(),
@@ -221,11 +221,11 @@ function ItemDpsPassiveSkillCreator({
           .filter((issue) => issue.severity === 'error')
           .map((issue) => `${issue.path}: ${issue.message}`)
           .join('；');
-        throw new Error(`DPS passive 校验失败：${messages}`);
+        throw new Error(`每秒伤害被动校验失败：${messages}`);
       }
       await putSkill(apiBaseUrl, selectedGameId, normalizedSkillId, adminToken.trim(), payload);
       onAppendSkillRef(normalizedSkillId);
-      setSuccess(`已创建 skill ${normalizedSkillId} 并加入 skillRefs 草稿；请点击 Save 保存 item。`);
+      setSuccess(`已创建技能 ${normalizedSkillId} 并加入技能引用草稿；请点击「保存」保存装备。`);
     } catch (createError) {
       setError(getErrorMessage(createError));
     } finally {
@@ -243,10 +243,10 @@ function ItemDpsPassiveSkillCreator({
           仅创建 skill 并回填 skillRefs 草稿，不会自动保存 item。数值字段为模板草稿，需在 skill 页确认。
         </Typography.Text>
         {!itemId.trim() ? (
-          <Alert type="warning" content="请先填写 itemId。" />
+          <Alert type="warning" content="请先填写装备 ID。" />
         ) : null}
         {!selectedGameId || !adminToken.trim() ? (
-          <Alert type="warning" content="需要 selectedGameId 与 admin token。" />
+          <Alert type="warning" content="需要已选游戏 ID 与 Admin Token。" />
         ) : null}
         <div className="crud-form-grid">
           <div>
@@ -262,19 +262,19 @@ function ItemDpsPassiveSkillCreator({
           </div>
           <div>
             <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-              skillId
+              技能 ID
             </Typography.Text>
             <Input value={skillId} disabled={!canCreate} onChange={setSkillId} />
           </div>
           <div>
             <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-              skillKey
+              技能 Key
             </Typography.Text>
             <Input value={skillKey} disabled={!canCreate} onChange={setSkillKey} />
           </div>
           <div>
             <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-              name
+              名称
             </Typography.Text>
             <Input value={name} disabled={!canCreate} onChange={setName} />
           </div>
@@ -287,7 +287,7 @@ function ItemDpsPassiveSkillCreator({
             {selectedTemplateId === 'attacker_execute_threshold' ? (
               <div>
                 <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                  thresholdValue（必填，无默认值）
+                  阈值（必填，无默认值）
                 </Typography.Text>
                 <InputNumber
                   style={{ width: '100%' }}
@@ -303,12 +303,12 @@ function ItemDpsPassiveSkillCreator({
               <div className="crud-form-grid">
                 <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                   <Checkbox checked={forceCrit} disabled={!canCreate} onChange={setForceCrit}>
-                    forceCrit
+                    强制暴击
                   </Checkbox>
                 </div>
                 <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    critMultiplierOverride
+                    暴击倍率覆盖
                   </Typography.Text>
                   <InputNumber
                     style={{ width: '100%' }}
@@ -325,7 +325,7 @@ function ItemDpsPassiveSkillCreator({
                 </div>
                 <div>
                   <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                    critMultiplierScale
+                    暴击倍率缩放
                   </Typography.Text>
                   <InputNumber
                     style={{ width: '100%' }}
@@ -345,12 +345,12 @@ function ItemDpsPassiveSkillCreator({
             {selectedTemplateId === 'bucket_damage_modifier' ? (
               <div>
                 <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 6, fontSize: 12 }}>
-                  bucketKey（必填，无默认值）
+                  乘区 Key（必填，无默认值）
                 </Typography.Text>
                 <Input
                   value={bucketKey}
                   disabled={!canCreate}
-                  placeholder="填写乘区 bucketKey"
+                  placeholder="请输入乘区 Key"
                   onChange={setBucketKey}
                 />
               </div>
@@ -506,12 +506,12 @@ export function ItemsModal({
 
   return (
     <Modal
-      title={mode === 'create' ? 'Create Item' : mode === 'edit' ? 'Edit Item' : 'View Item'}
+      title={mode === 'create' ? '新增装备' : mode === 'edit' ? '编辑装备' : '查看装备'}
       visible={visible}
       onCancel={onClose}
       footer={
         <Space>
-          <Button onClick={onClose}>{readOnly ? 'Close' : 'Cancel'}</Button>
+          <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
             <Button
               type="primary"
@@ -519,7 +519,7 @@ export function ItemsModal({
               disabled={skillRefsSaveBlocked}
               onClick={() => void onSubmit()}
             >
-              Save
+              保存
             </Button>
           ) : null}
         </Space>
@@ -529,46 +529,46 @@ export function ItemsModal({
       style={{ width: 1180 }}
     >
       <Form layout="vertical">
-        <Form.Item label="itemId">
+        <Form.Item label="装备 ID">
           <Input
             value={formData.itemId}
             disabled={readOnly || editingExisting}
             onChange={(value) => onFieldChange('itemId', value)}
-            placeholder="Input itemId"
+            placeholder="请输入装备 ID"
           />
         </Form.Item>
 
         <div className="crud-form-grid">
-          <Form.Item label="name">
-            <Input value={formData.name} disabled={readOnly} onChange={(value) => onFieldChange('name', value)} placeholder="Input name" />
+          <Form.Item label="名称">
+            <Input value={formData.name} disabled={readOnly} onChange={(value) => onFieldChange('name', value)} placeholder="请输入名称" />
           </Form.Item>
 
-          <Form.Item label="goldCost">
+          <Form.Item label="金币成本">
             <Input
               value={formData.goldCost}
               disabled={readOnly}
               onChange={(value) => onFieldChange('goldCost', value)}
-              placeholder="Input goldCost"
+              placeholder="请输入金币成本"
             />
           </Form.Item>
         </div>
 
-        <Form.Item label="item image">
+        <Form.Item label="装备图片">
           <ResourceImageUploadField
             src={imageSrc}
-            alt={formData.name || formData.itemId || 'item image'}
+            alt={formData.name || formData.itemId || '装备图片'}
             imageUri={imageUri}
-            uriPlaceholder="Fill itemId first to generate uri"
+            uriPlaceholder="请先填写装备 ID 以生成图片标识"
             readOnly={readOnly}
             uploading={imageUploading}
             error={imageError}
-            emptyLabel="No image"
-            helperText="Upload will center-crop and normalize to 64x64 before saving."
+            emptyLabel="未上传"
+            helperText="上传时会先居中裁切为 64x64，再同步写入服务端和本地 IndexedDB。"
             onUpload={onUploadImage}
           />
         </Form.Item>
 
-        <Form.Item label="type tags">
+        <Form.Item label="类型标签">
           <TypeTagEditor
             definitions={typeDefinitions}
             persistedTypeIds={formData.persistedTypeIds}
@@ -578,10 +578,10 @@ export function ItemsModal({
           />
         </Form.Item>
 
-        <Form.Item label="statModifiers structured">
-          {statModifiersState.error ? <Alert type="error" content={`statModifiers parse failed: ${statModifiersState.error}`} style={{ marginBottom: 12 }} /> : null}
+        <Form.Item label="属性修正（结构化）">
+          {statModifiersState.error ? <Alert type="error" content={`属性修正解析失败：${statModifiersState.error}`} style={{ marginBottom: 12 }} /> : null}
           {attributeDefinitionsError ? (
-            <Alert type="warning" content={`attribute definitions load failed: ${attributeDefinitionsError}`} style={{ marginBottom: 12 }} />
+            <Alert type="warning" content={`属性定义加载失败：${attributeDefinitionsError}`} style={{ marginBottom: 12 }} />
           ) : null}
           <BaseStatsEditor
             apiBaseUrl={apiBaseUrl}
@@ -594,8 +594,8 @@ export function ItemsModal({
           />
         </Form.Item>
 
-        <Form.Item label="skillRefs structured">
-          {skillRefsState.error ? <Alert type="error" content={`skillRefs parse failed: ${skillRefsState.error}`} style={{ marginBottom: 12 }} /> : null}
+        <Form.Item label="技能引用（结构化）">
+          {skillRefsState.error ? <Alert type="error" content={`技能引用解析失败：${skillRefsState.error}`} style={{ marginBottom: 12 }} /> : null}
           {skillRefsValidation.errors.map((issue, issueIndex) => (
             <Alert key={`error:${issueIndex}:${issue.code}:${issue.skillId ?? ''}`} type="error" content={issue.message} style={{ marginBottom: 8 }} />
           ))}

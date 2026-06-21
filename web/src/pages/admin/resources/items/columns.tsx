@@ -11,7 +11,7 @@ type ItemsTableActions = {
 export function getItemsColumns({ onView, onEdit, resolveImageSrc }: ItemsTableActions) {
   return [
     {
-      title: 'itemId',
+      title: '装备 ID',
       dataIndex: 'itemId',
       width: 220,
       render: (_: unknown, record: ItemsRecord) => <Typography.Text code>{record.itemId}</Typography.Text>
@@ -23,7 +23,7 @@ export function getItemsColumns({ onView, onEdit, resolveImageSrc }: ItemsTableA
       render: (_: unknown, record: ItemsRecord) => record.name ?? '--'
     },
     {
-      title: 'goldCost',
+      title: '金币成本',
       dataIndex: 'goldCost',
       width: 120,
       render: (_: unknown, record: ItemsRecord) => record.goldCost ?? '--'

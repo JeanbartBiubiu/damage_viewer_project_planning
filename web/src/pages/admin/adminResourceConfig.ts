@@ -234,13 +234,13 @@ const formulaProfileDefinition: AdminResourceDefinition<'formulaProfiles'> = {
   description: '管理公式定义本身、公式类型、公式种类和序列化参数。',
   listColumns: ['formulaId', 'formulaType', 'formulaKind', 'updatedAt'],
   createFields: [
-    { field: 'formulaId', label: 'formulaId', kind: 'text', placeholder: 'damage.skill.katarina.r.base' },
-    { field: 'formulaType', label: 'formulaType', kind: 'text', placeholder: 'damage' },
-    { field: 'formulaKind', label: 'formulaKind', kind: 'text', placeholder: 'base' },
-    { field: 'description', label: 'description', kind: 'textarea', placeholder: '可选说明', rows: 3 },
+    { field: 'formulaId', label: '公式 ID', kind: 'text', placeholder: 'damage.skill.katarina.r.base' },
+    { field: 'formulaType', label: '公式类型', kind: 'text', placeholder: 'damage' },
+    { field: 'formulaKind', label: '公式种类', kind: 'text', placeholder: 'base' },
+    { field: 'description', label: '描述', kind: 'textarea', placeholder: '可选说明', rows: 3 },
     {
       field: 'paramsText',
-      label: 'params',
+      label: '参数',
       kind: 'json',
       placeholder: '{\n  "base": 1\n}',
       helper: '高级场景仍可直接编辑 JSON payload。'
@@ -282,13 +282,13 @@ const formulaBindingDefinition: AdminResourceDefinition<'formulaBindings'> = {
   description: '把公式挂到目标实体上，并按需提供 override params。',
   listColumns: ['bindingKey', 'target', 'formulaId', 'updatedAt'],
   createFields: [
-    { field: 'targetCategory', label: 'targetCategory', kind: 'text', placeholder: 'skill' },
-    { field: 'targetId', label: 'targetId', kind: 'text', placeholder: 'skill_katarina_r' },
-    { field: 'bindingKey', label: 'bindingKey', kind: 'text', placeholder: 'damage.base' },
-    { field: 'formulaId', label: 'formulaId', kind: 'text', placeholder: 'damage.skill.katarina.r.base' },
+    { field: 'targetCategory', label: '目标类别', kind: 'text', placeholder: 'skill' },
+    { field: 'targetId', label: '目标 ID', kind: 'text', placeholder: 'skill_katarina_r' },
+    { field: 'bindingKey', label: '绑定 Key', kind: 'text', placeholder: 'damage.base' },
+    { field: 'formulaId', label: '公式 ID', kind: 'text', placeholder: 'damage.skill.katarina.r.base' },
     {
       field: 'overrideParamsText',
-      label: 'overrideParams',
+      label: '覆盖参数',
       kind: 'json',
       placeholder: '{\n  "coefficient": 1.2\n}',
       helper: '可选的 override params；无额外参数时可保留 {}。'
@@ -338,43 +338,43 @@ const coefficientBucketDefinition: AdminResourceDefinition<'coefficientBuckets'>
   description: '维护计算和调优链路依赖的聚合桶配置。',
   listColumns: ['bucketKey', 'domain', 'stageKey', 'aggregation'],
   createFields: [
-    { field: 'bucketKey', label: 'bucketKey', kind: 'text', placeholder: 'magic_damage.percent_bonus' },
+    { field: 'bucketKey', label: '乘区 Key', kind: 'text', placeholder: 'magic_damage.percent_bonus' },
     {
       field: 'resolutionDomain',
-      label: 'resolutionDomain',
+      label: '分辨域',
       kind: 'select',
       placeholder: 'attribute',
       options: [
-        { label: 'attribute', value: 'attribute' },
-        { label: 'damage', value: 'damage' },
-        { label: 'global', value: 'global' }
+        { label: '属性', value: 'attribute' },
+        { label: '伤害', value: 'damage' },
+        { label: '全局', value: 'global' }
       ]
     },
-    { field: 'stageKey', label: 'stageKey', kind: 'text', placeholder: 'percent_bonus' },
-    { field: 'targetAttrKey', label: 'targetAttrKey', kind: 'text', placeholder: 'move_speed' },
+    { field: 'stageKey', label: '阶段 Key', kind: 'text', placeholder: 'percent_bonus' },
+    { field: 'targetAttrKey', label: '目标属性 Key', kind: 'text', placeholder: 'move_speed' },
     {
       field: 'aggregationMode',
-      label: 'aggregationMode',
+      label: '聚合模式',
       kind: 'select',
       placeholder: 'add',
       options: [
-        { label: 'add', value: 'add' },
-        { label: 'multiply', value: 'multiply' },
-        { label: 'max', value: 'max' },
-        { label: 'min', value: 'min' }
+        { label: '加法', value: 'add' },
+        { label: '乘法', value: 'multiply' },
+        { label: '最大值', value: 'max' },
+        { label: '最小值', value: 'min' }
       ]
     },
-    { field: 'description', label: 'description', kind: 'textarea', placeholder: '可选说明', rows: 3 },
+    { field: 'description', label: '描述', kind: 'textarea', placeholder: '可选说明', rows: 3 },
     {
       field: 'editorHintText',
-      label: 'editorHint',
+      label: '编辑器提示',
       kind: 'json',
       placeholder: '{\n  "hint": "Optional editor hint"\n}',
       helper: '可选的编辑提示 JSON。'
     },
     {
       field: 'bucketConfigText',
-      label: 'bucketConfig',
+      label: '乘区配置',
       kind: 'json',
       placeholder: '{\n  "threshold": 1\n}',
       helper: '复杂场景下可填写额外配置 JSON。'
@@ -427,45 +427,45 @@ const statusActionControlRuleDefinition: AdminResourceDefinition<'statusActionCo
   description: '维护状态与动作约束相关的控制规则。',
   listColumns: ['ruleId', 'ruleKind', 'statusTypeId', 'priority'],
   createFields: [
-    { field: 'ruleId', label: 'ruleId', kind: 'text', placeholder: 'status_stun_forbid_cast' },
-    { field: 'statusTypeId', label: 'statusTypeId', kind: 'number', placeholder: '50020' },
+    { field: 'ruleId', label: '规则 ID', kind: 'text', placeholder: 'status_stun_forbid_cast' },
+    { field: 'statusTypeId', label: '状态类型 ID', kind: 'number', placeholder: '50020' },
     {
       field: 'ruleKind',
-      label: 'ruleKind',
+      label: '规则种类',
       kind: 'select',
       options: [
-        { label: 'forbid', value: 'forbid' },
-        { label: 'interrupt', value: 'interrupt' },
-        { label: 'limit', value: 'limit' }
+        { label: '禁用', value: 'forbid' },
+        { label: '打断', value: 'interrupt' },
+        { label: '限制', value: 'limit' }
       ],
       placeholder: 'forbid'
     },
-    { field: 'priority', label: 'priority', kind: 'number', placeholder: '100' },
+    { field: 'priority', label: '优先级', kind: 'number', placeholder: '100' },
     {
       field: 'actionTypeIdsText',
-      label: 'actionTypeIds',
+      label: '动作类型 ID',
       kind: 'json',
       placeholder: '[50101, 50102]',
       helper: '动作类型 ID 的 JSON 数组。'
     },
     {
       field: 'actionMatchTypeIdsText',
-      label: 'actionMatchTypeIds',
+      label: '动作匹配类型 ID',
       kind: 'json',
       placeholder: '[]',
       helper: '动作匹配类型 ID 的 JSON 数组。'
     },
     {
       field: 'interruptPhaseTypeIdsText',
-      label: 'interruptPhaseTypeIds',
+      label: '打断阶段类型 ID',
       kind: 'json',
       placeholder: '[]',
       helper: '打断阶段类型 ID 的 JSON 数组。'
     },
-    { field: 'description', label: 'description', kind: 'textarea', placeholder: '可选说明', rows: 3 },
+    { field: 'description', label: '描述', kind: 'textarea', placeholder: '可选说明', rows: 3 },
     {
       field: 'extendText',
-      label: 'extend',
+      label: '扩展',
       kind: 'json',
       placeholder: '{\n  "note": "Optional extension"\n}',
       helper: '可选扩展字段 JSON。'
