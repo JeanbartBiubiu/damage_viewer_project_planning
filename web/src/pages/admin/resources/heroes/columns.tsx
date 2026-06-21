@@ -11,7 +11,7 @@ type HeroesTableActions = {
 export function getHeroesColumns({ onView, onEdit, resolveImageSrc }: HeroesTableActions) {
   return [
     {
-      title: 'heroId',
+      title: '英雄 ID',
       dataIndex: 'heroId',
       width: 220,
       render: (_: unknown, record: HeroesRecord) => <Typography.Text code>{record.heroId}</Typography.Text>

@@ -290,7 +290,7 @@ const CASE_PRESETS: ValidationCasePreset[] = [
   },
   {
     id: 'm4_cooldown_gate',
-    label: 'M4.3 冷却 gate',
+    label: 'M4.3 冷却门槛',
     milestone: 'M4',
     caseId: 'M4.3-cooldown-gate-001',
     runMode: 'repeat_same_tick',
@@ -324,13 +324,13 @@ const CASE_PRESETS: ValidationCasePreset[] = [
   },
   {
     id: 'm4_dot_min',
-    label: 'M4.8 DoT',
+    label: 'M4.8 持续伤害',
     milestone: 'M4',
     caseId: 'M4.8-dot-min-001'
   },
   {
     id: 'm4_hot_min',
-    label: 'M4.9 HoT',
+    label: 'M4.9 持续治疗',
     milestone: 'M4',
     caseId: 'M4.9-hot-min-001',
     runMode: 'self_target'
@@ -391,7 +391,7 @@ const CASE_PRESETS: ValidationCasePreset[] = [
   },
   {
     id: 'm4_action_gate',
-    label: 'M4.15 动作 gate',
+    label: 'M4.15 动作门槛',
     milestone: 'M4',
     caseId: 'M4.15-action-gate-001',
     runMode: 'self_then_enemy_unowned',
@@ -701,16 +701,16 @@ function buildEvidenceRows(done: DonePayload | null, baseline: BaselineInput | n
 }
 
 const compiledStatusEvidenceColumns = [
-  { title: 'statusId', dataIndex: 'statusId', render: (value: string) => <Typography.Text code>{value}</Typography.Text> },
-  { title: 'statusSource', dataIndex: 'statusSource', render: (value: string) => <Tag>{value}</Tag> },
-  { title: 'tickFormulaId', dataIndex: 'tickFormulaId', render: (value: string | undefined) => value || '—' },
+  { title: '状态 ID', dataIndex: 'statusId', render: (value: string) => <Typography.Text code>{value}</Typography.Text> },
+  { title: '状态来源', dataIndex: 'statusSource', render: (value: string) => <Tag>{value}</Tag> },
+  { title: '周期公式 ID', dataIndex: 'tickFormulaId', render: (value: string | undefined) => value || '—' },
   {
-    title: 'tickCritMultiplier',
+    title: '周期暴击倍率',
     dataIndex: 'tickCritMultiplier',
     render: (value: number | undefined) => (value !== undefined ? String(value) : '—')
   },
   {
-    title: 'tickInterval / count',
+    title: '周期间隔 / 次数',
     render: (_: unknown, record: { tickIntervalMs?: number; tickCount?: number }) =>
       record.tickIntervalMs !== undefined && record.tickCount !== undefined
         ? `${record.tickIntervalMs}ms x ${record.tickCount}`

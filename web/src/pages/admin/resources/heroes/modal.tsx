@@ -171,12 +171,12 @@ export function HeroesModal({
       style={{ width: 1280 }}
     >
       <Form layout="vertical">
-        <Form.Item label="heroId">
+        <Form.Item label="英雄 ID">
           <Input
             value={formData.heroId}
             disabled={readOnly || editingExisting}
             onChange={(value) => onFieldChange('heroId', value)}
-            placeholder="请输入 heroId"
+            placeholder="请输入英雄 ID"
           />
         </Form.Item>
 
@@ -195,7 +195,7 @@ export function HeroesModal({
             src={imageSrc}
             alt={formData.name || formData.heroId || '英雄图片'}
             imageUri={imageUri}
-            uriPlaceholder="请先填写 heroId 以生成图片标识。"
+            uriPlaceholder="请先填写英雄 ID 以生成图片标识。"
             readOnly={readOnly}
             uploading={imageUploading}
             error={imageError}
