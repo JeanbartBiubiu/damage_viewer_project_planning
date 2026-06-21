@@ -1,4 +1,5 @@
-import type { GameDataBundle, Item, JsonObject, Skill } from '../types/api';
+import type { GameDataBundle, Item, JsonObject, Skill, TypeDefinition, TypeRelation } from '../types/api';
+import { RESERVED_TYPE_IDS } from '../config/reservedTypes';
 import {
   LEGACY_DPS_SKILL_REF_OPTIONS,
   STRICT_DPS_SKILL_REF_OPTIONS,
@@ -6,6 +7,8 @@ import {
   buildExecuteEvidenceFromCurveResult,
   buildPassiveCooldownEvidenceFromCurveResult,
   isPublishedContractCandidateItem,
+  listV2DpsEquipmentOptions,
+  listV2DpsTargetEquipmentOptions,
   readSkillDpsPassiveEffects,
   type EquipmentSkillRefDiagnostic,
   type V2DpsCurveResult,
@@ -39,7 +42,14 @@ function hasDiagnosticCode(diagnostics: EquipmentSkillRefDiagnostic[], code: str
   return diagnostics.some((diagnostic) => diagnostic.code === code);
 }
 
-function createMinimalBundle(items: Item[], skills: Skill[]): GameDataBundle {
+function createMinimalBundle(
+  items: Item[],
+  skills: Skill[],
+  options: {
+    types?: TypeDefinition[];
+    typeRelations?: TypeRelation[];
+  } = {}
+): GameDataBundle {
   return {
     meta: {
       gameId: 'contract-test',
@@ -50,8 +60,8 @@ function createMinimalBundle(items: Item[], skills: Skill[]): GameDataBundle {
     },
     attributeDefinitions: [],
     coefficientBuckets: [],
-    types: [],
-    typeRelations: [],
+    types: options.types ?? [],
+    typeRelations: options.typeRelations ?? [],
     statusActionControlRules: [],
     heroes: [],
     skills,
@@ -494,6 +504,86 @@ function testPassiveCooldownEvidenceFromCurveResult(): void {
   assert(evidence.entries[1]?.skipped === true, 'skipped entry must preserve skipped flag');
 }
 
+const V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID = 62002;
+const V2_DPS_READY_CONCRETE_TYPE_ID = 30010;
+
+function makeReadinessTestBundle(): GameDataBundle {
+  const items = ['1001', '1002', '1003'].map((itemId) => makeItem(itemId, { name: `Item ${itemId}` }));
+  return createMinimalBundle(items, [], {
+    types: [
+      { typeId: V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID, name: 'adc_completed_item' },
+      {
+        typeId: V2_DPS_READY_CONCRETE_TYPE_ID,
+        name: 'single_attacker_dps_ready',
+        reservedTypeId: RESERVED_TYPE_IDS.SINGLE_ATTACKER_DPS_READY
+      }
+    ],
+    typeRelations: [
+      { typeId: V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID, targetCategory: 'equipment', targetId: '1001' },
+      { typeId: V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID, targetCategory: 'equipment', targetId: '1002' },
+      { typeId: V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID, targetCategory: 'equipment', targetId: '1003' },
+      { typeId: V2_DPS_READY_CONCRETE_TYPE_ID, targetCategory: 'equipment', targetId: '1001' },
+      { typeId: V2_DPS_READY_CONCRETE_TYPE_ID, targetCategory: 'equipment', targetId: '1002' }
+    ]
+  });
+}
+
+function testReadinessReadyModeReturnsOnlyReadyEquipment(): void {
+  const bundle = makeReadinessTestBundle();
+  const options = listV2DpsEquipmentOptions(bundle, 'ready');
+  const itemIds = options.map((option) => option.itemId).sort();
+  assert(itemIds.length === 2, 'ready mode must return only ready equipment');
+  assert(itemIds[0] === '1001' && itemIds[1] === '1002', 'ready mode must include only ready-marked equipment');
+}
+
+function testReadinessAllModeReturnsAllBaseSelectableEquipment(): void {
+  const bundle = makeReadinessTestBundle();
+  const options = listV2DpsEquipmentOptions(bundle, 'all');
+  const itemIds = options.map((option) => option.itemId).sort();
+  assert(itemIds.length === 3, 'all mode must return all base selectable equipment');
+  assert(itemIds.join(',') === '1001,1002,1003', 'all mode must include every adc_completed_item candidate');
+}
+
+function testReadinessUnverifiedModeReturnsOnlyNonReadyEquipment(): void {
+  const bundle = makeReadinessTestBundle();
+  const options = listV2DpsEquipmentOptions(bundle, 'unverified');
+  const itemIds = options.map((option) => option.itemId);
+  assert(itemIds.length === 1, 'unverified mode must return only non-ready equipment');
+  assert(itemIds[0] === '1003', 'unverified mode must include only equipment without ready relation');
+}
+
+function testReadinessReadyTypeMissingDoesNotReturnAllEquipment(): void {
+  const items = ['1001', '1002'].map((itemId) => makeItem(itemId));
+  const bundle = createMinimalBundle(items, [], {
+    types: [{ typeId: V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID, name: 'adc_completed_item' }],
+    typeRelations: [
+      { typeId: V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID, targetCategory: 'equipment', targetId: '1001' },
+      { typeId: V2_DPS_ADC_COMPLETED_ITEM_TYPE_ID, targetCategory: 'equipment', targetId: '1002' }
+    ]
+  });
+  const options = listV2DpsEquipmentOptions(bundle, 'ready');
+  assert(options.length === 0, 'ready mode must return empty when ready type is not configured');
+  const allOptions = listV2DpsEquipmentOptions(bundle, 'all');
+  assert(allOptions.length === 2, 'all mode must still expose base selectable equipment');
+}
+
+function testReadinessTargetEquipmentUsesSameFilter(): void {
+  const bundle = makeReadinessTestBundle();
+  const targetItem = makeItem('3075', {
+    name: 'Thornmail',
+    skillRefs: ['skill_target']
+  });
+  targetItem.statModifiers = [{ attrKey: 'armor', value: 75 }];
+  bundle.items.push(targetItem);
+  bundle.typeRelations.push(
+    { typeId: V2_DPS_READY_CONCRETE_TYPE_ID, targetCategory: 'equipment', targetId: '3075' }
+  );
+  const readyTargetOptions = listV2DpsTargetEquipmentOptions(bundle, 'ready');
+  assert(readyTargetOptions.some((option) => option.itemId === '3075'), 'ready target filter must include ready-marked defensive equipment');
+  const unverifiedTargetOptions = listV2DpsTargetEquipmentOptions(bundle, 'unverified');
+  assert(!unverifiedTargetOptions.some((option) => option.itemId === '3075'), 'unverified target filter must exclude ready-marked equipment');
+}
+
 const CONTRACT_TESTS: Array<{ name: string; run: () => void }> = [
   { name: 'empty refs (STRICT)', run: testEmptyRefsStrict },
   { name: 'missing refs (STRICT)', run: testMissingRefsStrict },
@@ -519,7 +609,12 @@ const CONTRACT_TESTS: Array<{ name: string; run: () => void }> = [
   { name: 'preserve execute_threshold operation shape', run: testPreserveExecuteThresholdOperationShape },
   { name: 'execute evidence from curve result', run: testExecuteEvidenceFromCurveResult },
   { name: 'preserve internalCooldownMs passive shape', run: testPreserveInternalCooldownMsShape },
-  { name: 'passive cooldown evidence from curve result', run: testPassiveCooldownEvidenceFromCurveResult }
+  { name: 'passive cooldown evidence from curve result', run: testPassiveCooldownEvidenceFromCurveResult },
+  { name: 'readiness ready mode equipment filter', run: testReadinessReadyModeReturnsOnlyReadyEquipment },
+  { name: 'readiness all mode equipment filter', run: testReadinessAllModeReturnsAllBaseSelectableEquipment },
+  { name: 'readiness unverified mode equipment filter', run: testReadinessUnverifiedModeReturnsOnlyNonReadyEquipment },
+  { name: 'readiness missing ready type', run: testReadinessReadyTypeMissingDoesNotReturnAllEquipment },
+  { name: 'readiness target equipment filter', run: testReadinessTargetEquipmentUsesSameFilter }
 ];
 
 export function runTinygoV2DpsAdapterContractTests(): { passed: number; failed: Array<{ name: string; error: string }> } {
