@@ -178,14 +178,14 @@ type DecodedFrame = {
 };
 
 type ClosurePresetGroup =
-  | 'M4.4 shield absorb'
-  | 'M4.5 effective heal'
-  | 'M4.9 effective HoT'
-  | 'M4.7 mark consume true'
-  | 'M4.12 seed branch'
-  | 'M4.17 history window'
-  | 'M4.18 counter read'
-  | 'M4.19 mode augment';
+  | 'M4.4 护盾吸收'
+  | 'M4.5 有效治疗'
+  | 'M4.9 有效持续治疗'
+  | 'M4.7 标记消耗命中'
+  | 'M4.12 随机种子分支'
+  | 'M4.17 历史窗口'
+  | 'M4.18 计数器读取'
+  | 'M4.19 模式强化';
 
 type RunStatus = 'idle' | 'running' | 'passed' | 'failed' | 'blocked' | 'error';
 
@@ -445,8 +445,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
   return [
     makeCase({
       key: 'm4_4_shield_absorb',
-      group: 'M4.4 shield absorb',
-      label: 'Lux W -> enemy damage',
+      group: 'M4.4 护盾吸收',
+      label: 'Lux W → 敌方伤害',
       caseId: 'M4.4-shield-absorb-closure-001',
       expected: { kind: 'shield_absorb' },
       build: () => {
@@ -470,8 +470,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
     }),
     makeCase({
       key: 'm4_5_effective_heal',
-      group: 'M4.5 effective heal',
-      label: 'Taric Q with damaged self',
+      group: 'M4.5 有效治疗',
+      label: 'Taric Q 自身受伤',
       caseId: 'M4.5-effective-heal-closure-001',
       expected: { kind: 'heal' },
       build: () => {
@@ -489,8 +489,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
     }),
     makeCase({
       key: 'm4_9_effective_hot',
-      group: 'M4.9 effective HoT',
-      label: 'Mundo R ticks with damaged self',
+      group: 'M4.9 有效持续治疗',
+      label: 'Mundo R 周期伤害自身受伤',
       caseId: 'M4.9-effective-hot-closure-001',
       expected: { kind: 'hot' },
       build: () => {
@@ -508,8 +508,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
     }),
     makeCase({
       key: 'm4_7_mark_consume_true',
-      group: 'M4.7 mark consume true',
-      label: 'Quinn E -> Harrier Hit',
+      group: 'M4.7 标记消耗命中',
+      label: 'Quinn E → Harrier 命中',
       caseId: 'M4.7-mark-consume-true-closure-001',
       expected: { kind: 'mark_consume' },
       build: () => {
@@ -530,8 +530,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
     ...[1, 2].map((seed) =>
       makeCase({
         key: `m4_12_seed_${seed}`,
-        group: 'M4.12 seed branch',
-        label: seed === 1 ? 'Gangplank Q seed=1 crit' : 'Gangplank Q seed=2 non-crit',
+        group: 'M4.12 随机种子分支',
+        label: seed === 1 ? 'Gangplank Q 种子=1 暴击' : 'Gangplank Q 种子=2 非暴击',
         caseId: seed === 1 ? 'M4.12-seed-branch-closure-crit' : 'M4.12-seed-branch-closure-noncrit',
         expected: { kind: 'seed', critResult: seed === 1 },
         build: () => {
@@ -554,8 +554,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
     ].map((variant) =>
       makeCase({
         key: `m4_17_history_${variant.key}`,
-        group: 'M4.17 history window',
-        label: variant.inside ? 'Zed R within 4000ms' : 'Zed R after 5001ms',
+        group: 'M4.17 历史窗口',
+        label: variant.inside ? 'Zed R 4000ms 内' : 'Zed R 5001ms 后',
         caseId: variant.inside ? 'M4.17-history-window-closure-inside' : 'M4.17-history-window-closure-outside',
         expected: { kind: 'history', historyInside: variant.inside },
         build: () => {
@@ -580,8 +580,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
     ),
     makeCase({
       key: 'm4_18_counter_read',
-      group: 'M4.18 counter read',
-      label: 'Vayne W increments -> counter read',
+      group: 'M4.18 计数器读取',
+      label: 'Vayne W 计数器增加 → 计数器读取',
       caseId: 'M4.18-counter-read-closure-001',
       expected: { kind: 'counter' },
       build: () => {
@@ -614,8 +614,8 @@ function buildPreparedCases(bundle: GameDataBundle): PreparedCase[] {
     ].map((variant) =>
       makeCase({
         key: `m4_19_mode_${variant.key}`,
-        group: 'M4.19 mode augment',
-        label: variant.active ? 'KSante R modeAugments=All Out' : 'KSante R normal',
+        group: 'M4.19 模式强化',
+        label: variant.active ? 'KSante R 模式强化=全开' : 'KSante R 普通',
         caseId: variant.active ? 'M4.19-mode-augment-closure-allout' : 'M4.19-mode-augment-closure-normal',
         expected: { kind: 'mode', modeActive: variant.active },
         build: () => {
@@ -1151,7 +1151,7 @@ export function WasmValidationM4ClosurePage({
 
   const runCaseFromButton = useCallback(async (testCase: PreparedCase) => {
     setSelectedCaseKey(testCase.key);
-    if (testCase.group !== 'M4.19 mode augment') {
+    if (testCase.group !== 'M4.19 模式强化') {
       await runCase(testCase);
       return;
     }
