@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 测试记录
 WORKSTREAM: planning
 STATUS: pass
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-06-20
 
 ## 2026-06-20 DB/Admin + Published Bundle + Wasm DPS 补充闭环

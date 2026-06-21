@@ -2,7 +2,7 @@ TASK_KEY: planning-platform-roadmap
 DOC_TYPE: 概要设计
 WORKSTREAM: planning
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-04-30
 
 # 平台推进计划：TinyGo V2 Wasm 验证 + 核心编辑后台

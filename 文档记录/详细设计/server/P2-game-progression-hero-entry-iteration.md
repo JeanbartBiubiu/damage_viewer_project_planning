@@ -2,7 +2,7 @@ TASK_KEY: server-p2-game-progression-hero-entry
 DOC_TYPE: 详细设计
 WORKSTREAM: server
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-10
 
 # P2 游戏阶段配置 + 英雄属性录入优化 迭代方案
