@@ -1,4 +1,5 @@
 import type { GameDataBundle, Hero, Item, JsonObject, Skill, TypeDefinition, TypeRelation } from '../types/api';
+import { RESERVED_TYPE_IDS } from '../config/reservedTypes';
 import {
   actionTemplateHasBasicAttackClassifier,
   buildDpsTargetActorTemplateFromSnapshot,
@@ -106,6 +107,32 @@ export type V2DpsEquipmentOption = {
   itemId: string;
   label: string;
   statsLabel: string;
+};
+
+export type V2DpsReadinessFilterMode = 'ready' | 'all' | 'unverified';
+
+export type V2DpsEquipmentReadinessInspection = {
+  readyTypeConfigured: boolean;
+  readyConcreteTypeIds: number[];
+  readyEquipmentItemIds: Set<string>;
+};
+
+export type V2DpsBaseEquipmentReadinessSummary = {
+  readyTypeConfigured: boolean;
+  readyCount: number;
+  unverifiedCount: number;
+  baseCount: number;
+  readyEquipmentItemIds: Set<string>;
+  unverifiedEquipmentItemIds: Set<string>;
+  baseSelectableEquipmentItemIds: Set<string>;
+};
+
+export type V2DpsReadinessFilterEvidence = {
+  mode: V2DpsReadinessFilterMode;
+  readyTypeConfigured: boolean;
+  readyEquipmentCount: number;
+  unverifiedEquipmentCount: number;
+  selectedEquipmentReadiness: Array<{ itemId: string; ready: boolean }>;
 };
 
 export type V2DpsStackingPassiveBundleCheck = {
@@ -1051,9 +1078,116 @@ export function listV2DpsTargetGroups(bundle: GameDataBundle): V2DpsActorTypeGro
     });
 }
 
-export function listV2DpsEquipmentOptions(bundle: GameDataBundle): V2DpsEquipmentOption[] {
+export function inspectV2DpsEquipmentReadiness(bundle: GameDataBundle): V2DpsEquipmentReadinessInspection {
+  const readyConcreteTypeIds = bundle.types
+    .filter((type) => type.reservedTypeId === RESERVED_TYPE_IDS.SINGLE_ATTACKER_DPS_READY)
+    .map((type) => type.typeId);
+  const readyTypeIdSet = new Set(readyConcreteTypeIds);
+  const readyEquipmentItemIds = new Set<string>();
+  if (readyTypeIdSet.size > 0) {
+    for (const relation of bundle.typeRelations) {
+      if (relation.targetCategory !== 'equipment' || !readyTypeIdSet.has(relation.typeId)) {
+        continue;
+      }
+      if (relation.targetId) {
+        readyEquipmentItemIds.add(relation.targetId);
+      }
+    }
+  }
+  return {
+    readyTypeConfigured: readyConcreteTypeIds.length > 0,
+    readyConcreteTypeIds,
+    readyEquipmentItemIds
+  };
+}
+
+export function summarizeV2DpsBaseEquipmentReadiness(
+  bundle: GameDataBundle,
+  baseSelectableEquipmentItemIds: Set<string>
+): V2DpsBaseEquipmentReadinessSummary {
+  const inspection = inspectV2DpsEquipmentReadiness(bundle);
+  const readyEquipmentItemIds = new Set<string>();
+  const unverifiedEquipmentItemIds = new Set<string>();
+  for (const itemId of baseSelectableEquipmentItemIds) {
+    if (inspection.readyEquipmentItemIds.has(itemId)) {
+      readyEquipmentItemIds.add(itemId);
+    } else {
+      unverifiedEquipmentItemIds.add(itemId);
+    }
+  }
+  return {
+    readyTypeConfigured: inspection.readyTypeConfigured,
+    readyCount: readyEquipmentItemIds.size,
+    unverifiedCount: unverifiedEquipmentItemIds.size,
+    baseCount: baseSelectableEquipmentItemIds.size,
+    readyEquipmentItemIds,
+    unverifiedEquipmentItemIds,
+    baseSelectableEquipmentItemIds
+  };
+}
+
+export function summarizeV2DpsAttackerEquipmentReadiness(bundle: GameDataBundle): V2DpsBaseEquipmentReadinessSummary {
+  return summarizeV2DpsBaseEquipmentReadiness(bundle, adcCompletedEquipmentIds(bundle));
+}
+
+export function filterV2DpsEquipmentIdsByReadinessMode(
+  baseSelectableEquipmentItemIds: Set<string>,
+  inspection: V2DpsEquipmentReadinessInspection,
+  mode: V2DpsReadinessFilterMode = 'ready'
+): Set<string> {
+  if (mode === 'all') {
+    return new Set(baseSelectableEquipmentItemIds);
+  }
+  const readyInBase = new Set<string>();
+  const unverifiedInBase = new Set<string>();
+  for (const itemId of baseSelectableEquipmentItemIds) {
+    if (inspection.readyEquipmentItemIds.has(itemId)) {
+      readyInBase.add(itemId);
+    } else {
+      unverifiedInBase.add(itemId);
+    }
+  }
+  if (mode === 'unverified') {
+    return unverifiedInBase;
+  }
+  if (!inspection.readyTypeConfigured) {
+    return new Set();
+  }
+  return readyInBase;
+}
+
+export function buildV2DpsReadinessFilterEvidence(
+  bundle: GameDataBundle,
+  mode: V2DpsReadinessFilterMode,
+  selectedEquipmentItemIds: string[]
+): V2DpsReadinessFilterEvidence {
+  const inspection = inspectV2DpsEquipmentReadiness(bundle);
+  const attackerSummary = summarizeV2DpsAttackerEquipmentReadiness(bundle);
+  const selectedIds = [...new Set(selectedEquipmentItemIds.filter(Boolean))].sort((left, right) => Number(left) - Number(right));
+  return {
+    mode,
+    readyTypeConfigured: inspection.readyTypeConfigured,
+    readyEquipmentCount: attackerSummary.readyCount,
+    unverifiedEquipmentCount: attackerSummary.unverifiedCount,
+    selectedEquipmentReadiness: selectedIds.map((itemId) => ({
+      itemId,
+      ready: inspection.readyEquipmentItemIds.has(itemId)
+    }))
+  };
+}
+
+export function listV2DpsEquipmentOptions(
+  bundle: GameDataBundle,
+  readinessFilterMode: V2DpsReadinessFilterMode = 'ready'
+): V2DpsEquipmentOption[] {
   const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
-  return Array.from(adcCompletedEquipmentIds(bundle))
+  const inspection = inspectV2DpsEquipmentReadiness(bundle);
+  const filteredIds = filterV2DpsEquipmentIdsByReadinessMode(
+    adcCompletedEquipmentIds(bundle),
+    inspection,
+    readinessFilterMode
+  );
+  return Array.from(filteredIds)
     .map((itemId) => itemById.get(itemId))
     .filter((item): item is Item => Boolean(item))
     .map((item) => ({
@@ -1064,22 +1198,18 @@ export function listV2DpsEquipmentOptions(bundle: GameDataBundle): V2DpsEquipmen
     .sort((left, right) => Number(left.itemId) - Number(right.itemId));
 }
 
-export function listV2DpsTargetEquipmentOptions(bundle: GameDataBundle): V2DpsEquipmentOption[] {
+export function listV2DpsTargetEquipmentOptions(
+  bundle: GameDataBundle,
+  readinessFilterMode: V2DpsReadinessFilterMode = 'ready'
+): V2DpsEquipmentOption[] {
   const itemById = new Map(bundle.items.map((item) => [item.itemId, item]));
-  const candidateIds = new Set<string>();
-  for (const item of bundle.items) {
-    if (!item.itemId) {
-      continue;
-    }
-    if ((V2_DPS_PRIORITY_TARGET_EQUIPMENT_ITEM_IDS as readonly string[]).includes(item.itemId)) {
-      candidateIds.add(item.itemId);
-      continue;
-    }
-    if (itemHasDefensiveEquipmentStats(item) || itemHasTargetOwnedDpsPassive(bundle, item)) {
-      candidateIds.add(item.itemId);
-    }
-  }
-  return Array.from(candidateIds)
+  const inspection = inspectV2DpsEquipmentReadiness(bundle);
+  const filteredIds = filterV2DpsEquipmentIdsByReadinessMode(
+    targetEquipmentCandidateIds(bundle),
+    inspection,
+    readinessFilterMode
+  );
+  return Array.from(filteredIds)
     .map((itemId) => itemById.get(itemId))
     .filter((item): item is Item => Boolean(item))
     .map((item) => ({
@@ -2334,6 +2464,23 @@ function dedupeActors(actors: V2DpsActorOption[]): V2DpsActorOption[] {
 
 function typeRelationsForHero(bundle: GameDataBundle, heroId: string): TypeRelation[] {
   return bundle.typeRelations.filter((relation) => relation.targetCategory === 'character' && relation.targetId === heroId);
+}
+
+function targetEquipmentCandidateIds(bundle: GameDataBundle): Set<string> {
+  const candidateIds = new Set<string>();
+  for (const item of bundle.items) {
+    if (!item.itemId) {
+      continue;
+    }
+    if ((V2_DPS_PRIORITY_TARGET_EQUIPMENT_ITEM_IDS as readonly string[]).includes(item.itemId)) {
+      candidateIds.add(item.itemId);
+      continue;
+    }
+    if (itemHasDefensiveEquipmentStats(item) || itemHasTargetOwnedDpsPassive(bundle, item)) {
+      candidateIds.add(item.itemId);
+    }
+  }
+  return candidateIds;
 }
 
 function adcCompletedEquipmentIds(bundle: GameDataBundle): Set<string> {
