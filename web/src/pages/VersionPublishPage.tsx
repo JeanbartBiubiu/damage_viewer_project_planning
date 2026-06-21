@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Form, Grid, Input, Space, Typography } from '@arco-design/web-react';
 import { DetailGrid, type DetailGridItem } from '../components/DataTable';
-import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import { getErrorMessage } from '../services/apiClient';
 import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
-import type { BundleMeta, CurrentVersion, LoadState } from '../types/api';
+import type { BundleMeta, CurrentVersion } from '../types/api';
 import { AdminPublishRail } from './admin/AdminPublishRail';
 import { usePublishFlow } from './admin/usePublishFlow';
 
@@ -40,7 +39,6 @@ export function VersionPublishPage({
   onDataPublished
 }: VersionPublishPageProps) {
   const [inspectSeed, setInspectSeed] = useState(0);
-  const [inspectState, setInspectState] = useState<LoadState>('idle');
   const [inspectError, setInspectError] = useState<string | null>(null);
   const [currentVersion, setCurrentVersion] = useState<CurrentVersion | null>(null);
   const [bundleMeta, setBundleMeta] = useState<BundleMeta | null>(null);
@@ -70,7 +68,6 @@ export function VersionPublishPage({
 
   useEffect(() => {
     if (!selectedGameId) {
-      setInspectState('idle');
       setInspectError(null);
       setCurrentVersion(null);
       setBundleMeta(null);
@@ -81,7 +78,6 @@ export function VersionPublishPage({
     const gameId = selectedGameId;
 
     async function inspectCurrentPublishState() {
-      setInspectState('loading');
       setInspectError(null);
 
       try {
@@ -92,7 +88,6 @@ export function VersionPublishPage({
 
         setCurrentVersion(snapshot.currentVersion);
         setBundleMeta(snapshot.bundle.meta);
-        setInspectState('success');
       } catch (error) {
         if (cancelled) {
           return;
@@ -100,7 +95,6 @@ export function VersionPublishPage({
 
         setCurrentVersion(null);
         setBundleMeta(null);
-        setInspectState('error');
         setInspectError(getErrorMessage(error));
       }
     }
@@ -154,16 +148,12 @@ export function VersionPublishPage({
         actions={
           <Space wrap>
             <Button onClick={() => setInspectSeed((value) => value + 1)}>刷新当前版本</Button>
-            <Button href="#/wasm-validation">前往 Wasm 验证</Button>
           </Space>
         }
       >
         <Row gutter={[16, 16]} align="stretch">
           <Col xs={24} lg={14}>
             <Space direction="vertical" size={10} style={{ width: '100%' }}>
-              <Typography.Text type="secondary">
-                版本发布集中在这一页处理：提交 `versionCode`，发布后立即回读 `current` 与 bundle 快照。
-              </Typography.Text>
               <div className="admin-resource-summary">
                 <div className="admin-summary-item">
                   <span className="admin-summary-label">当前游戏</span>
@@ -175,13 +165,6 @@ export function VersionPublishPage({
                   <strong className="admin-summary-value">{displayedCurrentVersion?.versionCode ?? '--'}</strong>
                   <span className="admin-summary-note">
                     {displayedCurrentVersion?.publishedAt ?? displayedCurrentVersion?.releaseDate ?? '尚未读取到 current version'}
-                  </span>
-                </div>
-                <div className="admin-summary-item">
-                  <span className="admin-summary-label">检查状态</span>
-                  <strong className="admin-summary-value">{inspectState}</strong>
-                  <span className="admin-summary-note">
-                    {displayedBundleMeta ? `generatedAt ${formatDate(displayedBundleMeta.generatedAt)}` : '等待读取 bundle meta'}
                   </span>
                 </div>
               </div>
@@ -227,30 +210,6 @@ export function VersionPublishPage({
 
           <Col xs={24} xl={11}>
             <Space direction="vertical" size={16} style={{ width: '100%' }}>
-              <Card size="small">
-                <Space direction="vertical" size={16} style={{ width: '100%' }}>
-                  <Typography.Title heading={5} style={{ margin: 0 }}>
-                    当前线上快照
-                  </Typography.Title>
-                  <Row gutter={[12, 12]}>
-                    <Col xs={24} sm={12}>
-                      <MetricCard
-                        label="current version"
-                        value={displayedCurrentVersion?.versionCode ?? '--'}
-                        hint={displayedCurrentVersion?.releaseDate ?? displayedCurrentVersion?.publishedAt ?? '等待读取'}
-                      />
-                    </Col>
-                    <Col xs={24} sm={12}>
-                      <MetricCard
-                        label="bundle version"
-                        value={displayedBundleMeta?.versionCode ?? '--'}
-                        hint={displayedBundleMeta ? `generatedAt ${formatDate(displayedBundleMeta.generatedAt)}` : '等待读取'}
-                      />
-                    </Col>
-                  </Row>
-                </Space>
-              </Card>
-
               <Card size="small">
                 <Space direction="vertical" size={16} style={{ width: '100%' }}>
                   <Typography.Title heading={5} style={{ margin: 0 }}>
