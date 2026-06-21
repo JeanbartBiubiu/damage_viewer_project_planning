@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Exec(cd)",
-      "*"
+      "Exec(cmd)",
+      "read",
+      "edit",
+      "grep",
+      "glob",
+      "exec",
+      "Fetch(*)",
+      "mcp__*"
     ]
   }
 }
