@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as echarts from 'echarts';
-import { Alert, Button, Collapse, Form, Grid, Input, InputNumber, Select, Space, Table, Tag, Typography } from '@arco-design/web-react';
+import { Alert, Button, Collapse, Form, Grid, Input, InputNumber, Radio, Select, Space, Table, Tag, Typography } from '@arco-design/web-react';
 import { IconCopy, IconDelete, IconPlayArrow, IconPlus, IconRefresh } from '@arco-design/web-react/icon';
 import { EntitySelectOptionLabel, filterEntitySelectOption } from '../components/EntitySelectOption';
 import { EmptyState } from '../components/EmptyState';
@@ -34,6 +34,8 @@ import {
   buildExecuteEvidenceByCurve,
   buildExecuteEvidenceFromCurveResult,
   buildPassiveCooldownEvidenceFromCurveResult,
+  buildV2DpsReadinessFilterEvidence,
+  summarizeV2DpsAttackerEquipmentReadiness,
   V2_DPS_CASE_ID,
   V2_DPS_INVALID_TARGET_REASON,
   V2_DPS_MISSING_BASIC_ATTACK_REASON,
@@ -60,7 +62,8 @@ import {
   type V2DpsExecuteEvidence,
   type V2DpsPassiveCooldownEvidence,
   type V2DpsPassiveCooldownEvidenceSummary,
-  type EquipmentSkillRefDiagnostic
+  type EquipmentSkillRefDiagnostic,
+  type V2DpsReadinessFilterMode
 } from '../engine/tinygoV2DpsAdapter';
 import { summarizeCompiledStatusEvidence } from '../engine/tinygoV2BundleAdapter';
 import { TinyGoV2Bridge, TinyGoV2InvocationError, decodeFramePayload, type TinyGoV2Frame } from '../engine/tinygoV2Bridge';
@@ -233,6 +236,7 @@ function WasmValidationV2DpsWorkbench({
   const [chartMode, setChartMode] = useState<ChartMode>('damage');
   const [runeDraftByCurveId, setRuneDraftByCurveId] = useState<Record<string, string>>({});
   const [expandedCurveIds, setExpandedCurveIds] = useState<string[]>([]);
+  const [readinessFilterMode, setReadinessFilterMode] = useState<V2DpsReadinessFilterMode>('ready');
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const chartElementRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
@@ -366,8 +370,26 @@ function WasmValidationV2DpsWorkbench({
     () => new Set(targetDummyGroups.flatMap((group) => group.actors.map((actor) => actor.actorId))),
     [targetDummyGroups]
   );
-  const equipmentOptions = useMemo(() => (bundle ? listV2DpsEquipmentOptions(bundle) : []), [bundle]);
-  const targetEquipmentOptions = useMemo(() => (bundle ? listV2DpsTargetEquipmentOptions(bundle) : []), [bundle]);
+  const equipmentOptions = useMemo(
+    () => (bundle ? listV2DpsEquipmentOptions(bundle, readinessFilterMode) : []),
+    [bundle, readinessFilterMode]
+  );
+  const targetEquipmentOptions = useMemo(
+    () => (bundle ? listV2DpsTargetEquipmentOptions(bundle, readinessFilterMode) : []),
+    [bundle, readinessFilterMode]
+  );
+  const attackerEquipmentReadiness = useMemo(
+    () => (bundle ? summarizeV2DpsAttackerEquipmentReadiness(bundle) : null),
+    [bundle]
+  );
+  const allowedEquipmentIds = useMemo(
+    () => new Set(equipmentOptions.map((option) => option.itemId)),
+    [equipmentOptions]
+  );
+  const allowedTargetEquipmentIds = useMemo(
+    () => new Set(targetEquipmentOptions.map((option) => option.itemId)),
+    [targetEquipmentOptions]
+  );
   const equipmentLabelById = useMemo(() => {
     const labels = new Map<string, string>();
     for (const option of equipmentOptions) {
@@ -590,15 +612,20 @@ function WasmValidationV2DpsWorkbench({
     return buildPassiveCooldownEvidenceFromCurveResult(activeCurveResult);
   }, [activeCurveResult]);
   const exportPayload = useMemo(() => {
-    if (!wasmOutput || !preparedInput) {
+    if (!wasmOutput || !preparedInput || !bundle) {
       return null;
     }
+    const selectedEquipmentItemIds = [
+      ...(selection?.targetEquipmentItemIds ?? []),
+      ...(selection?.curves.flatMap((curve) => curve.equipmentItemIds) ?? [])
+    ];
     return {
       caseId: wasmOutput.caseId,
       versionCode: wasmOutput.versionCode,
       wasmSha256: wasmOutput.wasmSha256,
       activeCurveId: activeCurveResult?.curveId ?? wasmOutput.curveResults[0]?.curveId,
       preflightBlockedReasons: preparedInput.preflightBlockedReasons,
+      readinessFilter: buildV2DpsReadinessFilterEvidence(bundle, readinessFilterMode, selectedEquipmentItemIds),
       selection: buildExportSelection(preparedInput),
       resolvedSnapshot: buildExportResolvedSnapshot(preparedInput),
       compileEvidence: {
@@ -624,7 +651,7 @@ function WasmValidationV2DpsWorkbench({
       executeEvidence: executeEvidenceByCurve,
       wasmOutput
     };
-  }, [activeCurveResult, compiledStatusEvidence, executeEvidenceByCurve, preparedInput, wasmOutput]);
+  }, [activeCurveResult, bundle, compiledStatusEvidence, executeEvidenceByCurve, preparedInput, readinessFilterMode, selection, wasmOutput]);
 
   useEffect(() => {
     if (!chartElementRef.current) {
@@ -675,6 +702,32 @@ function WasmValidationV2DpsWorkbench({
     const curveIds = new Set((selection?.curves ?? []).map((curve) => curve.curveId));
     setExpandedCurveIds((current) => current.filter((curveId) => curveIds.has(curveId)));
   }, [selection?.curves]);
+
+  useEffect(() => {
+    if (!selection) {
+      return;
+    }
+    const filteredTargetIds = (selection.targetEquipmentItemIds ?? []).filter((itemId) => allowedTargetEquipmentIds.has(itemId));
+    const filteredCurves = selection.curves.map((curve) => ({
+      ...curve,
+      equipmentItemIds: curve.equipmentItemIds.filter((itemId) => allowedEquipmentIds.has(itemId))
+    }));
+    const targetChanged = filteredTargetIds.length !== (selection.targetEquipmentItemIds ?? []).length
+      || filteredTargetIds.some((itemId, index) => itemId !== (selection.targetEquipmentItemIds ?? [])[index]);
+    const curvesChanged = filteredCurves.some((curve, index) => {
+      const original = selection.curves[index];
+      return curve.equipmentItemIds.length !== original.equipmentItemIds.length
+        || curve.equipmentItemIds.some((itemId, itemIndex) => itemId !== original.equipmentItemIds[itemIndex]);
+    });
+    if (!targetChanged && !curvesChanged) {
+      return;
+    }
+    setSelection({
+      ...selection,
+      targetEquipmentItemIds: filteredTargetIds,
+      curves: filteredCurves
+    });
+  }, [allowedEquipmentIds, allowedTargetEquipmentIds, selection]);
 
   const updateSelection = useCallback((updater: (current: V2DpsSelection) => V2DpsSelection) => {
     setSelection((current) => {
@@ -1151,6 +1204,39 @@ function WasmValidationV2DpsWorkbench({
             <MetricCard label="Wasm" value={wasmSha256 ? wasmSha256.slice(0, 12) : formatLoadState(runStatus)} hint={WASM_ASSET_LABEL} />
           </Col>
         </Row>
+
+        {bundle && attackerEquipmentReadiness ? (
+          <Space wrap align="center" style={{ marginBottom: 16 }}>
+            <Typography.Text type="secondary">装备验证筛选</Typography.Text>
+            <Radio.Group
+              type="button"
+              size="small"
+              value={readinessFilterMode}
+              onChange={(value) => setReadinessFilterMode(value as V2DpsReadinessFilterMode)}
+            >
+              <Radio value="ready">已验证</Radio>
+              <Radio value="all">全部</Radio>
+              <Radio value="unverified">未验证</Radio>
+            </Radio.Group>
+            <Typography.Text type="secondary">
+              已验证 {attackerEquipmentReadiness.readyCount} / 未验证 {attackerEquipmentReadiness.unverifiedCount} / 基础候选 {attackerEquipmentReadiness.baseCount}
+            </Typography.Text>
+            {readinessFilterMode !== 'ready' ? (
+              <Tag color="orangered">测试模式：可能包含未验证数据</Tag>
+            ) : null}
+          </Space>
+        ) : null}
+        {bundle && readinessFilterMode === 'ready' && attackerEquipmentReadiness && equipmentOptions.length === 0 ? (
+          <Alert
+            type="warning"
+            style={{ marginBottom: 16 }}
+            content={
+              attackerEquipmentReadiness.readyTypeConfigured
+                ? '当前 bundle 中暂无已验证的 ADC 成装候选；可切换到「全部」或「未验证」测试模式继续处理。'
+                : '未配置 single_attacker_dps_ready concrete type；请先创建 reservedTypeId=20010 的 game-local type 并挂载 equipment 关系，或切换到测试模式查看全部候选。'
+            }
+          />
+        ) : null}
 
         <Form layout="vertical">
           <Row gutter={[16, 16]}>
