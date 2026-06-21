@@ -1,19 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Button, Card, Grid, Space, Typography } from '@arco-design/web-react';
-import { DataTable, DetailGrid, type DetailGridItem } from '../components/DataTable';
+import { DataTable } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import { getErrorMessage, getImages } from '../services/apiClient';
 import {
   clearGameImageCache,
-  imageCacheDescriptor,
   listCachedImages,
   toRemoteUri,
   upsertRemoteImages,
   type CachedImageRecord
 } from '../services/imageCache';
-import type { LoadState } from '../types/api';
 
 type ImagesPageProps = {
   apiBaseUrl: string;
@@ -53,7 +51,6 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
   const autoPrimedGames = useRef<Record<string, boolean>>({});
   const [cacheRows, setCacheRows] = useState<CachedImageRecord[]>([]);
   const [latestUpdate, setLatestUpdate] = useState<string | null>(null);
-  const [cacheState, setCacheState] = useState<LoadState>('idle');
   const [cacheError, setCacheError] = useState<string | null>(null);
   const [syncAction, setSyncAction] = useState<SyncAction>(null);
   const [syncMessage, setSyncMessage] = useState('首次进入当前游戏时，页面会自动尝试同步一次图片。');
@@ -121,7 +118,6 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
     if (!selectedGameId) {
       setCacheRows([]);
       setLatestUpdate(null);
-      setCacheState('idle');
       setCacheError(null);
       return;
     }
@@ -130,7 +126,6 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
     let cancelled = false;
 
     async function bootstrap() {
-      setCacheState('loading');
       setCacheError(null);
 
       try {
@@ -138,8 +133,6 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
         if (cancelled) {
           return;
         }
-
-        setCacheState('success');
 
         if (snapshot.rows.length === 0 && !autoPrimedGames.current[gameId]) {
           autoPrimedGames.current[gameId] = true;
@@ -152,7 +145,6 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
 
         setCacheRows([]);
         setLatestUpdate(null);
-        setCacheState('error');
         setCacheError(getErrorMessage(error));
       }
     }
@@ -165,59 +157,9 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
   }, [apiBaseUrl, selectedGameId]);
 
   const previewRows = cacheRows.slice(0, 12);
-  const previewSample = previewRows[0]
-    ? previewRows[0]
-    : null;
-  const previewSampleDetails: DetailGridItem[] = previewSample
-    ? [
-        {
-          label: '服务器资源标识',
-          value: <Typography.Text code>{selectedGameId ? toRemoteUri(selectedGameId, previewSample.uri) : previewSample.uri}</Typography.Text>,
-          hint: '远端接口返回的资源路径'
-        },
-        {
-          label: '本地资源标识',
-          value: <Typography.Text code>{previewSample.uri}</Typography.Text>,
-          hint: 'IndexedDB 里的主键片段'
-        },
-        {
-          label: '创建时间',
-          value: formatDate(previewSample.create_time),
-          hint: '首次写入本地缓存的时间'
-        },
-        {
-          label: '最近更新时间',
-          value: formatDate(previewSample.update_time),
-          hint: '增量同步会基于这个时间继续追数据'
-        }
-      ]
-    : [
-        {
-          label: '示例记录',
-          value: '暂无',
-          hint: '同步完成后这里会展示首条缓存记录。'
-        }
-      ];
 
   return (
     <div className="page-images page-stack">
-      <Panel title="缓存合约" kicker="IndexedDB Spec">
-        <Row gutter={[16, 16]}>
-          <Col xs={24} sm={12} lg={6}>
-            <MetricCard label="DB 名称" value={imageCacheDescriptor.dbName} hint="与前端文档保持一致" />
-          </Col>
-          <Col xs={24} sm={12} lg={6}>
-            <MetricCard label="Store" value={imageCacheDescriptor.storeName} hint="主键字段 uri" />
-          </Col>
-          <Col xs={24} sm={12} lg={6}>
-            <MetricCard label="Version" value={String(imageCacheDescriptor.dbVersion)} hint="后续迁移可直接升级" />
-          </Col>
-          <Col xs={24} sm={12} lg={6}>
-            <MetricCard label="本地主键" value="{gameId}_{uri}" hint="避免不同游戏图片冲突" />
-          </Col>
-        </Row>
-      </Panel>
-
       <Panel title="同步动作" kicker="Sync Flow">
         {!selectedGameId ? (
           <EmptyState title="还没有选择 gameId" description="图片页会按当前 gameId 执行全量同步、增量同步和缓存清理。" />
@@ -238,15 +180,6 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={12} lg={6}>
                 <MetricCard label="当前游戏" value={selectedGameName} hint={selectedGameId} />
-              </Col>
-              <Col xs={24} sm={12} lg={6}>
-                <MetricCard label="缓存状态" value={cacheState} hint={cacheError ?? '本地缓存可读写'} />
-              </Col>
-              <Col xs={24} sm={12} lg={6}>
-                <MetricCard label="进行中的动作" value={syncAction ?? 'none'} hint="同一时间只跑一个同步任务" />
-              </Col>
-              <Col xs={24} sm={12} lg={6}>
-                <MetricCard label="最后更新时间" value={formatDate(latestUpdate)} hint="增量同步会用它作为 updatedAfter" />
               </Col>
             </Row>
 
@@ -285,17 +218,6 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
                   emptyMessage="本地还没有缓存图片。"
                 />
               </Space>
-            </Col>
-
-            <Col xs={24} lg={10}>
-              <Card size="small">
-                <Space direction="vertical" size={16} style={{ width: '100%' }}>
-                  <Typography.Title heading={5} style={{ margin: 0 }}>
-                    示例记录
-                  </Typography.Title>
-                  <DetailGrid items={previewSampleDetails} />
-                </Space>
-              </Card>
             </Col>
           </Row>
         )}
