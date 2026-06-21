@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: active
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-14
 
 # M4 机制扩展分批 Goal 提示词

@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: draft
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-06-20
 
 # V2 BatchV 剩余 ADC/坦克装备分组与运行能力方案 2026-06-20

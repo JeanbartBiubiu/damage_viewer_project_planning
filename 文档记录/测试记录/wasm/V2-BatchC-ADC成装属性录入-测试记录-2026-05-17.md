@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 测试记录
 WORKSTREAM: planning
 STATUS: active
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-17
 
 # V2 Batch C ADC 成装属性录入测试记录 2026-05-17

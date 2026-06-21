@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 测试记录
 WORKSTREAM: planning
 STATUS: done
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-06-06
 
 # V2 Batch N 单攻击方 DPS 普攻充能阈值触发测试记录 2026-06-06

@@ -2,7 +2,7 @@ TASK_KEY: web-bundle-compilation
 DOC_TYPE: 详细设计
 WORKSTREAM: web
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-10
 
 # 前端 Bundle 到 TinyGo V2 输入适配方案

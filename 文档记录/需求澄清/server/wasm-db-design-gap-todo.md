@@ -2,7 +2,7 @@ TASK_KEY: server-wasm-db-gap
 DOC_TYPE: 需求澄清
 WORKSTREAM: server
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-04-30
 
 # WASM + DB 补充设计 TODO

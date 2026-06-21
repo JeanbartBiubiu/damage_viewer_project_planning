@@ -2,7 +2,7 @@ TASK_KEY: wasm-lol-entity-coverage-audit
 DOC_TYPE: 需求澄清
 WORKSTREAM: wasm
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-04-25 16:31:02
 
 # WASM 机制覆盖需求

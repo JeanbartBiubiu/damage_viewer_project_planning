@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 其他
 WORKSTREAM: planning
 STATUS: tracked
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-05-16 15:41:39
 
 # 单攻击方 DPS V2 方案评审

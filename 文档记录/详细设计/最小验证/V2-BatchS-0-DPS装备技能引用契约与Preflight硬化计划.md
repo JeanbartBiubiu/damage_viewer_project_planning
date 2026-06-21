@@ -2,7 +2,7 @@ TASK_KEY: planning-validation-milestones
 DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: draft
-EXECUTION_MODEL: gpt-5.4
+EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-06-09
 
 # V2 Batch S-0 DPS 装备技能引用契约与 Preflight 硬化计划
