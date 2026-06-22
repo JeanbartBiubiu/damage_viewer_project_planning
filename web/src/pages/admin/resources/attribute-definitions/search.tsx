@@ -2,6 +2,11 @@ import { Button, Form, Input, Select, Space } from '@arco-design/web-react';
 import { ATTRIBUTE_VALUE_KIND_OPTIONS } from './constants';
 import type { AttributeDefinitionsSearchData } from './types';
 
+const ATTRIBUTE_TYPE_OPTIONS = [
+  { label: '全部', value: '' },
+  { label: 'number', value: 'number' }
+];
+
 type AttributeDefinitionsSearchProps = {
   searchData: AttributeDefinitionsSearchData;
   onFieldChange: <K extends keyof AttributeDefinitionsSearchData>(field: K, value: AttributeDefinitionsSearchData[K]) => void;
@@ -18,13 +23,25 @@ export function AttributeDefinitionsSearch({
   return (
     <Form layout="inline" className="crud-search-form">
       <Form.Item label="attrKey">
-        <Input value={searchData.attrKey} onChange={(value) => onFieldChange('attrKey', value)} placeholder="请输入 attrKey" />
+        <Input value={searchData.attrKey} onChange={(value) => onFieldChange('attrKey', value)} onPressEnter={onSearch} placeholder="请输入 attrKey" />
       </Form.Item>
       <Form.Item label="属性名称">
-        <Input value={searchData.attrName} onChange={(value) => onFieldChange('attrName', value)} placeholder="请输入属性名称" />
+        <Input value={searchData.attrName} onChange={(value) => onFieldChange('attrName', value)} onPressEnter={onSearch} placeholder="请输入属性名称" />
       </Form.Item>
       <Form.Item label="属性类型">
-        <Input value={searchData.attrType} onChange={(value) => onFieldChange('attrType', value)} placeholder="请输入属性类型" />
+        <Select
+          allowClear
+          value={searchData.attrType || undefined}
+          onChange={(value) => onFieldChange('attrType', value ?? '')}
+          placeholder="全部"
+          style={{ width: 180 }}
+        >
+          {ATTRIBUTE_TYPE_OPTIONS.map((option) => (
+            <Select.Option key={option.value} value={option.value}>
+              {option.label}
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
       <Form.Item label="valueKind">
         <Select

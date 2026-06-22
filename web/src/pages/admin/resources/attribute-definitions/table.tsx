@@ -1,4 +1,5 @@
-import { Button, Space, Table, Typography } from '@arco-design/web-react';
+import { Button, Skeleton, Space, Table, Typography } from '@arco-design/web-react';
+import { EmptyState } from '../../../../components/EmptyState';
 import { getAttributeDefinitionsColumns } from './columns';
 import type { AttributeDefinitionsRecord } from './types';
 
@@ -31,6 +32,18 @@ export function AttributeDefinitionsTable({
   onCreate,
   onRefresh
 }: AttributeDefinitionsTableProps) {
+  const columns = getAttributeDefinitionsColumns({
+    onView,
+    onEdit,
+    onToggleGrowth,
+    resolveImageSrc,
+    isGrowthAttribute,
+    canToggleGrowth: !actionsDisabled && growthTypeAvailable,
+    togglingAttrKey
+  });
+  const scrollX = columns.reduce((sum, col) => sum + (col.width ?? 0), 0);
+  const showSkeleton = loading && records.length === 0;
+
   return (
     <Space direction="vertical" size={16} style={{ width: '100%' }}>
       <div className="crud-toolbar">
@@ -51,23 +64,20 @@ export function AttributeDefinitionsTable({
         </Space>
       </div>
 
-      <Table
-        className="data-table-shell"
-        loading={loading}
-        columns={getAttributeDefinitionsColumns({
-          onView,
-          onEdit,
-          onToggleGrowth,
-          resolveImageSrc,
-          isGrowthAttribute,
-          canToggleGrowth: !actionsDisabled && growthTypeAvailable,
-          togglingAttrKey
-        })}
-        data={records}
-        pagination={false}
-        rowKey="attrKey"
-        scroll={{ x: 1460 }}
-      />
+      {showSkeleton ? (
+        <Skeleton text={{ rows: 5, width: ['100%', '60%', '40%', '80%', '50%'] }} animation />
+      ) : (
+        <Table
+          className="data-table-shell"
+          loading={loading}
+          columns={columns}
+          data={records}
+          pagination={false}
+          rowKey="attrKey"
+          scroll={{ x: scrollX }}
+          noDataElement={<EmptyState title="暂无属性数据" description="点击右上角「新增」按钮创建第一个属性定义。" />}
+        />
+      )}
     </Space>
   );
 }

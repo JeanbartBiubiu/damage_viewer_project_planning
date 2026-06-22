@@ -99,6 +99,11 @@ export function collectAttributeBoundsWarnings(formData: AttributeDefinitionsFor
   return warnings;
 }
 
+export function getAttributeValueKindLabel(valueKind: string | undefined): string {
+  const option = ATTRIBUTE_VALUE_KIND_OPTIONS.find((item) => item.value === valueKind);
+  return option?.label ?? valueKind ?? '--';
+}
+
 export function formatAttributeBoundsLabel(record: {
   minValue?: number;
   maxValue?: number;

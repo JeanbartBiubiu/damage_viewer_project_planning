@@ -1,6 +1,6 @@
 import { Button, Space, Tag, Typography } from '@arco-design/web-react';
 import { ResourceImageThumb } from '../../../../components/ResourceImageThumb';
-import { resolveAttributeOrder, formatAttributeBoundsLabel } from './constants';
+import { resolveAttributeOrder, formatAttributeBoundsLabel, getAttributeValueKindLabel } from './constants';
 import type { AttributeDefinitionsRecord } from './types';
 
 type AttributeDefinitionsTableActions = {
@@ -34,12 +34,14 @@ export function getAttributeDefinitionsColumns({
       title: '属性 Key',
       dataIndex: 'attrKey',
       width: 220,
+      sorter: (a: AttributeDefinitionsRecord, b: AttributeDefinitionsRecord) => a.attrKey.localeCompare(b.attrKey),
       render: (_: unknown, record: AttributeDefinitionsRecord) => <Typography.Text code>{record.attrKey}</Typography.Text>
     },
     {
       title: '属性名称',
       dataIndex: 'attrName',
       width: 180,
+      sorter: (a: AttributeDefinitionsRecord, b: AttributeDefinitionsRecord) => (a.attrName ?? '').localeCompare(b.attrName ?? ''),
       render: (_: unknown, record: AttributeDefinitionsRecord) => record.attrName ?? '--'
     },
     {
@@ -58,13 +60,21 @@ export function getAttributeDefinitionsColumns({
       title: '排序',
       dataIndex: 'order',
       width: 100,
+      sorter: (a: AttributeDefinitionsRecord, b: AttributeDefinitionsRecord) => (resolveAttributeOrder(a) ?? 0) - (resolveAttributeOrder(b) ?? 0),
       render: (_: unknown, record: AttributeDefinitionsRecord) => resolveAttributeOrder(record) ?? '--'
     },
     {
       title: '取值语义',
       dataIndex: 'valueKind',
       width: 120,
-      render: (_: unknown, record: AttributeDefinitionsRecord) => <Tag>{record.valueKind ?? '--'}</Tag>
+      render: (_: unknown, record: AttributeDefinitionsRecord) => <Tag>{getAttributeValueKindLabel(record.valueKind)}</Tag>
+    },
+    {
+      title: '比率目标',
+      dataIndex: 'rateTargetAttrKey',
+      width: 180,
+      render: (_: unknown, record: AttributeDefinitionsRecord) =>
+        record.valueKind === 'rate' ? (record.rateTargetAttrKey ?? '--') : '--'
     },
     {
       title: '取值范围',
