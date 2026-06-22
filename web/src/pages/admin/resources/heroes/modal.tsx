@@ -168,7 +168,7 @@ export function HeroesModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 1280 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
         <Form.Item label="英雄 ID">
