@@ -95,14 +95,6 @@ export function AttributeDefinitionsModal({
               placeholder="请输入属性名称"
             />
           </Form.Item>
-
-          <Form.Item label="属性类型">
-            <Input
-              value="number"
-              disabled
-              placeholder="固定为 number"
-            />
-          </Form.Item>
         </div>
 
         <div className="crud-form-grid">
@@ -131,7 +123,12 @@ export function AttributeDefinitionsModal({
             <Select
               disabled={readOnly}
               value={formData.valueKind || undefined}
-              onChange={(value) => onFieldChange('valueKind', value ?? '')}
+              onChange={(value) => {
+                onFieldChange('valueKind', value ?? '');
+                if (value !== 'rate') {
+                  onFieldChange('rateTargetAttrKey', '');
+                }
+              }}
               placeholder="请选择"
             >
               {ATTRIBUTE_VALUE_KIND_OPTIONS.map((option) => (
@@ -143,20 +140,21 @@ export function AttributeDefinitionsModal({
           </Form.Item>
         </div>
 
-        <Form.Item label="比率目标属性 Key">
-          <AttributeKeySelector
-            apiBaseUrl={apiBaseUrl}
-            gameId={selectedGameId}
-            token={adminToken}
-            mode="single"
-            valueMode="attrKey"
-            value={formData.rateTargetAttrKey}
-            disabled={readOnly || formData.valueKind !== 'rate'}
-            onChange={(value) => onFieldChange('rateTargetAttrKey', typeof value === 'string' ? value : '')}
-            placeholder={formData.valueKind === 'rate' ? '请选择比率目标属性' : '仅 valueKind=rate 时可设置'}
-            helperText={formData.valueKind === 'rate' ? undefined : '当 valueKind 为 rate 时，再选择关联目标属性。'}
-          />
-        </Form.Item>
+        {formData.valueKind === 'rate' ? (
+          <Form.Item label="比率目标属性 Key">
+            <AttributeKeySelector
+              apiBaseUrl={apiBaseUrl}
+              gameId={selectedGameId}
+              token={adminToken}
+              mode="single"
+              valueMode="attrKey"
+              value={formData.rateTargetAttrKey}
+              disabled={readOnly}
+              onChange={(value) => onFieldChange('rateTargetAttrKey', typeof value === 'string' ? value : '')}
+              placeholder="请选择比率目标属性"
+            />
+          </Form.Item>
+        ) : null}
 
         <Form.Item label="数值边界（minValue / maxValue）">
           <Space direction="vertical" size={12} style={{ width: '100%' }}>

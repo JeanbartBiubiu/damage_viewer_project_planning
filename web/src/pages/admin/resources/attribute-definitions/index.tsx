@@ -222,6 +222,14 @@ export function AttributeDefinitionsPage({ apiBaseUrl, selectedGameId, adminToke
       setImageUploadError('请先填写 attrKey，再上传图片。');
       return;
     }
+    if (!file.type.startsWith('image/')) {
+      setImageUploadError('仅支持图片文件。');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setImageUploadError('图片大小不能超过 2MB。');
+      return;
+    }
 
     try {
       setImageUploading(true);
