@@ -11,28 +11,31 @@ type HeroesTableActions = {
 export function getHeroesColumns({ onView, onEdit, resolveImageSrc }: HeroesTableActions) {
   return [
     {
+      title: '头像',
+      dataIndex: 'heroId',
+      width: 84,
+      render: (_: unknown, record: HeroesRecord) => <ResourceImageThumb src={resolveImageSrc(record)} alt={record.name ?? record.heroId} size={36} />
+    },
+    {
       title: '英雄 ID',
       dataIndex: 'heroId',
       width: 220,
+      sorter: (a: HeroesRecord, b: HeroesRecord) => a.heroId.localeCompare(b.heroId),
       render: (_: unknown, record: HeroesRecord) => <Typography.Text code>{record.heroId}</Typography.Text>
     },
     {
       title: '名称',
       dataIndex: 'name',
       width: 180,
+      sorter: (a: HeroesRecord, b: HeroesRecord) => (a.name ?? '').localeCompare(b.name ?? ''),
       render: (_: unknown, record: HeroesRecord) => record.name ?? '--'
     },
     {
       title: '称号',
       dataIndex: 'title',
       width: 180,
+      sorter: (a: HeroesRecord, b: HeroesRecord) => (a.title ?? '').localeCompare(b.title ?? ''),
       render: (_: unknown, record: HeroesRecord) => record.title ?? '--'
-    },
-    {
-      title: '头像',
-      dataIndex: 'heroId',
-      width: 120,
-      render: (_: unknown, record: HeroesRecord) => <ResourceImageThumb src={resolveImageSrc(record)} alt={record.name ?? record.heroId} size={36} />
     },
     {
       title: '操作',
