@@ -15,13 +15,13 @@ export function HeroesSearch({ typeDefinitions, searchData, onFieldChange, onSea
   return (
     <Form layout="inline" className="crud-search-form">
       <Form.Item label="heroId">
-        <Input value={searchData.heroId} onChange={(value) => onFieldChange('heroId', value)} placeholder="请输入 heroId" />
+        <Input value={searchData.heroId} onChange={(value) => onFieldChange('heroId', value)} onPressEnter={onSearch} placeholder="请输入 heroId" />
       </Form.Item>
       <Form.Item label="名称">
-        <Input value={searchData.name} onChange={(value) => onFieldChange('name', value)} placeholder="请输入名称" />
+        <Input value={searchData.name} onChange={(value) => onFieldChange('name', value)} onPressEnter={onSearch} placeholder="请输入名称" />
       </Form.Item>
       <Form.Item label="称号">
-        <Input value={searchData.title} onChange={(value) => onFieldChange('title', value)} placeholder="请输入称号" />
+        <Input value={searchData.title} onChange={(value) => onFieldChange('title', value)} onPressEnter={onSearch} placeholder="请输入称号" />
       </Form.Item>
       <Form.Item label="类型">
         <TypeFilter definitions={typeDefinitions} value={searchData.typeIds} onChange={(value) => onFieldChange('typeIds', value)} />
