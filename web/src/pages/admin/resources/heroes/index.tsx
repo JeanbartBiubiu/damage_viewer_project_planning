@@ -188,6 +188,14 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
       setImageUploadError('请先填写 heroId，再上传图片。');
       return;
     }
+    if (!file.type.startsWith('image/')) {
+      setImageUploadError('仅支持图片文件。');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setImageUploadError('图片大小不能超过 2MB。');
+      return;
+    }
 
     try {
       setImageUploading(true);
@@ -273,6 +281,14 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
     if (!selectedGameId || !adminToken.trim()) {
       return;
     }
+    if (progressionFormData.stageMin >= progressionFormData.stageMax) {
+      setProgressionSchemaError('stageMin 必须小于 stageMax。');
+      return;
+    }
+    if (!progressionFormData.stageLabel.trim()) {
+      setProgressionSchemaError('stageLabel 不能为空。');
+      return;
+    }
     try {
       setProgressionSaving(true);
       const response = await putAdminProgressionSchema(apiBaseUrl, selectedGameId, adminToken.trim(), progressionFormData);
@@ -280,7 +296,11 @@ export function HeroesPage({ apiBaseUrl, selectedGameId, adminToken }: HeroesPag
       setProgressionSchemaError(null);
       setProgressionModalVisible(false);
     } catch (error) {
-      setProgressionSchemaError(getErrorMessage(error));
+      const message = getErrorMessage(error);
+      setProgressionSchemaError(message);
+      if (!message.includes('网络') && !message.includes('timeout') && !message.includes('Timeout')) {
+        setProgressionFormData(progressionSchema);
+      }
     } finally {
       setProgressionSaving(false);
     }
