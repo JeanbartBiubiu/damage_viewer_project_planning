@@ -9,12 +9,13 @@ type SkillsTableProps = {
   actionsDisabled: boolean;
   onView: (record: SkillsRecord) => void;
   onEdit: (record: SkillsRecord) => void;
+  resolveImageSrc: (record: SkillsRecord) => string | null;
   onCreate: () => void;
   onRefresh: () => void;
 };
 
-export function SkillsTable({ loading, records, actionsDisabled, onView, onEdit, onCreate, onRefresh }: SkillsTableProps) {
-  const columns = getSkillsColumns({ onView, onEdit });
+export function SkillsTable({ loading, records, actionsDisabled, onView, onEdit, resolveImageSrc, onCreate, onRefresh }: SkillsTableProps) {
+  const columns = getSkillsColumns({ onView, onEdit, resolveImageSrc });
   const scrollX = columns.reduce((sum, col) => sum + Number(col.width ?? 0), 0);
   const showSkeleton = loading && records.length === 0;
 
