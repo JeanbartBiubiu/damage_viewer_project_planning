@@ -7,12 +7,14 @@ import {
 } from '../../../../components/skill-editor/skillModels';
 import { Panel } from '../../../../components/Panel';
 import { getSkills, putSkill, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
+import { buildOwnerImageUri } from '../../../../services/resourceImage';
 import type { JsonObject, JsonValue } from '../../../../types/api';
 import { buildDamageTypeOptions } from '../shared/damageTypes';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
 import { parseJsonArrayText, parseJsonObjectText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
 import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
+import { useResourceImageCache } from '../shared/useResourceImageCache';
 import { createSkillsFormData, createSkillsSearchData } from './constants';
 import { SkillsModal } from './modal';
 import { SkillsSearch } from './search';
@@ -200,6 +202,7 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
     selectedGameId,
     adminToken
   );
+  const { imageSrcByUri } = useResourceImageCache(selectedGameId);
   const damageTypeOptions = useMemo(
     () => buildDamageTypeOptions(types, parentTypeIdsByChildId),
     [parentTypeIdsByChildId, types]
@@ -289,6 +292,10 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
           actionsDisabled={actionsDisabled}
           onView={openViewModalWithTypes}
           onEdit={openEditModalWithTypes}
+          resolveImageSrc={(record) => {
+            const imageUri = buildOwnerImageUri(record.ownerType, record.ownerId);
+            return imageUri ? imageSrcByUri[imageUri] ?? null : null;
+          }}
           onCreate={openCreateModal}
           onRefresh={() => {
             refreshRecords();
