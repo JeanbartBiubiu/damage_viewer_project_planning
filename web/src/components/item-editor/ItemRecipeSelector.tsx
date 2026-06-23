@@ -1,15 +1,16 @@
 import { Alert, Select, Typography } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { createEntitySelectOption, filterEntitySelectOption } from '../EntitySelectOption';
-import { getErrorMessage, getItems } from '../../services/apiClient';
 import { useResourceImageCache } from '../../pages/admin/resources/shared/useResourceImageCache';
 import { buildItemImageUri } from '../../services/resourceImage';
 import type { Item } from '../../types/api';
 
 type ItemRecipeSelectorProps = {
-  apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
+  items: Item[];
+  itemsLoading?: boolean;
+  itemsError?: string | null;
   currentItemId?: string;
   value: string[];
   disabled?: boolean;
@@ -17,53 +18,18 @@ type ItemRecipeSelectorProps = {
 };
 
 export function ItemRecipeSelector({
-  apiBaseUrl,
   selectedGameId,
   adminToken,
+  items,
+  itemsLoading = false,
+  itemsError = null,
   currentItemId,
   value,
   disabled = false,
   onChange
 }: ItemRecipeSelectorProps) {
   const token = adminToken.trim();
-  const [items, setItems] = useState<Item[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { imageSrcByUri } = useResourceImageCache(selectedGameId);
-
-  useEffect(() => {
-    if (!selectedGameId || !token) {
-      setItems([]);
-      setLoading(false);
-      setError(null);
-      return;
-    }
-
-    let cancelled = false;
-    setLoading(true);
-    setError(null);
-
-    getItems(apiBaseUrl, selectedGameId, token)
-      .then((result) => {
-        if (cancelled) {
-          return;
-        }
-        setItems(result.data.items);
-        setLoading(false);
-      })
-      .catch((loadError) => {
-        if (cancelled) {
-          return;
-        }
-        setItems([]);
-        setLoading(false);
-        setError(getErrorMessage(loadError));
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [apiBaseUrl, selectedGameId, token]);
 
   const options = useMemo(
     () =>
@@ -93,14 +59,14 @@ export function ItemRecipeSelector({
         placeholder="选择合成配方子件"
         value={value}
         disabled={disabled || !selectedGameId || !token}
-        loading={loading}
+        loading={itemsLoading}
         options={options}
         onChange={(nextValue) => onChange(Array.isArray(nextValue) ? nextValue.map(String) : [])}
         filterOption={filterEntitySelectOption}
       />
 
-      {error ? <Alert type="error" content={`装备列表加载失败：${error}`} style={{ marginTop: 8 }} /> : null}
-      {!error ? (
+      {itemsError ? <Alert type="error" content={`装备列表加载失败：${itemsError}`} style={{ marginTop: 8 }} /> : null}
+      {!itemsError ? (
         <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
           可多选多个子件，保存时回写 `recipeIds` 数组。
         </Typography.Text>
