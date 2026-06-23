@@ -1,11 +1,11 @@
 import { Alert, Message } from '@arco-design/web-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Panel } from '../../../../components/Panel';
 import { getErrorMessage, getItems, putImage, putItem, replaceTypeRelationsForTarget } from '../../../../services/apiClient';
 import { buildItemImageUri, readImageFileAsDataUrl } from '../../../../services/resourceImage';
 import type { JsonObject } from '../../../../types/api';
 import { useTypeCatalog } from '../shared/useTypeCatalog';
-import { parseJsonArrayText, parseJsonStringArrayText, stringifyJson } from '../shared/json';
+import { parseJsonStringArrayText, stringifyJson } from '../shared/json';
 import { buildTypeRelationReplacePayloadFromIds } from '../shared/typeRelations';
 import { useCrudResourcePage } from '../shared/useCrudResourcePage';
 import { useResourceImageCache } from '../shared/useResourceImageCache';
@@ -13,6 +13,7 @@ import { createItemsFormData, createItemsSearchData } from './constants';
 import { ItemsModal } from './modal';
 import { ItemsSearch } from './search';
 import { ItemsTable } from './table';
+import { parseStatModifiersStrict } from './statModifiers';
 import type { ItemsFormData, ItemsRecord, ItemsSearchData } from './types';
 
 type ItemsPageProps = {
@@ -20,33 +21,6 @@ type ItemsPageProps = {
   selectedGameId: string | null;
   adminToken: string;
 };
-
-function parseStatModifiersText(text: string): Array<{ attrKey: string; value: number }> {
-  const parsed = parseJsonArrayText(text, 'statModifiers');
-  const seenAttrKeys = new Set<string>();
-  return parsed.map((entry, index) => {
-    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
-      throw new Error(`statModifiers[${index}] must be object`);
-    }
-    const attrKeyRaw = (entry as JsonObject).attrKey;
-    const attrKey = typeof attrKeyRaw === 'string' ? attrKeyRaw.trim() : '';
-    if (!attrKey) {
-      throw new Error(`statModifiers[${index}].attrKey is required`);
-    }
-    if (seenAttrKeys.has(attrKey)) {
-      throw new Error(`statModifiers[${index}].attrKey duplicated: ${attrKey}`);
-    }
-    seenAttrKeys.add(attrKey);
-    const value = Number((entry as JsonObject).value);
-    if (!Number.isFinite(value)) {
-      throw new Error(`statModifiers[${index}].value must be number`);
-    }
-    return {
-      attrKey,
-      value
-    };
-  });
-}
 
 function toItemsFormData(record: ItemsRecord): ItemsFormData {
   return {
@@ -64,7 +38,8 @@ function toItemsFormData(record: ItemsRecord): ItemsFormData {
 function filterItems(records: ItemsRecord[], searchData: ItemsSearchData, targetTypeIdsByKey: Map<string, number[]>): ItemsRecord[] {
   const itemId = searchData.itemId.trim().toLowerCase();
   const name = searchData.name.trim().toLowerCase();
-  const goldCost = searchData.goldCost.trim();
+  const goldCostText = searchData.goldCost.trim();
+  const goldCostValue = goldCostText === '' ? null : Number(goldCostText);
 
   return records.filter((record) => {
     if (itemId && !record.itemId.toLowerCase().includes(itemId)) {
@@ -73,8 +48,13 @@ function filterItems(records: ItemsRecord[], searchData: ItemsSearchData, target
     if (name && !(record.name ?? '').toLowerCase().includes(name)) {
       return false;
     }
-    if (goldCost && String(record.goldCost ?? '') !== goldCost) {
-      return false;
+    if (goldCostValue !== null) {
+      if (!Number.isFinite(goldCostValue)) {
+        return false;
+      }
+      if (Number(record.goldCost ?? NaN) !== goldCostValue) {
+        return false;
+      }
     }
     if (searchData.typeIds.length > 0) {
       const relatedTypeIds = targetTypeIdsByKey.get(`equipment:${record.itemId}`) ?? [];
@@ -104,10 +84,17 @@ async function saveItemsRecord(
     payload.name = formData.name.trim();
   }
   if (formData.goldCost.trim()) {
-    payload.goldCost = Number(formData.goldCost);
+    const goldCostNumber = Number(formData.goldCost);
+    if (!Number.isFinite(goldCostNumber)) {
+      throw new Error('金币成本必须是数字。');
+    }
+    if (goldCostNumber < 0) {
+      throw new Error('金币成本不能为负数。');
+    }
+    payload.goldCost = goldCostNumber;
   }
 
-  const statModifiers = parseStatModifiersText(formData.statModifiersText);
+  const statModifiers = parseStatModifiersStrict(formData.statModifiersText);
   payload.statModifiers = statModifiers;
 
   const skillRefs = parseJsonStringArrayText(formData.skillRefsText, 'skillRefs');
@@ -147,6 +134,7 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
 
   const {
+    records,
     filteredRecords,
     recordsState,
     recordsError,
@@ -181,6 +169,11 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
     }
   });
 
+  // modal 显隐切换时统一重置图片上传错误，避免散落在各 open/close 入口里。
+  useEffect(() => {
+    setImageUploadError(null);
+  }, [modalVisible]);
+
   const currentImageUri = buildItemImageUri(formData.itemId);
   const currentImageSrc = currentImageUri ? imageSrcByUri[currentImageUri] ?? null : null;
 
@@ -194,7 +187,15 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
       return;
     }
     if (!currentImageUri) {
-      setImageUploadError('请先填写 itemId，再上传图片。');
+      setImageUploadError('请先填写装备 ID，再上传图片。');
+      return;
+    }
+    if (!file.type.startsWith('image/')) {
+      setImageUploadError('仅支持图片文件。');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setImageUploadError('图片大小不能超过 2MB。');
       return;
     }
 
@@ -214,34 +215,17 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
     }
   };
 
-  const applyItemTypesToForm = (itemId: string) => {
+  const buildTypeFormOverride = (itemId: string): Pick<ItemsFormData, 'persistedTypeIds' | 'selectedTypeIds'> => {
     const persistedTypeIds = targetTypeIdsByKey.get(`equipment:${itemId}`) ?? [];
-    updateFormData('persistedTypeIds', persistedTypeIds);
-    updateFormData('selectedTypeIds', persistedTypeIds);
+    return { persistedTypeIds, selectedTypeIds: persistedTypeIds };
   };
 
   const openViewModalWithTypes = (record: ItemsRecord) => {
-    setImageUploadError(null);
-    openViewModal(record);
-    applyItemTypesToForm(record.itemId);
+    openViewModal(record, buildTypeFormOverride(record.itemId));
   };
 
   const openEditModalWithTypes = (record: ItemsRecord) => {
-    setImageUploadError(null);
-    openEditModal(record);
-    applyItemTypesToForm(record.itemId);
-  };
-
-  const openCreateModalWithTypes = () => {
-    setImageUploadError(null);
-    openCreateModal();
-    updateFormData('persistedTypeIds', []);
-    updateFormData('selectedTypeIds', []);
-  };
-
-  const closeModalWithImageState = () => {
-    setImageUploadError(null);
-    closeModal();
+    openEditModal(record, buildTypeFormOverride(record.itemId));
   };
 
   return (
@@ -272,7 +256,7 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
             const imageUri = buildItemImageUri(record.itemId);
             return imageUri ? imageSrcByUri[imageUri] ?? null : null;
           }}
-          onCreate={openCreateModalWithTypes}
+          onCreate={openCreateModal}
           onRefresh={() => {
             refreshRecords();
             refreshTypeCatalog();
@@ -294,7 +278,10 @@ export function ItemsPage({ apiBaseUrl, selectedGameId, adminToken }: ItemsPageP
         imageSrc={currentImageSrc}
         imageUploading={imageUploading}
         imageError={imageUploadError}
-        onClose={closeModalWithImageState}
+        availableItems={records}
+        availableItemsLoading={recordsState === 'loading'}
+        availableItemsError={recordsError}
+        onClose={closeModal}
         onFieldChange={updateFormData}
         onUploadImage={handleUploadImage}
         onSubmit={submitModal}
