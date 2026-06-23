@@ -1,5 +1,5 @@
 import { Alert, Button, Collapse, Form, Input, Modal, Space, Tag } from '@arco-design/web-react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { SkillFlatParamsEditor } from '../../../../components/skill-editor/SkillFlatParamsEditor';
 import { SkillMechanicsConfigEditor } from '../../../../components/skill-editor/SkillMechanicsConfigEditor';
 import { SkillOwnerBindingFields } from '../../../../components/skill-editor/SkillOwnerBindingFields';
@@ -22,6 +22,7 @@ import {
   validateDpsPassiveEffects
 } from '../../../../components/skill-editor/skillModels';
 import { TypeTagEditor } from '../../../../components/TypeTagEditor';
+import { formatShapeLabel, shapeTagColor } from './columns';
 import type { TypeDefinition } from '../../../../types/api';
 import type { DamageTypeOption } from '../shared/damageTypes';
 import type { SkillsFormData } from './types';
@@ -106,6 +107,7 @@ export function SkillsModal({
     }
   }, [formData.mechanicsConfigText]);
 
+  // 编辑器内实时反馈的模型摘要；列表 columns.tsx 也会基于 record 单独推断一次，两处用途独立，不共享缓存。
   const shapeSummary = useMemo(
     () => inferSkillShapeSummary(paramsState.root, mechanicsConfigState.root),
     [paramsState.root, mechanicsConfigState.root]
@@ -127,6 +129,28 @@ export function SkillsModal({
     !!mechanicsConfigState.error ||
     hasBlockingDpsPassiveErrors;
 
+  // 统一 mechanicsConfig 局部更新入口，避免 4 个回调各自重复展开 stringifyMechanicsConfig。
+  const updateMechanicsConfig = useCallback(
+    (
+      partial: Partial<{
+        root: typeof mechanicsConfigState.root;
+        version: number;
+        stacks: typeof mechanicsConfigState.stacks;
+        rows: typeof mechanicsConfigState.rows;
+      }>
+    ) => {
+      const nextRoot = partial.root ?? mechanicsConfigState.root;
+      const nextVersion = partial.version ?? mechanicsConfigState.version;
+      const nextStacks = partial.stacks ?? mechanicsConfigState.stacks;
+      const nextRows = partial.rows ?? mechanicsConfigState.rows;
+      onFieldChange(
+        'mechanicsConfigText',
+        stringifyMechanicsConfig(nextRoot, nextVersion, nextStacks, nextRows)
+      );
+    },
+    [mechanicsConfigState.root, mechanicsConfigState.rows, mechanicsConfigState.stacks, mechanicsConfigState.version, onFieldChange]
+  );
+
   return (
     <Modal
       title={mode === 'create' ? '新增技能' : mode === 'edit' ? '编辑技能' : '查看技能'}
@@ -144,15 +168,15 @@ export function SkillsModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 1280 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
-        <Form.Item label="技能 ID（skillId）">
+        <Form.Item label="技能 ID">
           <Input
             value={formData.skillId}
             disabled={readOnly || editingExisting}
             onChange={(value) => onFieldChange('skillId', value)}
-            placeholder="请输入 skillId"
+            placeholder="请输入技能 ID"
           />
         </Form.Item>
 
@@ -170,12 +194,12 @@ export function SkillsModal({
         </Form.Item>
 
         <div className="crud-form-grid">
-          <Form.Item label="技能键（skillKey）">
+          <Form.Item label="技能 Key">
             <Input
               value={formData.skillKey}
               disabled={readOnly}
               onChange={(value) => onFieldChange('skillKey', value)}
-              placeholder="请输入 skillKey"
+              placeholder="请输入技能 Key"
             />
           </Form.Item>
 
@@ -205,12 +229,10 @@ export function SkillsModal({
         </Form.Item>
 
         <Form.Item label="当前模型">
-          <Tag color={shapeSummary === 'Mixed' ? 'orangered' : shapeSummary === 'DSL' ? 'arcoblue' : shapeSummary === 'Flat' ? 'purple' : 'gray'}>
-            {shapeSummary === 'Mixed' ? '混合' : shapeSummary === 'DSL' ? 'DSL' : shapeSummary === 'Flat' ? '平铺' : shapeSummary}
-          </Tag>
+          <Tag color={shapeTagColor(shapeSummary)}>{formatShapeLabel(shapeSummary)}</Tag>
         </Form.Item>
 
-        <Form.Item label="资源消耗结构化编辑（resourceCosts）">
+        <Form.Item label="资源消耗结构化编辑">
           {resourceCostsState.error ? <Alert type="error" content={`resourceCosts 解析失败：${resourceCostsState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillSeriesEditor
             title="资源消耗"
@@ -221,7 +243,7 @@ export function SkillsModal({
           />
         </Form.Item>
 
-        <Form.Item label="冷却结构化编辑（cooldowns）">
+        <Form.Item label="冷却结构化编辑">
           {cooldownsState.error ? <Alert type="error" content={`cooldowns 解析失败：${cooldownsState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillSeriesEditor
             title="冷却"
@@ -244,7 +266,7 @@ export function SkillsModal({
           />
         </Form.Item>
 
-        <Form.Item label="时序结构化编辑（timingProfile）">
+        <Form.Item label="时序结构化编辑">
           {timingProfileState.error ? <Alert type="error" content={`timingProfile 解析失败：${timingProfileState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillTimingProfileEditor
             rows={timingProfileState.rows}
@@ -253,7 +275,7 @@ export function SkillsModal({
           />
         </Form.Item>
 
-        <Form.Item label="机制结构化编辑（mechanicsConfig）">
+        <Form.Item label="机制结构化编辑">
           {mechanicsConfigState.error ? <Alert type="error" content={`mechanicsConfig 解析失败：${mechanicsConfigState.error}`} style={{ marginBottom: 12 }} /> : null}
           <SkillMechanicsConfigEditor
             apiBaseUrl={apiBaseUrl}
@@ -268,34 +290,11 @@ export function SkillsModal({
             ownerId={formData.ownerId}
             ownerType={formData.ownerType}
             disabled={readOnly || !!mechanicsConfigState.error}
-            onVersionChange={(version) =>
-              onFieldChange(
-                'mechanicsConfigText',
-                stringifyMechanicsConfig(mechanicsConfigState.root, version, mechanicsConfigState.stacks, mechanicsConfigState.rows)
-              )
-            }
-            onStacksChange={(stacks) =>
-              onFieldChange(
-                'mechanicsConfigText',
-                stringifyMechanicsConfig(mechanicsConfigState.root, mechanicsConfigState.version, stacks, mechanicsConfigState.rows)
-              )
-            }
-            onChange={(rows) =>
-              onFieldChange(
-                'mechanicsConfigText',
-                stringifyMechanicsConfig(mechanicsConfigState.root, mechanicsConfigState.version, mechanicsConfigState.stacks, rows)
-              )
-            }
+            onVersionChange={(version) => updateMechanicsConfig({ version })}
+            onStacksChange={(stacks) => updateMechanicsConfig({ stacks })}
+            onChange={(rows) => updateMechanicsConfig({ rows })}
             onDpsPassiveEffectsChange={(passives) =>
-              onFieldChange(
-                'mechanicsConfigText',
-                stringifyMechanicsConfig(
-                  { ...mechanicsConfigState.root, dpsPassiveEffects: passives },
-                  mechanicsConfigState.version,
-                  mechanicsConfigState.stacks,
-                  mechanicsConfigState.rows
-                )
-              )
+              updateMechanicsConfig({ root: { ...mechanicsConfigState.root, dpsPassiveEffects: passives } })
             }
           />
         </Form.Item>
@@ -314,7 +313,7 @@ export function SkillsModal({
           ) : null}
 
           <Collapse.Item name="advanced-json" header="高级 JSON 编辑（分段回退）">
-            <Form.Item label="resourceCosts JSON">
+            <Form.Item label="资源消耗 JSON">
               <Input.TextArea
                 value={formData.resourceCostsText}
                 disabled={readOnly}
@@ -325,7 +324,7 @@ export function SkillsModal({
               />
             </Form.Item>
 
-            <Form.Item label="cooldowns JSON">
+            <Form.Item label="冷却 JSON">
               <Input.TextArea
                 value={formData.cooldownsText}
                 disabled={readOnly}
@@ -336,7 +335,7 @@ export function SkillsModal({
               />
             </Form.Item>
 
-            <Form.Item label="params JSON">
+            <Form.Item label="参数 JSON">
               <Input.TextArea
                 value={formData.paramsText}
                 disabled={readOnly}
@@ -347,7 +346,7 @@ export function SkillsModal({
               />
             </Form.Item>
 
-            <Form.Item label="timingProfile JSON">
+            <Form.Item label="时序 JSON">
               <Input.TextArea
                 value={formData.timingProfileText}
                 disabled={readOnly}
@@ -358,7 +357,7 @@ export function SkillsModal({
               />
             </Form.Item>
 
-            <Form.Item label="mechanicsConfig JSON">
+            <Form.Item label="机制 JSON">
               <Input.TextArea
                 value={formData.mechanicsConfigText}
                 disabled={readOnly}
@@ -369,7 +368,7 @@ export function SkillsModal({
               />
             </Form.Item>
 
-            <Form.Item label="mvpExtensions JSON">
+            <Form.Item label="MVP 扩展 JSON">
               <Input.TextArea
                 value={formData.mvpExtensionsText}
                 disabled={readOnly}
@@ -380,7 +379,7 @@ export function SkillsModal({
               />
             </Form.Item>
 
-            <Form.Item label="notes JSON">
+            <Form.Item label="备注 JSON">
               <Input.TextArea
                 value={formData.notesText}
                 disabled={readOnly}

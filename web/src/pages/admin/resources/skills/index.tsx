@@ -25,6 +25,7 @@ type SkillsPageProps = {
   adminToken: string;
 };
 
+// 已知的 Skill 顶层字段。新增顶层字段时需同步加入此 Set，否则会被归入 extraFields 透传。
 const KNOWN_SKILL_FIELDS = new Set([
   'skillId',
   'ownerType',
@@ -245,26 +246,17 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
     }
   });
 
-  const applySkillTypesToForm = (skillId: string) => {
+  const buildTypeFormOverride = (skillId: string): Pick<SkillsFormData, 'persistedTypeIds' | 'selectedTypeIds'> => {
     const persistedTypeIds = targetTypeIdsByKey.get(`skill:${skillId}`) ?? [];
-    updateFormData('persistedTypeIds', persistedTypeIds);
-    updateFormData('selectedTypeIds', persistedTypeIds);
+    return { persistedTypeIds, selectedTypeIds: persistedTypeIds };
   };
 
   const openViewModalWithTypes = (record: SkillsRecord) => {
-    openViewModal(record);
-    applySkillTypesToForm(record.skillId);
+    openViewModal(record, buildTypeFormOverride(record.skillId));
   };
 
   const openEditModalWithTypes = (record: SkillsRecord) => {
-    openEditModal(record);
-    applySkillTypesToForm(record.skillId);
-  };
-
-  const openCreateModalWithTypes = () => {
-    openCreateModal();
-    updateFormData('persistedTypeIds', []);
-    updateFormData('selectedTypeIds', []);
+    openEditModal(record, buildTypeFormOverride(record.skillId));
   };
 
   return (
@@ -274,7 +266,7 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
       {showDamageTypeWarning ? (
         <Alert
           type="warning"
-          content="No damage types found under reserved type 10001. Add game-local damage types there before editing skill damage."
+          content="未在保留类型 10001 下找到伤害类型。请先添加游戏本地伤害类型，再编辑技能伤害字段。"
           className="resource-warning-alert"
         />
       ) : null}
@@ -297,7 +289,7 @@ export function SkillsPage({ apiBaseUrl, selectedGameId, adminToken }: SkillsPag
           actionsDisabled={actionsDisabled}
           onView={openViewModalWithTypes}
           onEdit={openEditModalWithTypes}
-          onCreate={openCreateModalWithTypes}
+          onCreate={openCreateModal}
           onRefresh={() => {
             refreshRecords();
             refreshTypeCatalog();
