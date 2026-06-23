@@ -13,6 +13,22 @@ export function buildAttributeImageUri(attrKey: string): string | null {
   return normalizedKey ? `attribute_${normalizedKey}` : null;
 }
 
+// Skill 自身无独立图片资源；当 ownerType 为 hero/item 时复用 owner 的图片 URI。
+export function buildOwnerImageUri(ownerType: string | null | undefined, ownerId: string | null | undefined): string | null {
+  const type = (ownerType ?? '').trim();
+  const id = (ownerId ?? '').trim();
+  if (!type || !id) {
+    return null;
+  }
+  if (type === 'hero') {
+    return buildHeroImageUri(id);
+  }
+  if (type === 'item') {
+    return buildItemImageUri(id);
+  }
+  return null;
+}
+
 const DEFAULT_RESOURCE_IMAGE_SIZE = 64;
 const DEFAULT_JPEG_QUALITY = 0.92;
 
