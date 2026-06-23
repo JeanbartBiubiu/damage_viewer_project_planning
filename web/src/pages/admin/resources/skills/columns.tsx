@@ -1,4 +1,5 @@
 import { Button, Space, Tag, Typography } from '@arco-design/web-react';
+import type { TableColumnProps } from '@arco-design/web-react';
 import { inferSkillShapeSummary } from '../../../../components/skill-editor/skillModels';
 import type { SkillsRecord } from './types';
 
@@ -7,53 +8,70 @@ type SkillsTableActions = {
   onEdit: (record: SkillsRecord) => void;
 };
 
-export function getSkillsColumns({ onView, onEdit }: SkillsTableActions) {
+const SHAPE_LABELS: Record<string, string> = {
+  Mixed: '混合',
+  DSL: 'DSL',
+  Flat: '平铺'
+};
+
+export function formatShapeLabel(summary: string): string {
+  return SHAPE_LABELS[summary] ?? summary;
+}
+
+export function shapeTagColor(summary: string): string {
+  return summary === 'Mixed' ? 'orangered' : summary === 'DSL' ? 'arcoblue' : summary === 'Flat' ? 'purple' : 'gray';
+}
+
+export function getSkillsColumns({ onView, onEdit }: SkillsTableActions): TableColumnProps<SkillsRecord>[] {
   return [
     {
       title: '技能 ID',
       dataIndex: 'skillId',
       width: 220,
-      render: (_: unknown, record: SkillsRecord) => <Typography.Text code>{record.skillId}</Typography.Text>
+      render: (_, record) => <Typography.Text code>{record.skillId}</Typography.Text>
+    },
+    {
+      title: '名称',
+      dataIndex: 'name',
+      width: 180,
+      ellipsis: true,
+      render: (_, record) => record.name ?? '—'
     },
     {
       title: '所有者类型',
       dataIndex: 'ownerType',
       width: 140,
-      render: (_: unknown, record: SkillsRecord) => record.ownerType ?? '—'
+      render: (_, record) => record.ownerType ?? '—'
     },
     {
       title: '所有者 ID',
       dataIndex: 'ownerId',
       width: 220,
-      render: (_: unknown, record: SkillsRecord) => record.ownerId ?? '—'
+      render: (_, record) => record.ownerId ?? '—'
     },
     {
       title: '技能 Key',
       dataIndex: 'skillKey',
       width: 120,
-      render: (_: unknown, record: SkillsRecord) => record.skillKey ?? '--'
-    },
-    {
-      title: '名称',
-      dataIndex: 'name',
-      ellipsis: true,
-      render: (_: unknown, record: SkillsRecord) => record.name ?? '--'
+      render: (_, record) => record.skillKey ?? '—'
     },
     {
       title: '模型',
+      key: 'shape',
       width: 100,
-      render: (_: unknown, record: SkillsRecord) => {
+      render: (_, record) => {
+        // 列表摘要；modal 内会基于实时 formData 重新推断，两处用途独立，不共享缓存。
         const summary = inferSkillShapeSummary(record.params, record.mechanicsConfig);
-        const color = summary === 'Mixed' ? 'orangered' : summary === 'DSL' ? 'arcoblue' : summary === 'Flat' ? 'purple' : 'gray';
-        return <Tag color={color}>{summary}</Tag>;
+        return <Tag color={shapeTagColor(summary)}>{formatShapeLabel(summary)}</Tag>;
       }
     },
     {
       title: '操作',
-      fixed: 'right' as const,
+      key: 'actions',
+      fixed: 'right',
       width: 160,
-      align: 'center' as const,
-      render: (_: unknown, record: SkillsRecord) => (
+      align: 'center',
+      render: (_, record) => (
         <Space>
           <Button size="mini" onClick={() => onView(record)}>
             查看

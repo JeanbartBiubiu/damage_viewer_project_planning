@@ -14,17 +14,17 @@ type SkillsSearchProps = {
 export function SkillsSearch({ typeDefinitions, searchData, onFieldChange, onSearch, onReset }: SkillsSearchProps) {
   return (
     <Form layout="inline" className="crud-search-form">
-      <Form.Item label="skillId">
-        <Input value={searchData.skillId} onChange={(value) => onFieldChange('skillId', value)} placeholder="请输入 skillId" />
+      <Form.Item label="技能 ID">
+        <Input value={searchData.skillId} onChange={(value) => onFieldChange('skillId', value)} placeholder="请输入技能 ID" />
       </Form.Item>
-      <Form.Item label="ownerType">
-        <Input value={searchData.ownerType} onChange={(value) => onFieldChange('ownerType', value)} placeholder="请输入 ownerType" />
+      <Form.Item label="所有者类型">
+        <Input value={searchData.ownerType} onChange={(value) => onFieldChange('ownerType', value)} placeholder="请输入所有者类型" />
       </Form.Item>
-      <Form.Item label="ownerId">
-        <Input value={searchData.ownerId} onChange={(value) => onFieldChange('ownerId', value)} placeholder="请输入 ownerId" />
+      <Form.Item label="所有者 ID">
+        <Input value={searchData.ownerId} onChange={(value) => onFieldChange('ownerId', value)} placeholder="请输入所有者 ID" />
       </Form.Item>
-      <Form.Item label="skillKey">
-        <Input value={searchData.skillKey} onChange={(value) => onFieldChange('skillKey', value)} placeholder="请输入 skillKey" />
+      <Form.Item label="技能 Key">
+        <Input value={searchData.skillKey} onChange={(value) => onFieldChange('skillKey', value)} placeholder="请输入技能 Key" />
       </Form.Item>
       <Form.Item label="名称">
         <Input value={searchData.name} onChange={(value) => onFieldChange('name', value)} placeholder="请输入名称" />
