@@ -1,11 +1,13 @@
 import { Button, Space, Tag, Typography } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
+import { ResourceImageThumb } from '../../../../components/ResourceImageThumb';
 import { inferSkillShapeSummary } from '../../../../components/skill-editor/skillModels';
 import type { SkillsRecord } from './types';
 
 type SkillsTableActions = {
   onView: (record: SkillsRecord) => void;
   onEdit: (record: SkillsRecord) => void;
+  resolveImageSrc: (record: SkillsRecord) => string | null;
 };
 
 const SHAPE_LABELS: Record<string, string> = {
@@ -22,8 +24,16 @@ export function shapeTagColor(summary: string): string {
   return summary === 'Mixed' ? 'orangered' : summary === 'DSL' ? 'arcoblue' : summary === 'Flat' ? 'purple' : 'gray';
 }
 
-export function getSkillsColumns({ onView, onEdit }: SkillsTableActions): TableColumnProps<SkillsRecord>[] {
+export function getSkillsColumns({ onView, onEdit, resolveImageSrc }: SkillsTableActions): TableColumnProps<SkillsRecord>[] {
   return [
+    {
+      title: '图标',
+      dataIndex: 'skillId',
+      width: 84,
+      render: (_, record) => (
+        <ResourceImageThumb src={resolveImageSrc(record)} alt={record.name ?? record.skillId} size={36} />
+      )
+    },
     {
       title: '技能 ID',
       dataIndex: 'skillId',
