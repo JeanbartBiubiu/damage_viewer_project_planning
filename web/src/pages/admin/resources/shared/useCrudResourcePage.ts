@@ -34,8 +34,8 @@ type UseCrudResourcePageResult<TRecord, TSearch, TForm> = {
   handleSearch: () => void;
   handleResetSearch: () => void;
   openCreateModal: () => void;
-  openViewModal: (record: TRecord) => void;
-  openEditModal: (record: TRecord) => void;
+  openViewModal: (record: TRecord, formOverride?: Partial<TForm>) => void;
+  openEditModal: (record: TRecord, formOverride?: Partial<TForm>) => void;
   closeModal: () => void;
   updateFormData: <K extends keyof TForm>(field: K, value: TForm[K]) => void;
   submitModal: () => Promise<void>;
@@ -115,15 +115,15 @@ export function useCrudResourcePage<TRecord, TSearch, TForm>({
     setModalVisible(true);
   }
 
-  function openViewModal(record: TRecord) {
+  function openViewModal(record: TRecord, formOverride?: Partial<TForm>) {
     setModalMode('view');
-    setFormData(toFormData(record));
+    setFormData(formOverride ? { ...toFormData(record), ...formOverride } : toFormData(record));
     setModalVisible(true);
   }
 
-  function openEditModal(record: TRecord) {
+  function openEditModal(record: TRecord, formOverride?: Partial<TForm>) {
     setModalMode('edit');
-    setFormData(toFormData(record));
+    setFormData(formOverride ? { ...toFormData(record), ...formOverride } : toFormData(record));
     setModalVisible(true);
   }
 

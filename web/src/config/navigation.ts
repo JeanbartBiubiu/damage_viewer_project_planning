@@ -130,6 +130,21 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
 
 const extendedAdminRouteItems: NavigationItem[] = [
   {
+    id: 'attribute-definitions',
+    label: '属性定义',
+    summary: '维护属性键、类型、默认值与取值语义。'
+  },
+  {
+    id: 'types',
+    label: '类型定义',
+    summary: '维护类型标签、描述与保留映射。'
+  },
+  {
+    id: 'status-management',
+    label: '状态管理',
+    summary: '统一维护状态定义、控制语义、效果组和周期生命效果。'
+  },
+  {
     id: 'heroes',
     label: '英雄',
     summary: '维护英雄主数据、头像与基础数值。'
@@ -143,21 +158,6 @@ const extendedAdminRouteItems: NavigationItem[] = [
     id: 'items',
     label: '装备',
     summary: '维护装备成本、图标、属性修正与引用。'
-  },
-  {
-    id: 'attribute-definitions',
-    label: '属性定义',
-    summary: '维护属性键、类型、默认值与取值语义。'
-  },
-  {
-    id: 'status-management',
-    label: '状态管理',
-    summary: '统一维护状态定义、控制语义、效果组和周期生命效果。'
-  },
-  {
-    id: 'types',
-    label: '类型定义',
-    summary: '维护类型标签、描述与保留映射。'
   },
   {
     id: 'type-relations',
