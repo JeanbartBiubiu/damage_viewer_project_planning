@@ -1,4 +1,4 @@
-import { Button, Form, Input, Space } from '@arco-design/web-react';
+import { Button, Form, Input, InputNumber, Space } from '@arco-design/web-react';
 import { TypeFilter } from '../../../../components/TypeFilter';
 import type { TypeDefinition } from '../../../../types/api';
 import type { ItemsSearchData } from './types';
@@ -12,16 +12,24 @@ type ItemsSearchProps = {
 };
 
 export function ItemsSearch({ typeDefinitions, searchData, onFieldChange, onSearch, onReset }: ItemsSearchProps) {
+  const goldCostNumber = searchData.goldCost.trim() === '' ? undefined : Number(searchData.goldCost);
+
   return (
     <Form layout="inline" className="crud-search-form">
-      <Form.Item label="itemId">
-        <Input value={searchData.itemId} onChange={(value) => onFieldChange('itemId', value)} placeholder="请输入 itemId" />
+      <Form.Item label="装备 ID">
+        <Input value={searchData.itemId} onChange={(value) => onFieldChange('itemId', value)} placeholder="请输入装备 ID" />
       </Form.Item>
       <Form.Item label="名称">
         <Input value={searchData.name} onChange={(value) => onFieldChange('name', value)} placeholder="请输入名称" />
       </Form.Item>
-      <Form.Item label="goldCost">
-        <Input value={searchData.goldCost} onChange={(value) => onFieldChange('goldCost', value)} placeholder="请输入 goldCost" />
+      <Form.Item label="金币成本">
+        <InputNumber
+          style={{ width: '100%' }}
+          min={0}
+          value={Number.isFinite(goldCostNumber) ? goldCostNumber : undefined}
+          onChange={(value) => onFieldChange('goldCost', value === undefined || value === null ? '' : String(value))}
+          placeholder="请输入金币成本"
+        />
       </Form.Item>
       <Form.Item label="类型">
         <TypeFilter definitions={typeDefinitions} value={searchData.typeIds} onChange={(value) => onFieldChange('typeIds', value)} />
