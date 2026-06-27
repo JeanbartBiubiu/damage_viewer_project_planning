@@ -91,9 +91,7 @@ type WasmValidationV2DpsPageProps = {
 
 type V2DpsPageMode = 'singleHero' | 'multiHero' | 'stackingPassive';
 
-type WasmValidationV2DpsWorkbenchProps = WasmValidationV2DpsPageProps & {
-  mode: V2DpsPageMode;
-};
+type WasmValidationV2DpsWorkbenchProps = WasmValidationV2DpsPageProps;
 
 type DecodedFrame = {
   stage: string;
@@ -198,24 +196,16 @@ const frameKindLabel: Record<number, string> = {
 };
 
 export function WasmValidationV2DpsPage(props: WasmValidationV2DpsPageProps) {
-  return <WasmValidationV2DpsWorkbench {...props} mode="singleHero" />;
-}
-
-export function WasmValidationV2DpsMultiHeroPage(props: WasmValidationV2DpsPageProps) {
-  return <WasmValidationV2DpsWorkbench {...props} mode="multiHero" />;
-}
-
-export function WasmValidationV2DpsStackingPassivePage(props: WasmValidationV2DpsPageProps) {
-  return <WasmValidationV2DpsWorkbench {...props} mode="stackingPassive" />;
+  return <WasmValidationV2DpsWorkbench {...props} />;
 }
 
 function WasmValidationV2DpsWorkbench({
   apiBaseUrl,
   selectedGameId,
   selectedGameName,
-  externalRefreshSeed,
-  mode
+  externalRefreshSeed
 }: WasmValidationV2DpsWorkbenchProps) {
+  const [mode, setMode] = useState<V2DpsPageMode>('singleHero');
   const isMultiHero = mode === 'multiHero';
   const isStackingPassive = mode === 'stackingPassive';
   const isSingleHero = mode === 'singleHero';
@@ -1144,6 +1134,17 @@ function WasmValidationV2DpsWorkbench({
 
   return (
     <div className="wasm-validation-page">
+      <Radio.Group
+        type="button"
+        size="small"
+        value={mode}
+        onChange={(value) => setMode(value as V2DpsPageMode)}
+        style={{ marginBottom: 12 }}
+      >
+        <Radio value="singleHero">单英雄多曲线</Radio>
+        <Radio value="multiHero">多英雄同装备</Radio>
+        <Radio value="stackingPassive">批量英雄叠层被动</Radio>
+      </Radio.Group>
       <Panel
         title={pageTitle}
         kicker={pageKicker}
