@@ -26,7 +26,7 @@ import { VersionPublishPage } from './pages/VersionPublishPage';
 import { WasmValidationM2Page } from './pages/WasmValidationM2Page';
 import { WasmValidationM3Page } from './pages/WasmValidationM3Page';
 import { WasmValidationM4ClosurePage } from './pages/WasmValidationM4ClosurePage';
-import { WasmValidationV2DpsMultiHeroPage, WasmValidationV2DpsPage, WasmValidationV2DpsStackingPassivePage } from './pages/WasmValidationV2DpsPage';
+import { WasmValidationV2DpsPage } from './pages/WasmValidationV2DpsPage';
 import { WasmValidationPage } from './pages/WasmValidationPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
@@ -118,7 +118,7 @@ export default function App() {
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
   const [bundleRefreshSeed, setBundleRefreshSeed] = useState(0);
-  const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState<Partial<Record<NavigationGroupId, boolean>>>({});
+  const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState<Partial<Record<NavigationGroupId, boolean>>>({ 'wasm-validation': true });
 
   useEffect(() => {
     const onHashChange = () => {
@@ -250,26 +250,6 @@ export default function App() {
     case 'wasm-validation-v2-dps':
       pageContent = (
         <WasmValidationV2DpsPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'wasm-validation-v2-dps-multi-hero':
-      pageContent = (
-        <WasmValidationV2DpsMultiHeroPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'wasm-validation-v2-dps-stacking-passive':
-      pageContent = (
-        <WasmValidationV2DpsStackingPassivePage
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
           selectedGameName={selectedGameName}

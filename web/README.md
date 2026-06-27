@@ -17,6 +17,8 @@
 - `src/pages/WasmValidationPage.tsx`：TinyGo V2 M1 初始快照验证
 - `src/pages/WasmValidationM2Page.tsx`：TinyGo V2 M2 Action 面板值验证
 - `src/pages/WasmValidationM3Page.tsx`：TinyGo V2 M3 单技能 1v 假人验证
+- `src/pages/WasmValidationM4ClosurePage.tsx`：TinyGo V2 M4 机制扩展闭环验证
+- `src/pages/WasmValidationV2DpsPage.tsx`：TinyGo V2 单攻击方站桩普攻 DPS 验证（单英雄 / 多英雄 / 批量英雄叠层被动三模式页内切换）
 - `src/pages/ImagesPage.tsx`：图片缓存与同步
 - `src/pages/admin/**`：后台资源维护
 
