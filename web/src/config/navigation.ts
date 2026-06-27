@@ -31,8 +31,6 @@ export type RouteId =
   | 'wasm-validation-m3'
   | 'wasm-validation-m4-closure'
   | 'wasm-validation-v2-dps'
-  | 'wasm-validation-v2-dps-multi-hero'
-  | 'wasm-validation-v2-dps-stacking-passive'
   | 'images'
   | AdminResourceRouteId;
 
@@ -93,38 +91,28 @@ const dataManagementBaseNavigationItems: NavigationItem[] = [
 const wasmSimulationNavigationItems: NavigationItem[] = [
   {
     id: 'wasm-validation',
-    label: 'Wasm 验证',
-    summary: 'TinyGo V2 M1 Actor 初始化快照与人工字段对照。'
+    label: 'M1 初始快照',
+    summary: 'Actor 初始化字段对照'
   },
   {
     id: 'wasm-validation-m2',
-    label: 'Wasm 验证 M2',
-    summary: 'TinyGo V2 M2 Action 初始状态快照与人工基线对照。'
+    label: 'M2 Action 面板',
+    summary: 'Action 初始状态对照'
   },
   {
     id: 'wasm-validation-m3',
-    label: 'Wasm 验证 M3/M4',
-    summary: 'TinyGo V2 M3 单技能与 M4 机制扩展字段级证据。'
+    label: 'M3 单技能',
+    summary: '单技能 1v 假人证据'
   },
   {
     id: 'wasm-validation-m4-closure',
-    label: 'Wasm 验证 M4 闭环',
-    summary: 'TinyGo V2 M4 剩余页面能力缺口的固定 preset 闭环验证。'
+    label: 'M4 机制闭环',
+    summary: '机制扩展闭环验证'
   },
   {
     id: 'wasm-validation-v2-dps',
     label: 'V2 DPS 验证',
-    summary: 'TinyGo V2 单攻击方站桩普攻 DPS 验证。'
-  },
-  {
-    id: 'wasm-validation-v2-dps-multi-hero',
-    label: 'V2 DPS 多英雄',
-    summary: '多英雄共用同一目标与装备的 TinyGo V2 DPS 对比。'
-  },
-  {
-    id: 'wasm-validation-v2-dps-stacking-passive',
-    label: 'V2 DPS 批量英雄',
-    summary: '验证 3124 Guinsoo p_boiling 叠层攻速被动从 published bundle 到 Wasm 输出的链路。'
+    summary: '站桩普攻 DPS 验证'
   }
 ];
 
