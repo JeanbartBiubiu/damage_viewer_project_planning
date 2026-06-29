@@ -1,4 +1,5 @@
-import { Button, Space, Table, Typography } from '@arco-design/web-react';
+import { Button, Skeleton, Space, Table, Typography } from '@arco-design/web-react';
+import { EmptyState } from '../../../../components/EmptyState';
 import { getTypeRelationsColumns } from './columns';
 import type { TypeRelationsRecord } from './types';
 
@@ -23,6 +24,10 @@ export function TypeRelationsTable({
   onCreate,
   onRefresh
 }: TypeRelationsTableProps) {
+  const columns = getTypeRelationsColumns({ onView, onEdit, onDelete, deleteDisabled: actionsDisabled });
+  const scrollX = columns.reduce((sum, col) => sum + Number(col.width ?? 0), 0);
+  const showSkeleton = loading && records.length === 0;
+
   return (
     <Space direction="vertical" size={16} style={{ width: '100%' }}>
       <div className="crud-toolbar">
@@ -43,15 +48,20 @@ export function TypeRelationsTable({
         </Space>
       </div>
 
-      <Table
-        className="data-table-shell"
-        loading={loading}
-        columns={getTypeRelationsColumns({ onView, onEdit, onDelete, deleteDisabled: actionsDisabled })}
-        data={records}
-        pagination={false}
-        rowKey={(record) => `${record.typeId}|${record.targetCategory}|${record.targetId}`}
-        scroll={{ x: 1080 }}
-      />
+      {showSkeleton ? (
+        <Skeleton text={{ rows: 5, width: ['100%', '60%', '40%', '80%', '50%'] }} animation />
+      ) : (
+        <Table
+          className="data-table-shell"
+          loading={loading}
+          columns={columns}
+          data={records}
+          pagination={false}
+          rowKey={(record) => `${record.typeId}|${record.targetCategory}|${record.targetId}`}
+          scroll={{ x: scrollX }}
+          noDataElement={<EmptyState title="暂无类型挂载数据" description="点击右上角「新增」按钮创建第一条类型挂载。" />}
+        />
+      )}
     </Space>
   );
 }
