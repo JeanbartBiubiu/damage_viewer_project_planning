@@ -1,13 +1,6 @@
-import { Button, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
+import { Button, Form, Input, InputNumber, Modal, Select, Space } from '@arco-design/web-react';
+import { TARGET_CATEGORY_OPTIONS } from './constants';
 import type { TypeRelationsFormData } from './types';
-
-const TARGET_CATEGORY_OPTIONS = [
-  { label: '英雄', value: 'character' },
-  { label: '技能', value: 'skill' },
-  { label: '装备', value: 'equipment' },
-  { label: '属性', value: 'attribute' },
-  { label: '类型', value: 'type' }
-];
 
 type TypeRelationsModalProps = {
   visible: boolean;
@@ -48,40 +41,42 @@ export function TypeRelationsModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 760 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
         <div className="crud-form-grid">
-          <Form.Item label="typeId">
-            <Input
-              value={formData.typeId}
+          <Form.Item label="类型 ID">
+            <InputNumber
+              value={formData.typeId.trim() === '' ? undefined : Number(formData.typeId)}
+              min={0}
               disabled={readOnly || editingExisting}
-              onChange={(value) => onFieldChange('typeId', value)}
-              placeholder="请输入 typeId"
+              onChange={(value) => onFieldChange('typeId', value !== undefined && value !== null ? String(value) : '')}
+              placeholder="请输入类型 ID"
+              style={{ width: '100%' }}
             />
           </Form.Item>
 
-          <Form.Item label="targetCategory">
+          <Form.Item label="目标类别">
             <Select
               value={formData.targetCategory || undefined}
               disabled={readOnly || editingExisting}
               onChange={(value) => onFieldChange('targetCategory', value ?? '')}
-              placeholder="请选择 targetCategory"
+              placeholder="请选择目标类别"
               options={TARGET_CATEGORY_OPTIONS}
             />
           </Form.Item>
         </div>
 
-        <Form.Item label="targetId">
+        <Form.Item label="目标 ID">
           <Input
             value={formData.targetId}
             disabled={readOnly || editingExisting}
             onChange={(value) => onFieldChange('targetId', value)}
-            placeholder="请输入 targetId"
+            placeholder="请输入目标 ID"
           />
         </Form.Item>
 
-        <Form.Item label="extend">
+        <Form.Item label="扩展字段">
           <Input.TextArea
             value={formData.extendText}
             disabled={readOnly}

@@ -1,13 +1,6 @@
-import { Button, Form, Input, Select, Space } from '@arco-design/web-react';
+import { Button, Form, Input, InputNumber, Select, Space } from '@arco-design/web-react';
+import { TARGET_CATEGORY_OPTIONS } from './constants';
 import type { TypeRelationsSearchData } from './types';
-
-const TARGET_CATEGORY_OPTIONS = [
-  { label: '英雄', value: 'character' },
-  { label: '技能', value: 'skill' },
-  { label: '装备', value: 'equipment' },
-  { label: '属性', value: 'attribute' },
-  { label: '类型', value: 'type' }
-];
 
 type TypeRelationsSearchProps = {
   searchData: TypeRelationsSearchData;
@@ -19,20 +12,27 @@ type TypeRelationsSearchProps = {
 export function TypeRelationsSearch({ searchData, onFieldChange, onSearch, onReset }: TypeRelationsSearchProps) {
   return (
     <Form layout="inline" className="crud-search-form">
-      <Form.Item label="typeId">
-        <Input value={searchData.typeId} onChange={(value) => onFieldChange('typeId', value)} placeholder="请输入 typeId" />
-      </Form.Item>
-      <Form.Item label="targetCategory">
-        <Select
-          allowClear
-          value={searchData.targetCategory}
-          onChange={(value) => onFieldChange('targetCategory', value)}
-          placeholder="请选择 targetCategory"
-          options={TARGET_CATEGORY_OPTIONS}
+      <Form.Item label="类型 ID">
+        <InputNumber
+          value={searchData.typeId.trim() === '' ? undefined : Number(searchData.typeId)}
+          min={0}
+          onChange={(value) => onFieldChange('typeId', value !== undefined && value !== null ? String(value) : '')}
+          placeholder="请输入类型 ID"
+          style={{ width: 180 }}
         />
       </Form.Item>
-      <Form.Item label="targetId">
-        <Input value={searchData.targetId} onChange={(value) => onFieldChange('targetId', value)} placeholder="请输入 targetId" />
+      <Form.Item label="目标类别">
+        <Select
+          allowClear
+          value={searchData.targetCategory || undefined}
+          onChange={(value) => onFieldChange('targetCategory', value ?? '')}
+          placeholder="请选择目标类别"
+          options={TARGET_CATEGORY_OPTIONS}
+          style={{ width: 180 }}
+        />
+      </Form.Item>
+      <Form.Item label="目标 ID">
+        <Input value={searchData.targetId} onChange={(value) => onFieldChange('targetId', value)} placeholder="请输入目标 ID" />
       </Form.Item>
       <Form.Item>
         <Space>
