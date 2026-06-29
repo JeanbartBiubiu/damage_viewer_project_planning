@@ -33,7 +33,7 @@ function filterTypeRelations(records: TypeRelationsRecord[], searchData: TypeRel
   const targetId = searchData.targetId.trim().toLowerCase();
 
   return records.filter((record) => {
-    if (typeId && String(record.typeId) !== typeId) {
+    if (typeId && !String(record.typeId).includes(typeId)) {
       return false;
     }
     if (targetCategory && !record.targetCategory.toLowerCase().includes(targetCategory)) {
@@ -85,7 +85,7 @@ export function TypeRelationsPage({ apiBaseUrl, selectedGameId, adminToken }: Ty
   const blockerMessage = !selectedGameId
     ? '请先选择当前 gameId。'
     : !adminToken.trim()
-      ? '请先在顶部会话区域填入 Admin Token。'
+      ? '请先在顶部会话区域填写 Admin Token。'
       : null;
 
   const {
