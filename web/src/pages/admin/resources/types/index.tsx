@@ -35,7 +35,7 @@ function filterTypes(records: TypesRecord[], searchData: TypesSearchData): Types
   const name = searchData.name.trim().toLowerCase();
 
   return records.filter((record) => {
-    if (typeId && String(record.typeId) !== typeId) {
+    if (typeId && !String(record.typeId).includes(typeId)) {
       return false;
     }
     if (name && !(record.name ?? '').toLowerCase().includes(name)) {
@@ -169,32 +169,27 @@ export function TypesPage({ apiBaseUrl, selectedGameId, adminToken }: TypesPageP
     }
   });
 
+  // 排除已有子节点的类型，维持"最多一层"约束，避免循环引用。
   const availableParentTypes = useMemo(
     () => types.filter((type) => !parentTypeIdByChildId.has(type.typeId)),
     [parentTypeIdByChildId, types]
   );
 
+  const buildParentFormOverride = (typeId: number): Pick<TypesFormData, 'parentTypeIds'> => {
+    const parentTypeIds = parentTypeIdsByChildId.get(typeId) ?? [];
+    return { parentTypeIds: parentTypeIds.map((parentTypeId) => String(parentTypeId)) };
+  };
+
   const openEditModalWithParent = (record: TypesRecord) => {
-    openEditModal(record);
-    const parentTypeIds = parentTypeIdsByChildId.get(record.typeId) ?? [];
-    updateFormData(
-      'parentTypeIds',
-      parentTypeIds.map((parentTypeId) => String(parentTypeId))
-    );
+    openEditModal(record, buildParentFormOverride(record.typeId));
   };
 
   const openViewModalWithParent = (record: TypesRecord) => {
-    openViewModal(record);
-    const parentTypeIds = parentTypeIdsByChildId.get(record.typeId) ?? [];
-    updateFormData(
-      'parentTypeIds',
-      parentTypeIds.map((parentTypeId) => String(parentTypeId))
-    );
+    openViewModal(record, buildParentFormOverride(record.typeId));
   };
 
   const openCreateModalWithNextTypeId = () => {
-    openCreateModal();
-    updateFormData('typeId', String(getNextGameLocalTypeId(types)));
+    openCreateModal({ typeId: String(getNextGameLocalTypeId(types)) });
   };
 
   const refreshAll = () => {

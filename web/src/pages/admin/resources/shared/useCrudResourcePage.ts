@@ -33,7 +33,7 @@ type UseCrudResourcePageResult<TRecord, TSearch, TForm> = {
   updateSearchData: <K extends keyof TSearch>(field: K, value: TSearch[K]) => void;
   handleSearch: () => void;
   handleResetSearch: () => void;
-  openCreateModal: () => void;
+  openCreateModal: (formOverride?: Partial<TForm>) => void;
   openViewModal: (record: TRecord, formOverride?: Partial<TForm>) => void;
   openEditModal: (record: TRecord, formOverride?: Partial<TForm>) => void;
   closeModal: () => void;
@@ -109,9 +109,9 @@ export function useCrudResourcePage<TRecord, TSearch, TForm>({
 
   const filteredRecords = useMemo(() => filterRecords(records, appliedSearchData), [appliedSearchData, filterRecords, records]);
 
-  function openCreateModal() {
+  function openCreateModal(formOverride?: Partial<TForm>) {
     setModalMode('create');
-    setFormData(createFormData());
+    setFormData(formOverride ? { ...createFormData(), ...formOverride } : createFormData());
     setModalVisible(true);
   }
 
