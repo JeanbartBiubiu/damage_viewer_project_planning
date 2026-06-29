@@ -1,4 +1,6 @@
 import { Button, Popconfirm, Space, Typography } from '@arco-design/web-react';
+import type { TableColumnProps } from '@arco-design/web-react';
+import { TARGET_CATEGORY_OPTIONS } from './constants';
 import type { TypeRelationsRecord } from './types';
 
 type TypeRelationsTableActions = {
@@ -8,32 +10,36 @@ type TypeRelationsTableActions = {
   deleteDisabled: boolean;
 };
 
-export function getTypeRelationsColumns({ onView, onEdit, onDelete, deleteDisabled }: TypeRelationsTableActions) {
+const TARGET_CATEGORY_LABELS = new Map(TARGET_CATEGORY_OPTIONS.map((option) => [option.value, option.label]));
+
+export function getTypeRelationsColumns({ onView, onEdit, onDelete, deleteDisabled }: TypeRelationsTableActions): TableColumnProps<TypeRelationsRecord>[] {
   return [
     {
-      title: 'typeId',
+      title: '类型 ID',
       dataIndex: 'typeId',
       width: 140,
-      render: (_: unknown, record: TypeRelationsRecord) => <Typography.Text code>{record.typeId}</Typography.Text>
+      render: (_, record) => <Typography.Text code>{record.typeId}</Typography.Text>
     },
     {
-      title: 'targetCategory',
+      title: '目标类别',
       dataIndex: 'targetCategory',
       width: 180,
-      render: (_: unknown, record: TypeRelationsRecord) => record.targetCategory
+      render: (_, record) => TARGET_CATEGORY_LABELS.get(record.targetCategory) ?? record.targetCategory
     },
     {
-      title: 'targetId',
+      title: '目标 ID',
       dataIndex: 'targetId',
+      width: 280,
       ellipsis: true,
-      render: (_: unknown, record: TypeRelationsRecord) => record.targetId
+      render: (_, record) => record.targetId
     },
     {
       title: '操作',
-      fixed: 'right' as const,
+      key: 'actions',
+      fixed: 'right',
       width: 230,
-      align: 'center' as const,
-      render: (_: unknown, record: TypeRelationsRecord) => (
+      align: 'center',
+      render: (_, record) => (
         <Space>
           <Button size="mini" onClick={() => onView(record)}>
             查看
