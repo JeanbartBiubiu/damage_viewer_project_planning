@@ -1,4 +1,5 @@
-import { Button, Space, Table, Typography } from '@arco-design/web-react';
+import { Button, Skeleton, Space, Table, Typography } from '@arco-design/web-react';
+import { EmptyState } from '../../../../components/EmptyState';
 import { getTypesColumns } from './columns';
 import type { TypesRecord } from './types';
 
@@ -13,6 +14,10 @@ type TypesTableProps = {
 };
 
 export function TypesTable({ loading, records, actionsDisabled, onView, onEdit, onCreate, onRefresh }: TypesTableProps) {
+  const columns = getTypesColumns({ onView, onEdit });
+  const scrollX = columns.reduce((sum, col) => sum + Number(col.width ?? 0), 0);
+  const showSkeleton = loading && records.length === 0;
+
   return (
     <Space direction="vertical" size={16} style={{ width: '100%' }}>
       <div className="crud-toolbar">
@@ -33,15 +38,20 @@ export function TypesTable({ loading, records, actionsDisabled, onView, onEdit, 
         </Space>
       </div>
 
-      <Table
-        className="data-table-shell"
-        loading={loading}
-        columns={getTypesColumns({ onView, onEdit })}
-        data={records}
-        pagination={false}
-        rowKey="typeId"
-        scroll={{ x: 960 }}
-      />
+      {showSkeleton ? (
+        <Skeleton text={{ rows: 5, width: ['100%', '60%', '40%', '80%', '50%'] }} animation />
+      ) : (
+        <Table
+          className="data-table-shell"
+          loading={loading}
+          columns={columns}
+          data={records}
+          pagination={false}
+          rowKey="typeId"
+          scroll={{ x: scrollX }}
+          noDataElement={<EmptyState title="暂无类型定义数据" description="点击右上角「新增」按钮创建第一个类型定义。" />}
+        />
+      )}
     </Space>
   );
 }

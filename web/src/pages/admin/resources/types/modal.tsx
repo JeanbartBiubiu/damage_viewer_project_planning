@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select, Space, Typography } from '@arco-design/web-react';
+import { Button, Form, Input, InputNumber, Modal, Select, Space, Typography } from '@arco-design/web-react';
 import type { TypeDefinition } from '../../../../types/api';
 import type { TypesFormData } from './types';
 
@@ -43,15 +43,17 @@ export function TypesModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 720 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
-        <Form.Item label="typeId">
-          <Input
-            value={formData.typeId}
+        <Form.Item label="类型 ID">
+          <InputNumber
+            value={formData.typeId.trim() === '' ? undefined : Number(formData.typeId)}
+            min={0}
             disabled={readOnly || editingExisting}
-            onChange={(value) => onFieldChange('typeId', value)}
+            onChange={(value) => onFieldChange('typeId', value !== undefined && value !== null ? String(value) : '')}
             placeholder="普通类型从 30000 起"
+            style={{ width: '100%' }}
           />
         </Form.Item>
 
@@ -74,12 +76,14 @@ export function TypesModal({
           />
         </Form.Item>
 
-        <Form.Item label="reservedTypeId">
-          <Input
-            value={formData.reservedTypeId}
+        <Form.Item label="保留类型 ID">
+          <InputNumber
+            value={formData.reservedTypeId.trim() === '' ? undefined : Number(formData.reservedTypeId)}
+            min={0}
             disabled={readOnly}
-            onChange={(value) => onFieldChange('reservedTypeId', value)}
+            onChange={(value) => onFieldChange('reservedTypeId', value !== undefined && value !== null ? String(value) : '')}
             placeholder="可选"
+            style={{ width: '100%' }}
           />
         </Form.Item>
 
@@ -103,7 +107,7 @@ export function TypesModal({
             }))}
           />
           <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
-            保存时会同步各父类型的挂载集合，同时维持“最多一层”约束。
+            保存时会同步各父类型的挂载集合，同时维持"最多一层"约束。
           </Typography.Text>
         </Form.Item>
       </Form>
