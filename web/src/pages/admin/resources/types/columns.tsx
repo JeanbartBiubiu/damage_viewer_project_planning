@@ -1,4 +1,5 @@
 import { Button, Space, Typography } from '@arco-design/web-react';
+import type { TableColumnProps } from '@arco-design/web-react';
 import type { TypesRecord } from './types';
 
 type TypesTableActions = {
@@ -6,38 +7,40 @@ type TypesTableActions = {
   onEdit: (record: TypesRecord) => void;
 };
 
-export function getTypesColumns({ onView, onEdit }: TypesTableActions) {
+export function getTypesColumns({ onView, onEdit }: TypesTableActions): TableColumnProps<TypesRecord>[] {
   return [
     {
-      title: 'typeId',
+      title: '类型 ID',
       dataIndex: 'typeId',
       width: 140,
-      render: (_: unknown, record: TypesRecord) => <Typography.Text code>{record.typeId}</Typography.Text>
+      render: (_, record) => <Typography.Text code>{record.typeId}</Typography.Text>
     },
     {
       title: '名称',
       dataIndex: 'name',
       width: 180,
-      render: (_: unknown, record: TypesRecord) => record.name ?? '--'
+      render: (_, record) => record.name ?? '—'
     },
     {
       title: '描述',
       dataIndex: 'description',
+      width: 240,
       ellipsis: true,
-      render: (_: unknown, record: TypesRecord) => record.description ?? '--'
+      render: (_, record) => record.description ?? '—'
     },
     {
-      title: 'reservedTypeId',
+      title: '保留类型 ID',
       dataIndex: 'reservedTypeId',
       width: 160,
-      render: (_: unknown, record: TypesRecord) => record.reservedTypeId ?? '--'
+      render: (_, record) => record.reservedTypeId ?? '—'
     },
     {
       title: '操作',
-      fixed: 'right' as const,
+      key: 'actions',
+      fixed: 'right',
       width: 160,
-      align: 'center' as const,
-      render: (_: unknown, record: TypesRecord) => (
+      align: 'center',
+      render: (_, record) => (
         <Space>
           <Button size="mini" onClick={() => onView(record)}>
             查看
