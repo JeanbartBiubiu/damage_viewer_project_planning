@@ -20,8 +20,8 @@ export function CoefficientBucketsSearch({
 }: CoefficientBucketsSearchProps) {
   return (
     <Form layout="inline" className="crud-search-form">
-      <Form.Item label="bucketKey">
-        <Input value={searchData.bucketKey} onChange={(value) => onFieldChange('bucketKey', value)} placeholder="请输入 bucketKey" />
+      <Form.Item label="桶键">
+        <Input value={searchData.bucketKey} onChange={(value) => onFieldChange('bucketKey', value)} placeholder="请输入桶键" />
       </Form.Item>
       <Form.Item label="作用域">
         <Select
@@ -29,17 +29,12 @@ export function CoefficientBucketsSearch({
           value={searchData.resolutionDomain || undefined}
           onChange={(value) => onFieldChange('resolutionDomain', value ?? '')}
           placeholder="全部"
+          options={COEFFICIENT_BUCKET_RESOLUTION_DOMAIN_OPTIONS}
           style={{ width: 180 }}
-        >
-          {COEFFICIENT_BUCKET_RESOLUTION_DOMAIN_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
-      <Form.Item label="stageKey">
-        <Input value={searchData.stageKey} onChange={(value) => onFieldChange('stageKey', value)} placeholder="请输入 stageKey" />
+      <Form.Item label="阶段键">
+        <Input value={searchData.stageKey} onChange={(value) => onFieldChange('stageKey', value)} placeholder="请输入阶段键" />
       </Form.Item>
       <Form.Item label="聚合方式">
         <Select
@@ -47,14 +42,9 @@ export function CoefficientBucketsSearch({
           value={searchData.aggregationMode || undefined}
           onChange={(value) => onFieldChange('aggregationMode', value ?? '')}
           placeholder="全部"
+          options={COEFFICIENT_BUCKET_AGGREGATION_MODE_OPTIONS}
           style={{ width: 180 }}
-        >
-          {COEFFICIENT_BUCKET_AGGREGATION_MODE_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
       <Form.Item>
         <Space>

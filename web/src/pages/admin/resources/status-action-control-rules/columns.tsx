@@ -1,4 +1,5 @@
 import { Button, Space, Tag, Typography } from '@arco-design/web-react';
+import type { TableColumnProps } from '@arco-design/web-react';
 import type { StatusActionControlRulesRecord } from './types';
 
 type StatusActionControlRulesTableActions = {
@@ -6,44 +7,46 @@ type StatusActionControlRulesTableActions = {
   onEdit: (record: StatusActionControlRulesRecord) => void;
 };
 
-export function getStatusActionControlRulesColumns({ onView, onEdit }: StatusActionControlRulesTableActions) {
+export function getStatusActionControlRulesColumns({ onView, onEdit }: StatusActionControlRulesTableActions): TableColumnProps<StatusActionControlRulesRecord>[] {
   return [
     {
-      title: 'ruleId',
+      title: '规则 ID',
       dataIndex: 'ruleId',
       width: 260,
-      render: (_: unknown, record: StatusActionControlRulesRecord) => <Typography.Text code>{record.ruleId}</Typography.Text>
+      render: (_, record) => <Typography.Text code>{record.ruleId}</Typography.Text>
     },
     {
-      title: 'ruleKind',
+      title: '规则类型',
       dataIndex: 'ruleKind',
       width: 140,
-      render: (_: unknown, record: StatusActionControlRulesRecord) => <Tag>{record.ruleKind}</Tag>
+      render: (_, record) => <Tag>{record.ruleKind}</Tag>
     },
     {
-      title: 'statusTypeId',
+      title: '状态类型 ID',
       dataIndex: 'statusTypeId',
       width: 150,
-      render: (_: unknown, record: StatusActionControlRulesRecord) => record.statusTypeId
+      render: (_, record) => record.statusTypeId ?? '—'
     },
     {
-      title: 'priority',
+      title: '优先级',
       dataIndex: 'priority',
       width: 120,
-      render: (_: unknown, record: StatusActionControlRulesRecord) => record.priority ?? '--'
+      render: (_, record) => record.priority ?? '—'
     },
     {
       title: '说明',
       dataIndex: 'description',
+      width: 240,
       ellipsis: true,
-      render: (_: unknown, record: StatusActionControlRulesRecord) => record.description ?? '--'
+      render: (_, record) => record.description ?? '—'
     },
     {
       title: '操作',
-      fixed: 'right' as const,
+      key: 'actions',
+      fixed: 'right',
       width: 160,
-      align: 'center' as const,
-      render: (_: unknown, record: StatusActionControlRulesRecord) => (
+      align: 'center',
+      render: (_, record) => (
         <Space>
           <Button size="mini" onClick={() => onView(record)}>
             查看

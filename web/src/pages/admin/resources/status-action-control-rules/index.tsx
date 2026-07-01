@@ -47,7 +47,7 @@ function filterStatusActionControlRules(
     if (ruleId && !record.ruleId.toLowerCase().includes(ruleId)) {
       return false;
     }
-    if (statusTypeId && String(record.statusTypeId) !== statusTypeId) {
+    if (statusTypeId && !String(record.statusTypeId).includes(statusTypeId)) {
       return false;
     }
     if (ruleKind && !record.ruleKind.toLowerCase().includes(ruleKind)) {
@@ -155,7 +155,7 @@ export function StatusActionControlRulesPage({
       {blockerMessage ? <Alert type="warning" content={blockerMessage} className="resource-warning-alert" /> : null}
       {typeCatalogError ? <Alert type="error" content={typeCatalogError} className="resource-warning-alert" /> : null}
 
-      <Panel title="查询条件" kicker="查询">
+      <Panel title="查询条件" kicker="Search">
         <StatusActionControlRulesSearch
           searchData={searchData}
           onFieldChange={updateSearchData}
@@ -164,7 +164,7 @@ export function StatusActionControlRulesPage({
         />
       </Panel>
 
-      <Panel title="状态动作控制规则" kicker="列表">
+      <Panel title="状态动作控制规则" kicker="Table">
         {recordsError ? <Alert type="error" content={recordsError} style={{ marginBottom: 16 }} /> : null}
         <StatusActionControlRulesTable
           loading={recordsState === 'loading'}

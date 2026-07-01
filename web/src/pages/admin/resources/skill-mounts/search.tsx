@@ -18,20 +18,15 @@ export function SkillMountsSearch({ searchData, onFieldChange, onSearch, onReset
           value={searchData.targetCategory || undefined}
           onChange={(value) => onFieldChange('targetCategory', value ?? '')}
           placeholder="全部"
+          options={SKILL_MOUNT_TARGET_CATEGORY_OPTIONS}
           style={{ width: 180 }}
-        >
-          {SKILL_MOUNT_TARGET_CATEGORY_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
       <Form.Item label="目标 ID">
-        <Input value={searchData.targetId} onChange={(value) => onFieldChange('targetId', value)} placeholder="请输入 targetId" />
+        <Input value={searchData.targetId} onChange={(value) => onFieldChange('targetId', value)} placeholder="请输入目标 ID" />
       </Form.Item>
       <Form.Item label="技能 ID">
-        <Input value={searchData.skillId} onChange={(value) => onFieldChange('skillId', value)} placeholder="请输入 skillId" />
+        <Input value={searchData.skillId} onChange={(value) => onFieldChange('skillId', value)} placeholder="请输入技能 ID" />
       </Form.Item>
       <Form.Item>
         <Space>

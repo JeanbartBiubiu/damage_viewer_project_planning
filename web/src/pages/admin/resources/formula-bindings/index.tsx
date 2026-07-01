@@ -16,6 +16,7 @@ type FormulaBindingsPageProps = {
   adminToken: string;
 };
 
+// 已知的 FormulaBinding 顶层字段。新增顶层字段时需同步加入此 Set，否则会被归入 extraFields 透传。
 const KNOWN_FORMULA_BINDING_FIELDS = new Set([
   'targetCategory',
   'targetId',

@@ -1,4 +1,4 @@
-import type { JsonObject, TypeRelation, TypeRelationReplaceItem, TypeRelationReplacePayload } from '../../../../types/api';
+import type { JsonObject, TypeRelationReplaceItem, TypeRelationReplacePayload } from '../../../../types/api';
 
 export function buildTypeRelationReplacePayload(relations: TypeRelationReplaceItem[]): TypeRelationReplacePayload {
   return {
@@ -16,18 +16,4 @@ export function buildTypeRelationReplacePayload(relations: TypeRelationReplaceIt
 
 export function buildTypeRelationReplacePayloadFromIds(typeIds: number[]): TypeRelationReplacePayload {
   return buildTypeRelationReplacePayload(typeIds.map((typeId) => ({ typeId })));
-}
-
-export function getRelationsForTarget(
-  typeRelations: TypeRelation[],
-  targetCategory: string,
-  targetId: string
-): TypeRelationReplaceItem[] {
-  return typeRelations
-    .filter((relation) => relation.targetCategory === targetCategory && relation.targetId === targetId)
-    .map((relation) => ({
-      typeId: relation.typeId,
-      extend: relation.extend
-    }))
-    .sort((left, right) => left.typeId - right.typeId);
 }
