@@ -59,7 +59,7 @@ export function AttributeDefinitionsModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 760 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
         <Form.Item label="属性 Key">

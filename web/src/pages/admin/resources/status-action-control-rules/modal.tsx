@@ -89,11 +89,11 @@ export function StatusActionControlRulesModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 960 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
         <div className="crud-form-grid">
-          <Form.Item label="规则 ID（ruleId）">
+          <Form.Item label="规则 ID">
             <Input
               value={formData.ruleId}
               disabled={readOnly || editingExisting}
@@ -102,7 +102,7 @@ export function StatusActionControlRulesModal({
             />
           </Form.Item>
 
-          <Form.Item label="状态类型 ID（statusTypeId）">
+          <Form.Item label="状态类型 ID">
             {statusTypeIdState.error ? (
               <Alert type="error" content={statusTypeIdState.error} style={{ marginBottom: 12 }} />
             ) : null}
@@ -119,7 +119,7 @@ export function StatusActionControlRulesModal({
         </div>
 
         <div className="crud-form-grid">
-          <Form.Item label="规则类型（ruleKind）">
+          <Form.Item label="规则类型">
             <Select
               disabled={readOnly}
               value={formData.ruleKind || undefined}
@@ -131,16 +131,11 @@ export function StatusActionControlRulesModal({
                 }
               }}
               placeholder="选择规则类型"
-            >
-              {STATUS_ACTION_CONTROL_RULE_KIND_OPTIONS.map((option) => (
-                <Select.Option key={option.value} value={option.value}>
-                  {option.label}
-                </Select.Option>
-              ))}
-            </Select>
+              options={STATUS_ACTION_CONTROL_RULE_KIND_OPTIONS}
+            />
           </Form.Item>
 
-          <Form.Item label="优先级（priority）">
+          <Form.Item label="优先级">
             <Input
               value={formData.priority}
               disabled={readOnly}
@@ -150,7 +145,7 @@ export function StatusActionControlRulesModal({
           </Form.Item>
         </div>
 
-        <Form.Item label="动作类型列表（actionTypeIds）">
+        <Form.Item label="动作类型列表">
           {actionTypeIdsState.error ? (
             <Alert type="error" content={`actionTypeIds 解析失败：${actionTypeIdsState.error}`} style={{ marginBottom: 12 }} />
           ) : null}
@@ -165,7 +160,7 @@ export function StatusActionControlRulesModal({
           />
         </Form.Item>
 
-        <Form.Item label="附加匹配类型（actionMatchTypeIds）">
+        <Form.Item label="附加匹配类型">
           {actionMatchTypeIdsState.error ? (
             <Alert
               type="error"
@@ -184,7 +179,7 @@ export function StatusActionControlRulesModal({
           />
         </Form.Item>
 
-        <Form.Item label="可打断阶段类型（interruptPhaseTypeIds）">
+        <Form.Item label="可打断阶段类型">
           {interruptPhaseTypeIdsState.error ? (
             <Alert
               type="error"
@@ -207,7 +202,7 @@ export function StatusActionControlRulesModal({
           />
         </Form.Item>
 
-        <Form.Item label="说明（description）">
+        <Form.Item label="说明">
           <Input.TextArea
             value={formData.description}
             disabled={readOnly}
@@ -217,7 +212,7 @@ export function StatusActionControlRulesModal({
           />
         </Form.Item>
 
-        <Form.Item label="扩展字段（extend）">
+        <Form.Item label="扩展字段">
           <Input.TextArea
             value={formData.extendText}
             disabled={readOnly}

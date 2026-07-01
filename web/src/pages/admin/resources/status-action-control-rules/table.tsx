@@ -1,4 +1,5 @@
-import { Button, Space, Table, Typography } from '@arco-design/web-react';
+import { Button, Skeleton, Space, Table, Typography } from '@arco-design/web-react';
+import { EmptyState } from '../../../../components/EmptyState';
 import { getStatusActionControlRulesColumns } from './columns';
 import type { StatusActionControlRulesRecord } from './types';
 
@@ -21,6 +22,10 @@ export function StatusActionControlRulesTable({
   onCreate,
   onRefresh
 }: StatusActionControlRulesTableProps) {
+  const columns = getStatusActionControlRulesColumns({ onView, onEdit });
+  const scrollX = columns.reduce((sum, col) => sum + Number(col.width ?? 0), 0);
+  const showSkeleton = loading && records.length === 0;
+
   return (
     <Space direction="vertical" size={16} style={{ width: '100%' }}>
       <div className="crud-toolbar">
@@ -41,15 +46,20 @@ export function StatusActionControlRulesTable({
         </Space>
       </div>
 
-      <Table
-        className="data-table-shell"
-        loading={loading}
-        columns={getStatusActionControlRulesColumns({ onView, onEdit })}
-        data={records}
-        pagination={false}
-        rowKey="ruleId"
-        scroll={{ x: 1180 }}
-      />
+      {showSkeleton ? (
+        <Skeleton text={{ rows: 5, width: ['100%', '60%', '40%', '80%', '50%'] }} animation />
+      ) : (
+        <Table
+          className="data-table-shell"
+          loading={loading}
+          columns={columns}
+          data={records}
+          pagination={false}
+          rowKey="ruleId"
+          scroll={{ x: scrollX }}
+          noDataElement={<EmptyState title="暂无状态动作控制规则数据" description="点击右上角「新增」按钮创建第一条规则。" />}
+        />
+      )}
     </Space>
   );
 }

@@ -20,30 +20,25 @@ export function StatusActionControlRulesSearch({
 }: StatusActionControlRulesSearchProps) {
   return (
     <Form layout="inline" className="crud-search-form">
-      <Form.Item label="ruleId">
-        <Input value={searchData.ruleId} onChange={(value) => onFieldChange('ruleId', value)} placeholder="请输入 ruleId" />
+      <Form.Item label="规则 ID">
+        <Input value={searchData.ruleId} onChange={(value) => onFieldChange('ruleId', value)} placeholder="请输入规则 ID" />
       </Form.Item>
-      <Form.Item label="statusTypeId">
+      <Form.Item label="状态类型 ID">
         <Input
           value={searchData.statusTypeId}
           onChange={(value) => onFieldChange('statusTypeId', value)}
-          placeholder="请输入 statusTypeId"
+          placeholder="请输入状态类型 ID"
         />
       </Form.Item>
-      <Form.Item label="ruleKind">
+      <Form.Item label="规则类型">
         <Select
           allowClear
           value={searchData.ruleKind || undefined}
           onChange={(value) => onFieldChange('ruleKind', value ?? '')}
           placeholder="全部"
+          options={STATUS_ACTION_CONTROL_RULE_KIND_OPTIONS}
           style={{ width: 180 }}
-        >
-          {STATUS_ACTION_CONTROL_RULE_KIND_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
       <Form.Item>
         <Space>

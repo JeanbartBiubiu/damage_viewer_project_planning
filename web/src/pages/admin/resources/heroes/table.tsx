@@ -16,7 +16,7 @@ type HeroesTableProps = {
 
 export function HeroesTable({ loading, records, actionsDisabled, onView, onEdit, resolveImageSrc, onCreate, onRefresh }: HeroesTableProps) {
   const columns = getHeroesColumns({ onView, onEdit, resolveImageSrc });
-  const scrollX = columns.reduce((sum, col) => sum + (col.width ?? 0), 0);
+  const scrollX = columns.reduce((sum, col) => sum + Number(col.width ?? 0), 0);
   const showSkeleton = loading && records.length === 0;
 
   return (

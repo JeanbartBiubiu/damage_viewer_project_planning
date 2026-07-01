@@ -101,7 +101,7 @@ export function FormulaBindingsModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 1180 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
         <Form.Item label="目标绑定">
@@ -119,7 +119,7 @@ export function FormulaBindingsModal({
         </Form.Item>
 
         <div className="crud-form-grid">
-          <Form.Item label="绑定键（bindingKey）">
+          <Form.Item label="绑定键">
             <Input
               value={formData.bindingKey}
               disabled={readOnly || editingExisting}
@@ -147,7 +147,7 @@ export function FormulaBindingsModal({
           </Form.Item>
         </div>
 
-        <Form.Item label="公式 ID（formulaId）">
+        <Form.Item label="公式 ID">
           <Input
             value={formData.formulaId}
             disabled={readOnly}
@@ -163,7 +163,7 @@ export function FormulaBindingsModal({
           </Typography.Text>
         ) : null}
 
-        <Form.Item label="覆写参数（overrideParams）">
+        <Form.Item label="覆写参数">
           <FormulaParamsEditor
             title="覆写参数"
             apiBaseUrl={apiBaseUrl}

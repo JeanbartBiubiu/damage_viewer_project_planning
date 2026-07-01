@@ -101,7 +101,7 @@ export function collectAttributeBoundsWarnings(formData: AttributeDefinitionsFor
 
 export function getAttributeValueKindLabel(valueKind: string | undefined): string {
   const option = ATTRIBUTE_VALUE_KIND_OPTIONS.find((item) => item.value === valueKind);
-  return option?.label ?? valueKind ?? '--';
+  return option?.label ?? valueKind ?? '—';
 }
 
 export function formatAttributeBoundsLabel(record: {

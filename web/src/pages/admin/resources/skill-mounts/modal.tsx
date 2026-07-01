@@ -135,7 +135,7 @@ export function SkillMountsModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 920 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
         {optionsError ? (
@@ -143,22 +143,17 @@ export function SkillMountsModal({
         ) : null}
 
         <div className="crud-form-grid">
-          <Form.Item label="目标分类（targetCategory）" required>
+          <Form.Item label="目标分类" required>
             <Select
               value={formData.targetCategory || undefined}
               disabled={readOnly || editingExisting}
               onChange={(value) => onFieldChange('targetCategory', String(value ?? ''))}
               placeholder="选择目标分类"
-            >
-              {SKILL_MOUNT_TARGET_CATEGORY_OPTIONS.map((option) => (
-                <Select.Option key={option.value} value={option.value}>
-                  {option.label}
-                </Select.Option>
-              ))}
-            </Select>
+              options={SKILL_MOUNT_TARGET_CATEGORY_OPTIONS}
+            />
           </Form.Item>
 
-          <Form.Item label="目标 ID（targetId）" required>
+          <Form.Item label="目标 ID" required>
             {formData.targetCategory === 'hero' ? (
               <Select
                 showSearch
@@ -176,13 +171,13 @@ export function SkillMountsModal({
                 value={formData.targetId}
                 disabled={readOnly || editingExisting}
                 onChange={(value) => onFieldChange('targetId', value)}
-                placeholder="例如 hero_ezreal"
+                placeholder="例如 hero_xxx"
               />
             )}
           </Form.Item>
         </div>
 
-        <Form.Item label="技能 ID（skillId）" required>
+        <Form.Item label="技能 ID" required>
           <Select
             showSearch
             allowClear
@@ -196,11 +191,11 @@ export function SkillMountsModal({
           />
         </Form.Item>
 
-        <Form.Item label="启用（enabled）">
+        <Form.Item label="启用">
           <Switch checked={formData.enabled} disabled={readOnly} onChange={(checked) => onFieldChange('enabled', checked)} />
         </Form.Item>
 
-        <Form.Item label="扩展字段（extend）">
+        <Form.Item label="扩展字段">
           <Input.TextArea
             value={formData.extendText}
             disabled={readOnly}
