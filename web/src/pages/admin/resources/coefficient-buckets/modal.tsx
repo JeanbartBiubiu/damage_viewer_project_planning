@@ -47,7 +47,7 @@ export function CoefficientBucketsModal({
 
   return (
     <Modal
-      title={mode === 'create' ? '新增系数桶' : mode === 'edit' ? '编辑系数桶' : '查看系数桶'}
+      title={mode === 'create' ? '新增乘区桶' : mode === 'edit' ? '编辑乘区桶' : '查看乘区桶'}
       visible={visible}
       onCancel={onClose}
       footer={
@@ -62,10 +62,10 @@ export function CoefficientBucketsModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 820 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
-        <Form.Item label="桶键（bucketKey）">
+        <Form.Item label="桶键">
           <Input
             value={formData.bucketKey}
             disabled={readOnly || editingExisting}
@@ -75,17 +75,17 @@ export function CoefficientBucketsModal({
         </Form.Item>
 
         <div className="crud-form-grid">
-          <Form.Item label="归因域（resolutionDomain）">
+          <Form.Item label="作用域">
             <Select
               disabled={readOnly}
               value={formData.resolutionDomain || undefined}
               onChange={(value) => onFieldChange('resolutionDomain', String(value ?? ''))}
-              placeholder="选择归因域"
+              placeholder="选择作用域"
               options={COEFFICIENT_BUCKET_RESOLUTION_DOMAIN_OPTIONS}
             />
           </Form.Item>
 
-          <Form.Item label="聚合方式（aggregationMode）">
+          <Form.Item label="聚合方式">
             <Select
               disabled={readOnly}
               value={formData.aggregationMode || undefined}
@@ -97,7 +97,7 @@ export function CoefficientBucketsModal({
         </div>
 
         <div className="crud-form-grid">
-          <Form.Item label="阶段键（stageKey）">
+          <Form.Item label="阶段键">
             <Input
               value={formData.stageKey}
               disabled={readOnly}
@@ -106,7 +106,7 @@ export function CoefficientBucketsModal({
             />
           </Form.Item>
 
-          <Form.Item label="目标属性（targetAttrKey）">
+          <Form.Item label="目标属性">
             <div>
               <AttributeKeySelector
                 apiBaseUrl={apiBaseUrl}
@@ -121,14 +121,14 @@ export function CoefficientBucketsModal({
               />
               <Typography.Text type="secondary" style={{ display: 'block', marginTop: 6, fontSize: 12 }}>
                 {formData.resolutionDomain === 'attribute'
-                  ? '`attribute` 模式必须指定目标属性。'
-                  : '`hp_change` 模式不会使用 `targetAttrKey`，切换时会自动清空该字段。'}
+                  ? '属性模式下必须指定目标属性。'
+                  : '生命变化模式下不会使用目标属性，切换时会自动清空该字段。'}
               </Typography.Text>
             </div>
           </Form.Item>
         </div>
 
-        <Form.Item label="说明（description）">
+        <Form.Item label="说明">
           <Input.TextArea
             value={formData.description}
             disabled={readOnly}
@@ -138,7 +138,7 @@ export function CoefficientBucketsModal({
           />
         </Form.Item>
 
-        <Form.Item label="编辑提示（editorHint）">
+        <Form.Item label="编辑提示">
           <Input.TextArea
             value={formData.editorHintText}
             disabled={readOnly}
@@ -149,7 +149,7 @@ export function CoefficientBucketsModal({
           />
         </Form.Item>
 
-        <Form.Item label="桶配置（bucketConfig）">
+        <Form.Item label="桶配置">
           <Input.TextArea
             value={formData.bucketConfigText}
             disabled={readOnly}

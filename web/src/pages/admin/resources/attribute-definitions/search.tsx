@@ -22,8 +22,8 @@ export function AttributeDefinitionsSearch({
 }: AttributeDefinitionsSearchProps) {
   return (
     <Form layout="inline" className="crud-search-form">
-      <Form.Item label="attrKey">
-        <Input value={searchData.attrKey} onChange={(value) => onFieldChange('attrKey', value)} onPressEnter={onSearch} placeholder="请输入 attrKey" />
+      <Form.Item label="属性 Key">
+        <Input value={searchData.attrKey} onChange={(value) => onFieldChange('attrKey', value)} onPressEnter={onSearch} placeholder="请输入属性 Key" />
       </Form.Item>
       <Form.Item label="属性名称">
         <Input value={searchData.attrName} onChange={(value) => onFieldChange('attrName', value)} onPressEnter={onSearch} placeholder="请输入属性名称" />
@@ -34,29 +34,19 @@ export function AttributeDefinitionsSearch({
           value={searchData.attrType || undefined}
           onChange={(value) => onFieldChange('attrType', value ?? '')}
           placeholder="全部"
+          options={ATTRIBUTE_TYPE_OPTIONS}
           style={{ width: 180 }}
-        >
-          {ATTRIBUTE_TYPE_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
-      <Form.Item label="valueKind">
+      <Form.Item label="取值语义">
         <Select
           allowClear
           value={searchData.valueKind || undefined}
           onChange={(value) => onFieldChange('valueKind', value ?? '')}
           placeholder="全部"
+          options={ATTRIBUTE_VALUE_KIND_OPTIONS}
           style={{ width: 180 }}
-        >
-          {ATTRIBUTE_VALUE_KIND_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
       <Form.Item>
         <Space>

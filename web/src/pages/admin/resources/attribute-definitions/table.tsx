@@ -41,7 +41,7 @@ export function AttributeDefinitionsTable({
     canToggleGrowth: !actionsDisabled && growthTypeAvailable,
     togglingAttrKey
   });
-  const scrollX = columns.reduce((sum, col) => sum + (col.width ?? 0), 0);
+  const scrollX = columns.reduce((sum, col) => sum + Number(col.width ?? 0), 0);
   const showSkeleton = loading && records.length === 0;
 
   return (

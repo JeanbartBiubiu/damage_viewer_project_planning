@@ -27,13 +27,13 @@ export function getItemsColumns({ onView, onEdit, resolveImageSrc }: ItemsTableA
       title: '名称',
       dataIndex: 'name',
       width: 180,
-      render: (_, record) => record.name ?? '--'
+      render: (_, record) => record.name ?? '—'
     },
     {
       title: '金币成本',
       dataIndex: 'goldCost',
       width: 120,
-      render: (_, record) => record.goldCost ?? '--'
+      render: (_, record) => record.goldCost ?? '—'
     },
     {
       title: '操作',

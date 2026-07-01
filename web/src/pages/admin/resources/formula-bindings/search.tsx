@@ -18,23 +18,18 @@ export function FormulaBindingsSearch({ searchData, onFieldChange, onSearch, onR
           value={searchData.targetCategory || undefined}
           onChange={(value) => onFieldChange('targetCategory', value ?? '')}
           placeholder="全部"
+          options={FORMULA_BINDING_TARGET_CATEGORY_OPTIONS}
           style={{ width: 180 }}
-        >
-          {FORMULA_BINDING_TARGET_CATEGORY_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
       <Form.Item label="目标 ID">
-        <Input value={searchData.targetId} onChange={(value) => onFieldChange('targetId', value)} placeholder="请输入 targetId" />
+        <Input value={searchData.targetId} onChange={(value) => onFieldChange('targetId', value)} placeholder="请输入目标 ID" />
       </Form.Item>
-      <Form.Item label="bindingKey">
-        <Input value={searchData.bindingKey} onChange={(value) => onFieldChange('bindingKey', value)} placeholder="请输入 bindingKey" />
+      <Form.Item label="绑定键">
+        <Input value={searchData.bindingKey} onChange={(value) => onFieldChange('bindingKey', value)} placeholder="请输入绑定键" />
       </Form.Item>
       <Form.Item label="公式 ID">
-        <Input value={searchData.formulaId} onChange={(value) => onFieldChange('formulaId', value)} placeholder="请输入 formulaId" />
+        <Input value={searchData.formulaId} onChange={(value) => onFieldChange('formulaId', value)} placeholder="请输入公式 ID" />
       </Form.Item>
       <Form.Item>
         <Space>

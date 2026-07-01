@@ -277,7 +277,7 @@ export function HeroesModal({
               结构化编辑与下方 JSON 文本双向同步。若手动修改 JSON 导致解析失败，结构化区会暂时禁用并显示错误。
             </Typography.Text>
 
-            <Form.Item label="baseStats JSON">
+            <Form.Item label="基础属性 JSON">
               <Input.TextArea
                 value={formData.baseStatsText}
                 disabled={readOnly}
@@ -288,7 +288,7 @@ export function HeroesModal({
               />
             </Form.Item>
 
-            <Form.Item label="statsByLevel JSON">
+            <Form.Item label="等级属性 JSON">
               <Input.TextArea
                 value={formData.statsByLevelText}
                 disabled={readOnly}
