@@ -13,7 +13,7 @@ export function FormulaProfilesSearch({ searchData, onFieldChange, onSearch, onR
   return (
     <Form layout="inline" className="crud-search-form">
       <Form.Item label="公式 ID">
-        <Input value={searchData.formulaId} onChange={(value) => onFieldChange('formulaId', value)} placeholder="请输入 formulaId" />
+        <Input value={searchData.formulaId} onChange={(value) => onFieldChange('formulaId', value)} placeholder="请输入公式 ID" />
       </Form.Item>
       <Form.Item label="公式类型">
         <Select
@@ -21,14 +21,9 @@ export function FormulaProfilesSearch({ searchData, onFieldChange, onSearch, onR
           value={searchData.formulaType || undefined}
           onChange={(value) => onFieldChange('formulaType', value ?? '')}
           placeholder="全部"
+          options={FORMULA_PROFILE_TYPE_OPTIONS}
           style={{ width: 180 }}
-        >
-          {FORMULA_PROFILE_TYPE_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
       <Form.Item label="公式种类">
         <Select
@@ -36,14 +31,9 @@ export function FormulaProfilesSearch({ searchData, onFieldChange, onSearch, onR
           value={searchData.formulaKind || undefined}
           onChange={(value) => onFieldChange('formulaKind', value ?? '')}
           placeholder="全部"
+          options={FORMULA_PROFILE_KIND_OPTIONS}
           style={{ width: 180 }}
-        >
-          {FORMULA_PROFILE_KIND_OPTIONS.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
       <Form.Item>
         <Space>

@@ -1,4 +1,4 @@
-import { Button, Collapse, Form, Input, Modal, Select, Space } from '@arco-design/web-react';
+import { Button, Collapse, Form, Input, Modal, Select, Space, Typography } from '@arco-design/web-react';
 import { FormulaParamsEditor } from '../../../../components/formula-editor/FormulaParamsEditor';
 import { appendCurrentDamageTypeOption, type DamageTypeOption } from '../shared/damageTypes';
 import { FORMULA_PROFILE_KIND_OPTIONS, FORMULA_PROFILE_TYPE_OPTIONS } from './constants';
@@ -54,7 +54,7 @@ export function FormulaProfilesModal({
       }
       autoFocus={false}
       focusLock
-      style={{ width: 1160 }}
+      style={{ width: '90vw', maxWidth: 1280 }}
     >
       <Form layout="vertical">
         <Form.Item label="公式 ID">
@@ -134,7 +134,10 @@ export function FormulaProfilesModal({
         </Form.Item>
 
         <Collapse defaultActiveKey={[]} style={{ marginTop: 8 }}>
-          <Collapse.Item name="extra-fields" header="额外顶层字段">
+          <Collapse.Item name="extra-fields" header="额外顶层字段（JSON）">
+            <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 12 }}>
+              此处 JSON 会与已知字段合并后整体写入，可在其中补充未在表单中暴露的顶层字段。
+            </Typography.Text>
             <Input.TextArea
               value={formData.extraFieldsText}
               disabled={readOnly}

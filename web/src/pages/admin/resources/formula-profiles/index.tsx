@@ -23,6 +23,7 @@ type FormulaProfilesPageProps = {
   adminToken: string;
 };
 
+// 已知的 FormulaProfile 顶层字段。新增顶层字段时需同步加入此 Set，否则会被归入 extraFields 透传。
 const KNOWN_FORMULA_PROFILE_FIELDS = new Set(['formulaId', 'formulaType', 'formulaKind', 'params', 'description', 'updatedAt']);
 
 function extractExtraFormulaProfileFields(record: FormulaProfilesRecord): JsonObject {
@@ -89,7 +90,7 @@ async function saveFormulaProfileRecord(
   if (formulaType === 'damage') {
     const damageTypeId = Number(formData.damageTypeId);
     if (!Number.isInteger(damageTypeId) || damageTypeId <= 0) {
-      throw new Error('damage formulas require a valid damage type');
+      throw new Error('伤害公式需要指定有效的伤害类型。');
     }
     params.damageTypeId = damageTypeId;
   } else {
@@ -168,7 +169,7 @@ export function FormulaProfilesPage({ apiBaseUrl, selectedGameId, adminToken }: 
       {showDamageTypeWarning ? (
         <Alert
           type="warning"
-          content="No damage types found under reserved type 10001. Add game-local damage types there before configuring damage formulas."
+          content="未在保留类型 10001 下找到伤害类型。请先添加游戏本地伤害类型，再配置伤害公式。"
           className="resource-warning-alert"
         />
       ) : null}
