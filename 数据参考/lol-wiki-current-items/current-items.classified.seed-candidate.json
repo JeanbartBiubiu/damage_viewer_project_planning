@@ -1,0 +1,414 @@
+{
+  "gameId": "lol",
+  "versionCode": "wiki_review_queue_classified_4030984",
+  "source": {
+    "reviewQueueFile": "current-items.ai-review-queue.jsonl",
+    "candidatesSummaryFile": "current-items.db-candidates.summary.json",
+    "manifest": {
+      "apiTitle": "Module:ItemData/data",
+      "apiUrl": "https://wiki.leagueoflegends.com/en-us/api.php?action=query&prop=revisions&rvprop=ids|timestamp|content&rvslots=main&titles=Module:ItemData/data&format=json&origin=*",
+      "contentSha256": "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
+      "currentOnly": true,
+      "fetchedAt": "2026-06-18T12:57:54.813Z",
+      "outputFiles": [
+        "current-items.raw.lua",
+        "current-items.normalized.json",
+        "current-items.summary.json",
+        "manifest.json"
+      ],
+      "removedIncluded": false,
+      "revid": 4030984,
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module:ItemData/data",
+      "timestamp": "2026-06-17T23:47:20Z"
+    },
+    "generatedAt": "2026-07-05T07:54:27.618Z"
+  },
+  "ownerCategories": [
+    {
+      "ownerType": "item",
+      "name": "装备"
+    }
+  ],
+  "attributeDefinitions": [],
+  "types": [],
+  "formulaProfiles": [],
+  "formulaBindings": [],
+  "controlStateProfiles": [],
+  "statusDefinitions": [],
+  "statusModifierGroups": [],
+  "statusAttributeModifiers": [],
+  "statusPeriodicHpEffects": [],
+  "heroes": [],
+  "typeRelations": [],
+  "scenarios": [],
+  "skills": [
+    {
+      "skillId": "item_6660_immolate_review_queue",
+      "ownerType": "item",
+      "ownerId": "6660",
+      "skillKey": "pass_immolate",
+      "name": "Bami's Cinder Immolate review queue candidate",
+      "description": "Review queue classified candidate. Bucket: ready_to_encode. Source: Taking or dealing damage activates this passive for 3 seconds. Deal as(15 magic damage) every second to enemies within tip(cr; icononly = true) 325 (+ 100% bonus size) units, with the damage being inc",
+      "params": {
+        "triggerKind": "periodic_dot",
+        "sourceItemName": "Bami's Cinder",
+        "reviewKey": "6660|6660|bami_s_cinder|pass|Immolate",
+        "recordedNotSimulated": [
+          "dot_interval_and_duration_not_modeled"
+        ],
+        "assumptions": [],
+        "candidateOnly": true,
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "bami_s_cinder_periodic_dot",
+            "triggerKind": "periodic_dot"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_6660_immolate_review_queue",
+            "effectId": "item_6660_immolate_review_queue_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_6660_immolate_review_queue",
+            "triggerId": "bami_s_cinder_periodic_dot",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 15,
+                "source": "bami_s_cinder_immolate_damage_0",
+                "evidenceKey": "item_6660_immolate_damage_0"
+              }
+            ],
+            "triggerKind": "periodic_dot",
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_2503_baleful_blaze_review_queue",
+      "ownerType": "item",
+      "ownerId": "2503",
+      "skillKey": "pass_baleful_blaze",
+      "name": "Blackfire Torch Baleful Blaze review queue candidate",
+      "description": "Review queue classified candidate. Bucket: ready_to_encode. Source: Dealing ability damage burns enemies, causing them to take as(ap(60/6) as((+ ap(6/6)% AP)) magic damage; magic damage) every fd(0.5) seconds over 3 seconds, for a total of as(60; magic damage) as((+ 6",
+      "params": {
+        "triggerKind": "periodic_dot",
+        "sourceItemName": "Blackfire Torch",
+        "reviewKey": "2503|2503|blackfire_torch|pass|Baleful Blaze",
+        "recordedNotSimulated": [
+          "dot_interval_and_duration_not_modeled"
+        ],
+        "assumptions": [],
+        "candidateOnly": true,
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "blackfire_torch_periodic_dot",
+            "triggerKind": "periodic_dot"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_2503_baleful_blaze_review_queue",
+            "effectId": "item_2503_baleful_blaze_review_queue_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_2503_baleful_blaze_review_queue",
+            "triggerId": "blackfire_torch_periodic_dot",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 10,
+                "source": "blackfire_torch_baleful_blaze_damage_0",
+                "evidenceKey": "item_2503_baleful_blaze_damage_0"
+              }
+            ],
+            "triggerKind": "periodic_dot",
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3100_spellblade_review_queue",
+      "ownerType": "item",
+      "ownerId": "3100",
+      "skillKey": "pass_spellblade",
+      "name": "Lich Bane Spellblade review queue candidate",
+      "description": "Review queue classified candidate. Bucket: ready_to_encode. Source: After using an ability, your next basic attack within 10 seconds gains as(50% bonus attack speed) and deals as(75% base AD) as((+ 45% AP)) as(bonus magic damage) on-hit (fd(1.5) second cooldown, start",
+      "params": {
+        "triggerKind": "next_basic_attack_after_state",
+        "sourceItemName": "Lich Bane",
+        "reviewKey": "3100|3100|lich_bane|pass|Spellblade",
+        "recordedNotSimulated": [
+          "temporary_attack_speed_50_percent"
+        ],
+        "assumptions": [
+          "assumes_spell_cast_before_dps_window"
+        ],
+        "candidateOnly": true,
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "lich_bane_next_basic_attack_after_state",
+            "triggerKind": "next_basic_attack_after_state"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3100_spellblade_review_queue",
+            "effectId": "item_3100_spellblade_review_queue_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3100_spellblade_review_queue",
+            "triggerId": "lich_bane_next_basic_attack_after_state",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": 0.75,
+                "source": "lich_bane_spellblade_damage_0",
+                "evidenceKey": "item_3100_spellblade_damage_0"
+              },
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "attackerAttr": "ap",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 0.45,
+                "source": "lich_bane_spellblade_damage_1",
+                "evidenceKey": "item_3100_spellblade_damage_1"
+              }
+            ],
+            "triggerKind": "next_basic_attack_after_state",
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3087_energized_review_queue",
+      "ownerType": "item",
+      "ownerId": "3087",
+      "skillKey": "pass_energized",
+      "name": "Statikk Shiv Energized review queue candidate",
+      "description": "Review queue classified candidate. Bucket: ready_to_encode. Source: Moving and basic attacking generates Energize stacks, up to 100.",
+      "params": {
+        "triggerKind": "energized_charge_and_consume",
+        "sourceItemName": "Statikk Shiv",
+        "reviewKey": "3087|3087|statikk_shiv|pass|Energized",
+        "recordedNotSimulated": [
+          "chain_bounce_clause",
+          "chain_lightning_clause",
+          "closest_target_clause",
+          "repeating_target_clause",
+          "secondary_targets_clause",
+          "movement_charge_gain"
+        ],
+        "assumptions": [
+          "assumes_charge_at_threshold_before_dps_window"
+        ],
+        "candidateOnly": true,
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "statikk_shiv_energized_charge_and_consume",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3087_energized_review_queue",
+            "effectId": "item_3087_energized_review_queue_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3087_energized_review_queue",
+            "triggerId": "statikk_shiv_energized_charge_and_consume",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 60,
+                "source": "statikk_shiv_energized_damage_0",
+                "evidenceKey": "item_3087_energized_damage_0"
+              }
+            ],
+            "triggerKind": "energized_charge_and_consume",
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "item_3087_electrospark_review_queue",
+      "ownerType": "item",
+      "ownerId": "3087",
+      "skillKey": "pass3_electrospark",
+      "name": "Statikk Shiv Electrospark review queue candidate",
+      "description": "Review queue classified candidate. Bucket: ready_to_encode. Source: When fully tip(Energized), your next basic attack on-hit is empowered to form chain lightning, dealing as(60 bonus magic damage), increased to as(90; magic damage) against non-champions. This bounces ",
+      "params": {
+        "triggerKind": "energized_charge_and_consume",
+        "sourceItemName": "Statikk Shiv",
+        "reviewKey": "3087|3087|statikk_shiv|pass3|Electrospark",
+        "recordedNotSimulated": [
+          "chain_bounce_clause",
+          "chain_lightning_clause",
+          "closest_target_clause",
+          "repeating_target_clause",
+          "secondary_targets_clause",
+          "movement_charge_gain"
+        ],
+        "assumptions": [
+          "assumes_charge_at_threshold_before_dps_window"
+        ],
+        "candidateOnly": true,
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "statikk_shiv_energized_charge_and_consume",
+            "triggerKind": "energized_charge_and_consume"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "item_3087_electrospark_review_queue",
+            "effectId": "item_3087_electrospark_review_queue_effect",
+            "sourceCategory": "item_passive",
+            "sourceType": "item",
+            "sourceId": "item_3087_electrospark_review_queue",
+            "triggerId": "statikk_shiv_energized_charge_and_consume",
+            "ownerRole": "attacker",
+            "operations": [
+              {
+                "kind": "damage",
+                "damageType": "magic",
+                "amount": 60,
+                "source": "statikk_shiv_electrospark_damage_0",
+                "evidenceKey": "item_3087_electrospark_damage_0"
+              }
+            ],
+            "triggerKind": "energized_charge_and_consume",
+            "procScope": "real_basic_attack_only"
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "itemId": "6660",
+      "name": "Bami's Cinder",
+      "iconUrl": "item_6660",
+      "skillRefs": [
+        "item_6660_immolate_review_queue"
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items-review-queue",
+        "sourceItemId": "6660",
+        "sourceKey": "bami_s_cinder",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "classifiedBucket": "ready_to_encode",
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      }
+    },
+    {
+      "itemId": "2503",
+      "name": "Blackfire Torch",
+      "iconUrl": "item_2503",
+      "skillRefs": [
+        "item_2503_baleful_blaze_review_queue"
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items-review-queue",
+        "sourceItemId": "2503",
+        "sourceKey": "blackfire_torch",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "classifiedBucket": "ready_to_encode",
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      }
+    },
+    {
+      "itemId": "3100",
+      "name": "Lich Bane",
+      "iconUrl": "item_3100",
+      "skillRefs": [
+        "item_3100_spellblade_review_queue"
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items-review-queue",
+        "sourceItemId": "3100",
+        "sourceKey": "lich_bane",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "classifiedBucket": "ready_to_encode",
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      }
+    },
+    {
+      "itemId": "3087",
+      "name": "Statikk Shiv",
+      "iconUrl": "item_3087",
+      "skillRefs": [
+        "item_3087_energized_review_queue",
+        "item_3087_electrospark_review_queue"
+      ],
+      "source": {
+        "dataSource": "lol-wiki-current-items-review-queue",
+        "sourceItemId": "3087",
+        "sourceKey": "statikk_shiv",
+        "importEligibility": {
+          "isCurrent": true,
+          "isPlayerFacingCandidate": true,
+          "isClassicSrCandidate": true,
+          "isDpsCandidate": true,
+          "excludedReasons": []
+        },
+        "classifiedBucket": "ready_to_encode",
+        "conversionRule": "lol_wiki_review_queue_classified.v1"
+      }
+    }
+  ]
+}

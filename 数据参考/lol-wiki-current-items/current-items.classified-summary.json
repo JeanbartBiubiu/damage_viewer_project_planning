@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol_wiki_review_queue_classified.v1",
+  "generatedAt": "2026-07-05T07:54:27.618Z",
+  "source": {
+    "reviewQueueFile": "current-items.ai-review-queue.jsonl",
+    "revid": 4030984,
+    "totalEntries": 385
+  },
+  "bucketCounts": {
+    "out_of_scope_for_single_target_dps": 234,
+    "needs_manual_baseline": 141,
+    "needs_runtime_extension": 5,
+    "ready_to_encode": 5
+  },
+  "reasonCounts": {
+    "distributed_or_granted_item": 85,
+    "damage_amplification_pattern": 6,
+    "no_pattern_matched": 130,
+    "not_dps_candidate": 74,
+    "non_player_item_type": 22,
+    "consumable_or_trinket": 26,
+    "target_side_modifier_not_in_single_attacker_dps": 5,
+    "dot_aura_pattern": 2,
+    "armor_shred_pattern": 2,
+    "pve_only": 3,
+    "vision_effect": 6,
+    "cc_effect": 2,
+    "heal_effect": 7,
+    "lifesteal_pattern": 3,
+    "cooldown_effect": 1,
+    "ally_targeting": 1,
+    "existing_high_confidence_guess": 3,
+    "mana_effect": 5,
+    "gold_effect": 2
+  },
+  "skillCandidateCount": 5,
+  "itemWithSkillCount": 4,
+  "needsRuntimeExtensionCount": 5,
+  "needsManualBaselineCount": 141,
+  "outOfScopeCount": 234,
+  "readyToEncodeItems": [
+    "2503",
+    "3087",
+    "3100",
+    "6660"
+  ],
+  "outputFiles": [
+    "current-items.classified-summary.json",
+    "current-items.classified.seed-candidate.json"
+  ]
+}
