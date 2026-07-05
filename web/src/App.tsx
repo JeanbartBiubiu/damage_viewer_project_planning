@@ -396,14 +396,11 @@ export default function App() {
                 disabled={games.length === 0}
                 placeholder="选择游戏"
                 size="small"
-              >
-                <Select.Option value="">未选择</Select.Option>
-                {games.map((game) => (
-                  <Select.Option key={game.gameId} value={game.gameId}>
-                    {game.gameId} / {game.gameName}
-                  </Select.Option>
-                ))}
-              </Select>
+                options={[
+                  { label: '未选择', value: '' },
+                  ...games.map((game) => ({ label: `${game.gameId} / ${game.gameName}`, value: game.gameId }))
+                ]}
+              />
             </div>
             <div className="app-toolbar-field app-toolbar-field--token">
               <span className="app-toolbar-label">Token</span>

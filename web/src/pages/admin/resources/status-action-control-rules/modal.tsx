@@ -229,7 +229,7 @@ export function StatusActionControlRulesModal({
               上面的结构化选择器会和这些原始字段保持同步。如果类型目录还没同步，或者你需要直接填写数字 ID，可以在这里编辑。
             </Typography.Text>
 
-            <Form.Item label="状态类型 ID 原始值（statusTypeId）">
+            <Form.Item label="状态类型 ID 原始值">
               <Input
                 value={formData.statusTypeId}
                 disabled={readOnly}
@@ -238,7 +238,7 @@ export function StatusActionControlRulesModal({
               />
             </Form.Item>
 
-            <Form.Item label="动作类型 JSON（actionTypeIds）">
+            <Form.Item label="动作类型 JSON">
               <Input.TextArea
                 value={formData.actionTypeIdsText}
                 disabled={readOnly}
@@ -249,7 +249,7 @@ export function StatusActionControlRulesModal({
               />
             </Form.Item>
 
-            <Form.Item label="附加匹配类型 JSON（actionMatchTypeIds）">
+            <Form.Item label="附加匹配类型 JSON">
               <Input.TextArea
                 value={formData.actionMatchTypeIdsText}
                 disabled={readOnly}
@@ -260,7 +260,7 @@ export function StatusActionControlRulesModal({
               />
             </Form.Item>
 
-            <Form.Item label="可打断阶段 JSON（interruptPhaseTypeIds）">
+            <Form.Item label="可打断阶段 JSON">
               <Input.TextArea
                 value={formData.interruptPhaseTypeIdsText}
                 disabled={readOnly}
