@@ -1,5 +1,7 @@
 # TinyGo Engine V2
 
+> 迁移提示：本文下方保留当前已落地的旧 TinyGo V2 ABI、数据流和 review 顺序说明。后续“Wasm 通用计算引擎”开发以 `../../文档记录/详细设计/wasm/WASM详细设计.md` 为目标契约，尤其以其中 `§2.1 目标 ABI 与现有导出迁移` 为准。旧 `engine_init/engine_begin_run/engine_step`、`EngineBundleV2`、专用 DPS lane 只能作为 legacy/compat 或迁移参考，不能反向定义新通用引擎语义。
+
 `wasm/tinygo_engine_v2` 是 Damage Viewer 的 TinyGo Wasm 计算引擎正式落点。当前代码目标不是继续扩展临时 demo，而是按 V2 契约和子系统边界建立可逐层 review、逐层实现的骨架。
 
 更细的模块依赖图、时序图和对象关系见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
@@ -126,7 +128,9 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1
 tinygo build -scheduler=none -no-debug -opt=z -target .\targets\wasm-256m.json -o .\dist\tinygo_engine_v2.wasm .\cmd\engine_wasm
 ```
 
-## ABI 摘要
+## ABI 摘要（LEGACY 当前已落地）
+
+新通用引擎目标 ABI 是 `engine_compile`、`engine_run`、`engine_release_session`；本节旧导出函数只表示当前已落地兼容路径。开发新通用引擎时先读 `../../文档记录/详细设计/wasm/WASM详细设计.md` 的 `§2.0`、`§2.1` 和 `§19`。
 
 ```text
 alloc(size) -> ptr
