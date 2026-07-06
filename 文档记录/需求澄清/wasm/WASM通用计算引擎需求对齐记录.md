@@ -33,7 +33,7 @@ P0 不支持把某次 `run` 的 `finalSnapshot` 作为下一次 `run` 的 `initi
 
 P0 `initialSnapshot`/`finalSnapshot` 只包含本次 run 的战斗状态字段：combatant attrs/resources、cooldowns、active dynamic providers、shield instances、ability/provider/combatant vars。snapshot 不包含 event queue、driver/scheduler 进度、series、warnings、evidence、临时 pipeline frame 或其他只属于单次 run 执行过程的内部结构。
 
-snapshot 中的 dynamic provider 和 shield instance 只保存 definition ref 与 mutable instance state，不完整拷贝 ability、modifier 或 rule 定义。dynamic provider 至少包含 `providerRef`/`definitionKey`、source、owner、stacks、expireAt、state；shield instance 至少包含 shield definition ref、source、owner、remaining、priority、expireAt、state。具体能力、modifier、吸收规则和触发规则仍由 compiled session 中的定义提供。
+snapshot 中的 dynamic provider 和 shield instance 只保存 definition ref 与 mutable instance state，不完整拷贝 ability、modifier 或 rule 定义。dynamic provider 至少包含 `providerRef`/`definitionRef`、source、owner、stacks、expireAt、state；shield instance 至少包含 shield definition ref、source、owner、remaining、priority、expireAt、state。具体能力、modifier、吸收规则和触发规则仍由 compiled session 中的定义提供。
 
 `initialSnapshot` 必须和当前 compiled session 的 hash 匹配。snapshot 需要携带 `schemaHash`/`rulesHash` 或等价的 `snapshotRulesHash`；`run` 前若发现 snapshot hash 与 session hash 不匹配，必须拒绝并要求重新 materialize/compile，不能 best-effort 迁移旧 snapshot。
 

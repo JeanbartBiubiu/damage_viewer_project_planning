@@ -1,5 +1,7 @@
 # TinyGo Engine V2 AGENTS.md
 
+> 迁移提示：本文件下文仍描述当前已落地的旧 TinyGo V2 ABI 与骨架，后续“Wasm 通用计算引擎”开发以 `文档记录/详细设计/wasm/WASM详细设计.md` 为目标契约，尤其以其中 `§2.1 目标 ABI 与现有导出迁移` 为准。旧 `engine_init/engine_begin_run/engine_step`、`EngineBundleV2`、专用 DPS lane 只能作为 legacy/compat 或迁移参考，不能反向定义新通用引擎语义。
+
 ## 1. 适用范围
 
 本文只适用于 `wasm/tinygo_engine_v2/**`。
@@ -93,7 +95,9 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\pa
 
 `wasm_exec.js` 必须来自同一 TinyGo 版本的 `TINYGOROOT`。
 
-## 7. 运行时与 ABI 约定
+## 7. 运行时与 ABI 约定（LEGACY 当前已落地）
+
+新通用引擎目标 ABI 是 `engine_compile`、`engine_run`、`engine_release_session`；旧导出函数只表示当前已落地兼容路径。开发新通用引擎时先读 `文档记录/详细设计/wasm/WASM详细设计.md` 的 `§2.0`、`§2.1` 和 `§19`。
 
 1. ABI 固定为显式导出函数：`alloc`、`dealloc`、`engine_init`、`engine_snapshot_initial`、`engine_snapshot_actions_initial`、`engine_begin_run`、`engine_step`、`engine_abort_run`、`engine_outbox_ptr`、`engine_outbox_len`、`engine_outbox_clear`。
 2. 协议首期为二进制 frame header + UTF-8 JSON payload；frame header 包含 `magic/schemaVersion/kind/flags/payloadLen`。
