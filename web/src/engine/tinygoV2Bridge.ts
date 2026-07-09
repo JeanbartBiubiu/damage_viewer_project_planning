@@ -16,6 +16,9 @@ type TinyGoV2Exports = WebAssembly.Exports & {
   engine_snapshot_actions_initial(ptr: number, len: number): number;
   engine_step(maxEvents: number): number;
   engine_abort_run(): number;
+  engine_compile(ptr: number, len: number): number;
+  engine_run(ptr: number, len: number): number;
+  engine_release_session(ptr: number, len: number): number;
   engine_outbox_ptr(): number;
   engine_outbox_len(): number;
   engine_outbox_clear(): void;
@@ -50,6 +53,15 @@ const HEADER_LEN = 16;
 const FRAME_INIT = 1;
 const FRAME_RUN = 2;
 
+export const FRAME_GENERIC_COMPILE = 200;
+export const FRAME_GENERIC_RUN = 201;
+export const FRAME_GENERIC_RELEASE_SESSION = 202;
+
+export const OUTBOX_GENERIC_COMPILE_RESULT = 210;
+export const OUTBOX_GENERIC_DONE = 211;
+export const OUTBOX_GENERIC_ERROR = 212;
+export const OUTBOX_GENERIC_SNAPSHOT = 213;
+
 const textEncoder = new TextEncoder();
 const requiredExports = [
   'memory',
@@ -61,10 +73,15 @@ const requiredExports = [
   'engine_snapshot_actions_initial',
   'engine_step',
   'engine_abort_run',
+  'engine_compile',
+  'engine_run',
+  'engine_release_session',
   'engine_outbox_ptr',
   'engine_outbox_len',
   'engine_outbox_clear'
 ] as const;
+
+type GenericEngineFnName = 'engine_compile' | 'engine_run' | 'engine_release_session';
 
 export class TinyGoV2Bridge {
   private constructor(private readonly exports: TinyGoV2Exports) {}
@@ -103,8 +120,33 @@ export class TinyGoV2Bridge {
     return this.readOutbox();
   }
 
+  compile(request: unknown): TinyGoV2Frame[] {
+    return this.invokeGeneric('engine_compile', FRAME_GENERIC_COMPILE, request);
+  }
+
+  run(request: unknown): TinyGoV2Frame[] {
+    return this.invokeGeneric('engine_run', FRAME_GENERIC_RUN, request);
+  }
+
+  releaseSession(sessionId: string, expectedRulesHash?: string): TinyGoV2Frame[] {
+    const payload: Record<string, string> = { sessionId };
+    if (expectedRulesHash) {
+      payload.expectedRulesHash = expectedRulesHash;
+    }
+    return this.invokeGeneric('engine_release_session', FRAME_GENERIC_RELEASE_SESSION, payload);
+  }
+
+  private invokeGeneric(fnName: GenericEngineFnName, kind: number, payload: unknown): TinyGoV2Frame[] {
+    return this.invoke(fnName, kind, payload);
+  }
+
   private invoke(
-    fnName: 'engine_init' | 'engine_begin_run' | 'engine_snapshot_initial' | 'engine_snapshot_actions_initial',
+    fnName:
+      | 'engine_init'
+      | 'engine_begin_run'
+      | 'engine_snapshot_initial'
+      | 'engine_snapshot_actions_initial'
+      | GenericEngineFnName,
     kind: number,
     payload: unknown
   ): TinyGoV2Frame[] {
