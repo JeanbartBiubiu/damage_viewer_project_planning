@@ -27,6 +27,7 @@ import { WasmValidationM2Page } from './pages/WasmValidationM2Page';
 import { WasmValidationM3Page } from './pages/WasmValidationM3Page';
 import { WasmValidationM4ClosurePage } from './pages/WasmValidationM4ClosurePage';
 import { WasmValidationV2DpsPage } from './pages/WasmValidationV2DpsPage';
+import { WasmValidationGenericPage } from './pages/WasmValidationGenericPage';
 import { WasmValidationPage } from './pages/WasmValidationPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
@@ -256,6 +257,9 @@ export default function App() {
           externalRefreshSeed={bundleRefreshSeed}
         />
       );
+      break;
+    case 'wasm-validation-generic':
+      pageContent = <WasmValidationGenericPage />;
       break;
     case 'images':
       pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
