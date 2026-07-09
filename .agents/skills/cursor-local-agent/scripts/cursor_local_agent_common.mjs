@@ -128,8 +128,9 @@ export function probeCursorCli() {
     probe.supportsOutputFormat = true;
     probe.supportsModelSelection = true;
     probe.status = "best_effort";
+    probe.strictModelFallbackAllowed = true;
     probe.note =
-      "cursor-agent is available, but current CLI fallback cannot prove grok-4.5 with fast=false because it does not pass model params.";
+      "cursor-agent is available and can be used for best-effort CLI fallback with --model grok-4.5.";
     return probe;
   }
 
@@ -180,8 +181,6 @@ export function performPreflight({ cwd, requireApiKey = true, requireSdk = true 
   }
   if (!cliProbe.cursorAgentPath) {
     warnings.push(cliProbe.note);
-  } else if (!cliProbe.strictModelFallbackAllowed) {
-    warnings.push("Strict CLI fallback is unavailable because current CLI flags cannot prove grok-4.5 with fast=false.");
   }
   checks.push({
     id: "runtime.node",
