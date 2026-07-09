@@ -22,7 +22,7 @@
 2. `goal`、需求描述或任务页只定义目标与范围。驱动模型先从代码库、最近层 `AGENTS.md`、`README.md`、脚本和现有文档自行收敛；只有本地无法确定时，才一次向用户提一个问题并给推荐答案。范围收敛后，才可编写 Cursor prompt。
 3. Cursor prompt 必须写清：目标、允许写入范围、非目标、验证命令、停止条件；范围未收敛，或写入范围未限制时，不得启动 Cursor。
 4. Cursor 只负责受限编码执行，不负责自行扩写需求、扩大范围、跳过限制或替代最终验收。
-5. 通过 SDK / local agent 调 Cursor 时，模型选择、接线、runner 和 smoke 规则见 `.agents/skills/cursor-local-agent/SKILL.md`（固定 `composer-2.5` + `fast=false`，不得用 `composer-latest`/`composer`/默认 `composer-2.5`）。
+5. 通过 SDK / local agent 调 Cursor 时，模型选择、接线、runner 和 smoke 规则见 `.agents/skills/cursor-local-agent/SKILL.md`（固定 `grok-4.5` + `effort=high` + `fast=false`，不得用裸 `grok-4.5`、`composer-latest`/`composer`/`composer-2.5`/`composer-2.5-fast`）。
 6. 驱动模型每轮先检查 Cursor 产物、事件日志和 `git diff` 再 review；即使 `status=error` 也要先看 diff。最终验证由驱动模型亲自完成，可自动化项不得交用户；若 Cursor 链路、权限、环境或验证异常，先报告阻塞，除非用户明确同意，否则不退回“驱动模型直接改代码”。验收细则见 `.\文档记录\详细设计\Cursor协同开发流程说明.md`。
 
 流程说明真源见 `.\文档记录\详细设计\Cursor协同开发流程说明.md`。

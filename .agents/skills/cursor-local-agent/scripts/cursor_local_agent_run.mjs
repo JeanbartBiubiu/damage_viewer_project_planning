@@ -54,7 +54,7 @@ Options:
   --timeout-ms <n>            Cancel the run after n milliseconds.
   --allowed-path <path>       Allowed write scope for diff capture. Repeatable.
   --allow-cli-fallback        Allow best-effort CLI fallback when SDK fails.
-  --allow-cli-model-drift     Permit CLI fallback even though fast=false cannot be proven.
+  --allow-cli-model-drift     Permit CLI fallback even though grok-4.5 fast=false cannot be proven.
 `);
       process.exit(0);
     } else {
@@ -293,7 +293,7 @@ async function runWithCursorCli(args, summary, artifactPaths, promptText) {
   };
 
   await new Promise((resolvePromise, rejectPromise) => {
-    const commandArgs = ["-p", promptText, "--output-format", "stream-json", "--model", "composer-2.5"];
+    const commandArgs = ["-p", promptText, "--output-format", "stream-json", "--model", "grok-4.5"];
     const child = spawn(cliPath, commandArgs, {
       cwd: args.cwd,
       stdio: ["ignore", "pipe", "pipe"],
@@ -420,7 +420,7 @@ async function main() {
     } else if (!args.allowCliModelDrift) {
       summary.cliFallback.status = "blocked";
       summary.cliFallback.reason =
-        "CLI fallback is disabled under the strict model rule because current CLI flags cannot prove fast=false.";
+        "CLI fallback is disabled under the strict model rule because current CLI flags cannot prove grok-4.5 with fast=false.";
     } else if (!preflight.cliProbe.cursorAgentPath) {
       summary.cliFallback.status = "blocked";
       summary.cliFallback.reason = preflight.cliProbe.note;

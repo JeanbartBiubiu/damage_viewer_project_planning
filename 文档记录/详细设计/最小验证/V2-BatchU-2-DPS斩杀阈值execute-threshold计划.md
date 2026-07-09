@@ -143,7 +143,7 @@ npm run build
 ```text
 目标：实现 Batch U-2 的 execute_threshold DPS passive operation，支持单目标 after_damage 斩杀阈值。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\internal\model\types.go
@@ -177,7 +177,7 @@ npm run build
 ```text
 目标：让 V2 DPS 页面和 adapter 保留 execute_threshold operation，并展示 Wasm 输出的 execute evidence。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_web_dev\web\src\engine\tinygoV2DpsAdapter.ts
