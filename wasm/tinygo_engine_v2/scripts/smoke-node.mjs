@@ -108,6 +108,34 @@ async function withTimeout(promise, timeoutMs) {
   }
 }
 
+const legacyExports = [
+  "alloc",
+  "dealloc",
+  "engine_init",
+  "engine_snapshot_initial",
+  "engine_snapshot_actions_initial",
+  "engine_begin_run",
+  "engine_step",
+  "engine_abort_run",
+  "engine_outbox_ptr",
+  "engine_outbox_len",
+  "engine_outbox_clear",
+];
+
+const genericExports = [
+  "engine_compile",
+  "engine_run",
+  "engine_release_session",
+];
+
+function assertExportsPresent(exportsList, required, label) {
+  const missing = required.filter((name) => !exportsList.includes(name));
+  if (missing.length > 0) {
+    throw new Error(`smoke: missing ${label} exports: ${missing.join(", ")}`);
+  }
+  console.log(`smoke: ${label} exports present (${required.length})`);
+}
+
 const args = parseArgs(process.argv.slice(2));
 if (!existsSync(args.wasm)) {
   throw new Error(`Wasm artifact not found: ${args.wasm}`);
@@ -124,6 +152,9 @@ const exportsList = Object.keys(instance.exports).sort();
 console.log(`smoke: instantiated ${args.wasm}`);
 console.log(`smoke: size_bytes=${bytes.byteLength}`);
 console.log(`smoke: exports=${exportsList.length ? exportsList.join(",") : "(none)"}`);
+
+assertExportsPresent(exportsList, legacyExports, "legacy");
+assertExportsPresent(exportsList, genericExports, "generic");
 
 if (args.run) {
   await withTimeout(go.run(instance), args.timeoutMs);

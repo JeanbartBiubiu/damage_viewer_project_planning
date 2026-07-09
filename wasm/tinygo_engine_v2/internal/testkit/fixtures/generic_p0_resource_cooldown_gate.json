@@ -1,0 +1,142 @@
+{
+  "name": "generic_p0_resource_cooldown_gate",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.generic_p0_resource_cooldown_gate",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/fireball", "domain": "ability" },
+        { "key": "damage/magical", "domain": "damage" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "attack_damage": { "base": 50, "current": 50, "max": 50, "resolved": 50 }
+        },
+        "resources": {
+          "mana": { "current": 200, "max": 200 }
+        },
+        "providers": [
+          { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "types": [],
+        "tags": [],
+        "abilities": [
+          {
+            "abilityKey": "fireball",
+            "kind": "active",
+            "types": ["ability/fireball"],
+            "params": { "baseDamage": 50 },
+            "cost": {
+              "resourceKey": "mana",
+              "amount": { "op": "const", "value": 60 }
+            },
+            "cooldown": {
+              "durationMs": { "op": "const", "value": 1000 }
+            },
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "target",
+                "amount": { "op": "read", "path": "ability.param.baseDamage" },
+                "damageType": "damage/magical"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.generic_p0_resource_cooldown_gate",
+    "initialSnapshot": {
+      "schemaHash": "schema.generic-p0.example",
+      "rulesHash": "rules.generic_p0_resource_cooldown_gate",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": {
+            "attack_damage": { "base": 50, "current": 50, "max": 50, "resolved": 50 }
+          },
+          "resources": {
+            "mana": { "current": 200, "max": 200 }
+          },
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": { "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "conditionRecheckIntervalMs": 100,
+      "entries": [
+        {
+          "entryKey": "fireball_repeat",
+          "abilityRef": "source.provider[champion:source_demo].ability[fireball]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0,
+          "repeat": { "intervalMs": 500 },
+          "whileReady": true
+        }
+      ]
+    },
+    "stopPolicy": { "durationMs": 2000, "stopOnTargetDeath": true, "stopWhenNoEvents": true },
+    "sampling": { "sampleEveryMs": 500, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  },
+  "expectedResultKind": "done",
+  "expectedErrorCodes": [],
+  "expectedWarnings": [],
+  "expectedEvidenceKinds": ["attempt_skipped"],
+  "expectedSummarySubset": {
+    "attemptSkippedCount": 1,
+    "abilityCastCount": 2
+  },
+  "notes": "t=0 cast 成功并进入 CD；t=500 cooldown 未好 skip；t=1000 whileReady 重试成功（mana=200 可支撑两次消耗）。"
+}

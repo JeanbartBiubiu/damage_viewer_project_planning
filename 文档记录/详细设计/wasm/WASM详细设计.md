@@ -163,15 +163,17 @@ engine_release_session(ptr, size) -> 0/-1
 | run 完成 | `FrameKindGenericDone` | `211` | wasm -> host | `DoneResult` |
 | run/compile 错误 | `FrameKindGenericError` | `212` | wasm -> host | `EngineError` 或 `CompileResult{ok=false}` |
 | snapshot 调试输出 | `FrameKindGenericSnapshot` | `213` | wasm -> host | `Snapshot` |
+| release session 结果 | `FrameKindGenericReleaseResult` | `214` | wasm -> host | `GenericReleaseDonePayload` |
 
 兼容规则：
 
 1. 旧 `FrameKindInit`、`FrameKindRun`、`FrameKindDone`、`FrameKindError`、`FrameKindReady` 等保持 legacy/compat 含义。
 2. 新目标 ABI 不复用旧 kind，也不让同一个 kind 根据 payload shape 自动分流。
 3. `FrameKindGenericError` 用于 ABI/run fatal error；compile collect-all error 优先返回 `FrameKindGenericCompileResult`，其中 `ok=false` 且 `errors[]` 非空。
-4. `FrameKindGenericDone` 与 `FrameKindGenericError` 属于 outbox priority frame，不能因为普通 log/sample 超限被丢弃。
+4. `FrameKindGenericDone`、`FrameKindGenericError` 与 `FrameKindGenericReleaseResult` 属于 outbox priority frame，不能因为普通 log/sample 超限被丢弃。
 5. 如果迁移期需要旧入口包装新逻辑，wrapper 必须显式写入 `FrameKindGeneric*` 或把旧 outbox 转换为旧格式；不能混写。
 6. 新增编号前必须检查 `internal/model/types.go`，若编号已被占用，应在 `200..249` 内顺延并同步更新本文档。
+7. `engine_release_session` 成功必须写 `FrameKindGenericReleaseResult`，不得复用 `FrameKindGenericDone` 再靠 payload shape 与 run `DoneResult` 分流。
 
 `ReleaseSessionRequest` 最小字段：
 
