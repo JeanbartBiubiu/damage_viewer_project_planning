@@ -19,8 +19,8 @@ function parseArgs(argv) {
     cwd: process.cwd(),
     send: false,
     dryRun: false,
-    prompt: "Do not create, edit, or delete files. Reply exactly: GROK_45_SMOKE_OK",
-    name: "codex-grok-45-smoke",
+    prompt: "Do not create, edit, or delete files. Reply exactly: GROK_45_NONFAST_SMOKE_OK",
+    name: "codex-grok-45-nonfast-smoke",
     jsonOut: "",
     eventsOut: "",
     outDir: "",
@@ -47,7 +47,7 @@ function parseArgs(argv) {
 Options:
   --cwd <path>         Cursor local agent working directory. Defaults to cwd.
   --send               Actually send the smoke prompt. This consumes Cursor usage.
-  --dry-run            Validate config and print the requested model only.
+  --dry-run            Validate config and print the requested non-fast model only.
   --prompt <text>      Override smoke prompt.
   --name <name>        Agent name.
   --json-out <path>    Write a structured summary JSON file.
