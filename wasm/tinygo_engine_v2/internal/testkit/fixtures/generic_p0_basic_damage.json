@@ -1,0 +1,129 @@
+{
+  "name": "generic_p0_basic_damage",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.generic_p0_basic_damage",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/basic_attack", "domain": "ability" },
+        { "key": "damage/physical", "domain": "damage" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": [
+          { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "types": [],
+        "tags": [],
+        "abilities": [
+          {
+            "abilityKey": "basic_attack",
+            "kind": "active",
+            "types": ["ability/basic_attack"],
+            "params": { "baseDamage": 100 },
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "target",
+                "amount": { "op": "read", "path": "ability.param.baseDamage" },
+                "damageType": "damage/physical"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.generic_p0_basic_damage",
+    "initialSnapshot": {
+      "schemaHash": "schema.generic-p0.example",
+      "rulesHash": "rules.generic_p0_basic_damage",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": { "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "conditionRecheckIntervalMs": 100,
+      "entries": [
+        {
+          "entryKey": "basic_attack_once",
+          "abilityRef": "source.provider[champion:source_demo].ability[basic_attack]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0
+        }
+      ]
+    },
+    "stopPolicy": { "durationMs": 100, "stopOnTargetDeath": true, "stopWhenNoEvents": true },
+    "sampling": { "sampleEveryMs": 100, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  },
+  "expectedResultKind": "done",
+  "expectedErrorCodes": [],
+  "expectedWarnings": [],
+  "expectedEvidenceKinds": [],
+  "expectedSummarySubset": {
+    "targetFinalHp": 900,
+    "abilityAttemptCount": 1,
+    "abilityCastCount": 1,
+    "attemptSkippedCount": 0
+  },
+  "notes": "数字小且可手算；用于第一条 damage 竖切。"
+}

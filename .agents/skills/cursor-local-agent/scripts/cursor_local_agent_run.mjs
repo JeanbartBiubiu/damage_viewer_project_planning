@@ -54,7 +54,7 @@ Options:
   --timeout-ms <n>            Cancel the run after n milliseconds.
   --allowed-path <path>       Allowed write scope for diff capture. Repeatable.
   --allow-cli-fallback        Allow best-effort CLI fallback when SDK fails.
-  --allow-cli-model-drift     Deprecated compatibility flag; grok-4.5 CLI fallback uses --model directly.
+  --allow-cli-model-drift     Permit CLI fallback even though grok-4.5 fast=false cannot be proven.
 `);
       process.exit(0);
     } else {
@@ -417,6 +417,10 @@ async function main() {
     failure = sdkError;
     if (!args.allowCliFallback) {
       summary.cliFallback.status = "disabled";
+    } else if (!args.allowCliModelDrift) {
+      summary.cliFallback.status = "blocked";
+      summary.cliFallback.reason =
+        "CLI fallback is disabled under the strict model rule because current CLI flags cannot prove grok-4.5 with fast=false.";
     } else if (!preflight.cliProbe.cursorAgentPath) {
       summary.cliFallback.status = "blocked";
       summary.cliFallback.reason = preflight.cliProbe.note;
