@@ -555,7 +555,7 @@ Batch O 不新增主动技能 rotation，但 dispatcher 必须能接收 spell ev
 
 1. GPT/Codex 检查 worktree 根目录、分支和 `git status --short`。
 2. GPT/Codex 读取最近层 `AGENTS.md`、README、本计划和当前代码。
-3. GPT/Codex 收敛 Cursor prompt；Cursor 使用 `composer-2.5` 且 `fast=false`。
+3. GPT/Codex 收敛 Cursor prompt；Cursor 使用 `grok-4.5`。
 4. 若实现需要改变本文的 owner、event、phase 或停止条件，先改本文并由 GPT/Codex review，不能直接编码。
 
 ### 13.2 O1 Wasm runtime compat

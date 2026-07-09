@@ -43,7 +43,7 @@ For coding tasks, produce a bounded Cursor prompt with:
 - validation commands
 - stop conditions
 
-Use `cursor-local-agent`: `composer-2.5`, `fast=false`, explicit API key, event logs, diff review, and GPT-owned final validation.
+Use `cursor-local-agent`: `grok-4.5`, explicit API key, event logs, diff review, and GPT-owned final validation.
 
 ## Planning Doc Conventions
 
