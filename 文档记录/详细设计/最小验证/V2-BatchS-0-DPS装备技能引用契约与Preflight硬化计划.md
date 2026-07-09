@@ -329,7 +329,7 @@ npm run build
 
 ## 12. Cursor 执行提示词
 
-开发时使用以下提示词，必须固定 `composer-2.5` 且 `fast=false`：
+开发时使用以下提示词，必须固定 `grok-4.5`：
 
 ```text
 目标：实现 Batch S-0 DPS 装备 skillRefs 引用契约与 preflight 硬化，防止装备被动因空 skillRefs、错 ownerType/ownerId、ownerRole mismatch 而静默多算或少算。

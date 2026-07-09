@@ -177,7 +177,7 @@ mvn test
 ```text
 目标：实现或补齐 U-1 兰顿暴击减伤所需的 Wasm DPS critOnly target-side modifier 行为。消费 Batch T 的 DPSCritContextV2，不新增新的暴击主干。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\internal\runtime\dps_contract.go
@@ -212,7 +212,7 @@ mvn test
 ```text
 目标：让兰顿 target equipment 从 published bundle 进入 V2 DPS 页面、Wasm 输入和导出 JSON。只做真实装备闭环，不猜测真实数值。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_web_dev\web\src\engine\tinygoV2DpsAdapter.ts

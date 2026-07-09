@@ -1,4 +1,4 @@
-// 本文件定义护盾实例骨架，表达 shield scope、刷新策略、优先级和伤害类型匹配。
+// 本文件定义护盾 scope/刷新策略枚举；运行态实例见 instance.go。
 package shield
 
 type Scope uint8
@@ -18,17 +18,7 @@ const (
 	RefreshKeepHigher
 )
 
-type Instance struct {
-	Alive      bool
-	Generation uint16
-	Actor      uint8
-	Kind       string
-	Amount     float64
-	ExpireAt   int64
-	Priority   int16
-	Policy     RefreshPolicy
-}
-
-func (s Instance) Matches(damageType string) bool {
-	return s.Kind == "" || s.Kind == "all" || s.Kind == damageType
+// MatchesDamageType 判断护盾是否匹配伤害类型。
+func MatchesDamageType(kind, damageType string) bool {
+	return kind == "" || kind == "all" || kind == damageType
 }
