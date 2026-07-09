@@ -77,3 +77,18 @@ func engine_outbox_len() uint32 {
 func engine_outbox_clear() {
 	session.ClearOutbox()
 }
+
+//export engine_compile
+func engine_compile(ptr uint32, size uint32) int32 {
+	return session.CompileFrame(abi.Bytes(ptr, size))
+}
+
+//export engine_run
+func engine_run(ptr uint32, size uint32) int32 {
+	return session.RunFrame(abi.Bytes(ptr, size))
+}
+
+//export engine_release_session
+func engine_release_session(ptr uint32, size uint32) int32 {
+	return session.ReleaseSessionFrame(abi.Bytes(ptr, size))
+}

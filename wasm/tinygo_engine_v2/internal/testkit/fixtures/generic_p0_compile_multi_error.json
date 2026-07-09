@@ -1,0 +1,102 @@
+{
+  "name": "generic_p0_compile_multi_error",
+  "phase": "compile",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.generic_p0_compile_multi_error",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/basic_attack", "domain": "ability" },
+        { "key": "damage/physical", "domain": "damage" },
+        { "key": "status/stun", "domain": "status" },
+        { "key": "ability/melee", "domain": "ability" },
+        { "key": "ability/ranged", "domain": "ability" },
+        { "key": "ability/grandchild", "domain": "ability" }
+      ],
+      "relations": [
+        { "parent": "ability/basic_attack", "child": "ability/melee" },
+        { "parent": "ability/melee", "child": "ability/ranged" },
+        { "parent": "ability/ranged", "child": "ability/grandchild" },
+        { "parent": "ability/grandchild", "child": "ability/basic_attack" }
+      ]
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "attributes": {
+          "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": [
+          { "providerRef": "champion:bad_source", "definitionRef": "champion:missing_provider" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "attributes": {
+          "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "abilities": [
+          {
+            "abilityKey": "bad_attack",
+            "kind": "active",
+            "types": ["status/stun"],
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "nowhere",
+                "amount": { "op": "read", "path": "history.damage_dealt.sum.3000ms" },
+                "damageType": "damage/unknown"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": {
+      "operations": [
+        {
+          "operation": "hp_raw_set",
+          "target": "target",
+          "amount": { "op": "const", "value": 1 }
+        }
+      ],
+      "modifiers": [],
+      "listeners": [
+        {
+          "listenerKey": "bad_ref_listener",
+          "eventMatcher": { "any": ["event/unknown"] },
+          "abilityRef": "champion:source_demo::bad_attack"
+        }
+      ],
+      "triggerRules": []
+    },
+    "formulas": [],
+    "settings": {}
+  },
+  "expectedResultKind": "compile_result",
+  "expectedErrorCodes": [
+    "unknown_ref",
+    "unknown_type_key",
+    "matcher_domain_error",
+    "formula_type_error",
+    "operation_target_missing",
+    "hp_raw_set_forbidden"
+  ],
+  "expectedWarnings": [],
+  "expectedEvidenceKinds": [],
+  "expectedSummarySubset": {},
+  "notes": "B1 compile-only fixture: collect-all multi-error negative case."
+}

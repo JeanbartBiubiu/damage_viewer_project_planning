@@ -75,5 +75,10 @@ func isPriorityFrame(kind model.FrameKind) bool {
 	return kind == model.FrameKindDone ||
 		kind == model.FrameKindError ||
 		kind == model.FrameKindSnapshot ||
-		kind == model.FrameKindActionSnapshot
+		kind == model.FrameKindActionSnapshot ||
+		kind == model.FrameKindGenericCompileResult ||
+		kind == model.FrameKindGenericDone ||
+		kind == model.FrameKindGenericError ||
+		kind == model.FrameKindGenericSnapshot ||
+		kind == model.FrameKindGenericReleaseResult
 }

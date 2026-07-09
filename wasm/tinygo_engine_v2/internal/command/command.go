@@ -1,38 +1,56 @@
-// 本文件定义 trigger 产出的 command 骨架，后续所有机制改动都应回流到 resolver 统一处理。
+// operation command 类型：damage/heal/shield/resource_change/cooldown_change。
 package command
 
-type Kind uint8
+// Kind 区分 operation command 类型。
+type Kind string
 
 const (
-	KindDamage Kind = iota + 1
-	KindHeal
-	KindShield
-	KindResource
-	KindAttribute
+	KindDamage          Kind = "damage"
+	KindHeal            Kind = "heal"
+	KindShield          Kind = "shield"
+	KindResourceChange  Kind = "resource_change"
+	KindCooldownChange  Kind = "cooldown_change"
+	KindApplyProvider   Kind = "apply_provider"
+	KindRefreshProvider Kind = "refresh_provider"
+	KindExpireProvider  Kind = "expire_provider"
+	KindEmitEvent       Kind = "emit_event"
 )
 
+// Command 是 pipeline 输入的统一 command DTO。
 type Command struct {
-	ID      uint32
-	Kind    Kind
-	Source  uint8
-	Target  uint8
-	Amount  float64
-	Channel string
-	AttrID  string
+	Kind         Kind
+	Source       string
+	Target       string
+	Amount       float64
+	DamageType   string
+	ValuePolicy  string
+	Ref          string
+	ResourceKey  string
+	AttributeKey string
+	AbilityRef   string
 }
 
+// Result 是单条 command 执行结果。
 type Result struct {
-	CommandID uint32
-	Kind      Kind
-	Applied   bool
-	Amount    float64
-	Message   string
+	Kind    Kind
+	Applied bool
+	Amount  float64
+	Message string
 }
 
-func New(kind Kind, source uint8, target uint8, amount float64) Command {
+func New(kind Kind, source, target string, amount float64) Command {
 	return Command{Kind: kind, Source: source, Target: target, Amount: amount}
 }
 
 func Validate(cmd Command) bool {
-	return cmd.Kind != 0 && cmd.Amount >= 0
+	switch cmd.Kind {
+	case KindDamage, KindHeal, KindShield:
+		return cmd.Target != "" && cmd.Amount >= 0
+	case KindResourceChange:
+		return cmd.Target != "" && cmd.ResourceKey != ""
+	case KindCooldownChange:
+		return cmd.Target != "" && cmd.AbilityRef != ""
+	default:
+		return cmd.Kind != ""
+	}
 }
