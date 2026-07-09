@@ -401,7 +401,7 @@ Admin skill 保存一条含 dpsPassiveEffects 的测试配置
 
 ## 12. Cursor 执行约束
 
-Cursor 必须使用 `composer-2.5` + `fast=false`。GPT/Codex 负责 prompt 编写、diff review、验证和最终验收。
+Cursor 必须使用 `grok-4.5`。GPT/Codex 负责 prompt 编写、diff review、验证和最终验收。
 
 ### 12.1 Cursor Prompt: Q1 Web Admin Summary
 
