@@ -1933,7 +1933,7 @@ internal/testkit
 
 ## 19. Cursor 执行协议
 
-本节用于驱动模型编写 Cursor prompt。Cursor 固定使用 `composer-2.5` + `fast=false`，只负责受限编码；驱动模型必须先收敛范围、再发 prompt、最后亲自 review diff 与验证结果。
+本节用于驱动模型编写 Cursor prompt。Cursor 固定使用 `grok-4.5`，只负责受限编码；驱动模型必须先收敛范围、再发 prompt、最后亲自 review diff 与验证结果。
 
 ### 19.0 推荐推进顺序
 

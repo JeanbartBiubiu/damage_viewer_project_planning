@@ -148,7 +148,7 @@ option 的 `value` 不动（保持接口契约），只改 `label` 为中文：
 本方案经用户确认为"先不改，只要方案"。后续执行时按 `AGENTS.md` 第 2 节 Cursor 协同流程推进：
 
 1. GPT 按本方案收敛每批范围，编写 Cursor prompt（明确目标、允许写入范围、非目标、验证命令、停止条件）
-2. Cursor 受限执行（`composer-2.5` + `fast=false`）
+2. Cursor 受限执行（`grok-4.5`）
 3. GPT 检查 Cursor 产物、事件日志、`git diff`，亲自跑 `npm run build` 和浏览器 smoke 验收
 
 也可由 GPT 直接改（纯展示文案、风险低、范围明确），但需用户明确许可偏离 Cursor 流程。

@@ -230,12 +230,12 @@ npm run build
 
 ## 12. Cursor 执行提示词
 
-开发时使用 Cursor SDK，本批固定 `composer-2.5` 且 `fast=false`。
+开发时使用 Cursor SDK，本批固定 `grok-4.5`。
 
 ```text
 目标：实现 V2 Batch U-0 DPS 装备 skillRefs / ownerRole 契约硬化，防止装备被动因空 skillRefs、错 ownerType/ownerId、ownerRole mismatch 而静默多算或少算。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入范围：
 - C:\project\damage_web_dev\web\src\engine\tinygoV2DpsAdapter.ts

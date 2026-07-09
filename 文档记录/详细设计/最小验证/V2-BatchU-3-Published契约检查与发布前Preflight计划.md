@@ -162,7 +162,7 @@ mvn test
 ```text
 目标：实现 Batch U-3 Web 发布前 Published Contract Preflight，把 U0 的 DPS equipment skillRefs diagnostics 前移到版本发布页。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_web_dev\web\src\engine\tinygoV2DpsAdapter.ts 或抽出的 diagnostics helper
@@ -196,7 +196,7 @@ mvn test
 ```text
 目标：在后端发布链路增加最小 DPS equipment skillRefs 结构检查，仅在 Web preflight 不足时执行。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_backend_dev\server\data_manage\src\main\java\xyz\game\datamanage\service\PostgresWriteStore.java
