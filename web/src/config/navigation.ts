@@ -31,6 +31,7 @@ export type RouteId =
   | 'wasm-validation-m3'
   | 'wasm-validation-m4-closure'
   | 'wasm-validation-v2-dps'
+  | 'wasm-validation-generic'
   | 'images'
   | AdminResourceRouteId;
 
@@ -113,6 +114,11 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
     id: 'wasm-validation-v2-dps',
     label: 'V2 DPS 验证',
     summary: '站桩普攻 DPS 验证'
+  },
+  {
+    id: 'wasm-validation-generic',
+    label: 'Generic 引擎验证',
+    summary: '目标 ABI compile/run/release 闭环'
   }
 ];
 
