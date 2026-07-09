@@ -1,0 +1,129 @@
+{
+  "name": "generic_p0_attribute_change",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.generic_p0_attribute_change",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/buff", "domain": "ability" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": [
+          { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 },
+          "attack_damage": { "base": 100, "current": 100, "max": 200, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "types": [],
+        "tags": [],
+        "abilities": [
+          {
+            "abilityKey": "empower_target",
+            "kind": "active",
+            "types": ["ability/buff"],
+            "operations": [
+              {
+                "operation": "attribute_change",
+                "target": "target",
+                "attributeKey": "attack_damage",
+                "valuePolicy": "add",
+                "amount": { "op": "const", "value": 50 }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.generic_p0_attribute_change",
+    "initialSnapshot": {
+      "schemaHash": "schema.generic-p0.example",
+      "rulesHash": "rules.generic_p0_attribute_change",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": {
+            "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 },
+            "attack_damage": { "base": 100, "current": 100, "max": 200, "resolved": 100 }
+          },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "conditionRecheckIntervalMs": 100,
+      "entries": [
+        {
+          "entryKey": "empower_once",
+          "abilityRef": "source.provider[champion:source_demo].ability[empower_target]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0
+        }
+      ]
+    },
+    "stopPolicy": { "durationMs": 50, "stopOnTargetDeath": true, "stopWhenNoEvents": true },
+    "sampling": { "sampleEveryMs": 50, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  },
+  "expectedResultKind": "done",
+  "expectedErrorCodes": [],
+  "expectedWarnings": [],
+  "expectedEvidenceKinds": [],
+  "expectedSummarySubset": {
+    "abilityCastCount": 1
+  },
+  "notes": "attribute_change add +50 on target attack_damage; resolved 100 -> 150."
+}

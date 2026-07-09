@@ -1,0 +1,162 @@
+{
+  "name": "generic_p0_both_dead_stop_priority",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.generic_p0_both_dead_stop_priority",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/strike", "domain": "ability" },
+        { "key": "damage/physical", "domain": "damage" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "hp": { "base": 100, "current": 100, "max": 100, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": [
+          { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "hp": { "base": 100, "current": 100, "max": 100, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": [
+          { "providerRef": "champion:target_demo", "definitionRef": "champion:target_demo" }
+        ]
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "types": [],
+        "tags": [],
+        "abilities": [
+          {
+            "abilityKey": "strike",
+            "kind": "active",
+            "types": ["ability/strike"],
+            "params": { "damage": 200 },
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "target",
+                "amount": { "op": "read", "path": "ability.param.damage" },
+                "damageType": "damage/physical"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "champion:target_demo",
+        "kind": "champion",
+        "stableId": "target_demo",
+        "types": [],
+        "tags": [],
+        "abilities": [
+          {
+            "abilityKey": "counter",
+            "kind": "active",
+            "types": ["ability/strike"],
+            "params": { "damage": 200 },
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "source",
+                "amount": { "op": "read", "path": "ability.param.damage" },
+                "damageType": "damage/physical"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.generic_p0_both_dead_stop_priority",
+    "initialSnapshot": {
+      "schemaHash": "schema.generic-p0.example",
+      "rulesHash": "rules.generic_p0_both_dead_stop_priority",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "hp": { "base": 100, "current": 100, "max": 100, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": { "hp": { "base": 100, "current": 100, "max": 100, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:target_demo", "definitionRef": "champion:target_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "conditionRecheckIntervalMs": 100,
+      "entries": [
+        {
+          "entryKey": "source_strike",
+          "abilityRef": "source.provider[champion:source_demo].ability[strike]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0
+        },
+        {
+          "entryKey": "target_counter",
+          "abilityRef": "target.provider[champion:target_demo].ability[counter]",
+          "source": "target",
+          "target": "source",
+          "priority": 1,
+          "firstAtMs": 0
+        }
+      ]
+    },
+    "stopPolicy": { "durationMs": 1000, "stopOnTargetDeath": false, "stopWhenNoEvents": false },
+    "sampling": { "sampleEveryMs": 100, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  },
+  "expectedResultKind": "done",
+  "expectedErrorCodes": [],
+  "expectedWarnings": [],
+  "expectedEvidenceKinds": [],
+  "expectedSummarySubset": {
+    "stopReason": "both_dead",
+    "sourceFinalHp": 0,
+    "targetFinalHp": 0,
+    "abilityCastCount": 2
+  },
+  "notes": "同 timeMs 双方互伤；stopOnTargetDeath=false 使两次 attempt 均执行后 both_dead。"
+}

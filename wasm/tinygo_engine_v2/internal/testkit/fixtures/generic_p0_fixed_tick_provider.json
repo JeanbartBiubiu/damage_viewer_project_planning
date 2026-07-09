@@ -1,0 +1,162 @@
+{
+  "name": "generic_p0_fixed_tick_provider",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.generic_p0_fixed_tick_provider",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/buff", "domain": "ability" },
+        { "key": "ability/tick", "domain": "ability" },
+        { "key": "damage/magic", "domain": "damage" },
+        { "key": "provider/dot", "domain": "provider" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": [
+          { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "types": [],
+        "tags": [],
+        "abilities": [
+          {
+            "abilityKey": "apply_dot",
+            "kind": "active",
+            "types": ["ability/buff"],
+            "operations": [
+              {
+                "operation": "apply_provider",
+                "target": "target",
+                "providerDefinitionRef": "status:burn_dot"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "status:burn_dot",
+        "kind": "status",
+        "stableId": "burn_dot",
+        "types": ["provider/dot"],
+        "tags": [],
+        "lifecycle": {
+          "durationMs": { "op": "const", "value": 1100 },
+          "maxStacks": 1,
+          "refreshPolicy": "replace",
+          "tickIntervalMs": 200
+        },
+        "abilities": [
+          {
+            "abilityKey": "burn_tick",
+            "kind": "tick",
+            "types": ["ability/tick"],
+            "tickSpec": {
+              "intervalMs": 200,
+              "onTick": [
+                {
+                  "operation": "damage",
+                  "target": "target",
+                  "amount": { "op": "const", "value": 10 },
+                  "damageType": "damage/magic"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.generic_p0_fixed_tick_provider",
+    "initialSnapshot": {
+      "schemaHash": "schema.generic-p0.example",
+      "rulesHash": "rules.generic_p0_fixed_tick_provider",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": {
+            "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 }
+          },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "conditionRecheckIntervalMs": 100,
+      "entries": [
+        {
+          "entryKey": "apply_dot_t0",
+          "abilityRef": "source.provider[champion:source_demo].ability[apply_dot]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0
+        }
+      ]
+    },
+    "stopPolicy": { "durationMs": 1200, "stopOnTargetDeath": true, "stopWhenNoEvents": true },
+    "sampling": { "sampleEveryMs": 200, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  },
+  "expectedResultKind": "done",
+  "expectedErrorCodes": [],
+  "expectedWarnings": [],
+  "expectedEvidenceKinds": ["provider_tick"],
+  "expectedSummarySubset": {
+    "targetFinalHp": 950,
+    "abilityAttemptCount": 1,
+    "abilityCastCount": 1,
+    "attemptSkippedCount": 0
+  },
+  "notes": "t=0 apply dot provider（duration=1100ms，tickInterval=200ms）；tick 在 t=200/400/600/800/1000 各造成 10 伤害（5 次）；t=1100 provider expire；finalSnapshot 无该 provider。"
+}

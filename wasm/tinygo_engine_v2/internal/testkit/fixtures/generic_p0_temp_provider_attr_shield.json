@@ -1,0 +1,207 @@
+{
+  "name": "generic_p0_temp_provider_attr_shield",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.generic_p0_temp_provider_attr_shield",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/buff", "domain": "ability" },
+        { "key": "ability/shield", "domain": "ability" },
+        { "key": "ability/strike", "domain": "ability" },
+        { "key": "damage/physical", "domain": "damage" },
+        { "key": "provider/status", "domain": "provider" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 }
+        },
+        "resources": {},
+        "providers": [
+          { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "types": [],
+        "tags": [],
+        "attributes": {
+          "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 },
+          "attack_damage": { "base": 50, "current": 50, "max": 50, "resolved": 50 }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "types": [],
+        "tags": [],
+        "abilities": [
+          {
+            "abilityKey": "buff_ally",
+            "kind": "active",
+            "types": ["ability/buff"],
+            "operations": [
+              {
+                "operation": "apply_provider",
+                "target": "target",
+                "providerDefinitionRef": "status:attack_buff"
+              }
+            ]
+          },
+          {
+            "abilityKey": "shield_target",
+            "kind": "active",
+            "types": ["ability/shield"],
+            "operations": [
+              {
+                "operation": "shield",
+                "target": "target",
+                "amount": { "op": "const", "value": 100 },
+                "shieldRef": "shield:demo"
+              }
+            ]
+          },
+          {
+            "abilityKey": "strike",
+            "kind": "active",
+            "types": ["ability/strike"],
+            "params": { "hitDamage": 50 },
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "target",
+                "amount": { "op": "read", "path": "ability.param.hitDamage" },
+                "damageType": "damage/physical"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "status:attack_buff",
+        "kind": "status",
+        "stableId": "attack_buff",
+        "types": ["provider/status"],
+        "tags": [],
+        "lifecycle": {
+          "durationMs": { "op": "const", "value": 500 },
+          "maxStacks": 1,
+          "refreshPolicy": "replace"
+        },
+        "modifiers": [
+          {
+            "modifierKey": "buff_attack_damage",
+            "kind": "attribute",
+            "target": "attack_damage",
+            "valuePolicy": "add",
+            "value": { "op": "const", "value": 20 }
+          }
+        ],
+        "abilities": []
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.generic_p0_temp_provider_attr_shield",
+    "initialSnapshot": {
+      "schemaHash": "schema.generic-p0.example",
+      "rulesHash": "rules.generic_p0_temp_provider_attr_shield",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 100, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": {
+            "hp": { "base": 1000, "current": 1000, "max": 1000, "resolved": 1000 },
+            "attack_damage": { "base": 50, "current": 50, "max": 50, "resolved": 50 }
+          },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "conditionRecheckIntervalMs": 100,
+      "entries": [
+        {
+          "entryKey": "buff_ally_t0",
+          "abilityRef": "source.provider[champion:source_demo].ability[buff_ally]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0
+        },
+        {
+          "entryKey": "shield_target_t0",
+          "abilityRef": "source.provider[champion:source_demo].ability[shield_target]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0
+        },
+        {
+          "entryKey": "strike_t200",
+          "abilityRef": "source.provider[champion:source_demo].ability[strike]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 200
+        },
+        {
+          "entryKey": "strike_t600",
+          "abilityRef": "source.provider[champion:source_demo].ability[strike]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 600
+        }
+      ]
+    },
+    "stopPolicy": { "durationMs": 700, "stopOnTargetDeath": true, "stopWhenNoEvents": true },
+    "sampling": { "sampleEveryMs": 100, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  },
+  "expectedResultKind": "done",
+  "expectedErrorCodes": [],
+  "expectedWarnings": [],
+  "expectedEvidenceKinds": [],
+  "expectedSummarySubset": {
+    "targetFinalHp": 1000,
+    "abilityAttemptCount": 4,
+    "abilityCastCount": 4,
+    "attemptSkippedCount": 0
+  },
+  "notes": "t=0 buff+shield；t=200 damage50 护盾剩50 HP不变；t=500 provider过期；t=600 damage50 护盾吸收 HP仍1000。"
+}
