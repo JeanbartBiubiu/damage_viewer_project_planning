@@ -1,6 +1,6 @@
 ---
 name: cursor-local-agent
-description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm), especially for driving-model-to-Cursor development automation, Cursor SDK smoke tests, local agent runs, or Composer 2.5 model selection where fast mode must be disabled.
+description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm), especially for driving-model-to-Cursor development automation, Cursor SDK smoke tests, local agent runs, or Grok 4.5 model selection.
 ---
 
 # Cursor Local Agent
@@ -13,17 +13,17 @@ For real development runs, treat the SDK event stream, summary JSON, artifact li
 
 ## Hard Rules
 
-- Use only `composer-2.5`.
-- Always disable Fast explicitly:
+- Use only `grok-4.5`.
+- Use the exact model id without Composer-specific parameters:
 
 ```ts
 const model = {
-  id: "composer-2.5",
-  params: [{ id: "fast", value: "false" }],
+  id: "grok-4.5",
 };
 ```
 
-- Never use `composer-latest`, `composer`, or plain `{ id: "composer-2.5" }`; plain `composer-2.5` defaults to `fast=true` and can appear in usage as `composer-2.5-fast`.
+- Never use `composer-latest`, `composer`, `composer-2.5`, or `composer-2.5-fast` for current Cursor local agent development runs.
+- Do not add the old Composer `fast=false` parameter to `grok-4.5`; only add Grok-specific parameters after a successful smoke proves the exact contract.
 - Pass `apiKey` explicitly to `Agent.create(...)`; do not rely only on `process.env.CURSOR_API_KEY`.
 - Do not print API keys. It is acceptable to print whether a key is present, its length, or a short prefix.
 - Treat Cursor SDK runs as automation artifacts. Capture prompt, raw statuses, event log, run result, artifact hints, and `git diff` for review instead of relying on Cursor IDE UI visibility.
@@ -42,8 +42,7 @@ const agent = await Agent.create({
   apiKey,
   name: "codex-cursor-task",
   model: {
-    id: "composer-2.5",
-    params: [{ id: "fast", value: "false" }],
+    id: "grok-4.5",
   },
   local: { cwd: repoPath },
 });
@@ -112,8 +111,8 @@ The successful send result must include:
 
 ```text
 RESULT_STATUS=finished
-RESULT_MODEL={"id":"composer-2.5","params":[{"id":"fast","value":"false"}]}
-ASSISTANT_TEXT=FAST_FALSE_SMOKE_OK
+RESULT_MODEL={"id":"grok-4.5"}
+ASSISTANT_TEXT=GROK_45_SMOKE_OK
 ```
 
 For real task runs, prefer also writing:
@@ -130,14 +129,14 @@ For real task runs, prefer also writing:
 CLI fallback is not assumed to exist.
 
 1. If the machine only exposes the desktop `cursor` wrapper, treat CLI fallback as blocked until you can prove there is a standalone programmable `cursor-agent` binary.
-2. Even when `cursor-agent` exists, current public CLI flags do not prove `fast=false`, so strict fallback remains blocked by default.
+2. When `cursor-agent` exists, pass `--model grok-4.5` explicitly and still capture event logs and artifacts for review.
 3. Only relax the model rule for CLI fallback when the user explicitly accepts model drift for diagnostics or emergency recovery.
 
 ## Common Mistakes
 
 | Mistake | Fix |
 | --- | --- |
-| Usage shows `composer-2.5-fast` | Add `params: [{ id: "fast", value: "false" }]`. |
+| Usage shows `composer-2.5`, `composer-2.5-fast`, or another Composer variant | Update the runner to request `grok-4.5` through the shared `MODEL` constant or CLI `--model` flag. |
 | `Cursor.models.list()` works but `Agent.send()` is unauthenticated | Pass `apiKey` explicitly into `Agent.create(...)`. |
 | Cursor IDE does not show the SDK session | Read SDK artifacts/transcripts directly; do not depend on the IDE history dropdown. |
 | Session appears under the wrong project | Use the exact desired `cwd`; Cursor stores project state by path. |

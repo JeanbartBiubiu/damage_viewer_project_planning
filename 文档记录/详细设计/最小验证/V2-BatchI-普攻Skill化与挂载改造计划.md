@@ -31,7 +31,7 @@ Batch I 解决的问题是：当前 V2 DPS 三个测试页面和 `single_attacke
 
 1. Cursor 或其它本地开发 agent 只负责编码，不负责最终判断“已完成”。
 2. GPT 负责拆任务、review diff、给 fix prompt、跑最终验证和组织人工验收包。
-3. Cursor 调用必须使用 `composer-2.5` 且显式 `fast=false`；不得使用 `composer-latest`、`composer` 或默认 fast 变体。
+3. Cursor 调用必须使用 `grok-4.5`；不得使用 `composer-latest`、`composer` 或默认 fast 变体。
 4. 每一轮 Cursor 开发必须返回：改动文件、关键实现摘要、运行过的命令、失败命令、残留风险。
 5. GPT review 发现阻塞问题时，只把阻塞项转成下一轮 fix prompt；Cursor fix 不得顺手扩范围。
 6. 最多连续 3 轮 Cursor fix；第 3 轮后仍有阻塞项时停止自动循环，由用户判断是否拆分或调整目标。
