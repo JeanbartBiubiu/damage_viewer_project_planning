@@ -26,7 +26,7 @@ LAST_TRACKED_AT: 2026-06-07
 
 但这还没有满足“用户不写 JSON 也能维护联动机制”的目标。当前页面仍明确提示“完整编辑请使用 mechanicsConfig JSON”，所以 Q-2 必须补上字段级编辑、装备引用可视化、前端和发布链路回归。
 
-本文写给 Cursor 执行。真正开发仍必须先由 GPT/Codex 收敛范围、生成 Cursor prompt，再由 Cursor 用 `composer-2.5` 且 `fast=false` 执行受限编码。GPT/Codex 负责 diff review、构建、浏览器 smoke 和最终验收。
+本文写给 Cursor 执行。真正开发仍必须先由 GPT/Codex 收敛范围、生成 Cursor prompt，再由 Cursor 用 `grok-4.5` 执行受限编码。GPT/Codex 负责 diff review、构建、浏览器 smoke 和最终验收。
 
 ## 2. 当前事实
 

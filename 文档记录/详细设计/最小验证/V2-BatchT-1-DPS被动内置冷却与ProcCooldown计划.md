@@ -23,7 +23,7 @@ LAST_TRACKED_AT: 2026-06-14
 
 本批的核心问题是：某个装备或技能被动已经满足触发条件，但它上一次触发后还在内置冷却内，此时普攻或技能动作本身应继续发生，只跳过该被动效果，并输出可解释 evidence。
 
-本文是详细设计和 Cursor 执行真源。后续编码必须按仓库 Cursor SDK local 流程执行，使用 `composer-2.5` + `fast=false`，由 GPT 在 Cursor 产物后亲自完成最终验证。
+本文是详细设计和 Cursor 执行真源。后续编码必须按仓库 Cursor SDK local 流程执行，使用 `grok-4.5`，由 GPT 在 Cursor 产物后亲自完成最终验证。
 
 ## 2. 当前事实
 

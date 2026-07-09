@@ -627,7 +627,7 @@ npm run build
 ```text
 目标：实现 Batch V 的 DPS 装备被动模板与录入辅助。重点是 Admin skill 的 dpsPassiveEffects 模板生成、operation 追加、passive 复制/删除/排序，以及 item skillRefs 摘要补强。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 目标 repo：
 - C:\project\damage_web_dev
