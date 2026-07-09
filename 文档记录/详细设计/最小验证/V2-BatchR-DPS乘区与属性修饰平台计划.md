@@ -25,7 +25,7 @@ Batch R 只处理“数值修饰属于哪个乘区、如何聚合、在什么阶
 2. 属性修饰进入 `attribute` 域乘区。
 3. HP 变更修饰进入 `hp_change` 域乘区。
 
-本文写给 GPT/Codex 和 Cursor 执行。真正开发仍必须先由 GPT/Codex 收敛范围、生成 Cursor prompt，再由 Cursor 用 `composer-2.5` 且 `fast=false` 执行受限编码。GPT/Codex 负责 diff review、构建、Wasm smoke、Web 页面 Playwright 验收和最终结论。
+本文写给 GPT/Codex 和 Cursor 执行。真正开发仍必须先由 GPT/Codex 收敛范围、生成 Cursor prompt，再由 Cursor 用 `grok-4.5` 执行受限编码。GPT/Codex 负责 diff review、构建、Wasm smoke、Web 页面 Playwright 验收和最终结论。
 
 ## 2. 当前事实
 
@@ -502,7 +502,7 @@ Web/Backend 验证按实际改动补充 `npm run build`、`mvn test` 和浏览�
 ```text
 目标：在 TinyGo V2 接入 coefficientBuckets DTO 与编译期校验，不改变 DPS 数值行为。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\internal\model\types.go
@@ -541,7 +541,7 @@ go run ./cmd/bench
 ```text
 目标：新增 CoefficientBucketResolver 和 HPChangeModifierAdapter，把 DPS damage_modifier 接入 hp_change bucket，同时兼容旧 damage_modifier。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\internal\runtime\dps_coefficient_bucket.go
@@ -580,7 +580,7 @@ go run ./cmd/bench
 ```text
 目标：把有 bucketKey 的 DPS stat_modifier 接入 attribute bucket，覆盖 AP final multiplier、HP/adaptive force augment 和 HP/regen 属性修饰。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\internal\runtime\dps_attribute_modifier_adapter.go
@@ -620,7 +620,7 @@ go run ./cmd/bench
 ```text
 目标：让 Web 结构化编辑器能维护 DPS modifier 的 bucketKey、valueSpec、conditions 和 priority，并能选择已有 coefficientBuckets。
 
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入：
 - C:\project\damage_web_dev\web\src\components\skill-editor\skillModels.ts

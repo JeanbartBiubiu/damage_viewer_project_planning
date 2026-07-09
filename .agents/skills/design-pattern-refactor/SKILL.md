@@ -152,7 +152,7 @@ For code edits, produce a bounded Cursor prompt with:
 - validation commands
 - stop conditions
 
-Use `cursor-local-agent` rules: `composer-2.5` with `fast=false`, explicit `apiKey`, then GPT reviews Cursor artifacts, event logs, `git diff`, and tests before acceptance.
+Use `cursor-local-agent` rules: `grok-4.5` with explicit `apiKey`, then GPT reviews Cursor artifacts, event logs, `git diff`, and tests before acceptance.
 
 ## Verification
 

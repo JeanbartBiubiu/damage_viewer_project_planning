@@ -23,7 +23,7 @@ LAST_TRACKED_AT: 2026-05-24
 
 ## 1. 本文档边界
 
-本文档是后续 `backend / web / wasm` 三个 Cursor Composer 2.5 开发会话的唯一执行真源。Cursor 只负责按本文编码，不负责自行扩展目标；GPT/Codex 负责 review、集中测试、验证和最终验收。
+本文档是后续 `backend / web / wasm` 三个 Cursor Grok 4.5 开发会话的唯一执行真源。Cursor 只负责按本文编码，不负责自行扩展目标；GPT/Codex 负责 review、集中测试、验证和最终验收。
 
 本批目标不是一次性把所有 `skills.mechanics_config` 全部替换成新表，而是把“真正属于状态资源的数据”从 `mechanics_config/config` 中剥离出来，优先打通 1v1 伤害测试链路。这里的“1v1 伤害测试”特指：
 
@@ -284,12 +284,11 @@ LAST_TRACKED_AT: 2026-05-24
 
 ### 4.1 Cursor 角色与写入范围
 
-本章节交给一个独立 Cursor Composer 2.5 会话执行。
+本章节交给一个独立 Cursor Grok 4.5 会话执行。
 
 模型硬约束：
 
-1. `composer-2.5`
-2. `fast=false`
+1. `grok-4.5`
 
 允许写入：
 
@@ -450,7 +449,7 @@ mvn -q -DskipTests test-compile org.codehaus.mojo:exec-maven-plugin:3.5.0:java "
 
 ### 5.1 Cursor 角色与写入范围
 
-本章节交给一个独立 Cursor Composer 2.5 会话执行。
+本章节交给一个独立 Cursor Grok 4.5 会话执行。
 
 允许写入：
 
@@ -589,7 +588,7 @@ npm run build
 
 ### 6.1 Cursor 角色与写入范围
 
-本章节交给一个独立 Cursor Composer 2.5 会话执行。
+本章节交给一个独立 Cursor Grok 4.5 会话执行。
 
 允许写入：
 

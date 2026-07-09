@@ -21,7 +21,7 @@ LAST_TRACKED_AT: 2026-06-13
 
 本批不是继续补装备数据，也不是给暴击率写一个 `min(max(chance, 0), 1)` 特例。暴击率超过 100% 要通过通用 bounded numeric pipeline 得到 `rawValue -> boundedValue`，暴击上下文只是第一个强消费者。
 
-本批开发仍按 Cursor 协同流程执行：GPT/Codex 先收敛范围和 prompt，Cursor 使用 `composer-2.5` 且 `fast=false` 在受限范围内编码，GPT/Codex review diff、运行验证并最终验收。
+本批开发仍按 Cursor 协同流程执行：GPT/Codex 先收敛范围和 prompt，Cursor 使用 `grok-4.5` 在受限范围内编码，GPT/Codex review diff、运行验证并最终验收。
 
 ## 2. 当前事实
 
@@ -499,7 +499,7 @@ npm run build
 
 ```text
 目标：实现 Batch T 的通用属性数值边界第一段，只接 compile/attribute/DPS attr map，不实现 DPS critOnly 语义。
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入范围：
 - C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\internal\model\types.go
@@ -540,7 +540,7 @@ go run ./cmd/bench
 
 ```text
 目标：在 Batch T 属性边界已完成的基础上，接入普通 runtime crit chance raw/effective evidence，并让 single-attacker DPS 生成 crit context，使 critOnly 在 expected policy 下只作用于暴击期望部分。
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入范围：
 - C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\internal\model\types.go
@@ -591,7 +591,7 @@ node .\scripts\smoke-node.mjs
 
 ```text
 目标：让前端可录入 attribute bounds，并把 bounds 传进 TinyGo bundle；WasmValidation 页面展示 crit chance raw/effective 和 numeric bound evidence。
-执行模型：Cursor composer-2.5，fast=false。
+执行模型：Cursor grok-4.5。
 
 允许写入范围：
 - C:\project\damage_wasm_dev\web\src\types\api.ts
