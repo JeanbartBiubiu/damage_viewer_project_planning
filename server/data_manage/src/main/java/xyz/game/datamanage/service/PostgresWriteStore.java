@@ -41,6 +41,7 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.PublishedWasmCatalogSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillMountsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
@@ -50,6 +51,7 @@ import xyz.game.datamanage.mapper.StatusModifierGroupsMapper;
 import xyz.game.datamanage.mapper.StatusPeriodicHpEffectsMapper;
 import xyz.game.datamanage.mapper.TypeRelationsMapper;
 import xyz.game.datamanage.mapper.TypesMapper;
+import xyz.game.datamanage.mapper.WasmCatalogSourcesMapper;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Component
@@ -144,6 +146,8 @@ public class PostgresWriteStore {
     private final ImagesMapper imagesMapper;
     private final OwnerCategoriesMapper ownerCategoriesMapper;
     private final PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
+    private final PublishedWasmCatalogSnapshotsMapper publishedWasmCatalogSnapshotsMapper;
+    private final WasmCatalogSourcesMapper wasmCatalogSourcesMapper;
     private final GamesMapper gamesMapper;
     private final GameProgressionSchemaMapper gameProgressionSchemaMapper;
     private final GameVersionsMapper gameVersionsMapper;
@@ -151,6 +155,7 @@ public class PostgresWriteStore {
     private final ObjectMapper objectMapper;
     private final PostgresReadStore readStore;
     private final PostgresJsonSupport jsonSupport;
+    private final WasmCatalogValidator wasmCatalogValidator;
     private final Set<String> ensuredPartitionGames = ConcurrentHashMap.newKeySet();
 
     public PostgresWriteStore(
@@ -175,13 +180,16 @@ public class PostgresWriteStore {
         ImagesMapper imagesMapper,
         OwnerCategoriesMapper ownerCategoriesMapper,
         PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper,
+        PublishedWasmCatalogSnapshotsMapper publishedWasmCatalogSnapshotsMapper,
+        WasmCatalogSourcesMapper wasmCatalogSourcesMapper,
         GamesMapper gamesMapper,
         GameProgressionSchemaMapper gameProgressionSchemaMapper,
         GameVersionsMapper gameVersionsMapper,
         EditLogMapper editLogMapper,
         ObjectMapper objectMapper,
         PostgresReadStore readStore,
-        PostgresJsonSupport jsonSupport
+        PostgresJsonSupport jsonSupport,
+        WasmCatalogValidator wasmCatalogValidator
     ) {
         this.heroesMapper = heroesMapper;
         this.skillsMapper = skillsMapper;
@@ -204,6 +212,8 @@ public class PostgresWriteStore {
         this.imagesMapper = imagesMapper;
         this.ownerCategoriesMapper = ownerCategoriesMapper;
         this.publishedBundleSnapshotsMapper = publishedBundleSnapshotsMapper;
+        this.publishedWasmCatalogSnapshotsMapper = publishedWasmCatalogSnapshotsMapper;
+        this.wasmCatalogSourcesMapper = wasmCatalogSourcesMapper;
         this.gamesMapper = gamesMapper;
         this.gameProgressionSchemaMapper = gameProgressionSchemaMapper;
         this.gameVersionsMapper = gameVersionsMapper;
@@ -211,6 +221,7 @@ public class PostgresWriteStore {
         this.objectMapper = objectMapper;
         this.readStore = readStore;
         this.jsonSupport = jsonSupport;
+        this.wasmCatalogValidator = wasmCatalogValidator;
     }
 
     @Transactional
@@ -236,6 +247,53 @@ public class PostgresWriteStore {
         );
         defaultBasicAttackProvisioner.ensureHeroMount(gameId, heroId);
         return merged;
+    }
+
+    @Transactional
+    public ObjectNode upsertWasmCatalogSource(String gameId, ObjectNode body) {
+        WasmCatalogValidator.ValidatedSource validated = wasmCatalogValidator.validateAndNormalize(body);
+        long versionId = resolveVersionIdForWrite(gameId);
+        String catalogJson = jsonSupport.toJsonString(validated.catalogBody(), "/wasm-catalog-source");
+        wasmCatalogSourcesMapper.upsertSource(gameId, versionId, validated.schemaVersion(), catalogJson);
+        ObjectNode stored = readStore.getWasmCatalogSource(gameId);
+        if (stored == null) {
+            ObjectNode fallback = validated.catalogBody().deepCopy();
+            fallback.put("schemaVersion", validated.schemaVersion());
+            fallback.put("updatedAt", Instant.now().toString());
+            return fallback;
+        }
+        return stored;
+    }
+
+    /**
+     * Insert-only Wasm catalog source write for legacy ADC bootstrap.
+     * Concurrent/existing rows return 409; never overwrites, publishes, or evicts caches.
+     */
+    @Transactional
+    public ObjectNode insertWasmCatalogSourceIfAbsent(String gameId, ObjectNode body) {
+        if (readStore.getWasmCatalogSource(gameId) != null) {
+            throw conflict("Wasm catalog source already exists", Map.of("gameId", gameId));
+        }
+        WasmCatalogValidator.ValidatedSource validated = wasmCatalogValidator.validateAndNormalize(body);
+        long versionId = resolveVersionIdForWrite(gameId);
+        String catalogJson = jsonSupport.toJsonString(validated.catalogBody(), "/wasm-catalog-source");
+        int affected = wasmCatalogSourcesMapper.insertSourceIfAbsent(
+            gameId,
+            versionId,
+            validated.schemaVersion(),
+            catalogJson
+        );
+        if (affected == 0) {
+            throw conflict("Wasm catalog source already exists", Map.of("gameId", gameId));
+        }
+        ObjectNode stored = readStore.getWasmCatalogSource(gameId);
+        if (stored == null) {
+            ObjectNode fallback = validated.catalogBody().deepCopy();
+            fallback.put("schemaVersion", validated.schemaVersion());
+            fallback.put("updatedAt", Instant.now().toString());
+            return fallback;
+        }
+        return stored;
     }
 
     @Transactional
@@ -1097,6 +1155,9 @@ public class PostgresWriteStore {
         ObjectNode unsignedBundle = readStore.buildBundle(gameId, version, publishedAt);
         validateBundleForPublish(gameId, unsignedBundle);
 
+        // After legacy bundle validation and before current-version switch: materialize Wasm catalog if source exists.
+        materializeWasmCatalogOnPublish(gameId, version, publishedAt, changedAfter);
+
         applyVersionProgressAndLog(
             gameId,
             version.versionId(),
@@ -1160,6 +1221,97 @@ public class PostgresWriteStore {
 
         editLogMapper.insertEditLog(email, serialized);
         editLogMapper.deleteExpiredEditLogs();
+    }
+
+    /**
+     * Materialize published Wasm catalog snapshot inside the publish transaction.
+     * Absent source: skip (legacy publish still succeeds).
+     * Invalid source (including empty persisted/normalized catalog body): abort whole publish with 422.
+     * Snapshot is written whenever a non-empty source exists; source range/log only when changed.
+     */
+    private void materializeWasmCatalogOnPublish(
+        String gameId,
+        PostgresReadStore.VersionRecord version,
+        Instant publishedAt,
+        Timestamp changedAfter
+    ) {
+        Map<String, Object> sourceRow = wasmCatalogSourcesMapper.findByGameId(gameId);
+        if (sourceRow == null || sourceRow.isEmpty()) {
+            return;
+        }
+
+        String schemaVersion = mapText(sourceRow, "schemaVersion");
+        String catalogJson = mapText(sourceRow, "catalogJson");
+        if (catalogJson == null || catalogJson.isBlank()) {
+            throw badRequest(
+                "wasm catalog source catalog_json cannot be empty",
+                Map.of("gameId", gameId, "path", "/wasm-catalog-source")
+            );
+        }
+
+        ObjectNode storedBody = jsonSupport.parseJsonObject(catalogJson, "/wasm-catalog-source");
+        if (storedBody == null || storedBody.isEmpty()) {
+            // Persisted source row with empty catalog body is a semantic violation; never skip silently.
+            throw semantic(
+                "wasm catalog source catalog_json cannot be an empty object",
+                Map.of("gameId", gameId, "path", "/wasm-catalog-source")
+            );
+        }
+
+        ObjectNode reconstructed = storedBody.deepCopy();
+        reconstructed.put("schemaVersion", schemaVersion == null ? "" : schemaVersion);
+        WasmCatalogValidator.ValidatedSource validated = wasmCatalogValidator.validateAndNormalize(reconstructed);
+        ObjectNode catalogBody = validated.catalogBody();
+        if (catalogBody == null || catalogBody.isEmpty()) {
+            throw semantic(
+                "wasm catalog source normalized catalog body cannot be empty",
+                Map.of("gameId", gameId, "path", "/wasm-catalog-source")
+            );
+        }
+
+        String schemaHash = WasmCatalogCanonicalHash.schemaHash();
+        ObjectNode hashPayload = WasmCatalogCanonicalHash.buildHashPayload(validated.schemaVersion(), catalogBody);
+        String rulesHash = WasmCatalogCanonicalHash.rulesHash(hashPayload);
+
+        ObjectNode catalog = catalogBody.deepCopy();
+        ObjectNode meta = catalog.putObject("meta");
+        meta.put("gameId", gameId);
+        meta.put("versionCode", version.versionCode());
+        meta.put("publishedAt", publishedAt.toString());
+        meta.put("generatedAt", publishedAt.toString());
+        meta.put("schemaVersion", validated.schemaVersion());
+        meta.put("schemaHash", schemaHash);
+        meta.put("rulesHash", rulesHash);
+
+        String snapshotJson = jsonSupport.toJsonString(catalog, "/wasm-catalog");
+        publishedWasmCatalogSnapshotsMapper.upsertCatalogSnapshot(
+            gameId,
+            version.versionId(),
+            version.versionCode(),
+            validated.schemaVersion(),
+            schemaHash,
+            rulesHash,
+            snapshotJson
+        );
+
+        List<Map<String, Object>> changedSources = wasmCatalogSourcesMapper.listChangedSince(gameId, changedAfter);
+        if (changedSources == null) {
+            changedSources = List.of();
+        }
+        if (!changedSources.isEmpty()) {
+            String bodyJson = jsonSupport.toJsonString(catalogBody, "/wasm-catalog-source");
+            ensureUpdated(
+                wasmCatalogSourcesMapper.updateVersionRange(gameId, version.versionId()),
+                "wasm catalog source not found while publishing",
+                Map.of("gameId", gameId)
+            );
+            wasmCatalogSourcesMapper.upsertSourceLog(
+                gameId,
+                version.versionId(),
+                validated.schemaVersion(),
+                bodyJson
+            );
+        }
     }
 
     private void applyVersionProgressAndLog(

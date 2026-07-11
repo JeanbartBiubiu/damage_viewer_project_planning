@@ -105,8 +105,14 @@ LAST_TRACKED_AT: 2026-04-30
   4. 结算顺序固化：
      - 先护盾吸收，再 HP 结算，再触发后置事件。
 - 验收标准：
-  - 使用不同 `gameId`/规则配置，不改引擎代码即可切换护盾交互行为。
-  - 同输入重复运行结果稳定可复现。
+- 使用不同 `gameId`/规则配置，不改引擎代码即可切换护盾交互行为。
+- 同输入重复运行结果稳定可复现。
+
+### [~] P0-5 版本化 Canonical Catalog 数据面
+- 已确定：新增 Wasm source、发布 snapshot 与 Public catalog 接口；前端以 versioned catalog 为唯一 Wasm 输入数据源，继续由本地 Worker materialize scenario。
+- 不做：不改旧 `/bundle`、不让后端运行 Wasm、不会在 source 中保存用户 override 或 session。
+- 详细设计：[WasmCanonicalCatalog后端详细设计.md](../../详细设计/server/game_manage/WasmCanonicalCatalog后端详细设计.md)。
+- 验收标准：source 可 Admin 全量读写；发布时 hash 稳定并冻结 snapshot；前端可按 versionCode 获取 catalog；legacy bundle 回归不受影响。
 
 ---
 
