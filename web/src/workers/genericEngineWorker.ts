@@ -3,8 +3,6 @@ import {
   type TinyGoV2Frame
 } from '../engine/tinygoV2Bridge';
 
-const RUN_TIMEOUT_MS = 30_000;
-
 type WorkerRequestMessage =
   | { type: 'init'; wasmUrl: string; id: string }
   | { type: 'compile'; id: string; request: unknown }
@@ -27,7 +25,6 @@ type SerializedFrame = {
 };
 
 let bridge: TinyGoV2Bridge | null = null;
-let runTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
 function serializeFrames(frames: TinyGoV2Frame[]): SerializedFrame[] {
   return frames.map((frame) => ({
@@ -36,13 +33,6 @@ function serializeFrames(frames: TinyGoV2Frame[]): SerializedFrame[] {
     flags: frame.flags,
     payload: Array.from(frame.payload)
   }));
-}
-
-function clearRunTimeout() {
-  if (runTimeoutId !== null) {
-    clearTimeout(runTimeoutId);
-    runTimeoutId = null;
-  }
 }
 
 function postError(id: string | undefined, message: string, recreate = false, frames?: TinyGoV2Frame[]) {
@@ -62,7 +52,7 @@ async function ensureBridge(wasmUrl: string): Promise<TinyGoV2Bridge> {
   if (bridge) {
     return bridge;
   }
-  bridge = await TinyGoV2Bridge.create({ wasmUrl });
+  bridge = await TinyGoV2Bridge.create({ wasmUrl, profile: 'generic' });
   return bridge;
 }
 
@@ -72,7 +62,6 @@ self.onmessage = (event: MessageEvent<WorkerRequestMessage>) => {
 
 async function handleMessage(message: WorkerRequestMessage) {
   if (message.type === 'terminate') {
-    clearRunTimeout();
     bridge = null;
     self.close();
     return;
@@ -117,19 +106,10 @@ async function handleMessage(message: WorkerRequestMessage) {
     }
 
     if (message.type === 'run') {
-      clearRunTimeout();
-      let timedOut = false;
-      runTimeoutId = setTimeout(() => {
-        timedOut = true;
-        postError(message.id, 'run timeout (30s)', true);
-      }, RUN_TIMEOUT_MS);
-
+      // Run timeout is owned by the main-thread GenericEngineClient (30s).
+      // Do not duplicate a Worker-side timer that can drift under sync Wasm.
       try {
         const frames = bridge.run(message.request);
-        clearRunTimeout();
-        if (timedOut) {
-          return;
-        }
         const response: WorkerResponseMessage = {
           type: 'runResult',
           id: message.id,
@@ -137,10 +117,6 @@ async function handleMessage(message: WorkerRequestMessage) {
         };
         self.postMessage(response);
       } catch (error) {
-        clearRunTimeout();
-        if (timedOut) {
-          return;
-        }
         const invocationError = error as { frames?: TinyGoV2Frame[]; message?: string };
         if (invocationError.frames?.length) {
           const response: WorkerResponseMessage = {
