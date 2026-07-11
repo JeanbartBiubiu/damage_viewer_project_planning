@@ -278,6 +278,19 @@ P0 先通过 source document 保证契约可用和发布可回放。后续必须
 3. 将细粒度编辑态物化为同一 source DTO，保持 Public API 和 hash 语义不变。
 4. 增加跨 worktree contract CI：后端发布 fixture 的 catalog 必须能通过 Wasm `engine_compile`；这只用于测试，生产后端不调用 Wasm。
 
+### 7.1 旧 DB / 接口 Deprecated 台账
+
+`Deprecated` 在本节的含义固定为 **不得被新通用 Wasm 直接消费**，不是立即删除、停止写入或返回 HTTP deprecation header。下表记录的是防止后续实现误走旧链路的边界：
+
+| 旧资产 | 状态 | 当前保留原因 | 新 Wasm 的替代 |
+| --- | --- | --- | --- |
+| `heroes`、`skills`、`skill_mounts`、`mechanics_config` 等 legacy 原始表 | Deprecated for direct new-Wasm consumption | 仍是普通数据管理与 legacy Bundle 构建的输入；首批 Bootstrap 也只读其已发布 Bundle 表现 | `wasm_catalog_sources` 的 `WasmCatalogSourceV1` |
+| `published_bundle_snapshots` | Deprecated for direct new-Wasm consumption | 历史 Bundle、旧页面和 Bootstrap 输入仍依赖它 | `published_wasm_catalog_snapshots` |
+| `GET /api/games/{gameId}/versions/{versionCode}/bundle` / `GameDataBundleV1` | Deprecated for direct new-Wasm consumption | 旧页面与非 Wasm 消费者继续使用，保持版本化历史读取 | `GET /api/games/{gameId}/versions/{versionCode}/wasm-catalog` / `WasmCatalogV1` |
+| legacy `EngineBundleV2`、`ActionTemplateV2`、`single_attacker_dps` 口径 | Deprecated in new generic-Wasm flow | 仅可留在旧页面、compat fixture 或回归对照 | `CompileRequest`、`AbilityDefinition`、generic compile/run |
+
+当前没有可直接删除的旧 Wasm 专用后端 HTTP 路由；`/bundle` 是兼容读取接口，而非待立即下线接口。物理删表、删快照或删除 `/bundle` 必须另立任务，且先证明所有消费者已改用 Catalog、目标历史版本达到保留期限，并完成双链路发布回归。
+
 ## 8. 实施与验收范围
 
 后续编码只允许修改 `db/game_manage/**`、`server/data_manage/**`、本详细设计、[game_manage 接口定义](接口定义.md) 和任务治理映射。最小验收包括：DDL parent/partition 检查、Admin source 全量写读、发布后 Public snapshot 读取、hash 重复稳定、legacy bundle 回归，以及一条由 Wasm compile 接受的 catalog contract fixture。
