@@ -225,6 +225,21 @@
       ]
     },
     {
+      "task_key": "web-wasm-catalog-integration",
+      "title": "Web 通用 Wasm Catalog 接入",
+      "module": "web",
+      "workstream": "web/wasm-generic",
+      "feature": "wasm_catalog_integration",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "通用 Wasm Catalog 前端接入、真实 Catalog 发布快照和 Compile/Run/Release 浏览器闭环已完成；前端 Wasm 产物已同步至支持 generic release_result(214) 的版本。",
+      "completed_at": "2026-07-11",
+      "docs": [
+        "文档记录/详细设计/web/通用WasmCatalog前端接入方案.md"
+      ]
+    },
+    {
       "task_key": "server-backend-review",
       "title": "Server 后端评审与改进项",
       "module": "server",

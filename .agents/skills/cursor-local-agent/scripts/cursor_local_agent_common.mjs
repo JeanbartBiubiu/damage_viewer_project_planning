@@ -12,6 +12,8 @@ export const MODEL = {
   ],
 };
 
+const CURSOR_SDK_VERSION = "1.0.23";
+
 export function readUserEnv(name) {
   if (process.platform !== "win32") return "";
   try {
@@ -54,7 +56,7 @@ export function ensureSdkPackage(baseCwd) {
   if (!existsSync(pkgDir)) {
     mkdirSync(cacheDir, { recursive: true });
     const npmBin = process.platform === "win32" ? "npm.cmd" : "npm";
-    execFileSync(npmBin, ["install", "--prefix", cacheDir, "@cursor/sdk@1.0.13", "--silent"], {
+    execFileSync(npmBin, ["install", "--prefix", cacheDir, `@cursor/sdk@${CURSOR_SDK_VERSION}`, "--silent"], {
       stdio: "inherit",
     });
   }

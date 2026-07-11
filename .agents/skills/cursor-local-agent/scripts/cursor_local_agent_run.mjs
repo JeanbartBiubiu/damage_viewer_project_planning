@@ -2,6 +2,7 @@
 import { execFileSync, spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { basename, join, relative, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { createRequire } from "node:module";
 import {
   MODEL,
@@ -207,9 +208,10 @@ function writeReviewTemplate(artifactPaths, summary) {
 
 async function runWithSdk(args, summary, artifactPaths, promptText) {
   const requireSdk = createRequire(import.meta.url);
-  const { Agent } = requireSdk(summary.preflight.sdk.path);
+  const { Agent, JsonlLocalAgentStore } = requireSdk(summary.preflight.sdk.path);
   const apiKey = getApiKey();
   const cwd = existsSync(args.cwd) ? args.cwd : args.cwd;
+  const store = new JsonlLocalAgentStore(join(tmpdir(), "cursor-sdk-local-agent-store"));
   let agent;
   let run;
   let timeoutHandle;
@@ -220,7 +222,7 @@ async function runWithSdk(args, summary, artifactPaths, promptText) {
       apiKey,
       name: args.name,
       model: MODEL,
-      local: { cwd },
+      local: { cwd, store },
     });
     summary.runtimeUsed = "sdk";
     summary.agentId = agent.agentId;

@@ -259,7 +259,14 @@ export default function App() {
       );
       break;
     case 'wasm-validation-generic':
-      pageContent = <WasmValidationGenericPage />;
+      pageContent = (
+        <WasmValidationGenericPage
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          selectedGameName={selectedGameName}
+          externalRefreshSeed={bundleRefreshSeed}
+        />
+      );
       break;
     case 'images':
       pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
