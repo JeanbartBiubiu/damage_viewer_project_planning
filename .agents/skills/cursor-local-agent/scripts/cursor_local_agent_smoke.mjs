@@ -115,8 +115,9 @@ async function main() {
   }
 
   const requireSdk = createRequire(import.meta.url);
-  const { Agent } = requireSdk(sdkPath);
+  const { Agent, JsonlLocalAgentStore } = requireSdk(sdkPath);
   const cwd = existsSync(args.cwd) ? args.cwd : mkdtempSync(join(tmpdir(), "cursor-sdk-fastfalse-smoke-"));
+  const store = new JsonlLocalAgentStore(join(tmpdir(), "cursor-sdk-local-agent-store"));
   summary.resolvedCwd = cwd;
 
   let agent;
@@ -129,7 +130,7 @@ async function main() {
       apiKey,
       name: args.name,
       model: MODEL,
-      local: { cwd },
+      local: { cwd, store },
     });
 
     summary.agentId = agent.agentId;

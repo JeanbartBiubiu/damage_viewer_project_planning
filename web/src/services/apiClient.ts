@@ -45,6 +45,7 @@ import type {
   VersionPublishPayload,
   VersionPublishResponse
 } from '../types/api';
+import type { WasmCatalogV1 } from '../types/wasmCatalog';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:8080';
 
@@ -114,6 +115,17 @@ export async function getBundle(
     ...result,
     data: normalizeGameDataBundle(result.data)
   };
+}
+
+export async function getWasmCatalog(
+  apiBaseUrl: string,
+  gameId: string,
+  versionCode: string
+): Promise<ApiResult<WasmCatalogV1>> {
+  return requestJson<WasmCatalogV1>(
+    apiBaseUrl,
+    `/api/games/${encodePathSegment(gameId)}/versions/${encodePathSegment(versionCode)}/wasm-catalog`
+  );
 }
 
 export async function getOwnerCategories(apiBaseUrl: string, gameId: string): Promise<ApiResult<OwnerCategoryResponse>> {
