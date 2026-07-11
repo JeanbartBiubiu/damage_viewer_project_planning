@@ -26,7 +26,9 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.PublishedWasmCatalogSnapshotsMapper;
 import xyz.game.datamanage.mapper.SkillMountsMapper;
+import xyz.game.datamanage.mapper.WasmCatalogSourcesMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
 import xyz.game.datamanage.mapper.StatusAttributeModifiersMapper;
@@ -51,6 +53,8 @@ public class PostgresReadStore {
     private final ImagesMapper imagesMapper;
     private final OwnerCategoriesMapper ownerCategoriesMapper;
     private final PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
+    private final PublishedWasmCatalogSnapshotsMapper publishedWasmCatalogSnapshotsMapper;
+    private final WasmCatalogSourcesMapper wasmCatalogSourcesMapper;
     private final AttributeDefinitionsMapper attributeDefinitionsMapper;
     private final CoefficientBucketsMapper coefficientBucketsMapper;
     private final TypesMapper typesMapper;
@@ -78,6 +82,8 @@ public class PostgresReadStore {
         ImagesMapper imagesMapper,
         OwnerCategoriesMapper ownerCategoriesMapper,
         PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper,
+        PublishedWasmCatalogSnapshotsMapper publishedWasmCatalogSnapshotsMapper,
+        WasmCatalogSourcesMapper wasmCatalogSourcesMapper,
         AttributeDefinitionsMapper attributeDefinitionsMapper,
         CoefficientBucketsMapper coefficientBucketsMapper,
         TypesMapper typesMapper,
@@ -104,6 +110,8 @@ public class PostgresReadStore {
         this.imagesMapper = imagesMapper;
         this.ownerCategoriesMapper = ownerCategoriesMapper;
         this.publishedBundleSnapshotsMapper = publishedBundleSnapshotsMapper;
+        this.publishedWasmCatalogSnapshotsMapper = publishedWasmCatalogSnapshotsMapper;
+        this.wasmCatalogSourcesMapper = wasmCatalogSourcesMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
         this.coefficientBucketsMapper = coefficientBucketsMapper;
         this.typesMapper = typesMapper;
@@ -506,6 +514,49 @@ public class PostgresReadStore {
             return null;
         }
         return (ObjectNode) node;
+    }
+
+    public ObjectNode getPublishedWasmCatalogSnapshot(String gameId, String versionCode) {
+        String raw = publishedWasmCatalogSnapshotsMapper.findCatalogSnapshotJson(gameId, versionCode);
+        if (raw == null || raw.isBlank()) {
+            return null;
+        }
+        JsonNode node = jsonSupport.parseJsonOrNull(raw, "/wasm-catalog");
+        if (node == null || !node.isObject()) {
+            return null;
+        }
+        return (ObjectNode) node;
+    }
+
+    /**
+     * Reconstruct Admin source response: root schemaVersion + catalog body + updatedAt.
+     * Returns null when no source row exists.
+     */
+    public ObjectNode getWasmCatalogSource(String gameId) {
+        Map<String, Object> row = wasmCatalogSourcesMapper.findByGameId(gameId);
+        if (row == null || row.isEmpty()) {
+            return null;
+        }
+        String schemaVersion = text(row, "schemaVersion");
+        String catalogJson = text(row, "catalogJson");
+        ObjectNode body = jsonSupport.parseJsonObject(catalogJson, "/wasm-catalog-source");
+        // Storage body excludes schemaVersion; reconstruct Admin response root fields.
+        ObjectNode response = body.deepCopy();
+        response.remove("schemaVersion");
+        response.remove("meta");
+        response.remove("schemaHash");
+        response.remove("rulesHash");
+        response.remove("updatedAt");
+        response.put("schemaVersion", schemaVersion == null ? "" : schemaVersion);
+        Timestamp updatedAt = timestamp(row, "updatedAt");
+        if (updatedAt != null) {
+            response.put("updatedAt", updatedAt.toInstant().toString());
+        }
+        return response;
+    }
+
+    public Map<String, Object> findWasmCatalogSourceRow(String gameId) {
+        return wasmCatalogSourcesMapper.findByGameId(gameId);
     }
 
     public ObjectNode loadHero(String gameId, String heroId) {

@@ -41,6 +41,8 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.PublishedWasmCatalogSnapshotsMapper;
+import xyz.game.datamanage.mapper.WasmCatalogSourcesMapper;
 import xyz.game.datamanage.mapper.SkillMountsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
@@ -53,6 +55,7 @@ import xyz.game.datamanage.mapper.TypesMapper;
 import xyz.game.datamanage.service.PostgresJsonSupport;
 import xyz.game.datamanage.service.PostgresReadStore;
 import xyz.game.datamanage.service.PostgresWriteStore;
+import xyz.game.datamanage.service.WasmCatalogValidator;
 import xyz.game.datamanage.service.DefaultBasicAttackProvisioner;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -686,6 +689,10 @@ class KatarinaMvpImportMainTest {
         @Mock
         private PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
         @Mock
+        private PublishedWasmCatalogSnapshotsMapper publishedWasmCatalogSnapshotsMapper;
+        @Mock
+        private WasmCatalogSourcesMapper wasmCatalogSourcesMapper;
+        @Mock
         private GamesMapper gamesMapper;
         @Mock
         private GameProgressionSchemaMapper gameProgressionSchemaMapper;
@@ -723,13 +730,16 @@ class KatarinaMvpImportMainTest {
                 imagesMapper,
                 ownerCategoriesMapper,
                 publishedBundleSnapshotsMapper,
+                publishedWasmCatalogSnapshotsMapper,
+                wasmCatalogSourcesMapper,
                 gamesMapper,
                 gameProgressionSchemaMapper,
                 gameVersionsMapper,
                 editLogMapper,
                 objectMapper,
                 readStore,
-                new PostgresJsonSupport(objectMapper)
+                new PostgresJsonSupport(objectMapper),
+                new WasmCatalogValidator()
             );
             lenient().when(readStore.findVersionByCode("lol", "__workspace__"))
                 .thenReturn(new PostgresReadStore.VersionRecord(9L, "__workspace__", null, Instant.now(), null));
