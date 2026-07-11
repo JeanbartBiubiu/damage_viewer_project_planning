@@ -2,6 +2,7 @@ import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
   OUTBOX_GENERIC_ERROR,
+  OUTBOX_GENERIC_RELEASE_RESULT,
   decodeFramePayload,
   type TinyGoV2Frame
 } from './tinygoV2Bridge';
@@ -66,7 +67,7 @@ function findFrame(frames: TinyGoV2Frame[], kind: number): TinyGoV2Frame | undef
   return frames.find((frame) => frame.kind === kind);
 }
 
-function parseEngineError(frames: TinyGoV2Frame[]): EngineError | undefined {
+export function parseEngineError(frames: TinyGoV2Frame[]): EngineError | undefined {
   const errorFrame = findFrame(frames, OUTBOX_GENERIC_ERROR);
   if (!errorFrame) {
     return undefined;
@@ -77,50 +78,45 @@ function parseEngineError(frames: TinyGoV2Frame[]): EngineError | undefined {
 function assertNoFatalError(frames: TinyGoV2Frame[], action: string): void {
   const engineError = parseEngineError(frames);
   if (engineError) {
-    throw new GenericEngineClientError(`${action} failed: ${engineError.code} ${engineError.message}`, engineError, frames);
+    throw new GenericEngineClientError(`${action}失败：${engineError.code} ${engineError.message}`, engineError, frames);
   }
 }
 
-function parseCompileResult(frames: TinyGoV2Frame[]): CompileResult {
-  assertNoFatalError(frames, 'compile');
+/**
+ * Compile ok=false is a normal collect-all CompileResult (not a thrown fatal).
+ * Only kind 212 rejects.
+ */
+export function parseCompileResult(frames: TinyGoV2Frame[]): CompileResult {
+  assertNoFatalError(frames, '编译');
   const resultFrame = findFrame(frames, OUTBOX_GENERIC_COMPILE_RESULT);
   if (!resultFrame) {
-    throw new GenericEngineClientError('compile response missing compile_result frame', undefined, frames);
+    throw new GenericEngineClientError('编译响应缺少 compile_result 帧', undefined, frames);
   }
-  const result = decodeFramePayload<CompileResult>(resultFrame);
-  if (!result.ok) {
-    const firstError = result.errors?.[0];
-    throw new GenericEngineClientError(
-      firstError?.message ?? 'compile returned ok=false',
-      firstError,
-      frames
-    );
-  }
-  return result;
+  return decodeFramePayload<CompileResult>(resultFrame);
 }
 
-function parseDoneResult(frames: TinyGoV2Frame[]): DoneResult {
-  assertNoFatalError(frames, 'run');
+export function parseDoneResult(frames: TinyGoV2Frame[]): DoneResult {
+  assertNoFatalError(frames, '运行');
   const doneFrame = findFrame(frames, OUTBOX_GENERIC_DONE);
   if (!doneFrame) {
-    throw new GenericEngineClientError('run response missing done frame', undefined, frames);
+    throw new GenericEngineClientError('运行响应缺少 done 帧', undefined, frames);
   }
   const result = decodeFramePayload<DoneResult>(doneFrame);
   if (!result.ok) {
-    throw new GenericEngineClientError('run returned ok=false', undefined, frames);
+    throw new GenericEngineClientError('运行返回 ok=false', undefined, frames);
   }
   return result;
 }
 
-function parseReleaseResult(frames: TinyGoV2Frame[]): GenericReleaseDonePayload {
-  assertNoFatalError(frames, 'release');
-  const doneFrame = findFrame(frames, OUTBOX_GENERIC_DONE);
-  if (!doneFrame) {
-    throw new GenericEngineClientError('release response missing done frame', undefined, frames);
+export function parseReleaseResult(frames: TinyGoV2Frame[]): GenericReleaseDonePayload {
+  assertNoFatalError(frames, '释放');
+  const releaseFrame = findFrame(frames, OUTBOX_GENERIC_RELEASE_RESULT);
+  if (!releaseFrame) {
+    throw new GenericEngineClientError('释放响应缺少 release_result 帧（214）', undefined, frames);
   }
-  const result = decodeFramePayload<GenericReleaseDonePayload>(doneFrame);
+  const result = decodeFramePayload<GenericReleaseDonePayload>(releaseFrame);
   if (!result.ok || !result.released) {
-    throw new GenericEngineClientError('release returned ok=false', undefined, frames);
+    throw new GenericEngineClientError('释放返回 ok=false', undefined, frames);
   }
   return result;
 }
@@ -156,7 +152,7 @@ export class GenericEngineClient {
       if (pending.timer) {
         clearTimeout(pending.timer);
       }
-      pending.reject(new GenericEngineClientError('worker terminated'));
+      pending.reject(new GenericEngineClientError('工作线程已终止'));
     }
     this.pending.clear();
     if (this.worker) {
@@ -176,7 +172,7 @@ export class GenericEngineClient {
       this.handleWorkerMessage(event.data);
     };
     worker.onerror = (event) => {
-      this.failAllPending(new GenericEngineClientError(event.message || 'worker crashed', undefined));
+      this.failAllPending(new GenericEngineClientError(event.message || '工作线程崩溃', undefined));
       this.recreateWorker();
     };
     this.worker = worker;
@@ -239,7 +235,7 @@ export class GenericEngineClient {
         pending.timer = setTimeout(() => {
           this.pending.delete(id);
           this.recreateWorker();
-          reject(new GenericEngineClientError('run timeout (30s)'));
+          reject(new GenericEngineClientError('运行超时（30 秒）'));
         }, RUN_TIMEOUT_MS);
       }
       this.pending.set(id, pending);
@@ -302,9 +298,4 @@ export function getGenericEngineClient(): GenericEngineClient {
   return defaultClient;
 }
 
-export {
-  parseCompileResult,
-  parseDoneResult,
-  parseEngineError,
-  parseReleaseResult
-};
+export { RUN_TIMEOUT_MS };
