@@ -56,11 +56,18 @@
 | `mvn test` | 运行测试与基础回归 | 改 `controller/service/mapper/support` 时默认至少执行 |
 | `mvn package` | 打包校验 | 改 `pom.xml`、配置、依赖或发布链时建议执行 |
 
-### SQL 兼容迁移
+### SQL 初始化与兼容迁移
 
-`db/game_manage/schema.sql` 适用于新库初始化；已有库不会因为 `CREATE TABLE IF NOT EXISTS` 自动调整列宽。
-如果已有环境的 `game_versions.version_code` 或 `published_bundle_snapshots.version_code` 仍是 `varchar(32)`，先执行 `db/game_manage/version_code_varchar64_compatibility_migration.sql`，再发布长度超过 32 的版本码。
-如果已有环境的 `coefficient_buckets.stage_key` 或 `coefficient_buckets_log.stage_key` 仍是 `varchar(32)`，先执行 `db/game_manage/coefficient_bucket_stage_key_varchar64_compatibility_migration.sql`。
+**新库（fresh install）**：只执行 `db/game_manage/schema.sql`，再执行 `db/game_manage/triggers.sql`。二者已覆盖当前基线 DDL（含乘区桶、状态资源、状态动作控制、Wasm Canonical Catalog）与分区自动化；不要再把 `migrations/**` 或 `seeds/**` 当作新库必跑步骤。
+
+**已有库**：只执行适用的迁移（`db/game_manage/migrations/compatibility/**`、必要时 `migrations/legacy/**`）。`CREATE TABLE IF NOT EXISTS` 可创建缺失表，但不会改动已存在表的列类型、列、约束或索引；因此已有 schema 仍须执行适用的显式兼容迁移。若某次迁移新增了分区父表（含 Wasm catalog 的 `wasm_catalog_sources` / `_log`），迁移后再重新执行一次当前的 `triggers.sql`，以刷新 `ensure_game_partitions` 并为已有 `game_id` 补齐分区。
+
+**种子数据**：`db/game_manage/seeds/**` 为可选/手工执行，不参与 fresh-install 必跑顺序。
+
+常见兼容迁移示例：
+
+- `game_versions.version_code` / `published_bundle_snapshots.version_code` 仍为 `varchar(32)` 时：先执行 `db/game_manage/migrations/compatibility/version_code_varchar64_compatibility_migration.sql`，再发布长度超过 32 的版本码。
+- `coefficient_buckets.stage_key` / `coefficient_buckets_log.stage_key` 仍为 `varchar(32)` 时：执行 `db/game_manage/migrations/compatibility/coefficient_bucket_stage_key_varchar64_compatibility_migration.sql`。
 
 ## 配置与环境变量
 

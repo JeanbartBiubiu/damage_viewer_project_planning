@@ -3,7 +3,7 @@
 -- =============================================================================
 --
 -- 依赖：
--- 1. `db/game_manage/lol_status_types_seed.sql` 中的状态 type 已插入。
+-- 1. `db/game_manage/seeds/lol_status_types_seed.sql` 中的状态 type 已插入。
 -- 2. 下列动作/阶段/标签 type 已存在于 public.types.name：
 --    - action: basic_attack / cast_skill / cast_item / move
 --    - exec_phase: cast / channel / basic_attack_windup / dash
