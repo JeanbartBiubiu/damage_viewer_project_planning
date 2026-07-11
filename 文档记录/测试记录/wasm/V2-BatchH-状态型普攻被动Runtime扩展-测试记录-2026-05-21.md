@@ -82,7 +82,7 @@ mvn -q -DskipTests test-compile org.codehaus.mojo:exec-maven-plugin:3.5.0:java "
 3. DB 目标为 `test0221 / postgres`，凭据未记录；版本行 `version_id=113`，`current=true`，`published=true`，`snapshot=true`，两张发布链表的 `version_code` 均为 `varchar(64)`。
 4. Public bundle 验证通过：current 和 bundle meta 均为 `v2_batch_h_stacking_stat_passives_001`，item `3124.skillRefs` 同时包含既有 `item_3124_guinsoos_rageblade_wrath_dps_v2` 与新增 `item_3124_guinsoos_boiling_strike_dps_v2`。
 5. 后端 schema/test schema 变更后，`mvn test` 通过：`Tests run: 48, Failures: 0, Errors: 0, Skipped: 0`。
-6. 可重复迁移 SQL 已补充：`C:\project\damage_backend_dev\db\game_manage\version_code_varchar64_compatibility_migration.sql`，用于已有 DB 从 `varchar(32)` 显式扩到 `varchar(64)`。
+6. 可重复迁移 SQL 已补充：`C:\project\damage_backend_dev\db\game_manage\migrations\compatibility\version_code_varchar64_compatibility_migration.sql`，用于已有 DB 从 `varchar(32)` 显式扩到 `varchar(64)`。
 7. `ControllerPublishFlowIT` 增加了超过 32 字符 `versionCode` 的 current/bundle 断言；该 IT 需要 `IT_DB_URL` / `IT_DB_USERNAME` 环境变量才会执行，普通 `mvn test` 只验证编译和非 IT 单测。
 
 Bundle 中 Batch H operations：

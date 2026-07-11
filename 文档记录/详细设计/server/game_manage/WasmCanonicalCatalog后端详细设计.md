@@ -98,7 +98,7 @@ CREATE INDEX idx_wasm_catalog_sources_log_version
 | `catalog_json` | `jsonb` | 非空 | 包含 `meta` 的完整 `WasmCatalogV1`。 |
 | `created_at` | `timestamp` | 非空 | 物化时间。 |
 
-DDL 分为三份：新库初始化定义写入 `db/game_manage/wasm_catalog_schema.sql`；已部署库使用幂等的 `wasm_catalog_compatibility_migration.sql`；`triggers.sql` 扩展 source 与 source log 分区创建。不得修改既有 bundle snapshot 的 JSON 结构来承载 catalog。
+DDL：新库由 `db/game_manage/schema.sql`（含 Wasm Canonical Catalog 基线段）初始化，再执行 `triggers.sql` 扩展 source 与 source log 分区创建；已部署库使用幂等的 `db/game_manage/migrations/compatibility/wasm_catalog_compatibility_migration.sql`，并在该迁移后重跑 `triggers.sql`。不得修改既有 bundle snapshot 的 JSON 结构来承载 catalog。
 
 目标 DDL：
 
