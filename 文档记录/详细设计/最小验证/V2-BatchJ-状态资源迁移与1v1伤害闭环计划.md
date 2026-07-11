@@ -17,7 +17,7 @@ LAST_TRACKED_AT: 2026-05-24
 
 设计来源：
 
-1. `db/game_manage/status_resource_schema.sql`
+1. `db/game_manage/schema.sql`（状态资源基线段；历史曾为独立 `status_resource_schema.sql`）
 2. `文档记录/需求澄清/server/wasm-db-design-gap-todo.md`
 3. `文档记录/详细设计/server/game_manage/接口定义.md`
 
@@ -43,7 +43,7 @@ LAST_TRACKED_AT: 2026-05-24
 
 ### 2.1 状态资源的原始职责已明确
 
-`db/game_manage/status_resource_schema.sql` 已经把职责切开：
+`db/game_manage/schema.sql` 中的状态资源基线段已经把职责切开：
 
 1. `skills.mechanics_config` 继续负责触发入口、动作编排和 `apply_status` 调用点。
 2. `status_definitions` 负责状态本体、持续时间、叠层和快照策略。
@@ -292,9 +292,9 @@ LAST_TRACKED_AT: 2026-05-24
 
 允许写入：
 
-1. `C:\project\damage_backend_dev\db\game_manage\status_resource_schema.sql`
+1. `C:\project\damage_backend_dev\db\game_manage\schema.sql`
 2. `C:\project\damage_backend_dev\db\game_manage\triggers.sql`
-3. `C:\project\damage_backend_dev\db\game_manage\status_periodic_hp_effects_crit_compatibility.sql`
+3. `C:\project\damage_backend_dev\db\game_manage\migrations\compatibility\status_periodic_hp_effects_crit_compatibility.sql`
 4. `C:\project\damage_backend_dev\server\data_manage\src\main\java\xyz\game\datamanage\controller\adminapi\Status*.java`
 5. `C:\project\damage_backend_dev\server\data_manage\src\main\java\xyz\game\datamanage\service\PostgresReadStore.java`
 6. `C:\project\damage_backend_dev\server\data_manage\src\main\java\xyz\game\datamanage\service\PostgresWriteStore.java`
@@ -328,7 +328,7 @@ LAST_TRACKED_AT: 2026-05-24
    - `crit_chance`
    - `crit_multiplier`
 2. 为 live DB 准备显式兼容 SQL：
-   - `status_periodic_hp_effects_crit_compatibility.sql`
+   - `migrations/compatibility/status_periodic_hp_effects_crit_compatibility.sql`
    - 要求 `ALTER TABLE ... ADD COLUMN IF NOT EXISTS ...`
 3. 更新 status periodic HP effect 的：
    - Admin 读接口

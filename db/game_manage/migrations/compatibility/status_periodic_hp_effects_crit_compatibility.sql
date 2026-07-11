@@ -3,7 +3,7 @@
 -- =============================================================================
 --
 -- Existing databases created before Batch J will not be altered by
--- CREATE TABLE IF NOT EXISTS in status_resource_schema.sql. This compatibility
+-- CREATE TABLE IF NOT EXISTS in schema.sql (status resources section). This compatibility
 -- migration adds the new typed crit columns needed by Admin read/write,
 -- publish validation, and publish log snapshots.
 

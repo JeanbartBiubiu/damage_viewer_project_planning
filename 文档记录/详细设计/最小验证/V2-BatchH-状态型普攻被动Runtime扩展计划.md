@@ -238,7 +238,7 @@ Wasm 至少新增或更新以下测试：
 1. backend worktree dry-run 导入 Batch H seed。
 2. 实际导入并发布 `v2_batch_h_stacking_stat_passives_001`。
 3. API 验证 current bundle 中存在真实 Batch H passive、owner、operations 和 item/hero refs。
-4. 如需扩展 `version_code` 列宽，运行或至少提交 `db/game_manage/version_code_varchar64_compatibility_migration.sql` 这类显式迁移，并复核 live DB 列宽。
+4. 如需扩展 `version_code` 列宽，运行或至少提交 `db/game_manage/migrations/compatibility/version_code_varchar64_compatibility_migration.sql` 这类显式迁移，并复核 live DB 列宽。
 
 ### H4 Web Page
 
