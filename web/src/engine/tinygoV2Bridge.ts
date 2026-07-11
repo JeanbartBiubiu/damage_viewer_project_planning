@@ -10,12 +10,12 @@ type TinyGoV2Exports = WebAssembly.Exports & {
   _start?: () => void;
   alloc(len: number): number;
   dealloc(ptr: number, len: number): void;
-  engine_init(ptr: number, len: number): number;
-  engine_begin_run(ptr: number, len: number): number;
-  engine_snapshot_initial(ptr: number, len: number): number;
-  engine_snapshot_actions_initial(ptr: number, len: number): number;
-  engine_step(maxEvents: number): number;
-  engine_abort_run(): number;
+  engine_init?(ptr: number, len: number): number;
+  engine_begin_run?(ptr: number, len: number): number;
+  engine_snapshot_initial?(ptr: number, len: number): number;
+  engine_snapshot_actions_initial?(ptr: number, len: number): number;
+  engine_step?(maxEvents: number): number;
+  engine_abort_run?(): number;
   engine_compile(ptr: number, len: number): number;
   engine_run(ptr: number, len: number): number;
   engine_release_session(ptr: number, len: number): number;
@@ -23,6 +23,8 @@ type TinyGoV2Exports = WebAssembly.Exports & {
   engine_outbox_len(): number;
   engine_outbox_clear(): void;
 };
+
+export type TinyGoV2BridgeProfile = 'legacy' | 'generic';
 
 export type TinyGoV2Frame = {
   schemaVersion: number;
@@ -34,6 +36,7 @@ export type TinyGoV2Frame = {
 export type TinyGoV2BridgeOptions = {
   wasmUrl: URL | string;
   wasmExecUrl?: URL | string;
+  profile?: TinyGoV2BridgeProfile;
 };
 
 export class TinyGoV2InvocationError extends Error {
@@ -61,9 +64,11 @@ export const OUTBOX_GENERIC_COMPILE_RESULT = 210;
 export const OUTBOX_GENERIC_DONE = 211;
 export const OUTBOX_GENERIC_ERROR = 212;
 export const OUTBOX_GENERIC_SNAPSHOT = 213;
+export const OUTBOX_GENERIC_RELEASE_RESULT = 214;
 
 const textEncoder = new TextEncoder();
-const requiredExports = [
+
+const legacyRequiredExports = [
   'memory',
   'alloc',
   'dealloc',
@@ -81,42 +86,69 @@ const requiredExports = [
   'engine_outbox_clear'
 ] as const;
 
+const genericRequiredExports = [
+  'memory',
+  'alloc',
+  'dealloc',
+  'engine_compile',
+  'engine_run',
+  'engine_release_session',
+  'engine_outbox_ptr',
+  'engine_outbox_len',
+  'engine_outbox_clear'
+] as const;
+
 type GenericEngineFnName = 'engine_compile' | 'engine_run' | 'engine_release_session';
+type LegacyEngineFnName =
+  | 'engine_init'
+  | 'engine_begin_run'
+  | 'engine_snapshot_initial'
+  | 'engine_snapshot_actions_initial';
 
 export class TinyGoV2Bridge {
-  private constructor(private readonly exports: TinyGoV2Exports) {}
+  private constructor(
+    private readonly exports: TinyGoV2Exports,
+    private readonly profile: TinyGoV2BridgeProfile
+  ) {}
 
   static async create(options: TinyGoV2BridgeOptions): Promise<TinyGoV2Bridge> {
+    const profile = options.profile ?? 'legacy';
     const exports = options.wasmExecUrl
       ? await instantiateWithWasmExec(options.wasmUrl, options.wasmExecUrl)
       : await instantiateWithDirectImports(options.wasmUrl);
-    assertTinyGoV2Exports(exports);
-    return new TinyGoV2Bridge(exports);
+    assertTinyGoV2Exports(exports, profile);
+    return new TinyGoV2Bridge(exports, profile);
   }
 
   init(bundle: unknown): TinyGoV2Frame[] {
+    this.assertLegacyExport('engine_init');
     return this.invoke('engine_init', FRAME_INIT, bundle);
   }
 
   beginRun(input: unknown): TinyGoV2Frame[] {
+    this.assertLegacyExport('engine_begin_run');
     return this.invoke('engine_begin_run', FRAME_RUN, input);
   }
 
   snapshotInitial(input: unknown): TinyGoV2Frame[] {
+    this.assertLegacyExport('engine_snapshot_initial');
     return this.invoke('engine_snapshot_initial', FRAME_RUN, input);
   }
 
   snapshotActionsInitial(input: unknown): TinyGoV2Frame[] {
+    this.assertLegacyExport('engine_snapshot_actions_initial');
     return this.invoke('engine_snapshot_actions_initial', FRAME_RUN, input);
   }
 
   step(maxEvents = 64): { status: number; frames: TinyGoV2Frame[] } {
-    const status = this.exports.engine_step(maxEvents);
+    this.assertLegacyExport('engine_step');
+    const status = this.exports.engine_step!(maxEvents);
     return { status, frames: this.readOutbox() };
   }
 
   abortRun(): TinyGoV2Frame[] {
-    this.exports.engine_abort_run();
+    this.assertLegacyExport('engine_abort_run');
+    this.exports.engine_abort_run!();
     return this.readOutbox();
   }
 
@@ -141,22 +173,21 @@ export class TinyGoV2Bridge {
   }
 
   private invoke(
-    fnName:
-      | 'engine_init'
-      | 'engine_begin_run'
-      | 'engine_snapshot_initial'
-      | 'engine_snapshot_actions_initial'
-      | GenericEngineFnName,
+    fnName: LegacyEngineFnName | GenericEngineFnName,
     kind: number,
     payload: unknown
   ): TinyGoV2Frame[] {
+    const fn = this.exports[fnName];
+    if (typeof fn !== 'function') {
+      throw new Error(`TinyGo V2 export missing for ${fnName} (profile=${this.profile}).`);
+    }
     const payloadBytes = textEncoder.encode(JSON.stringify(payload));
     const frame = encodeFrame(kind, payloadBytes);
     const ptr = this.exports.alloc(frame.length);
     let code = -1;
     try {
       new Uint8Array(this.exports.memory.buffer, ptr, frame.length).set(frame);
-      code = this.exports[fnName](ptr, frame.length);
+      code = fn(ptr, frame.length);
     } finally {
       this.exports.dealloc(ptr, frame.length);
     }
@@ -165,6 +196,12 @@ export class TinyGoV2Bridge {
       throw new TinyGoV2InvocationError(fnName, code, frames);
     }
     return frames;
+  }
+
+  private assertLegacyExport(name: string): void {
+    if (this.profile === 'generic') {
+      throw new Error(`Legacy ABI method ${name} is unavailable under generic bridge profile.`);
+    }
   }
 
   private readOutbox(): TinyGoV2Frame[] {
@@ -271,8 +308,12 @@ async function ensureTinyGoRuntime(wasmExecUrl: URL | string) {
   }
 }
 
-function assertTinyGoV2Exports(exports: WebAssembly.Exports): asserts exports is TinyGoV2Exports {
+function assertTinyGoV2Exports(
+  exports: WebAssembly.Exports,
+  profile: TinyGoV2BridgeProfile
+): asserts exports is TinyGoV2Exports {
   const record = exports as Record<string, unknown>;
+  const requiredExports = profile === 'generic' ? genericRequiredExports : legacyRequiredExports;
   const missing = requiredExports.filter((name) => record[name] === undefined);
   const invalid = requiredExports.filter((name) => {
     if (name === 'memory') {
@@ -282,7 +323,7 @@ function assertTinyGoV2Exports(exports: WebAssembly.Exports): asserts exports is
   });
   if (missing.length || invalid.length) {
     throw new Error(
-      `TinyGo V2 ABI mismatch. Missing: ${missing.join(', ') || 'none'}. `
+      `TinyGo V2 ABI mismatch (${profile}). Missing: ${missing.join(', ') || 'none'}. `
         + `Invalid: ${invalid.join(', ') || 'none'}.`
     );
   }

@@ -117,8 +117,8 @@ const wasmSimulationNavigationItems: NavigationItem[] = [
   },
   {
     id: 'wasm-validation-generic',
-    label: 'Generic 引擎验证',
-    summary: '目标 ABI compile/run/release 闭环'
+    label: '通用引擎验证',
+    summary: '通用目录物化后编译、运行与释放'
   }
 ];
 

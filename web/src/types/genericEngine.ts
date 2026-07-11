@@ -44,19 +44,155 @@ export type CompileResultMetadata = {
   formulaCount: number;
 };
 
+export type TypeCatalog = {
+  types: Array<{ key: string; domain: string; group?: string }>;
+  relations: Array<{ parent: string; child: string }>;
+};
+
+export type AttributeSlot = {
+  base: number;
+  current: number;
+  max: number;
+  resolved: number;
+};
+
+export type ResourceSlot = {
+  current: number;
+  max: number;
+};
+
+export type CombatantProviderMount = {
+  providerRef: string;
+  definitionRef: string;
+  initialState?: Record<string, unknown>;
+  initialAbilityState?: Record<string, unknown>;
+};
+
+export type CombatantDefinition = {
+  key: 'source' | 'target';
+  displayName?: string;
+  types?: string[];
+  tags?: string[];
+  attributes: Record<string, AttributeSlot>;
+  resources: Record<string, ResourceSlot>;
+  providers: CombatantProviderMount[];
+};
+
+export type GenericFormulaExpr = {
+  op: string;
+  value?: number;
+  path?: string;
+  ref?: string;
+  args?: GenericFormulaExpr[];
+  decimals?: number;
+  min?: GenericFormulaExpr;
+  max?: GenericFormulaExpr;
+  expr?: GenericFormulaExpr;
+};
+
+export type NamedFormula = {
+  key: string;
+  expression: GenericFormulaExpr;
+};
+
+export type OperationDefinition = {
+  operation: string;
+  target: string;
+  amount?: GenericFormulaExpr;
+  valuePolicy?: string;
+  damageType?: string;
+  resourceKey?: string;
+  attributeKey?: string;
+  abilityRef?: string;
+  shieldRef?: string;
+  providerDefinitionRef?: string;
+  providerRef?: string;
+  eventType?: string;
+  payload?: Record<string, unknown>;
+  types?: string[];
+  tags?: string[];
+  ref?: string;
+};
+
+export type ModifierDefinition = {
+  modifierKey: string;
+  kind: string;
+  target?: string;
+  command?: string;
+  channel?: string;
+  bucket?: string;
+  stage?: string;
+  priority?: number;
+  valuePolicy: string;
+  value: GenericFormulaExpr;
+  condition?: GenericFormulaExpr;
+};
+
+export type ListenerDefinition = {
+  listenerKey: string;
+  eventMatcher: { any?: string[]; all?: string[]; none?: string[] };
+  abilityRef?: string;
+  operations?: OperationDefinition[];
+  maxTriggersPerEvent?: number;
+  chainLimitKey?: string;
+};
+
+export type AbilityDefinition = {
+  abilityKey: string;
+  kind: 'active' | 'passive_listener' | 'aura_modifier' | 'tick' | 'stateful' | string;
+  types?: string[];
+  tags?: string[];
+  params?: Record<string, number>;
+  cost?: { resourceKey: string; amount: GenericFormulaExpr; allowPartial?: boolean };
+  cooldown?: { durationMs: GenericFormulaExpr; startsOn?: string; groupKey?: string };
+  operations?: OperationDefinition[];
+  listenerSpec?: ListenerDefinition;
+  tickSpec?: { intervalMs: number; onTick: OperationDefinition[]; startDelayMs?: number };
+  stateSchema?: Record<string, unknown>;
+};
+
+export type ProviderDefinition = {
+  providerKey: string;
+  kind: string;
+  stableId: string;
+  types?: string[];
+  tags?: string[];
+  abilities?: AbilityDefinition[];
+  modifiers?: ModifierDefinition[];
+  listeners?: ListenerDefinition[];
+  lifecycle?: {
+    durationMs?: GenericFormulaExpr;
+    maxStacks?: number;
+    refreshPolicy?: string;
+    tickIntervalMs?: number;
+  };
+  initialStateSchema?: Record<string, unknown>;
+};
+
+export type EmptyP0Rules = {
+  operations: [];
+  modifiers: [];
+  listeners: [];
+  triggerRules: [];
+};
+
+export type CompileSettings = {
+  maxEvents?: number;
+  maxCommandsPerEvent?: number;
+  maxQueueEvents?: number;
+  maxChainDepth?: number;
+};
+
 export type CompileRequest = {
   schemaVersion: string;
   schemaHash: string;
   rulesHash: string;
-  typeCatalog: {
-    types: Array<{ key: string; domain: string; group?: string }>;
-    relations: Array<{ parent: string; child: string }>;
-  };
-  combatants: unknown[];
-  sharedProviders?: unknown[];
-  rules: Record<string, unknown>;
-  formulas?: unknown[];
-  settings?: Record<string, unknown>;
+  typeCatalog: TypeCatalog;
+  combatants: CombatantDefinition[];
+  sharedProviders?: ProviderDefinition[];
+  rules: EmptyP0Rules;
+  formulas?: NamedFormula[];
+  settings?: CompileSettings;
 };
 
 export type CompileResult = {
@@ -70,16 +206,86 @@ export type CompileResult = {
   errors?: EngineError[];
 };
 
+export type CombatantProviderSnapshot = {
+  providerRef: string;
+  definitionRef: string;
+  source: 'source' | 'target';
+  owner: 'source' | 'target';
+  stacks: number;
+  expireAt: number | null;
+  state: Record<string, unknown>;
+};
+
+export type CombatantSnapshot = {
+  key: 'source' | 'target';
+  attributes: Record<string, AttributeSlot>;
+  resources: Record<string, ResourceSlot>;
+  cooldowns: Record<string, unknown>;
+  providers: CombatantProviderSnapshot[];
+  shields: unknown[];
+  abilityState: Record<string, unknown>;
+  providerState: Record<string, unknown>;
+  vars: Record<string, unknown>;
+};
+
+export type InitialSnapshot = {
+  schemaHash: string;
+  rulesHash: string;
+  timeMs: number;
+  combatants: CombatantSnapshot[];
+};
+
+export type DriverEntryRepeat = {
+  intervalMs: number;
+  maxAttempts?: number;
+};
+
+export type DriverEntry = {
+  entryKey: string;
+  abilityRef: string;
+  source: 'source' | 'target';
+  target: 'source' | 'target';
+  priority?: number;
+  firstAtMs: number;
+  repeat?: DriverEntryRepeat;
+  whileReady?: boolean | Record<string, unknown>;
+  condition?: GenericFormulaExpr;
+};
+
+export type DriverPlan = {
+  entries: DriverEntry[];
+  conditionRecheckIntervalMs: number;
+};
+
+export type StopPolicy = {
+  durationMs: number;
+  stopOnTargetDeath: boolean;
+  stopWhenNoEvents: boolean;
+};
+
+export type SamplingConfig = {
+  sampleEveryMs: number;
+  dpsWindowMs: number;
+  maxSeriesPoints: number;
+};
+
+export type SafetyBudget = {
+  maxChainDepth?: number;
+  maxCommandsPerEvent?: number;
+  maxEvents?: number;
+};
+
 export type RunRequest = {
   sessionId: string;
-  expectedRulesHash?: string;
-  schemaVersion?: string;
-  schemaHash?: string;
-  rulesHash?: string;
-  initialSnapshot: Record<string, unknown>;
-  driverPlan: Record<string, unknown>;
-  stopPolicy: Record<string, unknown>;
-  sampling?: Record<string, unknown>;
+  expectedRulesHash: string;
+  schemaVersion: string;
+  schemaHash: string;
+  rulesHash: string;
+  initialSnapshot: InitialSnapshot;
+  driverPlan: DriverPlan;
+  stopPolicy: StopPolicy;
+  sampling: SamplingConfig;
+  safetyBudget?: SafetyBudget;
 };
 
 export type RunSummary = {
@@ -135,6 +341,17 @@ export type EvidenceCollection = {
   countsByKind: Record<string, number>;
 };
 
+export type SeriesSamplingEvidence = {
+  requestedSampleEveryMs?: number;
+  actualSampleEveryMs?: number;
+  theoreticalPoints?: number;
+  actualPoints?: number;
+  maxSeriesPoints?: number;
+  downsampled?: boolean;
+  method?: string;
+  [key: string]: unknown;
+};
+
 export type DoneResult = {
   ok: boolean;
   summary: RunSummary;
@@ -142,7 +359,7 @@ export type DoneResult = {
   series: SeriesPoint[];
   warnings: WarningItem[];
   evidence: EvidenceCollection;
-  seriesSamplingEvidence: Record<string, unknown>;
+  seriesSamplingEvidence: SeriesSamplingEvidence;
 };
 
 export type GenericReleaseDonePayload = {
@@ -150,3 +367,17 @@ export type GenericReleaseDonePayload = {
   sessionId: string;
   released: boolean;
 };
+
+export const DEFAULT_STOP_POLICY: StopPolicy = {
+  durationMs: 10_000,
+  stopOnTargetDeath: true,
+  stopWhenNoEvents: true
+};
+
+export const DEFAULT_SAMPLING: SamplingConfig = {
+  sampleEveryMs: 100,
+  dpsWindowMs: 1000,
+  maxSeriesPoints: 5000
+};
+
+export const DEFAULT_CONDITION_RECHECK_INTERVAL_MS = 100;
