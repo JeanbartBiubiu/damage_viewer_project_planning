@@ -236,8 +236,8 @@ inspectV2DpsReadiness(bundle)
 
 允许写入：
 
-1. `C:\project\damage_backend_dev\db\game_manage\reserved_types_seed.sql`
-2. 如两个 worktree 保持镜像：`C:\project\damage_wasm_dev\db\game_manage\reserved_types_seed.sql`
+1. `C:\project\damage_backend_dev\db\game_manage\seeds\reserved_types_seed.sql`
+2. 如两个 worktree 保持镜像：`C:\project\damage_wasm_dev\db\game_manage\seeds\reserved_types_seed.sql`
 3. 必要的 README/设计说明同步，限于说明 reserved type 语义。
 
 不允许写入：
@@ -358,11 +358,11 @@ npm run build
 目标 repo / branch：
 
 1. `C:\project\damage_backend_dev`
-2. 如需要同步设计镜像，再处理 `C:\project\damage_wasm_dev\db\game_manage\reserved_types_seed.sql`。
+2. 如需要同步设计镜像，再处理 `C:\project\damage_wasm_dev\db\game_manage\seeds\reserved_types_seed.sql`。
 
 允许写入：
 
-1. `db/game_manage/reserved_types_seed.sql`
+1. `db/game_manage/seeds/reserved_types_seed.sql`
 2. 必要的 backend README/设计说明小段落。
 3. 若已有 seed/import 工具负责写 type relations，可最小化补充 runbook 或脚本参数。
 

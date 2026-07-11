@@ -22,8 +22,8 @@ LAST_TRACKED_AT: 2026-05-10
 
 只读参考：
 
-1. `db/game_manage/status_control_schema.sql`
-2. `db/game_manage/lol_status_action_control_rules_seed.sql`
+1. `db/game_manage/schema.sql`（状态动作控制基线段；历史曾为独立 `status_control_schema.sql`）
+2. `db/game_manage/seeds/lol_status_action_control_rules_seed.sql`
 3. `web/src/types/api.ts`
 
 ## 2. Model DTO
