@@ -41,6 +41,9 @@ class GameDataServiceCachePolicyTest {
     private Cache bundleCache;
 
     @Mock
+    private Cache wasmCatalogCache;
+
+    @Mock
     private Cache imagesCache;
 
     @Mock
@@ -116,6 +119,7 @@ class GameDataServiceCachePolicyTest {
         when(cacheManager.getCache("games")).thenReturn(gamesCache);
         when(cacheManager.getCache("currentVersion")).thenReturn(currentVersionCache);
         when(cacheManager.getCache("bundle")).thenReturn(bundleCache);
+        when(cacheManager.getCache("wasmCatalog")).thenReturn(wasmCatalogCache);
         when(cacheManager.getCache("images")).thenReturn(imagesCache);
         when(cacheManager.getCache("ownerCategories")).thenReturn(ownerCategoriesCache);
 
@@ -126,5 +130,55 @@ class GameDataServiceCachePolicyTest {
         verify(ownerCategoriesCache).clear();
         verify(currentVersionCache).clear();
         verify(bundleCache).clear();
+        verify(wasmCatalogCache).clear();
+    }
+
+    @Test
+    void upsertWasmCatalogSourceDoesNotEvictPublicCatalogCache() {
+        ObjectNode body = JsonNodeFactory.instance.objectNode().put("schemaVersion", "generic-p0");
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        when(writeStore.upsertWasmCatalogSource(anyString(), any(ObjectNode.class))).thenReturn(response);
+
+        service.upsertWasmCatalogSource("lol", body);
+
+        verify(cacheManager, never()).getCache("wasmCatalog");
+        verify(cacheManager, never()).getCache("bundle");
+        verify(cacheManager, never()).getCache("currentVersion");
+    }
+
+    @Test
+    void bootstrapLegacyAdcDoesNotEvictPublicCatalogCache() {
+        ObjectNode body = JsonNodeFactory.instance.objectNode().put("sourceVersionCode", "v1");
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        when(writeStore.insertWasmCatalogSourceIfAbsent(anyString(), any(ObjectNode.class))).thenReturn(response);
+        when(readStore.getWasmCatalogSource("lol")).thenReturn(null);
+        when(readStore.getPublishedBundleSnapshot("lol", "v1")).thenReturn(minimalLegacyBundle());
+        when(jsonSupport.requireText(body, "sourceVersionCode", "bootstrap")).thenReturn("v1");
+
+        service.bootstrapLegacyAdcWasmCatalogSource("lol", body);
+
+        verify(cacheManager, never()).getCache("wasmCatalog");
+        verify(cacheManager, never()).getCache("bundle");
+        verify(cacheManager, never()).getCache("currentVersion");
+        verify(writeStore, never()).publishVersion(anyString(), any(ObjectNode.class));
+    }
+
+    private ObjectNode minimalLegacyBundle() {
+        ObjectNode bundle = JsonNodeFactory.instance.objectNode();
+        var heroes = bundle.putArray("heroes");
+        for (String heroId : WasmLegacyAdcBootstrapAdapter.HERO_IDS) {
+            var hero = heroes.addObject();
+            hero.put("heroId", heroId);
+            hero.put("name", heroId);
+            hero.putObject("baseStats").put("hp", 1).put("ad", 1);
+        }
+        for (String dummyId : WasmLegacyAdcBootstrapAdapter.DUMMY_IDS) {
+            var hero = heroes.addObject();
+            hero.put("heroId", dummyId);
+            hero.put("name", dummyId);
+            hero.putObject("baseStats").put("hp", 1).put("ad", 0);
+        }
+        bundle.putArray("skills");
+        return bundle;
     }
 }

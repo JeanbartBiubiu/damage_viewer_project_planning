@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,10 +24,13 @@ public class GameDataService {
 
     private static final Pattern GAME_ID_PATTERN = Pattern.compile("^[a-z0-9_]+$");
     private static final Set<String> VERSION_PUBLISH_ALLOWED_FIELDS = Set.of("versionCode", "releaseDate");
+    private static final Set<String> LEGACY_ADC_BOOTSTRAP_ALLOWED_FIELDS = Set.of("sourceVersionCode");
+    private static final String LOL_GAME_ID = "lol";
     private static final List<String> READ_CACHE_NAMES = List.of(
         "games",
         "currentVersion",
         "bundle",
+        "wasmCatalog",
         "images",
         "ownerCategories"
     );
@@ -40,17 +44,30 @@ public class GameDataService {
     private final PostgresWriteStore writeStore;
     private final PostgresJsonSupport jsonSupport;
     private final CacheManager cacheManager;
+    private final WasmLegacyAdcBootstrapAdapter legacyAdcBootstrapAdapter;
 
+    @Autowired
     public GameDataService(
         PostgresReadStore readStore,
         PostgresWriteStore writeStore,
         PostgresJsonSupport jsonSupport,
         CacheManager cacheManager
     ) {
+        this(readStore, writeStore, jsonSupport, cacheManager, new WasmLegacyAdcBootstrapAdapter());
+    }
+
+    public GameDataService(
+        PostgresReadStore readStore,
+        PostgresWriteStore writeStore,
+        PostgresJsonSupport jsonSupport,
+        CacheManager cacheManager,
+        WasmLegacyAdcBootstrapAdapter legacyAdcBootstrapAdapter
+    ) {
         this.readStore = readStore;
         this.writeStore = writeStore;
         this.jsonSupport = jsonSupport;
         this.cacheManager = cacheManager;
+        this.legacyAdcBootstrapAdapter = legacyAdcBootstrapAdapter;
     }
 
     @Cacheable(cacheNames = "games", key = "'all'")
@@ -89,6 +106,76 @@ public class GameDataService {
             throw notFound("Published bundle snapshot not found", Map.of("gameId", gameId, "versionCode", versionCode));
         }
         return snapshot;
+    }
+
+    @Cacheable(cacheNames = "wasmCatalog", key = "#p0 + ':' + #p1")
+    public ObjectNode getWasmCatalog(String gameId, String versionCode) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode snapshot = readStore.getPublishedWasmCatalogSnapshot(gameId, versionCode);
+        if (snapshot == null) {
+            throw notFound(
+                "Published wasm catalog snapshot not found",
+                Map.of("gameId", gameId, "versionCode", versionCode)
+            );
+        }
+        return snapshot;
+    }
+
+    public ObjectNode getWasmCatalogSource(String gameId) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        ObjectNode source = readStore.getWasmCatalogSource(gameId);
+        if (source == null) {
+            throw notFound("Wasm catalog source not found", Map.of("gameId", gameId));
+        }
+        return source;
+    }
+
+    public ObjectNode upsertWasmCatalogSource(String gameId, ObjectNode body) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        jsonSupport.validateNoVersionFields(body, "");
+        // Source write must not change public catalog/cache.
+        return writeStore.upsertWasmCatalogSource(gameId, body);
+    }
+
+    /**
+     * Bootstrap an unpublished Wasm catalog source from a selected published legacy Bundle.
+     * Does not publish, switch current version, write catalog snapshots, or evict caches.
+     */
+    public ObjectNode bootstrapLegacyAdcWasmCatalogSource(String gameId, ObjectNode body) {
+        validateGameId(gameId);
+        assertGameExists(gameId);
+        if (body == null || body.isEmpty()) {
+            throw badRequest("Request body cannot be empty", Map.of("path", "/", "reason", "empty body"));
+        }
+        jsonSupport.validateAllowedTopLevelFields(body, LEGACY_ADC_BOOTSTRAP_ALLOWED_FIELDS);
+        String sourceVersionCode = jsonSupport.requireText(body, "sourceVersionCode", "bootstrap");
+        if (!LOL_GAME_ID.equals(gameId)) {
+            throw semantic(
+                "Legacy ADC bootstrap is only supported for gameId=lol",
+                Map.of("gameId", gameId)
+            );
+        }
+        // Fast path only; insertSourceIfAbsent remains the concurrency authority.
+        if (readStore.getWasmCatalogSource(gameId) != null) {
+            throw conflict("Wasm catalog source already exists", Map.of("gameId", gameId));
+        }
+        ObjectNode snapshot = readStore.getPublishedBundleSnapshot(gameId, sourceVersionCode);
+        if (snapshot == null) {
+            throw notFound(
+                "Published bundle snapshot not found",
+                Map.of("gameId", gameId, "versionCode", sourceVersionCode)
+            );
+        }
+        WasmLegacyAdcBootstrapAdapter.Result converted =
+            legacyAdcBootstrapAdapter.convert(snapshot, sourceVersionCode);
+        ObjectNode stored = writeStore.insertWasmCatalogSourceIfAbsent(gameId, converted.source());
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.set("source", stored);
+        response.set("importReport", converted.importReport());
+        return response;
     }
 
     @Cacheable(
@@ -601,5 +688,13 @@ public class GameDataService {
 
     private ApiException notFound(String message, Map<String, Object> details) {
         return new ApiException(HttpStatus.NOT_FOUND, "404.NOT_FOUND", message, details);
+    }
+
+    private ApiException conflict(String message, Map<String, Object> details) {
+        return new ApiException(HttpStatus.CONFLICT, "409.CONFLICT", message, details);
+    }
+
+    private ApiException semantic(String message, Map<String, Object> details) {
+        return new ApiException(HttpStatus.UNPROCESSABLE_ENTITY, "422.SEMANTIC_ERROR", message, details);
     }
 }

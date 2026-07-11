@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.WasmCatalogSourcesMapper">
+
+    <select id="findByGameId" resultType="map">
+        SELECT schema_version AS schemaVersion,
+               catalog_json::text AS catalogJson,
+               updated_at AS updatedAt
+        FROM public.wasm_catalog_sources
+        WHERE game_id = #{gameId}
+        LIMIT 1
+    </select>
+
+    <select id="listChangedSince" resultType="map">
+        SELECT schema_version AS schemaVersion,
+               catalog_json::text AS catalogJson,
+               updated_at AS updatedAt
+        FROM public.wasm_catalog_sources
+        WHERE game_id = #{gameId}
+          AND updated_at &gt; #{updatedAfter}
+    </select>
+
+    <update id="upsertSource">
+        INSERT INTO public.wasm_catalog_sources
+            (game_id, start_version_id, end_version_id, schema_version, catalog_json, updated_at)
+        VALUES
+            (#{gameId}, #{versionId}, #{versionId}, #{schemaVersion}, CAST(#{catalogJson} AS jsonb), NOW())
+        ON CONFLICT (game_id) DO UPDATE SET
+            start_version_id = EXCLUDED.start_version_id,
+            end_version_id = EXCLUDED.end_version_id,
+            schema_version = EXCLUDED.schema_version,
+            catalog_json = EXCLUDED.catalog_json,
+            updated_at = NOW()
+    </update>
+
+    <insert id="insertSourceIfAbsent">
+        INSERT INTO public.wasm_catalog_sources
+            (game_id, start_version_id, end_version_id, schema_version, catalog_json, updated_at)
+        VALUES
+            (#{gameId}, #{versionId}, #{versionId}, #{schemaVersion}, CAST(#{catalogJson} AS jsonb), NOW())
+        ON CONFLICT (game_id) DO NOTHING
+    </insert>
+
+    <update id="updateVersionRange">
+        UPDATE public.wasm_catalog_sources
+        SET start_version_id = #{versionId},
+            end_version_id = #{versionId}
+        WHERE game_id = #{gameId}
+    </update>
+
+    <update id="upsertSourceLog">
+        INSERT INTO public.wasm_catalog_sources_log
+            (game_id, start_version_id, end_version_id, schema_version, catalog_json)
+        VALUES
+            (#{gameId}, #{versionId}, #{versionId}, #{schemaVersion}, CAST(#{catalogJson} AS jsonb))
+        ON CONFLICT (game_id, start_version_id) DO UPDATE SET
+            end_version_id = EXCLUDED.end_version_id,
+            schema_version = EXCLUDED.schema_version,
+            catalog_json = EXCLUDED.catalog_json
+    </update>
+</mapper>

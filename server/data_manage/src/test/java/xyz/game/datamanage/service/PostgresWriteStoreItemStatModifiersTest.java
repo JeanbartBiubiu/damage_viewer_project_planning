@@ -35,6 +35,8 @@ import xyz.game.datamanage.mapper.ItemStatModifiersMapper;
 import xyz.game.datamanage.mapper.ItemsMapper;
 import xyz.game.datamanage.mapper.OwnerCategoriesMapper;
 import xyz.game.datamanage.mapper.PublishedBundleSnapshotsMapper;
+import xyz.game.datamanage.mapper.PublishedWasmCatalogSnapshotsMapper;
+import xyz.game.datamanage.mapper.WasmCatalogSourcesMapper;
 import xyz.game.datamanage.mapper.SkillMountsMapper;
 import xyz.game.datamanage.mapper.SkillsMapper;
 import xyz.game.datamanage.mapper.StatusActionControlRulesMapper;
@@ -113,6 +115,12 @@ class PostgresWriteStoreItemStatModifiersTest {
     private PublishedBundleSnapshotsMapper publishedBundleSnapshotsMapper;
 
     @Mock
+    private PublishedWasmCatalogSnapshotsMapper publishedWasmCatalogSnapshotsMapper;
+
+    @Mock
+    private WasmCatalogSourcesMapper wasmCatalogSourcesMapper;
+
+    @Mock
     private GamesMapper gamesMapper;
 
     @Mock
@@ -154,13 +162,16 @@ class PostgresWriteStoreItemStatModifiersTest {
             imagesMapper,
             ownerCategoriesMapper,
             publishedBundleSnapshotsMapper,
+            publishedWasmCatalogSnapshotsMapper,
+            wasmCatalogSourcesMapper,
             gamesMapper,
             gameProgressionSchemaMapper,
             gameVersionsMapper,
             editLogMapper,
             objectMapper,
             readStore,
-            new PostgresJsonSupport(objectMapper)
+            new PostgresJsonSupport(objectMapper),
+            new WasmCatalogValidator()
         );
     }
 

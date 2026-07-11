@@ -358,6 +358,26 @@ BEGIN
     EXCEPTION WHEN duplicate_table THEN
         NULL;
     END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.wasm_catalog_sources FOR VALUES IN (%L)',
+            'wasm_catalog_sources_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
+
+    BEGIN
+        EXECUTE format(
+            'CREATE TABLE %I PARTITION OF public.wasm_catalog_sources_log FOR VALUES IN (%L)',
+            'wasm_catalog_sources_log_' || v_game_id,
+            v_game_id
+        );
+    EXCEPTION WHEN duplicate_table THEN
+        NULL;
+    END;
 END;
 $$;
 
