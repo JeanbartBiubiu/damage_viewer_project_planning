@@ -3,7 +3,7 @@ DOC_TYPE: 概要设计
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-06
+LAST_TRACKED_AT: 2026-07-11
 
 # WASM 前后端对齐整改方案
 
@@ -128,20 +128,26 @@ W0 评审点：如果决定让后端 P0 直接生成完整场景级 `CompileRequ
 
 暂不建议在 W0 阶段新增跨仓 shared package。原因是 schema 还未由 B1 代码落盘，过早抽 shared package 会把尚未稳定的 DTO 再复制一次。B1 后可以评估从 Go DTO 或 JSON schema 生成 TypeScript 类型。
 
-## 6. 禁用旧口径
+## 6. 禁用旧口径与 Deprecated 边界
 
 后端和前端整改时，以下词只能出现在 legacy、compat、迁移说明、负例 fixture 或旧页面内部，不得进入新 Wasm ABI payload：
 
-| 旧口径 | P0 替代 |
-| --- | --- |
-| `EngineBundleV2` | `CompileRequest` |
-| `ActionTemplateV2` | `AbilityDefinition` / driver event |
-| `skill` 作为 Wasm 路径根 | `ability` |
-| `skill_mounts` | provider mount |
-| `definitionKey` | `definitionRef` |
-| 数组式 `attributes/resources` | object map |
-| `single_attacker_dps` | legacy/compat fixture 或回归对照 |
-| `target_category=hero` | canonical type/tag 或 selector |
+| 旧口径 | P0 替代 | 新通用 Wasm 状态 |
+| --- | --- | --- |
+| `EngineBundleV2` | `CompileRequest` | Deprecated |
+| `ActionTemplateV2` | `AbilityDefinition` / driver event | Deprecated |
+| `skill` 作为 Wasm 路径根 | `ability` | Deprecated |
+| `skill_mounts` | provider mount | Deprecated |
+| `definitionKey` | `definitionRef` | Deprecated |
+| 数组式 `attributes/resources` | object map | Deprecated |
+| `single_attacker_dps` | legacy/compat fixture 或回归对照 | Deprecated |
+| `target_category=hero` | canonical type/tag 或 selector | Deprecated |
+
+这里的 `Deprecated` **只作用于新通用 Wasm 主链路**：新 Worker、Catalog materializer 与 `CompileRequest` 不得再直接依赖这些口径。它不等于立即删库、删接口或停止旧页面；仍被 legacy 页面、历史回放或兼容回归使用的实现保持运行，直到单独的下线任务完成。
+
+后端侧对应的旧 Bundle 数据面也采用同一限定状态：`GameDataBundleV1`、`published_bundle_snapshots`、legacy 原始表（含 `heroes`、`skills`、`skill_mounts`、`mechanics_config`）以及 `GET /api/games/{gameId}/versions/{versionCode}/bundle`，均是 **Deprecated for direct new-Wasm consumption**，但不是全局废弃资产。新 Wasm 只能消费版本化 `WasmCatalogV1`；旧数据面继续服务旧页面、普通数据管理、历史 Bundle 与受控 Bootstrap。
+
+任何物理下线必须另开迁移任务，并同时满足：新 Catalog 覆盖目标数据、所有新旧消费者完成迁移、历史版本保留策略到期、双链路发布回归通过；在此之前不得删除表、快照或接口。
 
 任何 worker 如果需要把旧数据送入新 Wasm，必须先写 adapter 转换为 canonical payload。
 
