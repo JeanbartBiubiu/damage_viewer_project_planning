@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.PublishedWasmCatalogSnapshotsMapper">
+
+    <select id="findCatalogSnapshotJson" resultType="string">
+        SELECT catalog_json::text
+        FROM public.published_wasm_catalog_snapshots
+        WHERE game_id = #{gameId}
+          AND version_code = #{versionCode}
+        LIMIT 1
+    </select>
+
+    <update id="upsertCatalogSnapshot">
+        INSERT INTO public.published_wasm_catalog_snapshots
+            (game_id, version_id, version_code, schema_version, schema_hash, rules_hash, catalog_json, created_at)
+        VALUES
+            (#{gameId}, #{versionId}, #{versionCode}, #{schemaVersion}, #{schemaHash}, #{rulesHash},
+             CAST(#{catalogJson} AS jsonb), NOW())
+        ON CONFLICT (game_id, version_code)
+        DO UPDATE SET
+            version_id = EXCLUDED.version_id,
+            schema_version = EXCLUDED.schema_version,
+            schema_hash = EXCLUDED.schema_hash,
+            rules_hash = EXCLUDED.rules_hash,
+            catalog_json = EXCLUDED.catalog_json,
+            created_at = NOW()
+    </update>
+</mapper>

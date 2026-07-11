@@ -27,4 +27,12 @@ public class VersionPublicController {
     public ResponseEntity<ObjectNode> getBundle(@PathVariable("gameId") String gameId, @PathVariable("versionCode") String versionCode) {
         return ResponseEntity.ok(gameDataService.getBundle(gameId, versionCode));
     }
+
+    @GetMapping("/{versionCode}/wasm-catalog")
+    public ResponseEntity<ObjectNode> getWasmCatalog(
+        @PathVariable("gameId") String gameId,
+        @PathVariable("versionCode") String versionCode
+    ) {
+        return ResponseEntity.ok(gameDataService.getWasmCatalog(gameId, versionCode));
+    }
 }
