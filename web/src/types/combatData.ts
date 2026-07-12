@@ -1,0 +1,398 @@
+import type { JsonObject } from './api';
+
+/** Public combat-data envelope: list endpoints use T[], object endpoints use T. */
+export type CombatDataEnvelope<T> = {
+  gameId: string;
+  currentRevision: number;
+  data: T;
+};
+
+export type CombatDataRowMeta = {
+  gameId: string;
+  changeRevision: number;
+  updatedAt: string;
+};
+
+export type CombatDataState = {
+  gameId: string;
+  currentRevision: number;
+  publishedRevision: number;
+  updatedAt: string;
+};
+
+export type ProgressionSchema = CombatDataRowMeta & {
+  progressionKind: 'LEVEL' | 'STAR' | string;
+  stageMin: number;
+  stageMax: number;
+  stageLabel: string;
+  requireAllStages: boolean;
+};
+
+export type AttributeDefinition = CombatDataRowMeta & {
+  attrKey: string;
+  sortOrder: number;
+  attrName?: string;
+  attrType?: string;
+  defaultValue?: number;
+  valueKind: string;
+  rateTargetAttrKey?: string;
+  minValue?: number;
+  maxValue?: number;
+};
+
+export type ResourceDefinition = CombatDataRowMeta & {
+  resourceKey: string;
+  displayName: string;
+  defaultInitialValue: number;
+  defaultMaxValue: number;
+};
+
+export type TypeDefinition = CombatDataRowMeta & {
+  typeId: number;
+  typeKey: string;
+  name?: string;
+  description?: string;
+  reservedTypeId?: number;
+};
+
+export const COMBAT_TYPE_RELATION_TARGET_CATEGORIES = [
+  'entity',
+  'attribute',
+  'resource',
+  'provider',
+  'ability',
+  'ability_phase',
+  'modifier',
+  'listener',
+  'effect_step',
+  'type'
+] as const;
+
+export type CombatTypeRelationTargetCategory = (typeof COMBAT_TYPE_RELATION_TARGET_CATEGORIES)[number];
+
+export type TypeRelation = CombatDataRowMeta & {
+  typeId: number;
+  targetCategory: string;
+  targetId: string;
+  extend?: JsonObject;
+};
+
+export type CombatEntity = CombatDataRowMeta & {
+  entityId: string;
+  displayName: string;
+  description?: string;
+};
+
+export type EntityAttribute = CombatDataRowMeta & {
+  entityId: string;
+  attrKey: string;
+  baseValue: number;
+};
+
+export type EntityAttributeStage = CombatDataRowMeta & {
+  entityId: string;
+  attrKey: string;
+  stage: number;
+  value: number;
+};
+
+export type EntityResource = CombatDataRowMeta & {
+  entityId: string;
+  resourceKey: string;
+  initialValue: number;
+  maxValue: number;
+};
+
+export type EntityResourceStage = CombatDataRowMeta & {
+  entityId: string;
+  resourceKey: string;
+  stage: number;
+  initialValue: number;
+  maxValue: number;
+};
+
+export type EntityProviderMount = CombatDataRowMeta & {
+  entityId: string;
+  providerId: string;
+};
+
+export type Provider = CombatDataRowMeta & {
+  providerId: string;
+  providerKindTypeId: number;
+  displayName: string;
+};
+
+export type ProviderLifecycle = CombatDataRowMeta & {
+  providerId: string;
+  durationFormulaKey?: string;
+  maxStacks: number;
+  refreshPolicyTypeId?: number;
+  tickIntervalMs?: number;
+  startDelayMs?: number;
+};
+
+export type ProviderStateField = CombatDataRowMeta & {
+  providerId: string;
+  stateKey: string;
+  valueTypeId: number;
+};
+
+export type ProviderFormula = CombatDataRowMeta & {
+  providerId: string;
+  formulaKey: string;
+  expression: JsonObject;
+};
+
+export type ProviderModifier = CombatDataRowMeta & {
+  providerId: string;
+  modifierId: string;
+  modifierKey: string;
+  modifierTypeId?: number;
+  targetSelectorTypeId: number;
+  targetAttrKey: string;
+  commandTypeId?: number;
+  channelTypeId?: number;
+  bucketTypeId?: number;
+  stageTypeId?: number;
+  priority: number;
+  valuePolicyTypeId: number;
+  valueFormulaKey: string;
+  conditionFormulaKey?: string;
+};
+
+export type ProviderListener = CombatDataRowMeta & {
+  providerId: string;
+  listenerId: string;
+  listenerKey: string;
+  eventTypeId: number;
+  abilityId?: string;
+  maxTriggersPerEvent?: number;
+  chainLimitKey?: string;
+};
+
+export type ListenerMatchType = CombatDataRowMeta & {
+  listenerId: string;
+  matchModeTypeId: number;
+  typeId: number;
+};
+
+export type ProviderTickSequence = CombatDataRowMeta & {
+  providerId: string;
+  sequenceId: string;
+};
+
+export type Ability = CombatDataRowMeta & {
+  abilityId: string;
+  providerId: string;
+  abilityKey: string;
+  abilityKindTypeId: number;
+  displayName: string;
+};
+
+export type AbilityParameter = CombatDataRowMeta & {
+  abilityId: string;
+  paramKey: string;
+  numericValue: number;
+};
+
+export type AbilityStateField = CombatDataRowMeta & {
+  abilityId: string;
+  stateKey: string;
+  valueTypeId: number;
+};
+
+export type AbilityPhase = CombatDataRowMeta & {
+  phaseId: string;
+  abilityId: string;
+  phaseOrder: number;
+  phaseTypeId: number;
+  durationFormulaKey?: string;
+  interruptible: boolean;
+};
+
+export type AbilityCost = CombatDataRowMeta & {
+  costId: string;
+  abilityId: string;
+  phaseId?: string;
+  resourceKey: string;
+  amountFormulaKey: string;
+  allowPartial: boolean;
+};
+
+export type AbilityCooldown = CombatDataRowMeta & {
+  cooldownId: string;
+  abilityId: string;
+  durationFormulaKey: string;
+  startsOnPhaseId?: string;
+  groupKey?: string;
+};
+
+export type EffectSequence = CombatDataRowMeta & {
+  sequenceId: string;
+  providerId: string;
+  sequenceKey: string;
+  displayName?: string;
+};
+
+export type AbilityPhaseEffectSequence = CombatDataRowMeta & {
+  phaseId: string;
+  triggerTypeId: number;
+  sequenceId: string;
+};
+
+export type ListenerEffectSequence = CombatDataRowMeta & {
+  listenerId: string;
+  sequenceId: string;
+};
+
+export const EFFECT_STEP_DETAIL_KEYS = [
+  'damageDetail',
+  'healDetail',
+  'resourceDetail',
+  'attributeDetail',
+  'shieldDetail',
+  'providerDetail',
+  'eventDetail',
+  'abilityControlDetail',
+  'stateDetail'
+] as const;
+
+export type EffectStepDetailKey = (typeof EFFECT_STEP_DETAIL_KEYS)[number];
+
+export type DamageDetail = {
+  amountFormulaKey: string;
+  damageTypeId: number;
+  valuePolicyTypeId: number;
+};
+
+export type HealDetail = {
+  amountFormulaKey: string;
+  valuePolicyTypeId: number;
+};
+
+export type ResourceDetail = {
+  resourceKey: string;
+  amountFormulaKey: string;
+  valuePolicyTypeId: number;
+};
+
+export type AttributeDetail = {
+  attrKey: string;
+  amountFormulaKey: string;
+  valuePolicyTypeId: number;
+};
+
+export type ShieldDetail = {
+  shieldRef: string;
+  amountFormulaKey: string;
+  durationFormulaKey?: string;
+  valuePolicyTypeId: number;
+};
+
+export type ProviderDetail = {
+  actionTypeId: number;
+  targetProviderId: string;
+  stacksFormulaKey?: string;
+  durationFormulaKey?: string;
+};
+
+export type EventDetail = {
+  eventTypeId: number;
+  eventRef?: string;
+  payload?: JsonObject;
+};
+
+export type AbilityControlDetail = {
+  actionTypeId: number;
+  targetAbilityId: string;
+  amountFormulaKey?: string;
+  valuePolicyTypeId?: number;
+};
+
+export type StateDetail = {
+  stateScopeTypeId: number;
+  stateKey: string;
+  amountFormulaKey: string;
+  valuePolicyTypeId: number;
+};
+
+export type EffectStepCommon = CombatDataRowMeta & {
+  stepId: string;
+  sequenceId: string;
+  stepOrder: number;
+  operationTypeId: number;
+  targetSelectorTypeId: number;
+  conditionFormulaKey?: string;
+};
+
+export type EffectStep =
+  | (EffectStepCommon & { damageDetail: DamageDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'damageDetail'>, never>>)
+  | (EffectStepCommon & { healDetail: HealDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'healDetail'>, never>>)
+  | (EffectStepCommon & { resourceDetail: ResourceDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'resourceDetail'>, never>>)
+  | (EffectStepCommon & { attributeDetail: AttributeDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'attributeDetail'>, never>>)
+  | (EffectStepCommon & { shieldDetail: ShieldDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'shieldDetail'>, never>>)
+  | (EffectStepCommon & { providerDetail: ProviderDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'providerDetail'>, never>>)
+  | (EffectStepCommon & { eventDetail: EventDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'eventDetail'>, never>>)
+  | (EffectStepCommon & {
+      abilityControlDetail: AbilityControlDetail;
+    } & Partial<Record<Exclude<EffectStepDetailKey, 'abilityControlDetail'>, never>>)
+  | (EffectStepCommon & { stateDetail: StateDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'stateDetail'>, never>>);
+
+export type EffectStepPutBody = {
+  sequenceId: string;
+  stepOrder: number;
+  operationTypeId: number;
+  targetSelectorTypeId: number;
+  conditionFormulaKey?: string;
+} & (
+  | { damageDetail: DamageDetail }
+  | { healDetail: HealDetail }
+  | { resourceDetail: ResourceDetail }
+  | { attributeDetail: AttributeDetail }
+  | { shieldDetail: ShieldDetail }
+  | { providerDetail: ProviderDetail }
+  | { eventDetail: EventDetail }
+  | { abilityControlDetail: AbilityControlDetail }
+  | { stateDetail: StateDetail }
+);
+
+/** Admin PUT response = written row fields + top-level currentRevision. */
+export type AdminWriteResponse<T> = T & {
+  currentRevision: number;
+};
+
+/** Snapshot used by Web→Wasm assembly and revision-safe cache. */
+export type CombatDataGraph = {
+  gameId: string;
+  currentRevision: number;
+  state: CombatDataState;
+  progressionSchema: ProgressionSchema | null;
+  attributeDefinitions: AttributeDefinition[];
+  resourceDefinitions: ResourceDefinition[];
+  types: TypeDefinition[];
+  typeRelations: TypeRelation[];
+  entities: CombatEntity[];
+  entityAttributes: EntityAttribute[];
+  entityAttributeStages: EntityAttributeStage[];
+  entityResources: EntityResource[];
+  entityResourceStages: EntityResourceStage[];
+  entityProviderMounts: EntityProviderMount[];
+  providers: Provider[];
+  providerLifecycles: ProviderLifecycle[];
+  providerStateFields: ProviderStateField[];
+  providerFormulas: ProviderFormula[];
+  providerModifiers: ProviderModifier[];
+  providerListeners: ProviderListener[];
+  listenerMatchTypes: ListenerMatchType[];
+  providerTickSequences: ProviderTickSequence[];
+  abilities: Ability[];
+  abilityParameters: AbilityParameter[];
+  abilityStateFields: AbilityStateField[];
+  abilityPhases: AbilityPhase[];
+  abilityCosts: AbilityCost[];
+  abilityCooldowns: AbilityCooldown[];
+  effectSequences: EffectSequence[];
+  effectSteps: EffectStep[];
+  abilityPhaseEffectSequences: AbilityPhaseEffectSequence[];
+  listenerEffectSequences: ListenerEffectSequence[];
+};
