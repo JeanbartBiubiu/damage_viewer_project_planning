@@ -741,7 +741,7 @@ export function WasmValidationGenericPage({
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label="攻击方装备（最多 6 件，静态属性）">
+          <Form.Item label="攻击方装备（最多 6 件）">
             <Select
               mode="multiple"
               allowClear
@@ -752,7 +752,8 @@ export function WasmValidationGenericPage({
             />
           </Form.Item>
           <Typography.Text type="secondary">
-            攻击方装备的静态属性会聚合到源战斗单位；物品被动尚未纳入。
+            所选装备的静态属性会聚合到攻击方；数据库已为装备配置的 provider
+            被动会随装备挂载到攻击方，未配置 provider 的装备仍只有静态属性。
           </Typography.Text>
         </Form>
       </Panel>

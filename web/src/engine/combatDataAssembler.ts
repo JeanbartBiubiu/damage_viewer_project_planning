@@ -155,9 +155,19 @@ export function assembleCompileRequest(
     selection.sourceEquipmentEntityIds
   );
 
-  const sourceMountIds = graph.entityProviderMounts
+  const heroMountIds = graph.entityProviderMounts
     .filter((m) => m.entityId === sourceEntity.entityId)
     .map((m) => m.providerId);
+  const equipmentMountIds: string[] = [];
+  for (const equipmentId of sourceEquipmentEntityIds) {
+    for (const mount of graph.entityProviderMounts) {
+      if (mount.entityId === equipmentId) {
+        equipmentMountIds.push(mount.providerId);
+      }
+    }
+  }
+  // Hero mounts first, then selected equipment mounts (selection order); dedupe preserves order.
+  const sourceMountIds = unique([...heroMountIds, ...equipmentMountIds]);
   const targetMountIds = graph.entityProviderMounts
     .filter((m) => m.entityId === targetEntity.entityId)
     .map((m) => m.providerId);
