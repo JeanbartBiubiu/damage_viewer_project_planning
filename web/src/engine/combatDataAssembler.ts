@@ -895,7 +895,13 @@ function mapEffectStep(
   const target = abiToken(targetKey);
 
   const detailKey = detectDetailKey(step);
-  const base: OperationDefinition = { operation, target };
+  const base: OperationDefinition = {
+    operation,
+    target,
+    ...(step.conditionFormulaKey
+      ? { condition: formulaRef(slot, step.conditionFormulaKey) }
+      : {})
+  };
 
   switch (detailKey) {
     case 'damageDetail': {
