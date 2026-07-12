@@ -143,6 +143,7 @@ type OperationDefinition struct {
 	Types                 []string               `json:"types,omitempty"`
 	Tags                  []string               `json:"tags,omitempty"`
 	Ref                   string                 `json:"ref,omitempty"`
+	Condition             *GenericFormulaExpr    `json:"condition,omitempty"`
 }
 
 // ModifierDefinition 是 provider 级 modifier。

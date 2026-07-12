@@ -1,0 +1,687 @@
+package runtime
+
+import (
+	"encoding/json"
+	"testing"
+
+	"tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/model"
+)
+
+func ensureDamageTrueType(req *model.CompileRequest) {
+	for _, t := range req.TypeCatalog.Types {
+		if t.Key == "damage/true" {
+			return
+		}
+	}
+	req.TypeCatalog.Types = append(req.TypeCatalog.Types, model.TypeCatalogEntry{Key: "damage/true", Domain: "damage"})
+}
+
+func gteHitsCond(threshold float64) *model.GenericFormulaExpr {
+	th := threshold
+	return &model.GenericFormulaExpr{
+		Op: "gte",
+		Args: []model.GenericFormulaExpr{
+			{Op: "read", Path: "provider.target_state.hits"},
+			{Op: "const", Value: &th},
+		},
+	}
+}
+
+func silverBoltsStyleOps(bonus float64) []model.OperationDefinition {
+	one := 1.0
+	zero := 0.0
+	return []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/provider_target"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/true",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &bonus},
+			Condition:  gteHitsCond(3),
+		},
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/provider_target"},
+			ValuePolicy: "override",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &zero},
+			Condition:   gteHitsCond(3),
+		},
+	}
+}
+
+func TestGenericRunConditionFalseSkipsOperationSideEffect(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	zero := 0.0
+	fifty := 50.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/true",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &fifty},
+			Condition:  &model.GenericFormulaExpr{Op: "const", Value: &zero},
+		},
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.TargetFinalHp != 1000 {
+		t.Fatalf("targetFinalHp=%v want 1000 (condition false skips damage)", done.Summary.TargetFinalHp)
+	}
+}
+
+func TestGenericRunSilverBoltsStyleHitSequenceProcAndReset(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	bonus := 50.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = silverBoltsStyleOps(bonus)
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "h1", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "h2", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 100},
+		{EntryKey: "h3", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 200},
+		{EntryKey: "h4", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 300},
+	}
+	runReq.StopPolicy.DurationMs = 500
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// hits 1/2: no bonus; hit 3: +50 then reset; hit 4: stack=1 no bonus => total bonus 50
+	if done.Summary.TargetFinalHp != 950 {
+		t.Fatalf("targetFinalHp=%v want 950 (only hit3 bonus 50)", done.Summary.TargetFinalHp)
+	}
+	var sourceSnap model.CombatantSnapshot
+	for _, c := range done.FinalSnapshot.Combatants {
+		if c.Key == model.SelectorSource {
+			sourceSnap = c
+		}
+	}
+	bag, ok := sourceSnap.ProviderState["champion:source_demo"].(map[string]interface{})
+	if !ok {
+		t.Fatalf("providerState shape missing: %+v", sourceSnap.ProviderState)
+	}
+	ts, ok := bag["targetState"].(map[string]interface{})
+	if !ok {
+		t.Fatalf("targetState missing in stable shape: %+v", bag)
+	}
+	values, ok := ts["values"].(map[string]interface{})
+	if !ok {
+		t.Fatalf("targetState.values missing: %+v", ts)
+	}
+	if hits, _ := values["hits"].(float64); hits != 1 {
+		t.Fatalf("after hit4 hits=%v want 1 (restarted after reset)", hits)
+	}
+}
+
+func TestGenericRunProviderTargetStateSwitchClearsPreviousTarget(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	bonus := 50.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = silverBoltsStyleOps(bonus)
+	// A=target twice, B=source once, A=target once -> no proc
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "a1", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "a2", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 100},
+		{EntryKey: "b1", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "source", FirstAtMs: 200},
+		{EntryKey: "a3", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 300},
+	}
+	runReq.StopPolicy.DurationMs = 500
+	// Give source HP so self-target damage path is safe if bonus ever fired on B.
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key == model.SelectorSource {
+			runReq.InitialSnapshot.Combatants[i].Attributes["hp"] = model.AttributeSlotDef{Base: 1000, Current: 1000, Max: 1000, Resolved: 1000}
+		}
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.TargetFinalHp != 1000 {
+		t.Fatalf("targetFinalHp=%v want 1000 (A->B->A must not proc)", done.Summary.TargetFinalHp)
+	}
+	if done.Summary.SourceFinalHp != 1000 {
+		t.Fatalf("sourceFinalHp=%v want 1000 (B hit must not proc)", done.Summary.SourceFinalHp)
+	}
+}
+
+func TestGenericRunProviderStateDistinctFromTargetState(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	one := 1.0
+	seven := 7.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "counter",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &seven},
+		},
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/provider_target"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var sourceSnap model.CombatantSnapshot
+	for _, c := range done.FinalSnapshot.Combatants {
+		if c.Key == model.SelectorSource {
+			sourceSnap = c
+		}
+	}
+	bag := sourceSnap.ProviderState["champion:source_demo"].(map[string]interface{})
+	state := bag["state"].(map[string]interface{})
+	if state["counter"].(float64) != 7 {
+		t.Fatalf("provider.state.counter=%v want 7", state["counter"])
+	}
+	ts := bag["targetState"].(map[string]interface{})
+	values := ts["values"].(map[string]interface{})
+	if values["hits"].(float64) != 1 {
+		t.Fatalf("target hits=%v want 1", values["hits"])
+	}
+	if _, exists := state["hits"]; exists {
+		t.Fatal("provider.state must stay distinct from target-bound hits")
+	}
+}
+
+func TestGenericRunProviderListenerIsolatedByOwnerCombatant(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	compileReq.TypeCatalog.Types = append(compileReq.TypeCatalog.Types,
+		model.TypeCatalogEntry{Key: "event/on_hit", Domain: "event"},
+		model.TypeCatalogEntry{Key: "event/source_owner", Domain: "event"},
+	)
+	bonus := 25.0
+	compileReq.Combatants[1].Providers = []model.CombatantProviderMount{
+		{ProviderRef: "champion:source_demo", DefinitionRef: "champion:source_demo"},
+	}
+	runReq.InitialSnapshot.Combatants[1].Providers = []model.CombatantProviderSnapshot{
+		{ProviderRef: "champion:source_demo", DefinitionRef: "champion:source_demo", Stacks: 1, State: map[string]interface{}{}},
+	}
+	compileReq.SharedProviders[0].Listeners = []model.ListenerDefinition{
+		{
+			ListenerKey:  "on_hit_stack",
+			EventMatcher: model.TypeMatcher{All: []string{"event/on_hit", "event/source_owner"}},
+			Operations: []model.OperationDefinition{
+				{
+					Operation:  "damage",
+					Target:     "target",
+					DamageType: "damage/true",
+					Amount:     &model.GenericFormulaExpr{Op: "const", Value: &bonus},
+				},
+			},
+		},
+	}
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{Operation: "emit_event", Target: "target", EventType: "event/on_hit", Ref: "event/on_hit"},
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	if len(result.Session.Listeners) < 2 {
+		t.Fatalf("expected bound listeners on both mounts, got %d", len(result.Session.Listeners))
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// Only owner's (source) listener matches source_owner => one 25 damage.
+	if done.Summary.TargetFinalHp != 975 {
+		t.Fatalf("targetFinalHp=%v want 975 (owner listener only)", done.Summary.TargetFinalHp)
+	}
+}
+
+func mountEmitOnlyOpponent(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey: "utility:emit_hit",
+		Kind:        "utility",
+		StableID:    "emit_hit",
+		Abilities: []model.AbilityDefinition{
+			{
+				AbilityKey: "emit",
+				Kind:       "active",
+				Operations: []model.OperationDefinition{
+					{Operation: "emit_event", Target: "target", EventType: "event/on_hit", Ref: "event/on_hit"},
+				},
+			},
+		},
+	})
+	compileReq.Combatants[1].Providers = []model.CombatantProviderMount{
+		{ProviderRef: "utility:emit_hit", DefinitionRef: "utility:emit_hit"},
+	}
+	runReq.InitialSnapshot.Combatants[1].Providers = []model.CombatantProviderSnapshot{
+		{ProviderRef: "utility:emit_hit", DefinitionRef: "utility:emit_hit", Stacks: 1, State: map[string]interface{}{}},
+	}
+	// Source/Target are role selectors: both "target" means the target combatant casts at itself.
+	runReq.DriverPlan.Entries[0].AbilityRef = "target.provider[utility:emit_hit].ability[emit]"
+	runReq.DriverPlan.Entries[0].Source = "target"
+	runReq.DriverPlan.Entries[0].Target = "target"
+}
+
+func ensureSourceHP(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	hp := model.AttributeSlotDef{Base: 1000, Current: 1000, Max: 1000, Resolved: 1000}
+	compileReq.Combatants[0].Attributes["hp"] = hp
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key == model.SelectorSource {
+			runReq.InitialSnapshot.Combatants[i].Attributes["hp"] = hp
+		}
+	}
+}
+
+func TestGenericRunProviderListenerDefaultAnyStillReceivesOpponentSourcedEvents(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	ensureSourceHP(&compileReq, &runReq)
+	compileReq.TypeCatalog.Types = append(compileReq.TypeCatalog.Types, model.TypeCatalogEntry{Key: "event/on_hit", Domain: "event"})
+	bonus := 40.0
+	compileReq.SharedProviders[0].Listeners = []model.ListenerDefinition{
+		{
+			ListenerKey:  "any_on_hit",
+			EventMatcher: model.TypeMatcher{Any: []string{"event/on_hit"}},
+			Operations: []model.OperationDefinition{
+				{
+					Operation:  "damage",
+					Target:     "target",
+					DamageType: "damage/true",
+					Amount:     &model.GenericFormulaExpr{Op: "const", Value: &bonus},
+				},
+			},
+		},
+	}
+	mountEmitOnlyOpponent(&compileReq, &runReq)
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// Opponent emit; source-owned default-any listener still fires and damages remapped opponent (target).
+	if done.Summary.TargetFinalHp != 960 {
+		t.Fatalf("targetFinalHp=%v want 960 (default-any listener reacts to opponent-sourced event)", done.Summary.TargetFinalHp)
+	}
+}
+
+func TestGenericRunProviderListenerAllSourceOwnerRequiresOwnerSourcedEvent(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	ensureSourceHP(&compileReq, &runReq)
+	compileReq.TypeCatalog.Types = append(compileReq.TypeCatalog.Types,
+		model.TypeCatalogEntry{Key: "event/on_hit", Domain: "event"},
+		model.TypeCatalogEntry{Key: "event/source_owner", Domain: "event"},
+	)
+	bonus := 40.0
+	compileReq.SharedProviders[0].Listeners = []model.ListenerDefinition{
+		{
+			ListenerKey:  "owner_only_hit",
+			EventMatcher: model.TypeMatcher{All: []string{"event/on_hit", "event/source_owner"}},
+			Operations: []model.OperationDefinition{
+				{
+					Operation:  "damage",
+					Target:     "target",
+					DamageType: "damage/true",
+					Amount:     &model.GenericFormulaExpr{Op: "const", Value: &bonus},
+				},
+			},
+		},
+	}
+	mountEmitOnlyOpponent(&compileReq, &runReq)
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.TargetFinalHp != 1000 {
+		t.Fatalf("targetFinalHp=%v want 1000 (ALL source_owner ignores opponent-sourced event)", done.Summary.TargetFinalHp)
+	}
+	if done.Summary.SourceFinalHp != 1000 {
+		t.Fatalf("sourceFinalHp=%v want 1000", done.Summary.SourceFinalHp)
+	}
+}
+
+func TestGenericRunProviderListenerSourceOpponentMatchesTargetSideReactive(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	ensureSourceHP(&compileReq, &runReq)
+	compileReq.TypeCatalog.Types = append(compileReq.TypeCatalog.Types,
+		model.TypeCatalogEntry{Key: "event/on_hit", Domain: "event"},
+		model.TypeCatalogEntry{Key: "event/source_opponent", Domain: "event"},
+	)
+	bonus := 30.0
+	compileReq.Combatants[1].Providers = []model.CombatantProviderMount{
+		{ProviderRef: "champion:source_demo", DefinitionRef: "champion:source_demo"},
+	}
+	runReq.InitialSnapshot.Combatants[1].Providers = []model.CombatantProviderSnapshot{
+		{ProviderRef: "champion:source_demo", DefinitionRef: "champion:source_demo", Stacks: 1, State: map[string]interface{}{}},
+	}
+	compileReq.SharedProviders[0].Listeners = []model.ListenerDefinition{
+		{
+			ListenerKey:  "reactive_on_opponent_hit",
+			EventMatcher: model.TypeMatcher{All: []string{"event/on_hit", "event/source_opponent"}},
+			Operations: []model.OperationDefinition{
+				{
+					Operation:  "damage",
+					Target:     "target",
+					DamageType: "damage/true",
+					Amount:     &model.GenericFormulaExpr{Op: "const", Value: &bonus},
+				},
+			},
+		},
+	}
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{Operation: "emit_event", Target: "target", EventType: "event/on_hit", Ref: "event/on_hit"},
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.TargetFinalHp != 1000 {
+		t.Fatalf("targetFinalHp=%v want 1000 (source-owned source_opponent does not match own emit)", done.Summary.TargetFinalHp)
+	}
+	if done.Summary.SourceFinalHp != 970 {
+		t.Fatalf("sourceFinalHp=%v want 970 (target-side source_opponent listener)", done.Summary.SourceFinalHp)
+	}
+}
+
+func TestGenericRunAppliedProviderTickStateOwnedByMountCombatant(t *testing.T) {
+	compileReq, runReq := loadFixedTickProviderFixture(t)
+	one := 1.0
+	compileReq.SharedProviders[1].Abilities[0].TickSpec.OnTick = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "ticks",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	runReq.StopPolicy.DurationMs = 500
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var sourceSnap, targetSnap model.CombatantSnapshot
+	for _, c := range done.FinalSnapshot.Combatants {
+		switch c.Key {
+		case model.SelectorSource:
+			sourceSnap = c
+		case model.SelectorTarget:
+			targetSnap = c
+		}
+	}
+	if len(sourceSnap.ProviderState) != 0 {
+		// champion mount may still be empty map; ensure no applied-dot state leaked to applier.
+		for ref := range sourceSnap.ProviderState {
+			if ref != "champion:source_demo" {
+				t.Fatalf("applied provider state leaked onto source under %q: %+v", ref, sourceSnap.ProviderState)
+			}
+			bag := sourceSnap.ProviderState[ref].(map[string]interface{})
+			if state, ok := bag["state"].(map[string]interface{}); ok {
+				if _, has := state["ticks"]; has {
+					t.Fatalf("tick state written under source: %+v", sourceSnap.ProviderState)
+				}
+			}
+		}
+	}
+	found := false
+	for ref, raw := range targetSnap.ProviderState {
+		bag, ok := raw.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		state, _ := bag["state"].(map[string]interface{})
+		if ticks, ok := state["ticks"].(float64); ok && ticks >= 1 {
+			found = true
+			if ticks != 2 {
+				t.Fatalf("target provider %s ticks=%v want 2 (ticks at 200/400)", ref, ticks)
+			}
+		}
+	}
+	if !found {
+		t.Fatalf("expected tick providerState under target, got %+v", targetSnap.ProviderState)
+	}
+}
+
+func TestGenericRunAbilityStateUsesCanonicalOwnerNotExecutionSource(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	compileReq.TypeCatalog.Types = append(compileReq.TypeCatalog.Types, model.TypeCatalogEntry{Key: "event/on_hit", Domain: "event"})
+	seven := 7.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "self",
+			Ref:         "counter",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &seven},
+		},
+	}
+	// Target-owned listener child-casts source's ability: execution source=target, canonical owner=source.
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey: "utility:child_cast",
+		Kind:        "utility",
+		StableID:    "child_cast",
+		Listeners: []model.ListenerDefinition{
+			{
+				ListenerKey:  "cast_source_ability",
+				EventMatcher: model.TypeMatcher{Any: []string{"event/on_hit"}},
+				AbilityRef:   "source.provider[champion:source_demo].ability[basic_attack]",
+			},
+		},
+		Abilities: []model.AbilityDefinition{
+			{
+				AbilityKey: "emit",
+				Kind:       "active",
+				Operations: []model.OperationDefinition{
+					{Operation: "emit_event", Target: "target", EventType: "event/on_hit", Ref: "event/on_hit"},
+				},
+			},
+		},
+	})
+	compileReq.Combatants[1].Providers = []model.CombatantProviderMount{
+		{ProviderRef: "utility:child_cast", DefinitionRef: "utility:child_cast"},
+	}
+	runReq.InitialSnapshot.Combatants[1].Providers = []model.CombatantProviderSnapshot{
+		{ProviderRef: "utility:child_cast", DefinitionRef: "utility:child_cast", Stacks: 1, State: map[string]interface{}{}},
+	}
+	runReq.DriverPlan.Entries[0].AbilityRef = "target.provider[utility:child_cast].ability[emit]"
+	runReq.DriverPlan.Entries[0].Source = "target"
+	runReq.DriverPlan.Entries[0].Target = "target"
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var sourceSnap, targetSnap model.CombatantSnapshot
+	for _, c := range done.FinalSnapshot.Combatants {
+		switch c.Key {
+		case model.SelectorSource:
+			sourceSnap = c
+		case model.SelectorTarget:
+			targetSnap = c
+		}
+	}
+	bag, ok := sourceSnap.ProviderState["champion:source_demo"].(map[string]interface{})
+	if !ok {
+		t.Fatalf("canonical owner providerState missing: %+v", sourceSnap.ProviderState)
+	}
+	if bag["state"].(map[string]interface{})["counter"].(float64) != 7 {
+		t.Fatalf("source counter=%v want 7", bag["state"])
+	}
+	if raw, exists := targetSnap.ProviderState["champion:source_demo"]; exists {
+		if tb, ok := raw.(map[string]interface{}); ok {
+			if state, _ := tb["state"].(map[string]interface{}); state["counter"] != nil {
+				t.Fatalf("execution source must not own provider state: %+v", targetSnap.ProviderState)
+			}
+		}
+	}
+}
+
+func TestGenericRunTrueDamageIgnoresArmorMRAttrs(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	ensureDamageTrueType(&compileReq)
+	fifty := 50.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/true",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &fifty},
+		},
+	}
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key == model.SelectorTarget {
+			attrs := runReq.InitialSnapshot.Combatants[i].Attributes
+			attrs["armor"] = model.AttributeSlotDef{Base: 200, Current: 200, Max: 200, Resolved: 200}
+			attrs["magic_resist"] = model.AttributeSlotDef{Base: 200, Current: 200, Max: 200, Resolved: 200}
+		}
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.TargetFinalHp != 950 {
+		t.Fatalf("targetFinalHp=%v want 950 (true damage not reduced by armor/MR)", done.Summary.TargetFinalHp)
+	}
+}
+
+func TestGenericRunProviderStateSnapshotShapeAndHydrationResume(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	two := 2.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/provider_target"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &two},
+		},
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var sourceSnap model.CombatantSnapshot
+	for _, c := range done.FinalSnapshot.Combatants {
+		if c.Key == model.SelectorSource {
+			sourceSnap = c
+		}
+	}
+	raw, marshalErr := json.Marshal(sourceSnap.ProviderState)
+	if marshalErr != nil {
+		t.Fatal(marshalErr)
+	}
+	var decoded map[string]interface{}
+	if unmarshalErr := json.Unmarshal(raw, &decoded); unmarshalErr != nil {
+		t.Fatal(unmarshalErr)
+	}
+	bag := decoded["champion:source_demo"].(map[string]interface{})
+	if _, ok := bag["state"].(map[string]interface{}); !ok {
+		t.Fatalf("stable shape requires state object: %s", raw)
+	}
+	ts := bag["targetState"].(map[string]interface{})
+	if ts["target"] != "target" {
+		t.Fatalf("targetState.target=%v want target", ts["target"])
+	}
+	if ts["values"].(map[string]interface{})["hits"].(float64) != 2 {
+		t.Fatalf("hits=%v want 2", ts["values"])
+	}
+
+	// Resume: hydrate providerState from final snapshot and add +1 => hits become 3.
+	one := 1.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/provider_target"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	result2 := compile.CompileGeneric(compileReq)
+	if !result2.OK {
+		t.Fatalf("compile2 failed: %+v", result2.Result.Errors)
+	}
+	runReq2 := runReq
+	runReq2.InitialSnapshot = done.FinalSnapshot
+	runReq2.ExpectedRulesHash = compileReq.RulesHash
+	runReq2.DriverPlan.Entries[0].FirstAtMs = done.FinalSnapshot.TimeMs
+	runReq2.StopPolicy.DurationMs = 100
+	done2, err := RunGeneric(result2.Session, runReq2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range done2.FinalSnapshot.Combatants {
+		if c.Key != model.SelectorSource {
+			continue
+		}
+		bag := c.ProviderState["champion:source_demo"].(map[string]interface{})
+		hits := bag["targetState"].(map[string]interface{})["values"].(map[string]interface{})["hits"].(float64)
+		if hits != 3 {
+			t.Fatalf("hydrated resume hits=%v want 3", hits)
+		}
+	}
+}
