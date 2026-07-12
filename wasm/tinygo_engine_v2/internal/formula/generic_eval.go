@@ -15,6 +15,11 @@ type GenericEvalContext struct {
 	SourceResources map[string]model.ResourceSlotDef
 	TargetResources map[string]model.ResourceSlotDef
 	AbilityParams   map[string]float64
+
+	// Provider state reads require a concrete provider context.
+	HasProviderContext  bool
+	ProviderState       map[string]float64
+	ProviderTargetState map[string]float64
 }
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
@@ -33,7 +38,8 @@ func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (floa
 				return 0, err
 			}
 			stack = append(stack, value)
-		case GenericOpAdd, GenericOpSub, GenericOpMul, GenericOpDiv, GenericOpMin, GenericOpMax:
+		case GenericOpAdd, GenericOpSub, GenericOpMul, GenericOpDiv, GenericOpMin, GenericOpMax,
+			GenericOpEq, GenericOpNe, GenericOpLt, GenericOpLte, GenericOpGt, GenericOpGte:
 			if len(stack) < 2 {
 				return 0, errors.New("formula stack underflow")
 			}
@@ -57,6 +63,18 @@ func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (floa
 				value = math.Min(left, right)
 			case GenericOpMax:
 				value = math.Max(left, right)
+			case GenericOpEq:
+				value = bool01(left == right)
+			case GenericOpNe:
+				value = bool01(left != right)
+			case GenericOpLt:
+				value = bool01(left < right)
+			case GenericOpLte:
+				value = bool01(left <= right)
+			case GenericOpGt:
+				value = bool01(left > right)
+			case GenericOpGte:
+				value = bool01(left >= right)
 			}
 			if !finite(value) {
 				return 0, errors.New("non-finite formula result")
@@ -123,6 +141,13 @@ func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (floa
 	return stack[0], nil
 }
 
+func bool01(ok bool) float64 {
+	if ok {
+		return 1
+	}
+	return 0
+}
+
 func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64, error) {
 	switch kind {
 	case ReadSourceAttr:
@@ -138,6 +163,22 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return 0, nil
 		}
 		return ctx.AbilityParams[key], nil
+	case ReadProviderState:
+		if !ctx.HasProviderContext {
+			return 0, errors.New("provider.state requires provider context")
+		}
+		if ctx.ProviderState == nil {
+			return 0, nil
+		}
+		return ctx.ProviderState[key], nil
+	case ReadProviderTargetState:
+		if !ctx.HasProviderContext {
+			return 0, errors.New("provider.target_state requires provider context")
+		}
+		if ctx.ProviderTargetState == nil {
+			return 0, nil
+		}
+		return ctx.ProviderTargetState[key], nil
 	default:
 		return 0, errors.New("unknown read kind")
 	}
