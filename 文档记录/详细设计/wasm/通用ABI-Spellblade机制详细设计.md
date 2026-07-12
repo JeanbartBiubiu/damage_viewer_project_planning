@@ -18,12 +18,12 @@ LAST_TRACKED_AT: 2026-07-13
 | 环节 | 合同摘要 |
 |------|----------|
 | Cast 入口 | 成功的顶层、非 `ability/basic_attack` 的 active ability cast |
-| 自动事件 | 自动合成 `event/ability_cast` |
+| 自动事件 | 复用既有 `event/ability_started`（type_id **20205**，parent event **10019**）自动合成并发出 |
 | 武装 | 三相 provider listener：在 ICD=0 时 set `spellblade_ready=1` 且 `spellblade_icd=1` |
 | 消费 | 下一次**独立真实** `basic_attack_hit` 造成 `2 * event.entry_source.attr.ad.base` 物理伤害，再消费 ready |
-| Live 验证技能 | Vayne Q / Tumble **仅作可施放 + ability_cast 入口** |
+| Live 验证技能 | Vayne Q / Tumble **仅作可施放 + ability_started 入口** |
 
-实现须覆盖 **Wasm 运行时自动事件 → Backend 幂等 seed（含最小 Tumble）→ Web 双 driver entry 真实 compile/run/release**。
+实现须覆盖 **Wasm 运行时自动事件 → Backend 幂等 seed（含最小 Tumble + `ability/basic_attack` type_relations）→ Web assembler types 投影 + 多 driver entry 真实 compile/run/release**。
 
 ## 2. 非目标
 
@@ -32,7 +32,7 @@ LAST_TRACKED_AT: 2026-07-13
 3. 不做法力回复 / 治疗 / 减速 / 可见性。
 4. 不做完整技能 rotation / editor。
 5. **不覆盖** Ezreal Q 类「同一 ability 帧内 arm 后立即 on-hit 消费」的同帧 phase ordering（另批）。
-6. **不宣称完整 Vayne Q**：本批不实现位移、Q 强化普攻伤害、翻滚语义；只保证可施放与成功 cast 后发出 `ability_cast`。
+6. **不宣称完整 Vayne Q**：本批不实现位移、Q 强化普攻伤害、翻滚语义；只保证可施放与成功 cast 后发出 `ability_started`。
 7. 不改 model / ABI / compile / formula，除非实现证据证明必需——若必需，**先停止并报告**，不得静默扩展。
 8. 优先零 DDL / 零新 API；不新增专用 Spellblade reserved/table；不为 `provider_state_fields` 增 `default_value`（initial 默认 0，由真实 cast 自然武装）。
 9. Seed **无 DELETE**、**不自动 publish**；仅 material change 才推 revision。
@@ -48,8 +48,8 @@ LAST_TRACKED_AT: 2026-07-13
 
 ```
 成功顶层 active cast（TypeSet 不含 ability/basic_attack，chainDepth=0）
-  → 运行时自动 emit event/ability_cast
-  → 三相 ability_cast listener（ICD==0）
+  → 运行时自动 emit event/ability_started（type_id 20205，parent event 10019）
+  → 三相 ability_started listener（ICD==0）
        → set spellblade_ready = 1（duration 10000ms，refresh_on_write）
        → set spellblade_icd   = 1（duration 1500ms，refresh_on_write）
   → 之后某次独立真实 basic_attack_hit（ready >= 1）
@@ -59,9 +59,9 @@ LAST_TRACKED_AT: 2026-07-13
   → 同 ready 窗口内第二次普攻命中：不再触发
 ```
 
-### 3.3 自动 `event/ability_cast` 合成条件
+### 3.3 自动 `event/ability_started` 合成条件
 
-仅在 **同时** 满足时合成并发出：
+复用既有 reserved 事件 `event/ability_started`（type_id **20205**，parent event **10019**）；**不**新造 `event/ability_cast` 或其它事件名。仅在 **同时** 满足时合成并发出：
 
 | 条件 | 要求 |
 |------|------|
@@ -70,11 +70,12 @@ LAST_TRACKED_AT: 2026-07-13
 | Ability 分类 | ability 的 TypeSet **不含** `ability/basic_attack` |
 | Listener 子 ability | listener 触发的 child ability cast（`chainDepth > 0`）→ **不发**，避免递归武装 |
 
-不满足任一条 → 不发 `ability_cast` → 不武装。
+不满足任一条 → 不发 `ability_started` → 不武装。
 
 **阻塞写入（编码前必须核对，不得猜测）：**
 
 - 当前 generic ability classifier 必须能可靠区分「带 `ability/basic_attack`」与「普通 active」。
+- `ability/basic_attack` 为本批新增 **game-local** type/tag（见 §4 / §5），经 `type_relations`（`target_category=ability`）投影进 TypeSet；不得当 reserved 补种。
 - 若实现期发现 TypeSet / types 投影无法可靠区分，**停止编码并回写阻塞到本文/任务**，不得用 abilityKey 字符串启发式硬猜。
 
 ### 3.4 Provider state
@@ -84,12 +85,12 @@ LAST_TRACKED_AT: 2026-07-13
 | `spellblade_ready` | 1 | **10000ms** | refresh_on_write | 咒刃就绪；到期 lazy → 0，不再触发 |
 | `spellblade_icd` | 1 | **1500ms** | refresh_on_write | 内置冷却；ICD 内再次 cast **不重武装、不刷新 ready** |
 
-`ability_cast` listener 行为：
+`ability_started` listener 行为：
 
 1. 仅当 `spellblade_icd == 0`（含未写 / 已到期）时：
    - `spellblade_ready = 1`（写路径 refresh `expireAt`）
    - `spellblade_icd = 1`（写路径 refresh `expireAt`）
-2. ICD 仍有效时再次 `ability_cast`：无状态写入、不刷新 ready。
+2. ICD 仍有效时再次 `ability_started`：无状态写入、不刷新 ready。
 
 ### 3.5 `basic_attack_hit` 消费
 
@@ -120,9 +121,10 @@ Guinsoo phantom **不得**：
 
 ### 3.8 Vayne Q / Tumble（live 最小入口）
 
-- 为 `hero_vayne` 增最小 **Tumble active ability** 数据，只服务：可施放、成功 cast、自动 `ability_cast`。
+- 为 `hero_vayne` 增最小 **Tumble active ability** 数据，只服务：可施放、成功 cast、自动 `ability_started`。
 - **明确不宣称**：位移、翻滚、Q 强化下一次普攻伤害、或完整英雄技能语义。
 - 用户允许效果不必百分百还原；文档与验证记录不得写成「完整 Vayne Q」。
+- Tumble **不得**标记 `ability/basic_attack`（见 §5.3 / §5.5）。
 
 ## 4. 当前 DB / live 事实（设计基线）
 
@@ -135,13 +137,8 @@ Guinsoo phantom **不得**：
 | Spellblade 数据行 | provider / listener / state / formula **为 0** |
 | `item_3100` / `item_3508` | 已存在，非本批；`item_3057` 不存在 |
 | reserved / schema | 优先足够；不新增专用 Spellblade reserved / table |
-| `event/ability_cast` | **规划时未在 reserved seed 中确认存在** |
-| `ability/basic_attack` | 既有 generic / reserved 合同中已使用 |
-
-若 `event/ability_cast`（或投影所需 type）缺失：
-
-- **仅允许** reserved seed / type 投影补齐既有概念 `event/ability_cast`；
-- **禁止**发明新事件名或新机制概念。
+| `event/ability_started` | 既有 reserved：type_id **20205**，parent event **10019**；本批复用，**禁止**新造 `event/ability_cast` |
+| `ability/basic_attack` | **本批新增** game-local type/tag（**不是** reserved）；Backend seed 用 `type_relations`（`target_category=ability`）标记当前六个 ADC basic attack ability；**Tumble 不标** |
 
 建议发布 version（执行前检查未占用）：`lol-generic-spellblade-v1-20260713`。
 
@@ -165,7 +162,7 @@ Guinsoo phantom **不得**：
 |------|-----------------|
 | Provider | `provider_item_3078_spellblade`（passive，mount 到 `item_3078`） |
 | State | `spellblade_ready`、`spellblade_icd`（见 §3.4） |
-| Listener A | ALL-match `event/ability_cast`（+ 既有 source_owner 约定若项目统一要求）→ condition ICD=0 → set ready + set ICD |
+| Listener A | ALL-match `event/ability_started`（type_id 20205；+ 既有 source_owner 约定若项目统一要求）→ condition ICD=0 → set ready + set ICD |
 | Listener B | ALL-match `event/basic_attack_hit`（+ source_owner）→ condition ready≥1 → damage → consume ready |
 | Formula | `2 * event.entry_source.attr.ad.base`（物理）；damage `copyable_on_hit=false` |
 
@@ -174,12 +171,19 @@ Listener / effect / step 细节对齐既有 Guinsoo / 公式 on-hit seed 风格�
 ### 5.3 `hero_vayne` 最小 Tumble
 
 - 最小 active ability：可被 driver 引用、可过 gate/cost/cooldown（本批可用零成本/零 CD 或显式可过配置，以 seed 测试合同为准）。
-- TypeSet：**不得**含 `ability/basic_attack`。
-- 可不含位移/强化伤害 operation；成功 cast 即可触发运行时自动 `ability_cast`。
+- TypeSet：**不得**含 `ability/basic_attack`（**不**写 `type_relations` 标记）。
+- 可不含位移/强化伤害 operation；成功 cast 即可触发运行时自动 `ability_started`。
 
-### 5.4 读回与发布
+### 5.4 `ability/basic_attack` game-local 标记
 
-- API 读回：provider state / listener / effect / ability（Tumble + 三相）。
+- `ability/basic_attack` 为本批新增 **game-local** type/tag，**不是** reserved；禁止往 reserved seed 补种。
+- Backend seed 用 `type_relations`（`target_category=ability`）标记**当前六个** ADC basic attack ability。
+- **Tumble 不标**（见 §5.3）。
+- Web assembler 从该 `type_relations` 投影到 `AbilityDefinition.types`（见 §8.1）。
+
+### 5.5 读回与发布
+
+- API 读回：provider state / listener / effect / ability（Tumble + 三相）+ `type_relations`（六个 ADC basic attack 的 `ability/basic_attack` 标记；Tumble 无）。
 - 正式 publish 后保留完整发布日志；version 建议见 §4。
 
 ## 6. Wasm 精确范围
@@ -202,10 +206,10 @@ Listener / effect / step 细节对齐既有 Guinsoo / 公式 on-hit seed 风格�
 
 在 **顶层成功** `castAbilityAt(..., chainDepth=0)` 完成 commit / 既有 pending 派发之后（或合同等价的成功点）：
 
-1. 若 ability TypeSet 含 `ability/basic_attack` → 不合成 `ability_cast`。
-2. 否则自动合成并 `dispatchListeners`：`event/ability_cast`（source/target 与本次 cast 一致）。
+1. 若 ability TypeSet 含 `ability/basic_attack` → 不合成 `ability_started`。
+2. 否则自动合成并 `dispatchListeners`：`event/ability_started`（type_id 20205；source/target 与本次 cast 一致）。
 3. gate/cost/cooldown 在成功路径之前失败 → 整次 cast 失败 → **不** `abilityCastCount++`、**不**发事件。
-4. listener child ability：`castAbilityAt(..., chainDepth>0)` → 不自动发 `ability_cast`。
+4. listener child ability：`castAbilityAt(..., chainDepth>0)` → 不自动发 `ability_started`。
 
 State 读写复用既有 provider state（max / duration / refresh_on_write / lazy expire），与 Guinsoo 同路径。
 
@@ -225,10 +229,9 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 
 | 区域 | 内容 |
 |------|------|
-| Seed | 新增幂等 Spellblade seed（含 `item_3078` provider 图 + `hero_vayne` 最小 Tumble） |
-| 测试 | 静态合同 / 幂等 / 无 DELETE / 不 auto-publish |
+| Seed | 新增幂等 Spellblade seed（含 `item_3078` provider 图 + `hero_vayne` 最小 Tumble + `ability/basic_attack` game-local type 与六个 ADC `type_relations`） |
+| 测试 | 静态合同 / 幂等 / 无 DELETE / 不 auto-publish；断言六个 ADC 有 `target_category=ability` 标记、Tumble 无 |
 | README | `server/data_manage/README.md` 执行顺序与依赖说明 |
-| Reserved（仅若缺失） | 投影补齐 `event/ability_cast`（及分类所需既有 type） |
 
 ### 7.2 默认禁止
 
@@ -236,13 +239,14 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 - 新 DDL、新专用表、新 API（除非阻塞）
 - 自动 publish
 - 给 state field 写非 0 default_value
+- 往 reserved seed 补种 `event/ability_cast` 或把 `ability/basic_attack` 写成 reserved
 
 ### 7.3 Backend / live 验证
 
 1. Seed 静态合同、幂等、no DELETE / no auto publish。
 2. Revision：预计 13/13 → 14/13（再跑幂等保持），publish → 14/14。
 3. Version：`lol-generic-spellblade-v1-20260713`（执行前确认未占用）。
-4. API 读回 provider state / listener / effect / ability。
+4. API 读回 provider state / listener / effect / ability / type_relations（六个 ADC basic attack；Tumble 无 `ability/basic_attack`）。
 5. 发布日志完整。
 
 ## 8. Web 精确范围
@@ -251,22 +255,23 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 
 | 区域 | 要求 |
 |------|------|
-| `web/src/pages/WasmValidationGenericPage.tsx` | 支持 **两条** driver entry：① 预施法技能单次 entry；② `basic_attack` 动态 `intervalFormula` entry |
-| 同目录纯 helper / test | 必要时 |
+| `web/src/pages/WasmValidationGenericPage.tsx` | 支持 **多** driver entry：① 预施法技能单次 entry；② `basic_attack` 动态 `intervalFormula` entry |
+| `web/src/engine/combatDataAssembler.ts` | 从 `target_category=ability` 的 typeRelations 投影 `AbilityDefinition.types`（含 `ability/basic_attack`） |
+| `web/src/engine/combatDataAssembler.test.ts` | 覆盖上述 types 投影合同 |
 
 ### 8.2 默认禁止顺手修改
 
-- `combatDataAssembler` / `types`：**已支持多 entry**，本批不应顺手改
 - 页面不得本地计算 Spellblade 伤害 / ready；只展示引擎证据与 summary
+- 不顺手改无关 `types` / 其它 assembler 路径
 
 ### 8.3 Browser / live 场景合同
 
 - Route：`#/wasm-validation-generic`
 - 组合：Vayne + Trinity（`item_3078`）+ tank dummy
-- Driver：
+- Driver（页面仍需 **多** driver entry）：
   - Tumble：`firstAtMs = 0`（单次）
   - Basic attack：更晚的 `firstAtMs` + 动态 cadence（`intervalFormula`）
-- 证据必须含：emitted `ability_cast`、Spellblade damage `operationRef`、`ad.base` 贡献、ready consumed、第二次攻击无重复、`warnings=0`
+- 证据必须含：emitted `ability_started`、Spellblade damage `operationRef`、`ad.base` 贡献、ready consumed、第二次攻击无重复、`warnings=0`
 - 加 Guinsoo 组合回归：phantom **不含** Spellblade `operationRef`
 
 ### 8.4 Web 验证命令
@@ -283,8 +288,8 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 
 | # | 命题 | 通过标准 |
 |---|------|----------|
-| W1 | 顶层非普攻 active cast | 发出 `event/ability_cast`；`spellblade_ready=1` 且 `spellblade_icd=1` |
-| W2 | 普攻 cast | **不**发 `ability_cast`；不武装 |
+| W1 | 顶层非普攻 active cast | 发出 `event/ability_started`；`spellblade_ready=1` 且 `spellblade_icd=1` |
+| W2 | 普攻 cast | **不**发 `ability_started`；不武装 |
 | W3 | gate / cost / cooldown skip | **不**武装 |
 | W4 | listener child ability | **不**武装（防递归） |
 | W5 | 首次真实 `basic_attack_hit` | 物理伤害 = `2 * ad.base`；随后 ready=0 |
@@ -298,12 +303,12 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 
 | # | 命题 | 通过标准 |
 |---|------|----------|
-| B1 | 静态合同 | seed SQL 测试断言 provider/state/listener/effect/ability 键与公式 |
+| B1 | 静态合同 | seed SQL 测试断言 provider/state/listener/effect/ability 键与公式；六个 ADC `type_relations`（`target_category=ability`）有 `ability/basic_attack`；Tumble 无 |
 | B2 | 幂等 | 二次执行不无意义推 revision |
-| B3 | 安全边界 | no DELETE；no auto publish |
+| B3 | 安全边界 | no DELETE；no auto publish；不 reserved 补 `ability_cast` |
 | B4 | Revision | 13/13→14/13→（publish）14/14 |
 | B5 | Version | 建议码未占用且写入发布记录 |
-| B6 | API 读回 | state/listener/effect/ability（含 Tumble）可见 |
+| B6 | API 读回 | state/listener/effect/ability（含 Tumble）+ type_relations 可见 |
 | B7 | 发布日志 | 完整可追溯 |
 
 ### 10.3 Web / browser
@@ -311,18 +316,19 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 | # | 命题 | 通过标准 |
 |---|------|----------|
 | F1 | 工程门禁 | lint / typecheck / Vitest / build |
-| F2 | 双 entry driver | 预施法 Tumble@0ms + 延后 basic_attack 动态 cadence |
+| F2 | 多 entry driver | 预施法 Tumble@0ms + 延后 basic_attack 动态 cadence |
 | F3 | compile/run/release | 成功；warnings=0 |
-| F4 | 证据链 | ability_cast、Spellblade operationRef、base AD、ready 消费、第二刀无重复 |
+| F4 | 证据链 | ability_started、Spellblade operationRef、base AD、ready 消费、第二刀无重复 |
 | F5 | Guinsoo 回归 | phantom 证据无 Spellblade operationRef |
+| F6 | assembler types 投影 | `combatDataAssembler` 从 `target_category=ability` 的 typeRelations 投影 `AbilityDefinition.types`；测试覆盖 |
 
 ## 11. 实现步骤（建议编码顺序）
 
-1. **核对阻塞**：`ability/basic_attack` TypeSet 可区分性；`event/ability_cast` reserved/type 是否存在；缺失则仅投影补齐。
-2. **Wasm**：在 `generic_execution.go` 成功顶层 cast 路径合成 `ability_cast`；补 `generic_spellblade_test.go`（§10.1）。
-3. **Backend seed**：三相 provider 图 + 最小 Tumble；静态测试 + README；dry-run → 正式 → 幂等；**不**自动 publish。
+1. **核对阻塞**：`ability/basic_attack` game-local type + `type_relations`（`target_category=ability`）投影后 TypeSet 可区分性；确认复用既有 `event/ability_started`（20205 / parent 10019），**禁止** reserved 补 `ability_cast`。
+2. **Wasm**：在 `generic_execution.go` 成功顶层 cast 路径合成 `ability_started`；补 `generic_spellblade_test.go`（§10.1）。
+3. **Backend seed**：三相 provider 图（listener 匹配 `event/ability_started`）+ 最小 Tumble（不标 basic_attack）+ 六个 ADC `ability/basic_attack` type_relations；静态测试 + README；dry-run → 正式 → 幂等；**不**自动 publish。
 4. **Publish**（独立确认）：推到 14/14，version `lol-generic-spellblade-v1-20260713`（若未占用）。
-5. **Web**：`WasmValidationGenericPage` 双 entry；真实 loader→assemble→compile/run/release；Guinsoo 组合回归。
+5. **Web**：`combatDataAssembler` / 测试投影 `AbilityDefinition.types`；`WasmValidationGenericPage` 多 driver entry；真实 loader→assemble→compile/run/release；Guinsoo 组合回归。
 6. **验证记录**（另文档）：记录 revision / version / wasm hash / 证据；不在本文标完成。
 
 ## 12. 停止条件
@@ -351,8 +357,8 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 - [x] 目标与单真实 gate（3078）
 - [x] 允许 / 禁止写入范围（Wasm / Backend / Web / Planning）
 - [x] 非目标与 phantom 禁区
-- [x] 数据合同（state / listener / damage / Tumble / seed 约束）
-- [x] 自动 `ability_cast` 条件与 classifier 阻塞条款
+- [x] 数据合同（state / listener / damage / Tumble / `ability/basic_attack` game-local type_relations / seed 约束）
+- [x] 自动 `ability_started`（20205 / parent 10019）条件与 classifier 阻塞条款
 - [x] 测试矩阵与验证命令
 - [x] 停止条件
 
