@@ -175,8 +175,8 @@ class LolAdcItemOnHitPassivesSeedSqlTest {
     }
 
     @Test
-    void ruinedKingUsesCurrentHpRatioPhysicalDamage() {
-        assertContains("\"$opponent.attr.hp.current\"");
+    void ruinedKingUsesEntryTargetCurrentHpRatioPhysicalDamage() {
+        assertContains("\"event.entry_target.attr.hp.current\"");
         assertContains("0.06");
         assertContains("ruined_king_on_hit_damage");
         assertTrue(
@@ -194,7 +194,7 @@ class LolAdcItemOnHitPassivesSeedSqlTest {
                 .find(),
             "ruined king detail must be physical damage with add policy");
         String formula =
-            "{\"op\":\"mul\",\"args\":[{\"op\":\"read\",\"path\":\"$opponent.attr.hp.current\"},{\"op\":\"const\",\"value\":0.06}]}";
+            "{\"op\":\"mul\",\"args\":[{\"op\":\"read\",\"path\":\"event.entry_target.attr.hp.current\"},{\"op\":\"const\",\"value\":0.06}]}";
         assertContains(formula);
     }
 
@@ -230,7 +230,7 @@ class LolAdcItemOnHitPassivesSeedSqlTest {
     }
 
     @Test
-    void krakenCountsEveryThirdHitWithMissingHpPhysicalFormula() {
+    void krakenCountsEveryThirdHitWithEntryTargetMissingHpPhysicalFormula() {
         assertContains("provider_state_fields");
         assertContains("kraken_hits");
         assertContains("provider.target_state.kraken_hits");
@@ -240,8 +240,8 @@ class LolAdcItemOnHitPassivesSeedSqlTest {
         assertContains("\"op\":\"clamp\"");
         assertContains("\"op\":\"div\"");
         assertContains("\"op\":\"max\"");
-        assertContains("\"$opponent.attr.hp.max\"");
-        assertContains("\"$opponent.attr.hp.current\"");
+        assertContains("\"event.entry_target.attr.hp.max\"");
+        assertContains("\"event.entry_target.attr.hp.current\"");
 
         assertTrue(
             Pattern.compile(
@@ -302,8 +302,24 @@ class LolAdcItemOnHitPassivesSeedSqlTest {
                 || sql.contains("\"min\": {\"op\":\"const\",\"value\":0}"),
             "kraken missingHpRatio must clamp min to 0");
         assertTrue(
-            sql.contains("{\"op\":\"max\",\"args\":[{\"op\":\"read\",\"path\":\"$opponent.attr.hp.max\"},{\"op\":\"const\",\"value\":1}]}"),
-            "kraken denominator must use max(maxHP, 1)");
+            sql.contains(
+                "{\"op\":\"max\",\"args\":[{\"op\":\"read\",\"path\":\"event.entry_target.attr.hp.max\"},{\"op\":\"const\",\"value\":1}]}"),
+            "kraken denominator must use max(entry_target maxHP, 1)");
+    }
+
+    @Test
+    void hpFormulasDoNotReadLiveOpponentHpPaths() {
+        assertFalse(
+            sql.contains("\"$opponent.attr.hp.current\""),
+            "on-hit HP formulas must not read live $opponent.attr.hp.current");
+        assertFalse(
+            sql.contains("\"$opponent.attr.hp.max\""),
+            "on-hit HP formulas must not read live $opponent.attr.hp.max");
+        assertFalse(
+            Pattern.compile("\"\\$opponent\\.attr\\.hp\\.(current|max)\"")
+                .matcher(sql)
+                .find(),
+            "on-hit HP formulas must use event.entry_target, not $opponent.attr.hp.*");
     }
 
     @Test
