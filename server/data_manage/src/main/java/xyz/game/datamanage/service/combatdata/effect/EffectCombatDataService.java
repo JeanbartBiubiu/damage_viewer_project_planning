@@ -19,6 +19,7 @@ import xyz.game.datamanage.mapper.combatdata.CombatEventEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatHealEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatListenerEffectSequencesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderEffectDetailsMapper;
+import xyz.game.datamanage.mapper.combatdata.CombatRepeatEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatResourceEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatShieldEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatStateEffectDetailsMapper;
@@ -37,6 +38,7 @@ public class EffectCombatDataService {
     public static final String DETAIL_EVENT = "eventDetail";
     public static final String DETAIL_ABILITY_CONTROL = "abilityControlDetail";
     public static final String DETAIL_STATE = "stateDetail";
+    public static final String DETAIL_REPEAT = "repeatDetail";
 
     private static final List<String> DETAIL_KEYS = List.of(
         DETAIL_DAMAGE,
@@ -47,7 +49,8 @@ public class EffectCombatDataService {
         DETAIL_PROVIDER,
         DETAIL_EVENT,
         DETAIL_ABILITY_CONTROL,
-        DETAIL_STATE
+        DETAIL_STATE,
+        DETAIL_REPEAT
     );
 
     private final CombatDataSupport support;
@@ -65,6 +68,7 @@ public class EffectCombatDataService {
     private final CombatEventEffectDetailsMapper eventDetailsMapper;
     private final CombatAbilityControlEffectDetailsMapper abilityControlDetailsMapper;
     private final CombatStateEffectDetailsMapper stateDetailsMapper;
+    private final CombatRepeatEffectDetailsMapper repeatDetailsMapper;
 
     public EffectCombatDataService(
         CombatDataSupport support,
@@ -81,7 +85,8 @@ public class EffectCombatDataService {
         CombatProviderEffectDetailsMapper providerDetailsMapper,
         CombatEventEffectDetailsMapper eventDetailsMapper,
         CombatAbilityControlEffectDetailsMapper abilityControlDetailsMapper,
-        CombatStateEffectDetailsMapper stateDetailsMapper
+        CombatStateEffectDetailsMapper stateDetailsMapper,
+        CombatRepeatEffectDetailsMapper repeatDetailsMapper
     ) {
         this.support = support;
         this.revisionService = revisionService;
@@ -98,6 +103,7 @@ public class EffectCombatDataService {
         this.eventDetailsMapper = eventDetailsMapper;
         this.abilityControlDetailsMapper = abilityControlDetailsMapper;
         this.stateDetailsMapper = stateDetailsMapper;
+        this.repeatDetailsMapper = repeatDetailsMapper;
     }
 
     @Transactional(readOnly = true)
@@ -253,6 +259,7 @@ public class EffectCombatDataService {
         eventDetailsMapper.deleteByStepId(gameId, stepId);
         abilityControlDetailsMapper.deleteByStepId(gameId, stepId);
         stateDetailsMapper.deleteByStepId(gameId, stepId);
+        repeatDetailsMapper.deleteByStepId(gameId, stepId);
     }
 
     private void writeDetail(String gameId, String stepId, long revision, DetailChoice detail) {
@@ -264,7 +271,8 @@ public class EffectCombatDataService {
                 stepId,
                 support.requireText(d, "amountFormulaKey"),
                 support.requireInt(d, "damageTypeId"),
-                support.requireInt(d, "valuePolicyTypeId")
+                support.requireInt(d, "valuePolicyTypeId"),
+                Boolean.TRUE.equals(support.optionalBoolean(d, "copyableOnHit"))
             );
             case DETAIL_HEAL -> healDetailsMapper.upsert(
                 gameId,
@@ -335,6 +343,16 @@ public class EffectCombatDataService {
                 support.requireText(d, "amountFormulaKey"),
                 support.requireInt(d, "valuePolicyTypeId")
             );
+            case DETAIL_REPEAT -> repeatDetailsMapper.upsert(
+                gameId,
+                revision,
+                stepId,
+                support.requireInt(d, "repeatScopeTypeId"),
+                support.requireInt(d, "repeatCount"),
+                support.requireText(d, "repeatTag"),
+                support.requireText(d, "triggerStateKey"),
+                support.requireDecimal(d, "threshold")
+            );
             default -> throw support.badRequest(
                 "Unsupported detail key",
                 Map.of("path", "/" + detail.key())
@@ -357,6 +375,7 @@ public class EffectCombatDataService {
         attachDetail(dto, DETAIL_EVENT, eventDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_ABILITY_CONTROL, abilityControlDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_STATE, stateDetailsMapper.findById(gameId, stepId));
+        attachDetail(dto, DETAIL_REPEAT, repeatDetailsMapper.findById(gameId, stepId));
         return dto;
     }
 

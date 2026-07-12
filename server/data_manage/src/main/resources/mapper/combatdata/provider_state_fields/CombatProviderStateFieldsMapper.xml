@@ -10,6 +10,9 @@
        provider_id AS "providerId",
        state_key AS "stateKey",
        value_type_id AS "valueTypeId",
+       max_value AS "maxValue",
+       duration_ms AS "durationMs",
+       refresh_policy_type_id AS "refreshPolicyTypeId",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.provider_state_fields
@@ -26,6 +29,9 @@
        provider_id AS "providerId",
        state_key AS "stateKey",
        value_type_id AS "valueTypeId",
+       max_value AS "maxValue",
+       duration_ms AS "durationMs",
+       refresh_policy_type_id AS "refreshPolicyTypeId",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.provider_state_fields
@@ -36,11 +42,14 @@
 
     <update id="upsert">
         INSERT INTO public.provider_state_fields
-            (game_id, provider_id, state_key, value_type_id, change_revision, updated_at)
+            (game_id, provider_id, state_key, value_type_id, max_value, duration_ms, refresh_policy_type_id, change_revision, updated_at)
         VALUES
-            (#{gameId}, #{providerId}, #{stateKey}, #{valueTypeId}, #{changeRevision}, NOW())
+            (#{gameId}, #{providerId}, #{stateKey}, #{valueTypeId}, #{maxValue}, #{durationMs}, #{refreshPolicyTypeId}, #{changeRevision}, NOW())
         ON CONFLICT (game_id, provider_id, state_key) DO UPDATE SET
             value_type_id = EXCLUDED.value_type_id,
+            max_value = EXCLUDED.max_value,
+            duration_ms = EXCLUDED.duration_ms,
+            refresh_policy_type_id = EXCLUDED.refresh_policy_type_id,
             change_revision = EXCLUDED.change_revision,
             updated_at = NOW()
     </update>
@@ -52,6 +61,9 @@
        provider_id AS "providerId",
        state_key AS "stateKey",
        value_type_id AS "valueTypeId",
+       max_value AS "maxValue",
+       duration_ms AS "durationMs",
+       refresh_policy_type_id AS "refreshPolicyTypeId",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.provider_state_fields
@@ -63,7 +75,8 @@
 
     <insert id="copyChangedToLog">
         INSERT INTO public.provider_state_fields_log (
-            game_id, version_id, change_revision, provider_id, state_key, value_type_id
+            game_id, version_id, change_revision, provider_id, state_key, value_type_id,
+            max_value, duration_ms, refresh_policy_type_id
         )
         SELECT
             game_id,
@@ -71,13 +84,19 @@
             change_revision,
             provider_id,
             state_key,
-            value_type_id
+            value_type_id,
+            max_value,
+            duration_ms,
+            refresh_policy_type_id
         FROM public.provider_state_fields
         WHERE game_id = #{gameId}
           AND change_revision &gt; #{previousRevision}
           AND change_revision &lt;= #{publishRevision}
         ON CONFLICT (game_id, provider_id, state_key, version_id) DO UPDATE SET
             change_revision = EXCLUDED.change_revision,
-            value_type_id = EXCLUDED.value_type_id
+            value_type_id = EXCLUDED.value_type_id,
+            max_value = EXCLUDED.max_value,
+            duration_ms = EXCLUDED.duration_ms,
+            refresh_policy_type_id = EXCLUDED.refresh_policy_type_id
     </insert>
 </mapper>
