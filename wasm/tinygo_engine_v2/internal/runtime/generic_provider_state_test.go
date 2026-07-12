@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"encoding/json"
+	"strings"
 	"testing"
 
 	"tinygo_engine_v2/internal/compile"
@@ -683,5 +684,82 @@ func TestGenericRunProviderStateSnapshotShapeAndHydrationResume(t *testing.T) {
 		if hits != 3 {
 			t.Fatalf("hydrated resume hits=%v want 3", hits)
 		}
+	}
+}
+
+func TestGenericRunProviderExpireRemovesOwningProviderStateBag(t *testing.T) {
+	compileReq, runReq := loadFixedTickProviderFixture(t)
+	one := 1.0
+	compileReq.SharedProviders[1].Abilities[0].TickSpec.OnTick = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "ticks",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	// Unrelated bags must survive cleanup of the expired mount only.
+	for i := range runReq.InitialSnapshot.Combatants {
+		c := &runReq.InitialSnapshot.Combatants[i]
+		switch c.Key {
+		case model.SelectorSource:
+			c.ProviderState = map[string]interface{}{
+				"champion:source_demo": map[string]interface{}{
+					"state": map[string]interface{}{"marker": float64(3)},
+				},
+			}
+		case model.SelectorTarget:
+			c.ProviderState = map[string]interface{}{
+				"other:keep#1": map[string]interface{}{
+					"state": map[string]interface{}{"marker": float64(9)},
+				},
+			}
+		}
+	}
+	// Fixture durationMs=1200 is past burn_dot expireAt=1100 (handleExpireCleanup path).
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var sourceSnap, targetSnap model.CombatantSnapshot
+	for _, c := range done.FinalSnapshot.Combatants {
+		switch c.Key {
+		case model.SelectorSource:
+			sourceSnap = c
+		case model.SelectorTarget:
+			targetSnap = c
+		}
+	}
+	for _, p := range targetSnap.Providers {
+		if p.DefinitionRef == "status:burn_dot" {
+			t.Fatalf("expected burn_dot provider removed after expire, got %+v", targetSnap.Providers)
+		}
+	}
+	for ref := range targetSnap.ProviderState {
+		if strings.HasPrefix(ref, "status:burn_dot") {
+			t.Fatalf("orphan providerState after expire: %q in %+v", ref, targetSnap.ProviderState)
+		}
+	}
+	keepRaw, ok := targetSnap.ProviderState["other:keep#1"].(map[string]interface{})
+	if !ok {
+		t.Fatalf("unrelated target providerState missing: %+v", targetSnap.ProviderState)
+	}
+	keepState, _ := keepRaw["state"].(map[string]interface{})
+	if marker, _ := keepState["marker"].(float64); marker != 9 {
+		t.Fatalf("unrelated target bag marker=%v want 9", marker)
+	}
+	srcRaw, ok := sourceSnap.ProviderState["champion:source_demo"].(map[string]interface{})
+	if !ok {
+		t.Fatalf("source champion providerState missing: %+v", sourceSnap.ProviderState)
+	}
+	srcState, _ := srcRaw["state"].(map[string]interface{})
+	if marker, _ := srcState["marker"].(float64); marker != 3 {
+		t.Fatalf("source bag marker=%v want 3", marker)
 	}
 }
