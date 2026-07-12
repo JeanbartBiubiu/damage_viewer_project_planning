@@ -52,6 +52,14 @@ LAST_TRACKED_AT: 2026-07-13
 
 因此 `wasm-generic-min-validation-coverage-audit` 总体审计任务仍保持 **active / 开发中**，不得因本批完成而标记完成。
 
+## 完整鬼索 H+K 批次
+
+对应任务：`wasm-generic-guinsoo-hk`（状态：**done / 已完成**，详见 [完整鬼索 H+K 机制详细设计](./通用ABI-完整鬼索H-K机制详细设计.md)；验证记录：[完整鬼索 H+K 机制验证记录-2026-07-13](../../../测试记录/wasm/通用ABI-完整鬼索H-K机制验证记录-2026-07-13.md)）。
+
+本批已覆盖：timed state、state-bound modifier、dynamic cadence、copyable-on-hit deferred replay 与防递归。
+
+因此 `wasm-generic-min-validation-coverage-audit` 总体审计任务仍保持 **active / 开发中**，不得因本批完成而标记完成。
+
 ## 真源与验证
 
 ### Planning 旧 Batch G 真源
