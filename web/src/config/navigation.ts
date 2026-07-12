@@ -1,42 +1,33 @@
 import type { JsonObject } from '../types/api';
-import {
-  adminResourceNavigationItems as adminResourceNavigationItemsFromAdminConfig,
-  type AdminResourceKind,
-  type AdminResourceNavigationItem
-} from '../pages/admin/adminResourceConfig';
+import { combatDataNavGroups, type CombatDataNavGroup } from '../pages/admin/combatDataNav';
 
-export type BuiltinAdminResourceRouteId =
-  | 'formula-profiles'
-  | 'formula-bindings'
-  | 'coefficient-buckets'
-  | 'status-action-control-rules';
+/** Top-level static pages (not combat-data resources). */
+export type StaticRouteId = 'overview' | 'workspace' | 'wasm-validation-generic' | 'images';
 
-export type ExtendedAdminResourceRouteId =
-  | 'heroes'
-  | 'skills'
-  | 'items'
-  | 'attribute-definitions'
-  | 'status-management'
-  | 'types'
-  | 'type-relations'
-  | 'skill-mounts';
-
-export type AdminResourceRouteId = BuiltinAdminResourceRouteId | ExtendedAdminResourceRouteId;
-
-export type RouteId =
-  | 'overview'
-  | 'workspace'
-  | 'wasm-validation-generic'
-  | 'images'
-  | AdminResourceRouteId;
+/**
+ * App route id:
+ * - static pages use their id
+ * - combat-data uses `combat-data/<resource-id>` (e.g. `combat-data/effect-steps`)
+ * - bare `combat-data` only exists transiently before redirect
+ */
+export type RouteId = StaticRouteId | 'combat-data' | `combat-data/${string}`;
 
 export type NavigationItem = {
   id: RouteId;
+  /** Hash path without `#/`, e.g. `overview` or `combat-data/entities`. */
+  hashSegment: string;
   label: string;
   summary: string;
 };
 
-export type NavigationGroupId = 'data-management' | 'wasm-validation';
+export type NavigationGroupId =
+  | 'data-management'
+  | 'combat-data-basics'
+  | 'combat-data-entities'
+  | 'combat-data-providers'
+  | 'combat-data-abilities'
+  | 'combat-data-effects'
+  | 'wasm-validation';
 
 export type NavigationGroup = {
   id: NavigationGroupId;
@@ -59,26 +50,43 @@ export type AdminEndpoint = {
   sampleBody?: JsonObject;
 };
 
-export const adminResourceRouteMap: Record<BuiltinAdminResourceRouteId, AdminResourceKind> = {
-  'formula-profiles': 'formulaProfiles',
-  'formula-bindings': 'formulaBindings',
-  'coefficient-buckets': 'coefficientBuckets',
-  'status-action-control-rules': 'statusActionControlRules'
+const COMBAT_DATA_GROUP_ID_MAP: Record<string, NavigationGroupId> = {
+  basics: 'combat-data-basics',
+  entities: 'combat-data-entities',
+  providers: 'combat-data-providers',
+  abilities: 'combat-data-abilities',
+  effects: 'combat-data-effects'
 };
 
-const dataManagementBaseNavigationItems: NavigationItem[] = [
+function combatDataGroupToNavigationGroup(group: CombatDataNavGroup): NavigationGroup {
+  return {
+    id: COMBAT_DATA_GROUP_ID_MAP[group.id] ?? `combat-data-${group.id}` as NavigationGroupId,
+    label: group.label,
+    items: group.items.map((item) => ({
+      id: item.hashSegment as RouteId,
+      hashSegment: item.hashSegment,
+      label: item.label,
+      summary: item.summary
+    }))
+  };
+}
+
+const dataManagementNavigationItems: NavigationItem[] = [
   {
     id: 'overview',
+    hashSegment: 'overview',
     label: '系统总览',
-    summary: '查看前后端能力、接口约束和当前工作面状态。'
+    summary: '查看当前版本、combat-data 修订与接口面。'
   },
   {
     id: 'workspace',
+    hashSegment: 'workspace',
     label: '版本发布',
-    summary: '集中处理版本发布以及 current / bundle 快照校验。'
+    summary: '发布版本并刷新 current / combat-data 状态。'
   },
   {
     id: 'images',
+    hashSegment: 'images',
     label: '图片缓存',
     summary: '查看并同步图片缓存资源。'
   }
@@ -87,64 +95,10 @@ const dataManagementBaseNavigationItems: NavigationItem[] = [
 const wasmSimulationNavigationItems: NavigationItem[] = [
   {
     id: 'wasm-validation-generic',
+    hashSegment: 'wasm-validation-generic',
     label: '通用引擎验证',
-    summary: '通用目录物化后编译、运行与释放'
+    summary: '从 combat-data 装配场景后编译、运行与释放'
   }
-];
-
-const extendedAdminRouteItems: NavigationItem[] = [
-  {
-    id: 'attribute-definitions',
-    label: '属性定义',
-    summary: '维护属性键、类型、默认值与取值语义。'
-  },
-  {
-    id: 'types',
-    label: '类型定义',
-    summary: '维护类型标签、描述与保留映射。'
-  },
-  {
-    id: 'status-management',
-    label: '状态管理',
-    summary: '统一维护状态定义、控制语义、效果组和周期生命效果。'
-  },
-  {
-    id: 'heroes',
-    label: '英雄',
-    summary: '维护英雄主数据、头像与基础数值。'
-  },
-  {
-    id: 'skills',
-    label: '技能',
-    summary: '维护技能归属、键位、描述与机制配置。'
-  },
-  {
-    id: 'items',
-    label: '装备',
-    summary: '维护装备成本、图标、属性修正与引用。'
-  },
-  {
-    id: 'type-relations',
-    label: '类型挂载',
-    summary: '把类型挂到目标实体并维护附加扩展信息。'
-  },
-  {
-    id: 'skill-mounts',
-    label: '技能挂载',
-    summary: '把技能挂到英雄、装备或其它目标并维护槽位与扩展信息。'
-  }
-];
-
-const builtinAdminRouteItems: NavigationItem[] = adminResourceNavigationItemsFromAdminConfig.map((item) => ({
-  id: item.hashSegment as BuiltinAdminResourceRouteId,
-  label: item.label,
-  summary: item.summary
-}));
-
-const dataManagementNavigationItems: NavigationItem[] = [
-  ...dataManagementBaseNavigationItems,
-  ...extendedAdminRouteItems,
-  ...builtinAdminRouteItems
 ];
 
 export const navigationGroups: NavigationGroup[] = [
@@ -153,6 +107,7 @@ export const navigationGroups: NavigationGroup[] = [
     label: '数据管理',
     items: dataManagementNavigationItems
   },
+  ...combatDataNavGroups.map(combatDataGroupToNavigationGroup),
   {
     id: 'wasm-validation',
     label: 'Wasm 验证',
@@ -160,9 +115,91 @@ export const navigationGroups: NavigationGroup[] = [
   }
 ];
 
-export const navigationItems: NavigationItem[] = [...dataManagementNavigationItems, ...wasmSimulationNavigationItems];
+export const navigationItems: NavigationItem[] = navigationGroups.flatMap((group) => group.items);
 
-export const adminResourceNavigationItems: AdminResourceNavigationItem[] = adminResourceNavigationItemsFromAdminConfig;
+export function isCombatDataRouteId(route: RouteId): boolean {
+  return route === 'combat-data' || route.startsWith('combat-data/');
+}
+
+export function combatDataResourceIdFromRoute(route: RouteId): string | null {
+  if (route === 'combat-data') {
+    return null;
+  }
+  if (!route.startsWith('combat-data/')) {
+    return null;
+  }
+  return route.slice('combat-data/'.length) || null;
+}
+
+/** Sidebar combat-data section ids (registry domains → nav groups). */
+export const COMBAT_DATA_NAVIGATION_GROUP_IDS: readonly NavigationGroupId[] = [
+  'combat-data-basics',
+  'combat-data-entities',
+  'combat-data-providers',
+  'combat-data-abilities',
+  'combat-data-effects'
+];
+
+export function isCombatDataNavigationGroupId(groupId: NavigationGroupId): boolean {
+  return (COMBAT_DATA_NAVIGATION_GROUP_IDS as readonly string[]).includes(groupId);
+}
+
+/** Resolve which sidebar group owns a route (static or combat-data). */
+export function navigationGroupIdForRoute(route: RouteId): NavigationGroupId | undefined {
+  for (const group of navigationGroups) {
+    if (group.items.some((item) => item.hashSegment === route || item.id === route)) {
+      return group.id;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Map a combat-data resource id to its sidebar NavigationGroupId.
+ * e.g. `effect-steps` → `combat-data-effects`, `entities` → `combat-data-entities`.
+ */
+export function navigationGroupIdForCombatDataResource(
+  resourceId: string
+): NavigationGroupId | undefined {
+  return navigationGroupIdForRoute(`combat-data/${resourceId}` as RouteId);
+}
+
+/**
+ * Default collapsed map: all combat-data groups + Wasm folded; 数据管理 stays open
+ * (absent / falsy). Active combat-data group for `route` is expanded when provided.
+ */
+export function createDefaultCollapsedNavigationGroups(
+  route?: RouteId
+): Partial<Record<NavigationGroupId, boolean>> {
+  const collapsed: Partial<Record<NavigationGroupId, boolean>> = {
+    'wasm-validation': true
+  };
+  for (const groupId of COMBAT_DATA_NAVIGATION_GROUP_IDS) {
+    collapsed[groupId] = true;
+  }
+  if (!route) {
+    return collapsed;
+  }
+  return ensureActiveCombatDataNavigationGroupExpanded(collapsed, route);
+}
+
+/**
+ * Ensure the combat-data group that owns `route` is expanded.
+ * Does not collapse any other group (preserves manual expands).
+ */
+export function ensureActiveCombatDataNavigationGroupExpanded(
+  collapsed: Partial<Record<NavigationGroupId, boolean>>,
+  route: RouteId
+): Partial<Record<NavigationGroupId, boolean>> {
+  const groupId = navigationGroupIdForRoute(route);
+  if (!groupId || !isCombatDataNavigationGroupId(groupId)) {
+    return collapsed;
+  }
+  if (collapsed[groupId] !== true) {
+    return collapsed;
+  }
+  return { ...collapsed, [groupId]: false };
+}
 
 export const publicSurfaceEndpoints: SurfaceEndpoint[] = [
   {
@@ -175,165 +212,43 @@ export const publicSurfaceEndpoints: SurfaceEndpoint[] = [
     title: '当前版本',
     method: 'GET',
     path: '/api/games/{gameId}/versions/current',
-    description: '获取当前已发布快照信息，并用 versionCode 驱动 Bundle 刷新。'
+    description: '获取当前已发布版本信息（versionCode / changeRevision 等）。'
   },
   {
-    title: '版本 Bundle',
+    title: 'Combat-data 状态',
     method: 'GET',
-    path: '/api/games/{gameId}/versions/{versionCode}/bundle',
-    description: '按 versionCode 拉取已发布快照，不再依赖 versionId / ETag。'
+    path: '/api/games/{gameId}/combat-data/state',
+    description: '读取 currentRevision / publishedRevision 与更新时间。'
+  },
+  {
+    title: 'Combat-data 实体与资源',
+    method: 'GET',
+    path: '/api/games/{gameId}/combat-data/**',
+    description: 'entities、providers、abilities、effect-sequences 等公开列表与详情。'
   },
   {
     title: '图片资源',
     method: 'GET',
     path: '/api/games/{gameId}/images?updatedAfter=...',
     description: '支持图片资源的全量与增量同步。'
-  },
-  {
-    title: '归属分类字典',
-    method: 'GET',
-    path: '/api/games/{gameId}/owner-categories',
-    description: '为技能等资源页提供 ownerType 参考值。'
   }
 ];
 
 export const adminEndpoints: AdminEndpoint[] = [
   {
-    title: '英雄',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/heroes/{heroId}',
-    description: '列表读取与整条 PUT 保存英雄数据。',
+    title: 'Combat-data 写入',
+    method: 'PUT',
+    path: '/api/admin/games/{gameId}/combat-data/**',
+    description: '按资源路径整条 PUT 保存 combat-data（实体、能力、效果步骤等）。',
     sampleBody: {
-      name: 'Ahri',
-      baseStats: {
-        hp: 500,
-        atk: 55
-      }
-    }
-  },
-  {
-    title: '技能',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/skills/{skillId}',
-    description: '列表读取与整条 PUT 保存技能配置。',
-    sampleBody: {
-      ownerType: 'hero',
-      ownerId: 'hero_ahri',
-      skillKey: 'Q',
-      name: 'Orb of Deception'
-    }
-  },
-  {
-    title: '装备',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/items/{itemId}',
-    description: '列表读取与整条 PUT 保存装备主数据。',
-    sampleBody: {
-      name: 'Boots',
-      goldCost: 300
-    }
-  },
-  {
-    title: '属性定义',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/attribute-definitions/{attrKey}',
-    description: '列表读取与整条 PUT 保存属性定义。',
-    sampleBody: {
-      attrName: 'Attack Damage',
-      attrType: 'number',
-      defaultValue: 0,
-      valueKind: 'scalar'
-    }
-  },
-  {
-    title: '类型定义',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/types/{typeId}',
-    description: '列表读取与整条 PUT 保存类型定义。',
-    sampleBody: {
-      name: 'Marksman',
-      description: 'role tag'
-    }
-  },
-  {
-    title: '类型挂载',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/type-relations/{typeId}/{targetCategory}/{targetId}',
-    description: '列表读取与整条 PUT 保存类型挂载关系。',
-    sampleBody: {
-      extend: {}
-    }
-  },
-  {
-    title: '技能挂载',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/skill-mounts/{targetCategory}/{targetId}/{skillId}',
-    description: '列表读取与整条 PUT 保存技能挂载关系；自然键为 targetCategory + targetId + skillId。',
-    sampleBody: {
-      targetCategory: 'hero',
-      targetId: 'hero_ezreal',
-      skillId: 'skill_lol_basic_attack_default',
-      enabled: true,
-      extend: {}
-    }
-  },
-  {
-    title: '公式档案',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/formula-profiles/{formulaId}',
-    description: '列表读取与整条 PUT 保存公式定义。',
-    sampleBody: {
-      formulaId: 'damage.skill.katarina.r.base',
-      formulaType: 'damage',
-      formulaKind: 'base',
-      params: { base: 1 }
-    }
-  },
-  {
-    title: '公式绑定',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/formula-bindings/{targetCategory}/{targetId}/{bindingKey}',
-    description: '列表读取与整条 PUT 保存目标实体上的公式绑定。',
-    sampleBody: {
-      targetCategory: 'skill',
-      targetId: 'skill_katarina_r',
-      bindingKey: 'damage.base',
-      formulaId: 'damage.skill.katarina.r.base',
-      overrideParams: {}
-    }
-  },
-  {
-    title: '乘区桶',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/coefficient-buckets/{bucketKey}',
-    description: '列表读取与整条 PUT 保存乘区桶配置。',
-    sampleBody: {
-      bucketKey: 'magic_damage.percent_bonus',
-      resolutionDomain: 'attribute',
-      stageKey: 'percent_bonus',
-      targetAttrKey: 'move_speed',
-      aggregationMode: 'add'
-    }
-  },
-  {
-    title: '状态动作规则',
-    method: 'GET/PUT',
-    path: '/api/admin/games/{gameId}/status-action-control-rules/{ruleId}',
-    description: '列表读取与整条 PUT 保存状态动作规则。',
-    sampleBody: {
-      ruleId: 'status_stun_forbid_cast',
-      statusTypeId: 50020,
-      ruleKind: 'forbid',
-      actionTypeIds: [50101, 50102],
-      actionMatchTypeIds: [],
-      interruptPhaseTypeIds: [],
-      priority: 100
+      displayName: 'Example Entity',
+      description: 'admin write sample'
     }
   },
   {
     title: '版本发布',
     method: 'POST',
     path: '/api/admin/games/{gameId}/versions:publish',
-    description: '在独立发布页直接提交 versionCode 与可选 releaseDate 并发布快照。'
+    description: '提交 versionCode 与可选 releaseDate，发布并推进 changeRevision / publishedRevision。'
   }
 ];

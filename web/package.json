@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:wasm-generic": "vitest run --config vitest.config.ts src/engine/genericCatalogMaterializer.test.ts src/engine/genericEngineClient.test.ts src/services/wasmCatalogSnapshot.test.ts",
+    "lint": "node scripts/lint-no-legacy.mjs",
+    "typecheck": "tsc -b --pretty false",
+    "test": "vitest run --config vitest.config.ts",
+    "test:wasm-generic": "vitest run --config vitest.config.ts src/engine/combatDataAssembler.test.ts src/engine/genericEngineClient.test.ts src/services/combatDataClient.test.ts src/services/adminPayload.test.ts",
     "test:e2e:wasm-generic": "playwright test --config playwright.config.ts tests/e2e/wasm-generic.spec.ts"
   },
   "dependencies": {
