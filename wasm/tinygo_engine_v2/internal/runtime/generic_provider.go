@@ -174,6 +174,7 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 	}
 	c.providers = status.RemoveByRef(c.providers, providerRef)
 	c.resolver.UnmountProvider(providerRef)
+	delete(c.providerState, providerRef)
 	c.attributes = c.resolver.ResolveAttributes(c.attributes, evalCtx, s.compiled.Formulas)
 	s.combatants[targetKey] = c
 }
@@ -212,6 +213,7 @@ func (s *genericRunState) sweepExpiredInstances() {
 		for _, inst := range c.providers {
 			if inst.Expired(s.nowMs) {
 				c.resolver.UnmountProvider(inst.ProviderRef)
+				delete(c.providerState, inst.ProviderRef)
 				changed = true
 				continue
 			}
