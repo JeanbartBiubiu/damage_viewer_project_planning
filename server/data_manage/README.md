@@ -161,8 +161,8 @@ mvn -Dtest=LolBatchCAdcItemsSeedSqlTest test
 
 机制边界：
 
-- 破败：监听器执行时 opponent `hp.current * 0.06` 物理伤害（基础普攻伤害之后的 HP）。
-- 海妖：`provider_target` 计数（缺省 0）；每第 3 次 `120 * (1 + clamp(missingHpRatio,0..1) * 0.75)` 物理伤害后重置；`missingHpRatio=(maxHP-currentHP)/max(maxHP,1)`。
+- 破败：`event.entry_target.attr.hp.current * 0.06` 物理伤害（父 execution frame 入口快照 / 基础普攻伤害前）。
+- 海妖：`provider_target` 计数（缺省 0）；每第 3 次 `120 * (1 + clamp(missingHpRatio,0..1) * 0.75)` 物理伤害后重置；`missingHpRatio=(maxHP-currentHP)/max(maxHP,1)`，max/current 均读 `event.entry_target.attr.hp.*`（入口快照 / 基础普攻伤害前）。
 - 鬼索首批：固定 30 魔法伤害；**不含**叠攻速、持续时间、满层或 phantom hit。
 - 不 DELETE、不自动 publish、不写 legacy item/skill / Bundle / Catalog。
 
