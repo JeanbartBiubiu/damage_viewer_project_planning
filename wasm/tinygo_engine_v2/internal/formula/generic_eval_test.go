@@ -161,3 +161,66 @@ func TestGenericEvalProviderTargetState(t *testing.T) {
 		t.Fatalf("got=%v want 2", got)
 	}
 }
+
+func TestGenericEvalResourceCurrentAndMax(t *testing.T) {
+	ctx := GenericEvalContext{
+		SourceResources: map[string]model.ResourceSlotDef{
+			"mana": {Current: 40, Max: 100},
+		},
+	}
+	cases := []struct {
+		path string
+		want float64
+	}{
+		{"source.resource.mana", 40},
+		{"source.resource.mana.current", 40},
+		{"source.resource.mana.max", 100},
+	}
+	for _, tc := range cases {
+		reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: tc.path})
+		got, err := reg.Eval(0, ctx)
+		if err != nil {
+			t.Fatalf("%s: %v", tc.path, err)
+		}
+		if got != tc.want {
+			t.Fatalf("%s=%v want %v", tc.path, got, tc.want)
+		}
+	}
+}
+
+func TestGenericEvalEventSnapshotRequiresContext(t *testing.T) {
+	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.entry_target.attr.hp.current"})
+	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+		t.Fatal("expected event context error")
+	}
+}
+
+func TestGenericEvalEventSnapshotReads(t *testing.T) {
+	regEntry := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.entry_target.attr.hp.current"})
+	regEmit := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.target.attr.hp.current"})
+	regRes := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.source.resource.mana.max"})
+	ctx := GenericEvalContext{
+		HasEventContext: true,
+		EventEntryTargetAttrs: map[string]model.AttributeSlotDef{
+			"hp": {Current: 1000, Max: 1000, Resolved: 1000},
+		},
+		EventTargetAttrs: map[string]model.AttributeSlotDef{
+			"hp": {Current: 900, Max: 1000, Resolved: 900},
+		},
+		EventSourceResources: map[string]model.ResourceSlotDef{
+			"mana": {Current: 10, Max: 80},
+		},
+	}
+	got, err := regEntry.Eval(0, ctx)
+	if err != nil || got != 1000 {
+		t.Fatalf("entry hp=%v err=%v want 1000", got, err)
+	}
+	got, err = regEmit.Eval(0, ctx)
+	if err != nil || got != 900 {
+		t.Fatalf("emit hp=%v err=%v want 900", got, err)
+	}
+	got, err = regRes.Eval(0, ctx)
+	if err != nil || got != 80 {
+		t.Fatalf("mana max=%v err=%v want 80", got, err)
+	}
+}
