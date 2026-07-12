@@ -2,31 +2,33 @@
 
 ## 适用范围
 
-本文件适用于 `web/src/services/**`，包括 API client、发布 Bundle 快照、IndexedDB 缓存、资源图片处理和类型目录服务。
+本文件适用于 `web/src/services/**`，包括 API client、combat-data 客户端、revision 缓存与图片处理。
 
 ## 默认读写边界
 
 1. 默认可写：`web/src/services/**`。
-2. 后端实现、DB 和 Wasm 默认只读参考；改 endpoint 语义前先确认接口契约和调用方。
-3. 改返回类型或 payload 时同步检查 `web/src/types/api.ts`。
+2. 后端实现、DB 和 Wasm 默认只读参考；改 endpoint 语义前先确认 combat-data 契约。
+3. 改返回类型或 payload 时同步检查 `web/src/types/api.ts` 与 `web/src/types/combatData.ts`。
 
 ## 关键入口
 
-1. `apiClient.ts`：API base URL、Bearer token、请求封装、错误模型和资源 endpoint。
-2. `bundleSnapshot.ts`：current version + bundle 的统一读取入口。
-3. `bundleCache.ts`、`imageCache.ts`：IndexedDB 缓存。
-4. `resourceImage.ts`：资源图片 URI 和上传前处理。
-5. `typeCatalog.ts`、`attributeDefinitions.ts`：共享目录/属性定义服务。
+1. `apiClient.ts`：API base URL、Bearer token、games/current/images/publish、错误模型。
+2. `combatDataClient.ts`：Public envelope GET 与 Admin PUT（含 payload sanitize）。
+3. `combatDataLoader.ts`：revision-safe 全量读取与一次重读。
+4. `combatDataCache.ts`：IndexedDB，key = `gameId::revision`。
+5. `adminPayload.ts`：禁止字段剥离与 effect-step detail 判别。
+6. `imageCache.ts` / `resourceImage.ts`：图片缓存与上传前处理。
 
 ## 最小验证
 
-1. 改 services 代码后至少运行 `cd web; npm run build`。
-2. 改缓存或图片逻辑时 smoke 图片缓存页、Admin 图片上传或 Wasm 属性图显示。
-3. 改 API base URL、token 或错误模型时 smoke 总览页和至少一个 Admin 资源页。
+1. 改 services 代码后至少运行 `cd web; npm run test` 与 `npm run build`。
+2. 改缓存逻辑时 smoke Wasm 验证页与发布后刷新。
+3. 改 API base URL、token 或错误模型时 smoke 总览页和 combat-data 分表页。
+4. combat-data state/list 的 404：当 `GET /api/games` 已成功时，使用 `formatCombatDataError(..., 'contract-entry')` 提示旧后端/端口不匹配；单条 detail 404 使用 `'resource-detail'`，不要误判。
 
 ## 常见陷阱
 
-1. API base URL 必须走 `resolveApiBaseUrl`，避免散落本地地址。
-2. 图片远端 URI 不带 gameId 前缀；IndexedDB 本地 key 使用 `{gameId}_{uri}`。
-3. 上传图片需要保持当前的规格化/裁剪约定，不要只做预览。
-4. `bundleSnapshot.ts` 是 current + bundle 的统一入口，不要在页面里复制一套发布快照读取链。
+1. API base URL 必须走 `resolveApiBaseUrl`。
+2. Admin PUT 不得提交 `changeRevision/currentRevision/updatedAt` 等服务端字段。
+3. Public `/state` 的 `data` 是对象；仅 `/entities/{id}` 与 `/progression-schema` 是对象，其余列表。
+4. 旧 Bundle / Catalog IndexedDB 不再作为事实来源。

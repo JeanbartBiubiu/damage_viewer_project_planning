@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Form, Grid, Input, Space, Typography } from '@arco-design/web-react';
 import { DetailGrid, type DetailGridItem } from '../components/DataTable';
 import { Panel } from '../components/Panel';
-import { getErrorMessage } from '../services/apiClient';
-import { loadPublishedBundleSnapshot } from '../services/bundleSnapshot';
-import type { BundleMeta, CurrentVersion } from '../types/api';
+import { getCurrentVersion, getErrorMessage } from '../services/apiClient';
+import { getCombatDataState } from '../services/combatDataClient';
+import type { CurrentVersion } from '../types/api';
+import type { CombatDataState } from '../types/combatData';
 import { AdminPublishRail } from './admin/AdminPublishRail';
 import { usePublishFlow } from './admin/usePublishFlow';
 
@@ -41,7 +42,7 @@ export function VersionPublishPage({
   const [inspectSeed, setInspectSeed] = useState(0);
   const [inspectError, setInspectError] = useState<string | null>(null);
   const [currentVersion, setCurrentVersion] = useState<CurrentVersion | null>(null);
-  const [bundleMeta, setBundleMeta] = useState<BundleMeta | null>(null);
+  const [combatDataState, setCombatDataState] = useState<CombatDataState | null>(null);
 
   const {
     versionCodeDraft,
@@ -51,8 +52,7 @@ export function VersionPublishPage({
     versionSuccess,
     publishedVersion,
     publishedCurrentVersion,
-    publishedBundleMeta,
-    publishedContractDiagnostics,
+    publishedCombatDataState,
     setVersionCodeDraft,
     setReleaseDateDraft,
     handlePublishVersion
@@ -70,7 +70,7 @@ export function VersionPublishPage({
     if (!selectedGameId) {
       setInspectError(null);
       setCurrentVersion(null);
-      setBundleMeta(null);
+      setCombatDataState(null);
       return;
     }
 
@@ -81,20 +81,23 @@ export function VersionPublishPage({
       setInspectError(null);
 
       try {
-        const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, gameId);
+        const [versionResult, combatStateResult] = await Promise.all([
+          getCurrentVersion(apiBaseUrl, gameId),
+          getCombatDataState(apiBaseUrl, gameId)
+        ]);
         if (cancelled) {
           return;
         }
 
-        setCurrentVersion(snapshot.currentVersion);
-        setBundleMeta(snapshot.bundle.meta);
+        setCurrentVersion(versionResult.data);
+        setCombatDataState(combatStateResult.data.data);
       } catch (error) {
         if (cancelled) {
           return;
         }
 
         setCurrentVersion(null);
-        setBundleMeta(null);
+        setCombatDataState(null);
         setInspectError(getErrorMessage(error));
       }
     }
@@ -107,36 +110,64 @@ export function VersionPublishPage({
   }, [apiBaseUrl, inspectSeed, selectedGameId]);
 
   const displayedCurrentVersion = publishedCurrentVersion ?? currentVersion;
-  const displayedBundleMeta = publishedBundleMeta ?? bundleMeta;
+  const displayedCombatDataState = publishedCombatDataState ?? combatDataState;
   const publishSummaryItems: DetailGridItem[] = [
     {
       label: '当前版本',
-      value: displayedCurrentVersion?.versionCode ? <Typography.Text code>{displayedCurrentVersion.versionCode}</Typography.Text> : '--',
+      value: displayedCurrentVersion?.versionCode ? (
+        <Typography.Text code>{displayedCurrentVersion.versionCode}</Typography.Text>
+      ) : (
+        '--'
+      ),
       hint: displayedCurrentVersion?.publishedAt ?? displayedCurrentVersion?.releaseDate ?? '尚未读取到 current version'
     },
     {
-      label: '数据包版本',
-      value: displayedBundleMeta?.versionCode ? <Typography.Text code>{displayedBundleMeta.versionCode}</Typography.Text> : '--',
-      hint: displayedBundleMeta
-        ? displayedBundleMeta.versionId
-          ? `versionId=${displayedBundleMeta.versionId}`
-          : `generatedAt ${formatDate(displayedBundleMeta.generatedAt)}`
-        : '尚未读取到 bundle meta'
+      label: 'releaseDate',
+      value: displayedCurrentVersion?.releaseDate ?? '--',
+      hint: '当前版本发布日期'
     },
     {
-      label: '数据哈希',
-      value: displayedBundleMeta?.dataHash ? <Typography.Text code>{displayedBundleMeta.dataHash.slice(0, 16)}</Typography.Text> : '--',
-      hint: displayedBundleMeta?.dataHash ? '已截断显示前 16 位' : '等待 bundle meta'
+      label: 'changeRevision',
+      value:
+        displayedCurrentVersion?.changeRevision != null ? (
+          <Typography.Text code>{String(displayedCurrentVersion.changeRevision)}</Typography.Text>
+        ) : (
+          '--'
+        ),
+      hint: '版本侧变更修订'
     },
     {
-      label: 'bundle 生成时间',
-      value: formatDate(displayedBundleMeta?.generatedAt),
-      hint: '发布成功后应与线上 bundle 快照一致'
+      label: 'combat-data current',
+      value:
+        displayedCombatDataState != null ? (
+          <Typography.Text code>{String(displayedCombatDataState.currentRevision)}</Typography.Text>
+        ) : (
+          '--'
+        ),
+      hint: '工作区最新修订'
+    },
+    {
+      label: 'combat-data published',
+      value:
+        displayedCombatDataState != null ? (
+          <Typography.Text code>{String(displayedCombatDataState.publishedRevision)}</Typography.Text>
+        ) : (
+          '--'
+        ),
+      hint: '已发布修订'
     },
     {
       label: '最近发布结果',
       value: publishedVersion?.versionCode ? <Typography.Text code>{publishedVersion.versionCode}</Typography.Text> : '本次未发布',
-      hint: publishedVersion?.publishedAt ?? publishedVersion?.releaseDate ?? '还没有新的发布回执'
+      hint:
+        publishedVersion?.changeRevision != null
+          ? `changeRevision=${publishedVersion.changeRevision} / ${publishedVersion.publishedAt ?? publishedVersion.releaseDate ?? ''}`
+          : publishedVersion?.publishedAt ?? publishedVersion?.releaseDate ?? '还没有新的发布回执'
+    },
+    {
+      label: 'combat-data 更新时间',
+      value: formatDate(displayedCombatDataState?.updatedAt),
+      hint: '发布后应与线上 state 一致'
     }
   ];
 
@@ -147,7 +178,7 @@ export function VersionPublishPage({
         kicker="独立操作页面"
         actions={
           <Space wrap>
-            <Button onClick={() => setInspectSeed((value) => value + 1)}>刷新当前版本</Button>
+            <Button onClick={() => setInspectSeed((value) => value + 1)}>刷新当前状态</Button>
           </Space>
         }
       >
@@ -188,7 +219,7 @@ export function VersionPublishPage({
         {inspectError ? <Alert type="error" content={inspectError} style={{ marginTop: 16 }} /> : null}
       </Panel>
 
-      <Panel title="发布操作" kicker="Publish Snapshot">
+      <Panel title="发布操作" kicker="Publish Version">
         <Row gutter={[16, 16]} align="stretch">
           <Col xs={24} xl={13}>
             <AdminPublishRail
@@ -199,9 +230,6 @@ export function VersionPublishPage({
               versionError={versionError}
               versionSuccess={versionSuccess}
               publishedVersion={publishedVersion}
-              publishedCurrentVersion={displayedCurrentVersion}
-              publishedBundleMeta={displayedBundleMeta}
-              publishedContractDiagnostics={publishedContractDiagnostics}
               onVersionCodeDraftChange={setVersionCodeDraft}
               onReleaseDateDraftChange={setReleaseDateDraft}
               onPublishVersion={handlePublishVersion}

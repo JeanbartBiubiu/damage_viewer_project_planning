@@ -381,3 +381,15 @@ export const DEFAULT_SAMPLING: SamplingConfig = {
 };
 
 export const DEFAULT_CONDITION_RECHECK_INTERVAL_MS = 100;
+
+/** Ability option listed after combat-data assembly for driver plan UI. */
+export type GenericAbilityOption = {
+  abilityRef: string;
+  abilityKey: string;
+  providerRef: string;
+  definitionRef: string;
+  providerKey: string;
+  displayName?: string;
+  kind?: string;
+  selectable?: boolean;
+};

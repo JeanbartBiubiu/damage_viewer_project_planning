@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import { getErrorMessage, getItems, getSkills, publishVersion } from '../../services/apiClient';
-import { loadPublishedBundleSnapshot } from '../../services/bundleSnapshot';
-import {
-  buildPublishedContractDiagnostics,
-  type PublishedContractDiagnostic
-} from '../../engine/tinygoV2DpsAdapter';
-import type { CurrentVersion, GameDataBundle, LoadState, VersionPublishResponse } from '../../types/api';
+import { getCurrentVersion, getErrorMessage, publishVersion } from '../../services/apiClient';
+import { getCombatDataState } from '../../services/combatDataClient';
+import type { CurrentVersion, LoadState, VersionPublishResponse } from '../../types/api';
+import type { CombatDataState } from '../../types/combatData';
 
 type UsePublishFlowArgs = {
   apiBaseUrl: string;
@@ -22,8 +19,7 @@ type UsePublishFlowResult = {
   versionSuccess: string | null;
   publishedVersion: VersionPublishResponse | null;
   publishedCurrentVersion: CurrentVersion | null;
-  publishedBundleMeta: GameDataBundle['meta'] | null;
-  publishedContractDiagnostics: PublishedContractDiagnostic[];
+  publishedCombatDataState: CombatDataState | null;
   setVersionCodeDraft: (value: string) => void;
   setReleaseDateDraft: (value: string) => void;
   handlePublishVersion: () => Promise<void>;
@@ -43,8 +39,7 @@ export function usePublishFlow({
   const [versionSuccess, setVersionSuccess] = useState<string | null>(null);
   const [publishedVersion, setPublishedVersion] = useState<VersionPublishResponse | null>(null);
   const [publishedCurrentVersion, setPublishedCurrentVersion] = useState<CurrentVersion | null>(null);
-  const [publishedBundleMeta, setPublishedBundleMeta] = useState<GameDataBundle['meta'] | null>(null);
-  const [publishedContractDiagnostics, setPublishedContractDiagnostics] = useState<PublishedContractDiagnostic[]>([]);
+  const [publishedCombatDataState, setPublishedCombatDataState] = useState<CombatDataState | null>(null);
 
   async function handlePublishVersion() {
     if (!selectedGameId || !token) {
@@ -62,33 +57,28 @@ export function usePublishFlow({
     setVersionState('loading');
     setVersionError(null);
     setVersionSuccess(null);
-    setPublishedContractDiagnostics([]);
 
     try {
-      const [itemsResult, skillsResult] = await Promise.all([
-        getItems(apiBaseUrl, selectedGameId, token),
-        getSkills(apiBaseUrl, selectedGameId, token)
-      ]);
-      const diagnostics = buildPublishedContractDiagnostics(itemsResult.data.items, skillsResult.data.skills);
-      setPublishedContractDiagnostics(diagnostics);
-      const blockingDiagnostics = diagnostics.filter((diagnostic) => diagnostic.severity === 'error');
-      if (blockingDiagnostics.length > 0) {
-        setVersionState('error');
-        setVersionError(`发布前契约检查发现 ${blockingDiagnostics.length} 个 error 级问题，已阻止发布。`);
-        return;
-      }
-
       const publishResult = await publishVersion(apiBaseUrl, selectedGameId, token, {
         versionCode,
         releaseDate: releaseDateDraft.trim() || undefined
       });
-      const snapshot = await loadPublishedBundleSnapshot(apiBaseUrl, selectedGameId);
+
+      const [currentResult, combatStateResult] = await Promise.all([
+        getCurrentVersion(apiBaseUrl, selectedGameId),
+        getCombatDataState(apiBaseUrl, selectedGameId)
+      ]);
 
       setPublishedVersion(publishResult.data);
-      setPublishedCurrentVersion(snapshot.currentVersion);
-      setPublishedBundleMeta(snapshot.bundle.meta);
+      setPublishedCurrentVersion(currentResult.data);
+      setPublishedCombatDataState(combatStateResult.data.data);
       setVersionState('success');
-      setVersionSuccess(`版本 ${publishResult.data.versionCode} 已发布，current version 与 bundle 快照已刷新。`);
+
+      const changeRevision =
+        publishResult.data.changeRevision ?? currentResult.data.changeRevision ?? combatStateResult.data.data.publishedRevision;
+      setVersionSuccess(
+        `版本 ${publishResult.data.versionCode} 已发布（changeRevision=${changeRevision ?? '—'}），current 与 combat-data 状态已刷新。`
+      );
       onDataPublished?.();
     } catch (error) {
       setVersionState('error');
@@ -104,8 +94,7 @@ export function usePublishFlow({
     versionSuccess,
     publishedVersion,
     publishedCurrentVersion,
-    publishedBundleMeta,
-    publishedContractDiagnostics,
+    publishedCombatDataState,
     setVersionCodeDraft,
     setReleaseDateDraft,
     handlePublishVersion
