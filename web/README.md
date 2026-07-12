@@ -4,21 +4,17 @@
 
 它在整条链路里的位置是：
 
-1. 读取后端提供的 `current version / published bundle snapshot / images`。
+1. 读取后端提供的 `current version / published bundle snapshot / images / wasm-catalog`。
 2. 提供 Admin 页面维护游戏资源。
 3. 缓存图片与 Bundle 快照，降低联调成本。
-4. 通过 TinyGo V2 Wasm M1/M2/M3 验证页核对发布数据到计算输入与输出证据的转换。
+4. 通过通用 Wasm 验证页完成 Catalog → materialize → compile / run / release 核对。
 
 ## 当前主要页面
 
 - `src/App.tsx`：应用外壳、路由、API 基址和本地状态
 - `src/pages/OverviewPage.tsx`：系统总览和当前游戏快照
 - `src/pages/VersionPublishPage.tsx`：版本发布和 `current / bundle` 快照校验
-- `src/pages/WasmValidationPage.tsx`：TinyGo V2 M1 初始快照验证
-- `src/pages/WasmValidationM2Page.tsx`：TinyGo V2 M2 Action 面板值验证
-- `src/pages/WasmValidationM3Page.tsx`：TinyGo V2 M3 单技能 1v 假人验证
-- `src/pages/WasmValidationM4ClosurePage.tsx`：TinyGo V2 M4 机制扩展闭环验证
-- `src/pages/WasmValidationV2DpsPage.tsx`：TinyGo V2 单攻击方站桩普攻 DPS 验证（单英雄 / 多英雄 / 批量英雄叠层被动三模式页内切换）
+- `src/pages/WasmValidationGenericPage.tsx`：通用 Wasm Catalog 物化后编译、运行与释放验证
 - `src/pages/ImagesPage.tsx`：图片缓存与同步
 - `src/pages/admin/**`：后台资源维护
 
@@ -34,15 +30,17 @@
 
 对应任务清单见：`../文档记录/详细设计/web/前端开发任务清单-非Wasm优先.md`
 
-旧 `Katarina MVP` 与旧 Rust Wasm 场景模拟链路已移除，后续 Wasm 验证默认走 TinyGo V2 页面。
+旧 `Katarina MVP`、旧 Rust Wasm 场景模拟链路，以及旧 TinyGo V2 M1/M2/M3/M4/V2 DPS 专用验证页已移除；当前 Wasm 验证入口统一为通用引擎验证页。
 
 ## 关键入口地图
 
 - `src/App.tsx`：应用壳层、页面切换、游戏选择和全局本地状态
 - `src/config/navigation.ts`：导航项、公开接口说明和 Admin 资源入口
 - `src/services/apiClient.ts`：API 基址解析、请求封装、错误处理
-- `src/engine/tinygoV2Bridge.ts`：TinyGo V2 Wasm ABI 桥接层
-- `src/engine/tinygoV2BundleAdapter.ts`：发布 Bundle 到 TinyGo V2 输入的适配层
+- `src/services/wasmCatalogSnapshot.ts`：当前版本 → wasm-catalog 拉取
+- `src/engine/genericCatalogMaterializer.ts`：Catalog 浏览器侧物化
+- `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release 客户端
+- `src/engine/tinygoV2Bridge.ts`：通用引擎仍复用的低层 frame / loader
 - `src/engine/wasm/`：Wasm 构建产物目录
 
 ## 开发范围
@@ -95,6 +93,7 @@ npm run dev
 | `npm install` | 安装依赖 | 首次进入或依赖变更后执行 |
 | `npm run dev` | 启动本地开发服务器 | 启动 Vite |
 | `npm run build` | 生产构建校验 | 执行 `tsc -b + vite build` |
+| `npm run test:wasm-generic` | 通用 Wasm 链路自动化测试 | Catalog / materialize / engine client |
 | `npm run preview` | 预览生产构建 | 用于检查构建产物 |
 
 开发说明：
@@ -109,21 +108,21 @@ npm run dev
 
 ```powershell
 cd web
+npm run test:wasm-generic
 npm run build
 ```
 
-这个命令会同时验证：
+这些命令会验证：
 
-1. TypeScript 编译
-2. Vite 生产构建
-
-当前前端没有独立的 `lint` / `test` 脚本，默认以 `npm run build` 作为最小自动化校验。
+1. 通用 Catalog materialize 与 engine client 自动化测试
+2. TypeScript 编译
+3. Vite 生产构建
 
 涉及页面、服务层或联调行为改动时，至少回归这些能力：
 
 1. 总览页读取当前游戏与当前版本
 2. 版本发布页读取 `current / bundle`
-3. Wasm M1/M2/M3 验证页成功加载当前版本、Bundle 与 TinyGo V2 产物
+3. 通用 Wasm 验证页成功拉取 wasm-catalog、完成 materialize，并执行 compile / run / release
 4. Admin 页面增删改查
 5. 图片缓存页同步
 
@@ -135,10 +134,11 @@ npm run build
 - 检查页面内 API 基址、`VITE_API_BASE_URL` 和默认地址是否一致。
 - 若浏览器里缓存了旧地址，清理本地存储后重试。
 
-### 2. Wasm 验证页加载不到 TinyGo 产物
+### 2. 通用 Wasm 验证页加载不到 Catalog 或产物
 
+- 确认后端已发布版本，且 `GET /versions/{versionCode}/wasm-catalog` 可返回。
 - 确认 `src/engine/wasm/tinygo_engine_v2.wasm` 存在。
-- 如果改过 TinyGo ABI 或 `tinygoV2Bridge.ts`，优先回查导出函数名和产物引用路径。
+- 如果改过通用 ABI、`genericEngineClient.ts` 或 `tinygoV2Bridge.ts`，优先回查导出函数名、frame 编解码和产物引用路径。
 
 ## 协作说明
 
