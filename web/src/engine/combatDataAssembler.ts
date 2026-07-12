@@ -16,6 +16,7 @@ import type {
   CombatantProviderMount,
   CombatantSnapshot,
   CompileRequest,
+  DriverEntryRepeat,
   DriverPlan,
   EmptyP0Rules,
   GenericFormulaExpr,
@@ -25,6 +26,7 @@ import type {
   NamedFormula,
   OperationDefinition,
   ProviderDefinition,
+  ProviderStateFieldSchema,
   ResourceSlot,
   RunRequest,
   SafetyBudget,
@@ -354,7 +356,7 @@ export function normalizeDriverPlan(plan: DriverPlan): DriverPlan {
       target: 'target' as const,
       priority: entry.priority ?? 0,
       firstAtMs: entry.firstAtMs,
-      ...(entry.repeat ? { repeat: { ...entry.repeat } } : {}),
+      ...(entry.repeat ? { repeat: normalizeDriverEntryRepeat(entry.repeat) } : {}),
       ...(entry.whileReady !== undefined ? { whileReady: entry.whileReady } : {}),
       ...(entry.condition ? { condition: deepClone(entry.condition) } : {})
     };
@@ -362,6 +364,46 @@ export function normalizeDriverPlan(plan: DriverPlan): DriverPlan {
   });
 
   return { conditionRecheckIntervalMs, entries };
+}
+
+/**
+ * TinyGo V2 DriverRepeat XOR: exactly one of intervalMs | intervalFormula.
+ * Numeric interval must be finite and positive; formula is deep-cloned, not evaluated.
+ */
+export function normalizeDriverEntryRepeat(repeat: DriverEntryRepeat): DriverEntryRepeat {
+  const record = repeat as Record<string, unknown>;
+  const hasIntervalMs = Object.prototype.hasOwnProperty.call(record, 'intervalMs');
+  const hasIntervalFormula = Object.prototype.hasOwnProperty.call(record, 'intervalFormula');
+
+  if (hasIntervalMs === hasIntervalFormula) {
+    throw new CombatDataAssembleError(
+      'driverPlan.entry.repeat requires exactly one of intervalMs or intervalFormula'
+    );
+  }
+
+  const maxAttempts =
+    record.maxAttempts !== undefined ? { maxAttempts: record.maxAttempts as number } : {};
+
+  if (hasIntervalMs) {
+    const intervalMs = record.intervalMs;
+    if (typeof intervalMs !== 'number' || !Number.isFinite(intervalMs) || intervalMs <= 0) {
+      throw new CombatDataAssembleError(
+        'driverPlan.entry.repeat.intervalMs must be a positive finite number'
+      );
+    }
+    return { intervalMs, ...maxAttempts };
+  }
+
+  const intervalFormula = record.intervalFormula;
+  if (!intervalFormula || typeof intervalFormula !== 'object') {
+    throw new CombatDataAssembleError(
+      'driverPlan.entry.repeat.intervalFormula must be a formula expression object'
+    );
+  }
+  return {
+    intervalFormula: deepClone(intervalFormula as GenericFormulaExpr),
+    ...maxAttempts
+  };
 }
 
 function findEntity(graph: CombatDataGraph, entityId: string) {
@@ -742,13 +784,11 @@ function cloneProviderForSlot(
   }
 
   const stateFields = indexes.stateFieldsByProvider.get(providerId) ?? [];
+  // TinyGo V2: legacy numeric defaults are bare `0`; structured timed/capped state is an object.
   const initialStateSchema =
     stateFields.length > 0
       ? Object.fromEntries(
-          stateFields.map((field) => [
-            field.stateKey,
-            { valueType: abiToken(requireTypeKey(indexes.types, field.valueTypeId, `state ${field.stateKey}`)) }
-          ])
+          stateFields.map((field) => [field.stateKey, projectProviderStateField(field, indexes)])
         )
       : undefined;
 
@@ -1051,11 +1091,13 @@ function mapEffectStep(
       const d = step.damageDetail!;
       return {
         ...base,
+        ref: step.stepId,
         amount: formulaRef(slot, d.amountFormulaKey),
         damageType: requireTypeKey(indexes.types, d.damageTypeId, `step ${step.stepId} damageType`),
         valuePolicy: abiToken(
           requireTypeKey(indexes.types, d.valuePolicyTypeId, `step ${step.stepId} valuePolicy`)
-        )
+        ),
+        ...(d.copyableOnHit === true ? { copyableOnHit: true } : {})
       };
     }
     case 'healDetail': {
@@ -1162,6 +1204,20 @@ function mapEffectStep(
         types: [
           requireTypeKey(indexes.types, d.stateScopeTypeId, `step ${step.stepId} stateScope`)
         ]
+      };
+    }
+    case 'repeatDetail': {
+      const d = step.repeatDetail!;
+      return {
+        ...base,
+        ref: step.stepId,
+        repeatScope: abiToken(
+          requireTypeKey(indexes.types, d.repeatScopeTypeId, `step ${step.stepId} repeatScope`)
+        ),
+        repeatCount: d.repeatCount,
+        repeatTag: d.repeatTag,
+        triggerStateKey: d.triggerStateKey,
+        threshold: d.threshold
       };
     }
     default:
@@ -1374,6 +1430,60 @@ function requireTypeKey(types: TypeIndex, typeId: number, label: string): string
 function abiToken(typeKey: string): string {
   const idx = typeKey.indexOf('/');
   return idx >= 0 ? typeKey.slice(idx + 1) : typeKey;
+}
+
+/**
+ * Legacy provider_state_fields (no maxValue/durationMs/refreshPolicyTypeId) project to bare
+ * numeric default `0` (e.g. Vayne silver_bolts_hits). Any structured metadata → object schema.
+ */
+function projectProviderStateField(
+  field: CombatDataGraph['providerStateFields'][number],
+  indexes: GraphIndexes
+): number | ProviderStateFieldSchema {
+  const hasStructuredMeta =
+    field.maxValue !== undefined ||
+    field.durationMs !== undefined ||
+    field.refreshPolicyTypeId !== undefined;
+
+  if (!hasStructuredMeta) {
+    return 0;
+  }
+
+  const entry: ProviderStateFieldSchema = {
+    valueType: abiToken(
+      requireTypeKey(indexes.types, field.valueTypeId, `state ${field.stateKey}`)
+    ),
+    defaultValue: 0
+  };
+  if (field.maxValue !== undefined) {
+    entry.maxValue = field.maxValue;
+  }
+  if (field.durationMs !== undefined) {
+    entry.durationMs = field.durationMs;
+  }
+  if (field.refreshPolicyTypeId !== undefined) {
+    entry.refreshPolicy = projectProviderStateRefreshPolicy(
+      requireTypeKey(
+        indexes.types,
+        field.refreshPolicyTypeId,
+        `state ${field.stateKey} refreshPolicy`
+      )
+    );
+  }
+  return entry;
+}
+
+/**
+ * Provider-state initialStateSchema refreshPolicy only.
+ * Backend reserved 20190 reuses typeKey `refresh_policy/refresh_duration`, but TinyGo V2
+ * structured timed state accepts ABI token `refresh_on_write`. Keep this local — do not
+ * alter global abiToken or lifecycle.refreshPolicy projection.
+ */
+function projectProviderStateRefreshPolicy(typeKey: string): string {
+  if (typeKey === 'refresh_policy/refresh_duration') {
+    return 'refresh_on_write';
+  }
+  return abiToken(typeKey);
 }
 
 function mapAbilityKind(token: string): AbilityDefinition['kind'] {

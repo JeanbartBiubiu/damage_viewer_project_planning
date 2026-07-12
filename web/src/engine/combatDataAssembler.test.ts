@@ -4,9 +4,11 @@ import {
   assembleCompileRequest,
   CombatDataAssembleError,
   domainFromTypeKey,
-  DEFAULT_GENERIC_SCHEMA_VERSION
+  DEFAULT_GENERIC_SCHEMA_VERSION,
+  normalizeDriverPlan
 } from './combatDataAssembler';
 import type { CombatDataGraph, CombatDataRowMeta } from '../types/combatData';
+import type { DriverPlan } from '../types/genericEngine';
 
 const META: CombatDataRowMeta = {
   gameId: 'demo',
@@ -549,6 +551,353 @@ describe('combatDataAssembler', () => {
     const op = sourceProvider.abilities![0].operations![0];
     expect(op).not.toHaveProperty('condition');
     expect(JSON.stringify(op)).not.toContain('"condition"');
+  });
+
+  describe('Guinsoo H+K W2 driver repeat XOR', () => {
+    function basePlan(repeat: DriverPlan['entries'][number]['repeat']): DriverPlan {
+      return {
+        conditionRecheckIntervalMs: 100,
+        entries: [
+          {
+            entryKey: 'entry_0',
+            abilityRef: 'source.provider[passive:prov_q].ability[cast]',
+            source: 'source',
+            target: 'target',
+            firstAtMs: 0,
+            ...(repeat ? { repeat } : {})
+          }
+        ]
+      };
+    }
+
+    it('preserves fixed intervalMs repeat and optional maxAttempts', () => {
+      const normalized = normalizeDriverPlan(
+        basePlan({ intervalMs: 625, maxAttempts: 10 })
+      );
+      expect(normalized.entries[0].repeat).toEqual({
+        intervalMs: 625,
+        maxAttempts: 10
+      });
+      expect(normalized.entries[0].repeat).not.toHaveProperty('intervalFormula');
+    });
+
+    it('preserves intervalFormula AST via deep clone without evaluating', () => {
+      const formula = {
+        op: 'div',
+        args: [
+          { op: 'const', value: 1000 },
+          { op: 'read', path: 'source.attr.attack_speed.resolved' }
+        ]
+      };
+      const plan = basePlan({ intervalFormula: formula, maxAttempts: 3 });
+      const normalized = normalizeDriverPlan(plan);
+      expect(normalized.entries[0].repeat).toEqual({
+        intervalFormula: formula,
+        maxAttempts: 3
+      });
+      expect(normalized.entries[0].repeat).not.toHaveProperty('intervalMs');
+      // Mutating the input formula must not affect the normalized copy.
+      formula.args![0].value = 999;
+      expect(
+        (normalized.entries[0].repeat as { intervalFormula: typeof formula }).intervalFormula.args![0]
+          .value
+      ).toBe(1000);
+    });
+
+    it('rejects repeat with neither intervalMs nor intervalFormula', () => {
+      expect(() =>
+        normalizeDriverPlan(basePlan({ maxAttempts: 2 } as never))
+      ).toThrow(/exactly one of intervalMs or intervalFormula/);
+    });
+
+    it('rejects repeat with both intervalMs and intervalFormula', () => {
+      expect(() =>
+        normalizeDriverPlan(
+          basePlan({
+            intervalMs: 500,
+            intervalFormula: { op: 'const', value: 500 }
+          } as never)
+        )
+      ).toThrow(/exactly one of intervalMs or intervalFormula/);
+    });
+
+    it('rejects non-positive or non-finite intervalMs', () => {
+      expect(() => normalizeDriverPlan(basePlan({ intervalMs: 0 }))).toThrow(
+        /intervalMs must be a positive finite number/
+      );
+      expect(() => normalizeDriverPlan(basePlan({ intervalMs: -10 }))).toThrow(
+        /intervalMs must be a positive finite number/
+      );
+      expect(() => normalizeDriverPlan(basePlan({ intervalMs: Number.NaN }))).toThrow(
+        /intervalMs must be a positive finite number/
+      );
+    });
+  });
+
+  describe('Guinsoo H+K W1 projection', () => {
+    const HK_TYPE = {
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      refreshDuration: { typeId: 20190, typeKey: 'refresh_policy/refresh_duration' },
+      operationRepeat: { typeId: 20161, typeKey: 'operation/repeat' },
+      repeatScopeCopyable: { typeId: 20263, typeKey: 'repeat_scope/copyable_on_hit' }
+    } as const;
+
+    function withHkTypes(graph: CombatDataGraph): CombatDataGraph {
+      return {
+        ...graph,
+        types: [
+          ...graph.types,
+          ...Object.values(HK_TYPE).map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ]
+      };
+    }
+
+    it('projects structured initialStateSchema with defaultValue=0; legacy fields stay bare 0', () => {
+      // Backend reserved 20190 typeKey refresh_policy/refresh_duration -> Wasm refresh_on_write
+      // (narrow initialStateSchema adapter; generic abiToken would yield refresh_duration).
+      const graph = withHkTypes(
+        buildGraphFixture({
+          providerStateFields: [
+            {
+              ...META,
+              providerId: 'prov_q',
+              stateKey: 'stacks',
+              valueTypeId: HK_TYPE.valueTypeNumber.typeId,
+              maxValue: 4,
+              durationMs: 6000,
+              refreshPolicyTypeId: HK_TYPE.refreshDuration.typeId
+            },
+            {
+              ...META,
+              providerId: 'prov_q',
+              stateKey: 'marker',
+              valueTypeId: HK_TYPE.valueTypeNumber.typeId
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.initialStateSchema).toEqual({
+        stacks: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 4,
+          durationMs: 6000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        marker: 0
+      });
+      expect(typeof sourceProvider.initialStateSchema!.marker).toBe('number');
+    });
+
+    it('projects legacy silver_bolts_hits as numeric default 0', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          providerStateFields: [
+            {
+              ...META,
+              providerId: 'prov_q',
+              stateKey: 'silver_bolts_hits',
+              valueTypeId: HK_TYPE.valueTypeNumber.typeId
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.initialStateSchema).toEqual({ silver_bolts_hits: 0 });
+      expect(sourceProvider.initialStateSchema!.silver_bolts_hits).toBe(0);
+    });
+
+    it('keeps Guinsoo guinsoos_rage structured projection (maxValue/durationMs/refresh_on_write)', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          providerStateFields: [
+            {
+              ...META,
+              providerId: 'prov_q',
+              stateKey: 'guinsoos_rage',
+              valueTypeId: HK_TYPE.valueTypeNumber.typeId,
+              maxValue: 4,
+              durationMs: 3000,
+              refreshPolicyTypeId: HK_TYPE.refreshDuration.typeId
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.initialStateSchema).toEqual({
+        guinsoos_rage: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 4,
+          durationMs: 3000,
+          refreshPolicy: 'refresh_on_write'
+        }
+      });
+    });
+
+    it('projects damage with ref=stepId and copyableOnHit only when true', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_copyable',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: TYPE.operationDamage.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              damageDetail: {
+                amountFormulaKey: 'dmg',
+                damageTypeId: TYPE.damagePhysical.typeId,
+                valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+                copyableOnHit: true
+              }
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.abilities![0].operations![0]).toEqual({
+        operation: 'damage',
+        target: 'opponent',
+        ref: 'step_copyable',
+        amount: { op: 'ref', ref: 'source::dmg' },
+        damageType: 'damage/physical',
+        valuePolicy: 'add',
+        copyableOnHit: true
+      });
+
+      const plain = withHkTypes(buildGraphFixture());
+      const plainCompile = assembleCompileRequest(plain, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const plainOp = plainCompile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!
+        .abilities![0].operations![0];
+      expect(plainOp.ref).toBe('step_dmg');
+      expect(plainOp).not.toHaveProperty('copyableOnHit');
+    });
+
+    it('projects repeatDetail with ref=stepId and ABI-tokenized repeatScope', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_repeat',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: HK_TYPE.operationRepeat.typeId,
+              targetSelectorTypeId: TYPE.selectorSelf.typeId,
+              repeatDetail: {
+                repeatScopeTypeId: HK_TYPE.repeatScopeCopyable.typeId,
+                repeatCount: 1,
+                repeatTag: 'phantom_hit',
+                triggerStateKey: 'stacks',
+                threshold: 4
+              }
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.abilities![0].operations![0]).toEqual({
+        operation: 'repeat',
+        target: 'self',
+        ref: 'step_repeat',
+        repeatScope: 'copyable_on_hit',
+        repeatCount: 1,
+        repeatTag: 'phantom_hit',
+        triggerStateKey: 'stacks',
+        threshold: 4
+      });
+    });
+
+    it('rejects effect steps with multiple or missing detail families', () => {
+      const multi = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_multi',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: TYPE.operationDamage.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              damageDetail: {
+                amountFormulaKey: 'dmg',
+                damageTypeId: TYPE.damagePhysical.typeId,
+                valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+              },
+              repeatDetail: {
+                repeatScopeTypeId: HK_TYPE.repeatScopeCopyable.typeId,
+                repeatCount: 1,
+                repeatTag: 'phantom_hit',
+                triggerStateKey: 'stacks',
+                threshold: 4
+              }
+            } as never
+          ]
+        })
+      );
+      expect(() =>
+        assembleCompileRequest(multi, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/exactly one detail key; found 2/);
+
+      const missing = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_missing',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: TYPE.operationDamage.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId
+            } as never
+          ]
+        })
+      );
+      expect(() =>
+        assembleCompileRequest(missing, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/exactly one detail key; found 0/);
+    });
   });
 
   describe('source equipment static attributes', () => {
