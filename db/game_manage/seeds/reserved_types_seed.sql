@@ -115,6 +115,9 @@ VALUES
     (20208, 'Provider 刷新', 'event/provider_refreshed'),
     (20209, 'Provider 过期', 'event/provider_expired'),
     (20210, 'Tick', 'event/tick'),
+    (20211, '普攻命中', 'event/basic_attack_hit'),
+    (20212, '事件来源为拥有者', 'event/source_owner'),
+    (20213, '事件来源为对手', 'event/source_opponent'),
 
     -- damage
     (20220, '物理伤害', 'damage/physical'),
@@ -134,6 +137,7 @@ VALUES
     -- state_scope
     (20250, 'Provider 状态', 'state_scope/provider'),
     (20251, 'Ability 状态', 'state_scope/ability'),
+    (20252, 'Provider 按目标状态', 'state_scope/provider_target'),
 
     -- phase_trigger
     (20260, '进入阶段', 'phase_trigger/on_enter'),
@@ -215,6 +219,9 @@ VALUES
     (20208, 10019),
     (20209, 10019),
     (20210, 10019),
+    (20211, 10019),
+    (20212, 10019),
+    (20213, 10019),
 
     (20220, 10020),
     (20221, 10020),
@@ -230,6 +237,7 @@ VALUES
 
     (20250, 10023),
     (20251, 10023),
+    (20252, 10023),
 
     (20260, 10024),
     (20261, 10024),
