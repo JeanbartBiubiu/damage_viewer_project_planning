@@ -246,6 +246,28 @@ cd server/data_manage
 mvn -Dtest=LolFormulaOnHitMechanismsSeedSqlTest test
 ```
 
+### LoL generic Spellblade seed（三相之力 item_3078）
+
+在 reserved types、Batch-B 六 ADC 普攻 abilities、Batch-C `item_3078`，以及 basic_attack_hit emit 基线（`lol_adc_item_on_hit_passives_seed.sql` 或等价）已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20205`/`20211`/`20212`/`20220`/`20250`/`20190` 等）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B 尚未写入）
+3. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3078` 尚未写入）
+4. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 six-ADC `event/basic_attack_hit` emit）
+5. `db/game_manage/seeds/lol_generic_spellblade_seed.sql`
+6. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-spellblade-v1-20260713`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；写入 game-local `type_id=62003` / `type_key=ability/basic_attack`（`reserved_type_id=NULL`）并精确关联六个 ADC basic attack abilities；挂载最小 `provider_hero_vayne_tumble` / `ability_hero_vayne_tumble`（`ability_key=tumble`，active `20130`，不含完整 Q）；向 `item_3078` mount `provider_item_3078_spellblade`，含 `spellblade_ready`（10s）/ `spellblade_icd`（1.5s）、ability_started 武装 listener 与 basic_attack_hit 触发 listener（`2 * event.entry_source.attr.ad.base` 物理，`copyable_on_hit=false`）。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericSpellbladeSeedSqlTest test
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
