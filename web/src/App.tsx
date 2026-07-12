@@ -2,24 +2,21 @@ import { useEffect, useState } from 'react';
 import { Alert, Button, Input, Layout, Select, Tag, Typography } from '@arco-design/web-react';
 import { IconDown } from '@arco-design/web-react/icon';
 import {
-  adminResourceRouteMap,
+  combatDataResourceIdFromRoute,
+  createDefaultCollapsedNavigationGroups,
+  ensureActiveCombatDataNavigationGroupExpanded,
+  isCombatDataRouteId,
   navigationGroups,
-  navigationItems,
-  type NavigationGroupId,
-  type RouteId
+  type RouteId,
+  type StaticRouteId
 } from './config/navigation';
-import { AttributeDefinitionsPage } from './pages/admin/resources/attribute-definitions';
-import { CoefficientBucketsPage } from './pages/admin/resources/coefficient-buckets';
-import { FormulaBindingsPage } from './pages/admin/resources/formula-bindings';
-import { FormulaProfilesPage } from './pages/admin/resources/formula-profiles';
-import { HeroesPage } from './pages/admin/resources/heroes';
-import { ItemsPage } from './pages/admin/resources/items';
-import { SkillMountsPage } from './pages/admin/resources/skill-mounts';
-import { SkillsPage } from './pages/admin/resources/skills';
-import { StatusActionControlRulesPage } from './pages/admin/resources/status-action-control-rules';
-import { StatusManagementPage } from './pages/admin/resources/status-management';
-import { TypeRelationsPage } from './pages/admin/resources/type-relations';
-import { TypesPage } from './pages/admin/resources/types';
+import { CombatDataPage } from './pages/admin/combat-data';
+import {
+  COMBAT_DATA_HASH_PREFIX,
+  DEFAULT_COMBAT_DATA_RESOURCE_ID,
+  combatDataHashSegment,
+  parseCombatDataRoute
+} from './pages/admin/combatDataNav';
 import { ImagesPage } from './pages/ImagesPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { VersionPublishPage } from './pages/VersionPublishPage';
@@ -30,6 +27,8 @@ import type { GameSummary, LoadState } from './types/api';
 const API_BASE_STORAGE_KEY = 'damage-viewer.web.api-base-url';
 const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
 const PREFERRED_DEFAULT_GAME_ID = 'lol';
+
+const STATIC_ROUTE_IDS = new Set<string>(['overview', 'workspace', 'wasm-validation-generic', 'images']);
 
 function resolveSelectedGameId(current: string | null, games: GameSummary[]): string | null {
   if (current && games.some((game) => game.gameId === current)) {
@@ -59,20 +58,26 @@ function readRouteFromHash(): RouteId {
     return 'overview';
   }
 
-  const [routeSegment, resourceSegment] = window.location.hash.replace(/^#\/?/, '').split('/');
-  if (routeSegment === 'admin') {
-    if (resourceSegment && resourceSegment in adminResourceRouteMap) {
-      return resourceSegment as RouteId;
+  const segments = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  const combat = parseCombatDataRoute(segments);
+  if (combat.isCombatDataRoute) {
+    if (combat.resourceId) {
+      return combatDataHashSegment(combat.resourceId) as RouteId;
     }
-    return 'formula-profiles';
+    return 'combat-data';
   }
+
+  const [routeSegment] = segments;
 
   if (routeSegment === 'versions' || routeSegment === 'version-publish') {
     return 'workspace';
   }
 
-  const match = navigationItems.find((item) => item.id === routeSegment);
-  return match?.id ?? 'overview';
+  if (routeSegment && STATIC_ROUTE_IDS.has(routeSegment)) {
+    return routeSegment as StaticRouteId;
+  }
+
+  return 'overview';
 }
 
 function getGamesStatusLabel(status: LoadState): string {
@@ -101,6 +106,10 @@ function getGamesStatusColor(status: LoadState): string {
   return 'gray';
 }
 
+function isNavItemActive(itemHashSegment: string, route: RouteId): boolean {
+  return itemHashSegment === route;
+}
+
 export default function App() {
   const initialApiBaseUrl = readStoredValue(API_BASE_STORAGE_KEY, resolveApiBaseUrl());
   const [route, setRoute] = useState<RouteId>(() => readRouteFromHash());
@@ -113,8 +122,10 @@ export default function App() {
   const [gamesEtag, setGamesEtag] = useState<string | null>(null);
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
-  const [bundleRefreshSeed, setBundleRefreshSeed] = useState(0);
-  const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState<Partial<Record<NavigationGroupId, boolean>>>({ 'wasm-validation': true });
+  const [combatDataRefreshSeed, setCombatDataRefreshSeed] = useState(0);
+  const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState(() =>
+    createDefaultCollapsedNavigationGroups(readRouteFromHash())
+  );
 
   useEffect(() => {
     const onHashChange = () => {
@@ -126,6 +137,24 @@ export default function App() {
       window.removeEventListener('hashchange', onHashChange);
     };
   }, []);
+
+  // Deep-link / in-app route changes: expand the owning combat-data group; keep others as-is.
+  useEffect(() => {
+    setCollapsedNavigationGroups((current) =>
+      ensureActiveCombatDataNavigationGroupExpanded(current, route)
+    );
+  }, [route]);
+
+  // `#/combat-data` (and unknown resource ids) → first registry resource page.
+  useEffect(() => {
+    if (route !== 'combat-data') {
+      return;
+    }
+    const target = `#/${COMBAT_DATA_HASH_PREFIX}/${DEFAULT_COMBAT_DATA_RESOURCE_ID}`;
+    if (window.location.hash !== target) {
+      window.location.hash = target;
+    }
+  }, [route]);
 
   useEffect(() => {
     window.localStorage.setItem(API_BASE_STORAGE_KEY, apiBaseUrl);
@@ -174,6 +203,8 @@ export default function App() {
 
   const selectedGame = games.find((game) => game.gameId === selectedGameId) ?? null;
   const selectedGameName = selectedGame?.gameName ?? '未选择游戏';
+  const gamesReachable = gamesStatus === 'success';
+  const combatDataResourceId = combatDataResourceIdFromRoute(route);
 
   const applyApiBase = () => {
     const nextValue = resolveApiBaseUrl(apiBaseDraft);
@@ -190,72 +221,42 @@ export default function App() {
     />
   );
 
-  switch (route) {
-    case 'workspace':
-      pageContent = (
-        <VersionPublishPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          adminToken={adminToken}
-          onAdminTokenChange={setAdminToken}
-          onDataPublished={() => setBundleRefreshSeed((value) => value + 1)}
-        />
-      );
-      break;
-    case 'wasm-validation-generic':
-      pageContent = (
-        <WasmValidationGenericPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'images':
-      pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
-      break;
-    case 'heroes':
-      pageContent = <HeroesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'skills':
-      pageContent = <SkillsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'items':
-      pageContent = <ItemsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'attribute-definitions':
-      pageContent = <AttributeDefinitionsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'status-management':
-      pageContent = <StatusManagementPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'types':
-      pageContent = <TypesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'type-relations':
-      pageContent = <TypeRelationsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'skill-mounts':
-      pageContent = <SkillMountsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'formula-profiles':
-      pageContent = <FormulaProfilesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'formula-bindings':
-      pageContent = <FormulaBindingsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'coefficient-buckets':
-      pageContent = <CoefficientBucketsPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />;
-      break;
-    case 'status-action-control-rules':
-      pageContent = (
-        <StatusActionControlRulesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} />
-      );
-      break;
-    default:
-      break;
+  if (route === 'workspace') {
+    pageContent = (
+      <VersionPublishPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        selectedGameName={selectedGameName}
+        adminToken={adminToken}
+        onAdminTokenChange={setAdminToken}
+        onDataPublished={() => setCombatDataRefreshSeed((value) => value + 1)}
+      />
+    );
+  } else if (route === 'wasm-validation-generic') {
+    pageContent = (
+      <WasmValidationGenericPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        selectedGameName={selectedGameName}
+        externalRefreshSeed={combatDataRefreshSeed}
+      />
+    );
+  } else if (route === 'images') {
+    pageContent = <ImagesPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} selectedGameName={selectedGameName} />;
+  } else if (isCombatDataRouteId(route) && combatDataResourceId) {
+    pageContent = (
+      <CombatDataPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        resourceId={combatDataResourceId}
+        gamesReachable={gamesReachable}
+      />
+    );
+  } else if (route === 'combat-data') {
+    pageContent = (
+      <Alert type="info" content={`正在进入 ${DEFAULT_COMBAT_DATA_RESOURCE_ID}…`} className="workspace-alert" />
+    );
   }
 
   return (
@@ -269,18 +270,18 @@ export default function App() {
             Web 控制台
           </Typography.Title>
           <Typography.Text className="brand-copy">
-            资源编辑、版本发布、图片同步与 Wasm 验证的统一工作台。
+            combat-data 分表编辑、版本发布、图片同步与 Wasm 验证。
           </Typography.Text>
         </div>
 
         <nav className="nav-stack" aria-label="Primary">
           {navigationGroups.map((group) => {
-            const isGroupActive = group.items.some((item) => item.id === route);
+            const groupActive = group.items.some((item) => isNavItemActive(item.hashSegment, route));
             const isGroupExpanded = !collapsedNavigationGroups[group.id];
             const navSubstackId = `nav-section-${group.id}`;
 
             return (
-              <section key={group.id} className={`nav-section${isGroupActive ? ' is-active' : ''}`} aria-label={group.label}>
+              <section key={group.id} className={`nav-section${groupActive ? ' is-active' : ''}`} aria-label={group.label}>
                 <button
                   type="button"
                   className="nav-section-trigger"
@@ -298,17 +299,20 @@ export default function App() {
                 </button>
                 {isGroupExpanded ? (
                   <div id={navSubstackId} className="nav-substack">
-                    {group.items.map((item) => (
-                      <a
-                        key={item.id}
-                        className={`nav-item nav-item-secondary${item.id === route ? ' is-active' : ''}`}
-                        href={`#/${item.id}`}
-                        aria-current={item.id === route ? 'page' : undefined}
-                      >
-                        <span className="nav-item-label">{item.label}</span>
-                        <span className="nav-item-summary">{item.summary}</span>
-                      </a>
-                    ))}
+                    {group.items.map((item) => {
+                      const active = isNavItemActive(item.hashSegment, route);
+                      return (
+                        <a
+                          key={item.hashSegment}
+                          className={`nav-item nav-item-secondary${active ? ' is-active' : ''}`}
+                          href={`#/${item.hashSegment}`}
+                          aria-current={active ? 'page' : undefined}
+                        >
+                          <span className="nav-item-label">{item.label}</span>
+                          <span className="nav-item-summary">{item.summary}</span>
+                        </a>
+                      );
+                    })}
                   </div>
                 ) : null}
               </section>
@@ -378,6 +382,10 @@ export default function App() {
               </Button>
             </div>
           </div>
+
+          <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8, fontSize: 12 }}>
+            当前 API 基址：{apiBaseUrl}
+          </Typography.Text>
 
           {gamesError ? <Alert type="error" content={gamesError} className="workspace-alert" /> : null}
 

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Grid, Space, Typography } from '@arco-design/web-react';
-import { DataTable, DetailGrid, type DetailGridItem } from '../components/DataTable';
+import { DetailGrid, type DetailGridItem } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
-import { getCurrentVersion, getErrorMessage, getOwnerCategories } from '../services/apiClient';
-import type { CurrentVersion, GameSummary, OwnerCategory } from '../types/api';
+import { getCurrentVersion, getErrorMessage } from '../services/apiClient';
+import { getCombatDataState } from '../services/combatDataClient';
+import type { CurrentVersion, GameSummary } from '../types/api';
+import type { CombatDataState } from '../types/combatData';
 
 type OverviewPageProps = {
   apiBaseUrl: string;
@@ -35,13 +37,13 @@ export function OverviewPage({
 }: OverviewPageProps) {
   const [refreshSeed, setRefreshSeed] = useState(0);
   const [currentVersion, setCurrentVersion] = useState<CurrentVersion | null>(null);
-  const [ownerCategories, setOwnerCategories] = useState<OwnerCategory[]>([]);
+  const [combatDataState, setCombatDataState] = useState<CombatDataState | null>(null);
   const [snapshotError, setSnapshotError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!selectedGameId) {
       setCurrentVersion(null);
-      setOwnerCategories([]);
+      setCombatDataState(null);
       setSnapshotError(null);
       return;
     }
@@ -52,9 +54,9 @@ export function OverviewPage({
     async function loadSnapshot() {
       setSnapshotError(null);
 
-      const [versionResult, ownerResult] = await Promise.allSettled([
+      const [versionResult, combatStateResult] = await Promise.allSettled([
         getCurrentVersion(apiBaseUrl, gameId),
-        getOwnerCategories(apiBaseUrl, gameId)
+        getCombatDataState(apiBaseUrl, gameId)
       ]);
 
       if (cancelled) {
@@ -70,11 +72,11 @@ export function OverviewPage({
         errors.push(getErrorMessage(versionResult.reason));
       }
 
-      if (ownerResult.status === 'fulfilled') {
-        setOwnerCategories(ownerResult.value.data.ownerCategories);
+      if (combatStateResult.status === 'fulfilled') {
+        setCombatDataState(combatStateResult.value.data.data);
       } else {
-        setOwnerCategories([]);
-        errors.push(getErrorMessage(ownerResult.reason));
+        setCombatDataState(null);
+        errors.push(getErrorMessage(combatStateResult.reason));
       }
 
       if (errors.length > 0) {
@@ -97,9 +99,19 @@ export function OverviewPage({
           hint: '当前线上版本标识'
         },
         {
+          label: '发布日期',
+          value: currentVersion.releaseDate ?? '未记录',
+          hint: 'releaseDate'
+        },
+        {
+          label: 'changeRevision',
+          value: currentVersion.changeRevision != null ? String(currentVersion.changeRevision) : '—',
+          hint: '版本发布对应的变更修订'
+        },
+        {
           label: '发布时间',
-          value: currentVersion.publishedAt ?? currentVersion.releaseDate ?? '未记录',
-          hint: 'publishedAt 优先，其次 releaseDate'
+          value: currentVersion.publishedAt ?? '未记录',
+          hint: 'publishedAt'
         },
         {
           label: '最近更新',
@@ -112,6 +124,32 @@ export function OverviewPage({
           label: '当前版本',
           value: '未发布',
           hint: '当前 gameId 还没有 current version。'
+        }
+      ];
+
+  const combatDataDetails: DetailGridItem[] = combatDataState
+    ? [
+        {
+          label: 'currentRevision',
+          value: <Typography.Text code>{String(combatDataState.currentRevision)}</Typography.Text>,
+          hint: '工作区最新修订'
+        },
+        {
+          label: 'publishedRevision',
+          value: <Typography.Text code>{String(combatDataState.publishedRevision)}</Typography.Text>,
+          hint: '已发布修订'
+        },
+        {
+          label: '更新时间',
+          value: formatDate(combatDataState.updatedAt),
+          hint: 'combat-data/state.updatedAt'
+        }
+      ]
+    : [
+        {
+          label: 'combat-data',
+          value: '未读取',
+          hint: '尚未拿到 combat-data/state。'
         }
       ];
 
@@ -150,7 +188,7 @@ export function OverviewPage({
 
       <Panel
         title="当前游戏快照"
-        kicker="实时快照"
+        kicker="版本 + combat-data"
         actions={
           <Button onClick={() => setRefreshSeed((value) => value + 1)} type="primary">
             刷新快照
@@ -158,7 +196,10 @@ export function OverviewPage({
         }
       >
         {!selectedGameId ? (
-          <EmptyState title="还没有选择 gameId" description="先在顶部或本页切换一个游戏，再查看当前版本和 ownerType 字典。" />
+          <EmptyState
+            title="还没有选择 gameId"
+            description="先在顶部或本页切换一个游戏，再查看当前版本与 combat-data 修订。"
+          />
         ) : (
           <Space direction="vertical" size={16} style={{ width: '100%' }}>
             <Row gutter={[16, 16]}>
@@ -171,40 +212,50 @@ export function OverviewPage({
               </Col>
               <Col xs={24} sm={12} lg={6}>
                 <MetricCard
-                  label="更新时间"
-                  value={formatDate(currentVersion?.updatedAt)}
-                  hint={currentVersion?.releaseDate ?? currentVersion?.publishedAt ?? '后端可能还没有 current version'}
+                  label="版本 changeRevision"
+                  value={currentVersion?.changeRevision != null ? String(currentVersion.changeRevision) : '—'}
+                  hint="来自 versions/current"
                 />
               </Col>
               <Col xs={24} sm={12} lg={6}>
-                <MetricCard label="ownerType 数量" value={String(ownerCategories.length)} hint="编辑器和归类筛选会复用这份数据" />
+                <MetricCard
+                  label="combat-data current"
+                  value={combatDataState != null ? String(combatDataState.currentRevision) : '—'}
+                  hint="工作区最新修订"
+                />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <MetricCard
+                  label="combat-data published"
+                  value={combatDataState != null ? String(combatDataState.publishedRevision) : '—'}
+                  hint="已发布修订"
+                />
               </Col>
             </Row>
 
             {snapshotError ? <Alert type="error" content={snapshotError} /> : null}
 
             <Row gutter={[16, 16]}>
-              <Col xs={24} lg={14}>
-                <DataTable
-                  columns={['ownerType', '名称', '描述', 'updatedAt']}
-                  rows={ownerCategories.map((category) => [
-                    <Typography.Text code key={`${category.ownerType}-type`}>
-                      {category.ownerType}
-                    </Typography.Text>,
-                    category.name ?? '—',
-                    category.description ?? '—',
-                    formatDate(category.updatedAt)
-                  ])}
-                  emptyMessage="当前没有 ownerType 字典。"
-                />
-              </Col>
-              <Col xs={24} lg={10}>
+              <Col xs={24} lg={12}>
                 <Card size="small">
                   <Space direction="vertical" size={16} style={{ width: '100%' }}>
                     <Typography.Title heading={5} style={{ margin: 0 }}>
                       当前版本详情
                     </Typography.Title>
                     <DetailGrid items={currentVersionDetails} />
+                  </Space>
+                </Card>
+              </Col>
+              <Col xs={24} lg={12}>
+                <Card size="small">
+                  <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                    <Typography.Title heading={5} style={{ margin: 0 }}>
+                      Combat-data 状态
+                    </Typography.Title>
+                    <Typography.Text type="secondary">
+                      资源编辑请使用「战斗数据工作台」；发布后 publishedRevision 会推进。
+                    </Typography.Text>
+                    <DetailGrid items={combatDataDetails} />
                   </Space>
                 </Card>
               </Col>
