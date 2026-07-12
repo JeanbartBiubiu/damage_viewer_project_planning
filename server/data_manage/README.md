@@ -146,6 +146,33 @@ cd server/data_manage
 mvn -Dtest=LolBatchCAdcItemsSeedSqlTest test
 ```
 
+### LoL ADC 装备 on-hit 被动 seed（破败 / 海妖 / 鬼索首批）
+
+在 reserved types、Batch-B 六 ADC 普攻闭环与 Batch-C 三件装备实体已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20211`/`20212`/`20220`/`20221`/`20252` 等）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B 尚未写入）
+3. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C 尚未写入）
+4. （可选）`db/game_manage/seeds/lol_vayne_silver_bolts_seed.sql` — 与本 seed 共用薇恩 `emit_event` 稳定 ID，顺序可互换，幂等 upsert
+5. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`
+6. Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；为六个 ADC 的 `sequence_hero_*_basic_attack_damage` 在伤害步骤后追加唯一 `emit_event(event/basic_attack_hit)`（`step_order=1`；薇恩同名行幂等）；分别向 `item_3153` / `item_6672` / `item_3124` mount 独立 passive provider，并写入 ALL matcher（`20211`+`20212`）listener 与 effect 图。
+
+机制边界：
+
+- 破败：监听器执行时 opponent `hp.current * 0.06` 物理伤害（基础普攻伤害之后的 HP）。
+- 海妖：`provider_target` 计数（缺省 0）；每第 3 次 `120 * (1 + clamp(missingHpRatio,0..1) * 0.75)` 物理伤害后重置；`missingHpRatio=(maxHP-currentHP)/max(maxHP,1)`。
+- 鬼索首批：固定 30 魔法伤害；**不含**叠攻速、持续时间、满层或 phantom hit。
+- 不 DELETE、不自动 publish、不写 legacy item/skill / Bundle / Catalog。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolAdcItemOnHitPassivesSeedSqlTest test
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
