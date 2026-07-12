@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"math"
+	"sort"
 	"strings"
 
 	"tinygo_engine_v2/internal/command"
@@ -40,14 +41,16 @@ type stagedCombatant struct {
 // eventFormulaSnapshot 保存父 frame entry 快照与 emit 当点 staged 深拷贝。
 // event 参与者始终是原始 emittedEvent source/target，不随 listener owner-relative 重映射。
 type eventFormulaSnapshot struct {
-	entrySourceAttrs      map[string]model.AttributeSlotDef
-	entryTargetAttrs      map[string]model.AttributeSlotDef
-	entrySourceResources  map[string]model.ResourceSlotDef
-	entryTargetResources  map[string]model.ResourceSlotDef
-	sourceAttrs           map[string]model.AttributeSlotDef
-	targetAttrs           map[string]model.AttributeSlotDef
-	sourceResources       map[string]model.ResourceSlotDef
-	targetResources       map[string]model.ResourceSlotDef
+	eventSourceKey       string
+	eventTargetKey       string
+	entrySourceAttrs     map[string]model.AttributeSlotDef
+	entryTargetAttrs     map[string]model.AttributeSlotDef
+	entrySourceResources map[string]model.ResourceSlotDef
+	entryTargetResources map[string]model.ResourceSlotDef
+	sourceAttrs          map[string]model.AttributeSlotDef
+	targetAttrs          map[string]model.AttributeSlotDef
+	sourceResources      map[string]model.ResourceSlotDef
+	targetResources      map[string]model.ResourceSlotDef
 }
 
 type executionFrame struct {
@@ -78,6 +81,43 @@ type executionFrame struct {
 	fatalErr     *model.EngineError
 
 	pendingEvents []emittedEvent
+
+	// copyableCollector：单次 emitted event / dispatchListeners 局部上下文；禁止挂到 genericRunState。
+	copyableCollector *eventCopyableCollector
+}
+
+// copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算）。
+type copyableDamageFrozen struct {
+	rawAmount        float64
+	damageType       string
+	sourceKey        string
+	targetKey        string
+	providerRef      string
+	originRef        string // abilityRef 或 listener:<key>
+	operationRef     string // op.Ref；有则写入 evidence / replayedFrom
+	entrySourceAttrs map[string]model.AttributeSlotDef
+	entryTargetAttrs map[string]model.AttributeSlotDef
+	eventSourceKey   string
+	eventTargetKey   string
+}
+
+// deferredRepeatRequest 登记 phantom replay 门槛；不立即执行。
+type deferredRepeatRequest struct {
+	ownerCombatantKey string
+	ownerProviderRef  string
+	triggerStateKey   string
+	threshold         float64
+	repeatCount       int
+	repeatScope       string
+	repeatTag         string
+}
+
+// eventCopyableCollector 是单次真实 emitted event 的局部 collector（嵌套 emit 独立实例）。
+type eventCopyableCollector struct {
+	damages      []copyableDamageFrozen
+	repeats      []deferredRepeatRequest
+	phantomDepth int
+	commandCount int
 }
 
 type emittedEvent struct {
@@ -135,6 +175,8 @@ func (f *executionFrame) captureEmitSnapshot(eventSourceKey, eventTargetKey stri
 	entrySrcAttrs, entrySrcRes := f.entryMapsForKey(eventSourceKey)
 	entryTgtAttrs, entryTgtRes := f.entryMapsForKey(eventTargetKey)
 	return eventFormulaSnapshot{
+		eventSourceKey:       eventSourceKey,
+		eventTargetKey:       eventTargetKey,
 		entrySourceAttrs:     cloneAttributeMap(entrySrcAttrs),
 		entryTargetAttrs:     cloneAttributeMap(entryTgtAttrs),
 		entrySourceResources: cloneResourceMap(entrySrcRes),
@@ -151,6 +193,8 @@ func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
 		return nil
 	}
 	cp := eventFormulaSnapshot{
+		eventSourceKey:       src.eventSourceKey,
+		eventTargetKey:       src.eventTargetKey,
 		entrySourceAttrs:     cloneAttributeMap(src.entrySourceAttrs),
 		entryTargetAttrs:     cloneAttributeMap(src.entryTargetAttrs),
 		entrySourceResources: cloneResourceMap(src.entrySourceResources),
@@ -245,15 +289,48 @@ func (f *executionFrame) providerStateBag(combatantKey, providerRef string, crea
 		sc.providerState = map[string]*providerStateBag{}
 	}
 	bag, ok := sc.providerState[providerRef]
-	if ok {
-		return bag
+	if !ok {
+		if !create {
+			return nil
+		}
+		bag = &providerStateBag{
+			state:        map[string]float64{},
+			expireAt:     map[string]int64{},
+			fieldDefs:    map[string]providerStateFieldDef{},
+			targetValues: map[string]float64{},
+		}
+		sc.providerState[providerRef] = bag
 	}
-	if !create {
+	bag.bindFieldDefs(f.resolveProviderStateFieldDefs(combatantKey, providerRef))
+	bag.lazyExpireProviderState(f.run.nowMs)
+	return bag
+}
+
+func (f *executionFrame) resolveProviderStateFieldDefs(combatantKey, providerRef string) map[string]providerStateFieldDef {
+	if f.run == nil {
 		return nil
 	}
-	bag = &providerStateBag{state: map[string]float64{}, targetValues: map[string]float64{}}
-	sc.providerState[providerRef] = bag
-	return bag
+	return f.run.resolveProviderStateFieldDefs(combatantKey, providerRef, f.stageFor(combatantKey).providers)
+}
+
+// providerFormulaContextFunc returns H2a per-modifier provider overlay for combatantKey.
+// Callback only sets HasProviderContext / ProviderState / ProviderTargetState; base evalCtx
+// keeps source/target attrs/resources / ability / event fields.
+func (f *executionFrame) providerFormulaContextFunc(combatantKey string) pipeline.ProviderFormulaContextFunc {
+	return func(providerRef string) formula.GenericEvalContext {
+		bag := f.providerStateBag(combatantKey, providerRef, false)
+		return providerFormulaContextFromBag(bag, f.targetKey)
+	}
+}
+
+func (f *executionFrame) resolveAttributesFor(combatantKey string, attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext) map[string]model.AttributeSlotDef {
+	sc := f.stageFor(combatantKey)
+	return sc.resolver.ResolveAttributesWithProviderContext(
+		attrs,
+		evalCtx,
+		f.run.compiled.Formulas,
+		f.providerFormulaContextFunc(combatantKey),
+	)
 }
 
 func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability compilebundle.CompiledAbility) (float64, *model.EngineError) {
@@ -292,10 +369,29 @@ func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility
 	return nil
 }
 
-func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility, op compilebundle.CompiledOperation) *model.EngineError {
+func (f *executionFrame) bumpCommandBudget() *model.EngineError {
+	if f.copyableCollector != nil {
+		f.copyableCollector.commandCount++
+		if f.copyableCollector.commandCount > f.run.budget.MaxCommandsPerEvent {
+			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		return nil
+	}
 	f.commandCount++
 	if f.commandCount > f.run.budget.MaxCommandsPerEvent {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	return nil
+}
+
+func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility, op compilebundle.CompiledOperation) *model.EngineError {
+	if err := f.bumpCommandBudget(); err != nil {
+		return err
+	}
+
+	// repeat：允许空 target；仅登记 deferred request，不解析 combatant target。
+	if op.Operation == model.OperationKindRepeat {
+		return f.registerDeferredRepeat(op)
 	}
 
 	targetKey, ok := f.run.resolveOperationTarget(op.Target, f.sourceKey, f.targetKey)
@@ -329,6 +425,20 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			})
 			sc.dirty = true
 			return nil
+		}
+		if op.Operation == "damage" {
+			if err := f.maybeCollectCopyableDamage(op, amount, targetKey); err != nil {
+				return err
+			}
+			cmd := command.Command{
+				Kind:       command.KindDamage,
+				Source:     f.sourceKey,
+				Target:     targetKey,
+				Amount:     amount,
+				DamageType: op.DamageType,
+				Ref:        op.AttributeKey,
+			}
+			return f.applyDamageCommand(cmd, op.Ref)
 		}
 		cmd := command.Command{
 			Kind:       command.Kind(op.Operation),
@@ -533,7 +643,12 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		if !finiteState(next) {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite state result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
+		next = bag.clampProviderStateValue(op.Ref, next)
 		bag.state[op.Ref] = next
+		bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs)
+		// Provider-scope write must immediately re-resolve owner attributes with provider-aware context.
+		sc := f.stageFor(ownerKey)
+		sc.attributes = f.resolveAttributesFor(ownerKey, sc.attributes, f.evalContext(ability))
 	case stateScopeProviderTarget:
 		if bag.targetKey != "" && bag.targetKey != f.targetKey {
 			// Pair-state switch: clear previous target values so stacks restart on return.
@@ -565,10 +680,18 @@ func (f *executionFrame) applyCommand(cmd command.Command) *model.EngineError {
 
 	switch cmd.Kind {
 	case command.KindDamage:
-		// damageDealt / recordDamage use mitigated amount（抗性后、护盾前），HP clipping 不反向改变 summary。
-		f.damageDealt += result.Amount
-		f.run.recordDamage(cmd.Source, cmd.Target, result.Amount, f.run.nowMs)
-		sc.attributes = syncHPResolved(sc.attributes)
+		// 正常 damage 走 applyDamageCommand；此分支仅兜底，仍写 evidence。
+		f.applyDamageResult(cmd, result, sc)
+		f.run.recordGenericDamageEvidence(genericDamageEvidence{
+			source:          cmd.Source,
+			target:          cmd.Target,
+			damageType:      cmd.DamageType,
+			rawAmount:       cmd.Amount,
+			mitigatedAmount: result.Amount,
+			providerRef:     f.ownerProviderRef,
+			abilityRef:      f.abilityRef,
+			phantom:         false,
+		})
 	case command.KindHeal:
 		f.healingDone += result.Amount
 		overheal := cmd.Amount - result.Amount
@@ -581,6 +704,112 @@ func (f *executionFrame) applyCommand(cmd command.Command) *model.EngineError {
 		sc.attributes = syncHPResolved(sc.attributes)
 	}
 	return nil
+}
+
+// applyDamageCommand 走实际 ResolveCommand 结算，并用同一结果写入 summary 与 damage evidence。
+func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef string) *model.EngineError {
+	sc := f.stageFor(cmd.Target)
+	view := pipeline.CombatantView{Attributes: sc.attributes, Shields: sc.shields}
+	result, next := pipeline.ResolveCommand(cmd, view, f.run.nowMs)
+	sc.attributes = next.Attributes
+	sc.shields = next.Shields
+	f.applyDamageResult(cmd, result, sc)
+	f.run.recordGenericDamageEvidence(genericDamageEvidence{
+		source:          cmd.Source,
+		target:          cmd.Target,
+		damageType:      cmd.DamageType,
+		rawAmount:       cmd.Amount,
+		mitigatedAmount: result.Amount,
+		providerRef:     f.ownerProviderRef,
+		abilityRef:      f.abilityRef,
+		operationRef:    operationRef,
+		phantom:         false,
+	})
+	return nil
+}
+
+func (f *executionFrame) applyDamageResult(cmd command.Command, result command.Result, sc *stagedCombatant) {
+	// damageDealt / recordDamage use mitigated amount（抗性后、护盾前），HP clipping 不反向改变 summary。
+	f.damageDealt += result.Amount
+	f.run.recordDamage(cmd.Source, cmd.Target, result.Amount, f.run.nowMs)
+	sc.attributes = syncHPResolved(sc.attributes)
+}
+
+// genericDamageEvidence 是 damage evidence Data 的构造输入（不新增顶层 DTO）。
+type genericDamageEvidence struct {
+	source          string
+	target          string
+	damageType      string
+	rawAmount       float64
+	mitigatedAmount float64
+	providerRef     string
+	abilityRef      string
+	operationRef    string
+	phantom         bool
+	repeatTag       string
+	replayedFrom    map[string]interface{}
+}
+
+func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) {
+	if s.evidenceCountsByKind == nil {
+		s.evidenceCountsByKind = make(map[string]int)
+	}
+	phase := "original"
+	if ev.phantom {
+		phase = "phantom"
+	}
+	data := map[string]interface{}{
+		"phase":           phase,
+		"phantom":         ev.phantom,
+		"source":          ev.source,
+		"target":          ev.target,
+		"damageType":      ev.damageType,
+		"rawAmount":       ev.rawAmount,
+		"mitigatedAmount": ev.mitigatedAmount,
+	}
+	if ev.providerRef != "" {
+		data["providerRef"] = ev.providerRef
+	}
+	if ev.abilityRef != "" {
+		data["abilityRef"] = ev.abilityRef
+	}
+	if ev.operationRef != "" {
+		data["operationRef"] = ev.operationRef
+	}
+	if ev.phantom {
+		if ev.repeatTag != "" {
+			data["repeatTag"] = ev.repeatTag
+		}
+		if len(ev.replayedFrom) > 0 {
+			data["replayedFrom"] = ev.replayedFrom
+		}
+	}
+	ref := ev.abilityRef
+	if ref == "" {
+		ref = ev.operationRef
+	}
+	s.recordEvidence(model.EvidenceItem{
+		TimeMs: s.nowMs,
+		Kind:   model.EvidenceKindDamage,
+		Ref:    ref,
+		Data:   data,
+	})
+}
+
+// stableDamageReplayedFrom 用 providerRef + ability/listener ref + operationRef 构造稳定 provenance。
+// 禁止 slice index、指针地址或随机 ID。
+func stableDamageReplayedFrom(providerRef, abilityRef, operationRef string) map[string]interface{} {
+	from := map[string]interface{}{}
+	if providerRef != "" {
+		from["providerRef"] = providerRef
+	}
+	if abilityRef != "" {
+		from["abilityRef"] = abilityRef
+	}
+	if operationRef != "" {
+		from["operationRef"] = operationRef
+	}
+	return from
 }
 
 func (f *executionFrame) applyResourceChange(targetKey, resourceKey string, amount float64) *model.EngineError {
@@ -627,7 +856,7 @@ func (f *executionFrame) applyAttributeChange(targetKey, attributeKey, valuePoli
 	}
 	sc.attributes[attributeKey] = slot
 	evalCtx := f.evalContext(ability)
-	sc.attributes = sc.resolver.ResolveAttributes(sc.attributes, evalCtx, f.run.compiled.Formulas)
+	sc.attributes = f.resolveAttributesFor(targetKey, sc.attributes, evalCtx)
 	sc.dirty = true
 	return nil
 }
@@ -764,12 +993,13 @@ func (s *genericRunState) executeAbilityCast(entry model.DriverEntry) *model.Eng
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	return s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0, nil)
+	return s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0, nil, nil)
 }
 
 // castAbilityAt 在独立 execution frame 中施放 ability（driver cast 与 listener child ability 共用）。
 // eventCtx 非 nil 时继承原始 emit 快照（listener abilityRef child cast）。
-func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string, chainDepth int, eventCtx *eventFormulaSnapshot) *model.EngineError {
+// collector 非 nil 时表示处于某次真实 emitted event 的 listener/child 路径，共享 event-local collector。
+func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string, chainDepth int, eventCtx *eventFormulaSnapshot, collector *eventCopyableCollector) *model.EngineError {
 	resolvedRef := normalizeAbilityRef(abilityRef, sourceKey, targetKey)
 	ref, ok := s.compiled.AbilityRefIndex[resolvedRef]
 	if !ok {
@@ -783,9 +1013,13 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	}
 	ops := s.compiled.Operations[start:end]
 
+	// Lazy-expire provider timed state and refresh resolved attrs before staging entry snapshots.
+	s.refreshProviderAwareAttributes(sourceKey, targetKey)
+
 	frame := s.newExecutionFrame(sourceKey, targetKey, resolvedRef)
 	frame.chainDepth = chainDepth
 	frame.eventCtx = cloneEventSnapshot(eventCtx)
+	frame.copyableCollector = collector
 	if int(ref.CombatantIndex) < len(s.compiled.Combatants) {
 		frame.ownerCombatantKey = s.compiled.Combatants[ref.CombatantIndex].Key
 	}
@@ -851,6 +1085,7 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 	if chainDepth > s.budget.MaxChainDepth {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max chain depth exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
+	collector := &eventCopyableCollector{}
 	baseEventTypes := s.eventTypeSet(ev.types)
 	for _, listener := range s.compiled.Listeners {
 		eventTypes := baseEventTypes
@@ -876,18 +1111,18 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 		eventCtx := cloneEventSnapshot(&ev.snapshot)
 		for trigger := 0; trigger < maxTriggers; trigger++ {
 			if hasOps {
-				if err := s.dispatchListenerOperations(listener, sourceKey, targetKey, chainDepth, eventCtx); err != nil {
+				if err := s.dispatchListenerOperations(listener, sourceKey, targetKey, chainDepth, eventCtx, collector); err != nil {
 					return err
 				}
 			}
 			if hasAbilityRef {
-				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth, eventCtx); err != nil {
+				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth, eventCtx, collector); err != nil {
 					return err
 				}
 			}
 		}
 	}
-	return nil
+	return s.flushDeferredPhantomReplay(collector)
 }
 
 const (
@@ -924,7 +1159,7 @@ func (s *genericRunState) listenerFrameCombatants(ev emittedEvent, listener comp
 	return sourceKey, targetKey
 }
 
-func (s *genericRunState) dispatchListenerOperations(listener compilebundle.CompiledListener, sourceKey, targetKey string, chainDepth int, eventCtx *eventFormulaSnapshot) *model.EngineError {
+func (s *genericRunState) dispatchListenerOperations(listener compilebundle.CompiledListener, sourceKey, targetKey string, chainDepth int, eventCtx *eventFormulaSnapshot, collector *eventCopyableCollector) *model.EngineError {
 	start := listener.OperationStart
 	end := start + listener.OperationCount
 	if int(end) > len(s.compiled.Operations) {
@@ -940,6 +1175,7 @@ func (s *genericRunState) dispatchListenerOperations(listener compilebundle.Comp
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
 	frame.eventCtx = cloneEventSnapshot(eventCtx)
+	frame.copyableCollector = collector
 	if err := frame.executeOperations(ability, ops); err != nil {
 		return err
 	}
@@ -982,6 +1218,271 @@ func (s *genericRunState) recordOverheal(sourceKey string, amount float64) {
 	}
 	if sourceKey == model.SelectorTarget {
 		s.targetOverheal += amount
+	}
+}
+
+func (f *executionFrame) registerDeferredRepeat(op compilebundle.CompiledOperation) *model.EngineError {
+	collector := f.copyableCollector
+	if collector == nil || collector.phantomDepth > 0 {
+		return nil
+	}
+	if op.RepeatScope != model.RepeatScopeCopyableOnHit {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "repeat requires repeatScope="+model.RepeatScopeCopyableOnHit, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	if f.ownerProviderRef == "" {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "repeat requires owning provider context", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	repeatCount := op.RepeatCount
+	if repeatCount <= 0 {
+		repeatCount = 1
+	}
+	collector.repeats = append(collector.repeats, deferredRepeatRequest{
+		ownerCombatantKey: f.providerOwnerKey(),
+		ownerProviderRef:  f.ownerProviderRef,
+		triggerStateKey:   op.TriggerStateKey,
+		threshold:         op.Threshold,
+		repeatCount:       repeatCount,
+		repeatScope:       op.RepeatScope,
+		repeatTag:         op.RepeatTag,
+	})
+	return nil
+}
+
+func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOperation, rawAmount float64, targetKey string) *model.EngineError {
+	collector := f.copyableCollector
+	if collector == nil || collector.phantomDepth > 0 || !op.CopyableOnHit || op.Operation != "damage" {
+		return nil
+	}
+	if collector.commandCount > f.run.budget.MaxCommandsPerEvent {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	rec := copyableDamageFrozen{
+		rawAmount:    rawAmount,
+		damageType:   op.DamageType,
+		sourceKey:    f.sourceKey,
+		targetKey:    targetKey,
+		providerRef:  f.ownerProviderRef,
+		originRef:    f.abilityRef,
+		operationRef: op.Ref,
+	}
+	if f.eventCtx != nil {
+		rec.eventSourceKey = f.eventCtx.eventSourceKey
+		rec.eventTargetKey = f.eventCtx.eventTargetKey
+		rec.entrySourceAttrs = cloneAttributeMap(f.eventCtx.entrySourceAttrs)
+		rec.entryTargetAttrs = cloneAttributeMap(f.eventCtx.entryTargetAttrs)
+	} else {
+		rec.eventSourceKey = f.sourceKey
+		rec.eventTargetKey = f.targetKey
+		rec.entrySourceAttrs = cloneAttributeMap(f.entrySourceAttrs)
+		rec.entryTargetAttrs = cloneAttributeMap(f.entryTargetAttrs)
+	}
+	collector.damages = append(collector.damages, rec)
+	if len(collector.damages)+len(collector.repeats) > f.run.budget.MaxCommandsPerEvent {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	return nil
+}
+
+// sortCopyableDamagesStable 按 provenance 升序稳定排序；完全相同项保持原始相对顺序。
+// 键：providerRef、originRef、sourceKey、targetKey、damageType。不依赖 map 遍历。
+func sortCopyableDamagesStable(damages []copyableDamageFrozen) {
+	sort.SliceStable(damages, func(i, j int) bool {
+		a, b := damages[i], damages[j]
+		if a.providerRef != b.providerRef {
+			return a.providerRef < b.providerRef
+		}
+		if a.originRef != b.originRef {
+			return a.originRef < b.originRef
+		}
+		if a.sourceKey != b.sourceKey {
+			return a.sourceKey < b.sourceKey
+		}
+		if a.targetKey != b.targetKey {
+			return a.targetKey < b.targetKey
+		}
+		return a.damageType < b.damageType
+	})
+}
+
+// sortDeferredRepeatsStable 按 provenance 升序稳定排序；完全相同项保持原始相对顺序。
+// 键：ownerProviderRef、ownerCombatantKey、repeatTag、triggerStateKey、repeatScope、threshold、repeatCount。
+func sortDeferredRepeatsStable(repeats []deferredRepeatRequest) {
+	sort.SliceStable(repeats, func(i, j int) bool {
+		a, b := repeats[i], repeats[j]
+		if a.ownerProviderRef != b.ownerProviderRef {
+			return a.ownerProviderRef < b.ownerProviderRef
+		}
+		if a.ownerCombatantKey != b.ownerCombatantKey {
+			return a.ownerCombatantKey < b.ownerCombatantKey
+		}
+		if a.repeatTag != b.repeatTag {
+			return a.repeatTag < b.repeatTag
+		}
+		if a.triggerStateKey != b.triggerStateKey {
+			return a.triggerStateKey < b.triggerStateKey
+		}
+		if a.repeatScope != b.repeatScope {
+			return a.repeatScope < b.repeatScope
+		}
+		if a.threshold != b.threshold {
+			return a.threshold < b.threshold
+		}
+		return a.repeatCount < b.repeatCount
+	})
+}
+
+// sortEventCopyableProvenanceStable 对 collector 内切片原地稳定排序（测试 helper）。
+// flush 路径必须使用 cloneAndSortEventCopyableProvenance，避免破坏 collector 原始 append 顺序。
+func sortEventCopyableProvenanceStable(collector *eventCopyableCollector) {
+	if collector == nil {
+		return
+	}
+	sortCopyableDamagesStable(collector.damages)
+	sortDeferredRepeatsStable(collector.repeats)
+}
+
+// cloneAndSortEventCopyableProvenance 复制 damages/repeats 后做稳定 provenance 排序。
+// 返回的切片供 phantom replay 遍历；不修改 collector 原切片。
+func cloneAndSortEventCopyableProvenance(collector *eventCopyableCollector) (damages []copyableDamageFrozen, repeats []deferredRepeatRequest) {
+	if collector == nil {
+		return nil, nil
+	}
+	damages = append([]copyableDamageFrozen(nil), collector.damages...)
+	repeats = append([]deferredRepeatRequest(nil), collector.repeats...)
+	sortCopyableDamagesStable(damages)
+	sortDeferredRepeatsStable(repeats)
+	return damages, repeats
+}
+
+func (s *genericRunState) flushDeferredPhantomReplay(collector *eventCopyableCollector) *model.EngineError {
+	if collector == nil || len(collector.repeats) == 0 || collector.phantomDepth > 0 {
+		return nil
+	}
+	damages, repeats := cloneAndSortEventCopyableProvenance(collector)
+	collector.phantomDepth = 1
+	defer func() { collector.phantomDepth = 0 }()
+
+	for _, req := range repeats {
+		if req.repeatScope != model.RepeatScopeCopyableOnHit {
+			continue
+		}
+		if !s.repeatTriggerMet(req) {
+			continue
+		}
+		times := req.repeatCount
+		if times <= 0 {
+			times = 1
+		}
+		for i := 0; i < times; i++ {
+			for _, dmg := range damages {
+				if err := s.applyPhantomCopyableDamage(collector, dmg, req.repeatTag); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	s.checkDeathStopReason()
+	return nil
+}
+
+func (s *genericRunState) repeatTriggerMet(req deferredRepeatRequest) bool {
+	if req.ownerCombatantKey == "" || req.ownerProviderRef == "" || req.triggerStateKey == "" {
+		return false
+	}
+	c, ok := s.combatants[req.ownerCombatantKey]
+	if !ok {
+		return false
+	}
+	bag := c.providerState[req.ownerProviderRef]
+	if bag == nil {
+		return false
+	}
+	bag.bindFieldDefs(s.resolveProviderStateFieldDefs(req.ownerCombatantKey, req.ownerProviderRef, c.providers))
+	bag.lazyExpireProviderState(s.nowMs)
+	s.combatants[req.ownerCombatantKey] = c
+	value, ok := bag.state[req.triggerStateKey]
+	if !ok {
+		return false
+	}
+	return value >= req.threshold
+}
+
+func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCollector, dmg copyableDamageFrozen, repeatTag string) *model.EngineError {
+	if collector == nil {
+		return nil
+	}
+	collector.commandCount++
+	if collector.commandCount > s.budget.MaxCommandsPerEvent {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+	}
+	target, ok := s.combatants[dmg.targetKey]
+	if !ok {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "operation target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+	}
+
+	attrs := cloneAttributeMap(target.attributes)
+	// Live HP must follow Current; Resolved may have been reset to Base by attribute resolve.
+	if hp, ok := attrs["hp"]; ok {
+		hp.Resolved = hp.Current
+		attrs["hp"] = hp
+	}
+	overlayEntryResistance(attrs, dmg.entryAttrsForCombatant(dmg.targetKey))
+	view := pipeline.CombatantView{
+		Attributes: attrs,
+		Shields:    pipeline.ShieldsFromRuntime(target.shields, s.nowMs),
+	}
+	cmd := command.Command{
+		Kind:       command.KindDamage,
+		Source:     dmg.sourceKey,
+		Target:     dmg.targetKey,
+		Amount:     dmg.rawAmount,
+		DamageType: dmg.damageType,
+	}
+	result, next := pipeline.ResolveCommand(cmd, view, s.nowMs)
+	target.attributes = next.Attributes
+	target.shields = pipeline.RuntimeShieldsFromView(next.Shields, dmg.targetKey, dmg.sourceKey)
+	target.attributes = syncHPResolved(target.attributes)
+	s.combatants[dmg.targetKey] = target
+	s.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount, s.nowMs)
+	s.recordGenericDamageEvidence(genericDamageEvidence{
+		source:          dmg.sourceKey,
+		target:          dmg.targetKey,
+		damageType:      dmg.damageType,
+		rawAmount:       dmg.rawAmount,
+		mitigatedAmount: result.Amount,
+		providerRef:     dmg.providerRef,
+		abilityRef:      dmg.originRef,
+		operationRef:    dmg.operationRef,
+		phantom:         true,
+		repeatTag:       repeatTag,
+		replayedFrom:    stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
+	})
+	return nil
+}
+
+func (d copyableDamageFrozen) entryAttrsForCombatant(combatantKey string) map[string]model.AttributeSlotDef {
+	// entry_* 对应原始 emitted event 的 source/target；damage target 可能经 owner remap。
+	// 优先按 damage target 与 frame event keys 对齐；若无匹配则回退 entryTarget（常见 on-hit 受害方）。
+	if combatantKey == d.eventTargetKey {
+		return d.entryTargetAttrs
+	}
+	if combatantKey == d.eventSourceKey {
+		return d.entrySourceAttrs
+	}
+	if len(d.entryTargetAttrs) > 0 {
+		return d.entryTargetAttrs
+	}
+	return d.entrySourceAttrs
+}
+
+func overlayEntryResistance(dst, entry map[string]model.AttributeSlotDef) {
+	if dst == nil || len(entry) == 0 {
+		return
+	}
+	for _, key := range []string{"armor", "magic_resist"} {
+		if slot, ok := entry[key]; ok {
+			dst[key] = slot
+		}
 	}
 }
 

@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"encoding/json"
+	"math"
 	"os"
 	"path/filepath"
 	gort "runtime"
@@ -190,6 +191,374 @@ func TestGenericRunRepeatMaxAttempts(t *testing.T) {
 	done := lastGenericRunDone(session.OutboxBytes())
 	if done.Summary.AbilityAttemptCount != 3 {
 		t.Fatalf("abilityAttemptCount=%d want 3", done.Summary.AbilityAttemptCount)
+	}
+}
+
+func gfConst(v float64) model.GenericFormulaExpr {
+	return model.GenericFormulaExpr{Op: "const", Value: floatPtr(v)}
+}
+
+func intervalFormulaConst(ms float64) *model.GenericFormulaExpr {
+	e := gfConst(ms)
+	return &e
+}
+
+func emittedEventTimes(done model.DoneResult, ref string) []int64 {
+	var times []int64
+	for _, item := range done.Evidence.Items {
+		if item.Kind != model.EvidenceKindEmittedEvent {
+			continue
+		}
+		if ref != "" && item.Ref != ref {
+			continue
+		}
+		times = append(times, item.TimeMs)
+	}
+	return times
+}
+
+func attachEmitProbe(compileReq *model.CompileRequest, eventRef string) {
+	ops := compileReq.SharedProviders[0].Abilities[0].Operations
+	compileReq.SharedProviders[0].Abilities[0].Operations = append(append([]model.OperationDefinition{}, ops...), model.OperationDefinition{
+		Operation: "emit_event",
+		Target:    "target",
+		Ref:       eventRef,
+	})
+}
+
+// TestGenericRunFixedDriverRepeatCadenceUnchanged 锁定 IntervalMs=100 / MaxAttempts=3 的旧固定排程行为。
+func TestGenericRunFixedDriverRepeatCadenceUnchanged(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	attachEmitProbe(&compileReq, "event:fixed_hit")
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{IntervalMs: 100, MaxAttempts: 3}
+	runReq.StopPolicy.DurationMs = 1000
+	runReq.Sampling.SampleEveryMs = 1000
+
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.AbilityAttemptCount != 3 || done.Summary.AbilityCastCount != 3 {
+		t.Fatalf("attempt/cast=%d/%d want 3/3", done.Summary.AbilityAttemptCount, done.Summary.AbilityCastCount)
+	}
+	times := emittedEventTimes(done, "event:fixed_hit")
+	want := []int64{0, 100, 200}
+	if len(times) != len(want) {
+		t.Fatalf("cast times=%v want %v", times, want)
+	}
+	for i := range want {
+		if times[i] != want[i] {
+			t.Fatalf("cast times=%v want %v", times, want)
+		}
+	}
+}
+
+func TestGenericRunDriverRepeatIntervalMsAndFormulaMutuallyExclusive(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+		IntervalMs:      100,
+		IntervalFormula: intervalFormulaConst(100),
+		MaxAttempts:     2,
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	_, err := RunGeneric(result.Session, runReq)
+	if err == nil {
+		t.Fatal("expected structured error when both intervalMs and intervalFormula set")
+	}
+	if err.Code != model.GenericErrFormulaTypeError {
+		t.Fatalf("code=%q want formula_type_error", err.Code)
+	}
+}
+
+func TestGenericRunDriverRepeatRequiresIntervalMsOrFormula(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{MaxAttempts: 2}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	_, err := RunGeneric(result.Session, runReq)
+	if err == nil {
+		t.Fatal("expected structured error when neither intervalMs nor intervalFormula set")
+	}
+	if err.Code != model.GenericErrMissingRequiredField {
+		t.Fatalf("code=%q want missing_required_field", err.Code)
+	}
+}
+
+func TestGenericRunDriverRepeatIllegalIntervalFormula(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	bad := model.GenericFormulaExpr{Op: "not_a_real_op", Value: floatPtr(1)}
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{IntervalFormula: &bad, MaxAttempts: 2}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	_, err := RunGeneric(result.Session, runReq)
+	if err == nil {
+		t.Fatal("expected structured error for illegal intervalFormula")
+	}
+	if err.Code != model.GenericErrFormulaTypeError {
+		t.Fatalf("code=%q want formula_type_error", err.Code)
+	}
+}
+
+func TestGenericRunDriverRepeatUnevaluableIntervalFormula(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	// attack_speed missing => resolved read 0 => division by zero at schedule time.
+	formula := model.GenericFormulaExpr{
+		Op: "div",
+		Args: []model.GenericFormulaExpr{
+			gfConst(1000),
+			{Op: "read", Path: "source.attr.attack_speed.resolved"},
+		},
+	}
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{IntervalFormula: &formula, MaxAttempts: 2}
+	runReq.StopPolicy.DurationMs = 500
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	_, err := RunGeneric(result.Session, runReq)
+	if err == nil {
+		t.Fatal("expected structured error for unevaluable intervalFormula")
+	}
+	if err.Code != model.GenericErrFormulaTypeError {
+		t.Fatalf("code=%q want formula_type_error", err.Code)
+	}
+}
+
+func TestGenericRunDriverRepeatNonPositiveIntervalFormula(t *testing.T) {
+	cases := []struct {
+		name  string
+		value float64
+	}{
+		{name: "zero", value: 0},
+		{name: "negative", value: -10},
+		{name: "nan", value: math.NaN()},
+		{name: "inf", value: math.Inf(1)},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			compileReq, runReq := loadBasicFixture(t)
+			runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+				IntervalFormula: intervalFormulaConst(tc.value),
+				MaxAttempts:     2,
+			}
+			runReq.StopPolicy.DurationMs = 500
+			result := compile.CompileGeneric(compileReq)
+			if !result.OK {
+				t.Fatalf("compile failed: %+v", result.Result.Errors)
+			}
+			_, err := RunGeneric(result.Session, runReq)
+			if err == nil {
+				t.Fatal("expected structured error")
+			}
+			if err.Code != model.GenericErrFormulaTypeError {
+				t.Fatalf("code=%q want formula_type_error", err.Code)
+			}
+		})
+	}
+}
+
+func TestGenericRunDriverRepeatSubHalfMsRoundsToOne(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	attachEmitProbe(&compileReq, "event:sub_half")
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+		IntervalFormula: intervalFormulaConst(0.4), // round→0 → clamp min 1ms
+		MaxAttempts:     2,
+	}
+	runReq.StopPolicy.DurationMs = 100
+	runReq.Sampling.SampleEveryMs = 1000
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	times := emittedEventTimes(done, "event:sub_half")
+	if len(times) != 2 || times[0] != 0 || times[1] != 1 {
+		t.Fatalf("cast times=%v want [0 1]", times)
+	}
+}
+
+func TestGenericRunDynamicDriverRepeatSchedulesUniqueNext(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	attachEmitProbe(&compileReq, "event:dyn_unique")
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+		IntervalFormula: intervalFormulaConst(100),
+		MaxAttempts:     5,
+	}
+	runReq.StopPolicy.DurationMs = 1000
+	runReq.Sampling.SampleEveryMs = 1000
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.AbilityAttemptCount != 5 || done.Summary.AbilityCastCount != 5 {
+		t.Fatalf("attempt/cast=%d/%d want 5/5 (no double schedule)", done.Summary.AbilityAttemptCount, done.Summary.AbilityCastCount)
+	}
+	times := emittedEventTimes(done, "event:dyn_unique")
+	want := []int64{0, 100, 200, 300, 400}
+	if len(times) != len(want) {
+		t.Fatalf("times=%v want %v", times, want)
+	}
+	for i := range want {
+		if times[i] != want[i] {
+			t.Fatalf("times=%v want %v", times, want)
+		}
+	}
+}
+
+func TestGenericRunDynamicDriverRepeatHonorsMaxAttemptsAndDuration(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	attachEmitProbe(&compileReq, "event:dyn_budget")
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+		IntervalFormula: intervalFormulaConst(100),
+		MaxAttempts:     0, // unlimited by attempts; duration clips
+	}
+	runReq.StopPolicy.DurationMs = 250
+	runReq.Sampling.SampleEveryMs = 1000
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	times := emittedEventTimes(done, "event:dyn_budget")
+	want := []int64{0, 100, 200}
+	if len(times) != len(want) {
+		t.Fatalf("times=%v want %v (duration clip)", times, want)
+	}
+	for i := range want {
+		if times[i] != want[i] {
+			t.Fatalf("times=%v want %v", times, want)
+		}
+	}
+
+	// MaxAttempts clip with room in duration.
+	compileReq2, runReq2 := loadBasicFixture(t)
+	attachEmitProbe(&compileReq2, "event:dyn_max")
+	runReq2.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+		IntervalFormula: intervalFormulaConst(100),
+		MaxAttempts:     3,
+	}
+	runReq2.StopPolicy.DurationMs = 5000
+	runReq2.Sampling.SampleEveryMs = 1000
+	result2 := compile.CompileGeneric(compileReq2)
+	if !result2.OK {
+		t.Fatalf("compile failed: %+v", result2.Result.Errors)
+	}
+	done2, err := RunGeneric(result2.Session, runReq2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done2.Summary.AbilityAttemptCount != 3 || done2.Summary.AbilityCastCount != 3 {
+		t.Fatalf("attempt/cast=%d/%d want 3/3", done2.Summary.AbilityAttemptCount, done2.Summary.AbilityCastCount)
+	}
+}
+
+func TestGenericRunDynamicDriverRepeatContinuesAfterOrdinaryGateSkip(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	zero := 0.0
+	runReq.DriverPlan.Entries[0].Condition = &model.GenericFormulaExpr{Op: "const", Value: &zero}
+	runReq.DriverPlan.Entries[0].WhileReady = false
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+		IntervalFormula: intervalFormulaConst(100),
+		MaxAttempts:     3,
+	}
+	runReq.StopPolicy.DurationMs = 1000
+	runReq.Sampling.SampleEveryMs = 1000
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.AbilityAttemptCount != 3 {
+		t.Fatalf("abilityAttemptCount=%d want 3 (dynamic continues after skip)", done.Summary.AbilityAttemptCount)
+	}
+	if done.Summary.AbilityCastCount != 0 {
+		t.Fatalf("abilityCastCount=%d want 0", done.Summary.AbilityCastCount)
+	}
+	if done.Summary.AttemptSkippedCount != 3 {
+		t.Fatalf("attemptSkippedCount=%d want 3", done.Summary.AttemptSkippedCount)
+	}
+	skipTimes := make([]int64, 0, 3)
+	for _, item := range done.Evidence.Items {
+		if item.Kind == model.EvidenceKindAttemptSkipped {
+			skipTimes = append(skipTimes, item.TimeMs)
+		}
+	}
+	want := []int64{0, 100, 200}
+	if len(skipTimes) != len(want) {
+		t.Fatalf("skip times=%v want %v", skipTimes, want)
+	}
+	for i := range want {
+		if skipTimes[i] != want[i] {
+			t.Fatalf("skip times=%v want %v", skipTimes, want)
+		}
+	}
+}
+
+func TestGenericRunDynamicDriverRepeatWhileReadyDoesNotDoubleSchedule(t *testing.T) {
+	compileReq, runReq := loadGateFixture(t)
+	// t=0 cast → dynamic schedules t=50; t=50 cooldown skip must be owned solely by whileReady
+	// (readyAt=1000), not also by intervalFormula(+50) which would flood 100/150/200...
+	runReq.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{
+		IntervalFormula: intervalFormulaConst(50),
+		MaxAttempts:     20,
+	}
+	runReq.StopPolicy.DurationMs = 400
+	runReq.Sampling.SampleEveryMs = 1000
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.AbilityAttemptCount != 2 {
+		t.Fatalf("abilityAttemptCount=%d want 2 (cast@0 + skip@50; no dynamic flood)", done.Summary.AbilityAttemptCount)
+	}
+	if done.Summary.AbilityCastCount != 1 {
+		t.Fatalf("abilityCastCount=%d want 1", done.Summary.AbilityCastCount)
+	}
+	if done.Summary.AttemptSkippedCount != 1 {
+		t.Fatalf("attemptSkippedCount=%d want 1", done.Summary.AttemptSkippedCount)
+	}
+	foundSkip50 := false
+	for _, item := range done.Evidence.Items {
+		if item.Kind == model.EvidenceKindAttemptSkipped && item.TimeMs == 50 {
+			foundSkip50 = true
+			if numericAsInt64(item.Data["readyAtMs"]) != 1000 {
+				t.Fatalf("readyAtMs=%v want 1000", item.Data["readyAtMs"])
+			}
+		}
+		if item.Kind == model.EvidenceKindAttemptSkipped && (item.TimeMs == 100 || item.TimeMs == 150 || item.TimeMs == 200) {
+			t.Fatalf("skip at %dms indicates whileReady+dynamic double schedule", item.TimeMs)
+		}
+	}
+	if !foundSkip50 {
+		t.Fatal("missing cooldown skip at t=50")
 	}
 }
 
