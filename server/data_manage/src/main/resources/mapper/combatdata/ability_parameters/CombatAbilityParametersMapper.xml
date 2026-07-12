@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatAbilityParametersMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       ability_id AS "abilityId",
+       param_key AS "paramKey",
+       numeric_value AS "numericValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_parameters
+        WHERE game_id = #{gameId}
+        <if test="abilityId != null">
+          AND ability_id = #{abilityId}
+        </if>
+        ORDER BY ability_id, param_key
+    </select>
+
+    <select id="findById" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       ability_id AS "abilityId",
+       param_key AS "paramKey",
+       numeric_value AS "numericValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_parameters
+        WHERE game_id = #{gameId}
+          AND ability_id = #{abilityId}
+          AND param_key = #{paramKey}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.ability_parameters
+            (game_id, ability_id, param_key, numeric_value, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{abilityId}, #{paramKey}, #{numericValue}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id, ability_id, param_key) DO UPDATE SET
+            numeric_value = EXCLUDED.numeric_value,
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       ability_id AS "abilityId",
+       param_key AS "paramKey",
+       numeric_value AS "numericValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_parameters
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, ability_id, param_key
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.ability_parameters_log (
+            game_id, version_id, change_revision, ability_id, param_key, numeric_value
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            ability_id,
+            param_key,
+            numeric_value
+        FROM public.ability_parameters
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, ability_id, param_key, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            numeric_value = EXCLUDED.numeric_value
+    </insert>
+</mapper>

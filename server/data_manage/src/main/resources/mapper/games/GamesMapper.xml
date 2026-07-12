@@ -5,7 +5,7 @@
 <mapper namespace="xyz.game.datamanage.mapper.GamesMapper">
 
     <select id="listGames" resultType="map">
-        SELECT game_id AS gameId, game_name AS gameName, game_img_url AS gameImgUrl
+        SELECT game_id AS "gameId", game_name AS "gameName", game_img_url AS "gameImgUrl"
         FROM public.games
         ORDER BY game_id
     </select>
