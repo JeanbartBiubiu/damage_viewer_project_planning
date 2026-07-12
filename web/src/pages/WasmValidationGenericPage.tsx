@@ -30,7 +30,10 @@ import {
   getGenericEngineClient
 } from '../engine/genericEngineClient';
 import { getErrorMessage } from '../services/apiClient';
-import { loadCombatDataGraphRevisionSafe } from '../services/combatDataLoader';
+import {
+  invalidateAndReload,
+  loadCombatDataGraphRevisionSafe
+} from '../services/combatDataLoader';
 import type { CombatDataGraph } from '../types/combatData';
 import type {
   CompileResult,
@@ -141,7 +144,6 @@ export function WasmValidationGenericPage({
   const [graph, setGraph] = useState<CombatDataGraph | null>(null);
   const [currentRevision, setCurrentRevision] = useState<number | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [manualReloadSeed, setManualReloadSeed] = useState(0);
 
   const [sourceEntityId, setSourceEntityId] = useState('');
   const [targetEntityId, setTargetEntityId] = useState('');
@@ -202,62 +204,67 @@ export function WasmValidationGenericPage({
     }
   }, [clearSessionState]);
 
-  const reloadGraph = useCallback(async () => {
-    await releaseSessionQuietly();
-    setMaterialized(null);
-    setMaterializeError(null);
-    setAvailableAbilities([]);
-    setStatusMessage(null);
-    setLoadError(null);
+  const reloadGraph = useCallback(
+    async (options?: { invalidateCache?: boolean }) => {
+      await releaseSessionQuietly();
+      setMaterialized(null);
+      setMaterializeError(null);
+      setAvailableAbilities([]);
+      setStatusMessage(null);
+      setLoadError(null);
 
-    if (!selectedGameId) {
-      setGraph(null);
-      setCurrentRevision(null);
-      setSourceEquipmentEntityIds([]);
-      setGraphState('idle');
-      return;
-    }
-
-    setGraphState('loading');
-    try {
-      const nextGraph = await loadCombatDataGraphRevisionSafe(apiBaseUrl, selectedGameId, {
-        preferCache: true
-      });
-      setGraph(nextGraph);
-      setCurrentRevision(nextGraph.currentRevision);
-
-      const entities = nextGraph.entities ?? [];
-      if (entities.length === 0) {
-        setSourceEntityId('');
-        setTargetEntityId('');
+      if (!selectedGameId) {
+        setGraph(null);
+        setCurrentRevision(null);
         setSourceEquipmentEntityIds([]);
-        setGraphState('empty');
+        setGraphState('idle');
         return;
       }
 
-      setGraphState('ready');
-      const itemIds = listAdcCompletedItemEntityIds(nextGraph);
-      const combatants = entities.filter((entity) => !itemIds.has(entity.entityId));
-      const firstId = combatants[0]?.entityId ?? '';
-      const secondId = combatants[1]?.entityId ?? firstId;
-      setSourceEntityId(firstId);
-      setTargetEntityId(secondId);
-      setSourceEquipmentEntityIds((prev) => prev.filter((id) => itemIds.has(id)));
-    } catch (error) {
-      setGraph(null);
-      setCurrentRevision(null);
-      setSourceEntityId('');
-      setTargetEntityId('');
-      setSourceEquipmentEntityIds([]);
-      setGraphState('error');
-      setLoadError(getErrorMessage(error));
-    }
-  }, [apiBaseUrl, releaseSessionQuietly, selectedGameId]);
+      setGraphState('loading');
+      try {
+        const nextGraph = options?.invalidateCache
+          ? await invalidateAndReload(apiBaseUrl, selectedGameId)
+          : await loadCombatDataGraphRevisionSafe(apiBaseUrl, selectedGameId, {
+              preferCache: true
+            });
+        setGraph(nextGraph);
+        setCurrentRevision(nextGraph.currentRevision);
+
+        const entities = nextGraph.entities ?? [];
+        if (entities.length === 0) {
+          setSourceEntityId('');
+          setTargetEntityId('');
+          setSourceEquipmentEntityIds([]);
+          setGraphState('empty');
+          return;
+        }
+
+        setGraphState('ready');
+        const itemIds = listAdcCompletedItemEntityIds(nextGraph);
+        const combatants = entities.filter((entity) => !itemIds.has(entity.entityId));
+        const firstId = combatants[0]?.entityId ?? '';
+        const secondId = combatants[1]?.entityId ?? firstId;
+        setSourceEntityId(firstId);
+        setTargetEntityId(secondId);
+        setSourceEquipmentEntityIds((prev) => prev.filter((id) => itemIds.has(id)));
+      } catch (error) {
+        setGraph(null);
+        setCurrentRevision(null);
+        setSourceEntityId('');
+        setTargetEntityId('');
+        setSourceEquipmentEntityIds([]);
+        setGraphState('error');
+        setLoadError(getErrorMessage(error));
+      }
+    },
+    [apiBaseUrl, releaseSessionQuietly, selectedGameId]
+  );
 
   useEffect(() => {
     void reloadGraph();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- release before reload on seed/api/game change
-  }, [apiBaseUrl, selectedGameId, externalRefreshSeed, manualReloadSeed]);
+  }, [apiBaseUrl, selectedGameId, externalRefreshSeed]);
 
   useEffect(
     () => () => {
@@ -418,12 +425,19 @@ export function WasmValidationGenericPage({
     [graph, itemEntityIds]
   );
 
+  const selectedAbility = useMemo(
+    () => selectableAbilities.find((item) => item.abilityRef === driverEntry.abilityRef),
+    [selectableAbilities, driverEntry.abilityRef]
+  );
+  const isBasicAttack = selectedAbility?.abilityKey === 'basic_attack';
+
   const buildDriverPlan = useCallback((): DriverPlan | null => {
     if (!driverEntry.abilityRef) {
       setStatusMessage('请选择已挂载的主动技能');
       return null;
     }
-    if (!selectableAbilities.some((item) => item.abilityRef === driverEntry.abilityRef)) {
+    const ability = selectableAbilities.find((item) => item.abilityRef === driverEntry.abilityRef);
+    if (!ability) {
       setStatusMessage('驱动计划只能选择攻击方（source）已挂载的主动技能');
       return null;
     }
@@ -436,12 +450,29 @@ export function WasmValidationGenericPage({
       priority: driverEntry.priority,
       firstAtMs: driverEntry.firstAtMs
     };
-    if (driverEntry.repeatIntervalMs !== undefined && Number.isFinite(driverEntry.repeatIntervalMs)) {
+    const maxAttempts =
+      driverEntry.repeatMaxAttempts !== undefined
+        ? { maxAttempts: driverEntry.repeatMaxAttempts }
+        : {};
+    if (ability.abilityKey === 'basic_attack') {
+      // Attack-speed cadence AST only; Wasm evaluates. No AS / stack / phantom math in React.
+      entry.repeat = {
+        intervalFormula: {
+          op: 'div',
+          args: [
+            { op: 'const', value: 1000 },
+            { op: 'read', path: 'source.attr.attack_speed.resolved' }
+          ]
+        },
+        ...maxAttempts
+      };
+    } else if (
+      driverEntry.repeatIntervalMs !== undefined &&
+      Number.isFinite(driverEntry.repeatIntervalMs)
+    ) {
       entry.repeat = {
         intervalMs: driverEntry.repeatIntervalMs,
-        ...(driverEntry.repeatMaxAttempts !== undefined
-          ? { maxAttempts: driverEntry.repeatMaxAttempts }
-          : {})
+        ...maxAttempts
       };
     }
     if (driverEntry.whileReady) {
@@ -588,7 +619,7 @@ export function WasmValidationGenericPage({
           title="通用引擎验证"
           kicker="combat-data"
           actions={
-            <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
+            <Button icon={<IconRefresh />} onClick={() => void reloadGraph({ invalidateCache: true })}>
               重新加载
             </Button>
           }
@@ -609,7 +640,7 @@ export function WasmValidationGenericPage({
         <Panel
           title="通用引擎验证"
           actions={
-            <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
+            <Button icon={<IconRefresh />} onClick={() => void reloadGraph({ invalidateCache: true })}>
               重新加载
             </Button>
           }
@@ -659,7 +690,7 @@ export function WasmValidationGenericPage({
         kicker="combat-data → 装配 → 编译 / 运行 / 释放"
         actions={
           <Space>
-            <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
+            <Button icon={<IconRefresh />} onClick={() => void reloadGraph({ invalidateCache: true })}>
               重新加载 combat-data
             </Button>
             <Button type="primary" loading={busyAction === 'compile'} disabled={!canCompile} onClick={() => void handleCompile()}>
@@ -812,10 +843,18 @@ export function WasmValidationGenericPage({
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label="重复间隔（毫秒，可选）">
+              <Form.Item
+                label={
+                  isBasicAttack
+                    ? '重复间隔（basic_attack：攻速公式，自动）'
+                    : '重复间隔（毫秒，可选）'
+                }
+              >
                 <InputNumber
                   min={1}
-                  value={driverEntry.repeatIntervalMs}
+                  disabled={isBasicAttack}
+                  placeholder={isBasicAttack ? '1000 / attack_speed.resolved' : undefined}
+                  value={isBasicAttack ? undefined : driverEntry.repeatIntervalMs}
                   onChange={(value) =>
                     setDriverEntry((prev) => ({
                       ...prev,
