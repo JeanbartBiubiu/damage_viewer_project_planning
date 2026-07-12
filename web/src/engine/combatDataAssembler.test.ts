@@ -630,15 +630,31 @@ describe('combatDataAssembler', () => {
         ],
         entityProviderMounts: [
           ...graph.entityProviderMounts,
-          { ...META, entityId: 'item_3153', providerId: 'prov_item_passive' }
+          { ...META, entityId: 'item_3153', providerId: 'prov_bork' },
+          { ...META, entityId: 'item_3124', providerId: 'prov_guinsoo' },
+          { ...META, entityId: 'item_6672', providerId: 'prov_kraken' },
+          // Deliberate duplicate providerId shared with hero (dedupe coverage).
+          { ...META, entityId: 'item_6672', providerId: 'prov_q' }
         ],
         providers: [
           ...graph.providers,
           {
             ...META,
-            providerId: 'prov_item_passive',
+            providerId: 'prov_bork',
             providerKindTypeId: TYPE.providerKindPassive.typeId,
-            displayName: 'Item Passive (must not mount)'
+            displayName: 'BoRK On-Hit'
+          },
+          {
+            ...META,
+            providerId: 'prov_guinsoo',
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: "Guinsoo's On-Hit"
+          },
+          {
+            ...META,
+            providerId: 'prov_kraken',
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: 'Kraken Every-3'
           }
         ],
         entityResources: [
@@ -768,7 +784,7 @@ describe('combatDataAssembler', () => {
       });
     });
 
-    it('does not merge item provider mounts, types, resources, or abilities into source', () => {
+    it('does not merge item types or resources into source (providers are merged separately)', () => {
       const graph = withItems(buildGraphFixture());
       const compile = assembleCompileRequest(graph, {
         sourceEntityId: 'entity_source',
@@ -777,17 +793,107 @@ describe('combatDataAssembler', () => {
       });
 
       const source = compile.combatants[0];
-      expect(source.providers.map((p) => p.definitionRef)).toEqual(['source::prov_q']);
       expect(source.types).toEqual(['class/mage']);
       expect(source.types).not.toContain('tag/adc_completed_item');
       expect(source.resources).toEqual({
         hp: { current: 1000, max: 1000 }
       });
       expect(source.resources.mana).toBeUndefined();
+    });
+
+    it('merges selected item provider mounts into source combatant and sharedProviders', () => {
+      const graph = withItems(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_3153']
+      });
+
+      const source = scenario.compileRequest.combatants[0];
+      expect(source.providers.map((p) => p.definitionRef)).toEqual([
+        'source::prov_q',
+        'source::prov_bork'
+      ]);
+      expect(source.providers.map((p) => p.providerRef)).toEqual([
+        'passive:prov_q',
+        'passive:prov_bork'
+      ]);
+
+      const providerKeys = scenario.compileRequest.sharedProviders!.map((p) => p.providerKey);
+      expect(providerKeys).toEqual(
+        expect.arrayContaining(['source::prov_bork', 'target::prov_bork'])
+      );
+
+      const sourceSnapshot = scenario.initialSnapshot.combatants[0];
+      expect(sourceSnapshot.providers.map((p) => p.definitionRef)).toEqual([
+        'source::prov_q',
+        'source::prov_bork'
+      ]);
+      expect(sourceSnapshot.providers.map((p) => p.providerRef)).toEqual([
+        'passive:prov_q',
+        'passive:prov_bork'
+      ]);
+    });
+
+    it('does not include unselected item providers in compile request', () => {
+      const graph = withItems(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_3124']
+      });
+
+      const sourceRefs = compile.combatants[0].providers.map((p) => p.definitionRef);
+      expect(sourceRefs).toEqual(['source::prov_q', 'source::prov_guinsoo']);
+      expect(sourceRefs).not.toContain('source::prov_bork');
+      expect(sourceRefs).not.toContain('source::prov_kraken');
 
       const providerKeys = compile.sharedProviders!.map((p) => p.providerKey);
-      expect(providerKeys).not.toContain('source::prov_item_passive');
-      expect(providerKeys).not.toContain('target::prov_item_passive');
+      expect(providerKeys).not.toContain('source::prov_bork');
+      expect(providerKeys).not.toContain('source::prov_kraken');
+      expect(providerKeys).toContain('source::prov_guinsoo');
+    });
+
+    it('mounts multiple item providers on source only, not target', () => {
+      const graph = withItems(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_3153', 'item_3124', 'item_6672']
+      });
+
+      const sourceRefs = compile.combatants[0].providers.map((p) => p.definitionRef);
+      expect(sourceRefs).toEqual([
+        'source::prov_q',
+        'source::prov_bork',
+        'source::prov_guinsoo',
+        'source::prov_kraken'
+      ]);
+
+      const targetRefs = compile.combatants[1].providers.map((p) => p.definitionRef);
+      expect(targetRefs).toEqual(['target::prov_passive']);
+      expect(targetRefs).not.toContain('target::prov_bork');
+      expect(targetRefs).not.toContain('target::prov_guinsoo');
+      expect(targetRefs).not.toContain('target::prov_kraken');
+    });
+
+    it('dedupes providerId when hero and equipment share the same mount', () => {
+      const graph = withItems(buildGraphFixture());
+      // item_6672 mounts both prov_kraken and prov_q (same as hero).
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_6672']
+      });
+
+      const sourceRefs = compile.combatants[0].providers.map((p) => p.definitionRef);
+      expect(sourceRefs).toEqual(['source::prov_q', 'source::prov_kraken']);
+      expect(sourceRefs.filter((ref) => ref === 'source::prov_q')).toHaveLength(1);
+
+      const sourceProvQCount = compile.sharedProviders!.filter(
+        (p) => p.providerKey === 'source::prov_q'
+      ).length;
+      expect(sourceProvQCount).toBe(1);
     });
 
     it('keeps numeric overrides as the final layer after equipment aggregation', () => {
