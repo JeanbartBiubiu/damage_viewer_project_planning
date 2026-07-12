@@ -407,3 +407,36 @@ func TestCompileGenericStateChangeAcceptsSourceAndSelf(t *testing.T) {
 		}
 	}
 }
+
+func TestCompileGenericRejectsUnknownDamageSettlementType(t *testing.T) {
+	req := minimalValidCompileRequest()
+	req.TypeCatalog.Types = append(req.TypeCatalog.Types, model.TypeCatalogEntry{Key: "damage/chaos", Domain: "damage"})
+	one := 1.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/chaos",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected compile failure for unknown damage settlement type")
+	}
+	if !hasErrorCode(result.Result.Errors, model.GenericErrUnknownTypeKey) {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+	found := false
+	for _, err := range result.Result.Errors {
+		if err.Code == model.GenericErrUnknownTypeKey && err.Ref == "damage/chaos" &&
+			(err.Message == "unknown damage settlement type" || err.Path != "") {
+			if err.Message == "unknown damage settlement type" {
+				found = true
+			}
+		}
+	}
+	if !found {
+		t.Fatalf("expected settlement-type reject, errors=%+v", result.Result.Errors)
+	}
+}

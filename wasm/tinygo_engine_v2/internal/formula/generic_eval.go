@@ -20,6 +20,18 @@ type GenericEvalContext struct {
 	HasProviderContext  bool
 	ProviderState       map[string]float64
 	ProviderTargetState map[string]float64
+
+	// Event snapshot reads require an emit_event listener / child-ability context.
+	// Participants are the original emitted event source/target (not owner-remapped).
+	HasEventContext          bool
+	EventEntrySourceAttrs    map[string]model.AttributeSlotDef
+	EventEntryTargetAttrs    map[string]model.AttributeSlotDef
+	EventEntrySourceResources map[string]model.ResourceSlotDef
+	EventEntryTargetResources map[string]model.ResourceSlotDef
+	EventSourceAttrs         map[string]model.AttributeSlotDef
+	EventTargetAttrs         map[string]model.AttributeSlotDef
+	EventSourceResources     map[string]model.ResourceSlotDef
+	EventTargetResources     map[string]model.ResourceSlotDef
 }
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
@@ -179,9 +191,56 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return 0, nil
 		}
 		return ctx.ProviderTargetState[key], nil
+	case ReadEventEntrySourceAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventEntrySourceAttrs, key), nil
+	case ReadEventEntryTargetAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventEntryTargetAttrs, key), nil
+	case ReadEventEntrySourceResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventEntrySourceResources, key), nil
+	case ReadEventEntryTargetResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventEntryTargetResources, key), nil
+	case ReadEventSourceAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventSourceAttrs, key), nil
+	case ReadEventTargetAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventTargetAttrs, key), nil
+	case ReadEventSourceResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventSourceResources, key), nil
+	case ReadEventTargetResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventTargetResources, key), nil
 	default:
 		return 0, errors.New("unknown read kind")
 	}
+}
+
+func requireEventContext(ctx GenericEvalContext) error {
+	if !ctx.HasEventContext {
+		return errors.New("event.* requires event context")
+	}
+	return nil
 }
 
 func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 {
@@ -222,6 +281,20 @@ func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 
 func readResourceValue(resources map[string]model.ResourceSlotDef, key string) float64 {
 	if resources == nil {
 		return 0
+	}
+	if idx := strings.LastIndex(key, "."); idx > 0 {
+		suffix := key[idx+1:]
+		resKey := key[:idx]
+		slot, ok := resources[resKey]
+		if !ok {
+			return 0
+		}
+		switch suffix {
+		case "current":
+			return slot.Current
+		case "max":
+			return slot.Max
+		}
 	}
 	slot, ok := resources[key]
 	if !ok {

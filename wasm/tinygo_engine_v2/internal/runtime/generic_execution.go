@@ -37,6 +37,19 @@ type stagedCombatant struct {
 	dirty         bool
 }
 
+// eventFormulaSnapshot 保存父 frame entry 快照与 emit 当点 staged 深拷贝。
+// event 参与者始终是原始 emittedEvent source/target，不随 listener owner-relative 重映射。
+type eventFormulaSnapshot struct {
+	entrySourceAttrs      map[string]model.AttributeSlotDef
+	entryTargetAttrs      map[string]model.AttributeSlotDef
+	entrySourceResources  map[string]model.ResourceSlotDef
+	entryTargetResources  map[string]model.ResourceSlotDef
+	sourceAttrs           map[string]model.AttributeSlotDef
+	targetAttrs           map[string]model.AttributeSlotDef
+	sourceResources       map[string]model.ResourceSlotDef
+	targetResources       map[string]model.ResourceSlotDef
+}
+
 type executionFrame struct {
 	run               *genericRunState
 	frameID           uint64
@@ -47,6 +60,15 @@ type executionFrame struct {
 	ownerProviderRef  string
 
 	staged map[string]*stagedCombatant
+
+	// entry_*：本 frame 创建时、cost/CD/operations 前的不可变深拷贝（供本 frame 后续 emit 使用）。
+	entrySourceAttrs     map[string]model.AttributeSlotDef
+	entryTargetAttrs     map[string]model.AttributeSlotDef
+	entrySourceResources map[string]model.ResourceSlotDef
+	entryTargetResources map[string]model.ResourceSlotDef
+
+	// eventCtx：listener / child ability 继承的原始 event 快照；nil 表示无 event context。
+	eventCtx *eventFormulaSnapshot
 
 	damageDealt  float64
 	healingDone  float64
@@ -64,11 +86,12 @@ type emittedEvent struct {
 	sourceKey string
 	targetKey string
 	types     []string
+	snapshot  eventFormulaSnapshot
 }
 
 func (s *genericRunState) newExecutionFrame(sourceKey, targetKey, abilityRef string) *executionFrame {
 	s.nextFrameID++
-	return &executionFrame{
+	f := &executionFrame{
 		run:        s,
 		frameID:    s.nextFrameID,
 		sourceKey:  sourceKey,
@@ -76,6 +99,68 @@ func (s *genericRunState) newExecutionFrame(sourceKey, targetKey, abilityRef str
 		abilityRef: abilityRef,
 		staged:     make(map[string]*stagedCombatant),
 	}
+	f.captureEntrySnapshots()
+	return f
+}
+
+func (f *executionFrame) captureEntrySnapshots() {
+	f.entrySourceAttrs, f.entrySourceResources = f.snapshotCombatantMaps(f.sourceKey)
+	f.entryTargetAttrs, f.entryTargetResources = f.snapshotCombatantMaps(f.targetKey)
+}
+
+func (f *executionFrame) snapshotCombatantMaps(key string) (map[string]model.AttributeSlotDef, map[string]model.ResourceSlotDef) {
+	c, ok := f.run.combatants[key]
+	if !ok {
+		return map[string]model.AttributeSlotDef{}, map[string]model.ResourceSlotDef{}
+	}
+	return cloneAttributeMap(c.attributes), cloneResourceMap(c.resources)
+}
+
+// entryMapsForKey 按 combatant key 选择本 frame 创建时对应参与者的 entry 快照。
+// 未知 key 返回空 map，避免静默改用错误参与者。
+func (f *executionFrame) entryMapsForKey(key string) (map[string]model.AttributeSlotDef, map[string]model.ResourceSlotDef) {
+	switch key {
+	case f.sourceKey:
+		return f.entrySourceAttrs, f.entrySourceResources
+	case f.targetKey:
+		return f.entryTargetAttrs, f.entryTargetResources
+	default:
+		return map[string]model.AttributeSlotDef{}, map[string]model.ResourceSlotDef{}
+	}
+}
+
+func (f *executionFrame) captureEmitSnapshot(eventSourceKey, eventTargetKey string) eventFormulaSnapshot {
+	src := f.stageFor(eventSourceKey)
+	tgt := f.stageFor(eventTargetKey)
+	entrySrcAttrs, entrySrcRes := f.entryMapsForKey(eventSourceKey)
+	entryTgtAttrs, entryTgtRes := f.entryMapsForKey(eventTargetKey)
+	return eventFormulaSnapshot{
+		entrySourceAttrs:     cloneAttributeMap(entrySrcAttrs),
+		entryTargetAttrs:     cloneAttributeMap(entryTgtAttrs),
+		entrySourceResources: cloneResourceMap(entrySrcRes),
+		entryTargetResources: cloneResourceMap(entryTgtRes),
+		sourceAttrs:          cloneAttributeMap(src.attributes),
+		targetAttrs:          cloneAttributeMap(tgt.attributes),
+		sourceResources:      cloneResourceMap(src.resources),
+		targetResources:      cloneResourceMap(tgt.resources),
+	}
+}
+
+func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
+	if src == nil {
+		return nil
+	}
+	cp := eventFormulaSnapshot{
+		entrySourceAttrs:     cloneAttributeMap(src.entrySourceAttrs),
+		entryTargetAttrs:     cloneAttributeMap(src.entryTargetAttrs),
+		entrySourceResources: cloneResourceMap(src.entrySourceResources),
+		entryTargetResources: cloneResourceMap(src.entryTargetResources),
+		sourceAttrs:          cloneAttributeMap(src.sourceAttrs),
+		targetAttrs:          cloneAttributeMap(src.targetAttrs),
+		sourceResources:      cloneResourceMap(src.sourceResources),
+		targetResources:      cloneResourceMap(src.targetResources),
+	}
+	return &cp
 }
 
 func (f *executionFrame) stageFor(key string) *stagedCombatant {
@@ -128,6 +213,17 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 			ctx.ProviderState = map[string]float64{}
 			ctx.ProviderTargetState = map[string]float64{}
 		}
+	}
+	if f.eventCtx != nil {
+		ctx.HasEventContext = true
+		ctx.EventEntrySourceAttrs = f.eventCtx.entrySourceAttrs
+		ctx.EventEntryTargetAttrs = f.eventCtx.entryTargetAttrs
+		ctx.EventEntrySourceResources = f.eventCtx.entrySourceResources
+		ctx.EventEntryTargetResources = f.eventCtx.entryTargetResources
+		ctx.EventSourceAttrs = f.eventCtx.sourceAttrs
+		ctx.EventTargetAttrs = f.eventCtx.targetAttrs
+		ctx.EventSourceResources = f.eventCtx.sourceResources
+		ctx.EventTargetResources = f.eventCtx.targetResources
 	}
 	return ctx
 }
@@ -394,6 +490,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			sourceKey: f.sourceKey,
 			targetKey: targetKey,
 			types:     types,
+			snapshot:  f.captureEmitSnapshot(f.sourceKey, targetKey),
 		})
 		return nil
 	case "state_change":
@@ -468,8 +565,7 @@ func (f *executionFrame) applyCommand(cmd command.Command) *model.EngineError {
 
 	switch cmd.Kind {
 	case command.KindDamage:
-		// damageDealt / recordDamage use the pre-mitigation total (shield-absorbed portion included).
-		// Pending §16 clarification; do not switch to post-shield HP damage without an explicit design change.
+		// damageDealt / recordDamage use mitigated amount（抗性后、护盾前），HP clipping 不反向改变 summary。
 		f.damageDealt += result.Amount
 		f.run.recordDamage(cmd.Source, cmd.Target, result.Amount, f.run.nowMs)
 		sc.attributes = syncHPResolved(sc.attributes)
@@ -668,11 +764,12 @@ func (s *genericRunState) executeAbilityCast(entry model.DriverEntry) *model.Eng
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	return s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0)
+	return s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0, nil)
 }
 
 // castAbilityAt 在独立 execution frame 中施放 ability（driver cast 与 listener child ability 共用）。
-func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string, chainDepth int) *model.EngineError {
+// eventCtx 非 nil 时继承原始 emit 快照（listener abilityRef child cast）。
+func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string, chainDepth int, eventCtx *eventFormulaSnapshot) *model.EngineError {
 	resolvedRef := normalizeAbilityRef(abilityRef, sourceKey, targetKey)
 	ref, ok := s.compiled.AbilityRefIndex[resolvedRef]
 	if !ok {
@@ -688,6 +785,7 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 
 	frame := s.newExecutionFrame(sourceKey, targetKey, resolvedRef)
 	frame.chainDepth = chainDepth
+	frame.eventCtx = cloneEventSnapshot(eventCtx)
 	if int(ref.CombatantIndex) < len(s.compiled.Combatants) {
 		frame.ownerCombatantKey = s.compiled.Combatants[ref.CombatantIndex].Key
 	}
@@ -775,14 +873,15 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 			continue
 		}
 		sourceKey, targetKey := s.listenerFrameCombatants(ev, listener)
+		eventCtx := cloneEventSnapshot(&ev.snapshot)
 		for trigger := 0; trigger < maxTriggers; trigger++ {
 			if hasOps {
-				if err := s.dispatchListenerOperations(listener, sourceKey, targetKey, chainDepth); err != nil {
+				if err := s.dispatchListenerOperations(listener, sourceKey, targetKey, chainDepth, eventCtx); err != nil {
 					return err
 				}
 			}
 			if hasAbilityRef {
-				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth); err != nil {
+				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth, eventCtx); err != nil {
 					return err
 				}
 			}
@@ -825,7 +924,7 @@ func (s *genericRunState) listenerFrameCombatants(ev emittedEvent, listener comp
 	return sourceKey, targetKey
 }
 
-func (s *genericRunState) dispatchListenerOperations(listener compilebundle.CompiledListener, sourceKey, targetKey string, chainDepth int) *model.EngineError {
+func (s *genericRunState) dispatchListenerOperations(listener compilebundle.CompiledListener, sourceKey, targetKey string, chainDepth int, eventCtx *eventFormulaSnapshot) *model.EngineError {
 	start := listener.OperationStart
 	end := start + listener.OperationCount
 	if int(end) > len(s.compiled.Operations) {
@@ -840,6 +939,7 @@ func (s *genericRunState) dispatchListenerOperations(listener compilebundle.Comp
 	frame.chainDepth = chainDepth
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
+	frame.eventCtx = cloneEventSnapshot(eventCtx)
 	if err := frame.executeOperations(ability, ops); err != nil {
 		return err
 	}

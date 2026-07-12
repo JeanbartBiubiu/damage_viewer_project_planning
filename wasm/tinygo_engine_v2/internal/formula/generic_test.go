@@ -139,3 +139,50 @@ func TestCompileGenericFormulaAllowsProviderStatePaths(t *testing.T) {
 		t.Fatalf("read kinds=%v %v", instr[0].ReadKind, instr[1].ReadKind)
 	}
 }
+
+func TestCompileGenericFormulaAllowsEventSnapshotPaths(t *testing.T) {
+	var errors []model.EngineError
+	addError := func(code model.GenericErrCode, path, message, ref string) {
+		errors = append(errors, model.EngineError{Code: code, Path: path, Message: message, Ref: ref})
+	}
+	paths := []struct {
+		path string
+		kind GenericReadKind
+	}{
+		{"event.entry_source.attr.attack_damage.resolved", ReadEventEntrySourceAttr},
+		{"event.entry_target.attr.hp.current", ReadEventEntryTargetAttr},
+		{"event.entry_source.resource.mana.max", ReadEventEntrySourceResource},
+		{"event.entry_target.resource.mana.current", ReadEventEntryTargetResource},
+		{"event.source.attr.attack_damage.base", ReadEventSourceAttr},
+		{"event.target.attr.hp.max", ReadEventTargetAttr},
+		{"event.source.resource.mana", ReadEventSourceResource},
+		{"event.target.resource.mana.max", ReadEventTargetResource},
+	}
+	for _, tc := range paths {
+		errors = nil
+		instr := CompileGenericFormula(
+			model.GenericFormulaExpr{Op: "read", Path: tc.path},
+			"amount", map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError,
+		)
+		if len(errors) != 0 {
+			t.Fatalf("%s: errors=%+v", tc.path, errors)
+		}
+		if len(instr) != 1 || instr[0].Op != GenericOpRead || instr[0].ReadKind != tc.kind {
+			t.Fatalf("%s: instr=%+v want kind %v", tc.path, instr, tc.kind)
+		}
+	}
+}
+
+func TestCompileGenericFormulaRejectsUnknownEventPath(t *testing.T) {
+	var errors []model.EngineError
+	addError := func(code model.GenericErrCode, path, message, ref string) {
+		errors = append(errors, model.EngineError{Code: code})
+	}
+	CompileGenericFormula(
+		model.GenericFormulaExpr{Op: "read", Path: "event.payload.foo"},
+		"amount", map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError,
+	)
+	if len(errors) == 0 || errors[0].Code != model.GenericErrFormulaTypeError {
+		t.Fatalf("errors=%+v", errors)
+	}
+}
