@@ -22,6 +22,7 @@ import { Panel } from '../components/Panel';
 import {
   assembleCombatScenario,
   assembleRunRequest,
+  listAdcCompletedItemEntityIds,
   type MaterializedCombatScenario
 } from '../engine/combatDataAssembler';
 import {
@@ -146,6 +147,7 @@ export function WasmValidationGenericPage({
   const [targetEntityId, setTargetEntityId] = useState('');
   const [sourceStage, setSourceStage] = useState<number | undefined>(undefined);
   const [targetStage, setTargetStage] = useState<number | undefined>(undefined);
+  const [sourceEquipmentEntityIds, setSourceEquipmentEntityIds] = useState<string[]>([]);
   const [driverEntry, setDriverEntry] = useState<DriverEntryDraft>(createDefaultDriverEntry());
   const [conditionRecheckIntervalMs, setConditionRecheckIntervalMs] = useState(
     DEFAULT_CONDITION_RECHECK_INTERVAL_MS
@@ -211,6 +213,7 @@ export function WasmValidationGenericPage({
     if (!selectedGameId) {
       setGraph(null);
       setCurrentRevision(null);
+      setSourceEquipmentEntityIds([]);
       setGraphState('idle');
       return;
     }
@@ -227,20 +230,25 @@ export function WasmValidationGenericPage({
       if (entities.length === 0) {
         setSourceEntityId('');
         setTargetEntityId('');
+        setSourceEquipmentEntityIds([]);
         setGraphState('empty');
         return;
       }
 
       setGraphState('ready');
-      const firstId = entities[0]?.entityId ?? '';
-      const secondId = entities[1]?.entityId ?? firstId;
+      const itemIds = listAdcCompletedItemEntityIds(nextGraph);
+      const combatants = entities.filter((entity) => !itemIds.has(entity.entityId));
+      const firstId = combatants[0]?.entityId ?? '';
+      const secondId = combatants[1]?.entityId ?? firstId;
       setSourceEntityId(firstId);
       setTargetEntityId(secondId);
+      setSourceEquipmentEntityIds((prev) => prev.filter((id) => itemIds.has(id)));
     } catch (error) {
       setGraph(null);
       setCurrentRevision(null);
       setSourceEntityId('');
       setTargetEntityId('');
+      setSourceEquipmentEntityIds([]);
       setGraphState('error');
       setLoadError(getErrorMessage(error));
     }
@@ -287,7 +295,9 @@ export function WasmValidationGenericPage({
         sourceEntityId,
         targetEntityId,
         sourceStage,
-        targetStage
+        targetStage,
+        sourceEquipmentEntityIds:
+          sourceEquipmentEntityIds.length > 0 ? sourceEquipmentEntityIds : undefined
       });
       setMaterialized(next);
       setAvailableAbilities(next.availableSourceAbilities);
@@ -308,12 +318,20 @@ export function WasmValidationGenericPage({
       setAvailableAbilities([]);
       setMaterializeError(error instanceof Error ? error.message : 'combat-data 装配失败');
     }
-  }, [graph, releaseSessionQuietly, sourceEntityId, sourceStage, targetEntityId, targetStage]);
+  }, [
+    graph,
+    releaseSessionQuietly,
+    sourceEntityId,
+    sourceEquipmentEntityIds,
+    sourceStage,
+    targetEntityId,
+    targetStage
+  ]);
 
   useEffect(() => {
     void rematerialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graph, sourceEntityId, targetEntityId, sourceStage, targetStage]);
+  }, [graph, sourceEntityId, targetEntityId, sourceStage, targetStage, sourceEquipmentEntityIds]);
 
   useEffect(() => {
     void releaseSessionQuietly();
@@ -373,13 +391,31 @@ export function WasmValidationGenericPage({
     [availableAbilities]
   );
 
+  const itemEntityIds = useMemo(
+    () => (graph ? listAdcCompletedItemEntityIds(graph) : new Set<string>()),
+    [graph]
+  );
+
   const entityOptions = useMemo(
     () =>
-      (graph?.entities ?? []).map((entity) => ({
-        label: entityLabel(entity.entityId, entity.displayName),
-        value: entity.entityId
-      })),
-    [graph]
+      (graph?.entities ?? [])
+        .filter((entity) => !itemEntityIds.has(entity.entityId))
+        .map((entity) => ({
+          label: entityLabel(entity.entityId, entity.displayName),
+          value: entity.entityId
+        })),
+    [graph, itemEntityIds]
+  );
+
+  const equipmentOptions = useMemo(
+    () =>
+      (graph?.entities ?? [])
+        .filter((entity) => itemEntityIds.has(entity.entityId))
+        .map((entity) => ({
+          label: entityLabel(entity.entityId, entity.displayName),
+          value: entity.entityId
+        })),
+    [graph, itemEntityIds]
   );
 
   const buildDriverPlan = useCallback((): DriverPlan | null => {
@@ -705,8 +741,18 @@ export function WasmValidationGenericPage({
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="攻击方装备（最多 6 件，静态属性）">
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="选择已完成出装物品"
+              value={sourceEquipmentEntityIds}
+              options={equipmentOptions}
+              onChange={(value: string[]) => setSourceEquipmentEntityIds(value.slice(0, 6))}
+            />
+          </Form.Item>
           <Typography.Text type="secondary">
-            P0 不提供属性覆盖；场景由 combat-data 图装配为 CompileRequest。
+            攻击方装备的静态属性会聚合到源战斗单位；物品被动尚未纳入。
           </Typography.Text>
         </Form>
       </Panel>
