@@ -82,6 +82,63 @@ func TestAttributeResolverCanonicalPathTarget(t *testing.T) {
 	}
 }
 
+func TestAttributeResolverPerModifierProviderContext(t *testing.T) {
+	registry := formula.GenericRegistry{
+		Programs: []formula.GenericProgram{
+			{
+				Key: "provider.state.stacks",
+				Instr: []formula.GenericInstr{
+					{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderState, ReadKey: "stacks"},
+				},
+			},
+		},
+	}
+	var resolver AttributeResolver
+	resolver.MountCompiledModifier("buff_a", compilebundle.CompiledModifier{
+		ModifierKey: "a", Kind: "attribute", Target: "attack_damage",
+		ValuePolicy: "add", ValueProgram: 0, HasValue: true,
+	})
+	resolver.MountCompiledModifier("buff_b", compilebundle.CompiledModifier{
+		ModifierKey: "b", Kind: "attribute", Target: "attack_damage",
+		ValuePolicy: "add", ValueProgram: 0, HasValue: true,
+	})
+	attrs := map[string]model.AttributeSlotDef{
+		"attack_damage": {Base: 100, Current: 100},
+	}
+	baseCtx := formula.GenericEvalContext{
+		TargetAttrs:   attrs,
+		AbilityParams: map[string]float64{"keep": 9},
+	}
+	var seen []string
+	out := resolver.ResolveAttributesWithProviderContext(attrs, baseCtx, registry, func(providerRef string) formula.GenericEvalContext {
+		seen = append(seen, providerRef)
+		switch providerRef {
+		case "buff_a":
+			return formula.GenericEvalContext{
+				HasProviderContext: true,
+				ProviderState:      map[string]float64{"stacks": 1},
+				// 故意污染 base 字段：实现不得采用 callback 的 attrs/ability。
+				AbilityParams: map[string]float64{"keep": -1},
+			}
+		case "buff_b":
+			return formula.GenericEvalContext{
+				HasProviderContext: true,
+				ProviderState:      map[string]float64{"stacks": 3},
+			}
+		default:
+			t.Fatalf("unexpected providerRef %q", providerRef)
+			return formula.GenericEvalContext{}
+		}
+	})
+	if len(seen) != 2 || seen[0] != "buff_a" || seen[1] != "buff_b" {
+		t.Fatalf("providerRefs=%v want [buff_a buff_b]", seen)
+	}
+	// 100 + stacks(1) + stacks(3) = 104；各 modifier 读取各自 provider 的同名 stacks。
+	if out["attack_damage"].Resolved != 104 {
+		t.Fatalf("resolved=%v want 104", out["attack_damage"].Resolved)
+	}
+}
+
 func TestAttributeKeyFromModifierTarget(t *testing.T) {
 	cases := []struct {
 		in   string

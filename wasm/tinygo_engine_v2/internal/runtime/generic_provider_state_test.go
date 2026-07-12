@@ -763,3 +763,299 @@ func TestGenericRunProviderExpireRemovesOwningProviderStateBag(t *testing.T) {
 		t.Fatalf("source bag marker=%v want 3", marker)
 	}
 }
+
+func sourceProviderState(t *testing.T, snap model.Snapshot, providerRef string) map[string]interface{} {
+	t.Helper()
+	for _, c := range snap.Combatants {
+		if c.Key != model.SelectorSource {
+			continue
+		}
+		bag, ok := c.ProviderState[providerRef].(map[string]interface{})
+		if !ok {
+			t.Fatalf("providerState[%s] missing: %+v", providerRef, c.ProviderState)
+		}
+		return bag
+	}
+	t.Fatalf("source combatant missing")
+	return nil
+}
+
+func TestGenericRunLegacyNumericProviderStateUncapped(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	one := 1.0
+	compileReq.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": float64(0),
+	}
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "stacks",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "a1", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "a2", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 100},
+		{EntryKey: "a3", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 200},
+		{EntryKey: "a4", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 300},
+		{EntryKey: "a5", AbilityRef: "source.provider[champion:source_demo].ability[basic_attack]", Source: "source", Target: "target", FirstAtMs: 400},
+	}
+	runReq.StopPolicy.DurationMs = 500
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	state := sourceProviderState(t, done.FinalSnapshot, "champion:source_demo")["state"].(map[string]interface{})
+	if stacks, _ := state["stacks"].(float64); stacks != 5 {
+		t.Fatalf("legacy stacks=%v want 5 (uncapped)", stacks)
+	}
+}
+
+func TestGenericRunTimedCappedProviderStateClampAndLazyExpire(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	one := 1.0
+	compileReq.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(3000),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+	}
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "stacks",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	abilityRef := "source.provider[champion:source_demo].ability[basic_attack]"
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "s1", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "s2", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 100},
+		{EntryKey: "s3", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 200},
+		{EntryKey: "s4", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 300},
+		{EntryKey: "s5", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 400},
+		// Refresh window from last write at 400 => expireAt=3400; write at 2000 keeps alive.
+		{EntryKey: "refresh", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 2000},
+		// After 2000+3000=5000, first write lazy-expires to 0 then adds 1.
+		{EntryKey: "after_expire", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 5000},
+	}
+	runReq.StopPolicy.DurationMs = 5100
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	if field := result.Session.Providers[0].StateFields["stacks"]; !field.HasCap || field.MaxValue != 4 || field.DurationMs != 3000 {
+		t.Fatalf("compiled field=%+v", field)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	state := sourceProviderState(t, done.FinalSnapshot, "champion:source_demo")["state"].(map[string]interface{})
+	if stacks, _ := state["stacks"].(float64); stacks != 1 {
+		t.Fatalf("stacks after lazy-expire write=%v want 1", stacks)
+	}
+	// Snapshot must keep numeric shape only (no expireAt leak).
+	bag := sourceProviderState(t, done.FinalSnapshot, "champion:source_demo")
+	if _, has := bag["expireAt"]; has {
+		t.Fatalf("snapshot must not emit expireAt: %+v", bag)
+	}
+	if _, has := bag["state"].(map[string]interface{})["expireAt"]; has {
+		t.Fatalf("state must stay numeric shape: %+v", bag["state"])
+	}
+}
+
+func TestGenericRunTimedCappedProviderStateCapAtMax(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	one := 1.0
+	compileReq.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(3000),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+	}
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "stacks",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	abilityRef := "source.provider[champion:source_demo].ability[basic_attack]"
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "s1", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "s2", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 100},
+		{EntryKey: "s3", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 200},
+		{EntryKey: "s4", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 300},
+		{EntryKey: "s5", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 400},
+	}
+	runReq.StopPolicy.DurationMs = 500
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	state := sourceProviderState(t, done.FinalSnapshot, "champion:source_demo")["state"].(map[string]interface{})
+	if stacks, _ := state["stacks"].(float64); stacks != 4 {
+		t.Fatalf("stacks=%v want 4 (add 1..5 capped)", stacks)
+	}
+}
+
+func TestGenericRunTimedProviderStateIsolatedFromTargetState(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	one := 1.0
+	compileReq.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(3000),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+	}
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "stacks",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/provider_target"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	bag := sourceProviderState(t, done.FinalSnapshot, "champion:source_demo")
+	state := bag["state"].(map[string]interface{})
+	if stacks, _ := state["stacks"].(float64); stacks != 1 {
+		t.Fatalf("provider stacks=%v want 1", stacks)
+	}
+	if _, exists := state["hits"]; exists {
+		t.Fatalf("hits must not leak into provider.state: %+v", state)
+	}
+	ts := bag["targetState"].(map[string]interface{})
+	values := ts["values"].(map[string]interface{})
+	if hits, _ := values["hits"].(float64); hits != 1 {
+		t.Fatalf("target hits=%v want 1", hits)
+	}
+	if _, exists := values["stacks"]; exists {
+		t.Fatalf("stacks must not leak into targetState: %+v", values)
+	}
+}
+
+func TestGenericRunTimedProviderStateRefreshKeepsAliveAcrossNowMs(t *testing.T) {
+	compileReq, runReq := loadBasicFixture(t)
+	one := 1.0
+	compileReq.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(3000),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+	}
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "stacks",
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	abilityRef := "source.provider[champion:source_demo].ability[basic_attack]"
+	// Write at 0 (expireAt=3000), refresh write at 2500 (expireAt=5500), probe at 5000 must still see stacks.
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "w1", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "w2", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 2500},
+		{EntryKey: "probe", AbilityRef: abilityRef, Source: "source", Target: "target", FirstAtMs: 5000},
+	}
+	runReq.StopPolicy.DurationMs = 5100
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	state := sourceProviderState(t, done.FinalSnapshot, "champion:source_demo")["state"].(map[string]interface{})
+	if stacks, _ := state["stacks"].(float64); stacks != 3 {
+		t.Fatalf("stacks=%v want 3 (refresh kept window alive through 5000)", stacks)
+	}
+}
+
+func TestProviderStateBagLazyExpireAndRefreshExpireAt(t *testing.T) {
+	bag := &providerStateBag{
+		state:    map[string]float64{"stacks": 0},
+		expireAt: map[string]int64{},
+		fieldDefs: map[string]providerStateFieldDef{
+			"stacks": {
+				defaultValue:  0,
+				maxValue:      4,
+				hasCap:        true,
+				durationMs:    3000,
+				refreshPolicy: model.ProviderStateRefreshOnWrite,
+			},
+		},
+		targetValues: map[string]float64{},
+	}
+	bag.state["stacks"] = bag.clampProviderStateValue("stacks", 5)
+	if bag.state["stacks"] != 4 {
+		t.Fatalf("clamp=%v want 4", bag.state["stacks"])
+	}
+	bag.refreshExpireAtOnWrite("stacks", 1000)
+	if bag.expireAt["stacks"] != 4000 {
+		t.Fatalf("expireAt=%d want 4000", bag.expireAt["stacks"])
+	}
+	bag.refreshExpireAtOnWrite("stacks", 2500)
+	if bag.expireAt["stacks"] != 5500 {
+		t.Fatalf("expireAt after refresh=%d want 5500", bag.expireAt["stacks"])
+	}
+	bag.state["stacks"] = 3
+	bag.lazyExpireProviderState(5499)
+	if bag.state["stacks"] != 3 {
+		t.Fatalf("before expire stacks=%v want 3", bag.state["stacks"])
+	}
+	bag.lazyExpireProviderState(5500)
+	if bag.state["stacks"] != 0 {
+		t.Fatalf("lazy expire stacks=%v want 0", bag.state["stacks"])
+	}
+	if bag.expireAt["stacks"] != 0 {
+		t.Fatalf("expireAt cleared=%d want 0", bag.expireAt["stacks"])
+	}
+}

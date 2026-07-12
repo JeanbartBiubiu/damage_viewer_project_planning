@@ -129,8 +129,25 @@ func (r *AttributeResolver) UnmountProvider(providerRef string) {
 	r.mounts = out
 }
 
+// ProviderFormulaContextFunc 按 providerRef 返回该 modifier 求值用的 provider formula context。
+// 仅 HasProviderContext / ProviderState / ProviderTargetState 会覆盖到 base evalCtx；
+// source/target attrs/resources、ability、event 字段始终来自 base。
+type ProviderFormulaContextFunc func(providerRef string) formula.GenericEvalContext
+
 // ResolveAttributes 按 bucket/stage/priority 聚合 modifier，写回 resolved。
+// 等价于 ResolveAttributesWithProviderContext(..., nil)。
 func (r AttributeResolver) ResolveAttributes(attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) map[string]model.AttributeSlotDef {
+	return r.ResolveAttributesWithProviderContext(attrs, evalCtx, formulas, nil)
+}
+
+// ResolveAttributesWithProviderContext 与 ResolveAttributes 相同，但可按 modifier 的 ProviderRef
+// 注入逐 provider 的 formula context。providerContext 为 nil 时行为与 ResolveAttributes 一致。
+func (r AttributeResolver) ResolveAttributesWithProviderContext(
+	attrs map[string]model.AttributeSlotDef,
+	evalCtx formula.GenericEvalContext,
+	formulas formula.GenericRegistry,
+	providerContext ProviderFormulaContextFunc,
+) map[string]model.AttributeSlotDef {
 	if attrs == nil {
 		return attrs
 	}
@@ -171,7 +188,14 @@ func (r AttributeResolver) ResolveAttributes(attrs map[string]model.AttributeSlo
 			if !mod.HasValue {
 				continue
 			}
-			value, err := formulas.Eval(mod.ValueProgram, evalCtx)
+			modCtx := evalCtx
+			if providerContext != nil {
+				pctx := providerContext(mod.ProviderRef)
+				modCtx.HasProviderContext = pctx.HasProviderContext
+				modCtx.ProviderState = pctx.ProviderState
+				modCtx.ProviderTargetState = pctx.ProviderTargetState
+			}
+			value, err := formulas.Eval(mod.ValueProgram, modCtx)
 			if err != nil || math.IsNaN(value) || math.IsInf(value, 0) {
 				continue
 			}

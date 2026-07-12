@@ -440,3 +440,345 @@ func TestCompileGenericRejectsUnknownDamageSettlementType(t *testing.T) {
 		t.Fatalf("expected settlement-type reject, errors=%+v", result.Result.Errors)
 	}
 }
+
+func TestCompileGenericInitialStateSchemaLegacyNumeric(t *testing.T) {
+	req := minimalValidCompileRequest()
+	req.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": float64(0),
+		"marker": float64(2),
+	}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	fields := result.Session.Providers[0].StateFields
+	if fields["stacks"].DefaultValue != 0 || fields["stacks"].HasCap || fields["stacks"].DurationMs != 0 {
+		t.Fatalf("stacks field=%+v", fields["stacks"])
+	}
+	if fields["marker"].DefaultValue != 2 || fields["marker"].HasCap {
+		t.Fatalf("marker field=%+v", fields["marker"])
+	}
+}
+
+func TestCompileGenericInitialStateSchemaStructuredSuccess(t *testing.T) {
+	req := minimalValidCompileRequest()
+	req.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(3000),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+	}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	field := result.Session.Providers[0].StateFields["stacks"]
+	if field.DefaultValue != 0 || field.MaxValue != 4 || !field.HasCap || field.DurationMs != 3000 {
+		t.Fatalf("field=%+v", field)
+	}
+	if field.RefreshPolicy != model.ProviderStateRefreshOnWrite {
+		t.Fatalf("refreshPolicy=%q", field.RefreshPolicy)
+	}
+}
+
+func TestCompileGenericInitialStateSchemaCollectAllErrors(t *testing.T) {
+	req := minimalValidCompileRequest()
+	req.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"bad_max": map[string]interface{}{
+			"defaultValue":  float64(3),
+			"maxValue":      float64(1),
+			"durationMs":    float64(1000),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+		"bad_duration": map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(0),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+		"bad_policy": map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(1000),
+			"refreshPolicy": "extend",
+		},
+	}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected compile failure")
+	}
+	if len(result.Result.Errors) < 3 {
+		t.Fatalf("expected collect-all >=3 errors, got %d: %+v", len(result.Result.Errors), result.Result.Errors)
+	}
+	var sawMax, sawDuration, sawPolicy bool
+	for _, err := range result.Result.Errors {
+		switch {
+		case err.Path != "" && containsPath(err.Path, "bad_max") && containsPath(err.Message, "maxValue"):
+			sawMax = true
+		case err.Path != "" && containsPath(err.Path, "bad_duration") && containsPath(err.Message, "durationMs"):
+			sawDuration = true
+		case err.Path != "" && containsPath(err.Path, "bad_policy"):
+			sawPolicy = true
+		}
+	}
+	if !sawMax || !sawDuration || !sawPolicy {
+		t.Fatalf("missing expected errors max=%v duration=%v policy=%v errors=%+v", sawMax, sawDuration, sawPolicy, result.Result.Errors)
+	}
+}
+
+func validRepeatOperation() model.OperationDefinition {
+	return model.OperationDefinition{
+		Operation:       model.OperationKindRepeat,
+		RepeatScope:     model.RepeatScopeCopyableOnHit,
+		RepeatCount:     1,
+		RepeatTag:       "phantom_hit",
+		TriggerStateKey: "stacks",
+		Threshold:       4,
+	}
+}
+
+func withProviderStacksSchema(req *model.CompileRequest) {
+	req.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"stacks": float64(0),
+	}
+}
+
+func TestCompileGenericDamageCopyableProjects(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:     "damage",
+			Target:        "target",
+			DamageType:    "damage/physical",
+			Amount:        &model.GenericFormulaExpr{Op: "const", Value: &one},
+			CopyableOnHit: true,
+		},
+	}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	op := result.Session.Operations[0]
+	if op.Operation != "damage" || !op.CopyableOnHit {
+		t.Fatalf("op=%+v", op)
+	}
+}
+
+func TestCompileGenericCopyableRejectsNonDamage(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:     "heal",
+			Target:        "source",
+			Amount:        &model.GenericFormulaExpr{Op: "const", Value: &one},
+			CopyableOnHit: true,
+		},
+	}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected compile failure for copyableOnHit on non-damage")
+	}
+	if !hasErrorCode(result.Result.Errors, model.GenericErrMissingRequiredField) {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+	found := false
+	for _, err := range result.Result.Errors {
+		if containsPath(err.Path, "copyableOnHit") {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Fatalf("expected copyableOnHit path error, errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatProjects(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{validRepeatOperation()}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	op := result.Session.Operations[0]
+	if op.Operation != model.OperationKindRepeat {
+		t.Fatalf("operation=%q", op.Operation)
+	}
+	if op.RepeatScope != model.RepeatScopeCopyableOnHit || op.RepeatCount != 1 || op.RepeatTag != "phantom_hit" {
+		t.Fatalf("repeat fields scope/count/tag=%q/%d/%q", op.RepeatScope, op.RepeatCount, op.RepeatTag)
+	}
+	if op.TriggerStateKey != "stacks" || op.Threshold != 4 {
+		t.Fatalf("trigger/threshold=%q/%v", op.TriggerStateKey, op.Threshold)
+	}
+	if op.Target != "" {
+		t.Fatalf("expected empty target, got %q", op.Target)
+	}
+}
+
+func TestCompileGenericRepeatRejectsInvalidScope(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.RepeatScope = "all_damage"
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorPath(result.Result.Errors, "repeatScope") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatRejectsInvalidCount(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.RepeatCount = 2
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorPath(result.Result.Errors, "repeatCount") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatRejectsEmptyTag(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.RepeatTag = ""
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorPath(result.Result.Errors, "repeatTag") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatRejectsEmptyStateKey(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.TriggerStateKey = ""
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorPath(result.Result.Errors, "triggerStateKey") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatRejectsNonPositiveThreshold(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.Threshold = 0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorPath(result.Result.Errors, "threshold") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatRejectsUnknownStateKey(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.TriggerStateKey = "missing_stacks"
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorCode(result.Result.Errors, model.GenericErrUnknownRef) {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+	if !hasErrorPath(result.Result.Errors, "triggerStateKey") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatRejectsRulesWithoutProviderContext(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	req.Rules.Operations = []model.OperationDefinition{validRepeatOperation()}
+	req.SharedProviders[0].Abilities[0].Operations = nil
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure for rules repeat without provider context")
+	}
+	found := false
+	for _, err := range result.Result.Errors {
+		if containsPath(err.Message, "owning provider context") {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Fatalf("expected provider context error, errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatAllowsEmptyTarget(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.Target = ""
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatCollectAllFieldErrors(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:       model.OperationKindRepeat,
+			RepeatScope:     "other",
+			RepeatCount:     0,
+			RepeatTag:       "",
+			TriggerStateKey: "",
+			Threshold:       -1,
+		},
+	}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	for _, needle := range []string{"repeatScope", "repeatCount", "repeatTag", "triggerStateKey", "threshold"} {
+		if !hasErrorPath(result.Result.Errors, needle) {
+			t.Fatalf("missing %s error in %+v", needle, result.Result.Errors)
+		}
+	}
+}
+
+func hasErrorPath(errors []model.EngineError, needle string) bool {
+	for _, err := range errors {
+		if containsPath(err.Path, needle) {
+			return true
+		}
+	}
+	return false
+}
+
+func containsPath(s, sub string) bool {
+	return len(s) >= len(sub) && (s == sub || indexString(s, sub) >= 0)
+}
