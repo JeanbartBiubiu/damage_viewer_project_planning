@@ -6,29 +6,30 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface CombatProviderStateFieldsMapper {
+public interface CombatRepeatEffectDetailsMapper {
 
     List<Map<String, Object>> list(
         @Param("gameId") String gameId,
-        @Param("providerId") Object providerId
+        @Param("stepId") Object stepId
     );
 
     Map<String, Object> findById(
         @Param("gameId") String gameId,
-        @Param("providerId") Object providerId,
-        @Param("stateKey") Object stateKey
+        @Param("stepId") Object stepId
     );
 
     int upsert(
         @Param("gameId") String gameId,
         @Param("changeRevision") long changeRevision,
-        @Param("providerId") Object providerId,
-        @Param("stateKey") Object stateKey,
-        @Param("valueTypeId") Object valueTypeId,
-        @Param("maxValue") Object maxValue,
-        @Param("durationMs") Object durationMs,
-        @Param("refreshPolicyTypeId") Object refreshPolicyTypeId
+        @Param("stepId") Object stepId,
+        @Param("repeatScopeTypeId") Object repeatScopeTypeId,
+        @Param("repeatCount") Object repeatCount,
+        @Param("repeatTag") Object repeatTag,
+        @Param("triggerStateKey") Object triggerStateKey,
+        @Param("threshold") Object threshold
     );
+
+    int deleteByStepId(@Param("gameId") String gameId, @Param("stepId") String stepId);
 
     List<Map<String, Object>> listChangedSince(
         @Param("gameId") String gameId,
