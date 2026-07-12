@@ -19,6 +19,8 @@ const (
 	ReadSourceResource
 	ReadTargetResource
 	ReadAbilityParam
+	ReadProviderState
+	ReadProviderTargetState
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -39,6 +41,12 @@ const (
 	GenericOpFloor
 	GenericOpCeil
 	GenericOpTrunc
+	GenericOpEq
+	GenericOpNe
+	GenericOpLt
+	GenericOpLte
+	GenericOpGt
+	GenericOpGte
 )
 
 // GenericInstr 是 generic formula 单条指令。
@@ -149,6 +157,14 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, addError)
 		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, addError)
 		*out = append(*out, GenericInstr{Op: genericOpFor(expr.Op)})
+	case "eq", "ne", "lt", "lte", "gt", "gte":
+		if len(expr.Args) != 2 {
+			addError(model.GenericErrFormulaTypeError, path+".args", "comparison formula requires exactly two args", expr.Op)
+			return
+		}
+		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, addError)
+		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, addError)
+		*out = append(*out, GenericInstr{Op: genericOpFor(expr.Op)})
 	case "clamp":
 		valueExpr := expr.Expr
 		if valueExpr == nil && len(expr.Args) > 0 {
@@ -192,14 +208,25 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	if strings.HasPrefix(path, "ability.state.") {
 		return 0, "", false
 	}
-	if strings.HasPrefix(path, "provider.state.") {
-		return 0, "", false
-	}
 	if strings.HasPrefix(path, "event.") {
 		return 0, "", false
 	}
 	if strings.HasPrefix(path, "source.provider[") || strings.HasPrefix(path, "target.provider[") {
 		return 0, "", false
+	}
+	if strings.HasPrefix(path, "provider.state.") {
+		key := strings.TrimPrefix(path, "provider.state.")
+		if key == "" {
+			return 0, "", false
+		}
+		return ReadProviderState, key, true
+	}
+	if strings.HasPrefix(path, "provider.target_state.") {
+		key := strings.TrimPrefix(path, "provider.target_state.")
+		if key == "" {
+			return 0, "", false
+		}
+		return ReadProviderTargetState, key, true
 	}
 	if strings.HasPrefix(path, "source.attr.") {
 		return ReadSourceAttr, strings.TrimPrefix(path, "source.attr."), true
@@ -243,6 +270,18 @@ func genericOpFor(op string) GenericOp {
 		return GenericOpCeil
 	case "trunc":
 		return GenericOpTrunc
+	case "eq":
+		return GenericOpEq
+	case "ne":
+		return GenericOpNe
+	case "lt":
+		return GenericOpLt
+	case "lte":
+		return GenericOpLte
+	case "gt":
+		return GenericOpGt
+	case "gte":
+		return GenericOpGte
 	default:
 		return GenericOpConst
 	}

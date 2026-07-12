@@ -297,3 +297,113 @@ func TestCompileGenericTickAbilityRequiresTickSpec(t *testing.T) {
 		t.Fatal("expected compile failure for tick ability without tickSpec")
 	}
 }
+
+func TestCompileGenericOperationConditionAndStateChange(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	three := 3.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/provider_target"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/physical",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &one},
+			Condition: &model.GenericFormulaExpr{
+				Op: "gte",
+				Args: []model.GenericFormulaExpr{
+					{Op: "read", Path: "provider.target_state.hits"},
+					{Op: "const", Value: &three},
+				},
+			},
+		},
+	}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	ops := result.Session.Operations
+	if len(ops) < 2 {
+		t.Fatalf("ops=%d", len(ops))
+	}
+	if ops[0].Operation != "state_change" || ops[0].StateScope != "state_scope/provider_target" {
+		t.Fatalf("op0=%+v", ops[0])
+	}
+	if !ops[1].HasCondition {
+		t.Fatal("expected HasCondition on damage op")
+	}
+}
+
+func TestCompileGenericStateChangeRejectsUnsupportedScope(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         "hits",
+			Types:       []string{"state_scope/unknown"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+	}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected compile failure")
+	}
+	if !hasErrorCode(result.Result.Errors, model.GenericErrUnknownTypeKey) {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericStateChangeRejectsNonOwnerTarget(t *testing.T) {
+	one := 1.0
+	for _, target := range []string{"target", "opponent"} {
+		req := minimalValidCompileRequest()
+		req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+			{
+				Operation:   "state_change",
+				Target:      target,
+				Ref:         "hits",
+				Types:       []string{"state_scope/provider"},
+				ValuePolicy: "add",
+				Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+			},
+		}
+		result := CompileGeneric(req)
+		if result.OK {
+			t.Fatalf("target=%s: expected compile failure", target)
+		}
+		if !hasErrorCode(result.Result.Errors, model.GenericErrOperationTargetMissing) {
+			t.Fatalf("target=%s errors=%+v", target, result.Result.Errors)
+		}
+	}
+}
+
+func TestCompileGenericStateChangeAcceptsSourceAndSelf(t *testing.T) {
+	one := 1.0
+	for _, target := range []string{"source", "self"} {
+		req := minimalValidCompileRequest()
+		req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+			{
+				Operation:   "state_change",
+				Target:      target,
+				Ref:         "hits",
+				Types:       []string{"state_scope/provider"},
+				ValuePolicy: "add",
+				Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+			},
+		}
+		result := CompileGeneric(req)
+		if !result.OK {
+			t.Fatalf("target=%s compile failed: %+v", target, result.Result.Errors)
+		}
+	}
+}

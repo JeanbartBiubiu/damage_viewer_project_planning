@@ -26,22 +26,25 @@ type stagedProviderMutation struct {
 }
 
 type stagedCombatant struct {
-	attributes  map[string]model.AttributeSlotDef
-	resources   map[string]model.ResourceSlotDef
-	cooldowns   map[string]int64
-	shields     []pipeline.ShieldInstance
-	providers   []status.ProviderInstance
-	resolver    pipeline.AttributeResolver
-	providerOps []stagedProviderMutation
-	dirty       bool
+	attributes    map[string]model.AttributeSlotDef
+	resources     map[string]model.ResourceSlotDef
+	cooldowns     map[string]int64
+	shields       []pipeline.ShieldInstance
+	providers     []status.ProviderInstance
+	resolver      pipeline.AttributeResolver
+	providerOps   []stagedProviderMutation
+	providerState map[string]*providerStateBag
+	dirty         bool
 }
 
 type executionFrame struct {
-	run        *genericRunState
-	frameID    uint64
-	sourceKey  string
-	targetKey  string
-	abilityRef string
+	run               *genericRunState
+	frameID           uint64
+	sourceKey         string
+	targetKey         string
+	abilityRef        string
+	ownerCombatantKey string // mounted provider owner; distinct from event/op sourceKey
+	ownerProviderRef  string
 
 	staged map[string]*stagedCombatant
 
@@ -82,33 +85,79 @@ func (f *executionFrame) stageFor(key string) *stagedCombatant {
 	base, ok := f.run.combatants[key]
 	if !ok {
 		sc := &stagedCombatant{
-			attributes: map[string]model.AttributeSlotDef{},
-			resources:  map[string]model.ResourceSlotDef{},
-			cooldowns:  map[string]int64{},
+			attributes:    map[string]model.AttributeSlotDef{},
+			resources:     map[string]model.ResourceSlotDef{},
+			cooldowns:     map[string]int64{},
+			providerState: map[string]*providerStateBag{},
 		}
 		f.staged[key] = sc
 		return sc
 	}
 	sc := &stagedCombatant{
-		attributes: cloneAttributeMap(base.attributes),
-		resources:  cloneResourceMap(base.resources),
-		cooldowns:  cloneCooldownMap(base.cooldowns),
-		shields:    pipeline.ShieldsFromRuntime(base.shields, f.run.nowMs),
-		providers:  append([]status.ProviderInstance(nil), base.providers...),
-		resolver:   base.resolver.Clone(),
+		attributes:    cloneAttributeMap(base.attributes),
+		resources:     cloneResourceMap(base.resources),
+		cooldowns:     cloneCooldownMap(base.cooldowns),
+		shields:       pipeline.ShieldsFromRuntime(base.shields, f.run.nowMs),
+		providers:     append([]status.ProviderInstance(nil), base.providers...),
+		resolver:      base.resolver.Clone(),
+		providerState: cloneProviderStateMap(base.providerState),
 	}
 	f.staged[key] = sc
 	return sc
 }
 
 func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) formula.GenericEvalContext {
-	return formula.GenericEvalContext{
+	ctx := formula.GenericEvalContext{
 		SourceAttrs:     f.stageFor(f.sourceKey).attributes,
 		TargetAttrs:     f.stageFor(f.targetKey).attributes,
 		SourceResources: f.stageFor(f.sourceKey).resources,
 		TargetResources: f.stageFor(f.targetKey).resources,
 		AbilityParams:   ability.Params,
 	}
+	if f.ownerProviderRef != "" {
+		ctx.HasProviderContext = true
+		bag := f.providerStateBag(f.providerOwnerKey(), f.ownerProviderRef, false)
+		if bag != nil {
+			ctx.ProviderState = bag.state
+			if bag.targetKey == f.targetKey {
+				ctx.ProviderTargetState = bag.targetValues
+			} else {
+				ctx.ProviderTargetState = map[string]float64{}
+			}
+		} else {
+			ctx.ProviderState = map[string]float64{}
+			ctx.ProviderTargetState = map[string]float64{}
+		}
+	}
+	return ctx
+}
+
+// providerOwnerKey returns the combatant that owns mounted provider state for this frame.
+func (f *executionFrame) providerOwnerKey() string {
+	if f.ownerCombatantKey != "" {
+		return f.ownerCombatantKey
+	}
+	return f.sourceKey
+}
+
+func (f *executionFrame) providerStateBag(combatantKey, providerRef string, create bool) *providerStateBag {
+	if providerRef == "" {
+		return nil
+	}
+	sc := f.stageFor(combatantKey)
+	if sc.providerState == nil {
+		sc.providerState = map[string]*providerStateBag{}
+	}
+	bag, ok := sc.providerState[providerRef]
+	if ok {
+		return bag
+	}
+	if !create {
+		return nil
+	}
+	bag = &providerStateBag{state: map[string]float64{}, targetValues: map[string]float64{}}
+	sc.providerState[providerRef] = bag
+	return bag
 }
 
 func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability compilebundle.CompiledAbility) (float64, *model.EngineError) {
@@ -126,6 +175,17 @@ func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility
 	for _, op := range ops {
 		if f.fatal {
 			return f.fatalErr
+		}
+		if op.HasCondition {
+			cond, err := f.evalAmount(op.ConditionProgram, ability)
+			if err != nil {
+				f.fatal = true
+				f.fatalErr = err
+				return err
+			}
+			if cond == 0 {
+				continue
+			}
 		}
 		if err := f.executeOperation(ability, op); err != nil {
 			f.fatal = true
@@ -336,9 +396,67 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			types:     types,
 		})
 		return nil
+	case "state_change":
+		return f.applyStateChange(op, ability)
 	default:
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unknown operation: "+op.Operation, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
+}
+
+func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) *model.EngineError {
+	if f.ownerProviderRef == "" {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "state_change requires provider context", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	if op.Ref == "" {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "state_change requires ref state key", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	if !op.HasAmount {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "state_change requires amount", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	scope := op.StateScope
+	if scope == "" {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownTypeKey, "state_change requires supported state scope", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	amount, err := f.evalAmount(op.AmountProgram, ability)
+	if err != nil {
+		return err
+	}
+	if !finiteState(amount) {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite state result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	ownerKey := f.providerOwnerKey()
+	bag := f.providerStateBag(ownerKey, f.ownerProviderRef, true)
+	bag.ensure()
+	switch scope {
+	case stateScopeProvider:
+		next, ok := applyStatePolicy(bag.state[op.Ref], amount, op.ValuePolicy)
+		if !ok {
+			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unsupported state_change valuePolicy", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		if !finiteState(next) {
+			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite state result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		bag.state[op.Ref] = next
+	case stateScopeProviderTarget:
+		if bag.targetKey != "" && bag.targetKey != f.targetKey {
+			// Pair-state switch: clear previous target values so stacks restart on return.
+			bag.targetValues = map[string]float64{}
+		}
+		bag.targetKey = f.targetKey
+		current := bag.targetValues[op.Ref]
+		next, ok := applyStatePolicy(current, amount, op.ValuePolicy)
+		if !ok {
+			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unsupported state_change valuePolicy", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		if !finiteState(next) {
+			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite state result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		bag.targetValues[op.Ref] = next
+	default:
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownTypeKey, "unsupported state scope", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	f.stageFor(ownerKey).dirty = true
+	return nil
 }
 
 func (f *executionFrame) applyCommand(cmd command.Command) *model.EngineError {
@@ -472,7 +590,7 @@ func (f *executionFrame) commit() {
 	for key, staged := range f.staged {
 		c, ok := f.run.combatants[key]
 		if !ok {
-			c = combatantRuntime{key: key, cooldowns: map[string]int64{}}
+			c = combatantRuntime{key: key, cooldowns: map[string]int64{}, providerState: map[string]*providerStateBag{}}
 		}
 		c.attributes = cloneAttributeMap(staged.attributes)
 		c.resources = cloneResourceMap(staged.resources)
@@ -480,6 +598,7 @@ func (f *executionFrame) commit() {
 		c.shields = pipeline.RuntimeShieldsFromView(staged.shields, key, f.sourceKey)
 		c.providers = append([]status.ProviderInstance(nil), staged.providers...)
 		c.resolver = staged.resolver.Clone()
+		c.providerState = cloneProviderStateMap(staged.providerState)
 		f.run.combatants[key] = c
 	}
 	evalAbility := compilebundle.CompiledAbility{Params: map[string]float64{}}
@@ -569,6 +688,15 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 
 	frame := s.newExecutionFrame(sourceKey, targetKey, resolvedRef)
 	frame.chainDepth = chainDepth
+	if int(ref.CombatantIndex) < len(s.compiled.Combatants) {
+		frame.ownerCombatantKey = s.compiled.Combatants[ref.CombatantIndex].Key
+	}
+	if parsed, ok := compilebundle.ParseAbilityRef(resolvedRef); ok {
+		frame.ownerProviderRef = parsed.ProviderRef
+		if frame.ownerCombatantKey == "" {
+			frame.ownerCombatantKey = parsed.Combatant
+		}
+	}
 	if err := frame.stageLifecycleCostCooldown(ability, sourceKey); err != nil {
 		return err
 	}
@@ -625,8 +753,12 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 	if chainDepth > s.budget.MaxChainDepth {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max chain depth exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	eventTypes := s.eventTypeSet(ev.types)
+	baseEventTypes := s.eventTypeSet(ev.types)
 	for _, listener := range s.compiled.Listeners {
+		eventTypes := baseEventTypes
+		if listener.OwnerCombatantKey != "" {
+			eventTypes = s.augmentOwnerRelativeEventTypes(baseEventTypes, ev.sourceKey, listener.OwnerCombatantKey)
+		}
 		if !listener.EventMatcher.Match(eventTypes) {
 			continue
 		}
@@ -659,6 +791,24 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 	return nil
 }
 
+const (
+	eventSourceOwner    = "event/source_owner"
+	eventSourceOpponent = "event/source_opponent"
+)
+
+// augmentOwnerRelativeEventTypes adds a catalog-backed owner-relative relation key for provider listeners.
+func (s *genericRunState) augmentOwnerRelativeEventTypes(base typeset.TypeSet, eventSourceKey, ownerKey string) typeset.TypeSet {
+	out := base
+	relKey := eventSourceOpponent
+	if eventSourceKey == ownerKey {
+		relKey = eventSourceOwner
+	}
+	if id, ok := s.compiled.Types.Registry.Lookup(relKey); ok {
+		out.Add(id)
+	}
+	return out
+}
+
 func (s *genericRunState) listenerFrameCombatants(ev emittedEvent, listener compilebundle.CompiledListener) (sourceKey, targetKey string) {
 	sourceKey = ev.sourceKey
 	targetKey = ev.targetKey
@@ -688,6 +838,8 @@ func (s *genericRunState) dispatchListenerOperations(listener compilebundle.Comp
 	}
 	frame := s.newExecutionFrame(sourceKey, targetKey, "listener:"+listener.ListenerKey)
 	frame.chainDepth = chainDepth
+	frame.ownerCombatantKey = listener.OwnerCombatantKey
+	frame.ownerProviderRef = listener.OwnerProviderRef
 	if err := frame.executeOperations(ability, ops); err != nil {
 		return err
 	}

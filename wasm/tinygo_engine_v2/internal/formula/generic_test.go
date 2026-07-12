@@ -76,3 +76,66 @@ func TestCompileGenericFormulaSupportsClampRound(t *testing.T) {
 		t.Fatalf("instr=%+v", instr)
 	}
 }
+
+func TestCompileGenericFormulaSupportsCompareOps(t *testing.T) {
+	var errors []model.EngineError
+	addError := func(code model.GenericErrCode, path, message, ref string) {
+		errors = append(errors, model.EngineError{Code: code, Path: path, Message: message, Ref: ref})
+	}
+	one := 1.0
+	two := 2.0
+	expr := model.GenericFormulaExpr{
+		Op: "gte",
+		Args: []model.GenericFormulaExpr{
+			{Op: "const", Value: &two},
+			{Op: "const", Value: &one},
+		},
+	}
+	instr := CompileGenericFormula(expr, "cond", map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
+	if len(errors) != 0 {
+		t.Fatalf("errors=%+v", errors)
+	}
+	if len(instr) != 3 || instr[2].Op != GenericOpGte {
+		t.Fatalf("instr=%+v", instr)
+	}
+}
+
+func TestCompileGenericFormulaRejectsCompareBadArity(t *testing.T) {
+	var errors []model.EngineError
+	addError := func(code model.GenericErrCode, path, message, ref string) {
+		errors = append(errors, model.EngineError{Code: code, Message: message})
+	}
+	one := 1.0
+	expr := model.GenericFormulaExpr{
+		Op:   "eq",
+		Args: []model.GenericFormulaExpr{{Op: "const", Value: &one}},
+	}
+	CompileGenericFormula(expr, "cond", map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
+	if len(errors) == 0 || errors[0].Code != model.GenericErrFormulaTypeError {
+		t.Fatalf("errors=%+v", errors)
+	}
+}
+
+func TestCompileGenericFormulaAllowsProviderStatePaths(t *testing.T) {
+	var errors []model.EngineError
+	addError := func(code model.GenericErrCode, path, message, ref string) {
+		errors = append(errors, model.EngineError{Code: code})
+	}
+	expr := model.GenericFormulaExpr{
+		Op: "add",
+		Args: []model.GenericFormulaExpr{
+			{Op: "read", Path: "provider.state.counter"},
+			{Op: "read", Path: "provider.target_state.hits"},
+		},
+	}
+	instr := CompileGenericFormula(expr, "amount", map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
+	if len(errors) != 0 {
+		t.Fatalf("errors=%+v", errors)
+	}
+	if len(instr) != 3 {
+		t.Fatalf("instr len %d", len(instr))
+	}
+	if instr[0].ReadKind != ReadProviderState || instr[1].ReadKind != ReadProviderTargetState {
+		t.Fatalf("read kinds=%v %v", instr[0].ReadKind, instr[1].ReadKind)
+	}
+}
