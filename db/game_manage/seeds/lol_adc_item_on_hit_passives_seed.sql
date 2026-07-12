@@ -7,12 +7,14 @@
 --       emit_event(event/basic_attack_hit)（薇恩已有同名稳定行时幂等 upsert）。
 --
 -- 范围：
--- 1. item_3153 破败：每次 owner 普攻命中，对 opponent 造成其监听器执行时
---    current HP 的 6% 物理伤害。
+-- 1. item_3153 破败：每次 owner 普攻命中，对 opponent 造成其
+--    event.entry_target.attr.hp.current 的 6% 物理伤害
+--    （父 execution frame 入口快照 / 基础普攻伤害前）。
 -- 2. item_6672 海妖：provider_target 计数；每第 3 次造成
 --    120 * (1 + missingHpRatio * 0.75) 物理伤害后重置；
 --    missingHpRatio = clamp((maxHP-currentHP)/max(maxHP,1), 0, 1)；
---    HP 基准为监听器执行时（基础普攻伤害之后）。
+--    max/current HP 均读 event.entry_target.attr.hp.*
+--    （父 execution frame 入口快照 / 基础普攻伤害前）。
 -- 3. item_3124 鬼索首批：每次 owner 普攻命中造成固定 30 魔法伤害
 --    （不含叠攻速 / 持续时间 / 满层 / 幻影复击）。
 --
@@ -281,7 +283,8 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- item_3153 破败：每次命中 6% current HP 物理伤害
+    -- item_3153 破败：每次命中 6% entry-snapshot current HP 物理伤害
+    -- （event.entry_target；基础普攻伤害前）
     -- =========================================================================
     INSERT INTO public.provider_definitions (
         game_id, provider_id, provider_kind_type_id, display_name,
@@ -312,7 +315,7 @@ BEGIN
         v_game_id,
         'provider_item_3153_ruined_king',
         'ruined_king_on_hit_damage',
-        '{"op":"mul","args":[{"op":"read","path":"$opponent.attr.hp.current"},{"op":"const","value":0.06}]}'::jsonb,
+        '{"op":"mul","args":[{"op":"read","path":"event.entry_target.attr.hp.current"},{"op":"const","value":0.06}]}'::jsonb,
         v_candidate,
         NOW()
     )
@@ -498,6 +501,7 @@ BEGIN
 
     -- =========================================================================
     -- item_6672 海妖：计数 → 条件物理伤害 → 条件重置（provider_target）
+    -- missing HP 读 event.entry_target.attr.hp.max/current（入口快照）
     -- =========================================================================
     INSERT INTO public.provider_definitions (
         game_id, provider_id, provider_kind_type_id, display_name,
@@ -565,7 +569,7 @@ BEGIN
             v_game_id,
             'provider_item_6672_kraken',
             'kraken_proc_damage',
-            '{"op":"mul","args":[{"op":"const","value":120},{"op":"add","args":[{"op":"const","value":1},{"op":"mul","args":[{"op":"clamp","expr":{"op":"div","args":[{"op":"sub","args":[{"op":"read","path":"$opponent.attr.hp.max"},{"op":"read","path":"$opponent.attr.hp.current"}]},{"op":"max","args":[{"op":"read","path":"$opponent.attr.hp.max"},{"op":"const","value":1}]}]},"min":{"op":"const","value":0},"max":{"op":"const","value":1}},{"op":"const","value":0.75}]}]}]}'::jsonb,
+            '{"op":"mul","args":[{"op":"const","value":120},{"op":"add","args":[{"op":"const","value":1},{"op":"mul","args":[{"op":"clamp","expr":{"op":"div","args":[{"op":"sub","args":[{"op":"read","path":"event.entry_target.attr.hp.max"},{"op":"read","path":"event.entry_target.attr.hp.current"}]},{"op":"max","args":[{"op":"read","path":"event.entry_target.attr.hp.max"},{"op":"const","value":1}]}]},"min":{"op":"const","value":0},"max":{"op":"const","value":1}},{"op":"const","value":0.75}]}]}]}'::jsonb,
             v_candidate,
             NOW()
         ),
