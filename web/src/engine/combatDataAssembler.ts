@@ -41,11 +41,18 @@ import type { GenericAbilityOption } from '../types/genericEngine';
 
 export type CombatantSlot = 'source' | 'target';
 
+/** Eligibility tag for ADC completed-item entities (Batch-C). */
+export const ADC_COMPLETED_ITEM_TYPE_KEY = 'tag/adc_completed_item';
+
+const MAX_SOURCE_EQUIPMENT = 6;
+
 export type CombatDataAssembleSelection = {
   sourceEntityId: string;
   targetEntityId: string;
   sourceStage?: number;
   targetStage?: number;
+  /** Optional source-side static equipment loadout (item entity ids). Max 6, unique. */
+  sourceEquipmentEntityIds?: string[];
 };
 
 export type CombatantNumericOverrides = {
@@ -131,6 +138,22 @@ export function assembleCompileRequest(
   const targetEntity = findEntity(graph, selection.targetEntityId);
   const indexes = buildIndexes(graph);
   const typeCatalog = buildTypeCatalog(graph, indexes.types);
+  const adcCompletedItemIds = collectAdcCompletedItemEntityIds(graph, indexes.types);
+  if (adcCompletedItemIds.has(sourceEntity.entityId)) {
+    throw new CombatDataAssembleError(
+      `source entity is tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${sourceEntity.entityId}`
+    );
+  }
+  if (adcCompletedItemIds.has(targetEntity.entityId)) {
+    throw new CombatDataAssembleError(
+      `target entity is tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${targetEntity.entityId}`
+    );
+  }
+  const sourceEquipmentEntityIds = resolveSourceEquipment(
+    graph,
+    indexes.types,
+    selection.sourceEquipmentEntityIds
+  );
 
   const sourceMountIds = graph.entityProviderMounts
     .filter((m) => m.entityId === sourceEntity.entityId)
@@ -163,7 +186,8 @@ export function assembleCompileRequest(
     'source',
     selection.sourceStage,
     overrides.source,
-    sourceMountIds
+    sourceMountIds,
+    sourceEquipmentEntityIds
   );
   const targetCombatant = buildCombatant(
     graph,
@@ -278,6 +302,19 @@ export function listAvailableSourceAbilities(
 
 export function computeSessionSignature(compileRequest: CompileRequest): string {
   return stableStringify(compileRequest);
+}
+
+/**
+ * Entity ids tagged via type_relation target_category=entity whose type resolves to
+ * {@link ADC_COMPLETED_ITEM_TYPE_KEY}. Used by validation page item pickers.
+ */
+export function listAdcCompletedItemEntityIds(graph: CombatDataGraph): Set<string> {
+  const types: TypeIndex = { byId: new Map(), byKey: new Map() };
+  for (const t of graph.types) {
+    types.byId.set(t.typeId, { typeKey: t.typeKey, reservedTypeId: t.reservedTypeId });
+    types.byKey.set(t.typeKey, { typeId: t.typeId, reservedTypeId: t.reservedTypeId });
+  }
+  return collectAdcCompletedItemEntityIds(graph, types);
 }
 
 export function normalizeDriverPlan(plan: DriverPlan): DriverPlan {
@@ -433,6 +470,61 @@ export function domainFromTypeKey(typeKey: string): string {
   return typeKey.slice(0, slash);
 }
 
+function resolveSourceEquipment(
+  graph: CombatDataGraph,
+  types: TypeIndex,
+  equipmentIds: string[] | undefined
+): string[] {
+  if (equipmentIds === undefined || equipmentIds.length === 0) {
+    return [];
+  }
+
+  const seen = new Set<string>();
+  for (const entityId of equipmentIds) {
+    if (seen.has(entityId)) {
+      throw new CombatDataAssembleError(
+        `source equipment contains duplicate entity id: ${entityId}`
+      );
+    }
+    seen.add(entityId);
+  }
+
+  if (equipmentIds.length > MAX_SOURCE_EQUIPMENT) {
+    throw new CombatDataAssembleError(
+      `source equipment allows at most ${MAX_SOURCE_EQUIPMENT} items, got ${equipmentIds.length}`
+    );
+  }
+
+  const eligible = collectAdcCompletedItemEntityIds(graph, types);
+  for (const entityId of equipmentIds) {
+    if (!graph.entities.some((item) => item.entityId === entityId)) {
+      throw new CombatDataAssembleError(`source equipment entity not found: ${entityId}`);
+    }
+    if (!eligible.has(entityId)) {
+      throw new CombatDataAssembleError(
+        `source equipment entity is not tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${entityId}`
+      );
+    }
+  }
+
+  return equipmentIds;
+}
+
+function collectAdcCompletedItemEntityIds(graph: CombatDataGraph, types: TypeIndex): Set<string> {
+  const tagType = types.byKey.get(ADC_COMPLETED_ITEM_TYPE_KEY);
+  if (!tagType) {
+    return new Set();
+  }
+  const ids = new Set<string>();
+  for (const rel of graph.typeRelations) {
+    if (rel.targetCategory !== 'entity' || rel.typeId !== tagType.typeId) {
+      continue;
+    }
+    ids.add(rel.targetId);
+  }
+  return ids;
+}
+
 function buildCombatant(
   graph: CombatDataGraph,
   indexes: GraphIndexes,
@@ -440,11 +532,14 @@ function buildCombatant(
   slot: CombatantSlot,
   stage: number | undefined,
   overrides: CombatantNumericOverrides | undefined,
-  mountProviderIds: string[]
+  mountProviderIds: string[],
+  equipmentEntityIds: string[] = []
 ): CombatantDefinition {
   const types = resolveEntityTypeKeys(graph, indexes.types, entity.entityId);
   const attributes = buildAttributeSlots(graph, entity.entityId, stage);
   const resources = buildResourceSlots(graph, entity.entityId, stage);
+  // Order: base/stage → equipment static attrs → numeric overrides (final).
+  applyEquipmentAttributes(graph, attributes, equipmentEntityIds);
   applyAttributeOverrides(attributes, overrides?.attributes);
   applyResourceOverrides(resources, overrides?.resources);
 
@@ -512,6 +607,44 @@ function buildAttributeSlots(
     slots[row.attrKey] = { base: value, current: value, max: value, resolved: value };
   }
   return slots;
+}
+
+/**
+ * Sum selected equipment entity_attribute_values into combatant attribute slots.
+ * Existing slots: add to base/current/max/resolved.
+ * Missing slots: create all four fields equal to the summed equipment value.
+ */
+function applyEquipmentAttributes(
+  graph: CombatDataGraph,
+  attributes: Record<string, AttributeSlot>,
+  equipmentEntityIds: string[]
+): void {
+  if (equipmentEntityIds.length === 0) {
+    return;
+  }
+
+  const equipmentIdSet = new Set(equipmentEntityIds);
+  const sums = new Map<string, number>();
+  for (const row of graph.entityAttributes) {
+    if (!equipmentIdSet.has(row.entityId)) {
+      continue;
+    }
+    assertFiniteNumber(row.baseValue, `equipment.${row.entityId}.${row.attrKey}`);
+    sums.set(row.attrKey, (sums.get(row.attrKey) ?? 0) + row.baseValue);
+  }
+
+  for (const attrKey of [...sums.keys()].sort()) {
+    const delta = sums.get(attrKey)!;
+    const slot = attributes[attrKey];
+    if (slot) {
+      slot.base += delta;
+      slot.current += delta;
+      slot.max += delta;
+      slot.resolved += delta;
+    } else {
+      attributes[attrKey] = { base: delta, current: delta, max: delta, resolved: delta };
+    }
+  }
 }
 
 function buildResourceSlots(

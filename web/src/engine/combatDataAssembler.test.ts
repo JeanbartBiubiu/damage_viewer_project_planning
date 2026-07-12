@@ -550,4 +550,358 @@ describe('combatDataAssembler', () => {
     expect(op).not.toHaveProperty('condition');
     expect(JSON.stringify(op)).not.toContain('"condition"');
   });
+
+  describe('source equipment static attributes', () => {
+    const ITEM_TAG = {
+      typeId: 62002,
+      typeKey: 'tag/adc_completed_item'
+    } as const;
+
+    function withItems(graph: CombatDataGraph): CombatDataGraph {
+      return buildGraphFixture({
+        types: [
+          ...graph.types,
+          { ...META, typeId: ITEM_TAG.typeId, typeKey: ITEM_TAG.typeKey }
+        ],
+        typeRelations: [
+          ...graph.typeRelations,
+          {
+            ...META,
+            typeId: ITEM_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_3153'
+          },
+          {
+            ...META,
+            typeId: ITEM_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_3124'
+          },
+          {
+            ...META,
+            typeId: ITEM_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_6672'
+          }
+        ],
+        entities: [
+          ...graph.entities,
+          { ...META, entityId: 'item_3153', displayName: 'Blade of the Ruined King' },
+          { ...META, entityId: 'item_3124', displayName: "Guinsoo's Rageblade" },
+          { ...META, entityId: 'item_6672', displayName: 'Kraken Slayer' },
+          { ...META, entityId: 'item_untagged', displayName: 'Not An Item' }
+        ],
+        entityAttributes: [
+          ...graph.entityAttributes,
+          { ...META, entityId: 'entity_source', attrKey: 'attack_speed', baseValue: 0.6 },
+          { ...META, entityId: 'item_3153', attrKey: 'ad', baseValue: 40 },
+          { ...META, entityId: 'item_3153', attrKey: 'attack_speed', baseValue: 0.25 },
+          { ...META, entityId: 'item_3153', attrKey: 'life_steal', baseValue: 0.1 },
+          { ...META, entityId: 'item_3124', attrKey: 'ad', baseValue: 30 },
+          { ...META, entityId: 'item_3124', attrKey: 'ap', baseValue: 30 },
+          { ...META, entityId: 'item_3124', attrKey: 'attack_speed', baseValue: 0.25 },
+          { ...META, entityId: 'item_6672', attrKey: 'ad', baseValue: 45 },
+          { ...META, entityId: 'item_6672', attrKey: 'attack_speed', baseValue: 0.4 },
+          { ...META, entityId: 'item_6672', attrKey: 'ms_pct', baseValue: 0.04 }
+        ],
+        entityAttributeStages: [
+          {
+            ...META,
+            entityId: 'entity_source',
+            attrKey: 'ad',
+            stage: 18,
+            value: 100
+          },
+          {
+            ...META,
+            entityId: 'entity_source',
+            attrKey: 'attack_speed',
+            stage: 18,
+            value: 0.75
+          },
+          // Deliberately different from item_3153 ad baseValue (40); loadout must ignore this.
+          {
+            ...META,
+            entityId: 'item_3153',
+            attrKey: 'ad',
+            stage: 18,
+            value: 999
+          }
+        ],
+        entityProviderMounts: [
+          ...graph.entityProviderMounts,
+          { ...META, entityId: 'item_3153', providerId: 'prov_item_passive' }
+        ],
+        providers: [
+          ...graph.providers,
+          {
+            ...META,
+            providerId: 'prov_item_passive',
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: 'Item Passive (must not mount)'
+          }
+        ],
+        entityResources: [
+          ...graph.entityResources,
+          {
+            ...META,
+            entityId: 'item_3153',
+            resourceKey: 'mana',
+            initialValue: 0,
+            maxValue: 0
+          }
+        ]
+      });
+    }
+
+    it('sums hero stage attrs with one item and creates missing life_steal slot', () => {
+      const graph = withItems(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceStage: 18,
+        sourceEquipmentEntityIds: ['item_3153']
+      });
+
+      const source = compile.combatants[0];
+      // Hero stage ad 100 + item baseValue 40 (not item stage 999).
+      expect(source.attributes.ad).toEqual({
+        base: 140,
+        current: 140,
+        max: 140,
+        resolved: 140
+      });
+      expect(source.attributes.attack_speed).toEqual({
+        base: 1,
+        current: 1,
+        max: 1,
+        resolved: 1
+      });
+      expect(source.attributes.life_steal).toEqual({
+        base: 0.1,
+        current: 0.1,
+        max: 0.1,
+        resolved: 0.1
+      });
+      expect(compile.combatants[1].attributes.ad).toEqual({
+        base: 10,
+        current: 10,
+        max: 10,
+        resolved: 10
+      });
+      expect(compile.combatants[1].attributes.life_steal).toBeUndefined();
+    });
+
+    it('ignores equipment entityAttributeStages and uses only item baseValue', () => {
+      const graph = withItems(buildGraphFixture());
+      const itemStage = graph.entityAttributeStages.find(
+        (s) => s.entityId === 'item_3153' && s.attrKey === 'ad' && s.stage === 18
+      );
+      expect(itemStage?.value).toBe(999);
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceStage: 18,
+        sourceEquipmentEntityIds: ['item_3153']
+      });
+
+      // Hero stage still applies (100); equipment contributes baseValue 40 only.
+      expect(compile.combatants[0].attributes.ad).toEqual({
+        base: 140,
+        current: 140,
+        max: 140,
+        resolved: 140
+      });
+    });
+
+    it('rejects sourceEntityId tagged as adc_completed_item', () => {
+      const graph = withItems(buildGraphFixture());
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'item_3153',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/source entity is tagged tag\/adc_completed_item: item_3153/);
+    });
+
+    it('rejects targetEntityId tagged as adc_completed_item', () => {
+      const graph = withItems(buildGraphFixture());
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'item_3124'
+        })
+      ).toThrow(/target entity is tagged tag\/adc_completed_item: item_3124/);
+    });
+
+    it('sums multiple items deterministically', () => {
+      const graph = withItems(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_3153', 'item_3124', 'item_6672']
+      });
+
+      const source = compile.combatants[0];
+      // base ad 50 + 40 + 30 + 45
+      expect(source.attributes.ad).toMatchObject({ base: 165, current: 165, max: 165, resolved: 165 });
+      // base as 0.6 + 0.25 + 0.25 + 0.4
+      expect(source.attributes.attack_speed).toMatchObject({
+        base: 1.5,
+        current: 1.5,
+        max: 1.5,
+        resolved: 1.5
+      });
+      expect(source.attributes.ap).toMatchObject({ base: 30, current: 30, max: 30, resolved: 30 });
+      expect(source.attributes.life_steal).toMatchObject({
+        base: 0.1,
+        current: 0.1,
+        max: 0.1,
+        resolved: 0.1
+      });
+      expect(source.attributes.ms_pct).toMatchObject({
+        base: 0.04,
+        current: 0.04,
+        max: 0.04,
+        resolved: 0.04
+      });
+    });
+
+    it('does not merge item provider mounts, types, resources, or abilities into source', () => {
+      const graph = withItems(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_3153']
+      });
+
+      const source = compile.combatants[0];
+      expect(source.providers.map((p) => p.definitionRef)).toEqual(['source::prov_q']);
+      expect(source.types).toEqual(['class/mage']);
+      expect(source.types).not.toContain('tag/adc_completed_item');
+      expect(source.resources).toEqual({
+        hp: { current: 1000, max: 1000 }
+      });
+      expect(source.resources.mana).toBeUndefined();
+
+      const providerKeys = compile.sharedProviders!.map((p) => p.providerKey);
+      expect(providerKeys).not.toContain('source::prov_item_passive');
+      expect(providerKeys).not.toContain('target::prov_item_passive');
+    });
+
+    it('keeps numeric overrides as the final layer after equipment aggregation', () => {
+      const graph = withItems(buildGraphFixture());
+      const compile = assembleCompileRequest(
+        graph,
+        {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          sourceEquipmentEntityIds: ['item_3153']
+        },
+        {
+          source: {
+            attributes: {
+              ad: { base: 999, current: 999, max: 999 }
+            }
+          }
+        }
+      );
+      expect(compile.combatants[0].attributes.ad).toEqual({
+        base: 999,
+        current: 999,
+        max: 999,
+        resolved: 999
+      });
+      expect(compile.combatants[0].attributes.life_steal).toEqual({
+        base: 0.1,
+        current: 0.1,
+        max: 0.1,
+        resolved: 0.1
+      });
+    });
+
+    it('rejects duplicate equipment ids', () => {
+      const graph = withItems(buildGraphFixture());
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          sourceEquipmentEntityIds: ['item_3153', 'item_3153']
+        })
+      ).toThrow(/source equipment contains duplicate entity id: item_3153/);
+    });
+
+    it('rejects more than 6 equipment items', () => {
+      const full = withItems(buildGraphFixture());
+      const extraItems = ['item_a', 'item_b', 'item_c', 'item_d'].map((id) => ({
+        ...META,
+        entityId: id,
+        displayName: id
+      }));
+      const extraRels = ['item_a', 'item_b', 'item_c', 'item_d'].map((id) => ({
+        ...META,
+        typeId: ITEM_TAG.typeId,
+        targetCategory: 'entity' as const,
+        targetId: id
+      }));
+      const graphSeven = {
+        ...full,
+        entities: [...full.entities, ...extraItems],
+        typeRelations: [...full.typeRelations, ...extraRels]
+      };
+      expect(() =>
+        assembleCompileRequest(graphSeven, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          sourceEquipmentEntityIds: [
+            'item_3153',
+            'item_3124',
+            'item_6672',
+            'item_a',
+            'item_b',
+            'item_c',
+            'item_d'
+          ]
+        })
+      ).toThrow(/source equipment allows at most 6 items, got 7/);
+    });
+
+    it('rejects missing equipment entity', () => {
+      const graph = withItems(buildGraphFixture());
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          sourceEquipmentEntityIds: ['item_missing']
+        })
+      ).toThrow(/source equipment entity not found: item_missing/);
+    });
+
+    it('rejects untagged equipment entity', () => {
+      const graph = withItems(buildGraphFixture());
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          sourceEquipmentEntityIds: ['item_untagged']
+        })
+      ).toThrow(/source equipment entity is not tagged tag\/adc_completed_item: item_untagged/);
+    });
+
+    it('treats empty or undefined equipment as backward compatible no-op', () => {
+      const graph = withItems(buildGraphFixture());
+      const baseline = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const empty = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: []
+      });
+      expect(empty.combatants[0].attributes).toEqual(baseline.combatants[0].attributes);
+      expect(empty.combatants[0].providers).toEqual(baseline.combatants[0].providers);
+    });
+  });
 });
