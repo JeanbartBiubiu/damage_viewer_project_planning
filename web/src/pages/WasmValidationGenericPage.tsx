@@ -20,19 +20,17 @@ import { JsonBlock } from '../components/JsonBlock';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
 import {
-  assembleGenericRunRequest,
-  materializeGenericScenario,
-  type MaterializedGenericScenario
-} from '../engine/genericCatalogMaterializer';
+  assembleCombatScenario,
+  assembleRunRequest,
+  type MaterializedCombatScenario
+} from '../engine/combatDataAssembler';
 import {
   GenericEngineClientError,
   getGenericEngineClient
 } from '../engine/genericEngineClient';
 import { getErrorMessage } from '../services/apiClient';
-import {
-  isWasmCatalogEmptyError,
-  loadPublishedWasmCatalogSnapshot
-} from '../services/wasmCatalogSnapshot';
+import { loadCombatDataGraphRevisionSafe } from '../services/combatDataLoader';
+import type { CombatDataGraph } from '../types/combatData';
 import type {
   CompileResult,
   DoneResult,
@@ -49,11 +47,7 @@ import {
   DEFAULT_SAMPLING,
   DEFAULT_STOP_POLICY
 } from '../types/genericEngine';
-import type {
-  GenericAbilityOption,
-  GenericScenarioOverrides,
-  WasmCatalogV1
-} from '../types/wasmCatalog';
+import type { GenericAbilityOption } from '../types/genericEngine';
 
 const { Row, Col } = Grid;
 
@@ -64,7 +58,7 @@ type WasmValidationGenericPageProps = {
   externalRefreshSeed: number;
 };
 
-type CatalogLoadKind = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
+type GraphLoadKind = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
 
 type DriverEntryDraft = {
   entryKey: string;
@@ -123,6 +117,10 @@ function createDefaultDriverEntry(abilityRef = ''): DriverEntryDraft {
   };
 }
 
+function entityLabel(entityId: string, displayName?: string): string {
+  return displayName ? `${entityId} (${displayName})` : entityId;
+}
+
 export function WasmValidationGenericPage({
   apiBaseUrl,
   selectedGameId,
@@ -138,16 +136,16 @@ export function WasmValidationGenericPage({
   const windowDpsChartRef = useRef<HTMLDivElement | null>(null);
   const chartsRef = useRef<echarts.ECharts[]>([]);
 
-  const [catalogState, setCatalogState] = useState<CatalogLoadKind>('idle');
-  const [catalog, setCatalog] = useState<WasmCatalogV1 | null>(null);
-  const [versionCode, setVersionCode] = useState<string | null>(null);
+  const [graphState, setGraphState] = useState<GraphLoadKind>('idle');
+  const [graph, setGraph] = useState<CombatDataGraph | null>(null);
+  const [currentRevision, setCurrentRevision] = useState<number | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [manualReloadSeed, setManualReloadSeed] = useState(0);
 
-  const [sourceTemplateKey, setSourceTemplateKey] = useState<string>('');
-  const [targetTemplateKey, setTargetTemplateKey] = useState<string>('');
-  const [attributeOverridesJson, setAttributeOverridesJson] = useState('{"source":{},"target":{}}');
-  const [resourceOverridesJson, setResourceOverridesJson] = useState('{"source":{},"target":{}}');
+  const [sourceEntityId, setSourceEntityId] = useState('');
+  const [targetEntityId, setTargetEntityId] = useState('');
+  const [sourceStage, setSourceStage] = useState<number | undefined>(undefined);
+  const [targetStage, setTargetStage] = useState<number | undefined>(undefined);
   const [driverEntry, setDriverEntry] = useState<DriverEntryDraft>(createDefaultDriverEntry());
   const [conditionRecheckIntervalMs, setConditionRecheckIntervalMs] = useState(
     DEFAULT_CONDITION_RECHECK_INTERVAL_MS
@@ -161,7 +159,7 @@ export function WasmValidationGenericPage({
     maxEvents: 100000
   });
 
-  const [materialized, setMaterialized] = useState<MaterializedGenericScenario | null>(null);
+  const [materialized, setMaterialized] = useState<MaterializedCombatScenario | null>(null);
   const [materializeError, setMaterializeError] = useState<string | null>(null);
   const [availableAbilities, setAvailableAbilities] = useState<GenericAbilityOption[]>([]);
 
@@ -202,7 +200,7 @@ export function WasmValidationGenericPage({
     }
   }, [clearSessionState]);
 
-  const reloadCatalog = useCallback(async () => {
+  const reloadGraph = useCallback(async () => {
     await releaseSessionQuietly();
     setMaterialized(null);
     setMaterializeError(null);
@@ -211,40 +209,45 @@ export function WasmValidationGenericPage({
     setLoadError(null);
 
     if (!selectedGameId) {
-      setCatalog(null);
-      setVersionCode(null);
-      setCatalogState('idle');
+      setGraph(null);
+      setCurrentRevision(null);
+      setGraphState('idle');
       return;
     }
 
-    setCatalogState('loading');
+    setGraphState('loading');
     try {
-      const snapshot = await loadPublishedWasmCatalogSnapshot(apiBaseUrl, selectedGameId);
-      setCatalog(snapshot.catalog);
-      setVersionCode(snapshot.currentVersion.versionCode);
-      setCatalogState('ready');
+      const nextGraph = await loadCombatDataGraphRevisionSafe(apiBaseUrl, selectedGameId, {
+        preferCache: true
+      });
+      setGraph(nextGraph);
+      setCurrentRevision(nextGraph.currentRevision);
 
-      const templates = snapshot.catalog.combatantTemplates;
-      const firstKey = templates[0]?.templateKey ?? '';
-      const secondKey = templates[1]?.templateKey ?? firstKey;
-      setSourceTemplateKey(firstKey);
-      setTargetTemplateKey(secondKey);
-    } catch (error) {
-      setCatalog(null);
-      if (isWasmCatalogEmptyError(error)) {
-        setVersionCode(String(error.details.versionCode));
-        setCatalogState('empty');
-        setLoadError(error.message);
+      const entities = nextGraph.entities ?? [];
+      if (entities.length === 0) {
+        setSourceEntityId('');
+        setTargetEntityId('');
+        setGraphState('empty');
         return;
       }
-      setVersionCode(null);
-      setCatalogState('error');
+
+      setGraphState('ready');
+      const firstId = entities[0]?.entityId ?? '';
+      const secondId = entities[1]?.entityId ?? firstId;
+      setSourceEntityId(firstId);
+      setTargetEntityId(secondId);
+    } catch (error) {
+      setGraph(null);
+      setCurrentRevision(null);
+      setSourceEntityId('');
+      setTargetEntityId('');
+      setGraphState('error');
       setLoadError(getErrorMessage(error));
     }
   }, [apiBaseUrl, releaseSessionQuietly, selectedGameId]);
 
   useEffect(() => {
-    void reloadCatalog();
+    void reloadGraph();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- release before reload on seed/api/game change
   }, [apiBaseUrl, selectedGameId, externalRefreshSeed, manualReloadSeed]);
 
@@ -269,7 +272,7 @@ export function WasmValidationGenericPage({
   );
 
   const rematerialize = useCallback(async () => {
-    if (!catalog || !sourceTemplateKey || !targetTemplateKey) {
+    if (!graph || !sourceEntityId || !targetEntityId) {
       setMaterialized(null);
       setAvailableAbilities([]);
       return;
@@ -279,30 +282,13 @@ export function WasmValidationGenericPage({
     setDoneResult(null);
     setStatusMessage(null);
 
-    let normalized: GenericScenarioOverrides;
     try {
-      normalized = {
-        source: {
-          attributes: normalizeAttrMap(attributeOverridesJson, 'source'),
-          resources: normalizeResMap(resourceOverridesJson, 'source')
-        },
-        target: {
-          attributes: normalizeAttrMap(attributeOverridesJson, 'target'),
-          resources: normalizeResMap(resourceOverridesJson, 'target')
-        }
-      };
-    } catch (error) {
-      setMaterialized(null);
-      setMaterializeError(error instanceof Error ? error.message : '覆盖配置 JSON 解析失败');
-      return;
-    }
-
-    try {
-      const next = materializeGenericScenario(
-        catalog,
-        { sourceTemplateKey, targetTemplateKey },
-        normalized
-      );
+      const next = assembleCombatScenario(graph, {
+        sourceEntityId,
+        targetEntityId,
+        sourceStage,
+        targetStage
+      });
       setMaterialized(next);
       setAvailableAbilities(next.availableSourceAbilities);
       setMaterializeError(null);
@@ -320,27 +306,14 @@ export function WasmValidationGenericPage({
     } catch (error) {
       setMaterialized(null);
       setAvailableAbilities([]);
-      setMaterializeError(error instanceof Error ? error.message : '物化失败');
+      setMaterializeError(error instanceof Error ? error.message : 'combat-data 装配失败');
     }
-  }, [
-    attributeOverridesJson,
-    catalog,
-    releaseSessionQuietly,
-    resourceOverridesJson,
-    sourceTemplateKey,
-    targetTemplateKey
-  ]);
+  }, [graph, releaseSessionQuietly, sourceEntityId, sourceStage, targetEntityId, targetStage]);
 
   useEffect(() => {
     void rematerialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    catalog,
-    sourceTemplateKey,
-    targetTemplateKey,
-    attributeOverridesJson,
-    resourceOverridesJson
-  ]);
+  }, [graph, sourceEntityId, targetEntityId, sourceStage, targetStage]);
 
   useEffect(() => {
     void releaseSessionQuietly();
@@ -400,6 +373,15 @@ export function WasmValidationGenericPage({
     [availableAbilities]
   );
 
+  const entityOptions = useMemo(
+    () =>
+      (graph?.entities ?? []).map((entity) => ({
+        label: entityLabel(entity.entityId, entity.displayName),
+        value: entity.entityId
+      })),
+    [graph]
+  );
+
   const buildDriverPlan = useCallback((): DriverPlan | null => {
     if (!driverEntry.abilityRef) {
       setStatusMessage('请选择已挂载的主动技能');
@@ -437,8 +419,8 @@ export function WasmValidationGenericPage({
   }, [conditionRecheckIntervalMs, driverEntry, selectableAbilities]);
 
   const handleCompile = useCallback(async () => {
-    if (!catalog || !materialized) {
-      setStatusMessage('请先加载目录并完成物化');
+    if (!graph || !materialized) {
+      setStatusMessage('请先加载 combat-data 并完成装配');
       return;
     }
 
@@ -460,7 +442,7 @@ export function WasmValidationGenericPage({
       }
       setSessionId(result.sessionId ?? null);
       setSessionSignature(materialized.sessionSignature);
-      setSessionRulesHash(result.rulesHash ?? catalog.meta.rulesHash);
+      setSessionRulesHash(result.rulesHash ?? materialized.compileRequest.rulesHash);
       setStatusMessage(result.sessionId ? `编译成功，会话 ID（sessionId）=${result.sessionId}` : '编译成功');
     } catch (error) {
       if (error instanceof GenericEngineClientError) {
@@ -472,10 +454,10 @@ export function WasmValidationGenericPage({
     } finally {
       setBusyAction(null);
     }
-  }, [catalog, materialized, releaseSessionQuietly]);
+  }, [graph, materialized, releaseSessionQuietly]);
 
   const handleRun = useCallback(async () => {
-    if (!catalog || !materialized || !sessionId) {
+    if (!materialized || !sessionId) {
       setStatusMessage('请先编译以获取会话 ID（sessionId）');
       return;
     }
@@ -490,9 +472,8 @@ export function WasmValidationGenericPage({
     setDoneResult(null);
 
     try {
-      const runRequest = assembleGenericRunRequest({
+      const runRequest = assembleRunRequest({
         sessionId,
-        catalog,
         materialized,
         driverPlan,
         stopPolicy,
@@ -517,7 +498,6 @@ export function WasmValidationGenericPage({
     }
   }, [
     buildDriverPlan,
-    catalog,
     clearSessionState,
     materialized,
     safetyBudget,
@@ -552,23 +532,25 @@ export function WasmValidationGenericPage({
     }
   }, [clearSessionState, sessionId, sessionRulesHash]);
 
-  const canCompile = catalogState === 'ready' && !!materialized && !materializeError && busyAction === null;
+  const canCompile = graphState === 'ready' && !!materialized && !materializeError && busyAction === null;
   const canRun = !!sessionId && !!compileResult?.ok && busyAction === null;
 
   if (!selectedGameId) {
-    return <EmptyState title="请先选择游戏" description="通用 Wasm 目录验证需要已选择的游戏与当前发布版本。" />;
+    return (
+      <EmptyState title="请先选择游戏" description="通用引擎验证需要已选择的游戏与 combat-data 图。" />
+    );
   }
 
-  if (catalogState === 'loading' || catalogState === 'idle') {
-    return <EmptyState title="正在加载通用 Wasm 目录…" description={`${selectedGameName} / ${selectedGameId}`} />;
+  if (graphState === 'loading' || graphState === 'idle') {
+    return <EmptyState title="正在加载 combat-data…" description={`${selectedGameName} / ${selectedGameId}`} />;
   }
 
-  if (catalogState === 'empty') {
+  if (graphState === 'empty') {
     return (
       <div className="page-stack">
         <Panel
           title="通用引擎验证"
-          kicker="WasmCatalogV1"
+          kicker="combat-data"
           actions={
             <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
               重新加载
@@ -577,15 +559,15 @@ export function WasmValidationGenericPage({
         >
           <Alert
             type="warning"
-            title="该发布版本尚未配置通用 Wasm 目录"
-            content={`游戏 ID（gameId）=${selectedGameId}，版本号（versionCode）=${versionCode ?? '--'}。编译/运行已禁用。`}
+            title="当前 combat-data 没有可用实体"
+            content={`游戏 ID（gameId）=${selectedGameId}，currentRevision=${currentRevision ?? '--'}。请先在战斗数据工作台创建实体后再验证。`}
           />
         </Panel>
       </div>
     );
   }
 
-  if (catalogState === 'error') {
+  if (graphState === 'error') {
     return (
       <div className="page-stack">
         <Panel
@@ -596,7 +578,7 @@ export function WasmValidationGenericPage({
             </Button>
           }
         >
-          <Alert type="error" title="目录读取失败" content={loadError ?? '未知错误'} />
+          <Alert type="error" title="combat-data 读取失败" content={loadError ?? '未知错误'} />
         </Panel>
       </div>
     );
@@ -638,11 +620,11 @@ export function WasmValidationGenericPage({
     <div className="page-stack">
       <Panel
         title="通用引擎验证"
-        kicker="当前版本 → 通用目录 → 物化 → 编译 / 运行 / 释放"
+        kicker="combat-data → 装配 → 编译 / 运行 / 释放"
         actions={
           <Space>
             <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
-              重新加载目录
+              重新加载 combat-data
             </Button>
             <Button type="primary" loading={busyAction === 'compile'} disabled={!canCompile} onClick={() => void handleCompile()}>
               编译
@@ -659,13 +641,13 @@ export function WasmValidationGenericPage({
         <Space direction="vertical" size={16} style={{ width: '100%' }}>
           <Typography.Text>
             游戏 <Tag color="arcoblue">{selectedGameName}</Tag>
-            {' '}版本 <Tag>{versionCode}</Tag>
-            {' '}协议版本 <Tag>{catalog?.meta.schemaVersion}</Tag>
-            {' '}规则哈希（rulesHash） <Tag>{catalog?.meta.rulesHash}</Tag>
+            {' '}currentRevision <Tag>{currentRevision ?? '--'}</Tag>
+            {' '}协议版本 <Tag>{materialized?.compileRequest.schemaVersion ?? '--'}</Tag>
+            {' '}规则哈希（rulesHash） <Tag>{materialized?.compileRequest.rulesHash ?? '--'}</Tag>
           </Typography.Text>
 
           {statusMessage ? <Alert type="info" content={statusMessage} /> : null}
-          {materializeError ? <Alert type="error" title="物化错误" content={materializeError} /> : null}
+          {materializeError ? <Alert type="error" title="装配错误" content={materializeError} /> : null}
           {engineError ? (
             <Alert
               type="error"
@@ -683,60 +665,49 @@ export function WasmValidationGenericPage({
         </Space>
       </Panel>
 
-      <Panel title="目录 / 模板选择">
+      <Panel title="实体选择 / combat-data 装配">
         <Form layout="vertical">
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label="攻击方模板（source）">
-                <Select
-                  value={sourceTemplateKey}
-                  onChange={setSourceTemplateKey}
-                  options={(catalog?.combatantTemplates ?? []).map((item) => ({
-                    label: item.displayName ? `${item.templateKey} (${item.displayName})` : item.templateKey,
-                    value: item.templateKey
-                  }))}
-                />
+              <Form.Item label="攻击方实体（source）">
+                <Select value={sourceEntityId} onChange={setSourceEntityId} options={entityOptions} />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="目标模板（target）">
-                <Select
-                  value={targetTemplateKey}
-                  onChange={setTargetTemplateKey}
-                  options={(catalog?.combatantTemplates ?? []).map((item) => ({
-                    label: item.displayName ? `${item.templateKey} (${item.displayName})` : item.templateKey,
-                    value: item.templateKey
-                  }))}
-                />
+              <Form.Item label="目标实体（target）">
+                <Select value={targetEntityId} onChange={setTargetEntityId} options={entityOptions} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item
-                label="属性覆盖 JSON"
-                extra='形状：{"source":{"ad":{"base":1,"current":1,"max":1}},"target":{...}}；提交时 resolved=current'
-              >
-                <Input.TextArea
-                  autoSize={{ minRows: 4, maxRows: 10 }}
-                  value={attributeOverridesJson}
-                  onChange={setAttributeOverridesJson}
+              <Form.Item label="攻击方 stage（可选）">
+                <InputNumber
+                  min={0}
+                  value={sourceStage}
+                  onChange={(value) =>
+                    setSourceStage(value === undefined || value === null ? undefined : Number(value))
+                  }
+                  placeholder="留空使用默认"
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                label="资源覆盖 JSON"
-                extra='形状：{"source":{"mana":{"current":50,"max":100}},"target":{...}}'
-              >
-                <Input.TextArea
-                  autoSize={{ minRows: 4, maxRows: 10 }}
-                  value={resourceOverridesJson}
-                  onChange={setResourceOverridesJson}
+              <Form.Item label="目标 stage（可选）">
+                <InputNumber
+                  min={0}
+                  value={targetStage}
+                  onChange={(value) =>
+                    setTargetStage(value === undefined || value === null ? undefined : Number(value))
+                  }
+                  placeholder="留空使用默认"
                 />
               </Form.Item>
             </Col>
           </Row>
+          <Typography.Text type="secondary">
+            P0 不提供属性覆盖；场景由 combat-data 图装配为 CompileRequest。
+          </Typography.Text>
         </Form>
       </Panel>
 
@@ -1053,7 +1024,7 @@ export function WasmValidationGenericPage({
       ) : null}
 
       {materialized ? (
-        <Panel title="物化后的编译请求（CompileRequest）/ 初始快照（InitialSnapshot）">
+        <Panel title="装配后的编译请求（CompileRequest）/ 初始快照（InitialSnapshot）">
           <JsonBlock
             value={{
               sessionSignature: materialized.sessionSignature,
@@ -1066,105 +1037,4 @@ export function WasmValidationGenericPage({
       ) : null}
     </div>
   );
-}
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return !!value && typeof value === 'object' && !Array.isArray(value);
-}
-
-function assertOptionalFiniteNumber(value: unknown, label: string): number | undefined {
-  if (value === undefined) {
-    return undefined;
-  }
-  if (typeof value !== 'number' || !Number.isFinite(value)) {
-    throw new Error(`${label} 必须是有限数字`);
-  }
-  return value;
-}
-
-function normalizeAttrMap(
-  rawJson: string,
-  slot: 'source' | 'target'
-): Record<string, { base?: number; current?: number; max?: number }> | undefined {
-  const root = JSON.parse(rawJson) as unknown;
-  if (!isPlainObject(root)) {
-    throw new Error('属性覆盖 JSON 必须是对象');
-  }
-  if (!(slot in root)) {
-    return undefined;
-  }
-  const slotValue = root[slot];
-  if (!isPlainObject(slotValue)) {
-    throw new Error(`属性覆盖.${slot} 必须是对象`);
-  }
-  const record = slotValue;
-  let entries: Record<string, unknown>;
-  if ('attributes' in record) {
-    if (!isPlainObject(record.attributes)) {
-      throw new Error(`属性覆盖.${slot}.attributes 必须是对象`);
-    }
-    entries = record.attributes;
-  } else {
-    const keys = Object.keys(record);
-    if (keys.length === 0) {
-      return undefined;
-    }
-    entries = record;
-  }
-
-  const normalized: Record<string, { base?: number; current?: number; max?: number }> = {};
-  for (const [key, value] of Object.entries(entries)) {
-    if (!isPlainObject(value)) {
-      throw new Error(`属性覆盖 ${slot}.${key} 必须是对象`);
-    }
-    normalized[key] = {
-      base: assertOptionalFiniteNumber(value.base, `attribute.${key}.base`),
-      current: assertOptionalFiniteNumber(value.current, `attribute.${key}.current`),
-      max: assertOptionalFiniteNumber(value.max, `attribute.${key}.max`)
-    };
-  }
-  return Object.keys(normalized).length > 0 ? normalized : undefined;
-}
-
-function normalizeResMap(
-  rawJson: string,
-  slot: 'source' | 'target'
-): Record<string, { current?: number; max?: number }> | undefined {
-  const root = JSON.parse(rawJson) as unknown;
-  if (!isPlainObject(root)) {
-    throw new Error('资源覆盖 JSON 必须是对象');
-  }
-  if (!(slot in root)) {
-    return undefined;
-  }
-  const slotValue = root[slot];
-  if (!isPlainObject(slotValue)) {
-    throw new Error(`资源覆盖.${slot} 必须是对象`);
-  }
-  const record = slotValue;
-  let entries: Record<string, unknown>;
-  if ('resources' in record) {
-    if (!isPlainObject(record.resources)) {
-      throw new Error(`资源覆盖.${slot}.resources 必须是对象`);
-    }
-    entries = record.resources;
-  } else {
-    const keys = Object.keys(record);
-    if (keys.length === 0) {
-      return undefined;
-    }
-    entries = record;
-  }
-
-  const normalized: Record<string, { current?: number; max?: number }> = {};
-  for (const [key, value] of Object.entries(entries)) {
-    if (!isPlainObject(value)) {
-      throw new Error(`资源覆盖 ${slot}.${key} 必须是对象`);
-    }
-    normalized[key] = {
-      current: assertOptionalFiniteNumber(value.current, `resource.${key}.current`),
-      max: assertOptionalFiniteNumber(value.max, `resource.${key}.max`)
-    };
-  }
-  return Object.keys(normalized).length > 0 ? normalized : undefined;
 }
