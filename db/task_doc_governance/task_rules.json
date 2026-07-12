@@ -473,6 +473,20 @@
       ]
     },
     {
+      "task_key": "wasm-generic-damage-precision",
+      "title": "通用 ABI 事件快照与抗性精确结算",
+      "module": "wasm",
+      "feature": "generic_damage_precision",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "事件 entry/emit 快照、参与者映射、物理/魔法/真实伤害抗性、破败/海妖 attack-start 公式、revision 11 与 Web live 精确数值 E2E 已完成闭环；UI 控制插件异常单列但不阻塞机制完成",
+      "completed_at": "2026-07-13",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-事件快照与抗性精确结算详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-事件快照与抗性精确结算验证记录-2026-07-13.md"
+      ]
+    },
+    {
       "task_key": "wasm-min-validation-data-spec",
       "title": "Wasm 最小验证数据规范",
       "module": "wasm",
