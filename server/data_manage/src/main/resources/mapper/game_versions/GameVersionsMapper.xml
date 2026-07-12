@@ -5,42 +5,45 @@
 <mapper namespace="xyz.game.datamanage.mapper.GameVersionsMapper">
 
     <select id="findCurrentPublishedVersion" resultType="map">
-        SELECT version_id AS versionId,
-               version_code AS versionCode,
-                             release_date AS releaseDate,
-               published_at AS publishedAt,
-               COALESCE(published_at, created_at) AS updatedAt
+        SELECT version_id AS "versionId",
+               version_code AS "versionCode",
+               release_date AS "releaseDate",
+               change_revision AS "changeRevision",
+               published_at AS "publishedAt",
+               COALESCE(published_at, created_at) AS "updatedAt"
         FROM public.game_versions
         WHERE game_id = #{gameId}
           AND is_current = true
-                    AND published_at IS NOT NULL
+          AND published_at IS NOT NULL
         ORDER BY version_id DESC
         LIMIT 1
     </select>
 
     <select id="findVersionById" resultType="map">
-        SELECT version_id AS versionId,
-               version_code AS versionCode,
-                             release_date AS releaseDate,
-               published_at AS publishedAt,
-               COALESCE(published_at, created_at) AS updatedAt
+        SELECT version_id AS "versionId",
+               version_code AS "versionCode",
+               release_date AS "releaseDate",
+               change_revision AS "changeRevision",
+               published_at AS "publishedAt",
+               COALESCE(published_at, created_at) AS "updatedAt"
         FROM public.game_versions
         WHERE game_id = #{gameId}
           AND version_id = #{versionId}
         LIMIT 1
     </select>
 
-        <select id="findVersionByCode" resultType="map">
-                SELECT version_id AS versionId,
-                             version_code AS versionCode,
-                             release_date AS releaseDate,
-                             published_at AS publishedAt,
-                             COALESCE(published_at, created_at) AS updatedAt
-                FROM public.game_versions
-                WHERE game_id = #{gameId}
-                    AND version_code = #{versionCode}
-                LIMIT 1
-        </select>
+    <select id="findVersionByCode" resultType="map">
+        SELECT version_id AS "versionId",
+               version_code AS "versionCode",
+               release_date AS "releaseDate",
+               change_revision AS "changeRevision",
+               published_at AS "publishedAt",
+               COALESCE(published_at, created_at) AS "updatedAt"
+        FROM public.game_versions
+        WHERE game_id = #{gameId}
+          AND version_code = #{versionCode}
+        LIMIT 1
+    </select>
 
     <select id="findCurrentVersionId" resultType="long">
         SELECT version_id
@@ -60,8 +63,8 @@
     </select>
 
     <select id="createVersion" resultType="long">
-        INSERT INTO public.game_versions (game_id, version_code, release_date, is_current, data_hash, published_at)
-        VALUES (#{gameId}, #{versionCode}, #{releaseDate}, false, NULL, NULL)
+        INSERT INTO public.game_versions (game_id, version_code, release_date, is_current, change_revision, published_at)
+        VALUES (#{gameId}, #{versionCode}, #{releaseDate}, false, #{changeRevision}, NULL)
         RETURNING version_id
     </select>
 
@@ -74,7 +77,6 @@
     <update id="markVersionCurrent">
         UPDATE public.game_versions
         SET is_current = true,
-            data_hash = NULL,
             published_at = #{publishedAt}
         WHERE game_id = #{gameId}
           AND version_id = #{versionId}

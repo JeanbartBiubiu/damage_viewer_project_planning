@@ -22,7 +22,8 @@ public interface GameVersionsMapper {
     Long createVersion(
         @Param("gameId") String gameId,
         @Param("versionCode") String versionCode,
-        @Param("releaseDate") Date releaseDate
+        @Param("releaseDate") Date releaseDate,
+        @Param("changeRevision") long changeRevision
     );
 
     int clearCurrentVersion(@Param("gameId") String gameId);

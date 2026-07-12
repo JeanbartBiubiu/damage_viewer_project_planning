@@ -1,13 +1,13 @@
 # Damage Viewer Backend
 
-`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责承接游戏数据管理、版本发布、公共读取接口、Bundle 组装与后台写接口。
+`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、版本发布元数据、图片资源，以及通用 1v1 `combat-data` 结构化读写。
 
 它在整条链路里的位置是：
 
-1. 从 `db/**` 定义的 PostgreSQL 结构中读取和写入草稿数据。
-2. 对外提供 `games / current version / bundle / owner-categories / images` 等公共读取接口。
-3. 对内提供 `versions publish`、`heroes`、`skills`、`items`、`formula-profiles`、`formula-bindings`、`attribute-definitions`、`coefficient-buckets`、`types`、`type-relations`、`status-action-control-rules`、`status-definitions`、`control-state-profiles`、`status-modifier-groups`、`status-attribute-modifiers`、`status-periodic-hp-effects`、`images`、`progression-schema` 等 Admin 接口。
-4. 为前端工作台和 Wasm 模拟提供发布后的稳定数据来源。
+1. 从 `db/**` 定义的 PostgreSQL 结构中读取和写入最新战斗数据主表，并在发布时把变化行写入对应 `_log`。
+2. 对外提供 `games`、`current version`、`images`、`/combat-data/**` 公共读取接口。
+3. 对内提供 Admin `combat-data` PUT、`images` PUT、`versions:publish`。
+4. 不组装 Bundle / Wasm Catalog，不提供 owner-categories 或旧 hero/item/skill/status 专用资源接口。
 
 ## 开发范围
 
@@ -30,10 +30,11 @@
 - 默认配置：`src/main/resources/application.yml`
 - 公共读取控制器：`src/main/java/xyz/game/datamanage/controller/publicapi/**`
 - Admin 控制器：`src/main/java/xyz/game/datamanage/controller/adminapi/**`
-- 核心服务：`src/main/java/xyz/game/datamanage/service/GameDataService.java`
-- Bundle 读取组装：`src/main/java/xyz/game/datamanage/service/PostgresReadStore.java`
-- 发布写入与校验：`src/main/java/xyz/game/datamanage/service/PostgresWriteStore.java`
+- 薄 Facade：`src/main/java/xyz/game/datamanage/service/GameDataService.java`（games / current version / images）
+- combat-data 读写与发布：`src/main/java/xyz/game/datamanage/service/combatdata/**`
 - 启动依赖探测：`src/main/java/xyz/game/datamanage/config/StartupDependencyVerifier.java`
+
+当前接口契约索引见 [接口定义](../../文档记录/详细设计/server/game_manage/接口定义.md)；DDL 与资源契约真源见 [通用 1v1 战斗数据模型 DDL 与接口详细设计](../../文档记录/详细设计/server/game_manage/通用1v1战斗数据模型DDL与接口详细设计.md)。
 
 如果你是 agent 或首次进入当前目录，先读同目录的 `AGENTS.md`，再开始修改。
 
@@ -58,16 +59,24 @@
 
 ### SQL 初始化与兼容迁移
 
-**新库（fresh install）**：只执行 `db/game_manage/schema.sql`，再执行 `db/game_manage/triggers.sql`。二者已覆盖当前基线 DDL（含乘区桶、状态资源、状态动作控制、Wasm Canonical Catalog）与分区自动化；不要再把 `migrations/**` 或 `seeds/**` 当作新库必跑步骤。
+**新库（fresh install）**：
 
-**已有库**：只执行适用的迁移（`db/game_manage/migrations/compatibility/**`、必要时 `migrations/legacy/**`）。`CREATE TABLE IF NOT EXISTS` 可创建缺失表，但不会改动已存在表的列类型、列、约束或索引；因此已有 schema 仍须执行适用的显式兼容迁移。若某次迁移新增了分区父表（含 Wasm catalog 的 `wasm_catalog_sources` / `_log`），迁移后再重新执行一次当前的 `triggers.sql`，以刷新 `ensure_game_partitions` 并为已有 `game_id` 补齐分区。
+1. `db/game_manage/schema.sql`
+2. `db/game_manage/triggers.sql`
+3. `db/game_manage/seeds/reserved_types_seed.sql`
 
-**种子数据**：`db/game_manage/seeds/**` 为可选/手工执行，不参与 fresh-install 必跑顺序。
+三者覆盖当前基线 DDL、分区自动化与 reserved type 种子；不要把 `migrations/**` 当作新库必跑步骤。
 
-常见兼容迁移示例：
+**已有库（generic combat-data 切换）**：按顺序执行：
 
-- `game_versions.version_code` / `published_bundle_snapshots.version_code` 仍为 `varchar(32)` 时：先执行 `db/game_manage/migrations/compatibility/version_code_varchar64_compatibility_migration.sql`，再发布长度超过 32 的版本码。
-- `coefficient_buckets.stage_key` / `coefficient_buckets_log.stage_key` 仍为 `varchar(32)` 时：执行 `db/game_manage/migrations/compatibility/coefficient_bucket_stage_key_varchar64_compatibility_migration.sql`。
+1. `db/game_manage/migrations/compatibility/generic_combat_data_model_compatibility_migration.sql`
+2. `db/game_manage/triggers.sql`（刷新 `ensure_game_partitions`、effect-detail 约束与 state backfill）
+3. `db/game_manage/migrations/compatibility/generic_combat_data_model_final_drop_legacy_tables_migration.sql`
+4. `db/game_manage/seeds/reserved_types_seed.sql`
+
+说明：`CREATE TABLE IF NOT EXISTS` 可创建缺失表，但不会改动已存在表的列类型、约束或索引；已有 schema 仍须执行上述显式兼容迁移。DROP migration 无 `CASCADE`；遇到未知依赖会安全回滚。最终 DROP 成功后建议再跑一次 `triggers.sql` 刷新分区清单。
+
+更早的局部兼容迁移（如 `version_code_varchar64_compatibility_migration.sql`）仅在尚未完成 generic 切换的旧库上按需执行。
 
 ## 配置与环境变量
 
@@ -104,17 +113,18 @@
 
 1. `GET /api/games`
 2. `GET /api/games/{gameId}/versions/current`
-3. `GET /api/games/{gameId}/versions/{versionCode}/bundle`
-4. 至少一类 Admin 资源的增删改查
-5. 发布后缓存刷新与 bundle 快照行为
+3. 至少一类 `GET /api/games/{gameId}/combat-data/**`
+4. 至少一类 Admin `PUT /api/admin/games/{gameId}/combat-data/**`
+5. `POST /api/admin/games/{gameId}/versions:publish`（响应含 `changeRevision`，不生成 Bundle/Catalog）
 
 ## 常见失败与排查
 
 1. **启动成功但首个请求才报依赖错误**：检查是否把 `APP_STARTUP_FAIL_FAST` 保持为默认关闭；需要尽早暴露问题时显式设为 `true`。
 2. **启动阶段直接失败**：优先核对 PostgreSQL / Redis 地址、账号密码和连通性，再看 `application.yml` 是否仍引用了不适合当前环境的示例值。
 3. **Admin 接口返回 401 / 403**：检查 `APP_AUTH_JWT_DISABLED` 是否已关闭，以及是否同时提供了 `IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM`。
-4. **发布后读到旧数据**：优先回归发布接口、Redis 可用性与缓存键更新，再检查 Bundle 生成链路。
-5. **改了 SQL 或 Mapper 后查询异常**：同步检查 `db/**`、`src/main/resources/mapper/**/*.xml`、`mapper/**`、`service/**` 口径是否一致。
+4. **发布后 revision 未更新**：优先回归 `CombatDataPublishService`、`game_data_state` 锁定与 `_log` 写入；本链路不再生成 Bundle 快照。
+5. **改了 SQL 或 Mapper 后查询异常**：同步检查 `db/**`、`src/main/resources/mapper/combatdata/**/*.xml`、`mapper/combatdata/**`、`service/combatdata/**` 口径是否一致。
+6. **旧 Bundle/Catalog/hero/item 路由 404**：预期行为；请改用 `/combat-data/**`。
 
 ## 协作说明
 

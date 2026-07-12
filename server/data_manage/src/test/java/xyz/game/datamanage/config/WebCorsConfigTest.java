@@ -20,6 +20,7 @@ import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.controller.adminapi.VersionAdminController;
 import xyz.game.datamanage.controller.publicapi.GamePublicController;
 import xyz.game.datamanage.service.GameDataService;
+import xyz.game.datamanage.service.combatdata.revision.CombatDataPublishService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.JwtVerifier;
 
@@ -34,6 +35,9 @@ class WebCorsConfigTest {
 
     @MockitoBean
     private GameDataService gameDataService;
+
+    @MockitoBean
+    private CombatDataPublishService combatDataPublishService;
 
     @MockitoBean
     private AdminEditLogHelper adminEditLogHelper;
