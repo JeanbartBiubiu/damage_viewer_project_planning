@@ -64,7 +64,7 @@ LAST_TRACKED_AT: 2026-07-13
 
 对应任务：`wasm-generic-spellblade`（状态：**active / 开发中**，详见 [Spellblade 机制详细设计](./通用ABI-Spellblade机制详细设计.md)）。
 
-本批覆盖：顶层非普攻 `ability_cast` 武装、ready/ICD、下一次独立普攻 `2 * base AD` 后消费、phantom 禁区。
+本批覆盖：顶层非普攻成功 cast 自动派发 `event/ability_started` 并武装、ready/ICD、下一次独立普攻 `2 * base AD` 后消费、phantom 禁区。
 
 因此 `wasm-generic-min-validation-coverage-audit` 总体审计任务仍保持 **active / 开发中**，不得因本批完成而标记完成。
 
