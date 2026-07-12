@@ -1604,8 +1604,9 @@ func TestGenericRunDamageDealtUsesPreShieldAmount(t *testing.T) {
 	if runDone.Summary.TargetFinalHp != 950 {
 		t.Fatalf("targetFinalHp=%v want 950", runDone.Summary.TargetFinalHp)
 	}
+	// R=0 时 mitigated==raw；summary 口径为抗性后、护盾前（pre-shield mitigated）。
 	if runDone.Summary.SourceDamageDealt != 100 {
-		t.Fatalf("sourceDamageDealt=%v want 100 (pre-shield total)", runDone.Summary.SourceDamageDealt)
+		t.Fatalf("sourceDamageDealt=%v want 100 (mitigated pre-shield; R=0 keeps raw)", runDone.Summary.SourceDamageDealt)
 	}
 }
 
