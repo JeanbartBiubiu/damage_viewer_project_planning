@@ -487,6 +487,31 @@
       ]
     },
     {
+      "task_key": "wasm-generic-min-validation-coverage-audit",
+      "title": "通用 ABI 最小验证机制迁移与 G0-G9 覆盖审计",
+      "module": "wasm",
+      "feature": "generic_min_validation_coverage_audit",
+      "status": "开发中",
+      "priority": 1,
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-最小验证机制迁移与G0-G9覆盖审计详细设计.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-formula-onhit-batch",
+      "title": "通用 ABI 公式 On-Hit 机制批次",
+      "module": "wasm",
+      "feature": "generic_formula_onhit_batch",
+      "status": "已完成",
+      "priority": 1,
+      "completion_note": "六机制 Backend seed/测试、live revision 12 发布、Web/TinyGo E2E 与治理 hash 已闭环；G8 全量重分类仍属覆盖审计任务，不在本批完成范围。",
+      "completed_at": "2026-07-13",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-公式OnHit机制批次详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-公式OnHit机制批次验证记录-2026-07-13.md"
+      ]
+    },
+    {
       "task_key": "wasm-min-validation-data-spec",
       "title": "Wasm 最小验证数据规范",
       "module": "wasm",
