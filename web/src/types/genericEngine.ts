@@ -112,6 +112,7 @@ export type OperationDefinition = {
   types?: string[];
   tags?: string[];
   ref?: string;
+  condition?: GenericFormulaExpr;
 };
 
 export type ModifierDefinition = {

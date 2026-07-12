@@ -16,10 +16,23 @@ const META: CombatDataRowMeta = {
 
 const TYPE = {
   operationDamage: { typeId: 20150, typeKey: 'operation/damage', reservedTypeId: 20150 },
+  operationStateChange: { typeId: 20160, typeKey: 'operation/state_change', reservedTypeId: 20160 },
   selectorOpponent: { typeId: 20111, typeKey: 'selector/opponent', reservedTypeId: 20111 },
   selectorSelf: { typeId: 20110, typeKey: 'selector/self', reservedTypeId: 20110 },
   valuePolicyAdd: { typeId: 20170, typeKey: 'value_policy/add', reservedTypeId: 20170 },
   damagePhysical: { typeId: 20220, typeKey: 'damage/physical', reservedTypeId: 20220 },
+  stateScopeProviderTarget: {
+    typeId: 20252,
+    typeKey: 'state_scope/provider_target',
+    reservedTypeId: 20252
+  },
+  matchModeAll: { typeId: 20181, typeKey: 'match_mode/all', reservedTypeId: 20181 },
+  eventBasicAttackHit: {
+    typeId: 20211,
+    typeKey: 'event/basic_attack_hit',
+    reservedTypeId: 20211
+  },
+  eventSourceOwner: { typeId: 20212, typeKey: 'event/source_owner', reservedTypeId: 20212 },
   providerKindPassive: { typeId: 20120, typeKey: 'provider_kind/passive', reservedTypeId: 20120 },
   abilityKindActive: { typeId: 20130, typeKey: 'ability_kind/active', reservedTypeId: 20130 },
   abilityPhaseImpact: { typeId: 20142, typeKey: 'ability_phase/impact', reservedTypeId: 20142 },
@@ -256,6 +269,7 @@ describe('combatDataAssembler', () => {
       valuePolicy: 'add',
       amount: { op: 'ref', ref: 'source::dmg' }
     });
+    expect(sourceProvider.abilities![0].operations![0]).not.toHaveProperty('condition');
 
     const catalogByKey = Object.fromEntries(
       result.compileRequest.typeCatalog.types.map((t) => [t.key, t.domain])
@@ -373,5 +387,167 @@ describe('combatDataAssembler', () => {
         targetEntityId: 'entity_target'
       })
     ).toThrow(/invalidWithoutSlash/);
+  });
+
+  it('projects conditionFormulaKey on damage step into operation.condition formula ref', () => {
+    const graph = buildGraphFixture({
+      providerFormulas: [
+        {
+          ...META,
+          providerId: 'prov_q',
+          formulaKey: 'dmg',
+          expression: {
+            op: 'add',
+            args: [
+              { op: 'read', path: '$owner.attr.ad' },
+              { op: 'const', value: 10 }
+            ]
+          }
+        },
+        {
+          ...META,
+          providerId: 'prov_q',
+          formulaKey: 'when_ad_gt',
+          expression: {
+            op: 'gt',
+            args: [
+              { op: 'read', path: '$owner.attr.ad' },
+              { op: 'const', value: 0 }
+            ]
+          }
+        }
+      ],
+      effectSteps: [
+        {
+          ...META,
+          stepId: 'step_dmg',
+          sequenceId: 'seq_q_damage',
+          stepOrder: 0,
+          operationTypeId: TYPE.operationDamage.typeId,
+          targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+          conditionFormulaKey: 'when_ad_gt',
+          damageDetail: {
+            amountFormulaKey: 'dmg',
+            damageTypeId: TYPE.damagePhysical.typeId,
+            valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+          }
+        }
+      ]
+    });
+
+    const compile = assembleCompileRequest(graph, {
+      sourceEntityId: 'entity_source',
+      targetEntityId: 'entity_target'
+    });
+    const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+    expect(sourceProvider.abilities![0].operations![0]).toMatchObject({
+      operation: 'damage',
+      target: 'opponent',
+      condition: { op: 'ref', ref: 'source::when_ad_gt' },
+      amount: { op: 'ref', ref: 'source::dmg' }
+    });
+  });
+
+  it('projects state_change with provider_target scope into operation fields', () => {
+    const graph = buildGraphFixture({
+      providerFormulas: [
+        {
+          ...META,
+          providerId: 'prov_q',
+          formulaKey: 'stack_delta',
+          expression: { op: 'const', value: 1 }
+        },
+        {
+          ...META,
+          providerId: 'prov_q',
+          formulaKey: 'when_ready',
+          expression: { op: 'const', value: 1 }
+        }
+      ],
+      effectSteps: [
+        {
+          ...META,
+          stepId: 'step_state',
+          sequenceId: 'seq_q_damage',
+          stepOrder: 0,
+          operationTypeId: TYPE.operationStateChange.typeId,
+          targetSelectorTypeId: TYPE.selectorSelf.typeId,
+          conditionFormulaKey: 'when_ready',
+          stateDetail: {
+            stateScopeTypeId: TYPE.stateScopeProviderTarget.typeId,
+            stateKey: 'stacks',
+            amountFormulaKey: 'stack_delta',
+            valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+          }
+        }
+      ]
+    });
+
+    const compile = assembleCompileRequest(graph, {
+      sourceEntityId: 'entity_source',
+      targetEntityId: 'entity_target'
+    });
+    const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+    expect(sourceProvider.abilities![0].operations![0]).toEqual({
+      operation: 'state_change',
+      target: 'self',
+      amount: { op: 'ref', ref: 'source::stack_delta' },
+      valuePolicy: 'add',
+      ref: 'stacks',
+      types: ['state_scope/provider_target'],
+      condition: { op: 'ref', ref: 'source::when_ready' }
+    });
+  });
+
+  it('preserves provider listener ALL matcher with static and dynamic event types', () => {
+    const graph = buildGraphFixture({
+      providerListeners: [
+        {
+          ...META,
+          providerId: 'prov_passive',
+          listenerId: 'listener_on_hit',
+          listenerKey: 'on_basic_hit',
+          eventTypeId: TYPE.eventBasicAttackHit.typeId
+        }
+      ],
+      listenerMatchTypes: [
+        {
+          ...META,
+          listenerId: 'listener_on_hit',
+          matchModeTypeId: TYPE.matchModeAll.typeId,
+          typeId: TYPE.eventBasicAttackHit.typeId
+        },
+        {
+          ...META,
+          listenerId: 'listener_on_hit',
+          matchModeTypeId: TYPE.matchModeAll.typeId,
+          typeId: TYPE.eventSourceOwner.typeId
+        }
+      ]
+    });
+
+    const compile = assembleCompileRequest(graph, {
+      sourceEntityId: 'entity_source',
+      targetEntityId: 'entity_target'
+    });
+    const sourcePassive = compile.sharedProviders!.find(
+      (p) => p.providerKey === 'source::prov_passive'
+    )!;
+    expect(sourcePassive.listeners).toHaveLength(1);
+    expect(sourcePassive.listeners![0].eventMatcher).toEqual({
+      all: ['event/basic_attack_hit', 'event/source_owner']
+    });
+  });
+
+  it('omits condition when effect step has no conditionFormulaKey', () => {
+    const graph = buildGraphFixture();
+    const compile = assembleCompileRequest(graph, {
+      sourceEntityId: 'entity_source',
+      targetEntityId: 'entity_target'
+    });
+    const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+    const op = sourceProvider.abilities![0].operations![0];
+    expect(op).not.toHaveProperty('condition');
+    expect(JSON.stringify(op)).not.toContain('"condition"');
   });
 });
