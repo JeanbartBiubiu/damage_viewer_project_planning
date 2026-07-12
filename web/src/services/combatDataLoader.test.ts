@@ -99,7 +99,10 @@ describe('loadCombatDataGraphRevisionSafe', () => {
     const result = await loadCombatDataGraphRevisionSafe('http://localhost:8080', 'demo');
     expect(result.currentRevision).toBe(5);
     expect(loadCombatDataGraph).toHaveBeenCalledTimes(1);
-    expect(writeCombatDataGraphCache).toHaveBeenCalledWith(expect.objectContaining({ currentRevision: 5 }));
+    expect(writeCombatDataGraphCache).toHaveBeenCalledWith(
+      'http://localhost:8080',
+      expect.objectContaining({ currentRevision: 5 })
+    );
   });
 
   it('reloads once when revision changes during first load', async () => {
@@ -134,15 +137,36 @@ describe('loadCombatDataGraphRevisionSafe', () => {
       preferCache: true
     });
     expect(result.currentRevision).toBe(9);
+    expect(readCombatDataGraphCache).toHaveBeenCalledWith('http://localhost:8080', 'demo', 9);
     expect(loadCombatDataGraph).not.toHaveBeenCalled();
   });
 
-  it('invalidateAndReload clears cache then reloads', async () => {
+  it('routes apiBaseUrl through all cache operations', async () => {
+    const apiBaseUrl = 'http://localhost:8082';
+    getCombatDataState.mockResolvedValueOnce(envelope(4)).mockResolvedValueOnce(envelope(4));
+    loadCombatDataGraph.mockResolvedValueOnce(graph(4));
+    readCombatDataGraphCache.mockResolvedValueOnce(null);
+
+    await loadCombatDataGraphRevisionSafe(apiBaseUrl, 'demo', { preferCache: true });
+    expect(readCombatDataGraphCache).toHaveBeenCalledWith(apiBaseUrl, 'demo', 4);
+    expect(writeCombatDataGraphCache).toHaveBeenCalledWith(apiBaseUrl, expect.objectContaining({ currentRevision: 4 }));
+
+    getCombatDataState.mockResolvedValueOnce(envelope(4)).mockResolvedValueOnce(envelope(4));
+    loadCombatDataGraph.mockResolvedValueOnce(graph(4));
+
+    await invalidateAndReload(apiBaseUrl, 'demo');
+    expect(clearCombatDataGraphCache).toHaveBeenCalledWith(apiBaseUrl, 'demo');
+    expect(readCombatDataGraphCache).toHaveBeenCalledTimes(1);
+  });
+
+  it('invalidateAndReload clears only apiBaseUrl+gameId scope then reloads without cache', async () => {
     getCombatDataState.mockResolvedValueOnce(envelope(3)).mockResolvedValueOnce(envelope(3));
     loadCombatDataGraph.mockResolvedValueOnce(graph(3));
 
     const result = await invalidateAndReload('http://localhost:8080', 'demo');
-    expect(clearCombatDataGraphCache).toHaveBeenCalledWith('demo');
+    expect(clearCombatDataGraphCache).toHaveBeenCalledWith('http://localhost:8080', 'demo');
+    expect(clearCombatDataGraphCache).toHaveBeenCalledTimes(1);
+    expect(readCombatDataGraphCache).not.toHaveBeenCalled();
     expect(result.currentRevision).toBe(3);
   });
 });
