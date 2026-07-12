@@ -156,3 +156,28 @@ engine_outbox_clear()
 - 构建模式默认 `-scheduler=none -no-debug -opt=z`。
 - 网络请求、缓存、版本协商、文件加载留在 JS/Worker；TinyGo 只接收准备好的 frame payload。
 - 旧 Rust/Katarina crate 已移除；新增 Wasm 能力默认落在本目录。
+
+## Generic runtime 精度契约（事件快照 / 抗性）
+
+### Event snapshot formula reads
+
+Listener / child ability 公式可读：
+
+- `event.entry_source|entry_target.attr.<key>[.base|.current|.max|.resolved]`
+- `event.entry_source|entry_target.resource.<key>[.current|.max]`
+- `event.source|target.attr.<key>[.base|.current|.max|.resolved]`
+- `event.source|target.resource.<key>[.current|.max]`
+
+语义：`entry_*` 为父 execution frame 创建时（cost/CD/ops 前）深拷贝；`event.source/target` 为 `emit_event` 当点 staged 深拷贝。参与者始终是原始 emittedEvent source/target，不随 owner-relative listener 重映射。无 event context（driver cast / provider tick）读取 `event.*` 返回结构化 formula error。
+
+Resource 路径（含 `source/target/event`）支持 `.current`/`.max`；无 suffix 默认 current。
+
+### Damage resistance
+
+Pipeline：`raw → target resistance → shields → HP clipping`。
+
+- `physical` / `damage/physical` → `armor.resolved`
+- `magic` / `damage/magic` / `magical` / `damage/magical` → `magic_resist.resolved`
+- `true` / `damage/true` → 跳过抗性
+
+公式：`R>=0: amount*100/(100+R)`；`R<0: amount*(2-100/(100-R))`。首批不读 source penetration。未知 damage type 在 compile collect-all 拒绝。`Result.Amount` / summary `damageDealt` 使用 mitigated（抗性后、护盾前）；HP clipping 不反向改 summary。

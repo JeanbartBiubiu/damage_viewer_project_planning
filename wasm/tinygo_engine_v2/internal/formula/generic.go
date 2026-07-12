@@ -21,6 +21,14 @@ const (
 	ReadAbilityParam
 	ReadProviderState
 	ReadProviderTargetState
+	ReadEventEntrySourceAttr
+	ReadEventEntryTargetAttr
+	ReadEventEntrySourceResource
+	ReadEventEntryTargetResource
+	ReadEventSourceAttr
+	ReadEventTargetAttr
+	ReadEventSourceResource
+	ReadEventTargetResource
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -209,7 +217,7 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 		return 0, "", false
 	}
 	if strings.HasPrefix(path, "event.") {
-		return 0, "", false
+		return parseEventReadPath(path)
 	}
 	if strings.HasPrefix(path, "source.provider[") || strings.HasPrefix(path, "target.provider[") {
 		return 0, "", false
@@ -242,6 +250,33 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	}
 	if strings.HasPrefix(path, "ability.param.") {
 		return ReadAbilityParam, strings.TrimPrefix(path, "ability.param."), true
+	}
+	return 0, "", false
+}
+
+func parseEventReadPath(path string) (GenericReadKind, string, bool) {
+	type prefixKind struct {
+		prefix string
+		kind   GenericReadKind
+	}
+	prefixes := []prefixKind{
+		{"event.entry_source.attr.", ReadEventEntrySourceAttr},
+		{"event.entry_target.attr.", ReadEventEntryTargetAttr},
+		{"event.entry_source.resource.", ReadEventEntrySourceResource},
+		{"event.entry_target.resource.", ReadEventEntryTargetResource},
+		{"event.source.attr.", ReadEventSourceAttr},
+		{"event.target.attr.", ReadEventTargetAttr},
+		{"event.source.resource.", ReadEventSourceResource},
+		{"event.target.resource.", ReadEventTargetResource},
+	}
+	for _, p := range prefixes {
+		if strings.HasPrefix(path, p.prefix) {
+			key := strings.TrimPrefix(path, p.prefix)
+			if key == "" {
+				return 0, "", false
+			}
+			return p.kind, key, true
+		}
 	}
 	return 0, "", false
 }
