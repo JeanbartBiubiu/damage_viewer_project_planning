@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatShieldEffectDetailsMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       step_id AS "stepId",
+       shield_ref AS "shieldRef",
+       amount_formula_key AS "amountFormulaKey",
+       duration_formula_key AS "durationFormulaKey",
+       value_policy_type_id AS "valuePolicyTypeId",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.shield_effect_details
+        WHERE game_id = #{gameId}
+        <if test="stepId != null">
+          AND step_id = #{stepId}
+        </if>
+        ORDER BY step_id
+    </select>
+
+    <select id="findById" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       step_id AS "stepId",
+       shield_ref AS "shieldRef",
+       amount_formula_key AS "amountFormulaKey",
+       duration_formula_key AS "durationFormulaKey",
+       value_policy_type_id AS "valuePolicyTypeId",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.shield_effect_details
+        WHERE game_id = #{gameId}
+          AND step_id = #{stepId}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.shield_effect_details
+            (game_id, step_id, shield_ref, amount_formula_key, duration_formula_key, value_policy_type_id, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{stepId}, #{shieldRef}, #{amountFormulaKey}, #{durationFormulaKey}, #{valuePolicyTypeId}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id, step_id) DO UPDATE SET
+            shield_ref = EXCLUDED.shield_ref,
+            amount_formula_key = EXCLUDED.amount_formula_key,
+            duration_formula_key = EXCLUDED.duration_formula_key,
+            value_policy_type_id = EXCLUDED.value_policy_type_id,
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+    <delete id="deleteByStepId">
+        DELETE FROM public.shield_effect_details
+        WHERE game_id = #{gameId}
+          AND step_id = #{stepId}
+    </delete>
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       step_id AS "stepId",
+       shield_ref AS "shieldRef",
+       amount_formula_key AS "amountFormulaKey",
+       duration_formula_key AS "durationFormulaKey",
+       value_policy_type_id AS "valuePolicyTypeId",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.shield_effect_details
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, step_id
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.shield_effect_details_log (
+            game_id, version_id, change_revision, step_id, shield_ref, amount_formula_key, duration_formula_key, value_policy_type_id
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            step_id,
+            shield_ref,
+            amount_formula_key,
+            duration_formula_key,
+            value_policy_type_id
+        FROM public.shield_effect_details
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, step_id, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            shield_ref = EXCLUDED.shield_ref,
+            amount_formula_key = EXCLUDED.amount_formula_key,
+            duration_formula_key = EXCLUDED.duration_formula_key,
+            value_policy_type_id = EXCLUDED.value_policy_type_id
+    </insert>
+</mapper>

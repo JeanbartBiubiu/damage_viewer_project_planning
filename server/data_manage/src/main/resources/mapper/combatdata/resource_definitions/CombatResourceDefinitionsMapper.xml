@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatResourceDefinitionsMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       resource_key AS "resourceKey",
+       display_name AS "displayName",
+       default_initial_value AS "defaultInitialValue",
+       default_max_value AS "defaultMaxValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.resource_definitions
+        WHERE game_id = #{gameId}
+        ORDER BY resource_key
+    </select>
+
+    <select id="findById" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       resource_key AS "resourceKey",
+       display_name AS "displayName",
+       default_initial_value AS "defaultInitialValue",
+       default_max_value AS "defaultMaxValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.resource_definitions
+        WHERE game_id = #{gameId}
+          AND resource_key = #{resourceKey}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.resource_definitions
+            (game_id, resource_key, display_name, default_initial_value, default_max_value, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{resourceKey}, #{displayName}, #{defaultInitialValue}, #{defaultMaxValue}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id, resource_key) DO UPDATE SET
+            display_name = EXCLUDED.display_name,
+            default_initial_value = EXCLUDED.default_initial_value,
+            default_max_value = EXCLUDED.default_max_value,
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       resource_key AS "resourceKey",
+       display_name AS "displayName",
+       default_initial_value AS "defaultInitialValue",
+       default_max_value AS "defaultMaxValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.resource_definitions
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, resource_key
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.resource_definitions_log (
+            game_id, version_id, change_revision, resource_key, display_name, default_initial_value, default_max_value
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            resource_key,
+            display_name,
+            default_initial_value,
+            default_max_value
+        FROM public.resource_definitions
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, resource_key, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            display_name = EXCLUDED.display_name,
+            default_initial_value = EXCLUDED.default_initial_value,
+            default_max_value = EXCLUDED.default_max_value
+    </insert>
+</mapper>

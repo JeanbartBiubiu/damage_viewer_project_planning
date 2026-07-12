@@ -263,6 +263,23 @@
       ]
     },
     {
+      "task_key": "server-generic-combat-data-model",
+      "title": "Server 通用 1v1 战斗数据模型替换",
+      "module": "server",
+      "workstream": "server/game-manage",
+      "feature": "generic_combat_data_model",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "cursor-grok-4.5-plus-codex-review",
+      "completion_note": "通用 combat-data DDL/API/publish 已落地；旧 Bundle/Catalog 与 hero/item/skill/status 数据面已删除；test0221 迁移与 mvn 53 测通过。",
+      "completed_at": "2026-07-12",
+      "docs": [
+        "文档记录/概要设计/server/通用1v1战斗数据模型替换方案.md",
+        "文档记录/详细设计/server/game_manage/通用1v1战斗数据模型DDL与接口详细设计.md",
+        "文档记录/测试记录/server/game_manage/通用1v1战斗数据模型验证记录-2026-07-12.md"
+      ]
+    },
+    {
       "task_key": "server-game-manage-api",
       "title": "Server Game Manage 接口与后端实现",
       "module": "server",

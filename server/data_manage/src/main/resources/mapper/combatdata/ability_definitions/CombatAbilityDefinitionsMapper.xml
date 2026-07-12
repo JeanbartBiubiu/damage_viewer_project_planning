@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatAbilityDefinitionsMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       ability_id AS "abilityId",
+       provider_id AS "providerId",
+       ability_key AS "abilityKey",
+       ability_kind_type_id AS "abilityKindTypeId",
+       display_name AS "displayName",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_definitions
+        WHERE game_id = #{gameId}
+        <if test="providerId != null">
+          AND provider_id = #{providerId}
+        </if>
+        ORDER BY provider_id, ability_id
+    </select>
+
+    <select id="findById" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       ability_id AS "abilityId",
+       provider_id AS "providerId",
+       ability_key AS "abilityKey",
+       ability_kind_type_id AS "abilityKindTypeId",
+       display_name AS "displayName",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_definitions
+        WHERE game_id = #{gameId}
+          AND ability_id = #{abilityId}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.ability_definitions
+            (game_id, ability_id, provider_id, ability_key, ability_kind_type_id, display_name, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{abilityId}, #{providerId}, #{abilityKey}, #{abilityKindTypeId}, #{displayName}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id, ability_id) DO UPDATE SET
+            provider_id = EXCLUDED.provider_id,
+            ability_key = EXCLUDED.ability_key,
+            ability_kind_type_id = EXCLUDED.ability_kind_type_id,
+            display_name = EXCLUDED.display_name,
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       ability_id AS "abilityId",
+       provider_id AS "providerId",
+       ability_key AS "abilityKey",
+       ability_kind_type_id AS "abilityKindTypeId",
+       display_name AS "displayName",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_definitions
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, ability_id
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.ability_definitions_log (
+            game_id, version_id, change_revision, ability_id, provider_id, ability_key, ability_kind_type_id, display_name
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            ability_id,
+            provider_id,
+            ability_key,
+            ability_kind_type_id,
+            display_name
+        FROM public.ability_definitions
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, ability_id, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            provider_id = EXCLUDED.provider_id,
+            ability_key = EXCLUDED.ability_key,
+            ability_kind_type_id = EXCLUDED.ability_kind_type_id,
+            display_name = EXCLUDED.display_name
+    </insert>
+</mapper>
