@@ -67,7 +67,7 @@ export function AdminPublishRail({
             >
               发布版本
             </Button>
-            <Button href="#/wasm-validation">打开 Wasm 验证</Button>
+            <Button href="#/wasm-validation-generic">打开 Wasm 验证</Button>
           </Space>
         </Form>
 

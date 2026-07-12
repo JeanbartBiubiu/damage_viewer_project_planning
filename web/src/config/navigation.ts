@@ -26,11 +26,6 @@ export type AdminResourceRouteId = BuiltinAdminResourceRouteId | ExtendedAdminRe
 export type RouteId =
   | 'overview'
   | 'workspace'
-  | 'wasm-validation'
-  | 'wasm-validation-m2'
-  | 'wasm-validation-m3'
-  | 'wasm-validation-m4-closure'
-  | 'wasm-validation-v2-dps'
   | 'wasm-validation-generic'
   | 'images'
   | AdminResourceRouteId;
@@ -90,31 +85,6 @@ const dataManagementBaseNavigationItems: NavigationItem[] = [
 ];
 
 const wasmSimulationNavigationItems: NavigationItem[] = [
-  {
-    id: 'wasm-validation',
-    label: 'M1 初始快照',
-    summary: 'Actor 初始化字段对照'
-  },
-  {
-    id: 'wasm-validation-m2',
-    label: 'M2 Action 面板',
-    summary: 'Action 初始状态对照'
-  },
-  {
-    id: 'wasm-validation-m3',
-    label: 'M3 单技能',
-    summary: '单技能 1v 假人证据'
-  },
-  {
-    id: 'wasm-validation-m4-closure',
-    label: 'M4 机制闭环',
-    summary: '机制扩展闭环验证'
-  },
-  {
-    id: 'wasm-validation-v2-dps',
-    label: 'V2 DPS 验证',
-    summary: '站桩普攻 DPS 验证'
-  },
   {
     id: 'wasm-validation-generic',
     label: '通用引擎验证',

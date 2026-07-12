@@ -23,12 +23,7 @@ import { TypesPage } from './pages/admin/resources/types';
 import { ImagesPage } from './pages/ImagesPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { VersionPublishPage } from './pages/VersionPublishPage';
-import { WasmValidationM2Page } from './pages/WasmValidationM2Page';
-import { WasmValidationM3Page } from './pages/WasmValidationM3Page';
-import { WasmValidationM4ClosurePage } from './pages/WasmValidationM4ClosurePage';
-import { WasmValidationV2DpsPage } from './pages/WasmValidationV2DpsPage';
 import { WasmValidationGenericPage } from './pages/WasmValidationGenericPage';
-import { WasmValidationPage } from './pages/WasmValidationPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -205,56 +200,6 @@ export default function App() {
           adminToken={adminToken}
           onAdminTokenChange={setAdminToken}
           onDataPublished={() => setBundleRefreshSeed((value) => value + 1)}
-        />
-      );
-      break;
-    case 'wasm-validation':
-      pageContent = (
-        <WasmValidationPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'wasm-validation-m2':
-      pageContent = (
-        <WasmValidationM2Page
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'wasm-validation-m3':
-      pageContent = (
-        <WasmValidationM3Page
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'wasm-validation-m4-closure':
-      pageContent = (
-        <WasmValidationM4ClosurePage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
-        />
-      );
-      break;
-    case 'wasm-validation-v2-dps':
-      pageContent = (
-        <WasmValidationV2DpsPage
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          selectedGameName={selectedGameName}
-          externalRefreshSeed={bundleRefreshSeed}
         />
       );
       break;
