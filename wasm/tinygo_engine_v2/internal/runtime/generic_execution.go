@@ -1042,6 +1042,9 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	if err := frame.dispatchPendingEvents(); err != nil {
 		return err
 	}
+	if err := frame.maybeDispatchAbilityStartedEvent(ability); err != nil {
+		return err
+	}
 
 	s.abilityCastCount++
 	acc := s.statFor(resolvedRef)
@@ -1065,6 +1068,52 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 
 	s.checkDeathStopReason()
 	return nil
+}
+
+const (
+	abilityTypeBasicAttack  = "ability/basic_attack"
+	eventTypeAbilityStarted = "event/ability_started"
+)
+
+// maybeDispatchAbilityStartedEvent 在顶层成功 cast 后自动合成 event/ability_started（reserved 20205）。
+// 条件：chainDepth==0，且 ability TypeSet 不含 ability/basic_attack（经 type catalog Lookup，禁止 abilityKey 启发式）。
+// catalog 缺 ability/basic_attack 时 fail closed（不合成）；缺 event/ability_started 时同样不合成。
+// gate/cost/cooldown 失败不会进入本路径；listener child cast（chainDepth>0）不合成。
+func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.CompiledAbility) *model.EngineError {
+	if f.chainDepth != 0 {
+		return nil
+	}
+	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
+	if !ok {
+		// Fail closed: without the classifier type, never treat all abilities as non-basic-attack.
+		return nil
+	}
+	if ability.TypeSet.Contains(basicAttackID) {
+		return nil
+	}
+	if _, ok := f.run.compiled.Types.Registry.Lookup(eventTypeAbilityStarted); !ok {
+		// Event type absent from catalog: cannot participate in type-set matching; do not invent it.
+		return nil
+	}
+	f.run.recordEvidence(model.EvidenceItem{
+		TimeMs: f.run.nowMs,
+		Kind:   model.EvidenceKindEmittedEvent,
+		Ref:    eventTypeAbilityStarted,
+		Data: map[string]interface{}{
+			"source":    f.sourceKey,
+			"target":    f.targetKey,
+			"eventType": eventTypeAbilityStarted,
+		},
+	})
+	ev := emittedEvent{
+		eventType: eventTypeAbilityStarted,
+		ref:       eventTypeAbilityStarted,
+		sourceKey: f.sourceKey,
+		targetKey: f.targetKey,
+		types:     []string{eventTypeAbilityStarted},
+		snapshot:  f.captureEmitSnapshot(f.sourceKey, f.targetKey),
+	}
+	return f.run.dispatchListeners(ev, f.chainDepth+1)
 }
 
 func (f *executionFrame) dispatchPendingEvents() *model.EngineError {
