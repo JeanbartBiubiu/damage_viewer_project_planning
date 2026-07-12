@@ -111,6 +111,24 @@ cd server/data_manage
 mvn -Dtest=LolBatchBAdcEntitiesSeedSqlTest test
 ```
 
+### LoL Vayne Silver Bolts（W）listener / effect-graph seed
+
+在 reserved types 与 Batch-B（或等价）薇恩普攻闭环已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20211`/`20212`/`20213`/`20252`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B 尚未写入）
+3. `db/game_manage/seeds/lol_vayne_silver_bolts_seed.sql`
+4. Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；在既有 `sequence_hero_vayne_basic_attack_damage` 伤害步骤后追加 `emit_event`（`event/basic_attack_hit`）；挂载独立 `provider_hero_vayne_silver_bolts`（不替换普攻 provider），并写入 `silver_bolts_hits` 状态、listener ALL matcher、三步结算序列。重复执行且数据无变化时不会推进 `current_revision`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolVayneSilverBoltsSeedSqlTest test
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
