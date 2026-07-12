@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatGameProgressionSchemaMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       progression_kind AS "progressionKind",
+       stage_min AS "stageMin",
+       stage_max AS "stageMax",
+       stage_label AS "stageLabel",
+       require_all_stages AS "requireAllStages",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.game_progression_schema
+        WHERE game_id = #{gameId}
+        ORDER BY game_id
+    </select>
+
+    <select id="findByGameId" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       progression_kind AS "progressionKind",
+       stage_min AS "stageMin",
+       stage_max AS "stageMax",
+       stage_label AS "stageLabel",
+       require_all_stages AS "requireAllStages",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.game_progression_schema
+        WHERE game_id = #{gameId}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.game_progression_schema
+            (game_id, progression_kind, stage_min, stage_max, stage_label, require_all_stages, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{progressionKind}, #{stageMin}, #{stageMax}, #{stageLabel}, #{requireAllStages}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id) DO UPDATE SET
+            progression_kind = EXCLUDED.progression_kind,
+            stage_min = EXCLUDED.stage_min,
+            stage_max = EXCLUDED.stage_max,
+            stage_label = EXCLUDED.stage_label,
+            require_all_stages = EXCLUDED.require_all_stages,
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       progression_kind AS "progressionKind",
+       stage_min AS "stageMin",
+       stage_max AS "stageMax",
+       stage_label AS "stageLabel",
+       require_all_stages AS "requireAllStages",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.game_progression_schema
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, 1
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.game_progression_schema_log (
+            game_id, version_id, change_revision, progression_kind, stage_min, stage_max, stage_label, require_all_stages
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            progression_kind,
+            stage_min,
+            stage_max,
+            stage_label,
+            require_all_stages
+        FROM public.game_progression_schema
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            progression_kind = EXCLUDED.progression_kind,
+            stage_min = EXCLUDED.stage_min,
+            stage_max = EXCLUDED.stage_max,
+            stage_label = EXCLUDED.stage_label,
+            require_all_stages = EXCLUDED.require_all_stages
+    </insert>
+</mapper>

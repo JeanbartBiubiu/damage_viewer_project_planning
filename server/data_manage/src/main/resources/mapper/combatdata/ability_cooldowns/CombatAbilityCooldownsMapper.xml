@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatAbilityCooldownsMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       cooldown_id AS "cooldownId",
+       ability_id AS "abilityId",
+       duration_formula_key AS "durationFormulaKey",
+       starts_on_phase_id AS "startsOnPhaseId",
+       group_key AS "groupKey",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_cooldowns
+        WHERE game_id = #{gameId}
+        <if test="abilityId != null">
+          AND ability_id = #{abilityId}
+        </if>
+        ORDER BY ability_id, cooldown_id
+    </select>
+
+    <select id="findById" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       cooldown_id AS "cooldownId",
+       ability_id AS "abilityId",
+       duration_formula_key AS "durationFormulaKey",
+       starts_on_phase_id AS "startsOnPhaseId",
+       group_key AS "groupKey",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_cooldowns
+        WHERE game_id = #{gameId}
+          AND cooldown_id = #{cooldownId}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.ability_cooldowns
+            (game_id, cooldown_id, ability_id, duration_formula_key, starts_on_phase_id, group_key, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{cooldownId}, #{abilityId}, #{durationFormulaKey}, #{startsOnPhaseId}, #{groupKey}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id, cooldown_id) DO UPDATE SET
+            ability_id = EXCLUDED.ability_id,
+            duration_formula_key = EXCLUDED.duration_formula_key,
+            starts_on_phase_id = EXCLUDED.starts_on_phase_id,
+            group_key = EXCLUDED.group_key,
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       cooldown_id AS "cooldownId",
+       ability_id AS "abilityId",
+       duration_formula_key AS "durationFormulaKey",
+       starts_on_phase_id AS "startsOnPhaseId",
+       group_key AS "groupKey",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.ability_cooldowns
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, cooldown_id
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.ability_cooldowns_log (
+            game_id, version_id, change_revision, cooldown_id, ability_id, duration_formula_key, starts_on_phase_id, group_key
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            cooldown_id,
+            ability_id,
+            duration_formula_key,
+            starts_on_phase_id,
+            group_key
+        FROM public.ability_cooldowns
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, cooldown_id, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            ability_id = EXCLUDED.ability_id,
+            duration_formula_key = EXCLUDED.duration_formula_key,
+            starts_on_phase_id = EXCLUDED.starts_on_phase_id,
+            group_key = EXCLUDED.group_key
+    </insert>
+</mapper>

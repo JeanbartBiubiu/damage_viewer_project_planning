@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatAttributeDefinitionsMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       attr_key AS "attrKey",
+       sort_order AS "sortOrder",
+       attr_name AS "attrName",
+       attr_type AS "attrType",
+       default_value AS "defaultValue",
+       value_kind AS "valueKind",
+       rate_target_attr_key AS "rateTargetAttrKey",
+       min_value AS "minValue",
+       max_value AS "maxValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.attribute_definitions
+        WHERE game_id = #{gameId}
+        ORDER BY sort_order, attr_key
+    </select>
+
+    <select id="findById" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       attr_key AS "attrKey",
+       sort_order AS "sortOrder",
+       attr_name AS "attrName",
+       attr_type AS "attrType",
+       default_value AS "defaultValue",
+       value_kind AS "valueKind",
+       rate_target_attr_key AS "rateTargetAttrKey",
+       min_value AS "minValue",
+       max_value AS "maxValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.attribute_definitions
+        WHERE game_id = #{gameId}
+          AND attr_key = #{attrKey}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.attribute_definitions
+            (game_id, attr_key, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{attrKey}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, #{minValue}, #{maxValue}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id, attr_key) DO UPDATE SET
+            sort_order = EXCLUDED.sort_order,
+            attr_name = EXCLUDED.attr_name,
+            attr_type = EXCLUDED.attr_type,
+            default_value = EXCLUDED.default_value,
+            value_kind = EXCLUDED.value_kind,
+            rate_target_attr_key = EXCLUDED.rate_target_attr_key,
+            min_value = EXCLUDED.min_value,
+            max_value = EXCLUDED.max_value,
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       attr_key AS "attrKey",
+       sort_order AS "sortOrder",
+       attr_name AS "attrName",
+       attr_type AS "attrType",
+       default_value AS "defaultValue",
+       value_kind AS "valueKind",
+       rate_target_attr_key AS "rateTargetAttrKey",
+       min_value AS "minValue",
+       max_value AS "maxValue",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.attribute_definitions
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, attr_key
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.attribute_definitions_log (
+            game_id, version_id, change_revision, attr_key, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            attr_key,
+            sort_order,
+            attr_name,
+            attr_type,
+            default_value,
+            value_kind,
+            rate_target_attr_key,
+            min_value,
+            max_value
+        FROM public.attribute_definitions
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, attr_key, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            sort_order = EXCLUDED.sort_order,
+            attr_name = EXCLUDED.attr_name,
+            attr_type = EXCLUDED.attr_type,
+            default_value = EXCLUDED.default_value,
+            value_kind = EXCLUDED.value_kind,
+            rate_target_attr_key = EXCLUDED.rate_target_attr_key,
+            min_value = EXCLUDED.min_value,
+            max_value = EXCLUDED.max_value
+    </insert>
+</mapper>

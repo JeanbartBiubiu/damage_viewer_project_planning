@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.combatdata.CombatEntityProviderMountsMapper">
+
+    <select id="list" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       entity_id AS "entityId",
+       provider_id AS "providerId",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.entity_provider_mounts
+        WHERE game_id = #{gameId}
+        <if test="entityId != null">
+          AND entity_id = #{entityId}
+        </if>
+        <if test="providerId != null">
+          AND provider_id = #{providerId}
+        </if>
+        ORDER BY entity_id, provider_id
+    </select>
+
+    <select id="findById" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       entity_id AS "entityId",
+       provider_id AS "providerId",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.entity_provider_mounts
+        WHERE game_id = #{gameId}
+          AND entity_id = #{entityId}
+          AND provider_id = #{providerId}
+    </select>
+
+    <update id="upsert">
+        INSERT INTO public.entity_provider_mounts
+            (game_id, entity_id, provider_id, change_revision, updated_at)
+        VALUES
+            (#{gameId}, #{entityId}, #{providerId}, #{changeRevision}, NOW())
+        ON CONFLICT (game_id, entity_id, provider_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision,
+            updated_at = NOW()
+    </update>
+
+
+    <select id="listChangedSince" resultType="map">
+        SELECT
+       game_id AS "gameId",
+       entity_id AS "entityId",
+       provider_id AS "providerId",
+       change_revision AS "changeRevision",
+       updated_at AS "updatedAt"
+        FROM public.entity_provider_mounts
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ORDER BY change_revision, entity_id, provider_id
+    </select>
+
+    <insert id="copyChangedToLog">
+        INSERT INTO public.entity_provider_mounts_log (
+            game_id, version_id, change_revision, entity_id, provider_id
+        )
+        SELECT
+            game_id,
+            #{versionId},
+            change_revision,
+            entity_id,
+            provider_id
+        FROM public.entity_provider_mounts
+        WHERE game_id = #{gameId}
+          AND change_revision &gt; #{previousRevision}
+          AND change_revision &lt;= #{publishRevision}
+        ON CONFLICT (game_id, entity_id, provider_id, version_id) DO UPDATE SET
+            change_revision = EXCLUDED.change_revision
+    </insert>
+</mapper>
