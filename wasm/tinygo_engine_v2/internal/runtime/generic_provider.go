@@ -83,7 +83,8 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 	c := s.combatants[targetKey]
 	c.providers = append(c.providers, inst)
 	c.resolver.MountProviderModifiers(providerRef, provider, s.compiled.Formulas)
-	c.attributes = c.resolver.ResolveAttributes(c.attributes, evalCtx, s.compiled.Formulas)
+	s.combatants[targetKey] = c
+	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
 	s.combatants[targetKey] = c
 	if expireAt > 0 {
 		s.enqueueExpireCleanup(expireAt, expireCleanupPayload{
@@ -155,7 +156,8 @@ func (s *genericRunState) refreshProviderInstance(targetKey, providerRef string,
 		}
 	}
 	c.providers[idx] = inst
-	c.attributes = c.resolver.ResolveAttributes(c.attributes, evalCtx, s.compiled.Formulas)
+	s.combatants[targetKey] = c
+	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
 	s.combatants[targetKey] = c
 	return nil
 }
@@ -175,7 +177,8 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 	c.providers = status.RemoveByRef(c.providers, providerRef)
 	c.resolver.UnmountProvider(providerRef)
 	delete(c.providerState, providerRef)
-	c.attributes = c.resolver.ResolveAttributes(c.attributes, evalCtx, s.compiled.Formulas)
+	s.combatants[targetKey] = c
+	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
 	s.combatants[targetKey] = c
 }
 
@@ -221,7 +224,10 @@ func (s *genericRunState) sweepExpiredInstances() {
 		}
 		if changed {
 			c.providers = active
-			c.attributes = c.resolver.ResolveAttributes(c.attributes, evalCtx, s.compiled.Formulas)
+			s.combatants[key] = c
+			c.attributes = s.resolveAttributesFor(key, c.attributes, evalCtx, "")
+			s.combatants[key] = c
+			continue
 		}
 		c.shields = shieldpkg.RemoveExpired(c.shields, s.nowMs)
 		s.combatants[key] = c
@@ -323,6 +329,99 @@ func (s *genericRunState) evalContextForCombatants(sourceKey, targetKey string) 
 		ctx.TargetResources = c.resources
 	}
 	return ctx
+}
+
+// providerFormulaContextFromBag builds the H2a provider overlay. Attrs/resources/ability/event
+// are intentionally left unset so ResolveAttributesWithProviderContext keeps them from base.
+func providerFormulaContextFromBag(bag *providerStateBag, activeTargetKey string) formula.GenericEvalContext {
+	if bag == nil {
+		return formula.GenericEvalContext{
+			HasProviderContext:  true,
+			ProviderState:       map[string]float64{},
+			ProviderTargetState: map[string]float64{},
+		}
+	}
+	ctx := formula.GenericEvalContext{
+		HasProviderContext: true,
+		ProviderState:      bag.state,
+	}
+	if activeTargetKey != "" && bag.targetKey == activeTargetKey {
+		ctx.ProviderTargetState = bag.targetValues
+	} else {
+		ctx.ProviderTargetState = map[string]float64{}
+	}
+	return ctx
+}
+
+func (s *genericRunState) resolveProviderStateFieldDefs(combatantKey, providerRef string, providers []status.ProviderInstance) map[string]providerStateFieldDef {
+	if s == nil || providerRef == "" {
+		return nil
+	}
+	for _, inst := range providers {
+		if inst.ProviderRef != providerRef {
+			continue
+		}
+		if int(inst.DefinitionIndex) < len(s.compiled.Providers) {
+			return compiledStateFieldsToRuntime(s.compiled.Providers[inst.DefinitionIndex].StateFields)
+		}
+	}
+	for _, combatant := range s.compiled.Combatants {
+		if combatant.Key != combatantKey {
+			continue
+		}
+		for _, mount := range combatant.ProviderMounts {
+			if mount.ProviderRef != providerRef {
+				continue
+			}
+			if int(mount.DefinitionIndex) < len(s.compiled.Providers) {
+				return compiledStateFieldsToRuntime(s.compiled.Providers[mount.DefinitionIndex].StateFields)
+			}
+		}
+	}
+	if idx, ok := s.findProviderDefinitionIndex(providerRef); ok {
+		return compiledStateFieldsToRuntime(s.compiled.Providers[idx].StateFields)
+	}
+	return nil
+}
+
+func (s *genericRunState) providerFormulaContextFunc(combatantKey, activeTargetKey string) pipeline.ProviderFormulaContextFunc {
+	return func(providerRef string) formula.GenericEvalContext {
+		c, ok := s.combatants[combatantKey]
+		if !ok {
+			return providerFormulaContextFromBag(nil, activeTargetKey)
+		}
+		bag := c.providerState[providerRef]
+		if bag == nil {
+			return providerFormulaContextFromBag(nil, activeTargetKey)
+		}
+		bag.bindFieldDefs(s.resolveProviderStateFieldDefs(combatantKey, providerRef, c.providers))
+		bag.lazyExpireProviderState(s.nowMs)
+		s.combatants[combatantKey] = c
+		return providerFormulaContextFromBag(bag, activeTargetKey)
+	}
+}
+
+func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext, activeTargetKey string) map[string]model.AttributeSlotDef {
+	c, ok := s.combatants[combatantKey]
+	if !ok {
+		return attrs
+	}
+	return c.resolver.ResolveAttributesWithProviderContext(
+		attrs,
+		evalCtx,
+		s.compiled.Formulas,
+		s.providerFormulaContextFunc(combatantKey, activeTargetKey),
+	)
+}
+
+// refreshProviderAwareAttributes lazy-expires provider timed state and re-resolves attributes
+// so the next run event reflects recovered resolved values without a state write.
+func (s *genericRunState) refreshProviderAwareAttributes(sourceKey, targetKey string) {
+	evalCtx := s.evalContextForCombatants(sourceKey, targetKey)
+	for key, c := range s.combatants {
+		c.attributes = s.resolveAttributesFor(key, c.attributes, evalCtx, targetKey)
+		s.combatants[key] = c
+	}
 }
 
 func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled compilebundle.CompiledSession) ([]status.ProviderInstance, pipeline.AttributeResolver) {
