@@ -610,6 +610,9 @@ CREATE TABLE public.provider_state_fields (
     provider_id varchar(256) NOT NULL,
     state_key varchar(128) NOT NULL,
     value_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    max_value numeric CHECK (max_value IS NULL OR max_value > 0),
+    duration_ms bigint CHECK (duration_ms IS NULL OR duration_ms > 0),
+    refresh_policy_type_id int REFERENCES public.reserved_type(type_id),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_provider_state_fields PRIMARY KEY (game_id, provider_id, state_key),
@@ -625,6 +628,9 @@ CREATE TABLE public.provider_state_fields_log (
     provider_id varchar(256) NOT NULL,
     state_key varchar(128) NOT NULL,
     value_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    max_value numeric CHECK (max_value IS NULL OR max_value > 0),
+    duration_ms bigint CHECK (duration_ms IS NULL OR duration_ms > 0),
+    refresh_policy_type_id int REFERENCES public.reserved_type(type_id),
     CONSTRAINT pk_provider_state_fields_log PRIMARY KEY (game_id, provider_id, state_key, version_id),
     CONSTRAINT fk_provider_state_fields_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)
@@ -1079,6 +1085,7 @@ CREATE TABLE public.damage_effect_details (
     amount_formula_key varchar(128) NOT NULL,
     damage_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     value_policy_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    copyable_on_hit boolean NOT NULL DEFAULT false,
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_damage_effect_details PRIMARY KEY (game_id, step_id),
@@ -1095,6 +1102,7 @@ CREATE TABLE public.damage_effect_details_log (
     amount_formula_key varchar(128) NOT NULL,
     damage_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     value_policy_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    copyable_on_hit boolean NOT NULL DEFAULT false,
     CONSTRAINT pk_damage_effect_details_log PRIMARY KEY (game_id, step_id, version_id),
     CONSTRAINT fk_damage_effect_details_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)
@@ -1327,6 +1335,38 @@ CREATE TABLE public.state_effect_details_log (
     value_policy_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     CONSTRAINT pk_state_effect_details_log PRIMARY KEY (game_id, step_id, version_id),
     CONSTRAINT fk_state_effect_details_log_version FOREIGN KEY (game_id, version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+
+) PARTITION BY LIST (game_id);
+
+CREATE TABLE public.repeat_effect_details (
+    game_id varchar(64) NOT NULL,
+    step_id varchar(256) NOT NULL,
+    repeat_scope_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    repeat_count int NOT NULL CHECK (repeat_count > 0),
+    repeat_tag varchar(128) NOT NULL CHECK (repeat_tag <> ''),
+    trigger_state_key varchar(128) NOT NULL CHECK (trigger_state_key <> ''),
+    threshold numeric NOT NULL CHECK (threshold > 0),
+    change_revision bigint NOT NULL CHECK (change_revision > 0),
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_repeat_effect_details PRIMARY KEY (game_id, step_id),
+    CONSTRAINT fk_repeat_effect_details_step FOREIGN KEY (game_id, step_id)
+        REFERENCES public.effect_steps (game_id, step_id)
+
+) PARTITION BY LIST (game_id);
+
+CREATE TABLE public.repeat_effect_details_log (
+    game_id varchar(64) NOT NULL,
+    version_id bigint NOT NULL,
+    change_revision bigint NOT NULL,
+    step_id varchar(256) NOT NULL,
+    repeat_scope_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
+    repeat_count int NOT NULL CHECK (repeat_count > 0),
+    repeat_tag varchar(128) NOT NULL CHECK (repeat_tag <> ''),
+    trigger_state_key varchar(128) NOT NULL CHECK (trigger_state_key <> ''),
+    threshold numeric NOT NULL CHECK (threshold > 0),
+    CONSTRAINT pk_repeat_effect_details_log PRIMARY KEY (game_id, step_id, version_id),
+    CONSTRAINT fk_repeat_effect_details_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)
 
 ) PARTITION BY LIST (game_id);

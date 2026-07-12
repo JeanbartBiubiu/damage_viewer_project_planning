@@ -86,7 +86,9 @@ DECLARE
         'ability_control_effect_details',
         'ability_control_effect_details_log',
         'state_effect_details',
-        'state_effect_details_log'
+        'state_effect_details_log',
+        'repeat_effect_details',
+        'repeat_effect_details_log'
     ];
 BEGIN
     FOREACH v_parent IN ARRAY v_parents
@@ -161,6 +163,7 @@ AS $$
       + (SELECT COUNT(*) FROM public.event_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
       + (SELECT COUNT(*) FROM public.ability_control_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
       + (SELECT COUNT(*) FROM public.state_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
+      + (SELECT COUNT(*) FROM public.repeat_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
     )::int;
 $$;
 
@@ -230,7 +233,8 @@ DECLARE
         'provider_effect_details',
         'event_effect_details',
         'ability_control_effect_details',
-        'state_effect_details'
+        'state_effect_details',
+        'repeat_effect_details'
     ];
 BEGIN
     FOREACH v_detail IN ARRAY v_details
