@@ -21,13 +21,14 @@ const (
 )
 
 type combatantRuntime struct {
-	key        string
-	attributes map[string]model.AttributeSlotDef
-	resources  map[string]model.ResourceSlotDef
-	cooldowns  map[string]int64
-	providers  []status.ProviderInstance
-	shields    []shieldpkg.Instance
-	resolver   pipeline.AttributeResolver
+	key           string
+	attributes    map[string]model.AttributeSlotDef
+	resources     map[string]model.ResourceSlotDef
+	cooldowns     map[string]int64
+	providers     []status.ProviderInstance
+	shields       []shieldpkg.Instance
+	resolver      pipeline.AttributeResolver
+	providerState map[string]*providerStateBag
 }
 
 type abilityStatAcc struct {
@@ -239,13 +240,14 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		}
 		attrs = resolver.ResolveAttributes(attrs, evalCtx, compiled.Formulas)
 		out[c.Key] = combatantRuntime{
-			key:        c.Key,
-			attributes: cloneAttributeMap(attrs),
-			resources:  cloneResourceMap(resources),
-			cooldowns:  materializeCooldowns(c.Cooldowns),
-			providers:  providers,
-			shields:    shields,
-			resolver:   resolver,
+			key:           c.Key,
+			attributes:    cloneAttributeMap(attrs),
+			resources:     cloneResourceMap(resources),
+			cooldowns:     materializeCooldowns(c.Cooldowns),
+			providers:     providers,
+			shields:       shields,
+			resolver:      resolver,
+			providerState: materializeProviderState(c.ProviderState),
 		}
 	}
 	// Re-resolve with cross-combatant eval context after both sides exist.
@@ -757,6 +759,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		snapshot.Combatants[i].Cooldowns = cooldownsToSnapshot(rt.cooldowns, s.nowMs)
 		snapshot.Combatants[i].Providers = providersToSnapshot(rt.providers)
 		snapshot.Combatants[i].Shields = shieldsToSnapshot(rt.shields)
+		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState)
 		if snapshot.Combatants[i].AbilityState == nil {
 			snapshot.Combatants[i].AbilityState = map[string]interface{}{}
 		}

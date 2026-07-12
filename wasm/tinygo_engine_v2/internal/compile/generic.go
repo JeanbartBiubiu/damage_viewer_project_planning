@@ -165,6 +165,10 @@ type CompiledOperation struct {
 	AbilityRefStr         string
 	EventType             string
 	Ref                   string
+	ConditionProgram      formula.GenericProgramID
+	HasCondition          bool
+	StateScope            string // state_scope/provider | state_scope/provider_target for state_change
+	Types                 []string
 }
 
 // GenericCompileResult 是 CompileGeneric 的返回值。
@@ -713,6 +717,21 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 		if op.AbilityRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".abilityRef", "cooldown_change requires abilityRef", "")
 		}
+	case "state_change":
+		if op.Ref == "" {
+			collector.addError(model.GenericErrMissingRequiredField, path+".ref", "state_change requires ref state key", "")
+		}
+		if op.Amount == nil {
+			collector.addError(model.GenericErrMissingRequiredField, path+".amount", "state_change requires amount", "")
+		}
+		if op.Target != "" && op.Target != model.SelectorSource && op.Target != model.SelectorSelf {
+			collector.addError(model.GenericErrOperationTargetMissing, path+".target", "state_change target must be source or self", op.Target)
+		}
+		scope, scopeErr := resolveProviderStateScope(op.Types)
+		if scopeErr != "" {
+			collector.addError(model.GenericErrUnknownTypeKey, path+".types", scopeErr, strings.Join(op.Types, ","))
+		}
+		_ = scope
 	}
 	compiled := CompiledOperation{
 		Operation:             op.Operation,
@@ -725,6 +744,12 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 		ProviderRef:           op.ProviderRef,
 		ShieldRef:             op.ShieldRef,
 		EventType:             op.EventType,
+		Types:                 append([]string(nil), op.Types...),
+	}
+	if op.Operation == "state_change" {
+		if scope, errMsg := resolveProviderStateScope(op.Types); errMsg == "" {
+			compiled.StateScope = scope
+		}
 	}
 	if op.Amount != nil {
 		instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
@@ -738,6 +763,14 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 			compiled.HasAmount = true
 		}
 	}
+	if op.Condition != nil {
+		instr := formula.CompileGenericFormula(*op.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		if len(instr) > 0 {
+			key := path + ".condition"
+			compiled.ConditionProgram = ctx.registerFormula(key, instr)
+			compiled.HasCondition = true
+		}
+	}
 	if op.AbilityRef != "" {
 		compiled.HasAbilityRef = true
 		compiled.AbilityRefStr = op.AbilityRef
@@ -747,6 +780,30 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 		compiled.Ref = op.EventType
 	}
 	session.Operations = append(session.Operations, compiled)
+}
+
+// resolveProviderStateScope extracts the single supported state_scope/* from operation types.
+func resolveProviderStateScope(types []string) (scope string, errMsg string) {
+	const (
+		scopeProvider       = "state_scope/provider"
+		scopeProviderTarget = "state_scope/provider_target"
+	)
+	var found string
+	for _, t := range types {
+		if strings.HasPrefix(t, "state_scope/") {
+			if t != scopeProvider && t != scopeProviderTarget {
+				return "", "unsupported state scope"
+			}
+			if found != "" && found != t {
+				return "", "state_change requires a single state scope"
+			}
+			found = t
+		}
+	}
+	if found == "" {
+		return "", "state_change requires state_scope/provider or state_scope/provider_target"
+	}
+	return found, ""
 }
 
 func finalizeListenerIndex(ctx *genericCompileContext) {
