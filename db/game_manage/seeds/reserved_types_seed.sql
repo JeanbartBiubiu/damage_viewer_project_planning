@@ -38,6 +38,7 @@ VALUES
     (10022, 'Ability 控制动作', 'ability_control_action'),
     (10023, '状态作用域', 'state_scope'),
     (10024, '阶段触发点', 'phase_trigger'),
+    (10025, '重复作用域', 'repeat_scope'),
 
     -- value_type
     (20100, '数值', 'value_type/number'),
@@ -83,6 +84,7 @@ VALUES
     (20158, '发出事件', 'operation/emit_event'),
     (20159, '冷却变化', 'operation/cooldown_change'),
     (20160, '状态变化', 'operation/state_change'),
+    (20161, '重复', 'operation/repeat'),
 
     -- value_policy / modifier_mode
     (20170, '加法', 'value_policy/add'),
@@ -142,7 +144,10 @@ VALUES
     -- phase_trigger
     (20260, '进入阶段', 'phase_trigger/on_enter'),
     (20261, '离开阶段', 'phase_trigger/on_exit'),
-    (20262, '阶段 Tick', 'phase_trigger/on_tick')
+    (20262, '阶段 Tick', 'phase_trigger/on_tick'),
+
+    -- repeat_scope
+    (20263, '命中可复制', 'repeat_scope/copyable_on_hit')
 ON CONFLICT (type_id) DO UPDATE SET
     name = EXCLUDED.name,
     type_key = EXCLUDED.type_key;
@@ -191,6 +196,7 @@ VALUES
     (20158, 10015),
     (20159, 10015),
     (20160, 10015),
+    (20161, 10015),
 
     (20170, 10016),
     (20171, 10016),
@@ -241,5 +247,7 @@ VALUES
 
     (20260, 10024),
     (20261, 10024),
-    (20262, 10024)
+    (20262, 10024),
+
+    (20263, 10025)
 ON CONFLICT (type_id, parent_type_id) DO NOTHING;
