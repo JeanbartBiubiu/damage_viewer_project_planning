@@ -180,6 +180,7 @@ type CompiledOperation struct {
 	StateScope            string // state_scope/provider | state_scope/provider_target for state_change
 	Types                 []string
 	CopyableOnHit         bool
+	CritEligible          bool
 	RepeatScope           string
 	RepeatCount           int
 	RepeatTag             string
@@ -713,6 +714,9 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.CopyableOnHit && op.Operation != "damage" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".copyableOnHit", "copyableOnHit is only supported on damage operations", op.Operation)
 	}
+	if op.CritEligible && op.Operation != "damage" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".critEligible", "critEligible is only supported on damage operations", op.Operation)
+	}
 	switch op.Operation {
 	case "damage":
 		if op.DamageType == "" {
@@ -775,6 +779,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		EventType:             op.EventType,
 		Types:                 append([]string(nil), op.Types...),
 		CopyableOnHit:         op.CopyableOnHit,
+		CritEligible:          op.CritEligible,
 		RepeatScope:           op.RepeatScope,
 		RepeatCount:           op.RepeatCount,
 		RepeatTag:             op.RepeatTag,

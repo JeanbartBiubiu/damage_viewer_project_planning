@@ -8,6 +8,7 @@ import (
 	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
 	compilebundle "tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/crit"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
@@ -93,7 +94,7 @@ type executionFrame struct {
 	linkedPhysicalOpRefs    []string
 }
 
-// copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算）。
+// copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
 type copyableDamageFrozen struct {
 	rawAmount        float64
 	damageType       string
@@ -106,6 +107,21 @@ type copyableDamageFrozen struct {
 	entryTargetAttrs map[string]model.AttributeSlotDef
 	eventSourceKey   string
 	eventTargetKey   string
+	crit             frozenCritEvidence
+}
+
+// frozenCritEvidence 冻结真实命中时的 expected crit 证据；phantom 原样回放，不重读属性。
+type frozenCritEvidence struct {
+	present               bool
+	eligible              bool
+	policy                string
+	chanceRaw             float64
+	chanceEffective       float64
+	multiplier            float64
+	baseRawAmount         float64
+	normalPart            float64
+	critPart              float64
+	critAdjustedRawAmount float64
 }
 
 // deferredRepeatRequest 登记 phantom replay 门槛；不立即执行。
@@ -436,7 +452,11 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			return nil
 		}
 		if op.Operation == "damage" {
-			if err := f.maybeCollectCopyableDamage(op, amount, targetKey); err != nil {
+			critEv, amount, err := f.settleExpectedCrit(op, amount)
+			if err != nil {
+				return err
+			}
+			if err := f.maybeCollectCopyableDamage(op, amount, targetKey, critEv); err != nil {
 				return err
 			}
 			cmd := command.Command{
@@ -447,7 +467,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 				DamageType: op.DamageType,
 				Ref:        op.AttributeKey,
 			}
-			return f.applyDamageCommand(cmd, op.Ref)
+			return f.applyDamageCommand(cmd, op.Ref, critEv)
 		}
 		cmd := command.Command{
 			Kind:       command.Kind(op.Operation),
@@ -830,7 +850,7 @@ func (f *executionFrame) applyCommand(cmd command.Command) *model.EngineError {
 }
 
 // applyDamageCommand 走实际 ResolveCommand 结算，并用同一结果写入 summary 与 damage evidence。
-func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef string) *model.EngineError {
+func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef string, critEv frozenCritEvidence) *model.EngineError {
 	sc := f.stageFor(cmd.Target)
 	view := pipeline.CombatantView{Attributes: sc.attributes, Shields: sc.shields}
 	result, next := pipeline.ResolveCommand(cmd, view, f.run.nowMs)
@@ -847,6 +867,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef st
 		abilityRef:      f.abilityRef,
 		operationRef:    operationRef,
 		phantom:         false,
+		crit:            critEv,
 	})
 	f.recordLinkedPhysicalDamage(cmd, result, operationRef)
 	return nil
@@ -889,6 +910,7 @@ type genericDamageEvidence struct {
 	phantom         bool
 	repeatTag       string
 	replayedFrom    map[string]interface{}
+	crit            frozenCritEvidence
 }
 
 func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) {
@@ -925,6 +947,7 @@ func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) 
 			data["replayedFrom"] = ev.replayedFrom
 		}
 	}
+	writeCritEvidenceFields(data, ev.crit)
 	ref := ev.abilityRef
 	if ref == "" {
 		ref = ev.operationRef
@@ -935,6 +958,74 @@ func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) 
 		Ref:    ref,
 		Data:   data,
 	})
+}
+
+func writeCritEvidenceFields(data map[string]interface{}, critEv frozenCritEvidence) {
+	if !critEv.present {
+		return
+	}
+	data["eligible"] = critEv.eligible
+	if critEv.policy != "" {
+		data["policy"] = critEv.policy
+	}
+	data["baseRawAmount"] = critEv.baseRawAmount
+	if !critEv.eligible {
+		return
+	}
+	data["chanceRaw"] = critEv.chanceRaw
+	data["chanceEffective"] = critEv.chanceEffective
+	data["multiplier"] = critEv.multiplier
+	data["normalPart"] = critEv.normalPart
+	data["critPart"] = critEv.critPart
+	data["critAdjustedRawAmount"] = critEv.critAdjustedRawAmount
+}
+
+// settleExpectedCrit applies fixed deterministic expected crit before resistance.
+// Only CritEligible damage settles; otherwise amount is unchanged. No command-budget cost.
+func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, baseRawAmount float64) (frozenCritEvidence, float64, *model.EngineError) {
+	if !op.CritEligible {
+		return frozenCritEvidence{}, baseRawAmount, nil
+	}
+	src := f.stageFor(f.sourceKey)
+	chanceRaw, err := readRequiredResolvedAttr(src.attributes, "crit_chance", f)
+	if err != nil {
+		return frozenCritEvidence{}, 0, err
+	}
+	critDamageRaw, err := readRequiredResolvedAttr(src.attributes, "crit_damage", f)
+	if err != nil {
+		return frozenCritEvidence{}, 0, err
+	}
+	chanceEffective, _ := crit.ClampValue("crit_chance", "source", chanceRaw, crit.ProbabilityBounds())
+	multiplier := critDamageRaw
+	if multiplier < 1 {
+		multiplier = 1
+	}
+	normalPart, critPart := crit.ExpectedParts(baseRawAmount, chanceEffective, multiplier)
+	critAdjusted := normalPart + critPart
+	return frozenCritEvidence{
+		present:               true,
+		eligible:              true,
+		policy:                "expected",
+		chanceRaw:             chanceRaw,
+		chanceEffective:       chanceEffective,
+		multiplier:            multiplier,
+		baseRawAmount:         baseRawAmount,
+		normalPart:            normalPart,
+		critPart:              critPart,
+		critAdjustedRawAmount: critAdjusted,
+	}, critAdjusted, nil
+}
+
+func readRequiredResolvedAttr(attrs map[string]model.AttributeSlotDef, key string, f *executionFrame) (float64, *model.EngineError) {
+	slot, ok := attrs[key]
+	if !ok {
+		return 0, engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "missing required attribute: "+key, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	value := slot.Resolved
+	if math.IsNaN(value) || math.IsInf(value, 0) {
+		return 0, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite attribute: "+key, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	return value, nil
 }
 
 // stableDamageReplayedFrom 用 providerRef + ability/listener ref + operationRef 构造稳定 provenance。
@@ -1518,7 +1609,7 @@ func (f *executionFrame) registerDeferredRepeat(op compilebundle.CompiledOperati
 	return nil
 }
 
-func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOperation, rawAmount float64, targetKey string) *model.EngineError {
+func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOperation, rawAmount float64, targetKey string, critEv frozenCritEvidence) *model.EngineError {
 	collector := f.copyableCollector
 	if collector == nil || collector.phantomDepth > 0 || !op.CopyableOnHit || op.Operation != "damage" {
 		return nil
@@ -1534,6 +1625,7 @@ func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOpe
 		providerRef:  f.ownerProviderRef,
 		originRef:    f.abilityRef,
 		operationRef: op.Ref,
+		crit:         critEv,
 	}
 	if f.eventCtx != nil {
 		rec.eventSourceKey = f.eventCtx.eventSourceKey
@@ -1726,6 +1818,7 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		phantom:         true,
 		repeatTag:       repeatTag,
 		replayedFrom:    stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
+		crit:            dmg.crit,
 	})
 	return nil
 }
