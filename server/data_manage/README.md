@@ -268,6 +268,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericSpellbladeSeedSqlTest test
 ```
 
+### LoL generic Lich Bane Spellblade seed（巫妖之祸 item_3100）
+
+在 reserved types、Batch-B `hero_vayne`、Batch-C `item_3100`、`lol_generic_spellblade_seed.sql`（game-local `ability/basic_attack` + `ability_hero_vayne_tumble`）、以及 basic_attack_hit emit 基线已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20205`/`20211`/`20212`/`20221`/`20173`/`20190`/`20250` 等）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B / `hero_vayne` 尚未写入）
+3. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3100` 尚未写入）
+4. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
+5. `db/game_manage/seeds/lol_generic_spellblade_seed.sql`（前置：`62003` / tumble）
+6. `db/game_manage/seeds/lol_generic_lich_bane_spellblade_seed.sql`
+7. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-lich-bane-spellblade-v1-20260713`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验 `item_3100` / `hero_vayne` / `ability_hero_vayne_tumble` / `ability/basic_attack` relation / `ad`·`ap`·`attack_speed`；幂等投影所需 reserved → `types`；向 `item_3100` mount `provider_item_3100_lich_bane_spellblade`，含 `spellblade_ready`（10s）/ `spellblade_icd`（1.5s）、ability_started 武装 listener、basic_attack_hit 触发 listener（`0.75 * event.entry_source.attr.ad.base + 0.45 * event.entry_source.attr.ap.resolved` 魔法，`copyable_on_hit=false`，顺序对齐 3078）、以及 `0.5 * provider.state.spellblade_ready` 的 `attack_speed` percent_add modifier。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。数值注释引用 `damage_wasm_dev` 下 `current-items.normalized.json` item 3100，无运行时外部依赖。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericLichBaneSpellbladeSeedSqlTest test
+```
+
 ### LoL generic Energized seed（疾射火炮 item_3094）
 
 在 reserved types、Batch-C `item_3094`，以及 basic_attack_hit emit 基线（`lol_adc_item_on_hit_passives_seed.sql` 或等价）已就绪后，按顺序执行：
