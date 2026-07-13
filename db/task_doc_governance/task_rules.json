@@ -493,7 +493,7 @@
       "feature": "generic_min_validation_coverage_audit",
       "status": "完成",
       "priority": 1,
-      "completion_note": "G8 已对 242 候选重分类（migrated=12/partial=3/blocked=189/out_of_scope=38）；G0–G9 证据与治理映射已收口；G8 只分类不实现 blocked。",
+      "completion_note": "G8 已对 242 候选重分类并随 item_3100 与既有 6672 证据校正更新为 migrated=14/partial=3/blocked=187/out_of_scope=38；G0–G9 证据与治理映射已收口。",
       "completed_at": "2026-07-13",
       "docs": [
         "文档记录/详细设计/wasm/通用ABI-最小验证机制迁移与G0-G9覆盖审计详细设计.md",
@@ -540,6 +540,20 @@
       "docs": [
         "文档记录/详细设计/wasm/通用ABI-Spellblade机制详细设计.md",
         "文档记录/测试记录/wasm/通用ABI-Spellblade机制验证记录-2026-07-13.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-lich-bane-spellblade",
+      "title": "通用 ABI 巫妖之祸 Spellblade 机制",
+      "module": "wasm",
+      "feature": "generic_lich_bane_spellblade",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "item_3100 完成 Backend 幂等 seed/静态测试、TinyGo 数值/状态/动态 cadence/phantom 回归、Web assembler 投影测试与 G8 精确迁移；未执行 live migration 或 publish。",
+      "completed_at": "2026-07-13",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-巫妖之祸Spellblade机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-巫妖之祸Spellblade机制验证记录-2026-07-13.md"
       ]
     },
     {
