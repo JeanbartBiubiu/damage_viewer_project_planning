@@ -491,10 +491,13 @@
       "title": "通用 ABI 最小验证机制迁移与 G0-G9 覆盖审计",
       "module": "wasm",
       "feature": "generic_min_validation_coverage_audit",
-      "status": "开发中",
+      "status": "完成",
       "priority": 1,
+      "completion_note": "G8 已对 242 候选重分类（migrated=12/partial=3/blocked=189/out_of_scope=38）；G0–G9 证据与治理映射已收口；G8 只分类不实现 blocked。",
+      "completed_at": "2026-07-13",
       "docs": [
-        "文档记录/详细设计/wasm/通用ABI-最小验证机制迁移与G0-G9覆盖审计详细设计.md"
+        "文档记录/详细设计/wasm/通用ABI-最小验证机制迁移与G0-G9覆盖审计详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-G8覆盖审计验证记录-2026-07-13.md"
       ]
     },
     {
