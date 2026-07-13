@@ -1,7 +1,7 @@
 TASK_KEY: wasm-generic-energized
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
-STATUS: active
+STATUS: done
 EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-07-13
 
@@ -10,6 +10,13 @@ LAST_TRACKED_AT: 2026-07-13
 可直接编码的简洁详细设计。旧 Batch N / legacy DPS `energized_charge_and_consume` 仅作语义参考，**禁止复活** legacy DTO/bundle。实现以本文合同为准。
 
 对应任务：`wasm-generic-energized`（feature：`generic_energized`）。覆盖审计总任务 `wasm-generic-min-validation-coverage-audit` 中 Energized 子批段应引用本文；**总体审计任务保持 active**，不得因本批完成而收口。
+
+## 实施偏差与最终落点
+
+编码证实原设计对「无时长 state」的表达需修正两处；最终落点如下（本批仍不含 execute / linked effects / crit / modifier，总体审计不收口）：
+
+1. **Wasm compile**：structured state 以 `durationMs=0` 表示 untimed；负数拒绝；`refresh_on_write` 仅允许正时长。
+2. **Web assembler**：structured state 固定投影 `durationMs: field.durationMs ?? 0`，并同步新 wasm artifact。
 
 ## 1. 目标
 
@@ -32,8 +39,8 @@ LAST_TRACKED_AT: 2026-07-13
 2. 不实现电刀（3087）/ 岚切（3097）/ 电震（6699）等其它 Energized 装备；不做唯一组冲突。
 3. 不实现 execute / linked effects / crit / modifier / spellblade 扩展。
 4. 不新增 type、DDL、API；不往 reserved 补种。
-5. 不改 model / ABI / compile / formula，除非测试证明同 sequence 条件/状态顺序阻塞——若必需，**仅**允许触及 `generic_execution.go` 并先报告。
-6. Web **预计无需** production adapter；不在页面本地算充能/伤害。
+5. 不改 model / ABI / formula / runtime 执行语义；仅允许 compile 补齐 `durationMs=0` untimed structured state 校验合同。
+6. Web 仅补 structured state 的 `durationMs: field.durationMs ?? 0` 投影并同步 wasm artifact；不在页面本地算充能/伤害。
 7. Seed **无 DELETE**、**不自动 publish**；仅 material change 才推 revision。
 8. `provider_state_fields` **不写非 0 default_value**（初始 0）。
 9. **禁止**复活 legacy DPS `triggerKind=energized_charge_and_consume` 路线。
