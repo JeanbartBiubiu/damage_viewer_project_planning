@@ -136,7 +136,7 @@ Phantom replay **冻结**真实命中已结算的 raw 与 provenance：
 
 1. **不得**二次执行 expected crit 结算。
 2. **不得**额外 emit 事件。
-3. **不得**增加 command-budget 成本。
+3. **crit settlement 不额外增加 command budget**；existing phantom damage command 仍按既有合同计费（不得声称 phantom 本身无成本）。
 4. 复制的 damage 携带已冻结的 post-crit raw 与 crit 证据字段；`crit_eligible` 默认仍为 false 的 on-hit 复制路径保持不结算。
 
 ### 4.5 Attribute Modifier 代表（回归，不扩语义）
@@ -255,7 +255,7 @@ evaluate damage amount formula → baseRaw
 | W5 | multiplier 下限 | `crit_damage < 1` 时 `multiplier=1` |
 | W6 | 非 eligible | 不结算；`rawAmount=baseRaw`；on-hit/listener/linked 默认 false |
 | W7 | 抗性顺序 | crit 后的 raw 再进 armor/MR；mitigated 基于 post-crit raw |
-| W8 | Phantom | 不二次结算；无额外 event；无额外 command-budget |
+| W8 | Phantom | 不二次结算；无额外 event；crit settlement 不额外增加 command budget；existing phantom damage command 仍按既有合同计费 |
 | W9 | 确定性 | 同输入同输出（无 RNG） |
 | W10 | Modifier 回归 | Guinsoo owner-side `attack_speed` percent_add 仍改变 `resolved` |
 | W11 | Evidence | damage kind 含 policy/eligible/chance*/multiplier/baseRaw/parts/critAdjustedRaw；`rawAmount`=post-crit |
@@ -367,9 +367,10 @@ go test ./...
 
 ## 11. 与总体审计关系 / 收口规则
 
-- Feature 任务：`wasm-generic-crit-modifier-infinity-edge`（本文；状态 **开发中 / active**）。
-- 总体任务：`wasm-generic-min-validation-coverage-audit` 保持 **开发中**，直至本 feature **实现 + live publish + 浏览器 E2E + 验证记录** 完成后再评估是否可收口。
-- 本设计文档本身的完成 **不等于** feature 完成。
+- Feature 任务：`wasm-generic-crit-modifier-infinity-edge`（本文；Gate G 收口后标 **已完成**）。
+- 总体任务：`wasm-generic-min-validation-coverage-audit` **必须继续保持开发中**——G8 的 242 candidates 全量重分类与覆盖率汇总尚未执行；本 feature 闭环 **不等于** 总体审计可收口。
+- `wasm-min-validation-data-spec` **不得**因本批收口改为完成。
+- 本设计文档本身的完成 **不等于** feature 完成；feature 完成以实现 + live publish + 浏览器 E2E + 验证记录 + 治理映射为准。
 
 ## 12. 停止条件（全局）
 
