@@ -3907,4 +3907,151 @@ describe('combatDataAssembler', () => {
       expect(frayJson).not.toContain('tenacity');
     });
   });
+
+  describe('item_3004 Manamune Awe data contract', () => {
+    const MANA = {
+      itemId: 'item_3004',
+      providerId: 'provider_item_3004_manamune_awe',
+      itemTag: { typeId: 62002, typeKey: 'tag/adc_completed_item' }
+    } as const;
+
+    const AWE_AD_EXPR = {
+      op: 'mul',
+      args: [{ op: 'const', value: 0.02 }, { op: 'read', path: 'source.attr.mana.max' }]
+    };
+
+    function withManamuneAwe(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [MANA.itemTag];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        typeRelations: [
+          ...base.typeRelations,
+          {
+            ...META,
+            typeId: MANA.itemTag.typeId,
+            targetCategory: 'entity',
+            targetId: MANA.itemId
+          }
+        ],
+        entities: [
+          ...base.entities,
+          { ...META, entityId: MANA.itemId, displayName: 'Manamune' }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: MANA.itemId, providerId: MANA.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: MANA.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '敬畏'
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: MANA.providerId,
+            formulaKey: 'awe_ad',
+            expression: AWE_AD_EXPR
+          }
+        ],
+        providerModifiers: [
+          {
+            ...META,
+            providerId: MANA.providerId,
+            modifierId: 'modifier_item_3004_manamune_awe_ad',
+            modifierKey: 'awe_ad',
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            targetAttrKey: 'ad',
+            priority: 0,
+            valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+            valueFormulaKey: 'awe_ad'
+          }
+        ]
+      });
+    }
+
+    it('projects namespaced Manamune Awe compile contract on source equipment only', () => {
+      const graph = withManamuneAwe(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: [MANA.itemId]
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${MANA.providerId}`;
+      const targetKey = `target::${MANA.providerId}`;
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toContain(sourceKey);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toContain(
+        `passive:${MANA.providerId}`
+      );
+      expect(
+        compile.combatants[0].providers.filter((p) => p.definitionRef === sourceKey)
+      ).toHaveLength(1);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${MANA.providerId}`)
+      ).toBe(false);
+
+      const withoutItem = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: []
+      }).compileRequest;
+      expect(withoutItem.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        sourceKey
+      );
+      expect(
+        withoutItem.sharedProviders!.some(
+          (p) => p.providerKey === sourceKey || p.providerKey === targetKey
+        )
+      ).toBe(false);
+
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(sourceProvider).toBeDefined();
+      expect(sourceProvider.initialStateSchema).toBeUndefined();
+      expect(sourceProvider.listeners).toEqual([]);
+      expect(sourceProvider.abilities).toEqual([]);
+      expect(sourceProvider.modifiers).toEqual([
+        {
+          modifierKey: 'awe_ad',
+          kind: 'attribute',
+          target: 'source.attr.ad',
+          priority: 0,
+          valuePolicy: 'add',
+          value: { op: 'ref', ref: 'source::awe_ad' }
+        }
+      ]);
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::awe_ad']).toEqual(AWE_AD_EXPR);
+
+      const aweJson = JSON.stringify({
+        provider: sourceProvider,
+        formulas: compile.formulas!.filter((f) => f.key.startsWith('source::awe_'))
+      });
+      expect(aweJson.toLowerCase()).not.toContain('manaflow');
+      expect(aweJson.toLowerCase()).not.toContain('muramana');
+      expect(aweJson).not.toContain('"listeners":[{');
+      expect(aweJson.toLowerCase()).not.toContain('on-hit');
+      expect(aweJson.toLowerCase()).not.toContain('on_hit');
+      expect(aweJson).not.toContain('"operation":"damage"');
+      expect(aweJson).not.toContain('"operation":"resource_change"');
+      expect(aweJson).not.toContain('"operation":"state_change"');
+    });
+  });
 });
