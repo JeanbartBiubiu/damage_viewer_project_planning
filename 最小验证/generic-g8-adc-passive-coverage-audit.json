@@ -4,7 +4,7 @@
     "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-13T16:44:25.592Z"
+    "generatedAt": "2026-07-13T17:09:20.273Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 16,
+      "migrated": 17,
       "partial": 4,
-      "blocked": 184,
+      "blocked": 183,
       "out_of_scope": 38
     },
     "classificationPercents": {
-      "migrated": 6.61,
+      "migrated": 7.02,
       "partial": 1.65,
-      "blocked": 76.03,
+      "blocked": 75.62,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
-      "all": 6.61,
-      "inScope": 7.84
+      "all": 7.02,
+      "inScope": 8.33
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 8.26,
-      "inScope": 9.8
+      "all": 8.68,
+      "inScope": 10.29
     },
     "inScopeCount": 204
   },
@@ -4843,13 +4843,21 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3032",
       "candidateKey": "item_passive|3032|item_passive|熟能生巧",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "permanent_stacking_dynamic_crit_modifier"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "classificationReason": "item 3032 熟能生巧已由 wasm-generic-yun-tal-practice-makes-lethal 批次闭环：每次 source-owner ORIGINAL basic_attack_hit 永久 +1 practice_crit_stacks（上限 63）；暴击率动态 min(0.25, 0.004 * state)；仅 phantom/copied-on-hit 回放不计层。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-yun-tal-practice-makes-lethal",
+          "sourcePath": "db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Yun Tal 熟能生巧: every source-owner ORIGINAL basic_attack_hit permanently +1 practice_crit_stacks (max 63); crit chance dynamic min(0.25, 0.004 * state); only phantom/copied-on-hit replay(s) do not add stacks"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",

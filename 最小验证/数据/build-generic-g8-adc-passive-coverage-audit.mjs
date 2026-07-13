@@ -32,6 +32,7 @@ const SEED = {
   execute: 'db/game_manage/seeds/lol_generic_execute_threshold_seed.sql',
   linked: 'db/game_manage/seeds/lol_generic_linked_effects_seed.sql',
   crit: 'db/game_manage/seeds/lol_generic_crit_modifier_seed.sql',
+  yunTalPracticeMakesLethal: 'db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note) {
@@ -320,6 +321,24 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-statikk-shiv-energized',
           SEED.statikkShivEnergized,
           'Statikk Shiv 电疗: +15 charge (cap 100), 60 magic damage on ready; source-owner basic_attack_hit; conditional consume then unconditional recharge',
+        ),
+      ],
+    },
+  ],
+  [
+    '3032|熟能生巧',
+    {
+      classification: 'migrated',
+      tags: ['permanent_stacking_dynamic_crit_modifier'],
+      reason:
+        'item 3032 熟能生巧已由 wasm-generic-yun-tal-practice-makes-lethal 批次闭环：每次 source-owner ORIGINAL basic_attack_hit 永久 +1 practice_crit_stacks（上限 63）；暴击率动态 min(0.25, 0.004 * state)；仅 phantom/copied-on-hit 回放不计层。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-yun-tal-practice-makes-lethal',
+          SEED.yunTalPracticeMakesLethal,
+          'Yun Tal 熟能生巧: every source-owner ORIGINAL basic_attack_hit permanently +1 practice_crit_stacks (max 63); crit chance dynamic min(0.25, 0.004 * state); only phantom/copied-on-hit replay(s) do not add stacks',
         ),
       ],
     },
