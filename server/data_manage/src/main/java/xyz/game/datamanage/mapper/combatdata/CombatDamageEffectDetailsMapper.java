@@ -25,7 +25,8 @@ public interface CombatDamageEffectDetailsMapper {
         @Param("amountFormulaKey") Object amountFormulaKey,
         @Param("damageTypeId") Object damageTypeId,
         @Param("valuePolicyTypeId") Object valuePolicyTypeId,
-        @Param("copyableOnHit") boolean copyableOnHit
+        @Param("copyableOnHit") boolean copyableOnHit,
+        @Param("critEligible") boolean critEligible
     );
 
     int deleteByStepId(@Param("gameId") String gameId, @Param("stepId") String stepId);
