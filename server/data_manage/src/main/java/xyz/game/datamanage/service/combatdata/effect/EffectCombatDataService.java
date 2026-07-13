@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import xyz.game.datamanage.mapper.combatdata.CombatDamageEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEffectSequencesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEffectStepsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEventEffectDetailsMapper;
+import xyz.game.datamanage.mapper.combatdata.CombatExecuteEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatHealEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatListenerEffectSequencesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderEffectDetailsMapper;
@@ -39,6 +41,7 @@ public class EffectCombatDataService {
     public static final String DETAIL_ABILITY_CONTROL = "abilityControlDetail";
     public static final String DETAIL_STATE = "stateDetail";
     public static final String DETAIL_REPEAT = "repeatDetail";
+    public static final String DETAIL_EXECUTE = "executeDetail";
 
     private static final List<String> DETAIL_KEYS = List.of(
         DETAIL_DAMAGE,
@@ -50,7 +53,8 @@ public class EffectCombatDataService {
         DETAIL_EVENT,
         DETAIL_ABILITY_CONTROL,
         DETAIL_STATE,
-        DETAIL_REPEAT
+        DETAIL_REPEAT,
+        DETAIL_EXECUTE
     );
 
     private final CombatDataSupport support;
@@ -69,6 +73,7 @@ public class EffectCombatDataService {
     private final CombatAbilityControlEffectDetailsMapper abilityControlDetailsMapper;
     private final CombatStateEffectDetailsMapper stateDetailsMapper;
     private final CombatRepeatEffectDetailsMapper repeatDetailsMapper;
+    private final CombatExecuteEffectDetailsMapper executeDetailsMapper;
 
     public EffectCombatDataService(
         CombatDataSupport support,
@@ -86,7 +91,8 @@ public class EffectCombatDataService {
         CombatEventEffectDetailsMapper eventDetailsMapper,
         CombatAbilityControlEffectDetailsMapper abilityControlDetailsMapper,
         CombatStateEffectDetailsMapper stateDetailsMapper,
-        CombatRepeatEffectDetailsMapper repeatDetailsMapper
+        CombatRepeatEffectDetailsMapper repeatDetailsMapper,
+        CombatExecuteEffectDetailsMapper executeDetailsMapper
     ) {
         this.support = support;
         this.revisionService = revisionService;
@@ -104,6 +110,7 @@ public class EffectCombatDataService {
         this.abilityControlDetailsMapper = abilityControlDetailsMapper;
         this.stateDetailsMapper = stateDetailsMapper;
         this.repeatDetailsMapper = repeatDetailsMapper;
+        this.executeDetailsMapper = executeDetailsMapper;
     }
 
     @Transactional(readOnly = true)
@@ -135,6 +142,12 @@ public class EffectCombatDataService {
         return support.publicList(gameId, listenerSequencesMapper.list(gameId, listenerId, sequenceId));
     }
 
+    @Transactional(readOnly = true)
+    public ObjectNode listExecuteEffectDetails(String gameId, String stepId) {
+        support.requireGame(gameId);
+        return support.publicList(gameId, executeDetailsMapper.list(gameId, stepId));
+    }
+
     @Transactional
     public ObjectNode putSequence(String gameId, String sequenceId, ObjectNode body) {
         support.requireGame(gameId);
@@ -159,6 +172,9 @@ public class EffectCombatDataService {
         int targetSelectorTypeId = support.requireInt(req, "targetSelectorTypeId");
         String conditionFormulaKey = support.optionalText(req, "conditionFormulaKey");
         DetailChoice detail = resolveExactlyOneDetail(req);
+        if (DETAIL_EXECUTE.equals(detail.key())) {
+            requireExecuteThreshold(detail.body());
+        }
 
         long revision = revisionService.nextRevision(gameId);
         support.withConstraintMapping(() -> {
@@ -221,6 +237,18 @@ public class EffectCombatDataService {
         );
     }
 
+    @Transactional
+    public ObjectNode putExecuteEffectDetail(String gameId, String stepId, ObjectNode body) {
+        support.requireGame(gameId);
+        ObjectNode req = support.requireBody(body);
+        BigDecimal threshold = requireExecuteThreshold(req);
+        long revision = revisionService.nextRevision(gameId);
+        support.withConstraintMapping(() ->
+            executeDetailsMapper.upsert(gameId, revision, stepId, threshold)
+        );
+        return support.adminWriteResponse(executeDetailsMapper.findById(gameId, stepId), revision);
+    }
+
     private DetailChoice resolveExactlyOneDetail(ObjectNode body) {
         List<String> present = new ArrayList<>();
         for (String key : DETAIL_KEYS) {
@@ -260,6 +288,7 @@ public class EffectCombatDataService {
         abilityControlDetailsMapper.deleteByStepId(gameId, stepId);
         stateDetailsMapper.deleteByStepId(gameId, stepId);
         repeatDetailsMapper.deleteByStepId(gameId, stepId);
+        executeDetailsMapper.deleteByStepId(gameId, stepId);
     }
 
     private void writeDetail(String gameId, String stepId, long revision, DetailChoice detail) {
@@ -353,6 +382,12 @@ public class EffectCombatDataService {
                 support.requireText(d, "triggerStateKey"),
                 support.requireDecimal(d, "threshold")
             );
+            case DETAIL_EXECUTE -> executeDetailsMapper.upsert(
+                gameId,
+                revision,
+                stepId,
+                requireExecuteThreshold(d)
+            );
             default -> throw support.badRequest(
                 "Unsupported detail key",
                 Map.of("path", "/" + detail.key())
@@ -376,7 +411,32 @@ public class EffectCombatDataService {
         attachDetail(dto, DETAIL_ABILITY_CONTROL, abilityControlDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_STATE, stateDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_REPEAT, repeatDetailsMapper.findById(gameId, stepId));
+        attachDetail(dto, DETAIL_EXECUTE, executeDetailsMapper.findById(gameId, stepId));
         return dto;
+    }
+
+    private BigDecimal requireExecuteThreshold(ObjectNode body) {
+        JsonNode value = body.get("threshold");
+        if (value == null || value.isNull() || !value.isNumber()) {
+            throw support.badRequest(
+                "threshold is required and must be a number",
+                Map.of("path", "/threshold")
+            );
+        }
+        if (!Double.isFinite(value.asDouble())) {
+            throw support.badRequest(
+                "threshold must be a finite number",
+                Map.of("path", "/threshold", "reason", "non-finite")
+            );
+        }
+        BigDecimal threshold = value.decimalValue();
+        if (threshold.compareTo(BigDecimal.ZERO) <= 0 || threshold.compareTo(BigDecimal.ONE) > 0) {
+            throw support.badRequest(
+                "threshold must satisfy 0 < threshold <= 1",
+                Map.of("path", "/threshold", "reason", "out of range")
+            );
+        }
+        return threshold;
     }
 
     private void attachDetail(ObjectNode dto, String key, Map<String, Object> detailRow) {
