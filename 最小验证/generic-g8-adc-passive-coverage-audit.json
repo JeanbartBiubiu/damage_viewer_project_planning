@@ -4,7 +4,7 @@
     "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-13T17:27:03.693Z"
+    "generatedAt": "2026-07-13T17:42:39.988Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 18,
+      "migrated": 19,
       "partial": 4,
-      "blocked": 182,
+      "blocked": 181,
       "out_of_scope": 38
     },
     "classificationPercents": {
-      "migrated": 7.44,
+      "migrated": 7.85,
       "partial": 1.65,
-      "blocked": 75.21,
+      "blocked": 74.79,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
-      "all": 7.44,
-      "inScope": 8.82
+      "all": 7.85,
+      "inScope": 9.31
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 9.09,
-      "inScope": 10.78
+      "all": 9.5,
+      "inScope": 11.27
     },
     "inScopeCount": 204
   },
@@ -4726,13 +4726,21 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3004",
       "candidateKey": "item_passive|3004|item_passive|敬畏",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "source_only_dynamic_mana_max_ad_modifier"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "classificationReason": "item 3004 敬畏已由 wasm-generic-manamune-awe 批次闭环：source-only 动态 AD = 0.02 * source.attr.mana.max；mana.max 0/1000/2000 → +0/+20/+40；无 event/state。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-manamune-awe",
+          "sourcePath": "db/game_manage/seeds/lol_generic_manamune_awe_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Manamune Awe: source-only passive dynamically adds AD as 0.02 * source.attr.mana.max; tests at max mana 0/1000/2000 yield +0/+20/+40; no event/state"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
