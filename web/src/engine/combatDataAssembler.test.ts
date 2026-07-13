@@ -2722,4 +2722,285 @@ describe('combatDataAssembler', () => {
       expect(aaOpt?.types).toEqual(['ability/basic_attack']);
     });
   });
+
+  describe('item_3087 Statikk Shiv Energized data contract', () => {
+    const SHIV = {
+      itemId: 'item_3087',
+      providerId: 'provider_item_3087_statikk_shiv_energized',
+      itemTag: { typeId: 62002, typeKey: 'tag/adc_completed_item' },
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      valuePolicyOverride: { typeId: 20172, typeKey: 'value_policy/override' },
+      damageMagic: { typeId: 20221, typeKey: 'damage/magic' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' }
+    } as const;
+
+    const PROC_DAMAGE_EXPR = { op: 'const', value: 60 };
+    const CHARGE_CONSUME_EXPR = { op: 'const', value: 0 };
+    const CHARGE_GAIN_EXPR = { op: 'const', value: 15 };
+    const CHARGE_READY_EXPR = {
+      op: 'gte',
+      args: [
+        { op: 'read', path: 'provider.state.energized_charge' },
+        { op: 'const', value: 100 }
+      ]
+    };
+
+    function withStatikkShivEnergized(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [
+        SHIV.itemTag,
+        SHIV.valueTypeNumber,
+        SHIV.valuePolicyOverride,
+        SHIV.damageMagic,
+        SHIV.stateScopeProvider
+      ];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        typeRelations: [
+          ...base.typeRelations,
+          {
+            ...META,
+            typeId: SHIV.itemTag.typeId,
+            targetCategory: 'entity',
+            targetId: SHIV.itemId
+          }
+        ],
+        entities: [
+          ...base.entities,
+          { ...META, entityId: SHIV.itemId, displayName: 'Statikk Shiv' }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: SHIV.itemId, providerId: SHIV.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: SHIV.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '斯塔缇克电刃 Energized'
+          }
+        ],
+        providerStateFields: [
+          {
+            ...META,
+            providerId: SHIV.providerId,
+            stateKey: 'energized_charge',
+            valueTypeId: SHIV.valueTypeNumber.typeId,
+            maxValue: 100
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: SHIV.providerId,
+            formulaKey: 'energized_charge_ready',
+            expression: CHARGE_READY_EXPR
+          },
+          {
+            ...META,
+            providerId: SHIV.providerId,
+            formulaKey: 'energized_proc_damage',
+            expression: PROC_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: SHIV.providerId,
+            formulaKey: 'energized_charge_consume',
+            expression: CHARGE_CONSUME_EXPR
+          },
+          {
+            ...META,
+            providerId: SHIV.providerId,
+            formulaKey: 'energized_charge_gain',
+            expression: CHARGE_GAIN_EXPR
+          }
+        ],
+        providerModifiers: [],
+        providerListeners: [
+          {
+            ...META,
+            providerId: SHIV.providerId,
+            listenerId: 'listener_item_3087_statikk_shiv_energized_basic_attack_hit',
+            listenerKey: 'energized_on_basic_attack_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: 'listener_item_3087_statikk_shiv_energized_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventBasicAttackHit.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3087_statikk_shiv_energized_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: 'sequence_item_3087_statikk_shiv_energized_proc',
+            providerId: SHIV.providerId,
+            sequenceKey: 'energized_proc'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: 'step_item_3087_statikk_shiv_energized_damage',
+            sequenceId: 'sequence_item_3087_statikk_shiv_energized_proc',
+            stepOrder: 0,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            conditionFormulaKey: 'energized_charge_ready',
+            damageDetail: {
+              amountFormulaKey: 'energized_proc_damage',
+              damageTypeId: SHIV.damageMagic.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+              copyableOnHit: false
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3087_statikk_shiv_energized_charge_consume',
+            sequenceId: 'sequence_item_3087_statikk_shiv_energized_proc',
+            stepOrder: 1,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'energized_charge_ready',
+            stateDetail: {
+              stateScopeTypeId: SHIV.stateScopeProvider.typeId,
+              stateKey: 'energized_charge',
+              amountFormulaKey: 'energized_charge_consume',
+              valuePolicyTypeId: SHIV.valuePolicyOverride.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3087_statikk_shiv_energized_charge_gain',
+            sequenceId: 'sequence_item_3087_statikk_shiv_energized_proc',
+            stepOrder: 2,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            stateDetail: {
+              stateScopeTypeId: SHIV.stateScopeProvider.typeId,
+              stateKey: 'energized_charge',
+              amountFormulaKey: 'energized_charge_gain',
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+            }
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: 'listener_item_3087_statikk_shiv_energized_basic_attack_hit',
+            sequenceId: 'sequence_item_3087_statikk_shiv_energized_proc'
+          }
+        ]
+      });
+    }
+
+    it('projects namespaced Statikk Shiv Energized compile contract on source equipment only', () => {
+      const graph = withStatikkShivEnergized(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: [SHIV.itemId]
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${SHIV.providerId}`;
+      const targetKey = `target::${SHIV.providerId}`;
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toContain(sourceKey);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toContain(
+        `passive:${SHIV.providerId}`
+      );
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${SHIV.providerId}`)
+      ).toBe(false);
+
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(sourceProvider).toBeDefined();
+      expect(sourceProvider.initialStateSchema).toEqual({
+        energized_charge: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 100,
+          durationMs: 0
+        }
+      });
+      expect(sourceProvider.initialStateSchema!.energized_charge).not.toHaveProperty(
+        'refreshPolicy'
+      );
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::energized_charge_ready']).toEqual(CHARGE_READY_EXPR);
+      expect(formulaByKey['source::energized_proc_damage']).toEqual(PROC_DAMAGE_EXPR);
+      expect(formulaByKey['source::energized_charge_consume']).toEqual(CHARGE_CONSUME_EXPR);
+      expect(formulaByKey['source::energized_charge_gain']).toEqual(CHARGE_GAIN_EXPR);
+
+      expect(sourceProvider.listeners).toHaveLength(1);
+      const hitListener = sourceProvider.listeners!.find(
+        (l) => l.listenerKey === 'energized_on_basic_attack_hit'
+      )!;
+      expect(hitListener.eventMatcher).toEqual({
+        all: ['event/basic_attack_hit', 'event/source_owner']
+      });
+      expect(hitListener.maxTriggersPerEvent).toBe(1);
+
+      // basic_attack_hit: conditional magic damage → consume charge → unconditional gain.
+      expect(hitListener.operations).toHaveLength(3);
+      const [damageOp, consumeOp, gainOp] = hitListener.operations!;
+      expect(damageOp).toEqual({
+        operation: 'damage',
+        target: 'opponent',
+        ref: 'step_item_3087_statikk_shiv_energized_damage',
+        amount: { op: 'ref', ref: 'source::energized_proc_damage' },
+        damageType: 'damage/magic',
+        valuePolicy: 'add',
+        condition: { op: 'ref', ref: 'source::energized_charge_ready' }
+      });
+      expect(damageOp).not.toHaveProperty('copyableOnHit');
+      expect(damageOp.copyableOnHit).not.toBe(true);
+      expect(JSON.stringify(damageOp)).not.toContain('"copyableOnHit":true');
+
+      expect(consumeOp).toEqual({
+        operation: 'state_change',
+        target: 'self',
+        amount: { op: 'ref', ref: 'source::energized_charge_consume' },
+        valuePolicy: 'override',
+        ref: 'energized_charge',
+        types: ['state_scope/provider'],
+        condition: { op: 'ref', ref: 'source::energized_charge_ready' }
+      });
+
+      expect(gainOp).toEqual({
+        operation: 'state_change',
+        target: 'self',
+        amount: { op: 'ref', ref: 'source::energized_charge_gain' },
+        valuePolicy: 'add',
+        ref: 'energized_charge',
+        types: ['state_scope/provider']
+      });
+      expect(gainOp).not.toHaveProperty('condition');
+    });
+  });
 });
