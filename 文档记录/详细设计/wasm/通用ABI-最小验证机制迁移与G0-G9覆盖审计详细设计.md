@@ -74,9 +74,9 @@ G8/G0-G9 覆盖审计已收口，证据见 [G8 覆盖审计验证记录-2026-07-
 
 ### Planning 旧 Batch G 真源
 
-- [V2 Batch G ADC 被动覆盖审计与录入计划](../../最小验证/V2-BatchG-ADC被动覆盖审计与录入计划.md)
-- [V2 Batch G ADC 被动覆盖清单](../../最小验证/V2-BatchG-ADC被动覆盖清单.md)
-- [V2 Batch G ADC 被动覆盖录入测试记录](../../../测试记录/wasm/V2-BatchG-ADC被动覆盖录入-测试记录-2026-05-20.md)
+- [V2 Batch G ADC 被动覆盖审计与录入计划](../最小验证/V2-BatchG-ADC被动覆盖审计与录入计划.md)
+- [V2 Batch G ADC 被动覆盖清单](../最小验证/V2-BatchG-ADC被动覆盖清单.md)
+- [V2 Batch G ADC 被动覆盖录入测试记录](../../测试记录/wasm/V2-BatchG-ADC被动覆盖录入-测试记录-2026-05-20.md)
 
 ### 外部最小验证资产
 
