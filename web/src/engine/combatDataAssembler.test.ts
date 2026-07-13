@@ -1761,4 +1761,470 @@ describe('combatDataAssembler', () => {
       expect(result.typeCatalog.types.map((t) => t.key)).toContain('ability/basic_attack');
     });
   });
+
+  describe('item_3100 Lich Bane Spellblade data contract', () => {
+    const LICH = {
+      itemId: 'item_3100',
+      providerId: 'provider_item_3100_lich_bane_spellblade',
+      itemTag: { typeId: 62002, typeKey: 'tag/adc_completed_item' },
+      abilityBasicAttack: { typeId: 62003, typeKey: 'ability/basic_attack' },
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      refreshDuration: { typeId: 20190, typeKey: 'refresh_policy/refresh_duration' },
+      valuePolicyOverride: { typeId: 20172, typeKey: 'value_policy/override' },
+      valuePolicyPercentAdd: { typeId: 20173, typeKey: 'value_policy/percent_add' },
+      damageMagic: { typeId: 20221, typeKey: 'damage/magic' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' },
+      eventAbilityStarted: { typeId: 20205, typeKey: 'event/ability_started' }
+    } as const;
+
+    const PROC_DAMAGE_EXPR = {
+      op: 'add',
+      args: [
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 0.75 },
+            { op: 'read', path: 'event.entry_source.attr.ad.base' }
+          ]
+        },
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 0.45 },
+            { op: 'read', path: 'event.entry_source.attr.ap.resolved' }
+          ]
+        }
+      ]
+    };
+
+    const ATTACK_SPEED_EXPR = {
+      op: 'mul',
+      args: [
+        { op: 'const', value: 0.5 },
+        { op: 'read', path: 'provider.state.spellblade_ready' }
+      ]
+    };
+
+    function withLichBaneSpellblade(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [
+        LICH.itemTag,
+        LICH.abilityBasicAttack,
+        LICH.valueTypeNumber,
+        LICH.refreshDuration,
+        LICH.valuePolicyOverride,
+        LICH.valuePolicyPercentAdd,
+        LICH.damageMagic,
+        LICH.stateScopeProvider,
+        LICH.eventAbilityStarted
+      ];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        typeRelations: [
+          ...base.typeRelations,
+          {
+            ...META,
+            typeId: LICH.itemTag.typeId,
+            targetCategory: 'entity',
+            targetId: LICH.itemId
+          },
+          {
+            ...META,
+            typeId: LICH.abilityBasicAttack.typeId,
+            targetCategory: 'ability',
+            targetId: 'abil_aa_swing'
+          }
+        ],
+        entities: [
+          ...base.entities,
+          { ...META, entityId: LICH.itemId, displayName: 'Lich Bane' }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: LICH.itemId, providerId: LICH.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: LICH.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '巫妖之祸 Spellblade'
+          }
+        ],
+        providerStateFields: [
+          {
+            ...META,
+            providerId: LICH.providerId,
+            stateKey: 'spellblade_ready',
+            valueTypeId: LICH.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs: 10000,
+            refreshPolicyTypeId: LICH.refreshDuration.typeId
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            stateKey: 'spellblade_icd',
+            valueTypeId: LICH.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs: 1500,
+            refreshPolicyTypeId: LICH.refreshDuration.typeId
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: LICH.providerId,
+            formulaKey: 'spellblade_icd_available',
+            expression: {
+              op: 'eq',
+              args: [
+                { op: 'read', path: 'provider.state.spellblade_icd' },
+                { op: 'const', value: 0 }
+              ]
+            }
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            formulaKey: 'spellblade_ready_arm',
+            expression: { op: 'const', value: 1 }
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            formulaKey: 'spellblade_icd_arm',
+            expression: { op: 'const', value: 1 }
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            formulaKey: 'spellblade_ready_armed',
+            expression: {
+              op: 'gte',
+              args: [
+                { op: 'read', path: 'provider.state.spellblade_ready' },
+                { op: 'const', value: 1 }
+              ]
+            }
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            formulaKey: 'spellblade_proc_damage',
+            expression: PROC_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            formulaKey: 'spellblade_ready_consume',
+            expression: { op: 'const', value: 0 }
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            formulaKey: 'spellblade_attack_speed',
+            expression: ATTACK_SPEED_EXPR
+          }
+        ],
+        providerModifiers: [
+          {
+            ...META,
+            providerId: LICH.providerId,
+            modifierId: 'modifier_item_3100_lich_bane_spellblade_attack_speed',
+            modifierKey: 'spellblade_attack_speed',
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            targetAttrKey: 'attack_speed',
+            priority: 0,
+            valuePolicyTypeId: LICH.valuePolicyPercentAdd.typeId,
+            valueFormulaKey: 'spellblade_attack_speed'
+          }
+        ],
+        providerListeners: [
+          {
+            ...META,
+            providerId: LICH.providerId,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_ability_started',
+            listenerKey: 'spellblade_on_ability_started',
+            eventTypeId: LICH.eventAbilityStarted.typeId,
+            maxTriggersPerEvent: 1
+          },
+          {
+            ...META,
+            providerId: LICH.providerId,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_basic_attack_hit',
+            listenerKey: 'spellblade_on_basic_attack_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_ability_started',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: LICH.eventAbilityStarted.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_ability_started',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventBasicAttackHit.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_arm',
+            providerId: LICH.providerId,
+            sequenceKey: 'spellblade_arm'
+          },
+          {
+            ...META,
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_proc',
+            providerId: LICH.providerId,
+            sequenceKey: 'spellblade_proc'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: 'step_item_3100_lich_bane_spellblade_ready_arm',
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_arm',
+            stepOrder: 0,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'spellblade_icd_available',
+            stateDetail: {
+              stateScopeTypeId: LICH.stateScopeProvider.typeId,
+              stateKey: 'spellblade_ready',
+              amountFormulaKey: 'spellblade_ready_arm',
+              valuePolicyTypeId: LICH.valuePolicyOverride.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3100_lich_bane_spellblade_icd_arm',
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_arm',
+            stepOrder: 1,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'spellblade_icd_available',
+            stateDetail: {
+              stateScopeTypeId: LICH.stateScopeProvider.typeId,
+              stateKey: 'spellblade_icd',
+              amountFormulaKey: 'spellblade_icd_arm',
+              valuePolicyTypeId: LICH.valuePolicyOverride.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3100_lich_bane_spellblade_damage',
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_proc',
+            stepOrder: 0,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            conditionFormulaKey: 'spellblade_ready_armed',
+            damageDetail: {
+              amountFormulaKey: 'spellblade_proc_damage',
+              damageTypeId: LICH.damageMagic.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+              copyableOnHit: false
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3100_lich_bane_spellblade_ready_consume',
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_proc',
+            stepOrder: 1,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'spellblade_ready_armed',
+            stateDetail: {
+              stateScopeTypeId: LICH.stateScopeProvider.typeId,
+              stateKey: 'spellblade_ready',
+              amountFormulaKey: 'spellblade_ready_consume',
+              valuePolicyTypeId: LICH.valuePolicyOverride.typeId
+            }
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_ability_started',
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_arm'
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3100_lich_bane_spellblade_basic_attack_hit',
+            sequenceId: 'sequence_item_3100_lich_bane_spellblade_proc'
+          }
+        ],
+        // Prerequisite active cast (base abil_q) + basic_attack-tagged AA for ability_started gate.
+        abilities: [
+          ...base.abilities,
+          {
+            ...META,
+            abilityId: 'abil_aa_swing',
+            providerId: 'prov_q',
+            abilityKey: 'aa_swing',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: 'AA Swing'
+          }
+        ]
+      });
+    }
+
+    it('projects namespaced Lich Bane Spellblade compile contract on source equipment only', () => {
+      const graph = withLichBaneSpellblade(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: [LICH.itemId]
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${LICH.providerId}`;
+      const targetKey = `target::${LICH.providerId}`;
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toContain(sourceKey);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toContain(
+        `passive:${LICH.providerId}`
+      );
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${LICH.providerId}`)
+      ).toBe(false);
+
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(sourceProvider).toBeDefined();
+      expect(sourceProvider.initialStateSchema).toEqual({
+        spellblade_ready: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 10000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        spellblade_icd: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 1500,
+          refreshPolicy: 'refresh_on_write'
+        }
+      });
+
+      expect(sourceProvider.modifiers).toEqual([
+        {
+          modifierKey: 'spellblade_attack_speed',
+          kind: 'attribute',
+          target: 'source.attr.attack_speed',
+          priority: 0,
+          valuePolicy: 'percent_add',
+          value: { op: 'ref', ref: 'source::spellblade_attack_speed' }
+        }
+      ]);
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::spellblade_proc_damage']).toEqual(PROC_DAMAGE_EXPR);
+      expect(formulaByKey['source::spellblade_attack_speed']).toEqual(ATTACK_SPEED_EXPR);
+      expect(formulaByKey['source::spellblade_icd_available']).toMatchObject({
+        op: 'eq',
+        args: [{ op: 'read', path: 'provider.state.spellblade_icd' }, { op: 'const', value: 0 }]
+      });
+
+      expect(sourceProvider.listeners).toHaveLength(2);
+      const armListener = sourceProvider.listeners!.find(
+        (l) => l.listenerKey === 'spellblade_on_ability_started'
+      )!;
+      const procListener = sourceProvider.listeners!.find(
+        (l) => l.listenerKey === 'spellblade_on_basic_attack_hit'
+      )!;
+      expect(armListener.eventMatcher).toEqual({
+        all: ['event/ability_started', 'event/source_owner']
+      });
+      expect(armListener.maxTriggersPerEvent).toBe(1);
+      expect(procListener.eventMatcher).toEqual({
+        all: ['event/basic_attack_hit', 'event/source_owner']
+      });
+      expect(procListener.maxTriggersPerEvent).toBe(1);
+
+      expect(armListener.operations).toEqual([
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::spellblade_ready_arm' },
+          valuePolicy: 'override',
+          ref: 'spellblade_ready',
+          types: ['state_scope/provider'],
+          condition: { op: 'ref', ref: 'source::spellblade_icd_available' }
+        },
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::spellblade_icd_arm' },
+          valuePolicy: 'override',
+          ref: 'spellblade_icd',
+          types: ['state_scope/provider'],
+          condition: { op: 'ref', ref: 'source::spellblade_icd_available' }
+        }
+      ]);
+
+      expect(procListener.operations).toHaveLength(2);
+      const damageOp = procListener.operations![0];
+      const consumeOp = procListener.operations![1];
+      expect(damageOp).toEqual({
+        operation: 'damage',
+        target: 'opponent',
+        ref: 'step_item_3100_lich_bane_spellblade_damage',
+        amount: { op: 'ref', ref: 'source::spellblade_proc_damage' },
+        damageType: 'damage/magic',
+        valuePolicy: 'add',
+        condition: { op: 'ref', ref: 'source::spellblade_ready_armed' }
+      });
+      expect(damageOp).not.toHaveProperty('copyableOnHit');
+      expect(damageOp.copyableOnHit).not.toBe(true);
+      expect(JSON.stringify(damageOp)).not.toContain('"copyableOnHit":true');
+
+      expect(consumeOp).toEqual({
+        operation: 'state_change',
+        target: 'self',
+        amount: { op: 'ref', ref: 'source::spellblade_ready_consume' },
+        valuePolicy: 'override',
+        ref: 'spellblade_ready',
+        types: ['state_scope/provider'],
+        condition: { op: 'ref', ref: 'source::spellblade_ready_armed' }
+      });
+
+      // Prerequisite active + basic_attack types remain selectable on source hero provider.
+      const castOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'cast');
+      const aaOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'aa_swing');
+      expect(castOpt?.selectable).toBe(true);
+      expect(aaOpt?.types).toEqual(['ability/basic_attack']);
+    });
+  });
 });
