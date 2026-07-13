@@ -151,16 +151,18 @@ func compileStructuredStateField(obj map[string]interface{}, path, key string, c
 	}
 
 	durRaw, hasDur := obj["durationMs"]
+	var dur int64
+	var durOK bool
 	if !hasDur {
 		collector.addError(model.GenericErrMissingRequiredField, path+".durationMs", "structured state field requires durationMs", key)
 		ok = false
 	} else {
-		dur, durOK := asSchemaInt64(durRaw)
+		dur, durOK = asSchemaInt64(durRaw)
 		if !durOK {
 			collector.addError(model.GenericErrFormulaTypeError, path+".durationMs", "durationMs must be an integer", key)
 			ok = false
-		} else if dur <= 0 {
-			collector.addError(model.GenericErrMissingRequiredField, path+".durationMs", "durationMs must be > 0", key)
+		} else if dur < 0 {
+			collector.addError(model.GenericErrMissingRequiredField, path+".durationMs", "durationMs must be >= 0", key)
 			ok = false
 		} else {
 			field.DurationMs = dur
@@ -174,6 +176,9 @@ func compileStructuredStateField(obj map[string]interface{}, path, key string, c
 			ok = false
 		} else if policy != "" && policy != model.ProviderStateRefreshOnWrite {
 			collector.addError(model.GenericErrUnknownRef, path+".refreshPolicy", "refreshPolicy must be empty or refresh_on_write", policy)
+			ok = false
+		} else if policy == model.ProviderStateRefreshOnWrite && (!durOK || dur <= 0) {
+			collector.addError(model.GenericErrMissingRequiredField, path+".refreshPolicy", "refresh_on_write requires durationMs > 0", key)
 			ok = false
 		} else {
 			field.RefreshPolicy = policy
