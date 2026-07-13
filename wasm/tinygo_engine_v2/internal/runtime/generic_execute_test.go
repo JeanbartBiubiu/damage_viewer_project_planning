@@ -390,6 +390,53 @@ func TestGenericExecuteDeterministic(t *testing.T) {
 	}
 }
 
+func TestGenericExecuteDBShapedHPRepeatedAAReachesTargetDead(t *testing.T) {
+	// Real Web/DB regression: hp Base=Current=Max=Resolved=5000; refresh resets Resolved to Base
+	// between casts while SetHP only changes Current. Damage must accumulate on Current so
+	// Collector execute_threshold on basic_attack_hit fires once below 5% → target_dead.
+	const (
+		dbHP     = 5000.0
+		aaDmg    = 100.0
+		hitCount = 48 // 48*100 = 4800 → Current=200 (4% < 5%)
+	)
+	c, r := loadExecuteFixture(t, dbHP, aaDmg)
+	setCombatantAttr(&c, &r, model.SelectorTarget, "hp", model.AttributeSlotDef{
+		Base: dbHP, Current: dbHP, Max: dbHP, Resolved: dbHP,
+	})
+	ref := executeAARef()
+	entries := make([]model.DriverEntry, 0, hitCount)
+	for i := 0; i < hitCount; i++ {
+		entries = append(entries, model.DriverEntry{
+			EntryKey:   "aa_" + itoaRuntime(i),
+			AbilityRef: ref,
+			Source:     model.SelectorSource,
+			Target:     model.SelectorTarget,
+			FirstAtMs:  int64(i * 10),
+		})
+	}
+	r.DriverPlan.Entries = entries
+	r.StopPolicy.DurationMs = int64(hitCount*10 + 50)
+	r.StopPolicy.StopOnTargetDeath = model.BoolPtr(true)
+	r.Sampling.SampleEveryMs = 100000
+
+	done := runExecute(t, c, r)
+	if countExecuteEvidence(done) != 1 {
+		t.Fatalf("execute evidence=%d want 1 (finalHp=%v dealt=%v stop=%q)",
+			countExecuteEvidence(done), done.Summary.TargetFinalHp, done.Summary.SourceDamageDealt, done.Summary.StopReason)
+	}
+	if done.Summary.TargetFinalHp != 0 {
+		t.Fatalf("hp=%v want 0 after execute", done.Summary.TargetFinalHp)
+	}
+	if done.Summary.StopReason != model.StopReasonTargetDead {
+		t.Fatalf("stopReason=%q want target_dead", done.Summary.StopReason)
+	}
+	// Execute is not damage: summary reflects AA mitigated total only (no armor in fixture).
+	wantDealt := aaDmg * float64(hitCount)
+	if math.Abs(done.Summary.SourceDamageDealt-wantDealt) > 1e-6 {
+		t.Fatalf("dealt=%v want %v", done.Summary.SourceDamageDealt, wantDealt)
+	}
+}
+
 func TestGenericExecutePhantomGuinsooDoesNotTriggerOrCopy(t *testing.T) {
 	// Phantom replay 不重派 listener；execute 不可 copyable。高血量下仅 phantom 结算，不应出现 execute evidence。
 	c, r := loadBasicFixture(t)
