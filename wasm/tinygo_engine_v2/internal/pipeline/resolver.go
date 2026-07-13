@@ -37,6 +37,15 @@ type DamageOutcome struct {
 	HPDamage        float64
 }
 
+// ExecuteOutcome 记录 execute_threshold 经 pipeline 后的非伤害结果。
+// Execute 绕过 shield：Shields 原样保留；唯一 HP 置零入口。
+type ExecuteOutcome struct {
+	HPBefore       float64
+	Killed         bool
+	ShieldBypassed bool
+	Applied        bool
+}
+
 var damageResolver = resolveDamage
 
 // ResolveCommand 将 command 路由到对应 pipeline 函数。
@@ -56,9 +65,36 @@ func ResolveCommand(cmd command.Command, view CombatantView, nowMs int64) (comma
 	case command.KindShield:
 		view = ResolveShield(cmd, view, nowMs)
 		return command.Result{Kind: cmd.Kind, Applied: cmd.Amount > 0, Amount: cmd.Amount}, view
+	case command.KindExecuteThreshold:
+		outcome, next := ResolveExecuteThreshold(cmd, view)
+		return command.Result{Kind: cmd.Kind, Applied: outcome.Applied, Amount: 0}, next
 	default:
 		return command.Result{Kind: cmd.Kind, Applied: false, Message: "unsupported"}, view
 	}
+}
+
+// ResolveExecuteThreshold 将 live target HP 置 0；不折算 shield、不产生 damage。
+// live HP <= 0 时跳过（Applied=false），shield 保持不变。
+// 置零时同步清掉 Base/Resolved，避免后续 attribute refresh 用 Base 把 Resolved「复活」后
+// 被 ReadHP 误读为存活，导致 stopOnTargetDeath=false 时重复 execute。
+func ResolveExecuteThreshold(cmd command.Command, view CombatantView) (ExecuteOutcome, CombatantView) {
+	before := attribute.ReadHP(view.Attributes)
+	if before <= 0 || math.IsNaN(before) || math.IsInf(before, 0) {
+		return ExecuteOutcome{HPBefore: before, Applied: false}, view
+	}
+	view.Attributes = attribute.SetHP(view.Attributes, 0)
+	if slot, ok := view.Attributes["hp"]; ok {
+		slot.Current = 0
+		slot.Resolved = 0
+		slot.Base = 0
+		view.Attributes["hp"] = slot
+	}
+	return ExecuteOutcome{
+		HPBefore:       before,
+		Killed:         true,
+		ShieldBypassed: true,
+		Applied:        true,
+	}, view
 }
 
 func resolveDamage(cmd command.Command, view CombatantView, nowMs int64) (DamageOutcome, CombatantView) {
