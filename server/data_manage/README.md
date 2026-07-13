@@ -291,6 +291,44 @@ cd server/data_manage
 mvn -Dtest=LolGenericEnergizedSeedSqlTest test
 ```
 
+### Execute Threshold 数据库合同（execute_effect_details）
+
+在 generic combat-data 基线已就绪的库上，为斩杀阈值（第十一 detail 族 `execute_effect_details`）补齐合同：
+
+**新库**：`schema.sql` + `triggers.sql` + `reserved_types_seed.sql` 已包含上述表/分区/exactly-one 清单与 reserved（`20162` `operation/execute_threshold`，归属 operation `10015`）。
+
+**已有库**：按顺序执行：
+
+1. `db/game_manage/migrations/compatibility/generic_execute_threshold_compatibility_migration.sql`（幂等：`CREATE TABLE IF NOT EXISTS`；不 DELETE / DROP / CASCADE）
+2. `db/game_manage/triggers.sql`（刷新 `ensure_game_partitions` 与 effect-step exactly-one-detail，使 `execute_effect_details` 进入分区与约束清单）
+3. `db/game_manage/seeds/reserved_types_seed.sql`
+4. `db/game_manage/seeds/lol_generic_execute_threshold_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+说明：`execute_effect_details.threshold` 为 `numeric`，约束 `> 0 AND <= 1`（当前血量比例）。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=GenericExecuteThresholdDbContractSqlTest,LolGenericExecuteThresholdSeedSqlTest test
+```
+
+### LoL generic Execute Threshold seed（收集者 item_6676）
+
+在 Execute Threshold DDL 合同、reserved types（含 `20162`）、Batch-C `item_6676`，以及 basic_attack_hit emit 基线已就绪后，按上节顺序执行 compatibility migration → triggers → reserved seed → execute seed → 显式 publish。
+
+建议发布版本：`lol-generic-execute-v1-20260713`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；向 `item_6676` mount `provider_item_6676_collector_execute`，含单 `basic_attack_hit` + `source_owner` ALL listener、单 sequence、单 `operation/execute_threshold`（`20162`）对手目标 step，`execute_effect_details.threshold=0.05`。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericExecuteThresholdSeedSqlTest test
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**

@@ -154,6 +154,27 @@ class CombatDataAdminControllerMockMvcTest {
     }
 
     @Test
+    void putExecuteEffectDetailReturnsWriteObjectAndLogs() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("stepId", "s-exec");
+        response.put("threshold", 0.05);
+        response.put("currentRevision", 11);
+        when(effectService.putExecuteEffectDetail(eq("lol"), eq("s-exec"), any())).thenReturn(response);
+
+        mockMvc.perform(
+                put("/api/admin/games/lol/combat-data/execute-effect-details/s-exec")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"threshold\":0.05}")
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.stepId").value("s-exec"))
+            .andExpect(jsonPath("$.threshold").value(0.05))
+            .andExpect(jsonPath("$.currentRevision").value(11));
+
+        verify(adminEditLogHelper).log(any(), any(), any(), eq(200));
+    }
+
+    @Test
     void deleteAndBatchRoutesAreAbsent() throws Exception {
         mockMvc.perform(delete("/api/admin/games/lol/combat-data/entities/e1"))
             .andExpect(result -> {

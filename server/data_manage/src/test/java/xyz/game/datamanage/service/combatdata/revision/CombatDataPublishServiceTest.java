@@ -54,6 +54,7 @@ import xyz.game.datamanage.mapper.combatdata.CombatEntityProviderMountsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityResourceStageValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityResourceValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEventEffectDetailsMapper;
+import xyz.game.datamanage.mapper.combatdata.CombatExecuteEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatGameEntitiesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatGameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatHealEffectDetailsMapper;
@@ -128,6 +129,7 @@ class CombatDataPublishServiceTest {
     @Mock private CombatAbilityControlEffectDetailsMapper combatAbilityControlEffectDetailsMapper;
     @Mock private CombatStateEffectDetailsMapper combatStateEffectDetailsMapper;
     @Mock private CombatRepeatEffectDetailsMapper combatRepeatEffectDetailsMapper;
+    @Mock private CombatExecuteEffectDetailsMapper combatExecuteEffectDetailsMapper;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private CombatDataPublishService service;
@@ -178,7 +180,8 @@ class CombatDataPublishServiceTest {
             combatEventEffectDetailsMapper,
             combatAbilityControlEffectDetailsMapper,
             combatStateEffectDetailsMapper,
-            combatRepeatEffectDetailsMapper
+            combatRepeatEffectDetailsMapper,
+            combatExecuteEffectDetailsMapper
         );
     }
 
@@ -233,7 +236,8 @@ class CombatDataPublishServiceTest {
             combatEventEffectDetailsMapper,
             combatAbilityControlEffectDetailsMapper,
             combatStateEffectDetailsMapper,
-            combatRepeatEffectDetailsMapper
+            combatRepeatEffectDetailsMapper,
+            combatExecuteEffectDetailsMapper
         );
 
         order.verify(revisionService).lockState(GAME_ID);
@@ -276,6 +280,8 @@ class CombatDataPublishServiceTest {
             .copyChangedToLog(GAME_ID, VERSION_ID, PREVIOUS_REVISION, PUBLISH_REVISION);
         verify(combatRepeatEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, PREVIOUS_REVISION, PUBLISH_REVISION);
+        verify(combatExecuteEffectDetailsMapper)
+            .copyChangedToLog(GAME_ID, VERSION_ID, PREVIOUS_REVISION, PUBLISH_REVISION);
         verify(gameVersionsMapper).createVersion(eq(GAME_ID), eq("14.2"), isNull(), eq(PUBLISH_REVISION));
     }
 
@@ -301,6 +307,8 @@ class CombatDataPublishServiceTest {
         verify(combatStateEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, PUBLISH_REVISION, PUBLISH_REVISION);
         verify(combatRepeatEffectDetailsMapper)
+            .copyChangedToLog(GAME_ID, VERSION_ID, PUBLISH_REVISION, PUBLISH_REVISION);
+        verify(combatExecuteEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, PUBLISH_REVISION, PUBLISH_REVISION);
         assertEquals(PUBLISH_REVISION, response.get("changeRevision").asLong());
         // SQL: change_revision > previous AND <= publish is empty when equal → no business log rows.
@@ -497,6 +505,8 @@ class CombatDataPublishServiceTest {
         order.verify(combatStateEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatRepeatEffectDetailsMapper)
+            .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
+        order.verify(combatExecuteEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
     }
 }
