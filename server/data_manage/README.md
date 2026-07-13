@@ -291,6 +291,27 @@ cd server/data_manage
 mvn -Dtest=LolGenericLichBaneSpellbladeSeedSqlTest test
 ```
 
+### LoL generic Essence Reaver Spellblade seed（夺萃之镰 item_3508）
+
+在 reserved types、Batch-C `item_3508`（静态 `ad=50` / `crit_chance=0.25`）、以及 basic_attack_hit emit 基线已就绪后，按顺序执行（不依赖 `hero_vayne` / tumble / `ability/basic_attack` / `lol_generic_spellblade_seed.sql`）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20205`/`20211`/`20212`/`20220`/`20190`/`20250` 等）
+2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3508` 尚未写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
+4. `db/game_manage/seeds/lol_generic_essence_reaver_spellblade_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-essence-reaver-spellblade-v1-20260713`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验 `item_3508` 及其静态 `ad=50` / `crit_chance=0.25` 与 `ad`·`crit_chance` attribute_definitions；幂等投影所需 reserved → `types`；向 `item_3508` mount `provider_item_3508_essence_reaver_spellblade`，只监听已存在的 `ability_started` / `basic_attack_hit` / `source_owner` 事件；含 `spellblade_ready`（10s）/ `spellblade_icd`（1.5s）、ability_started 武装 listener（`mul(eq(ready,0), eq(icd,0))` 数值门控，仅武装 ready，**不**在武装时开 ICD）、basic_attack_hit 触发 listener（`1.25 * event.entry_source.attr.ad.base + 50 * event.entry_source.attr.crit_chance.resolved` 物理，`copyable_on_hit=false`，顺序：damage → arm icd → consume ready，ICD 以强化攻击消耗时开始）。不实现 mana restore。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。数值注释引用 `damage_wasm_dev` 下 `current-items.normalized.json` item 3508，无运行时外部依赖。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericEssenceReaverSpellbladeSeedSqlTest test
+```
+
 ### LoL generic Energized seed（疾射火炮 item_3094）
 
 在 reserved types、Batch-C `item_3094`，以及 basic_attack_hit emit 基线（`lol_adc_item_on_hit_passives_seed.sql` 或等价）已就绪后，按顺序执行：
