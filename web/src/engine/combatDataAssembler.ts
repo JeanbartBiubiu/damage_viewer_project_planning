@@ -1492,13 +1492,12 @@ function projectProviderStateField(
     valueType: abiToken(
       requireTypeKey(indexes.types, field.valueTypeId, `state ${field.stateKey}`)
     ),
-    defaultValue: 0
+    defaultValue: 0,
+    // TinyGo structured state requires explicit durationMs; 0 = untimed (API omits NULL).
+    durationMs: field.durationMs ?? 0
   };
   if (field.maxValue !== undefined) {
     entry.maxValue = field.maxValue;
-  }
-  if (field.durationMs !== undefined) {
-    entry.durationMs = field.durationMs;
   }
   if (field.refreshPolicyTypeId !== undefined) {
     entry.refreshPolicy = projectProviderStateRefreshPolicy(
