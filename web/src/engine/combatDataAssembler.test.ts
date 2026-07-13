@@ -3476,4 +3476,234 @@ describe('combatDataAssembler', () => {
       expect(gainOp).not.toHaveProperty('condition');
     });
   });
+
+  describe('item_3032 Yun Tal Wildarrows Practice Makes Lethal data contract', () => {
+    const YUN = {
+      itemId: 'item_3032',
+      providerId: 'provider_item_3032_yun_tal_practice_makes_lethal',
+      itemTag: { typeId: 62002, typeKey: 'tag/adc_completed_item' },
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' }
+    } as const;
+
+    const STACK_ADD_EXPR = { op: 'const', value: 1 };
+    const CRIT_CHANCE_EXPR = {
+      op: 'min',
+      args: [
+        { op: 'const', value: 0.25 },
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 0.004 },
+            { op: 'read', path: 'provider.state.practice_crit_stacks' }
+          ]
+        }
+      ]
+    };
+
+    function withYunTalPracticeMakesLethal(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [YUN.itemTag, YUN.valueTypeNumber, YUN.stateScopeProvider];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        typeRelations: [
+          ...base.typeRelations,
+          {
+            ...META,
+            typeId: YUN.itemTag.typeId,
+            targetCategory: 'entity',
+            targetId: YUN.itemId
+          }
+        ],
+        entities: [
+          ...base.entities,
+          { ...META, entityId: YUN.itemId, displayName: 'Yun Tal Wildarrows' }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: YUN.itemId, providerId: YUN.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: YUN.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '熟能生巧'
+          }
+        ],
+        providerStateFields: [
+          {
+            ...META,
+            providerId: YUN.providerId,
+            stateKey: 'practice_crit_stacks',
+            valueTypeId: YUN.valueTypeNumber.typeId,
+            maxValue: 63
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: YUN.providerId,
+            formulaKey: 'practice_crit_stacks_add',
+            expression: STACK_ADD_EXPR
+          },
+          {
+            ...META,
+            providerId: YUN.providerId,
+            formulaKey: 'practice_crit_chance',
+            expression: CRIT_CHANCE_EXPR
+          }
+        ],
+        providerModifiers: [
+          {
+            ...META,
+            providerId: YUN.providerId,
+            modifierId: 'modifier_item_3032_yun_tal_practice_makes_lethal_crit_chance',
+            modifierKey: 'practice_crit_chance',
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            targetAttrKey: 'crit_chance',
+            priority: 0,
+            valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+            valueFormulaKey: 'practice_crit_chance'
+          }
+        ],
+        providerListeners: [
+          {
+            ...META,
+            providerId: YUN.providerId,
+            listenerId: 'listener_item_3032_yun_tal_practice_makes_lethal',
+            listenerKey: 'practice_makes_lethal_on_basic_attack_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: 'listener_item_3032_yun_tal_practice_makes_lethal',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventBasicAttackHit.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3032_yun_tal_practice_makes_lethal',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: 'sequence_item_3032_yun_tal_practice_makes_lethal',
+            providerId: YUN.providerId,
+            sequenceKey: 'practice_makes_lethal_stack'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: 'step_item_3032_yun_tal_practice_makes_lethal_stack_add',
+            sequenceId: 'sequence_item_3032_yun_tal_practice_makes_lethal',
+            stepOrder: 0,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            stateDetail: {
+              stateScopeTypeId: YUN.stateScopeProvider.typeId,
+              stateKey: 'practice_crit_stacks',
+              amountFormulaKey: 'practice_crit_stacks_add',
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+            }
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: 'listener_item_3032_yun_tal_practice_makes_lethal',
+            sequenceId: 'sequence_item_3032_yun_tal_practice_makes_lethal'
+          }
+        ]
+      });
+    }
+
+    it('projects namespaced Practice Makes Lethal compile contract on source equipment only', () => {
+      const graph = withYunTalPracticeMakesLethal(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: [YUN.itemId]
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${YUN.providerId}`;
+      const targetKey = `target::${YUN.providerId}`;
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toContain(sourceKey);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toContain(
+        `passive:${YUN.providerId}`
+      );
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${YUN.providerId}`)
+      ).toBe(false);
+
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(sourceProvider).toBeDefined();
+      expect(sourceProvider.initialStateSchema).toEqual({
+        practice_crit_stacks: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 63,
+          durationMs: 0
+        }
+      });
+      expect(sourceProvider.initialStateSchema!.practice_crit_stacks).not.toHaveProperty(
+        'refreshPolicy'
+      );
+
+      expect(sourceProvider.modifiers).toEqual([
+        {
+          modifierKey: 'practice_crit_chance',
+          kind: 'attribute',
+          target: 'source.attr.crit_chance',
+          priority: 0,
+          valuePolicy: 'add',
+          value: { op: 'ref', ref: 'source::practice_crit_chance' }
+        }
+      ]);
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::practice_crit_stacks_add']).toEqual(STACK_ADD_EXPR);
+      expect(formulaByKey['source::practice_crit_chance']).toEqual(CRIT_CHANCE_EXPR);
+
+      expect(sourceProvider.listeners).toHaveLength(1);
+      const hitListener = sourceProvider.listeners!.find(
+        (l) => l.listenerKey === 'practice_makes_lethal_on_basic_attack_hit'
+      )!;
+      expect(hitListener.eventMatcher).toEqual({
+        all: ['event/basic_attack_hit', 'event/source_owner']
+      });
+      expect(hitListener.maxTriggersPerEvent).toBe(1);
+      expect(hitListener.operations).toEqual([
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::practice_crit_stacks_add' },
+          valuePolicy: 'add',
+          ref: 'practice_crit_stacks',
+          types: ['state_scope/provider']
+        }
+      ]);
+    });
+  });
 });
