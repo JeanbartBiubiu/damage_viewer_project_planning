@@ -1,7 +1,7 @@
 TASK_KEY: wasm-generic-spellblade
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
-STATUS: active
+STATUS: done
 EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-07-13
 
@@ -343,7 +343,9 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 6. live version 码冲突或 revision 与预期严重偏离且无法用幂等/material-change 解释。
 7. Phantom 与 Spellblade 交互出现复制/消费，且无法在不改 Guinsoo 合同的前提下用 `copyable_on_hit=false` 修闭环。
 
-**完成定义（供后续验证记录，本文不标 done）：**
+**完成定义：**
+
+2026-07-13 完成；验证记录：[通用ABI-Spellblade机制验证记录-2026-07-13](../../测试记录/wasm/通用ABI-Spellblade机制验证记录-2026-07-13.md)；最终版本 `lol-generic-spellblade-v1-20260713` / revision14；commits Wasm`12a4111` Backend`6fa89d3` Web`6e82c4b`。
 
 - §10 矩阵全绿；
 - live 可读回与发布证据齐全；
