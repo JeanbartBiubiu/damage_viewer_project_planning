@@ -34,6 +34,7 @@ const SEED = {
   crit: 'db/game_manage/seeds/lol_generic_crit_modifier_seed.sql',
   yunTalPracticeMakesLethal: 'db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql',
   witsEndFray: 'db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql',
+  manamuneAwe: 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note) {
@@ -358,6 +359,24 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-wits-end-fray',
           SEED.witsEndFray,
           'Wits End Fray: source-owner ORIGINAL basic_attack_hit deals constant 45 bonus magic on-hit; copyable_on_hit=true; Guinsoo phantom/copied-on-hit replay may duplicate exactly once without recursion; lifesteal metadata not modeled',
+        ),
+      ],
+    },
+  ],
+  [
+    '3004|敬畏',
+    {
+      classification: 'migrated',
+      tags: ['source_only_dynamic_mana_max_ad_modifier'],
+      reason:
+        'item 3004 敬畏已由 wasm-generic-manamune-awe 批次闭环：source-only 动态 AD = 0.02 * source.attr.mana.max；mana.max 0/1000/2000 → +0/+20/+40；无 event/state。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-manamune-awe',
+          SEED.manamuneAwe,
+          'Manamune Awe: source-only passive dynamically adds AD as 0.02 * source.attr.mana.max; tests at max mana 0/1000/2000 yield +0/+20/+40; no event/state',
         ),
       ],
     },
