@@ -301,7 +301,8 @@ public class EffectCombatDataService {
                 support.requireText(d, "amountFormulaKey"),
                 support.requireInt(d, "damageTypeId"),
                 support.requireInt(d, "valuePolicyTypeId"),
-                Boolean.TRUE.equals(support.optionalBoolean(d, "copyableOnHit"))
+                Boolean.TRUE.equals(support.optionalBoolean(d, "copyableOnHit")),
+                Boolean.TRUE.equals(support.optionalBoolean(d, "critEligible"))
             );
             case DETAIL_HEAL -> healDetailsMapper.upsert(
                 gameId,

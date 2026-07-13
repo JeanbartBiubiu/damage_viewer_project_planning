@@ -101,7 +101,7 @@ class EffectCombatDataServiceTest {
     void putStepWritesCommonThenClearsOldDetailThenWritesNewDetailOnceRevision() {
         when(revisionService.nextRevision(GAME_ID)).thenReturn(11L);
         when(stepsMapper.findById(GAME_ID, STEP_ID)).thenReturn(stepRow());
-        when(damageDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(damageDetailRow(false));
+        when(damageDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(damageDetailRow(false, false));
 
         ObjectNode body = baseStepBody();
         ObjectNode damage = body.putObject(EffectCombatDataService.DETAIL_DAMAGE);
@@ -114,6 +114,7 @@ class EffectCombatDataServiceTest {
         assertEquals(11L, response.get("currentRevision").asLong());
         assertTrue(response.has(EffectCombatDataService.DETAIL_DAMAGE));
         assertFalse(response.get(EffectCombatDataService.DETAIL_DAMAGE).get("copyableOnHit").asBoolean());
+        assertFalse(response.get(EffectCombatDataService.DETAIL_DAMAGE).get("critEligible").asBoolean());
         verify(revisionService, times(1)).nextRevision(GAME_ID);
 
         InOrder order = inOrder(stepsMapper, damageDetailsMapper, healDetailsMapper, repeatDetailsMapper, executeDetailsMapper);
@@ -122,7 +123,8 @@ class EffectCombatDataServiceTest {
         verify(healDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
         verify(repeatDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
         verify(executeDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
-        order.verify(damageDetailsMapper).upsert(eq(GAME_ID), eq(11L), eq(STEP_ID), eq("amt"), eq(1), eq(2), eq(false));
+        order.verify(damageDetailsMapper).upsert(
+            eq(GAME_ID), eq(11L), eq(STEP_ID), eq("amt"), eq(1), eq(2), eq(false), eq(false));
         verify(healDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any());
         verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any());
         verify(executeDetailsMapper, never()).upsert(any(), anyLong(), any(), any());
@@ -132,7 +134,7 @@ class EffectCombatDataServiceTest {
     void putStepDamageDetailDefaultsCopyableOnHitFalseAndAcceptsTrue() {
         when(revisionService.nextRevision(GAME_ID)).thenReturn(12L);
         when(stepsMapper.findById(GAME_ID, STEP_ID)).thenReturn(stepRow());
-        when(damageDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(damageDetailRow(true));
+        when(damageDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(damageDetailRow(true, false));
 
         ObjectNode body = baseStepBody();
         ObjectNode damage = body.putObject(EffectCombatDataService.DETAIL_DAMAGE);
@@ -144,7 +146,30 @@ class EffectCombatDataServiceTest {
         ObjectNode response = service.putStep(GAME_ID, STEP_ID, body);
 
         assertTrue(response.get(EffectCombatDataService.DETAIL_DAMAGE).get("copyableOnHit").asBoolean());
-        verify(damageDetailsMapper).upsert(eq(GAME_ID), eq(12L), eq(STEP_ID), eq("amt"), eq(1), eq(2), eq(true));
+        assertFalse(response.get(EffectCombatDataService.DETAIL_DAMAGE).get("critEligible").asBoolean());
+        verify(damageDetailsMapper).upsert(
+            eq(GAME_ID), eq(12L), eq(STEP_ID), eq("amt"), eq(1), eq(2), eq(true), eq(false));
+    }
+
+    @Test
+    void putStepDamageDetailDefaultsCritEligibleFalseAndAcceptsTrue() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(12L);
+        when(stepsMapper.findById(GAME_ID, STEP_ID)).thenReturn(stepRow());
+        when(damageDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(damageDetailRow(false, true));
+
+        ObjectNode body = baseStepBody();
+        ObjectNode damage = body.putObject(EffectCombatDataService.DETAIL_DAMAGE);
+        damage.put("amountFormulaKey", "amt");
+        damage.put("damageTypeId", 1);
+        damage.put("valuePolicyTypeId", 2);
+        damage.put("critEligible", true);
+
+        ObjectNode response = service.putStep(GAME_ID, STEP_ID, body);
+
+        assertFalse(response.get(EffectCombatDataService.DETAIL_DAMAGE).get("copyableOnHit").asBoolean());
+        assertTrue(response.get(EffectCombatDataService.DETAIL_DAMAGE).get("critEligible").asBoolean());
+        verify(damageDetailsMapper).upsert(
+            eq(GAME_ID), eq(12L), eq(STEP_ID), eq("amt"), eq(1), eq(2), eq(false), eq(true));
     }
 
     @Test
@@ -177,7 +202,8 @@ class EffectCombatDataServiceTest {
             eq("stacks"),
             eq(new BigDecimal("3"))
         );
-        verify(damageDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(Boolean.class));
+        verify(damageDetailsMapper, never()).upsert(
+            any(), anyLong(), any(), any(), any(), any(), any(Boolean.class), any(Boolean.class));
     }
 
     @Test
@@ -204,7 +230,8 @@ class EffectCombatDataServiceTest {
             eq(STEP_ID),
             eq(new BigDecimal("0.05"))
         );
-        verify(damageDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(Boolean.class));
+        verify(damageDetailsMapper, never()).upsert(
+            any(), anyLong(), any(), any(), any(), any(), any(Boolean.class), any(Boolean.class));
         verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any());
     }
 
@@ -367,7 +394,7 @@ class EffectCombatDataServiceTest {
         return row;
     }
 
-    private static Map<String, Object> damageDetailRow(boolean copyableOnHit) {
+    private static Map<String, Object> damageDetailRow(boolean copyableOnHit, boolean critEligible) {
         Map<String, Object> row = new LinkedHashMap<>();
         row.put("gameId", GAME_ID);
         row.put("stepId", STEP_ID);
@@ -375,6 +402,7 @@ class EffectCombatDataServiceTest {
         row.put("damageTypeId", 1);
         row.put("valuePolicyTypeId", 2);
         row.put("copyableOnHit", copyableOnHit);
+        row.put("critEligible", critEligible);
         return row;
     }
 
