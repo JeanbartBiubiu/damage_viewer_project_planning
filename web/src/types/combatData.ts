@@ -258,7 +258,8 @@ export const EFFECT_STEP_DETAIL_KEYS = [
   'eventDetail',
   'abilityControlDetail',
   'stateDetail',
-  'repeatDetail'
+  'repeatDetail',
+  'executeDetail'
 ] as const;
 
 export type EffectStepDetailKey = (typeof EFFECT_STEP_DETAIL_KEYS)[number];
@@ -330,6 +331,15 @@ export type RepeatDetail = {
   threshold: number;
 };
 
+export type ExecuteDetail = {
+  threshold: number;
+};
+
+export type ExecuteEffectDetail = CombatDataRowMeta & {
+  stepId: string;
+  threshold: number;
+};
+
 export type EffectStepCommon = CombatDataRowMeta & {
   stepId: string;
   sequenceId: string;
@@ -351,7 +361,8 @@ export type EffectStep =
       abilityControlDetail: AbilityControlDetail;
     } & Partial<Record<Exclude<EffectStepDetailKey, 'abilityControlDetail'>, never>>)
   | (EffectStepCommon & { stateDetail: StateDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'stateDetail'>, never>>)
-  | (EffectStepCommon & { repeatDetail: RepeatDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'repeatDetail'>, never>>);
+  | (EffectStepCommon & { repeatDetail: RepeatDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'repeatDetail'>, never>>)
+  | (EffectStepCommon & { executeDetail: ExecuteDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'executeDetail'>, never>>);
 
 export type EffectStepPutBody = {
   sequenceId: string;
@@ -370,6 +381,7 @@ export type EffectStepPutBody = {
   | { abilityControlDetail: AbilityControlDetail }
   | { stateDetail: StateDetail }
   | { repeatDetail: RepeatDetail }
+  | { executeDetail: ExecuteDetail }
 );
 
 /** Admin PUT response = written row fields + top-level currentRevision. */
@@ -411,4 +423,5 @@ export type CombatDataGraph = {
   effectSteps: EffectStep[];
   abilityPhaseEffectSequences: AbilityPhaseEffectSequence[];
   listenerEffectSequences: ListenerEffectSequence[];
+  executeEffectDetails: ExecuteEffectDetail[];
 };
