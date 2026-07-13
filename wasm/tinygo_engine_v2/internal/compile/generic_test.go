@@ -483,6 +483,28 @@ func TestCompileGenericInitialStateSchemaStructuredSuccess(t *testing.T) {
 	}
 }
 
+func TestCompileGenericInitialStateSchemaUntimedCappedSuccess(t *testing.T) {
+	req := minimalValidCompileRequest()
+	req.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"charge": map[string]interface{}{
+			"defaultValue": float64(0),
+			"maxValue":     float64(100),
+			"durationMs":   float64(0),
+		},
+	}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	field := result.Session.Providers[0].StateFields["charge"]
+	if field.DefaultValue != 0 || field.MaxValue != 100 || !field.HasCap || field.DurationMs != 0 {
+		t.Fatalf("field=%+v", field)
+	}
+	if field.RefreshPolicy != "" {
+		t.Fatalf("refreshPolicy=%q want empty for untimed", field.RefreshPolicy)
+	}
+}
+
 func TestCompileGenericInitialStateSchemaCollectAllErrors(t *testing.T) {
 	req := minimalValidCompileRequest()
 	req.SharedProviders[0].InitialStateSchema = map[string]interface{}{
@@ -493,6 +515,11 @@ func TestCompileGenericInitialStateSchemaCollectAllErrors(t *testing.T) {
 			"refreshPolicy": model.ProviderStateRefreshOnWrite,
 		},
 		"bad_duration": map[string]interface{}{
+			"defaultValue": float64(0),
+			"maxValue":     float64(4),
+			"durationMs":   float64(-1),
+		},
+		"bad_duration0_refresh": map[string]interface{}{
 			"defaultValue":  float64(0),
 			"maxValue":      float64(4),
 			"durationMs":    float64(0),
@@ -509,22 +536,25 @@ func TestCompileGenericInitialStateSchemaCollectAllErrors(t *testing.T) {
 	if result.OK {
 		t.Fatal("expected compile failure")
 	}
-	if len(result.Result.Errors) < 3 {
-		t.Fatalf("expected collect-all >=3 errors, got %d: %+v", len(result.Result.Errors), result.Result.Errors)
+	if len(result.Result.Errors) < 4 {
+		t.Fatalf("expected collect-all >=4 errors, got %d: %+v", len(result.Result.Errors), result.Result.Errors)
 	}
-	var sawMax, sawDuration, sawPolicy bool
+	var sawMax, sawDuration, sawDuration0Refresh, sawPolicy bool
 	for _, err := range result.Result.Errors {
 		switch {
 		case err.Path != "" && containsPath(err.Path, "bad_max") && containsPath(err.Message, "maxValue"):
 			sawMax = true
-		case err.Path != "" && containsPath(err.Path, "bad_duration") && containsPath(err.Message, "durationMs"):
+		case err.Path != "" && containsPath(err.Path, "bad_duration") && !containsPath(err.Path, "bad_duration0_refresh") && containsPath(err.Message, "durationMs"):
 			sawDuration = true
+		case err.Path != "" && containsPath(err.Path, "bad_duration0_refresh") && containsPath(err.Message, "refresh_on_write"):
+			sawDuration0Refresh = true
 		case err.Path != "" && containsPath(err.Path, "bad_policy"):
 			sawPolicy = true
 		}
 	}
-	if !sawMax || !sawDuration || !sawPolicy {
-		t.Fatalf("missing expected errors max=%v duration=%v policy=%v errors=%+v", sawMax, sawDuration, sawPolicy, result.Result.Errors)
+	if !sawMax || !sawDuration || !sawDuration0Refresh || !sawPolicy {
+		t.Fatalf("missing expected errors max=%v duration=%v duration0_refresh=%v policy=%v errors=%+v",
+			sawMax, sawDuration, sawDuration0Refresh, sawPolicy, result.Result.Errors)
 	}
 }
 
