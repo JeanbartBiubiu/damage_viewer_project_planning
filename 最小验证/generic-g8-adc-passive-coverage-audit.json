@@ -4,7 +4,7 @@
     "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-13T17:09:20.273Z"
+    "generatedAt": "2026-07-13T17:27:03.693Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 17,
+      "migrated": 18,
       "partial": 4,
-      "blocked": 183,
+      "blocked": 182,
       "out_of_scope": 38
     },
     "classificationPercents": {
-      "migrated": 7.02,
+      "migrated": 7.44,
       "partial": 1.65,
-      "blocked": 75.62,
+      "blocked": 75.21,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
-      "all": 7.02,
-      "inScope": 8.33
+      "all": 7.44,
+      "inScope": 8.82
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 8.68,
-      "inScope": 10.29
+      "all": 9.09,
+      "inScope": 10.78
     },
     "inScopeCount": 204
   },
@@ -5305,13 +5305,22 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3091",
       "candidateKey": "item_passive|3091|item_passive|喧争",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "on_hit"
+        "on_hit",
+        "flat_magic_damage"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "coverageEvidence": [],
-      "remainingGap": "on-hit 伤害描述缺少可审计数值。"
+      "classificationReason": "item 3091 喧争已由 wasm-generic-wits-end-fray 批次闭环：source-owner ORIGINAL basic_attack_hit 造成恒定 45 额外魔法 on-hit；copyable_on_hit=true；Guinsoo phantom/copied-on-hit 回放可精确复制一次且不递归；不建模吸血元数据。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wits-end-fray",
+          "sourcePath": "db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Wits End Fray: source-owner ORIGINAL basic_attack_hit deals constant 45 bonus magic on-hit; copyable_on_hit=true; Guinsoo phantom/copied-on-hit replay may duplicate exactly once without recursion; lifesteal metadata not modeled"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
