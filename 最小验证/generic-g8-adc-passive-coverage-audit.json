@@ -4,7 +4,7 @@
     "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-13T15:27:06.742Z"
+    "generatedAt": "2026-07-13T16:16:25.709Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 14,
+      "migrated": 15,
       "partial": 3,
-      "blocked": 187,
+      "blocked": 186,
       "out_of_scope": 38
     },
     "classificationPercents": {
-      "migrated": 5.79,
+      "migrated": 6.2,
       "partial": 1.24,
-      "blocked": 77.27,
+      "blocked": 76.86,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
-      "all": 5.79,
-      "inScope": 6.86
+      "all": 6.2,
+      "inScope": 7.35
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 7.02,
-      "inScope": 8.33
+      "all": 7.44,
+      "inScope": 8.82
     },
     "inScopeCount": 204
   },
@@ -5954,13 +5954,21 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3508",
       "candidateKey": "item_passive|3508|item_passive|咒刃",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "spellblade_next_attack_state"
       ],
-      "classificationReason": "spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
-      "coverageEvidence": [],
-      "remainingGap": "缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。"
+      "classificationReason": "item 3508 夺萃之镰咒刃已由 wasm-generic-essence-reaver-spellblade 批次闭环（物理契约 1.25 * base AD + 50 * resolved crit chance；10s ready；命中开始 1.5s ICD）。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-essence-reaver-spellblade",
+          "sourcePath": "db/game_manage/seeds/lol_generic_essence_reaver_spellblade_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Essence Reaver Spellblade: 1.25 * base AD + 50 * resolved crit chance; 10s ready; hit-started 1.5s ICD"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",

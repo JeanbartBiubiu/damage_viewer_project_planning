@@ -25,6 +25,7 @@ const SEED = {
   guinsoo: 'db/game_manage/seeds/lol_guinsoo_hk_seed.sql',
   spellblade: 'db/game_manage/seeds/lol_generic_spellblade_seed.sql',
   lichBaneSpellblade: 'db/game_manage/seeds/lol_generic_lich_bane_spellblade_seed.sql',
+  essenceReaverSpellblade: 'db/game_manage/seeds/lol_generic_essence_reaver_spellblade_seed.sql',
   energized: 'db/game_manage/seeds/lol_generic_energized_seed.sql',
   execute: 'db/game_manage/seeds/lol_generic_execute_threshold_seed.sql',
   linked: 'db/game_manage/seeds/lol_generic_linked_effects_seed.sql',
@@ -228,6 +229,24 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-lich-bane-spellblade',
           SEED.lichBaneSpellblade,
           'Lich Bane Spellblade magic next-attack + ready AS percent_add',
+        ),
+      ],
+    },
+  ],
+  [
+    '3508|咒刃',
+    {
+      classification: 'migrated',
+      tags: ['spellblade_next_attack_state'],
+      reason:
+        'item 3508 夺萃之镰咒刃已由 wasm-generic-essence-reaver-spellblade 批次闭环（物理契约 1.25 * base AD + 50 * resolved crit chance；10s ready；命中开始 1.5s ICD）。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-essence-reaver-spellblade',
+          SEED.essenceReaverSpellblade,
+          'Essence Reaver Spellblade: 1.25 * base AD + 50 * resolved crit chance; 10s ready; hit-started 1.5s ICD',
         ),
       ],
     },
