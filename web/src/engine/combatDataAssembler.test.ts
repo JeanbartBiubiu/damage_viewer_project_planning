@@ -2227,4 +2227,499 @@ describe('combatDataAssembler', () => {
       expect(aaOpt?.types).toEqual(['ability/basic_attack']);
     });
   });
+
+  describe('item_3508 Essence Reaver Spellblade data contract', () => {
+    const ER = {
+      itemId: 'item_3508',
+      providerId: 'provider_item_3508_essence_reaver_spellblade',
+      itemTag: { typeId: 62002, typeKey: 'tag/adc_completed_item' },
+      abilityBasicAttack: { typeId: 62003, typeKey: 'ability/basic_attack' },
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      refreshDuration: { typeId: 20190, typeKey: 'refresh_policy/refresh_duration' },
+      valuePolicyOverride: { typeId: 20172, typeKey: 'value_policy/override' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' },
+      eventAbilityStarted: { typeId: 20205, typeKey: 'event/ability_started' }
+    } as const;
+
+    /** ready=0 ∧ icd=0 via numeric mul-of-eq gate (no and/or/not). */
+    const ARM_AVAILABLE_EXPR = {
+      op: 'mul',
+      args: [
+        {
+          op: 'eq',
+          args: [
+            { op: 'read', path: 'provider.state.spellblade_ready' },
+            { op: 'const', value: 0 }
+          ]
+        },
+        {
+          op: 'eq',
+          args: [
+            { op: 'read', path: 'provider.state.spellblade_icd' },
+            { op: 'const', value: 0 }
+          ]
+        }
+      ]
+    };
+
+    const PROC_DAMAGE_EXPR = {
+      op: 'add',
+      args: [
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 1.25 },
+            { op: 'read', path: 'event.entry_source.attr.ad.base' }
+          ]
+        },
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 50 },
+            { op: 'read', path: 'event.entry_source.attr.crit_chance.resolved' }
+          ]
+        }
+      ]
+    };
+
+    function collectFormulaOps(expr: unknown): string[] {
+      if (expr == null || typeof expr !== 'object') return [];
+      const node = expr as { op?: string; args?: unknown[]; path?: string };
+      const ops = typeof node.op === 'string' ? [node.op] : [];
+      if (Array.isArray(node.args)) {
+        for (const arg of node.args) ops.push(...collectFormulaOps(arg));
+      }
+      return ops;
+    }
+
+    function collectFormulaPaths(expr: unknown): string[] {
+      if (expr == null || typeof expr !== 'object') return [];
+      const node = expr as { op?: string; args?: unknown[]; path?: string };
+      const paths = typeof node.path === 'string' ? [node.path] : [];
+      if (Array.isArray(node.args)) {
+        for (const arg of node.args) paths.push(...collectFormulaPaths(arg));
+      }
+      return paths;
+    }
+
+    function withEssenceReaverSpellblade(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [
+        ER.itemTag,
+        ER.abilityBasicAttack,
+        ER.valueTypeNumber,
+        ER.refreshDuration,
+        ER.valuePolicyOverride,
+        ER.stateScopeProvider,
+        ER.eventAbilityStarted
+      ];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        typeRelations: [
+          ...base.typeRelations,
+          {
+            ...META,
+            typeId: ER.itemTag.typeId,
+            targetCategory: 'entity',
+            targetId: ER.itemId
+          },
+          {
+            ...META,
+            typeId: ER.abilityBasicAttack.typeId,
+            targetCategory: 'ability',
+            targetId: 'abil_aa_swing'
+          }
+        ],
+        entities: [
+          ...base.entities,
+          { ...META, entityId: ER.itemId, displayName: 'Essence Reaver' }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: ER.itemId, providerId: ER.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: ER.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '夺萃之镰 Spellblade'
+          }
+        ],
+        providerStateFields: [
+          {
+            ...META,
+            providerId: ER.providerId,
+            stateKey: 'spellblade_ready',
+            valueTypeId: ER.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs: 10000,
+            refreshPolicyTypeId: ER.refreshDuration.typeId
+          },
+          {
+            ...META,
+            providerId: ER.providerId,
+            stateKey: 'spellblade_icd',
+            valueTypeId: ER.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs: 1500,
+            refreshPolicyTypeId: ER.refreshDuration.typeId
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: ER.providerId,
+            formulaKey: 'spellblade_arm_available',
+            expression: ARM_AVAILABLE_EXPR
+          },
+          {
+            ...META,
+            providerId: ER.providerId,
+            formulaKey: 'spellblade_ready_arm',
+            expression: { op: 'const', value: 1 }
+          },
+          {
+            ...META,
+            providerId: ER.providerId,
+            formulaKey: 'spellblade_icd_arm',
+            expression: { op: 'const', value: 1 }
+          },
+          {
+            ...META,
+            providerId: ER.providerId,
+            formulaKey: 'spellblade_ready_armed',
+            expression: {
+              op: 'gte',
+              args: [
+                { op: 'read', path: 'provider.state.spellblade_ready' },
+                { op: 'const', value: 1 }
+              ]
+            }
+          },
+          {
+            ...META,
+            providerId: ER.providerId,
+            formulaKey: 'spellblade_proc_damage',
+            expression: PROC_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: ER.providerId,
+            formulaKey: 'spellblade_ready_consume',
+            expression: { op: 'const', value: 0 }
+          }
+        ],
+        providerModifiers: [],
+        providerListeners: [
+          {
+            ...META,
+            providerId: ER.providerId,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_ability_started',
+            listenerKey: 'spellblade_on_ability_started',
+            eventTypeId: ER.eventAbilityStarted.typeId,
+            maxTriggersPerEvent: 1
+          },
+          {
+            ...META,
+            providerId: ER.providerId,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_basic_attack_hit',
+            listenerKey: 'spellblade_on_basic_attack_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_ability_started',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: ER.eventAbilityStarted.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_ability_started',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventBasicAttackHit.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_arm',
+            providerId: ER.providerId,
+            sequenceKey: 'spellblade_arm'
+          },
+          {
+            ...META,
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_proc',
+            providerId: ER.providerId,
+            sequenceKey: 'spellblade_proc'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: 'step_item_3508_essence_reaver_spellblade_ready_arm',
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_arm',
+            stepOrder: 0,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'spellblade_arm_available',
+            stateDetail: {
+              stateScopeTypeId: ER.stateScopeProvider.typeId,
+              stateKey: 'spellblade_ready',
+              amountFormulaKey: 'spellblade_ready_arm',
+              valuePolicyTypeId: ER.valuePolicyOverride.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3508_essence_reaver_spellblade_damage',
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_proc',
+            stepOrder: 0,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            conditionFormulaKey: 'spellblade_ready_armed',
+            damageDetail: {
+              amountFormulaKey: 'spellblade_proc_damage',
+              damageTypeId: TYPE.damagePhysical.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+              copyableOnHit: false
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3508_essence_reaver_spellblade_icd_arm',
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_proc',
+            stepOrder: 1,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'spellblade_ready_armed',
+            stateDetail: {
+              stateScopeTypeId: ER.stateScopeProvider.typeId,
+              stateKey: 'spellblade_icd',
+              amountFormulaKey: 'spellblade_icd_arm',
+              valuePolicyTypeId: ER.valuePolicyOverride.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: 'step_item_3508_essence_reaver_spellblade_ready_consume',
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_proc',
+            stepOrder: 2,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'spellblade_ready_armed',
+            stateDetail: {
+              stateScopeTypeId: ER.stateScopeProvider.typeId,
+              stateKey: 'spellblade_ready',
+              amountFormulaKey: 'spellblade_ready_consume',
+              valuePolicyTypeId: ER.valuePolicyOverride.typeId
+            }
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_ability_started',
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_arm'
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3508_essence_reaver_spellblade_basic_attack_hit',
+            sequenceId: 'sequence_item_3508_essence_reaver_spellblade_proc'
+          }
+        ],
+        abilities: [
+          ...base.abilities,
+          {
+            ...META,
+            abilityId: 'abil_aa_swing',
+            providerId: 'prov_q',
+            abilityKey: 'aa_swing',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: 'AA Swing'
+          }
+        ]
+      });
+    }
+
+    it('projects namespaced Essence Reaver Spellblade compile contract on source equipment only', () => {
+      const graph = withEssenceReaverSpellblade(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: [ER.itemId]
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${ER.providerId}`;
+      const targetKey = `target::${ER.providerId}`;
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toContain(sourceKey);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toContain(
+        `passive:${ER.providerId}`
+      );
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${ER.providerId}`)
+      ).toBe(false);
+
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(sourceProvider).toBeDefined();
+      expect(sourceProvider.initialStateSchema).toEqual({
+        spellblade_ready: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 10000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        spellblade_icd: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 1500,
+          refreshPolicy: 'refresh_on_write'
+        }
+      });
+
+      // No attack-speed modifier; mana restore is out of single-attacker DPS scope.
+      expect(sourceProvider.modifiers ?? []).toEqual([]);
+      expect(
+        (sourceProvider.modifiers ?? []).some(
+          (m) => m.target === 'source.attr.attack_speed' || m.modifierKey === 'spellblade_attack_speed'
+        )
+      ).toBe(false);
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::spellblade_arm_available']).toEqual(ARM_AVAILABLE_EXPR);
+      expect(formulaByKey['source::spellblade_proc_damage']).toEqual(PROC_DAMAGE_EXPR);
+      expect(formulaByKey['source::spellblade_ready_arm']).toEqual({ op: 'const', value: 1 });
+      expect(formulaByKey['source::spellblade_icd_arm']).toEqual({ op: 'const', value: 1 });
+      expect(formulaByKey['source::spellblade_ready_consume']).toEqual({ op: 'const', value: 0 });
+      expect(formulaByKey['source::spellblade_ready_armed']).toEqual({
+        op: 'gte',
+        args: [
+          { op: 'read', path: 'provider.state.spellblade_ready' },
+          { op: 'const', value: 1 }
+        ]
+      });
+      expect(formulaByKey).not.toHaveProperty('source::spellblade_attack_speed');
+
+      const erFormulaEntries = compile.formulas!.filter((f) =>
+        f.key.startsWith('source::spellblade_')
+      );
+      for (const formula of erFormulaEntries) {
+        const ops = collectFormulaOps(formula.expression);
+        expect(ops).not.toContain('and');
+        expect(ops).not.toContain('or');
+        expect(ops).not.toContain('not');
+        const paths = collectFormulaPaths(formula.expression);
+        expect(paths.some((p) => p.includes('mana'))).toBe(false);
+      }
+      const armGateOps = collectFormulaOps(ARM_AVAILABLE_EXPR);
+      expect(armGateOps.filter((op) => op === 'mul' || op === 'eq')).toEqual(['mul', 'eq', 'eq']);
+      expect(armGateOps).not.toContain('and');
+      expect(armGateOps).not.toContain('or');
+      expect(armGateOps).not.toContain('not');
+
+      expect(sourceProvider.listeners).toHaveLength(2);
+      const armListener = sourceProvider.listeners!.find(
+        (l) => l.listenerKey === 'spellblade_on_ability_started'
+      )!;
+      const procListener = sourceProvider.listeners!.find(
+        (l) => l.listenerKey === 'spellblade_on_basic_attack_hit'
+      )!;
+      expect(armListener.eventMatcher).toEqual({
+        all: ['event/ability_started', 'event/source_owner']
+      });
+      expect(armListener.maxTriggersPerEvent).toBe(1);
+      expect(procListener.eventMatcher).toEqual({
+        all: ['event/basic_attack_hit', 'event/source_owner']
+      });
+      expect(procListener.maxTriggersPerEvent).toBe(1);
+
+      // ability_started: arm ready only when both ready and icd are zero.
+      expect(armListener.operations).toEqual([
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::spellblade_ready_arm' },
+          valuePolicy: 'override',
+          ref: 'spellblade_ready',
+          types: ['state_scope/provider'],
+          condition: { op: 'ref', ref: 'source::spellblade_arm_available' }
+        }
+      ]);
+
+      // basic_attack_hit: damage → arm ICD → consume ready (ICD starts on empowered hit).
+      expect(procListener.operations).toHaveLength(3);
+      const [damageOp, icdArmOp, consumeOp] = procListener.operations!;
+      expect(damageOp).toEqual({
+        operation: 'damage',
+        target: 'opponent',
+        ref: 'step_item_3508_essence_reaver_spellblade_damage',
+        amount: { op: 'ref', ref: 'source::spellblade_proc_damage' },
+        damageType: 'damage/physical',
+        valuePolicy: 'add',
+        condition: { op: 'ref', ref: 'source::spellblade_ready_armed' }
+      });
+      expect(damageOp).not.toHaveProperty('copyableOnHit');
+      expect(damageOp.copyableOnHit).not.toBe(true);
+
+      expect(icdArmOp).toEqual({
+        operation: 'state_change',
+        target: 'self',
+        amount: { op: 'ref', ref: 'source::spellblade_icd_arm' },
+        valuePolicy: 'override',
+        ref: 'spellblade_icd',
+        types: ['state_scope/provider'],
+        condition: { op: 'ref', ref: 'source::spellblade_ready_armed' }
+      });
+
+      expect(consumeOp).toEqual({
+        operation: 'state_change',
+        target: 'self',
+        amount: { op: 'ref', ref: 'source::spellblade_ready_consume' },
+        valuePolicy: 'override',
+        ref: 'spellblade_ready',
+        types: ['state_scope/provider'],
+        condition: { op: 'ref', ref: 'source::spellblade_ready_armed' }
+      });
+
+      const allOps = [...(armListener.operations ?? []), ...(procListener.operations ?? [])];
+      expect(allOps.some((op) => JSON.stringify(op).toLowerCase().includes('mana'))).toBe(false);
+      expect(allOps.map((op) => op.operation)).not.toContain('resource_change');
+
+      const castOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'cast');
+      const aaOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'aa_swing');
+      expect(castOpt?.selectable).toBe(true);
+      expect(aaOpt?.types).toEqual(['ability/basic_attack']);
+    });
+  });
 });
