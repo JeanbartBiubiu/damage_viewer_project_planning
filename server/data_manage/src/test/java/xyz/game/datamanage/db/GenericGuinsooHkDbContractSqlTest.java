@@ -175,9 +175,9 @@ class GenericGuinsooHkDbContractSqlTest {
             assertTrue(detailsArray.contains("'" + detail + "'"), "detail trigger list missing " + detail);
         }
         assertEquals(
-            10,
+            11,
             countOccurrences(detailsArray, "_effect_details'"),
-            "exactly-one detail trigger list must cover ten families");
+            "exactly-one detail trigger list must cover eleven families");
     }
 
     @Test

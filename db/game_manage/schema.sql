@@ -1370,3 +1370,27 @@ CREATE TABLE public.repeat_effect_details_log (
         REFERENCES public.game_versions (game_id, version_id)
 
 ) PARTITION BY LIST (game_id);
+
+CREATE TABLE public.execute_effect_details (
+    game_id varchar(64) NOT NULL,
+    step_id varchar(256) NOT NULL,
+    threshold numeric NOT NULL CHECK (threshold > 0 AND threshold <= 1),
+    change_revision bigint NOT NULL CHECK (change_revision > 0),
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_execute_effect_details PRIMARY KEY (game_id, step_id),
+    CONSTRAINT fk_execute_effect_details_step FOREIGN KEY (game_id, step_id)
+        REFERENCES public.effect_steps (game_id, step_id)
+
+) PARTITION BY LIST (game_id);
+
+CREATE TABLE public.execute_effect_details_log (
+    game_id varchar(64) NOT NULL,
+    version_id bigint NOT NULL,
+    change_revision bigint NOT NULL,
+    step_id varchar(256) NOT NULL,
+    threshold numeric NOT NULL CHECK (threshold > 0 AND threshold <= 1),
+    CONSTRAINT pk_execute_effect_details_log PRIMARY KEY (game_id, step_id, version_id),
+    CONSTRAINT fk_execute_effect_details_log_version FOREIGN KEY (game_id, version_id)
+        REFERENCES public.game_versions (game_id, version_id)
+
+) PARTITION BY LIST (game_id);

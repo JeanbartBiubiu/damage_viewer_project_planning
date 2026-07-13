@@ -92,6 +92,23 @@ class CombatDataPublicControllerMockMvcTest {
     }
 
     @Test
+    void listExecuteEffectDetailsPassesStepFilter() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("gameId", "lol");
+        response.put("currentRevision", 3);
+        response.putArray("data")
+            .addObject()
+            .put("stepId", "s-exec")
+            .put("threshold", 0.05);
+        when(effectService.listExecuteEffectDetails(eq("lol"), eq("s-exec"))).thenReturn(response);
+
+        mockMvc.perform(get("/api/games/lol/combat-data/execute-effect-details").param("stepId", "s-exec"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data[0].stepId").value("s-exec"))
+            .andExpect(jsonPath("$.data[0].threshold").value(0.05));
+    }
+
+    @Test
     void listProviderStateFieldsKeepsExistingRoute() throws Exception {
         ObjectNode response = JsonNodeFactory.instance.objectNode();
         response.put("gameId", "lol");
