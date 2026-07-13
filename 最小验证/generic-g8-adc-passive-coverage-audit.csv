@@ -166,7 +166,7 @@ hero_skill|hero_zeri|E|灿丽花火,hero_skill,hero_zeri,祖安花火,E,灿丽�
 hero_skill|hero_zeri|R|超限爆闪,hero_skill,hero_zeri,祖安花火,R,超限爆闪,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 item_passive|2501|item_passive|专横,item_passive,2501,霸王血铠,item_passive,专横,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 item_passive|2501|item_passive|报复,item_passive,2501,霸王血铠,item_passive,报复,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-item_passive|2510|item_passive|咒刃,item_passive,2510,黄昏与黎明,item_passive,咒刃,needs_runtime_extension,blocked,spellblade_next_attack_state,,,,缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。
+item_passive|2510|item_passive|咒刃,item_passive,2510,黄昏与黎明,item_passive,咒刃,needs_runtime_extension,partial,spellblade_next_attack_state,wasm-generic-dusk-and-dawn-spellblade,db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql,backend,缺治疗公式 0.10 AP + 0.03 bonus HP；缺 0.2s 延迟的第二次 on-hit 应用（需 generalized delayed-repeat 语义）。
 item_passive|2512|item_passive|守夜,item_passive,2512,猎魔人弩箭,item_passive,守夜,out_of_scope_for_single_target_dps,out_of_scope,cooldown_or_haste_without_rotation,,,,
 item_passive|2512|item_passive|开战弹幕,item_passive,2512,猎魔人弩箭,item_passive,开战弹幕,needs_runtime_extension,blocked,seeded_random_crit_sequence,,,,缺 seeded/random/on-crit 序列 runtime 与精确 seed；不得用 expected-crit 冒充完成。
 item_passive|2517|item_passive|饥馑,item_passive,2517,无穷饥渴,item_passive,饥馑,out_of_scope_for_single_target_dps,out_of_scope,cooldown_or_haste_without_rotation,,,,
