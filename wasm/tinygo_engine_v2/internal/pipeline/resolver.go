@@ -75,20 +75,13 @@ func ResolveCommand(cmd command.Command, view CombatantView, nowMs int64) (comma
 
 // ResolveExecuteThreshold 将 live target HP 置 0；不折算 shield、不产生 damage。
 // live HP <= 0 时跳过（Applied=false），shield 保持不变。
-// 置零时同步清掉 Base/Resolved，避免后续 attribute refresh 用 Base 把 Resolved「复活」后
-// 被 ReadHP 误读为存活，导致 stopOnTargetDeath=false 时重复 execute。
+// 只改 Current（经 SetHP）；ReadHP 读 hp.current，Base/Resolved 可保留给属性 refresh。
 func ResolveExecuteThreshold(cmd command.Command, view CombatantView) (ExecuteOutcome, CombatantView) {
 	before := attribute.ReadHP(view.Attributes)
 	if before <= 0 || math.IsNaN(before) || math.IsInf(before, 0) {
 		return ExecuteOutcome{HPBefore: before, Applied: false}, view
 	}
 	view.Attributes = attribute.SetHP(view.Attributes, 0)
-	if slot, ok := view.Attributes["hp"]; ok {
-		slot.Current = 0
-		slot.Resolved = 0
-		slot.Base = 0
-		view.Attributes["hp"] = slot
-	}
 	return ExecuteOutcome{
 		HPBefore:       before,
 		Killed:         true,
