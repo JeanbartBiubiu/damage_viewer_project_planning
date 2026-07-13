@@ -86,6 +86,11 @@ type executionFrame struct {
 
 	// copyableCollector：单次 emitted event / dispatchListeners 局部上下文；禁止挂到 genericRunState。
 	copyableCollector *eventCopyableCollector
+
+	// linkedPhysical*：chainDepth==0 顶层 frame 内合格 physical damage 聚合（供自动 event/damage_dealt）。
+	linkedPhysicalRaw       float64
+	linkedPhysicalMitigated float64
+	linkedPhysicalOpRefs    []string
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算）。
@@ -843,7 +848,25 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef st
 		operationRef:    operationRef,
 		phantom:         false,
 	})
+	f.recordLinkedPhysicalDamage(cmd, result, operationRef)
 	return nil
+}
+
+// recordLinkedPhysicalDamage 仅记录顶层真实 physical damage（result.Amount>0）供自动 damage_dealt 合成。
+// 不重算伤害；phantom / listener child（chainDepth>0）不记录。
+func (f *executionFrame) recordLinkedPhysicalDamage(cmd command.Command, result command.Result, operationRef string) {
+	if f.chainDepth != 0 {
+		return
+	}
+	if cmd.DamageType != damageTypePhysical {
+		return
+	}
+	if result.Amount <= 0 {
+		return
+	}
+	f.linkedPhysicalRaw += cmd.Amount
+	f.linkedPhysicalMitigated += result.Amount
+	f.linkedPhysicalOpRefs = append(f.linkedPhysicalOpRefs, operationRef)
 }
 
 func (f *executionFrame) applyDamageResult(cmd command.Command, result command.Result, sc *stagedCombatant) {
@@ -1157,6 +1180,8 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	if frame.fatal {
 		return frame.fatalErr
 	}
+	// 自动 damage_dealt：commit 后、pending/listener dispatch 前追加到 pendingEvents 尾部。
+	frame.maybeQueueDamageDealtEvent(ability)
 	if err := frame.dispatchPendingEvents(); err != nil {
 		return err
 	}
@@ -1189,12 +1214,87 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 }
 
 const (
-	abilityTypeBasicAttack     = "ability/basic_attack"
-	eventTypeAbilityStarted    = "event/ability_started"
-	eventTypeBasicAttackHit    = "event/basic_attack_hit"
-	executeThresholdTypeRatio  = "current_hp_ratio"
-	executeThresholdComparison = "strict_below"
+	abilityTypeBasicAttack          = "ability/basic_attack"
+	eventTypeAbilityStarted         = "event/ability_started"
+	eventTypeBasicAttackHit         = "event/basic_attack_hit"
+	eventTypeDamageDealt            = "event/damage_dealt"
+	eventTypeDamageDealtPhysical    = "event/damage_dealt/physical"
+	eventTypeDamageDealtBasicAttack = "event/damage_dealt/basic_attack"
+	damageTypePhysical              = "damage/physical"
+	executeThresholdTypeRatio       = "current_hp_ratio"
+	executeThresholdComparison      = "strict_below"
 )
+
+// maybeQueueDamageDealtEvent 在顶层真实 physical 普攻伤害 commit 后合成 event/damage_dealt（追加 pending 尾部）。
+// 条件：chainDepth==0；ability TypeSet 经 catalog Lookup 含 ability/basic_attack；本 frame 至少一次
+// damage/physical 经 pipeline 后 result.Amount>0。catalog 缺任一合成所需 type 时 fail closed（不 emit、不 fatal）。
+// phantom replay 与 listener child（chainDepth>0）不走此路径；同一 frame 多个合格 physical op 只合成一次。
+func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.CompiledAbility) {
+	if f.chainDepth != 0 {
+		return
+	}
+	if f.linkedPhysicalMitigated <= 0 {
+		return
+	}
+	required := []string{
+		abilityTypeBasicAttack,
+		damageTypePhysical,
+		eventTypeDamageDealt,
+		eventTypeDamageDealtPhysical,
+		eventTypeDamageDealtBasicAttack,
+	}
+	for _, key := range required {
+		if _, ok := f.run.compiled.Types.Registry.Lookup(key); !ok {
+			return
+		}
+	}
+	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
+	if !ok || !ability.TypeSet.Contains(basicAttackID) {
+		return
+	}
+
+	data := map[string]interface{}{
+		"source":          f.sourceKey,
+		"target":          f.targetKey,
+		"eventType":       eventTypeDamageDealt,
+		"damageType":      damageTypePhysical,
+		"abilityRef":      f.abilityRef,
+		"rawAmount":       f.linkedPhysicalRaw,
+		"mitigatedAmount": f.linkedPhysicalMitigated,
+		"phantom":         false,
+	}
+	switch len(f.linkedPhysicalOpRefs) {
+	case 0:
+		// unreachable when mitigated>0, but keep provenance deterministic
+	case 1:
+		if f.linkedPhysicalOpRefs[0] != "" {
+			data["operationRef"] = f.linkedPhysicalOpRefs[0]
+		}
+	default:
+		refs := make([]string, len(f.linkedPhysicalOpRefs))
+		copy(refs, f.linkedPhysicalOpRefs)
+		data["operationRefs"] = refs
+	}
+
+	f.run.recordEvidence(model.EvidenceItem{
+		TimeMs: f.run.nowMs,
+		Kind:   model.EvidenceKindEmittedEvent,
+		Ref:    eventTypeDamageDealt,
+		Data:   data,
+	})
+	f.pendingEvents = append(f.pendingEvents, emittedEvent{
+		eventType: eventTypeDamageDealt,
+		ref:       eventTypeDamageDealt,
+		sourceKey: f.sourceKey,
+		targetKey: f.targetKey,
+		types: []string{
+			eventTypeDamageDealt,
+			eventTypeDamageDealtPhysical,
+			eventTypeDamageDealtBasicAttack,
+		},
+		snapshot: f.captureEmitSnapshot(eventTypeDamageDealt, f.sourceKey, f.targetKey),
+	})
+}
 
 // maybeDispatchAbilityStartedEvent 在顶层成功 cast 后自动合成 event/ability_started（reserved 20205）。
 // 条件：chainDepth==0，且 ability TypeSet 不含 ability/basic_attack（经 type catalog Lookup，禁止 abilityKey 启发式）。
