@@ -33,6 +33,7 @@ const SEED = {
   linked: 'db/game_manage/seeds/lol_generic_linked_effects_seed.sql',
   crit: 'db/game_manage/seeds/lol_generic_crit_modifier_seed.sql',
   yunTalPracticeMakesLethal: 'db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql',
+  witsEndFray: 'db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note) {
@@ -339,6 +340,24 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-yun-tal-practice-makes-lethal',
           SEED.yunTalPracticeMakesLethal,
           'Yun Tal 熟能生巧: every source-owner ORIGINAL basic_attack_hit permanently +1 practice_crit_stacks (max 63); crit chance dynamic min(0.25, 0.004 * state); only phantom/copied-on-hit replay(s) do not add stacks',
+        ),
+      ],
+    },
+  ],
+  [
+    '3091|喧争',
+    {
+      classification: 'migrated',
+      tags: ['on_hit', 'flat_magic_damage'],
+      reason:
+        'item 3091 喧争已由 wasm-generic-wits-end-fray 批次闭环：source-owner ORIGINAL basic_attack_hit 造成恒定 45 额外魔法 on-hit；copyable_on_hit=true；Guinsoo phantom/copied-on-hit 回放可精确复制一次且不递归；不建模吸血元数据。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-wits-end-fray',
+          SEED.witsEndFray,
+          'Wits End Fray: source-owner ORIGINAL basic_attack_hit deals constant 45 bonus magic on-hit; copyable_on_hit=true; Guinsoo phantom/copied-on-hit replay may duplicate exactly once without recursion; lifesteal metadata not modeled',
         ),
       ],
     },
