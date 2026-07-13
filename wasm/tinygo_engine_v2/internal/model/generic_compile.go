@@ -137,10 +137,11 @@ type TickSpec struct {
 	StartDelayMs int64                 `json:"startDelayMs,omitempty"`
 }
 
-// Operation kind / repeat scope 常量（Gate K compile 合同；非旧 DPS DTO）。
+// Operation kind / repeat scope 常量（Gate K / execute compile 合同；非旧 DPS DTO）。
 const (
-	OperationKindRepeat      = "repeat"
-	RepeatScopeCopyableOnHit = "copyable_on_hit"
+	OperationKindRepeat           = "repeat"
+	OperationKindExecuteThreshold = "execute_threshold"
+	RepeatScopeCopyableOnHit      = "copyable_on_hit"
 )
 
 // OperationDefinition 是 ability 成功执行后的 operation。
