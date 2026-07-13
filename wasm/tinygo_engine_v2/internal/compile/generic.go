@@ -759,6 +759,8 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		_ = scope
 	case model.OperationKindRepeat:
 		validateRepeatOperation(op, path, ownerProviderIndex, ctx)
+	case model.OperationKindExecuteThreshold:
+		validateExecuteThresholdOperation(op, path, ctx)
 	}
 	compiled := CompiledOperation{
 		Operation:             op.Operation,

@@ -2,6 +2,7 @@ package compile
 
 import (
 	"encoding/json"
+	"math"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -794,6 +795,109 @@ func TestCompileGenericRepeatCollectAllFieldErrors(t *testing.T) {
 		t.Fatal("expected failure")
 	}
 	for _, needle := range []string{"repeatScope", "repeatCount", "repeatTag", "triggerStateKey", "threshold"} {
+		if !hasErrorPath(result.Result.Errors, needle) {
+			t.Fatalf("missing %s error in %+v", needle, result.Result.Errors)
+		}
+	}
+}
+
+func validExecuteThresholdOperation() model.OperationDefinition {
+	return model.OperationDefinition{
+		Operation: model.OperationKindExecuteThreshold,
+		Target:    model.SelectorOpponent,
+		Threshold: 0.05,
+		Ref:       "op:collector_execute",
+	}
+}
+
+func TestCompileGenericExecuteThresholdProjects(t *testing.T) {
+	req := minimalValidCompileRequest()
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{validExecuteThresholdOperation()}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	op := result.Session.Operations[0]
+	if op.Operation != model.OperationKindExecuteThreshold {
+		t.Fatalf("operation=%q", op.Operation)
+	}
+	if op.Target != model.SelectorOpponent || op.Threshold != 0.05 || op.Ref != "op:collector_execute" {
+		t.Fatalf("op=%+v", op)
+	}
+	if op.HasAmount || op.CopyableOnHit || op.RepeatScope != "" {
+		t.Fatalf("unexpected forbidden projections: %+v", op)
+	}
+}
+
+func TestCompileGenericExecuteThresholdRejectsInvalidThreshold(t *testing.T) {
+	cases := []struct {
+		name      string
+		threshold float64
+	}{
+		{"zero", 0},
+		{"negative", -0.1},
+		{"above_one", 1.01},
+		{"nan", math.NaN()},
+		{"pos_inf", math.Inf(1)},
+		{"neg_inf", math.Inf(-1)},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			req := minimalValidCompileRequest()
+			op := validExecuteThresholdOperation()
+			op.Threshold = tc.threshold
+			req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+			result := CompileGeneric(req)
+			if result.OK {
+				t.Fatal("expected failure")
+			}
+			if !hasErrorPath(result.Result.Errors, "threshold") {
+				t.Fatalf("missing threshold error: %+v", result.Result.Errors)
+			}
+		})
+	}
+}
+
+func TestCompileGenericExecuteThresholdCollectAllForbiddenFields(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	op := model.OperationDefinition{
+		Operation:             model.OperationKindExecuteThreshold,
+		Target:                model.SelectorTarget,
+		Threshold:             0.05,
+		Ref:                   "op:execute",
+		Amount:                &model.GenericFormulaExpr{Op: "const", Value: &one},
+		DamageType:            "damage/physical",
+		ValuePolicy:           "add",
+		ResourceKey:           "mana",
+		AttributeKey:          "ad",
+		AbilityRef:            "source.provider[x].ability[y]",
+		ShieldRef:             "shield:x",
+		ProviderDefinitionRef: "provider:x",
+		ProviderRef:           "provider:y",
+		EventType:             "event/basic_attack_hit",
+		Payload:               map[string]interface{}{"k": "v"},
+		Types:                 []string{"tag/x"},
+		Tags:                  []string{"t"},
+		Condition:             &model.GenericFormulaExpr{Op: "const", Value: &one},
+		CopyableOnHit:         true,
+		RepeatScope:           model.RepeatScopeCopyableOnHit,
+		RepeatCount:           1,
+		RepeatTag:             "phantom",
+		TriggerStateKey:       "stacks",
+	}
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	needles := []string{
+		"amount", "damageType", "valuePolicy", "resourceKey", "attributeKey",
+		"abilityRef", "shieldRef", "providerDefinitionRef", "providerRef", "eventType",
+		"payload", "types", "tags", "condition", "copyableOnHit",
+		"repeatScope", "repeatCount", "repeatTag", "triggerStateKey",
+	}
+	for _, needle := range needles {
 		if !hasErrorPath(result.Result.Errors, needle) {
 			t.Fatalf("missing %s error in %+v", needle, result.Result.Errors)
 		}

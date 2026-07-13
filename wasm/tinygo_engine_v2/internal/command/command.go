@@ -1,19 +1,20 @@
-// operation command 类型：damage/heal/shield/resource_change/cooldown_change。
+// operation command 类型：damage/heal/shield/resource_change/cooldown_change/execute_threshold。
 package command
 
 // Kind 区分 operation command 类型。
 type Kind string
 
 const (
-	KindDamage          Kind = "damage"
-	KindHeal            Kind = "heal"
-	KindShield          Kind = "shield"
-	KindResourceChange  Kind = "resource_change"
-	KindCooldownChange  Kind = "cooldown_change"
-	KindApplyProvider   Kind = "apply_provider"
-	KindRefreshProvider Kind = "refresh_provider"
-	KindExpireProvider  Kind = "expire_provider"
-	KindEmitEvent       Kind = "emit_event"
+	KindDamage           Kind = "damage"
+	KindHeal             Kind = "heal"
+	KindShield           Kind = "shield"
+	KindResourceChange   Kind = "resource_change"
+	KindCooldownChange   Kind = "cooldown_change"
+	KindApplyProvider    Kind = "apply_provider"
+	KindRefreshProvider  Kind = "refresh_provider"
+	KindExpireProvider   Kind = "expire_provider"
+	KindEmitEvent        Kind = "emit_event"
+	KindExecuteThreshold Kind = "execute_threshold"
 )
 
 // Command 是 pipeline 输入的统一 command DTO。
@@ -28,6 +29,10 @@ type Command struct {
 	ResourceKey  string
 	AttributeKey string
 	AbilityRef   string
+	// Threshold / SnapshotHP / SnapshotMaxHP：execute_threshold 元数据（pipeline 仅用 Target 置零 HP）。
+	Threshold     float64
+	SnapshotHP    float64
+	SnapshotMaxHP float64
 }
 
 // Result 是单条 command 执行结果。
@@ -50,6 +55,8 @@ func Validate(cmd Command) bool {
 		return cmd.Target != "" && cmd.ResourceKey != ""
 	case KindCooldownChange:
 		return cmd.Target != "" && cmd.AbilityRef != ""
+	case KindExecuteThreshold:
+		return cmd.Target != ""
 	default:
 		return cmd.Kind != ""
 	}

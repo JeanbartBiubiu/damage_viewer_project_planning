@@ -263,3 +263,68 @@ func validateRepeatOperation(op model.OperationDefinition, path string, ownerPro
 		collector.addError(model.GenericErrMissingRequiredField, path+".threshold", "repeat requires threshold > 0", "")
 	}
 }
+
+// validateExecuteThresholdOperation 校验 execute_threshold：threshold 合同 + 拒绝无关字段（collect-all）。
+func validateExecuteThresholdOperation(op model.OperationDefinition, path string, ctx *genericCompileContext) {
+	collector := ctx.collector
+	if !(op.Threshold > 0 && op.Threshold <= 1) || !isFiniteFloat(op.Threshold) {
+		collector.addError(model.GenericErrMissingRequiredField, path+".threshold", "execute_threshold requires finite threshold in (0, 1]", "")
+	}
+	if op.Amount != nil {
+		collector.addError(model.GenericErrMissingRequiredField, path+".amount", "execute_threshold forbids amount", "")
+	}
+	if op.DamageType != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".damageType", "execute_threshold forbids damageType", op.DamageType)
+	}
+	if op.ValuePolicy != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".valuePolicy", "execute_threshold forbids valuePolicy", op.ValuePolicy)
+	}
+	if op.ResourceKey != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".resourceKey", "execute_threshold forbids resourceKey", op.ResourceKey)
+	}
+	if op.AttributeKey != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".attributeKey", "execute_threshold forbids attributeKey", op.AttributeKey)
+	}
+	if op.AbilityRef != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".abilityRef", "execute_threshold forbids abilityRef", op.AbilityRef)
+	}
+	if op.ShieldRef != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".shieldRef", "execute_threshold forbids shieldRef", op.ShieldRef)
+	}
+	if op.ProviderDefinitionRef != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".providerDefinitionRef", "execute_threshold forbids providerDefinitionRef", op.ProviderDefinitionRef)
+	}
+	if op.ProviderRef != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".providerRef", "execute_threshold forbids providerRef", op.ProviderRef)
+	}
+	if op.EventType != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".eventType", "execute_threshold forbids eventType", op.EventType)
+	}
+	if op.Payload != nil {
+		collector.addError(model.GenericErrMissingRequiredField, path+".payload", "execute_threshold forbids payload", "")
+	}
+	if len(op.Types) > 0 {
+		collector.addError(model.GenericErrMissingRequiredField, path+".types", "execute_threshold forbids types", "")
+	}
+	if len(op.Tags) > 0 {
+		collector.addError(model.GenericErrMissingRequiredField, path+".tags", "execute_threshold forbids tags", "")
+	}
+	if op.Condition != nil {
+		collector.addError(model.GenericErrMissingRequiredField, path+".condition", "execute_threshold forbids condition", "")
+	}
+	if op.CopyableOnHit {
+		collector.addError(model.GenericErrMissingRequiredField, path+".copyableOnHit", "execute_threshold forbids copyableOnHit", op.Operation)
+	}
+	if op.RepeatScope != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".repeatScope", "execute_threshold forbids repeatScope", op.RepeatScope)
+	}
+	if op.RepeatCount != 0 {
+		collector.addError(model.GenericErrMissingRequiredField, path+".repeatCount", "execute_threshold forbids repeatCount", itoa(op.RepeatCount))
+	}
+	if op.RepeatTag != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".repeatTag", "execute_threshold forbids repeatTag", op.RepeatTag)
+	}
+	if op.TriggerStateKey != "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".triggerStateKey", "execute_threshold forbids triggerStateKey", op.TriggerStateKey)
+	}
+}
