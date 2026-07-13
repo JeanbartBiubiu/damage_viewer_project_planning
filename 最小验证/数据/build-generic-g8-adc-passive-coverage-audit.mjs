@@ -26,6 +26,7 @@ const SEED = {
   spellblade: 'db/game_manage/seeds/lol_generic_spellblade_seed.sql',
   lichBaneSpellblade: 'db/game_manage/seeds/lol_generic_lich_bane_spellblade_seed.sql',
   essenceReaverSpellblade: 'db/game_manage/seeds/lol_generic_essence_reaver_spellblade_seed.sql',
+  duskAndDawnSpellblade: 'db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql',
   energized: 'db/game_manage/seeds/lol_generic_energized_seed.sql',
   statikkShivEnergized: 'db/game_manage/seeds/lol_generic_statikk_shiv_energized_seed.sql',
   execute: 'db/game_manage/seeds/lol_generic_execute_threshold_seed.sql',
@@ -248,6 +249,25 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-essence-reaver-spellblade',
           SEED.essenceReaverSpellblade,
           'Essence Reaver Spellblade: 1.25 * base AD + 50 * resolved crit chance; 10s ready; hit-started 1.5s ICD',
+        ),
+      ],
+    },
+  ],
+  [
+    '2510|咒刃',
+    {
+      classification: 'partial',
+      tags: ['spellblade_next_attack_state'],
+      reason:
+        'item 2510 黄昏与黎明咒刃核心已由 wasm-generic-dusk-and-dawn-spellblade 覆盖：source-owner ability_start 武装 10s ready；下一次合格命中附加魔法伤害 0.75 * base AD + 0.10 * resolved AP；该命中开始 1.5s ICD；effect copyable false。',
+      remainingGap:
+        '缺治疗公式 0.10 AP + 0.03 bonus HP；缺 0.2s 延迟的第二次 on-hit 应用（需 generalized delayed-repeat 语义）。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-dusk-and-dawn-spellblade',
+          SEED.duskAndDawnSpellblade,
+          'Dusk and Dawn Spellblade core: ability_start 10s ready; hit magic 0.75*base AD + 0.10*resolved AP; hit-started 1.5s ICD; copyable false',
         ),
       ],
     },
