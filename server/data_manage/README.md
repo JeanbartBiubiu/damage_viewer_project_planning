@@ -329,6 +329,28 @@ cd server/data_manage
 mvn -Dtest=LolGenericExecuteThresholdSeedSqlTest test
 ```
 
+### LoL generic Linked Effects seed（黑色切割者 item_3071 Carve）
+
+在 reserved types（含 `20214`/`20215`）、Batch-C `item_3071`、`attribute_definitions.armor`，以及既有 attribute/state detail 合同已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20200`/`20212`/`20214`/`20215`/`20153`/`20160`/`20122`/`20252` 等）
+2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3071` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_linked_effects_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-linked-effects-v1-20260713`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；向 `item_3071` mount `provider_item_3071_black_cleaver_carve`（equipment `20122`），含单 `damage_dealt` listener（ALL matcher：`20200`/`20214`/`20215`/`20212`，`max_triggers_per_event=1`）、单 sequence、两步固定顺序（`attribute_change` 目标 `armor` 常量 `-4` → `state_change` `provider_target`/`carve_stacks` 常量 `+1`），共用 condition `provider.target_state.carve_stacks < 5`。不写 `provider_state_fields` / `provider_modifiers`，不改 `item_3071` 静态属性或 `adc_completed_item` tag。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
+
+live revision 预期（非 SQL 硬编码）：首跑 `current/published` 自 `16/16` → `17/16`；幂等重跑保持 `17/16`；显式 publish `lol-generic-linked-effects-v1-20260713` 后 `17/17`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericLinkedEffectsSeedSqlTest test
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
