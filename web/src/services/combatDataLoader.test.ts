@@ -77,7 +77,8 @@ function graph(revision: number): CombatDataGraph {
     effectSequences: [],
     effectSteps: [],
     abilityPhaseEffectSequences: [],
-    listenerEffectSequences: []
+    listenerEffectSequences: [],
+    executeEffectDetails: []
   };
 }
 

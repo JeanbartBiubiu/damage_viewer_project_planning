@@ -15,6 +15,7 @@ import {
   getAttributeDefinitions,
   getEffectSequences,
   getEffectSteps,
+  getExecuteEffectDetails,
   getEntities,
   getEntityAttributeStages,
   getEntityAttributes,
@@ -44,6 +45,7 @@ import {
   putAttributeDefinition,
   putEffectSequence,
   putEffectStep,
+  putExecuteEffectDetail,
   putEntity,
   putEntityAttribute,
   putEntityAttributeStage,
@@ -672,6 +674,11 @@ const effectStepFields: FieldDef[] = [
   { name: 'conditionFormulaKey', label: '条件公式 Key', kind: 'text' }
 ];
 
+const executeEffectDetailFields: FieldDef[] = [
+  { name: 'stepId', label: '步骤 ID', kind: 'text', required: true, lockedOnEdit: true },
+  { name: 'threshold', label: '生命比例阈值', kind: 'number', required: true }
+];
+
 const abilityPhaseEffectSequenceFields: FieldDef[] = [
   { name: 'phaseId', label: '阶段 ID', kind: 'text', required: true, lockedOnEdit: true },
   { name: 'triggerTypeId', label: '触发类型 ID', kind: 'number', required: true, lockedOnEdit: true },
@@ -1101,7 +1108,7 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = [
   {
     id: 'effect-steps',
     label: '效果步骤',
-    summary: '带判别 detail 的效果步骤（九选一）',
+    summary: '带判别 detail 的效果步骤（十一选一）',
     groupId: 'effects',
     kind: 'effect-step',
     pathKeys: ['stepId'],
@@ -1112,6 +1119,25 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = [
       const body = bodyFromFields(effectStepFields, ['stepId'], form);
       return revisionOf(await putEffectStep(apiBaseUrl, gameId, str(form, 'stepId'), token, body));
     }
+  },
+  {
+    id: 'execute-effect-details',
+    label: '处决效果明细',
+    summary: '处决步骤生命比例阈值明细（按 stepId）',
+    groupId: 'effects',
+    pathKeys: ['stepId'],
+    fields: executeEffectDetailFields,
+    list: (apiBaseUrl, gameId) => listFromEnvelope(() => getExecuteEffectDetails(apiBaseUrl, gameId)),
+    put: async (apiBaseUrl, gameId, token, form) =>
+      revisionOf(
+        await putExecuteEffectDetail(
+          apiBaseUrl,
+          gameId,
+          str(form, 'stepId'),
+          token,
+          bodyFromFields(executeEffectDetailFields, ['stepId'], form)
+        )
+      )
   },
   {
     id: 'ability-phase-effect-sequences',

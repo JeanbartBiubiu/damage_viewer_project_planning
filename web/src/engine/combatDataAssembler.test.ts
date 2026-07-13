@@ -225,6 +225,7 @@ function buildGraphFixture(overrides?: Partial<CombatDataGraph>): CombatDataGrap
       }
     ],
     listenerEffectSequences: [],
+    executeEffectDetails: [],
     ...overrides
   };
 
@@ -639,7 +640,8 @@ describe('combatDataAssembler', () => {
       valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
       refreshDuration: { typeId: 20190, typeKey: 'refresh_policy/refresh_duration' },
       operationRepeat: { typeId: 20161, typeKey: 'operation/repeat' },
-      repeatScopeCopyable: { typeId: 20263, typeKey: 'repeat_scope/copyable_on_hit' }
+      repeatScopeCopyable: { typeId: 20263, typeKey: 'repeat_scope/copyable_on_hit' },
+      operationExecuteThreshold: { typeId: 20162, typeKey: 'operation/execute_threshold' }
     } as const;
 
     function withHkTypes(graph: CombatDataGraph): CombatDataGraph {
@@ -931,6 +933,150 @@ describe('combatDataAssembler', () => {
           targetEntityId: 'entity_target'
         })
       ).toThrow(/exactly one detail key; found 0/);
+    });
+
+    it('projects executeDetail with threshold and ref=stepId', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_execute',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: HK_TYPE.operationExecuteThreshold.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              executeDetail: { threshold: 0.25 }
+            }
+          ],
+          executeEffectDetails: [
+            { ...META, stepId: 'step_execute', threshold: 0.25 }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.abilities![0].operations![0]).toEqual({
+        operation: 'execute_threshold',
+        target: 'opponent',
+        threshold: 0.25,
+        ref: 'step_execute'
+      });
+    });
+
+    it('rejects executeDetail missing independent executeEffectDetail row', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_execute',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: HK_TYPE.operationExecuteThreshold.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              executeDetail: { threshold: 0.25 }
+            }
+          ]
+        })
+      );
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/step_execute.*missing independent executeEffectDetail/);
+    });
+
+    it('rejects duplicate executeEffectDetail rows', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_execute',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: HK_TYPE.operationExecuteThreshold.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              executeDetail: { threshold: 0.25 }
+            }
+          ],
+          executeEffectDetails: [
+            { ...META, stepId: 'step_execute', threshold: 0.25 },
+            { ...META, stepId: 'step_execute', threshold: 0.25 }
+          ]
+        })
+      );
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/duplicate executeEffectDetail.*step_execute/);
+    });
+
+    it('rejects orphan executeEffectDetail with no effect step', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          executeEffectDetails: [
+            { ...META, stepId: 'step_missing', threshold: 0.25 }
+          ]
+        })
+      );
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/orphan.*step_missing/);
+    });
+
+    it('rejects executeDetail when embedded and independent thresholds disagree', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_execute',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: HK_TYPE.operationExecuteThreshold.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              executeDetail: { threshold: 0.25 }
+            }
+          ],
+          executeEffectDetails: [
+            { ...META, stepId: 'step_execute', threshold: 0.4 }
+          ]
+        })
+      );
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/step_execute.*threshold disagrees/);
+    });
+
+    it('rejects executeEffectDetail attached to a non-executeDetail step', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          executeEffectDetails: [
+            { ...META, stepId: 'step_dmg', threshold: 0.25 }
+          ]
+        })
+      );
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/step_dmg.*not executeDetail family/);
     });
   });
 
