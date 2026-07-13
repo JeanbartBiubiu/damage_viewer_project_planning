@@ -4,7 +4,7 @@
     "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-13T14:24:56.151Z"
+    "generatedAt": "2026-07-13T15:27:06.742Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 12,
+      "migrated": 14,
       "partial": 3,
-      "blocked": 189,
+      "blocked": 187,
       "out_of_scope": 38
     },
     "classificationPercents": {
-      "migrated": 4.96,
+      "migrated": 5.79,
       "partial": 1.24,
-      "blocked": 78.1,
+      "blocked": 77.27,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
-      "all": 4.96,
-      "inScope": 5.88
+      "all": 5.79,
+      "inScope": 6.86
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 6.2,
-      "inScope": 7.35
+      "all": 7.02,
+      "inScope": 8.33
     },
     "inScopeCount": 204
   },
@@ -878,7 +878,7 @@
       "genericMechanismTags": [
         "spellblade_next_attack_state"
       ],
-      "classificationReason": "spellblade 家族除 item 3078 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
+      "classificationReason": "spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
       "coverageEvidence": [],
       "remainingGap": "缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。"
     },
@@ -4486,7 +4486,7 @@
       "genericMechanismTags": [
         "spellblade_next_attack_state"
       ],
-      "classificationReason": "spellblade 家族除 item 3078 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
+      "classificationReason": "spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
       "coverageEvidence": [],
       "remainingGap": "缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。"
     },
@@ -5393,13 +5393,21 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3100",
       "candidateKey": "item_passive|3100|item_passive|咒刃",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "spellblade_next_attack_state"
       ],
-      "classificationReason": "spellblade 家族除 item 3078 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
-      "coverageEvidence": [],
-      "remainingGap": "缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。"
+      "classificationReason": "item 3100 巫妖之祸咒刃已由 wasm-generic-lich-bane-spellblade 批次闭环（含 ready AS / intervalFormula cadence）。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-lich-bane-spellblade",
+          "sourcePath": "db/game_manage/seeds/lol_generic_lich_bane_spellblade_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Lich Bane Spellblade magic next-attack + ready AS percent_add"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5755,7 +5763,7 @@
       "genericMechanismTags": [
         "spellblade_next_attack_state"
       ],
-      "classificationReason": "spellblade 家族除 item 3078 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
+      "classificationReason": "spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
       "coverageEvidence": [],
       "remainingGap": "缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。"
     },
@@ -5950,7 +5958,7 @@
       "genericMechanismTags": [
         "spellblade_next_attack_state"
       ],
-      "classificationReason": "spellblade 家族除 item 3078 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
+      "classificationReason": "spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
       "coverageEvidence": [],
       "remainingGap": "缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。"
     },
@@ -6235,14 +6243,22 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6672",
       "candidateKey": "item_passive|6672|item_passive|放倒它",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "every_n_hit",
         "target_missing_hp_amp"
       ],
-      "classificationReason": "旧 already_covered 不在 exact migrated/partial 清单；legacy != generic。",
-      "coverageEvidence": [],
-      "remainingGap": "缺该精确 candidate 的 generic seed/mount + 完成批次证据。"
+      "classificationReason": "item 6672 放倒它已由 wasm-generic-adc-item-passives-base 批次 seed/mount 闭环。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-adc-item-passives-base",
+          "sourcePath": "db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Kraken Slayer Bring It Down every-3rd missing-HP amp"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
