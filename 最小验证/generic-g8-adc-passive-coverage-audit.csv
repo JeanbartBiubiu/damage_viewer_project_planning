@@ -194,7 +194,7 @@ item_passive|3078|item_passive|咒刃,item_passive,3078,三相之力,item_passiv
 item_passive|3078|item_passive|加快,item_passive,3078,三相之力,item_passive,加快,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 item_passive|3085|item_passive|风怒,item_passive,3085,卢安娜的飓风,item_passive,风怒,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 item_passive|3087|item_passive|电火花,item_passive,3087,斯塔缇克电刃,item_passive,电火花,out_of_scope_for_single_target_dps,out_of_scope,multi_target_or_area|energized_bounce,,,,
-item_passive|3087|item_passive|电疗,item_passive,3087,斯塔缇克电刃,item_passive,电疗,needs_runtime_extension,blocked,energized_charge_and_consume,,,,缺该 candidate 精确 energized provider seed/mount/live publish/E2E。
+item_passive|3087|item_passive|电疗,item_passive,3087,斯塔缇克电刃,item_passive,电疗,needs_runtime_extension,migrated,energized_charge_and_consume,wasm-generic-statikk-shiv-energized,db/game_manage/seeds/lol_generic_statikk_shiv_energized_seed.sql,backend,
 item_passive|3091|item_passive|喧争,item_passive,3091,智慧末刃,item_passive,喧争,needs_manual_baseline,blocked,on_hit,,,,on-hit 伤害描述缺少可审计数值。
 item_passive|3094|item_passive|神射手,item_passive,3094,疾射火炮,item_passive,神射手,needs_runtime_extension,migrated,energized_charge_and_consume,wasm-generic-energized,db/game_manage/seeds/lol_generic_energized_seed.sql,backend,
 item_passive|3097|item_passive|盈能,item_passive,3097,岚切,item_passive,盈能,needs_runtime_extension,blocked,energized_charge_and_consume,,,,缺该 candidate 精确 energized provider seed/mount/live publish/E2E。

@@ -27,6 +27,7 @@ const SEED = {
   lichBaneSpellblade: 'db/game_manage/seeds/lol_generic_lich_bane_spellblade_seed.sql',
   essenceReaverSpellblade: 'db/game_manage/seeds/lol_generic_essence_reaver_spellblade_seed.sql',
   energized: 'db/game_manage/seeds/lol_generic_energized_seed.sql',
+  statikkShivEnergized: 'db/game_manage/seeds/lol_generic_statikk_shiv_energized_seed.sql',
   execute: 'db/game_manage/seeds/lol_generic_execute_threshold_seed.sql',
   linked: 'db/game_manage/seeds/lol_generic_linked_effects_seed.sql',
   crit: 'db/game_manage/seeds/lol_generic_crit_modifier_seed.sql',
@@ -281,6 +282,24 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-energized',
           SEED.energized,
           'Rapid Firecannon Sharpshooter energized consume',
+        ),
+      ],
+    },
+  ],
+  [
+    '3087|电疗',
+    {
+      classification: 'migrated',
+      tags: ['energized_charge_and_consume'],
+      reason:
+        'item 3087 电疗主目标 Energized provider 已由 wasm-generic-statikk-shiv-energized 批次闭环（+15 charge / 上限 100 / 60 魔法伤害；source-owner basic_attack_hit；条件性 consume 后无条件 recharge）。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-statikk-shiv-energized',
+          SEED.statikkShivEnergized,
+          'Statikk Shiv 电疗: +15 charge (cap 100), 60 magic damage on ready; source-owner basic_attack_hit; conditional consume then unconditional recharge',
         ),
       ],
     },
