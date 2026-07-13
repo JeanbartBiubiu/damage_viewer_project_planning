@@ -409,4 +409,6 @@ export type GenericAbilityOption = {
   displayName?: string;
   kind?: string;
   selectable?: boolean;
+  /** Projected from AbilityDefinition.types (type_relations target_category=ability). */
+  types?: string[];
 };
