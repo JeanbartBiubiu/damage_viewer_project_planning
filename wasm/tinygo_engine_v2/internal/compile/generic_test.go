@@ -598,6 +598,28 @@ func TestCompileGenericDamageCopyableProjects(t *testing.T) {
 	}
 }
 
+func TestCompileGenericDamageCritEligibleProjects(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:    "damage",
+			Target:       "target",
+			DamageType:   "damage/physical",
+			Amount:       &model.GenericFormulaExpr{Op: "const", Value: &one},
+			CritEligible: true,
+		},
+	}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	op := result.Session.Operations[0]
+	if op.Operation != "damage" || !op.CritEligible {
+		t.Fatalf("op=%+v", op)
+	}
+}
+
 func TestCompileGenericCopyableRejectsNonDamage(t *testing.T) {
 	req := minimalValidCompileRequest()
 	one := 1.0
@@ -625,6 +647,36 @@ func TestCompileGenericCopyableRejectsNonDamage(t *testing.T) {
 	}
 	if !found {
 		t.Fatalf("expected copyableOnHit path error, errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericCritEligibleRejectsNonDamage(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:    "heal",
+			Target:       "source",
+			Amount:       &model.GenericFormulaExpr{Op: "const", Value: &one},
+			CritEligible: true,
+		},
+	}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected compile failure for critEligible on non-damage")
+	}
+	if !hasErrorCode(result.Result.Errors, model.GenericErrMissingRequiredField) {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+	found := false
+	for _, err := range result.Result.Errors {
+		if containsPath(err.Path, "critEligible") {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Fatalf("expected critEligible path error, errors=%+v", result.Result.Errors)
 	}
 }
 
@@ -881,6 +933,7 @@ func TestCompileGenericExecuteThresholdCollectAllForbiddenFields(t *testing.T) {
 		Tags:                  []string{"t"},
 		Condition:             &model.GenericFormulaExpr{Op: "const", Value: &one},
 		CopyableOnHit:         true,
+		CritEligible:          true,
 		RepeatScope:           model.RepeatScopeCopyableOnHit,
 		RepeatCount:           1,
 		RepeatTag:             "phantom",
@@ -894,7 +947,7 @@ func TestCompileGenericExecuteThresholdCollectAllForbiddenFields(t *testing.T) {
 	needles := []string{
 		"amount", "damageType", "valuePolicy", "resourceKey", "attributeKey",
 		"abilityRef", "shieldRef", "providerDefinitionRef", "providerRef", "eventType",
-		"payload", "types", "tags", "condition", "copyableOnHit",
+		"payload", "types", "tags", "condition", "copyableOnHit", "critEligible",
 		"repeatScope", "repeatCount", "repeatTag", "triggerStateKey",
 	}
 	for _, needle := range needles {
