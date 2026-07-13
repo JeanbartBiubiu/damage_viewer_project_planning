@@ -121,6 +121,8 @@ VALUES
     (20211, '普攻命中', 'event/basic_attack_hit'),
     (20212, '事件来源为拥有者', 'event/source_owner'),
     (20213, '事件来源为对手', 'event/source_opponent'),
+    (20214, '造成物理伤害', 'event/damage_dealt/physical'),
+    (20215, '造成普攻伤害', 'event/damage_dealt/basic_attack'),
 
     -- damage
     (20220, '物理伤害', 'damage/physical'),
@@ -230,6 +232,8 @@ VALUES
     (20211, 10019),
     (20212, 10019),
     (20213, 10019),
+    (20214, 10019),
+    (20215, 10019),
 
     (20220, 10020),
     (20221, 10020),
