@@ -1196,7 +1196,8 @@ function mapEffectStep(
         valuePolicy: abiToken(
           requireTypeKey(indexes.types, d.valuePolicyTypeId, `step ${step.stepId} valuePolicy`)
         ),
-        ...(d.copyableOnHit === true ? { copyableOnHit: true } : {})
+        ...(d.copyableOnHit === true ? { copyableOnHit: true } : {}),
+        ...(d.critEligible === true ? { critEligible: true } : {})
       };
     }
     case 'healDetail': {

@@ -114,6 +114,7 @@ export type OperationDefinition = {
   ref?: string;
   condition?: GenericFormulaExpr;
   copyableOnHit?: boolean;
+  critEligible?: boolean;
   repeatScope?: string;
   repeatCount?: number;
   repeatTag?: string;
