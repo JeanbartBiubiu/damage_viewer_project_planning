@@ -4,7 +4,7 @@
     "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-13T16:16:25.709Z"
+    "generatedAt": "2026-07-13T16:31:31.764Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 15,
+      "migrated": 16,
       "partial": 3,
-      "blocked": 186,
+      "blocked": 185,
       "out_of_scope": 38
     },
     "classificationPercents": {
-      "migrated": 6.2,
+      "migrated": 6.61,
       "partial": 1.24,
-      "blocked": 76.86,
+      "blocked": 76.45,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
-      "all": 6.2,
-      "inScope": 7.35
+      "all": 6.61,
+      "inScope": 7.84
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 7.44,
-      "inScope": 8.82
+      "all": 7.85,
+      "inScope": 9.31
     },
     "inScopeCount": 204
   },
@@ -5253,13 +5253,21 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3087",
       "candidateKey": "item_passive|3087|item_passive|电疗",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "energized_charge_and_consume"
       ],
-      "classificationReason": "energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。",
-      "coverageEvidence": [],
-      "remainingGap": "缺该 candidate 精确 energized provider seed/mount/live publish/E2E。"
+      "classificationReason": "item 3087 电疗主目标 Energized provider 已由 wasm-generic-statikk-shiv-energized 批次闭环（+15 charge / 上限 100 / 60 魔法伤害；source-owner basic_attack_hit；条件性 consume 后无条件 recharge）。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-statikk-shiv-energized",
+          "sourcePath": "db/game_manage/seeds/lol_generic_statikk_shiv_energized_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Statikk Shiv 电疗: +15 charge (cap 100), 60 magic damage on ready; source-owner basic_attack_hit; conditional consume then unconditional recharge"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
