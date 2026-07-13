@@ -268,6 +268,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericSpellbladeSeedSqlTest test
 ```
 
+### LoL generic Energized seed（疾射火炮 item_3094）
+
+在 reserved types、Batch-C `item_3094`，以及 basic_attack_hit emit 基线（`lol_adc_item_on_hit_passives_seed.sql` 或等价）已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20211`/`20212`/`20221`/`20250` 等）
+2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3094` 尚未写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
+4. `db/game_manage/seeds/lol_generic_energized_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-energized-v1-20260713`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；向 `item_3094` mount `provider_item_3094_energized`，含无时长 `energized_charge`（max=100）、单 `basic_attack_hit` listener 与单 sequence（ready 时 40 魔法伤害且 `copyable_on_hit=false` → override 消费为 0 → 无条件 add 25）。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。不含移动/距离充能、射程、多目标弹射、slow、共享池。
+
+live revision 预期（非 SQL 硬编码）：首跑 `current/published` 自 `14/14` → `15/14`；幂等重跑保持 `15/14`；显式 publish 后 `15/15`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericEnergizedSeedSqlTest test
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
