@@ -351,6 +351,30 @@ cd server/data_manage
 mvn -Dtest=LolGenericLinkedEffectsSeedSqlTest test
 ```
 
+### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
+
+在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
+
+**新库**：`schema.sql` 已包含 `crit_eligible boolean NOT NULL DEFAULT false`（main + log）。
+
+**已有库**按顺序执行：
+
+1. `db/game_manage/migrations/compatibility/generic_crit_eligible_compatibility_migration.sql`（幂等：`ADD COLUMN IF NOT EXISTS`；不 DELETE / DROP / CASCADE / publish）
+2. `db/game_manage/seeds/lol_generic_crit_modifier_seed.sql`
+3. 幂等重跑 / 静态校验复核（无 material change 时不推进 revision）
+4. 显式 Admin `POST /api/admin/games/lol/versions:publish`，版本码 `lol-generic-crit-modifier-v1-20260713`（本脚本**不会**自动 publish）
+
+该 seed 会：锁定 `game_data_state`；校验 `item_3031` 静态 `ad=75` / `crit_chance=0.25` / `crit_damage=0.3`（**复用不变**，不写 Infinity Edge provider / provider_modifiers）；仅将六个 ADC 基础普攻 damage detail（`step_hero_*_basic_attack_damage`）标为 `crit_eligible=true`，保留其余列；不标记 on-hit / listener / linked / repeat 伤害。有 material change 时才推进候选 revision。
+
+live revision 预期（非 SQL 硬编码；基线仍为 17/17 时）：首跑 `current/published` 自 `17/17` → `18/17`；幂等重跑保持 `18/17`；显式 publish 后 `18/18`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=GenericCritEligibleDbContractSqlTest,LolGenericCritModifierSeedSqlTest test
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**

@@ -1086,6 +1086,7 @@ CREATE TABLE public.damage_effect_details (
     damage_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     value_policy_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     copyable_on_hit boolean NOT NULL DEFAULT false,
+    crit_eligible boolean NOT NULL DEFAULT false,
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_damage_effect_details PRIMARY KEY (game_id, step_id),
@@ -1103,6 +1104,7 @@ CREATE TABLE public.damage_effect_details_log (
     damage_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     value_policy_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     copyable_on_hit boolean NOT NULL DEFAULT false,
+    crit_eligible boolean NOT NULL DEFAULT false,
     CONSTRAINT pk_damage_effect_details_log PRIMARY KEY (game_id, step_id, version_id),
     CONSTRAINT fk_damage_effect_details_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)
