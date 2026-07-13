@@ -24,6 +24,7 @@ const SEED = {
   adcItemOnHit: 'db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql',
   guinsoo: 'db/game_manage/seeds/lol_guinsoo_hk_seed.sql',
   spellblade: 'db/game_manage/seeds/lol_generic_spellblade_seed.sql',
+  lichBaneSpellblade: 'db/game_manage/seeds/lol_generic_lich_bane_spellblade_seed.sql',
   energized: 'db/game_manage/seeds/lol_generic_energized_seed.sql',
   execute: 'db/game_manage/seeds/lol_generic_execute_threshold_seed.sql',
   linked: 'db/game_manage/seeds/lol_generic_linked_effects_seed.sql',
@@ -210,6 +211,40 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-spellblade',
           SEED.spellblade,
           'Trinity Force Spellblade next-attack state',
+        ),
+      ],
+    },
+  ],
+  [
+    '3100|咒刃',
+    {
+      classification: 'migrated',
+      tags: ['spellblade_next_attack_state'],
+      reason: 'item 3100 巫妖之祸咒刃已由 wasm-generic-lich-bane-spellblade 批次闭环（含 ready AS / intervalFormula cadence）。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-lich-bane-spellblade',
+          SEED.lichBaneSpellblade,
+          'Lich Bane Spellblade magic next-attack + ready AS percent_add',
+        ),
+      ],
+    },
+  ],
+  [
+    '6672|放倒它',
+    {
+      classification: 'migrated',
+      tags: ['every_n_hit', 'target_missing_hp_amp'],
+      reason: 'item 6672 放倒它已由 wasm-generic-adc-item-passives-base 批次 seed/mount 闭环。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-adc-item-passives-base',
+          SEED.adcItemOnHit,
+          'Kraken Slayer Bring It Down every-3rd missing-HP amp',
         ),
       ],
     },
@@ -451,12 +486,13 @@ const COMPONENT_EXCEPTIONS = [
       const tags = c.mechanismTags || [];
       if (!tags.includes('spellblade_next_attack_state')) return false;
       if (c.ownerId === '3078' && c.passiveName === '咒刃') return false;
+      if (c.ownerId === '3100' && c.passiveName === '咒刃') return false;
       return true;
     },
     result: {
       classification: 'blocked',
       tags: ['spellblade_next_attack_state'],
-      reason: 'spellblade 家族除 item 3078 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。',
+      reason: 'spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。',
       remainingGap: '缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。',
       coverageEvidence: [],
     },
