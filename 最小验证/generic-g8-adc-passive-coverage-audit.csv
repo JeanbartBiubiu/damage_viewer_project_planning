@@ -175,7 +175,7 @@ item_passive|2520|item_passive|成型炸药,item_passive,2520,破垒者,item_pas
 item_passive|2520|item_passive|破坏,item_passive,2520,破垒者,item_passive,破坏,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 item_passive|2523|item_passive|高倍望远镜,item_passive,2523,海克斯镜片 C44,item_passive,高倍望远镜,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
 item_passive|2523|item_passive|奥术瞄准,item_passive,2523,海克斯镜片 C44,item_passive,奥术瞄准,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
-item_passive|3004|item_passive|敬畏,item_passive,3004,魔宗,item_passive,敬畏,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
+item_passive|3004|item_passive|敬畏,item_passive,3004,魔宗,item_passive,敬畏,needs_manual_baseline,migrated,source_only_dynamic_mana_max_ad_modifier,wasm-generic-manamune-awe,db/game_manage/seeds/lol_generic_manamune_awe_seed.sql,backend,
 item_passive|3004|item_passive|法力流,item_passive,3004,魔宗,item_passive,法力流,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 item_passive|3026|item_passive|重生,item_passive,3026,守护天使,item_passive,重生,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 item_passive|3031|item_passive|无被动或仅主动/属性,item_passive,3031,无尽之刃,item_passive,无被动或仅主动/属性,out_of_scope_for_single_target_dps,out_of_scope,stat_only_or_active_only|cross_capability_crit_modifier,wasm-generic-crit-modifier-infinity-edge,db/game_manage/seeds/lol_generic_crit_modifier_seed.sql,backend,
