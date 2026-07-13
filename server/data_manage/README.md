@@ -335,6 +335,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericEnergizedSeedSqlTest test
 ```
 
+### LoL generic Statikk Shiv Energized seed（斯塔缇克电刃 item_3087）
+
+独立于 `item_3094` 疾射火炮 seed：仅表达当前 generic ABI 可写的**单目标** Energized 行为。在 reserved types、Batch-C `item_3087`，以及 basic_attack_hit emit 基线已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20211`/`20212`/`20221`/`20250` 等）
+2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3087` 尚未写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
+4. `db/game_manage/seeds/lol_generic_statikk_shiv_energized_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-statikk-shiv-energized-v1-20260714`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；向 `item_3087` mount `provider_item_3087_statikk_shiv_energized`，含无时长 `energized_charge`（numeric，max/cap=100；schema 无 default 列，不发明初始值，runtime/测试可自行置 100 以测 ready）；单 `basic_attack_hit` + `source_owner` ALL listener（`max_triggers_per_event=1`）与单 sequence：ready 时 60 魔法伤害且 `copyable_on_hit=false` → override 消费为 0 → 无条件 add 15（由 max 钳制到 100）。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
+
+**合同范围外（本 seed 明确不建模）**：移动/距离充能、非英雄 90 伤害、弹射/次级 on-hit、slow、共享 Energize 池、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericStatikkShivEnergizedSeedSqlTest test
+```
+
 ### Execute Threshold 数据库合同（execute_effect_details）
 
 在 generic combat-data 基线已就绪的库上，为斩杀阈值（第十一 detail 族 `execute_effect_details`）补齐合同：
