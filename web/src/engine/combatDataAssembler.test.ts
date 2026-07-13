@@ -3706,4 +3706,205 @@ describe('combatDataAssembler', () => {
       ]);
     });
   });
+
+  describe("item_3091 Wit's End Fray data contract", () => {
+    const WIT = {
+      itemId: 'item_3091',
+      providerId: 'provider_item_3091_wits_end_fray',
+      itemTag: { typeId: 62002, typeKey: 'tag/adc_completed_item' },
+      damageMagic: { typeId: 20221, typeKey: 'damage/magic' }
+    } as const;
+
+    const FRAY_DAMAGE_EXPR = { op: 'const', value: 45 };
+
+    function withWitsEndFray(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [WIT.itemTag, WIT.damageMagic];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        typeRelations: [
+          ...base.typeRelations,
+          {
+            ...META,
+            typeId: WIT.itemTag.typeId,
+            targetCategory: 'entity',
+            targetId: WIT.itemId
+          }
+        ],
+        entities: [
+          ...base.entities,
+          { ...META, entityId: WIT.itemId, displayName: "Wit's End" }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: WIT.itemId, providerId: WIT.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: WIT.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '喧争'
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: WIT.providerId,
+            formulaKey: 'fray_damage',
+            expression: FRAY_DAMAGE_EXPR
+          }
+        ],
+        providerListeners: [
+          {
+            ...META,
+            providerId: WIT.providerId,
+            listenerId: 'listener_item_3091_wits_end_fray_basic_attack_hit',
+            listenerKey: 'fray_on_basic_attack_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: 'listener_item_3091_wits_end_fray_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventBasicAttackHit.typeId
+          },
+          {
+            ...META,
+            listenerId: 'listener_item_3091_wits_end_fray_basic_attack_hit',
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: 'sequence_item_3091_wits_end_fray',
+            providerId: WIT.providerId,
+            sequenceKey: 'fray_proc'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: 'step_item_3091_wits_end_fray_damage',
+            sequenceId: 'sequence_item_3091_wits_end_fray',
+            stepOrder: 0,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            damageDetail: {
+              amountFormulaKey: 'fray_damage',
+              damageTypeId: WIT.damageMagic.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+              copyableOnHit: true
+            }
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: 'listener_item_3091_wits_end_fray_basic_attack_hit',
+            sequenceId: 'sequence_item_3091_wits_end_fray'
+          }
+        ]
+      });
+    }
+
+    it('projects namespaced Wits End Fray compile contract on source equipment only', () => {
+      const graph = withWitsEndFray(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: [WIT.itemId]
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${WIT.providerId}`;
+      const targetKey = `target::${WIT.providerId}`;
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toContain(sourceKey);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toContain(
+        `passive:${WIT.providerId}`
+      );
+      expect(
+        compile.combatants[0].providers.filter((p) => p.definitionRef === sourceKey)
+      ).toHaveLength(1);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${WIT.providerId}`)
+      ).toBe(false);
+
+      const withoutItem = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: []
+      }).compileRequest;
+      expect(withoutItem.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        sourceKey
+      );
+      expect(
+        withoutItem.sharedProviders!.some(
+          (p) => p.providerKey === sourceKey || p.providerKey === targetKey
+        )
+      ).toBe(false);
+
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(sourceProvider).toBeDefined();
+      expect(sourceProvider.initialStateSchema).toBeUndefined();
+      expect(sourceProvider.modifiers).toEqual([]);
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::fray_damage']).toEqual(FRAY_DAMAGE_EXPR);
+
+      expect(sourceProvider.listeners).toHaveLength(1);
+      const hitListener = sourceProvider.listeners!.find(
+        (l) => l.listenerKey === 'fray_on_basic_attack_hit'
+      )!;
+      expect(hitListener.eventMatcher).toEqual({
+        all: ['event/basic_attack_hit', 'event/source_owner']
+      });
+      expect(hitListener.maxTriggersPerEvent).toBe(1);
+      expect(hitListener.operations).toHaveLength(1);
+      expect(hitListener.operations).toEqual([
+        {
+          operation: 'damage',
+          target: 'opponent',
+          ref: 'step_item_3091_wits_end_fray_damage',
+          amount: { op: 'ref', ref: 'source::fray_damage' },
+          damageType: 'damage/magic',
+          valuePolicy: 'add',
+          copyableOnHit: true
+        }
+      ]);
+
+      const frayOps = hitListener.operations!;
+      expect(frayOps.map((op) => op.operation)).toEqual(['damage']);
+      expect(frayOps.some((op) => op.operation === 'heal')).toBe(false);
+      expect(frayOps.some((op) => op.operation === 'resource_change')).toBe(false);
+      expect(frayOps.some((op) => op.operation === 'state_change')).toBe(false);
+      const frayJson = JSON.stringify({
+        provider: sourceProvider,
+        formulas: compile.formulas!.filter((f) => f.key.startsWith('source::fray_'))
+      });
+      expect(frayJson.toLowerCase()).not.toContain('lifesteal');
+      expect(frayJson.toLowerCase()).not.toContain('life_steal');
+      expect(frayJson).not.toContain('"operation":"heal"');
+      expect(frayJson).not.toContain('move_speed');
+      expect(frayJson).not.toContain('tenacity');
+    });
+  });
 });
