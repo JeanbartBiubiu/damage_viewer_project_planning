@@ -85,6 +85,7 @@ VALUES
     (20159, '冷却变化', 'operation/cooldown_change'),
     (20160, '状态变化', 'operation/state_change'),
     (20161, '重复', 'operation/repeat'),
+    (20162, '斩杀阈值', 'operation/execute_threshold'),
 
     -- value_policy / modifier_mode
     (20170, '加法', 'value_policy/add'),
@@ -197,6 +198,7 @@ VALUES
     (20159, 10015),
     (20160, 10015),
     (20161, 10015),
+    (20162, 10015),
 
     (20170, 10016),
     (20171, 10016),

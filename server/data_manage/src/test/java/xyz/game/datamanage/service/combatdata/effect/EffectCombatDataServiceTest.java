@@ -34,6 +34,7 @@ import xyz.game.datamanage.mapper.combatdata.CombatDamageEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEffectSequencesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEffectStepsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEventEffectDetailsMapper;
+import xyz.game.datamanage.mapper.combatdata.CombatExecuteEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatHealEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatListenerEffectSequencesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderEffectDetailsMapper;
@@ -67,6 +68,7 @@ class EffectCombatDataServiceTest {
     @Mock private CombatAbilityControlEffectDetailsMapper abilityControlDetailsMapper;
     @Mock private CombatStateEffectDetailsMapper stateDetailsMapper;
     @Mock private CombatRepeatEffectDetailsMapper repeatDetailsMapper;
+    @Mock private CombatExecuteEffectDetailsMapper executeDetailsMapper;
 
     private EffectCombatDataService service;
 
@@ -89,7 +91,8 @@ class EffectCombatDataServiceTest {
             eventDetailsMapper,
             abilityControlDetailsMapper,
             stateDetailsMapper,
-            repeatDetailsMapper
+            repeatDetailsMapper,
+            executeDetailsMapper
         );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
@@ -113,14 +116,16 @@ class EffectCombatDataServiceTest {
         assertFalse(response.get(EffectCombatDataService.DETAIL_DAMAGE).get("copyableOnHit").asBoolean());
         verify(revisionService, times(1)).nextRevision(GAME_ID);
 
-        InOrder order = inOrder(stepsMapper, damageDetailsMapper, healDetailsMapper, repeatDetailsMapper);
+        InOrder order = inOrder(stepsMapper, damageDetailsMapper, healDetailsMapper, repeatDetailsMapper, executeDetailsMapper);
         order.verify(stepsMapper).upsert(eq(GAME_ID), eq(11L), eq(STEP_ID), eq("seq-1"), eq(0), eq(10), eq(20), any());
         order.verify(damageDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
         verify(healDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
         verify(repeatDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
+        verify(executeDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
         order.verify(damageDetailsMapper).upsert(eq(GAME_ID), eq(11L), eq(STEP_ID), eq("amt"), eq(1), eq(2), eq(false));
         verify(healDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any());
         verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any());
+        verify(executeDetailsMapper, never()).upsert(any(), anyLong(), any(), any());
     }
 
     @Test
@@ -173,6 +178,111 @@ class EffectCombatDataServiceTest {
             eq(new BigDecimal("3"))
         );
         verify(damageDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(Boolean.class));
+    }
+
+    @Test
+    void putStepWritesExecuteDetailAsEleventhExactlyOneFamily() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(14L);
+        when(stepsMapper.findById(GAME_ID, STEP_ID)).thenReturn(stepRow());
+        when(executeDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(executeDetailRow());
+
+        ObjectNode body = baseStepBody();
+        ObjectNode execute = body.putObject(EffectCombatDataService.DETAIL_EXECUTE);
+        execute.put("threshold", 0.05);
+
+        ObjectNode response = service.putStep(GAME_ID, STEP_ID, body);
+
+        assertTrue(response.has(EffectCombatDataService.DETAIL_EXECUTE));
+        assertFalse(response.has(EffectCombatDataService.DETAIL_DAMAGE));
+        assertFalse(response.has(EffectCombatDataService.DETAIL_REPEAT));
+        verify(damageDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
+        verify(repeatDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
+        verify(executeDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
+        verify(executeDetailsMapper).upsert(
+            eq(GAME_ID),
+            eq(14L),
+            eq(STEP_ID),
+            eq(new BigDecimal("0.05"))
+        );
+        verify(damageDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(Boolean.class));
+        verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void putStepRejectsExecuteThresholdOutOfRange() {
+        ObjectNode body = baseStepBody();
+        body.putObject(EffectCombatDataService.DETAIL_EXECUTE).put("threshold", 1.5);
+
+        ApiException ex = assertThrows(ApiException.class, () -> service.putStep(GAME_ID, STEP_ID, body));
+        assertEquals("400.INVALID_BODY", ex.getCode());
+        verify(revisionService, never()).nextRevision(any());
+        verify(executeDetailsMapper, never()).upsert(any(), anyLong(), any(), any());
+    }
+
+    @Test
+    void putStepRejectsExecuteThresholdZero() {
+        ObjectNode body = baseStepBody();
+        body.putObject(EffectCombatDataService.DETAIL_EXECUTE).put("threshold", 0);
+
+        ApiException ex = assertThrows(ApiException.class, () -> service.putStep(GAME_ID, STEP_ID, body));
+        assertEquals("400.INVALID_BODY", ex.getCode());
+        verify(revisionService, never()).nextRevision(any());
+    }
+
+    @Test
+    void putStepRejectsDamageAndExecuteTogether() {
+        ObjectNode body = baseStepBody();
+        body.putObject(EffectCombatDataService.DETAIL_DAMAGE)
+            .put("amountFormulaKey", "a")
+            .put("damageTypeId", 1)
+            .put("valuePolicyTypeId", 2);
+        body.putObject(EffectCombatDataService.DETAIL_EXECUTE).put("threshold", 0.05);
+
+        ApiException ex = assertThrows(ApiException.class, () -> service.putStep(GAME_ID, STEP_ID, body));
+        assertEquals("400.INVALID_BODY", ex.getCode());
+        verify(revisionService, never()).nextRevision(any());
+        verify(stepsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void listExecuteEffectDetailsReturnsEnvelope() {
+        when(revisionService.getCurrentRevision(GAME_ID)).thenReturn(7L);
+        when(executeDetailsMapper.list(GAME_ID, null)).thenReturn(List.of(executeDetailRow()));
+
+        ObjectNode response = service.listExecuteEffectDetails(GAME_ID, null);
+
+        assertEquals(7L, response.get("currentRevision").asLong());
+        assertEquals(STEP_ID, response.get("data").get(0).get("stepId").asText());
+        assertEquals(0, new BigDecimal("0.05").compareTo(response.get("data").get(0).get("threshold").decimalValue()));
+    }
+
+    @Test
+    void putExecuteEffectDetailWritesThresholdWithRevision() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(15L);
+        when(executeDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(executeDetailRow());
+
+        ObjectNode body = JsonNodeFactory.instance.objectNode();
+        body.put("threshold", 0.05);
+
+        ObjectNode response = service.putExecuteEffectDetail(GAME_ID, STEP_ID, body);
+
+        assertEquals(15L, response.get("currentRevision").asLong());
+        assertEquals(STEP_ID, response.get("stepId").asText());
+        verify(executeDetailsMapper).upsert(eq(GAME_ID), eq(15L), eq(STEP_ID), eq(new BigDecimal("0.05")));
+    }
+
+    @Test
+    void putExecuteEffectDetailRejectsNonFiniteThreshold() {
+        ObjectNode body = JsonNodeFactory.instance.objectNode();
+        body.put("threshold", Double.POSITIVE_INFINITY);
+
+        ApiException ex = assertThrows(
+            ApiException.class,
+            () -> service.putExecuteEffectDetail(GAME_ID, STEP_ID, body)
+        );
+        assertEquals("400.INVALID_BODY", ex.getCode());
+        verify(revisionService, never()).nextRevision(any());
+        verify(executeDetailsMapper, never()).upsert(any(), anyLong(), any(), any());
     }
 
     @Test
@@ -233,6 +343,7 @@ class EffectCombatDataServiceTest {
         assertTrue(step.has(EffectCombatDataService.DETAIL_HEAL));
         assertFalse(step.has(EffectCombatDataService.DETAIL_DAMAGE));
         assertFalse(step.has(EffectCombatDataService.DETAIL_REPEAT));
+        assertFalse(step.has(EffectCombatDataService.DETAIL_EXECUTE));
     }
 
     private static ObjectNode baseStepBody() {
@@ -285,6 +396,14 @@ class EffectCombatDataServiceTest {
         row.put("repeatTag", "on-hit");
         row.put("triggerStateKey", "stacks");
         row.put("threshold", new BigDecimal("3"));
+        return row;
+    }
+
+    private static Map<String, Object> executeDetailRow() {
+        Map<String, Object> row = new LinkedHashMap<>();
+        row.put("gameId", GAME_ID);
+        row.put("stepId", STEP_ID);
+        row.put("threshold", new BigDecimal("0.05"));
         return row;
     }
 }
