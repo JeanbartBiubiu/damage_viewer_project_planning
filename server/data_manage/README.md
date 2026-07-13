@@ -312,6 +312,24 @@ cd server/data_manage
 mvn -Dtest=LolGenericEssenceReaverSpellbladeSeedSqlTest test
 ```
 
+### LoL generic Dusk and Dawn Spellblade seed（黄昏与黎明 item_2510）
+
+在 reserved types、Batch-C `item_2510`（静态 `ap=60` / `hp=300` 为既有输入）、以及 basic_attack_hit emit 基线已就绪后，按顺序执行（不依赖 `hero_vayne` / tumble / `ability/basic_attack` / `lol_generic_spellblade_seed.sql` / `item_3100` / `item_3508`；本脚本不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20205`/`20211`/`20212`/`20221`/`20190`/`20250` 等）
+2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_2510` 尚未写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
+4. `db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql`
+
+该 seed 会：锁定 `game_data_state`；校验 `item_2510` 及其静态 `ap=60` / `hp=300` 与 `ad`·`ap` attribute_definitions（不 mutate/recreate Batch-C）；幂等投影所需 reserved → `types`；向 `item_2510` 独占 mount `provider_item_2510_dusk_and_dawn_spellblade`，只监听已存在的 `ability_started` / `basic_attack_hit` / `source_owner` 事件；含 `spellblade_ready`（10s）/ `spellblade_icd`（1.5s）、ability_started 武装 listener（`mul(eq(ready,0), eq(icd,0))` 数值门控，仅武装 ready，**不**在武装时开 ICD）、basic_attack_hit 触发 listener（`0.75 * event.entry_source.attr.ad.base + 0.10 * event.entry_source.attr.ap.resolved` 魔法 `20221`，`copyable_on_hit=false`，顺序：damage → arm icd → consume ready，ICD 以强化攻击消耗时开始）。**排除**：healing（0.10 AP + 0.03 bonus HP）、0.2s 延迟二次 on-hit、delayed/repeat/resource、provider_modifiers、Vayne/tumble/62003/generic-spellblade 依赖。有 material change 时才推进候选 revision；不 DELETE。数值注释引用 `damage_wasm_dev` 下 `current-items.normalized.json` item 2510，无运行时外部依赖。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericDuskAndDawnSpellbladeSeedSqlTest test
+```
+
 ### LoL generic Energized seed（疾射火炮 item_3094）
 
 在 reserved types、Batch-C `item_3094`，以及 basic_attack_hit emit 基线（`lol_adc_item_on_hit_passives_seed.sql` 或等价）已就绪后，按顺序执行：
