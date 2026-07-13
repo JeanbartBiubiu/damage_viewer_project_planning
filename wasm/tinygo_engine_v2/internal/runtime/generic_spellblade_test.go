@@ -660,3 +660,517 @@ func TestSpellbladeMissingBasicAttackTypeFailsClosed(t *testing.T) {
 		t.Fatalf("abilityCastCount=%d want 1 (cast itself still succeeds)", done.Summary.AbilityCastCount)
 	}
 }
+
+// --- item_3100 Lich Bane Spellblade (generic ABI evidence) ---
+
+const (
+	lichBaneProviderRef   = "item:lich_bane_spellblade"
+	lichBaneDamageOpRef   = "op:lich_bane_spellblade_damage"
+	lichBaneASProbeEvent  = "event/lich_bane_as_probe"
+	lichBaneADBase        = 100.0
+	lichBaneAP            = 100.0
+	lichBaneASBase        = 1.0
+	lichBaneReadyASBonus  = 0.5
+	lichBaneAADamage      = 10.0
+)
+
+func lichBaneExpectedRaw() float64 {
+	return 0.75*lichBaneADBase + 0.45*lichBaneAP
+}
+
+func lichBaneReadyASResolved() float64 {
+	return lichBaneASBase * (1 + lichBaneReadyASBonus)
+}
+
+func lichBaneASIntervalMs(as float64) int64 {
+	return int64(math.Round(1000 / as))
+}
+
+func lichBaneASModifier() model.ModifierDefinition {
+	return model.ModifierDefinition{
+		ModifierKey: "lich_bane_spellblade_as",
+		Kind:        "attribute",
+		Target:      "attack_speed",
+		ValuePolicy: "percent_add",
+		Value: model.GenericFormulaExpr{
+			Op: "mul",
+			Args: []model.GenericFormulaExpr{
+				gfConst(lichBaneReadyASBonus),
+				{Op: "read", Path: "provider.state." + spellbladeReadyKey},
+			},
+		},
+	}
+}
+
+func lichBaneHitConsumeListener() model.ListenerDefinition {
+	adRatio := 0.75
+	apRatio := 0.45
+	zero := 0.0
+	readyCond := spellbladeReadyArmedCond()
+	return model.ListenerDefinition{
+		ListenerKey:  "lich_bane_on_basic_attack_hit",
+		EventMatcher: model.TypeMatcher{All: []string{spellbladeHitEvent, "event/source_owner"}},
+		Operations: []model.OperationDefinition{
+			{
+				Operation:     "damage",
+				Target:        "target",
+				DamageType:    "damage/magic",
+				Ref:           lichBaneDamageOpRef,
+				CopyableOnHit: false,
+				Condition:     readyCond,
+				Amount: &model.GenericFormulaExpr{
+					Op: "add",
+					Args: []model.GenericFormulaExpr{
+						{
+							Op: "mul",
+							Args: []model.GenericFormulaExpr{
+								{Op: "const", Value: &adRatio},
+								{Op: "read", Path: "event.entry_source.attr.ad.base"},
+							},
+						},
+						{
+							Op: "mul",
+							Args: []model.GenericFormulaExpr{
+								{Op: "const", Value: &apRatio},
+								{Op: "read", Path: "event.entry_source.attr.ap.resolved"},
+							},
+						},
+					},
+				},
+			},
+			{
+				Operation:   "state_change",
+				Target:      "source",
+				Ref:         spellbladeReadyKey,
+				Types:       []string{"state_scope/provider"},
+				ValuePolicy: "override",
+				Amount:      &model.GenericFormulaExpr{Op: "const", Value: &zero},
+				Condition:   readyCond,
+			},
+		},
+	}
+}
+
+func lichBaneAAOps() []model.OperationDefinition {
+	aa := lichBaneAADamage
+	return []model.OperationDefinition{
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/physical",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &aa},
+			Ref:        "op:aa",
+		},
+		{
+			Operation: "emit_event",
+			Target:    "target",
+			EventType: spellbladeHitEvent,
+			Ref:       spellbladeHitEvent,
+		},
+	}
+}
+
+func lichBaneAAOpsWithGuinsooStack() []model.OperationDefinition {
+	aa := lichBaneAADamage
+	one := 1.0
+	return []model.OperationDefinition{
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/physical",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &aa},
+			Ref:        "op:aa",
+		},
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         guinsooStackKey,
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+		{
+			Operation: "emit_event",
+			Target:    "target",
+			EventType: spellbladeHitEvent,
+			Ref:       spellbladeHitEvent,
+		},
+	}
+}
+
+func mountLichBaneProvider(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey:        lichBaneProviderRef,
+		Kind:               "item",
+		StableID:           "lich_bane_spellblade",
+		InitialStateSchema: spellbladeStateSchema(),
+		Modifiers:          []model.ModifierDefinition{lichBaneASModifier()},
+		Listeners:          []model.ListenerDefinition{spellbladeCastArmListener(), lichBaneHitConsumeListener()},
+	})
+	compileReq.Combatants[0].Providers = append(compileReq.Combatants[0].Providers, model.CombatantProviderMount{
+		ProviderRef: lichBaneProviderRef, DefinitionRef: lichBaneProviderRef,
+	})
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key != model.SelectorSource {
+			continue
+		}
+		runReq.InitialSnapshot.Combatants[i].Providers = append(runReq.InitialSnapshot.Combatants[i].Providers, model.CombatantProviderSnapshot{
+			ProviderRef: lichBaneProviderRef, DefinitionRef: lichBaneProviderRef, Stacks: 1, State: map[string]interface{}{},
+		})
+	}
+}
+
+func configureLichBaneChampionAbilities(compileReq *model.CompileRequest) {
+	compileReq.SharedProviders[0].Abilities = []model.AbilityDefinition{
+		{
+			AbilityKey: spellbladeTumbleKey,
+			Kind:       "active",
+			Types:      []string{},
+			Operations: []model.OperationDefinition{},
+		},
+		{
+			AbilityKey: spellbladeHitAbilityKey,
+			Kind:       "active",
+			Types:      []string{"ability/basic_attack"},
+			Operations: lichBaneAAOps(),
+		},
+	}
+}
+
+func loadLichBaneFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
+	t.Helper()
+	compileReq, runReq := loadBasicFixture(t)
+	ensureSpellbladeTypes(&compileReq)
+	configureLichBaneChampionAbilities(&compileReq)
+	mountLichBaneProvider(&compileReq, &runReq)
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "ad", model.AttributeSlotDef{
+		Base: lichBaneADBase, Current: lichBaneADBase, Max: lichBaneADBase, Resolved: lichBaneADBase,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "ap", model.AttributeSlotDef{
+		Base: lichBaneAP, Current: lichBaneAP, Max: lichBaneAP, Resolved: lichBaneAP,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "attack_speed", model.AttributeSlotDef{
+		Base: lichBaneASBase, Current: lichBaneASBase, Max: 3, Resolved: lichBaneASBase,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
+		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "magic_resist", model.AttributeSlotDef{
+		Base: 0, Current: 0, Max: 0, Resolved: 0,
+	})
+	runReq.StopPolicy.StopOnTargetDeath = model.BoolPtr(false)
+	runReq.Sampling.SampleEveryMs = 100000
+	return compileReq, runReq
+}
+
+func lichBaneStateValue(t *testing.T, done model.DoneResult, key string) float64 {
+	t.Helper()
+	for _, c := range done.FinalSnapshot.Combatants {
+		if c.Key != model.SelectorSource {
+			continue
+		}
+		bag, ok := c.ProviderState[lichBaneProviderRef].(map[string]interface{})
+		if !ok {
+			return 0
+		}
+		state, ok := bag["state"].(map[string]interface{})
+		if !ok {
+			return 0
+		}
+		v, _ := state[key].(float64)
+		return v
+	}
+	t.Fatalf("source combatant missing")
+	return 0
+}
+
+func sumDamageMitigatedByOpRef(done model.DoneResult, opRef string) float64 {
+	var sum float64
+	for _, item := range done.Evidence.Items {
+		if item.Kind != model.EvidenceKindDamage {
+			continue
+		}
+		if evidenceDataString(item.Data, "operationRef") != opRef {
+			continue
+		}
+		if phantom, _ := item.Data["phantom"].(bool); phantom {
+			continue
+		}
+		sum += evidenceDataFloat(item.Data, "mitigatedAmount")
+	}
+	return sum
+}
+
+func firstDamageEvidenceByOpRef(done model.DoneResult, opRef string) *model.EvidenceItem {
+	for i := range done.Evidence.Items {
+		item := &done.Evidence.Items[i]
+		if item.Kind != model.EvidenceKindDamage {
+			continue
+		}
+		if evidenceDataString(item.Data, "operationRef") != opRef {
+			continue
+		}
+		if phantom, _ := item.Data["phantom"].(bool); phantom {
+			continue
+		}
+		return item
+	}
+	return nil
+}
+
+// TestLichBaneAbilityStartedArmsReadyICDAndAS: cast 武装 ready/ICD，并立即给出 50% AS。
+func TestLichBaneAbilityStartedArmsReadyICDAndAS(t *testing.T) {
+	compileReq, runReq := loadLichBaneFixture(t)
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+	}
+	runReq.StopPolicy.DurationMs = 50
+	done := runSpellblade(t, compileReq, runReq)
+	if countEmittedEvents(done, spellbladeCastEvent) != 1 {
+		t.Fatalf("ability_started count=%d want 1", countEmittedEvents(done, spellbladeCastEvent))
+	}
+	if got := lichBaneStateValue(t, done, spellbladeReadyKey); got != 1 {
+		t.Fatalf("spellblade_ready=%v want 1", got)
+	}
+	if got := lichBaneStateValue(t, done, spellbladeICDKey); got != 1 {
+		t.Fatalf("spellblade_icd=%v want 1", got)
+	}
+	wantAS := lichBaneReadyASResolved()
+	if got := sourceAttrResolved(t, done.FinalSnapshot, "attack_speed"); math.Abs(got-wantAS) > 1e-9 {
+		t.Fatalf("attack_speed.resolved=%v want %v (ready percent_add)", got, wantAS)
+	}
+}
+
+// TestLichBaneArmedHitExactMagicDamageConsumeAndRestoreAS: 真实命中精确魔法伤害、消费 ready、AS 恢复。
+func TestLichBaneArmedHitExactMagicDamageConsumeAndRestoreAS(t *testing.T) {
+	compileReq, runReq := loadLichBaneFixture(t)
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "aa1", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: 100},
+		{EntryKey: "aa2", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: 200},
+	}
+	runReq.StopPolicy.DurationMs = 300
+	done := runSpellblade(t, compileReq, runReq)
+
+	wantRaw := lichBaneExpectedRaw() // 120
+	if got := sumDamageRawByOpRef(done, lichBaneDamageOpRef); math.Abs(got-wantRaw) > 1e-6 {
+		t.Fatalf("lich bane raw=%v want %v", got, wantRaw)
+	}
+	wantMitigated := expectedMitigatedMagic(wantRaw, 0)
+	if got := sumDamageMitigatedByOpRef(done, lichBaneDamageOpRef); math.Abs(got-wantMitigated) > 1e-6 {
+		t.Fatalf("lich bane mitigated=%v want %v (MR=0)", got, wantMitigated)
+	}
+	if countDamageByOpRef(done, lichBaneDamageOpRef, false) != 1 {
+		t.Fatalf("lich bane damage count=%d want 1", countDamageByOpRef(done, lichBaneDamageOpRef, false))
+	}
+	item := firstDamageEvidenceByOpRef(done, lichBaneDamageOpRef)
+	if item == nil {
+		t.Fatal("missing lich bane damage evidence")
+	}
+	if evidenceDataString(item.Data, "damageType") != "damage/magic" {
+		t.Fatalf("damageType=%q want damage/magic", evidenceDataString(item.Data, "damageType"))
+	}
+	if got := lichBaneStateValue(t, done, spellbladeReadyKey); got != 0 {
+		t.Fatalf("spellblade_ready=%v want 0 after consume", got)
+	}
+	if got := sourceAttrResolved(t, done.FinalSnapshot, "attack_speed"); math.Abs(got-lichBaneASBase) > 1e-9 {
+		t.Fatalf("attack_speed.resolved=%v want %v after consume", got, lichBaneASBase)
+	}
+	wantDealt := lichBaneAADamage*2 + wantMitigated
+	if math.Abs(done.Summary.SourceDamageDealt-wantDealt) > 1e-6 {
+		t.Fatalf("sourceDamageDealt=%v want %v", done.Summary.SourceDamageDealt, wantDealt)
+	}
+}
+
+// TestLichBaneICDBlocksRearmWithin1500ms: 1.5s ICD 内再 cast 不重武装。
+func TestLichBaneICDBlocksRearmWithin1500ms(t *testing.T) {
+	compileReq, runReq := loadLichBaneFixture(t)
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble1", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "tumble2", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: spellbladeICDDuration - 1},
+		{EntryKey: "aa", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: spellbladeReadyDuration},
+	}
+	runReq.StopPolicy.DurationMs = spellbladeReadyDuration + 50
+	done := runSpellblade(t, compileReq, runReq)
+	if countEmittedEvents(done, spellbladeCastEvent) != 2 {
+		t.Fatalf("ability_started count=%d want 2", countEmittedEvents(done, spellbladeCastEvent))
+	}
+	if countDamageByOpRef(done, lichBaneDamageOpRef, false) != 0 {
+		t.Fatalf("lich bane damage=%d want 0 (ICD must not refresh ready)", countDamageByOpRef(done, lichBaneDamageOpRef, false))
+	}
+}
+
+// TestLichBaneICDExpiresAllowsRearm: ICD 到期后可再武装并触发一次。
+func TestLichBaneICDExpiresAllowsRearm(t *testing.T) {
+	compileReq, runReq := loadLichBaneFixture(t)
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble1", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "aa1", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: 100},
+		{EntryKey: "tumble2", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: spellbladeICDDuration},
+		{EntryKey: "aa2", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: spellbladeICDDuration + 100},
+	}
+	runReq.StopPolicy.DurationMs = spellbladeICDDuration + 200
+	done := runSpellblade(t, compileReq, runReq)
+	if countDamageByOpRef(done, lichBaneDamageOpRef, false) != 2 {
+		t.Fatalf("lich bane damage count=%d want 2 (after ICD expiry rearm)", countDamageByOpRef(done, lichBaneDamageOpRef, false))
+	}
+	wantRaw := 2 * lichBaneExpectedRaw()
+	if got := sumDamageRawByOpRef(done, lichBaneDamageOpRef); math.Abs(got-wantRaw) > 1e-6 {
+		t.Fatalf("lich bane raw sum=%v want %v", got, wantRaw)
+	}
+}
+
+// TestLichBaneReadyExpiryRestoresASAndNoProc: ready 到期后 AS 恢复且命中不触发。
+func TestLichBaneReadyExpiryRestoresASAndNoProc(t *testing.T) {
+	compileReq, runReq := loadLichBaneFixture(t)
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "aa", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: spellbladeReadyDuration},
+	}
+	runReq.StopPolicy.DurationMs = spellbladeReadyDuration + 50
+	done := runSpellblade(t, compileReq, runReq)
+	if countDamageByOpRef(done, lichBaneDamageOpRef, false) != 0 {
+		t.Fatalf("lich bane damage after ready expiry=%d want 0", countDamageByOpRef(done, lichBaneDamageOpRef, false))
+	}
+	if got := lichBaneStateValue(t, done, spellbladeReadyKey); got != 0 {
+		t.Fatalf("spellblade_ready=%v want 0 after expiry", got)
+	}
+	if got := sourceAttrResolved(t, done.FinalSnapshot, "attack_speed"); math.Abs(got-lichBaneASBase) > 1e-9 {
+		t.Fatalf("attack_speed.resolved=%v want %v after ready expiry", got, lichBaneASBase)
+	}
+}
+
+// TestLichBaneReadyASAffectsIntervalFormulaNotFirstAt: ready AS 只影响 intervalFormula 下一次尝试间隔，不改固定 FirstAtMs。
+func TestLichBaneReadyASAffectsIntervalFormulaNotFirstAt(t *testing.T) {
+	compileReq, runReq := loadLichBaneFixture(t)
+	compileReq.TypeCatalog.Types = append(compileReq.TypeCatalog.Types, model.TypeCatalogEntry{
+		Key: lichBaneASProbeEvent, Domain: "event",
+	})
+	one := 1.0
+	probe := model.AbilityDefinition{
+		AbilityKey: "lich_bane_as_probe",
+		Kind:       "active",
+		Types:      []string{},
+		Operations: []model.OperationDefinition{
+			{
+				Operation:  "damage",
+				Target:     "target",
+				DamageType: "damage/physical",
+				Amount:     &model.GenericFormulaExpr{Op: "const", Value: &one},
+				Ref:        "op:as_probe",
+			},
+			{
+				Operation: "emit_event",
+				Target:    "target",
+				Ref:       lichBaneASProbeEvent,
+			},
+		},
+	}
+	compileReq.SharedProviders[0].Abilities = append(compileReq.SharedProviders[0].Abilities, probe)
+	probeRef := "source.provider[" + spellbladeChampionRef + "].ability[lich_bane_as_probe]"
+	const firstAt int64 = 200
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+		{
+			EntryKey:   "as_probe",
+			AbilityRef: probeRef,
+			Source:     "source",
+			Target:     "target",
+			FirstAtMs:  firstAt,
+			Repeat: &model.DriverRepeat{
+				IntervalFormula: guinsooASIntervalFormula(),
+				MaxAttempts:     2,
+			},
+		},
+	}
+	runReq.StopPolicy.DurationMs = 2000
+	done := runSpellblade(t, compileReq, runReq)
+
+	if got := lichBaneStateValue(t, done, spellbladeReadyKey); got != 1 {
+		t.Fatalf("spellblade_ready=%v want 1 (probe must not consume)", got)
+	}
+	wantAS := lichBaneReadyASResolved()
+	if got := sourceAttrResolved(t, done.FinalSnapshot, "attack_speed"); math.Abs(got-wantAS) > 1e-9 {
+		t.Fatalf("attack_speed.resolved=%v want %v while ready", got, wantAS)
+	}
+
+	times := emittedEventTimes(done, lichBaneASProbeEvent)
+	if len(times) != 2 {
+		t.Fatalf("probe times=%v want 2", times)
+	}
+	if times[0] != firstAt {
+		t.Fatalf("first probe at %d want fixed FirstAtMs=%d (AS must not rewrite windup)", times[0], firstAt)
+	}
+	wantGap := lichBaneASIntervalMs(wantAS) // round(1000/1.5)=667
+	if wantGap != 667 {
+		t.Fatalf("formula check gap=%d want 667", wantGap)
+	}
+	gap := times[1] - times[0]
+	if gap != wantGap {
+		t.Fatalf("dynamic next-attempt gap=%d want %d (ready AS via intervalFormula)", gap, wantGap)
+	}
+}
+
+// TestLichBanePhantomDoesNotCopyOrConsume: Guinsoo phantom 不复制巫妖咒刃伤害，也不消费/改写其状态。
+func TestLichBanePhantomDoesNotCopyOrConsume(t *testing.T) {
+	compileReq, runReq := loadLichBaneFixture(t)
+	compileReq.SharedProviders[0].InitialStateSchema = guinsooKStackSchema()
+	compileReq.SharedProviders[0].Abilities[1].Operations = lichBaneAAOpsWithGuinsooStack()
+	copyableAmt := 30.0
+	compileReq.SharedProviders[0].Listeners = []model.ListenerDefinition{
+		{
+			ListenerKey:  "guinsoo_copyable",
+			EventMatcher: model.TypeMatcher{All: []string{spellbladeHitEvent, "event/source_owner"}},
+			Operations: []model.OperationDefinition{
+				{
+					Operation:     "damage",
+					Target:        "target",
+					DamageType:    "damage/magic",
+					Amount:        &model.GenericFormulaExpr{Op: "const", Value: &copyableAmt},
+					CopyableOnHit: true,
+					Ref:           "op:guinsoo_copyable",
+				},
+			},
+		},
+		{
+			ListenerKey:  "guinsoo_repeat",
+			EventMatcher: model.TypeMatcher{All: []string{spellbladeHitEvent, "event/source_owner"}},
+			Operations:   []model.OperationDefinition{guinsooKRepeatOp()},
+		},
+	}
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key != model.SelectorSource {
+			continue
+		}
+		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
+			spellbladeChampionRef: map[string]interface{}{
+				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+			},
+		}
+	}
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "aa", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: 100},
+	}
+	runReq.StopPolicy.DurationMs = 200
+	done := runSpellblade(t, compileReq, runReq)
+
+	if countDamageByOpRef(done, lichBaneDamageOpRef, false) != 1 {
+		t.Fatalf("original lich bane damage count=%d want 1", countDamageByOpRef(done, lichBaneDamageOpRef, false))
+	}
+	if countDamageByOpRef(done, lichBaneDamageOpRef, true) != 0 {
+		t.Fatalf("phantom lich bane damage count=%d want 0", countDamageByOpRef(done, lichBaneDamageOpRef, true))
+	}
+	if got := sumDamageRawByOpRef(done, lichBaneDamageOpRef); math.Abs(got-lichBaneExpectedRaw()) > 1e-6 {
+		t.Fatalf("lich bane raw=%v want %v", got, lichBaneExpectedRaw())
+	}
+	if got := lichBaneStateValue(t, done, spellbladeReadyKey); got != 0 {
+		t.Fatalf("spellblade_ready=%v want 0 (consumed once by real hit)", got)
+	}
+	if got := lichBaneStateValue(t, done, spellbladeICDKey); got != 1 {
+		t.Fatalf("spellblade_icd=%v want 1 (phantom must not touch ICD)", got)
+	}
+	if countDamageByOpRef(done, "op:guinsoo_copyable", true) != 1 {
+		t.Fatalf("phantom guinsoo copyable count=%d want 1", countDamageByOpRef(done, "op:guinsoo_copyable", true))
+	}
+}
