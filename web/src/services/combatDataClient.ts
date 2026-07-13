@@ -21,6 +21,7 @@ import type {
   EntityProviderMount,
   EntityResource,
   EntityResourceStage,
+  ExecuteEffectDetail,
   ListenerEffectSequence,
   ListenerMatchType,
   ProgressionSchema,
@@ -393,6 +394,13 @@ export async function getListenerEffectSequences(
   query?: CombatDataQuery
 ): Promise<ApiResult<CombatDataEnvelope<ListenerEffectSequence[]>>> {
   return getCombatDataEnvelope(apiBaseUrl, gameId, ['listener-effect-sequences'], query);
+}
+
+export async function getExecuteEffectDetails(
+  apiBaseUrl: string,
+  gameId: string
+): Promise<ApiResult<CombatDataEnvelope<ExecuteEffectDetail[]>>> {
+  return getCombatDataEnvelope(apiBaseUrl, gameId, ['execute-effect-details']);
 }
 
 // --- Admin PUTs ---
@@ -793,6 +801,16 @@ export async function putListenerEffectSequence(
   );
 }
 
+export async function putExecuteEffectDetail(
+  apiBaseUrl: string,
+  gameId: string,
+  stepId: string,
+  token: string,
+  body: JsonObject
+): Promise<ApiResult<AdminWriteResponse<ExecuteEffectDetail>>> {
+  return putCombatDataAdmin(apiBaseUrl, gameId, token, ['execute-effect-details', stepId], body);
+}
+
 /**
  * Load a full combat-data graph for a game (state + all list resources).
  * progression-schema is optional: 404 → null.
@@ -828,7 +846,8 @@ export async function loadCombatDataGraph(apiBaseUrl: string, gameId: string): P
     effectSequences,
     effectSteps,
     abilityPhaseEffectSequences,
-    listenerEffectSequences
+    listenerEffectSequences,
+    executeEffectDetails
   ] = await Promise.all([
     getCombatDataState(apiBaseUrl, gameId),
     getProgressionSchema(apiBaseUrl, gameId)
@@ -866,7 +885,8 @@ export async function loadCombatDataGraph(apiBaseUrl: string, gameId: string): P
     getEffectSequences(apiBaseUrl, gameId).then((r) => r.data.data),
     getEffectSteps(apiBaseUrl, gameId).then((r) => r.data.data),
     getAbilityPhaseEffectSequences(apiBaseUrl, gameId).then((r) => r.data.data),
-    getListenerEffectSequences(apiBaseUrl, gameId).then((r) => r.data.data)
+    getListenerEffectSequences(apiBaseUrl, gameId).then((r) => r.data.data),
+    getExecuteEffectDetails(apiBaseUrl, gameId).then((r) => r.data.data)
   ]);
 
   const state = stateResult.data.data;
@@ -904,6 +924,7 @@ export async function loadCombatDataGraph(apiBaseUrl: string, gameId: string): P
     effectSequences,
     effectSteps,
     abilityPhaseEffectSequences,
-    listenerEffectSequences
+    listenerEffectSequences,
+    executeEffectDetails
   };
 }

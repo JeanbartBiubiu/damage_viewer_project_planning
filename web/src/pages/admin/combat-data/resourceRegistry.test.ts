@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildEffectStepPutFromEditor,
+  recordToEffectStepEditorState
+} from './EffectStepEditor';
+import {
   adaptEnvelopeDataToRecords,
   createEmptyForm,
   getCombatDataResource,
@@ -82,5 +86,80 @@ describe('combat-data resourceRegistry envelope adaptation', () => {
     expect(form.stageMax).toBe(18);
     expect(form.stageLabel).toBe('等级');
     expect(form.requireAllStages).toBe(true);
+  });
+});
+
+describe('execute-effect-details and effect-step detail families', () => {
+  it('registers execute-effect-details in Effect group with locked stepId and required threshold', () => {
+    const config = getCombatDataResource('execute-effect-details');
+    expect(config).toBeDefined();
+    expect(config!.groupId).toBe('effects');
+    expect(config!.pathKeys).toEqual(['stepId']);
+
+    const stepIdField = config!.fields.find((field) => field.name === 'stepId');
+    expect(stepIdField).toMatchObject({ kind: 'text', required: true, lockedOnEdit: true });
+
+    const thresholdField = config!.fields.find((field) => field.name === 'threshold');
+    expect(thresholdField).toMatchObject({ kind: 'number', required: true });
+  });
+
+  it('converts and builds executeDetail PUT body with only threshold plus common fields', () => {
+    const state = recordToEffectStepEditorState({
+      stepId: 'step_exec',
+      sequenceId: 'seq_1',
+      stepOrder: 1,
+      operationTypeId: 10,
+      targetSelectorTypeId: 20,
+      conditionFormulaKey: 'cond.hp',
+      executeDetail: { threshold: 0.25 }
+    });
+    expect(state.detailFamily).toBe('executeDetail');
+    expect(state.detail.threshold).toBe(0.25);
+
+    const body = buildEffectStepPutFromEditor(state);
+    expect(body).toEqual({
+      sequenceId: 'seq_1',
+      stepOrder: 1,
+      operationTypeId: 10,
+      targetSelectorTypeId: 20,
+      conditionFormulaKey: 'cond.hp',
+      executeDetail: { threshold: 0.25 }
+    });
+  });
+
+  it('converts and builds repeatDetail with all fields intact', () => {
+    const state = recordToEffectStepEditorState({
+      stepId: 'step_repeat',
+      sequenceId: 'seq_2',
+      stepOrder: 2,
+      operationTypeId: 11,
+      targetSelectorTypeId: 21,
+      repeatDetail: {
+        repeatScopeTypeId: 3,
+        repeatCount: 4,
+        repeatTag: 'tag.a',
+        triggerStateKey: 'state.ready',
+        threshold: 0.5
+      }
+    });
+    expect(state.detailFamily).toBe('repeatDetail');
+    expect(state.detail).toMatchObject({
+      repeatScopeTypeId: 3,
+      repeatCount: 4,
+      repeatTag: 'tag.a',
+      triggerStateKey: 'state.ready',
+      threshold: 0.5
+    });
+
+    const body = buildEffectStepPutFromEditor(state);
+    expect(body.repeatDetail).toEqual({
+      repeatScopeTypeId: 3,
+      repeatCount: 4,
+      repeatTag: 'tag.a',
+      triggerStateKey: 'state.ready',
+      threshold: 0.5
+    });
+    expect(body.sequenceId).toBe('seq_2');
+    expect(body.stepOrder).toBe(2);
   });
 });

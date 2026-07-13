@@ -131,6 +131,8 @@ type GraphIndexes = {
   stateFieldsByProvider: Map<string, CombatDataGraph['providerStateFields']>;
   /** Stable de-duped type keys from type_relations where targetCategory=ability (targetId=abilityId). */
   abilityTypesById: Map<string, string[]>;
+  /** Strict 1:1 lookup of independent execute rows by effect stepId (validated in buildIndexes). */
+  executeEffectDetailsByStepId: Map<string, CombatDataGraph['executeEffectDetails'][number]>;
 };
 
 export function assembleCompileRequest(
@@ -464,6 +466,7 @@ function buildIndexes(graph: CombatDataGraph): GraphIndexes {
   const abilitiesById = new Map(graph.abilities.map((a) => [a.abilityId, a]));
   const stateFieldsByProvider = groupBy(graph.providerStateFields, (s) => s.providerId);
   const abilityTypesById = buildAbilityTypeKeysById(graph, types);
+  const executeEffectDetailsByStepId = buildExecuteEffectDetailsByStepId(graph);
 
   return {
     types,
@@ -484,8 +487,65 @@ function buildIndexes(graph: CombatDataGraph): GraphIndexes {
     paramsByAbility,
     abilitiesById,
     stateFieldsByProvider,
-    abilityTypesById
+    abilityTypesById,
+    executeEffectDetailsByStepId
   };
+}
+
+/** Local presence check only — does not run exactly-one detail-key validation. */
+function hasEmbeddedExecuteDetail(step: EffectStep): boolean {
+  const value = (step as Record<string, unknown>).executeDetail;
+  return value !== undefined && value !== null;
+}
+
+function buildExecuteEffectDetailsByStepId(
+  graph: CombatDataGraph
+): Map<string, CombatDataGraph['executeEffectDetails'][number]> {
+  const stepsById = new Map(graph.effectSteps.map((s) => [s.stepId, s]));
+  const byStepId = new Map<string, CombatDataGraph['executeEffectDetails'][number]>();
+
+  for (const row of graph.executeEffectDetails) {
+    if (byStepId.has(row.stepId)) {
+      throw new CombatDataAssembleError(
+        `duplicate executeEffectDetail for stepId: ${row.stepId}`
+      );
+    }
+    byStepId.set(row.stepId, row);
+  }
+
+  for (const [stepId] of byStepId) {
+    const step = stepsById.get(stepId);
+    if (!step) {
+      throw new CombatDataAssembleError(
+        `executeEffectDetail orphan with no effect step: ${stepId}`
+      );
+    }
+    if (!hasEmbeddedExecuteDetail(step)) {
+      throw new CombatDataAssembleError(
+        `executeEffectDetail step ${stepId} matching step is not executeDetail family`
+      );
+    }
+  }
+
+  for (const step of graph.effectSteps) {
+    if (!hasEmbeddedExecuteDetail(step)) {
+      continue;
+    }
+    const row = byStepId.get(step.stepId);
+    if (!row) {
+      throw new CombatDataAssembleError(
+        `effect step ${step.stepId} executeDetail missing independent executeEffectDetail row`
+      );
+    }
+    const embedded = step.executeDetail!;
+    if (row.threshold !== embedded.threshold) {
+      throw new CombatDataAssembleError(
+        `effect step ${step.stepId} executeDetail threshold disagrees with executeEffectDetail`
+      );
+    }
+  }
+
+  return byStepId;
 }
 
 function buildTypeCatalog(graph: CombatDataGraph, types: TypeIndex): TypeCatalog {
@@ -1257,6 +1317,14 @@ function mapEffectStep(
         repeatTag: d.repeatTag,
         triggerStateKey: d.triggerStateKey,
         threshold: d.threshold
+      };
+    }
+    case 'executeDetail': {
+      const d = step.executeDetail!;
+      return {
+        ...base,
+        threshold: d.threshold,
+        ref: step.stepId
       };
     }
     default:
