@@ -839,6 +839,117 @@ describe('combatDataAssembler', () => {
       expect(plainOp).not.toHaveProperty('copyableOnHit');
     });
 
+    it('projects critEligible only when true; omits for false/undefined; coexists with copyableOnHit', () => {
+      const critTrue = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_crit_eligible',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: TYPE.operationDamage.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              damageDetail: {
+                amountFormulaKey: 'dmg',
+                damageTypeId: TYPE.damagePhysical.typeId,
+                valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+                critEligible: true
+              }
+            }
+          ]
+        })
+      );
+      const critTrueOp = assembleCompileRequest(critTrue, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!.abilities![0]
+        .operations![0];
+      expect(critTrueOp).toEqual({
+        operation: 'damage',
+        target: 'opponent',
+        ref: 'step_crit_eligible',
+        amount: { op: 'ref', ref: 'source::dmg' },
+        damageType: 'damage/physical',
+        valuePolicy: 'add',
+        critEligible: true
+      });
+
+      const critFalse = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_crit_false',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: TYPE.operationDamage.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              damageDetail: {
+                amountFormulaKey: 'dmg',
+                damageTypeId: TYPE.damagePhysical.typeId,
+                valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+                critEligible: false
+              }
+            }
+          ]
+        })
+      );
+      const critFalseOp = assembleCompileRequest(critFalse, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!.abilities![0]
+        .operations![0];
+      expect(critFalseOp.ref).toBe('step_crit_false');
+      expect(critFalseOp).not.toHaveProperty('critEligible');
+
+      const plain = withHkTypes(buildGraphFixture());
+      const plainOp = assembleCompileRequest(plain, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!.abilities![0]
+        .operations![0];
+      expect(plainOp.ref).toBe('step_dmg');
+      expect(plainOp).not.toHaveProperty('critEligible');
+
+      const both = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_both_flags',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: TYPE.operationDamage.typeId,
+              targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+              damageDetail: {
+                amountFormulaKey: 'dmg',
+                damageTypeId: TYPE.damagePhysical.typeId,
+                valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+                copyableOnHit: true,
+                critEligible: true
+              }
+            }
+          ]
+        })
+      );
+      const bothOp = assembleCompileRequest(both, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!.abilities![0]
+        .operations![0];
+      expect(bothOp).toEqual({
+        operation: 'damage',
+        target: 'opponent',
+        ref: 'step_both_flags',
+        amount: { op: 'ref', ref: 'source::dmg' },
+        damageType: 'damage/physical',
+        valuePolicy: 'add',
+        copyableOnHit: true,
+        critEligible: true
+      });
+    });
+
     it('projects repeatDetail with ref=stepId and ABI-tokenized repeatScope', () => {
       const graph = withHkTypes(
         buildGraphFixture({

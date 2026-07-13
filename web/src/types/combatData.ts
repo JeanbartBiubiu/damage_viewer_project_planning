@@ -270,6 +270,8 @@ export type DamageDetail = {
   valuePolicyTypeId: number;
   /** Backend defaults omitted writes to false; emit on Wasm only when true. */
   copyableOnHit?: boolean;
+  /** Backend defaults omitted writes to false; emit on Wasm only when true. */
+  critEligible?: boolean;
 };
 
 export type HealDetail = {
