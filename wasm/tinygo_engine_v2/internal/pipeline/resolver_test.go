@@ -321,3 +321,71 @@ func TestResolveDamageNonFiniteDoesNotMutate(t *testing.T) {
 		t.Fatalf("hp mutated")
 	}
 }
+
+func TestResolveExecuteThresholdSetsHPZeroPreservesShield(t *testing.T) {
+	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 40, Max: 1000}}
+	view := CombatantView{
+		Attributes: attrs,
+		Shields: []ShieldInstance{
+			{ShieldRef: "s1", Remaining: 200, Priority: 1},
+			{ShieldRef: "s2", Remaining: 50, Priority: 0},
+		},
+	}
+	outcome, next := ResolveExecuteThreshold(command.Command{
+		Kind: command.KindExecuteThreshold, Target: "target", Threshold: 0.05,
+	}, view)
+	if !outcome.Applied || !outcome.Killed || !outcome.ShieldBypassed {
+		t.Fatalf("outcome=%+v", outcome)
+	}
+	if outcome.HPBefore != 40 {
+		t.Fatalf("hpBefore=%v want 40", outcome.HPBefore)
+	}
+	if attribute.ReadHP(next.Attributes) != 0 {
+		t.Fatalf("hp=%v want 0", attribute.ReadHP(next.Attributes))
+	}
+	if len(next.Shields) != 2 {
+		t.Fatalf("shields=%d want 2", len(next.Shields))
+	}
+	if next.Shields[0].Remaining != 200 || next.Shields[1].Remaining != 50 {
+		t.Fatalf("shields mutated: %+v", next.Shields)
+	}
+}
+
+func TestResolveExecuteThresholdNotDamageResult(t *testing.T) {
+	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 10, Max: 1000}}
+	result, next := ResolveCommand(command.Command{
+		Kind: command.KindExecuteThreshold, Target: "target",
+	}, CombatantView{Attributes: attrs, Shields: []ShieldInstance{{Remaining: 30}}}, 0)
+	if result.Kind != command.KindExecuteThreshold {
+		t.Fatalf("kind=%q", result.Kind)
+	}
+	if !result.Applied || result.Amount != 0 {
+		t.Fatalf("result=%+v want applied non-damage amount=0", result)
+	}
+	if attribute.ReadHP(next.Attributes) != 0 {
+		t.Fatalf("hp=%v want 0", attribute.ReadHP(next.Attributes))
+	}
+	if len(next.Shields) != 1 || next.Shields[0].Remaining != 30 {
+		t.Fatalf("shields=%+v", next.Shields)
+	}
+}
+
+func TestResolveExecuteThresholdLiveDeadSkip(t *testing.T) {
+	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 0, Max: 1000}}
+	view := CombatantView{
+		Attributes: attrs,
+		Shields:    []ShieldInstance{{ShieldRef: "keep", Remaining: 80}},
+	}
+	outcome, next := ResolveExecuteThreshold(command.Command{
+		Kind: command.KindExecuteThreshold, Target: "target",
+	}, view)
+	if outcome.Applied || outcome.Killed {
+		t.Fatalf("dead target must skip: %+v", outcome)
+	}
+	if attribute.ReadHP(next.Attributes) != 0 {
+		t.Fatalf("hp=%v", attribute.ReadHP(next.Attributes))
+	}
+	if len(next.Shields) != 1 || next.Shields[0].Remaining != 80 {
+		t.Fatalf("shields mutated: %+v", next.Shields)
+	}
+}

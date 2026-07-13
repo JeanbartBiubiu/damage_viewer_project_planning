@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strings"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
@@ -41,6 +42,7 @@ type stagedCombatant struct {
 // eventFormulaSnapshot 保存父 frame entry 快照与 emit 当点 staged 深拷贝。
 // event 参与者始终是原始 emittedEvent source/target，不随 listener owner-relative 重映射。
 type eventFormulaSnapshot struct {
+	eventType            string
 	eventSourceKey       string
 	eventTargetKey       string
 	entrySourceAttrs     map[string]model.AttributeSlotDef
@@ -169,12 +171,13 @@ func (f *executionFrame) entryMapsForKey(key string) (map[string]model.Attribute
 	}
 }
 
-func (f *executionFrame) captureEmitSnapshot(eventSourceKey, eventTargetKey string) eventFormulaSnapshot {
+func (f *executionFrame) captureEmitSnapshot(eventType, eventSourceKey, eventTargetKey string) eventFormulaSnapshot {
 	src := f.stageFor(eventSourceKey)
 	tgt := f.stageFor(eventTargetKey)
 	entrySrcAttrs, entrySrcRes := f.entryMapsForKey(eventSourceKey)
 	entryTgtAttrs, entryTgtRes := f.entryMapsForKey(eventTargetKey)
 	return eventFormulaSnapshot{
+		eventType:            eventType,
 		eventSourceKey:       eventSourceKey,
 		eventTargetKey:       eventTargetKey,
 		entrySourceAttrs:     cloneAttributeMap(entrySrcAttrs),
@@ -193,6 +196,7 @@ func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
 		return nil
 	}
 	cp := eventFormulaSnapshot{
+		eventType:            src.eventType,
 		eventSourceKey:       src.eventSourceKey,
 		eventTargetKey:       src.eventTargetKey,
 		entrySourceAttrs:     cloneAttributeMap(src.entrySourceAttrs),
@@ -600,11 +604,13 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			sourceKey: f.sourceKey,
 			targetKey: targetKey,
 			types:     types,
-			snapshot:  f.captureEmitSnapshot(f.sourceKey, targetKey),
+			snapshot:  f.captureEmitSnapshot(eventType, f.sourceKey, targetKey),
 		})
 		return nil
 	case "state_change":
 		return f.applyStateChange(op, ability)
+	case model.OperationKindExecuteThreshold:
+		return f.applyExecuteThreshold(op, targetKey)
 	default:
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unknown operation: "+op.Operation, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
@@ -669,6 +675,118 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 	}
 	f.stageFor(ownerKey).dirty = true
 	return nil
+}
+
+// applyExecuteThreshold 仅在真实 event/basic_attack_hit 的 emit snapshot 上判定；
+// 命中后经 command/pipeline 置零 live HP，不写 damage summary/evidence，不 emit。
+func (f *executionFrame) applyExecuteThreshold(op compilebundle.CompiledOperation, targetKey string) *model.EngineError {
+	// Fail closed：无 event context 或非 basic_attack_hit 不触发。
+	if f.eventCtx == nil || f.eventCtx.eventType != eventTypeBasicAttackHit {
+		return nil
+	}
+	snapCurrent := attribute.ReadAttr(f.eventCtx.targetAttrs, "hp.current")
+	snapMax := attribute.ReadAttr(f.eventCtx.targetAttrs, "hp.max")
+	if snapMax <= 0 {
+		snapMax = attribute.ReadHPMax(f.eventCtx.targetAttrs)
+	}
+	if snapMax <= 0 || math.IsNaN(snapMax) || math.IsInf(snapMax, 0) {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "execute_threshold requires positive snapshot max HP", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	ratio := snapCurrent / snapMax
+	if math.IsNaN(ratio) || math.IsInf(ratio, 0) || !(ratio < op.Threshold) {
+		return nil
+	}
+
+	sc := f.stageFor(targetKey)
+	liveHP := attribute.ReadAttr(sc.attributes, "hp.current")
+	if liveHP <= 0 || math.IsNaN(liveHP) || math.IsInf(liveHP, 0) {
+		return nil
+	}
+
+	cmd := command.Command{
+		Kind:          command.KindExecuteThreshold,
+		Source:        f.sourceKey,
+		Target:        targetKey,
+		Ref:           op.Ref,
+		Threshold:     op.Threshold,
+		SnapshotHP:    snapCurrent,
+		SnapshotMaxHP: snapMax,
+	}
+	if !command.Validate(cmd) {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "execute_threshold target unavailable", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+
+	view := pipeline.CombatantView{Attributes: sc.attributes, Shields: sc.shields}
+	outcome, next := pipeline.ResolveExecuteThreshold(cmd, view)
+	sc.attributes = next.Attributes
+	sc.shields = next.Shields
+	if !outcome.Applied {
+		return nil
+	}
+	sc.attributes = syncHPResolved(sc.attributes)
+	sc.dirty = true
+
+	f.run.recordGenericExecuteEvidence(genericExecuteEvidence{
+		source:       cmd.Source,
+		target:       cmd.Target,
+		providerRef:  f.ownerProviderRef,
+		abilityRef:   f.abilityRef,
+		operationRef: op.Ref,
+		hpBefore:     outcome.HPBefore,
+		maxHp:        snapMax,
+		hpRatio:      ratio,
+		threshold:    op.Threshold,
+		killed:       outcome.Killed,
+		shieldBypass: outcome.ShieldBypassed,
+	})
+	return nil
+}
+
+type genericExecuteEvidence struct {
+	source       string
+	target       string
+	providerRef  string
+	abilityRef   string
+	operationRef string
+	hpBefore     float64
+	maxHp        float64
+	hpRatio      float64
+	threshold    float64
+	killed       bool
+	shieldBypass bool
+}
+
+func (s *genericRunState) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
+	data := map[string]interface{}{
+		"source":         ev.source,
+		"target":         ev.target,
+		"operationRef":   ev.operationRef,
+		"hpBefore":       ev.hpBefore,
+		"maxHp":          ev.maxHp,
+		"hpRatio":        ev.hpRatio,
+		"threshold":      ev.threshold,
+		"thresholdType":  executeThresholdTypeRatio,
+		"comparison":     executeThresholdComparison,
+		"killed":         ev.killed,
+		"shieldBypassed": ev.shieldBypass,
+		"phantom":        false,
+	}
+	if ev.providerRef != "" {
+		data["providerRef"] = ev.providerRef
+	}
+	if ev.abilityRef != "" {
+		data["abilityRef"] = ev.abilityRef
+	}
+	ref := ev.operationRef
+	if ref == "" {
+		ref = ev.abilityRef
+	}
+	s.recordEvidence(model.EvidenceItem{
+		TimeMs: s.nowMs,
+		Kind:   model.EvidenceKindExecute,
+		Ref:    ref,
+		Data:   data,
+	})
 }
 
 func (f *executionFrame) applyCommand(cmd command.Command) *model.EngineError {
@@ -1071,8 +1189,11 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 }
 
 const (
-	abilityTypeBasicAttack  = "ability/basic_attack"
-	eventTypeAbilityStarted = "event/ability_started"
+	abilityTypeBasicAttack     = "ability/basic_attack"
+	eventTypeAbilityStarted    = "event/ability_started"
+	eventTypeBasicAttackHit    = "event/basic_attack_hit"
+	executeThresholdTypeRatio  = "current_hp_ratio"
+	executeThresholdComparison = "strict_below"
 )
 
 // maybeDispatchAbilityStartedEvent 在顶层成功 cast 后自动合成 event/ability_started（reserved 20205）。
@@ -1111,7 +1232,7 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 		sourceKey: f.sourceKey,
 		targetKey: f.targetKey,
 		types:     []string{eventTypeAbilityStarted},
-		snapshot:  f.captureEmitSnapshot(f.sourceKey, f.targetKey),
+		snapshot:  f.captureEmitSnapshot(eventTypeAbilityStarted, f.sourceKey, f.targetKey),
 	}
 	return f.run.dispatchListeners(ev, f.chainDepth+1)
 }
