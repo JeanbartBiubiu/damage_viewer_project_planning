@@ -436,6 +436,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericLinkedEffectsSeedSqlTest test
 ```
 
+### LoL generic Yun Tal Practice Makes Lethal seed（item_3032）
+
+在 reserved types、Batch-C `item_3032`（静态 `ad=50` / `attack_speed=0.4`，本脚本不改）、`attribute_definitions.crit_chance`，以及 `basic_attack_hit` emit 基线已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20160`/`20170`/`20181`/`20211`/`20212`/`20250`）
+2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3032` 尚未写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
+4. `db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-yun-tal-practice-makes-lethal-v1-20260714`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验 `item_3032` 与 `crit_chance`；幂等投影所需 reserved → `types`；向 `item_3032` 独占 mount `provider_item_3032_yun_tal_practice_makes_lethal`，含单 `basic_attack_hit` + `source_owner` ALL listener、单 sequence、单 capped `state_change` 叠层（`practice_crit_stacks` max 63、untimed、`const 1` + add policy）、以及 `crit_chance` add modifier，公式 AST 为 `min(0.25, mul(0.004, provider.state.practice_crit_stacks))`。不写 `game_entities` / `entity_attribute_values`，不给 `item_3032` 增加静态暴击。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
+
+**排除**：Flurry / 疾风骤雨（30% 攻速、6s/30s 冷却与命中/暴击减 CD）、`event/basic_attack_started`、随机暴击事件、以及 attack_speed / cooldown 机制面。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericYunTalPracticeMakesLethalSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
