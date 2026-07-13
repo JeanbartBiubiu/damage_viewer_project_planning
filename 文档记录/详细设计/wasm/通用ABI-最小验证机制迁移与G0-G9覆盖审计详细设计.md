@@ -62,7 +62,7 @@ LAST_TRACKED_AT: 2026-07-13
 
 ## Spellblade 批次
 
-对应任务：`wasm-generic-spellblade`（状态：**active / 开发中**，详见 [Spellblade 机制详细设计](./通用ABI-Spellblade机制详细设计.md)）。
+对应任务：`wasm-generic-spellblade`（状态：**done / 已完成**，详见 [Spellblade 机制详细设计](./通用ABI-Spellblade机制详细设计.md)；验证记录：[Spellblade 机制验证记录-2026-07-13](../../测试记录/wasm/通用ABI-Spellblade机制验证记录-2026-07-13.md)）。
 
 本批覆盖：顶层非普攻成功 cast 自动派发 `event/ability_started` 并武装、ready/ICD、下一次独立普攻 `2 * base AD` 后消费、phantom 禁区。
 
