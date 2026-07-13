@@ -482,6 +482,28 @@ cd server/data_manage
 mvn -Dtest=LolGenericWitsEndFraySeedSqlTest test
 ```
 
+### LoL generic Manamune Awe seed（魔宗 item_3004）
+
+在 reserved types、Batch-C `item_3004`（静态 `ad=35` / `mana=500` / `ability_haste=15`，本脚本不改）、以及 `attribute_definitions` 的 `ad` / `mana` 已就绪后，按顺序执行：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20110`/`20120`/`20170`）
+2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3004` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_manamune_awe_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-manamune-awe-v1-20260714`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验 `item_3004` 与 `ad`/`mana` 属性定义及所需 reserved types；幂等投影所需 reserved → `types`；向 `item_3004` 独占 mount `provider_item_3004_manamune_awe`（`provider_kind/passive`），含单 source-bound `ad` add modifier（`selector/self` + `value_policy/add`），公式 AST 为 `mul(0.02, source.attr.mana.max)`。不写 provider state / listener / effect sequence / effect step / damage detail，不写 `game_entities` / `entity_attribute_values`，不改 Batch-C 静态属性。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：Manaflow 充能、on-hit/ability 法力获取、最大充能上限、Muramana 变形、资源修改、攻击事件、随机/RNG。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
