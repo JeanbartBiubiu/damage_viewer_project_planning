@@ -389,3 +389,72 @@ func TestResolveExecuteThresholdLiveDeadSkip(t *testing.T) {
 		t.Fatalf("shields mutated: %+v", next.Shields)
 	}
 }
+
+func TestResolveDamageAccumulatesAgainstDBShapedHP(t *testing.T) {
+	// Real Web/DB slot: Base=Current=Max=Resolved=5000. SetHP only mutates Current;
+	// refresh leaves Resolved at Base. ReadHP must accumulate on Current across hits.
+	const initial = 5000.0
+	attrs := map[string]model.AttributeSlotDef{
+		"hp": {Base: initial, Current: initial, Max: initial, Resolved: initial},
+	}
+	view := CombatantView{Attributes: attrs}
+	const hits = 10
+	const perHit = 100.0
+	for i := 0; i < hits; i++ {
+		var outcome DamageOutcome
+		outcome, view = resolveDamage(command.Command{
+			Kind: command.KindDamage, Amount: perHit, DamageType: "damage/true",
+		}, view, 0)
+		if outcome.HPDamage != perHit {
+			t.Fatalf("hit %d hpDamage=%v want %v (ReadHP must not stick on Resolved)", i+1, outcome.HPDamage, perHit)
+		}
+	}
+	want := initial - perHit*hits
+	if got := attribute.ReadHP(view.Attributes); got != want {
+		t.Fatalf("ReadHP=%v want %v", got, want)
+	}
+	if slot := view.Attributes["hp"]; slot.Resolved != initial || slot.Base != initial {
+		t.Fatalf("Base/Resolved mutated: %+v want both %v", slot, initial)
+	}
+}
+
+func TestResolveExecuteThresholdCurrentZeroWithStaleResolved(t *testing.T) {
+	// After execute, Base/Resolved may remain at initial; ReadHP must still see Current=0
+	// so a second execute skips (stopOnTargetDeath=false path).
+	const initial = 5000.0
+	attrs := map[string]model.AttributeSlotDef{
+		"hp": {Base: initial, Current: 200, Max: initial, Resolved: initial},
+	}
+	view := CombatantView{
+		Attributes: attrs,
+		Shields:    []ShieldInstance{{ShieldRef: "keep", Remaining: 50}},
+	}
+	outcome, next := ResolveExecuteThreshold(command.Command{
+		Kind: command.KindExecuteThreshold, Target: "target", Threshold: 0.05,
+	}, view)
+	if !outcome.Applied || !outcome.Killed {
+		t.Fatalf("first execute: %+v", outcome)
+	}
+	if attribute.ReadHP(next.Attributes) != 0 {
+		t.Fatalf("hp=%v want 0", attribute.ReadHP(next.Attributes))
+	}
+	slot := next.Attributes["hp"]
+	if slot.Current != 0 {
+		t.Fatalf("Current=%v want 0", slot.Current)
+	}
+	// Base/Resolved 不必清零；模拟 refresh 把 Resolved 写回 Base。
+	slot.Resolved = slot.Base
+	next.Attributes["hp"] = slot
+	skip, after := ResolveExecuteThreshold(command.Command{
+		Kind: command.KindExecuteThreshold, Target: "target", Threshold: 0.05,
+	}, next)
+	if skip.Applied || skip.Killed {
+		t.Fatalf("second execute must skip with Current=0 stale Resolved: %+v", skip)
+	}
+	if attribute.ReadHP(after.Attributes) != 0 {
+		t.Fatalf("hp after skip=%v", attribute.ReadHP(after.Attributes))
+	}
+	if len(after.Shields) != 1 || after.Shields[0].Remaining != 50 {
+		t.Fatalf("shields=%+v", after.Shields)
+	}
+}
