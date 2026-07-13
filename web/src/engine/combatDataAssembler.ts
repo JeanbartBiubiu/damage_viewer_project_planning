@@ -129,6 +129,8 @@ type GraphIndexes = {
   paramsByAbility: Map<string, CombatDataGraph['abilityParameters']>;
   abilitiesById: Map<string, CombatDataGraph['abilities'][number]>;
   stateFieldsByProvider: Map<string, CombatDataGraph['providerStateFields']>;
+  /** Stable de-duped type keys from type_relations where targetCategory=ability (targetId=abilityId). */
+  abilityTypesById: Map<string, string[]>;
 };
 
 export function assembleCompileRequest(
@@ -304,7 +306,8 @@ export function listAvailableSourceAbilities(
         providerKey: stripSlotPrefix(mount.definitionRef),
         displayName: `${mount.providerRef} / ${ability.abilityKey}`,
         kind: ability.kind,
-        selectable: ability.kind === 'active'
+        selectable: ability.kind === 'active',
+        ...(ability.types && ability.types.length > 0 ? { types: [...ability.types] } : {})
       });
     }
   }
@@ -460,6 +463,7 @@ function buildIndexes(graph: CombatDataGraph): GraphIndexes {
   const paramsByAbility = groupBy(graph.abilityParameters, (p) => p.abilityId);
   const abilitiesById = new Map(graph.abilities.map((a) => [a.abilityId, a]));
   const stateFieldsByProvider = groupBy(graph.providerStateFields, (s) => s.providerId);
+  const abilityTypesById = buildAbilityTypeKeysById(graph, types);
 
   return {
     types,
@@ -479,7 +483,8 @@ function buildIndexes(graph: CombatDataGraph): GraphIndexes {
     cooldownsByAbility,
     paramsByAbility,
     abilitiesById,
-    stateFieldsByProvider
+    stateFieldsByProvider,
+    abilityTypesById
   };
 }
 
@@ -635,6 +640,38 @@ function resolveEntityTypeKeys(
     keys.push(requireTypeKey(types, rel.typeId, `entity ${entityId} type`));
   }
   return keys;
+}
+
+/**
+ * Project type_relations with targetCategory=ability onto abilityId → typeKey[].
+ * targetId is the full abilityId string (never parsed as a numeric type id).
+ * Keys are de-duplicated in first-seen order for stable AbilityDefinition.types.
+ */
+function buildAbilityTypeKeysById(
+  graph: CombatDataGraph,
+  types: TypeIndex
+): Map<string, string[]> {
+  const byAbilityId = new Map<string, string[]>();
+  const seenByAbilityId = new Map<string, Set<string>>();
+  for (const rel of graph.typeRelations) {
+    if (rel.targetCategory !== 'ability') {
+      continue;
+    }
+    const abilityId = rel.targetId;
+    const typeKey = requireTypeKey(types, rel.typeId, `ability ${abilityId} type`);
+    let seen = seenByAbilityId.get(abilityId);
+    if (!seen) {
+      seen = new Set();
+      seenByAbilityId.set(abilityId, seen);
+      byAbilityId.set(abilityId, []);
+    }
+    if (seen.has(typeKey)) {
+      continue;
+    }
+    seen.add(typeKey);
+    byAbilityId.get(abilityId)!.push(typeKey);
+  }
+  return byAbilityId;
 }
 
 function buildAttributeSlots(
@@ -894,10 +931,12 @@ function mapAbility(
 
   const costRow = (indexes.costsByAbility.get(ability.abilityId) ?? [])[0];
   const cooldownRow = (indexes.cooldownsByAbility.get(ability.abilityId) ?? [])[0];
+  const abilityTypes = indexes.abilityTypesById.get(ability.abilityId);
 
   const result: AbilityDefinition = {
     abilityKey: ability.abilityKey,
     kind,
+    ...(abilityTypes && abilityTypes.length > 0 ? { types: [...abilityTypes] } : {}),
     ...(params ? { params } : {}),
     ...(operations.length > 0 ? { operations } : {})
   };

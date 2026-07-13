@@ -1359,4 +1359,115 @@ describe('combatDataAssembler', () => {
       expect(empty.combatants[0].providers).toEqual(baseline.combatants[0].providers);
     });
   });
+
+  describe('ability type_relations → AbilityDefinition.types', () => {
+    const abilityBasicAttack = {
+      typeId: 62003,
+      typeKey: 'ability/basic_attack',
+      reservedTypeId: null
+    };
+
+    function withSpellbladeAbilities(base: CombatDataGraph): CombatDataGraph {
+      // abilityKey deliberately NOT 'basic_attack' — classification must use types only.
+      const basicAbility = {
+        ...META,
+        abilityId: 'abil_aa_swing',
+        providerId: 'prov_q',
+        abilityKey: 'aa_swing',
+        abilityKindTypeId: TYPE.abilityKindActive.typeId,
+        displayName: 'AA Swing'
+      };
+      const tumbleAbility = {
+        ...META,
+        abilityId: 'abil_tumble',
+        providerId: 'prov_q',
+        abilityKey: 'tumble',
+        abilityKindTypeId: TYPE.abilityKindActive.typeId,
+        displayName: 'Tumble'
+      };
+      return {
+        ...base,
+        types: [
+          ...base.types,
+          {
+            ...META,
+            typeId: abilityBasicAttack.typeId,
+            typeKey: abilityBasicAttack.typeKey,
+            reservedTypeId: abilityBasicAttack.reservedTypeId
+          }
+        ],
+        typeRelations: [
+          ...base.typeRelations,
+          {
+            ...META,
+            typeId: abilityBasicAttack.typeId,
+            targetCategory: 'ability',
+            targetId: 'abil_aa_swing'
+          },
+          // Duplicate relation must de-dupe into a stable single type key.
+          {
+            ...META,
+            typeId: abilityBasicAttack.typeId,
+            targetCategory: 'ability',
+            targetId: 'abil_aa_swing'
+          }
+        ],
+        abilities: [...base.abilities, basicAbility, tumbleAbility]
+      };
+    }
+
+    it('projects target_category=ability onto AbilityDefinition.types (not via abilityKey)', () => {
+      const graph = withSpellbladeAbilities(buildGraphFixture());
+      const result = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = result.compileRequest.sharedProviders!.find(
+        (p) => p.providerKey === 'source::prov_q'
+      )!;
+      const aa = sourceProvider.abilities!.find((a) => a.abilityKey === 'aa_swing');
+      const tumble = sourceProvider.abilities!.find((a) => a.abilityKey === 'tumble');
+      const cast = sourceProvider.abilities!.find((a) => a.abilityKey === 'cast');
+
+      expect(aa?.types).toEqual(['ability/basic_attack']);
+      expect(tumble).toBeDefined();
+      expect(tumble).not.toHaveProperty('types');
+      expect(cast).toBeDefined();
+      expect(cast).not.toHaveProperty('types');
+    });
+
+    it('copies AbilityDefinition.types onto availableSourceAbilities for the page', () => {
+      const graph = withSpellbladeAbilities(buildGraphFixture());
+      const result = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const aaOpt = result.availableSourceAbilities.find((a) => a.abilityKey === 'aa_swing');
+      const tumbleOpt = result.availableSourceAbilities.find((a) => a.abilityKey === 'tumble');
+
+      expect(aaOpt?.types).toEqual(['ability/basic_attack']);
+      expect(aaOpt?.types?.includes('ability/basic_attack')).toBe(true);
+      expect(tumbleOpt).toBeDefined();
+      expect(tumbleOpt).not.toHaveProperty('types');
+      // Ensure page can classify without abilityKey string heuristics.
+      expect(aaOpt?.abilityKey).not.toBe('basic_attack');
+    });
+
+    it('does not put target_category=ability into typeCatalog.relations', () => {
+      const graph = withSpellbladeAbilities(buildGraphFixture());
+      const result = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      expect(result.typeCatalog.relations).toEqual([
+        { parent: 'class/mage', child: 'role/carry' }
+      ]);
+      expect(
+        result.typeCatalog.relations.some(
+          (r) => r.parent === 'ability/basic_attack' || r.child === 'ability/basic_attack'
+        )
+      ).toBe(false);
+      expect(result.typeCatalog.types.map((t) => t.key)).toContain('ability/basic_attack');
+    });
+  });
 });
