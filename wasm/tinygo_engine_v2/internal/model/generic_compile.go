@@ -164,6 +164,7 @@ type OperationDefinition struct {
 	Ref                   string                 `json:"ref,omitempty"`
 	Condition             *GenericFormulaExpr    `json:"condition,omitempty"`
 	CopyableOnHit         bool                   `json:"copyableOnHit,omitempty"`
+	CritEligible          bool                   `json:"critEligible,omitempty"`
 	RepeatScope           string                 `json:"repeatScope,omitempty"`
 	RepeatCount           int                    `json:"repeatCount,omitempty"`
 	RepeatTag             string                 `json:"repeatTag,omitempty"`

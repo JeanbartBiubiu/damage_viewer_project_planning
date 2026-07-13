@@ -315,6 +315,9 @@ func validateExecuteThresholdOperation(op model.OperationDefinition, path string
 	if op.CopyableOnHit {
 		collector.addError(model.GenericErrMissingRequiredField, path+".copyableOnHit", "execute_threshold forbids copyableOnHit", op.Operation)
 	}
+	if op.CritEligible {
+		collector.addError(model.GenericErrMissingRequiredField, path+".critEligible", "execute_threshold forbids critEligible", op.Operation)
+	}
 	if op.RepeatScope != "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".repeatScope", "execute_threshold forbids repeatScope", op.RepeatScope)
 	}

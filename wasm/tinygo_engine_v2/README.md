@@ -157,7 +157,7 @@ engine_outbox_clear()
 - 网络请求、缓存、版本协商、文件加载留在 JS/Worker；TinyGo 只接收准备好的 frame payload。
 - 旧 Rust/Katarina crate 已移除；新增 Wasm 能力默认落在本目录。
 
-## Generic runtime 精度契约（事件快照 / 抗性）
+## Generic runtime 精度契约（事件快照 / 抗性 / expected crit）
 
 ### Event snapshot formula reads
 
@@ -174,10 +174,24 @@ Resource 路径（含 `source/target/event`）支持 `.current`/`.max`；无 suf
 
 ### Damage resistance
 
-Pipeline：`raw → target resistance → shields → HP clipping`。
+Pipeline：`raw → (optional expected crit) → target resistance → shields → HP clipping`。
 
 - `physical` / `damage/physical` → `armor.resolved`
 - `magic` / `damage/magic` / `magical` / `damage/magical` → `magic_resist.resolved`
 - `true` / `damage/true` → 跳过抗性
 
 公式：`R>=0: amount*100/(100+R)`；`R<0: amount*(2-100/(100-R))`。首批不读 source penetration。未知 damage type 在 compile collect-all 拒绝。`Result.Amount` / summary `damageDealt` 使用 mitigated（抗性后、护盾前）；HP clipping 不反向改 summary。
+
+### Expected crit（`critEligible`）
+
+仅当 damage operation 显式 `critEligible=true` 时，在抗性前做固定确定性 `expected` 结算（无 RNG、无 run-input 策略）：
+
+```text
+chanceEffective = clamp(source.attr.crit_chance.resolved, 0, 1)
+multiplier      = max(source.attr.crit_damage.resolved, 1)
+critAdjustedRaw = baseRaw*(1-chanceEffective) + baseRaw*chanceEffective*multiplier
+```
+
+缺省 / 非 finite 的 `crit_chance` / `crit_damage` 结构化失败，不静默造值。非 eligible damage 跳过整段。Canonical Infinity Edge：chance `0.25`、multiplier `2.3`、标量 `1.325`。
+
+Evidence kind 仍为 `damage`：eligible 行含 `policy=expected`、chance*/multiplier、base/parts/`critAdjustedRawAmount`；`rawAmount` = post-crit raw。Phantom replay 冻结真实命中的 post-crit raw 与 crit 证据，不二次结算、不额外 emit、不增加 crit 专用 command budget。
