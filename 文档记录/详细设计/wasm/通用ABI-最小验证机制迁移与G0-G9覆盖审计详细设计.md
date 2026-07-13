@@ -1,13 +1,15 @@
 TASK_KEY: wasm-generic-min-validation-coverage-audit
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
-STATUS: active
+STATUS: done
 EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-07-13
 
 # 通用 ABI 最小验证机制迁移与 G0-G9 覆盖审计详细设计
 
 说明：历史 Batch G 只正式定义 G0-G4；以下 G5-G9 是 generic 迁移新定义，不是历史真源。
+
+G8/G0-G9 覆盖审计已收口，证据见 [G8 覆盖审计验证记录-2026-07-13](../../测试记录/wasm/通用ABI-G8覆盖审计验证记录-2026-07-13.md)。
 
 ## Gate
 
@@ -40,7 +42,7 @@ LAST_TRACKED_AT: 2026-07-13
 
 ## 公式 On-Hit 批次进度
 
-对应任务：`wasm-generic-formula-onhit-batch`（已完成闭环，详见 [公式 On-Hit 验证记录-2026-07-13](../../../测试记录/wasm/通用ABI-公式OnHit机制批次验证记录-2026-07-13.md)）。
+对应任务：`wasm-generic-formula-onhit-batch`（已完成闭环，详见 [公式 On-Hit 验证记录-2026-07-13](../../测试记录/wasm/通用ABI-公式OnHit机制批次验证记录-2026-07-13.md)）。
 
 本批已提供证据：
 
@@ -48,17 +50,17 @@ LAST_TRACKED_AT: 2026-07-13
 | --- | --- |
 | G0–G7 | 有：六机制 Backend seed/静态与全量测试、live DB revision 12、Web/TinyGo 单件与组合 compile/run/release、精确数值与零抗复算、组合回归 |
 | G9 | 有：治理产物 hash、published revision/version、Playwright live E2E |
-| G8 | **未完成**：242 candidates 全量重分类与覆盖率汇总仍未执行 |
+| G8 | 已由总体审计完成：见 [G8 覆盖审计验证记录-2026-07-13](../../测试记录/wasm/通用ABI-G8覆盖审计验证记录-2026-07-13.md) |
 
-因此 `wasm-generic-min-validation-coverage-audit` 总体审计任务仍保持 **active / 开发中**，不得因本批完成而标记完成。
+因此本批 G0–G7/G9 证据成立；总体审计收口见文首验证记录。
 
 ## 完整鬼索 H+K 批次
 
-对应任务：`wasm-generic-guinsoo-hk`（状态：**done / 已完成**，详见 [完整鬼索 H+K 机制详细设计](./通用ABI-完整鬼索H-K机制详细设计.md)；验证记录：[完整鬼索 H+K 机制验证记录-2026-07-13](../../../测试记录/wasm/通用ABI-完整鬼索H-K机制验证记录-2026-07-13.md)）。
+对应任务：`wasm-generic-guinsoo-hk`（状态：**done / 已完成**，详见 [完整鬼索 H+K 机制详细设计](./通用ABI-完整鬼索H-K机制详细设计.md)；验证记录：[完整鬼索 H+K 机制验证记录-2026-07-13](../../测试记录/wasm/通用ABI-完整鬼索H-K机制验证记录-2026-07-13.md)）。
 
 本批已覆盖：timed state、state-bound modifier、dynamic cadence、copyable-on-hit deferred replay 与防递归。
 
-因此 `wasm-generic-min-validation-coverage-audit` 总体审计任务仍保持 **active / 开发中**，不得因本批完成而标记完成。
+因此本批机制证据成立；总体审计收口见文首验证记录。
 
 ## Spellblade 批次
 
@@ -66,7 +68,7 @@ LAST_TRACKED_AT: 2026-07-13
 
 本批覆盖：顶层非普攻成功 cast 自动派发 `event/ability_started` 并武装、ready/ICD、下一次独立普攻 `2 * base AD` 后消费、phantom 禁区。
 
-因此 `wasm-generic-min-validation-coverage-audit` 总体审计任务仍保持 **active / 开发中**，不得因本批完成而标记完成。
+因此本批机制证据成立；总体审计收口见文首验证记录。
 
 ## 真源与验证
 
