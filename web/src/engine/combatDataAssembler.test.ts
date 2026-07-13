@@ -755,6 +755,40 @@ describe('combatDataAssembler', () => {
       });
     });
 
+    it('projects max-only energized_charge with durationMs=0 (untimed structured)', () => {
+      // Backend omits durationMs when duration_ms=NULL; TinyGo requires explicit 0.
+      const graph = withHkTypes(
+        buildGraphFixture({
+          providerStateFields: [
+            {
+              ...META,
+              providerId: 'prov_q',
+              stateKey: 'energized_charge',
+              valueTypeId: HK_TYPE.valueTypeNumber.typeId,
+              maxValue: 100
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.initialStateSchema).toEqual({
+        energized_charge: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 100,
+          durationMs: 0
+        }
+      });
+      expect(sourceProvider.initialStateSchema!.energized_charge).not.toHaveProperty(
+        'refreshPolicy'
+      );
+    });
+
     it('projects damage with ref=stepId and copyableOnHit only when true', () => {
       const graph = withHkTypes(
         buildGraphFixture({
