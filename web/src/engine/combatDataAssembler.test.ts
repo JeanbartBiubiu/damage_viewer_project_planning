@@ -5739,4 +5739,161 @@ describe('combatDataAssembler', () => {
       expect(contractJson.toLowerCase()).not.toContain('rank4');
     });
   });
+
+  describe('hero_kogmaw Q Caustic Spittle rank-5 passive data contract', () => {
+    const KOG = {
+      heroId: 'hero_kogmaw',
+      providerId: 'provider_hero_kogmaw_caustic_spittle',
+      valuePolicyPercentAdd: { typeId: 20173, typeKey: 'value_policy/percent_add' }
+    } as const;
+
+    /** Rank-5 always-on Q passive: +25% attack speed. Active Q is out of scope. */
+    const ATTACK_SPEED_EXPR = { op: 'const', value: 0.25 };
+
+    function withKogMawCausticSpittle(base: CombatDataGraph): CombatDataGraph {
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          {
+            ...META,
+            typeId: KOG.valuePolicyPercentAdd.typeId,
+            typeKey: KOG.valuePolicyPercentAdd.typeKey
+          }
+        ],
+        entities: [
+          ...base.entities,
+          {
+            ...META,
+            entityId: KOG.heroId,
+            displayName: '深渊巨口'
+          }
+        ],
+        entityAttributes: [
+          ...base.entityAttributes,
+          { ...META, entityId: KOG.heroId, attrKey: 'ad', baseValue: 61 },
+          { ...META, entityId: KOG.heroId, attrKey: 'attack_speed', baseValue: 0.665 }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: KOG.heroId, providerId: KOG.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: KOG.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '克格莫 Q 腐蚀唾液 Caustic Spittle'
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: KOG.providerId,
+            formulaKey: 'caustic_spittle_attack_speed',
+            expression: ATTACK_SPEED_EXPR
+          }
+        ],
+        providerModifiers: [
+          {
+            ...META,
+            providerId: KOG.providerId,
+            modifierId: 'modifier_hero_kogmaw_caustic_spittle_attack_speed',
+            modifierKey: 'caustic_spittle_attack_speed',
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            targetAttrKey: 'attack_speed',
+            priority: 0,
+            valuePolicyTypeId: KOG.valuePolicyPercentAdd.typeId,
+            valueFormulaKey: 'caustic_spittle_attack_speed'
+          }
+        ]
+      });
+    }
+
+    it('projects self-contained KogMaw Q rank-5 always-on attack speed compile contract', () => {
+      const graph = withKogMawCausticSpittle(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: KOG.heroId,
+        targetEntityId: 'entity_target'
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${KOG.providerId}`;
+      const targetKey = `target::${KOG.providerId}`;
+
+      expect(compile.combatants[0].attributes.ad).toEqual({
+        base: 61,
+        current: 61,
+        max: 61,
+        resolved: 61
+      });
+      expect(compile.combatants[0].attributes.attack_speed).toEqual({
+        base: 0.665,
+        current: 0.665,
+        max: 0.665,
+        resolved: 0.665
+      });
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toEqual([sourceKey]);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toEqual([
+        `passive:${KOG.providerId}`
+      ]);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${KOG.providerId}`)
+      ).toBe(false);
+
+      const withoutHero = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).compileRequest;
+      expect(withoutHero.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        sourceKey
+      );
+      expect(
+        withoutHero.sharedProviders!.some(
+          (p) => p.providerKey === sourceKey || p.providerKey === targetKey
+        )
+      ).toBe(false);
+
+      const provider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(provider).toBeDefined();
+      expect(provider.stableId).toBe(KOG.providerId);
+      expect(provider.initialStateSchema).toBeUndefined();
+      expect(provider.listeners).toEqual([]);
+      expect(provider.abilities).toEqual([]);
+      expect(provider.modifiers).toEqual([
+        {
+          modifierKey: 'caustic_spittle_attack_speed',
+          kind: 'attribute',
+          target: 'source.attr.attack_speed',
+          priority: 0,
+          valuePolicy: 'percent_add',
+          value: { op: 'ref', ref: 'source::caustic_spittle_attack_speed' }
+        }
+      ]);
+      expect(provider.modifiers![0]).not.toHaveProperty('condition');
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::caustic_spittle_attack_speed']).toEqual(ATTACK_SPEED_EXPR);
+
+      const contractJson = JSON.stringify({
+        provider,
+        formulas: compile.formulas!.filter((f) => f.key.startsWith('source::caustic_spittle_'))
+      });
+      expect(contractJson).not.toContain('"listeners":[{');
+      expect(contractJson).not.toContain('"abilities":[{');
+      expect(contractJson).not.toContain('"operation":"damage"');
+      expect(contractJson).not.toContain('"operation":"state_change"');
+      expect(contractJson).not.toContain('initialStateSchema');
+      expect(contractJson.toLowerCase()).not.toContain('armor_shred');
+      expect(contractJson.toLowerCase()).not.toContain('magic_resist_shred');
+      expect(contractJson.toLowerCase()).not.toContain('rank1');
+      expect(contractJson.toLowerCase()).not.toContain('rank2');
+      expect(contractJson.toLowerCase()).not.toContain('rank3');
+      expect(contractJson.toLowerCase()).not.toContain('rank4');
+      expect(scenario.availableSourceAbilities.filter((a) => a.selectable)).toEqual([]);
+    });
+  });
 });
