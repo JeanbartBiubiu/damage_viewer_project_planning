@@ -568,6 +568,28 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenSpinningAxeSeedSqlTest test
 ```
 
+### LoL generic Kai'Sa Supercharge seed（卡莎 E / rank-5 攻速窗）
+
+在 reserved types、Batch-B `hero_kaisa`、以及 `attribute_definitions` 的 `mana` / `attack_speed` 已就绪后，按顺序执行（**不**重建 Batch-B / 普攻；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B / `hero_kaisa` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-kaisa-supercharge-v1-20260715`（seed 不负责 publish）。候选整体语义 **partial**：30 mana / 10s CD / 4s +80% AS；`ability_started` 在本合同近似「充能完成」（不建 cast-time scheduler）。
+
+该 seed 会：锁定 `game_data_state`；校验 `hero_kaisa` / `mana`·`attack_speed` / 所需 reserved；幂等投影 reserved → `types`、`resource_definitions.mana` 与 `hero_kaisa` `entity_resource_values`（345/345）；向 `hero_kaisa` mount 独立 `provider_hero_kaisa_supercharge`，含 active `ability_hero_kaisa_e_supercharge`（`ability_key=supercharge`）、`ability_costs` 30 mana、`ability_cooldowns` 10000ms、timed `supercharge_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability listener 武装 active=1，以及 AS `percent_add` `0.80 * provider.state.supercharge_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：移速/幽灵/attack-windup、普攻减 CD/cooldown refund、进化隐身、damage/shred、cast-time scheduler、其它 rank、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
+```
+
 ### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
 
 前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
