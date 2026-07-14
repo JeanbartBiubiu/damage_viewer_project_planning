@@ -4,7 +4,7 @@
     "inputSha256": "63b2460e5307419ec9d1dc776de453237f9fed359d777b0b4be1e846e6695004",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-14T15:12:38.949Z"
+    "generatedAt": "2026-07-14T15:58:34.639Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -14,14 +14,14 @@
     },
     "classificationCounts": {
       "migrated": 20,
-      "partial": 6,
-      "blocked": 178,
+      "partial": 7,
+      "blocked": 177,
       "out_of_scope": 38
     },
     "classificationPercents": {
       "migrated": 8.26,
-      "partial": 2.48,
-      "blocked": 73.55,
+      "partial": 2.89,
+      "blocked": 73.14,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
@@ -29,8 +29,8 @@
       "inScope": 9.8
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 10.74,
-      "inScope": 12.75
+      "all": 11.16,
+      "inScope": 13.24
     },
     "inScopeCount": 204
   },
@@ -2198,13 +2198,21 @@
       "rankTableStatus": "not_applicable",
       "sourceRef": "数据参考/champion/KogMaw.json#data.KogMaw.spells[0]",
       "candidateKey": "hero_skill|hero_kogmaw|Q|腐蚀唾液",
-      "genericClassification": "blocked",
+      "genericClassification": "partial",
       "genericMechanismTags": [
-        "existing_batch_b_seed"
+        "attack_speed_percent_add"
       ],
-      "classificationReason": "旧 already_covered 不在 exact migrated/partial 清单；legacy != generic。",
-      "coverageEvidence": [],
-      "remainingGap": "缺该精确 candidate 的 generic seed/mount + 完成批次证据。"
+      "classificationReason": "hero_kogmaw Q 腐蚀唾液/Caustic Spittle rank5 被动常驻 +25% attack_speed 已由 wasm-generic-kogmaw-caustic-spittle 闭环：provider-mounted static ModifierDefinition（target=attack_speed, valuePolicy=percent_add, constant 0.25）；base AS 0.72 → resolved 0.90；provider 不添加 ability/listener/state/damage/event。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kogmaw-caustic-spittle",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go",
+          "sourceWorktree": "wasm",
+          "note": "KogMaw Q Caustic Spittle rank5 passive only: permanent attack_speed percent_add 0.25 (0.72→0.90); attribute-only provider; active Q hit/shred/cast/CD/rotation/other ranks unmodeled"
+        }
+      ],
+      "remainingGap": "Q 主动命中魔法伤害、护甲/魔抗击碎、cast/cooldown/rotation、其它 rank 仍未建模；不得把 Q 被动视为完整 Q。"
     },
     {
       "sourceKind": "hero_skill",

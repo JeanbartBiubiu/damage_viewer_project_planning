@@ -38,6 +38,7 @@ const SEED = {
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
   dravenSpinningAxe: 'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
   asheRangersFocus: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
+  kogmawCausticSpittle: 'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
@@ -67,6 +68,26 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-vayne-silver-bolts',
           SEED.vayne,
           'Vayne W 圣银弩箭 provider/mount + live publish/E2E',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kogmaw|Q',
+    {
+      classification: 'partial',
+      tags: ['attack_speed_percent_add'],
+      reason:
+        'hero_kogmaw Q 腐蚀唾液/Caustic Spittle rank5 被动常驻 +25% attack_speed 已由 wasm-generic-kogmaw-caustic-spittle 闭环：provider-mounted static ModifierDefinition（target=attack_speed, valuePolicy=percent_add, constant 0.25）；base AS 0.72 → resolved 0.90；provider 不添加 ability/listener/state/damage/event。',
+      remainingGap:
+        'Q 主动命中魔法伤害、护甲/魔抗击碎、cast/cooldown/rotation、其它 rank 仍未建模；不得把 Q 被动视为完整 Q。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kogmaw-caustic-spittle',
+          SEED.kogmawCausticSpittle,
+          'KogMaw Q Caustic Spittle rank5 passive only: permanent attack_speed percent_add 0.25 (0.72→0.90); attribute-only provider; active Q hit/shred/cast/CD/rotation/other ranks unmodeled',
+          'wasm',
         ),
       ],
     },
