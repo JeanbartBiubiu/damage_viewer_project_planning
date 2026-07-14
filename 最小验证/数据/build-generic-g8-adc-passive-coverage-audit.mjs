@@ -39,6 +39,7 @@ const SEED = {
   dravenSpinningAxe: 'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
   asheRangersFocus: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
   kogmawCausticSpittle: 'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
+  kaisaSupercharge: 'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
@@ -180,6 +181,26 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-ashe-rangers-focus',
           SEED.asheRangersFocus,
           'Ashe Q Ranger\'s Focus rank5 partial: castCondition Focus==4; 30 mana clears Focus arms 6000ms Flurry +75% AS; first/next flurry 6/5 x 28%AD; one on-hit per flurry AA; Focus timed slots 4s+1s stagger; attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation unmodeled',
+          'wasm',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kaisa|E',
+    {
+      classification: 'partial',
+      tags: ['cast_triggered_timed_attack_speed', 'attack_speed_percent_add'],
+      reason:
+        'hero_kaisa E 极限超载/Supercharge rank5 核心已由 wasm-generic-kaisa-supercharge 批次闭环：E 耗 30 mana、CD 10000ms、ability 无 damage ops；generic ability_started 代表 charge completed（不模拟 cast time）；source-owner ability_started listener 武装 4000ms timed state supercharge_as_active；攻速 percent_add=0.80*provider.state.supercharge_as_active（base 0.60→1.08）；CD 内再次尝试 skip，无第二次 cost/state/event。',
+      remainingGap:
+        '未建模：移动速度/幽灵状态/攻击前摇、真实 cast time、普攻返还 0.5s CD、进化隐形、其它 rank/轮转/E2E。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-supercharge',
+          SEED.kaisaSupercharge,
+          'Kai\'Sa E Supercharge rank5 partial: 30 mana / CD10000ms / empty damage ops; ability_started=charge completed arms 4000ms AS state; +80% AS (0.60→1.08); CD skip no second cost/state/event; move speed/ghost/windup / real cast time / on-attack 0.5 CD refund / evolution invis / other ranks/rotation/E2E unmodeled',
           'wasm',
         ),
       ],
@@ -644,16 +665,6 @@ const COMPONENT_EXCEPTIONS = [
       classification: 'blocked',
       tags: ['timed_attack_speed_buff', 'catch_cooldown_reset'],
       reason: 'Draven W 血性冲刺为定时主动攻速增益，并含接斧冷却刷新；旧 meta 标签不得整条 out_of_scope。',
-      remainingGap: '缺精确 ability/cadence 状态与 provider seed/mount/live publish/E2E。',
-      coverageEvidence: [],
-    },
-  },
-  {
-    match: (c) => c.ownerId === 'hero_kaisa' && c.skillKey === 'E' && c.passiveName === '极限超载',
-    result: {
-      classification: 'blocked',
-      tags: ['cast_triggered_timed_attack_speed'],
-      reason: 'Kai\'Sa E 极限超载为施法触发的定时攻速分支；旧 meta 标签不得整条 out_of_scope。',
       remainingGap: '缺精确 ability/cadence 状态与 provider seed/mount/live publish/E2E。',
       coverageEvidence: [],
     },
