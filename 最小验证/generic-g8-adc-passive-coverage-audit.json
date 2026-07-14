@@ -1,10 +1,10 @@
 {
   "metadata": {
     "inputPath": "最小验证/V2-Batch-G-adc-passive-audit.json",
-    "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
+    "inputSha256": "fab249e2fe7e9eb629aa806e31a309cb1f71ecdf43aae766f39834245908a06e",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-14T00:48:33.959Z"
+    "generatedAt": "2026-07-14T06:38:50.829Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 19,
+      "migrated": 20,
       "partial": 4,
-      "blocked": 181,
+      "blocked": 180,
       "out_of_scope": 38
     },
     "classificationPercents": {
-      "migrated": 7.85,
+      "migrated": 8.26,
       "partial": 1.65,
-      "blocked": 74.79,
+      "blocked": 74.38,
       "out_of_scope": 15.7
     },
     "coverageRateMigratedOnly": {
-      "all": 7.85,
-      "inScope": 9.31
+      "all": 8.26,
+      "inScope": 9.8
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 9.5,
-      "inScope": 11.27
+      "all": 9.92,
+      "inScope": 11.76
     },
     "inScopeCount": 204
   },
@@ -3486,7 +3486,7 @@
       "mechanismTags": [
         "no_single_target_dps_effect"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "未发现会改变当前单攻击方单标靶 DPS 的效果。",
@@ -3512,7 +3512,7 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
@@ -3540,7 +3540,7 @@
       "mechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。",
@@ -3562,26 +3562,34 @@
       "skillKey": "E",
       "passiveName": "卡牌骗术",
       "sourceText": "崔斯特每四次攻击附加一次额外伤害。另外，崔斯特的攻击速度得到被动提升。 被动：崔斯特获得{{ attackspeedbonus }}%攻击速度并且每第4次攻击造成额外的{{ bonusdamage }}魔法伤害。{{ spellmodifierdescriptionappend }}",
-      "classification": "needs_manual_baseline",
+      "classification": "already_covered",
       "mechanismTags": [
-        "every_n_hit"
+        "existing_batch_b_seed"
       ],
-      "levelDataStatus": "missing",
-      "rankTableStatus": "complete",
-      "candidateDpsPassiveEffect": {},
-      "blockedReason": "候选机制可表达，但该英雄尚无 1-18 级 statsByLevel；Batch G gate 禁止进入 ready seed。",
-      "needsUserData": [
-        "TwistedFate 1-18 statsByLevel: hp/mana/ad/armor/magic_resist/hp_regen/mana_regen/attack_speed"
-      ],
+      "blockedReason": "",
+      "needsUserData": [],
+      "levelDataStatus": "complete",
+      "rankTableStatus": "not_applicable",
       "sourceRef": "数据参考/champion/TwistedFate.json#data.TwistedFate.spells[2]",
       "candidateKey": "hero_skill|hero_twistedfate|E|卡牌骗术",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "every_n_hit"
+        "every_n_hit",
+        "flat_magic_damage",
+        "bonus_ad_ap_ratio",
+        "attack_speed_percent_add"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "coverageEvidence": [],
-      "remainingGap": "候选机制可表达，但该英雄尚无 1-18 级 statsByLevel；Batch G gate 禁止进入 ready seed。"
+      "classificationReason": "hero_twistedfate E 卡牌骗术/Stacked Deck 已由 wasm-generic-twisted-fate-stacked-deck 批次闭环：仅 rank5；常驻 attack_speed percent_add 0.50；每第4次 source-owner basic_attack_hit 追加 magic raw=165+0.20*(resolved AD-base AD)+0.40*resolved AP；copyable_on_hit=false；MR 走当前 pipeline。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-twisted-fate-stacked-deck",
+          "sourcePath": "db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Twisted Fate E Stacked Deck rank5: +50% AS; every-4th hit magic 165+20%bonusAD+40%AP; copyable_on_hit=false; building DR / other ranks / actives unmodeled"
+        }
+      ],
+      "remainingGap": "仅建模 rank5；建筑物 50% 减伤未建模；其它 rank 数值表未建模；主动技能（Q/W/R）未建模。"
     },
     {
       "sourceKind": "hero_skill",
@@ -3594,7 +3602,7 @@
       "mechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。",

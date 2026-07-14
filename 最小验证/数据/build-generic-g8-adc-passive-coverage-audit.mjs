@@ -35,6 +35,7 @@ const SEED = {
   yunTalPracticeMakesLethal: 'db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql',
   witsEndFray: 'db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql',
   manamuneAwe: 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql',
+  twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note) {
@@ -98,6 +99,25 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
           'Teemo E toxic shot immediate on-hit (DoT out of this batch)',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_twistedfate|E',
+    {
+      classification: 'migrated',
+      tags: ['every_n_hit', 'flat_magic_damage', 'bonus_ad_ap_ratio', 'attack_speed_percent_add'],
+      reason:
+        'hero_twistedfate E 卡牌骗术/Stacked Deck 已由 wasm-generic-twisted-fate-stacked-deck 批次闭环：仅 rank5；常驻 attack_speed percent_add 0.50；每第4次 source-owner basic_attack_hit 追加 magic raw=165+0.20*(resolved AD-base AD)+0.40*resolved AP；copyable_on_hit=false；MR 走当前 pipeline。',
+      remainingGap:
+        '仅建模 rank5；建筑物 50% 减伤未建模；其它 rank 数值表未建模；主动技能（Q/W/R）未建模。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-twisted-fate-stacked-deck',
+          SEED.twistedFateStackedDeck,
+          'Twisted Fate E Stacked Deck rank5: +50% AS; every-4th hit magic 165+20%bonusAD+40%AP; copyable_on_hit=false; building DR / other ranks / actives unmodeled',
         ),
       ],
     },

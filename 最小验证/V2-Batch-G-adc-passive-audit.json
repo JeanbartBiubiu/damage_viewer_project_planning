@@ -1,7 +1,7 @@
 {
   "gameId": "lol",
   "batch": "V2-Batch-G",
-  "generatedAt": "2026-05-20T16:11:20.233Z",
+  "generatedAt": "2026-07-14T06:38:32.783Z",
   "source": {
     "championJson": "数据参考\\champion.json",
     "championDetailDir": "数据参考\\champion",
@@ -42,9 +42,9 @@
     },
     "classificationCounts": {
       "ready_to_encode": 1,
-      "already_covered": 13,
+      "already_covered": 14,
       "needs_runtime_extension": 37,
-      "needs_manual_baseline": 45,
+      "needs_manual_baseline": 44,
       "out_of_scope_for_single_target_dps": 146
     },
     "mechanismBacklog": {
@@ -2443,7 +2443,7 @@
       "mechanismTags": [
         "no_single_target_dps_effect"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "未发现会改变当前单攻击方单标靶 DPS 的效果。",
@@ -2461,7 +2461,7 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
@@ -2481,7 +2481,7 @@
       "mechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。",
@@ -2495,17 +2495,14 @@
       "skillKey": "E",
       "passiveName": "卡牌骗术",
       "sourceText": "崔斯特每四次攻击附加一次额外伤害。另外，崔斯特的攻击速度得到被动提升。 被动：崔斯特获得{{ attackspeedbonus }}%攻击速度并且每第4次攻击造成额外的{{ bonusdamage }}魔法伤害。{{ spellmodifierdescriptionappend }}",
-      "classification": "needs_manual_baseline",
+      "classification": "already_covered",
       "mechanismTags": [
-        "every_n_hit"
+        "existing_batch_b_seed"
       ],
-      "levelDataStatus": "missing",
-      "rankTableStatus": "complete",
-      "candidateDpsPassiveEffect": {},
-      "blockedReason": "候选机制可表达，但该英雄尚无 1-18 级 statsByLevel；Batch G gate 禁止进入 ready seed。",
-      "needsUserData": [
-        "TwistedFate 1-18 statsByLevel: hp/mana/ad/armor/magic_resist/hp_regen/mana_regen/attack_speed"
-      ],
+      "blockedReason": "",
+      "needsUserData": [],
+      "levelDataStatus": "complete",
+      "rankTableStatus": "not_applicable",
       "sourceRef": "数据参考/champion/TwistedFate.json#data.TwistedFate.spells[2]"
     },
     {
@@ -2519,7 +2516,7 @@
       "mechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "levelDataStatus": "missing",
+      "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
       "blockedReason": "金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。",
