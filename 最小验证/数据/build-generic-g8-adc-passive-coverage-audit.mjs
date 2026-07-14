@@ -37,6 +37,7 @@ const SEED = {
   manamuneAwe: 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql',
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
   dravenSpinningAxe: 'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
+  asheRangersFocus: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
@@ -138,6 +139,26 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-draven-spinning-axe',
           SEED.dravenSpinningAxe,
           'Draven Q Spinning Axe rank5 initial axe: ability_started arms 5800ms ready; first AA physical 60+1.15*bonusAD; copyable false; catch rearm / dual axe / mana / CD / other ranks / landing / WER unmodeled',
+          'wasm',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ashe|Q',
+    {
+      classification: 'partial',
+      tags: ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add', 'cast_condition'],
+      reason:
+        'hero_ashe Q 射手的专注/Ranger\'s Focus rank5 核心已由 wasm-generic-ashe-rangers-focus 批次闭环：ability-level castCondition 读 owning provider Focus 槽（满4层才可施放）；Q 耗 30 mana、清 Focus、武装 6000ms Flurry；攻速 percent_add=0.75*provider.state.flurry_active；Flurry 首发 6×28%AD、后续 5×28%AD，每次 flurry 普攻仅一次 basic_attack_hit；Focus 用四槽 timed state 在刷新后 4000/5000/6000/7000ms 逐层掉落。',
+      remainingGap:
+        '未建模：generic attack-timer reset 调度、逐箭飞行、Frost Shot、吸血、建筑物/多目标、任意技能轮转/攻速 cadence、其它 rank。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-rangers-focus',
+          SEED.asheRangersFocus,
+          'Ashe Q Ranger\'s Focus rank5 partial: castCondition Focus==4; 30 mana clears Focus arms 6000ms Flurry +75% AS; first/next flurry 6/5 x 28%AD; one on-hit per flurry AA; Focus timed slots 4s+1s stagger; attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation unmodeled',
           'wasm',
         ),
       ],

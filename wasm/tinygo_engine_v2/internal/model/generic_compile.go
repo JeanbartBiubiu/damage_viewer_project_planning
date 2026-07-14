@@ -103,17 +103,18 @@ type ProviderLifecycle struct {
 
 // AbilityDefinition 是 provider 内能力定义。
 type AbilityDefinition struct {
-	AbilityKey   string                 `json:"abilityKey"`
-	Kind         string                 `json:"kind"`
-	Types        []string               `json:"types,omitempty"`
-	Tags         []string               `json:"tags,omitempty"`
-	Params       map[string]float64     `json:"params,omitempty"`
-	Cost         *AbilityCost           `json:"cost,omitempty"`
-	Cooldown     *AbilityCooldown       `json:"cooldown,omitempty"`
-	Operations   []OperationDefinition  `json:"operations,omitempty"`
-	ListenerSpec *ListenerDefinition    `json:"listenerSpec,omitempty"`
-	TickSpec     *TickSpec              `json:"tickSpec,omitempty"`
-	StateSchema  map[string]interface{} `json:"stateSchema,omitempty"`
+	AbilityKey    string                 `json:"abilityKey"`
+	Kind          string                 `json:"kind"`
+	Types         []string               `json:"types,omitempty"`
+	Tags          []string               `json:"tags,omitempty"`
+	Params        map[string]float64     `json:"params,omitempty"`
+	Cost          *AbilityCost           `json:"cost,omitempty"`
+	Cooldown      *AbilityCooldown       `json:"cooldown,omitempty"`
+	CastCondition *GenericFormulaExpr    `json:"castCondition,omitempty"`
+	Operations    []OperationDefinition  `json:"operations,omitempty"`
+	ListenerSpec  *ListenerDefinition    `json:"listenerSpec,omitempty"`
+	TickSpec      *TickSpec              `json:"tickSpec,omitempty"`
+	StateSchema   map[string]interface{} `json:"stateSchema,omitempty"`
 }
 
 // AbilityCost 是 active ability 资源消耗。

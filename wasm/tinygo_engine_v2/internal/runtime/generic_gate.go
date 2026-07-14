@@ -59,7 +59,7 @@ func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex i
 			hasAbility: true,
 		}
 	}
-	if blocked := s.conditionGate(entry, entryIndex, sourceKey, targetKey, ability); blocked {
+	if blocked := s.conditionGate(entry, entryIndex, sourceKey, targetKey, ability, resolvedRef); blocked {
 		return gateCheckResult{
 			skipped:    true,
 			reason:     model.AttemptSkipConditionFalse,
@@ -136,21 +136,87 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 	return readyAt, true
 }
 
-func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability compilebundle.CompiledAbility) bool {
-	if entryIndex < 0 || entryIndex >= len(s.entryConditions) || s.entryConditions[entryIndex] == nil {
-		return false
+func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) bool {
+	if entryIndex >= 0 && entryIndex < len(s.entryConditions) && s.entryConditions[entryIndex] != nil {
+		programID := *s.entryConditions[entryIndex]
+		source := s.combatants[sourceKey]
+		target := s.combatants[targetKey]
+		ctx := formula.GenericEvalContext{
+			SourceAttrs:     source.attributes,
+			TargetAttrs:     target.attributes,
+			SourceResources: source.resources,
+			TargetResources: target.resources,
+			AbilityParams:   ability.Params,
+		}
+		value, err := s.compiled.Formulas.Eval(programID, ctx)
+		if err != nil || value == 0 {
+			return true
+		}
 	}
-	programID := *s.entryConditions[entryIndex]
+	if ability.HasCastCondition {
+		if s.castConditionBlocked(sourceKey, targetKey, ability, abilityRef) {
+			return true
+		}
+	}
+	_ = entry
+	return false
+}
+
+// castConditionBlocked evaluates ability-level castCondition in the owning mounted
+// provider's state context (provider.state.*). False or eval error → gate skip.
+func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) bool {
+	ownerKey := sourceKey
+	providerRef := ""
+	if parsed, ok := compilebundle.ParseAbilityRef(abilityRef); ok {
+		providerRef = parsed.ProviderRef
+		switch parsed.Combatant {
+		case model.SelectorSource, model.SelectorSelf, "":
+			ownerKey = sourceKey
+		case model.SelectorTarget:
+			ownerKey = targetKey
+		case model.SelectorOpponent:
+			if sourceKey == model.SelectorSource {
+				ownerKey = model.SelectorTarget
+			} else if sourceKey == model.SelectorTarget {
+				ownerKey = model.SelectorSource
+			} else {
+				ownerKey = targetKey
+			}
+		default:
+			ownerKey = parsed.Combatant
+		}
+	}
 	source := s.combatants[sourceKey]
 	target := s.combatants[targetKey]
 	ctx := formula.GenericEvalContext{
-		SourceAttrs:     source.attributes,
-		TargetAttrs:     target.attributes,
-		SourceResources: source.resources,
-		TargetResources: target.resources,
-		AbilityParams:   ability.Params,
+		SourceAttrs:        source.attributes,
+		TargetAttrs:        target.attributes,
+		SourceResources:    source.resources,
+		TargetResources:    target.resources,
+		AbilityParams:      ability.Params,
+		HasProviderContext: true,
+		ProviderState:      map[string]float64{},
 	}
-	value, err := s.compiled.Formulas.Eval(programID, ctx)
+	if owner, ok := s.combatants[ownerKey]; ok && providerRef != "" {
+		bag := owner.providerState[providerRef]
+		if bag == nil {
+			bag = &providerStateBag{
+				state:        map[string]float64{},
+				expireAt:     map[string]int64{},
+				fieldDefs:    map[string]providerStateFieldDef{},
+				targetValues: map[string]float64{},
+			}
+			if owner.providerState == nil {
+				owner.providerState = map[string]*providerStateBag{}
+			}
+			owner.providerState[providerRef] = bag
+			s.combatants[ownerKey] = owner
+		}
+		bag.bindFieldDefs(s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers))
+		bag.lazyExpireProviderState(s.nowMs)
+		ctx.ProviderState = bag.state
+	}
+	value, err := s.compiled.Formulas.Eval(ability.CastConditionProgram, ctx)
 	if err != nil {
 		return true
 	}
