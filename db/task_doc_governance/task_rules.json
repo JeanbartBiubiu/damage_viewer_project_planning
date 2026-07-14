@@ -655,6 +655,20 @@
       ]
     },
     {
+      "task_key": "wasm-generic-ashe-rangers-focus",
+      "title": "通用 ABI 艾希 Q 射手的专注 Rangers Focus rank5 机制",
+      "module": "wasm",
+      "feature": "generic_ashe_rangers_focus",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "跨 Backend/Wasm/Web worktree 交付已完整闭环（optional cast_condition、seed、runtime、assembler 与 G8 partial 证据），但游戏语义仅为 partial：已包含 Focus 四层施放门控、30 mana、6 秒 Flurry、+75% AS、首发/后续 6/5 箭各 28% resolved AD、每次 Flurry 普攻只发一个 basic_attack_hit、Focus 刷新后的 4/5/6/7 秒槽位掉层；未包含 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标、完整 rotation/cadence、其它 rank、live migration/publish/E2E，不得误称完整闭环。",
+      "completed_at": "2026-07-14",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-艾希Q射手的专注RangersFocus机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-艾希Q射手的专注RangersFocus机制验证记录-2026-07-14.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
