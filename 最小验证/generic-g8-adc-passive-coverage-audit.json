@@ -4,7 +4,7 @@
     "inputSha256": "956a4130620d432cc241de5a48707a05ae322373db0609baef71e52fcaec11a7",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-13T17:42:39.988Z"
+    "generatedAt": "2026-07-14T00:48:33.959Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -4764,11 +4764,13 @@
       "candidateKey": "item_passive|3004|item_passive|法力流",
       "genericClassification": "blocked",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "periodic_charge_tick",
+        "attack_or_ability_hit_resource_gain",
+        "state_driven_max_mana_and_transform"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "item 3004 法力流现行合同：每8秒充能至多4层；普攻或技能命中消耗一层并获得+3最大法力（对英雄+6），上限360后转变为魔切。当前 generic 缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform；敬畏闭环不等于法力流已迁。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": "缺 periodic_charge_tick（无数据驱动 provider 周期充能调度）、attack_or_ability_hit_resource_gain（本数据路径无通用技能命中源事件）、state_driven_max_mana_and_transform（无状态驱动最大法力累积与条件实体/provider 转变）。"
     },
     {
       "sourceKind": "item_passive",
