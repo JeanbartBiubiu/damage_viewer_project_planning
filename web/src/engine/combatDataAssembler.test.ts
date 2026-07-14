@@ -4581,4 +4581,604 @@ describe('combatDataAssembler', () => {
       );
     });
   });
+
+  describe('hero_draven Q Spinning Axe rank-5 data contract', () => {
+    const DRAVEN = {
+      heroId: 'hero_draven',
+      baProviderId: 'provider_hero_draven_basic_attack',
+      baAbilityId: 'ability_hero_draven_basic_attack',
+      baPhaseId: 'phase_hero_draven_basic_attack_impact',
+      baSequenceId: 'sequence_hero_draven_basic_attack_damage',
+      baDamageStepId: 'step_hero_draven_basic_attack_damage',
+      baEmitStepId: 'step_hero_draven_basic_attack_emit_hit',
+      baEventRef: 'event_ref_hero_draven_basic_attack_hit',
+      qProviderId: 'provider_hero_draven_q_spinning_axe',
+      qAbilityId: 'ability_hero_draven_q_spinning_axe',
+      armListenerId: 'listener_hero_draven_q_spinning_axe_ability_started',
+      hitListenerId: 'listener_hero_draven_q_spinning_axe_basic_attack_hit',
+      armSequenceId: 'sequence_hero_draven_q_spinning_axe_arm',
+      procSequenceId: 'sequence_hero_draven_q_spinning_axe_proc',
+      readyArmStepId: 'step_hero_draven_q_spinning_axe_ready_arm',
+      damageStepId: 'step_hero_draven_q_spinning_axe_damage',
+      readyConsumeStepId: 'step_hero_draven_q_spinning_axe_ready_consume',
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      operationEmitEvent: { typeId: 20158, typeKey: 'operation/emit_event' },
+      refreshDuration: { typeId: 20190, typeKey: 'refresh_policy/refresh_duration' },
+      valuePolicyOverride: { typeId: 20172, typeKey: 'value_policy/override' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' },
+      eventAbilityStarted: { typeId: 20205, typeKey: 'event/ability_started' }
+    } as const;
+
+    const BA_DAMAGE_EXPR = { op: 'read', path: '$owner.attr.ad' };
+    const READY_ARM_EXPR = { op: 'const', value: 1 };
+    const READY_CONSUME_EXPR = { op: 'const', value: 0 };
+    const READY_ARMED_EXPR = {
+      op: 'gte',
+      args: [
+        { op: 'read', path: 'provider.state.spinning_axe_ready' },
+        { op: 'const', value: 1 }
+      ]
+    };
+    const PROC_DAMAGE_EXPR = {
+      op: 'add',
+      args: [
+        { op: 'const', value: 60 },
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 1.15 },
+            {
+              op: 'sub',
+              args: [
+                { op: 'read', path: 'event.entry_source.attr.ad.resolved' },
+                { op: 'read', path: 'event.entry_source.attr.ad.base' }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    function withDravenSpinningAxe(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [
+        DRAVEN.valueTypeNumber,
+        DRAVEN.operationEmitEvent,
+        DRAVEN.refreshDuration,
+        DRAVEN.valuePolicyOverride,
+        DRAVEN.stateScopeProvider,
+        DRAVEN.eventAbilityStarted
+      ];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        entities: [
+          ...base.entities,
+          {
+            ...META,
+            entityId: DRAVEN.heroId,
+            displayName: '荣耀行刑官'
+          }
+        ],
+        entityAttributes: [
+          ...base.entityAttributes,
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'hp', baseValue: 675 },
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'mana', baseValue: 361 },
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'ad', baseValue: 62 },
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'attack_speed', baseValue: 0.679 },
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'armor', baseValue: 29 },
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'magic_resist', baseValue: 30 },
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'hp_regen', baseValue: 3.75 },
+          { ...META, entityId: DRAVEN.heroId, attrKey: 'mana_regen', baseValue: 8.05 }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: DRAVEN.heroId, providerId: DRAVEN.baProviderId },
+          { ...META, entityId: DRAVEN.heroId, providerId: DRAVEN.qProviderId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: DRAVEN.baProviderId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '德莱文通用普攻'
+          },
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '德莱文 Q 旋转飞斧 Spinning Axe'
+          }
+        ],
+        providerStateFields: [
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            stateKey: 'spinning_axe_ready',
+            valueTypeId: DRAVEN.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs: 5800,
+            refreshPolicyTypeId: DRAVEN.refreshDuration.typeId
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: DRAVEN.baProviderId,
+            formulaKey: 'basic_attack_damage',
+            expression: BA_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            formulaKey: 'spinning_axe_ready_arm',
+            expression: READY_ARM_EXPR
+          },
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            formulaKey: 'spinning_axe_ready_armed',
+            expression: READY_ARMED_EXPR
+          },
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            formulaKey: 'spinning_axe_proc_damage',
+            expression: PROC_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            formulaKey: 'spinning_axe_ready_consume',
+            expression: READY_CONSUME_EXPR
+          }
+        ],
+        providerListeners: [
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            listenerId: DRAVEN.armListenerId,
+            listenerKey: 'spinning_axe_on_ability_started',
+            eventTypeId: DRAVEN.eventAbilityStarted.typeId,
+            maxTriggersPerEvent: 1
+          },
+          {
+            ...META,
+            providerId: DRAVEN.qProviderId,
+            listenerId: DRAVEN.hitListenerId,
+            listenerKey: 'spinning_axe_on_basic_attack_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: DRAVEN.armListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: DRAVEN.eventAbilityStarted.typeId
+          },
+          {
+            ...META,
+            listenerId: DRAVEN.armListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          },
+          {
+            ...META,
+            listenerId: DRAVEN.hitListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventBasicAttackHit.typeId
+          },
+          {
+            ...META,
+            listenerId: DRAVEN.hitListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        abilities: [
+          ...base.abilities,
+          {
+            ...META,
+            abilityId: DRAVEN.baAbilityId,
+            providerId: DRAVEN.baProviderId,
+            abilityKey: 'basic_attack',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: '普攻'
+          },
+          {
+            ...META,
+            abilityId: DRAVEN.qAbilityId,
+            providerId: DRAVEN.qProviderId,
+            abilityKey: 'spinning_axe',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: '旋转飞斧'
+          }
+        ],
+        abilityPhases: [
+          ...base.abilityPhases,
+          {
+            ...META,
+            phaseId: DRAVEN.baPhaseId,
+            abilityId: DRAVEN.baAbilityId,
+            phaseOrder: 0,
+            phaseTypeId: TYPE.abilityPhaseImpact.typeId,
+            interruptible: false
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: DRAVEN.baSequenceId,
+            providerId: DRAVEN.baProviderId,
+            sequenceKey: 'basic_attack_damage'
+          },
+          {
+            ...META,
+            sequenceId: DRAVEN.armSequenceId,
+            providerId: DRAVEN.qProviderId,
+            sequenceKey: 'spinning_axe_arm'
+          },
+          {
+            ...META,
+            sequenceId: DRAVEN.procSequenceId,
+            providerId: DRAVEN.qProviderId,
+            sequenceKey: 'spinning_axe_proc'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: DRAVEN.baDamageStepId,
+            sequenceId: DRAVEN.baSequenceId,
+            stepOrder: 0,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            damageDetail: {
+              amountFormulaKey: 'basic_attack_damage',
+              damageTypeId: TYPE.damagePhysical.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: DRAVEN.baEmitStepId,
+            sequenceId: DRAVEN.baSequenceId,
+            stepOrder: 1,
+            operationTypeId: DRAVEN.operationEmitEvent.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            eventDetail: {
+              eventTypeId: TYPE.eventBasicAttackHit.typeId,
+              eventRef: DRAVEN.baEventRef,
+              payload: {}
+            }
+          },
+          {
+            ...META,
+            stepId: DRAVEN.readyArmStepId,
+            sequenceId: DRAVEN.armSequenceId,
+            stepOrder: 0,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            stateDetail: {
+              stateScopeTypeId: DRAVEN.stateScopeProvider.typeId,
+              stateKey: 'spinning_axe_ready',
+              amountFormulaKey: 'spinning_axe_ready_arm',
+              valuePolicyTypeId: DRAVEN.valuePolicyOverride.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: DRAVEN.damageStepId,
+            sequenceId: DRAVEN.procSequenceId,
+            stepOrder: 0,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            conditionFormulaKey: 'spinning_axe_ready_armed',
+            damageDetail: {
+              amountFormulaKey: 'spinning_axe_proc_damage',
+              damageTypeId: TYPE.damagePhysical.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+              copyableOnHit: false
+            }
+          },
+          {
+            ...META,
+            stepId: DRAVEN.readyConsumeStepId,
+            sequenceId: DRAVEN.procSequenceId,
+            stepOrder: 1,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'spinning_axe_ready_armed',
+            stateDetail: {
+              stateScopeTypeId: DRAVEN.stateScopeProvider.typeId,
+              stateKey: 'spinning_axe_ready',
+              amountFormulaKey: 'spinning_axe_ready_consume',
+              valuePolicyTypeId: DRAVEN.valuePolicyOverride.typeId
+            }
+          }
+        ],
+        abilityPhaseEffectSequences: [
+          ...base.abilityPhaseEffectSequences,
+          {
+            ...META,
+            phaseId: DRAVEN.baPhaseId,
+            triggerTypeId: TYPE.phaseTriggerEnter.typeId,
+            sequenceId: DRAVEN.baSequenceId
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: DRAVEN.armListenerId,
+            sequenceId: DRAVEN.armSequenceId
+          },
+          {
+            ...META,
+            listenerId: DRAVEN.hitListenerId,
+            sequenceId: DRAVEN.procSequenceId
+          }
+        ]
+      });
+    }
+
+    it('projects self-contained Draven BA + Q Spinning Axe rank-5 compile contract', () => {
+      const graph = withDravenSpinningAxe(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: DRAVEN.heroId,
+        targetEntityId: 'entity_target'
+      });
+      const compile = scenario.compileRequest;
+      const baSourceKey = `source::${DRAVEN.baProviderId}`;
+      const qSourceKey = `source::${DRAVEN.qProviderId}`;
+      const qTargetKey = `target::${DRAVEN.qProviderId}`;
+
+      expect(compile.combatants[0].attributes.hp).toEqual({
+        base: 675,
+        current: 675,
+        max: 675,
+        resolved: 675
+      });
+      expect(compile.combatants[0].attributes.mana).toEqual({
+        base: 361,
+        current: 361,
+        max: 361,
+        resolved: 361
+      });
+      expect(compile.combatants[0].attributes.ad).toEqual({
+        base: 62,
+        current: 62,
+        max: 62,
+        resolved: 62
+      });
+      expect(compile.combatants[0].attributes.attack_speed).toEqual({
+        base: 0.679,
+        current: 0.679,
+        max: 0.679,
+        resolved: 0.679
+      });
+      expect(compile.combatants[0].attributes.armor).toEqual({
+        base: 29,
+        current: 29,
+        max: 29,
+        resolved: 29
+      });
+      expect(compile.combatants[0].attributes.magic_resist).toEqual({
+        base: 30,
+        current: 30,
+        max: 30,
+        resolved: 30
+      });
+      expect(compile.combatants[0].attributes.hp_regen).toEqual({
+        base: 3.75,
+        current: 3.75,
+        max: 3.75,
+        resolved: 3.75
+      });
+      expect(compile.combatants[0].attributes.mana_regen).toEqual({
+        base: 8.05,
+        current: 8.05,
+        max: 8.05,
+        resolved: 8.05
+      });
+
+      const sourceMountRefs = compile.combatants[0].providers.map((p) => p.definitionRef);
+      expect(sourceMountRefs).toEqual(expect.arrayContaining([baSourceKey, qSourceKey]));
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toEqual(
+        expect.arrayContaining([
+          `passive:${DRAVEN.baProviderId}`,
+          `passive:${DRAVEN.qProviderId}`
+        ])
+      );
+      expect(compile.combatants[0].providers.filter((p) => p.definitionRef === qSourceKey)).toHaveLength(
+        1
+      );
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(qTargetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(qSourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${DRAVEN.qProviderId}`)
+      ).toBe(false);
+
+      const withoutHero = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).compileRequest;
+      expect(withoutHero.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        qSourceKey
+      );
+      expect(withoutHero.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        baSourceKey
+      );
+      expect(
+        withoutHero.sharedProviders!.some(
+          (p) =>
+            p.providerKey === qSourceKey ||
+            p.providerKey === qTargetKey ||
+            p.providerKey === baSourceKey
+        )
+      ).toBe(false);
+
+      const baProvider = compile.sharedProviders!.find((p) => p.providerKey === baSourceKey)!;
+      expect(baProvider).toBeDefined();
+      expect(baProvider.stableId).toBe(DRAVEN.baProviderId);
+      expect(baProvider.listeners).toEqual([]);
+      expect(baProvider.modifiers).toEqual([]);
+      expect(baProvider.initialStateSchema).toBeUndefined();
+      expect(baProvider.abilities).toHaveLength(1);
+      expect(baProvider.abilities![0].abilityKey).toBe('basic_attack');
+      expect(baProvider.abilities![0].kind).toBe('active');
+      expect(baProvider.abilities![0].operations).toEqual([
+        {
+          operation: 'damage',
+          target: 'opponent',
+          ref: DRAVEN.baDamageStepId,
+          amount: { op: 'ref', ref: 'source::basic_attack_damage' },
+          damageType: 'damage/physical',
+          valuePolicy: 'add'
+        },
+        {
+          operation: 'emit_event',
+          target: 'opponent',
+          eventType: 'event/basic_attack_hit',
+          ref: DRAVEN.baEventRef,
+          payload: {}
+        }
+      ]);
+      expect(baProvider.abilities![0].operations!.map((op) => op.operation)).toEqual([
+        'damage',
+        'emit_event'
+      ]);
+      expect(JSON.stringify(baProvider.abilities![0].operations)).not.toContain('ability_started');
+
+      const qProvider = compile.sharedProviders!.find((p) => p.providerKey === qSourceKey)!;
+      expect(qProvider).toBeDefined();
+      expect(qProvider.stableId).toBe(DRAVEN.qProviderId);
+      expect(qProvider.modifiers).toEqual([]);
+      expect(qProvider.initialStateSchema).toEqual({
+        spinning_axe_ready: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 5800,
+          refreshPolicy: 'refresh_on_write'
+        }
+      });
+      expect(qProvider.abilities).toHaveLength(1);
+      expect(qProvider.abilities![0].abilityKey).toBe('spinning_axe');
+      expect(qProvider.abilities![0].kind).toBe('active');
+      expect(qProvider.abilities![0]).not.toHaveProperty('operations');
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::basic_attack_damage']).toEqual({
+        op: 'read',
+        path: 'source.attr.ad'
+      });
+      expect(formulaByKey['source::spinning_axe_ready_arm']).toEqual(READY_ARM_EXPR);
+      expect(formulaByKey['source::spinning_axe_ready_consume']).toEqual(READY_CONSUME_EXPR);
+      expect(formulaByKey['source::spinning_axe_ready_armed']).toEqual(READY_ARMED_EXPR);
+      expect(formulaByKey['source::spinning_axe_proc_damage']).toEqual(PROC_DAMAGE_EXPR);
+
+      expect(qProvider.listeners).toHaveLength(2);
+      const armListener = qProvider.listeners!.find(
+        (l) => l.listenerKey === 'spinning_axe_on_ability_started'
+      )!;
+      const hitListener = qProvider.listeners!.find(
+        (l) => l.listenerKey === 'spinning_axe_on_basic_attack_hit'
+      )!;
+      expect(armListener.eventMatcher).toEqual({
+        all: ['event/ability_started', 'event/source_owner']
+      });
+      expect(armListener.maxTriggersPerEvent).toBe(1);
+      expect(hitListener.eventMatcher).toEqual({
+        all: ['event/basic_attack_hit', 'event/source_owner']
+      });
+      expect(hitListener.maxTriggersPerEvent).toBe(1);
+
+      expect(armListener.operations).toEqual([
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::spinning_axe_ready_arm' },
+          valuePolicy: 'override',
+          ref: 'spinning_axe_ready',
+          types: ['state_scope/provider']
+        }
+      ]);
+
+      expect(hitListener.operations).toHaveLength(2);
+      expect(hitListener.operations).toEqual([
+        {
+          operation: 'damage',
+          target: 'opponent',
+          ref: DRAVEN.damageStepId,
+          amount: { op: 'ref', ref: 'source::spinning_axe_proc_damage' },
+          damageType: 'damage/physical',
+          valuePolicy: 'add',
+          condition: { op: 'ref', ref: 'source::spinning_axe_ready_armed' }
+        },
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::spinning_axe_ready_consume' },
+          valuePolicy: 'override',
+          ref: 'spinning_axe_ready',
+          types: ['state_scope/provider'],
+          condition: { op: 'ref', ref: 'source::spinning_axe_ready_armed' }
+        }
+      ]);
+
+      const procDamageOp = hitListener.operations![0];
+      expect(procDamageOp).not.toHaveProperty('copyableOnHit');
+      expect(procDamageOp.copyableOnHit).not.toBe(true);
+      expect(JSON.stringify(procDamageOp)).not.toContain('"copyableOnHit":true');
+
+      const aaOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'basic_attack');
+      const qOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'spinning_axe');
+      expect(aaOpt?.selectable).toBe(true);
+      expect(qOpt?.selectable).toBe(true);
+      expect(qOpt?.kind).toBe('active');
+      const nonBasicActives = scenario.availableSourceAbilities.filter(
+        (a) => a.selectable && a.abilityKey !== 'basic_attack'
+      );
+      expect(nonBasicActives.map((a) => a.abilityKey)).toEqual(['spinning_axe']);
+
+      const contractJson = JSON.stringify({
+        baProvider,
+        qProvider,
+        formulas: compile.formulas!.filter(
+          (f) =>
+            f.key.startsWith('source::spinning_axe_') || f.key === 'source::basic_attack_damage'
+        )
+      });
+      expect(contractJson.toLowerCase()).not.toContain('catch');
+      expect(contractJson).not.toContain('接斧');
+      expect(contractJson.toLowerCase()).not.toContain('landing');
+      expect(contractJson).not.toContain('落点');
+      expect(contractJson.toLowerCase()).not.toContain('dual');
+      expect(contractJson).not.toContain('双斧');
+      expect(contractJson).not.toContain('8000');
+      expect(contractJson).not.toContain('"value":45');
+      expect(contractJson).not.toContain('ability_hero_draven_w');
+      expect(contractJson).not.toContain('ability_hero_draven_e');
+      expect(contractJson).not.toContain('ability_hero_draven_r');
+      expect(contractJson.toLowerCase()).not.toContain('rank1');
+      expect(contractJson.toLowerCase()).not.toContain('rank2');
+      expect(contractJson.toLowerCase()).not.toContain('rank3');
+      expect(contractJson.toLowerCase()).not.toContain('rank4');
+      expect(Object.keys(formulaByKey).filter((k) => k.includes('spinning_axe_proc_damage'))).toEqual(
+        ['source::spinning_axe_proc_damage', 'target::spinning_axe_proc_damage']
+      );
+    });
+  });
 });
