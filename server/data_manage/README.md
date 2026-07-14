@@ -525,6 +525,27 @@ cd server/data_manage
 mvn -Dtest=LolGenericTwistedFateStackedDeckSeedSqlTest test
 ```
 
+### LoL generic Draven Spinning Axe seed（德莱文 Q / rank-5 初次飞斧）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** `hero_draven` + 通用普攻图 + `basic_attack_hit` emit + 可 cast 的 Q active；不依赖 Batch-B；本脚本不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20172`/`20181`/`20190`/`20205`/`20211`/`20212`/`20220`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-draven-spinning-axe-v1-20260714`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影所需 reserved → `types`；幂等写入 `hero_draven` 基线实体与 level-1 面板（hp675 / mana361 / ad62 / AS0.679 / armor29 / MR30 / hpregen3.75 / manaregen8.05）、通用普攻闭环，并在伤害步骤后追加 `emit_event(event/basic_attack_hit)`（普攻**不**发 `ability_started`）；挂载可 cast 的 active `ability_hero_draven_q_spinning_axe`（成功 cast 由既有 runtime 发出 `event/ability_started`）；向 `hero_draven` mount 独立 `provider_hero_draven_q_spinning_axe`（与普攻 provider 并存），含 timed `spinning_axe_ready`（max1 / `duration_ms=5800` / `refresh_duration`）、`ability_started` + `source_owner` ALL listener 武装 ready=1，以及 `basic_attack_hit` + `source_owner` ALL listener（`max_triggers_per_event=1`）两步结算（条件物理伤害 → 条件消费 ready）。proc 公式为 `60 + 1.15*(ad.resolved-ad.base)`，`damage/physical`（`20220`），`copyable_on_hit=false`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 2026-07-14 Meraki/Riot latest `Draven.json`。
+
+**排除**：接斧后重新武装、双斧上限、45 mana、8s CD、其它 rank、移动落点、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericDravenSpinningAxeSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
