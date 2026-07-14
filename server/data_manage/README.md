@@ -504,6 +504,28 @@ cd server/data_manage
 mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
 ```
 
+### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
+
+在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20110`/`20120`/`20173`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B / `hero_kogmaw` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_kogmaw_caustic_spittle_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-kogmaw-caustic-spittle-v1-20260714`（seed 不负责 publish）。候选整体语义 **partial**：仅 rank5 被动 `+25%` AS。
+
+该 seed 会：锁定 `game_data_state`；校验 `hero_kogmaw` / `attack_speed` / 所需 reserved；幂等投影 reserved → `types`；向 `hero_kogmaw` 独占 mount `provider_hero_kogmaw_caustic_spittle`，含 `attack_speed` `percent_add` 常量 `0.25`。不写 ability / listener / state / effect / damage。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：Q 主动魔法伤害、护甲/魔抗击碎、cast/cooldown/rotation、其它 rank、W/普攻重建、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKogmawCausticSpittleSeedSqlTest test
+```
+
 ### LoL generic Twisted Fate Stacked Deck seed（卡牌大师 E / rank-5）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`）已就绪后，按顺序执行（**自包含** `hero_twistedfate` + 通用普攻图 + `basic_attack_hit` emit；不依赖 Batch-B；本脚本不做 live migration、不自动 publish）：
