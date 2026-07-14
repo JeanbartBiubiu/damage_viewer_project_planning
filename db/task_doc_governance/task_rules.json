@@ -641,6 +641,20 @@
       ]
     },
     {
+      "task_key": "wasm-generic-draven-spinning-axe",
+      "title": "通用 ABI 德莱文 Q 旋转飞斧 rank5 初斧机制",
+      "module": "wasm",
+      "feature": "generic_draven_spinning_axe",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "跨 Backend/Wasm/Web worktree 交付已完整闭环（seed、runtime、assembler 与 G8 partial 证据），但游戏语义仅为 partial：仅 rank5 初斧 Q cast→timed ready→首次普攻物理加成；接斧 rearm、双斧上限、45 mana、8s CD、其它 rank、落地位移、W/E/R 与 live migration/publish/E2E 均未建模，不得误称完成。",
+      "completed_at": "2026-07-14",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-德莱文Q旋转飞斧SpinningAxe机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-德莱文Q旋转飞斧SpinningAxe机制验证记录-2026-07-14.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
