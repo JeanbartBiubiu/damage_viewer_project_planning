@@ -669,6 +669,20 @@
       ]
     },
     {
+      "task_key": "wasm-generic-kogmaw-caustic-spittle",
+      "title": "通用 ABI 克格莫 Q 腐蚀唾液 Caustic Spittle rank5 被动攻速机制",
+      "module": "wasm",
+      "feature": "generic_kogmaw_caustic_spittle",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "跨 Backend/Wasm/Web worktree 交付已完整闭环（幂等 seed、generic 回归、assembler 投影与 G8 partial 证据），但仅为 candidate-level partial：只实现 rank5 常驻被动 +25% attack speed；主动命中魔法伤害、护甲/魔抗击碎、Q cast/cooldown/rotation、其它 rank、live migration/publish/E2E 均未实现，不得误称完整 Q。",
+      "completed_at": "2026-07-14",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-克格莫Q腐蚀唾液CausticSpittle机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-克格莫Q腐蚀唾液CausticSpittle机制验证记录-2026-07-14.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
