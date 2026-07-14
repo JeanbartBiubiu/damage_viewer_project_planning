@@ -4054,4 +4054,531 @@ describe('combatDataAssembler', () => {
       expect(aweJson).not.toContain('"operation":"state_change"');
     });
   });
+
+  describe('hero_twistedfate Stacked Deck rank-5 data contract', () => {
+    const TF = {
+      heroId: 'hero_twistedfate',
+      baProviderId: 'provider_hero_twistedfate_basic_attack',
+      baAbilityId: 'ability_hero_twistedfate_basic_attack',
+      baPhaseId: 'phase_hero_twistedfate_basic_attack_impact',
+      baSequenceId: 'sequence_hero_twistedfate_basic_attack_damage',
+      baDamageStepId: 'step_hero_twistedfate_basic_attack_damage',
+      baEmitStepId: 'step_hero_twistedfate_basic_attack_emit_hit',
+      baEventRef: 'event_ref_hero_twistedfate_basic_attack_hit',
+      deckProviderId: 'provider_hero_twistedfate_stacked_deck',
+      deckListenerId: 'listener_hero_twistedfate_stacked_deck',
+      deckSequenceId: 'sequence_hero_twistedfate_stacked_deck',
+      deckHitAddStepId: 'step_hero_twistedfate_stacked_deck_hit_add',
+      deckProcStepId: 'step_hero_twistedfate_stacked_deck_proc_damage',
+      deckResetStepId: 'step_hero_twistedfate_stacked_deck_hit_reset',
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      operationEmitEvent: { typeId: 20158, typeKey: 'operation/emit_event' },
+      valuePolicyOverride: { typeId: 20172, typeKey: 'value_policy/override' },
+      valuePolicyPercentAdd: { typeId: 20173, typeKey: 'value_policy/percent_add' },
+      damageMagic: { typeId: 20221, typeKey: 'damage/magic' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' }
+    } as const;
+
+    const BA_DAMAGE_EXPR = { op: 'read', path: '$owner.attr.ad' };
+    const HIT_ADD_EXPR = { op: 'const', value: 1 };
+    const HIT_RESET_EXPR = { op: 'const', value: 0 };
+    const ATTACK_SPEED_EXPR = { op: 'const', value: 0.5 };
+    const PROC_CONDITION_EXPR = {
+      op: 'gte',
+      args: [
+        { op: 'read', path: 'provider.state.stacked_deck_hits' },
+        { op: 'const', value: 4 }
+      ]
+    };
+    const PROC_DAMAGE_EXPR = {
+      op: 'add',
+      args: [
+        { op: 'const', value: 165 },
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 0.2 },
+            {
+              op: 'sub',
+              args: [
+                { op: 'read', path: 'event.entry_source.attr.ad.resolved' },
+                { op: 'read', path: 'event.entry_source.attr.ad.base' }
+              ]
+            }
+          ]
+        },
+        {
+          op: 'mul',
+          args: [
+            { op: 'const', value: 0.4 },
+            { op: 'read', path: 'event.entry_source.attr.ap.resolved' }
+          ]
+        }
+      ]
+    };
+
+    function withTwistedFateStackedDeck(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [
+        TF.valueTypeNumber,
+        TF.operationEmitEvent,
+        TF.valuePolicyOverride,
+        TF.valuePolicyPercentAdd,
+        TF.damageMagic,
+        TF.stateScopeProvider
+      ];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        entities: [
+          ...base.entities,
+          {
+            ...META,
+            entityId: TF.heroId,
+            displayName: '卡牌大师'
+          }
+        ],
+        entityAttributes: [
+          ...base.entityAttributes,
+          { ...META, entityId: TF.heroId, attrKey: 'hp', baseValue: 604 },
+          { ...META, entityId: TF.heroId, attrKey: 'ad', baseValue: 52 },
+          { ...META, entityId: TF.heroId, attrKey: 'ap', baseValue: 0 },
+          { ...META, entityId: TF.heroId, attrKey: 'attack_speed', baseValue: 0.625 },
+          { ...META, entityId: TF.heroId, attrKey: 'armor', baseValue: 24 },
+          { ...META, entityId: TF.heroId, attrKey: 'magic_resist', baseValue: 30 }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: TF.heroId, providerId: TF.baProviderId },
+          { ...META, entityId: TF.heroId, providerId: TF.deckProviderId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: TF.baProviderId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '卡牌大师通用普攻'
+          },
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: '卡牌大师 E 卡牌骗术 Stacked Deck'
+          }
+        ],
+        providerStateFields: [
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            stateKey: 'stacked_deck_hits',
+            valueTypeId: TF.valueTypeNumber.typeId
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: TF.baProviderId,
+            formulaKey: 'basic_attack_damage',
+            expression: BA_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            formulaKey: 'stacked_deck_hit_add',
+            expression: HIT_ADD_EXPR
+          },
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            formulaKey: 'stacked_deck_proc_condition',
+            expression: PROC_CONDITION_EXPR
+          },
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            formulaKey: 'stacked_deck_proc_damage',
+            expression: PROC_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            formulaKey: 'stacked_deck_hit_reset',
+            expression: HIT_RESET_EXPR
+          },
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            formulaKey: 'stacked_deck_attack_speed',
+            expression: ATTACK_SPEED_EXPR
+          }
+        ],
+        providerModifiers: [
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            modifierId: 'modifier_hero_twistedfate_stacked_deck_attack_speed',
+            modifierKey: 'stacked_deck_attack_speed',
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            targetAttrKey: 'attack_speed',
+            priority: 0,
+            valuePolicyTypeId: TF.valuePolicyPercentAdd.typeId,
+            valueFormulaKey: 'stacked_deck_attack_speed'
+          }
+        ],
+        providerListeners: [
+          {
+            ...META,
+            providerId: TF.deckProviderId,
+            listenerId: TF.deckListenerId,
+            listenerKey: 'stacked_deck_on_basic_attack_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: TF.deckListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventBasicAttackHit.typeId
+          },
+          {
+            ...META,
+            listenerId: TF.deckListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        abilities: [
+          ...base.abilities,
+          {
+            ...META,
+            abilityId: TF.baAbilityId,
+            providerId: TF.baProviderId,
+            abilityKey: 'basic_attack',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: '普攻'
+          }
+        ],
+        abilityPhases: [
+          ...base.abilityPhases,
+          {
+            ...META,
+            phaseId: TF.baPhaseId,
+            abilityId: TF.baAbilityId,
+            phaseOrder: 0,
+            phaseTypeId: TYPE.abilityPhaseImpact.typeId,
+            interruptible: false
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: TF.baSequenceId,
+            providerId: TF.baProviderId,
+            sequenceKey: 'basic_attack_damage'
+          },
+          {
+            ...META,
+            sequenceId: TF.deckSequenceId,
+            providerId: TF.deckProviderId,
+            sequenceKey: 'stacked_deck_on_hit'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: TF.baDamageStepId,
+            sequenceId: TF.baSequenceId,
+            stepOrder: 0,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            damageDetail: {
+              amountFormulaKey: 'basic_attack_damage',
+              damageTypeId: TYPE.damagePhysical.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: TF.baEmitStepId,
+            sequenceId: TF.baSequenceId,
+            stepOrder: 1,
+            operationTypeId: TF.operationEmitEvent.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            eventDetail: {
+              eventTypeId: TYPE.eventBasicAttackHit.typeId,
+              eventRef: TF.baEventRef,
+              payload: {}
+            }
+          },
+          {
+            ...META,
+            stepId: TF.deckHitAddStepId,
+            sequenceId: TF.deckSequenceId,
+            stepOrder: 0,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            stateDetail: {
+              stateScopeTypeId: TF.stateScopeProvider.typeId,
+              stateKey: 'stacked_deck_hits',
+              amountFormulaKey: 'stacked_deck_hit_add',
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+            }
+          },
+          {
+            ...META,
+            stepId: TF.deckProcStepId,
+            sequenceId: TF.deckSequenceId,
+            stepOrder: 1,
+            operationTypeId: TYPE.operationDamage.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            conditionFormulaKey: 'stacked_deck_proc_condition',
+            damageDetail: {
+              amountFormulaKey: 'stacked_deck_proc_damage',
+              damageTypeId: TF.damageMagic.typeId,
+              valuePolicyTypeId: TYPE.valuePolicyAdd.typeId,
+              copyableOnHit: false
+            }
+          },
+          {
+            ...META,
+            stepId: TF.deckResetStepId,
+            sequenceId: TF.deckSequenceId,
+            stepOrder: 2,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            conditionFormulaKey: 'stacked_deck_proc_condition',
+            stateDetail: {
+              stateScopeTypeId: TF.stateScopeProvider.typeId,
+              stateKey: 'stacked_deck_hits',
+              amountFormulaKey: 'stacked_deck_hit_reset',
+              valuePolicyTypeId: TF.valuePolicyOverride.typeId
+            }
+          }
+        ],
+        abilityPhaseEffectSequences: [
+          ...base.abilityPhaseEffectSequences,
+          {
+            ...META,
+            phaseId: TF.baPhaseId,
+            triggerTypeId: TYPE.phaseTriggerEnter.typeId,
+            sequenceId: TF.baSequenceId
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: TF.deckListenerId,
+            sequenceId: TF.deckSequenceId
+          }
+        ]
+      });
+    }
+
+    it('projects self-contained Twisted Fate BA + Stacked Deck rank-5 compile contract', () => {
+      const graph = withTwistedFateStackedDeck(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: TF.heroId,
+        targetEntityId: 'entity_target'
+      });
+      const compile = scenario.compileRequest;
+      const baSourceKey = `source::${TF.baProviderId}`;
+      const deckSourceKey = `source::${TF.deckProviderId}`;
+      const deckTargetKey = `target::${TF.deckProviderId}`;
+
+      expect(compile.combatants[0].attributes.ad).toEqual({
+        base: 52,
+        current: 52,
+        max: 52,
+        resolved: 52
+      });
+      expect(compile.combatants[0].attributes.attack_speed).toEqual({
+        base: 0.625,
+        current: 0.625,
+        max: 0.625,
+        resolved: 0.625
+      });
+      expect(compile.combatants[0].attributes.ap).toEqual({
+        base: 0,
+        current: 0,
+        max: 0,
+        resolved: 0
+      });
+
+      const sourceMountRefs = compile.combatants[0].providers.map((p) => p.definitionRef);
+      expect(sourceMountRefs).toEqual(expect.arrayContaining([baSourceKey, deckSourceKey]));
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toEqual(
+        expect.arrayContaining([`passive:${TF.baProviderId}`, `passive:${TF.deckProviderId}`])
+      );
+      expect(compile.combatants[0].providers.filter((p) => p.definitionRef === deckSourceKey)).toHaveLength(
+        1
+      );
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(deckTargetKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(deckSourceKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${TF.deckProviderId}`)
+      ).toBe(false);
+
+      const withoutHero = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).compileRequest;
+      expect(withoutHero.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        deckSourceKey
+      );
+      expect(withoutHero.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        baSourceKey
+      );
+      expect(
+        withoutHero.sharedProviders!.some(
+          (p) =>
+            p.providerKey === deckSourceKey ||
+            p.providerKey === deckTargetKey ||
+            p.providerKey === baSourceKey
+        )
+      ).toBe(false);
+
+      const baProvider = compile.sharedProviders!.find((p) => p.providerKey === baSourceKey)!;
+      expect(baProvider).toBeDefined();
+      expect(baProvider.listeners).toEqual([]);
+      expect(baProvider.modifiers).toEqual([]);
+      expect(baProvider.initialStateSchema).toBeUndefined();
+      expect(baProvider.abilities).toHaveLength(1);
+      expect(baProvider.abilities![0].abilityKey).toBe('basic_attack');
+      expect(baProvider.abilities![0].kind).toBe('active');
+      expect(baProvider.abilities![0].operations).toEqual([
+        {
+          operation: 'damage',
+          target: 'opponent',
+          ref: TF.baDamageStepId,
+          amount: { op: 'ref', ref: 'source::basic_attack_damage' },
+          damageType: 'damage/physical',
+          valuePolicy: 'add'
+        },
+        {
+          operation: 'emit_event',
+          target: 'opponent',
+          eventType: 'event/basic_attack_hit',
+          ref: TF.baEventRef,
+          payload: {}
+        }
+      ]);
+      expect(baProvider.abilities![0].operations!.map((op) => op.operation)).toEqual([
+        'damage',
+        'emit_event'
+      ]);
+
+      const deckProvider = compile.sharedProviders!.find((p) => p.providerKey === deckSourceKey)!;
+      expect(deckProvider).toBeDefined();
+      expect(deckProvider.abilities).toEqual([]);
+      expect(deckProvider.initialStateSchema).toEqual({ stacked_deck_hits: 0 });
+      expect(deckProvider.modifiers).toEqual([
+        {
+          modifierKey: 'stacked_deck_attack_speed',
+          kind: 'attribute',
+          target: 'source.attr.attack_speed',
+          priority: 0,
+          valuePolicy: 'percent_add',
+          value: { op: 'ref', ref: 'source::stacked_deck_attack_speed' }
+        }
+      ]);
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::basic_attack_damage']).toEqual({
+        op: 'read',
+        path: 'source.attr.ad'
+      });
+      expect(formulaByKey['source::stacked_deck_attack_speed']).toEqual(ATTACK_SPEED_EXPR);
+      expect(formulaByKey['source::stacked_deck_hit_add']).toEqual(HIT_ADD_EXPR);
+      expect(formulaByKey['source::stacked_deck_hit_reset']).toEqual(HIT_RESET_EXPR);
+      expect(formulaByKey['source::stacked_deck_proc_condition']).toEqual(PROC_CONDITION_EXPR);
+      expect(formulaByKey['source::stacked_deck_proc_damage']).toEqual(PROC_DAMAGE_EXPR);
+
+      expect(deckProvider.listeners).toHaveLength(1);
+      const hitListener = deckProvider.listeners!.find(
+        (l) => l.listenerKey === 'stacked_deck_on_basic_attack_hit'
+      )!;
+      expect(hitListener.eventMatcher).toEqual({
+        all: ['event/basic_attack_hit', 'event/source_owner']
+      });
+      expect(hitListener.maxTriggersPerEvent).toBe(1);
+      expect(hitListener.operations).toHaveLength(3);
+      expect(hitListener.operations).toEqual([
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::stacked_deck_hit_add' },
+          valuePolicy: 'add',
+          ref: 'stacked_deck_hits',
+          types: ['state_scope/provider']
+        },
+        {
+          operation: 'damage',
+          target: 'opponent',
+          ref: TF.deckProcStepId,
+          amount: { op: 'ref', ref: 'source::stacked_deck_proc_damage' },
+          damageType: 'damage/magic',
+          valuePolicy: 'add',
+          condition: { op: 'ref', ref: 'source::stacked_deck_proc_condition' }
+        },
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::stacked_deck_hit_reset' },
+          valuePolicy: 'override',
+          ref: 'stacked_deck_hits',
+          types: ['state_scope/provider'],
+          condition: { op: 'ref', ref: 'source::stacked_deck_proc_condition' }
+        }
+      ]);
+
+      const procDamageOp = hitListener.operations![1];
+      expect(procDamageOp).not.toHaveProperty('copyableOnHit');
+      expect(procDamageOp.copyableOnHit).not.toBe(true);
+      expect(JSON.stringify(procDamageOp)).not.toContain('"copyableOnHit":true');
+
+      const aaOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'basic_attack');
+      expect(aaOpt?.selectable).toBe(true);
+      expect(scenario.availableSourceAbilities.some((a) => /_[qwr]$/i.test(a.abilityKey))).toBe(
+        false
+      );
+
+      const contractJson = JSON.stringify({
+        baProvider,
+        deckProvider,
+        formulas: compile.formulas!.filter(
+          (f) =>
+            f.key.startsWith('source::stacked_deck_') || f.key === 'source::basic_attack_damage'
+        )
+      });
+      expect(contractJson.toLowerCase()).not.toContain('building');
+      expect(contractJson).not.toContain('建筑物');
+      expect(contractJson.toLowerCase()).not.toContain('structure');
+      expect(contractJson).not.toContain('ability_hero_twistedfate_q');
+      expect(contractJson).not.toContain('ability_hero_twistedfate_w');
+      expect(contractJson).not.toContain('ability_hero_twistedfate_r');
+      expect(contractJson).not.toContain('stacked_deck_active');
+      expect(contractJson).not.toContain('选牌');
+      expect(contractJson).not.toContain('万能牌');
+      expect(contractJson).not.toContain('命运');
+      expect(contractJson.toLowerCase()).not.toContain('rank1');
+      expect(contractJson.toLowerCase()).not.toContain('rank2');
+      expect(contractJson.toLowerCase()).not.toContain('rank3');
+      expect(contractJson.toLowerCase()).not.toContain('rank4');
+      expect(Object.keys(formulaByKey).filter((k) => k.includes('stacked_deck_proc_damage'))).toEqual(
+        ['source::stacked_deck_proc_damage', 'target::stacked_deck_proc_damage']
+      );
+    });
+  });
 });
