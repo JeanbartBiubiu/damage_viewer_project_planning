@@ -10,7 +10,7 @@ hero_skill|hero_aphelios|W|月相轮转,hero_skill,hero_aphelios,残月之肃,W,
 hero_skill|hero_aphelios|E|武器队列系统,hero_skill,hero_aphelios,残月之肃,E,武器队列系统,out_of_scope_for_single_target_dps,out_of_scope,no_single_target_dps_effect,,,,
 hero_skill|hero_aphelios|R|清辉夜凝,hero_skill,hero_aphelios,残月之肃,R,清辉夜凝,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_ashe|P|冰霜射击,hero_skill,hero_ashe,寒冰射手,P,冰霜射击,needs_runtime_extension,blocked,seeded_random_crit_sequence,,,,缺 seeded/random/on-crit 序列 runtime 与精确 seed；不得用 expected-crit 冒充完成。
-hero_skill|hero_ashe|Q|射手的专注,hero_skill,hero_ashe,寒冰射手,Q,射手的专注,needs_runtime_extension,blocked,stacking_stat_modifier_on_hit,,,,缺该 candidate 精确 stacking modifier seed/mount；不得因 Guinsoo/黑切代表完成而 partial。
+hero_skill|hero_ashe|Q|射手的专注,hero_skill,hero_ashe,寒冰射手,Q,射手的专注,needs_runtime_extension,partial,stacking_stat_modifier_on_hit|attack_speed_percent_add|cast_condition,wasm-generic-ashe-rangers-focus,wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go,wasm,未建模：generic attack-timer reset 调度、逐箭飞行、Frost Shot、吸血、建筑物/多目标、任意技能轮转/攻速 cadence、其它 rank。
 hero_skill|hero_ashe|W|万箭齐发,hero_skill,hero_ashe,寒冰射手,W,万箭齐发,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_ashe|E|鹰击长空,hero_skill,hero_ashe,寒冰射手,E,鹰击长空,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
 hero_skill|hero_ashe|R|魔法水晶箭,hero_skill,hero_ashe,寒冰射手,R,魔法水晶箭,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
