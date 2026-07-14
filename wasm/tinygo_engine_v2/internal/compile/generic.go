@@ -145,16 +145,18 @@ type CompiledTickSpec struct {
 
 // CompiledAbility 是 compile 后的 ability 定义。
 type CompiledAbility struct {
-	AbilityKey     string
-	Kind           string
-	TypeSet        typeset.TypeSet
-	Params         map[string]float64
-	Cost           *CompiledAbilityCost
-	Cooldown       *CompiledAbilityCooldown
-	TickSpec       *CompiledTickSpec
-	ProviderIndex  uint16
-	OperationStart uint16
-	OperationCount uint16
+	AbilityKey            string
+	Kind                  string
+	TypeSet               typeset.TypeSet
+	Params                map[string]float64
+	Cost                  *CompiledAbilityCost
+	Cooldown              *CompiledAbilityCooldown
+	CastConditionProgram  formula.GenericProgramID
+	HasCastCondition      bool
+	TickSpec              *CompiledTickSpec
+	ProviderIndex         uint16
+	OperationStart        uint16
+	OperationCount        uint16
 }
 
 // CompiledOperation 是 compile 后的 operation 定义。
@@ -507,6 +509,14 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			cd.HasDuration = true
 		}
 		compiled.Cooldown = cd
+	}
+	if ability.CastCondition != nil {
+		instr := formula.CompileGenericFormula(*ability.CastCondition, path+".castCondition", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		if len(instr) > 0 {
+			key := path + ".castCondition"
+			compiled.CastConditionProgram = ctx.registerFormula(key, instr)
+			compiled.HasCastCondition = true
+		}
 	}
 	for k, op := range ability.Operations {
 		compileOperation(op, path+".operations["+itoa(k)+"]", int(providerIndex), ctx)
