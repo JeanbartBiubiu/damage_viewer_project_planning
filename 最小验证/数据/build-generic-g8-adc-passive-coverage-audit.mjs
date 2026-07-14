@@ -36,16 +36,17 @@ const SEED = {
   witsEndFray: 'db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql',
   manamuneAwe: 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql',
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
+  dravenSpinningAxe: 'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
 };
 
-function evidence(evidenceType, taskKey, sourcePath, note) {
+function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
   const pathValue = sourcePath || '';
   return {
     evidenceType,
     taskKey: taskKey || '',
     sourcePath: pathValue,
-    // backend-root-relative sourcePath is resolvable only with an explicit worktree qualifier
-    sourceWorktree: pathValue ? 'backend' : '',
+    // sourcePath is resolvable only with an explicit worktree qualifier (backend|wasm)
+    sourceWorktree: pathValue ? sourceWorktree : '',
     note: note || '',
   };
 }
@@ -118,6 +119,26 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-twisted-fate-stacked-deck',
           SEED.twistedFateStackedDeck,
           'Twisted Fate E Stacked Deck rank5: +50% AS; every-4th hit magic 165+20%bonusAD+40%AP; copyable_on_hit=false; building DR / other ranks / actives unmodeled',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_draven|Q',
+    {
+      classification: 'partial',
+      tags: ['spellblade_next_attack_state'],
+      reason:
+        'hero_draven Q 旋转飞斧/Spinning Axe rank5 初次飞斧已由 wasm-generic-draven-spinning-axe 批次闭环：Q active cast 经 ability_started 武装 source-owner timed state spinning_axe_ready=1（max1,duration_ms5800,refresh_on_write）；随后一次 source-owner basic_attack_hit 追加 physical raw=60+1.15*(resolved AD-base AD)，copyable_on_hit=false 并消费 ready。',
+      remainingGap:
+        '接斧重新武装、双斧上限、45 mana、8s CD、其它 rank、移动落点及 W/E/R 均未建模。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-draven-spinning-axe',
+          SEED.dravenSpinningAxe,
+          'Draven Q Spinning Axe rank5 initial axe: ability_started arms 5800ms ready; first AA physical 60+1.15*bonusAD; copyable false; catch rearm / dual axe / mana / CD / other ranks / landing / WER unmodeled',
+          'wasm',
         ),
       ],
     },

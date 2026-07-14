@@ -16,14 +16,14 @@ LAST_TRACKED_AT: 2026-05-20
 - Marksman 英雄候选池：33
 - ADC 成装候选池：53
 - 候选被动/技能条目：242
-- 分类计数：ready_to_encode=1；already_covered=14；needs_runtime_extension=37；needs_manual_baseline=44；out_of_scope_for_single_target_dps=146
+- 分类计数：ready_to_encode=1；already_covered=15；needs_runtime_extension=36；needs_manual_baseline=44；out_of_scope_for_single_target_dps=146
 
 ## 机制 backlog 汇总
 
 - `distance_based_damage_modifier`：11 项。样例：未来守护者/墨丘利之炮 / 墨丘利之锤；复仇之矛/武术姿态；正义天使/登神长阶；永猎双子/千珏之印；德玛西亚之翼/旋翔掠杀；沙漠玫瑰/悍勇本色；沙漠玫瑰/交火；瘟疫之源/火力全开；暗夜猎手/闪避突袭；海克斯镜片 C44/高倍望远镜；海克斯镜片 C44/奥术瞄准
 - `energized_charge_and_consume`：6 项。样例：斯塔缇克电刃/电疗；疾射火炮/神射手；岚切/盈能；岚切/弩箭；电震涡流剑/通电；电震涡流剑/苍穹
-- `spellblade_next_attack_state`：6 项。样例：荣耀行刑官/旋转飞斧；黄昏与黎明/咒刃；三相之力/咒刃；巫妖之祸/咒刃；黯影阔剑/夜行者；夺萃之镰/咒刃
 - `seeded_random_crit_sequence`：5 项。样例：寒冰射手/冰霜射击；戏命师/低语；赏金猎人/弹幕时间；不破之誓/初生之誓；猎魔人弩箭/开战弹幕
+- `spellblade_next_attack_state`：5 项。样例：黄昏与黎明/咒刃；三相之力/咒刃；巫妖之祸/咒刃；黯影阔剑/夜行者；夺萃之镰/咒刃
 - `stacking_stat_modifier_on_hit`：5 项。样例：寒冰射手/射手的专注；探险家/咒能高涨；法外狂徒/快速拔枪；黑色切割者/切割；鬼索的狂暴之刃/沸腾打击
 - `damage_multiplier_or_health_ratio`：2 项。样例：永猎双子/横生惧意；多米尼克领主的致意/巨人杀手
 - `execute_threshold`：2 项。样例：收集者/死；赛瑞尔达的怨恨/严寒
@@ -63,11 +63,11 @@ LAST_TRACKED_AT: 2026-05-20
 | hero_skill | hero_corki | 英勇投弹手 | W | 瓦尔基里俯冲 | out_of_scope_for_single_target_dps | multi_target_or_area | missing | not_applicable | 多目标、弹射或范围收益不属于当前单标靶 DPS。 |  |
 | hero_skill | hero_corki | 英勇投弹手 | E | 格林机枪 | needs_manual_baseline | dps_relevant_manual_review | missing | complete | 文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。 | 完整 tooltip 数值或训练营截图 |
 | hero_skill | hero_corki | 英勇投弹手 | R | 火箭轰击 | out_of_scope_for_single_target_dps | multi_target_or_area | missing | not_applicable | 多目标、弹射或范围收益不属于当前单标靶 DPS。 |  |
-| hero_skill | hero_draven | 荣耀行刑官 | P | 德莱文联盟 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | missing | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
-| hero_skill | hero_draven | 荣耀行刑官 | Q | 旋转飞斧 | needs_runtime_extension | spellblade_next_attack_state | missing | complete | 需要“施法后下一次普攻”状态；当前不做主动技能轮转。 |  |
-| hero_skill | hero_draven | 荣耀行刑官 | W | 血性冲刺 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | missing | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
-| hero_skill | hero_draven | 荣耀行刑官 | E | 开道利斧 | needs_manual_baseline | dps_relevant_manual_review | missing | complete | 文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。 | 完整 tooltip 数值或训练营截图 |
-| hero_skill | hero_draven | 荣耀行刑官 | R | 冷血追命 | out_of_scope_for_single_target_dps | multi_target_or_area | missing | not_applicable | 多目标、弹射或范围收益不属于当前单标靶 DPS。 |  |
+| hero_skill | hero_draven | 荣耀行刑官 | P | 德莱文联盟 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | complete | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
+| hero_skill | hero_draven | 荣耀行刑官 | Q | 旋转飞斧 | already_covered | existing_batch_b_seed | complete | not_applicable |  |  |
+| hero_skill | hero_draven | 荣耀行刑官 | W | 血性冲刺 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | complete | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
+| hero_skill | hero_draven | 荣耀行刑官 | E | 开道利斧 | needs_manual_baseline | dps_relevant_manual_review | complete | complete | 文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。 | 完整 tooltip 数值或训练营截图 |
+| hero_skill | hero_draven | 荣耀行刑官 | R | 冷血追命 | out_of_scope_for_single_target_dps | multi_target_or_area | complete | not_applicable | 多目标、弹射或范围收益不属于当前单标靶 DPS。 |  |
 | hero_skill | hero_ezreal | 探险家 | P | 咒能高涨 | needs_runtime_extension | stacking_stat_modifier_on_hit | missing | not_applicable | 需要 timed stack stat modifier 聚合和掉层语义。 |  |
 | hero_skill | hero_ezreal | 探险家 | Q | 秘术射击 | out_of_scope_for_single_target_dps | cooldown_or_haste_without_rotation | missing | not_applicable | 当前不做主动技能轮转，冷却收益不能转成 DPS 曲线证据。 |  |
 | hero_skill | hero_ezreal | 探险家 | W | 精华跃动 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | missing | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |

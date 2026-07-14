@@ -30,7 +30,7 @@ hero_skill|hero_corki|W|瓦尔基里俯冲,hero_skill,hero_corki,英勇投弹手
 hero_skill|hero_corki|E|格林机枪,hero_skill,hero_corki,英勇投弹手,E,格林机枪,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 hero_skill|hero_corki|R|火箭轰击,hero_skill,hero_corki,英勇投弹手,R,火箭轰击,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_draven|P|德莱文联盟,hero_skill,hero_draven,荣耀行刑官,P,德莱文联盟,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
-hero_skill|hero_draven|Q|旋转飞斧,hero_skill,hero_draven,荣耀行刑官,Q,旋转飞斧,needs_runtime_extension,blocked,spellblade_next_attack_state,,,,缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。
+hero_skill|hero_draven|Q|旋转飞斧,hero_skill,hero_draven,荣耀行刑官,Q,旋转飞斧,already_covered,partial,spellblade_next_attack_state,wasm-generic-draven-spinning-axe,wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go,wasm,接斧重新武装、双斧上限、45 mana、8s CD、其它 rank、移动落点及 W/E/R 均未建模。
 hero_skill|hero_draven|W|血性冲刺,hero_skill,hero_draven,荣耀行刑官,W,血性冲刺,out_of_scope_for_single_target_dps,blocked,timed_attack_speed_buff|catch_cooldown_reset,,,,缺精确 ability/cadence 状态与 provider seed/mount/live publish/E2E。
 hero_skill|hero_draven|E|开道利斧,hero_skill,hero_draven,荣耀行刑官,E,开道利斧,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 hero_skill|hero_draven|R|冷血追命,hero_skill,hero_draven,荣耀行刑官,R,冷血追命,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
