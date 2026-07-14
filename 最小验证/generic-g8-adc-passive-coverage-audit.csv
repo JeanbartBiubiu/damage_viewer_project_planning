@@ -80,7 +80,7 @@ hero_skill|hero_kindred|W|狼灵狂热,hero_skill,hero_kindred,永猎双子,W,�
 hero_skill|hero_kindred|E|横生惧意,hero_skill,hero_kindred,永猎双子,E,横生惧意,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
 hero_skill|hero_kindred|R|羊灵生息,hero_skill,hero_kindred,永猎双子,R,羊灵生息,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_kogmaw|P|来自艾卡西亚的惊喜,hero_skill,hero_kogmaw,深渊巨口,P,来自艾卡西亚的惊喜,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-hero_skill|hero_kogmaw|Q|腐蚀唾液,hero_skill,hero_kogmaw,深渊巨口,Q,腐蚀唾液,already_covered,blocked,existing_batch_b_seed,,,,缺该精确 candidate 的 generic seed/mount + 完成批次证据。
+hero_skill|hero_kogmaw|Q|腐蚀唾液,hero_skill,hero_kogmaw,深渊巨口,Q,腐蚀唾液,already_covered,partial,attack_speed_percent_add,wasm-generic-kogmaw-caustic-spittle,wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go,wasm,Q 主动命中魔法伤害、护甲/魔抗击碎、cast/cooldown/rotation、其它 rank 仍未建模；不得把 Q 被动视为完整 Q。
 hero_skill|hero_kogmaw|W|生化弹幕,hero_skill,hero_kogmaw,深渊巨口,W,生化弹幕,already_covered,migrated,on_hit|target_max_hp_ratio|formula_on_hit,wasm-generic-formula-onhit-batch,db/game_manage/seeds/lol_formula_on_hit_mechanisms_seed.sql,backend,
 hero_skill|hero_kogmaw|E|虚空淤泥,hero_skill,hero_kogmaw,深渊巨口,E,虚空淤泥,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_kogmaw|R|活体大炮,hero_skill,hero_kogmaw,深渊巨口,R,活体大炮,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
