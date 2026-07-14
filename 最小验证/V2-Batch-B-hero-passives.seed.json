@@ -1390,6 +1390,190 @@
       }
     },
     {
+      "heroId": "hero_draven",
+      "name": "荣耀行刑官",
+      "title": "德莱文",
+      "avatarUrl": "character_hero_draven",
+      "baseStats": {
+        "hp": 675,
+        "ad": 62,
+        "ap": 0,
+        "attack_speed": 0.679,
+        "attack_speed_growth": 0.027,
+        "attack_range": 550,
+        "armor": 29,
+        "magic_resist": 30,
+        "mana": 361,
+        "mana_regen": 8.05,
+        "hp_regen": 3.75,
+        "move_speed": 330,
+        "crit_chance": 0,
+        "crit_damage": 2
+      },
+      "statsByLevel": {
+        "hp": [
+          0,
+          74.88,
+          153.4,
+          235.56,
+          321.36,
+          410.8,
+          503.88,
+          600.6,
+          700.96,
+          804.96,
+          912.6,
+          1023.88,
+          1138.8,
+          1257.36,
+          1379.56,
+          1505.4,
+          1634.88,
+          1768
+        ],
+        "mana": [
+          0,
+          28.08,
+          57.525,
+          88.335,
+          120.51,
+          154.05,
+          188.955,
+          225.225,
+          262.86,
+          301.86,
+          342.225,
+          383.955,
+          427.05,
+          471.51,
+          517.335,
+          564.525,
+          613.08,
+          663
+        ],
+        "ad": [
+          0,
+          2.592,
+          5.31,
+          8.154,
+          11.124,
+          14.22,
+          17.442,
+          20.79,
+          24.264,
+          27.864,
+          31.59,
+          35.442,
+          39.42,
+          43.524,
+          47.754,
+          52.11,
+          56.592,
+          61.2
+        ],
+        "armor": [
+          0,
+          3.24,
+          6.638,
+          10.193,
+          13.905,
+          17.775,
+          21.803,
+          25.988,
+          30.33,
+          34.83,
+          39.488,
+          44.303,
+          49.275,
+          54.405,
+          59.693,
+          65.138,
+          70.74,
+          76.5
+        ],
+        "magic_resist": [
+          0,
+          0.936,
+          1.918,
+          2.945,
+          4.017,
+          5.135,
+          6.299,
+          7.508,
+          8.762,
+          10.062,
+          11.408,
+          12.799,
+          14.235,
+          15.717,
+          17.245,
+          18.818,
+          20.436,
+          22.1
+        ],
+        "hp_regen": [
+          0,
+          0.504,
+          1.0325,
+          1.5855,
+          2.163,
+          2.765,
+          3.3915,
+          4.0425,
+          4.718,
+          5.418,
+          6.1425,
+          6.8915,
+          7.665,
+          8.463,
+          9.2855,
+          10.1325,
+          11.004,
+          11.9
+        ],
+        "mana_regen": [
+          0,
+          0.468,
+          0.9588,
+          1.4723,
+          2.0085,
+          2.5675,
+          3.1493,
+          3.7538,
+          4.381,
+          5.031,
+          5.7038,
+          6.3993,
+          7.1175,
+          7.8585,
+          8.6223,
+          9.4088,
+          10.218,
+          11.05
+        ],
+        "attack_speed": [
+          0,
+          0.0132,
+          0.027041,
+          0.041524,
+          0.056649,
+          0.072415,
+          0.088823,
+          0.105873,
+          0.123564,
+          0.141897,
+          0.160872,
+          0.180488,
+          0.200746,
+          0.221646,
+          0.243187,
+          0.26537,
+          0.288195,
+          0.311661
+        ]
+      }
+    },
+    {
       "heroId": "hero_twistedfate",
       "name": "卡牌大师",
       "title": "崔斯特",
@@ -2271,6 +2455,98 @@
                 "attackerAttrRead": "resolved",
                 "attackerAttrRatio": 0.4,
                 "evidenceKey": "hero_twistedfate_e_stacked_deck_rank5_ap"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "skillId": "skill_draven_q_spinning_axe_dps_v2",
+      "ownerType": "hero",
+      "ownerId": "hero_draven",
+      "skillKey": "Q",
+      "name": "德莱文 Q 旋转飞斧 Spinning Axe DPS 初次飞斧",
+      "description": "V2 Batch B rank-5 partial proof: Q active cast arms source-owner timed spinning_axe_ready (max1, 5800ms, refresh_on_write); first basic_attack_hit deals physical 60 + 1.15*bonus AD (generic ABI). Catch rearm, dual-axe cap, 45 mana, 8s CD, other ranks, landing movement, and W/E/R are unmodeled.",
+      "params": {
+        "modeledRank": 5,
+        "readyDurationMs": 5800,
+        "readyMax": 1,
+        "refreshPolicy": "refresh_on_write",
+        "onHitPhysicalFlat": [
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "bonusAdRatio": 1.15,
+        "manaCostUnmodeled": 45,
+        "cooldownRank5Unmodeled": 8,
+        "dualAxeCapUnmodeled": 2,
+        "catchRearmUnmodeled": true,
+        "genericFormulaRank5": "60 + 1.15*(ad.resolved-ad.base)",
+        "evidenceRuntimeTest": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go"
+      },
+      "mechanicsConfig": {
+        "version": 1,
+        "triggers": [
+          {
+            "triggerId": "draven_q_spinning_axe_arm_on_cast",
+            "triggerKind": "on_ability_started"
+          },
+          {
+            "triggerId": "draven_q_spinning_axe_next_attack",
+            "triggerKind": "on_basic_attack_hit"
+          }
+        ],
+        "dpsScenarioStates": [
+          {
+            "stateId": "draven_q_spinning_axe_ready",
+            "sourceType": "skill_passive",
+            "sourceId": "skill_draven_q_spinning_axe_dps_v2",
+            "activation": "armed_by_q_cast",
+            "stacks": 1,
+            "startTimeMs": 0,
+            "durationMs": 5800,
+            "maxStacks": 1,
+            "refreshMode": "refresh"
+          }
+        ],
+        "dpsPassiveEffects": [
+          {
+            "passiveId": "skill_draven_q_spinning_axe_dps_v2",
+            "sourceCategory": "skill_passive",
+            "sourceId": "skill_draven_q_spinning_axe_dps_v2",
+            "sourceType": "skill",
+            "triggerId": "draven_q_spinning_axe_next_attack",
+            "triggerKind": "on_basic_attack_hit",
+            "requiresScenarioStateId": "draven_q_spinning_axe_ready",
+            "operations": [
+              {
+                "kind": "damage",
+                "source": "draven_q_spinning_axe_flat",
+                "damageType": "physical",
+                "amount": 60,
+                "evidenceKey": "hero_draven_q_spinning_axe_rank5_flat"
+              },
+              {
+                "kind": "damage",
+                "source": "draven_q_spinning_axe_resolved_ad",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "resolved",
+                "attackerAttrRatio": 1.15,
+                "evidenceKey": "hero_draven_q_spinning_axe_rank5_resolved_ad"
+              },
+              {
+                "kind": "damage",
+                "source": "draven_q_spinning_axe_base_ad_subtract",
+                "damageType": "physical",
+                "attackerAttr": "ad",
+                "attackerAttrRead": "base",
+                "attackerAttrRatio": -1.15,
+                "evidenceKey": "hero_draven_q_spinning_axe_rank5_bonus_ad"
               }
             ]
           }
