@@ -262,7 +262,7 @@ function revisionOf(result: { data: { currentRevision: number } }): { currentRev
   return { currentRevision: result.data.currentRevision };
 }
 
-function bodyFromFields(
+export function bodyFromFields(
   fields: FieldDef[],
   pathKeys: string[],
   form: ResourceFormValues,
@@ -617,7 +617,13 @@ const abilityFields: FieldDef[] = [
   { name: 'providerId', label: 'Provider ID', kind: 'text', required: true },
   { name: 'abilityKey', label: 'Ability Key', kind: 'text', required: true },
   { name: 'abilityKindTypeId', label: '种类类型 ID', kind: 'number', required: true },
-  { name: 'displayName', label: '显示名', kind: 'text', required: true }
+  { name: 'displayName', label: '显示名', kind: 'text', required: true },
+  {
+    name: 'castConditionFormulaKey',
+    label: '施放前置条件公式 Key',
+    kind: 'text',
+    helper: '可选；指向 Provider 公式，作为技能施放前置条件'
+  }
 ];
 
 const abilityParameterFields: FieldDef[] = [

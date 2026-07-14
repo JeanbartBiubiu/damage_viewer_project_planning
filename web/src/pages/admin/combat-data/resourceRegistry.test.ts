@@ -5,6 +5,7 @@ import {
 } from './EffectStepEditor';
 import {
   adaptEnvelopeDataToRecords,
+  bodyFromFields,
   createEmptyForm,
   getCombatDataResource,
   recordToForm
@@ -86,6 +87,46 @@ describe('combat-data resourceRegistry envelope adaptation', () => {
     expect(form.stageMax).toBe(18);
     expect(form.stageLabel).toBe('等级');
     expect(form.requireAllStages).toBe(true);
+  });
+});
+
+describe('abilities castConditionFormulaKey form field', () => {
+  it('exposes optional castConditionFormulaKey and retains it on record/form/body path', () => {
+    const config = getCombatDataResource('abilities');
+    expect(config).toBeDefined();
+    expect(config!.groupId).toBe('abilities');
+
+    const field = config!.fields.find((f) => f.name === 'castConditionFormulaKey');
+    expect(field).toMatchObject({
+      name: 'castConditionFormulaKey',
+      kind: 'text',
+      label: '施放前置条件公式 Key'
+    });
+    expect(field?.required).toBeUndefined();
+
+    const emptyForm = createEmptyForm(config!.fields);
+    expect(emptyForm.castConditionFormulaKey).toBe('');
+    expect(
+      bodyFromFields(config!.fields, ['abilityId'], emptyForm)
+    ).not.toHaveProperty('castConditionFormulaKey');
+
+    const form = recordToForm(
+      {
+        abilityId: 'ability_hero_ashe_q_rangers_focus',
+        providerId: 'provider_hero_ashe_rangers_focus',
+        abilityKey: 'rangers_focus',
+        abilityKindTypeId: 20130,
+        displayName: '射手的专注',
+        castConditionFormulaKey: 'rangers_focus_cast_condition'
+      },
+      config!.fields
+    );
+    expect(form.castConditionFormulaKey).toBe('rangers_focus_cast_condition');
+
+    const body = bodyFromFields(config!.fields, ['abilityId'], form);
+    expect(body.castConditionFormulaKey).toBe('rangers_focus_cast_condition');
+    expect(body.abilityKey).toBe('rangers_focus');
+    expect(body.providerId).toBe('provider_hero_ashe_rangers_focus');
   });
 });
 

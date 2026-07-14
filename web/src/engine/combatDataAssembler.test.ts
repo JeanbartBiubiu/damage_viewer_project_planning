@@ -5181,4 +5181,562 @@ describe('combatDataAssembler', () => {
       );
     });
   });
+
+  describe("hero_ashe Q Ranger's Focus rank-5 data contract", () => {
+    const ASHE = {
+      heroId: 'hero_ashe',
+      providerId: 'provider_hero_ashe_rangers_focus',
+      baAbilityId: 'ability_hero_ashe_basic_attack',
+      baPhaseId: 'phase_hero_ashe_basic_attack_impact',
+      baSequenceId: 'sequence_hero_ashe_basic_attack',
+      baEventRef: 'event_ref_hero_ashe_basic_attack_hit',
+      qAbilityId: 'ability_hero_ashe_q_rangers_focus',
+      qCostId: 'cost_hero_ashe_q_rangers_focus',
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      operationEmitEvent: { typeId: 20158, typeKey: 'operation/emit_event' },
+      refreshDuration: { typeId: 20190, typeKey: 'refresh_policy/refresh_duration' },
+      valuePolicyPercentAdd: { typeId: 20173, typeKey: 'value_policy/percent_add' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' }
+    } as const;
+
+    const FOCUS_DURATIONS_MS = [4000, 5000, 6000, 7000] as const;
+
+    const CAST_CONDITION_EXPR = {
+      op: 'gte',
+      args: [
+        {
+          op: 'add',
+          args: [
+            { op: 'read', path: 'provider.state.focus_1' },
+            { op: 'read', path: 'provider.state.focus_2' },
+            { op: 'read', path: 'provider.state.focus_3' },
+            { op: 'read', path: 'provider.state.focus_4' }
+          ]
+        },
+        { op: 'const', value: 4 }
+      ]
+    };
+
+    const Q_COST_EXPR = { op: 'const', value: 30 };
+
+    const FLURRY_AS_EXPR = {
+      op: 'mul',
+      args: [
+        { op: 'const', value: 0.75 },
+        { op: 'read', path: 'provider.state.flurry_active' }
+      ]
+    };
+
+    const FLURRY_DAMAGE_EXPR = {
+      op: 'mul',
+      args: [
+        { op: 'const', value: 0.28 },
+        { op: 'read', path: 'source.attr.ad.resolved' }
+      ]
+    };
+
+    /** flurry_active=1 ∧ flurry_first=1 via mul-of-eq (no and/or/not). */
+    const FLURRY_FIRST_EXPR = {
+      op: 'mul',
+      args: [
+        {
+          op: 'eq',
+          args: [
+            { op: 'read', path: 'provider.state.flurry_active' },
+            { op: 'const', value: 1 }
+          ]
+        },
+        {
+          op: 'eq',
+          args: [
+            { op: 'read', path: 'provider.state.flurry_first' },
+            { op: 'const', value: 1 }
+          ]
+        }
+      ]
+    };
+
+    /** flurry_active=1 ∧ flurry_first=0 via mul-of-eq. */
+    const FLURRY_NEXT_EXPR = {
+      op: 'mul',
+      args: [
+        {
+          op: 'eq',
+          args: [
+            { op: 'read', path: 'provider.state.flurry_active' },
+            { op: 'const', value: 1 }
+          ]
+        },
+        {
+          op: 'eq',
+          args: [
+            { op: 'read', path: 'provider.state.flurry_first' },
+            { op: 'const', value: 0 }
+          ]
+        }
+      ]
+    };
+
+    function flurryFirstStepId(i: number): string {
+      return `step_hero_ashe_basic_attack_flurry_first_${i}`;
+    }
+
+    function flurryNextStepId(i: number): string {
+      return `step_hero_ashe_basic_attack_flurry_next_${i}`;
+    }
+
+    function withAsheRangersFocus(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [
+        ASHE.valueTypeNumber,
+        ASHE.operationEmitEvent,
+        ASHE.refreshDuration,
+        ASHE.valuePolicyPercentAdd,
+        ASHE.stateScopeProvider
+      ];
+
+      const flurryFirstSteps = [1, 2, 3, 4, 5, 6].map((i) => ({
+        ...META,
+        stepId: flurryFirstStepId(i),
+        sequenceId: ASHE.baSequenceId,
+        stepOrder: i - 1,
+        operationTypeId: TYPE.operationDamage.typeId,
+        targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+        conditionFormulaKey: 'flurry_first_active',
+        damageDetail: {
+          amountFormulaKey: 'flurry_arrow_damage',
+          damageTypeId: TYPE.damagePhysical.typeId,
+          valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+        }
+      }));
+
+      const flurryNextSteps = [1, 2, 3, 4, 5].map((i) => ({
+        ...META,
+        stepId: flurryNextStepId(i),
+        sequenceId: ASHE.baSequenceId,
+        stepOrder: 6 + (i - 1),
+        operationTypeId: TYPE.operationDamage.typeId,
+        targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+        conditionFormulaKey: 'flurry_next_active',
+        damageDetail: {
+          amountFormulaKey: 'flurry_arrow_damage',
+          damageTypeId: TYPE.damagePhysical.typeId,
+          valuePolicyTypeId: TYPE.valuePolicyAdd.typeId
+        }
+      }));
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        entities: [
+          ...base.entities,
+          {
+            ...META,
+            entityId: ASHE.heroId,
+            displayName: '寒冰射手'
+          }
+        ],
+        entityAttributes: [
+          ...base.entityAttributes,
+          { ...META, entityId: ASHE.heroId, attrKey: 'hp', baseValue: 610 },
+          { ...META, entityId: ASHE.heroId, attrKey: 'mana', baseValue: 280 },
+          { ...META, entityId: ASHE.heroId, attrKey: 'ad', baseValue: 59 },
+          { ...META, entityId: ASHE.heroId, attrKey: 'attack_speed', baseValue: 0.658 },
+          { ...META, entityId: ASHE.heroId, attrKey: 'armor', baseValue: 26 },
+          { ...META, entityId: ASHE.heroId, attrKey: 'magic_resist', baseValue: 30 },
+          { ...META, entityId: ASHE.heroId, attrKey: 'hp_regen', baseValue: 3.5 },
+          { ...META, entityId: ASHE.heroId, attrKey: 'mana_regen', baseValue: 7 }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: ASHE.heroId, providerId: ASHE.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: "艾希 Q 射手的专注 Ranger's Focus"
+          }
+        ],
+        providerStateFields: [
+          ...FOCUS_DURATIONS_MS.map((durationMs, index) => ({
+            ...META,
+            providerId: ASHE.providerId,
+            stateKey: `focus_${index + 1}`,
+            valueTypeId: ASHE.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs,
+            refreshPolicyTypeId: ASHE.refreshDuration.typeId
+          })),
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            stateKey: 'flurry_active',
+            valueTypeId: ASHE.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs: 6000,
+            refreshPolicyTypeId: ASHE.refreshDuration.typeId
+          },
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            stateKey: 'flurry_first',
+            valueTypeId: ASHE.valueTypeNumber.typeId
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            formulaKey: 'rangers_focus_cast_condition',
+            expression: CAST_CONDITION_EXPR
+          },
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            formulaKey: 'rangers_focus_mana_cost',
+            expression: Q_COST_EXPR
+          },
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            formulaKey: 'flurry_attack_speed',
+            expression: FLURRY_AS_EXPR
+          },
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            formulaKey: 'flurry_arrow_damage',
+            expression: FLURRY_DAMAGE_EXPR
+          },
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            formulaKey: 'flurry_first_active',
+            expression: FLURRY_FIRST_EXPR
+          },
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            formulaKey: 'flurry_next_active',
+            expression: FLURRY_NEXT_EXPR
+          }
+        ],
+        providerModifiers: [
+          {
+            ...META,
+            providerId: ASHE.providerId,
+            modifierId: 'modifier_hero_ashe_rangers_focus_attack_speed',
+            modifierKey: 'flurry_attack_speed',
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            targetAttrKey: 'attack_speed',
+            priority: 0,
+            valuePolicyTypeId: ASHE.valuePolicyPercentAdd.typeId,
+            valueFormulaKey: 'flurry_attack_speed'
+          }
+        ],
+        abilities: [
+          ...base.abilities,
+          {
+            ...META,
+            abilityId: ASHE.baAbilityId,
+            providerId: ASHE.providerId,
+            abilityKey: 'basic_attack',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: '普攻'
+          },
+          {
+            ...META,
+            abilityId: ASHE.qAbilityId,
+            providerId: ASHE.providerId,
+            abilityKey: 'rangers_focus',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: '射手的专注',
+            castConditionFormulaKey: 'rangers_focus_cast_condition'
+          }
+        ],
+        abilityPhases: [
+          ...base.abilityPhases,
+          {
+            ...META,
+            phaseId: ASHE.baPhaseId,
+            abilityId: ASHE.baAbilityId,
+            phaseOrder: 0,
+            phaseTypeId: TYPE.abilityPhaseImpact.typeId,
+            interruptible: false
+          }
+        ],
+        abilityCosts: [
+          ...base.abilityCosts,
+          {
+            ...META,
+            costId: ASHE.qCostId,
+            abilityId: ASHE.qAbilityId,
+            resourceKey: 'mana',
+            amountFormulaKey: 'rangers_focus_mana_cost',
+            allowPartial: false
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: ASHE.baSequenceId,
+            providerId: ASHE.providerId,
+            sequenceKey: 'basic_attack_flurry'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          ...flurryFirstSteps,
+          ...flurryNextSteps,
+          {
+            ...META,
+            stepId: 'step_hero_ashe_basic_attack_emit_hit',
+            sequenceId: ASHE.baSequenceId,
+            stepOrder: 11,
+            operationTypeId: ASHE.operationEmitEvent.typeId,
+            targetSelectorTypeId: TYPE.selectorOpponent.typeId,
+            eventDetail: {
+              eventTypeId: TYPE.eventBasicAttackHit.typeId,
+              eventRef: ASHE.baEventRef,
+              payload: {}
+            }
+          }
+        ],
+        abilityPhaseEffectSequences: [
+          ...base.abilityPhaseEffectSequences,
+          {
+            ...META,
+            phaseId: ASHE.baPhaseId,
+            triggerTypeId: TYPE.phaseTriggerEnter.typeId,
+            sequenceId: ASHE.baSequenceId
+          }
+        ]
+      });
+    }
+
+    it("projects self-contained Ashe BA + Q Ranger's Focus rank-5 compile contract", () => {
+      const graph = withAsheRangersFocus(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: ASHE.heroId,
+        targetEntityId: 'entity_target'
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${ASHE.providerId}`;
+      const targetKey = `target::${ASHE.providerId}`;
+
+      expect(compile.combatants[0].attributes.hp).toEqual({
+        base: 610,
+        current: 610,
+        max: 610,
+        resolved: 610
+      });
+      expect(compile.combatants[0].attributes.mana).toEqual({
+        base: 280,
+        current: 280,
+        max: 280,
+        resolved: 280
+      });
+      expect(compile.combatants[0].attributes.ad).toEqual({
+        base: 59,
+        current: 59,
+        max: 59,
+        resolved: 59
+      });
+      expect(compile.combatants[0].attributes.attack_speed).toEqual({
+        base: 0.658,
+        current: 0.658,
+        max: 0.658,
+        resolved: 0.658
+      });
+      expect(compile.combatants[0].attributes.armor).toEqual({
+        base: 26,
+        current: 26,
+        max: 26,
+        resolved: 26
+      });
+      expect(compile.combatants[0].attributes.magic_resist).toEqual({
+        base: 30,
+        current: 30,
+        max: 30,
+        resolved: 30
+      });
+      expect(compile.combatants[0].attributes.hp_regen).toEqual({
+        base: 3.5,
+        current: 3.5,
+        max: 3.5,
+        resolved: 3.5
+      });
+      expect(compile.combatants[0].attributes.mana_regen).toEqual({
+        base: 7,
+        current: 7,
+        max: 7,
+        resolved: 7
+      });
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toEqual([sourceKey]);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toEqual([
+        `passive:${ASHE.providerId}`
+      ]);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+
+      const provider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(provider).toBeDefined();
+      expect(provider.stableId).toBe(ASHE.providerId);
+      expect(provider.listeners).toEqual([]);
+      expect(provider.initialStateSchema).toEqual({
+        focus_1: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 4000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        focus_2: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 5000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        focus_3: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 6000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        focus_4: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 7000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        flurry_active: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 6000,
+          refreshPolicy: 'refresh_on_write'
+        },
+        flurry_first: 0
+      });
+
+      expect(provider.modifiers).toEqual([
+        {
+          modifierKey: 'flurry_attack_speed',
+          kind: 'attribute',
+          target: 'source.attr.attack_speed',
+          priority: 0,
+          valuePolicy: 'percent_add',
+          value: { op: 'ref', ref: 'source::flurry_attack_speed' }
+        }
+      ]);
+      expect(provider.modifiers![0]).not.toHaveProperty('condition');
+
+      expect(provider.abilities).toHaveLength(2);
+      const ba = provider.abilities!.find((a) => a.abilityKey === 'basic_attack')!;
+      const q = provider.abilities!.find((a) => a.abilityKey === 'rangers_focus')!;
+      expect(ba.kind).toBe('active');
+      expect(q.kind).toBe('active');
+      expect(ba).not.toHaveProperty('castCondition');
+      expect(q.cost).toEqual({
+        resourceKey: 'mana',
+        amount: { op: 'ref', ref: 'source::rangers_focus_mana_cost' },
+        allowPartial: false
+      });
+      expect(q.castCondition).toEqual({
+        op: 'ref',
+        ref: 'source::rangers_focus_cast_condition'
+      });
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::rangers_focus_cast_condition']).toEqual(CAST_CONDITION_EXPR);
+      expect(formulaByKey['source::rangers_focus_mana_cost']).toEqual(Q_COST_EXPR);
+      expect(formulaByKey['source::flurry_attack_speed']).toEqual(FLURRY_AS_EXPR);
+      expect(formulaByKey['source::flurry_arrow_damage']).toEqual({
+        op: 'mul',
+        args: [
+          { op: 'const', value: 0.28 },
+          { op: 'read', path: 'source.attr.ad.resolved' }
+        ]
+      });
+      expect(formulaByKey['source::flurry_first_active']).toEqual(FLURRY_FIRST_EXPR);
+      expect(formulaByKey['source::flurry_next_active']).toEqual(FLURRY_NEXT_EXPR);
+
+      const ops = ba.operations!;
+      expect(ops).toHaveLength(12);
+      const damageOps = ops.filter((op) => op.operation === 'damage');
+      const emitOps = ops.filter((op) => op.operation === 'emit_event');
+      expect(damageOps).toHaveLength(11);
+      expect(emitOps).toHaveLength(1);
+
+      const firstSix = damageOps.slice(0, 6);
+      const nextFive = damageOps.slice(6, 11);
+      expect(firstSix).toHaveLength(6);
+      expect(nextFive).toHaveLength(5);
+
+      for (const [i, op] of firstSix.entries()) {
+        expect(op).toEqual({
+          operation: 'damage',
+          target: 'opponent',
+          ref: flurryFirstStepId(i + 1),
+          amount: { op: 'ref', ref: 'source::flurry_arrow_damage' },
+          damageType: 'damage/physical',
+          valuePolicy: 'add',
+          condition: { op: 'ref', ref: 'source::flurry_first_active' }
+        });
+      }
+      for (const [i, op] of nextFive.entries()) {
+        expect(op).toEqual({
+          operation: 'damage',
+          target: 'opponent',
+          ref: flurryNextStepId(i + 1),
+          amount: { op: 'ref', ref: 'source::flurry_arrow_damage' },
+          damageType: 'damage/physical',
+          valuePolicy: 'add',
+          condition: { op: 'ref', ref: 'source::flurry_next_active' }
+        });
+      }
+      expect(emitOps[0]).toEqual({
+        operation: 'emit_event',
+        target: 'opponent',
+        eventType: 'event/basic_attack_hit',
+        ref: ASHE.baEventRef,
+        payload: {}
+      });
+
+      const aaOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'basic_attack');
+      const qOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'rangers_focus');
+      expect(aaOpt?.selectable).toBe(true);
+      expect(qOpt?.selectable).toBe(true);
+      expect(qOpt?.kind).toBe('active');
+
+      const contractJson = JSON.stringify({
+        provider,
+        formulas: compile.formulas!.filter((f) => f.key.startsWith('source::'))
+      });
+      expect(contractJson.toLowerCase()).not.toContain('frost');
+      expect(contractJson).not.toContain('冰霜');
+      expect(contractJson.toLowerCase()).not.toContain('lifesteal');
+      expect(contractJson.toLowerCase()).not.toContain('life_steal');
+      expect(contractJson.toLowerCase()).not.toContain('attack_timer');
+      expect(contractJson.toLowerCase()).not.toContain('cadence');
+      expect(contractJson.toLowerCase()).not.toContain('rank1');
+      expect(contractJson.toLowerCase()).not.toContain('rank2');
+      expect(contractJson.toLowerCase()).not.toContain('rank3');
+      expect(contractJson.toLowerCase()).not.toContain('rank4');
+    });
+  });
 });
