@@ -16,7 +16,7 @@ LAST_TRACKED_AT: 2026-05-20
 - Marksman 英雄候选池：33
 - ADC 成装候选池：53
 - 候选被动/技能条目：242
-- 分类计数：ready_to_encode=1；already_covered=13；needs_runtime_extension=37；needs_manual_baseline=45；out_of_scope_for_single_target_dps=146
+- 分类计数：ready_to_encode=1；already_covered=14；needs_runtime_extension=37；needs_manual_baseline=44；out_of_scope_for_single_target_dps=146
 
 ## 机制 backlog 汇总
 
@@ -163,11 +163,11 @@ LAST_TRACKED_AT: 2026-05-20
 | hero_skill | hero_tristana | 麦林炮手 | W | 火箭跳跃 | out_of_scope_for_single_target_dps | multi_target_or_area | missing | not_applicable | 多目标、弹射或范围收益不属于当前单标靶 DPS。 |  |
 | hero_skill | hero_tristana | 麦林炮手 | E | 爆炸火花 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | missing | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
 | hero_skill | hero_tristana | 麦林炮手 | R | 毁灭射击 | out_of_scope_for_single_target_dps | multi_target_or_area | missing | not_applicable | 多目标、弹射或范围收益不属于当前单标靶 DPS。 |  |
-| hero_skill | hero_twistedfate | 卡牌大师 | P | 灌铅骰子 | out_of_scope_for_single_target_dps | no_single_target_dps_effect | missing | not_applicable | 未发现会改变当前单攻击方单标靶 DPS 的效果。 |  |
-| hero_skill | hero_twistedfate | 卡牌大师 | Q | 万能牌 | needs_manual_baseline | dps_relevant_manual_review | missing | complete | 文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。 | 完整 tooltip 数值或训练营截图 |
-| hero_skill | hero_twistedfate | 卡牌大师 | W | 选牌 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | missing | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
-| hero_skill | hero_twistedfate | 卡牌大师 | E | 卡牌骗术 | needs_manual_baseline | every_n_hit | missing | complete | 候选机制可表达，但该英雄尚无 1-18 级 statsByLevel；Batch G gate 禁止进入 ready seed。 | TwistedFate 1-18 statsByLevel: hp/mana/ad/armor/magic_resist/hp_regen/mana_regen/attack_speed |
-| hero_skill | hero_twistedfate | 卡牌大师 | R | 命运 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | missing | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
+| hero_skill | hero_twistedfate | 卡牌大师 | P | 灌铅骰子 | out_of_scope_for_single_target_dps | no_single_target_dps_effect | complete | not_applicable | 未发现会改变当前单攻击方单标靶 DPS 的效果。 |  |
+| hero_skill | hero_twistedfate | 卡牌大师 | Q | 万能牌 | needs_manual_baseline | dps_relevant_manual_review | complete | complete | 文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。 | 完整 tooltip 数值或训练营截图 |
+| hero_skill | hero_twistedfate | 卡牌大师 | W | 选牌 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | complete | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
+| hero_skill | hero_twistedfate | 卡牌大师 | E | 卡牌骗术 | already_covered | existing_batch_b_seed | complete | not_applicable |  |  |
+| hero_skill | hero_twistedfate | 卡牌大师 | R | 命运 | out_of_scope_for_single_target_dps | meta_or_non_target_dps | complete | not_applicable | 金币、视野、友军、建筑物、复活、解控或非战斗状态效果不影响当前单标靶 DPS 曲线。 |  |
 | hero_skill | hero_twitch | 瘟疫之源 | P | 死亡毒液 | already_covered | existing_batch_b_seed | complete | not_applicable |  |  |
 | hero_skill | hero_twitch | 瘟疫之源 | Q | 埋伏 | already_covered | existing_batch_b_seed | complete | not_applicable |  |  |
 | hero_skill | hero_twitch | 瘟疫之源 | W | 剧毒之桶 | out_of_scope_for_single_target_dps | control_only | complete | not_applicable | 仅控制或减速，不改变当前单标靶 DPS 曲线。 |  |

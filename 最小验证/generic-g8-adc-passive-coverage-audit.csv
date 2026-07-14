@@ -132,7 +132,7 @@ hero_skill|hero_tristana|R|毁灭射击,hero_skill,hero_tristana,麦林炮手,R,
 hero_skill|hero_twistedfate|P|灌铅骰子,hero_skill,hero_twistedfate,卡牌大师,P,灌铅骰子,out_of_scope_for_single_target_dps,out_of_scope,no_single_target_dps_effect,,,,
 hero_skill|hero_twistedfate|Q|万能牌,hero_skill,hero_twistedfate,卡牌大师,Q,万能牌,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 hero_skill|hero_twistedfate|W|选牌,hero_skill,hero_twistedfate,卡牌大师,W,选牌,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-hero_skill|hero_twistedfate|E|卡牌骗术,hero_skill,hero_twistedfate,卡牌大师,E,卡牌骗术,needs_manual_baseline,blocked,every_n_hit,,,,候选机制可表达，但该英雄尚无 1-18 级 statsByLevel；Batch G gate 禁止进入 ready seed。
+hero_skill|hero_twistedfate|E|卡牌骗术,hero_skill,hero_twistedfate,卡牌大师,E,卡牌骗术,already_covered,migrated,every_n_hit|flat_magic_damage|bonus_ad_ap_ratio|attack_speed_percent_add,wasm-generic-twisted-fate-stacked-deck,db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql,backend,仅建模 rank5；建筑物 50% 减伤未建模；其它 rank 数值表未建模；主动技能（Q/W/R）未建模。
 hero_skill|hero_twistedfate|R|命运,hero_skill,hero_twistedfate,卡牌大师,R,命运,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
 hero_skill|hero_twitch|P|死亡毒液,hero_skill,hero_twitch,瘟疫之源,P,死亡毒液,already_covered,blocked,existing_batch_b_seed,,,,缺该精确 candidate 的 generic seed/mount + 完成批次证据。
 hero_skill|hero_twitch|Q|埋伏,hero_skill,hero_twitch,瘟疫之源,Q,埋伏,already_covered,blocked,existing_batch_b_seed,,,,缺该精确 candidate 的 generic seed/mount + 完成批次证据。
