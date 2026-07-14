@@ -153,6 +153,8 @@ export type AbilityDefinition = {
   params?: Record<string, number>;
   cost?: { resourceKey: string; amount: GenericFormulaExpr; allowPartial?: boolean };
   cooldown?: { durationMs: GenericFormulaExpr; startsOn?: string; groupKey?: string };
+  /** Optional cast precondition formula (provider-local ref). */
+  castCondition?: GenericFormulaExpr;
   operations?: OperationDefinition[];
   listenerSpec?: ListenerDefinition;
   tickSpec?: { intervalMs: number; onTick: OperationDefinition[]; startDelayMs?: number };

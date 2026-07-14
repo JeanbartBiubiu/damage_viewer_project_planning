@@ -1023,6 +1023,9 @@ function mapAbility(
         : {})
     };
   }
+  if (ability.castConditionFormulaKey) {
+    result.castCondition = formulaRef(slot, ability.castConditionFormulaKey);
+  }
 
   return result;
 }
