@@ -62,7 +62,7 @@ hero_skill|hero_jinx|R|超究极死神飞弹！,hero_skill,hero_jinx,暴走萝�
 hero_skill|hero_kaisa|P|体表活肤,hero_skill,hero_kaisa,虚空之女,P,体表活肤,already_covered,blocked,existing_batch_b_seed,,,,缺该精确 candidate 的 generic seed/mount + 完成批次证据。
 hero_skill|hero_kaisa|Q|艾卡西亚暴雨,hero_skill,hero_kaisa,虚空之女,Q,艾卡西亚暴雨,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_kaisa|W|虚空索敌,hero_skill,hero_kaisa,虚空之女,W,虚空索敌,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-hero_skill|hero_kaisa|E|极限超载,hero_skill,hero_kaisa,虚空之女,E,极限超载,out_of_scope_for_single_target_dps,blocked,cast_triggered_timed_attack_speed,,,,缺精确 ability/cadence 状态与 provider seed/mount/live publish/E2E。
+hero_skill|hero_kaisa|E|极限超载,hero_skill,hero_kaisa,虚空之女,E,极限超载,out_of_scope_for_single_target_dps,partial,cast_triggered_timed_attack_speed|attack_speed_percent_add,wasm-generic-kaisa-supercharge,wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go,wasm,未建模：移动速度/幽灵状态/攻击前摇、真实 cast time、普攻返还 0.5s CD、进化隐形、其它 rank/轮转/E2E。
 hero_skill|hero_kaisa|R|猎手本能,hero_skill,hero_kaisa,虚空之女,R,猎手本能,out_of_scope_for_single_target_dps,out_of_scope,multi_target_or_area,,,,
 hero_skill|hero_kalista|P|武术姿态,hero_skill,hero_kalista,复仇之矛,P,武术姿态,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
 hero_skill|hero_kalista|Q|穿刺,hero_skill,hero_kalista,复仇之矛,Q,穿刺,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
