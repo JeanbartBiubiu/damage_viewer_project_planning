@@ -504,6 +504,27 @@ cd server/data_manage
 mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
 ```
 
+### LoL generic Twisted Fate Stacked Deck seed（卡牌大师 E / rank-5）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`）已就绪后，按顺序执行（**自包含** `hero_twistedfate` + 通用普攻图 + `basic_attack_hit` emit；不依赖 Batch-B；本脚本不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20172`/`20173`/`20181`/`20211`/`20212`/`20220`/`20221`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-twisted-fate-stacked-deck-v1-20260714`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影所需 reserved → `types`；幂等写入 `hero_twistedfate` 基线实体与 level-1 面板、通用普攻闭环，并在伤害步骤后追加 `emit_event(event/basic_attack_hit)`；向 `hero_twistedfate` mount 独立 `provider_hero_twistedfate_stacked_deck`（与普攻 provider 并存），含常驻 `attack_speed` `percent_add` `0.50`、`stacked_deck_hits` provider 状态、`basic_attack_hit` + `source_owner` ALL listener（`max_triggers_per_event=1`）、三步结算（计数 → 条件魔法伤害 → 条件重置）。proc 公式为 `165 + 0.20*(ad.resolved-ad.base) + 0.40*ap.resolved`，`damage/magic`（`20221`，走目标 MR pipeline），`copyable_on_hit=false`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：建筑物 50% 减伤、其它 rank 数值表、主动技能（Q/W/R）、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericTwistedFateStackedDeckSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
