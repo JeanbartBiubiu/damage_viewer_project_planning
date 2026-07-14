@@ -644,6 +644,7 @@ CREATE TABLE public.ability_definitions (
     ability_key varchar(128) NOT NULL,
     ability_kind_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     display_name varchar(100) NOT NULL,
+    cast_condition_formula_key varchar(128),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_ability_definitions PRIMARY KEY (game_id, ability_id),
@@ -662,6 +663,7 @@ CREATE TABLE public.ability_definitions_log (
     ability_key varchar(128) NOT NULL,
     ability_kind_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     display_name varchar(100) NOT NULL,
+    cast_condition_formula_key varchar(128),
     CONSTRAINT pk_ability_definitions_log PRIMARY KEY (game_id, ability_id, version_id),
     CONSTRAINT fk_ability_definitions_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)

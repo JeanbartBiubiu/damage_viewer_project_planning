@@ -12,6 +12,7 @@
        ability_key AS "abilityKey",
        ability_kind_type_id AS "abilityKindTypeId",
        display_name AS "displayName",
+       cast_condition_formula_key AS "castConditionFormulaKey",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.ability_definitions
@@ -30,6 +31,7 @@
        ability_key AS "abilityKey",
        ability_kind_type_id AS "abilityKindTypeId",
        display_name AS "displayName",
+       cast_condition_formula_key AS "castConditionFormulaKey",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.ability_definitions
@@ -39,14 +41,15 @@
 
     <update id="upsert">
         INSERT INTO public.ability_definitions
-            (game_id, ability_id, provider_id, ability_key, ability_kind_type_id, display_name, change_revision, updated_at)
+            (game_id, ability_id, provider_id, ability_key, ability_kind_type_id, display_name, cast_condition_formula_key, change_revision, updated_at)
         VALUES
-            (#{gameId}, #{abilityId}, #{providerId}, #{abilityKey}, #{abilityKindTypeId}, #{displayName}, #{changeRevision}, NOW())
+            (#{gameId}, #{abilityId}, #{providerId}, #{abilityKey}, #{abilityKindTypeId}, #{displayName}, #{castConditionFormulaKey}, #{changeRevision}, NOW())
         ON CONFLICT (game_id, ability_id) DO UPDATE SET
             provider_id = EXCLUDED.provider_id,
             ability_key = EXCLUDED.ability_key,
             ability_kind_type_id = EXCLUDED.ability_kind_type_id,
             display_name = EXCLUDED.display_name,
+            cast_condition_formula_key = EXCLUDED.cast_condition_formula_key,
             change_revision = EXCLUDED.change_revision,
             updated_at = NOW()
     </update>
@@ -60,6 +63,7 @@
        ability_key AS "abilityKey",
        ability_kind_type_id AS "abilityKindTypeId",
        display_name AS "displayName",
+       cast_condition_formula_key AS "castConditionFormulaKey",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.ability_definitions
@@ -71,7 +75,7 @@
 
     <insert id="copyChangedToLog">
         INSERT INTO public.ability_definitions_log (
-            game_id, version_id, change_revision, ability_id, provider_id, ability_key, ability_kind_type_id, display_name
+            game_id, version_id, change_revision, ability_id, provider_id, ability_key, ability_kind_type_id, display_name, cast_condition_formula_key
         )
         SELECT
             game_id,
@@ -81,7 +85,8 @@
             provider_id,
             ability_key,
             ability_kind_type_id,
-            display_name
+            display_name,
+            cast_condition_formula_key
         FROM public.ability_definitions
         WHERE game_id = #{gameId}
           AND change_revision &gt; #{previousRevision}
@@ -91,6 +96,7 @@
             provider_id = EXCLUDED.provider_id,
             ability_key = EXCLUDED.ability_key,
             ability_kind_type_id = EXCLUDED.ability_kind_type_id,
-            display_name = EXCLUDED.display_name
+            display_name = EXCLUDED.display_name,
+            cast_condition_formula_key = EXCLUDED.cast_condition_formula_key
     </insert>
 </mapper>

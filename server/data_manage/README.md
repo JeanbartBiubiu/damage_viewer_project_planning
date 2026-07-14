@@ -546,6 +546,27 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenSpinningAxeSeedSqlTest test
 ```
 
+### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
+
+前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20172`/`20173`/`20181`/`20190`/`20205`/`20211`/`20212`/`20220`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-ashe-rangers-focus-v1-20260714`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影 reserved → `types`、`resource_definitions.mana` 与 `hero_ashe` `entity_resource_values`（280/280）；写入 level-1 面板（hp610 / mana280 / ad59 / AS0.658 / armor26 / MR30 / hpregen3.5 / manaregen7）；单一共享 `provider_hero_ashe_rangers_focus` 承载 Q + 普攻；四槽 timed Focus（4000/5000/6000/7000ms）+ `flurry_active` 6000ms；Q `cast_condition_formula_key`（Focus≥4）+ `ability_costs` 30 mana；AS `percent_add` `0.75 * provider.state.flurry_active`（`condition_formula_key` 为 NULL）；Flurry 首发 6 / 后续 5 × 0.28 total AD；每次普攻末尾恰好一次 `emit_event(event/basic_attack_hit)`。有 material change 时才推进候选 revision。
+
+**排除**：攻击计时器重置、箭矢飞行、冰霜射击、生命偷取、建筑物/多目标、技能轮转/节奏、其它 rank、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericAsheRangersFocusSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
