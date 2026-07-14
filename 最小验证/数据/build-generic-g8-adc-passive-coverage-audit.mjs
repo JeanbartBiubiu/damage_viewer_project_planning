@@ -382,6 +382,22 @@ const EXACT_OVERRIDES = new Map([
     },
   ],
   [
+    '3004|法力流',
+    {
+      classification: 'blocked',
+      tags: [
+        'periodic_charge_tick',
+        'attack_or_ability_hit_resource_gain',
+        'state_driven_max_mana_and_transform',
+      ],
+      reason:
+        'item 3004 法力流现行合同：每8秒充能至多4层；普攻或技能命中消耗一层并获得+3最大法力（对英雄+6），上限360后转变为魔切。当前 generic 缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform；敬畏闭环不等于法力流已迁。',
+      remainingGap:
+        '缺 periodic_charge_tick（无数据驱动 provider 周期充能调度）、attack_or_ability_hit_resource_gain（本数据路径无通用技能命中源事件）、state_driven_max_mana_and_transform（无状态驱动最大法力累积与条件实体/provider 转变）。',
+      coverageEvidence: [],
+    },
+  ],
+  [
     '6676|死',
     {
       classification: 'migrated',
