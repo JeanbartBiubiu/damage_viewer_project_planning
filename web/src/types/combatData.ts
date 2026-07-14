@@ -190,6 +190,8 @@ export type Ability = CombatDataRowMeta & {
   abilityKey: string;
   abilityKindTypeId: number;
   displayName: string;
+  /** Optional provider-local formula key for ability cast precondition. */
+  castConditionFormulaKey?: string;
 };
 
 export type AbilityParameter = CombatDataRowMeta & {
