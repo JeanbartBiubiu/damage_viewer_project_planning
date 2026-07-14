@@ -683,6 +683,21 @@
       ]
     },
     {
+      "task_key": "wasm-generic-kaisa-supercharge",
+      "title": "通用 ABI 卡莎 E 极限超载 Supercharge rank5 机制",
+      "module": "wasm",
+      "feature": "generic_kaisa_supercharge",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "跨 Backend/Wasm/Web worktree 交付已完整闭环（幂等 seed、generic runtime 回归、assembler 投影与 G8 partial 证据），但游戏语义仅为 candidate-level partial：仅 rank5 E 的 30 mana / 10000ms CD、ability_started（充能完成近似）→4000ms supercharge_active、attack_speed percent_add 0.80*state；移动速度+幽灵、attack-windup、真实充能/施法时序、每次普攻 0.5s CD 返还、进化隐形、其它 rank、完整 rotation/cadence、live migration/publish/E2E 均未建模，不得误称完整 E。",
+      "completed_at": "2026-07-15",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卡莎E极限超载Supercharge机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卡莎E极限超载Supercharge机制验证记录-2026-07-15.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
