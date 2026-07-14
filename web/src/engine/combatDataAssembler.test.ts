@@ -5896,4 +5896,358 @@ describe('combatDataAssembler', () => {
       expect(scenario.availableSourceAbilities.filter((a) => a.selectable)).toEqual([]);
     });
   });
+
+  describe("hero_kaisa E Supercharge rank-5 data contract", () => {
+    const KAISA = {
+      heroId: 'hero_kaisa',
+      providerId: 'provider_hero_kaisa_e_supercharge',
+      abilityId: 'ability_hero_kaisa_e_supercharge',
+      costId: 'cost_hero_kaisa_e_supercharge',
+      cooldownId: 'cooldown_hero_kaisa_e_supercharge',
+      armListenerId: 'listener_hero_kaisa_e_supercharge_ability_started',
+      armSequenceId: 'sequence_hero_kaisa_e_supercharge_arm',
+      armStepId: 'step_hero_kaisa_e_supercharge_arm',
+      valueTypeNumber: { typeId: 20100, typeKey: 'value_type/number' },
+      refreshDuration: { typeId: 20190, typeKey: 'refresh_policy/refresh_duration' },
+      valuePolicyOverride: { typeId: 20172, typeKey: 'value_policy/override' },
+      valuePolicyPercentAdd: { typeId: 20173, typeKey: 'value_policy/percent_add' },
+      stateScopeProvider: { typeId: 20250, typeKey: 'state_scope/provider' },
+      eventAbilityStarted: { typeId: 20205, typeKey: 'event/ability_started' }
+    } as const;
+
+    const MANA_COST_EXPR = { op: 'const', value: 30 };
+    const COOLDOWN_EXPR = { op: 'const', value: 10000 };
+    const ARM_EXPR = { op: 'const', value: 1 };
+    /** Rank-5 Supercharge AS: 0.80 × supercharge_active. */
+    const ATTACK_SPEED_EXPR = {
+      op: 'mul',
+      args: [
+        { op: 'const', value: 0.8 },
+        { op: 'read', path: 'provider.state.supercharge_active' }
+      ]
+    };
+
+    function withKaisaSupercharge(base: CombatDataGraph): CombatDataGraph {
+      const extraTypes = [
+        KAISA.valueTypeNumber,
+        KAISA.refreshDuration,
+        KAISA.valuePolicyOverride,
+        KAISA.valuePolicyPercentAdd,
+        KAISA.stateScopeProvider,
+        KAISA.eventAbilityStarted
+      ];
+
+      return buildGraphFixture({
+        types: [
+          ...base.types,
+          ...extraTypes.map((t) => ({
+            ...META,
+            typeId: t.typeId,
+            typeKey: t.typeKey
+          }))
+        ],
+        entities: [
+          ...base.entities,
+          {
+            ...META,
+            entityId: KAISA.heroId,
+            displayName: '虚空之女'
+          }
+        ],
+        entityAttributes: [
+          ...base.entityAttributes,
+          { ...META, entityId: KAISA.heroId, attrKey: 'mana', baseValue: 345 },
+          { ...META, entityId: KAISA.heroId, attrKey: 'attack_speed', baseValue: 0.644 }
+        ],
+        entityProviderMounts: [
+          ...base.entityProviderMounts,
+          { ...META, entityId: KAISA.heroId, providerId: KAISA.providerId }
+        ],
+        providers: [
+          ...base.providers,
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: "卡莎 E 极限超载 Supercharge"
+          }
+        ],
+        providerStateFields: [
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            stateKey: 'supercharge_active',
+            valueTypeId: KAISA.valueTypeNumber.typeId,
+            maxValue: 1,
+            durationMs: 4000,
+            refreshPolicyTypeId: KAISA.refreshDuration.typeId
+          }
+        ],
+        providerFormulas: [
+          ...base.providerFormulas,
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            formulaKey: 'supercharge_mana_cost',
+            expression: MANA_COST_EXPR
+          },
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            formulaKey: 'supercharge_cooldown',
+            expression: COOLDOWN_EXPR
+          },
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            formulaKey: 'supercharge_arm',
+            expression: ARM_EXPR
+          },
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            formulaKey: 'supercharge_attack_speed',
+            expression: ATTACK_SPEED_EXPR
+          }
+        ],
+        providerModifiers: [
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            modifierId: 'modifier_hero_kaisa_e_supercharge_attack_speed',
+            modifierKey: 'supercharge_attack_speed',
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            targetAttrKey: 'attack_speed',
+            priority: 0,
+            valuePolicyTypeId: KAISA.valuePolicyPercentAdd.typeId,
+            valueFormulaKey: 'supercharge_attack_speed'
+          }
+        ],
+        // ability_started approximates charge-completed for this contract (no charge phase in graph).
+        providerListeners: [
+          {
+            ...META,
+            providerId: KAISA.providerId,
+            listenerId: KAISA.armListenerId,
+            listenerKey: 'supercharge_on_ability_started',
+            eventTypeId: KAISA.eventAbilityStarted.typeId,
+            maxTriggersPerEvent: 1
+          }
+        ],
+        listenerMatchTypes: [
+          {
+            ...META,
+            listenerId: KAISA.armListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: KAISA.eventAbilityStarted.typeId
+          },
+          {
+            ...META,
+            listenerId: KAISA.armListenerId,
+            matchModeTypeId: TYPE.matchModeAll.typeId,
+            typeId: TYPE.eventSourceOwner.typeId
+          }
+        ],
+        abilities: [
+          ...base.abilities,
+          {
+            ...META,
+            abilityId: KAISA.abilityId,
+            providerId: KAISA.providerId,
+            abilityKey: 'supercharge',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: '极限超载'
+          }
+        ],
+        abilityCosts: [
+          ...base.abilityCosts,
+          {
+            ...META,
+            costId: KAISA.costId,
+            abilityId: KAISA.abilityId,
+            resourceKey: 'mana',
+            amountFormulaKey: 'supercharge_mana_cost',
+            allowPartial: false
+          }
+        ],
+        abilityCooldowns: [
+          ...base.abilityCooldowns,
+          {
+            ...META,
+            cooldownId: KAISA.cooldownId,
+            abilityId: KAISA.abilityId,
+            durationFormulaKey: 'supercharge_cooldown'
+          }
+        ],
+        effectSequences: [
+          ...base.effectSequences,
+          {
+            ...META,
+            sequenceId: KAISA.armSequenceId,
+            providerId: KAISA.providerId,
+            sequenceKey: 'supercharge_arm'
+          }
+        ],
+        effectSteps: [
+          ...base.effectSteps,
+          {
+            ...META,
+            stepId: KAISA.armStepId,
+            sequenceId: KAISA.armSequenceId,
+            stepOrder: 0,
+            operationTypeId: TYPE.operationStateChange.typeId,
+            targetSelectorTypeId: TYPE.selectorSelf.typeId,
+            stateDetail: {
+              stateScopeTypeId: KAISA.stateScopeProvider.typeId,
+              stateKey: 'supercharge_active',
+              amountFormulaKey: 'supercharge_arm',
+              valuePolicyTypeId: KAISA.valuePolicyOverride.typeId
+            }
+          }
+        ],
+        listenerEffectSequences: [
+          {
+            ...META,
+            listenerId: KAISA.armListenerId,
+            sequenceId: KAISA.armSequenceId
+          }
+        ]
+      });
+    }
+
+    it('projects self-contained Kai\'sa E Supercharge rank-5 compile contract', () => {
+      const graph = withKaisaSupercharge(buildGraphFixture());
+      const scenario = assembleCombatScenario(graph, {
+        sourceEntityId: KAISA.heroId,
+        targetEntityId: 'entity_target'
+      });
+      const compile = scenario.compileRequest;
+      const sourceKey = `source::${KAISA.providerId}`;
+      const targetKey = `target::${KAISA.providerId}`;
+
+      expect(compile.combatants[0].attributes.mana).toEqual({
+        base: 345,
+        current: 345,
+        max: 345,
+        resolved: 345
+      });
+      expect(compile.combatants[0].attributes.attack_speed).toEqual({
+        base: 0.644,
+        current: 0.644,
+        max: 0.644,
+        resolved: 0.644
+      });
+
+      expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toEqual([sourceKey]);
+      expect(compile.combatants[0].providers.map((p) => p.providerRef)).toEqual([
+        `passive:${KAISA.providerId}`
+      ]);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(sourceKey);
+      expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(targetKey);
+      expect(
+        compile.combatants[1].providers.some((p) => p.providerRef === `passive:${KAISA.providerId}`)
+      ).toBe(false);
+
+      const withoutHero = assembleCombatScenario(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      }).compileRequest;
+      expect(withoutHero.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+        sourceKey
+      );
+      expect(
+        withoutHero.sharedProviders!.some(
+          (p) => p.providerKey === sourceKey || p.providerKey === targetKey
+        )
+      ).toBe(false);
+
+      const provider = compile.sharedProviders!.find((p) => p.providerKey === sourceKey)!;
+      expect(provider).toBeDefined();
+      expect(provider.stableId).toBe(KAISA.providerId);
+      expect(provider.initialStateSchema).toEqual({
+        supercharge_active: {
+          valueType: 'number',
+          defaultValue: 0,
+          maxValue: 1,
+          durationMs: 4000,
+          refreshPolicy: 'refresh_on_write'
+        }
+      });
+
+      expect(provider.modifiers).toEqual([
+        {
+          modifierKey: 'supercharge_attack_speed',
+          kind: 'attribute',
+          target: 'source.attr.attack_speed',
+          priority: 0,
+          valuePolicy: 'percent_add',
+          value: { op: 'ref', ref: 'source::supercharge_attack_speed' }
+        }
+      ]);
+      expect(provider.modifiers![0]).not.toHaveProperty('condition');
+
+      expect(provider.abilities).toHaveLength(1);
+      const e = provider.abilities![0];
+      expect(e.abilityKey).toBe('supercharge');
+      expect(e.kind).toBe('active');
+      expect(e).not.toHaveProperty('operations');
+      expect(e.cost).toEqual({
+        resourceKey: 'mana',
+        amount: { op: 'ref', ref: 'source::supercharge_mana_cost' },
+        allowPartial: false
+      });
+      expect(e.cooldown).toEqual({
+        durationMs: { op: 'ref', ref: 'source::supercharge_cooldown' }
+      });
+
+      const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+      expect(formulaByKey['source::supercharge_mana_cost']).toEqual(MANA_COST_EXPR);
+      expect(formulaByKey['source::supercharge_cooldown']).toEqual(COOLDOWN_EXPR);
+      expect(formulaByKey['source::supercharge_arm']).toEqual(ARM_EXPR);
+      expect(formulaByKey['source::supercharge_attack_speed']).toEqual(ATTACK_SPEED_EXPR);
+
+      expect(provider.listeners).toHaveLength(1);
+      const armListener = provider.listeners![0];
+      expect(armListener.listenerKey).toBe('supercharge_on_ability_started');
+      // ability_started is this approximate contract's charge-completed trigger.
+      expect(armListener.eventMatcher).toEqual({
+        all: ['event/ability_started', 'event/source_owner']
+      });
+      expect(armListener.maxTriggersPerEvent).toBe(1);
+      expect(armListener.operations).toEqual([
+        {
+          operation: 'state_change',
+          target: 'self',
+          amount: { op: 'ref', ref: 'source::supercharge_arm' },
+          valuePolicy: 'override',
+          ref: 'supercharge_active',
+          types: ['state_scope/provider']
+        }
+      ]);
+
+      const eOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'supercharge');
+      expect(eOpt?.selectable).toBe(true);
+      expect(eOpt?.kind).toBe('active');
+
+      const contractJson = JSON.stringify({
+        provider,
+        formulas: compile.formulas!.filter((f) => f.key.startsWith('source::supercharge_'))
+      });
+      expect(contractJson).not.toContain('"operation":"damage"');
+      expect(contractJson.toLowerCase()).not.toContain('move_speed');
+      expect(contractJson.toLowerCase()).not.toContain('movespeed');
+      expect(contractJson.toLowerCase()).not.toContain('ghost');
+      expect(contractJson.toLowerCase()).not.toContain('invisibility');
+      expect(contractJson.toLowerCase()).not.toContain('invisible');
+      expect(contractJson.toLowerCase()).not.toContain('stealth');
+      expect(contractJson.toLowerCase()).not.toContain('refund');
+      expect(contractJson).not.toContain('ability_hero_kaisa_q');
+      expect(contractJson).not.toContain('ability_hero_kaisa_w');
+      expect(contractJson).not.toContain('ability_hero_kaisa_r');
+      expect(contractJson.toLowerCase()).not.toContain('rank1');
+      expect(contractJson.toLowerCase()).not.toContain('rank2');
+      expect(contractJson.toLowerCase()).not.toContain('rank3');
+      expect(contractJson.toLowerCase()).not.toContain('rank4');
+    });
+  });
 });
