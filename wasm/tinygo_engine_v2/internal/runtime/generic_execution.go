@@ -274,7 +274,7 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		if bag != nil {
 			ctx.ProviderState = bag.state
 			if bag.targetKey == f.targetKey {
-				ctx.ProviderTargetState = bag.targetValues
+				ctx.ProviderTargetState = bag.targetStateForFormula()
 			} else {
 				ctx.ProviderTargetState = map[string]float64{}
 			}
@@ -338,13 +338,22 @@ func (f *executionFrame) resolveProviderStateFieldDefs(combatantKey, providerRef
 	return f.run.resolveProviderStateFieldDefs(combatantKey, providerRef, f.stageFor(combatantKey).providers)
 }
 
-// providerFormulaContextFunc returns H2a per-modifier provider overlay for combatantKey.
-// Callback only sets HasProviderContext / ProviderState / ProviderTargetState; base evalCtx
-// keeps source/target attrs/resources / ability / event fields.
+// providerFormulaContextFunc returns H2a per-modifier provider overlay.
+// Cross-combatant mounts pass OwnerCombatantKey so provider.state / target_state read the
+// owner bag. For provider_target visibility: same-combatant mounts use the cast target;
+// mounts hosted on another combatant use that mount host as the pair-state target key.
+// Callback only sets HasProviderContext / ProviderState / ProviderTargetState.
 func (f *executionFrame) providerFormulaContextFunc(combatantKey string) pipeline.ProviderFormulaContextFunc {
-	return func(providerRef string) formula.GenericEvalContext {
-		bag := f.providerStateBag(combatantKey, providerRef, false)
-		return providerFormulaContextFromBag(bag, f.targetKey)
+	return func(ownerCombatantKey, providerRef string) formula.GenericEvalContext {
+		bagOwner := ownerCombatantKey
+		if bagOwner == "" {
+			bagOwner = combatantKey
+		}
+		bag := f.providerStateBag(bagOwner, providerRef, false)
+		if bag != nil {
+			bag.lazyExpireProviderTargetState(f.run.nowMs)
+		}
+		return providerFormulaContextFromBag(bag, providerTargetActiveKey(combatantKey, ownerCombatantKey, f.targetKey))
 	}
 }
 
@@ -667,6 +676,7 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 	bag.ensure()
 	switch scope {
 	case stateScopeProvider:
+		bag.lazyExpireProviderState(f.run.nowMs)
 		next, ok := applyStatePolicy(bag.state[op.Ref], amount, op.ValuePolicy)
 		if !ok {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unsupported state_change valuePolicy", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -681,12 +691,11 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		sc := f.stageFor(ownerKey)
 		sc.attributes = f.resolveAttributesFor(ownerKey, sc.attributes, f.evalContext(ability))
 	case stateScopeProviderTarget:
-		if bag.targetKey != "" && bag.targetKey != f.targetKey {
-			// Pair-state switch: clear previous target values so stacks restart on return.
-			bag.targetValues = map[string]float64{}
-		}
-		bag.targetKey = f.targetKey
-		current := bag.targetValues[op.Ref]
+		// Order: lazy-expire -> activate -> seed this key's default -> policy -> cap -> refresh.
+		bag.lazyExpireProviderTargetState(f.run.nowMs)
+		bag.activateProviderTarget(f.targetKey)
+		bag.seedTargetValueIfAbsent(op.Ref)
+		current := bag.readTargetValue(op.Ref)
 		next, ok := applyStatePolicy(current, amount, op.ValuePolicy)
 		if !ok {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unsupported state_change valuePolicy", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -694,7 +703,22 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		if !finiteState(next) {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite state result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
+		next = bag.clampProviderStateValue(op.Ref, next)
 		bag.targetValues[op.Ref] = next
+		if exp := bag.refreshTargetExpireAtOnWrite(op.Ref, f.run.nowMs); exp > 0 {
+			f.run.scheduleProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, f.targetKey, op.Ref, exp)
+		}
+		// Re-resolve host of opponent-mounted modifiers (carve target) and owner if needed.
+		evalCtx := f.evalContext(ability)
+		if f.targetKey != "" {
+			tsc := f.stageFor(f.targetKey)
+			tsc.attributes = f.resolveAttributesFor(f.targetKey, tsc.attributes, evalCtx)
+			tsc.dirty = true
+		}
+		if ownerKey != f.targetKey {
+			osc := f.stageFor(ownerKey)
+			osc.attributes = f.resolveAttributesFor(ownerKey, osc.attributes, evalCtx)
+		}
 	default:
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownTypeKey, "unsupported state scope", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
@@ -1316,9 +1340,11 @@ const (
 	executeThresholdComparison      = "strict_below"
 )
 
-// maybeQueueDamageDealtEvent 在顶层真实 physical 普攻伤害 commit 后合成 event/damage_dealt（追加 pending 尾部）。
-// 条件：chainDepth==0；ability TypeSet 经 catalog Lookup 含 ability/basic_attack；本 frame 至少一次
-// damage/physical 经 pipeline 后 result.Amount>0。catalog 缺任一合成所需 type 时 fail closed（不 emit、不 fatal）。
+// maybeQueueDamageDealtEvent 在顶层真实 physical 伤害 commit 后合成 event/damage_dealt（追加 pending 尾部）。
+// 条件：chainDepth==0；本 frame 至少一次 damage/physical 经 pipeline 后 result.Amount>0。
+// 基本与非基本 root physical frame 均 emit event/damage_dealt + event/damage_dealt/physical；
+// 仅 ability TypeSet 含 ability/basic_attack 时附加 event/damage_dealt/basic_attack。
+// catalog 缺合成所需 type 时 fail closed（不 emit、不 fatal）。
 // phantom replay 与 listener child（chainDepth>0）不走此路径；同一 frame 多个合格 physical op 只合成一次。
 func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.CompiledAbility) {
 	if f.chainDepth != 0 {
@@ -1328,20 +1354,27 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.Compil
 		return
 	}
 	required := []string{
-		abilityTypeBasicAttack,
 		damageTypePhysical,
 		eventTypeDamageDealt,
 		eventTypeDamageDealtPhysical,
-		eventTypeDamageDealtBasicAttack,
 	}
 	for _, key := range required {
 		if _, ok := f.run.compiled.Types.Registry.Lookup(key); !ok {
 			return
 		}
 	}
-	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
-	if !ok || !ability.TypeSet.Contains(basicAttackID) {
-		return
+
+	eventTypes := []string{
+		eventTypeDamageDealt,
+		eventTypeDamageDealtPhysical,
+	}
+	basicAttackID, hasBasicType := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
+	isBasicAttack := hasBasicType && ability.TypeSet.Contains(basicAttackID)
+	// Optional qualifier: missing event/damage_dealt/basic_attack must not block core emit.
+	if isBasicAttack {
+		if _, ok := f.run.compiled.Types.Registry.Lookup(eventTypeDamageDealtBasicAttack); ok {
+			eventTypes = append(eventTypes, eventTypeDamageDealtBasicAttack)
+		}
 	}
 
 	data := map[string]interface{}{
@@ -1378,12 +1411,8 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.Compil
 		ref:       eventTypeDamageDealt,
 		sourceKey: f.sourceKey,
 		targetKey: f.targetKey,
-		types: []string{
-			eventTypeDamageDealt,
-			eventTypeDamageDealtPhysical,
-			eventTypeDamageDealtBasicAttack,
-		},
-		snapshot: f.captureEmitSnapshot(eventTypeDamageDealt, f.sourceKey, f.targetKey),
+		types:     eventTypes,
+		snapshot:  f.captureEmitSnapshot(eventTypeDamageDealt, f.sourceKey, f.targetKey),
 	})
 }
 
