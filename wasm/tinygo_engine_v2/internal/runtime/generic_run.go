@@ -3,6 +3,7 @@ package runtime
 
 import (
 	"encoding/json"
+	"math"
 	"sort"
 
 	compilebundle "tinygo_engine_v2/internal/compile"
@@ -21,13 +22,14 @@ const (
 )
 
 type combatantRuntime struct {
-	key        string
-	attributes map[string]model.AttributeSlotDef
-	resources  map[string]model.ResourceSlotDef
-	cooldowns  map[string]int64
-	providers  []status.ProviderInstance
-	shields    []shieldpkg.Instance
-	resolver   pipeline.AttributeResolver
+	key           string
+	attributes    map[string]model.AttributeSlotDef
+	resources     map[string]model.ResourceSlotDef
+	cooldowns     map[string]int64
+	providers     []status.ProviderInstance
+	shields       []shieldpkg.Instance
+	resolver      pipeline.AttributeResolver
+	providerState map[string]*providerStateBag
 }
 
 type abilityStatAcc struct {
@@ -78,14 +80,15 @@ type genericRunState struct {
 	truncatedEvidenceCount int
 	evidenceCountsByKind   map[string]int
 
-	series             []model.SeriesPoint
-	seriesDownsampled  bool
-	sampling           model.SamplingConfig
-	processedEvents    int
-	stopReason         model.StopReason
-	stopReasonSet      bool
-	entryAttemptCounts []int
-	entryConditions    []*formula.GenericProgramID
+	series                []model.SeriesPoint
+	seriesDownsampled     bool
+	sampling              model.SamplingConfig
+	processedEvents       int
+	stopReason            model.StopReason
+	stopReasonSet         bool
+	entryAttemptCounts    []int
+	entryConditions       []*formula.GenericProgramID
+	entryIntervalPrograms []*formula.GenericProgramID
 
 	expireCleanupPayloads  []expireCleanupPayload
 	nextProviderInstanceID uint64
@@ -175,7 +178,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 }
 
 func (s *genericRunState) compileDriverConditions() *model.EngineError {
-	s.entryConditions = make([]*formula.GenericProgramID, len(s.req.DriverPlan.Entries))
+	n := len(s.req.DriverPlan.Entries)
+	s.entryConditions = make([]*formula.GenericProgramID, n)
+	s.entryIntervalPrograms = make([]*formula.GenericProgramID, n)
 	var compileErrors []model.EngineError
 	addError := func(code model.GenericErrCode, path, message, ref string) {
 		err := model.NewEngineError(model.GenericPhaseRun, code, message)
@@ -187,18 +192,38 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 		compileErrors = append(compileErrors, err)
 	}
 	for i, entry := range s.req.DriverPlan.Entries {
-		if entry.Condition == nil {
+		if entry.Condition != nil {
+			path := "driverPlan.entries[" + entry.EntryKey + "].condition"
+			instr := formula.CompileGenericFormula(*entry.Condition, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
+			if len(instr) > 0 {
+				key := "run:" + path
+				id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
+				s.compiled.Formulas.Programs = append(s.compiled.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
+				s.entryConditions[i] = &id
+			}
+		}
+		if entry.Repeat == nil {
 			continue
 		}
-		path := "driverPlan.entries[" + entry.EntryKey + "].condition"
-		instr := formula.CompileGenericFormula(*entry.Condition, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
-		if len(instr) == 0 {
-			continue
+		repeatPath := "driverPlan.entries[" + entry.EntryKey + "].repeat"
+		hasFixed := entry.Repeat.IntervalMs > 0
+		hasFormula := entry.Repeat.IntervalFormula != nil
+		switch {
+		case hasFixed && hasFormula:
+			addError(model.GenericErrFormulaTypeError, repeatPath, "repeat must have exactly one of intervalMs or intervalFormula", entry.AbilityRef)
+		case !hasFixed && !hasFormula:
+			addError(model.GenericErrMissingRequiredField, repeatPath, "repeat requires intervalMs or intervalFormula", entry.AbilityRef)
+		case hasFormula:
+			path := repeatPath + ".intervalFormula"
+			instr := formula.CompileGenericFormula(*entry.Repeat.IntervalFormula, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
+			if len(instr) == 0 {
+				continue
+			}
+			key := "run:" + path
+			id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
+			s.compiled.Formulas.Programs = append(s.compiled.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
+			s.entryIntervalPrograms[i] = &id
 		}
-		key := "run:" + path
-		id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
-		s.compiled.Formulas.Programs = append(s.compiled.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
-		s.entryConditions[i] = &id
 	}
 	if len(compileErrors) > 0 {
 		return engineErrorPtr(model.GenericPhaseRun, compileErrors[0].Code, compileErrors[0].Message, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
@@ -231,22 +256,51 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			resources = map[string]model.ResourceSlotDef{}
 		}
 		providers, resolver := materializeProviders(c.Providers, c.Key, compiled)
-		mountRuleModifiers(&resolver, c.Key, compiled)
 		shields := materializeShields(c.Shields, c.Key)
-		evalCtx := formula.GenericEvalContext{
-			SourceAttrs: attrs,
-			TargetAttrs: attrs,
-		}
-		attrs = resolver.ResolveAttributes(attrs, evalCtx, compiled.Formulas)
 		out[c.Key] = combatantRuntime{
-			key:        c.Key,
-			attributes: cloneAttributeMap(attrs),
-			resources:  cloneResourceMap(resources),
-			cooldowns:  materializeCooldowns(c.Cooldowns),
-			providers:  providers,
-			shields:    shields,
-			resolver:   resolver,
+			key:           c.Key,
+			attributes:    cloneAttributeMap(attrs),
+			resources:     cloneResourceMap(resources),
+			cooldowns:     materializeCooldowns(c.Cooldowns),
+			providers:     providers,
+			shields:       shields,
+			resolver:      resolver,
+			providerState: materializeProviderState(c.ProviderState),
 		}
+	}
+	// Cross-combatant provider modifiers (e.g. opponent.attr.*) then rule modifiers.
+	remountAllProviderModifiers(out, compiled)
+	for key, c := range out {
+		resolver := c.resolver
+		mountRuleModifiers(&resolver, key, compiled)
+		c.resolver = resolver
+		out[key] = c
+	}
+	// Resolve with same-combatant eval first, then cross-combatant context.
+	for key, c := range out {
+		evalCtx := formula.GenericEvalContext{
+			SourceAttrs: c.attributes,
+			TargetAttrs: c.attributes,
+		}
+		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
+			c.attributes, evalCtx, compiled.Formulas,
+			func(ownerKey, providerRef string) formula.GenericEvalContext {
+				bagOwner := ownerKey
+				if bagOwner == "" {
+					bagOwner = key
+				}
+				owner, ok := out[bagOwner]
+				if !ok {
+					return providerFormulaContextFromBag(nil, providerTargetActiveKey(key, ownerKey, ""))
+				}
+				bag := owner.providerState[providerRef]
+				if bag != nil {
+					bag.bindFieldDefs(compiledStateFieldsForProvider(compiled, bagOwner, providerRef, owner.providers))
+				}
+				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, ""))
+			},
+		)
+		out[key] = c
 	}
 	// Re-resolve with cross-combatant eval context after both sides exist.
 	sourceAttrs := map[string]model.AttributeSlotDef{}
@@ -262,7 +316,26 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			SourceAttrs: sourceAttrs,
 			TargetAttrs: targetAttrs,
 		}
-		c.attributes = c.resolver.ResolveAttributes(c.attributes, evalCtx, compiled.Formulas)
+		// Same-combatant cast-proxy default remains target (historical materialize semantics).
+		castProxy := model.SelectorTarget
+		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
+			c.attributes, evalCtx, compiled.Formulas,
+			func(ownerKey, providerRef string) formula.GenericEvalContext {
+				bagOwner := ownerKey
+				if bagOwner == "" {
+					bagOwner = key
+				}
+				owner, ok := out[bagOwner]
+				if !ok {
+					return providerFormulaContextFromBag(nil, providerTargetActiveKey(key, ownerKey, castProxy))
+				}
+				bag := owner.providerState[providerRef]
+				if bag != nil {
+					bag.bindFieldDefs(compiledStateFieldsForProvider(compiled, bagOwner, providerRef, owner.providers))
+				}
+				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, castProxy))
+			},
+		)
 		out[key] = c
 	}
 	return out
@@ -343,6 +416,7 @@ func (s *genericRunState) combatantHasHp(key string) bool {
 func (s *genericRunState) seedDriverAttempts() {
 	for i, entry := range s.req.DriverPlan.Entries {
 		s.enqueueAttempt(entry.FirstAtMs, i, 0)
+		// Fixed interval: pre-schedule future attempts. Dynamic (intervalFormula): seed first only.
 		if entry.Repeat != nil && entry.Repeat.IntervalMs > 0 {
 			maxAttempts := entry.Repeat.MaxAttempts
 			if maxAttempts <= 0 {
@@ -546,10 +620,64 @@ func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model
 			if nextAt > s.nowMs {
 				s.enqueueAttempt(nextAt, ev.DriverEntryIndex, ev.AttemptIndex+1)
 			}
+			// whileReady owns reschedule; do not also schedule dynamic interval.
+			return nil
 		}
+		return s.scheduleDynamicRepeatNext(entry, ev.DriverEntryIndex, ev.AttemptIndex)
+	}
+	if err := s.executeAbilityCast(entry); err != nil {
+		return err
+	}
+	return s.scheduleDynamicRepeatNext(entry, ev.DriverEntryIndex, ev.AttemptIndex)
+}
+
+// scheduleDynamicRepeatNext 在 dynamic DriverRepeat 每次 attempt 处理后按最新 attrs/resources 排下一发。
+func (s *genericRunState) scheduleDynamicRepeatNext(entry model.DriverEntry, entryIndex, attemptIndex int) *model.EngineError {
+	if entry.Repeat == nil || entry.Repeat.IntervalFormula == nil {
 		return nil
 	}
-	return s.executeAbilityCast(entry)
+	if entryIndex < 0 || entryIndex >= len(s.entryIntervalPrograms) || s.entryIntervalPrograms[entryIndex] == nil {
+		return nil
+	}
+	nextAttempt := attemptIndex + 1
+	if entry.Repeat.MaxAttempts > 0 && nextAttempt >= entry.Repeat.MaxAttempts {
+		return nil
+	}
+
+	sourceKey, _ := s.resolveCombatantKey(entry.Source, entry.Source, entry.Target)
+	targetKey, _ := s.resolveCombatantKey(entry.Target, entry.Source, entry.Target)
+	src := s.combatants[sourceKey]
+	tgt := s.combatants[targetKey]
+	evalCtx := formula.GenericEvalContext{
+		SourceAttrs:     src.attributes,
+		TargetAttrs:     tgt.attributes,
+		SourceResources: src.resources,
+		TargetResources: tgt.resources,
+	}
+	path := "driverPlan.entries[" + entry.EntryKey + "].repeat.intervalFormula"
+	raw, evalErr := s.compiled.Formulas.Eval(*s.entryIntervalPrograms[entryIndex], evalCtx)
+	if evalErr != nil {
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "intervalFormula eval failed: "+evalErr.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+	}
+	if math.IsNaN(raw) || math.IsInf(raw, 0) || raw <= 0 {
+		err := model.NewEngineError(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "intervalFormula must evaluate to a finite value > 0")
+		err.Path = path
+		err.Ref = entry.AbilityRef
+		err.SchemaHash = s.compiled.SchemaHash
+		err.RulesHash = s.compiled.RulesHash
+		err.SessionID = s.req.SessionID
+		return &err
+	}
+	intervalMs := int64(math.Round(raw))
+	if intervalMs < 1 {
+		intervalMs = 1
+	}
+	nextAt := s.nowMs + intervalMs
+	if nextAt > s.startMs+s.durationMs {
+		return nil
+	}
+	s.enqueueAttempt(nextAt, entryIndex, nextAttempt)
+	return nil
 }
 
 func (s *genericRunState) isWhileReady(entry model.DriverEntry) bool {
@@ -757,6 +885,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		snapshot.Combatants[i].Cooldowns = cooldownsToSnapshot(rt.cooldowns, s.nowMs)
 		snapshot.Combatants[i].Providers = providersToSnapshot(rt.providers)
 		snapshot.Combatants[i].Shields = shieldsToSnapshot(rt.shields)
+		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState)
 		if snapshot.Combatants[i].AbilityState == nil {
 			snapshot.Combatants[i].AbilityState = map[string]interface{}{}
 		}
