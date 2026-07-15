@@ -96,6 +96,15 @@ type CompiledProviderLifecycle struct {
 	TickIntervalMs  int64
 }
 
+// CompiledProviderStateField 是 initialStateSchema 规范化后的 provider-scope 字段定义（Gate H1）。
+type CompiledProviderStateField struct {
+	DefaultValue  float64
+	MaxValue      float64
+	HasCap        bool
+	DurationMs    int64
+	RefreshPolicy string
+}
+
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
 	ProviderKey  string
@@ -107,6 +116,7 @@ type CompiledProvider struct {
 	Modifiers    []CompiledModifier
 	Listeners    []CompiledListener
 	Lifecycle    *CompiledProviderLifecycle
+	StateFields  map[string]CompiledProviderStateField
 }
 
 // CompiledAbilityCost 是 compile 后的 ability 资源消耗。
@@ -135,16 +145,18 @@ type CompiledTickSpec struct {
 
 // CompiledAbility 是 compile 后的 ability 定义。
 type CompiledAbility struct {
-	AbilityKey     string
-	Kind           string
-	TypeSet        typeset.TypeSet
-	Params         map[string]float64
-	Cost           *CompiledAbilityCost
-	Cooldown       *CompiledAbilityCooldown
-	TickSpec       *CompiledTickSpec
-	ProviderIndex  uint16
-	OperationStart uint16
-	OperationCount uint16
+	AbilityKey            string
+	Kind                  string
+	TypeSet               typeset.TypeSet
+	Params                map[string]float64
+	Cost                  *CompiledAbilityCost
+	Cooldown              *CompiledAbilityCooldown
+	CastConditionProgram  formula.GenericProgramID
+	HasCastCondition      bool
+	TickSpec              *CompiledTickSpec
+	ProviderIndex         uint16
+	OperationStart        uint16
+	OperationCount        uint16
 }
 
 // CompiledOperation 是 compile 后的 operation 定义。
@@ -165,6 +177,17 @@ type CompiledOperation struct {
 	AbilityRefStr         string
 	EventType             string
 	Ref                   string
+	ConditionProgram      formula.GenericProgramID
+	HasCondition          bool
+	StateScope            string // state_scope/provider | state_scope/provider_target for state_change
+	Types                 []string
+	CopyableOnHit         bool
+	CritEligible          bool
+	RepeatScope           string
+	RepeatCount           int
+	RepeatTag             string
+	TriggerStateKey       string
+	Threshold             float64
 }
 
 // GenericCompileResult 是 CompileGeneric 的返回值。
@@ -415,6 +438,7 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	if provider.Lifecycle != nil {
 		compiled.Lifecycle = compileProviderLifecycle(*provider.Lifecycle, path+".lifecycle", ctx)
 	}
+	compiled.StateFields = compileInitialStateSchema(provider.InitialStateSchema, path+".initialStateSchema", collector)
 	session.Providers = append(session.Providers, compiled)
 }
 
@@ -428,7 +452,7 @@ func compileProviderAbilities(provider model.ProviderDefinition, path string, ct
 		compileAbilityDefinition(ability, path+".abilities["+itoa(j)+"]", uint16(providerIdx), ctx)
 	}
 	for j, listener := range provider.Listeners {
-		compiledListener := compileListenerDefinition(listener, path+".listeners["+itoa(j)+"]", "", "", -1, ctx)
+		compiledListener := compileListenerDefinition(listener, path+".listeners["+itoa(j)+"]", "", "", -1, providerIdx, ctx)
 		ctx.session.Providers[providerIdx].Listeners = append(ctx.session.Providers[providerIdx].Listeners, compiledListener)
 	}
 	ctx.session.Providers[providerIdx].AbilityCount = uint16(len(ctx.session.Abilities)) - start
@@ -486,8 +510,16 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 		}
 		compiled.Cooldown = cd
 	}
+	if ability.CastCondition != nil {
+		instr := formula.CompileGenericFormula(*ability.CastCondition, path+".castCondition", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		if len(instr) > 0 {
+			key := path + ".castCondition"
+			compiled.CastConditionProgram = ctx.registerFormula(key, instr)
+			compiled.HasCastCondition = true
+		}
+	}
 	for k, op := range ability.Operations {
-		compileOperation(op, path+".operations["+itoa(k)+"]", ctx)
+		compileOperation(op, path+".operations["+itoa(k)+"]", int(providerIndex), ctx)
 	}
 	compiled.OperationCount = uint16(len(session.Operations)) - compiled.OperationStart
 	if ability.TickSpec != nil {
@@ -501,7 +533,7 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			OnTickStart:  uint16(len(session.Operations)),
 		}
 		for k, op := range ts.OnTick {
-			compileOperation(op, path+".tickSpec.onTick["+itoa(k)+"]", ctx)
+			compileOperation(op, path+".tickSpec.onTick["+itoa(k)+"]", int(providerIndex), ctx)
 		}
 		tickSpec.OnTickCount = uint16(len(session.Operations)) - tickSpec.OnTickStart
 		if tickSpec.StartDelayMs <= 0 {
@@ -519,7 +551,7 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			spec.ListenerKey = ability.AbilityKey
 		}
 		// Inline passive_listener: execution target is this ability's operations.
-		inline := compileListenerDefinition(spec, path+".listenerSpec", "", "", abilityIndex, ctx)
+		inline := compileListenerDefinition(spec, path+".listenerSpec", "", "", abilityIndex, int(providerIndex), ctx)
 		if ability.Kind == "passive_listener" && inline.OperationCount == 0 && compiled.OperationCount > 0 {
 			inline.OperationStart = compiled.OperationStart
 			inline.OperationCount = compiled.OperationCount
@@ -534,7 +566,7 @@ func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileConte
 	collector := ctx.collector
 	session := ctx.session
 	for i, op := range rules.Operations {
-		compileOperation(op, "rules.operations["+itoa(i)+"]", ctx)
+		compileOperation(op, "rules.operations["+itoa(i)+"]", -1, ctx)
 	}
 	for i, modifier := range rules.Modifiers {
 		path := "rules.modifiers[" + itoa(i) + "]"
@@ -557,7 +589,7 @@ func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileConte
 		session.RuleModifiers = append(session.RuleModifiers, compiled)
 	}
 	for i, listener := range rules.Listeners {
-		compiled := compileListenerDefinition(listener, "rules.listeners["+itoa(i)+"]", "", "", -1, ctx)
+		compiled := compileListenerDefinition(listener, "rules.listeners["+itoa(i)+"]", "", "", -1, -1, ctx)
 		session.Listeners = append(session.Listeners, compiled)
 	}
 }
@@ -620,7 +652,7 @@ func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *gene
 	return out
 }
 
-func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCombatantKey, ownerProviderRef string, sourceAbilityIndex int, ctx *genericCompileContext) CompiledListener {
+func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCombatantKey, ownerProviderRef string, sourceAbilityIndex, ownerProviderIndex int, ctx *genericCompileContext) CompiledListener {
 	collector := ctx.collector
 	if sourceAbilityIndex < 0 {
 		sourceAbilityIndex = -1
@@ -646,18 +678,18 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 		compiled.AbilityRef = listener.AbilityRef
 	}
 	for i, op := range listener.Operations {
-		compileOperation(op, path+".operations["+itoa(i)+"]", ctx)
+		compileOperation(op, path+".operations["+itoa(i)+"]", ownerProviderIndex, ctx)
 	}
 	compiled.OperationCount = uint16(len(ctx.session.Operations)) - compiled.OperationStart
 	return compiled
 }
 
 func compileProviderListener(listener model.ListenerDefinition, path string, ctx *genericCompileContext) CompiledListener {
-	return compileListenerDefinition(listener, path, "", "", -1, ctx)
+	return compileListenerDefinition(listener, path, "", "", -1, -1, ctx)
 }
 
 func compileListener(listener model.ListenerDefinition, path string, ctx *genericCompileContext) {
-	_ = compileListenerDefinition(listener, path, "", "", -1, ctx)
+	_ = compileListenerDefinition(listener, path, "", "", -1, -1, ctx)
 }
 
 func (ctx *genericCompileContext) registerFormula(key string, instr []formula.GenericInstr) formula.GenericProgramID {
@@ -671,7 +703,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	return id
 }
 
-func compileOperation(op model.OperationDefinition, path string, ctx *genericCompileContext) {
+func compileOperation(op model.OperationDefinition, path string, ownerProviderIndex int, ctx *genericCompileContext) {
 	collector := ctx.collector
 	session := ctx.session
 	catalog := ctx.catalog
@@ -683,9 +715,17 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 		collector.addError(model.GenericErrHPRawSetForbidden, path+".operation", "HP raw set is forbidden", op.Operation)
 	}
 	if op.Target == "" {
-		collector.addError(model.GenericErrOperationTargetMissing, path+".target", "operation target is required", op.Operation)
+		if op.Operation != model.OperationKindRepeat {
+			collector.addError(model.GenericErrOperationTargetMissing, path+".target", "operation target is required", op.Operation)
+		}
 	} else if _, ok := model.ValidCombatantSelectors[op.Target]; !ok && !strings.HasPrefix(op.Target, "source.") && !strings.HasPrefix(op.Target, "target.") {
 		collector.addError(model.GenericErrOperationTargetMissing, path+".target", "unknown operation target", op.Target)
+	}
+	if op.CopyableOnHit && op.Operation != "damage" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".copyableOnHit", "copyableOnHit is only supported on damage operations", op.Operation)
+	}
+	if op.CritEligible && op.Operation != "damage" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".critEligible", "critEligible is only supported on damage operations", op.Operation)
 	}
 	switch op.Operation {
 	case "damage":
@@ -693,6 +733,9 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 			collector.addError(model.GenericErrMissingRequiredField, path+".damageType", "damage operation requires damageType", "")
 		} else {
 			typeset.ValidateTypeKeys([]string{op.DamageType}, typeset.EntityOperationDamageType, catalog, path+".damageType", collector.addError)
+			if !isKnownDamageSettlementType(op.DamageType) {
+				collector.addError(model.GenericErrUnknownTypeKey, path+".damageType", "unknown damage settlement type", op.DamageType)
+			}
 		}
 		if op.Amount == nil {
 			collector.addError(model.GenericErrMissingRequiredField, path+".amount", "damage operation requires amount", "")
@@ -713,6 +756,25 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 		if op.AbilityRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".abilityRef", "cooldown_change requires abilityRef", "")
 		}
+	case "state_change":
+		if op.Ref == "" {
+			collector.addError(model.GenericErrMissingRequiredField, path+".ref", "state_change requires ref state key", "")
+		}
+		if op.Amount == nil {
+			collector.addError(model.GenericErrMissingRequiredField, path+".amount", "state_change requires amount", "")
+		}
+		if op.Target != "" && op.Target != model.SelectorSource && op.Target != model.SelectorSelf {
+			collector.addError(model.GenericErrOperationTargetMissing, path+".target", "state_change target must be source or self", op.Target)
+		}
+		scope, scopeErr := resolveProviderStateScope(op.Types)
+		if scopeErr != "" {
+			collector.addError(model.GenericErrUnknownTypeKey, path+".types", scopeErr, strings.Join(op.Types, ","))
+		}
+		_ = scope
+	case model.OperationKindRepeat:
+		validateRepeatOperation(op, path, ownerProviderIndex, ctx)
+	case model.OperationKindExecuteThreshold:
+		validateExecuteThresholdOperation(op, path, ctx)
 	}
 	compiled := CompiledOperation{
 		Operation:             op.Operation,
@@ -725,6 +787,19 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 		ProviderRef:           op.ProviderRef,
 		ShieldRef:             op.ShieldRef,
 		EventType:             op.EventType,
+		Types:                 append([]string(nil), op.Types...),
+		CopyableOnHit:         op.CopyableOnHit,
+		CritEligible:          op.CritEligible,
+		RepeatScope:           op.RepeatScope,
+		RepeatCount:           op.RepeatCount,
+		RepeatTag:             op.RepeatTag,
+		TriggerStateKey:       op.TriggerStateKey,
+		Threshold:             op.Threshold,
+	}
+	if op.Operation == "state_change" {
+		if scope, errMsg := resolveProviderStateScope(op.Types); errMsg == "" {
+			compiled.StateScope = scope
+		}
 	}
 	if op.Amount != nil {
 		instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
@@ -738,6 +813,14 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 			compiled.HasAmount = true
 		}
 	}
+	if op.Condition != nil {
+		instr := formula.CompileGenericFormula(*op.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		if len(instr) > 0 {
+			key := path + ".condition"
+			compiled.ConditionProgram = ctx.registerFormula(key, instr)
+			compiled.HasCondition = true
+		}
+	}
 	if op.AbilityRef != "" {
 		compiled.HasAbilityRef = true
 		compiled.AbilityRefStr = op.AbilityRef
@@ -747,6 +830,30 @@ func compileOperation(op model.OperationDefinition, path string, ctx *genericCom
 		compiled.Ref = op.EventType
 	}
 	session.Operations = append(session.Operations, compiled)
+}
+
+// resolveProviderStateScope extracts the single supported state_scope/* from operation types.
+func resolveProviderStateScope(types []string) (scope string, errMsg string) {
+	const (
+		scopeProvider       = "state_scope/provider"
+		scopeProviderTarget = "state_scope/provider_target"
+	)
+	var found string
+	for _, t := range types {
+		if strings.HasPrefix(t, "state_scope/") {
+			if t != scopeProvider && t != scopeProviderTarget {
+				return "", "unsupported state scope"
+			}
+			if found != "" && found != t {
+				return "", "state_change requires a single state scope"
+			}
+			found = t
+		}
+	}
+	if found == "" {
+		return "", "state_change requires state_scope/provider or state_scope/provider_target"
+	}
+	return found, ""
 }
 
 func finalizeListenerIndex(ctx *genericCompileContext) {
@@ -914,6 +1021,19 @@ func normalizeGenericSettings(settings model.GenericCompileSettings, collector *
 func isForbiddenHPOperation(op string) bool {
 	switch strings.ToLower(op) {
 	case "set_hp_raw", "hp_raw_set", "sethpraw", "hp_set_raw":
+		return true
+	default:
+		return false
+	}
+}
+
+// isKnownDamageSettlementType 首批抗性结算白名单；未知 type 不得按 true/raw 静默处理。
+// magical / damage/magical 兼容既有 fixture，按 magic resistance 结算。
+func isKnownDamageSettlementType(damageType string) bool {
+	switch damageType {
+	case "physical", "damage/physical",
+		"magic", "damage/magic", "magical", "damage/magical",
+		"true", "damage/true":
 		return true
 	default:
 		return false

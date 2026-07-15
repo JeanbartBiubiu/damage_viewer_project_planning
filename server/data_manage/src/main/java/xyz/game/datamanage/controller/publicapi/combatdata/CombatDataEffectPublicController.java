@@ -51,4 +51,12 @@ public class CombatDataEffectPublicController {
     ) {
         return service.listListenerEffectSequences(gameId, listenerId, sequenceId);
     }
+
+    @GetMapping("/execute-effect-details")
+    public ObjectNode listExecuteEffectDetails(
+        @PathVariable("gameId") String gameId,
+        @RequestParam(name = "stepId", required = false) String stepId
+    ) {
+        return service.listExecuteEffectDetails(gameId, stepId);
+    }
 }

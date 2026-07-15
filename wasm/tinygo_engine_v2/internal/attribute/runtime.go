@@ -37,8 +37,10 @@ func ReadAttr(attrs map[string]model.AttributeSlotDef, key string) float64 {
 }
 
 // ReadHP 读取 hp.current，缺省 0。
+// 必须走 "hp.current"：ReadAttr("hp") 默认优先非零 Resolved，而 damage/heal 的 SetHP
+// 只改 Current；属性 refresh 还会把 Resolved 重置为 Base，导致跨 hit 读到陈旧满血。
 func ReadHP(attrs map[string]model.AttributeSlotDef) float64 {
-	return ReadAttr(attrs, "hp")
+	return ReadAttr(attrs, "hp.current")
 }
 
 // ReadHPMax 读取 hp.max，缺省 current。

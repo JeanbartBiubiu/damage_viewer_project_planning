@@ -15,6 +15,23 @@ type GenericEvalContext struct {
 	SourceResources map[string]model.ResourceSlotDef
 	TargetResources map[string]model.ResourceSlotDef
 	AbilityParams   map[string]float64
+
+	// Provider state reads require a concrete provider context.
+	HasProviderContext  bool
+	ProviderState       map[string]float64
+	ProviderTargetState map[string]float64
+
+	// Event snapshot reads require an emit_event listener / child-ability context.
+	// Participants are the original emitted event source/target (not owner-remapped).
+	HasEventContext          bool
+	EventEntrySourceAttrs    map[string]model.AttributeSlotDef
+	EventEntryTargetAttrs    map[string]model.AttributeSlotDef
+	EventEntrySourceResources map[string]model.ResourceSlotDef
+	EventEntryTargetResources map[string]model.ResourceSlotDef
+	EventSourceAttrs         map[string]model.AttributeSlotDef
+	EventTargetAttrs         map[string]model.AttributeSlotDef
+	EventSourceResources     map[string]model.ResourceSlotDef
+	EventTargetResources     map[string]model.ResourceSlotDef
 }
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
@@ -33,7 +50,8 @@ func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (floa
 				return 0, err
 			}
 			stack = append(stack, value)
-		case GenericOpAdd, GenericOpSub, GenericOpMul, GenericOpDiv, GenericOpMin, GenericOpMax:
+		case GenericOpAdd, GenericOpSub, GenericOpMul, GenericOpDiv, GenericOpMin, GenericOpMax,
+			GenericOpEq, GenericOpNe, GenericOpLt, GenericOpLte, GenericOpGt, GenericOpGte:
 			if len(stack) < 2 {
 				return 0, errors.New("formula stack underflow")
 			}
@@ -57,6 +75,18 @@ func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (floa
 				value = math.Min(left, right)
 			case GenericOpMax:
 				value = math.Max(left, right)
+			case GenericOpEq:
+				value = bool01(left == right)
+			case GenericOpNe:
+				value = bool01(left != right)
+			case GenericOpLt:
+				value = bool01(left < right)
+			case GenericOpLte:
+				value = bool01(left <= right)
+			case GenericOpGt:
+				value = bool01(left > right)
+			case GenericOpGte:
+				value = bool01(left >= right)
 			}
 			if !finite(value) {
 				return 0, errors.New("non-finite formula result")
@@ -123,6 +153,13 @@ func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (floa
 	return stack[0], nil
 }
 
+func bool01(ok bool) float64 {
+	if ok {
+		return 1
+	}
+	return 0
+}
+
 func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64, error) {
 	switch kind {
 	case ReadSourceAttr:
@@ -138,9 +175,72 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return 0, nil
 		}
 		return ctx.AbilityParams[key], nil
+	case ReadProviderState:
+		if !ctx.HasProviderContext {
+			return 0, errors.New("provider.state requires provider context")
+		}
+		if ctx.ProviderState == nil {
+			return 0, nil
+		}
+		return ctx.ProviderState[key], nil
+	case ReadProviderTargetState:
+		if !ctx.HasProviderContext {
+			return 0, errors.New("provider.target_state requires provider context")
+		}
+		if ctx.ProviderTargetState == nil {
+			return 0, nil
+		}
+		return ctx.ProviderTargetState[key], nil
+	case ReadEventEntrySourceAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventEntrySourceAttrs, key), nil
+	case ReadEventEntryTargetAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventEntryTargetAttrs, key), nil
+	case ReadEventEntrySourceResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventEntrySourceResources, key), nil
+	case ReadEventEntryTargetResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventEntryTargetResources, key), nil
+	case ReadEventSourceAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventSourceAttrs, key), nil
+	case ReadEventTargetAttr:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readAttrValue(ctx.EventTargetAttrs, key), nil
+	case ReadEventSourceResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventSourceResources, key), nil
+	case ReadEventTargetResource:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		return readResourceValue(ctx.EventTargetResources, key), nil
 	default:
 		return 0, errors.New("unknown read kind")
 	}
+}
+
+func requireEventContext(ctx GenericEvalContext) error {
+	if !ctx.HasEventContext {
+		return errors.New("event.* requires event context")
+	}
+	return nil
 }
 
 func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 {
@@ -181,6 +281,20 @@ func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 
 func readResourceValue(resources map[string]model.ResourceSlotDef, key string) float64 {
 	if resources == nil {
 		return 0
+	}
+	if idx := strings.LastIndex(key, "."); idx > 0 {
+		suffix := key[idx+1:]
+		resKey := key[:idx]
+		slot, ok := resources[resKey]
+		if !ok {
+			return 0
+		}
+		switch suffix {
+		case "current":
+			return slot.Current
+		case "max":
+			return slot.Max
+		}
 	}
 	slot, ok := resources[key]
 	if !ok {

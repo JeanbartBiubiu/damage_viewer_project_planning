@@ -79,11 +79,52 @@ class CombatDataPublicControllerMockMvcTest {
         ObjectNode response = JsonNodeFactory.instance.objectNode();
         response.put("gameId", "lol");
         response.put("currentRevision", 1);
-        response.putArray("data");
+        response.putArray("data")
+            .addObject()
+            .put("stepId", "s1")
+            .putObject("repeatDetail")
+            .put("repeatTag", "on-hit");
         when(effectService.listSteps(eq("lol"), eq("seq-1"))).thenReturn(response);
 
         mockMvc.perform(get("/api/games/lol/combat-data/effect-steps").param("sequenceId", "seq-1"))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data[0].repeatDetail.repeatTag").value("on-hit"));
+    }
+
+    @Test
+    void listExecuteEffectDetailsPassesStepFilter() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("gameId", "lol");
+        response.put("currentRevision", 3);
+        response.putArray("data")
+            .addObject()
+            .put("stepId", "s-exec")
+            .put("threshold", 0.05);
+        when(effectService.listExecuteEffectDetails(eq("lol"), eq("s-exec"))).thenReturn(response);
+
+        mockMvc.perform(get("/api/games/lol/combat-data/execute-effect-details").param("stepId", "s-exec"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data[0].stepId").value("s-exec"))
+            .andExpect(jsonPath("$.data[0].threshold").value(0.05));
+    }
+
+    @Test
+    void listProviderStateFieldsKeepsExistingRoute() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("gameId", "lol");
+        response.put("currentRevision", 2);
+        response.putArray("data")
+            .addObject()
+            .put("stateKey", "stacks")
+            .putNull("maxValue")
+            .put("durationMs", 1000)
+            .putNull("refreshPolicyTypeId");
+        when(providerService.listStateFields(eq("lol"), eq("p1"))).thenReturn(response);
+
+        mockMvc.perform(get("/api/games/lol/combat-data/provider-state-fields").param("providerId", "p1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data[0].stateKey").value("stacks"))
+            .andExpect(jsonPath("$.data[0].durationMs").value(1000));
     }
 
     @Test
