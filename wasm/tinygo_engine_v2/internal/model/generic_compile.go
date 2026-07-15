@@ -81,6 +81,18 @@ type ProviderDefinition struct {
 	InitialStateSchema map[string]interface{} `json:"initialStateSchema,omitempty"`
 }
 
+// ProviderStateFieldSchema 是 initialStateSchema 的结构化字段形态（Gate H1）。
+// 旧形态仍允许纯数字默认值；结构化对象携带封顶与定时元数据。
+type ProviderStateFieldSchema struct {
+	DefaultValue  float64 `json:"defaultValue"`
+	MaxValue      float64 `json:"maxValue"`
+	DurationMs    int64   `json:"durationMs"`
+	RefreshPolicy string  `json:"refreshPolicy,omitempty"`
+}
+
+// ProviderStateRefreshOnWrite 是 provider-scope timed state 的唯一非空 refreshPolicy。
+const ProviderStateRefreshOnWrite = "refresh_on_write"
+
 // ProviderLifecycle 描述 dynamic provider 生命周期。
 type ProviderLifecycle struct {
 	DurationMs     *GenericFormulaExpr `json:"durationMs,omitempty"`
@@ -91,17 +103,18 @@ type ProviderLifecycle struct {
 
 // AbilityDefinition 是 provider 内能力定义。
 type AbilityDefinition struct {
-	AbilityKey   string                 `json:"abilityKey"`
-	Kind         string                 `json:"kind"`
-	Types        []string               `json:"types,omitempty"`
-	Tags         []string               `json:"tags,omitempty"`
-	Params       map[string]float64     `json:"params,omitempty"`
-	Cost         *AbilityCost           `json:"cost,omitempty"`
-	Cooldown     *AbilityCooldown       `json:"cooldown,omitempty"`
-	Operations   []OperationDefinition  `json:"operations,omitempty"`
-	ListenerSpec *ListenerDefinition    `json:"listenerSpec,omitempty"`
-	TickSpec     *TickSpec              `json:"tickSpec,omitempty"`
-	StateSchema  map[string]interface{} `json:"stateSchema,omitempty"`
+	AbilityKey    string                 `json:"abilityKey"`
+	Kind          string                 `json:"kind"`
+	Types         []string               `json:"types,omitempty"`
+	Tags          []string               `json:"tags,omitempty"`
+	Params        map[string]float64     `json:"params,omitempty"`
+	Cost          *AbilityCost           `json:"cost,omitempty"`
+	Cooldown      *AbilityCooldown       `json:"cooldown,omitempty"`
+	CastCondition *GenericFormulaExpr    `json:"castCondition,omitempty"`
+	Operations    []OperationDefinition  `json:"operations,omitempty"`
+	ListenerSpec  *ListenerDefinition    `json:"listenerSpec,omitempty"`
+	TickSpec      *TickSpec              `json:"tickSpec,omitempty"`
+	StateSchema   map[string]interface{} `json:"stateSchema,omitempty"`
 }
 
 // AbilityCost 是 active ability 资源消耗。
@@ -125,6 +138,13 @@ type TickSpec struct {
 	StartDelayMs int64                 `json:"startDelayMs,omitempty"`
 }
 
+// Operation kind / repeat scope 常量（Gate K / execute compile 合同；非旧 DPS DTO）。
+const (
+	OperationKindRepeat           = "repeat"
+	OperationKindExecuteThreshold = "execute_threshold"
+	RepeatScopeCopyableOnHit      = "copyable_on_hit"
+)
+
 // OperationDefinition 是 ability 成功执行后的 operation。
 type OperationDefinition struct {
 	Operation             string                 `json:"operation"`
@@ -143,6 +163,14 @@ type OperationDefinition struct {
 	Types                 []string               `json:"types,omitempty"`
 	Tags                  []string               `json:"tags,omitempty"`
 	Ref                   string                 `json:"ref,omitempty"`
+	Condition             *GenericFormulaExpr    `json:"condition,omitempty"`
+	CopyableOnHit         bool                   `json:"copyableOnHit,omitempty"`
+	CritEligible          bool                   `json:"critEligible,omitempty"`
+	RepeatScope           string                 `json:"repeatScope,omitempty"`
+	RepeatCount           int                    `json:"repeatCount,omitempty"`
+	RepeatTag             string                 `json:"repeatTag,omitempty"`
+	TriggerStateKey       string                 `json:"triggerStateKey,omitempty"`
+	Threshold             float64                `json:"threshold,omitempty"`
 }
 
 // ModifierDefinition 是 provider 级 modifier。
@@ -232,10 +260,11 @@ type DriverEntry struct {
 	Condition  *GenericFormulaExpr `json:"condition,omitempty"`
 }
 
-// DriverRepeat 是固定 interval 重复策略。
+// DriverRepeat 是 ability attempt 重复策略：固定 IntervalMs 或动态 IntervalFormula（二者互斥）。
 type DriverRepeat struct {
-	IntervalMs  int64 `json:"intervalMs"`
-	MaxAttempts int   `json:"maxAttempts,omitempty"`
+	IntervalMs      int64               `json:"intervalMs,omitempty"`
+	IntervalFormula *GenericFormulaExpr `json:"intervalFormula,omitempty"`
+	MaxAttempts     int                 `json:"maxAttempts,omitempty"`
 }
 
 // P0 combatant selector 常量。
