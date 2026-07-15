@@ -166,7 +166,7 @@ class LolGuinsooHkSeedSqlTest {
                 "prerequisite/copyable allowlist must mention " + stepId);
         }
         for (int typeId : List.of(
-            20100, 20110, 20150, 20160, 20161, 20170, 20173, 20190, 20250, 20263)) {
+            20100, 20110, 20150, 20160, 20161, 20170, 20172, 20173, 20190, 20250, 20263)) {
             assertContains(Integer.toString(typeId));
         }
         assertContains("INSERT INTO public.types");
@@ -191,6 +191,22 @@ class LolGuinsooHkSeedSqlTest {
     }
 
     @Test
+    void seedsStablePhantomHitCounterStateContract() {
+        assertContains("guinsoos_phantom_hit_counter");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'provider_item_3124_guinsoos'\\s*,\\s*"
+                        + "'guinsoos_phantom_hit_counter'\\s*,\\s*"
+                        + "20100\\s*,\\s*"
+                        + "3\\s*,\\s*"
+                        + "3000\\s*,\\s*"
+                        + "20190")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "phantom counter must be number 20100, max 3, duration 3000, refresh 20190");
+    }
+
+    @Test
     void formulasAndModifierGrantEightPercentAttackSpeedPerStack() {
         assertContains("provider.state.guinsoos_seething_strike");
         assertContains("0.08");
@@ -208,7 +224,9 @@ class LolGuinsooHkSeedSqlTest {
                 .find(),
             "attack_speed formula must mul const 0.08 by provider.state.guinsoos_seething_strike");
         assertTrue(
-            Pattern.compile("(?s)\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*1\\}")
+            Pattern.compile(
+                    "(?s)'guinsoos_seething_strike_add'[\\s\\S]*?"
+                        + "\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*1\\}")
                 .matcher(sqlNoLineComments)
                 .find(),
             "stack-add formula must be const 1");
@@ -228,28 +246,228 @@ class LolGuinsooHkSeedSqlTest {
     }
 
     @Test
-    void deterministicStepsAreDamageThenStateChangeThenRepeat() {
+    void formulasExpressPhantomCounterAddResetAndConditions() {
+        assertContains("guinsoos_phantom_hit_counter_add");
+        assertContains("guinsoos_phantom_hit_counter_reset");
+        assertContains("guinsoos_seething_strike_at_max");
+        assertContains("guinsoos_phantom_hit_ready");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'guinsoos_phantom_hit_counter_add'[\\s\\S]*?"
+                        + "\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*1\\}")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "phantom counter add formula must be const 1");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'guinsoos_phantom_hit_counter_reset'[\\s\\S]*?"
+                        + "\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*0\\}")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "phantom counter reset formula must be const 0");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'guinsoos_seething_strike_at_max'[\\s\\S]*?"
+                        + "\\{\"op\"\\s*:\\s*\"eq\"\\s*,\\s*\"args\"\\s*:\\s*\\["
+                        + "\\{\"op\"\\s*:\\s*\"read\"\\s*,\\s*\"path\"\\s*:\\s*"
+                        + "\"provider\\.state\\.guinsoos_seething_strike\"\\}"
+                        + "\\s*,\\s*"
+                        + "\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*4\\}"
+                        + "\\]\\}")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "at-max condition must eq provider.state.guinsoos_seething_strike to 4");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'guinsoos_phantom_hit_ready'[\\s\\S]*?"
+                        + "\\{\"op\"\\s*:\\s*\"gte\"\\s*,\\s*\"args\"\\s*:\\s*\\["
+                        + "\\{\"op\"\\s*:\\s*\"read\"\\s*,\\s*\"path\"\\s*:\\s*"
+                        + "\"provider\\.state\\.guinsoos_phantom_hit_counter\"\\}"
+                        + "\\s*,\\s*"
+                        + "\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*3\\}"
+                        + "\\]\\}")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "phantom-ready condition must gte provider.state.guinsoos_phantom_hit_counter to 3");
+    }
+
+    @Test
+    void collisionSafeOwnedStepReorderGuardsOrderUniquenessBeforeFinalUpsert() {
+        // Schema / seed truth: order uniqueness is separate from (game_id, step_id).
+        assertTrue(
+            sql.contains("uq_effect_steps_order")
+                || sql.contains("UNIQUE (game_id, sequence_id, step_order)"),
+            "seed must document uq_effect_steps_order / (game_id, sequence_id, step_order) risk");
+
+        // Guard compares each owned step against its desired final order.
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_3124_guinsoos_phantom_hit_counter_add[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+1")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare counter_add against desired order 1");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_3124_guinsoos_seething_strike_add[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+2")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare seething_add against desired order 2");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_3124_guinsoos_phantom_hit'[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+3")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare phantom_hit against desired order 3");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_3124_guinsoos_phantom_hit_counter_reset[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+4")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare counter_reset against desired order 4");
+
+        // Temporary base derived from current sequence max — not a fixed magic order.
+        assertTrue(
+            Pattern.compile(
+                    "(?is)SELECT\\s+COALESCE\\s*\\(\\s*MAX\\s*\\(\\s*es\\.step_order\\s*\\)\\s*,\\s*0\\s*\\)"
+                        + "[\\s\\S]*?sequence_item_3124_guinsoos")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "temporary order base must be derived from MAX(step_order) on the Guinsoo sequence");
+        assertTrue(
+            Pattern.compile("v_temp_order_base\\s*\\+\\s*owned\\.rn")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "existing owned rows must move to distinct temporary orders above the max base");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)ROW_NUMBER\\s*\\(\\s*\\)\\s+OVER\\s*\\(\\s*ORDER\\s+BY\\s+es\\.step_id\\s*\\)")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "temporary parking must assign distinct rn per existing owned step");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)UPDATE\\s+public\\.effect_steps\\b[\\s\\S]*?"
+                        + "step_order\\s*=\\s*v_temp_order_base\\s*\\+\\s*owned\\.rn")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "collision-safe phase must UPDATE existing owned effect_steps to temporary orders");
+
+        // Reorder precedes the final multi-row effect_steps INSERT.
+        int tempUpdateIdx =
+            indexOfPattern(
+                sqlNoLineComments,
+                "(?is)UPDATE\\s+public\\.effect_steps\\b[\\s\\S]*?"
+                    + "v_temp_order_base\\s*\\+\\s*owned\\.rn");
+        int finalInsertIdx =
+            sqlNoLineComments.indexOf("INSERT INTO public.effect_steps");
+        assertTrue(tempUpdateIdx >= 0, "must contain temporary owned-step UPDATE");
+        assertTrue(finalInsertIdx >= 0, "must contain final effect_steps INSERT");
+        assertTrue(
+            tempUpdateIdx < finalInsertIdx,
+            "collision-safe temporary reorder must run before final effect_steps INSERT");
+
+        // Owned IN list is exactly the four upgrade steps (not order-0 damage).
+        assertTrue(
+            Pattern.compile(
+                    "(?is)es\\.step_id\\s+IN\\s*\\(\\s*"
+                        + "'step_item_3124_guinsoos_phantom_hit_counter_add'\\s*,\\s*"
+                        + "'step_item_3124_guinsoos_seething_strike_add'\\s*,\\s*"
+                        + "'step_item_3124_guinsoos_phantom_hit'\\s*,\\s*"
+                        + "'step_item_3124_guinsoos_phantom_hit_counter_reset'\\s*"
+                        + "\\)")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "temporary reorder must only touch the four Guinsoo-owned upgrade steps");
+
+        // No destructive escape hatches for the uniqueness conflict.
+        assertFalse(
+            Pattern.compile("(?is)\\bDELETE\\s+FROM\\b").matcher(sqlNoLineComments).find(),
+            "collision-safe reorder must not DELETE");
+        assertFalse(
+            Pattern.compile("(?is)\\bDROP\\b|\\bCASCADE\\b|DISABLE\\s+TRIGGER|ALTER\\s+TABLE")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not disable/drop constraints or ALTER TABLE to bypass order uniqueness");
+
+        // Rerun / final-order idempotence: guard skips when orders already match;
+        // final upsert remains conditional (does not advance revision on no-op).
+        assertTrue(
+            sql.contains("do not set v_changed here")
+                || sql.contains("Temporary parking only")
+                || sql.contains("rerun idempotent"),
+            "seed must document that temporary reorder does not itself mark material change");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*step_id\\s*\\)\\s*"
+                        + "DO\\s+UPDATE[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+EXCLUDED\\.step_order")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "final effect_steps upsert must remain conditional on actual step_order differences");
+    }
+
+    @Test
+    void deterministicStepsAreDamageThenCounterThenSeethingThenRepeatThenReset() {
+        assertContains("step_item_3124_guinsoos_phantom_hit_counter_add");
         assertContains("step_item_3124_guinsoos_seething_strike_add");
         assertContains("step_item_3124_guinsoos_phantom_hit");
+        assertContains("step_item_3124_guinsoos_phantom_hit_counter_reset");
         assertContains("state_effect_details");
         assertContains("repeat_effect_details");
         assertContains("phantom_hit");
 
-        // Existing damage stays order 0 (prerequisite); upgrade authors order 1 + 2.
+        // Existing damage stays order 0; upgrade authors orders 1–4.
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_3124_guinsoos_phantom_hit_counter_add'\\s*,\\s*"
+                        + "'sequence_item_3124_guinsoos'\\s*,\\s*1\\s*,\\s*20160\\s*,\\s*"
+                        + "20110\\s*,\\s*"
+                        + "'guinsoos_seething_strike_at_max'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "order 1 must add phantom counter when seething already at max");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_item_3124_guinsoos_seething_strike_add'\\s*,\\s*"
-                        + "'sequence_item_3124_guinsoos'\\s*,\\s*1\\s*,\\s*20160")
+                        + "'sequence_item_3124_guinsoos'\\s*,\\s*2\\s*,\\s*20160\\s*,\\s*"
+                        + "20110\\s*,\\s*"
+                        + "NULL")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "state_change step must be order 1 / operation 20160");
+            "order 2 seething add must be unconditional (NULL condition)");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_item_3124_guinsoos_phantom_hit'\\s*,\\s*"
-                        + "'sequence_item_3124_guinsoos'\\s*,\\s*2\\s*,\\s*20161")
+                        + "'sequence_item_3124_guinsoos'\\s*,\\s*3\\s*,\\s*20161\\s*,\\s*"
+                        + "20110\\s*,\\s*"
+                        + "'guinsoos_phantom_hit_ready'")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "repeat step must be order 2 / operation 20161");
+            "order 3 repeat must require phantom_hit_ready");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_3124_guinsoos_phantom_hit_counter_reset'\\s*,\\s*"
+                        + "'sequence_item_3124_guinsoos'\\s*,\\s*4\\s*,\\s*20160\\s*,\\s*"
+                        + "20110\\s*,\\s*"
+                        + "'guinsoos_phantom_hit_ready'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "order 4 counter reset must require phantom_hit_ready");
+
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_3124_guinsoos_phantom_hit_counter_add'\\s*,\\s*"
+                        + "20250\\s*,\\s*"
+                        + "'guinsoos_phantom_hit_counter'\\s*,\\s*"
+                        + "'guinsoos_phantom_hit_counter_add'\\s*,\\s*"
+                        + "20170")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "counter-add state detail must use provider scope 20250 and add policy 20170");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_item_3124_guinsoos_seething_strike_add'\\s*,\\s*"
@@ -259,7 +477,17 @@ class LolGuinsooHkSeedSqlTest {
                         + "20170")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "state detail must use provider scope 20250 and add policy 20170");
+            "seething state detail must use provider scope 20250 and add policy 20170");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_3124_guinsoos_phantom_hit_counter_reset'\\s*,\\s*"
+                        + "20250\\s*,\\s*"
+                        + "'guinsoos_phantom_hit_counter'\\s*,\\s*"
+                        + "'guinsoos_phantom_hit_counter_reset'\\s*,\\s*"
+                        + "20172")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "counter-reset state detail must use override policy 20172");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_item_3124_guinsoos_phantom_hit'\\s*,\\s*"
@@ -283,6 +511,21 @@ class LolGuinsooHkSeedSqlTest {
             sql.contains("exactly-one-detail") || sql.contains("exactly one detail")
                 || sql.contains("deferred exactly-one-detail"),
             "seed must document deferred exactly-one-detail pairing");
+    }
+
+    @Test
+    void sourceCommentsDocumentEveryThirdAtFullCadence() {
+        assertTrue(
+            sql.contains("每第三次") || sql.contains("every third") || sql.contains("every-third"),
+            "source comments must identify every-third-at-full phantom cadence");
+        assertTrue(
+            sql.contains("到达第 4 层的那次攻击不计入")
+                || sql.contains("不计入 phantom")
+                || sql.contains("does not count"),
+            "source comments must note the attack that reaches stack 4 does not count");
+        assertTrue(
+            sql.contains("1–6") || sql.contains("1-6") || sql.contains("attacks 1"),
+            "source comments should document attacks 1-6 have no phantom");
     }
 
     @Test
@@ -327,6 +570,24 @@ class LolGuinsooHkSeedSqlTest {
             "copyable UPDATE must be idempotent via IS DISTINCT FROM true");
     }
 
+    @Test
+    void readmeDocumentsEveryThirdAtFullPhantomCadence() throws IOException {
+        Path readmePath = resolveRelative("server/data_manage/README.md");
+        assertTrue(Files.isRegularFile(readmePath), "README missing: " + readmePath);
+        String readme = Files.readString(readmePath, StandardCharsets.UTF_8);
+        assertTrue(
+            readme.contains("lol_guinsoo_hk_seed.sql"),
+            "README must document Guinsoo H+K seed path");
+        assertTrue(
+            readme.contains("每第三次")
+                || readme.toLowerCase().contains("every third")
+                || readme.contains("满层后每第三次"),
+            "README Guinsoo contract must say every third attack while fully stacked");
+        assertFalse(
+            readme.contains("满层 `repeat(copyable_on_hit)` phantom hit"),
+            "README must not describe phantom as merely generic full-stack repeat");
+    }
+
     private static String extractDamageCopyableUpdateBlock() {
         Matcher m =
             Pattern.compile(
@@ -365,6 +626,11 @@ class LolGuinsooHkSeedSqlTest {
             count++;
             from = idx + needle.length();
         }
+    }
+
+    private static int indexOfPattern(String haystack, String regex) {
+        Matcher m = Pattern.compile(regex).matcher(haystack);
+        return m.find() ? m.start() : -1;
     }
 
     private static void assertContains(String needle) {
