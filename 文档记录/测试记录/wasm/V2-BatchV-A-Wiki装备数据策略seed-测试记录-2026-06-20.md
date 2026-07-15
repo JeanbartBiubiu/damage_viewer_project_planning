@@ -3,7 +3,31 @@ DOC_TYPE: 测试记录
 WORKSTREAM: planning
 STATUS: pass
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-06-20
+LAST_TRACKED_AT: 2026-07-15
+
+## 2026-07-15 Jak'Sho generic ABI 补充验证
+
+本节验证的是新版 generic runtime，不是下文 2026-06-20 的 legacy single_attacker_dps 满层 bucket。
+
+| 仓库 | commit | 结果 |
+| --- | --- | --- |
+| Backend | `ed2bf6a723c7c1fa5486c5daac00478093ac1ac0` | `LolGenericJakshoVoidbornResilienceSeedSqlTest` PASS；全量 Maven 333/333 PASS |
+| Wasm | `7e2b40e26006ddb2c67636a8daeb5ab759719c6b` | Jak'Sho targeted generic compile/run PASS；`go test -count=1 ./...` PASS |
+
+数值与时序交叉：
+
+| 场景 | 结果 |
+| --- | --- |
+| t=4999 | `full_stack=0`，target 145 armor / 75 MR 不变 |
+| t=5000 | provider tick 先执行，`full_stack=1`，45/45 bonus 输入得到 158.5 armor / 88.5 MR |
+| t=10000 | 第二次 tick 仍 set 1，不重复放大 |
+| mixed bonus | 200 armor + 100 bonus → 230；110 MR + 80 bonus → 134 |
+| zero bonus | state 正常激活，armor/MR 不变 |
+| 同毫秒伤害 | physical/magic 使用增强后抗性；true damage 不受影响 |
+
+Web `ProviderStateField` 与 assembler 已保留 `maxValue/durationMs/refreshPolicyTypeId`，本机制没有新增 ABI 字段或 TypeScript 改动。当前受控输入仍要求宿主显式提供 target 总抗性及 `bonus_armor` / `bonus_magic_resist`。
+
+边界：未执行 live migration / publish；真实 target equipment/loadout 投影、装备属性自动聚合与自动战斗态检测仍为 out-of-scope。下文 `v2_batch_v_a_data_policy_items_001` 与 `target_6665_jaksho` 是旧 DPS lane 历史证据，只用于数值交叉。
 
 ## 2026-06-20 DB/Admin + Published Bundle + Wasm DPS 补充闭环
 

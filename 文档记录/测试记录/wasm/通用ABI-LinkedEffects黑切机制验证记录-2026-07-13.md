@@ -3,238 +3,120 @@ DOC_TYPE: 测试记录
 WORKSTREAM: wasm
 STATUS: done
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-13
+LAST_TRACKED_AT: 2026-07-15
 
 # 通用 ABI Linked Effects 黑切机制验证记录
 
 详细设计：[通用 ABI Linked Effects 黑切机制详细设计](../../详细设计/wasm/通用ABI-LinkedEffects黑切机制详细设计.md)
 
-## 0. Commits
+## 1. 当前提交
 
-| 仓库 | commit | 备注 |
+| 仓库 | commit | 说明 |
 | --- | --- | --- |
-| Planning | `a6ae494` | `docs: design generic linked effects mechanism` |
-| Backend | `678d95a` | `feat(backend): add black cleaver linked effects data` |
-| Wasm | `3dfe838` | `feat(wasm): synthesize linked damage events` |
-| Web | `a2b7388` | `chore(web): sync linked effects wasm` |
+| Backend | `597f9ae6f6d10e3b9e481699e72982b1a59b121b` | 当前 Carve seed：6%×5、6000ms refresh、root physical matcher |
+| Wasm | `01ceb07153272f9c4d234605444c7e1a9af3cb02` | provider-target window、跨 combatant modifier、expiry/event 边界与统一清单 |
+| Web | `0977c60d4bc1a8bf88ab544164973d629e321e9d` | 同步最终 TinyGo artifact |
 
-## 1. Cursor 协同证据
+## 2. Cursor 与独立 review
 
-初始流式 runner 在 Node 20 / Node 24 分别触发 heap OOM；均先检查 events/diff 且无代码落盘。
+顶层 Cursor agent 均使用 `grok-4.5`、`effort=high`、`fast=false`。首轮 artifact：
 
-随后保持顶层模型合同不变，改用同一 Cursor SDK 的非流式 `run.wait()` 路径。所有成功 run：
+```text
+C:\project\damage_wasm_dev\.agents\artifacts\black-cleaver-3071-wasm-20260715\cursor-run
+```
 
-| 项 | 值 |
-| --- | --- |
-| 模型 | `grok-4.5` |
-| effort | `high` |
-| fast | `false` |
+修复与复核 artifact：
 
-| 阶段 | run id |
-| --- | --- |
-| Planning | `run-ee89a3bc-5fc2-4182-9578-9d75cebaf3f0` |
-| Backend | `run-4241b287-7f99-43b3-981b-bcaedd9b6942` |
-| Wasm | `run-92a46442-220d-4b7b-84ce-b7452d4941e3` |
-| Web artifact | `run-e4fb2a2e-0a45-46a4-9186-19fe03af2b3e` |
+```text
+C:\project\damage_wasm_dev\.agents\artifacts\black-cleaver-3071-wasm-20260715\fix-run
+C:\project\damage_wasm_dev\.agents\artifacts\black-cleaver-3071-wasm-20260715\second-fix-run
+C:\project\damage_wasm_dev\.agents\artifacts\black-cleaver-3071-wasm-20260715\revert-physical-alias-attempt-run
+```
 
-## 2. Backend / Data
+最终各修复轮 `runDeltaOutsideScopeCount=0`。首轮曾创建后删除 allowlist 外临时 debug tests，最终 worktree 无残留；主会话因此不直接依赖 `diff.patch`，而是读取两个新 helper、审完整 diff 并重跑所有门禁。
+
+## 3. Backend
 
 | 检查 | 结果 |
 | --- | --- |
-| targeted `mvn -Dtest=LolGenericLinkedEffectsSeedSqlTest test` | 7/7 PASS |
-| full `mvn test` | 196/196 PASS |
+| `LolGenericLinkedEffectsSeedSqlTest` | PASS |
+| 全量 Maven | 333/333 PASS |
+| seed 安全 | 幂等、material-change revision、无 live migration、无 auto publish |
 
-契约约束：
+静态合同：
 
-- reserved：`20214`=`event/damage_dealt/physical`、`20215`=`event/damage_dealt/basic_attack`
-- 无新 DDL / API / operation
+- `carve_stacks`：max 5 / 6000ms / refresh-on-write
+- listener：`damage_dealt + physical + source_owner`；active matcher 不含 basic-attack qualifier
+- modifier：opponent armor `percent_add`，`-0.06 * provider.target_state.carve_stacks`
 
-Seed 图：
+## 4. Wasm targeted 证据
 
-| 对象 | 计数 |
-| --- | ---: |
-| item_3071 → provider / mount | 1 |
-| formula | 3 |
-| listener | 1 |
-| ALL matcher | 4 |
-| steps | 2 |
-| attribute detail | 1 |
-| state detail | 1 |
+Targeted pipeline/runtime 共 34 项 PASS，覆盖：
 
-## 3. Wasm
+- 首击旧 armor、5 层 70 armor、第 6 次 cap refresh、6000ms expiry
+- expiry 与 hit 同毫秒；两次伤害都按恢复后的 100 armor 起算
+- optional basic qualifier 缺失仍 emit/Carve
+- non-basic physical 与 basic-only matcher 隔离
+- true/magic/zero 不合成
+- phantom/child 不递归；同 frame 多 physical 只 emit 一次
+- 两侧相反方向同 providerRef 隔离，一侧到期不影响另一侧
+- mixed provider/provider-target 默认值不泄漏
+- modifierKey 在 owner/provider 之前排序
 
-| 检查 | 结果 |
+工程结果：
+
+| 命令 | 结果 |
 | --- | --- |
-| targeted `go test ./internal/runtime -run "GenericLinkedEffects\|DamageDealt\|BlackCleaver" -count=1` | PASS |
 | `go test -count=1 ./...` | PASS |
-| `go run ./cmd/bench`（samples=100） | avg_us=271.72；max_us=1045.00 |
-| build | PASS |
-| Node smoke | PASS |
+| `go run ./cmd/bench` | `samples=100 avg_us=3693.76 max_us=21344.00` |
+| `build-wasm.ps1` | PASS |
+| `smoke-node.mjs` | legacy 11 / generic 3 exports PASS |
+| `bench-node.mjs --iterations 10 --warmup 2` | min 1.569ms / mean 2.127ms / p50 2.086ms / p95 3.057ms |
+| CodeGraph | sync 后 status clean |
+| `git diff --check` | PASS（Git 仅提示工作副本 LF→CRLF 未来转换；实测全部变更 Go 文件 CRLF=0） |
 
 Artifact：
 
 | 项 | 值 |
 | --- | --- |
-| size | 1,084,307 bytes |
-| SHA256 | `573D6D9AAB724A96B4194D016C7F34923A85F9BC0A07B57DAFDC2E6986543C3A` |
+| path | `C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\dist\tinygo_engine_v2.wasm` |
+| size | 1,101,630 bytes |
+| SHA256 | `2CE1A0DAF10D193567663F28CD2ACD7941EA62EBF4284C307D5C5CC91C0B0BBF` |
 
-Runtime 测试直接证明：
+## 5. Web
 
-- 首击先按旧 armor 结算
-- 5 层后 armor 100→80、stacks=5；第 6 击不再减
-- 同 frame 多 physical 只 emit / stack 一次
-- magic / 非 basic / 0 damage 不触发
-- catalog fail closed
-- target-owned 不误触发
-- child / phantom 不递归
-- `MaxCommandsPerEvent=1` fatal
-- deterministic
-
-## 4. Web
+同步目标 `web/src/engine/wasm/tinygo_engine_v2.wasm` 与 Wasm artifact size/hash 完全一致。
 
 | 检查 | 结果 |
 | --- | --- |
-| wasm artifact hash / size | 与 Wasm worktree 一致 |
+| `npm run test:wasm-generic` | 83/83 PASS |
+| `npm run test` | 114/114 PASS |
 | `npm run lint` | PASS |
 | `npm run typecheck` | PASS |
-| `npm run test` | 100/100 PASS |
-| `npm run build` | PASS；bundle wasm 1,084.31 kB |
-| TypeScript | 无修改；现有 assembler / client 已支持 graph |
+| `npm run build` | PASS；bundle wasm 1,101.63 kB |
 
-## 5. Live PostgreSQL
+无 TypeScript 合同改动；`ProviderStateField` 与 assembler 已保留 structured state schema。
 
-目标：`192.168.5.6` / `test0221` / 用户 `postgres`（禁止记录密码；凭据与连接串不记录）。
+## 6. 统一机制清单
 
-前置只读：
+生成器与 `--check` 均 PASS：
 
-| 项 | 值 |
-| --- | --- |
-| state | 16/16 |
-| 20214 / 20215 | 未占用 |
-| item_3071 | 1 |
-| 既有 mount | 0 |
-| armor definition | 1 |
-
-执行路径：`reserved_types_seed.sql` → `lol_generic_linked_effects_seed.sql`。
-
-| 阶段 | current/published | 备注 |
-| --- | --- | --- |
-| 首次 seed | 17/16 | — |
-| 幂等重跑 | 17/16 | 不变 |
-| 显式 Backend Admin publish 后 | 17/17 | — |
-
-发布版本：`lol-generic-linked-effects-v1-20260713`，`changeRevision=17`。
-
-发布后公开 current/version 与 combat-data state 均一致。
-
-主表核对：
-
-| 对象 | 计数 |
+| 指标 | 值 |
 | --- | ---: |
-| types | 4 |
-| provider | 1 |
-| mount | 1 |
-| formulas | 3 |
-| listener | 1 |
-| matchers | 4 |
-| steps | 2 |
-| attribute detail | 1 |
-| state detail | 1 |
+| sources / coverage records / item containers | 36 / 527 / 518 |
+| deduplicated mechanisms | 254 |
+| completed | 21 |
+| partial_actionable / ready_to_implement | 0 / 0 |
+| blocked_runtime / blocked_data | 40 / 146 |
+| out_of_scope / regression_only | 42 / 5 |
+| completion full / partial / none | 21 / 8 / 225 |
 
-Condition 精确为：`provider.target_state.carve_stacks < 5`。
+`item_passive|3071|item_passive|切割` 为 `completed/full`；`热烈` 保持 `blocked_runtime`。
 
-发布日志：provider=1、steps=2、attribute detail=1、state detail=1。
+## 7. 历史 live 证据边界
 
-## 6. Browser E2E
+2026-07-13 的 Backend `678d95a`、Wasm `3dfe838`、Web `a2b7388` 与 live revision 17 只证明旧 `-4 / basic-only / run 永久` partial。当前 6%×5/6000ms/root-physical 合同**未执行 live migration、未 publish、未重跑浏览器 live E2E**，不得把 revision 17 当作本轮发布证据。
 
-路由：`#/wasm-validation-generic`。
+## 8. 结论
 
-环境：临时 Web `5174` + Backend `18080`；结束后均停止且 browser tab finalize。
-
-固定输入：
-
-| 项 | 值 |
-| --- | --- |
-| currentRevision | 17 |
-| source | `hero_vayne` |
-| target | `target_dummy_tank` |
-| equipment | `item_3071` |
-
-Compile：
-
-| 项 | 值 |
-| --- | --- |
-| 结果 | PASS |
-| session | `generic-session-1` |
-| metadata | 2 combatants / 8 providers / 4 abilities / 70 types / 36 formulas |
-
-Run：
-
-| 项 | 值 |
-| --- | --- |
-| 结果 | PASS |
-| attempts / casts / skips / warnings | 6 / 6 / 0 / 0 |
-| stop | `duration_reached` |
-| duration | 10000ms |
-| evidence | not truncated |
-
-Evidence counts：
-
-| 类型 | 计数 | 备注 |
-| --- | ---: | --- |
-| damage | 8 | 6 次基础 physical + 第 3/6 击银弩 true damage |
-| emitted_event | 12 | 6 basic_attack_hit + 6 damage_dealt |
-
-银弩 listener child true damage **未**递归生成 `damage_dealt`。
-
-六次自动 `event/damage_dealt`：均为 `rawAmount=100`、`damageType=damage/physical`、`phantom=false`、`operationRef=step_hero_vayne_basic_attack_damage`。
-
-mitigatedAmount 序列：
-
-| 击次 | mitigatedAmount | 含义 |
-| ---: | --- | --- |
-| 1 | 33.333333333333336 | 初始 armor 200 |
-| 2 | 33.78378378378378 | armor 196 |
-| 3 | 34.24657534246575 | armor 192 |
-| 4 | 34.72222222222222 | armor 188 |
-| 5 | 35.2112676056338 | armor 184 |
-| 6 | 35.714285714285715 | 第 6 击按 armor 180 |
-
-该序列证明：每次 post-damage **-4**，恰好 **5** 层封顶；第 6 击不再继续减甲。
-
-Summary：
-
-| 项 | 值 |
-| --- | --- |
-| source damage | 807.011 |
-| basic attack ability damage | 207.0114680017246 |
-| target final HP | 4192.989 |
-
-Release：PASS，`释放成功：generic-session-1`。
-
-## 7. 结论与边界
-
-结论：Linked Effects 黑切（`item_3071` Carve）首批闭环成立（Backend / Wasm / Web / live **17/17** / 浏览器 E2E）。
-
-本批明确边界（non-goals）：
-
-- 首批忠实迁移 `on_damage_dealt + physical + real_basic_attack_only` 的 5 层核心
-- **不**实现正式 LoL 6 秒持续 / 刷新 / 掉层；run 内永久
-- **不**使用 provider modifier 或 `provider_state_fields` cap
-- 总体审计 **不能**关闭；后续继续 crit / modifier
-
-总体审计任务 `wasm-generic-min-validation-coverage-audit` 仍保持 **开发中 / active**，本任务不改动该条目。
-
-## 8. 治理验证
-
-| 命令 | 预期 |
-| --- | --- |
-| `node tools/task-governance/cli.mjs rebuild` | 成功 |
-| `node tools/task-governance/cli.mjs tasks` | 本任务已完成 |
-| `node tools/task-governance/cli.mjs docs wasm-generic-linked-effects-black-cleaver` | 含详细设计 + 本验证记录 |
-| `git diff --check` | 通过 |
-
-Pre-existing 治理基线警告（非本 feature 引入）：
-
-- 5 个 unassigned docs
-- 1 个 missing 临时 review 文档
+Black Cleaver `切割 / Carve` 已在当前 Backend seed、generic Wasm compile/run、数值/时序测试、Web artifact 与统一清单中完成闭环。剩余精确边界是 `热烈` 的 movement-speed combat-damage window，以及本轮明确禁止的 live migration/publish。
