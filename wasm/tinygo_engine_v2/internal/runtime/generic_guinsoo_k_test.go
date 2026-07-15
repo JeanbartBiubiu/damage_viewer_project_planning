@@ -10,12 +10,15 @@ import (
 )
 
 const (
-	guinsooKHitEvent      = "event/on_hit"
-	guinsooKOtherProvider = "item:other_on_hit"
-	guinsooKCopyableAmt   = 30.0
-	guinsooKOtherAmt      = 20.0
-	guinsooKNonCopyAmt    = 15.0
-	guinsooKAAAmt         = 10.0
+	guinsooKHitEvent           = "event/on_hit"
+	guinsooKOtherProvider      = "item:other_on_hit"
+	guinsooKCopyableAmt        = 30.0
+	guinsooKOtherAmt           = 20.0
+	guinsooKNonCopyAmt         = 15.0
+	guinsooKAAAmt              = 10.0
+	guinsooPhantomCounterKey   = "guinsoos_phantom_hit_counter"
+	guinsooCadenceWindowMs     = 3000
+	guinsooCadenceHitSpacingMs = 100
 )
 
 func ensureGuinsooKTypes(req *model.CompileRequest) {
@@ -47,6 +50,25 @@ func guinsooKStackSchema() map[string]interface{} {
 	}
 }
 
+// guinsooCadenceStateSchema mirrors Backend lol_guinsoo_hk_seed / item 3124:
+// seething max 4 and phantom counter max 3, both 3000ms refresh-on-write.
+func guinsooCadenceStateSchema() map[string]interface{} {
+	return map[string]interface{}{
+		guinsooStackKey: map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(4),
+			"durationMs":    float64(guinsooCadenceWindowMs),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+		guinsooPhantomCounterKey: map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      float64(3),
+			"durationMs":    float64(guinsooCadenceWindowMs),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+	}
+}
+
 func guinsooKRepeatOp() model.OperationDefinition {
 	return model.OperationDefinition{
 		Operation:       model.OperationKindRepeat,
@@ -60,6 +82,89 @@ func guinsooKRepeatOp() model.OperationDefinition {
 
 func guinsooKConst(v float64) *model.GenericFormulaExpr {
 	return &model.GenericFormulaExpr{Op: "const", Value: &v}
+}
+
+func guinsooCadenceSeethingAtMaxCond() *model.GenericFormulaExpr {
+	four := 4.0
+	return &model.GenericFormulaExpr{
+		Op: "eq",
+		Args: []model.GenericFormulaExpr{
+			{Op: "read", Path: "provider.state." + guinsooStackKey},
+			{Op: "const", Value: &four},
+		},
+	}
+}
+
+func guinsooCadencePhantomReadyCond() *model.GenericFormulaExpr {
+	three := 3.0
+	return &model.GenericFormulaExpr{
+		Op: "gte",
+		Args: []model.GenericFormulaExpr{
+			{Op: "read", Path: "provider.state." + guinsooPhantomCounterKey},
+			{Op: "const", Value: &three},
+		},
+	}
+}
+
+// guinsooCadenceBoilingStrikeOps is the Backend-ordered listener tail after Wrath:
+// counter+1 only when pre-hit seething==4 → seething+1 → conditional repeat → reset.
+func guinsooCadenceBoilingStrikeOps() []model.OperationDefinition {
+	one := 1.0
+	zero := 0.0
+	atMax := guinsooCadenceSeethingAtMaxCond()
+	ready := guinsooCadencePhantomReadyCond()
+	return []model.OperationDefinition{
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         guinsooPhantomCounterKey,
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+			Condition:   atMax,
+		},
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         guinsooStackKey,
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "add",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+		{
+			Operation:       model.OperationKindRepeat,
+			RepeatScope:     model.RepeatScopeCopyableOnHit,
+			RepeatCount:     1,
+			RepeatTag:       "phantom_hit",
+			TriggerStateKey: guinsooStackKey,
+			Threshold:       4,
+			Condition:       ready,
+		},
+		{
+			Operation:   "state_change",
+			Target:      "source",
+			Ref:         guinsooPhantomCounterKey,
+			Types:       []string{"state_scope/provider"},
+			ValuePolicy: "override",
+			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &zero},
+			Condition:   ready,
+		},
+	}
+}
+
+func guinsooCadenceBoilingStrikeListener() model.ListenerDefinition {
+	return model.ListenerDefinition{
+		ListenerKey:  "guinsoo_boiling_strike",
+		EventMatcher: model.TypeMatcher{All: []string{guinsooKHitEvent, "event/source_owner"}},
+		Operations:   guinsooCadenceBoilingStrikeOps(),
+	}
+}
+
+func guinsooCadenceListeners(copyableAmt float64) []model.ListenerDefinition {
+	return []model.ListenerDefinition{
+		guinsooKCopyableListener("guinsoo_wrath", copyableAmt, true),
+		guinsooCadenceBoilingStrikeListener(),
+	}
 }
 
 func guinsooKAAOps() []model.OperationDefinition {
@@ -79,6 +184,25 @@ func guinsooKAAOps() []model.OperationDefinition {
 			Types:       []string{"state_scope/provider"},
 			ValuePolicy: "add",
 			Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+		},
+		{
+			Operation: "emit_event",
+			Target:    "target",
+			EventType: guinsooKHitEvent,
+			Ref:       guinsooKHitEvent,
+		},
+	}
+}
+
+// guinsooCadenceAAOps: AA damage + emit only; seething/counter live in boiling-strike listener.
+func guinsooCadenceAAOps() []model.OperationDefinition {
+	aa := guinsooKAAAmt
+	return []model.OperationDefinition{
+		{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/physical",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &aa},
 		},
 		{
 			Operation: "emit_event",
@@ -159,11 +283,61 @@ func loadGuinsooKFixture(t *testing.T, guinsooListeners []model.ListenerDefiniti
 			AbilityRef: abilityRef,
 			Source:     model.SelectorSource,
 			Target:     model.SelectorTarget,
-			FirstAtMs:  int64(i * 100),
+			FirstAtMs:  int64(i * guinsooCadenceHitSpacingMs),
 		})
 	}
 	runReq.DriverPlan.Entries = entries
-	runReq.StopPolicy.DurationMs = int64(hits*100 + 100)
+	runReq.StopPolicy.DurationMs = int64(hits*guinsooCadenceHitSpacingMs + 100)
+	runReq.StopPolicy.StopOnTargetDeath = model.BoolPtr(false)
+	runReq.Sampling.SampleEveryMs = 100000
+	return compileReq, runReq
+}
+
+// loadGuinsooCadenceFixture models item 3124 boiling-strike every-third-at-full cadence.
+func loadGuinsooCadenceFixture(t *testing.T, guinsooListeners []model.ListenerDefinition, otherListeners []model.ListenerDefinition, hits int) (model.CompileRequest, model.RunRequest) {
+	t.Helper()
+	times := make([]int64, hits)
+	for i := 0; i < hits; i++ {
+		times[i] = int64(i * guinsooCadenceHitSpacingMs)
+	}
+	return loadGuinsooCadenceFixtureAt(t, guinsooListeners, otherListeners, times)
+}
+
+func loadGuinsooCadenceFixtureAt(t *testing.T, guinsooListeners []model.ListenerDefinition, otherListeners []model.ListenerDefinition, hitAtMs []int64) (model.CompileRequest, model.RunRequest) {
+	t.Helper()
+	compileReq, runReq := loadBasicFixture(t)
+	ensureGuinsooKTypes(&compileReq)
+
+	compileReq.SharedProviders[0].InitialStateSchema = guinsooCadenceStateSchema()
+	compileReq.SharedProviders[0].Abilities[0].AbilityKey = guinsooHitAbility
+	compileReq.SharedProviders[0].Abilities[0].Operations = guinsooCadenceAAOps()
+	compileReq.SharedProviders[0].Listeners = guinsooListeners
+
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
+		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
+	})
+
+	if len(otherListeners) > 0 {
+		mountGuinsooKOtherProvider(&compileReq, &runReq, otherListeners)
+	}
+
+	abilityRef := "source.provider[" + guinsooProviderRef + "].ability[" + guinsooHitAbility + "]"
+	entries := make([]model.DriverEntry, 0, len(hitAtMs))
+	var lastMs int64
+	for i, at := range hitAtMs {
+		entries = append(entries, model.DriverEntry{
+			EntryKey:   "k_hit_" + itoaRuntime(i),
+			AbilityRef: abilityRef,
+			Source:     model.SelectorSource,
+			Target:     model.SelectorTarget,
+			FirstAtMs:  at,
+		})
+		if at > lastMs {
+			lastMs = at
+		}
+	}
+	runReq.DriverPlan.Entries = entries
+	runReq.StopPolicy.DurationMs = lastMs + 100
 	runReq.StopPolicy.StopOnTargetDeath = model.BoolPtr(false)
 	runReq.Sampling.SampleEveryMs = 100000
 	return compileReq, runReq
@@ -206,6 +380,24 @@ func emittedOnHitCount(done model.DoneResult) int {
 	return n
 }
 
+func phantomDamageEvidenceCount(done model.DoneResult) int {
+	n := 0
+	for _, item := range damageEvidenceItems(done) {
+		if evidenceDataBool(item.Data, "phantom") {
+			n++
+		}
+	}
+	return n
+}
+
+func guinsooCadenceProviderState(t *testing.T, done model.DoneResult) (stacks, counter float64) {
+	t.Helper()
+	state := sourceProviderState(t, done.FinalSnapshot, guinsooProviderRef)["state"].(map[string]interface{})
+	stacks, _ = state[guinsooStackKey].(float64)
+	counter, _ = state[guinsooPhantomCounterKey].(float64)
+	return stacks, counter
+}
+
 func expectedMitigatedPhysical(raw, armor float64) float64 {
 	if armor >= 0 {
 		return raw * 100 / (100 + armor)
@@ -213,34 +405,68 @@ func expectedMitigatedPhysical(raw, armor float64) float64 {
 	return raw * (2 - 100/(100-armor))
 }
 
-func TestGenericRunGuinsooKLayers1to3NoPhantomFourthReplays(t *testing.T) {
-	listeners := []model.ListenerDefinition{
-		guinsooKCopyableListener("guinsoo_wrath", guinsooKCopyableAmt, true),
-		guinsooKRepeatListener("guinsoo_phantom"),
+// TestGenericRunGuinsooCadenceEveryThirdAtFull proves item 3124 boiling-strike cadence:
+// hits 1–4 build stacks with zero phantom; 5–6 advance the full-stack counter;
+// 7/10/13… each create one phantom replay and reset the counter.
+func TestGenericRunGuinsooCadenceEveryThirdAtFull(t *testing.T) {
+	listeners := guinsooCadenceListeners(guinsooKCopyableAmt)
+
+	assertHits := func(t *testing.T, hits, wantPhantoms int, wantStacks, wantCounter float64) model.DoneResult {
+		t.Helper()
+		c, r := loadGuinsooCadenceFixture(t, listeners, nil, hits)
+		done := runGuinsooK(t, c, r)
+		if got := phantomDamageEvidenceCount(done); got != wantPhantoms {
+			t.Fatalf("%dhit phantom evidence=%d want %d", hits, got, wantPhantoms)
+		}
+		stacks, counter := guinsooCadenceProviderState(t, done)
+		if stacks != wantStacks {
+			t.Fatalf("%dhit stacks=%v want %v", hits, stacks, wantStacks)
+		}
+		if counter != wantCounter {
+			t.Fatalf("%dhit counter=%v want %v", hits, counter, wantCounter)
+		}
+		wantDealt := guinsooKAAAmt*float64(hits) + guinsooKCopyableAmt*float64(hits) + guinsooKCopyableAmt*float64(wantPhantoms)
+		if math.Abs(done.Summary.SourceDamageDealt-wantDealt) > 1e-6 {
+			t.Fatalf("%dhit dealt=%v want %v", hits, done.Summary.SourceDamageDealt, wantDealt)
+		}
+		if done.Summary.AbilityCastCount != hits {
+			t.Fatalf("%dhit castCount=%d want %d", hits, done.Summary.AbilityCastCount, hits)
+		}
+		if done.Summary.AbilityAttemptCount != hits {
+			t.Fatalf("%dhit attemptCount=%d want %d", hits, done.Summary.AbilityAttemptCount, hits)
+		}
+		if got := emittedOnHitCount(done); got != hits {
+			t.Fatalf("%dhit emitted on_hit=%d want %d", hits, got, hits)
+		}
+		return done
 	}
 
-	c3, r3 := loadGuinsooKFixture(t, listeners, nil, 3)
-	done3 := runGuinsooK(t, c3, r3)
-	want3 := guinsooKAAAmt*3 + guinsooKCopyableAmt*3
-	if math.Abs(done3.Summary.SourceDamageDealt-want3) > 1e-6 {
-		t.Fatalf("3hit dealt=%v want %v (no phantom before threshold)", done3.Summary.SourceDamageDealt, want3)
-	}
+	assertHits(t, 1, 0, 1, 0)
+	assertHits(t, 2, 0, 2, 0)
+	assertHits(t, 3, 0, 3, 0)
+	assertHits(t, 4, 0, 4, 0) // stack-4 attack does not count toward phantom
+	assertHits(t, 5, 0, 4, 1)
+	assertHits(t, 6, 0, 4, 2)
+	done7 := assertHits(t, 7, 1, 4, 0)
+	assertHits(t, 8, 1, 4, 1)
+	assertHits(t, 9, 1, 4, 2)
+	done10 := assertHits(t, 10, 2, 4, 0)
 
-	c4, r4 := loadGuinsooKFixture(t, listeners, nil, 4)
-	done4 := runGuinsooK(t, c4, r4)
-	want4 := guinsooKAAAmt*4 + guinsooKCopyableAmt*4 + guinsooKCopyableAmt
-	if math.Abs(done4.Summary.SourceDamageDealt-want4) > 1e-6 {
-		t.Fatalf("4hit dealt=%v want %v (fourth hit phantoms once)", done4.Summary.SourceDamageDealt, want4)
+	for _, item := range damageEvidenceItems(done7) {
+		if !evidenceDataBool(item.Data, "phantom") {
+			continue
+		}
+		if evidenceDataString(item.Data, "repeatTag") != "phantom_hit" {
+			t.Fatalf("repeatTag=%q want phantom_hit", evidenceDataString(item.Data, "repeatTag"))
+		}
+		if evidenceDataString(item.Data, "phase") != "phantom" {
+			t.Fatalf("phase=%q want phantom", evidenceDataString(item.Data, "phase"))
+		}
 	}
-	if done4.Summary.AbilityCastCount != 4 {
-		t.Fatalf("abilityCastCount=%d want 4 (phantom must not cast)", done4.Summary.AbilityCastCount)
-	}
-	if done4.Summary.AbilityAttemptCount != 4 {
-		t.Fatalf("abilityAttemptCount=%d want 4", done4.Summary.AbilityAttemptCount)
-	}
-	state := sourceProviderState(t, done4.FinalSnapshot, guinsooProviderRef)["state"].(map[string]interface{})
-	if stacks, _ := state[guinsooStackKey].(float64); stacks != 4 {
-		t.Fatalf("stacks=%v want 4", stacks)
+	origSum := sumDamageEvidenceMitigated(damageEvidenceItems(done10), "original")
+	phantSum := sumDamageEvidenceMitigated(damageEvidenceItems(done10), "phantom")
+	if math.Abs(done10.Summary.SourceDamageDealt-(origSum+phantSum)) > 1e-6 {
+		t.Fatalf("summary=%v original+phantom evidence=%v+%v", done10.Summary.SourceDamageDealt, origSum, phantSum)
 	}
 }
 
@@ -260,19 +486,25 @@ func TestGenericRunGuinsooKCopiesSelfAndOtherSkipsNonCopyable(t *testing.T) {
 				},
 			},
 		},
-		guinsooKRepeatListener("guinsoo_phantom"),
+		guinsooCadenceBoilingStrikeListener(),
 	}
 	otherListeners := []model.ListenerDefinition{
 		guinsooKCopyableListener("other_wrath", guinsooKOtherAmt, true),
 	}
-	c, r := loadGuinsooKFixture(t, guinsooListeners, otherListeners, 4)
+	c, r := loadGuinsooCadenceFixture(t, guinsooListeners, otherListeners, 7)
 	done := runGuinsooK(t, c, r)
 
 	perHit := guinsooKAAAmt + guinsooKCopyableAmt + guinsooKOtherAmt + guinsooKNonCopyAmt
-	phantom := guinsooKCopyableAmt + guinsooKOtherAmt
-	want := perHit*4 + phantom
+	phantom := guinsooKCopyableAmt + guinsooKOtherAmt // non-copyable skipped
+	want := perHit*7 + phantom
 	if math.Abs(done.Summary.SourceDamageDealt-want) > 1e-6 {
 		t.Fatalf("dealt=%v want %v (copy self+other; skip non-copyable)", done.Summary.SourceDamageDealt, want)
+	}
+	if got := phantomDamageEvidenceCount(done); got != 2 {
+		t.Fatalf("phantom damage evidence=%d want 2 (self+other copyable once)", got)
+	}
+	if done.Summary.AbilityCastCount != 7 {
+		t.Fatalf("castCount=%d want 7", done.Summary.AbilityCastCount)
 	}
 }
 
@@ -477,20 +709,20 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 }
 
 func TestGenericRunGuinsooKRepeatOrderAndMountOrderStableTotals(t *testing.T) {
-	runVariant := func(t *testing.T, repeatFirst bool, otherFirst bool) model.DoneResult {
+	runVariant := func(t *testing.T, boilingFirst bool, otherFirst bool) model.DoneResult {
 		t.Helper()
 		var guinsooListeners []model.ListenerDefinition
 		copyL := guinsooKCopyableListener("guinsoo_wrath", guinsooKCopyableAmt, true)
-		repL := guinsooKRepeatListener("guinsoo_phantom")
-		if repeatFirst {
-			guinsooListeners = []model.ListenerDefinition{repL, copyL}
+		boilL := guinsooCadenceBoilingStrikeListener()
+		if boilingFirst {
+			guinsooListeners = []model.ListenerDefinition{boilL, copyL}
 		} else {
-			guinsooListeners = []model.ListenerDefinition{copyL, repL}
+			guinsooListeners = []model.ListenerDefinition{copyL, boilL}
 		}
 		otherListeners := []model.ListenerDefinition{
 			guinsooKCopyableListener("other_wrath", guinsooKOtherAmt, true),
 		}
-		compileReq, runReq := loadGuinsooKFixture(t, guinsooListeners, nil, 4)
+		compileReq, runReq := loadGuinsooCadenceFixture(t, guinsooListeners, nil, 7)
 		if otherFirst {
 			compileReq.Combatants[0].Providers = nil
 			for i := range runReq.InitialSnapshot.Combatants {
@@ -518,16 +750,16 @@ func TestGenericRunGuinsooKRepeatOrderAndMountOrderStableTotals(t *testing.T) {
 
 	base := runVariant(t, false, false)
 	for _, tc := range []struct {
-		name        string
-		repeatFirst bool
-		otherFirst  bool
+		name         string
+		boilingFirst bool
+		otherFirst   bool
 	}{
-		{"repeat_first", true, false},
+		{"boiling_first", true, false},
 		{"other_mount_first", false, true},
 		{"both_swapped", true, true},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			got := runVariant(t, tc.repeatFirst, tc.otherFirst)
+			got := runVariant(t, tc.boilingFirst, tc.otherFirst)
 			if math.Abs(got.Summary.SourceDamageDealt-base.Summary.SourceDamageDealt) > 1e-6 {
 				t.Fatalf("dealt=%v want stable %v", got.Summary.SourceDamageDealt, base.Summary.SourceDamageDealt)
 			}
@@ -545,14 +777,11 @@ func TestGenericRunGuinsooKMountOrderPhantomStableOrder(t *testing.T) {
 	wantPhantomProviders := []string{guinsooProviderRef, guinsooKOtherProvider} // provenance 升序
 	runCapture := func(t *testing.T, otherFirst bool) (dealt, hp float64, phantomProviders []string) {
 		t.Helper()
-		guinsooListeners := []model.ListenerDefinition{
-			guinsooKCopyableListener("guinsoo_wrath", guinsooKCopyableAmt, true),
-			guinsooKRepeatListener("guinsoo_phantom"),
-		}
+		guinsooListeners := guinsooCadenceListeners(guinsooKCopyableAmt)
 		otherListeners := []model.ListenerDefinition{
 			guinsooKCopyableListener("other_wrath", guinsooKOtherAmt, true),
 		}
-		compileReq, runReq := loadGuinsooKFixture(t, guinsooListeners, nil, 4)
+		compileReq, runReq := loadGuinsooCadenceFixture(t, guinsooListeners, nil, 7)
 		// 低 HP + 护盾：使最终 HP 依赖吸收路径；总量仍用 mitigated 口径。
 		setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 			Base: 200, Current: 200, Max: 200, Resolved: 200,
@@ -619,26 +848,61 @@ func TestGenericRunGuinsooKMountOrderPhantomStableOrder(t *testing.T) {
 }
 
 func TestGenericRunGuinsooKPhantomNoRecurseNoEmitNoExtraCast(t *testing.T) {
-	listeners := []model.ListenerDefinition{
-		guinsooKCopyableListener("guinsoo_wrath", guinsooKCopyableAmt, true),
-		guinsooKRepeatListener("guinsoo_phantom"),
-	}
-	c, r := loadGuinsooKFixture(t, listeners, nil, 4)
+	listeners := guinsooCadenceListeners(guinsooKCopyableAmt)
+	c, r := loadGuinsooCadenceFixture(t, listeners, nil, 7)
 	done := runGuinsooK(t, c, r)
 
-	if got := emittedOnHitCount(done); got != 4 {
-		t.Fatalf("emitted on_hit count=%d want 4 (phantom must not emit)", got)
+	if got := emittedOnHitCount(done); got != 7 {
+		t.Fatalf("emitted on_hit count=%d want 7 (phantom must not emit)", got)
 	}
-	if done.Summary.AbilityCastCount != 4 {
-		t.Fatalf("castCount=%d want 4", done.Summary.AbilityCastCount)
+	if done.Summary.AbilityCastCount != 7 {
+		t.Fatalf("castCount=%d want 7", done.Summary.AbilityCastCount)
 	}
-	want := guinsooKAAAmt*4 + guinsooKCopyableAmt*4 + guinsooKCopyableAmt
+	if done.Summary.AbilityAttemptCount != 7 {
+		t.Fatalf("attemptCount=%d want 7", done.Summary.AbilityAttemptCount)
+	}
+	want := guinsooKAAAmt*7 + guinsooKCopyableAmt*7 + guinsooKCopyableAmt
 	if math.Abs(done.Summary.SourceDamageDealt-want) > 1e-6 {
 		t.Fatalf("dealt=%v want %v (single phantom depth=1)", done.Summary.SourceDamageDealt, want)
 	}
-	state := sourceProviderState(t, done.FinalSnapshot, guinsooProviderRef)["state"].(map[string]interface{})
-	if stacks, _ := state[guinsooStackKey].(float64); stacks != 4 {
+	stacks, counter := guinsooCadenceProviderState(t, done)
+	if stacks != 4 {
 		t.Fatalf("stacks=%v want 4 (phantom must not add stacks)", stacks)
+	}
+	if counter != 0 {
+		t.Fatalf("counter=%v want 0 after phantom reset", counter)
+	}
+	if phantomDamageEvidenceCount(done) != 1 {
+		t.Fatalf("phantom evidence=%d want 1", phantomDamageEvidenceCount(done))
+	}
+}
+
+// TestGenericRunGuinsooCadenceGapExpiresProgressStates: >3000ms gap expires seething+counter
+// so stale counter progress cannot phantom on the next hit.
+func TestGenericRunGuinsooCadenceGapExpiresProgressStates(t *testing.T) {
+	listeners := guinsooCadenceListeners(guinsooKCopyableAmt)
+	// Hits 1–6 continuous → seething=4, counter=2; then gap >3000ms expires both.
+	hitAt := make([]int64, 7)
+	for i := 0; i < 6; i++ {
+		hitAt[i] = int64(i * guinsooCadenceHitSpacingMs)
+	}
+	hitAt[6] = int64(5*guinsooCadenceHitSpacingMs + guinsooCadenceWindowMs + 1) // 3501
+	c, r := loadGuinsooCadenceFixtureAt(t, listeners, nil, hitAt)
+	done := runGuinsooK(t, c, r)
+
+	if got := phantomDamageEvidenceCount(done); got != 0 {
+		t.Fatalf("phantom evidence=%d want 0 after expiry gap (stale counter must not fire)", got)
+	}
+	stacks, counter := guinsooCadenceProviderState(t, done)
+	if stacks != 1 {
+		t.Fatalf("stacks after gap hit=%v want 1 (rebuilt from expired 0)", stacks)
+	}
+	if counter != 0 {
+		t.Fatalf("counter after gap hit=%v want 0", counter)
+	}
+	want := guinsooKAAAmt*7 + guinsooKCopyableAmt*7
+	if math.Abs(done.Summary.SourceDamageDealt-want) > 1e-6 {
+		t.Fatalf("dealt=%v want %v (no phantom)", done.Summary.SourceDamageDealt, want)
 	}
 }
 
@@ -996,9 +1260,9 @@ func TestGenericRunDamageEvidencePhantomFields(t *testing.T) {
 				},
 			},
 		},
-		guinsooKRepeatListener("guinsoo_phantom"),
+		guinsooCadenceBoilingStrikeListener(),
 	}
-	compileReq, runReq := loadGuinsooKFixture(t, listeners, nil, 4)
+	compileReq, runReq := loadGuinsooCadenceFixture(t, listeners, nil, 7)
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{
 		Base: armor, Current: armor, Max: armor, Resolved: armor,
 	})
@@ -1061,7 +1325,7 @@ func TestGenericRunDamageEvidenceReplayedFromStableAcrossProviders(t *testing.T)
 					Amount: guinsooKConst(guinsooKCopyableAmt), CopyableOnHit: true, Ref: "op:guinsoo",
 				}},
 			},
-			guinsooKRepeatListener("guinsoo_phantom"),
+			guinsooCadenceBoilingStrikeListener(),
 		}
 		otherListeners := []model.ListenerDefinition{{
 			ListenerKey:  "other_wrath",
@@ -1071,7 +1335,7 @@ func TestGenericRunDamageEvidenceReplayedFromStableAcrossProviders(t *testing.T)
 				Amount: guinsooKConst(guinsooKOtherAmt), CopyableOnHit: true, Ref: "op:other",
 			}},
 		}}
-		compileReq, runReq := loadGuinsooKFixture(t, guinsooListeners, nil, 4)
+		compileReq, runReq := loadGuinsooCadenceFixture(t, guinsooListeners, nil, 7)
 		if otherFirst {
 			compileReq.Combatants[0].Providers = nil
 			for i := range runReq.InitialSnapshot.Combatants {
@@ -1129,34 +1393,25 @@ func TestGenericRunDamageEvidenceReplayedFromStableAcrossProviders(t *testing.T)
 
 // TestGenericRunDamageEvidencePhantomNoCastAttempt phantom 增加 damage summary，不增加 ability attempt/cast。
 func TestGenericRunDamageEvidencePhantomNoCastAttempt(t *testing.T) {
-	listeners := []model.ListenerDefinition{
-		guinsooKCopyableListener("guinsoo_wrath", guinsooKCopyableAmt, true),
-		guinsooKRepeatListener("guinsoo_phantom"),
-	}
-	compileReq, runReq := loadGuinsooKFixture(t, listeners, nil, 4)
+	listeners := guinsooCadenceListeners(guinsooKCopyableAmt)
+	compileReq, runReq := loadGuinsooCadenceFixture(t, listeners, nil, 7)
 	done := runGuinsooK(t, compileReq, runReq)
 
-	wantDealt := guinsooKAAAmt*4 + guinsooKCopyableAmt*4 + guinsooKCopyableAmt
+	wantDealt := guinsooKAAAmt*7 + guinsooKCopyableAmt*7 + guinsooKCopyableAmt
 	if math.Abs(done.Summary.SourceDamageDealt-wantDealt) > 1e-6 {
 		t.Fatalf("dealt=%v want %v", done.Summary.SourceDamageDealt, wantDealt)
 	}
-	if done.Summary.AbilityAttemptCount != 4 {
-		t.Fatalf("abilityAttemptCount=%d want 4", done.Summary.AbilityAttemptCount)
+	if done.Summary.AbilityAttemptCount != 7 {
+		t.Fatalf("abilityAttemptCount=%d want 7", done.Summary.AbilityAttemptCount)
 	}
-	if done.Summary.AbilityCastCount != 4 {
-		t.Fatalf("abilityCastCount=%d want 4 (phantom must not cast)", done.Summary.AbilityCastCount)
+	if done.Summary.AbilityCastCount != 7 {
+		t.Fatalf("abilityCastCount=%d want 7 (phantom must not cast)", done.Summary.AbilityCastCount)
 	}
-	phantoms := 0
-	for _, item := range damageEvidenceItems(done) {
-		if evidenceDataBool(item.Data, "phantom") {
-			phantoms++
-		}
-	}
-	if phantoms != 1 {
+	if phantoms := phantomDamageEvidenceCount(done); phantoms != 1 {
 		t.Fatalf("phantom evidence=%d want 1", phantoms)
 	}
-	if emittedOnHitCount(done) != 4 {
-		t.Fatalf("emitted on_hit=%d want 4 (phantom must not emit)", emittedOnHitCount(done))
+	if emittedOnHitCount(done) != 7 {
+		t.Fatalf("emitted on_hit=%d want 7 (phantom must not emit)", emittedOnHitCount(done))
 	}
 }
 

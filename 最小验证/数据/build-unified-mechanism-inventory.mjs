@@ -56,12 +56,12 @@ const STATUS_OVERRIDES = new Map([
   [
     'item_passive|3124|item_passive|沸腾打击',
     {
-      status: 'partial_actionable',
-      completionMode: 'partial',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        '当前实现满层后每次普攻都会触发幻影命中；本地当前装备文本为满层后每第三次攻击附带攻击特效。',
-      blocker: 'full_stacks_every_attack_vs_every_third_attack_text_mismatch',
+        '满层后每第三次攻击 phantom（连续 7/10/13…）；到达第 4 层不计 counter；generic state_change+condition+conditional repeat 已由 generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull 闭环，非 threshold-repeat alone。',
+      blocker: '',
     },
   ],
   [
@@ -1495,8 +1495,8 @@ function validateInventory(inv) {
   );
   if (!m3302a || m3302a.status !== 'completed') errors.push('3302 晦影 must be completed');
   if (!m3302b || m3302b.status !== 'blocked_runtime') errors.push('3302 交相 must be blocked_runtime');
-  if (!m3124 || m3124.status !== 'partial_actionable' || m3124.completionMode !== 'partial') {
-    errors.push('3124 沸腾打击 must be partial_actionable/partial');
+  if (!m3124 || m3124.status !== 'completed' || m3124.completionMode !== 'full') {
+    errors.push('3124 沸腾打击 must be completed/full');
   }
   if (!m3071 || m3071.status !== 'partial_actionable' || m3071.completionMode !== 'partial') {
     errors.push('3071 切割 must be partial_actionable/partial');
@@ -1522,8 +1522,8 @@ function validateInventory(inv) {
 
   const sc = inv.summary?.statusCounts || {};
   const expectedStatus = {
-    completed: 19,
-    partial_actionable: 2,
+    completed: 20,
+    partial_actionable: 1,
     ready_to_implement: 4,
     blocked_runtime: 39,
     blocked_data: 144,
@@ -1534,8 +1534,19 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 6) {
-    errors.push(`actionableKeyCount expected 6, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 5) {
+    errors.push(`actionableKeyCount expected 5, got ${inv.summary?.actionableKeyCount}`);
+  }
+  const expectedActionable = [
+    'hero_skill|hero_kaisa|P|体表活肤',
+    'hero_skill|hero_twitch|P|死亡毒液',
+    'hero_skill|hero_varus|W|枯萎箭袋',
+    'item_passive|3071|item_passive|切割',
+    'item_passive|6665|item_passive|虚空天生',
+  ];
+  const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
+  if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
+    errors.push(`actionableKeys expected ${expectedActionable.join(',')}, got ${gotActionable.join(',')}`);
   }
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== 254) {
     errors.push(`mechanisms expected 254, got ${inv.summary?.deduplicatedMechanismCount}`);
@@ -1547,9 +1558,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 19 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 226) {
+  if ((cm.full || 0) !== 20 || (cm.partial || 0) !== 8 || (cm.none || 0) !== 226) {
     errors.push(
-      `completionModeCounts expected full=19 partial=9 none=226, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=20 partial=8 none=226, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
