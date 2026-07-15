@@ -91,7 +91,9 @@ class CombatDataAdminControllerMockMvcTest {
         ObjectNode response = JsonNodeFactory.instance.objectNode();
         response.put("stepId", "s1");
         response.put("currentRevision", 8);
-        response.putObject("damageDetail").put("amountFormulaKey", "amt");
+        response.putObject("damageDetail")
+            .put("amountFormulaKey", "amt")
+            .put("copyableOnHit", false);
         when(effectService.putStep(eq("lol"), eq("s1"), any())).thenReturn(response);
 
         mockMvc.perform(
@@ -110,7 +112,66 @@ class CombatDataAdminControllerMockMvcTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.stepId").value("s1"))
             .andExpect(jsonPath("$.damageDetail.amountFormulaKey").value("amt"))
+            .andExpect(jsonPath("$.damageDetail.copyableOnHit").value(false))
             .andExpect(jsonPath("$.currentRevision").value(8));
+    }
+
+    @Test
+    void putEffectStepAcceptsRepeatDetailWithoutNewRoute() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("stepId", "s2");
+        response.put("currentRevision", 9);
+        response.putObject("repeatDetail")
+            .put("repeatScopeTypeId", 20263)
+            .put("repeatCount", 3)
+            .put("repeatTag", "on-hit")
+            .put("triggerStateKey", "stacks")
+            .put("threshold", 3);
+        when(effectService.putStep(eq("lol"), eq("s2"), any())).thenReturn(response);
+
+        mockMvc.perform(
+                put("/api/admin/games/lol/combat-data/effect-steps/s2")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("""
+                        {
+                          "sequenceId":"seq",
+                          "stepOrder":0,
+                          "operationTypeId":1,
+                          "targetSelectorTypeId":2,
+                          "repeatDetail":{
+                            "repeatScopeTypeId":20263,
+                            "repeatCount":3,
+                            "repeatTag":"on-hit",
+                            "triggerStateKey":"stacks",
+                            "threshold":3
+                          }
+                        }
+                        """)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.repeatDetail.repeatTag").value("on-hit"))
+            .andExpect(jsonPath("$.currentRevision").value(9));
+    }
+
+    @Test
+    void putExecuteEffectDetailReturnsWriteObjectAndLogs() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("stepId", "s-exec");
+        response.put("threshold", 0.05);
+        response.put("currentRevision", 11);
+        when(effectService.putExecuteEffectDetail(eq("lol"), eq("s-exec"), any())).thenReturn(response);
+
+        mockMvc.perform(
+                put("/api/admin/games/lol/combat-data/execute-effect-details/s-exec")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"threshold\":0.05}")
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.stepId").value("s-exec"))
+            .andExpect(jsonPath("$.threshold").value(0.05))
+            .andExpect(jsonPath("$.currentRevision").value(11));
+
+        verify(adminEditLogHelper).log(any(), any(), any(), eq(200));
     }
 
     @Test

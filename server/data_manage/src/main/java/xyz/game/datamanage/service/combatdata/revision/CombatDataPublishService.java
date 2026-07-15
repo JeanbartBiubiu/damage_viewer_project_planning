@@ -53,6 +53,8 @@ import xyz.game.datamanage.mapper.combatdata.CombatProviderEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEventEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityControlEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatStateEffectDetailsMapper;
+import xyz.game.datamanage.mapper.combatdata.CombatRepeatEffectDetailsMapper;
+import xyz.game.datamanage.mapper.combatdata.CombatExecuteEffectDetailsMapper;
 import xyz.game.datamanage.service.PostgresJsonSupport;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -110,6 +112,8 @@ public class CombatDataPublishService {
     private final CombatEventEffectDetailsMapper combatEventEffectDetailsMapper;
     private final CombatAbilityControlEffectDetailsMapper combatAbilityControlEffectDetailsMapper;
     private final CombatStateEffectDetailsMapper combatStateEffectDetailsMapper;
+    private final CombatRepeatEffectDetailsMapper combatRepeatEffectDetailsMapper;
+    private final CombatExecuteEffectDetailsMapper combatExecuteEffectDetailsMapper;
 
     public CombatDataPublishService(
         GameDataRevisionService revisionService,
@@ -154,7 +158,9 @@ public class CombatDataPublishService {
         CombatProviderEffectDetailsMapper combatProviderEffectDetailsMapper,
         CombatEventEffectDetailsMapper combatEventEffectDetailsMapper,
         CombatAbilityControlEffectDetailsMapper combatAbilityControlEffectDetailsMapper,
-        CombatStateEffectDetailsMapper combatStateEffectDetailsMapper
+        CombatStateEffectDetailsMapper combatStateEffectDetailsMapper,
+        CombatRepeatEffectDetailsMapper combatRepeatEffectDetailsMapper,
+        CombatExecuteEffectDetailsMapper combatExecuteEffectDetailsMapper
     ) {
         this.revisionService = revisionService;
         this.gamesMapper = gamesMapper;
@@ -199,6 +205,8 @@ public class CombatDataPublishService {
         this.combatEventEffectDetailsMapper = combatEventEffectDetailsMapper;
         this.combatAbilityControlEffectDetailsMapper = combatAbilityControlEffectDetailsMapper;
         this.combatStateEffectDetailsMapper = combatStateEffectDetailsMapper;
+        this.combatRepeatEffectDetailsMapper = combatRepeatEffectDetailsMapper;
+        this.combatExecuteEffectDetailsMapper = combatExecuteEffectDetailsMapper;
     }
 
     @Transactional
@@ -284,6 +292,8 @@ public class CombatDataPublishService {
         combatEventEffectDetailsMapper.copyChangedToLog(gameId, versionId, previousPublishedRevision, publishRevision);
         combatAbilityControlEffectDetailsMapper.copyChangedToLog(gameId, versionId, previousPublishedRevision, publishRevision);
         combatStateEffectDetailsMapper.copyChangedToLog(gameId, versionId, previousPublishedRevision, publishRevision);
+        combatRepeatEffectDetailsMapper.copyChangedToLog(gameId, versionId, previousPublishedRevision, publishRevision);
+        combatExecuteEffectDetailsMapper.copyChangedToLog(gameId, versionId, previousPublishedRevision, publishRevision);
 
         Instant publishedAt = Instant.now();
         gameVersionsMapper.clearCurrentVersion(gameId);

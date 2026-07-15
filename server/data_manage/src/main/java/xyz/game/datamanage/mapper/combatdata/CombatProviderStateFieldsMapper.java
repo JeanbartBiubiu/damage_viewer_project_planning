@@ -24,7 +24,10 @@ public interface CombatProviderStateFieldsMapper {
         @Param("changeRevision") long changeRevision,
         @Param("providerId") Object providerId,
         @Param("stateKey") Object stateKey,
-        @Param("valueTypeId") Object valueTypeId
+        @Param("valueTypeId") Object valueTypeId,
+        @Param("maxValue") Object maxValue,
+        @Param("durationMs") Object durationMs,
+        @Param("refreshPolicyTypeId") Object refreshPolicyTypeId
     );
 
     List<Map<String, Object>> listChangedSince(
