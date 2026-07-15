@@ -172,12 +172,28 @@ const STATUS_OVERRIDES = new Map([
   [
     'item_passive|3071|item_passive|切割',
     {
-      status: 'partial_actionable',
-      completionMode: 'partial',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        '当前 generic 永久 flat -4 与当前文本 -6% 护甲、五层、六秒刷新冲突；仅主路径部分可行动。',
-      blocker: 'flat_minus_4_vs_percent_armor_six_second_refresh',
+        '当前 Carve 合同 6%×5 / 6000ms refresh-expiry 已由 generic_linked_effects_test.go 经 provider_target 结构化状态 + opponent percent_add modifier + root physical damage_dealt 原语闭环；不声称 live migrate/publish。',
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-linked-effects-black-cleaver',
+          sourcePath: 'wasm/tinygo_engine_v2/internal/runtime/generic_linked_effects_test.go',
+          sourceWorktree: 'wasm',
+          note: 'Black Cleaver Carve 6%x5 / 6000ms refresh-expiry via generic compile/run; not live migrated/published',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-linked-effects-black-cleaver',
+          sourcePath: 'db/game_manage/seeds/lol_generic_linked_effects_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'backend seed path referenced as evidence only; not claiming live migrate/publish',
+        },
+      ],
     },
   ],
   [
@@ -985,13 +1001,27 @@ function buildMechanismsFromG8(g8) {
   const mechanisms = [];
   for (const c of g8.candidates) {
     const mapped = mapG8ToUnified(c);
-    const evidenceRefs = (c.coverageEvidence || []).map((e) => ({
+    const override = STATUS_OVERRIDES.get(c.candidateKey);
+    let evidenceRefs = (c.coverageEvidence || []).map((e) => ({
       evidenceType: e.evidenceType || '',
       taskKey: e.taskKey || '',
       sourcePath: e.sourcePath || '',
       sourceWorktree: e.sourceWorktree || '',
       note: e.note || '',
     }));
+    if (override?.evidenceRefs?.length) {
+      const byKey = new Map(evidenceRefs.map((e) => [`${e.taskKey}|${e.sourcePath}`, e]));
+      for (const e of override.evidenceRefs) {
+        byKey.set(`${e.taskKey}|${e.sourcePath}`, {
+          evidenceType: e.evidenceType || 'generic_batch',
+          taskKey: e.taskKey || '',
+          sourcePath: e.sourcePath || '',
+          sourceWorktree: e.sourceWorktree || '',
+          note: e.note || '',
+        });
+      }
+      evidenceRefs = [...byKey.values()];
+    }
     mechanisms.push(
       emptyMechanismShell({
         key: c.candidateKey,
@@ -1535,8 +1565,28 @@ function validateInventory(inv) {
   if (!m3124 || m3124.status !== 'completed' || m3124.completionMode !== 'full') {
     errors.push('3124 沸腾打击 must be completed/full');
   }
-  if (!m3071 || m3071.status !== 'partial_actionable' || m3071.completionMode !== 'partial') {
-    errors.push('3071 切割 must be partial_actionable/partial');
+  if (
+    !m3071 ||
+    m3071.status !== 'completed' ||
+    m3071.completionMode !== 'full' ||
+    m3071.blocker ||
+    !String(m3071.reason || '').includes('6%') ||
+    !String(m3071.reason || '').includes('generic_linked_effects_test.go') ||
+    !(m3071.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-linked-effects-black-cleaver' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_linked_effects_test.go',
+    ) ||
+    !(m3071.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-linked-effects-black-cleaver' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_linked_effects_seed.sql',
+    )
+  ) {
+    errors.push(
+      '3071 切割 must be completed/full with 6%x5/6000ms reason and wasm+backend evidence refs',
+    );
   }
   if (
     !m3071Rage ||
@@ -1616,8 +1666,8 @@ function validateInventory(inv) {
 
   const sc = inv.summary?.statusCounts || {};
   const expectedStatus = {
-    completed: 20,
-    partial_actionable: 1,
+    completed: 21,
+    partial_actionable: 0,
     ready_to_implement: 0,
     blocked_runtime: 40,
     blocked_data: 146,
@@ -1628,13 +1678,13 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 1) {
-    errors.push(`actionableKeyCount expected 1, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 0) {
+    errors.push(`actionableKeyCount expected 0, got ${inv.summary?.actionableKeyCount}`);
   }
-  const expectedActionable = ['item_passive|3071|item_passive|切割'];
+  const expectedActionable = [];
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
   if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
-    errors.push(`actionableKeys expected ${expectedActionable.join(',')}, got ${gotActionable.join(',')}`);
+    errors.push(`actionableKeys expected [], got ${gotActionable.join(',')}`);
   }
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== 254) {
     errors.push(`mechanisms expected 254, got ${inv.summary?.deduplicatedMechanismCount}`);
@@ -1646,9 +1696,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 20 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 225) {
+  if ((cm.full || 0) !== 21 || (cm.partial || 0) !== 8 || (cm.none || 0) !== 225) {
     errors.push(
-      `completionModeCounts expected full=20 partial=9 none=225, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=21 partial=8 none=225, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';

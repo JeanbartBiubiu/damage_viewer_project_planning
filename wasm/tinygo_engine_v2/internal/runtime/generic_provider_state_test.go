@@ -1059,3 +1059,180 @@ func TestProviderStateBagLazyExpireAndRefreshExpireAt(t *testing.T) {
 		t.Fatalf("expireAt cleared=%d want 0", bag.expireAt["stacks"])
 	}
 }
+
+func TestProviderTargetStateBagCapDurationRefreshAndClear(t *testing.T) {
+	bag := &providerStateBag{
+		state:    map[string]float64{},
+		expireAt: map[string]int64{},
+		fieldDefs: map[string]providerStateFieldDef{
+			"carve_stacks": {
+				defaultValue:  0,
+				maxValue:      5,
+				hasCap:        true,
+				durationMs:    6000,
+				refreshPolicy: model.ProviderStateRefreshOnWrite,
+			},
+		},
+		targetValues:   map[string]float64{},
+		targetExpireAt: map[string]int64{},
+	}
+	bag.targetKey = "target"
+	bag.targetValues["carve_stacks"] = bag.clampProviderStateValue("carve_stacks", 6)
+	if bag.targetValues["carve_stacks"] != 5 {
+		t.Fatalf("cap=%v want 5", bag.targetValues["carve_stacks"])
+	}
+	exp := bag.refreshTargetExpireAtOnWrite("carve_stacks", 1000)
+	if exp != 7000 || bag.targetExpireAt["carve_stacks"] != 7000 {
+		t.Fatalf("expireAt=%d want 7000", bag.targetExpireAt["carve_stacks"])
+	}
+	// Cap write still refreshes.
+	bag.targetValues["carve_stacks"] = bag.clampProviderStateValue("carve_stacks", bag.targetValues["carve_stacks"]+1)
+	exp2 := bag.refreshTargetExpireAtOnWrite("carve_stacks", 2500)
+	if bag.targetValues["carve_stacks"] != 5 {
+		t.Fatalf("at-cap value=%v want 5", bag.targetValues["carve_stacks"])
+	}
+	if exp2 != 8500 {
+		t.Fatalf("refresh expireAt=%d want 8500", exp2)
+	}
+	bag.lazyExpireProviderTargetState(8499)
+	if bag.targetValues["carve_stacks"] != 5 {
+		t.Fatalf("before expire stacks=%v want 5", bag.targetValues["carve_stacks"])
+	}
+	bag.lazyExpireProviderTargetState(8500)
+	if bag.targetValues["carve_stacks"] != 0 {
+		t.Fatalf("lazy expire stacks=%v want 0", bag.targetValues["carve_stacks"])
+	}
+	bag.targetKey = "target"
+	bag.targetValues["carve_stacks"] = 3
+	bag.targetExpireAt["carve_stacks"] = 9000
+	bag.clearProviderTargetState()
+	if bag.targetKey != "" || len(bag.targetValues) != 0 || len(bag.targetExpireAt) != 0 {
+		t.Fatalf("clearProviderTargetState incomplete: %+v", bag)
+	}
+}
+
+// TestProviderTargetStateNonZeroDefaultFirstAddAndExpire: first add starts from defaultValue;
+// expiry restores the same default (not hard-coded 0).
+func TestProviderTargetStateNonZeroDefaultFirstAddAndExpire(t *testing.T) {
+	const def = 2.0
+	bag := &providerStateBag{}
+	bag.bindFieldDefs(map[string]providerStateFieldDef{
+		"hits": {
+			defaultValue:  def,
+			maxValue:      10,
+			hasCap:        true,
+			durationMs:    1000,
+			refreshPolicy: model.ProviderStateRefreshOnWrite,
+		},
+	})
+	bag.activateProviderTarget("target")
+	if got := bag.readTargetValue("hits"); got != def {
+		t.Fatalf("after activate hits=%v want default %v", got, def)
+	}
+	bag.seedTargetValueIfAbsent("hits")
+	next, ok := applyStatePolicy(bag.readTargetValue("hits"), 1, "add")
+	if !ok {
+		t.Fatal("applyStatePolicy failed")
+	}
+	bag.targetValues["hits"] = bag.clampProviderStateValue("hits", next)
+	if bag.targetValues["hits"] != def+1 {
+		t.Fatalf("first add hits=%v want %v", bag.targetValues["hits"], def+1)
+	}
+	bag.refreshTargetExpireAtOnWrite("hits", 0)
+	bag.lazyExpireProviderTargetState(1000)
+	if bag.targetValues["hits"] != def {
+		t.Fatalf("after expire hits=%v want default %v", bag.targetValues["hits"], def)
+	}
+
+	// Target switch must re-seed defaults for the new active target on first touch.
+	bag.activateProviderTarget("source")
+	if bag.targetKey != "source" {
+		t.Fatalf("targetKey=%q want source", bag.targetKey)
+	}
+	if _, exists := bag.targetValues["hits"]; exists {
+		t.Fatalf("switch must clear prior values, got %+v", bag.targetValues)
+	}
+	if bag.readTargetValue("hits") != def {
+		t.Fatalf("after switch read hits=%v want default %v", bag.readTargetValue("hits"), def)
+	}
+	bag.seedTargetValueIfAbsent("hits")
+	if bag.targetValues["hits"] != def {
+		t.Fatalf("after switch seed hits=%v want default %v", bag.targetValues["hits"], def)
+	}
+}
+
+// TestProviderTargetStateMixedScopeFormulaOverlayNoLeak: formula overlay must expose only
+// specifically seeded/written target keys — never inject untouched provider-scope fieldDefs
+// defaults into ProviderTargetState.
+func TestProviderTargetStateMixedScopeFormulaOverlayNoLeak(t *testing.T) {
+	const (
+		providerOnlyDef = 7.0
+		targetKeyDef    = 3.0
+	)
+	bag := &providerStateBag{}
+	bag.bindFieldDefs(map[string]providerStateFieldDef{
+		"provider_only": {
+			defaultValue: providerOnlyDef,
+		},
+		"target_key": {
+			defaultValue:  targetKeyDef,
+			maxValue:      10,
+			hasCap:        true,
+			durationMs:    1000,
+			refreshPolicy: model.ProviderStateRefreshOnWrite,
+		},
+	})
+	if bag.state["provider_only"] != providerOnlyDef {
+		t.Fatalf("provider_only seeded in state=%v want %v", bag.state["provider_only"], providerOnlyDef)
+	}
+	if _, exists := bag.targetValues["provider_only"]; exists {
+		t.Fatalf("bindFieldDefs must not seed provider_only into targetValues: %+v", bag.targetValues)
+	}
+
+	bag.activateProviderTarget("target")
+	if overlay := bag.targetStateForFormula(); len(overlay) != 0 {
+		t.Fatalf("before touch formula overlay must be empty, got %+v", overlay)
+	}
+
+	// First add starts from the concrete target_key default (not 0).
+	if got := bag.readTargetValue("target_key"); got != targetKeyDef {
+		t.Fatalf("read before seed target_key=%v want default %v", got, targetKeyDef)
+	}
+	bag.seedTargetValueIfAbsent("target_key")
+	next, ok := applyStatePolicy(bag.readTargetValue("target_key"), 1, "add")
+	if !ok {
+		t.Fatal("applyStatePolicy failed")
+	}
+	bag.targetValues["target_key"] = bag.clampProviderStateValue("target_key", next)
+	if bag.targetValues["target_key"] != targetKeyDef+1 {
+		t.Fatalf("first add target_key=%v want %v", bag.targetValues["target_key"], targetKeyDef+1)
+	}
+
+	overlay := bag.targetStateForFormula()
+	if got, ok := overlay["target_key"]; !ok || got != targetKeyDef+1 {
+		t.Fatalf("formula overlay target_key=%v ok=%v want %v", got, ok, targetKeyDef+1)
+	}
+	if _, leaked := overlay["provider_only"]; leaked {
+		t.Fatalf("provider_only must not leak into formula overlay: %+v", overlay)
+	}
+	if len(overlay) != 1 {
+		t.Fatalf("formula overlay keys=%d want 1 (only touched target_key): %+v", len(overlay), overlay)
+	}
+
+	// Expiry of the touched key restores its defaultValue; still no provider_only leak.
+	bag.refreshTargetExpireAtOnWrite("target_key", 0)
+	bag.lazyExpireProviderTargetState(1000)
+	if bag.targetValues["target_key"] != targetKeyDef {
+		t.Fatalf("after expire target_key=%v want default %v", bag.targetValues["target_key"], targetKeyDef)
+	}
+	overlay = bag.targetStateForFormula()
+	if got, ok := overlay["target_key"]; !ok || got != targetKeyDef {
+		t.Fatalf("after expire formula overlay target_key=%v ok=%v want %v", got, ok, targetKeyDef)
+	}
+	if _, leaked := overlay["provider_only"]; leaked {
+		t.Fatalf("after expire provider_only must not leak into formula overlay: %+v", overlay)
+	}
+	if bag.state["provider_only"] != providerOnlyDef {
+		t.Fatalf("provider-scope state must stay untouched: provider_only=%v want %v", bag.state["provider_only"], providerOnlyDef)
+	}
+}

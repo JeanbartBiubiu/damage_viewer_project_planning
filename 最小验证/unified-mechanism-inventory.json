@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-15T15:29:05.736Z",
+    "generatedAt": "2026-07-15T16:32:21.030Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -57,7 +57,7 @@
       "最小验证/generic-g8-adc-passive-coverage-audit.json": "1ef30e8e3918579cac874cf535594963d662c2218be031238884b267b9cb2832",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
       "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "d10a8e09891e40ccb39642cd1628823d003dd44baa8f045fd94c2fb8b2d290f1",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "984e87fbc7c83627f3a86898dec0fa92d5ddde8dfd6fe7495c5018a024f6226a",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "a19ec6cfe6b1d1681b980affcd20cb15c756aec30ee0baa8a51d405db6872d79",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -86,8 +86,8 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 20,
-      "partial_actionable": 1,
+      "completed": 21,
+      "partial_actionable": 0,
       "ready_to_implement": 0,
       "blocked_runtime": 40,
       "blocked_data": 146,
@@ -96,8 +96,8 @@
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
-      "full": 20,
-      "partial": 9,
+      "full": 21,
+      "partial": 8,
       "none": 225
     },
     "laneCounts": {
@@ -106,10 +106,8 @@
       "data_only": 0,
       "mixed_evidence": 4
     },
-    "actionableKeyCount": 1,
-    "actionableKeys": [
-      "item_passive|3071|item_passive|切割"
-    ]
+    "actionableKeyCount": 0,
+    "actionableKeys": []
   },
   "sources": [
     {
@@ -235,8 +233,8 @@
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "984e87fbc7c83627f3a86898dec0fa92d5ddde8dfd6fe7495c5018a024f6226a",
-      "byteSize": 74748,
+      "sha256": "a19ec6cfe6b1d1681b980affcd20cb15c756aec30ee0baa8a51d405db6872d79",
+      "byteSize": 76770,
       "recordCount": 0,
       "role": "generator"
     },
@@ -17997,8 +17995,8 @@
     },
     {
       "key": "item_passive|3071|item_passive|切割",
-      "status": "partial_actionable",
-      "completionMode": "partial",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
       "ownerId": "3071",
@@ -18010,8 +18008,8 @@
         "stacking_stat_modifier_on_hit"
       ],
       "coverageBoundary": "",
-      "reason": "当前 generic 永久 flat -4 与当前文本 -6% 护甲、五层、六秒刷新冲突；仅主路径部分可行动。",
-      "blocker": "flat_minus_4_vs_percent_armor_six_second_refresh",
+      "reason": "当前 Carve 合同 6%×5 / 6000ms refresh-expiry 已由 generic_linked_effects_test.go 经 provider_target 结构化状态 + opponent percent_add modifier + root physical damage_dealt 原语闭环；不声称 live migrate/publish。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18035,7 +18033,14 @@
           "taskKey": "wasm-generic-linked-effects-black-cleaver",
           "sourcePath": "db/game_manage/seeds/lol_generic_linked_effects_seed.sql",
           "sourceWorktree": "backend",
-          "note": "Black Cleaver Carve linked armor shred (partial timing semantics)"
+          "note": "backend seed path referenced as evidence only; not claiming live migrate/publish"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-linked-effects-black-cleaver",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_linked_effects_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Black Cleaver Carve 6%x5 / 6000ms refresh-expiry via generic compile/run; not live migrated/published"
         }
       ],
       "aliases": [

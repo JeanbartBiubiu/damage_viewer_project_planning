@@ -10,15 +10,16 @@ import (
 )
 
 const (
-	blackCleaverProviderRef = "provider_item_3071_black_cleaver_carve"
-	blackCleaverListenerKey = "listener_item_3071_carve"
-	blackCleaverCarveKey    = "carve_stacks"
-	blackCleaverAAAbility   = "basic_attack"
-	blackCleaverAADamage    = 100.0
-	blackCleaverArmorStart  = 100.0
-	blackCleaverShredPerHit = 4.0
-	blackCleaverMaxStacks   = 5.0
-	blackCleaverHP          = 100000.0
+	blackCleaverProviderRef   = "provider_item_3071_black_cleaver_carve"
+	blackCleaverListenerKey   = "listener_item_3071_carve"
+	blackCleaverCarveKey      = "carve_stacks"
+	blackCleaverAAAbility     = "basic_attack"
+	blackCleaverAADamage      = 100.0
+	blackCleaverArmorStart    = 100.0
+	blackCleaverShredPerStack = 0.06
+	blackCleaverMaxStacks     = 5.0
+	blackCleaverDurationMs    = int64(6000)
+	blackCleaverHP            = 100000.0
 )
 
 func ensureLinkedEffectsTypes(req *model.CompileRequest) {
@@ -26,6 +27,7 @@ func ensureLinkedEffectsTypes(req *model.CompileRequest) {
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},
 		{Key: "damage/magic", Domain: "damage"},
+		{Key: "damage/true", Domain: "damage"},
 		{Key: eventTypeDamageDealt, Domain: "event"},
 		{Key: eventTypeDamageDealtPhysical, Domain: "event"},
 		{Key: eventTypeDamageDealtBasicAttack, Domain: "event"},
@@ -43,38 +45,43 @@ func ensureLinkedEffectsTypes(req *model.CompileRequest) {
 	}
 }
 
-func ltCarveStacksCond(threshold float64) *model.GenericFormulaExpr {
-	th := threshold
-	return &model.GenericFormulaExpr{
-		Op: "lt",
-		Args: []model.GenericFormulaExpr{
-			{Op: "read", Path: "provider.target_state." + blackCleaverCarveKey},
-			{Op: "const", Value: &th},
+func blackCleaverCarveSchema() map[string]interface{} {
+	return map[string]interface{}{
+		blackCleaverCarveKey: map[string]interface{}{
+			"defaultValue":  float64(0),
+			"maxValue":      blackCleaverMaxStacks,
+			"durationMs":    float64(blackCleaverDurationMs),
+			"refreshPolicy": model.ProviderStateRefreshOnWrite,
+		},
+	}
+}
+
+func blackCleaverArmorModifier() model.ModifierDefinition {
+	return model.ModifierDefinition{
+		ModifierKey: "black_cleaver_carve_armor",
+		Kind:        "attribute",
+		Target:      "opponent.attr.armor",
+		ValuePolicy: "percent_add",
+		Value: model.GenericFormulaExpr{
+			Op: "mul",
+			Args: []model.GenericFormulaExpr{
+				gfConst(-blackCleaverShredPerStack),
+				{Op: "read", Path: "provider.target_state." + blackCleaverCarveKey},
+			},
 		},
 	}
 }
 
 func blackCleaverCarveListener() model.ListenerDefinition {
-	neg := -blackCleaverShredPerHit
 	one := 1.0
-	cond := ltCarveStacksCond(blackCleaverMaxStacks)
 	return model.ListenerDefinition{
 		ListenerKey: blackCleaverListenerKey,
 		EventMatcher: model.TypeMatcher{All: []string{
 			eventTypeDamageDealt,
 			eventTypeDamageDealtPhysical,
-			eventTypeDamageDealtBasicAttack,
 			"event/source_owner",
 		}},
 		Operations: []model.OperationDefinition{
-			{
-				Operation:    "attribute_change",
-				Target:       "target",
-				AttributeKey: "armor",
-				ValuePolicy:  "add",
-				Amount:       &model.GenericFormulaExpr{Op: "const", Value: &neg},
-				Condition:    cond,
-			},
 			{
 				Operation:   "state_change",
 				Target:      "source",
@@ -82,7 +89,6 @@ func blackCleaverCarveListener() model.ListenerDefinition {
 				Types:       []string{"state_scope/provider_target"},
 				ValuePolicy: "add",
 				Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
-				Condition:   cond,
 			},
 		},
 	}
@@ -92,11 +98,13 @@ func blackCleaverProviderDef(extraListeners []model.ListenerDefinition, abilitie
 	listeners := []model.ListenerDefinition{blackCleaverCarveListener()}
 	listeners = append(listeners, extraListeners...)
 	return model.ProviderDefinition{
-		ProviderKey: blackCleaverProviderRef,
-		Kind:        "item",
-		StableID:    "3071_black_cleaver_carve",
-		Listeners:   listeners,
-		Abilities:   abilities,
+		ProviderKey:        blackCleaverProviderRef,
+		Kind:               "item",
+		StableID:           "3071_black_cleaver_carve",
+		InitialStateSchema: blackCleaverCarveSchema(),
+		Modifiers:          []model.ModifierDefinition{blackCleaverArmorModifier()},
+		Listeners:          listeners,
+		Abilities:          abilities,
 	}
 }
 
@@ -147,6 +155,10 @@ func configureLinkedEffectsChampionAA(compileReq *model.CompileRequest, ops []mo
 
 func linkedEffectsAARef() string {
 	return "source.provider[champion:source_demo].ability[" + blackCleaverAAAbility + "]"
+}
+
+func armorAfterCarveStacks(stacks float64) float64 {
+	return blackCleaverArmorStart * (1.0 - blackCleaverShredPerStack*stacks)
 }
 
 func loadLinkedEffectsFixture(t *testing.T, hits int, opts ...func(*model.CompileRequest, *model.RunRequest)) (model.CompileRequest, model.RunRequest) {
@@ -263,7 +275,29 @@ func operationRefsFromEvidence(data map[string]interface{}) []string {
 	return nil
 }
 
-// TestGenericLinkedEffectsBlackCleaverFirstHitShredAfterDamage: 第一击按 armor=100 结算，削甲在伤害之后。
+func unmountBlackCleaver(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	compileReq.SharedProviders = compileReq.SharedProviders[:1]
+	for i := range compileReq.Combatants {
+		kept := make([]model.CombatantProviderMount, 0, len(compileReq.Combatants[i].Providers))
+		for _, p := range compileReq.Combatants[i].Providers {
+			if p.ProviderRef != blackCleaverProviderRef {
+				kept = append(kept, p)
+			}
+		}
+		compileReq.Combatants[i].Providers = kept
+	}
+	for i := range runReq.InitialSnapshot.Combatants {
+		kept := make([]model.CombatantProviderSnapshot, 0, len(runReq.InitialSnapshot.Combatants[i].Providers))
+		for _, p := range runReq.InitialSnapshot.Combatants[i].Providers {
+			if p.ProviderRef != blackCleaverProviderRef {
+				kept = append(kept, p)
+			}
+		}
+		runReq.InitialSnapshot.Combatants[i].Providers = kept
+	}
+}
+
+// TestGenericLinkedEffectsBlackCleaverFirstHitShredAfterDamage: 第一击按 armor=100 结算，叠层在伤害之后。
 func TestGenericLinkedEffectsBlackCleaverFirstHitShredAfterDamage(t *testing.T) {
 	c, r := loadLinkedEffectsFixture(t, 1)
 	done := runLinkedEffects(t, c, r)
@@ -273,8 +307,8 @@ func TestGenericLinkedEffectsBlackCleaverFirstHitShredAfterDamage(t *testing.T) 
 		t.Fatalf("sourceDamageDealt=%v want %v (first hit uses armor 100, not post-shred)", done.Summary.SourceDamageDealt, wantMitigated)
 	}
 	armor := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorTarget, "armor")
-	if math.Abs(armor-(blackCleaverArmorStart-blackCleaverShredPerHit)) > 1e-9 {
-		t.Fatalf("armor=%v want %v", armor, blackCleaverArmorStart-blackCleaverShredPerHit)
+	if math.Abs(armor-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("armor=%v want %v", armor, armorAfterCarveStacks(1))
 	}
 	stacks := carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef)
 	if stacks != 1 {
@@ -282,13 +316,13 @@ func TestGenericLinkedEffectsBlackCleaverFirstHitShredAfterDamage(t *testing.T) 
 	}
 }
 
-// TestGenericLinkedEffectsBlackCleaverFifthHitCap: 第5击达上限；第6击按 80 armor 结算但不再叠层。
+// TestGenericLinkedEffectsBlackCleaverFifthHitCap: 5 层后护甲 70；第 6 击仍刷新但不超过 5。
 func TestGenericLinkedEffectsBlackCleaverFifthHitCap(t *testing.T) {
 	c5, r5 := loadLinkedEffectsFixture(t, 5)
 	done5 := runLinkedEffects(t, c5, r5)
 	armor5 := combatantAttrResolved(t, done5.FinalSnapshot, model.SelectorTarget, "armor")
-	if math.Abs(armor5-80) > 1e-9 {
-		t.Fatalf("after 5 hits armor=%v want 80", armor5)
+	if math.Abs(armor5-70) > 1e-9 {
+		t.Fatalf("after 5 hits armor=%v want 70", armor5)
 	}
 	stacks5 := carveStacksFromSnapshot(t, done5.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef)
 	if stacks5 != 5 {
@@ -298,24 +332,47 @@ func TestGenericLinkedEffectsBlackCleaverFifthHitCap(t *testing.T) {
 	c6, r6 := loadLinkedEffectsFixture(t, 6)
 	done6 := runLinkedEffects(t, c6, r6)
 	armor6 := combatantAttrResolved(t, done6.FinalSnapshot, model.SelectorTarget, "armor")
-	if math.Abs(armor6-80) > 1e-9 {
-		t.Fatalf("after 6 hits armor=%v want 80 (no further shred)", armor6)
+	if math.Abs(armor6-70) > 1e-9 {
+		t.Fatalf("after 6 hits armor=%v want 70 (refresh at cap)", armor6)
 	}
 	stacks6 := carveStacksFromSnapshot(t, done6.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef)
 	if stacks6 != 5 {
 		t.Fatalf("after 6 hits carve_stacks=%v want 5", stacks6)
 	}
 
-	// Reconstruct expected total: hits 1..5 with armor 100,96,92,88,84; hit6 with 80.
+	// Hits 1..6 mitigate with armor 100,94,88,82,76,70.
 	var want float64
-	armor := blackCleaverArmorStart
-	for i := 0; i < 5; i++ {
-		want += expectedMitigatedPhysical(blackCleaverAADamage, armor)
-		armor -= blackCleaverShredPerHit
+	for i := 0; i < 6; i++ {
+		want += expectedMitigatedPhysical(blackCleaverAADamage, armorAfterCarveStacks(float64(i)))
 	}
-	want += expectedMitigatedPhysical(blackCleaverAADamage, 80)
 	if math.Abs(done6.Summary.SourceDamageDealt-want) > 1e-6 {
-		t.Fatalf("sourceDamageDealt=%v want %v (hit6 uses armor 80)", done6.Summary.SourceDamageDealt, want)
+		t.Fatalf("sourceDamageDealt=%v want %v", done6.Summary.SourceDamageDealt, want)
+	}
+}
+
+// TestGenericLinkedEffectsBlackCleaverExpiryRestoresArmor: +5999 仍 70；+6000 到期回 100（无需再施法）。
+func TestGenericLinkedEffectsBlackCleaverExpiryRestoresArmor(t *testing.T) {
+	lastHit := int64(400) // 5 hits at 0..400
+
+	c, r := loadLinkedEffectsFixture(t, 5)
+	r.StopPolicy.DurationMs = lastHit + blackCleaverDurationMs - 1 // +5999 from last hit
+	doneStay := runLinkedEffects(t, c, r)
+	if math.Abs(combatantAttrResolved(t, doneStay.FinalSnapshot, model.SelectorTarget, "armor")-70) > 1e-9 {
+		t.Fatalf("+5999 armor=%v want 70", combatantAttrResolved(t, doneStay.FinalSnapshot, model.SelectorTarget, "armor"))
+	}
+	if carveStacksFromSnapshot(t, doneStay.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 5 {
+		t.Fatalf("+5999 stacks want 5")
+	}
+
+	c2, r2 := loadLinkedEffectsFixture(t, 5)
+	r2.StopPolicy.DurationMs = lastHit + blackCleaverDurationMs // exact +6000 expiry
+	doneExp := runLinkedEffects(t, c2, r2)
+	armor := combatantAttrResolved(t, doneExp.FinalSnapshot, model.SelectorTarget, "armor")
+	if math.Abs(armor-blackCleaverArmorStart) > 1e-9 {
+		t.Fatalf("after expiry armor=%v want %v", armor, blackCleaverArmorStart)
+	}
+	if carveStacksFromSnapshot(t, doneExp.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
+		t.Fatalf("after expiry stacks want 0")
 	}
 }
 
@@ -410,8 +467,8 @@ func TestGenericLinkedEffectsTwoPhysicalOpsOneEmit(t *testing.T) {
 		t.Fatalf("carve_stacks=%v want 1", stacks)
 	}
 	armor := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorTarget, "armor")
-	if math.Abs(armor-(blackCleaverArmorStart-blackCleaverShredPerHit)) > 1e-9 {
-		t.Fatalf("armor=%v want %v", armor, blackCleaverArmorStart-blackCleaverShredPerHit)
+	if math.Abs(armor-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("armor=%v want %v", armor, armorAfterCarveStacks(1))
 	}
 }
 
@@ -442,19 +499,23 @@ func TestGenericLinkedEffectsMagicOnlyBasicAttackNoSynthesis(t *testing.T) {
 	}
 }
 
-// TestGenericLinkedEffectsNonBasicAbilityPhysicalNoSynthesis: 非 basic ability 的 physical 不合成。
-func TestGenericLinkedEffectsNonBasicAbilityPhysicalNoSynthesis(t *testing.T) {
+// TestGenericLinkedEffectsNonBasicAbilityPhysicalSynthesizes: 非 basic physical 也合成并叠层，但不标 basic_attack。
+func TestGenericLinkedEffectsNonBasicAbilityPhysicalSynthesizes(t *testing.T) {
 	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, _ *model.RunRequest) {
 		configureLinkedEffectsChampionAA(compileReq, linkedEffectsAAOps(blackCleaverAADamage), nil)
 	})
 	done := runLinkedEffects(t, c, r)
-	if len(damageDealtEmittedEvidence(done)) != 0 {
-		t.Fatalf("damage_dealt emits=%d want 0", len(damageDealtEmittedEvidence(done)))
+	items := damageDealtEmittedEvidence(done)
+	if len(items) != 1 {
+		t.Fatalf("damage_dealt emits=%d want 1", len(items))
 	}
-	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
-		t.Fatalf("carve_stacks want 0")
+	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 1 {
+		t.Fatalf("carve_stacks want 1")
 	}
-	// Physical damage still applies with armor 100.
+	armor := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorTarget, "armor")
+	if math.Abs(armor-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("armor=%v want %v", armor, armorAfterCarveStacks(1))
+	}
 	want := expectedMitigatedPhysical(blackCleaverAADamage, blackCleaverArmorStart)
 	if math.Abs(done.Summary.SourceDamageDealt-want) > 1e-9 {
 		t.Fatalf("dealt=%v want %v", done.Summary.SourceDamageDealt, want)
@@ -488,28 +549,9 @@ func TestGenericLinkedEffectsZeroMitigatedNoSynthesis(t *testing.T) {
 }
 
 // TestGenericLinkedEffectsMissingCatalogQualifierFailsClosed: 缺 event/damage_dealt/physical 时 fail closed。
-// 先卸掉引用该 type 的 listener，避免 compile 因 matcher 未知 type 失败；验证 runtime 合成 fail closed。
 func TestGenericLinkedEffectsMissingCatalogQualifierFailsClosed(t *testing.T) {
 	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, runReq *model.RunRequest) {
-		compileReq.SharedProviders = compileReq.SharedProviders[:1]
-		for i := range compileReq.Combatants {
-			kept := make([]model.CombatantProviderMount, 0, len(compileReq.Combatants[i].Providers))
-			for _, p := range compileReq.Combatants[i].Providers {
-				if p.ProviderRef != blackCleaverProviderRef {
-					kept = append(kept, p)
-				}
-			}
-			compileReq.Combatants[i].Providers = kept
-		}
-		for i := range runReq.InitialSnapshot.Combatants {
-			kept := make([]model.CombatantProviderSnapshot, 0, len(runReq.InitialSnapshot.Combatants[i].Providers))
-			for _, p := range runReq.InitialSnapshot.Combatants[i].Providers {
-				if p.ProviderRef != blackCleaverProviderRef {
-					kept = append(kept, p)
-				}
-			}
-			runReq.InitialSnapshot.Combatants[i].Providers = kept
-		}
+		unmountBlackCleaver(compileReq, runReq)
 		filtered := make([]model.TypeCatalogEntry, 0, len(compileReq.TypeCatalog.Types))
 		for _, entry := range compileReq.TypeCatalog.Types {
 			if entry.Key == eventTypeDamageDealtPhysical {
@@ -532,26 +574,7 @@ func TestGenericLinkedEffectsMissingCatalogQualifierFailsClosed(t *testing.T) {
 // TestGenericLinkedEffectsTargetMountedListenerIgnored: target 侧黑切依赖 source_owner，不误触发。
 func TestGenericLinkedEffectsTargetMountedListenerIgnored(t *testing.T) {
 	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, runReq *model.RunRequest) {
-		// Remount BC on target instead of source.
-		compileReq.SharedProviders = compileReq.SharedProviders[:1]
-		for i := range compileReq.Combatants {
-			kept := make([]model.CombatantProviderMount, 0, len(compileReq.Combatants[i].Providers))
-			for _, p := range compileReq.Combatants[i].Providers {
-				if p.ProviderRef != blackCleaverProviderRef {
-					kept = append(kept, p)
-				}
-			}
-			compileReq.Combatants[i].Providers = kept
-		}
-		for i := range runReq.InitialSnapshot.Combatants {
-			kept := make([]model.CombatantProviderSnapshot, 0, len(runReq.InitialSnapshot.Combatants[i].Providers))
-			for _, p := range runReq.InitialSnapshot.Combatants[i].Providers {
-				if p.ProviderRef != blackCleaverProviderRef {
-					kept = append(kept, p)
-				}
-			}
-			runReq.InitialSnapshot.Combatants[i].Providers = kept
-		}
+		unmountBlackCleaver(compileReq, runReq)
 		mountBlackCleaverOn(compileReq, runReq, model.SelectorTarget, blackCleaverProviderDef(nil, nil))
 	})
 	done := runLinkedEffects(t, c, r)
@@ -567,36 +590,63 @@ func TestGenericLinkedEffectsTargetMountedListenerIgnored(t *testing.T) {
 	}
 }
 
+// TestGenericLinkedEffectsTwoSidedSameProviderRefIsolation: 两侧同 providerRef 互不卸、互不读错 bag。
+func TestGenericLinkedEffectsTwoSidedSameProviderRefIsolation(t *testing.T) {
+	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+		// Keep source BC; also mount identical providerRef on target.
+		mount := model.CombatantProviderMount{ProviderRef: blackCleaverProviderRef, DefinitionRef: blackCleaverProviderRef}
+		snap := model.CombatantProviderSnapshot{
+			ProviderRef: blackCleaverProviderRef, DefinitionRef: blackCleaverProviderRef, Stacks: 1, State: map[string]interface{}{},
+		}
+		for i := range compileReq.Combatants {
+			if compileReq.Combatants[i].Key == model.SelectorTarget {
+				compileReq.Combatants[i].Providers = append(compileReq.Combatants[i].Providers, mount)
+			}
+		}
+		for i := range runReq.InitialSnapshot.Combatants {
+			if runReq.InitialSnapshot.Combatants[i].Key == model.SelectorTarget {
+				runReq.InitialSnapshot.Combatants[i].Providers = append(runReq.InitialSnapshot.Combatants[i].Providers, snap)
+			}
+		}
+	})
+	done := runLinkedEffects(t, c, r)
+	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 1 {
+		t.Fatalf("source stacks want 1")
+	}
+	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorTarget, blackCleaverProviderRef) != 0 {
+		t.Fatalf("target stacks want 0 (source_owner gated)")
+	}
+	armor := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorTarget, "armor")
+	if math.Abs(armor-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("armor=%v want %v from source-owned modifier", armor, armorAfterCarveStacks(1))
+	}
+	// Target still has its provider mounted after source activity.
+	for _, comb := range done.FinalSnapshot.Combatants {
+		if comb.Key != model.SelectorTarget {
+			continue
+		}
+		found := false
+		for _, p := range comb.Providers {
+			if p.ProviderRef == blackCleaverProviderRef {
+				found = true
+			}
+		}
+		if !found {
+			t.Fatal("target-owned same providerRef must remain mounted")
+		}
+	}
+}
+
 // TestGenericLinkedEffectsListenerChildNoRecursion: listener child physical damage 不递归合成。
 func TestGenericLinkedEffectsListenerChildNoRecursion(t *testing.T) {
 	childAmt := 25.0
 	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, runReq *model.RunRequest) {
-		// Replace BC mount with carve + child physical listener.
-		compileReq.SharedProviders = compileReq.SharedProviders[:1]
-		for i := range compileReq.Combatants {
-			kept := make([]model.CombatantProviderMount, 0, len(compileReq.Combatants[i].Providers))
-			for _, p := range compileReq.Combatants[i].Providers {
-				if p.ProviderRef != blackCleaverProviderRef {
-					kept = append(kept, p)
-				}
-			}
-			compileReq.Combatants[i].Providers = kept
-		}
-		for i := range runReq.InitialSnapshot.Combatants {
-			kept := make([]model.CombatantProviderSnapshot, 0, len(runReq.InitialSnapshot.Combatants[i].Providers))
-			for _, p := range runReq.InitialSnapshot.Combatants[i].Providers {
-				if p.ProviderRef != blackCleaverProviderRef {
-					kept = append(kept, p)
-				}
-			}
-			runReq.InitialSnapshot.Combatants[i].Providers = kept
-		}
+		unmountBlackCleaver(compileReq, runReq)
 		childListener := model.ListenerDefinition{
 			ListenerKey: "listener_child_physical",
 			EventMatcher: model.TypeMatcher{All: []string{
 				eventTypeDamageDealt,
 				eventTypeDamageDealtPhysical,
-				eventTypeDamageDealtBasicAttack,
 				"event/source_owner",
 			}},
 			Operations: []model.OperationDefinition{
@@ -621,9 +671,8 @@ func TestGenericLinkedEffectsListenerChildNoRecursion(t *testing.T) {
 	if stacks != 1 {
 		t.Fatalf("carve_stacks=%v want 1", stacks)
 	}
-	// AA mitigated + child physical (post-shred armor 96).
 	want := expectedMitigatedPhysical(blackCleaverAADamage, blackCleaverArmorStart) +
-		expectedMitigatedPhysical(childAmt, blackCleaverArmorStart-blackCleaverShredPerHit)
+		expectedMitigatedPhysical(childAmt, armorAfterCarveStacks(1))
 	if math.Abs(done.Summary.SourceDamageDealt-want) > 1e-6 {
 		t.Fatalf("dealt=%v want %v", done.Summary.SourceDamageDealt, want)
 	}
@@ -707,7 +756,6 @@ func TestGenericLinkedEffectsPhantomNoSynthesis(t *testing.T) {
 	runReq.Sampling.SampleEveryMs = 100000
 
 	done := runLinkedEffects(t, compileReq, runReq)
-	// 4 real AA frames → 4 damage_dealt; phantom must not add a 5th.
 	if got := len(damageDealtEmittedEvidence(done)); got != 4 {
 		t.Fatalf("damage_dealt emits=%d want 4 (phantom must not synthesize)", got)
 	}
@@ -728,24 +776,14 @@ func TestGenericLinkedEffectsPhantomNoSynthesis(t *testing.T) {
 	}
 }
 
-// TestGenericLinkedEffectsMaxCommandsPerEventFatal: MaxCommandsPerEvent=1 时黑切两 command fatal；默认预算通过。
-func TestGenericLinkedEffectsMaxCommandsPerEventFatal(t *testing.T) {
+// TestGenericLinkedEffectsMaxCommandsPerEvent: 单 command listener 下 MaxCommandsPerEvent=1 通过。
+func TestGenericLinkedEffectsMaxCommandsPerEvent(t *testing.T) {
 	cOK, rOK := loadLinkedEffectsFixture(t, 1)
 	_ = runLinkedEffects(t, cOK, rOK)
 
-	cBad, rBad := loadLinkedEffectsFixture(t, 1)
-	rBad.SafetyBudget = &model.RunSafetyBudget{MaxCommandsPerEvent: 1}
-	result := compile.CompileGeneric(cBad)
-	if !result.OK {
-		t.Fatalf("compile failed: %+v", result.Result.Errors)
-	}
-	_, err := RunGeneric(result.Session, rBad)
-	if err == nil {
-		t.Fatal("expected max commands per event fatal")
-	}
-	if err.Code != model.GenericErrRuntimeInvariantFailed {
-		t.Fatalf("code=%q want %q", err.Code, model.GenericErrRuntimeInvariantFailed)
-	}
+	cOne, rOne := loadLinkedEffectsFixture(t, 1)
+	rOne.SafetyBudget = &model.RunSafetyBudget{MaxCommandsPerEvent: 1}
+	_ = runLinkedEffects(t, cOne, rOne)
 }
 
 // TestGenericLinkedEffectsDeterministic: 同输入重复运行 summary/evidence/finalSnapshot 一致。
@@ -777,5 +815,314 @@ func TestGenericLinkedEffectsDeterministic(t *testing.T) {
 	}
 	if f1 != f2 {
 		t.Fatal("finalSnapshot unstable across runs")
+	}
+}
+
+// TestGenericLinkedEffectsMissingOptionalBasicQualifierStillEmitsAndCarves: 缺 optional
+// event/damage_dealt/basic_attack 时仍 emit 核心 physical 事件并叠 Carve。
+func TestGenericLinkedEffectsMissingOptionalBasicQualifierStillEmitsAndCarves(t *testing.T) {
+	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, _ *model.RunRequest) {
+		filtered := make([]model.TypeCatalogEntry, 0, len(compileReq.TypeCatalog.Types))
+		for _, entry := range compileReq.TypeCatalog.Types {
+			if entry.Key == eventTypeDamageDealtBasicAttack {
+				continue
+			}
+			filtered = append(filtered, entry)
+		}
+		compileReq.TypeCatalog.Types = filtered
+	})
+	done := runLinkedEffects(t, c, r)
+	if len(damageDealtEmittedEvidence(done)) != 1 {
+		t.Fatalf("damage_dealt emits=%d want 1 (core emit must not depend on optional basic qualifier)", len(damageDealtEmittedEvidence(done)))
+	}
+	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 1 {
+		t.Fatalf("carve_stacks want 1")
+	}
+	armor := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorTarget, "armor")
+	if math.Abs(armor-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("armor=%v want %v", armor, armorAfterCarveStacks(1))
+	}
+}
+
+// TestGenericLinkedEffectsNonBasicPhysicalSkipsBasicOnlyListener: 非 basic physical 合成核心
+// 事件，但不匹配仅监听 basic_attack qualifier 的 listener。
+func TestGenericLinkedEffectsNonBasicPhysicalSkipsBasicOnlyListener(t *testing.T) {
+	one := 1.0
+	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+		unmountBlackCleaver(compileReq, runReq)
+		basicOnly := model.ListenerDefinition{
+			ListenerKey: "listener_basic_only_carve",
+			EventMatcher: model.TypeMatcher{All: []string{
+				eventTypeDamageDealt,
+				eventTypeDamageDealtPhysical,
+				eventTypeDamageDealtBasicAttack,
+				"event/source_owner",
+			}},
+			Operations: []model.OperationDefinition{
+				{
+					Operation:   "state_change",
+					Target:      "source",
+					Ref:         blackCleaverCarveKey,
+					Types:       []string{"state_scope/provider_target"},
+					ValuePolicy: "add",
+					Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
+				},
+			},
+		}
+		prov := blackCleaverProviderDef(nil, nil)
+		prov.Listeners = []model.ListenerDefinition{basicOnly}
+		mountBlackCleaverOn(compileReq, runReq, model.SelectorSource, prov)
+		configureLinkedEffectsChampionAA(compileReq, linkedEffectsAAOps(blackCleaverAADamage), nil)
+	})
+	done := runLinkedEffects(t, c, r)
+	if len(damageDealtEmittedEvidence(done)) != 1 {
+		t.Fatalf("damage_dealt emits=%d want 1", len(damageDealtEmittedEvidence(done)))
+	}
+	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
+		t.Fatalf("carve_stacks want 0 (basic-only listener must not match)")
+	}
+	armor := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorTarget, "armor")
+	if math.Abs(armor-blackCleaverArmorStart) > 1e-9 {
+		t.Fatalf("armor=%v want unchanged", armor)
+	}
+}
+
+// TestGenericLinkedEffectsTrueDamageNoSynthesisNoCarve: true damage 不合成、不叠层。
+func TestGenericLinkedEffectsTrueDamageNoSynthesisNoCarve(t *testing.T) {
+	amt := blackCleaverAADamage
+	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, _ *model.RunRequest) {
+		configureLinkedEffectsChampionAA(compileReq, []model.OperationDefinition{
+			{
+				Operation:  "damage",
+				Target:     "target",
+				DamageType: "damage/true",
+				Amount:     &model.GenericFormulaExpr{Op: "const", Value: &amt},
+				Ref:        "op:true",
+			},
+		}, []string{"ability/basic_attack"})
+	})
+	done := runLinkedEffects(t, c, r)
+	if len(damageDealtEmittedEvidence(done)) != 0 {
+		t.Fatalf("damage_dealt emits=%d want 0", len(damageDealtEmittedEvidence(done)))
+	}
+	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
+		t.Fatalf("carve_stacks want 0")
+	}
+	if math.Abs(done.Summary.SourceDamageDealt-amt) > 1e-9 {
+		t.Fatalf("dealt=%v want %v (true still applies)", done.Summary.SourceDamageDealt, amt)
+	}
+}
+
+// TestGenericLinkedEffectsSixthHitAtCapRefreshesDuration: 第 6 击在 cap 刷新时长；
+// 自第 6 击起 +5999 仍 5/70，恰好 +6000 回 0/100。
+func TestGenericLinkedEffectsSixthHitAtCapRefreshesDuration(t *testing.T) {
+	sixthAt := int64(500) // hits at 0..500
+
+	cStay, rStay := loadLinkedEffectsFixture(t, 6)
+	rStay.StopPolicy.DurationMs = sixthAt + blackCleaverDurationMs - 1
+	doneStay := runLinkedEffects(t, cStay, rStay)
+	if carveStacksFromSnapshot(t, doneStay.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 5 {
+		t.Fatalf("+5999 from 6th hit stacks want 5")
+	}
+	if math.Abs(combatantAttrResolved(t, doneStay.FinalSnapshot, model.SelectorTarget, "armor")-70) > 1e-9 {
+		t.Fatalf("+5999 armor=%v want 70", combatantAttrResolved(t, doneStay.FinalSnapshot, model.SelectorTarget, "armor"))
+	}
+
+	cExp, rExp := loadLinkedEffectsFixture(t, 6)
+	rExp.StopPolicy.DurationMs = sixthAt + blackCleaverDurationMs
+	doneExp := runLinkedEffects(t, cExp, rExp)
+	if carveStacksFromSnapshot(t, doneExp.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
+		t.Fatalf("+6000 from 6th hit stacks want 0")
+	}
+	if math.Abs(combatantAttrResolved(t, doneExp.FinalSnapshot, model.SelectorTarget, "armor")-blackCleaverArmorStart) > 1e-9 {
+		t.Fatalf("+6000 armor=%v want %v", combatantAttrResolved(t, doneExp.FinalSnapshot, model.SelectorTarget, "armor"), blackCleaverArmorStart)
+	}
+}
+
+// TestGenericLinkedEffectsExpiryThenHitSameTimestamp: 到期清理与 ability 同刻；清理先跑，
+// 命中使用恢复护甲，再叠恰好 1 层。
+func TestGenericLinkedEffectsExpiryThenHitSameTimestamp(t *testing.T) {
+	lastStackAt := int64(0)
+	expireAt := lastStackAt + blackCleaverDurationMs
+	c, r := loadLinkedEffectsFixture(t, 1)
+	r.DriverPlan.Entries = append(r.DriverPlan.Entries, model.DriverEntry{
+		EntryKey:   "after_expire",
+		AbilityRef: linkedEffectsAARef(),
+		Source:     model.SelectorSource,
+		Target:     model.SelectorTarget,
+		FirstAtMs:  expireAt,
+	})
+	r.StopPolicy.DurationMs = expireAt + 100
+	done := runLinkedEffects(t, c, r)
+
+	// First hit at 0: armor 100 → stack 1. Expiry at 6000 restores armor. Hit at 6000 uses 100 then stacks to 1.
+	wantDealt := expectedMitigatedPhysical(blackCleaverAADamage, blackCleaverArmorStart) +
+		expectedMitigatedPhysical(blackCleaverAADamage, blackCleaverArmorStart)
+	if math.Abs(done.Summary.SourceDamageDealt-wantDealt) > 1e-6 {
+		t.Fatalf("dealt=%v want %v (both hits at armor 100)", done.Summary.SourceDamageDealt, wantDealt)
+	}
+	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 1 {
+		t.Fatalf("after same-timestamp expiry+hit stacks want 1")
+	}
+	armor := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorTarget, "armor")
+	if math.Abs(armor-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("armor=%v want %v", armor, armorAfterCarveStacks(1))
+	}
+}
+
+const targetDemoChampRef = "champion:target_demo"
+
+// mountTwoSidedBlackCleaver mounts BC on both combatants and a target-owned AA that damages opponent
+// (so driver Source=target/Target=target yields a real target→source hit without selector swap).
+func mountTwoSidedBlackCleaver(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	mount := model.CombatantProviderMount{ProviderRef: blackCleaverProviderRef, DefinitionRef: blackCleaverProviderRef}
+	snap := model.CombatantProviderSnapshot{
+		ProviderRef: blackCleaverProviderRef, DefinitionRef: blackCleaverProviderRef, Stacks: 1, State: map[string]interface{}{},
+	}
+	for i := range compileReq.Combatants {
+		if compileReq.Combatants[i].Key == model.SelectorTarget {
+			compileReq.Combatants[i].Providers = append(compileReq.Combatants[i].Providers, mount)
+		}
+	}
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key == model.SelectorTarget {
+			runReq.InitialSnapshot.Combatants[i].Providers = append(runReq.InitialSnapshot.Combatants[i].Providers, snap)
+		}
+	}
+	dmg := blackCleaverAADamage
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey: targetDemoChampRef,
+		Kind:        "champion",
+		StableID:    "target_demo",
+		Abilities: []model.AbilityDefinition{
+			{
+				AbilityKey: blackCleaverAAAbility,
+				Kind:       "active",
+				Types:      []string{"ability/basic_attack"},
+				Operations: []model.OperationDefinition{
+					{
+						Operation:  "damage",
+						Target:     "opponent",
+						DamageType: "damage/physical",
+						Amount:     &model.GenericFormulaExpr{Op: "const", Value: &dmg},
+						Ref:        "op:target_aa",
+					},
+				},
+			},
+		},
+	})
+	for i := range compileReq.Combatants {
+		if compileReq.Combatants[i].Key == model.SelectorTarget {
+			compileReq.Combatants[i].Providers = append(compileReq.Combatants[i].Providers, model.CombatantProviderMount{
+				ProviderRef: targetDemoChampRef, DefinitionRef: targetDemoChampRef,
+			})
+		}
+	}
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key == model.SelectorTarget {
+			runReq.InitialSnapshot.Combatants[i].Providers = append(runReq.InitialSnapshot.Combatants[i].Providers, model.CombatantProviderSnapshot{
+				ProviderRef: targetDemoChampRef, DefinitionRef: targetDemoChampRef, Stacks: 1, State: map[string]interface{}{},
+			})
+		}
+	}
+	setCombatantAttr(compileReq, runReq, model.SelectorSource, "armor", model.AttributeSlotDef{
+		Base: blackCleaverArmorStart, Current: blackCleaverArmorStart, Max: blackCleaverArmorStart, Resolved: blackCleaverArmorStart,
+	})
+	setCombatantAttr(compileReq, runReq, model.SelectorSource, "hp", model.AttributeSlotDef{
+		Base: blackCleaverHP, Current: blackCleaverHP, Max: blackCleaverHP, Resolved: blackCleaverHP,
+	})
+}
+
+func targetDemoAARef() string {
+	return "target.provider[" + targetDemoChampRef + "].ability[" + blackCleaverAAAbility + "]"
+}
+
+// targetSelfDriverEntry casts from target (Source=Target=target) so resolveCombatantKey yields
+// sourceKey=target; ability ops use opponent to hit source.
+func targetSelfDriverEntry(key string, atMs int64) model.DriverEntry {
+	return model.DriverEntry{
+		EntryKey:   key,
+		AbilityRef: targetDemoAARef(),
+		Source:     model.SelectorTarget,
+		Target:     model.SelectorTarget,
+		FirstAtMs:  atMs,
+	}
+}
+
+// TestGenericLinkedEffectsTwoSidedOppositeCastContextStable: 两侧同 providerRef 反向叠层后，
+// 无关/反向施法不得漂移；一侧到期后另一侧仍挂载且 bag/护甲正确。
+func TestGenericLinkedEffectsTwoSidedOppositeCastContextStable(t *testing.T) {
+	// Mid-run: both sides hold stacks after opposite-direction casts.
+	cMid, rMid := loadLinkedEffectsFixture(t, 0, mountTwoSidedBlackCleaver)
+	rMid.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "s2t", AbilityRef: linkedEffectsAARef(), Source: model.SelectorSource, Target: model.SelectorTarget, FirstAtMs: 0},
+		targetSelfDriverEntry("t2s", 100),
+		targetSelfDriverEntry("t2s2", 200),
+	}
+	rMid.StopPolicy.DurationMs = 300
+	doneMid := runLinkedEffects(t, cMid, rMid)
+	if carveStacksFromSnapshot(t, doneMid.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 1 {
+		t.Fatalf("source-owned stacks want 1 after opposite casts, got %v", carveStacksFromSnapshot(t, doneMid.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef))
+	}
+	if carveStacksFromSnapshot(t, doneMid.FinalSnapshot, model.SelectorTarget, blackCleaverProviderRef) != 2 {
+		t.Fatalf("target-owned stacks want 2 after two reverse hits, got %v", carveStacksFromSnapshot(t, doneMid.FinalSnapshot, model.SelectorTarget, blackCleaverProviderRef))
+	}
+	if math.Abs(combatantAttrResolved(t, doneMid.FinalSnapshot, model.SelectorTarget, "armor")-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("target armor=%v want %v (source carve must not drift)", combatantAttrResolved(t, doneMid.FinalSnapshot, model.SelectorTarget, "armor"), armorAfterCarveStacks(1))
+	}
+	if math.Abs(combatantAttrResolved(t, doneMid.FinalSnapshot, model.SelectorSource, "armor")-armorAfterCarveStacks(2)) > 1e-9 {
+		t.Fatalf("source armor=%v want %v", combatantAttrResolved(t, doneMid.FinalSnapshot, model.SelectorSource, "armor"), armorAfterCarveStacks(2))
+	}
+	foundSourceBC, foundTargetBC := false, false
+	for _, comb := range doneMid.FinalSnapshot.Combatants {
+		for _, p := range comb.Providers {
+			if p.ProviderRef != blackCleaverProviderRef {
+				continue
+			}
+			if comb.Key == model.SelectorSource {
+				foundSourceBC = true
+			}
+			if comb.Key == model.SelectorTarget {
+				foundTargetBC = true
+			}
+		}
+	}
+	if !foundSourceBC || !foundTargetBC {
+		t.Fatalf("both sides must remain mounted source=%v target=%v", foundSourceBC, foundTargetBC)
+	}
+
+	// Expire only source-owned carve at t=6000; target-owned (written at 100) still active.
+	cExp, rExp := loadLinkedEffectsFixture(t, 0, mountTwoSidedBlackCleaver)
+	rExp.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "s2t", AbilityRef: linkedEffectsAARef(), Source: model.SelectorSource, Target: model.SelectorTarget, FirstAtMs: 0},
+		targetSelfDriverEntry("t2s", 100),
+	}
+	rExp.StopPolicy.DurationMs = 6000
+	doneExp := runLinkedEffects(t, cExp, rExp)
+	if carveStacksFromSnapshot(t, doneExp.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
+		t.Fatalf("source-owned stacks after its expiry want 0")
+	}
+	if carveStacksFromSnapshot(t, doneExp.FinalSnapshot, model.SelectorTarget, blackCleaverProviderRef) != 1 {
+		t.Fatalf("target-owned stacks must remain 1 after source-side expiry")
+	}
+	if math.Abs(combatantAttrResolved(t, doneExp.FinalSnapshot, model.SelectorTarget, "armor")-blackCleaverArmorStart) > 1e-9 {
+		t.Fatalf("target armor after source carve expiry=%v want %v", combatantAttrResolved(t, doneExp.FinalSnapshot, model.SelectorTarget, "armor"), blackCleaverArmorStart)
+	}
+	if math.Abs(combatantAttrResolved(t, doneExp.FinalSnapshot, model.SelectorSource, "armor")-armorAfterCarveStacks(1)) > 1e-9 {
+		t.Fatalf("source armor=%v want %v (target-owned modifier unaffected)", combatantAttrResolved(t, doneExp.FinalSnapshot, model.SelectorSource, "armor"), armorAfterCarveStacks(1))
+	}
+	stillMounted := false
+	for _, comb := range doneExp.FinalSnapshot.Combatants {
+		if comb.Key != model.SelectorTarget {
+			continue
+		}
+		for _, p := range comb.Providers {
+			if p.ProviderRef == blackCleaverProviderRef {
+				stillMounted = true
+			}
+		}
+	}
+	if !stillMounted {
+		t.Fatal("target-owned same providerRef must remain mounted after source-side state expiry")
 	}
 }
