@@ -555,8 +555,8 @@ const EXTRA_MECHANISMS = [
   },
   {
     key: 'item_passive|6665|item_passive|虚空天生',
-    status: 'ready_to_implement',
-    completionMode: 'none',
+    status: 'out_of_scope',
+    completionMode: 'partial',
     lane: 'generic_runtime',
     sourceKind: 'item_passive',
     ownerId: '6665',
@@ -564,15 +564,31 @@ const EXTRA_MECHANISMS = [
     passiveName: '虚空天生',
     mechanismTags: ['full_stack_resists', 'target_armor_flat_bonus', 'target_magic_resist_flat_bonus'],
     coverageBoundary:
-      'controlled_synthetic_target_bonus_armor_mr_partial;no_real_target_equipment_or_loadout_projection',
+      'controlled_5s_target_owned_synthetic_bonus_resist_branch_complete;real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
     reason:
-      '本地可证受控部分：目标侧 provider 可用显式 synthetic 目标护甲/魔抗加成输入；不声称真实目标装备或 loadout 投影。',
-    blocker: 'missing_controlled_synthetic_target_partial_seed_mount_tests',
+      'generic_jaksho_voidborn_resilience_test.go 已用 generic compile/run 证明受控部分：目标侧 provider_item_6665_jaksho_voidborn_resilience 在 t=5000 将 full_stack 0→1，并对显式 synthetic bonus_armor/bonus_magic_resist 各加 30%；不声称真实目标装备或 loadout 投影，亦未声称 seed 已 live migrate/publish。',
+    blocker: 'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
     sourceRefs: [
       {
         path: '最小验证/V2-BatchV-A-data-policy-items.seed.json',
         legacyStatus: 'seed_present',
         sourceRecordKey: 'item_6665_jaksho_voidborn_resilience_batch_v_a',
+      },
+    ],
+    evidenceRefs: [
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'planning-validation-milestones',
+        sourcePath: 'wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go',
+        sourceWorktree: 'wasm',
+        note: 'controlled target-owned 5s full_stack synthetic bonus-resist partial via generic compile/run; not live migrated/published',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'planning-validation-milestones',
+        sourcePath: 'db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql',
+        sourceWorktree: 'backend',
+        note: 'backend seed path referenced as evidence only; not claiming live migrate/publish',
       },
     ],
     aliases: ['item_6665_jaksho_voidborn_resilience_batch_v_a'],
@@ -1538,13 +1554,28 @@ function validateInventory(inv) {
   }
   if (
     !m6665 ||
-    m6665.status !== 'ready_to_implement' ||
-    m6665.completionMode !== 'none' ||
-    m6665.blocker !== 'missing_controlled_synthetic_target_partial_seed_mount_tests' ||
-    !String(m6665.coverageBoundary || '').includes('controlled_synthetic_target_bonus_armor_mr_partial') ||
-    !String(m6665.coverageBoundary || '').includes('no_real_target_equipment_or_loadout_projection')
+    m6665.status !== 'out_of_scope' ||
+    m6665.completionMode !== 'partial' ||
+    m6665.blocker !== 'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract' ||
+    !String(m6665.coverageBoundary || '').includes(
+      'controlled_5s_target_owned_synthetic_bonus_resist_branch_complete',
+    ) ||
+    !String(m6665.coverageBoundary || '').includes(
+      'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
+    ) ||
+    !String(m6665.reason || '').includes('generic_jaksho_voidborn_resilience_test.go') ||
+    !(m6665.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go',
+    ) ||
+    !(m6665.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql',
+    )
   ) {
-    errors.push('6665 虚空天生 must be ready_to_implement/none with controlled synthetic-target boundary');
+    errors.push(
+      '6665 虚空天生 must be out_of_scope/partial with controlled 5s synthetic branch + equipment/loadout blocker and wasm/backend evidence refs',
+    );
   }
   if (
     !mKaisaP ||
@@ -1587,23 +1618,20 @@ function validateInventory(inv) {
   const expectedStatus = {
     completed: 20,
     partial_actionable: 1,
-    ready_to_implement: 1,
+    ready_to_implement: 0,
     blocked_runtime: 40,
     blocked_data: 146,
-    out_of_scope: 41,
+    out_of_scope: 42,
     regression_only: 5,
     stale_or_duplicate: 0,
   };
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 2) {
-    errors.push(`actionableKeyCount expected 2, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 1) {
+    errors.push(`actionableKeyCount expected 1, got ${inv.summary?.actionableKeyCount}`);
   }
-  const expectedActionable = [
-    'item_passive|3071|item_passive|切割',
-    'item_passive|6665|item_passive|虚空天生',
-  ];
+  const expectedActionable = ['item_passive|3071|item_passive|切割'];
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
   if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
     errors.push(`actionableKeys expected ${expectedActionable.join(',')}, got ${gotActionable.join(',')}`);
@@ -1618,9 +1646,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 20 || (cm.partial || 0) !== 8 || (cm.none || 0) !== 226) {
+  if ((cm.full || 0) !== 20 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 225) {
     errors.push(
-      `completionModeCounts expected full=20 partial=8 none=226, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=20 partial=9 none=225, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
