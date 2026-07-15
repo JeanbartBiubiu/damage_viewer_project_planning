@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: done
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-13
+LAST_TRACKED_AT: 2026-07-15
 
 # 通用 ABI — 完整鬼索 H-K 机制详细设计
 
@@ -19,7 +19,7 @@ LAST_TRACKED_AT: 2026-07-13
 |------|----------|
 | H 层数 | 每次真实 `basic_attack_hit` 增加 `guinsoos_seething_strike`；最多 **4** 层；持续 **3000ms**；真实命中刷新；到期归零 |
 | H 攻速 | 每层 **+8%** `attack_speed`，影响**下一次**普攻间隔；到期恢复 |
-| K 幻影 | 满 **4** 层后，每次真实命中在**全部原始 listener 完成**后做一次 phantom replay |
+| K 幻影 | 满 **4** 层后，仅每第 **3** 次后续真实命中在**全部原始 listener 完成**后做一次 phantom replay；连续攻击为第 **7/10/13…** 次 |
 | K 复制范围 | 只复制本事件显式 `copyable_on_hit=true` 的 **damage** |
 | 已有能力 | `item_3124` 已有 30 magic on-hit，保持不变并参与正常 on-hit 顺序 |
 
@@ -39,27 +39,30 @@ LAST_TRACKED_AT: 2026-07-13
 
 ### 2.2 Phantom replay（K）
 
-1. 前置：当前层数已达 **4**（满层）。
-2. 时机：该次真实 `basic_attack_hit` 的 **所有原始 listener / operation 全部完成之后**，再执行 **deferred replay** 一次。
-3. 复制集合：仅本事件过程中显式标记 `copyable_on_hit=true` 的 **damage** 条目。
-4. 复制保留：
+1. 前置：本次命中前 `guinsoos_seething_strike=4`；第 4 次攻击只完成满层，不计入 phantom cadence。
+2. Cadence state：`guinsoos_phantom_hit_counter`，`max=3`、`duration=3000ms`、`refresh-on-write`；满层后的真实命中才推进，达到 3 后触发并重置为 0。
+3. 连续攻击序列：1–4 建层，5–6 推进 cadence，第 7 次首次 phantom；后续第 10/13… 次各一次。
+4. 时机：该次真实 `basic_attack_hit` 的 **所有原始 listener / operation 全部完成之后**，再执行 **deferred replay** 一次。
+5. 复制集合：仅本事件过程中显式标记 `copyable_on_hit=true` 的 **damage** 条目。
+6. 复制保留：
    - 原 `provider` / `step`
    - 原 `source` / `target`
    - 原 **entry snapshot**（抗性与伤害结算以 snapshot 为准）
    - 证据增补：`phantom`、`repeatTag`、`replayedFrom`
-5. Phantom **禁止**：
+7. Phantom **禁止**：
    - 增加普攻次数 / cast 次数
    - `emit basic_attack_hit` / 运行 listener / **递归** phantom
    - 推进 every-N、stack、energized、next-attack
    - 复制 retaliation / DoT / modifier / state 写入
-6. 跨 provider：可复制已标记的 BotRK / Nashor / Terminus / Guinsoo 等 on-hit damage；**默认不复制** Kraken every-N、Vayne W 等依赖状态推进的伤害。
-7. 顺序（单次真实普攻命中）：
+8. 跨 provider：可复制已标记的 BotRK / Nashor / Terminus / Guinsoo 等 on-hit damage；**默认不复制** Kraken every-N、Vayne W 等依赖状态推进的伤害。
+9. 顺序（单次真实普攻命中）：
 
 ```
 基础普攻伤害
   → emit basic_attack_hit
-  → 全部原始 listener / operation（含加层、普通 on-hit、可标记 damage 收集）
-  → deferred phantom replay（若满层且有 copyable 集合）
+  → 全部原始 listener / operation（满层时 cadence+1、加层/刷新、普通 on-hit、可标记 damage 收集）
+  → deferred phantom replay（仅 cadence 达 3 且有 copyable 集合）
+  → 若已触发则 cadence reset=0
   → 结束
 ```
 
@@ -104,13 +107,14 @@ LAST_TRACKED_AT: 2026-07-13
 | `repeatScope` | `copyable_on_hit` |
 | `repeatCount` | `1`（本机制固定一次） |
 | `repeatTag` | 证据标记，写入 phantom evidence |
-| `triggerStateKey` | 例如 `guinsoos_seething_strike` |
+| `triggerStateKey` | `guinsoos_seething_strike`（repeat 仍以满层为门） |
 | `threshold` | `4` |
 
 **运行时**
 
 - **Event-local collector**：原始 listener 执行期间，凡 `copyableOnHit=true` 的 damage 入集。
-- **Deferred replay**：全部原始 listener 完成后，若 `triggerStateKey` 当前值 ≥ `threshold`，按 collector 回放 damage；不再 emit、不再跑 listener、不再二次收集。
+- **Cadence gate**：满层前不推进 `guinsoos_phantom_hit_counter`；满层后每次真实命中 `+1`，达到 3 才允许 repeat，并在 repeat 后 reset。
+- **Deferred replay**：全部原始 listener 完成后，若满层门与 cadence 门同时成立，按 collector 回放 damage；不再 emit、不再跑 listener、不再二次收集。
 
 ### 3.5 Compile（collect-all）校验
 
@@ -200,11 +204,11 @@ LAST_TRACKED_AT: 2026-07-13
 
 ### 步骤 A — Wasm 合同落地
 
-1. State field：`max` / `duration` / refresh-on-write；bag：`value`/`expireAt`；lazy expire + dirty。
+1. State field：`guinsoos_seething_strike(max=4)` 与 `guinsoos_phantom_hit_counter(max=3)` 均为 3000ms refresh-on-write；bag：`value`/`expireAt`；lazy expire + dirty。
 2. Modifier：`provider.state.<key>` 可读；攻速每层 +8%。
 3. `DriverRepeat.intervalFormula` 与 `intervalMs` 互斥；普攻用 `1000/source.attr.attack_speed.resolved`。
 4. Damage `copyableOnHit`；event-local collector。
-5. `repeat` operation：`copyable_on_hit` + threshold 触发；listener 完成后 deferred replay。
+5. `repeat` operation：`copyable_on_hit` + 满层门 + every-third cadence 门；listener 完成后 deferred replay，随后 counter reset。
 6. Evidence：`original`/`phantom`/`repeatTag`/`replayedFrom`；summary 不增加 attack/cast。
 7. Compile collect-all 校验全集。
 8. 单测 `generic_guinsoo_hk_test.go` 覆盖第 9 节 Canonical。
@@ -240,7 +244,7 @@ LAST_TRACKED_AT: 2026-07-13
 
 编码与单测必须以下列命题为准：
 
-1. **层数**：真实命中 1→2→3→4；封顶 4；真实命中刷新 3000ms；到期归零。
+1. **层数与 cadence**：真实命中 1→2→3→4；第 4 击只满层；第 5/6 击 counter=1/2，第 7 击首次 phantom 并 reset；连续攻击后续为 10/13…；超过 3000ms 的 gap 同时清空层数与 cadence progress。
 2. **攻速**：每层 +8%；影响**下一击** cadence；到期恢复。
 3. **跨 provider**：复制集合跨 provider，且与 listener **挂载顺序无关**（只依赖本事件 copyable 收集结果）。
 4. **不递归**：phantom 不再 emit / 不再跑 listener / 不再二次 phantom。
@@ -255,10 +259,10 @@ LAST_TRACKED_AT: 2026-07-13
 | Gate | 验证内容 | 通过标准 |
 |------|----------|----------|
 | **G0** | 合同与编译边界 | `intervalMs`∩`intervalFormula` 互斥；`copyableOnHit` 仅 damage；`repeat` 字段与 scope 合法；非法配置 compile 失败 |
-| **G1** | State 写入/封顶 | 连续真实命中层数 1..4，第 5 次仍为 4；`max=4` |
-| **G2** | 刷新与到期 | 命中刷新 `expireAt`；3000ms 无命中后 lazy expire → 0，属性 dirty |
+| **G1** | State 写入/封顶 | `seething` 连续真实命中层数 1..4、`max=4`；满层后的 cadence counter 1..3、`max=3` |
+| **G2** | 刷新与到期 | 两个 state 均随合格真实命中刷新；3000ms 无命中后 lazy expire → 0，旧 cadence progress 不得跨 gap 触发 |
 | **G3** | 攻速与 cadence | 每层 +8% 反映到 `attack_speed.resolved`；`DriverRepeat` 下一间隔 = `1000/resolved`；到期恢复间隔 |
-| **G4** | 原始 on-hit 顺序 | 基础伤害 → emit → 全部原始 listener（含加层与 30 magic）→ 再 replay；未满层无 replay |
+| **G4** | 原始 on-hit 顺序 | 基础伤害 → emit → 全部原始 listener（cadence+1 / 加层与 30 magic）→ cadence=3 时 replay → reset；未满层或 counter<3 无 replay |
 | **G5** | Phantom 复制集合 | 仅 `copyable_on_hit=true` 的 damage；跨 provider；顺序无关；BotRK/Nashor/Terminus/Guinsoo 标记项可入集 |
 | **G6** | Phantom 禁区 | 不增加 attack/cast；不 emit；不跑 listener；不递归；不推进 every-N/stack/energized/next-attack；不复制 retaliation/DoT/modifier/state |
 | **G7** | Evidence / summary | damage evidence 含 original vs phantom，且含 repeatTag/replayedFrom；summary attack/cast 不因 phantom +1 |

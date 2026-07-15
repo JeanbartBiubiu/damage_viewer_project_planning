@@ -1,300 +1,150 @@
 TASK_KEY: wasm-generic-linked-effects-black-cleaver
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
-STATUS: active
+STATUS: done
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-13
+LAST_TRACKED_AT: 2026-07-15
 
 # 通用 ABI — Linked Effects（黑色切割者）机制详细设计
 
-对应总体审计：`wasm-generic-min-validation-coverage-audit`。本批只关闭 **linked effects 首批**（黑切 Carve 最小闭环）；总体审计继续保持 **开发中 / active**，后续顺序为 crit / modifier。
+验证记录：[通用 ABI Linked Effects 黑切机制验证记录](../../测试记录/wasm/通用ABI-LinkedEffects黑切机制验证记录-2026-07-13.md)
 
-本批是机制迁移最小闭环，**不冒充完整 LoL 语义**（无 6 秒持续、刷新、掉层）。
+本文只描述当前 generic ABI 合同。2026-07-13 的 `-4 armor / basic-only / run 内永久` 是历史 partial，已被本设计取代；旧 live revision 17 不证明当前合同已 migrate/publish。
 
-## 1. 目标与固定样本
+## 1. 当前机制合同
 
-| 项 | 合同 |
+| 项 | 当前值 |
 | --- | --- |
-| 代表装备 | Black Cleaver `item_3071` |
-| Provider | `provider_item_3071_black_cleaver_carve` |
-| 旧机制忠迁 | attacker-owned；真实伤害；`on_damage_dealt + physical + real_basic_attack_only` |
-| 效果 | 每次合格物理普攻伤害后，目标 armor **-4**，`carve_stacks` **+1**；最多 **5** 层（100→80）；第 6 次不变 |
-| 持续 | **run 内永久**；明确非正式 6s / refresh / drop |
+| 装备 | Black Cleaver `item_3071` |
+| Provider | `provider_item_3071_black_cleaver_carve`，attacker/source-owned |
+| 触发 | 顶层真实 root physical damage；不限定 basic attack |
+| State | `provider_target.carve_stacks`，default 0，max 5 |
+| 窗口 | 6000ms，`refresh_on_write`；满层后的第 6 次合格伤害仍刷新 |
+| Modifier | 对 opponent `armor` 做 `percent_add = -0.06 * carve_stacks` |
+| 数值 | 每层从基准 armor 减 6%，最多 30%；不是 flat -4，也不是逐层复乘 |
 
-## 2. 非目标
+同一 source provider 当前只维护一个 active target state。1v1 下 target switch 会清空旧 pair state；两侧挂同一 providerRef 时以 owner combatant + providerRef 隔离。
 
-1. 不实现正式 LoL Carve 的 6 秒持续、刷新、掉层。
-2. 不实现 retaliation / DoT / spell damage / multi-target / any-damage linked effects。
-3. 不创建 provider modifier（无法把 attacker provider modifier 跨角色施加到 opponent）。
-4. 不创建 `provider_state_fields` cap（当前 cap/expiry 只适用于 provider state，**不适用于** `provider_target` 的 targetValues；层数上限用 condition 表达）。
-5. **不新增** Backend DDL、detail family、Admin/Public API、新 operation kind。
-6. 不改 legacy DPS lane、公共 ABI DTO。
-7. 默认不改 TypeScript；仅真实验证发现 assembler 缺口时另开修复 Gate。
-8. Seed **无 DELETE**、**不自动 publish**；仅 material change 推 candidate revision。
-9. 不因本批完成而收口总体审计任务。
+## 2. Root physical `damage_dealt` 合成
 
-## 3. 核心机制合同
+顶层 `chainDepth=0` ability frame 中，只要至少一个 canonical `damage/physical` operation 经 pipeline 后 `result.Amount > 0`，就在 frame commit 后、listener dispatch 前合成一次 core event：
 
-### 3.1 自动合成 `event/damage_dealt`
+- `event/damage_dealt`
+- `event/damage_dealt/physical`
+- 若 ability TypeSet 含 `ability/basic_attack` 且 catalog 存在，则额外附加 `event/damage_dealt/basic_attack`
 
-在顶层 `chainDepth=0` 的 `ability/basic_attack` frame 中，若存在**至少一个**同时满足下列条件的 `damage/physical` operation，则在 **frame commit 之后**、**listener dispatch 之前**（或等价地插入现有 pending event 有序队列并随该队列派发），**恰好自动合成一次** `event/damage_dealt`：
+`event/damage_dealt/basic_attack` 是 optional qualifier；缺失时不能吞掉 core physical event。core event 仍对非 basic root physical ability 成立。
 
-| 条件 | 要求 |
-| --- | --- |
-| 真实 | 非 phantom replay |
-| 非 phantom | `phantom=false` |
-| 抗性后 amount | mitigated / post-mitigation amount **> 0** |
-| damage type | catalog 分类为 `damage/physical` |
+下列情况不合成：
 
-同 frame 多个合格物理 damage operation → **仍只合成一次**。
-
-**不合成**（任一成立即跳过）：
-
+- magic / true / mitigated amount 为 0
 - phantom replay
-- `chainDepth > 0`（含 listener child ability / listener operations frame）
-- ability TypeSet **不含** `ability/basic_attack`
-- 无合格物理 damage（含全 0 mitigated、仅 magic/true）
-- catalog 缺少合成所需分类 type（见 §3.2）→ **fail closed**，不得凭 ability key 字符串猜测
+- listener child / `chainDepth>0`
+- catalog 缺 `damage/physical` 或任一 core event type
 
-时序保证：第一击按**原 armor**结算；linked listener 只影响**后续**伤害。
+同一 frame 多个合格 physical operation 只合成一次，并在 evidence 中稳定保留单个 `operationRef` 或 `operationRefs`。
 
-### 3.2 自动事件 types 与 catalog fail-closed
+## 3. Provider-target state 与跨 combatant modifier
 
-自动 emitted event 的 **base types** 至少包含：
+### 3.1 State write 顺序
 
-| type_key | 建议 reserved id | 说明 |
-| --- | --- | --- |
-| `event/damage_dealt` | **20200**（既有） | 根事件 |
-| `event/damage_dealt/physical` | **20214**（本批新增） | event-domain qualifier |
-| `event/damage_dealt/basic_attack` | **20215**（本批新增） | event-domain qualifier |
+每次 source-owner core physical event 触发一条 `state_change`：
 
-`event/source_owner` **不**写入 base event types；由既有 **owner-relative runtime augmentation** 在 matcher 求值时加入。
+1. lazy-expire 当前 pair state；
+2. activate 当前 target；target switch 时清空旧 values/timers；
+3. 只为本次具体 key `carve_stacks` seed default；
+4. `add 1`，按 max 5 clamp；
+5. 每次写入都刷新 `expireAt = now + 6000`，包括已经 clamp 在 5 的写入。
 
-Compile / runtime 若 catalog 缺少上述任一分类 type（含 `ability/basic_attack`、`damage/physical`、三件 event vocabulary）：**fail closed**，禁止 abilityKey / 字符串启发式。
+非零 default 只在具体 target key 首次读写时应用。公式 overlay 只暴露已经触达的 `targetValues`，不得把 provider-scope field definitions 批量注入 target state。
 
-### 3.3 Listener 合同
+### 3.2 Modifier 挂载与求值
 
-| 项 | 合同 |
-| --- | --- |
-| Provider | `provider_item_3071_black_cleaver_carve`，mount → `item_3071` |
-| Matcher | `match_mode/all`：`event/damage_dealt` + `event/damage_dealt/physical` + `event/damage_dealt/basic_attack` + `event/source_owner` |
-| Sequence | 固定两步，顺序不可调换 |
+`opponent.attr.armor` modifier 挂到对手 resolver，但保留 `OwnerCombatantKey + ProviderRef` provenance，从 source bag 读取：
 
-**Step 1 — `attribute_change`**
+```text
+-0.06 * provider.target_state.carve_stacks
+```
 
-| 字段 | 值 |
-| --- | --- |
-| operation | `attribute_change` |
-| target | `target` |
-| attributeKey | `armor` |
-| valuePolicy | `add` |
-| amount formula | 常量 `-4` |
-| condition | `provider.target_state.carve_stacks < 5` |
+排序保持既有 `bucket → stage → priority → modifierKey`；owner/provider 仅在 modifierKey 相同后破平，不能改变非交换 modifier 的历史顺序。
 
-**Step 2 — `state_change`**
+### 3.3 Expiry
 
-| 字段 | 值 |
-| --- | --- |
-| operation | `state_change` |
-| target | `self` |
-| types / scope | `state_scope/provider_target` |
-| ref / state_key | `carve_stacks` |
-| valuePolicy | `add` |
-| amount formula | 常量 `1` |
-| condition | 与 Step 1 **相同**：`provider.target_state.carve_stacks < 5` |
+每次刷新都排入带 owner/provider/target/stateKey/expectedExpireAt 的 cleanup；旧 cleanup 通过 expected timestamp 丢弃。到期时：
 
-层数可见性：`finalSnapshot.providerState` 的 **targetState**（或合同等价路径）中可读 `carve_stacks`。
+- `carve_stacks` 写回 default 0；
+- timer 清零；
+- 重新求值受影响 target armor；
+- 若 cleanup 与 ability 同毫秒，expire cleanup 先执行，攻击按恢复后的 armor 结算。
 
-### 3.4 叠层与数值表（Canonical）
+## 4. Canonical 数值
 
-初始目标 armor=100、`carve_stacks=0`。每次合格真实普攻物理伤害后：
+初始 target armor=100：
 
-| 击序 | 本击结算 armor | 击后 armor | 击后 stacks |
-| --- | --- | --- | --- |
-| 1 | **100** | 96 | 1 |
-| 2 | 96 | 92 | 2 |
-| 3 | 92 | 88 | 3 |
-| 4 | 88 | 84 | 4 |
-| 5 | 84 | **80** | **5** |
-| 6 | **80**（不变） | 80 | 5 |
+| 击序 | 本击结算 armor | 击后 stacks | 击后 armor |
+| ---: | ---: | ---: | ---: |
+| 1 | 100 | 1 | 94 |
+| 2 | 94 | 2 | 88 |
+| 3 | 88 | 3 | 82 |
+| 4 | 82 | 4 | 76 |
+| 5 | 76 | 5 | 70 |
+| 6 | 70 | 5 | 70；窗口刷新 |
 
-### 3.5 防递归与禁区
+第 1 击必须按旧 armor 结算。若最后一次写在 `t=500ms`，`t=6499` 仍为 5 层/70 armor，`t=6500` 回到 0 层/100 armor。
 
-| 场景 | 合同 |
-| --- | --- |
-| Phantom replay | 不自动合成 `damage_dealt`；不叠层；不改 armor |
-| Listener child damage | 不递归合成 `damage_dealt` |
-| Magic / 非 basic physical | 不触发 listener |
-| Mitigated amount = 0 | 不合成事件 → 不叠层 |
-| Target-owned 同名 matcher | 不得误匹配 attacker-owned 黑切 listener（依赖 `event/source_owner`） |
-| `MaxCommandsPerEvent=1` | linked listener 两 commands → **fatal**；正常预算通过 |
+## 5. Backend 数据合同
 
-### 3.6 Evidence / Provenance
+当前 seed：`db/game_manage/seeds/lol_generic_linked_effects_seed.sql`。
 
-每次自动 `emitted_event` 至少记录：
+必须包含：
 
-- `source` / `target` / `eventType`
-- `damageType`（物理）
-- `abilityRef`
-- `operationRef`（同 frame 多 physical damage 时可稳定聚合或列出）
-- `rawAmount` / `mitigatedAmount`
-- `phantom=false`
+- reserved `event/damage_dealt/physical`（20214）；`event/damage_dealt/basic_attack`（20215）可保留为其它 matcher vocabulary，但 Black Cleaver active matcher 不使用它；
+- `provider_state_fields.carve_stacks`：number / max 5 / duration 6000 / refresh-on-write；
+- source-owner ALL matcher：`damage_dealt + physical + source_owner`；
+- 单 `state_change` sequence；
+- opponent armor `percent_add` modifier，公式 `-0.06 * provider.target_state.carve_stacks`；
+- `item_3071` mount。
 
-原 damage evidence 合同保持不变。`finalSnapshot` 必须能证明 armor 与 `carve_stacks`。
+升级旧 seed 时只允许受控移除该 listener 上废弃的 basic-attack matcher，其它路径继续幂等、material-change 才推进 candidate revision。不执行 live migration，不自动 publish。
 
-## 4. Backend / Data 合同
+Backend 实现基线：`597f9ae6f6d10e3b9e481699e72982b1a59b121b`。
 
-### 4.1 范围边界
+## 6. Wasm 写入边界
 
-| 动作 | 本批 |
-| --- | --- |
-| 新 DDL / detail family | **否** |
-| 新 Backend API | **否** |
-| `reserved_types_seed.sql` | **是**：增加 20214 / 20215 及 event group relation（parent **10019**） |
-| 新幂等 seed | **是**：`db/game_manage/seeds/lol_generic_linked_effects_seed.sql` |
-| 数据图复用 | 既有 `attribute_effect_details`、`state_effect_details`、effect step condition formula、listener matcher |
+当前实现集中在：
 
-Seed 只投影：所需 reserved types、provider / mount / formulas / listener / sequence / steps / details。**无 DELETE**、**不自动 publish**；仅 material change 推 candidate revision。
+- `internal/pipeline/attribute_resolver.go`
+- `internal/runtime/generic_execution.go`
+- `internal/runtime/generic_provider.go`
+- `internal/runtime/generic_provider_state.go`
+- `internal/runtime/generic_run.go`
+- `internal/runtime/generic_bound_modifiers.go`
+- `internal/runtime/generic_target_state_expiry.go`
+- `internal/runtime/generic_linked_effects_test.go`
 
-### 4.2 Live revision 路径
+不新增 public DTO、Driver ABI 或专用 Black Cleaver operation。runtime 原语必须继续保持数据驱动，可复用于其它跨 combatant modifier / provider-target window。
 
-| 阶段 | 预期 |
-| --- | --- |
-| 基线 | **16/16**（execute 闭环后） |
-| seed 后 | **17/16** |
-| 幂等重跑 | 仍 **17/16** |
-| 显式 publish `lol-generic-linked-effects-v1-20260713` | **17/17** |
+Wasm 实现基线：`01ceb07153272f9c4d234605444c7e1a9af3cb02`。
 
-编码前核对 version 码未占用；若 live 基线已漂移，以 material-change 可解释的实际数字为准并回写验证记录。
+## 7. Web 合同
 
-### 4.3 依赖既有 vocabulary（实施前核对）
+现有 `ProviderStateField` 与 assembler 已投影 `maxValue`、`durationMs`、`refreshPolicyTypeId`；当前能力不新增 ABI 字段。Web 只需同步经验证的 Wasm artifact，并继续运行 generic targeted/full tests、lint、typecheck 与 production build。
 
-须已存在（来自既有闭环；本批不新造，缺则 **停止报告**）：
+## 8. 必须覆盖的边界
 
-- `event/damage_dealt`（20200）
-- `event/source_owner`（owner-relative augmentation）
-- `ability/basic_attack`（game-local TypeSet 分类，Spellblade 批起）
-- `damage/physical`（20220）
-- `state_scope/provider_target`（薇恩闭环起）
-- `attribute_change` / `state_change` / condition formula 投影路径
-- `item_3071` 静态度实体（Batch C）；本批只补 Carve provider 图
+- first hit old armor；5 层 cap；第 6 次 cap write 刷新；6000ms expiry
+- expiry 与 hit 同毫秒
+- optional basic qualifier 缺失仍 emit core physical
+- non-basic root physical 可触发；basic-only listener 不误匹配 non-basic
+- magic / true / zero / phantom / child 不触发或不递归
+- 同 frame 多 physical 只 emit 一次
+- 两侧同 providerRef 隔离；一侧 expiry 不影响另一侧
+- provider-target 非零 default 首次 add、mixed-scope 不泄漏
+- modifierKey 排序优先于 owner/provider
+- command budget 与 determinism
 
-本批**仅新增** reserved：`event/damage_dealt/physical` **20214**、`event/damage_dealt/basic_attack` **20215**。
+## 9. 剩余边界
 
-## 5. Wasm 写入范围
+本任务只把 `切割 / Carve` 标为 completed/full。`item_3071` 的 `热烈 / Fervor`（造成物理伤害后 20 移速、持续 2 秒）仍缺 generic movement-speed combat-damage window，保持 `blocked_runtime`。
 
-### 5.1 建议最小文件
-
-| 路径 | 角色 |
-| --- | --- |
-| `wasm/tinygo_engine_v2/internal/runtime/generic_execution.go` | 顶层 basic_attack frame 自动合成 `damage_dealt`（commit 后 / pending 队列内）；证据字段 |
-| `wasm/tinygo_engine_v2/internal/runtime/generic_linked_effects_test.go` | **新建** Canonical 矩阵 |
-| 同目录测试辅助 | **仅当**夹具确有必要时最小修改 |
-
-### 5.2 禁止
-
-- legacy DPS lane / dispatcher
-- 公共 ABI DTO
-- 新增 operation kind
-- 默认可避免的 model / compile / pipeline 面扩张；若阻塞 → **停止并报告**，另开合同
-
-### 5.3 派发点合同
-
-在 `castAbilityAt(..., chainDepth=0)`：原 frame operations 执行并 **commit** → 判定是否合成自动 `damage_dealt` 并进入 pending 有序队列 → `dispatchPendingEvents` / listener dispatch。listener 内 child damage **不得**再次自动合成。
-
-## 6. Web 写入范围
-
-- 现有 assembler 理论上已支持 attribute/state detail、condition formula、event matcher → **默认零 TypeScript 改动**。
-- Wasm 构建成功后同步最终 wasm artifact 到 Web 既有位置。
-- 跑 lint / typecheck / Vitest / build。
-- 仅真实验证发现缺口时另开修复 Gate（不在本设计会话写入）。
-
-## 7. 测试矩阵（必须）
-
-### 7.1 Runtime / Wasm
-
-| # | 命题 | 通过标准 |
-| --- | --- | --- |
-| W1 | 第 1 击 | 按 100 armor 结算；随后 armor=96、stacks=1 |
-| W2 | 第 5 击后 | armor=80、stacks=5 |
-| W3 | 第 6 击 | armor/stacks 不变 |
-| W4 | Magic | 不触发 |
-| W5 | 非 basic physical | 不触发 |
-| W6 | mitigated=0 | 不合成 / 不叠层 |
-| W7 | 同 frame 多 physical damage | 只叠 1 层、只合成 1 次事件 |
-| W8 | Phantom | 不合成、不叠层 |
-| W9 | Listener child damage | 不递归合成 |
-| W10 | Target-owned listener | 不误匹配 |
-| W11 | Catalog qualifier 缺失 | fail closed |
-| W12 | `MaxCommandsPerEvent=1` | linked 两 commands fatal；正常预算通过 |
-| W13 | Evidence | emitted_event provenance 稳定；damage evidence 原合同保持 |
-| W14 | Snapshot | finalSnapshot 可证明 armor 与 carve_stacks |
-
-工程门禁：targeted runtime tests → `go test ./...` → bench → wasm build → Node smoke。
-
-### 7.2 Backend
-
-| # | 命题 | 通过标准 |
-| --- | --- | --- |
-| B1 | reserved | 20214/20215 + event group relation 静态可证 |
-| B2 | seed 图 | provider/mount/listener/sequence/steps/details/formulas 合同键稳定 |
-| B3 | 安全 | 无 DELETE；无 auto publish；幂等 |
-| B4 | revision | 16/16→17/16→（幂等）17/16→ publish 17/17 |
-| B5 | version | `lol-generic-linked-effects-v1-20260713` |
-
-工程门禁：targeted SQL static tests + 全量 Maven。
-
-### 7.3 Web / Live / Browser
-
-| # | 命题 | 通过标准 |
-| --- | --- | --- |
-| F1 | Web 工程 | lint / typecheck / Vitest / build |
-| F2 | Artifact | wasm hash 与构建一致 |
-| F3 | Live | 幂等与显式 publish 路径成立 |
-| F4 | Browser | Generic validation：compile / run / release；黑切叠层证据与 snapshot |
-
-## 8. 分 Gate 开发顺序
-
-### Gate A — Reserved + Seed（Backend）
-
-目标：补种 20214/20215；新增 `lol_generic_linked_effects_seed.sql` + 静态测试；不碰 live 直至显式确认。
-
-验证：targeted SQL tests + `mvn test`。
-
-停止：缺既有 vocabulary / `item_3071` 无法挂载且无法在允许范围内修复 → 报告。
-
-### Gate B — Wasm
-
-目标：自动 `damage_dealt` 合成 + Canonical linked effects 测试矩阵。
-
-验证：§7.1 命令集。
-
-停止：必须新增 operation / 改公共 ABI / 复活 legacy DPS → 报告。
-
-### Gate C — Web
-
-目标：默认同步 wasm artifact；工程门禁通过。缺口另开 Gate。
-
-### Gate D — Live publish + Browser E2E
-
-顺序：reserved → linked seed → 幂等核对 → 显式 publish → browser compile/run/release。
-
-### Gate E — Governance
-
-新增验证记录；将本 feature 任务标完成；**总体审计仍开发中**。
-
-## 9. 与总体审计关系
-
-- Feature 任务：`wasm-generic-linked-effects-black-cleaver`（本文）。
-- 总体任务：`wasm-generic-min-validation-coverage-audit` 保持 **开发中**。
-- 后续：crit / modifier。
-
-## 10. 停止条件（全局）
-
-若出现以下任一情况，**停止并报告**，不得自行扩范围：
-
-1. 必须新增 Backend DDL / detail family / API 才能表达本合同。
-2. 必须新增 operation kind 或修改公共 ABI DTO。
-3. 既有 `attribute_change` / `state_change` / `provider_target` / condition / ALL matcher 无法表达两步序列。
-4. catalog 无法以 type vocabulary 区分 basic_attack / physical，只能靠 abilityKey 猜测。
-5. task_rules / 治理 schema 无法映射本 feature 任务（本设计会话已验证可映射则不适用）。
+多目标 pair state、真实 live migration/publish 和浏览器 live E2E 也不由本轮声明完成。

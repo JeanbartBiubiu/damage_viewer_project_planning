@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: done
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-13
+LAST_TRACKED_AT: 2026-07-15
 
 # 通用 ABI 最小验证机制迁移与 G0-G9 覆盖审计详细设计
 
@@ -69,6 +69,23 @@ G8/G0-G9 覆盖审计基线已收口；后续 exact candidate 迁移继续滚动
 本批覆盖：顶层非普攻成功 cast 自动派发 `event/ability_started` 并武装、ready/ICD、下一次独立普攻 `2 * base AD` 后消费、phantom 禁区。
 
 因此本批机制证据成立；总体审计收口见文首验证记录。
+
+## 统一机制清单（2026-07-15 当前合同）
+
+G8 的 242 candidates 是一个专项输入，不再单独承担总任务池职责。统一清单生成器同时纳入 generic G8、legacy Batch G、full-item coverage、Batch J/K/L/M/N/P/V 等专项 audit/seed/generator，并按稳定键去重：
+
+1. 优先 `candidateKey`；
+2. 否则 `sourceKind + ownerId + skillKey/passiveName`；
+3. 碰撞行追加可复核 sourceRef/fingerprint；
+4. 以当前源码、generic compile/run 和最新提交证据覆盖旧 audit 状态。
+
+当前输入面：36 sources、527 coverage records、518 full-item containers；去重后 254 mechanisms。状态必须使用统一枚举：`completed`、`partial_actionable`、`ready_to_implement`、`blocked_runtime`、`blocked_data`、`out_of_scope`、`regression_only`、`stale_or_duplicate`。
+
+当前终态：completed 21；partial_actionable 0；ready_to_implement 0；blocked_runtime 40；blocked_data 146；out_of_scope 42；regression_only 5；stale_or_duplicate 0。completion mode 为 full 21 / partial 8 / none 225。
+
+“队列清空”只表示不存在当前可由小型通用扩展或现有 runtime 直接关闭的 actionable 项，不表示 254 个机制全部实现。blocked/out_of_scope 必须继续保留精确能力、数据或单目标边界。
+
+本轮状态校正：Guinsoo every-third cadence 以 Backend `8e4f305` / Wasm `676abd6` 为准；Jak'Sho 5 秒 target-owned synthetic partial 以 Backend `ed2bf6a` / Wasm `7e2b40e` 为准；Black Cleaver Carve 6%×5/6000ms 以 Backend `597f9ae` / Wasm `01ceb07` 为准。
 
 ## 真源与验证
 
