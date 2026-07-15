@@ -81,6 +81,22 @@ npm run dev
 | `npm run test` | Vitest 单元测试 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
+| `npm run test:e2e:wasm-generic` | 仅 Playwright 通用规格（需 `E2E_API_BASE_URL` + `E2E_GAME_ID`） |
+| `npm run smoke:wasm-generic` | 发布门禁：`lint` → `typecheck` → `test` → `build` → Playwright（fail-fast） |
+
+### Live smoke（fail-closed）
+
+```powershell
+cd web
+$env:E2E_API_BASE_URL = "http://127.0.0.1:8080"   # 必填，非空
+$env:E2E_GAME_ID = "lol"                           # 必填，非空
+# 可选：$env:E2E_WEB_BASE_URL = "http://127.0.0.1:5173"  # 已有前端；未设则自动 vite preview :4173
+npm run smoke:wasm-generic
+```
+
+- 缺少 `E2E_API_BASE_URL` / `E2E_GAME_ID`：**非零退出**，不会 `skip`。
+- 后端不可达、无 current version、combat-data state 不可用或 gameId 不匹配：**断言失败**。
+- 浏览器在启动前写入 `damage-viewer.web.api-base-url`，与探测同一 API；打开 `#/wasm-validation-generic` 确认页面与 combat-data/游戏上下文加载。不编造后端数据、不做破坏性 Admin 写。
 
 ## 常用验证
 

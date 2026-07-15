@@ -1,3 +1,10 @@
+TASK_KEY: wasm-engine-v2-architecture
+DOC_TYPE: 其他
+WORKSTREAM: wasm
+STATUS: tracked
+EXECUTION_MODEL: multi-model
+LAST_TRACKED_AT: 2026-07-15 15:40:43
+
 You are working in the Go/TinyGo repo at C:\project\damage_wasm_dev, module `wasm/tinygo_engine_v2`.
 This is a bounded fix task derived from a completed review. Implement the fixes below, add regression tests, and keep the change minimal and behavior-preserving outside the listed items.
 
