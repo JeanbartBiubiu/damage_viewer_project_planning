@@ -22,6 +22,7 @@ import { Panel } from '../components/Panel';
 import {
   assembleCombatScenario,
   assembleRunRequest,
+  listAdcCompletedItemEntityIds,
   type MaterializedCombatScenario
 } from '../engine/combatDataAssembler';
 import {
@@ -29,7 +30,10 @@ import {
   getGenericEngineClient
 } from '../engine/genericEngineClient';
 import { getErrorMessage } from '../services/apiClient';
-import { loadCombatDataGraphRevisionSafe } from '../services/combatDataLoader';
+import {
+  invalidateAndReload,
+  loadCombatDataGraphRevisionSafe
+} from '../services/combatDataLoader';
 import type { CombatDataGraph } from '../types/combatData';
 import type {
   CompileResult,
@@ -60,15 +64,35 @@ type WasmValidationGenericPageProps = {
 
 type GraphLoadKind = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
 
-type DriverEntryDraft = {
-  entryKey: string;
+type PrecastDriverDraft = {
   abilityRef: string;
+  entryKey: string;
   priority: number;
   firstAtMs: number;
-  repeatIntervalMs?: number;
+};
+
+type BasicAttackDriverDraft = {
+  abilityRef: string;
+  entryKey: string;
+  priority: number;
+  firstAtMs: number;
   repeatMaxAttempts?: number;
   whileReady: boolean;
 };
+
+const BASIC_ATTACK_TYPE_KEY = 'ability/basic_attack';
+
+const ATTACK_SPEED_INTERVAL_FORMULA = {
+  op: 'div' as const,
+  args: [
+    { op: 'const' as const, value: 1000 },
+    { op: 'read' as const, path: 'source.attr.attack_speed.resolved' }
+  ]
+};
+
+function hasBasicAttackType(option: GenericAbilityOption): boolean {
+  return option.types?.includes(BASIC_ATTACK_TYPE_KEY) === true;
+}
 
 function formatNumber(value: number | null | undefined): string {
   if (value === null || value === undefined || Number.isNaN(value)) {
@@ -107,12 +131,21 @@ function buildSeriesChartOption(
   };
 }
 
-function createDefaultDriverEntry(abilityRef = ''): DriverEntryDraft {
+function createDefaultPrecastDraft(): PrecastDriverDraft {
   return {
-    entryKey: 'entry_0',
-    abilityRef,
+    abilityRef: '',
+    entryKey: 'entry_precast',
     priority: 0,
-    firstAtMs: 0,
+    firstAtMs: 0
+  };
+}
+
+function createDefaultBasicAttackDraft(abilityRef = ''): BasicAttackDriverDraft {
+  return {
+    abilityRef,
+    entryKey: 'entry_basic_attack',
+    priority: 0,
+    firstAtMs: 100,
     whileReady: false
   };
 }
@@ -140,13 +173,16 @@ export function WasmValidationGenericPage({
   const [graph, setGraph] = useState<CombatDataGraph | null>(null);
   const [currentRevision, setCurrentRevision] = useState<number | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [manualReloadSeed, setManualReloadSeed] = useState(0);
 
   const [sourceEntityId, setSourceEntityId] = useState('');
   const [targetEntityId, setTargetEntityId] = useState('');
   const [sourceStage, setSourceStage] = useState<number | undefined>(undefined);
   const [targetStage, setTargetStage] = useState<number | undefined>(undefined);
-  const [driverEntry, setDriverEntry] = useState<DriverEntryDraft>(createDefaultDriverEntry());
+  const [sourceEquipmentEntityIds, setSourceEquipmentEntityIds] = useState<string[]>([]);
+  const [precastDraft, setPrecastDraft] = useState<PrecastDriverDraft>(createDefaultPrecastDraft);
+  const [basicAttackDraft, setBasicAttackDraft] = useState<BasicAttackDriverDraft>(
+    createDefaultBasicAttackDraft
+  );
   const [conditionRecheckIntervalMs, setConditionRecheckIntervalMs] = useState(
     DEFAULT_CONDITION_RECHECK_INTERVAL_MS
   );
@@ -200,56 +236,67 @@ export function WasmValidationGenericPage({
     }
   }, [clearSessionState]);
 
-  const reloadGraph = useCallback(async () => {
-    await releaseSessionQuietly();
-    setMaterialized(null);
-    setMaterializeError(null);
-    setAvailableAbilities([]);
-    setStatusMessage(null);
-    setLoadError(null);
+  const reloadGraph = useCallback(
+    async (options?: { invalidateCache?: boolean }) => {
+      await releaseSessionQuietly();
+      setMaterialized(null);
+      setMaterializeError(null);
+      setAvailableAbilities([]);
+      setStatusMessage(null);
+      setLoadError(null);
 
-    if (!selectedGameId) {
-      setGraph(null);
-      setCurrentRevision(null);
-      setGraphState('idle');
-      return;
-    }
-
-    setGraphState('loading');
-    try {
-      const nextGraph = await loadCombatDataGraphRevisionSafe(apiBaseUrl, selectedGameId, {
-        preferCache: true
-      });
-      setGraph(nextGraph);
-      setCurrentRevision(nextGraph.currentRevision);
-
-      const entities = nextGraph.entities ?? [];
-      if (entities.length === 0) {
-        setSourceEntityId('');
-        setTargetEntityId('');
-        setGraphState('empty');
+      if (!selectedGameId) {
+        setGraph(null);
+        setCurrentRevision(null);
+        setSourceEquipmentEntityIds([]);
+        setGraphState('idle');
         return;
       }
 
-      setGraphState('ready');
-      const firstId = entities[0]?.entityId ?? '';
-      const secondId = entities[1]?.entityId ?? firstId;
-      setSourceEntityId(firstId);
-      setTargetEntityId(secondId);
-    } catch (error) {
-      setGraph(null);
-      setCurrentRevision(null);
-      setSourceEntityId('');
-      setTargetEntityId('');
-      setGraphState('error');
-      setLoadError(getErrorMessage(error));
-    }
-  }, [apiBaseUrl, releaseSessionQuietly, selectedGameId]);
+      setGraphState('loading');
+      try {
+        const nextGraph = options?.invalidateCache
+          ? await invalidateAndReload(apiBaseUrl, selectedGameId)
+          : await loadCombatDataGraphRevisionSafe(apiBaseUrl, selectedGameId, {
+              preferCache: true
+            });
+        setGraph(nextGraph);
+        setCurrentRevision(nextGraph.currentRevision);
+
+        const entities = nextGraph.entities ?? [];
+        if (entities.length === 0) {
+          setSourceEntityId('');
+          setTargetEntityId('');
+          setSourceEquipmentEntityIds([]);
+          setGraphState('empty');
+          return;
+        }
+
+        setGraphState('ready');
+        const itemIds = listAdcCompletedItemEntityIds(nextGraph);
+        const combatants = entities.filter((entity) => !itemIds.has(entity.entityId));
+        const firstId = combatants[0]?.entityId ?? '';
+        const secondId = combatants[1]?.entityId ?? firstId;
+        setSourceEntityId(firstId);
+        setTargetEntityId(secondId);
+        setSourceEquipmentEntityIds((prev) => prev.filter((id) => itemIds.has(id)));
+      } catch (error) {
+        setGraph(null);
+        setCurrentRevision(null);
+        setSourceEntityId('');
+        setTargetEntityId('');
+        setSourceEquipmentEntityIds([]);
+        setGraphState('error');
+        setLoadError(getErrorMessage(error));
+      }
+    },
+    [apiBaseUrl, releaseSessionQuietly, selectedGameId]
+  );
 
   useEffect(() => {
     void reloadGraph();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- release before reload on seed/api/game change
-  }, [apiBaseUrl, selectedGameId, externalRefreshSeed, manualReloadSeed]);
+  }, [apiBaseUrl, selectedGameId, externalRefreshSeed]);
 
   useEffect(
     () => () => {
@@ -287,20 +334,32 @@ export function WasmValidationGenericPage({
         sourceEntityId,
         targetEntityId,
         sourceStage,
-        targetStage
+        targetStage,
+        sourceEquipmentEntityIds:
+          sourceEquipmentEntityIds.length > 0 ? sourceEquipmentEntityIds : undefined
       });
       setMaterialized(next);
       setAvailableAbilities(next.availableSourceAbilities);
       setMaterializeError(null);
 
       const selectable = next.availableSourceAbilities.filter((item) => item.selectable);
-      setDriverEntry((prev) => {
-        if (selectable.some((item) => item.abilityRef === prev.abilityRef)) {
+      const basicCandidates = selectable.filter(hasBasicAttackType);
+      const precastCandidates = selectable.filter((item) => !hasBasicAttackType(item));
+
+      setPrecastDraft((prev) => {
+        if (prev.abilityRef && precastCandidates.some((item) => item.abilityRef === prev.abilityRef)) {
           return prev;
         }
+        return { ...prev, abilityRef: '' };
+      });
+      setBasicAttackDraft((prev) => {
+        if (basicCandidates.some((item) => item.abilityRef === prev.abilityRef)) {
+          return prev;
+        }
+        // Exactly one basic-typed active: auto-select. Zero or many: leave empty (fail closed on run).
         return {
           ...prev,
-          abilityRef: selectable[0]?.abilityRef ?? ''
+          abilityRef: basicCandidates.length === 1 ? basicCandidates[0].abilityRef : ''
         };
       });
     } catch (error) {
@@ -308,17 +367,33 @@ export function WasmValidationGenericPage({
       setAvailableAbilities([]);
       setMaterializeError(error instanceof Error ? error.message : 'combat-data 装配失败');
     }
-  }, [graph, releaseSessionQuietly, sourceEntityId, sourceStage, targetEntityId, targetStage]);
+  }, [
+    graph,
+    releaseSessionQuietly,
+    sourceEntityId,
+    sourceEquipmentEntityIds,
+    sourceStage,
+    targetEntityId,
+    targetStage
+  ]);
 
   useEffect(() => {
     void rematerialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graph, sourceEntityId, targetEntityId, sourceStage, targetStage]);
+  }, [graph, sourceEntityId, targetEntityId, sourceStage, targetStage, sourceEquipmentEntityIds]);
 
   useEffect(() => {
     void releaseSessionQuietly();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [driverEntry, conditionRecheckIntervalMs, stopPolicy, sampling, safetyBudgetEnabled, safetyBudget]);
+  }, [
+    precastDraft,
+    basicAttackDraft,
+    conditionRecheckIntervalMs,
+    stopPolicy,
+    sampling,
+    safetyBudgetEnabled,
+    safetyBudget
+  ]);
 
   useEffect(() => {
     const bindings: Array<{ el: HTMLDivElement | null; option: echarts.EChartsOption }> = [
@@ -373,50 +448,126 @@ export function WasmValidationGenericPage({
     [availableAbilities]
   );
 
-  const entityOptions = useMemo(
-    () =>
-      (graph?.entities ?? []).map((entity) => ({
-        label: entityLabel(entity.entityId, entity.displayName),
-        value: entity.entityId
-      })),
+  const basicAttackAbilities = useMemo(
+    () => selectableAbilities.filter(hasBasicAttackType),
+    [selectableAbilities]
+  );
+
+  const precastAbilities = useMemo(
+    () => selectableAbilities.filter((item) => !hasBasicAttackType(item)),
+    [selectableAbilities]
+  );
+
+  const itemEntityIds = useMemo(
+    () => (graph ? listAdcCompletedItemEntityIds(graph) : new Set<string>()),
     [graph]
   );
 
+  const entityOptions = useMemo(
+    () =>
+      (graph?.entities ?? [])
+        .filter((entity) => !itemEntityIds.has(entity.entityId))
+        .map((entity) => ({
+          label: entityLabel(entity.entityId, entity.displayName),
+          value: entity.entityId
+        })),
+    [graph, itemEntityIds]
+  );
+
+  const equipmentOptions = useMemo(
+    () =>
+      (graph?.entities ?? [])
+        .filter((entity) => itemEntityIds.has(entity.entityId))
+        .map((entity) => ({
+          label: entityLabel(entity.entityId, entity.displayName),
+          value: entity.entityId
+        })),
+    [graph, itemEntityIds]
+  );
+
   const buildDriverPlan = useCallback((): DriverPlan | null => {
-    if (!driverEntry.abilityRef) {
-      setStatusMessage('请选择已挂载的主动技能');
+    if (basicAttackAbilities.length === 0) {
+      setStatusMessage(
+        '无法运行：source 未挂载带 ability/basic_attack 类型的主动技能（禁止按 abilityKey 猜测）'
+      );
       return null;
     }
-    if (!selectableAbilities.some((item) => item.abilityRef === driverEntry.abilityRef)) {
-      setStatusMessage('驱动计划只能选择攻击方（source）已挂载的主动技能');
+    if (!basicAttackDraft.abilityRef) {
+      setStatusMessage(
+        basicAttackAbilities.length > 1
+          ? '存在多个带 ability/basic_attack 的主动技能，请显式选择普攻'
+          : '请选择普攻主动技能'
+      );
+      return null;
+    }
+    const basicAbility = basicAttackAbilities.find(
+      (item) => item.abilityRef === basicAttackDraft.abilityRef
+    );
+    if (!basicAbility) {
+      setStatusMessage('所选普攻不在带 ability/basic_attack 类型的 source 主动技能列表中');
       return null;
     }
 
-    const entry: DriverEntry = {
-      entryKey: driverEntry.entryKey || 'entry_0',
-      abilityRef: driverEntry.abilityRef,
+    const entries: DriverEntry[] = [];
+
+    if (precastDraft.abilityRef) {
+      const precastAbility = precastAbilities.find(
+        (item) => item.abilityRef === precastDraft.abilityRef
+      );
+      if (!precastAbility) {
+        setStatusMessage('预施法只能选择非 ability/basic_attack 的 source 主动技能，且可为空');
+        return null;
+      }
+      const precastEntryKey = precastDraft.entryKey || 'entry_precast';
+      entries.push({
+        entryKey: precastEntryKey,
+        abilityRef: precastDraft.abilityRef,
+        source: 'source',
+        target: 'target',
+        priority: precastDraft.priority,
+        firstAtMs: precastDraft.firstAtMs
+      });
+    }
+
+    const maxAttempts =
+      basicAttackDraft.repeatMaxAttempts !== undefined
+        ? { maxAttempts: basicAttackDraft.repeatMaxAttempts }
+        : {};
+    const basicEntryKey = basicAttackDraft.entryKey || 'entry_basic_attack';
+    if (entries.length > 0 && entries[0].entryKey === basicEntryKey) {
+      setStatusMessage('预施法与普攻的 entryKey 必须不同');
+      return null;
+    }
+
+    const basicEntry: DriverEntry = {
+      entryKey: basicEntryKey,
+      abilityRef: basicAttackDraft.abilityRef,
       source: 'source',
       target: 'target',
-      priority: driverEntry.priority,
-      firstAtMs: driverEntry.firstAtMs
+      priority: basicAttackDraft.priority,
+      firstAtMs: basicAttackDraft.firstAtMs,
+      // Attack-speed cadence AST only; Wasm evaluates. No AS / stack / phantom math in React.
+      repeat: {
+        intervalFormula: ATTACK_SPEED_INTERVAL_FORMULA,
+        ...maxAttempts
+      }
     };
-    if (driverEntry.repeatIntervalMs !== undefined && Number.isFinite(driverEntry.repeatIntervalMs)) {
-      entry.repeat = {
-        intervalMs: driverEntry.repeatIntervalMs,
-        ...(driverEntry.repeatMaxAttempts !== undefined
-          ? { maxAttempts: driverEntry.repeatMaxAttempts }
-          : {})
-      };
+    if (basicAttackDraft.whileReady) {
+      basicEntry.whileReady = true;
     }
-    if (driverEntry.whileReady) {
-      entry.whileReady = true;
-    }
+    entries.push(basicEntry);
 
     return {
       conditionRecheckIntervalMs,
-      entries: [entry]
+      entries
     };
-  }, [conditionRecheckIntervalMs, driverEntry, selectableAbilities]);
+  }, [
+    basicAttackAbilities,
+    basicAttackDraft,
+    conditionRecheckIntervalMs,
+    precastAbilities,
+    precastDraft
+  ]);
 
   const handleCompile = useCallback(async () => {
     if (!graph || !materialized) {
@@ -552,7 +703,7 @@ export function WasmValidationGenericPage({
           title="通用引擎验证"
           kicker="combat-data"
           actions={
-            <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
+            <Button icon={<IconRefresh />} onClick={() => void reloadGraph({ invalidateCache: true })}>
               重新加载
             </Button>
           }
@@ -573,7 +724,7 @@ export function WasmValidationGenericPage({
         <Panel
           title="通用引擎验证"
           actions={
-            <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
+            <Button icon={<IconRefresh />} onClick={() => void reloadGraph({ invalidateCache: true })}>
               重新加载
             </Button>
           }
@@ -623,7 +774,7 @@ export function WasmValidationGenericPage({
         kicker="combat-data → 装配 → 编译 / 运行 / 释放"
         actions={
           <Space>
-            <Button icon={<IconRefresh />} onClick={() => setManualReloadSeed((value) => value + 1)}>
+            <Button icon={<IconRefresh />} onClick={() => void reloadGraph({ invalidateCache: true })}>
               重新加载 combat-data
             </Button>
             <Button type="primary" loading={busyAction === 'compile'} disabled={!canCompile} onClick={() => void handleCompile()}>
@@ -705,33 +856,94 @@ export function WasmValidationGenericPage({
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="攻击方装备（最多 6 件）">
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="选择已完成出装物品"
+              value={sourceEquipmentEntityIds}
+              options={equipmentOptions}
+              onChange={(value: string[]) => setSourceEquipmentEntityIds(value.slice(0, 6))}
+            />
+          </Form.Item>
           <Typography.Text type="secondary">
-            P0 不提供属性覆盖；场景由 combat-data 图装配为 CompileRequest。
+            所选装备的静态属性会聚合到攻击方；数据库已为装备配置的 provider
+            被动会随装备挂载到攻击方，未配置 provider 的装备仍只有静态属性。
           </Typography.Text>
         </Form>
       </Panel>
 
       <Panel title="驱动计划 / 停止条件 / 采样">
         <Form layout="vertical">
-          <Row gutter={16}>
+          <Typography.Text type="secondary">
+            普攻唯一依据：types 含 ability/basic_attack。预施法可选（如 Tumble），为空时仅跑普攻。
+          </Typography.Text>
+          <Row gutter={16} style={{ marginTop: 12 }}>
             <Col span={12}>
-              <Form.Item label="主动技能（仅攻击方已挂载的主动技能）">
+              <Form.Item label="预施法主动技能（可选，非 basic_attack type）">
                 <Select
-                  value={driverEntry.abilityRef || undefined}
-                  placeholder="选择技能"
-                  onChange={(value) => setDriverEntry((prev) => ({ ...prev, abilityRef: value }))}
-                  options={selectableAbilities.map((item) => ({
+                  allowClear
+                  value={precastDraft.abilityRef || undefined}
+                  placeholder="可不选"
+                  onChange={(value) =>
+                    setPrecastDraft((prev) => ({ ...prev, abilityRef: value ?? '' }))
+                  }
+                  options={precastAbilities.map((item) => ({
                     label: item.displayName,
                     value: item.abilityRef
                   }))}
                 />
               </Form.Item>
             </Col>
+            <Col span={12}>
+              <Form.Item label="普攻主动技能（须含 ability/basic_attack）">
+                <Select
+                  value={basicAttackDraft.abilityRef || undefined}
+                  placeholder={
+                    basicAttackAbilities.length === 0
+                      ? '无带 basic type 的主动技能'
+                      : basicAttackAbilities.length > 1
+                        ? '请显式选择普攻'
+                        : '选择普攻'
+                  }
+                  onChange={(value) =>
+                    setBasicAttackDraft((prev) => ({ ...prev, abilityRef: value }))
+                  }
+                  options={basicAttackAbilities.map((item) => ({
+                    label: item.displayName,
+                    value: item.abilityRef
+                  }))}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
             <Col span={6}>
-              <Form.Item label="条目键（entryKey）">
+              <Form.Item label="预施法 entryKey">
                 <Input
-                  value={driverEntry.entryKey}
-                  onChange={(value) => setDriverEntry((prev) => ({ ...prev, entryKey: value }))}
+                  value={precastDraft.entryKey}
+                  onChange={(value) => setPrecastDraft((prev) => ({ ...prev, entryKey: value }))}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item label="预施法首次触发（毫秒）">
+                <InputNumber
+                  min={0}
+                  value={precastDraft.firstAtMs}
+                  onChange={(value) =>
+                    setPrecastDraft((prev) => ({ ...prev, firstAtMs: Number(value) || 0 }))
+                  }
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item label="预施法优先级">
+                <InputNumber
+                  value={precastDraft.priority}
+                  onChange={(value) =>
+                    setPrecastDraft((prev) => ({ ...prev, priority: Number(value) || 0 }))
+                  }
                 />
               </Form.Item>
             </Col>
@@ -741,64 +953,83 @@ export function WasmValidationGenericPage({
                   min={10}
                   max={1000}
                   value={conditionRecheckIntervalMs}
-                  onChange={(value) => setConditionRecheckIntervalMs(Number(value) || DEFAULT_CONDITION_RECHECK_INTERVAL_MS)}
+                  onChange={(value) =>
+                    setConditionRecheckIntervalMs(
+                      Number(value) || DEFAULT_CONDITION_RECHECK_INTERVAL_MS
+                    )
+                  }
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={6}>
-              <Form.Item label="首次触发时间（毫秒）">
+              <Form.Item label="普攻 entryKey">
+                <Input
+                  value={basicAttackDraft.entryKey}
+                  onChange={(value) =>
+                    setBasicAttackDraft((prev) => ({ ...prev, entryKey: value }))
+                  }
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item label="普攻首次触发（毫秒）">
                 <InputNumber
                   min={0}
-                  value={driverEntry.firstAtMs}
-                  onChange={(value) => setDriverEntry((prev) => ({ ...prev, firstAtMs: Number(value) || 0 }))}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item label="优先级">
-                <InputNumber
-                  value={driverEntry.priority}
-                  onChange={(value) => setDriverEntry((prev) => ({ ...prev, priority: Number(value) || 0 }))}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item label="重复间隔（毫秒，可选）">
-                <InputNumber
-                  min={1}
-                  value={driverEntry.repeatIntervalMs}
+                  value={basicAttackDraft.firstAtMs}
                   onChange={(value) =>
-                    setDriverEntry((prev) => ({
+                    setBasicAttackDraft((prev) => ({
                       ...prev,
-                      repeatIntervalMs: value === undefined || value === null ? undefined : Number(value)
+                      firstAtMs: Number(value) || 0
                     }))
                   }
                 />
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label="最大重复次数（可选）">
+              <Form.Item label="普攻优先级">
                 <InputNumber
-                  min={1}
-                  value={driverEntry.repeatMaxAttempts}
+                  value={basicAttackDraft.priority}
                   onChange={(value) =>
-                    setDriverEntry((prev) => ({
-                      ...prev,
-                      repeatMaxAttempts: value === undefined || value === null ? undefined : Number(value)
-                    }))
+                    setBasicAttackDraft((prev) => ({ ...prev, priority: Number(value) || 0 }))
                   }
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item label="普攻重复间隔（攻速公式，自动）">
+                <InputNumber
+                  disabled
+                  placeholder="1000 / attack_speed.resolved"
+                  value={undefined}
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={6}>
-              <Form.Item label="就绪即施放（whileReady）">
+              <Form.Item label="普攻最大重复次数（可选）">
+                <InputNumber
+                  min={1}
+                  value={basicAttackDraft.repeatMaxAttempts}
+                  onChange={(value) =>
+                    setBasicAttackDraft((prev) => ({
+                      ...prev,
+                      repeatMaxAttempts:
+                        value === undefined || value === null ? undefined : Number(value)
+                    }))
+                  }
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item label="普攻就绪即施放（whileReady）">
                 <Switch
-                  checked={driverEntry.whileReady}
-                  onChange={(checked) => setDriverEntry((prev) => ({ ...prev, whileReady: checked }))}
+                  checked={basicAttackDraft.whileReady}
+                  onChange={(checked) =>
+                    setBasicAttackDraft((prev) => ({ ...prev, whileReady: checked }))
+                  }
                 />
               </Form.Item>
             </Col>
@@ -808,7 +1039,10 @@ export function WasmValidationGenericPage({
                   min={1}
                   value={stopPolicy.durationMs}
                   onChange={(value) =>
-                    setStopPolicy((prev) => ({ ...prev, durationMs: Number(value) || DEFAULT_STOP_POLICY.durationMs }))
+                    setStopPolicy((prev) => ({
+                      ...prev,
+                      durationMs: Number(value) || DEFAULT_STOP_POLICY.durationMs
+                    }))
                   }
                 />
               </Form.Item>
@@ -817,15 +1051,21 @@ export function WasmValidationGenericPage({
               <Form.Item label="目标死亡即停止">
                 <Switch
                   checked={stopPolicy.stopOnTargetDeath}
-                  onChange={(checked) => setStopPolicy((prev) => ({ ...prev, stopOnTargetDeath: checked }))}
+                  onChange={(checked) =>
+                    setStopPolicy((prev) => ({ ...prev, stopOnTargetDeath: checked }))
+                  }
                 />
               </Form.Item>
             </Col>
+          </Row>
+          <Row gutter={16}>
             <Col span={6}>
               <Form.Item label="无事件即停止">
                 <Switch
                   checked={stopPolicy.stopWhenNoEvents}
-                  onChange={(checked) => setStopPolicy((prev) => ({ ...prev, stopWhenNoEvents: checked }))}
+                  onChange={(checked) =>
+                    setStopPolicy((prev) => ({ ...prev, stopWhenNoEvents: checked }))
+                  }
                 />
               </Form.Item>
             </Col>
@@ -837,7 +1077,10 @@ export function WasmValidationGenericPage({
                   min={1}
                   value={sampling.sampleEveryMs}
                   onChange={(value) =>
-                    setSampling((prev) => ({ ...prev, sampleEveryMs: Number(value) || DEFAULT_SAMPLING.sampleEveryMs }))
+                    setSampling((prev) => ({
+                      ...prev,
+                      sampleEveryMs: Number(value) || DEFAULT_SAMPLING.sampleEveryMs
+                    }))
                   }
                 />
               </Form.Item>

@@ -148,4 +148,52 @@ describe('assertExactlyOneEffectDetail', () => {
     });
     expect(key).toBe('damageDetail');
   });
+
+  it('accepts executeDetail as the sole detail family', () => {
+    const key = assertExactlyOneEffectDetail({
+      sequenceId: 'seq',
+      stepOrder: 1,
+      operationTypeId: 1,
+      targetSelectorTypeId: 1,
+      executeDetail: { threshold: 0.25 }
+    });
+    expect(key).toBe('executeDetail');
+  });
+
+  it('accepts repeatDetail as the sole detail family', () => {
+    const key = assertExactlyOneEffectDetail({
+      sequenceId: 'seq',
+      stepOrder: 1,
+      operationTypeId: 1,
+      targetSelectorTypeId: 1,
+      repeatDetail: {
+        repeatScopeTypeId: 1,
+        repeatCount: 1,
+        repeatTag: 'tag',
+        triggerStateKey: 'stacks',
+        threshold: 4
+      }
+    });
+    expect(key).toBe('repeatDetail');
+  });
+
+  it('rejects executeDetail combined with another detail family', () => {
+    expect(() =>
+      assertExactlyOneEffectDetail({
+        executeDetail: { threshold: 0.25 },
+        damageDetail: { amountFormulaKey: 'a', damageTypeId: 1, valuePolicyTypeId: 1 }
+      })
+    ).toThrow(AdminPayloadError);
+
+    try {
+      assertExactlyOneEffectDetail({
+        executeDetail: { threshold: 0.25 },
+        damageDetail: { amountFormulaKey: 'a', damageTypeId: 1, valuePolicyTypeId: 1 }
+      });
+    } catch (error) {
+      expect((error as Error).message).toContain('found 2');
+      expect((error as Error).message).toContain('executeDetail');
+      expect((error as Error).message).toContain('damageDetail');
+    }
+  });
 });
