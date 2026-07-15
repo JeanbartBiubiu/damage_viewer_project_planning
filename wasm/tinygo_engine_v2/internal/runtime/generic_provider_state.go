@@ -29,14 +29,17 @@ type providerStateFieldDef struct {
 //	  "targetState": { "target": "<combatantKey>", "values": { "<key>": <number> } }
 //	}
 //
-// targetState is single-active-target: writing a key for a new target clears prior target values.
-// Provider-scope timed metadata (expireAt) is runtime-only and not emitted in snapshots.
+// targetState is single-active-target: writing a key for a new target clears prior target values
+// and per-key targetExpireAt timers. Timed metadata (expireAt / targetExpireAt) is runtime-only
+// and not emitted in snapshots. Field schema (defaultValue/maxValue/durationMs/refresh_on_write)
+// applies to both provider-scope and provider_target writes.
 type providerStateBag struct {
-	state        map[string]float64
-	expireAt     map[string]int64
-	fieldDefs    map[string]providerStateFieldDef
-	targetKey    string
-	targetValues map[string]float64
+	state          map[string]float64
+	expireAt       map[string]int64
+	fieldDefs      map[string]providerStateFieldDef
+	targetKey      string
+	targetValues   map[string]float64
+	targetExpireAt map[string]int64
 }
 
 func (b *providerStateBag) ensure() {
@@ -52,6 +55,9 @@ func (b *providerStateBag) ensure() {
 	if b.targetValues == nil {
 		b.targetValues = map[string]float64{}
 	}
+	if b.targetExpireAt == nil {
+		b.targetExpireAt = map[string]int64{}
+	}
 }
 
 func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*providerStateBag {
@@ -62,19 +68,21 @@ func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 	for k, bag := range src {
 		if bag == nil {
 			out[k] = &providerStateBag{
-				state:        map[string]float64{},
-				expireAt:     map[string]int64{},
-				fieldDefs:    map[string]providerStateFieldDef{},
-				targetValues: map[string]float64{},
+				state:          map[string]float64{},
+				expireAt:       map[string]int64{},
+				fieldDefs:      map[string]providerStateFieldDef{},
+				targetValues:   map[string]float64{},
+				targetExpireAt: map[string]int64{},
 			}
 			continue
 		}
 		out[k] = &providerStateBag{
-			state:        cloneFloatMap(bag.state),
-			expireAt:     cloneInt64Map(bag.expireAt),
-			fieldDefs:    cloneFieldDefMap(bag.fieldDefs),
-			targetKey:    bag.targetKey,
-			targetValues: cloneFloatMap(bag.targetValues),
+			state:          cloneFloatMap(bag.state),
+			expireAt:       cloneInt64Map(bag.expireAt),
+			fieldDefs:      cloneFieldDefMap(bag.fieldDefs),
+			targetKey:      bag.targetKey,
+			targetValues:   cloneFloatMap(bag.targetValues),
+			targetExpireAt: cloneInt64Map(bag.targetExpireAt),
 		}
 	}
 	return out
@@ -120,10 +128,11 @@ func materializeProviderState(raw map[string]interface{}) map[string]*providerSt
 	}
 	for providerRef, entry := range raw {
 		bag := &providerStateBag{
-			state:        map[string]float64{},
-			expireAt:     map[string]int64{},
-			fieldDefs:    map[string]providerStateFieldDef{},
-			targetValues: map[string]float64{},
+			state:          map[string]float64{},
+			expireAt:       map[string]int64{},
+			fieldDefs:      map[string]providerStateFieldDef{},
+			targetValues:   map[string]float64{},
+			targetExpireAt: map[string]int64{},
 		}
 		obj, ok := entry.(map[string]interface{})
 		if !ok {
@@ -234,7 +243,9 @@ func compiledStateFieldsToRuntime(fields map[string]compilebundle.CompiledProvid
 	return out
 }
 
-// bindFieldDefs attaches compiled field definitions once and seeds missing keys with defaultValue.
+// bindFieldDefs attaches compiled field definitions once and seeds missing provider-scope
+// keys with defaultValue. provider_target keys are seeded lazily on activate/write/read of
+// that specific key so provider-scope fields do not leak into targetState snapshots.
 func (b *providerStateBag) bindFieldDefs(fields map[string]providerStateFieldDef) {
 	if b == nil || len(fields) == 0 {
 		return
@@ -248,6 +259,59 @@ func (b *providerStateBag) bindFieldDefs(fields map[string]providerStateFieldDef
 			b.state[k] = def.defaultValue
 		}
 	}
+}
+
+// seedTargetValueIfAbsent writes field defaultValue for one provider_target key when absent.
+func (b *providerStateBag) seedTargetValueIfAbsent(key string) {
+	if b == nil || key == "" {
+		return
+	}
+	b.ensure()
+	if _, ok := b.targetValues[key]; ok {
+		return
+	}
+	if def, ok := b.fieldDefs[key]; ok {
+		b.targetValues[key] = def.defaultValue
+	}
+}
+
+// readTargetValue returns the active provider_target value, observing defaultValue when the
+// key has not been written yet (without inserting unrelated fieldDefs into targetValues).
+func (b *providerStateBag) readTargetValue(key string) float64 {
+	if b == nil {
+		return 0
+	}
+	if v, ok := b.targetValues[key]; ok {
+		return v
+	}
+	if def, ok := b.fieldDefs[key]; ok {
+		return def.defaultValue
+	}
+	return 0
+}
+
+// activateProviderTarget switches or establishes the active provider_target binding.
+// Missing per-key defaults are applied on the subsequent read/write of that key.
+func (b *providerStateBag) activateProviderTarget(targetKey string) {
+	if b == nil || targetKey == "" {
+		return
+	}
+	b.ensure()
+	if b.targetKey != "" && b.targetKey != targetKey {
+		b.clearProviderTargetState()
+	}
+	b.targetKey = targetKey
+}
+
+// targetStateForFormula returns only provider_target keys already seeded/written in
+// targetValues. Unrelated fieldDefs (including provider-scope defaults) must not appear
+// in the formula overlay — first-touch defaults are applied via seedTargetValueIfAbsent
+// on the specific key, not by bulk-filling fieldDefs here.
+func (b *providerStateBag) targetStateForFormula() map[string]float64 {
+	if b == nil {
+		return map[string]float64{}
+	}
+	return cloneFloatMap(b.targetValues)
 }
 
 // lazyExpireProviderState resets expired provider-scope keys to defaultValue (Gate H1).
@@ -269,6 +333,37 @@ func (b *providerStateBag) lazyExpireProviderState(nowMs int64) {
 			b.expireAt[key] = 0
 		}
 	}
+}
+
+// lazyExpireProviderTargetState resets expired provider_target keys to defaultValue.
+func (b *providerStateBag) lazyExpireProviderTargetState(nowMs int64) {
+	if b == nil || len(b.fieldDefs) == 0 {
+		return
+	}
+	b.ensure()
+	for key, def := range b.fieldDefs {
+		if def.durationMs <= 0 {
+			continue
+		}
+		exp, ok := b.targetExpireAt[key]
+		if !ok || exp <= 0 {
+			continue
+		}
+		if nowMs >= exp {
+			b.targetValues[key] = def.defaultValue
+			b.targetExpireAt[key] = 0
+		}
+	}
+}
+
+// clearProviderTargetState drops active target binding (values + timers) on target switch.
+func (b *providerStateBag) clearProviderTargetState() {
+	if b == nil {
+		return
+	}
+	b.targetKey = ""
+	b.targetValues = map[string]float64{}
+	b.targetExpireAt = map[string]int64{}
 }
 
 func (b *providerStateBag) clampProviderStateValue(key string, value float64) float64 {
@@ -298,4 +393,23 @@ func (b *providerStateBag) refreshExpireAtOnWrite(key string, nowMs int64) {
 	}
 	b.ensure()
 	b.expireAt[key] = nowMs + def.durationMs
+}
+
+// refreshTargetExpireAtOnWrite refreshes provider_target duration on every qualifying write,
+// including cap-clamped writes that leave the numeric value unchanged.
+func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64) int64 {
+	if b == nil {
+		return 0
+	}
+	def, ok := b.fieldDefs[key]
+	if !ok || def.durationMs <= 0 {
+		return 0
+	}
+	if def.refreshPolicy != model.ProviderStateRefreshOnWrite {
+		return 0
+	}
+	b.ensure()
+	exp := nowMs + def.durationMs
+	b.targetExpireAt[key] = exp
+	return exp
 }

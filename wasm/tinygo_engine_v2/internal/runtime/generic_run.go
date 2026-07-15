@@ -256,13 +256,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			resources = map[string]model.ResourceSlotDef{}
 		}
 		providers, resolver := materializeProviders(c.Providers, c.Key, compiled)
-		mountRuleModifiers(&resolver, c.Key, compiled)
 		shields := materializeShields(c.Shields, c.Key)
-		evalCtx := formula.GenericEvalContext{
-			SourceAttrs: attrs,
-			TargetAttrs: attrs,
-		}
-		attrs = resolver.ResolveAttributes(attrs, evalCtx, compiled.Formulas)
 		out[c.Key] = combatantRuntime{
 			key:           c.Key,
 			attributes:    cloneAttributeMap(attrs),
@@ -273,6 +267,40 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			resolver:      resolver,
 			providerState: materializeProviderState(c.ProviderState),
 		}
+	}
+	// Cross-combatant provider modifiers (e.g. opponent.attr.*) then rule modifiers.
+	remountAllProviderModifiers(out, compiled)
+	for key, c := range out {
+		resolver := c.resolver
+		mountRuleModifiers(&resolver, key, compiled)
+		c.resolver = resolver
+		out[key] = c
+	}
+	// Resolve with same-combatant eval first, then cross-combatant context.
+	for key, c := range out {
+		evalCtx := formula.GenericEvalContext{
+			SourceAttrs: c.attributes,
+			TargetAttrs: c.attributes,
+		}
+		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
+			c.attributes, evalCtx, compiled.Formulas,
+			func(ownerKey, providerRef string) formula.GenericEvalContext {
+				bagOwner := ownerKey
+				if bagOwner == "" {
+					bagOwner = key
+				}
+				owner, ok := out[bagOwner]
+				if !ok {
+					return providerFormulaContextFromBag(nil, providerTargetActiveKey(key, ownerKey, ""))
+				}
+				bag := owner.providerState[providerRef]
+				if bag != nil {
+					bag.bindFieldDefs(compiledStateFieldsForProvider(compiled, bagOwner, providerRef, owner.providers))
+				}
+				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, ""))
+			},
+		)
+		out[key] = c
 	}
 	// Re-resolve with cross-combatant eval context after both sides exist.
 	sourceAttrs := map[string]model.AttributeSlotDef{}
@@ -288,7 +316,26 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			SourceAttrs: sourceAttrs,
 			TargetAttrs: targetAttrs,
 		}
-		c.attributes = c.resolver.ResolveAttributes(c.attributes, evalCtx, compiled.Formulas)
+		// Same-combatant cast-proxy default remains target (historical materialize semantics).
+		castProxy := model.SelectorTarget
+		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
+			c.attributes, evalCtx, compiled.Formulas,
+			func(ownerKey, providerRef string) formula.GenericEvalContext {
+				bagOwner := ownerKey
+				if bagOwner == "" {
+					bagOwner = key
+				}
+				owner, ok := out[bagOwner]
+				if !ok {
+					return providerFormulaContextFromBag(nil, providerTargetActiveKey(key, ownerKey, castProxy))
+				}
+				bag := owner.providerState[providerRef]
+				if bag != nil {
+					bag.bindFieldDefs(compiledStateFieldsForProvider(compiled, bagOwner, providerRef, owner.providers))
+				}
+				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, castProxy))
+			},
+		)
 		out[key] = c
 	}
 	return out
