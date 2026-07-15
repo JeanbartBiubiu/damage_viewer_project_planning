@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildEffectStepPutFromEditor,
+  recordToEffectStepEditorState
+} from './EffectStepEditor';
+import {
   adaptEnvelopeDataToRecords,
+  bodyFromFields,
   createEmptyForm,
   getCombatDataResource,
   recordToForm
@@ -82,5 +87,120 @@ describe('combat-data resourceRegistry envelope adaptation', () => {
     expect(form.stageMax).toBe(18);
     expect(form.stageLabel).toBe('等级');
     expect(form.requireAllStages).toBe(true);
+  });
+});
+
+describe('abilities castConditionFormulaKey form field', () => {
+  it('exposes optional castConditionFormulaKey and retains it on record/form/body path', () => {
+    const config = getCombatDataResource('abilities');
+    expect(config).toBeDefined();
+    expect(config!.groupId).toBe('abilities');
+
+    const field = config!.fields.find((f) => f.name === 'castConditionFormulaKey');
+    expect(field).toMatchObject({
+      name: 'castConditionFormulaKey',
+      kind: 'text',
+      label: '施放前置条件公式 Key'
+    });
+    expect(field?.required).toBeUndefined();
+
+    const emptyForm = createEmptyForm(config!.fields);
+    expect(emptyForm.castConditionFormulaKey).toBe('');
+    expect(
+      bodyFromFields(config!.fields, ['abilityId'], emptyForm)
+    ).not.toHaveProperty('castConditionFormulaKey');
+
+    const form = recordToForm(
+      {
+        abilityId: 'ability_hero_ashe_q_rangers_focus',
+        providerId: 'provider_hero_ashe_rangers_focus',
+        abilityKey: 'rangers_focus',
+        abilityKindTypeId: 20130,
+        displayName: '射手的专注',
+        castConditionFormulaKey: 'rangers_focus_cast_condition'
+      },
+      config!.fields
+    );
+    expect(form.castConditionFormulaKey).toBe('rangers_focus_cast_condition');
+
+    const body = bodyFromFields(config!.fields, ['abilityId'], form);
+    expect(body.castConditionFormulaKey).toBe('rangers_focus_cast_condition');
+    expect(body.abilityKey).toBe('rangers_focus');
+    expect(body.providerId).toBe('provider_hero_ashe_rangers_focus');
+  });
+});
+
+describe('execute-effect-details and effect-step detail families', () => {
+  it('registers execute-effect-details in Effect group with locked stepId and required threshold', () => {
+    const config = getCombatDataResource('execute-effect-details');
+    expect(config).toBeDefined();
+    expect(config!.groupId).toBe('effects');
+    expect(config!.pathKeys).toEqual(['stepId']);
+
+    const stepIdField = config!.fields.find((field) => field.name === 'stepId');
+    expect(stepIdField).toMatchObject({ kind: 'text', required: true, lockedOnEdit: true });
+
+    const thresholdField = config!.fields.find((field) => field.name === 'threshold');
+    expect(thresholdField).toMatchObject({ kind: 'number', required: true });
+  });
+
+  it('converts and builds executeDetail PUT body with only threshold plus common fields', () => {
+    const state = recordToEffectStepEditorState({
+      stepId: 'step_exec',
+      sequenceId: 'seq_1',
+      stepOrder: 1,
+      operationTypeId: 10,
+      targetSelectorTypeId: 20,
+      conditionFormulaKey: 'cond.hp',
+      executeDetail: { threshold: 0.25 }
+    });
+    expect(state.detailFamily).toBe('executeDetail');
+    expect(state.detail.threshold).toBe(0.25);
+
+    const body = buildEffectStepPutFromEditor(state);
+    expect(body).toEqual({
+      sequenceId: 'seq_1',
+      stepOrder: 1,
+      operationTypeId: 10,
+      targetSelectorTypeId: 20,
+      conditionFormulaKey: 'cond.hp',
+      executeDetail: { threshold: 0.25 }
+    });
+  });
+
+  it('converts and builds repeatDetail with all fields intact', () => {
+    const state = recordToEffectStepEditorState({
+      stepId: 'step_repeat',
+      sequenceId: 'seq_2',
+      stepOrder: 2,
+      operationTypeId: 11,
+      targetSelectorTypeId: 21,
+      repeatDetail: {
+        repeatScopeTypeId: 3,
+        repeatCount: 4,
+        repeatTag: 'tag.a',
+        triggerStateKey: 'state.ready',
+        threshold: 0.5
+      }
+    });
+    expect(state.detailFamily).toBe('repeatDetail');
+    expect(state.detail).toMatchObject({
+      repeatScopeTypeId: 3,
+      repeatCount: 4,
+      repeatTag: 'tag.a',
+      triggerStateKey: 'state.ready',
+      threshold: 0.5
+    });
+
+    const body = buildEffectStepPutFromEditor(state);
+    expect(body.repeatDetail).toEqual({
+      repeatScopeTypeId: 3,
+      repeatCount: 4,
+      repeatTag: 'tag.a',
+      triggerStateKey: 'state.ready',
+      threshold: 0.5
+    });
+    expect(body.sequenceId).toBe('seq_2');
+    expect(body.stepOrder).toBe(2);
   });
 });
