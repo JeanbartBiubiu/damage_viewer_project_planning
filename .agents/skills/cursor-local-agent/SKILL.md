@@ -9,11 +9,17 @@ description: Use when calling Cursor's TypeScript SDK or local agent from the dr
 
 Use Cursor as a local execution engine through `@cursor/sdk`, not as a visible Cursor IDE chat. SDK local agent transcripts may be written under `~/.cursor/projects/...`, but they are not guaranteed to appear in the Cursor IDE Agent history dropdown.
 
-For real development runs, treat the SDK event stream, summary JSON, artifact list, `git diff`, and local validation as the primary evidence chain. Cursor IDE history visibility is not an acceptance signal.
+**Terminology (see root `AGENTS.md` §0):**
+
+- **Top-level Cursor local agent**: the agent this skill creates via SDK/runner. Fixed model contract applies here only.
+- **Cursor internal task/subagent/explore**: optional bounded delegation inside that top-level agent; the top-level agent owns the output. Internal model choice is not the fixed grok contract.
+- `--allowed-path` is an **audited write allowlist** (fail-closed classification). It is **not** an OS sandbox.
+
+For real development runs, treat the SDK event stream, `summary.json`, artifact list, full-worktree + scoped git status, `diff.patch`, and local validation as the primary evidence chain.
 
 ## Hard Rules
 
-- Use only `grok-4.5` with explicit non-fast params.
+- Use only `grok-4.5` with explicit non-fast params for the **top-level** agent.
 - Always disable Fast explicitly. `Cursor.models.list()` currently marks bare `grok-4.5` default as `effort=high` + `fast=true`, so a bare model id is not strict enough:
 
 ```ts
@@ -26,11 +32,12 @@ const model = {
 };
 ```
 
-- Never use `composer-latest`, `composer`, `composer-2.5`, `composer-2.5-fast`, or bare `{ id: "grok-4.5" }` for current Cursor local agent development runs.
+- Never use `composer-latest`, `composer`, `composer-2.5`, `composer-2.5-fast`, or bare `{ id: "grok-4.5" }` for current top-level Cursor local agent development runs.
 - Only change Grok params after `Cursor.models.list()` proves the exact contract.
 - Pass `apiKey` explicitly to `Agent.create(...)`; do not rely only on `process.env.CURSOR_API_KEY`.
 - Do not print API keys. It is acceptable to print whether a key is present, its length, or a short prefix.
-- Treat Cursor SDK runs as automation artifacts. Capture prompt, raw statuses, event log, run result, artifact hints, and `git diff` for review instead of relying on Cursor IDE UI visibility.
+- Real runs **require** at least one `--allowed-path`. Paths resolve under `--cwd`; escapes outside the repository are rejected.
+- After the run, snapshot per-path status+content signatures and classify the **run delta** (paths whose signature changed) against the allowlist. Untouched pre-existing dirt does not fail the run; outside-scope paths changed during the run set `writeAllowlistAudit.failClosed` and force a **non-zero** exit while preserving artifacts. If after-state capture/parse/classify fails, treat that as audit failure (fail-closed).
 - Do not assume `status=error` means no code landed. Review the worktree diff before deciding the next action.
 - Run preflight before real tasks. At minimum check Node runtime, `CURSOR_USE_HTTP1`, `CURSOR_API_KEY`, `@cursor/sdk` resolution, and whether CLI fallback is actually callable.
 
@@ -74,13 +81,11 @@ try {
 
 1. Resolve the target repository path. Prefer the user's real project path over a Codex worktree if the user expects Cursor project-local state.
 2. Read `CURSOR_API_KEY` from the current process or Windows User environment, then pass it explicitly as `apiKey`.
-3. Create the agent with the hard-rule model object above.
-4. Send a bounded task prompt. For test runs, include "Do not create, edit, or delete files."
-5. Stream and store events as JSONL or an equivalent structured log. On completion, record `run.id`, `agent.agentId`, `result.model`, `result.status`, raw statuses, and artifact hints.
-6. If the run returns `error`, inspect `git diff` and generated files before treating the round as failed-no-output.
-7. After development tasks, inspect `git diff` and run requested validation before sending work back for review.
-
-For real development tasks, prefer the dedicated runner:
+3. Create the **top-level** agent with the hard-rule model object above.
+4. Send a bounded task prompt with an explicit write allowlist. For test runs, include "Do not create, edit, or delete files."
+5. Prefer `scripts/cursor_local_agent_run.mjs` for real work. It writes `prompt.txt`, `summary.json`, `events.jsonl`, `diff.patch`, `review.md`, full-worktree and scoped git status, path-signature before/after JSON, and untracked **metadata only** (path/size/sha256 — never raw file content) under `--out-dir` (default `.agents/artifacts/cursor-task-*`). SDK store lives under that artifact directory.
+6. If the run returns `error`, or exit code is non-zero due to outside-scope paths, inspect artifacts and `git diff` before deciding the next action.
+7. After development tasks, inspect classification results and run requested validation before sending work back for review.
 
 ```powershell
 $repo = "C:\project\damage_viewer_project_planning"
@@ -94,15 +99,11 @@ node (Join-Path $skillRoot "scripts\cursor_local_agent_run.mjs") `
 
 Set `$repo` to the actual target worktree before copying a command. For Wasm work use `C:\project\damage_wasm_dev`; for Web use `C:\project\damage_web_dev`; for backend use `C:\project\damage_backend_dev`. If the target worktree does not contain this skill directory, use the planning repo's `.agents\skills\cursor-local-agent\scripts\...` path but keep `--cwd` pointed at the target repo.
 
-The runner writes a standard artifact set:
+Path-policy unit check:
 
-- `prompt.txt`
-- `summary.json`
-- `events.jsonl`
-- `diff.patch`
-- `review.md`
-
-Plus optional support files such as `preflight.md` and git status snapshots.
+```powershell
+node (Join-Path $skillRoot "scripts\cursor_local_agent_path_policy.test.mjs")
+```
 
 ## Verification
 
@@ -123,14 +124,7 @@ RESULT_MODEL={"id":"grok-4.5","params":[{"id":"effort","value":"high"},{"id":"fa
 ASSISTANT_TEXT=GROK_45_NONFAST_SMOKE_OK
 ```
 
-For real task runs, prefer also writing:
-
-```text
---json-out <summary.json>
---events-out <events.jsonl>
-```
-
-`cursor_local_agent_run.mjs` is the preferred path for real work. `cursor_local_agent_smoke.mjs` stays focused on model / SDK health checks.
+`cursor_local_agent_run.mjs` is the preferred path for real work (artifacts always land under `--out-dir`). `cursor_local_agent_smoke.mjs` stays focused on model / SDK health checks.
 
 ## CLI Fallback
 
@@ -149,4 +143,6 @@ CLI fallback is not assumed to exist.
 | Cursor IDE does not show the SDK session | Read SDK artifacts/transcripts directly; do not depend on the IDE history dropdown. |
 | Session appears under the wrong project | Use the exact desired `cwd`; Cursor stores project state by path. |
 | Run ends with `status=error` but files changed | Review `git diff`, summary JSON, and events log before deciding whether to open a fix loop. |
+| Outside-scope paths changed during a run | Treat exit code 2 / `writeAllowlistAudit.failClosed` (run-delta based) as audit failure; untouched pre-existing dirt alone is not enough to fail. |
+| Assuming `--allowed-path` is an OS sandbox | It is audited classification only; the agent process itself is not sandboxed by this flag. |
 | CLI fallback was expected but only `cursor` exists | Probe for a standalone `cursor-agent` binary first; the desktop wrapper alone is not enough evidence. |

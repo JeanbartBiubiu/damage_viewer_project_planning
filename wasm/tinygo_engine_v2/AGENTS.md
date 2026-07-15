@@ -1,7 +1,5 @@
 # TinyGo Engine V2 AGENTS.md
 
-> 迁移提示：本文件下文仍描述当前已落地的旧 TinyGo V2 ABI 与骨架，后续“Wasm 通用计算引擎”开发以 `文档记录/详细设计/wasm/WASM详细设计.md` 为目标契约，尤其以其中 `§2.1 目标 ABI 与现有导出迁移` 为准。旧 `engine_init/engine_begin_run/engine_step`、`EngineBundleV2`、专用 DPS lane 只能作为 legacy/compat 或迁移参考，不能反向定义新通用引擎语义。
-
 ## 1. 适用范围
 
 本文只适用于 `wasm/tinygo_engine_v2/**`。
@@ -11,12 +9,12 @@
 ## 2. 当前目标
 
 1. `wasm/tinygo_engine_v2` 是 Damage Viewer 的 TinyGo Wasm 计算引擎正式落点。
-2. 当前代码目标是按 V2 契约和子系统边界逐层实现、逐层 review，不再扩展临时 demo。
-3. 正式宿主目标是浏览器 Worker；Node 脚本只作为本地或 CI 的 instantiate、导出函数检查和 benchmark 工具。
+2. **当前 canonical 路径**是 generic ABI：`CompileRequest -> engine_compile -> CompiledSession`，再 `RunRequest + sessionId/expectedRulesHash -> engine_run -> DoneResult`，最后 `ReleaseSessionRequest -> engine_release_session`。
+3. 正式宿主目标是浏览器 Worker；Node 脚本只作为本地/CI 的 instantiate、generic ABI smoke 和 benchmark 工具。
 4. 首期优化目标是 1v1 单线程确定性计算，不提前为多单位战斗支付热路径复杂度。
-5. TinyGo 是当前 Wasm 主线；新的引擎能力、性能实验、包体优化和浏览器宿主接入默认落在本目录，不再默认扩展 Rust 版本作为主实现。
-6. 允许用较大的 Wasm 初始内存换取稳定延迟；当前已验证可接受的基线是 `256 MiB`，后续可继续下探，但不要默认回到“小内存优先”的假设。
-7. 低配置设备不是当前 Wasm 计算引擎的兼容目标；设备资源明显不足时优先降级、禁用或不加载计算引擎。
+5. TinyGo 是当前 Wasm 主线；新机制默认落在 provider/ability/operation + compile/session/run/release，不再扩展 legacy 单攻 DPS 作为新能力入口。
+6. 允许用较大的 Wasm 初始内存换取稳定延迟；当前已验证可接受的基线是 `256 MiB`。
+7. 低配置设备不是当前 Wasm 计算引擎的兼容目标。
 8. 如需推翻 TinyGo 主线或 `256 MiB` 基线，必须附带同口径 benchmark、包体和宿主侧延迟证据，并同步更新本文件、`README.md` 和验证记录。
 
 ## 3. 默认写入与参考边界
@@ -45,38 +43,36 @@
 
 1. `README.md`
 2. `ARCHITECTURE.md`
-3. `文档记录/需求澄清/wasm/WASM需求澄清.md`
-4. `文档记录/概要设计/wasm/WASM概要设计.md`
-5. `文档记录/详细设计/wasm/WASM详细设计.md`
-6. `文档记录/需求澄清/wasm/WASM机制覆盖需求.md`
+3. `文档记录/详细设计/wasm/WASM详细设计.md`
+4. `文档记录/需求澄清/wasm/WASM需求澄清.md` / `WASM通用计算引擎需求对齐记录.md`
+5. `文档记录/概要设计/wasm/WASM概要设计.md`
 
 ## 5. 关键入口地图
 
-1. `cmd/engine_wasm/main.go`：TinyGo Wasm 导出函数，只保留 ABI 和 session 装配。
-2. `cmd/bench/main.go`：原生 Go benchmark smoke。
-3. `internal/abi/**`：frame、outbox、错误码、内存拷贝和 ABI 合约测试。
-4. `internal/model/**`：`EngineBundleV2`、`EngineRunInputV2`、输出日志、snapshot、错误 DTO 和枚举。
-5. `internal/compile/**`：bundle 编译、短 ID、引用校验、索引构建。
-6. `internal/runtime/**`：`EngineSession`、`RunContext`、actor runtime、RNG、运行生命周期。
-7. `internal/scheduler/**`：`(time, priority, seq)` 稳定事件堆和 lazy invalidation。
-8. `internal/formula/**`：公式 bytecode、EvalContext 和读取 opcode。
-9. `internal/attribute/**`：属性 `base/current/max/resolved/dirty`、modifier 聚合、派生刷新。
-10. `internal/resource/**`：资源 `current/max`、spend/refund/regen/clamp。
-11. `internal/{command,pipeline,trigger,status,shield,control,cadence,history,counter,mark,crit,augment}/**`：机制子系统骨架和后续实现落点。
-12. `internal/testkit/**`：fixture、golden replay、ABI helper。
-13. `scripts/**`：TinyGo 构建、Node smoke、Node benchmark。
-14. `targets/wasm-256m.json`：256 MiB TinyGo wasm target。
+1. `cmd/engine_wasm/main.go`：TinyGo Wasm 导出；canonical 业务入口为 `engine_compile` / `engine_run` / `engine_release_session`，外加 `alloc`/`dealloc`/outbox glue。
+2. `cmd/bench/main.go`：原生 Go benchmark（默认 generic runtime；`legacy` 为对照模式）。
+3. `internal/abi/**`：frame、outbox、内存拷贝。
+4. `internal/model/generic*.go`：`CompileRequest`、`RunRequest`、`DoneResult`、generic frame kind `200..214`、错误 DTO。
+5. `internal/compile/generic.go`：`CompileGeneric` → `CompiledSession`；`generic_validate.go` collect-all。
+6. `internal/runtime/session.go`：`CompileFrame`/`RunFrame`/`ReleaseSessionFrame` 与 session registry/hash 校验。
+7. `internal/runtime/generic_run.go`：`RunGeneric`；`generic_execution.go`、`generic_gate.go`、`generic_provider*.go`。
+8. `internal/scheduler/generic_heap.go`、`internal/formula/generic*.go`、`internal/typeset/generic.go`、`internal/pipeline/**`：generic 调度/公式/类型集/数值管道。
+9. `internal/testkit/fixtures/generic_p0_basic_damage.json`：canonical fixture（勿改、勿复制）。
+10. `scripts/smoke-node.mjs`、`scripts/bench-node.mjs`、`scripts/generic-abi-host.mjs`：Node generic ABI 验证与 benchmark。
+11. `targets/wasm-256m.json`：256 MiB TinyGo wasm target。
+
+兼容/回归表面（非 canonical，不定义新机制）：legacy `engine_init` / `engine_begin_run` / `engine_step` 与 `internal/runtime/dps_*.go` 单攻 DPS 仍保留在源码与旧测试中。
 
 ## 6. 常用命令
 
 在 `wasm/tinygo_engine_v2/` 目录执行：
 
 ```powershell
-go test ./...
+go test -count=1 ./...
 go run ./cmd/bench
 powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1
 node .\scripts\smoke-node.mjs
-node .\scripts\bench-node.mjs --iterations 10 --warmup 2
+node .\scripts\bench-node.mjs --mode generic-run --iterations 10 --warmup 2
 ```
 
 如果 TinyGo 不在 `PATH`，构建命令使用：
@@ -85,51 +81,45 @@ node .\scripts\bench-node.mjs --iterations 10 --warmup 2
 powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\path\to\tinygo.exe"
 ```
 
-当前仓库默认优先使用 repo-local 工具路径；`build-wasm.ps1`、`smoke-node.mjs` 和 `bench-node.mjs` 会先尝试发现：
-
-1. `C:\project\damage_wasm_dev\.tools\tinygo0.40.1\tinygo\bin\tinygo.exe`
-2. `C:\project\damage_wasm_dev\.tools\tinygo0.40.1\tinygo\targets\wasm_exec.js`
-3. `C:\project\damage_wasm_dev\.tools\binaryen-version_129\bin\wasm-opt.exe`
-
-只有 repo-local 工具缺失时，才回退到 `PATH`、`TINYGO_WASM_EXEC` 或手工 `-TinyGo` 参数。
+当前仓库默认优先使用 repo-local 工具路径；缺失时可回退到项目级 `C:\project\tinygo0.40.1`，再回退到 `PATH` / `TINYGO_WASM_EXEC` / 手工 `-TinyGo`。
 
 `wasm_exec.js` 必须来自同一 TinyGo 版本的 `TINYGOROOT`。
 
-## 7. 运行时与 ABI 约定（LEGACY 当前已落地）
+## 7. 运行时与 ABI 约定（canonical）
 
-新通用引擎目标 ABI 是 `engine_compile`、`engine_run`、`engine_release_session`；旧导出函数只表示当前已落地兼容路径。开发新通用引擎时先读 `文档记录/详细设计/wasm/WASM详细设计.md` 的 `§2.0`、`§2.1` 和 `§19`。
-
-1. ABI 固定为显式导出函数：`alloc`、`dealloc`、`engine_init`、`engine_snapshot_initial`、`engine_snapshot_actions_initial`、`engine_begin_run`、`engine_step`、`engine_abort_run`、`engine_outbox_ptr`、`engine_outbox_len`、`engine_outbox_clear`。
-2. 协议首期为二进制 frame header + UTF-8 JSON payload；frame header 包含 `magic/schemaVersion/kind/flags/payloadLen`。
-3. ABI 可预留二进制 payload kind，但首期不要实现 MessagePack/CBOR 快路径。
-4. outbox 使用固定容量缓冲；`done/error/snapshot` 记录必须优先保留，普通 `tick/log/sample` 可降采样或丢弃。
-5. `targets/wasm-256m.json` 固定 `--initial-memory=268435456` 和 `--max-memory=268435456`，下探内存只能在 benchmark 证明安全后进行。
+1. 业务导出：`engine_compile`、`engine_run`、`engine_release_session`。
+2. 内存/outbox glue：`alloc`、`dealloc`、`engine_outbox_ptr`、`engine_outbox_len`、`engine_outbox_clear`。
+3. 协议：16 字节 frame header + UTF-8 JSON payload；generic kind `200..214`。
+4. compile 成功写 `compile_result`（含 `sessionId`/`rulesHash`）；run 成功写 `generic done`；release 成功写 `release_result{released:true}`。
+5. run 必须带 `sessionId` + `expectedRulesHash`；hash 错配 / session 缺失返回 structured `EngineError`。
+6. outbox 固定容量；`compile_result`/`done`/`error`/`release_result` 为优先帧。
+7. `targets/wasm-256m.json` 固定 `--initial-memory=268435456` 和 `--max-memory=268435456`。
 
 ## 8. 实现边界
 
 1. 热路径禁止 goroutine、channel、lock、panic/recover 控制流和反射。
 2. 1v1 首期优先使用定长数组、短 ID、bitset、arena handle 和索引表，不在热路径依赖 `map[string]...`。
-3. 所有实例事件只保存 generation handle，不保存裸指针；旧事件出队时 lazy drop。
-4. action、item、status、augment 等机制不得直接改 HP；数值变化必须通过 command、resolver、pipeline 或 runtime 统一入口。
-5. trigger 只产出 command，command 回流到 scheduler/resolver，不直接写 runtime 状态。
-6. TypeList 网络使用确定性 bitset/inverted index/matcher，不使用 Bloom filter 这类可能误判的数据结构。
-7. 公共 DTO 一旦进入 review gate，除修 bug 或用户确认外不要随意改字段语义。
+3. 数值变化必须经 operation / pipeline，禁止 raw set HP。
+4. listener/trigger 产出 operation，不直接写 runtime store。
+5. TypeList 使用确定性 flat bitset matcher，不使用可能误判的 Bloom filter。
+6. 公共 DTO 一旦进入 review gate，除修 bug 或用户确认外不要随意改字段语义。
+7. 新机制落点是 provider/ability/operation；不要把 legacy DPS/step-loop 当作新功能主路径。
 
 ## 9. 完成定义
 
 1. 只改文档：无需构建，但要核对提到的入口文件、脚本和命令仍存在。
-2. 改 ABI、frame、outbox 或 session 生命周期：至少运行 `go test ./...` 和 `node .\scripts\smoke-node.mjs`。
-3. 改 runtime、scheduler、attribute、resource、formula、pipeline、trigger 或机制子系统：至少运行 `go test ./...` 和 `go run ./cmd/bench`。
+2. 改 ABI、frame、outbox 或 session 生命周期：至少运行 `go test -count=1 ./...` 和 `node .\scripts\smoke-node.mjs`。
+3. 改 runtime、scheduler、attribute、resource、formula、pipeline 或机制子系统：至少运行 `go test -count=1 ./...` 和 `go run ./cmd/bench`。
 4. 改 TinyGo 构建脚本、target 或 Wasm 导出：额外运行 `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1`。
-5. 改 Node smoke/bench 或浏览器宿主桥接：额外运行对应 `node .\scripts\*.mjs`，涉及 `web/**` 时按 `web/AGENTS.md` 补充前端验证。
+5. 改 Node smoke/bench：额外运行对应 `node .\scripts\*.mjs`（含 `--mode generic-run`）。
 6. 改任务文档映射：运行 `node tools/task-governance/cli.mjs rebuild`。
 
 ## 10. 常见陷阱
 
-1. 不要恢复旧 Rust/Katarina crate 作为新能力落点；当前唯一正式实现目录是 `wasm/tinygo_engine_v2`。
+1. 不要恢复旧 Rust/Katarina crate 作为新能力落点。
 2. 不要把 Node 脚本写成正式运行宿主；正式宿主是浏览器 Worker。
-3. 不要让 `cmd/engine_wasm/main.go` 承担业务逻辑；导出函数之外的逻辑应下沉到 `internal/**`。
-4. 不要在编译期校验里遇到第一个错误就提前返回；需要尽量 collect-all，便于前后端一次修完输入。
-5. 不要从输出日志倒推机制状态；历史窗口、counter、pair state、mark 都应有独立 runtime 状态。
-6. 不要把临时 fixture 或 benchmark 结果写成正式契约；正式契约以 `internal/model` 和 Wasm 主文档为准。
-7. 本机验证优先复用仓内 `.tools/**` 提供的 TinyGo / Binaryen；只有这些路径不存在时，才把问题归因到“本机缺工具”。
+3. 不要让 `cmd/engine_wasm/main.go` 承担业务逻辑。
+4. 不要在 compile 校验里遇到第一个错误就提前返回；进入已知 schema 后 collect-all。
+5. 不要从输出日志倒推机制状态。
+6. 不要修改或复制 `generic_p0_basic_damage.json`；复用它做 smoke/bench 契约。
+7. 不要把 legacy ABI/DPS 描述成当前架构主路径。

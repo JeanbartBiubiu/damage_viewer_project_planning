@@ -7,6 +7,8 @@ description: Use when creating, splitting, reviewing, or updating project docume
 
 Use this skill to keep project documents single-purpose. A document should have one primary layer: why, where, how, execution, evidence, or memory. If a draft mixes layers, split it before polishing wording.
 
+`REPO_ROOT` = current Git repository root (not this skill directory). Repo artifacts are written as `<repo-root>/...`; skill-local files stay relative.
+
 ## Core Rule
 
 Do not hide different decisions in one document.
@@ -27,7 +29,7 @@ When a document contains both high-level motivation and code-level implementatio
 3. If more than one bucket is substantial, create separate linked documents instead of one larger document.
 4. Put cross-links near the top of sibling documents so readers can move between clarification, overview, and implementation.
 5. Keep each document's body focused on its layer; move stray content to the correct sibling.
-6. For repo docs under `文档记录/**`, preserve the local header convention and update task governance if mappings change.
+6. For repo docs under `<repo-root>/文档记录/**`, preserve the header contract (`<repo-root>/db/task_doc_governance/document_header.schema.json`) and update `<repo-root>/db/task_doc_governance/task_rules.json` if mappings change; prefer `check` before any `rebuild`.
 7. If persistent memory is required, write a short session/task record; do not copy the whole design into Obsidian.
 
 ## Layer Definitions
@@ -50,7 +52,7 @@ Avoid:
 
 Typical path:
 
-- `文档记录/需求澄清/<module>/<topic>.md`
+- `<repo-root>/文档记录/需求澄清/<module>/<topic>.md`
 
 ### 概要设计
 
@@ -70,7 +72,7 @@ Avoid:
 
 Typical path:
 
-- `文档记录/概要设计/<module>/<topic>.md`
+- `<repo-root>/文档记录/概要设计/<module>/<topic>.md`
 
 ### 详细设计
 
@@ -95,7 +97,7 @@ Detailed design is ready only when another coding agent can start work without a
 
 Typical path:
 
-- `文档记录/详细设计/<module>/<topic>.md`
+- `<repo-root>/文档记录/详细设计/<module>/<topic>.md`
 
 ### 任务单 / Subagent Task
 
@@ -151,32 +153,37 @@ Split the draft when any of these are true:
 
 ## Required Headers
 
-For `文档记录/**/*.md`, keep the project header unless the nearest template says otherwise:
+`REPO_ROOT` = current Git repository root (not this skill directory). For `<repo-root>/文档记录/**/*.md`, keep the project header per `<repo-root>/db/task_doc_governance/document_header.schema.json`:
 
 ```text
 TASK_KEY: <task-key>
-DOC_TYPE: <需求澄清|概要设计|详细设计|测试记录|任务单>
+DOC_TYPE: <需求澄清|概要设计|详细设计|测试记录|任务单|其他>
 WORKSTREAM: <module-or-workstream>
-STATUS: <draft|active|done>
-EXECUTION_MODEL: <model-or-agent-route>
+STATUS: <draft|tracked|active|done|partial|pass>
+EXECUTION_MODEL: <actual-model-or-agent-route>
 LAST_TRACKED_AT: <YYYY-MM-DD>
 ```
+
+`EXECUTION_MODEL` must be the actual route/value for the document, never a hardcoded stale default. Document `STATUS` does not replace task status in `<repo-root>/db/task_doc_governance/task_rules.json`.
 
 If splitting an existing document, copy the relevant `TASK_KEY` and update `DOC_TYPE` per file. Do not leave the old mixed document as a competing source unless it is explicitly marked superseded and linked to the new documents.
 
 ## Governance Checklist
 
-For docs under `文档记录/**`:
+For docs under `<repo-root>/文档记录/**`:
 
 1. Check the nearest `AGENTS.md`, local README, and existing directory pattern.
-2. If task-to-doc mappings changed, update `db/task_doc_governance/task_rules.json`.
-3. Rebuild governance with:
+2. If task-to-doc mappings changed, update `<repo-root>/db/task_doc_governance/task_rules.json` (sole mapping and task-status source).
+3. Validate read-only, then rebuild only when approved:
 
 ```powershell
+node tools/task-governance/cli.mjs check
 node tools/task-governance/cli.mjs rebuild
+# only with explicit intent:
+node tools/task-governance/cli.mjs rebuild --fix-headers
 ```
 
-4. Report any pre-existing missing or unassigned docs separately from the current change.
+4. Report any pre-existing missing or unassigned docs separately from the current change. Markdown headers identify documents; they do not replace mapping.
 
 ## Final Self-Review
 

@@ -1,24 +1,24 @@
-// Node benchmark：重复 instantiate/调用导出，统计 Wasm 加载与调用延迟。
-// 非正式宿主；与 bench_wasm.mjs 配合可用于 CI 性能 smoke，结果不代表浏览器 Worker 口径。
-import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, isAbsolute, resolve } from "node:path";
+// Node benchmark：instantiate 开销或 generic ABI engine_run 延迟。
+// 非正式宿主；结果不代表浏览器 Worker 口径。
+import { existsSync } from "node:fs";
 import { performance } from "node:perf_hooks";
-import { fileURLToPath } from "node:url";
-import vm from "node:vm";
-import { webcrypto } from "node:crypto";
-
-const scriptDir = dirname(fileURLToPath(import.meta.url));
-const moduleRoot = resolve(scriptDir, "..");
-const workspaceRoot = resolve(moduleRoot, "..", "..");
-const projectRoot = resolve(workspaceRoot, "..");
+import { resolve } from "node:path";
+import {
+  compileCanonicalSession,
+  instantiateGenericHost,
+  loadCanonicalFixture,
+  loadGoRuntime,
+  moduleRoot,
+  releaseCanonicalSession,
+  runCanonicalSession,
+} from "./generic-abi-host.mjs";
 
 function parseArgs(argv) {
   const args = {
     wasm: resolve(moduleRoot, "dist", "tinygo_engine_v2.wasm"),
     iterations: 10,
     warmup: 2,
-    compileEach: false,
+    mode: "instantiate_precompiled",
     json: false,
   };
 
@@ -31,7 +31,9 @@ function parseArgs(argv) {
     } else if (arg === "--warmup") {
       args.warmup = Number(argv[++i]);
     } else if (arg === "--compile-each") {
-      args.compileEach = true;
+      args.mode = "compile_and_instantiate";
+    } else if (arg === "--mode") {
+      args.mode = argv[++i];
     } else if (arg === "--json") {
       args.json = true;
     } else if (arg === "--help" || arg === "-h") {
@@ -49,63 +51,21 @@ function parseArgs(argv) {
     throw new Error("--warmup must be a non-negative integer");
   }
 
+  const allowedModes = new Set(["instantiate_precompiled", "compile_and_instantiate", "generic-run"]);
+  if (!allowedModes.has(args.mode)) {
+    throw new Error(`--mode must be one of: ${[...allowedModes].join(", ")}`);
+  }
+
   return args;
 }
 
 function printHelp() {
-  console.log(`Usage: node scripts/bench-node.mjs [--wasm dist/tinygo_engine_v2.wasm] [--iterations 10] [--warmup 2] [--compile-each] [--json]
+  console.log(`Usage: node scripts/bench-node.mjs [--wasm dist/tinygo_engine_v2.wasm] [--mode instantiate_precompiled|compile_and_instantiate|generic-run] [--iterations 10] [--warmup 2] [--compile-each] [--json]
 
-Measures Node WebAssembly compile/instantiate overhead without running the TinyGo main function.`);
-}
-
-function findWasmExec() {
-  const candidates = [];
-
-  if (process.env.TINYGO_WASM_EXEC) {
-    candidates.push(process.env.TINYGO_WASM_EXEC);
-  }
-
-  candidates.push(
-    resolve(workspaceRoot, ".tools", "tinygo0.40.1", "tinygo", "targets", "wasm_exec.js"),
-    resolve(projectRoot, "tinygo0.40.1", "tinygo", "targets", "wasm_exec.js")
-  );
-
-  try {
-    const tinygoRoot = execFileSync("tinygo", ["env", "TINYGOROOT"], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    }).trim();
-    if (tinygoRoot) {
-      candidates.push(resolve(tinygoRoot, "targets", "wasm_exec.js"));
-    }
-  } catch {
-    // The caller can still provide TINYGO_WASM_EXEC explicitly.
-  }
-
-  for (const candidate of candidates) {
-    const fullPath = isAbsolute(candidate) ? candidate : resolve(moduleRoot, candidate);
-    if (existsSync(fullPath)) {
-      return fullPath;
-    }
-  }
-
-  throw new Error(
-    "Could not find TinyGo wasm_exec.js. Set TINYGO_WASM_EXEC, keep the repo-local .tools TinyGo bundle, or install tinygo on PATH."
-  );
-}
-
-function loadGoRuntime() {
-  if (!globalThis.crypto) {
-    globalThis.crypto = webcrypto;
-  }
-
-  const wasmExecPath = findWasmExec();
-  const source = readFileSync(wasmExecPath, "utf8");
-  vm.runInThisContext(source, { filename: wasmExecPath });
-
-  if (typeof globalThis.Go !== "function") {
-    throw new Error(`TinyGo wasm_exec.js did not define globalThis.Go: ${wasmExecPath}`);
-  }
+Modes:
+  instantiate_precompiled   measure WebAssembly.instantiate of a precompiled module (default)
+  compile_and_instantiate   measure compile+instantiate each iteration (--compile-each)
+  generic-run               compile once, then measure engine_run against generic_p0_basic_damage.json`);
 }
 
 function percentile(sorted, p) {
@@ -129,43 +89,78 @@ function summarize(samples) {
   };
 }
 
+async function benchInstantiate(args) {
+  loadGoRuntime();
+  const { readFileSync } = await import("node:fs");
+  const bytes = readFileSync(args.wasm);
+  const compiledModule = args.mode === "compile_and_instantiate" ? null : await WebAssembly.compile(bytes);
+  const totalRuns = args.warmup + args.iterations;
+  const samples = [];
+
+  for (let i = 0; i < totalRuns; i += 1) {
+    const go = new globalThis.Go();
+    const start = performance.now();
+
+    if (args.mode === "compile_and_instantiate") {
+      const module = await WebAssembly.compile(bytes);
+      await WebAssembly.instantiate(module, go.importObject);
+    } else {
+      await WebAssembly.instantiate(compiledModule, go.importObject);
+    }
+
+    const elapsed = performance.now() - start;
+    if (i >= args.warmup) {
+      samples.push(elapsed);
+    }
+  }
+
+  return {
+    wasm: args.wasm,
+    size_bytes: bytes.byteLength,
+    iterations: args.iterations,
+    warmup: args.warmup,
+    mode: args.mode,
+    ...summarize(samples),
+  };
+}
+
+async function benchGenericRun(args) {
+  const fixture = loadCanonicalFixture();
+  const host = await instantiateGenericHost(args.wasm);
+  const compiled = compileCanonicalSession(host.exports, fixture);
+  const totalRuns = args.warmup + args.iterations;
+  const samples = [];
+
+  for (let i = 0; i < totalRuns; i += 1) {
+    const start = performance.now();
+    runCanonicalSession(host.exports, fixture, compiled.sessionId, compiled.rulesHash);
+    const elapsed = performance.now() - start;
+    if (i >= args.warmup) {
+      samples.push(elapsed);
+    }
+  }
+
+  releaseCanonicalSession(host.exports, compiled.sessionId, compiled.rulesHash);
+
+  return {
+    wasm: args.wasm,
+    size_bytes: host.sizeBytes,
+    iterations: args.iterations,
+    warmup: args.warmup,
+    mode: "generic-run",
+    fixture: fixture.name,
+    sessionId: compiled.sessionId,
+    rulesHash: compiled.rulesHash,
+    ...summarize(samples),
+  };
+}
+
 const args = parseArgs(process.argv.slice(2));
 if (!existsSync(args.wasm)) {
   throw new Error(`Wasm artifact not found: ${args.wasm}`);
 }
 
-loadGoRuntime();
-
-const bytes = readFileSync(args.wasm);
-const compiledModule = args.compileEach ? null : await WebAssembly.compile(bytes);
-const totalRuns = args.warmup + args.iterations;
-const samples = [];
-
-for (let i = 0; i < totalRuns; i += 1) {
-  const go = new globalThis.Go();
-  const start = performance.now();
-
-  if (args.compileEach) {
-    const module = await WebAssembly.compile(bytes);
-    await WebAssembly.instantiate(module, go.importObject);
-  } else {
-    await WebAssembly.instantiate(compiledModule, go.importObject);
-  }
-
-  const elapsed = performance.now() - start;
-  if (i >= args.warmup) {
-    samples.push(elapsed);
-  }
-}
-
-const report = {
-  wasm: args.wasm,
-  size_bytes: bytes.byteLength,
-  iterations: args.iterations,
-  warmup: args.warmup,
-  mode: args.compileEach ? "compile_and_instantiate" : "instantiate_precompiled",
-  ...summarize(samples),
-};
+const report = args.mode === "generic-run" ? await benchGenericRun(args) : await benchInstantiate(args);
 
 if (args.json) {
   console.log(JSON.stringify(report, null, 2));
@@ -173,6 +168,11 @@ if (args.json) {
   console.log(`bench: ${report.mode}`);
   console.log(`bench: wasm=${report.wasm}`);
   console.log(`bench: size_bytes=${report.size_bytes}`);
+  if (report.fixture) {
+    console.log(`bench: fixture=${report.fixture}`);
+  }
   console.log(`bench: iterations=${report.iterations} warmup=${report.warmup}`);
-  console.log(`bench: min=${report.min_ms.toFixed(3)}ms mean=${report.mean_ms.toFixed(3)}ms p50=${report.p50_ms.toFixed(3)}ms p95=${report.p95_ms.toFixed(3)}ms max=${report.max_ms.toFixed(3)}ms`);
+  console.log(
+    `bench: min=${report.min_ms.toFixed(3)}ms mean=${report.mean_ms.toFixed(3)}ms p50=${report.p50_ms.toFixed(3)}ms p95=${report.p95_ms.toFixed(3)}ms max=${report.max_ms.toFixed(3)}ms`
+  );
 }

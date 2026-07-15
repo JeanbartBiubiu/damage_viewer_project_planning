@@ -1,6 +1,6 @@
 ---
 name: design-pattern-refactor
-description: Use when reviewing, planning, or implementing behavior-preserving refactors that split large source files or reorganize modules by design-pattern roles, especially TinyGo/Wasm runtime code, single_attacker_dps, effect/trigger/damage pipelines, Strategy, Command, State, Facade, Adapter, Builder, Observer, Mediator, Chain of Responsibility, SOLID, god files, or architecture debt.
+description: Use when reviewing, planning, or implementing behavior-preserving refactors that split large source files or reorganize modules by design-pattern roles, especially TinyGo/Wasm generic compile/session/run, provider/ability/operation pipelines, Strategy, Command, State, Facade, Adapter, Builder, Observer, Mediator, Chain of Responsibility, SOLID, god files, or architecture debt. Legacy DPS/step-loop is compatibility only.
 ---
 
 # Design Pattern Refactor
@@ -14,7 +14,7 @@ This skill supports both read-only architecture review and bounded implementatio
 ## First Pass
 
 1. Identify the worktree root and branch.
-2. Read the nearest `AGENTS.md`, relevant `README.md`, and validation scripts. For TinyGo V2, read `wasm/tinygo_engine_v2/AGENTS.md` and `wasm/tinygo_engine_v2/README.md`.
+2. Read the nearest `AGENTS.md`, relevant `README.md`, and validation scripts. For TinyGo V2, read `wasm/tinygo_engine_v2/AGENTS.md`, `README.md`, and `ARCHITECTURE.md`.
 3. Use CodeGraph before broad source scans for symbol/call-chain work:
    - `npx @colbymchenry/codegraph status`
    - `npx @colbymchenry/codegraph sync` when pending source changes make the index stale
@@ -40,14 +40,14 @@ Reject the pattern when it creates a one-method interface with no real variabili
 
 | Pattern role | Use it for | Local targets |
 | --- | --- | --- |
-| Facade / Adapter | Keep host and ABI glue thin; translate external calls into internal session operations. | `cmd/engine_wasm/main.go`, ABI frame/outbox, future JS Worker adapter |
-| State | Make lifecycle and simulation phases explicit, with guarded transitions. | `Session.phase`, `RunContext.Done`, DPS curve status/blocking |
-| Command | Represent mutations before applying them through one resolver. | damage, heal, shield, resource, status, attribute changes |
-| Strategy | Replace expanding switches where algorithms vary by type/policy. | effect handlers, crit policy, DPS passive operation handlers, incoming modifiers |
-| Chain of Responsibility / Pipeline | Run ordered gates or transformations with stable evidence. | cast gates, resource/cooldown/control checks, damage pipeline, shield absorption, incoming damage modifiers |
-| Observer / Mediator | Dispatch events to interested triggers without runtime-wide scanning. | generic triggers, DPS linked effects, owner-role matching |
-| Builder / Factory | Build compiled or output structures without mixing execution logic. | `compile.Bundle`, compiled DPS passive/matcher, snapshots, done payloads |
-| Memento | Capture state for inspection without advancing simulation. | initial snapshot, action snapshot, value trace, final done payload |
+| Facade / Adapter | Keep host and ABI glue thin; translate external calls into session compile/run/release. | `cmd/engine_wasm/main.go`, ABI frame/outbox, JS Worker / Node host helpers |
+| State | Make session registry and run lifecycle explicit, with guarded transitions. | `Session` genericSessions, `genericRunState`, stopReason |
+| Command | Represent mutations before applying them through one resolver. | generic operations: damage, heal, shield, resource, attribute, provider apply |
+| Strategy | Replace expanding switches where algorithms vary by type/policy. | operation handlers, formula ops, gate policies |
+| Chain of Responsibility / Pipeline | Run ordered gates or transformations with stable evidence. | ability gates, damage pipeline, shield absorption, attribute modifiers |
+| Observer / Mediator | Dispatch events to interested listeners without runtime-wide scanning. | provider listeners, emitted events, type matchers |
+| Builder / Factory | Build compiled or output structures without mixing execution logic. | `CompileGeneric` → `CompiledSession`, snapshots, `DoneResult` builders |
+| Memento | Capture state for inspection without advancing simulation. | initial/final snapshot, series points, evidence |
 
 Use the Refactoring Guru catalog as vocabulary, not as a checklist. Do not introduce every pattern; choose the smallest pattern that names the actual change axis.
 
@@ -57,18 +57,17 @@ Current architecture facts to verify before acting:
 
 - The formal implementation lane is `wasm/tinygo_engine_v2`; do not revive old Rust/Katarina/demo lanes.
 - `cmd/engine_wasm/main.go` should remain a thin ABI/session adapter.
-- `compile.Bundle` is the stable Compiler/IR boundary: DTOs become short IDs, slices, indexes, and collect-all validation.
-- Generic runtime currently flows through `NewRunContext -> Step -> dispatch -> cast/effect/damage/trigger`.
-- `single_attacker_dps` is a separate lane that reuses selected `RunContext` capabilities but owns its own basic-attack schedule, passive flow, dot flow, and target HP timeline.
-- `action/basic_attack` remains the authoritative basic-attack classifier unless there is an explicit migration plan.
+- Canonical call chain: `CompileGeneric -> CompiledSession` (session registry) -> `RunGeneric` / `generic_execution` -> `engine_release_session`.
+- New mechanisms land in provider / ability / operation + gate/provider/execution files, not in legacy action/effect DPS files.
+- `single_attacker_dps` and `NewRunContext -> Step` remain **compatibility/regression** surfaces only; do not recommend refactoring them as if they were the current new-feature path.
 
 Common design smells in this project:
 
-- `engine_begin_run` shape-based routing instead of explicit run contract.
-- `runtime.go` or `dps_driver.go` growing by adding another switch branch or helper near the bottom.
-- Skeleton packages such as `command`, `pipeline`, `trigger`, `status`, or `shield` existing without being the actual runtime path.
-- DPS logic using string-map interpretation where generic runtime already has compiled IDs, type sets, or indexes.
-- Tests covering helper-level success but missing ABI/session/host contract boundaries.
+- Treating legacy `engine_begin_run` / step-loop as the place for new generic features.
+- `generic_run.go` / `generic_execution.go` growing by adding another switch branch without a named variation point.
+- Skeleton packages existing without being on the actual generic runtime path.
+- DPS string-map interpretation where generic runtime already has compiled IDs, type sets, or indexes.
+- Tests covering helper-level success but missing ABI/session/host contract boundaries (`smoke-node.mjs`, session hash checks).
 
 ## Review Output
 
@@ -88,7 +87,7 @@ Then provide a candidate table:
 | Candidate | Pattern role | Files now | Proposed boundary | Invariants to preserve | First safe slice |
 | --- | --- | --- | --- | --- | --- |
 
-Rank candidates by leverage and risk. Prefer boundaries that reduce future branching in `runtime.go` and `dps_driver.go`.
+Rank candidates by leverage and risk. Prefer boundaries that reduce future branching in `generic_execution.go` and gate/provider files—not in legacy `dps_driver.go` unless the task is explicitly DPS regression.
 
 ## Planning A Split
 
@@ -114,28 +113,18 @@ Prefer these behavior-preserving slices:
 5. Move construction/output building after execution behavior is stable.
 6. Remove or connect skeleton packages only after callers prove the boundary is real.
 
-For `runtime.go`, likely file boundaries are:
+For generic runtime, likely file boundaries are:
 
-- `runtime_lifecycle.go`: `RunContext` setup, `Step`, `dispatch`, done/abort.
-- `cast_gate.go`: ownership, resource, cooldown, control, mark gates.
-- `cast_execution.go`: cast intent, channel completion, action result assembly.
-- `effect_dispatcher.go`: effect type dispatch and effect evidence.
-- `damage_pipeline.go`: damage/heal/shield application and damage math.
-- `trigger_dispatcher.go`: trigger indexing, owner/event matching, trigger result evidence.
-- `snapshot_builder.go`: actor/action snapshots, samples, done payload construction.
+- `generic_run.go`: run loop, stop policy, sampling/done assembly facade.
+- `generic_gate.go`: ability attempt gates.
+- `generic_execution.go`: operation dispatch and application.
+- `generic_provider.go` / `generic_provider_tick.go`: provider lifecycle and ticks.
+- `session.go`: compile/run/release ABI + registry only.
 
-For `dps_driver.go`, likely file boundaries are:
+For legacy DPS (compat-only refactors when explicitly requested):
 
-- `dps_driver.go`: facade entrypoints only.
-- `dps_state.go`: curve state, time, HP, attrs, blocking.
-- `dps_schedule.go`: basic attack and dot scheduling.
-- `dps_passive_dispatcher.go`: linked-effect event dispatch and owner-role matching.
-- `dps_operation_handlers.go`: Strategy-style operation handlers.
-- `dps_damage.go`: target/attacker damage application and timelines.
-- `dps_energized.go`: charge/consume state machine.
-- `dps_phantom_hit.go`: phantom-hit repeat rules.
-- `dps_validation.go`: DPS contract validation.
-- `dps_output_builder.go`: result timelines, breakdowns, summaries.
+- Keep `dps_*.go` ownership explicit; do not merge DPS into `RunGeneric`.
+- Prefer isolating DPS-owned state/schedule/passive handlers without changing public DPS payloads.
 
 Treat these names as starting hypotheses. Confirm with current source before using them in a Cursor prompt.
 
@@ -158,9 +147,9 @@ Use `cursor-local-agent` rules: `grok-4.5` with explicit `apiKey`, then GPT revi
 
 Choose the narrowest meaningful verification:
 
-- Any Go refactor in TinyGo V2: `go test ./...`
-- Runtime/scheduler/attribute/resource/formula/pipeline/trigger changes: also `go run ./cmd/bench`
-- ABI/frame/outbox/session lifecycle changes: `go test ./...` plus host contract or `node .\scripts\smoke-node.mjs` when a wasm artifact exists
+- Any Go refactor in TinyGo V2: `go test -count=1 ./...`
+- Runtime/scheduler/attribute/resource/formula/pipeline/provider changes: also `go run ./cmd/bench`
+- ABI/frame/outbox/session lifecycle changes: `go test -count=1 ./...` plus `node .\scripts\smoke-node.mjs` when a wasm artifact exists
 - TinyGo build/export/script changes: `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1`
 - Frontend adapter changes: follow `web/AGENTS.md` and verify the browser flow
 
@@ -174,6 +163,6 @@ When build/smoke tools are missing, report the missing prerequisite separately f
 | Adding pattern names without changing ownership | Show which future behavior now lands in one obvious place. |
 | Creating one-method interfaces | Prefer package-private functions or handler tables until real variability exists. |
 | Mixing behavior changes with moves | First move/extract with tests green; change behavior in a later slice. |
-| Replacing the scheduler before proving it is the bottleneck | Target adapter/runtime contracts or passive indexing first unless evidence points to the heap. |
-| Treating DPS as generic runtime mode | Name the shared boundary explicitly; keep DPS-owned state explicit. |
+| Replacing the scheduler before proving it is the bottleneck | Target adapter/runtime contracts or provider indexing first unless evidence points to the heap. |
+| Treating legacy DPS/step ABI as the current new-feature path | Name `CompileGeneric` / `RunGeneric` / release; keep DPS as compatibility only. |
 | Trusting docs over code | Verify current code, tests, and scripts every time. |

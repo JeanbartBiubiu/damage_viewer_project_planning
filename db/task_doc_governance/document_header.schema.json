@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "db/task_doc_governance/document_header.schema.json",
+  "title": "Document governance header",
+  "description": "Single documented Markdown header contract for managed docs under 文档记录. Headers identify documents; they do not replace task_rules.json mapping or task status.",
+  "type": "object",
+  "required": [
+    "TASK_KEY",
+    "DOC_TYPE",
+    "WORKSTREAM",
+    "STATUS",
+    "EXECUTION_MODEL",
+    "LAST_TRACKED_AT"
+  ],
+  "properties": {
+    "TASK_KEY": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Local task identifier matching task_rules.json task_key when tracked."
+    },
+    "DOC_TYPE": {
+      "type": "string",
+      "enum": ["需求澄清", "概要设计", "详细设计", "测试记录", "任务单", "其他"],
+      "description": "Document layer derived from path conventions under 文档记录."
+    },
+    "WORKSTREAM": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Module or workstream label (for example planning, web, server, wasm)."
+    },
+    "STATUS": {
+      "type": "string",
+      "enum": ["draft", "tracked", "active", "done", "partial", "pass"],
+      "description": "Document-local governance status. Not the task status from task_rules.json."
+    },
+    "EXECUTION_MODEL": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Actual model or agent route used for this document. Never a hardcoded stale default."
+    },
+    "LAST_TRACKED_AT": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Last local governance refresh timestamp or date."
+    }
+  },
+  "additionalProperties": false
+}
