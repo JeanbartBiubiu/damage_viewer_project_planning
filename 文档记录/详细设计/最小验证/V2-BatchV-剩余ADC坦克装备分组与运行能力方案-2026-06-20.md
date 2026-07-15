@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: draft
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-06-20
+LAST_TRACKED_AT: 2026-07-15
 
 # V2 BatchV 剩余 ADC/坦克装备分组与运行能力方案 2026-06-20
 
@@ -64,6 +64,22 @@ C:\project\damage_wasm_dev\数据参考\lol-wiki-current-items\current-items.rev
 C:\project\damage_wasm_dev\文档记录\测试记录\wasm\artifacts\V2-BatchV-remaining-23-processing-matrix-proof-20260620.json
 ```
 
+### 1.3 2026-07-15 Jak'Sho 当前 generic ABI 受控 partial
+
+`item_6665` 不再只保留 legacy single_attacker_dps 的“开局即满层”证明。当前 generic 合同为 target-owned synthetic partial：
+
+| 项 | 当前合同 |
+| --- | --- |
+| mount / owner | `provider_item_6665_jaksho_voidborn_resilience` 只挂在 target；source 不持有 provider/state |
+| 激活 | run 从 0ms 起视为已在战斗；`start_delay_ms=5000`，首个 provider tick 在 5000ms 把 `full_stack` override 为 1 |
+| 幂等 | 后续每 5000ms tick 仍 set 1，不重复叠加 |
+| 数值 | `armor += 0.30 * max(0, bonus_armor.resolved) * full_stack`；MR 同理 |
+| 静态数据 | Backend 自包含 `item_6665`：hp 350 / armor 45 / magic_resist 45，并 ensure `bonus_armor` / `bonus_magic_resist` |
+
+Wasm 输入必须显式提供 target 的总抗性与 bonus 抗性；runtime 不从 equipment/loadout 自动汇总。真实目标装备投影、自动战斗态检测和 live publish 均不在本 partial 内。
+
+实现证据：Backend `ed2bf6a723c7c1fa5486c5daac00478093ac1ac0`；Wasm `7e2b40e26006ddb2c67636a8daeb5ab759719c6b`。旧 Batch V-A 满层 DPS proof 只作历史数值交叉证据，不反向定义 generic 时序。
+
 ## 2. 输入与已核对事实
 
 输入文件：
@@ -114,7 +130,7 @@ C:\project\damage_wasm_dev\数据参考\lol-wiki-current-items\review\current-it
 | 3036 | 多米尼克领主的致意 Lord Dominik's Regards | 增伤乘区已有；缺 target bonus health 输入来源。 | 由转换/Web 适配补 `target_bonus_health` 政策后转换。 |
 | 3083 | 狂徒铠甲 Warmog's Armor | 战斗外回血不进当前 DPS；`Vitality` 是 item-sourced bonus health 统计问题。 | 先保留基础属性，等 bonus health 聚合政策。 |
 | 3123 | 死刑宣告 Executioner's Calling | 同重伤，无当前 DPS 价值。 | 继续排除。 |
-| 6665 | 千变者贾修 Jak'Sho | 满层 30% bonus armor/MR 可由 bonus 属性政策 + attribute bucket 表达。 | 先补 bonus armor/MR 适配政策。 |
+| 6665 | 千变者贾修 Jak'Sho | 当前 generic 已完成 5 秒 target-owned synthetic partial；30% 只作用于显式 bonus armor/MR。 | 保留真实 equipment/loadout 投影与自动战斗态为 out-of-scope。 |
 | 8020 | 深渊面具 Abyssal Mask | 靶子穿时是让附近敌人受到更多魔法伤害，不是靶子自己承伤增加。 | 当前靶子语义下继续排除。 |
 
 A 组里可优先尝试转换的不是 11 件全部，而是：
@@ -335,7 +351,7 @@ C:\project\damage_wasm_dev\文档记录\测试记录\wasm\V2-BatchV-B-3082-守�
 
 按用户 2026-06-20 的拍板，近期不碰大部分 B 组 runtime 能力。推荐顺序调整为：
 
-1. A 组数据/策略候选：`2051`、`3004`、`3036`、`6665`。
+1. A 组数据/策略候选：`2051`、`3004`、`3036`；`6665` 已另行完成 5 秒 generic synthetic partial，后续只在宿主具备真实 target equipment/loadout 时重开。
 2. `3084` 心之钢先走传入 Wasm 前的结构体/目标 HP 基线拦截方案，不作为近期 runtime 开发。
 3. `3082` 守望者铠甲已完成通用公式 input runtime 切片；下一步是补真实装备 seed 与发布后单件 proof。
 4. `3302` 界弓进入通用表达式能力方案：公式 AST/bytecode 支持 `mod`，并给公式条件提供 hit count / parity 指标。
