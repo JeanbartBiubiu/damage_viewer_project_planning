@@ -1,0 +1,36 @@
+{
+  "description": "Shared governance files compared across sibling git worktrees. Read-only; never copied by the audit CLI.",
+  "canonicalCheckoutDirectoryNames": [
+    "damage_viewer_project_planning",
+    "damage_backend_dev",
+    "damage_web_dev",
+    "damage_wasm_dev"
+  ],
+  "files": [
+    "AGENTS.md",
+    "README.md",
+    ".agents/skills/backend-db-access/SKILL.md",
+    ".agents/skills/cursor-local-agent/SKILL.md",
+    ".agents/skills/cursor-local-agent/scripts/cursor_local_agent_run.mjs",
+    ".agents/skills/cursor-local-agent/scripts/cursor_local_agent_common.mjs",
+    ".agents/skills/cursor-local-agent/scripts/cursor_local_agent_path_policy.mjs",
+    ".agents/skills/cursor-local-agent/scripts/cursor_local_agent_path_policy.test.mjs",
+    ".agents/skills/cursor-local-agent/scripts/cursor_local_agent_smoke.mjs",
+    ".agents/skills/design-pattern-refactor/SKILL.md",
+    ".agents/skills/document-layering/SKILL.md",
+    ".agents/skills/frontend-skill/SKILL.md",
+    ".agents/skills/grill-me/SKILL.md",
+    ".agents/skills/secret-safe-local-file-processing/SKILL.md",
+    ".agents/skills/task-doc-governance/SKILL.md",
+    ".agents/skills/task-doc-governance/references/sqlite-governance-playbook.md",
+    ".agents/skills/wasm-batch-mechanism-development/SKILL.md",
+    ".agents/skills/writing-skills/SKILL.md",
+    ".agents/skills/writing-skills/testing-skills-with-subagents.md",
+    "tools/task-governance/cli.mjs",
+    "tools/agent-governance/cli.mjs",
+    "tools/agent-governance/cli.test.mjs",
+    "tools/agent-governance/shared-files.json",
+    "db/task_doc_governance/task_rules.json",
+    "db/task_doc_governance/document_header.schema.json"
+  ]
+}

@@ -80,14 +80,22 @@ Set `CODEX_DB_URL`, `CODEX_DB_USER`, and `CODEX_DB_PASSWORD` only when intention
 
 For a full backend game-management schema check, verify parent tables and game partitions instead of assuming the repo SQL already ran.
 
-Relevant SQL files:
+**Fresh install** (in order):
 
-- `db\game_manage\schema.sql`
-- `db\game_manage\coefficient_bucket_schema.sql`
-- `db\game_manage\status_control_schema.sql`
-- `db\game_manage\status_resource_schema.sql`
-- `db\game_manage\triggers.sql`
-- `db\game_manage\lol_status_action_control_partitions.sql`
+1. `db\game_manage\schema.sql`
+2. `db\game_manage\triggers.sql`
+3. `db\game_manage\seeds\reserved_types_seed.sql`
+
+**Existing DB generic combat-data switch** (in order):
+
+1. `db\game_manage\migrations\compatibility\generic_combat_data_model_compatibility_migration.sql`
+2. `db\game_manage\triggers.sql`（刷新 `ensure_game_partitions`、effect-detail 约束与 state backfill）
+3. `db\game_manage\migrations\compatibility\generic_combat_data_model_final_drop_legacy_tables_migration.sql`
+4. `db\game_manage\seeds\reserved_types_seed.sql`
+
+After final-drop succeeds, rerunning current `triggers.sql` is recommended to refresh the partition list.
+
+Do not treat deleted standalone coefficient / status / catalog schema files or old partition-only scripts as current setup inputs; use only the fresh-install and generic-compatibility paths above.
 
 Useful checks:
 
@@ -96,16 +104,9 @@ Useful checks:
 - partition attachment: inspect `pg_inherits` for parent/child relations
 - create missing game partitions: `select public.ensure_game_partitions('lol')`
 
-If direct DDL execution is allowed by the user, run transformed idempotent SQL files, then call `public.ensure_game_partitions('lol')`, then re-check all expected parent tables and `lol` partitions.
+Partition parents must match the live list in `db\game_manage\triggers.sql` `ensure_game_partitions` (examples: `game_entities`, `ability_definitions`, `effect_steps`, and their `*_log` parents, plus revision baseline tables such as `attribute_definitions` / `types` / `type_relations` and images). Do not check against removed hero/item/skill/coefficient/status/catalog parent names.
 
-## Known Drift To Check First
-
-Older live databases may miss columns that current backend mappers expect. Before rerunning broad DDL, check these compatibility columns:
-
-```sql
-alter table public.type_relations add column if not exists deleted boolean not null default false;
-alter table public.type_relations_log add column if not exists deleted boolean not null default false;
-```
+If direct DDL execution is allowed by the user, run the fresh-install or compatibility sequence above, then call `public.ensure_game_partitions('lol')`, then re-check expected generic parent tables and `lol` partitions.
 
 ## Reporting
 
