@@ -15,6 +15,7 @@ import {
   getAttributeDefinitions,
   getEffectSequences,
   getEffectSteps,
+  getExecuteEffectDetails,
   getEntities,
   getEntityAttributeStages,
   getEntityAttributes,
@@ -44,6 +45,7 @@ import {
   putAttributeDefinition,
   putEffectSequence,
   putEffectStep,
+  putExecuteEffectDetail,
   putEntity,
   putEntityAttribute,
   putEntityAttributeStage,
@@ -260,7 +262,7 @@ function revisionOf(result: { data: { currentRevision: number } }): { currentRev
   return { currentRevision: result.data.currentRevision };
 }
 
-function bodyFromFields(
+export function bodyFromFields(
   fields: FieldDef[],
   pathKeys: string[],
   form: ResourceFormValues,
@@ -615,7 +617,13 @@ const abilityFields: FieldDef[] = [
   { name: 'providerId', label: 'Provider ID', kind: 'text', required: true },
   { name: 'abilityKey', label: 'Ability Key', kind: 'text', required: true },
   { name: 'abilityKindTypeId', label: '种类类型 ID', kind: 'number', required: true },
-  { name: 'displayName', label: '显示名', kind: 'text', required: true }
+  { name: 'displayName', label: '显示名', kind: 'text', required: true },
+  {
+    name: 'castConditionFormulaKey',
+    label: '施放前置条件公式 Key',
+    kind: 'text',
+    helper: '可选；指向 Provider 公式，作为技能施放前置条件'
+  }
 ];
 
 const abilityParameterFields: FieldDef[] = [
@@ -670,6 +678,11 @@ const effectStepFields: FieldDef[] = [
   { name: 'operationTypeId', label: '操作类型 ID', kind: 'number', required: true },
   { name: 'targetSelectorTypeId', label: '目标选择器类型 ID', kind: 'number', required: true },
   { name: 'conditionFormulaKey', label: '条件公式 Key', kind: 'text' }
+];
+
+const executeEffectDetailFields: FieldDef[] = [
+  { name: 'stepId', label: '步骤 ID', kind: 'text', required: true, lockedOnEdit: true },
+  { name: 'threshold', label: '生命比例阈值', kind: 'number', required: true }
 ];
 
 const abilityPhaseEffectSequenceFields: FieldDef[] = [
@@ -1101,7 +1114,7 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = [
   {
     id: 'effect-steps',
     label: '效果步骤',
-    summary: '带判别 detail 的效果步骤（九选一）',
+    summary: '带判别 detail 的效果步骤（十一选一）',
     groupId: 'effects',
     kind: 'effect-step',
     pathKeys: ['stepId'],
@@ -1112,6 +1125,25 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = [
       const body = bodyFromFields(effectStepFields, ['stepId'], form);
       return revisionOf(await putEffectStep(apiBaseUrl, gameId, str(form, 'stepId'), token, body));
     }
+  },
+  {
+    id: 'execute-effect-details',
+    label: '处决效果明细',
+    summary: '处决步骤生命比例阈值明细（按 stepId）',
+    groupId: 'effects',
+    pathKeys: ['stepId'],
+    fields: executeEffectDetailFields,
+    list: (apiBaseUrl, gameId) => listFromEnvelope(() => getExecuteEffectDetails(apiBaseUrl, gameId)),
+    put: async (apiBaseUrl, gameId, token, form) =>
+      revisionOf(
+        await putExecuteEffectDetail(
+          apiBaseUrl,
+          gameId,
+          str(form, 'stepId'),
+          token,
+          bodyFromFields(executeEffectDetailFields, ['stepId'], form)
+        )
+      )
   },
   {
     id: 'ability-phase-effect-sequences',

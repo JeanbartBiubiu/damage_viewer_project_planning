@@ -16,7 +16,9 @@ export const EFFECT_DETAIL_FAMILY_OPTIONS: { label: string; value: EffectStepDet
   { value: 'providerDetail', label: 'Provider (providerDetail)' },
   { value: 'eventDetail', label: '事件 (eventDetail)' },
   { value: 'abilityControlDetail', label: '技能控制 (abilityControlDetail)' },
-  { value: 'stateDetail', label: '状态 (stateDetail)' }
+  { value: 'stateDetail', label: '状态 (stateDetail)' },
+  { value: 'repeatDetail', label: '重复 (repeatDetail)' },
+  { value: 'executeDetail', label: '处决阈值 (executeDetail)' }
 ];
 
 type DetailFieldDef = {
@@ -74,7 +76,15 @@ const DETAIL_FIELDS: Record<EffectStepDetailKey, DetailFieldDef[]> = {
     { name: 'stateKey', label: '状态 Key', kind: 'text', required: true },
     { name: 'amountFormulaKey', label: '数量公式 Key', kind: 'text', required: true },
     { name: 'valuePolicyTypeId', label: '值策略类型 ID', kind: 'number', required: true }
-  ]
+  ],
+  repeatDetail: [
+    { name: 'repeatScopeTypeId', label: '重复作用域类型 ID', kind: 'number', required: true },
+    { name: 'repeatCount', label: '重复次数', kind: 'number', required: true },
+    { name: 'repeatTag', label: '重复标签', kind: 'text', required: true },
+    { name: 'triggerStateKey', label: '触发状态 Key', kind: 'text', required: true },
+    { name: 'threshold', label: '阈值', kind: 'number', required: true }
+  ],
+  executeDetail: [{ name: 'threshold', label: '生命比例阈值', kind: 'number', required: true }]
 };
 
 export type EffectStepEditorState = {
@@ -344,7 +354,7 @@ export function EffectStepEditor({ value, readOnly = false, lockPathKeys = false
       </Form.Item>
 
       <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8 }}>
-        Detail 家族（九选一，切换时会清空其他 detail）
+        Detail 家族（十一选一，切换时会清空其他 detail）
       </Typography.Text>
       <Form.Item label="Detail 家族" required>
         <Select
