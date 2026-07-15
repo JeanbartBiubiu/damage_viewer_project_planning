@@ -2,6 +2,7 @@ package xyz.game.datamanage.service.combatdata.provider;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.math.BigDecimal;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -155,9 +156,25 @@ public class ProviderCombatDataService {
         support.requireGame(gameId);
         ObjectNode req = support.requireBody(body);
         int valueTypeId = support.requireInt(req, "valueTypeId");
+        BigDecimal maxValue = support.optionalDecimal(req, "maxValue");
+        Long durationMs = null;
+        if (req.has("durationMs") && !req.get("durationMs").isNull()) {
+            durationMs = support.requireLong(req, "durationMs");
+        }
+        Integer refreshPolicyTypeId = support.optionalInt(req, "refreshPolicyTypeId");
         long revision = revisionService.nextRevision(gameId);
+        Long durationMsParam = durationMs;
         support.withConstraintMapping(() ->
-            stateFieldsMapper.upsert(gameId, revision, providerId, stateKey, valueTypeId)
+            stateFieldsMapper.upsert(
+                gameId,
+                revision,
+                providerId,
+                stateKey,
+                valueTypeId,
+                maxValue,
+                durationMsParam,
+                refreshPolicyTypeId
+            )
         );
         return support.adminWriteResponse(stateFieldsMapper.findById(gameId, providerId, stateKey), revision);
     }

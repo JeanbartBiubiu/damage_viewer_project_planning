@@ -79,4 +79,17 @@ public class CombatDataEffectAdminController {
         logHelper.log(auth, request, body, 200);
         return response;
     }
+
+    @PutMapping("/execute-effect-details/{stepId}")
+    public ObjectNode putExecuteEffectDetail(
+        @PathVariable("gameId") String gameId,
+        @PathVariable("stepId") String stepId,
+        @RequestBody ObjectNode body,
+        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        HttpServletRequest request
+    ) {
+        ObjectNode response = service.putExecuteEffectDetail(gameId, stepId, body);
+        logHelper.log(auth, request, body, 200);
+        return response;
+    }
 }

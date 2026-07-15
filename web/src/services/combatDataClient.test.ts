@@ -4,8 +4,10 @@ import {
   formatCombatDataError,
   getAttributeDefinitions,
   getCombatDataState,
+  getExecuteEffectDetails,
   putAttributeDefinition,
-  putEffectStep
+  putEffectStep,
+  putExecuteEffectDetail
 } from './combatDataClient';
 
 function jsonResponse(status: number, body: unknown): Response {
@@ -177,6 +179,83 @@ describe('combatDataClient', () => {
 
     expect(result.data.currentRevision).toBe(9);
     expect(result.data.stepId).toBe('step-1');
+  });
+
+  it('GET execute-effect-details uses public path and list envelope', async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      expect(String(input)).toBe(
+        'http://localhost:8080/api/games/demo/combat-data/execute-effect-details'
+      );
+      return jsonResponse(200, {
+        gameId: 'demo',
+        currentRevision: 4,
+        data: [
+          {
+            gameId: 'demo',
+            stepId: 'step-exec-1',
+            threshold: 0.35,
+            changeRevision: 4,
+            updatedAt: '2026-07-13T00:00:00Z'
+          }
+        ]
+      });
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await getExecuteEffectDetails('http://localhost:8080', 'demo');
+    expect(result.status).toBe(200);
+    expect(result.data.gameId).toBe('demo');
+    expect(result.data.currentRevision).toBe(4);
+    expect(result.data.data).toHaveLength(1);
+    expect(result.data.data[0]).toMatchObject({
+      stepId: 'step-exec-1',
+      threshold: 0.35
+    });
+  });
+
+  it('admin PUT execute-effect-details keeps threshold and strips revision metadata', async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      expect(String(input)).toBe(
+        'http://localhost:8080/api/admin/games/demo/combat-data/execute-effect-details/step-exec-1'
+      );
+      expect(init?.method).toBe('PUT');
+
+      const body = JSON.parse(String(init?.body));
+      expect(body.threshold).toBe(0.35);
+      expect(body.currentRevision).toBeUndefined();
+      expect(body.changeRevision).toBeUndefined();
+      expect(body.updatedAt).toBeUndefined();
+
+      return jsonResponse(200, {
+        gameId: 'demo',
+        stepId: 'step-exec-1',
+        threshold: 0.35,
+        changeRevision: 11,
+        updatedAt: '2026-07-13T01:00:00Z',
+        currentRevision: 11
+      });
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await putExecuteEffectDetail(
+      'http://localhost:8080',
+      'demo',
+      'step-exec-1',
+      'token-1',
+      {
+        threshold: 0.35,
+        gameId: 'demo',
+        stepId: 'step-exec-1',
+        currentRevision: 10,
+        changeRevision: 9,
+        updatedAt: 'stale'
+      }
+    );
+
+    expect(result.data.currentRevision).toBe(11);
+    expect(result.data.stepId).toBe('step-exec-1');
+    expect(result.data.threshold).toBe(0.35);
+    expect(result.data.changeRevision).toBe(11);
   });
 });
 
