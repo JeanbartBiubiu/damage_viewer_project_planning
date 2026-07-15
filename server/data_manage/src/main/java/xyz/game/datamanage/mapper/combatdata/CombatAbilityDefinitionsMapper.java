@@ -25,7 +25,8 @@ public interface CombatAbilityDefinitionsMapper {
         @Param("providerId") Object providerId,
         @Param("abilityKey") Object abilityKey,
         @Param("abilityKindTypeId") Object abilityKindTypeId,
-        @Param("displayName") Object displayName
+        @Param("displayName") Object displayName,
+        @Param("castConditionFormulaKey") Object castConditionFormulaKey
     );
 
     List<Map<String, Object>> listChangedSince(
