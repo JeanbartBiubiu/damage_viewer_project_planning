@@ -99,7 +99,7 @@ cd server/data_manage
 mvn -Dtest=GenericGuinsooHkDbContractSqlTest test
 ```
 
-### LoL Guinsoo H+K 升级 seed（叠攻速 / 时长 / phantom copyable-on-hit）
+### LoL Guinsoo H+K 升级 seed（叠攻速 / 时长 / 满层每第三次 phantom）
 
 在 Guinsoo H+K DDL 合同已就绪，且 `lol_adc_item_on_hit_passives_seed.sql`（`provider_item_3124_guinsoos`）与 `lol_formula_on_hit_mechanisms_seed.sql`（破败 / 纳什 / 界弓伤害行）已写入后，本批按顺序执行：
 
@@ -109,7 +109,7 @@ mvn -Dtest=GenericGuinsooHkDbContractSqlTest test
 4. `db/game_manage/seeds/lol_guinsoo_hk_seed.sql`
 5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-该 seed 会：单事务锁定 `game_data_state`；复用既有 `provider_item_3124_guinsoos`（不重建 provider）；写入 `guinsoos_seething_strike` 状态（`max_value=4` / `duration_ms=3000` / `refresh_policy/refresh_duration`）；每层 `+8%` `attack_speed` percent_add；满层 `repeat(copyable_on_hit)` phantom hit；仅将鬼索 / 破败 / 纳什 / 界弓四条 on-hit 伤害标为 `copyable_on_hit`。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
+该 seed 会：单事务锁定 `game_data_state`；复用既有 `provider_item_3124_guinsoos`（不重建 provider）；写入 `guinsoos_seething_strike` 状态（`max_value=4` / `duration_ms=3000` / `refresh_policy/refresh_duration`）；每层 `+8%` `attack_speed` percent_add；另写 `guinsoos_phantom_hit_counter`（`max_value=3` / `3000ms` / refresh-on-write），在**已满 4 层**时按每第三次攻击 `register repeat(copyable_on_hit / phantom_hit)`（到达第 4 层的那次攻击不计入；连续攻击下 1–6 无 phantom，7 / 10 / 13… 各一次）；仅将鬼索 / 破败 / 纳什 / 界弓四条 on-hit 伤害标为 `copyable_on_hit`。live 旧 cadence（seething=1 / phantom=2）升级到最终 0/1/2/3/4 前，若 owned step 的 `step_order` 与目标不一致，会先按序列当前 `MAX(step_order)` 做碰撞安全临时重排，再条件 upsert（已对齐则跳过；重跑不推进 revision）。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
 
 当前 live 基线迁移预期（非 SQL 硬编码规则）：首次执行 `current/published` 自 `12/12` → `13/12`；无变化重跑保持 `13/12`。
 

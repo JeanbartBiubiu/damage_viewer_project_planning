@@ -1,11 +1,17 @@
 -- =============================================================================
--- LoL Guinsoo H+K upgrade seed (stack AS / duration / phantom copyable-on-hit)
+-- LoL Guinsoo H+K upgrade seed (stack AS / duration / every-third phantom)
 -- =============================================================================
 --
 -- 目标：在 Batch-C 鬼索首批（固定 30 魔法 on-hit）之上，幂等升级为完整 H+K：
---       provider 叠层状态 + 每层 8% attack_speed percent_add + 满 4 层
---       repeat(copyable_on_hit / phantom_hit)；并为四条纯可复制 on-hit 伤害
---       打开 copyable_on_hit（不碰 Kraken / Vayne W / Hullbreaker 等）。
+--       provider 叠层状态 + 每层 8% attack_speed percent_add + 满 4 层后
+--       每第三次攻击 register repeat(copyable_on_hit / phantom_hit)；
+--       并为四条纯可复制 on-hit 伤害打开 copyable_on_hit
+--       （不碰 Kraken / Vayne W / Hullbreaker 等）。
+--
+-- 沸腾打击 cadence（与本地 item 3124 真源一致）：
+--   攻击提供 8% 攻速，持续 3 秒，最多 4 层；已满层时，每第三次后续攻击
+--   额外施加一次可复制 on-hit。到达第 4 层的那次攻击不计入 phantom 计数。
+--   连续攻击下：总攻击 1–6 无 phantom；7、10、13… 各一次 phantom replay。
 --
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
@@ -15,6 +21,21 @@
 -- 4. 必需 game / reserved_type / attack_speed / provider/listener/sequence /
 --    四条可复制源 damage 行缺失则 RAISE EXCEPTION 回滚。
 -- 5. 不自动 publish；不做 DELETE；不写 legacy Bundle/Catalog/item/skill。
+-- 6. effect_steps 另有 uq_effect_steps_order UNIQUE (game_id, sequence_id, step_order)；
+--    ON CONFLICT (game_id, step_id) 无法捕获 order 唯一冲突。live 旧合同
+--   （seething=1 / phantom=2）升级到 1..4 前，若任一已有 owned step 的 order
+--    与最终目标不同，则先按序列当前 MAX(step_order) 派生临时基址，把既有
+--    owned 行挪到互不冲突的临时 order，再做最终 upsert；已对齐最终 order
+--    （含仅缺新行）时跳过临时重排。game_data_state FOR UPDATE 串行化写入。
+--    不触碰 order-0 Wrath damage；不 DELETE / 不禁用约束。
+--
+-- listener 顺序（既有 order-0 Wrath damage 之后）：
+--   1 counter +1（仅当本事件叠层前 seething 已是 4）
+--   2 seething +1 / refresh（无条件）
+--   3 register repeat(copyable_on_hit, count 1, tag phantom_hit,
+--                     trigger seething >= 4)（仅当 counter >= 3）
+--   4 counter override 重置 0（仅当 counter >= 3；在 repeat 之后）
+--   counter / seething 均为 3000ms refresh-on-write；窗口丢失后不会残留计数。
 --
 -- 前置：reserved_types_seed.sql；lol_adc_item_on_hit_passives_seed.sql；
 --       lol_formula_on_hit_mechanisms_seed.sql（BotRK/Nashor/Terminus 伤害行）；
@@ -29,6 +50,7 @@ DECLARE
     v_candidate          bigint;
     v_changed            boolean := false;
     v_rowcount           integer;
+    v_temp_order_base    integer;
     v_missing_reserved   text;
     v_missing_damage     text;
     v_required_reserved  int[] := ARRAY[
@@ -38,6 +60,7 @@ DECLARE
         20160, -- operation/state_change
         20161, -- operation/repeat
         20170, -- value_policy/add
+        20172, -- value_policy/override
         20173, -- value_policy/percent_add
         20190, -- refresh_policy/refresh_duration
         20250, -- state_scope/provider
@@ -195,22 +218,35 @@ BEGIN
 
     -- =========================================================================
     -- provider state：guinsoos_seething_strike（max 4 / 3000ms / refresh_duration）
+    --               guinsoos_phantom_hit_counter（max 3 / 3000ms / refresh_duration）
     -- =========================================================================
     INSERT INTO public.provider_state_fields (
         game_id, provider_id, state_key, value_type_id,
         max_value, duration_ms, refresh_policy_type_id,
         change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'provider_item_3124_guinsoos',
-        'guinsoos_seething_strike',
-        20100,
-        4,
-        3000,
-        20190,
-        v_candidate,
-        NOW()
-    )
+    ) VALUES
+        (
+            v_game_id,
+            'provider_item_3124_guinsoos',
+            'guinsoos_seething_strike',
+            20100,
+            4,
+            3000,
+            20190,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_3124_guinsoos',
+            'guinsoos_phantom_hit_counter',
+            20100,
+            3,
+            3000,
+            20190,
+            v_candidate,
+            NOW()
+        )
     ON CONFLICT (game_id, provider_id, state_key) DO UPDATE SET
         value_type_id = EXCLUDED.value_type_id,
         max_value = EXCLUDED.max_value,
@@ -227,7 +263,7 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- formulas：叠层 +1；每层 8% attack_speed
+    -- formulas：叠层 +1；每层 8% attack_speed；phantom 计数/条件/重置
     INSERT INTO public.provider_formulas (
         game_id, provider_id, formula_key, expression, change_revision, updated_at
     ) VALUES
@@ -244,6 +280,38 @@ BEGIN
             'provider_item_3124_guinsoos',
             'guinsoos_seething_strike_attack_speed',
             '{"op":"mul","args":[{"op":"const","value":0.08},{"op":"read","path":"provider.state.guinsoos_seething_strike"}]}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_3124_guinsoos',
+            'guinsoos_phantom_hit_counter_add',
+            '{"op":"const","value":1}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_3124_guinsoos',
+            'guinsoos_phantom_hit_counter_reset',
+            '{"op":"const","value":0}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_3124_guinsoos',
+            'guinsoos_seething_strike_at_max',
+            '{"op":"eq","args":[{"op":"read","path":"provider.state.guinsoos_seething_strike"},{"op":"const","value":4}]}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_3124_guinsoos',
+            'guinsoos_phantom_hit_ready',
+            '{"op":"gte","args":[{"op":"read","path":"provider.state.guinsoos_phantom_hit_counter"},{"op":"const","value":3}]}'::jsonb,
             v_candidate,
             NOW()
         )
@@ -318,17 +386,82 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- sequence 升级：order0 damage（既有）→ order1 stack add → order2 phantom repeat
+    -- sequence 升级：order0 damage（既有）
+    --   → order1 phantom counter +1（seething 已满）
+    --   → order2 seething +1
+    --   → order3 phantom repeat（counter >= 3）
+    --   → order4 counter reset（counter >= 3）
+    --
+    -- Collision-safe reorder (uq_effect_steps_order): only when an existing
+    -- Guinsoo-owned step already sits on a non-final order. Temporary orders are
+    -- derived from the current sequence MAX(step_order); final upsert below
+    -- still owns material-change / v_changed detection via IS DISTINCT FROM.
     -- =========================================================================
+    IF EXISTS (
+        SELECT 1
+          FROM public.effect_steps es
+         WHERE es.game_id = v_game_id
+           AND es.sequence_id = 'sequence_item_3124_guinsoos'
+           AND (
+                (es.step_id = 'step_item_3124_guinsoos_phantom_hit_counter_add'
+                    AND es.step_order IS DISTINCT FROM 1)
+             OR (es.step_id = 'step_item_3124_guinsoos_seething_strike_add'
+                    AND es.step_order IS DISTINCT FROM 2)
+             OR (es.step_id = 'step_item_3124_guinsoos_phantom_hit'
+                    AND es.step_order IS DISTINCT FROM 3)
+             OR (es.step_id = 'step_item_3124_guinsoos_phantom_hit_counter_reset'
+                    AND es.step_order IS DISTINCT FROM 4)
+           )
+    ) THEN
+        SELECT COALESCE(MAX(es.step_order), 0)
+          INTO v_temp_order_base
+          FROM public.effect_steps es
+         WHERE es.game_id = v_game_id
+           AND es.sequence_id = 'sequence_item_3124_guinsoos';
+
+        WITH owned AS (
+            SELECT es.step_id,
+                   ROW_NUMBER() OVER (ORDER BY es.step_id) AS rn
+              FROM public.effect_steps es
+             WHERE es.game_id = v_game_id
+               AND es.sequence_id = 'sequence_item_3124_guinsoos'
+               AND es.step_id IN (
+                    'step_item_3124_guinsoos_phantom_hit_counter_add',
+                    'step_item_3124_guinsoos_seething_strike_add',
+                    'step_item_3124_guinsoos_phantom_hit',
+                    'step_item_3124_guinsoos_phantom_hit_counter_reset'
+               )
+        )
+        UPDATE public.effect_steps es
+           SET step_order = v_temp_order_base + owned.rn,
+               updated_at = NOW()
+          FROM owned
+         WHERE es.game_id = v_game_id
+           AND es.step_id = owned.step_id;
+        -- Temporary parking only; do not set v_changed here. Final upsert below
+        -- remains conditional on actual contract differences (rerun idempotent).
+    END IF;
+
     INSERT INTO public.effect_steps (
         game_id, step_id, sequence_id, step_order, operation_type_id,
         target_selector_type_id, condition_formula_key, change_revision, updated_at
     ) VALUES
         (
             v_game_id,
-            'step_item_3124_guinsoos_seething_strike_add',
+            'step_item_3124_guinsoos_phantom_hit_counter_add',
             'sequence_item_3124_guinsoos',
             1,
+            20160,
+            20110,
+            'guinsoos_seething_strike_at_max',
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_item_3124_guinsoos_seething_strike_add',
+            'sequence_item_3124_guinsoos',
+            2,
             20160,
             20110,
             NULL,
@@ -339,10 +472,21 @@ BEGIN
             v_game_id,
             'step_item_3124_guinsoos_phantom_hit',
             'sequence_item_3124_guinsoos',
-            2,
+            3,
             20161,
             20110,
-            NULL,
+            'guinsoos_phantom_hit_ready',
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_item_3124_guinsoos_phantom_hit_counter_reset',
+            'sequence_item_3124_guinsoos',
+            4,
+            20160,
+            20110,
+            'guinsoos_phantom_hit_ready',
             v_candidate,
             NOW()
         )
@@ -368,16 +512,37 @@ BEGIN
     INSERT INTO public.state_effect_details (
         game_id, step_id, state_scope_type_id, state_key, amount_formula_key,
         value_policy_type_id, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'step_item_3124_guinsoos_seething_strike_add',
-        20250,
-        'guinsoos_seething_strike',
-        'guinsoos_seething_strike_add',
-        20170,
-        v_candidate,
-        NOW()
-    )
+    ) VALUES
+        (
+            v_game_id,
+            'step_item_3124_guinsoos_phantom_hit_counter_add',
+            20250,
+            'guinsoos_phantom_hit_counter',
+            'guinsoos_phantom_hit_counter_add',
+            20170,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_item_3124_guinsoos_seething_strike_add',
+            20250,
+            'guinsoos_seething_strike',
+            'guinsoos_seething_strike_add',
+            20170,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_item_3124_guinsoos_phantom_hit_counter_reset',
+            20250,
+            'guinsoos_phantom_hit_counter',
+            'guinsoos_phantom_hit_counter_reset',
+            20172,
+            v_candidate,
+            NOW()
+        )
     ON CONFLICT (game_id, step_id) DO UPDATE SET
         state_scope_type_id = EXCLUDED.state_scope_type_id,
         state_key = EXCLUDED.state_key,
