@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-15T14:48:35.175Z",
+    "generatedAt": "2026-07-15T15:11:40.367Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -57,7 +57,7 @@
       "最小验证/generic-g8-adc-passive-coverage-audit.json": "1ef30e8e3918579cac874cf535594963d662c2218be031238884b267b9cb2832",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
       "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "d10a8e09891e40ccb39642cd1628823d003dd44baa8f045fd94c2fb8b2d290f1",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "241ec13454c81341ba25da1ae47015bf232f7c40720e274d29adc315e445262d",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "a722eeeb4658773d7b82b4cf1cbeddb45289405ea0c78a8753a2936ab5cd811e",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -88,9 +88,9 @@
     "statusCounts": {
       "completed": 20,
       "partial_actionable": 1,
-      "ready_to_implement": 4,
-      "blocked_runtime": 39,
-      "blocked_data": 144,
+      "ready_to_implement": 1,
+      "blocked_runtime": 40,
+      "blocked_data": 146,
       "out_of_scope": 41,
       "regression_only": 5,
       "stale_or_duplicate": 0
@@ -106,11 +106,8 @@
       "data_only": 0,
       "mixed_evidence": 4
     },
-    "actionableKeyCount": 5,
+    "actionableKeyCount": 2,
     "actionableKeys": [
-      "hero_skill|hero_kaisa|P|体表活肤",
-      "hero_skill|hero_twitch|P|死亡毒液",
-      "hero_skill|hero_varus|W|枯萎箭袋",
       "item_passive|3071|item_passive|切割",
       "item_passive|6665|item_passive|虚空天生"
     ]
@@ -239,8 +236,8 @@
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "241ec13454c81341ba25da1ae47015bf232f7c40720e274d29adc315e445262d",
-      "byteSize": 70246,
+      "sha256": "a722eeeb4658773d7b82b4cf1cbeddb45289405ea0c78a8753a2936ab5cd811e",
+      "byteSize": 73214,
       "recordCount": 0,
       "role": "generator"
     },
@@ -13823,7 +13820,7 @@
     },
     {
       "key": "hero_skill|hero_kaisa|P|体表活肤",
-      "status": "ready_to_implement",
+      "status": "blocked_data",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -13834,8 +13831,8 @@
         "existing_batch_b_seed"
       ],
       "coverageBoundary": "",
-      "reason": "已有 generic 原语与 Batch B seed；缺当前 generic seed/mount/tests 闭环。",
-      "blocker": "missing_generic_seed_mount_tests",
+      "reason": "当前 Data Dragon 文本无完整当前数值合同；历史 Batch B 1级/OCR 证据版本不一致，缺可核验的当前唯一数值真源。",
+      "blocker": "missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -16352,7 +16349,7 @@
     },
     {
       "key": "hero_skill|hero_twitch|P|死亡毒液",
-      "status": "ready_to_implement",
+      "status": "blocked_data",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -16363,8 +16360,8 @@
         "existing_batch_b_seed"
       ],
       "coverageBoundary": "",
-      "reason": "已有 generic 原语与 Batch B seed；缺当前 generic seed/mount/tests 闭环。",
-      "blocker": "missing_generic_seed_mount_tests",
+      "reason": "历史 Batch B 为每层每 tick 1 点伤害，legacy helper 为 2；无唯一当前真源可裁定冲突。",
+      "blocker": "batch_b_1_vs_legacy_helper_2_per_stack_tick_no_unique_current_truth",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -16627,7 +16624,7 @@
     },
     {
       "key": "hero_skill|hero_varus|W|枯萎箭袋",
-      "status": "ready_to_implement",
+      "status": "blocked_data",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -16638,8 +16635,8 @@
         "existing_batch_b_seed"
       ],
       "coverageBoundary": "",
-      "reason": "已有 generic 原语与 Batch B seed；缺当前 generic seed/mount/tests 闭环。",
-      "blocker": "missing_generic_seed_mount_tests",
+      "reason": "历史 seed params 含 on-hit 表 [8,17,26,35,44]，但可执行 legacy operation 固定 rank-1=8；当前 tooltip/effect 未解析，仍无唯一可核验的当前完整 rank 表。",
+      "blocker": "historical_seed_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -18049,7 +18046,7 @@
     },
     {
       "key": "item_passive|3071|item_passive|热烈",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18060,8 +18057,8 @@
         "dps_relevant_manual_review"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "当前源已给出造成物理伤害时 20 移速持续 2 秒；非数据缺口，缺 generic 移速/战斗伤害窗口 runtime 语义。",
+      "blocker": "missing_generic_movement_speed_combat_damage_window_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19656,9 +19653,9 @@
         "target_armor_flat_bonus",
         "target_magic_resist_flat_bonus"
       ],
-      "coverageBoundary": "batch_v_a_jaksho_full_stack_resists",
-      "reason": "Seed-only 显式补充：Jak'Sho 满层抗性可基于现有 coefficient bucket 实现。",
-      "blocker": "missing_generic_seed_mount_tests",
+      "coverageBoundary": "controlled_synthetic_target_bonus_armor_mr_partial;no_real_target_equipment_or_loadout_projection",
+      "reason": "本地可证受控部分：目标侧 provider 可用显式 synthetic 目标护甲/魔抗加成输入；不声称真实目标装备或 loadout 投影。",
+      "blocker": "missing_controlled_synthetic_target_partial_seed_mount_tests",
       "sourceRefs": [
         {
           "path": "最小验证/V2-BatchV-A-data-policy-items.seed.json",

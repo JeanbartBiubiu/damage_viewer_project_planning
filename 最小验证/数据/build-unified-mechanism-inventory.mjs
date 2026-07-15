@@ -67,31 +67,46 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_kaisa|P|体表活肤',
     {
-      status: 'ready_to_implement',
+      status: 'blocked_data',
       completionMode: 'none',
       lane: 'generic_runtime',
-      reason: '已有 generic 原语与 Batch B seed；缺当前 generic seed/mount/tests 闭环。',
-      blocker: 'missing_generic_seed_mount_tests',
+      reason:
+        '当前 Data Dragon 文本无完整当前数值合同；历史 Batch B 1级/OCR 证据版本不一致，缺可核验的当前唯一数值真源。',
+      blocker: 'missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr',
     },
   ],
   [
     'hero_skill|hero_twitch|P|死亡毒液',
     {
-      status: 'ready_to_implement',
+      status: 'blocked_data',
       completionMode: 'none',
       lane: 'generic_runtime',
-      reason: '已有 generic 原语与 Batch B seed；缺当前 generic seed/mount/tests 闭环。',
-      blocker: 'missing_generic_seed_mount_tests',
+      reason:
+        '历史 Batch B 为每层每 tick 1 点伤害，legacy helper 为 2；无唯一当前真源可裁定冲突。',
+      blocker: 'batch_b_1_vs_legacy_helper_2_per_stack_tick_no_unique_current_truth',
     },
   ],
   [
     'hero_skill|hero_varus|W|枯萎箭袋',
     {
-      status: 'ready_to_implement',
+      status: 'blocked_data',
       completionMode: 'none',
       lane: 'generic_runtime',
-      reason: '已有 generic 原语与 Batch B seed；缺当前 generic seed/mount/tests 闭环。',
-      blocker: 'missing_generic_seed_mount_tests',
+      reason:
+        '历史 seed params 含 on-hit 表 [8,17,26,35,44]，但可执行 legacy operation 固定 rank-1=8；当前 tooltip/effect 未解析，仍无唯一可核验的当前完整 rank 表。',
+      blocker:
+        'historical_seed_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved',
+    },
+  ],
+  [
+    'item_passive|3071|item_passive|热烈',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        '当前源已给出造成物理伤害时 20 移速持续 2 秒；非数据缺口，缺 generic 移速/战斗伤害窗口 runtime 语义。',
+      blocker: 'missing_generic_movement_speed_combat_damage_window_runtime',
     },
   ],
   [
@@ -548,9 +563,11 @@ const EXTRA_MECHANISMS = [
     skillKey: 'item_passive',
     passiveName: '虚空天生',
     mechanismTags: ['full_stack_resists', 'target_armor_flat_bonus', 'target_magic_resist_flat_bonus'],
-    coverageBoundary: 'batch_v_a_jaksho_full_stack_resists',
-    reason: 'Seed-only 显式补充：Jak\'Sho 满层抗性可基于现有 coefficient bucket 实现。',
-    blocker: 'missing_generic_seed_mount_tests',
+    coverageBoundary:
+      'controlled_synthetic_target_bonus_armor_mr_partial;no_real_target_equipment_or_loadout_projection',
+    reason:
+      '本地可证受控部分：目标侧 provider 可用显式 synthetic 目标护甲/魔抗加成输入；不声称真实目标装备或 loadout 投影。',
+    blocker: 'missing_controlled_synthetic_target_partial_seed_mount_tests',
     sourceRefs: [
       {
         path: '最小验证/V2-BatchV-A-data-policy-items.seed.json',
@@ -1483,9 +1500,13 @@ function validateInventory(inv) {
   const m3302b = inv.mechanisms.find((m) => m.key === 'item_passive|3302|item_passive|交相');
   const m3124 = inv.mechanisms.find((m) => m.key === 'item_passive|3124|item_passive|沸腾打击');
   const m3071 = inv.mechanisms.find((m) => m.key === 'item_passive|3071|item_passive|切割');
+  const m3071Rage = inv.mechanisms.find((m) => m.key === 'item_passive|3071|item_passive|热烈');
   const m2051 = inv.mechanisms.find((m) => m.key === 'item_passive|2051|item_passive|无畏');
   const m3082 = inv.mechanisms.find((m) => m.key === 'item_passive|3082|item_passive|坚如磐石');
   const m6665 = inv.mechanisms.find((m) => m.key === 'item_passive|6665|item_passive|虚空天生');
+  const mKaisaP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kaisa|P|体表活肤');
+  const mTwitchP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_twitch|P|死亡毒液');
+  const mVarusW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|W|枯萎箭袋');
   const mAsheQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|Q|射手的专注');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
@@ -1501,14 +1522,56 @@ function validateInventory(inv) {
   if (!m3071 || m3071.status !== 'partial_actionable' || m3071.completionMode !== 'partial') {
     errors.push('3071 切割 must be partial_actionable/partial');
   }
+  if (
+    !m3071Rage ||
+    m3071Rage.status !== 'blocked_runtime' ||
+    m3071Rage.completionMode !== 'none' ||
+    m3071Rage.blocker !== 'missing_generic_movement_speed_combat_damage_window_runtime'
+  ) {
+    errors.push('3071 热烈 must be blocked_runtime/none with MS/combat-window runtime blocker');
+  }
   if (!m2051 || m2051.status !== 'blocked_runtime' || m2051.completionMode !== 'none') {
     errors.push('2051 无畏 must be blocked_runtime/none');
   }
   if (!m3082 || m3082.status !== 'blocked_runtime' || m3082.completionMode !== 'none') {
     errors.push('3082 坚如磐石 must be blocked_runtime/none');
   }
-  if (!m6665 || m6665.status !== 'ready_to_implement') {
-    errors.push('6665 虚空天生 must be ready_to_implement');
+  if (
+    !m6665 ||
+    m6665.status !== 'ready_to_implement' ||
+    m6665.completionMode !== 'none' ||
+    m6665.blocker !== 'missing_controlled_synthetic_target_partial_seed_mount_tests' ||
+    !String(m6665.coverageBoundary || '').includes('controlled_synthetic_target_bonus_armor_mr_partial') ||
+    !String(m6665.coverageBoundary || '').includes('no_real_target_equipment_or_loadout_projection')
+  ) {
+    errors.push('6665 虚空天生 must be ready_to_implement/none with controlled synthetic-target boundary');
+  }
+  if (
+    !mKaisaP ||
+    mKaisaP.status !== 'blocked_data' ||
+    mKaisaP.completionMode !== 'none' ||
+    mKaisaP.blocker !== 'missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr'
+  ) {
+    errors.push('Kaisa P must be blocked_data/none with missing current unique numeric source blocker');
+  }
+  if (
+    !mTwitchP ||
+    mTwitchP.status !== 'blocked_data' ||
+    mTwitchP.completionMode !== 'none' ||
+    mTwitchP.blocker !== 'batch_b_1_vs_legacy_helper_2_per_stack_tick_no_unique_current_truth'
+  ) {
+    errors.push('Twitch P must be blocked_data/none with 1-vs-2 per-stack-tick damage conflict blocker');
+  }
+  if (
+    !mVarusW ||
+    mVarusW.status !== 'blocked_data' ||
+    mVarusW.completionMode !== 'none' ||
+    mVarusW.blocker !==
+      'historical_seed_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved'
+  ) {
+    errors.push(
+      'Varus W must be blocked_data/none with historical seed rank-table vs executable rank1-8 / unresolved current tooltip blocker',
+    );
   }
   if (!mAsheQ || mAsheQ.status !== 'blocked_runtime' || mAsheQ.completionMode !== 'partial') {
     errors.push('Ashe Q must be blocked_runtime/partial');
@@ -1524,9 +1587,9 @@ function validateInventory(inv) {
   const expectedStatus = {
     completed: 20,
     partial_actionable: 1,
-    ready_to_implement: 4,
-    blocked_runtime: 39,
-    blocked_data: 144,
+    ready_to_implement: 1,
+    blocked_runtime: 40,
+    blocked_data: 146,
     out_of_scope: 41,
     regression_only: 5,
     stale_or_duplicate: 0,
@@ -1534,13 +1597,10 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 5) {
-    errors.push(`actionableKeyCount expected 5, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 2) {
+    errors.push(`actionableKeyCount expected 2, got ${inv.summary?.actionableKeyCount}`);
   }
   const expectedActionable = [
-    'hero_skill|hero_kaisa|P|体表活肤',
-    'hero_skill|hero_twitch|P|死亡毒液',
-    'hero_skill|hero_varus|W|枯萎箭袋',
     'item_passive|3071|item_passive|切割',
     'item_passive|6665|item_passive|虚空天生',
   ];
