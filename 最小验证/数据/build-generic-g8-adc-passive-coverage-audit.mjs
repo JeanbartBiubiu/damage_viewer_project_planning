@@ -296,14 +296,15 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['stacking_stat_modifier_on_hit', 'phantom_hit_on_hit_repeat'],
-      reason: 'item 3124 沸腾打击 stacking + phantom repeat 已由 guinsoo-hk 批次 seed/mount。',
+      reason:
+        'item 3124 沸腾打击：满层后每第三次攻击 phantom（连续攻击 7/10/13…）；到达第 4 层的攻击不计入 counter；用 state_change+condition 递增/重置 guinsoos_phantom_hit_counter 后再 conditional register repeat，非 threshold-repeat alone。generic compile/run：wasm/tinygo_engine_v2/internal/runtime/generic_guinsoo_k_test.go（TestGenericRunGuinsooCadenceEveryThirdAtFull）。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-guinsoo-hk',
           SEED.guinsoo,
-          'Guinsoo boiling strike stacks + phantom repeat',
+          'Guinsoo boiling strike already-full every-third cadence (attacks 7/10) via counter/reset + conditional repeat; proven by generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull',
         ),
       ],
     },
