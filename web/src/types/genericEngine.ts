@@ -112,6 +112,14 @@ export type OperationDefinition = {
   types?: string[];
   tags?: string[];
   ref?: string;
+  condition?: GenericFormulaExpr;
+  copyableOnHit?: boolean;
+  critEligible?: boolean;
+  repeatScope?: string;
+  repeatCount?: number;
+  repeatTag?: string;
+  triggerStateKey?: string;
+  threshold?: number;
 };
 
 export type ModifierDefinition = {
@@ -145,10 +153,21 @@ export type AbilityDefinition = {
   params?: Record<string, number>;
   cost?: { resourceKey: string; amount: GenericFormulaExpr; allowPartial?: boolean };
   cooldown?: { durationMs: GenericFormulaExpr; startsOn?: string; groupKey?: string };
+  /** Optional cast precondition formula (provider-local ref). */
+  castCondition?: GenericFormulaExpr;
   operations?: OperationDefinition[];
   listenerSpec?: ListenerDefinition;
   tickSpec?: { intervalMs: number; onTick: OperationDefinition[]; startDelayMs?: number };
   stateSchema?: Record<string, unknown>;
+};
+
+/** Structured provider initialStateSchema field (Guinsoo H+K / Gate H1). */
+export type ProviderStateFieldSchema = {
+  valueType: string;
+  defaultValue: number;
+  maxValue?: number;
+  durationMs?: number;
+  refreshPolicy?: string;
 };
 
 export type ProviderDefinition = {
@@ -166,7 +185,8 @@ export type ProviderDefinition = {
     refreshPolicy?: string;
     tickIntervalMs?: number;
   };
-  initialStateSchema?: Record<string, unknown>;
+  /** TinyGo V2: bare `number` (legacy default 0) or structured timed/capped state. */
+  initialStateSchema?: Record<string, number | ProviderStateFieldSchema>;
 };
 
 export type EmptyP0Rules = {
@@ -235,10 +255,10 @@ export type InitialSnapshot = {
   combatants: CombatantSnapshot[];
 };
 
-export type DriverEntryRepeat = {
-  intervalMs: number;
-  maxAttempts?: number;
-};
+/** TinyGo V2 DriverRepeat: fixed interval XOR formula cadence (never both). */
+export type DriverEntryRepeat =
+  | { intervalMs: number; intervalFormula?: never; maxAttempts?: number }
+  | { intervalMs?: never; intervalFormula: GenericFormulaExpr; maxAttempts?: number };
 
 export type DriverEntry = {
   entryKey: string;
@@ -392,4 +412,6 @@ export type GenericAbilityOption = {
   displayName?: string;
   kind?: string;
   selectable?: boolean;
+  /** Projected from AbilityDefinition.types (type_relations target_category=ability). */
+  types?: string[];
 };

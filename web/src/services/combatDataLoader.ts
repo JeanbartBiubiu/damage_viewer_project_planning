@@ -29,11 +29,11 @@ export type LoadCombatDataGraphOptions = {
 /**
  * Revision-safe combat-data graph load:
  * 1. GET /state → currentRevision
- * 2. Optional IndexedDB hit for gameId+revision
+ * 2. Optional IndexedDB hit for apiBaseUrl+gameId+revision
  * 3. Load full graph
  * 4. Re-read /state; if revision changed, reload graph once
  * 5. If still changed after second load, throw CombatDataRevisionChangedError
- * 6. Write cache for final revision
+ * 6. Write cache for final revision under apiBaseUrl namespace
  */
 export async function loadCombatDataGraphRevisionSafe(
   apiBaseUrl: string,
@@ -46,7 +46,7 @@ export async function loadCombatDataGraphRevisionSafe(
   const initialRevision = initialState.data.currentRevision;
 
   if (preferCache) {
-    const cached = await readCombatDataGraphCache(gameId, initialRevision).catch(() => null);
+    const cached = await readCombatDataGraphCache(apiBaseUrl, gameId, initialRevision).catch(() => null);
     if (cached && cached.currentRevision === initialRevision) {
       return cached;
     }
@@ -68,15 +68,15 @@ export async function loadCombatDataGraphRevisionSafe(
     }
   }
 
-  await writeCombatDataGraphCache(graph).catch(() => undefined);
+  await writeCombatDataGraphCache(apiBaseUrl, graph).catch(() => undefined);
   return graph;
 }
 
-/** Clear cache for a game and reload a fresh revision-safe graph. */
+/** Clear cache for the current API+game scope and reload a fresh revision-safe graph. */
 export async function invalidateAndReload(
   apiBaseUrl: string,
   gameId: string
 ): Promise<CombatDataGraph> {
-  await clearCombatDataGraphCache(gameId).catch(() => undefined);
+  await clearCombatDataGraphCache(apiBaseUrl, gameId).catch(() => undefined);
   return loadCombatDataGraphRevisionSafe(apiBaseUrl, gameId, { preferCache: false });
 }
