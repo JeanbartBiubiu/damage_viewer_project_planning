@@ -1,3 +1,10 @@
+TASK_KEY: wasm-engine-v2-architecture
+DOC_TYPE: 其他
+WORKSTREAM: wasm
+STATUS: tracked
+EXECUTION_MODEL: multi-model
+LAST_TRACKED_AT: 2026-07-15 15:40:43
+
 # WASM 通用引擎 P0 实现 Review —— 与详细设计契约核对
 
 - 范围：`wasm/tinygo_engine_v2` 通用引擎（generic）ABI/session、compile、runtime/execution/gate/provider、scheduler、pipeline、formula。

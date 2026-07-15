@@ -1,6 +1,6 @@
 ---
 name: frontend-skill
-description: Use when the task asks for a visually strong landing page, website, app, prototype, demo, or game UI. This skill enforces restrained composition, image-led hierarchy, cohesive content structure, and tasteful motion while avoiding generic cards, weak branding, and UI clutter.
+description: Use when the task asks for a visually strong landing page, website, app, prototype, demo, or game UI.
 ---
 
 # Frontend Skill
@@ -149,6 +149,15 @@ Motion rules:
 - fast and restrained
 - consistent across the page
 - removed if ornamental only
+- respect `prefers-reduced-motion: reduce` (disable or replace non-essential motion)
+
+## Accessibility (always)
+
+Without a broad visual redesign, product and marketing UIs must still:
+
+- be fully operable by keyboard
+- show a clear `:focus-visible` style on interactive controls
+- honor reduced-motion preferences for decorative animation
 
 ## Hard Rules
 

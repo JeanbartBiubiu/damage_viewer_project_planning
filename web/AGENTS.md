@@ -46,6 +46,10 @@
 5. `npm run test`：Vitest 单元测试。
 6. `npm run build`：执行 `tsc -b + vite build`。
 7. `npm run preview`：预览生产构建结果。
+8. `npm run test:e2e:wasm-generic`：仅跑通用 Playwright 规格（需显式 `E2E_API_BASE_URL` + `E2E_GAME_ID`；缺省 fail-closed，不 skip）。
+9. `npm run smoke:wasm-generic`：发布门禁顺序执行 `lint` → `typecheck` → `test` → `build` → 上述 Playwright 规格（fail-fast）。
+
+Live smoke 前置：`E2E_API_BASE_URL`、`E2E_GAME_ID` 必须非空；缺失则非零退出。`E2E_WEB_BASE_URL` 可选（指向已启动前端）；未设时配置会对本机刚构建产物启动 `vite preview`（`127.0.0.1:4173`）。不向后端写入 Admin 数据。
 
 ## 5. 运行时与配置约定
 
@@ -65,8 +69,8 @@
 ## 7. 完成定义
 
 1. 只改文档：无需构建，但要核对提到的入口文件、脚本和命令仍然存在。
-2. 改 `web/**` 代码：默认至少运行 `npm run lint`、`npm run typecheck`、`npm run test`、`npm run build`。
-3. 改 Wasm 桥接或 `tinygoV2Bridge.ts`：至少核对 `src/engine/wasm/tinygo_engine_v2.wasm` 与 ABI 导出函数仍匹配。
+2. 改 `web/**` 代码：默认至少运行 `npm run lint`、`npm run typecheck`、`npm run test`、`npm run build`。涉及通用 Wasm 联调/发布门禁时再跑 `npm run smoke:wasm-generic`（需真实后端与 `E2E_*`）。
+3. 改 Wasm 桥接或 `tinygoV2Bridge.ts`：至少核对 `src/engine/wasm/tinygo_engine_v2.wasm` 与 ABI 导出函数仍匹配（当前通用路径：`engine_compile` / `engine_run` / `engine_release_session`）。
 4. 改页面、交互或服务层时，至少按影响范围做浏览器 smoke：`总览`、`版本发布`、`combat-data 分表页`、`Wasm 验证`、`图片缓存`。
 
 ## 8. Obsidian 回写边界

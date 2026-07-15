@@ -1,4 +1,4 @@
-TASK_KEY: web-combat-data-切面
+TASK_KEY: web-generic-1v1-combat-data-switch
 DOC_TYPE: 测试记录
 WORKSTREAM: web
 STATUS: tracked

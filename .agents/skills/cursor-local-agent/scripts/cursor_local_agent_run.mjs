@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import { execFileSync, spawn } from "node:child_process";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { basename, join, relative, resolve } from "node:path";
-import { tmpdir } from "node:os";
+import { basename, join, resolve } from "node:path";
 import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+import v8 from "node:v8";
 import {
   MODEL,
   appendJsonLine,
@@ -16,6 +17,48 @@ import {
   writeJson,
   writeText,
 } from "./cursor_local_agent_common.mjs";
+import {
+  buildPathSignatureMap,
+  classifyChanges,
+  classifyDeltaPaths,
+  diffPathSignatures,
+  normalizeAllowedPaths,
+  parseGitStatusPorcelainZ,
+  parseGitStatusShort,
+  signatureMapToObject,
+  untrackedFileMetadata,
+} from "./cursor_local_agent_path_policy.mjs";
+
+const DEFAULT_MAX_OLD_SPACE_SIZE_MB = 6144;
+const HEAP_REEXEC_ENV = "CURSOR_LOCAL_AGENT_HEAP_REEXEC";
+
+function getV8HeapSizeLimitMiB() {
+  return Math.floor(v8.getHeapStatistics().heap_size_limit / (1024 * 1024));
+}
+
+function ensureMaxOldSpaceSize(maxOldSpaceSizeMb) {
+  if (process.env[HEAP_REEXEC_ENV] === "1") {
+    return;
+  }
+
+  const scriptPath = fileURLToPath(import.meta.url);
+  const result = spawnSync(
+    process.execPath,
+    [`--max-old-space-size=${maxOldSpaceSizeMb}`, scriptPath, ...process.argv.slice(2)],
+    {
+      env: { ...process.env, [HEAP_REEXEC_ENV]: "1" },
+      stdio: "inherit",
+      windowsHide: true,
+    },
+  );
+
+  if (result.error) {
+    console.error(`ERROR_NAME=${result.error.name ?? "Error"}`);
+    console.error(`ERROR_MESSAGE=${result.error.message ?? String(result.error)}`);
+    process.exit(1);
+  }
+  process.exit(result.status ?? 1);
+}
 
 function parseArgs(argv) {
   const args = {
@@ -25,6 +68,7 @@ function parseArgs(argv) {
     name: "codex-cursor-task",
     outDir: "",
     timeoutMs: 0,
+    maxOldSpaceSizeMb: DEFAULT_MAX_OLD_SPACE_SIZE_MB,
     allowedPaths: [],
     allowCliFallback: false,
     allowCliModelDrift: false,
@@ -38,13 +82,15 @@ function parseArgs(argv) {
     else if (arg === "--name") args.name = argv[++i];
     else if (arg === "--out-dir") args.outDir = resolve(argv[++i]);
     else if (arg === "--timeout-ms") args.timeoutMs = Number.parseInt(argv[++i], 10);
-    else if (arg === "--allowed-path") args.allowedPaths.push(argv[++i]);
+    else if (arg === "--max-old-space-size-mb") {
+      args.maxOldSpaceSizeMb = Number.parseInt(argv[++i], 10);
+    } else if (arg === "--allowed-path") args.allowedPaths.push(argv[++i]);
     else if (arg === "--allow-cli-fallback") args.allowCliFallback = true;
     else if (arg === "--allow-cli-model-drift") args.allowCliModelDrift = true;
     else if (arg === "--help" || arg === "-h") {
       console.log(`Usage:
   node cursor_local_agent_run.mjs --cwd <repo> --prompt-file <task.txt> --allowed-path <path>...
-  node cursor_local_agent_run.mjs --cwd <repo> --prompt <text> --out-dir <dir>
+  node cursor_local_agent_run.mjs --cwd <repo> --prompt <text> --out-dir <dir> --allowed-path <path>...
 
 Options:
   --cwd <path>                Target worktree root.
@@ -53,9 +99,16 @@ Options:
   --name <name>               Agent name. Defaults to codex-cursor-task.
   --out-dir <path>            Artifact directory. Defaults under .agents/artifacts.
   --timeout-ms <n>            Cancel the run after n milliseconds.
-  --allowed-path <path>       Allowed write scope for diff capture. Repeatable.
+  --max-old-space-size-mb <n> V8 old-space size in MiB before SDK work. Defaults to ${DEFAULT_MAX_OLD_SPACE_SIZE_MB}.
+                              Current process V8 heap limit: ${getV8HeapSizeLimitMiB()} MiB.
+  --allowed-path <path>       Audited write allowlist entry (required, repeatable). Not an OS sandbox.
+                              Paths resolve under --cwd; escapes outside the repository are rejected.
   --allow-cli-fallback        Allow best-effort CLI fallback when SDK fails.
   --allow-cli-model-drift     Permit CLI fallback even though grok-4.5 fast=false cannot be proven.
+
+Artifacts (always under --out-dir): prompt.txt, summary.json, events.jsonl, diff.patch,
+  review.md, preflight.md, git-status-before/after (scoped + full worktree),
+  path-signature before/after JSON, untracked-in-scope metadata (path/size/sha256 only; never raw content).
 `);
       process.exit(0);
     } else {
@@ -72,6 +125,12 @@ Options:
   if (!Number.isInteger(args.timeoutMs) || args.timeoutMs < 0) {
     throw new Error("--timeout-ms must be a non-negative integer");
   }
+  if (!Number.isInteger(args.maxOldSpaceSizeMb) || args.maxOldSpaceSizeMb <= 0) {
+    throw new Error("--max-old-space-size-mb must be a positive integer");
+  }
+  if (args.allowedPaths.length === 0) {
+    throw new Error("at least one --allowed-path is required for real runs (audited write allowlist)");
+  }
   if (!args.outDir) {
     const stamp = new Date().toISOString().replace(/[:.]/g, "-");
     args.outDir = join(args.cwd, ".agents", "artifacts", `cursor-task-${stamp}`);
@@ -86,35 +145,50 @@ function loadPrompt(args) {
   return args.prompt;
 }
 
-function runGit(cwd, gitArgs) {
+function runGit(cwd, gitArgs, { encoding = "utf8" } = {}) {
   return execFileSync("git", ["-c", `safe.directory=${cwd}`, ...gitArgs], {
     cwd,
-    encoding: "utf8",
+    encoding,
     stdio: ["ignore", "pipe", "pipe"],
   });
 }
 
-function normalizeAllowedPaths(cwd, allowedPaths) {
-  return allowedPaths.map((inputPath) => {
-    const absolute = resolve(cwd, inputPath);
-    return {
-      input: inputPath,
-      absolute,
-      relative: relative(cwd, absolute) || ".",
-      exists: existsSync(absolute),
-    };
-  });
+function captureGitStatusText(cwd, pathSpecs = null) {
+  const gitArgs = [
+    "-c",
+    "core.quotepath=false",
+    "status",
+    "--short",
+    "--untracked-files=all",
+  ];
+  if (pathSpecs?.length) {
+    gitArgs.push("--", ...pathSpecs);
+  }
+  return runGit(cwd, gitArgs);
 }
 
+function captureGitStatusPorcelainZ(cwd) {
+  return runGit(
+    cwd,
+    ["-c", "core.quotepath=false", "status", "--porcelain=v1", "-z", "--untracked-files=all"],
+    { encoding: "buffer" },
+  );
+}
+
+/**
+ * Capture before-state git audit snapshot. Returns true on success.
+ * On failure: marks audit unavailable, records blocking error, returns false.
+ * Caller must hard-gate (no SDK / no CLI fallback) when this returns false.
+ */
 function captureGitArtifacts(args, summary, artifactPaths) {
+  summary.git = summary.git ?? {};
   try {
-    const beforeArgs =
-      summary.allowedPathSpecs.length > 0
-        ? ["status", "--short", "--untracked-files=all", "--", ...summary.allowedPathSpecs]
-        : ["status", "--short", "--untracked-files=all"];
-    const beforeStatus = runGit(args.cwd, beforeArgs);
+    const worktreeBefore = captureGitStatusText(args.cwd);
+    writeText(artifactPaths.statusWorktreeBefore, worktreeBefore);
+    summary.git.statusWorktreeBeforeFile = artifactPaths.statusWorktreeBefore;
+
+    const beforeStatus = captureGitStatusText(args.cwd, summary.allowedPathSpecs);
     writeText(artifactPaths.statusBefore, beforeStatus);
-    summary.git = summary.git ?? {};
     summary.git.statusBeforeFile = artifactPaths.statusBefore;
     summary.git.allowedPathsDirtyBefore = beforeStatus.trim().length > 0;
     if (summary.git.allowedPathsDirtyBefore) {
@@ -122,37 +196,169 @@ function captureGitArtifacts(args, summary, artifactPaths) {
         "Allowed paths already had local modifications before this run. diff.patch is a scoped current-state patch, not a pure per-run delta.",
       );
     }
+
+    const beforeZ = captureGitStatusPorcelainZ(args.cwd);
+    const beforeEntries = parseGitStatusPorcelainZ(beforeZ);
+    const beforeSignatures = buildPathSignatureMap(args.cwd, beforeEntries);
+    writeJson(artifactPaths.signaturesBefore, signatureMapToObject(beforeSignatures));
+    summary.git.signaturesBeforeFile = artifactPaths.signaturesBefore;
+    summary.git.pathSignaturesBefore = signatureMapToObject(beforeSignatures);
+    summary.git.statusEntriesBeforeCount = beforeEntries.length;
+    summary.git.beforeAuditAvailable = true;
+    return true;
   } catch (error) {
-    summary.git = summary.git ?? {};
+    summary.git.beforeAuditAvailable = false;
     summary.git.statusBeforeError = toErrorObject(error);
+    markAuditUnavailable(summary, error);
+    summary.preflight.blocking.push(
+      `Failed to capture before-state git audit snapshot: ${error.message}`,
+    );
+    return false;
   }
+}
+
+function captureUntrackedInScopeMetadata(args, summary, artifactPaths, inScopeEntries) {
+  const untracked = inScopeEntries.filter((entry) => entry.untracked);
+  summary.git.untrackedInScope = untracked.map((entry) => entry.relativePath);
+  writeText(
+    artifactPaths.untrackedList,
+    `${summary.git.untrackedInScope.join("\n")}${summary.git.untrackedInScope.length ? "\n" : ""}`,
+  );
+
+  const metadata = [];
+  const skipped = [];
+  for (const entry of untracked) {
+    try {
+      metadata.push(untrackedFileMetadata(args.cwd, entry.relativePath));
+    } catch (error) {
+      skipped.push({ path: entry.relativePath, reason: error.message });
+    }
+  }
+
+  writeJson(artifactPaths.untrackedMeta, { files: metadata, skipped });
+  summary.git.untrackedCapture = {
+    mode: "metadata-only",
+    files: metadata,
+    skipped,
+  };
+}
+
+function markAuditUnavailable(summary, error) {
+  const errorObject = toErrorObject(error);
+  summary.git = summary.git ?? {};
+  summary.git.auditError = errorObject;
+  summary.writeAllowlistAudit = {
+    kind: "audited-write-allowlist",
+    osSandbox: false,
+    outsideScopeCount: summary.writeAllowlistAudit?.outsideScopeCount ?? 0,
+    outsideScopePaths: summary.writeAllowlistAudit?.outsideScopePaths ?? [],
+    runDeltaOutsideScopeCount: summary.writeAllowlistAudit?.runDeltaOutsideScopeCount ?? 0,
+    runDeltaOutsideScopePaths: summary.writeAllowlistAudit?.runDeltaOutsideScopePaths ?? [],
+    failClosed: true,
+    auditAvailable: false,
+    auditError: errorObject,
+  };
 }
 
 function finalizeGitArtifacts(args, summary, artifactPaths) {
   summary.git = summary.git ?? {};
   try {
-    const afterArgs =
-      summary.allowedPathSpecs.length > 0
-        ? ["status", "--short", "--untracked-files=all", "--", ...summary.allowedPathSpecs]
-        : ["status", "--short", "--untracked-files=all"];
-    const gitStatusAfter = runGit(args.cwd, afterArgs);
+    const worktreeAfter = captureGitStatusText(args.cwd);
+    writeText(artifactPaths.statusWorktreeAfter, worktreeAfter);
+    summary.git.statusWorktreeAfterFile = artifactPaths.statusWorktreeAfter;
+
+    const gitStatusAfter = captureGitStatusText(args.cwd, summary.allowedPathSpecs);
     writeText(artifactPaths.statusAfter, gitStatusAfter);
     summary.git.statusAfterFile = artifactPaths.statusAfter;
     summary.git.allowedPathsDirtyAfter = gitStatusAfter.trim().length > 0;
+
+    const afterZ = captureGitStatusPorcelainZ(args.cwd);
+    const afterEntries = parseGitStatusPorcelainZ(afterZ);
+    // Text evidence remains available even if -z parsing is preferred for signatures.
+    const afterEntriesText = parseGitStatusShort(worktreeAfter);
+    if (afterEntriesText.length !== afterEntries.length) {
+      summary.git.statusParseNote =
+        `porcelain -z entries=${afterEntries.length}; short-text entries=${afterEntriesText.length}`;
+    }
+
+    const afterSignatures = buildPathSignatureMap(args.cwd, afterEntries);
+    writeJson(artifactPaths.signaturesAfter, signatureMapToObject(afterSignatures));
+    summary.git.signaturesAfterFile = artifactPaths.signaturesAfter;
+    summary.git.pathSignaturesAfter = signatureMapToObject(afterSignatures);
+
+    if (!summary.git.pathSignaturesBefore || summary.git.statusBeforeError) {
+      throw new Error(
+        summary.git.statusBeforeError?.message
+          ?? "before-state path signatures unavailable; cannot compute run delta",
+      );
+    }
+    const beforeSignatures = new Map(
+      Object.entries(summary.git.pathSignaturesBefore).map(([pathItem, value]) => [
+        pathItem,
+        value,
+      ]),
+    );
+    const runDelta = diffPathSignatures(beforeSignatures, afterSignatures);
+    summary.git.runDelta = runDelta;
+
+    const afterClassification = classifyChanges(afterEntries, summary.allowedPathSpecs);
+    const deltaClassification = classifyDeltaPaths(runDelta, summary.allowedPathSpecs);
+
+    summary.git.changeClassification = {
+      afterState: {
+        inScope: afterClassification.inScope.map((entry) => ({
+          status: entry.status,
+          path: entry.relativePath,
+          fromPath: entry.fromPath,
+          untracked: entry.untracked,
+          paths: entry.paths,
+        })),
+        outsideScope: afterClassification.outsideScope.map((entry) => ({
+          status: entry.status,
+          path: entry.relativePath,
+          fromPath: entry.fromPath,
+          untracked: entry.untracked,
+          paths: entry.paths,
+        })),
+      },
+      runDelta: {
+        inScope: deltaClassification.inScope,
+        outsideScope: deltaClassification.outsideScope,
+      },
+    };
+
+    const afterOutsidePaths = afterClassification.outsideScope.flatMap((entry) => entry.paths);
+    const deltaOutsidePaths = deltaClassification.outsideScope.map((item) => item.path);
+    summary.git.outsideScopePaths = [...new Set(afterOutsidePaths)];
+    summary.git.runDeltaOutsideScopePaths = deltaOutsidePaths;
+
+    summary.writeAllowlistAudit = {
+      kind: "audited-write-allowlist",
+      osSandbox: false,
+      auditAvailable: true,
+      outsideScopeCount: summary.git.outsideScopePaths.length,
+      outsideScopePaths: summary.git.outsideScopePaths,
+      runDeltaOutsideScopeCount: deltaOutsidePaths.length,
+      runDeltaOutsideScopePaths: deltaOutsidePaths,
+      runDeltaCount: runDelta.length,
+      failClosed: deltaOutsidePaths.length > 0,
+    };
+
+    captureUntrackedInScopeMetadata(args, summary, artifactPaths, afterClassification.inScope);
   } catch (error) {
     summary.git.statusAfterError = toErrorObject(error);
+    markAuditUnavailable(summary, error);
   }
 
   try {
-    if (summary.allowedPathSpecs.length === 0) {
-      writeText(
-        artifactPaths.diffPatch,
-        "# diff patch not generated\n# reason: no --allowed-path was provided, so a scoped patch cannot be captured safely.\n",
-      );
-      summary.git.diffPatchScope = "none";
-      return;
-    }
-    const diffPatch = runGit(args.cwd, ["diff", "--patch", "--", ...summary.allowedPathSpecs]);
+    const diffPatch = runGit(args.cwd, [
+      "-c",
+      "core.quotepath=false",
+      "diff",
+      "--patch",
+      "--",
+      ...summary.allowedPathSpecs,
+    ]);
     writeText(artifactPaths.diffPatch, diffPatch);
     summary.git.diffPatchScope = "allowed-paths";
     summary.git.diffPatchFile = artifactPaths.diffPatch;
@@ -162,6 +368,16 @@ function finalizeGitArtifacts(args, summary, artifactPaths) {
 }
 
 function writeReviewTemplate(artifactPaths, summary) {
+  const outsideAfter = summary.git?.outsideScopePaths ?? [];
+  const outsideDelta = summary.git?.runDeltaOutsideScopePaths ?? [];
+  const audit = summary.writeAllowlistAudit ?? {};
+  let reviewFinding = "- pending";
+  if (audit.auditAvailable === false) {
+    reviewFinding = `- FAIL: write allowlist audit unavailable (${audit.auditError?.message ?? "unknown error"}).`;
+  } else if (audit.failClosed) {
+    reviewFinding = "- FAIL: run delta includes outside-scope path changes (fail-closed).";
+  }
+
   const lines = [
     "# Cursor Run Review",
     "",
@@ -171,6 +387,11 @@ function writeReviewTemplate(artifactPaths, summary) {
     `- run: ${summary.runId ?? "pending"}`,
     `- result: ${summary.resultStatus ?? "pending"}`,
     `- outDir: ${summary.outDir}`,
+    `- write allowlist: audited (not OS sandbox)`,
+    `- after-state outside-scope paths: ${outsideAfter.length}`,
+    `- run-delta outside-scope paths: ${outsideDelta.length}`,
+    `- failClosed (run delta): ${audit.failClosed === true}`,
+    `- audit available: ${audit.auditAvailable !== false}`,
     "",
     "## Allowed Paths",
   ];
@@ -183,6 +404,34 @@ function writeReviewTemplate(artifactPaths, summary) {
     }
   }
 
+  lines.push("", "## After-State Outside-Scope Paths");
+  if (outsideAfter.length === 0) {
+    lines.push("- none");
+  } else {
+    for (const pathItem of outsideAfter) {
+      lines.push(`- ${pathItem}`);
+    }
+  }
+
+  lines.push("", "## Run-Delta Outside-Scope Paths");
+  if (outsideDelta.length === 0) {
+    lines.push("- none");
+  } else {
+    for (const pathItem of outsideDelta) {
+      lines.push(`- ${pathItem}`);
+    }
+  }
+
+  const untracked = summary.git?.untrackedInScope ?? [];
+  lines.push("", "## Untracked In-Scope Paths (metadata only)");
+  if (untracked.length === 0) {
+    lines.push("- none");
+  } else {
+    for (const pathItem of untracked) {
+      lines.push(`- ${pathItem}`);
+    }
+  }
+
   lines.push(
     "",
     "## Artifact Checklist",
@@ -190,9 +439,13 @@ function writeReviewTemplate(artifactPaths, summary) {
     `- summary.json: ${artifactPaths.summary}`,
     `- events.jsonl: ${artifactPaths.events}`,
     `- diff.patch: ${artifactPaths.diffPatch}`,
+    `- git-status-worktree-before/after: full worktree`,
+    `- git-status-before/after: allowlist-scoped`,
+    `- path-signatures-before/after.json: per-path status + content hash`,
+    `- untracked-in-scope.txt + untracked-in-scope-meta.json (path/size/sha256 only)`,
     "",
     "## Review Findings",
-    "- pending",
+    reviewFinding,
     "",
     "## Validation Commands",
     "- pending",
@@ -211,7 +464,7 @@ async function runWithSdk(args, summary, artifactPaths, promptText) {
   const { Agent, JsonlLocalAgentStore } = requireSdk(summary.preflight.sdk.path);
   const apiKey = getApiKey();
   const cwd = existsSync(args.cwd) ? args.cwd : args.cwd;
-  const store = new JsonlLocalAgentStore(join(tmpdir(), "cursor-sdk-local-agent-store"));
+  const store = new JsonlLocalAgentStore(join(args.outDir, "sdk-local-agent-store"));
   let agent;
   let run;
   let timeoutHandle;
@@ -361,6 +614,7 @@ async function runWithCursorCli(args, summary, artifactPaths, promptText) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  ensureMaxOldSpaceSize(args.maxOldSpaceSizeMb);
   const promptText = loadPrompt(args);
   const allowedPaths = normalizeAllowedPaths(args.cwd, args.allowedPaths);
   const preflight = performPreflight({ cwd: args.cwd, requireApiKey: true, requireSdk: true });
@@ -373,6 +627,12 @@ async function main() {
     preflight: join(args.outDir, "preflight.md"),
     statusBefore: join(args.outDir, "git-status-before.txt"),
     statusAfter: join(args.outDir, "git-status-after.txt"),
+    statusWorktreeBefore: join(args.outDir, "git-status-worktree-before.txt"),
+    statusWorktreeAfter: join(args.outDir, "git-status-worktree-after.txt"),
+    untrackedList: join(args.outDir, "untracked-in-scope.txt"),
+    untrackedMeta: join(args.outDir, "untracked-in-scope-meta.json"),
+    signaturesBefore: join(args.outDir, "path-signatures-before.json"),
+    signaturesAfter: join(args.outDir, "path-signatures-after.json"),
     cliStderr: join(args.outDir, "cursor-cli.stderr.log"),
   };
   const summary = {
@@ -382,8 +642,21 @@ async function main() {
     outDir: args.outDir,
     promptSource: args.promptFile ? basename(args.promptFile) : "inline",
     timeoutMs: args.timeoutMs,
+    maxOldSpaceSizeMb: args.maxOldSpaceSizeMb,
+    v8HeapSizeLimitMiB: getV8HeapSizeLimitMiB(),
     allowedPaths,
     allowedPathSpecs: allowedPaths.map((item) => item.relative),
+    writeAllowlistAudit: {
+      kind: "audited-write-allowlist",
+      osSandbox: false,
+      auditAvailable: true,
+      outsideScopeCount: 0,
+      outsideScopePaths: [],
+      runDeltaOutsideScopeCount: 0,
+      runDeltaOutsideScopePaths: [],
+      runDeltaCount: 0,
+      failClosed: false,
+    },
     preflight,
     eventCountByType: {},
     assistantText: "",
@@ -405,8 +678,34 @@ async function main() {
   console.log(`OUT_DIR=${args.outDir}`);
   console.log(`PREFLIGHT_BLOCKING=${preflight.blocking.length}`);
   console.log(`PREFLIGHT_WARNINGS=${preflight.warnings.length}`);
+  console.log(`ALLOWED_PATHS=${summary.allowedPathSpecs.join(";")}`);
 
-  captureGitArtifacts(args, summary, artifactPaths);
+  const beforeAuditOk = captureGitArtifacts(args, summary, artifactPaths);
+  writeReviewTemplate(artifactPaths, summary);
+  writeJson(artifactPaths.summary, summary);
+
+  // Hard gate: unavailable before-state baseline/status/signatures must not start SDK
+  // and must not attempt CLI fallback. Preserve review/summary/status artifacts.
+  if (!beforeAuditOk) {
+    summary.completedAt = new Date().toISOString();
+    summary.runtimeUsed = "none";
+    summary.cliFallback.status = "blocked";
+    summary.cliFallback.reason =
+      "CLI fallback blocked because before-state git audit snapshot is unavailable.";
+    writeReviewTemplate(artifactPaths, summary);
+    writeJson(artifactPaths.summary, summary);
+    console.error(
+      `WRITE_ALLOWLIST_AUDIT_UNAVAILABLE=${summary.writeAllowlistAudit?.auditError?.message ?? "before-state unavailable"}`,
+    );
+    console.error(`ERROR_NAME=Error`);
+    console.error(
+      `ERROR_MESSAGE=${summary.git?.statusBeforeError?.message ?? "before-state git audit snapshot unavailable"}`,
+    );
+    console.log(`REVIEW_FILE=${artifactPaths.review}`);
+    console.log(`SUMMARY_FILE=${artifactPaths.summary}`);
+    process.exit(1);
+  }
+
   let failure = null;
 
   try {
@@ -442,6 +741,23 @@ async function main() {
     writeJson(artifactPaths.summary, summary);
   }
 
+  const audit = summary.writeAllowlistAudit ?? {};
+  const deltaOutsideCount = audit.runDeltaOutsideScopeCount ?? 0;
+  const afterOutsideCount = audit.outsideScopeCount ?? 0;
+  if (afterOutsideCount > 0) {
+    console.error(`AFTER_OUTSIDE_SCOPE_COUNT=${afterOutsideCount}`);
+    console.error(`AFTER_OUTSIDE_SCOPE_PATHS=${(audit.outsideScopePaths ?? []).join(";")}`);
+  }
+  if (deltaOutsideCount > 0) {
+    console.error(`RUN_DELTA_OUTSIDE_SCOPE_COUNT=${deltaOutsideCount}`);
+    console.error(
+      `RUN_DELTA_OUTSIDE_SCOPE_PATHS=${(audit.runDeltaOutsideScopePaths ?? []).join(";")}`,
+    );
+  }
+  if (audit.auditAvailable === false) {
+    console.error(`WRITE_ALLOWLIST_AUDIT_UNAVAILABLE=${audit.auditError?.message ?? "unknown"}`);
+  }
+
   if (failure) {
     console.error(`ERROR_NAME=${failure?.name ?? "Error"}`);
     console.error(`ERROR_MESSAGE=${failure?.message ?? String(failure)}`);
@@ -451,6 +767,10 @@ async function main() {
   console.log(`REVIEW_FILE=${artifactPaths.review}`);
   console.log(`DIFF_FILE=${artifactPaths.diffPatch}`);
   console.log(`SUMMARY_FILE=${artifactPaths.summary}`);
+
+  if (audit.failClosed) {
+    process.exit(2);
+  }
 }
 
 main().catch((error) => {

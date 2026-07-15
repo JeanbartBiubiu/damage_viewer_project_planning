@@ -3,13 +3,13 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-06
+LAST_TRACKED_AT: 2026-07-15
 
 # WASM 详细设计
 
-本文是 Wasm 通用计算引擎的可执行实现契约，面向后续编码 agent。需求边界见 [WASM通用计算引擎需求对齐记录.md](../../需求澄清/wasm/WASM通用计算引擎需求对齐记录.md)，系统分层见 [WASM概要设计.md](../../概要设计/wasm/WASM概要设计.md)。
+本文是 Wasm 通用计算引擎的**已落地**实现契约，面向后续编码 agent。需求边界见 [WASM通用计算引擎需求对齐记录.md](../../需求澄清/wasm/WASM通用计算引擎需求对齐记录.md)，系统分层见 [WASM概要设计.md](../../概要设计/wasm/WASM概要设计.md)。
 
-本次设计以 canonical `Combatant -> Provider -> Ability` 为实现主线。旧通用骨架和专用 DPS lane 只作为 stale reference 或兼容 fixture，不作为新字段、新 ABI 或新机制扩展的命名来源。
+当前主线是 canonical `Combatant -> Provider -> Ability`，ABI 为 `engine_compile` / `engine_run` / `engine_release_session`。旧 step-loop 与专用 DPS lane 只作为兼容/回归表面，不作为新字段、新 ABI 或新机制扩展的命名来源。
 
 ## 1. 写入范围与非目标
 
@@ -81,46 +81,42 @@ Cursor worker 如果发现现有代码仍使用这些旧词，处理规则如下
 
 ## 1B. 现有文件级落点地图
 
-下表用于 Cursor worker 在现有代码中找落点；它不是要求一次性改完所有文件。
+下表按**当前已实现**源码锚点定位；新机制默认写入 generic 路径。
 
-| 路径 | 新设计角色 | 写入规则 |
+| 路径 | 当前角色 | 写入规则 |
 | --- | --- | --- |
-| `cmd/engine_wasm/main.go` | Wasm export glue。 | 只做 ABI/session 装配，不放业务规则、公式或 pipeline 逻辑。 |
-| `internal/abi/frame.go` | frame header、kind、payload 编解码。 | 新增目标 frame kind 时必须与旧 kind 区分。 |
-| `internal/abi/outbox.go` | outbox kind、优先级、缓冲策略。 | done/error/compile_result 优先保留；普通 log/sample 可限量。 |
-| `internal/model/types.go` | public DTO、枚举、错误码。 | canonical 字段先落这里；不得把旧 DTO 扩成新契约。 |
-| `internal/compile/compile.go` | canonical compile 主入口。 | 输出只读 compiled session；进入已知 schema 后 collect-all。 |
-| `internal/compile/*.go` | 类型、公式、bucket、引用编译。 | 可拆文件，但不要把 runtime mutation 放进 compile 包。 |
-| `internal/typeset/typeset.go` | flat type registry/matcher。 | 继续 flat bitset，不做父子闭包 runtime 展开。 |
-| `internal/formula/formula.go` | DSL compile/eval。 | P0 路径白名单和非有限数 fatal 语义必须在这里或调用层明确。 |
-| `internal/runtime/session.go` | session registry 与 compile/run 生命周期。 | 持有 compiled session；run state 不跨 run 复用。 |
-| `internal/runtime/runtime.go` | run state 与 event loop。 | 只负责通用 runtime，不新增 legacy DPS 机制。 |
-| `internal/runtime/runtime_cast.go` | attempt/gate/lifecycle 相关现有落点。 | 可迁移为 ability attempt；不得保留 action-centric 新语义。 |
-| `internal/runtime/runtime_damage.go` | damage 竖切现有落点。 | damage 必须回流 pipeline，不直接 raw set HP。 |
-| `internal/runtime/runtime_effects.go` | effect 到 operation 的兼容/迁移落点。 | 新机制以 operation 为准；effect 只能作为旧 payload adapter。 |
-| `internal/runtime/runtime_status_shield.go` | status/shield 现有落点。 | status 迁到 dynamic provider；shield 保持专用 runtime object。 |
-| `internal/runtime/dps_*.go` | legacy/compat DPS lane。 | 只读参考或旧回归；禁止新增通用机制。 |
-| `internal/scheduler/heap.go` | 稳定事件堆。 | 事件排序必须包含 category order。 |
-| `internal/attribute/attribute.go` | AttributeSlot。 | 只处理属性 slot/resolver，不存 provider state。 |
-| `internal/resource/resource.go` | ResourceSlot。 | 只处理 resource current/max/spend/refund/clamp。 |
-| `internal/command/command.go` | operation/command 类型落点。 | 数值变化统一入口，不直接操作 runtime store。 |
-| `internal/pipeline/pipeline.go` | pipeline modifier/resolver。 | pipeline modifier 不产生额外 command。 |
-| `internal/status/status.go` | dynamic provider/status 辅助包。 | status instance 表现为 provider，不私下删除自身。 |
-| `internal/shield/shield.go` | ShieldInstance 辅助包。 | shield 不强制 provider 化。 |
-| `internal/testkit/**` | fixture、golden、ABI helper。 | 新 fixture 使用 `generic_p0_*` 命名。 |
-| `scripts/smoke-node.mjs` | Node instantiate/export smoke。 | 可加目标 ABI smoke，但不能把 Node 当正式宿主。 |
-| `scripts/bench-node.mjs` | benchmark。 | ABI 变更后需要同步 benchmark 输入。 |
+| `cmd/engine_wasm/main.go` | Wasm export glue：`engine_compile` / `engine_run` / `engine_release_session` + memory/outbox。 | 只做 ABI/session 装配，不放业务规则。 |
+| `internal/abi/frame.go` | frame header 编解码（magic/schema/kind/flags/len）。 | generic kind 使用 `200..214`，与 legacy kind 区分。 |
+| `internal/abi/outbox.go` | outbox 缓冲与优先帧策略。 | `compile_result`/`done`/`error`/`release_result` 优先保留。 |
+| `internal/model/generic.go` | frame kind、`CompileResult`、`EngineError`、release DTO。 | canonical ABI/错误契约落点。 |
+| `internal/model/generic_compile.go` | `CompileRequest` 与 provider/ability/operation DTO。 | 新字段先落这里。 |
+| `internal/model/generic_run.go` / `generic_run_output.go` | `RunRequest`、`DoneResult`、summary/series/evidence。 | run 输入输出契约。 |
+| `internal/compile/generic.go` | `CompileGeneric` → `CompiledSession`。 | 只读 session；已知 schema 后 collect-all。 |
+| `internal/compile/generic_validate.go` | compile collect-all 校验。 | 不写 runtime mutation。 |
+| `internal/typeset/generic.go` | flat type catalog/matcher。 | 不做父子闭包 runtime 展开。 |
+| `internal/formula/generic.go` / `generic_eval.go` | generic formula compile/eval。 | P0 路径白名单与非有限数 fatal。 |
+| `internal/runtime/session.go` | `CompileFrame`/`RunFrame`/`ReleaseSessionFrame`、session registry、hash 校验。 | run state 不跨 run 复用。 |
+| `internal/runtime/generic_run.go` | `RunGeneric` 单次 deterministic run。 | 新 runtime 主循环落点。 |
+| `internal/runtime/generic_execution.go` | operation 执行。 | 数值变化经 operation/pipeline。 |
+| `internal/runtime/generic_gate.go` | ability attempt gate。 | 不要分散绕过。 |
+| `internal/runtime/generic_provider.go` / `generic_provider_tick.go` | provider 生命周期与 tick。 | status 表现为 dynamic provider。 |
+| `internal/runtime/dps_*.go` / legacy `runtime.go` | compat DPS / step-loop。 | 只回归；禁止新增通用机制。 |
+| `internal/scheduler/generic_heap.go` | generic 稳定事件堆。 | 含 category order。 |
+| `internal/pipeline/**` | attribute/damage resolver。 | modifier 不另产 command。 |
+| `internal/testkit/fixtures/generic_p0_basic_damage.json` | canonical fixture。 | 复用；勿改、勿复制。 |
+| `scripts/smoke-node.mjs` / `generic-abi-host.mjs` | Node generic ABI round-trip smoke。 | 非正式宿主。 |
+| `scripts/bench-node.mjs` / `cmd/bench` | Node/Go generic-run benchmark。 | 结果须校验 summary 契约。 |
 
 文件级规则：
 
 1. 如果某个 slice 只需要新增 DTO，不要同时改 runtime。
 2. 如果某个 slice 只需要 runtime，不要顺手改 Web adapter。
-3. 如果旧测试因新增目标 ABI 失败，优先增加兼容 wrapper 或更新 smoke 分支，不要删除测试。
+3. 不要删除 legacy 导出或旧测试，除非另开显式迁移任务。
 4. 如果必须跨表中多个区域，Cursor prompt 必须显式列出跨区原因。
 
-## 2. 新 ABI 契约
+## 2. ABI 契约（已实现）
 
-P0 ABI 分为内存/outbox glue 与业务调用两层。
+当前 ABI 分为内存/outbox glue 与业务调用两层。
 
 内存/outbox glue：
 
@@ -150,30 +146,28 @@ engine_release_session(ptr, size) -> 0/-1
 
 首期 frame 仍使用固定 header + UTF-8 JSON payload。二进制 payload 可以预留 kind，但 P0 不实现 MessagePack/CBOR 快路径。
 
-### 2.0 目标 FrameKind / Outbox Kind
+### 2.0 FrameKind / Outbox Kind（已实现）
 
-当前代码中 `internal/model/types.go` 已使用旧 frame kind `1..17` 和 `100`。新通用引擎目标 kind 使用 `200+` 编号段，避免与旧 ABI 混用。
+常量定义于 `internal/model/generic.go`。legacy kind（`types.go` 的 `1..17` / `100`）仍保留给兼容路径。
 
-| 用途 | 建议常量名 | 编号 | 方向 | payload |
+| 用途 | 常量名 | 编号 | 方向 | payload |
 | --- | --- | --- | --- | --- |
 | compile 请求 | `FrameKindGenericCompile` | `200` | host -> wasm | `CompileRequest` |
 | run 请求 | `FrameKindGenericRun` | `201` | host -> wasm | `RunRequest` |
 | release session 请求 | `FrameKindGenericReleaseSession` | `202` | host -> wasm | `ReleaseSessionRequest` |
 | compile 结果 | `FrameKindGenericCompileResult` | `210` | wasm -> host | `CompileResult` |
 | run 完成 | `FrameKindGenericDone` | `211` | wasm -> host | `DoneResult` |
-| run/compile 错误 | `FrameKindGenericError` | `212` | wasm -> host | `EngineError` 或 `CompileResult{ok=false}` |
+| run/compile 错误 | `FrameKindGenericError` | `212` | wasm -> host | `EngineError` |
 | snapshot 调试输出 | `FrameKindGenericSnapshot` | `213` | wasm -> host | `Snapshot` |
 | release session 结果 | `FrameKindGenericReleaseResult` | `214` | wasm -> host | `GenericReleaseDonePayload` |
 
-兼容规则：
+规则：
 
-1. 旧 `FrameKindInit`、`FrameKindRun`、`FrameKindDone`、`FrameKindError`、`FrameKindReady` 等保持 legacy/compat 含义。
-2. 新目标 ABI 不复用旧 kind，也不让同一个 kind 根据 payload shape 自动分流。
-3. `FrameKindGenericError` 用于 ABI/run fatal error；compile collect-all error 优先返回 `FrameKindGenericCompileResult`，其中 `ok=false` 且 `errors[]` 非空。
-4. `FrameKindGenericDone`、`FrameKindGenericError` 与 `FrameKindGenericReleaseResult` 属于 outbox priority frame，不能因为普通 log/sample 超限被丢弃。
-5. 如果迁移期需要旧入口包装新逻辑，wrapper 必须显式写入 `FrameKindGeneric*` 或把旧 outbox 转换为旧格式；不能混写。
-6. 新增编号前必须检查 `internal/model/types.go`，若编号已被占用，应在 `200..249` 内顺延并同步更新本文档。
-7. `engine_release_session` 成功必须写 `FrameKindGenericReleaseResult`，不得复用 `FrameKindGenericDone` 再靠 payload shape 与 run `DoneResult` 分流。
+1. legacy frame kind 仅 compat；generic ABI 不复用旧 kind，也不按 payload shape 分流。
+2. compile collect-all 失败优先返回 `FrameKindGenericCompileResult{ok=false, errors[]}`；ABI/run fatal 写 `FrameKindGenericError`。
+3. `done` / `error` / `compile_result` / `release_result` 为 outbox priority frame。
+4. `engine_release_session` 成功必须写 `FrameKindGenericReleaseResult`，不得复用 generic done。
+5. 新增编号前检查 `generic.go`，在 `200..249` 内顺延并同步本文档。
 
 `ReleaseSessionRequest` 最小字段：
 
@@ -182,26 +176,23 @@ engine_release_session(ptr, size) -> 0/-1
 | `sessionId` | string | 是 | 需要释放的 compiled session。 |
 | `expectedRulesHash` | string | 否 | 调用方可选的防误删校验。 |
 
-### 2.1 目标 ABI 与现有导出迁移
+### 2.1 Canonical ABI 与兼容表面
 
-当前代码和 `wasm/tinygo_engine_v2/AGENTS.md` 仍记录旧导出函数。后续开发时必须区分“当前兼容入口”和“新通用引擎目标入口”：
+**当前 canonical 入口**：`engine_compile` / `engine_run` / `engine_release_session`（见 `cmd/engine_wasm/main.go`、`session.go`）。
 
-1. 目标入口以本节 `engine_compile` / `engine_run` / `engine_release_session` 为准。
-2. 旧导出函数可以在迁移期保留，避免一次性打断现有 smoke、benchmark 或旧页面。
-3. 旧导出函数只能包装到 legacy/compat 路径，不能作为新通用引擎语义来源。
-4. 新通用引擎不得把 step-loop 作为对外契约；P0 run 是单次 deterministic run，内部可分批处理事件，但对外输出是一次 `done` 或 `error`。
-5. 如果 Slice A 决定先保留旧导出，同时新增目标导出，必须在 `internal/abi` 明确 frame kind 与 outbox kind，避免新旧 payload 共用同一个未区分入口。
-6. 如果出于宿主兼容暂时让旧入口转发到新 session registry，必须在代码和测试中标记为 compat wrapper，并且不能让 wrapper 字段名进入 canonical DTO。
-7. 任何删除旧导出函数的改动都必须同步更新 `README.md`、`AGENTS.md`、Node smoke、benchmark 脚本和 Web adapter，否则不允许作为单个 Cursor slice 合并。
+兼容说明（压缩）：legacy `engine_init` / `engine_begin_run` / `engine_step` 与 `dps_*.go` 仍保留供回归与旧页面，**不**定义新机制语义；generic run 对外是单次 deterministic `done`/`error`，不是 step-loop 契约。删除 legacy 导出必须另开任务，并同步 README/AGENTS/smoke/bench/Web adapter。
 
-建议的迁移顺序：
+### 2.2 Fixture / Smoke / Benchmark 验证（已实现）
 
-1. 第一轮新增目标 compile/run frame kind、outbox kind 和 session registry，不删除旧导出。
-2. 第二轮给 Node smoke 增加目标 ABI smoke，旧 smoke 保留。
-3. 第三轮实现 Web Worker adapter 使用目标 ABI。
-4. 第四轮在旧页面确认迁移后，再移除或降级旧导出与 legacy smoke。
+| 表面 | 契约 |
+| --- | --- |
+| Canonical fixture | `internal/testkit/fixtures/generic_p0_basic_damage.json`（复用；勿改）。`expectedSummarySubset` 含 `targetFinalHp=900`、一次成功 cast/attempt。 |
+| Go session 测试 | `internal/runtime/session_generic_test.go` 覆盖 compile/run/release 与 hash/session 错误。 |
+| Node smoke | `scripts/smoke-node.mjs`：instantiate + compile → run → release round-trip，校验 summary subset。 |
+| Node bench | `scripts/bench-node.mjs --mode generic-run`：compile 在测量外，warmup/run `engine_run`，校验每次结果后 release。 |
+| Go bench | `go run ./cmd/bench` 默认 generic-run；`go run ./cmd/bench legacy` 为对照。 |
 
-Cursor worker 的停止条件：如果发现当前代码只有旧导出，不要把目标 ABI 改回旧导出；应在报告中说明采用“新增目标入口 + 保留 compat 入口”还是“只更新文档/fixture 等待后续宿主迁移”。
+剩余缺口（仅在源码可证时记录）：浏览器 Worker 正式宿主完整切到 generic profile、以及仍依赖 legacy 页面的宿主迁移，不在本批文档/工具范围强行宣称完成。
 
 ## 3. Compile 输入与输出
 
@@ -999,9 +990,9 @@ runtime_invariant_failed
 
 ### 7.1 新旧错误码兼容策略
 
-当前代码已有旧 `ErrCode`，例如 `E_BAD_MAGIC`、`E_SCHEMA_MISMATCH`、`E_UNKNOWN_ACTION`。新通用引擎对外使用本文 `EngineError.code`。迁移期规则：
+当前代码仍保留旧 `ErrCode`（例如 `E_BAD_MAGIC`）给 legacy 路径。generic ABI 对外 JSON 只输出 `EngineError.code`：
 
-1. 新目标 ABI 的 JSON payload 只输出 `EngineError.code`，不直接输出旧 `ErrCode`。
+1. generic ABI 的 JSON payload 只输出 `EngineError.code`，不直接输出旧 `ErrCode`。
 2. 旧 ABI wrapper 可继续输出旧 `ErrCode`，但必须由新错误映射而来或保留旧路径，不反向污染新 DTO。
 3. `EngineError.details.compatErrCode` 可选记录旧错误码，便于旧 smoke 调试。
 4. 新 compile collect-all errors 不映射成单个旧 `ErrCode`；旧 wrapper 若必须返回单码，使用最严重错误的 compat 映射，并在 details 中保留完整 errors。
@@ -1937,23 +1928,11 @@ internal/testkit
 
 本节用于驱动模型编写 Cursor prompt。Cursor 固定使用 `grok-4.5`，只负责受限编码；驱动模型必须先收敛范围、再发 prompt、最后亲自 review diff 与验证结果。
 
-### 19.0 推荐推进顺序
+### 19.0 当前落地状态与后续切片
 
-不要把 Slice A-F 并行全发给 Cursor。推荐顺序：
+Slice A–F 的核心路径**已落地**：generic frame/outbox kind、session registry、`CompileGeneric`/`CompiledSession`、`RunGeneric`（含 damage/gate/provider/output）、canonical fixture，以及 Node/Go smoke/bench。下文 Slice 细化章节保留为历史边界说明与增量改动参考，不再当作“尚未开始”的迁移清单。
 
-1. A1：只建立目标 frame/outbox kind、session registry 外壳、错误 DTO，不接 runtime。
-2. B1：建立 canonical DTO 与 compile collect-all 骨架，先让 valid/invalid fixture 能跑 compile。
-3. A2：把 `engine_compile` 接入 B1 的 compiled session，能返回 sessionId。
-4. C1：建立 run state、event queue、driver plan 到 attempt/sample 的调度，不执行真实 damage。
-5. D1：接入基础 damage execution frame，闭环 `generic_p0_basic_damage`。
-6. D2：接入 resource/cooldown gate，闭环 `generic_p0_resource_cooldown_gate`。
-7. F1：输出 summary、series、evidence 最小闭环。
-8. E1：接入 temporary provider apply/expire 与 attribute/shield 竖切。
-9. E2：接入 fixed interval tick provider。
-10. F2：补全 stopReason 优先级、series downsample、warning/evidence 限量。
-11. Web/Worker adapter：只有前面 Node/Go 层稳定后再进入 web worktree。
-
-每轮 Cursor prompt 只覆盖上面一个小步。若一个小步需要跨两个 slice，驱动模型必须显式写出主写入范围和允许的最小接口改动。
+后续增量仍按小步发 Cursor：一次只改一个机制竖切或一个宿主表面。Web/Worker 全面切到 generic profile、以及仍依赖 legacy 页面的清理，需另开任务。若一小步需要跨两个 slice，驱动模型必须显式写出主写入范围和允许的最小接口改动。
 
 ### 19.0.1 每轮交接产物
 

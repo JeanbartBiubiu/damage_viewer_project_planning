@@ -305,8 +305,10 @@ COMMENT ON TABLE public.type_relations_log IS 'type 关系发布快照；按 ver
 -- -----------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------
--- 8. Wasm Canonical Catalog (fresh-install baseline; not a separate/optional schema step)
---    Formerly wasm_catalog_schema.sql — executable DDL preserved below.
+-- 8. (removed) Wasm Canonical Catalog — not part of the current baseline.
+--    Publish freezes change_revision into game_versions and copies latest
+--    combat-data rows into corresponding *_log tables; it does not build or
+--    serve Bundle / Wasm Catalog snapshots. Generic combat-data DDL is §9.
 -- -----------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------

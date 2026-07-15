@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: web
 STATUS: tracked
 EXECUTION_MODEL: gpt-5.4
-LAST_TRACKED_AT: pending
+LAST_TRACKED_AT: 2026-07-15 15:40:43
 
 # 前端开发方案-UI 英文字段中文化整改
 
