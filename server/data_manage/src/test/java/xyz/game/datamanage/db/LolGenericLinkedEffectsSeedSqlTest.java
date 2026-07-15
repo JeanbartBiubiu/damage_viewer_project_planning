@@ -17,8 +17,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- * Static contract for {@code lol_generic_linked_effects_seed.sql} and related
- * reserved-type vocabulary rows. Does not connect to a live database.
+ * Static contract for {@code lol_generic_linked_effects_seed.sql} Carve v2 and
+ * related reserved-type vocabulary rows. Does not connect to a live database.
  */
 class LolGenericLinkedEffectsSeedSqlTest {
 
@@ -30,18 +30,19 @@ class LolGenericLinkedEffectsSeedSqlTest {
     private static final List<String> STABLE_IDS = List.of(
         "provider_item_3071_black_cleaver_carve",
         "listener_item_3071_black_cleaver_carve",
-        "sequence_item_3071_black_cleaver_carve",
-        "step_item_3071_carve_armor",
-        "step_item_3071_carve_stack",
-        "carve_stacks_lt_5",
-        "carve_armor_amount",
+        "sequence_item_3071_black_cleaver_carve_v2",
+        "step_item_3071_carve_stack_v2",
+        "modifier_item_3071_black_cleaver_carve_armor",
         "carve_stacks_add",
-        "black_cleaver_carve",
+        "carve_armor_percent",
+        "black_cleaver_carve_v2",
         "carve_stacks");
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(
-        20110, 20113, 20122, 20153, 20160, 20170, 20181,
-        20200, 20212, 20214, 20215, 20252);
+        20100, 20110, 20113, 20122, 20160, 20170, 20173, 20181, 20190,
+        20200, 20212, 20214, 20252);
+
+    private static final List<Integer> ACTIVE_MATCHERS = List.of(20200, 20214, 20212);
 
     private static String sql;
     private static String sqlNoLineComments;
@@ -102,10 +103,29 @@ class LolGenericLinkedEffectsSeedSqlTest {
     }
 
     @Test
-    void rejectsDestructivePublishAndLegacySurfaces() {
-        assertFalse(
-            Pattern.compile("(?is)\\bDELETE\\s+FROM\\b").matcher(sqlNoLineComments).find(),
-            "linked effects seed must not DELETE");
+    void allowsOnlyExactObsoleteBasicAttackMatcherDelete() {
+        assertEquals(
+            1,
+            Pattern.compile("(?is)\\bDELETE\\s+FROM\\b").matcher(sqlNoLineComments).results().count(),
+            "seed may contain exactly one DELETE (obsolete matcher cleanup)");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)DELETE\\s+FROM\\s+public\\.listener_match_types\\s+"
+                        + "WHERE\\s+game_id\\s*=\\s*v_game_id\\s+"
+                        + "AND\\s+listener_id\\s*=\\s*'listener_item_3071_black_cleaver_carve'\\s+"
+                        + "AND\\s+match_mode_type_id\\s*=\\s*20181\\s+"
+                        + "AND\\s+type_id\\s*=\\s*20215\\s*;")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must DELETE only obsolete ALL/20215 matcher for carve listener");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)DELETE\\s+FROM\\s+public\\.listener_match_types[\\s\\S]{0,400}?"
+                        + "GET\\s+DIAGNOSTICS\\s+v_rowcount\\s*=\\s*ROW_COUNT;\\s*"
+                        + "IF\\s+v_rowcount\\s*>\\s*0\\s+THEN\\s+v_changed\\s*:=\\s*true;")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "obsolete matcher DELETE rowcount > 0 must set v_changed");
         assertFalse(
             Pattern.compile("(?is)\\bDROP\\b").matcher(sqlNoLineComments).find(),
             "linked effects seed must not DROP");
@@ -132,6 +152,13 @@ class LolGenericLinkedEffectsSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not write legacy heroes/items/skills tables");
+        assertFalse(
+            Pattern.compile("(?is)DELETE\\s+FROM\\s+public\\.(effect_sequences|effect_steps|"
+                    + "attribute_effect_details|state_effect_details|provider_formulas|"
+                    + "listener_effect_sequences)\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not DELETE historical sequence/step/detail/formula/link rows");
     }
 
     @Test
@@ -158,28 +185,12 @@ class LolGenericLinkedEffectsSeedSqlTest {
             countOccurrences(
                 reservedNoLineComments, "(20215, '造成普攻伤害', 'event/damage_dealt/basic_attack')"),
             "20215 reserved type row must be unique");
-        assertEquals(
-            1,
-            countOccurrences(reservedNoLineComments, "'event/damage_dealt/physical'"),
-            "event/damage_dealt/physical type_key must be unique");
-        assertEquals(
-            1,
-            countOccurrences(reservedNoLineComments, "'event/damage_dealt/basic_attack'"),
-            "event/damage_dealt/basic_attack type_key must be unique");
         assertTrue(
             Pattern.compile("\\(20214,\\s*10019\\)").matcher(reservedNoLineComments).find(),
             "20214 must relate to event group 10019");
         assertTrue(
             Pattern.compile("\\(20215,\\s*10019\\)").matcher(reservedNoLineComments).find(),
             "20215 must relate to event group 10019");
-        assertEquals(
-            1,
-            countOccurrences(reservedNoLineComments, "(20214, 10019)"),
-            "20214→10019 relation must be unique");
-        assertEquals(
-            1,
-            countOccurrences(reservedNoLineComments, "(20215, 10019)"),
-            "20215→10019 relation must be unique");
     }
 
     @Test
@@ -199,15 +210,31 @@ class LolGenericLinkedEffectsSeedSqlTest {
                 .find(),
             "carve provider kind must be equipment 20122");
         assertFalse(
-            Pattern.compile("(?i)provider_state_fields").matcher(sqlNoLineComments).find(),
-            "must not create provider_state_fields");
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.entity_attribute_values\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not mutate item_3071 static attributes");
         assertFalse(
-            Pattern.compile("(?i)provider_modifiers").matcher(sqlNoLineComments).find(),
-            "must not create provider_modifiers");
+            Pattern.compile("(?is)UPDATE\\s+public\\.entity_attribute_values\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not UPDATE entity_attribute_values");
     }
 
     @Test
-    void listenerAllMatchersAndMaxTriggersContract() {
+    void carveStacksStateFieldMaxFiveDurationSixThousandRefreshOnWrite() {
+        assertContains("provider_state_fields");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'provider_item_3071_black_cleaver_carve'\\s*,\\s*"
+                        + "'carve_stacks'\\s*,\\s*20100\\s*,\\s*5\\s*,\\s*6000\\s*,\\s*20190")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "carve_stacks must be number/max5/6000ms/refresh 20190");
+    }
+
+    @Test
+    void listenerAllMatchersWithoutBasicAttackAndLinksV2Sequence() {
         assertContains("listener_item_3071_black_cleaver_carve");
         assertTrue(
             Pattern.compile(
@@ -223,7 +250,7 @@ class LolGenericLinkedEffectsSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "listener must be damage_dealt 20200 with max_triggers_per_event=1");
-        for (int matcher : List.of(20200, 20214, 20215, 20212)) {
+        for (int matcher : ACTIVE_MATCHERS) {
             assertTrue(
                 Pattern.compile(
                         "(?s)'listener_item_3071_black_cleaver_carve'\\s*,\\s*20181\\s*,\\s*"
@@ -232,79 +259,54 @@ class LolGenericLinkedEffectsSeedSqlTest {
                     .find(),
                 "listener must ALL-match " + matcher);
         }
+        assertFalse(
+            Pattern.compile(
+                    "(?s)INSERT\\s+INTO\\s+public\\.listener_match_types[\\s\\S]*?"
+                        + "'listener_item_3071_black_cleaver_carve'\\s*,\\s*20181\\s*,\\s*20215")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "active matcher INSERT must not include basic_attack 20215");
         assertTrue(
             Pattern.compile(
                     "(?s)'listener_item_3071_black_cleaver_carve'\\s*,\\s*"
+                        + "'sequence_item_3071_black_cleaver_carve_v2'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "active listener must link v2 sequence");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)INSERT\\s+INTO\\s+public\\.listener_effect_sequences[\\s\\S]*?"
+                        + "'listener_item_3071_black_cleaver_carve'\\s*,\\s*"
                         + "'sequence_item_3071_black_cleaver_carve'")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "listener must link the single carve sequence");
+            "active listener must not INSERT-link legacy v1 sequence");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)UPDATE\\s+public\\.listener_effect_sequences[\\s\\S]*?"
+                        + "sequence_id\\s*=\\s*'sequence_item_3071_black_cleaver_carve_v2'"
+                        + "[\\s\\S]*?sequence_id\\s*=\\s*'sequence_item_3071_black_cleaver_carve'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "upgrade must repoint legacy v1 listener link to v2");
     }
 
     @Test
-    void twoStepsAttributeThenStateWithSharedLtFiveCondition() {
-        assertContains("sequence_item_3071_black_cleaver_carve");
-        assertContains("step_item_3071_carve_armor");
-        assertContains("step_item_3071_carve_stack");
-        assertContains("attribute_effect_details");
+    void v2SequenceExactlyOneStateChangeAddOneNoConditionNoActiveAttributeChange() {
+        assertContains("sequence_item_3071_black_cleaver_carve_v2");
+        assertContains("step_item_3071_carve_stack_v2");
         assertContains("state_effect_details");
-
         assertTrue(
             Pattern.compile(
-                    "(?s)'step_item_3071_carve_armor'\\s*,\\s*"
-                        + "'sequence_item_3071_black_cleaver_carve'\\s*,\\s*0\\s*,\\s*"
-                        + "20153\\s*,\\s*20113\\s*,\\s*'carve_stacks_lt_5'")
+                    "(?s)'step_item_3071_carve_stack_v2'\\s*,\\s*"
+                        + "'sequence_item_3071_black_cleaver_carve_v2'\\s*,\\s*0\\s*,\\s*"
+                        + "20160\\s*,\\s*20110\\s*,\\s*NULL")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "step 0 must be attribute_change targeting selector/target with shared condition");
+            "v2 step 0 must be state_change self with no condition");
         assertTrue(
             Pattern.compile(
-                    "(?s)'step_item_3071_carve_stack'\\s*,\\s*"
-                        + "'sequence_item_3071_black_cleaver_carve'\\s*,\\s*1\\s*,\\s*"
-                        + "20160\\s*,\\s*20110\\s*,\\s*'carve_stacks_lt_5'")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "step 1 must be state_change targeting selector/self with shared condition");
-
-        int armorOrder = indexOfStepOrder("step_item_3071_carve_armor");
-        int stackOrder = indexOfStepOrder("step_item_3071_carve_stack");
-        assertTrue(armorOrder >= 0 && stackOrder >= 0, "both step orders must be present");
-        assertTrue(armorOrder < stackOrder, "attribute_change must precede state_change");
-
-        assertTrue(
-            Pattern.compile(
-                    "(?s)\\{\"op\"\\s*:\\s*\"lt\"\\s*,\\s*\"args\"\\s*:\\s*\\["
-                        + "\\{\"op\"\\s*:\\s*\"read\"\\s*,\\s*\"path\"\\s*:\\s*"
-                        + "\"provider\\.target_state\\.carve_stacks\"\\}"
-                        + "\\s*,\\s*"
-                        + "\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*5\\}"
-                        + "\\]\\}")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "condition formula must be lt(provider.target_state.carve_stacks, 5)");
-        assertTrue(
-            sqlNoLineComments.contains("'carve_stacks_lt_5'"),
-            "must define and reference carve_stacks_lt_5");
-        assertEquals(
-            2,
-            countStepConditionRefs("carve_stacks_lt_5"),
-            "exactly two effect_steps must reference carve_stacks_lt_5");
-
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'step_item_3071_carve_armor'\\s*,\\s*"
-                        + "'armor'\\s*,\\s*'carve_armor_amount'\\s*,\\s*20170")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "attribute detail must be armor / carve_armor_amount / add");
-        assertTrue(
-            Pattern.compile("(?s)\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*-4\\}")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "armor amount formula must be const -4");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'step_item_3071_carve_stack'\\s*,\\s*"
+                    "(?s)'step_item_3071_carve_stack_v2'\\s*,\\s*"
                         + "20252\\s*,\\s*'carve_stacks'\\s*,\\s*'carve_stacks_add'\\s*,\\s*20170")
                 .matcher(sqlNoLineComments)
                 .find(),
@@ -314,19 +316,58 @@ class LolGenericLinkedEffectsSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "stack amount formula must be const 1");
-
-        assertTrue(
-            sqlNoLineComments.indexOf("INSERT INTO public.effect_steps")
-                < sqlNoLineComments.indexOf("INSERT INTO public.attribute_effect_details"),
-            "attribute details must follow effect_steps insert");
-        assertTrue(
-            sqlNoLineComments.indexOf("INSERT INTO public.effect_steps")
-                < sqlNoLineComments.indexOf("INSERT INTO public.state_effect_details"),
-            "state details must follow effect_steps insert");
+        assertEquals(
+            1,
+            countOccurrences(sqlNoLineComments, "INSERT INTO public.effect_steps"),
+            "active graph must define exactly one effect_steps insert");
+        assertEquals(
+            1,
+            countStepInsertsForSequence("sequence_item_3071_black_cleaver_carve_v2"),
+            "v2 sequence must have exactly one effect step");
+        assertFalse(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.attribute_effect_details\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "active graph must not INSERT attribute_change details");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)'step_item_3071_carve_stack_v2'[\\s\\S]{0,120}'carve_stacks_lt_5'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "v2 step must not use <5 condition");
         assertTrue(
             sql.contains("exactly-one-detail") || sql.contains("exactly one detail")
                 || sql.contains("deferred exactly-one-detail"),
             "seed must document deferred exactly-one-detail pairing");
+        assertTrue(
+            sql.contains("sequence_item_3071_black_cleaver_carve")
+                && sql.contains("orphan"),
+            "seed may document legacy v1 sequence as orphan evidence only");
+    }
+
+    @Test
+    void opponentArmorPercentAddModifierUsesExactCarveStacksFormula() {
+        assertContains("provider_modifiers");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'modifier_item_3071_black_cleaver_carve_armor'\\s*,\\s*"
+                        + "'provider_item_3071_black_cleaver_carve'\\s*,\\s*"
+                        + "'carve_armor_percent'\\s*,\\s*NULL\\s*,\\s*20113\\s*,\\s*"
+                        + "'armor'[\\s\\S]{0,120}20173\\s*,\\s*'carve_armor_percent'\\s*,\\s*NULL")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "modifier must target opponent armor with percent_add and no condition");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)\\{\"op\"\\s*:\\s*\"mul\"\\s*,\\s*\"args\"\\s*:\\s*\\["
+                        + "\\{\"op\"\\s*:\\s*\"const\"\\s*,\\s*\"value\"\\s*:\\s*-0\\.06\\}"
+                        + "\\s*,\\s*"
+                        + "\\{\"op\"\\s*:\\s*\"read\"\\s*,\\s*\"path\"\\s*:\\s*"
+                        + "\"provider\\.target_state\\.carve_stacks\"\\}"
+                        + "\\]\\}")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "formula must be -0.06 * provider.target_state.carve_stacks");
     }
 
     @Test
@@ -348,26 +389,25 @@ class LolGenericLinkedEffectsSeedSqlTest {
         for (String id : STABLE_IDS) {
             assertContains(id);
         }
-    }
-
-    private static int indexOfStepOrder(String stepId) {
-        Matcher m =
+        Matcher requiredArray =
             Pattern.compile(
-                    "'" + Pattern.quote(stepId) + "'\\s*,\\s*"
-                        + "'sequence_item_3071_black_cleaver_carve'\\s*,\\s*(\\d+)")
+                    "(?is)v_required_reserved\\s+int\\[\\]\\s*:=\\s*ARRAY\\[(.*?)\\]\\s*;")
                 .matcher(sqlNoLineComments);
-        if (!m.find()) {
-            return -1;
-        }
-        return Integer.parseInt(m.group(1));
+        assertTrue(requiredArray.find(), "must declare v_required_reserved ARRAY");
+        String requiredBody = requiredArray.group(1);
+        assertFalse(
+            Pattern.compile("\\b20215\\b").matcher(requiredBody).find(),
+            "required reserved list must not require basic_attack 20215");
+        assertFalse(
+            Pattern.compile("\\b20153\\b").matcher(requiredBody).find(),
+            "required reserved list must not require attribute_change 20153");
     }
 
-    private static int countStepConditionRefs(String formulaKey) {
+    private static int countStepInsertsForSequence(String sequenceId) {
         Matcher m =
             Pattern.compile(
-                    "(?s)'step_item_3071_carve_(?:armor|stack)'\\s*,\\s*"
-                        + "'sequence_item_3071_black_cleaver_carve'\\s*,\\s*\\d+\\s*,\\s*"
-                        + "\\d+\\s*,\\s*\\d+\\s*,\\s*'" + Pattern.quote(formulaKey) + "'")
+                    "'" + Pattern.quote("step_item_3071_carve_stack_v2") + "'\\s*,\\s*"
+                        + "'" + Pattern.quote(sequenceId) + "'")
                 .matcher(sqlNoLineComments);
         int count = 0;
         while (m.find()) {
