@@ -504,6 +504,28 @@ cd server/data_manage
 mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
 ```
 
+### LoL generic Jak'Sho Voidborn Resilience seed（千变者贾修 item_6665）
+
+在 reserved types、以及基线 `attribute_definitions` 的 `hp` / `armor` / `magic_resist` 已就绪后，按顺序执行（本脚本自包含写入 `item_6665` 与合成 `bonus_armor` / `bonus_magic_resist`；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20160`/`20170`/`20172`/`20250`）
+2. 基线战斗属性定义（至少 `hp`/`armor`/`magic_resist`；通常随 generic combat bootstrap / Admin 已写入）
+3. `db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-jaksho-voidborn-resilience-v1-20260715`（seed 不负责 publish）。受控 partial：`provider_item_6665_jaksho_voidborn_resilience` 仅挂 `item_6665`。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved 与 `hp`/`armor`/`magic_resist`；幂等投影 reserved → `types`；ensure `bonus_armor`/`bonus_magic_resist` 属性定义；写入 `item_6665` 静态 `hp=350` / `armor=45` / `magic_resist=45`；挂载 passive provider，含 untimed `full_stack`（max1，runtime 默认 0）、lifecycle `tick_interval_ms=5000` / `start_delay_ms=5000`、`provider_tick_sequences` 单步 `state_change` override/set `full_stack=1`（重复 tick 幂等），以及两条 owner-self `value_policy/add` modifier：`0.30 * max(0, $owner.attr.bonus_*.resolved) * provider.state.full_stack`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：真实目标装备/loadout 投影、自动战斗态检测（超出「run 起算即在战斗」假设）、旧 DPS lane / 开局即满层、5 层逐秒叠层、live migration、publish；不写 damage / listener / ability 行。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericJakshoVoidbornResilienceSeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
