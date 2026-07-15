@@ -4,7 +4,7 @@
     "inputSha256": "63b2460e5307419ec9d1dc776de453237f9fed359d777b0b4be1e846e6695004",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-14T16:13:30.672Z"
+    "generatedAt": "2026-07-15T14:48:13.283Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -5592,14 +5592,14 @@
         "stacking_stat_modifier_on_hit",
         "phantom_hit_on_hit_repeat"
       ],
-      "classificationReason": "item 3124 沸腾打击 stacking + phantom repeat 已由 guinsoo-hk 批次 seed/mount。",
+      "classificationReason": "item 3124 沸腾打击：满层后每第三次攻击 phantom（连续攻击 7/10/13…）；到达第 4 层的攻击不计入 counter；用 state_change+condition 递增/重置 guinsoos_phantom_hit_counter 后再 conditional register repeat，非 threshold-repeat alone。generic compile/run：wasm/tinygo_engine_v2/internal/runtime/generic_guinsoo_k_test.go（TestGenericRunGuinsooCadenceEveryThirdAtFull）。",
       "coverageEvidence": [
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-guinsoo-hk",
           "sourcePath": "db/game_manage/seeds/lol_guinsoo_hk_seed.sql",
           "sourceWorktree": "backend",
-          "note": "Guinsoo boiling strike stacks + phantom repeat"
+          "note": "Guinsoo boiling strike already-full every-third cadence (attacks 7/10) via counter/reset + conditional repeat; proven by generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull"
         }
       ],
       "remainingGap": ""

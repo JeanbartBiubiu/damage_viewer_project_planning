@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-15T14:08:38.191Z",
+    "generatedAt": "2026-07-15T14:48:35.175Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -54,10 +54,10 @@
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
       "最小验证/generic-g8-adc-passive-coverage-audit.csv": "3e5ee1b12a057561e0c996af438134b2083393cafa77f02bf24c113cc2c7a8cf",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "fccc551bc81980e60a014fd5c7d0c16fd9edc4a07dd36b9fa5c47745d4aa22c2",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "1ef30e8e3918579cac874cf535594963d662c2218be031238884b267b9cb2832",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "da0ba3914be72725c3518f7111777551d06b42f1e94ccebc99b02c603f5c1302",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "4532f1cff765dd6fd9229aa5489079d74d2a6f5f44415cb117e3b8f980757c0f",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "d10a8e09891e40ccb39642cd1628823d003dd44baa8f045fd94c2fb8b2d290f1",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "241ec13454c81341ba25da1ae47015bf232f7c40720e274d29adc315e445262d",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -86,8 +86,8 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 19,
-      "partial_actionable": 2,
+      "completed": 20,
+      "partial_actionable": 1,
       "ready_to_implement": 4,
       "blocked_runtime": 39,
       "blocked_data": 144,
@@ -96,8 +96,8 @@
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
-      "full": 19,
-      "partial": 9,
+      "full": 20,
+      "partial": 8,
       "none": 226
     },
     "laneCounts": {
@@ -106,13 +106,12 @@
       "data_only": 0,
       "mixed_evidence": 4
     },
-    "actionableKeyCount": 6,
+    "actionableKeyCount": 5,
     "actionableKeys": [
       "hero_skill|hero_kaisa|P|体表活肤",
       "hero_skill|hero_twitch|P|死亡毒液",
       "hero_skill|hero_varus|W|枯萎箭袋",
       "item_passive|3071|item_passive|切割",
-      "item_passive|3124|item_passive|沸腾打击",
       "item_passive|6665|item_passive|虚空天生"
     ]
   },
@@ -216,8 +215,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "fccc551bc81980e60a014fd5c7d0c16fd9edc4a07dd36b9fa5c47745d4aa22c2",
-      "byteSize": 367502,
+      "sha256": "1ef30e8e3918579cac874cf535594963d662c2218be031238884b267b9cb2832",
+      "byteSize": 367971,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -232,16 +231,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "da0ba3914be72725c3518f7111777551d06b42f1e94ccebc99b02c603f5c1302",
-      "byteSize": 46867,
+      "sha256": "d10a8e09891e40ccb39642cd1628823d003dd44baa8f045fd94c2fb8b2d290f1",
+      "byteSize": 47345,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "4532f1cff765dd6fd9229aa5489079d74d2a6f5f44415cb117e3b8f980757c0f",
-      "byteSize": 69645,
+      "sha256": "241ec13454c81341ba25da1ae47015bf232f7c40720e274d29adc315e445262d",
+      "byteSize": 70246,
       "recordCount": 0,
       "role": "generator"
     },
@@ -18751,8 +18750,8 @@
     },
     {
       "key": "item_passive|3124|item_passive|沸腾打击",
-      "status": "partial_actionable",
-      "completionMode": "partial",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
       "ownerId": "3124",
@@ -18763,8 +18762,8 @@
         "stacking_stat_modifier_on_hit"
       ],
       "coverageBoundary": "",
-      "reason": "当前实现满层后每次普攻都会触发幻影命中；本地当前装备文本为满层后每第三次攻击附带攻击特效。",
-      "blocker": "full_stacks_every_attack_vs_every_third_attack_text_mismatch",
+      "reason": "满层后每第三次攻击 phantom（连续 7/10/13…）；到达第 4 层不计 counter；generic state_change+condition+conditional repeat 已由 generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull 闭环，非 threshold-repeat alone。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18788,7 +18787,7 @@
           "taskKey": "wasm-generic-guinsoo-hk",
           "sourcePath": "db/game_manage/seeds/lol_guinsoo_hk_seed.sql",
           "sourceWorktree": "backend",
-          "note": "Guinsoo boiling strike stacks + phantom repeat"
+          "note": "Guinsoo boiling strike already-full every-third cadence (attacks 7/10) via counter/reset + conditional repeat; proven by generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull"
         }
       ],
       "aliases": [
