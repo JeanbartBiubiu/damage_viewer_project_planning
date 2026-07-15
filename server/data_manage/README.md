@@ -414,20 +414,22 @@ cd server/data_manage
 mvn -Dtest=LolGenericExecuteThresholdSeedSqlTest test
 ```
 
-### LoL generic Linked Effects seed（黑色切割者 item_3071 Carve）
+### LoL generic Linked Effects seed（黑色切割者 item_3071 Carve v2）
 
-在 reserved types（含 `20214`/`20215`）、Batch-C `item_3071`、`attribute_definitions.armor`，以及既有 attribute/state detail 合同已就绪后，按顺序执行：
+在 reserved types、Batch-C `item_3071`、`attribute_definitions.armor`，以及 `provider_state_fields` / `provider_modifiers` / state detail 合同已就绪后，按顺序执行：
 
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20200`/`20212`/`20214`/`20215`/`20153`/`20160`/`20122`/`20252` 等）
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20113`/`20122`/`20160`/`20170`/`20173`/`20181`/`20190`/`20200`/`20212`/`20214`/`20252` 等）
 2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_3071` 尚未写入）
 3. `db/game_manage/seeds/lol_generic_linked_effects_seed.sql`
-4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；不做 live migration）
 
-建议发布版本：`lol-generic-linked-effects-v1-20260713`（seed 不负责 publish）。
+建议发布版本：`lol-generic-linked-effects-v2-20260715`（seed 不负责 publish）。
 
-该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；向 `item_3071` mount `provider_item_3071_black_cleaver_carve`（equipment `20122`），含单 `damage_dealt` listener（ALL matcher：`20200`/`20214`/`20215`/`20212`，`max_triggers_per_event=1`）、单 sequence、两步固定顺序（`attribute_change` 目标 `armor` 常量 `-4` → `state_change` `provider_target`/`carve_stacks` 常量 `+1`），共用 condition `provider.target_state.carve_stacks < 5`。不写 `provider_state_fields` / `provider_modifiers`，不改 `item_3071` 静态属性或 `adc_completed_item` tag。有 material change 时才推进候选 revision；不 DELETE、不自动 publish。
+**数据真值（Carve）**：每次合格的 root 物理伤害帧叠 1 层目标绑定 `carve_stacks`（最多 5 层）；每层削减目标护甲 **6%**（满层 30%）；整窗 **6000ms**，`refresh_on_write`（reserved `20190` / `refresh_policy/refresh_duration`）全窗刷新；第 6 次命中仍写入并刷新过期（runtime max 封顶）。事件边界为 root 物理 `damage_dealt`（不再要求 `basic_attack`）。
 
-live revision 预期（非 SQL 硬编码）：首跑 `current/published` 自 `16/16` → `17/16`；幂等重跑保持 `17/16`；显式 publish `lol-generic-linked-effects-v1-20260713` 后 `17/17`。
+该 seed 会：锁定 `game_data_state`；幂等投影所需 reserved → `types`；向 `item_3071` mount 稳定 provider `provider_item_3071_black_cleaver_carve`（equipment `20122`）；写入 `provider_state_fields.carve_stacks`（number / max=5 / 6000ms / 20190）；写入对手 `armor` `percent_add` modifier，公式 `-0.06 * provider.target_state.carve_stacks`（保留 source provider 溯源、无 condition）；source-owner ALL listener（matcher 精确为 `20200`/`20214`/`20212`，`max_triggers_per_event=1`）挂到 **v2** sequence（仅一步无 condition 的 `state_change`：`provider_target`/`carve_stacks` +1）。历史永久 flat `-4` sequence/step/formula 行可保留为孤儿证据，不 DELETE；唯一升级例外是 scoped `DELETE` 清理该 listener 上过时的 `20181`/`20215` matcher，并按 ROW_COUNT 标记 `v_changed`。不改 `item_3071` 静态属性或 `adc_completed_item` tag；有 material change 时才推进候选 revision；不自动 publish。
+
+**排除**：装备被动「热烈」（+20 移速 / 2s）仍属独立 `blocked_runtime` 机制，不在本 seed 建模。
 
 静态契约校验（不连 live DB）：
 
