@@ -280,6 +280,38 @@
       ]
     },
     {
+      "task_key": "server-lol-generic-combat-bootstrap",
+      "title": "Server LoL 通用战斗数据首批迁移",
+      "module": "server",
+      "workstream": "server/game-manage",
+      "feature": "lol_generic_combat_bootstrap",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "cursor-grok-4.5-plus-codex-review",
+      "completion_note": "Vayne + 战士假人 + 通用普攻已迁入 generic combat-data；revision 归一、发布日志、Web 装配与 TinyGo V2 compile/run/release 实跑通过。",
+      "completed_at": "2026-07-12",
+      "docs": [
+        "文档记录/详细设计/server/game_manage/LoL通用战斗数据首批迁移设计.md",
+        "文档记录/测试记录/server/game_manage/LoL通用战斗数据首批迁移验证记录-2026-07-12.md"
+      ]
+    },
+    {
+      "task_key": "server-lol-batch-b-adc-entities",
+      "title": "Server LoL Batch-B ADC 实体与等级属性迁移",
+      "module": "server",
+      "workstream": "server/game-manage",
+      "feature": "lol_batch_b_adc_entities",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "cursor-grok-4.5-plus-codex-review",
+      "completion_note": "6 ADC + 3 dummy、等级属性与 6 套通用普攻已迁入；test0221 幂等 seed、publish r7、Web→TinyGo generic 闭环通过。",
+      "completed_at": "2026-07-12",
+      "docs": [
+        "文档记录/详细设计/server/game_manage/LoL-Batch-B-ADC实体与等级属性迁移设计.md",
+        "文档记录/测试记录/server/game_manage/LoL-Batch-B-ADC实体与等级属性迁移验证记录-2026-07-12.md"
+      ]
+    },
+    {
       "task_key": "server-game-manage-api",
       "title": "Server Game Manage 接口与后端实现",
       "module": "server",
