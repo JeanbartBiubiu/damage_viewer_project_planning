@@ -108,6 +108,8 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	ops := s.compiled.Operations[start:end]
 
 	frame := s.newExecutionFrame(sourceKey, targetKey, abilityRef)
+	frame.ownerCombatantKey = ref.CombatantKey
+	frame.ownerProviderRef = ref.ProviderRef
 	if err := frame.executeOperations(*tickAbility, ops); err != nil {
 		return err
 	}

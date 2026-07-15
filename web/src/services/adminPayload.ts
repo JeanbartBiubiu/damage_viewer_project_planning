@@ -73,7 +73,9 @@ export const EFFECT_STEP_DETAIL_KEYS = [
   'providerDetail',
   'eventDetail',
   'abilityControlDetail',
-  'stateDetail'
+  'stateDetail',
+  'repeatDetail',
+  'executeDetail'
 ] as const;
 
 export type EffectStepDetailKey = (typeof EFFECT_STEP_DETAIL_KEYS)[number];
