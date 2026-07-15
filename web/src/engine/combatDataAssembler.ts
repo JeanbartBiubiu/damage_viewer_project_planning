@@ -16,6 +16,7 @@ import type {
   CombatantProviderMount,
   CombatantSnapshot,
   CompileRequest,
+  DriverEntryRepeat,
   DriverPlan,
   EmptyP0Rules,
   GenericFormulaExpr,
@@ -25,6 +26,7 @@ import type {
   NamedFormula,
   OperationDefinition,
   ProviderDefinition,
+  ProviderStateFieldSchema,
   ResourceSlot,
   RunRequest,
   SafetyBudget,
@@ -41,11 +43,18 @@ import type { GenericAbilityOption } from '../types/genericEngine';
 
 export type CombatantSlot = 'source' | 'target';
 
+/** Eligibility tag for ADC completed-item entities (Batch-C). */
+export const ADC_COMPLETED_ITEM_TYPE_KEY = 'tag/adc_completed_item';
+
+const MAX_SOURCE_EQUIPMENT = 6;
+
 export type CombatDataAssembleSelection = {
   sourceEntityId: string;
   targetEntityId: string;
   sourceStage?: number;
   targetStage?: number;
+  /** Optional source-side static equipment loadout (item entity ids). Max 6, unique. */
+  sourceEquipmentEntityIds?: string[];
 };
 
 export type CombatantNumericOverrides = {
@@ -120,6 +129,10 @@ type GraphIndexes = {
   paramsByAbility: Map<string, CombatDataGraph['abilityParameters']>;
   abilitiesById: Map<string, CombatDataGraph['abilities'][number]>;
   stateFieldsByProvider: Map<string, CombatDataGraph['providerStateFields']>;
+  /** Stable de-duped type keys from type_relations where targetCategory=ability (targetId=abilityId). */
+  abilityTypesById: Map<string, string[]>;
+  /** Strict 1:1 lookup of independent execute rows by effect stepId (validated in buildIndexes). */
+  executeEffectDetailsByStepId: Map<string, CombatDataGraph['executeEffectDetails'][number]>;
 };
 
 export function assembleCompileRequest(
@@ -131,10 +144,36 @@ export function assembleCompileRequest(
   const targetEntity = findEntity(graph, selection.targetEntityId);
   const indexes = buildIndexes(graph);
   const typeCatalog = buildTypeCatalog(graph, indexes.types);
+  const adcCompletedItemIds = collectAdcCompletedItemEntityIds(graph, indexes.types);
+  if (adcCompletedItemIds.has(sourceEntity.entityId)) {
+    throw new CombatDataAssembleError(
+      `source entity is tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${sourceEntity.entityId}`
+    );
+  }
+  if (adcCompletedItemIds.has(targetEntity.entityId)) {
+    throw new CombatDataAssembleError(
+      `target entity is tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${targetEntity.entityId}`
+    );
+  }
+  const sourceEquipmentEntityIds = resolveSourceEquipment(
+    graph,
+    indexes.types,
+    selection.sourceEquipmentEntityIds
+  );
 
-  const sourceMountIds = graph.entityProviderMounts
+  const heroMountIds = graph.entityProviderMounts
     .filter((m) => m.entityId === sourceEntity.entityId)
     .map((m) => m.providerId);
+  const equipmentMountIds: string[] = [];
+  for (const equipmentId of sourceEquipmentEntityIds) {
+    for (const mount of graph.entityProviderMounts) {
+      if (mount.entityId === equipmentId) {
+        equipmentMountIds.push(mount.providerId);
+      }
+    }
+  }
+  // Hero mounts first, then selected equipment mounts (selection order); dedupe preserves order.
+  const sourceMountIds = unique([...heroMountIds, ...equipmentMountIds]);
   const targetMountIds = graph.entityProviderMounts
     .filter((m) => m.entityId === targetEntity.entityId)
     .map((m) => m.providerId);
@@ -163,7 +202,8 @@ export function assembleCompileRequest(
     'source',
     selection.sourceStage,
     overrides.source,
-    sourceMountIds
+    sourceMountIds,
+    sourceEquipmentEntityIds
   );
   const targetCombatant = buildCombatant(
     graph,
@@ -268,7 +308,8 @@ export function listAvailableSourceAbilities(
         providerKey: stripSlotPrefix(mount.definitionRef),
         displayName: `${mount.providerRef} / ${ability.abilityKey}`,
         kind: ability.kind,
-        selectable: ability.kind === 'active'
+        selectable: ability.kind === 'active',
+        ...(ability.types && ability.types.length > 0 ? { types: [...ability.types] } : {})
       });
     }
   }
@@ -278,6 +319,19 @@ export function listAvailableSourceAbilities(
 
 export function computeSessionSignature(compileRequest: CompileRequest): string {
   return stableStringify(compileRequest);
+}
+
+/**
+ * Entity ids tagged via type_relation target_category=entity whose type resolves to
+ * {@link ADC_COMPLETED_ITEM_TYPE_KEY}. Used by validation page item pickers.
+ */
+export function listAdcCompletedItemEntityIds(graph: CombatDataGraph): Set<string> {
+  const types: TypeIndex = { byId: new Map(), byKey: new Map() };
+  for (const t of graph.types) {
+    types.byId.set(t.typeId, { typeKey: t.typeKey, reservedTypeId: t.reservedTypeId });
+    types.byKey.set(t.typeKey, { typeId: t.typeId, reservedTypeId: t.reservedTypeId });
+  }
+  return collectAdcCompletedItemEntityIds(graph, types);
 }
 
 export function normalizeDriverPlan(plan: DriverPlan): DriverPlan {
@@ -307,7 +361,7 @@ export function normalizeDriverPlan(plan: DriverPlan): DriverPlan {
       target: 'target' as const,
       priority: entry.priority ?? 0,
       firstAtMs: entry.firstAtMs,
-      ...(entry.repeat ? { repeat: { ...entry.repeat } } : {}),
+      ...(entry.repeat ? { repeat: normalizeDriverEntryRepeat(entry.repeat) } : {}),
       ...(entry.whileReady !== undefined ? { whileReady: entry.whileReady } : {}),
       ...(entry.condition ? { condition: deepClone(entry.condition) } : {})
     };
@@ -315,6 +369,46 @@ export function normalizeDriverPlan(plan: DriverPlan): DriverPlan {
   });
 
   return { conditionRecheckIntervalMs, entries };
+}
+
+/**
+ * TinyGo V2 DriverRepeat XOR: exactly one of intervalMs | intervalFormula.
+ * Numeric interval must be finite and positive; formula is deep-cloned, not evaluated.
+ */
+export function normalizeDriverEntryRepeat(repeat: DriverEntryRepeat): DriverEntryRepeat {
+  const record = repeat as Record<string, unknown>;
+  const hasIntervalMs = Object.prototype.hasOwnProperty.call(record, 'intervalMs');
+  const hasIntervalFormula = Object.prototype.hasOwnProperty.call(record, 'intervalFormula');
+
+  if (hasIntervalMs === hasIntervalFormula) {
+    throw new CombatDataAssembleError(
+      'driverPlan.entry.repeat requires exactly one of intervalMs or intervalFormula'
+    );
+  }
+
+  const maxAttempts =
+    record.maxAttempts !== undefined ? { maxAttempts: record.maxAttempts as number } : {};
+
+  if (hasIntervalMs) {
+    const intervalMs = record.intervalMs;
+    if (typeof intervalMs !== 'number' || !Number.isFinite(intervalMs) || intervalMs <= 0) {
+      throw new CombatDataAssembleError(
+        'driverPlan.entry.repeat.intervalMs must be a positive finite number'
+      );
+    }
+    return { intervalMs, ...maxAttempts };
+  }
+
+  const intervalFormula = record.intervalFormula;
+  if (!intervalFormula || typeof intervalFormula !== 'object') {
+    throw new CombatDataAssembleError(
+      'driverPlan.entry.repeat.intervalFormula must be a formula expression object'
+    );
+  }
+  return {
+    intervalFormula: deepClone(intervalFormula as GenericFormulaExpr),
+    ...maxAttempts
+  };
 }
 
 function findEntity(graph: CombatDataGraph, entityId: string) {
@@ -371,6 +465,8 @@ function buildIndexes(graph: CombatDataGraph): GraphIndexes {
   const paramsByAbility = groupBy(graph.abilityParameters, (p) => p.abilityId);
   const abilitiesById = new Map(graph.abilities.map((a) => [a.abilityId, a]));
   const stateFieldsByProvider = groupBy(graph.providerStateFields, (s) => s.providerId);
+  const abilityTypesById = buildAbilityTypeKeysById(graph, types);
+  const executeEffectDetailsByStepId = buildExecuteEffectDetailsByStepId(graph);
 
   return {
     types,
@@ -390,8 +486,66 @@ function buildIndexes(graph: CombatDataGraph): GraphIndexes {
     cooldownsByAbility,
     paramsByAbility,
     abilitiesById,
-    stateFieldsByProvider
+    stateFieldsByProvider,
+    abilityTypesById,
+    executeEffectDetailsByStepId
   };
+}
+
+/** Local presence check only — does not run exactly-one detail-key validation. */
+function hasEmbeddedExecuteDetail(step: EffectStep): boolean {
+  const value = (step as Record<string, unknown>).executeDetail;
+  return value !== undefined && value !== null;
+}
+
+function buildExecuteEffectDetailsByStepId(
+  graph: CombatDataGraph
+): Map<string, CombatDataGraph['executeEffectDetails'][number]> {
+  const stepsById = new Map(graph.effectSteps.map((s) => [s.stepId, s]));
+  const byStepId = new Map<string, CombatDataGraph['executeEffectDetails'][number]>();
+
+  for (const row of graph.executeEffectDetails) {
+    if (byStepId.has(row.stepId)) {
+      throw new CombatDataAssembleError(
+        `duplicate executeEffectDetail for stepId: ${row.stepId}`
+      );
+    }
+    byStepId.set(row.stepId, row);
+  }
+
+  for (const [stepId] of byStepId) {
+    const step = stepsById.get(stepId);
+    if (!step) {
+      throw new CombatDataAssembleError(
+        `executeEffectDetail orphan with no effect step: ${stepId}`
+      );
+    }
+    if (!hasEmbeddedExecuteDetail(step)) {
+      throw new CombatDataAssembleError(
+        `executeEffectDetail step ${stepId} matching step is not executeDetail family`
+      );
+    }
+  }
+
+  for (const step of graph.effectSteps) {
+    if (!hasEmbeddedExecuteDetail(step)) {
+      continue;
+    }
+    const row = byStepId.get(step.stepId);
+    if (!row) {
+      throw new CombatDataAssembleError(
+        `effect step ${step.stepId} executeDetail missing independent executeEffectDetail row`
+      );
+    }
+    const embedded = step.executeDetail!;
+    if (row.threshold !== embedded.threshold) {
+      throw new CombatDataAssembleError(
+        `effect step ${step.stepId} executeDetail threshold disagrees with executeEffectDetail`
+      );
+    }
+  }
+
+  return byStepId;
 }
 
 function buildTypeCatalog(graph: CombatDataGraph, types: TypeIndex): TypeCatalog {
@@ -433,6 +587,61 @@ export function domainFromTypeKey(typeKey: string): string {
   return typeKey.slice(0, slash);
 }
 
+function resolveSourceEquipment(
+  graph: CombatDataGraph,
+  types: TypeIndex,
+  equipmentIds: string[] | undefined
+): string[] {
+  if (equipmentIds === undefined || equipmentIds.length === 0) {
+    return [];
+  }
+
+  const seen = new Set<string>();
+  for (const entityId of equipmentIds) {
+    if (seen.has(entityId)) {
+      throw new CombatDataAssembleError(
+        `source equipment contains duplicate entity id: ${entityId}`
+      );
+    }
+    seen.add(entityId);
+  }
+
+  if (equipmentIds.length > MAX_SOURCE_EQUIPMENT) {
+    throw new CombatDataAssembleError(
+      `source equipment allows at most ${MAX_SOURCE_EQUIPMENT} items, got ${equipmentIds.length}`
+    );
+  }
+
+  const eligible = collectAdcCompletedItemEntityIds(graph, types);
+  for (const entityId of equipmentIds) {
+    if (!graph.entities.some((item) => item.entityId === entityId)) {
+      throw new CombatDataAssembleError(`source equipment entity not found: ${entityId}`);
+    }
+    if (!eligible.has(entityId)) {
+      throw new CombatDataAssembleError(
+        `source equipment entity is not tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${entityId}`
+      );
+    }
+  }
+
+  return equipmentIds;
+}
+
+function collectAdcCompletedItemEntityIds(graph: CombatDataGraph, types: TypeIndex): Set<string> {
+  const tagType = types.byKey.get(ADC_COMPLETED_ITEM_TYPE_KEY);
+  if (!tagType) {
+    return new Set();
+  }
+  const ids = new Set<string>();
+  for (const rel of graph.typeRelations) {
+    if (rel.targetCategory !== 'entity' || rel.typeId !== tagType.typeId) {
+      continue;
+    }
+    ids.add(rel.targetId);
+  }
+  return ids;
+}
+
 function buildCombatant(
   graph: CombatDataGraph,
   indexes: GraphIndexes,
@@ -440,11 +649,14 @@ function buildCombatant(
   slot: CombatantSlot,
   stage: number | undefined,
   overrides: CombatantNumericOverrides | undefined,
-  mountProviderIds: string[]
+  mountProviderIds: string[],
+  equipmentEntityIds: string[] = []
 ): CombatantDefinition {
   const types = resolveEntityTypeKeys(graph, indexes.types, entity.entityId);
   const attributes = buildAttributeSlots(graph, entity.entityId, stage);
   const resources = buildResourceSlots(graph, entity.entityId, stage);
+  // Order: base/stage → equipment static attrs → numeric overrides (final).
+  applyEquipmentAttributes(graph, attributes, equipmentEntityIds);
   applyAttributeOverrides(attributes, overrides?.attributes);
   applyResourceOverrides(resources, overrides?.resources);
 
@@ -490,6 +702,38 @@ function resolveEntityTypeKeys(
   return keys;
 }
 
+/**
+ * Project type_relations with targetCategory=ability onto abilityId → typeKey[].
+ * targetId is the full abilityId string (never parsed as a numeric type id).
+ * Keys are de-duplicated in first-seen order for stable AbilityDefinition.types.
+ */
+function buildAbilityTypeKeysById(
+  graph: CombatDataGraph,
+  types: TypeIndex
+): Map<string, string[]> {
+  const byAbilityId = new Map<string, string[]>();
+  const seenByAbilityId = new Map<string, Set<string>>();
+  for (const rel of graph.typeRelations) {
+    if (rel.targetCategory !== 'ability') {
+      continue;
+    }
+    const abilityId = rel.targetId;
+    const typeKey = requireTypeKey(types, rel.typeId, `ability ${abilityId} type`);
+    let seen = seenByAbilityId.get(abilityId);
+    if (!seen) {
+      seen = new Set();
+      seenByAbilityId.set(abilityId, seen);
+      byAbilityId.set(abilityId, []);
+    }
+    if (seen.has(typeKey)) {
+      continue;
+    }
+    seen.add(typeKey);
+    byAbilityId.get(abilityId)!.push(typeKey);
+  }
+  return byAbilityId;
+}
+
 function buildAttributeSlots(
   graph: CombatDataGraph,
   entityId: string,
@@ -512,6 +756,44 @@ function buildAttributeSlots(
     slots[row.attrKey] = { base: value, current: value, max: value, resolved: value };
   }
   return slots;
+}
+
+/**
+ * Sum selected equipment entity_attribute_values into combatant attribute slots.
+ * Existing slots: add to base/current/max/resolved.
+ * Missing slots: create all four fields equal to the summed equipment value.
+ */
+function applyEquipmentAttributes(
+  graph: CombatDataGraph,
+  attributes: Record<string, AttributeSlot>,
+  equipmentEntityIds: string[]
+): void {
+  if (equipmentEntityIds.length === 0) {
+    return;
+  }
+
+  const equipmentIdSet = new Set(equipmentEntityIds);
+  const sums = new Map<string, number>();
+  for (const row of graph.entityAttributes) {
+    if (!equipmentIdSet.has(row.entityId)) {
+      continue;
+    }
+    assertFiniteNumber(row.baseValue, `equipment.${row.entityId}.${row.attrKey}`);
+    sums.set(row.attrKey, (sums.get(row.attrKey) ?? 0) + row.baseValue);
+  }
+
+  for (const attrKey of [...sums.keys()].sort()) {
+    const delta = sums.get(attrKey)!;
+    const slot = attributes[attrKey];
+    if (slot) {
+      slot.base += delta;
+      slot.current += delta;
+      slot.max += delta;
+      slot.resolved += delta;
+    } else {
+      attributes[attrKey] = { base: delta, current: delta, max: delta, resolved: delta };
+    }
+  }
 }
 
 function buildResourceSlots(
@@ -599,13 +881,11 @@ function cloneProviderForSlot(
   }
 
   const stateFields = indexes.stateFieldsByProvider.get(providerId) ?? [];
+  // TinyGo V2: legacy numeric defaults are bare `0`; structured timed/capped state is an object.
   const initialStateSchema =
     stateFields.length > 0
       ? Object.fromEntries(
-          stateFields.map((field) => [
-            field.stateKey,
-            { valueType: abiToken(requireTypeKey(indexes.types, field.valueTypeId, `state ${field.stateKey}`)) }
-          ])
+          stateFields.map((field) => [field.stateKey, projectProviderStateField(field, indexes)])
         )
       : undefined;
 
@@ -711,10 +991,12 @@ function mapAbility(
 
   const costRow = (indexes.costsByAbility.get(ability.abilityId) ?? [])[0];
   const cooldownRow = (indexes.cooldownsByAbility.get(ability.abilityId) ?? [])[0];
+  const abilityTypes = indexes.abilityTypesById.get(ability.abilityId);
 
   const result: AbilityDefinition = {
     abilityKey: ability.abilityKey,
     kind,
+    ...(abilityTypes && abilityTypes.length > 0 ? { types: [...abilityTypes] } : {}),
     ...(params ? { params } : {}),
     ...(operations.length > 0 ? { operations } : {})
   };
@@ -740,6 +1022,9 @@ function mapAbility(
           }
         : {})
     };
+  }
+  if (ability.castConditionFormulaKey) {
+    result.castCondition = formulaRef(slot, ability.castConditionFormulaKey);
   }
 
   return result;
@@ -895,18 +1180,27 @@ function mapEffectStep(
   const target = abiToken(targetKey);
 
   const detailKey = detectDetailKey(step);
-  const base: OperationDefinition = { operation, target };
+  const base: OperationDefinition = {
+    operation,
+    target,
+    ...(step.conditionFormulaKey
+      ? { condition: formulaRef(slot, step.conditionFormulaKey) }
+      : {})
+  };
 
   switch (detailKey) {
     case 'damageDetail': {
       const d = step.damageDetail!;
       return {
         ...base,
+        ref: step.stepId,
         amount: formulaRef(slot, d.amountFormulaKey),
         damageType: requireTypeKey(indexes.types, d.damageTypeId, `step ${step.stepId} damageType`),
         valuePolicy: abiToken(
           requireTypeKey(indexes.types, d.valuePolicyTypeId, `step ${step.stepId} valuePolicy`)
-        )
+        ),
+        ...(d.copyableOnHit === true ? { copyableOnHit: true } : {}),
+        ...(d.critEligible === true ? { critEligible: true } : {})
       };
     }
     case 'healDetail': {
@@ -1013,6 +1307,28 @@ function mapEffectStep(
         types: [
           requireTypeKey(indexes.types, d.stateScopeTypeId, `step ${step.stepId} stateScope`)
         ]
+      };
+    }
+    case 'repeatDetail': {
+      const d = step.repeatDetail!;
+      return {
+        ...base,
+        ref: step.stepId,
+        repeatScope: abiToken(
+          requireTypeKey(indexes.types, d.repeatScopeTypeId, `step ${step.stepId} repeatScope`)
+        ),
+        repeatCount: d.repeatCount,
+        repeatTag: d.repeatTag,
+        triggerStateKey: d.triggerStateKey,
+        threshold: d.threshold
+      };
+    }
+    case 'executeDetail': {
+      const d = step.executeDetail!;
+      return {
+        ...base,
+        threshold: d.threshold,
+        ref: step.stepId
       };
     }
     default:
@@ -1225,6 +1541,59 @@ function requireTypeKey(types: TypeIndex, typeId: number, label: string): string
 function abiToken(typeKey: string): string {
   const idx = typeKey.indexOf('/');
   return idx >= 0 ? typeKey.slice(idx + 1) : typeKey;
+}
+
+/**
+ * Legacy provider_state_fields (no maxValue/durationMs/refreshPolicyTypeId) project to bare
+ * numeric default `0` (e.g. Vayne silver_bolts_hits). Any structured metadata → object schema.
+ */
+function projectProviderStateField(
+  field: CombatDataGraph['providerStateFields'][number],
+  indexes: GraphIndexes
+): number | ProviderStateFieldSchema {
+  const hasStructuredMeta =
+    field.maxValue !== undefined ||
+    field.durationMs !== undefined ||
+    field.refreshPolicyTypeId !== undefined;
+
+  if (!hasStructuredMeta) {
+    return 0;
+  }
+
+  const entry: ProviderStateFieldSchema = {
+    valueType: abiToken(
+      requireTypeKey(indexes.types, field.valueTypeId, `state ${field.stateKey}`)
+    ),
+    defaultValue: 0,
+    // TinyGo structured state requires explicit durationMs; 0 = untimed (API omits NULL).
+    durationMs: field.durationMs ?? 0
+  };
+  if (field.maxValue !== undefined) {
+    entry.maxValue = field.maxValue;
+  }
+  if (field.refreshPolicyTypeId !== undefined) {
+    entry.refreshPolicy = projectProviderStateRefreshPolicy(
+      requireTypeKey(
+        indexes.types,
+        field.refreshPolicyTypeId,
+        `state ${field.stateKey} refreshPolicy`
+      )
+    );
+  }
+  return entry;
+}
+
+/**
+ * Provider-state initialStateSchema refreshPolicy only.
+ * Backend reserved 20190 reuses typeKey `refresh_policy/refresh_duration`, but TinyGo V2
+ * structured timed state accepts ABI token `refresh_on_write`. Keep this local — do not
+ * alter global abiToken or lifecycle.refreshPolicy projection.
+ */
+function projectProviderStateRefreshPolicy(typeKey: string): string {
+  if (typeKey === 'refresh_policy/refresh_duration') {
+    return 'refresh_on_write';
+  }
+  return abiToken(typeKey);
 }
 
 function mapAbilityKind(token: string): AbilityDefinition['kind'] {

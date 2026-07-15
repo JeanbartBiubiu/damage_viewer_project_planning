@@ -135,6 +135,9 @@ export type ProviderStateField = CombatDataRowMeta & {
   providerId: string;
   stateKey: string;
   valueTypeId: number;
+  maxValue?: number;
+  durationMs?: number;
+  refreshPolicyTypeId?: number;
 };
 
 export type ProviderFormula = CombatDataRowMeta & {
@@ -187,6 +190,8 @@ export type Ability = CombatDataRowMeta & {
   abilityKey: string;
   abilityKindTypeId: number;
   displayName: string;
+  /** Optional provider-local formula key for ability cast precondition. */
+  castConditionFormulaKey?: string;
 };
 
 export type AbilityParameter = CombatDataRowMeta & {
@@ -254,7 +259,9 @@ export const EFFECT_STEP_DETAIL_KEYS = [
   'providerDetail',
   'eventDetail',
   'abilityControlDetail',
-  'stateDetail'
+  'stateDetail',
+  'repeatDetail',
+  'executeDetail'
 ] as const;
 
 export type EffectStepDetailKey = (typeof EFFECT_STEP_DETAIL_KEYS)[number];
@@ -263,6 +270,10 @@ export type DamageDetail = {
   amountFormulaKey: string;
   damageTypeId: number;
   valuePolicyTypeId: number;
+  /** Backend defaults omitted writes to false; emit on Wasm only when true. */
+  copyableOnHit?: boolean;
+  /** Backend defaults omitted writes to false; emit on Wasm only when true. */
+  critEligible?: boolean;
 };
 
 export type HealDetail = {
@@ -316,6 +327,23 @@ export type StateDetail = {
   valuePolicyTypeId: number;
 };
 
+export type RepeatDetail = {
+  repeatScopeTypeId: number;
+  repeatCount: number;
+  repeatTag: string;
+  triggerStateKey: string;
+  threshold: number;
+};
+
+export type ExecuteDetail = {
+  threshold: number;
+};
+
+export type ExecuteEffectDetail = CombatDataRowMeta & {
+  stepId: string;
+  threshold: number;
+};
+
 export type EffectStepCommon = CombatDataRowMeta & {
   stepId: string;
   sequenceId: string;
@@ -336,7 +364,9 @@ export type EffectStep =
   | (EffectStepCommon & {
       abilityControlDetail: AbilityControlDetail;
     } & Partial<Record<Exclude<EffectStepDetailKey, 'abilityControlDetail'>, never>>)
-  | (EffectStepCommon & { stateDetail: StateDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'stateDetail'>, never>>);
+  | (EffectStepCommon & { stateDetail: StateDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'stateDetail'>, never>>)
+  | (EffectStepCommon & { repeatDetail: RepeatDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'repeatDetail'>, never>>)
+  | (EffectStepCommon & { executeDetail: ExecuteDetail } & Partial<Record<Exclude<EffectStepDetailKey, 'executeDetail'>, never>>);
 
 export type EffectStepPutBody = {
   sequenceId: string;
@@ -354,6 +384,8 @@ export type EffectStepPutBody = {
   | { eventDetail: EventDetail }
   | { abilityControlDetail: AbilityControlDetail }
   | { stateDetail: StateDetail }
+  | { repeatDetail: RepeatDetail }
+  | { executeDetail: ExecuteDetail }
 );
 
 /** Admin PUT response = written row fields + top-level currentRevision. */
@@ -395,4 +427,5 @@ export type CombatDataGraph = {
   effectSteps: EffectStep[];
   abilityPhaseEffectSequences: AbilityPhaseEffectSequence[];
   listenerEffectSequences: ListenerEffectSequence[];
+  executeEffectDetails: ExecuteEffectDetail[];
 };

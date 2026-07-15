@@ -38,6 +38,7 @@ VALUES
     (10022, 'Ability 控制动作', 'ability_control_action'),
     (10023, '状态作用域', 'state_scope'),
     (10024, '阶段触发点', 'phase_trigger'),
+    (10025, '重复作用域', 'repeat_scope'),
 
     -- value_type
     (20100, '数值', 'value_type/number'),
@@ -83,6 +84,8 @@ VALUES
     (20158, '发出事件', 'operation/emit_event'),
     (20159, '冷却变化', 'operation/cooldown_change'),
     (20160, '状态变化', 'operation/state_change'),
+    (20161, '重复', 'operation/repeat'),
+    (20162, '斩杀阈值', 'operation/execute_threshold'),
 
     -- value_policy / modifier_mode
     (20170, '加法', 'value_policy/add'),
@@ -115,6 +118,11 @@ VALUES
     (20208, 'Provider 刷新', 'event/provider_refreshed'),
     (20209, 'Provider 过期', 'event/provider_expired'),
     (20210, 'Tick', 'event/tick'),
+    (20211, '普攻命中', 'event/basic_attack_hit'),
+    (20212, '事件来源为拥有者', 'event/source_owner'),
+    (20213, '事件来源为对手', 'event/source_opponent'),
+    (20214, '造成物理伤害', 'event/damage_dealt/physical'),
+    (20215, '造成普攻伤害', 'event/damage_dealt/basic_attack'),
 
     -- damage
     (20220, '物理伤害', 'damage/physical'),
@@ -134,11 +142,15 @@ VALUES
     -- state_scope
     (20250, 'Provider 状态', 'state_scope/provider'),
     (20251, 'Ability 状态', 'state_scope/ability'),
+    (20252, 'Provider 按目标状态', 'state_scope/provider_target'),
 
     -- phase_trigger
     (20260, '进入阶段', 'phase_trigger/on_enter'),
     (20261, '离开阶段', 'phase_trigger/on_exit'),
-    (20262, '阶段 Tick', 'phase_trigger/on_tick')
+    (20262, '阶段 Tick', 'phase_trigger/on_tick'),
+
+    -- repeat_scope
+    (20263, '命中可复制', 'repeat_scope/copyable_on_hit')
 ON CONFLICT (type_id) DO UPDATE SET
     name = EXCLUDED.name,
     type_key = EXCLUDED.type_key;
@@ -187,6 +199,8 @@ VALUES
     (20158, 10015),
     (20159, 10015),
     (20160, 10015),
+    (20161, 10015),
+    (20162, 10015),
 
     (20170, 10016),
     (20171, 10016),
@@ -215,6 +229,11 @@ VALUES
     (20208, 10019),
     (20209, 10019),
     (20210, 10019),
+    (20211, 10019),
+    (20212, 10019),
+    (20213, 10019),
+    (20214, 10019),
+    (20215, 10019),
 
     (20220, 10020),
     (20221, 10020),
@@ -230,8 +249,11 @@ VALUES
 
     (20250, 10023),
     (20251, 10023),
+    (20252, 10023),
 
     (20260, 10024),
     (20261, 10024),
-    (20262, 10024)
+    (20262, 10024),
+
+    (20263, 10025)
 ON CONFLICT (type_id, parent_type_id) DO NOTHING;
