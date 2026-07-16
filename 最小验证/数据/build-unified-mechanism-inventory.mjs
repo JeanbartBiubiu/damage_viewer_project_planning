@@ -423,8 +423,8 @@ const STATUS_OVERRIDES = new Map([
       completionMode: 'partial',
       lane: 'generic_runtime',
       reason:
-        '初次飞斧已闭环，但接斧重新武装、双斧上限、移动落点与轮转不是 seed-only 可关闭。',
-      blocker: 'catch_rearm_dual_axes_movement_landing_rotation',
+        '初次飞斧已闭环；剩余仅 axe_caught 事件、cooldown/rearm、dual-axe cap、landing/movement ownership。',
+      blocker: 'axe_caught_event+catch_rearm_cooldown+dual_axe_cap+landing_movement_ownership',
     },
   ],
   [
@@ -515,10 +515,485 @@ const STATUS_OVERRIDES = new Map([
       blocker: 'multi_target_cleave_and_active_out_of_single_target_scope',
     },
   ],
+  [
+    'item_passive|2523|item_passive|奥术瞄准',
+    {
+      status: 'out_of_scope',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        '2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离持续 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜仍为 blocked_runtime。',
+      blocker: '',
+    },
+  ],
+  [
+    'item_passive|6696|item_passive|涌动',
+    {
+      status: 'out_of_scope',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        '6696 Flux/涌动：takedown 后返还 ultimate total cooldown（含 lethality 缩放），纯冷却轮转无伤害增量；审计边界外。',
+      blocker: '',
+    },
+  ],
+  [
+    'item_passive|2512|item_passive|开战弹幕',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        '2512 Opening Barrage：ultimate_cast arms next3 attacks/8s；+50% AS；conditional crit damage；already-crit adds 15% pre-mitigation attack damage true damage；45s CD；需要 deterministic crit branch/attack pre-mitigation snapshot/charge consumption。',
+      blocker:
+        'ultimate_cast_arm_next_3_attacks_8s+deterministic_crit_branch+attack_pre_mitigation_snapshot+charge_consumption+45s_cooldown',
+    },
+  ],
 ]);
+
+
+/**
+ * Per-key runtimeGapEvidence for final blocked_runtime rows (verifiable, non-empty missingPrimitives).
+ * blocker must be stable English primitive key(s); never seed/mount/publish/E2E.
+ */
+function makeRuntimeGapEvidence(spec) {
+  const missingPrimitives = [...(spec.missingPrimitives || [])];
+  if (!missingPrimitives.length) {
+    throw new Error(`runtimeGapEvidence missingPrimitives empty @ ${spec.key || '?'}`);
+  }
+  const evidence = {
+    sourceRef: spec.sourceRef,
+    dataStatus: spec.dataStatus,
+    requiredEvents: [...(spec.requiredEvents || [])],
+    requiredState: [...(spec.requiredState || [])],
+    requiredFormulaInputs: [...(spec.requiredFormulaInputs || [])],
+    requiredScheduling: [...(spec.requiredScheduling || [])],
+    missingPrimitives,
+    remainingBoundary: spec.remainingBoundary || '',
+  };
+  if (spec.dataStatus === 'partial' || spec.completedBoundary) {
+    evidence.completedBoundary = spec.completedBoundary || '';
+  }
+  return {
+    reason: spec.reason,
+    blocker: spec.blocker || missingPrimitives.join('+'),
+    runtimeGapEvidence: evidence,
+  };
+}
+
+const RUNTIME_GAP_SPEC_TABLE = {
+  "hero_skill|hero_graves|P|新命运": {
+    "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Graves_P",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "basic_attack_launch",
+      "pellet_collision",
+      "ammo_depleted",
+      "reload_complete"
+    ],
+    "requiredState": [
+      "shotgun_ammo_count",
+      "reload_in_progress"
+    ],
+    "requiredFormulaInputs": [
+      "pellet_hit_count",
+      "target_distance",
+      "crit_pellet_scaling"
+    ],
+    "requiredScheduling": [
+      "ammo_reload_cadence"
+    ],
+    "missingPrimitives": [
+      "shotgun_pellet_count_collision",
+      "ammo_reload_cadence",
+      "crit_pellet_scaling",
+      "target_distance_pellet_hit_count"
+    ],
+    "remainingBoundary": "本地数值快照无未解析字段；缺散弹弹丸碰撞/弹药装填节奏/暴击弹丸缩放/目标距离与命中弹丸数 runtime。",
+    "reason": "Graves P New Destiny：散弹弹丸数量与碰撞、弹药/装填节奏、暴击弹丸缩放、目标距离与弹丸命中数；数据无未解析字段但缺这些 runtime。",
+    "blocker": "shotgun_pellet_count_collision+ammo_reload_cadence+crit_pellet_scaling+target_distance_pellet_hit_count"
+  },
+  "hero_skill|hero_xayah|P|锐切": {
+    "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Xayah_P",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "ability_cast",
+      "basic_attack_hit",
+      "feather_created",
+      "feather_consumed_by_e"
+    ],
+    "requiredState": [
+      "ability_after_next_attacks_budget",
+      "feather_positions"
+    ],
+    "requiredFormulaInputs": [
+      "piercing_secondary_target_hit"
+    ],
+    "requiredScheduling": [
+      "post_ability_attack_budget_window"
+    ],
+    "missingPrimitives": [
+      "ability_after_next_attacks_budget",
+      "piercing_secondary_targets",
+      "feather_creation_position_resource",
+      "feather_consumed_by_e_dependency"
+    ],
+    "remainingBoundary": "主目标无额外伤害；作为 E feather-damage dependency 保留 runtime：技能后普攻预算、穿透次级目标、羽毛创建/位置/E 消费。",
+    "reason": "Xayah P Clean Cuts：ability-after next attacks budget、piercing secondary targets、feather creation/position/resource consumed by E；主目标无额外伤害，但作为 E damage dependency 保留 runtime。",
+    "blocker": "ability_after_next_attacks_budget+piercing_secondary_targets+feather_creation_position_resource+feather_consumed_by_e_dependency"
+  },
+  "hero_skill|hero_draven|Q|旋转飞斧": {
+    "sourceRef": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go#SpinningAxe",
+    "dataStatus": "partial",
+    "requiredEvents": [
+      "axe_caught",
+      "axe_landed"
+    ],
+    "requiredState": [
+      "spinning_axe_ready",
+      "dual_axe_count"
+    ],
+    "requiredFormulaInputs": [],
+    "requiredScheduling": [
+      "catch_rearm_window",
+      "axe_landing_movement_ownership"
+    ],
+    "missingPrimitives": [
+      "axe_caught_event",
+      "catch_rearm_cooldown",
+      "dual_axe_cap",
+      "landing_movement_ownership"
+    ],
+    "completedBoundary": "rank5 初次飞斧：ability_started 武装 spinning_axe_ready 与首次 basic_attack_hit 额外物理伤害消费。",
+    "remainingBoundary": "仅缺 axe_caught 事件、接斧 rearm/cooldown、双斧上限、落点/移动 ownership。",
+    "reason": "初次飞斧已闭环；剩余仅 axe_caught 事件、cooldown/rearm、dual-axe cap、landing/movement ownership。",
+    "blocker": "axe_caught_event+catch_rearm_cooldown+dual_axe_cap+landing_movement_ownership"
+  },
+  "item_passive|2051|item_passive|无畏": {
+    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2051_Undaunted",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "incoming_champion_damage"
+    ],
+    "requiredState": [
+      "target_owned_incoming_damage_intercept"
+    ],
+    "requiredFormulaInputs": [
+      "flat_15_reduction",
+      "dot_3_75_reduction",
+      "damage_category",
+      "post_mitigation_ordering"
+    ],
+    "requiredScheduling": [],
+    "missingPrimitives": [
+      "target_owned_incoming_champion_damage_interception",
+      "flat15_and_dot_3_75_reduction",
+      "damage_category_post_mitigation_ordering"
+    ],
+    "remainingBoundary": "缺目标侧 incoming champion damage interception（flat15 / DoT 3.75）与 damage category/post-mitigation ordering。",
+    "reason": "2051 Undaunted：target-owned incoming champion damage interception，flat15；DoT 3.75；damage category/post-mitigation ordering。",
+    "blocker": "target_owned_incoming_champion_damage_interception+flat15_and_dot_3_75_reduction+damage_category_post_mitigation_ordering"
+  },
+  "item_passive|2512|item_passive|开战弹幕": {
+    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2512_Opening_Barrage",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "ultimate_cast",
+      "basic_attack_launch",
+      "critical_strike_resolved"
+    ],
+    "requiredState": [
+      "opening_barrage_charges",
+      "opening_barrage_window"
+    ],
+    "requiredFormulaInputs": [
+      "conditional_crit_damage",
+      "already_crit_15pct_pre_mitigation_true_damage",
+      "attack_pre_mitigation_snapshot"
+    ],
+    "requiredScheduling": [
+      "next_3_attacks_within_8s",
+      "45s_cooldown"
+    ],
+    "missingPrimitives": [
+      "ultimate_cast_arm_next_3_attacks_8s",
+      "bonus_attack_speed_50_pct",
+      "deterministic_crit_branch",
+      "attack_pre_mitigation_snapshot",
+      "already_crit_15pct_true_damage",
+      "charge_consumption",
+      "45s_cooldown"
+    ],
+    "remainingBoundary": "缺 ultimate_cast 武装 next3/8s、+50% AS、条件暴击分支、已暴击 15% pre-mitigation true damage、charge 消费与 45s CD。",
+    "reason": "2512 Opening Barrage：ultimate_cast arms next3 attacks/8s；+50% AS；conditional crit damage；already-crit adds 15% pre-mitigation attack damage true damage；45s CD；需要 deterministic crit branch/attack pre-mitigation snapshot/charge consumption。",
+    "blocker": "ultimate_cast_arm_next_3_attacks_8s+deterministic_crit_branch+attack_pre_mitigation_snapshot+charge_consumption+45s_cooldown"
+  },
+  "item_passive|2523|item_passive|高倍望远镜": {
+    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2523_Magnification",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "basic_damage_dealt"
+    ],
+    "requiredState": [],
+    "requiredFormulaInputs": [
+      "edge_to_edge_distance",
+      "distance_amp_1pct_per_50_up_to_10pct"
+    ],
+    "requiredScheduling": [
+      "basic_damage_amplification_snapshot"
+    ],
+    "missingPrimitives": [
+      "edge_to_edge_distance_input",
+      "distance_scaled_basic_damage_amp_1pct_per_50_up_to_10pct",
+      "basic_damage_amplification_snapshot"
+    ],
+    "remainingBoundary": "缺 edge-to-edge 距离输入与 basic damage amplification snapshot（1%/50 至 10%）。",
+    "reason": "2523 Magnification：distance edge-to-edge input，1% per50 up to10%，basic damage amplification snapshot。",
+    "blocker": "edge_to_edge_distance_input+distance_scaled_basic_damage_amp_1pct_per_50_up_to_10pct+basic_damage_amplification_snapshot"
+  },
+  "item_passive|3032|item_passive|疾风骤雨": {
+    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3032_Flurry",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "attack_launch_vs_champion",
+      "on_hit",
+      "critical_strike"
+    ],
+    "requiredState": [
+      "flurry_attack_speed_buff",
+      "flurry_cooldown"
+    ],
+    "requiredFormulaInputs": [],
+    "requiredScheduling": [
+      "6s_buff_window",
+      "30s_cooldown_with_on_hit_crit_cdr"
+    ],
+    "missingPrimitives": [
+      "attack_launch_vs_champion_arm",
+      "timed_attack_speed_buff_30pct_6s",
+      "on_hit_cooldown_reduction_1s",
+      "crit_cooldown_reduction_2s",
+      "30s_cooldown"
+    ],
+    "remainingBoundary": "缺对英雄发起普攻武装 +30% AS 6s/30s CD，以及 on-hit -1s / crit -2s 冷却缩减。",
+    "reason": "3032 Flurry：attack launch vs champion arms +30% AS 6s/30s CD；on-hit -1s、crit -2s cooldown reduction。",
+    "blocker": "attack_launch_vs_champion_arm+timed_attack_speed_buff_30pct_6s+on_hit_cooldown_reduction_1s+crit_cooldown_reduction_2s+30s_cooldown"
+  },
+  "item_passive|3036|item_passive|巨人杀手": {
+    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3036_Giant_Slayer",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "outgoing_damage_dealt"
+    ],
+    "requiredState": [],
+    "requiredFormulaInputs": [
+      "target_bonus_health",
+      "amp_1pct_per_100_up_to_15pct"
+    ],
+    "requiredScheduling": [
+      "outgoing_damage_amp_ordering"
+    ],
+    "missingPrimitives": [
+      "target_bonus_health_input",
+      "outgoing_damage_amp_1pct_per_100_up_to_15pct",
+      "outgoing_damage_amp_ordering"
+    ],
+    "remainingBoundary": "缺目标 bonus health 输入与 outgoing damage amp ordering（1%/100 至 15%）。",
+    "reason": "3036 Giant Slayer：target bonus health input，1% per100 up to15%，outgoing damage amp ordering。",
+    "blocker": "target_bonus_health_input+outgoing_damage_amp_1pct_per_100_up_to_15pct+outgoing_damage_amp_ordering"
+  },
+  "item_passive|3082|item_passive|坚如磐石": {
+    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3082_Rock_Solid",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "incoming_post_mitigation_basic_damage"
+    ],
+    "requiredState": [
+      "per_cast_instance_first_basic_damage_seen"
+    ],
+    "requiredFormulaInputs": [
+      "rock_solid_final_max_input_minus_15_or_input_times_0_8"
+    ],
+    "requiredScheduling": [
+      "cast_instance_identity_order"
+    ],
+    "missingPrimitives": [
+      "target_owned_first_post_mitigation_basic_damage_per_cast",
+      "rock_solid_reduce_min_15_or_20pct",
+      "cast_instance_identity_order"
+    ],
+    "remainingBoundary": "缺目标侧每次施法首段 post-mitigation basic-damage 减免（等价 final=max(input-15,input*0.8)）与 cast-instance identity/order。",
+    "reason": "3082 Rock Solid：target-owned first post-mitigation basic-damage instance per cast，reduce min(15,20%) 等价 final=max(input-15,input*0.8)，cast-instance identity/order。",
+    "blocker": "target_owned_first_post_mitigation_basic_damage_per_cast+rock_solid_reduce_min_15_or_20pct+cast_instance_identity_order"
+  },
+  "item_passive|6610|item_passive|光盾打击": {
+    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_6610_Lightshield_Strike",
+    "dataStatus": "complete",
+    "requiredEvents": [
+      "basic_attack_vs_champion"
+    ],
+    "requiredState": [
+      "per_target_guaranteed_crit_arm",
+      "per_target_cooldown"
+    ],
+    "requiredFormulaInputs": [
+      "specified_crit_damage"
+    ],
+    "requiredScheduling": [
+      "per_target_10s_cooldown"
+    ],
+    "missingPrimitives": [
+      "per_target_next_attack_guaranteed_crit",
+      "specified_crit_damage_branch",
+      "per_target_10s_cooldown"
+    ],
+    "remainingBoundary": "治疗分支 out_of_scope；缺 per-target 下一次普攻必定暴击与指定暴击伤害/10s CD。",
+    "reason": "6610 Lightshield Strike：per-target 10s next attack guaranteed crit with specified crit damage; healing OOS；needs conditional crit/per-target CD。",
+    "blocker": "per_target_next_attack_guaranteed_crit+specified_crit_damage_branch+per_target_10s_cooldown"
+  }
+};
+
+const RUNTIME_GAP_BY_KEY = new Map(
+  Object.entries(RUNTIME_GAP_SPEC_TABLE).map(([key, spec]) => [
+    key,
+    makeRuntimeGapEvidence({ key, ...spec }),
+  ]),
+);
+
+function synthesizeRuntimeGapFromTags(mechanism) {
+  const tags = mechanism.mechanismTags || [];
+  const missing = [];
+  const events = [];
+  const state = [];
+  const inputs = [];
+  const scheduling = [];
+  for (const t of tags) {
+    if (
+      t === 'deterministic_random_crit_sequence'
+      || t === 'seeded_random_crit_sequence'
+    ) {
+      // Reproducible RNG/crit sequence primitive (not data seed / mount / publish).
+      missing.push('deterministic_random_crit_sequence');
+      events.push('critical_strike_resolved');
+    } else if (t === 'distance_or_ratio_modifier') {
+      missing.push('distance_or_ratio_input');
+      inputs.push('distance_or_ratio');
+    } else if (t === 'cooldown_or_haste_without_rotation') {
+      missing.push('cooldown_or_haste_rotation');
+      scheduling.push('cooldown_or_haste_without_rotation');
+    } else if (t === 'timed_attack_speed_buff' || t === 'timed_attack_speed_modifier') {
+      missing.push('timed_attack_speed_modifier');
+      scheduling.push('timed_attack_speed_window');
+    } else if (t === 'catch_cooldown_reset') {
+      missing.push('catch_cooldown_reset');
+      events.push('catch_event');
+    } else if (t === 'attack_crit_cooldown_interaction') {
+      missing.push('attack_crit_cooldown_interaction');
+    } else if (t === 'conditional_guaranteed_crit' || t === 'first_attack') {
+      missing.push('conditional_guaranteed_crit');
+      events.push('basic_attack_vs_champion');
+    } else if (t === 'incoming_damage_modifier' || t === 'incoming_damage_reduction') {
+      missing.push('incoming_damage_modifier');
+      events.push('incoming_damage');
+    } else if (t === 'outgoing_damage_modifier') {
+      missing.push('outgoing_damage_modifier');
+      events.push('outgoing_damage');
+    } else if (t === 'energized_charge_and_consume') {
+      missing.push('energized_charge_and_consume');
+    } else if (t === 'spellblade_next_attack_state') {
+      missing.push('spellblade_next_attack_state');
+    } else if (t === 'penetration_family') {
+      missing.push('penetration_family_state');
+    } else if (t.includes('stealth') || t.includes('movement')) {
+      missing.push('stealth_or_movement_events');
+      events.push('stealth_or_movement');
+    } else if (t.includes('takedown') || t.includes('kill')) {
+      missing.push('kill_or_takedown_event');
+      events.push('kill_or_takedown');
+    } else if (
+      t === 'dps_relevant_manual_review' ||
+      t === 'existing_batch_b_seed' ||
+      t === 'meta_or_non_target_dps' ||
+      t === 'heal' ||
+      t === 'vulnerable' ||
+      t === 'target_state_conditioned_attack_speed' ||
+      t === 'attack_speed_percent_add' ||
+      t === 'cast_condition' ||
+      t === 'stacking_stat_modifier_on_hit' ||
+      t === 'cast_triggered_timed_attack_speed' ||
+      t === 'secondary_feather_ratio_damage' ||
+      t === 'incoming_crit_damage_modifier' ||
+      t === 'attack_or_ability_hit_resource_gain' ||
+      t === 'periodic_charge_tick' ||
+      t === 'state_driven_max_mana_and_transform' ||
+      t === 'flat_post_percent' ||
+      t === 'post_mitigation_final' ||
+      t === 'rock_solid'
+    ) {
+      // informational / already covered by blocker or other tags
+    } else {
+      missing.push(`runtime_primitive_${t}`);
+    }
+  }
+  const uniq = (arr) => [...new Set(arr.filter(Boolean))];
+  let missingPrimitives = uniq(missing);
+  const blockerText = String(mechanism.blocker || '');
+  const blockerLooksStable =
+    blockerText &&
+    !containsImplEvidenceWording(blockerText) &&
+    /^[a-z0-9_+.-]+$/i.test(blockerText);
+  if (blockerLooksStable) {
+    const fromBlocker = blockerText.split('+').map((s) => s.trim()).filter(Boolean);
+    if (fromBlocker.length) {
+      // Prefer explicit English blocker keys over weak tag-derived runtime_primitive_*.
+      missingPrimitives = fromBlocker;
+    }
+  }
+  if (!missingPrimitives.length) {
+    missingPrimitives = ['unspecified_runtime_capability'];
+  }
+  return makeRuntimeGapEvidence({
+    key: mechanism.key,
+    sourceRef: `最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:${mechanism.key}`,
+    dataStatus: mechanism.completionMode === 'partial' ? 'partial' : 'complete',
+    requiredEvents: uniq(events),
+    requiredState: uniq(state),
+    requiredFormulaInputs: uniq(inputs),
+    requiredScheduling: uniq(scheduling),
+    missingPrimitives,
+    completedBoundary:
+      mechanism.completionMode === 'partial' ? 'partial core already closed where evidenced' : '',
+    remainingBoundary: `按 mechanismTags/blocker 推导的 runtime 缺口：${missingPrimitives.join('+')}`,
+    reason:
+      mechanism.reason && !containsImplEvidenceWording(mechanism.reason)
+        ? mechanism.reason
+        : `机制 tags=${tags.join('|')} 缺对应 runtime 原语`,
+    blocker: blockerLooksStable ? blockerText : missingPrimitives.join('+'),
+  });
+}
+
+function resolveRuntimeGap(mechanism) {
+  const exact = RUNTIME_GAP_BY_KEY.get(mechanism.key);
+  if (exact) return exact;
+  return synthesizeRuntimeGapFromTags(mechanism);
+}
+
+function applyRuntimeGapToMechanism(mechanism) {
+  if (mechanism.status !== 'blocked_runtime') {
+    mechanism.runtimeGapEvidence = mechanism.runtimeGapEvidence || null;
+    return mechanism;
+  }
+  const resolved = resolveRuntimeGap(mechanism);
+  mechanism.reason = resolved.reason;
+  mechanism.blocker = resolved.blocker;
+  mechanism.runtimeGapEvidence = resolved.runtimeGapEvidence;
+  return mechanism;
+}
+
 
 /** Tags that prove blocked_runtime for remaining G8 blocked rows. */
 const BLOCKED_RUNTIME_TAGS = new Set([
+  'deterministic_random_crit_sequence',
   'seeded_random_crit_sequence',
   'distance_or_ratio_modifier',
   'cooldown_or_haste_without_rotation',
@@ -536,6 +1011,7 @@ const BLOCKED_RUNTIME_TAGS = new Set([
 ]);
 
 const BLOCKED_RUNTIME_TAG_NEEDLES = [
+  'deterministic_random_crit',
   'seeded_random_crit',
   'distance_or_ratio',
   'cooldown_or_haste',
@@ -1194,7 +1670,16 @@ function isBlockedRuntimeByTagsOnly(tags) {
 }
 
 function containsImplEvidenceWording(text) {
-  return /seed|mount|publish|E2E/i.test(String(text || ''));
+  // Implementation-status tokens only. Domain key deterministic_random_crit_sequence
+  // means reproducible RNG/crit sequence, not data seed.
+  return /(^|[+_])seed([+_]|$)|seed\/mount|provider seed|generic seed|\bmount\b|live publish|\bpublish\b|\bE2E\b/i.test(
+    String(text || ''),
+  );
+}
+
+/** blocked_runtime blocker must not use seed/mount/publish/E2E implementation-status tokens. */
+function containsBlockedRuntimeBlockerForbiddenToken(text) {
+  return /(^|[+_])seed([+_]|$)|mount|publish|E2E/i.test(String(text || ''));
 }
 
 function mapG8ToUnified(candidate) {
@@ -1208,6 +1693,7 @@ function mapG8ToUnified(candidate) {
       reason: override.reason,
       blocker: override.blocker || '',
       dataGapEvidence: override.dataGapEvidence || null,
+      runtimeGapEvidence: override.runtimeGapEvidence || null,
     };
   }
 
@@ -1323,6 +1809,7 @@ function emptyMechanismShell(partial) {
     reason: '',
     blocker: '',
     dataGapEvidence: null,
+    runtimeGapEvidence: null,
     sourceRefs: [],
     evidenceRefs: [],
     aliases: [],
@@ -1357,39 +1844,42 @@ function buildMechanismsFromG8(g8) {
       evidenceRefs = [...byKey.values()];
     }
     mechanisms.push(
-      emptyMechanismShell({
-        key: c.candidateKey,
-        status: mapped.status,
-        completionMode: mapped.completionMode,
-        lane: mapped.lane,
-        sourceKind: c.sourceKind,
-        ownerId: normalizeOwnerId(c.ownerId),
-        skillKey: c.skillKey || '',
-        passiveName: c.passiveName || '',
-        mechanismTags: [...(c.genericMechanismTags || c.mechanismTags || [])].sort((a, b) =>
-          a.localeCompare(b, 'en'),
-        ),
-        coverageBoundary: COVERAGE_BOUNDARIES.get(c.candidateKey) || '',
-        reason: mapped.reason,
-        blocker: mapped.blocker,
-        dataGapEvidence: mapped.dataGapEvidence || override?.dataGapEvidence || null,
-        sourceRefs: [
-          {
-            path: G8_AUDIT_REL,
-            legacyStatus: c.genericClassification,
-            sourceRecordKey: c.candidateKey,
-          },
-          {
-            // Use candidateKey so duplicate-name Batch-G rows (3748/6333/6695) stay unique.
-            path: BATCH_G_AUDIT_REL,
-            legacyStatus: c.classification,
-            sourceRecordKey: c.candidateKey,
-          },
-        ],
-        evidenceRefs,
-        aliases: [],
-        dependencyOf: [],
-      }),
+      applyRuntimeGapToMechanism(
+        emptyMechanismShell({
+          key: c.candidateKey,
+          status: mapped.status,
+          completionMode: mapped.completionMode,
+          lane: mapped.lane,
+          sourceKind: c.sourceKind,
+          ownerId: normalizeOwnerId(c.ownerId),
+          skillKey: c.skillKey || '',
+          passiveName: c.passiveName || '',
+          mechanismTags: [...(c.genericMechanismTags || c.mechanismTags || [])].sort((a, b) =>
+            a.localeCompare(b, 'en'),
+          ),
+          coverageBoundary: COVERAGE_BOUNDARIES.get(c.candidateKey) || '',
+          reason: mapped.reason,
+          blocker: mapped.blocker,
+          dataGapEvidence: mapped.dataGapEvidence || override?.dataGapEvidence || null,
+          runtimeGapEvidence: mapped.runtimeGapEvidence || override?.runtimeGapEvidence || null,
+          sourceRefs: [
+            {
+              path: G8_AUDIT_REL,
+              legacyStatus: c.genericClassification,
+              sourceRecordKey: c.candidateKey,
+            },
+            {
+              // Use candidateKey so duplicate-name Batch-G rows (3748/6333/6695) stay unique.
+              path: BATCH_G_AUDIT_REL,
+              legacyStatus: c.classification,
+              sourceRecordKey: c.candidateKey,
+            },
+          ],
+          evidenceRefs,
+          aliases: [],
+          dependencyOf: [],
+        }),
+      ),
     );
   }
   return mechanisms;
@@ -2156,9 +2646,9 @@ function validateInventory(inv) {
     completed: 24,
     partial_actionable: 0,
     ready_to_implement: 0,
-    blocked_runtime: 50,
+    blocked_runtime: 48,
     blocked_data: 105,
-    out_of_scope: 70,
+    out_of_scope: 72,
     regression_only: 5,
     stale_or_duplicate: 0,
   };
@@ -2187,6 +2677,73 @@ function validateInventory(inv) {
     errors.push(
       `completionModeCounts expected full=24 partial=11 none=219, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
+  }
+
+
+  // blocked_runtime must carry precise runtimeGapEvidence (non-empty missingPrimitives).
+  const blockedRuntimeRows = (inv.mechanisms || []).filter((m) => m.status === 'blocked_runtime');
+  if (blockedRuntimeRows.length !== 48) {
+    errors.push(`blocked_runtime rows expected 48, got ${blockedRuntimeRows.length}`);
+  }
+  for (const m of blockedRuntimeRows) {
+    const ev = m.runtimeGapEvidence;
+    if (!ev || typeof ev !== 'object') {
+      errors.push(`blocked_runtime missing runtimeGapEvidence @ ${m.key}`);
+      continue;
+    }
+    if (!ev.sourceRef || !String(ev.sourceRef).trim()) {
+      errors.push(`blocked_runtime runtimeGapEvidence.sourceRef empty @ ${m.key}`);
+    }
+    if (ev.dataStatus !== 'complete' && ev.dataStatus !== 'partial') {
+      errors.push(`blocked_runtime runtimeGapEvidence.dataStatus invalid @ ${m.key}`);
+    }
+    for (const field of [
+      'requiredEvents',
+      'requiredState',
+      'requiredFormulaInputs',
+      'requiredScheduling',
+      'missingPrimitives',
+    ]) {
+      if (!Array.isArray(ev[field])) {
+        errors.push(`blocked_runtime runtimeGapEvidence.${field} not array @ ${m.key}`);
+      }
+    }
+    if (!Array.isArray(ev.missingPrimitives) || ev.missingPrimitives.length === 0) {
+      errors.push(`blocked_runtime missingPrimitives empty @ ${m.key}`);
+    }
+    if (ev.missingPrimitives?.some((p) => /runtime gap/i.test(String(p)))) {
+      errors.push(`blocked_runtime generic missingPrimitive @ ${m.key}`);
+    }
+    if (ev.missingPrimitives?.some((p) => containsBlockedRuntimeBlockerForbiddenToken(p))) {
+      errors.push(`blocked_runtime missingPrimitives cites seed/mount/publish/E2E @ ${m.key}`);
+    }
+    if (ev.dataStatus === 'partial' && !String(ev.completedBoundary || '').trim()) {
+      errors.push(`blocked_runtime partial missing completedBoundary @ ${m.key}`);
+    }
+    if (!String(ev.remainingBoundary || '').trim()) {
+      errors.push(`blocked_runtime remainingBoundary empty @ ${m.key}`);
+    }
+    if (containsBlockedRuntimeBlockerForbiddenToken(m.blocker)) {
+      errors.push(`blocked_runtime blocker cites seed/mount/publish/E2E @ ${m.key}`);
+    }
+    if (containsImplEvidenceWording(m.reason)) {
+      errors.push(`blocked_runtime reason cites seed/mount/publish/E2E @ ${m.key}`);
+    }
+    if (!/^[a-z0-9_+.-]+$/i.test(String(m.blocker || ''))) {
+      errors.push(`blocked_runtime blocker must be stable English primitive key(s) @ ${m.key}: ${m.blocker}`);
+    }
+  }
+  const mArcane = inv.mechanisms.find((m) => m.key === 'item_passive|2523|item_passive|奥术瞄准');
+  const mFlux = inv.mechanisms.find((m) => m.key === 'item_passive|6696|item_passive|涌动');
+  const mMag = inv.mechanisms.find((m) => m.key === 'item_passive|2523|item_passive|高倍望远镜');
+  if (!mArcane || mArcane.status !== 'out_of_scope' || mArcane.completionMode !== 'none') {
+    errors.push('2523 奥术瞄准 must be out_of_scope/none (range-only, no damage)');
+  }
+  if (!mFlux || mFlux.status !== 'out_of_scope' || mFlux.completionMode !== 'none') {
+    errors.push('6696 涌动 must be out_of_scope/none (ultimate CDR only, no damage)');
+  }
+  if (!mMag || mMag.status !== 'blocked_runtime' || mMag.completionMode !== 'none') {
+    errors.push('2523 高倍望远镜 must remain blocked_runtime/none');
   }
 
   // blocked_data must carry precise, non-implementation data-gap evidence.
@@ -2324,6 +2881,8 @@ function mechanismToCsvRow(m) {
     blocker: m.blocker || '',
     dataGapMissingFields: (m.dataGapEvidence?.missingFields || []).join('|'),
     dataGapEvidenceJson: m.dataGapEvidence ? JSON.stringify(m.dataGapEvidence) : '',
+    runtimeGapMissingPrimitives: (m.runtimeGapEvidence?.missingPrimitives || []).join('|'),
+    runtimeGapEvidenceJson: m.runtimeGapEvidence ? JSON.stringify(m.runtimeGapEvidence) : '',
     sourceRefs: (m.sourceRefs || [])
       .map((r) => `${r.path}#${r.sourceRecordKey}:${r.legacyStatus}`)
       .join(';'),
@@ -2350,6 +2909,8 @@ const CSV_COLUMNS = [
   'blocker',
   'dataGapMissingFields',
   'dataGapEvidenceJson',
+  'runtimeGapMissingPrimitives',
+  'runtimeGapEvidenceJson',
   'sourceRefs',
   'evidenceRefs',
   'aliases',
@@ -2386,7 +2947,7 @@ function buildInventory(generatedAt) {
     if (mechanismsByKey.has(extra.key)) {
       throw new Error(`extra mechanism collides with existing key ${extra.key}`);
     }
-    const m = emptyMechanismShell(extra);
+    const m = applyRuntimeGapToMechanism(emptyMechanismShell(extra));
     mechanisms.push(m);
     mechanismsByKey.set(m.key, m);
   }
