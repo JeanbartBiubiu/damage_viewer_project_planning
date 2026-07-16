@@ -101,12 +101,122 @@ const STATUS_OVERRIDES = new Map([
   [
     'item_passive|3071|item_passive|热烈',
     {
+      status: 'out_of_scope',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason: '3071 热烈/Fervor 仅为造成物理伤害后获得 20 移速持续 2 秒，无伤害分支；审计边界外。',
+      blocker: '',
+    },
+  ],
+  [
+    'item_passive|2501|item_passive|专横',
+    {
+      status: 'ready_to_implement',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Wiki 公式已齐：专横/Tyranny = 获得相当于 2.5% bonus health 的 bonus AD。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 2501 Tyranny）。可直接实现 source-only 动态 AD 修正。',
+      blocker: '',
+    },
+  ],
+  [
+    'item_passive|2501|item_passive|报复',
+    {
       status: 'blocked_runtime',
       completionMode: 'none',
       lane: 'generic_runtime',
       reason:
-        '当前源已给出造成物理伤害时 20 移速持续 2 秒；非数据缺口，缺 generic 移速/战斗伤害窗口 runtime 语义。',
-      blocker: 'missing_generic_movement_speed_combat_damage_window_runtime',
+        'Wiki 已给出报复/Retribution：按已损失生命值比例将其它来源总 AD 转为额外 AD（0–70% missing HP → 0–12%）。数据已齐，但缺 missing-health 比例驱动的动态 AD modifier runtime。',
+      blocker: 'missing_missing_health_ratio_dynamic_ad_modifier_runtime',
+    },
+  ],
+  [
+    'item_passive|3097|item_passive|弩箭',
+    {
+      status: 'ready_to_implement',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Wiki 公式已齐（仅预充能口径）：弩箭/Bolt = 满盈能后下一次普攻造成 100 额外魔法伤害（另有移速分支本口径不实现）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3097 Bolt）。与 3097 盈能充能速率缺口分开。',
+      blocker: '',
+    },
+  ],
+  [
+    'item_passive|3097|item_passive|盈能',
+    {
+      status: 'blocked_data',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        '3097 Energized/盈能：本地 Wiki 仅写移动与普攻生成充能至 100，缺精确移动/普攻充能速率；与 Bolt 预充能伤害口径分开，继续 blocked_data。',
+      blocker: 'missing_precise_energize_move_and_attack_charge_rates_in_local_wiki',
+    },
+  ],
+  [
+    'item_passive|2520|item_passive|成型炸药',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Wiki 已给出成型炸药/Shaped Charge：对英雄或史诗野怪的下一次技能伤害附加真实伤害（含 lethality 缩放）。数据已齐，缺 next ability-damage instance 真实伤害武装/消费 runtime。',
+      blocker: 'missing_next_ability_damage_true_damage_arm_consume_runtime',
+    },
+  ],
+  [
+    'item_passive|3004|item_passive|法力流',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        '法力流现行合同数值已齐：每8秒至多4层；普攻或技能命中消耗一层并+3最大法力（对英雄+6），上限360后转变魔切。非数据缺口；缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform runtime。',
+      blocker:
+        'missing_periodic_charge_tick_and_ability_hit_resource_gain_and_mana_transform_runtime',
+    },
+  ],
+  [
+    'item_passive|3073|item_passive|过载',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Wiki 已给出过载/Overdrive：施放终极技能后 8 秒获得攻速与移速（含 CD）。数据已齐，缺 ultimate_cast 事件与定时 AS/MS buff runtime。',
+      blocker: 'missing_ultimate_cast_timed_attack_speed_and_ms_buff_runtime',
+    },
+  ],
+  [
+    'item_passive|3161|item_passive|专注意志',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Wiki 已给出专注意志/Focused Will：非固有技能/宠物伤害叠层，每层提升技能/宠物/特效伤害 3%（最多 4 层）。数据已齐，缺 ability-damage 叠层增伤状态机 runtime。',
+      blocker: 'missing_ability_damage_stacking_amp_state_machine_runtime',
+    },
+  ],
+  [
+    'item_passive|3179|item_passive|夜行者',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Wiki 已给出夜行者/Nightstalker：脱离视野 ≥1 秒后对英雄下一次普攻附加真实伤害（含 lethality）。数据已齐，缺视野/隐身状态与强化下一次攻击 runtime。',
+      blocker: 'missing_vision_stealth_state_and_empowered_next_attack_runtime',
+    },
+  ],
+  [
+    'item_passive|6699|item_passive|苍穹',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Wiki 已给出苍穹/Firmament：满盈能后下一次普攻按目标当前生命值比例造成额外物理伤害并给予短暂 lethality。公式可核验，但缺精确 energized provider 消费与 current-HP 比例伤害 runtime；不得继续标 blocked_data。',
+      blocker: 'missing_energized_consume_and_current_hp_ratio_damage_runtime',
     },
   ],
   [
@@ -157,16 +267,6 @@ const STATUS_OVERRIDES = new Map([
       lane: 'generic_runtime',
       reason: '旧 Batch N flat-100/25 充能口径与当前源冲突；缺精确 energized provider 闭环。',
       blocker: 'energized_runtime_and_value_conflict',
-    },
-  ],
-  [
-    'item_passive|6699|item_passive|苍穹',
-    {
-      status: 'blocked_data',
-      completionMode: 'none',
-      lane: 'generic_runtime',
-      reason: '旧 flat 数值与当前源冲突；缺可核验的当前公式真源。',
-      blocker: 'stale_flat_values_conflict_with_current_source',
     },
   ],
   [
@@ -527,7 +627,7 @@ const EXTRA_MECHANISMS = [
   },
   {
     key: 'item_passive|3075|item_passive|荆棘',
-    status: 'blocked_data',
+    status: 'ready_to_implement',
     completionMode: 'none',
     lane: 'mixed_evidence',
     sourceKind: 'item_passive',
@@ -535,9 +635,10 @@ const EXTRA_MECHANISMS = [
     skillKey: 'item_passive',
     passiveName: '荆棘',
     mechanismTags: ['on_damage_taken_reflect'],
-    coverageBoundary: 'batch_p_thornmail;old_fixed_20_simplification',
-    reason: '旧固定 20 是显式简化，无当前公式真源。',
-    blocker: 'no_current_formula_truth_old_fixed_20',
+    coverageBoundary: 'batch_p_thornmail;wiki_formula_ready',
+    reason:
+      'Wiki 公式已齐：荆棘/Thorns = 被普攻命中时对攻击者造成 20(+10% bonus armor) 魔法伤害（并对英雄施加重伤）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3075 Thorns）。旧固定 20 简化作废。',
+    blocker: '',
     sourceRefs: [
       {
         path: '最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json',
@@ -1590,11 +1691,11 @@ function validateInventory(inv) {
   }
   if (
     !m3071Rage ||
-    m3071Rage.status !== 'blocked_runtime' ||
+    m3071Rage.status !== 'out_of_scope' ||
     m3071Rage.completionMode !== 'none' ||
-    m3071Rage.blocker !== 'missing_generic_movement_speed_combat_damage_window_runtime'
+    m3071Rage.blocker
   ) {
-    errors.push('3071 热烈 must be blocked_runtime/none with MS/combat-window runtime blocker');
+    errors.push('3071 热烈 must be out_of_scope/none (movement-only, no damage branch)');
   }
   if (!m2051 || m2051.status !== 'blocked_runtime' || m2051.completionMode !== 'none') {
     errors.push('2051 无畏 must be blocked_runtime/none');
@@ -1668,23 +1769,27 @@ function validateInventory(inv) {
   const expectedStatus = {
     completed: 21,
     partial_actionable: 0,
-    ready_to_implement: 0,
-    blocked_runtime: 40,
-    blocked_data: 146,
-    out_of_scope: 42,
+    ready_to_implement: 3,
+    blocked_runtime: 46,
+    blocked_data: 109,
+    out_of_scope: 70,
     regression_only: 5,
     stale_or_duplicate: 0,
   };
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 0) {
-    errors.push(`actionableKeyCount expected 0, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 3) {
+    errors.push(`actionableKeyCount expected 3, got ${inv.summary?.actionableKeyCount}`);
   }
-  const expectedActionable = [];
+  const expectedActionable = [
+    'item_passive|2501|item_passive|专横',
+    'item_passive|3075|item_passive|荆棘',
+    'item_passive|3097|item_passive|弩箭',
+  ].sort((a, b) => a.localeCompare(b, 'en'));
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
   if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
-    errors.push(`actionableKeys expected [], got ${gotActionable.join(',')}`);
+    errors.push(`actionableKeys expected ${expectedActionable.join(',')}, got ${gotActionable.join(',')}`);
   }
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== 254) {
     errors.push(`mechanisms expected 254, got ${inv.summary?.deduplicatedMechanismCount}`);
