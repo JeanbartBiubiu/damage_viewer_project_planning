@@ -81,7 +81,7 @@ npm run dev
 | `npm run test` | Vitest 单元测试 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
-| `npm run test:e2e:wasm-generic` | 仅 Playwright 通用规格（需 `E2E_API_BASE_URL` + `E2E_GAME_ID`） |
+| `npm run test:e2e:wasm-generic` | Playwright 通用规格：后端 current/state/abilities 探测 + 页面 combat-data ready + compile/run/release（需 `E2E_API_BASE_URL` + `E2E_GAME_ID`） |
 | `npm run smoke:wasm-generic` | 发布门禁：`lint` → `typecheck` → `test` → `build` → Playwright（fail-fast） |
 
 ### Live smoke（fail-closed）
@@ -96,7 +96,7 @@ npm run smoke:wasm-generic
 
 - 缺少 `E2E_API_BASE_URL` / `E2E_GAME_ID`：**非零退出**，不会 `skip`。
 - 后端不可达、无 current version、combat-data state 不可用或 gameId 不匹配：**断言失败**。
-- 浏览器在启动前写入 `damage-viewer.web.api-base-url`，与探测同一 API；打开 `#/wasm-validation-generic` 确认页面与 combat-data/游戏上下文加载。不编造后端数据、不做破坏性 Admin 写。
+- 浏览器在启动前写入 `damage-viewer.web.api-base-url`，与探测同一 API；打开 `#/wasm-validation-generic`，要求完整 combat-data ready，并通过页面完成 canonical compile → run → release。任一 public combat-data 5xx、读取/装配错误或生命周期失败都会使门禁失败；不编造后端数据、不做破坏性 Admin 写。
 
 ## 常用验证
 
