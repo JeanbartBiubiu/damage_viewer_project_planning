@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-16T05:07:45.864Z",
+    "generatedAt": "2026-07-16T05:26:45.096Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -52,12 +52,12 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "492fa5b7ee1faee1d5b9796b808706bcfa686558f44729b94c3621c07579fcf3",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "19ed839569ac903f62ea49f1fe2b1acaefdea0dbb2ee764f3357921acdba2390",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "eeed9995abca8ccb184257a88a33b8e0589f22f317a5f6c517454b6bd7aaec94",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "4c5696300cf030368b933383d7ceac1b266e2e7264bcc9aa451647339910ed64",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "99078d0e80bd56b6ffb084420d8cd0168970aeea2885a1e394757a7561b9bf2d",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "ae341484e818ac245b9f03967eec38576efda47aabd47738fe2cfd55211a05d6",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "23b2abbc1510ab14a322fa5858adecb11c66dd5be9104c78a702a5572bfe7bc3",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "7e4b6a628f2be9285dd6a8b18c7f5a9e342635fb2746f8645980d8b174367d56",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -89,9 +89,9 @@
       "completed": 24,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 50,
+      "blocked_runtime": 48,
       "blocked_data": 105,
-      "out_of_scope": 70,
+      "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 0
     },
@@ -193,8 +193,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "492fa5b7ee1faee1d5b9796b808706bcfa686558f44729b94c3621c07579fcf3",
-      "byteSize": 175469,
+      "sha256": "19ed839569ac903f62ea49f1fe2b1acaefdea0dbb2ee764f3357921acdba2390",
+      "byteSize": 175567,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -209,8 +209,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "eeed9995abca8ccb184257a88a33b8e0589f22f317a5f6c517454b6bd7aaec94",
-      "byteSize": 535944,
+      "sha256": "4c5696300cf030368b933383d7ceac1b266e2e7264bcc9aa451647339910ed64",
+      "byteSize": 536303,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -225,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "99078d0e80bd56b6ffb084420d8cd0168970aeea2885a1e394757a7561b9bf2d",
-      "byteSize": 78650,
+      "sha256": "23b2abbc1510ab14a322fa5858adecb11c66dd5be9104c78a702a5572bfe7bc3",
+      "byteSize": 81401,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "ae341484e818ac245b9f03967eec38576efda47aabd47738fe2cfd55211a05d6",
-      "byteSize": 100433,
+      "sha256": "7e4b6a628f2be9285dd6a8b18c7f5a9e342635fb2746f8645980d8b174367d56",
+      "byteSize": 125207,
       "recordCount": 0,
       "role": "generator"
     },
@@ -11816,6 +11816,7 @@
       "reason": "Batch J 状态迁移审计：keep_mechanics_config，不作新机制实现任务。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
@@ -11884,6 +11885,7 @@
         "reasonZh": "DDragon tooltip 保留 damagetodeal，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damagetodeal"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -11935,6 +11937,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -11965,7 +11968,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 finaldamage，effect/vars 未提供公式",
-      "blocker": "DDragon tooltip 保留 finaldamage，effect/vars 未提供公式",
+      "blocker": "cooldown_or_haste_rotation",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Akshan_Q",
@@ -12009,6 +12012,20 @@
         "gapKind": "unresolved_damage_placeholder",
         "reasonZh": "DDragon tooltip 保留 finaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_finaldamage"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_akshan|Q|去而复还",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "missingPrimitives": [
+          "cooldown_or_haste_rotation"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：cooldown_or_haste_rotation"
       },
       "sourceRefs": [
         {
@@ -12085,6 +12102,7 @@
         "reasonZh": "DDragon tooltip 保留 damageperbulletwithcrit/maxdamageperbullet，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damageperbulletwithcrit_maxdamageperbullet"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12117,6 +12135,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12149,6 +12168,7 @@
       "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12181,6 +12201,7 @@
       "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12213,6 +12234,7 @@
       "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12245,6 +12267,7 @@
       "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12277,6 +12300,7 @@
       "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12309,6 +12333,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12335,11 +12360,11 @@
       "skillKey": "P",
       "passiveName": "冰霜射击",
       "mechanismTags": [
-        "seeded_random_crit_sequence"
+        "deterministic_random_crit_sequence"
       ],
       "coverageBoundary": "",
       "reason": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "blocker": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
+      "blocker": "deterministic_random_crit_sequence",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Ashe_P",
@@ -12357,6 +12382,20 @@
         "gapKind": "passive_numeric_contract",
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_ashe|P|冰霜射击",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "critical_strike_resolved"
+        ],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "deterministic_random_crit_sequence"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：deterministic_random_crit_sequence"
       },
       "sourceRefs": [
         {
@@ -12392,6 +12431,19 @@
       "reason": "核心已部分闭环，但剩余分支依赖 attack-timer reset、逐箭飞行与技能轮转语义，当前不可行动。",
       "blocker": "attack_timer_reset_arrow_travel_rotation_semantics",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_ashe|Q|射手的专注",
+        "dataStatus": "partial",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "attack_timer_reset_arrow_travel_rotation_semantics"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：attack_timer_reset_arrow_travel_rotation_semantics",
+        "completedBoundary": "partial core already closed where evidenced"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12469,6 +12521,7 @@
         "reasonZh": "DDragon tooltip 保留 rmaindamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_rmaindamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12550,6 +12603,7 @@
         "reasonZh": "基础表已存在[e1=[5,7,9,11,13]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12668,6 +12722,7 @@
         "reasonZh": "基础表已存在[e1=[1700,1700,1700,1700,1700]; e5=[0.3,0.5,0.7,0.9,1.1]; e6=[1.5,1.5,1.5,1.5,1.5]; e7=[1100,1100,1100,1100,1100]; e9=[5,5,5,5,5]; e10=[25,25,25,25,25]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12700,6 +12755,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12794,6 +12850,7 @@
         "reasonZh": "基础表已存在[e4=[70,70,70,70,70]; e5=[1600,1600,1600,1600,1600]; e6=[200,200,200,200,200]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12879,6 +12936,7 @@
         "reasonZh": "基础表已存在[e1=[200,400,600]; e3=[6,7,8]; e4=[5,5,5]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12990,6 +13048,7 @@
         "reasonZh": "基础表已存在[e1=[10,10,10,10,10]; e6=[3,3,3,3,3]; e8=[5,5,5,5,5]; e9=[25,25,25,25,25]; e10=[0.5,0.5,0.5,0.5,0.5]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13022,6 +13081,7 @@
       "reason": "Batch J 状态迁移审计：keep_mechanics_config，不作新机制实现任务。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
@@ -13116,6 +13176,7 @@
         "reasonZh": "基础表已存在[e1=[80,130,180,230,280]; e2=[1,1,1,1,1]; e3=[50,50,50,50,50]]，但 netdamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_netdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13166,6 +13227,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13263,6 +13325,7 @@
         "reasonZh": "基础表已存在[e3=[50,50,50,50,50]; e4=[1,1,1,1,1]; e5=[1.3,1.45,1.6,1.75,1.9]]，但 initialdamage/secondarydamage 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_initialdamage_secondarydamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13330,6 +13393,7 @@
         "reasonZh": "DDragon tooltip 保留 rtotaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_rtotaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13426,6 +13490,7 @@
         "reasonZh": "基础表已存在[e1=[2,2,2,2,2]; e7=[30,30,30,30,30]]，但 headshotbonusdamage 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_headshotbonusdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13500,6 +13565,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13549,6 +13615,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13622,6 +13689,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13697,6 +13765,7 @@
         "reasonZh": "DDragon tooltip 保留 rbigmissiledamage/rsmallmissiledamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_rbigmissiledamage_rsmallmissiledamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13770,6 +13839,7 @@
         "reasonZh": "DDragon tooltip 保留 maximumdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_maximumdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13874,6 +13944,7 @@
         "reasonZh": "基础表已存在[e1=[75,110,145,180,215]; e2=[20,25,30,35,40]; e3=[2,2,2,2,2]; e4=[0.5,0.5,0.5,0.5,0.5]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13906,6 +13977,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -13935,9 +14007,34 @@
         "spellblade_next_attack_state"
       ],
       "coverageBoundary": "",
-      "reason": "初次飞斧已闭环，但接斧重新武装、双斧上限、移动落点与轮转不是 seed-only 可关闭。",
-      "blocker": "catch_rearm_dual_axes_movement_landing_rotation",
+      "reason": "初次飞斧已闭环；剩余仅 axe_caught 事件、cooldown/rearm、dual-axe cap、landing/movement ownership。",
+      "blocker": "axe_caught_event+catch_rearm_cooldown+dual_axe_cap+landing_movement_ownership",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go#SpinningAxe",
+        "dataStatus": "partial",
+        "requiredEvents": [
+          "axe_caught",
+          "axe_landed"
+        ],
+        "requiredState": [
+          "spinning_axe_ready",
+          "dual_axe_count"
+        ],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [
+          "catch_rearm_window",
+          "axe_landing_movement_ownership"
+        ],
+        "missingPrimitives": [
+          "axe_caught_event",
+          "catch_rearm_cooldown",
+          "dual_axe_cap",
+          "landing_movement_ownership"
+        ],
+        "remainingBoundary": "仅缺 axe_caught 事件、接斧 rearm/cooldown、双斧上限、落点/移动 ownership。",
+        "completedBoundary": "rank5 初次飞斧：ability_started 武装 spinning_axe_ready 与首次 basic_attack_hit 额外物理伤害消费。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -14032,6 +14129,7 @@
         "reasonZh": "DDragon tooltip 保留 rcalculateddamage/rdamagereductionperhit/rmindamagepercent/rpassivetruedamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_rcalculateddamage_rdamagereductionperhit_rmindamagepercent_rpassivetruedamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14065,6 +14163,23 @@
       "reason": "rank5 主动攻速核心已由 generic CompileGeneric+RunGeneric 闭环（20 mana / 12000ms CD / 3000ms +40% AS）；接斧立即刷新 W CD 仍缺 axe_caught 事件与 ability cooldown reset。移动速度与衰减为允许不模拟的非伤害分支，不作为阻塞。",
       "blocker": "axe_caught_event_ability_cooldown_reset",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_draven|W|血性冲刺",
+        "dataStatus": "partial",
+        "requiredEvents": [
+          "catch_event"
+        ],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [
+          "timed_attack_speed_window"
+        ],
+        "missingPrimitives": [
+          "axe_caught_event_ability_cooldown_reset"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：axe_caught_event_ability_cooldown_reset",
+        "completedBoundary": "partial core already closed where evidenced"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14112,6 +14227,7 @@
       "reason": "Batch J: HoT sustain 不在 1v1 damage-only 验证范围。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
@@ -14188,6 +14304,7 @@
         "reasonZh": "基础表已存在[e1=[80,130,180,230,280]]，但 damage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14237,6 +14354,7 @@
         "reasonZh": "状态/增益描述缺少可核验的攻速/时长/层数数值来源",
         "blocker": "missing_buff_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14267,7 +14385,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
-      "blocker": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
+      "blocker": "cooldown_or_haste_rotation",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Ezreal_Q",
@@ -14309,6 +14427,20 @@
         "gapKind": "unresolved_damage_placeholder",
         "reasonZh": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_ezreal|Q|秘术射击",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "missingPrimitives": [
+          "cooldown_or_haste_rotation"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：cooldown_or_haste_rotation"
       },
       "sourceRefs": [
         {
@@ -14381,6 +14513,7 @@
         "reasonZh": "DDragon tooltip 保留 damage/damageminionmonster，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage_damageminionmonster"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14456,6 +14589,7 @@
         "reasonZh": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14601,6 +14735,7 @@
         "reasonZh": "基础表已存在[e1=[30,40,50,60,70]; e2=[4,4,4,4,4]; e3=[20,25,30,35,40]; e4=[0.5,0.5,0.5,0.5,0.5]; e6=[750,750,750,750,750]; e7=[375,375,375,375,375]; e8=[275,275,275,275,275]; e9=[60,60,60,60,60]; e10=[8,8,8,8,8]]，但 armorperstack/buffduration/cooldownperhit/maxstacks/mrgrant 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_unbound_armorperstack_buffduration_cooldownperhit_maxstacks_mrgrant"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14630,8 +14765,8 @@
         "dps_relevant_manual_review"
       ],
       "coverageBoundary": "",
-      "reason": "本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
+      "reason": "Graves P New Destiny：散弹弹丸数量与碰撞、弹药/装填节奏、暴击弹丸缩放、目标距离与弹丸命中数；数据无未解析字段但缺这些 runtime。",
+      "blocker": "shotgun_pellet_count_collision+ammo_reload_cadence+crit_pellet_scaling+target_distance_pellet_hit_count",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Graves_P",
@@ -14647,6 +14782,35 @@
         "gapKind": "none",
         "reasonZh": "本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker",
         "blocker": ""
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Graves_P",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "basic_attack_launch",
+          "pellet_collision",
+          "ammo_depleted",
+          "reload_complete"
+        ],
+        "requiredState": [
+          "shotgun_ammo_count",
+          "reload_in_progress"
+        ],
+        "requiredFormulaInputs": [
+          "pellet_hit_count",
+          "target_distance",
+          "crit_pellet_scaling"
+        ],
+        "requiredScheduling": [
+          "ammo_reload_cadence"
+        ],
+        "missingPrimitives": [
+          "shotgun_pellet_count_collision",
+          "ammo_reload_cadence",
+          "crit_pellet_scaling",
+          "target_distance_pellet_hit_count"
+        ],
+        "remainingBoundary": "本地数值快照无未解析字段；缺散弹弹丸碰撞/弹药装填节奏/暴击弹丸缩放/目标距离与命中弹丸数 runtime。"
       },
       "sourceRefs": [
         {
@@ -14723,6 +14887,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage/totaldetonationdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage_totaldetonationdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14794,6 +14959,7 @@
         "reasonZh": "DDragon tooltip 保留 damage/falloffdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage_falloffdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14903,6 +15069,7 @@
         "reasonZh": "基础表已存在[e1=[60,110,160,210,260]; e2=[50,50,50,50,50]; e3=[200,200,200,200,200]; e4=[4,4,4,4,4]; e5=[0.5,0.5,0.5,0.5,0.5]]，但 impactdamage 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_impactdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14978,6 +15145,7 @@
         "reasonZh": "DDragon tooltip 保留 flatdamage/perchpdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_flatdamage_perchpdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15010,6 +15178,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15084,6 +15253,7 @@
         "reasonZh": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15114,7 +15284,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 shredduration，effect/vars 未提供数值绑定",
-      "blocker": "DDragon tooltip 保留 shredduration，effect/vars 未提供数值绑定",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Jayce_R",
@@ -15140,6 +15310,20 @@
         "gapKind": "unresolved_numeric_placeholder",
         "reasonZh": "DDragon tooltip 保留 shredduration，effect/vars 未提供数值绑定",
         "blocker": "unresolved_tooltip_shredduration"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_jayce|R|墨丘利之炮 / 墨丘利之锤",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
       },
       "sourceRefs": [
         {
@@ -15215,6 +15399,7 @@
         "reasonZh": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15293,6 +15478,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15319,11 +15505,11 @@
       "skillKey": "P",
       "passiveName": "低语",
       "mechanismTags": [
-        "seeded_random_crit_sequence"
+        "deterministic_random_crit_sequence"
       ],
       "coverageBoundary": "",
       "reason": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "blocker": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
+      "blocker": "deterministic_random_crit_sequence",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Jhin_P",
@@ -15341,6 +15527,20 @@
         "gapKind": "passive_numeric_contract",
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_jhin|P|低语",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "critical_strike_resolved"
+        ],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "deterministic_random_crit_sequence"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：deterministic_random_crit_sequence"
       },
       "sourceRefs": [
         {
@@ -15416,6 +15616,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15491,6 +15692,7 @@
         "reasonZh": "DDragon tooltip 保留 damagecalc/maxincreasecalc，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damagecalc_maxincreasecalc"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15566,6 +15768,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15641,6 +15844,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15673,6 +15877,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15753,6 +15958,7 @@
         "reasonZh": "DDragon tooltip 保留 rocketdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_rocketdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15833,6 +16039,7 @@
         "reasonZh": "DDragon tooltip 保留 aoedamagemult/damagefloor/damagemax/percentdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_aoedamagemult_damagefloor_damagemax_percentdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15908,6 +16115,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15941,6 +16149,19 @@
       "reason": "核心已部分闭环，但真实 cast timing、普攻返还冷却与隐身/进化事件仍缺。",
       "blocker": "cast_timing_attack_timer_cooldown_stealth_evolution",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_kaisa|E|极限超载",
+        "dataStatus": "partial",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "cast_timing_attack_timer_cooldown_stealth_evolution"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：cast_timing_attack_timer_cooldown_stealth_evolution",
+        "completedBoundary": "partial core already closed where evidenced"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15999,6 +16220,7 @@
         "reasonZh": "当前 Data Dragon 文本无完整当前数值合同；历史 Batch B 1级/OCR 证据版本不一致，缺可核验的当前唯一数值真源。",
         "blocker": "missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -16141,6 +16363,7 @@
         "reasonZh": "基础表已存在[e1=[40,55,70,85,100]; e2=[6,6,6,6,6]; e3=[0.25,0.25,0.25,0.25,0.25]; e4=[2,2,2,2,2]; e5=[0.35,0.35,0.35,0.35,0.35]; e6=[100,100,100,100,100]; e7=[12,12,12,12,12]]，但 e6/maxdamagedisplay/totalindividualmissiledamage 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_e6_maxdamagedisplay_totalindividualmissiledamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16173,6 +16396,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16290,6 +16514,7 @@
         "reasonZh": "基础表已存在[e1=[30,55,80,105,130]; e2=[100,100,100,100,100]; e3=[75,75,75,75,75]; e4=[2,2,2,2,2]; e5=[3,3,3,3,3]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16379,6 +16604,7 @@
         "reasonZh": "基础表已存在[e7=[2,2,2,2,2]]，但 additionaldamage/normaldamage 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_additionaldamage_normaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16409,7 +16635,7 @@
       ],
       "coverageBoundary": "",
       "reason": "本地 DDragon 数值快照无未解析伤害/数据字段；缺 runtime 表达能力（非 data blocker）。",
-      "blocker": "无未解析 data 字段；缺 runtime 实现（非 data blocker）",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Kalista_P",
@@ -16425,6 +16651,20 @@
         "gapKind": "none",
         "reasonZh": "本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker",
         "blocker": ""
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_kalista|P|武术姿态",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
       },
       "sourceRefs": [
         {
@@ -16497,6 +16737,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16529,6 +16770,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16635,6 +16877,7 @@
         "reasonZh": "基础表已存在[e1=[80,80,80,80,80]; e3=[125,150,175,200,225]; e4=[90,80,70,60,50]; e6=[75,100,125,150,175]; e7=[10,10,10,10,10]]，但 maxhealthdamage/maximummonsterdamage 的 max HP ratio/AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_maxhealthdamage_maximummonsterdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16667,6 +16910,7 @@
       "reason": "Batch J 状态迁移审计：keep_mechanics_config，不作新机制实现任务。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
@@ -16737,6 +16981,7 @@
         "reasonZh": "DDragon tooltip 保留 activetotalexecutedamage/epassivetotaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_activetotalexecutedamage_epassivetotaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16767,7 +17012,7 @@
       ],
       "coverageBoundary": "",
       "reason": "状态/增益描述缺少可核验的攻速/时长/层数数值来源",
-      "blocker": "状态/增益描述缺少可核验的攻速/时长/层数数值来源",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Kayle_P",
@@ -16785,6 +17030,20 @@
         "gapKind": "buff_numeric_contract",
         "reasonZh": "状态/增益描述缺少可核验的攻速/时长/层数数值来源",
         "blocker": "missing_buff_numeric_contract"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_kayle|P|登神长阶",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
       },
       "sourceRefs": [
         {
@@ -16865,6 +17124,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16934,6 +17194,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16966,6 +17227,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -16996,7 +17258,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 basebitedamage/percentbitedamage，effect/vars 未提供公式",
-      "blocker": "DDragon tooltip 保留 basebitedamage/percentbitedamage，effect/vars 未提供公式",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Kindred_E",
@@ -17039,6 +17301,20 @@
         "reasonZh": "DDragon tooltip 保留 basebitedamage/percentbitedamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_basebitedamage_percentbitedamage"
       },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_kindred|E|横生惧意",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17069,7 +17345,7 @@
       ],
       "coverageBoundary": "",
       "reason": "本地 DDragon 数值快照无未解析伤害/数据字段；缺 runtime 表达能力（非 data blocker）。",
-      "blocker": "无未解析 data 字段；缺 runtime 实现（非 data blocker）",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Kindred_P",
@@ -17085,6 +17361,20 @@
         "gapKind": "none",
         "reasonZh": "本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker",
         "blocker": ""
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_kindred|P|千珏之印",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
       },
       "sourceRefs": [
         {
@@ -17213,6 +17503,7 @@
         "reasonZh": "基础表已存在[e1=[40,65,90,115,140]; e3=[500,500,500,500,500]; e4=[4,3.5,3,2.5,2]; e5=[100,100,100,100,100]; e6=[12,12,12,12,12]; e7=[0.35,0.35,0.35,0.35,0.35]; e8=[4,4,4,4,4]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17245,6 +17536,7 @@
       "reason": "Kindred R 羊灵生息为区域免死/治疗，无主目标伤害分支；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17379,6 +17671,7 @@
         "reasonZh": "基础表已存在[e1=[40,45,50,55,60]; e2=[1,1,1,1,1]; e3=[1.5,1.5,1.5,1.5,1.5]; e4=[8.5,8.5,8.5,8.5,8.5]; e5=[25,30,35,40,45]; e6=[800,800,800,800,800]; e7=[0.5,0.5,0.5,0.5,0.5]; e8=[0.5,0.5,0.5,0.5,0.5]]，但 basewolfdamage/percentwolfdamage 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_basewolfdamage_percentwolfdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17454,6 +17747,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17503,6 +17797,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17535,6 +17830,19 @@
       "reason": "被动攻速已闭环，但主动命中、目标护甲/魔抗击碎与 cast/rotation 不能由静态被动关闭。",
       "blocker": "active_hit_armor_mr_shred_cast_rotation",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_kogmaw|Q|腐蚀唾液",
+        "dataStatus": "partial",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "active_hit_armor_mr_shred_cast_rotation"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：active_hit_armor_mr_shred_cast_rotation",
+        "completedBoundary": "partial core already closed where evidenced"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -17631,6 +17939,7 @@
         "reasonZh": "DDragon tooltip 保留 basedamagecalc/maxdamagecalc/tooltipmissinghealthdamageamp，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_basedamagecalc_maxdamagecalc_tooltipmissinghealthdamageamp"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17665,6 +17974,7 @@
       "reason": "精确 candidate 已纳入 wasm-generic-formula-onhit-batch（KogMaw W rank5 主目标 on-hit）。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -17712,6 +18022,7 @@
       "reason": "Batch J 状态迁移审计：keep_mechanics_config，不作新机制实现任务。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
@@ -17741,6 +18052,7 @@
       "reason": "Batch J 状态迁移审计：keep_mechanics_config，不作新机制实现任务。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
@@ -17770,6 +18082,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17819,6 +18132,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17898,6 +18212,7 @@
         "reasonZh": "基础表已存在[e4=[0.41,0.41,0.41,0.41,0.41]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17973,6 +18288,7 @@
         "reasonZh": "DDragon tooltip 保留 damageperbullet/totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damageperbullet_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18110,6 +18426,7 @@
         "reasonZh": "基础表已存在[e1=[75,110,145,180,215]; e2=[60,65,70,75,80]; e3=[900,900,900,900,900]; e5=[1,1,1,1,1]; e6=[200,200,200,200,200]; e7=[1,1,1,1,1]; e8=[6,6,6,6,6]; e9=[1,1,1,1,1]; e10=[700,700,700,700,700]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18160,6 +18477,7 @@
         "reasonZh": "Batch J: true DoT 需迁 status/resource；缺当前可核验数据闭环。",
         "blocker": "status_resource_migration_data_gap"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
@@ -18241,6 +18559,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage/totaldamagepersecond，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage_totaldamagepersecond"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18290,6 +18609,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18408,6 +18728,7 @@
         "reasonZh": "基础表已存在[e2=[20,45,70,95,120]; e5=[40,40,40,40,40]; e6=[20,20,20,20,20]; e7=[40,40,40,40,40]; e8=[110,110,110,110,110]; e9=[160,160,160,160,160]]，但 totaldamagecrit/totaldamagetooltip 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamagecrit_totaldamagetooltip"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18434,11 +18755,11 @@
       "skillKey": "R",
       "passiveName": "弹幕时间",
       "mechanismTags": [
-        "seeded_random_crit_sequence"
+        "deterministic_random_crit_sequence"
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 critdamageperwave/physicaldamageperwave/totalphysicaldamage，effect/vars 未提供公式",
-      "blocker": "DDragon tooltip 保留 critdamageperwave/physicaldamageperwave/totalphysicaldamage，effect/vars 未提供公式",
+      "blocker": "deterministic_random_crit_sequence",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_MissFortune_R",
@@ -18487,6 +18808,20 @@
         "reasonZh": "DDragon tooltip 保留 critdamageperwave/physicaldamageperwave/totalphysicaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_critdamageperwave_physicaldamageperwave_totalphysicaldamage"
       },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_missfortune|R|弹幕时间",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "critical_strike_resolved"
+        ],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "deterministic_random_crit_sequence"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：deterministic_random_crit_sequence"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18517,7 +18852,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 activeduration，effect/vars 未提供数值绑定",
-      "blocker": "DDragon tooltip 保留 activeduration，effect/vars 未提供数值绑定",
+      "blocker": "cooldown_or_haste_rotation",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_MissFortune_W",
@@ -18567,6 +18902,20 @@
         "reasonZh": "DDragon tooltip 保留 activeduration，effect/vars 未提供数值绑定",
         "blocker": "unresolved_tooltip_activeduration"
       },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_missfortune|W|大步流星",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "missingPrimitives": [
+          "cooldown_or_haste_rotation"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：cooldown_or_haste_rotation"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18597,7 +18946,7 @@
       ],
       "coverageBoundary": "",
       "reason": "基础表已存在[e1=[0.5,0.5,0.5,0.5,0.5]; e2=[40,65,90,115,140]; e3=[1.5,1.5,1.5,1.5,1.5]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
-      "blocker": "基础表已存在[e1=[0.5,0.5,0.5,0.5,0.5]; e2=[40,65,90,115,140]; e3=[1.5,1.5,1.5,1.5,1.5]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Quinn_E",
@@ -18663,6 +19012,20 @@
         "reasonZh": "基础表已存在[e1=[0.5,0.5,0.5,0.5,0.5]; e2=[40,65,90,115,140]; e3=[1.5,1.5,1.5,1.5,1.5]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_quinn|E|旋翔掠杀",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18712,6 +19075,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18801,6 +19165,7 @@
         "reasonZh": "基础表已存在[e2=[-1000,-1000,-1000,-1000,-1000]; e3=[1.75,1.75,1.75,1.75,1.75]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18869,6 +19234,7 @@
         "reasonZh": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18902,6 +19268,19 @@
       "reason": "预先存在 harrier_vulnerable target-state 时，真实普攻触发 +40% AS/2s 与刷新已由 generic CompileGeneric+RunGeneric 闭环；Quinn P/Q/E 对 harrier_vulnerable 的产生/消费与 Harrier 额外伤害仍缺。W 主动视野与移速为允许不模拟的非伤害分支，不作为阻塞。",
       "blocker": "harrier_vulnerable_produce_consume_and_bonus_damage",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_quinn|W|敏锐感知",
+        "dataStatus": "partial",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "harrier_vulnerable_produce_consume_and_bonus_damage"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：harrier_vulnerable_produce_consume_and_bonus_damage",
+        "completedBoundary": "partial core already closed where evidenced"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18991,6 +19370,7 @@
         "reasonZh": "DDragon tooltip 保留 dashdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_dashdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19021,7 +19401,7 @@
       ],
       "coverageBoundary": "",
       "reason": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "blocker": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Samira_P",
@@ -19039,6 +19419,20 @@
         "gapKind": "passive_numeric_contract",
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_samira|P|悍勇本色",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
       },
       "sourceRefs": [
         {
@@ -19070,7 +19464,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 damagecalc，effect/vars 未提供公式",
-      "blocker": "DDragon tooltip 保留 damagecalc，effect/vars 未提供公式",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Samira_Q",
@@ -19111,6 +19505,20 @@
         "gapKind": "unresolved_damage_placeholder",
         "reasonZh": "DDragon tooltip 保留 damagecalc，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damagecalc"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_samira|Q|交火",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
       },
       "sourceRefs": [
         {
@@ -19174,6 +19582,7 @@
         "reasonZh": "DDragon tooltip 保留 damagecalc，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damagecalc"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19247,6 +19656,7 @@
         "reasonZh": "DDragon tooltip 保留 damagecalc，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damagecalc"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19279,6 +19689,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19328,6 +19739,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19407,6 +19819,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19478,6 +19891,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19553,6 +19967,7 @@
         "reasonZh": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19585,6 +20000,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19617,6 +20033,7 @@
       "reason": "Sivir P 敏锐疾行为攻击英雄后短暂移速，无伤害分支；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19689,6 +20106,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19721,6 +20139,7 @@
       "reason": "Sivir R 狩猎为友军移速与冷却缩短，无主目标伤害分支；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19797,6 +20216,7 @@
         "reasonZh": "DDragon tooltip 保留 bouncedamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_bouncedamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19876,6 +20296,7 @@
         "reasonZh": "DDragon tooltip 保留 damageperhit/ebonusdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damageperhit_ebonusdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19925,6 +20346,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20023,6 +20445,7 @@
         "reasonZh": "DDragon tooltip 保留 passive_qdamageincrease/tier2_blowbackpercentagedamage/tier3_burn/tier3_executethreshold/totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_passive_qdamageincrease_tier2_blowbackpercentagedamage_tier3_burn_tier3_executethreshold_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20099,6 +20522,7 @@
         "reasonZh": "DDragon tooltip 保留 tooltiponly_totalsweetspotdamage/totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_tooltiponly_totalsweetspotdamage_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20180,6 +20604,7 @@
         "reasonZh": "DDragon tooltip 保留 explosiondamage/initialdamage/passive_wdamageincrease，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_explosiondamage_initialdamage_passive_wdamageincrease"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20214,6 +20639,7 @@
       "reason": "精确 candidate 已纳入 wasm-generic-formula-onhit-batch（Teemo E 即时 on-hit；DoT 非本批）。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -20261,6 +20687,18 @@
       "reason": "依赖隐身/离隐与移动窗口事件；当前 generic runtime 缺口。",
       "blocker": "missing_stealth_movement_window_events",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_teemo|P|游击队军备",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_stealth_movement_window_events"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_stealth_movement_window_events"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -20341,6 +20779,7 @@
         "reasonZh": "DDragon tooltip 保留 calculateddamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_calculateddamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20418,6 +20857,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20450,6 +20890,7 @@
       "reason": "Teemo W 小莫快跑为纯移速/冲刺，无主目标伤害分支；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20534,6 +20975,7 @@
         "reasonZh": "DDragon tooltip 保留 activedamage/activemaxdamage/passivedamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_activedamage_activemaxdamage_passivedamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20566,6 +21008,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20637,6 +21080,7 @@
         "reasonZh": "DDragon tooltip 保留 attackspeedmod/buffduration，effect/vars 未提供数值绑定",
         "blocker": "unresolved_tooltip_attackspeedmod_buffduration"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20706,6 +21150,7 @@
         "reasonZh": "DDragon tooltip 保留 damagecalc，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damagecalc"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20780,6 +21225,7 @@
         "reasonZh": "DDragon tooltip 保留 landingdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_landingdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20815,6 +21261,7 @@
       "reason": "hero_twistedfate E 卡牌骗术/Stacked Deck 已由 wasm-generic-twisted-fate-stacked-deck 批次闭环：仅 rank5；常驻 attack_speed percent_add 0.50；每第4次 source-owner basic_attack_hit 追加 magic raw=165+0.20*(resolved AD-base AD)+0.40*resolved AP；copyable_on_hit=false；MR 走当前 pipeline。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -20862,6 +21309,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20933,6 +21381,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20965,6 +21414,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21093,6 +21543,7 @@
         "reasonZh": "基础表已存在[e1=[40,60,80,100,120]; e2=[30,35,40,45,50]; e3=[1,1.25,1.5,1.75,2]; e4=[30,45,60,75,90]; e5=[15,22.5,30,37.5,45]; e6=[70,90,110,130,150]]，但 bluedamage/golddamage/reddamage 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_bluedamage_golddamage_reddamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21180,6 +21631,7 @@
         "reasonZh": "DDragon tooltip 保留 basedamage/magicdamageperstack/maxmagicdamage/maxphysicaldamage/physicaldamageperstack，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_basedamage_magicdamageperstack_maxmagicdamage_maxphysicaldamage_physicaldamageperstack"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21230,6 +21682,7 @@
         "reasonZh": "历史 Batch B 为每层每 tick 1 点伤害，legacy helper 为 2；无唯一当前真源可裁定冲突。",
         "blocker": "batch_b_1_vs_legacy_helper_2_per_stack_tick_no_unique_current_truth"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -21269,6 +21722,18 @@
       "reason": "依赖隐身/离隐、移动速度与击杀刷新冷却；当前 generic runtime 缺口。",
       "blocker": "missing_stealth_movement_kill_cooldown_events",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_twitch|Q|埋伏",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_stealth_movement_kill_cooldown_events"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_stealth_movement_kill_cooldown_events"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -21306,7 +21771,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 bonusad/falloffdamage/minimumfalloffdamage，effect/vars 未提供公式",
-      "blocker": "DDragon tooltip 保留 bonusad/falloffdamage/minimumfalloffdamage，effect/vars 未提供公式",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Twitch_R",
@@ -21353,6 +21818,20 @@
         "reasonZh": "DDragon tooltip 保留 bonusad/falloffdamage/minimumfalloffdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_bonusad_falloffdamage_minimumfalloffdamage"
       },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_twitch|R|火力全开",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21385,6 +21864,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21475,6 +21955,7 @@
         "reasonZh": "基础表已存在[e3=[4,4,4,4,4]; e5=[300,300,300,300,300]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21507,6 +21988,18 @@
       "reason": "依赖小兵击杀与英雄参与击杀事件分支；当前 generic runtime 缺口。",
       "blocker": "missing_minion_kill_and_champion_takedown_events",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_varus|P|复仇之欲",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_minion_kill_and_champion_takedown_events"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_minion_kill_and_champion_takedown_events"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -21550,7 +22043,7 @@
       ],
       "coverageBoundary": "",
       "reason": "基础表已存在[e3=[0.15,0.15,0.15,0.15,0.15]; e4=[0.5,0.5,0.5,0.5,0.5]; e5=[4,4,4,4,4]; e6=[3,3,3,3,3]; e7=[-0.2,-0.2,-0.2,-0.2,-0.2]; e9=[0.33,0.33,0.33,0.33,0.33]]，但 mindamagepercent/totaldamagemax/totaldamagemintooltip 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
-      "blocker": "基础表已存在[e3=[0.15,0.15,0.15,0.15,0.15]; e4=[0.5,0.5,0.5,0.5,0.5]; e5=[4,4,4,4,4]; e6=[3,3,3,3,3]; e7=[-0.2,-0.2,-0.2,-0.2,-0.2]; e9=[0.33,0.33,0.33,0.33,0.33]]，但 mindamagepercent/totaldamagemax/totaldamagemintooltip 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
+      "blocker": "cooldown_or_haste_rotation",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Varus_Q",
@@ -21646,6 +22139,20 @@
         "gapKind": "base_table_missing_scaling",
         "reasonZh": "基础表已存在[e3=[0.15,0.15,0.15,0.15,0.15]; e4=[0.5,0.5,0.5,0.5,0.5]; e5=[4,4,4,4,4]; e6=[3,3,3,3,3]; e7=[-0.2,-0.2,-0.2,-0.2,-0.2]; e9=[0.33,0.33,0.33,0.33,0.33]]，但 mindamagepercent/totaldamagemax/totaldamagemintooltip 的 AD/AP/bonus AD/HP scaling 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_mindamagepercent_totaldamagemax_totaldamagemintooltip"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_varus|Q|穿刺之箭",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "missingPrimitives": [
+          "cooldown_or_haste_rotation"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：cooldown_or_haste_rotation"
       },
       "sourceRefs": [
         {
@@ -21754,6 +22261,7 @@
         "reasonZh": "基础表已存在[e1=[150,250,350]; e2=[2,2,2]; e3=[650,650,650]; e4=[3,3,3]; e5=[0.5,0.5,0.5]; e6=[600,600,600]; e7=[1.75,1.75,1.75]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21804,6 +22312,7 @@
         "reasonZh": "历史候选参数含 on-hit 表 [8,17,26,35,44]，但可执行 legacy operation 固定 rank-1=8；当前 tooltip/effect 未解析，仍无唯一可核验的当前完整 rank 表。",
         "blocker": "historical_candidate_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -21888,6 +22397,7 @@
         "reasonZh": "DDragon tooltip 保留 empowereddamagett/totaldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_empowereddamagett_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21920,6 +22430,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -21950,7 +22461,7 @@
       ],
       "coverageBoundary": "",
       "reason": "DDragon tooltip 保留 adratiobonus，effect/vars 未提供公式",
-      "blocker": "DDragon tooltip 保留 adratiobonus，effect/vars 未提供公式",
+      "blocker": "distance_or_ratio_input",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Vayne_Q",
@@ -21990,6 +22501,20 @@
         "gapKind": "unresolved_damage_placeholder",
         "reasonZh": "DDragon tooltip 保留 adratiobonus，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_adratiobonus"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_vayne|Q|闪避突袭",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "distance_or_ratio"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "distance_or_ratio_input"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
       },
       "sourceRefs": [
         {
@@ -22072,6 +22597,7 @@
         "reasonZh": "DDragon tooltip 保留 bonusattackdamage/damagedmarkerduration，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_bonusattackdamage_damagedmarkerduration"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22106,6 +22632,7 @@
       "reason": "精确 candidate 已有 generic seed/mount，且 wasm-generic-vayne-silver-bolts 批次闭环。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
@@ -22196,6 +22723,7 @@
         "reasonZh": "DDragon tooltip 保留 featherdamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_featherdamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22225,8 +22753,8 @@
         "dps_relevant_manual_review"
       ],
       "coverageBoundary": "",
-      "reason": "本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
+      "reason": "Xayah P Clean Cuts：ability-after next attacks budget、piercing secondary targets、feather creation/position/resource consumed by E；主目标无额外伤害，但作为 E damage dependency 保留 runtime。",
+      "blocker": "ability_after_next_attacks_budget+piercing_secondary_targets+feather_creation_position_resource+feather_consumed_by_e_dependency",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Xayah_P",
@@ -22242,6 +22770,33 @@
         "gapKind": "none",
         "reasonZh": "本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker",
         "blocker": ""
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Xayah_P",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "ability_cast",
+          "basic_attack_hit",
+          "feather_created",
+          "feather_consumed_by_e"
+        ],
+        "requiredState": [
+          "ability_after_next_attacks_budget",
+          "feather_positions"
+        ],
+        "requiredFormulaInputs": [
+          "piercing_secondary_target_hit"
+        ],
+        "requiredScheduling": [
+          "post_ability_attack_budget_window"
+        ],
+        "missingPrimitives": [
+          "ability_after_next_attacks_budget",
+          "piercing_secondary_targets",
+          "feather_creation_position_resource",
+          "feather_consumed_by_e_dependency"
+        ],
+        "remainingBoundary": "主目标无额外伤害；作为 E feather-damage dependency 保留 runtime：技能后普攻预算、穿透次级目标、羽毛创建/位置/E 消费。"
       },
       "sourceRefs": [
         {
@@ -22361,6 +22916,7 @@
         "reasonZh": "基础表已存在[e1=[45,60,75,90,105]; e2=[0.5,0.5,0.5,0.5,0.5]; e3=[0.334,0.334,0.334,0.334,0.334]; e4=[0.584,0.584,0.584,0.584,0.584]; e5=[3500,3500,3500,3500,3500]; e6=[3500,3500,3500,3500,3500]]，但 multihitdamage/totaldamage 的 AD/AP/bonus AD/HP scaling/AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
         "blocker": "base_table_missing_scaling_multihitdamage_totaldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22428,6 +22984,7 @@
         "reasonZh": "DDragon tooltip 保留 damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22462,6 +23019,19 @@
       "reason": "rank5 主动攻速核心已由 generic CompileGeneric+RunGeneric 闭环（40 mana / 14000ms CD / 4000ms +55% AS）；次级羽刃造成原真实普攻伤害20% 所需、以已结算基础攻击伤害为输入的比例复制语义（明确排除 on-hit/phantom 重复）仍缺。移动速度与洛（Rakan）共享为允许不模拟的非伤害分支，不作为阻塞。",
       "blocker": "secondary_feather_settled_basic_attack_damage_ratio_copy_excluding_on_hit_phantom",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_xayah|W|致死羽衣",
+        "dataStatus": "partial",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "secondary_feather_settled_basic_attack_damage_ratio_copy_excluding_on_hit_phantom"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：secondary_feather_settled_basic_attack_damage_ratio_copy_excluding_on_hit_phantom",
+        "completedBoundary": "partial core already closed where evidenced"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22509,6 +23079,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22535,11 +23106,11 @@
       "skillKey": "P",
       "passiveName": "初生之誓",
       "mechanismTags": [
-        "seeded_random_crit_sequence"
+        "deterministic_random_crit_sequence"
       ],
       "coverageBoundary": "",
       "reason": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "blocker": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
+      "blocker": "deterministic_random_crit_sequence",
       "dataGapEvidence": {
         "sourceVersion": "16.9.1",
         "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Yunara_P",
@@ -22557,6 +23128,20 @@
         "gapKind": "passive_numeric_contract",
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_yunara|P|初生之誓",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "critical_strike_resolved"
+        ],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "deterministic_random_crit_sequence"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：deterministic_random_crit_sequence"
       },
       "sourceRefs": [
         {
@@ -22647,6 +23232,7 @@
         "reasonZh": "DDragon tooltip 保留 calc_damage/calc_damage_spread/calc_passive_damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_calc_damage_calc_damage_spread_calc_passive_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22679,6 +23265,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22763,6 +23350,7 @@
         "reasonZh": "DDragon tooltip 保留 calc_damage_initial/calc_damage_per_second/calc_rw_damage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_calc_damage_initial_calc_damage_per_second_calc_rw_damage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22843,6 +23431,7 @@
         "reasonZh": "DDragon tooltip 保留 bonusdamagetotal/pendamagepercent，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_bonusdamagetotal_pendamagepercent"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22892,6 +23481,7 @@
         "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
         "blocker": "missing_damage_numeric_contract"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -22957,6 +23547,7 @@
         "reasonZh": "DDragon tooltip 保留 activedamagethatcancrit，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_activedamagethatcancrit"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23035,6 +23626,7 @@
         "reasonZh": "DDragon tooltip 保留 chainphysicaldamage/totalactivedamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_chainphysicaldamage_totalactivedamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23113,6 +23705,7 @@
         "reasonZh": "DDragon tooltip 保留 totaldamage/walldamage，effect/vars 未提供公式",
         "blocker": "unresolved_tooltip_totaldamage_walldamage"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23144,9 +23737,32 @@
         "incoming_damage_reduction"
       ],
       "coverageBoundary": "batch_v_a_guardians_horn",
-      "reason": "Seed 使用目标侧 on_damage_taken 与 post-percent/post-mitigation incoming damage modifier；且 seed 标注为 ARAM-only。不可仅凭 seed/mount/tests 声称可关闭。",
-      "blocker": "target_owned_on_damage_taken_post_percent_incoming_modifier_aram_only",
+      "reason": "2051 Undaunted：target-owned incoming champion damage interception，flat15；DoT 3.75；damage category/post-mitigation ordering。",
+      "blocker": "target_owned_incoming_champion_damage_interception+flat15_and_dot_3_75_reduction+damage_category_post_mitigation_ordering",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2051_Undaunted",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "incoming_champion_damage"
+        ],
+        "requiredState": [
+          "target_owned_incoming_damage_intercept"
+        ],
+        "requiredFormulaInputs": [
+          "flat_15_reduction",
+          "dot_3_75_reduction",
+          "damage_category",
+          "post_mitigation_ordering"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "target_owned_incoming_champion_damage_interception",
+          "flat15_and_dot_3_75_reduction",
+          "damage_category_post_mitigation_ordering"
+        ],
+        "remainingBoundary": "缺目标侧 incoming champion damage interception（flat15 / DoT 3.75）与 damage category/post-mitigation ordering。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-BatchV-A-data-policy-items.seed.json",
@@ -23178,6 +23794,7 @@
       "reason": "专横/Tyranny 当前 generic ABI：source-only 动态 bonus AD = 2.5% bonus health；TestGenericWikiReadyItems* 覆盖 bonus HP 0/400/1000→bonus AD 0/10/25；wasm generic_wiki_ready_items_test.go（CompileGeneric+RunGeneric）+ backend lol_generic_wiki_ready_items_seed.sql 幂等 seed/mount；不声称 live migrate/publish。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23225,6 +23842,18 @@
       "reason": "Wiki 已给出报复/Retribution：按已损失生命值比例将其它来源总 AD 转为额外 AD（0–70% missing HP → 0–12%）。数据已齐，但缺 missing-health 比例驱动的动态 AD modifier runtime。",
       "blocker": "missing_missing_health_ratio_dynamic_ad_modifier_runtime",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|2501|item_passive|报复",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_missing_health_ratio_dynamic_ad_modifier_runtime"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_missing_health_ratio_dynamic_ad_modifier_runtime"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23257,6 +23886,19 @@
       "reason": "治疗在伤害分支之外；剩余 DPS 分支需要 generalized delayed on-hit/repeat 调度。",
       "blocker": "healing_out_of_damage_branch_and_delayed_repeat_on_hit",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|2510|item_passive|咒刃",
+        "dataStatus": "partial",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "healing_out_of_damage_branch_and_delayed_repeat_on_hit"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：healing_out_of_damage_branch_and_delayed_repeat_on_hit",
+        "completedBoundary": "partial core already closed where evidenced"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23297,6 +23939,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23323,12 +23966,46 @@
       "skillKey": "item_passive",
       "passiveName": "开战弹幕",
       "mechanismTags": [
-        "seeded_random_crit_sequence"
+        "conditional_crit_damage",
+        "pre_mitigation_true_damage",
+        "ultimate_cast_armed_attacks"
       ],
       "coverageBoundary": "",
-      "reason": "seeded_random_crit_sequence：expected crit 不证明 RNG/on-crit 序列语义。",
-      "blocker": "缺 seeded/random/on-crit 序列 runtime 与精确 seed；不得用 expected-crit 冒充完成。",
+      "reason": "2512 Opening Barrage：ultimate_cast arms next3 attacks/8s；+50% AS；conditional crit damage；already-crit adds 15% pre-mitigation attack damage true damage；45s CD；需要 deterministic crit branch/attack pre-mitigation snapshot/charge consumption。",
+      "blocker": "ultimate_cast_arm_next_3_attacks_8s+deterministic_crit_branch+attack_pre_mitigation_snapshot+charge_consumption+45s_cooldown",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2512_Opening_Barrage",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "ultimate_cast",
+          "basic_attack_launch",
+          "critical_strike_resolved"
+        ],
+        "requiredState": [
+          "opening_barrage_charges",
+          "opening_barrage_window"
+        ],
+        "requiredFormulaInputs": [
+          "conditional_crit_damage",
+          "already_crit_15pct_pre_mitigation_true_damage",
+          "attack_pre_mitigation_snapshot"
+        ],
+        "requiredScheduling": [
+          "next_3_attacks_within_8s",
+          "45s_cooldown"
+        ],
+        "missingPrimitives": [
+          "ultimate_cast_arm_next_3_attacks_8s",
+          "bonus_attack_speed_50_pct",
+          "deterministic_crit_branch",
+          "attack_pre_mitigation_snapshot",
+          "already_crit_15pct_true_damage",
+          "charge_consumption",
+          "45s_cooldown"
+        ],
+        "remainingBoundary": "缺 ultimate_cast 武装 next3/8s、+50% AS、条件暴击分支、已暴击 15% pre-mitigation true damage、charge 消费与 45s CD。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23362,6 +24039,7 @@
       "reason": "2517 Feast/盛宴为击杀后全能吸血，非 1v1 主目标伤害；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23394,6 +24072,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23426,6 +24105,18 @@
       "reason": "Wiki 已给出成型炸药/Shaped Charge：对英雄或史诗野怪的下一次技能伤害附加真实伤害（含 lethality 缩放）。数据已齐，缺 next ability-damage instance 真实伤害武装/消费 runtime。",
       "blocker": "missing_next_ability_damage_true_damage_arm_consume_runtime",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|2520|item_passive|成型炸药",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_next_ability_damage_true_damage_arm_consume_runtime"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_next_ability_damage_true_damage_arm_consume_runtime"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23459,6 +24150,7 @@
       "reason": "2520 Demolish/破坏为防御塔/史诗野怪蓄意破坏，非英雄 1v1 DPS；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23477,7 +24169,7 @@
     },
     {
       "key": "item_passive|2523|item_passive|奥术瞄准",
-      "status": "blocked_runtime",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -23485,12 +24177,13 @@
       "skillKey": "item_passive",
       "passiveName": "奥术瞄准",
       "mechanismTags": [
-        "distance_or_ratio_modifier"
+        "takedown_attack_range_only"
       ],
       "coverageBoundary": "",
-      "reason": "distance_based_damage_modifier / damage_multiplier_or_health_ratio 无精确 migrated/partial 证据。",
-      "blocker": "缺距离输入或复杂倍率/生命比例基线与精确 provider seed。",
+      "reason": "2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离持续 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜仍为 blocked_runtime。",
+      "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23499,7 +24192,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|2523|item_passive|奥术瞄准"
         }
       ],
@@ -23517,12 +24210,34 @@
       "skillKey": "item_passive",
       "passiveName": "高倍望远镜",
       "mechanismTags": [
+        "basic_damage_amplification",
         "distance_or_ratio_modifier"
       ],
       "coverageBoundary": "",
-      "reason": "distance_based_damage_modifier / damage_multiplier_or_health_ratio 无精确 migrated/partial 证据。",
-      "blocker": "缺距离输入或复杂倍率/生命比例基线与精确 provider seed。",
+      "reason": "2523 Magnification：distance edge-to-edge input，1% per50 up to10%，basic damage amplification snapshot。",
+      "blocker": "edge_to_edge_distance_input+distance_scaled_basic_damage_amp_1pct_per_50_up_to_10pct+basic_damage_amplification_snapshot",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2523_Magnification",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "basic_damage_dealt"
+        ],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "edge_to_edge_distance",
+          "distance_amp_1pct_per_50_up_to_10pct"
+        ],
+        "requiredScheduling": [
+          "basic_damage_amplification_snapshot"
+        ],
+        "missingPrimitives": [
+          "edge_to_edge_distance_input",
+          "distance_scaled_basic_damage_amp_1pct_per_50_up_to_10pct",
+          "basic_damage_amplification_snapshot"
+        ],
+        "remainingBoundary": "缺 edge-to-edge 距离输入与 basic damage amplification snapshot（1%/50 至 10%）。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23555,6 +24270,7 @@
       "reason": "item 3004 敬畏已由 wasm-generic-manamune-awe 批次闭环：source-only 动态 AD = 0.02 * source.attr.mana.max；mana.max 0/1000/2000 → +0/+20/+40；无 event/state。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23599,6 +24315,18 @@
       "reason": "法力流现行合同数值已齐：每8秒至多4层；普攻或技能命中消耗一层并+3最大法力（对英雄+6），上限360后转变魔切。非数据缺口；缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform runtime。",
       "blocker": "missing_periodic_charge_tick_and_ability_hit_resource_gain_and_mana_transform_runtime",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|3004|item_passive|法力流",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_periodic_charge_tick_and_ability_hit_resource_gain_and_mana_transform_runtime"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_periodic_charge_tick_and_ability_hit_resource_gain_and_mana_transform_runtime"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23632,6 +24360,7 @@
       "reason": "3026 Rebirth/重生为致命伤害复活，非伤害机制；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23665,6 +24394,7 @@
       "reason": "静态属性/无被动候选；本审计不记为 migrated，仅记录 cross capability。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23705,6 +24435,7 @@
       "reason": "item 3032 熟能生巧已由 wasm-generic-yun-tal-practice-makes-lethal 批次闭环：每次 source-owner ORIGINAL basic_attack_hit 永久 +1 practice_crit_stacks（上限 63）；暴击率动态 min(0.25, 0.004 * state)；仅 phantom/copied-on-hit 回放不计层。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23743,9 +24474,35 @@
         "timed_attack_speed_modifier"
       ],
       "coverageBoundary": "",
-      "reason": "育恩塔尔疾风骤雨为攻击触发的定时 30% 攻速修正，并含攻击/暴击冷却交互；非纯冷却轮转。",
-      "blocker": "缺精确定时条件攻速/暴击冷却状态机与 provider seed/mount/live publish/E2E。",
+      "reason": "3032 Flurry：attack launch vs champion arms +30% AS 6s/30s CD；on-hit -1s、crit -2s cooldown reduction。",
+      "blocker": "attack_launch_vs_champion_arm+timed_attack_speed_buff_30pct_6s+on_hit_cooldown_reduction_1s+crit_cooldown_reduction_2s+30s_cooldown",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3032_Flurry",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "attack_launch_vs_champion",
+          "on_hit",
+          "critical_strike"
+        ],
+        "requiredState": [
+          "flurry_attack_speed_buff",
+          "flurry_cooldown"
+        ],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [
+          "6s_buff_window",
+          "30s_cooldown_with_on_hit_crit_cdr"
+        ],
+        "missingPrimitives": [
+          "attack_launch_vs_champion_arm",
+          "timed_attack_speed_buff_30pct_6s",
+          "on_hit_cooldown_reduction_1s",
+          "crit_cooldown_reduction_2s",
+          "30s_cooldown"
+        ],
+        "remainingBoundary": "缺对英雄发起普攻武装 +30% AS 6s/30s CD，以及 on-hit -1s / crit -2s 冷却缩减。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23778,6 +24535,7 @@
       "reason": "3033 Grievous Wounds/重伤仅施加重伤，无额外伤害；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23804,12 +24562,34 @@
       "skillKey": "item_passive",
       "passiveName": "巨人杀手",
       "mechanismTags": [
-        "distance_or_ratio_modifier"
+        "bonus_health_ratio",
+        "outgoing_damage_modifier"
       ],
       "coverageBoundary": "",
-      "reason": "distance_based_damage_modifier / damage_multiplier_or_health_ratio 无精确 migrated/partial 证据。",
-      "blocker": "缺距离输入或复杂倍率/生命比例基线与精确 provider seed。",
+      "reason": "3036 Giant Slayer：target bonus health input，1% per100 up to15%，outgoing damage amp ordering。",
+      "blocker": "target_bonus_health_input+outgoing_damage_amp_1pct_per_100_up_to_15pct+outgoing_damage_amp_ordering",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3036_Giant_Slayer",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "outgoing_damage_dealt"
+        ],
+        "requiredState": [],
+        "requiredFormulaInputs": [
+          "target_bonus_health",
+          "amp_1pct_per_100_up_to_15pct"
+        ],
+        "requiredScheduling": [
+          "outgoing_damage_amp_ordering"
+        ],
+        "missingPrimitives": [
+          "target_bonus_health_input",
+          "outgoing_damage_amp_1pct_per_100_up_to_15pct",
+          "outgoing_damage_amp_ordering"
+        ],
+        "remainingBoundary": "缺目标 bonus health 输入与 outgoing damage amp ordering（1%/100 至 15%）。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23851,6 +24631,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23885,6 +24666,7 @@
       "reason": "当前 Carve 合同 6%×5 / 6000ms refresh-expiry 已由 generic_linked_effects_test.go 经 provider_target 结构化状态 + opponent percent_add modifier + root physical damage_dealt 原语闭环；不声称 live migrate/publish。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23939,6 +24721,7 @@
       "reason": "3071 热烈/Fervor 仅为造成物理伤害后获得 20 移速持续 2 秒，无伤害分支；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -23971,6 +24754,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24003,6 +24787,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24035,6 +24820,18 @@
       "reason": "Wiki 已给出过载/Overdrive：施放终极技能后 8 秒获得攻速与移速（含 CD）。数据已齐，缺 ultimate_cast 事件与定时 AS/MS buff runtime。",
       "blocker": "missing_ultimate_cast_timed_attack_speed_and_ms_buff_runtime",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|3073|item_passive|过载",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_ultimate_cast_timed_attack_speed_and_ms_buff_runtime"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_ultimate_cast_timed_attack_speed_and_ms_buff_runtime"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24067,6 +24864,7 @@
       "reason": "3074 Cleave/顺劈为周围额外目标 cleave，超出单目标审计边界。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24099,6 +24897,7 @@
       "reason": "荆棘/Thorns 当前 generic ABI：被真实普攻命中时对攻击者造成 20(+10% bonus armor) 魔法伤害；bonus armor 0/100→raw 20/30，经 MR；每真实普攻一次、不递归；重伤分支本口径不宣称；wasm generic_wiki_ready_items_test.go + backend lol_generic_wiki_ready_items_seed.sql；旧固定 20 简化作废；不声称 live migrate/publish。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json",
@@ -24149,6 +24948,7 @@
       "reason": "3078 Quicken/加快为攻击后移速，无伤害分支；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24181,6 +24981,7 @@
       "reason": "item 3078 咒刃已由 wasm-generic-spellblade 批次 seed/mount。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24235,9 +25036,31 @@
         "rock_solid"
       ],
       "coverageBoundary": "batch_v_b_wardens_mail",
-      "reason": "Seed 要求目标侧 on_damage_taken、每次施法首段 incoming、post-mitigation 输入与 max(input-15,input*0.8)；类比并宽于 3143 incoming crit-only blocker。",
-      "blocker": "target_owned_on_damage_taken_first_instance_post_mitigation_final_cap",
+      "reason": "3082 Rock Solid：target-owned first post-mitigation basic-damage instance per cast，reduce min(15,20%) 等价 final=max(input-15,input*0.8)，cast-instance identity/order。",
+      "blocker": "target_owned_first_post_mitigation_basic_damage_per_cast+rock_solid_reduce_min_15_or_20pct+cast_instance_identity_order",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3082_Rock_Solid",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "incoming_post_mitigation_basic_damage"
+        ],
+        "requiredState": [
+          "per_cast_instance_first_basic_damage_seen"
+        ],
+        "requiredFormulaInputs": [
+          "rock_solid_final_max_input_minus_15_or_input_times_0_8"
+        ],
+        "requiredScheduling": [
+          "cast_instance_identity_order"
+        ],
+        "missingPrimitives": [
+          "target_owned_first_post_mitigation_basic_damage_per_cast",
+          "rock_solid_reduce_min_15_or_20pct",
+          "cast_instance_identity_order"
+        ],
+        "remainingBoundary": "缺目标侧每次施法首段 post-mitigation basic-damage 减免（等价 final=max(input-15,input*0.8)）与 cast-instance identity/order。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-BatchV-B-3082-wardens-mail.seed.json",
@@ -24267,6 +25090,7 @@
       "reason": "3085 Wind's Fury/风怒为额外目标弩箭，超出单目标审计边界。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24300,6 +25124,7 @@
       "reason": "纯多目标电火花 component，当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24332,6 +25157,7 @@
       "reason": "item 3087 电疗主目标 Energized provider 已由 wasm-generic-statikk-shiv-energized 批次闭环（+15 charge / 上限 100 / 60 魔法伤害；source-owner basic_attack_hit；条件性 consume 后无条件 recharge）。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24373,6 +25199,7 @@
       "reason": "item 3091 喧争已由 wasm-generic-wits-end-fray 批次闭环：source-owner ORIGINAL basic_attack_hit 造成恒定 45 额外魔法 on-hit；copyable_on_hit=true；Guinsoo phantom/copied-on-hit 回放可精确复制一次且不递归；不建模吸血元数据。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24413,6 +25240,7 @@
       "reason": "item 3094 神射手已由 wasm-generic-energized 批次 seed/mount。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24466,6 +25294,7 @@
       "reason": "弩箭/Bolt 当前 generic ABI（仅预充能口径）：初始 charge=100；首次真实普攻造成 100 额外魔法伤害并消费；第二次不 proc；phantom/copied-on-hit 不额外触发；移速分支与 3097 盈能充能速率不在本口径；wasm generic_wiki_ready_items_test.go + backend lol_generic_wiki_ready_items_seed.sql；不声称 live migrate/publish。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24531,6 +25360,7 @@
         "reasonZh": "3097 Energized/盈能：本地 Wiki 仅写移动与普攻生成充能至 100，缺精确移动/普攻充能速率；与 Bolt 预充能伤害口径分开，继续 blocked_data。",
         "blocker": "missing_precise_energize_move_and_attack_charge_rates_in_local_wiki"
       },
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24563,6 +25393,7 @@
       "reason": "item 3100 巫妖之祸咒刃已由 wasm-generic-lich-bane-spellblade 批次闭环（含 ready AS / intervalFormula cadence）。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24612,6 +25443,7 @@
       "reason": "item 3115 on-hit 已由 formula-onhit 批次 seed/mount。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24660,6 +25492,7 @@
       "reason": "item 3124 怨怒 on-hit 已由 adc-item-passives-base seed/mount。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24708,6 +25541,7 @@
       "reason": "满层后每第三次攻击 phantom（连续 7/10/13…）；到达第 4 层不计 counter；generic state_change+condition+conditional repeat 已由 generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull 闭环，非 threshold-repeat alone。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24755,6 +25589,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24787,6 +25622,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24819,6 +25655,18 @@
       "reason": "缺 generic 目标侧 incoming crit-only modifier hook。",
       "blocker": "missing_target_incoming_crit_only_modifier_hook",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|3143|item_passive|复原力",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_target_incoming_crit_only_modifier_hook"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_target_incoming_crit_only_modifier_hook"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json",
@@ -24849,6 +25697,7 @@
       "reason": "3146 无被动/仅主动属性候选，非被动伤害机制；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24882,6 +25731,7 @@
       "reason": "破败副被动仅为减速控制，无主目标伤害分支；本审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24915,6 +25765,7 @@
       "reason": "item 3153 雾之锋 on-hit 已由 adc-item-passives-base seed/mount。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24955,6 +25806,7 @@
       "reason": "3156 Lifeline/救主灵刃为低血护盾与吸血，非主目标伤害；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -24987,6 +25839,18 @@
       "reason": "Wiki 已给出专注意志/Focused Will：非固有技能/宠物伤害叠层，每层提升技能/宠物/特效伤害 3%（最多 4 层）。数据已齐，缺 ability-damage 叠层增伤状态机 runtime。",
       "blocker": "missing_ability_damage_stacking_amp_state_machine_runtime",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|3161|item_passive|专注意志",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_ability_damage_stacking_amp_state_machine_runtime"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_ability_damage_stacking_amp_state_machine_runtime"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25019,6 +25883,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25051,6 +25916,18 @@
       "reason": "Wiki 已给出夜行者/Nightstalker：脱离视野 ≥1 秒后对英雄下一次普攻附加真实伤害（含 lethality）。数据已齐，缺视野/隐身状态与强化下一次攻击 runtime。",
       "blocker": "missing_vision_stealth_state_and_empowered_next_attack_runtime",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|3179|item_passive|夜行者",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_vision_stealth_state_and_empowered_next_attack_runtime"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_vision_stealth_state_and_empowered_next_attack_runtime"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25084,6 +25961,7 @@
       "reason": "3179 Blackout/封锁为守卫显形/反隐，非英雄 1v1 DPS；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25116,6 +25994,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25150,6 +26029,7 @@
       "reason": "item 3181 主目标 every-5th on-hit 已由 formula-onhit 批次 seed/mount。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25190,6 +26070,18 @@
       "reason": "缺 generic 穿透/交相状态机支持；旧 Batch G ready 口径不得覆盖本键。",
       "blocker": "missing_generic_penetration_alternating_state",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|3302|item_passive|交相",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_generic_penetration_alternating_state"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_generic_penetration_alternating_state"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25224,6 +26116,7 @@
       "reason": "item 3302 晦影 on-hit 已由 formula-onhit 批次 seed/mount。 | old Batch G ready_to_encode is stale relative to generic completed evidence",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25271,6 +26164,7 @@
       "reason": "item 3508 夺萃之镰咒刃已由 wasm-generic-essence-reaver-spellblade 批次闭环（物理契约 1.25 * base AD + 50 * resolved crit chance；10s ready；命中开始 1.5s ICD）。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25320,6 +26214,7 @@
       "reason": "主目标 on-hit 分支已完成；剩余 cleave/主动分支为多目标/范围，超出单目标范围。",
       "blocker": "multi_target_cleave_and_active_out_of_single_target_scope",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25362,6 +26257,7 @@
       "reason": "主目标 on-hit 分支已完成；剩余 cleave/主动分支为多目标/范围，超出单目标范围。",
       "blocker": "multi_target_cleave_and_active_out_of_single_target_scope",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25402,6 +26298,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25435,6 +26332,7 @@
       "reason": "6333 Ignore Pain 重复记录（52e96cc8）：承伤存储非输出伤害；out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25468,6 +26366,7 @@
       "reason": "6333 Ignore Pain 重复记录（668e55b0）：承伤存储非输出伤害；out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25501,6 +26400,7 @@
       "reason": "6333 Defiance/蔑视为击杀净化存储伤害并治疗，非输出伤害；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25533,6 +26433,7 @@
       "reason": "6609 Hackshorn/劈削仅施加重伤，无额外伤害；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25564,9 +26465,32 @@
         "heal"
       ],
       "coverageBoundary": "",
-      "reason": "焚天光盾打击：对英雄第一次攻击为条件性必定暴击并治疗；expected-crit 不实现条件必定暴击语义，且含治疗分支不得整条 survivability out_of_scope。",
-      "blocker": "缺精确条件必定暴击状态/provider seed 与 E2E；不得用 expected-crit 冒充完成。",
+      "reason": "6610 Lightshield Strike：per-target 10s next attack guaranteed crit with specified crit damage; healing OOS；needs conditional crit/per-target CD。",
+      "blocker": "per_target_next_attack_guaranteed_crit+specified_crit_damage_branch+per_target_10s_cooldown",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_6610_Lightshield_Strike",
+        "dataStatus": "complete",
+        "requiredEvents": [
+          "basic_attack_vs_champion"
+        ],
+        "requiredState": [
+          "per_target_guaranteed_crit_arm",
+          "per_target_cooldown"
+        ],
+        "requiredFormulaInputs": [
+          "specified_crit_damage"
+        ],
+        "requiredScheduling": [
+          "per_target_10s_cooldown"
+        ],
+        "missingPrimitives": [
+          "per_target_next_attack_guaranteed_crit",
+          "specified_crit_damage_branch",
+          "per_target_10s_cooldown"
+        ],
+        "remainingBoundary": "治疗分支 out_of_scope；缺 per-target 下一次普攻必定暴击与指定暴击伤害/10s CD。"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25599,6 +26523,7 @@
       "reason": "6631 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25633,6 +26558,7 @@
       "reason": "generic_jaksho_voidborn_resilience_test.go 已用 generic compile/run 证明受控部分：目标侧 provider_item_6665_jaksho_voidborn_resilience 在 t=5000 将 full_stack 0→1，并对显式 synthetic bonus_armor/bonus_magic_resist 各加 30%；不声称真实目标装备或 loadout 投影，亦未声称 seed 已 live migrate/publish。",
       "blocker": "real_target_equipment_or_loadout_projection_outside_generic_host_input_contract",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-BatchV-A-data-policy-items.seed.json",
@@ -25681,6 +26607,7 @@
       "reason": "item 6672 放倒它已由 wasm-generic-adc-item-passives-base 批次 seed/mount 闭环。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-D-adc-item-passives.seed.json",
@@ -25728,6 +26655,7 @@
       "reason": "6673 Lifeline/救主灵刃为低血护盾，非主目标伤害；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25760,6 +26688,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25792,6 +26721,7 @@
       "reason": "item 6676 死/execute 已由 wasm-generic-execute-threshold 批次 seed/mount。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25832,6 +26762,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25864,6 +26795,7 @@
       "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25897,6 +26829,7 @@
       "reason": "严寒是低血量减速控制，不是 execute；本审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25937,6 +26870,7 @@
       "reason": "6695 Shield Reaver/掠盾者（2892fed0）：护盾削减非主目标伤害；out_of_scope。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25969,6 +26903,7 @@
       "reason": "6695 Shield Reaver/掠盾者为护盾削减，非主目标伤害；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -25987,7 +26922,7 @@
     },
     {
       "key": "item_passive|6696|item_passive|涌动",
-      "status": "blocked_runtime",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -25995,12 +26930,14 @@
       "skillKey": "item_passive",
       "passiveName": "涌动",
       "mechanismTags": [
-        "cooldown_or_haste_without_rotation"
+        "cooldown_or_haste_without_rotation",
+        "takedown_ultimate_cdr_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "6696 Flux/涌动：takedown 后返还 ultimate total cooldown（含 lethality 缩放），纯冷却轮转无伤害增量；审计边界外。",
+      "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -26009,7 +26946,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6696|item_passive|涌动"
         }
       ],
@@ -26033,6 +26970,7 @@
       "reason": "6697 Eminence/盛名为击杀后临时 AD 层数，非直接伤害机制；审计边界外。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -26065,6 +27003,7 @@
       "reason": "6698 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
       "blocker": "",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -26097,6 +27036,18 @@
       "reason": "Wiki 已给出苍穹/Firmament：满盈能后下一次普攻按目标当前生命值比例造成额外物理伤害并给予短暂 lethality。公式可核验，但缺精确 energized provider 消费与 current-HP 比例伤害 runtime；不得继续标 blocked_data。",
       "blocker": "missing_energized_consume_and_current_hp_ratio_damage_runtime",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|6699|item_passive|苍穹",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "missing_energized_consume_and_current_hp_ratio_damage_runtime"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_energized_consume_and_current_hp_ratio_damage_runtime"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -26136,6 +27087,18 @@
       "reason": "旧 Batch N flat-100/25 充能口径与当前源冲突；缺精确 energized provider 闭环。",
       "blocker": "energized_runtime_and_value_conflict",
       "dataGapEvidence": null,
+      "runtimeGapEvidence": {
+        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|6699|item_passive|通电",
+        "dataStatus": "complete",
+        "requiredEvents": [],
+        "requiredState": [],
+        "requiredFormulaInputs": [],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "energized_runtime_and_value_conflict"
+        ],
+        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：energized_runtime_and_value_conflict"
+      },
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
