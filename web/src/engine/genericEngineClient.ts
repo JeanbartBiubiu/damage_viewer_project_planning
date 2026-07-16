@@ -15,7 +15,6 @@ import type {
   RunRequest
 } from '../types/genericEngine';
 
-const WORKER_URL = new URL('../workers/genericEngineWorker.ts', import.meta.url);
 const DEFAULT_WASM_URL = new URL('./wasm/tinygo_engine_v2.wasm', import.meta.url);
 const RUN_TIMEOUT_MS = 30_000;
 
@@ -167,7 +166,9 @@ export class GenericEngineClient {
     if (this.worker) {
       return this.worker;
     }
-    const worker = new Worker(WORKER_URL, { type: 'module' });
+    const worker = new Worker(new URL('../workers/genericEngineWorker.ts', import.meta.url), {
+      type: 'module'
+    });
     worker.onmessage = (event: MessageEvent<WorkerInboundMessage>) => {
       this.handleWorkerMessage(event.data);
     };
