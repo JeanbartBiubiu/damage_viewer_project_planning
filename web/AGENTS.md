@@ -46,10 +46,10 @@
 5. `npm run test`：Vitest 单元测试。
 6. `npm run build`：执行 `tsc -b + vite build`。
 7. `npm run preview`：预览生产构建结果。
-8. `npm run test:e2e:wasm-generic`：仅跑通用 Playwright 规格（需显式 `E2E_API_BASE_URL` + `E2E_GAME_ID`；缺省 fail-closed，不 skip）。
+8. `npm run test:e2e:wasm-generic`：仅跑通用 Playwright 规格（需显式 `E2E_API_BASE_URL` + `E2E_GAME_ID`；缺省 fail-closed，不 skip）；要求 current/state/abilities 后端探测通过，并在真实页面完成 combat-data ready → compile → run → release。
 9. `npm run smoke:wasm-generic`：发布门禁顺序执行 `lint` → `typecheck` → `test` → `build` → 上述 Playwright 规格（fail-fast）。
 
-Live smoke 前置：`E2E_API_BASE_URL`、`E2E_GAME_ID` 必须非空；缺失则非零退出。`E2E_WEB_BASE_URL` 可选（指向已启动前端）；未设时配置会对本机刚构建产物启动 `vite preview`（`127.0.0.1:4173`）。不向后端写入 Admin 数据。
+Live smoke 前置：`E2E_API_BASE_URL`、`E2E_GAME_ID` 必须非空；缺失则非零退出。`E2E_WEB_BASE_URL` 可选（指向已启动前端）；未设时配置会对本机刚构建产物启动 `vite preview`（`127.0.0.1:4173`）。门禁会读取完整 combat-data 并实跑 canonical compile/run/release，但不向后端写入 Admin 数据。
 
 ## 5. 运行时与配置约定
 
