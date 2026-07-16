@@ -4,7 +4,7 @@
     "inputSha256": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-16T05:26:44.993Z"
+    "generatedAt": "2026-07-16T05:48:47.957Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -15,24 +15,24 @@
     "classificationCounts": {
       "migrated": 22,
       "partial": 11,
-      "blocked": 141,
-      "out_of_scope": 68
+      "blocked": 142,
+      "out_of_scope": 67
     },
     "classificationPercents": {
       "migrated": 9.09,
       "partial": 4.55,
-      "blocked": 58.26,
-      "out_of_scope": 28.1
+      "blocked": 58.68,
+      "out_of_scope": 27.69
     },
     "coverageRateMigratedOnly": {
       "all": 9.09,
-      "inScope": 12.64
+      "inScope": 12.57
     },
     "coverageRateMigratedPlusPartial": {
       "all": 13.64,
-      "inScope": 18.97
+      "inScope": 18.86
     },
-    "inScopeCount": 174
+    "inScopeCount": 175
   },
   "candidates": [
     {
@@ -173,9 +173,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "赴险夺人：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Akshan.json#data.Akshan.spells[1]",
+        "sourceTextSummary": "被动效果：敌方英雄在击杀了阿克尚的友方英雄时，会被标记为恶人。如果阿克尚击杀了一名恶人，那么他会复活被该恶人击杀的友方英雄，获得额外金币，并清除所有恶人标记。 主动施放时，阿克尚会进入伪装状态并在朝着恶人移动时获得移动速度和法力回复。在离开草丛或墙体附近后，阿克尚会失去伪装状态。 {{ Spell_AkshanW_Tooltip_{{ gamemodeint",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "economy_gold",
+        "boundaryReason": "赴险夺人：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -337,9 +346,18 @@
       "genericMechanismTags": [
         "weapon_ammo_swap_system"
       ],
-      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "classificationReason": "传知者与真知者：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.passive",
+        "sourceTextSummary": "厄斐琉斯拥有5件由他妹妹拉露恩所制的皎月武器。他同一时间可以使用2件：1件主手武器和1件副手武器。每件武器都有1种独特的普攻方式和1个独特的技能。攻击和技能都会消耗该武器的弹药。在弹药耗尽后，厄斐琉斯会弃掉该武器，并且拉露恩会召唤下一件武器给厄斐琉斯。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "complex_owner_skip",
+        "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+        "boundaryReason": "传知者与真知者：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+        "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -363,9 +381,18 @@
       "genericMechanismTags": [
         "weapon_ammo_swap_system"
       ],
-      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "classificationReason": "武器技能：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[0]",
+        "sourceTextSummary": "厄斐琉斯拥有5个不同的主动技能，基于他的主手武器： 通碧(步枪)：长距离射击，能够标记目标来跟进一次长距离攻击。 断魄(短镰枪)：在快速奔跑的同时用两把武器攻击附近的敌人。 坠明(加农炮)：禁锢被这把武器减速的所有敌人。 荧焰(喷火器)：引爆锥形范围内的敌人并用你的副手武器攻击他们。 折镜(飞轮刃)：部署一个装备着你副手武器的驻灵。 {{ spellmodi",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "complex_owner_skip",
+        "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+        "boundaryReason": "武器技能：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+        "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -391,9 +418,18 @@
       "genericMechanismTags": [
         "weapon_ammo_swap_system"
       ],
-      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "classificationReason": "月相轮转：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[1]",
+        "sourceTextSummary": "厄斐琉斯将主手武器和副手武器互换，同时替换他的普攻方式和主动技能。 切换主手武器与副手武器，装备坠明。{{ spellmodifierdescriptionappend }}",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "complex_owner_skip",
+        "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+        "boundaryReason": "月相轮转：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+        "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -417,9 +453,18 @@
       "genericMechanismTags": [
         "weapon_ammo_swap_system"
       ],
-      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "classificationReason": "武器队列系统：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[2]",
+        "sourceTextSummary": "厄斐琉斯没有E技能。这个技能栏位会显示拉露恩将为他提供的下一件武器。武器序列在开始时是固定的，但可以随着游戏时间来变更——在一件武器弹药耗尽后，就会进入序列的末端。 {{ spellmodifierdescriptionappend }}",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "complex_owner_skip",
+        "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+        "boundaryReason": "武器队列系统：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+        "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -443,9 +488,18 @@
       "genericMechanismTags": [
         "weapon_ammo_swap_system"
       ],
-      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "classificationReason": "清辉夜凝：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[3]",
+        "sourceTextSummary": "发射一道凝结的月光来引爆敌方英雄。还会施加厄斐琉斯主手武器的独特效果。 厄斐琉斯发射一道浓缩爆裂的月光，在命中一位敌方英雄时爆炸，以对周围的敌人们造成{{ maxdamage }}物理伤害。 随后，厄斐琉斯会用他的主手武器攻击所有英雄。{{ Spell_ApheliosR_WeaponMod_{{ f1 }} }}{{ spellmodifierdescri",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "complex_owner_skip",
+        "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+        "boundaryReason": "清辉夜凝：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+        "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -625,9 +679,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "鹰击长空：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Ashe.json#data.Ashe.spells[2]",
+        "sourceTextSummary": "艾希将她的猎鹰之灵派去执行侦查任务，可派往地图上的任意地点。 艾希派出一只鹰，在地图上的任一位置提供5秒的视野。它还会在飞行时显形附近的区域。 这个技能可持有2层充能（{{ chargecooldown }}秒充能时间）。{{ spellmodifierdescriptionappend }}",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_vision",
+        "excludedBehavior": "ward_vision_or_trap_reveal",
+        "boundaryReason": "鹰击长空：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -715,9 +778,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "恕瑞玛的传承：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Azir.json#data.Azir.passive",
+        "sourceTextSummary": "阿兹尔可以从友方或敌方防御塔的废墟中召唤太阳圆盘。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "building_or_nonchampion_only",
+        "excludedBehavior": "building_or_epic_monster_damage",
+        "boundaryReason": "恕瑞玛的传承：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -1836,9 +1908,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "德莱文联盟：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Draven.json#data.Draven.passive",
+        "sourceTextSummary": "在接住一把旋转飞斧或者击杀了一个小兵、野怪或防御塔后，德莱文会从他的粉丝那里获得崇拜效果。击杀一名敌方英雄会为德莱文提供额外赏金，赏金的多少取决于他拥有多少层崇拜效果。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "economy_gold",
+        "boundaryReason": "德莱文联盟：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -2860,9 +2941,18 @@
       "genericMechanismTags": [
         "no_single_target_dps_effect"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "海克斯科技电容：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Jayce.json#data.Jayce.passive",
+        "sourceTextSummary": "每当杰斯切换武器时，他会获得短暂持续的移动速度加成。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "海克斯科技电容：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -3472,9 +3562,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "罪恶快感：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Jinx.json#data.Jinx.passive",
+        "sourceTextSummary": "金克丝每当参与击杀或摧毁一名英雄、一个史诗级野怪或一座建筑物后，她的移动速度和攻击速度就会得到显著提升。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "building_or_nonchampion_only",
+        "excludedBehavior": "building_or_epic_monster_damage",
+        "boundaryReason": "罪恶快感：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -4108,9 +4207,18 @@
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "猎手本能：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Kaisa.json#data.Kaisa.spells[3]",
+        "sourceTextSummary": "卡莎突进到一个敌方英雄身边。 卡莎跃迁到一个位置上，该位置处于一名身上带有电浆效果的敌方英雄的附近，并获得持续{{ rshieldduration }}秒的{{ rcalculatedshieldvalue }}护盾值。{{ spellmodifierdescriptionappend }}",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "猎手本能：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -4429,9 +4537,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "命运的召唤：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Kalista.json#data.Kalista.spells[3]",
+        "sourceTextSummary": "卡莉丝塔传送一位友军到自己身边。该友军随后可以冲向一个地点，并击退命中的敌人。 卡莉丝塔将她的誓约者置入凝滞状态并将其拖拽到她的身边，至多持续4秒。誓约者可以点击来将自己投放出去，在命中第一个英雄时停止并击退所有附近的敌人。如果誓约者命中了一名英雄，则会被放置在与目标相距其最大攻击距离的位置。{{ spellmodifierdescriptionappend",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "other_targets_only",
+        "excludedBehavior": "other_target_or_aoe_damage",
+        "boundaryReason": "命运的召唤：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -4573,9 +4690,18 @@
       "genericMechanismTags": [
         "cooldown_or_haste_without_rotation"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "星界恩典：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Kayle.json#data.Kayle.spells[1]",
+        "sourceTextSummary": "通过神圣的赐福，凯尔为自己和距她最近的友方英雄提供治疗和移动速度。 凯尔为她自身和一名友方英雄灌注圣光，回复{{ totalheal }}生命值并提供持续{{ hasteduration }}秒的{{ totalhaste }}移动速度。{{ spellmodifierdescriptionappend }}",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "heal_shield_or_survivability",
+        "boundaryReason": "星界恩典：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -5087,9 +5213,18 @@
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "Kindred R 羊灵生息为区域免死/治疗，无主目标伤害分支；审计边界外。",
+      "classificationReason": "羊灵生息：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Kindred.json#data.Kindred.spells[3]",
+        "sourceTextSummary": "羊灵让一块区域内的所有生灵都免受死亡。效果结束之前，谁都不会死去。效果结束时，所有单位都会获得治疗。 千珏赐福于地面{{ e2 }}秒，使其中的友方、敌方或中立单位不会阵亡。在降至10%生命值时，仍留在该区域内的单位就不会受到伤害或治疗效果了。 当赐福结束时，其中的所有单位都会治疗{{ e1 }}生命值。{{ spellmodifierdescription",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "post_kill_or_takedown_utility",
+        "boundaryReason": "羊灵生息：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -5623,9 +5758,18 @@
       "genericMechanismTags": [
         "cooldown_or_haste_without_rotation"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "冷酷追击：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Lucian.json#data.Lucian.spells[2]",
+        "sourceTextSummary": "卢锡安冲刺一小段距离。【圣光银弹】的攻击会减少【冷酷追击】的冷却时间。 卢锡安进行冲刺。 当卢锡安用圣光银弹命中一名敌人时，这个技能的冷却时间会缩短{{ e1 }}秒(对英雄时缩短{{ e2 }}秒)。{{ spellmodifierdescriptionappend }}",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "冷酷追击：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -6922,9 +7066,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "黑雾咒附：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Senna.json#data.Senna.spells[2]",
+        "sourceTextSummary": "赛娜将她存在武器内的黑雾抽出，在她四周形成一团风暴，然后投身于黑暗并变成幽魂。进入黑雾区域的友军会变成伪装状态，并且在被黑雾笼罩时也会呈现出幽灵的外观。幽魂会获得移动速度提升，无法被选中，并且隐藏自身的身份。 赛娜融入一团黑雾，持续{{ buffduration }}秒，并变成幽魂。进入黑雾的友方英雄会变成伪装状态，并在离开时变成幽魂。幽魂获得{{ tota",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_vision",
+        "excludedBehavior": "ward_vision_or_trap_reveal",
+        "boundaryReason": "黑雾咒附：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -7016,9 +7169,18 @@
       "genericMechanismTags": [
         "movement_only"
       ],
-      "classificationReason": "Sivir P 敏锐疾行为攻击英雄后短暂移速，无伤害分支；审计边界外。",
+      "classificationReason": "敏锐疾行：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.passive",
+        "sourceTextSummary": "希维尔在攻击一名敌方英雄时，会短暂地获得移动速度提升。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "敏锐疾行：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -7182,9 +7344,18 @@
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "法术护盾：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.spells[2]",
+        "sourceTextSummary": "制造一层法术屏障，来格挡一次对着希维尔施放的敌方单体技能。如果希维尔成功格挡了一次技能，那么就会回复生命值并获得爆发性的移动速度加成。 希维尔制造一层持续{{ spellshieldduration }}秒的法术屏障，来格挡一次即将到来的敌方技能。如果希维尔成功格挡了一次技能，那么就会回复{{ totalheal }}生命值并触发【敏锐疾行】。{{ spel",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "heal_shield_or_survivability",
+        "boundaryReason": "法术护盾：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -7208,9 +7379,18 @@
       "genericMechanismTags": [
         "movement_cooldown_meta"
       ],
-      "classificationReason": "Sivir R 狩猎为友军移速与冷却缩短，无主目标伤害分支；审计边界外。",
+      "classificationReason": "狩猎：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.spells[3]",
+        "sourceTextSummary": "希维尔在战斗中引领她的友军，为他们提供持续一段时间的爆发性移动速度加成。此外，希维尔的攻击会缩短她的技能的冷却时间。 希维尔在战斗中引领附近的友军，为他们提供持续{{ ultduration }}秒的{{ maxms*100 }}%移动速度。 在【狩猎】激活期间，希维尔对英雄进行的攻击会使她的基础技能的冷却时间缩短{{ attackcooldownrefun",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "狩猎：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -7709,9 +7889,18 @@
       "genericMechanismTags": [
         "movement_only"
       ],
-      "classificationReason": "Teemo W 小莫快跑为纯移速/冲刺，无主目标伤害分支；审计边界外。",
+      "classificationReason": "小莫快跑：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Teemo.json#data.Teemo.spells[1]",
+        "sourceTextSummary": "提莫动如脱兔，提升移动速度，直到被敌方英雄或防御塔击中为止。提莫可以通过冲刺来获得额外移动速度，且短时间内不会因被击中而使加速效果中止。 被动：提莫获得{{ passivemovespeedbonus*100 }}%移动速度，前提是在最近{{ passivecooldownondamagetaken }}秒内未受到来自敌方英雄或防御塔的伤害。 主动：提莫急速",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "小莫快跑：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -7842,9 +8031,18 @@
       "genericMechanismTags": [
         "no_single_target_dps_effect"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "瞄准：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Tristana.json#data.Tristana.passive",
+        "sourceTextSummary": "崔丝塔娜的射程随等级提升。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "stat_or_active_only",
+        "excludedBehavior": "static_stats_or_active_only",
+        "boundaryReason": "瞄准：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -8148,9 +8346,18 @@
       "genericMechanismTags": [
         "no_single_target_dps_effect"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "灌铅骰子：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/TwistedFate.json#data.TwistedFate.passive",
+        "sourceTextSummary": "在击杀了一名单位后，崔斯特会投掷他的“幸运”骰，随机获得1到6的额外赏金。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "economy_gold",
+        "boundaryReason": "灌铅骰子：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -8401,9 +8608,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "命运：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/TwistedFate.json#data.TwistedFate.spells[3]",
+        "sourceTextSummary": "崔斯特为他的敌人算卜命运，短时间内显示所有敌方英雄的位置，并可使用传送，让他在引导1.5秒后传送至目标位置。 崔斯特专注于他的卡牌，提供地图上所有敌方英雄的真实视野，持续{{ e1 }}秒，并允许他再次施放。 再次施放：崔斯特传送到{{ e4 }}码以内的任何地方。{{ spellmodifierdescriptionappend }}",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_vision",
+        "excludedBehavior": "ward_vision_or_trap_reveal",
+        "boundaryReason": "命运：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -8551,9 +8767,18 @@
       "genericMechanismTags": [
         "control_only"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "剧毒之桶：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Twitch.json#data.Twitch.spells[1]",
+        "sourceTextSummary": "图奇扔出一个毒性之桶来引爆一个区域，对区域内的敌人造成减速效果，并对他们施加死亡毒液效果。 图奇扔出一个毒性之桶来添加一层死亡毒液给所有被桶砸中的敌人，并留下一团毒雾，存留{{ duration }}秒。 一直呆在毒雾中的敌人会被减速{{ totalslowamount }}%并且会每秒受到额外的一层死亡毒液。{{ spellmodifierdescript",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_control_or_debuff",
+        "excludedBehavior": "crowd_control_or_slow",
+        "boundaryReason": "剧毒之桶：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -9190,9 +9415,18 @@
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "暗夜猎手：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Vayne.json#data.Vayne.passive",
+        "sourceTextSummary": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得移动速度。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "暗夜猎手：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -10012,9 +10246,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "明踪步 | 夜影翻：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/champion/Yunara.json#data.Yunara.spells[2]",
+        "sourceTextSummary": "芸阿娜获得移动速度并进入幽灵状态。在她处于超凡形态期间，她转而朝着一个方向冲刺。 芸阿娜获得{{ calc_move_speed }}移动速度，并且在朝着一个敌方英雄移动时提升至{{ calc_move_speed_enhanced }}移动速度，持续{{ buff_duration }}秒。 超凡形态 - 夜影翻：芸阿娜朝一个方向进行冲刺。{{ spell",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "明踪步 | 夜影翻：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -10034,13 +10277,55 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Yunara.json#data.Yunara.spells[3]",
       "candidateKey": "hero_skill|hero_yunara|R|定圣诀",
-      "genericClassification": "out_of_scope",
+      "genericClassification": "blocked",
       "genericMechanismTags": [
-        "no_single_target_dps_effect"
+        "transcendent_form_skill_upgrade",
+        "cross_skill_damage_formula"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "Yunara R 定圣诀进入超凡形态并升级基础技能；本地 DDragon 16.9.1 R 的 buff_duration 未展开，Q/W 超凡形态 calc_damage/calc_rw_damage 等公式均未展开",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "Yunara R 定圣诀进入超凡形态并升级基础技能；本地 DDragon 16.9.1 R 的 buff_duration 未展开，Q/W 超凡形态 calc_damage/calc_rw_damage 等公式均未展开",
+      "dataGapEvidence": {
+        "sourceVersion": "16.9.1",
+        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Yunara_R",
+        "availableEffectTables": {},
+        "availableCooldowns": [
+          100,
+          90,
+          80
+        ],
+        "availableCosts": {
+          "mana": [
+            100,
+            100,
+            100
+          ]
+        },
+        "tooltipPlaceholders": [
+          "buff_duration"
+        ],
+        "unresolvedDamagePlaceholders": [],
+        "varsMapEmpty": true,
+        "variablesEmpty": false,
+        "variables": [
+          "buff_duration",
+          "spellmodifierdescriptionappend"
+        ],
+        "missingFields": [
+          "tooltip:buff_duration",
+          "cross_skill:Q:tooltip:calc_damage",
+          "cross_skill:Q:tooltip:calc_damage_spread",
+          "cross_skill:Q:tooltip:calc_passive_damage",
+          "cross_skill:Q:tooltip:calc_attack_speed",
+          "cross_skill:W:tooltip:calc_damage_initial",
+          "cross_skill:W:tooltip:calc_damage_per_second",
+          "cross_skill:W:tooltip:calc_rw_damage",
+          "varsMap"
+        ],
+        "gapKind": "unresolved_transcendent_form_cross_skill_formulas",
+        "reasonZh": "Yunara R 定圣诀进入超凡形态并升级基础技能；本地 DDragon 16.9.1 R 的 buff_duration 未展开，Q/W 超凡形态 calc_damage/calc_rw_damage 等公式均未展开",
+        "blocker": "unresolved_yunara_r_buff_duration_and_qw_transcendent_calc_damage_formulas"
+      }
     },
     {
       "sourceKind": "hero_skill",
@@ -10498,9 +10783,18 @@
       "genericMechanismTags": [
         "cooldown_or_haste_without_rotation"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "守夜：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.2512",
+        "sourceTextSummary": "获得30终极技能急速。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "cooldown_or_ability_haste_only",
+        "excludedBehavior": "cooldown_haste_without_damage",
+        "boundaryReason": "守夜：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10552,9 +10846,18 @@
       "genericMechanismTags": [
         "cooldown_or_haste_without_rotation"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "饥馑：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.2517",
+        "sourceTextSummary": "获得0技能急速。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "cooldown_or_ability_haste_only",
+        "excludedBehavior": "cooldown_haste_without_damage",
+        "boundaryReason": "饥馑：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10579,9 +10882,18 @@
         "survivability_only",
         "takedown_omnivamp"
       ],
-      "classificationReason": "2517 Feast/盛宴为击杀后全能吸血，非 1v1 主目标伤害；审计边界外。",
+      "classificationReason": "盛宴：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.2517",
+        "sourceTextSummary": "如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，则获得持续8秒的15%全能吸血。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "post_kill_omnivamp",
+        "boundaryReason": "盛宴：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10632,9 +10944,18 @@
         "meta_or_non_target_dps",
         "turret_epic_monster"
       ],
-      "classificationReason": "2520 Demolish/破坏为防御塔/史诗野怪蓄意破坏，非英雄 1v1 DPS；审计边界外。",
+      "classificationReason": "破坏：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.2520",
+        "sourceTextSummary": "参与击杀一个在3秒内被你造成过伤害的英雄后，提供持续90秒的【蓄意破坏】。在你拥有【蓄意破坏】时，你对史诗级野怪或防御塔的下一次攻击会在3秒里持续造成额外0真实伤害。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "building_or_nonchampion_only",
+        "excludedBehavior": "building_or_epic_monster_damage",
+        "boundaryReason": "破坏：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10685,9 +11006,18 @@
       "genericMechanismTags": [
         "takedown_attack_range_only"
       ],
-      "classificationReason": "2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜仍单独审计。",
+      "classificationReason": "奥术瞄准：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.2523",
+        "sourceTextSummary": "当一个你在3秒内造成过伤害的英雄阵亡时，你获得持续8秒的100额外攻击距离。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "post_kill_or_takedown_utility",
+        "boundaryReason": "奥术瞄准：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10778,9 +11108,18 @@
         "meta_or_non_target_dps",
         "resurrection"
       ],
-      "classificationReason": "3026 Rebirth/重生为致命伤害复活，非伤害机制；审计边界外。",
+      "classificationReason": "重生：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3026",
+        "sourceTextSummary": "你的英雄在受到致命伤害时，会在凝滞4秒后原地复活，恢复50%基础生命值和100%最大法力值。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "revive_or_death_save",
+        "boundaryReason": "重生：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10805,7 +11144,7 @@
         "stat_only_or_active_only",
         "cross_capability_crit_modifier"
       ],
-      "classificationReason": "静态属性/无被动候选；本审计不记为 migrated，仅记录 cross capability。",
+      "classificationReason": "无被动或仅主动/属性：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
       "coverageEvidence": [
         {
           "evidenceType": "cross_capability",
@@ -10815,7 +11154,16 @@
           "note": "IE expected-crit/static modifier capability exists; candidate itself is stat-only"
         }
       ],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3031",
+        "sourceTextSummary": "75攻击力 25%暴击几率 30%暴击伤害",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "stat_or_active_only",
+        "excludedBehavior": "static_stats_or_active_only",
+        "boundaryReason": "无被动或仅主动/属性：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10904,9 +11252,18 @@
       "genericMechanismTags": [
         "grievous_wounds_only"
       ],
-      "classificationReason": "3033 Grievous Wounds/重伤仅施加重伤，无额外伤害；审计边界外。",
+      "classificationReason": "重伤：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3033",
+        "sourceTextSummary": "对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_control_or_debuff",
+        "excludedBehavior": "grievous_wounds_only",
+        "boundaryReason": "重伤：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -10957,9 +11314,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "幽影华尔兹：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3046",
+        "sourceTextSummary": "变为幽灵状态。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "幽影华尔兹：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11021,9 +11387,18 @@
       "genericMechanismTags": [
         "movement_only"
       ],
-      "classificationReason": "3071 热烈/Fervor 仅为造成物理伤害后获得移速，无伤害分支；审计边界外。",
+      "classificationReason": "热烈：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3071",
+        "sourceTextSummary": "造成物理伤害时会提供持续2秒的20移动速度。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "热烈：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11047,9 +11422,18 @@
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "灵液护盾：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3072",
+        "sourceTextSummary": "将来自你的生命偷取的溢出治疗效果转化为护盾值。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "self_shield_or_survivability",
+        "boundaryReason": "灵液护盾：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11073,9 +11457,18 @@
       "genericMechanismTags": [
         "cooldown_or_haste_without_rotation"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "海克斯充能：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3073",
+        "sourceTextSummary": "获得30终极技能急速。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "cooldown_or_ability_haste_only",
+        "excludedBehavior": "cooldown_haste_without_damage",
+        "boundaryReason": "海克斯充能：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11127,9 +11520,18 @@
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "3074 Cleave/顺劈为周围额外目标 cleave，超出单目标审计边界。",
+      "classificationReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3074",
+        "sourceTextSummary": "攻击会对附近的敌人们造成物理伤害。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "other_targets_only",
+        "excludedBehavior": "other_target_or_aoe_damage",
+        "boundaryReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11189,9 +11591,18 @@
       "genericMechanismTags": [
         "movement_only"
       ],
-      "classificationReason": "3078 Quicken/加快为攻击后移速，无伤害分支；审计边界外。",
+      "classificationReason": "加快：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3078",
+        "sourceTextSummary": "攻击一个单位时会提供持续2秒的20移动速度。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "加快：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11215,9 +11626,18 @@
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "3085 Wind's Fury/风怒为额外目标弩箭，超出单目标审计边界。",
+      "classificationReason": "风怒：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3085",
+        "sourceTextSummary": "攻击对目标附近的2个额外敌人发射弩箭。 每根弩箭造成物理伤害并施加攻击特效。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "other_targets_only",
+        "excludedBehavior": "other_target_or_aoe_damage",
+        "boundaryReason": "风怒：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11242,9 +11662,18 @@
         "multi_target_or_area",
         "energized_bounce"
       ],
-      "classificationReason": "纯多目标电火花 component，当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "电火花：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3087",
+        "sourceTextSummary": "你的盈能攻击会发射连锁闪电，造成附带攻击特效，并且对附近的目标们造成魔法伤害。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "other_targets_only",
+        "excludedBehavior": "other_target_or_aoe_damage",
+        "boundaryReason": "电火花：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11603,9 +12032,18 @@
       "genericMechanismTags": [
         "stat_only_or_active_only"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "无被动或仅主动/属性：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3139",
+        "sourceTextSummary": "50攻击力 35魔法抗性 10%生命偷取 主动 水银 移除所有控制类减益效果(浮空除外)，并提供移动速度。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "无被动或仅主动/属性：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11629,9 +12067,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "鬼影萦绕：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3142",
+        "sourceTextSummary": "非战斗状态期间获得0移动速度。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_movement_or_dash",
+        "excludedBehavior": "movement_speed_or_dash",
+        "boundaryReason": "鬼影萦绕：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11655,9 +12102,18 @@
       "genericMechanismTags": [
         "stat_only_or_active_only"
       ],
-      "classificationReason": "3146 无被动/仅主动属性候选，非被动伤害机制；审计边界外。",
+      "classificationReason": "无被动或仅主动/属性：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3146",
+        "sourceTextSummary": "80法术强度 40攻击力 10%全能吸血 主动 (0秒) 闪电弹 震击目标敌方英雄，造成0魔法伤害和持续1.5秒的25%减速。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "stat_or_active_only",
+        "excludedBehavior": "static_stats_or_active_only",
+        "boundaryReason": "无被动或仅主动/属性：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11719,9 +12175,18 @@
         "slow",
         "control_only"
       ],
-      "classificationReason": "破败副被动仅为减速控制，无主目标伤害分支；本审计边界外。",
+      "classificationReason": "抓挠之影：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3153",
+        "sourceTextSummary": "攻击一位英雄3次会对其造成持续1秒的30%减速。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_control_or_debuff",
+        "excludedBehavior": "crowd_control_or_slow",
+        "boundaryReason": "抓挠之影：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11745,9 +12210,18 @@
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "3156 Lifeline/救主灵刃为低血护盾与吸血，非主目标伤害；审计边界外。",
+      "classificationReason": "救主灵刃：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3156",
+        "sourceTextSummary": "在受到将使你的生命值跌到30%以下的魔法伤害时，提供持续3秒的魔法伤害护盾和持续到战斗状态结束的10%全能吸血。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "self_shield_or_survivability",
+        "boundaryReason": "救主灵刃：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11771,9 +12245,18 @@
       "genericMechanismTags": [
         "cooldown_or_haste_without_rotation"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "龙之力量：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3161",
+        "sourceTextSummary": "获得25基础技能急速。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "cooldown_or_ability_haste_only",
+        "excludedBehavior": "cooldown_haste_without_damage",
+        "boundaryReason": "龙之力量：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11852,9 +12335,18 @@
         "meta_or_non_target_dps",
         "ward_vision"
       ],
-      "classificationReason": "3179 Blackout/封锁为守卫显形/反隐，非英雄 1v1 DPS；审计边界外。",
+      "classificationReason": "封锁：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3179",
+        "sourceTextSummary": "在你处在敌方侦察守卫和陷阱附近时，将其短暂显形。在显形守卫状态下，你的攻击对其造成额外伤害。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_vision",
+        "excludedBehavior": "ward_vision_or_trap_reveal",
+        "boundaryReason": "封锁：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -11914,9 +12406,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "登舰小组：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3181",
+        "sourceTextSummary": "附近的友军攻城兵和超级士兵获得护甲和魔法抗性。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "building_or_nonchampion_only",
+        "excludedBehavior": "building_or_epic_monster_damage",
+        "boundaryReason": "登舰小组：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12127,9 +12628,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "废除：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.3814",
+        "sourceTextSummary": "提供一层法术护盾来格挡下一个敌方技能。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "self_shield_or_survivability",
+        "boundaryReason": "废除：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12156,9 +12666,18 @@
         "survivability_only",
         "incoming_damage_store"
       ],
-      "classificationReason": "6333 Ignore Pain 重复记录（668e55b0）：承伤存储非输出伤害；out_of_scope。",
+      "classificationReason": "无视痛苦：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6333",
+        "sourceTextSummary": "所受的一部分伤害会以流血形式在3秒里持续扣除。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "incoming_damage_store",
+        "boundaryReason": "无视痛苦：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12185,9 +12704,18 @@
         "survivability_only",
         "takedown_heal"
       ],
-      "classificationReason": "6333 Defiance/蔑视为击杀净化存储伤害并治疗，非输出伤害；审计边界外。",
+      "classificationReason": "蔑视：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6333",
+        "sourceTextSummary": "如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，会净化",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "post_kill_heal",
+        "boundaryReason": "蔑视：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12212,9 +12740,18 @@
         "survivability_only",
         "incoming_damage_store"
       ],
-      "classificationReason": "6333 Ignore Pain 重复记录（52e96cc8）：承伤存储非输出伤害；out_of_scope。",
+      "classificationReason": "无视痛苦：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6333",
+        "sourceTextSummary": "的剩余伤害，并在2秒里持续为你回复生命值。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "incoming_damage_store",
+        "boundaryReason": "无视痛苦：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12240,9 +12777,18 @@
       "genericMechanismTags": [
         "grievous_wounds_only"
       ],
-      "classificationReason": "6609 Hackshorn/劈削仅施加重伤，无额外伤害；审计边界外。",
+      "classificationReason": "劈削：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6609",
+        "sourceTextSummary": "对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_control_or_debuff",
+        "excludedBehavior": "grievous_wounds_only",
+        "boundaryReason": "劈削：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12294,9 +12840,18 @@
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "6631 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
+      "classificationReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6631",
+        "sourceTextSummary": "攻击会对附近的敌人们造成物理伤害。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "other_targets_only",
+        "excludedBehavior": "other_target_or_aoe_damage",
+        "boundaryReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12356,9 +12911,18 @@
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "6673 Lifeline/救主灵刃为低血护盾，非主目标伤害；审计边界外。",
+      "classificationReason": "救主灵刃：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6673",
+        "sourceTextSummary": "在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的护盾值。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "self_shield_or_survivability",
+        "boundaryReason": "救主灵刃：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12382,9 +12946,18 @@
       "genericMechanismTags": [
         "cooldown_or_haste_without_rotation"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "超凡入圣：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6675",
+        "sourceTextSummary": "攻击会使各基础技能的冷却时间缩短15%剩余冷却时间。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "cooldown_or_ability_haste_only",
+        "excludedBehavior": "cooldown_haste_without_damage",
+        "boundaryReason": "超凡入圣：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12442,9 +13015,18 @@
       "genericMechanismTags": [
         "meta_or_non_target_dps"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "税：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6676",
+        "sourceTextSummary": "击杀英雄时提供25额外金币。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "economy_gold",
+        "boundaryReason": "税：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12468,9 +13050,18 @@
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "永升之月：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6692",
+        "sourceTextSummary": "在2秒内用2次独立的攻击或技能命中一名英雄时，会为你提供持续2秒的护盾值。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "self_shield_or_survivability",
+        "boundaryReason": "永升之月：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12495,7 +13086,7 @@
         "control_only",
         "slow"
       ],
-      "classificationReason": "严寒是低血量减速控制，不是 execute；本审计边界外。",
+      "classificationReason": "严寒：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
       "coverageEvidence": [
         {
           "evidenceType": "classification_note",
@@ -12505,7 +13096,16 @@
           "note": "mis-tagged execute_threshold in legacy; control_only for G8"
         }
       ],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6694",
+        "sourceTextSummary": "伤害型技能会对低于50%生命值的敌人造成持续1秒的30%减速。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_control_or_debuff",
+        "excludedBehavior": "crowd_control_or_slow",
+        "boundaryReason": "严寒：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12529,9 +13129,18 @@
       "genericMechanismTags": [
         "shield_reduction_only"
       ],
-      "classificationReason": "6695 Shield Reaver/掠盾者（2892fed0）：护盾削减非主目标伤害；out_of_scope。",
+      "classificationReason": "掠盾者：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6695",
+        "sourceTextSummary": "对一名敌方英雄造成伤害时，会使其获得的护盾值降低0%，持续3秒。 如果该敌方英雄尚未被",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "self_shield_or_survivability",
+        "boundaryReason": "掠盾者：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12555,9 +13164,18 @@
       "genericMechanismTags": [
         "shield_reduction_only"
       ],
-      "classificationReason": "6695 Shield Reaver/掠盾者为护盾削减，非主目标伤害；审计边界外。",
+      "classificationReason": "掠盾者：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6695",
+        "sourceTextSummary": "影响，会使其身上的所有护盾降低0%。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "pure_heal_shield_survival",
+        "excludedBehavior": "self_shield_or_survivability",
+        "boundaryReason": "掠盾者：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+        "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12582,9 +13200,18 @@
         "cooldown_or_haste_without_rotation",
         "takedown_ultimate_cdr_only"
       ],
-      "classificationReason": "6696 Flux/涌动：takedown 后返还 ultimate total cooldown（含 lethality 缩放），纯冷却轮转无伤害增量；审计边界外。",
+      "classificationReason": "涌动：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6696",
+        "sourceTextSummary": "在你对一名敌方英雄造成伤害后，如果该英雄在3秒内阵亡，则会返还你的终极技能的一些总冷却时间。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "post_kill_or_takedown_utility",
+        "boundaryReason": "涌动：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12610,9 +13237,18 @@
       "genericMechanismTags": [
         "takedown_stat_buff"
       ],
-      "classificationReason": "6697 Eminence/盛名为击杀后临时 AD 层数，非直接伤害机制；审计边界外。",
+      "classificationReason": "盛名：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6697",
+        "sourceTextSummary": "如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，则获得持续90秒的12+3x已击杀英雄数的攻击力。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "economy_or_post_takedown",
+        "excludedBehavior": "post_kill_temporary_ad",
+        "boundaryReason": "盛名：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+        "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+      }
     },
     {
       "sourceKind": "item_passive",
@@ -12636,9 +13272,18 @@
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "6698 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
+      "classificationReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": ""
+      "remainingGap": "",
+      "outOfScopeEvidence": {
+        "sourceRef": "数据参考/item.json#data.6698",
+        "sourceTextSummary": "攻击会对附近的敌人们造成物理伤害。",
+        "reviewedPrimaryTargetDamageBranch": true,
+        "boundaryCategory": "other_targets_only",
+        "excludedBehavior": "other_target_or_aoe_damage",
+        "boundaryReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+        "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+      }
     },
     {
       "sourceKind": "item_passive",
