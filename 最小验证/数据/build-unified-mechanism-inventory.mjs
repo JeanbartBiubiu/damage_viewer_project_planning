@@ -850,6 +850,33 @@ const RUNTIME_GAP_SPEC_TABLE = {
     "remainingBoundary": "治疗分支 out_of_scope；缺 per-target 下一次普攻必定暴击与指定暴击伤害/10s CD。",
     "reason": "6610 Lightshield Strike：per-target 10s next attack guaranteed crit with specified crit damage; healing OOS；needs conditional crit/per-target CD。",
     "blocker": "per_target_next_attack_guaranteed_crit+specified_crit_damage_branch+per_target_10s_cooldown"
+  },
+  "item_passive|6665|item_passive|虚空天生": {
+    "sourceRef": "wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go#VoidbornResilience",
+    "dataStatus": "partial",
+    "requiredEvents": [
+      "target_equipment_or_loadout_projection"
+    ],
+    "requiredState": [
+      "provider_item_6665_jaksho_voidborn_resilience",
+      "full_stack"
+    ],
+    "requiredFormulaInputs": [
+      "target_base_armor_and_magic_resist",
+      "target_bonus_armor_and_magic_resist",
+      "real_equipment_projected_bonus_resists"
+    ],
+    "requiredScheduling": [
+      "full_stack_tick_interval_5000ms"
+    ],
+    "missingPrimitives": [
+      "real_target_equipment_or_loadout_to_provider_projection",
+      "target_base_and_bonus_resistance_input_consistency"
+    ],
+    "completedBoundary": "controlled synthetic：target-owned provider_item_6665_jaksho_voidborn_resilience 在 t=5000 将 full_stack 0→1，并对显式 synthetic bonus_armor/bonus_magic_resist 各加 30%。",
+    "remainingBoundary": "真实 target equipment/loadout→provider projection 的跨层证据与目标基础/bonus resistance 输入一致性（非 live publish）。",
+    "reason": "受控 synthetic bonus resist partial 已证明；剩余真实 equipment/loadout→provider 投影与目标 base/bonus resist 输入一致性。",
+    "blocker": "real_target_equipment_or_loadout_projection_outside_generic_host_input_contract"
   }
 };
 
@@ -978,15 +1005,46 @@ function resolveRuntimeGap(mechanism) {
   return synthesizeRuntimeGapFromTags(mechanism);
 }
 
+function hasNonEmptyDataMissingFields(evidence) {
+  return Boolean(
+    evidence
+    && Array.isArray(evidence.missingFields)
+    && evidence.missingFields.length > 0,
+  );
+}
+
 function applyRuntimeGapToMechanism(mechanism) {
-  if (mechanism.status !== 'blocked_runtime') {
-    mechanism.runtimeGapEvidence = mechanism.runtimeGapEvidence || null;
+  const hasDataMissing = hasNonEmptyDataMissingFields(mechanism.dataGapEvidence);
+  const tagsProveRuntime = isBlockedRuntimeByTagsOnly(mechanism.mechanismTags);
+
+  // Data gaps always outrank runtime: demote and keep runtimeGapEvidence as secondary.
+  if (mechanism.status === 'blocked_runtime' && hasDataMissing) {
+    const ev = mechanism.dataGapEvidence;
+    mechanism.status = 'blocked_data';
+    if (mechanism.completionMode !== 'partial') mechanism.completionMode = 'none';
+    mechanism.reason = ev.reasonZh || mechanism.reason;
+    mechanism.blocker = ev.blocker || mechanism.blocker;
+  }
+
+  if (mechanism.status === 'blocked_runtime') {
+    const resolved = resolveRuntimeGap(mechanism);
+    mechanism.reason = resolved.reason;
+    mechanism.blocker = resolved.blocker;
+    mechanism.runtimeGapEvidence = resolved.runtimeGapEvidence;
     return mechanism;
   }
-  const resolved = resolveRuntimeGap(mechanism);
-  mechanism.reason = resolved.reason;
-  mechanism.blocker = resolved.blocker;
-  mechanism.runtimeGapEvidence = resolved.runtimeGapEvidence;
+
+  if (mechanism.status === 'blocked_data' && (tagsProveRuntime || mechanism.runtimeGapEvidence)) {
+    // Secondary runtime evidence only — do not overwrite data reason/blocker.
+    const resolved = resolveRuntimeGap({
+      ...mechanism,
+      status: 'blocked_runtime',
+    });
+    mechanism.runtimeGapEvidence = resolved.runtimeGapEvidence;
+    return mechanism;
+  }
+
+  mechanism.runtimeGapEvidence = mechanism.runtimeGapEvidence || null;
   return mechanism;
 }
 
@@ -1323,7 +1381,7 @@ const EXTRA_MECHANISMS = [
   },
   {
     key: 'item_passive|6665|item_passive|虚空天生',
-    status: 'out_of_scope',
+    status: 'blocked_runtime',
     completionMode: 'partial',
     lane: 'generic_runtime',
     sourceKind: 'item_passive',
@@ -1334,7 +1392,7 @@ const EXTRA_MECHANISMS = [
     coverageBoundary:
       'controlled_5s_target_owned_synthetic_bonus_resist_branch_complete;real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
     reason:
-      'generic_jaksho_voidborn_resilience_test.go 已用 generic compile/run 证明受控部分：目标侧 provider_item_6665_jaksho_voidborn_resilience 在 t=5000 将 full_stack 0→1，并对显式 synthetic bonus_armor/bonus_magic_resist 各加 30%；不声称真实目标装备或 loadout 投影，亦未声称 seed 已 live migrate/publish。',
+      '受控 synthetic bonus resist partial 已证明；剩余真实 equipment/loadout→provider 投影与目标 base/bonus resist 输入一致性。',
     blocker: 'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
     sourceRefs: [
       {
@@ -1694,6 +1752,7 @@ function mapG8ToUnified(candidate) {
       blocker: override.blocker || '',
       dataGapEvidence: override.dataGapEvidence || null,
       runtimeGapEvidence: override.runtimeGapEvidence || null,
+      outOfScopeEvidence: override.outOfScopeEvidence || null,
     };
   }
 
@@ -1732,10 +1791,22 @@ function mapG8ToUnified(candidate) {
       reason: reason || 'generic G8 out_of_scope',
       blocker: '',
       dataGapEvidence: null,
+      outOfScopeEvidence: candidate.outOfScopeEvidence || null,
     };
   }
   if (gc === 'blocked') {
-    // Tag-proven runtime gaps stay blocked_runtime (do not demote to blocked_data).
+    // Precise numeric/formula gaps always win over runtime tags/blockers.
+    if (hasNonEmptyDataMissingFields(evidence)) {
+      return {
+        status: 'blocked_data',
+        completionMode: 'none',
+        lane: 'generic_runtime',
+        reason: evidence.reasonZh || reason || 'data/template/rank/formula gap',
+        blocker: evidence.blocker || gap || 'blocked_data',
+        dataGapEvidence: evidence,
+      };
+    }
+    // Tag-proven runtime gaps (only when no unresolved data fields).
     if (isBlockedRuntimeByTagsOnly(tags)) {
       return {
         status: 'blocked_runtime',
@@ -1743,17 +1814,6 @@ function mapG8ToUnified(candidate) {
         lane: 'generic_runtime',
         reason: reason || 'runtime capability gap',
         blocker: gap || 'blocked_runtime',
-        dataGapEvidence: evidence,
-      };
-    }
-    // Precise data gaps for the remaining blocked rows.
-    if (evidence && Array.isArray(evidence.missingFields) && evidence.missingFields.length) {
-      return {
-        status: 'blocked_data',
-        completionMode: 'none',
-        lane: 'generic_runtime',
-        reason: evidence.reasonZh || reason || 'data/template/rank/formula gap',
-        blocker: evidence.blocker || gap || 'blocked_data',
         dataGapEvidence: evidence,
       };
     }
@@ -1810,6 +1870,7 @@ function emptyMechanismShell(partial) {
     blocker: '',
     dataGapEvidence: null,
     runtimeGapEvidence: null,
+    outOfScopeEvidence: null,
     sourceRefs: [],
     evidenceRefs: [],
     aliases: [],
@@ -1862,6 +1923,8 @@ function buildMechanismsFromG8(g8) {
           blocker: mapped.blocker,
           dataGapEvidence: mapped.dataGapEvidence || override?.dataGapEvidence || null,
           runtimeGapEvidence: mapped.runtimeGapEvidence || override?.runtimeGapEvidence || null,
+          outOfScopeEvidence:
+            mapped.outOfScopeEvidence || override?.outOfScopeEvidence || null,
           sourceRefs: [
             {
               path: G8_AUDIT_REL,
@@ -2282,6 +2345,347 @@ function linkCoefficientDependencies(mechanismsByKey, coeffRecords) {
   }
 }
 
+const DAMAGE_RELATED_SIGNAL_RE =
+  /造成.{0,16}伤害|额外伤害|真实伤害|物理伤害|魔法伤害|附带伤害|攻击特效|斩杀|处决|伤害放大|易伤|护甲穿透|魔法穿透|法术穿透|穿甲|法穿|命中造成|攻击速度|攻速|获得.{0,24}攻击力|获得.{0,24}法术强度|额外攻击力|额外法术强度|暴击伤害/;
+
+const OOS_DAMAGE_SIGNAL_DISPOSITIONS = new Set([
+  'aphelios_owner_allowlist',
+  'other_target_or_building_only',
+  'sibling_primary_completed_remaining_oos',
+  'post_kill_next_encounter_only',
+  'trigger_phrase_no_damage_amp',
+]);
+
+const BOUNDARY_CATEGORIES = new Set([
+  'complex_owner_skip',
+  'pure_movement_or_dash',
+  'pure_vision',
+  'pure_heal_shield_survival',
+  'pure_control_or_debuff',
+  'economy_or_post_takedown',
+  'cooldown_or_ability_haste_only',
+  'building_or_nonchampion_only',
+  'other_targets_only',
+  'stat_or_active_only',
+  'completed_primary_branch_remaining_component',
+  'explicit_user_scope',
+]);
+
+const GENERIC_OOS_REASON_RE =
+  /文本为纯 meta\/economy\/vision|纯 meta\/economy\/vision\/building/;
+
+const STALE_OTHER_TARGETS_REASON_RE =
+  /伤害\/效果仅作用于额外目标\/建筑\/守卫，主目标单标靶 DPS 不受益/;
+
+const MOVE_SEMANTIC_RE = /移动速度|移速|冲刺|跃迁|位移|幽灵状态|进行冲刺|突进|冲刺一小段/;
+const VISION_SEMANTIC_RE = /视野|真实视野|显形|伪装|侦察|鹰|守卫|陷阱/;
+const PRIMARY_DAMAGE_DEAL_RE =
+  /造成.{0,16}(物理|魔法|真实)?伤害|额外伤害|每次攻击.{0,8}伤害|发射.{0,12}伤害/;
+const POST_DAMAGE_UTILITY_ONLY_RE =
+  /造成物理伤害时会提供|造成物理伤害后|攻击一个单位时会提供|攻击一位英雄.{0,6}会/;
+
+function summarizeSourceText(text) {
+  return String(text || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 180);
+}
+
+function cleanReasonForCategoryMatch(reason) {
+  const r = String(reason || '');
+  if (!r.trim()) return '';
+  if (GENERIC_OOS_REASON_RE.test(r) || STALE_OTHER_TARGETS_REASON_RE.test(r)) return '';
+  return r;
+}
+
+function boundaryReasonForCategory(category, label) {
+  switch (category) {
+    case 'complex_owner_skip':
+      return `${label}：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。`;
+    case 'pure_movement_or_dash':
+      return `${label}：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。`;
+    case 'pure_vision':
+      return `${label}：纯视野/显形/守卫侦察，不含伤害；审计边界外。`;
+    case 'pure_heal_shield_survival':
+      return `${label}：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。`;
+    case 'pure_control_or_debuff':
+      return `${label}：纯控制/减速/重伤，无主目标伤害增量；审计边界外。`;
+    case 'economy_or_post_takedown':
+      return `${label}：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。`;
+    case 'cooldown_or_ability_haste_only':
+      return `${label}：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。`;
+    case 'building_or_nonchampion_only':
+      return `${label}：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。`;
+    case 'other_targets_only':
+      return `${label}：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。`;
+    case 'stat_or_active_only':
+      return `${label}：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。`;
+    case 'completed_primary_branch_remaining_component':
+      return `${label}：主目标伤害分支已完成；剩余为多目标/范围 component，审计边界外。`;
+    case 'explicit_user_scope':
+      return `${label}：用户显式划定审计范围外；主目标伤害分支已复核为边界外。`;
+    default:
+      return `${label}：当前 ADC 被动 1v1 单目标伤害审计边界外。`;
+  }
+}
+
+function excludedBehaviorForCategory(category, tags, text) {
+  switch (category) {
+    case 'complex_owner_skip':
+      return 'aphelios_weapon_ammo_swap_system';
+    case 'explicit_user_scope':
+      return 'explicit_user_audit_scope';
+    case 'pure_movement_or_dash':
+      return 'movement_speed_or_dash';
+    case 'pure_vision':
+      return 'ward_vision_or_trap_reveal';
+    case 'pure_heal_shield_survival':
+      if (tags.includes('incoming_damage_store')) return 'incoming_damage_store';
+      if (tags.includes('hot_sustain')) return 'hot_sustain';
+      if (/复活|重生|免死/.test(text)) return 'revive_or_death_save';
+      if (/护盾/.test(text)) return 'self_shield_or_survivability';
+      return 'heal_shield_or_survivability';
+    case 'pure_control_or_debuff':
+      if (tags.includes('grievous_wounds_only') || /重伤/.test(text)) return 'grievous_wounds_only';
+      return 'crowd_control_or_slow';
+    case 'economy_or_post_takedown':
+      if (tags.includes('takedown_omnivamp')) return 'post_kill_omnivamp';
+      if (tags.includes('takedown_stat_buff')) return 'post_kill_temporary_ad';
+      if (tags.includes('takedown_heal')) return 'post_kill_heal';
+      if (/金币|赏金/.test(text)) return 'economy_gold';
+      return 'post_kill_or_takedown_utility';
+    case 'cooldown_or_ability_haste_only':
+      return 'cooldown_haste_without_damage';
+    case 'building_or_nonchampion_only':
+      return 'building_or_epic_monster_damage';
+    case 'other_targets_only':
+      return 'other_target_or_aoe_damage';
+    case 'stat_or_active_only':
+      return 'static_stats_or_active_only';
+    case 'completed_primary_branch_remaining_component':
+      return 'remaining_multi_target_cleave_after_primary_complete';
+    default:
+      return 'non_damage_audit_boundary';
+  }
+}
+
+function dispositionForCategory(category, text, owner) {
+  if (category === 'complex_owner_skip' || owner === 'hero_aphelios') {
+    return 'aphelios_owner_allowlist';
+  }
+  if (category === 'other_targets_only' || category === 'building_or_nonchampion_only') {
+    return 'other_target_or_building_only';
+  }
+  if (category === 'completed_primary_branch_remaining_component') {
+    return 'sibling_primary_completed_remaining_oos';
+  }
+  if (category === 'economy_or_post_takedown') {
+    return 'post_kill_next_encounter_only';
+  }
+  if (category === 'pure_vision' && DAMAGE_RELATED_SIGNAL_RE.test(text)) {
+    // Ward/trap-only bonus damage is still vision-scope; gate via trigger_phrase.
+    return 'trigger_phrase_no_damage_amp';
+  }
+  if (POST_DAMAGE_UTILITY_ONLY_RE.test(text) || DAMAGE_RELATED_SIGNAL_RE.test(text)) {
+    if (
+      category === 'pure_movement_or_dash'
+      || category === 'pure_heal_shield_survival'
+      || category === 'pure_control_or_debuff'
+      || category === 'cooldown_or_ability_haste_only'
+      || category === 'stat_or_active_only'
+      || category === 'explicit_user_scope'
+      || category === 'pure_vision'
+    ) {
+      return 'trigger_phrase_no_damage_amp';
+    }
+  }
+  return 'no_primary_target_damage_branch';
+}
+
+/**
+ * Resolve OOS boundaryCategory from source text / explicit override signals.
+ * Must NOT default-guess from mechanismTags multi_target / meta_or_non_target_dps.
+ */
+function resolveBoundaryCategory({ text, tags, reason, owner, key, passive }) {
+  const reasonClean = cleanReasonForCategoryMatch(reason);
+  const blob = `${text}|${passive}|${reasonClean}`;
+
+  if (owner === 'hero_aphelios' || tags.includes('weapon_ammo_swap_system')) {
+    return 'complex_owner_skip';
+  }
+  if (/用户明确/.test(reasonClean)) {
+    return 'explicit_user_scope';
+  }
+  if (
+    /主目标 on-hit 分支已完成|剩余 cleave/.test(reasonClean)
+    || /3748/.test(String(key || ''))
+  ) {
+    return 'completed_primary_branch_remaining_component';
+  }
+
+  // other_targets_only: require explicit evidence primary target is not hit by this component
+  if (
+    /额外目标|附近的敌人|周围的敌人|身后锥形|身后的敌人/.test(blob)
+    || (/顺劈|cleave|连锁闪电|风怒/.test(blob) && /附近|额外|周围/.test(blob))
+  ) {
+    return 'other_targets_only';
+  }
+
+  if (
+    tags.includes('turret_epic_monster')
+    || (/防御塔|史诗级野怪|太阳圆盘|攻城兵|超级士兵/.test(blob)
+      && !/敌方英雄/.test(text)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'building_or_nonchampion_only';
+  }
+
+  // Vision-primary only (do not classify revive/economy skills that mention 伪装).
+  if (
+    (/提供.{0,12}视野|真实视野|显形附近|侦察|派出一只鹰|显形守卫|黑雾|变为伪装/.test(text)
+      || tags.includes('ward_vision'))
+    && !/复活|额外金币|赏金/.test(text)
+    && !PRIMARY_DAMAGE_DEAL_RE.test(text.replace(/对(其|守卫|陷阱).{0,12}(额外)?伤害/g, ''))
+  ) {
+    return 'pure_vision';
+  }
+
+  if (
+    tags.includes('takedown_omnivamp')
+    || tags.includes('takedown_stat_buff')
+    || tags.includes('takedown_attack_range_only')
+    || tags.includes('takedown_ultimate_cdr_only')
+    || tags.includes('takedown_heal')
+    || (/击杀|阵亡|参与击杀|takedown|赏金|额外金币|崇拜/.test(blob)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'economy_or_post_takedown';
+  }
+
+  // Dash/leap lead verbs before incidental shield/heal wording.
+  if (
+    /冲刺|跃迁|突进|进行冲刺/.test(text)
+    && !PRIMARY_DAMAGE_DEAL_RE.test(text)
+  ) {
+    return 'pure_movement_or_dash';
+  }
+
+  if (
+    tags.includes('survivability_only')
+    || tags.includes('incoming_damage_store')
+    || tags.includes('shield_reduction_only')
+    || tags.includes('hot_sustain')
+    || tags.includes('resurrection')
+    || (/护盾|治疗|吸血|复活|免死|承伤|回复生命|法术护盾|溢出治疗/.test(blob)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'pure_heal_shield_survival';
+  }
+
+  if (
+    tags.includes('control_only')
+    || tags.includes('slow')
+    || tags.includes('grievous_wounds_only')
+    || (/减速|重伤|禁锢|击退|晕眩/.test(blob) && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'pure_control_or_debuff';
+  }
+
+  if (
+    MOVE_SEMANTIC_RE.test(text)
+    && (!PRIMARY_DAMAGE_DEAL_RE.test(text) || POST_DAMAGE_UTILITY_ONLY_RE.test(text))
+  ) {
+    return 'pure_movement_or_dash';
+  }
+
+  if (
+    tags.includes('cooldown_or_haste_without_rotation')
+    || tags.includes('takedown_ultimate_cdr_only')
+    || (/技能急速|终极技能急速|冷却时间缩短|返还.{0,8}冷却|冷却缩减/.test(blob)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text)
+      && !MOVE_SEMANTIC_RE.test(text))
+  ) {
+    return 'cooldown_or_ability_haste_only';
+  }
+
+  if (
+    tags.includes('stat_only_or_active_only')
+    || /无被动|仅主动|静态属性|射程随等级/.test(blob)
+  ) {
+    return 'stat_or_active_only';
+  }
+
+  // Fallback: non-damage meta without guessing multi_target/meta tags
+  if (MOVE_SEMANTIC_RE.test(blob)) return 'pure_movement_or_dash';
+  if (VISION_SEMANTIC_RE.test(blob)) return 'pure_vision';
+  if (/金币|赏金/.test(blob)) return 'economy_or_post_takedown';
+  if (/护盾|治疗|复活/.test(blob)) return 'pure_heal_shield_survival';
+  if (/急速|冷却/.test(blob)) return 'cooldown_or_ability_haste_only';
+  return 'stat_or_active_only';
+}
+
+function synthesizeOutOfScopeEvidence(mechanism, sourceText = '') {
+  const text = String(sourceText || '');
+  const tags = mechanism.mechanismTags || [];
+  const reason = String(mechanism.reason || '');
+  const passive = String(mechanism.passiveName || '');
+  const owner = String(mechanism.ownerId || '');
+  const label = passive || mechanism.key;
+  const sourceRef =
+    mechanism.sourceRefs?.[0]
+      ? `${mechanism.sourceRefs[0].path}#${mechanism.sourceRefs[0].sourceRecordKey}`
+      : `最小验证/数据/build-unified-mechanism-inventory.mjs#${mechanism.key}`;
+
+  const boundaryCategory = resolveBoundaryCategory({
+    text,
+    tags,
+    reason,
+    owner,
+    key: mechanism.key,
+    passive,
+  });
+  const excludedBehavior = excludedBehaviorForCategory(boundaryCategory, tags, text);
+  const disposition = dispositionForCategory(boundaryCategory, text, owner);
+  const boundaryReason = boundaryReasonForCategory(boundaryCategory, label);
+
+  return {
+    sourceRef,
+    sourceTextSummary: summarizeSourceText(text || reason),
+    reviewedPrimaryTargetDamageBranch: true,
+    boundaryCategory,
+    excludedBehavior,
+    boundaryReason,
+    damageRelevantSubBranchDisposition: disposition,
+  };
+}
+
+function ensureOutOfScopeEvidence(mechanisms, g8ByKey) {
+  for (const m of mechanisms) {
+    if (m.status !== 'out_of_scope') {
+      m.outOfScopeEvidence = m.outOfScopeEvidence || null;
+      continue;
+    }
+    const g8 = g8ByKey?.get(m.key);
+    const sourceText = g8?.sourceText || '';
+    const evExisting = m.outOfScopeEvidence;
+    const catOk =
+      evExisting
+      && BOUNDARY_CATEGORIES.has(String(evExisting.boundaryCategory || ''))
+      && evExisting.reviewedPrimaryTargetDamageBranch === true
+      && String(evExisting.excludedBehavior || '').trim()
+      && String(evExisting.boundaryReason || '').trim()
+      && !GENERIC_OOS_REASON_RE.test(String(evExisting.boundaryReason || ''))
+      && !STALE_OTHER_TARGETS_REASON_RE.test(String(evExisting.boundaryReason || ''));
+    if (catOk) {
+      m.reason = evExisting.boundaryReason;
+      continue;
+    }
+    const ev = synthesizeOutOfScopeEvidence(m, sourceText);
+    m.outOfScopeEvidence = ev;
+    m.reason = ev.boundaryReason;
+  }
+}
+
 function buildSummary(sources, coverageRecords, mechanisms) {
   const statusCounts = Object.create(null);
   const completionModeCounts = Object.create(null);
@@ -2509,8 +2913,9 @@ function validateInventory(inv) {
   }
   if (
     !m6665 ||
-    m6665.status !== 'out_of_scope' ||
+    m6665.status !== 'blocked_runtime' ||
     m6665.completionMode !== 'partial' ||
+    m6665.lane !== 'generic_runtime' ||
     m6665.blocker !== 'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract' ||
     !String(m6665.coverageBoundary || '').includes(
       'controlled_5s_target_owned_synthetic_bonus_resist_branch_complete',
@@ -2518,7 +2923,10 @@ function validateInventory(inv) {
     !String(m6665.coverageBoundary || '').includes(
       'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
     ) ||
-    !String(m6665.reason || '').includes('generic_jaksho_voidborn_resilience_test.go') ||
+    m6665.runtimeGapEvidence?.dataStatus !== 'partial' ||
+    !String(m6665.runtimeGapEvidence?.remainingBoundary || '').includes(
+      'equipment/loadout',
+    ) ||
     !(m6665.evidenceRefs || []).some(
       (e) =>
         e.sourcePath ===
@@ -2529,7 +2937,7 @@ function validateInventory(inv) {
     )
   ) {
     errors.push(
-      '6665 虚空天生 must be out_of_scope/partial with controlled 5s synthetic branch + equipment/loadout blocker and wasm/backend evidence refs',
+      '6665 虚空天生 must be blocked_runtime/partial/generic_runtime with controlled 5s synthetic completedBoundary + equipment/loadout remaining runtimeGap and wasm/backend evidence refs',
     );
   }
   if (
@@ -2646,9 +3054,9 @@ function validateInventory(inv) {
     completed: 24,
     partial_actionable: 0,
     ready_to_implement: 0,
-    blocked_runtime: 48,
-    blocked_data: 105,
-    out_of_scope: 72,
+    blocked_runtime: 33,
+    blocked_data: 122,
+    out_of_scope: 70,
     regression_only: 5,
     stale_or_duplicate: 0,
   };
@@ -2682,10 +3090,15 @@ function validateInventory(inv) {
 
   // blocked_runtime must carry precise runtimeGapEvidence (non-empty missingPrimitives).
   const blockedRuntimeRows = (inv.mechanisms || []).filter((m) => m.status === 'blocked_runtime');
-  if (blockedRuntimeRows.length !== 48) {
-    errors.push(`blocked_runtime rows expected 48, got ${blockedRuntimeRows.length}`);
+  if (blockedRuntimeRows.length !== 33) {
+    errors.push(`blocked_runtime rows expected 33, got ${blockedRuntimeRows.length}`);
   }
   for (const m of blockedRuntimeRows) {
+    if (hasNonEmptyDataMissingFields(m.dataGapEvidence)) {
+      errors.push(
+        `blocked_runtime must not carry dataGapEvidence.missingFields @ ${m.key}`,
+      );
+    }
     const ev = m.runtimeGapEvidence;
     if (!ev || typeof ev !== 'object') {
       errors.push(`blocked_runtime missing runtimeGapEvidence @ ${m.key}`);
@@ -2748,8 +3161,8 @@ function validateInventory(inv) {
 
   // blocked_data must carry precise, non-implementation data-gap evidence.
   const blockedDataRows = (inv.mechanisms || []).filter((m) => m.status === 'blocked_data');
-  if (blockedDataRows.length !== 105) {
-    errors.push(`blocked_data rows expected 105, got ${blockedDataRows.length}`);
+  if (blockedDataRows.length !== 122) {
+    errors.push(`blocked_data rows expected 122, got ${blockedDataRows.length}`);
   }
   for (const m of blockedDataRows) {
     const ev = m.dataGapEvidence;
@@ -2767,9 +3180,134 @@ function validateInventory(inv) {
   }
   const bdHero = blockedDataRows.filter((m) => m.sourceKind === 'hero_skill').length;
   const bdItem = blockedDataRows.filter((m) => m.sourceKind === 'item_passive').length;
-  if (bdHero !== 104 || bdItem !== 1) {
-    errors.push(`blocked_data by kind expected hero_skill=104 item_passive=1, got ${bdHero}/${bdItem}`);
+  if (bdHero !== 121 || bdItem !== 1) {
+    errors.push(`blocked_data by kind expected hero_skill=121 item_passive=1, got ${bdHero}/${bdItem}`);
   }
+
+  const mYunaraR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_yunara|R|定圣诀');
+  if (
+    !mYunaraR
+    || mYunaraR.status !== 'blocked_data'
+    || mYunaraR.completionMode !== 'none'
+    || !mYunaraR.dataGapEvidence?.missingFields?.includes('tooltip:buff_duration')
+    || !mYunaraR.dataGapEvidence?.missingFields?.some((f) => String(f).includes('calc_rw_damage'))
+    || !mYunaraR.dataGapEvidence?.missingFields?.some((f) => String(f).includes('calc_damage'))
+  ) {
+    errors.push(
+      'Yunara R 定圣诀 must be blocked_data/none with dataGapEvidence covering buff_duration and Q/W transcendent formulas',
+    );
+  }
+
+  // Final OOS must carry structured outOfScopeEvidence; damage-signal rows only via a–e.
+  const oosRows = (inv.mechanisms || []).filter((m) => m.status === 'out_of_scope');
+  if (oosRows.length !== 70) {
+    errors.push(`out_of_scope rows expected 70, got ${oosRows.length}`);
+  }
+  let oosOmnibusReason = 0;
+  for (const m of oosRows) {
+    const ev = m.outOfScopeEvidence;
+    if (!ev || typeof ev !== 'object') {
+      errors.push(`out_of_scope missing outOfScopeEvidence @ ${m.key}`);
+      continue;
+    }
+    if (!String(ev.sourceRef || '').trim()) {
+      errors.push(`out_of_scope outOfScopeEvidence.sourceRef empty @ ${m.key}`);
+    }
+    if (!String(ev.sourceTextSummary || '').trim()) {
+      errors.push(`out_of_scope outOfScopeEvidence.sourceTextSummary empty @ ${m.key}`);
+    }
+    if (ev.reviewedPrimaryTargetDamageBranch !== true) {
+      errors.push(`out_of_scope reviewedPrimaryTargetDamageBranch must be true @ ${m.key}`);
+    }
+    if (!BOUNDARY_CATEGORIES.has(String(ev.boundaryCategory || ''))) {
+      errors.push(`out_of_scope boundaryCategory invalid @ ${m.key}: ${ev.boundaryCategory}`);
+    }
+    if (!String(ev.excludedBehavior || '').trim()) {
+      errors.push(`out_of_scope excludedBehavior empty @ ${m.key}`);
+    }
+    if (!String(ev.boundaryReason || '').trim()) {
+      errors.push(`out_of_scope boundaryReason empty @ ${m.key}`);
+    }
+    if (
+      GENERIC_OOS_REASON_RE.test(String(ev.boundaryReason || ''))
+      || STALE_OTHER_TARGETS_REASON_RE.test(String(ev.boundaryReason || ''))
+    ) {
+      oosOmnibusReason += 1;
+      errors.push(`out_of_scope generic omnibus reason not allowed @ ${m.key}`);
+    }
+    if (
+      GENERIC_OOS_REASON_RE.test(String(m.reason || ''))
+      || STALE_OTHER_TARGETS_REASON_RE.test(String(m.reason || ''))
+    ) {
+      oosOmnibusReason += 1;
+      errors.push(`out_of_scope reason still generic/omnibus @ ${m.key}`);
+    }
+    const disposition = String(ev.damageRelevantSubBranchDisposition || '');
+    if (!disposition) {
+      errors.push(`out_of_scope damageRelevantSubBranchDisposition empty @ ${m.key}`);
+    }
+    const cat = String(ev.boundaryCategory || '');
+    const summary = String(ev.sourceTextSummary || '');
+    const reasonBlob = `${ev.boundaryReason || ''}|${m.reason || ''}`;
+    if (cat === 'pure_movement_or_dash') {
+      if (!/移动|移速|冲刺|跃迁|位移|幽灵/.test(summary)) {
+        errors.push(`pure_movement_or_dash sourceTextSummary missing move semantics @ ${m.key}`);
+      }
+      if (
+        PRIMARY_DAMAGE_DEAL_RE.test(summary)
+        && !POST_DAMAGE_UTILITY_ONLY_RE.test(summary)
+        && disposition !== 'trigger_phrase_no_damage_amp'
+      ) {
+        errors.push(`pure_movement_or_dash has untreated primary damage @ ${m.key}`);
+      }
+    }
+    if (cat === 'other_targets_only') {
+      if (!/额外目标|附近的敌人|周围的敌人|主目标不受|身后/.test(`${summary}|${reasonBlob}`)) {
+        errors.push(`other_targets_only missing primary-unaffected evidence @ ${m.key}`);
+      }
+    }
+    if (cat === 'pure_vision') {
+      if (!/视野|守卫|显形|伪装|侦察|鹰|黑雾/.test(summary)) {
+        errors.push(`pure_vision sourceTextSummary missing vision semantics @ ${m.key}`);
+      }
+      if (
+        PRIMARY_DAMAGE_DEAL_RE.test(summary)
+        && !/守卫|陷阱/.test(summary)
+      ) {
+        errors.push(`pure_vision must not include champion damage @ ${m.key}`);
+      }
+    }
+    if (cat === 'economy_or_post_takedown') {
+      if (!/击杀|阵亡|takedown|赏金|金币|encounter 已结束|主目标死亡/.test(reasonBlob)) {
+        errors.push(`economy_or_post_takedown reason must state post-takedown encounter end @ ${m.key}`);
+      }
+    }
+    // Prefer G8 sourceText when available via sourceTextSummary already stored;
+    // validate damage-signal gate against sourceTextSummary + reason.
+    const signalBlob = `${ev.sourceTextSummary || ''}|${m.reason || ''}`;
+    if (
+      DAMAGE_RELATED_SIGNAL_RE.test(signalBlob)
+      && !OOS_DAMAGE_SIGNAL_DISPOSITIONS.has(disposition)
+    ) {
+      errors.push(
+        `out_of_scope has damage-related signal but disposition not in a–e @ ${m.key}: ${disposition}`,
+      );
+    }
+  }
+  if (oosOmnibusReason !== 0) {
+    errors.push(`OOS generic omnibus reason count expected 0, got ${oosOmnibusReason}`);
+  }
+  const mYunaraE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_yunara|E|明踪步 | 夜影翻');
+  if (
+    !mYunaraE
+    || mYunaraE.status !== 'out_of_scope'
+    || mYunaraE.outOfScopeEvidence?.boundaryCategory !== 'pure_movement_or_dash'
+  ) {
+    errors.push(
+      'Yunara E 明踪步|夜影翻 must be out_of_scope with boundaryCategory=pure_movement_or_dash',
+    );
+  }
+
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
   const coeffB = '最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json';
   if (!inv.sources.some((s) => s.path === coeffA)) errors.push(`sources missing ${coeffA}`);
@@ -2883,6 +3421,8 @@ function mechanismToCsvRow(m) {
     dataGapEvidenceJson: m.dataGapEvidence ? JSON.stringify(m.dataGapEvidence) : '',
     runtimeGapMissingPrimitives: (m.runtimeGapEvidence?.missingPrimitives || []).join('|'),
     runtimeGapEvidenceJson: m.runtimeGapEvidence ? JSON.stringify(m.runtimeGapEvidence) : '',
+    outOfScopeExcludedBehavior: m.outOfScopeEvidence?.excludedBehavior || '',
+    outOfScopeEvidenceJson: m.outOfScopeEvidence ? JSON.stringify(m.outOfScopeEvidence) : '',
     sourceRefs: (m.sourceRefs || [])
       .map((r) => `${r.path}#${r.sourceRecordKey}:${r.legacyStatus}`)
       .join(';'),
@@ -2911,6 +3451,8 @@ const CSV_COLUMNS = [
   'dataGapEvidenceJson',
   'runtimeGapMissingPrimitives',
   'runtimeGapEvidenceJson',
+  'outOfScopeExcludedBehavior',
+  'outOfScopeEvidenceJson',
   'sourceRefs',
   'evidenceRefs',
   'aliases',
@@ -2955,6 +3497,9 @@ function buildInventory(generatedAt) {
   attachAliases(mechanismsByKey);
   attachSeedSourceRefs(mechanismsByKey);
   attachKatarinaLegacySeedSourceRef(mechanismsByKey);
+
+  const g8ByKey = new Map(g8.candidates.map((c) => [c.candidateKey, c]));
+  ensureOutOfScopeEvidence(mechanisms, g8ByKey);
 
   const { records: fullItemRecords } = buildFullItemCoverageRecords(fullItems, mechanismsByKey);
   const coeffRecords = buildCoefficientCoverageRecords();
