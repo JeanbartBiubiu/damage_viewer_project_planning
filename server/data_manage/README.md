@@ -685,6 +685,27 @@ cd server/data_manage
 mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
 ```
 
+### LoL generic Xayah Deadly Plumage seed（逆羽 W / rank-5 攻速窗 partial）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_xayah` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与未来普攻 / feather provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-xayah-deadly-plumage-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：40 mana / 14s CD / 4s +55% AS。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability ALL listener 武装 active=1（override），以及 AS `percent_add` `0.55 * provider.state.deadly_plumage_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 Meraki/Riot latest `Xayah.json`。
+
+**排除 / remaining gap**：次级羽刃（需按已结算真实普攻复制 20% original attack damage，排除 on-hit / phantom；本 seed **不伪造**）、移速、Rakan/洛联动（OOS）、其它 rank、live migration、publish、`single_attacker_dps`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericXayahDeadlyPlumageSeedSqlTest test
+```
+
 ### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
 
 前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
