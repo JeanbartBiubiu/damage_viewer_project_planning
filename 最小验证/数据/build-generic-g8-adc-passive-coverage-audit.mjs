@@ -16,7 +16,336 @@ const paths = {
   outputCsv: path.join(repoRoot, '最小验证', 'generic-g8-adc-passive-coverage-audit.csv'),
   generatorPath: path.join('最小验证', '数据', 'build-generic-g8-adc-passive-coverage-audit.mjs'),
   inputPath: path.join('最小验证', 'V2-Batch-G-adc-passive-audit.json'),
+  seedCandidateJson: path.join(repoRoot, '数据参考', 'ddragon-champions', 'champion-seed-candidate.json'),
+  championDir: path.join(repoRoot, '数据参考', 'champion'),
 };
+
+const SEED_CANDIDATE_REL = '数据参考/ddragon-champions/champion-seed-candidate.json';
+
+const PLACEHOLDER_SCALING_HINTS = {
+  bonusattackdamage: 'bonus AD',
+  attackdamage: 'AD',
+  abilitypower: 'AP',
+  bonusad: 'bonus AD',
+  ad: 'AD',
+  ap: 'AP',
+  maxhealthdamage: 'max HP ratio',
+  missinghealth: 'missing HP ratio',
+  currenthealth: 'current HP ratio',
+  totaldamage: 'AD/AP/bonus AD',
+  netdamage: 'AD/AP/bonus AD',
+  rmaindamage: 'AD/AP/bonus AD',
+  calculateddamage: 'AD/AP/bonus AD',
+  damagetodeal: 'AD/AP/bonus AD',
+  damage: 'AD/AP/bonus AD',
+};
+
+/** Lazy index over champion-seed-candidate.json (ownerId+skillKey). */
+let _seedSkillIndex = null;
+let _seedHeroIdByNorm = null;
+let _seedMeta = null;
+
+function normChampionId(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function loadSeedCandidateIndex() {
+  if (_seedSkillIndex) return;
+  if (!fs.existsSync(paths.seedCandidateJson)) {
+    _seedSkillIndex = new Map();
+    _seedHeroIdByNorm = new Map();
+    _seedMeta = { version: '', sourceRef: SEED_CANDIDATE_REL };
+    return;
+  }
+  const seed = JSON.parse(fs.readFileSync(paths.seedCandidateJson, 'utf8'));
+  _seedMeta = {
+    version: seed.source?.version || seed.versionCode || '',
+    sourceRef: SEED_CANDIDATE_REL,
+  };
+  _seedHeroIdByNorm = new Map((seed.heroes || []).map((h) => [normChampionId(h.heroId), h.heroId]));
+  _seedSkillIndex = new Map(
+    (seed.skills || []).map((s) => [`${normChampionId(s.ownerId)}|${s.skillKey}`, s]),
+  );
+}
+
+function resolveSeedChampionId(ownerId) {
+  loadSeedCandidateIndex();
+  const raw = String(ownerId || '').replace(/^hero_/i, '');
+  return _seedHeroIdByNorm.get(normChampionId(raw)) || null;
+}
+
+function nonZeroEffectTables(effectValues) {
+  const out = {};
+  if (!effectValues || typeof effectValues !== 'object') return out;
+  for (const [k, v] of Object.entries(effectValues)) {
+    if (!Array.isArray(v)) continue;
+    // e1..e10 keys are only available when the array has a real non-zero value.
+    if (!v.some((x) => Number(x) !== 0)) continue;
+    out[k] = v;
+  }
+  return out;
+}
+
+function extractTooltipPlaceholders(...texts) {
+  const set = new Set();
+  const re = /\{\{\s*([^}]+?)\s*\}\}/g;
+  for (const text of texts) {
+    let m;
+    const s = String(text || '');
+    while ((m = re.exec(s))) {
+      let expr = m[1].trim().toLowerCase();
+      expr = expr.replace(/^spell\.[^:]+:/, '');
+      for (const tok of expr.split(/[^a-z0-9_]+/)) {
+        if (!tok || /^\d+$/.test(tok)) continue;
+        if (tok === 'spellmodifierdescriptionappend' || tok === 'spell') continue;
+        set.add(tok);
+      }
+    }
+  }
+  return [...set].sort((a, b) => a.localeCompare(b, 'en'));
+}
+
+function isDamageLikePlaceholder(tok) {
+  if (/damage|dmg/.test(tok)) return true;
+  if (/(?:^|_)(?:ad|ap)(?:$|_)/.test(tok)) return true;
+  if (/attackdamage|abilitypower|bonusad|bonusap/.test(tok)) return true;
+  if (/health|hp/.test(tok) && /damage|ratio|percent|per/.test(tok)) return true;
+  return false;
+}
+
+function scalingLabelForPlaceholder(tok) {
+  if (PLACEHOLDER_SCALING_HINTS[tok]) return PLACEHOLDER_SCALING_HINTS[tok];
+  if (/health|hp/.test(tok)) return 'HP ratio';
+  if (/attackdamage|bonusad|(?:^|_)ad(?:$|_)/.test(tok)) return 'AD/bonus AD';
+  if (/abilitypower|(?:^|_)ap(?:$|_)/.test(tok)) return 'AP';
+  if (/attackspeed/.test(tok)) return 'attack speed';
+  if (/armor|mr|magicresist/.test(tok)) return 'resist';
+  return 'AD/AP/bonus AD/HP scaling';
+}
+
+function formatEffectTablesCompact(tables) {
+  return Object.entries(tables)
+    .map(([k, v]) => `${k}=[${v.join(',')}]`)
+    .join('; ');
+}
+
+function readChampionSpellTooltip(championId, skillKey) {
+  if (!championId || !skillKey) return '';
+  const filePath = path.join(paths.championDir, `${championId}.json`);
+  if (!fs.existsSync(filePath)) return '';
+  try {
+    const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const champ = raw?.data?.[championId];
+    if (!champ) return '';
+    if (skillKey === 'P') return String(champ.passive?.description || '');
+    const idx = 'QWER'.indexOf(skillKey);
+    if (idx < 0) return '';
+    return String(champ.spells?.[idx]?.tooltip || '');
+  } catch {
+    return '';
+  }
+}
+
+function emptyDataGapEvidence(partial = {}) {
+  return {
+    sourceVersion: _seedMeta?.version || '',
+    sourceRef: partial.sourceRef || SEED_CANDIDATE_REL,
+    availableEffectTables: {},
+    availableCooldowns: [],
+    availableCosts: {},
+    tooltipPlaceholders: [],
+    unresolvedDamagePlaceholders: [],
+    varsMapEmpty: true,
+    variablesEmpty: true,
+    variables: [],
+    missingFields: [],
+    gapKind: 'none',
+    reasonZh: '',
+    blocker: '',
+    ...partial,
+  };
+}
+
+/**
+ * Structured data-gap evidence for blocked hero skills.
+ * Does not treat seed/mount/live publish/E2E as data blockers.
+ */
+function buildHeroDataGapEvidence(candidate) {
+  loadSeedCandidateIndex();
+  const champId = resolveSeedChampionId(candidate.ownerId);
+  const skillKey = candidate.skillKey;
+  if (!champId || !skillKey) {
+    return emptyDataGapEvidence({
+      missingFields: ['source_snapshot'],
+      gapKind: 'source_snapshot_missing',
+      reasonZh: '本地英雄技能候选快照缺该 ownerId+skillKey 的 source snapshot',
+      blocker: 'source_snapshot_missing',
+    });
+  }
+  const skill = _seedSkillIndex.get(`${normChampionId(champId)}|${skillKey}`);
+  if (!skill) {
+    return emptyDataGapEvidence({
+      sourceRef: `${SEED_CANDIDATE_REL}#${champId}|${skillKey}`,
+      missingFields: ['source_snapshot'],
+      gapKind: 'source_snapshot_missing',
+      reasonZh: '本地英雄技能候选快照缺该 ownerId+skillKey 的 source snapshot',
+      blocker: 'source_snapshot_missing',
+    });
+  }
+
+  const params = skill.params || {};
+  const tables = nonZeroEffectTables(params.effectValues);
+  const varsMap = params.varsMap && typeof params.varsMap === 'object' ? params.varsMap : {};
+  const variables = Array.isArray(params.variables)
+    ? params.variables.filter((v) => typeof v === 'string')
+    : [];
+  const varsMapEmpty = Object.keys(varsMap).length === 0;
+  const variablesEmpty = variables.length === 0;
+  const championTooltip = readChampionSpellTooltip(champId, skillKey);
+  const placeholders = extractTooltipPlaceholders(
+    skill.description,
+    championTooltip,
+    ...(params.damageInstances || []).map((d) => d.plainContent || ''),
+  );
+  const diUnresolved = (params.damageInstances || []).flatMap((d) => d.variables || []);
+  const unresolvedDamage = [
+    ...new Set([...placeholders.filter(isDamageLikePlaceholder), ...diUnresolved]),
+  ].sort((a, b) => a.localeCompare(b, 'en'));
+  const numericPlaceholders = placeholders.filter(
+    (p) =>
+      isDamageLikePlaceholder(p)
+      || /armor|mr|magicresist|attackspeed|movespeed|cooldown|duration|stack|charge|shield|heal|mana|ratio|perstack|mod/.test(
+        p,
+      ),
+  );
+  const unresolvedNumeric = numericPlaceholders.filter((p) => !varsMap[p]);
+  const costs =
+    skill.resourceCosts && typeof skill.resourceCosts === 'object' ? skill.resourceCosts : {};
+  const cds = Array.isArray(skill.cooldowns) ? skill.cooldowns : [];
+  const claimsDamage = /伤害|damage|斩杀|处决/i.test(
+    `${skill.description || ''}|${candidate.sourceText || ''}`,
+  );
+  const claimsBuffNeedValues =
+    params.classificationReason === 'buff_needs_values'
+    || (/攻击速度|攻速|attack speed/i.test(skill.description || '')
+      && unresolvedNumeric.some((p) => /attackspeed|buffduration/.test(p)));
+
+  const missingFields = [];
+  let gapKind = 'none';
+  let reasonZh = '';
+  let blocker = '';
+
+  if (unresolvedDamage.length && Object.keys(tables).length === 0) {
+    gapKind = 'unresolved_damage_placeholder';
+    for (const p of unresolvedDamage) missingFields.push(`tooltip:${p}`);
+    if (varsMapEmpty) missingFields.push('varsMap');
+    if (variablesEmpty) missingFields.push('variables_binding');
+    reasonZh = `DDragon tooltip 保留 ${unresolvedDamage.join('/')}，effect/vars 未提供公式`;
+    blocker = `unresolved_tooltip_${unresolvedDamage.join('_')}`;
+  } else if (unresolvedDamage.length && Object.keys(tables).length) {
+    gapKind = 'base_table_missing_scaling';
+    for (const p of unresolvedDamage) {
+      missingFields.push(`scaling:${p}:${scalingLabelForPlaceholder(p)}`);
+    }
+    if (varsMapEmpty) missingFields.push('varsMap');
+    const ph = unresolvedDamage.join('/');
+    const scales = [...new Set(unresolvedDamage.map(scalingLabelForPlaceholder))].join('/');
+    reasonZh = `基础表已存在[${formatEffectTablesCompact(tables)}]，但 ${ph} 的 ${scales} 未在 varsMap/variables/effectValues 展开`;
+    blocker = `base_table_missing_scaling_${unresolvedDamage.join('_')}`;
+  } else if (unresolvedNumeric.length && Object.keys(tables).length) {
+    gapKind = 'base_table_missing_scaling';
+    for (const p of unresolvedNumeric) missingFields.push(`binding:${p}`);
+    if (varsMapEmpty) missingFields.push('varsMap');
+    reasonZh = `基础表已存在[${formatEffectTablesCompact(tables)}]，但 ${unresolvedNumeric.join('/')} 未在 varsMap/variables/effectValues 展开`;
+    blocker = `base_table_unbound_${unresolvedNumeric.join('_')}`;
+  } else if (unresolvedNumeric.length) {
+    gapKind = 'unresolved_numeric_placeholder';
+    for (const p of unresolvedNumeric) missingFields.push(`tooltip:${p}`);
+    if (varsMapEmpty) missingFields.push('varsMap');
+    reasonZh = `DDragon tooltip 保留 ${unresolvedNumeric.join('/')}，effect/vars 未提供数值绑定`;
+    blocker = `unresolved_tooltip_${unresolvedNumeric.join('_')}`;
+  } else if (claimsBuffNeedValues) {
+    gapKind = 'buff_numeric_contract';
+    missingFields.push('buff_rank_or_stack_values');
+    reasonZh = '状态/增益描述缺少可核验的攻速/时长/层数数值来源';
+    blocker = 'missing_buff_numeric_contract';
+  } else if (
+    claimsDamage
+    && unresolvedDamage.length === 0
+    && Object.keys(tables).length === 0
+    && placeholders.length === 0
+  ) {
+    gapKind = 'passive_numeric_contract';
+    missingFields.push('passive_or_spell_damage_numeric_contract');
+    reasonZh = '描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符';
+    blocker = 'missing_damage_numeric_contract';
+  }
+
+  return emptyDataGapEvidence({
+    sourceVersion: _seedMeta.version,
+    sourceRef: `${SEED_CANDIDATE_REL}#${skill.skillId}`,
+    availableEffectTables: tables,
+    availableCooldowns: cds,
+    availableCosts: costs,
+    tooltipPlaceholders: placeholders,
+    unresolvedDamagePlaceholders: unresolvedDamage,
+    varsMapEmpty,
+    variablesEmpty,
+    variables,
+    missingFields,
+    gapKind,
+    reasonZh:
+      reasonZh
+      || '本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker',
+    blocker,
+  });
+}
+
+function item3097EnergizedDataGapEvidence() {
+  return emptyDataGapEvidence({
+    sourceVersion: 'local-wiki-item-3097',
+    sourceRef: '最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs#item_3097_energized',
+    missingFields: ['move_charge_rate', 'attack_charge_rate'],
+    gapKind: 'status_charge_rate',
+    reasonZh:
+      '3097 盈能：本地 Wiki 仅写移动与普攻生成充能至 100，缺精确移动/普攻充能速率（非 Bolt 预充能伤害口径）',
+    blocker: 'missing_precise_energize_move_and_attack_charge_rates_in_local_wiki',
+  });
+}
+
+function applyDataGapToBlockedClassification(candidate, classified) {
+  if (classified.classification !== 'blocked') return classified;
+
+  if (candidate.ownerId === '3097' && candidate.passiveName === '盈能') {
+    const dataGapEvidence = item3097EnergizedDataGapEvidence();
+    return {
+      ...classified,
+      reason: dataGapEvidence.reasonZh,
+      remainingGap: dataGapEvidence.reasonZh,
+      dataGapEvidence,
+    };
+  }
+
+  if (candidate.sourceKind !== 'hero_skill') return classified;
+
+  const dataGapEvidence = buildHeroDataGapEvidence(candidate);
+  if (dataGapEvidence.missingFields.length) {
+    return {
+      ...classified,
+      reason: dataGapEvidence.reasonZh,
+      remainingGap: dataGapEvidence.reasonZh,
+      dataGapEvidence,
+    };
+  }
+  return {
+    ...classified,
+    reason: '本地 DDragon 数值快照无未解析伤害/数据字段；缺 runtime 表达能力（非 data blocker）。',
+    remainingGap: '无未解析 data 字段；缺 runtime 实现（非 data blocker）',
+    dataGapEvidence,
+  };
+}
 
 const SEED = {
   vayne: 'db/game_manage/seeds/lol_vayne_silver_bolts_seed.sql',
@@ -1354,32 +1683,35 @@ function classifyFallback(c) {
 }
 
 function classifyCandidate(c, candidateKey) {
+  let classified;
   if (candidateKey && CANDIDATE_KEY_OVERRIDES.has(candidateKey)) {
     const byKey = CANDIDATE_KEY_OVERRIDES.get(candidateKey);
-    return {
+    classified = {
       ...byKey,
       tags: byKey.tags || c.mechanismTags || [],
     };
-  }
-
-  const exact = exactOverrideFor(c);
-  if (exact) {
-    return {
-      ...exact,
-      tags: exact.tags || c.mechanismTags || [],
-    };
-  }
-
-  for (const ex of COMPONENT_EXCEPTIONS) {
-    if (ex.match(c)) {
-      return {
-        ...ex.result,
-        tags: ex.result.tags || c.mechanismTags || [],
+  } else {
+    const exact = exactOverrideFor(c);
+    if (exact) {
+      classified = {
+        ...exact,
+        tags: exact.tags || c.mechanismTags || [],
       };
+    } else {
+      classified = null;
+      for (const ex of COMPONENT_EXCEPTIONS) {
+        if (ex.match(c)) {
+          classified = {
+            ...ex.result,
+            tags: ex.result.tags || c.mechanismTags || [],
+          };
+          break;
+        }
+      }
+      if (!classified) classified = classifyFallback(c);
     }
   }
-
-  return classifyFallback(c);
+  return applyDataGapToBlockedClassification(c, classified);
 }
 
 function csvEscape(value) {
@@ -1405,6 +1737,8 @@ function toCsv(rows) {
     'evidenceSourcePaths',
     'evidenceSourceWorktrees',
     'remainingGap',
+    'dataGapMissingFields',
+    'dataGapEvidenceJson',
   ];
   const lines = [headers.join(',')];
   for (const row of rows) {
@@ -1453,6 +1787,10 @@ function buildSummary(records) {
   };
 }
 
+function containsImplEvidenceWording(text) {
+  return /seed|mount|publish|E2E/i.test(String(text || ''));
+}
+
 function validateAudit(audit) {
   const errors = [];
   const records = audit.candidates || [];
@@ -1496,6 +1834,24 @@ function validateAudit(audit) {
     }
   }
 
+  // Final blocked_data precursors: blocked + non-empty missingFields must stay data-only wording.
+  const blockedDataRows = records.filter(
+    (r) =>
+      r.genericClassification === 'blocked'
+      && Array.isArray(r.dataGapEvidence?.missingFields)
+      && r.dataGapEvidence.missingFields.length > 0,
+  );
+  for (const r of blockedDataRows) {
+    const ev = r.dataGapEvidence;
+    if (!Array.isArray(ev.missingFields) || ev.missingFields.length === 0) {
+      errors.push(`blocked_data missingFields empty @ ${r.candidateKey}`);
+    }
+    const blob = `${r.classificationReason || ''}|${ev.blocker || ''}|${ev.reasonZh || ''}`;
+    if (containsImplEvidenceWording(blob)) {
+      errors.push(`blocked_data reason/blocker cites seed/mount/publish/E2E @ ${r.candidateKey}`);
+    }
+  }
+
   const rebuilt = buildSummary(records);
   const rateKeys = [
     ['coverageRateMigratedOnly', 'all'],
@@ -1536,7 +1892,7 @@ function buildAudit(input, inputSha256, generatedAt) {
   const candidateKeys = buildCandidateKeys(input.candidates);
   const records = input.candidates.map((c, index) => {
     const classified = classifyCandidate(c, candidateKeys[index]);
-    return {
+    const row = {
       ...c,
       candidateKey: candidateKeys[index],
       genericClassification: classified.classification,
@@ -1545,6 +1901,10 @@ function buildAudit(input, inputSha256, generatedAt) {
       coverageEvidence: classified.coverageEvidence || [],
       remainingGap: classified.remainingGap || '',
     };
+    if (classified.dataGapEvidence) {
+      row.dataGapEvidence = classified.dataGapEvidence;
+    }
+    return row;
   });
 
   const summary = buildSummary(records);
@@ -1574,6 +1934,8 @@ function toCsvRows(audit) {
     genericMechanismTags: (r.genericMechanismTags || []).join('|'),
     ...csvEvidenceFields(r.coverageEvidence),
     remainingGap: r.remainingGap || '',
+    dataGapMissingFields: (r.dataGapEvidence?.missingFields || []).join('|'),
+    dataGapEvidenceJson: r.dataGapEvidence ? JSON.stringify(r.dataGapEvidence) : '',
   }));
 }
 
