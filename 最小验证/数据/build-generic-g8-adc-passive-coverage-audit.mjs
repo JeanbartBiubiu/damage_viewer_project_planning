@@ -1311,6 +1311,28 @@ const EXACT_OVERRIDES = new Map([
       coverageEvidence: [],
     },
   ],
+  [
+    '2523|奥术瞄准',
+    {
+      classification: 'out_of_scope',
+      tags: ['takedown_attack_range_only'],
+      reason:
+        '2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜仍单独审计。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6696|涌动',
+    {
+      classification: 'out_of_scope',
+      tags: ['cooldown_or_haste_without_rotation', 'takedown_ultimate_cdr_only'],
+      reason:
+        '6696 Flux/涌动：takedown 后返还 ultimate total cooldown（含 lethality 缩放），纯冷却轮转无伤害增量；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
 ]);
 
 /** Exact candidateKey overrides (takes precedence over owner|slot / owner|passive). */
@@ -1408,7 +1430,7 @@ const COMPONENT_EXCEPTIONS = [
       classification: 'blocked',
       tags: ['every_n_hit', 'on_hit', 'shield'],
       reason: '旧规则因护盾/生存误判为 out_of_scope，但含主目标额外伤害分支；缺精确 generic seed/mount。',
-      remainingGap: '缺 Akshan P 主目标 every-3rd-hit 精确 provider seed/live publish/E2E。',
+      remainingGap: '缺 Akshan P 主目标 every-3rd-hit 伤害与护盾分支的 runtime/数据闭环。',
       coverageEvidence: [],
     },
   },
@@ -1418,7 +1440,7 @@ const COMPONENT_EXCEPTIONS = [
       classification: 'blocked',
       tags: ['on_hit', 'crit_scaling'],
       reason: '旧规则因关键词误判为 out_of_scope，但含主目标爆头伤害；缺精确 generic seed/mount。',
-      remainingGap: '缺 Caitlyn P Headshot 主目标伤害精确 provider seed/live publish/E2E。',
+      remainingGap: '缺 Caitlyn P Headshot 主目标伤害与暴击缩放 runtime/数据闭环。',
       coverageEvidence: [],
     },
   },
@@ -1427,8 +1449,10 @@ const COMPONENT_EXCEPTIONS = [
     result: {
       classification: 'blocked',
       tags: ['timed_attack_speed_modifier', 'attack_crit_cooldown_interaction'],
-      reason: '育恩塔尔疾风骤雨为攻击触发的定时 30% 攻速修正，并含攻击/暴击冷却交互；非纯冷却轮转。',
-      remainingGap: '缺精确定时条件攻速/暴击冷却状态机与 provider seed/mount/live publish/E2E。',
+      reason:
+        '育恩塔尔 Flurry/疾风骤雨：对英雄发起普攻武装 +30% AS 6s/30s CD；on-hit -1s、crit -2s 冷却缩减；非纯冷却轮转。',
+      remainingGap:
+        '缺 attack_launch_vs_champion 武装、timed_attack_speed_buff、on_hit/crit cooldown_reduction 状态机。',
       coverageEvidence: [],
     },
   },
@@ -1437,18 +1461,59 @@ const COMPONENT_EXCEPTIONS = [
     result: {
       classification: 'blocked',
       tags: ['conditional_guaranteed_crit', 'first_attack', 'heal'],
-      reason: '焚天光盾打击：对英雄第一次攻击为条件性必定暴击并治疗；expected-crit 不实现条件必定暴击语义，且含治疗分支不得整条 survivability out_of_scope。',
-      remainingGap: '缺精确条件必定暴击状态/provider seed 与 E2E；不得用 expected-crit 冒充完成。',
+      reason:
+        '焚天 Lightshield Strike/光盾打击：对英雄下一次普攻为条件性必定暴击（指定暴击伤害）；治疗分支 out_of_scope；expected-crit 不实现 per-target 条件必定暴击。',
+      remainingGap:
+        '缺 per_target_guaranteed_crit_arm、specified_crit_damage_branch、per_target_10s_cooldown；healing OOS。',
       coverageEvidence: [],
     },
   },
   {
+    match: (c) => c.ownerId === '2512' && c.passiveName === '开战弹幕',
+    result: {
+      classification: 'blocked',
+      tags: ['ultimate_cast_armed_attacks', 'conditional_crit_damage', 'pre_mitigation_true_damage'],
+      reason:
+        '2512 Opening Barrage/开战弹幕：ultimate_cast 武装接下来 3 次普攻/8s；+50% AS；条件暴击伤害；已暴击则附加 15% pre-mitigation 攻击伤害真实伤害；45s CD。',
+      remainingGap:
+        '缺 ultimate_cast_arm_next_3_attacks、deterministic_crit_branch、attack_pre_mitigation_snapshot、charge_consumption、45s_cooldown。',
+      coverageEvidence: [],
+    },
+  },
+  {
+    match: (c) => c.ownerId === '2523' && c.passiveName === '高倍望远镜',
+    result: {
+      classification: 'blocked',
+      tags: ['distance_or_ratio_modifier', 'basic_damage_amplification'],
+      reason:
+        '2523 Magnification/高倍望远镜：edge-to-edge 距离输入，每 50 单位 +1% 最多 10% basic damage amplification。',
+      remainingGap:
+        '缺 edge_to_edge_distance_input、distance_scaled_basic_damage_amp_snapshot（1%/50 up to 10%）。',
+      coverageEvidence: [],
+    },
+  },
+  {
+    match: (c) => c.ownerId === '3036' && c.passiveName === '巨人杀手',
+    result: {
+      classification: 'blocked',
+      tags: ['outgoing_damage_modifier', 'bonus_health_ratio'],
+      reason:
+        '3036 Giant Slayer/巨人杀手：按目标 bonus health，每 100 +1% 最多 15% outgoing damage amp。',
+      remainingGap:
+        '缺 target_bonus_health_input、outgoing_damage_amp_ordering（1%/100 up to 15%）。',
+      coverageEvidence: [],
+    },
+  },
+  {
+    // Input Batch-G tag remains seeded_*; output primitive key means reproducible RNG, not data seed.
     match: (c) => (c.mechanismTags || []).includes('seeded_random_crit_sequence'),
     result: {
       classification: 'blocked',
-      tags: ['seeded_random_crit_sequence'],
-      reason: 'seeded_random_crit_sequence：expected crit 不证明 RNG/on-crit 序列语义。',
-      remainingGap: '缺 seeded/random/on-crit 序列 runtime 与精确 seed；不得用 expected-crit 冒充完成。',
+      tags: ['deterministic_random_crit_sequence'],
+      reason:
+        'deterministic_random_crit_sequence：expected crit 不证明可复现 RNG/on-crit 序列语义。',
+      remainingGap:
+        '缺 deterministic_random_crit_sequence / on_crit_event 运行时原语；不得用 expected-crit 冒充完成。',
       coverageEvidence: [],
     },
   },
@@ -1465,7 +1530,7 @@ const COMPONENT_EXCEPTIONS = [
       classification: 'blocked',
       tags: ['distance_or_ratio_modifier'],
       reason: 'distance_based_damage_modifier / damage_multiplier_or_health_ratio 无精确 migrated/partial 证据。',
-      remainingGap: '缺距离输入或复杂倍率/生命比例基线与精确 provider seed。',
+      remainingGap: '缺 distance_or_ratio_input 与 damage_multiplier_or_health_ratio runtime 原语。',
       coverageEvidence: [],
     },
   },
@@ -1481,7 +1546,7 @@ const COMPONENT_EXCEPTIONS = [
       classification: 'blocked',
       tags: ['spellblade_next_attack_state'],
       reason: 'spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。',
-      remainingGap: '缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。',
+      remainingGap: '缺该 candidate 精确 spellblade_next_attack_state 武装/消费 runtime。',
       coverageEvidence: [],
     },
   },
@@ -1499,7 +1564,7 @@ const COMPONENT_EXCEPTIONS = [
       tags: ['energized_charge_and_consume'],
       reason:
         'energized 除 item 3094 神射手与 item 3097 弩箭（预充能口径）外全部 blocked；同机制代表完成不等于本 candidate 已 seed（含 3097 盈能充能速率）。',
-      remainingGap: '缺该 candidate 精确 energized provider seed/mount/live publish/E2E。',
+      remainingGap: '缺该 candidate 精确 energized_charge_and_consume 充能/消费 runtime。',
       coverageEvidence: [],
     },
   },
@@ -1515,7 +1580,7 @@ const COMPONENT_EXCEPTIONS = [
       classification: 'blocked',
       tags: ['stacking_stat_modifier_on_hit'],
       reason: 'stacking modifier 除 item 3124 与 item 3071 外 blocked。',
-      remainingGap: '缺该 candidate 精确 stacking modifier seed/mount；不得因 Guinsoo/黑切代表完成而 partial。',
+      remainingGap: '缺该 candidate 精确 stacking_stat_modifier_on_hit 状态机 runtime；不得因 Guinsoo/黑切代表完成而 partial。',
       coverageEvidence: [],
     },
   },
@@ -1827,7 +1892,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 22, partial: 11, blocked: 143, out_of_scope: 66 };
+  const expectedCounts = { migrated: 22, partial: 11, blocked: 141, out_of_scope: 68 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
