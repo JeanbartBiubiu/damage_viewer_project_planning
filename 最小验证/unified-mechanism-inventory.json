@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-16T04:35:11.999Z",
+    "generatedAt": "2026-07-16T04:47:33.859Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -52,12 +52,12 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "1acc52e6e040f5238d96813c45d4a4a51de5107c816e4fffaaf279368bfbfba3",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "a4d7373f59a66889d989ebba24bde4d96ceb65741d11b6eb23234a0fec144f74",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "6c5ef68b3f20a6ec11c665421ccf697ae8a21a2e7b26eaad4786558b32c2b322",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "b810f713645481b86ec5d21276bbfe36a050f63785435180d764670dc610559a",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "47bb5928660c8046358f815a7f31e64b8d2a9f46c71fb782f31217b15a51f6e3",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "529d3f036440246c3575f4a57585586850ca1f17b81b84b10b0370dd700dd3f9",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "259673fd409ee6030bf5a2faed17c77ae684c067429a354195dcad44835ce7c7",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "918b53eecac4540cc7bada093376d12a813bb477148bec986a68c684e778fb3c",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -89,16 +89,16 @@
       "completed": 24,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 47,
-      "blocked_data": 108,
+      "blocked_runtime": 48,
+      "blocked_data": 107,
       "out_of_scope": 70,
       "regression_only": 5,
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
       "full": 24,
-      "partial": 10,
-      "none": 220
+      "partial": 11,
+      "none": 219
     },
     "laneCounts": {
       "generic_runtime": 244,
@@ -193,8 +193,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "1acc52e6e040f5238d96813c45d4a4a51de5107c816e4fffaaf279368bfbfba3",
-      "byteSize": 58230,
+      "sha256": "a4d7373f59a66889d989ebba24bde4d96ceb65741d11b6eb23234a0fec144f74",
+      "byteSize": 58598,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -209,8 +209,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "6c5ef68b3f20a6ec11c665421ccf697ae8a21a2e7b26eaad4786558b32c2b322",
-      "byteSize": 368674,
+      "sha256": "b810f713645481b86ec5d21276bbfe36a050f63785435180d764670dc610559a",
+      "byteSize": 370278,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -225,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "47bb5928660c8046358f815a7f31e64b8d2a9f46c71fb782f31217b15a51f6e3",
-      "byteSize": 62161,
+      "sha256": "259673fd409ee6030bf5a2faed17c77ae684c067429a354195dcad44835ce7c7",
+      "byteSize": 64207,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "529d3f036440246c3575f4a57585586850ca1f17b81b84b10b0370dd700dd3f9",
-      "byteSize": 90524,
+      "sha256": "918b53eecac4540cc7bada093376d12a813bb477148bec986a68c684e778fb3c",
+      "byteSize": 92337,
       "recordCount": 0,
       "role": "generator"
     },
@@ -16983,19 +16983,21 @@
     },
     {
       "key": "hero_skill|hero_xayah|W|致死羽衣",
-      "status": "blocked_data",
-      "completionMode": "none",
+      "status": "blocked_runtime",
+      "completionMode": "partial",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_xayah",
       "skillKey": "W",
       "passiveName": "致死羽衣",
       "mechanismTags": [
-        "multi_target_or_area"
+        "attack_speed_percent_add",
+        "cast_triggered_timed_attack_speed",
+        "secondary_feather_ratio_damage"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "rank5 主动攻速核心已由 generic CompileGeneric+RunGeneric 闭环（40 mana / 14000ms CD / 4000ms +55% AS）；次级羽刃造成原真实普攻伤害20% 所需、以已结算基础攻击伤害为输入的比例复制语义（明确排除 on-hit/phantom 重复）仍缺。移动速度与洛（Rakan）共享为允许不模拟的非伤害分支，不作为阻塞。",
+      "blocker": "secondary_feather_settled_basic_attack_damage_ratio_copy_excluding_on_hit_phantom",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17004,11 +17006,26 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "partial",
           "sourceRecordKey": "hero_skill|hero_xayah|W|致死羽衣"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-deadly-plumage",
+          "sourcePath": "db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "backend lol_generic_xayah_deadly_plumage_seed.sql idempotent seed/mount; LolGenericXayahDeadlyPlumageSeedSqlTest 9 tests; commit afd71de; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-deadly-plumage",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Xayah W Deadly Plumage rank5 partial: 40 mana / CD14000ms / ability_started arms 4000ms AS state; +55% AS; 7 tests; DD16.9.1 e1=55 e2=4 e5=20 cost40 CD14; commit d59818f; secondary feather 20% settled basic-attack damage ratio copy excluding on-hit/phantom unmodeled; MS/Rakan intentionally non-damage OOS"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
