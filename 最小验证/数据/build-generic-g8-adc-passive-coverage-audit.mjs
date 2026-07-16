@@ -50,6 +50,9 @@ const SEED = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
+  xayahDeadlyPlumageWasm:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
+  xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
@@ -264,6 +267,32 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-quinn-heightened-senses',
           SEED.quinnHeightenedSensesBackend,
           'backend lol_generic_quinn_heightened_senses_seed.sql idempotent seed/mount; LolGenericQuinnHeightenedSensesSeedSqlTest 10 tests; commit 1f11cf3; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_xayah|W',
+    {
+      classification: 'partial',
+      tags: ['cast_triggered_timed_attack_speed', 'attack_speed_percent_add', 'secondary_feather_ratio_damage'],
+      reason:
+        'hero_xayah W 致死羽衣/Deadly Plumage rank5 主动攻速核心已由 wasm-generic-xayah-deadly-plumage 闭环：真实 CompileGeneric+RunGeneric；40 mana / CD 14000ms；ability_started 武装 4000ms timed AS state；+55% attack_speed；wasm generic_xayah_deadly_plumage_test.go 7 tests（commit d59818f）；backend lol_generic_xayah_deadly_plumage_seed.sql 幂等 seed/mount + LolGenericXayahDeadlyPlumageSeedSqlTest 9 tests（commit afd71de，未 live publish）；本地 DD 16.9.1 e1=55 / e2=4 / e5=20 / cost=40 / CD=14。已完成 active AS branch。',
+      remainingGap:
+        '次级羽刃造成原真实普攻伤害20%，需要以已结算基础攻击伤害为输入的比例复制语义，并明确排除 on-hit/phantom 重复；MS/Rakan为非伤害OOS。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-xayah-deadly-plumage',
+          SEED.xayahDeadlyPlumageWasm,
+          'Xayah W Deadly Plumage rank5 partial: 40 mana / CD14000ms / ability_started arms 4000ms AS state; +55% AS; 7 tests; DD16.9.1 e1=55 e2=4 e5=20 cost40 CD14; commit d59818f; secondary feather 20% settled basic-attack damage ratio copy excluding on-hit/phantom unmodeled; MS/Rakan intentionally non-damage OOS',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-xayah-deadly-plumage',
+          SEED.xayahDeadlyPlumageBackend,
+          'backend lol_generic_xayah_deadly_plumage_seed.sql idempotent seed/mount; LolGenericXayahDeadlyPlumageSeedSqlTest 9 tests; commit afd71de; not live published',
         ),
       ],
     },
@@ -1460,7 +1489,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 22, partial: 10, blocked: 144, out_of_scope: 66 };
+  const expectedCounts = { migrated: 22, partial: 11, blocked: 143, out_of_scope: 66 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
