@@ -12,6 +12,14 @@ function requireEnv(name: string): string {
 
 const apiBaseUrl = requireEnv('E2E_API_BASE_URL');
 const gameId = requireEnv('E2E_GAME_ID');
+const sourceEntityId = requireEnv('E2E_SOURCE_ENTITY_ID');
+const targetEntityId = requireEnv('E2E_TARGET_ENTITY_ID');
+if (sourceEntityId === targetEntityId) {
+  throw new Error(
+    `E2E_SOURCE_ENTITY_ID and E2E_TARGET_ENTITY_ID must differ (got both "${sourceEntityId}"). ` +
+      `Configure a distinct runnable source/target pair.`
+  );
+}
 const explicitWebBaseUrl = process.env.E2E_WEB_BASE_URL?.trim();
 /** Deterministic loopback preview when E2E_WEB_BASE_URL is unset (uses just-built dist). */
 const PREVIEW_PORT = 4173;
@@ -40,6 +48,8 @@ export default defineConfig({
   metadata: {
     apiBaseUrl,
     gameId,
+    sourceEntityId,
+    targetEntityId,
     webBaseUrl
   },
   ...(explicitWebBaseUrl
