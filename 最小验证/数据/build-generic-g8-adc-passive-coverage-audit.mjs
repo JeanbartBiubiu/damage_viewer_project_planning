@@ -315,8 +315,67 @@ function item3097EnergizedDataGapEvidence() {
   });
 }
 
+function yunaraRDataGapEvidence() {
+  loadSeedCandidateIndex();
+  const skill = _seedSkillIndex.get(`${normChampionId('Yunara')}|R`);
+  const tables = nonZeroEffectTables(skill?.params?.effectValues);
+  const varsMap = skill?.params?.varsMap && typeof skill.params.varsMap === 'object' ? skill.params.varsMap : {};
+  const variables = Array.isArray(skill?.params?.variables)
+    ? skill.params.variables.filter((v) => typeof v === 'string')
+    : [];
+  const cds = Array.isArray(skill?.cooldowns) ? skill.cooldowns : [];
+  const costs =
+    skill?.resourceCosts && typeof skill.resourceCosts === 'object' ? skill.resourceCosts : {};
+  const placeholders = extractTooltipPlaceholders(
+    skill?.description,
+    readChampionSpellTooltip('Yunara', 'R'),
+  );
+  const missingFields = [
+    'tooltip:buff_duration',
+    'cross_skill:Q:tooltip:calc_damage',
+    'cross_skill:Q:tooltip:calc_damage_spread',
+    'cross_skill:Q:tooltip:calc_passive_damage',
+    'cross_skill:Q:tooltip:calc_attack_speed',
+    'cross_skill:W:tooltip:calc_damage_initial',
+    'cross_skill:W:tooltip:calc_damage_per_second',
+    'cross_skill:W:tooltip:calc_rw_damage',
+    'varsMap',
+  ];
+  return emptyDataGapEvidence({
+    sourceVersion: _seedMeta?.version || '16.9.1',
+    sourceRef: `${SEED_CANDIDATE_REL}#champion_Yunara_R`,
+    availableEffectTables: tables,
+    availableCooldowns: cds,
+    availableCosts: costs,
+    tooltipPlaceholders: placeholders,
+    unresolvedDamagePlaceholders: [],
+    varsMapEmpty: Object.keys(varsMap).length === 0,
+    variablesEmpty: variables.length === 0,
+    variables,
+    missingFields,
+    gapKind: 'unresolved_transcendent_form_cross_skill_formulas',
+    reasonZh:
+      'Yunara R 定圣诀进入超凡形态并升级基础技能；本地 DDragon 16.9.1 R 的 buff_duration 未展开，Q/W 超凡形态 calc_damage/calc_rw_damage 等公式均未展开',
+    blocker:
+      'unresolved_yunara_r_buff_duration_and_qw_transcendent_calc_damage_formulas',
+  });
+}
+
 function applyDataGapToBlockedClassification(candidate, classified) {
   if (classified.classification !== 'blocked') return classified;
+
+  // Preserve precise evidence supplied by exact overrides (e.g. Yunara R cross-skill).
+  if (
+    classified.dataGapEvidence
+    && Array.isArray(classified.dataGapEvidence.missingFields)
+    && classified.dataGapEvidence.missingFields.length
+  ) {
+    return {
+      ...classified,
+      reason: classified.dataGapEvidence.reasonZh || classified.reason,
+      remainingGap: classified.dataGapEvidence.reasonZh || classified.remainingGap,
+    };
+  }
 
   if (candidate.ownerId === '3097' && candidate.passiveName === '盈能') {
     const dataGapEvidence = item3097EnergizedDataGapEvidence();
@@ -1023,6 +1082,20 @@ const EXACT_OVERRIDES = new Map([
       ],
     },
   ],
+  // --- Yunara R: transcendent form upgrades Q/W damage formulas; not OOS ---
+  [
+    'hero_yunara|R',
+    {
+      classification: 'blocked',
+      tags: ['transcendent_form_skill_upgrade', 'cross_skill_damage_formula'],
+      reason:
+        'Yunara R 定圣诀进入超凡形态并升级基础技能；本地 DDragon 16.9.1 R 的 buff_duration 未展开，Q/W 超凡形态 calc_damage/calc_rw_damage 等公式均未展开',
+      remainingGap:
+        'Yunara R 定圣诀进入超凡形态并升级基础技能；本地 DDragon 16.9.1 R 的 buff_duration 未展开，Q/W 超凡形态 calc_damage/calc_rw_damage 等公式均未展开',
+      coverageEvidence: [],
+      dataGapEvidence: null, // filled at classify time via yunaraRDataGapEvidence()
+    },
+  ],
   // --- explicit out_of_scope: Aphelios full weapon/ammo/swap system skipped ---
   [
     'hero_aphelios|P',
@@ -1589,6 +1662,10 @@ const COMPONENT_EXCEPTIONS = [
 const DAMAGE_SIGNAL_RE =
   /伤害|普攻|斩杀|处决|攻击特效|真实伤害|物理伤害|魔法伤害|额外伤害|每第[一二三四五六七八九十零〇两\d]+次|暴击伤害|造成\d|命中造成/;
 
+/** Broader damage-related signals for OOS validation (a–e gate). */
+const DAMAGE_RELATED_SIGNAL_RE =
+  /造成.{0,16}伤害|额外伤害|真实伤害|物理伤害|魔法伤害|附带伤害|攻击特效|斩杀|处决|伤害放大|易伤|护甲穿透|魔法穿透|法术穿透|穿甲|法穿|命中造成|攻击速度|攻速|获得.{0,24}攻击力|获得.{0,24}法术强度|额外攻击力|额外法术强度|暴击伤害/;
+
 const PURE_CONTROL_TAGS = new Set(['control_only', 'slow']);
 
 const PURE_OOS_TAGS = new Set([
@@ -1602,6 +1679,41 @@ const PURE_OOS_TAGS = new Set([
   'no_single_target_dps_effect',
 ]);
 
+const OOS_DAMAGE_SIGNAL_DISPOSITIONS = new Set([
+  'aphelios_owner_allowlist',
+  'other_target_or_building_only',
+  'sibling_primary_completed_remaining_oos',
+  'post_kill_next_encounter_only',
+  'trigger_phrase_no_damage_amp',
+]);
+
+const BOUNDARY_CATEGORIES = new Set([
+  'complex_owner_skip',
+  'pure_movement_or_dash',
+  'pure_vision',
+  'pure_heal_shield_survival',
+  'pure_control_or_debuff',
+  'economy_or_post_takedown',
+  'cooldown_or_ability_haste_only',
+  'building_or_nonchampion_only',
+  'other_targets_only',
+  'stat_or_active_only',
+  'completed_primary_branch_remaining_component',
+  'explicit_user_scope',
+]);
+
+const GENERIC_OOS_REASON_RE =
+  /文本为纯 meta\/economy\/vision|纯 meta\/economy\/vision\/building/;
+
+const STALE_OTHER_TARGETS_REASON_RE =
+  /伤害\/效果仅作用于额外目标\/建筑\/守卫，主目标单标靶 DPS 不受益/;
+
+const MOVE_SEMANTIC_RE = /移动速度|移速|冲刺|跃迁|位移|幽灵状态|进行冲刺|突进|冲刺一小段/;
+const PRIMARY_DAMAGE_DEAL_RE =
+  /造成.{0,16}(物理|魔法|真实)?伤害|额外伤害|每次攻击.{0,8}伤害|发射.{0,12}伤害/;
+const POST_DAMAGE_UTILITY_ONLY_RE =
+  /造成物理伤害时会提供|造成物理伤害后|攻击一个单位时会提供|攻击一位英雄.{0,6}会/;
+
 function exactKeyOwnerSkill(c) {
   return `${c.ownerId}|${c.skillKey}`;
 }
@@ -1611,11 +1723,21 @@ function exactKeyOwnerPassive(c) {
 }
 
 function exactOverrideFor(c) {
-  return (
+  const raw =
     EXACT_OVERRIDES.get(exactKeyOwnerSkill(c))
     || EXACT_OVERRIDES.get(exactKeyOwnerPassive(c))
-    || null
-  );
+    || null;
+  if (!raw) return null;
+  if (exactKeyOwnerSkill(c) === 'hero_yunara|R') {
+    const dataGapEvidence = yunaraRDataGapEvidence();
+    return {
+      ...raw,
+      reason: dataGapEvidence.reasonZh,
+      remainingGap: dataGapEvidence.reasonZh,
+      dataGapEvidence,
+    };
+  }
+  return raw;
 }
 
 function sha256File(filePath) {
@@ -1662,8 +1784,296 @@ function pct(numerator, denominator) {
   return Math.round((numerator / denominator) * 10000) / 100;
 }
 
+function summarizeSourceText(text) {
+  return String(text || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 180);
+}
+
+function cleanReasonForCategoryMatch(reason) {
+  const r = String(reason || '');
+  if (!r.trim()) return '';
+  if (GENERIC_OOS_REASON_RE.test(r) || STALE_OTHER_TARGETS_REASON_RE.test(r)) return '';
+  return r;
+}
+
+function boundaryReasonForCategory(category, label) {
+  switch (category) {
+    case 'complex_owner_skip':
+      return `${label}：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。`;
+    case 'pure_movement_or_dash':
+      return `${label}：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。`;
+    case 'pure_vision':
+      return `${label}：纯视野/显形/守卫侦察，不含伤害；审计边界外。`;
+    case 'pure_heal_shield_survival':
+      return `${label}：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。`;
+    case 'pure_control_or_debuff':
+      return `${label}：纯控制/减速/重伤，无主目标伤害增量；审计边界外。`;
+    case 'economy_or_post_takedown':
+      return `${label}：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。`;
+    case 'cooldown_or_ability_haste_only':
+      return `${label}：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。`;
+    case 'building_or_nonchampion_only':
+      return `${label}：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。`;
+    case 'other_targets_only':
+      return `${label}：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。`;
+    case 'stat_or_active_only':
+      return `${label}：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。`;
+    case 'completed_primary_branch_remaining_component':
+      return `${label}：主目标伤害分支已完成；剩余为多目标/范围 component，审计边界外。`;
+    case 'explicit_user_scope':
+      return `${label}：用户显式划定审计范围外；主目标伤害分支已复核为边界外。`;
+    default:
+      return `${label}：当前 ADC 被动 1v1 单目标伤害审计边界外。`;
+  }
+}
+
+function excludedBehaviorForCategory(category, tags, text) {
+  switch (category) {
+    case 'complex_owner_skip':
+      return 'aphelios_weapon_ammo_swap_system';
+    case 'explicit_user_scope':
+      return 'explicit_user_audit_scope';
+    case 'pure_movement_or_dash':
+      return 'movement_speed_or_dash';
+    case 'pure_vision':
+      return 'ward_vision_or_trap_reveal';
+    case 'pure_heal_shield_survival':
+      if (tags.includes('incoming_damage_store')) return 'incoming_damage_store';
+      if (tags.includes('hot_sustain')) return 'hot_sustain';
+      if (/复活|重生|免死/.test(text)) return 'revive_or_death_save';
+      if (/护盾/.test(text)) return 'self_shield_or_survivability';
+      return 'heal_shield_or_survivability';
+    case 'pure_control_or_debuff':
+      if (tags.includes('grievous_wounds_only') || /重伤/.test(text)) return 'grievous_wounds_only';
+      return 'crowd_control_or_slow';
+    case 'economy_or_post_takedown':
+      if (tags.includes('takedown_omnivamp')) return 'post_kill_omnivamp';
+      if (tags.includes('takedown_stat_buff')) return 'post_kill_temporary_ad';
+      if (tags.includes('takedown_heal')) return 'post_kill_heal';
+      if (/金币|赏金/.test(text)) return 'economy_gold';
+      return 'post_kill_or_takedown_utility';
+    case 'cooldown_or_ability_haste_only':
+      return 'cooldown_haste_without_damage';
+    case 'building_or_nonchampion_only':
+      return 'building_or_epic_monster_damage';
+    case 'other_targets_only':
+      return 'other_target_or_aoe_damage';
+    case 'stat_or_active_only':
+      return 'static_stats_or_active_only';
+    case 'completed_primary_branch_remaining_component':
+      return 'remaining_multi_target_cleave_after_primary_complete';
+    default:
+      return 'non_damage_audit_boundary';
+  }
+}
+
+function dispositionForCategory(category, text, owner) {
+  if (category === 'complex_owner_skip' || owner === 'hero_aphelios') {
+    return 'aphelios_owner_allowlist';
+  }
+  if (category === 'other_targets_only' || category === 'building_or_nonchampion_only') {
+    return 'other_target_or_building_only';
+  }
+  if (category === 'completed_primary_branch_remaining_component') {
+    return 'sibling_primary_completed_remaining_oos';
+  }
+  if (category === 'economy_or_post_takedown') {
+    return 'post_kill_next_encounter_only';
+  }
+  if (category === 'pure_vision' && DAMAGE_RELATED_SIGNAL_RE.test(text)) {
+    // Ward/trap-only bonus damage is still vision-scope; gate via trigger_phrase.
+    return 'trigger_phrase_no_damage_amp';
+  }
+  if (POST_DAMAGE_UTILITY_ONLY_RE.test(text) || DAMAGE_RELATED_SIGNAL_RE.test(text)) {
+    if (
+      category === 'pure_movement_or_dash'
+      || category === 'pure_heal_shield_survival'
+      || category === 'pure_control_or_debuff'
+      || category === 'cooldown_or_ability_haste_only'
+      || category === 'stat_or_active_only'
+      || category === 'explicit_user_scope'
+      || category === 'pure_vision'
+    ) {
+      return 'trigger_phrase_no_damage_amp';
+    }
+  }
+  return 'no_primary_target_damage_branch';
+}
+
+/**
+ * Resolve OOS boundaryCategory from source text / explicit override signals.
+ * Must NOT default-guess from mechanismTags multi_target / meta_or_non_target_dps.
+ */
+function resolveBoundaryCategory({ text, tags, reason, owner, key, passive }) {
+  const reasonClean = cleanReasonForCategoryMatch(reason);
+  const blob = `${text}|${passive}|${reasonClean}`;
+
+  if (owner === 'hero_aphelios' || tags.includes('weapon_ammo_swap_system')) {
+    return 'complex_owner_skip';
+  }
+  if (/用户明确/.test(reasonClean)) {
+    return 'explicit_user_scope';
+  }
+  if (
+    /主目标 on-hit 分支已完成|剩余 cleave/.test(reasonClean)
+    || /3748/.test(String(key || ''))
+  ) {
+    return 'completed_primary_branch_remaining_component';
+  }
+
+  if (
+    /额外目标|附近的敌人|周围的敌人|身后锥形|身后的敌人/.test(blob)
+    || (/顺劈|cleave|连锁闪电|风怒/.test(blob) && /附近|额外|周围/.test(blob))
+  ) {
+    return 'other_targets_only';
+  }
+
+  if (
+    tags.includes('turret_epic_monster')
+    || (/防御塔|史诗级野怪|太阳圆盘|攻城兵|超级士兵/.test(blob)
+      && !/敌方英雄/.test(text)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'building_or_nonchampion_only';
+  }
+
+  if (
+    (/提供.{0,12}视野|真实视野|显形附近|侦察|派出一只鹰|显形守卫|黑雾|变为伪装/.test(text)
+      || tags.includes('ward_vision'))
+    && !/复活|额外金币|赏金/.test(text)
+    && !PRIMARY_DAMAGE_DEAL_RE.test(text.replace(/对(其|守卫|陷阱).{0,12}(额外)?伤害/g, ''))
+  ) {
+    return 'pure_vision';
+  }
+
+  if (
+    tags.includes('takedown_omnivamp')
+    || tags.includes('takedown_stat_buff')
+    || tags.includes('takedown_attack_range_only')
+    || tags.includes('takedown_ultimate_cdr_only')
+    || tags.includes('takedown_heal')
+    || (/击杀|阵亡|参与击杀|takedown|赏金|额外金币|崇拜/.test(blob)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'economy_or_post_takedown';
+  }
+
+  if (
+    /冲刺|跃迁|突进|进行冲刺/.test(text)
+    && !PRIMARY_DAMAGE_DEAL_RE.test(text)
+  ) {
+    return 'pure_movement_or_dash';
+  }
+
+  if (
+    tags.includes('survivability_only')
+    || tags.includes('incoming_damage_store')
+    || tags.includes('shield_reduction_only')
+    || tags.includes('hot_sustain')
+    || tags.includes('resurrection')
+    || (/护盾|治疗|吸血|复活|免死|承伤|回复生命|法术护盾|溢出治疗/.test(blob)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'pure_heal_shield_survival';
+  }
+
+  if (
+    tags.includes('control_only')
+    || tags.includes('slow')
+    || tags.includes('grievous_wounds_only')
+    || (/减速|重伤|禁锢|击退|晕眩/.test(blob) && !PRIMARY_DAMAGE_DEAL_RE.test(text))
+  ) {
+    return 'pure_control_or_debuff';
+  }
+
+  if (
+    MOVE_SEMANTIC_RE.test(text)
+    && (!PRIMARY_DAMAGE_DEAL_RE.test(text) || POST_DAMAGE_UTILITY_ONLY_RE.test(text))
+  ) {
+    return 'pure_movement_or_dash';
+  }
+
+  if (
+    tags.includes('cooldown_or_haste_without_rotation')
+    || tags.includes('takedown_ultimate_cdr_only')
+    || (/技能急速|终极技能急速|冷却时间缩短|返还.{0,8}冷却|冷却缩减/.test(blob)
+      && !PRIMARY_DAMAGE_DEAL_RE.test(text)
+      && !MOVE_SEMANTIC_RE.test(text))
+  ) {
+    return 'cooldown_or_ability_haste_only';
+  }
+
+  if (
+    tags.includes('stat_only_or_active_only')
+    || /无被动|仅主动|静态属性|射程随等级/.test(blob)
+  ) {
+    return 'stat_or_active_only';
+  }
+
+  if (MOVE_SEMANTIC_RE.test(blob)) return 'pure_movement_or_dash';
+  if (/视野|守卫|显形|伪装/.test(blob)) return 'pure_vision';
+  if (/金币|赏金/.test(blob)) return 'economy_or_post_takedown';
+  if (/护盾|治疗|复活/.test(blob)) return 'pure_heal_shield_survival';
+  if (/急速|冷却/.test(blob)) return 'cooldown_or_ability_haste_only';
+  return 'stat_or_active_only';
+}
+
+/**
+ * Infer concrete excluded behavior + disposition + boundaryCategory for an OOS candidate.
+ * Category is driven by source text / explicit override — not multi_target/meta tag guessing.
+ */
+function inferOutOfScopeEvidence(c, classificationReason) {
+  const text = String(c.sourceText || '');
+  const tags = c.mechanismTags || [];
+  const reason = String(classificationReason || '');
+  const owner = String(c.ownerId || '');
+  const passive = String(c.passiveName || '');
+  const label = passive || `${owner}|${c.skillKey || ''}`;
+  const keyHint = c.candidateKey || `${c.sourceKind}|${owner}|${c.skillKey || ''}|${passive}`;
+
+  const boundaryCategory = resolveBoundaryCategory({
+    text,
+    tags,
+    reason,
+    owner,
+    key: keyHint,
+    passive,
+  });
+  const excludedBehavior = excludedBehaviorForCategory(boundaryCategory, tags, text);
+  const disposition = dispositionForCategory(boundaryCategory, text, owner);
+  const boundaryReason = boundaryReasonForCategory(boundaryCategory, label);
+
+  return {
+    sourceRef: c.sourceRef || '',
+    sourceTextSummary: summarizeSourceText(text),
+    reviewedPrimaryTargetDamageBranch: true,
+    boundaryCategory,
+    excludedBehavior,
+    boundaryReason,
+    damageRelevantSubBranchDisposition: disposition,
+  };
+}
+
+function specificOosReasonFromEvidence(ev, fallbackReason) {
+  if (ev?.boundaryReason && !GENERIC_OOS_REASON_RE.test(ev.boundaryReason)
+    && !STALE_OTHER_TARGETS_REASON_RE.test(ev.boundaryReason)) {
+    return ev.boundaryReason;
+  }
+  if (fallbackReason && !GENERIC_OOS_REASON_RE.test(fallbackReason)
+    && !STALE_OTHER_TARGETS_REASON_RE.test(fallbackReason)) {
+    return fallbackReason;
+  }
+  return ev?.boundaryReason || fallbackReason || '当前 ADC 被动 1v1 单目标伤害审计边界外。';
+}
+
 function hasDamageSignal(text) {
   return DAMAGE_SIGNAL_RE.test(String(text || ''));
+}
+
+function hasDamageRelatedSignal(text) {
+  return DAMAGE_RELATED_SIGNAL_RE.test(String(text || ''));
 }
 
 function isPureControlCandidate(c) {
@@ -1712,12 +2122,16 @@ function classifyFallback(c) {
 
   if (old === 'out_of_scope_for_single_target_dps') {
     if (isPureOutOfScopeCandidate(c)) {
+      const draftReason =
+        '文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。';
+      const ev = inferOutOfScopeEvidence(c, draftReason);
       return {
         classification: 'out_of_scope',
         tags: tags.length ? tags : ['audit_boundary'],
-        reason: '文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。',
+        reason: specificOosReasonFromEvidence(ev, draftReason),
         remainingGap: '',
         coverageEvidence: [],
+        outOfScopeEvidence: ev,
       };
     }
     if (hasDamageSignal(c.sourceText)) {
@@ -1729,12 +2143,15 @@ function classifyFallback(c) {
         coverageEvidence: [],
       };
     }
+    const draftReason = '当前 ADC 被动 1v1 单目标伤害审计边界外。';
+    const ev = inferOutOfScopeEvidence(c, draftReason);
     return {
       classification: 'out_of_scope',
       tags: tags.length ? tags : ['audit_boundary'],
-      reason: '当前 ADC 被动 1v1 单目标伤害审计边界外。',
+      reason: specificOosReasonFromEvidence(ev, draftReason),
       remainingGap: '',
       coverageEvidence: [],
+      outOfScopeEvidence: ev,
     };
   }
 
@@ -1776,6 +2193,19 @@ function classifyCandidate(c, candidateKey) {
       if (!classified) classified = classifyFallback(c);
     }
   }
+
+  if (classified.classification === 'out_of_scope') {
+    const ev = inferOutOfScopeEvidence(
+      { ...c, mechanismTags: classified.tags || c.mechanismTags },
+      classified.reason,
+    );
+    classified = {
+      ...classified,
+      outOfScopeEvidence: ev,
+      reason: specificOosReasonFromEvidence(ev, classified.reason),
+    };
+  }
+
   return applyDataGapToBlockedClassification(c, classified);
 }
 
@@ -1804,6 +2234,8 @@ function toCsv(rows) {
     'remainingGap',
     'dataGapMissingFields',
     'dataGapEvidenceJson',
+    'outOfScopeExcludedBehavior',
+    'outOfScopeEvidenceJson',
   ];
   const lines = [headers.join(',')];
   for (const row of rows) {
@@ -1892,7 +2324,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 22, partial: 11, blocked: 141, out_of_scope: 68 };
+  const expectedCounts = { migrated: 22, partial: 11, blocked: 142, out_of_scope: 67 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
@@ -1915,6 +2347,133 @@ function validateAudit(audit) {
     if (containsImplEvidenceWording(blob)) {
       errors.push(`blocked_data reason/blocker cites seed/mount/publish/E2E @ ${r.candidateKey}`);
     }
+  }
+
+  const yunaraR = records.find((r) => r.candidateKey === 'hero_skill|hero_yunara|R|定圣诀');
+  if (
+    !yunaraR
+    || yunaraR.genericClassification !== 'blocked'
+    || !yunaraR.dataGapEvidence?.missingFields?.includes('tooltip:buff_duration')
+    || !yunaraR.dataGapEvidence?.missingFields?.some((f) => String(f).includes('calc_rw_damage'))
+    || !yunaraR.dataGapEvidence?.missingFields?.some((f) => String(f).includes('calc_damage'))
+  ) {
+    errors.push(
+      'Yunara R 定圣诀 must be blocked with dataGapEvidence covering buff_duration and Q/W transcendent calc_damage/calc_rw_damage',
+    );
+  }
+
+  // Final OOS must carry structured outOfScopeEvidence; damage-signal rows only via a–e.
+  const oosRows = records.filter((r) => r.genericClassification === 'out_of_scope');
+  if (oosRows.length !== 67) {
+    errors.push(`out_of_scope rows expected 67, got ${oosRows.length}`);
+  }
+  let oosOmnibusReason = 0;
+  for (const r of oosRows) {
+    const ev = r.outOfScopeEvidence;
+    if (!ev || typeof ev !== 'object') {
+      errors.push(`out_of_scope missing outOfScopeEvidence @ ${r.candidateKey}`);
+      continue;
+    }
+    if (!String(ev.sourceRef || '').trim()) {
+      errors.push(`out_of_scope outOfScopeEvidence.sourceRef empty @ ${r.candidateKey}`);
+    }
+    if (!String(ev.sourceTextSummary || '').trim()) {
+      errors.push(`out_of_scope outOfScopeEvidence.sourceTextSummary empty @ ${r.candidateKey}`);
+    }
+    if (ev.reviewedPrimaryTargetDamageBranch !== true) {
+      errors.push(
+        `out_of_scope reviewedPrimaryTargetDamageBranch must be true @ ${r.candidateKey}`,
+      );
+    }
+    if (!BOUNDARY_CATEGORIES.has(String(ev.boundaryCategory || ''))) {
+      errors.push(
+        `out_of_scope boundaryCategory invalid @ ${r.candidateKey}: ${ev.boundaryCategory}`,
+      );
+    }
+    if (!String(ev.excludedBehavior || '').trim()) {
+      errors.push(`out_of_scope excludedBehavior empty @ ${r.candidateKey}`);
+    }
+    if (!String(ev.boundaryReason || '').trim()) {
+      errors.push(`out_of_scope boundaryReason empty @ ${r.candidateKey}`);
+    }
+    if (
+      GENERIC_OOS_REASON_RE.test(String(ev.boundaryReason || ''))
+      || STALE_OTHER_TARGETS_REASON_RE.test(String(ev.boundaryReason || ''))
+    ) {
+      oosOmnibusReason += 1;
+      errors.push(`out_of_scope generic omnibus reason not allowed @ ${r.candidateKey}`);
+    }
+    if (
+      GENERIC_OOS_REASON_RE.test(String(r.classificationReason || ''))
+      || STALE_OTHER_TARGETS_REASON_RE.test(String(r.classificationReason || ''))
+    ) {
+      oosOmnibusReason += 1;
+      errors.push(`out_of_scope classificationReason still generic/omnibus @ ${r.candidateKey}`);
+    }
+    const disposition = String(ev.damageRelevantSubBranchDisposition || '');
+    if (!disposition) {
+      errors.push(
+        `out_of_scope damageRelevantSubBranchDisposition empty @ ${r.candidateKey}`,
+      );
+    }
+    const cat = String(ev.boundaryCategory || '');
+    const summary = String(ev.sourceTextSummary || '');
+    const reasonBlob = `${ev.boundaryReason || ''}|${r.classificationReason || ''}`;
+    if (cat === 'pure_movement_or_dash') {
+      if (!/移动|移速|冲刺|跃迁|位移|幽灵/.test(summary)) {
+        errors.push(
+          `pure_movement_or_dash sourceTextSummary missing move semantics @ ${r.candidateKey}`,
+        );
+      }
+      if (
+        PRIMARY_DAMAGE_DEAL_RE.test(summary)
+        && !POST_DAMAGE_UTILITY_ONLY_RE.test(summary)
+        && disposition !== 'trigger_phrase_no_damage_amp'
+      ) {
+        errors.push(`pure_movement_or_dash has untreated primary damage @ ${r.candidateKey}`);
+      }
+    }
+    if (cat === 'other_targets_only') {
+      if (!/额外目标|附近的敌人|周围的敌人|主目标不受|身后/.test(`${summary}|${reasonBlob}`)) {
+        errors.push(`other_targets_only missing primary-unaffected evidence @ ${r.candidateKey}`);
+      }
+    }
+    if (cat === 'pure_vision') {
+      if (!/视野|守卫|显形|伪装|侦察|鹰|黑雾/.test(summary)) {
+        errors.push(`pure_vision sourceTextSummary missing vision semantics @ ${r.candidateKey}`);
+      }
+      if (PRIMARY_DAMAGE_DEAL_RE.test(summary) && !/守卫|陷阱/.test(summary)) {
+        errors.push(`pure_vision must not include champion damage @ ${r.candidateKey}`);
+      }
+    }
+    if (cat === 'economy_or_post_takedown') {
+      if (!/击杀|阵亡|takedown|赏金|金币|encounter 已结束|主目标死亡/.test(reasonBlob)) {
+        errors.push(
+          `economy_or_post_takedown reason must state post-takedown encounter end @ ${r.candidateKey}`,
+        );
+      }
+    }
+    if (
+      hasDamageRelatedSignal(r.sourceText)
+      && !OOS_DAMAGE_SIGNAL_DISPOSITIONS.has(disposition)
+    ) {
+      errors.push(
+        `out_of_scope has damage-related signal but disposition not in a–e @ ${r.candidateKey}: ${disposition}`,
+      );
+    }
+  }
+  if (oosOmnibusReason !== 0) {
+    errors.push(`OOS generic omnibus reason count expected 0, got ${oosOmnibusReason}`);
+  }
+  const yunaraE = records.find((r) => r.candidateKey === 'hero_skill|hero_yunara|E|明踪步 | 夜影翻');
+  if (
+    !yunaraE
+    || yunaraE.genericClassification !== 'out_of_scope'
+    || yunaraE.outOfScopeEvidence?.boundaryCategory !== 'pure_movement_or_dash'
+  ) {
+    errors.push(
+      'Yunara E 明踪步|夜影翻 must be out_of_scope with boundaryCategory=pure_movement_or_dash',
+    );
   }
 
   const rebuilt = buildSummary(records);
@@ -1969,6 +2528,9 @@ function buildAudit(input, inputSha256, generatedAt) {
     if (classified.dataGapEvidence) {
       row.dataGapEvidence = classified.dataGapEvidence;
     }
+    if (classified.outOfScopeEvidence) {
+      row.outOfScopeEvidence = classified.outOfScopeEvidence;
+    }
     return row;
   });
 
@@ -2001,6 +2563,8 @@ function toCsvRows(audit) {
     remainingGap: r.remainingGap || '',
     dataGapMissingFields: (r.dataGapEvidence?.missingFields || []).join('|'),
     dataGapEvidenceJson: r.dataGapEvidence ? JSON.stringify(r.dataGapEvidence) : '',
+    outOfScopeExcludedBehavior: r.outOfScopeEvidence?.excludedBehavior || '',
+    outOfScopeEvidenceJson: r.outOfScopeEvidence ? JSON.stringify(r.outOfScopeEvidence) : '',
   }));
 }
 
