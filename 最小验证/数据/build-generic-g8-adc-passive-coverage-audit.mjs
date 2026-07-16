@@ -553,6 +553,328 @@ const EXACT_OVERRIDES = new Map([
       ],
     },
   ],
+  // --- explicit out_of_scope: Aphelios full weapon/ammo/swap system skipped ---
+  [
+    'hero_aphelios|P',
+    {
+      classification: 'out_of_scope',
+      tags: ['weapon_ammo_swap_system'],
+      reason:
+        '用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'hero_aphelios|Q',
+    {
+      classification: 'out_of_scope',
+      tags: ['weapon_ammo_swap_system'],
+      reason:
+        '用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'hero_aphelios|W',
+    {
+      classification: 'out_of_scope',
+      tags: ['weapon_ammo_swap_system'],
+      reason:
+        '用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'hero_aphelios|E',
+    {
+      classification: 'out_of_scope',
+      tags: ['weapon_ammo_swap_system'],
+      reason:
+        '用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'hero_aphelios|R',
+    {
+      classification: 'out_of_scope',
+      tags: ['weapon_ammo_swap_system'],
+      reason:
+        '用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  // --- explicit out_of_scope: pure non-damage hero slots ---
+  [
+    'hero_teemo|W',
+    {
+      classification: 'out_of_scope',
+      tags: ['movement_only'],
+      reason: 'Teemo W 小莫快跑为纯移速/冲刺，无主目标伤害分支；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'hero_sivir|P',
+    {
+      classification: 'out_of_scope',
+      tags: ['movement_only'],
+      reason: 'Sivir P 敏锐疾行为攻击英雄后短暂移速，无伤害分支；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'hero_sivir|R',
+    {
+      classification: 'out_of_scope',
+      tags: ['movement_cooldown_meta'],
+      reason: 'Sivir R 狩猎为友军移速与冷却缩短，无主目标伤害分支；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'hero_kindred|R',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only'],
+      reason: 'Kindred R 羊灵生息为区域免死/治疗，无主目标伤害分支；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  // --- explicit out_of_scope: item branches (owner|passiveName) ---
+  [
+    '2517|盛宴',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only', 'takedown_omnivamp'],
+      reason: '2517 Feast/盛宴为击杀后全能吸血，非 1v1 主目标伤害；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '2520|破坏',
+    {
+      classification: 'out_of_scope',
+      tags: ['meta_or_non_target_dps', 'turret_epic_monster'],
+      reason: '2520 Demolish/破坏为防御塔/史诗野怪蓄意破坏，非英雄 1v1 DPS；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3026|重生',
+    {
+      classification: 'out_of_scope',
+      tags: ['meta_or_non_target_dps', 'resurrection'],
+      reason: '3026 Rebirth/重生为致命伤害复活，非伤害机制；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3033|重伤',
+    {
+      classification: 'out_of_scope',
+      tags: ['grievous_wounds_only'],
+      reason: '3033 Grievous Wounds/重伤仅施加重伤，无额外伤害；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3074|顺劈',
+    {
+      classification: 'out_of_scope',
+      tags: ['multi_target_or_area'],
+      reason: '3074 Cleave/顺劈为周围额外目标 cleave，超出单目标审计边界。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3078|加快',
+    {
+      classification: 'out_of_scope',
+      tags: ['movement_only'],
+      reason: '3078 Quicken/加快为攻击后移速，无伤害分支；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3085|风怒',
+    {
+      classification: 'out_of_scope',
+      tags: ['multi_target_or_area'],
+      reason: '3085 Wind\'s Fury/风怒为额外目标弩箭，超出单目标审计边界。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3146|无被动或仅主动/属性',
+    {
+      classification: 'out_of_scope',
+      tags: ['stat_only_or_active_only'],
+      reason: '3146 无被动/仅主动属性候选，非被动伤害机制；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3156|救主灵刃',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only'],
+      reason: '3156 Lifeline/救主灵刃为低血护盾与吸血，非主目标伤害；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3179|封锁',
+    {
+      classification: 'out_of_scope',
+      tags: ['meta_or_non_target_dps', 'ward_vision'],
+      reason: '3179 Blackout/封锁为守卫显形/反隐，非英雄 1v1 DPS；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6333|无视痛苦',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only', 'incoming_damage_store'],
+      reason: '6333 Ignore Pain/无视痛苦为承伤延迟存储，非输出伤害分支；重复记录统一 out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6333|蔑视',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only', 'takedown_heal'],
+      reason: '6333 Defiance/蔑视为击杀净化存储伤害并治疗，非输出伤害；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6609|劈削',
+    {
+      classification: 'out_of_scope',
+      tags: ['grievous_wounds_only'],
+      reason: '6609 Hackshorn/劈削仅施加重伤，无额外伤害；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6631|顺劈',
+    {
+      classification: 'out_of_scope',
+      tags: ['multi_target_or_area'],
+      reason: '6631 Cleave/顺劈为周围额外目标，超出单目标审计边界。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6673|救主灵刃',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only'],
+      reason: '6673 Lifeline/救主灵刃为低血护盾，非主目标伤害；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6695|掠盾者',
+    {
+      classification: 'out_of_scope',
+      tags: ['shield_reduction_only'],
+      reason: '6695 Shield Reaver/掠盾者为护盾削减，非主目标伤害；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6697|盛名',
+    {
+      classification: 'out_of_scope',
+      tags: ['takedown_stat_buff'],
+      reason: '6697 Eminence/盛名为击杀后临时 AD 层数，非直接伤害机制；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '6698|顺劈',
+    {
+      classification: 'out_of_scope',
+      tags: ['multi_target_or_area'],
+      reason: '6698 Cleave/顺劈为周围额外目标，超出单目标审计边界。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    '3071|热烈',
+    {
+      classification: 'out_of_scope',
+      tags: ['movement_only'],
+      reason: '3071 热烈/Fervor 仅为造成物理伤害后获得移速，无伤害分支；审计边界外。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+]);
+
+/** Exact candidateKey overrides (takes precedence over owner|slot / owner|passive). */
+const CANDIDATE_KEY_OVERRIDES = new Map([
+  [
+    'item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only', 'incoming_damage_store'],
+      reason: '6333 Ignore Pain 重复记录（52e96cc8）：承伤存储非输出伤害；out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0',
+    {
+      classification: 'out_of_scope',
+      tags: ['survivability_only', 'incoming_damage_store'],
+      reason: '6333 Ignore Pain 重复记录（668e55b0）：承伤存储非输出伤害；out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
+  [
+    'item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0',
+    {
+      classification: 'out_of_scope',
+      tags: ['shield_reduction_only'],
+      reason: '6695 Shield Reaver/掠盾者（2892fed0）：护盾削减非主目标伤害；out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [],
+    },
+  ],
 ]);
 
 const COMPONENT_EXCEPTIONS = [
@@ -627,16 +949,6 @@ const COMPONENT_EXCEPTIONS = [
       tags: ['on_hit', 'crit_scaling'],
       reason: '旧规则因关键词误判为 out_of_scope，但含主目标爆头伤害；缺精确 generic seed/mount。',
       remainingGap: '缺 Caitlyn P Headshot 主目标伤害精确 provider seed/live publish/E2E。',
-      coverageEvidence: [],
-    },
-  },
-  {
-    match: (c) => c.ownerId === 'hero_aphelios' && c.skillKey === 'Q' && c.passiveName === '武器技能',
-    result: {
-      classification: 'blocked',
-      tags: ['composite_weapon_skill', 'primary_target_attack_branch', 'weapon_state'],
-      reason: 'Aphelios Q 武器技能为复合武器技能，含主目标攻击分支；旧 multi_target 标签不得整条 out_of_scope。',
-      remainingGap: '缺精确武器状态/provider/runtime 基线与 seed/mount/live publish/E2E。',
       coverageEvidence: [],
     },
   },
@@ -917,7 +1229,15 @@ function classifyFallback(c) {
   };
 }
 
-function classifyCandidate(c) {
+function classifyCandidate(c, candidateKey) {
+  if (candidateKey && CANDIDATE_KEY_OVERRIDES.has(candidateKey)) {
+    const byKey = CANDIDATE_KEY_OVERRIDES.get(candidateKey);
+    return {
+      ...byKey,
+      tags: byKey.tags || c.mechanismTags || [],
+    };
+  }
+
   const exact = exactOverrideFor(c);
   if (exact) {
     return {
@@ -1085,7 +1405,7 @@ function stripGeneratedAt(value) {
 function buildAudit(input, inputSha256, generatedAt) {
   const candidateKeys = buildCandidateKeys(input.candidates);
   const records = input.candidates.map((c, index) => {
-    const classified = classifyCandidate(c);
+    const classified = classifyCandidate(c, candidateKeys[index]);
     return {
       ...c,
       candidateKey: candidateKeys[index],

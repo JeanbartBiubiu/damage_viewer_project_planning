@@ -4,7 +4,7 @@
     "inputSha256": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-15T18:36:16.489Z"
+    "generatedAt": "2026-07-16T03:04:51.708Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -15,24 +15,24 @@
     "classificationCounts": {
       "migrated": 20,
       "partial": 8,
-      "blocked": 176,
-      "out_of_scope": 38
+      "blocked": 148,
+      "out_of_scope": 66
     },
     "classificationPercents": {
       "migrated": 8.26,
       "partial": 3.31,
-      "blocked": 72.73,
-      "out_of_scope": 15.7
+      "blocked": 61.16,
+      "out_of_scope": 27.27
     },
     "coverageRateMigratedOnly": {
       "all": 8.26,
-      "inScope": 9.8
+      "inScope": 11.36
     },
     "coverageRateMigratedPlusPartial": {
       "all": 11.57,
-      "inScope": 13.73
+      "inScope": 15.91
     },
-    "inScopeCount": 204
+    "inScopeCount": 176
   },
   "candidates": [
     {
@@ -187,13 +187,13 @@
       ],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.passive",
       "candidateKey": "hero_skill|hero_aphelios|P|传知者与真知者",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "weapon_ammo_swap_system"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -213,15 +213,13 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[0]",
       "candidateKey": "hero_skill|hero_aphelios|Q|武器技能",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "composite_weapon_skill",
-        "primary_target_attack_branch",
-        "weapon_state"
+        "weapon_ammo_swap_system"
       ],
-      "classificationReason": "Aphelios Q 武器技能为复合武器技能，含主目标攻击分支；旧 multi_target 标签不得整条 out_of_scope。",
+      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确武器状态/provider/runtime 基线与 seed/mount/live publish/E2E。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -243,13 +241,13 @@
       ],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[1]",
       "candidateKey": "hero_skill|hero_aphelios|W|月相轮转",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "weapon_ammo_swap_system"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -271,9 +269,9 @@
       "candidateKey": "hero_skill|hero_aphelios|E|武器队列系统",
       "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "no_single_target_dps_effect"
+        "weapon_ammo_swap_system"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "coverageEvidence": [],
       "remainingGap": ""
     },
@@ -295,13 +293,13 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[3]",
       "candidateKey": "hero_skill|hero_aphelios|R|清辉夜凝",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "weapon_ammo_swap_system"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -2156,13 +2154,13 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Kindred.json#data.Kindred.spells[3]",
       "candidateKey": "hero_skill|hero_kindred|R|羊灵生息",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "survivability_only"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "Kindred R 羊灵生息为区域免死/治疗，无主目标伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -2989,13 +2987,13 @@
       ],
       "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.passive",
       "candidateKey": "hero_skill|hero_sivir|P|敏锐疾行",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "movement_only"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "Sivir P 敏锐疾行为攻击英雄后短暂移速，无伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -3095,13 +3093,13 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.spells[3]",
       "candidateKey": "hero_skill|hero_sivir|R|狩猎",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "movement_cooldown_meta"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "Sivir R 狩猎为友军移速与冷却缩短，无主目标伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -3308,13 +3306,13 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Teemo.json#data.Teemo.spells[1]",
       "candidateKey": "hero_skill|hero_teemo|W|小莫快跑",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "movement_only"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "Teemo W 小莫快跑为纯移速/冲刺，无主目标伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -4636,13 +4634,14 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.2517",
       "candidateKey": "item_passive|2517|item_passive|盛宴",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "survivability_only"
+        "survivability_only",
+        "takedown_omnivamp"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "2517 Feast/盛宴为击杀后全能吸血，非 1v1 主目标伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -4688,13 +4687,14 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.2520",
       "candidateKey": "item_passive|2520|item_passive|破坏",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "meta_or_non_target_dps",
+        "turret_epic_monster"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "2520 Demolish/破坏为防御塔/史诗野怪蓄意破坏，非英雄 1v1 DPS；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -4832,13 +4832,14 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3026",
       "candidateKey": "item_passive|3026|item_passive|重生",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "meta_or_non_target_dps",
+        "resurrection"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "3026 Rebirth/重生为致命伤害复活，非伤害机制；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -4958,13 +4959,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3033",
       "candidateKey": "item_passive|3033|item_passive|重伤",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "grievous_wounds_only"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "3033 Grievous Wounds/重伤仅施加重伤，无额外伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5074,13 +5075,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3071",
       "candidateKey": "item_passive|3071|item_passive|热烈",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "movement_only"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "3071 热烈/Fervor 仅为造成物理伤害后获得移速，无伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5180,13 +5181,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3074",
       "candidateKey": "item_passive|3074|item_passive|顺劈",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "3074 Cleave/顺劈为周围额外目标 cleave，超出单目标审计边界。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5242,13 +5243,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3078",
       "candidateKey": "item_passive|3078|item_passive|加快",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "movement_only"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "3078 Quicken/加快为攻击后移速，无伤害分支；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5268,13 +5269,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3085",
       "candidateKey": "item_passive|3085|item_passive|风怒",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "3085 Wind's Fury/风怒为额外目标弩箭，超出单目标审计边界。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5674,13 +5675,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3146",
       "candidateKey": "item_passive|3146|item_passive|无被动或仅主动/属性",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
         "stat_only_or_active_only"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "3146 无被动/仅主动属性候选，非被动伤害机制；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5764,13 +5765,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3156",
       "candidateKey": "item_passive|3156|item_passive|救主灵刃",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "3156 Lifeline/救主灵刃为低血护盾与吸血，非主目标伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5870,13 +5871,14 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3179",
       "candidateKey": "item_passive|3179|item_passive|封锁",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "meta_or_non_target_dps",
+        "ward_vision"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "3179 Blackout/封锁为守卫显形/反隐，非英雄 1v1 DPS；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6173,13 +6175,14 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6333",
       "candidateKey": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "survivability_only",
+        "incoming_damage_store"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "6333 Ignore Pain 重复记录（668e55b0）：承伤存储非输出伤害；out_of_scope。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6201,13 +6204,14 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6333",
       "candidateKey": "item_passive|6333|item_passive|蔑视",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "survivability_only",
+        "takedown_heal"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "6333 Defiance/蔑视为击杀净化存储伤害并治疗，非输出伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6227,13 +6231,14 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6333",
       "candidateKey": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "survivability_only"
+        "survivability_only",
+        "incoming_damage_store"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "6333 Ignore Pain 重复记录（52e96cc8）：承伤存储非输出伤害；out_of_scope。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6255,13 +6260,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6609",
       "candidateKey": "item_passive|6609|item_passive|劈削",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "grievous_wounds_only"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "6609 Hackshorn/劈削仅施加重伤，无额外伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6309,13 +6314,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6631",
       "candidateKey": "item_passive|6631|item_passive|顺劈",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "6631 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6371,13 +6376,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6673",
       "candidateKey": "item_passive|6673|item_passive|救主灵刃",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
         "survivability_only"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "6673 Lifeline/救主灵刃为低血护盾，非主目标伤害；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6544,13 +6549,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6695",
       "candidateKey": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "survivability_only"
+        "shield_reduction_only"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "6695 Shield Reaver/掠盾者（2892fed0）：护盾削减非主目标伤害；out_of_scope。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6572,9 +6577,9 @@
       "candidateKey": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|7bcc8c31",
       "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "survivability_only"
+        "shield_reduction_only"
       ],
-      "classificationReason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "classificationReason": "6695 Shield Reaver/掠盾者为护盾削减，非主目标伤害；审计边界外。",
       "coverageEvidence": [],
       "remainingGap": ""
     },
@@ -6624,13 +6629,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6697",
       "candidateKey": "item_passive|6697|item_passive|盛名",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "takedown_stat_buff"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
+      "classificationReason": "6697 Eminence/盛名为击杀后临时 AD 层数，非直接伤害机制；审计边界外。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6650,13 +6655,13 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.6698",
       "candidateKey": "item_passive|6698|item_passive|顺劈",
-      "genericClassification": "blocked",
+      "genericClassification": "out_of_scope",
       "genericMechanismTags": [
         "multi_target_or_area"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
+      "classificationReason": "6698 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
       "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
