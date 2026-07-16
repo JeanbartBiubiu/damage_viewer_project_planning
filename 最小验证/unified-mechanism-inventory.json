@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-16T04:00:11.608Z",
+    "generatedAt": "2026-07-16T04:19:16.956Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -52,12 +52,12 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "a4c2d59622a69eae8bdcbdd8dd9ec270f7425e6273398335f056914e6fceb20b",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "e5327b9e8b8f5654d640480d2416f3b58b0ee1300023ee1f815e9f56c767bb22",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "c3ea3db69cb1e490460c195c0cf33a397390d097bbbb0112f348b8d2fe3478d7",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "e34b599abf749490dd6d728a0f27fdb76ebfe86add0a125d5f8bc9d9f22b1c6f",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "f092f8e6a0277b97a412cef8aa8644965695003453ee821509fab0958d742c84",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "ac6a16e74ad74fdf72a83ca0216148eb5fecc40ed001e3eb032ab8177cef390e",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "3d79d31e66c05d2c4a782ca73867c83415690ae20bf669408f704e4047ac84d7",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "0a57a616cef5997476273cabeee03fef1562caec4c889cfa872dc82d83fd71e6",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -97,8 +97,8 @@
     },
     "completionModeCounts": {
       "full": 24,
-      "partial": 8,
-      "none": 222
+      "partial": 9,
+      "none": 221
     },
     "laneCounts": {
       "generic_runtime": 244,
@@ -193,8 +193,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "a4c2d59622a69eae8bdcbdd8dd9ec270f7425e6273398335f056914e6fceb20b",
-      "byteSize": 57764,
+      "sha256": "e5327b9e8b8f5654d640480d2416f3b58b0ee1300023ee1f815e9f56c767bb22",
+      "byteSize": 57999,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -209,8 +209,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "c3ea3db69cb1e490460c195c0cf33a397390d097bbbb0112f348b8d2fe3478d7",
-      "byteSize": 365966,
+      "sha256": "e34b599abf749490dd6d728a0f27fdb76ebfe86add0a125d5f8bc9d9f22b1c6f",
+      "byteSize": 367269,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -225,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "f092f8e6a0277b97a412cef8aa8644965695003453ee821509fab0958d742c84",
-      "byteSize": 59315,
+      "sha256": "3d79d31e66c05d2c4a782ca73867c83415690ae20bf669408f704e4047ac84d7",
+      "byteSize": 60811,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "ac6a16e74ad74fdf72a83ca0216148eb5fecc40ed001e3eb032ab8177cef390e",
-      "byteSize": 87290,
+      "sha256": "0a57a616cef5997476273cabeee03fef1562caec4c889cfa872dc82d83fd71e6",
+      "byteSize": 88860,
       "recordCount": 0,
       "role": "generator"
     },
@@ -12941,7 +12941,7 @@
     {
       "key": "hero_skill|hero_draven|W|血性冲刺",
       "status": "blocked_runtime",
-      "completionMode": "none",
+      "completionMode": "partial",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_draven",
@@ -12952,8 +12952,8 @@
         "timed_attack_speed_buff"
       ],
       "coverageBoundary": "",
-      "reason": "Draven W 血性冲刺为定时主动攻速增益，并含接斧冷却刷新；旧 meta 标签不得整条 out_of_scope。",
-      "blocker": "缺精确 ability/cadence 状态与 provider seed/mount/live publish/E2E。",
+      "reason": "rank5 主动攻速核心已由 generic CompileGeneric+RunGeneric 闭环（20 mana / 12000ms CD / 3000ms +40% AS）；接斧立即刷新 W CD 仍缺 axe_caught 事件与 ability cooldown reset。移动速度与衰减为允许不模拟的非伤害分支，不作为阻塞。",
+      "blocker": "axe_caught_event_ability_cooldown_reset",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12962,11 +12962,26 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "partial",
           "sourceRecordKey": "hero_skill|hero_draven|W|血性冲刺"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-draven-blood-rush",
+          "sourcePath": "db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "backend lol_generic_draven_blood_rush_seed.sql idempotent seed/mount; LolGenericDravenBloodRushSeedSqlTest 9 tests; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-draven-blood-rush",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_blood_rush_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Draven W Blood Rush rank5 partial: 20 mana / CD12000ms / ability_started arms 3000ms AS state; +40% AS; CD reject no mana; refresh after 12s; base view unpolluted; axe_caught CD reset unmodeled; MS/decay intentionally out of damage branch"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
