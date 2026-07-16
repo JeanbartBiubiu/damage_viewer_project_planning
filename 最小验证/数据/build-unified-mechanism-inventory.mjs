@@ -3,7 +3,7 @@
  * Schema: unified-mechanism-inventory-v1
  *
  * Default: write JSON + CSV under 最小验证/
- * --check: rebuild in memory, never write; compare semantic JSON (ignore metadata.generatedAt) + exact CSV
+ * --check: rebuild in memory, never write; compare semantic JSON (ignore metadata.generatedAt) + EOL-canonical CSV
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -1485,8 +1485,18 @@ function sha256Raw(buf) {
   return crypto.createHash('sha256').update(buf).digest('hex');
 }
 
+/** Treat inventoried UTF-8 text (.json/.csv/.mjs) as LF-canonical for evidence hashing (CRLF/CR → LF). */
+function canonicalizeUtf8TextBytes(buf) {
+  const text = Buffer.from(buf).toString('utf8').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  return Buffer.from(text, 'utf8');
+}
+
+function canonicalizeEol(text) {
+  return String(text ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+}
+
 function sha256File(absPath) {
-  return sha256Raw(fs.readFileSync(absPath));
+  return sha256Raw(canonicalizeUtf8TextBytes(fs.readFileSync(absPath)));
 }
 
 function readJson(absPath) {
@@ -1635,7 +1645,7 @@ const EXPLICIT_NONSTANDARD_SEED_SOURCES = [
 function pushParsedSource(sources, seen, abs, rel, kind) {
   if (seen.has(rel)) return;
   seen.add(rel);
-  const buf = fs.readFileSync(abs);
+  const buf = canonicalizeUtf8TextBytes(fs.readFileSync(abs));
   let parsed = null;
   if (kind.endsWith('_json')) {
     try {
@@ -1692,7 +1702,7 @@ function discoverSources() {
   for (const name of buildFiles) {
     const abs = path.join(dataRoot, name);
     const rel = relFromRepo(abs);
-    const buf = fs.readFileSync(abs);
+    const buf = canonicalizeUtf8TextBytes(fs.readFileSync(abs));
     sources.push({
       path: rel,
       kind: 'generator_mjs',
@@ -3611,7 +3621,8 @@ function runCheck(inventory) {
   }
   const expectedCsv = toCsv(inventory.mechanisms.map(mechanismToCsvRow), CSV_COLUMNS);
   const actualCsv = fs.readFileSync(paths.outputCsv, 'utf8');
-  if (actualCsv !== expectedCsv) {
+  // EOL-canonical compare so CRLF vs LF checkouts of generated CSV still match
+  if (canonicalizeEol(actualCsv) !== canonicalizeEol(expectedCsv)) {
     console.error('--check failed: CSV content differs');
     process.exit(1);
   }

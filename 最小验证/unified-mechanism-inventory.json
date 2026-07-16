@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-16T06:36:34.974Z",
+    "generatedAt": "2026-07-16T14:09:41.941Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -42,7 +42,7 @@
     "aliasTableVersion": "unified-inventory-alias-v1",
     "ownerAliasTableVersion": "unified-inventory-owner-alias-v1",
     "currentInputHashes": {
-      "最小验证/V2-Batch-G-adc-passive-audit.json": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
+      "最小验证/V2-Batch-G-adc-passive-audit.json": "63b2460e5307419ec9d1dc776de453237f9fed359d777b0b4be1e846e6695004",
       "最小验证/V2-Batch-J-status-damage-audit.json": "487cbc685c3c4358cd1f242b72519aa6e0a95cc32167e05906d0087614e1db68",
       "最小验证/V2-Batch-K-guinsoo-phantom-hit-audit.json": "7aefbba1fdeb13508b1779546aaaa5025b1e257fe9191da902d4aea69dfe0cba",
       "最小验证/V2-Batch-L-spellblade-next-attack-audit.json": "a0f2a44a0498d12b53d5ce9ce0c204c4da60385e656e5c86b15c80f1d2fbf551",
@@ -54,15 +54,15 @@
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
       "最小验证/generic-g8-adc-passive-coverage-audit.csv": "51653d9c17e42b99151c72128294dcb74281d1c83903b73050d4e3d51588f456",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "4408768945bd367f33f290cecf4a942f32b5bfa86f2941aa9314cead070d0216",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "f56aeff79373b8826be7fa3e11a8385808a3eb0db37eb30e4c4567ded55c2343",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "8a66d1512890bd3c51c25dfd88f022c07c30fb494c694b8d38c8b17540feadaf",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "307fd66ca3b08cfc146e81cc922bddc648b5fc7e79ace01251b56e23ed2239a5",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "458144b581cb820e9e631c17614c335f0d63e24097c01a9719d8652f723bae44",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "cd50a39a36192560d59d9120ca8d8a5b51674ee958b7a72e3655a85d65389024",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
-      "最小验证/V2-Batch-B-hero-passives.seed.json": "d32a4e7c6a50f11b1c503e88ff2ab88d2bf9c355366e369ab6c47ed192f85483",
+      "最小验证/V2-Batch-B-hero-passives.seed.json": "eb1767c32f87825648a0f91da599f166114a902fe0fd86055df6387a57fc952a",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
       "最小验证/V2-Batch-D-adc-item-passives.seed.json": "11390cf056c611296b8da57f47f430babc9bc8b4465d6b9ccb85fcae1c57f1a0",
       "最小验证/V2-Batch-G-adc-passives-ready.seed.json": "487e60a8e8c9a9a08d3e79ee17e7137ced9bcf4e9604e43842477e1de7b8b516",
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
       "kind": "audit_json",
-      "sha256": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
-      "byteSize": 242714,
+      "sha256": "63b2460e5307419ec9d1dc776de453237f9fed359d777b0b4be1e846e6695004",
+      "byteSize": 238197,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -209,7 +209,7 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "4408768945bd367f33f290cecf4a942f32b5bfa86f2941aa9314cead070d0216",
+      "sha256": "f56aeff79373b8826be7fa3e11a8385808a3eb0db37eb30e4c4567ded55c2343",
       "byteSize": 591956,
       "recordCount": 242,
       "role": "candidates"
@@ -225,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "8a66d1512890bd3c51c25dfd88f022c07c30fb494c694b8d38c8b17540feadaf",
-      "byteSize": 116763,
+      "sha256": "458144b581cb820e9e631c17614c335f0d63e24097c01a9719d8652f723bae44",
+      "byteSize": 114284,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "307fd66ca3b08cfc146e81cc922bddc648b5fc7e79ace01251b56e23ed2239a5",
-      "byteSize": 147967,
+      "sha256": "cd50a39a36192560d59d9120ca8d8a5b51674ee958b7a72e3655a85d65389024",
+      "byteSize": 144891,
       "recordCount": 0,
       "role": "generator"
     },
@@ -273,8 +273,8 @@
     {
       "path": "最小验证/V2-Batch-B-hero-passives.seed.json",
       "kind": "seed_json",
-      "sha256": "d32a4e7c6a50f11b1c503e88ff2ab88d2bf9c355366e369ab6c47ed192f85483",
-      "byteSize": 63154,
+      "sha256": "eb1767c32f87825648a0f91da599f166114a902fe0fd86055df6387a57fc952a",
+      "byteSize": 60566,
       "recordCount": 13,
       "role": "seed_entities"
     },

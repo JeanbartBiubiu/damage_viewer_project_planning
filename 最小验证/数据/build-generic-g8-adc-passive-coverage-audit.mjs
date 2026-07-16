@@ -2051,8 +2051,18 @@ function exactOverrideFor(c) {
   return raw;
 }
 
+/** Treat inventoried UTF-8 text as LF-canonical for evidence hashing (CRLF/CR → LF). */
+function canonicalizeUtf8TextBytes(buf) {
+  const text = Buffer.from(buf).toString('utf8').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  return Buffer.from(text, 'utf8');
+}
+
+function canonicalizeEol(text) {
+  return String(text ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+}
+
 function sha256File(filePath) {
-  const buf = fs.readFileSync(filePath);
+  const buf = canonicalizeUtf8TextBytes(fs.readFileSync(filePath));
   return crypto.createHash('sha256').update(buf).digest('hex');
 }
 
@@ -2924,10 +2934,10 @@ function main() {
       console.error('--check failed: semantic content differs (ignoring generatedAt)');
       process.exit(1);
     }
-    // rebuild csv and compare
+    // rebuild csv and compare (EOL-canonical so CRLF vs LF checkouts match)
     const expectedCsv = toCsv(toCsvRows(audit));
     const actualCsv = fs.readFileSync(paths.outputCsv, 'utf8');
-    if (actualCsv !== expectedCsv) {
+    if (canonicalizeEol(actualCsv) !== canonicalizeEol(expectedCsv)) {
       console.error('--check failed: csv content differs');
       process.exit(1);
     }
