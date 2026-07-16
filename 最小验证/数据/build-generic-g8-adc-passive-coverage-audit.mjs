@@ -46,6 +46,10 @@ const SEED = {
   dravenBloodRushWasm:
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_blood_rush_test.go',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
+  quinnHeightenedSensesWasm:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
+  quinnHeightenedSensesBackend:
+    'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
@@ -234,6 +238,32 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-draven-blood-rush',
           SEED.dravenBloodRushBackend,
           'backend lol_generic_draven_blood_rush_seed.sql idempotent seed/mount; LolGenericDravenBloodRushSeedSqlTest 9 tests; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_quinn|W',
+    {
+      classification: 'partial',
+      tags: ['target_state_conditioned_attack_speed', 'vulnerable'],
+      reason:
+        'hero_quinn W 敏锐感知/Heightened Senses rank5 目标状态条件攻速核心已由 wasm-generic-quinn-heightened-senses 闭环：真实 CompileGeneric+RunGeneric；预先存在 harrier_vulnerable target-state 时 basic_attack_hit 后 +40% AS 持续 2s；覆盖无易损不触发、触发、到期、refresh、target 隔离、phantom 不刷新、base 不污染；本地 DD 16.9.1 QuinnW e3 rank5=0.40 / e1,e5=2s。W 主动视野与移速为允许不模拟的非伤害分支。',
+      remainingGap:
+        'Quinn P/Q/E 对 harrier_vulnerable 的产生/消费与 Harrier 额外伤害未建模。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-quinn-heightened-senses',
+          SEED.quinnHeightenedSensesWasm,
+          'Quinn W Heightened Senses rank5 partial: preexisting harrier_vulnerable + basic_attack_hit → +40% AS 2s; no-vuln/trigger/expiry/refresh/target-isolation/phantom/base-unpolluted; DD16.9.1 e3=0.40 e1/e5=2s; commit 6d64fd1; P/Q/E harrier produce/consume/bonus dmg unmodeled; W vision/MS intentionally out of damage branch',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-quinn-heightened-senses',
+          SEED.quinnHeightenedSensesBackend,
+          'backend lol_generic_quinn_heightened_senses_seed.sql idempotent seed/mount; LolGenericQuinnHeightenedSensesSeedSqlTest 10 tests; commit 1f11cf3; not live published',
         ),
       ],
     },
@@ -1055,16 +1085,6 @@ const COMPONENT_EXCEPTIONS = [
     },
   },
   {
-    match: (c) => c.ownerId === 'hero_quinn' && c.skillKey === 'W' && c.passiveName === '敏锐感知',
-    result: {
-      classification: 'blocked',
-      tags: ['target_state_conditioned_attack_speed', 'vulnerable'],
-      reason: 'Quinn W 敏锐感知：攻击易损目标提供攻速；属目标状态条件 cadence，旧 meta 标签不得整条 out_of_scope。',
-      remainingGap: '缺目标状态条件 cadence 行为与精确 provider seed/mount/live publish/E2E。',
-      coverageEvidence: [],
-    },
-  },
-  {
     match: (c) => (c.mechanismTags || []).includes('seeded_random_crit_sequence'),
     result: {
       classification: 'blocked',
@@ -1440,7 +1460,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 22, partial: 9, blocked: 145, out_of_scope: 66 };
+  const expectedCounts = { migrated: 22, partial: 10, blocked: 144, out_of_scope: 66 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
