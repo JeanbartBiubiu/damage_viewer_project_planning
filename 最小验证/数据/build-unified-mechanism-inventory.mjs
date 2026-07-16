@@ -364,6 +364,17 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_draven|W|血性冲刺',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'partial',
+      lane: 'generic_runtime',
+      reason:
+        'rank5 主动攻速核心已由 generic CompileGeneric+RunGeneric 闭环（20 mana / 12000ms CD / 3000ms +40% AS）；接斧立即刷新 W CD 仍缺 axe_caught 事件与 ability cooldown reset。移动速度与衰减为允许不模拟的非伤害分支，不作为阻塞。',
+      blocker: 'axe_caught_event_ability_cooldown_reset',
+    },
+  ],
+  [
     'hero_skill|hero_kogmaw|Q|腐蚀唾液',
     {
       status: 'blocked_runtime',
@@ -1706,6 +1717,7 @@ function validateInventory(inv) {
   const mTwitchP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_twitch|P|死亡毒液');
   const mVarusW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|W|枯萎箭袋');
   const mAsheQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|Q|射手的专注');
+  const mDravenW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|W|血性冲刺');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
   );
@@ -1886,6 +1898,29 @@ function validateInventory(inv) {
   if (!mAsheQ || mAsheQ.status !== 'blocked_runtime' || mAsheQ.completionMode !== 'partial') {
     errors.push('Ashe Q must be blocked_runtime/partial');
   }
+  if (
+    !mDravenW ||
+    mDravenW.status !== 'blocked_runtime' ||
+    mDravenW.completionMode !== 'partial' ||
+    mDravenW.lane !== 'generic_runtime' ||
+    mDravenW.blocker !== 'axe_caught_event_ability_cooldown_reset' ||
+    !(mDravenW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-draven-blood-rush' &&
+        e.sourcePath === 'wasm/tinygo_engine_v2/internal/runtime/generic_draven_blood_rush_test.go' &&
+        e.sourceWorktree === 'wasm',
+    ) ||
+    !(mDravenW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-draven-blood-rush' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql' &&
+        e.sourceWorktree === 'backend',
+    )
+  ) {
+    errors.push(
+      'Draven W 血性冲刺 must be blocked_runtime/partial with axe_caught_event_ability_cooldown_reset blocker and wasm/backend evidence refs',
+    );
+  }
   if (!m3748a || m3748a.status !== 'out_of_scope' || m3748a.completionMode !== 'partial') {
     errors.push('3748 顺劈 71fa0f0c must be out_of_scope/partial');
   }
@@ -1925,9 +1960,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 8 || (cm.none || 0) !== 222) {
+  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 221) {
     errors.push(
-      `completionModeCounts expected full=24 partial=8 none=222, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=24 partial=9 none=221, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
