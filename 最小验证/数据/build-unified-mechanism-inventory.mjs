@@ -386,6 +386,17 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_xayah|W|致死羽衣',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'partial',
+      lane: 'generic_runtime',
+      reason:
+        'rank5 主动攻速核心已由 generic CompileGeneric+RunGeneric 闭环（40 mana / 14000ms CD / 4000ms +55% AS）；次级羽刃造成原真实普攻伤害20% 所需、以已结算基础攻击伤害为输入的比例复制语义（明确排除 on-hit/phantom 重复）仍缺。移动速度与洛（Rakan）共享为允许不模拟的非伤害分支，不作为阻塞。',
+      blocker: 'secondary_feather_settled_basic_attack_damage_ratio_copy_excluding_on_hit_phantom',
+    },
+  ],
+  [
     'hero_skill|hero_kogmaw|Q|腐蚀唾液',
     {
       status: 'blocked_runtime',
@@ -1730,6 +1741,7 @@ function validateInventory(inv) {
   const mAsheQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|Q|射手的专注');
   const mDravenW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|W|血性冲刺');
   const mQuinnW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|W|敏锐感知');
+  const mXayahW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|W|致死羽衣');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
   );
@@ -1957,6 +1969,31 @@ function validateInventory(inv) {
       'Quinn W 敏锐感知 must be blocked_runtime/partial with harrier_vulnerable_produce_consume_and_bonus_damage blocker and wasm/backend evidence refs',
     );
   }
+  if (
+    !mXayahW ||
+    mXayahW.status !== 'blocked_runtime' ||
+    mXayahW.completionMode !== 'partial' ||
+    mXayahW.lane !== 'generic_runtime' ||
+    mXayahW.blocker !==
+      'secondary_feather_settled_basic_attack_damage_ratio_copy_excluding_on_hit_phantom' ||
+    !(mXayahW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-deadly-plumage' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go' &&
+        e.sourceWorktree === 'wasm',
+    ) ||
+    !(mXayahW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-deadly-plumage' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql' &&
+        e.sourceWorktree === 'backend',
+    )
+  ) {
+    errors.push(
+      'Xayah W 致死羽衣 must be blocked_runtime/partial with secondary_feather_settled_basic_attack_damage_ratio_copy_excluding_on_hit_phantom blocker and wasm/backend evidence refs',
+    );
+  }
   if (!m3748a || m3748a.status !== 'out_of_scope' || m3748a.completionMode !== 'partial') {
     errors.push('3748 顺劈 71fa0f0c must be out_of_scope/partial');
   }
@@ -1969,8 +2006,8 @@ function validateInventory(inv) {
     completed: 24,
     partial_actionable: 0,
     ready_to_implement: 0,
-    blocked_runtime: 47,
-    blocked_data: 108,
+    blocked_runtime: 48,
+    blocked_data: 107,
     out_of_scope: 70,
     regression_only: 5,
     stale_or_duplicate: 0,
@@ -1996,9 +2033,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 10 || (cm.none || 0) !== 220) {
+  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 11 || (cm.none || 0) !== 219) {
     errors.push(
-      `completionModeCounts expected full=24 partial=10 none=220, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=24 partial=11 none=219, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
