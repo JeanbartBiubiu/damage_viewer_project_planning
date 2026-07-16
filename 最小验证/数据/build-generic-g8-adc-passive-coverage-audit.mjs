@@ -35,6 +35,9 @@ const SEED = {
   yunTalPracticeMakesLethal: 'db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql',
   witsEndFray: 'db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql',
   manamuneAwe: 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql',
+  wikiReadyItems: 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
+  wikiReadyItemsWasm:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
   dravenSpinningAxe: 'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
   asheRangersFocus: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
@@ -482,6 +485,56 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-manamune-awe',
           SEED.manamuneAwe,
           'Manamune Awe: source-only passive dynamically adds AD as 0.02 * source.attr.mana.max; tests at max mana 0/1000/2000 yield +0/+20/+40; no event/state',
+        ),
+      ],
+    },
+  ],
+  [
+    '2501|专横',
+    {
+      classification: 'migrated',
+      tags: ['source_only_dynamic_bonus_hp_ad_modifier'],
+      reason:
+        'item 2501 专横/Tyranny 已由 wasm-generic-wiki-ready-items 闭环：source-only 动态 bonus AD = 2.5% bonus health；bonus HP 0/400/1000 → +0/+10/+25；真实 CompileGeneric+RunGeneric；幂等 seed/mount，未 live publish。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-wiki-ready-items',
+          SEED.wikiReadyItemsWasm,
+          'Tyranny: bonus HP 0/400/1000 → bonus AD 0/10/25 via CompileGeneric+RunGeneric; not live published',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-wiki-ready-items',
+          SEED.wikiReadyItems,
+          'backend lol_generic_wiki_ready_items_seed.sql idempotent seed/mount; LolGenericWikiReadyItemsSeedSqlTest; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    '3097|弩箭',
+    {
+      classification: 'migrated',
+      tags: ['energized_precharged_bolt_consume'],
+      reason:
+        'item 3097 弩箭/Bolt（仅预充能口径）已由 wasm-generic-wiki-ready-items 闭环：初始 charge=100；首次真实普攻 100 magic 并消费；第二次不 proc；phantom/copied-on-hit 不额外触发；移速分支与 3097 盈能充能速率不在本口径；未 live publish。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-wiki-ready-items',
+          SEED.wikiReadyItemsWasm,
+          'Bolt: initial charge100, first AA 100 magic + consume, second no proc, phantom no extra trigger; not live published',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-wiki-ready-items',
+          SEED.wikiReadyItems,
+          'backend lol_generic_wiki_ready_items_seed.sql idempotent seed/mount; LolGenericWikiReadyItemsSeedSqlTest; not live published',
         ),
       ],
     },
@@ -1040,12 +1093,15 @@ const COMPONENT_EXCEPTIONS = [
       const tags = c.mechanismTags || [];
       if (!tags.includes('energized_charge_and_consume')) return false;
       if (c.ownerId === '3094' && c.passiveName === '神射手') return false;
+      // 3097 弩箭预充能伤害口径由 exact override 闭环；3097 盈能充能速率仍走本家族 blocked。
+      if (c.ownerId === '3097' && c.passiveName === '弩箭') return false;
       return true;
     },
     result: {
       classification: 'blocked',
       tags: ['energized_charge_and_consume'],
-      reason: 'energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。',
+      reason:
+        'energized 除 item 3094 神射手与 item 3097 弩箭（预充能口径）外全部 blocked；同机制代表完成不等于本 candidate 已 seed（含 3097 盈能充能速率）。',
       remainingGap: '缺该 candidate 精确 energized provider seed/mount/live publish/E2E。',
       coverageEvidence: [],
     },
