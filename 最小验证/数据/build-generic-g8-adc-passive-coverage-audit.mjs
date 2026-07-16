@@ -43,6 +43,9 @@ const SEED = {
   asheRangersFocus: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
   kogmawCausticSpittle: 'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
   kaisaSupercharge: 'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
+  dravenBloodRushWasm:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_draven_blood_rush_test.go',
+  dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
 };
 
 function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
@@ -205,6 +208,32 @@ const EXACT_OVERRIDES = new Map([
           SEED.kaisaSupercharge,
           'Kai\'Sa E Supercharge rank5 partial: 30 mana / CD10000ms / empty damage ops; ability_started=charge completed arms 4000ms AS state; +80% AS (0.60→1.08); CD skip no second cost/state/event; move speed/ghost/windup / real cast time / on-attack 0.5 CD refund / evolution invis / other ranks/rotation/E2E unmodeled',
           'wasm',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_draven|W',
+    {
+      classification: 'partial',
+      tags: ['timed_attack_speed_buff', 'catch_cooldown_reset'],
+      reason:
+        'hero_draven W 血性冲刺/Blood Rush rank5 主动攻速核心已由 wasm-generic-draven-blood-rush 闭环：真实 CompileGeneric+RunGeneric；20 mana / CD 12000ms；ability_started 武装 3000ms timed AS state；+40% attack_speed；覆盖 cast 前、扣蓝、buff、到期、CD 内拒绝不扣蓝、12s 后重施/刷新、base view 不污染；本地 DD 16.9.1 DravenFury e4=40% AS / e5=3s / cost=20 / CD=12s。移动速度与衰减为允许不模拟的非伤害分支。',
+      remainingGap:
+        '接住旋转飞斧后立即刷新 W cooldown 所需 axe_caught 事件/ability cooldown reset 未建模。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-draven-blood-rush',
+          SEED.dravenBloodRushWasm,
+          'Draven W Blood Rush rank5 partial: 20 mana / CD12000ms / ability_started arms 3000ms AS state; +40% AS; CD reject no mana; refresh after 12s; base view unpolluted; axe_caught CD reset unmodeled; MS/decay intentionally out of damage branch',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-draven-blood-rush',
+          SEED.dravenBloodRushBackend,
+          'backend lol_generic_draven_blood_rush_seed.sql idempotent seed/mount; LolGenericDravenBloodRushSeedSqlTest 9 tests; not live published',
         ),
       ],
     },
@@ -1026,16 +1055,6 @@ const COMPONENT_EXCEPTIONS = [
     },
   },
   {
-    match: (c) => c.ownerId === 'hero_draven' && c.skillKey === 'W' && c.passiveName === '血性冲刺',
-    result: {
-      classification: 'blocked',
-      tags: ['timed_attack_speed_buff', 'catch_cooldown_reset'],
-      reason: 'Draven W 血性冲刺为定时主动攻速增益，并含接斧冷却刷新；旧 meta 标签不得整条 out_of_scope。',
-      remainingGap: '缺精确 ability/cadence 状态与 provider seed/mount/live publish/E2E。',
-      coverageEvidence: [],
-    },
-  },
-  {
     match: (c) => c.ownerId === 'hero_quinn' && c.skillKey === 'W' && c.passiveName === '敏锐感知',
     result: {
       classification: 'blocked',
@@ -1421,6 +1440,12 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
+  const expectedCounts = { migrated: 22, partial: 9, blocked: 145, out_of_scope: 66 };
+  for (const [k, v] of Object.entries(expectedCounts)) {
+    if ((counts[k] || 0) !== v) {
+      errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
+    }
+  }
 
   const rebuilt = buildSummary(records);
   const rateKeys = [
