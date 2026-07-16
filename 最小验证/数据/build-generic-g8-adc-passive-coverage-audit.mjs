@@ -424,24 +424,58 @@ const SEED = {
   witsEndFray: 'db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql',
   manamuneAwe: 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql',
   wikiReadyItems: 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
-  wikiReadyItemsWasm:
-    'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
-  dravenSpinningAxe: 'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
-  asheRangersFocus: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
-  kogmawCausticSpittle: 'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
-  kaisaSupercharge: 'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
-  dravenBloodRushWasm:
-    'wasm/tinygo_engine_v2/internal/runtime/generic_draven_blood_rush_test.go',
+  asheRangersFocusBackend: 'db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql',
+  dravenSpinningAxeBackend: 'db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql',
+  kogmawCausticSpittleBackend: 'db/game_manage/seeds/lol_generic_kogmaw_caustic_spittle_seed.sql',
+  kaisaSuperchargeBackend: 'db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
-  quinnHeightenedSensesWasm:
-    'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
-  xayahDeadlyPlumageWasm:
-    'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
 };
+
+const WASM = {
+  completedOnHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_completed_onhit_mechanisms_test.go',
+  wikiReadyItems:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
+  twistedFateStackedDeck:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_twisted_fate_stacked_deck_test.go',
+  manamuneAwe: 'wasm/tinygo_engine_v2/internal/runtime/generic_manamune_awe_test.go',
+  yunTalPracticeMakesLethal:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_yun_tal_practice_makes_lethal_test.go',
+  spellblade: 'wasm/tinygo_engine_v2/internal/runtime/generic_spellblade_test.go',
+  statikkShivEnergized:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_statikk_shiv_energized_test.go',
+  witsEndFray: 'wasm/tinygo_engine_v2/internal/runtime/generic_wits_end_fray_test.go',
+  energized: 'wasm/tinygo_engine_v2/internal/runtime/generic_energized_test.go',
+  guinsooH: 'wasm/tinygo_engine_v2/internal/runtime/generic_guinsoo_h_test.go',
+  guinsooK: 'wasm/tinygo_engine_v2/internal/runtime/generic_guinsoo_k_test.go',
+  essenceReaverSpellblade:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_essence_reaver_spellblade_test.go',
+  execute: 'wasm/tinygo_engine_v2/internal/runtime/generic_execute_test.go',
+  asheRangersFocus:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
+  dravenSpinningAxe:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
+  kogmawCausticSpittle:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
+  kaisaSupercharge:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
+  duskAndDawnSpellblade:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_dusk_and_dawn_spellblade_test.go',
+  linkedEffects:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_linked_effects_test.go',
+  dravenBloodRush:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_draven_blood_rush_test.go',
+  quinnHeightenedSenses:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
+  xayahDeadlyPlumage:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
+};
+
+const COMPLETED_ONHIT_COMMIT = '3314c24';
 
 function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'backend') {
   const pathValue = sourcePath || '';
@@ -455,6 +489,81 @@ function evidence(evidenceType, taskKey, sourcePath, note, sourceWorktree = 'bac
   };
 }
 
+function siblingWorktreeRoots() {
+  const parent = path.resolve(repoRoot, '..');
+  return {
+    backend: [repoRoot, path.join(parent, 'damage_backend_dev')],
+    wasm: [repoRoot, path.join(parent, 'damage_wasm_dev')],
+  };
+}
+
+function evidenceSourcePathExists(sourceWorktree, sourcePath) {
+  const rel = String(sourcePath || '').replace(/\\/g, '/');
+  if (!rel) return false;
+  const roots = siblingWorktreeRoots()[sourceWorktree];
+  if (!roots) return false;
+  return roots.some((root) => fs.existsSync(path.join(root, ...rel.split('/'))));
+}
+
+function isGenericWasmTestPath(sourcePath) {
+  const base = path.posix.basename(String(sourcePath || '').replace(/\\/g, '/'));
+  return /^generic_.+_test\.go$/i.test(base);
+}
+
+function isBackendSeedPath(sourcePath) {
+  const rel = String(sourcePath || '').replace(/\\/g, '/');
+  return /^db\/game_manage\/seeds\/.+\.sql$/i.test(rel);
+}
+
+/** Strict bilateral gate for migrated/partial (and unified completed/partial). */
+function validateBilateralCoverageEvidence(key, coverageEvidence, errors, opts = {}) {
+  const ev = Array.isArray(coverageEvidence) ? coverageEvidence : [];
+  const requireCompletedBoundary = opts.requireCompletedBoundary === true;
+  const forbidLegacyLane = opts.lane === 'legacy_single_attacker_dps';
+
+  if (forbidLegacyLane) {
+    errors.push(`legacy_single_attacker_dps cannot serve as completion evidence @ ${key}`);
+  }
+
+  for (const e of ev) {
+    if (!String(e.sourcePath || '').trim()) {
+      errors.push(`empty evidence sourcePath @ ${key}`);
+    }
+  }
+
+  const backend = ev.filter((e) => e.sourceWorktree === 'backend');
+  const wasm = ev.filter((e) => e.sourceWorktree === 'wasm');
+  if (!backend.length) {
+    errors.push(`missing backend seed evidence @ ${key}`);
+  }
+  if (!wasm.length) {
+    errors.push(`missing wasm generic *_test.go evidence @ ${key}`);
+  }
+
+  for (const e of backend) {
+    if (!isBackendSeedPath(e.sourcePath)) {
+      errors.push(`backend evidence must be db/game_manage/seeds/*.sql @ ${key}: ${e.sourcePath}`);
+    } else if (!evidenceSourcePathExists('backend', e.sourcePath)) {
+      errors.push(`backend seed path not found @ ${key}: ${e.sourcePath}`);
+    }
+  }
+  for (const e of wasm) {
+    if (!isGenericWasmTestPath(e.sourcePath)) {
+      errors.push(`wasm evidence must be generic *_test.go @ ${key}: ${e.sourcePath}`);
+    } else if (!evidenceSourcePathExists('wasm', e.sourcePath)) {
+      errors.push(`wasm test path not found @ ${key}: ${e.sourcePath}`);
+    }
+  }
+
+  if (requireCompletedBoundary) {
+    for (const e of ev) {
+      if (!/completedBoundary/i.test(String(e.note || ''))) {
+        errors.push(`partial evidence note missing completedBoundary @ ${key} (${e.sourcePath})`);
+      }
+    }
+  }
+}
+
 /** exact override: ownerId+skillKey or ownerId+passiveName */
 const EXACT_OVERRIDES = new Map([
   [
@@ -462,14 +571,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['every_n_hit', 'true_damage', 'formula_on_hit'],
-      reason: '精确 candidate 已有 generic seed/mount，且 wasm-generic-vayne-silver-bolts 批次闭环。',
+      reason:
+        '精确 candidate 已有 generic seed，且 generic_completed_onhit_mechanisms_test.go（commit 3314c24）CompileGeneric+RunGeneric 闭环主目标 every-3rd true on-hit。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `Vayne W Silver Bolts main-target every-3rd true max(6% maxHP,50); commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-vayne-silver-bolts',
           SEED.vayne,
-          'Vayne W 圣银弩箭 provider/mount + live publish/E2E',
+          'backend lol_vayne_silver_bolts_seed.sql provider/mount; not claiming live publish',
         ),
       ],
     },
@@ -487,9 +604,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-kogmaw-caustic-spittle',
-          SEED.kogmawCausticSpittle,
-          'KogMaw Q Caustic Spittle rank5 passive only: permanent attack_speed percent_add 0.25 (0.72→0.90); attribute-only provider; active Q hit/shred/cast/CD/rotation/other ranks unmodeled',
+          WASM.kogmawCausticSpittle,
+          'completedBoundary: rank5 passive permanent attack_speed percent_add 0.25 (0.72→0.90); attribute-only provider; remainingGap: active Q hit/shred/cast/CD/rotation/other ranks unmodeled',
           'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kogmaw-caustic-spittle',
+          SEED.kogmawCausticSpittleBackend,
+          'completedBoundary: rank5 passive AS branch seeded; remainingGap: active hit/shred/cast unmodeled; backend lol_generic_kogmaw_caustic_spittle_seed.sql',
         ),
       ],
     },
@@ -499,14 +622,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['on_hit', 'target_max_hp_ratio', 'formula_on_hit'],
-      reason: '精确 candidate 已纳入 wasm-generic-formula-onhit-batch（KogMaw W rank5 主目标 on-hit）。',
+      reason:
+        '精确 candidate 已纳入 formula-onhit seed，并由 generic_completed_onhit_mechanisms_test.go（commit 3314c24）CompileGeneric+RunGeneric 证明 KogMaw W 主目标 on-hit。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `KogMaw W bio-arcane barrage main-target on-hit; commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
-          'KogMaw W bio-arcane barrage main-target formula on-hit',
+          'KogMaw W bio-arcane barrage main-target formula on-hit seed',
         ),
       ],
     },
@@ -516,14 +647,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['on_hit', 'flat_magic_damage', 'formula_on_hit'],
-      reason: '精确 candidate 已纳入 wasm-generic-formula-onhit-batch（Teemo E 即时 on-hit；DoT 非本批）。',
+      reason:
+        '精确 candidate 已纳入 formula-onhit seed，并由 generic_completed_onhit_mechanisms_test.go（commit 3314c24）证明 Teemo E 即时 on-hit（DoT 非本批）。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `Teemo E toxic shot immediate on-hit (DoT out of batch); commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
-          'Teemo E toxic shot immediate on-hit (DoT out of this batch)',
+          'Teemo E toxic shot immediate on-hit seed (DoT out of this batch)',
         ),
       ],
     },
@@ -541,8 +680,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-twisted-fate-stacked-deck',
+          WASM.twistedFateStackedDeck,
+          'Twisted Fate E Stacked Deck rank5: +50% AS; every-4th hit magic 165+20%bonusAD+40%AP; copyable_on_hit=false',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-twisted-fate-stacked-deck',
           SEED.twistedFateStackedDeck,
-          'Twisted Fate E Stacked Deck rank5: +50% AS; every-4th hit magic 165+20%bonusAD+40%AP; copyable_on_hit=false; building DR / other ranks / actives unmodeled',
+          'Twisted Fate E Stacked Deck rank5 seed; building DR / other ranks / actives unmodeled',
         ),
       ],
     },
@@ -560,9 +706,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-draven-spinning-axe',
-          SEED.dravenSpinningAxe,
-          'Draven Q Spinning Axe rank5 initial axe: ability_started arms 5800ms ready; first AA physical 60+1.15*bonusAD; copyable false; catch rearm / dual axe / mana / CD / other ranks / landing / WER unmodeled',
+          WASM.dravenSpinningAxe,
+          'completedBoundary: rank5 initial axe ability_started arms 5800ms ready + first AA physical 60+1.15*bonusAD; remainingGap: catch rearm / dual axe / mana / CD / other ranks / landing / WER unmodeled',
           'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-draven-spinning-axe',
+          SEED.dravenSpinningAxeBackend,
+          'completedBoundary: rank5 initial axe seeded; remainingGap: catch/dual-axe/landing unmodeled; backend lol_generic_draven_spinning_axe_seed.sql',
         ),
       ],
     },
@@ -580,9 +732,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-ashe-rangers-focus',
-          SEED.asheRangersFocus,
-          'Ashe Q Ranger\'s Focus rank5 partial: castCondition Focus==4; 30 mana clears Focus arms 6000ms Flurry +75% AS; first/next flurry 6/5 x 28%AD; one on-hit per flurry AA; Focus timed slots 4s+1s stagger; attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation unmodeled',
+          WASM.asheRangersFocus,
+          'completedBoundary: rank5 Focus==4 cast + Flurry AS/damage core; remainingGap: attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation unmodeled',
           'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-rangers-focus',
+          SEED.asheRangersFocusBackend,
+          'completedBoundary: rank5 Ranger\'s Focus core seeded; remainingGap: attack-timer/arrow-travel/rotation unmodeled; backend lol_generic_ashe_rangers_focus_seed.sql',
         ),
       ],
     },
@@ -600,9 +758,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-kaisa-supercharge',
-          SEED.kaisaSupercharge,
-          'Kai\'Sa E Supercharge rank5 partial: 30 mana / CD10000ms / empty damage ops; ability_started=charge completed arms 4000ms AS state; +80% AS (0.60→1.08); CD skip no second cost/state/event; move speed/ghost/windup / real cast time / on-attack 0.5 CD refund / evolution invis / other ranks/rotation/E2E unmodeled',
+          WASM.kaisaSupercharge,
+          'completedBoundary: rank5 30 mana/CD10000ms +80% AS timed state; remainingGap: move speed/ghost/windup / real cast time / on-attack 0.5 CD refund / evolution invis / other ranks/rotation unmodeled',
           'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-supercharge',
+          SEED.kaisaSuperchargeBackend,
+          'completedBoundary: rank5 Supercharge AS core seeded; remainingGap: cast timing/CD refund/stealth evolution unmodeled; backend lol_generic_kaisa_supercharge_seed.sql',
         ),
       ],
     },
@@ -620,15 +784,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-draven-blood-rush',
-          SEED.dravenBloodRushWasm,
-          'Draven W Blood Rush rank5 partial: 20 mana / CD12000ms / ability_started arms 3000ms AS state; +40% AS; CD reject no mana; refresh after 12s; base view unpolluted; axe_caught CD reset unmodeled; MS/decay intentionally out of damage branch',
+          WASM.dravenBloodRush,
+          'completedBoundary: rank5 20 mana/CD12000ms/+40% AS timed state; remainingGap: axe_caught CD reset unmodeled; MS/decay intentionally out of damage branch',
           'wasm',
         ),
         evidence(
           'generic_batch',
           'wasm-generic-draven-blood-rush',
           SEED.dravenBloodRushBackend,
-          'backend lol_generic_draven_blood_rush_seed.sql idempotent seed/mount; LolGenericDravenBloodRushSeedSqlTest 9 tests; not live published',
+          'completedBoundary: rank5 Blood Rush AS core seeded; remainingGap: axe_caught CD reset unmodeled; backend lol_generic_draven_blood_rush_seed.sql; not live published',
         ),
       ],
     },
@@ -646,15 +810,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-quinn-heightened-senses',
-          SEED.quinnHeightenedSensesWasm,
-          'Quinn W Heightened Senses rank5 partial: preexisting harrier_vulnerable + basic_attack_hit → +40% AS 2s; no-vuln/trigger/expiry/refresh/target-isolation/phantom/base-unpolluted; DD16.9.1 e3=0.40 e1/e5=2s; commit 6d64fd1; P/Q/E harrier produce/consume/bonus dmg unmodeled; W vision/MS intentionally out of damage branch',
+          WASM.quinnHeightenedSenses,
+          'completedBoundary: preexisting harrier_vulnerable + basic_attack_hit → +40% AS 2s; remainingGap: P/Q/E harrier produce/consume/bonus dmg unmodeled; W vision/MS intentionally out of damage branch',
           'wasm',
         ),
         evidence(
           'generic_batch',
           'wasm-generic-quinn-heightened-senses',
           SEED.quinnHeightenedSensesBackend,
-          'backend lol_generic_quinn_heightened_senses_seed.sql idempotent seed/mount; LolGenericQuinnHeightenedSensesSeedSqlTest 10 tests; commit 1f11cf3; not live published',
+          'completedBoundary: Heightened Senses AS core seeded; remainingGap: harrier produce/consume/bonus dmg unmodeled; backend lol_generic_quinn_heightened_senses_seed.sql; not live published',
         ),
       ],
     },
@@ -672,15 +836,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-xayah-deadly-plumage',
-          SEED.xayahDeadlyPlumageWasm,
-          'Xayah W Deadly Plumage rank5 partial: 40 mana / CD14000ms / ability_started arms 4000ms AS state; +55% AS; 7 tests; DD16.9.1 e1=55 e2=4 e5=20 cost40 CD14; commit d59818f; secondary feather 20% settled basic-attack damage ratio copy excluding on-hit/phantom unmodeled; MS/Rakan intentionally non-damage OOS',
+          WASM.xayahDeadlyPlumage,
+          'completedBoundary: rank5 40 mana/CD14000ms/+55% AS timed state; remainingGap: secondary feather 20% settled basic-attack damage ratio copy excluding on-hit/phantom unmodeled; MS/Rakan intentionally non-damage OOS',
           'wasm',
         ),
         evidence(
           'generic_batch',
           'wasm-generic-xayah-deadly-plumage',
           SEED.xayahDeadlyPlumageBackend,
-          'backend lol_generic_xayah_deadly_plumage_seed.sql idempotent seed/mount; LolGenericXayahDeadlyPlumageSeedSqlTest 9 tests; commit afd71de; not live published',
+          'completedBoundary: Deadly Plumage AS core seeded; remainingGap: secondary feather ratio copy unmodeled; backend lol_generic_xayah_deadly_plumage_seed.sql; not live published',
         ),
       ],
     },
@@ -690,14 +854,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['on_hit', 'ap_ratio', 'formula_on_hit'],
-      reason: 'item 3115 on-hit 已由 formula-onhit 批次 seed/mount。',
+      reason:
+        'item 3115 on-hit 已由 formula-onhit seed + generic_completed_onhit_mechanisms_test.go（commit 3314c24）闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `Nashor Tooth Icathian Bite main-target on-hit; commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
-          'Nashor Tooth Icathian Bite main-target on-hit',
+          'Nashor Tooth Icathian Bite main-target on-hit seed',
         ),
       ],
     },
@@ -707,14 +879,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['every_n_hit', 'on_hit', 'formula_on_hit'],
-      reason: 'item 3181 主目标 every-5th on-hit 已由 formula-onhit 批次 seed/mount。',
+      reason:
+        'item 3181 主目标 every-5th on-hit 已由 formula-onhit seed + generic_completed_onhit_mechanisms_test.go（commit 3314c24）闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `Hullbreaker Skipper every-5th main-target damage; commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
-          'Hullbreaker Skipper every-5th main-target damage',
+          'Hullbreaker Skipper every-5th main-target damage seed',
         ),
       ],
     },
@@ -724,14 +904,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['on_hit', 'flat_magic_damage', 'formula_on_hit'],
-      reason: 'item 3302 晦影 on-hit 已由 formula-onhit 批次 seed/mount。',
+      reason:
+        'item 3302 晦影 on-hit 已由 formula-onhit seed + generic_completed_onhit_mechanisms_test.go（commit 3314c24）闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `Terminus Shadow flat magic on-hit; commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
-          'Terminus Shadow flat magic on-hit',
+          'Terminus Shadow flat magic on-hit seed',
         ),
       ],
     },
@@ -741,14 +929,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['on_hit', 'flat_magic_damage'],
-      reason: 'item 3124 怨怒 on-hit 已由 adc-item-passives-base seed/mount。',
+      reason:
+        'item 3124 怨怒 on-hit 已由 adc-item-passives-base seed + generic_completed_onhit_mechanisms_test.go（commit 3314c24）闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `Guinsoo Wrath flat magic on-hit; commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-adc-item-passives-base',
           SEED.adcItemOnHit,
-          'Guinsoo Wrath flat magic on-hit',
+          'Guinsoo Wrath flat magic on-hit seed',
         ),
       ],
     },
@@ -758,14 +954,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['on_hit', 'target_current_hp_ratio'],
-      reason: 'item 3153 雾之锋 on-hit 已由 adc-item-passives-base seed/mount。',
+      reason:
+        'item 3153 雾之锋 on-hit 已由 adc-item-passives-base seed + generic_completed_onhit_mechanisms_test.go（commit 3314c24）闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `BotRK Mist's Edge current-HP on-hit; commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-adc-item-passives-base',
           SEED.adcItemOnHit,
-          'BotRK Mist\'s Edge current-HP on-hit',
+          'BotRK Mist\'s Edge current-HP on-hit seed',
         ),
       ],
     },
@@ -776,14 +980,28 @@ const EXACT_OVERRIDES = new Map([
       classification: 'migrated',
       tags: ['stacking_stat_modifier_on_hit', 'phantom_hit_on_hit_repeat'],
       reason:
-        'item 3124 沸腾打击：满层后每第三次攻击 phantom（连续攻击 7/10/13…）；到达第 4 层的攻击不计入 counter；用 state_change+condition 递增/重置 guinsoos_phantom_hit_counter 后再 conditional register repeat，非 threshold-repeat alone。generic compile/run：wasm/tinygo_engine_v2/internal/runtime/generic_guinsoo_k_test.go（TestGenericRunGuinsooCadenceEveryThirdAtFull）。',
+        'item 3124 沸腾打击：满层后每第三次攻击 phantom（连续攻击 7/10/13…）；到达第 4 层的攻击不计入 counter；用 state_change+condition 递增/重置 guinsoos_phantom_hit_counter 后再 conditional register repeat，非 threshold-repeat alone。generic compile/run：generic_guinsoo_h_test.go + generic_guinsoo_k_test.go（TestGenericRunGuinsooCadenceEveryThirdAtFull）。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-guinsoo-hk',
+          WASM.guinsooH,
+          'Guinsoo Seething Strike stack/state path via generic_guinsoo_h_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-guinsoo-hk',
+          WASM.guinsooK,
+          'Guinsoo boiling strike already-full every-third cadence via generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-guinsoo-hk',
           SEED.guinsoo,
-          'Guinsoo boiling strike already-full every-third cadence (attacks 7/10) via counter/reset + conditional repeat; proven by generic_guinsoo_k_test.go TestGenericRunGuinsooCadenceEveryThirdAtFull',
+          'Guinsoo boiling strike seed lol_guinsoo_hk_seed.sql',
         ),
       ],
     },
@@ -793,14 +1011,21 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['spellblade_next_attack_state'],
-      reason: 'item 3078 咒刃已由 wasm-generic-spellblade 批次 seed/mount。',
+      reason: 'item 3078 咒刃已由 wasm-generic-spellblade 批次 seed/mount + generic_spellblade_test.go 闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-spellblade',
+          WASM.spellblade,
+          'Trinity Force Spellblade next-attack state via generic_spellblade_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-spellblade',
           SEED.spellblade,
-          'Trinity Force Spellblade next-attack state',
+          'Trinity Force Spellblade next-attack state seed',
         ),
       ],
     },
@@ -810,14 +1035,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['spellblade_next_attack_state'],
-      reason: 'item 3100 巫妖之祸咒刃已由 wasm-generic-lich-bane-spellblade 批次闭环（含 ready AS / intervalFormula cadence）。',
+      reason:
+        'item 3100 巫妖之祸咒刃已由 lich-bane seed + generic_spellblade_test.go（Lich section）闭环（含 ready AS / intervalFormula cadence）。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-lich-bane-spellblade',
+          WASM.spellblade,
+          'Lich Bane Spellblade magic next-attack + ready AS percent_add via generic_spellblade_test.go Lich section',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-lich-bane-spellblade',
           SEED.lichBaneSpellblade,
-          'Lich Bane Spellblade magic next-attack + ready AS percent_add',
+          'Lich Bane Spellblade magic next-attack + ready AS percent_add seed',
         ),
       ],
     },
@@ -831,6 +1064,13 @@ const EXACT_OVERRIDES = new Map([
         'item 3508 夺萃之镰咒刃已由 wasm-generic-essence-reaver-spellblade 批次闭环（物理契约 1.25 * base AD + 50 * resolved crit chance；10s ready；命中开始 1.5s ICD）。',
       remainingGap: '',
       coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-essence-reaver-spellblade',
+          WASM.essenceReaverSpellblade,
+          'Essence Reaver Spellblade via generic_essence_reaver_spellblade_test.go',
+          'wasm',
+        ),
         evidence(
           'generic_batch',
           'wasm-generic-essence-reaver-spellblade',
@@ -853,8 +1093,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-dusk-and-dawn-spellblade',
+          WASM.duskAndDawnSpellblade,
+          'completedBoundary: ability_start 10s ready + hit magic 0.75*base AD + 0.10*resolved AP + 1.5s ICD; remainingGap: heal formula + delayed second on-hit',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-dusk-and-dawn-spellblade',
           SEED.duskAndDawnSpellblade,
-          'Dusk and Dawn Spellblade core: ability_start 10s ready; hit magic 0.75*base AD + 0.10*resolved AP; hit-started 1.5s ICD; copyable false',
+          'completedBoundary: Dusk and Dawn Spellblade core seeded; remainingGap: healing_out_of_damage_branch_and_delayed_repeat_on_hit',
         ),
       ],
     },
@@ -864,14 +1111,22 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['every_n_hit', 'target_missing_hp_amp'],
-      reason: 'item 6672 放倒它已由 wasm-generic-adc-item-passives-base 批次 seed/mount 闭环。',
+      reason:
+        'item 6672 放倒它已由 adc-item-passives-base seed + generic_completed_onhit_mechanisms_test.go（commit 3314c24）闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `Kraken Slayer Bring It Down every-3rd missing-HP amp; commit ${COMPLETED_ONHIT_COMMIT}`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-adc-item-passives-base',
           SEED.adcItemOnHit,
-          'Kraken Slayer Bring It Down every-3rd missing-HP amp',
+          'Kraken Slayer Bring It Down every-3rd missing-HP amp seed',
         ),
       ],
     },
@@ -881,14 +1136,21 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['energized_charge_and_consume'],
-      reason: 'item 3094 神射手已由 wasm-generic-energized 批次 seed/mount。',
+      reason: 'item 3094 神射手已由 wasm-generic-energized 批次 seed/mount + generic_energized_test.go 闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-energized',
+          WASM.energized,
+          'Rapid Firecannon Sharpshooter energized consume via generic_energized_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-energized',
           SEED.energized,
-          'Rapid Firecannon Sharpshooter energized consume',
+          'Rapid Firecannon Sharpshooter energized consume seed',
         ),
       ],
     },
@@ -905,8 +1167,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-statikk-shiv-energized',
+          WASM.statikkShivEnergized,
+          'Statikk Shiv Energized via generic_statikk_shiv_energized_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-statikk-shiv-energized',
           SEED.statikkShivEnergized,
-          'Statikk Shiv 电疗: +15 charge (cap 100), 60 magic damage on ready; source-owner basic_attack_hit; conditional consume then unconditional recharge',
+          'Statikk Shiv 电疗: +15 charge (cap 100), 60 magic damage on ready seed',
         ),
       ],
     },
@@ -923,8 +1192,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-yun-tal-practice-makes-lethal',
+          WASM.yunTalPracticeMakesLethal,
+          'Yun Tal Practice Makes Lethal via generic_yun_tal_practice_makes_lethal_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-yun-tal-practice-makes-lethal',
           SEED.yunTalPracticeMakesLethal,
-          'Yun Tal 熟能生巧: every source-owner ORIGINAL basic_attack_hit permanently +1 practice_crit_stacks (max 63); crit chance dynamic min(0.25, 0.004 * state); only phantom/copied-on-hit replay(s) do not add stacks',
+          'Yun Tal 熟能生巧 seed: practice_crit_stacks max 63; crit chance dynamic min(0.25, 0.004 * state)',
         ),
       ],
     },
@@ -941,8 +1217,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-wits-end-fray',
+          WASM.witsEndFray,
+          'Wits End Fray via generic_wits_end_fray_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-wits-end-fray',
           SEED.witsEndFray,
-          'Wits End Fray: source-owner ORIGINAL basic_attack_hit deals constant 45 bonus magic on-hit; copyable_on_hit=true; Guinsoo phantom/copied-on-hit replay may duplicate exactly once without recursion; lifesteal metadata not modeled',
+          'Wits End Fray: constant 45 bonus magic on-hit seed; copyable_on_hit=true',
         ),
       ],
     },
@@ -959,8 +1242,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-manamune-awe',
+          WASM.manamuneAwe,
+          'Manamune Awe via generic_manamune_awe_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-manamune-awe',
           SEED.manamuneAwe,
-          'Manamune Awe: source-only passive dynamically adds AD as 0.02 * source.attr.mana.max; tests at max mana 0/1000/2000 yield +0/+20/+40; no event/state',
+          'Manamune Awe seed: AD = 0.02 * mana.max; tests 0/1000/2000 → +0/+20/+40',
         ),
       ],
     },
@@ -977,7 +1267,7 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-wiki-ready-items',
-          SEED.wikiReadyItemsWasm,
+          WASM.wikiReadyItems,
           'Tyranny: bonus HP 0/400/1000 → bonus AD 0/10/25 via CompileGeneric+RunGeneric; not live published',
           'wasm',
         ),
@@ -1002,7 +1292,7 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-wiki-ready-items',
-          SEED.wikiReadyItemsWasm,
+          WASM.wikiReadyItems,
           'Bolt: initial charge100, first AA 100 magic + consume, second no proc, phantom no extra trigger; not live published',
           'wasm',
         ),
@@ -1036,14 +1326,21 @@ const EXACT_OVERRIDES = new Map([
     {
       classification: 'migrated',
       tags: ['execute_threshold'],
-      reason: 'item 6676 死/execute 已由 wasm-generic-execute-threshold 批次 seed/mount。',
+      reason: 'item 6676 死/execute 已由 wasm-generic-execute-threshold 批次 seed/mount + generic_execute_test.go 闭环。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-execute-threshold',
+          WASM.execute,
+          'Collector Death execute threshold via generic_execute_test.go',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-execute-threshold',
           SEED.execute,
-          'Collector Death execute threshold',
+          'Collector Death execute threshold seed',
         ),
       ],
     },
@@ -1059,8 +1356,15 @@ const EXACT_OVERRIDES = new Map([
         evidence(
           'generic_batch',
           'wasm-generic-linked-effects-black-cleaver',
+          WASM.linkedEffects,
+          'completedBoundary: on_damage_dealt Carve stack shred via generic_linked_effects_test.go; remainingGap: full 6s refresh/expiry drop semantics',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-linked-effects-black-cleaver',
           SEED.linked,
-          'Black Cleaver Carve linked armor shred (partial timing semantics)',
+          'completedBoundary: Black Cleaver Carve linked armor shred seeded; remainingGap: partial timing semantics',
         ),
       ],
     },
@@ -1075,9 +1379,16 @@ const EXACT_OVERRIDES = new Map([
       coverageEvidence: [
         evidence(
           'generic_batch',
+          'wasm-generic-completed-onhit-mechanisms',
+          WASM.completedOnHit,
+          `completedBoundary: shared primary-target on-hit physical=source.hp.max*0.005 for both 3748 cleave components; commit ${COMPLETED_ONHIT_COMMIT}; remainingGap: cone/cleave/active unmigrated`,
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
-          'Titanic Hydra primary-target on-hit only',
+          'completedBoundary: Titanic Hydra primary-target on-hit only; remainingGap: behind-target cleave and active unmigrated',
         ),
       ],
     },
