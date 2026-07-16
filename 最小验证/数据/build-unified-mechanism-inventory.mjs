@@ -111,12 +111,29 @@ const STATUS_OVERRIDES = new Map([
   [
     'item_passive|2501|item_passive|专横',
     {
-      status: 'ready_to_implement',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        'Wiki 公式已齐：专横/Tyranny = 获得相当于 2.5% bonus health 的 bonus AD。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 2501 Tyranny）。可直接实现 source-only 动态 AD 修正。',
+        '专横/Tyranny 当前 generic ABI：source-only 动态 bonus AD = 2.5% bonus health；TestGenericWikiReadyItems* 覆盖 bonus HP 0/400/1000→bonus AD 0/10/25；wasm generic_wiki_ready_items_test.go（CompileGeneric+RunGeneric）+ backend lol_generic_wiki_ready_items_seed.sql 幂等 seed/mount；不声称 live migrate/publish。',
       blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-wiki-ready-items',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
+          sourceWorktree: 'wasm',
+          note: 'Tyranny bonus HP 0/400/1000 → bonus AD 0/10/25 via CompileGeneric+RunGeneric; commit 25a2a3b; not live published',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-wiki-ready-items',
+          sourcePath: 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'idempotent seed/mount + LolGenericWikiReadyItemsSeedSqlTest; commit 27f3490; not live published',
+        },
+      ],
     },
   ],
   [
@@ -133,12 +150,29 @@ const STATUS_OVERRIDES = new Map([
   [
     'item_passive|3097|item_passive|弩箭',
     {
-      status: 'ready_to_implement',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        'Wiki 公式已齐（仅预充能口径）：弩箭/Bolt = 满盈能后下一次普攻造成 100 额外魔法伤害（另有移速分支本口径不实现）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3097 Bolt）。与 3097 盈能充能速率缺口分开。',
+        '弩箭/Bolt 当前 generic ABI（仅预充能口径）：初始 charge=100；首次真实普攻造成 100 额外魔法伤害并消费；第二次不 proc；phantom/copied-on-hit 不额外触发；移速分支与 3097 盈能充能速率不在本口径；wasm generic_wiki_ready_items_test.go + backend lol_generic_wiki_ready_items_seed.sql；不声称 live migrate/publish。',
       blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-wiki-ready-items',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
+          sourceWorktree: 'wasm',
+          note: 'Bolt initial charge100, first 100 magic + consume, second no proc, phantom no extra; commit 25a2a3b; not live published',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-wiki-ready-items',
+          sourcePath: 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'idempotent seed/mount + LolGenericWikiReadyItemsSeedSqlTest; commit 27f3490; not live published',
+        },
+      ],
     },
   ],
   [
@@ -627,23 +661,40 @@ const EXTRA_MECHANISMS = [
   },
   {
     key: 'item_passive|3075|item_passive|荆棘',
-    status: 'ready_to_implement',
-    completionMode: 'none',
-    lane: 'mixed_evidence',
+    status: 'completed',
+    completionMode: 'full',
+    lane: 'generic_runtime',
     sourceKind: 'item_passive',
     ownerId: '3075',
     skillKey: 'item_passive',
     passiveName: '荆棘',
     mechanismTags: ['on_damage_taken_reflect'],
-    coverageBoundary: 'batch_p_thornmail;wiki_formula_ready',
+    coverageBoundary: 'batch_p_thornmail;wiki_formula_ready;generic_wiki_ready_items_closed',
     reason:
-      'Wiki 公式已齐：荆棘/Thorns = 被普攻命中时对攻击者造成 20(+10% bonus armor) 魔法伤害（并对英雄施加重伤）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3075 Thorns）。旧固定 20 简化作废。',
+      '荆棘/Thorns 当前 generic ABI：被真实普攻命中时对攻击者造成 20(+10% bonus armor) 魔法伤害；bonus armor 0/100→raw 20/30，经 MR；每真实普攻一次、不递归；重伤分支本口径不宣称；wasm generic_wiki_ready_items_test.go + backend lol_generic_wiki_ready_items_seed.sql；旧固定 20 简化作废；不声称 live migrate/publish。',
     blocker: '',
     sourceRefs: [
       {
         path: '最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json',
         legacyStatus: 'publishConditions',
         sourceRecordKey: '3075',
+      },
+    ],
+    evidenceRefs: [
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-wiki-ready-items',
+        sourcePath:
+          'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
+        sourceWorktree: 'wasm',
+        note: 'Thorns bonus armor 0/100 → raw 20/30, MR, once per real AA, no recursion; commit 25a2a3b; not live published',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-wiki-ready-items',
+        sourcePath: 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
+        sourceWorktree: 'backend',
+        note: 'idempotent seed/mount + LolGenericWikiReadyItemsSeedSqlTest; commit 27f3490; not live published',
       },
     ],
     aliases: ['item_3075_thornmail_thorns_dps_v2', 'batch_p_thorns'],
@@ -1661,10 +1712,87 @@ function validateInventory(inv) {
   const m3748b = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|020f8b5a',
   );
+  const m2501Tyranny = inv.mechanisms.find((m) => m.key === 'item_passive|2501|item_passive|专横');
+  const m3075Thorns = inv.mechanisms.find((m) => m.key === 'item_passive|3075|item_passive|荆棘');
+  const m3097Bolt = inv.mechanisms.find((m) => m.key === 'item_passive|3097|item_passive|弩箭');
+  const m3097Energized = inv.mechanisms.find((m) => m.key === 'item_passive|3097|item_passive|盈能');
   if (!m3302a || m3302a.status !== 'completed') errors.push('3302 晦影 must be completed');
   if (!m3302b || m3302b.status !== 'blocked_runtime') errors.push('3302 交相 must be blocked_runtime');
   if (!m3124 || m3124.status !== 'completed' || m3124.completionMode !== 'full') {
     errors.push('3124 沸腾打击 must be completed/full');
+  }
+  if (
+    !m2501Tyranny ||
+    m2501Tyranny.status !== 'completed' ||
+    m2501Tyranny.completionMode !== 'full' ||
+    m2501Tyranny.lane !== 'generic_runtime' ||
+    m2501Tyranny.blocker ||
+    !String(m2501Tyranny.reason || '').includes('2.5%') ||
+    !String(m2501Tyranny.reason || '').includes('generic_wiki_ready_items_test.go') ||
+    !(m2501Tyranny.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
+    ) ||
+    !(m2501Tyranny.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
+    )
+  ) {
+    errors.push(
+      '2501 专横 must be completed/full/generic_runtime with wiki-ready wasm+backend evidence refs',
+    );
+  }
+  if (
+    !m3075Thorns ||
+    m3075Thorns.status !== 'completed' ||
+    m3075Thorns.completionMode !== 'full' ||
+    m3075Thorns.lane !== 'generic_runtime' ||
+    m3075Thorns.blocker ||
+    !String(m3075Thorns.reason || '').includes('20(+10% bonus armor)') ||
+    !String(m3075Thorns.reason || '').includes('generic_wiki_ready_items_test.go') ||
+    !(m3075Thorns.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
+    ) ||
+    !(m3075Thorns.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
+    )
+  ) {
+    errors.push(
+      '3075 荆棘 must be completed/full/generic_runtime with wiki-ready wasm+backend evidence refs',
+    );
+  }
+  if (
+    !m3097Bolt ||
+    m3097Bolt.status !== 'completed' ||
+    m3097Bolt.completionMode !== 'full' ||
+    m3097Bolt.lane !== 'generic_runtime' ||
+    m3097Bolt.blocker ||
+    !String(m3097Bolt.reason || '').includes('charge=100') ||
+    !String(m3097Bolt.reason || '').includes('generic_wiki_ready_items_test.go') ||
+    !(m3097Bolt.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go',
+    ) ||
+    !(m3097Bolt.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
+    )
+  ) {
+    errors.push(
+      '3097 弩箭 must be completed/full/generic_runtime with wiki-ready wasm+backend evidence refs',
+    );
+  }
+  if (
+    !m3097Energized ||
+    m3097Energized.status !== 'blocked_data' ||
+    m3097Energized.completionMode !== 'none' ||
+    m3097Energized.blocker !== 'missing_precise_energize_move_and_attack_charge_rates_in_local_wiki'
+  ) {
+    errors.push(
+      '3097 盈能 must remain blocked_data/none with missing precise energize charge-rate blocker',
+    );
   }
   if (
     !m3071 ||
@@ -1767,9 +1895,9 @@ function validateInventory(inv) {
 
   const sc = inv.summary?.statusCounts || {};
   const expectedStatus = {
-    completed: 21,
+    completed: 24,
     partial_actionable: 0,
-    ready_to_implement: 3,
+    ready_to_implement: 0,
     blocked_runtime: 46,
     blocked_data: 109,
     out_of_scope: 70,
@@ -1779,14 +1907,10 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 3) {
-    errors.push(`actionableKeyCount expected 3, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 0) {
+    errors.push(`actionableKeyCount expected 0, got ${inv.summary?.actionableKeyCount}`);
   }
-  const expectedActionable = [
-    'item_passive|2501|item_passive|专横',
-    'item_passive|3075|item_passive|荆棘',
-    'item_passive|3097|item_passive|弩箭',
-  ].sort((a, b) => a.localeCompare(b, 'en'));
+  const expectedActionable = [];
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
   if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
     errors.push(`actionableKeys expected ${expectedActionable.join(',')}, got ${gotActionable.join(',')}`);
@@ -1801,9 +1925,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 21 || (cm.partial || 0) !== 8 || (cm.none || 0) !== 225) {
+  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 8 || (cm.none || 0) !== 222) {
     errors.push(
-      `completionModeCounts expected full=21 partial=8 none=225, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=24 partial=8 none=222, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
