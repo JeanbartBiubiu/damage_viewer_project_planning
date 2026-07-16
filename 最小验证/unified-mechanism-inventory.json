@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-16T03:04:51.802Z",
+    "generatedAt": "2026-07-16T04:00:11.608Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -52,12 +52,12 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "b5123e1c483ef5e58f93d31009b0ca75746db0347ad9379a52de999da3fd49d8",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "a4c2d59622a69eae8bdcbdd8dd9ec270f7425e6273398335f056914e6fceb20b",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "783c04b05b85bb758e80ab709d81b8fce859c12a6f2839fa0bb7394cb831a014",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "c3ea3db69cb1e490460c195c0cf33a397390d097bbbb0112f348b8d2fe3478d7",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "8db1df057c8c025beb5d466674e3c3dee26a55f2cf73d685c85541c336b12634",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "d6164f999cea6bf98e0ac04cc8895838c092dd2fe7203db8268786b8e9d6b817",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "f092f8e6a0277b97a412cef8aa8644965695003453ee821509fab0958d742c84",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "ac6a16e74ad74fdf72a83ca0216148eb5fecc40ed001e3eb032ab8177cef390e",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -86,9 +86,9 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 21,
+      "completed": 24,
       "partial_actionable": 0,
-      "ready_to_implement": 3,
+      "ready_to_implement": 0,
       "blocked_runtime": 46,
       "blocked_data": 109,
       "out_of_scope": 70,
@@ -96,22 +96,18 @@
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
-      "full": 21,
+      "full": 24,
       "partial": 8,
-      "none": 225
+      "none": 222
     },
     "laneCounts": {
-      "generic_runtime": 243,
+      "generic_runtime": 244,
       "legacy_single_attacker_dps": 7,
       "data_only": 0,
-      "mixed_evidence": 4
+      "mixed_evidence": 3
     },
-    "actionableKeyCount": 3,
-    "actionableKeys": [
-      "item_passive|2501|item_passive|专横",
-      "item_passive|3075|item_passive|荆棘",
-      "item_passive|3097|item_passive|弩箭"
-    ]
+    "actionableKeyCount": 0,
+    "actionableKeys": []
   },
   "sources": [
     {
@@ -197,8 +193,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "b5123e1c483ef5e58f93d31009b0ca75746db0347ad9379a52de999da3fd49d8",
-      "byteSize": 57509,
+      "sha256": "a4c2d59622a69eae8bdcbdd8dd9ec270f7425e6273398335f056914e6fceb20b",
+      "byteSize": 57764,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -213,8 +209,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "783c04b05b85bb758e80ab709d81b8fce859c12a6f2839fa0bb7394cb831a014",
-      "byteSize": 364037,
+      "sha256": "c3ea3db69cb1e490460c195c0cf33a397390d097bbbb0112f348b8d2fe3478d7",
+      "byteSize": 365966,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -229,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "8db1df057c8c025beb5d466674e3c3dee26a55f2cf73d685c85541c336b12634",
-      "byteSize": 56770,
+      "sha256": "f092f8e6a0277b97a412cef8aa8644965695003453ee821509fab0958d742c84",
+      "byteSize": 59315,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "d6164f999cea6bf98e0ac04cc8895838c092dd2fe7203db8268786b8e9d6b817",
-      "byteSize": 81661,
+      "sha256": "ac6a16e74ad74fdf72a83ca0216148eb5fecc40ed001e3eb032ab8177cef390e",
+      "byteSize": 87290,
       "recordCount": 0,
       "role": "generator"
     },
@@ -17330,18 +17326,18 @@
     },
     {
       "key": "item_passive|2501|item_passive|专横",
-      "status": "ready_to_implement",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
       "ownerId": "2501",
       "skillKey": "item_passive",
       "passiveName": "专横",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "source_only_dynamic_bonus_hp_ad_modifier"
       ],
       "coverageBoundary": "",
-      "reason": "Wiki 公式已齐：专横/Tyranny = 获得相当于 2.5% bonus health 的 bonus AD。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 2501 Tyranny）。可直接实现 source-only 动态 AD 修正。",
+      "reason": "专横/Tyranny 当前 generic ABI：source-only 动态 bonus AD = 2.5% bonus health；TestGenericWikiReadyItems* 覆盖 bonus HP 0/400/1000→bonus AD 0/10/25；wasm generic_wiki_ready_items_test.go（CompileGeneric+RunGeneric）+ backend lol_generic_wiki_ready_items_seed.sql 幂等 seed/mount；不声称 live migrate/publish。",
       "blocker": "",
       "sourceRefs": [
         {
@@ -17351,11 +17347,26 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "item_passive|2501|item_passive|专横"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "idempotent seed/mount + LolGenericWikiReadyItemsSeedSqlTest; commit 27f3490; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Tyranny bonus HP 0/400/1000 → bonus AD 0/10/25 via CompileGeneric+RunGeneric; commit 25a2a3b; not live published"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
@@ -18210,9 +18221,9 @@
     },
     {
       "key": "item_passive|3075|item_passive|荆棘",
-      "status": "ready_to_implement",
-      "completionMode": "none",
-      "lane": "mixed_evidence",
+      "status": "completed",
+      "completionMode": "full",
+      "lane": "generic_runtime",
       "sourceKind": "item_passive",
       "ownerId": "3075",
       "skillKey": "item_passive",
@@ -18220,8 +18231,8 @@
       "mechanismTags": [
         "on_damage_taken_reflect"
       ],
-      "coverageBoundary": "batch_p_thornmail;wiki_formula_ready",
-      "reason": "Wiki 公式已齐：荆棘/Thorns = 被普攻命中时对攻击者造成 20(+10% bonus armor) 魔法伤害（并对英雄施加重伤）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3075 Thorns）。旧固定 20 简化作废。",
+      "coverageBoundary": "batch_p_thornmail;wiki_formula_ready;generic_wiki_ready_items_closed",
+      "reason": "荆棘/Thorns 当前 generic ABI：被真实普攻命中时对攻击者造成 20(+10% bonus armor) 魔法伤害；bonus armor 0/100→raw 20/30，经 MR；每真实普攻一次、不递归；重伤分支本口径不宣称；wasm generic_wiki_ready_items_test.go + backend lol_generic_wiki_ready_items_seed.sql；旧固定 20 简化作废；不声称 live migrate/publish。",
       "blocker": "",
       "sourceRefs": [
         {
@@ -18235,7 +18246,22 @@
           "sourceRecordKey": "item_3075_thornmail_thorns_dps_v2"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "idempotent seed/mount + LolGenericWikiReadyItemsSeedSqlTest; commit 27f3490; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Thorns bonus armor 0/100 → raw 20/30, MR, once per real AA, no recursion; commit 25a2a3b; not live published"
+        }
+      ],
       "aliases": [
         "batch_p_thorns",
         "item_3075_thornmail_thorns_dps_v2"
@@ -18553,18 +18579,18 @@
     },
     {
       "key": "item_passive|3097|item_passive|弩箭",
-      "status": "ready_to_implement",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
       "ownerId": "3097",
       "skillKey": "item_passive",
       "passiveName": "弩箭",
       "mechanismTags": [
-        "energized_charge_and_consume"
+        "energized_precharged_bolt_consume"
       ],
       "coverageBoundary": "",
-      "reason": "Wiki 公式已齐（仅预充能口径）：弩箭/Bolt = 满盈能后下一次普攻造成 100 额外魔法伤害（另有移速分支本口径不实现）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3097 Bolt）。与 3097 盈能充能速率缺口分开。",
+      "reason": "弩箭/Bolt 当前 generic ABI（仅预充能口径）：初始 charge=100；首次真实普攻造成 100 额外魔法伤害并消费；第二次不 proc；phantom/copied-on-hit 不额外触发；移速分支与 3097 盈能充能速率不在本口径；wasm generic_wiki_ready_items_test.go + backend lol_generic_wiki_ready_items_seed.sql；不声称 live migrate/publish。",
       "blocker": "",
       "sourceRefs": [
         {
@@ -18574,11 +18600,26 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "item_passive|3097|item_passive|弩箭"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "idempotent seed/mount + LolGenericWikiReadyItemsSeedSqlTest; commit 27f3490; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Bolt initial charge100, first 100 magic + consume, second no proc, phantom no extra; commit 25a2a3b; not live published"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
