@@ -4,7 +4,7 @@
     "inputSha256": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-16T04:19:16.905Z"
+    "generatedAt": "2026-07-16T04:35:11.952Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -14,14 +14,14 @@
     },
     "classificationCounts": {
       "migrated": 22,
-      "partial": 9,
-      "blocked": 145,
+      "partial": 10,
+      "blocked": 144,
       "out_of_scope": 66
     },
     "classificationPercents": {
       "migrated": 9.09,
-      "partial": 3.72,
-      "blocked": 59.92,
+      "partial": 4.13,
+      "blocked": 59.5,
       "out_of_scope": 27.27
     },
     "coverageRateMigratedOnly": {
@@ -29,8 +29,8 @@
       "inScope": 12.5
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 12.81,
-      "inScope": 17.61
+      "all": 13.22,
+      "inScope": 18.18
     },
     "inScopeCount": 176
   },
@@ -2661,14 +2661,29 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Quinn.json#data.Quinn.spells[1]",
       "candidateKey": "hero_skill|hero_quinn|W|敏锐感知",
-      "genericClassification": "blocked",
+      "genericClassification": "partial",
       "genericMechanismTags": [
         "target_state_conditioned_attack_speed",
         "vulnerable"
       ],
-      "classificationReason": "Quinn W 敏锐感知：攻击易损目标提供攻速；属目标状态条件 cadence，旧 meta 标签不得整条 out_of_scope。",
-      "coverageEvidence": [],
-      "remainingGap": "缺目标状态条件 cadence 行为与精确 provider seed/mount/live publish/E2E。"
+      "classificationReason": "hero_quinn W 敏锐感知/Heightened Senses rank5 目标状态条件攻速核心已由 wasm-generic-quinn-heightened-senses 闭环：真实 CompileGeneric+RunGeneric；预先存在 harrier_vulnerable target-state 时 basic_attack_hit 后 +40% AS 持续 2s；覆盖无易损不触发、触发、到期、refresh、target 隔离、phantom 不刷新、base 不污染；本地 DD 16.9.1 QuinnW e3 rank5=0.40 / e1,e5=2s。W 主动视野与移速为允许不模拟的非伤害分支。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-heightened-senses",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Quinn W Heightened Senses rank5 partial: preexisting harrier_vulnerable + basic_attack_hit → +40% AS 2s; no-vuln/trigger/expiry/refresh/target-isolation/phantom/base-unpolluted; DD16.9.1 e3=0.40 e1/e5=2s; commit 6d64fd1; P/Q/E harrier produce/consume/bonus dmg unmodeled; W vision/MS intentionally out of damage branch"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-heightened-senses",
+          "sourcePath": "db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "backend lol_generic_quinn_heightened_senses_seed.sql idempotent seed/mount; LolGenericQuinnHeightenedSensesSeedSqlTest 10 tests; commit 1f11cf3; not live published"
+        }
+      ],
+      "remainingGap": "Quinn P/Q/E 对 harrier_vulnerable 的产生/消费与 Harrier 额外伤害未建模。"
     },
     {
       "sourceKind": "hero_skill",
