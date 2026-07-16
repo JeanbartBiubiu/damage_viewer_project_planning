@@ -73,6 +73,26 @@ const STATUS_OVERRIDES = new Map([
       reason:
         '当前 Data Dragon 文本无完整当前数值合同；历史 Batch B 1级/OCR 证据版本不一致，缺可核验的当前唯一数值真源。',
       blocker: 'missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr',
+      dataGapEvidence: {
+        sourceVersion: 'batch_b_vs_ddragon_conflict',
+        sourceRef: '最小验证/数据/build-unified-mechanism-inventory.mjs#hero_kaisa_P',
+        availableEffectTables: {},
+        availableCooldowns: [],
+        availableCosts: {},
+        tooltipPlaceholders: [],
+        unresolvedDamagePlaceholders: [],
+        varsMapEmpty: true,
+        variablesEmpty: true,
+        variables: [],
+        missingFields: [
+          'current_unique_numeric_source',
+          'version_consistent_rank_table',
+        ],
+        gapKind: 'conflicting_numeric_sources',
+        reasonZh:
+          '当前 Data Dragon 文本无完整当前数值合同；历史 Batch B 1级/OCR 证据版本不一致，缺可核验的当前唯一数值真源。',
+        blocker: 'missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr',
+      },
     },
   ],
   [
@@ -84,6 +104,23 @@ const STATUS_OVERRIDES = new Map([
       reason:
         '历史 Batch B 为每层每 tick 1 点伤害，legacy helper 为 2；无唯一当前真源可裁定冲突。',
       blocker: 'batch_b_1_vs_legacy_helper_2_per_stack_tick_no_unique_current_truth',
+      dataGapEvidence: {
+        sourceVersion: 'batch_b_vs_legacy_helper_conflict',
+        sourceRef: '最小验证/数据/build-unified-mechanism-inventory.mjs#hero_twitch_P',
+        availableEffectTables: {},
+        availableCooldowns: [],
+        availableCosts: {},
+        tooltipPlaceholders: [],
+        unresolvedDamagePlaceholders: [],
+        varsMapEmpty: true,
+        variablesEmpty: true,
+        variables: [],
+        missingFields: ['unique_per_stack_tick_damage', 'current_truth_source'],
+        gapKind: 'conflicting_numeric_sources',
+        reasonZh:
+          '历史 Batch B 为每层每 tick 1 点伤害，legacy helper 为 2；无唯一当前真源可裁定冲突。',
+        blocker: 'batch_b_1_vs_legacy_helper_2_per_stack_tick_no_unique_current_truth',
+      },
     },
   ],
   [
@@ -93,9 +130,30 @@ const STATUS_OVERRIDES = new Map([
       completionMode: 'none',
       lane: 'generic_runtime',
       reason:
-        '历史 seed params 含 on-hit 表 [8,17,26,35,44]，但可执行 legacy operation 固定 rank-1=8；当前 tooltip/effect 未解析，仍无唯一可核验的当前完整 rank 表。',
+        '历史候选参数含 on-hit 表 [8,17,26,35,44]，但可执行 legacy operation 固定 rank-1=8；当前 tooltip/effect 未解析，仍无唯一可核验的当前完整 rank 表。',
       blocker:
-        'historical_seed_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved',
+        'historical_candidate_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved',
+      dataGapEvidence: {
+        sourceVersion: 'historical_candidate_vs_executable_rank1',
+        sourceRef: '最小验证/数据/build-unified-mechanism-inventory.mjs#hero_varus_W',
+        availableEffectTables: {},
+        availableCooldowns: [],
+        availableCosts: {},
+        tooltipPlaceholders: [],
+        unresolvedDamagePlaceholders: [],
+        varsMapEmpty: true,
+        variablesEmpty: true,
+        variables: [],
+        missingFields: [
+          'current_full_rank_table',
+          'resolved_current_tooltip_effect_binding',
+        ],
+        gapKind: 'conflicting_numeric_sources',
+        reasonZh:
+          '历史候选参数含 on-hit 表 [8,17,26,35,44]，但可执行 legacy operation 固定 rank-1=8；当前 tooltip/effect 未解析，仍无唯一可核验的当前完整 rank 表。',
+        blocker:
+          'historical_candidate_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved',
+      },
     },
   ],
   [
@@ -184,6 +242,23 @@ const STATUS_OVERRIDES = new Map([
       reason:
         '3097 Energized/盈能：本地 Wiki 仅写移动与普攻生成充能至 100，缺精确移动/普攻充能速率；与 Bolt 预充能伤害口径分开，继续 blocked_data。',
       blocker: 'missing_precise_energize_move_and_attack_charge_rates_in_local_wiki',
+      dataGapEvidence: {
+        sourceVersion: 'local-wiki-item-3097',
+        sourceRef: '最小验证/数据/build-unified-mechanism-inventory.mjs#item_3097_energized',
+        availableEffectTables: {},
+        availableCooldowns: [],
+        availableCosts: {},
+        tooltipPlaceholders: [],
+        unresolvedDamagePlaceholders: [],
+        varsMapEmpty: true,
+        variablesEmpty: true,
+        variables: [],
+        missingFields: ['move_charge_rate', 'attack_charge_rate'],
+        gapKind: 'status_charge_rate',
+        reasonZh:
+          '3097 Energized/盈能：本地 Wiki 仅写移动与普攻生成充能至 100，缺精确移动/普攻充能速率；与 Bolt 预充能伤害口径分开，继续 blocked_data。',
+        blocker: 'missing_precise_energize_move_and_attack_charge_rates_in_local_wiki',
+      },
     },
   ],
   [
@@ -551,6 +626,22 @@ const EXTRA_MECHANISMS = [
     coverageBoundary: 'batch_j_status_damage_audit',
     reason: 'Batch J: true DoT 需迁 status/resource；缺当前可核验数据闭环。',
     blocker: 'status_resource_migration_data_gap',
+    dataGapEvidence: {
+      sourceVersion: 'batch_j_status_damage_audit',
+      sourceRef: '最小验证/V2-Batch-J-status-damage-audit.json#skill_malzahar_e',
+      availableEffectTables: {},
+      availableCooldowns: [],
+      availableCosts: {},
+      tooltipPlaceholders: [],
+      unresolvedDamagePlaceholders: [],
+      varsMapEmpty: true,
+      variablesEmpty: true,
+      variables: [],
+      missingFields: ['status_resource_dot_numeric_contract', 'current_verifiable_data_loop'],
+      gapKind: 'status_resource_data_gap',
+      reasonZh: 'Batch J: true DoT 需迁 status/resource；缺当前可核验数据闭环。',
+      blocker: 'status_resource_migration_data_gap',
+    },
     sourceRefs: [
       {
         path: '最小验证/V2-Batch-J-status-damage-audit.json',
@@ -1093,6 +1184,19 @@ function isBlockedRuntimeByTags(tags, gap, reason) {
   );
 }
 
+function isBlockedRuntimeByTagsOnly(tags) {
+  const list = tags || [];
+  for (const t of list) {
+    if (BLOCKED_RUNTIME_TAGS.has(t)) return true;
+    if (BLOCKED_RUNTIME_TAG_NEEDLES.some((n) => t.includes(n))) return true;
+  }
+  return false;
+}
+
+function containsImplEvidenceWording(text) {
+  return /seed|mount|publish|E2E/i.test(String(text || ''));
+}
+
 function mapG8ToUnified(candidate) {
   const key = candidate.candidateKey;
   const override = STATUS_OVERRIDES.get(key);
@@ -1103,6 +1207,7 @@ function mapG8ToUnified(candidate) {
       lane: override.lane,
       reason: override.reason,
       blocker: override.blocker || '',
+      dataGapEvidence: override.dataGapEvidence || null,
     };
   }
 
@@ -1110,6 +1215,7 @@ function mapG8ToUnified(candidate) {
   const tags = candidate.genericMechanismTags || candidate.mechanismTags || [];
   const gap = candidate.remainingGap || '';
   const reason = candidate.classificationReason || candidate.blockedReason || '';
+  const evidence = candidate.dataGapEvidence || null;
 
   if (gc === 'migrated') {
     return {
@@ -1118,6 +1224,7 @@ function mapG8ToUnified(candidate) {
       lane: 'generic_runtime',
       reason: reason || 'generic G8 migrated with coverage evidence',
       blocker: '',
+      dataGapEvidence: null,
     };
   }
   if (gc === 'partial') {
@@ -1128,6 +1235,7 @@ function mapG8ToUnified(candidate) {
       lane: 'generic_runtime',
       reason: reason || 'generic G8 partial with non-actionable remaining branch',
       blocker: gap || 'remaining_gap',
+      dataGapEvidence: null,
     };
   }
   if (gc === 'out_of_scope') {
@@ -1137,9 +1245,47 @@ function mapG8ToUnified(candidate) {
       lane: 'generic_runtime',
       reason: reason || 'generic G8 out_of_scope',
       blocker: '',
+      dataGapEvidence: null,
     };
   }
   if (gc === 'blocked') {
+    // Tag-proven runtime gaps stay blocked_runtime (do not demote to blocked_data).
+    if (isBlockedRuntimeByTagsOnly(tags)) {
+      return {
+        status: 'blocked_runtime',
+        completionMode: 'none',
+        lane: 'generic_runtime',
+        reason: reason || 'runtime capability gap',
+        blocker: gap || 'blocked_runtime',
+        dataGapEvidence: evidence,
+      };
+    }
+    // Precise data gaps for the remaining blocked rows.
+    if (evidence && Array.isArray(evidence.missingFields) && evidence.missingFields.length) {
+      return {
+        status: 'blocked_data',
+        completionMode: 'none',
+        lane: 'generic_runtime',
+        reason: evidence.reasonZh || reason || 'data/template/rank/formula gap',
+        blocker: evidence.blocker || gap || 'blocked_data',
+        dataGapEvidence: evidence,
+      };
+    }
+    // No unresolved data fields → not blocked_data. Conservative: blocked_runtime only
+    // (ready_to_implement requires explicit existing-runtime proof; do not guess).
+    if (evidence && Array.isArray(evidence.missingFields) && evidence.missingFields.length === 0) {
+      return {
+        status: 'blocked_runtime',
+        completionMode: 'none',
+        lane: 'generic_runtime',
+        reason:
+          evidence.reasonZh
+          || '本地数值快照无未解析伤害/数据字段；缺 runtime 表达能力（非 data blocker）',
+        blocker: 'implementation_gap_no_unresolved_data_fields',
+        dataGapEvidence: evidence,
+      };
+    }
+    // Legacy blob heuristic only when structured evidence is unavailable.
     if (isBlockedRuntimeByTags(tags, gap, reason)) {
       return {
         status: 'blocked_runtime',
@@ -1147,6 +1293,7 @@ function mapG8ToUnified(candidate) {
         lane: 'generic_runtime',
         reason: reason || 'runtime capability gap',
         blocker: gap || 'blocked_runtime',
+        dataGapEvidence: evidence,
       };
     }
     return {
@@ -1155,6 +1302,7 @@ function mapG8ToUnified(candidate) {
       lane: 'generic_runtime',
       reason: reason || 'data/template/rank/formula gap',
       blocker: gap || 'blocked_data',
+      dataGapEvidence: evidence,
     };
   }
   throw new Error(`unknown genericClassification ${gc} @ ${key}`);
@@ -1174,6 +1322,7 @@ function emptyMechanismShell(partial) {
     coverageBoundary: '',
     reason: '',
     blocker: '',
+    dataGapEvidence: null,
     sourceRefs: [],
     evidenceRefs: [],
     aliases: [],
@@ -1223,6 +1372,7 @@ function buildMechanismsFromG8(g8) {
         coverageBoundary: COVERAGE_BOUNDARIES.get(c.candidateKey) || '',
         reason: mapped.reason,
         blocker: mapped.blocker,
+        dataGapEvidence: mapped.dataGapEvidence || override?.dataGapEvidence || null,
         sourceRefs: [
           {
             path: G8_AUDIT_REL,
@@ -1913,10 +2063,10 @@ function validateInventory(inv) {
     mVarusW.status !== 'blocked_data' ||
     mVarusW.completionMode !== 'none' ||
     mVarusW.blocker !==
-      'historical_seed_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved'
+      'historical_candidate_rank_table_8_17_26_35_44_vs_executable_rank1_8_current_tooltip_unresolved'
   ) {
     errors.push(
-      'Varus W must be blocked_data/none with historical seed rank-table vs executable rank1-8 / unresolved current tooltip blocker',
+      'Varus W must be blocked_data/none with historical candidate rank-table vs executable rank1-8 / unresolved current tooltip blocker',
     );
   }
   if (!mAsheQ || mAsheQ.status !== 'blocked_runtime' || mAsheQ.completionMode !== 'partial') {
@@ -2006,8 +2156,8 @@ function validateInventory(inv) {
     completed: 24,
     partial_actionable: 0,
     ready_to_implement: 0,
-    blocked_runtime: 48,
-    blocked_data: 107,
+    blocked_runtime: 50,
+    blocked_data: 105,
     out_of_scope: 70,
     regression_only: 5,
     stale_or_duplicate: 0,
@@ -2037,6 +2187,31 @@ function validateInventory(inv) {
     errors.push(
       `completionModeCounts expected full=24 partial=11 none=219, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
+  }
+
+  // blocked_data must carry precise, non-implementation data-gap evidence.
+  const blockedDataRows = (inv.mechanisms || []).filter((m) => m.status === 'blocked_data');
+  if (blockedDataRows.length !== 105) {
+    errors.push(`blocked_data rows expected 105, got ${blockedDataRows.length}`);
+  }
+  for (const m of blockedDataRows) {
+    const ev = m.dataGapEvidence;
+    if (!ev || typeof ev !== 'object') {
+      errors.push(`blocked_data missing dataGapEvidence @ ${m.key}`);
+      continue;
+    }
+    if (!Array.isArray(ev.missingFields) || ev.missingFields.length === 0) {
+      errors.push(`blocked_data missingFields empty @ ${m.key}`);
+    }
+    const blob = `${m.reason || ''}|${m.blocker || ''}|${ev.reasonZh || ''}|${ev.blocker || ''}`;
+    if (containsImplEvidenceWording(blob)) {
+      errors.push(`blocked_data reason/blocker cites seed/mount/publish/E2E @ ${m.key}`);
+    }
+  }
+  const bdHero = blockedDataRows.filter((m) => m.sourceKind === 'hero_skill').length;
+  const bdItem = blockedDataRows.filter((m) => m.sourceKind === 'item_passive').length;
+  if (bdHero !== 104 || bdItem !== 1) {
+    errors.push(`blocked_data by kind expected hero_skill=104 item_passive=1, got ${bdHero}/${bdItem}`);
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
   const coeffB = '最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json';
@@ -2147,6 +2322,8 @@ function mechanismToCsvRow(m) {
     coverageBoundary: m.coverageBoundary || '',
     reason: m.reason || '',
     blocker: m.blocker || '',
+    dataGapMissingFields: (m.dataGapEvidence?.missingFields || []).join('|'),
+    dataGapEvidenceJson: m.dataGapEvidence ? JSON.stringify(m.dataGapEvidence) : '',
     sourceRefs: (m.sourceRefs || [])
       .map((r) => `${r.path}#${r.sourceRecordKey}:${r.legacyStatus}`)
       .join(';'),
@@ -2171,6 +2348,8 @@ const CSV_COLUMNS = [
   'coverageBoundary',
   'reason',
   'blocker',
+  'dataGapMissingFields',
+  'dataGapEvidenceJson',
   'sourceRefs',
   'evidenceRefs',
   'aliases',
