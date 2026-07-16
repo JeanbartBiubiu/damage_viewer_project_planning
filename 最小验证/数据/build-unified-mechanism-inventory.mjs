@@ -375,6 +375,17 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_quinn|W|敏锐感知',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'partial',
+      lane: 'generic_runtime',
+      reason:
+        '预先存在 harrier_vulnerable target-state 时，真实普攻触发 +40% AS/2s 与刷新已由 generic CompileGeneric+RunGeneric 闭环；Quinn P/Q/E 对 harrier_vulnerable 的产生/消费与 Harrier 额外伤害仍缺。W 主动视野与移速为允许不模拟的非伤害分支，不作为阻塞。',
+      blocker: 'harrier_vulnerable_produce_consume_and_bonus_damage',
+    },
+  ],
+  [
     'hero_skill|hero_kogmaw|Q|腐蚀唾液',
     {
       status: 'blocked_runtime',
@@ -1718,6 +1729,7 @@ function validateInventory(inv) {
   const mVarusW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|W|枯萎箭袋');
   const mAsheQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|Q|射手的专注');
   const mDravenW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|W|血性冲刺');
+  const mQuinnW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|W|敏锐感知');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
   );
@@ -1921,6 +1933,30 @@ function validateInventory(inv) {
       'Draven W 血性冲刺 must be blocked_runtime/partial with axe_caught_event_ability_cooldown_reset blocker and wasm/backend evidence refs',
     );
   }
+  if (
+    !mQuinnW ||
+    mQuinnW.status !== 'blocked_runtime' ||
+    mQuinnW.completionMode !== 'partial' ||
+    mQuinnW.lane !== 'generic_runtime' ||
+    mQuinnW.blocker !== 'harrier_vulnerable_produce_consume_and_bonus_damage' ||
+    !(mQuinnW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-quinn-heightened-senses' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go' &&
+        e.sourceWorktree === 'wasm',
+    ) ||
+    !(mQuinnW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-quinn-heightened-senses' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql' &&
+        e.sourceWorktree === 'backend',
+    )
+  ) {
+    errors.push(
+      'Quinn W 敏锐感知 must be blocked_runtime/partial with harrier_vulnerable_produce_consume_and_bonus_damage blocker and wasm/backend evidence refs',
+    );
+  }
   if (!m3748a || m3748a.status !== 'out_of_scope' || m3748a.completionMode !== 'partial') {
     errors.push('3748 顺劈 71fa0f0c must be out_of_scope/partial');
   }
@@ -1933,8 +1969,8 @@ function validateInventory(inv) {
     completed: 24,
     partial_actionable: 0,
     ready_to_implement: 0,
-    blocked_runtime: 46,
-    blocked_data: 109,
+    blocked_runtime: 47,
+    blocked_data: 108,
     out_of_scope: 70,
     regression_only: 5,
     stale_or_duplicate: 0,
@@ -1960,9 +1996,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 221) {
+  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 10 || (cm.none || 0) !== 220) {
     errors.push(
-      `completionModeCounts expected full=24 partial=9 none=221, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=24 partial=10 none=220, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
   const coeffA = '最小验证/V2-BatchV-A-coefficient-buckets.json';
