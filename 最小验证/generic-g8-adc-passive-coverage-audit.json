@@ -4,7 +4,7 @@
     "inputSha256": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-16T04:35:11.952Z"
+    "generatedAt": "2026-07-16T04:47:33.753Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -14,14 +14,14 @@
     },
     "classificationCounts": {
       "migrated": 22,
-      "partial": 10,
-      "blocked": 144,
+      "partial": 11,
+      "blocked": 143,
       "out_of_scope": 66
     },
     "classificationPercents": {
       "migrated": 9.09,
-      "partial": 4.13,
-      "blocked": 59.5,
+      "partial": 4.55,
+      "blocked": 59.09,
       "out_of_scope": 27.27
     },
     "coverageRateMigratedOnly": {
@@ -29,8 +29,8 @@
       "inScope": 12.5
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 13.22,
-      "inScope": 18.18
+      "all": 13.64,
+      "inScope": 18.75
     },
     "inScopeCount": 176
   },
@@ -4150,13 +4150,30 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.spells[1]",
       "candidateKey": "hero_skill|hero_xayah|W|致死羽衣",
-      "genericClassification": "blocked",
+      "genericClassification": "partial",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "cast_triggered_timed_attack_speed",
+        "attack_speed_percent_add",
+        "secondary_feather_ratio_damage"
       ],
-      "classificationReason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "coverageEvidence": [],
-      "remainingGap": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。"
+      "classificationReason": "hero_xayah W 致死羽衣/Deadly Plumage rank5 主动攻速核心已由 wasm-generic-xayah-deadly-plumage 闭环：真实 CompileGeneric+RunGeneric；40 mana / CD 14000ms；ability_started 武装 4000ms timed AS state；+55% attack_speed；wasm generic_xayah_deadly_plumage_test.go 7 tests（commit d59818f）；backend lol_generic_xayah_deadly_plumage_seed.sql 幂等 seed/mount + LolGenericXayahDeadlyPlumageSeedSqlTest 9 tests（commit afd71de，未 live publish）；本地 DD 16.9.1 e1=55 / e2=4 / e5=20 / cost=40 / CD=14。已完成 active AS branch。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-deadly-plumage",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Xayah W Deadly Plumage rank5 partial: 40 mana / CD14000ms / ability_started arms 4000ms AS state; +55% AS; 7 tests; DD16.9.1 e1=55 e2=4 e5=20 cost40 CD14; commit d59818f; secondary feather 20% settled basic-attack damage ratio copy excluding on-hit/phantom unmodeled; MS/Rakan intentionally non-damage OOS"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-deadly-plumage",
+          "sourcePath": "db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "backend lol_generic_xayah_deadly_plumage_seed.sql idempotent seed/mount; LolGenericXayahDeadlyPlumageSeedSqlTest 9 tests; commit afd71de; not live published"
+        }
+      ],
+      "remainingGap": "次级羽刃造成原真实普攻伤害20%，需要以已结算基础攻击伤害为输入的比例复制语义，并明确排除 on-hit/phantom 重复；MS/Rakan为非伤害OOS。"
     },
     {
       "sourceKind": "hero_skill",
