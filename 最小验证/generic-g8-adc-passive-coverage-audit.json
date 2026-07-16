@@ -4,7 +4,7 @@
     "inputSha256": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-16T03:04:51.708Z"
+    "generatedAt": "2026-07-16T04:00:11.561Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 20,
+      "migrated": 22,
       "partial": 8,
-      "blocked": 148,
+      "blocked": 146,
       "out_of_scope": 66
     },
     "classificationPercents": {
-      "migrated": 8.26,
+      "migrated": 9.09,
       "partial": 3.31,
-      "blocked": 61.16,
+      "blocked": 60.33,
       "out_of_scope": 27.27
     },
     "coverageRateMigratedOnly": {
-      "all": 8.26,
-      "inScope": 11.36
+      "all": 9.09,
+      "inScope": 12.5
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 11.57,
-      "inScope": 15.91
+      "all": 12.4,
+      "inScope": 17.05
     },
     "inScopeCount": 176
   },
@@ -4468,13 +4468,28 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.2501",
       "candidateKey": "item_passive|2501|item_passive|专横",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "source_only_dynamic_bonus_hp_ad_modifier"
       ],
-      "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "classificationReason": "item 2501 专横/Tyranny 已由 wasm-generic-wiki-ready-items 闭环：source-only 动态 bonus AD = 2.5% bonus health；bonus HP 0/400/1000 → +0/+10/+25；真实 CompileGeneric+RunGeneric；幂等 seed/mount，未 live publish。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Tyranny: bonus HP 0/400/1000 → bonus AD 0/10/25 via CompileGeneric+RunGeneric; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "backend lol_generic_wiki_ready_items_seed.sql idempotent seed/mount; LolGenericWikiReadyItemsSeedSqlTest; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -5431,7 +5446,7 @@
       "genericMechanismTags": [
         "energized_charge_and_consume"
       ],
-      "classificationReason": "energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。",
+      "classificationReason": "energized 除 item 3094 神射手与 item 3097 弩箭（预充能口径）外全部 blocked；同机制代表完成不等于本 candidate 已 seed（含 3097 盈能充能速率）。",
       "coverageEvidence": [],
       "remainingGap": "缺该 candidate 精确 energized provider seed/mount/live publish/E2E。"
     },
@@ -5453,13 +5468,28 @@
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.3097",
       "candidateKey": "item_passive|3097|item_passive|弩箭",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "energized_charge_and_consume"
+        "energized_precharged_bolt_consume"
       ],
-      "classificationReason": "energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。",
-      "coverageEvidence": [],
-      "remainingGap": "缺该 candidate 精确 energized provider seed/mount/live publish/E2E。"
+      "classificationReason": "item 3097 弩箭/Bolt（仅预充能口径）已由 wasm-generic-wiki-ready-items 闭环：初始 charge=100；首次真实普攻 100 magic 并消费；第二次不 proc；phantom/copied-on-hit 不额外触发；移速分支与 3097 盈能充能速率不在本口径；未 live publish。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_wiki_ready_items_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Bolt: initial charge100, first AA 100 magic + consume, second no proc, phantom no extra trigger; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-wiki-ready-items",
+          "sourcePath": "db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "backend lol_generic_wiki_ready_items_seed.sql idempotent seed/mount; LolGenericWikiReadyItemsSeedSqlTest; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -6685,7 +6715,7 @@
       "genericMechanismTags": [
         "energized_charge_and_consume"
       ],
-      "classificationReason": "energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。",
+      "classificationReason": "energized 除 item 3094 神射手与 item 3097 弩箭（预充能口径）外全部 blocked；同机制代表完成不等于本 candidate 已 seed（含 3097 盈能充能速率）。",
       "coverageEvidence": [],
       "remainingGap": "缺该 candidate 精确 energized provider seed/mount/live publish/E2E。"
     },
@@ -6711,7 +6741,7 @@
       "genericMechanismTags": [
         "energized_charge_and_consume"
       ],
-      "classificationReason": "energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。",
+      "classificationReason": "energized 除 item 3094 神射手与 item 3097 弩箭（预充能口径）外全部 blocked；同机制代表完成不等于本 candidate 已 seed（含 3097 盈能充能速率）。",
       "coverageEvidence": [],
       "remainingGap": "缺该 candidate 精确 energized provider seed/mount/live publish/E2E。"
     }
