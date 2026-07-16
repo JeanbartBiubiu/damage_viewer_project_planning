@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-16T04:19:16.956Z",
+    "generatedAt": "2026-07-16T04:35:11.999Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -52,12 +52,12 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "e5327b9e8b8f5654d640480d2416f3b58b0ee1300023ee1f815e9f56c767bb22",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "1acc52e6e040f5238d96813c45d4a4a51de5107c816e4fffaaf279368bfbfba3",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "e34b599abf749490dd6d728a0f27fdb76ebfe86add0a125d5f8bc9d9f22b1c6f",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "6c5ef68b3f20a6ec11c665421ccf697ae8a21a2e7b26eaad4786558b32c2b322",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "3d79d31e66c05d2c4a782ca73867c83415690ae20bf669408f704e4047ac84d7",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "0a57a616cef5997476273cabeee03fef1562caec4c889cfa872dc82d83fd71e6",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "47bb5928660c8046358f815a7f31e64b8d2a9f46c71fb782f31217b15a51f6e3",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "529d3f036440246c3575f4a57585586850ca1f17b81b84b10b0370dd700dd3f9",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -89,16 +89,16 @@
       "completed": 24,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 46,
-      "blocked_data": 109,
+      "blocked_runtime": 47,
+      "blocked_data": 108,
       "out_of_scope": 70,
       "regression_only": 5,
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
       "full": 24,
-      "partial": 9,
-      "none": 221
+      "partial": 10,
+      "none": 220
     },
     "laneCounts": {
       "generic_runtime": 244,
@@ -193,8 +193,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "e5327b9e8b8f5654d640480d2416f3b58b0ee1300023ee1f815e9f56c767bb22",
-      "byteSize": 57999,
+      "sha256": "1acc52e6e040f5238d96813c45d4a4a51de5107c816e4fffaaf279368bfbfba3",
+      "byteSize": 58230,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -209,8 +209,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "e34b599abf749490dd6d728a0f27fdb76ebfe86add0a125d5f8bc9d9f22b1c6f",
-      "byteSize": 367269,
+      "sha256": "6c5ef68b3f20a6ec11c665421ccf697ae8a21a2e7b26eaad4786558b32c2b322",
+      "byteSize": 368674,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -225,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "3d79d31e66c05d2c4a782ca73867c83415690ae20bf669408f704e4047ac84d7",
-      "byteSize": 60811,
+      "sha256": "47bb5928660c8046358f815a7f31e64b8d2a9f46c71fb782f31217b15a51f6e3",
+      "byteSize": 62161,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "0a57a616cef5997476273cabeee03fef1562caec4c889cfa872dc82d83fd71e6",
-      "byteSize": 88860,
+      "sha256": "529d3f036440246c3575f4a57585586850ca1f17b81b84b10b0370dd700dd3f9",
+      "byteSize": 90524,
       "recordCount": 0,
       "role": "generator"
     },
@@ -15169,8 +15169,8 @@
     },
     {
       "key": "hero_skill|hero_quinn|W|敏锐感知",
-      "status": "blocked_data",
-      "completionMode": "none",
+      "status": "blocked_runtime",
+      "completionMode": "partial",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_quinn",
@@ -15181,8 +15181,8 @@
         "vulnerable"
       ],
       "coverageBoundary": "",
-      "reason": "Quinn W 敏锐感知：攻击易损目标提供攻速；属目标状态条件 cadence，旧 meta 标签不得整条 out_of_scope。",
-      "blocker": "缺目标状态条件 cadence 行为与精确 provider seed/mount/live publish/E2E。",
+      "reason": "预先存在 harrier_vulnerable target-state 时，真实普攻触发 +40% AS/2s 与刷新已由 generic CompileGeneric+RunGeneric 闭环；Quinn P/Q/E 对 harrier_vulnerable 的产生/消费与 Harrier 额外伤害仍缺。W 主动视野与移速为允许不模拟的非伤害分支，不作为阻塞。",
+      "blocker": "harrier_vulnerable_produce_consume_and_bonus_damage",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15191,11 +15191,26 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "partial",
           "sourceRecordKey": "hero_skill|hero_quinn|W|敏锐感知"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-heightened-senses",
+          "sourcePath": "db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "backend lol_generic_quinn_heightened_senses_seed.sql idempotent seed/mount; LolGenericQuinnHeightenedSensesSeedSqlTest 10 tests; commit 1f11cf3; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-heightened-senses",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go",
+          "sourceWorktree": "wasm",
+          "note": "Quinn W Heightened Senses rank5 partial: preexisting harrier_vulnerable + basic_attack_hit → +40% AS 2s; no-vuln/trigger/expiry/refresh/target-isolation/phantom/base-unpolluted; DD16.9.1 e3=0.40 e1/e5=2s; commit 6d64fd1; P/Q/E harrier produce/consume/bonus dmg unmodeled; W vision/MS intentionally out of damage branch"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
