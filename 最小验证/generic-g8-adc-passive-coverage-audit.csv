@@ -4,11 +4,11 @@ hero_skill|hero_akshan|Q|去而复还,hero_skill,hero_akshan,影哨,Q,去而复�
 hero_skill|hero_akshan|W|赴险夺人,hero_skill,hero_akshan,影哨,W,赴险夺人,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
 hero_skill|hero_akshan|E|骄行荡寇,hero_skill,hero_akshan,影哨,E,骄行荡寇,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_akshan|R|恩怨相抵,hero_skill,hero_akshan,影哨,R,恩怨相抵,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-hero_skill|hero_aphelios|P|传知者与真知者,hero_skill,hero_aphelios,残月之肃,P,传知者与真知者,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-hero_skill|hero_aphelios|Q|武器技能,hero_skill,hero_aphelios,残月之肃,Q,武器技能,out_of_scope_for_single_target_dps,blocked,composite_weapon_skill|primary_target_attack_branch|weapon_state,,,,缺精确武器状态/provider/runtime 基线与 seed/mount/live publish/E2E。
-hero_skill|hero_aphelios|W|月相轮转,hero_skill,hero_aphelios,残月之肃,W,月相轮转,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-hero_skill|hero_aphelios|E|武器队列系统,hero_skill,hero_aphelios,残月之肃,E,武器队列系统,out_of_scope_for_single_target_dps,out_of_scope,no_single_target_dps_effect,,,,
-hero_skill|hero_aphelios|R|清辉夜凝,hero_skill,hero_aphelios,残月之肃,R,清辉夜凝,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+hero_skill|hero_aphelios|P|传知者与真知者,hero_skill,hero_aphelios,残月之肃,P,传知者与真知者,needs_manual_baseline,out_of_scope,weapon_ammo_swap_system,,,,
+hero_skill|hero_aphelios|Q|武器技能,hero_skill,hero_aphelios,残月之肃,Q,武器技能,out_of_scope_for_single_target_dps,out_of_scope,weapon_ammo_swap_system,,,,
+hero_skill|hero_aphelios|W|月相轮转,hero_skill,hero_aphelios,残月之肃,W,月相轮转,needs_manual_baseline,out_of_scope,weapon_ammo_swap_system,,,,
+hero_skill|hero_aphelios|E|武器队列系统,hero_skill,hero_aphelios,残月之肃,E,武器队列系统,out_of_scope_for_single_target_dps,out_of_scope,weapon_ammo_swap_system,,,,
+hero_skill|hero_aphelios|R|清辉夜凝,hero_skill,hero_aphelios,残月之肃,R,清辉夜凝,out_of_scope_for_single_target_dps,out_of_scope,weapon_ammo_swap_system,,,,
 hero_skill|hero_ashe|P|冰霜射击,hero_skill,hero_ashe,寒冰射手,P,冰霜射击,needs_runtime_extension,blocked,seeded_random_crit_sequence,,,,缺 seeded/random/on-crit 序列 runtime 与精确 seed；不得用 expected-crit 冒充完成。
 hero_skill|hero_ashe|Q|射手的专注,hero_skill,hero_ashe,寒冰射手,Q,射手的专注,needs_runtime_extension,partial,stacking_stat_modifier_on_hit|attack_speed_percent_add|cast_condition,wasm-generic-ashe-rangers-focus,wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go,wasm,未建模：generic attack-timer reset 调度、逐箭飞行、Frost Shot、吸血、建筑物/多目标、任意技能轮转/攻速 cadence、其它 rank。
 hero_skill|hero_ashe|W|万箭齐发,hero_skill,hero_ashe,寒冰射手,W,万箭齐发,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
@@ -78,7 +78,7 @@ hero_skill|hero_kindred|P|千珏之印,hero_skill,hero_kindred,永猎双子,P,�
 hero_skill|hero_kindred|Q|乱箭之舞,hero_skill,hero_kindred,永猎双子,Q,乱箭之舞,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_kindred|W|狼灵狂热,hero_skill,hero_kindred,永猎双子,W,狼灵狂热,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_kindred|E|横生惧意,hero_skill,hero_kindred,永猎双子,E,横生惧意,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
-hero_skill|hero_kindred|R|羊灵生息,hero_skill,hero_kindred,永猎双子,R,羊灵生息,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+hero_skill|hero_kindred|R|羊灵生息,hero_skill,hero_kindred,永猎双子,R,羊灵生息,out_of_scope_for_single_target_dps,out_of_scope,survivability_only,,,,
 hero_skill|hero_kogmaw|P|来自艾卡西亚的惊喜,hero_skill,hero_kogmaw,深渊巨口,P,来自艾卡西亚的惊喜,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_kogmaw|Q|腐蚀唾液,hero_skill,hero_kogmaw,深渊巨口,Q,腐蚀唾液,already_covered,partial,attack_speed_percent_add,wasm-generic-kogmaw-caustic-spittle,wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go,wasm,Q 主动命中魔法伤害、护甲/魔抗击碎、cast/cooldown/rotation、其它 rank 仍未建模；不得把 Q 被动视为完整 Q。
 hero_skill|hero_kogmaw|W|生化弹幕,hero_skill,hero_kogmaw,深渊巨口,W,生化弹幕,already_covered,migrated,on_hit|target_max_hp_ratio|formula_on_hit,wasm-generic-formula-onhit-batch,db/game_manage/seeds/lol_formula_on_hit_mechanisms_seed.sql,backend,
@@ -109,11 +109,11 @@ hero_skill|hero_senna|Q|黑暗洞灭,hero_skill,hero_senna,涤魂圣枪,Q,黑暗
 hero_skill|hero_senna|W|无尽厮守,hero_skill,hero_senna,涤魂圣枪,W,无尽厮守,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_senna|E|黑雾咒附,hero_skill,hero_senna,涤魂圣枪,E,黑雾咒附,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
 hero_skill|hero_senna|R|暗影燎原,hero_skill,hero_senna,涤魂圣枪,R,暗影燎原,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-hero_skill|hero_sivir|P|敏锐疾行,hero_skill,hero_sivir,战争女神,P,敏锐疾行,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
+hero_skill|hero_sivir|P|敏锐疾行,hero_skill,hero_sivir,战争女神,P,敏锐疾行,needs_manual_baseline,out_of_scope,movement_only,,,,
 hero_skill|hero_sivir|Q|回旋之刃,hero_skill,hero_sivir,战争女神,Q,回旋之刃,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 hero_skill|hero_sivir|W|弹射,hero_skill,hero_sivir,战争女神,W,弹射,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_sivir|E|法术护盾,hero_skill,hero_sivir,战争女神,E,法术护盾,out_of_scope_for_single_target_dps,out_of_scope,survivability_only,,,,
-hero_skill|hero_sivir|R|狩猎,hero_skill,hero_sivir,战争女神,R,狩猎,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+hero_skill|hero_sivir|R|狩猎,hero_skill,hero_sivir,战争女神,R,狩猎,out_of_scope_for_single_target_dps,out_of_scope,movement_cooldown_meta,,,,
 hero_skill|hero_smolder|P|龙之研习,hero_skill,hero_smolder,炽炎雏龙,P,龙之研习,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 hero_skill|hero_smolder|Q|超级灼热龙息,hero_skill,hero_smolder,炽炎雏龙,Q,超级灼热龙息,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_smolder|W|阿嚏！,hero_skill,hero_smolder,炽炎雏龙,W,阿嚏！,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
@@ -121,7 +121,7 @@ hero_skill|hero_smolder|E|扑棱，扑棱，扑棱！,hero_skill,hero_smolder,�
 hero_skill|hero_smolder|R|妈----！,hero_skill,hero_smolder,炽炎雏龙,R,妈----！,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_teemo|P|游击队军备,hero_skill,hero_teemo,迅捷斥候,P,游击队军备,already_covered,blocked,existing_batch_b_seed,,,,缺该精确 candidate 的 generic seed/mount + 完成批次证据。
 hero_skill|hero_teemo|Q|致盲吹箭,hero_skill,hero_teemo,迅捷斥候,Q,致盲吹箭,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-hero_skill|hero_teemo|W|小莫快跑,hero_skill,hero_teemo,迅捷斥候,W,小莫快跑,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+hero_skill|hero_teemo|W|小莫快跑,hero_skill,hero_teemo,迅捷斥候,W,小莫快跑,out_of_scope_for_single_target_dps,out_of_scope,movement_only,,,,
 hero_skill|hero_teemo|E|毒性射击,hero_skill,hero_teemo,迅捷斥候,E,毒性射击,already_covered,migrated,on_hit|flat_magic_damage|formula_on_hit,wasm-generic-formula-onhit-batch,db/game_manage/seeds/lol_formula_on_hit_mechanisms_seed.sql,backend,
 hero_skill|hero_teemo|R|种蘑菇,hero_skill,hero_teemo,迅捷斥候,R,种蘑菇,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
 hero_skill|hero_tristana|P|瞄准,hero_skill,hero_tristana,麦林炮手,P,瞄准,out_of_scope_for_single_target_dps,out_of_scope,no_single_target_dps_effect,,,,
@@ -170,29 +170,29 @@ item_passive|2510|item_passive|咒刃,item_passive,2510,黄昏与黎明,item_pas
 item_passive|2512|item_passive|守夜,item_passive,2512,猎魔人弩箭,item_passive,守夜,out_of_scope_for_single_target_dps,out_of_scope,cooldown_or_haste_without_rotation,,,,
 item_passive|2512|item_passive|开战弹幕,item_passive,2512,猎魔人弩箭,item_passive,开战弹幕,needs_runtime_extension,blocked,seeded_random_crit_sequence,,,,缺 seeded/random/on-crit 序列 runtime 与精确 seed；不得用 expected-crit 冒充完成。
 item_passive|2517|item_passive|饥馑,item_passive,2517,无穷饥渴,item_passive,饥馑,out_of_scope_for_single_target_dps,out_of_scope,cooldown_or_haste_without_rotation,,,,
-item_passive|2517|item_passive|盛宴,item_passive,2517,无穷饥渴,item_passive,盛宴,out_of_scope_for_single_target_dps,blocked,survivability_only,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|2517|item_passive|盛宴,item_passive,2517,无穷饥渴,item_passive,盛宴,out_of_scope_for_single_target_dps,out_of_scope,survivability_only|takedown_omnivamp,,,,
 item_passive|2520|item_passive|成型炸药,item_passive,2520,破垒者,item_passive,成型炸药,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-item_passive|2520|item_passive|破坏,item_passive,2520,破垒者,item_passive,破坏,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|2520|item_passive|破坏,item_passive,2520,破垒者,item_passive,破坏,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps|turret_epic_monster,,,,
 item_passive|2523|item_passive|高倍望远镜,item_passive,2523,海克斯镜片 C44,item_passive,高倍望远镜,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
 item_passive|2523|item_passive|奥术瞄准,item_passive,2523,海克斯镜片 C44,item_passive,奥术瞄准,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
 item_passive|3004|item_passive|敬畏,item_passive,3004,魔宗,item_passive,敬畏,needs_manual_baseline,migrated,source_only_dynamic_mana_max_ad_modifier,wasm-generic-manamune-awe,db/game_manage/seeds/lol_generic_manamune_awe_seed.sql,backend,
 item_passive|3004|item_passive|法力流,item_passive,3004,魔宗,item_passive,法力流,needs_manual_baseline,blocked,periodic_charge_tick|attack_or_ability_hit_resource_gain|state_driven_max_mana_and_transform,,,,缺 periodic_charge_tick（无数据驱动 provider 周期充能调度）、attack_or_ability_hit_resource_gain（本数据路径无通用技能命中源事件）、state_driven_max_mana_and_transform（无状态驱动最大法力累积与条件实体/provider 转变）。
-item_passive|3026|item_passive|重生,item_passive,3026,守护天使,item_passive,重生,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|3026|item_passive|重生,item_passive,3026,守护天使,item_passive,重生,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps|resurrection,,,,
 item_passive|3031|item_passive|无被动或仅主动/属性,item_passive,3031,无尽之刃,item_passive,无被动或仅主动/属性,out_of_scope_for_single_target_dps,out_of_scope,stat_only_or_active_only|cross_capability_crit_modifier,wasm-generic-crit-modifier-infinity-edge,db/game_manage/seeds/lol_generic_crit_modifier_seed.sql,backend,
 item_passive|3032|item_passive|熟能生巧,item_passive,3032,育恩塔尔荒野箭,item_passive,熟能生巧,needs_manual_baseline,migrated,permanent_stacking_dynamic_crit_modifier,wasm-generic-yun-tal-practice-makes-lethal,db/game_manage/seeds/lol_generic_yun_tal_practice_makes_lethal_seed.sql,backend,
 item_passive|3032|item_passive|疾风骤雨,item_passive,3032,育恩塔尔荒野箭,item_passive,疾风骤雨,out_of_scope_for_single_target_dps,blocked,timed_attack_speed_modifier|attack_crit_cooldown_interaction,,,,缺精确定时条件攻速/暴击冷却状态机与 provider seed/mount/live publish/E2E。
-item_passive|3033|item_passive|重伤,item_passive,3033,凡性的提醒,item_passive,重伤,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
+item_passive|3033|item_passive|重伤,item_passive,3033,凡性的提醒,item_passive,重伤,needs_manual_baseline,out_of_scope,grievous_wounds_only,,,,
 item_passive|3036|item_passive|巨人杀手,item_passive,3036,多米尼克领主的致意,item_passive,巨人杀手,needs_runtime_extension,blocked,distance_or_ratio_modifier,,,,缺距离输入或复杂倍率/生命比例基线与精确 provider seed。
 item_passive|3046|item_passive|幽影华尔兹,item_passive,3046,幻影之舞,item_passive,幽影华尔兹,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
 item_passive|3071|item_passive|切割,item_passive,3071,黑色切割者,item_passive,切割,needs_runtime_extension,partial,stacking_stat_modifier_on_hit|linked_effects|armor_shred,wasm-generic-linked-effects-black-cleaver,db/game_manage/seeds/lol_generic_linked_effects_seed.sql,backend,缺 6s 持续、刷新与掉层完整语义；当前仅覆盖 on_damage_dealt 叠层削甲主路径。
-item_passive|3071|item_passive|热烈,item_passive,3071,黑色切割者,item_passive,热烈,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
+item_passive|3071|item_passive|热烈,item_passive,3071,黑色切割者,item_passive,热烈,needs_manual_baseline,out_of_scope,movement_only,,,,
 item_passive|3072|item_passive|灵液护盾,item_passive,3072,饮血剑,item_passive,灵液护盾,out_of_scope_for_single_target_dps,out_of_scope,survivability_only,,,,
 item_passive|3073|item_passive|海克斯充能,item_passive,3073,海克斯注力刚壁,item_passive,海克斯充能,out_of_scope_for_single_target_dps,out_of_scope,cooldown_or_haste_without_rotation,,,,
 item_passive|3073|item_passive|过载,item_passive,3073,海克斯注力刚壁,item_passive,过载,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-item_passive|3074|item_passive|顺劈,item_passive,3074,贪欲九头蛇,item_passive,顺劈,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|3074|item_passive|顺劈,item_passive,3074,贪欲九头蛇,item_passive,顺劈,out_of_scope_for_single_target_dps,out_of_scope,multi_target_or_area,,,,
 item_passive|3078|item_passive|咒刃,item_passive,3078,三相之力,item_passive,咒刃,needs_runtime_extension,migrated,spellblade_next_attack_state,wasm-generic-spellblade,db/game_manage/seeds/lol_generic_spellblade_seed.sql,backend,
-item_passive|3078|item_passive|加快,item_passive,3078,三相之力,item_passive,加快,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-item_passive|3085|item_passive|风怒,item_passive,3085,卢安娜的飓风,item_passive,风怒,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|3078|item_passive|加快,item_passive,3078,三相之力,item_passive,加快,needs_manual_baseline,out_of_scope,movement_only,,,,
+item_passive|3085|item_passive|风怒,item_passive,3085,卢安娜的飓风,item_passive,风怒,out_of_scope_for_single_target_dps,out_of_scope,multi_target_or_area,,,,
 item_passive|3087|item_passive|电火花,item_passive,3087,斯塔缇克电刃,item_passive,电火花,out_of_scope_for_single_target_dps,out_of_scope,multi_target_or_area|energized_bounce,,,,
 item_passive|3087|item_passive|电疗,item_passive,3087,斯塔缇克电刃,item_passive,电疗,needs_runtime_extension,migrated,energized_charge_and_consume,wasm-generic-statikk-shiv-energized,db/game_manage/seeds/lol_generic_statikk_shiv_energized_seed.sql,backend,
 item_passive|3091|item_passive|喧争,item_passive,3091,智慧末刃,item_passive,喧争,needs_manual_baseline,migrated,on_hit|flat_magic_damage,wasm-generic-wits-end-fray,db/game_manage/seeds/lol_generic_wits_end_fray_seed.sql,backend,
@@ -205,14 +205,14 @@ item_passive|3124|item_passive|怨怒,item_passive,3124,鬼索的狂暴之刃,it
 item_passive|3124|item_passive|沸腾打击,item_passive,3124,鬼索的狂暴之刃,item_passive,沸腾打击,needs_runtime_extension,migrated,stacking_stat_modifier_on_hit|phantom_hit_on_hit_repeat,wasm-generic-guinsoo-hk,db/game_manage/seeds/lol_guinsoo_hk_seed.sql,backend,
 item_passive|3139|item_passive|无被动或仅主动/属性,item_passive,3139,水银弯刀,item_passive,无被动或仅主动/属性,out_of_scope_for_single_target_dps,out_of_scope,stat_only_or_active_only,,,,
 item_passive|3142|item_passive|鬼影萦绕,item_passive,3142,幽梦之灵,item_passive,鬼影萦绕,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
-item_passive|3146|item_passive|无被动或仅主动/属性,item_passive,3146,海克斯科技枪刃,item_passive,无被动或仅主动/属性,out_of_scope_for_single_target_dps,blocked,stat_only_or_active_only,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|3146|item_passive|无被动或仅主动/属性,item_passive,3146,海克斯科技枪刃,item_passive,无被动或仅主动/属性,out_of_scope_for_single_target_dps,out_of_scope,stat_only_or_active_only,,,,
 item_passive|3153|item_passive|雾之锋,item_passive,3153,破败王者之刃,item_passive,雾之锋,already_covered,migrated,on_hit|target_current_hp_ratio,wasm-generic-adc-item-passives-base,db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql,backend,
 item_passive|3153|item_passive|抓挠之影,item_passive,3153,破败王者之刃,item_passive,抓挠之影,out_of_scope_for_single_target_dps,out_of_scope,slow|control_only,,,,
-item_passive|3156|item_passive|救主灵刃,item_passive,3156,玛莫提乌斯之噬,item_passive,救主灵刃,out_of_scope_for_single_target_dps,blocked,survivability_only,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|3156|item_passive|救主灵刃,item_passive,3156,玛莫提乌斯之噬,item_passive,救主灵刃,out_of_scope_for_single_target_dps,out_of_scope,survivability_only,,,,
 item_passive|3161|item_passive|龙之力量,item_passive,3161,朔极之矛,item_passive,龙之力量,out_of_scope_for_single_target_dps,out_of_scope,cooldown_or_haste_without_rotation,,,,
 item_passive|3161|item_passive|专注意志,item_passive,3161,朔极之矛,item_passive,专注意志,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
 item_passive|3179|item_passive|夜行者,item_passive,3179,黯影阔剑,item_passive,夜行者,needs_runtime_extension,blocked,spellblade_next_attack_state,,,,缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。
-item_passive|3179|item_passive|封锁,item_passive,3179,黯影阔剑,item_passive,封锁,out_of_scope_for_single_target_dps,blocked,meta_or_non_target_dps,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|3179|item_passive|封锁,item_passive,3179,黯影阔剑,item_passive,封锁,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps|ward_vision,,,,
 item_passive|3181|item_passive|船长,item_passive,3181,破舰者,item_passive,船长,out_of_scope_for_single_target_dps,migrated,every_n_hit|on_hit|formula_on_hit,wasm-generic-formula-onhit-batch,db/game_manage/seeds/lol_formula_on_hit_mechanisms_seed.sql,backend,
 item_passive|3181|item_passive|登舰小组,item_passive,3181,破舰者,item_passive,登舰小组,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
 item_passive|3302|item_passive|晦影,item_passive,3302,界弓,item_passive,晦影,ready_to_encode,migrated,on_hit|flat_magic_damage|formula_on_hit,wasm-generic-formula-onhit-batch,db/game_manage/seeds/lol_formula_on_hit_mechanisms_seed.sql,backend,
@@ -221,23 +221,23 @@ item_passive|3508|item_passive|咒刃,item_passive,3508,夺萃之镰,item_passiv
 item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c,item_passive,3748,巨型九头蛇,item_passive,顺劈,out_of_scope_for_single_target_dps,partial,on_hit|formula_on_hit|multi_target_or_area,wasm-generic-formula-onhit-batch,db/game_manage/seeds/lol_formula_on_hit_mechanisms_seed.sql,backend,主目标公式已 seed；身后锥形/多目标 cleave 与主动刚斩仍未迁。
 item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|020f8b5a,item_passive,3748,巨型九头蛇,item_passive,顺劈,out_of_scope_for_single_target_dps,partial,on_hit|formula_on_hit|multi_target_or_area,wasm-generic-formula-onhit-batch,db/game_manage/seeds/lol_formula_on_hit_mechanisms_seed.sql,backend,主目标公式已 seed；身后锥形/多目标 cleave 与主动刚斩仍未迁。
 item_passive|3814|item_passive|废除,item_passive,3814,夜之锋刃,item_passive,废除,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
-item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0,item_passive,6333,死亡之舞,item_passive,无视痛苦,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-item_passive|6333|item_passive|蔑视,item_passive,6333,死亡之舞,item_passive,蔑视,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8,item_passive,6333,死亡之舞,item_passive,无视痛苦,out_of_scope_for_single_target_dps,blocked,survivability_only,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-item_passive|6609|item_passive|劈削,item_passive,6609,炼金朋克链锯剑,item_passive,劈削,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
+item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0,item_passive,6333,死亡之舞,item_passive,无视痛苦,needs_manual_baseline,out_of_scope,survivability_only|incoming_damage_store,,,,
+item_passive|6333|item_passive|蔑视,item_passive,6333,死亡之舞,item_passive,蔑视,needs_manual_baseline,out_of_scope,survivability_only|takedown_heal,,,,
+item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8,item_passive,6333,死亡之舞,item_passive,无视痛苦,out_of_scope_for_single_target_dps,out_of_scope,survivability_only|incoming_damage_store,,,,
+item_passive|6609|item_passive|劈削,item_passive,6609,炼金朋克链锯剑,item_passive,劈削,needs_manual_baseline,out_of_scope,grievous_wounds_only,,,,
 item_passive|6610|item_passive|光盾打击,item_passive,6610,焚天,item_passive,光盾打击,out_of_scope_for_single_target_dps,blocked,conditional_guaranteed_crit|first_attack|heal,,,,缺精确条件必定暴击状态/provider seed 与 E2E；不得用 expected-crit 冒充完成。
-item_passive|6631|item_passive|顺劈,item_passive,6631,挺进破坏者,item_passive,顺劈,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|6631|item_passive|顺劈,item_passive,6631,挺进破坏者,item_passive,顺劈,out_of_scope_for_single_target_dps,out_of_scope,multi_target_or_area,,,,
 item_passive|6672|item_passive|放倒它,item_passive,6672,海妖杀手,item_passive,放倒它,already_covered,migrated,every_n_hit|target_missing_hp_amp,wasm-generic-adc-item-passives-base,db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql,backend,
-item_passive|6673|item_passive|救主灵刃,item_passive,6673,不朽盾弓,item_passive,救主灵刃,out_of_scope_for_single_target_dps,blocked,survivability_only,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|6673|item_passive|救主灵刃,item_passive,6673,不朽盾弓,item_passive,救主灵刃,out_of_scope_for_single_target_dps,out_of_scope,survivability_only,,,,
 item_passive|6675|item_passive|超凡入圣,item_passive,6675,纳沃利烁刃,item_passive,超凡入圣,out_of_scope_for_single_target_dps,out_of_scope,cooldown_or_haste_without_rotation,,,,
 item_passive|6676|item_passive|死,item_passive,6676,收集者,item_passive,死,needs_runtime_extension,migrated,execute_threshold,wasm-generic-execute-threshold,db/game_manage/seeds/lol_generic_execute_threshold_seed.sql,backend,
 item_passive|6676|item_passive|税,item_passive,6676,收集者,item_passive,税,out_of_scope_for_single_target_dps,out_of_scope,meta_or_non_target_dps,,,,
 item_passive|6692|item_passive|永升之月,item_passive,6692,星蚀,item_passive,永升之月,out_of_scope_for_single_target_dps,out_of_scope,survivability_only,,,,
 item_passive|6694|item_passive|严寒,item_passive,6694,赛瑞尔达的怨恨,item_passive,严寒,needs_runtime_extension,out_of_scope,control_only|slow,,,,
-item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0,item_passive,6695,巨蛇之牙,item_passive,掠盾者,out_of_scope_for_single_target_dps,blocked,survivability_only,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|7bcc8c31,item_passive,6695,巨蛇之牙,item_passive,掠盾者,out_of_scope_for_single_target_dps,out_of_scope,survivability_only,,,,
+item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0,item_passive,6695,巨蛇之牙,item_passive,掠盾者,out_of_scope_for_single_target_dps,out_of_scope,shield_reduction_only,,,,
+item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|7bcc8c31,item_passive,6695,巨蛇之牙,item_passive,掠盾者,out_of_scope_for_single_target_dps,out_of_scope,shield_reduction_only,,,,
 item_passive|6696|item_passive|涌动,item_passive,6696,公理圆弧,item_passive,涌动,out_of_scope_for_single_target_dps,blocked,cooldown_or_haste_without_rotation,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
-item_passive|6697|item_passive|盛名,item_passive,6697,狂妄,item_passive,盛名,needs_manual_baseline,blocked,dps_relevant_manual_review,,,,文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。
-item_passive|6698|item_passive|顺劈,item_passive,6698,亵渎九头蛇,item_passive,顺劈,out_of_scope_for_single_target_dps,blocked,multi_target_or_area,,,,缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。
+item_passive|6697|item_passive|盛名,item_passive,6697,狂妄,item_passive,盛名,needs_manual_baseline,out_of_scope,takedown_stat_buff,,,,
+item_passive|6698|item_passive|顺劈,item_passive,6698,亵渎九头蛇,item_passive,顺劈,out_of_scope_for_single_target_dps,out_of_scope,multi_target_or_area,,,,
 item_passive|6699|item_passive|通电,item_passive,6699,电震涡流剑,item_passive,通电,needs_runtime_extension,blocked,energized_charge_and_consume,,,,缺该 candidate 精确 energized provider seed/mount/live publish/E2E。
 item_passive|6699|item_passive|苍穹,item_passive,6699,电震涡流剑,item_passive,苍穹,needs_runtime_extension,blocked,energized_charge_and_consume,,,,缺该 candidate 精确 energized provider seed/mount/live publish/E2E。
