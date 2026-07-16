@@ -642,6 +642,27 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenBloodRushSeedSqlTest test
 ```
 
+### LoL generic Quinn Heightened Senses seed（奎因 W / rank-5 攻速 partial）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_quinn` 最低必要实体/level-1 面板/通用普攻闭环 + `basic_attack_hit` emit；与普攻 provider 并存；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20172`/`20173`/`20181`/`20190`/`20211`/`20212`/`20220`/`20250`/`20252`/`20260`）
+2. `db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-quinn-heightened-senses-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：易损目标普攻命中 → 2s +40% AS。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_quinn`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp565 / mana269 / ad59 / AS0.668 / armor28 / MR30 / hpregen5.5 / manaregen7）、通用普攻闭环，并在伤害步骤后追加 `emit_event(event/basic_attack_hit)`；向 `hero_quinn` mount 独立 `provider_hero_quinn_heightened_senses`（与 `provider_hero_quinn_basic_attack` 并存），含 `provider_target` 契约态 `harrier_vulnerable`（max1 / untimed；缺省 0；**本 seed 不伪造写入**，供未来 P/Q/E）、timed `heightened_senses_active`（max1 / `duration_ms=2000` / `refresh_duration`）、`basic_attack_hit` + `source_owner` ALL listener（条件 `provider.target_state.harrier_vulnerable >= 1`）武装 active=1（override），以及 AS `percent_add` `0.40 * provider.state.heightened_senses_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 Data Dragon `Quinn.json`；攻速窗按本合同 partial（与 live wiki rank 表可能不同）。
+
+**排除 / gap**：W 主动视野、移速分支、Harrier 额外伤害、易损标记生成/消费、其它 rank、live migration、publish、`single_attacker_dps`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericQuinnHeightenedSensesSeedSqlTest test
+```
+
 ### LoL generic Kai'Sa Supercharge seed（卡莎 E / rank-5 攻速窗）
 
 在 reserved types、Batch-B `hero_kaisa`、以及 `attribute_definitions` 的 `mana` / `attack_speed` 已就绪后，按顺序执行（**不**重建 Batch-B / 普攻；不做 live migration、不自动 publish）：
