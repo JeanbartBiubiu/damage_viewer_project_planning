@@ -14,9 +14,54 @@ function requireEnv(name: string): string {
 
 const apiBaseUrl = requireEnv('E2E_API_BASE_URL');
 const gameId = requireEnv('E2E_GAME_ID');
+const sourceEntityId = requireEnv('E2E_SOURCE_ENTITY_ID');
+const targetEntityId = requireEnv('E2E_TARGET_ENTITY_ID');
+if (sourceEntityId === targetEntityId) {
+  throw new Error(
+    `E2E_SOURCE_ENTITY_ID and E2E_TARGET_ENTITY_ID must differ (got both "${sourceEntityId}"). ` +
+      `Configure a distinct runnable source/target pair.`
+  );
+}
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Select an Arco entity combobox scoped by its Form.Item label (not global ordinal).
+ * Option labels are `${entityId} (${displayName})` — match by ID prefix, then confirm the view.
+ */
+async function selectEntityByFormLabel(page: Page, formLabel: string, entityId: string): Promise<void> {
+  // Arco Form.Item: label lives under `.arco-form-label-item > label`, select under the same `.arco-form-item`.
+  const formItem = page.locator('.arco-form-item').filter({
+    has: page.locator('.arco-form-label-item label', { hasText: formLabel })
+  });
+  const select = formItem.locator('.arco-select');
+  await expect(
+    select,
+    `entity combobox for Form.Item label "${formLabel}" must be visible`
+  ).toBeVisible({ timeout: 30_000 });
+
+  const selectedView = formItem.locator('.arco-select-view-value');
+  const currentValue = (await selectedView.textContent())?.trim() ?? '';
+  if (!currentValue.startsWith(entityId)) {
+    await select.click();
+    const option = page
+      .locator('.arco-select-option')
+      .filter({ hasText: new RegExp(`^${escapeRegExp(entityId)}`) })
+      .first();
+    await expect(
+      option,
+      `no Arco select option whose visible label begins with entityId="${entityId}" ` +
+        `under Form.Item "${formLabel}" (check E2E_*_ENTITY_ID against combat-data entities)`
+    ).toBeVisible({ timeout: 15_000 });
+    await option.click();
+  }
+
+  await expect(
+    selectedView,
+    `Form.Item "${formLabel}" select view must show configured entityId="${entityId}"`
+  ).toContainText(entityId);
 }
 
 /** Public combat-data resource URLs for the selected game (not admin). */
@@ -88,9 +133,33 @@ test.describe('wasm combat-data e2e', () => {
         `or an incompatible backend — not a successful combat-data page shell.`
     ).toBe(200);
     expect(abilities.ok()).toBeTruthy();
+
+    const entities = await request.get(
+      `${apiBaseUrl}/api/games/${encodeURIComponent(gameId)}/combat-data/entities`
+    );
+    expect(
+      entities.status(),
+      `GET .../combat-data/entities must return HTTP 200 for gameId=${gameId} ` +
+        `(cannot prove E2E_SOURCE_ENTITY_ID / E2E_TARGET_ENTITY_ID exist)`
+    ).toBe(200);
+    expect(entities.ok()).toBeTruthy();
+    const entitiesBody = await entities.json();
+    const entityList = Array.isArray(entitiesBody.data) ? entitiesBody.data : [];
+    const entityIds = entityList.map((row: { entityId?: string }) => row.entityId);
+    expect(
+      entityIds,
+      `E2E_SOURCE_ENTITY_ID="${sourceEntityId}" must exist in public /combat-data/entities for gameId=${gameId}`
+    ).toContain(sourceEntityId);
+    expect(
+      entityIds,
+      `E2E_TARGET_ENTITY_ID="${targetEntityId}" must exist in public /combat-data/entities for gameId=${gameId}`
+    ).toContain(targetEntityId);
   });
 
-  test('browser flow: generic validation page loads combat-data context', async ({ page, request }) => {
+  test('browser flow: combat-data ready → explicit source/target → compile → run → release', async ({
+    page,
+    request
+  }) => {
     const state = await request.get(
       `${apiBaseUrl}/api/games/${encodeURIComponent(gameId)}/combat-data/state`
     );
@@ -142,9 +211,27 @@ test.describe('wasm combat-data e2e', () => {
     await expect(page.getByText('装配错误')).toHaveCount(0);
     assertNo5xx();
 
+    await selectEntityByFormLabel(page, '攻击方实体（source）', sourceEntityId);
+    await selectEntityByFormLabel(page, '目标实体（target）', targetEntityId);
+
+    await expect(
+      compileButton,
+      'after explicit source/target selection, combat-data must rematerialize to a ready compile UI'
+    ).toBeEnabled({ timeout: 60_000 });
+    await expect(page.getByText('combat-data 读取失败')).toHaveCount(0);
+    await expect(page.getByText('装配错误')).toHaveCount(0);
+    assertNo5xx();
+
     await compileButton.click();
     await expect(page.getByText(/编译成功/)).toBeVisible({ timeout: 60_000 });
     assertNo5xx();
+
+    await expect(
+      page.getByText('无带 basic type 的主动技能'),
+      `configured source E2E_SOURCE_ENTITY_ID="${sourceEntityId}" is not runnable: ` +
+        `page still shows "无带 basic type 的主动技能" (no active ability with ability/basic_attack). ` +
+        `Pick a source entity that has a basic-attack active skill for gameId=${gameId}.`
+    ).toHaveCount(0);
 
     const runButton = page.getByRole('button', { name: '运行', exact: true });
     await expect(runButton).toBeEnabled({ timeout: 30_000 });
