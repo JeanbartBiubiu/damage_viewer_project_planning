@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-15T18:36:36.017Z",
+    "generatedAt": "2026-07-16T03:04:51.802Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -52,12 +52,12 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "3e5ee1b12a057561e0c996af438134b2083393cafa77f02bf24c113cc2c7a8cf",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "b5123e1c483ef5e58f93d31009b0ca75746db0347ad9379a52de999da3fd49d8",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "3a8c384ce19ee92b2986851cfdbf423240182fb2c7c4e2bad24cdf888c7fb37f",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "783c04b05b85bb758e80ab709d81b8fce859c12a6f2839fa0bb7394cb831a014",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "d10a8e09891e40ccb39642cd1628823d003dd44baa8f045fd94c2fb8b2d290f1",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "a19ec6cfe6b1d1681b980affcd20cb15c756aec30ee0baa8a51d405db6872d79",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "8db1df057c8c025beb5d466674e3c3dee26a55f2cf73d685c85541c336b12634",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "d6164f999cea6bf98e0ac04cc8895838c092dd2fe7203db8268786b8e9d6b817",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "35668351c7a7934a178f15934b4b88814b023c6c440c3e3cbf6661da4a98698c",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -88,10 +88,10 @@
     "statusCounts": {
       "completed": 21,
       "partial_actionable": 0,
-      "ready_to_implement": 0,
-      "blocked_runtime": 40,
-      "blocked_data": 146,
-      "out_of_scope": 42,
+      "ready_to_implement": 3,
+      "blocked_runtime": 46,
+      "blocked_data": 109,
+      "out_of_scope": 70,
       "regression_only": 5,
       "stale_or_duplicate": 0
     },
@@ -106,8 +106,12 @@
       "data_only": 0,
       "mixed_evidence": 4
     },
-    "actionableKeyCount": 0,
-    "actionableKeys": []
+    "actionableKeyCount": 3,
+    "actionableKeys": [
+      "item_passive|2501|item_passive|专横",
+      "item_passive|3075|item_passive|荆棘",
+      "item_passive|3097|item_passive|弩箭"
+    ]
   },
   "sources": [
     {
@@ -193,8 +197,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "3e5ee1b12a057561e0c996af438134b2083393cafa77f02bf24c113cc2c7a8cf",
-      "byteSize": 60071,
+      "sha256": "b5123e1c483ef5e58f93d31009b0ca75746db0347ad9379a52de999da3fd49d8",
+      "byteSize": 57509,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -209,8 +213,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "3a8c384ce19ee92b2986851cfdbf423240182fb2c7c4e2bad24cdf888c7fb37f",
-      "byteSize": 367971,
+      "sha256": "783c04b05b85bb758e80ab709d81b8fce859c12a6f2839fa0bb7394cb831a014",
+      "byteSize": 364037,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -225,16 +229,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "d10a8e09891e40ccb39642cd1628823d003dd44baa8f045fd94c2fb8b2d290f1",
-      "byteSize": 47345,
+      "sha256": "8db1df057c8c025beb5d466674e3c3dee26a55f2cf73d685c85541c336b12634",
+      "byteSize": 56770,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "a19ec6cfe6b1d1681b980affcd20cb15c756aec30ee0baa8a51d405db6872d79",
-      "byteSize": 76770,
+      "sha256": "d6164f999cea6bf98e0ac04cc8895838c092dd2fe7203db8268786b8e9d6b817",
+      "byteSize": 81661,
       "recordCount": 0,
       "role": "generator"
     },
@@ -11995,10 +11999,10 @@
       "skillKey": "E",
       "passiveName": "武器队列系统",
       "mechanismTags": [
-        "no_single_target_dps_effect"
+        "weapon_ammo_swap_system"
       ],
       "coverageBoundary": "",
-      "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
       "blocker": "",
       "sourceRefs": [
         {
@@ -12018,7 +12022,7 @@
     },
     {
       "key": "hero_skill|hero_aphelios|P|传知者与真知者",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -12026,11 +12030,11 @@
       "skillKey": "P",
       "passiveName": "传知者与真知者",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "weapon_ammo_swap_system"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12039,7 +12043,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_aphelios|P|传知者与真知者"
         }
       ],
@@ -12049,7 +12053,7 @@
     },
     {
       "key": "hero_skill|hero_aphelios|Q|武器技能",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -12057,13 +12061,11 @@
       "skillKey": "Q",
       "passiveName": "武器技能",
       "mechanismTags": [
-        "composite_weapon_skill",
-        "primary_target_attack_branch",
-        "weapon_state"
+        "weapon_ammo_swap_system"
       ],
       "coverageBoundary": "",
-      "reason": "Aphelios Q 武器技能为复合武器技能，含主目标攻击分支；旧 multi_target 标签不得整条 out_of_scope。",
-      "blocker": "缺精确武器状态/provider/runtime 基线与 seed/mount/live publish/E2E。",
+      "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12072,7 +12074,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_aphelios|Q|武器技能"
         }
       ],
@@ -12082,7 +12084,7 @@
     },
     {
       "key": "hero_skill|hero_aphelios|R|清辉夜凝",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -12090,11 +12092,11 @@
       "skillKey": "R",
       "passiveName": "清辉夜凝",
       "mechanismTags": [
-        "multi_target_or_area"
+        "weapon_ammo_swap_system"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12103,7 +12105,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_aphelios|R|清辉夜凝"
         }
       ],
@@ -12113,7 +12115,7 @@
     },
     {
       "key": "hero_skill|hero_aphelios|W|月相轮转",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -12121,11 +12123,11 @@
       "skillKey": "W",
       "passiveName": "月相轮转",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "weapon_ammo_swap_system"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "用户明确跳过 Aphelios 整套武器/弹药/换枪复杂系统；P/Q/W/E/R 统一 out_of_scope。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -12134,7 +12136,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_aphelios|W|月相轮转"
         }
       ],
@@ -14384,7 +14386,7 @@
     },
     {
       "key": "hero_skill|hero_kindred|R|羊灵生息",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -14392,11 +14394,11 @@
       "skillKey": "R",
       "passiveName": "羊灵生息",
       "mechanismTags": [
-        "multi_target_or_area"
+        "survivability_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "Kindred R 羊灵生息为区域免死/治疗，无主目标伤害分支；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -14405,7 +14407,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_kindred|R|羊灵生息"
         }
       ],
@@ -15529,7 +15531,7 @@
     },
     {
       "key": "hero_skill|hero_sivir|P|敏锐疾行",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -15537,11 +15539,11 @@
       "skillKey": "P",
       "passiveName": "敏锐疾行",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "movement_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "Sivir P 敏锐疾行为攻击英雄后短暂移速，无伤害分支；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15550,7 +15552,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_sivir|P|敏锐疾行"
         }
       ],
@@ -15591,7 +15593,7 @@
     },
     {
       "key": "hero_skill|hero_sivir|R|狩猎",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -15599,11 +15601,11 @@
       "skillKey": "R",
       "passiveName": "狩猎",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "movement_cooldown_meta"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "Sivir R 狩猎为友军移速与冷却缩短，无主目标伤害分支；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15612,7 +15614,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_sivir|R|狩猎"
         }
       ],
@@ -15956,7 +15958,7 @@
     },
     {
       "key": "hero_skill|hero_teemo|W|小莫快跑",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
@@ -15964,11 +15966,11 @@
       "skillKey": "W",
       "passiveName": "小莫快跑",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "movement_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "Teemo W 小莫快跑为纯移速/冲刺，无主目标伤害分支；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -15977,7 +15979,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "hero_skill|hero_teemo|W|小莫快跑"
         }
       ],
@@ -17328,7 +17330,7 @@
     },
     {
       "key": "item_passive|2501|item_passive|专横",
-      "status": "blocked_data",
+      "status": "ready_to_implement",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17339,8 +17341,8 @@
         "dps_relevant_manual_review"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "Wiki 公式已齐：专横/Tyranny = 获得相当于 2.5% bonus health 的 bonus AD。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 2501 Tyranny）。可直接实现 source-only 动态 AD 修正。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17359,7 +17361,7 @@
     },
     {
       "key": "item_passive|2501|item_passive|报复",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17370,8 +17372,8 @@
         "dps_relevant_manual_review"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "Wiki 已给出报复/Retribution：按已损失生命值比例将其它来源总 AD 转为额外 AD（0–70% missing HP → 0–12%）。数据已齐，但缺 missing-health 比例驱动的动态 AD modifier runtime。",
+      "blocker": "missing_missing_health_ratio_dynamic_ad_modifier_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17491,7 +17493,7 @@
     },
     {
       "key": "item_passive|2517|item_passive|盛宴",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17499,11 +17501,12 @@
       "skillKey": "item_passive",
       "passiveName": "盛宴",
       "mechanismTags": [
-        "survivability_only"
+        "survivability_only",
+        "takedown_omnivamp"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "2517 Feast/盛宴为击杀后全能吸血，非 1v1 主目标伤害；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17512,7 +17515,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|2517|item_passive|盛宴"
         }
       ],
@@ -17553,7 +17556,7 @@
     },
     {
       "key": "item_passive|2520|item_passive|成型炸药",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17564,8 +17567,8 @@
         "meta_or_non_target_dps"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "Wiki 已给出成型炸药/Shaped Charge：对英雄或史诗野怪的下一次技能伤害附加真实伤害（含 lethality 缩放）。数据已齐，缺 next ability-damage instance 真实伤害武装/消费 runtime。",
+      "blocker": "missing_next_ability_damage_true_damage_arm_consume_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17584,7 +17587,7 @@
     },
     {
       "key": "item_passive|2520|item_passive|破坏",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17592,11 +17595,12 @@
       "skillKey": "item_passive",
       "passiveName": "破坏",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "meta_or_non_target_dps",
+        "turret_epic_monster"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "2520 Demolish/破坏为防御塔/史诗野怪蓄意破坏，非英雄 1v1 DPS；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17605,7 +17609,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|2520|item_passive|破坏"
         }
       ],
@@ -17718,7 +17722,7 @@
     },
     {
       "key": "item_passive|3004|item_passive|法力流",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17731,8 +17735,8 @@
         "state_driven_max_mana_and_transform"
       ],
       "coverageBoundary": "",
-      "reason": "item 3004 法力流现行合同：每8秒充能至多4层；普攻或技能命中消耗一层并获得+3最大法力（对英雄+6），上限360后转变为魔切。当前 generic 缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform；敬畏闭环不等于法力流已迁。",
-      "blocker": "缺 periodic_charge_tick（无数据驱动 provider 周期充能调度）、attack_or_ability_hit_resource_gain（本数据路径无通用技能命中源事件）、state_driven_max_mana_and_transform（无状态驱动最大法力累积与条件实体/provider 转变）。",
+      "reason": "法力流现行合同数值已齐：每8秒至多4层；普攻或技能命中消耗一层并+3最大法力（对英雄+6），上限360后转变魔切。非数据缺口；缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform runtime。",
+      "blocker": "missing_periodic_charge_tick_and_ability_hit_resource_gain_and_mana_transform_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17751,7 +17755,7 @@
     },
     {
       "key": "item_passive|3026|item_passive|重生",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17759,11 +17763,12 @@
       "skillKey": "item_passive",
       "passiveName": "重生",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "meta_or_non_target_dps",
+        "resurrection"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "3026 Rebirth/重生为致命伤害复活，非伤害机制；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17772,7 +17777,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3026|item_passive|重生"
         }
       ],
@@ -17893,7 +17898,7 @@
     },
     {
       "key": "item_passive|3033|item_passive|重伤",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -17901,11 +17906,11 @@
       "skillKey": "item_passive",
       "passiveName": "重伤",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "grievous_wounds_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "3033 Grievous Wounds/重伤仅施加重伤，无额外伤害；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -17914,7 +17919,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3033|item_passive|重伤"
         }
       ],
@@ -18050,7 +18055,7 @@
     },
     {
       "key": "item_passive|3071|item_passive|热烈",
-      "status": "blocked_runtime",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18058,11 +18063,11 @@
       "skillKey": "item_passive",
       "passiveName": "热烈",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "movement_only"
       ],
       "coverageBoundary": "",
-      "reason": "当前源已给出造成物理伤害时 20 移速持续 2 秒；非数据缺口，缺 generic 移速/战斗伤害窗口 runtime 语义。",
-      "blocker": "missing_generic_movement_speed_combat_damage_window_runtime",
+      "reason": "3071 热烈/Fervor 仅为造成物理伤害后获得 20 移速持续 2 秒，无伤害分支；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18071,7 +18076,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3071|item_passive|热烈"
         }
       ],
@@ -18143,7 +18148,7 @@
     },
     {
       "key": "item_passive|3073|item_passive|过载",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18154,8 +18159,8 @@
         "dps_relevant_manual_review"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "Wiki 已给出过载/Overdrive：施放终极技能后 8 秒获得攻速与移速（含 CD）。数据已齐，缺 ultimate_cast 事件与定时 AS/MS buff runtime。",
+      "blocker": "missing_ultimate_cast_timed_attack_speed_and_ms_buff_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18174,7 +18179,7 @@
     },
     {
       "key": "item_passive|3074|item_passive|顺劈",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18185,8 +18190,8 @@
         "multi_target_or_area"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "3074 Cleave/顺劈为周围额外目标 cleave，超出单目标审计边界。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18195,7 +18200,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3074|item_passive|顺劈"
         }
       ],
@@ -18205,7 +18210,7 @@
     },
     {
       "key": "item_passive|3075|item_passive|荆棘",
-      "status": "blocked_data",
+      "status": "ready_to_implement",
       "completionMode": "none",
       "lane": "mixed_evidence",
       "sourceKind": "item_passive",
@@ -18215,9 +18220,9 @@
       "mechanismTags": [
         "on_damage_taken_reflect"
       ],
-      "coverageBoundary": "batch_p_thornmail;old_fixed_20_simplification",
-      "reason": "旧固定 20 是显式简化，无当前公式真源。",
-      "blocker": "no_current_formula_truth_old_fixed_20",
+      "coverageBoundary": "batch_p_thornmail;wiki_formula_ready",
+      "reason": "Wiki 公式已齐：荆棘/Thorns = 被普攻命中时对攻击者造成 20(+10% bonus armor) 魔法伤害（并对英雄施加重伤）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3075 Thorns）。旧固定 20 简化作废。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json",
@@ -18239,7 +18244,7 @@
     },
     {
       "key": "item_passive|3078|item_passive|加快",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18247,11 +18252,11 @@
       "skillKey": "item_passive",
       "passiveName": "加快",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "movement_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "3078 Quicken/加快为攻击后移速，无伤害分支；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18260,7 +18265,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3078|item_passive|加快"
         }
       ],
@@ -18354,7 +18359,7 @@
     },
     {
       "key": "item_passive|3085|item_passive|风怒",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18365,8 +18370,8 @@
         "multi_target_or_area"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "3085 Wind's Fury/风怒为额外目标弩箭，超出单目标审计边界。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18375,7 +18380,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3085|item_passive|风怒"
         }
       ],
@@ -18548,7 +18553,7 @@
     },
     {
       "key": "item_passive|3097|item_passive|弩箭",
-      "status": "blocked_data",
+      "status": "ready_to_implement",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18559,8 +18564,8 @@
         "energized_charge_and_consume"
       ],
       "coverageBoundary": "",
-      "reason": "energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。",
-      "blocker": "缺该 candidate 精确 energized provider seed/mount/live publish/E2E。",
+      "reason": "Wiki 公式已齐（仅预充能口径）：弩箭/Bolt = 满盈能后下一次普攻造成 100 额外魔法伤害（另有移速分支本口径不实现）。数据来源：数据参考/lol-wiki-current-items/current-items.normalized.json（item 3097 Bolt）。与 3097 盈能充能速率缺口分开。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18590,8 +18595,8 @@
         "energized_charge_and_consume"
       ],
       "coverageBoundary": "",
-      "reason": "energized 除 item 3094 神射手外全部 blocked；同机制代表完成不等于本 candidate 已 seed。",
-      "blocker": "缺该 candidate 精确 energized provider seed/mount/live publish/E2E。",
+      "reason": "3097 Energized/盈能：本地 Wiki 仅写移动与普攻生成充能至 100，缺精确移动/普攻充能速率；与 Bolt 预充能伤害口径分开，继续 blocked_data。",
+      "blocker": "missing_precise_energize_move_and_attack_charge_rates_in_local_wiki",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18889,7 +18894,7 @@
     },
     {
       "key": "item_passive|3146|item_passive|无被动或仅主动/属性",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -18900,8 +18905,8 @@
         "stat_only_or_active_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "3146 无被动/仅主动属性候选，非被动伤害机制；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -18910,7 +18915,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3146|item_passive|无被动或仅主动/属性"
         }
       ],
@@ -18992,7 +18997,7 @@
     },
     {
       "key": "item_passive|3156|item_passive|救主灵刃",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19003,8 +19008,8 @@
         "survivability_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "3156 Lifeline/救主灵刃为低血护盾与吸血，非主目标伤害；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19013,7 +19018,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3156|item_passive|救主灵刃"
         }
       ],
@@ -19023,7 +19028,7 @@
     },
     {
       "key": "item_passive|3161|item_passive|专注意志",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19034,8 +19039,8 @@
         "dps_relevant_manual_review"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "Wiki 已给出专注意志/Focused Will：非固有技能/宠物伤害叠层，每层提升技能/宠物/特效伤害 3%（最多 4 层）。数据已齐，缺 ability-damage 叠层增伤状态机 runtime。",
+      "blocker": "missing_ability_damage_stacking_amp_state_machine_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19085,7 +19090,7 @@
     },
     {
       "key": "item_passive|3179|item_passive|夜行者",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19096,8 +19101,8 @@
         "spellblade_next_attack_state"
       ],
       "coverageBoundary": "",
-      "reason": "spellblade 家族除 item 3078/3100 咒刃外全部 blocked（含 Draven Q）；同机制代表完成不等于本 candidate 已 seed。",
-      "blocker": "缺该 candidate 精确 spellblade provider seed/mount/live publish/E2E。",
+      "reason": "Wiki 已给出夜行者/Nightstalker：脱离视野 ≥1 秒后对英雄下一次普攻附加真实伤害（含 lethality）。数据已齐，缺视野/隐身状态与强化下一次攻击 runtime。",
+      "blocker": "missing_vision_stealth_state_and_empowered_next_attack_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19116,7 +19121,7 @@
     },
     {
       "key": "item_passive|3179|item_passive|封锁",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19124,11 +19129,12 @@
       "skillKey": "item_passive",
       "passiveName": "封锁",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "meta_or_non_target_dps",
+        "ward_vision"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "3179 Blackout/封锁为守卫显形/反隐，非英雄 1v1 DPS；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19137,7 +19143,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|3179|item_passive|封锁"
         }
       ],
@@ -19457,7 +19463,7 @@
     },
     {
       "key": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19465,11 +19471,12 @@
       "skillKey": "item_passive",
       "passiveName": "无视痛苦",
       "mechanismTags": [
+        "incoming_damage_store",
         "survivability_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "6333 Ignore Pain 重复记录（52e96cc8）：承伤存储非输出伤害；out_of_scope。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19478,7 +19485,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8"
         }
       ],
@@ -19488,7 +19495,7 @@
     },
     {
       "key": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19496,11 +19503,12 @@
       "skillKey": "item_passive",
       "passiveName": "无视痛苦",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "incoming_damage_store",
+        "survivability_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "6333 Ignore Pain 重复记录（668e55b0）：承伤存储非输出伤害；out_of_scope。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19509,7 +19517,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0"
         }
       ],
@@ -19519,7 +19527,7 @@
     },
     {
       "key": "item_passive|6333|item_passive|蔑视",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19527,11 +19535,12 @@
       "skillKey": "item_passive",
       "passiveName": "蔑视",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "survivability_only",
+        "takedown_heal"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "6333 Defiance/蔑视为击杀净化存储伤害并治疗，非输出伤害；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19540,7 +19549,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6333|item_passive|蔑视"
         }
       ],
@@ -19550,7 +19559,7 @@
     },
     {
       "key": "item_passive|6609|item_passive|劈削",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19558,11 +19567,11 @@
       "skillKey": "item_passive",
       "passiveName": "劈削",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "grievous_wounds_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "6609 Hackshorn/劈削仅施加重伤，无额外伤害；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19571,7 +19580,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6609|item_passive|劈削"
         }
       ],
@@ -19614,7 +19623,7 @@
     },
     {
       "key": "item_passive|6631|item_passive|顺劈",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19625,8 +19634,8 @@
         "multi_target_or_area"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "6631 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19635,7 +19644,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6631|item_passive|顺劈"
         }
       ],
@@ -19740,7 +19749,7 @@
     },
     {
       "key": "item_passive|6673|item_passive|救主灵刃",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19751,8 +19760,8 @@
         "survivability_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "6673 Lifeline/救主灵刃为低血护盾，非主目标伤害；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19761,7 +19770,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6673|item_passive|救主灵刃"
         }
       ],
@@ -19943,7 +19952,7 @@
     },
     {
       "key": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -19951,11 +19960,11 @@
       "skillKey": "item_passive",
       "passiveName": "掠盾者",
       "mechanismTags": [
-        "survivability_only"
+        "shield_reduction_only"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "6695 Shield Reaver/掠盾者（2892fed0）：护盾削减非主目标伤害；out_of_scope。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -19964,7 +19973,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0"
         }
       ],
@@ -19982,10 +19991,10 @@
       "skillKey": "item_passive",
       "passiveName": "掠盾者",
       "mechanismTags": [
-        "survivability_only"
+        "shield_reduction_only"
       ],
       "coverageBoundary": "",
-      "reason": "文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。",
+      "reason": "6695 Shield Reaver/掠盾者为护盾削减，非主目标伤害；审计边界外。",
       "blocker": "",
       "sourceRefs": [
         {
@@ -20036,7 +20045,7 @@
     },
     {
       "key": "item_passive|6697|item_passive|盛名",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -20044,11 +20053,11 @@
       "skillKey": "item_passive",
       "passiveName": "盛名",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "takedown_stat_buff"
       ],
       "coverageBoundary": "",
-      "reason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
-      "blocker": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "reason": "6697 Eminence/盛名为击杀后临时 AD 层数，非直接伤害机制；审计边界外。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20057,7 +20066,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6697|item_passive|盛名"
         }
       ],
@@ -20067,7 +20076,7 @@
     },
     {
       "key": "item_passive|6698|item_passive|顺劈",
-      "status": "blocked_data",
+      "status": "out_of_scope",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -20078,8 +20087,8 @@
         "multi_target_or_area"
       ],
       "coverageBoundary": "",
-      "reason": "旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。",
-      "blocker": "缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。",
+      "reason": "6698 Cleave/顺劈为周围额外目标，超出单目标审计边界。",
+      "blocker": "",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
@@ -20088,7 +20097,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "out_of_scope",
           "sourceRecordKey": "item_passive|6698|item_passive|顺劈"
         }
       ],
@@ -20098,7 +20107,7 @@
     },
     {
       "key": "item_passive|6699|item_passive|苍穹",
-      "status": "blocked_data",
+      "status": "blocked_runtime",
       "completionMode": "none",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
@@ -20109,8 +20118,8 @@
         "energized_charge_and_consume"
       ],
       "coverageBoundary": "",
-      "reason": "旧 flat 数值与当前源冲突；缺可核验的当前公式真源。",
-      "blocker": "stale_flat_values_conflict_with_current_source",
+      "reason": "Wiki 已给出苍穹/Firmament：满盈能后下一次普攻按目标当前生命值比例造成额外物理伤害并给予短暂 lethality。公式可核验，但缺精确 energized provider 消费与 current-HP 比例伤害 runtime；不得继续标 blocked_data。",
+      "blocker": "missing_energized_consume_and_current_hp_ratio_damage_runtime",
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
