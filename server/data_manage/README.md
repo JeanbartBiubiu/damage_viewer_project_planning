@@ -621,6 +621,27 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenSpinningAxeSeedSqlTest test
 ```
 
+### LoL generic Draven Blood Rush seed（德莱文 W / rank-5 攻速窗 partial）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_draven` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与既有 Q / 普攻 provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+2. `db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-draven-blood-rush-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：20 mana / 12s CD / 3s +40% AS。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_draven`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp675 / mana361 / ad62 / AS0.679 / armor29 / MR30 / hpregen3.75 / manaregen8.05）、`resource_definitions.mana` 与 `entity_resource_values`（361/361）；向 `hero_draven` mount 独立 `provider_hero_draven_w_blood_rush`（与 `provider_hero_draven_q_spinning_axe` / `provider_hero_draven_basic_attack` 并存），含 active `ability_hero_draven_w_blood_rush`（`ability_key=blood_rush`）、`ability_costs` 20 mana、`ability_cooldowns` 12000ms、timed `blood_rush_active`（max1 / `duration_ms=3000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability ALL listener 武装 active=1（override），以及 AS `percent_add` `0.40 * provider.state.blood_rush_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 2026-07-14 Meraki/Riot latest `Draven.json`。
+
+**排除**：移速/衰减移速/幽灵态、接住旋转飞斧刷新 W cooldown、其它 rank、live migration、publish、`single_attacker_dps`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericDravenBloodRushSeedSqlTest test
+```
+
 ### LoL generic Kai'Sa Supercharge seed（卡莎 E / rank-5 攻速窗）
 
 在 reserved types、Batch-B `hero_kaisa`、以及 `attribute_definitions` 的 `mana` / `attack_speed` 已就绪后，按顺序执行（**不**重建 Batch-B / 普攻；不做 live migration、不自动 publish）：
