@@ -528,6 +528,35 @@ cd server/data_manage
 mvn -Dtest=LolGenericJakshoVoidbornResilienceSeedSqlTest test
 ```
 
+### LoL generic Wiki-ready items seed（专横 / 弩箭 / 荆棘）
+
+在 reserved types、基线 `attribute_definitions`（`hp`/`ad`/`armor`/`attack_speed`/`crit_chance`），以及 Bolt/Thorns 运行时所需的 `basic_attack_hit` emit 基线已就绪后，按顺序执行（本脚本自包含 ensure `item_2501` / `item_3097` / `item_3075` 与 `bonus_armor`；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20113`/`20120`/`20150`/`20160`/`20170`/`20172`/`20181`/`20211`/`20212`/`20213`/`20221`/`20250`）
+2. 基线战斗属性定义（至少 `hp`/`ad`/`armor`/`attack_speed`/`crit_chance`；通常随 generic combat bootstrap / Admin 已写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit；Bolt/Thorns 运行时依赖，本 seed 不重建普攻图）
+4. `db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-wiki-ready-items-v1-20260716`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved 与属性定义；幂等投影 reserved → `types`；按 Jak'Sho 模式 ensure `bonus_armor`；ensure 三件装备最低必要静态面板；挂载三条独立 passive：
+
+- **item_2501 Tyranny / 专横**：owner-self `ad` add = `0.025 * max(0, $owner.attr.hp.max - $owner.attr.hp.base)`
+- **item_3097 Bolt / 弩箭**：仅预充能窗口（`assumes_charge_at_threshold_before_dps_window`）。`energized_charge` max=100（schema 无 default 列；窗口开始前由 runtime/测试快照置 100）。`basic_attack_hit` + `source_owner` ALL listener：ready 时 100 魔法伤害且 `copyable_on_hit=false` → override 消费为 0。充能恢复是 remaining gap，不写虚构 `charge_add` / 移动充能速率。
+- **item_3075 Thorns / 荆棘**：target-owned `basic_attack_hit` + `source_opponent` ALL listener；对 owner-relative `selector/target`（原攻击者）造成 `20 + 0.10 * $owner.attr.bonus_armor.resolved` 魔法伤害，`copyable_on_hit=false`。重伤分支本批不实现。
+
+有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish；不写无关既有 item 行。
+
+**排除**：虚构 Energize 充能速率、Bolt 移动充能、Thorns 重伤、Retribution（2501 pass2）、live migration、publish、legacy `single_attacker_dps` / `energized_charge_and_consume`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericWikiReadyItemsSeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
