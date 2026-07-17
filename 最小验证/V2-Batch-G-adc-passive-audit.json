@@ -1,7 +1,7 @@
 {
   "gameId": "lol",
   "batch": "V2-Batch-G",
-  "generatedAt": "2026-07-14T15:12:38.885Z",
+  "generatedAt": "2026-07-17T13:13:01.258Z",
   "source": {
     "championJson": "数据参考\\champion.json",
     "championDetailDir": "数据参考\\champion",
@@ -10,7 +10,21 @@
     "itemSourceVersion": "16.9.1",
     "adcItemSeed": "最小验证\\V2-Batch-C-adc-items.seed.json",
     "heroPassiveSeed": "最小验证\\V2-Batch-B-hero-passives.seed.json",
-    "itemPassiveSeed": "最小验证\\V2-Batch-D-adc-item-passives.seed.json"
+    "itemPassiveSeed": "最小验证\\V2-Batch-D-adc-item-passives.seed.json",
+    "lolWikiCurrentChampions": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json"
+  },
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision",
+      "data_dragon_secondary",
+      "batch_b_ocr_historical_provenance_only"
+    ],
+    "missingDataSource": "league_wiki_template_revision_only",
+    "forbiddenMissingDataSources": [
+      "screenshot",
+      "training_ground_screenshot",
+      "OCR"
+    ]
   },
   "classificationValues": [
     "ready_to_encode",
@@ -42,15 +56,15 @@
     },
     "classificationCounts": {
       "ready_to_encode": 1,
-      "already_covered": 15,
-      "needs_runtime_extension": 36,
+      "already_covered": 16,
+      "needs_runtime_extension": 34,
       "needs_manual_baseline": 44,
-      "out_of_scope_for_single_target_dps": 146
+      "out_of_scope_for_single_target_dps": 147
     },
     "mechanismBacklog": {
       "seeded_random_crit_sequence": 5,
       "stacking_stat_modifier_on_hit": 5,
-      "distance_based_damage_modifier": 11,
+      "distance_based_damage_modifier": 9,
       "damage_multiplier_or_health_ratio": 2,
       "spellblade_next_attack_state": 5,
       "energized_charge_and_consume": 6,
@@ -163,9 +177,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.passive"
     },
@@ -201,9 +215,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[1]"
     },
@@ -491,9 +505,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Caitlyn.json#data.Caitlyn.spells[2]"
     },
@@ -529,9 +543,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Corki.json#data.Corki.passive"
     },
@@ -585,9 +599,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Corki.json#data.Corki.spells[2]"
     },
@@ -676,9 +690,9 @@
       "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Draven.json#data.Draven.spells[2]"
     },
@@ -804,9 +818,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Graves.json#data.Graves.passive"
     },
@@ -878,9 +892,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Graves.json#data.Graves.spells[3]"
     },
@@ -1275,9 +1289,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Kalista.json#data.Kalista.spells[0]"
     },
@@ -1635,9 +1649,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Lucian.json#data.Lucian.spells[0]"
     },
@@ -1691,9 +1705,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Lucian.json#data.Lucian.spells[3]"
     },
@@ -1711,9 +1725,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/MissFortune.json#data.MissFortune.passive"
     },
@@ -1803,9 +1817,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Quinn.json#data.Quinn.passive"
     },
@@ -2075,9 +2089,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.passive"
     },
@@ -2095,9 +2109,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.spells[0]"
     },
@@ -2169,9 +2183,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Smolder.json#data.Smolder.passive"
     },
@@ -2207,9 +2221,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Smolder.json#data.Smolder.spells[1]"
     },
@@ -2227,9 +2241,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Smolder.json#data.Smolder.spells[2]"
     },
@@ -2371,9 +2385,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Tristana.json#data.Tristana.spells[0]"
     },
@@ -2463,9 +2477,9 @@
       "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/TwistedFate.json#data.TwistedFate.spells[0]"
     },
@@ -2765,9 +2779,9 @@
       "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Vayne.json#data.Vayne.spells[2]"
     },
@@ -2803,9 +2817,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.passive"
     },
@@ -2823,9 +2837,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.spells[0]"
     },
@@ -2861,9 +2875,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.spells[2]"
     },
@@ -2881,9 +2895,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.spells[3]"
     },
@@ -2991,9 +3005,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "on-hit 伤害描述缺少可审计数值。",
+      "blockedReason": "on-hit 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Zeri.json#data.Zeri.passive"
     },
@@ -3011,9 +3025,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Zeri.json#data.Zeri.spells[0]"
     },
@@ -3082,9 +3096,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3102,9 +3116,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3244,11 +3258,12 @@
       "skillKey": "item_passive",
       "passiveName": "高倍望远镜",
       "sourceText": "攻击造成至多10%额外伤害，基于敌人离你有多远 (在500码时达到最大伤害)。",
-      "classification": "needs_runtime_extension",
+      "classification": "already_covered",
       "mechanismTags": [
-        "distance_based_damage_modifier"
+        "outgoing_pre_mitigation_basic_damage_amp",
+        "fixed_maximum_multiplier"
       ],
-      "blockedReason": "当前 curve 没有攻击距离/目标距离输入。",
+      "blockedReason": "",
       "needsUserData": [],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3262,11 +3277,11 @@
       "skillKey": "item_passive",
       "passiveName": "奥术瞄准",
       "sourceText": "当一个你在3秒内造成过伤害的英雄阵亡时，你获得持续8秒的100额外攻击距离。",
-      "classification": "needs_runtime_extension",
+      "classification": "out_of_scope_for_single_target_dps",
       "mechanismTags": [
-        "distance_based_damage_modifier"
+        "takedown_attack_range_only"
       ],
-      "blockedReason": "当前 curve 没有攻击距离/目标距离输入。",
+      "blockedReason": "takedown 后仅增加攻击距离，无伤害增量；不与 Magnification/高倍望远镜合并。",
       "needsUserData": [],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3284,9 +3299,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3304,9 +3319,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3360,9 +3375,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3398,9 +3413,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3472,9 +3487,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3528,9 +3543,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3584,9 +3599,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3658,9 +3673,9 @@
       "mechanismTags": [
         "on_hit"
       ],
-      "blockedReason": "on-hit 伤害描述缺少可审计数值。",
+      "blockedReason": "on-hit 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3750,9 +3765,9 @@
       "mechanismTags": [
         "on_hit"
       ],
-      "blockedReason": "on-hit 伤害描述缺少可审计数值。",
+      "blockedReason": "on-hit 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -3936,9 +3951,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -4063,9 +4078,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -4155,9 +4170,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -4175,9 +4190,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -4213,9 +4228,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -4450,9 +4465,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",

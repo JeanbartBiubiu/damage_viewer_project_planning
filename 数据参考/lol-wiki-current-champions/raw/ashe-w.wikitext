@@ -1,0 +1,30 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Volley|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Ashe
+|skill        = W
+|icon         = Volley.png
+|description  = {{sbc|Active:}} '''Ashe''' shoots a volley of arrows in a cone in the target direction, each dealing {{as|physical damage}} to the first enemy hit, and applying ''{{ai|Frost Shot 2|Ashe|Critical Slow}}'' to enemy {{tip|champions}} hit.
+|leveling     = {{st|Arrows|{{ap|7 to 11}}}}
+{{st|Physical Damage|{{ap|60 to 200}} {{as|(+ 100% '''bonus''' AD)}}}}
+|description2 = Enemies can intercept multiple arrows but do not take damage from any beyond the first.
+|effect radius= {{tip|cr|icononly = true}} {{tt|1200|Not including the offset, see notes}}
+|angle        = {{dv|{{tt|{{ap|27.75|37|37|46.25|46.25|key={{degrees}}}}|Full cone}}|{{tt|{{fd|4.625}}{{degrees}}|Angle between individual missiles}}}}
+|width        = {{tip|er|icononly = true}} {{tt|20|Each missile}}
+|speed        = 2000
+|cooldown     = {{ap|18 to 4}}
+|cast time    = {{fd|0.25}}
+|cost         = {{ap|75 to 55}}
+|costtype     = Mana
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = True
+|spelleffects = aoe
+|projectile   = True
+|notes        =
+* The missiles are spawned in a straight horizontal line 75 units in front of '''Ashe''', with a total width of 75/100/100/123/123 units.
+** Between each missile spawn location is a distance of {{fd|12.5}} units, except for the two outermost ones at the last two ranks (which are {{fd|11.5}} units from the closest other one), and the two centermost missiles at ranks 2 and 4 (which have 20 units between them and 15 units to the next missile, respectively).
+** This inconsistent behaviour of spawn locations means the angle between each missile can vary off of {{fd|4.625}}{{degrees}} slighty.
+{{Effect at cast time end}}
+<!--Blurb-->
+|blurb        = {{sbc|Active:}} {{ci|Ashe}} fires arrows in a cone dealing {{as|physical damage}} and applying {{ai|Frost Shot|Ashe|Critical Slow}} to the first enemies hit.
+}}
