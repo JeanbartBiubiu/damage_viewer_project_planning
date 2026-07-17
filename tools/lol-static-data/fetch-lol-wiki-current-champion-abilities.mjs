@@ -10,6 +10,12 @@
  *   On-disk raw/*.wikitext files additionally strip trailing spaces/tabs per line and end with one newline.
  *   Those file-output whitespace normalizations must not change contentSha256.
  *
+ * Dependencies (separate from the 8 champion ability pages):
+ *   Template:Pplevel → Template:Passive progression level
+ *   Module:Ability progression
+ *   Stored under dependencies/ + dependencies/raw/; used to prove Kai'Sa P {{pplevel|A to B}}
+ *   spans levels 1..18 with linear fill denominator 17.
+ *
  * Usage:
  *   node tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs
  *   node tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs --refresh
@@ -32,6 +38,8 @@ const OUTPUT_ROOT = path.join(repoRoot, '数据参考', 'lol-wiki-current-champi
 const PAGES_DIR = path.join(OUTPUT_ROOT, 'pages');
 const RAW_DIR = path.join(OUTPUT_ROOT, 'raw');
 const NORMALIZED_DIR = path.join(OUTPUT_ROOT, 'normalized');
+const DEPENDENCIES_DIR = path.join(OUTPUT_ROOT, 'dependencies');
+const DEPENDENCIES_RAW_DIR = path.join(DEPENDENCIES_DIR, 'raw');
 
 const MANIFEST_PATH = path.join(OUTPUT_ROOT, 'manifest.json');
 const SUMMARY_PATH = path.join(OUTPUT_ROOT, 'summary.json');
@@ -105,6 +113,34 @@ const PAGE_SPECS = [
   },
 ];
 
+/**
+ * Template/module dependencies used to interpret {{pplevel|A to B}}.
+ * Separate from PAGE_SPECS; pageCount remains PAGE_SPECS.length.
+ */
+const DEPENDENCY_SPECS = [
+  {
+    id: 'passive-progression-level',
+    requestTitle: 'Template:Pplevel',
+    expectedResolvedTitle: 'Template:Passive progression level',
+    kind: 'template',
+    contentMediaType: 'wikitext',
+    rawFileName: 'passive-progression-level.wikitext',
+    jsonFileName: 'passive-progression-level.json',
+  },
+  {
+    id: 'ability-progression',
+    requestTitle: 'Module:Ability progression',
+    expectedResolvedTitle: 'Module:Ability progression',
+    kind: 'module',
+    contentMediaType: 'lua',
+    rawFileName: 'ability-progression.lua',
+    jsonFileName: 'ability-progression.json',
+  },
+];
+
+const PPLEVEL_DEFAULT_SIZE = 18;
+const PPLEVEL_LINEAR_DENOMINATOR = PPLEVEL_DEFAULT_SIZE - 1;
+
 function sha256Text(text) {
   return createHash('sha256').update(String(text), 'utf8').digest('hex');
 }
@@ -156,7 +192,15 @@ async function fetchJson(url) {
   if (!response.ok) {
     throw new Error(`Wiki API HTTP ${response.status} ${response.statusText} for ${url}`);
   }
-  return response.json();
+  const text = await response.text();
+  if (/challenge-platform|Just a moment|cf-browser-verification|Attention Required/i.test(text)) {
+    throw new Error(`Wiki API returned a challenge/interstitial page for ${url}`);
+  }
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`Wiki API returned non-JSON for ${url}`);
+  }
 }
 
 function pageSourceUrl(title) {
@@ -178,11 +222,93 @@ function fieldSnippet(raw, fieldName) {
   return snippetAround(raw, m[0], 160);
 }
 
+function dependencyRelPaths(spec) {
+  return {
+    jsonRelPath: `dependencies/${spec.jsonFileName}`,
+    rawRelPath: `dependencies/raw/${spec.rawFileName}`,
+  };
+}
+
+function buildPplevelInterpolation({ start, finish, markup }) {
+  return {
+    kind: 'pplevel_bare_range_levels_1_to_18',
+    template: 'pplevel',
+    markup,
+    start,
+    finish,
+    levels: { first: 1, last: PPLEVEL_DEFAULT_SIZE },
+    defaultSize: PPLEVEL_DEFAULT_SIZE,
+    linearDenominator: PPLEVEL_LINEAR_DENOMINATOR,
+    exactFormula: `${start} + (${finish}-${start})/${PPLEVEL_LINEAR_DENOMINATOR}*(level-1)`,
+    wikiModuleSemantics: {
+      entry: 'pplevel -> pp',
+      defaultSize: PPLEVEL_DEFAULT_SIZE,
+      linearFill:
+        'after emitting start, fill with start + (finish-start) * x / times; bare A to B spans levels 1..18 with times=17',
+      provesLinearFill: true,
+    },
+    projectRuntimePolicy: {
+      useExactLinearFormula: true,
+      artificialIntermediateRounding: false,
+      note:
+        'Wiki module proves linear fill; current project runtime uses the exact linear formula without artificial intermediate rounding.',
+    },
+    displayRounding: {
+      presentationMetadataOnly: true,
+      mutatesExactFormula: false,
+      note:
+        'Any Wiki tooltip/display rounding is presentation metadata only and must not mutate the exactFormula used by project runtime.',
+    },
+  };
+}
+
+function buildKaisaCausticWoundsFlat(raw, dependencyById) {
+  const depRefs = DEPENDENCY_SPECS.map((spec) => {
+    const dep = dependencyById.get(spec.id);
+    if (!dep) throw new Error(`kaisa-p: missing dependency ${spec.id}`);
+    return {
+      id: dep.id,
+      requestTitle: dep.requestTitle,
+      resolvedTitle: dep.resolvedTitle,
+      pageId: dep.pageId,
+      revisionId: dep.revisionId,
+      revisionTimestamp: dep.revisionTimestamp,
+      contentSha256: dep.contentSha256,
+      rawByteSize: dep.rawByteSize,
+      sourceUrl: dep.sourceUrl,
+    };
+  });
+
+  return {
+    baseByLevel: '4 to 24',
+    apRatio: 0.12,
+    perPriorStackByLevel: '1 to 6',
+    perPriorStackApRatio: 0.03,
+    sourceField: 'description3',
+    sourceSnippet: snippetAround(raw, 'Caustic Wounds'),
+    wikiMarkupEvidence: {
+      base: '{{pplevel|4 to 24}}',
+      perPriorStack: '{{pplevel|1 to 6}}',
+    },
+    sourceDependencies: depRefs,
+    baseInterpolation: buildPplevelInterpolation({
+      start: 4,
+      finish: 24,
+      markup: '{{pplevel|4 to 24}}',
+    }),
+    perPriorStackInterpolation: buildPplevelInterpolation({
+      start: 1,
+      finish: 6,
+      markup: '{{pplevel|1 to 6}}',
+    }),
+  };
+}
+
 /**
  * Reviewed, page-specific normalized contracts.
  * Every numeric/formula retains template/page/revision + source snippet.
  */
-function buildReviewedContract(spec, pageMeta, raw) {
+function buildReviewedContract(spec, pageMeta, raw, dependencyById = new Map()) {
   const base = {
     id: spec.id,
     championId: spec.championId,
@@ -472,14 +598,7 @@ function buildReviewedContract(spec, pageMeta, raw) {
             sourceField: 'description2',
             sourceSnippet: snippetAround(raw, 'for 4 seconds'),
           },
-          causticWoundsFlat: {
-            baseByLevel: '4 to 24',
-            apRatio: 0.12,
-            perPriorStackByLevel: '1 to 6',
-            perPriorStackApRatio: 0.03,
-            sourceField: 'description3',
-            sourceSnippet: snippetAround(raw, 'Caustic Wounds'),
-          },
+          causticWoundsFlat: buildKaisaCausticWoundsFlat(raw, dependencyById),
           fifthStackMissingHealth: {
             baseRatio: 0.15,
             apPer100: 0.06,
@@ -521,6 +640,37 @@ function buildReviewedContract(spec, pageMeta, raw) {
   }
 }
 
+function validatePplevelInterpolation(contractId, fieldName, interp, expected) {
+  const errors = [];
+  const prefix = `${contractId}.${fieldName}`;
+  if (!interp || typeof interp !== 'object') {
+    errors.push(`${prefix}: missing interpolation object`);
+    return errors;
+  }
+  if (interp.start !== expected.start) errors.push(`${prefix}: start expected ${expected.start}`);
+  if (interp.finish !== expected.finish) errors.push(`${prefix}: finish expected ${expected.finish}`);
+  if (interp.levels?.first !== 1 || interp.levels?.last !== PPLEVEL_DEFAULT_SIZE) {
+    errors.push(`${prefix}: levels must be 1..${PPLEVEL_DEFAULT_SIZE}`);
+  }
+  if (interp.defaultSize !== PPLEVEL_DEFAULT_SIZE) {
+    errors.push(`${prefix}: defaultSize must be ${PPLEVEL_DEFAULT_SIZE}`);
+  }
+  if (interp.linearDenominator !== PPLEVEL_LINEAR_DENOMINATOR) {
+    errors.push(`${prefix}: linearDenominator must be ${PPLEVEL_LINEAR_DENOMINATOR}`);
+  }
+  const expectedFormula = `${expected.start} + (${expected.finish}-${expected.start})/${PPLEVEL_LINEAR_DENOMINATOR}*(level-1)`;
+  if (interp.exactFormula !== expectedFormula) {
+    errors.push(`${prefix}: exactFormula mismatch`);
+  }
+  if (interp.projectRuntimePolicy?.artificialIntermediateRounding !== false) {
+    errors.push(`${prefix}: runtime must not use artificial intermediate rounding`);
+  }
+  if (interp.displayRounding?.mutatesExactFormula !== false) {
+    errors.push(`${prefix}: displayRounding must not mutate exactFormula`);
+  }
+  return errors;
+}
+
 function validateContractAgainstRaw(contract, raw, options = {}) {
   const errors = [];
   const status = contract.numericContractStatus || '';
@@ -555,7 +705,13 @@ function validateContractAgainstRaw(contract, raw, options = {}) {
       mustFind.push('Physical Damage per Shot', '0.3');
       break;
     case 'kaisa-p':
-      mustFind.push('Caustic Wounds', 'missing health', 'for 4 seconds');
+      mustFind.push(
+        'Caustic Wounds',
+        'missing health',
+        'for 4 seconds',
+        '{{pplevel|4 to 24}}',
+        '{{pplevel|1 to 6}}',
+      );
       break;
     case 'ezreal-p':
       mustFind.push('10%', 'stacking up to 5 times', 'lasting for 6 seconds');
@@ -568,11 +724,75 @@ function validateContractAgainstRaw(contract, raw, options = {}) {
       errors.push(`${contract.id}: expected raw snippet missing: ${needle}`);
     }
   }
+
+  if (contract.id === 'kaisa-p') {
+    const flat = contract.contracts?.causticWoundsFlat;
+    if (!flat) {
+      errors.push('kaisa-p: missing causticWoundsFlat');
+    } else {
+      errors.push(
+        ...validatePplevelInterpolation('kaisa-p', 'baseInterpolation', flat.baseInterpolation, {
+          start: 4,
+          finish: 24,
+        }),
+      );
+      errors.push(
+        ...validatePplevelInterpolation(
+          'kaisa-p',
+          'perPriorStackInterpolation',
+          flat.perPriorStackInterpolation,
+          { start: 1, finish: 6 },
+        ),
+      );
+      const depIds = (flat.sourceDependencies || []).map((d) => d.id).sort().join(',');
+      const expectedDepIds = DEPENDENCY_SPECS.map((s) => s.id).sort().join(',');
+      if (depIds !== expectedDepIds) {
+        errors.push('kaisa-p: sourceDependencies ids mismatch');
+      }
+      for (const dep of flat.sourceDependencies || []) {
+        if (!dep.revisionId || !dep.contentSha256) {
+          errors.push(`kaisa-p: sourceDependency ${dep.id} missing revision/hash`);
+        }
+      }
+    }
+  }
   return errors;
 }
 
-async function fetchPages() {
-  const titles = PAGE_SPECS.map((s) => s.requestTitle).join('|');
+/**
+ * Fail-closed anchors proving Template:Pplevel → Module:Ability progression|pplevel
+ * and the default-size / linear-fill interpretation for bare A to B.
+ */
+function validateDependencyAnchors(spec, raw) {
+  const errors = [];
+  if (spec.id === 'passive-progression-level') {
+    if (!raw.includes('{{#invoke:Ability progression|pplevel}}')) {
+      errors.push(
+        `${spec.id}: missing invoke anchor {{#invoke:Ability progression|pplevel}}`,
+      );
+    }
+  } else if (spec.id === 'ability-progression') {
+    if (!/function\s+p\.pplevel\s*\(/.test(raw)) {
+      errors.push(`${spec.id}: missing function p.pplevel`);
+    }
+    if (!/return\s+p\.pp\s*\(/.test(raw)) {
+      errors.push(`${spec.id}: missing pplevel -> pp return`);
+    }
+    if (!/local\s+defaultSize\s*=\s*18\b/.test(raw)) {
+      errors.push(`${spec.id}: missing defaultSize = 18`);
+    }
+    if (!raw.includes('start + (finish-start) * x / times')) {
+      errors.push(`${spec.id}: missing linear fill formula start + (finish-start) * x / times`);
+    }
+  }
+  if (errors.length) {
+    throw new Error(
+      `Dependency anchors do not support the stated 18-level linear interpretation:\n- ${errors.join('\n- ')}`,
+    );
+  }
+}
+
+async function queryWikiPagesByTitles(titles) {
   const url = new URL(WIKI_API);
   url.searchParams.set('action', 'query');
   url.searchParams.set('format', 'json');
@@ -581,7 +801,7 @@ async function fetchPages() {
   url.searchParams.set('prop', 'info|revisions');
   url.searchParams.set('rvprop', 'ids|timestamp|content');
   url.searchParams.set('rvslots', 'main');
-  url.searchParams.set('titles', titles);
+  url.searchParams.set('titles', titles.join('|'));
 
   const apiResponse = await fetchJson(url.toString());
   if (apiResponse?.error) {
@@ -622,17 +842,30 @@ async function fetchPages() {
     });
   }
 
+  return { byTitle, redirectMap, normalizedMap };
+}
+
+function resolveRequestedTitle(requestTitle, normalizedMap, redirectMap, byTitle) {
+  let title = requestTitle;
+  if (normalizedMap.has(title)) title = normalizedMap.get(title);
+  if (redirectMap.has(title)) title = redirectMap.get(title);
+  const page = byTitle.get(title);
+  if (!page) {
+    throw new Error(
+      `Failed to resolve Wiki page for ${requestTitle} → ${title}. Available: ${[...byTitle.keys()].join(', ')}`,
+    );
+  }
+  return page;
+}
+
+async function fetchPages() {
+  const { byTitle, redirectMap, normalizedMap } = await queryWikiPagesByTitles(
+    PAGE_SPECS.map((s) => s.requestTitle),
+  );
+
   const results = [];
   for (const spec of PAGE_SPECS) {
-    let title = spec.requestTitle;
-    if (normalizedMap.has(title)) title = normalizedMap.get(title);
-    if (redirectMap.has(title)) title = redirectMap.get(title);
-    const page = byTitle.get(title);
-    if (!page) {
-      throw new Error(
-        `Failed to resolve Wiki page for ${spec.requestTitle} → ${title}. Available: ${[...byTitle.keys()].join(', ')}`,
-      );
-    }
+    const page = resolveRequestedTitle(spec.requestTitle, normalizedMap, redirectMap, byTitle);
     const contentSha256 = sha256Text(page.rawWikitext);
     results.push({
       spec,
@@ -652,11 +885,76 @@ async function fetchPages() {
   return results;
 }
 
-function buildOutputs(fetchedAt, pageResults, options = {}) {
+async function fetchDependencies() {
+  const { byTitle, redirectMap, normalizedMap } = await queryWikiPagesByTitles(
+    DEPENDENCY_SPECS.map((s) => s.requestTitle),
+  );
+
+  const results = [];
+  for (const spec of DEPENDENCY_SPECS) {
+    const page = resolveRequestedTitle(spec.requestTitle, normalizedMap, redirectMap, byTitle);
+    if (page.resolvedTitle !== spec.expectedResolvedTitle) {
+      throw new Error(
+        `${spec.id}: expected resolved title ${spec.expectedResolvedTitle}, got ${page.resolvedTitle}`,
+      );
+    }
+    validateDependencyAnchors(spec, page.rawWikitext);
+    const contentSha256 = sha256Text(page.rawWikitext);
+    const rel = dependencyRelPaths(spec);
+    results.push({
+      spec,
+      depMeta: {
+        id: spec.id,
+        kind: spec.kind,
+        requestTitle: spec.requestTitle,
+        resolvedTitle: page.resolvedTitle,
+        pageId: page.pageId,
+        revisionId: page.revisionId,
+        revisionTimestamp: page.revisionTimestamp,
+        sourceUrl: pageSourceUrl(page.resolvedTitle),
+        contentSha256,
+        rawByteSize: Buffer.byteLength(page.rawWikitext, 'utf8'),
+        contentMediaType: spec.contentMediaType,
+        jsonRelPath: rel.jsonRelPath,
+        rawRelPath: rel.rawRelPath,
+      },
+      rawWikitext: page.rawWikitext,
+    });
+  }
+  return results;
+}
+
+function dependencyByIdFromResults(dependencyResults) {
+  const map = new Map();
+  for (const { depMeta } of dependencyResults) {
+    map.set(depMeta.id, depMeta);
+  }
+  return map;
+}
+
+function buildDependencyJsonPayload(depMeta) {
+  return {
+    id: depMeta.id,
+    kind: depMeta.kind,
+    requestTitle: depMeta.requestTitle,
+    resolvedTitle: depMeta.resolvedTitle,
+    pageId: depMeta.pageId,
+    revisionId: depMeta.revisionId,
+    revisionTimestamp: depMeta.revisionTimestamp,
+    sourceUrl: depMeta.sourceUrl,
+    contentSha256: depMeta.contentSha256,
+    rawByteSize: depMeta.rawByteSize,
+    contentMediaType: depMeta.contentMediaType,
+    rawRelPath: depMeta.rawRelPath,
+  };
+}
+
+function buildOutputs(fetchedAt, pageResults, dependencyResults, options = {}) {
+  const dependencyById = dependencyByIdFromResults(dependencyResults);
   const pages = [];
   const contracts = [];
   for (const { spec, pageMeta, rawWikitext, upstreamWikitext } of pageResults) {
-    const contract = buildReviewedContract(spec, pageMeta, rawWikitext);
+    const contract = buildReviewedContract(spec, pageMeta, rawWikitext, dependencyById);
     const validationErrors = validateContractAgainstRaw(contract, rawWikitext, {
       upstreamRaw: options.verifyUpstreamHash
         ? (upstreamWikitext ?? rawWikitext)
@@ -673,6 +971,10 @@ function buildOutputs(fetchedAt, pageResults, options = {}) {
     });
     contracts.push(contract);
   }
+
+  const dependencies = dependencyResults
+    .map(({ depMeta }) => ({ ...depMeta }))
+    .sort((a, b) => a.id.localeCompare(b.id, 'en'));
 
   const reviewedContracts = {
     schemaVersion: 'lol-wiki-current-champion-abilities-v1',
@@ -694,6 +996,7 @@ function buildOutputs(fetchedAt, pageResults, options = {}) {
     schemaVersion: 'lol-wiki-current-champion-abilities-summary-v1',
     fetchedAt,
     pageCount: pages.length,
+    dependencyCount: dependencies.length,
     pages: pages.map((p) => ({
       id: p.id,
       requestTitle: p.requestTitle,
@@ -704,6 +1007,18 @@ function buildOutputs(fetchedAt, pageResults, options = {}) {
       contentSha256: p.contentSha256,
       rawByteSize: p.rawByteSize,
       sourceUrl: p.sourceUrl,
+    })),
+    dependencies: dependencies.map((d) => ({
+      id: d.id,
+      kind: d.kind,
+      requestTitle: d.requestTitle,
+      resolvedTitle: d.resolvedTitle,
+      pageId: d.pageId,
+      revisionId: d.revisionId,
+      revisionTimestamp: d.revisionTimestamp,
+      contentSha256: d.contentSha256,
+      rawByteSize: d.rawByteSize,
+      sourceUrl: d.sourceUrl,
     })),
     contractIds: reviewedContracts.contracts.map((c) => c.id),
     numericContractStatusCounts: reviewedContracts.contracts.reduce((acc, c) => {
@@ -723,7 +1038,11 @@ function buildOutputs(fetchedAt, pageResults, options = {}) {
       reviewedContracts: 'normalized/reviewed-contracts.json',
       pagesDir: 'pages/',
       rawDir: 'raw/',
+      dependenciesDir: 'dependencies/',
+      dependenciesRawDir: 'dependencies/raw/',
     },
+    pageCount: pages.length,
+    dependencyCount: dependencies.length,
     pages: pages
       .map((p) => ({
         id: p.id,
@@ -739,17 +1058,33 @@ function buildOutputs(fetchedAt, pageResults, options = {}) {
         pageRelPath: p.pageRelPath,
       }))
       .sort((a, b) => a.id.localeCompare(b.id, 'en')),
+    dependencies: dependencies.map((d) => ({
+      id: d.id,
+      kind: d.kind,
+      requestTitle: d.requestTitle,
+      resolvedTitle: d.resolvedTitle,
+      pageId: d.pageId,
+      revisionId: d.revisionId,
+      revisionTimestamp: d.revisionTimestamp,
+      contentSha256: d.contentSha256,
+      rawByteSize: d.rawByteSize,
+      sourceUrl: d.sourceUrl,
+      jsonRelPath: d.jsonRelPath,
+      rawRelPath: d.rawRelPath,
+    })),
   };
 
-  return { manifest, summary, reviewedContracts, pageResults };
+  return { manifest, summary, reviewedContracts, pageResults, dependencyResults };
 }
 
 async function writeAll(outputs) {
-  const { manifest, summary, reviewedContracts, pageResults } = outputs;
+  const { manifest, summary, reviewedContracts, pageResults, dependencyResults } = outputs;
   await ensureDir(OUTPUT_ROOT);
   await ensureDir(PAGES_DIR);
   await ensureDir(RAW_DIR);
   await ensureDir(NORMALIZED_DIR);
+  await ensureDir(DEPENDENCIES_DIR);
+  await ensureDir(DEPENDENCIES_RAW_DIR);
 
   for (const { spec, pageMeta, rawWikitext, upstreamWikitext } of pageResults) {
     const upstream = upstreamWikitext ?? rawWikitext;
@@ -763,6 +1098,18 @@ async function writeAll(outputs) {
       ...pageMeta,
       rawRelPath: `raw/${spec.id}.wikitext`,
     });
+  }
+
+  for (const { spec, depMeta, rawWikitext, upstreamWikitext } of dependencyResults) {
+    const upstream = upstreamWikitext ?? rawWikitext;
+    await writeTextLf(
+      path.join(DEPENDENCIES_RAW_DIR, spec.rawFileName),
+      serializeRawSnapshot(upstream),
+    );
+    await writeJsonLf(
+      path.join(DEPENDENCIES_DIR, spec.jsonFileName),
+      buildDependencyJsonPayload(depMeta),
+    );
   }
 
   await writeJsonLf(MANIFEST_PATH, manifest);
@@ -818,11 +1165,83 @@ async function loadStoredPageResults() {
   return { manifest, pageResults };
 }
 
+async function loadStoredDependencyResults(manifest) {
+  const dependencyResults = [];
+  for (const spec of DEPENDENCY_SPECS) {
+    const jsonPath = path.join(DEPENDENCIES_DIR, spec.jsonFileName);
+    const rawPath = path.join(DEPENDENCIES_RAW_DIR, spec.rawFileName);
+    if (!existsSync(jsonPath) || !existsSync(rawPath)) {
+      throw new Error(`missing stored dependency json/raw for ${spec.id}`);
+    }
+    const depJson = JSON.parse(await readText(jsonPath));
+    const rawWikitext = await readText(rawPath);
+    const serialized = serializeRawSnapshot(rawWikitext);
+    if (rawWikitext !== serialized) {
+      throw new Error(
+        `${spec.id}: dependency raw file is not in canonical snapshot form (LF, no trailing horizontal whitespace, final newline)`,
+      );
+    }
+    validateDependencyAnchors(spec, rawWikitext);
+
+    const rel = dependencyRelPaths(spec);
+    const manifestEntry = (manifest.dependencies || []).find((d) => d.id === spec.id);
+    if (!manifestEntry) throw new Error(`${spec.id}: missing from manifest.dependencies`);
+    if (manifestEntry.contentSha256 !== depJson.contentSha256) {
+      throw new Error(`${spec.id}: manifest contentSha256 mismatch`);
+    }
+    if (manifestEntry.rawByteSize !== depJson.rawByteSize) {
+      throw new Error(`${spec.id}: manifest rawByteSize mismatch`);
+    }
+    if (manifestEntry.revisionId !== depJson.revisionId) {
+      throw new Error(`${spec.id}: manifest revisionId mismatch`);
+    }
+    if (depJson.resolvedTitle !== spec.expectedResolvedTitle) {
+      throw new Error(
+        `${spec.id}: resolvedTitle expected ${spec.expectedResolvedTitle}, got ${depJson.resolvedTitle}`,
+      );
+    }
+
+    dependencyResults.push({
+      spec,
+      depMeta: {
+        id: depJson.id,
+        kind: depJson.kind,
+        requestTitle: depJson.requestTitle,
+        resolvedTitle: depJson.resolvedTitle,
+        pageId: depJson.pageId,
+        revisionId: depJson.revisionId,
+        revisionTimestamp: depJson.revisionTimestamp,
+        sourceUrl: depJson.sourceUrl,
+        contentSha256: depJson.contentSha256,
+        rawByteSize: depJson.rawByteSize,
+        contentMediaType: depJson.contentMediaType,
+        jsonRelPath: rel.jsonRelPath,
+        rawRelPath: rel.rawRelPath,
+      },
+      rawWikitext,
+    });
+  }
+
+  if ((manifest.dependencyCount ?? dependencyResults.length) !== DEPENDENCY_SPECS.length) {
+    throw new Error(
+      `manifest.dependencyCount expected ${DEPENDENCY_SPECS.length}, got ${manifest.dependencyCount}`,
+    );
+  }
+  if ((manifest.pageCount ?? PAGE_SPECS.length) !== PAGE_SPECS.length) {
+    throw new Error(`manifest.pageCount expected ${PAGE_SPECS.length}, got ${manifest.pageCount}`);
+  }
+
+  return dependencyResults;
+}
+
 async function checkMode() {
   const { manifest, pageResults } = await loadStoredPageResults();
+  const dependencyResults = await loadStoredDependencyResults(manifest);
   const fetchedAt = manifest.fetchedAt;
   // Offline check uses on-disk snapshots for snippets; upstream hash was recorded at refresh.
-  const rebuilt = buildOutputs(fetchedAt, pageResults, { verifyUpstreamHash: false });
+  const rebuilt = buildOutputs(fetchedAt, pageResults, dependencyResults, {
+    verifyUpstreamHash: false,
+  });
 
   const expectedFiles = [
     [MANIFEST_PATH, rebuilt.manifest],
@@ -845,6 +1264,13 @@ async function checkMode() {
     ]);
   }
 
+  for (const { depMeta } of dependencyResults) {
+    expectedFiles.push([
+      path.join(DEPENDENCIES_DIR, path.basename(depMeta.jsonRelPath)),
+      buildDependencyJsonPayload(depMeta),
+    ]);
+  }
+
   const errors = [];
   for (const [filePath, expectedObj] of expectedFiles) {
     if (!existsSync(filePath)) {
@@ -859,9 +1285,6 @@ async function checkMode() {
   }
 
   // Raw wikitext already hash-checked in loadStoredPageResults; re-validate contracts.
-  for (const { rawWikitext } of pageResults) {
-    // contracts validated inside buildOutputs
-  }
   void rawWikitextGuard(pageResults);
 
   if (errors.length) {
@@ -875,11 +1298,17 @@ async function checkMode() {
     JSON.stringify(
       {
         pageCount: rebuilt.summary.pageCount,
+        dependencyCount: rebuilt.summary.dependencyCount,
         numericContractStatusCounts: rebuilt.summary.numericContractStatusCounts,
         pages: rebuilt.summary.pages.map((p) => ({
           id: p.id,
           revisionId: p.revisionId,
           contentSha256: p.contentSha256,
+        })),
+        dependencies: rebuilt.summary.dependencies.map((d) => ({
+          id: d.id,
+          revisionId: d.revisionId,
+          contentSha256: d.contentSha256,
         })),
       },
       null,
@@ -899,11 +1328,18 @@ function rawWikitextGuard(pageResults) {
 async function refreshMode() {
   const fetchedAt = new Date().toISOString();
   const fetched = await fetchPages();
+  const fetchedDeps = await fetchDependencies();
   const pageResults = fetched.map((row) => ({
     ...row,
     upstreamWikitext: row.rawWikitext,
   }));
-  const outputs = buildOutputs(fetchedAt, pageResults, { verifyUpstreamHash: true });
+  const dependencyResults = fetchedDeps.map((row) => ({
+    ...row,
+    upstreamWikitext: row.rawWikitext,
+  }));
+  const outputs = buildOutputs(fetchedAt, pageResults, dependencyResults, {
+    verifyUpstreamHash: true,
+  });
   await writeAll(outputs);
   console.log('refresh ok');
   console.log(
@@ -911,12 +1347,19 @@ async function refreshMode() {
       {
         outputRoot: path.relative(repoRoot, OUTPUT_ROOT),
         pageCount: outputs.summary.pageCount,
+        dependencyCount: outputs.summary.dependencyCount,
         numericContractStatusCounts: outputs.summary.numericContractStatusCounts,
         pages: outputs.summary.pages.map((p) => ({
           id: p.id,
           resolvedTitle: p.resolvedTitle,
           revisionId: p.revisionId,
           contentSha256: p.contentSha256,
+        })),
+        dependencies: outputs.summary.dependencies.map((d) => ({
+          id: d.id,
+          resolvedTitle: d.resolvedTitle,
+          revisionId: d.revisionId,
+          contentSha256: d.contentSha256,
         })),
       },
       null,

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "lol-wiki-current-champion-abilities-manifest-v1",
-  "fetchedAt": "2026-07-17T13:21:49.471Z",
+  "fetchedAt": "2026-07-17T14:03:00.072Z",
   "generator": "tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs",
   "api": "https://wiki.leagueoflegends.com/en-us/api.php",
   "outputs": {
@@ -8,8 +8,12 @@
     "summary": "summary.json",
     "reviewedContracts": "normalized/reviewed-contracts.json",
     "pagesDir": "pages/",
-    "rawDir": "raw/"
+    "rawDir": "raw/",
+    "dependenciesDir": "dependencies/",
+    "dependenciesRawDir": "dependencies/raw/"
   },
+  "pageCount": 8,
+  "dependencyCount": 2,
   "pages": [
     {
       "id": "akshan-e",
@@ -114,6 +118,36 @@
       "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kai'Sa/Second%20Skin",
       "rawRelPath": "raw/kaisa-p.wikitext",
       "pageRelPath": "pages/kaisa-p.json"
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "ability-progression",
+      "kind": "module",
+      "requestTitle": "Module:Ability progression",
+      "resolvedTitle": "Module:Ability progression",
+      "pageId": 1376072,
+      "revisionId": 4039181,
+      "revisionTimestamp": "2026-07-03T11:04:58Z",
+      "contentSha256": "0fcd3952902606d910987f9e036b221c94e5b7faab2e510091b98391dd3a3295",
+      "rawByteSize": 29180,
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module%3AAbility%20progression",
+      "jsonRelPath": "dependencies/ability-progression.json",
+      "rawRelPath": "dependencies/raw/ability-progression.lua"
+    },
+    {
+      "id": "passive-progression-level",
+      "kind": "template",
+      "requestTitle": "Template:Pplevel",
+      "resolvedTitle": "Template:Passive progression level",
+      "pageId": 1734142,
+      "revisionId": 4036514,
+      "revisionTimestamp": "2026-06-27T04:56:07Z",
+      "contentSha256": "d34a24b40b2b63b6274beb06289feaa8cd5650fb075d722189a11fd03a6b9ad7",
+      "rawByteSize": 96,
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3APassive%20progression%20level",
+      "jsonRelPath": "dependencies/passive-progression-level.json",
+      "rawRelPath": "dependencies/raw/passive-progression-level.wikitext"
     }
   ]
 }

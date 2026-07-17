@@ -1,6 +1,6 @@
 {
   "schemaVersion": "lol-wiki-current-champion-abilities-v1",
-  "fetchedAt": "2026-07-17T13:21:49.471Z",
+  "fetchedAt": "2026-07-17T14:03:00.072Z",
   "sourceApi": "https://wiki.leagueoflegends.com/en-us/api.php",
   "dataPolicy": {
     "numericTruthPrecedence": [
@@ -529,7 +529,95 @@
           "perPriorStackByLevel": "1 to 6",
           "perPriorStackApRatio": 0.03,
           "sourceField": "description3",
-          "sourceSnippet": "}}, and allied {{tip|polymorph|polymorphs}} and {{tip|immobilize|immobilizing}} effects. |blurb3 = {{sbc|Innate - Caustic Wounds:}} Applying {{as|Plasma|buzzword}} deals an increasing amount of {{as|magic damage}}. Upon applying the final stack, al"
+          "sourceSnippet": "}}, and allied {{tip|polymorph|polymorphs}} and {{tip|immobilize|immobilizing}} effects. |blurb3 = {{sbc|Innate - Caustic Wounds:}} Applying {{as|Plasma|buzzword}} deals an increasing amount of {{as|magic damage}}. Upon applying the final stack, al",
+          "wikiMarkupEvidence": {
+            "base": "{{pplevel|4 to 24}}",
+            "perPriorStack": "{{pplevel|1 to 6}}"
+          },
+          "sourceDependencies": [
+            {
+              "id": "passive-progression-level",
+              "requestTitle": "Template:Pplevel",
+              "resolvedTitle": "Template:Passive progression level",
+              "pageId": 1734142,
+              "revisionId": 4036514,
+              "revisionTimestamp": "2026-06-27T04:56:07Z",
+              "contentSha256": "d34a24b40b2b63b6274beb06289feaa8cd5650fb075d722189a11fd03a6b9ad7",
+              "rawByteSize": 96,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3APassive%20progression%20level"
+            },
+            {
+              "id": "ability-progression",
+              "requestTitle": "Module:Ability progression",
+              "resolvedTitle": "Module:Ability progression",
+              "pageId": 1376072,
+              "revisionId": 4039181,
+              "revisionTimestamp": "2026-07-03T11:04:58Z",
+              "contentSha256": "0fcd3952902606d910987f9e036b221c94e5b7faab2e510091b98391dd3a3295",
+              "rawByteSize": 29180,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module%3AAbility%20progression"
+            }
+          ],
+          "baseInterpolation": {
+            "kind": "pplevel_bare_range_levels_1_to_18",
+            "template": "pplevel",
+            "markup": "{{pplevel|4 to 24}}",
+            "start": 4,
+            "finish": 24,
+            "levels": {
+              "first": 1,
+              "last": 18
+            },
+            "defaultSize": 18,
+            "linearDenominator": 17,
+            "exactFormula": "4 + (24-4)/17*(level-1)",
+            "wikiModuleSemantics": {
+              "entry": "pplevel -> pp",
+              "defaultSize": 18,
+              "linearFill": "after emitting start, fill with start + (finish-start) * x / times; bare A to B spans levels 1..18 with times=17",
+              "provesLinearFill": true
+            },
+            "projectRuntimePolicy": {
+              "useExactLinearFormula": true,
+              "artificialIntermediateRounding": false,
+              "note": "Wiki module proves linear fill; current project runtime uses the exact linear formula without artificial intermediate rounding."
+            },
+            "displayRounding": {
+              "presentationMetadataOnly": true,
+              "mutatesExactFormula": false,
+              "note": "Any Wiki tooltip/display rounding is presentation metadata only and must not mutate the exactFormula used by project runtime."
+            }
+          },
+          "perPriorStackInterpolation": {
+            "kind": "pplevel_bare_range_levels_1_to_18",
+            "template": "pplevel",
+            "markup": "{{pplevel|1 to 6}}",
+            "start": 1,
+            "finish": 6,
+            "levels": {
+              "first": 1,
+              "last": 18
+            },
+            "defaultSize": 18,
+            "linearDenominator": 17,
+            "exactFormula": "1 + (6-1)/17*(level-1)",
+            "wikiModuleSemantics": {
+              "entry": "pplevel -> pp",
+              "defaultSize": 18,
+              "linearFill": "after emitting start, fill with start + (finish-start) * x / times; bare A to B spans levels 1..18 with times=17",
+              "provesLinearFill": true
+            },
+            "projectRuntimePolicy": {
+              "useExactLinearFormula": true,
+              "artificialIntermediateRounding": false,
+              "note": "Wiki module proves linear fill; current project runtime uses the exact linear formula without artificial intermediate rounding."
+            },
+            "displayRounding": {
+              "presentationMetadataOnly": true,
+              "mutatesExactFormula": false,
+              "note": "Any Wiki tooltip/display rounding is presentation metadata only and must not mutate the exactFormula used by project runtime."
+            }
+          }
         },
         "fifthStackMissingHealth": {
           "baseRatio": 0.15,
