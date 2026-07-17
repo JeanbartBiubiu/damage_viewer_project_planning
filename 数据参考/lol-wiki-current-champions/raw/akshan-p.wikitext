@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Dirty Fighting|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Akshan
+|skill        = I
+|blurbicon    = Dirty Fighting.png
+|icon         = Dirty Fighting.png
+|description  = {{sbc|Innate:}} Whenever '''Akshan''' uses a {{tip|basic attack}}, he fires an additional shot after a delay that deals {{as|50% AD}} {{as|physical damage}}, increased to {{as|100% AD}} against {{tip|minions}}. Issuing an {{tt|attack order|Default right-click/MB2}} on a different target before the additional shot has been launched causes '''Akshan''' to fire it at the new target. If the second shot is cancelled instead, he gains {{as|{{pplevel|20 to 75}}|ms}} {{times}} {{as|(1 + 100% '''bonus''' attack speed)}} {{sti|{{as|'''bonus''' movement speed}}}} decaying over 1 second.
+|description2 = The additional shot applies {{tip|on-hit}} effects, triggers {{tip|on-attack}} effects, and is affected by {{tip|critical strike}} modifiers.
+|description3 = {{sbc|Innate:}} '''Akshan's''' basic attacks {{tip|on-hit}} and {{tip|ability}} hits apply a {{tip|stack}} of ''Dirty Fighting'' to enemies for 5 seconds, refreshing on subsequent applications and stacking up to 3 times. The third stack against a target consumes them all to deal them {{as|{{pp|15;40;80;150|1;6;11;16}}|magic damage}} {{as|(+ 60% AP)}} {{as|'''bonus''' magic damage}}; if the target is a {{tip|champion}}, '''Akshan''' will also gain a {{pplevel|40+(240/17)*(x-1)*(0.7025+0.0175*(x-1))}} {{as|(+ 35% '''bonus''' AD)}} {{tip|shield}} for 2 seconds. The shield may be gained only once every few seconds.
+|customlabel  = {{tt|Static Cooldown|Unaffected by ability haste, starts upon the shield being destroyed or expiring}}
+|custominfo   = {{pp|16 to 4 for 4|1;6;11;16}}
+|speed        = {{dv|{{tt|{{ccd|Akshan|missile_speed}}|Basic attack missile speed}}|{{tt|5000|Additional shot missile speed}}}}
+|targeting    = Passive
+|affects      = Self, Enemies
+|damagetype   = Physical Magic
+|spellshield  = false
+|spelleffects = special
+|projectile   = true
+|parry        = true
+|notes        =
+* If the first shot has killed its target, '''Akshan''' will automatically acquire another enemy within 200 units beyond his {{sti|range|basic attack range}}, else he can do so by issuing an {{tt|attack order|Default right-click/MB2}} to a different target.
+* Applies {{tip|basic damage}} for the second shot and {{tip|proc damage}} for the bonus damage.
+* The second shot:
+** Is treated as a basic attack.
+** {{sti|critical strike|Critically strikes}} independently from the first shot.
+** Can be cancelled by inputting a different command right after using the first shot.
+** Counts as a separate hit for effects such as {{ri|Electrocute}}, {{iis|Muramana}} {{nie|Shock}}, and {{iis|Eclipse}} {{nie|Ever Rising Moon}}.
+** Starts the attack windup's cooldown after it is used, rather than when the first shot is.
+* The attack speed scaling on the movement speed buff includes the bonus attack speed gained from '''Akshan's''' innate attack speed growth.
+** At level 20, at minimum it grants {{fd|{{#expr: (20+(75-20)/17*(20-1)) * (1 + ({{ccd|Akshan|as_lvl}}*(20-1)*(0.7025+0.0175*(20-1)))*0.01) round 2}}}} decaying movement speed.
+* Changing targets for the second shot will also {{tip|acquisition range|acquire}} the new target.
+* The second shot, if the first shot's target was killed, will prioritize {{tip|sight|visible}} enemy champions, then {{tip|minion|minions}} on {{sti|health|{{as|low health}}}}.
+* This ability's damage is calculated based on the caster's current stats and changes dynamically.
+<!-- Blurb -->
+|blurb        = {{sbc|Innate:}} {{cis|Akshan}} {{tip|basic attack}} causes him to fire a second attack that deals {{as|'''reduced''' physical damage}}. If '''Akshan''' cancels the second attack, he gains a brief burst of {{sti|{{as|move speed}}}}, increased based on his {{sti|{{as|attack speed}}}}.
+|blurb2       = {{sbc|Innate:}} '''Akshan's''' attacks and {{tip|abilities}} apply a {{tip|stack}} to enemies hit. The third stack consumes them all to deal {{as|'''bonus''' magic damage}}; if the target was a {{tip|champion}}, he also gains a brief {{tip|shield}}.
+}}

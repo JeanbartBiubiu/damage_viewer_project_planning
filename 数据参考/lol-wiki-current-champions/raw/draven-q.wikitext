@@ -1,0 +1,55 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Spinning Axe|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Draven
+|skill        = Q
+|icon         = Spinning Axe.png
+|blurb        = {{sbc|Active:}} {{ci|Draven|Draven's}} next basic attack will throw an axe, dealing {{as|'''bonus''' physical damage}}.
+|blurb2       = This axe will ricochet off the target high up into the air. If '''Draven''' catches it, he automatically readies another ''Spinning Axe''. '''Draven''' can have two ''Spinning Axes'' at once.
+|description  = {{sbc|Active:}} '''Draven''' starts spinning his axe, empowering his next {{tip|basic attack}} within {{fd|5.8}} seconds to deal {{as|'''bonus''' physical damage}}.
+|leveling     = {{st|Bonus Physical Damage|{{ap|40 to 60}} {{as|(+ {{ap|75 to 115}}% '''bonus''' AD)}}}}
+|icon2        = Draven Axe Indicator.png
+|description2 = Upon hitting the target, the axe then ricochets off of them to land after roughly 1.4 seconds, with the location being determined by '''Draven's''' {{tt|current movement|See notes}}. If '''Draven''' catches the axe, he gains ''Spinning Axe's'' empowered attack again.
+|description3 = '''Draven''' can hold up to two ''Spinning Axes'' at once.
+|cooldown     = {{ap|12 to 8}}
+|cdstart      = on-cast
+|cast time    = none
+|cost         = 45
+|costtype     = mana
+|targeting    = Auto
+|spelleffects = basic
+|affects      = Self
+|damagetype   = Physical
+|onhiteffects = Special
+|parry        = true
+|spellshield  =
+|projectile   = Special
+|notes        =
+* The landing location is determined by '''Draven's''' [[movement speed]] and direction at the time ''Spinning Axe'' hits the target. If '''Draven''' is actually moving, it will bounce directly into his path. Otherwise, it will bounce back towards his current location, either landing directly onto him or to his sides.
+* ''Spinning Axe'' will place a visual cue on the ground where it will land. This visual cue is visible to both teams, although '''Draven''' himself will see a more prominent marker.
+* Axes take roughly 1.35-1.40s to go from target to landing point. This is not affected by attack speed, movement speed or level.
+* Recasting ''Spinning Axe'' will refresh the {{tip|buff}} and add another axe if possible.
+** There is no limit to how many axes can be juggled at once, just the limit of 2 of them at a time in '''Draven's''' hands.
+* '''Draven''' used to be able to catch (steal) an enemy '''Draven''''s axes. This event also prompted a few unique voice lines.
+* ''Spinning Axes'' may optically bypass {{ai|Wind Wall|Yasuo}} and {{ai|Blade Whirl|Samira}} but they will be destroyed upon collision. {{ai|Unbreakable|Braum}} will not prevent the axe from bouncing off when {{ci|Braum}} is the target.
+* {{ai|Unbreakable|Braum}} will not prevent the axe from bouncing off when {{ci|Braum}} is not the target.
+* The axe will still bounce against parrying effects.
+* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} does not interact with the effects of the axes.
+* If a ''Spinning Axe'' is readied during a basic attack wind-up, the effects will be applied to the fired attack.
+* ''Spinning Axe'' attacks deal their total increased damage in a single instance of {{tip|basic damage}}.
+* ''Spinning Axe'' may fail to properly bounce back if it hits {{ci|Zaahen}} during or shortly after {{ais|Cultivation of War|Zaahen}} revive.{{bug}}
+* The empowered attack will not trigger against {{tip|structures}}.
+** The duration will refresh on-attack against them.
+* ''Spinning Axe'' has an indicator that appears on the ground for Draven to stand on. Some skins have a unique indicator.
+<gallery navigation=true widths="128px">
+Gladiator Draven Axe Indicator.png         |[[File:Draven GladiatorCircle.png|32px]] Gladiator
+Soul Reaver Draven Axe Indicator.png       |[[File:Draven SoulReaverCircle.png|32px]] Soul Reaver
+Primetime Draven Axe Indicator.png         |[[File:Draven PrimetimeCircle.png|32px]] Primetime
+Pool Party Draven Axe Indicator.png        |[[File:Draven PoolPartyCircle.png|32px]] Pool Party
+Beast Hunter Draven Axe Indicator.png      |[[File:Draven BeastHunterCircle.png|32px]] Beast Hunter
+Santa Draven Axe Indicator.png             |[[File:Draven SantaCircle.png|32px]] Santa
+Mecha Kingdoms Draven Axe Indicator.png    |[[File:Draven MechaKingdomsCircle.png|32px]] Mecha Kingdoms
+Ruined Draven Axe Indicator.png            |[[File:Draven RuinedCircle.png|32px]] Ruined
+Debonair Draven Axe Indicator.png          |[[File:Draven DebonairCircle.png|32px]] Debonair
+Fright Night Draven Axe Indicator.png      |[[File:Draven FrightNightCircle.png|32px]] Fright Night
+La Ilusión Draven Axe Indicator.png        |[[File:Draven LaIlusiónCircle.png|32px]] La Ilusión
+</gallery>
+}}

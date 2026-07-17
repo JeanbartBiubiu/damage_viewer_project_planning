@@ -1,0 +1,62 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|New Destiny|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Graves
+|skill        = I
+|icon         = New Destiny.png
+|blurbicon    = New Destiny.png
+|blurb        = {{sbc|Innate:}} {{cis|Graves}} {{tip|basic attacks}} consume up to {{as|2 shells|buzzword3}} before needing to reload. The reload speed is reduced based on his {{sti|as|{{as|'''bonus''' attack speed}}}}.
+|blurb2       = Each attack fires several {{as|pellets|buzzword2}} in a cone that each collide with the first enemy hit. Hitting a target with multiple {{as|pellets|buzzword2}} will deal increased damage, and non-champion enemies are additionally {{tip|airborne|knocked back}}.
+|description  = {{sbc|Innate - Double Barrel:}} '''Graves'''' {{tip|basic attacks}} fire his shotgun to consume [[ammunition]] within {{as|2 shells|buzzword3}}. He will reload over {{tt|a few seconds|See notes}} immediately after expending all {{as|shells|buzzword3}}, or after withholding a leftover {{as|shell|buzzword3}} {{tt|for a while|See notes}}. The reload time is {{tt|reduced|See notes}} by '''Graves'''' level and {{sti|as|{{as|'''bonus''' attack speed}}}}, and is cancelled if '''Graves''' reloads a {{as|shell|buzzword3}} with ''{{ai|Quickdraw|Graves}}'' or expends a leftover {{as|shell|buzzword3}}. '''Graves''' is {{tip|lockout|unable}} to declare basic attacks during the reload time if he has expended all {{as|shells|buzzword3}}.
+|description2 = {{sbc|Innate - 12-Gauge:}} '''Graves'''' basic attack sprays {{as|4 pellets|buzzword2}} in a cone, each colliding with the first enemy unit in their path, dealing {{as|{{pplevel|key=%|100*(0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1)))}} AD}} {{as|physical damage}} plus{{ft|{{as|{{pplevel|key=%|100*(0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1)))*0.33302}} AD}} {{as|'''additional''' physical damage|physical damage}}|about one-third of the damage}}for each subsequent {{as|pellet|buzzword2}} hitting the same target, up to {{as|{{pplevel|key=%|100*(0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1)))*(1+3*0.33302)}} AD}} {{as|'''total''' physical damage}} against a single target. Pellets deal 25% reduced damage against {{tip|structures}}.
+|description3 = {{tip|Critical strikes}} spray {{as|6 pellets|buzzword2}} over a 25% wider cone, with each {{as|pellet|buzzword2}} dealing{{ft|{{as|{{critical damage|50}}|critical damage}} increased damage,|increased damage equal to {{sti|{{as|50% '''bonus''' critical damage}}}},}}resulting in{{ft|{{sti|critical damage|{{as|{{ap|((1+({{ccd|Graves|crit_base}}-100)*0.5/100)*(1+5*0.33302)/(1+3*0.33302)*100)|round=3}}% (+ {{ii|Infinity Edge|icononly=true}} {{ap|{{cid|Infinity Edge|critdamage}}*0.5*(1+5*0.33302)/(1+3*0.33302)|round=3}}%)|critical damage}}}} '''total''' damage|{{as|{{pplevel|key=%|100*(0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1)))*(1+5*0.33302)*(1+({{ccd|Graves|crit_base}}-100)*0.5/100)}}|AD}} {{as|(+ {{ii|Infinity Edge|icononly=true}} {{pplevel|key=%|100*(0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1)))*(1+5*0.33302)*({{cid|Infinity Edge|critdamage}}*0.5/100)}}) AD}} {{as|'''total''' physical damage}}}}if all pellets hit a single target.
+|description4 = {{as|Pellets|buzzword2}} {{tip|applies life steal|apply}} {{as|{{sti|life steal}}}}. Only the first {{as|pellet|buzzword2}} to hit each enemy applies {{tip|on-hit}} effects.
+|description5 = {{sbc|Innate - Buckshot:}} Non-champion units hit by more than one {{as|pellet|buzzword2}} are {{tip|airborne|knocked back}}, though not through terrain.
+|target range = {{tip|er|icononly=true}}{{sti|range|icononly=true}} {{ccd|Graves|range}}
+|range        = {{dv|{{tip|cr|icononly=true}} {{tt|625|Pellet reach}}|{{tip|er|icononly=true}} {{tt|565|Pellet collision reach, effective to-edge reach}}}}
+|width        = {{tip|er|icononly=true}} {{tt|40|Individual pellets missile width}}
+|speed        = {{dv|{{tt|{{ccd|Graves|missile_speed}}|Pellets missile speed}}|{{tt|3000|Invisible missile, used for certain attack effects and against wards/plants}}|{{tt|3400|Invisible missile when critting}}}}
+|angle        = {{dv|{{tt|24{{degree}}|Basic attack spread}}|{{tip|critical strike|icononly=true|size=16}} 30{{degree}}}}
+|targeting    = Passive
+|affects      = Self, Enemies
+|damagetype   = Physical
+|spelleffects = special
+|spellshield  = False
+|occurrence   = On-hit
+|callforhelp  = True
+|parry        = special
+|projectile   = True
+|notes        =
+* '''Graves''' takes {{fd|2.08}} seconds to reload 2 shells (when the clip is empty) and {{fd|1.3}} seconds to reload 1 shell. He must idle with 1 shell for {{fd|2.08}} seconds before he starts reloading. These values can be ''improved'' with {{as|'''bonus''' attack speed}}.
+** Values of {{as|'''bonus''' attack speed}} between {{as|150%|attack speed}} and {{as|200%|attack speed}} have a negative effect on '''Graves' ''' reload speed.
+** Attack speed [[growth]] will always have a positive effect on '''Graves' ''' reload speed and is not counted toward the {{as|150%|attack speed}} and {{as|200% attack speed}} thresholds. For example, '''Graves''' gains {{as|{{ap|{{ccd|Graves|as_lvl}}*(20-1)*(0.7025+0.0175*(20-1))}}% bonus attack speed}} from attack speed growth at level 20; meaning the thresholds at level 20 are at {{as|{{ap|150+{{ccd|Graves|as_lvl}}*(20-1)*(0.7025+0.0175*(20-1))}}%|attack speed}} and {{as|{{ap|200+{{ccd|Graves|as_lvl}}*(20-1)*(0.7025+0.0175*(20-1))}}%|attack speed}} respectively.
+** Maximum reload speed is {{pplevel|0.65114 to 0.89119|round=3|formula=0.65114 + (0.89119 - 0.65114) / 17 * (x - 1). Formula decimals are estimated to match the ingame rounded values.}}, which equates to a reload timer of {{pplevel|1 / (0.65114 to 0.89119)|formula=1 / Reload Speed Cap.}} seconds, which is the shortest reload time at the 150% threshold.
+*** Precise formula is unknown, but it is confirmed to be confusing. [https://www.youtube.com/watch?v=WXmXsCdqAyw&t=520s]
+* The in-game HUD for the champion's stat panel incorrectly displays '''Graves''' "reload speed" for reloading 2 shells as his attack speed, instead of displaying his actual attack speed which behaves normally like any other champion. This displayed value more accurately represents his ''reloads per second'', and not ''attacks per second'' as the attack speed tooltip in the HUD would suggest.
+* '''Graves''' can hit multiple individual enemies with a single shot from his basic attack. The first pellet hitting an enemy:
+** Deals the highest damage out of all other pellets.
+** Applies and triggers {{tip|on-hit}} effects.
+*** "Single-use" on-hit effects such as {{tip|Spellblade}} items will be applied to the very first enemy hit by a pellet (closest one in this case).
+** Applies {{tip|basic damage}}, while all additional pellets deal {{tip|default damage}}.
+** Is reduced by {{iis|Warden's Mail}} {{nie|Rock Solid}}.
+* '''Graves'''' {{tip|attack windup}} is based on such a low value that it will always take only 1 game tick, even at the lowest possible {{as|attack speed}} of {{as|{{fd|0.2}}|attack speed}}.
+* When '''Graves''' has his attack range increased by 35% to {{sti|range|{{fd|573.75}}}} via {{iis|Rapid Firecannon}} {{nie|Sharpshooter}}, it has special effects on the cone spread of his basic attack:
+** The reach of the individual missiles is also increased by 35% to {{tip|cr|icononly = true}} {{fd|843.75}} / {{tip|er|icononly = true}} {{tt|{{fd|783.75}}|Effective to-edge reach}}.
+** The spread of the individual missiles is ''decreased'' by 35% (''angle {{times}} 1/1.35'') to {{tt|{{fd|17.{{recurring|7}}}}{{degree}}|RFC basic attack adjusted spread}} / {{tt|{{fd|22.{{recurring|2}}}}{{degree}}|RFC critical attack adjusted spread}}.
+* Pellets will not hit {{tip|wards}} nor [[jungle plants]].
+** When '''Graves''' performs a basic attack against these units, he will fire a standard ranged homing missile at the target to successfully hit it.
+*** This same missile is also used for when his basic attack is empowered by an {{tip|Energized}} effect.
+* Pellets can be {{tip|dodge|dodged}} and {{tip|block|blocked}}, but not missed while '''Graves''' is {{tip|blind|blinded}}.
+** While '''Graves''' is {{tip|blind|blinded}}, the pellets are special cased to fire in a random direction that is always away from the primary target of his basic attack.
+*** Enemies within range of the pellets in their randomly fired direction will be hit as the pellets cannot be missed.
+* {{tip|basic attack reset|Basic attack resets}} other than {{ai|Quickdraw|Graves}} do not affect '''Graves'''' basic attack timer.
+* Structures can be hit by multiple pellets, as with other valid targets.
+** If '''Graves' ''' basic attack {{tip|critical strike|critically strikes}} against an enemy behind their structure, and this structure is hit by all pellets, the damage dealt to the structure is increased by {{fd|33.{{recurring|3}}}}%.
+* {{tip|On-attack}} effects such as {{ai|Help, Pix!|Lulu}} and {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} will be triggered as usual from the completion of '''Graves' ''' basic attack windup. They will obey their standard target-acquisition rules in spite of '''Graves' ''' special basic attack behavior.
+** {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} can still fire its bolts at secondary targets even if they were already hit by the pellets of '''Graves' ''' basic attack.
+* {{iis|Black Cleaver}} {{nie|Carve}} will be applied for the {{as|physical damage}} dealt by each pellet, meaning that each of '''Graves' ''' basic attacks can apply up to 4 stacks of the effect, increased to the maximum of 5 with a {{tip|critical strike}}.
+* {{iis|Sundered Sky}} {{nie|Lightshield Strike}} will function normally with '''Graves' ''' basic attacks, causing the pellets to critically strike if the primary target was also a target of the item's effect.
+** If none of the pellets hit the target of ''Lightshield Strike's'' effect, however, the item's effect will not be consumed on the target thus not triggering the heal nor applying the on-target-cooldown, but still causing '''Graves' ''' basic attack to critically strike as if the effect was successfully consumed.
+*** His basic attacks against the marked target will be guaranteed to critically strike until the item's effect has been consumed by at least one pellet hitting them.
+** Pellets will not consume the item's effect on secondary targets that are also targets of the item's effect; they will not consume the mark of enemies near the primary target that are marked by ''Lightshield Strike''.
+* {{iis|Randuin's Omen}} {{nie|Resilience}} will reduce the critical damage dealt by every pellet, resulting in each pellet dealing less damage than if they were to not critically strike.
+* {{iis|Kraken Slayer}} Bring It Down VFX for its missile appears to fire at the primary target, but will always collide with the target hit by the first pellet.
+}}
