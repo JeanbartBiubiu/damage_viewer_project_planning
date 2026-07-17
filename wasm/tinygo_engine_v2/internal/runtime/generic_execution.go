@@ -29,15 +29,16 @@ type stagedProviderMutation struct {
 }
 
 type stagedCombatant struct {
-	attributes    map[string]model.AttributeSlotDef
-	resources     map[string]model.ResourceSlotDef
-	cooldowns     map[string]int64
-	shields       []pipeline.ShieldInstance
-	providers     []status.ProviderInstance
-	resolver      pipeline.AttributeResolver
-	providerOps   []stagedProviderMutation
-	providerState map[string]*providerStateBag
-	dirty         bool
+	attributes     map[string]model.AttributeSlotDef
+	resources      map[string]model.ResourceSlotDef
+	cooldowns      map[string]int64
+	shields        []pipeline.ShieldInstance
+	providers      []status.ProviderInstance
+	resolver       pipeline.AttributeResolver
+	damageResolver pipeline.DamageModifierResolver
+	providerOps    []stagedProviderMutation
+	providerState  map[string]*providerStateBag
+	dirty          bool
 }
 
 // eventFormulaSnapshot 保存父 frame entry 快照与 emit 当点 staged 深拷贝。
@@ -92,6 +93,10 @@ type executionFrame struct {
 	linkedPhysicalRaw       float64
 	linkedPhysicalMitigated float64
 	linkedPhysicalOpRefs    []string
+
+	// consumedFirstPerCast tracks first_per_cast pipeline modifiers already applied in this cast/frame.
+	// Key: ownerCombatantKey + "\x00" + providerRef + "\x00" + modifierKey.
+	consumedFirstPerCast map[string]bool
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
@@ -248,13 +253,14 @@ func (f *executionFrame) stageFor(key string) *stagedCombatant {
 		return sc
 	}
 	sc := &stagedCombatant{
-		attributes:    cloneAttributeMap(base.attributes),
-		resources:     cloneResourceMap(base.resources),
-		cooldowns:     cloneCooldownMap(base.cooldowns),
-		shields:       pipeline.ShieldsFromRuntime(base.shields, f.run.nowMs),
-		providers:     append([]status.ProviderInstance(nil), base.providers...),
-		resolver:      base.resolver.Clone(),
-		providerState: cloneProviderStateMap(base.providerState),
+		attributes:     cloneAttributeMap(base.attributes),
+		resources:      cloneResourceMap(base.resources),
+		cooldowns:      cloneCooldownMap(base.cooldowns),
+		shields:        pipeline.ShieldsFromRuntime(base.shields, f.run.nowMs),
+		providers:      append([]status.ProviderInstance(nil), base.providers...),
+		resolver:       base.resolver.Clone(),
+		damageResolver: base.damageResolver.Clone(),
+		providerState:  cloneProviderStateMap(base.providerState),
 	}
 	f.staged[key] = sc
 	return sc
@@ -461,6 +467,9 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			return nil
 		}
 		if op.Operation == "damage" {
+			// Ordering: expected crit → outgoing_pre_mitigation → resistance →
+			// incoming_post_mitigation → shields/HP. CopyableOnHit freezes the
+			// post-crit / pre-outgoing amount (existing contract preserved).
 			critEv, amount, err := f.settleExpectedCrit(op, amount)
 			if err != nil {
 				return err
@@ -476,7 +485,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 				DamageType: op.DamageType,
 				Ref:        op.AttributeKey,
 			}
-			return f.applyDamageCommand(cmd, op.Ref, critEv)
+			return f.applyDamageCommand(cmd, op.Ref, critEv, ability)
 		}
 		cmd := command.Command{
 			Kind:       command.Kind(op.Operation),
@@ -873,11 +882,78 @@ func (f *executionFrame) applyCommand(cmd command.Command) *model.EngineError {
 	return nil
 }
 
-// applyDamageCommand 走实际 ResolveCommand 结算，并用同一结果写入 summary 与 damage evidence。
-func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef string, critEv frozenCritEvidence) *model.EngineError {
+// applyDamageCommand 走实际结算，并用同一结果写入 summary 与 damage evidence。
+// Ordering: expected crit (already applied to cmd.Amount) → outgoing_pre_mitigation →
+// resistance → incoming_post_mitigation → shields/HP.
+func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef string, critEv frozenCritEvidence, ability compilebundle.CompiledAbility) *model.EngineError {
 	sc := f.stageFor(cmd.Target)
 	view := pipeline.CombatantView{Attributes: sc.attributes, Shields: sc.shields}
-	result, next := pipeline.ResolveCommand(cmd, view, f.run.nowMs)
+
+	var modEvidence []map[string]interface{}
+	basic := f.matchesBasicDamageChannel(ability)
+	if basic {
+		var err *model.EngineError
+		cmd.Amount, modEvidence, err = f.applyPipelineDamageModifiers(
+			cmd.Source, "outgoing_pre_mitigation", cmd.Amount, ability, modEvidence)
+		if err != nil {
+			return err
+		}
+	}
+
+	rawForEvidence := cmd.Amount
+	mitigated, ok := pipeline.MitigateRawDamage(cmd.Amount, cmd.DamageType, view.Attributes)
+	if !ok {
+		// Fail closed (zero/non-finite/unknown type): no shield/HP mutation; still record evidence.
+		result := command.Result{Kind: cmd.Kind, Applied: false, Amount: 0}
+		f.applyDamageResult(cmd, result, sc)
+		f.run.recordGenericDamageEvidence(genericDamageEvidence{
+			source:          cmd.Source,
+			target:          cmd.Target,
+			damageType:      cmd.DamageType,
+			rawAmount:       rawForEvidence,
+			mitigatedAmount: 0,
+			providerRef:     f.ownerProviderRef,
+			abilityRef:      f.abilityRef,
+			operationRef:    operationRef,
+			phantom:         false,
+			crit:            critEv,
+			modifiers:       modEvidence,
+		})
+		return nil
+	}
+	if basic {
+		var err *model.EngineError
+		mitigated, modEvidence, err = f.applyPipelineDamageModifiers(
+			cmd.Target, "incoming_post_mitigation", mitigated, ability, modEvidence)
+		if err != nil {
+			return err
+		}
+		if math.IsNaN(mitigated) || math.IsInf(mitigated, 0) || mitigated < 0 {
+			result := command.Result{Kind: cmd.Kind, Applied: false, Amount: 0}
+			f.applyDamageResult(cmd, result, sc)
+			f.run.recordGenericDamageEvidence(genericDamageEvidence{
+				source:          cmd.Source,
+				target:          cmd.Target,
+				damageType:      cmd.DamageType,
+				rawAmount:       rawForEvidence,
+				mitigatedAmount: 0,
+				providerRef:     f.ownerProviderRef,
+				abilityRef:      f.abilityRef,
+				operationRef:    operationRef,
+				phantom:         false,
+				crit:            critEv,
+				modifiers:       modEvidence,
+			})
+			return nil
+		}
+	}
+
+	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs)
+	result := command.Result{
+		Kind:    cmd.Kind,
+		Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0,
+		Amount:  outcome.MitigatedAmount,
+	}
 	sc.attributes = next.Attributes
 	sc.shields = next.Shields
 	f.applyDamageResult(cmd, result, sc)
@@ -885,16 +961,104 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, operationRef st
 		source:          cmd.Source,
 		target:          cmd.Target,
 		damageType:      cmd.DamageType,
-		rawAmount:       cmd.Amount,
+		rawAmount:       rawForEvidence,
 		mitigatedAmount: result.Amount,
 		providerRef:     f.ownerProviderRef,
 		abilityRef:      f.abilityRef,
 		operationRef:    operationRef,
 		phantom:         false,
 		crit:            critEv,
+		modifiers:       modEvidence,
 	})
 	f.recordLinkedPhysicalDamage(cmd, result, operationRef)
 	return nil
+}
+
+func (f *executionFrame) matchesBasicDamageChannel(ability compilebundle.CompiledAbility) bool {
+	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
+	if !ok {
+		return false
+	}
+	return ability.TypeSet.Contains(basicAttackID)
+}
+
+func pipelineModifierIdentity(mod pipeline.MountedDamageModifier) string {
+	return mod.OwnerCombatantKey + "\x00" + mod.ProviderRef + "\x00" + mod.ModifierKey
+}
+
+// applyPipelineDamageModifiers evaluates mounted pipeline damage modifiers for one stage.
+// hostKey is the combatant whose damageResolver is consulted (source for outgoing, target for incoming).
+func (f *executionFrame) applyPipelineDamageModifiers(
+	hostKey, stage string,
+	amount float64,
+	ability compilebundle.CompiledAbility,
+	evidence []map[string]interface{},
+) (float64, []map[string]interface{}, *model.EngineError) {
+	host := f.stageFor(hostKey)
+	mods := host.damageResolver.CollectForStage("basic_damage", stage)
+	if len(mods) == 0 {
+		return amount, evidence, nil
+	}
+	baseCtx := f.evalContext(ability)
+	providerCtxFn := f.providerFormulaContextFunc(hostKey)
+	for _, mod := range mods {
+		if mod.Bucket == "first_per_cast" {
+			id := pipelineModifierIdentity(mod)
+			if f.consumedFirstPerCast != nil && f.consumedFirstPerCast[id] {
+				continue
+			}
+		}
+		modCtx := baseCtx
+		modCtx.HasDamageContext = true
+		modCtx.DamageAmount = amount
+		if providerCtxFn != nil {
+			pctx := providerCtxFn(mod.OwnerCombatantKey, mod.ProviderRef)
+			modCtx.HasProviderContext = pctx.HasProviderContext
+			modCtx.ProviderState = pctx.ProviderState
+			modCtx.ProviderTargetState = pctx.ProviderTargetState
+		}
+		if mod.HasCondition {
+			cond, err := f.run.compiled.Formulas.Eval(mod.ConditionProg, modCtx)
+			if err != nil {
+				return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+			}
+			if cond == 0 {
+				continue
+			}
+		}
+		if !mod.HasValue {
+			continue
+		}
+		value, err := f.run.compiled.Formulas.Eval(mod.ValueProgram, modCtx)
+		if err != nil {
+			return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		if math.IsNaN(value) || math.IsInf(value, 0) {
+			return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite pipeline modifier value", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		before := amount
+		amount = pipeline.ApplyDamageValuePolicy(amount, mod.ValuePolicy, value)
+		if math.IsNaN(amount) || math.IsInf(amount, 0) {
+			return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite pipeline modifier result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		// Zero remains valid; negative must not fall through mitigation as silent zero damage.
+		if amount < 0 {
+			return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "negative pipeline modifier result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		if mod.Bucket == "first_per_cast" {
+			if f.consumedFirstPerCast == nil {
+				f.consumedFirstPerCast = map[string]bool{}
+			}
+			f.consumedFirstPerCast[pipelineModifierIdentity(mod)] = true
+		}
+		evidence = append(evidence, map[string]interface{}{
+			"stage":       stage,
+			"modifierKey": mod.ModifierKey,
+			"before":      before,
+			"after":       amount,
+		})
+	}
+	return amount, evidence, nil
 }
 
 // recordLinkedPhysicalDamage 仅记录顶层真实 physical damage（result.Amount>0）供自动 damage_dealt 合成。
@@ -935,6 +1099,7 @@ type genericDamageEvidence struct {
 	repeatTag       string
 	replayedFrom    map[string]interface{}
 	crit            frozenCritEvidence
+	modifiers       []map[string]interface{}
 }
 
 func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) {
@@ -972,6 +1137,9 @@ func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) 
 		}
 	}
 	writeCritEvidenceFields(data, ev.crit)
+	if len(ev.modifiers) > 0 {
+		data["modifiers"] = ev.modifiers
+	}
 	ref := ev.abilityRef
 	if ref == "" {
 		ref = ev.operationRef
@@ -1179,6 +1347,7 @@ func (f *executionFrame) commit() {
 		c.shields = pipeline.RuntimeShieldsFromView(staged.shields, key, f.sourceKey)
 		c.providers = append([]status.ProviderInstance(nil), staged.providers...)
 		c.resolver = staged.resolver.Clone()
+		c.damageResolver = staged.damageResolver.Clone()
 		c.providerState = cloneProviderStateMap(staged.providerState)
 		f.run.combatants[key] = c
 	}

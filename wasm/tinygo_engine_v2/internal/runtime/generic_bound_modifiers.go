@@ -41,8 +41,9 @@ func modifierMountCombatantKey(ownerKey, modTarget string) string {
 	}
 }
 
-// mountProviderModifiersAcross mounts each attribute modifier onto the combatant selected by
-// its target path, carrying ownerCombatantKey + providerRef for formula provenance.
+// mountProviderModifiersAcross mounts each attribute/pipeline modifier onto the combatant
+// selected by its target path (attribute) or the provider owner (pipeline), carrying
+// ownerCombatantKey + providerRef for formula provenance.
 func mountProviderModifiersAcross(
 	combatants map[string]combatantRuntime,
 	ownerKey string,
@@ -54,16 +55,23 @@ func mountProviderModifiersAcross(
 	}
 	provider := compiled.Providers[inst.DefinitionIndex]
 	for _, mod := range provider.Modifiers {
-		if mod.Kind != "attribute" && mod.Kind != "" {
-			continue
+		switch {
+		case mod.Kind == "pipeline":
+			host, ok := combatants[ownerKey]
+			if !ok {
+				continue
+			}
+			host.damageResolver.MountCompiledModifierOwned(ownerKey, inst.ProviderRef, mod)
+			combatants[ownerKey] = host
+		case mod.Kind == "attribute" || mod.Kind == "":
+			mountKey := modifierMountCombatantKey(ownerKey, mod.Target)
+			host, ok := combatants[mountKey]
+			if !ok {
+				continue
+			}
+			host.resolver.MountCompiledModifierOwned(ownerKey, inst.ProviderRef, mod)
+			combatants[mountKey] = host
 		}
-		mountKey := modifierMountCombatantKey(ownerKey, mod.Target)
-		host, ok := combatants[mountKey]
-		if !ok {
-			continue
-		}
-		host.resolver.MountCompiledModifierOwned(ownerKey, inst.ProviderRef, mod)
-		combatants[mountKey] = host
 	}
 }
 
@@ -72,6 +80,7 @@ func mountProviderModifiersAcross(
 func unmountProviderModifiersAcross(combatants map[string]combatantRuntime, ownerKey, providerRef string) {
 	for key, c := range combatants {
 		c.resolver.UnmountProviderOwned(ownerKey, providerRef)
+		c.damageResolver.UnmountProviderOwned(ownerKey, providerRef)
 		combatants[key] = c
 	}
 }
