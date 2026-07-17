@@ -1,6 +1,6 @@
 ---
 name: cursor-local-agent
-description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm), especially for driving-model-to-Cursor development automation, Cursor SDK smoke tests, local agent runs, or Grok 4.5 non-fast model selection.
+description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm) for read-only design review, development automation, SDK smoke tests, local agent runs, or Grok 4.5 non-fast model selection.
 ---
 
 # Cursor Local Agent
@@ -11,11 +11,11 @@ Use Cursor as a local execution engine through `@cursor/sdk`, not as a visible C
 
 **Terminology (see root `AGENTS.md` §0):**
 
-- **Top-level Cursor local agent**: the agent this skill creates via SDK/runner. Fixed model contract applies here only.
+- **Top-level Cursor local agent**: the agent this skill creates via SDK/runner. It must run in either `DESIGN_REVIEW_ONLY` or `IMPLEMENTATION` mode. Fixed model contract applies here only.
 - **Cursor internal task/subagent/explore**: optional bounded delegation inside that top-level agent; the top-level agent owns the output. Internal model choice is not the fixed grok contract.
 - `--allowed-path` is an **audited write allowlist** (fail-closed classification). It is **not** an OS sandbox.
 
-For real development runs, treat the SDK event stream, `summary.json`, artifact list, full-worktree + scoped git status, `diff.patch`, and local validation as the primary evidence chain.
+For design-review and development runs, treat the SDK event stream, `summary.json`, artifact list, full-worktree + scoped git status, `diff.patch`, and local validation as the primary evidence chain.
 
 ## Hard Rules
 
@@ -37,9 +37,33 @@ const model = {
 - Pass `apiKey` explicitly to `Agent.create(...)`; do not rely only on `process.env.CURSOR_API_KEY`.
 - Do not print API keys. It is acceptable to print whether a key is present, its length, or a short prefix.
 - Real runs **require** at least one `--allowed-path`. Paths resolve under `--cwd`; escapes outside the repository are rejected.
+- Every real prompt must declare exactly one mode on its first line: `MODE: DESIGN_REVIEW_ONLY` or `MODE: IMPLEMENTATION`.
+- `DESIGN_REVIEW_ONLY` must not create, edit, or delete files. The review is valid only when the run audit is available and `summary.writeAllowlistAudit.runDeltaCount === 0`; an allowlist pass alone is insufficient because in-scope writes are still writes.
+- For `DESIGN_REVIEW_ONLY`, inspect `events.jsonl` as well as final signatures. Missing/unparseable event evidence, a truncated file-operation tool event, or any file write/delete/rename/write-then-restore evidence invalidates the review even when final `runDeltaCount === 0`.
+- Keep review `--out-dir` under the repository's gitignored `/.agents/artifacts/` default, or prove a custom directory is ignored with `git check-ignore` before the run. Runner-generated evidence artifacts are not task writes; never let the agent use that directory for work product.
+- `IMPLEMENTATION` must receive a frozen plan version and run in a new Cursor run. Do not carry unresolved review discussion or superseded plan versions into the coding run.
 - After the run, snapshot per-path status+content signatures and classify the **run delta** (paths whose signature changed) against the allowlist. Untouched pre-existing dirt does not fail the run; outside-scope paths changed during the run set `writeAllowlistAudit.failClosed` and force a **non-zero** exit while preserving artifacts. If after-state capture/parse/classify fails, treat that as audit failure (fail-closed).
 - Do not assume `status=error` means no code landed. Review the worktree diff before deciding the next action.
 - Run preflight before real tasks. At minimum check Node runtime, `CURSOR_USE_HTTP1`, `CURSOR_API_KEY`, `@cursor/sdk` resolution, and whether CLI fallback is actually callable.
+
+## Operating Modes
+
+### `DESIGN_REVIEW_ONLY`
+
+Use this mode after the driving model has produced a versioned candidate plan and before any non-mechanical development task starts coding. The prompt must include the full latest plan, `PLAN_REV`, repository evidence, expected write scope, validation, stop conditions, and any assumptions needing review.
+
+Require Cursor to return:
+
+- `VERDICT: READY | REVISE | BLOCKED` and `REVIEWED_PLAN_REV`;
+- evidence-backed blockers with stable `ISSUE_ID` values, impact, one concrete question, and the default assumption if unanswered;
+- non-blocking suggestions kept separate from blockers;
+- readiness checks for goals/non-goals, contracts, write scope, compatibility/errors, validation, and stop conditions.
+
+The driving model resolves every blocker as `ACCEPT | REJECT | NEED_USER`, updates the full plan, and re-runs review until the consensus gate in `文档记录/详细设计/Cursor协同开发流程说明.md` passes. A custom SDK caller may reuse one agent for multiple `send` calls; the current `cursor_local_agent_run.mjs` performs one run per invocation, so every review round must carry the complete latest plan, change summary, and issue dispositions. High-risk plans may add a fresh-session cold review. Any worktree run delta invalidates the review even when it is inside `--allowed-path`.
+
+### `IMPLEMENTATION`
+
+Use this mode only after the latest reviewed plan is frozen. Start a new run and provide only the frozen plan, allowed write paths, non-goals, validation commands, and stop conditions. If Cursor discovers a new fact that contradicts the frozen plan, it must stop and report the conflict instead of silently redesigning the task.
 
 ## Minimal Pattern
 
@@ -81,11 +105,14 @@ try {
 
 1. Resolve the target repository path. Prefer the user's real project path over a Codex worktree if the user expects Cursor project-local state.
 2. Read `CURSOR_API_KEY` from the current process or Windows User environment, then pass it explicitly as `apiKey`.
-3. Create the **top-level** agent with the hard-rule model object above.
-4. Send a bounded task prompt with an explicit write allowlist. For test runs, include "Do not create, edit, or delete files."
-5. Prefer `scripts/cursor_local_agent_run.mjs` for real work. It writes `prompt.txt`, `summary.json`, `events.jsonl`, `diff.patch`, `review.md`, full-worktree and scoped git status, path-signature before/after JSON, and untracked **metadata only** (path/size/sha256 — never raw file content) under `--out-dir` (default `.agents/artifacts/cursor-task-*`). SDK store lives under that artifact directory.
-6. If the run returns `error`, or exit code is non-zero due to outside-scope paths, inspect artifacts and `git diff` before deciding the next action.
-7. After development tasks, inspect classification results and run requested validation before sending work back for review.
+3. Select exactly one mode and put it on the first prompt line.
+4. Create the **top-level** agent with the hard-rule model object above.
+5. Send a bounded prompt with an explicit write allowlist. For `DESIGN_REVIEW_ONLY`, also state "Do not create, edit, or delete files" and include the structured review response contract.
+6. Prefer `scripts/cursor_local_agent_run.mjs` for real work. It writes `prompt.txt`, `summary.json`, `events.jsonl`, `diff.patch`, `review.md`, full-worktree and scoped git status, path-signature before/after JSON, and untracked **metadata only** (path/size/sha256 — never raw file content) under `--out-dir` (default `.agents/artifacts/cursor-task-*`). SDK store lives under that artifact directory.
+7. If the run returns `error`, or exit code is non-zero due to outside-scope paths, inspect artifacts and `git diff` before deciding the next action.
+8. For `DESIGN_REVIEW_ONLY`, reject the review if the audit is unavailable or `runDeltaCount !== 0`; do not rely only on outside-scope classification.
+9. Also reject `DESIGN_REVIEW_ONLY` when `events.jsonl` is missing/unparseable, a relevant tool event is truncated, or the log records file mutation or write-then-restore activity, even if final signatures match.
+10. For `IMPLEMENTATION`, inspect classification results, review the diff, and run requested validation before accepting the work.
 
 ```powershell
 $repo = "C:\project\damage_viewer_project_planning"
@@ -106,6 +133,20 @@ node (Join-Path $skillRoot "scripts\cursor_local_agent_path_policy.test.mjs")
 ```
 
 ## Verification
+
+For a design-review run, verify all of the following before using its verdict:
+
+```text
+MODE=DESIGN_REVIEW_ONLY
+VERDICT=READY|REVISE|BLOCKED
+REVIEWED_PLAN_REV=<expected revision>
+WRITE_ALLOWLIST_AUDIT_AVAILABLE=true
+EVENT_LOG_AUDIT_AVAILABLE=true
+RUN_DELTA_COUNT=0
+MUTATING_FILE_ACTIVITY=0
+```
+
+The exact stored representation may be split between assistant text and `summary.json`; the driving model must inspect both. A `READY` verdict with a non-zero run delta is invalid.
 
 Use `scripts/cursor_local_agent_smoke.mjs` for a safe smoke check:
 
@@ -145,4 +186,10 @@ CLI fallback is not assumed to exist.
 | Run ends with `status=error` but files changed | Review `git diff`, summary JSON, and events log before deciding whether to open a fix loop. |
 | Outside-scope paths changed during a run | Treat exit code 2 / `writeAllowlistAudit.failClosed` (run-delta based) as audit failure; untouched pre-existing dirt alone is not enough to fail. |
 | Assuming `--allowed-path` is an OS sandbox | It is audited classification only; the agent process itself is not sandboxed by this flag. |
+| Treating an allowlist pass as proof that a design review was read-only | Inspect `summary.writeAllowlistAudit.runDeltaCount`; any non-zero value invalidates `DESIGN_REVIEW_ONLY`. |
+| Treating final zero delta as proof that no temporary write occurred | Inspect `events.jsonl`; file mutation or write-then-restore activity invalidates the review. |
+| Treating a missing, unparseable, or truncated event log as evidence of no writes | Fail closed; the design-review verdict is unusable without complete event evidence. |
+| Using a tracked/custom artifact directory and confusing runner evidence with task changes | Keep review output under gitignored `/.agents/artifacts/`, or prove a custom directory is ignored before the run. |
+| Letting the review run start coding after returning `READY` | Freeze the approved plan, close the reviewer, and create a new `IMPLEMENTATION` run. |
+| Sending only issue replies or mixed plan versions to review/coding | Send the complete latest plan for review and only the frozen plan to the coding run. |
 | CLI fallback was expected but only `cursor` exists | Probe for a standalone `cursor-agent` binary first; the desktop wrapper alone is not enough evidence. |
