@@ -35,23 +35,40 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
         "step_hero_draven_basic_attack_emit_hit",
         "event_ref_hero_draven_basic_attack_hit",
         "provider_hero_draven_q_spinning_axe",
+        "provider_hero_draven_q_spinning_axe_flight",
         "ability_hero_draven_q_spinning_axe",
+        "cost_hero_draven_q_spinning_axe_mana",
+        "cooldown_hero_draven_q_spinning_axe",
         "listener_hero_draven_q_spinning_axe_ability_started",
         "listener_hero_draven_q_spinning_axe_basic_attack_hit",
+        "listener_hero_draven_q_spinning_axe_caught",
         "sequence_hero_draven_q_spinning_axe_arm",
         "sequence_hero_draven_q_spinning_axe_proc",
+        "sequence_hero_draven_q_spinning_axe_flight_tick",
         "step_hero_draven_q_spinning_axe_ready_arm",
         "step_hero_draven_q_spinning_axe_damage",
+        "step_hero_draven_q_spinning_axe_apply_flight",
         "step_hero_draven_q_spinning_axe_ready_consume",
+        "step_hero_draven_q_spinning_axe_flight_emit_caught",
+        "event_ref_hero_draven_q_spinning_axe_caught",
         "spinning_axe_ready",
         "spinning_axe_ready_arm",
+        "spinning_axe_ready_room",
         "spinning_axe_ready_armed",
         "spinning_axe_proc_damage",
-        "spinning_axe_ready_consume");
+        "spinning_axe_ready_consume",
+        "flight_duration_ms",
+        "q_mana_cost",
+        "q_cooldown_ms");
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(
-        20100, 20110, 20111, 20120, 20130, 20142, 20150, 20158, 20160, 20170,
-        20172, 20181, 20190, 20205, 20211, 20212, 20220, 20250, 20260);
+        20100, 20110, 20111, 20120, 20121, 20130, 20142, 20150, 20155, 20158,
+        20160, 20170, 20172, 20181, 20190, 20205, 20211, 20212, 20216, 20220,
+        20230, 20250, 20260);
+
+    private static final String READY_ROOM =
+        "{\"op\":\"lt\",\"args\":[{\"op\":\"read\",\"path\":\"provider.state.spinning_axe_ready\"},"
+            + "{\"op\":\"const\",\"value\":2}]}";
 
     private static final String READY_ARMED =
         "{\"op\":\"gte\",\"args\":[{\"op\":\"read\",\"path\":\"provider.state.spinning_axe_ready\"},"
@@ -223,7 +240,7 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
     }
 
     @Test
-    void seedsActiveSpinningAxeAbilityWithoutEmittingAbilityStartedFromBasicAttack() {
+    void seedsActiveSpinningAxeWithManaCostAndCooldown() {
         assertContains("ability_hero_draven_q_spinning_axe");
         assertContains("provider_hero_draven_q_spinning_axe");
         assertTrue(
@@ -248,36 +265,61 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
             "must mount Q provider to hero_draven");
         assertFalse(
             Pattern.compile(
+                    "(?s)'hero_draven'\\s*,\\s*'provider_hero_draven_q_spinning_axe_flight'")
+                .matcher(sql)
+                .find(),
+            "flight provider must not be permanently mounted");
+        assertFalse(
+            Pattern.compile(
                     "(?s)'step_hero_draven_basic_attack_emit_hit'[\\s\\S]{0,200}20205")
                 .matcher(sql)
                 .find(),
             "basic attack must not emit event/ability_started");
+        assertContains("INSERT INTO public.ability_costs");
         assertTrue(
-            sql.contains("event/ability_started") || sql.contains("20205"),
-            "seed must reference ability_started for Q cast path");
+            Pattern.compile(
+                    "(?s)'cost_hero_draven_q_spinning_axe_mana'\\s*,\\s*"
+                        + "'ability_hero_draven_q_spinning_axe'\\s*,\\s*NULL\\s*,\\s*"
+                        + "'mana'\\s*,\\s*'q_mana_cost'")
+                .matcher(sql)
+                .find(),
+            "Q mana cost must be ability-level 45 via ability_costs");
+        assertContains("INSERT INTO public.ability_cooldowns");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'cooldown_hero_draven_q_spinning_axe'\\s*,\\s*"
+                        + "'ability_hero_draven_q_spinning_axe'\\s*,\\s*"
+                        + "'q_cooldown_ms'\\s*,\\s*NULL")
+                .matcher(sql)
+                .find(),
+            "Q cooldown must be 8000ms via ability_cooldowns");
+        assertContains("\"value\":45");
+        assertContains("\"value\":8000");
     }
 
     @Test
-    void definesTimedReadyStateMaxOneDuration5800RefreshDuration() {
+    void definesTimedReadyStateMaxTwoDuration5800RefreshDuration() {
         assertContains("spinning_axe_ready");
         assertContains("5800");
         assertContains("20190");
         assertTrue(
             Pattern.compile(
-                    "(?s)'spinning_axe_ready'[\\s\\S]{0,120}20100[\\s\\S]{0,40}1"
+                    "(?s)'spinning_axe_ready'[\\s\\S]{0,120}20100[\\s\\S]{0,40}2"
                         + "[\\s\\S]{0,40}5800[\\s\\S]{0,40}20190")
                 .matcher(sql)
                 .find(),
-            "ready state must be max 1 / duration 5800 / refresh 20190");
+            "ready state must be max 2 / duration 5800 / refresh 20190");
         assertFalse(
             Pattern.compile("(?i)default_value").matcher(sqlNoLineComments).find(),
             "seed must not write default_value");
         assertContains("20250");
+        assertContains(READY_ROOM);
     }
 
     @Test
-    void abilityStartedSourceOwnerListenerArmsReady() {
+    void abilityStartedAndAxeCaughtSourceOwnerListenersArmReadyCappedAtTwo() {
         assertContains("listener_hero_draven_q_spinning_axe_ability_started");
+        assertContains("listener_hero_draven_q_spinning_axe_caught");
         assertContains("sequence_hero_draven_q_spinning_axe_arm");
         assertContains("step_hero_draven_q_spinning_axe_ready_arm");
         assertTrue(
@@ -296,30 +338,44 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
             "ability_started listener must ALL-match 20212 source_owner");
         assertTrue(
             Pattern.compile(
-                    "(?s)'step_hero_draven_q_spinning_axe_ready_arm'\\s*,\\s*"
-                        + "'sequence_hero_draven_q_spinning_axe_arm'\\s*,\\s*0\\s*,\\s*"
-                        + "20160\\s*,\\s*20110")
+                    "(?s)'listener_hero_draven_q_spinning_axe_caught'\\s*,\\s*"
+                        + "20181\\s*,\\s*20216")
                 .matcher(sql)
                 .find(),
-            "ready arm must be order 0 state_change targeting self");
+            "axe_caught listener must ALL-match 20216");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'listener_hero_draven_q_spinning_axe_caught'\\s*,\\s*"
+                        + "20181\\s*,\\s*20212")
+                .matcher(sql)
+                .find(),
+            "axe_caught listener must ALL-match 20212 source_owner");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_draven_q_spinning_axe_ready_arm'\\s*,\\s*"
+                        + "'sequence_hero_draven_q_spinning_axe_arm'\\s*,\\s*0\\s*,\\s*"
+                        + "20160\\s*,\\s*20110\\s*,\\s*'spinning_axe_ready_room'")
+                .matcher(sql)
+                .find(),
+            "ready arm must be order 0 state_change self gated by ready_room");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_hero_draven_q_spinning_axe_ready_arm'\\s*,\\s*20250\\s*,\\s*"
-                        + "'spinning_axe_ready'\\s*,\\s*'spinning_axe_ready_arm'\\s*,\\s*20172")
+                        + "'spinning_axe_ready'\\s*,\\s*'spinning_axe_ready_arm'\\s*,\\s*20170")
                 .matcher(sql)
                 .find(),
-            "ready arm detail must override spinning_axe_ready via provider scope");
+            "ready arm detail must add +1 spinning_axe_ready via provider scope");
         assertTrue(
             Pattern.compile(
-                    "(?s)'listener_hero_draven_q_spinning_axe_ability_started'[\\s\\S]{0,200}"
-                        + ",\\s*1\\s*,")
+                    "(?s)'listener_hero_draven_q_spinning_axe_caught'[\\s\\S]{0,400}"
+                        + "'sequence_hero_draven_q_spinning_axe_arm'")
                 .matcher(sql)
                 .find(),
-            "ability_started listener max_triggers_per_event must be 1");
+            "axe_caught listener must reuse arm sequence");
     }
 
     @Test
-    void basicAttackHitDamagesThenConsumesReadyWithPhysicalNotCopyable() {
+    void basicAttackHitDamagesAppliesFlightThenConsumesReady() {
         assertContains("listener_hero_draven_q_spinning_axe_basic_attack_hit");
         assertContains("sequence_hero_draven_q_spinning_axe_proc");
         assertContains(READY_ARMED);
@@ -348,12 +404,20 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
             "damage must be order 0 to opponent with ready_armed condition");
         assertTrue(
             Pattern.compile(
-                    "(?s)'step_hero_draven_q_spinning_axe_ready_consume'\\s*,\\s*"
+                    "(?s)'step_hero_draven_q_spinning_axe_apply_flight'\\s*,\\s*"
                         + "'sequence_hero_draven_q_spinning_axe_proc'\\s*,\\s*1\\s*,\\s*"
+                        + "20155\\s*,\\s*20110\\s*,\\s*'spinning_axe_ready_armed'")
+                .matcher(sql)
+                .find(),
+            "apply_flight must be order 1 before consume");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_draven_q_spinning_axe_ready_consume'\\s*,\\s*"
+                        + "'sequence_hero_draven_q_spinning_axe_proc'\\s*,\\s*2\\s*,\\s*"
                         + "20160\\s*,\\s*20110\\s*,\\s*'spinning_axe_ready_armed'")
                 .matcher(sql)
                 .find(),
-            "ready consume must be order 1 state_change with same condition");
+            "ready consume must be order 2 state_change after apply_flight");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_hero_draven_q_spinning_axe_damage'\\s*,\\s*"
@@ -364,14 +428,65 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
         assertTrue(
             Pattern.compile(
                     "(?s)'step_hero_draven_q_spinning_axe_ready_consume'\\s*,\\s*20250\\s*,\\s*"
-                        + "'spinning_axe_ready'\\s*,\\s*'spinning_axe_ready_consume'\\s*,\\s*20172")
+                        + "'spinning_axe_ready'\\s*,\\s*'spinning_axe_ready_consume'\\s*,\\s*20170")
                 .matcher(sql)
                 .find(),
-            "ready consume detail must override ready to 0");
+            "ready consume detail must add -1 ready");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_draven_q_spinning_axe_apply_flight'\\s*,\\s*20230\\s*,\\s*"
+                        + "'provider_hero_draven_q_spinning_axe_flight'")
+                .matcher(sql)
+                .find(),
+            "apply_flight detail must apply flight provider via provider_action/apply");
+        assertContains("\"value\":-1");
         assertContains("event.entry_source.attr.ad.resolved");
         assertContains("event.entry_source.attr.ad.base");
         assertContains("\"value\":60");
         assertContains("\"value\":1.15");
+    }
+
+    @Test
+    void flightLifecycleIs1400TickAnd1401DurationEmittingAxeCaught() {
+        assertContains("provider_hero_draven_q_spinning_axe_flight");
+        assertContains("provider_lifecycles");
+        assertContains("provider_tick_sequences");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'provider_hero_draven_q_spinning_axe_flight'[\\s\\S]{0,80}20121")
+                .matcher(sql)
+                .find(),
+            "flight provider kind must be status 20121");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'provider_hero_draven_q_spinning_axe_flight'\\s*,\\s*"
+                        + "'flight_duration_ms'\\s*,\\s*1\\s*,\\s*NULL\\s*,\\s*1400\\s*,\\s*1400")
+                .matcher(sql)
+                .find(),
+            "flight lifecycle must be duration formula + tick/startDelay 1400");
+        assertContains("\"value\":1401");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_draven_q_spinning_axe_flight_emit_caught'\\s*,\\s*"
+                        + "'sequence_hero_draven_q_spinning_axe_flight_tick'\\s*,\\s*0\\s*,\\s*"
+                        + "20158\\s*,\\s*20110")
+                .matcher(sql)
+                .find(),
+            "flight tick must emit_event to self at order 0");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_draven_q_spinning_axe_flight_emit_caught'\\s*,\\s*20216\\s*,\\s*"
+                        + "'event_ref_hero_draven_q_spinning_axe_caught'")
+                .matcher(sql)
+                .find(),
+            "flight tick must emit event/axe_caught");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'provider_hero_draven_q_spinning_axe_flight'\\s*,\\s*"
+                        + "'sequence_hero_draven_q_spinning_axe_flight_tick'")
+                .matcher(sql)
+                .find(),
+            "flight must bind tick sequence");
     }
 
     @Test
@@ -390,30 +505,24 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
             countOccurrences(sql, "'step_hero_draven_q_spinning_axe_ready_consume'") >= 2,
             "ready_consume must appear in effect_steps and state_effect_details");
         assertTrue(
+            countOccurrences(sql, "'step_hero_draven_q_spinning_axe_apply_flight'") >= 2,
+            "apply_flight must appear in effect_steps and provider_effect_details");
+        assertTrue(
+            countOccurrences(sql, "'step_hero_draven_q_spinning_axe_flight_emit_caught'") >= 2,
+            "flight emit must appear in effect_steps and event_effect_details");
+        assertTrue(
             countOccurrences(sql, "'step_hero_draven_basic_attack_emit_hit'") >= 2,
             "emit_hit must appear in effect_steps and event_effect_details");
         assertFalse(sql.contains("heal_effect_details"), "must not mix unrelated detail families");
     }
 
     @Test
-    void excludesCatchRearmDualAxeManaCdOtherRanksLandingAndMigration() {
+    void excludesLandingWResetOtherRanksAndMigration() {
         assertFalse(
-            Pattern.compile("(?i)catch|接斧|ricochet|落地|落点|landing")
+            Pattern.compile("(?i)ricochet|落地|落点|landing|cooldown_effect|blood_rush")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not model catch-axe re-arm or landing position");
-        assertFalse(
-            Pattern.compile("(?i)dual.?axe|双斧|max.?2|two.?axes|max_value\\s*,\\s*2")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not model dual-axe max 2");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)(mana.?cost|resource.?cost|cooldown|8\\s*\\*\\s*1000|8000|"
-                        + "cost.?45|45\\s*mana)")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not model 45 mana or 8s CD");
+            "must not model landing position or W cooldown reset");
         assertFalse(
             Pattern.compile("(?i)rank\\s*[1-4]\\b|ranks?\\s*=\\s*\\[|maxrank")
                 .matcher(sqlNoLineComments)
@@ -432,9 +541,10 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
     }
 
     @Test
-    void citesMerakiDravenJsonAndValidatesStableIds() {
-        assertContains("Draven.json");
-        assertContains("merakianalytics");
+    void citesWikiContractAndValidatesStableIds() {
+        assertTrue(
+            sql.contains("1400") && sql.contains("1401") && sql.contains("max 2"),
+            "header/contract must cite 1400/1401 auto-catch and max 2");
         assertContains("missing reserved_type");
         Set<String> seen = new HashSet<>();
         for (String id : STABLE_IDS) {

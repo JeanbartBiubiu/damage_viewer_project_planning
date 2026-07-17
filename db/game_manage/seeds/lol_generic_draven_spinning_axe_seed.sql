@@ -1,12 +1,15 @@
 -- =============================================================================
--- LoL generic Draven Q Spinning Axe seed（德莱文 Q 旋转飞斧 rank-5 初次飞斧）
+-- LoL generic Draven Q Spinning Axe seed（德莱文 Q 旋转飞斧 rank-5 + 自动接斧）
 -- =============================================================================
 --
 -- 目标：幂等写入 hero_draven 及其通用普攻闭环，并挂载 Q 主动 Spinning Axe：
 --       成功 cast 后由既有 runtime 发出 event/ability_started（普攻不会发该事件）；
---       source-owner listener 武装 spinning_axe_ready=1（max1 / 5800ms /
---       refresh_duration）；随后一次 source-owner basic_attack_hit 追加 physical
---       raw = 60 + 1.15*(ad.resolved - ad.base)，copyable_on_hit=false，并消费 ready。
+--       source-owner listener 在 ready<2 时 +1 spinning_axe_ready（max2 / 5800ms /
+--       refresh_duration）；随后一次 source-owner basic_attack_hit（ready>=1）追加
+--       physical raw = 60 + 1.15*(ad.resolved - ad.base)，copyable_on_hit=false，
+--       消费 1 层 ready，并 apply 一条独立瞬态 flight provider；flight 在 1400ms
+--       tick 发出 event/axe_caught，1401ms 过期阻止二次有效 tick；主 Q provider
+--       监听 source-owner axe_caught 再 +1 ready（仍 capped at 2）。
 --
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
@@ -18,18 +21,17 @@
 -- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
 --
 -- 明确排除（本脚本不建模）：
---   接斧后的重新武装；双斧上限；45 mana 消耗；8s CD；其它 rank 数值表；
---   移动落点；live migration；自动 publish。
+--   落点/位移；W 接斧重置 CD；其它 rank 数值表；live migration；自动 publish。
 --
--- 数值来源（注释引用，无运行时外部依赖；2026-07-14 Meraki/Riot latest）：
---   https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/Draven.json
---   rank-5 Spinning Axe：bonus = 60 + 115% bonus AD；duration 5.8s。
+-- 数值来源（注释引用，无运行时外部依赖；2026-07 Wiki / Meraki）：
+--   rank-5 Spinning Axe：bonus = 60 + 115% bonus AD；自动接斧约 1400ms；max 2；
+--   cost 45 mana；cooldown 8000ms；ready 窗 5.8s。
 --   英雄 level-1 面板：hp675 mana361 ad62 AS0.679 armor29 MR30
 --   hpregen3.75 manaregen8.05。
 --
 -- 前置：reserved_types_seed.sql；所需 attribute_definitions 已存在。
 -- 建议发布版本（本脚本不负责 publish）：
---   lol-generic-draven-spinning-axe-v1-20260714
+--   lol-generic-draven-spinning-axe-v2-20260717
 
 BEGIN;
 
@@ -47,9 +49,11 @@ DECLARE
         20110, -- selector/self
         20111, -- selector/opponent
         20120, -- provider_kind/passive
+        20121, -- provider_kind/status
         20130, -- ability_kind/active
         20142, -- ability_phase/impact
         20150, -- operation/damage
+        20155, -- operation/apply_provider
         20158, -- operation/emit_event
         20160, -- operation/state_change
         20170, -- value_policy/add
@@ -59,7 +63,9 @@ DECLARE
         20205, -- event/ability_started
         20211, -- event/basic_attack_hit
         20212, -- event/source_owner
+        20216, -- event/axe_caught
         20220, -- damage/physical
+        20230, -- provider_action/apply
         20250, -- state_scope/provider
         20260  -- phase_trigger/on_enter
     ];
@@ -198,6 +204,58 @@ BEGIN
         change_revision = EXCLUDED.change_revision,
         updated_at = NOW()
     WHERE public.entity_attribute_values.base_value IS DISTINCT FROM EXCLUDED.base_value;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- 幂等投影 mana 资源定义（ability_costs FK）
+    INSERT INTO public.resource_definitions (
+        game_id, resource_key, display_name,
+        default_initial_value, default_max_value,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'mana',
+        '法力',
+        0,
+        0,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, resource_key) DO UPDATE SET
+        display_name = EXCLUDED.display_name,
+        default_initial_value = EXCLUDED.default_initial_value,
+        default_max_value = EXCLUDED.default_max_value,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.resource_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name
+       OR public.resource_definitions.default_initial_value IS DISTINCT FROM EXCLUDED.default_initial_value
+       OR public.resource_definitions.default_max_value IS DISTINCT FROM EXCLUDED.default_max_value;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.entity_resource_values (
+        game_id, entity_id, resource_key, initial_value, max_value,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'hero_draven',
+        'mana',
+        361,
+        361,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, entity_id, resource_key) DO UPDATE SET
+        initial_value = EXCLUDED.initial_value,
+        max_value = EXCLUDED.max_value,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.entity_resource_values.initial_value IS DISTINCT FROM EXCLUDED.initial_value
+       OR public.entity_resource_values.max_value IS DISTINCT FROM EXCLUDED.max_value;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;
@@ -492,7 +550,189 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- Spinning Axe（Q rank-5 初次飞斧）：active ability + ready timed state + listeners
+    -- Spinning Axe flight（瞬态；仅经 apply_provider 动态实例化，不常驻 mount）
+    -- lifecycle duration=1401；tick interval/startDelay=1400；tick emit axe_caught
+    -- =========================================================================
+    INSERT INTO public.provider_definitions (
+        game_id, provider_id, provider_kind_type_id, display_name,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'provider_hero_draven_q_spinning_axe_flight',
+        20121,
+        '德莱文 Q 飞斧飞行 Spinning Axe Flight',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, provider_id) DO UPDATE SET
+        provider_kind_type_id = EXCLUDED.provider_kind_type_id,
+        display_name = EXCLUDED.display_name,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_definitions.provider_kind_type_id IS DISTINCT FROM EXCLUDED.provider_kind_type_id
+       OR public.provider_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.provider_formulas (
+        game_id, provider_id, formula_key, expression, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'provider_hero_draven_q_spinning_axe_flight',
+        'flight_duration_ms',
+        '{"op":"const","value":1401}'::jsonb,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, provider_id, formula_key) DO UPDATE SET
+        expression = EXCLUDED.expression,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_formulas.expression IS DISTINCT FROM EXCLUDED.expression;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.provider_lifecycles (
+        game_id, provider_id, duration_formula_key, max_stacks,
+        refresh_policy_type_id, tick_interval_ms, start_delay_ms,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'provider_hero_draven_q_spinning_axe_flight',
+        'flight_duration_ms',
+        1,
+        NULL,
+        1400,
+        1400,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, provider_id) DO UPDATE SET
+        duration_formula_key = EXCLUDED.duration_formula_key,
+        max_stacks = EXCLUDED.max_stacks,
+        refresh_policy_type_id = EXCLUDED.refresh_policy_type_id,
+        tick_interval_ms = EXCLUDED.tick_interval_ms,
+        start_delay_ms = EXCLUDED.start_delay_ms,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_lifecycles.duration_formula_key IS DISTINCT FROM EXCLUDED.duration_formula_key
+       OR public.provider_lifecycles.max_stacks IS DISTINCT FROM EXCLUDED.max_stacks
+       OR public.provider_lifecycles.refresh_policy_type_id IS DISTINCT FROM EXCLUDED.refresh_policy_type_id
+       OR public.provider_lifecycles.tick_interval_ms IS DISTINCT FROM EXCLUDED.tick_interval_ms
+       OR public.provider_lifecycles.start_delay_ms IS DISTINCT FROM EXCLUDED.start_delay_ms;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.effect_sequences (
+        game_id, sequence_id, provider_id, sequence_key, display_name,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'sequence_hero_draven_q_spinning_axe_flight_tick',
+        'provider_hero_draven_q_spinning_axe_flight',
+        'spinning_axe_flight_tick',
+        '飞斧飞行 tick 接斧',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, sequence_id) DO UPDATE SET
+        provider_id = EXCLUDED.provider_id,
+        sequence_key = EXCLUDED.sequence_key,
+        display_name = EXCLUDED.display_name,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.effect_sequences.provider_id IS DISTINCT FROM EXCLUDED.provider_id
+       OR public.effect_sequences.sequence_key IS DISTINCT FROM EXCLUDED.sequence_key
+       OR public.effect_sequences.display_name IS DISTINCT FROM EXCLUDED.display_name;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- deferred exactly-one-detail：emit_event 配一 event_effect_details
+    INSERT INTO public.effect_steps (
+        game_id, step_id, sequence_id, step_order, operation_type_id,
+        target_selector_type_id, condition_formula_key, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'step_hero_draven_q_spinning_axe_flight_emit_caught',
+        'sequence_hero_draven_q_spinning_axe_flight_tick',
+        0,
+        20158,
+        20110,
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, step_id) DO UPDATE SET
+        sequence_id = EXCLUDED.sequence_id,
+        step_order = EXCLUDED.step_order,
+        operation_type_id = EXCLUDED.operation_type_id,
+        target_selector_type_id = EXCLUDED.target_selector_type_id,
+        condition_formula_key = EXCLUDED.condition_formula_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.effect_steps.sequence_id IS DISTINCT FROM EXCLUDED.sequence_id
+       OR public.effect_steps.step_order IS DISTINCT FROM EXCLUDED.step_order
+       OR public.effect_steps.operation_type_id IS DISTINCT FROM EXCLUDED.operation_type_id
+       OR public.effect_steps.target_selector_type_id IS DISTINCT FROM EXCLUDED.target_selector_type_id
+       OR public.effect_steps.condition_formula_key IS DISTINCT FROM EXCLUDED.condition_formula_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.event_effect_details (
+        game_id, step_id, event_type_id, event_ref, payload, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'step_hero_draven_q_spinning_axe_flight_emit_caught',
+        20216,
+        'event_ref_hero_draven_q_spinning_axe_caught',
+        '{}'::jsonb,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, step_id) DO UPDATE SET
+        event_type_id = EXCLUDED.event_type_id,
+        event_ref = EXCLUDED.event_ref,
+        payload = EXCLUDED.payload,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.event_effect_details.event_type_id IS DISTINCT FROM EXCLUDED.event_type_id
+       OR public.event_effect_details.event_ref IS DISTINCT FROM EXCLUDED.event_ref
+       OR public.event_effect_details.payload IS DISTINCT FROM EXCLUDED.payload;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.provider_tick_sequences (
+        game_id, provider_id, sequence_id, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'provider_hero_draven_q_spinning_axe_flight',
+        'sequence_hero_draven_q_spinning_axe_flight_tick',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, provider_id, sequence_id) DO UPDATE SET
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_tick_sequences.change_revision > v_locked_current;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- =========================================================================
+    -- Spinning Axe 主 provider：active + ready timed state + listeners
     -- =========================================================================
     INSERT INTO public.provider_definitions (
         game_id, provider_id, provider_kind_type_id, display_name,
@@ -547,7 +787,7 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- timed state：max1 / 5800ms / refresh_duration；不写 default_value（运行时缺省 0）
+    -- timed state：max2 / 5800ms / refresh_duration；不写 default_value（运行时缺省 0）
     INSERT INTO public.provider_state_fields (
         game_id, provider_id, state_key, value_type_id,
         max_value, duration_ms, refresh_policy_type_id,
@@ -557,7 +797,7 @@ BEGIN
         'provider_hero_draven_q_spinning_axe',
         'spinning_axe_ready',
         20100,
-        1,
+        2,
         5800,
         20190,
         v_candidate,
@@ -585,8 +825,32 @@ BEGIN
         (
             v_game_id,
             'provider_hero_draven_q_spinning_axe',
+            'q_mana_cost',
+            '{"op":"const","value":45}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_hero_draven_q_spinning_axe',
+            'q_cooldown_ms',
+            '{"op":"const","value":8000}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_hero_draven_q_spinning_axe',
             'spinning_axe_ready_arm',
             '{"op":"const","value":1}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_hero_draven_q_spinning_axe',
+            'spinning_axe_ready_room',
+            '{"op":"lt","args":[{"op":"read","path":"provider.state.spinning_axe_ready"},{"op":"const","value":2}]}'::jsonb,
             v_candidate,
             NOW()
         ),
@@ -610,7 +874,7 @@ BEGIN
             v_game_id,
             'provider_hero_draven_q_spinning_axe',
             'spinning_axe_ready_consume',
-            '{"op":"const","value":0}'::jsonb,
+            '{"op":"const","value":-1}'::jsonb,
             v_candidate,
             NOW()
         )
@@ -624,7 +888,68 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- Listener A：ability_started + source_owner → arm spinning_axe_ready=1
+    INSERT INTO public.ability_costs (
+        game_id, cost_id, ability_id, phase_id, resource_key,
+        amount_formula_key, allow_partial, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'cost_hero_draven_q_spinning_axe_mana',
+        'ability_hero_draven_q_spinning_axe',
+        NULL,
+        'mana',
+        'q_mana_cost',
+        false,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, cost_id) DO UPDATE SET
+        ability_id = EXCLUDED.ability_id,
+        phase_id = EXCLUDED.phase_id,
+        resource_key = EXCLUDED.resource_key,
+        amount_formula_key = EXCLUDED.amount_formula_key,
+        allow_partial = EXCLUDED.allow_partial,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
+       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
+       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
+       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
+       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.ability_cooldowns (
+        game_id, cooldown_id, ability_id, duration_formula_key,
+        starts_on_phase_id, group_key, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'cooldown_hero_draven_q_spinning_axe',
+        'ability_hero_draven_q_spinning_axe',
+        'q_cooldown_ms',
+        NULL,
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, cooldown_id) DO UPDATE SET
+        ability_id = EXCLUDED.ability_id,
+        duration_formula_key = EXCLUDED.duration_formula_key,
+        starts_on_phase_id = EXCLUDED.starts_on_phase_id,
+        group_key = EXCLUDED.group_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.ability_cooldowns.ability_id IS DISTINCT FROM EXCLUDED.ability_id
+       OR public.ability_cooldowns.duration_formula_key IS DISTINCT FROM EXCLUDED.duration_formula_key
+       OR public.ability_cooldowns.starts_on_phase_id IS DISTINCT FROM EXCLUDED.starts_on_phase_id
+       OR public.ability_cooldowns.group_key IS DISTINCT FROM EXCLUDED.group_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- Listener A / C 共用：ability_started 或 axe_caught → +1 ready（ready<2）
     INSERT INTO public.effect_sequences (
         game_id, sequence_id, provider_id, sequence_key, display_name,
         change_revision, updated_at
@@ -633,7 +958,7 @@ BEGIN
         'sequence_hero_draven_q_spinning_axe_arm',
         'provider_hero_draven_q_spinning_axe',
         'spinning_axe_arm',
-        '旋转飞斧武装',
+        '旋转飞斧武装 / 接斧回斧',
         v_candidate,
         NOW()
     )
@@ -661,7 +986,7 @@ BEGIN
         0,
         20160,
         20110,
-        NULL,
+        'spinning_axe_ready_room',
         v_candidate,
         NOW()
     )
@@ -692,7 +1017,7 @@ BEGIN
         20250,
         'spinning_axe_ready',
         'spinning_axe_ready_arm',
-        20172,
+        20170,
         v_candidate,
         NOW()
     )
@@ -779,7 +1104,76 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- Listener B：basic_attack_hit + source_owner → damage then consume ready
+    -- Listener C：axe_caught + source_owner → +1 ready（capped at 2）
+    INSERT INTO public.provider_listeners (
+        game_id, listener_id, provider_id, listener_key, event_type_id,
+        ability_id, max_triggers_per_event, chain_limit_key, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'listener_hero_draven_q_spinning_axe_caught',
+        'provider_hero_draven_q_spinning_axe',
+        'spinning_axe_on_axe_caught',
+        20216,
+        NULL,
+        1,
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, listener_id) DO UPDATE SET
+        provider_id = EXCLUDED.provider_id,
+        listener_key = EXCLUDED.listener_key,
+        event_type_id = EXCLUDED.event_type_id,
+        ability_id = EXCLUDED.ability_id,
+        max_triggers_per_event = EXCLUDED.max_triggers_per_event,
+        chain_limit_key = EXCLUDED.chain_limit_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_listeners.provider_id IS DISTINCT FROM EXCLUDED.provider_id
+       OR public.provider_listeners.listener_key IS DISTINCT FROM EXCLUDED.listener_key
+       OR public.provider_listeners.event_type_id IS DISTINCT FROM EXCLUDED.event_type_id
+       OR public.provider_listeners.ability_id IS DISTINCT FROM EXCLUDED.ability_id
+       OR public.provider_listeners.max_triggers_per_event IS DISTINCT FROM EXCLUDED.max_triggers_per_event
+       OR public.provider_listeners.chain_limit_key IS DISTINCT FROM EXCLUDED.chain_limit_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.listener_match_types (
+        game_id, listener_id, match_mode_type_id, type_id, change_revision, updated_at
+    ) VALUES
+        (v_game_id, 'listener_hero_draven_q_spinning_axe_caught', 20181, 20216, v_candidate, NOW()),
+        (v_game_id, 'listener_hero_draven_q_spinning_axe_caught', 20181, 20212, v_candidate, NOW())
+    ON CONFLICT (game_id, listener_id, match_mode_type_id, type_id) DO UPDATE SET
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.listener_match_types.change_revision > v_locked_current;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.listener_effect_sequences (
+        game_id, listener_id, sequence_id, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'listener_hero_draven_q_spinning_axe_caught',
+        'sequence_hero_draven_q_spinning_axe_arm',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, listener_id, sequence_id) DO UPDATE SET
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.listener_effect_sequences.change_revision > v_locked_current;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- Listener B：basic_attack_hit + source_owner → damage → apply flight → consume
+    -- （apply 必须在 consume 之前，否则 ready 从 1→0 后门控会跳过 flight）
     INSERT INTO public.effect_sequences (
         game_id, sequence_id, provider_id, sequence_key, display_name,
         change_revision, updated_at
@@ -806,7 +1200,7 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- deferred exactly-one-detail：damage 与 state_change 各配一 detail
+    -- deferred exactly-one-detail：damage / state_change / apply_provider 各配一 detail
     INSERT INTO public.effect_steps (
         game_id, step_id, sequence_id, step_order, operation_type_id,
         target_selector_type_id, condition_formula_key, change_revision, updated_at
@@ -824,9 +1218,20 @@ BEGIN
         ),
         (
             v_game_id,
-            'step_hero_draven_q_spinning_axe_ready_consume',
+            'step_hero_draven_q_spinning_axe_apply_flight',
             'sequence_hero_draven_q_spinning_axe_proc',
             1,
+            20155,
+            20110,
+            'spinning_axe_ready_armed',
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_hero_draven_q_spinning_axe_ready_consume',
+            'sequence_hero_draven_q_spinning_axe_proc',
+            2,
             20160,
             20110,
             'spinning_axe_ready_armed',
@@ -889,7 +1294,7 @@ BEGIN
         20250,
         'spinning_axe_ready',
         'spinning_axe_ready_consume',
-        20172,
+        20170,
         v_candidate,
         NOW()
     )
@@ -904,6 +1309,35 @@ BEGIN
        OR public.state_effect_details.state_key IS DISTINCT FROM EXCLUDED.state_key
        OR public.state_effect_details.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
        OR public.state_effect_details.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.provider_effect_details (
+        game_id, step_id, action_type_id, target_provider_id,
+        stacks_formula_key, duration_formula_key, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'step_hero_draven_q_spinning_axe_apply_flight',
+        20230,
+        'provider_hero_draven_q_spinning_axe_flight',
+        NULL,
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, step_id) DO UPDATE SET
+        action_type_id = EXCLUDED.action_type_id,
+        target_provider_id = EXCLUDED.target_provider_id,
+        stacks_formula_key = EXCLUDED.stacks_formula_key,
+        duration_formula_key = EXCLUDED.duration_formula_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_effect_details.action_type_id IS DISTINCT FROM EXCLUDED.action_type_id
+       OR public.provider_effect_details.target_provider_id IS DISTINCT FROM EXCLUDED.target_provider_id
+       OR public.provider_effect_details.stacks_formula_key IS DISTINCT FROM EXCLUDED.stacks_formula_key
+       OR public.provider_effect_details.duration_formula_key IS DISTINCT FROM EXCLUDED.duration_formula_key;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;
