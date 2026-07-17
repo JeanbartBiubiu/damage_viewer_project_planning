@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-17T13:26:44.412Z",
+    "generatedAt": "2026-07-17T13:55:28.659Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -42,7 +42,7 @@
     "aliasTableVersion": "unified-inventory-alias-v1",
     "ownerAliasTableVersion": "unified-inventory-owner-alias-v1",
     "currentInputHashes": {
-      "最小验证/V2-Batch-G-adc-passive-audit.json": "d09d84dec26c5bbd60b9befc70b7dd77d65eecbeee9d321a29bfd1eefc7a0a93",
+      "最小验证/V2-Batch-G-adc-passive-audit.json": "6f1f05ea7ebaa25263589fea03a2ec4cc28968a04aaff509fe0840e9f94a1b06",
       "最小验证/V2-Batch-J-status-damage-audit.json": "487cbc685c3c4358cd1f242b72519aa6e0a95cc32167e05906d0087614e1db68",
       "最小验证/V2-Batch-K-guinsoo-phantom-hit-audit.json": "7aefbba1fdeb13508b1779546aaaa5025b1e257fe9191da902d4aea69dfe0cba",
       "最小验证/V2-Batch-L-spellblade-next-attack-audit.json": "a0f2a44a0498d12b53d5ce9ce0c204c4da60385e656e5c86b15c80f1d2fbf551",
@@ -52,14 +52,14 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "615c1b034c279ef7710308244babebbc2bba8fffd355133764792c78e0886449",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "e5274b66a5b4b60f3fbc0fa81b17dc91808876dd4dbdd5691734f283a4d61f3c",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "b2850a7cbe6ea88fed5a6bbd613a15c902852eaa8146f861e5c4a5d857908df4",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "0d9eab4197e9040db0ebd2ad9a8cc6eec0901766399439f681be713c0831b1e6",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "1d3b57866ee3c48832a87b62c00014ed6b35da51fc7ee2257d2f182b33d05acc",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "0c1be9b51b2a52ed25baf20eb702c7ced69988195f4bf5c7ba539fd5a2bf8c12",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "b6893761c35effb23409881779d728af4d9121950d4c53541d75cc6ac23c2c98",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "7ecc8a01ccfc338a97b99cd24fe476e3eac576869d3ecc27ef0877322d8143fd",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
-      "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "e70cb5bd15bfbe82a080683d8b776a6d23be6c88d650ffb5fb2f9d9e7324b64b",
+      "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "3416e422252c4586e6ab2735abf1cea1e828c6a7f32f74385eb60071bf3787d5",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-B-hero-passives.seed.json": "eb1767c32f87825648a0f91da599f166114a902fe0fd86055df6387a57fc952a",
@@ -86,9 +86,9 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 29,
+      "completed": 30,
       "partial_actionable": 0,
-      "ready_to_implement": 3,
+      "ready_to_implement": 2,
       "blocked_runtime": 29,
       "blocked_data": 118,
       "out_of_scope": 70,
@@ -96,9 +96,9 @@
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
-      "full": 29,
+      "full": 30,
       "partial": 9,
-      "none": 216
+      "none": 215
     },
     "laneCounts": {
       "generic_runtime": 245,
@@ -106,10 +106,9 @@
       "data_only": 0,
       "mixed_evidence": 2
     },
-    "actionableKeyCount": 3,
+    "actionableKeyCount": 2,
     "actionableKeys": [
       "hero_skill|hero_akshan|P|无所不用",
-      "hero_skill|hero_ezreal|P|咒能高涨",
       "hero_skill|hero_kaisa|P|体表活肤"
     ]
   },
@@ -117,8 +116,8 @@
     {
       "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
       "kind": "audit_json",
-      "sha256": "d09d84dec26c5bbd60b9befc70b7dd77d65eecbeee9d321a29bfd1eefc7a0a93",
-      "byteSize": 243499,
+      "sha256": "6f1f05ea7ebaa25263589fea03a2ec4cc28968a04aaff509fe0840e9f94a1b06",
+      "byteSize": 243470,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -197,8 +196,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "615c1b034c279ef7710308244babebbc2bba8fffd355133764792c78e0886449",
-      "byteSize": 222850,
+      "sha256": "e5274b66a5b4b60f3fbc0fa81b17dc91808876dd4dbdd5691734f283a4d61f3c",
+      "byteSize": 222381,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -213,8 +212,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "b2850a7cbe6ea88fed5a6bbd613a15c902852eaa8146f861e5c4a5d857908df4",
-      "byteSize": 599352,
+      "sha256": "0d9eab4197e9040db0ebd2ad9a8cc6eec0901766399439f681be713c0831b1e6",
+      "byteSize": 599838,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -229,16 +228,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "1d3b57866ee3c48832a87b62c00014ed6b35da51fc7ee2257d2f182b33d05acc",
-      "byteSize": 125709,
+      "sha256": "b6893761c35effb23409881779d728af4d9121950d4c53541d75cc6ac23c2c98",
+      "byteSize": 127758,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "0c1be9b51b2a52ed25baf20eb702c7ced69988195f4bf5c7ba539fd5a2bf8c12",
-      "byteSize": 153719,
+      "sha256": "7ecc8a01ccfc338a97b99cd24fe476e3eac576869d3ecc27ef0877322d8143fd",
+      "byteSize": 155354,
       "recordCount": 0,
       "role": "generator"
     },
@@ -253,8 +252,8 @@
     {
       "path": "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "e70cb5bd15bfbe82a080683d8b776a6d23be6c88d650ffb5fb2f9d9e7324b64b",
-      "byteSize": 30810,
+      "sha256": "3416e422252c4586e6ab2735abf1cea1e828c6a7f32f74385eb60071bf3787d5",
+      "byteSize": 32345,
       "recordCount": 0,
       "role": "generator"
     },
@@ -14361,8 +14360,8 @@
     },
     {
       "key": "hero_skill|hero_ezreal|P|咒能高涨",
-      "status": "ready_to_implement",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_ezreal",
@@ -14373,7 +14372,7 @@
         "stacking_stat_modifier_on_hit"
       ],
       "coverageBoundary": "",
-      "reason": "Ezreal P Rising Spell Force：当前 League Wiki 已给出每层 +10% AS、最多 5 层、持续 6s。stacking attack-speed 能力可直接表达；不声称已完成。",
+      "reason": "Ezreal P Rising Spell Force：Wiki rev3932280（SHA256 5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba）+ 本次采用的确定性 1v1 口径与 wasm-generic-ezreal-rising-spell-force + backend seed 证据闭环——每次 scheduled top-level 非普攻能力命中唯一目标 +1 provider-scoped stack；6000ms refresh-on-write；cap 5；每层 +10% AS（cap +50%）。本次口径明确排除普攻叠层、CD-skip cast、miss、多目标、单次施法多段命中与真实 Q/W/E/R 图，故标 completed。",
       "blocker": "",
       "dataGapEvidence": null,
       "runtimeGapEvidence": null,
@@ -14381,16 +14380,31 @@
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
-          "legacyStatus": "needs_runtime_extension",
+          "legacyStatus": "already_covered",
           "sourceRecordKey": "hero_skill|hero_ezreal|P|咒能高涨"
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_ezreal|P|咒能高涨"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-rising-spell-force",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Rising Spell Force bounded 1v1 seed; excluded branches out of scope"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-rising-spell-force",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go",
+          "sourceWorktree": "wasm",
+          "note": "bounded 1v1 Rising Spell Force; excluded basic attacks / CD-skip / misses / multi-target / multi-hit-per-cast / real QWER graphs"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },

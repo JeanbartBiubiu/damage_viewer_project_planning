@@ -147,13 +147,29 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_ezreal|P|咒能高涨',
     {
-      status: 'ready_to_implement',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        'Ezreal P Rising Spell Force：当前 League Wiki 已给出每层 +10% AS、最多 5 层、持续 6s。stacking attack-speed 能力可直接表达；不声称已完成。',
+        'Ezreal P Rising Spell Force：Wiki rev3932280（SHA256 5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba）+ 本次采用的确定性 1v1 口径与 wasm-generic-ezreal-rising-spell-force + backend seed 证据闭环——每次 scheduled top-level 非普攻能力命中唯一目标 +1 provider-scoped stack；6000ms refresh-on-write；cap 5；每层 +10% AS（cap +50%）。本次口径明确排除普攻叠层、CD-skip cast、miss、多目标、单次施法多段命中与真实 Q/W/E/R 图，故标 completed。',
       blocker: '',
-      dataGapEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ezreal-rising-spell-force',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
+          sourceWorktree: 'wasm',
+          note: 'bounded 1v1 Rising Spell Force; excluded basic attacks / CD-skip / misses / multi-target / multi-hit-per-cast / real QWER graphs',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ezreal-rising-spell-force',
+          sourcePath: 'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Rising Spell Force bounded 1v1 seed; excluded branches out of scope',
+        },
+      ],
     },
   ],
   [
@@ -3130,8 +3146,27 @@ function validateInventory(inv) {
   ) {
     errors.push('Akshan E must be blocked_runtime/none with swing/shot scheduling blocker');
   }
-  if (!mEzrealP || mEzrealP.status !== 'ready_to_implement' || mEzrealP.completionMode !== 'none') {
-    errors.push('Ezreal P must be ready_to_implement/none (Wiki AS stack contract complete)');
+  if (
+    !mEzrealP ||
+    mEzrealP.status !== 'completed' ||
+    mEzrealP.completionMode !== 'full' ||
+    mEzrealP.lane !== 'generic_runtime' ||
+    mEzrealP.blocker ||
+    !String(mEzrealP.reason || '').includes('6000') ||
+    !String(mEzrealP.reason || '').includes('排除') ||
+    !(mEzrealP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
+    ) ||
+    !(mEzrealP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
+    )
+  ) {
+    errors.push(
+      'Ezreal P must be completed/full under bounded 1v1 Rising Spell Force scope with wasm+backend evidence',
+    );
   }
   if (
     !mGravesP ||
@@ -3246,9 +3281,9 @@ function validateInventory(inv) {
 
   const sc = inv.summary?.statusCounts || {};
   const expectedStatus = {
-    completed: 29,
+    completed: 30,
     partial_actionable: 0,
-    ready_to_implement: 3,
+    ready_to_implement: 2,
     blocked_runtime: 29,
     blocked_data: 118,
     out_of_scope: 70,
@@ -3258,12 +3293,11 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 3) {
-    errors.push(`actionableKeyCount expected 3, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 2) {
+    errors.push(`actionableKeyCount expected 2, got ${inv.summary?.actionableKeyCount}`);
   }
   const expectedActionable = [
     'hero_skill|hero_akshan|P|无所不用',
-    'hero_skill|hero_ezreal|P|咒能高涨',
     'hero_skill|hero_kaisa|P|体表活肤',
   ];
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
@@ -3280,9 +3314,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 29 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 216) {
+  if ((cm.full || 0) !== 30 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 215) {
     errors.push(
-      `completionModeCounts expected full=29 partial=9 none=216, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=30 partial=9 none=215, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
 
