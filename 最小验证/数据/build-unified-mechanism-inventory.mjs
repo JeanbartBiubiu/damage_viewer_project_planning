@@ -67,13 +67,29 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_kaisa|P|体表活肤',
     {
-      status: 'ready_to_implement',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        "Kai'Sa P Second Skin：当前 League Wiki 已给出 Caustic Wounds 数值合同（4..24+12%AP、每先前层 1..6+3%AP、第五层 15%+6%/100AP 已损生命、4s/max5）。历史 Batch-B/OCR 仅 provenance。现有 on-hit/stack/missing-HP 能力可直接表达；不声称实现完成。",
+        "Kai'Sa P Second Skin：Wiki rev4038390（SHA256 f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f）+ 当前 canonical generic ABI 口径与 wasm-generic-kaisa-second-skin + backend seed 证据闭环——provider-target plasma_stacks（default0/max5/4000ms refresh-on-write）；level1..18 精确插值 base=4+20/17*(level-1)、perStack=1+5/17*(level-1)；同 provider 有序普攻图：Caustic→+1 stack→第五层已损生命破裂→reset→物理普攻→恰好一次 event/basic_attack_hit。明确排除 W 2/3 层与 overflow、友军定身 Plasma、野怪 400 cap、法术护盾、Guinsoo phantom/buff-slot、多目标，故标 completed。",
       blocker: '',
-      dataGapEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kaisa-second-skin',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completed Second Skin canonical generic; excluded W stacks/overflow / allied CC Plasma / monster 400 cap / spell shield / Guinsoo phantom-buff-slot / multi-target',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kaisa-second-skin',
+          sourcePath: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Second Skin canonical generic seed; excluded branches out of scope',
+        },
+      ],
     },
   ],
   [
@@ -3079,11 +3095,25 @@ function validateInventory(inv) {
   }
   if (
     !mKaisaP ||
-    mKaisaP.status !== 'ready_to_implement' ||
-    mKaisaP.completionMode !== 'none' ||
-    mKaisaP.blocker
+    mKaisaP.status !== 'completed' ||
+    mKaisaP.completionMode !== 'full' ||
+    mKaisaP.lane !== 'generic_runtime' ||
+    mKaisaP.blocker ||
+    !String(mKaisaP.reason || '').includes('4038390') ||
+    !String(mKaisaP.reason || '').includes('4000') ||
+    !String(mKaisaP.reason || '').includes('排除') ||
+    !(mKaisaP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go',
+    ) ||
+    !(mKaisaP.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
+    )
   ) {
-    errors.push('Kaisa P must be ready_to_implement/none with Wiki numeric contract (no data blocker)');
+    errors.push(
+      "Kaisa P must be completed/full under completed Second Skin canonical generic scope with wasm+backend evidence",
+    );
   }
   if (
     !mTwitchP ||
@@ -3281,9 +3311,9 @@ function validateInventory(inv) {
 
   const sc = inv.summary?.statusCounts || {};
   const expectedStatus = {
-    completed: 30,
+    completed: 31,
     partial_actionable: 0,
-    ready_to_implement: 2,
+    ready_to_implement: 1,
     blocked_runtime: 29,
     blocked_data: 118,
     out_of_scope: 70,
@@ -3293,12 +3323,11 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 2) {
-    errors.push(`actionableKeyCount expected 2, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 1) {
+    errors.push(`actionableKeyCount expected 1, got ${inv.summary?.actionableKeyCount}`);
   }
   const expectedActionable = [
     'hero_skill|hero_akshan|P|无所不用',
-    'hero_skill|hero_kaisa|P|体表活肤',
   ];
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
   if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
@@ -3314,9 +3343,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 30 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 215) {
+  if ((cm.full || 0) !== 31 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 214) {
     errors.push(
-      `completionModeCounts expected full=30 partial=9 none=215, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=31 partial=9 none=214, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
 

@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-17T13:55:28.659Z",
+    "generatedAt": "2026-07-17T14:32:04.036Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -42,7 +42,7 @@
     "aliasTableVersion": "unified-inventory-alias-v1",
     "ownerAliasTableVersion": "unified-inventory-owner-alias-v1",
     "currentInputHashes": {
-      "最小验证/V2-Batch-G-adc-passive-audit.json": "6f1f05ea7ebaa25263589fea03a2ec4cc28968a04aaff509fe0840e9f94a1b06",
+      "最小验证/V2-Batch-G-adc-passive-audit.json": "42b58eca03d05b945826d16148f71029caff056855aacef41fa5080b72c37143",
       "最小验证/V2-Batch-J-status-damage-audit.json": "487cbc685c3c4358cd1f242b72519aa6e0a95cc32167e05906d0087614e1db68",
       "最小验证/V2-Batch-K-guinsoo-phantom-hit-audit.json": "7aefbba1fdeb13508b1779546aaaa5025b1e257fe9191da902d4aea69dfe0cba",
       "最小验证/V2-Batch-L-spellblade-next-attack-audit.json": "a0f2a44a0498d12b53d5ce9ce0c204c4da60385e656e5c86b15c80f1d2fbf551",
@@ -52,14 +52,14 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "e5274b66a5b4b60f3fbc0fa81b17dc91808876dd4dbdd5691734f283a4d61f3c",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "4c62a8eb54b6563bbf1eeebdb97d6b3e1b420a3defb2752b0ae1fc0c17b15a43",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "0d9eab4197e9040db0ebd2ad9a8cc6eec0901766399439f681be713c0831b1e6",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "ea058f1030e8141eeb6e36509342e885cdf85d3573d9e9a23609d04a5cb7a20b",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "b6893761c35effb23409881779d728af4d9121950d4c53541d75cc6ac23c2c98",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "7ecc8a01ccfc338a97b99cd24fe476e3eac576869d3ecc27ef0877322d8143fd",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "5c66506d565cdb7dc1454e935f53bac5d178dbea8dff69b973ed05f1f1c7fddd",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "6b9b6e970c318ba1eb22785bba459290b2c61cefe988324f545851090b2f1e6a",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
-      "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "3416e422252c4586e6ab2735abf1cea1e828c6a7f32f74385eb60071bf3787d5",
+      "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "adb3f8a48ab30a7046928b8adc9a887c4b33b8229f8966349da88a782e8a87a6",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-B-hero-passives.seed.json": "eb1767c32f87825648a0f91da599f166114a902fe0fd86055df6387a57fc952a",
@@ -86,9 +86,9 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 30,
+      "completed": 31,
       "partial_actionable": 0,
-      "ready_to_implement": 2,
+      "ready_to_implement": 1,
       "blocked_runtime": 29,
       "blocked_data": 118,
       "out_of_scope": 70,
@@ -96,9 +96,9 @@
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
-      "full": 30,
+      "full": 31,
       "partial": 9,
-      "none": 215
+      "none": 214
     },
     "laneCounts": {
       "generic_runtime": 245,
@@ -106,18 +106,17 @@
       "data_only": 0,
       "mixed_evidence": 2
     },
-    "actionableKeyCount": 2,
+    "actionableKeyCount": 1,
     "actionableKeys": [
-      "hero_skill|hero_akshan|P|无所不用",
-      "hero_skill|hero_kaisa|P|体表活肤"
+      "hero_skill|hero_akshan|P|无所不用"
     ]
   },
   "sources": [
     {
       "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
       "kind": "audit_json",
-      "sha256": "6f1f05ea7ebaa25263589fea03a2ec4cc28968a04aaff509fe0840e9f94a1b06",
-      "byteSize": 243470,
+      "sha256": "42b58eca03d05b945826d16148f71029caff056855aacef41fa5080b72c37143",
+      "byteSize": 243555,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -196,8 +195,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "e5274b66a5b4b60f3fbc0fa81b17dc91808876dd4dbdd5691734f283a4d61f3c",
-      "byteSize": 222381,
+      "sha256": "4c62a8eb54b6563bbf1eeebdb97d6b3e1b420a3defb2752b0ae1fc0c17b15a43",
+      "byteSize": 221882,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -212,8 +211,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "0d9eab4197e9040db0ebd2ad9a8cc6eec0901766399439f681be713c0831b1e6",
-      "byteSize": 599838,
+      "sha256": "ea058f1030e8141eeb6e36509342e885cdf85d3573d9e9a23609d04a5cb7a20b",
+      "byteSize": 600560,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -228,16 +227,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "b6893761c35effb23409881779d728af4d9121950d4c53541d75cc6ac23c2c98",
-      "byteSize": 127758,
+      "sha256": "5c66506d565cdb7dc1454e935f53bac5d178dbea8dff69b973ed05f1f1c7fddd",
+      "byteSize": 130074,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "7ecc8a01ccfc338a97b99cd24fe476e3eac576869d3ecc27ef0877322d8143fd",
-      "byteSize": 155354,
+      "sha256": "6b9b6e970c318ba1eb22785bba459290b2c61cefe988324f545851090b2f1e6a",
+      "byteSize": 156996,
       "recordCount": 0,
       "role": "generator"
     },
@@ -252,8 +251,8 @@
     {
       "path": "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "3416e422252c4586e6ab2735abf1cea1e828c6a7f32f74385eb60071bf3787d5",
-      "byteSize": 32345,
+      "sha256": "adb3f8a48ab30a7046928b8adc9a887c4b33b8229f8966349da88a782e8a87a6",
+      "byteSize": 33203,
       "recordCount": 0,
       "role": "generator"
     },
@@ -16256,8 +16255,8 @@
     },
     {
       "key": "hero_skill|hero_kaisa|P|体表活肤",
-      "status": "ready_to_implement",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_kaisa",
@@ -16269,7 +16268,7 @@
         "stacking_plasma"
       ],
       "coverageBoundary": "",
-      "reason": "Kai'Sa P Second Skin：当前 League Wiki 已给出 Caustic Wounds 数值合同（4..24+12%AP、每先前层 1..6+3%AP、第五层 15%+6%/100AP 已损生命、4s/max5）。历史 Batch-B/OCR 仅 provenance。现有 on-hit/stack/missing-HP 能力可直接表达；不声称实现完成。",
+      "reason": "Kai'Sa P Second Skin：Wiki rev4038390（SHA256 f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f）+ 当前 canonical generic ABI 口径与 wasm-generic-kaisa-second-skin + backend seed 证据闭环——provider-target plasma_stacks（default0/max5/4000ms refresh-on-write）；level1..18 精确插值 base=4+20/17*(level-1)、perStack=1+5/17*(level-1)；同 provider 有序普攻图：Caustic→+1 stack→第五层已损生命破裂→reset→物理普攻→恰好一次 event/basic_attack_hit。明确排除 W 2/3 层与 overflow、友军定身 Plasma、野怪 400 cap、法术护盾、Guinsoo phantom/buff-slot、多目标，故标 completed。",
       "blocker": "",
       "dataGapEvidence": null,
       "runtimeGapEvidence": null,
@@ -16287,11 +16286,26 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_kaisa|P|体表活肤"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-second-skin",
+          "sourcePath": "db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "Second Skin canonical generic seed; excluded branches out of scope"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-second-skin",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completed Second Skin canonical generic; excluded W stacks/overflow / allied CC Plasma / monster 400 cap / spell shield / Guinsoo phantom-buff-slot / multi-target"
+        }
+      ],
       "aliases": [
         "skill_kaisa_p_plasma_dps_v2"
       ],
