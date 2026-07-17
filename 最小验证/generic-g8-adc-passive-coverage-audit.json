@@ -1,10 +1,10 @@
 {
   "metadata": {
     "inputPath": "最小验证/V2-Batch-G-adc-passive-audit.json",
-    "inputSha256": "d09d84dec26c5bbd60b9befc70b7dd77d65eecbeee9d321a29bfd1eefc7a0a93",
+    "inputSha256": "6f1f05ea7ebaa25263589fea03a2ec4cc28968a04aaff509fe0840e9f94a1b06",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-17T13:26:44.309Z"
+    "generatedAt": "2026-07-17T13:55:28.547Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 26,
+      "migrated": 27,
       "partial": 9,
-      "blocked": 140,
+      "blocked": 139,
       "out_of_scope": 67
     },
     "classificationPercents": {
-      "migrated": 10.74,
+      "migrated": 11.16,
       "partial": 3.72,
-      "blocked": 57.85,
+      "blocked": 57.44,
       "out_of_scope": 27.69
     },
     "coverageRateMigratedOnly": {
-      "all": 10.74,
-      "inScope": 14.86
+      "all": 11.16,
+      "inScope": 15.43
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 14.46,
-      "inScope": 20
+      "all": 14.88,
+      "inScope": 20.57
     },
     "inScopeCount": 175
   },
@@ -2136,41 +2136,41 @@
       "skillKey": "P",
       "passiveName": "咒能高涨",
       "sourceText": "伊泽瑞尔的任何技能在击中目标后，都会提升他的攻击速度（最多可叠加5次）。",
-      "classification": "needs_runtime_extension",
+      "classification": "already_covered",
       "mechanismTags": [
-        "stacking_stat_modifier_on_hit"
+        "stacking_stat_modifier_on_hit",
+        "attack_speed_percent_add"
       ],
+      "blockedReason": "",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "需要 timed stack stat modifier 聚合和掉层语义。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Ezreal.json#data.Ezreal.passive",
       "candidateKey": "hero_skill|hero_ezreal|P|咒能高涨",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "stacking_stat_modifier_on_hit",
         "attack_speed_percent_add"
       ],
-      "classificationReason": "Ezreal P Rising Spell Force：当前 League Wiki 已给出每层 +10% AS、最多 5 层、持续 6s。数值合同已齐，不得再标 blocked_data；现有 stacking AS 能力可直接表达，不声称已完成。",
-      "coverageEvidence": [],
-      "remainingGap": "缺将 Wiki 合同编码为 generic stacking attack-speed state 的实现/证据。",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-3932280",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#ezreal-p@rev3932280",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；DDragon/历史 Batch-B/OCR 仅作 provenance，不得作为 competing numeric truth。剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_ezreal P 咒能高涨/Rising Spell Force：Wiki rev3932280（SHA256 5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba）+ 本次采用的确定性 1v1 口径已由 wasm-generic-ezreal-rising-spell-force + backend seed 闭环——每次 scheduled top-level 非普攻能力命中唯一目标 +1 provider-scoped stack；6000ms refresh-on-write；cap 5；每层 +10% AS（cap +50%）。本次口径明确排除普攻叠层、CD-skip cast、miss、多目标、单次施法多段命中与真实 Q/W/E/R 图，故标 migrated/completed，不再以这些排除分支阻塞。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-rising-spell-force",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: bounded 1v1 Rising Spell Force (ability_started hit→+1 stack / 6000ms refresh-on-write / cap5 / +10% AS per stack cap+50%); excluded: basic attacks / CD-skip cast / misses / multi-target / multi-hit-per-cast / real QWER graphs"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-rising-spell-force",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Rising Spell Force bounded 1v1 seeded; excluded branches out of scope; backend lol_generic_ezreal_rising_spell_force_seed.sql"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",

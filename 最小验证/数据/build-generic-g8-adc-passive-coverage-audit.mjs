@@ -538,6 +538,8 @@ const SEED = {
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
+  ezrealRisingSpellForceBackend:
+    'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
 };
 
 const WASM = {
@@ -581,6 +583,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   xayahDeadlyPlumage:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
+  ezrealRisingSpellForce:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
 };
 
 const COMPLETED_ONHIT_COMMIT = '3314c24';
@@ -897,6 +901,31 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-ashe-volley',
           SEED.asheVolleyBackend,
           'completedBoundary: Volley user-approved 1v1 seeded; excluded Frost Shot/projectile/multi-target/other ranks out of scope; backend lol_generic_ashe_volley_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ezreal|P',
+    {
+      classification: 'migrated',
+      tags: ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add'],
+      reason:
+        'hero_ezreal P 咒能高涨/Rising Spell Force：Wiki rev3932280（SHA256 5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba）+ 本次采用的确定性 1v1 口径已由 wasm-generic-ezreal-rising-spell-force + backend seed 闭环——每次 scheduled top-level 非普攻能力命中唯一目标 +1 provider-scoped stack；6000ms refresh-on-write；cap 5；每层 +10% AS（cap +50%）。本次口径明确排除普攻叠层、CD-skip cast、miss、多目标、单次施法多段命中与真实 Q/W/E/R 图，故标 migrated/completed，不再以这些排除分支阻塞。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-rising-spell-force',
+          WASM.ezrealRisingSpellForce,
+          'completedBoundary: bounded 1v1 Rising Spell Force (ability_started hit→+1 stack / 6000ms refresh-on-write / cap5 / +10% AS per stack cap+50%); excluded: basic attacks / CD-skip cast / misses / multi-target / multi-hit-per-cast / real QWER graphs',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-rising-spell-force',
+          SEED.ezrealRisingSpellForceBackend,
+          'completedBoundary: Rising Spell Force bounded 1v1 seeded; excluded branches out of scope; backend lol_generic_ezreal_rising_spell_force_seed.sql',
         ),
       ],
     },
@@ -2001,18 +2030,6 @@ const COMPONENT_EXCEPTIONS = [
     },
   },
   {
-    match: (c) => c.ownerId === 'hero_ezreal' && c.skillKey === 'P',
-    result: {
-      classification: 'blocked',
-      tags: ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add'],
-      reason:
-        'Ezreal P Rising Spell Force：当前 League Wiki 已给出每层 +10% AS、最多 5 层、持续 6s。数值合同已齐，不得再标 blocked_data；现有 stacking AS 能力可直接表达，不声称已完成。',
-      remainingGap:
-        '缺将 Wiki 合同编码为 generic stacking attack-speed state 的实现/证据。',
-      coverageEvidence: [],
-    },
-  },
-  {
     match: (c) => c.ownerId === 'hero_graves' && c.skillKey === 'P',
     result: {
       classification: 'blocked',
@@ -2839,7 +2856,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 26, partial: 9, blocked: 140, out_of_scope: 67 };
+  const expectedCounts = { migrated: 27, partial: 9, blocked: 139, out_of_scope: 67 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
@@ -3056,6 +3073,28 @@ function validateAudit(audit) {
   ) {
     errors.push(
       'Ashe W must be migrated with bilateral wasm+backend evidence under user-approved Volley 1v1 scope',
+    );
+  }
+  const ezrealP = records.find((r) => r.candidateKey === 'hero_skill|hero_ezreal|P|咒能高涨');
+  if (
+    !ezrealP
+    || ezrealP.genericClassification !== 'migrated'
+    || !(ezrealP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.ezrealRisingSpellForce,
+    )
+    || !(ezrealP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.ezrealRisingSpellForceBackend,
+    )
+    || !String(ezrealP.classificationReason || '').includes('6000')
+    || !String(ezrealP.classificationReason || '').includes('排除')
+    || String(ezrealP.remainingGap || '').trim()
+  ) {
+    errors.push(
+      'Ezreal P must be migrated with bilateral wasm+backend evidence under bounded 1v1 Rising Spell Force scope (not blocked/ready)',
     );
   }
 
