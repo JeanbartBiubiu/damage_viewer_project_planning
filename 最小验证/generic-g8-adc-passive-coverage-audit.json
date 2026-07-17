@@ -1,10 +1,10 @@
 {
   "metadata": {
     "inputPath": "最小验证/V2-Batch-G-adc-passive-audit.json",
-    "inputSha256": "d546a42f0feda87facd2f33a92d4379524d596e6a7975207f47aaabc215ed78c",
+    "inputSha256": "d09d84dec26c5bbd60b9befc70b7dd77d65eecbeee9d321a29bfd1eefc7a0a93",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-17T13:13:01.310Z"
+    "generatedAt": "2026-07-17T13:26:44.309Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 25,
+      "migrated": 26,
       "partial": 9,
-      "blocked": 141,
+      "blocked": 140,
       "out_of_scope": 67
     },
     "classificationPercents": {
-      "migrated": 10.33,
+      "migrated": 10.74,
       "partial": 3.72,
-      "blocked": 58.26,
+      "blocked": 57.85,
       "out_of_scope": 27.69
     },
     "coverageRateMigratedOnly": {
-      "all": 10.33,
-      "inScope": 14.29
+      "all": 10.74,
+      "inScope": 14.86
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 14.05,
-      "inScope": 19.43
+      "all": 14.46,
+      "inScope": 20
     },
     "inScopeCount": 175
   },
@@ -570,41 +570,41 @@
       "skillKey": "W",
       "passiveName": "万箭齐发",
       "sourceText": "艾希向前方的锥形范围射出多支箭，对敌人造成额外伤害。也会触发冰霜射击的效果。 艾希射出一排共{{ numberofarrowstooltip }}支箭矢，每支箭矢造成{{ totaldamage }}物理伤害。敌方单位可以一次性格挡多支箭矢，但只会受到一次伤害。{{ spellmodifierdescriptionappend }}",
-      "classification": "out_of_scope_for_single_target_dps",
+      "classification": "already_covered",
       "mechanismTags": [
-        "multi_target_or_area"
+        "ability_flat_bonus_ad_damage",
+        "first_missile_only"
       ],
+      "blockedReason": "",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "多目标、弹射或范围收益不属于当前单标靶 DPS。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Ashe.json#data.Ashe.spells[1]",
       "candidateKey": "hero_skill|hero_ashe|W|万箭齐发",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "ability_flat_bonus_ad_damage",
         "first_missile_only"
       ],
-      "classificationReason": "Ashe W Volley：当前 League Wiki 已给出 rank 伤害 60..200 +100% bonus AD、箭数 7..11、CD 18..4、蓝耗 75..55；仅第一支箭对单一目标造成伤害。数值可直接表达，不得再标 blocked_data；不声称已完成实现。",
-      "coverageEvidence": [],
-      "remainingGap": "缺将 Wiki 合同编码为 generic ability damage（first-arrow-only）的实现/证据。",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4007430",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#ashe-w@rev4007430",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；DDragon/历史 Batch-B/OCR 仅作 provenance，不得作为 competing numeric truth。剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_ashe W 万箭齐发/Volley：当前 League Wiki + 用户批准 1v1 口径已由 wasm-generic-ashe-volley + backend seed 闭环——rank5 200+100% bonus AD；单目标一次 physical damage；55 mana；4000ms CD。用户明确排除 Frost Shot 减速/状态、弹道/锥形/碰撞/多目标、per-arrow 循环与其它 rank；Wiki 写明多箭命中同一目标仅计第一箭伤害，故标 migrated/completed，不再以这些排除分支阻塞。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-volley",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: user-approved Volley 1v1 (rank5 200+100%bonusAD / one physical instance / 55mana / CD4000ms / first-arrow-only); excluded: Frost Shot / projectile-cone-collision-multitarget / per-arrow loop / other ranks; attempts 0/3999/4000ms → 2 casts + 1 CD skip"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-volley",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ashe_volley_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Volley user-approved 1v1 seeded; excluded Frost Shot/projectile/multi-target/other ranks out of scope; backend lol_generic_ashe_volley_seed.sql"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",

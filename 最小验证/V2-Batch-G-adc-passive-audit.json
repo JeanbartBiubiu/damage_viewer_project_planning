@@ -1,7 +1,7 @@
 {
   "gameId": "lol",
   "batch": "V2-Batch-G",
-  "generatedAt": "2026-07-17T13:13:01.258Z",
+  "generatedAt": "2026-07-17T13:26:44.257Z",
   "source": {
     "championJson": "数据参考\\champion.json",
     "championDetailDir": "数据参考\\champion",
@@ -56,10 +56,10 @@
     },
     "classificationCounts": {
       "ready_to_encode": 1,
-      "already_covered": 16,
+      "already_covered": 17,
       "needs_runtime_extension": 34,
       "needs_manual_baseline": 44,
-      "out_of_scope_for_single_target_dps": 147
+      "out_of_scope_for_single_target_dps": 146
     },
     "mechanismBacklog": {
       "seeded_random_crit_sequence": 5,
@@ -300,15 +300,16 @@
       "skillKey": "W",
       "passiveName": "万箭齐发",
       "sourceText": "艾希向前方的锥形范围射出多支箭，对敌人造成额外伤害。也会触发冰霜射击的效果。 艾希射出一排共{{ numberofarrowstooltip }}支箭矢，每支箭矢造成{{ totaldamage }}物理伤害。敌方单位可以一次性格挡多支箭矢，但只会受到一次伤害。{{ spellmodifierdescriptionappend }}",
-      "classification": "out_of_scope_for_single_target_dps",
+      "classification": "already_covered",
       "mechanismTags": [
-        "multi_target_or_area"
+        "ability_flat_bonus_ad_damage",
+        "first_missile_only"
       ],
+      "blockedReason": "",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "多目标、弹射或范围收益不属于当前单标靶 DPS。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Ashe.json#data.Ashe.spells[1]"
     },
     {

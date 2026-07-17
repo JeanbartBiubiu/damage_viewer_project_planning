@@ -91,6 +91,15 @@ const ITEM_CLASSIFICATION_OVERRIDES = new Map([
   ],
 ]);
 
+/** Hero skill overrides keyed by `${heroId}:${skillKey}` (heroId already lowercased). */
+const HERO_CLASSIFICATION_OVERRIDES = new Map([
+  // Ashe W Volley：1v1 first-arrow-only 伤害分支已由 generic seed + wasm 证据闭环；不得标 ready_to_encode。
+  [
+    'hero_ashe:W',
+    alreadyCovered(['ability_flat_bonus_ad_damage', 'first_missile_only']),
+  ],
+]);
+
 function alreadyCovered(mechanismTags) {
   return {
     classification: 'already_covered',
@@ -280,6 +289,15 @@ function splitItemPassiveSections(item) {
 
 function classifyHeroSkill({ champion, heroId, skillKey, sourceText, coveredHeroSkillKeys, completeHeroLevelData, spell }) {
   const coveredKey = `${heroId.toLowerCase()}:${skillKey}`;
+  const heroOverride = HERO_CLASSIFICATION_OVERRIDES.get(coveredKey);
+  if (heroOverride) {
+    return {
+      ...heroOverride,
+      levelDataStatus: completeHeroLevelData.has(heroId.toLowerCase()) ? 'complete' : 'missing',
+      rankTableStatus: 'not_applicable',
+      candidateDpsPassiveEffect: {},
+    };
+  }
   if (coveredHeroSkillKeys.has(coveredKey)) {
     return {
       ...alreadyCovered(['existing_batch_b_seed']),
@@ -736,6 +754,12 @@ function validateAudit(audit) {
   );
   if (!dravenQ || dravenQ.classification !== 'already_covered') {
     errors.push('Draven Q 旋转飞斧 must remain already_covered under completed 1v1 scope');
+  }
+  const asheW = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_ashe' && c.skillKey === 'W' && c.passiveName === '万箭齐发',
+  );
+  if (!asheW || asheW.classification !== 'already_covered') {
+    errors.push('Ashe W 万箭齐发 must be already_covered under completed Volley 1v1 scope (not ready_to_encode)');
   }
   const mag = (audit.candidates || []).find(
     (c) => c.ownerId === '2523' && c.passiveName === '高倍望远镜',
