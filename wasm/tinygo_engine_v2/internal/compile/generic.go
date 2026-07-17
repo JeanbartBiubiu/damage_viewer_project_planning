@@ -145,18 +145,18 @@ type CompiledTickSpec struct {
 
 // CompiledAbility 是 compile 后的 ability 定义。
 type CompiledAbility struct {
-	AbilityKey            string
-	Kind                  string
-	TypeSet               typeset.TypeSet
-	Params                map[string]float64
-	Cost                  *CompiledAbilityCost
-	Cooldown              *CompiledAbilityCooldown
-	CastConditionProgram  formula.GenericProgramID
-	HasCastCondition      bool
-	TickSpec              *CompiledTickSpec
-	ProviderIndex         uint16
-	OperationStart        uint16
-	OperationCount        uint16
+	AbilityKey           string
+	Kind                 string
+	TypeSet              typeset.TypeSet
+	Params               map[string]float64
+	Cost                 *CompiledAbilityCost
+	Cooldown             *CompiledAbilityCooldown
+	CastConditionProgram formula.GenericProgramID
+	HasCastCondition     bool
+	TickSpec             *CompiledTickSpec
+	ProviderIndex        uint16
+	OperationStart       uint16
+	OperationCount       uint16
 }
 
 // CompiledOperation 是 compile 后的 operation 定义。
@@ -575,7 +575,6 @@ func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileConte
 			compiled.Kind = "attribute"
 		}
 		if compiled.Kind == "pipeline" {
-			// P0: pipeline modifiers require command-pipeline integration; validate/retain only.
 			session.RuleModifiers = append(session.RuleModifiers, compiled)
 			continue
 		}
@@ -627,7 +626,41 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 			compiled.HasCondition = true
 		}
 	}
+	if compiled.Kind == "pipeline" {
+		validatePipelineModifier(compiled, path, collector)
+	}
 	return compiled
+}
+
+// validatePipelineModifier collects errors for unsupported pipeline vocabulary.
+// Supported: command=damage, channel=basic_damage,
+// stage=outgoing_pre_mitigation|incoming_post_mitigation,
+// bucket=all_instances|first_per_cast, valuePolicy=multiply|override.
+func validatePipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+	if mod.Command != "damage" {
+		collector.addError(model.GenericErrUnknownRef, path+".command", "unsupported pipeline modifier command", mod.Command)
+	}
+	if mod.Channel != "basic_damage" {
+		collector.addError(model.GenericErrUnknownRef, path+".channel", "unsupported pipeline modifier channel", mod.Channel)
+	}
+	switch mod.Stage {
+	case "outgoing_pre_mitigation", "incoming_post_mitigation":
+	default:
+		collector.addError(model.GenericErrUnknownRef, path+".stage", "unsupported pipeline modifier stage", mod.Stage)
+	}
+	switch mod.Bucket {
+	case "all_instances", "first_per_cast":
+	default:
+		collector.addError(model.GenericErrUnknownRef, path+".bucket", "unsupported pipeline modifier bucket", mod.Bucket)
+	}
+	switch mod.ValuePolicy {
+	case "multiply", "override":
+	default:
+		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "unsupported pipeline modifier valuePolicy", mod.ValuePolicy)
+	}
+	if !mod.HasValue {
+		collector.addError(model.GenericErrMissingRequiredField, path+".value", "pipeline modifier value is required", mod.ModifierKey)
+	}
 }
 
 func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *genericCompileContext) *CompiledProviderLifecycle {

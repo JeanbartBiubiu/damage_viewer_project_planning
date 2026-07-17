@@ -1,0 +1,636 @@
+{
+  "schemaVersion": "lol-wiki-current-champion-abilities-v1",
+  "fetchedAt": "2026-07-17T14:03:00.072Z",
+  "sourceApi": "https://wiki.leagueoflegends.com/en-us/api.php",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision",
+      "data_dragon_secondary",
+      "batch_b_ocr_historical_provenance_only"
+    ],
+    "blockedDataPolicy": "A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract. Screenshots/OCR are not an acceptable missing-data source."
+  },
+  "contracts": [
+    {
+      "id": "akshan-e",
+      "championId": "Akshan",
+      "skillKey": "E",
+      "abilityName": "Heroic Swing",
+      "zhName": "骄行荡寇",
+      "requestTitle": "Template:Data Akshan/E",
+      "resolvedTitle": "Template:Data Akshan/Heroic Swing",
+      "pageId": 1502464,
+      "revisionId": 4007412,
+      "revisionTimestamp": "2026-04-11T16:52:05Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Akshan/Heroic%20Swing",
+      "contentSha256": "e4304b3a5f145f7975fee0d07d55d041db25570266d9a46053735425585c99f4",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "physicalDamagePerShot": {
+          "baseByRank": [
+            8,
+            16,
+            24,
+            32,
+            40
+          ],
+          "adRatio": 0.25,
+          "bonusAsMultiplier": "(1 + 0.3 per 100% bonus AS)",
+          "sourceField": "leveling3",
+          "sourceSnippet": "{{tip|immobilize|immobilizing}} or {{tip|polymorph|polymorphing}} crowd control during the dash.'' |leveling3 = {{st|Physical Damage per Shot|{{ap|8 to 40}} {{as|(+ 25% AD)}} {{times}} {{as|(1 + {{fd|0.3}} per 100% '''bonus''' attack speed)}}}} |description4 ="
+        },
+        "shotIntervalSeconds": {
+          "value": 0.2,
+          "sourceField": "description3",
+          "sourceSnippet": "g upon colliding with an enemy champion or terrain. While swinging, he fires at the nearest {{tip|sight|visible}} enemy every {{rutngt|0.2}} to deal them {{as|physical damage}} and apply {{tip|on-hit}} effects for each shot, with on-hit damage r"
+        },
+        "manaCost": {
+          "value": 70,
+          "sourceField": "cost",
+          "sourceSnippet": "seconds, then the nearest enemy. Heroic Swing can be cast during '''Akshan's''' other abilities.'' |cooldown = {{ap|18 to 12}} |cdstart = post-effect |cost = 70 |costtype = Mana |cast time = none |target range = {{tt|800|First cast hookshot range}} |effect radius= {{tt|500|Automatic shot fire radius during swing"
+        },
+        "cooldownByRank": {
+          "value": [
+            18,
+            16.5,
+            15,
+            13.5,
+            12
+          ],
+          "sourceField": "cooldown",
+          "sourceSnippet": "d by his {{tip|unit-targeted|targeted}} spells in the last 4 seconds, then the nearest enemy. Heroic Swing can be cast during '''Akshan's''' other abilities.'' |cooldown = {{ap|18 to 12}} |cdstart = post-effect |cost = 70 |costtype = Mana |cast time = none |target range = {{tt|800|First cast hookshot range}} |effec"
+        }
+      },
+      "numericContractStatus": "complete_for_per_shot_damage",
+      "remainingRuntimeScope": [
+        "movement_swing_path",
+        "shot_count_during_swing",
+        "hook_attach_terrain"
+      ],
+      "note": "Movement/swing/shot-count remains runtime scope, not a Wiki data gap."
+    },
+    {
+      "id": "akshan-p",
+      "championId": "Akshan",
+      "skillKey": "P",
+      "abilityName": "Dirty Fighting",
+      "zhName": "无所不用",
+      "requestTitle": "Template:Data Akshan/I",
+      "resolvedTitle": "Template:Data Akshan/Dirty Fighting",
+      "pageId": 1502461,
+      "revisionId": 4038197,
+      "revisionTimestamp": "2026-06-30T06:19:45Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Akshan/Dirty%20Fighting",
+      "contentSha256": "22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "secondShotAdRatio": {
+          "value": 0.5,
+          "minionAdRatio": 1,
+          "sourceField": "description",
+          "sourceSnippet": "|Innate:}} Whenever '''Akshan''' uses a {{tip|basic attack}}, he fires an additional shot after a delay that deals {{as|50% AD}} {{as|physical damage}}, increased to {{as|100% AD}} against {{tip|minions}}. Issuing an {{tt|attack order|Default rig"
+        },
+        "dirtyFightingStacks": {
+          "durationSeconds": 5,
+          "maxStacks": 3,
+          "sourceField": "description3",
+          "sourceSnippet": "kshan's''' basic attacks {{tip|on-hit}} and {{tip|ability}} hits apply a {{tip|stack}} of ''Dirty Fighting'' to enemies for 5 seconds, refreshing on subsequent applications and stacking up to 3 times. The third stack against a target consumes them all t"
+        },
+        "thirdStackMagicDamage": {
+          "levelThresholds": [
+            15,
+            40,
+            80,
+            150
+          ],
+          "levels": [
+            1,
+            6,
+            11,
+            16
+          ],
+          "apRatio": 0.6,
+          "sourceField": "description3",
+          "sourceSnippet": "e third stack against a target consumes them all to deal them {{as|{{pp|15;40;80;150|1;6;11;16}}|magic damage}} {{as|(+ 60% AP)}} {{as|'''bonus''' magic damage}}; if the target is a {{tip|champion}}, '''Akshan''' will also gain a {{pplevel|40+(24"
+        },
+        "shieldBranch": {
+          "inDamageScope": false,
+          "note": "Champion-target shield may remain out of damage scope.",
+          "sourceSnippet": ", '''Akshan''' will also gain a {{pplevel|40+(240/17)*(x-1)*(0.7025+0.0175*(x-1))}} {{as|(+ 35% '''bonus''' AD)}} {{tip|shield}} for 2 seconds. The shield may be gained only once every few seconds. |customlabel = {{tt|Static Cooldown|Unaffected"
+        }
+      },
+      "numericContractStatus": "complete_for_damage_branch"
+    },
+    {
+      "id": "ashe-q",
+      "championId": "Ashe",
+      "skillKey": "Q",
+      "abilityName": "Ranger's Focus",
+      "zhName": "射手的专注",
+      "requestTitle": "Template:Data Ashe/Q",
+      "resolvedTitle": "Template:Data Ashe/Ranger's Focus",
+      "pageId": 1306805,
+      "revisionId": 4016907,
+      "revisionTimestamp": "2026-05-13T12:53:47Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Ranger's%20Focus",
+      "contentSha256": "3a6bf74888a0cc48333f5d9058feb129d5326eb3b898f76aa7740d61fdf5948b",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "focusStacks": {
+          "value": 4,
+          "unit": "stacks",
+          "sourceField": "costtype",
+          "sourceSnippet": "r:ad5}}}}% AD}}}} |description4 = ''Ranger's Focus {{tip|basic attack reset|resets}} '''Ashe's''' basic attack timer.'' |cost = 30 |cast time = none |costtype = Mana + 4 Focus |targeting = Auto |affects = Self |damagetype = Physical |spellshield = false |spelleffects = special |projectile = True |parry = True |not"
+        },
+        "focusDurationSeconds": {
+          "value": 4,
+          "unit": "s",
+          "note": "Passive Focus duration; stacks expire one-by-one every second after duration ends.",
+          "sourceSnippet": "<!-- Damage values are defined as parameters.\n-->{{#vardefine:ad1|110}}<!-- Generic/Normal rank 1 total damage AD ratio as a PERCENTAGE\n-->{{#vardefine:ad5|130}}<!-- Generic/Normal rank 5 total damage AD ratio as a PERCENTAGE\n-->{{{{{1<noin"
+        },
+        "flurryDurationSeconds": {
+          "value": 6,
+          "unit": "s",
+          "sourceField": "description2",
+          "sourceSnippet": "e by one every second when the duration ends. |icon2 = Ashe Ranger's Focus 2.png |description2 = {{sbc|Active:}} For 6 seconds, '''Ashe''' gains {{sti|as|{{as|'''bonus''' attack speed}}}} and empowers her basic attacks to fire a flurry of five ar"
+        },
+        "bonusAttackSpeedRankTablePercent": {
+          "value": [
+            20,
+            30,
+            40,
+            50,
+            60
+          ],
+          "sourceField": "leveling2",
+          "sourceSnippet": "fe steal}}}} and ''{{ai|Frost Shot|Ashe}}'' per arrow, but apply {{tip|on-hit}} effects only once. |leveling2 = {{st|Bonus Attack Speed|{{ap|20 to 60}}%}} {{st|Physical Damage Per Arrow|{{as|{{ap|{{#var:ad1}}/5 to {{#var:ad5}}/5}}% AD}}|Total Damage Per F"
+        },
+        "arrowsPerFlurry": {
+          "value": 5,
+          "sourceSnippet": ":}} For 6 seconds, '''Ashe''' gains {{sti|as|{{as|'''bonus''' attack speed}}}} and empowers her basic attacks to fire a flurry of five arrows that deal {{as|'''modified''' physical damage}}. The flurries {{tip|applies life steal|apply}} {{as|{{sti|life steal}}}"
+        },
+        "totalDamagePerFlurryAdPercentRank5": {
+          "value": 130,
+          "sourceField": "ad5 vardefine",
+          "sourceSnippet": "defined as parameters. -->{{#vardefine:ad1|110}}<!-- Generic/Normal rank 1 total damage AD ratio as a PERCENTAGE -->{{#vardefine:ad5|130}}<!-- Generic/Normal rank 5 total damage AD ratio as a PERCENTAGE -->{{{{{1<noinclude>|Ability data</noinclude>}}}|Rang"
+        },
+        "firstFlurry": {
+          "arrows": 6,
+          "totalDamageAdPercentRank5": 156,
+          "note": "First flurry fires one additional arrow (20% increased total damage): 130%*1.2=156% AD.",
+          "sourceSnippet": "g}} * The first flurry of a ''Ranger's Focus'' cast fires{{ft|one additional arrow, dealing 20% increased total damage.|six arrows, dealing a total of {{as|{{ap|{{#var:ad1}}*1.2 to {{#var:ad5}}*1.2}}%|attack damage}} {{as|attack damage}}.}} * ''Range"
+        },
+        "manaCost": {
+          "value": 30,
+          "sourceField": "cost",
+          "sourceSnippet": "r Flurry|{{as|{{ap|{{#var:ad1}} to {{#var:ad5}}}}% AD}}}} |description4 = ''Ranger's Focus {{tip|basic attack reset|resets}} '''Ashe's''' basic attack timer.'' |cost = 30 |cast time = none |costtype = Mana + 4 Focus |targeting = Auto |affects = Self |damagetype = Physical |spellshield = false |spelleffects = sp"
+        }
+      },
+      "userScope": {
+        "included": [
+          "4 Focus cast gate",
+          "6s Flurry window",
+          "rank5 +60% AS",
+          "5 arrows at 130% AD total / first flurry 6 arrows at 156% AD",
+          "30 mana"
+        ],
+        "explicitlyExcluded": [
+          "attack_timer_reset",
+          "arrow_flight",
+          "Frost Shot",
+          "life_steal",
+          "structures_multitarget",
+          "full_rotation"
+        ]
+      },
+      "differencesFromPriorEvidence": [
+        {
+          "topic": "bonus_attack_speed_rank5",
+          "wiki": "60%",
+          "priorGenericSeedNote": "wasm-generic-ashe-rangers-focus historically cited percent_add=0.75 (75%)",
+          "resolution": "prefer_current_wiki_60_percent"
+        }
+      ],
+      "numericContractStatus": "complete_for_user_scope"
+    },
+    {
+      "id": "ashe-w",
+      "championId": "Ashe",
+      "skillKey": "W",
+      "abilityName": "Volley",
+      "zhName": "万箭齐发",
+      "requestTitle": "Template:Data Ashe/W",
+      "resolvedTitle": "Template:Data Ashe/Volley",
+      "pageId": 1306807,
+      "revisionId": 4007430,
+      "revisionTimestamp": "2026-04-11T18:11:13Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Volley",
+      "contentSha256": "7e12c2b27533ff696411e2eff05d7f5b5c9e3b1ad45f09e017df2a764abb5e28",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "physicalDamage": {
+          "baseByRank": [
+            60,
+            95,
+            130,
+            165,
+            200
+          ],
+          "bonusAdRatio": 1,
+          "sourceField": "leveling",
+          "sourceSnippet": "i|Frost Shot 2|Ashe|Critical Slow}}'' to enemy {{tip|champions}} hit. |leveling = {{st|Arrows|{{ap|7 to 11}}}} {{st|Physical Damage|{{ap|60 to 200}} {{as|(+ 100% '''bonus''' AD)}}}} |description2 = Enemies can intercept multiple arrows but do not take"
+        },
+        "arrowsByRank": {
+          "value": [
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "sourceField": "leveling",
+          "sourceSnippet": "enemy hit, and applying ''{{ai|Frost Shot 2|Ashe|Critical Slow}}'' to enemy {{tip|champions}} hit. |leveling = {{st|Arrows|{{ap|7 to 11}}}} {{st|Physical Damage|{{ap|60 to 200}} {{as|(+ 100% '''bonus''' AD)}}}} |description2 = Enemies can int"
+        },
+        "cooldownByRank": {
+          "value": [
+            18,
+            14.5,
+            11,
+            7.5,
+            4
+          ],
+          "sourceField": "cooldown",
+          "sourceSnippet": "one}}|{{tt|{{fd|4.625}}{{degrees}}|Angle between individual missiles}}}} |width = {{tip|er|icononly = true}} {{tt|20|Each missile}} |speed = 2000 |cooldown = {{ap|18 to 4}} |cast time = {{fd|0.25}} |cost = {{ap|75 to 55}} |costtype = Mana |targeting = Direction |affects = Enemies |damagetype = Ph"
+        },
+        "manaCostByRank": {
+          "value": [
+            75,
+            70,
+            65,
+            60,
+            55
+          ],
+          "sourceField": "cost",
+          "sourceSnippet": "missiles}}}} |width = {{tip|er|icononly = true}} {{tt|20|Each missile}} |speed = 2000 |cooldown = {{ap|18 to 4}} |cast time = {{fd|0.25}} |cost = {{ap|75 to 55}} |costtype = Mana |targeting = Direction |affects = Enemies |damagetype = Physical |spellshield = True |spelleffects = aoe |projectile"
+        },
+        "firstArrowOnlyDamages": {
+          "value": true,
+          "sourceField": "description2",
+          "sourceSnippet": "ical Damage|{{ap|60 to 200}} {{as|(+ 100% '''bonus''' AD)}}}} |description2 = Enemies can intercept multiple arrows but do not take damage from any beyond the first. |effect radius= {{tip|cr|icononly = true}} {{tt|1200|Not including the offset, see notes}} |angle = {{dv|{{tt|{"
+        }
+      },
+      "numericContractStatus": "complete"
+    },
+    {
+      "id": "draven-q",
+      "championId": "Draven",
+      "skillKey": "Q",
+      "abilityName": "Spinning Axe",
+      "zhName": "旋转飞斧",
+      "requestTitle": "Template:Data Draven/Q",
+      "resolvedTitle": "Template:Data Draven/Spinning Axe",
+      "pageId": 1307066,
+      "revisionId": 3997560,
+      "revisionTimestamp": "2026-03-08T18:46:41Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Draven/Spinning%20Axe",
+      "contentSha256": "c68bd17937d584b0f6e149a802c1748d1b62849092d82a267d501997b0a195ed",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "bonusPhysicalDamage": {
+          "baseByRank": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "bonusAdRatioByRankPercent": [
+            75,
+            85,
+            95,
+            105,
+            115
+          ],
+          "rank5": {
+            "base": 60,
+            "bonusAdRatio": 1.15
+          },
+          "sourceField": "leveling",
+          "sourceSnippet": "is next {{tip|basic attack}} within {{fd|5.8}} seconds to deal {{as|'''bonus''' physical damage}}. |leveling = {{st|Bonus Physical Damage|{{ap|40 to 60}} {{as|(+ {{ap|75 to 115}}% '''bonus''' AD)}}}} |icon2 = Draven Axe Indicator.png |description2 ="
+        },
+        "catchLandingSeconds": {
+          "approx": 1.4,
+          "rangeSeconds": [
+            1.35,
+            1.4
+          ],
+          "sourceField": "description2/notes",
+          "sourceSnippet": "= Draven Axe Indicator.png |description2 = Upon hitting the target, the axe then ricochets off of them to land after roughly 1.4 seconds, with the location being determined by '''Draven's''' {{tt|current movement|See notes}}. If '''Draven''' catches the ax"
+        },
+        "maxAxesInHand": {
+          "value": 2,
+          "sourceField": "description3",
+          "sourceSnippet": "'''Draven''' catches the axe, he gains ''Spinning Axe's'' empowered attack again. |description3 = '''Draven''' can hold up to two ''Spinning Axes'' at once. |cooldown = {{ap|12 to 8}} |cdstart = on-cast |cast time = none |cost ="
+        },
+        "manaCost": {
+          "value": 45,
+          "sourceField": "cost",
+          "sourceSnippet": "k again. |description3 = '''Draven''' can hold up to two ''Spinning Axes'' at once. |cooldown = {{ap|12 to 8}} |cdstart = on-cast |cast time = none |cost = 45 |costtype = mana |targeting = Auto |spelleffects = basic |affects = Self |damagetype = Physical |onhiteffects = Special |parry = true |spe"
+        },
+        "cooldownByRank": {
+          "value": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "rank5": 8,
+          "sourceField": "cooldown",
+          "sourceSnippet": "If '''Draven''' catches the axe, he gains ''Spinning Axe's'' empowered attack again. |description3 = '''Draven''' can hold up to two ''Spinning Axes'' at once. |cooldown = {{ap|12 to 8}} |cdstart = on-cast |cast time = none |cost = 45 |costtype = mana |targeting = Auto |spelleffects = basic |affects = Self"
+        },
+        "buffDurationSeconds": {
+          "value": 5.8,
+          "sourceField": "description",
+          "sourceSnippet": "at once. |description = {{sbc|Active:}} '''Draven''' starts spinning his axe, empowering his next {{tip|basic attack}} within {{fd|5.8}} seconds to deal {{as|'''bonus''' physical damage}}. |leveling = {{st|Bonus Physical Damage|{{ap|40 to 60"
+        }
+      },
+      "numericContractStatus": "complete_for_damage_catch_cap_mana_cd",
+      "remainingRuntimeScope": [
+        "axe_caught_event",
+        "catch_rearm",
+        "dual_axe_cap_implementation",
+        "landing_movement_ownership"
+      ]
+    },
+    {
+      "id": "ezreal-p",
+      "championId": "Ezreal",
+      "skillKey": "P",
+      "abilityName": "Rising Spell Force",
+      "zhName": "咒能高涨",
+      "requestTitle": "Template:Data Ezreal/I",
+      "resolvedTitle": "Template:Data Ezreal/Rising Spell Force",
+      "pageId": 1307105,
+      "revisionId": 3932280,
+      "revisionTimestamp": "2025-07-18T21:56:34Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ezreal/Rising%20Spell%20Force",
+      "contentSha256": "5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "attackSpeedPerStackPercent": {
+          "value": 10,
+          "sourceField": "description2",
+          "sourceSnippet": "nd stacking up to 5 times. |description2 = {{sbc|Rising Spell Force:}} For each stack, '''Ezreal''' gains {{sti|as|{{as|10% '''bonus''' attack speed}}}}, up to a maximum of {{as|50%|attack speed}}. |targeting = Passive |affects = Self"
+        },
+        "maxStacks": {
+          "value": 5,
+          "maxAttackSpeedPercent": 50,
+          "sourceField": "description",
+          "sourceSnippet": "ng Spell Force'' for each enemy hit by his {{tip|abilities}}, lasting for 6 seconds, refreshing on subsequent hits, and stacking up to 5 times. |description2 = {{sbc|Rising Spell Force:}} For each stack, '''Ezreal''' gains {{sti|as|{{as|10% '''bonus''' attack sp"
+        },
+        "durationSeconds": {
+          "value": 6,
+          "sourceField": "description",
+          "sourceSnippet": "Innate:}} '''Ezreal''' generates a {{tip|stack}} of ''Rising Spell Force'' for each enemy hit by his {{tip|abilities}}, lasting for 6 seconds, refreshing on subsequent hits, and stacking up to 5 times. |description2 = {{sbc|Rising Spell Force:}} For each stack,"
+        }
+      },
+      "numericContractStatus": "complete"
+    },
+    {
+      "id": "graves-p",
+      "championId": "Graves",
+      "skillKey": "P",
+      "abilityName": "New Destiny",
+      "zhName": "新命运",
+      "requestTitle": "Template:Data Graves/I",
+      "resolvedTitle": "Template:Data Graves/New Destiny",
+      "pageId": 1307364,
+      "revisionId": 4038342,
+      "revisionTimestamp": "2026-06-30T09:07:23Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Graves/New%20Destiny",
+      "contentSha256": "553bda222e9e85f0eff6d4cba3b8723979a58b68fba9097d2dfa1bd373117aa8",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "pointBlankScope": {
+          "decision": "point_blank_maximum_pellets_only",
+          "normalPellets": 4,
+          "critPellets": 6,
+          "sourceSnippet": "expended all {{as|shells|buzzword3}}. |description2 = {{sbc|Innate - 12-Gauge:}} '''Graves'''' basic attack sprays {{as|4 pellets|buzzword2}} in a cone, each colliding with the first enemy unit in their path, dealing {{as|{{pplevel|key=%|100*(0.6895"
+        },
+        "normalPelletDamageFormulas": {
+          "firstPelletAdRatioFormula": "100*(0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1)))% AD",
+          "subsequentPelletFractionOfFirst": 0.33302,
+          "maxTotalSingleTargetFormula": "100*(0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1)))*(1+3*0.33302)% AD",
+          "sourceField": "description2",
+          "sourceSnippet": "are basic attacks during the reload time if he has expended all {{as|shells|buzzword3}}. |description2 = {{sbc|Innate - 12-Gauge:}} '''Graves'''' basic attack sprays {{as|4 pellets|buzzword2}} in a cone, each colliding with the first enemy unit in",
+          "status": "wiki_explicit"
+        },
+        "critPelletDamageFormulas": {
+          "pellets": 6,
+          "widerConePercent": 25,
+          "critBonusDamageNote": "50% bonus critical damage scaling per Wiki critical damage helper",
+          "sourceField": "description3",
+          "sourceSnippet": "{{{{{1<noinclude>|Ability data</noinclude>}}}|New Destiny|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}\n|champion     = Graves\n|skill        = I\n|icon         = New Destiny.png\n|blurbicon    = New Destiny.png\n|blurb        = {{sbc|Innate:}} {{cis|Gra",
+          "status": "wiki_explicit"
+        },
+        "reloadSpeedPreciseFormula": {
+          "status": "wiki_explicit_unknown",
+          "evidenceSnippet": "65114 to 0.89119)|formula=1 / Reload Speed Cap.}} seconds, which is the shortest reload time at the 150% threshold. *** Precise formula is unknown, but it is confirmed to be confusing. [https://www.youtube.com/watch?v=WXmXsCdqAyw&t=520s] * The in-game HUD for the ch",
+          "approximateNotesPresent": true,
+          "approximateNoteSnippet": "= On-hit |callforhelp = True |parry = special |projectile = True |notes = * '''Graves''' takes {{fd|2.08}} seconds to reload 2 shells (when the clip is empty) and {{fd|1.3}} seconds to reload 1 shell. He must idle with 1 she"
+        }
+      },
+      "numericContractStatus": "partial_wiki_explicit_unknown_reload",
+      "blockedDataFields": [
+        "precise_reload_speed_formula"
+      ]
+    },
+    {
+      "id": "kaisa-p",
+      "championId": "Kai'Sa",
+      "skillKey": "P",
+      "abilityName": "Second Skin",
+      "zhName": "体表活肤",
+      "requestTitle": "Template:Data Kai'Sa/I",
+      "resolvedTitle": "Template:Data Kai'Sa/Second Skin",
+      "pageId": 1353550,
+      "revisionId": 4038390,
+      "revisionTimestamp": "2026-06-30T09:23:10Z",
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kai'Sa/Second%20Skin",
+      "contentSha256": "f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f",
+      "dataPolicy": {
+        "precedence": [
+          "league_wiki_current_template",
+          "ddragon",
+          "batch_b_ocr_historical_provenance_only"
+        ],
+        "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
+      },
+      "contracts": {
+        "plasmaDurationSeconds": {
+          "value": 4,
+          "maxStacks": 5,
+          "sourceField": "description2",
+          "sourceSnippet": "ic attacks}} {{tip|on-hit}} and ''{{ai|Void Seeker|Kai'Sa}}'' apply {{tip|stacks}} of {{as|Plasma|buzzword}} to enemies for 4 seconds, refreshing on subsequent applications and stacking up to 5 times. Basic attacks each apply 1 stack and ''{{ai|Void See"
+        },
+        "causticWoundsFlat": {
+          "baseByLevel": "4 to 24",
+          "apRatio": 0.12,
+          "perPriorStackByLevel": "1 to 6",
+          "perPriorStackApRatio": 0.03,
+          "sourceField": "description3",
+          "sourceSnippet": "}}, and allied {{tip|polymorph|polymorphs}} and {{tip|immobilize|immobilizing}} effects. |blurb3 = {{sbc|Innate - Caustic Wounds:}} Applying {{as|Plasma|buzzword}} deals an increasing amount of {{as|magic damage}}. Upon applying the final stack, al",
+          "wikiMarkupEvidence": {
+            "base": "{{pplevel|4 to 24}}",
+            "perPriorStack": "{{pplevel|1 to 6}}"
+          },
+          "sourceDependencies": [
+            {
+              "id": "passive-progression-level",
+              "requestTitle": "Template:Pplevel",
+              "resolvedTitle": "Template:Passive progression level",
+              "pageId": 1734142,
+              "revisionId": 4036514,
+              "revisionTimestamp": "2026-06-27T04:56:07Z",
+              "contentSha256": "d34a24b40b2b63b6274beb06289feaa8cd5650fb075d722189a11fd03a6b9ad7",
+              "rawByteSize": 96,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3APassive%20progression%20level"
+            },
+            {
+              "id": "ability-progression",
+              "requestTitle": "Module:Ability progression",
+              "resolvedTitle": "Module:Ability progression",
+              "pageId": 1376072,
+              "revisionId": 4039181,
+              "revisionTimestamp": "2026-07-03T11:04:58Z",
+              "contentSha256": "0fcd3952902606d910987f9e036b221c94e5b7faab2e510091b98391dd3a3295",
+              "rawByteSize": 29180,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Module%3AAbility%20progression"
+            }
+          ],
+          "baseInterpolation": {
+            "kind": "pplevel_bare_range_levels_1_to_18",
+            "template": "pplevel",
+            "markup": "{{pplevel|4 to 24}}",
+            "start": 4,
+            "finish": 24,
+            "levels": {
+              "first": 1,
+              "last": 18
+            },
+            "defaultSize": 18,
+            "linearDenominator": 17,
+            "exactFormula": "4 + (24-4)/17*(level-1)",
+            "wikiModuleSemantics": {
+              "entry": "pplevel -> pp",
+              "defaultSize": 18,
+              "linearFill": "after emitting start, fill with start + (finish-start) * x / times; bare A to B spans levels 1..18 with times=17",
+              "provesLinearFill": true
+            },
+            "projectRuntimePolicy": {
+              "useExactLinearFormula": true,
+              "artificialIntermediateRounding": false,
+              "note": "Wiki module proves linear fill; current project runtime uses the exact linear formula without artificial intermediate rounding."
+            },
+            "displayRounding": {
+              "presentationMetadataOnly": true,
+              "mutatesExactFormula": false,
+              "note": "Any Wiki tooltip/display rounding is presentation metadata only and must not mutate the exactFormula used by project runtime."
+            }
+          },
+          "perPriorStackInterpolation": {
+            "kind": "pplevel_bare_range_levels_1_to_18",
+            "template": "pplevel",
+            "markup": "{{pplevel|1 to 6}}",
+            "start": 1,
+            "finish": 6,
+            "levels": {
+              "first": 1,
+              "last": 18
+            },
+            "defaultSize": 18,
+            "linearDenominator": 17,
+            "exactFormula": "1 + (6-1)/17*(level-1)",
+            "wikiModuleSemantics": {
+              "entry": "pplevel -> pp",
+              "defaultSize": 18,
+              "linearFill": "after emitting start, fill with start + (finish-start) * x / times; bare A to B spans levels 1..18 with times=17",
+              "provesLinearFill": true
+            },
+            "projectRuntimePolicy": {
+              "useExactLinearFormula": true,
+              "artificialIntermediateRounding": false,
+              "note": "Wiki module proves linear fill; current project runtime uses the exact linear formula without artificial intermediate rounding."
+            },
+            "displayRounding": {
+              "presentationMetadataOnly": true,
+              "mutatesExactFormula": false,
+              "note": "Any Wiki tooltip/display rounding is presentation metadata only and must not mutate the exactFormula used by project runtime."
+            }
+          }
+        },
+        "fifthStackMissingHealth": {
+          "baseRatio": 0.15,
+          "apPer100": 0.06,
+          "monsterCap": 400,
+          "sourceField": "description3",
+          "sourceSnippet": "he dies during its {{tip|lockout}}. * '''Kai'Sa''' can evolve an ability even if she hasn't learned it yet. * The bonus missing health damage is evaluated after the initial damage from ''Caustic Wounds'' is evaluated, and after {{ais|Void Seeker|Kai'Sa}}"
+        }
+      },
+      "numericContractStatus": "complete",
+      "historicalProvenanceOnly": [
+        "Batch-B level1/OCR may remain as provenance; never competing numeric truth when current Wiki exists."
+      ]
+    }
+  ]
+}
