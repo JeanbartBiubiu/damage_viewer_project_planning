@@ -224,3 +224,17 @@ func TestGenericEvalEventSnapshotReads(t *testing.T) {
 		t.Fatalf("mana max=%v err=%v want 80", got, err)
 	}
 }
+
+func TestGenericEvalDamageAmountRequiresContext(t *testing.T) {
+	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.amount"})
+	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+		t.Fatal("expected structural failure without damage context")
+	}
+	got, err := reg.Eval(0, GenericEvalContext{HasDamageContext: true, DamageAmount: 85})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != 85 {
+		t.Fatalf("got %v want 85", got)
+	}
+}

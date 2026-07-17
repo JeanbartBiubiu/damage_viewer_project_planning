@@ -11,8 +11,17 @@ const paths = {
   adcItemSeed: path.join(repoRoot, '最小验证', 'V2-Batch-C-adc-items.seed.json'),
   itemPassiveSeed: path.join(repoRoot, '最小验证', 'V2-Batch-D-adc-item-passives.seed.json'),
   auditJson: path.join(repoRoot, '最小验证', 'V2-Batch-G-adc-passive-audit.json'),
-  coverageDoc: path.join(repoRoot, '文档记录', '详细设计', '最小验证', 'V2-BatchG-ADC被动覆盖清单.md'),
+  wikiContracts: path.join(
+    repoRoot,
+    '数据参考',
+    'lol-wiki-current-champions',
+    'normalized',
+    'reviewed-contracts.json',
+  ),
 };
+
+const WIKI_NUMERIC_NEED =
+  '当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式';
 
 const CLASSIFICATIONS = [
   'ready_to_encode',
@@ -68,13 +77,60 @@ const ITEM_CLASSIFICATION_OVERRIDES = new Map([
   ['3153:雾之锋', alreadyCovered(['on_hit', 'target_current_hp_ratio'])],
   ['3153:抓挠之影', outOfScope(['slow', 'control_only'], '只产生减速，不改变当前单标靶 DPS 曲线。')],
   ['6672:放倒它', alreadyCovered(['every_n_hit', 'target_missing_hp_amp'])],
+  // 用户批准 fixed-max 口径：eligible basic damage 一律 ×1.10；距离分段为排除分支，非 blocker。
+  [
+    '2523:高倍望远镜',
+    alreadyCovered(['outgoing_pre_mitigation_basic_damage_amp', 'fixed_maximum_multiplier']),
+  ],
+  [
+    '2523:奥术瞄准',
+    outOfScope(
+      ['takedown_attack_range_only'],
+      'takedown 后仅增加攻击距离，无伤害增量；不与 Magnification/高倍望远镜合并。',
+    ),
+  ],
 ]);
 
-function alreadyCovered(mechanismTags) {
+/** Hero skill overrides keyed by `${heroId}:${skillKey}` (heroId already lowercased). */
+const HERO_CLASSIFICATION_OVERRIDES = new Map([
+  // Ashe W Volley：1v1 first-arrow-only 伤害分支已由 generic seed + wasm 证据闭环；不得标 ready_to_encode。
+  [
+    'hero_ashe:W',
+    alreadyCovered(['ability_flat_bonus_ad_damage', 'first_missile_only']),
+  ],
+  // Ezreal P Rising Spell Force：bounded 1v1 stacking AS 已由 generic seed + wasm 证据闭环；不得标 needs_runtime_extension。
+  [
+    'hero_ezreal:P',
+    alreadyCovered(['stacking_stat_modifier_on_hit', 'attack_speed_percent_add']),
+  ],
+  // Kai'Sa P Second Skin：canonical generic ABI 已由 generic seed + wasm 证据闭环；不得标 needs_runtime_extension/ready_to_encode。
+  [
+    'hero_kaisa:P',
+    alreadyCovered(['on_hit', 'stacking_plasma', 'missing_health_consume']),
+  ],
+  // Akshan P Dirty Fighting：verified damage core（AA stacks / third-stack magic）已闭环。
+  // legacy Batch-G schema 无法表达 mixed completion，故 already_covered=partial core only；
+  // 不得再标 survivability-only out_of_scope。剩余 second-shot delay / ability-hit stacks /
+  // shield+cancel-MS / retarget 等缺口保留在 G8/unified，不声称 full。
+  [
+    'hero_akshan:P',
+    alreadyCovered(
+      [
+        'every_n_hit',
+        'on_hit',
+        'stacking_dirty_fighting',
+        'magic_proc_on_third_stack',
+      ],
+      'partial core only（Batch-G schema）：verified AA dirty_fighting_stacks/third-stack magic；非 full；其余缺口见 G8/unified',
+    ),
+  ],
+]);
+
+function alreadyCovered(mechanismTags, blockedReason = '') {
   return {
     classification: 'already_covered',
     mechanismTags,
-    blockedReason: '',
+    blockedReason,
     needsUserData: [],
   };
 }
@@ -259,6 +315,15 @@ function splitItemPassiveSections(item) {
 
 function classifyHeroSkill({ champion, heroId, skillKey, sourceText, coveredHeroSkillKeys, completeHeroLevelData, spell }) {
   const coveredKey = `${heroId.toLowerCase()}:${skillKey}`;
+  const heroOverride = HERO_CLASSIFICATION_OVERRIDES.get(coveredKey);
+  if (heroOverride) {
+    return {
+      ...heroOverride,
+      levelDataStatus: completeHeroLevelData.has(heroId.toLowerCase()) ? 'complete' : 'missing',
+      rankTableStatus: 'not_applicable',
+      candidateDpsPassiveEffect: {},
+    };
+  }
   if (coveredHeroSkillKeys.has(coveredKey)) {
     return {
       ...alreadyCovered(['existing_batch_b_seed']),
@@ -370,13 +435,21 @@ function classifyTextForDps(text) {
   }
   if (/(额外生命值|最大生命值|当前生命值|已损失生命值|missing health|max health|current health)/i.test(text) && /(额外伤害|伤害|damage)/i.test(text)) {
     if (/(一部分|至多|基于|%目标当前生命值|额外物理伤害$)/i.test(text) && !/\d+(?:\.\d+)?%|\d+/.test(text)) {
-      return manualBaseline(['health_ratio_damage'], '描述是生命值比例伤害，但本地 Data Dragon 文本缺可审计数值。', ['完整 tooltip 数值或训练营截图']);
+      return manualBaseline(
+        ['health_ratio_damage'],
+        '描述是生命值比例伤害，但本地 Data Dragon 文本缺可审计数值；须以当前 League Wiki 模板/修订为数值真源。',
+        [WIKI_NUMERIC_NEED],
+      );
     }
     return runtimeExtension(['damage_multiplier_or_health_ratio'], '当前 DPSPassiveEffect 不能表达全局伤害增幅或缺目标额外生命值字段。');
   }
   if (/(每第?\s*\d+|每五|每第三|every)/i.test(text) && /(额外.*伤害|伤害|damage)/i.test(text)) {
     if (!/\d+/.test(text)) {
-      return manualBaseline(['every_n_hit'], 'every-N 伤害描述缺少可审计数值。', ['完整 tooltip 数值或训练营截图']);
+      return manualBaseline(
+        ['every_n_hit'],
+        'every-N 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。',
+        [WIKI_NUMERIC_NEED],
+      );
     }
     return {
       classification: 'ready_to_encode',
@@ -387,7 +460,11 @@ function classifyTextForDps(text) {
   }
   if (/(命中时|普攻造成|攻击造成|攻击时|on-hit|on hit|attacks deal|basic attacks deal)/i.test(text) && /(额外.*伤害|魔法伤害|物理伤害|真实伤害|damage)/i.test(text)) {
     if (!/\d+/.test(text)) {
-      return manualBaseline(['on_hit'], 'on-hit 伤害描述缺少可审计数值。', ['完整 tooltip 数值或训练营截图']);
+      return manualBaseline(
+        ['on_hit'],
+        'on-hit 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。',
+        [WIKI_NUMERIC_NEED],
+      );
     }
     return {
       classification: 'ready_to_encode',
@@ -397,7 +474,11 @@ function classifyTextForDps(text) {
     };
   }
   if (isDpsRelevantText(text)) {
-    return manualBaseline(['dps_relevant_manual_review'], '文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。', ['完整 tooltip 数值或训练营截图']);
+    return manualBaseline(
+      ['dps_relevant_manual_review'],
+      '文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。',
+      [WIKI_NUMERIC_NEED],
+    );
   }
   return outOfScope(['no_single_target_dps_effect'], '未发现会改变当前单攻击方单标靶 DPS 的效果。');
 }
@@ -596,7 +677,14 @@ function buildCoverageDoc({ audit }) {
   return `${lines.join('\n')}\n`;
 }
 
-function main() {
+function stripGeneratedAt(audit) {
+  if (!audit || typeof audit !== 'object') return audit;
+  const out = { ...audit };
+  delete out.generatedAt;
+  return out;
+}
+
+function buildAudit() {
   const championIndex = readJson(paths.championIndex);
   const itemRoot = readJson(paths.itemIndex);
   const heroPassiveSeed = readJson(paths.heroPassiveSeed);
@@ -615,10 +703,24 @@ function main() {
     if (!CLASSIFICATIONS.includes(candidate.classification)) {
       throw new Error(`Invalid classification ${candidate.classification} for ${candidate.ownerId}/${candidate.passiveName}`);
     }
-    return candidate;
+    // Harden: never emit screenshot/OCR as an acceptable missing-data source.
+    const needsUserData = (candidate.needsUserData || []).map((entry) => {
+      const text = String(entry);
+      if (
+        /训练营截图|训练场截图|完整 tooltip 数值或训练营/i.test(text)
+        || /\bscreenshot\b/i.test(text)
+        || (/OCR/i.test(text) && !/provenance/i.test(text))
+      ) {
+        return WIKI_NUMERIC_NEED;
+      }
+      return entry;
+    });
+    return { ...candidate, needsUserData: Array.from(new Set(needsUserData)) };
   });
 
-  const audit = {
+  const wikiContractsPresent = fs.existsSync(paths.wikiContracts);
+
+  return {
     gameId: 'lol',
     batch: 'V2-Batch-G',
     generatedAt: new Date().toISOString(),
@@ -631,6 +733,18 @@ function main() {
       adcItemSeed: path.relative(repoRoot, paths.adcItemSeed),
       heroPassiveSeed: path.relative(repoRoot, paths.heroPassiveSeed),
       itemPassiveSeed: path.relative(repoRoot, paths.itemPassiveSeed),
+      lolWikiCurrentChampions: wikiContractsPresent
+        ? path.relative(repoRoot, paths.wikiContracts).replace(/\\/g, '/')
+        : '',
+    },
+    dataPolicy: {
+      numericTruthPrecedence: [
+        'current_league_wiki_template_revision',
+        'data_dragon_secondary',
+        'batch_b_ocr_historical_provenance_only',
+      ],
+      missingDataSource: 'league_wiki_template_revision_only',
+      forbiddenMissingDataSources: ['screenshot', 'training_ground_screenshot', 'OCR'],
     },
     classificationValues: CLASSIFICATIONS,
     levelGate: {
@@ -640,13 +754,151 @@ function main() {
     summary: summarize(candidates, marksmanHeroCount, adcCompletedItemCount),
     candidates,
   };
+}
 
+function validateAudit(audit) {
+  const errors = [];
+  for (const c of audit.candidates || []) {
+    for (const entry of c.needsUserData || []) {
+      const text = String(entry);
+      // Flag only when screenshot/OCR is suggested as a source, not when policy forbids them.
+      if (
+        /训练营截图|训练场截图|完整 tooltip 数值或训练营/i.test(text)
+        || (/\bscreenshot\b/i.test(text) && !/forbid|禁止|不得/i.test(text))
+        || (/OCR/i.test(text) && !/forbid|禁止|不得|provenance/i.test(text))
+      ) {
+        errors.push(`needsUserData still cites screenshot/OCR @ ${c.ownerId}/${c.skillKey}/${c.passiveName}`);
+      }
+    }
+  }
+  if (!audit.dataPolicy?.forbiddenMissingDataSources?.includes('screenshot')) {
+    errors.push('dataPolicy must forbid screenshot/OCR missing-data sources');
+  }
+
+  const dravenQ = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_draven' && c.skillKey === 'Q' && c.passiveName === '旋转飞斧',
+  );
+  if (!dravenQ || dravenQ.classification !== 'already_covered') {
+    errors.push('Draven Q 旋转飞斧 must remain already_covered under completed 1v1 scope');
+  }
+  const asheW = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_ashe' && c.skillKey === 'W' && c.passiveName === '万箭齐发',
+  );
+  if (!asheW || asheW.classification !== 'already_covered') {
+    errors.push('Ashe W 万箭齐发 must be already_covered under completed Volley 1v1 scope (not ready_to_encode)');
+  }
+  const mag = (audit.candidates || []).find(
+    (c) => c.ownerId === '2523' && c.passiveName === '高倍望远镜',
+  );
+  if (!mag || mag.classification !== 'already_covered') {
+    errors.push('2523 高倍望远镜 must be already_covered under fixed-max 1.10 policy');
+  }
+  const arcane = (audit.candidates || []).find(
+    (c) => c.ownerId === '2523' && c.passiveName === '奥术瞄准',
+  );
+  if (!arcane || arcane.classification !== 'out_of_scope_for_single_target_dps') {
+    errors.push('2523 奥术瞄准 must be out_of_scope_for_single_target_dps (range-only)');
+  }
+  const ezrealP = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_ezreal' && c.skillKey === 'P' && c.passiveName === '咒能高涨',
+  );
+  if (
+    !ezrealP
+    || ezrealP.classification !== 'already_covered'
+    || !(ezrealP.mechanismTags || []).includes('stacking_stat_modifier_on_hit')
+    || !(ezrealP.mechanismTags || []).includes('attack_speed_percent_add')
+  ) {
+    errors.push(
+      'Ezreal P 咒能高涨 must be already_covered under bounded 1v1 Rising Spell Force stacking AS scope (not needs_runtime_extension/ready_to_encode)',
+    );
+  }
+  const kaisaP = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_kaisa' && c.skillKey === 'P' && c.passiveName === '体表活肤',
+  );
+  if (
+    !kaisaP
+    || kaisaP.classification !== 'already_covered'
+    || !(kaisaP.mechanismTags || []).includes('on_hit')
+    || !(kaisaP.mechanismTags || []).includes('stacking_plasma')
+    || !(kaisaP.mechanismTags || []).includes('missing_health_consume')
+  ) {
+    errors.push(
+      "Kai'Sa P 体表活肤 must be already_covered under completed Second Skin plasma/on-hit/missing-HP scope (not needs_runtime_extension/ready_to_encode)",
+    );
+  }
+  const akshanP = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_akshan' && c.skillKey === 'P' && c.passiveName === '无所不用',
+  );
+  if (
+    !akshanP
+    || akshanP.classification !== 'already_covered'
+    || (akshanP.mechanismTags || []).includes('survivability_only')
+    || !(akshanP.mechanismTags || []).includes('every_n_hit')
+    || !(akshanP.mechanismTags || []).includes('stacking_dirty_fighting')
+    || !(akshanP.mechanismTags || []).includes('magic_proc_on_third_stack')
+    || !String(akshanP.blockedReason || '').includes('partial core only')
+  ) {
+    errors.push(
+      'Akshan P 无所不用 must be already_covered under verified Dirty Fighting damage core (partial core only; not survivability-only out_of_scope)',
+    );
+  }
+  const terminus = (audit.candidates || []).find(
+    (c) => c.ownerId === '3302' && c.passiveName === '晦影',
+  );
+  if (!terminus || terminus.classification !== 'ready_to_encode') {
+    errors.push('3302 晦影 must remain intentional ready_to_encode=1 (do not close)');
+  }
+  const counts = audit.summary?.classificationCounts || {};
+  const expectedCounts = {
+    already_covered: 19,
+    needs_runtime_extension: 33,
+    ready_to_encode: 1,
+    needs_manual_baseline: 44,
+    out_of_scope_for_single_target_dps: 145,
+  };
+  for (const [k, v] of Object.entries(expectedCounts)) {
+    if ((counts[k] || 0) !== v) {
+      errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
+    }
+  }
+  return errors;
+}
+
+function main() {
+  const checkMode = process.argv.includes('--check');
+  const audit = buildAudit();
+  const errors = validateAudit(audit);
+  if (errors.length) {
+    console.error('self-check failed:');
+    for (const e of errors) console.error(`- ${e}`);
+    process.exit(1);
+  }
+
+  if (checkMode) {
+    if (!fs.existsSync(paths.auditJson)) {
+      console.error('--check requires existing audit json');
+      process.exit(1);
+    }
+    const existing = readJson(paths.auditJson);
+    const existingErrors = validateAudit(existing);
+    if (existingErrors.length) {
+      console.error('existing json failed validation:');
+      for (const e of existingErrors) console.error(`- ${e}`);
+      process.exit(1);
+    }
+    if (JSON.stringify(stripGeneratedAt(existing)) !== JSON.stringify(stripGeneratedAt(audit))) {
+      console.error('--check failed: semantic content differs (ignoring generatedAt)');
+      process.exit(1);
+    }
+    console.log('check ok');
+    console.log(JSON.stringify({ summary: audit.summary }, null, 2));
+    return;
+  }
+
+  // Only write allowlisted audit JSON (coverage markdown lives outside write scope).
   writeJson(paths.auditJson, audit);
-  writeText(paths.coverageDoc, buildCoverageDoc({ audit }));
-
   console.log(JSON.stringify({
     auditJson: path.relative(repoRoot, paths.auditJson),
-    coverageDoc: path.relative(repoRoot, paths.coverageDoc),
     summary: audit.summary,
   }, null, 2));
 }

@@ -3,7 +3,7 @@
  * Schema: unified-mechanism-inventory-v1
  *
  * Default: write JSON + CSV under 最小验证/
- * --check: rebuild in memory, never write; compare semantic JSON (ignore metadata.generatedAt) + exact CSV
+ * --check: rebuild in memory, never write; compare semantic JSON (ignore metadata.generatedAt) + EOL-canonical CSV
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -67,31 +67,214 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_kaisa|P|体表活肤',
     {
-      status: 'blocked_data',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        '当前 Data Dragon 文本无完整当前数值合同；历史 Batch B 1级/OCR 证据版本不一致，缺可核验的当前唯一数值真源。',
-      blocker: 'missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr',
+        "Kai'Sa P Second Skin：Wiki rev4038390（SHA256 f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f）+ 当前 canonical generic ABI 口径与 wasm-generic-kaisa-second-skin + backend seed 证据闭环——provider-target plasma_stacks（default0/max5/4000ms refresh-on-write）；level1..18 精确插值 base=4+20/17*(level-1)、perStack=1+5/17*(level-1)；同 provider 有序普攻图：Caustic→+1 stack→第五层已损生命破裂→reset→物理普攻→恰好一次 event/basic_attack_hit。明确排除 W 2/3 层与 overflow、友军定身 Plasma、野怪 400 cap、法术护盾、Guinsoo phantom/buff-slot、多目标，故标 completed。",
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kaisa-second-skin',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completed Second Skin canonical generic; excluded W stacks/overflow / allied CC Plasma / monster 400 cap / spell shield / Guinsoo phantom-buff-slot / multi-target',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kaisa-second-skin',
+          sourcePath: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Second Skin canonical generic seed; excluded branches out of scope',
+        },
+      ],
+    },
+  ],
+  [
+    'hero_skill|hero_ashe|W|万箭齐发',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Ashe W Volley：当前 League Wiki + 用户批准 1v1 口径（rank5 200+100% bonus AD / 单目标一次 physical damage / 55 mana / 4000ms CD / first-arrow-only）与 wasm-generic-ashe-volley + backend seed 证据闭环。用户明确排除 Frost Shot 减速/状态、弹道/锥形/碰撞/多目标、per-arrow 循环与其它 rank；Wiki 写明多箭命中同一目标仅计第一箭伤害，故标 completed。',
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-volley',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go',
+          sourceWorktree: 'wasm',
+          note: 'user-approved Volley 1v1; excluded Frost Shot / projectile-cone-collision-multitarget / per-arrow loop / other ranks',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-volley',
+          sourcePath: 'db/game_manage/seeds/lol_generic_ashe_volley_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Volley user-approved 1v1 seed; excluded branches out of scope',
+        },
+      ],
+    },
+  ],
+  [
+    'hero_skill|hero_akshan|P|无所不用',
+    {
+      status: 'blocked_data',
+      completionMode: 'partial',
+      lane: 'generic_runtime',
+      reason:
+        'Akshan P Dirty Fighting：Wiki rev4038197（SHA256 22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534）+ canonical generic ABI 与 wasm-generic-akshan-dirty-fighting + backend 双边证据已闭环伤害核心——CompileFrame→session→RunFrame→ReleaseSessionFrame；typed 普攻物理；provider-target dirty_fighting_stacks（0/max3/5000ms refresh-on-write）；第三层魔法 15/40/80/150 @ 1/6/11/16 +60% AP 消耗重置；护甲/MR/阈值/AP/refresh/expiry/从零第四击/每次攻击一次 basic_attack_hit。completionMode=partial（非 full）：被动第二发 50% AD 仅 after a delay，exact delay ms 未公布（blocked_data）；技能命中叠层缺 accurate_ability_hit_event_wiring；英雄护盾与取消第二发移速及换目标/小兵/多目标 out of damage scope。',
+      blocker: 'second_shot_exact_delay_ms_not_published',
       dataGapEvidence: {
-        sourceVersion: 'batch_b_vs_ddragon_conflict',
-        sourceRef: '最小验证/数据/build-unified-mechanism-inventory.mjs#hero_kaisa_P',
-        availableEffectTables: {},
+        sourceVersion: 'lol-wiki-rev-4038197',
+        sourceRef:
+          '数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p',
+        availableEffectTables: {
+          thirdStackMagicByLevel: [15, 40, 80, 150],
+          thirdStackMagicLevels: [1, 6, 11, 16],
+          secondShotAdRatio: [0.5],
+          stackCap: [3],
+          stackDurationMs: [5000],
+        },
         availableCooldowns: [],
         availableCosts: {},
         tooltipPlaceholders: [],
         unresolvedDamagePlaceholders: [],
-        varsMapEmpty: true,
-        variablesEmpty: true,
-        variables: [],
-        missingFields: [
-          'current_unique_numeric_source',
-          'version_consistent_rank_table',
+        varsMapEmpty: false,
+        variablesEmpty: false,
+        variables: [
+          'dirty_fighting_stacks',
+          'third_stack_magic_15_40_80_150_plus_60pct_ap',
+          'second_shot_50pct_ad_after_a_delay',
         ],
-        gapKind: 'conflicting_numeric_sources',
+        missingFields: ['secondShotDelayMs'],
+        gapKind: 'wiki_delay_ms_unpublished',
         reasonZh:
-          '当前 Data Dragon 文本无完整当前数值合同；历史 Batch B 1级/OCR 证据版本不一致，缺可核验的当前唯一数值真源。',
-        blocker: 'missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr',
+          'Akshan P Dirty Fighting：被动第二发 Wiki 写明 50% AD 且 after a delay，但 exact delay milliseconds 未公布；不得臆造 delay。伤害核心（普攻叠层/第三层魔法）已部分闭环。',
+        blocker: 'second_shot_exact_delay_ms_not_published',
+      },
+      runtimeGapEvidence: {
+        sourceRef:
+          '数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p',
+        dataStatus: 'partial',
+        requiredEvents: ['basic_attack_hit', 'accurate_ability_hit'],
+        requiredState: ['dirty_fighting_stacks'],
+        requiredFormulaInputs: ['ability_power', 'champion_level', 'attack_damage'],
+        requiredScheduling: [],
+        missingPrimitives: ['accurate_ability_hit_event_wiring'],
+        completedBoundary:
+          'AA Dirty Fighting core closed: CompileFrame→session→RunFrame→ReleaseSessionFrame; typed physical BA; dirty_fighting_stacks 0/max3/5000ms refresh-on-write; third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset; armor/MR/AP thresholds; refresh/expiry; fourth-from-zero; one basic_attack_hit per attack',
+        remainingBoundary:
+          '技能命中亦叠层，但 exact generic ability-hit event wiring 未建立；不得用 ability_started 替代。英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。',
+      },
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-akshan-dirty-fighting',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: Dirty Fighting AA core; remainingGap: secondShotDelayMs / accurate_ability_hit_event_wiring / shield+cancel-MS+retarget OOS',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-akshan-dirty-fighting',
+          sourcePath: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: Dirty Fighting AA damage core; remainingGap: secondShotDelayMs / ability-hit wiring / shield+cancel-MS+retarget OOS',
+        },
+      ],
+    },
+  ],
+  [
+    'hero_skill|hero_akshan|E|骄行荡寇',
+    {
+      status: 'blocked_runtime',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Akshan E Heroic Swing：Wiki per-shot 伤害与 0.2s 间隔已知；移动/摆荡/射击次数属 runtime scope，不是数据缺口。',
+      blocker: 'swing_periodic_shot_scheduling_and_as_scaled_damage',
+      dataGapEvidence: null,
+      runtimeGapEvidence: {
+        sourceRef:
+          '数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-e',
+        dataStatus: 'complete',
+        requiredEvents: ['ability_cast', 'swing_shot_tick'],
+        requiredState: ['heroic_swing_active'],
+        requiredFormulaInputs: ['bonus_attack_speed', 'shot_damage'],
+        requiredScheduling: ['shot_every_0_2s_during_swing'],
+        missingPrimitives: [
+          'swing_periodic_shot_scheduling',
+          'as_scaled_per_shot_damage',
+          'hook_attach_terrain_path',
+        ],
+        remainingBoundary:
+          '缺摆荡期间周期性射击调度、AS 缩放 per-shot 伤害与钩索路径 runtime。',
+      },
+    },
+  ],
+  [
+    'hero_skill|hero_ezreal|P|咒能高涨',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Ezreal P Rising Spell Force：Wiki rev3932280（SHA256 5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba）+ 本次采用的确定性 1v1 口径与 wasm-generic-ezreal-rising-spell-force + backend seed 证据闭环——每次 scheduled top-level 非普攻能力命中唯一目标 +1 provider-scoped stack；6000ms refresh-on-write；cap 5；每层 +10% AS（cap +50%）。本次口径明确排除普攻叠层、CD-skip cast、miss、多目标、单次施法多段命中与真实 Q/W/E/R 图，故标 completed。',
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ezreal-rising-spell-force',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
+          sourceWorktree: 'wasm',
+          note: 'bounded 1v1 Rising Spell Force; excluded basic attacks / CD-skip / misses / multi-target / multi-hit-per-cast / real QWER graphs',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ezreal-rising-spell-force',
+          sourcePath: 'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Rising Spell Force bounded 1v1 seed; excluded branches out of scope',
+        },
+      ],
+    },
+  ],
+  [
+    'hero_skill|hero_graves|P|新命运',
+    {
+      status: 'blocked_data',
+      completionMode: 'none',
+      lane: 'generic_runtime',
+      reason:
+        'Graves P New Destiny：贴脸最大弹丸伤害公式已由当前 League Wiki 给出；仅精确装填速度公式被 Wiki 明确标注为 unknown（Precise formula is unknown）。不得再声称弹丸/距离数值缺失。',
+      blocker: 'wiki_explicit_unknown_precise_reload_speed_formula',
+      dataGapEvidence: {
+        sourceVersion: 'lol-wiki-current-graves-p',
+        sourceRef:
+          '数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#graves-p',
+        availableEffectTables: {
+          normalPellets: [4],
+          critPellets: [6],
+        },
+        availableCooldowns: [],
+        availableCosts: {},
+        tooltipPlaceholders: [],
+        unresolvedDamagePlaceholders: [],
+        varsMapEmpty: false,
+        variablesEmpty: false,
+        variables: ['point_blank_pellet_formulas_wiki_explicit'],
+        missingFields: ['precise_reload_speed_formula'],
+        gapKind: 'wiki_explicit_unknown',
+        reasonZh:
+          'Graves P New Destiny：贴脸最大弹丸伤害公式已由当前 League Wiki 给出；仅精确装填速度公式被 Wiki 明确标注为 unknown（Precise formula is unknown）。不得再声称弹丸/距离数值缺失。',
+        blocker: 'wiki_explicit_unknown_precise_reload_speed_formula',
       },
     },
   ],
@@ -408,23 +591,57 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_ashe|Q|射手的专注',
     {
-      status: 'blocked_runtime',
-      completionMode: 'partial',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        '核心已部分闭环，但剩余分支依赖 attack-timer reset、逐箭飞行与技能轮转语义，当前不可行动。',
-      blocker: 'attack_timer_reset_arrow_travel_rotation_semantics',
+        "Ashe Q Ranger's Focus：当前 League Wiki + 用户批准口径（4 Focus / 6s / rank5 +60% AS / 5箭 130% AD、首轮 6箭 156% AD / 30 mana）与 wasm-generic-ashe-rangers-focus 证据闭环。用户明确排除 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标与完整轮转，故标 completed。",
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-rangers-focus',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
+          sourceWorktree: 'wasm',
+          note: "user-approved Ranger's Focus core; excluded attack-timer/arrow-travel/Frost Shot/lifesteal/structures/multitarget/rotation",
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-rangers-focus',
+          sourcePath: 'db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql',
+          sourceWorktree: 'backend',
+          note: "Ranger's Focus user-approved core seed; excluded branches out of scope",
+        },
+      ],
     },
   ],
   [
     'hero_skill|hero_draven|Q|旋转飞斧',
     {
-      status: 'blocked_runtime',
-      completionMode: 'partial',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        '初次飞斧已闭环；剩余仅 axe_caught 事件、cooldown/rearm、dual-axe cap、landing/movement ownership。',
-      blocker: 'axe_caught_event+catch_rearm_cooldown+dual_axe_cap+landing_movement_ownership',
+        'Draven Q Spinning Axe：用户批准 1v1 口径（rank5 bonus 60+115% bonus AD / 1400ms 自动接斧 / 独立 overlapping flight / max 2 / 45 mana / 8000ms CD / ready 窗与接斧 refresh / 每次合格命中消费 1 斧）与 wasm-generic-draven-spinning-axe + backend seed 证据闭环。用户明确排除落点/移动/路径模拟与 Draven W CD reset，故标 completed。',
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-draven-spinning-axe',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
+          sourceWorktree: 'wasm',
+          note: 'user-approved Spinning Axe 1v1; excluded landing-movement-path / W CD reset',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-draven-spinning-axe',
+          sourcePath: 'db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Spinning Axe user-approved 1v1 seed; excluded branches out of scope',
+        },
+      ],
     },
   ],
   [
@@ -522,8 +739,36 @@ const STATUS_OVERRIDES = new Map([
       completionMode: 'none',
       lane: 'generic_runtime',
       reason:
-        '2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离持续 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜仍为 blocked_runtime。',
+        '2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离持续 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜为独立完成口径，不得合并。',
       blocker: '',
+    },
+  ],
+  [
+    'item_passive|2523|item_passive|高倍望远镜',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        '2523 Magnification/高倍望远镜：用户批准 fixed-max 口径——每个 eligible basic-damage instance 使用最大 1.10 outgoing pre-mitigation multiplier；wasm-generic-pipeline-damage-modifier + backend lol_generic_pipeline_damage_items_seed.sql 闭环。距离分段为用户排除分支，非 blocker；奥术瞄准仍单独 out_of_scope。',
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-pipeline-damage-modifier',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_pipeline_damage_modifier_test.go',
+          sourceWorktree: 'wasm',
+          note: 'user-approved Magnification fixed-max 1.10; excluded runtime distance scaling',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-pipeline-damage-modifier',
+          sourcePath: 'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Magnification fixed-max 1.10 seed; distance branch out of scope',
+        },
+      ],
     },
   ],
   [
@@ -582,37 +827,6 @@ function makeRuntimeGapEvidence(spec) {
 }
 
 const RUNTIME_GAP_SPEC_TABLE = {
-  "hero_skill|hero_graves|P|新命运": {
-    "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Graves_P",
-    "dataStatus": "complete",
-    "requiredEvents": [
-      "basic_attack_launch",
-      "pellet_collision",
-      "ammo_depleted",
-      "reload_complete"
-    ],
-    "requiredState": [
-      "shotgun_ammo_count",
-      "reload_in_progress"
-    ],
-    "requiredFormulaInputs": [
-      "pellet_hit_count",
-      "target_distance",
-      "crit_pellet_scaling"
-    ],
-    "requiredScheduling": [
-      "ammo_reload_cadence"
-    ],
-    "missingPrimitives": [
-      "shotgun_pellet_count_collision",
-      "ammo_reload_cadence",
-      "crit_pellet_scaling",
-      "target_distance_pellet_hit_count"
-    ],
-    "remainingBoundary": "本地数值快照无未解析字段；缺散弹弹丸碰撞/弹药装填节奏/暴击弹丸缩放/目标距离与命中弹丸数 runtime。",
-    "reason": "Graves P New Destiny：散弹弹丸数量与碰撞、弹药/装填节奏、暴击弹丸缩放、目标距离与弹丸命中数；数据无未解析字段但缺这些 runtime。",
-    "blocker": "shotgun_pellet_count_collision+ammo_reload_cadence+crit_pellet_scaling+target_distance_pellet_hit_count"
-  },
   "hero_skill|hero_xayah|P|锐切": {
     "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Xayah_P",
     "dataStatus": "complete",
@@ -642,32 +856,55 @@ const RUNTIME_GAP_SPEC_TABLE = {
     "reason": "Xayah P Clean Cuts：ability-after next attacks budget、piercing secondary targets、feather creation/position/resource consumed by E；主目标无额外伤害，但作为 E damage dependency 保留 runtime。",
     "blocker": "ability_after_next_attacks_budget+piercing_secondary_targets+feather_creation_position_resource+feather_consumed_by_e_dependency"
   },
-  "hero_skill|hero_draven|Q|旋转飞斧": {
-    "sourceRef": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go#SpinningAxe",
-    "dataStatus": "partial",
+  "hero_skill|hero_akshan|E|骄行荡寇": {
+    "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-e",
+    "dataStatus": "complete",
     "requiredEvents": [
-      "axe_caught",
-      "axe_landed"
+      "ability_cast",
+      "swing_shot_tick"
     ],
     "requiredState": [
-      "spinning_axe_ready",
-      "dual_axe_count"
+      "heroic_swing_active"
     ],
-    "requiredFormulaInputs": [],
+    "requiredFormulaInputs": [
+      "bonus_attack_speed",
+      "shot_damage"
+    ],
     "requiredScheduling": [
-      "catch_rearm_window",
-      "axe_landing_movement_ownership"
+      "shot_every_0_2s_during_swing"
     ],
     "missingPrimitives": [
-      "axe_caught_event",
-      "catch_rearm_cooldown",
-      "dual_axe_cap",
-      "landing_movement_ownership"
+      "swing_periodic_shot_scheduling",
+      "as_scaled_per_shot_damage",
+      "hook_attach_terrain_path"
     ],
-    "completedBoundary": "rank5 初次飞斧：ability_started 武装 spinning_axe_ready 与首次 basic_attack_hit 额外物理伤害消费。",
-    "remainingBoundary": "仅缺 axe_caught 事件、接斧 rearm/cooldown、双斧上限、落点/移动 ownership。",
-    "reason": "初次飞斧已闭环；剩余仅 axe_caught 事件、cooldown/rearm、dual-axe cap、landing/movement ownership。",
-    "blocker": "axe_caught_event+catch_rearm_cooldown+dual_axe_cap+landing_movement_ownership"
+    "remainingBoundary": "缺摆荡期间周期性射击调度、AS 缩放 per-shot 伤害与钩索路径 runtime。",
+    "reason": "Akshan E：Wiki per-shot 伤害与 0.2s 间隔已知；移动/摆荡/射击次数属 runtime scope。",
+    "blocker": "swing_periodic_shot_scheduling+as_scaled_per_shot_damage+hook_attach_terrain_path"
+  },
+  "hero_skill|hero_akshan|P|无所不用": {
+    "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p",
+    "dataStatus": "partial",
+    "requiredEvents": [
+      "basic_attack_hit",
+      "accurate_ability_hit"
+    ],
+    "requiredState": [
+      "dirty_fighting_stacks"
+    ],
+    "requiredFormulaInputs": [
+      "ability_power",
+      "champion_level",
+      "attack_damage"
+    ],
+    "requiredScheduling": [],
+    "missingPrimitives": [
+      "accurate_ability_hit_event_wiring"
+    ],
+    "completedBoundary": "AA Dirty Fighting core closed: CompileFrame→session→RunFrame→ReleaseSessionFrame; typed physical BA; dirty_fighting_stacks 0/max3/5000ms refresh-on-write; third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset; armor/MR/AP thresholds; refresh/expiry; fourth-from-zero; one basic_attack_hit per attack",
+    "remainingBoundary": "技能命中亦叠层，但 exact generic ability-hit event wiring 未建立；不得用 ability_started 替代。英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。",
+    "reason": "Akshan P Dirty Fighting：技能命中叠层缺 accurate_ability_hit_event_wiring（不得用 ability_started 替代）。",
+    "blocker": "accurate_ability_hit_event_wiring"
   },
   "item_passive|2051|item_passive|无畏": {
     "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2051_Undaunted",
@@ -728,29 +965,6 @@ const RUNTIME_GAP_SPEC_TABLE = {
     "reason": "2512 Opening Barrage：ultimate_cast arms next3 attacks/8s；+50% AS；conditional crit damage；already-crit adds 15% pre-mitigation attack damage true damage；45s CD；需要 deterministic crit branch/attack pre-mitigation snapshot/charge consumption。",
     "blocker": "ultimate_cast_arm_next_3_attacks_8s+deterministic_crit_branch+attack_pre_mitigation_snapshot+charge_consumption+45s_cooldown"
   },
-  "item_passive|2523|item_passive|高倍望远镜": {
-    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2523_Magnification",
-    "dataStatus": "complete",
-    "requiredEvents": [
-      "basic_damage_dealt"
-    ],
-    "requiredState": [],
-    "requiredFormulaInputs": [
-      "edge_to_edge_distance",
-      "distance_amp_1pct_per_50_up_to_10pct"
-    ],
-    "requiredScheduling": [
-      "basic_damage_amplification_snapshot"
-    ],
-    "missingPrimitives": [
-      "edge_to_edge_distance_input",
-      "distance_scaled_basic_damage_amp_1pct_per_50_up_to_10pct",
-      "basic_damage_amplification_snapshot"
-    ],
-    "remainingBoundary": "缺 edge-to-edge 距离输入与 basic damage amplification snapshot（1%/50 至 10%）。",
-    "reason": "2523 Magnification：distance edge-to-edge input，1% per50 up to10%，basic damage amplification snapshot。",
-    "blocker": "edge_to_edge_distance_input+distance_scaled_basic_damage_amp_1pct_per_50_up_to_10pct+basic_damage_amplification_snapshot"
-  },
   "item_passive|3032|item_passive|疾风骤雨": {
     "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3032_Flurry",
     "dataStatus": "complete",
@@ -801,30 +1015,6 @@ const RUNTIME_GAP_SPEC_TABLE = {
     "remainingBoundary": "缺目标 bonus health 输入与 outgoing damage amp ordering（1%/100 至 15%）。",
     "reason": "3036 Giant Slayer：target bonus health input，1% per100 up to15%，outgoing damage amp ordering。",
     "blocker": "target_bonus_health_input+outgoing_damage_amp_1pct_per_100_up_to_15pct+outgoing_damage_amp_ordering"
-  },
-  "item_passive|3082|item_passive|坚如磐石": {
-    "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3082_Rock_Solid",
-    "dataStatus": "complete",
-    "requiredEvents": [
-      "incoming_post_mitigation_basic_damage"
-    ],
-    "requiredState": [
-      "per_cast_instance_first_basic_damage_seen"
-    ],
-    "requiredFormulaInputs": [
-      "rock_solid_final_max_input_minus_15_or_input_times_0_8"
-    ],
-    "requiredScheduling": [
-      "cast_instance_identity_order"
-    ],
-    "missingPrimitives": [
-      "target_owned_first_post_mitigation_basic_damage_per_cast",
-      "rock_solid_reduce_min_15_or_20pct",
-      "cast_instance_identity_order"
-    ],
-    "remainingBoundary": "缺目标侧每次施法首段 post-mitigation basic-damage 减免（等价 final=max(input-15,input*0.8)）与 cast-instance identity/order。",
-    "reason": "3082 Rock Solid：target-owned first post-mitigation basic-damage instance per cast，reduce min(15,20%) 等价 final=max(input-15,input*0.8)，cast-instance identity/order。",
-    "blocker": "target_owned_first_post_mitigation_basic_damage_per_cast+rock_solid_reduce_min_15_or_20pct+cast_instance_identity_order"
   },
   "item_passive|6610|item_passive|光盾打击": {
     "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_6610_Lightshield_Strike",
@@ -1089,6 +1279,10 @@ const COVERAGE_BOUNDARIES = new Map([
   ['hero_skill|hero_teemo|E|毒性射击', 'instant_on_hit_only;poison_dot_out_of_batch'],
   ['hero_skill|hero_kogmaw|W|生化弹幕', 'primary_on_hit;active_window_prearmed_in_seed'],
   ['hero_skill|hero_varus|P|复仇之欲', 'minion_kill_branch|champion_takedown_branch;both_blocked_runtime'],
+  [
+    'hero_skill|hero_akshan|P|无所不用',
+    'dirty_fighting_aa_stack_third_magic_core_complete;second_shot_delay_ms_blocked_data;ability_hit_stack_wiring_runtime;shield_cancel_ms_retarget_oos',
+  ],
   ['item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c', 'primary_target_formula;behind_target_and_active_unmigrated'],
   ['item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|020f8b5a', 'primary_target_formula;behind_target_and_active_unmigrated'],
 ]);
@@ -1445,9 +1639,9 @@ const EXTRA_MECHANISMS = [
   },
   {
     key: 'item_passive|3082|item_passive|坚如磐石',
-    status: 'blocked_runtime',
-    completionMode: 'none',
-    lane: 'mixed_evidence',
+    status: 'completed',
+    completionMode: 'full',
+    lane: 'generic_runtime',
     sourceKind: 'item_passive',
     ownerId: '3082',
     skillKey: 'item_passive',
@@ -1458,10 +1652,27 @@ const EXTRA_MECHANISMS = [
       'post_mitigation_final',
       'rock_solid',
     ],
-    coverageBoundary: 'batch_v_b_wardens_mail',
+    coverageBoundary: 'batch_v_b_wardens_mail;pipeline_damage_modifier_closed',
     reason:
-      'Seed 要求目标侧 on_damage_taken、每次施法首段 incoming、post-mitigation 输入与 max(input-15,input*0.8)；类比并宽于 3143 incoming crit-only blocker。',
-    blocker: 'target_owned_on_damage_taken_first_instance_post_mitigation_final_cap',
+      '3082 Rock Solid/坚如磐石：target-owned、每次施法首段 post-mitigation basic-damage；final=max(input-15,input*0.8)（等价 reduce min(15,20%)）；wasm-generic-pipeline-damage-modifier 交叉验证 100→85、50→40 与两段命中/下一施法 reset；backend lol_generic_pipeline_damage_items_seed.sql。非 G8 candidate，经 EXTRA_MECHANISMS 闭环；不声称 live migrate/publish。',
+    blocker: '',
+    evidenceRefs: [
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-pipeline-damage-modifier',
+        sourcePath:
+          'wasm/tinygo_engine_v2/internal/runtime/generic_pipeline_damage_modifier_test.go',
+        sourceWorktree: 'wasm',
+        note: 'Rock Solid first-per-cast post-mitigation max(input-15,input*0.8); cross-check 100→85 / 50→40 / two-hit then next-cast',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-pipeline-damage-modifier',
+        sourcePath: 'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
+        sourceWorktree: 'backend',
+        note: 'Rock Solid pipeline modifier seed; not claiming live migrate/publish',
+      },
+    ],
     sourceRefs: [
       {
         path: '最小验证/V2-BatchV-B-3082-wardens-mail.seed.json',
@@ -1485,8 +1696,18 @@ function sha256Raw(buf) {
   return crypto.createHash('sha256').update(buf).digest('hex');
 }
 
+/** Treat inventoried UTF-8 text (.json/.csv/.mjs) as LF-canonical for evidence hashing (CRLF/CR → LF). */
+function canonicalizeUtf8TextBytes(buf) {
+  const text = Buffer.from(buf).toString('utf8').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  return Buffer.from(text, 'utf8');
+}
+
+function canonicalizeEol(text) {
+  return String(text ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+}
+
 function sha256File(absPath) {
-  return sha256Raw(fs.readFileSync(absPath));
+  return sha256Raw(canonicalizeUtf8TextBytes(fs.readFileSync(absPath)));
 }
 
 function readJson(absPath) {
@@ -1635,7 +1856,7 @@ const EXPLICIT_NONSTANDARD_SEED_SOURCES = [
 function pushParsedSource(sources, seen, abs, rel, kind) {
   if (seen.has(rel)) return;
   seen.add(rel);
-  const buf = fs.readFileSync(abs);
+  const buf = canonicalizeUtf8TextBytes(fs.readFileSync(abs));
   let parsed = null;
   if (kind.endsWith('_json')) {
     try {
@@ -1692,7 +1913,7 @@ function discoverSources() {
   for (const name of buildFiles) {
     const abs = path.join(dataRoot, name);
     const rel = relFromRepo(abs);
-    const buf = fs.readFileSync(abs);
+    const buf = canonicalizeUtf8TextBytes(fs.readFileSync(abs));
     sources.push({
       path: rel,
       kind: 'generator_mjs',
@@ -2908,8 +3129,26 @@ function validateInventory(inv) {
   if (!m2051 || m2051.status !== 'blocked_runtime' || m2051.completionMode !== 'none') {
     errors.push('2051 无畏 must be blocked_runtime/none');
   }
-  if (!m3082 || m3082.status !== 'blocked_runtime' || m3082.completionMode !== 'none') {
-    errors.push('3082 坚如磐石 must be blocked_runtime/none');
+  if (
+    !m3082 ||
+    m3082.status !== 'completed' ||
+    m3082.completionMode !== 'full' ||
+    m3082.lane !== 'generic_runtime' ||
+    m3082.blocker ||
+    !String(m3082.reason || '').includes('max(input-15,input*0.8)') ||
+    !String(m3082.reason || '').includes('100→85') ||
+    !(m3082.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_pipeline_damage_modifier_test.go',
+    ) ||
+    !(m3082.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
+    )
+  ) {
+    errors.push(
+      '3082 坚如磐石 must be completed/full with pipeline damage wasm+backend evidence (non-G8 EXTRA path)',
+    );
   }
   if (
     !m6665 ||
@@ -2942,11 +3181,25 @@ function validateInventory(inv) {
   }
   if (
     !mKaisaP ||
-    mKaisaP.status !== 'blocked_data' ||
-    mKaisaP.completionMode !== 'none' ||
-    mKaisaP.blocker !== 'missing_current_unique_numeric_source_vs_version_inconsistent_batch_b_level1_ocr'
+    mKaisaP.status !== 'completed' ||
+    mKaisaP.completionMode !== 'full' ||
+    mKaisaP.lane !== 'generic_runtime' ||
+    mKaisaP.blocker ||
+    !String(mKaisaP.reason || '').includes('4038390') ||
+    !String(mKaisaP.reason || '').includes('4000') ||
+    !String(mKaisaP.reason || '').includes('排除') ||
+    !(mKaisaP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go',
+    ) ||
+    !(mKaisaP.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
+    )
   ) {
-    errors.push('Kaisa P must be blocked_data/none with missing current unique numeric source blocker');
+    errors.push(
+      "Kaisa P must be completed/full under completed Second Skin canonical generic scope with wasm+backend evidence",
+    );
   }
   if (
     !mTwitchP ||
@@ -2967,8 +3220,139 @@ function validateInventory(inv) {
       'Varus W must be blocked_data/none with historical candidate rank-table vs executable rank1-8 / unresolved current tooltip blocker',
     );
   }
-  if (!mAsheQ || mAsheQ.status !== 'blocked_runtime' || mAsheQ.completionMode !== 'partial') {
-    errors.push('Ashe Q must be blocked_runtime/partial');
+  if (!mAsheQ || mAsheQ.status !== 'completed' || mAsheQ.completionMode !== 'full') {
+    errors.push('Ashe Q must be completed/full under user-approved Wiki scope');
+  }
+  const mAsheW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|W|万箭齐发');
+  const mAkshanP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_akshan|P|无所不用');
+  const mAkshanE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_akshan|E|骄行荡寇');
+  const mEzrealP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ezreal|P|咒能高涨');
+  const mGravesP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_graves|P|新命运');
+  const mDravenQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|Q|旋转飞斧');
+  if (
+    !mAsheW ||
+    mAsheW.status !== 'completed' ||
+    mAsheW.completionMode !== 'full' ||
+    mAsheW.lane !== 'generic_runtime' ||
+    mAsheW.blocker ||
+    !String(mAsheW.reason || '').includes('200') ||
+    !String(mAsheW.reason || '').includes('4000') ||
+    !String(mAsheW.reason || '').includes('排除') ||
+    !(mAsheW.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go',
+    ) ||
+    !(mAsheW.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_ashe_volley_seed.sql',
+    )
+  ) {
+    errors.push(
+      'Ashe W must be completed/full under user-approved Volley 1v1 scope with wasm+backend evidence',
+    );
+  }
+  if (
+    !mAkshanP ||
+    mAkshanP.status !== 'blocked_data' ||
+    mAkshanP.completionMode !== 'partial' ||
+    mAkshanP.lane !== 'generic_runtime' ||
+    mAkshanP.blocker !== 'second_shot_exact_delay_ms_not_published' ||
+    !mAkshanP.dataGapEvidence?.missingFields?.includes('secondShotDelayMs') ||
+    mAkshanP.dataGapEvidence?.blocker !== 'second_shot_exact_delay_ms_not_published' ||
+    !String(mAkshanP.reason || '').includes('4038197') ||
+    !String(mAkshanP.reason || '').includes(
+      '22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534',
+    ) ||
+    !String(mAkshanP.reason || '').includes('dirty_fighting_stacks') ||
+    mAkshanP.runtimeGapEvidence?.dataStatus !== 'partial' ||
+    !(mAkshanP.runtimeGapEvidence?.missingPrimitives || []).includes(
+      'accurate_ability_hit_event_wiring',
+    ) ||
+    !String(mAkshanP.runtimeGapEvidence?.completedBoundary || '').includes(
+      'dirty_fighting_stacks',
+    ) ||
+    !String(mAkshanP.coverageBoundary || '').includes(
+      'dirty_fighting_aa_stack_third_magic_core_complete',
+    ) ||
+    !(mAkshanP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    ) ||
+    !(mAkshanP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    )
+  ) {
+    errors.push(
+      'Akshan P must be blocked_data/partial/generic_runtime with Wiki rev4038197/SHA, secondShotDelayMs data gap, accurate_ability_hit_event_wiring runtime gap, and wasm+backend Dirty Fighting evidence (not ready_to_implement/full)',
+    );
+  }
+  if (
+    !mAkshanE ||
+    mAkshanE.status !== 'blocked_runtime' ||
+    mAkshanE.completionMode !== 'none' ||
+    mAkshanE.blocker !== 'swing_periodic_shot_scheduling+as_scaled_per_shot_damage+hook_attach_terrain_path'
+  ) {
+    errors.push('Akshan E must be blocked_runtime/none with swing/shot scheduling blocker');
+  }
+  if (
+    !mEzrealP ||
+    mEzrealP.status !== 'completed' ||
+    mEzrealP.completionMode !== 'full' ||
+    mEzrealP.lane !== 'generic_runtime' ||
+    mEzrealP.blocker ||
+    !String(mEzrealP.reason || '').includes('6000') ||
+    !String(mEzrealP.reason || '').includes('排除') ||
+    !(mEzrealP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
+    ) ||
+    !(mEzrealP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
+    )
+  ) {
+    errors.push(
+      'Ezreal P must be completed/full under bounded 1v1 Rising Spell Force scope with wasm+backend evidence',
+    );
+  }
+  if (
+    !mGravesP ||
+    mGravesP.status !== 'blocked_data' ||
+    mGravesP.completionMode !== 'none' ||
+    mGravesP.blocker !== 'wiki_explicit_unknown_precise_reload_speed_formula' ||
+    !mGravesP.dataGapEvidence?.missingFields?.includes('precise_reload_speed_formula')
+  ) {
+    errors.push(
+      'Graves P must be blocked_data/none with wiki_explicit_unknown precise reload formula only',
+    );
+  }
+  if (
+    !mDravenQ ||
+    mDravenQ.status !== 'completed' ||
+    mDravenQ.completionMode !== 'full' ||
+    mDravenQ.lane !== 'generic_runtime' ||
+    mDravenQ.blocker ||
+    !String(mDravenQ.reason || '').includes('1400') ||
+    !String(mDravenQ.reason || '').includes('排除') ||
+    !(mDravenQ.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
+    ) ||
+    !(mDravenQ.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql',
+    )
+  ) {
+    errors.push(
+      'Draven Q must be completed/full under user-approved 1v1 scope with wasm+backend evidence (landing/W-reset excluded)',
+    );
   }
   if (
     !mDravenW ||
@@ -3051,11 +3435,11 @@ function validateInventory(inv) {
 
   const sc = inv.summary?.statusCounts || {};
   const expectedStatus = {
-    completed: 24,
+    completed: 31,
     partial_actionable: 0,
     ready_to_implement: 0,
-    blocked_runtime: 33,
-    blocked_data: 122,
+    blocked_runtime: 29,
+    blocked_data: 119,
     out_of_scope: 70,
     regression_only: 5,
     stale_or_duplicate: 0,
@@ -3069,7 +3453,7 @@ function validateInventory(inv) {
   const expectedActionable = [];
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
   if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
-    errors.push(`actionableKeys expected ${expectedActionable.join(',')}, got ${gotActionable.join(',')}`);
+    errors.push(`actionableKeys expected empty, got ${gotActionable.join(',')}`);
   }
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== 254) {
     errors.push(`mechanisms expected 254, got ${inv.summary?.deduplicatedMechanismCount}`);
@@ -3081,17 +3465,17 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 24 || (cm.partial || 0) !== 11 || (cm.none || 0) !== 219) {
+  if ((cm.full || 0) !== 31 || (cm.partial || 0) !== 10 || (cm.none || 0) !== 213) {
     errors.push(
-      `completionModeCounts expected full=24 partial=11 none=219, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=31 partial=10 none=213, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
 
 
   // blocked_runtime must carry precise runtimeGapEvidence (non-empty missingPrimitives).
   const blockedRuntimeRows = (inv.mechanisms || []).filter((m) => m.status === 'blocked_runtime');
-  if (blockedRuntimeRows.length !== 33) {
-    errors.push(`blocked_runtime rows expected 33, got ${blockedRuntimeRows.length}`);
+  if (blockedRuntimeRows.length !== 29) {
+    errors.push(`blocked_runtime rows expected 29, got ${blockedRuntimeRows.length}`);
   }
   for (const m of blockedRuntimeRows) {
     if (hasNonEmptyDataMissingFields(m.dataGapEvidence)) {
@@ -3155,14 +3539,31 @@ function validateInventory(inv) {
   if (!mFlux || mFlux.status !== 'out_of_scope' || mFlux.completionMode !== 'none') {
     errors.push('6696 涌动 must be out_of_scope/none (ultimate CDR only, no damage)');
   }
-  if (!mMag || mMag.status !== 'blocked_runtime' || mMag.completionMode !== 'none') {
-    errors.push('2523 高倍望远镜 must remain blocked_runtime/none');
+  if (
+    !mMag ||
+    mMag.status !== 'completed' ||
+    mMag.completionMode !== 'full' ||
+    mMag.lane !== 'generic_runtime' ||
+    mMag.blocker ||
+    !String(mMag.reason || '').includes('1.10') ||
+    !(mMag.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_pipeline_damage_modifier_test.go',
+    ) ||
+    !(mMag.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
+    )
+  ) {
+    errors.push(
+      '2523 高倍望远镜 must be completed/full under fixed-max 1.10 policy with pipeline damage wasm+backend evidence',
+    );
   }
 
   // blocked_data must carry precise, non-implementation data-gap evidence.
   const blockedDataRows = (inv.mechanisms || []).filter((m) => m.status === 'blocked_data');
-  if (blockedDataRows.length !== 122) {
-    errors.push(`blocked_data rows expected 122, got ${blockedDataRows.length}`);
+  if (blockedDataRows.length !== 119) {
+    errors.push(`blocked_data rows expected 119, got ${blockedDataRows.length}`);
   }
   for (const m of blockedDataRows) {
     const ev = m.dataGapEvidence;
@@ -3180,8 +3581,8 @@ function validateInventory(inv) {
   }
   const bdHero = blockedDataRows.filter((m) => m.sourceKind === 'hero_skill').length;
   const bdItem = blockedDataRows.filter((m) => m.sourceKind === 'item_passive').length;
-  if (bdHero !== 121 || bdItem !== 1) {
-    errors.push(`blocked_data by kind expected hero_skill=121 item_passive=1, got ${bdHero}/${bdItem}`);
+  if (bdHero !== 118 || bdItem !== 1) {
+    errors.push(`blocked_data by kind expected hero_skill=118 item_passive=1, got ${bdHero}/${bdItem}`);
   }
 
   const mYunaraR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_yunara|R|定圣诀');
@@ -3611,7 +4012,8 @@ function runCheck(inventory) {
   }
   const expectedCsv = toCsv(inventory.mechanisms.map(mechanismToCsvRow), CSV_COLUMNS);
   const actualCsv = fs.readFileSync(paths.outputCsv, 'utf8');
-  if (actualCsv !== expectedCsv) {
+  // EOL-canonical compare so CRLF vs LF checkouts of generated CSV still match
+  if (canonicalizeEol(actualCsv) !== canonicalizeEol(expectedCsv)) {
     console.error('--check failed: CSV content differs');
     process.exit(1);
   }

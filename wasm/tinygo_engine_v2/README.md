@@ -93,7 +93,24 @@ TinyGo 不在 `PATH` 时：
 powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\path\to\tinygo.exe"
 ```
 
-也可尝试项目级 fallback：`C:\project\tinygo0.40.1`。
+### TinyGo 工具链定位
+
+`Get-Command tinygo` 或 `where.exe tinygo` 未命中只表示当前终端的 `PATH` 没有 TinyGo，不代表机器上未安装。当前项目级 TinyGo 0.40.1 位于：
+
+```text
+C:\project\tinygo0.40.1\tinygo\bin\tinygo.exe
+C:\project\tinygo0.40.1\tinygo\targets\wasm_exec.js
+```
+
+可直接复核版本：
+
+```powershell
+& 'C:\project\tinygo0.40.1\tinygo\bin\tinygo.exe' version
+```
+
+`build-wasm.ps1` 会先解析传入值或 `PATH` 中的 `tinygo`；默认值未命中时，再依次查找仓库级 `.tools\tinygo0.40.1\tinygo\bin\tinygo.exe` 和项目级 `C:\project\tinygo0.40.1\tinygo\bin\tinygo.exe`。因此在当前项目布局中无需修改全局 `PATH`，直接运行默认构建命令即可。工具移动到其它位置时再显式传入 `-TinyGo`。
+
+Node 宿主必须加载与编译器同版本的 `wasm_exec.js`；仓库脚本同样会查找上述工具目录，也可用 `TINYGO_WASM_EXEC` 显式指定。
 
 ## 构建
 
