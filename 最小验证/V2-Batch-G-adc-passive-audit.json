@@ -1,7 +1,7 @@
 {
   "gameId": "lol",
   "batch": "V2-Batch-G",
-  "generatedAt": "2026-07-17T13:26:44.257Z",
+  "generatedAt": "2026-07-17T13:55:28.492Z",
   "source": {
     "championJson": "数据参考\\champion.json",
     "championDetailDir": "数据参考\\champion",
@@ -56,14 +56,14 @@
     },
     "classificationCounts": {
       "ready_to_encode": 1,
-      "already_covered": 17,
-      "needs_runtime_extension": 34,
+      "already_covered": 18,
+      "needs_runtime_extension": 33,
       "needs_manual_baseline": 44,
       "out_of_scope_for_single_target_dps": 146
     },
     "mechanismBacklog": {
       "seeded_random_crit_sequence": 5,
-      "stacking_stat_modifier_on_hit": 5,
+      "stacking_stat_modifier_on_hit": 4,
       "distance_based_damage_modifier": 9,
       "damage_multiplier_or_health_ratio": 2,
       "spellblade_next_attack_state": 5,
@@ -722,15 +722,16 @@
       "skillKey": "P",
       "passiveName": "咒能高涨",
       "sourceText": "伊泽瑞尔的任何技能在击中目标后，都会提升他的攻击速度（最多可叠加5次）。",
-      "classification": "needs_runtime_extension",
+      "classification": "already_covered",
       "mechanismTags": [
-        "stacking_stat_modifier_on_hit"
+        "stacking_stat_modifier_on_hit",
+        "attack_speed_percent_add"
       ],
+      "blockedReason": "",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "需要 timed stack stat modifier 聚合和掉层语义。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Ezreal.json#data.Ezreal.passive"
     },
     {
