@@ -528,6 +528,7 @@ const SEED = {
   wikiReadyItems: 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
   asheRangersFocusBackend: 'db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql',
+  asheVolleyBackend: 'db/game_manage/seeds/lol_generic_ashe_volley_seed.sql',
   dravenSpinningAxeBackend: 'db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql',
   pipelineDamageItemsBackend:
     'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
@@ -561,6 +562,7 @@ const WASM = {
   execute: 'wasm/tinygo_engine_v2/internal/runtime/generic_execute_test.go',
   asheRangersFocus:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
+  asheVolley: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go',
   dravenSpinningAxe:
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
   pipelineDamageModifier:
@@ -870,6 +872,31 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-ashe-rangers-focus',
           SEED.asheRangersFocusBackend,
           "completedBoundary: Ranger's Focus user-approved core seeded; excluded branches out of scope; backend lol_generic_ashe_rangers_focus_seed.sql",
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ashe|W',
+    {
+      classification: 'migrated',
+      tags: ['ability_flat_bonus_ad_damage', 'first_missile_only'],
+      reason:
+        'hero_ashe W 万箭齐发/Volley：当前 League Wiki + 用户批准 1v1 口径已由 wasm-generic-ashe-volley + backend seed 闭环——rank5 200+100% bonus AD；单目标一次 physical damage；55 mana；4000ms CD。用户明确排除 Frost Shot 减速/状态、弹道/锥形/碰撞/多目标、per-arrow 循环与其它 rank；Wiki 写明多箭命中同一目标仅计第一箭伤害，故标 migrated/completed，不再以这些排除分支阻塞。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-volley',
+          WASM.asheVolley,
+          'completedBoundary: user-approved Volley 1v1 (rank5 200+100%bonusAD / one physical instance / 55mana / CD4000ms / first-arrow-only); excluded: Frost Shot / projectile-cone-collision-multitarget / per-arrow loop / other ranks; attempts 0/3999/4000ms → 2 casts + 1 CD skip',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-volley',
+          SEED.asheVolleyBackend,
+          'completedBoundary: Volley user-approved 1v1 seeded; excluded Frost Shot/projectile/multi-target/other ranks out of scope; backend lol_generic_ashe_volley_seed.sql',
         ),
       ],
     },
@@ -1962,18 +1989,6 @@ const COMPONENT_EXCEPTIONS = [
     },
   },
   {
-    match: (c) => c.ownerId === 'hero_ashe' && c.skillKey === 'W',
-    result: {
-      classification: 'blocked',
-      tags: ['ability_flat_bonus_ad_damage', 'first_missile_only'],
-      reason:
-        'Ashe W Volley：当前 League Wiki 已给出 rank 伤害 60..200 +100% bonus AD、箭数 7..11、CD 18..4、蓝耗 75..55；仅第一支箭对单一目标造成伤害。数值可直接表达，不得再标 blocked_data；不声称已完成实现。',
-      remainingGap:
-        '缺将 Wiki 合同编码为 generic ability damage（first-arrow-only）的实现/证据。',
-      coverageEvidence: [],
-    },
-  },
-  {
     match: (c) => c.ownerId === 'hero_kaisa' && c.skillKey === 'P',
     result: {
       classification: 'blocked',
@@ -2824,7 +2839,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 25, partial: 9, blocked: 141, out_of_scope: 67 };
+  const expectedCounts = { migrated: 26, partial: 9, blocked: 140, out_of_scope: 67 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
@@ -3020,6 +3035,28 @@ function validateAudit(audit) {
   const asheQ = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|Q|射手的专注');
   if (!asheQ || asheQ.genericClassification !== 'migrated') {
     errors.push("Ashe Q must remain migrated under user-approved Ranger's Focus scope");
+  }
+  const asheW = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|W|万箭齐发');
+  if (
+    !asheW
+    || asheW.genericClassification !== 'migrated'
+    || !(asheW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.asheVolley,
+    )
+    || !(asheW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.asheVolleyBackend,
+    )
+    || !String(asheW.classificationReason || '').includes('200')
+    || !String(asheW.classificationReason || '').includes('4000')
+    || !String(asheW.classificationReason || '').includes('排除')
+  ) {
+    errors.push(
+      'Ashe W must be migrated with bilateral wasm+backend evidence under user-approved Volley 1v1 scope',
+    );
   }
 
   const rebuilt = buildSummary(records);
