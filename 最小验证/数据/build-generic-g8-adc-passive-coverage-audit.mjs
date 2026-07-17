@@ -541,6 +541,7 @@ const SEED = {
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
+  akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
 };
 
 const WASM = {
@@ -588,6 +589,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
+  akshanDirtyFighting:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go',
 };
 
 const COMPLETED_ONHIT_COMMIT = '3314c24';
@@ -954,6 +957,37 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-kaisa-second-skin',
           SEED.kaisaSecondSkinBackend,
           'completedBoundary: Second Skin canonical generic seeded; excluded branches out of scope; backend lol_generic_kaisa_second_skin_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_akshan|P',
+    {
+      classification: 'partial',
+      tags: [
+        'every_n_hit',
+        'on_hit',
+        'stacking_dirty_fighting',
+        'magic_proc_on_third_stack',
+      ],
+      reason:
+        'hero_akshan P 无所不用/Dirty Fighting：Wiki rev4038197（SHA256 22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534）+ 当前 canonical generic ABI 口径已由 wasm-generic-akshan-dirty-fighting + backend 双边证据闭环——CompileFrame→session→RunFrame→ReleaseSessionFrame；typed 普攻物理伤害；provider-target dirty_fighting_stacks（default0/max3/5000ms refresh-on-write）；第三层魔法 15/40/80/150 @ levels 1/6/11/16 +60% AP 并消耗重置；护甲/MR pipeline、阈值、AP、refresh/expiry、从零第四击、每次攻击恰好一次 basic_attack_hit。标 partial（非 full）：第二发 50% AD 仅 after a delay，exact delay ms 未公布；技能命中叠层缺 accurate ability-hit wiring；英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。',
+      remainingGap:
+        'blocked_data：被动第二发 50% AD 仅 after a delay，exact delay ms 未公布（secondShotDelayMs / second_shot_exact_delay_ms_not_published）；runtime：技能命中叠层缺 accurate_ability_hit_event_wiring（不得用 ability_started 替代）；out_of_scope：英雄护盾、取消第二发移速、换目标/小兵/多目标非核心分支。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-akshan-dirty-fighting',
+          WASM.akshanDirtyFighting,
+          'completedBoundary: Dirty Fighting AA core (CompileFrame→session→RunFrame→ReleaseSessionFrame / typed physical BA / dirty_fighting_stacks 0..3 5000ms refresh-on-write / third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset / armor-MR-AP thresholds / refresh-expiry / fourth-from-zero / one basic_attack_hit); remainingGap: secondShotDelayMs unpublished; ability-hit stack wiring; shield+cancel-MS+retarget/minion/multi-target OOS',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-akshan-dirty-fighting',
+          SEED.akshanDirtyFightingBackend,
+          'completedBoundary: Dirty Fighting AA damage core seeded; remainingGap: secondShotDelayMs / ability-hit wiring / shield+cancel-MS+retarget OOS; backend lol_generic_akshan_dirty_fighting_seed.sql',
         ),
       ],
     },
@@ -2022,18 +2056,6 @@ const COMPONENT_EXCEPTIONS = [
     },
   },
   {
-    match: (c) => c.ownerId === 'hero_akshan' && c.skillKey === 'P',
-    result: {
-      classification: 'blocked',
-      tags: ['every_n_hit', 'on_hit', 'shield'],
-      reason:
-        'Akshan P Dirty Fighting：当前 League Wiki 已给出第二发 50% AD、第三层魔法伤害等级阈值 +60% AP、5s/3 stacks；护盾分支可留在伤害口径外。数值合同已齐，不得再标 blocked_data；剩余为 generic every-n-hit/on-hit 实现缺口（不声称已完成）。',
-      remainingGap:
-        '缺 Akshan P 第二发/第三层主目标伤害的 generic runtime 实现；护盾分支 out of damage scope。',
-      coverageEvidence: [],
-    },
-  },
-  {
     match: (c) => c.ownerId === 'hero_akshan' && c.skillKey === 'E',
     result: {
       classification: 'blocked',
@@ -2872,7 +2894,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 28, partial: 9, blocked: 138, out_of_scope: 67 };
+  const expectedCounts = { migrated: 28, partial: 10, blocked: 137, out_of_scope: 67 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
@@ -3136,6 +3158,43 @@ function validateAudit(audit) {
   ) {
     errors.push(
       "Kai'Sa P must be migrated with bilateral wasm+backend evidence under completed Second Skin canonical generic scope (not blocked/ready)",
+    );
+  }
+  const akshanP = records.find((r) => r.candidateKey === 'hero_skill|hero_akshan|P|无所不用');
+  if (
+    !akshanP
+    || akshanP.genericClassification !== 'partial'
+    || !String(akshanP.classificationReason || '').includes('4038197')
+    || !String(akshanP.classificationReason || '').includes(
+      '22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534',
+    )
+    || !String(akshanP.classificationReason || '').includes('dirty_fighting_stacks')
+    || !String(akshanP.classificationReason || '').includes('partial')
+    || !String(akshanP.remainingGap || '').includes('secondShotDelayMs')
+    || !String(akshanP.remainingGap || '').includes('accurate_ability_hit_event_wiring')
+    || !(akshanP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.akshanDirtyFighting
+        && e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    )
+    || !(akshanP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.akshanDirtyFightingBackend
+        && e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    )
+  ) {
+    errors.push(
+      'Akshan P must be partial with bilateral wasm+backend Dirty Fighting evidence (Wiki rev4038197/SHA; not full/migrated/blocked/ready)',
+    );
+  }
+  if (akshanP) {
+    validateBilateralCoverageEvidence(
+      akshanP.candidateKey,
+      akshanP.coverageEvidence,
+      errors,
+      { requireCompletedBoundary: true, lane: 'generic_runtime' },
     );
   }
 
