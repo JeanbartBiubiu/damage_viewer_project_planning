@@ -23,15 +23,20 @@ type GenericEvalContext struct {
 
 	// Event snapshot reads require an emit_event listener / child-ability context.
 	// Participants are the original emitted event source/target (not owner-remapped).
-	HasEventContext          bool
-	EventEntrySourceAttrs    map[string]model.AttributeSlotDef
-	EventEntryTargetAttrs    map[string]model.AttributeSlotDef
+	HasEventContext           bool
+	EventEntrySourceAttrs     map[string]model.AttributeSlotDef
+	EventEntryTargetAttrs     map[string]model.AttributeSlotDef
 	EventEntrySourceResources map[string]model.ResourceSlotDef
 	EventEntryTargetResources map[string]model.ResourceSlotDef
-	EventSourceAttrs         map[string]model.AttributeSlotDef
-	EventTargetAttrs         map[string]model.AttributeSlotDef
-	EventSourceResources     map[string]model.ResourceSlotDef
-	EventTargetResources     map[string]model.ResourceSlotDef
+	EventSourceAttrs          map[string]model.AttributeSlotDef
+	EventTargetAttrs          map[string]model.AttributeSlotDef
+	EventSourceResources      map[string]model.ResourceSlotDef
+	EventTargetResources      map[string]model.ResourceSlotDef
+
+	// DamageAmount is transient: only set while evaluating a pipeline damage modifier.
+	// Missing damage context must fail structurally (never silently return zero).
+	HasDamageContext bool
+	DamageAmount     float64
 }
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
@@ -231,6 +236,11 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return 0, err
 		}
 		return readResourceValue(ctx.EventTargetResources, key), nil
+	case ReadDamageAmount:
+		if !ctx.HasDamageContext {
+			return 0, errors.New("damage.amount requires damage context")
+		}
+		return ctx.DamageAmount, nil
 	default:
 		return 0, errors.New("unknown read kind")
 	}

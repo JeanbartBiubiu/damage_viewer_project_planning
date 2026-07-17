@@ -29,6 +29,8 @@ const (
 	ReadEventTargetAttr
 	ReadEventSourceResource
 	ReadEventTargetResource
+	// ReadDamageAmount is a transient read available only while a pipeline damage modifier evaluates.
+	ReadDamageAmount
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -250,6 +252,9 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	}
 	if strings.HasPrefix(path, "ability.param.") {
 		return ReadAbilityParam, strings.TrimPrefix(path, "ability.param."), true
+	}
+	if path == "damage.amount" {
+		return ReadDamageAmount, "amount", true
 	}
 	return 0, "", false
 }
