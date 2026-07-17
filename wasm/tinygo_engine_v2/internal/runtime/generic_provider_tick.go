@@ -114,6 +114,12 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 		return err
 	}
 	frame.commit()
+	if frame.fatal {
+		return frame.fatalErr
+	}
+	if err := frame.dispatchPendingEvents(); err != nil {
+		return err
+	}
 
 	s.recordEvidence(model.EvidenceItem{
 		TimeMs:  s.nowMs,

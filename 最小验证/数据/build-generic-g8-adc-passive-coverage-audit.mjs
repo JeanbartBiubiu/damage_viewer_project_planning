@@ -18,9 +18,53 @@ const paths = {
   inputPath: path.join('最小验证', 'V2-Batch-G-adc-passive-audit.json'),
   seedCandidateJson: path.join(repoRoot, '数据参考', 'ddragon-champions', 'champion-seed-candidate.json'),
   championDir: path.join(repoRoot, '数据参考', 'champion'),
+  wikiContractsJson: path.join(
+    repoRoot,
+    '数据参考',
+    'lol-wiki-current-champions',
+    'normalized',
+    'reviewed-contracts.json',
+  ),
 };
 
 const SEED_CANDIDATE_REL = '数据参考/ddragon-champions/champion-seed-candidate.json';
+const WIKI_CONTRACTS_REL =
+  '数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json';
+
+/** Map Batch-G ownerId+skillKey → wiki reviewed-contract id. */
+const WIKI_CONTRACT_BY_OWNER_SKILL = new Map([
+  ['hero_ashe|Q', 'ashe-q'],
+  ['hero_ashe|W', 'ashe-w'],
+  ['hero_draven|Q', 'draven-q'],
+  ['hero_graves|P', 'graves-p'],
+  ['hero_akshan|P', 'akshan-p'],
+  ['hero_akshan|E', 'akshan-e'],
+  ['hero_kaisa|P', 'kaisa-p'],
+  ['hero_ezreal|P', 'ezreal-p'],
+]);
+
+let _wikiContractsById = null;
+
+function loadWikiContracts() {
+  if (_wikiContractsById) return _wikiContractsById;
+  _wikiContractsById = new Map();
+  if (!fs.existsSync(paths.wikiContractsJson)) return _wikiContractsById;
+  const doc = JSON.parse(fs.readFileSync(paths.wikiContractsJson, 'utf8'));
+  for (const c of doc.contracts || []) {
+    _wikiContractsById.set(c.id, c);
+  }
+  return _wikiContractsById;
+}
+
+function wikiContractForCandidate(candidate) {
+  const id = WIKI_CONTRACT_BY_OWNER_SKILL.get(`${candidate.ownerId}|${candidate.skillKey}`);
+  if (!id) return null;
+  return loadWikiContracts().get(id) || null;
+}
+
+function wikiSourceRef(contract) {
+  return `${WIKI_CONTRACTS_REL}#${contract.id}@rev${contract.revisionId}`;
+}
 
 const PLACEHOLDER_SCALING_HINTS = {
   bonusattackdamage: 'bonus AD',
@@ -361,6 +405,27 @@ function yunaraRDataGapEvidence() {
   });
 }
 
+function gravesPWikiDataGapEvidence(contract) {
+  return emptyDataGapEvidence({
+    sourceVersion: `lol-wiki-rev-${contract.revisionId}`,
+    sourceRef: wikiSourceRef(contract),
+    missingFields: ['precise_reload_speed_formula'],
+    gapKind: 'wiki_explicit_unknown',
+    reasonZh:
+      'Graves P New Destiny：贴脸最大弹丸伤害公式已由当前 League Wiki 给出；仅精确装填速度公式被 Wiki 明确标注为 unknown（Precise formula is unknown），故保留 blocked_data。不得再声称弹丸/距离数值缺失，也不得用截图/OCR 填补。',
+    blocker: 'wiki_explicit_unknown_precise_reload_speed_formula',
+    availableEffectTables: {
+      normalPellets: [4],
+      critPellets: [6],
+    },
+    tooltipPlaceholders: [],
+    unresolvedDamagePlaceholders: [],
+    varsMapEmpty: false,
+    variablesEmpty: false,
+    variables: ['point_blank_pellet_formulas_wiki_explicit'],
+  });
+}
+
 function applyDataGapToBlockedClassification(candidate, classified) {
   if (classified.classification !== 'blocked') return classified;
 
@@ -383,6 +448,43 @@ function applyDataGapToBlockedClassification(candidate, classified) {
       ...classified,
       reason: dataGapEvidence.reasonZh,
       remainingGap: dataGapEvidence.reasonZh,
+      dataGapEvidence,
+    };
+  }
+
+  // Current League Wiki outranks DDragon / Batch-B OCR for selected champions.
+  const wiki = wikiContractForCandidate(candidate);
+  if (wiki) {
+    if (
+      wiki.numericContractStatus === 'partial_wiki_explicit_unknown_reload'
+      || (Array.isArray(wiki.blockedDataFields) && wiki.blockedDataFields.length)
+    ) {
+      const dataGapEvidence = gravesPWikiDataGapEvidence(wiki);
+      return {
+        ...classified,
+        reason: dataGapEvidence.reasonZh,
+        remainingGap: dataGapEvidence.reasonZh,
+        dataGapEvidence,
+      };
+    }
+    // Wiki supplies the required numeric contract → not blocked_data.
+    const dataGapEvidence = emptyDataGapEvidence({
+      sourceVersion: `lol-wiki-rev-${wiki.revisionId}`,
+      sourceRef: wikiSourceRef(wiki),
+      missingFields: [],
+      gapKind: 'none',
+      reasonZh:
+        '当前 League Wiki 模板已提供可核验数值合同；DDragon/历史 Batch-B/OCR 仅作 provenance，不得作为 competing numeric truth。剩余为实现/runtime 缺口。',
+      blocker: '',
+    });
+    return {
+      ...classified,
+      reason:
+        classified.reason
+        || '当前 League Wiki 数值合同已齐；缺 runtime 表达能力（非 data blocker）。',
+      remainingGap:
+        classified.remainingGap
+        || 'Wiki 数值合同已齐；缺 runtime 实现（非 data blocker）',
       dataGapEvidence,
     };
   }
@@ -426,13 +528,20 @@ const SEED = {
   wikiReadyItems: 'db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql',
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
   asheRangersFocusBackend: 'db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql',
+  asheVolleyBackend: 'db/game_manage/seeds/lol_generic_ashe_volley_seed.sql',
   dravenSpinningAxeBackend: 'db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql',
+  pipelineDamageItemsBackend:
+    'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
   kogmawCausticSpittleBackend: 'db/game_manage/seeds/lol_generic_kogmaw_caustic_spittle_seed.sql',
   kaisaSuperchargeBackend: 'db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql',
+  kaisaSecondSkinBackend: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
+  ezrealRisingSpellForceBackend:
+    'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
+  akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
 };
 
 const WASM = {
@@ -457,12 +566,17 @@ const WASM = {
   execute: 'wasm/tinygo_engine_v2/internal/runtime/generic_execute_test.go',
   asheRangersFocus:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
+  asheVolley: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go',
   dravenSpinningAxe:
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
+  pipelineDamageModifier:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_pipeline_damage_modifier_test.go',
   kogmawCausticSpittle:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
   kaisaSupercharge:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
+  kaisaSecondSkin:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go',
   duskAndDawnSpellblade:
     'wasm/tinygo_engine_v2/internal/runtime/generic_dusk_and_dawn_spellblade_test.go',
   linkedEffects:
@@ -473,6 +587,10 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   xayahDeadlyPlumage:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
+  ezrealRisingSpellForce:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
+  akshanDirtyFighting:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go',
 };
 
 const COMPLETED_ONHIT_COMMIT = '3314c24';
@@ -696,25 +814,49 @@ const EXACT_OVERRIDES = new Map([
   [
     'hero_draven|Q',
     {
-      classification: 'partial',
-      tags: ['spellblade_next_attack_state'],
+      classification: 'migrated',
+      tags: ['spellblade_next_attack_state', 'spinning_axe_ready', 'axe_caught_rearm'],
       reason:
-        'hero_draven Q 旋转飞斧/Spinning Axe rank5 初次飞斧已由 wasm-generic-draven-spinning-axe 批次闭环：Q active cast 经 ability_started 武装 source-owner timed state spinning_axe_ready=1（max1,duration_ms5800,refresh_on_write）；随后一次 source-owner basic_attack_hit 追加 physical raw=60+1.15*(resolved AD-base AD)，copyable_on_hit=false 并消费 ready。',
-      remainingGap:
-        '接斧重新武装、双斧上限、45 mana、8s CD、其它 rank、移动落点及 W/E/R 均未建模。',
+        'hero_draven Q 旋转飞斧/Spinning Axe：用户批准 1v1 口径已由 wasm-generic-draven-spinning-axe + backend seed 闭环——rank5 bonus 60+115% bonus AD；1400ms 自动接斧；独立 overlapping flight；max 2 axes；45 mana；8000ms CD；ready 窗/接斧 refresh；每次合格命中消费 1 斧。用户明确排除落点/移动/路径模拟与 Draven W CD reset，故标 migrated/completed，不再以这些排除分支阻塞。',
+      remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-draven-spinning-axe',
           WASM.dravenSpinningAxe,
-          'completedBoundary: rank5 initial axe ability_started arms 5800ms ready + first AA physical 60+1.15*bonusAD; remainingGap: catch rearm / dual axe / mana / CD / other ranks / landing / WER unmodeled',
+          'completedBoundary: user-approved Spinning Axe 1v1 (rank5 60+115%bonusAD / catch1400ms / max2 / 45mana / CD8000ms / ready+catch refresh / consume-per-hit / unique overlapping flights); excluded: landing-movement-path / W CD reset',
           'wasm',
         ),
         evidence(
           'generic_batch',
           'wasm-generic-draven-spinning-axe',
           SEED.dravenSpinningAxeBackend,
-          'completedBoundary: rank5 initial axe seeded; remainingGap: catch/dual-axe/landing unmodeled; backend lol_generic_draven_spinning_axe_seed.sql',
+          'completedBoundary: Spinning Axe user-approved 1v1 seeded; excluded landing/W-reset out of scope; backend lol_generic_draven_spinning_axe_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    '2523|高倍望远镜',
+    {
+      classification: 'migrated',
+      tags: ['outgoing_pre_mitigation_basic_damage_amp', 'fixed_maximum_multiplier'],
+      reason:
+        'item 2523 Magnification/高倍望远镜：用户批准 fixed-max 口径——每个 eligible basic-damage instance 使用最大 1.10 outgoing pre-mitigation multiplier。wasm-generic-pipeline-damage-modifier + backend lol_generic_pipeline_damage_items_seed.sql 提供 CompileGeneric+RunGeneric 证据。距离分段为用户排除分支，非 blocker；奥术瞄准仍单独 out_of_scope。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-pipeline-damage-modifier',
+          WASM.pipelineDamageModifier,
+          'completedBoundary: user-approved Magnification fixed-max 1.10 outgoing pre-mitigation on eligible basic damage; excluded: runtime distance input / distance scaling; Arcane Aim separate OOS',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-pipeline-damage-modifier',
+          SEED.pipelineDamageItemsBackend,
+          'completedBoundary: Magnification fixed-max 1.10 seeded; distance branch out of scope; backend lol_generic_pipeline_damage_items_seed.sql',
         ),
       ],
     },
@@ -722,25 +864,130 @@ const EXACT_OVERRIDES = new Map([
   [
     'hero_ashe|Q',
     {
-      classification: 'partial',
+      classification: 'migrated',
       tags: ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add', 'cast_condition'],
       reason:
-        'hero_ashe Q 射手的专注/Ranger\'s Focus rank5 核心已由 wasm-generic-ashe-rangers-focus 批次闭环：ability-level castCondition 读 owning provider Focus 槽（满4层才可施放）；Q 耗 30 mana、清 Focus、武装 6000ms Flurry；攻速 percent_add=0.75*provider.state.flurry_active；Flurry 首发 6×28%AD、后续 5×28%AD，每次 flurry 普攻仅一次 basic_attack_hit；Focus 用四槽 timed state 在刷新后 4000/5000/6000/7000ms 逐层掉落。',
-      remainingGap:
-        '未建模：generic attack-timer reset 调度、逐箭飞行、Frost Shot、吸血、建筑物/多目标、任意技能轮转/攻速 cadence、其它 rank。',
+        "hero_ashe Q 射手的专注/Ranger's Focus：当前 League Wiki + 用户批准口径下核心已闭环（4 Focus / 6s Flurry / rank5 +60% AS / 5箭合计 130% AD、首轮 6箭 156% AD / 30 mana）。wasm-generic-ashe-rangers-focus 提供 CompileGeneric+RunGeneric 证据。用户明确排除 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标与完整轮转，故标 migrated/completed，不再以这些排除分支阻塞。",
+      remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-ashe-rangers-focus',
           WASM.asheRangersFocus,
-          'completedBoundary: rank5 Focus==4 cast + Flurry AS/damage core; remainingGap: attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation unmodeled',
+          "completedBoundary: user-approved Ranger's Focus core (Focus==4 cast + Flurry AS/damage); excluded: attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation; wiki rank5 AS=60%",
           'wasm',
         ),
         evidence(
           'generic_batch',
           'wasm-generic-ashe-rangers-focus',
           SEED.asheRangersFocusBackend,
-          'completedBoundary: rank5 Ranger\'s Focus core seeded; remainingGap: attack-timer/arrow-travel/rotation unmodeled; backend lol_generic_ashe_rangers_focus_seed.sql',
+          "completedBoundary: Ranger's Focus user-approved core seeded; excluded branches out of scope; backend lol_generic_ashe_rangers_focus_seed.sql",
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ashe|W',
+    {
+      classification: 'migrated',
+      tags: ['ability_flat_bonus_ad_damage', 'first_missile_only'],
+      reason:
+        'hero_ashe W 万箭齐发/Volley：当前 League Wiki + 用户批准 1v1 口径已由 wasm-generic-ashe-volley + backend seed 闭环——rank5 200+100% bonus AD；单目标一次 physical damage；55 mana；4000ms CD。用户明确排除 Frost Shot 减速/状态、弹道/锥形/碰撞/多目标、per-arrow 循环与其它 rank；Wiki 写明多箭命中同一目标仅计第一箭伤害，故标 migrated/completed，不再以这些排除分支阻塞。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-volley',
+          WASM.asheVolley,
+          'completedBoundary: user-approved Volley 1v1 (rank5 200+100%bonusAD / one physical instance / 55mana / CD4000ms / first-arrow-only); excluded: Frost Shot / projectile-cone-collision-multitarget / per-arrow loop / other ranks; attempts 0/3999/4000ms → 2 casts + 1 CD skip',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-volley',
+          SEED.asheVolleyBackend,
+          'completedBoundary: Volley user-approved 1v1 seeded; excluded Frost Shot/projectile/multi-target/other ranks out of scope; backend lol_generic_ashe_volley_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ezreal|P',
+    {
+      classification: 'migrated',
+      tags: ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add'],
+      reason:
+        'hero_ezreal P 咒能高涨/Rising Spell Force：Wiki rev3932280（SHA256 5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba）+ 本次采用的确定性 1v1 口径已由 wasm-generic-ezreal-rising-spell-force + backend seed 闭环——每次 scheduled top-level 非普攻能力命中唯一目标 +1 provider-scoped stack；6000ms refresh-on-write；cap 5；每层 +10% AS（cap +50%）。本次口径明确排除普攻叠层、CD-skip cast、miss、多目标、单次施法多段命中与真实 Q/W/E/R 图，故标 migrated/completed，不再以这些排除分支阻塞。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-rising-spell-force',
+          WASM.ezrealRisingSpellForce,
+          'completedBoundary: bounded 1v1 Rising Spell Force (ability_started hit→+1 stack / 6000ms refresh-on-write / cap5 / +10% AS per stack cap+50%); excluded: basic attacks / CD-skip cast / misses / multi-target / multi-hit-per-cast / real QWER graphs',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-rising-spell-force',
+          SEED.ezrealRisingSpellForceBackend,
+          'completedBoundary: Rising Spell Force bounded 1v1 seeded; excluded branches out of scope; backend lol_generic_ezreal_rising_spell_force_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kaisa|P',
+    {
+      classification: 'migrated',
+      tags: ['on_hit', 'stacking_plasma', 'missing_health_consume'],
+      reason:
+        "hero_kaisa P 体表活肤/Second Skin：Wiki rev4038390（SHA256 f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f）+ 当前 canonical generic ABI 口径已由 wasm-generic-kaisa-second-skin + backend seed 闭环——provider-target plasma_stacks（default0/max5/4000ms refresh-on-write）；level1..18 精确插值 base=4+20/17*(level-1)、perStack=1+5/17*(level-1)；同 provider 有序普攻图：Caustic→+1 stack→第五层已损生命破裂→reset→物理普攻→恰好一次 event/basic_attack_hit。明确排除 W 2/3 层与 overflow、友军定身 Plasma、野怪 400 cap、法术护盾、Guinsoo phantom/buff-slot、多目标，故标 migrated/completed，不再以这些排除分支阻塞。",
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-second-skin',
+          WASM.kaisaSecondSkin,
+          'completedBoundary: canonical generic Second Skin (plasma_stacks 0..5 / 4000ms refresh-on-write / exact L1..18 base+perStack / ordered Caustic→stack→fifth rupture→reset→physical BA→one basic_attack_hit); excluded: W 2/3 stacks+overflow / allied CC Plasma / monster 400 cap / spell shield / Guinsoo phantom-buff-slot / multi-target',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-second-skin',
+          SEED.kaisaSecondSkinBackend,
+          'completedBoundary: Second Skin canonical generic seeded; excluded branches out of scope; backend lol_generic_kaisa_second_skin_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_akshan|P',
+    {
+      classification: 'partial',
+      tags: [
+        'every_n_hit',
+        'on_hit',
+        'stacking_dirty_fighting',
+        'magic_proc_on_third_stack',
+      ],
+      reason:
+        'hero_akshan P 无所不用/Dirty Fighting：Wiki rev4038197（SHA256 22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534）+ 当前 canonical generic ABI 口径已由 wasm-generic-akshan-dirty-fighting + backend 双边证据闭环——CompileFrame→session→RunFrame→ReleaseSessionFrame；typed 普攻物理伤害；provider-target dirty_fighting_stacks（default0/max3/5000ms refresh-on-write）；第三层魔法 15/40/80/150 @ levels 1/6/11/16 +60% AP 并消耗重置；护甲/MR pipeline、阈值、AP、refresh/expiry、从零第四击、每次攻击恰好一次 basic_attack_hit。标 partial（非 full）：第二发 50% AD 仅 after a delay，exact delay ms 未公布；技能命中叠层缺 accurate ability-hit wiring；英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。',
+      remainingGap:
+        'blocked_data：被动第二发 50% AD 仅 after a delay，exact delay ms 未公布（secondShotDelayMs / second_shot_exact_delay_ms_not_published）；runtime：技能命中叠层缺 accurate_ability_hit_event_wiring（不得用 ability_started 替代）；out_of_scope：英雄护盾、取消第二发移速、换目标/小兵/多目标非核心分支。',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-akshan-dirty-fighting',
+          WASM.akshanDirtyFighting,
+          'completedBoundary: Dirty Fighting AA core (CompileFrame→session→RunFrame→ReleaseSessionFrame / typed physical BA / dirty_fighting_stacks 0..3 5000ms refresh-on-write / third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset / armor-MR-AP thresholds / refresh-expiry / fourth-from-zero / one basic_attack_hit); remainingGap: secondShotDelayMs unpublished; ability-hit stack wiring; shield+cancel-MS+retarget/minion/multi-target OOS',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-akshan-dirty-fighting',
+          SEED.akshanDirtyFightingBackend,
+          'completedBoundary: Dirty Fighting AA damage core seeded; remainingGap: secondShotDelayMs / ability-hit wiring / shield+cancel-MS+retarget OOS; backend lol_generic_akshan_dirty_fighting_seed.sql',
         ),
       ],
     },
@@ -1701,7 +1948,7 @@ const EXACT_OVERRIDES = new Map([
       classification: 'out_of_scope',
       tags: ['takedown_attack_range_only'],
       reason:
-        '2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜仍单独审计。',
+        '2523 Arcane Aim/奥术瞄准：takedown 后 +100 攻击距离 8 秒，无伤害增量；审计边界外。同装备 Magnification/高倍望远镜为独立完成口径，不得合并。',
       remainingGap: '',
       coverageEvidence: [],
     },
@@ -1809,12 +2056,26 @@ const COMPONENT_EXCEPTIONS = [
     },
   },
   {
-    match: (c) => c.ownerId === 'hero_akshan' && c.skillKey === 'P',
+    match: (c) => c.ownerId === 'hero_akshan' && c.skillKey === 'E',
     result: {
       classification: 'blocked',
-      tags: ['every_n_hit', 'on_hit', 'shield'],
-      reason: '旧规则因护盾/生存误判为 out_of_scope，但含主目标额外伤害分支；缺精确 generic seed/mount。',
-      remainingGap: '缺 Akshan P 主目标 every-3rd-hit 伤害与护盾分支的 runtime/数据闭环。',
+      tags: ['as_scaled_shot_damage', 'periodic_shot_while_dashing'],
+      reason:
+        'Akshan E Heroic Swing：当前 League Wiki 已给出 per-shot 8..40 +25% AD × (1+0.3 per 100% bonus AS)、每 0.2s 射击。移动/摆荡/射击次数属 runtime scope，不是 Wiki 数据缺口；不得再标 blocked_data，亦不声称已完成。',
+      remainingGap:
+        '缺 swing/dash 期间周期性射击调度、shot count、地形钩索与 per-shot AS 缩放伤害 runtime。',
+      coverageEvidence: [],
+    },
+  },
+  {
+    match: (c) => c.ownerId === 'hero_graves' && c.skillKey === 'P',
+    result: {
+      classification: 'blocked',
+      tags: ['shotgun_point_blank_pellets', 'ammo_reload'],
+      reason:
+        'Graves P New Destiny：贴脸最大弹丸（4/暴击 6）与 Wiki 显式 normal/crit 弹丸公式已知；用户口径仅贴脸最大弹丸。精确装填速度公式被 Wiki 标注 unknown。不得再声称弹丸/距离数据缺失。',
+      remainingGap:
+        'Wiki 明确 unknown 的 precise reload speed formula（blocked_data）；贴脸弹丸伤害可另行实现但不在本任务闭环。',
       coverageEvidence: [],
     },
   },
@@ -1861,18 +2122,6 @@ const COMPONENT_EXCEPTIONS = [
         '2512 Opening Barrage/开战弹幕：ultimate_cast 武装接下来 3 次普攻/8s；+50% AS；条件暴击伤害；已暴击则附加 15% pre-mitigation 攻击伤害真实伤害；45s CD。',
       remainingGap:
         '缺 ultimate_cast_arm_next_3_attacks、deterministic_crit_branch、attack_pre_mitigation_snapshot、charge_consumption、45s_cooldown。',
-      coverageEvidence: [],
-    },
-  },
-  {
-    match: (c) => c.ownerId === '2523' && c.passiveName === '高倍望远镜',
-    result: {
-      classification: 'blocked',
-      tags: ['distance_or_ratio_modifier', 'basic_damage_amplification'],
-      reason:
-        '2523 Magnification/高倍望远镜：edge-to-edge 距离输入，每 50 单位 +1% 最多 10% basic damage amplification。',
-      remainingGap:
-        '缺 edge_to_edge_distance_input、distance_scaled_basic_damage_amp_snapshot（1%/50 up to 10%）。',
       coverageEvidence: [],
     },
   },
@@ -2051,8 +2300,18 @@ function exactOverrideFor(c) {
   return raw;
 }
 
+/** Treat inventoried UTF-8 text as LF-canonical for evidence hashing (CRLF/CR → LF). */
+function canonicalizeUtf8TextBytes(buf) {
+  const text = Buffer.from(buf).toString('utf8').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  return Buffer.from(text, 'utf8');
+}
+
+function canonicalizeEol(text) {
+  return String(text ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+}
+
 function sha256File(filePath) {
-  const buf = fs.readFileSync(filePath);
+  const buf = canonicalizeUtf8TextBytes(fs.readFileSync(filePath));
   return crypto.createHash('sha256').update(buf).digest('hex');
 }
 
@@ -2635,7 +2894,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 22, partial: 11, blocked: 142, out_of_scope: 67 };
+  const expectedCounts = { migrated: 28, partial: 10, blocked: 137, out_of_scope: 67 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
@@ -2787,6 +3046,158 @@ function validateAudit(audit) {
     );
   }
 
+  const dravenQ = records.find((r) => r.candidateKey === 'hero_skill|hero_draven|Q|旋转飞斧');
+  if (
+    !dravenQ
+    || dravenQ.genericClassification !== 'migrated'
+    || !(dravenQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.dravenSpinningAxe,
+    )
+    || !(dravenQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.dravenSpinningAxeBackend,
+    )
+    || !String(dravenQ.classificationReason || '').includes('1400')
+    || !String(dravenQ.classificationReason || '').includes('排除')
+  ) {
+    errors.push(
+      'Draven Q must be migrated with bilateral wasm+backend evidence under user-approved 1v1 scope (landing/W-reset excluded)',
+    );
+  }
+  const mag = records.find((r) => r.candidateKey === 'item_passive|2523|item_passive|高倍望远镜');
+  if (
+    !mag
+    || mag.genericClassification !== 'migrated'
+    || !(mag.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.pipelineDamageModifier,
+    )
+    || !(mag.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.pipelineDamageItemsBackend,
+    )
+    || !String(mag.classificationReason || '').includes('1.10')
+  ) {
+    errors.push(
+      '2523 高倍望远镜 must be migrated with pipeline damage bilateral evidence under fixed-max 1.10 policy',
+    );
+  }
+  const asheQ = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|Q|射手的专注');
+  if (!asheQ || asheQ.genericClassification !== 'migrated') {
+    errors.push("Ashe Q must remain migrated under user-approved Ranger's Focus scope");
+  }
+  const asheW = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|W|万箭齐发');
+  if (
+    !asheW
+    || asheW.genericClassification !== 'migrated'
+    || !(asheW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.asheVolley,
+    )
+    || !(asheW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.asheVolleyBackend,
+    )
+    || !String(asheW.classificationReason || '').includes('200')
+    || !String(asheW.classificationReason || '').includes('4000')
+    || !String(asheW.classificationReason || '').includes('排除')
+  ) {
+    errors.push(
+      'Ashe W must be migrated with bilateral wasm+backend evidence under user-approved Volley 1v1 scope',
+    );
+  }
+  const ezrealP = records.find((r) => r.candidateKey === 'hero_skill|hero_ezreal|P|咒能高涨');
+  if (
+    !ezrealP
+    || ezrealP.genericClassification !== 'migrated'
+    || !(ezrealP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.ezrealRisingSpellForce,
+    )
+    || !(ezrealP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.ezrealRisingSpellForceBackend,
+    )
+    || !String(ezrealP.classificationReason || '').includes('6000')
+    || !String(ezrealP.classificationReason || '').includes('排除')
+    || String(ezrealP.remainingGap || '').trim()
+  ) {
+    errors.push(
+      'Ezreal P must be migrated with bilateral wasm+backend evidence under bounded 1v1 Rising Spell Force scope (not blocked/ready)',
+    );
+  }
+  const kaisaP = records.find((r) => r.candidateKey === 'hero_skill|hero_kaisa|P|体表活肤');
+  if (
+    !kaisaP
+    || kaisaP.genericClassification !== 'migrated'
+    || !(kaisaP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.kaisaSecondSkin
+        && e.taskKey === 'wasm-generic-kaisa-second-skin',
+    )
+    || !(kaisaP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.kaisaSecondSkinBackend
+        && e.taskKey === 'wasm-generic-kaisa-second-skin',
+    )
+    || !String(kaisaP.classificationReason || '').includes('4038390')
+    || !String(kaisaP.classificationReason || '').includes('4000')
+    || !String(kaisaP.classificationReason || '').includes('排除')
+    || String(kaisaP.remainingGap || '').trim()
+  ) {
+    errors.push(
+      "Kai'Sa P must be migrated with bilateral wasm+backend evidence under completed Second Skin canonical generic scope (not blocked/ready)",
+    );
+  }
+  const akshanP = records.find((r) => r.candidateKey === 'hero_skill|hero_akshan|P|无所不用');
+  if (
+    !akshanP
+    || akshanP.genericClassification !== 'partial'
+    || !String(akshanP.classificationReason || '').includes('4038197')
+    || !String(akshanP.classificationReason || '').includes(
+      '22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534',
+    )
+    || !String(akshanP.classificationReason || '').includes('dirty_fighting_stacks')
+    || !String(akshanP.classificationReason || '').includes('partial')
+    || !String(akshanP.remainingGap || '').includes('secondShotDelayMs')
+    || !String(akshanP.remainingGap || '').includes('accurate_ability_hit_event_wiring')
+    || !(akshanP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.akshanDirtyFighting
+        && e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    )
+    || !(akshanP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.akshanDirtyFightingBackend
+        && e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    )
+  ) {
+    errors.push(
+      'Akshan P must be partial with bilateral wasm+backend Dirty Fighting evidence (Wiki rev4038197/SHA; not full/migrated/blocked/ready)',
+    );
+  }
+  if (akshanP) {
+    validateBilateralCoverageEvidence(
+      akshanP.candidateKey,
+      akshanP.coverageEvidence,
+      errors,
+      { requireCompletedBoundary: true, lane: 'generic_runtime' },
+    );
+  }
+
   const rebuilt = buildSummary(records);
   const rateKeys = [
     ['coverageRateMigratedOnly', 'all'],
@@ -2924,10 +3335,10 @@ function main() {
       console.error('--check failed: semantic content differs (ignoring generatedAt)');
       process.exit(1);
     }
-    // rebuild csv and compare
+    // rebuild csv and compare (EOL-canonical so CRLF vs LF checkouts match)
     const expectedCsv = toCsv(toCsvRows(audit));
     const actualCsv = fs.readFileSync(paths.outputCsv, 'utf8');
-    if (actualCsv !== expectedCsv) {
+    if (canonicalizeEol(actualCsv) !== canonicalizeEol(expectedCsv)) {
       console.error('--check failed: csv content differs');
       process.exit(1);
     }
