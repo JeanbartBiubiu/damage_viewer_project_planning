@@ -39,6 +39,11 @@ VALUES
     (10023, '状态作用域', 'state_scope'),
     (10024, '阶段触发点', 'phase_trigger'),
     (10025, '重复作用域', 'repeat_scope'),
+    (10026, 'Modifier 种类', 'modifier_kind'),
+    (10027, '命令', 'command'),
+    (10028, '通道', 'channel'),
+    (10029, '乘区阶段', 'stage'),
+    (10030, '乘区桶', 'bucket'),
 
     -- value_type
     (20100, '数值', 'value_type/number'),
@@ -123,6 +128,7 @@ VALUES
     (20213, '事件来源为对手', 'event/source_opponent'),
     (20214, '造成物理伤害', 'event/damage_dealt/physical'),
     (20215, '造成普攻伤害', 'event/damage_dealt/basic_attack'),
+    (20216, '接斧', 'event/axe_caught'),
 
     -- damage
     (20220, '物理伤害', 'damage/physical'),
@@ -150,7 +156,17 @@ VALUES
     (20262, '阶段 Tick', 'phase_trigger/on_tick'),
 
     -- repeat_scope
-    (20263, '命中可复制', 'repeat_scope/copyable_on_hit')
+    (20263, '命中可复制', 'repeat_scope/copyable_on_hit'),
+
+    -- modifier_kind / command / channel / stage / bucket
+    -- (provider_modifiers columns; abiToken strips prefix → pipeline/damage/…)
+    (20264, '管道', 'modifier_kind/pipeline'),
+    (20265, '伤害命令', 'command/damage'),
+    (20266, '基础伤害', 'channel/basic_damage'),
+    (20267, '出站减伤前', 'stage/outgoing_pre_mitigation'),
+    (20268, '入站减伤后', 'stage/incoming_post_mitigation'),
+    (20269, '全部实例', 'bucket/all_instances'),
+    (20270, '每次施法首次', 'bucket/first_per_cast')
 ON CONFLICT (type_id) DO UPDATE SET
     name = EXCLUDED.name,
     type_key = EXCLUDED.type_key;
@@ -234,6 +250,7 @@ VALUES
     (20213, 10019),
     (20214, 10019),
     (20215, 10019),
+    (20216, 10019),
 
     (20220, 10020),
     (20221, 10020),
@@ -255,5 +272,13 @@ VALUES
     (20261, 10024),
     (20262, 10024),
 
-    (20263, 10025)
+    (20263, 10025),
+
+    (20264, 10026),
+    (20265, 10027),
+    (20266, 10028),
+    (20267, 10029),
+    (20268, 10029),
+    (20269, 10030),
+    (20270, 10030)
 ON CONFLICT (type_id, parent_type_id) DO NOTHING;
