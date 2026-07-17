@@ -123,13 +123,71 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_akshan|P|无所不用',
     {
-      status: 'ready_to_implement',
-      completionMode: 'none',
+      status: 'blocked_data',
+      completionMode: 'partial',
       lane: 'generic_runtime',
       reason:
-        'Akshan P Dirty Fighting：当前 League Wiki 已给出第二发 50% AD、第三层魔法伤害阈值 +60% AP、5s/3 stacks。护盾分支可留在伤害口径外。every-n-hit/on-hit 能力可直接表达；不声称已完成。',
-      blocker: '',
-      dataGapEvidence: null,
+        'Akshan P Dirty Fighting：Wiki rev4038197（SHA256 22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534）+ canonical generic ABI 与 wasm-generic-akshan-dirty-fighting + backend 双边证据已闭环伤害核心——CompileFrame→session→RunFrame→ReleaseSessionFrame；typed 普攻物理；provider-target dirty_fighting_stacks（0/max3/5000ms refresh-on-write）；第三层魔法 15/40/80/150 @ 1/6/11/16 +60% AP 消耗重置；护甲/MR/阈值/AP/refresh/expiry/从零第四击/每次攻击一次 basic_attack_hit。completionMode=partial（非 full）：被动第二发 50% AD 仅 after a delay，exact delay ms 未公布（blocked_data）；技能命中叠层缺 accurate_ability_hit_event_wiring；英雄护盾与取消第二发移速及换目标/小兵/多目标 out of damage scope。',
+      blocker: 'second_shot_exact_delay_ms_not_published',
+      dataGapEvidence: {
+        sourceVersion: 'lol-wiki-rev-4038197',
+        sourceRef:
+          '数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p',
+        availableEffectTables: {
+          thirdStackMagicByLevel: [15, 40, 80, 150],
+          thirdStackMagicLevels: [1, 6, 11, 16],
+          secondShotAdRatio: [0.5],
+          stackCap: [3],
+          stackDurationMs: [5000],
+        },
+        availableCooldowns: [],
+        availableCosts: {},
+        tooltipPlaceholders: [],
+        unresolvedDamagePlaceholders: [],
+        varsMapEmpty: false,
+        variablesEmpty: false,
+        variables: [
+          'dirty_fighting_stacks',
+          'third_stack_magic_15_40_80_150_plus_60pct_ap',
+          'second_shot_50pct_ad_after_a_delay',
+        ],
+        missingFields: ['secondShotDelayMs'],
+        gapKind: 'wiki_delay_ms_unpublished',
+        reasonZh:
+          'Akshan P Dirty Fighting：被动第二发 Wiki 写明 50% AD 且 after a delay，但 exact delay milliseconds 未公布；不得臆造 delay。伤害核心（普攻叠层/第三层魔法）已部分闭环。',
+        blocker: 'second_shot_exact_delay_ms_not_published',
+      },
+      runtimeGapEvidence: {
+        sourceRef:
+          '数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p',
+        dataStatus: 'partial',
+        requiredEvents: ['basic_attack_hit', 'accurate_ability_hit'],
+        requiredState: ['dirty_fighting_stacks'],
+        requiredFormulaInputs: ['ability_power', 'champion_level', 'attack_damage'],
+        requiredScheduling: [],
+        missingPrimitives: ['accurate_ability_hit_event_wiring'],
+        completedBoundary:
+          'AA Dirty Fighting core closed: CompileFrame→session→RunFrame→ReleaseSessionFrame; typed physical BA; dirty_fighting_stacks 0/max3/5000ms refresh-on-write; third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset; armor/MR/AP thresholds; refresh/expiry; fourth-from-zero; one basic_attack_hit per attack',
+        remainingBoundary:
+          '技能命中亦叠层，但 exact generic ability-hit event wiring 未建立；不得用 ability_started 替代。英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。',
+      },
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-akshan-dirty-fighting',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: Dirty Fighting AA core; remainingGap: secondShotDelayMs / accurate_ability_hit_event_wiring / shield+cancel-MS+retarget OOS',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-akshan-dirty-fighting',
+          sourcePath: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: Dirty Fighting AA damage core; remainingGap: secondShotDelayMs / ability-hit wiring / shield+cancel-MS+retarget OOS',
+        },
+      ],
     },
   ],
   [
@@ -824,6 +882,30 @@ const RUNTIME_GAP_SPEC_TABLE = {
     "reason": "Akshan E：Wiki per-shot 伤害与 0.2s 间隔已知；移动/摆荡/射击次数属 runtime scope。",
     "blocker": "swing_periodic_shot_scheduling+as_scaled_per_shot_damage+hook_attach_terrain_path"
   },
+  "hero_skill|hero_akshan|P|无所不用": {
+    "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p",
+    "dataStatus": "partial",
+    "requiredEvents": [
+      "basic_attack_hit",
+      "accurate_ability_hit"
+    ],
+    "requiredState": [
+      "dirty_fighting_stacks"
+    ],
+    "requiredFormulaInputs": [
+      "ability_power",
+      "champion_level",
+      "attack_damage"
+    ],
+    "requiredScheduling": [],
+    "missingPrimitives": [
+      "accurate_ability_hit_event_wiring"
+    ],
+    "completedBoundary": "AA Dirty Fighting core closed: CompileFrame→session→RunFrame→ReleaseSessionFrame; typed physical BA; dirty_fighting_stacks 0/max3/5000ms refresh-on-write; third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset; armor/MR/AP thresholds; refresh/expiry; fourth-from-zero; one basic_attack_hit per attack",
+    "remainingBoundary": "技能命中亦叠层，但 exact generic ability-hit event wiring 未建立；不得用 ability_started 替代。英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。",
+    "reason": "Akshan P Dirty Fighting：技能命中叠层缺 accurate_ability_hit_event_wiring（不得用 ability_started 替代）。",
+    "blocker": "accurate_ability_hit_event_wiring"
+  },
   "item_passive|2051|item_passive|无畏": {
     "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2051_Undaunted",
     "dataStatus": "complete",
@@ -1197,6 +1279,10 @@ const COVERAGE_BOUNDARIES = new Map([
   ['hero_skill|hero_teemo|E|毒性射击', 'instant_on_hit_only;poison_dot_out_of_batch'],
   ['hero_skill|hero_kogmaw|W|生化弹幕', 'primary_on_hit;active_window_prearmed_in_seed'],
   ['hero_skill|hero_varus|P|复仇之欲', 'minion_kill_branch|champion_takedown_branch;both_blocked_runtime'],
+  [
+    'hero_skill|hero_akshan|P|无所不用',
+    'dirty_fighting_aa_stack_third_magic_core_complete;second_shot_delay_ms_blocked_data;ability_hit_stack_wiring_runtime;shield_cancel_ms_retarget_oos',
+  ],
   ['item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c', 'primary_target_formula;behind_target_and_active_unmigrated'],
   ['item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|020f8b5a', 'primary_target_formula;behind_target_and_active_unmigrated'],
 ]);
@@ -3165,8 +3251,46 @@ function validateInventory(inv) {
       'Ashe W must be completed/full under user-approved Volley 1v1 scope with wasm+backend evidence',
     );
   }
-  if (!mAkshanP || mAkshanP.status !== 'ready_to_implement' || mAkshanP.completionMode !== 'none') {
-    errors.push('Akshan P must be ready_to_implement/none (Wiki damage contract complete)');
+  if (
+    !mAkshanP ||
+    mAkshanP.status !== 'blocked_data' ||
+    mAkshanP.completionMode !== 'partial' ||
+    mAkshanP.lane !== 'generic_runtime' ||
+    mAkshanP.blocker !== 'second_shot_exact_delay_ms_not_published' ||
+    !mAkshanP.dataGapEvidence?.missingFields?.includes('secondShotDelayMs') ||
+    mAkshanP.dataGapEvidence?.blocker !== 'second_shot_exact_delay_ms_not_published' ||
+    !String(mAkshanP.reason || '').includes('4038197') ||
+    !String(mAkshanP.reason || '').includes(
+      '22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534',
+    ) ||
+    !String(mAkshanP.reason || '').includes('dirty_fighting_stacks') ||
+    mAkshanP.runtimeGapEvidence?.dataStatus !== 'partial' ||
+    !(mAkshanP.runtimeGapEvidence?.missingPrimitives || []).includes(
+      'accurate_ability_hit_event_wiring',
+    ) ||
+    !String(mAkshanP.runtimeGapEvidence?.completedBoundary || '').includes(
+      'dirty_fighting_stacks',
+    ) ||
+    !String(mAkshanP.coverageBoundary || '').includes(
+      'dirty_fighting_aa_stack_third_magic_core_complete',
+    ) ||
+    !(mAkshanP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    ) ||
+    !(mAkshanP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        e.taskKey === 'wasm-generic-akshan-dirty-fighting',
+    )
+  ) {
+    errors.push(
+      'Akshan P must be blocked_data/partial/generic_runtime with Wiki rev4038197/SHA, secondShotDelayMs data gap, accurate_ability_hit_event_wiring runtime gap, and wasm+backend Dirty Fighting evidence (not ready_to_implement/full)',
+    );
   }
   if (
     !mAkshanE ||
@@ -3313,9 +3437,9 @@ function validateInventory(inv) {
   const expectedStatus = {
     completed: 31,
     partial_actionable: 0,
-    ready_to_implement: 1,
+    ready_to_implement: 0,
     blocked_runtime: 29,
-    blocked_data: 118,
+    blocked_data: 119,
     out_of_scope: 70,
     regression_only: 5,
     stale_or_duplicate: 0,
@@ -3323,15 +3447,13 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 1) {
-    errors.push(`actionableKeyCount expected 1, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 0) {
+    errors.push(`actionableKeyCount expected 0, got ${inv.summary?.actionableKeyCount}`);
   }
-  const expectedActionable = [
-    'hero_skill|hero_akshan|P|无所不用',
-  ];
+  const expectedActionable = [];
   const gotActionable = [...(inv.summary?.actionableKeys || [])].sort((a, b) => a.localeCompare(b, 'en'));
   if (JSON.stringify(gotActionable) !== JSON.stringify(expectedActionable)) {
-    errors.push(`actionableKeys expected ${expectedActionable.join(',')}, got ${gotActionable.join(',')}`);
+    errors.push(`actionableKeys expected empty, got ${gotActionable.join(',')}`);
   }
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== 254) {
     errors.push(`mechanisms expected 254, got ${inv.summary?.deduplicatedMechanismCount}`);
@@ -3343,9 +3465,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 31 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 214) {
+  if ((cm.full || 0) !== 31 || (cm.partial || 0) !== 10 || (cm.none || 0) !== 213) {
     errors.push(
-      `completionModeCounts expected full=31 partial=9 none=214, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=31 partial=10 none=213, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
 
@@ -3440,8 +3562,8 @@ function validateInventory(inv) {
 
   // blocked_data must carry precise, non-implementation data-gap evidence.
   const blockedDataRows = (inv.mechanisms || []).filter((m) => m.status === 'blocked_data');
-  if (blockedDataRows.length !== 118) {
-    errors.push(`blocked_data rows expected 118, got ${blockedDataRows.length}`);
+  if (blockedDataRows.length !== 119) {
+    errors.push(`blocked_data rows expected 119, got ${blockedDataRows.length}`);
   }
   for (const m of blockedDataRows) {
     const ev = m.dataGapEvidence;
@@ -3459,8 +3581,8 @@ function validateInventory(inv) {
   }
   const bdHero = blockedDataRows.filter((m) => m.sourceKind === 'hero_skill').length;
   const bdItem = blockedDataRows.filter((m) => m.sourceKind === 'item_passive').length;
-  if (bdHero !== 117 || bdItem !== 1) {
-    errors.push(`blocked_data by kind expected hero_skill=117 item_passive=1, got ${bdHero}/${bdItem}`);
+  if (bdHero !== 118 || bdItem !== 1) {
+    errors.push(`blocked_data by kind expected hero_skill=118 item_passive=1, got ${bdHero}/${bdItem}`);
   }
 
   const mYunaraR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_yunara|R|定圣诀');

@@ -108,13 +108,29 @@ const HERO_CLASSIFICATION_OVERRIDES = new Map([
     'hero_kaisa:P',
     alreadyCovered(['on_hit', 'stacking_plasma', 'missing_health_consume']),
   ],
+  // Akshan P Dirty Fighting：verified damage core（AA stacks / third-stack magic）已闭环。
+  // legacy Batch-G schema 无法表达 mixed completion，故 already_covered=partial core only；
+  // 不得再标 survivability-only out_of_scope。剩余 second-shot delay / ability-hit stacks /
+  // shield+cancel-MS / retarget 等缺口保留在 G8/unified，不声称 full。
+  [
+    'hero_akshan:P',
+    alreadyCovered(
+      [
+        'every_n_hit',
+        'on_hit',
+        'stacking_dirty_fighting',
+        'magic_proc_on_third_stack',
+      ],
+      'partial core only（Batch-G schema）：verified AA dirty_fighting_stacks/third-stack magic；非 full；其余缺口见 G8/unified',
+    ),
+  ],
 ]);
 
-function alreadyCovered(mechanismTags) {
+function alreadyCovered(mechanismTags, blockedReason = '') {
   return {
     classification: 'already_covered',
     mechanismTags,
-    blockedReason: '',
+    blockedReason,
     needsUserData: [],
   };
 }
@@ -810,6 +826,22 @@ function validateAudit(audit) {
       "Kai'Sa P 体表活肤 must be already_covered under completed Second Skin plasma/on-hit/missing-HP scope (not needs_runtime_extension/ready_to_encode)",
     );
   }
+  const akshanP = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_akshan' && c.skillKey === 'P' && c.passiveName === '无所不用',
+  );
+  if (
+    !akshanP
+    || akshanP.classification !== 'already_covered'
+    || (akshanP.mechanismTags || []).includes('survivability_only')
+    || !(akshanP.mechanismTags || []).includes('every_n_hit')
+    || !(akshanP.mechanismTags || []).includes('stacking_dirty_fighting')
+    || !(akshanP.mechanismTags || []).includes('magic_proc_on_third_stack')
+    || !String(akshanP.blockedReason || '').includes('partial core only')
+  ) {
+    errors.push(
+      'Akshan P 无所不用 must be already_covered under verified Dirty Fighting damage core (partial core only; not survivability-only out_of_scope)',
+    );
+  }
   const terminus = (audit.candidates || []).find(
     (c) => c.ownerId === '3302' && c.passiveName === '晦影',
   );
@@ -818,11 +850,11 @@ function validateAudit(audit) {
   }
   const counts = audit.summary?.classificationCounts || {};
   const expectedCounts = {
-    already_covered: 18,
+    already_covered: 19,
     needs_runtime_extension: 33,
     ready_to_encode: 1,
     needs_manual_baseline: 44,
-    out_of_scope_for_single_target_dps: 146,
+    out_of_scope_for_single_target_dps: 145,
   };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {

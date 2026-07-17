@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-17T14:32:04.036Z",
+    "generatedAt": "2026-07-17T15:12:54.375Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -42,7 +42,7 @@
     "aliasTableVersion": "unified-inventory-alias-v1",
     "ownerAliasTableVersion": "unified-inventory-owner-alias-v1",
     "currentInputHashes": {
-      "最小验证/V2-Batch-G-adc-passive-audit.json": "42b58eca03d05b945826d16148f71029caff056855aacef41fa5080b72c37143",
+      "最小验证/V2-Batch-G-adc-passive-audit.json": "da98682665c0b84e71658d574be73ca61f9b98dbf1e5a2598e10e1799d758354",
       "最小验证/V2-Batch-J-status-damage-audit.json": "487cbc685c3c4358cd1f242b72519aa6e0a95cc32167e05906d0087614e1db68",
       "最小验证/V2-Batch-K-guinsoo-phantom-hit-audit.json": "7aefbba1fdeb13508b1779546aaaa5025b1e257fe9191da902d4aea69dfe0cba",
       "最小验证/V2-Batch-L-spellblade-next-attack-audit.json": "a0f2a44a0498d12b53d5ce9ce0c204c4da60385e656e5c86b15c80f1d2fbf551",
@@ -52,14 +52,14 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "4c62a8eb54b6563bbf1eeebdb97d6b3e1b420a3defb2752b0ae1fc0c17b15a43",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "42d30cc108c48bac366841db3e2d1fc167ea923c72147d13ebe16c32c9546960",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "ea058f1030e8141eeb6e36509342e885cdf85d3573d9e9a23609d04a5cb7a20b",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "624257eb34c30d15e4809f4a3b11066012e3f03a495f6fd6fa384a3eba8bf0c5",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "5c66506d565cdb7dc1454e935f53bac5d178dbea8dff69b973ed05f1f1c7fddd",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "6b9b6e970c318ba1eb22785bba459290b2c61cefe988324f545851090b2f1e6a",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "85d9d218ab86c2f4b28f2d9fa41e84704fc8e0b51e17aa9c616782382910183f",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "8cd30895c27e9e91bc7a57586ad49b7bc8d7fffd4e423bfdbc128ead9deb27ce",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
-      "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "adb3f8a48ab30a7046928b8adc9a887c4b33b8229f8966349da88a782e8a87a6",
+      "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "2e7f9ceb3bafcf1f3771ea86d3d0c871a37c29102370bae883423133c1170e8f",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-B-hero-passives.seed.json": "eb1767c32f87825648a0f91da599f166114a902fe0fd86055df6387a57fc952a",
@@ -88,17 +88,17 @@
     "statusCounts": {
       "completed": 31,
       "partial_actionable": 0,
-      "ready_to_implement": 1,
+      "ready_to_implement": 0,
       "blocked_runtime": 29,
-      "blocked_data": 118,
+      "blocked_data": 119,
       "out_of_scope": 70,
       "regression_only": 5,
       "stale_or_duplicate": 0
     },
     "completionModeCounts": {
       "full": 31,
-      "partial": 9,
-      "none": 214
+      "partial": 10,
+      "none": 213
     },
     "laneCounts": {
       "generic_runtime": 245,
@@ -106,17 +106,15 @@
       "data_only": 0,
       "mixed_evidence": 2
     },
-    "actionableKeyCount": 1,
-    "actionableKeys": [
-      "hero_skill|hero_akshan|P|无所不用"
-    ]
+    "actionableKeyCount": 0,
+    "actionableKeys": []
   },
   "sources": [
     {
       "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
       "kind": "audit_json",
-      "sha256": "42b58eca03d05b945826d16148f71029caff056855aacef41fa5080b72c37143",
-      "byteSize": 243555,
+      "sha256": "da98682665c0b84e71658d574be73ca61f9b98dbf1e5a2598e10e1799d758354",
+      "byteSize": 243676,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -195,8 +193,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "4c62a8eb54b6563bbf1eeebdb97d6b3e1b420a3defb2752b0ae1fc0c17b15a43",
-      "byteSize": 221882,
+      "sha256": "42d30cc108c48bac366841db3e2d1fc167ea923c72147d13ebe16c32c9546960",
+      "byteSize": 221755,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -211,8 +209,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "ea058f1030e8141eeb6e36509342e885cdf85d3573d9e9a23609d04a5cb7a20b",
-      "byteSize": 600560,
+      "sha256": "624257eb34c30d15e4809f4a3b11066012e3f03a495f6fd6fa384a3eba8bf0c5",
+      "byteSize": 601986,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -227,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "5c66506d565cdb7dc1454e935f53bac5d178dbea8dff69b973ed05f1f1c7fddd",
-      "byteSize": 130074,
+      "sha256": "85d9d218ab86c2f4b28f2d9fa41e84704fc8e0b51e17aa9c616782382910183f",
+      "byteSize": 133616,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "6b9b6e970c318ba1eb22785bba459290b2c61cefe988324f545851090b2f1e6a",
-      "byteSize": 156996,
+      "sha256": "8cd30895c27e9e91bc7a57586ad49b7bc8d7fffd4e423bfdbc128ead9deb27ce",
+      "byteSize": 163881,
       "recordCount": 0,
       "role": "generator"
     },
@@ -251,8 +249,8 @@
     {
       "path": "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "adb3f8a48ab30a7046928b8adc9a887c4b33b8229f8966349da88a782e8a87a6",
-      "byteSize": 33203,
+      "sha256": "2e7f9ceb3bafcf1f3771ea86d3d0c871a37c29102370bae883423133c1170e8f",
+      "byteSize": 34695,
       "recordCount": 0,
       "role": "generator"
     },
@@ -11893,8 +11891,8 @@
     },
     {
       "key": "hero_skill|hero_akshan|P|无所不用",
-      "status": "ready_to_implement",
-      "completionMode": "none",
+      "status": "blocked_data",
+      "completionMode": "partial",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_akshan",
@@ -11902,28 +11900,108 @@
       "passiveName": "无所不用",
       "mechanismTags": [
         "every_n_hit",
+        "magic_proc_on_third_stack",
         "on_hit",
-        "shield"
+        "stacking_dirty_fighting"
       ],
-      "coverageBoundary": "",
-      "reason": "Akshan P Dirty Fighting：当前 League Wiki 已给出第二发 50% AD、第三层魔法伤害阈值 +60% AP、5s/3 stacks。护盾分支可留在伤害口径外。every-n-hit/on-hit 能力可直接表达；不声称已完成。",
-      "blocker": "",
-      "dataGapEvidence": null,
-      "runtimeGapEvidence": null,
+      "coverageBoundary": "dirty_fighting_aa_stack_third_magic_core_complete;second_shot_delay_ms_blocked_data;ability_hit_stack_wiring_runtime;shield_cancel_ms_retarget_oos",
+      "reason": "Akshan P Dirty Fighting：Wiki rev4038197（SHA256 22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534）+ canonical generic ABI 与 wasm-generic-akshan-dirty-fighting + backend 双边证据已闭环伤害核心——CompileFrame→session→RunFrame→ReleaseSessionFrame；typed 普攻物理；provider-target dirty_fighting_stacks（0/max3/5000ms refresh-on-write）；第三层魔法 15/40/80/150 @ 1/6/11/16 +60% AP 消耗重置；护甲/MR/阈值/AP/refresh/expiry/从零第四击/每次攻击一次 basic_attack_hit。completionMode=partial（非 full）：被动第二发 50% AD 仅 after a delay，exact delay ms 未公布（blocked_data）；技能命中叠层缺 accurate_ability_hit_event_wiring；英雄护盾与取消第二发移速及换目标/小兵/多目标 out of damage scope。",
+      "blocker": "second_shot_exact_delay_ms_not_published",
+      "dataGapEvidence": {
+        "sourceVersion": "lol-wiki-rev-4038197",
+        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p",
+        "availableEffectTables": {
+          "thirdStackMagicByLevel": [
+            15,
+            40,
+            80,
+            150
+          ],
+          "thirdStackMagicLevels": [
+            1,
+            6,
+            11,
+            16
+          ],
+          "secondShotAdRatio": [
+            0.5
+          ],
+          "stackCap": [
+            3
+          ],
+          "stackDurationMs": [
+            5000
+          ]
+        },
+        "availableCooldowns": [],
+        "availableCosts": {},
+        "tooltipPlaceholders": [],
+        "unresolvedDamagePlaceholders": [],
+        "varsMapEmpty": false,
+        "variablesEmpty": false,
+        "variables": [
+          "dirty_fighting_stacks",
+          "third_stack_magic_15_40_80_150_plus_60pct_ap",
+          "second_shot_50pct_ad_after_a_delay"
+        ],
+        "missingFields": [
+          "secondShotDelayMs"
+        ],
+        "gapKind": "wiki_delay_ms_unpublished",
+        "reasonZh": "Akshan P Dirty Fighting：被动第二发 Wiki 写明 50% AD 且 after a delay，但 exact delay milliseconds 未公布；不得臆造 delay。伤害核心（普攻叠层/第三层魔法）已部分闭环。",
+        "blocker": "second_shot_exact_delay_ms_not_published"
+      },
+      "runtimeGapEvidence": {
+        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p",
+        "dataStatus": "partial",
+        "requiredEvents": [
+          "basic_attack_hit",
+          "accurate_ability_hit"
+        ],
+        "requiredState": [
+          "dirty_fighting_stacks"
+        ],
+        "requiredFormulaInputs": [
+          "ability_power",
+          "champion_level",
+          "attack_damage"
+        ],
+        "requiredScheduling": [],
+        "missingPrimitives": [
+          "accurate_ability_hit_event_wiring"
+        ],
+        "remainingBoundary": "技能命中亦叠层，但 exact generic ability-hit event wiring 未建立；不得用 ability_started 替代。英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。",
+        "completedBoundary": "AA Dirty Fighting core closed: CompileFrame→session→RunFrame→ReleaseSessionFrame; typed physical BA; dirty_fighting_stacks 0/max3/5000ms refresh-on-write; third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset; armor/MR/AP thresholds; refresh/expiry; fourth-from-zero; one basic_attack_hit per attack"
+      },
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/V2-Batch-G-adc-passive-audit.json",
-          "legacyStatus": "out_of_scope_for_single_target_dps",
+          "legacyStatus": "already_covered",
           "sourceRecordKey": "hero_skill|hero_akshan|P|无所不用"
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "partial",
           "sourceRecordKey": "hero_skill|hero_akshan|P|无所不用"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-akshan-dirty-fighting",
+          "sourcePath": "db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Dirty Fighting AA damage core; remainingGap: secondShotDelayMs / ability-hit wiring / shield+cancel-MS+retarget OOS"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-akshan-dirty-fighting",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: Dirty Fighting AA core; remainingGap: secondShotDelayMs / accurate_ability_hit_event_wiring / shield+cancel-MS+retarget OOS"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },

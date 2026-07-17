@@ -1,7 +1,7 @@
 {
   "gameId": "lol",
   "batch": "V2-Batch-G",
-  "generatedAt": "2026-07-17T14:32:03.843Z",
+  "generatedAt": "2026-07-17T15:12:52.227Z",
   "source": {
     "championJson": "数据参考\\champion.json",
     "championDetailDir": "数据参考\\champion",
@@ -56,10 +56,10 @@
     },
     "classificationCounts": {
       "ready_to_encode": 1,
-      "already_covered": 18,
+      "already_covered": 19,
       "needs_runtime_extension": 33,
       "needs_manual_baseline": 44,
-      "out_of_scope_for_single_target_dps": 146
+      "out_of_scope_for_single_target_dps": 145
     },
     "mechanismBacklog": {
       "seeded_random_crit_sequence": 5,
@@ -80,15 +80,18 @@
       "skillKey": "P",
       "passiveName": "无所不用",
       "sourceText": "来自阿克尚攻击或技能的每第三次命中会造成额外伤害，并且如果目标是英雄还会为他提供一层护盾。 在阿克尚攻击时，他会进行一次额外的射击，来造成较少伤害。如果他取消掉了这次额外射击，那么他会转而获得移动速度。",
-      "classification": "out_of_scope_for_single_target_dps",
+      "classification": "already_covered",
       "mechanismTags": [
-        "survivability_only"
+        "every_n_hit",
+        "on_hit",
+        "stacking_dirty_fighting",
+        "magic_proc_on_third_stack"
       ],
+      "blockedReason": "partial core only（Batch-G schema）：verified AA dirty_fighting_stacks/third-stack magic；非 full；其余缺口见 G8/unified",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "治疗、吸血或护盾属于生存收益，当前 DPS 输出不闭环。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Akshan.json#data.Akshan.passive"
     },
     {
