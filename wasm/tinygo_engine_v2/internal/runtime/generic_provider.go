@@ -535,6 +535,7 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 func remountAllProviderModifiers(combatants map[string]combatantRuntime, compiled compilebundle.CompiledSession) {
 	for key, c := range combatants {
 		c.resolver = pipeline.AttributeResolver{}
+		c.damageResolver = pipeline.DamageModifierResolver{}
 		combatants[key] = c
 	}
 	for ownerKey, c := range combatants {

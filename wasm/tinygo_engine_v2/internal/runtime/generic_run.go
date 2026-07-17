@@ -22,14 +22,15 @@ const (
 )
 
 type combatantRuntime struct {
-	key           string
-	attributes    map[string]model.AttributeSlotDef
-	resources     map[string]model.ResourceSlotDef
-	cooldowns     map[string]int64
-	providers     []status.ProviderInstance
-	shields       []shieldpkg.Instance
-	resolver      pipeline.AttributeResolver
-	providerState map[string]*providerStateBag
+	key            string
+	attributes     map[string]model.AttributeSlotDef
+	resources      map[string]model.ResourceSlotDef
+	cooldowns      map[string]int64
+	providers      []status.ProviderInstance
+	shields        []shieldpkg.Instance
+	resolver       pipeline.AttributeResolver
+	damageResolver pipeline.DamageModifierResolver
+	providerState  map[string]*providerStateBag
 }
 
 type abilityStatAcc struct {
@@ -272,8 +273,10 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 	remountAllProviderModifiers(out, compiled)
 	for key, c := range out {
 		resolver := c.resolver
-		mountRuleModifiers(&resolver, key, compiled)
+		damageResolver := c.damageResolver
+		mountRuleModifiers(&resolver, &damageResolver, key, compiled)
 		c.resolver = resolver
+		c.damageResolver = damageResolver
 		out[key] = c
 	}
 	// Resolve with same-combatant eval first, then cross-combatant context.
@@ -341,8 +344,12 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 	return out
 }
 
-func mountRuleModifiers(resolver *pipeline.AttributeResolver, combatantKey string, compiled compilebundle.CompiledSession) {
+func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pipeline.DamageModifierResolver, combatantKey string, compiled compilebundle.CompiledSession) {
 	for _, mod := range compiled.RuleModifiers {
+		if mod.Kind == "pipeline" {
+			mountRulePipelineModifier(damageResolver, combatantKey, mod)
+			continue
+		}
 		if mod.Kind != "attribute" && mod.Kind != "" {
 			continue
 		}
@@ -375,6 +382,27 @@ func mountRuleModifiers(resolver *pipeline.AttributeResolver, combatantKey strin
 		}
 		resolver.MountCompiledModifier("rules", mod)
 	}
+}
+
+// mountRulePipelineModifier mounts rules pipeline modifiers by stage ownership:
+// outgoing_pre_mitigation → source, incoming_post_mitigation → target.
+func mountRulePipelineModifier(damageResolver *pipeline.DamageModifierResolver, combatantKey string, mod compilebundle.CompiledModifier) {
+	if damageResolver == nil {
+		return
+	}
+	switch mod.Stage {
+	case "outgoing_pre_mitigation":
+		if combatantKey != model.SelectorSource {
+			return
+		}
+	case "incoming_post_mitigation":
+		if combatantKey != model.SelectorTarget {
+			return
+		}
+	default:
+		return
+	}
+	damageResolver.MountCompiledModifierOwned("", "rules", mod)
 }
 
 func cloneAttributeMap(src map[string]model.AttributeSlotDef) map[string]model.AttributeSlotDef {
