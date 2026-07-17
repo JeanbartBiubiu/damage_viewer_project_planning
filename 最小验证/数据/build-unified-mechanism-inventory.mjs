@@ -79,13 +79,29 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_ashe|W|万箭齐发',
     {
-      status: 'ready_to_implement',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        'Ashe W Volley：当前 League Wiki 已给出 60..200+100% bonus AD、箭数 7..11、CD 18..4、蓝耗 75..55；仅第一支箭伤害单一目标。可直接表达为 generic ability damage；不得再标 blocked_data；不声称已完成。',
+        'Ashe W Volley：当前 League Wiki + 用户批准 1v1 口径（rank5 200+100% bonus AD / 单目标一次 physical damage / 55 mana / 4000ms CD / first-arrow-only）与 wasm-generic-ashe-volley + backend seed 证据闭环。用户明确排除 Frost Shot 减速/状态、弹道/锥形/碰撞/多目标、per-arrow 循环与其它 rank；Wiki 写明多箭命中同一目标仅计第一箭伤害，故标 completed。',
       blocker: '',
-      dataGapEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-volley',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go',
+          sourceWorktree: 'wasm',
+          note: 'user-approved Volley 1v1; excluded Frost Shot / projectile-cone-collision-multitarget / per-arrow loop / other ranks',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-volley',
+          sourcePath: 'db/game_manage/seeds/lol_generic_ashe_volley_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'Volley user-approved 1v1 seed; excluded branches out of scope',
+        },
+      ],
     },
   ],
   [
@@ -3081,8 +3097,27 @@ function validateInventory(inv) {
   const mEzrealP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ezreal|P|咒能高涨');
   const mGravesP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_graves|P|新命运');
   const mDravenQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|Q|旋转飞斧');
-  if (!mAsheW || mAsheW.status !== 'ready_to_implement' || mAsheW.completionMode !== 'none') {
-    errors.push('Ashe W must be ready_to_implement/none (Wiki contract complete)');
+  if (
+    !mAsheW ||
+    mAsheW.status !== 'completed' ||
+    mAsheW.completionMode !== 'full' ||
+    mAsheW.lane !== 'generic_runtime' ||
+    mAsheW.blocker ||
+    !String(mAsheW.reason || '').includes('200') ||
+    !String(mAsheW.reason || '').includes('4000') ||
+    !String(mAsheW.reason || '').includes('排除') ||
+    !(mAsheW.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go',
+    ) ||
+    !(mAsheW.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_ashe_volley_seed.sql',
+    )
+  ) {
+    errors.push(
+      'Ashe W must be completed/full under user-approved Volley 1v1 scope with wasm+backend evidence',
+    );
   }
   if (!mAkshanP || mAkshanP.status !== 'ready_to_implement' || mAkshanP.completionMode !== 'none') {
     errors.push('Akshan P must be ready_to_implement/none (Wiki damage contract complete)');
@@ -3211,9 +3246,9 @@ function validateInventory(inv) {
 
   const sc = inv.summary?.statusCounts || {};
   const expectedStatus = {
-    completed: 28,
+    completed: 29,
     partial_actionable: 0,
-    ready_to_implement: 4,
+    ready_to_implement: 3,
     blocked_runtime: 29,
     blocked_data: 118,
     out_of_scope: 70,
@@ -3223,12 +3258,11 @@ function validateInventory(inv) {
   for (const [k, v] of Object.entries(expectedStatus)) {
     if ((sc[k] || 0) !== v) errors.push(`statusCounts.${k} expected ${v}, got ${sc[k] || 0}`);
   }
-  if ((inv.summary?.actionableKeyCount || 0) !== 4) {
-    errors.push(`actionableKeyCount expected 4, got ${inv.summary?.actionableKeyCount}`);
+  if ((inv.summary?.actionableKeyCount || 0) !== 3) {
+    errors.push(`actionableKeyCount expected 3, got ${inv.summary?.actionableKeyCount}`);
   }
   const expectedActionable = [
     'hero_skill|hero_akshan|P|无所不用',
-    'hero_skill|hero_ashe|W|万箭齐发',
     'hero_skill|hero_ezreal|P|咒能高涨',
     'hero_skill|hero_kaisa|P|体表活肤',
   ];
@@ -3246,9 +3280,9 @@ function validateInventory(inv) {
     errors.push(`coverageRecordCount expected 527, got ${inv.summary?.coverageRecordCount}`);
   }
   const cm = inv.summary?.completionModeCounts || {};
-  if ((cm.full || 0) !== 28 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 217) {
+  if ((cm.full || 0) !== 29 || (cm.partial || 0) !== 9 || (cm.none || 0) !== 216) {
     errors.push(
-      `completionModeCounts expected full=28 partial=9 none=217, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
+      `completionModeCounts expected full=29 partial=9 none=216, got full=${cm.full} partial=${cm.partial} none=${cm.none}`,
     );
   }
 
