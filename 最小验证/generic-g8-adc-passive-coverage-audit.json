@@ -1,10 +1,10 @@
 {
   "metadata": {
     "inputPath": "最小验证/V2-Batch-G-adc-passive-audit.json",
-    "inputSha256": "6f1f05ea7ebaa25263589fea03a2ec4cc28968a04aaff509fe0840e9f94a1b06",
+    "inputSha256": "42b58eca03d05b945826d16148f71029caff056855aacef41fa5080b72c37143",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-17T13:55:28.547Z"
+    "generatedAt": "2026-07-17T14:32:03.909Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 27,
+      "migrated": 28,
       "partial": 9,
-      "blocked": 139,
+      "blocked": 138,
       "out_of_scope": 67
     },
     "classificationPercents": {
-      "migrated": 11.16,
+      "migrated": 11.57,
       "partial": 3.72,
-      "blocked": 57.44,
+      "blocked": 57.02,
       "out_of_scope": 27.69
     },
     "coverageRateMigratedOnly": {
-      "all": 11.16,
-      "inScope": 15.43
+      "all": 11.57,
+      "inScope": 16
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 14.88,
-      "inScope": 20.57
+      "all": 15.29,
+      "inScope": 21.14
     },
     "inScopeCount": 175
   },
@@ -3843,39 +3843,41 @@
       "sourceText": "卡莎的普通攻击会叠加电浆，造成不断提升的额外魔法伤害。友军的定身效果也可以帮忙叠加电浆。此外，卡莎可通过购买装备来升级她的基础技能，让它们拥有更多强大的属性。",
       "classification": "already_covered",
       "mechanismTags": [
-        "existing_batch_b_seed"
+        "on_hit",
+        "stacking_plasma",
+        "missing_health_consume"
       ],
       "blockedReason": "",
       "needsUserData": [],
       "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
+      "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/champion/Kaisa.json#data.Kaisa.passive",
       "candidateKey": "hero_skill|hero_kaisa|P|体表活肤",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "on_hit",
         "stacking_plasma",
         "missing_health_consume"
       ],
-      "classificationReason": "Kai'Sa P Second Skin：当前 League Wiki 已给出 Caustic Wounds 4..24 +12% AP 与每先前层 1..6 +3% AP、第五层 15%(+6%/100 AP) 已损生命、4s/max5。历史 Batch-B/OCR 仅 provenance。数值合同已齐，不得再标 blocked_data；不声称已完成。",
-      "coverageEvidence": [],
-      "remainingGap": "缺 Plasma 叠层 on-hit 与第五层已损生命消费的 generic runtime 实现证据。",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4038390",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#kaisa-p@rev4038390",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；DDragon/历史 Batch-B/OCR 仅作 provenance，不得作为 competing numeric truth。剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_kaisa P 体表活肤/Second Skin：Wiki rev4038390（SHA256 f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f）+ 当前 canonical generic ABI 口径已由 wasm-generic-kaisa-second-skin + backend seed 闭环——provider-target plasma_stacks（default0/max5/4000ms refresh-on-write）；level1..18 精确插值 base=4+20/17*(level-1)、perStack=1+5/17*(level-1)；同 provider 有序普攻图：Caustic→+1 stack→第五层已损生命破裂→reset→物理普攻→恰好一次 event/basic_attack_hit。明确排除 W 2/3 层与 overflow、友军定身 Plasma、野怪 400 cap、法术护盾、Guinsoo phantom/buff-slot、多目标，故标 migrated/completed，不再以这些排除分支阻塞。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-second-skin",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: canonical generic Second Skin (plasma_stacks 0..5 / 4000ms refresh-on-write / exact L1..18 base+perStack / ordered Caustic→stack→fifth rupture→reset→physical BA→one basic_attack_hit); excluded: W 2/3 stacks+overflow / allied CC Plasma / monster 400 cap / spell shield / Guinsoo phantom-buff-slot / multi-target"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-second-skin",
+          "sourcePath": "db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Second Skin canonical generic seeded; excluded branches out of scope; backend lol_generic_kaisa_second_skin_seed.sql"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",

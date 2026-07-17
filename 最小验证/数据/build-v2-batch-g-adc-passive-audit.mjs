@@ -103,6 +103,11 @@ const HERO_CLASSIFICATION_OVERRIDES = new Map([
     'hero_ezreal:P',
     alreadyCovered(['stacking_stat_modifier_on_hit', 'attack_speed_percent_add']),
   ],
+  // Kai'Sa P Second Skin：canonical generic ABI 已由 generic seed + wasm 证据闭环；不得标 needs_runtime_extension/ready_to_encode。
+  [
+    'hero_kaisa:P',
+    alreadyCovered(['on_hit', 'stacking_plasma', 'missing_health_consume']),
+  ],
 ]);
 
 function alreadyCovered(mechanismTags) {
@@ -789,6 +794,20 @@ function validateAudit(audit) {
   ) {
     errors.push(
       'Ezreal P 咒能高涨 must be already_covered under bounded 1v1 Rising Spell Force stacking AS scope (not needs_runtime_extension/ready_to_encode)',
+    );
+  }
+  const kaisaP = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_kaisa' && c.skillKey === 'P' && c.passiveName === '体表活肤',
+  );
+  if (
+    !kaisaP
+    || kaisaP.classification !== 'already_covered'
+    || !(kaisaP.mechanismTags || []).includes('on_hit')
+    || !(kaisaP.mechanismTags || []).includes('stacking_plasma')
+    || !(kaisaP.mechanismTags || []).includes('missing_health_consume')
+  ) {
+    errors.push(
+      "Kai'Sa P 体表活肤 must be already_covered under completed Second Skin plasma/on-hit/missing-HP scope (not needs_runtime_extension/ready_to_encode)",
     );
   }
   const terminus = (audit.candidates || []).find(

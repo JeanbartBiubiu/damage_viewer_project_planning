@@ -534,6 +534,7 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
   kogmawCausticSpittleBackend: 'db/game_manage/seeds/lol_generic_kogmaw_caustic_spittle_seed.sql',
   kaisaSuperchargeBackend: 'db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql',
+  kaisaSecondSkinBackend: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
@@ -573,6 +574,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
   kaisaSupercharge:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
+  kaisaSecondSkin:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go',
   duskAndDawnSpellblade:
     'wasm/tinygo_engine_v2/internal/runtime/generic_dusk_and_dawn_spellblade_test.go',
   linkedEffects:
@@ -926,6 +929,31 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-ezreal-rising-spell-force',
           SEED.ezrealRisingSpellForceBackend,
           'completedBoundary: Rising Spell Force bounded 1v1 seeded; excluded branches out of scope; backend lol_generic_ezreal_rising_spell_force_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kaisa|P',
+    {
+      classification: 'migrated',
+      tags: ['on_hit', 'stacking_plasma', 'missing_health_consume'],
+      reason:
+        "hero_kaisa P 体表活肤/Second Skin：Wiki rev4038390（SHA256 f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f）+ 当前 canonical generic ABI 口径已由 wasm-generic-kaisa-second-skin + backend seed 闭环——provider-target plasma_stacks（default0/max5/4000ms refresh-on-write）；level1..18 精确插值 base=4+20/17*(level-1)、perStack=1+5/17*(level-1)；同 provider 有序普攻图：Caustic→+1 stack→第五层已损生命破裂→reset→物理普攻→恰好一次 event/basic_attack_hit。明确排除 W 2/3 层与 overflow、友军定身 Plasma、野怪 400 cap、法术护盾、Guinsoo phantom/buff-slot、多目标，故标 migrated/completed，不再以这些排除分支阻塞。",
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-second-skin',
+          WASM.kaisaSecondSkin,
+          'completedBoundary: canonical generic Second Skin (plasma_stacks 0..5 / 4000ms refresh-on-write / exact L1..18 base+perStack / ordered Caustic→stack→fifth rupture→reset→physical BA→one basic_attack_hit); excluded: W 2/3 stacks+overflow / allied CC Plasma / monster 400 cap / spell shield / Guinsoo phantom-buff-slot / multi-target',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-second-skin',
+          SEED.kaisaSecondSkinBackend,
+          'completedBoundary: Second Skin canonical generic seeded; excluded branches out of scope; backend lol_generic_kaisa_second_skin_seed.sql',
         ),
       ],
     },
@@ -2018,18 +2046,6 @@ const COMPONENT_EXCEPTIONS = [
     },
   },
   {
-    match: (c) => c.ownerId === 'hero_kaisa' && c.skillKey === 'P',
-    result: {
-      classification: 'blocked',
-      tags: ['on_hit', 'stacking_plasma', 'missing_health_consume'],
-      reason:
-        "Kai'Sa P Second Skin：当前 League Wiki 已给出 Caustic Wounds 4..24 +12% AP 与每先前层 1..6 +3% AP、第五层 15%(+6%/100 AP) 已损生命、4s/max5。历史 Batch-B/OCR 仅 provenance。数值合同已齐，不得再标 blocked_data；不声称已完成。",
-      remainingGap:
-        '缺 Plasma 叠层 on-hit 与第五层已损生命消费的 generic runtime 实现证据。',
-      coverageEvidence: [],
-    },
-  },
-  {
     match: (c) => c.ownerId === 'hero_graves' && c.skillKey === 'P',
     result: {
       classification: 'blocked',
@@ -2856,7 +2872,7 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  const expectedCounts = { migrated: 27, partial: 9, blocked: 139, out_of_scope: 67 };
+  const expectedCounts = { migrated: 28, partial: 9, blocked: 138, out_of_scope: 67 };
   for (const [k, v] of Object.entries(expectedCounts)) {
     if ((counts[k] || 0) !== v) {
       errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
@@ -3095,6 +3111,31 @@ function validateAudit(audit) {
   ) {
     errors.push(
       'Ezreal P must be migrated with bilateral wasm+backend evidence under bounded 1v1 Rising Spell Force scope (not blocked/ready)',
+    );
+  }
+  const kaisaP = records.find((r) => r.candidateKey === 'hero_skill|hero_kaisa|P|体表活肤');
+  if (
+    !kaisaP
+    || kaisaP.genericClassification !== 'migrated'
+    || !(kaisaP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.kaisaSecondSkin
+        && e.taskKey === 'wasm-generic-kaisa-second-skin',
+    )
+    || !(kaisaP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.kaisaSecondSkinBackend
+        && e.taskKey === 'wasm-generic-kaisa-second-skin',
+    )
+    || !String(kaisaP.classificationReason || '').includes('4038390')
+    || !String(kaisaP.classificationReason || '').includes('4000')
+    || !String(kaisaP.classificationReason || '').includes('排除')
+    || String(kaisaP.remainingGap || '').trim()
+  ) {
+    errors.push(
+      "Kai'Sa P must be migrated with bilateral wasm+backend evidence under completed Second Skin canonical generic scope (not blocked/ready)",
     );
   }
 
