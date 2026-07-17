@@ -97,9 +97,27 @@ func resolveDamage(cmd command.Command, view CombatantView, nowMs int64) (Damage
 	}
 	mitigated, ok := applyTargetResistance(raw, cmd.DamageType, view.Attributes)
 	if !ok || math.IsNaN(mitigated) || math.IsInf(mitigated, 0) || mitigated < 0 {
-		// Unknown damage type or non-finite mitigation: do not commit partial state.
 		return DamageOutcome{}, view
 	}
+	return ApplyMitigatedDamage(raw, mitigated, view, nowMs)
+}
+
+// MitigateRawDamage applies target resistance to a raw (pre-mitigation) amount.
+// ok=false means unknown damage type or non-finite mitigation.
+func MitigateRawDamage(raw float64, damageType string, attrs map[string]model.AttributeSlotDef) (mitigated float64, ok bool) {
+	if raw <= 0 || math.IsNaN(raw) || math.IsInf(raw, 0) {
+		return 0, false
+	}
+	mitigated, ok = applyTargetResistance(raw, damageType, attrs)
+	if !ok || math.IsNaN(mitigated) || math.IsInf(mitigated, 0) || mitigated < 0 {
+		return 0, false
+	}
+	return mitigated, true
+}
+
+// ApplyMitigatedDamage applies shields then HP from a post-resistance amount.
+// RawAmount in the outcome is the pre-resistance raw; MitigatedAmount is the post-modifier mitigated value.
+func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int64) (DamageOutcome, CombatantView) {
 	remaining := mitigated
 	var absorbed float64
 	shields := shieldInstancesFromView(view.Shields, nowMs)

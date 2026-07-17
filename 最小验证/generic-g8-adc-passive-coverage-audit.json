@@ -1,10 +1,10 @@
 {
   "metadata": {
     "inputPath": "最小验证/V2-Batch-G-adc-passive-audit.json",
-    "inputSha256": "1194def06ab9e0dfbab026d99a3dec525286e11396eda191a859c0e3e3f12575",
+    "inputSha256": "da98682665c0b84e71658d574be73ca61f9b98dbf1e5a2598e10e1799d758354",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v1-20260713",
-    "generatedAt": "2026-07-16T06:35:54.052Z"
+    "generatedAt": "2026-07-17T15:31:44.686Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 22,
-      "partial": 11,
-      "blocked": 142,
+      "migrated": 28,
+      "partial": 10,
+      "blocked": 137,
       "out_of_scope": 67
     },
     "classificationPercents": {
-      "migrated": 9.09,
-      "partial": 4.55,
-      "blocked": 58.68,
+      "migrated": 11.57,
+      "partial": 4.13,
+      "blocked": 56.61,
       "out_of_scope": 27.69
     },
     "coverageRateMigratedOnly": {
-      "all": 9.09,
-      "inScope": 12.57
+      "all": 11.57,
+      "inScope": 16
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 13.64,
-      "inScope": 18.86
+      "all": 15.7,
+      "inScope": 21.71
     },
     "inScopeCount": 175
   },
@@ -42,44 +42,45 @@
       "skillKey": "P",
       "passiveName": "无所不用",
       "sourceText": "来自阿克尚攻击或技能的每第三次命中会造成额外伤害，并且如果目标是英雄还会为他提供一层护盾。 在阿克尚攻击时，他会进行一次额外的射击，来造成较少伤害。如果他取消掉了这次额外射击，那么他会转而获得移动速度。",
-      "classification": "out_of_scope_for_single_target_dps",
+      "classification": "already_covered",
       "mechanismTags": [
-        "survivability_only"
+        "every_n_hit",
+        "on_hit",
+        "stacking_dirty_fighting",
+        "magic_proc_on_third_stack"
       ],
+      "blockedReason": "partial core only（Batch-G schema）：verified AA dirty_fighting_stacks/third-stack magic；非 full；其余缺口见 G8/unified",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "治疗、吸血或护盾属于生存收益，当前 DPS 输出不闭环。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Akshan.json#data.Akshan.passive",
       "candidateKey": "hero_skill|hero_akshan|P|无所不用",
-      "genericClassification": "blocked",
+      "genericClassification": "partial",
       "genericMechanismTags": [
         "every_n_hit",
         "on_hit",
-        "shield"
+        "stacking_dirty_fighting",
+        "magic_proc_on_third_stack"
       ],
-      "classificationReason": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "coverageEvidence": [],
-      "remainingGap": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "dataGapEvidence": {
-        "sourceVersion": "16.9.1",
-        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Akshan_P",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [
-          "passive_or_spell_damage_numeric_contract"
-        ],
-        "gapKind": "passive_numeric_contract",
-        "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-        "blocker": "missing_damage_numeric_contract"
-      }
+      "classificationReason": "hero_akshan P 无所不用/Dirty Fighting：Wiki rev4038197（SHA256 22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534）+ 当前 canonical generic ABI 口径已由 wasm-generic-akshan-dirty-fighting + backend 双边证据闭环——CompileFrame→session→RunFrame→ReleaseSessionFrame；typed 普攻物理伤害；provider-target dirty_fighting_stacks（default0/max3/5000ms refresh-on-write）；第三层魔法 15/40/80/150 @ levels 1/6/11/16 +60% AP 并消耗重置；护甲/MR pipeline、阈值、AP、refresh/expiry、从零第四击、每次攻击恰好一次 basic_attack_hit。标 partial（非 full）：第二发 50% AD 仅 after a delay，exact delay ms 未公布；技能命中叠层缺 accurate ability-hit wiring；英雄护盾与取消第二发移速及换目标/小兵/多目标非核心分支 out of damage scope。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-akshan-dirty-fighting",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: Dirty Fighting AA core (CompileFrame→session→RunFrame→ReleaseSessionFrame / typed physical BA / dirty_fighting_stacks 0..3 5000ms refresh-on-write / third-stack magic 15/40/80/150@1/6/11/16 +60% AP consume-reset / armor-MR-AP thresholds / refresh-expiry / fourth-from-zero / one basic_attack_hit); remainingGap: secondShotDelayMs unpublished; ability-hit stack wiring; shield+cancel-MS+retarget/minion/multi-target OOS"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-akshan-dirty-fighting",
+          "sourcePath": "db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Dirty Fighting AA damage core seeded; remainingGap: secondShotDelayMs / ability-hit wiring / shield+cancel-MS+retarget OOS; backend lol_generic_akshan_dirty_fighting_seed.sql"
+        }
+      ],
+      "remainingGap": "blocked_data：被动第二发 50% AD 仅 after a delay，exact delay ms 未公布（secondShotDelayMs / second_shot_exact_delay_ms_not_published）；runtime：技能命中叠层缺 accurate_ability_hit_event_wiring（不得用 ability_started 替代）；out_of_scope：英雄护盾、取消第二发移速、换目标/小兵/多目标非核心分支。"
     },
     {
       "sourceKind": "hero_skill",
@@ -206,50 +207,27 @@
       "candidateKey": "hero_skill|hero_akshan|E|骄行荡寇",
       "genericClassification": "blocked",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "as_scaled_shot_damage",
+        "periodic_shot_while_dashing"
       ],
-      "classificationReason": "DDragon tooltip 保留 damagetodeal，effect/vars 未提供公式",
+      "classificationReason": "Akshan E Heroic Swing：当前 League Wiki 已给出 per-shot 8..40 +25% AD × (1+0.3 per 100% bonus AS)、每 0.2s 射击。移动/摆荡/射击次数属 runtime scope，不是 Wiki 数据缺口；不得再标 blocked_data，亦不声称已完成。",
       "coverageEvidence": [],
-      "remainingGap": "DDragon tooltip 保留 damagetodeal，effect/vars 未提供公式",
+      "remainingGap": "缺 swing/dash 期间周期性射击调度、shot count、地形钩索与 per-shot AS 缩放伤害 runtime。",
       "dataGapEvidence": {
-        "sourceVersion": "16.9.1",
-        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Akshan_E",
+        "sourceVersion": "lol-wiki-rev-4007412",
+        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-e@rev4007412",
         "availableEffectTables": {},
-        "availableCooldowns": [
-          18,
-          16.5,
-          15,
-          13.5,
-          12
-        ],
-        "availableCosts": {
-          "mana": [
-            70,
-            70,
-            70,
-            70,
-            70
-          ]
-        },
-        "tooltipPlaceholders": [
-          "damagetodeal"
-        ],
-        "unresolvedDamagePlaceholders": [
-          "damagetodeal"
-        ],
+        "availableCooldowns": [],
+        "availableCosts": {},
+        "tooltipPlaceholders": [],
+        "unresolvedDamagePlaceholders": [],
         "varsMapEmpty": true,
-        "variablesEmpty": false,
-        "variables": [
-          "damagetodeal",
-          "spellmodifierdescriptionappend"
-        ],
-        "missingFields": [
-          "tooltip:damagetodeal",
-          "varsMap"
-        ],
-        "gapKind": "unresolved_damage_placeholder",
-        "reasonZh": "DDragon tooltip 保留 damagetodeal，effect/vars 未提供公式",
-        "blocker": "unresolved_tooltip_damagetodeal"
+        "variablesEmpty": true,
+        "variables": [],
+        "missingFields": [],
+        "gapKind": "none",
+        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；DDragon/历史 Batch-B/OCR 仅作 provenance，不得作为 competing numeric truth。剩余为实现/runtime 缺口。",
+        "blocker": ""
       }
     },
     {
@@ -336,9 +314,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.passive",
       "candidateKey": "hero_skill|hero_aphelios|P|传知者与真知者",
@@ -408,9 +386,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Aphelios.json#data.Aphelios.spells[1]",
       "candidateKey": "hero_skill|hero_aphelios|W|月相轮转",
@@ -563,30 +541,30 @@
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Ashe.json#data.Ashe.spells[0]",
       "candidateKey": "hero_skill|hero_ashe|Q|射手的专注",
-      "genericClassification": "partial",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "stacking_stat_modifier_on_hit",
         "attack_speed_percent_add",
         "cast_condition"
       ],
-      "classificationReason": "hero_ashe Q 射手的专注/Ranger's Focus rank5 核心已由 wasm-generic-ashe-rangers-focus 批次闭环：ability-level castCondition 读 owning provider Focus 槽（满4层才可施放）；Q 耗 30 mana、清 Focus、武装 6000ms Flurry；攻速 percent_add=0.75*provider.state.flurry_active；Flurry 首发 6×28%AD、后续 5×28%AD，每次 flurry 普攻仅一次 basic_attack_hit；Focus 用四槽 timed state 在刷新后 4000/5000/6000/7000ms 逐层掉落。",
+      "classificationReason": "hero_ashe Q 射手的专注/Ranger's Focus：当前 League Wiki + 用户批准口径下核心已闭环（4 Focus / 6s Flurry / rank5 +60% AS / 5箭合计 130% AD、首轮 6箭 156% AD / 30 mana）。wasm-generic-ashe-rangers-focus 提供 CompileGeneric+RunGeneric 证据。用户明确排除 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标与完整轮转，故标 migrated/completed，不再以这些排除分支阻塞。",
       "coverageEvidence": [
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-ashe-rangers-focus",
           "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go",
           "sourceWorktree": "wasm",
-          "note": "completedBoundary: rank5 Focus==4 cast + Flurry AS/damage core; remainingGap: attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation unmodeled"
+          "note": "completedBoundary: user-approved Ranger's Focus core (Focus==4 cast + Flurry AS/damage); excluded: attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation; wiki rank5 AS=60%"
         },
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-ashe-rangers-focus",
           "sourcePath": "db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql",
           "sourceWorktree": "backend",
-          "note": "completedBoundary: rank5 Ranger's Focus core seeded; remainingGap: attack-timer/arrow-travel/rotation unmodeled; backend lol_generic_ashe_rangers_focus_seed.sql"
+          "note": "completedBoundary: Ranger's Focus user-approved core seeded; excluded branches out of scope; backend lol_generic_ashe_rangers_focus_seed.sql"
         }
       ],
-      "remainingGap": "未建模：generic attack-timer reset 调度、逐箭飞行、Frost Shot、吸血、建筑物/多目标、任意技能轮转/攻速 cadence、其它 rank。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -595,74 +573,41 @@
       "skillKey": "W",
       "passiveName": "万箭齐发",
       "sourceText": "艾希向前方的锥形范围射出多支箭，对敌人造成额外伤害。也会触发冰霜射击的效果。 艾希射出一排共{{ numberofarrowstooltip }}支箭矢，每支箭矢造成{{ totaldamage }}物理伤害。敌方单位可以一次性格挡多支箭矢，但只会受到一次伤害。{{ spellmodifierdescriptionappend }}",
-      "classification": "out_of_scope_for_single_target_dps",
+      "classification": "already_covered",
       "mechanismTags": [
-        "multi_target_or_area"
+        "ability_flat_bonus_ad_damage",
+        "first_missile_only"
       ],
+      "blockedReason": "",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "多目标、弹射或范围收益不属于当前单标靶 DPS。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Ashe.json#data.Ashe.spells[1]",
       "candidateKey": "hero_skill|hero_ashe|W|万箭齐发",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "ability_flat_bonus_ad_damage",
+        "first_missile_only"
       ],
-      "classificationReason": "基础表已存在[e1=[5,7,9,11,13]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
-      "coverageEvidence": [],
-      "remainingGap": "基础表已存在[e1=[5,7,9,11,13]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
-      "dataGapEvidence": {
-        "sourceVersion": "16.9.1",
-        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Ashe_W",
-        "availableEffectTables": {
-          "e1": [
-            5,
-            7,
-            9,
-            11,
-            13
-          ]
+      "classificationReason": "hero_ashe W 万箭齐发/Volley：当前 League Wiki + 用户批准 1v1 口径已由 wasm-generic-ashe-volley + backend seed 闭环——rank5 200+100% bonus AD；单目标一次 physical damage；55 mana；4000ms CD。用户明确排除 Frost Shot 减速/状态、弹道/锥形/碰撞/多目标、per-arrow 循环与其它 rank；Wiki 写明多箭命中同一目标仅计第一箭伤害，故标 migrated/completed，不再以这些排除分支阻塞。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-volley",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: user-approved Volley 1v1 (rank5 200+100%bonusAD / one physical instance / 55mana / CD4000ms / first-arrow-only); excluded: Frost Shot / projectile-cone-collision-multitarget / per-arrow loop / other ranks; attempts 0/3999/4000ms → 2 casts + 1 CD skip"
         },
-        "availableCooldowns": [
-          18,
-          14.5,
-          11,
-          7.5,
-          4
-        ],
-        "availableCosts": {
-          "mana": [
-            75,
-            70,
-            65,
-            60,
-            55
-          ]
-        },
-        "tooltipPlaceholders": [
-          "numberofarrowstooltip",
-          "totaldamage"
-        ],
-        "unresolvedDamagePlaceholders": [
-          "totaldamage"
-        ],
-        "varsMapEmpty": true,
-        "variablesEmpty": false,
-        "variables": [
-          "numberofarrowstooltip",
-          "totaldamage",
-          "spellmodifierdescriptionappend"
-        ],
-        "missingFields": [
-          "scaling:totaldamage:AD/AP/bonus AD",
-          "varsMap"
-        ],
-        "gapKind": "base_table_missing_scaling",
-        "reasonZh": "基础表已存在[e1=[5,7,9,11,13]]，但 totaldamage 的 AD/AP/bonus AD 未在 varsMap/variables/effectValues 展开",
-        "blocker": "base_table_missing_scaling_totaldamage"
-      }
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-volley",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ashe_volley_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Volley user-approved 1v1 seeded; excluded Frost Shot/projectile/multi-target/other ranks out of scope; backend lol_generic_ashe_volley_seed.sql"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -1428,9 +1373,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Caitlyn.json#data.Caitlyn.spells[2]",
       "candidateKey": "hero_skill|hero_caitlyn|E|90口径绳网",
@@ -1584,9 +1529,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Corki.json#data.Corki.passive",
       "candidateKey": "hero_skill|hero_corki|P|海克斯科技军备",
@@ -1766,9 +1711,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Corki.json#data.Corki.spells[2]",
       "candidateKey": "hero_skill|hero_corki|E|格林机枪",
@@ -1945,28 +1890,30 @@
       "rankTableStatus": "not_applicable",
       "sourceRef": "数据参考/champion/Draven.json#data.Draven.spells[0]",
       "candidateKey": "hero_skill|hero_draven|Q|旋转飞斧",
-      "genericClassification": "partial",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "spellblade_next_attack_state"
+        "spellblade_next_attack_state",
+        "spinning_axe_ready",
+        "axe_caught_rearm"
       ],
-      "classificationReason": "hero_draven Q 旋转飞斧/Spinning Axe rank5 初次飞斧已由 wasm-generic-draven-spinning-axe 批次闭环：Q active cast 经 ability_started 武装 source-owner timed state spinning_axe_ready=1（max1,duration_ms5800,refresh_on_write）；随后一次 source-owner basic_attack_hit 追加 physical raw=60+1.15*(resolved AD-base AD)，copyable_on_hit=false 并消费 ready。",
+      "classificationReason": "hero_draven Q 旋转飞斧/Spinning Axe：用户批准 1v1 口径已由 wasm-generic-draven-spinning-axe + backend seed 闭环——rank5 bonus 60+115% bonus AD；1400ms 自动接斧；独立 overlapping flight；max 2 axes；45 mana；8000ms CD；ready 窗/接斧 refresh；每次合格命中消费 1 斧。用户明确排除落点/移动/路径模拟与 Draven W CD reset，故标 migrated/completed，不再以这些排除分支阻塞。",
       "coverageEvidence": [
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-draven-spinning-axe",
           "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go",
           "sourceWorktree": "wasm",
-          "note": "completedBoundary: rank5 initial axe ability_started arms 5800ms ready + first AA physical 60+1.15*bonusAD; remainingGap: catch rearm / dual axe / mana / CD / other ranks / landing / WER unmodeled"
+          "note": "completedBoundary: user-approved Spinning Axe 1v1 (rank5 60+115%bonusAD / catch1400ms / max2 / 45mana / CD8000ms / ready+catch refresh / consume-per-hit / unique overlapping flights); excluded: landing-movement-path / W CD reset"
         },
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-draven-spinning-axe",
           "sourcePath": "db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql",
           "sourceWorktree": "backend",
-          "note": "completedBoundary: rank5 initial axe seeded; remainingGap: catch/dual-axe/landing unmodeled; backend lol_generic_draven_spinning_axe_seed.sql"
+          "note": "completedBoundary: Spinning Axe user-approved 1v1 seeded; excluded landing/W-reset out of scope; backend lol_generic_draven_spinning_axe_seed.sql"
         }
       ],
-      "remainingGap": "接斧重新武装、双斧上限、45 mana、8s CD、其它 rank、移动落点及 W/E/R 均未建模。"
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -2024,9 +1971,9 @@
       "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Draven.json#data.Draven.spells[2]",
       "candidateKey": "hero_skill|hero_draven|E|开道利斧",
@@ -2192,42 +2139,41 @@
       "skillKey": "P",
       "passiveName": "咒能高涨",
       "sourceText": "伊泽瑞尔的任何技能在击中目标后，都会提升他的攻击速度（最多可叠加5次）。",
-      "classification": "needs_runtime_extension",
+      "classification": "already_covered",
       "mechanismTags": [
-        "stacking_stat_modifier_on_hit"
+        "stacking_stat_modifier_on_hit",
+        "attack_speed_percent_add"
       ],
+      "blockedReason": "",
+      "needsUserData": [],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "需要 timed stack stat modifier 聚合和掉层语义。",
-      "needsUserData": [],
       "sourceRef": "数据参考/champion/Ezreal.json#data.Ezreal.passive",
       "candidateKey": "hero_skill|hero_ezreal|P|咒能高涨",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "stacking_stat_modifier_on_hit"
+        "stacking_stat_modifier_on_hit",
+        "attack_speed_percent_add"
       ],
-      "classificationReason": "状态/增益描述缺少可核验的攻速/时长/层数数值来源",
-      "coverageEvidence": [],
-      "remainingGap": "状态/增益描述缺少可核验的攻速/时长/层数数值来源",
-      "dataGapEvidence": {
-        "sourceVersion": "16.9.1",
-        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Ezreal_P",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [
-          "buff_rank_or_stack_values"
-        ],
-        "gapKind": "buff_numeric_contract",
-        "reasonZh": "状态/增益描述缺少可核验的攻速/时长/层数数值来源",
-        "blocker": "missing_buff_numeric_contract"
-      }
+      "classificationReason": "hero_ezreal P 咒能高涨/Rising Spell Force：Wiki rev3932280（SHA256 5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba）+ 本次采用的确定性 1v1 口径已由 wasm-generic-ezreal-rising-spell-force + backend seed 闭环——每次 scheduled top-level 非普攻能力命中唯一目标 +1 provider-scoped stack；6000ms refresh-on-write；cap 5；每层 +10% AS（cap +50%）。本次口径明确排除普攻叠层、CD-skip cast、miss、多目标、单次施法多段命中与真实 Q/W/E/R 图，故标 migrated/completed，不再以这些排除分支阻塞。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-rising-spell-force",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: bounded 1v1 Rising Spell Force (ability_started hit→+1 stack / 6000ms refresh-on-write / cap5 / +10% AS per stack cap+50%); excluded: basic attacks / CD-skip cast / misses / multi-target / multi-hit-per-cast / real QWER graphs"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-rising-spell-force",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Rising Spell Force bounded 1v1 seeded; excluded branches out of scope; backend lol_generic_ezreal_rising_spell_force_seed.sql"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -2521,34 +2467,46 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Graves.json#data.Graves.passive",
       "candidateKey": "hero_skill|hero_graves|P|新命运",
       "genericClassification": "blocked",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "shotgun_point_blank_pellets",
+        "ammo_reload"
       ],
-      "classificationReason": "本地 DDragon 数值快照无未解析伤害/数据字段；缺 runtime 表达能力（非 data blocker）。",
+      "classificationReason": "Graves P New Destiny：贴脸最大弹丸伤害公式已由当前 League Wiki 给出；仅精确装填速度公式被 Wiki 明确标注为 unknown（Precise formula is unknown），故保留 blocked_data。不得再声称弹丸/距离数值缺失，也不得用截图/OCR 填补。",
       "coverageEvidence": [],
-      "remainingGap": "无未解析 data 字段；缺 runtime 实现（非 data blocker）",
+      "remainingGap": "Graves P New Destiny：贴脸最大弹丸伤害公式已由当前 League Wiki 给出；仅精确装填速度公式被 Wiki 明确标注为 unknown（Precise formula is unknown），故保留 blocked_data。不得再声称弹丸/距离数值缺失，也不得用截图/OCR 填补。",
       "dataGapEvidence": {
-        "sourceVersion": "16.9.1",
-        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Graves_P",
-        "availableEffectTables": {},
+        "sourceVersion": "lol-wiki-rev-4038342",
+        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#graves-p@rev4038342",
+        "availableEffectTables": {
+          "normalPellets": [
+            4
+          ],
+          "critPellets": [
+            6
+          ]
+        },
         "availableCooldowns": [],
         "availableCosts": {},
         "tooltipPlaceholders": [],
         "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "本地数值快照无未解析伤害/数据字段；剩余为实现/runtime 缺口而非 data blocker",
-        "blocker": ""
+        "varsMapEmpty": false,
+        "variablesEmpty": false,
+        "variables": [
+          "point_blank_pellet_formulas_wiki_explicit"
+        ],
+        "missingFields": [
+          "precise_reload_speed_formula"
+        ],
+        "gapKind": "wiki_explicit_unknown",
+        "reasonZh": "Graves P New Destiny：贴脸最大弹丸伤害公式已由当前 League Wiki 给出；仅精确装填速度公式被 Wiki 明确标注为 unknown（Precise formula is unknown），故保留 blocked_data。不得再声称弹丸/距离数值缺失，也不得用截图/OCR 填补。",
+        "blocker": "wiki_explicit_unknown_precise_reload_speed_formula"
       }
     },
     {
@@ -2879,9 +2837,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Graves.json#data.Graves.spells[3]",
       "candidateKey": "hero_skill|hero_graves|R|终极爆弹",
@@ -3888,39 +3846,41 @@
       "sourceText": "卡莎的普通攻击会叠加电浆，造成不断提升的额外魔法伤害。友军的定身效果也可以帮忙叠加电浆。此外，卡莎可通过购买装备来升级她的基础技能，让它们拥有更多强大的属性。",
       "classification": "already_covered",
       "mechanismTags": [
-        "existing_batch_b_seed"
+        "on_hit",
+        "stacking_plasma",
+        "missing_health_consume"
       ],
       "blockedReason": "",
       "needsUserData": [],
       "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
+      "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/champion/Kaisa.json#data.Kaisa.passive",
       "candidateKey": "hero_skill|hero_kaisa|P|体表活肤",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "existing_batch_b_seed"
+        "on_hit",
+        "stacking_plasma",
+        "missing_health_consume"
       ],
-      "classificationReason": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "coverageEvidence": [],
-      "remainingGap": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-      "dataGapEvidence": {
-        "sourceVersion": "16.9.1",
-        "sourceRef": "数据参考/ddragon-champions/champion-seed-candidate.json#champion_Kaisa_P",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [
-          "passive_or_spell_damage_numeric_contract"
-        ],
-        "gapKind": "passive_numeric_contract",
-        "reasonZh": "描述声称伤害/额外伤害效果，但本地 DDragon 未提供可核验数值表或公式占位符",
-        "blocker": "missing_damage_numeric_contract"
-      }
+      "classificationReason": "hero_kaisa P 体表活肤/Second Skin：Wiki rev4038390（SHA256 f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f）+ 当前 canonical generic ABI 口径已由 wasm-generic-kaisa-second-skin + backend seed 闭环——provider-target plasma_stacks（default0/max5/4000ms refresh-on-write）；level1..18 精确插值 base=4+20/17*(level-1)、perStack=1+5/17*(level-1)；同 provider 有序普攻图：Caustic→+1 stack→第五层已损生命破裂→reset→物理普攻→恰好一次 event/basic_attack_hit。明确排除 W 2/3 层与 overflow、友军定身 Plasma、野怪 400 cap、法术护盾、Guinsoo phantom/buff-slot、多目标，故标 migrated/completed，不再以这些排除分支阻塞。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-second-skin",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: canonical generic Second Skin (plasma_stacks 0..5 / 4000ms refresh-on-write / exact L1..18 base+perStack / ordered Caustic→stack→fifth rupture→reset→physical BA→one basic_attack_hit); excluded: W 2/3 stacks+overflow / allied CC Plasma / monster 400 cap / spell shield / Guinsoo phantom-buff-slot / multi-target"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-second-skin",
+          "sourcePath": "db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Second Skin canonical generic seeded; excluded branches out of scope; backend lol_generic_kaisa_second_skin_seed.sql"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "hero_skill",
@@ -4297,9 +4257,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Kalista.json#data.Kalista.spells[0]",
       "candidateKey": "hero_skill|hero_kalista|Q|穿刺",
@@ -5577,9 +5537,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Lucian.json#data.Lucian.spells[0]",
       "candidateKey": "hero_skill|hero_lucian|Q|透体圣光",
@@ -5820,9 +5780,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Lucian.json#data.Lucian.spells[3]",
       "candidateKey": "hero_skill|hero_lucian|R|圣枪洗礼",
@@ -5892,9 +5852,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/MissFortune.json#data.MissFortune.passive",
       "candidateKey": "hero_skill|hero_missfortune|P|厄运的眷顾",
@@ -6274,9 +6234,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Quinn.json#data.Quinn.passive",
       "candidateKey": "hero_skill|hero_quinn|P|侵扰",
@@ -7194,9 +7154,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.passive",
       "candidateKey": "hero_skill|hero_sivir|P|敏锐疾行",
@@ -7231,9 +7191,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Sivir.json#data.Sivir.spells[0]",
       "candidateKey": "hero_skill|hero_sivir|Q|回旋之刃",
@@ -7441,9 +7401,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Smolder.json#data.Smolder.passive",
       "candidateKey": "hero_skill|hero_smolder|P|龙之研习",
@@ -7580,9 +7540,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Smolder.json#data.Smolder.spells[1]",
       "candidateKey": "hero_skill|hero_smolder|W|阿嚏！",
@@ -7658,9 +7618,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Smolder.json#data.Smolder.spells[2]",
       "candidateKey": "hero_skill|hero_smolder|E|扑棱，扑棱，扑棱！",
@@ -8100,9 +8060,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Tristana.json#data.Tristana.spells[0]",
       "candidateKey": "hero_skill|hero_tristana|Q|急速射击",
@@ -8415,9 +8375,9 @@
       "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/TwistedFate.json#data.TwistedFate.spells[0]",
       "candidateKey": "hero_skill|hero_twistedfate|Q|万能牌",
@@ -9599,9 +9559,9 @@
       "levelDataStatus": "complete",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Vayne.json#data.Vayne.spells[2]",
       "candidateKey": "hero_skill|hero_vayne|E|恶魔审判",
@@ -9749,9 +9709,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.passive",
       "candidateKey": "hero_skill|hero_xayah|P|锐切",
@@ -9793,9 +9753,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.spells[0]",
       "candidateKey": "hero_skill|hero_xayah|Q|双刃",
@@ -9951,9 +9911,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.spells[2]",
       "candidateKey": "hero_skill|hero_xayah|E|倒钩",
@@ -10023,9 +9983,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Xayah.json#data.Xayah.spells[3]",
       "candidateKey": "hero_skill|hero_xayah|R|暴风羽刃",
@@ -10397,9 +10357,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "on-hit 伤害描述缺少可审计数值。",
+      "blockedReason": "on-hit 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Zeri.json#data.Zeri.passive",
       "candidateKey": "hero_skill|hero_zeri|P|内能迁转",
@@ -10443,9 +10403,9 @@
       "levelDataStatus": "missing",
       "rankTableStatus": "complete",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "sourceRef": "数据参考/champion/Zeri.json#data.Zeri.spells[0]",
       "candidateKey": "hero_skill|hero_zeri|Q|电火迸射",
@@ -10723,9 +10683,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -10766,9 +10726,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -10781,7 +10741,7 @@
       ],
       "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。"
     },
     {
       "sourceKind": "item_passive",
@@ -11027,25 +10987,41 @@
       "skillKey": "item_passive",
       "passiveName": "高倍望远镜",
       "sourceText": "攻击造成至多10%额外伤害，基于敌人离你有多远 (在500码时达到最大伤害)。",
-      "classification": "needs_runtime_extension",
+      "classification": "already_covered",
       "mechanismTags": [
-        "distance_based_damage_modifier"
+        "outgoing_pre_mitigation_basic_damage_amp",
+        "fixed_maximum_multiplier"
       ],
-      "blockedReason": "当前 curve 没有攻击距离/目标距离输入。",
+      "blockedReason": "",
       "needsUserData": [],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/item.json#data.2523",
       "candidateKey": "item_passive|2523|item_passive|高倍望远镜",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "distance_or_ratio_modifier",
-        "basic_damage_amplification"
+        "outgoing_pre_mitigation_basic_damage_amp",
+        "fixed_maximum_multiplier"
       ],
-      "classificationReason": "2523 Magnification/高倍望远镜：edge-to-edge 距离输入，每 50 单位 +1% 最多 10% basic damage amplification。",
-      "coverageEvidence": [],
-      "remainingGap": "缺 edge_to_edge_distance_input、distance_scaled_basic_damage_amp_snapshot（1%/50 up to 10%）。"
+      "classificationReason": "item 2523 Magnification/高倍望远镜：用户批准 fixed-max 口径——每个 eligible basic-damage instance 使用最大 1.10 outgoing pre-mitigation multiplier。wasm-generic-pipeline-damage-modifier + backend lol_generic_pipeline_damage_items_seed.sql 提供 CompileGeneric+RunGeneric 证据。距离分段为用户排除分支，非 blocker；奥术瞄准仍单独 out_of_scope。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-pipeline-damage-modifier",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_pipeline_damage_modifier_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: user-approved Magnification fixed-max 1.10 outgoing pre-mitigation on eligible basic damage; excluded: runtime distance input / distance scaling; Arcane Aim separate OOS"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-pipeline-damage-modifier",
+          "sourcePath": "db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Magnification fixed-max 1.10 seeded; distance branch out of scope; backend lol_generic_pipeline_damage_items_seed.sql"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "sourceKind": "item_passive",
@@ -11054,11 +11030,11 @@
       "skillKey": "item_passive",
       "passiveName": "奥术瞄准",
       "sourceText": "当一个你在3秒内造成过伤害的英雄阵亡时，你获得持续8秒的100额外攻击距离。",
-      "classification": "needs_runtime_extension",
+      "classification": "out_of_scope_for_single_target_dps",
       "mechanismTags": [
-        "distance_based_damage_modifier"
+        "takedown_attack_range_only"
       ],
-      "blockedReason": "当前 curve 没有攻击距离/目标距离输入。",
+      "blockedReason": "takedown 后仅增加攻击距离，无伤害增量；不与 Magnification/高倍望远镜合并。",
       "needsUserData": [],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11093,9 +11069,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11136,9 +11112,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11246,9 +11222,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11316,9 +11292,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11458,9 +11434,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11565,9 +11541,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11580,7 +11556,7 @@
       ],
       "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。"
     },
     {
       "sourceKind": "item_passive",
@@ -11669,9 +11645,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -11818,9 +11794,9 @@
       "mechanismTags": [
         "on_hit"
       ],
-      "blockedReason": "on-hit 伤害描述缺少可审计数值。",
+      "blockedReason": "on-hit 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -12030,9 +12006,9 @@
       "mechanismTags": [
         "on_hit"
       ],
-      "blockedReason": "on-hit 伤害描述缺少可审计数值。",
+      "blockedReason": "on-hit 伤害描述缺少可审计数值；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -12423,9 +12399,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -12438,7 +12414,7 @@
       ],
       "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。"
     },
     {
       "sourceKind": "item_passive",
@@ -12651,9 +12627,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -12666,7 +12642,7 @@
       ],
       "classificationReason": "旧 needs_manual_baseline 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。",
       "coverageEvidence": [],
-      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。"
+      "remainingGap": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。"
     },
     {
       "sourceKind": "item_passive",
@@ -12841,9 +12817,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -12879,9 +12855,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -12953,9 +12929,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
@@ -13427,9 +13403,9 @@
       "mechanismTags": [
         "dps_relevant_manual_review"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表。",
+      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
       "needsUserData": [
-        "完整 tooltip 数值或训练营截图"
+        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
       ],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",

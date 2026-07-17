@@ -1,0 +1,45 @@
+<!-- Damage values are defined as parameters.
+-->{{#vardefine:ad1|110}}<!-- Generic/Normal rank 1 total damage AD ratio as a PERCENTAGE
+-->{{#vardefine:ad5|130}}<!-- Generic/Normal rank 5 total damage AD ratio as a PERCENTAGE
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Ranger's Focus|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Ashe
+|skill        = Q
+|icon         = Ashe Ranger's Focus.png
+|description  = {{sbc|Passive:}} While ''Ranger's Focus'' is inactive, '''Ashe's''' basic attacks {{tip|on-attack}} generate a {{tip|stack}} of ''Focus'' for 4 seconds, refreshing on subsequent attacks and stacking up to 4 times. Stacks expire one by one every second when the duration ends.
+|icon2        = Ashe Ranger's Focus 2.png
+|description2 = {{sbc|Active:}} For 6 seconds, '''Ashe''' gains {{sti|as|{{as|'''bonus''' attack speed}}}} and empowers her basic attacks to fire a flurry of five arrows that deal {{as|'''modified''' physical damage}}. The flurries {{tip|applies life steal|apply}} {{as|{{sti|life steal}}}} and ''{{ai|Frost Shot|Ashe}}'' per arrow, but apply {{tip|on-hit}} effects only once.
+|leveling2    = {{st|Bonus Attack Speed|{{ap|20 to 60}}%}}
+{{st|Physical Damage Per Arrow|{{as|{{ap|{{#var:ad1}}/5 to {{#var:ad5}}/5}}% AD}}|Total Damage Per Flurry|{{as|{{ap|{{#var:ad1}} to {{#var:ad5}}}}% AD}}}}
+|description4 = ''Ranger's Focus {{tip|basic attack reset|resets}} '''Ashe's''' basic attack timer.''
+|cost         = 30
+|cast time    = none
+|costtype     = Mana + 4 Focus
+|targeting    = Auto
+|affects      = Self
+|damagetype   = Physical
+|spellshield  = false
+|spelleffects = special
+|projectile   = True
+|parry        = True
+|notes        =
+* The flurries deal 1 instance of {{tip|basic damage}} followed by 4 instances of a non-reactive type of damage (either {{tip|default damage|default}} or {{tip|proc damage|proc}}).<!--One test to determine the difference is Teemo's W, but the test is hard to set-up since the first bolt removes Teemo's W.-->
+** The flurries are classified as a basic attack on a {{tip|script}} level, but are considered an ability for other effects (e.g. {{cai|Sap Magic|Maokai}}).{{Bug}}
+* The first flurry of a ''Ranger's Focus'' cast fires{{ft|one additional arrow, dealing 20% increased total damage.|six arrows, dealing a total of {{as|{{ap|{{#var:ad1}}*1.2 to {{#var:ad5}}*1.2}}%|attack damage}} {{as|attack damage}}.}}
+* ''Ranger's Focus'' works against {{tip|structures}}.
+* Flat damage reductions (e.g. {{cai|Tantrum|Amumu}}, {{cai|Nimble Fighter|Fizz}}, or {{cai|Eclipse|Leona}}) apply per arrow, resulting in extremely increased effectiveness against ''Ranger's Focus''.
+** The sole exception is {{iis|Warden's Mail}} {{nie|Rock Solid}}, as that applies per {{tip|cast instance}} rather than per damage instance.
+* A flurry can apply 5 stacks of {{iis|Black Cleaver}} {{nie|Carve}} to a single target as it deals 5 instances of {{as|physical damage}}.
+* ''Ranger's Focus'' also empowers {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} bolts to become a flurry of 5 bolts each as well.
+** The empowered bolts use '''Ashe's''' attack projectile, including her missile speed (2500 compared to their default 2000).
+** The bolts are evenly distributed among the targets, but a single target cannot be hit by more than 5 bolts.
+** These flurries also apply {{tip|on-hit}} effects only once to each target hit.
+* Because ''Focus'' stacks are generated {{tip|on-attack}}, {{iis|Runaan's Hurricane}} {{nies|Wind's Fury}} bolts will not generate any.
+|tips         =
+* While ''Ranger's Focus'' has no cooldown, the ability has a minimum downtime that is the time it takes for '''Ashe''' to generate 4 stacks of ''Focus''.
+** This downtime is {{fd|{{#expr:4*1/{{ccd|Ashe|as_base}} round 2}}}} seconds at '''Ashe's''' base attack speed ({{as|{{fd|{{ccd|Ashe|as_base}}}}|attack speed}}), 20 seconds at minimum attack speed ({{as|{{fd|0.2}}|attack speed}}), and {{fd|1.{{Recurring|33}}}} seconds at maximum attack speed ({{as|{{fd|3.003}}|attack speed}}).
+** This can be further decreased with effects that allow exceeding the attack speed cap or reset the attack timer.
+<!--Blurb-->
+|blurbicon    = Ranger's Focus.png
+|blurb        = {{sbc|Passive:}} {{cis|Ashe}} basic attacks generate {{tip|stacks}} of ''Focus'', up to a cap. Once the stacks reach the cap, she can cast ''Ranger's Focus''.
+|blurb2       = {{sbc|Active:}} '''Ashe''' gains {{as|{{sti|'''bonus''' attack speed}}}} and augments her basic attacks to fire a flurry of arrows.
+}}
