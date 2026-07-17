@@ -98,6 +98,11 @@ const HERO_CLASSIFICATION_OVERRIDES = new Map([
     'hero_ashe:W',
     alreadyCovered(['ability_flat_bonus_ad_damage', 'first_missile_only']),
   ],
+  // Ezreal P Rising Spell Force：bounded 1v1 stacking AS 已由 generic seed + wasm 证据闭环；不得标 needs_runtime_extension。
+  [
+    'hero_ezreal:P',
+    alreadyCovered(['stacking_stat_modifier_on_hit', 'attack_speed_percent_add']),
+  ],
 ]);
 
 function alreadyCovered(mechanismTags) {
@@ -772,6 +777,38 @@ function validateAudit(audit) {
   );
   if (!arcane || arcane.classification !== 'out_of_scope_for_single_target_dps') {
     errors.push('2523 奥术瞄准 must be out_of_scope_for_single_target_dps (range-only)');
+  }
+  const ezrealP = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_ezreal' && c.skillKey === 'P' && c.passiveName === '咒能高涨',
+  );
+  if (
+    !ezrealP
+    || ezrealP.classification !== 'already_covered'
+    || !(ezrealP.mechanismTags || []).includes('stacking_stat_modifier_on_hit')
+    || !(ezrealP.mechanismTags || []).includes('attack_speed_percent_add')
+  ) {
+    errors.push(
+      'Ezreal P 咒能高涨 must be already_covered under bounded 1v1 Rising Spell Force stacking AS scope (not needs_runtime_extension/ready_to_encode)',
+    );
+  }
+  const terminus = (audit.candidates || []).find(
+    (c) => c.ownerId === '3302' && c.passiveName === '晦影',
+  );
+  if (!terminus || terminus.classification !== 'ready_to_encode') {
+    errors.push('3302 晦影 must remain intentional ready_to_encode=1 (do not close)');
+  }
+  const counts = audit.summary?.classificationCounts || {};
+  const expectedCounts = {
+    already_covered: 18,
+    needs_runtime_extension: 33,
+    ready_to_encode: 1,
+    needs_manual_baseline: 44,
+    out_of_scope_for_single_target_dps: 146,
+  };
+  for (const [k, v] of Object.entries(expectedCounts)) {
+    if ((counts[k] || 0) !== v) {
+      errors.push(`classificationCounts.${k} expected ${v}, got ${counts[k] || 0}`);
+    }
   }
   return errors;
 }
