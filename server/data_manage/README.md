@@ -528,6 +528,35 @@ cd server/data_manage
 mvn -Dtest=LolGenericJakshoVoidbornResilienceSeedSqlTest test
 ```
 
+### LoL generic Wiki-ready items seed（专横 / 弩箭 / 荆棘）
+
+在 reserved types、基线 `attribute_definitions`（`hp`/`ad`/`armor`/`attack_speed`/`crit_chance`），以及 Bolt/Thorns 运行时所需的 `basic_attack_hit` emit 基线已就绪后，按顺序执行（本脚本自包含 ensure `item_2501` / `item_3097` / `item_3075` 与 `bonus_armor`；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20113`/`20120`/`20150`/`20160`/`20170`/`20172`/`20181`/`20211`/`20212`/`20213`/`20221`/`20250`）
+2. 基线战斗属性定义（至少 `hp`/`ad`/`armor`/`attack_speed`/`crit_chance`；通常随 generic combat bootstrap / Admin 已写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit；Bolt/Thorns 运行时依赖，本 seed 不重建普攻图）
+4. `db/game_manage/seeds/lol_generic_wiki_ready_items_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-wiki-ready-items-v1-20260716`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved 与属性定义；幂等投影 reserved → `types`；按 Jak'Sho 模式 ensure `bonus_armor`；ensure 三件装备最低必要静态面板；挂载三条独立 passive：
+
+- **item_2501 Tyranny / 专横**：owner-self `ad` add = `0.025 * max(0, $owner.attr.hp.max - $owner.attr.hp.base)`
+- **item_3097 Bolt / 弩箭**：仅预充能窗口（`assumes_charge_at_threshold_before_dps_window`）。`energized_charge` max=100（schema 无 default 列；窗口开始前由 runtime/测试快照置 100）。`basic_attack_hit` + `source_owner` ALL listener：ready 时 100 魔法伤害且 `copyable_on_hit=false` → override 消费为 0。充能恢复是 remaining gap，不写虚构 `charge_add` / 移动充能速率。
+- **item_3075 Thorns / 荆棘**：target-owned `basic_attack_hit` + `source_opponent` ALL listener；对 owner-relative `selector/target`（原攻击者）造成 `20 + 0.10 * $owner.attr.bonus_armor.resolved` 魔法伤害，`copyable_on_hit=false`。重伤分支本批不实现。
+
+有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish；不写无关既有 item 行。
+
+**排除**：虚构 Energize 充能速率、Bolt 移动充能、Thorns 重伤、Retribution（2501 pass2）、live migration、publish、legacy `single_attacker_dps` / `energized_charge_and_consume`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericWikiReadyItemsSeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
@@ -592,6 +621,48 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenSpinningAxeSeedSqlTest test
 ```
 
+### LoL generic Draven Blood Rush seed（德莱文 W / rank-5 攻速窗 partial）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_draven` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与既有 Q / 普攻 provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+2. `db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-draven-blood-rush-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：20 mana / 12s CD / 3s +40% AS。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_draven`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp675 / mana361 / ad62 / AS0.679 / armor29 / MR30 / hpregen3.75 / manaregen8.05）、`resource_definitions.mana` 与 `entity_resource_values`（361/361）；向 `hero_draven` mount 独立 `provider_hero_draven_w_blood_rush`（与 `provider_hero_draven_q_spinning_axe` / `provider_hero_draven_basic_attack` 并存），含 active `ability_hero_draven_w_blood_rush`（`ability_key=blood_rush`）、`ability_costs` 20 mana、`ability_cooldowns` 12000ms、timed `blood_rush_active`（max1 / `duration_ms=3000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability ALL listener 武装 active=1（override），以及 AS `percent_add` `0.40 * provider.state.blood_rush_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 2026-07-14 Meraki/Riot latest `Draven.json`。
+
+**排除**：移速/衰减移速/幽灵态、接住旋转飞斧刷新 W cooldown、其它 rank、live migration、publish、`single_attacker_dps`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericDravenBloodRushSeedSqlTest test
+```
+
+### LoL generic Quinn Heightened Senses seed（奎因 W / rank-5 攻速 partial）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_quinn` 最低必要实体/level-1 面板/通用普攻闭环 + `basic_attack_hit` emit；与普攻 provider 并存；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20172`/`20173`/`20181`/`20190`/`20211`/`20212`/`20220`/`20250`/`20252`/`20260`）
+2. `db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-quinn-heightened-senses-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：易损目标普攻命中 → 2s +40% AS。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_quinn`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp565 / mana269 / ad59 / AS0.668 / armor28 / MR30 / hpregen5.5 / manaregen7）、通用普攻闭环，并在伤害步骤后追加 `emit_event(event/basic_attack_hit)`；向 `hero_quinn` mount 独立 `provider_hero_quinn_heightened_senses`（与 `provider_hero_quinn_basic_attack` 并存），含 `provider_target` 契约态 `harrier_vulnerable`（max1 / untimed；缺省 0；**本 seed 不伪造写入**，供未来 P/Q/E）、timed `heightened_senses_active`（max1 / `duration_ms=2000` / `refresh_duration`）、`basic_attack_hit` + `source_owner` ALL listener（条件 `provider.target_state.harrier_vulnerable >= 1`）武装 active=1（override），以及 AS `percent_add` `0.40 * provider.state.heightened_senses_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 Data Dragon `Quinn.json`；攻速窗按本合同 partial（与 live wiki rank 表可能不同）。
+
+**排除 / gap**：W 主动视野、移速分支、Harrier 额外伤害、易损标记生成/消费、其它 rank、live migration、publish、`single_attacker_dps`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericQuinnHeightenedSensesSeedSqlTest test
+```
+
 ### LoL generic Kai'Sa Supercharge seed（卡莎 E / rank-5 攻速窗）
 
 在 reserved types、Batch-B `hero_kaisa`、以及 `attribute_definitions` 的 `mana` / `attack_speed` 已就绪后，按顺序执行（**不**重建 Batch-B / 普攻；不做 live migration、不自动 publish）：
@@ -612,6 +683,27 @@ mvn -Dtest=LolGenericDravenSpinningAxeSeedSqlTest test
 ```bash
 cd server/data_manage
 mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
+```
+
+### LoL generic Xayah Deadly Plumage seed（逆羽 W / rank-5 攻速窗 partial）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_xayah` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与未来普攻 / feather provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-xayah-deadly-plumage-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：40 mana / 14s CD / 4s +55% AS。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability ALL listener 武装 active=1（override），以及 AS `percent_add` `0.55 * provider.state.deadly_plumage_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 Meraki/Riot latest `Xayah.json`。
+
+**排除 / remaining gap**：次级羽刃（需按已结算真实普攻复制 20% original attack damage，排除 on-hit / phantom；本 seed **不伪造**）、移速、Rakan/洛联动（OOS）、其它 rank、live migration、publish、`single_attacker_dps`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericXayahDeadlyPlumageSeedSqlTest test
 ```
 
 ### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
