@@ -1,7 +1,7 @@
 {
   "gameId": "lol",
   "batch": "V2-Batch-G",
-  "generatedAt": "2026-07-17T13:55:28.492Z",
+  "generatedAt": "2026-07-17T14:32:03.843Z",
   "source": {
     "championJson": "数据参考\\champion.json",
     "championDetailDir": "数据参考\\champion",
@@ -1179,12 +1179,15 @@
       "sourceText": "卡莎的普通攻击会叠加电浆，造成不断提升的额外魔法伤害。友军的定身效果也可以帮忙叠加电浆。此外，卡莎可通过购买装备来升级她的基础技能，让它们拥有更多强大的属性。",
       "classification": "already_covered",
       "mechanismTags": [
-        "existing_batch_b_seed"
+        "on_hit",
+        "stacking_plasma",
+        "missing_health_consume"
       ],
       "blockedReason": "",
       "needsUserData": [],
       "levelDataStatus": "complete",
       "rankTableStatus": "not_applicable",
+      "candidateDpsPassiveEffect": {},
       "sourceRef": "数据参考/champion/Kaisa.json#data.Kaisa.passive"
     },
     {
