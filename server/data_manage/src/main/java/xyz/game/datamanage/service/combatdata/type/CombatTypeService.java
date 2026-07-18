@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatGameProgressionSchemaMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatResourceDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatTypeRelationsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatTypesMapper;
 import xyz.game.datamanage.service.combatdata.revision.GameDataRevisionService;
+import xyz.game.datamanage.service.combatdata.support.CombatDataImageReference;
 import xyz.game.datamanage.service.combatdata.support.CombatDataSupport;
 
 @Service
@@ -35,6 +37,7 @@ public class CombatTypeService {
 
     private final CombatDataSupport support;
     private final GameDataRevisionService revisionService;
+    private final ImagesMapper imagesMapper;
     private final CombatGameProgressionSchemaMapper progressionSchemaMapper;
     private final CombatAttributeDefinitionsMapper attributeDefinitionsMapper;
     private final CombatResourceDefinitionsMapper resourceDefinitionsMapper;
@@ -44,6 +47,7 @@ public class CombatTypeService {
     public CombatTypeService(
         CombatDataSupport support,
         GameDataRevisionService revisionService,
+        ImagesMapper imagesMapper,
         CombatGameProgressionSchemaMapper progressionSchemaMapper,
         CombatAttributeDefinitionsMapper attributeDefinitionsMapper,
         CombatResourceDefinitionsMapper resourceDefinitionsMapper,
@@ -52,6 +56,7 @@ public class CombatTypeService {
     ) {
         this.support = support;
         this.revisionService = revisionService;
+        this.imagesMapper = imagesMapper;
         this.progressionSchemaMapper = progressionSchemaMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
         this.resourceDefinitionsMapper = resourceDefinitionsMapper;
@@ -141,6 +146,14 @@ public class CombatTypeService {
         String rateTargetAttrKey = support.optionalText(req, "rateTargetAttrKey");
         BigDecimal minValue = support.optionalDecimal(req, "minValue");
         BigDecimal maxValue = support.optionalDecimal(req, "maxValue");
+        CombatDataImageReference.Input imageUriInput = CombatDataImageReference.read(req, support);
+        String imageUri = CombatDataImageReference.resolve(
+            imageUriInput,
+            CombatDataImageReference.existingOf(attributeDefinitionsMapper.findById(gameId, attrKey)),
+            gameId,
+            imagesMapper,
+            support
+        );
         long revision = revisionService.nextRevision(gameId);
         support.withConstraintMapping(() -> attributeDefinitionsMapper.upsert(
             gameId,
@@ -153,7 +166,8 @@ public class CombatTypeService {
             valueKind,
             rateTargetAttrKey,
             minValue,
-            maxValue
+            maxValue,
+            imageUri
         ));
         return support.adminWriteResponse(attributeDefinitionsMapper.findById(gameId, attrKey), revision);
     }
