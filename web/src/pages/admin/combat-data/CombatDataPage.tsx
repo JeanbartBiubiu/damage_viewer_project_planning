@@ -5,7 +5,8 @@ import { formatCombatDataError, getCombatDataState } from '../../../services/com
 import type { CombatDataState } from '../../../types/combatData';
 import {
   combatDataHref,
-  getAdjacentCombatDataResources
+  getAdjacentCombatDataResources,
+  type FilterFieldPair
 } from '../combatDataNav';
 import { CombatDataResourcePage } from './CombatDataResourcePage';
 import { getCombatDataResource } from './resourceRegistry';
@@ -17,6 +18,7 @@ type CombatDataPageProps = {
   resourceId: string;
   /** True when GET /api/games already succeeded for this API base. */
   gamesReachable: boolean;
+  filterPairs?: FilterFieldPair[];
 };
 
 /**
@@ -28,7 +30,8 @@ export function CombatDataPage({
   selectedGameId,
   adminToken,
   resourceId,
-  gamesReachable
+  gamesReachable,
+  filterPairs = []
 }: CombatDataPageProps) {
   const config = getCombatDataResource(resourceId);
   const adjacent = getAdjacentCombatDataResources(resourceId);
@@ -66,6 +69,14 @@ export function CombatDataPage({
   useEffect(() => {
     void refreshState();
   }, [refreshState, stateTick]);
+
+  const handleCommitted = useCallback(
+    (_revision: number) => {
+      void refreshState();
+      setStateTick((value) => value + 1);
+    },
+    [refreshState]
+  );
 
   if (!config) {
     return <Alert type="error" content={`未知 combat-data 资源：${resourceId}`} />;
@@ -135,13 +146,15 @@ export function CombatDataPage({
       </Panel>
 
       <CombatDataResourcePage
-        key={`${resourceId}-${stateTick}`}
+        key={resourceId}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
         resourceId={resourceId}
         gamesReachable={gamesReachable}
         hideHeaderSummary
+        filterPairs={filterPairs}
+        onCommitted={handleCommitted}
       />
     </div>
   );

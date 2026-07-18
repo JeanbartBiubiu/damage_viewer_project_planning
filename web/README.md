@@ -81,6 +81,7 @@ npm run dev
 | `npm run test` | Vitest 单元测试 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
+| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：11 个静态页 + 30 个 combat-data 页，Desktop Chrome + Mobile 390；无需 `E2E_*` |
 | `npm run test:e2e:wasm-generic` | Playwright 通用规格：后端 current/state/abilities/entities 探测 + 指定 source/target + 页面 combat-data ready + compile/run/release（需四个 `E2E_*` 必填项） |
 | `npm run smoke:wasm-generic` | 发布门禁：`lint` → `typecheck` → `test` → `build` → Playwright（fail-fast） |
 
@@ -111,13 +112,21 @@ npm run test
 npm run build
 ```
 
-涉及页面或联调行为改动时，至少回归：
+本迭代默认页面回归为**非 Wasm**。可复用清单见 [../文档记录/测试记录/web/非Wasm最小回归清单.md](../文档记录/测试记录/web/非Wasm最小回归清单.md)。
 
-1. 总览页读取当前版本与 combat-data state
-2. 版本发布页提交 publish，展示 changeRevision，刷新 current / state
-3. combat-data 分表页（如 `#/combat-data/entities`）列表空态可用，PUT 后刷新 revision；`#/combat-data` 应跳到首个资源
-4. 通用 Wasm 验证页：选两个 entity → 组装 → compile / run / release
-5. 图片缓存页同步
+2026-07-18 的 41 路由实际执行证据见 [非Wasm全页面验收记录-2026-07-18.md](../文档记录/测试记录/web/非Wasm全页面验收记录-2026-07-18.md)。mock 浏览器覆盖与真实 Backend 只读结果分开记录，不以 mock 代替 live 兼容结论。
+
+涉及页面或联调行为改动时，按固定顺序至少回归：
+
+1. 静态：`npm run lint` → `typecheck` → `test` → `build` → `test:e2e:non-wasm`
+2. `#/overview`
+3. `#/workspace` 观察；可选受控 publish 后核验 `#/overview` 与 `#/combat-data/entities`
+4. `#/images`
+5. `#/entity-setup` → `#/provider-setup` → `#/ability-setup` → `#/effect-sequence-setup` → `#/effect-step-setup` → `#/combat-data/entities`
+
+说明：实体分表覆盖必须走 `#/combat-data/entities`；裸 `#/combat-data` 会重定向到 registry 首个资源（当前 `progression-schema`），不能代替该覆盖。
+
+`npm run smoke:wasm-generic` 保留为**范围触发**的额外 Wasm 门禁，不是默认页面回归要求。
 
 ## 常见问题
 

@@ -3,6 +3,14 @@ import { getCurrentVersion, getErrorMessage, publishVersion } from '../../servic
 import { getCombatDataState } from '../../services/combatDataClient';
 import type { CurrentVersion, LoadState, VersionPublishResponse } from '../../types/api';
 import type { CombatDataState } from '../../types/combatData';
+import {
+  buildPublishSuccessMessage,
+  buildVerificationWarningMessage,
+  classifyCombatDataSettled,
+  classifyCurrentVersionSettled,
+  resolvePublishPrerequisite,
+  resolvePublishVerificationStatus
+} from './versionPublishModel';
 
 type UsePublishFlowArgs = {
   apiBaseUrl: string;
@@ -17,6 +25,9 @@ type UsePublishFlowResult = {
   versionState: LoadState;
   versionError: string | null;
   versionSuccess: string | null;
+  verificationWarning: string | null;
+  publishDisabled: boolean;
+  publishDisabledReason: string | null;
   publishedVersion: VersionPublishResponse | null;
   publishedCurrentVersion: CurrentVersion | null;
   publishedCombatDataState: CombatDataState | null;
@@ -31,58 +42,91 @@ export function usePublishFlow({
   adminToken,
   onDataPublished
 }: UsePublishFlowArgs): UsePublishFlowResult {
-  const token = adminToken.trim();
   const [versionCodeDraft, setVersionCodeDraft] = useState('');
   const [releaseDateDraft, setReleaseDateDraft] = useState('');
   const [versionState, setVersionState] = useState<LoadState>('idle');
   const [versionError, setVersionError] = useState<string | null>(null);
   const [versionSuccess, setVersionSuccess] = useState<string | null>(null);
+  const [verificationWarning, setVerificationWarning] = useState<string | null>(null);
   const [publishedVersion, setPublishedVersion] = useState<VersionPublishResponse | null>(null);
   const [publishedCurrentVersion, setPublishedCurrentVersion] = useState<CurrentVersion | null>(null);
   const [publishedCombatDataState, setPublishedCombatDataState] = useState<CombatDataState | null>(null);
 
+  const prerequisite = resolvePublishPrerequisite(selectedGameId, adminToken, versionCodeDraft);
+  const publishDisabled = !prerequisite.ok || versionState === 'loading';
+  const publishDisabledReason = prerequisite.ok ? null : prerequisite.reason;
+
   async function handlePublishVersion() {
-    if (!selectedGameId || !token) {
+    const gate = resolvePublishPrerequisite(selectedGameId, adminToken, versionCodeDraft);
+    if (!gate.ok) {
+      setVersionState('error');
+      setVersionError(gate.reason);
+      setVersionSuccess(null);
+      setVerificationWarning(null);
       return;
     }
 
+    const gameId = selectedGameId!;
+    const token = adminToken.trim();
     const versionCode = versionCodeDraft.trim();
-    if (!versionCode) {
-      setVersionState('error');
-      setVersionError('发布 versionCode 不能为空。');
-      setVersionSuccess(null);
-      return;
-    }
 
     setVersionState('loading');
     setVersionError(null);
     setVersionSuccess(null);
+    setVerificationWarning(null);
 
     try {
-      const publishResult = await publishVersion(apiBaseUrl, selectedGameId, token, {
+      const publishResult = await publishVersion(apiBaseUrl, gameId, token, {
         versionCode,
         releaseDate: releaseDateDraft.trim() || undefined
       });
 
-      const [currentResult, combatStateResult] = await Promise.all([
-        getCurrentVersion(apiBaseUrl, selectedGameId),
-        getCombatDataState(apiBaseUrl, selectedGameId)
+      // Retain POST success immediately; verification failures must not erase it.
+      setPublishedVersion(publishResult.data);
+
+      const [currentResult, combatStateResult] = await Promise.allSettled([
+        getCurrentVersion(apiBaseUrl, gameId),
+        getCombatDataState(apiBaseUrl, gameId)
       ]);
 
-      setPublishedVersion(publishResult.data);
-      setPublishedCurrentVersion(currentResult.data);
-      setPublishedCombatDataState(combatStateResult.data.data);
-      setVersionState('success');
+      const currentObservation = classifyCurrentVersionSettled(currentResult);
+      const combatObservation = classifyCombatDataSettled(combatStateResult);
+      const verification = resolvePublishVerificationStatus(currentObservation, combatObservation);
+
+      if (currentObservation.status === 'available') {
+        setPublishedCurrentVersion(currentObservation.version);
+      }
+
+      if (combatObservation.status === 'available') {
+        setPublishedCombatDataState(combatObservation.state);
+      }
 
       const changeRevision =
-        publishResult.data.changeRevision ?? currentResult.data.changeRevision ?? combatStateResult.data.data.publishedRevision;
+        publishResult.data.changeRevision ??
+        (currentObservation.status === 'available' ? currentObservation.version.changeRevision : undefined) ??
+        (combatObservation.status === 'available' ? combatObservation.state.publishedRevision : undefined);
+
+      setVersionState('success');
       setVersionSuccess(
-        `版本 ${publishResult.data.versionCode} 已发布（changeRevision=${changeRevision ?? '—'}），current 与 combat-data 状态已刷新。`
+        buildPublishSuccessMessage({
+          versionCode: publishResult.data.versionCode,
+          changeRevision,
+          verification
+        })
       );
+
+      if (verification === 'warning') {
+        setVerificationWarning(buildVerificationWarningMessage(currentObservation, combatObservation));
+      } else {
+        setVerificationWarning(null);
+      }
+
       onDataPublished?.();
     } catch (error) {
       setVersionState('error');
       setVersionError(getErrorMessage(error));
+      setVersionSuccess(null);
+      setVerificationWarning(null);
     }
   }
 
@@ -92,6 +136,9 @@ export function usePublishFlow({
     versionState,
     versionError,
     versionSuccess,
+    verificationWarning,
+    publishDisabled,
+    publishDisabledReason,
     publishedVersion,
     publishedCurrentVersion,
     publishedCombatDataState,
