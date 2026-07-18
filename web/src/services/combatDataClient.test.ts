@@ -7,6 +7,9 @@ import {
   getExecuteEffectDetails,
   putAttributeDefinition,
   putEffectStep,
+  putEntity,
+  putEntityBatch,
+  putDirectDamageAbilitySetup,
   putExecuteEffectDetail
 } from './combatDataClient';
 
@@ -303,5 +306,250 @@ describe('formatCombatDataError', () => {
     });
 
     expect(message).toBe('500.INTERNAL: boom');
+  });
+
+  it('admin PUT preserves imageUri omit / null / blank / exact nonblank source text', async () => {
+    const cases: Array<{
+      label: string;
+      body: Record<string, unknown>;
+      assert: (parsed: Record<string, unknown>) => void;
+    }> = [
+      {
+        label: 'omit',
+        body: { displayName: 'Vayne' },
+        assert: (parsed) => {
+          expect(Object.prototype.hasOwnProperty.call(parsed, 'imageUri')).toBe(false);
+        }
+      },
+      {
+        label: 'null clear',
+        body: { displayName: 'Vayne', imageUri: null },
+        assert: (parsed) => {
+          expect(parsed.imageUri).toBeNull();
+        }
+      },
+      {
+        label: 'blank clear',
+        body: { displayName: 'Vayne', imageUri: '   ' },
+        assert: (parsed) => {
+          expect(parsed.imageUri).toBe('   ');
+        }
+      },
+      {
+        label: 'exact with whitespace',
+        body: { displayName: 'Vayne', imageUri: '  character_vayne  ' },
+        assert: (parsed) => {
+          expect(parsed.imageUri).toBe('  character_vayne  ');
+        }
+      }
+    ];
+
+    for (const testCase of cases) {
+      const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+        const parsed = JSON.parse(String(init?.body)) as Record<string, unknown>;
+        testCase.assert(parsed);
+        expect(parsed.currentRevision).toBeUndefined();
+        return jsonResponse(200, {
+          gameId: 'demo',
+          entityId: 'hero_vayne',
+          displayName: 'Vayne',
+          imageUri: parsed.imageUri ?? null,
+          changeRevision: 2,
+          updatedAt: 't',
+          currentRevision: 2
+        });
+      });
+      vi.stubGlobal('fetch', fetchMock);
+
+      await putEntity('http://localhost:8080', 'demo', 'hero_vayne', 'token', {
+        ...testCase.body,
+        currentRevision: 1,
+        changeRevision: 1,
+        updatedAt: 'stale'
+      });
+      expect(fetchMock, testCase.label).toHaveBeenCalledTimes(1);
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('putEntityBatch preserves optional top-level imageUri when provided', async () => {
+    const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      expect(body.imageUri).toBe('  icon_exact  ');
+      expect(body.expectedCurrentRevision).toBe(5);
+      return jsonResponse(200, {
+        gameId: 'demo',
+        entityId: 'hero_vayne',
+        displayName: 'Vayne',
+        imageUri: '  icon_exact  ',
+        attributes: [],
+        resources: [],
+        providerMounts: [],
+        currentRevision: 6
+      });
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await putEntityBatch('http://localhost:8080', 'demo', 'hero_vayne', 'token', {
+      expectedCurrentRevision: 5,
+      displayName: 'Vayne',
+      imageUri: '  icon_exact  '
+    });
+    expect(result.data.imageUri).toBe('  icon_exact  ');
+  });
+
+  it('putEntityBatch uses encoded entities/{entityId}:batch URL and keeps expectedCurrentRevision', async () => {
+    const stages = Array.from({ length: 18 }, (_, index) => ({
+      stage: index + 1,
+      value: 100 + index
+    }));
+
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input);
+      expect(url).toBe('http://localhost:8080/api/admin/games/demo/combat-data/entities/hero_ashe%3Abatch');
+      expect(init?.method).toBe('PUT');
+
+      const body = JSON.parse(String(init?.body));
+      expect(body.expectedCurrentRevision).toBe(42);
+      expect(body.displayName).toBe('Ashe');
+      expect(body.description).toBe('ADC');
+      expect(body.currentRevision).toBeUndefined();
+      expect(body.changeRevision).toBeUndefined();
+      expect(body.updatedAt).toBeUndefined();
+      expect(body.providerMounts).toBeUndefined();
+      expect(body.resources).toBeUndefined();
+      expect(body.attributes).toEqual([
+        {
+          attrKey: 'ad',
+          baseValue: 52,
+          stages
+        }
+      ]);
+
+      return jsonResponse(200, {
+        gameId: 'demo',
+        entityId: 'hero_ashe',
+        displayName: 'Ashe',
+        description: 'ADC',
+        attributes: [],
+        resources: [],
+        providerMounts: [],
+        currentRevision: 43
+      });
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await putEntityBatch('http://localhost:8080', 'demo', 'hero_ashe', 'token', {
+      expectedCurrentRevision: 42,
+      displayName: 'Ashe',
+      description: 'ADC',
+      attributes: [
+        {
+          attrKey: 'ad',
+          baseValue: 52,
+          stages
+        }
+      ],
+      // Forbidden metadata must be stripped if a caller accidentally includes them.
+      currentRevision: 99,
+      changeRevision: 99,
+      updatedAt: 'stale'
+    } as never);
+
+    expect(result.status).toBe(200);
+    expect(result.data.currentRevision).toBe(43);
+    expect(result.data.entityId).toBe('hero_ashe');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('putDirectDamageAbilitySetup uses encoded abilities/{abilityId}:direct-damage-setup URL and keeps expectedCurrentRevision', async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input);
+      expect(url).toBe(
+        'http://localhost:8080/api/admin/games/demo/combat-data/providers/provider_q/abilities/ability_q%3Adirect-damage-setup'
+      );
+      expect(init?.method).toBe('PUT');
+
+      const body = JSON.parse(String(init?.body));
+      expect(body.expectedCurrentRevision).toBe(42);
+      expect(body.ability.abilityId).toBe('ability_q');
+      expect(body.ability.providerId).toBe('provider_q');
+      expect(body.currentRevision).toBeUndefined();
+      expect(body.changeRevision).toBeUndefined();
+      expect(body.updatedAt).toBeUndefined();
+
+      return jsonResponse(200, {
+        gameId: 'demo',
+        providerId: 'provider_q',
+        abilityId: 'ability_q',
+        ability: body.ability,
+        phase: body.phase,
+        effectSequence: body.effectSequence,
+        effectStep: body.effectStep,
+        phaseEffectSequenceBinding: body.phaseEffectSequenceBinding,
+        currentRevision: 43
+      });
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await putDirectDamageAbilitySetup(
+      'http://localhost:8080',
+      'demo',
+      'provider_q',
+      'ability_q',
+      'token',
+      {
+        expectedCurrentRevision: 42,
+        ability: {
+          abilityId: 'ability_q',
+          providerId: 'provider_q',
+          abilityKey: 'q',
+          abilityKindTypeId: 1,
+          displayName: 'Q'
+        },
+        phase: {
+          phaseId: 'phase_q_impact',
+          abilityId: 'ability_q',
+          phaseOrder: 0,
+          phaseTypeId: 2,
+          interruptible: true
+        },
+        effectSequence: {
+          sequenceId: 'sequence_q_impact',
+          providerId: 'provider_q',
+          sequenceKey: 'q_impact',
+          displayName: 'Q'
+        },
+        effectStep: {
+          stepId: 'step_q_damage',
+          sequenceId: 'sequence_q_impact',
+          stepOrder: 0,
+          operationTypeId: 3,
+          targetSelectorTypeId: 4,
+          damageDetail: {
+            amountFormulaKey: 'dmg',
+            damageTypeId: 5,
+            valuePolicyTypeId: 6,
+            copyableOnHit: false,
+            critEligible: false
+          }
+        },
+        phaseEffectSequenceBinding: {
+          phaseId: 'phase_q_impact',
+          triggerTypeId: 7,
+          sequenceId: 'sequence_q_impact'
+        },
+        // Forbidden metadata must be stripped if a caller accidentally includes them.
+        currentRevision: 99,
+        changeRevision: 99,
+        updatedAt: 'stale'
+      } as never
+    );
+
+    expect(result.status).toBe(200);
+    expect(result.data.currentRevision).toBe(43);
+    expect(result.data.abilityId).toBe('ability_q');
+    expect(result.data.providerId).toBe('provider_q');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

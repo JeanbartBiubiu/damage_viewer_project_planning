@@ -38,6 +38,8 @@ export type AttributeDefinition = CombatDataRowMeta & {
   rateTargetAttrKey?: string;
   minValue?: number;
   maxValue?: number;
+  /** Optional same-game images.uri association; null when cleared/absent. */
+  imageUri?: string | null;
 };
 
 export type ResourceDefinition = CombatDataRowMeta & {
@@ -81,6 +83,8 @@ export type CombatEntity = CombatDataRowMeta & {
   entityId: string;
   displayName: string;
   description?: string;
+  /** Optional same-game images.uri association; null when cleared/absent. */
+  imageUri?: string | null;
 };
 
 export type EntityAttribute = CombatDataRowMeta & {
@@ -392,6 +396,159 @@ export type EffectStepPutBody = {
 export type AdminWriteResponse<T> = T & {
   currentRevision: number;
 };
+
+/** Attribute stage entry for PUT entities/{entityId}:batch. */
+export type EntityBatchAttributeStageInput = {
+  stage: number;
+  value: number;
+};
+
+/** Attribute entry for entity aggregate batch PUT. */
+export type EntityBatchAttributeInput = {
+  attrKey: string;
+  baseValue: number;
+  stages: EntityBatchAttributeStageInput[];
+};
+
+/** Resource stage entry for PUT entities/{entityId}:batch. */
+export type EntityBatchResourceStageInput = {
+  stage: number;
+  initialValue: number;
+  maxValue: number;
+};
+
+/** Resource entry for entity aggregate batch PUT. */
+export type EntityBatchResourceInput = {
+  resourceKey: string;
+  initialValue: number;
+  maxValue: number;
+  stages: EntityBatchResourceStageInput[];
+};
+
+/** Provider mount entry for entity aggregate batch PUT (additive upsert). */
+export type EntityBatchProviderMountInput = {
+  providerId: string;
+};
+
+/**
+ * Body for PUT /api/admin/games/{gameId}/combat-data/entities/{entityId}:batch.
+ * Omitted attributes/resources/providerMounts are left untouched (no delete/replace).
+ */
+export type EntityBatchPutBody = {
+  expectedCurrentRevision: number;
+  displayName: string;
+  description?: string;
+  /**
+   * Optional image association (same semantics as entity PUT).
+   * Omitted preserves existing; null/blank clears; nonblank must exist in same-game images.
+   * Entity Growth builders must omit this field unless a future page owns the binding editor.
+   */
+  imageUri?: string | null;
+  attributes?: EntityBatchAttributeInput[];
+  resources?: EntityBatchResourceInput[];
+  providerMounts?: EntityBatchProviderMountInput[];
+};
+
+/** Nested attribute row returned by entity aggregate batch PUT. */
+export type EntityBatchAttributeResult = EntityAttribute & {
+  stages: EntityAttributeStage[];
+};
+
+/** Nested resource row returned by entity aggregate batch PUT. */
+export type EntityBatchResourceResult = EntityResource & {
+  stages: EntityResourceStage[];
+};
+
+/**
+ * Authoritative entity aggregate from PUT entities/{entityId}:batch.
+ * Includes top-level currentRevision (same revision for the whole write).
+ */
+export type EntityBatchWriteResult = AdminWriteResponse<{
+  gameId: string;
+  entityId: string;
+  displayName: string;
+  description?: string;
+  imageUri?: string | null;
+  changeRevision?: number;
+  updatedAt?: string;
+  attributes: EntityBatchAttributeResult[];
+  resources: EntityBatchResourceResult[];
+  providerMounts: EntityProviderMount[];
+}>;
+
+/** Ability node for PUT .../abilities/{abilityId}:direct-damage-setup. */
+export type DirectDamageAbilitySetupAbilityInput = {
+  abilityId: string;
+  providerId: string;
+  abilityKey: string;
+  abilityKindTypeId: number;
+  displayName: string;
+  castConditionFormulaKey?: string;
+};
+
+/** Phase node for direct-damage ability aggregate PUT. */
+export type DirectDamageAbilitySetupPhaseInput = {
+  phaseId: string;
+  abilityId: string;
+  phaseOrder: number;
+  phaseTypeId: number;
+  durationFormulaKey?: string;
+  interruptible: boolean;
+};
+
+/** Effect-sequence node for direct-damage ability aggregate PUT. */
+export type DirectDamageAbilitySetupEffectSequenceInput = {
+  sequenceId: string;
+  providerId: string;
+  sequenceKey: string;
+  displayName: string;
+};
+
+/** Effect-step node (exactly damageDetail) for direct-damage ability aggregate PUT. */
+export type DirectDamageAbilitySetupEffectStepInput = {
+  stepId: string;
+  sequenceId: string;
+  stepOrder: number;
+  operationTypeId: number;
+  targetSelectorTypeId: number;
+  conditionFormulaKey?: string;
+  damageDetail: DamageDetail;
+};
+
+/** Phase ↔ effect-sequence binding for direct-damage ability aggregate PUT. */
+export type DirectDamageAbilitySetupBindingInput = {
+  phaseId: string;
+  triggerTypeId: number;
+  sequenceId: string;
+};
+
+/**
+ * Body for PUT .../providers/{providerId}/abilities/{abilityId}:direct-damage-setup.
+ * Exactly six top-level keys; all *TypeId fields are JSON integers.
+ */
+export type DirectDamageAbilitySetupPutBody = {
+  expectedCurrentRevision: number;
+  ability: DirectDamageAbilitySetupAbilityInput;
+  phase: DirectDamageAbilitySetupPhaseInput;
+  effectSequence: DirectDamageAbilitySetupEffectSequenceInput;
+  effectStep: DirectDamageAbilitySetupEffectStepInput;
+  phaseEffectSequenceBinding: DirectDamageAbilitySetupBindingInput;
+};
+
+/**
+ * Authoritative aggregate from PUT .../abilities/{abilityId}:direct-damage-setup.
+ * Includes top-level currentRevision (same revision for the whole write).
+ */
+export type DirectDamageAbilitySetupWriteResult = AdminWriteResponse<{
+  gameId: string;
+  providerId: string;
+  abilityId: string;
+  ability: DirectDamageAbilitySetupAbilityInput;
+  phase: DirectDamageAbilitySetupPhaseInput;
+  effectSequence: DirectDamageAbilitySetupEffectSequenceInput;
+  effectStep: DirectDamageAbilitySetupEffectStepInput;
+  phaseEffectSequenceBinding: DirectDamageAbilitySetupBindingInput;
+}>;
 
 /** Snapshot used by Web→Wasm assembly and revision-safe cache. */
 export type CombatDataGraph = {
