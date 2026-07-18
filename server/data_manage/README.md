@@ -78,6 +78,21 @@
 
 更早的局部兼容迁移（如 `version_code_varchar64_compatibility_migration.sql`）仅在尚未完成 generic 切换的旧库上按需执行。
 
+### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
+
+`game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。
+
+**新库**：`schema.sql` 已含四表可空 `image_uri` 与命名 FK（`fk_game_entities_image` / `fk_game_entities_log_image` / `fk_attribute_definitions_image` / `fk_attribute_definitions_log_image`）。
+
+**已有库**：按需执行 `db/game_manage/migrations/compatibility/generic_combat_data_image_reference_compatibility_migration.sql`（幂等：`ADD COLUMN IF NOT EXISTS` + `DO $$` / `pg_constraint` 守卫；不 DELETE / DROP / CASCADE / 数据改写 / publish）。不要把该 migration 当作新库必跑步骤。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=GenericCombatDataImageReferenceDbContractSqlTest test
+```
+
 ### Guinsoo H+K 数据库合同（provider state / copyable / repeat）
 
 在 generic combat-data 基线已就绪的库上，为完整 Guinsoo H+K（状态字段上限与时长、伤害 `copyable_on_hit`、第十种 `repeat_effect_details`）补齐合同：

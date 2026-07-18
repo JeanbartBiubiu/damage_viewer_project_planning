@@ -79,8 +79,34 @@ public class GameDataRevisionService {
     @Transactional
     public long nextRevision(String gameId) {
         lockState(gameId);
+        return incrementLocked(requireGameId(gameId));
+    }
+
+    /**
+     * 乐观并发：锁定 state，仅当 current_revision 等于 expected 时递增恰好一次。
+     * 不匹配则抛出 409.REVISION_CONFLICT，不写入、不递增。
+     */
+    @Transactional
+    public long nextRevisionIfExpected(String gameId, long expectedCurrentRevision) {
+        String id = requireGameId(gameId);
+        GameDataStateView locked = lockState(id);
+        if (locked.currentRevision() != expectedCurrentRevision) {
+            throw new ApiException(
+                HttpStatus.CONFLICT,
+                "409.REVISION_CONFLICT",
+                "expectedCurrentRevision does not match current revision",
+                Map.of(
+                    "expectedCurrentRevision", expectedCurrentRevision,
+                    "actualCurrentRevision", locked.currentRevision()
+                )
+            );
+        }
+        return incrementLocked(id);
+    }
+
+    private long incrementLocked(String gameId) {
         Long revision = gameDataStateMapper.incrementCurrentRevision(
-            requireGameId(gameId),
+            gameId,
             Timestamp.from(Instant.now())
         );
         if (revision == null || revision <= 0) {
