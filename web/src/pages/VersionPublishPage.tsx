@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Form, Grid, Input, Space, Typography } from '@arco-design/web-react';
 import { DetailGrid, type DetailGridItem } from '../components/DataTable';
 import { Panel } from '../components/Panel';
-import { getCurrentVersion, getErrorMessage } from '../services/apiClient';
+import { getCurrentVersion } from '../services/apiClient';
 import { getCombatDataState } from '../services/combatDataClient';
 import type { CurrentVersion } from '../types/api';
 import type { CombatDataState } from '../types/combatData';
 import { AdminPublishRail } from './admin/AdminPublishRail';
 import { usePublishFlow } from './admin/usePublishFlow';
+import {
+  classifyCombatDataSettled,
+  classifyCurrentVersionSettled,
+  inspectStatusMessage,
+  resolveInspectPageStatus,
+  type CurrentVersionObservation
+} from './admin/versionPublishModel';
 
 type VersionPublishPageProps = {
   apiBaseUrl: string;
@@ -40,9 +47,10 @@ export function VersionPublishPage({
   onDataPublished
 }: VersionPublishPageProps) {
   const [inspectSeed, setInspectSeed] = useState(0);
-  const [inspectError, setInspectError] = useState<string | null>(null);
-  const [currentVersion, setCurrentVersion] = useState<CurrentVersion | null>(null);
+  const [inspectLoading, setInspectLoading] = useState(false);
+  const [currentObservation, setCurrentObservation] = useState<CurrentVersionObservation | null>(null);
   const [combatDataState, setCombatDataState] = useState<CombatDataState | null>(null);
+  const [combatInspectError, setCombatInspectError] = useState<string | null>(null);
 
   const {
     versionCodeDraft,
@@ -50,6 +58,9 @@ export function VersionPublishPage({
     versionState,
     versionError,
     versionSuccess,
+    verificationWarning,
+    publishDisabled,
+    publishDisabledReason,
     publishedVersion,
     publishedCurrentVersion,
     publishedCombatDataState,
@@ -68,9 +79,10 @@ export function VersionPublishPage({
 
   useEffect(() => {
     if (!selectedGameId) {
-      setInspectError(null);
-      setCurrentVersion(null);
+      setInspectLoading(false);
+      setCurrentObservation(null);
       setCombatDataState(null);
+      setCombatInspectError(null);
       return;
     }
 
@@ -78,28 +90,33 @@ export function VersionPublishPage({
     const gameId = selectedGameId;
 
     async function inspectCurrentPublishState() {
-      setInspectError(null);
+      setInspectLoading(true);
+      setCurrentObservation(null);
+      setCombatDataState(null);
+      setCombatInspectError(null);
 
-      try {
-        const [versionResult, combatStateResult] = await Promise.all([
-          getCurrentVersion(apiBaseUrl, gameId),
-          getCombatDataState(apiBaseUrl, gameId)
-        ]);
-        if (cancelled) {
-          return;
-        }
+      const [versionResult, combatStateResult] = await Promise.allSettled([
+        getCurrentVersion(apiBaseUrl, gameId),
+        getCombatDataState(apiBaseUrl, gameId)
+      ]);
 
-        setCurrentVersion(versionResult.data);
-        setCombatDataState(combatStateResult.data.data);
-      } catch (error) {
-        if (cancelled) {
-          return;
-        }
-
-        setCurrentVersion(null);
-        setCombatDataState(null);
-        setInspectError(getErrorMessage(error));
+      if (cancelled) {
+        return;
       }
+
+      // Apply each observation independently so one failure cannot erase the other.
+      setCurrentObservation(classifyCurrentVersionSettled(versionResult));
+
+      const combatObservation = classifyCombatDataSettled(combatStateResult);
+      if (combatObservation.status === 'available') {
+        setCombatDataState(combatObservation.state);
+        setCombatInspectError(null);
+      } else {
+        setCombatDataState(null);
+        setCombatInspectError(combatObservation.message);
+      }
+
+      setInspectLoading(false);
     }
 
     void inspectCurrentPublishState();
@@ -109,8 +126,21 @@ export function VersionPublishPage({
     };
   }, [apiBaseUrl, inspectSeed, selectedGameId]);
 
-  const displayedCurrentVersion = publishedCurrentVersion ?? currentVersion;
+  const inspectStatus = resolveInspectPageStatus({
+    selectedGameId,
+    loading: inspectLoading,
+    currentObservation
+  });
+
+  const inspectedCurrentVersion: CurrentVersion | null =
+    currentObservation?.status === 'available' ? currentObservation.version : null;
+  const displayedCurrentVersion = publishedCurrentVersion ?? inspectedCurrentVersion;
   const displayedCombatDataState = publishedCombatDataState ?? combatDataState;
+
+  const currentFailureMessage =
+    currentObservation?.status === 'failure' ? currentObservation.message : null;
+  const statusMessage = inspectStatusMessage(inspectStatus, currentFailureMessage);
+
   const publishSummaryItems: DetailGridItem[] = [
     {
       label: '当前版本',
@@ -119,7 +149,12 @@ export function VersionPublishPage({
       ) : (
         '--'
       ),
-      hint: displayedCurrentVersion?.publishedAt ?? displayedCurrentVersion?.releaseDate ?? '尚未读取到 current version'
+      hint:
+        inspectStatus === 'no-current'
+          ? '尚无 current version（404）'
+          : (displayedCurrentVersion?.publishedAt ??
+            displayedCurrentVersion?.releaseDate ??
+            '尚未读取到 current version')
     },
     {
       label: 'releaseDate',
@@ -144,7 +179,7 @@ export function VersionPublishPage({
         ) : (
           '--'
         ),
-      hint: '工作区最新修订'
+      hint: combatInspectError ? `读取失败：${combatInspectError}` : '工作区最新修订'
     },
     {
       label: 'combat-data published',
@@ -178,7 +213,9 @@ export function VersionPublishPage({
         kicker="独立操作页面"
         actions={
           <Space wrap>
-            <Button onClick={() => setInspectSeed((value) => value + 1)}>刷新当前状态</Button>
+            <Button onClick={() => setInspectSeed((value) => value + 1)} disabled={!selectedGameId}>
+              刷新当前状态
+            </Button>
           </Space>
         }
       >
@@ -195,7 +232,11 @@ export function VersionPublishPage({
                   <span className="admin-summary-label">当前版本</span>
                   <strong className="admin-summary-value">{displayedCurrentVersion?.versionCode ?? '--'}</strong>
                   <span className="admin-summary-note">
-                    {displayedCurrentVersion?.publishedAt ?? displayedCurrentVersion?.releaseDate ?? '尚未读取到 current version'}
+                    {inspectStatus === 'no-current'
+                      ? '尚无 current version'
+                      : (displayedCurrentVersion?.publishedAt ??
+                        displayedCurrentVersion?.releaseDate ??
+                        '尚未读取到 current version')}
                   </span>
                 </div>
               </div>
@@ -216,7 +257,29 @@ export function VersionPublishPage({
           </Col>
         </Row>
 
-        {inspectError ? <Alert type="error" content={inspectError} style={{ marginTop: 16 }} /> : null}
+        {statusMessage ? (
+          <Alert
+            type={
+              inspectStatus === 'inspect-failure'
+                ? 'error'
+                : inspectStatus === 'loading'
+                  ? 'info'
+                  : inspectStatus === 'no-current' || inspectStatus === 'no-game'
+                    ? 'warning'
+                    : 'info'
+            }
+            content={statusMessage}
+            style={{ marginTop: 16 }}
+          />
+        ) : null}
+
+        {combatInspectError && inspectStatus !== 'no-game' && inspectStatus !== 'loading' ? (
+          <Alert
+            type="warning"
+            content={`combat-data state 读取失败（不影响 current version 观察）：${combatInspectError}`}
+            style={{ marginTop: 12 }}
+          />
+        ) : null}
       </Panel>
 
       <Panel title="发布操作" kicker="Publish Version">
@@ -229,6 +292,9 @@ export function VersionPublishPage({
               versionState={versionState}
               versionError={versionError}
               versionSuccess={versionSuccess}
+              verificationWarning={verificationWarning}
+              publishDisabled={publishDisabled}
+              publishDisabledReason={publishDisabledReason}
               publishedVersion={publishedVersion}
               onVersionCodeDraftChange={setVersionCodeDraft}
               onReleaseDateDraftChange={setReleaseDateDraft}

@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, Space, Tag, Typography } from '@arco-design/web-react';
+import { Alert, Button, Card, Form, Input, Space, Tag, Typography } from '@arco-design/web-react';
 import type { LoadState } from '../../types/api';
 import { AdminWriteResult } from './AdminWriteResult';
 
@@ -9,6 +9,9 @@ type AdminPublishRailProps = {
   versionState: LoadState;
   versionError: string | null;
   versionSuccess: string | null;
+  verificationWarning: string | null;
+  publishDisabled: boolean;
+  publishDisabledReason: string | null;
   publishedVersion: {
     versionCode: string;
     releaseDate?: string;
@@ -27,6 +30,9 @@ export function AdminPublishRail({
   versionState,
   versionError,
   versionSuccess,
+  verificationWarning,
+  publishDisabled,
+  publishDisabledReason,
   publishedVersion,
   onVersionCodeDraftChange,
   onReleaseDateDraftChange,
@@ -55,14 +61,19 @@ export function AdminPublishRail({
               status="warning"
               onClick={() => void onPublishVersion()}
               loading={versionState === 'loading'}
+              disabled={publishDisabled}
               long
             >
               发布版本
             </Button>
-            <Button href="#/wasm-validation-generic">打开 Wasm 验证</Button>
+            <Button href="#/overview">打开系统总览</Button>
             <Button href="#/combat-data">打开战斗数据工作台</Button>
           </Space>
         </Form>
+
+        {publishDisabledReason && versionState !== 'loading' ? (
+          <Alert type="warning" content={`发布前置条件未满足：${publishDisabledReason}`} />
+        ) : null}
 
         {publishedVersion ? (
           <Typography.Text type="secondary">
@@ -73,6 +84,10 @@ export function AdminPublishRail({
         ) : null}
 
         <AdminWriteResult title="版本结果" state={versionState} error={versionError} success={versionSuccess} />
+
+        {verificationWarning ? (
+          <Alert type="warning" content={`发布核验：${verificationWarning}`} />
+        ) : null}
       </Space>
     </Card>
   );
