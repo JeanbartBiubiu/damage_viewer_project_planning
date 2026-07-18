@@ -15,6 +15,8 @@ type ResourceImageUploadFieldProps = {
   buttonText?: string;
   helperText?: string;
   accept?: string;
+  /** Optional id for the trigger button (a11y / focus). */
+  inputId?: string;
   onUpload: (file: File) => Promise<void> | void;
 };
 
@@ -33,6 +35,7 @@ export function ResourceImageUploadField({
   buttonText = '选择并上传图片',
   helperText = DEFAULT_HELPER_TEXT,
   accept = 'image/*',
+  inputId,
   onUpload
 }: ResourceImageUploadFieldProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -47,6 +50,7 @@ export function ResourceImageUploadField({
         {!readOnly ? (
           <Space wrap style={{ marginTop: 4 }}>
             <Button
+              id={inputId}
               type="secondary"
               disabled={!imageUri || uploading}
               loading={uploading}
