@@ -3,15 +3,17 @@ DOC_TYPE: 详细设计
 WORKSTREAM: web
 STATUS: tracked
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-05-10
+LAST_TRACKED_AT: 2026-07-18
 
 # 前端开发任务清单-非Wasm优先
 
-更新时间：2026-04-16
+更新时间：2026-07-18
 
 ## 1. 目标
 
 基于当前 `web/` 的实际落地情况，先把前端工作台的非 Wasm 能力收口，再进入下一轮增量开发。
+
+**2026-07-18 当前结论**：冻结范围内 11 个静态页与 30 个 combat-data 页均已完成实现，41 路由的 mock 浏览器验收通过。一次性 PostgreSQL / Redis 环境中的真实 Admin 图片三态、400 / 409、batch 与两次 publish 验收也已通过。目标 live `test0221` 已持久化执行图片兼容迁移，34 个公共 GET 由迁移前 32/34 收口为迁移后 34/34；前后证据见 [非Wasm全页面验收记录-2026-07-18.md](../../测试记录/web/非Wasm全页面验收记录-2026-07-18.md)。因此页面实现与运行时验收均已完成，整体验收只剩共享治理传播。
 
 本清单只覆盖：
 
@@ -32,32 +34,18 @@ LAST_TRACKED_AT: 2026-05-10
 ### 2.1 已经具备的基础能力
 
 1. 应用壳层已经能统一管理 `apiBaseUrl`、`adminToken`、`gameId` 和 hash 路由。
-2. `系统总览` 已接入 `games / current version / owner categories` 的公开读取链路。
-3. `版本发布` 已具备按 `versionCode` 发布、读取 `current / bundle` 快照的基础流程。
-4. `图片缓存` 已具备 IndexedDB 本地缓存、全量同步、增量同步、清理缓存与本地预览。
-5. Admin 资源页已经补齐以下 10 个页面，并统一走传统 CRUD 结构：
-   - `heroes`
-   - `skills`
-   - `items`
-   - `attribute-definitions`
-   - `types`
-   - `type-relations`
-   - `formula-profiles`
-   - `formula-bindings`
-   - `coefficient-buckets`
-   - `status-action-control-rules`
-6. `type-relations` 页面已经具备删除挂载关系的前端处理。
+2. `系统总览` 独立读取 games、current version 与 combat-data state；一侧失败不会抹掉另一侧结果。
+3. `版本发布` 已区分 no-current、inspect failure、发布失败、发布成功和 readback warning。
+4. `图片缓存` 已具备 IndexedDB 本地缓存、全量/增量同步、清理、独立资产上传、本地预览和资源编辑页双向导航。
+5. 11 个静态非 Wasm 页面保留各自任务流，并统一提供持久保存结果与下一步动作。
+6. 30 个 canonical combat-data 页默认使用“关系引导”，保留“高级逐表”，并具备搜索、键盘选择、解析标签、上下游关系、复合/多跳作用域、创建子项和保存回执。
+7. entities 与 attribute-definitions 已消费 Backend Rev4 `imageUri` 三态契约；实体成长批量保存明确省略该字段。
 
 ### 2.2 当前仍然明显缺口
 
-1. 导航和开发节奏上，Wasm 页面仍与当前主工作面并列，容易打断非 Wasm 迭代。
-2. 版本发布页虽然可用，但对“当前版本为空 / 发布后核验 / 失败回退”的引导还不够收口。
-3. Admin 资源页已经能 CRUD，但通用体验仍偏基础：
-   - 跨资源引用提示不统一
-   - 校验规则主要停留在表单层
-   - 保存后回读与联动提示还不够集中
-4. 图片能力已接入英雄、装备、属性定义等资源编辑链路；后续只保留跨资源体验与回归收口。
-5. 当前缺少一份只面向非 Wasm 范围的前端迭代顺序清单，容易让开发任务在多个页面之间来回切换。
+1. 新增全页面验收记录需要挂入 `web-console-non-wasm-iteration`，并从 planning/master 真源同步共享 `task_rules.json`；当前跨 worktree 治理仍有漂移。
+
+补充：disposable 环境真实 Admin PUT / publish 已通过；共享 `lol` 未用于验收写入。390px 移动导航也已收口为默认折叠、按需展开、路由选择后关闭；桌面保持完整侧栏常显，并有独立 E2E 与可视证据。
 
 ## 3. 已完成 / 冻结 / 继续推进的任务判断
 
@@ -65,7 +53,7 @@ LAST_TRACKED_AT: 2026-05-10
 | --- | --- | --- |
 | 已完成基座 | `web-core-editor-refactor` | 应用壳层、独立发布页、资源页 CRUD 结构已经落地，可视为已完成基座任务。 |
 | 已完成基座 | `web-remaining-table-pages` | 6 个补齐页面已经落地，不再作为当前主线开发任务。 |
-| 继续推进 | `web-idb-cache-strategy` | 图片缓存页和资源页复用链路已落地，后续聚焦回归清单与边界体验。 |
+| 已完成 | `web-idb-cache-strategy` | 图片资产上传、缓存回写、entities / attribute-definitions 绑定与三态保存均已落地；disposable 写入与 live 数据库迁移后 34/34 公共读取均通过。 |
 | 暂缓 | `web-bundle-compilation` | 该任务直接服务 Wasm 链路，当前迭代先不进入主开发顺序。 |
 | 暂缓 | `web-scene-interaction` | 该任务依赖场景模拟与 Wasm，当前先不推进。 |
 
@@ -109,26 +97,26 @@ LAST_TRACKED_AT: 2026-05-10
 
 **包含内容**
 
-1. 强化 `current version / bundle meta` 的读取结果展示。
-2. 明确区分以下状态：
-   - 未选择游戏
-   - 尚无 current version
-   - 已有 current version 但 bundle 校验失败
-   - 发布成功待复验
-3. 收口创建版本、发布版本后的反馈信息与下一步动作提示。
-4. 把发布后的核验动作聚焦到非 Wasm 能验证的页面和数据链路上。
+1. 强化 `current version` 与 `combat-data /state` 的独立观察展示（不依赖 bundle meta）。
+2. 明确区分以下四类关键语义：
+   - 前置条件未满足（未选游戏 / 缺 Token / 空 versionCode）→ 本地禁用发布并给出明确原因
+   - 尚无 current version（`GET .../versions/current` 返回 `ApiRequestError` status 404）→ `no-current`，不是 inspect failure
+   - 发布 POST 失败 → 普通请求失败，展示发布错误
+   - 发布 POST 成功但 current / combat-data 回读核验失败 → 仍保留发布成功，另示 verification warning
+3. 页面 inspect 另呈现：未选游戏、加载中、已有 current version、非 404 的 inspect failure；一侧失败不得抹掉另一侧成功观察。
+4. 发布后核验路径仅走非 Wasm：`#/overview` 与 `#/combat-data`；本页不再提供 Wasm 验证 CTA。
 
 **产出物**
 
-1. 更稳定的发布页交互说明
-2. 更清晰的发布后核验路径
-3. 失败态与空态的统一文案
+1. 更稳定的发布页交互说明（`versionPublishModel` + `VersionPublishPage` / `usePublishFlow` / `AdminPublishRail`）
+2. 更清晰的发布后核验路径（overview + combat-data）
+3. 失败态与空态的统一文案（POST 失败 ≠ 核验告警）
 
 **完成标准**
 
 1. 使用者能只通过这一页完成版本发布、当前版本检查。
-2. 发布成功后，知道下一步去哪里核验，不依赖 Wasm 页面。
-3. 发布失败时，错误能定位到接口、Token 或数据状态。
+2. 发布成功后，知道下一步去 `#/overview` / `#/combat-data` 核验，不依赖 Wasm 页面。
+3. 发布失败时，错误能定位到接口、Token 或数据状态；核验失败不会把已成功的 POST 误标为发布失败。
 
 ### 任务 3：Admin 资源页通用体验补齐
 
@@ -140,10 +128,12 @@ LAST_TRACKED_AT: 2026-05-10
 
 1. 收口查询区、表格区、弹窗区的统一交互细节。
 2. 增强表单校验与错误提示，减少只靠接口报错回退。
-3. 补齐跨资源引用辅助：
+3. 补齐跨资源引用辅助（客户端选择辅助，非服务端参照强制）：
    - `ownerType / ownerId`
-   - 类型挂载
+   - 类型挂载（`type-relations.typeId` → `types` 选择辅助已落地；`targetId` 随 `targetCategory` 按当前族按需可搜索辅助，未知/加载中/失败回退手输，新建态合法类别切换清空；非层级 / 非服务端 FK / 非 API 行为）
+   - Provider/Ability 链十项与第二批十二项非自引用单列跨资源分表静态 `references` 已落地（既有资源 Select 辅助；仅客户端辅助，非服务端参照；无 PUT/path/API 变更）；四个同表直接 `providerId` 公式字段按当前表单 `providerId` 过滤 `provider-formulas`；三个 Ability 子表公式字段经 `abilityId` → abilities.`providerId` 两跳过滤同表 `provider-formulas`；其余仍为扁平当前局全量；明确排除同资源自引用、分表 `#/combat-data/effect-steps` 公式与静态 `references`、服务端 FK 强制；`#/effect-step-setup` 已对所选 Sequence→`providerId` 的运行时公式字段提供客户端 Select 辅助（失败回退手输；空作用域空 Select；两处未消费 `durationFormulaKey` 仍手输；无 API/PUT/后端 FK 变更）；仍为仅客户端辅助，无 API/PUT/后端 FK 变更；`type-relations` 行为不变
    - 英雄 / 技能 / 装备 / 属性之间的引用提示
+   - 分表 `CombatDataResourcePage` 仅激活已注册的静态 `references` 与当前表单选中的 `dependentReferences`（可搜索 Select；自引用跳过；失败回退文本输入）
 4. 统一保存后的刷新、提示与局部联动策略。
 5. 优先处理当前最常用的基础内容页：
    - `heroes`
@@ -157,41 +147,49 @@ LAST_TRACKED_AT: 2026-05-10
 
 1. 一套统一的资源页交互约定
 2. 更可用的表单校验与保存反馈
-3. 跨资源引用的一致体验
+3. 跨资源引用的一致体验（注册引用 = 前端选择辅助，不替代后端约束）
 
 **完成标准**
 
 1. 常见录入动作不需要频繁打开接口文档确认字段格式。
 2. 保存后页面能立即给出明确结果，并保持上下文连续。
-3. 基础内容页之间的引用关系能在前端获得基础提示。
+3. 基础内容页之间的引用关系能在前端获得基础提示（辅助选择，非参照强制）。
 
 ### 任务 4：图片资源闭环接入资源编辑页
 
 **目标**
 
-把现有 `图片缓存` 从独立工具页升级成可服务资源维护的基础设施。
+在独立资产上传与本地缓存复用基础上，将 Backend Rev4 `imageUri` 契约接到资源维护链路。本轮代码实现已完成；live 环境仍需执行兼容迁移。
 
-**包含内容**
+**本阶段已落地**
 
-1. 接入当前已有图片接口链路：
-   - 公共读取 `/api/games/{gameId}/images`
-   - Admin 写入 `/api/admin/games/{gameId}/images/{uri}`
-2. 在英雄、装备等页面引入图片上传 / 预览 / 回写能力。
-3. 明确图片 `uri` 约定，并让资源字段与图片缓存页共用同一套引用规则。
-4. 保存图片后同步更新本地缓存，避免用户还要手动补一次同步。
-5. 对未命中缓存的图片给出占位与补拉提示。
+1. `#/images` 独立图片资产上传回路：稳定 URI → 本地裁切 → Admin `PUT /api/admin/games/{gameId}/images/{uri}` → `upsertRemoteImage` → 刷新缓存快照。
+2. 复用既有原语（此前最初未接入可用回路）：公共读取同步、Admin 写入、IndexedDB 缓存与预览组件。
+3. entities / attribute-definitions 的绑定、预览、选择、上传、清空、恢复 untouched/preserve 和字段级错误。
+4. 实体创建页加载既有绑定；实体成长展示缩略图但批量写入省略 `imageUri`。
+5. 图片页与资源编辑页双向导航；缓存未命中时保留稳定占位与补拉能力。
+
+**已完成真实写入验收**
+
+1. 一次性 PostgreSQL / Redis 环境已完成正式迁移幂等重跑、图片上传、实体与属性 preserve / set / clear、400 / 409、batch、两次 publish 和 `_log` 快照核对；环境已全部清理。
+
+**已完成 live 环境验收**
+
+1. 目标 `test0221` 已提交幂等图片引用兼容迁移；四个目标列与四个父表 FK 验证通过，34 个公共 GET 全部通过。
 
 **产出物**
 
-1. 资源页图片上传与预览能力
-2. 图片写服务器 + 写本地缓存的闭环
-3. 统一的图片 `uri` 约定说明
+1. 独立图片资产上传 + 写服务器 + 写本地缓存的闭环
+2. 资源页图片绑定 / 预览 / 回写能力
+3. Web 三态序列化与 Backend 同游戏精确引用约定
 
 **完成标准**
 
-1. 英雄头像、装备图标不再只靠手填 URL。
-2. 图片保存后能立刻在资源页和图片页看到结果。
-3. 图片缓存页成为资源维护链路的一部分，而不是孤立页面。
+1. 资源编辑页能按后端契约绑定并展示图片，而不只是独立资产页可上传。
+2. 图片保存后能立刻在对应资源页和图片页看到结果。
+3. 图片缓存页成为资源维护链路的一部分，而不是仅独立资产管理页。
+
+说明：仓库 schema/API、disposable 环境真实联调和目标 live 数据库兼容验证均已通过。
 
 ### 任务 5：非 Wasm 最小回归与文档收口
 
@@ -221,6 +219,11 @@ LAST_TRACKED_AT: 2026-05-10
 1. 后续每次前端改动都能按同一顺序回归。
 2. 当前任务是否完成可以不依赖 Wasm 页面判断。
 3. 文档与代码主线保持一致。
+
+**2026-07-18 实现检查点**
+
+- 默认非 Wasm 回归路径已落到 [非Wasm最小回归清单.md](../../测试记录/web/非Wasm最小回归清单.md)；Wasm 保留为范围触发的额外门禁（如 `npm run smoke:wasm-generic`）。
+- 41 路由实际执行结果见 [非Wasm全页面验收记录-2026-07-18.md](../../测试记录/web/非Wasm全页面验收记录-2026-07-18.md)；mock、live-read 与受控写证据分开记录。
 
 ## 5. 当前不进入迭代顺序的范围
 
