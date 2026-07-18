@@ -1,7 +1,7 @@
 TASK_KEY: web-console-non-wasm-iteration
 DOC_TYPE: 详细设计
 WORKSTREAM: web
-STATUS: tracked
+STATUS: done
 EXECUTION_MODEL: multi-model
 LAST_TRACKED_AT: 2026-07-18
 
@@ -13,7 +13,7 @@ LAST_TRACKED_AT: 2026-07-18
 
 基于当前 `web/` 的实际落地情况，先把前端工作台的非 Wasm 能力收口，再进入下一轮增量开发。
 
-**2026-07-18 当前结论**：冻结范围内 11 个静态页与 30 个 combat-data 页均已完成实现，41 路由的 mock 浏览器验收通过。一次性 PostgreSQL / Redis 环境中的真实 Admin 图片三态、400 / 409、batch 与两次 publish 验收也已通过。目标 live `test0221` 已持久化执行图片兼容迁移，34 个公共 GET 由迁移前 32/34 收口为迁移后 34/34；前后证据见 [非Wasm全页面验收记录-2026-07-18.md](../../测试记录/web/非Wasm全页面验收记录-2026-07-18.md)。因此页面实现与运行时验收均已完成，整体验收只剩共享治理传播。
+**2026-07-18 当前结论**：冻结范围内 11 个静态页与 30 个 combat-data 页均已完成实现，41 路由的 mock 浏览器验收通过。一次性 PostgreSQL / Redis 环境中的真实 Admin 图片三态、400 / 409、batch 与两次 publish 验收也已通过。目标 live `test0221` 已持久化执行图片兼容迁移，34 个公共 GET 由迁移前 32/34 收口为迁移后 34/34；前后证据见 [非Wasm全页面验收记录-2026-07-18.md](../../测试记录/web/非Wasm全页面验收记录-2026-07-18.md)。planning、backend、web、wasm 的共享治理内容漂移也已归零，因此本任务整体完成。
 
 本清单只覆盖：
 
@@ -41,9 +41,9 @@ LAST_TRACKED_AT: 2026-07-18
 6. 30 个 canonical combat-data 页默认使用“关系引导”，保留“高级逐表”，并具备搜索、键盘选择、解析标签、上下游关系、复合/多跳作用域、创建子项和保存回执。
 7. entities 与 attribute-definitions 已消费 Backend Rev4 `imageUri` 三态契约；实体成长批量保存明确省略该字段。
 
-### 2.2 当前仍然明显缺口
+### 2.2 当前收口状态
 
-1. 新增全页面验收记录需要挂入 `web-console-non-wasm-iteration`，并从 planning/master 真源同步共享 `task_rules.json`；当前跨 worktree 治理仍有漂移。
+当前无功能、环境或治理未闭项。`web-console-non-wasm-iteration` 已从 planning/master 真源映射三份文档并标记为完成，四个 canonical worktree 的治理检查均通过。
 
 补充：disposable 环境真实 Admin PUT / publish 已通过；共享 `lol` 未用于验收写入。390px 移动导航也已收口为默认折叠、按需展开、路由选择后关闭；桌面保持完整侧栏常显，并有独立 E2E 与可视证据。
 
