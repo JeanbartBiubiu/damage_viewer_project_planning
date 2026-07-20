@@ -50,7 +50,8 @@ func TestGenericHeapCategoryOrderSameTimeMs(t *testing.T) {
 func TestGenericEventKindsDistinct(t *testing.T) {
 	if GenericEventExpireCleanup == GenericEventProviderTick ||
 		GenericEventProviderTick == GenericEventAbilityAttempt ||
-		GenericEventAbilityAttempt == GenericEventSample {
+		GenericEventAbilityAttempt == GenericEventTriggeredContinuation ||
+		GenericEventTriggeredContinuation == GenericEventSample {
 		t.Fatal("generic event kinds must be distinct")
 	}
 }
@@ -63,5 +64,42 @@ func TestGenericLessAbilityAttemptBeforeSample(t *testing.T) {
 	}
 	if GenericLess(sample, attempt) {
 		t.Fatal("sample should not sort before ability_attempt")
+	}
+}
+
+func TestGenericLessTriggeredContinuationBetweenAttemptAndSample(t *testing.T) {
+	attempt := GenericEvent{TimeMs: 10, Category: GenericCategoryAbilityAttempt, Priority: 0, Seq: 1, Kind: GenericEventAbilityAttempt}
+	cont := GenericEvent{TimeMs: 10, Category: GenericCategoryTriggeredContinuation, Priority: 0, Seq: 2, Kind: GenericEventTriggeredContinuation, ContinuationID: 7}
+	sample := GenericEvent{TimeMs: 10, Category: GenericCategorySample, Priority: 0, Seq: 3, Kind: GenericEventSample}
+	if !GenericLess(attempt, cont) || !GenericLess(cont, sample) {
+		t.Fatal("order must be ability_attempt < triggered_continuation < sample")
+	}
+	heap := NewGenericHeap(4)
+	for _, ev := range []GenericEvent{sample, cont, attempt} {
+		if code := heap.Push(ev); code != "OK" {
+			t.Fatalf("push: %s", code)
+		}
+	}
+	got1, _ := heap.Pop()
+	got2, _ := heap.Pop()
+	got3, _ := heap.Pop()
+	if got1.Kind != GenericEventAbilityAttempt || got2.Kind != GenericEventTriggeredContinuation || got3.Kind != GenericEventSample {
+		t.Fatalf("kinds=%d,%d,%d", got1.Kind, got2.Kind, got3.Kind)
+	}
+	if got2.ContinuationID != 7 {
+		t.Fatalf("ContinuationID=%d want 7", got2.ContinuationID)
+	}
+}
+
+func TestGenericLessSameTimeContinuationsBySeq(t *testing.T) {
+	heap := NewGenericHeap(4)
+	a := GenericEvent{TimeMs: 200, Category: GenericCategoryTriggeredContinuation, Kind: GenericEventTriggeredContinuation, ContinuationID: 2, Seq: 2}
+	b := GenericEvent{TimeMs: 200, Category: GenericCategoryTriggeredContinuation, Kind: GenericEventTriggeredContinuation, ContinuationID: 1, Seq: 1}
+	_ = heap.Push(a)
+	_ = heap.Push(b)
+	first, _ := heap.Pop()
+	second, _ := heap.Pop()
+	if first.ContinuationID != 1 || second.ContinuationID != 2 {
+		t.Fatalf("seq order ContinuationID=%d,%d want 1,2", first.ContinuationID, second.ContinuationID)
 	}
 }
