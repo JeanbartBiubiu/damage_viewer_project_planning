@@ -616,6 +616,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericGravesNewDestinySeedSqlTest test
 ```
 
+### LoL generic Graves Quickdraw max-stack seed（格雷福斯 E 快速拔枪 / Phase-A 满层 True Grit）
+
+在 reserved types 与基线面板 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_graves` 最低必要实体/Wiki level-1 面板/mana 资源，并按 Jak'Sho/wiki-ready 模式 ensure `bonus_armor`/`bonus_magic_resist` + hero EAV=0；**不**覆盖既有 Graves P 图；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20142`/`20160`/`20170`/`20172`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-graves-quickdraw-max-stack-v1-20260720`（seed 不负责 publish）。候选 `hero_skill|hero_graves|E|快速拔枪` 整体语义为用户批准的 **Phase-A rank-5 最大 True Grit 满层近似**：施法 impact 以 `value_policy/override` 直接写入 `true_grit_stacks=8`（max8 / untimed），四条 owner-self flat-add：`armor`/`bonus_armor` = `19 * provider.state.true_grit_stacks`，`magic_resist`/`bonus_magic_resist` = `9.5 * provider.state.true_grit_stacks`（满层 +152 / +76）；mana 40、CD 12000ms。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 面板属性定义；幂等投影 reserved → `types`（fail-closed 冲突；正确元数据不覆盖）；ensure `hero_graves`（`ON CONFLICT DO NOTHING`）与 Wiki-only level-1 面板（hp625 / mana325 / ad66 / AS0.475 / armor33 / MR30 / hpregen8 / manaregen8；溯源 Module:ChampionData/data rev `4042886` / SHA256 `98094d20…`，**仅 bootstrap**，与 E 机制真理分离）、mana 325/325、`bonus_armor`/`bonus_magic_resist` 定义与 EAV=0；向 `hero_graves` 独立 mount `provider_hero_graves_quickdraw_max_stack`（拥有 `ability_hero_graves_quickdraw`），**不**写入/重挂 `provider_hero_graves_new_destiny` / `ability_hero_graves_basic_attack`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。E 机制数值注释仅引用 League Wiki `Template:Data Graves/Quickdraw` rev `4007744` / contentSha256 `ff4c65c5…`（`graves-e.json`）；不以 DDragon / Meraki / 截图 / OCR 作为机制真理。
+
+**已完成边界**：直接满层 True Grit 写入、四条解析抗性加成、主动技能 cost/CD、独立 E provider mount。
+
+**排除**：伤害、装填/弹药、普攻重置、弹丸减 CD、冲刺几何、方向判定、瞄准/碰撞/多目标、计时刷新/过期、中间叠层、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericGravesQuickdrawMaxStackSeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
