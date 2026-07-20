@@ -406,7 +406,8 @@ function createEmptyDetailForFamily(family: EffectStepDetailKey): EffectStepEdit
       repeatCount: '',
       repeatTag: '',
       triggerStateKey: '',
-      threshold: ''
+      threshold: '',
+      delayMs: ''
     },
     executeDetail: { threshold: '' }
   };
