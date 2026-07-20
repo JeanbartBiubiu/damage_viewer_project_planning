@@ -1733,25 +1733,24 @@ const EXACT_OVERRIDES = new Map([
   [
     '2510|咒刃',
     {
-      classification: 'partial',
+      classification: 'migrated',
       tags: ['spellblade_next_attack_state'],
       reason:
-        'item 2510 黄昏与黎明咒刃核心已由 wasm-generic-dusk-and-dawn-spellblade 覆盖：source-owner ability_start 武装 10s ready；下一次合格命中附加魔法伤害 0.75 * base AD + 0.10 * resolved AP；该命中开始 1.5s ICD；effect copyable false。',
-      remainingGap:
-        '缺治疗公式 0.10 AP + 0.03 bonus HP；缺 0.2s 延迟的第二次 on-hit 应用（需 generalized delayed-repeat 语义）。',
+        'item 2510 黄昏与黎明/Dusk and Dawn 咒刃：League Wiki item manifest revid 4030984 / hash e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d；完成 exact 合同——10s ready；原魔法伤害 0.75 base AD + 0.10 resolved AP；原自身治疗 0.10 AP + 0.03 bonus HP；强化命中后 +200ms 一次 canonical copyable-on-hit replay；1.5s ICD 自强化命中开始；自身 Spellblade 伤害 non-copyable；共享 ready gate/无递归；不声称 live publish/migration。已由 generic_dusk_and_dawn_spellblade_test.go + backend lol_generic_dusk_and_dawn_spellblade_seed.sql / LolGenericDuskAndDawnSpellbladeSeedSqlTest + Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs 投影闭环。',
+      remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-dusk-and-dawn-spellblade',
           WASM.duskAndDawnSpellblade,
-          'completedBoundary: ability_start 10s ready + hit magic 0.75*base AD + 0.10*resolved AP + 1.5s ICD; remainingGap: heal formula + delayed second on-hit',
+          'Dusk and Dawn Spellblade exact: ability_start 10s ready; hit magic 0.75*base AD + 0.10*resolved AP; heal 0.10*AP + 0.03*bonus HP once; +200ms copyable-on-hit replay; 1.5s ICD on empowered hit; own damage non-copyable; shared ready/no recursion; via generic_dusk_and_dawn_spellblade_test.go',
           'wasm',
         ),
         evidence(
           'generic_batch',
           'wasm-generic-dusk-and-dawn-spellblade',
           SEED.duskAndDawnSpellblade,
-          'completedBoundary: Dusk and Dawn Spellblade core seeded; remainingGap: healing_out_of_damage_branch_and_delayed_repeat_on_hit',
+          'backend lol_generic_dusk_and_dawn_spellblade_seed.sql + LolGenericDuskAndDawnSpellbladeSeedSqlTest; Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs projection; not claiming live publish/migration',
         ),
       ],
     },
@@ -3454,8 +3453,8 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 48) errors.push(`migrated=${counts.migrated}, expected 48`);
-  if (counts.partial !== 5) errors.push(`partial=${counts.partial}, expected 5`);
+  if (counts.migrated !== 49) errors.push(`migrated=${counts.migrated}, expected 49`);
+  if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
   if (counts.blocked !== 120) errors.push(`blocked=${counts.blocked}, expected 120`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
