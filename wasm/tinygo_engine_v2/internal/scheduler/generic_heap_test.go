@@ -10,6 +10,7 @@ func TestGenericHeapCategoryOrderSameTimeMs(t *testing.T) {
 		{TimeMs: 10, Category: GenericCategoryAbilityAttempt, Priority: 1, Seq: 3, Kind: GenericEventAbilityAttempt},
 		{TimeMs: 10, Category: GenericCategoryProviderTick, Priority: 0, Seq: 4, Kind: GenericEventProviderTick},
 		{TimeMs: 10, Category: GenericCategoryExpireCleanup, Priority: 0, Seq: 6, Kind: GenericEventExpireCleanup},
+		{TimeMs: 10, Category: GenericCategoryAnchoredTick, Priority: 0, Seq: 7, Kind: GenericEventAnchoredTick},
 		{TimeMs: 5, Category: GenericCategorySample, Priority: 0, Seq: 5, Kind: GenericEventSample},
 	}
 	for _, ev := range events {
@@ -24,6 +25,7 @@ func TestGenericHeapCategoryOrderSameTimeMs(t *testing.T) {
 	}
 	wantCategories := []GenericEventCategory{
 		GenericCategorySample, // t=5
+		GenericCategoryAnchoredTick,
 		GenericCategoryExpireCleanup,
 		GenericCategoryProviderTick,
 		GenericCategoryAbilityAttempt, // priority 1
@@ -39,11 +41,11 @@ func TestGenericHeapCategoryOrderSameTimeMs(t *testing.T) {
 				i, got[i].Category, want, got[i].TimeMs, got[i].Priority, got[i].Seq, got[i].Kind)
 		}
 	}
-	if got[3].Priority != 1 || got[3].Seq != 3 {
-		t.Fatalf("ability_attempt tie-break: priority=%d seq=%d", got[3].Priority, got[3].Seq)
-	}
-	if got[4].Priority != 5 || got[4].Seq != 2 {
+	if got[4].Priority != 1 || got[4].Seq != 3 {
 		t.Fatalf("ability_attempt tie-break: priority=%d seq=%d", got[4].Priority, got[4].Seq)
+	}
+	if got[5].Priority != 5 || got[5].Seq != 2 {
+		t.Fatalf("ability_attempt tie-break: priority=%d seq=%d", got[5].Priority, got[5].Seq)
 	}
 }
 
@@ -51,8 +53,19 @@ func TestGenericEventKindsDistinct(t *testing.T) {
 	if GenericEventExpireCleanup == GenericEventProviderTick ||
 		GenericEventProviderTick == GenericEventAbilityAttempt ||
 		GenericEventAbilityAttempt == GenericEventTriggeredContinuation ||
-		GenericEventTriggeredContinuation == GenericEventSample {
+		GenericEventTriggeredContinuation == GenericEventSample ||
+		GenericEventSample == GenericEventAnchoredTick ||
+		GenericEventAnchoredTick == GenericEventExpireCleanup {
 		t.Fatal("generic event kinds must be distinct")
+	}
+}
+
+func TestGenericLessAnchoredTickBeforeExpireCleanup(t *testing.T) {
+	anchored := GenericEvent{TimeMs: 10, Category: GenericCategoryAnchoredTick, Priority: 0, Seq: 1, Kind: GenericEventAnchoredTick}
+	cleanup := GenericEvent{TimeMs: 10, Category: GenericCategoryExpireCleanup, Priority: 0, Seq: 2, Kind: GenericEventExpireCleanup}
+	tick := GenericEvent{TimeMs: 10, Category: GenericCategoryProviderTick, Priority: 0, Seq: 3, Kind: GenericEventProviderTick}
+	if !GenericLess(anchored, cleanup) || !GenericLess(cleanup, tick) {
+		t.Fatal("order must be anchored_tick < expire_cleanup < provider_tick")
 	}
 }
 

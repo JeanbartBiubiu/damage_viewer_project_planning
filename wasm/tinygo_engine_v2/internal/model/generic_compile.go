@@ -149,10 +149,14 @@ type AbilityCooldown struct {
 }
 
 // TickSpec 是 tick ability 行为。
+// 可选配对字段 AnchorScope + AnchorStateKey：同时省略时保持既有 mount/run provider tick；
+// 同时存在时进入 target-state-anchored tick（当前仅支持 state_scope/provider_target）。
 type TickSpec struct {
-	IntervalMs   int64                 `json:"intervalMs"`
-	OnTick       []OperationDefinition `json:"onTick"`
-	StartDelayMs int64                 `json:"startDelayMs,omitempty"`
+	IntervalMs     int64                 `json:"intervalMs"`
+	OnTick         []OperationDefinition `json:"onTick"`
+	StartDelayMs   int64                 `json:"startDelayMs,omitempty"`
+	AnchorScope    string                `json:"anchorScope,omitempty"`
+	AnchorStateKey string                `json:"anchorStateKey,omitempty"`
 }
 
 // Operation kind / repeat scope 常量（Gate K / execute compile 合同；非旧 DPS DTO）。
