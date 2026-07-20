@@ -34,22 +34,144 @@ const STATUS_VALUES = [
 const COMPLETION_MODES = ['full', 'partial', 'none'];
 const LANES = ['generic_runtime', 'legacy_single_attacker_dps', 'data_only', 'mixed_evidence'];
 
+const REGISTRY_REL = '最小验证/wiki-only-mechanism-candidate-registry.json';
+const G8_AUDIT_REL = '最小验证/generic-g8-adc-passive-coverage-audit.json';
+const BATCH_G_AUDIT_REL = '最小验证/V2-Batch-G-adc-passive-audit.json';
+const KATARINA_LEGACY_SEED_REL = '最小验证/卡特琳娜-MVP种子数据.json';
+const KATARINA_R_KEY = 'hero_skill|hero_katarina|R|死亡莲华';
+
 const paths = {
   outputJson: path.join(repoRoot, OUTPUT_JSON_REL),
   outputCsv: path.join(repoRoot, OUTPUT_CSV_REL),
-  g8Json: path.join(verifyRoot, 'generic-g8-adc-passive-coverage-audit.json'),
+  registryJson: path.join(repoRoot, REGISTRY_REL),
+  g8Json: path.join(repoRoot, G8_AUDIT_REL),
   fullItemJson: path.join(verifyRoot, 'V2-full-item-dps-coverage-20260615.json'),
-  batchJAudit: path.join(verifyRoot, 'V2-Batch-J-status-damage-audit.json'),
-  batchPAudit: path.join(verifyRoot, 'V2-Batch-P-target-equipment-linked-effects-audit.json'),
   coeffBucketsA: path.join(verifyRoot, 'V2-BatchV-A-coefficient-buckets.json'),
   coeffBucketsB: path.join(verifyRoot, 'V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json'),
   katarinaLegacySeed: path.join(verifyRoot, '卡特琳娜-MVP种子数据.json'),
+  batchASeed: path.join(verifyRoot, 'V2-Batch-A-target-dummies.seed.json'),
+  batchCSeed: path.join(verifyRoot, 'V2-Batch-C-adc-items.seed.json'),
 };
 
-const KATARINA_LEGACY_SEED_REL = '最小验证/卡特琳娜-MVP种子数据.json';
-const KATARINA_R_KEY = 'hero_skill|hero_katarina|R|死亡莲华';
-const BATCH_G_AUDIT_REL = '最小验证/V2-Batch-G-adc-passive-audit.json';
-const G8_AUDIT_REL = '最小验证/generic-g8-adc-passive-coverage-audit.json';
+/**
+ * Exact parsed/hashed current inputs only. No directory/regex discovery.
+ * Missing entries fail closed.
+ */
+const ACTIVE_SOURCE_ALLOWLIST = [
+  { rel: REGISTRY_REL, kind: 'coverage_json', abs: () => paths.registryJson },
+  { rel: G8_AUDIT_REL, kind: 'coverage_json', abs: () => paths.g8Json },
+  {
+    rel: '最小验证/V2-full-item-dps-coverage-20260615.json',
+    kind: 'coverage_json',
+    abs: () => paths.fullItemJson,
+  },
+  {
+    rel: '最小验证/V2-BatchV-A-coefficient-buckets.json',
+    kind: 'coefficient_buckets_json',
+    abs: () => paths.coeffBucketsA,
+  },
+  {
+    rel: '最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json',
+    kind: 'coefficient_buckets_json',
+    abs: () => paths.coeffBucketsB,
+  },
+  {
+    rel: '最小验证/V2-Batch-A-target-dummies.seed.json',
+    kind: 'seed_json',
+    abs: () => paths.batchASeed,
+  },
+  {
+    rel: '最小验证/V2-Batch-C-adc-items.seed.json',
+    kind: 'seed_json',
+    abs: () => paths.batchCSeed,
+  },
+  {
+    rel: KATARINA_LEGACY_SEED_REL,
+    kind: 'seed_json',
+    abs: () => paths.katarinaLegacySeed,
+  },
+];
+
+/** Exact generator hashes only. */
+const GENERATOR_SOURCE_ALLOWLIST = [
+  {
+    rel: '最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs',
+    kind: 'generator_mjs',
+  },
+  {
+    rel: '最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs',
+    kind: 'generator_mjs',
+  },
+  {
+    rel: GENERATOR_PATH,
+    kind: 'generator_mjs',
+  },
+];
+
+/**
+ * Exact non-hashed path strings permitted in sourceRefs/alias attachments.
+ * disposition: current_generic_evidence | data_only_regression | historical_reference
+ * No historical-only path may enter sources / currentInputHashes.
+ */
+const HISTORICAL_SOURCE_REF_ALLOWLIST = [
+  { path: '最小验证/V2-Batch-B-hero-passives.seed.json', disposition: 'data_only_regression' },
+  { path: '最小验证/V2-Batch-D-adc-item-passives.seed.json', disposition: 'data_only_regression' },
+  { path: BATCH_G_AUDIT_REL, disposition: 'historical_reference' },
+  { path: '最小验证/V2-Batch-J-status-damage-audit.json', disposition: 'historical_reference' },
+  { path: '最小验证/V2-Batch-J-status-damage-migration.seed.json', disposition: 'data_only_regression' },
+  { path: '最小验证/V2-Batch-K-guinsoo-phantom-hit-audit.json', disposition: 'current_generic_evidence' },
+  { path: '最小验证/V2-Batch-L-spellblade-next-attack-audit.json', disposition: 'current_generic_evidence' },
+  { path: '最小验证/V2-Batch-M-attr-read-trinity-base-ad-audit.json', disposition: 'current_generic_evidence' },
+  { path: '最小验证/V2-Batch-N-energized-charge-and-consume-audit.json', disposition: 'current_generic_evidence' },
+  { path: '最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json', disposition: 'current_generic_evidence' },
+  { path: '最小验证/V2-Batch-P-target-equipment-linked-effects.seed.json', disposition: 'data_only_regression' },
+  { path: '最小验证/V2-BatchV-A-data-policy-items.seed.json', disposition: 'data_only_regression' },
+  { path: '最小验证/V2-BatchV-B-3082-wardens-mail.seed.json', disposition: 'data_only_regression' },
+  { path: '最小验证/V2-BatchV-equipment-tooltip-passive-candidates.seed.json', disposition: 'data_only_regression' },
+  { path: '最小验证/V2-FullItem-3094-rapid-firecannon-energized.seed.json', disposition: 'data_only_regression' },
+];
+
+const HISTORICAL_SOURCE_REF_PATHS = new Set(
+  HISTORICAL_SOURCE_REF_ALLOWLIST.map((e) => e.path),
+);
+const ACTIVE_SOURCE_PATHS = new Set(ACTIVE_SOURCE_ALLOWLIST.map((e) => e.rel));
+const GENERATOR_SOURCE_PATHS = new Set(GENERATOR_SOURCE_ALLOWLIST.map((e) => e.rel));
+const ALLOWED_HASHED_SOURCE_PATHS = new Set([
+  ...ACTIVE_SOURCE_PATHS,
+  ...GENERATOR_SOURCE_PATHS,
+]);
+const ALLOWED_SOURCEREF_PATHS = new Set([
+  ...ACTIVE_SOURCE_PATHS,
+  ...HISTORICAL_SOURCE_REF_PATHS,
+]);
+
+/**
+ * Exact seed alias/sourceRef attachments. Do not read or hash these seed files.
+ * Reproduces prior attachSeedSourceRefs intended per-mechanism refs.
+ */
+const SEED_REFERENCE_ATTACHMENTS = [
+  { mechanismKey: 'hero_skill|hero_draven|Q|旋转飞斧', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_draven_q_spinning_axe_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_draven_q_spinning_axe_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_kaisa|P|体表活肤', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_kaisa_p_plasma_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_kaisa_p_plasma_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_kogmaw|Q|腐蚀唾液', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_kogmaw_q_caustic_spittle_passive_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_kogmaw_q_caustic_spittle_passive_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_kogmaw|W|生化弹幕', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_kogmaw_w_bio_arcane_barrage_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_kogmaw_w_bio_arcane_barrage_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_malzahar|E|恶咒降临', path: '最小验证/V2-Batch-J-status-damage-migration.seed.json', sourceRecordKey: 'skill_malzahar_e', legacyStatus: 'seed_skill', alias: 'skill_malzahar_e' },
+  { mechanismKey: 'hero_skill|hero_teemo|E|毒性射击', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_teemo_e_toxic_shot_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_teemo_e_toxic_shot_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_teemo|P|游击队军备', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_twistedfate|E|卡牌骗术', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_twistedfate_e_stacked_deck_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_twistedfate_e_stacked_deck_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_twitch|P|死亡毒液', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_twitch_p_deadly_venom_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_twitch_p_deadly_venom_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_twitch|Q|埋伏', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_twitch_q_ambush_attack_speed_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_twitch_q_ambush_attack_speed_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_varus|P|复仇之欲', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_varus_p_revenge_champion_takedown_attack_speed_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_varus_p_revenge_champion_takedown_attack_speed_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_varus|P|复仇之欲', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_varus_p_revenge_minion_kill_attack_speed_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_varus_p_revenge_minion_kill_attack_speed_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_varus|W|枯萎箭袋', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_varus_w_blighted_quiver_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_varus_w_blighted_quiver_dps_v2' },
+  { mechanismKey: 'hero_skill|hero_vayne|W|圣银弩箭', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_vayne_w_silver_bolts_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_vayne_w_silver_bolts_dps_v2' },
+  { mechanismKey: 'item_passive|3036|item_passive|巨人杀手', path: '最小验证/V2-BatchV-A-data-policy-items.seed.json', sourceRecordKey: 'item_3036_lord_dominiks_giant_slayer_batch_v_a', legacyStatus: 'seed_skill', alias: 'item_3036_lord_dominiks_giant_slayer_batch_v_a' },
+  { mechanismKey: 'item_passive|3075|item_passive|荆棘', path: '最小验证/V2-Batch-P-target-equipment-linked-effects.seed.json', sourceRecordKey: 'item_3075_thornmail_thorns_dps_v2', legacyStatus: 'seed_skill', alias: 'item_3075_thornmail_thorns_dps_v2' },
+  { mechanismKey: 'item_passive|3094|item_passive|神射手', path: '最小验证/V2-FullItem-3094-rapid-firecannon-energized.seed.json', sourceRecordKey: 'item_3094_rapid_firecannon_energized_dps_v2', legacyStatus: 'seed_skill', alias: 'item_3094_rapid_firecannon_energized_dps_v2' },
+  { mechanismKey: 'item_passive|3100|item_passive|咒刃', path: '最小验证/V2-BatchV-equipment-tooltip-passive-candidates.seed.json', sourceRecordKey: 'item_3100_lich_bane_spellblade_dps_v2', legacyStatus: 'seed_skill', alias: 'item_3100_lich_bane_spellblade_dps_v2' },
+  { mechanismKey: 'item_passive|3115|item_passive|艾卡西亚之咬', path: '最小验证/V2-BatchV-equipment-tooltip-passive-candidates.seed.json', sourceRecordKey: 'item_3115_nashors_tooth_icathian_bite_dps_v2', legacyStatus: 'seed_skill', alias: 'item_3115_nashors_tooth_icathian_bite_dps_v2' },
+  { mechanismKey: 'item_passive|3508|item_passive|咒刃', path: '最小验证/V2-BatchV-equipment-tooltip-passive-candidates.seed.json', sourceRecordKey: 'item_3508_essence_reaver_spellblade_dps_v2', legacyStatus: 'seed_skill', alias: 'item_3508_essence_reaver_spellblade_dps_v2' },
+  { mechanismKey: 'item_passive|6672|item_passive|放倒它', path: '最小验证/V2-Batch-D-adc-item-passives.seed.json', sourceRecordKey: 'item_6672_kraken_slayer_bring_it_down_dps_v2', legacyStatus: 'seed_skill', alias: 'item_6672_kraken_slayer_bring_it_down_dps_v2' },
+];
 
 /** Exact G8 candidateKey → unified status override (takes precedence over default mapping). */
 const STATUS_OVERRIDES = new Map([
@@ -1053,6 +1175,16 @@ const STATUS_OVERRIDES = new Map([
       reason:
         '主目标 on-hit 分支已完成；剩余 cleave/主动分支为多目标/范围，超出单目标范围。',
       blocker: 'multi_target_cleave_and_active_out_of_single_target_scope',
+      outOfScopeEvidence: {
+        sourceRef:
+          '最小验证/generic-g8-adc-passive-coverage-audit.json#item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
+        sourceTextSummary: '攻击附带物理伤害并对目标身后的敌人们造成物理伤害。',
+        reviewedPrimaryTargetDamageBranch: true,
+        boundaryCategory: 'completed_primary_branch_remaining_component',
+        excludedBehavior: 'remaining_multi_target_cleave_after_primary_complete',
+        boundaryReason: '顺劈：主目标伤害分支已完成；剩余为多目标/范围 component，审计边界外。',
+        damageRelevantSubBranchDisposition: 'sibling_primary_completed_remaining_oos',
+      },
     },
   ],
   [
@@ -1064,6 +1196,16 @@ const STATUS_OVERRIDES = new Map([
       reason:
         '主目标 on-hit 分支已完成；剩余 cleave/主动分支为多目标/范围，超出单目标范围。',
       blocker: 'multi_target_cleave_and_active_out_of_single_target_scope',
+      outOfScopeEvidence: {
+        sourceRef:
+          '最小验证/generic-g8-adc-passive-coverage-audit.json#item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|020f8b5a',
+        sourceTextSummary: '，使其造成额外物理伤害 攻击特效并对目标身后的敌人们造成额外物理伤害。',
+        reviewedPrimaryTargetDamageBranch: true,
+        boundaryCategory: 'completed_primary_branch_remaining_component',
+        excludedBehavior: 'remaining_multi_target_cleave_after_primary_complete',
+        boundaryReason: '顺劈：主目标伤害分支已完成；剩余为多目标/范围 component，审计边界外。',
+        damageRelevantSubBranchDisposition: 'sibling_primary_completed_remaining_oos',
+      },
     },
   ],
   [
@@ -1758,6 +1900,15 @@ const EXTRA_MECHANISMS = [
     coverageBoundary: 'batch_j_out_of_scope',
     reason: 'Batch J: HoT sustain 不在 1v1 damage-only 验证范围。',
     blocker: '',
+    outOfScopeEvidence: {
+      sourceRef: '最小验证/V2-Batch-J-status-damage-audit.json#skill_drmundo_r',
+      sourceTextSummary: 'Batch J: HoT sustain 不在 1v1 damage-only 验证范围。',
+      reviewedPrimaryTargetDamageBranch: true,
+      boundaryCategory: 'pure_heal_shield_survival',
+      excludedBehavior: 'hot_sustain',
+      boundaryReason: '极限生机：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。',
+      damageRelevantSubBranchDisposition: 'no_primary_target_damage_branch',
+    },
     sourceRefs: [
       {
         path: '最小验证/V2-Batch-J-status-damage-audit.json',
@@ -2049,26 +2200,6 @@ function deepEqualJson(a, b) {
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
-function listVerifyRootFiles() {
-  return fs
-    .readdirSync(verifyRoot, { withFileTypes: true })
-    .filter((d) => d.isFile())
-    .map((d) => d.name)
-    .sort((a, b) => a.localeCompare(b, 'en'));
-}
-
-function classifyRootFile(name) {
-  if (name.endsWith('.seed.json')) return 'seed_json';
-  if (/^V2-full-item-dps-coverage-summary-.*\.json$/i.test(name) || /coverage-summary/i.test(name)) {
-    return 'coverage_summary_json';
-  }
-  if (/-coverage-.*\.json$/i.test(name) || /coverage-audit\.json$/i.test(name)) return 'coverage_json';
-  if (/-coverage-.*\.csv$/i.test(name) || /coverage-audit\.csv$/i.test(name)) return 'coverage_csv';
-  if (name.endsWith('-audit.json') || /audit\.json$/i.test(name)) return 'audit_json';
-  if (name.endsWith('-audit.csv') || /audit\.csv$/i.test(name)) return 'audit_csv';
-  return null;
-}
-
 function countRecordsForSource(kind, absPath, parsed) {
   if (kind === 'generator_mjs') {
     return { recordCount: 0, role: 'generator' };
@@ -2113,35 +2244,12 @@ function countRecordsForSource(kind, absPath, parsed) {
   return { recordCount: 0, role: 'document' };
 }
 
-/** Consumed coefficient inputs that are not matched by classifyRootFile patterns. */
-const EXPLICIT_COEFFICIENT_SOURCES = [
-  {
-    abs: paths.coeffBucketsA,
-    rel: '最小验证/V2-BatchV-A-coefficient-buckets.json',
-    kind: 'coefficient_buckets_json',
-  },
-  {
-    abs: paths.coeffBucketsB,
-    rel: '最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json',
-    kind: 'coefficient_buckets_json',
-  },
-];
-
-/**
- * Legacy seed bundles that do not match `*.seed.json` but are real consumed provenance inputs.
- * Hashed + dispositioned explicitly; not discovered by classifyRootFile.
- */
-const EXPLICIT_NONSTANDARD_SEED_SOURCES = [
-  {
-    abs: paths.katarinaLegacySeed,
-    rel: KATARINA_LEGACY_SEED_REL,
-    kind: 'seed_json',
-  },
-];
-
 function pushParsedSource(sources, seen, abs, rel, kind) {
   if (seen.has(rel)) return;
   seen.add(rel);
+  if (!fs.existsSync(abs)) {
+    throw new Error(`missing required allowlisted source ${rel}`);
+  }
   const buf = canonicalizeUtf8TextBytes(fs.readFileSync(abs));
   let parsed = null;
   if (kind.endsWith('_json')) {
@@ -2166,42 +2274,20 @@ function discoverSources() {
   const sources = [];
   const seen = new Set();
 
-  for (const name of listVerifyRootFiles()) {
-    const kind = classifyRootFile(name);
-    if (!kind) continue;
-    const abs = path.join(verifyRoot, name);
-    const rel = relFromRepo(abs);
-    pushParsedSource(sources, seen, abs, rel, kind);
+  for (const entry of ACTIVE_SOURCE_ALLOWLIST) {
+    pushParsedSource(sources, seen, entry.abs(), entry.rel, entry.kind);
   }
 
-  // Coefficient bucket JSONs are consumed by coverage records but do not match audit/coverage/seed patterns.
-  for (const f of EXPLICIT_COEFFICIENT_SOURCES) {
-    if (!fs.existsSync(f.abs)) {
-      throw new Error(`missing required coefficient source ${f.rel}`);
+  for (const entry of GENERATOR_SOURCE_ALLOWLIST) {
+    const abs = path.join(repoRoot, entry.rel);
+    if (!fs.existsSync(abs)) {
+      throw new Error(`missing required allowlisted generator ${entry.rel}`);
     }
-    pushParsedSource(sources, seen, f.abs, f.rel, f.kind);
-  }
-
-  // Nonstandard-named legacy seeds (e.g. 卡特琳娜-MVP种子数据.json) — not matched by *.seed.json.
-  for (const f of EXPLICIT_NONSTANDARD_SEED_SOURCES) {
-    if (!fs.existsSync(f.abs)) {
-      throw new Error(`missing required nonstandard seed source ${f.rel}`);
-    }
-    pushParsedSource(sources, seen, f.abs, f.rel, f.kind);
-  }
-
-  const buildFiles = fs
-    .readdirSync(dataRoot, { withFileTypes: true })
-    .filter((d) => d.isFile() && /^build-.*\.mjs$/i.test(d.name))
-    .map((d) => d.name)
-    .sort((a, b) => a.localeCompare(b, 'en'));
-
-  for (const name of buildFiles) {
-    const abs = path.join(dataRoot, name);
-    const rel = relFromRepo(abs);
+    if (seen.has(entry.rel)) continue;
+    seen.add(entry.rel);
     const buf = canonicalizeUtf8TextBytes(fs.readFileSync(abs));
     sources.push({
-      path: rel,
+      path: entry.rel,
       kind: 'generator_mjs',
       sha256: sha256Raw(buf),
       byteSize: buf.byteLength,
@@ -2210,9 +2296,18 @@ function discoverSources() {
     });
   }
 
+  const got = new Set(sources.map((s) => s.path));
+  for (const p of ALLOWED_HASHED_SOURCE_PATHS) {
+    if (!got.has(p)) throw new Error(`discoverSources missing allowlisted path ${p}`);
+  }
+  for (const p of got) {
+    if (!ALLOWED_HASHED_SOURCE_PATHS.has(p)) {
+      throw new Error(`discoverSources unexpected non-allowlisted path ${p}`);
+    }
+  }
+
   return stableSortBy(sources, (s) => `${s.kind}|${s.path}`);
 }
-
 function isBlockedRuntimeByTags(tags, gap, reason) {
   const list = tags || [];
   for (const t of list) {
@@ -2452,9 +2547,9 @@ function buildMechanismsFromG8(g8) {
               sourceRecordKey: c.candidateKey,
             },
             {
-              // Use candidateKey so duplicate-name Batch-G rows (3748/6333/6695) stay unique.
-              path: BATCH_G_AUDIT_REL,
-              legacyStatus: c.classification,
+              // Registry + G8 are the canonical family primaries (candidateKey discriminator).
+              path: REGISTRY_REL,
+              legacyStatus: 'registry_candidate',
               sourceRecordKey: c.candidateKey,
             },
           ],
@@ -2809,45 +2904,26 @@ function buildKatarinaLegacySeedCoverageRecord() {
 }
 
 function attachSeedSourceRefs(mechanismsByKey) {
-  const seedFiles = listVerifyRootFiles().filter((n) => n.endsWith('.seed.json'));
-  for (const name of seedFiles) {
-    const rel = `最小验证/${name}`;
-    const doc = readJson(path.join(verifyRoot, name));
-    // Batch A/C are data-only — skip promoting skills (none) and only covered above
-    if (name.includes('Batch-A-') || name.includes('Batch-C-')) continue;
-
-    for (const skill of doc.skills || []) {
-      const ownerId = normalizeOwnerId(skill.ownerId || skill.heroId || skill.itemId || '');
-      const skillKey = skill.skillKey || '';
-      // Attach to all mechanisms with matching owner where skillKey aligns, without fuzzy Chinese names
-      const candidates = [...mechanismsByKey.values()].filter((m) => m.ownerId === ownerId);
-      let matched = [];
-      if (skillKey && ['P', 'Q', 'W', 'E', 'R'].includes(skillKey)) {
-        matched = candidates.filter((m) => m.skillKey === skillKey);
-      } else if (skill.skillId) {
-        matched = candidates.filter(
-          (m) =>
-            (m.aliases || []).includes(skill.skillId) ||
-            m.sourceRefs.some((r) => r.sourceRecordKey === skill.skillId),
-        );
-      }
-      if (!matched.length && candidates.length === 1) {
-        matched = candidates;
-      }
-
-      for (const m of matched) {
-        const exists = m.sourceRefs.some((r) => r.path === rel && r.sourceRecordKey === skill.skillId);
-        if (!exists) {
-          m.sourceRefs.push({
-            path: rel,
-            legacyStatus: 'seed_skill',
-            sourceRecordKey: skill.skillId || `${ownerId}|${skillKey}`,
-          });
-        }
-        if (skill.skillId && !m.aliases.includes(skill.skillId)) {
-          m.aliases.push(skill.skillId);
-        }
-      }
+  for (const row of SEED_REFERENCE_ATTACHMENTS) {
+    if (!HISTORICAL_SOURCE_REF_PATHS.has(row.path) && !ACTIVE_SOURCE_PATHS.has(row.path)) {
+      throw new Error(`SEED_REFERENCE_ATTACHMENTS path not allowlisted: ${row.path}`);
+    }
+    const m = mechanismsByKey.get(row.mechanismKey);
+    if (!m) {
+      throw new Error(`SEED_REFERENCE_ATTACHMENTS missing mechanism ${row.mechanismKey}`);
+    }
+    const exists = m.sourceRefs.some(
+      (r) => r.path === row.path && r.sourceRecordKey === row.sourceRecordKey,
+    );
+    if (!exists) {
+      m.sourceRefs.push({
+        path: row.path,
+        legacyStatus: row.legacyStatus,
+        sourceRecordKey: row.sourceRecordKey,
+      });
+    }
+    if (row.alias && !m.aliases.includes(row.alias)) {
+      m.aliases.push(row.alias);
     }
   }
 }
@@ -2864,17 +2940,6 @@ function linkCoefficientDependencies(mechanismsByKey, coeffRecords) {
     }
   }
 }
-
-const DAMAGE_RELATED_SIGNAL_RE =
-  /造成.{0,16}伤害|额外伤害|真实伤害|物理伤害|魔法伤害|附带伤害|攻击特效|斩杀|处决|伤害放大|易伤|护甲穿透|魔法穿透|法术穿透|穿甲|法穿|命中造成|攻击速度|攻速|获得.{0,24}攻击力|获得.{0,24}法术强度|额外攻击力|额外法术强度|暴击伤害/;
-
-const OOS_DAMAGE_SIGNAL_DISPOSITIONS = new Set([
-  'aphelios_owner_allowlist',
-  'other_target_or_building_only',
-  'sibling_primary_completed_remaining_oos',
-  'post_kill_next_encounter_only',
-  'trigger_phrase_no_damage_amp',
-]);
 
 const BOUNDARY_CATEGORIES = new Set([
   'complex_owner_skip',
@@ -2897,286 +2962,56 @@ const GENERIC_OOS_REASON_RE =
 const STALE_OTHER_TARGETS_REASON_RE =
   /伤害\/效果仅作用于额外目标\/建筑\/守卫，主目标单标靶 DPS 不受益/;
 
-const MOVE_SEMANTIC_RE = /移动速度|移速|冲刺|跃迁|位移|幽灵状态|进行冲刺|突进|冲刺一小段/;
-const VISION_SEMANTIC_RE = /视野|真实视野|显形|伪装|侦察|鹰|守卫|陷阱/;
-const PRIMARY_DAMAGE_DEAL_RE =
-  /造成.{0,16}(物理|魔法|真实)?伤害|额外伤害|每次攻击.{0,8}伤害|发射.{0,12}伤害/;
-const POST_DAMAGE_UTILITY_ONLY_RE =
-  /造成物理伤害时会提供|造成物理伤害后|攻击一个单位时会提供|攻击一位英雄.{0,6}会/;
+const OOS_SEMANTIC_FIELDS = [
+  'boundaryCategory',
+  'excludedBehavior',
+  'boundaryReason',
+  'damageRelevantSubBranchDisposition',
+];
 
-function summarizeSourceText(text) {
-  return String(text || '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 180);
-}
-
-function cleanReasonForCategoryMatch(reason) {
-  const r = String(reason || '');
-  if (!r.trim()) return '';
-  if (GENERIC_OOS_REASON_RE.test(r) || STALE_OTHER_TARGETS_REASON_RE.test(r)) return '';
-  return r;
-}
-
-function boundaryReasonForCategory(category, label) {
-  switch (category) {
-    case 'complex_owner_skip':
-      return `${label}：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。`;
-    case 'pure_movement_or_dash':
-      return `${label}：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。`;
-    case 'pure_vision':
-      return `${label}：纯视野/显形/守卫侦察，不含伤害；审计边界外。`;
-    case 'pure_heal_shield_survival':
-      return `${label}：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。`;
-    case 'pure_control_or_debuff':
-      return `${label}：纯控制/减速/重伤，无主目标伤害增量；审计边界外。`;
-    case 'economy_or_post_takedown':
-      return `${label}：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。`;
-    case 'cooldown_or_ability_haste_only':
-      return `${label}：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。`;
-    case 'building_or_nonchampion_only':
-      return `${label}：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。`;
-    case 'other_targets_only':
-      return `${label}：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。`;
-    case 'stat_or_active_only':
-      return `${label}：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。`;
-    case 'completed_primary_branch_remaining_component':
-      return `${label}：主目标伤害分支已完成；剩余为多目标/范围 component，审计边界外。`;
-    case 'explicit_user_scope':
-      return `${label}：用户显式划定审计范围外；主目标伤害分支已复核为边界外。`;
-    default:
-      return `${label}：当前 ADC 被动 1v1 单目标伤害审计边界外。`;
+function hasExplicitOosSemantics(ev) {
+  if (!ev || typeof ev !== 'object') return false;
+  if (ev.reviewedPrimaryTargetDamageBranch !== true) return false;
+  if (!BOUNDARY_CATEGORIES.has(String(ev.boundaryCategory || ''))) return false;
+  for (const field of OOS_SEMANTIC_FIELDS) {
+    if (!String(ev[field] || '').trim()) return false;
   }
-}
-
-function excludedBehaviorForCategory(category, tags, text) {
-  switch (category) {
-    case 'complex_owner_skip':
-      return 'aphelios_weapon_ammo_swap_system';
-    case 'explicit_user_scope':
-      return 'explicit_user_audit_scope';
-    case 'pure_movement_or_dash':
-      return 'movement_speed_or_dash';
-    case 'pure_vision':
-      return 'ward_vision_or_trap_reveal';
-    case 'pure_heal_shield_survival':
-      if (tags.includes('incoming_damage_store')) return 'incoming_damage_store';
-      if (tags.includes('hot_sustain')) return 'hot_sustain';
-      if (/复活|重生|免死/.test(text)) return 'revive_or_death_save';
-      if (/护盾/.test(text)) return 'self_shield_or_survivability';
-      return 'heal_shield_or_survivability';
-    case 'pure_control_or_debuff':
-      if (tags.includes('grievous_wounds_only') || /重伤/.test(text)) return 'grievous_wounds_only';
-      return 'crowd_control_or_slow';
-    case 'economy_or_post_takedown':
-      if (tags.includes('takedown_omnivamp')) return 'post_kill_omnivamp';
-      if (tags.includes('takedown_stat_buff')) return 'post_kill_temporary_ad';
-      if (tags.includes('takedown_heal')) return 'post_kill_heal';
-      if (/金币|赏金/.test(text)) return 'economy_gold';
-      return 'post_kill_or_takedown_utility';
-    case 'cooldown_or_ability_haste_only':
-      return 'cooldown_haste_without_damage';
-    case 'building_or_nonchampion_only':
-      return 'building_or_epic_monster_damage';
-    case 'other_targets_only':
-      return 'other_target_or_aoe_damage';
-    case 'stat_or_active_only':
-      return 'static_stats_or_active_only';
-    case 'completed_primary_branch_remaining_component':
-      return 'remaining_multi_target_cleave_after_primary_complete';
-    default:
-      return 'non_damage_audit_boundary';
+  if (
+    GENERIC_OOS_REASON_RE.test(String(ev.boundaryReason || ''))
+    || STALE_OTHER_TARGETS_REASON_RE.test(String(ev.boundaryReason || ''))
+  ) {
+    return false;
   }
-}
-
-function dispositionForCategory(category, text, owner) {
-  if (category === 'complex_owner_skip' || owner === 'hero_aphelios') {
-    return 'aphelios_owner_allowlist';
-  }
-  if (category === 'other_targets_only' || category === 'building_or_nonchampion_only') {
-    return 'other_target_or_building_only';
-  }
-  if (category === 'completed_primary_branch_remaining_component') {
-    return 'sibling_primary_completed_remaining_oos';
-  }
-  if (category === 'economy_or_post_takedown') {
-    return 'post_kill_next_encounter_only';
-  }
-  if (category === 'pure_vision' && DAMAGE_RELATED_SIGNAL_RE.test(text)) {
-    // Ward/trap-only bonus damage is still vision-scope; gate via trigger_phrase.
-    return 'trigger_phrase_no_damage_amp';
-  }
-  if (POST_DAMAGE_UTILITY_ONLY_RE.test(text) || DAMAGE_RELATED_SIGNAL_RE.test(text)) {
-    if (
-      category === 'pure_movement_or_dash'
-      || category === 'pure_heal_shield_survival'
-      || category === 'pure_control_or_debuff'
-      || category === 'cooldown_or_ability_haste_only'
-      || category === 'stat_or_active_only'
-      || category === 'explicit_user_scope'
-      || category === 'pure_vision'
-    ) {
-      return 'trigger_phrase_no_damage_amp';
-    }
-  }
-  return 'no_primary_target_damage_branch';
+  return true;
 }
 
 /**
- * Resolve OOS boundaryCategory from source text / explicit override signals.
- * Must NOT default-guess from mechanismTags multi_target / meta_or_non_target_dps.
+ * Fill provenance/display fields only when semantic fields are already explicit.
+ * Never synthesize semantic fields from source prose.
  */
-function resolveBoundaryCategory({ text, tags, reason, owner, key, passive }) {
-  const reasonClean = cleanReasonForCategoryMatch(reason);
-  const blob = `${text}|${passive}|${reasonClean}`;
-
-  if (owner === 'hero_aphelios' || tags.includes('weapon_ammo_swap_system')) {
-    return 'complex_owner_skip';
+function fillOosProvenanceDisplay(ev, mechanism, g8) {
+  const out = { ...ev };
+  if (!String(out.sourceRef || '').trim()) {
+    if (g8?.outOfScopeEvidence?.sourceRef) {
+      out.sourceRef = g8.outOfScopeEvidence.sourceRef;
+    } else if (mechanism.sourceRefs?.[0]) {
+      out.sourceRef = `${mechanism.sourceRefs[0].path}#${mechanism.sourceRefs[0].sourceRecordKey}`;
+    } else {
+      throw new Error(`out_of_scope missing sourceRef provenance @ ${mechanism.key}`);
+    }
   }
-  if (/用户明确/.test(reasonClean)) {
-    return 'explicit_user_scope';
+  if (!String(out.sourceTextSummary || '').trim()) {
+    if (g8?.outOfScopeEvidence?.sourceTextSummary) {
+      out.sourceTextSummary = g8.outOfScopeEvidence.sourceTextSummary;
+    } else if (String(g8?.sourceText || '').trim()) {
+      out.sourceTextSummary = String(g8.sourceText).replace(/\s+/g, ' ').trim().slice(0, 180);
+    } else if (String(mechanism.reason || '').trim()) {
+      out.sourceTextSummary = String(mechanism.reason).replace(/\s+/g, ' ').trim().slice(0, 180);
+    } else {
+      throw new Error(`out_of_scope missing sourceTextSummary display @ ${mechanism.key}`);
+    }
   }
-  if (
-    /主目标 on-hit 分支已完成|剩余 cleave/.test(reasonClean)
-    || /3748/.test(String(key || ''))
-  ) {
-    return 'completed_primary_branch_remaining_component';
-  }
-
-  // other_targets_only: require explicit evidence primary target is not hit by this component
-  if (
-    /额外目标|附近的敌人|周围的敌人|身后锥形|身后的敌人/.test(blob)
-    || (/顺劈|cleave|连锁闪电|风怒/.test(blob) && /附近|额外|周围/.test(blob))
-  ) {
-    return 'other_targets_only';
-  }
-
-  if (
-    tags.includes('turret_epic_monster')
-    || (/防御塔|史诗级野怪|太阳圆盘|攻城兵|超级士兵/.test(blob)
-      && !/敌方英雄/.test(text)
-      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
-  ) {
-    return 'building_or_nonchampion_only';
-  }
-
-  // Vision-primary only (do not classify revive/economy skills that mention 伪装).
-  if (
-    (/提供.{0,12}视野|真实视野|显形附近|侦察|派出一只鹰|显形守卫|黑雾|变为伪装/.test(text)
-      || tags.includes('ward_vision'))
-    && !/复活|额外金币|赏金/.test(text)
-    && !PRIMARY_DAMAGE_DEAL_RE.test(text.replace(/对(其|守卫|陷阱).{0,12}(额外)?伤害/g, ''))
-  ) {
-    return 'pure_vision';
-  }
-
-  if (
-    tags.includes('takedown_omnivamp')
-    || tags.includes('takedown_stat_buff')
-    || tags.includes('takedown_attack_range_only')
-    || tags.includes('takedown_ultimate_cdr_only')
-    || tags.includes('takedown_heal')
-    || (/击杀|阵亡|参与击杀|takedown|赏金|额外金币|崇拜/.test(blob)
-      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
-  ) {
-    return 'economy_or_post_takedown';
-  }
-
-  // Dash/leap lead verbs before incidental shield/heal wording.
-  if (
-    /冲刺|跃迁|突进|进行冲刺/.test(text)
-    && !PRIMARY_DAMAGE_DEAL_RE.test(text)
-  ) {
-    return 'pure_movement_or_dash';
-  }
-
-  if (
-    tags.includes('survivability_only')
-    || tags.includes('incoming_damage_store')
-    || tags.includes('shield_reduction_only')
-    || tags.includes('hot_sustain')
-    || tags.includes('resurrection')
-    || (/护盾|治疗|吸血|复活|免死|承伤|回复生命|法术护盾|溢出治疗/.test(blob)
-      && !PRIMARY_DAMAGE_DEAL_RE.test(text))
-  ) {
-    return 'pure_heal_shield_survival';
-  }
-
-  if (
-    tags.includes('control_only')
-    || tags.includes('slow')
-    || tags.includes('grievous_wounds_only')
-    || (/减速|重伤|禁锢|击退|晕眩/.test(blob) && !PRIMARY_DAMAGE_DEAL_RE.test(text))
-  ) {
-    return 'pure_control_or_debuff';
-  }
-
-  if (
-    MOVE_SEMANTIC_RE.test(text)
-    && (!PRIMARY_DAMAGE_DEAL_RE.test(text) || POST_DAMAGE_UTILITY_ONLY_RE.test(text))
-  ) {
-    return 'pure_movement_or_dash';
-  }
-
-  if (
-    tags.includes('cooldown_or_haste_without_rotation')
-    || tags.includes('takedown_ultimate_cdr_only')
-    || (/技能急速|终极技能急速|冷却时间缩短|返还.{0,8}冷却|冷却缩减/.test(blob)
-      && !PRIMARY_DAMAGE_DEAL_RE.test(text)
-      && !MOVE_SEMANTIC_RE.test(text))
-  ) {
-    return 'cooldown_or_ability_haste_only';
-  }
-
-  if (
-    tags.includes('stat_only_or_active_only')
-    || /无被动|仅主动|静态属性|射程随等级/.test(blob)
-  ) {
-    return 'stat_or_active_only';
-  }
-
-  // Fallback: non-damage meta without guessing multi_target/meta tags
-  if (MOVE_SEMANTIC_RE.test(blob)) return 'pure_movement_or_dash';
-  if (VISION_SEMANTIC_RE.test(blob)) return 'pure_vision';
-  if (/金币|赏金/.test(blob)) return 'economy_or_post_takedown';
-  if (/护盾|治疗|复活/.test(blob)) return 'pure_heal_shield_survival';
-  if (/急速|冷却/.test(blob)) return 'cooldown_or_ability_haste_only';
-  return 'stat_or_active_only';
-}
-
-function synthesizeOutOfScopeEvidence(mechanism, sourceText = '') {
-  const text = String(sourceText || '');
-  const tags = mechanism.mechanismTags || [];
-  const reason = String(mechanism.reason || '');
-  const passive = String(mechanism.passiveName || '');
-  const owner = String(mechanism.ownerId || '');
-  const label = passive || mechanism.key;
-  const sourceRef =
-    mechanism.sourceRefs?.[0]
-      ? `${mechanism.sourceRefs[0].path}#${mechanism.sourceRefs[0].sourceRecordKey}`
-      : `最小验证/数据/build-unified-mechanism-inventory.mjs#${mechanism.key}`;
-
-  const boundaryCategory = resolveBoundaryCategory({
-    text,
-    tags,
-    reason,
-    owner,
-    key: mechanism.key,
-    passive,
-  });
-  const excludedBehavior = excludedBehaviorForCategory(boundaryCategory, tags, text);
-  const disposition = dispositionForCategory(boundaryCategory, text, owner);
-  const boundaryReason = boundaryReasonForCategory(boundaryCategory, label);
-
-  return {
-    sourceRef,
-    sourceTextSummary: summarizeSourceText(text || reason),
-    reviewedPrimaryTargetDamageBranch: true,
-    boundaryCategory,
-    excludedBehavior,
-    boundaryReason,
-    damageRelevantSubBranchDisposition: disposition,
-  };
+  return out;
 }
 
 function ensureOutOfScopeEvidence(mechanisms, g8ByKey) {
@@ -3186,34 +3021,32 @@ function ensureOutOfScopeEvidence(mechanisms, g8ByKey) {
       continue;
     }
     const override = STATUS_OVERRIDES.get(m.key);
-    if (override?.outOfScopeEvidence) {
-      m.outOfScopeEvidence = override.outOfScopeEvidence;
-      m.reason = override.outOfScopeEvidence.boundaryReason || override.reason || m.reason;
-      continue;
-    }
     const g8 = g8ByKey?.get(m.key);
-    const sourceText = g8?.sourceText || '';
-    const evExisting = m.outOfScopeEvidence || g8?.outOfScopeEvidence || null;
-    const catOk =
-      evExisting
-      && BOUNDARY_CATEGORIES.has(String(evExisting.boundaryCategory || ''))
-      && evExisting.reviewedPrimaryTargetDamageBranch === true
-      && String(evExisting.excludedBehavior || '').trim()
-      && String(evExisting.boundaryReason || '').trim()
-      && !GENERIC_OOS_REASON_RE.test(String(evExisting.boundaryReason || ''))
-      && !STALE_OTHER_TARGETS_REASON_RE.test(String(evExisting.boundaryReason || ''));
-    if (catOk) {
-      m.outOfScopeEvidence = evExisting;
-      // Prefer STATUS_OVERRIDE reason when present; else keep structured boundaryReason.
-      m.reason = override?.reason || evExisting.boundaryReason;
+
+    // G8-backed OOS: copy full G8 outOfScopeEvidence; do not synthesize semantics from text.
+    if (g8?.genericClassification === 'out_of_scope' && g8.outOfScopeEvidence) {
+      if (!hasExplicitOosSemantics(g8.outOfScopeEvidence)) {
+        throw new Error(`G8 out_of_scopeEvidence incomplete (fail-closed) @ ${m.key}`);
+      }
+      m.outOfScopeEvidence = { ...g8.outOfScopeEvidence };
+      m.reason = override?.reason || g8.outOfScopeEvidence.boundaryReason || m.reason;
       continue;
     }
-    const ev = synthesizeOutOfScopeEvidence(m, sourceText);
-    m.outOfScopeEvidence = ev;
-    m.reason = override?.reason || ev.boundaryReason;
+
+    // Non-G8 extras / STATUS_OVERRIDE OOS: require explicit override semantics.
+    const explicit =
+      override?.outOfScopeEvidence
+      || m.outOfScopeEvidence
+      || null;
+    if (!hasExplicitOosSemantics(explicit)) {
+      throw new Error(
+        `out_of_scope missing explicit semantic fields (fail-closed, no prose synthesis) @ ${m.key}`,
+      );
+    }
+    m.outOfScopeEvidence = fillOosProvenanceDisplay(explicit, m, g8);
+    m.reason = override?.reason || explicit.boundaryReason || m.reason;
   }
 }
-
 function buildSummary(sources, coverageRecords, mechanisms) {
   const statusCounts = Object.create(null);
   const completionModeCounts = Object.create(null);
@@ -4607,7 +4440,7 @@ function validateInventory(inv) {
     );
   }
 
-  // Final OOS must carry structured outOfScopeEvidence; damage-signal rows only via a–e.
+  // Final OOS: structured evidence only; G8-backed semantic fields must equal G8.
   const oosRows = (inv.mechanisms || []).filter((m) => m.status === 'out_of_scope');
   if (oosRows.length === 0) {
     errors.push('out_of_scope rows must be non-empty');
@@ -4651,61 +4484,37 @@ function validateInventory(inv) {
       oosOmnibusReason += 1;
       errors.push(`out_of_scope reason still generic/omnibus @ ${m.key}`);
     }
-    const disposition = String(ev.damageRelevantSubBranchDisposition || '');
-    if (!disposition) {
+    if (!String(ev.damageRelevantSubBranchDisposition || '').trim()) {
       errors.push(`out_of_scope damageRelevantSubBranchDisposition empty @ ${m.key}`);
-    }
-    const cat = String(ev.boundaryCategory || '');
-    const summary = String(ev.sourceTextSummary || '');
-    const reasonBlob = `${ev.boundaryReason || ''}|${m.reason || ''}`;
-    if (cat === 'pure_movement_or_dash') {
-      if (!/移动|移速|冲刺|跃迁|位移|幽灵/.test(summary)) {
-        errors.push(`pure_movement_or_dash sourceTextSummary missing move semantics @ ${m.key}`);
-      }
-      if (
-        PRIMARY_DAMAGE_DEAL_RE.test(summary)
-        && !POST_DAMAGE_UTILITY_ONLY_RE.test(summary)
-        && disposition !== 'trigger_phrase_no_damage_amp'
-      ) {
-        errors.push(`pure_movement_or_dash has untreated primary damage @ ${m.key}`);
-      }
-    }
-    if (cat === 'other_targets_only') {
-      if (!/额外目标|附近的敌人|周围的敌人|主目标不受|身后/.test(`${summary}|${reasonBlob}`)) {
-        errors.push(`other_targets_only missing primary-unaffected evidence @ ${m.key}`);
-      }
-    }
-    if (cat === 'pure_vision') {
-      if (!/视野|守卫|显形|伪装|侦察|鹰|黑雾/.test(summary)) {
-        errors.push(`pure_vision sourceTextSummary missing vision semantics @ ${m.key}`);
-      }
-      if (
-        PRIMARY_DAMAGE_DEAL_RE.test(summary)
-        && !/守卫|陷阱/.test(summary)
-      ) {
-        errors.push(`pure_vision must not include champion damage @ ${m.key}`);
-      }
-    }
-    if (cat === 'economy_or_post_takedown') {
-      if (!/击杀|阵亡|takedown|赏金|金币|encounter 已结束|主目标死亡/.test(reasonBlob)) {
-        errors.push(`economy_or_post_takedown reason must state post-takedown encounter end @ ${m.key}`);
-      }
-    }
-    // Prefer G8 sourceText when available via sourceTextSummary already stored;
-    // validate damage-signal gate against sourceTextSummary + reason.
-    const signalBlob = `${ev.sourceTextSummary || ''}|${m.reason || ''}`;
-    if (
-      DAMAGE_RELATED_SIGNAL_RE.test(signalBlob)
-      && !OOS_DAMAGE_SIGNAL_DISPOSITIONS.has(disposition)
-    ) {
-      errors.push(
-        `out_of_scope has damage-related signal but disposition not in a–e @ ${m.key}: ${disposition}`,
-      );
     }
   }
   if (oosOmnibusReason !== 0) {
     errors.push(`OOS generic omnibus reason count expected 0, got ${oosOmnibusReason}`);
   }
+
+  // G8-backed OOS: four semantic fields must equal G8 outOfScopeEvidence exactly.
+  if (fs.existsSync(paths.g8Json)) {
+    const g8Doc = readJson(paths.g8Json);
+    const g8OosByKey = new Map(
+      (g8Doc.candidates || [])
+        .filter((c) => c.genericClassification === 'out_of_scope' && c.outOfScopeEvidence)
+        .map((c) => [c.candidateKey, c.outOfScopeEvidence]),
+    );
+    for (const m of oosRows) {
+      const g8Ev = g8OosByKey.get(m.key);
+      if (!g8Ev) continue;
+      const ev = m.outOfScopeEvidence;
+      if (!ev) continue;
+      for (const field of OOS_SEMANTIC_FIELDS) {
+        if (String(ev[field] ?? '') !== String(g8Ev[field] ?? '')) {
+          errors.push(
+            `out_of_scope ${field} != G8 @ ${m.key}: ${ev[field]} vs ${g8Ev[field]}`,
+          );
+        }
+      }
+    }
+  }
+
   const mYunaraE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_yunara|E|明踪步 | 夜影翻');
   if (
     !mYunaraE
@@ -4772,41 +4581,109 @@ function validateInventory(inv) {
     errors.push(`expected exactly 242 G8-backed mechanisms, got ${g8Keys.length}`);
   }
 
-  // Batch G must not double-count: unique G8 candidate keys should be 242 among mechanisms with that source
   const g8CandKeys = new Set(g8Keys.map((m) => m.key));
   if (g8CandKeys.size !== 242) {
     errors.push(`G8 canonical mechanism keys expected 242, got ${g8CandKeys.size}`);
   }
 
-  // Primary Batch-G sourceRefs on G8 mechanisms must be 242 unique (candidateKey discriminators).
-  const batchGPrimaryKeys = [];
+  // Primary G8 + registry sourceRefs on G8 mechanisms must be 242 unique each.
+  const g8PrimaryKeys = [];
+  const registryPrimaryKeys = [];
   for (const m of g8Keys) {
-    const primary = (m.sourceRefs || []).filter(
-      (r) => r.path === BATCH_G_AUDIT_REL && r.sourceRecordKey === m.key,
+    const g8Primary = (m.sourceRefs || []).filter(
+      (r) => r.path === G8_AUDIT_REL && r.sourceRecordKey === m.key,
     );
-    if (primary.length !== 1) {
+    if (g8Primary.length !== 1) {
       errors.push(
-        `G8 mechanism ${m.key} expected exactly 1 primary Batch-G sourceRef keyed by candidateKey, got ${primary.length}`,
+        `G8 mechanism ${m.key} expected exactly 1 primary G8 sourceRef keyed by candidateKey, got ${g8Primary.length}`,
       );
     } else {
-      batchGPrimaryKeys.push(primary[0].sourceRecordKey);
+      g8PrimaryKeys.push(g8Primary[0].sourceRecordKey);
+    }
+    const regPrimary = (m.sourceRefs || []).filter(
+      (r) => r.path === REGISTRY_REL && r.sourceRecordKey === m.key,
+    );
+    if (regPrimary.length !== 1) {
+      errors.push(
+        `G8 mechanism ${m.key} expected exactly 1 primary registry sourceRef keyed by candidateKey, got ${regPrimary.length}`,
+      );
+    } else {
+      registryPrimaryKeys.push(regPrimary[0].sourceRecordKey);
+    }
+    const batchGPrimary = (m.sourceRefs || []).filter(
+      (r) => r.path === BATCH_G_AUDIT_REL && r.sourceRecordKey === m.key,
+    );
+    if (batchGPrimary.length !== 0) {
+      errors.push(
+        `G8 mechanism ${m.key} must have zero primary Batch-G sourceRefs, got ${batchGPrimary.length}`,
+      );
     }
   }
-  if (batchGPrimaryKeys.length === 242 && new Set(batchGPrimaryKeys).size !== 242) {
+  if (g8PrimaryKeys.length === 242 && new Set(g8PrimaryKeys).size !== 242) {
+    errors.push(`G8 primary sourceRecordKey uniqueness expected 242, got ${new Set(g8PrimaryKeys).size}`);
+  }
+  if (registryPrimaryKeys.length === 242 && new Set(registryPrimaryKeys).size !== 242) {
     errors.push(
-      `Batch-G primary sourceRecordKey uniqueness expected 242, got ${new Set(batchGPrimaryKeys).size}`,
+      `registry primary sourceRecordKey uniqueness expected 242, got ${new Set(registryPrimaryKeys).size}`,
     );
   }
-  // Batch G aliases attach to existing G8 keys — must not invent a second 242-mechanism family.
-  const batchGOnlyExtra = inv.mechanisms.filter(
+
+  // Batch-G may appear only as explicitly allowlisted historical alias/reference.
+  const batchGPrimaryExtras = inv.mechanisms.filter(
     (m) =>
-      !g8CandKeys.has(m.key) &&
       (m.sourceRefs || []).some((r) => r.path === BATCH_G_AUDIT_REL && r.sourceRecordKey === m.key),
   );
-  if (batchGOnlyExtra.length) {
+  if (batchGPrimaryExtras.length) {
     errors.push(
-      `Batch-G must not add non-G8 mechanisms via primary candidateKey refs, got ${batchGOnlyExtra.length}`,
+      `Batch-G primary candidateKey refs must be zero, got ${batchGPrimaryExtras.length}`,
     );
+  }
+
+  // Exact hashed source path set = ACTIVE + GENERATOR allowlists.
+  const sourcePaths = new Set((inv.sources || []).map((s) => s.path));
+  const hashPaths = new Set(Object.keys(inv.metadata?.currentInputHashes || {}));
+  for (const p of ALLOWED_HASHED_SOURCE_PATHS) {
+    if (!sourcePaths.has(p)) errors.push(`sources missing allowlisted path ${p}`);
+    if (!hashPaths.has(p)) errors.push(`currentInputHashes missing allowlisted path ${p}`);
+  }
+  for (const p of sourcePaths) {
+    if (!ALLOWED_HASHED_SOURCE_PATHS.has(p)) {
+      errors.push(`sources contains non-allowlisted path ${p}`);
+    }
+  }
+  for (const p of hashPaths) {
+    if (!ALLOWED_HASHED_SOURCE_PATHS.has(p)) {
+      errors.push(`currentInputHashes contains non-allowlisted path ${p}`);
+    }
+  }
+  if (sourcePaths.has(BATCH_G_AUDIT_REL)) {
+    errors.push('Batch-G must not appear in hashed sources');
+  }
+  if (hashPaths.has(BATCH_G_AUDIT_REL)) {
+    errors.push('Batch-G must not appear in currentInputHashes');
+  }
+
+  // All mechanism/coverage sourceRefs must be active or exact historical allowlist paths.
+  for (const m of inv.mechanisms || []) {
+    for (const r of m.sourceRefs || []) {
+      if (!ALLOWED_SOURCEREF_PATHS.has(r.path)) {
+        errors.push(`mechanism sourceRef path not allowlisted @ ${m.key}: ${r.path}`);
+      }
+    }
+  }
+  for (const c of inv.coverageRecords || []) {
+    for (const r of c.sourceRefs || []) {
+      if (!ALLOWED_SOURCEREF_PATHS.has(r.path)) {
+        errors.push(`coverage sourceRef path not allowlisted @ ${c.coverageKey}: ${r.path}`);
+      }
+    }
+  }
+
+  // HISTORICAL dispositions must be explicit enums.
+  for (const e of HISTORICAL_SOURCE_REF_ALLOWLIST) {
+    if (!['current_generic_evidence', 'data_only_regression', 'historical_reference'].includes(e.disposition)) {
+      errors.push(`HISTORICAL_SOURCE_REF_ALLOWLIST bad disposition @ ${e.path}`);
+    }
   }
 
   return errors;
@@ -4953,8 +4830,8 @@ function buildInventory(generatedAt) {
       completionModes: [...COMPLETION_MODES],
       lanes: [...LANES],
       dedupRules: [
-        'g8_242_candidateKey_canonical_for_batch_g_family',
-        'batch_g_sourceRecordKey_uses_candidateKey_for_uniqueness',
+        'g8_242_candidateKey_canonical_for_registry_g8_family',
+        'registry_and_g8_sourceRecordKey_uses_candidateKey_for_uniqueness',
         'full_item_518_containers_are_coverage_not_mechanisms',
         'seed_without_candidateKey_uses_exact_tuple_kind_owner_skill_tag',
         'normalize_item_N_and_N_to_owner_N',
