@@ -118,6 +118,8 @@ export type OperationDefinition = {
   repeatScope?: string;
   repeatCount?: number;
   repeatTag?: string;
+  /** Optional non-negative repeat delay (ms); omit when unset/0 for legacy payloads. */
+  repeatDelayMs?: number;
   triggerStateKey?: string;
   threshold?: number;
 };
