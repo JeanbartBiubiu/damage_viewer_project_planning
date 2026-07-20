@@ -1311,6 +1311,7 @@ function mapEffectStep(
     }
     case 'repeatDetail': {
       const d = step.repeatDetail!;
+      // Positive delayMs → repeatDelayMs; omitted/0 keep legacy operation shape (no field).
       return {
         ...base,
         ref: step.stepId,
@@ -1320,7 +1321,8 @@ function mapEffectStep(
         repeatCount: d.repeatCount,
         repeatTag: d.repeatTag,
         triggerStateKey: d.triggerStateKey,
-        threshold: d.threshold
+        threshold: d.threshold,
+        ...(typeof d.delayMs === 'number' && d.delayMs > 0 ? { repeatDelayMs: d.delayMs } : {})
       };
     }
     case 'executeDetail': {
