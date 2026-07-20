@@ -548,7 +548,7 @@ mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
 3. `db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql`
 4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-jaksho-voidborn-resilience-v1-20260715`（seed 不负责 publish）。受控 partial：`provider_item_6665_jaksho_voidborn_resilience` 仅挂 `item_6665`。
+建议发布版本：`lol-generic-jaksho-voidborn-resilience-v1-20260715`（seed 不负责 publish）。Seed 侧保持 item-owned 合同：`provider_item_6665_jaksho_voidborn_resilience` 仅挂 `item_6665`；2026-07-21 跨层 target-loadout + bonus 抗性投影已完成，但仍未执行 live migration / publish。
 
 该 seed 会：锁定 `game_data_state`；校验所需 reserved 与 `hp`/`armor`/`magic_resist`；幂等投影 reserved → `types`；ensure `bonus_armor`/`bonus_magic_resist` 属性定义；写入 `item_6665` 静态 `hp=350` / `armor=45` / `magic_resist=45`；ensure game-local `62011` / `tag/loadout_equipment`（`reserved_type_id=NULL`，双向 collision fail-closed）并幂等 `type_relations` → `entity/item_6665`（Wiki current-items / source item 6665 / revid 4030984 / content SHA；role `loadout_equipment`）；挂载 passive provider，含 untimed `full_stack`（max1，runtime 默认 0）、lifecycle `tick_interval_ms=5000` / `start_delay_ms=5000`、`provider_tick_sequences` 单步 `state_change` override/set `full_stack=1`（重复 tick 幂等），以及两条 owner-self `value_policy/add` modifier：`0.30 * max(0, $owner.attr.bonus_*.resolved) * provider.state.full_stack`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
 
