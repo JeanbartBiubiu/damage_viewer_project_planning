@@ -344,6 +344,8 @@ export type RepeatDetail = {
   repeatTag: string;
   triggerStateKey: string;
   threshold: number;
+  /** Optional non-negative repeat delay (ms); omitted/missing is semantically 0. */
+  delayMs?: number;
 };
 
 export type ExecuteDetail = {
