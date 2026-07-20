@@ -806,6 +806,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-graves-quickdraw-max-stack",
+      "title": "generic ABI Graves E Quickdraw max-stack Phase-A",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_quickdraw_max_stack",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "用户批准 Phase-A rank5 满层 True Grit 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4007744 / SHA256 ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1；mana40 / CD12000ms；一次 cast override true_grit_stacks 0→8（max8）；armor/bonus_armor 各 +152（19*8）；MR/bonus_MR 各 +76（19*0.5*8）；SQL duration_ms=NULL/refresh NULL ↔ DTO durationMs=0。Backend seed + JUnit 10/10；Wasm CompileFrame→RunFrame→ReleaseSessionFrame 证据齐。intermediate stacks、4s refresh/expiry、dash direction/geometry、reload、attack reset、pellet cooldown reduction、targeting/collision/multi-target、full gameplay fidelity、live migration/publish/E2E 为 Phase-A 排除，非 remainingGap/blocker；不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯E快速拔枪Quickdraw满层机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯E快速拔枪Quickdraw满层机制验证记录-2026-07-20.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
