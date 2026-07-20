@@ -175,6 +175,8 @@ export type ProviderListener = CombatDataRowMeta & {
   abilityId?: string;
   maxTriggersPerEvent?: number;
   chainLimitKey?: string;
+  /** Optional non-negative per-cast listener throttle (ms); null/missing = unset. */
+  perCastThrottleMs?: number | null;
 };
 
 export type ListenerMatchType = CombatDataRowMeta & {
@@ -188,6 +190,9 @@ export type ProviderTickSequence = CombatDataRowMeta & {
   sequenceId: string;
 };
 
+/** Ability cast provenance enum from Backend (nullable/optional on rows). */
+export type AbilityCastOrigin = 'champion' | 'item' | 'pet' | 'innate';
+
 export type Ability = CombatDataRowMeta & {
   abilityId: string;
   providerId: string;
@@ -196,6 +201,8 @@ export type Ability = CombatDataRowMeta & {
   displayName: string;
   /** Optional provider-local formula key for ability cast precondition. */
   castConditionFormulaKey?: string;
+  /** Optional cast provenance; null/missing = unset (omit in CompileRequest). */
+  castOrigin?: AbilityCastOrigin | null;
 };
 
 export type AbilityParameter = CombatDataRowMeta & {
@@ -484,6 +491,7 @@ export type DirectDamageAbilitySetupAbilityInput = {
   abilityKindTypeId: number;
   displayName: string;
   castConditionFormulaKey?: string;
+  castOrigin?: AbilityCastOrigin | null;
 };
 
 /** Phase node for direct-damage ability aggregate PUT. */

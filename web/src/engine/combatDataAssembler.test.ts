@@ -554,6 +554,156 @@ describe('combatDataAssembler', () => {
     expect(JSON.stringify(op)).not.toContain('"condition"');
   });
 
+  describe('castOrigin and perCastThrottleMs projection', () => {
+    it('round-trips present ability castOrigin and listener perCastThrottleMs into CompileRequest', () => {
+      const graph = buildGraphFixture({
+        abilities: [
+          {
+            ...META,
+            abilityId: 'ability_q',
+            providerId: 'prov_q',
+            abilityKey: 'cast',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: 'Q',
+            castOrigin: 'champion'
+          }
+        ],
+        providerListeners: [
+          {
+            ...META,
+            providerId: 'prov_passive',
+            listenerId: 'listener_on_hit',
+            listenerKey: 'on_basic_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            perCastThrottleMs: 1000
+          }
+        ]
+      });
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+
+      const sourceQ = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceQ.abilities![0].castOrigin).toBe('champion');
+      expect(JSON.stringify(sourceQ.abilities![0])).toContain('"castOrigin":"champion"');
+
+      const sourcePassive = compile.sharedProviders!.find(
+        (p) => p.providerKey === 'source::prov_passive'
+      )!;
+      expect(sourcePassive.listeners![0].perCastThrottleMs).toBe(1000);
+      expect(JSON.stringify(sourcePassive.listeners![0])).toContain('"perCastThrottleMs":1000');
+    });
+
+    it('omits castOrigin and perCastThrottleMs when missing or null (backward compatible)', () => {
+      const missingGraph = buildGraphFixture({
+        providerListeners: [
+          {
+            ...META,
+            providerId: 'prov_passive',
+            listenerId: 'listener_on_hit',
+            listenerKey: 'on_basic_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId
+          }
+        ]
+      });
+      const missingCompile = assembleCompileRequest(missingGraph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const missingAbility = missingCompile.sharedProviders!.find(
+        (p) => p.providerKey === 'source::prov_q'
+      )!.abilities![0];
+      const missingListener = missingCompile.sharedProviders!.find(
+        (p) => p.providerKey === 'source::prov_passive'
+      )!.listeners![0];
+      expect(missingAbility).not.toHaveProperty('castOrigin');
+      expect(missingListener).not.toHaveProperty('perCastThrottleMs');
+      expect(JSON.stringify(missingAbility)).not.toContain('castOrigin');
+      expect(JSON.stringify(missingListener)).not.toContain('perCastThrottleMs');
+
+      const nullGraph = buildGraphFixture({
+        abilities: [
+          {
+            ...META,
+            abilityId: 'ability_q',
+            providerId: 'prov_q',
+            abilityKey: 'cast',
+            abilityKindTypeId: TYPE.abilityKindActive.typeId,
+            displayName: 'Q',
+            castOrigin: null
+          }
+        ],
+        providerListeners: [
+          {
+            ...META,
+            providerId: 'prov_passive',
+            listenerId: 'listener_on_hit',
+            listenerKey: 'on_basic_hit',
+            eventTypeId: TYPE.eventBasicAttackHit.typeId,
+            perCastThrottleMs: null
+          }
+        ]
+      });
+      const nullCompile = assembleCompileRequest(nullGraph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const nullAbility = nullCompile.sharedProviders!.find(
+        (p) => p.providerKey === 'source::prov_q'
+      )!.abilities![0];
+      const nullListener = nullCompile.sharedProviders!.find(
+        (p) => p.providerKey === 'source::prov_passive'
+      )!.listeners![0];
+      expect(nullAbility).not.toHaveProperty('castOrigin');
+      expect(nullListener).not.toHaveProperty('perCastThrottleMs');
+      expect(JSON.stringify(nullAbility)).not.toContain('castOrigin');
+      expect(JSON.stringify(nullListener)).not.toContain('perCastThrottleMs');
+    });
+
+    it('preserves zero perCastThrottleMs and each castOrigin enum value when present', () => {
+      const origins = ['champion', 'item', 'pet', 'innate'] as const;
+      for (const origin of origins) {
+        const graph = buildGraphFixture({
+          abilities: [
+            {
+              ...META,
+              abilityId: 'ability_q',
+              providerId: 'prov_q',
+              abilityKey: 'cast',
+              abilityKindTypeId: TYPE.abilityKindActive.typeId,
+              displayName: 'Q',
+              castOrigin: origin
+            }
+          ],
+          providerListeners: [
+            {
+              ...META,
+              providerId: 'prov_passive',
+              listenerId: 'listener_on_hit',
+              listenerKey: 'on_basic_hit',
+              eventTypeId: TYPE.eventBasicAttackHit.typeId,
+              perCastThrottleMs: 0
+            }
+          ]
+        });
+        const compile = assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        });
+        expect(
+          compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!.abilities![0]
+            .castOrigin
+        ).toBe(origin);
+        expect(
+          compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_passive')!
+            .listeners![0].perCastThrottleMs
+        ).toBe(0);
+      }
+    });
+  });
+
   describe('Guinsoo H+K W2 driver repeat XOR', () => {
     function basePlan(repeat: DriverPlan['entries'][number]['repeat']): DriverPlan {
       return {
@@ -5179,6 +5329,275 @@ describe('combatDataAssembler', () => {
       expect(Object.keys(formulaByKey).filter((k) => k.includes('spinning_axe_proc_damage'))).toEqual(
         ['source::spinning_axe_proc_damage', 'target::spinning_axe_proc_damage']
       );
+    });
+
+    describe('W Blood Rush axe-catch cooldown reset (isolated)', () => {
+      // Stable IDs / sequenceKey intentionally mirror Backend seed
+      // lol_generic_draven_blood_rush_seed.sql — do not invent alternate names.
+      const W = {
+        providerId: 'provider_hero_draven_w_blood_rush',
+        abilityId: 'ability_hero_draven_w_blood_rush',
+        costId: 'cost_hero_draven_w_blood_rush_mana',
+        cooldownId: 'cooldown_hero_draven_w_blood_rush',
+        catchListenerId: 'listener_hero_draven_w_blood_rush_axe_caught',
+        resetSequenceId: 'sequence_hero_draven_w_blood_rush_cd_ready',
+        resetStepId: 'step_hero_draven_w_blood_rush_cd_ready',
+        operationCooldownChange: {
+          typeId: 20159,
+          typeKey: 'operation/cooldown_change'
+        },
+        eventAxeCaught: { typeId: 20216, typeKey: 'event/axe_caught' },
+        // Schema FK placeholder only; assembler ignores actionTypeId for cooldown_change.
+        abilityControlInterrupt: {
+          typeId: 20240,
+          typeKey: 'ability_control_action/interrupt'
+        },
+        valuePolicyOverride: DRAVEN.valuePolicyOverride
+      } as const;
+
+      const W_MANA_COST_EXPR = { op: 'const', value: 20 };
+      const W_COOLDOWN_MS_EXPR = { op: 'const', value: 12000 };
+      // override + zero is the cross-layer readyAt=now representation for W readiness reset.
+      const W_COOLDOWN_RESET_EXPR = { op: 'const', value: 0 };
+
+      function withDravenWAxeCatchReset(base: CombatDataGraph): CombatDataGraph {
+        const withQ = withDravenSpinningAxe(base);
+        const extraTypes = [W.operationCooldownChange, W.eventAxeCaught];
+
+        return {
+          ...withQ,
+          types: [
+            ...withQ.types,
+            ...extraTypes.map((t) => ({
+              ...META,
+              typeId: t.typeId,
+              typeKey: t.typeKey
+            }))
+          ],
+          entityProviderMounts: [
+            ...withQ.entityProviderMounts,
+            { ...META, entityId: DRAVEN.heroId, providerId: W.providerId }
+          ],
+          providers: [
+            ...withQ.providers,
+            {
+              ...META,
+              providerId: W.providerId,
+              providerKindTypeId: TYPE.providerKindPassive.typeId,
+              displayName: '德莱文 W 血性冲刺 Blood Rush'
+            }
+          ],
+          providerFormulas: [
+            ...withQ.providerFormulas,
+            {
+              ...META,
+              providerId: W.providerId,
+              formulaKey: 'w_mana_cost',
+              expression: W_MANA_COST_EXPR
+            },
+            {
+              ...META,
+              providerId: W.providerId,
+              formulaKey: 'w_cooldown_ms',
+              expression: W_COOLDOWN_MS_EXPR
+            },
+            {
+              ...META,
+              providerId: W.providerId,
+              formulaKey: 'w_cooldown_reset',
+              expression: W_COOLDOWN_RESET_EXPR
+            }
+          ],
+          providerListeners: [
+            ...withQ.providerListeners,
+            {
+              ...META,
+              providerId: W.providerId,
+              listenerId: W.catchListenerId,
+              listenerKey: 'blood_rush_on_axe_caught',
+              eventTypeId: W.eventAxeCaught.typeId,
+              // No listener abilityId: catch is provider-level, not ability-scoped.
+              maxTriggersPerEvent: 1
+            }
+          ],
+          listenerMatchTypes: [
+            ...withQ.listenerMatchTypes,
+            {
+              ...META,
+              listenerId: W.catchListenerId,
+              matchModeTypeId: TYPE.matchModeAll.typeId,
+              typeId: W.eventAxeCaught.typeId
+            },
+            {
+              ...META,
+              listenerId: W.catchListenerId,
+              matchModeTypeId: TYPE.matchModeAll.typeId,
+              typeId: TYPE.eventSourceOwner.typeId
+            }
+          ],
+          abilities: [
+            ...withQ.abilities,
+            {
+              ...META,
+              abilityId: W.abilityId,
+              providerId: W.providerId,
+              abilityKey: 'blood_rush',
+              abilityKindTypeId: TYPE.abilityKindActive.typeId,
+              displayName: '血性冲刺'
+            }
+          ],
+          abilityCosts: [
+            ...withQ.abilityCosts,
+            {
+              ...META,
+              costId: W.costId,
+              abilityId: W.abilityId,
+              resourceKey: 'mana',
+              amountFormulaKey: 'w_mana_cost',
+              allowPartial: false
+            }
+          ],
+          abilityCooldowns: [
+            ...withQ.abilityCooldowns,
+            {
+              ...META,
+              cooldownId: W.cooldownId,
+              abilityId: W.abilityId,
+              durationFormulaKey: 'w_cooldown_ms'
+            }
+          ],
+          effectSequences: [
+            ...withQ.effectSequences,
+            {
+              ...META,
+              sequenceId: W.resetSequenceId,
+              providerId: W.providerId,
+              sequenceKey: 'blood_rush_cd_ready'
+            }
+          ],
+          effectSteps: [
+            ...withQ.effectSteps,
+            {
+              ...META,
+              stepId: W.resetStepId,
+              sequenceId: W.resetSequenceId,
+              stepOrder: 0,
+              operationTypeId: W.operationCooldownChange.typeId,
+              targetSelectorTypeId: TYPE.selectorSelf.typeId,
+              // actionTypeId=20240 is a required schema FK placeholder ignored by the
+              // current assembler for cooldown_change — not interrupt behavior.
+              abilityControlDetail: {
+                actionTypeId: W.abilityControlInterrupt.typeId,
+                targetAbilityId: W.abilityId,
+                amountFormulaKey: 'w_cooldown_reset',
+                valuePolicyTypeId: W.valuePolicyOverride.typeId
+              }
+            }
+          ],
+          listenerEffectSequences: [
+            ...withQ.listenerEffectSequences,
+            {
+              ...META,
+              listenerId: W.catchListenerId,
+              sequenceId: W.resetSequenceId
+            }
+          ]
+        };
+      }
+
+      it('projects axe_caught listener to cooldown_change override-zero W readiness reset', () => {
+        const qOnlyGraph = withDravenSpinningAxe(buildGraphFixture());
+        const qOnlyScenario = assembleCombatScenario(qOnlyGraph, {
+          sourceEntityId: DRAVEN.heroId,
+          targetEntityId: 'entity_target'
+        });
+        const qOnlyContractJson = JSON.stringify({
+          providers: qOnlyScenario.compileRequest.sharedProviders,
+          formulas: qOnlyScenario.compileRequest.formulas
+        });
+        expect(qOnlyContractJson).not.toContain('blood_rush');
+        expect(qOnlyContractJson).not.toContain('axe_caught');
+        expect(qOnlyContractJson).not.toContain('ability_hero_draven_w');
+        expect(qOnlyContractJson).not.toContain('w_cooldown_reset');
+        expect(qOnlyContractJson).not.toContain('cooldown_change');
+
+        const graph = withDravenWAxeCatchReset(buildGraphFixture());
+        const scenario = assembleCombatScenario(graph, {
+          sourceEntityId: DRAVEN.heroId,
+          targetEntityId: 'entity_target'
+        });
+        const compile = scenario.compileRequest;
+        const wSourceKey = `source::${W.providerId}`;
+        const wTargetKey = `target::${W.providerId}`;
+        const qSourceKey = `source::${DRAVEN.qProviderId}`;
+        const kindToken = 'passive';
+
+        expect(compile.combatants[0].providers.map((p) => p.definitionRef)).toEqual(
+          expect.arrayContaining([qSourceKey, wSourceKey])
+        );
+        expect(compile.combatants[0].providers.map((p) => p.providerRef)).toEqual(
+          expect.arrayContaining([`${kindToken}:${W.providerId}`])
+        );
+        expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(
+          wSourceKey
+        );
+        expect(compile.combatants[1].providers.map((p) => p.definitionRef)).not.toContain(
+          wTargetKey
+        );
+
+        const withoutHero = assembleCombatScenario(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target'
+        }).compileRequest;
+        expect(withoutHero.combatants[0].providers.map((p) => p.definitionRef)).not.toContain(
+          wSourceKey
+        );
+        expect(
+          withoutHero.sharedProviders!.some(
+            (p) => p.providerKey === wSourceKey || p.providerKey === wTargetKey
+          )
+        ).toBe(false);
+
+        const wProvider = compile.sharedProviders!.find((p) => p.providerKey === wSourceKey)!;
+        expect(wProvider).toBeDefined();
+        expect(wProvider.stableId).toBe(W.providerId);
+        expect(wProvider.abilities).toHaveLength(1);
+        expect(wProvider.abilities![0].abilityKey).toBe('blood_rush');
+        expect(wProvider.abilities![0].kind).toBe('active');
+        expect(wProvider.abilities![0].cost).toEqual({
+          resourceKey: 'mana',
+          amount: { op: 'ref', ref: 'source::w_mana_cost' },
+          allowPartial: false
+        });
+        expect(wProvider.abilities![0].cooldown).toEqual({
+          durationMs: { op: 'ref', ref: 'source::w_cooldown_ms' }
+        });
+
+        const formulaByKey = Object.fromEntries(compile.formulas!.map((f) => [f.key, f.expression]));
+        expect(formulaByKey['source::w_cooldown_reset']).toEqual(W_COOLDOWN_RESET_EXPR);
+
+        expect(wProvider.listeners).toHaveLength(1);
+        const catchListener = wProvider.listeners![0];
+        expect(catchListener.listenerKey).toBe('blood_rush_on_axe_caught');
+        expect(catchListener.eventMatcher).toEqual({
+          all: ['event/axe_caught', 'event/source_owner']
+        });
+        expect(catchListener).not.toHaveProperty('abilityRef');
+        expect(catchListener.maxTriggersPerEvent).toBe(1);
+        expect(catchListener.operations).toEqual([
+          {
+            operation: 'cooldown_change',
+            target: 'self',
+            abilityRef: `source.provider[${kindToken}:${W.providerId}].ability[blood_rush]`,
+            amount: { op: 'ref', ref: 'source::w_cooldown_reset' },
+            valuePolicy: 'override'
+          }
+        ]);
+
+        const wOpt = scenario.availableSourceAbilities.find((a) => a.abilityKey === 'blood_rush');
+        expect(wOpt?.selectable).toBe(true);
+        expect(wOpt?.kind).toBe('active');
+      });
     });
   });
 
