@@ -296,6 +296,36 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_graves|E|快速拔枪',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Graves E Quickdraw：Wiki rev4007744（SHA256 ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1；normalized/generic/graves-e.json）Phase-A 满层 True Grit 近似已由 wasm-generic-graves-quickdraw-max-stack + backend seed 证据闭环——rank5 mana40 / cooldown12000ms；一次 cast 直接 override true_grit_stacks=8；armor/bonus_armor 各 +152（19*8）；MR/bonus_MR 各 +76（19*0.5*8）；CompileFrame→RunFrame→ReleaseSessionFrame。明确排除 intermediate stacks、4s refresh/expiry、dash direction/geometry、reload、attack reset、pellet cooldown reduction、targeting/collision/multi-target/full fidelity（completed-boundary），故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-graves-quickdraw-max-stack',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_graves_quickdraw_max_stack_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: Phase-A max True Grit (rank5 mana40/CD12000ms / true_grit_stacks=8 / armor+bonus_armor +152 / MR+bonus_MR +76); intermediate stacks/4s refresh/dash/reload/attack-reset/pellet CDR/targeting/collision/multitarget/full fidelity are completed-boundary exclusions',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-graves-quickdraw-max-stack',
+          sourcePath: 'db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: Quickdraw Phase-A max-stack seed; LolGenericGravesQuickdrawMaxStackSeedSqlTest; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_twitch|P|死亡毒液',
     {
       status: 'blocked_runtime',
@@ -3730,6 +3760,47 @@ function validateInventory(inv) {
       'Graves P must be completed/full/generic_runtime with empty missingFields, Wiki rev4038342/SHA Phase-A point-blank wording, reload as completed-boundary exclusion, and bilateral wasm+backend evidence',
     );
   }
+  const mGravesE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_graves|E|快速拔枪');
+  if (
+    !mGravesE ||
+    mGravesE.status !== 'completed' ||
+    mGravesE.completionMode !== 'full' ||
+    mGravesE.lane !== 'generic_runtime' ||
+    mGravesE.blocker ||
+    mGravesE.dataGapEvidence ||
+    mGravesE.runtimeGapEvidence ||
+    hasNonEmptyDataMissingFields(mGravesE.dataGapEvidence) ||
+    !String(mGravesE.reason || '').includes('4007744') ||
+    !String(mGravesE.reason || '').includes(
+      'ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1',
+    ) ||
+    !String(mGravesE.reason || '').includes('true_grit_stacks') ||
+    !String(mGravesE.reason || '').includes('152') ||
+    !String(mGravesE.reason || '').includes('76') ||
+    !String(mGravesE.reason || '').includes('12000') ||
+    !String(mGravesE.reason || '').includes('排除') ||
+    !String(mGravesE.reason || '').includes('intermediate stacks') ||
+    citesForbiddenProvenance(mGravesE.reason) ||
+    !(mGravesE.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_graves_quickdraw_max_stack_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        e.taskKey === 'wasm-generic-graves-quickdraw-max-stack',
+    ) ||
+    !(mGravesE.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        e.taskKey === 'wasm-generic-graves-quickdraw-max-stack' &&
+        String(e.note || '').includes('LolGenericGravesQuickdrawMaxStackSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Graves E must be completed/full/generic_runtime with cleared blocker/data/runtime gaps, Wiki rev4007744/SHA Phase-A max True Grit wording, completed-boundary exclusions, and bilateral wasm+backend evidence',
+    );
+  }
   if (
     !mDravenQ ||
     mDravenQ.status !== 'completed' ||
@@ -4266,11 +4337,11 @@ function validateInventory(inv) {
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== inv.mechanisms.length) {
     errors.push('summary.deduplicatedMechanismCount mismatch');
   }
-  if ((sc.completed || 0) !== 55) {
-    errors.push(`completed=${sc.completed}, expected 55`);
+  if ((sc.completed || 0) !== 56) {
+    errors.push(`completed=${sc.completed}, expected 56`);
   }
-  if ((sc.blocked_runtime || 0) !== 118) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 118`);
+  if ((sc.blocked_runtime || 0) !== 117) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 117`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4291,14 +4362,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 55) {
-    errors.push(`completionMode full=${cm.full}, expected 55`);
+  if ((cm.full || 0) !== 56) {
+    errors.push(`completionMode full=${cm.full}, expected 56`);
   }
   if ((cm.partial || 0) !== 5) {
     errors.push(`completionMode partial=${cm.partial}, expected 5`);
   }
-  if ((cm.none || 0) !== 194) {
-    errors.push(`completionMode none=${cm.none}, expected 194`);
+  if ((cm.none || 0) !== 193) {
+    errors.push(`completionMode none=${cm.none}, expected 193`);
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();

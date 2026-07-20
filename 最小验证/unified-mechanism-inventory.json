@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-20T01:31:35.074Z",
+    "generatedAt": "2026-07-20T14:35:52.823Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -52,12 +52,12 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.csv": "f1d378288d91101a9dcf50734feec3772b3a1b2f6d95808bede201dce19666ba",
-      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "5bef2dfabd6ce0855bf3150c8bf511dce6d62db29b6b384c6a3d269f24cdbbee",
+      "最小验证/generic-g8-adc-passive-coverage-audit.csv": "f9ba92341d2ac98f7636f1e09d5a0f02a5cc87204a585a9776dd1522d917789e",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "d7dc49a0cddca2f1f4c52b1919f001eec6e4b03cce9cd89762d7c83e76007edf",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "cfc80332638dd3820356c57ccf652c4ca50ecb7f39922c7a5afdebc46666673d",
       "最小验证/V2-full-item-dps-coverage-summary-20260615.json": "f5e422f5ee08c6775f4cab984b37c8785b95595a979f5ac46a33dc7c91685b00",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "8f3a7d453896e6bc6e21a2c94c7f4e6b7c70cc76c2e1c857064e246829ab4e8c",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "67997bae85b552267c4fc6b346456d0a6818cb941dfe857a0b1eab1b0e063498",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "41c1aabd7c1bc867e094a825ce93ba9f2bb616e33f91b83d2d234037b054f109",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "021f1b52e0844e55e9277c975a6b58ac762122b32072adb57a6bef98a4ac21f9",
       "最小验证/数据/build-v2-batch-c-adc-items-seed.mjs": "8bd21f90ed52c6a08ae38e50047b1c23d44396f8c6e669a3da9fc3599e3dba7d",
       "最小验证/数据/build-v2-batch-g-adc-passive-audit.mjs": "7ed73629128296de8270bf43534a74ee989e71d8869a7bd2b7243d2f37a92880",
       "最小验证/数据/build-v2-batch-j-status-damage-audit.mjs": "1bb7905fb5551b37c0a69b022ef0991d4722bcd4cc194f207005608b16c36797",
@@ -86,19 +86,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 55,
+      "completed": 56,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 118,
+      "blocked_runtime": 117,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 55,
+      "full": 56,
       "partial": 5,
-      "none": 194
+      "none": 193
     },
     "laneCounts": {
       "generic_runtime": 247,
@@ -193,8 +193,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.csv",
       "kind": "coverage_csv",
-      "sha256": "5bef2dfabd6ce0855bf3150c8bf511dce6d62db29b6b384c6a3d269f24cdbbee",
-      "byteSize": 186331,
+      "sha256": "f9ba92341d2ac98f7636f1e09d5a0f02a5cc87204a585a9776dd1522d917789e",
+      "byteSize": 185905,
       "recordCount": 242,
       "role": "tabular_projection"
     },
@@ -209,8 +209,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "d7dc49a0cddca2f1f4c52b1919f001eec6e4b03cce9cd89762d7c83e76007edf",
-      "byteSize": 572766,
+      "sha256": "cfc80332638dd3820356c57ccf652c4ca50ecb7f39922c7a5afdebc46666673d",
+      "byteSize": 573680,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -225,16 +225,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "8f3a7d453896e6bc6e21a2c94c7f4e6b7c70cc76c2e1c857064e246829ab4e8c",
-      "byteSize": 197215,
+      "sha256": "41c1aabd7c1bc867e094a825ce93ba9f2bb616e33f91b83d2d234037b054f109",
+      "byteSize": 201367,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "67997bae85b552267c4fc6b346456d0a6818cb941dfe857a0b1eab1b0e063498",
-      "byteSize": 216174,
+      "sha256": "021f1b52e0844e55e9277c975a6b58ac762122b32072adb57a6bef98a4ac21f9",
+      "byteSize": 220015,
       "recordCount": 0,
       "role": "generator"
     },
@@ -14153,47 +14153,23 @@
     },
     {
       "key": "hero_skill|hero_graves|E|快速拔枪",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_graves",
       "skillKey": "E",
       "passiveName": "快速拔枪",
       "mechanismTags": [
-        "stacking_stat_modifier_on_hit"
+        "armor_mr_stat_flat_add",
+        "direct_max_stack_override",
+        "fixed_max_true_grit_phase_a"
       ],
       "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4007744",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/graves-e.json@rev4007744 sha256:ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_graves|E|快速拔枪",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "reason": "Graves E Quickdraw：Wiki rev4007744（SHA256 ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1；normalized/generic/graves-e.json）Phase-A 满层 True Grit 近似已由 wasm-generic-graves-quickdraw-max-stack + backend seed 证据闭环——rank5 mana40 / cooldown12000ms；一次 cast 直接 override true_grit_stacks=8；armor/bonus_armor 各 +152（19*8）；MR/bonus_MR 各 +76（19*0.5*8）；CompileFrame→RunFrame→ReleaseSessionFrame。明确排除 intermediate stacks、4s refresh/expiry、dash direction/geometry、reload、attack reset、pellet cooldown reduction、targeting/collision/multi-target/full fidelity（completed-boundary），故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
@@ -14203,11 +14179,26 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_graves|E|快速拔枪"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-quickdraw-max-stack",
+          "sourcePath": "db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Quickdraw Phase-A max-stack seed; LolGenericGravesQuickdrawMaxStackSeedSqlTest; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-quickdraw-max-stack",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_graves_quickdraw_max_stack_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: Phase-A max True Grit (rank5 mana40/CD12000ms / true_grit_stacks=8 / armor+bonus_armor +152 / MR+bonus_MR +76); intermediate stacks/4s refresh/dash/reload/attack-reset/pellet CDR/targeting/collision/multitarget/full fidelity are completed-boundary exclusions"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
