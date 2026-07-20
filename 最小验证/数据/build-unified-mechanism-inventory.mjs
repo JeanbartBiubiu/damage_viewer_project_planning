@@ -1470,33 +1470,6 @@ const RUNTIME_GAP_SPEC_TABLE = {
     "reason": "3032 Flurry：attack launch vs champion arms +30% AS 6s/30s CD；on-hit -1s、crit -2s cooldown reduction。",
     "blocker": "attack_launch_vs_champion_arm+timed_attack_speed_buff_30pct_6s+on_hit_cooldown_reduction_1s+crit_cooldown_reduction_2s+30s_cooldown"
   },
-  "item_passive|6665|item_passive|虚空天生": {
-    "sourceRef": "wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go#VoidbornResilience",
-    "dataStatus": "partial",
-    "requiredEvents": [
-      "target_equipment_or_loadout_projection"
-    ],
-    "requiredState": [
-      "provider_item_6665_jaksho_voidborn_resilience",
-      "full_stack"
-    ],
-    "requiredFormulaInputs": [
-      "target_base_armor_and_magic_resist",
-      "target_bonus_armor_and_magic_resist",
-      "real_equipment_projected_bonus_resists"
-    ],
-    "requiredScheduling": [
-      "full_stack_tick_interval_5000ms"
-    ],
-    "missingPrimitives": [
-      "real_target_equipment_or_loadout_to_provider_projection",
-      "target_base_and_bonus_resistance_input_consistency"
-    ],
-    "completedBoundary": "controlled synthetic：target-owned provider_item_6665_jaksho_voidborn_resilience 在 t=5000 将 full_stack 0→1，并对显式 synthetic bonus_armor/bonus_magic_resist 各加 30%。",
-    "remainingBoundary": "真实 target equipment/loadout→provider projection 的跨层证据与目标基础/bonus resistance 输入一致性（非 live publish）。",
-    "reason": "受控 synthetic bonus resist partial 已证明；剩余真实 equipment/loadout→provider 投影与目标 base/bonus resist 输入一致性。",
-    "blocker": "real_target_equipment_or_loadout_projection_outside_generic_host_input_contract"
-  }
 };
 
 const RUNTIME_GAP_BY_KEY = new Map(
@@ -2011,8 +1984,8 @@ const EXTRA_MECHANISMS = [
   },
   {
     key: 'item_passive|6665|item_passive|虚空天生',
-    status: 'blocked_runtime',
-    completionMode: 'partial',
+    status: 'completed',
+    completionMode: 'full',
     lane: 'generic_runtime',
     sourceKind: 'item_passive',
     ownerId: '6665',
@@ -2020,10 +1993,10 @@ const EXTRA_MECHANISMS = [
     passiveName: '虚空天生',
     mechanismTags: ['full_stack_resists', 'target_armor_flat_bonus', 'target_magic_resist_flat_bonus'],
     coverageBoundary:
-      'controlled_5s_target_owned_synthetic_bonus_resist_branch_complete;real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
+      'real_targetEquipmentEntityIds_projects_selected_target_item_static_armor_mr+target_only_derived_bonus_armor_bonus_magic_resist+target_owned_provider_mount;t5000_adds_30pct_of_projected_bonus_resist_later_tick_idempotent',
     reason:
-      '受控 synthetic bonus resist partial 已证明；剩余真实 equipment/loadout→provider 投影与目标 base/bonus resist 输入一致性。',
-    blocker: 'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
+      '6665 虚空天生/Voidborn Resilience：真实 targetEquipmentEntityIds 将所选目标装备静态 armor/MR、目标侧派生 bonus_armor/bonus_magic_resist 与 target-owned provider mount 投影进 compile 合同；既有 t=5000 runtime 对投影 bonus 抗性各加 30%，后续 tick 幂等（75/75+45/45→88.5/88.5）。backend seed（tag/loadout_equipment 资格）+ Web combatDataAssembler target loadout/bonus 投影 + wasm generic_jaksho_voidborn_resilience_test.go 三边证据闭环；非 G8 candidate，经 EXTRA_MECHANISMS 闭环。不声称 live migrate/publish（证据边界，非 blocker）。',
+    blocker: '',
     sourceRefs: [
       {
         path: '最小验证/V2-BatchV-A-data-policy-items.seed.json',
@@ -2035,16 +2008,31 @@ const EXTRA_MECHANISMS = [
       {
         evidenceType: 'generic_batch',
         taskKey: 'planning-validation-milestones',
-        sourcePath: 'wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go',
-        sourceWorktree: 'wasm',
-        note: 'controlled target-owned 5s full_stack synthetic bonus-resist partial via generic compile/run; not live migrated/published',
+        sourcePath: 'db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql',
+        sourceWorktree: 'backend',
+        note: 'completedBoundary: item_6665 static panel + provider_item_6665_jaksho_voidborn_resilience + tag/loadout_equipment (62011) eligibility relation; not claiming live migrate/publish',
       },
       {
         evidenceType: 'generic_batch',
         taskKey: 'planning-validation-milestones',
-        sourcePath: 'db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql',
-        sourceWorktree: 'backend',
-        note: 'backend seed path referenced as evidence only; not claiming live migrate/publish',
+        sourcePath: 'web/src/engine/combatDataAssembler.ts',
+        sourceWorktree: 'web',
+        note: 'completedBoundary: targetEquipmentEntityIds projects selected target item static armor/MR, target-only derived bonus_armor/bonus_magic_resist, and target-owned provider mount',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'planning-validation-milestones',
+        sourcePath: 'web/src/engine/combatDataAssembler.test.ts',
+        sourceWorktree: 'web',
+        note: 'completedBoundary: jaksho-target-loadout-v2 target loadout + bonus projection (75/75 totals + 45/45 bonus pre-activation)',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'planning-validation-milestones',
+        sourcePath:
+          'wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go',
+        sourceWorktree: 'wasm',
+        note: 'completedBoundary: exact 75/75 + 45/45 → 88.5/88.5 at t=5000; later tick idempotent; target-owned; not live migrated/published',
       },
     ],
     aliases: ['item_6665_jaksho_voidborn_resilience_batch_v_a'],
@@ -3401,31 +3389,51 @@ function validateInventory(inv) {
   }
   if (
     !m6665 ||
-    m6665.status !== 'blocked_runtime' ||
-    m6665.completionMode !== 'partial' ||
+    m6665.status !== 'completed' ||
+    m6665.completionMode !== 'full' ||
     m6665.lane !== 'generic_runtime' ||
-    m6665.blocker !== 'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract' ||
-    !String(m6665.coverageBoundary || '').includes(
-      'controlled_5s_target_owned_synthetic_bonus_resist_branch_complete',
-    ) ||
-    !String(m6665.coverageBoundary || '').includes(
-      'real_target_equipment_or_loadout_projection_outside_generic_host_input_contract',
-    ) ||
-    m6665.runtimeGapEvidence?.dataStatus !== 'partial' ||
-    !String(m6665.runtimeGapEvidence?.remainingBoundary || '').includes(
-      'equipment/loadout',
+    m6665.blocker ||
+    m6665.runtimeGapEvidence !== null ||
+    !String(m6665.coverageBoundary || '').includes('targetEquipmentEntityIds') ||
+    !String(m6665.coverageBoundary || '').includes('bonus_armor') ||
+    !String(m6665.coverageBoundary || '').includes('bonus_magic_resist') ||
+    !String(m6665.coverageBoundary || '').includes('target_owned_provider_mount') ||
+    !String(m6665.coverageBoundary || '').includes('t5000') ||
+    !String(m6665.coverageBoundary || '').includes('idempotent') ||
+    !String(m6665.reason || '').includes('targetEquipmentEntityIds') ||
+    !String(m6665.reason || '').includes('88.5/88.5') ||
+    !String(m6665.reason || '').includes('不声称 live migrate/publish') ||
+    String(m6665.coverageBoundary || '').includes('synthetic') ||
+    String(m6665.reason || '').includes('剩余真实') ||
+    !(m6665.evidenceRefs || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql' &&
+        String(e.note || '').includes('loadout_equipment'),
     ) ||
     !(m6665.evidenceRefs || []).some(
       (e) =>
-        e.sourcePath ===
-        'wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go',
+        e.sourceWorktree === 'web' &&
+        (e.sourcePath === 'web/src/engine/combatDataAssembler.ts' ||
+          e.sourcePath === 'web/src/engine/combatDataAssembler.test.ts') &&
+        (String(e.note || '').includes('targetEquipmentEntityIds') ||
+          String(e.note || '').includes('bonus')),
     ) ||
     !(m6665.evidenceRefs || []).some(
-      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql',
-    )
+      (e) =>
+        e.sourceWorktree === 'wasm' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go' &&
+        String(e.note || '').includes('88.5/88.5') &&
+        String(e.note || '').includes('5000'),
+    ) ||
+    !(m6665.aliases || []).includes('item_6665_jaksho_voidborn_resilience_batch_v_a') ||
+    !(m6665.mechanismTags || []).includes('full_stack_resists') ||
+    !(m6665.mechanismTags || []).includes('target_armor_flat_bonus') ||
+    !(m6665.mechanismTags || []).includes('target_magic_resist_flat_bonus')
   ) {
     errors.push(
-      '6665 虚空天生 must be blocked_runtime/partial/generic_runtime with controlled 5s synthetic completedBoundary + equipment/loadout remaining runtimeGap and wasm/backend evidence refs',
+      '6665 虚空天生 must be completed/full/generic_runtime with null blocker/runtimeGap, real targetEquipmentEntityIds coverage boundary (no synthetic remaining gap), and backend loadout-eligibility + web assembler/test + wasm 75/75→88.5/88.5 evidence refs',
     );
   }
   if (
@@ -4187,11 +4195,14 @@ function validateInventory(inv) {
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== inv.mechanisms.length) {
     errors.push('summary.deduplicatedMechanismCount mismatch');
   }
-  if ((sc.completed || 0) !== 57) {
-    errors.push(`completed=${sc.completed}, expected 57`);
+  if ((inv.mechanisms || []).length !== 254) {
+    errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.blocked_runtime || 0) !== 116) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 116`);
+  if ((sc.completed || 0) !== 58) {
+    errors.push(`completed=${sc.completed}, expected 58`);
+  }
+  if ((sc.blocked_runtime || 0) !== 115) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 115`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4212,11 +4223,11 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 57) {
-    errors.push(`completionMode full=${cm.full}, expected 57`);
+  if ((cm.full || 0) !== 58) {
+    errors.push(`completionMode full=${cm.full}, expected 58`);
   }
-  if ((cm.partial || 0) !== 4) {
-    errors.push(`completionMode partial=${cm.partial}, expected 4`);
+  if ((cm.partial || 0) !== 3) {
+    errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
   if ((cm.none || 0) !== 193) {
     errors.push(`completionMode none=${cm.none}, expected 193`);
