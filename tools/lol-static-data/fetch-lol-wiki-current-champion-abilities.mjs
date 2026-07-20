@@ -1,23 +1,30 @@
 /**
  * Fetch / check current League Wiki champion ability templates.
  *
+ * Routing source (identity only, never regenerated here):
+ *   数据参考/lol-wiki-current-champions/identity-manifest.json
+ *
  * Modes:
- *   (default) / --refresh  network fetch, rewrite stable UTF-8/LF JSON under 数据参考/lol-wiki-current-champions/
- *   --check    offline; validate revision metadata, raw snapshot form, normalized extraction, exact bytes
+ *   --refresh  ONLY network-writing mode: fetch all identity-manifest entries + DEPENDENCY_SPECS
+ *   --check    fully offline validation; must NOT fetch or write
+ *   (default)  exits with usage; explicit --refresh required (breaking change from old default)
  *
  * Provenance:
- *   contentSha256 / rawByteSize hash the upstream API wikitext after LF canonicalization only.
- *   On-disk raw/*.wikitext files additionally strip trailing spaces/tabs per line and end with one newline.
+ *   contentSha256 / rawByteSize hash upstream API wikitext after LF canonicalization only.
+ *   On-disk raw/*.wikitext additionally strip trailing spaces/tabs per line and end with one newline.
  *   Those file-output whitespace normalizations must not change contentSha256.
  *
- * Dependencies (separate from the 8 champion ability pages):
+ * Output layout:
+ *   raw/{pageId}.wikitext
+ *   pages/{pageId}.json
+ *   normalized/generic/{pageId}.json
+ *   normalized/reviewed-contracts.json  (8 reviewed pages only)
+ *
+ * Dependencies (separate from champion ability pages):
  *   Template:Pplevel → Template:Passive progression level
  *   Module:Ability progression
- *   Stored under dependencies/ + dependencies/raw/; used to prove Kai'Sa P {{pplevel|A to B}}
- *   spans levels 1..18 with linear fill denominator 17.
  *
  * Usage:
- *   node tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs
  *   node tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs --refresh
  *   node tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs --check
  */
@@ -32,91 +39,34 @@ const repoRoot = path.resolve(__dirname, '..', '..');
 
 const WIKI_API = 'https://wiki.leagueoflegends.com/en-us/api.php';
 const WIKI_ORIGIN = 'https://wiki.leagueoflegends.com/en-us';
-const USER_AGENT = 'damage-wasm-dev/lol-wiki-current-champions/1.0';
+const USER_AGENT = 'damage-wasm-dev/lol-wiki-current-champions/2.0';
+const WIKI_BATCH_SIZE = 45;
 
 const OUTPUT_ROOT = path.join(repoRoot, '数据参考', 'lol-wiki-current-champions');
 const PAGES_DIR = path.join(OUTPUT_ROOT, 'pages');
 const RAW_DIR = path.join(OUTPUT_ROOT, 'raw');
 const NORMALIZED_DIR = path.join(OUTPUT_ROOT, 'normalized');
+const GENERIC_DIR = path.join(NORMALIZED_DIR, 'generic');
 const DEPENDENCIES_DIR = path.join(OUTPUT_ROOT, 'dependencies');
 const DEPENDENCIES_RAW_DIR = path.join(DEPENDENCIES_DIR, 'raw');
 
+const IDENTITY_MANIFEST_PATH = path.join(OUTPUT_ROOT, 'identity-manifest.json');
 const MANIFEST_PATH = path.join(OUTPUT_ROOT, 'manifest.json');
 const SUMMARY_PATH = path.join(OUTPUT_ROOT, 'summary.json');
 const CONTRACTS_PATH = path.join(NORMALIZED_DIR, 'reviewed-contracts.json');
 
-/** Request titles (skill letter forms); redirects are resolved and stored. */
-const PAGE_SPECS = [
-  {
-    id: 'ashe-q',
-    requestTitle: 'Template:Data Ashe/Q',
-    championId: 'Ashe',
-    skillKey: 'Q',
-    abilityName: "Ranger's Focus",
-    zhName: '射手的专注',
-  },
-  {
-    id: 'ashe-w',
-    requestTitle: 'Template:Data Ashe/W',
-    championId: 'Ashe',
-    skillKey: 'W',
-    abilityName: 'Volley',
-    zhName: '万箭齐发',
-  },
-  {
-    id: 'draven-q',
-    requestTitle: 'Template:Data Draven/Q',
-    championId: 'Draven',
-    skillKey: 'Q',
-    abilityName: 'Spinning Axe',
-    zhName: '旋转飞斧',
-  },
-  {
-    id: 'graves-p',
-    requestTitle: 'Template:Data Graves/I',
-    championId: 'Graves',
-    skillKey: 'P',
-    abilityName: 'New Destiny',
-    zhName: '新命运',
-  },
-  {
-    id: 'akshan-p',
-    requestTitle: 'Template:Data Akshan/I',
-    championId: 'Akshan',
-    skillKey: 'P',
-    abilityName: 'Dirty Fighting',
-    zhName: '无所不用',
-  },
-  {
-    id: 'akshan-e',
-    requestTitle: 'Template:Data Akshan/E',
-    championId: 'Akshan',
-    skillKey: 'E',
-    abilityName: 'Heroic Swing',
-    zhName: '骄行荡寇',
-  },
-  {
-    id: 'kaisa-p',
-    requestTitle: "Template:Data Kai'Sa/I",
-    championId: "Kai'Sa",
-    skillKey: 'P',
-    abilityName: 'Second Skin',
-    zhName: '体表活肤',
-  },
-  {
-    id: 'ezreal-p',
-    requestTitle: 'Template:Data Ezreal/I',
-    championId: 'Ezreal',
-    skillKey: 'P',
-    abilityName: 'Rising Spell Force',
-    zhName: '咒能高涨',
-  },
-];
+/** pageId values with hand-reviewed numeric extractors; mapped from old PAGE_SPECS. */
+const REVIEWED_PAGE_IDS = new Set([
+  'ashe-q',
+  'ashe-w',
+  'draven-q',
+  'graves-p',
+  'akshan-p',
+  'akshan-e',
+  'kaisa-p',
+  'ezreal-p',
+]);
 
-/**
- * Template/module dependencies used to interpret {{pplevel|A to B}}.
- * Separate from PAGE_SPECS; pageCount remains PAGE_SPECS.length.
- */
 const DEPENDENCY_SPECS = [
   {
     id: 'passive-progression-level',
@@ -141,6 +91,23 @@ const DEPENDENCY_SPECS = [
 const PPLEVEL_DEFAULT_SIZE = 18;
 const PPLEVEL_LINEAR_DENOMINATOR = PPLEVEL_DEFAULT_SIZE - 1;
 
+const TRACKED_FIELD_PATTERNS = [
+  /^description\d*$/i,
+  /^leveling\d*$/i,
+  /^cooldown$/i,
+  /^cost$/i,
+  /^costtype$/i,
+  /^damagetype$/i,
+  /^notes$/i,
+];
+
+const DATA_POLICY = {
+  numericTruthPrecedence: ['current_league_wiki_template_revision'],
+  ddragonProvenanceOnly: true,
+  blockedDataPolicy:
+    'DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract.',
+};
+
 function sha256Text(text) {
   return createHash('sha256').update(String(text), 'utf8').digest('hex');
 }
@@ -149,11 +116,6 @@ function canonicalizeLf(text) {
   return String(text ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 }
 
-/**
- * Deterministic on-disk raw snapshot form:
- * LF endings, no trailing spaces/tabs per line, exactly one final newline.
- * Does not change contentSha256 input (upstream LF text).
- */
 function serializeRawSnapshot(text) {
   const lf = canonicalizeLf(text);
   const stripped = lf.replace(/[ \t]+$/gm, '');
@@ -220,6 +182,281 @@ function fieldSnippet(raw, fieldName) {
   const m = raw.match(re);
   if (!m) return '';
   return snippetAround(raw, m[0], 160);
+}
+
+function deriveAbilityName(resolvedTitle) {
+  const m = String(resolvedTitle).match(/^Template:Data [^/]+\/(.+)$/);
+  return m ? m[1] : resolvedTitle;
+}
+
+function entryToSpec(entry, resolvedTitle) {
+  return {
+    id: entry.pageId,
+    championId: entry.wikiChampionTitle,
+    skillKey: entry.skillKey,
+    abilityName: deriveAbilityName(resolvedTitle),
+    zhName: entry.zhDisplayName,
+    requestTitle: entry.requestTitle,
+  };
+}
+
+function validateIdentityManifest(identityManifest, { rejectDuplicates = false } = {}) {
+  const errors = [];
+  const entries = identityManifest.entries || [];
+  if (identityManifest.entryCount !== entries.length) {
+    errors.push(
+      `identity-manifest entryCount ${identityManifest.entryCount} != entries.length ${entries.length}`,
+    );
+  }
+  const keys = new Set();
+  const titles = new Set();
+  const required = [
+    'candidateKey',
+    'ownerId',
+    'wikiChampionTitle',
+    'skillKey',
+    'requestTitle',
+    'zhDisplayName',
+    'pageId',
+  ];
+  for (const entry of entries) {
+    for (const field of required) {
+      if (entry[field] == null || entry[field] === '') {
+        errors.push(`${entry.pageId || entry.candidateKey || '?'}: missing ${field}`);
+      }
+    }
+    if (keys.has(entry.candidateKey)) {
+      errors.push(`duplicate candidateKey: ${entry.candidateKey}`);
+    }
+    if (titles.has(entry.requestTitle)) {
+      errors.push(`duplicate requestTitle: ${entry.requestTitle} (${entry.candidateKey})`);
+    }
+    keys.add(entry.candidateKey);
+    titles.add(entry.requestTitle);
+  }
+  const sorted = [...entries].sort((a, b) => a.candidateKey.localeCompare(b.candidateKey, 'en'));
+  for (let i = 0; i < entries.length; i++) {
+    if (entries[i].candidateKey !== sorted[i].candidateKey) {
+      errors.push('identity-manifest entries are not sorted by candidateKey');
+      break;
+    }
+  }
+  if (rejectDuplicates && errors.length) {
+    throw new Error(`identity-manifest validation failed:\n- ${errors.join('\n- ')}`);
+  }
+  return errors;
+}
+
+async function loadIdentityManifest(options = {}) {
+  if (!existsSync(IDENTITY_MANIFEST_PATH)) {
+    throw new Error(`missing identity manifest: ${IDENTITY_MANIFEST_PATH}`);
+  }
+  const identityManifest = JSON.parse(await readText(IDENTITY_MANIFEST_PATH));
+  validateIdentityManifest(identityManifest, options);
+  return identityManifest;
+}
+
+function scanDepthAt(text, start, end) {
+  let templateDepth = 0;
+  let bracketDepth = 0;
+  for (let i = start; i < end; i++) {
+    const two = text.slice(i, i + 2);
+    if (two === '{{') {
+      templateDepth++;
+      i++;
+      continue;
+    }
+    if (two === '}}') {
+      templateDepth--;
+      i++;
+      continue;
+    }
+    if (two === '[[') {
+      bracketDepth++;
+      i++;
+      continue;
+    }
+    if (two === ']]') {
+      bracketDepth--;
+      i++;
+      continue;
+    }
+  }
+  return { templateDepth, bracketDepth };
+}
+
+function findFirstAbilityFieldIndex(raw) {
+  const re = /\|(?:champion|skill|description)\d*\s*=/i;
+  const m = re.exec(raw);
+  return m ? m.index : -1;
+}
+
+function findMainTemplateContentStart(raw) {
+  const fieldIdx = findFirstAbilityFieldIndex(raw);
+  if (fieldIdx < 0) return 0;
+
+  let pos = fieldIdx;
+  while (pos > 0) {
+    const open = raw.lastIndexOf('{{', pos - 1);
+    if (open < 0) break;
+    const { templateDepth, bracketDepth } = scanDepthAt(raw, open + 2, fieldIdx);
+    if (templateDepth === 1 && bracketDepth === 0) {
+      return open + 2;
+    }
+    pos = open;
+  }
+  return fieldIdx;
+}
+
+function findMainTemplateContentEnd(raw, contentStart) {
+  const anchorDepth = scanDepthAt(raw, 0, contentStart);
+  let templateDepth = anchorDepth.templateDepth;
+  let bracketDepth = anchorDepth.bracketDepth;
+  for (let i = contentStart; i < raw.length; i++) {
+    const two = raw.slice(i, i + 2);
+    if (two === '{{') {
+      templateDepth++;
+      i++;
+      continue;
+    }
+    if (two === '}}') {
+      if (templateDepth === 0) return i;
+      templateDepth--;
+      i++;
+      continue;
+    }
+    if (two === '[[') {
+      bracketDepth++;
+      i++;
+      continue;
+    }
+    if (two === ']]') {
+      bracketDepth--;
+      i++;
+      continue;
+    }
+  }
+  return raw.length;
+}
+
+/**
+ * Parse top-level |field = values from the main ability-data template body.
+ * Handles nested {{...}} and [[...]] without flattening values.
+ */
+function parseTopLevelTemplateFields(raw) {
+  const contentStart = findMainTemplateContentStart(raw);
+  const contentEnd = findMainTemplateContentEnd(raw, contentStart);
+  const body = raw.slice(contentStart, contentEnd);
+
+  const anchorDepth = scanDepthAt(raw, 0, contentStart);
+  const fields = {};
+  let templateDepth = anchorDepth.templateDepth;
+  let bracketDepth = anchorDepth.bracketDepth;
+  let currentField = null;
+  let valueStart = -1;
+
+  for (let i = 0; i < body.length; i++) {
+    const two = body.slice(i, i + 2);
+    if (two === '{{') {
+      templateDepth++;
+      i++;
+      continue;
+    }
+    if (two === '}}') {
+      templateDepth--;
+      i++;
+      continue;
+    }
+    if (two === '[[') {
+      bracketDepth++;
+      i++;
+      continue;
+    }
+    if (two === ']]') {
+      bracketDepth--;
+      i++;
+      continue;
+    }
+
+    if (
+      templateDepth === anchorDepth.templateDepth &&
+      bracketDepth === anchorDepth.bracketDepth &&
+      body[i] === '|'
+    ) {
+      const rest = body.slice(i);
+      const named = rest.match(/^\|([^=\|\[{}\n]+?)\s*=\s*/);
+      if (named) {
+        if (currentField != null) {
+          fields[currentField] = body.slice(valueStart, i);
+        }
+        currentField = named[1].trim();
+        valueStart = i + named[0].length;
+        i = valueStart - 1;
+        continue;
+      }
+    }
+  }
+
+  if (currentField != null && valueStart >= 0) {
+    fields[currentField] = body.slice(valueStart);
+  }
+
+  return fields;
+}
+
+function isTrackedFieldName(name) {
+  return TRACKED_FIELD_PATTERNS.some((re) => re.test(name));
+}
+
+function buildGenericNormalized(entry, pageMeta, raw) {
+  const parsedFields = parseTopLevelTemplateFields(raw);
+  const fields = {};
+  const fieldPresence = {};
+
+  for (const [name, value] of Object.entries(parsedFields)) {
+    if (isTrackedFieldName(name)) {
+      fields[name] = value;
+      fieldPresence[name] = true;
+    }
+  }
+
+  for (const pattern of TRACKED_FIELD_PATTERNS) {
+    if (pattern.source.startsWith('^description') || pattern.source.startsWith('^leveling')) {
+      continue;
+    }
+    const canonical = pattern.source.replace(/^\^|\$$/g, '').replace(/\\s\*$/, '').replace(/\\d\*/g, '');
+    const found = Object.keys(parsedFields).find((k) => k.toLowerCase() === canonical.toLowerCase());
+    if (found) {
+      if (!(found in fields)) fields[found] = parsedFields[found];
+      fieldPresence[found] = true;
+    } else if (!Object.keys(fieldPresence).some((k) => k.toLowerCase() === canonical.toLowerCase())) {
+      fieldPresence[canonical.toLowerCase()] = false;
+    }
+  }
+
+  const hasReviewed = REVIEWED_PAGE_IDS.has(entry.pageId);
+
+  return {
+    schemaVersion: 'lol-wiki-ability-generic-v1',
+    pageId: entry.pageId,
+    candidateKey: entry.candidateKey,
+    ownerId: entry.ownerId,
+    wikiChampionTitle: entry.wikiChampionTitle,
+    skillKey: entry.skillKey,
+    requestTitle: entry.requestTitle,
+    zhDisplayName: entry.zhDisplayName,
+    resolvedTitle: pageMeta.resolvedTitle,
+    wikiPageId: pageMeta.pageId,
+    revisionId: pageMeta.revisionId,
+    revisionTimestamp: pageMeta.revisionTimestamp,
+    sourceUrl: pageMeta.sourceUrl,
+    contentSha256: pageMeta.contentSha256,
+    rawByteSize: pageMeta.rawByteSize,
+    fields,
+    fieldPresence,
+    numericContractStatus: hasReviewed ? 'reviewed_contract_separate' : 'generic_source_fields_only',
+    dataPolicy: DATA_POLICY,
+  };
 }
 
 function dependencyRelPaths(spec) {
@@ -304,10 +541,6 @@ function buildKaisaCausticWoundsFlat(raw, dependencyById) {
   };
 }
 
-/**
- * Reviewed, page-specific normalized contracts.
- * Every numeric/formula retains template/page/revision + source snippet.
- */
 function buildReviewedContract(spec, pageMeta, raw, dependencyById = new Map()) {
   const base = {
     id: spec.id,
@@ -323,8 +556,10 @@ function buildReviewedContract(spec, pageMeta, raw, dependencyById = new Map()) 
     sourceUrl: pageMeta.sourceUrl,
     contentSha256: pageMeta.contentSha256,
     dataPolicy: {
-      precedence: ['league_wiki_current_template', 'ddragon', 'batch_b_ocr_historical_provenance_only'],
-      blockedDataOnlyWhen: 'checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract',
+      precedence: ['current_league_wiki_template_revision'],
+      ddragonProvenanceOnly: true,
+      blockedDataOnlyWhen:
+        'checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract',
     },
   };
 
@@ -677,13 +912,11 @@ function validateContractAgainstRaw(contract, raw, options = {}) {
   if (!status) errors.push(`${contract.id}: missing numericContractStatus`);
   if (!contract.contentSha256) errors.push(`${contract.id}: missing contentSha256`);
   if (!contract.revisionId) errors.push(`${contract.id}: missing revisionId`);
-  // contentSha256 is upstream API text (LF-only). On-disk raw may be whitespace-normalized.
   const hashSource = options.upstreamRaw ?? null;
   if (hashSource != null && contract.contentSha256 !== sha256Text(hashSource)) {
     errors.push(`${contract.id}: contentSha256 mismatch vs upstream raw`);
   }
 
-  // Spot-check decision-relevant snippets exist in raw.
   const mustFind = [];
   switch (contract.id) {
     case 'ashe-q':
@@ -721,7 +954,9 @@ function validateContractAgainstRaw(contract, raw, options = {}) {
   }
   for (const needle of mustFind) {
     if (!raw.includes(needle)) {
-      errors.push(`${contract.id}: expected raw snippet missing: ${needle}`);
+      errors.push(
+        `${contract.id}: Wiki revision changed reviewed contract — expected raw snippet missing: ${needle}`,
+      );
     }
   }
 
@@ -759,10 +994,6 @@ function validateContractAgainstRaw(contract, raw, options = {}) {
   return errors;
 }
 
-/**
- * Fail-closed anchors proving Template:Pplevel → Module:Ability progression|pplevel
- * and the default-size / linear-fill interpretation for bare A to B.
- */
 function validateDependencyAnchors(spec, raw) {
   const errors = [];
   if (spec.id === 'passive-progression-level') {
@@ -826,7 +1057,7 @@ async function queryWikiPagesByTitles(titles) {
   const byTitle = new Map();
   for (const page of Object.values(pages)) {
     if (page.missing !== undefined) {
-      throw new Error(`Wiki page missing: ${page.title}`);
+      throw new Error(`Wiki page missing: ${page.title} (request batch titles: ${titles.join(', ')})`);
     }
     const revision = page.revisions?.[0];
     const content = revision?.slots?.main?.['*'];
@@ -858,29 +1089,31 @@ function resolveRequestedTitle(requestTitle, normalizedMap, redirectMap, byTitle
   return page;
 }
 
-async function fetchPages() {
-  const { byTitle, redirectMap, normalizedMap } = await queryWikiPagesByTitles(
-    PAGE_SPECS.map((s) => s.requestTitle),
-  );
-
+async function fetchIdentityPages(entries) {
   const results = [];
-  for (const spec of PAGE_SPECS) {
-    const page = resolveRequestedTitle(spec.requestTitle, normalizedMap, redirectMap, byTitle);
-    const contentSha256 = sha256Text(page.rawWikitext);
-    results.push({
-      spec,
-      pageMeta: {
-        requestTitle: spec.requestTitle,
-        resolvedTitle: page.resolvedTitle,
-        pageId: page.pageId,
-        revisionId: page.revisionId,
-        revisionTimestamp: page.revisionTimestamp,
-        sourceUrl: pageSourceUrl(page.resolvedTitle),
-        contentSha256,
-        rawByteSize: Buffer.byteLength(page.rawWikitext, 'utf8'),
-      },
-      rawWikitext: page.rawWikitext,
-    });
+  for (let i = 0; i < entries.length; i += WIKI_BATCH_SIZE) {
+    const batch = entries.slice(i, i + WIKI_BATCH_SIZE);
+    const { byTitle, redirectMap, normalizedMap } = await queryWikiPagesByTitles(
+      batch.map((e) => e.requestTitle),
+    );
+    for (const entry of batch) {
+      const page = resolveRequestedTitle(entry.requestTitle, normalizedMap, redirectMap, byTitle);
+      const contentSha256 = sha256Text(page.rawWikitext);
+      results.push({
+        entry,
+        pageMeta: {
+          requestTitle: entry.requestTitle,
+          resolvedTitle: page.resolvedTitle,
+          pageId: page.pageId,
+          revisionId: page.revisionId,
+          revisionTimestamp: page.revisionTimestamp,
+          sourceUrl: pageSourceUrl(page.resolvedTitle),
+          contentSha256,
+          rawByteSize: Buffer.byteLength(page.rawWikitext, 'utf8'),
+        },
+        rawWikitext: page.rawWikitext,
+      });
+    }
   }
   return results;
 }
@@ -949,27 +1182,75 @@ function buildDependencyJsonPayload(depMeta) {
   };
 }
 
-function buildOutputs(fetchedAt, pageResults, dependencyResults, options = {}) {
+function buildPageJsonPayload(entry, pageMeta) {
+  return {
+    id: entry.pageId,
+    candidateKey: entry.candidateKey,
+    ownerId: entry.ownerId,
+    wikiChampionTitle: entry.wikiChampionTitle,
+    skillKey: entry.skillKey,
+    requestTitle: entry.requestTitle,
+    zhDisplayName: entry.zhDisplayName,
+    resolvedTitle: pageMeta.resolvedTitle,
+    pageId: pageMeta.pageId,
+    revisionId: pageMeta.revisionId,
+    revisionTimestamp: pageMeta.revisionTimestamp,
+    sourceUrl: pageMeta.sourceUrl,
+    contentSha256: pageMeta.contentSha256,
+    rawByteSize: pageMeta.rawByteSize,
+    rawRelPath: `raw/${entry.pageId}.wikitext`,
+    genericRelPath: `normalized/generic/${entry.pageId}.json`,
+  };
+}
+
+function buildOutputs(fetchedAt, identityEntries, pageResults, dependencyResults, options = {}) {
   const dependencyById = dependencyByIdFromResults(dependencyResults);
   const pages = [];
   const contracts = [];
-  for (const { spec, pageMeta, rawWikitext, upstreamWikitext } of pageResults) {
-    const contract = buildReviewedContract(spec, pageMeta, rawWikitext, dependencyById);
-    const validationErrors = validateContractAgainstRaw(contract, rawWikitext, {
-      upstreamRaw: options.verifyUpstreamHash
-        ? (upstreamWikitext ?? rawWikitext)
-        : null,
-    });
-    if (validationErrors.length) {
-      throw new Error(`Contract validation failed:\n- ${validationErrors.join('\n- ')}`);
+  const genericRecords = [];
+
+  for (const { entry, pageMeta, rawWikitext, upstreamWikitext } of pageResults) {
+    const generic = buildGenericNormalized(entry, pageMeta, rawWikitext);
+    genericRecords.push({ entry, generic });
+
+    if (REVIEWED_PAGE_IDS.has(entry.pageId)) {
+      const spec = entryToSpec(entry, pageMeta.resolvedTitle);
+      const contract = buildReviewedContract(spec, pageMeta, rawWikitext, dependencyById);
+      const validationErrors = validateContractAgainstRaw(contract, rawWikitext, {
+        upstreamRaw: options.verifyUpstreamHash ? (upstreamWikitext ?? rawWikitext) : null,
+      });
+      if (validationErrors.length) {
+        throw new Error(
+          `Reviewed contract validation failed for ${entry.pageId} — STOP, do not invent numbers:\n- ${validationErrors.join('\n- ')}`,
+        );
+      }
+      contracts.push(contract);
     }
+
     pages.push({
-      id: spec.id,
-      ...pageMeta,
-      rawRelPath: `raw/${spec.id}.wikitext`,
-      pageRelPath: `pages/${spec.id}.json`,
+      id: entry.pageId,
+      candidateKey: entry.candidateKey,
+      ownerId: entry.ownerId,
+      wikiChampionTitle: entry.wikiChampionTitle,
+      skillKey: entry.skillKey,
+      requestTitle: pageMeta.requestTitle,
+      resolvedTitle: pageMeta.resolvedTitle,
+      pageId: pageMeta.pageId,
+      revisionId: pageMeta.revisionId,
+      revisionTimestamp: pageMeta.revisionTimestamp,
+      contentSha256: pageMeta.contentSha256,
+      rawByteSize: pageMeta.rawByteSize,
+      sourceUrl: pageMeta.sourceUrl,
+      rawRelPath: `raw/${entry.pageId}.wikitext`,
+      pageRelPath: `pages/${entry.pageId}.json`,
+      genericRelPath: `normalized/generic/${entry.pageId}.json`,
     });
-    contracts.push(contract);
+  }
+
+  if (pageResults.length !== identityEntries.length) {
+    throw new Error(
+      `pageResults.length ${pageResults.length} != identityEntries.length ${identityEntries.length}`,
+    );
   }
 
   const dependencies = dependencyResults
@@ -977,71 +1258,19 @@ function buildOutputs(fetchedAt, pageResults, dependencyResults, options = {}) {
     .sort((a, b) => a.id.localeCompare(b.id, 'en'));
 
   const reviewedContracts = {
-    schemaVersion: 'lol-wiki-current-champion-abilities-v1',
+    schemaVersion: 'lol-wiki-current-champion-abilities-v2',
     fetchedAt,
     sourceApi: WIKI_API,
-    dataPolicy: {
-      numericTruthPrecedence: [
-        'current_league_wiki_template_revision',
-        'data_dragon_secondary',
-        'batch_b_ocr_historical_provenance_only',
-      ],
-      blockedDataPolicy:
-        'A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract. Screenshots/OCR are not an acceptable missing-data source.',
-    },
+    dataPolicy: DATA_POLICY,
     contracts: contracts.sort((a, b) => a.id.localeCompare(b.id, 'en')),
   };
 
   const summary = {
-    schemaVersion: 'lol-wiki-current-champion-abilities-summary-v1',
+    schemaVersion: 'lol-wiki-current-champion-abilities-summary-v2',
     fetchedAt,
+    identityEntryCount: identityEntries.length,
     pageCount: pages.length,
-    dependencyCount: dependencies.length,
-    pages: pages.map((p) => ({
-      id: p.id,
-      requestTitle: p.requestTitle,
-      resolvedTitle: p.resolvedTitle,
-      pageId: p.pageId,
-      revisionId: p.revisionId,
-      revisionTimestamp: p.revisionTimestamp,
-      contentSha256: p.contentSha256,
-      rawByteSize: p.rawByteSize,
-      sourceUrl: p.sourceUrl,
-    })),
-    dependencies: dependencies.map((d) => ({
-      id: d.id,
-      kind: d.kind,
-      requestTitle: d.requestTitle,
-      resolvedTitle: d.resolvedTitle,
-      pageId: d.pageId,
-      revisionId: d.revisionId,
-      revisionTimestamp: d.revisionTimestamp,
-      contentSha256: d.contentSha256,
-      rawByteSize: d.rawByteSize,
-      sourceUrl: d.sourceUrl,
-    })),
-    contractIds: reviewedContracts.contracts.map((c) => c.id),
-    numericContractStatusCounts: reviewedContracts.contracts.reduce((acc, c) => {
-      acc[c.numericContractStatus] = (acc[c.numericContractStatus] || 0) + 1;
-      return acc;
-    }, {}),
-  };
-
-  const manifest = {
-    schemaVersion: 'lol-wiki-current-champion-abilities-manifest-v1',
-    fetchedAt,
-    generator: 'tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs',
-    api: WIKI_API,
-    outputs: {
-      manifest: 'manifest.json',
-      summary: 'summary.json',
-      reviewedContracts: 'normalized/reviewed-contracts.json',
-      pagesDir: 'pages/',
-      rawDir: 'raw/',
-      dependenciesDir: 'dependencies/',
-      dependenciesRawDir: 'dependencies/raw/',
-    },
-    pageCount: pages.length,
+    reviewedContractCount: contracts.length,
     dependencyCount: dependencies.length,
     pages: pages
       .map((p) => ({
@@ -1054,8 +1283,63 @@ function buildOutputs(fetchedAt, pageResults, dependencyResults, options = {}) {
         contentSha256: p.contentSha256,
         rawByteSize: p.rawByteSize,
         sourceUrl: p.sourceUrl,
+      }))
+      .sort((a, b) => a.id.localeCompare(b.id, 'en')),
+    dependencies: dependencies.map((d) => ({
+      id: d.id,
+      kind: d.kind,
+      requestTitle: d.requestTitle,
+      resolvedTitle: d.resolvedTitle,
+      pageId: d.pageId,
+      revisionId: d.revisionId,
+      revisionTimestamp: d.revisionTimestamp,
+      contentSha256: d.contentSha256,
+      rawByteSize: d.rawByteSize,
+      sourceUrl: d.sourceUrl,
+    })),
+    reviewedContractIds: reviewedContracts.contracts.map((c) => c.id),
+    numericContractStatusCounts: reviewedContracts.contracts.reduce((acc, c) => {
+      acc[c.numericContractStatus] = (acc[c.numericContractStatus] || 0) + 1;
+      return acc;
+    }, {}),
+  };
+
+  const manifest = {
+    schemaVersion: 'lol-wiki-current-champion-abilities-manifest-v2',
+    fetchedAt,
+    generator: 'tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs',
+    api: WIKI_API,
+    identityManifest: 'identity-manifest.json',
+    identityEntryCount: identityEntries.length,
+    outputs: {
+      identityManifest: 'identity-manifest.json',
+      manifest: 'manifest.json',
+      summary: 'summary.json',
+      reviewedContracts: 'normalized/reviewed-contracts.json',
+      genericDir: 'normalized/generic/',
+      pagesDir: 'pages/',
+      rawDir: 'raw/',
+      dependenciesDir: 'dependencies/',
+      dependenciesRawDir: 'dependencies/raw/',
+    },
+    pageCount: pages.length,
+    reviewedContractCount: contracts.length,
+    dependencyCount: dependencies.length,
+    pages: pages
+      .map((p) => ({
+        id: p.id,
+        candidateKey: p.candidateKey,
+        requestTitle: p.requestTitle,
+        resolvedTitle: p.resolvedTitle,
+        pageId: p.pageId,
+        revisionId: p.revisionId,
+        revisionTimestamp: p.revisionTimestamp,
+        contentSha256: p.contentSha256,
+        rawByteSize: p.rawByteSize,
+        sourceUrl: p.sourceUrl,
         rawRelPath: p.rawRelPath,
         pageRelPath: p.pageRelPath,
+        genericRelPath: p.genericRelPath,
       }))
       .sort((a, b) => a.id.localeCompare(b.id, 'en')),
     dependencies: dependencies.map((d) => ({
@@ -1074,30 +1358,28 @@ function buildOutputs(fetchedAt, pageResults, dependencyResults, options = {}) {
     })),
   };
 
-  return { manifest, summary, reviewedContracts, pageResults, dependencyResults };
+  return { manifest, summary, reviewedContracts, genericRecords, pageResults, dependencyResults };
 }
 
 async function writeAll(outputs) {
-  const { manifest, summary, reviewedContracts, pageResults, dependencyResults } = outputs;
+  const { manifest, summary, reviewedContracts, genericRecords, pageResults, dependencyResults } =
+    outputs;
   await ensureDir(OUTPUT_ROOT);
   await ensureDir(PAGES_DIR);
   await ensureDir(RAW_DIR);
   await ensureDir(NORMALIZED_DIR);
+  await ensureDir(GENERIC_DIR);
   await ensureDir(DEPENDENCIES_DIR);
   await ensureDir(DEPENDENCIES_RAW_DIR);
 
-  for (const { spec, pageMeta, rawWikitext, upstreamWikitext } of pageResults) {
+  for (const { entry, pageMeta, rawWikitext, upstreamWikitext } of pageResults) {
     const upstream = upstreamWikitext ?? rawWikitext;
-    await writeTextLf(path.join(RAW_DIR, `${spec.id}.wikitext`), serializeRawSnapshot(upstream));
-    await writeJsonLf(path.join(PAGES_DIR, `${spec.id}.json`), {
-      id: spec.id,
-      championId: spec.championId,
-      skillKey: spec.skillKey,
-      abilityName: spec.abilityName,
-      zhName: spec.zhName,
-      ...pageMeta,
-      rawRelPath: `raw/${spec.id}.wikitext`,
-    });
+    await writeTextLf(path.join(RAW_DIR, `${entry.pageId}.wikitext`), serializeRawSnapshot(upstream));
+    await writeJsonLf(path.join(PAGES_DIR, `${entry.pageId}.json`), buildPageJsonPayload(entry, pageMeta));
+  }
+
+  for (const { entry, generic } of genericRecords) {
+    await writeJsonLf(path.join(GENERIC_DIR, `${entry.pageId}.json`), generic);
   }
 
   for (const { spec, depMeta, rawWikitext, upstreamWikitext } of dependencyResults) {
@@ -1117,38 +1399,43 @@ async function writeAll(outputs) {
   await writeJsonLf(CONTRACTS_PATH, reviewedContracts);
 }
 
-async function loadStoredPageResults() {
-  if (!existsSync(MANIFEST_PATH)) {
-    throw new Error(`missing manifest: ${MANIFEST_PATH}`);
-  }
-  const manifest = JSON.parse(await readText(MANIFEST_PATH));
+async function loadStoredPageResults(identityEntries, manifest) {
+  const manifestById = new Map((manifest.pages || []).map((p) => [p.id, p]));
   const pageResults = [];
-  for (const spec of PAGE_SPECS) {
-    const pagePath = path.join(PAGES_DIR, `${spec.id}.json`);
-    const rawPath = path.join(RAW_DIR, `${spec.id}.wikitext`);
-    if (!existsSync(pagePath) || !existsSync(rawPath)) {
-      throw new Error(`missing stored page/raw for ${spec.id}`);
+
+  for (const entry of identityEntries) {
+    const manifestEntry = manifestById.get(entry.pageId);
+    if (!manifestEntry) {
+      throw new Error(`${entry.pageId}: in identity-manifest but missing from manifest.pages`);
+    }
+    const pagePath = path.join(PAGES_DIR, `${entry.pageId}.json`);
+    const rawPath = path.join(RAW_DIR, `${entry.pageId}.wikitext`);
+    const genericPath = path.join(GENERIC_DIR, `${entry.pageId}.json`);
+    if (!existsSync(pagePath) || !existsSync(rawPath) || !existsSync(genericPath)) {
+      throw new Error(`missing stored page/raw/generic for ${entry.pageId}`);
     }
     const pageJson = JSON.parse(await readText(pagePath));
     const rawWikitext = await readText(rawPath);
     const serialized = serializeRawSnapshot(rawWikitext);
     if (rawWikitext !== serialized) {
-      throw new Error(`${spec.id}: raw file is not in canonical snapshot form (LF, no trailing horizontal whitespace, final newline)`);
+      throw new Error(
+        `${entry.pageId}: raw file is not in canonical snapshot form (LF, no trailing horizontal whitespace, final newline)`,
+      );
     }
-    const manifestEntry = (manifest.pages || []).find((p) => p.id === spec.id);
-    if (!manifestEntry) throw new Error(`${spec.id}: missing from manifest`);
     if (manifestEntry.contentSha256 !== pageJson.contentSha256) {
-      throw new Error(`${spec.id}: manifest contentSha256 mismatch`);
+      throw new Error(`${entry.pageId}: manifest contentSha256 mismatch vs page json`);
     }
     if (manifestEntry.rawByteSize !== pageJson.rawByteSize) {
-      throw new Error(`${spec.id}: manifest rawByteSize mismatch`);
+      throw new Error(`${entry.pageId}: manifest rawByteSize mismatch vs page json`);
     }
     if (manifestEntry.revisionId !== pageJson.revisionId) {
-      throw new Error(`${spec.id}: manifest revisionId mismatch`);
+      throw new Error(`${entry.pageId}: manifest revisionId mismatch vs page json`);
     }
-    // contentSha256 / rawByteSize are upstream provenance, not on-disk snapshot digests.
+    if (manifestEntry.revisionTimestamp !== pageJson.revisionTimestamp) {
+      throw new Error(`${entry.pageId}: manifest revisionTimestamp mismatch vs page json`);
+    }
     pageResults.push({
-      spec,
+      entry,
       pageMeta: {
         requestTitle: pageJson.requestTitle,
         resolvedTitle: pageJson.resolvedTitle,
@@ -1162,7 +1449,8 @@ async function loadStoredPageResults() {
       rawWikitext,
     });
   }
-  return { manifest, pageResults };
+
+  return pageResults;
 }
 
 async function loadStoredDependencyResults(manifest) {
@@ -1227,19 +1515,35 @@ async function loadStoredDependencyResults(manifest) {
       `manifest.dependencyCount expected ${DEPENDENCY_SPECS.length}, got ${manifest.dependencyCount}`,
     );
   }
-  if ((manifest.pageCount ?? PAGE_SPECS.length) !== PAGE_SPECS.length) {
-    throw new Error(`manifest.pageCount expected ${PAGE_SPECS.length}, got ${manifest.pageCount}`);
-  }
 
   return dependencyResults;
 }
 
 async function checkMode() {
-  const { manifest, pageResults } = await loadStoredPageResults();
+  const identityManifest = await loadIdentityManifest({ rejectDuplicates: true });
+  const identityEntries = identityManifest.entries;
+  const identityErrors = validateIdentityManifest(identityManifest);
+  if (identityErrors.length) {
+    throw new Error(`identity-manifest invalid:\n- ${identityErrors.join('\n- ')}`);
+  }
+
+  if (!existsSync(MANIFEST_PATH)) {
+    throw new Error(`missing manifest: ${MANIFEST_PATH}`);
+  }
+  const manifest = JSON.parse(await readText(MANIFEST_PATH));
+  if (manifest.identityEntryCount !== identityEntries.length) {
+    throw new Error(
+      `manifest.identityEntryCount ${manifest.identityEntryCount} != identity entries ${identityEntries.length}`,
+    );
+  }
+  if (manifest.pageCount !== identityEntries.length) {
+    throw new Error(`manifest.pageCount ${manifest.pageCount} != identity entries ${identityEntries.length}`);
+  }
+
+  const pageResults = await loadStoredPageResults(identityEntries, manifest);
   const dependencyResults = await loadStoredDependencyResults(manifest);
   const fetchedAt = manifest.fetchedAt;
-  // Offline check uses on-disk snapshots for snippets; upstream hash was recorded at refresh.
-  const rebuilt = buildOutputs(fetchedAt, pageResults, dependencyResults, {
+  const rebuilt = buildOutputs(fetchedAt, identityEntries, pageResults, dependencyResults, {
     verifyUpstreamHash: false,
   });
 
@@ -1249,19 +1553,15 @@ async function checkMode() {
     [CONTRACTS_PATH, rebuilt.reviewedContracts],
   ];
 
-  for (const { spec, pageMeta } of pageResults) {
+  for (const { entry, pageMeta } of pageResults) {
     expectedFiles.push([
-      path.join(PAGES_DIR, `${spec.id}.json`),
-      {
-        id: spec.id,
-        championId: spec.championId,
-        skillKey: spec.skillKey,
-        abilityName: spec.abilityName,
-        zhName: spec.zhName,
-        ...pageMeta,
-        rawRelPath: `raw/${spec.id}.wikitext`,
-      },
+      path.join(PAGES_DIR, `${entry.pageId}.json`),
+      buildPageJsonPayload(entry, pageMeta),
     ]);
+  }
+
+  for (const { entry, generic } of rebuilt.genericRecords) {
+    expectedFiles.push([path.join(GENERIC_DIR, `${entry.pageId}.json`), generic]);
   }
 
   for (const { depMeta } of dependencyResults) {
@@ -1284,9 +1584,6 @@ async function checkMode() {
     }
   }
 
-  // Raw wikitext already hash-checked in loadStoredPageResults; re-validate contracts.
-  void rawWikitextGuard(pageResults);
-
   if (errors.length) {
     console.error('--check failed:');
     for (const e of errors) console.error(`- ${e}`);
@@ -1297,19 +1594,11 @@ async function checkMode() {
   console.log(
     JSON.stringify(
       {
+        identityEntryCount: identityEntries.length,
         pageCount: rebuilt.summary.pageCount,
+        reviewedContractCount: rebuilt.summary.reviewedContractCount,
         dependencyCount: rebuilt.summary.dependencyCount,
         numericContractStatusCounts: rebuilt.summary.numericContractStatusCounts,
-        pages: rebuilt.summary.pages.map((p) => ({
-          id: p.id,
-          revisionId: p.revisionId,
-          contentSha256: p.contentSha256,
-        })),
-        dependencies: rebuilt.summary.dependencies.map((d) => ({
-          id: d.id,
-          revisionId: d.revisionId,
-          contentSha256: d.contentSha256,
-        })),
       },
       null,
       2,
@@ -1317,27 +1606,30 @@ async function checkMode() {
   );
 }
 
-function rawWikitextGuard(pageResults) {
-  for (const { spec, rawWikitext, pageMeta } of pageResults) {
-    if (!rawWikitext || !pageMeta.contentSha256) {
-      throw new Error(`raw guard failed for ${spec.id}`);
-    }
-  }
-}
-
 async function refreshMode() {
+  const identityManifest = await loadIdentityManifest({ rejectDuplicates: true });
+  const identityEntries = identityManifest.entries;
   const fetchedAt = new Date().toISOString();
-  const fetched = await fetchPages();
+
+  const fetched = await fetchIdentityPages(identityEntries);
   const fetchedDeps = await fetchDependencies();
-  const pageResults = fetched.map((row) => ({
-    ...row,
-    upstreamWikitext: row.rawWikitext,
-  }));
-  const dependencyResults = fetchedDeps.map((row) => ({
-    ...row,
-    upstreamWikitext: row.rawWikitext,
-  }));
-  const outputs = buildOutputs(fetchedAt, pageResults, dependencyResults, {
+  const pageResults = fetched.map((row) => {
+    const upstreamWikitext = row.rawWikitext;
+    return {
+      ...row,
+      rawWikitext: serializeRawSnapshot(upstreamWikitext),
+      upstreamWikitext,
+    };
+  });
+  const dependencyResults = fetchedDeps.map((row) => {
+    const upstreamWikitext = row.rawWikitext;
+    return {
+      ...row,
+      rawWikitext: serializeRawSnapshot(upstreamWikitext),
+      upstreamWikitext,
+    };
+  });
+  const outputs = buildOutputs(fetchedAt, identityEntries, pageResults, dependencyResults, {
     verifyUpstreamHash: true,
   });
   await writeAll(outputs);
@@ -1346,21 +1638,11 @@ async function refreshMode() {
     JSON.stringify(
       {
         outputRoot: path.relative(repoRoot, OUTPUT_ROOT),
+        identityEntryCount: identityEntries.length,
         pageCount: outputs.summary.pageCount,
+        reviewedContractCount: outputs.summary.reviewedContractCount,
         dependencyCount: outputs.summary.dependencyCount,
         numericContractStatusCounts: outputs.summary.numericContractStatusCounts,
-        pages: outputs.summary.pages.map((p) => ({
-          id: p.id,
-          resolvedTitle: p.resolvedTitle,
-          revisionId: p.revisionId,
-          contentSha256: p.contentSha256,
-        })),
-        dependencies: outputs.summary.dependencies.map((d) => ({
-          id: d.id,
-          resolvedTitle: d.resolvedTitle,
-          revisionId: d.revisionId,
-          contentSha256: d.contentSha256,
-        })),
       },
       null,
       2,
@@ -1371,9 +1653,14 @@ async function refreshMode() {
 async function main() {
   const args = process.argv.slice(2);
   const check = args.includes('--check');
-  const refresh = args.includes('--refresh') || !check;
-  if (args.includes('--refresh') && check) {
+  const refresh = args.includes('--refresh');
+  if (check && refresh) {
     console.error('Specify at most one of --refresh or --check');
+    process.exit(2);
+  }
+  if (!check && !refresh) {
+    console.error('Usage: node tools/lol-static-data/fetch-lol-wiki-current-champion-abilities.mjs --refresh|--check');
+    console.error('Default no longer refreshes; pass --refresh explicitly.');
     process.exit(2);
   }
   if (refresh) {

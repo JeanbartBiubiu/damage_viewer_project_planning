@@ -89,6 +89,31 @@ const ITEM_CLASSIFICATION_OVERRIDES = new Map([
       'takedown 后仅增加攻击距离，无伤害增量；不与 Magnification/高倍望远镜合并。',
     ),
   ],
+  // Focused Will 3161：Wiki-only ability/pet stacking amp 已闭环；不得再标 needs_manual_baseline/DDragon。
+  [
+    '3161:专注意志',
+    alreadyCovered(
+      [
+        'ability_pet_stack_grant',
+        'per_cast_throttle',
+        'stacking_outgoing_amp',
+        'cast_origin_provenance',
+      ],
+      'Wiki-only Focused Will：ability|pet grant / perCastThrottle 1000ms / max4 / 6000ms aggregate / 3% ability|pet|proc amp；数值真源为 League Wiki item manifest',
+    ),
+  ],
+  // Nightstalker 3179：用户批准 Phase-A start-ready 1v1 真伤已闭环；不得再标 needs_runtime_extension。
+  [
+    '3179:夜行者',
+    alreadyCovered(
+      [
+        'spellblade_next_attack_state',
+        'start_ready_true_on_hit',
+        'armor_pen_flat_scaled_true',
+      ],
+      'Wiki+Phase-A Nightstalker：start-ready / first BA true 50+1.5*armor_pen_flat / consume / no re-arm；排除视野/4s窗/re-arm/Blackout；数值真源为 League Wiki item manifest',
+    ),
+  ],
 ]);
 
 /** Hero skill overrides keyed by `${heroId}:${skillKey}` (heroId already lowercased). */
@@ -122,6 +147,14 @@ const HERO_CLASSIFICATION_OVERRIDES = new Map([
         'magic_proc_on_third_stack',
       ],
       'partial core only（Batch-G schema）：verified AA dirty_fighting_stacks/third-stack magic；非 full；其余缺口见 G8/unified',
+    ),
+  ],
+  // Kindred P Mark of the Kindred：用户批准 fixed 25-mark Phase-A 已闭环；不得标 needs_runtime_extension。
+  [
+    'hero_kindred:P',
+    alreadyCovered(
+      ['attack_range_bonus', 'fixed_max_marks_phase_a', 'baked_qwe_mark_coefficients'],
+      'Wiki+Phase-A fixed 25-mark：attack_range +250 / Q AS 1.60×4000ms / W·E baked coefficients；排除狩猎/takedown/中间叠层；Q/W/E inventory 不因此升级',
     ),
   ],
 ]);
@@ -684,7 +717,20 @@ function stripGeneratedAt(audit) {
   return out;
 }
 
+function championDDragonRemovedMessage() {
+  return [
+    'Phase A: 数据参考/champion.json 与 数据参考/champion/ 已删除。',
+    'Batch-G 生成器不再从 DDragon 重建候选池。',
+    'G8 继续读取冻结 provenance：最小验证/V2-Batch-G-adc-passive-audit.json',
+    '（由本脚本在 DDragon 删除前生成，或自 git 历史恢复）。',
+    '英雄数值真源已切换至 数据参考/lol-wiki-current-champions/identity-manifest.json + normalized/generic|reviewed-contracts。',
+  ].join(' ');
+}
+
 function buildAudit() {
+  if (!fs.existsSync(paths.championIndex) || !fs.existsSync(paths.championDir)) {
+    throw new Error(championDDragonRemovedMessage());
+  }
   const championIndex = readJson(paths.championIndex);
   const itemRoot = readJson(paths.itemIndex);
   const heroPassiveSeed = readJson(paths.heroPassiveSeed);
@@ -842,18 +888,93 @@ function validateAudit(audit) {
       'Akshan P 无所不用 must be already_covered under verified Dirty Fighting damage core (partial core only; not survivability-only out_of_scope)',
     );
   }
+  const kindredP = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_kindred' && c.skillKey === 'P' && c.passiveName === '千珏之印',
+  );
+  if (
+    !kindredP
+    || kindredP.classification !== 'already_covered'
+    || /needs_runtime_extension|kindred_mark_stacks_max_assumption|distance_based/i.test(
+      String(kindredP.blockedReason || ''),
+    )
+    || !(kindredP.mechanismTags || []).includes('attack_range_bonus')
+    || !(kindredP.mechanismTags || []).includes('fixed_max_marks_phase_a')
+    || !(kindredP.mechanismTags || []).includes('baked_qwe_mark_coefficients')
+  ) {
+    errors.push(
+      'Kindred P 千珏之印 must be already_covered under fixed 25-mark Phase-A (not needs_runtime_extension/distance_based)',
+    );
+  }
+  const kindredQ = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_kindred' && c.skillKey === 'Q' && c.passiveName === '乱箭之舞',
+  );
+  const kindredW = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_kindred' && c.skillKey === 'W' && c.passiveName === '狼灵狂热',
+  );
+  const kindredE = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_kindred' && c.skillKey === 'E' && c.passiveName === '横生惧意',
+  );
+  const kindredR = (audit.candidates || []).find(
+    (c) => c.ownerId === 'hero_kindred' && c.skillKey === 'R' && c.passiveName === '羊灵生息',
+  );
+  if (!kindredQ || kindredQ.classification !== 'out_of_scope_for_single_target_dps') {
+    errors.push('Kindred Q must remain out_of_scope_for_single_target_dps (probe must not upgrade)');
+  }
+  if (!kindredW || kindredW.classification !== 'out_of_scope_for_single_target_dps') {
+    errors.push('Kindred W must remain out_of_scope_for_single_target_dps (probe must not upgrade)');
+  }
+  if (!kindredE || kindredE.classification !== 'needs_runtime_extension') {
+    errors.push('Kindred E must remain needs_runtime_extension (probe must not upgrade)');
+  }
+  if (!kindredR || kindredR.classification !== 'out_of_scope_for_single_target_dps') {
+    errors.push('Kindred R must remain out_of_scope_for_single_target_dps');
+  }
   const terminus = (audit.candidates || []).find(
     (c) => c.ownerId === '3302' && c.passiveName === '晦影',
   );
   if (!terminus || terminus.classification !== 'ready_to_encode') {
     errors.push('3302 晦影 must remain intentional ready_to_encode=1 (do not close)');
   }
+  const focusedWill = (audit.candidates || []).find(
+    (c) => c.ownerId === '3161' && c.passiveName === '专注意志',
+  );
+  if (
+    !focusedWill
+    || focusedWill.classification !== 'already_covered'
+    || /manual.?baseline|data dragon|ddragon/i.test(String(focusedWill.blockedReason || ''))
+  ) {
+    errors.push(
+      '3161 专注意志 must be already_covered under Wiki-only Focused Will (not needs_manual_baseline/DDragon)',
+    );
+  }
+  const nightstalker = (audit.candidates || []).find(
+    (c) => c.ownerId === '3179' && c.passiveName === '夜行者',
+  );
+  if (
+    !nightstalker
+    || nightstalker.classification !== 'already_covered'
+    || /needs_runtime_extension|vision|stealth|unseen/i.test(
+      String(nightstalker.blockedReason || ''),
+    )
+    || !(nightstalker.mechanismTags || []).includes('start_ready_true_on_hit')
+    || !(nightstalker.mechanismTags || []).includes('armor_pen_flat_scaled_true')
+  ) {
+    errors.push(
+      '3179 夜行者 must be already_covered under Wiki+Phase-A Nightstalker start-ready scope (not needs_runtime_extension)',
+    );
+  }
+  const blackout = (audit.candidates || []).find(
+    (c) => c.ownerId === '3179' && c.passiveName === '封锁',
+  );
+  if (!blackout || blackout.classification !== 'out_of_scope_for_single_target_dps') {
+    errors.push('3179 封锁 must remain out_of_scope_for_single_target_dps');
+  }
   const counts = audit.summary?.classificationCounts || {};
   const expectedCounts = {
-    already_covered: 19,
-    needs_runtime_extension: 33,
+    already_covered: 22,
+    needs_runtime_extension: 31,
     ready_to_encode: 1,
-    needs_manual_baseline: 44,
+    needs_manual_baseline: 43,
     out_of_scope_for_single_target_dps: 145,
   };
   for (const [k, v] of Object.entries(expectedCounts)) {
@@ -866,6 +987,31 @@ function validateAudit(audit) {
 
 function main() {
   const checkMode = process.argv.includes('--check');
+  const championDDragonRemoved =
+    !fs.existsSync(paths.championIndex) || !fs.existsSync(paths.championDir);
+
+  if (championDDragonRemoved && !checkMode) {
+    console.error(championDDragonRemovedMessage());
+    process.exit(2);
+  }
+
+  if (championDDragonRemoved && checkMode) {
+    if (!fs.existsSync(paths.auditJson)) {
+      console.error('--check requires frozen Batch-G JSON when champion DDragon is removed');
+      process.exit(1);
+    }
+    const existing = readJson(paths.auditJson);
+    const errors = validateAudit(existing);
+    if (errors.length) {
+      console.error('frozen Batch-G json failed validation:');
+      for (const e of errors) console.error(`- ${e}`);
+      process.exit(1);
+    }
+    console.log('check ok (frozen Batch-G provenance; champion DDragon removed)');
+    console.log(JSON.stringify({ summary: existing.summary, frozen: true }, null, 2));
+    return;
+  }
+
   const audit = buildAudit();
   const errors = validateAudit(audit);
   if (errors.length) {

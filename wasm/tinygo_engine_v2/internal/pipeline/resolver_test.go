@@ -26,9 +26,9 @@ func TestResolveDamageReducesHP(t *testing.T) {
 func TestResolveDamageMustUsePipeline(t *testing.T) {
 	called := false
 	old := damageResolver
-	damageResolver = func(cmd command.Command, view CombatantView, nowMs int64) (DamageOutcome, CombatantView) {
+	damageResolver = func(cmd command.Command, view CombatantView, sourceAttrs map[string]model.AttributeSlotDef, nowMs int64) (DamageOutcome, CombatantView) {
 		called = true
-		return old(cmd, view, nowMs)
+		return old(cmd, view, sourceAttrs, nowMs)
 	}
 	defer func() { damageResolver = old }()
 
@@ -276,8 +276,8 @@ func TestResolveDamageMagicDoesNotReadArmor(t *testing.T) {
 	}
 }
 
-func TestResolveDamageIgnoresSourcePenetrationAttrs(t *testing.T) {
-	// Source pen attrs are not passed into pipeline target view; even if present on target map, unused.
+func TestResolveDamageTargetMapPenetrationNoOp(t *testing.T) {
+	// Penetration is source-side only; attrs on the target map must not affect mitigation.
 	attrs := map[string]model.AttributeSlotDef{
 		"hp":             {Current: 1000, Max: 1000},
 		"armor":          {Resolved: 100},
@@ -288,7 +288,80 @@ func TestResolveDamageIgnoresSourcePenetrationAttrs(t *testing.T) {
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.MitigatedAmount != 50 {
-		t.Fatalf("pen must have no effect: mitigated=%v want 50", outcome.MitigatedAmount)
+		t.Fatalf("target-map pen must have no effect: mitigated=%v want 50", outcome.MitigatedAmount)
+	}
+}
+
+func TestMitigateRawDamageNoSourceCompat(t *testing.T) {
+	attrs := map[string]model.AttributeSlotDef{"armor": {Resolved: 100}}
+	mitigated, ok := MitigateRawDamage(100, "damage/physical", attrs)
+	if !ok || mitigated != 50 {
+		t.Fatalf("no-source compat: mitigated=%v ok=%v want 50/true", mitigated, ok)
+	}
+}
+
+func TestMitigateRawDamageWithSourcePhysicalAliasesOrderClampFloor(t *testing.T) {
+	target := map[string]model.AttributeSlotDef{"armor": {Resolved: 100}}
+
+	// First finite percent alias wins (armor_pen_pct over later physical_pen_percent).
+	src := map[string]model.AttributeSlotDef{
+		"armor_pen_pct":         {Resolved: 0.4},
+		"physical_pen_percent":  {Resolved: 0.9},
+		"armor_pen_flat":        {Resolved: 10},
+		"physical_pen":          {Resolved: 50},
+	}
+	res, ok := MitigateRawDamageWithSource(100, "damage/physical", target, src)
+	if !ok {
+		t.Fatal("expected ok")
+	}
+	// effective = 100*(1-0.4)-10 = 50; mitigated = 100*100/150
+	wantEff := 50.0
+	wantMit := 100.0 * 100 / (100 + wantEff)
+	if math.Abs(res.EffectiveResistance-wantEff) > 1e-9 || math.Abs(res.Amount-wantMit) > 1e-9 {
+		t.Fatalf("alias order: %+v want eff=%v mit=%v", res, wantEff, wantMit)
+	}
+	if res.PenetrationPercent != 0.4 || res.PenetrationFlat != 10 {
+		t.Fatalf("pen fields=%+v", res)
+	}
+
+	// Clamp percent >1 to 1; ignore negative flat; floor at 0.
+	src2 := map[string]model.AttributeSlotDef{
+		"armor_pen_percent": {Resolved: 2},
+		"lethality":         {Resolved: -20},
+	}
+	res2, ok := MitigateRawDamageWithSource(100, "physical", target, src2)
+	if !ok || res2.PenetrationPercent != 1 || res2.PenetrationFlat != 0 || res2.EffectiveResistance != 0 || res2.Amount != 100 {
+		t.Fatalf("clamp/floor/neg flat: %+v", res2)
+	}
+
+	// Non-positive base resistance unchanged (negative formula).
+	negTarget := map[string]model.AttributeSlotDef{"armor": {Resolved: -50}}
+	src3 := map[string]model.AttributeSlotDef{"armor_pen_percent": {Resolved: 1}, "armor_pen_flat": {Resolved: 100}}
+	res3, ok := MitigateRawDamageWithSource(100, "damage/physical", negTarget, src3)
+	wantNeg := 100 * (2 - 100.0/(100-(-50)))
+	if !ok || res3.EffectiveResistance != -50 || math.Abs(res3.Amount-wantNeg) > 1e-9 {
+		t.Fatalf("neg base: %+v want amount %v", res3, wantNeg)
+	}
+}
+
+func TestMitigateRawDamageWithSourceMagicAliasesAndTrue(t *testing.T) {
+	target := map[string]model.AttributeSlotDef{"magic_resist": {Resolved: 100}}
+	src := map[string]model.AttributeSlotDef{
+		"magic_pen_pct":  {Resolved: 0.5},
+		"magic_pen_flat": {Resolved: 20},
+	}
+	res, ok := MitigateRawDamageWithSource(100, "damage/magic", target, src)
+	wantEff := 100*0.5 - 20 // 30
+	wantMit := 100.0 * 100 / (100 + wantEff)
+	if !ok || math.Abs(res.EffectiveResistance-wantEff) > 1e-9 || math.Abs(res.Amount-wantMit) > 1e-9 {
+		t.Fatalf("magic pen: %+v want eff=%v mit=%v", res, wantEff, wantMit)
+	}
+
+	trueRes, ok := MitigateRawDamageWithSource(100, "damage/true", map[string]model.AttributeSlotDef{
+		"armor": {Resolved: 200}, "magic_resist": {Resolved: 200},
+	}, src)
+	if !ok || trueRes.Amount != 100 || trueRes.ResistanceFactor != 1 || trueRes.PenetrationPercent != 0 || trueRes.EffectiveResistance != 0 {
+		t.Fatalf("true bypass: %+v", trueRes)
 	}
 }
 

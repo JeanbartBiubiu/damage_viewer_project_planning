@@ -110,6 +110,9 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	frame := s.newExecutionFrame(sourceKey, targetKey, abilityRef)
 	frame.ownerCombatantKey = ref.CombatantKey
 	frame.ownerProviderRef = ref.ProviderRef
+	// Independent TickSpec re-entry always mints a new cast instance.
+	frame.castInstanceID = s.mintCastInstanceID()
+	frame.castOrigin = tickAbility.CastOrigin
 	if err := frame.executeOperations(*tickAbility, ops); err != nil {
 		return err
 	}
