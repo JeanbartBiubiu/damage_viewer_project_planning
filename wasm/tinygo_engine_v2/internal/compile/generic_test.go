@@ -699,8 +699,62 @@ func TestCompileGenericRepeatProjects(t *testing.T) {
 	if op.TriggerStateKey != "stacks" || op.Threshold != 4 {
 		t.Fatalf("trigger/threshold=%q/%v", op.TriggerStateKey, op.Threshold)
 	}
+	if op.RepeatDelayMs != 0 {
+		t.Fatalf("expected omitted repeatDelayMs to project as 0, got %d", op.RepeatDelayMs)
+	}
 	if op.Target != "" {
 		t.Fatalf("expected empty target, got %q", op.Target)
+	}
+}
+
+func TestCompileGenericRepeatProjectsPositiveDelay(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.RepeatDelayMs = 200
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	if result.Session.Operations[0].RepeatDelayMs != 200 {
+		t.Fatalf("RepeatDelayMs=%d want 200", result.Session.Operations[0].RepeatDelayMs)
+	}
+}
+
+func TestCompileGenericRepeatRejectsNegativeDelay(t *testing.T) {
+	req := minimalValidCompileRequest()
+	withProviderStacksSchema(&req)
+	op := validRepeatOperation()
+	op.RepeatDelayMs = -1
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{op}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorPath(result.Result.Errors, "repeatDelayMs") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
+	}
+}
+
+func TestCompileGenericRepeatDelayRejectsNonRepeat(t *testing.T) {
+	req := minimalValidCompileRequest()
+	one := 1.0
+	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:     "damage",
+			Target:        "target",
+			DamageType:    "damage/physical",
+			Amount:        &model.GenericFormulaExpr{Op: "const", Value: &one},
+			RepeatDelayMs: 200,
+		},
+	}
+	result := CompileGeneric(req)
+	if result.OK {
+		t.Fatal("expected failure")
+	}
+	if !hasErrorPath(result.Result.Errors, "repeatDelayMs") {
+		t.Fatalf("errors=%+v", result.Result.Errors)
 	}
 }
 

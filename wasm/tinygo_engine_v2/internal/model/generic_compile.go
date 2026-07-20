@@ -187,6 +187,8 @@ type OperationDefinition struct {
 	RepeatScope           string                 `json:"repeatScope,omitempty"`
 	RepeatCount           int                    `json:"repeatCount,omitempty"`
 	RepeatTag             string                 `json:"repeatTag,omitempty"`
+	// RepeatDelayMs 可选非负延迟；省略/0 保持即时 phantom replay。
+	RepeatDelayMs         int                    `json:"repeatDelayMs,omitempty"`
 	TriggerStateKey       string                 `json:"triggerStateKey,omitempty"`
 	Threshold             float64                `json:"threshold,omitempty"`
 }

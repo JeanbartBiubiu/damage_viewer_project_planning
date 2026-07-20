@@ -23,6 +23,7 @@ const (
 	GenericEventExpireCleanup GenericEventKind = iota + 1
 	GenericEventProviderTick
 	GenericEventAbilityAttempt
+	GenericEventTriggeredContinuation
 	GenericEventSample
 )
 
@@ -42,6 +43,8 @@ type GenericEvent struct {
 	// DriverEntryIndex 指向 driver plan entry；-1 表示非 driver 事件。
 	DriverEntryIndex int
 	AttemptIndex     int
+	// ContinuationID 定位 run-local triggered continuation payload；0 表示无。
+	ContinuationID uint64
 	// ProviderInstanceRef 用于 provider_tick / expire_cleanup 定位 provider。
 	ProviderInstanceRef ProviderInstanceRef
 }

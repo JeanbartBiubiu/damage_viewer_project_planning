@@ -188,6 +188,7 @@ type CompiledOperation struct {
 	RepeatScope           string
 	RepeatCount           int
 	RepeatTag             string
+	RepeatDelayMs         int
 	TriggerStateKey       string
 	Threshold             float64
 }
@@ -820,6 +821,12 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.CritEligible && op.Operation != "damage" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".critEligible", "critEligible is only supported on damage operations", op.Operation)
 	}
+	if op.RepeatDelayMs < 0 {
+		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs must be >= 0", itoa(op.RepeatDelayMs))
+	}
+	if op.RepeatDelayMs != 0 && op.Operation != model.OperationKindRepeat {
+		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs is only supported on repeat operations", op.Operation)
+	}
 	switch op.Operation {
 	case "damage":
 		if op.DamageType == "" {
@@ -890,6 +897,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		RepeatScope:           op.RepeatScope,
 		RepeatCount:           op.RepeatCount,
 		RepeatTag:             op.RepeatTag,
+		RepeatDelayMs:         op.RepeatDelayMs,
 		TriggerStateKey:       op.TriggerStateKey,
 		Threshold:             op.Threshold,
 	}
