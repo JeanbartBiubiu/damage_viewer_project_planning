@@ -988,6 +988,100 @@ describe('combatDataAssembler', () => {
         triggerStateKey: 'stacks',
         threshold: 4
       });
+      expect(sourceProvider.abilities![0].operations![0]).not.toHaveProperty('repeatDelayMs');
+      expect(JSON.stringify(sourceProvider.abilities![0].operations![0])).not.toContain(
+        'repeatDelayMs'
+      );
+    });
+
+    it('projects positive repeatDetail.delayMs as repeatDelayMs', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_repeat_delay',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: HK_TYPE.operationRepeat.typeId,
+              targetSelectorTypeId: TYPE.selectorSelf.typeId,
+              repeatDetail: {
+                repeatScopeTypeId: HK_TYPE.repeatScopeCopyable.typeId,
+                repeatCount: 1,
+                repeatTag: 'phantom_hit',
+                triggerStateKey: 'stacks',
+                threshold: 4,
+                delayMs: 200
+              }
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.abilities![0].operations![0]).toEqual({
+        operation: 'repeat',
+        target: 'self',
+        ref: 'step_repeat_delay',
+        repeatScope: 'copyable_on_hit',
+        repeatCount: 1,
+        repeatTag: 'phantom_hit',
+        triggerStateKey: 'stacks',
+        threshold: 4,
+        repeatDelayMs: 200
+      });
+      expect(JSON.stringify(sourceProvider.abilities![0].operations![0])).toContain(
+        '"repeatDelayMs":200'
+      );
+    });
+
+    it('omits repeatDelayMs when repeatDetail.delayMs is 0 (legacy shape)', () => {
+      const graph = withHkTypes(
+        buildGraphFixture({
+          effectSteps: [
+            {
+              ...META,
+              stepId: 'step_repeat_zero',
+              sequenceId: 'seq_q_damage',
+              stepOrder: 0,
+              operationTypeId: HK_TYPE.operationRepeat.typeId,
+              targetSelectorTypeId: TYPE.selectorSelf.typeId,
+              repeatDetail: {
+                repeatScopeTypeId: HK_TYPE.repeatScopeCopyable.typeId,
+                repeatCount: 1,
+                repeatTag: 'phantom_hit',
+                triggerStateKey: 'stacks',
+                threshold: 4,
+                delayMs: 0
+              }
+            }
+          ]
+        })
+      );
+
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const sourceProvider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      expect(sourceProvider.abilities![0].operations![0]).toEqual({
+        operation: 'repeat',
+        target: 'self',
+        ref: 'step_repeat_zero',
+        repeatScope: 'copyable_on_hit',
+        repeatCount: 1,
+        repeatTag: 'phantom_hit',
+        triggerStateKey: 'stacks',
+        threshold: 4
+      });
+      expect(sourceProvider.abilities![0].operations![0]).not.toHaveProperty('repeatDelayMs');
+      expect(JSON.stringify(sourceProvider.abilities![0].operations![0])).not.toContain(
+        'repeatDelayMs'
+      );
     });
 
     it('rejects effect steps with multiple or missing detail families', () => {
