@@ -1158,12 +1158,29 @@ const STATUS_OVERRIDES = new Map([
   [
     'item_passive|2510|item_passive|咒刃',
     {
-      status: 'blocked_runtime',
-      completionMode: 'partial',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        '治疗在伤害分支之外；剩余 DPS 分支需要 generalized delayed on-hit/repeat 调度。',
-      blocker: 'healing_out_of_damage_branch_and_delayed_repeat_on_hit',
+        'item 2510 黄昏与黎明/Dusk and Dawn 咒刃：League Wiki item manifest revid 4030984 / hash e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d；完成 exact 合同——10s ready；原魔法伤害 0.75 base AD + 0.10 resolved AP；原自身治疗 0.10 AP + 0.03 bonus HP；强化命中后 +200ms 一次 canonical copyable-on-hit replay；1.5s ICD 自强化命中开始；自身 Spellblade 伤害 non-copyable；共享 ready gate/无递归；故标 completed/full。已由 generic_dusk_and_dawn_spellblade_test.go + backend lol_generic_dusk_and_dawn_spellblade_seed.sql / LolGenericDuskAndDawnSpellbladeSeedSqlTest + Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs 投影闭环；不声称 live migrate/publish。',
+      blocker: '',
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-dusk-and-dawn-spellblade',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_dusk_and_dawn_spellblade_test.go',
+          sourceWorktree: 'wasm',
+          note: 'Dusk and Dawn Spellblade exact: 10s ready; magic 0.75*baseAD+0.10*AP; heal 0.10*AP+0.03*bonusHP; +200ms copyable-on-hit; 1.5s ICD; own damage non-copyable; shared ready/no recursion; not live published',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-dusk-and-dawn-spellblade',
+          sourcePath: 'db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'backend seed + LolGenericDuskAndDawnSpellbladeSeedSqlTest; Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs; not claiming live migrate/publish',
+        },
+      ],
     },
   ],
   [
@@ -4170,11 +4187,11 @@ function validateInventory(inv) {
   if ((inv.summary?.deduplicatedMechanismCount || 0) !== inv.mechanisms.length) {
     errors.push('summary.deduplicatedMechanismCount mismatch');
   }
-  if ((sc.completed || 0) !== 56) {
-    errors.push(`completed=${sc.completed}, expected 56`);
+  if ((sc.completed || 0) !== 57) {
+    errors.push(`completed=${sc.completed}, expected 57`);
   }
-  if ((sc.blocked_runtime || 0) !== 117) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 117`);
+  if ((sc.blocked_runtime || 0) !== 116) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 116`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4195,11 +4212,11 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 56) {
-    errors.push(`completionMode full=${cm.full}, expected 56`);
+  if ((cm.full || 0) !== 57) {
+    errors.push(`completionMode full=${cm.full}, expected 57`);
   }
-  if ((cm.partial || 0) !== 5) {
-    errors.push(`completionMode partial=${cm.partial}, expected 5`);
+  if ((cm.partial || 0) !== 4) {
+    errors.push(`completionMode partial=${cm.partial}, expected 4`);
   }
   if ((cm.none || 0) !== 193) {
     errors.push(`completionMode none=${cm.none}, expected 193`);
