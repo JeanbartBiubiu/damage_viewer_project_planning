@@ -11,11 +11,11 @@ const RULE_SET_VERSION = 'generic-g8-v5-20260720';
 const CLASSIFICATIONS = ['migrated', 'partial', 'blocked', 'out_of_scope'];
 
 const paths = {
-  inputJson: path.join(repoRoot, '最小验证', 'V2-Batch-G-adc-passive-audit.json'),
+  inputJson: path.join(repoRoot, '最小验证', 'wiki-only-mechanism-candidate-registry.json'),
   outputJson: path.join(repoRoot, '最小验证', 'generic-g8-adc-passive-coverage-audit.json'),
   outputCsv: path.join(repoRoot, '最小验证', 'generic-g8-adc-passive-coverage-audit.csv'),
   generatorPath: path.join('最小验证', '数据', 'build-generic-g8-adc-passive-coverage-audit.mjs'),
-  inputPath: path.join('最小验证', 'V2-Batch-G-adc-passive-audit.json'),
+  inputPath: path.join('最小验证', 'wiki-only-mechanism-candidate-registry.json'),
   identityManifestJson: path.join(
     repoRoot,
     '数据参考',
@@ -2823,25 +2823,22 @@ function candidateBaseKey(c) {
   return `${c.sourceKind}|${c.ownerId}|${c.skillKey}|${c.passiveName}`;
 }
 
-function buildCandidateKeys(candidates) {
-  // Two-pass: collision groups always use sourceRef+fingerprint so keys are
-  // order-independent when source-fragment rows share the same owner/skill/passive.
-  const baseCounts = new Map();
-  for (const c of candidates) {
-    const base = candidateBaseKey(c);
-    baseCounts.set(base, (baseCounts.get(base) || 0) + 1);
-  }
-
+/**
+ * Registry rows already carry explicit candidateKey (including opaque collision
+ * suffixes). Do not re-derive keys from sourceRef/sourceText.
+ */
+function resolveCandidateKeys(candidates) {
   const used = new Set();
   const keys = [];
   for (const c of candidates) {
-    const base = candidateBaseKey(c);
-    let key = base;
-    if ((baseCounts.get(base) || 0) > 1) {
-      key = `${base}|${c.sourceRef || ''}|${shortTextFp(c.sourceText)}`;
+    const key = String(c.candidateKey || '').trim();
+    if (!key) {
+      throw new Error(
+        `missing explicit candidateKey for ${candidateBaseKey(c)}`,
+      );
     }
     if (used.has(key)) {
-      throw new Error(`unable to disambiguate candidateKey for ${key}`);
+      throw new Error(`duplicate candidateKey ${key}`);
     }
     used.add(key);
     keys.push(key);
@@ -3109,6 +3106,31 @@ function oosWikiSourceRef(c) {
   return IDENTITY_MANIFEST_REL;
 }
 
+/**
+ * Copy OOS semantic shape from auditBaseline.outOfScope; Wiki text/ref are
+ * display/evidence only (filled after semantics).
+ */
+function outOfScopeEvidenceFromBaseline(c, oos) {
+  const wikiRef = oosWikiSourceRef(c);
+  const sourceRef =
+    c.sourceKind === 'hero_skill'
+      ? (wikiRef || String(c.sourceRef || IDENTITY_MANIFEST_REL))
+      : String(c.sourceRef || wikiRef || IDENTITY_MANIFEST_REL);
+  return {
+    sourceRef,
+    sourceTextSummary: summarizeSourceText(c.sourceText),
+    reviewedPrimaryTargetDamageBranch: true,
+    boundaryCategory: oos.boundaryCategory,
+    excludedBehavior: oos.excludedBehavior,
+    boundaryReason: oos.boundaryReason,
+    damageRelevantSubBranchDisposition: oos.damageRelevantSubBranchDisposition,
+  };
+}
+
+/**
+ * Last-resort text heuristics only when auditBaseline.outOfScope is missing.
+ * Prefer fail-closed callers when baseline OOS is absent.
+ */
 function inferOutOfScopeEvidence(c, classificationReason) {
   const text = String(c.sourceText || '');
   const tags = c.mechanismTags || [];
@@ -3142,6 +3164,22 @@ function inferOutOfScopeEvidence(c, classificationReason) {
   };
 }
 
+function resolveOutOfScopeEvidence(c, classificationReason) {
+  const oos = c.auditBaseline?.outOfScope;
+  if (
+    oos
+    && typeof oos === 'object'
+    && String(oos.boundaryCategory || '').trim()
+    && String(oos.excludedBehavior || '').trim()
+    && String(oos.boundaryReason || '').trim()
+    && String(oos.damageRelevantSubBranchDisposition || '').trim()
+  ) {
+    return outOfScopeEvidenceFromBaseline(c, oos);
+  }
+  // Fail-closed path for missing baseline: keep infer only as last resort.
+  return inferOutOfScopeEvidence(c, classificationReason);
+}
+
 function specificOosReasonFromEvidence(ev, fallbackReason) {
   if (ev?.boundaryReason && !GENERIC_OOS_REASON_RE.test(ev.boundaryReason)
     && !STALE_OTHER_TARGETS_REASON_RE.test(ev.boundaryReason)) {
@@ -3154,97 +3192,84 @@ function specificOosReasonFromEvidence(ev, fallbackReason) {
   return ev?.boundaryReason || fallbackReason || '当前 ADC 被动 1v1 单目标伤害审计边界外。';
 }
 
-function hasDamageSignal(text) {
-  return DAMAGE_SIGNAL_RE.test(String(text || ''));
-}
-
-function hasDamageRelatedSignal(text) {
-  return DAMAGE_RELATED_SIGNAL_RE.test(String(text || ''));
-}
-
-function isPureControlCandidate(c) {
-  const tags = c.mechanismTags || [];
-  return tags.length > 0 && tags.every((t) => PURE_CONTROL_TAGS.has(t));
-}
-
-function isPureOutOfScopeCandidate(c) {
-  const tags = c.mechanismTags || [];
-  if (!tags.some((t) => PURE_OOS_TAGS.has(t))) {
-    return false;
-  }
-  // 纯减速/控制：即便文案含“攻击”触发词，仍属审计边界外。
-  if (isPureControlCandidate(c) && !/伤害/.test(String(c.sourceText || ''))) {
-    return true;
-  }
-  if (hasDamageSignal(c.sourceText)) {
-    return false;
-  }
-  return true;
-}
-
+/**
+ * Fallback classification from wiki-only registry auditBaseline — not sourceText
+ * / effect-name / language regex bucket decisions.
+ */
 function classifyFallback(c) {
-  const tags = [...(c.mechanismTags || [])];
-  const old = c.classification;
+  const baseline = c.auditBaseline || {};
+  const bucket = String(baseline.resolvedBucket || '').trim();
+  const tags = [...(baseline.mechanismTags || c.mechanismTags || [])];
+  const gapCode = String(baseline.gapCode || '').trim();
+  const disposition = String(baseline.damageDisposition || '').trim();
 
-  if (old === 'already_covered' || old === 'ready_to_encode') {
-    return {
-      classification: 'blocked',
-      tags: tags.length ? tags : ['legacy_covered_not_generic'],
-      reason: `旧 ${old} 不在 exact migrated/partial 清单；legacy != generic。`,
-      remainingGap: '缺该精确 candidate 的 generic seed/mount + 完成批次证据。',
-      coverageEvidence: [],
-    };
-  }
-
-  if (old === 'needs_runtime_extension' || old === 'needs_manual_baseline') {
-    return {
-      classification: 'blocked',
-      tags: tags.length ? tags : ['needs_runtime_or_baseline'],
-      reason: `旧 ${old} 默认 blocked：缺 runtime、基线或精确 provider seed/live publish/E2E。`,
-      remainingGap: c.blockedReason || '缺 runtime 扩展、手工基线或精确 generic seed/mount。',
-      coverageEvidence: [],
-    };
-  }
-
-  if (old === 'out_of_scope_for_single_target_dps') {
-    if (isPureOutOfScopeCandidate(c)) {
-      const draftReason =
-        '文本为纯 meta/economy/vision/building/revive、纯生存、纯控制、纯冷却/主动轮转或纯额外目标收益；当前 ADC 被动 1v1 单目标伤害审计边界外。';
-      const ev = inferOutOfScopeEvidence(c, draftReason);
-      return {
-        classification: 'out_of_scope',
-        tags: tags.length ? tags : ['audit_boundary'],
-        reason: specificOosReasonFromEvidence(ev, draftReason),
-        remainingGap: '',
-        coverageEvidence: [],
-        outOfScopeEvidence: ev,
-      };
-    }
-    if (hasDamageSignal(c.sourceText)) {
+  if (bucket === 'out_of_scope') {
+    const oos = baseline.outOfScope;
+    if (!oos || typeof oos !== 'object') {
       return {
         classification: 'blocked',
-        tags: tags.length ? tags : ['primary_target_damage_branch'],
-        reason: '旧 out_of_scope 但 sourceText 含伤害/攻击/每N次等主目标相关语义；复合伤害分支不得整条 out_of_scope，且无精确 seed。',
-        remainingGap: '缺精确 generic provider seed/mount/live publish/E2E；不得因旧 out_of_scope 标签放行。',
+        tags: tags.length ? tags : ['oos_missing_baseline'],
+        reason:
+          'auditBaseline.resolvedBucket=out_of_scope but auditBaseline.outOfScope missing; fail-closed blocked.',
+        remainingGap: '缺 auditBaseline.outOfScope 语义字段，无法安全标 out_of_scope。',
         coverageEvidence: [],
       };
     }
-    const draftReason = '当前 ADC 被动 1v1 单目标伤害审计边界外。';
-    const ev = inferOutOfScopeEvidence(c, draftReason);
+    const ev = outOfScopeEvidenceFromBaseline(c, oos);
     return {
       classification: 'out_of_scope',
       tags: tags.length ? tags : ['audit_boundary'],
-      reason: specificOosReasonFromEvidence(ev, draftReason),
+      reason: specificOosReasonFromEvidence(ev, oos.boundaryReason),
       remainingGap: '',
       coverageEvidence: [],
       outOfScopeEvidence: ev,
     };
   }
 
+  if (bucket === 'blocked') {
+    const gap =
+      gapCode
+      || String(c.blockedReason || '').trim()
+      || (disposition && disposition !== 'not_applicable'
+        ? `damageDisposition=${disposition}`
+        : '')
+      || '缺可审查的 generic 覆盖证据。';
+    return {
+      classification: 'blocked',
+      tags: tags.length ? tags : ['unclassified'],
+      reason: gapCode
+        ? `auditBaseline.gapCode=${gapCode}${disposition ? `; damageDisposition=${disposition}` : ''}`
+        : '未命中 exact/component 规则；auditBaseline.resolvedBucket=blocked。',
+      remainingGap: gap,
+      coverageEvidence: [],
+    };
+  }
+
+  if (bucket === 'partial') {
+    return {
+      classification: 'partial',
+      tags: tags.length ? tags : ['partial_remaining'],
+      reason: 'auditBaseline.resolvedBucket=partial（无 exact override 时保留基线桶）。',
+      remainingGap:
+        gapCode || String(c.blockedReason || '').trim() || 'partial_remaining',
+      coverageEvidence: [],
+    };
+  }
+
+  if (bucket === 'migrated') {
+    return {
+      classification: 'migrated',
+      tags: tags.length ? tags : ['audit_baseline_migrated'],
+      reason: 'auditBaseline.resolvedBucket=migrated（无 exact override 时保留基线桶）。',
+      remainingGap: '',
+      coverageEvidence: [],
+    };
+  }
+
   return {
     classification: 'blocked',
     tags: tags.length ? tags : ['unclassified'],
-    reason: '未命中 exact/component 规则，保守 blocked。',
+    reason: '缺 auditBaseline.resolvedBucket；保守 blocked。',
     remainingGap: '缺可审查的 generic 覆盖证据。',
     coverageEvidence: [],
   };
@@ -3281,7 +3306,8 @@ function classifyCandidate(c, candidateKey) {
   }
 
   if (classified.classification === 'out_of_scope') {
-    const ev = inferOutOfScopeEvidence(
+    // Overrides/fallback: prefer auditBaseline.outOfScope semantics; Wiki ref/text for display.
+    const ev = resolveOutOfScopeEvidence(
       { ...c, mechanismTags: classified.tags || c.mechanismTags },
       classified.reason,
     );
@@ -3381,6 +3407,14 @@ function citesForbiddenProvenance(text) {
   if (/data\s+dragon/i.test(s)) return true;
   // e.g. "DD 16.9.1" — boundary before DD so "added"/"middle" do not match
   if (/(^|[^a-z0-9])dd\s+\d+(?:\.\d+)+/i.test(s)) return true;
+  if (/数据参考\/champion(\/|\.json)/i.test(s)) return true;
+  if (/数据参考\/item\.json/i.test(s)) return true;
+  if (/\bOCR\b/i.test(s)) return true;
+  if (/training-ground/i.test(s)) return true;
+  // Provenance claim of screenshot capture (not wiki media filenames like *_screenshot.png)
+  if (/\b(from|via|using)\s+screenshot/i.test(s) || /\bscreenshot\s+(ocr|capture|source)/i.test(s)) {
+    return true;
+  }
   return false;
 }
 
@@ -3434,12 +3468,16 @@ function validateAudit(audit) {
   }
 
   // Active generated provenance: sourceRef + reason must not cite DDragon / Data Dragon / DD x.y.z
+  // candidateKey is exempt (opaque collision keys may embed historical paths).
   for (const r of records) {
     if (citesForbiddenProvenance(r.classificationReason)) {
       errors.push(`classificationReason cites forbidden provenance @ ${r.candidateKey}`);
     }
     if (r.sourceRef && citesForbiddenProvenance(r.sourceRef)) {
       errors.push(`sourceRef cites forbidden provenance @ ${r.candidateKey}`);
+    }
+    if (r.sourceText && citesForbiddenProvenance(r.sourceText)) {
+      errors.push(`sourceText cites forbidden provenance @ ${r.candidateKey}`);
     }
     for (const evKey of ['dataGapEvidence', 'outOfScopeEvidence', 'runtimeGapEvidence']) {
       const ref = r[evKey]?.sourceRef;
@@ -4148,7 +4186,7 @@ function validateAudit(audit) {
     );
   }
 
-  // Final OOS must carry structured outOfScopeEvidence; damage-signal rows only via a–e.
+  // Final OOS must carry structured outOfScopeEvidence aligned to auditBaseline.
   const oosRows = records.filter((r) => r.genericClassification === 'out_of_scope');
   if (oosRows.length === 0) {
     errors.push('out_of_scope rows must be non-empty');
@@ -4165,6 +4203,7 @@ function validateAudit(audit) {
     }
     if (
       /数据参考\/champion\//i.test(String(ev.sourceRef || ''))
+      || /数据参考\/item\.json/i.test(String(ev.sourceRef || ''))
       || citesForbiddenProvenance(ev.sourceRef)
     ) {
       errors.push(`out_of_scope outOfScopeEvidence.sourceRef cites forbidden provenance @ ${r.candidateKey}`);
@@ -4208,49 +4247,25 @@ function validateAudit(audit) {
         `out_of_scope damageRelevantSubBranchDisposition empty @ ${r.candidateKey}`,
       );
     }
-    const cat = String(ev.boundaryCategory || '');
-    const summary = String(ev.sourceTextSummary || '');
-    const reasonBlob = `${ev.boundaryReason || ''}|${r.classificationReason || ''}`;
-    if (cat === 'pure_movement_or_dash') {
-      if (!/移动|移速|冲刺|跃迁|位移|幽灵/.test(summary)) {
-        errors.push(
-          `pure_movement_or_dash sourceTextSummary missing move semantics @ ${r.candidateKey}`,
-        );
+
+    // Semantic fields must equal auditBaseline.outOfScope when baseline present.
+    const baselineOos = r.auditBaseline?.outOfScope;
+    if (baselineOos && typeof baselineOos === 'object') {
+      for (const field of [
+        'boundaryCategory',
+        'excludedBehavior',
+        'boundaryReason',
+        'damageRelevantSubBranchDisposition',
+      ]) {
+        if (String(ev[field] ?? '') !== String(baselineOos[field] ?? '')) {
+          errors.push(
+            `out_of_scope ${field} != auditBaseline.outOfScope @ ${r.candidateKey}: ${ev[field]} vs ${baselineOos[field]}`,
+          );
+        }
       }
-      if (
-        PRIMARY_DAMAGE_DEAL_RE.test(summary)
-        && !POST_DAMAGE_UTILITY_ONLY_RE.test(summary)
-        && disposition !== 'trigger_phrase_no_damage_amp'
-      ) {
-        errors.push(`pure_movement_or_dash has untreated primary damage @ ${r.candidateKey}`);
-      }
-    }
-    if (cat === 'other_targets_only') {
-      if (!/额外目标|附近的敌人|周围的敌人|主目标不受|身后/.test(`${summary}|${reasonBlob}`)) {
-        errors.push(`other_targets_only missing primary-unaffected evidence @ ${r.candidateKey}`);
-      }
-    }
-    if (cat === 'pure_vision') {
-      if (!/视野|守卫|显形|伪装|侦察|鹰|黑雾/.test(summary)) {
-        errors.push(`pure_vision sourceTextSummary missing vision semantics @ ${r.candidateKey}`);
-      }
-      if (PRIMARY_DAMAGE_DEAL_RE.test(summary) && !/守卫|陷阱/.test(summary)) {
-        errors.push(`pure_vision must not include champion damage @ ${r.candidateKey}`);
-      }
-    }
-    if (cat === 'economy_or_post_takedown') {
-      if (!/击杀|阵亡|takedown|赏金|金币|encounter 已结束|主目标死亡/.test(reasonBlob)) {
-        errors.push(
-          `economy_or_post_takedown reason must state post-takedown encounter end @ ${r.candidateKey}`,
-        );
-      }
-    }
-    if (
-      hasDamageRelatedSignal(r.sourceText)
-      && !OOS_DAMAGE_SIGNAL_DISPOSITIONS.has(disposition)
-    ) {
+    } else {
       errors.push(
-        `out_of_scope has damage-related signal but disposition not in a–e @ ${r.candidateKey}: ${disposition}`,
+        `out_of_scope missing auditBaseline.outOfScope (fail-closed) @ ${r.candidateKey}`,
       );
     }
   }
@@ -4620,7 +4635,7 @@ function stripGeneratedAt(value) {
 }
 
 function buildAudit(input, inputSha256, generatedAt) {
-  const candidateKeys = buildCandidateKeys(input.candidates);
+  const candidateKeys = resolveCandidateKeys(input.candidates);
   const records = input.candidates.map((c, index) => {
     const classified = classifyCandidate(c, candidateKeys[index]);
     const wiki = c.sourceKind === 'hero_skill' ? wikiNumericSource(c) : null;
