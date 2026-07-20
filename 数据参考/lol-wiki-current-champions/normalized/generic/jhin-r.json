@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jhin-r",
+  "candidateKey": "hero_skill|hero_jhin|R|完美谢幕",
+  "ownerId": "hero_jhin",
+  "wikiChampionTitle": "Jhin",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Jhin/R",
+  "zhDisplayName": "完美谢幕",
+  "resolvedTitle": "Template:Data Jhin/Curtain Call",
+  "wikiPageId": 1307585,
+  "revisionId": 4007615,
+  "revisionTimestamp": "2026-04-12T07:25:50Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jhin/Curtain%20Call",
+  "contentSha256": "6bfe695cbc8aec980b66db1ab4f998fd292ddc0619cb35beeda1d755f98d2cc0",
+  "rawByteSize": 4020,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Jhin''' {{tip|channel|channels}} for up to 10 seconds, transforming his weapon into a cannon and gaining the ability to recast ''Curtain Call'' 4 times within the duration.\n",
+    "description2": "{{sbc|Recast:}} After {{fd|0.2}} seconds into the cast time, '''Jhin''' fires a round in the target direction that grants {{tip|sight}} around its trajectory for {{fd|0.5}} seconds and deals {{as|physical damage}} to enemies hit, increased by {{as|{{pp|type=target's '''missing''' health|key=%|key1=%|0 to 300 for 11|0 to 100|formula=3% per 1% of target's '''missing''' health.}}}}. The bullet stops upon hitting an enemy champion, {{tip|slow|slowing}} them by 80% for {{fd|0.5}} seconds and {{tip|standard sight|revealing}} them for 2 seconds. Each cast has a {{tt|static cooldown|Unaffected by ability haste}} of 1 second.\n",
+    "leveling2": "{{st|Minimum Physical Damage per Bullet|{{ap|64 to 192}} {{as|(+ 25% AD)}}|Maximum Physical Damage per Bullet|{{ap|64*4 to 192*4}} {{as|(+ {{ap|25*4}}% AD)}}}}\n",
+    "description3": "The fourth shot {{tip|critical strike|critically strikes}} for {{as|{{critical damage|200|100}}|critical damage}} damage.\n",
+    "leveling3": "{{st|Minimum Fourth Shot Damage|{{ap|64*2 to 192*2}} {{as|(+ {{ap|25*2}}% AD)}}|Maximum Fourth Shot Damage|{{ap|(64*2)*4 to (192*2)*4}} {{as|(+ {{ap|(25*2)*4}}% AD)}}}}\n",
+    "cooldown": "{{ap|120 to 90}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* Applies {{tip|spell damage}} to enemy champions and {{tip|area damage}} to other enemy units.\n*Each cast counts as an ability activation for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.\n* ''Curtain Call's'' shooting range is fixed in front of '''Jhin'''.\n* The opening sound effect and area of range are audible and visible to both teams.\n* Leveling up the ability while channeling will change the final cooldown.\n* '''Jhin''' will turn to face in the target direction whenever he uses a recast.\n* '''Jhin''' gains a wider field of view during ''Curtain Call''.\n* The reveal debuff is named [[File: Caught Out.png|20px|link=]] ''Caught Out''.\n** This debuff is shared between {{ai|Captive Audience|Jhin}} and ''Curtain Call''.\n{{Effect at cast time end}}\n<!--Bullet travel speed approx 3200? -->\n* The following table refers for interactions while '''Jhin''' is {{tip|channel|channeling}}:\n{{ct|channel|cast=interrupts|items=interrupts,true,,false|spells=true,false,interrupts,interrupts,false}}\n{{ct|cast|spells=true,false,false,false,false}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

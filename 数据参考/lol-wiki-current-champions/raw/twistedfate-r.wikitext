@@ -1,0 +1,34 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Destiny|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Twisted Fate
+|skill        = R
+|icon         = Destiny.png
+|blurb        = {{sbc|Active:}} {{ci|Twisted Fate}} marks all enemy champions, {{tip|true sight|revealing}} them for a few seconds. ''Destiny'' can be recast within the duration.
+|blurb2       = {{sbc|Recast - Gate:}} '''Twisted Fate''' briefly {{tip|channels}} before {{tip|blink|blinking}} to the target location, {{tip|homing projectile destruction|destroying}} all incoming {{tip|projectiles}}.
+|description  = {{sbc|Active:}} '''Twisted Fate''' marks all targetable enemy champions, {{tip|true sight|revealing}} them for a duration. ''Destiny'' can be recast after {{fd|0.5}} seconds within the duration.
+|leveling     = {{st|Effect Duration|{{ap|6 to 10}} seconds}}
+|icon2        = Gate.png
+|description2 = {{sbc|Recast - Gate:}} '''Twisted Fate''' {{tip|channels}} for {{fd|1.5}} seconds before {{tip|blink|blinking}} to the target location, {{tip|homing projectile destruction|destroying}} enemy {{tip|projectiles}} targeting him in the process.
+|flavorsound  = {{sm2|Twisted_Fate_Original_R_1.ogg}} ''"No fightin' destiny."''
+|target range = 5500
+|effect radius= Global
+|cooldown     = {{tt|{{ap|170 to 110}}|Starts after recast times out or is used}}
+|cdstart      = post-effect
+|cast time = none
+|cost         = 100
+|costtype     = Mana
+|targeting    = [[Auto-targeted|Auto]] / [[Location-targeted|Location]]
+|affects      = Enemies, Allies, Self
+|spellshield  = True
+|grounded     = special
+|silence      = true
+|notes   =
+*Both casts count as ability activations for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.
+* '''Twisted Fate''' cannot recast ''Destiny'' while {{tip|ground|grounded}} or {{tip|root|rooted}}.
+* The {{tip|nearsight}} from {{ai|Paranoia|Nocturne}} will overpower the {{tip|true sight|reveal}} from ''Destiny'' regardless of which one was cast first (enemy champions can still be revealed by ''Destiny'' after ''Paranoia'' ends if durations permit).
+* Using the recast will inform allies with a [[ping]].
+** Both allies and enemies can see an indicator at the targeted location of where '''Twisted Fate''' will appear.
+* The following table refers for interactions while '''Twisted Fate''' is {{tip|channel|channeling}}:
+** Item actives with cast times as well as {{ii|Titanic Hydra}} are disabled during the channel.
+*** Trying to cast a disabled item active will buffer it to cast at the completion of the channel.
+{{ct|channel|attack=false|move=false|cast={{ai|Pick a Card|Twisted Fate}} is usable. {{ai|Wild Cards|Twisted Fate}} is disabled.|items=true,,interrupts|spells=false|interrupts=death, ground, root, silence}}
+}}

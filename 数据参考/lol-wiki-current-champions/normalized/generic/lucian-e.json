@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "lucian-e",
+  "candidateKey": "hero_skill|hero_lucian|E|冷酷追击",
+  "ownerId": "hero_lucian",
+  "wikiChampionTitle": "Lucian",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Lucian/E",
+  "zhDisplayName": "冷酷追击",
+  "resolvedTitle": "Template:Data Lucian/Relentless Pursuit",
+  "wikiPageId": 1308180,
+  "revisionId": 4008455,
+  "revisionTimestamp": "2026-04-14T19:17:14Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Lucian/Relentless%20Pursuit",
+  "contentSha256": "52a774f50fb5339e43676ae544b13bdf9c1d5963e338353f9ac7e23d7aea92ba",
+  "rawByteSize": 2283,
+  "fields": {
+    "description": "{{sbc|Passive:}} ''Relentless Pursuit's'' {{sti|'''current''' cooldown}} is reduced by 1 second for each ''{{ai|Lightslinger|Lucian}}'' shot hit, doubled to 2 seconds against enemy {{tip|champions}}.\n",
+    "description2": "{{sbc|Active:}} '''Lucian''' {{tip|dash|dashes}} in the target direction.\n",
+    "description3": "''Relentless Pursuit {{tip|basic attack reset|resets}} '''Lucian's''' basic attack timer. '''Lucian''' can cast any of his [[champion ability|abilities]] during the dash. Relentless Pursuit can be cast during {{ais|W|Lucian}} cast time and during {{ais|R|Lucian}} channel.''\n",
+    "cooldown": "{{ap|16 to 14}}\n",
+    "cost": "{{ap|32 to 0}}\n",
+    "costtype": "Mana\n",
+    "notes": "* Additional on-hits during ''Lightslinger'' are not considered for the cooldown reduction (i.e {{ii|Runaan's Hurricane}}, {{ii|Guinsoo's Rageblade}}).\n* Unlike some dashes, '''Lucian's''' dash speed does ''not'' scale with his {{as|movement speed}}.\n* ''Relentless Pursuit's'' dash can go through terrain, but will not be extended further if the target location is within terrain, unlike other dashes, like {{ci|Ekko}}'s {{ai|Phase Dive|Ekko}}.\n* Casting ''Relentless Pursuit'' directly after attacking with ''Lightslinger'' will reduce Relentless Pursuit's cooldown when the projectiles hit the target.\n* ''Relentless Pursuit'' can be cast during {{sis|Recall}} cast time.\n** If ''Relentless Pursuit'' is cast just as the cast time ends, '''Lucian''' will not perform his Recall animation, instead staying idle. This allows '''Lucian''' to use his [[Emoting|emotes]] during his Recall.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "notes": true,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -93,6 +93,13 @@ type genericRunState struct {
 
 	expireCleanupPayloads  []expireCleanupPayload
 	nextProviderInstanceID uint64
+
+	// Cast-instance identity (Focused Will / per-cast throttle). Monotonic from 1; discarded after run.
+	nextCastInstanceID           uint64
+	perCastThrottle              map[perCastThrottleKey]int64
+	perCastThrottleCapacity      int
+	perCastThrottleOverflowWarned bool
+	perCastThrottleOverflowCount int
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
@@ -166,6 +173,8 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		abilityStats:               make(map[string]*abilityStatAcc),
 		entryAttemptCounts:         make([]int, len(req.DriverPlan.Entries)),
 		evidenceCountsByKind:       make(map[string]int),
+		perCastThrottle:            make(map[perCastThrottleKey]int64),
+		perCastThrottleCapacity:    perCastThrottleCapacity(budget.MaxEvents),
 	}
 
 	state.seedDriverAttempts()
@@ -385,18 +394,33 @@ func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pi
 }
 
 // mountRulePipelineModifier mounts rules pipeline modifiers by stage ownership:
-// outgoing_pre_mitigation → source, incoming_post_mitigation → target.
+// command=crit + outgoing_pre_mitigation → source;
+// incoming_crit_part_post_mitigation + incoming_post_mitigation → target.
 func mountRulePipelineModifier(damageResolver *pipeline.DamageModifierResolver, combatantKey string, mod compilebundle.CompiledModifier) {
 	if damageResolver == nil {
 		return
 	}
-	switch mod.Stage {
-	case "outgoing_pre_mitigation":
-		if combatantKey != model.SelectorSource {
+	switch mod.Command {
+	case "crit":
+		switch mod.Stage {
+		case "crit_chance_pre_settlement", "crit_multiplier_forced_branch", "crit_multiplier_natural_branch":
+			if combatantKey != model.SelectorSource {
+				return
+			}
+		default:
 			return
 		}
-	case "incoming_post_mitigation":
-		if combatantKey != model.SelectorTarget {
+	case "damage":
+		switch mod.Stage {
+		case "outgoing_pre_mitigation":
+			if combatantKey != model.SelectorSource {
+				return
+			}
+		case "incoming_crit_part_post_mitigation", "incoming_post_mitigation":
+			if combatantKey != model.SelectorTarget {
+				return
+			}
+		default:
 			return
 		}
 	default:
@@ -996,6 +1020,9 @@ func (s *genericRunState) buildWarnings(seriesDownsampled bool, droppedSeriesPoi
 			EvidenceRefs: []string{string(model.EvidenceKindBudgetExceeded)},
 			Count:        1,
 		})
+	}
+	if w := s.perCastThrottleOverflowWarning(); w != nil {
+		candidates = append(candidates, *w)
 	}
 
 	totalProduced := len(candidates)

@@ -1,0 +1,37 @@
+<!-- Damage values are defined as parameters.
+-->{{#vardefine:Ob1|9}}<!-- Generic/Normal rank 1 ON-HIT base damage
+-->{{#vardefine:Ob5|65}}<!-- Generic/Normal rank 5 ON-HIT base damage
+-->{{#vardefine:Oad|5}}<!-- ON-HIT bonus AD ratio as a PERCENTAGE
+-->{{#vardefine:Oap|30}}<!-- ON-HIT AP ratio as a PERCENTAGE
+-->{{#vardefine:Pb1|6}}<!-- Generic/Normal rank 1 POISON base damage per TICK
+-->{{#vardefine:Pb5|30}}<!-- Generic/Normal rank 5 POISON base damage per TICK
+-->{{#vardefine:Pad|2.5}}<!-- POISON bonus AD ratio per TICK as a PERCENTAGE
+-->{{#vardefine:Pap|10}}<!-- POISON AP ratio per TICK as a PERCENTAGE
+-->{{#vardefine:time|4.0}}<!-- POISON duration
+-->{{#vardefine:mmod|1.6}}<!-- Monster modifier as a DECIMAL
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Toxic Shot|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Teemo
+|skill        = E
+|icon         = Toxic Shot.png
+|blurb        = {{sbc|Passive:}} {{cis|Teemo}} {{tip|basic attacks}} deal {{as|'''bonus''' magic damage}} {{tip|on-hit}} and inflict {{tip|poison}}.
+|blurb4      = {{sbc|{{tip|poison|nolink=true}}:}} The target continually takes {{as|magic damage}} over a few seconds. Subsequent inflictions refresh the duration.
+|description  = {{sbc|Passive:}} '''Teemo's''' {{tip|basic attacks}} are empowered to deal {{as|'''bonus''' magic damage}} {{tip|on-hit}} and inflict {{tip|poison}}.<br/><br/>
+{{sbc|{{tip|poison|nolink=true}}:}} The target takes {{as|magic damage}} every second over 4 seconds. Subsequent inflictions refresh the duration.
+|leveling     = {{st|Magic Damage On-Hit|{{ap|{{#var:Ob1}} to {{#var:Ob5}}}} {{as|(+ {{#var:Oad}}% '''bonus''' AD)}} {{as|(+ {{#var:Oap}}% AP)}}}}
+{{st|Magic Damage per Tick|{{ap|{{#var:Pb1}} to {{#var:Pb5}}}} {{as|(+ {{fd|{{#var:Pad}}}}% '''bonus''' AD)}} {{as|(+ {{#var:Pap}}% AP)}}|Total Poison Damage|{{ap|{{#var:Pb1}}*{{#var:time}} to {{#var:Pb5}}*{{#var:time}}}} {{as|(+ {{ap|{{#var:Pad}}*{{#var:time}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Pap}}*{{#var:time}}}}% AP)}}}}
+|description2 = ''Toxic Shot'' deals {{ap|{{#var:mmod}}*100}}% damage against {{tip|monsters}}.
+|leveling2    = {{st|Monster Damage On-Hit|{{ap|{{#var:Ob1}}*{{#var:mmod}} to {{#var:Ob5}}*{{#var:mmod}}}} {{as|(+ {{ap|{{#var:Oad}}*{{#var:mmod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Oap}}*{{#var:mmod}}}}% AP)}}}}
+{{st|Monster Damage per Tick|{{ap|{{#var:Pb1}}*{{#var:mmod}} to {{#var:Pb5}}*{{#var:mmod}}}}  {{as|(+ {{ap|{{#var:Pad}}*{{#var:mmod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Pap}}*{{#var:mmod}}}}% AP)}}|Total Monster Poison Damage|{{ap|{{#var:Pb1}}*{{#var:time}}*{{#var:mmod}} to {{#var:Pb5}}*{{#var:time}}*{{#var:mmod}}}}  {{as|(+ {{ap|{{#var:Pad}}*{{#var:time}}*{{#var:mmod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Pap}}*{{#var:time}}*{{#var:mmod}}}}% AP)}}}}
+|targeting    = Passive
+|affects      = Self
+|spellshield = False
+|damagetype   = Magic
+|spelleffects = mixed
+|parry        = True
+|notes        =
+* ''Toxic Shot'' deals {{tip|proc damage|proc}} {{tip|persistent damage|damage over time}}, and does not trigger {{tip|spell effects}}.
+** Despite this, it is special cased to trigger {{ri|Dark Harvest}}, but not {{ri|Cheap Shot}}, {{ri|Conqueror}}, {{bi|Scorchclaw's Slash}}, {{ri|Summon Aery}} and {{bi|Ocean Dragon Soul}}.
+* The damage per tick is not updated dynamically based on '''Teemo's''' current ability power.
+* The initial hit from ''Toxic Shot'' will consume {{ri|Manaflow Band}} if it is available.
+* The attacks do not affect {{tip|structures}} nor {{tip|wards}}.
+}}

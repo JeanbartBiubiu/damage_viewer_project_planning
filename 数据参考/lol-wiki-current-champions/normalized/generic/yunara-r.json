@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "yunara-r",
+  "candidateKey": "hero_skill|hero_yunara|R|定圣诀",
+  "ownerId": "hero_yunara",
+  "wikiChampionTitle": "Yunara",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Yunara/R",
+  "zhDisplayName": "定圣诀",
+  "resolvedTitle": "Template:Data Yunara/Transcend One's Self",
+  "wikiPageId": 1699690,
+  "revisionId": 4038856,
+  "revisionTimestamp": "2026-06-30T17:24:56Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Yunara/Transcend%20One's%20Self",
+  "contentSha256": "08923a97970d25edccf48fec7efa219d80615969ee3f2be14c7659ed4bef7462",
+  "rawByteSize": 2856,
+  "fields": {
+    "description": "{{sbc|Passive:}} ''{{ais|Arc of Ruin|Yunara}}'' base damage and ''{{ais|Untouchable Shadow|Yunara}}'' dash speed scale with ''Transcend One's Self's'' rank.\n",
+    "leveling": "{{st|[[File: Yunara Arc of Ruin.png|20px|border|link=]] Arc of Ruin Base Damage|{{ap|160 to 480}}}}\n{{st|[[File: Yunara Untouchable Shadow.png|20px|border|link=]] Untouchable Shadow Dash Speed|{{ap|1350 to 1650}}}}\n",
+    "description2": "{{sbc|Active:}} '''Yunara''' enters ''Transcendent State'' for 15 seconds, during which each of her basic abilities is empowered:\n{{lc|{{ai|Cultivation of Spirit|Yunara}}}} Automatically becomes active at no cost, with the duration increased to ''Transcendent State's''.\n{{lc|{{ai|Arc of Judgment|Yunara}}}} Upgraded into ''{{ai|Arc of Ruin|Yunara}}'', which has no cost and has its {{sti|'''remaining''' cooldown}} reduced by 80% upon both entering and exiting the state.\n{{lc|{{ai|Kanmei's Steps|Yunara}}}} Upgraded into ''{{ai|Untouchable Shadow|Yunara}}'', which has no cost and has its {{sti|cooldown}} reset upon both entering and exiting the state.\n",
+    "cooldown": "{{ap|100 to 80}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "notes": "* An ongoing ''{{ais|Kanmei's Steps|Yunara}}'' effect is not lost when quickly replaced by ''{{ai|Untouchable Shadow|Yunara}}''.\n* {{ai|Cultivation of Spirit|Yunara}} is cast alongside ''Transcend One's Self''. If the former was not already active, this will also grant its {{tip|basic attack reset|attack reset}}.\n** The attack reset does '''not''' originate from ''Transcend One's Self'' nor is ''Transcend One's Self'' tagged as granting one itself (e.g. for the purposes of {{ri|Hail of Blades}}).\n* ''Transcend One's Self'' cannot be cast again while active.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "notes": true,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

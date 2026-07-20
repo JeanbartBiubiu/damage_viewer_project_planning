@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "twitch-r",
+  "candidateKey": "hero_skill|hero_twitch|R|火力全开",
+  "ownerId": "hero_twitch",
+  "wikiChampionTitle": "Twitch",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Twitch/R",
+  "zhDisplayName": "火力全开",
+  "resolvedTitle": "Template:Data Twitch/Spray and Pray",
+  "wikiPageId": 1309582,
+  "revisionId": 3993607,
+  "revisionTimestamp": "2026-02-22T20:01:19Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Twitch/Spray%20and%20Pray",
+  "contentSha256": "feb40917d12acfbe759ee89441aba5dd22c0257bc0fc2b662e494c3a79afea79",
+  "rawByteSize": 4814,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Twitch''' gains {{sti|{{as|'''bonus''' attack damage}}}} and {{sti|range|300 '''bonus''' attack range}} for 6 seconds, during which his {{tip|basic attack|basic attacks}} are replaced by ''bolts'' that travel slightly further than his attack range in a straight line, dealing damage to {{tt|every enemy unit|non-champions and champions, wards and plants, turrets and structures}} hit.\n",
+    "leveling": "{{st|Bonus Attack Damage|{{ap|30 to 60}}}}\n",
+    "description2": "The ''bolts'' deal {{pp|key=%|type=enemies hit|110-10*x|0 to 4 for 5|formula=100% - 10% per enemy hit. ''This is capped at 60% damage.''|changedisplay=true}} of the triggering {{as|attack's damage|AD}}, apply {{tip|on-hit}} effects, and can {{tip|critically strike}} for {{as|{{critical damage|{{ccd|Twitch|crit_base}}|100}}|critical damage}} damage.\n",
+    "cooldown": "90\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* The extra distance that the ''bolts'' travel scales with '''bonus''' attack range.\n* ''Spray and Pray'' allows '''Twitch''' to outrange {{tip|turret|turrets}} by 50 units, allowing him to hit them without them returning fire.\n* '''Twitch''' targets his line attack at his target's location at the ''start'' of his attack windup.\n** The ''bolts'' reach targets at a delay, composed of '''Twitch's''' windup time and distance the ''bolt'' has to travel at finite speed. Even the primary target can dodge the attack if they are moving quickly enough.\n* {{tip|On-attack}} effects such as {{ai|Help, Pix!|Lulu}} and {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} will be triggered as usual from the completion of '''Twitch's''' basic attack windup. They will obey their standard target-acquisition rules in spite of ''Spray and Pray's'' special basic attack behavior.\n* The ''bolt'' projectiles will naturally pass through terrain and enemy structures (the latter will be damaged by ''bolts'' even if they are not directly targeted).\n* If '''Twitch''' is {{tip|blind|blinded}} before winding up the attack, the hits will ''miss'' against '''all''' targets.\n* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} interacts with ''Spray and Pray's'' {{sti|'''bonus''' attack range}} but not with the modified missile effect (the secondary bolts will not have pass-through effects).\n* Whenever the ''bolts'' penetrate a target, a small elongated cloud appears at the location, which's VFX and SFX '''can''' be seen and heard inside the Fog of War.\n* The ''bolts<nowiki>'</nowiki>'' travel distance scales with the full value of '''Twitch's''' {{sti|range|attack range}} increases such as {{ii|Rapid Firecannon}}, but not with size increases (which only increase his effective attack range, thereby the target range).\n* (Outdated as of [[V10.13]], now can hit everything with edge range, except for turrets) The {{tip|cr|icononly = true}} center of a unit must be within the maximum travel distance of the ''bolt'' missile, and in front of the spawn location ('''Twitch's''' {{tip|cr|icononly = true}} center) for the ''bolt'' to be able to hit them.\n** Other than this condition, the ''bolt'' missile has to only touch (pass within its half width of 60 units) the {{tip|er|icononly = true}} edge of the unit's radius.\n** This is standard behaviour for ''linear skillshots''.\n* {{iis|Malignance}} {{nie|Hatefog}} is special cased to work with ''Spray and Pray''.\n* ''Bolt'' damage is considered {{tip|area of effect}} for {{ri|Axiom Arcanist}}. <!--intended feature lmao-->\n** It is '''not''' considered ''area of effect'' for other effects, i.e {{tip|omnivamp}}.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "ashe-q",
+  "candidateKey": "hero_skill|hero_ashe|Q|射手的专注",
+  "ownerId": "hero_ashe",
+  "wikiChampionTitle": "Ashe",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Ashe/Q",
+  "zhDisplayName": "射手的专注",
+  "resolvedTitle": "Template:Data Ashe/Ranger's Focus",
+  "wikiPageId": 1306805,
+  "revisionId": 4016907,
+  "revisionTimestamp": "2026-05-13T12:53:47Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Ranger's%20Focus",
+  "contentSha256": "3a6bf74888a0cc48333f5d9058feb129d5326eb3b898f76aa7740d61fdf5948b",
+  "rawByteSize": 4499,
+  "fields": {
+    "description": "{{sbc|Passive:}} While ''Ranger's Focus'' is inactive, '''Ashe's''' basic attacks {{tip|on-attack}} generate a {{tip|stack}} of ''Focus'' for 4 seconds, refreshing on subsequent attacks and stacking up to 4 times. Stacks expire one by one every second when the duration ends.\n",
+    "description2": "{{sbc|Active:}} For 6 seconds, '''Ashe''' gains {{sti|as|{{as|'''bonus''' attack speed}}}} and empowers her basic attacks to fire a flurry of five arrows that deal {{as|'''modified''' physical damage}}. The flurries {{tip|applies life steal|apply}} {{as|{{sti|life steal}}}} and ''{{ai|Frost Shot|Ashe}}'' per arrow, but apply {{tip|on-hit}} effects only once.\n",
+    "leveling2": "{{st|Bonus Attack Speed|{{ap|20 to 60}}%}}\n{{st|Physical Damage Per Arrow|{{as|{{ap|{{#var:ad1}}/5 to {{#var:ad5}}/5}}% AD}}|Total Damage Per Flurry|{{as|{{ap|{{#var:ad1}} to {{#var:ad5}}}}% AD}}}}\n",
+    "description4": "''Ranger's Focus {{tip|basic attack reset|resets}} '''Ashe's''' basic attack timer.''\n",
+    "cost": "30\n",
+    "costtype": "Mana + 4 Focus\n",
+    "damagetype": "Physical\n",
+    "notes": "* The flurries deal 1 instance of {{tip|basic damage}} followed by 4 instances of a non-reactive type of damage (either {{tip|default damage|default}} or {{tip|proc damage|proc}}).<!--One test to determine the difference is Teemo's W, but the test is hard to set-up since the first bolt removes Teemo's W.-->\n** The flurries are classified as a basic attack on a {{tip|script}} level, but are considered an ability for other effects (e.g. {{cai|Sap Magic|Maokai}}).{{Bug}}\n* The first flurry of a ''Ranger's Focus'' cast fires{{ft|one additional arrow, dealing 20% increased total damage.|six arrows, dealing a total of {{as|{{ap|{{#var:ad1}}*1.2 to {{#var:ad5}}*1.2}}%|attack damage}} {{as|attack damage}}.}}\n* ''Ranger's Focus'' works against {{tip|structures}}.\n* Flat damage reductions (e.g. {{cai|Tantrum|Amumu}}, {{cai|Nimble Fighter|Fizz}}, or {{cai|Eclipse|Leona}}) apply per arrow, resulting in extremely increased effectiveness against ''Ranger's Focus''.\n** The sole exception is {{iis|Warden's Mail}} {{nie|Rock Solid}}, as that applies per {{tip|cast instance}} rather than per damage instance.\n* A flurry can apply 5 stacks of {{iis|Black Cleaver}} {{nie|Carve}} to a single target as it deals 5 instances of {{as|physical damage}}.\n* ''Ranger's Focus'' also empowers {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} bolts to become a flurry of 5 bolts each as well.\n** The empowered bolts use '''Ashe's''' attack projectile, including her missile speed (2500 compared to their default 2000).\n** The bolts are evenly distributed among the targets, but a single target cannot be hit by more than 5 bolts.\n** These flurries also apply {{tip|on-hit}} effects only once to each target hit.\n* Because ''Focus'' stacks are generated {{tip|on-attack}}, {{iis|Runaan's Hurricane}} {{nies|Wind's Fury}} bolts will not generate any.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description4": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false
+  },
+  "numericContractStatus": "reviewed_contract_separate",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

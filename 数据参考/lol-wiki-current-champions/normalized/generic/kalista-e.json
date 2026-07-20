@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kalista-e",
+  "candidateKey": "hero_skill|hero_kalista|E|撕裂",
+  "ownerId": "hero_kalista",
+  "wikiChampionTitle": "Kalista",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Kalista/E",
+  "zhDisplayName": "撕裂",
+  "resolvedTitle": "Template:Data Kalista/Rend",
+  "wikiPageId": 1307670,
+  "revisionId": 4004071,
+  "revisionTimestamp": "2026-03-31T19:51:50Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kalista/Rend",
+  "contentSha256": "6b94b5174a623058abbee2e716ea59298a2ddc3b79741660b89faf4e6913ede7",
+  "rawByteSize": 5075,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Kalista's''' {{tip|basic attacks}} {{tip|on-hit}} and ''{{ai|Pierce|Kalista}}'' apply a {{tip|stack}} of ''Rend'' to enemies for 4 seconds, refreshing on subsequent hits and stacking up to 254 times per enemy.\n",
+    "description2": "{{sbc|Active:}} '''Kalista''' rips out the lodged spears from all nearby enemies afflicted with ''Rend'' stacks, consuming the stacks on each target to deal {{as|physical damage}} and {{tip|slow}} them for 2 seconds. For each stack beyond the first, the target is dealt additional {{as|physical damage}}. ''Rend'' deals 50% damage against epic {{tip|monsters}}.<br><br>''Rend's'' cast also empowers the in-flight missiles of '''Kalista's''' basic attacks and ''{{ai|Pierce|Kalista}}'' to apply ''Rend's'' effects to their targets immediately upon hitting them.\n",
+    "leveling2": "{{st|Physical Damage|{{ap|{{#var:b1a}} to {{#var:b5a}}}} {{as|(+ {{#var:ad}}% AD)}} {{as|(+ {{#var:ap}}% AP)}}}}\n{{st|Bonus Damage per Additional Stack|{{ap|{{#var:b1b}} to {{#var:b5b}}}} {{as|(+ {{ap|{{#var:ad1b}} to {{#var:ad5b}}}}% AD)}} {{as|(+ {{#var:aps}}% AP)}}}}\n{{st|Slow|{{ap|10 to 42}}% {{as|(+ 5% per 100 AP)}}}}\n",
+    "description3": "If ''Rend'' kills at least one target, its {{sti|cooldown}} is reset and '''Kalista''' restores {{sti|{{as|mana}}}}.\n",
+    "description4": "''A nearby enemy with a Rend stack is required to cast this ability.''\n",
+    "leveling3": "{{st|Mana Restored|{{as|{{ap|10 to 30}}|mana}}}}\n",
+    "cooldown": "{{ap|10 to 8}}\n",
+    "cost": "30\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''Rend'' cannot activate on {{tip|untargetable}} enemies.\n* ''Rend'' applies its effects instantly on cast.\n* ''Rend'' can be used during the dash of {{ai|Martial Poise|Kalista}}, and during the cast time of {{ai|Pierce|Kalista}}. If ''Rend'' is used during the cast time of {{ai|Pierce|Kalista}}, before the projectile spawns, doing so will repeat the first-spear damage to a target already damaged by ''Rend'', {{bug|2}} in addition to empowering the projectile with ''Rend's'' effects.\n* The cooldown will not reset if the target is protected by {{tip|resurrection}} effects.\n* If ''Rend'' is used against {{ci|Sion}} under the effects of {{ai|Glory in Death|Sion}}, the cooldown will reset even if it does not kill him.{{bug}}\n* A stack is not applied if the attack is {{tip|dodge|dodged}}, {{tip|block|blocked}} or missed while '''Kalista''' is {{tip|blind|blinded}}.\n* {{ai|Pierce|Kalista}} does not apply a stack of ''Rend'' if blocked by {{tip|spell shield}}.\n* While {{ai|Hostile Takeover|Renata Glasc|berserk}}, '''Kalista's''' attacks will also apply ''Rend'' stacks on allies.\n** '''Kalista''' will be unable to cast ''Rend'' if there are no stacks on an enemy in range.\n*** ''Rend'' cannot cast on allies, even if a valid enemy target exists. As such, any spears on allied units are purely cosmetic.\n* ''Rend'' has a lower cast range than effect range.\n* ''Rend'' at maximum stacks will deal a total of {{as|{{ap|({{#var:b1a}} to {{#var:b5a}})+({{#var:b1b}} to {{#var:b5b}})*253}}|physical damage}} {{as|(+ {{ap|{{#var:ad}}+({{#var:ad1b}} to {{#var:ad5b}})*253}}% AD)}} {{as|(+ {{#expr:{{#var:ap}}+{{#var:aps}}*253}}% AP)}} {{as|physical damage}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "description4": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

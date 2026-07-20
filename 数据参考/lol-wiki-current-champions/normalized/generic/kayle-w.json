@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kayle-w",
+  "candidateKey": "hero_skill|hero_kayle|W|星界恩典",
+  "ownerId": "hero_kayle",
+  "wikiChampionTitle": "Kayle",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Kayle/W",
+  "zhDisplayName": "星界恩典",
+  "resolvedTitle": "Template:Data Kayle/Celestial Blessing",
+  "wikiPageId": 1388327,
+  "revisionId": 3997873,
+  "revisionTimestamp": "2026-03-09T15:04:29Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kayle/Celestial%20Blessing",
+  "contentSha256": "e3a13c31ef392b69d09506ddaca57190d577f95fdbd7a61a030b749e5afc334e",
+  "rawByteSize": 1880,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kayle''' and the target allied champion are {{tip|heal|healed}} and gain {{sti|{{as|'''bonus''' movement speed}}}} for 2 seconds from the start of the cast time.\n",
+    "leveling": "{{st|Heal|{{ap|55 to 155}} {{as|(+ 25% AP)}}}}\n{{st|Bonus Movement Speed|{{ap|24 to 40}}% {{as|(+ 8% per 100 AP)}}}}\n",
+    "description2": "If cast without a valid target, or [[self-targeted|self-cast]], ''Celestial Blessing'' will automatically target the closest allied champion in range, prioritizing the one with the lowest {{sti|{{as|health}}}}.\n",
+    "description3": "'''''Kayle''' can move during Celestial Blessing's cast time.''\n",
+    "cooldown": "15\n",
+    "cost": "{{ap|70 to 90}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "",
+    "notes": "'''Details'''\n* ''Celestial Blessing's'' cast time does not interrupt movement and the effects are applied at the start.\n'''Interactions & Other'''\n* If cast with [[Auto-targeted|auto-targeting]], ''Celestial Blessing'' may target allies who are {{tip|untargetable|untargetable}}, or allied clones that cannot be targeted by allies (such as {{cai|Warrior Trickster|Wukong}}).\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

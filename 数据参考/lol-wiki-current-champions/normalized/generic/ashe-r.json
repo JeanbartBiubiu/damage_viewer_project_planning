@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "ashe-r",
+  "candidateKey": "hero_skill|hero_ashe|R|魔法水晶箭",
+  "ownerId": "hero_ashe",
+  "wikiChampionTitle": "Ashe",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Ashe/R",
+  "zhDisplayName": "魔法水晶箭",
+  "resolvedTitle": "Template:Data Ashe/Enchanted Crystal Arrow",
+  "wikiPageId": 1306811,
+  "revisionId": 4026934,
+  "revisionTimestamp": "2026-06-10T19:09:50Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Enchanted%20Crystal%20Arrow",
+  "contentSha256": "1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f",
+  "rawByteSize": 2394,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Ashe''' fires a massive arrow of ice in the target direction, briefly granting {{tip|sight}} of the {{tt|area|Cannot grant sight through terrain and can only grant sight into brush when the missile flies through that brush}} it flies through. The arrow shatters upon hitting an enemy {{tip|champion}}, dealing them {{as|magic damage}}, {{tip|stun|stunning}} them for {{pp|type=distance traveled|1 to 1 for 5;1 to 3.5 for 10|0 to 2800|formula=1s for the first 800 units traveled; 1+(0.25 per 200 units)s beyond 800 units. ''This is capped at 2800 units traveled.''}} seconds, and granting {{tip|sight}} of the area around them for 1 second.\n",
+    "leveling": "{{st|Magic Damage|{{ap|200 to 600}} {{as|(+ 120% AP)}}}}\n",
+    "description2": "Enemies surrounding the primary target are dealt the same damage and afflicted with ''{{ai|Frost Shot|Ashe}}''.\n",
+    "cooldown": "{{ap|100 to 60}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Enchanted Crystal Arrow's'' projectile has an [[File:Enchanted Crystal Arrow Minimap.png|40px|link=]] icon on the mini-map while it is in flight. It can be seen by only '''Ashe''' and her allies.\n{{Effect at cast time start}}\n* The effect will be centered on the first champion struck, not at the location the missile collided with them.\n<!--Blurb-->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

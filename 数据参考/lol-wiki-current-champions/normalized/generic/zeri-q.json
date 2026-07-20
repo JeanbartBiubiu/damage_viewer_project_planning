@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "zeri-q",
+  "candidateKey": "hero_skill|hero_zeri|Q|电火迸射",
+  "ownerId": "hero_zeri",
+  "wikiChampionTitle": "Zeri",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Zeri/Q",
+  "zhDisplayName": "电火迸射",
+  "resolvedTitle": "Template:Data Zeri/Burst Fire",
+  "wikiPageId": 1517505,
+  "revisionId": 4041832,
+  "revisionTimestamp": "2026-07-11T21:49:46Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Zeri/Burst%20Fire",
+  "contentSha256": "23aff813263c819fc05d70d5512b0db552478597ded7ba183856781edea8ab22",
+  "rawByteSize": 9866,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Zeri''' fires a burst of {{#var:rounds}} rounds in the target direction over the cast time, each dealing {{as|physical damage}} to the first enemy hit.\n",
+    "leveling": "{{st|Total Physical Damage|{{ap|{{#var:b1}} to {{#var:b5}}}} {{as|(+ {{ap|{{#var:ad1}} to {{#var:ad5}}}}% AD)}}|Total Critical Strike Damage|{{ap|{{#var:b1}}*{{#var:crit}} to {{#var:b5}}*{{#var:crit}}}} {{as|(+ {{ap|{{#var:ad1}}*{{#var:crit}} to {{#var:ad5}}*{{#var:crit}}}}% AD)}}|Total Infinity Edge Damage|{{ap|{{#var:b1}}*({{#var:crit}}+{{#var:ie_mod}}) to {{#var:b5}}*({{#var:crit}}+{{#var:ie_mod}})}} {{as|(+ {{ap|{{#var:ad1}}*({{#var:crit}}+{{#var:ie_mod}}) to {{#var:ad5}}*({{#var:crit}}+{{#var:ie_mod}})}}% AD)}}}}\n{{st|Physical Damage per Hit|{{ap|{{#var:b1}}/{{#var:rounds}} to {{#var:b5}}/{{#var:rounds}}|round=2}} {{as|(+ {{ap|{{#var:ad1}}/{{#var:rounds}} to {{#var:ad5}}/{{#var:rounds}}|round=2}}% AD)}}|Critical Strike per Hit|{{ap|{{#var:b1}}*{{#var:crit}}/{{#var:rounds}} to {{#var:b5}}*{{#var:crit}}/{{#var:rounds}}|round=2}} {{as|(+ {{ap|{{#var:ad1}}*{{#var:crit}}/{{#var:rounds}} to {{#var:ad5}}*{{#var:crit}}/{{#var:rounds}}|round=2}}% AD)}}|Infinity Edge Damage per Hit|{{ap|{{#var:b1}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}} to {{#var:b5}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}}|round=2}} {{as|(+ {{ap|{{#var:ad1}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}} to {{#var:ad5}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}}|round=2}}% AD)}}}}\n",
+    "description2": "''Burst Fire's'' projectile is treated as a {{tip|basic attack}}: it hits any enemy unit a typical basic attack can; deals {{tip|basic damage}}; can {{tip|critically strike}} for {{as|{{critical damage|{{ccd|Zeri|crit_base}}|100}}|critical damage}} damage; and applies {{tip|on-hit}} and {{tip|on-attack}} effects to the first enemy hit. ''Burst Fire's'' {{sti|cooldown}} and cast time are reduced with {{sti|{{as|attack speed}}}}, with the maximum of {{as|{{fd|1.5}}|attack speed}} attacks per second. 60% of {{as|attack speed}} in excess of the cap is converted into {{sti|{{as|'''bonus''' attack damage}}}}.\n",
+    "description3": "'''''Zeri''' can cast Burst Fire while {{tip|silence|silenced}}.''\n",
+    "cooldown": "",
+    "cost": "None\n",
+    "costtype": "",
+    "damagetype": "Physical\n",
+    "notes": "* ''Burst Fire'' is automatically learned with her first skill point upon spawning.\n* ''Burst Fire'' deals {{tip|basic damage}} and does not trigger {{tip|spell effects}}. It is additionally tagged as [[area of effect]] when damaging targets after the first.\n* ''Burst Fire'' is still locked out while '''Zeri''' is affected by any form of other {{tip|cast-inhibiting crowd control}}.\n** {{tip|Silence}} is special cased to specifically not disable ''Burst Fire''.\n** {{tip|Polymorph}}, despite functioning identically to {{tip|silence}}, will still lock ''Burst Fire'' from being cast.\n* Any of ''Burst Fire's'' rounds hitting a champion will draw minion aggro, regardless of whether or not other targets were hit first by ''Burst Fire's'' rounds.\n** A lightning chain from a {{ai|Lightning Crash|Zeri}} empowered ''Burst Fire'' will not draw minion aggro.\n* Casting ''Burst Fire'' does not cancel previous attack ({{ai|Living Battery|Zeri}}) and movement orders.\n* ''Burst Fire'' does not trigger {{iis|Tear of the Goddess}} {{nie|Mana Charge}}.\n* ''Burst Fire's'' cooldown is not reduced by {{iis|Navori Flickerblade}} {{nie|Transcendence}}.\n* {{cais|Tantrum|Amumu}}, {{cais|Nimble Fighter|Fizz}}, and {{cais|Eclipse|Leona}} flat damage reduction apply to '''each''' of the 7 instances of damage from ''Burst Fire''.\n** {{iis|Warden's Mail}} flat damage reduction and cap only apply to the first instance of damage.\n** {{iis|Guardian's Horn}} flat damage reduction only applies to the first instance of damage, but handles it as damage-over-time (reduced to 25% effectiveness).\n* ''Burst Fire'' still counts as an ability activation for the purposes of on-cast effects such as triggering {{ais|Force Pulse|Kassadin}} passive.\n** It does '''not''' count as an ability activation for {{tip|Spellblade}}.\n* ''Burst Fire'' can hit '''all''' enemy units that a basic attack would be able to target. This does include [[jungle plants]], [[structure]]s, and [[ward]]s.\n** Wards will only be hit once by ''Burst Fire''. [[Stealth#Stealthed_traps_and_wards|Stealthed wards and traps]] will not take damage.\n*** ''Burst Fire'' will still apply {{tip|on-attack}} effects to stealthed traps and wards.{{bug}}\n*** {{ci|Neeko}} will be hit multiple times while {{ai|Inherent Glamour|Neeko|disguised}} as a ward, but any subsequent rounds will continue to travel through.\n** Champion-summoned units behave differently depending on the unit.\n*** {{cai|Powder Keg|Gangplank|Powder Keg}} and {{cai|Dark Procession|Yorick}} are hit only once by ''Burst Fire'', and any subsequent rounds not empowered by {{ai|Spark Surge|Zeri}} will stop upon reaching the same object.\n*** {{cai|Sentinel|Kalista}} is hit only once by ''Burst Fire'', but any subsequent rounds will continue to travel through the ''Sentinel''.\n* If ''Burst Fire'' hits an enemy while '''Zeri''' is not visible to enemies, the area around her (400 units) will be revealed for {{fd|4.5}} seconds.\n* ''Burst Fire'' rolls {{tip|critical strike}} for all rounds as well as the additional physical damage dealt when '''Zeri''' is {{ai|Lightning Crash|Zeri|Overcharged}}.\n* ''Burst Fire'' is parried by {{tip|dodge}} and {{tip|block}}.\n** {{tip|Blind}} causes ''Burst Fire'' to cast in a random direction. The rounds will still deal damage to enemies hit.\n* ''Burst Fire's'' rounds are each fired in the target direction from where '''Zeri''' is at the time.\n* '''Only''' attack speed granted by being {{ai|Lightning Crash|Zeri|Overcharged}} can exceed the cap of {{fd|1.5}}.\n** {{ri|Hail of Blades}} does not allow '''Zeri''' to exceed her attack speed cap.\n* Item and rune effects that trigger off of attacking (e.g., {{ri|Fleet Footwork}} and {{ii|Kraken Slayer}}) will only trigger if ''Burst Fire'' hits a unit.\n* If '''Zeri''' would reach maximum {{tip|Energized}} stacks from a ''Burst Fire'' cast, the remaining rounds will trigger ''Energized's'' effect.\n* ''Burst Fire's'' cast-indicator does not show {{sti|range}} increases; modified range VFX are still visible around the champion model.\n* ''Burst Fire'' can apply the effect of {{ii|Horizon Focus}} when the enemy hit is within the last 50 units of this ability.{{bug|2}}\n* ''Burst Fire'' uses a modified icon when empowered by {{ai|Spark Surge|Zeri}} ([[File:Zeri Burst Fire 2.png|20px|link=]]) and {{ai|Lightning Crash|Zeri}} ([[File:Zeri Burst Fire 3.png|20px|link=]]) as well as both ([[File:Zeri Burst Fire 4.png|20px|link=]]).\n* Destroying a ward that is targetable but not visible to '''Zeri's''' team (e.g. a {{ii|Control Ward}} in [[Fog of War]]) via ''Burst Fire'' uniquely allows her to remove its accompanying [[Ward#Ward_Timers|ward timer]] (if it exists) without seeing the ward being destroyed.\n* If '''Zeri''' is affected by an ally {{cai|Tempered Fate|Bard}} during ''Burst Fire's'' cast time, she will be able to cast it during the effect.{{bug}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

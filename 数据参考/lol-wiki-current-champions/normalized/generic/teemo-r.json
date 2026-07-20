@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "teemo-r",
+  "candidateKey": "hero_skill|hero_teemo|R|种蘑菇",
+  "ownerId": "hero_teemo",
+  "wikiChampionTitle": "Teemo",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Teemo/R",
+  "zhDisplayName": "种蘑菇",
+  "resolvedTitle": "Template:Data Teemo/Noxious Trap",
+  "wikiPageId": 1308202,
+  "revisionId": 4015245,
+  "revisionTimestamp": "2026-05-03T21:15:42Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Teemo/Noxious%20Trap",
+  "contentSha256": "e3ad342c267dfa3b2d0817cecbd7903eccdcac5fa35993fa6a2be45ca46bb548",
+  "rawByteSize": 3952,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Teemo''' tosses a poisonous mushroom to the target location that becomes {{tip|stealthed trap|stealthed}} after arming over 1 second, lasting for up to 5 minutes and granting {{tip|sight}} of its surroundings. If the mushroom lands on one that has already been placed, it will bounce forward from the placed mushroom for its cast distance, up to a cap, which can {{tt|happen repeatedly|In-flight mushrooms can chain into further bounces if they keep landing on subsequent placed mushrooms}}.\n",
+    "leveling": "{{st|Bounce Distance Cap|{{ap|350 to 550}}}}\n",
+    "description2": "'''Teemo''' periodically [[ammunition|stocks]] a ''Noxious Trap'' charge, up to a maximum amount.\n",
+    "leveling2": "{{st|Maximum Charges|{{ap|3 to 5}}}}\n",
+    "description3": "The mushroom will explode upon enemy contact, inflicting {{tip|poison}} to nearby enemies and {{tip|slow|slowing}} them for 4 seconds, as well as {{tip|standard sight|revealing}} them.\n",
+    "leveling3": "{{st|Slow|{{ap|30 to 50}}%}}\n",
+    "description4": "{{sbc|{{tip|poison|nolink=true}}:}} The target takes {{as|magic damage}} every second over 4 seconds. Subsequent inflictions refresh the duration.\n",
+    "leveling4": "{{st|Magic Damage per Tick|{{ap|200/4 to 450/4}} {{as|(+ {{ap|50/4}}% AP)}}|Total Magic Damage|{{ap|200 to 450}} {{as|(+ 50% AP)}}}}\n",
+    "description5": "A mushroom has {{sti|health|{{as|6 '''maximum''' health}}}} and can only be damaged by {{tip|champion}} basic attacks (2 damage from {{tip|ranged}} and 3 from {{tip|melee}}).\n",
+    "description6": "''See [[Teemo#Pets|Pets]] for more details about mushroom traps.''\n",
+    "cooldown": "{{fd|0.25}}\n",
+    "cost": "{{ap|75 to 35}}\n",
+    "costtype": "Mana + 1 Charge\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Noxious Trap'' deals {{tip|persistent area damage}}, additionally tagged as {{tip|indirect damage}}, and applies {{tip|spell effects}}.\n* The bounce can occur an indefinite amount of times while '''Teemo''' is alive. If '''Teemo''' dies before ''Noxious Trap'' bounces on another, the trap will disappear.\n* {{ui|Rift Scuttler}} will not trigger ''Noxious Trap's'' explosion if it is not being attacked.\n* Enemies who step on multiple ''Noxious Traps'' will only refresh the duration of the damage over time and slow.\n* ''Noxious Trap's'' damage is determined when it detonates and not when planted, meaning if '''Teemo's''' {{sti|AP|{{as|ability power}}}} changes, the scaling is also altered to affect the active damage of all ''Noxious Traps'' so long as they do not explode.\n* {{tip|Spell shield}} will prevent the damage over time and slow for all units but will not prevent the detonation itself.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "leveling4": true,
+    "description5": true,
+    "description6": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

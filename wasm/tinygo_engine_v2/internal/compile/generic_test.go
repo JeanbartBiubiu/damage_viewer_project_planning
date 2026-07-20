@@ -94,11 +94,12 @@ func TestCompileGenericMatcherDomainErrorForListener(t *testing.T) {
 	req := minimalValidCompileRequest()
 	req.TypeCatalog.Types = append(req.TypeCatalog.Types,
 		model.TypeCatalogEntry{Key: "event/damage_dealt", Domain: "event"},
+		model.TypeCatalogEntry{Key: "status/stun", Domain: "status"},
 	)
 	req.Rules.Listeners = []model.ListenerDefinition{
 		{
 			ListenerKey:  "bad_domain_listener",
-			EventMatcher: model.TypeMatcher{Any: []string{"ability/basic_attack"}},
+			EventMatcher: model.TypeMatcher{Any: []string{"status/stun"}},
 		},
 	}
 	result := CompileGeneric(req)

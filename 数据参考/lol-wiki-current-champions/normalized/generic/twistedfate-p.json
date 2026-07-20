@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "twistedfate-p",
+  "candidateKey": "hero_skill|hero_twistedfate|P|灌铅骰子",
+  "ownerId": "hero_twistedfate",
+  "wikiChampionTitle": "Twisted Fate",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Twisted Fate/I",
+  "zhDisplayName": "灌铅骰子",
+  "resolvedTitle": "Template:Data Twisted Fate/Loaded Dice",
+  "wikiPageId": 1309740,
+  "revisionId": 4005221,
+  "revisionTimestamp": "2026-04-04T06:08:39Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Twisted%20Fate/Loaded%20Dice",
+  "contentSha256": "648891b415595163d1ee7fe1c99e0ca0879ed52d08b4d05aaeaaa82d2d7ed6ef",
+  "rawByteSize": 1128,
+  "fields": {
+    "description": "{{sbc|Innate:}} Whenever '''Twisted Fate''' kills an enemy, he generates {{g|icononly=true}}{{pp|type=chance|1 to 6 for 6|key1=%|100*2/3/5 to 100*2/3/5;100/3|color=gold}}. He also has a chance equal to his {{as|critical strike chance}} to generate an additional {{g|{{pp|type=chance|1 to 6 for 6|key1=%|100/3;100*2/3/5 to 100*2/3/5|color=gold}}}}.\n",
+    "damagetype": "",
+    "notes": "* The expected bonus gold gained per unit killed is {{g|4}}.\n** The expected additional gold due to critical strike chance is {{g|3}}.\n\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "vayne-r",
+  "candidateKey": "hero_skill|hero_vayne|R|终极时刻",
+  "ownerId": "hero_vayne",
+  "wikiChampionTitle": "Vayne",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Vayne/R",
+  "zhDisplayName": "终极时刻",
+  "resolvedTitle": "Template:Data Vayne/Final Hour",
+  "wikiPageId": 1309991,
+  "revisionId": 3807995,
+  "revisionTimestamp": "2024-11-05T22:07:10Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Vayne/Final%20Hour",
+  "contentSha256": "e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d",
+  "rawByteSize": 2015,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Vayne''' equips her crossbow, gaining {{sti|{{as|'''bonus''' attack damage}}}} for a duration.\n",
+    "leveling": "{{st|Effect Duration|{{ap|8 to 12}} seconds}}\n{{st|Bonus Attack Damage|{{ap|35 to 65 3}}}}\n",
+    "description2": "While active, ''Final Hour'' empowers ''{{ai|Night Hunter|Vayne}}'' to have tripled {{as|'''bonus''' movement speed}} and ''{{ai|Tumble|Vayne}}'' to have a reduced {{sti|cooldown}}. Additionally, ''{{ais|Tumble|Vayne}}'' cast grants '''Vayne''' {{tip|invisibility}} for 1 second. Attacking or casting abilities ends the stealth immediately.\n",
+    "leveling2": "{{st|{{ai|Tumble|Vayne}} Cooldown Reduction|{{ap|30 to 50}}%}}\n",
+    "description3": "Scoring an enemy champion {{tip|takedown}} within 3 seconds of damaging them will extend ''Final Hour's'' duration by 4 seconds, up to its original duration.\n",
+    "cooldown": "{{ap|100 to 70}}\n",
+    "cost": "80\n",
+    "costtype": "Mana\n",
+    "notes": "* '''Vayne's''' animations and basic attack projectiles change slightly during ''Final Hour''.\n* ''Tumble's'' visual effects can be seen by enemies upon '''Vayne''' becoming invisible.\n* Using a basic attack breaks the stealth at the start of the attack windup.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "notes": true,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

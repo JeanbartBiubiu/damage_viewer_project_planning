@@ -1,0 +1,35 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Ardent Blaze|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Lucian
+|skill        = W
+|icon         = Ardent Blaze.png
+|icon2        = Ardent Blaze 2.png
+|blurb        = {{sbc|Active:}} {{ci|Lucian}} fires a missile in the target direction that explodes in a cross pattern upon hitting an enemy or maximum range, dealing {{as|magic damage}} and marking enemies hit.
+|blurb3      ='''Lucian''' briefly gains {{sti|{{as|'''bonus''' movement speed}}}} when he or allied champions damage a marked target. Allied champions triggering this effect grant '''Lucian''' ''{{ai|Lightslinger|Lucian|Vigilance}}''.
+|description  = {{sbc|Active:}} '''Lucian''' fires a missile in the target direction that explodes in a cross pattern upon hitting an enemy or reaching maximum range, dealing {{as|magic damage}} to enemies hit and granting {{tip|sight}} of the area for 1 second.
+|leveling     = {{st|Magic Damage|{{ap|75 to 215}} {{as|(+ 90% AP)}}}}
+|description2 = Enemies hit are marked for 6 seconds.
+|icon3        = Ardent Blaze 3.png
+|description3 = '''Lucian''' gains {{sti|{{as|'''bonus''' movement speed}}}} for 1 second when he or allied champions damage a marked target. Allied champions triggering this effect grant '''Lucian''' ''{{ai|Lightslinger|Lucian|Vigilance}}''.
+|leveling3    = {{st|Bonus Movement Speed|{{ap|60 to 80}}}}
+|cooldown     = {{ap|14 to 10}}
+|cost         = 60
+|costtype     = Mana
+|cast time = {{fd|0.25}}
+|range = {{tip|cr|icononly = true}} 900
+|width        = {{tip|er|icononly = true}} {{tt|110|initial missile width}}<!-- / {{tt|X|length of star tips}} / {{tt|X|width of star tips}}-->
+|speed        = 1600
+|targeting    = Direction
+|damagetype   = Magic
+|affects      = Enemies / Self, Allies
+|projectile   = True
+|spelleffects = spellaoe
+|parry        = special
+|spellshield  = special
+|notes        =
+{{Effect at cast time end}}
+** Like most [[projectile|missiles]], it will not collide with enemies whose center is beyond the maximum range (not behind '''Lucian'''), but this determines only the center and timing of the explosion.
+* ''Ardent Blaze'' will cast from wherever '''Lucian''' is at the end of the cast time.
+* '''Lucian''' will not gain ''Ardent Blaze's'' bonus movement speed if attacks on {{as|marked|buzzword}} targets are {{tip|dodge|dodged}}, {{tip|block|blocked}}, or if missed while the attacker is {{tip|blind|blinded}}.
+* {{tip|persistent damage|DoTs}} will proc ''Ardent Blaze'' only once.
+* {{tip|Spell shield}} will not prevent the mark.
+}}

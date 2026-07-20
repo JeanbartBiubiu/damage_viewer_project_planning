@@ -1,0 +1,29 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Valkyrie|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Corki
+|skill        = W
+|icon         = Valkyrie.png
+|blurb        = {{sbc|Active:}} {{ci|Corki}} {{tip|dash|flies}} a short distance to the target location, dropping bombs that create a trail of fire that deals {{as|magic damage}} continually to enemies within.
+|description  = {{sbc|Active:}} '''Corki''' {{tip|dashes}} to the target location and drops bombs that leave up to 3 blazing patches along his path, depending on the distance traveled. Each patch lasts {{fd|2.5}} seconds.
+|description2 = Enemies within the patches are dealt {{as|magic damage}} every {{fd|0.5}} seconds, lingering for 1 second.
+|leveling2    = {{st|Magic Damage Per Tick|{{ap|30 to 90}} {{as|(+ 40% '''bonus''' AD)}} {{as|(+ 30% AP)}}|Total Magic Damage|{{ap|30*5 to 90*5}} {{as|(+ {{ap|40*5}}% '''bonus''' AD)}} {{as|(+ {{ap|30*5}}% AP)}}}}
+|description3 = ''{{ai|Gatling Gun|Corki}} can be cast during the dash.''
+|target range = {{tt|300 - 600|Minimum and maximum dash distance}}
+|collision radius=100
+|effect radius= 200
+|speed        = {{tt|650 + {{as|100% movement speed}}|Dash speed}}
+|cast time    = none
+|cooldown     = {{ap|20 to 12}}
+|cost         = {{ap|80 to 100}}
+|costtype     = mana
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = False
+|spelleffects = aoedot
+|projectile   =
+|grounded     = True
+|knockdown    = True
+|outofrange   = cast at max
+|notes        =
+* No additional information.
+}}

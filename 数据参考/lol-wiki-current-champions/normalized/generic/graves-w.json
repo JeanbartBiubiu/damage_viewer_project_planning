@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "graves-w",
+  "candidateKey": "hero_skill|hero_graves|W|烟幕弹",
+  "ownerId": "hero_graves",
+  "wikiChampionTitle": "Graves",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Graves/W",
+  "zhDisplayName": "烟幕弹",
+  "resolvedTitle": "Template:Data Graves/Smoke Screen",
+  "wikiPageId": 1307368,
+  "revisionId": 3956197,
+  "revisionTimestamp": "2025-09-26T13:12:00Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Graves/Smoke%20Screen",
+  "contentSha256": "20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d",
+  "rawByteSize": 2441,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Graves''' fires a smoke canister at the target location that upon impact deals {{as|magic damage}} to enemies within the area and {{tip|slow|slows}} them by 50% for {{fd|0.5}} seconds.\n",
+    "leveling": "{{st|Magic Damage|{{ap|60 to 260}} {{as|(+ 60% AP)}}}}\n",
+    "description2": "The canister creates a cloud of smoke for 4 seconds that applies {{tip|nearsight}} of outside the area to all enemies within every {{fd|0.25}} seconds, reducing their {{tip|sight}} radius relative to the center.\n",
+    "cooldown": "{{ap|26 to 18}}\n",
+    "cost": "{{ap|70 to 90}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Smoke Screen'' will {{tip|nearsight}} {{tip|untargetable}} units.\n* {{tip|Spell shield|Spell shields}} will block the instance of damage and {{tip|slow}}, but will not mitigate the persistent area of effect.\n* {{tip|cc-immune|Crowd control immunity}} and {{tip|cleanse|cleanses}} have no effect on the user's {{tip|sight}} radius reduction despite the {{tip|nearsight}} being resisted / removed. Loss of allied vision will still be affected.{{bug|2}}\n** Removing or resisting the nearsight will prevent it from being reapplied while staying inside the area (leaving and coming back inside will not).\n* The nearsight debuff applies to non-champions but it does not inherently stop them from performing actions that require {{tip|sight}}, such as [[basic attack]]ing.\n{{Effect at cast time end}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

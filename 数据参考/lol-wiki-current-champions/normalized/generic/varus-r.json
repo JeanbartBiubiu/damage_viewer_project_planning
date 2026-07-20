@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "varus-r",
+  "candidateKey": "hero_skill|hero_varus|R|腐败锁链",
+  "ownerId": "hero_varus",
+  "wikiChampionTitle": "Varus",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Varus/R",
+  "zhDisplayName": "腐败锁链",
+  "resolvedTitle": "Template:Data Varus/Chain of Corruption",
+  "wikiPageId": 1309977,
+  "revisionId": 4008213,
+  "revisionTimestamp": "2026-04-14T05:44:24Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Varus/Chain%20of%20Corruption",
+  "contentSha256": "62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed",
+  "rawByteSize": 5223,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Varus''' unleashes a tendril of corruption in the target direction that infects the first enemy champion hit, dealing {{as|magic damage}} and {{tip|root|rooting}} them for 2 seconds, during which they are {{tip|standard sight|revealed}}. Over the first {{tt|{{fd|1.75}} seconds|Estimated, see notes for specific stack application timings}} of the root, they are also inflicted with maximum stacks of ''{{ai|Blighted Quiver|Varus|Blight}}''.\n",
+    "leveling": "{{st|Magic Damage|{{ap|150 to 350}} {{as|(+ 100% AP)}}}}\n",
+    "description2": "Upon impact, the tendril roots into the ground from where the target was hit, seeking out nearby enemy {{tip|champions}} that are in the immediate area. If a target does not leave the area within 2 seconds, they subsequently become infected as well, taking the same damage and effects. A new tendril is then spread out from the infected target that is closest to a nearby uninfected enemy champion. The infection can spread repeatedly until there are no new targets.\n",
+    "description3": "''The target does not have to be {{tip|sight|visible}} to be caught by the tendril.''\n",
+    "cooldown": "{{ap|100 to 60}}\n",
+    "cost": "100\n",
+    "costtype": "mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* The first {{ai|Blighted Quiver|Varus|Blight}} stack is applied after ~{{fd|0.65}} seconds into the {{tip|root}} duration, while the remaining ones are applied in {{fd|0.55}}-second intervals thereafter.\n** Second and third stacks are applied after ~{{fd|1.2}} seconds and ~{{fd|1.75}} seconds into the root duration, respectively.\n** If the root's duration is reduced by the target's {{tip|tenacity}}, the stacks are applied depending upon if their time application interval is met.\n*** For example, if the root lasts for 1 second, only the first stack is applied since the second and third stacks did not meet their time intervals.\n*** If the root lasts for less than the first stack application time (<{{fd|0.65}} seconds), the first stack will instead be applied at the end of the root duration.\n** If the target {{tip|cleanse|cleanses}} the root immediately after it is applied, no stacks will be applied.\n*** In cases where the cleanse is activated later into the root duration, stack application is dependent upon their time application interval being met. If removal occurs before an interval after one having been passed, remaining stacks are not applied.\n* If the {{tip|root}} is not applied, such as by the target negating its application with {{tip|cc-immune|crowd control immunity}} or a {{tip|spell shield}}, the target will not be inflicted with {{ai|Blighted Quiver|Varus|Blight}} stacks and the tendril will not root into the ground at their location (thus preventing it from seeking). This applies to both the primary target and secondary targets that were caught by the tendril.\n* The tendril seeks and registers valid targets every {{rutngt|0.25}}.\n* Enemy champions can be targeted again by the corruption's tether if they were not infected the previous time, even if they were targeted and exited its range.\n* The tendril cannot seek enemy champions that are {{tip|untargetable}}, and will also stop seeking a target if it becomes untargetable (fails to apply its effects even if they remain in the area).\n* '''Varus''' will turn to face the target direction at the start of the cast.\n{{Effect at cast time end}}\n* ''Chain of Corruption'' can generate ''{{ai|Blighted Quiver|Varus|Blight}}'' stacks for '''Varus''' to detonate with any ability, even if ''Blighted Quiver'' has not been learned. The '''base''' detonation damage per ''Blight'' stack scales with ''Blighted Quiver's'' rank, which has a value at rank 0 of {{as|{{fd|2.5}}% of the target's '''maximum''' health}} per stack detonated.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

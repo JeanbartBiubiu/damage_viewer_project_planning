@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kindred-q",
+  "candidateKey": "hero_skill|hero_kindred|Q|乱箭之舞",
+  "ownerId": "hero_kindred",
+  "wikiChampionTitle": "Kindred",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Kindred/Q",
+  "zhDisplayName": "乱箭之舞",
+  "resolvedTitle": "Template:Data Kindred/Dance of Arrows",
+  "wikiPageId": 1307934,
+  "revisionId": 4007746,
+  "revisionTimestamp": "2026-04-12T13:55:49Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kindred/Dance%20of%20Arrows",
+  "contentSha256": "283e590573c7df7385cf317dd4bf881f84af6227080f444ead1d3fd11bb9f3a0",
+  "rawByteSize": 2710,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Lamb''' {{tip|dashes}} toward the target location, gaining {{sti|attack speed|{{as|35%|attack speed}}}} {{as|(+ 5% per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} {{as|'''bonus''' attack speed}} for 4 seconds and firing an arrow at up to 3 nearby {{tip|sight|visible}} enemies that deals {{as|physical damage}}. Her current attack target within any proximity will be prioritized by one of the arrows.\n",
+    "leveling": "{{st|Physical Damage|{{ap|40 to 140}} {{as|(+ 75% '''bonus''' AD)}}}}\n",
+    "description2": "''Dance of Arrows' '' {{sti|'''total''' cooldown}} is reduced to an amount while '''Lamb''' is within the area of ''{{ai|Wolf's Frenzy|Kindred}}''. Casting ''{{ai|Wolf's Frenzy|Kindred}}'' reduces ''Dance of Arrows' '' '''current''' cooldown to the same amount.\n",
+    "leveling2": "{{st|Static Cooldown|{{ap|4 to 2}} seconds}}\n",
+    "description3": "''Dance of Arrows {{tip|basic attack reset|resets}} '''Lamb's''' basic attack timer. '''Lamb''' can cast any of her [[champion ability|abilities]] during the dash.''\n",
+    "cooldown": "9\n",
+    "cost": "35\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''Dance of Arrows'' has no minimum dash range.\n{{always quickcast}}\n* The {{sti|cooldown}} will not be modified if it cannot be reduced (the current cooldown would have to be less than the reduction amount in this case).\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

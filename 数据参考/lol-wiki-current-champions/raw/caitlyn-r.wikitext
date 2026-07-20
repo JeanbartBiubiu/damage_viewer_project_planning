@@ -1,0 +1,46 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Ace in the Hole|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Caitlyn
+|skill        = R
+|icon         = Ace in the Hole.png
+|blurb        = {{sbc|Active:}} {{ci|Caitlyn}} targets an enemy champion and takes time to line up the perfect shot, dealing massive {{as|physical damage}} to them at a huge range.
+|blurb2       = The target's allied {{tip|champions}} can intercept the shot for them.
+|description  = {{sbc|Active:}} '''Caitlyn''' locks onto the target enemy champion and {{tip|channel|channels}} for 1 second, {{tip|true sight|revealing}} them as well as {{tip|sight|revealing}} herself.
+|description2 = ''Ace in the Hole'' is placed on a 5-second {{sti|cooldown}} if canceled.
+|description3 = Once '''Caitlyn''' completes the channel, she fires a homing bullet toward the target that deals {{as|physical damage}} to the first enemy champion it hits, increased by {{critical damage|0 to 30|critScaling=true}}.
+|leveling3    = {{st|Physical damage|{{ap|300 to 650}} {{as|(+ 100% '''bonus''' AD)}}}}
+|target range = {{tip|cr|icononly = true}} 3500
+|speed        = 3200
+|width        = {{tip|er|icononly = true}} {{tt|80|Collision width}}
+|cooldown     = 90
+|cdstart      = on-cast
+|cast time    = {{fd|0.375}}
+|cost         = 100
+|costtype     = mana
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = True
+|spelleffects = spell
+|projectile   = True
+|callforhelp  = true
+|silence      = true
+|notes        =
+* The following will cancel ''Ace in the Hole's'' channel (mana expenditure is not compensated):
+** '''Caitlyn''' is {{tip|interrupt|interrupted}}.
+** The target becomes {{tip|untargetable}}.
+** '''Caitlyn''' or her target {{tip|death|dies}}.
+* ''Ace in the Hole'' reveals the target and '''Caitlyn''' through a buff that lasts for up to 4 seconds.
+** The buff is applied to the target from the start of the cast time.
+** The buff ends prematurely when the channel is canceled or the bullet hits an enemy.
+*** The target is revealed for 1 second if the buff is ended prematurely.
+*** It is not removed if the cast time is cancelled or the bullet missile is destroyed.{{bug|2}}
+* The bullet missile will fail to hit the primary target if they are {{tip|untargetable}} upon arrival, dealing no damage.
+* The ability also goes on a 5-second {{sti|cooldown}} if '''Caitlyn''' enters {{tip|resurrection}} during the cast time.
+** The cast time does not end prematurely but the channel will be immediately canceled the moment the cast time completes.
+* If the target dies after the bullet has been fired, the shot will continue towards their corpse and may still hit other enemy champions.
+* The bullet has a {{tip|sight}} radius of 1500 attached to it.
+{{Unit-targeted cancel conditions}}** This excludes losing sight of the target.
+* The following table refers for interactions while '''Caitlyn''' is {{tip|channel|channeling}}:
+{{ct|channel|attack=false|move=false|cast=false|items=false,true,false,false,false|spells=true,false,false,false,false}}
+|flavorsound  = {{sm2|Caitlyn Original R 0.ogg}} ''"In my sights."''
+}}

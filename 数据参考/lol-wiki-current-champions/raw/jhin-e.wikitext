@@ -1,0 +1,38 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Captive Audience|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Jhin
+|skill        = E
+|icon         = false
+|blurb        = {{sbc|Passive - Beauty in Death:}} Killing an enemy champion summons a free ''Blooming Lotus Trap'' under them.
+|blurb2       = {{sbc|Active:}} {{ci|Jhin}} places a {{tip|stealthed trap|stealthed}} ''Lotus Trap'' at the target location. When an enemy crosses, it will ''bloom'', {{tip|slow|slowing}} and {{tip|standard sight|revealing}} them. The trap detonates shortly after, dealing {{as|magic damage}} to enemies.
+|blurb3       = '''Jhin''' stocks a ''Lotus Trap'' every few seconds, holding up to two.
+|description  = {{sbc|Passive - Beauty in Death:}} Whenever '''Jhin''' kills an enemy champion, he summons a ''Blooming Lotus Trap'' on their corpse.
+|icon2        = Captive Audience.png
+|description2 = {{sbc|Active:}} '''Jhin''' places a ''Lotus Trap'' at the target location which, upon landing, becomes {{tip|stealthed trap|stealthed}} after arming over 1 second, lasting for up to 180 seconds and granting {{tip|sight}} within its radius. The ''Lotus Trap blooms'' upon enemy contact, with enemies in the area at the time of its trigger becoming {{tip|standard sight|revealed}} for 4 seconds.
+|description3 = '''Jhin''' periodically [[stock]]s a ''Lotus Trap'' charge, up to a maximum of 2.
+|description4 = ''Blooming Lotus Traps'' {{tip|slow}} enemies within the area by 35% for 2 seconds before exploding, dealing {{as|magic damage}} to enemies. ''Lotus Traps'' deal 65% damage against {{tip|minions}} as well as against {{tip|champions}} and {{tip|monsters}} who have been struck by another ''Lotus Trap'' in the last 1 second.
+|leveling4    = {{st|Magic Damage|{{ap|20 to 260}} {{as|(+ 120% AD)}} {{as|(+ 100% AP)}}|Reduced Damage|{{ap|20*0.65 to 260*0.65}} {{as|(+ 78% AD)}} {{as|(+ 65% AP)}}}}
+|description5 = ''See [[Jhin#Pets|Pets]] for more details about Lotus Traps.''
+|cooldown     = 2
+|recharge     = {{ap|24 to 14}}
+|cost         = 30
+|cast time    = {{fd|0.25}}
+|costtype     = Mana + 1 Charge
+|target range = 750
+|effect radius= {{dv|{{tip|cr|icononly = true}} {{tt|260|On-trigger reveal and explosion radius}}|{{tip|sight|icononly=true}}{{tt|260|Trap sight radius}}}}
+|collision radius= {{tip|er|icononly = true}} {{tt|160|Trigger radius}}
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = spellaoe
+|projectile   = Special
+|grounded     =
+|knockdown    =
+|outofrange   = walk to location
+|notes        =
+* ''Beauty in Death'' does not consume ''Lotus Trap'' charges.
+* The ''Lotus Trap'' will stop upon encountering a {{ai|Wind Wall|Yasuo}} or {{ai|Unbreakable|Braum}}.
+* ''Beauty in Death'' does not trigger after killing a {{tip|clone}}.
+* The reveal debuff is named [[File: Caught Out.png|20px|link=]] ''Caught Out''.
+** This debuff is shared between ''Captive Audience'' and {{ai|Curtain Call|Jhin}}.
+}}

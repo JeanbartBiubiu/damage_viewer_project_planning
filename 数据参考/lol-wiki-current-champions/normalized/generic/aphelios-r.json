@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "aphelios-r",
+  "candidateKey": "hero_skill|hero_aphelios|R|清辉夜凝",
+  "ownerId": "hero_aphelios",
+  "wikiChampionTitle": "Aphelios",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Aphelios/R",
+  "zhDisplayName": "清辉夜凝",
+  "resolvedTitle": "Template:Data Aphelios/Moonlight Vigil",
+  "wikiPageId": 1413562,
+  "revisionId": 3996444,
+  "revisionTimestamp": "2026-03-04T17:40:01Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Aphelios/Moonlight%20Vigil",
+  "contentSha256": "29aae204e6987b0049678b38b3ca912ae940f9a5de3bd525a8cffadd543f0d2b",
+  "rawByteSize": 7398,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Aphelios''' casts forth a lunar spotlight in the target direction that briefly grants {{tip|sight}} of the area along its path and stops upon illuminating an enemy {{tip|champion|champion}}. '''Alune''' smites the area centered on the illuminated target, dealing {{as|{{pp|125 to 225 for 3|6 to 16}}|physical damage}} {{as|(+ 20% '''bonus''' AD)}} {{as|(+ 100% AP)}} {{as|physical damage}} to enemy champions struck and locking-on to each target hit, as well as granting {{tip|sight}} of the area for 2 seconds.\n",
+    "description2": "After {{fd|0.3}} seconds of the illumination, attacks based on '''Aphelios' ''' current {{as|main weapon}} will launch from the sky against each locked-on target, dealing {{as|100% AD}} {{as|physical damage}} and applying {{tip|on-hit}} effects. These attacks can {{tip|critically strike}} for {{critical damage|100 to 130|0 to 30|critScaling=true}} damage. There is no {{sti|range}} limit for locked-on targets.\n{{lc|{{ai|Calibrum|Aphelios}}}} Applies an empowered mark that deals {{as|{{pp|50 to 110 for 3|6 to 16}} {{as|'''bonus''' physical damage}}}} per ''mark'' consumed.\n{{lc|{{ai|Severum|Aphelios}}}} {{tip|Heals}} '''Aphelios''' for {{pp|250 to 450 for 3|6 to 16|color=heal}} if at least one enemy champion is hit.\n{{lc|{{ai|Gravitum|Aphelios}}}} Increases the initial {{tip|slow}} to 99% and empowers ''{{ai|Binding Eclipse|Aphelios}}'' to {{tip|root}} targets affected by the enhanced slow for {{fd|1.35}} seconds.\n{{lc|{{ai|Infernum|Aphelios}}}} The initial blast deals {{as|{{pp|50 to 150 for 3|6 to 16}}|physical damage}} {{as|(+ 25% '''bonus''' AD)}} {{as|'''bonus''' physical damage}}.{{ft|The attack instead deals {{as|110% AD}} {{as|physical damage}} against locked-on targets, and causes an explosion of bolts in a 400-radius circle that deals {{as|{{pp|key=%|110*0.75*0.9 to 110*0.9 for 2|1 to 9}} AD}} {{as|physical damage}} to targets hit.|Performs ''Infernum's'' attacks and ''Infernum's'' bolts in a 400-radius circle: primary targets are dealt ''Infernum's'' primary damage; secondary targets are dealt 90% of ''Infernum's'' regular bolt damage; both are modified by ''Moonlight Vigil's'' {{sti|{{as|critical damage}}}} modifier.}}Enemy champions will take damage from overlapping areas.\n{{lc|{{ai|Crescendum|Aphelios}}}} Generates 5 additional spectral ''Chakrams'' that return to '''Aphelios''' from the first enemy champion hit, for a total of 6, on top of those from other targets hit.\n",
+    "cooldown": "{{pp|120 to 100 for 3|6 to 16}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "physical\n",
+    "notes": "* When critically striking, the attacks on locked-on targets when using {{ai|Severum|Aphelios}} and {{ai|Crescendum|Aphelios}} deal slightly more than 120% damage.{{bug}} '''It is currently unknown where this damage originates from.'''\n** For example, at level 6 with no {{sti|attack damage}} bonuses, '''Aphelios''' will deal {{as|{{ap|({{ccd|Aphelios|dam_base}}+{{ccd|Aphelios|dam_lvl}}*(6-1)*(0.7025+0.0175*(6-1)))*(1.75-0.55)*1.05}}}} damage (approximated) from those attacks, whereas they are normally expected to deal {{as|{{ap|({{ccd|Aphelios|dam_base}}+{{ccd|Aphelios|dam_lvl}}*(6-1)*(0.7025+0.0175*(6-1)))*(1.75-0.55)}}}}. This discrepancy increases with higher {{as|attack damage}}.\n** {{Pending for test}} It is also unknown whether this is just a [[Practice Tool]] bug.\n** {{sbc|Note:}} Values are outdated due to patch [[V26.01]].\n* Attacks do not apply [[on-attack effects]].\n* The attacks always count as {{tip|projectile|projectiles}} unless {{ai|Severum|Aphelios}} is being used. The lunar spotlight, however, may always be intercepted regardless of which weapon is in play as the {{as|main weapon}}.\n** Due to this fact, non-{{ai|Severum|Aphelios}} attacks will hit targets that are farther away from the center of the blast at a slightly longer delay.\n* {{tip|Spell shield}} will block ''Moonlight Vigil's'' initial detonation damage but does not prevent the attacks from locking-on.\n* All attacks from ''Moonlight Vigil'' {{tip|critically strike}} independently from each other.\n** This includes {{ais|Infernum|Aphelios}} bolts, which also critically strike independently from the primary attack's damage.\n* Changing weapons while ''Moonlight Vigil'' is in flight does not change the effect it has when it hits.\n{{Effect at cast time start}}\n* ''Moonlight Vigil's'' effect radius is centered around the location of the missile as it collides.\n* With {{ai|Severum|Aphelios}}, the extra flat heal is given only once, not per target. However, all damage done by ''Moonlight Vigil'' with it also heals him from ''Severum's '' own passive effect.\n* With {{ai|Infernum|Aphelios}}, 14 fire bolts splash from each target hit (18 for {{tip|critical strike|critical strikes}}). Bolts do not activate if ''Moonlight Vigil's'' initial damage [[kill]]s the target.\n* With {{ai|Crescendum|Aphelios}}, 1 spectral chakram is generated for every target hit, meaning it is possible to generate up to 10 spectral chakrams with one cast of ''Moonlight Vigil'' if it hits 5 enemy champions.\n* The locked-on attacks' can be {{tip|dodge|dodged}} and {{tip|block|blocked}}, but won't be prevented if '''Aphelios''' is {{tip|blind|blinded}}.\n** Preventing the attack also prevents the additional effect (e.g. marking them with {{ai|Gravitum|Aphelios}} or granting {{ai|Crescendum|Aphelios|spectral chakrams}}).\n* ''Moonlight Vigil'' has different visual effects changed accordingly to each weapon. ''This may vary depending on the [[skin]], this showcases the '''default''':''\n<gallery navigation=true widths=\"100px\">\nMoonlight_Vigil_(Calibrum)_screenshot.png|'''{{ai|Calibrum|Aphelios}}'''\nMoonlight_Vigil_(Severum)_screenshot.png|'''{{ai|Severum|Aphelios}}'''\nMoonlight_Vigil_(Gravitum)_screenshot.png|'''{{ai|Gravitum|Aphelios}}'''\nMoonlight_Vigil_(Infernum)_screenshot.png|'''{{ai|Infernum|Aphelios}}'''\nMoonlight_Vigil_(Crescendum)_screenshot.png|'''{{ai|Crescendum|Aphelios}}'''\n</gallery>\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

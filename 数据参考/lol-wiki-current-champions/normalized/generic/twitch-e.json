@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "twitch-e",
+  "candidateKey": "hero_skill|hero_twitch|E|毒性爆发",
+  "ownerId": "hero_twitch",
+  "wikiChampionTitle": "Twitch",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Twitch/E",
+  "zhDisplayName": "毒性爆发",
+  "resolvedTitle": "Template:Data Twitch/Contaminate",
+  "wikiPageId": 1309581,
+  "revisionId": 3907215,
+  "revisionTimestamp": "2025-06-06T20:15:29Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Twitch/Contaminate",
+  "contentSha256": "f9daa9e2c0474c33360215062ef79244f1606198bc3b771b7e8e5aa58bedf37c",
+  "rawByteSize": 2213,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Twitch''' sends out a lethal toxin to each nearby enemy afflicted by ''{{ai|Deadly Venom|Twitch}}'', dealing them {{as|physical damage}}.\n",
+    "leveling": "{{st|Base Physical Damage|{{ap|20 to 60}}}}\n",
+    "description2": "''Contaminate'' deals additional {{as|physical damage}} and {{as|35% AP}} {{as|magic damage}} for each stack of ''{{ai|Deadly Venom|Twitch}}'' on the target.\n",
+    "leveling2": "{{st|Physical Damage Per Stack|{{ap|15 to 35}} {{as|(+ 35% '''bonus''' AD)}}|Minimum Mixed Damage|{{ap|20+15 to 60+35}} {{as|(+ 35% '''bonus''' AD)}} {{as|(+ 35% AP)}}|Maximum Mixed Damage|{{ap|20+15*6 to 60+35*6}} {{as|(+ 210% '''bonus''' AD)}} {{as|(+ {{ap|35*6}}% AP)}}}}\n",
+    "description3": "''A nearby enemy with {{ai|Deadly Venom|Twitch}} is required to cast this ability. The target does not have to be {{tip|sight|visible}} to be targeted by this ability.''\n",
+    "cooldown": "{{ap|12 to 8}}\n",
+    "cost": "{{ap|50 to 90}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''Contaminate'' will deal the additional damage to targets based on the number of {{ai|Deadly Venom|Twitch}} stacks they had at the start of the cast time.\n* '''Twitch''' is given a range indicator for ''Contaminate's'' radius upon infecting an enemy champion with {{ai|Deadly Venom|Twitch}} (actual range is slightly larger than shown by the indicator).\n* ''Contaminate'' will not deal damage to enemies that are not within range of the ability before the cast time completes.\n** If the target moves out of range after the cast time, they are still dealt the damage.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

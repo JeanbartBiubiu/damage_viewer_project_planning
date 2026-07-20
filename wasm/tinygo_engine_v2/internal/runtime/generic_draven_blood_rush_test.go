@@ -18,18 +18,21 @@ import (
 //
 // Remaining gaps (explicit non-goals this batch):
 //   - move-speed decaying branch
-//   - catch spinning axe → refresh W cooldown
 //   - other ranks / ghost / Backend publish
+//
+// Axe-catch → W cooldown ready (override+0 ≡ readyAt=now) is covered by
+// generic_draven_w_axe_catch_reset_test.go; not claimed as production publish.
 
 const (
-	dravenBloodRushProviderRef = "hero:draven"
-	dravenBloodRushStableID    = "hero_draven"
-	dravenBloodRushWKey        = "blood_rush"
-	dravenBloodRushProbeKey    = "draven_blood_rush_probe"
-	dravenBloodRushActiveKey   = "blood_rush_active"
-	dravenBloodRushASModKey    = "blood_rush_attack_speed"
-	dravenBloodRushListenerArm = "listener_hero_draven_blood_rush_arm"
-	dravenBloodRushCastEvent   = "event/ability_started"
+	dravenBloodRushProviderRef        = "hero:draven"
+	dravenBloodRushStableID           = "hero_draven"
+	dravenBloodRushWKey               = "blood_rush"
+	dravenBloodRushProbeKey           = "draven_blood_rush_probe"
+	dravenBloodRushActiveKey          = "blood_rush_active"
+	dravenBloodRushASModKey           = "blood_rush_attack_speed"
+	dravenBloodRushListenerArm        = "listener_hero_draven_blood_rush_arm"
+	dravenBloodRushListenerAxeCatchCD = "listener_hero_draven_blood_rush_axe_catch_cd"
+	dravenBloodRushCastEvent          = "event/ability_started"
 
 	dravenBloodRushManaCost    = 20.0
 	dravenBloodRushCDMs        = 12000.0
@@ -88,6 +91,60 @@ func dravenBloodRushCastArmListener() model.ListenerDefinition {
 				Amount:      &model.GenericFormulaExpr{Op: "const", Value: &one},
 			},
 		},
+	}
+}
+
+// dravenBloodRushAxeCatchCooldownResetListener: source-owner axe_caught →
+// cooldown_change on W. valuePolicy=override + const 0 maps to readyAt=now in
+// the current runtime (default branch: readyAt = nowMs + amount). No listener
+// AbilityRef / child cast — AbilityRef is on the operation only.
+func dravenBloodRushAxeCatchCooldownResetListener() model.ListenerDefinition {
+	zero := 0.0
+	return model.ListenerDefinition{
+		ListenerKey:  dravenBloodRushListenerAxeCatchCD,
+		EventMatcher: model.TypeMatcher{All: []string{dravenSpinningAxeCaughtEvent, "event/source_owner"}},
+		Operations: []model.OperationDefinition{
+			{
+				Operation:   "cooldown_change",
+				Target:      "source",
+				AbilityRef:  dravenBloodRushWRef(),
+				ValuePolicy: "override",
+				Amount:      &model.GenericFormulaExpr{Op: "const", Value: &zero},
+			},
+		},
+	}
+}
+
+// mountDravenBloodRushProviderAppend mounts hero:draven beside an existing
+// combatant provider graph (e.g. Spinning Axe). Does not replace SharedProviders[0].
+func mountDravenBloodRushProviderAppend(compileReq *model.CompileRequest, runReq *model.RunRequest, withAxeCatchCDReset bool) {
+	listeners := []model.ListenerDefinition{dravenBloodRushCastArmListener()}
+	if withAxeCatchCDReset {
+		listeners = append(listeners, dravenBloodRushAxeCatchCooldownResetListener())
+	}
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey:        dravenBloodRushProviderRef,
+		Kind:               "champion",
+		StableID:           dravenBloodRushStableID,
+		InitialStateSchema: dravenBloodRushStateSchema(),
+		Modifiers:          []model.ModifierDefinition{dravenBloodRushASModifier()},
+		Listeners:          listeners,
+		Abilities:          []model.AbilityDefinition{dravenBloodRushWAbility()},
+	})
+	compileReq.Combatants[0].Providers = append(compileReq.Combatants[0].Providers, model.CombatantProviderMount{
+		ProviderRef: dravenBloodRushProviderRef, DefinitionRef: dravenBloodRushProviderRef,
+	})
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key != model.SelectorSource {
+			continue
+		}
+		runReq.InitialSnapshot.Combatants[i].Providers = append(
+			runReq.InitialSnapshot.Combatants[i].Providers,
+			model.CombatantProviderSnapshot{
+				ProviderRef: dravenBloodRushProviderRef, DefinitionRef: dravenBloodRushProviderRef,
+				Stacks: 1, State: map[string]interface{}{},
+			},
+		)
 	}
 }
 

@@ -1,0 +1,53 @@
+<!-- Damage values are defined as parameters.
+-->{{#vardefine:b1a|5}}<!-- Generic/Normal rank 1 First Spear base damage
+-->{{#vardefine:b5a|45}}<!-- Generic/Normal rank 5 First Spear base damage
+-->{{#vardefine:b1b|7}}<!-- Generic/Normal rank 1 Additional Spear base damage
+-->{{#vardefine:b5b|35}}<!-- Generic/Normal rank 5 Additional Spear base damage
+-->{{#vardefine:ad|70}}<!-- Generic/Normal First Spear bonus AD ratio as a PERCENTAGE
+-->{{#vardefine:ad1b|20}}<!-- Generic/Normal rank 1 Additional Spear bonus AD ratio as a PERCENTAGE
+-->{{#vardefine:ad5b|50}}<!-- Generic/Normal rank 5 Additional Spear bonus AD ratio as a PERCENTAGE
+-->{{#vardefine:ap|65}}<!-- Generic/Normal damage AP ratio as a PERCENTAGE
+-->{{#vardefine:aps|50}}<!-- Generic/Normal Additional Spear damage AP ratio as a PERCENTAGE
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Rend|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kalista
+|skill        = E
+|icon         = false
+|blurb        = {{sbc|Passive:}} {{cis|Kalista}} {{tip|basic attacks}} {{tip|on-hit}} and ''{{ai|Pierce|Kalista}}'' lodge a spear into their target, applying a {{tip|stack}} of ''Rend'' for a few seconds.
+|blurb2       = {{sbc|Active:}} '''Kalista''' rips out all lodged spears from nearby enemies, consuming all of their stacks to deal {{as|physical damage}} and applying {{tip|slow}} to them for a short time. Each additional spear on the target deals reduced damage.
+|blurb3       = If ''Rend'' [[kill]]s at least one target, the cooldown is {{sti|cdr|reset}} and the {{sti|mana|{{as|mana cost}}}} is partially refunded.
+|description  = {{sbc|Passive:}} '''Kalista's''' {{tip|basic attacks}} {{tip|on-hit}} and ''{{ai|Pierce|Kalista}}'' apply a {{tip|stack}} of ''Rend'' to enemies for 4 seconds, refreshing on subsequent hits and stacking up to 254 times per enemy.
+|icon2        = Rend.png
+|description2 = {{sbc|Active:}} '''Kalista''' rips out the lodged spears from all nearby enemies afflicted with ''Rend'' stacks, consuming the stacks on each target to deal {{as|physical damage}} and {{tip|slow}} them for 2 seconds. For each stack beyond the first, the target is dealt additional {{as|physical damage}}. ''Rend'' deals 50% damage against epic {{tip|monsters}}.<br><br>''Rend's'' cast also empowers the in-flight missiles of '''Kalista's''' basic attacks and ''{{ai|Pierce|Kalista}}'' to apply ''Rend's'' effects to their targets immediately upon hitting them.
+|leveling2    = {{st|Physical Damage|{{ap|{{#var:b1a}} to {{#var:b5a}}}} {{as|(+ {{#var:ad}}% AD)}} {{as|(+ {{#var:ap}}% AP)}}}}
+{{st|Bonus Damage per Additional Stack|{{ap|{{#var:b1b}} to {{#var:b5b}}}} {{as|(+ {{ap|{{#var:ad1b}} to {{#var:ad5b}}}}% AD)}} {{as|(+ {{#var:aps}}% AP)}}}}
+{{st|Slow|{{ap|10 to 42}}% {{as|(+ 5% per 100 AP)}}}}
+|description3 = If ''Rend'' kills at least one target, its {{sti|cooldown}} is reset and '''Kalista''' restores {{sti|{{as|mana}}}}.
+|description4 = ''A nearby enemy with a Rend stack is required to cast this ability.''
+|leveling3    = {{st|Mana Restored|{{as|{{ap|10 to 30}}|mana}}}}
+|cast time    = {{fd|0.25}}
+|effect radius= {{tip|er|icononly = true}} 1100
+|cooldown     = {{ap|10 to 8}}
+|cost         = 30
+|costtype     = Mana
+|targeting    = Proximity
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = True
+|spelleffects = Area of effect
+|parry        = special
+|grounded     =
+|knockdown    =
+|notes        =
+* ''Rend'' cannot activate on {{tip|untargetable}} enemies.
+* ''Rend'' applies its effects instantly on cast.
+* ''Rend'' can be used during the dash of {{ai|Martial Poise|Kalista}}, and during the cast time of {{ai|Pierce|Kalista}}. If ''Rend'' is used during the cast time of {{ai|Pierce|Kalista}}, before the projectile spawns, doing so will repeat the first-spear damage to a target already damaged by ''Rend'', {{bug|2}} in addition to empowering the projectile with ''Rend's'' effects.
+* The cooldown will not reset if the target is protected by {{tip|resurrection}} effects.
+* If ''Rend'' is used against {{ci|Sion}} under the effects of {{ai|Glory in Death|Sion}}, the cooldown will reset even if it does not kill him.{{bug}}
+* A stack is not applied if the attack is {{tip|dodge|dodged}}, {{tip|block|blocked}} or missed while '''Kalista''' is {{tip|blind|blinded}}.
+* {{ai|Pierce|Kalista}} does not apply a stack of ''Rend'' if blocked by {{tip|spell shield}}.
+* While {{ai|Hostile Takeover|Renata Glasc|berserk}}, '''Kalista's''' attacks will also apply ''Rend'' stacks on allies.
+** '''Kalista''' will be unable to cast ''Rend'' if there are no stacks on an enemy in range.
+*** ''Rend'' cannot cast on allies, even if a valid enemy target exists. As such, any spears on allied units are purely cosmetic.
+* ''Rend'' has a lower cast range than effect range.
+* ''Rend'' at maximum stacks will deal a total of {{as|{{ap|({{#var:b1a}} to {{#var:b5a}})+({{#var:b1b}} to {{#var:b5b}})*253}}|physical damage}} {{as|(+ {{ap|{{#var:ad}}+({{#var:ad1b}} to {{#var:ad5b}})*253}}% AD)}} {{as|(+ {{#expr:{{#var:ap}}+{{#var:aps}}*253}}% AP)}} {{as|physical damage}}.
+}}

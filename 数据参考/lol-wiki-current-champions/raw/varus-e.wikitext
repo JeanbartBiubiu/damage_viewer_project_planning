@@ -1,0 +1,31 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Hail of Arrows|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Varus
+|skill        = E
+|icon         = Hail of Arrows.png
+|blurb        = {{sbc|Active:}} {{ci|Varus}} fires a hail of arrows to the target location that deals {{as|physical damage}} to enemies hit.
+|blurb2      = The area then becomes desecrated for a few seconds, {{tip|slow|slowing}} enemies within and inflicting them with {{tip|Grievous Wounds}}.
+|blurb4      = {{sbc|{{tip|Grievous Wounds|nolink=true}}:}} The target receives reduced {{tip|heal|healing}} and {{as|{{sti|health regeneration}}}}.
+|description  = {{sbc|Active:}} '''Varus''' fires a hail of arrows at the target location that land after {{fd|0.5}} seconds, dealing {{as|physical damage}} to enemies hit.
+|leveling     = {{st|Physical Damage|{{ap|60 to 180}} {{as|(+ 90% '''bonus''' AD)}}}}
+|description2 = The area then becomes desecrated for 4 seconds, {{tip|slow|slowing}} enemies within and inflicting them with {{tip|Grievous Wounds}}.
+|leveling2    = {{st|Slow|{{ap|30 to 50}}%}}
+|target range = 925
+|effect radius= {{tip|cr|icononly = true}} 300
+|cooldown     = {{ap|18|16|14|12|10}}
+|cast time    = {{fd|0.2419}}
+|cost         = 90
+|costtype     = mana
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = spellaoe
+|projectile   = true
+|grounded     =
+|knockdown    =
+|outofrange   = cast at max
+|notes        =
+* {{tip|Slow}} lingers for {{fd|0.25}} seconds after leaving the marked area.
+* ''Hail of Arrows'' consumes {{ai|Blighted Quiver|Varus}} stacks for bonus damage a second time after ~{{fd|0.3}} seconds of hitting, allowing stacks applied during this time to be triggered.
+|tips         =
+}}

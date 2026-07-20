@@ -1,0 +1,42 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Double Up|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Miss Fortune
+|skill        = Q
+|icon         = Double Up.png
+|blurb        = {{sbc|Active:}} {{ci|Miss Fortune}} fires a shot at the target enemy that deals {{as|physical damage}}, which then bounces to hit another enemy behind them. This applies {{tip|on-hit}} effects to both enemies hit.
+|blurb2      = ''Double Up's'' bounce can {{tip|critically strike}}, and does so if ''Double Up'' kills the primary target.
+|description  = {{sbc|Active:}} '''Miss Fortune''' fires a shot at the target enemy that deals {{as|physical damage}} and bounces to hit another enemy behind them, applying {{tip|on-attack}} effects to the primary target and {{tip|on-hit}} effects to both enemies hit.
+|leveling     = {{st|Physical Damage|{{ap|20 to 120}} {{as|(+ 100% AD)}} {{as|(+ 35% AP)}}}}
+|description2 = ''Double Up's'' bounce can {{tip|critically strike}} for{{ft|{{as|{{critical damage|150|50}}|critical damage}} damage.|{{sti|{{as|50% '''bonus''' critical damage}}}}.}}If ''Double Up'' kills the primary target, the bounce will {{tip|critically strike}}.
+|description3 = ''The bounce prioritizes units directly behind the primary target. A target does not have to be {{tip|sight|visible}} to be hit by the bounce.''
+|cooldown     = {{ap|7 to 3}}
+|cost         = 40
+|cast time    = Basic Attack Timer
+|costtype     = Mana
+|target range = {{tt|{{tip|er|icononly = true}} 550 (+ 100% '''bonus''' {{sti|attack range}})|Always equal to Miss Fortune's attack range}}
+|effect radius= 500
+|angle        = 160{{degree}}
+|speed        = 1400
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = Special
+|spelleffects = special
+|projectile   = True
+|callforhelp  = true
+|onhiteffects = True
+|parry        = True
+|notes        =
+* ''Double Up'' deals {{tip|basic damage}} to both targets, but also triggers spell effects by also being tagged as {{tip|spell damage}}.
+* {{tip|Spell shield|Spell shields}} can be used by either target. If it is on the primary target, the spell shield will not prevent the shot from bouncing.
+* Neutral units count as valid targets to bounce.
+* The bounce follows a priority order on targets behind in a certain angle:
+*# 500 units in 20º.
+*# 500 units in 40º.
+*# 500 units in 110º.
+*# {{tt|150 units|Estimated}} in 160º.
+* ''Double Up's'' cast range adjusts based on '''Miss Fortune's''' {{sti|attack range}}, which can be increased by items such as {{ii|Rapid Firecannon}}.
+* The damage of a {{tip|critical strike|critically striking}} shot is {{ap|20*1.5 to 120*1.5}} {{as|(+ 150% AD)}} {{as|(+ 52.5% AP)}} {{as|physical damage}}, increased to {{ap|20*1.65 to 120*1.65}} {{as|(+ 165% AD)}} {{as|(+ 57.75% AP)}} {{as|physical damage}} by {{iis|Infinity Edge}} bonus critical damage.
+* If there is no secondary target, the shot will not bounce and the dud will instead fall to the ground.
+** The dud lands on the ground 176 units behind the primary target and has a missile speed of 400 on its way there.
+{{Unit-targeted cancel conditions}}
+}}

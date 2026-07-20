@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "smolder-r",
+  "candidateKey": "hero_skill|hero_smolder|R|妈----！",
+  "ownerId": "hero_smolder",
+  "wikiChampionTitle": "Smolder",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Smolder/R",
+  "zhDisplayName": "妈----！",
+  "resolvedTitle": "Template:Data Smolder/MMOOOMMMM!",
+  "wikiPageId": 1631189,
+  "revisionId": 4025343,
+  "revisionTimestamp": "2026-06-05T11:05:50Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Smolder/MMOOOMMMM!",
+  "contentSha256": "d0fd211614ca3ea3d5b721423a99f5302454b7fd388fca2b9110a23d5490e771",
+  "rawByteSize": 2223,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Smolder''' shouts for his mother to attack from above, causing her to exhale a wave of fire starting from behind him and towards the target direction, granting {{tip|sight}} of its {{tt|surroundings|Cannot grant sight through terrain and can only grant sight into brush when the center part goes through that brush}} as it travels. The wave {{tip|heal|heals}} '''Smolder''' and deals {{as|physical damage}} to enemies hit, with those in the center taking {{ccs|50% increased damage|physical}} and becoming {{tip|slow|slowed}} by 40% for 2 seconds.\n",
+    "leveling": "{{st|Self Heal|{{ap|100 to 170}} {{as|(+ 50% '''bonus''' AD)}} {{as|(+ 75% AP)}}}}\n{{st|Physical Damage|{{ap|150 to 350}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 100% AP)}}|Increased Physical Damage|{{ap|150*1.5 to 350*1.5}} {{as|(+ {{ap|100*1.5}}% '''bonus''' AD)}} {{as|(+ {{ap|100*1.5}}% AP)}}}}\n",
+    "description2": "''MMOOOMMMM!'' deals 50% damage against {{tip|minions}} and {{tip|monsters}}.\n",
+    "cooldown": "{{ap|120 to 100}}\n",
+    "cost": "100\n",
+    "costtype": "mana\n",
+    "damagetype": "physical\n",
+    "notes": "{{Effect at cast time start}}\n{{ct|cast|move=Disabled in the first {{fd|0.4}} seconds of the cast time.|spells=true,false,false,false,false}}\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

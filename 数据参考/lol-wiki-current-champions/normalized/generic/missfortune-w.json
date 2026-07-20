@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "missfortune-w",
+  "candidateKey": "hero_skill|hero_missfortune|W|大步流星",
+  "ownerId": "hero_missfortune",
+  "wikiChampionTitle": "Miss Fortune",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Miss Fortune/W",
+  "zhDisplayName": "大步流星",
+  "resolvedTitle": "Template:Data Miss Fortune/Strut",
+  "wikiPageId": 1332679,
+  "revisionId": 4015416,
+  "revisionTimestamp": "2026-05-04T14:29:06Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Strut",
+  "contentSha256": "ce7f3c75f7fde611ed0edd3f61b0ac306fb9896038f81214a88998ca84bd892f",
+  "rawByteSize": 1652,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Miss Fortune''' gains {{sti|ms|{{as|'''bonus''' movement speed}}}} after 4 seconds without taking non-{{tip|persistent damage|periodic}} damage. This bonus is increased after another 3 seconds, and is granted instantly whenever ''Strut'' is cast.\n",
+    "leveling": "{{st|Bonus Movement Speed|{{ap|30 to 50}}}}\n{{st|Increased Bonus Movement Speed|{{ap|60 to 100}}}}\n",
+    "description2": "{{sbc|Active:}} '''Miss Fortune''' gains {{sti|as|{{as|'''bonus''' attack speed}}}} for 4 seconds.\n",
+    "leveling2": "{{st|Bonus Attack Speed|{{ap|40 to 100}}%}}\n",
+    "description3": "Marking a new target with ''{{ai|Love Tap|Miss Fortune}}'' reduces ''Strut's'' {{sti|'''current''' cooldown}} by {{tt|2 seconds|Affected by ability haste}}.\n",
+    "cooldown": "12\n",
+    "cost": "45\n",
+    "costtype": "Mana\n",
+    "notes": "* The bonus movement speed is not lost from taking [[Damage#0_Damage_Instances|0 damage instances]].\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "notes": true,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

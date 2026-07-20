@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kindred-w",
+  "candidateKey": "hero_skill|hero_kindred|W|狼灵狂热",
+  "ownerId": "hero_kindred",
+  "wikiChampionTitle": "Kindred",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Kindred/W",
+  "zhDisplayName": "狼灵狂热",
+  "resolvedTitle": "Template:Data Kindred/Wolf's Frenzy",
+  "wikiPageId": 1307932,
+  "revisionId": 4038396,
+  "revisionTimestamp": "2026-06-30T09:31:18Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kindred/Wolf's%20Frenzy",
+  "contentSha256": "0bf8193ea5a15df5822b58d5a5412defe2a26f5fc8524100b14d0fe793f08185",
+  "rawByteSize": 4373,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Lamb''' generates 1 stack of ''Hunter's Vigor'' for every {{tt|27 units|Estimated}} she travels by any means and 5 stacks {{tip|on-attack}}, up to a maximum of 100 stacks. At maximum stacks, her next basic attack {{tip|heals}} her for {{as|{{pp|0 to 100 by 25|0 to 80|formula= 1.25% per 1% of '''Kindred's missing''' health. ''This is capped at 80% '''missing''' health.''|label1='''Missing''' health|type='''Kindred's''' '''missing''' health|label=Percent of level-scaling value|key=%|key1=%|changedisplay = true}}}} of {{pplevel|47 to 81|color=heal}}. The heal is not triggered if '''Kindred''' is at full health.\n",
+    "description2": "{{sbc|Active:}} '''Wolf''' {{tip|dashes}} to the target location, then claims the surrounding area as his territory for the next {{fd|8.5}} seconds, separating from '''Lamb'''. He automatically attacks the closest nearby {{tip|sight|visible}} enemy within the area, prioritizing the last enemy '''Lamb''' has attacked, then enemy champions, then non-champions.\n",
+    "description3": "'''Wolf's''' attacks deal {{as|magic damage}} and the rate at which he attacks scale with {{as|25% of '''Kindred's bonus''' attack speed}}. Against monsters, his attacks deal 150% damage and {{tip|slow}} the target by 50% for 2 seconds. The damage based on the target's health ratio is capped at {{fd|112.5}} {{as|(+ 15 per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} against monsters.\n",
+    "leveling3": "{{st|Magic Damage|{{ap|25 to 45}} {{as|(+ 20% '''bonus''' AD)}} {{as|(+ 20% AP)}} {{as|(+ {{fd|1.5}}% {{as|(+ 1% per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} of target's '''current''' health)}}|Monster Damage|{{ap|25*1.5 to 45*1.5}} {{as|(+ {{ap|20*1.5}}% '''bonus''' AD)}} {{as|(+ {{ap|20*1.5}}% AP)}} {{as|(+ {{ap|1.5*1.5}}% {{as|(+ {{ap|1*1.5}}% per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} of target's '''current''' health)}}}}\n",
+    "description4": "''Wolf's Frenzy'' ends immediately if '''Lamb''' leaves the area or dies.\n",
+    "cooldown": "{{ap|18 to 14}}\n",
+    "cost": "40\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Hunter's Vigor's'' heal is not triggered on attacks against {{tip|structures}} and {{tip|wards}}.\n* '''Wolf''' is {{tip|untargetable}} and {{tip|ghosted}} but he cannot move through terrain other than the initial dash on activation.\n* '''Wolf''' is not able to re-target {{ui|Rift Scuttler}} if he loses {{tip|sight}} of her while he's attacking it.\n* '''Wolf''' grants the same {{tip|sight|vision}} as a {{tip|champion}}.\n* ''Wolf's Frenzy'' does not end if '''Lamb''' enters {{tip|resurrection}}.\n* ''Wolf's Frenzy'' applies ability haste to its cooldown post-effect.\n** Given a base cooldown of 14 seconds at rank 5 with 100 ability haste, casting the ability and then ending it after 4 seconds will result in a remaining cooldown of <math>(14 - 4) \\times 0.5 = 5</math> seconds, where 0.5 is [[Haste#Formula|derived from ability haste]].\n** Because of this, there will always be some cooldown time remaining post-effect regardless of the amount of ability haste, unlike certain other abilities with cooldowns that start on-cast.\n* {{Pending for test}}: Interaction with enemy vision and spectator mode.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

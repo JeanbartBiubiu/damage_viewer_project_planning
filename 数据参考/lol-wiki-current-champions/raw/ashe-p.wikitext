@@ -1,0 +1,23 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Frost Shot|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Ashe
+|skill        = I
+|icon         = Frost Shot.png
+|description  = {{sbc|Innate:}} '''Ashe's''' {{tip|basic attacks}} deal {{as|'''bonus''' physical damage}} equal to {{critical damage|0 to 100|0 to 100|critScaling=true}} of the {{as|attack's damage}}. {{tip|critical strike|Critical strikes}} do not deal any additional damage.
+|description2 = {{sbc|Innate - Frost Shot:}} '''Ashe's''' basic attacks and ability hits apply ''Frost'' to enemies for 2 seconds, which {{tip|slow|slows}} them by {{pplevel|key=%|20 to 30}} for the duration.
+|icon3        = Frost Shot 2.png
+|description3 = {{sbc|Innate - Critical Slow:}} '''Ashe's''' {{tip|critical strike|critical strikes}} double ''Frost's'' slow strength to {{pplevel|key=%|20*2 to 30*2}}, decaying over the first second of the duration to its normal strength.
+|targeting    = Passive
+|affects      = Enemies
+|damagetype   = Physical
+|spelleffects = Basic
+|spellshield  = True
+|parry        = True
+|notes        =
+* '''Ashe's''' critical strikes are still considered {{as|critical strike damage}} and thus will be reduced by {{iis|Randuin's Omen}} {{nie|Resilience}}.
+* {{iis|Runaan's Hurricane}} will not deal additional damage on {{tip|critical strike|critical strikes}}.
+* {{ri|Cheap Shot}} will trigger on a subsequent basic attack even when the target is no longer slowed.{{bug|2}}
+<!--Blurb-->
+|blurb        = {{sbc|Innate:}} {{cis|Ashe}} {{tip|basic attacks}} deal increased damage based on her critical strike chance and critical strike damage.
+|blurb2       = {{sbc|Innate - Frost Shot:}} {{cis|Ashe}} basic attacks apply a {{tip|slow}} on-hit.
+|blurb3       = {{sbc|Innate - Critical Slow:}} {{cis|Ashe}} {{tip|Critical Strike|critical strikes}} deal no bonus damage but apply an empowered {{tip|slow}}.
+}}

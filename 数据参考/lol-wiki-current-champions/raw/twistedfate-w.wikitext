@@ -1,0 +1,49 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Pick a Card|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Twisted Fate
+|skill        = W
+|icon         = Pick a Card.png
+|blurb        = {{sbc|Active:}} {{ci|Twisted Fate}} cycles through three cards over the next few seconds. ''Pick a Card'' can be recast within the duration, which selects the current card hovered.
+|blurb2       = {{sbc|Recast:}} '''Twisted Fate's''' next basic attack becomes empowered to deal {{as|magic damage}} and apply an additional effect based on the card selected.
+* [[File: Blue Card.png|20px|link=]] {{sbc|Blue Card Bonus:}} Deals significantly increased {{as|magic damage}} and restores {{sti|{{as|mana}}}}.
+* [[File: Red Card.png|20px|link=]] {{sbc|Red Card Bonus:}} Deals increased {{as|magic damage}} to the target and surrounding enemies, {{tip|slow|slowing}} them for a short time.
+* [[File: Gold Card.png|20px|link=]] {{sbc|Gold Card Bonus:}} Deals {{as|magic damage}} and briefly {{tip|stun|stuns}} the target.
+|description  = {{sbc|Active:}} '''Twisted Fate''' cycles through three cards for 6 seconds, hovering each for {{fd|0.5}} seconds at a time. ''Pick a Card'' can be recast within the duration, which selects the current card hovered.
+|icon2        = Twisted Fate Pick a Card.gif
+|description2 = {{Anchor|Blue Card}}{{sbc|Recast:}} '''Twisted Fate''' empowers his next  {{tip|basic attack}} within 6 seconds to have a {{fd|0.25}}-second cast time, deal {{as|'''modified''' magic damage}}, and apply an additional effect based on the card selected. This attack cannot {{tip|critically strike}} but its damage is increased based on {{as|critical strike chance}}.
+|icon3        = Blue Card.png
+|description3 = {{sbc|Blue Card Bonus:}} Deals {{as|magic damage}}, increased by {{as|{{pp|key=%|key1=%|type=critical strike chance|0 to 57.5 for 11|0 to 100|formula=57.5% x critical strike chance, capped at 57.5% increase}}|critical chance}}, and restores {{sti|{{as|mana}}}}.
+|leveling3    = {{st|Magic Damage|{{ap|40 to 120}} {{as|(+ 100% AD)}} {{as|(+ 100% AP)}}}}
+{{st|Mana Restored|{{as|{{ap|70 to 150}}|mana}}}}
+|icon4        = Red Card.png
+|description4 = {{Anchor|Red Card}}{{sbc|Red Card Bonus:}} Deals {{as|magic damage}} to the target and surrounding enemies, increased by {{as|{{pp|key=%|key1=%|type=critical strike chance|0 to 35 for 11|0 to 100|formula=35% x critical strike chance, capped at 35% increase}}|critical chance}}. All targets hit are {{tip|slow|slowed}} for {{fd|2.5}} seconds.
+|leveling4    = {{st|Magic Damage|{{ap|30 to 90}} {{as|(+ 100% AD)}} {{as|(+ 70% AP)}}}}
+{{st|Slow|{{ap|30 to 50}}%}}
+|icon5        = Gold Card.png
+|description5 = {{Anchor|Gold Card}}{{sbc|Gold Card Bonus:}} Deals {{as|magic damage}}, increased by {{as|{{pp|key=%|key1=%|type=critical strike chance|0 to 25 for 11|0 to 100|formula=25% x critical strike chance, capped at 25% increase}}|critical chance}}, and {{tip|stun|stuns}} the target for a duration.
+|leveling5    = {{st|Magic Damage|{{ap|15 to 45}} {{as|(+ 100% AD)}} {{as|(+ 50% AP)}}}}
+{{st|Stun Duration|{{ap|1 to 2}} seconds}}
+|description6 = ''Pick a Card's recast {{tip|basic attack reset|resets}} '''Twisted Fate's''' basic attack timer. The recast can be used while affected by {{tip|cast-inhibiting crowd control}}.''
+|cooldown     = 6
+|cdstart      = post-effect
+|cost         = {{ap|50 to 70}}
+|costtype     = Mana
+|effect radius= {{tt|325|Red card explosion}}
+|speed        = {{tt|{{ccd|Twisted Fate|missile_speed}}|Attack missile speed, same as basic attacks}}
+|targeting    = Auto
+|affects      = Enemies, Self
+|damagetype   = Magic
+|spellshield  = True
+|cast time    = none
+|spelleffects = spell
+|projectile   = True
+|parry        = True
+|notes        =
+* The initial cast counts as an ability activation for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.
+** Recasting the ability does not.
+* The first card shown is random but the order always remains the same ({{ai|Blue Card|Twisted Fate}}, {{ai|Red Card|Twisted Fate}}, {{ai|Gold Card|Twisted Fate}}, repeat).
+** Upon activation, an indicator visible to allies and enemies appears above '''Twisted Fate''' to show him shuffling his deck of cards while remaining in the same order, the card he can choose at every moment glows over the others. The selected card is specified for the duration of the enhanced attack.
+* {{pending for test}} The interval until the next card is hovered is {{rutngt|0.5}} every time, instead of some times {{fd|0.528}} and other times {{fd|0.495}}.
+* If the target becomes {{tip|untargetable}}, {{tip|death|dies}}, or is too far away during the empowered attack's cast time, it is cancelled but not consumed.
+* The empowered attack will trigger against [[structures]] and [[buildings]] but not [[ward]]s and [[Jungle plant|plants]].
+* The empowered attack is special cased to not trigger a stack of {{iis|Fiendhunter Bolts}} {{nie|Opening Barrage}}.
+}}

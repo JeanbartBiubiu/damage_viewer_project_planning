@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kogmaw-p",
+  "candidateKey": "hero_skill|hero_kogmaw|P|来自艾卡西亚的惊喜",
+  "ownerId": "hero_kogmaw",
+  "wikiChampionTitle": "Kog'Maw",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Kog'Maw/I",
+  "zhDisplayName": "来自艾卡西亚的惊喜",
+  "resolvedTitle": "Template:Data Kog'Maw/Icathian Surprise",
+  "wikiPageId": 1307954,
+  "revisionId": 4038400,
+  "revisionTimestamp": "2026-06-30T09:37:02Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kog'Maw/Icathian%20Surprise",
+  "contentSha256": "b2fce14041b308df48350e51bd49e4211798d39ba3343f1ada899ba7637bb583",
+  "rawByteSize": 2540,
+  "fields": {
+    "description": "{{sbc|Innate:}} Upon taking {{tip|death|fatal damage}}, '''Kog'Maw''' enters a {{tip|zombie state}} for 4 seconds, becoming {{tip|ghosted}} and gaining {{sti|ms|{{as|10% '''bonus''' movement speed}}}} that increases up to {{as|50%|MS}} over the duration. At the end of the duration, he explodes to deal {{sti|true damage|{{as|{{pplevel|140 to 650}} true damage}}}} to nearby enemies.\n",
+    "description2": "While under this state, '''Kog'Maw''' becomes {{tip|invulnerability|invulnerable}}, {{tip|untargetable}}, and {{tip|cc-immune|immune to crowd control}}, but is also rendered unable to declare {{tip|basic attacks}}, cast {{tip|abilities}}, use [[summoner spell]]s, and [[active ability items|activate items]].\n",
+    "damagetype": "True\n",
+    "notes": "* ''Icathian Surprise's'' {{as|'''bonus''' movement speed}} increases by {{as|{{ap|(50-10)/16}}% |ms}} every {{rutngt|0.25}} over the duration, up to the maximum of {{as|50%|ms}}. However, as a result of the ticks being rounded up from {{fd|0.25}} seconds, the movement speed only reaches up to {{as|{{ap|10+((50-10)/16)*14}}%|ms}}.\n* ''Icathian Surprise's'' {{tip|untargetability}} does not {{tip|homing projectile destruction|destroy}} in-flight {{tip|projectiles}}.\n* ''Icathian Surprise'' will still trigger if '''Kog'Maw''' is killed by the {{tip|Nexus Obelisk}}.\n* If '''Kog'Maw''' has the missile from a basic attack in-flight at the same time that he's moving while he dies, as long as the missile hits the target after ''Icathian Surprise'' has started, '''Kog'Maw''' will be able to use a basic attack once during ''Icathian Surprise''.\n* '''Kog'Maw's''' usable [[summoner spell]]s will be placed on a 5 second cooldown upon becoming a zombie.\n* During ''Icathian Surprise'', '''Kog'Maw's''' {{as|{{sti|attack range}}}} is reduced{{ft|to 0|by 500}}, making him automatically path near enemies he is trying to target.\n{{Zombie state info}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

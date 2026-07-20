@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "samira-q",
+  "candidateKey": "hero_skill|hero_samira|Q|交火",
+  "ownerId": "hero_samira",
+  "wikiChampionTitle": "Samira",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Samira/Q",
+  "zhDisplayName": "交火",
+  "resolvedTitle": "Template:Data Samira/Flair",
+  "wikiPageId": 1459315,
+  "revisionId": 4008027,
+  "revisionTimestamp": "2026-04-13T03:58:01Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Samira/Flair",
+  "contentSha256": "7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203",
+  "rawByteSize": 3596,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Samira''' fires a shot in the target direction that deals {{as|physical damage}} to the first enemy hit.\n",
+    "leveling": "{{st|Physical Damage|{{ap|0 to 20}} {{as|(+ {{ap|110}}% AD)}}}}\n",
+    "description2": "If a targetable enemy is in front of '''Samira''' at the time of cast, she will instead slash with her blade in a cone, dealing the same damage to enemies hit.\n",
+    "description3": "If ''Flair'' is cast during ''{{ai|Wild Rush|Samira}}'', '''Samira''' deploys explosives in her wake that detonate upon the end of the dash, dealing the same damage to enemies hit.\n",
+    "description4": "''Flair'' can {{tip|critically strike}} for {{as|{{critical damage|150|50}}|critical damage}} damage and will {{tip|applies lifesteal|apply}} {{as|{{sti|life steal}}}} at 100% effectiveness.\n",
+    "cooldown": "{{ap|6 to 2}}\n",
+    "cost": "30\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* Applies {{tip|spell damage}} on the shot and {{tip|area damage}} on the slash and explosives.\n* ''Flair's'' shot against an enemy champion will aggro nearby enemy minions.\n* ''Flair'' can be cast during ''{{ai|Wild Rush|Samira}}'' even if ''{{ai|Blade Whirl|Samira}}'' or ''{{ai|Inferno Trigger|Samira}}'' are active.\n* The slash and explosives roll their {{tip|critical strike}} against each target individually.\n* The shot and the slash do not count as different abilities for stacking {{ai|Daredevil Impulse|Samira|Style}}.\n* '''Samira's''' next attack after using ''Flair'' will occasionally come out faster.{{bug|2}}\n* '''Samira''' can use {{ai|Wild Rush|Samira}} during ''Flair's'' cast time.\n{{Effect at cast time end}}\n** ''Flair'' will fire or slash from wherever '''Samira''' is at the end of the cast time.\n*** '''Samira''' will always slash in her facing direction, and she will turn to face the target direction only once at the start of the cast time.\n* Only the shot will be destroyed by {{tip|projectile|projectile-intercepting}} effects.\n* The explosive placement is illustrated in {{ai|Wild Rush|Samira}} regardless of whether ''Flair'' is available.\n** The VFX always covers the the full dash's distance even if {{ai|Wild Rush|Samira}} is interrupted mid-dash.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

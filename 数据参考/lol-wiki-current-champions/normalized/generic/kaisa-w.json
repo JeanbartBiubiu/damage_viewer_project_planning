@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kaisa-w",
+  "candidateKey": "hero_skill|hero_kaisa|W|虚空索敌",
+  "ownerId": "hero_kaisa",
+  "wikiChampionTitle": "Kai'Sa",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Kai'Sa/W",
+  "zhDisplayName": "虚空索敌",
+  "resolvedTitle": "Template:Data Kai'Sa/Void Seeker",
+  "wikiPageId": 1353553,
+  "revisionId": 4034696,
+  "revisionTimestamp": "2026-06-23T21:14:14Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kai'Sa/Void%20Seeker",
+  "contentSha256": "aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1",
+  "rawByteSize": 1843,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kai'Sa''' fires a void bolt in the target direction that briefly grants {{tip|sight}} around its trajectory as it travels, deals {{as|magic damage}} to the first enemy hit, applies {{as|2 Plasma|buzzword}}, and {{tip|true sight|reveals}} them for 4 seconds.\n",
+    "leveling": "{{st|Magic Damage|{{ap|30 to 130}} {{as|(+ 130% AD)}} {{as|(+ 45% AP)}}}}\n",
+    "description2": "{{sbc|{{ai|Second Skin|Kai'Sa|Evolution}}:}} Requires {{sti|{{as|100 ability power}}}} from [[items]] to upgrade – ''Void Seeker'' applies {{as|3 Plasma|buzzword}} instead and refunds 75% of its {{sti|cooldown}} if it hits an enemy {{tip|champion}}.\n",
+    "cost": "{{ap|55 to 75}}\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|20 to 14}}\n",
+    "damagetype": "Magic\n",
+    "notes": "{{Effect at cast time end}}\n{{pending for test}} Size of area revealed around target\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "yunara-q",
+  "candidateKey": "hero_skill|hero_yunara|Q|灵蕴拳",
+  "ownerId": "hero_yunara",
+  "wikiChampionTitle": "Yunara",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Yunara/Q",
+  "zhDisplayName": "灵蕴拳",
+  "resolvedTitle": "Template:Data Yunara/Cultivation of Spirit",
+  "wikiPageId": 1699677,
+  "revisionId": 4041330,
+  "revisionTimestamp": "2026-07-08T15:08:49Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Yunara/Cultivation%20of%20Spirit",
+  "contentSha256": "d5554af1c3b781b8d27de90bd325493a23d270f095e3c8e48377a1e4d159d2a4",
+  "rawByteSize": 6641,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Yunara's''' {{tip|basic attacks}} deal {{as|'''bonus''' magic damage}} {{tip|on-hit}}. While this ability is inactive, her basic attacks {{tip|on-attack}} generate a {{tip|stack}} of ''Unleash'' for 6 seconds, increased to 2 stacks against {{tip|champions}}. The stacks refresh on subsequent attacks, stack up to 8 times, and expire one by one every {{fd|0.5}} seconds after the duration.\n",
+    "leveling": "{{st|Passive Bonus Magic Damage|{{ap|{{#var:pb1}} to {{#var:pb5}}}} {{as|(+ {{#var:pap}}% AP)}}}}\n",
+    "description2": "{{sbc|Active:}} '''Yunara''' unleashes for 5 seconds: gaining {{sti|{{as|'''bonus''' attack speed}}}}, dealing {{as|'''additional bonus''' magic damage|magic damage}} {{tip|on-hit}}, and augmenting her basic attacks to have increased missile speed, a 40% lower {{tip|attack windup|windup}} time, and an {{tip|uncancellable windup}}. Her basic attacks are also empowered to spread to each enemy near the target, dealing {{as|30% AD}} {{as|physical damage}}.<br>Each spread attack {{tip|applies lifesteal|applies}} {{as|{{sti|life steal}}}} and {{tip|on-hit}} effects, with on-hit damage reduced to 30% effectiveness, and will {{tip|critically strike}} for {{as|{{critical damage|{{ccd|Yunara|crit_base}}|100}}|critical damage}} damage if the triggering attack does. Spread attacks deal 250% damage against {{tip|minions}} {{as|below 30% '''maximum''' health}}.\n",
+    "leveling2": "{{st|Bonus Attack Speed|{{ap|20 to 60}}%}}\n{{st|Active Bonus Magic Damage|{{ap|{{#var:ab1}} to {{#var:ab5}}}} {{as|(+ {{#var:aap}}% AP)}}|Combined Bonus Magic Damage|{{ap|{{#var:pb1}}+{{#var:ab1}} to {{#var:pb5}}+{{#var:ab5}}}} {{as|(+ {{#expr:{{#var:aap}}+{{#var:pap}}}}% AP)}}}}\n{{st|Active Increased Minion Damage|{{ap|{{#var:ab1}}*2.5 to {{#var:ab5}}*2.5}} {{as|(+ {{#expr:20*2.5}}% AP)}}|Combined Increased Minion Damage|{{ap|({{#var:pb1}}+{{#var:ab1}})*2.5 to ({{#var:pb5}}+{{#var:ab5}})*2.5}} {{as|(+ {{#expr:({{#var:aap}}+{{#var:pap}})*2.5}}% AP)}}}}\n",
+    "description3": "''Cultivation of Spirit {{tip|basic attack reset|resets}} '''Yunara's''' basic attack timer. Targets do not have to be {{tip|sight|visible}} to be hit by the spread attacks.''\n",
+    "cost": "30\n",
+    "costtype": "Mana + 8 Unleash Stacks\n",
+    "damagetype": "Physical Magic\n",
+    "notes": "* ''Cultivation of Spirit's'' damage classifications:\n** {{tip|Proc damage}} for the passive and active on-hit damage.\n** {{tip|Basic damage}} for the spread attack damage.\n* Spread attacks will still deal damage even if '''Yunara''' misses her basic attack due to {{tip|blind}}.\n* {{Pending for test}} Spread attack interaction with parrying effects ({{tip|dodge}}, {{tip|block}})\n* There is no limit to the number of enemies the empowered attacks can spread to.\n* '''Yunara's''' secondary resource bar gives various context for ''Cultivation of Spirit''. It is visible to the player only.\n** While ''Cultivation of Spirit'' is not active, the bar shows her current ''Unleash'' stacks. It is colored white while below maximum stacks and yellow while at maximum stacks.\n** After ''Cultivation of Spirit'' is cast, the bar counts down the buff's duration.\n*** This is also true during {{ai|Transcend One's Self|Yunara}}, which means that the bar effectively also counts down the duration of her ''Transcendent State''.\n* If '''Yunara''' begins an {{tip|attack windup}} toward the end of the active effects' duration and its launch would take place after it, the effects' duration is extended equal to the attack's windup time, once at most.\n** Since the buff ends right after launching ''Cultivation of Spirit's'' attack and its effects have already been determined, this allows it to both spread to nearby enemies and generate a stack of ''Unleash''.\n* Each bolt from {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} may trigger its own spread attack (despite the spread attacks not being an on-hit effect).\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

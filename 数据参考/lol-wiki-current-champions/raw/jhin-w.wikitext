@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Deadly Flourish|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Jhin
+|skill        = W
+|icon         = false
+|blurb        = {{sbc|Passive:}} Enemy champions that trigger a ''{{ai|Captive Audience|Jhin|Lotus Trap}}'', or take damage from {{ci|Jhin}} or his allies, are marked with [[File: Caught Out.png|20px|link=]] ''Caught Out'' for a few seconds.
+|blurb2       = {{sbc|Active:}} '''Jhin''' fires a shot in the target direction that deals {{as|physical damage}} to all enemies in a line until colliding with an enemy {{tip|champion}}.
+|blurb3       = Hitting a marked [[File: Caught Out.png|20px|link=]] ''Caught Out'' champion {{tip|root|roots}} them for a duration and grants '''Jhin''' ''{{ai|Whisper|Jhin|Every Moment Matters'}}'' {{sti|ms|{{as|'''bonus''' movement speed|ms}}}}.
+|description  = {{Anchor|Caught Out}}{{sbc|Passive:}} Enemy {{tip|champions}} that trigger a ''{{ai|Captive Audience|Jhin|Lotus Trap}}'' to bloom or are damaged by '''Jhin''' or allied champions are ''marked'' for 4 seconds.
+|icon2        = Deadly Flourish.png
+|description2 = {{sbc|Active:}} '''Jhin''' fires a shot in the target direction that deals {{as|physical damage}} to all enemies in a line until colliding with an enemy champion, reduced by 25% against {{tip|minions}}.
+|leveling2    = {{st|Physical Damage|{{ap|70 to 210}} {{as|(+ 50% AD)}}|Minion Damage|{{ap|70*0.75 to 210*0.75}} {{as|(+ {{fd|37.5}}% AD)}}}}
+|icon3        = Caught Out.png
+|description3 = Hitting a ''marked'' champion {{tip|root|roots}} them for a duration and grants '''Jhin''' {{ais|Whisper|Jhin|Every Moment Matters}} {{sti|ms|{{as|'''bonus''' movement speed|ms}}}}.
+|leveling3    = {{st|Root Duration|{{ap|1.25 to 2.25}} seconds}}
+|cast time    = {{fd|0.75}}
+|cooldown     = 12
+|cost         = {{ap|50 to 70}}
+|costtype     = Mana
+|range        = {{dv|{{tip|er|icononly = true}} {{tt|2520|Estimated}}|{{tt|-20|Backwards range}}}}
+|width        = {{tip|er|icononly = true}} 80
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spelleffects = Special
+|spellshield  = True
+|projectile   = True
+|knockdown    =
+|grounded     =
+|notes        =
+* Applies {{tip|spell damage}} to the enemy champion and {{tip|area damage}} to all other enemy units.
+* The ''Caught Out'' mark only appears if ''Deadly Flourish'' can potentially {{tip|root}} the target, and will not if the ability's cooldown is longer than 4 seconds or isn't ranked up.
+{{Effect at cast time start}}
+* The ability will not preserve the caster's facing direction when using {{si|Flash}} and similar effects.
+* Uniquely, ''Deadly Flourish'' is special-cased to be {{tip|projectile|intercepted}} by valid counters because it looks like a blockable missile, even though it functionally is not a missile.
+* While {{ai|Inherent Glamour|Neeko|disguised}} as a non-champion, {{ci|Neeko}} cannot be affected by ''Deadly Flourish''.{{bug}}
+}}

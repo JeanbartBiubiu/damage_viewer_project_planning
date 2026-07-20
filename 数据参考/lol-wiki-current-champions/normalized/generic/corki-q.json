@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "corki-q",
+  "candidateKey": "hero_skill|hero_corki|Q|磷光炸弹",
+  "ownerId": "hero_corki",
+  "wikiChampionTitle": "Corki",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Corki/Q",
+  "zhDisplayName": "磷光炸弹",
+  "resolvedTitle": "Template:Data Corki/Phosphorus Bomb",
+  "wikiPageId": 1306953,
+  "revisionId": 4007588,
+  "revisionTimestamp": "2026-04-12T06:50:59Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Corki/Phosphorus%20Bomb",
+  "contentSha256": "e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365",
+  "rawByteSize": 1531,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Corki''' launches a bomb at the target location that briefly grants {{tip|sight}} of its {{tt|surroundings|Cannot grant sight through terrain and can only grant sight into brush when the missile flies through that brush}} as it travels and explodes upon impact, dealing {{as|magic damage}} to enemies hit.\n",
+    "leveling": "{{st|Magic Damage|{{ap|60 to 240}} {{as|(+ 125% '''bonus''' AD)}} {{as|(+ 100% AP)}}}}\n",
+    "description2": "The bomb also grants {{tip|sight}} of the impact area for 6 seconds and {{tip|standard sight|reveals}} enemy {{tip|champions}} hit for the same duration.\n",
+    "cooldown": "{{ap|9 to 7}}\n",
+    "cost": "{{ap|60 to 80}}\n",
+    "costtype": "mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* The missile has a minimum travel time of {{fd|0.227}} seconds.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}
