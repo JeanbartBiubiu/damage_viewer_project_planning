@@ -763,6 +763,7 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		bag.targetValues[op.Ref] = next
 		if exp := bag.refreshTargetExpireAtOnWrite(op.Ref, f.run.nowMs); exp > 0 {
 			f.run.scheduleProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, f.targetKey, op.Ref, exp)
+			f.run.scheduleAnchoredTicksOnTargetWrite(ownerKey, f.ownerProviderRef, f.sourceKey, f.targetKey, op.Ref, exp, bag)
 		}
 		// Re-resolve host of opponent-mounted modifiers (carve target) and owner if needed.
 		evalCtx := f.evalContext(ability)

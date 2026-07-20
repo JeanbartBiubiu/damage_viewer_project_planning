@@ -137,11 +137,19 @@ type CompiledAbilityCooldown struct {
 }
 
 // CompiledTickSpec 是 compile 后的 tick ability 行为。
+// AnchorScope/AnchorStateKey 非空表示 target-state-anchored 模式（StartDelayMs 保持 0，不默认成 interval）。
 type CompiledTickSpec struct {
-	IntervalMs   int64
-	StartDelayMs int64
-	OnTickStart  uint16
-	OnTickCount  uint16
+	IntervalMs     int64
+	StartDelayMs   int64
+	OnTickStart    uint16
+	OnTickCount    uint16
+	AnchorScope    string
+	AnchorStateKey string
+}
+
+// IsAnchored 报告该 tickSpec 是否为配对锚点模式。
+func (ts *CompiledTickSpec) IsAnchored() bool {
+	return ts != nil && ts.AnchorScope != "" && ts.AnchorStateKey != ""
 }
 
 // CompiledAbility 是 compile 后的 ability 定义。
@@ -547,8 +555,43 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			compileOperation(op, path+".tickSpec.onTick["+itoa(k)+"]", int(providerIndex), ctx)
 		}
 		tickSpec.OnTickCount = uint16(len(session.Operations)) - tickSpec.OnTickStart
-		if tickSpec.StartDelayMs <= 0 {
-			tickSpec.StartDelayMs = tickSpec.IntervalMs
+		// Anchor pair validation must run before ordinary startDelayMs defaulting.
+		anchorScope := ts.AnchorScope
+		anchorKey := ts.AnchorStateKey
+		hasScope := anchorScope != ""
+		hasKey := anchorKey != ""
+		switch {
+		case hasScope && !hasKey:
+			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorStateKey", "tickSpec.anchorStateKey required when anchorScope is set", ability.AbilityKey)
+		case hasKey && !hasScope:
+			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorScope", "tickSpec.anchorScope required when anchorStateKey is set", ability.AbilityKey)
+		case hasScope && hasKey:
+			if ability.Kind != "tick" {
+				collector.addError(model.GenericErrMissingRequiredField, path+".kind", "anchored tickSpec requires tick ability", ability.AbilityKey)
+			}
+			if anchorScope != "state_scope/provider_target" {
+				collector.addError(model.GenericErrUnknownTypeKey, path+".tickSpec.anchorScope", "tickSpec.anchorScope must be state_scope/provider_target", ability.AbilityKey)
+			}
+			if ts.StartDelayMs != 0 {
+				collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.startDelayMs", "anchored tickSpec requires startDelayMs omitted or 0", ability.AbilityKey)
+			}
+			providerFields := session.Providers[providerIndex].StateFields
+			field, fieldOK := providerFields[anchorKey]
+			if !fieldOK {
+				collector.addError(model.GenericErrUnknownRef, path+".tickSpec.anchorStateKey", "tickSpec.anchorStateKey not found in provider initialStateSchema", ability.AbilityKey)
+			} else if field.DurationMs <= 0 {
+				collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorStateKey", "anchored tickSpec requires anchor state durationMs > 0", ability.AbilityKey)
+			} else if field.RefreshPolicy != model.ProviderStateRefreshOnWrite {
+				collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorStateKey", "anchored tickSpec requires anchor state refresh_on_write", ability.AbilityKey)
+			}
+			tickSpec.AnchorScope = anchorScope
+			tickSpec.AnchorStateKey = anchorKey
+			// Anchored mode: startDelay remains 0 (do not default to intervalMs).
+			tickSpec.StartDelayMs = 0
+		default:
+			if tickSpec.StartDelayMs <= 0 {
+				tickSpec.StartDelayMs = tickSpec.IntervalMs
+			}
 		}
 		compiled.TickSpec = tickSpec
 	} else if ability.Kind == "tick" {

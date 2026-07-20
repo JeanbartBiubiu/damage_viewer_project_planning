@@ -6,10 +6,12 @@ import "tinygo_engine_v2/internal/model"
 const MaxGenericEventHeap = 100000
 
 // GenericEventCategory 是 P0 固定 category 顺序（值越小越先执行）。
+// AnchoredTick 插入为最早 category，其后旧 category 相对顺序不变。
 type GenericEventCategory uint8
 
 const (
-	GenericCategoryExpireCleanup GenericEventCategory = iota
+	GenericCategoryAnchoredTick GenericEventCategory = iota
+	GenericCategoryExpireCleanup
 	GenericCategoryProviderTick
 	GenericCategoryAbilityAttempt
 	GenericCategoryTriggeredContinuation
@@ -25,6 +27,7 @@ const (
 	GenericEventAbilityAttempt
 	GenericEventTriggeredContinuation
 	GenericEventSample
+	GenericEventAnchoredTick
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。
