@@ -143,6 +143,95 @@ class ProviderCombatDataServiceTest {
         );
     }
 
+    @Test
+    void putListenerForwardsPerCastThrottleMsWhenPresent() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(11L);
+        when(listenersMapper.findById(GAME_ID, "listener-1")).thenReturn(listenerRow(1000));
+
+        ObjectNode body = baseListenerBody();
+        body.put("perCastThrottleMs", 1000);
+
+        ObjectNode response = service.putListener(GAME_ID, "listener-1", body);
+
+        assertEquals(11L, response.get("currentRevision").asLong());
+        assertEquals(1000, response.get("perCastThrottleMs").asInt());
+        verify(listenersMapper).upsert(
+            eq(GAME_ID),
+            eq(11L),
+            eq("listener-1"),
+            eq(PROVIDER_ID),
+            eq("on_hit"),
+            eq(20217),
+            isNull(),
+            isNull(),
+            isNull(),
+            eq(1000)
+        );
+    }
+
+    @Test
+    void putListenerForwardsNullPerCastThrottleWhenAbsentOrNull() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(12L);
+        when(listenersMapper.findById(GAME_ID, "listener-1")).thenReturn(listenerRow(null));
+
+        ObjectNode bodyAbsent = baseListenerBody();
+        ObjectNode responseAbsent = service.putListener(GAME_ID, "listener-1", bodyAbsent);
+        assertTrue(responseAbsent.get("perCastThrottleMs").isNull());
+        verify(listenersMapper).upsert(
+            eq(GAME_ID),
+            eq(12L),
+            eq("listener-1"),
+            eq(PROVIDER_ID),
+            eq("on_hit"),
+            eq(20217),
+            isNull(),
+            isNull(),
+            isNull(),
+            isNull()
+        );
+
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(13L);
+        ObjectNode bodyNull = baseListenerBody();
+        bodyNull.putNull("perCastThrottleMs");
+        ObjectNode responseNull = service.putListener(GAME_ID, "listener-1", bodyNull);
+        assertTrue(responseNull.get("perCastThrottleMs").isNull());
+        verify(listenersMapper).upsert(
+            eq(GAME_ID),
+            eq(13L),
+            eq("listener-1"),
+            eq(PROVIDER_ID),
+            eq("on_hit"),
+            eq(20217),
+            isNull(),
+            isNull(),
+            isNull(),
+            isNull()
+        );
+    }
+
+    private static ObjectNode baseListenerBody() {
+        ObjectNode body = JsonNodeFactory.instance.objectNode();
+        body.put("providerId", PROVIDER_ID);
+        body.put("listenerKey", "on_hit");
+        body.put("eventTypeId", 20217);
+        return body;
+    }
+
+    private static Map<String, Object> listenerRow(Integer perCastThrottleMs) {
+        Map<String, Object> row = new LinkedHashMap<>();
+        row.put("gameId", GAME_ID);
+        row.put("listenerId", "listener-1");
+        row.put("providerId", PROVIDER_ID);
+        row.put("listenerKey", "on_hit");
+        row.put("eventTypeId", 20217);
+        row.put("abilityId", null);
+        row.put("maxTriggersPerEvent", null);
+        row.put("chainLimitKey", null);
+        row.put("perCastThrottleMs", perCastThrottleMs);
+        row.put("changeRevision", 1L);
+        return row;
+    }
+
     private static Map<String, Object> stateFieldRow(BigDecimal maxValue, Long durationMs, Integer refreshPolicyTypeId) {
         Map<String, Object> row = new LinkedHashMap<>();
         row.put("gameId", GAME_ID);

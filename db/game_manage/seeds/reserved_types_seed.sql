@@ -44,6 +44,7 @@ VALUES
     (10028, '通道', 'channel'),
     (10029, '乘区阶段', 'stage'),
     (10030, '乘区桶', 'bucket'),
+    (10031, '施法来源', 'cast_origin'),
 
     -- value_type
     (20100, '数值', 'value_type/number'),
@@ -99,6 +100,7 @@ VALUES
     (20173, '百分比加法', 'value_policy/percent_add'),
     (20174, '取最小', 'value_policy/min'),
     (20175, '取最大', 'value_policy/max'),
+    (20176, '减法', 'value_policy/subtract'),
 
     -- match_mode
     (20180, '匹配任一', 'match_mode/any'),
@@ -129,6 +131,7 @@ VALUES
     (20214, '造成物理伤害', 'event/damage_dealt/physical'),
     (20215, '造成普攻伤害', 'event/damage_dealt/basic_attack'),
     (20216, '接斧', 'event/axe_caught'),
+    (20217, '伤害实例', 'event/damage_instance'),
 
     -- damage
     (20220, '物理伤害', 'damage/physical'),
@@ -166,7 +169,24 @@ VALUES
     (20267, '出站减伤前', 'stage/outgoing_pre_mitigation'),
     (20268, '入站减伤后', 'stage/incoming_post_mitigation'),
     (20269, '全部实例', 'bucket/all_instances'),
-    (20270, '每次施法首次', 'bucket/first_per_cast')
+    (20270, '每次施法首次', 'bucket/first_per_cast'),
+    (20271, '入站暴击段减伤后', 'stage/incoming_crit_part_post_mitigation'),
+    (20272, '全部伤害', 'channel/all_damage'),
+
+    -- cast_origin (ability ABI + event TypeSet / matcher keys)
+    (20273, '英雄施法', 'cast_origin/champion'),
+    (20274, '装备施法', 'cast_origin/item'),
+    (20275, '宠物施法', 'cast_origin/pet'),
+    (20276, '固有施法', 'cast_origin/innate'),
+
+    -- command/crit + crit pipeline stages (Opening Barrage / Fiendhunter Bolts)
+    (20277, '暴击命令', 'command/crit'),
+    (20278, '暴击概率结算前', 'stage/crit_chance_pre_settlement'),
+    (20279, '强制暴击乘区', 'stage/crit_multiplier_forced_branch'),
+    (20280, '自然暴击乘区', 'stage/crit_multiplier_natural_branch'),
+
+    -- state duration change (Yun Tal Flurry / 疾风骤雨 cooldown reduction)
+    (20281, '状态持续时间变化', 'operation/state_duration_change')
 ON CONFLICT (type_id) DO UPDATE SET
     name = EXCLUDED.name,
     type_key = EXCLUDED.type_key;
@@ -224,6 +244,7 @@ VALUES
     (20173, 10016),
     (20174, 10016),
     (20175, 10016),
+    (20176, 10016),
 
     (20180, 10017),
     (20181, 10017),
@@ -251,6 +272,7 @@ VALUES
     (20214, 10019),
     (20215, 10019),
     (20216, 10019),
+    (20217, 10019),
 
     (20220, 10020),
     (20221, 10020),
@@ -280,5 +302,19 @@ VALUES
     (20267, 10029),
     (20268, 10029),
     (20269, 10030),
-    (20270, 10030)
+    (20270, 10030),
+    (20271, 10029),
+    (20272, 10028),
+
+    (20273, 10031),
+    (20274, 10031),
+    (20275, 10031),
+    (20276, 10031),
+
+    (20277, 10027),
+    (20278, 10029),
+    (20279, 10029),
+    (20280, 10029),
+
+    (20281, 10015)
 ON CONFLICT (type_id, parent_type_id) DO NOTHING;

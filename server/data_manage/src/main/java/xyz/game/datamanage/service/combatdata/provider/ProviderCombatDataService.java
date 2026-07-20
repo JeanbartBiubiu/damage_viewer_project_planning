@@ -228,6 +228,7 @@ public class ProviderCombatDataService {
         String abilityId = support.optionalText(req, "abilityId");
         Integer maxTriggersPerEvent = support.optionalInt(req, "maxTriggersPerEvent");
         String chainLimitKey = support.optionalText(req, "chainLimitKey");
+        Integer perCastThrottleMs = support.optionalInt(req, "perCastThrottleMs");
         long revision = revisionService.nextRevision(gameId);
         support.withConstraintMapping(() -> listenersMapper.upsert(
             gameId,
@@ -238,7 +239,8 @@ public class ProviderCombatDataService {
             eventTypeId,
             abilityId,
             maxTriggersPerEvent,
-            chainLimitKey
+            chainLimitKey,
+            perCastThrottleMs
         ));
         return support.adminWriteResponse(listenersMapper.findById(gameId, listenerId), revision);
     }

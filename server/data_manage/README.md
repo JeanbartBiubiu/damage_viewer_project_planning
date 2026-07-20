@@ -572,6 +572,50 @@ cd server/data_manage
 mvn -Dtest=LolGenericWikiReadyItemsSeedSqlTest test
 ```
 
+### LoL generic Kayle Radiant Blast seed（耀焰冲击 Q / Phase-A rank-5 主目标边界完成）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_kayle` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 Q active；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20113`/`20120`/`20130`/`20142`/`20150`/`20160`/`20170`/`20172`/`20173`/`20190`/`20221`/`20252`/`20260`）
+2. `db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-kayle-radiant-blast-v1-20260720`（seed 不负责 publish）。候选 `hero_skill|hero_kayle|Q|耀焰冲击` 整体语义为本任务冻结的 **Phase-A rank-5 主目标边界完成 / full boundary**：100 mana / 8000ms CD / magic `180 + 0.60*bonus AD + 0.50*AP`，伤害后 `kayle_q_sundered` 目标护甲/魔抗各 `percent_add -15%`（4000ms / refresh_on_write）。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；fail-closed 冲突的既有 modifier/ability 绑定；ensure `hero_kayle`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp670 / mana330 / ad50 / ap0 / AS0.625 / armor26 / MR22 / hpregen5 / manaregen8；自包含 bootstrap，溯源 Module:ChampionData/data rev `4042886`，**不作** Q 完成证据）、`resource_definitions.mana` 与 `entity_resource_values`（330/330）；向 `hero_kayle` 独占 mount `provider_hero_kayle_radiant_blast`，含 `provider_target` 态 `kayle_q_sundered`、两条 target `percent_add` 击碎 modifier、active `ability_hero_kayle_q_radiant_blast`（`ability_key=radiant_blast`）、`ability_costs` 100 mana、`ability_cooldowns` 8000ms、impact 两步（magic damage → source-owned state override=1）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。Q 机制数值注释引用 League Wiki `Template:Data Kayle/Radiant Blast` rev `4005105` / contentSha256 `ded516de4861d88de21ba54de9a8723b654f424f1cc3f9dac30d06382ee1a87c`（`kayle-q.json`）。
+
+**排除**：减速/控制、弹道/施法延迟、多目标/十字扩张、其它 rank、死亡后持续、listener / production probe、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKayleRadiantBlastSeedSqlTest test
+```
+
+### LoL generic Graves New Destiny seed（格雷福斯 P 新命运 / Phase-A point-blank 边界完成）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`/`champion_level`/`crit_chance`/`crit_damage`）已就绪后，按顺序执行（**自包含** ensure `hero_graves` 最低必要实体/Wiki level-1 面板/mana 资源 + 普攻图；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20170`/`20172`/`20211`/`20220`/`20252`/`20260`/`20264`/`20265`/`20266`/`20269`/`20277`/`20279`/`20280`）
+2. `db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-graves-new-destiny-v1-20260720`（seed 不负责 publish）。候选 `hero_skill|hero_graves|P|新命运` 整体语义为本任务冻结的 **Phase-A point-blank 最大弹丸合并边界完成 / full boundary**：单次物理伤害 `AD * F(x) * (1 + 3*s)`（`s=0.33302`，`F(x)=0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1))`），`crit_eligible=true`，以及 source-owned `basic_damage` 管道 natural/forced 暴击乘区 `value_policy/override`：`((1 + 5*s) / (1 + 3*s)) * (1 + 0.5*(crit_damage.resolved - 1))`。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`（fail-closed 冲突；正确元数据不覆盖）；fail-closed ensure game-local `62003 ability/basic_attack` 并关联 `ability_hero_graves_basic_attack`；ensure `hero_graves`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 Wiki-only level-1 面板（hp625 / mana325 / ad66 / AS0.475 / armor33 / MR30 / hpregen8 / manaregen8；溯源 Module:ChampionData/data rev `4042886` / SHA256 `98094d20…`，**不作** P 机制完成证据）、`resource_definitions.mana` 与 `entity_resource_values`（325/325）、`champion_level` scalar 1..18、运行时 EAV `crit_chance=0` / `crit_damage=2.0`（非 P 数值真理）；向 `hero_graves` 独占 mount `provider_hero_graves_new_destiny`（拥有 `ability_hero_graves_basic_attack`），impact 两步（merged physical damage → `emit_event(event/basic_attack_hit)`），伤害与 emit 均为 `copyable_on_hit=false`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。P 机制数值注释仅引用 League Wiki `Template:Data Graves/New Destiny` rev `4038342` / contentSha256 `553bda22…`（`graves-p.json` / `reviewed-contracts.json#graves-p`）；不以 DDragon / Meraki / 截图 / OCR 作为机制真理。
+
+**已完成边界**：点空白合并物理普攻、natural+forced 暴击乘区 override、`ability/basic_attack` 类型关系、唯一 `basic_attack_hit` emit。
+
+**排除**：装填/节奏、弹丸实例、弹道/距离、多目标、on-hit 重放、建筑/守卫、生命偷取、击退、RNG、英雄特化 runtime 代码、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericGravesNewDestinySeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
@@ -700,19 +744,19 @@ cd server/data_manage
 mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
 ```
 
-### LoL generic Xayah Deadly Plumage seed（逆羽 W / rank-5 攻速窗 partial）
+### LoL generic Xayah Deadly Plumage seed（逆羽 W / Phase-A rank-5 1v1 边界完成）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_xayah` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与未来普攻 / feather provider 并存，不重建/替换；不做 live migration、不自动 publish）：
 
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20171`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`/`20264`/`20265`/`20266`/`20267`/`20269`）
 2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`
 3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-xayah-deadly-plumage-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：40 mana / 14s CD / 4s +55% AS。
+建议发布版本：`lol-generic-xayah-deadly-plumage-v1-20260716`（seed 不负责 publish）。候选整体语义为已批准 **Phase-A rank-5 1v1 边界完成**：40 mana / 14s CD / 4s +55% AS，以及 W 激活期间 source-owned `basic_damage` pipeline multiply `1 + 0.25 * provider.state.deadly_plumage_active`（条件排除 `damage.trait.on_hit` / `damage.trait.proc`；合并普攻倍率，非第二伤害实例）。
 
-该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability ALL listener 武装 active=1（override），以及 AS `percent_add` `0.55 * provider.state.deadly_plumage_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 Meraki/Riot latest `Xayah.json`。
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；fail-closed ensure game-local `62006 damage_trait/on_hit` 与 `62009 damage_trait/proc`（`reserved_type_id=NULL`）；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25；自包含 bootstrap，非 Wiki W 数值真理）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability ALL listener 武装 active=1（override）、AS `percent_add` `0.55 * provider.state.deadly_plumage_active`，以及 pipeline modifier `modifier_hero_xayah_w_deadly_plumage_basic_damage`（kind `20264` / command `20265` / channel `20266` / bucket `20269` / stage `20267` / multiply `20171`）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。W 机制数值注释引用 League Wiki `Template:Data Xayah/Deadly Plumage` rev `4010669` / contentSha256 `09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7`（`xayah-w.json`）；不以 Meraki / DataDragon 作为 W 数值真理。
 
-**排除 / remaining gap**：次级羽刃（需按已结算真实普攻复制 20% original attack damage，排除 on-hit / phantom；本 seed **不伪造**）、移速、Rakan/洛联动（OOS）、其它 rank、live migration、publish、`single_attacker_dps`。
+**排除**：移速、Rakan/洛联动、多目标/Runaan、projectile/in-flight/ward/blind/dodge/block 细节、独立次级羽刃 missile / 第二伤害操作、其它 rank、live migration、publish、完整技能保真。
 
 静态契约校验（不连 live DB）：
 
