@@ -1,9 +1,13 @@
 package xyz.game.datamanage.service.combatdata.provider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,6 +35,7 @@ import xyz.game.datamanage.mapper.combatdata.CombatProviderStateFieldsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderTickSequencesMapper;
 import xyz.game.datamanage.service.combatdata.revision.GameDataRevisionService;
 import xyz.game.datamanage.service.combatdata.support.CombatDataSupport;
+import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
 class ProviderCombatDataServiceTest {
@@ -141,6 +146,106 @@ class ProviderCombatDataServiceTest {
             isNull(),
             isNull()
         );
+    }
+
+    @Test
+    void listLifecyclesProjectsOmittedTickAnchorPairAsNulls() {
+        when(revisionService.getCurrentRevision(GAME_ID)).thenReturn(5L);
+        when(lifecyclesMapper.list(GAME_ID, PROVIDER_ID)).thenReturn(List.of(lifecycleRow(null, null)));
+
+        ObjectNode response = service.listLifecycles(GAME_ID, PROVIDER_ID);
+
+        assertEquals(5L, response.get("currentRevision").asLong());
+        ObjectNode item = (ObjectNode) response.get("data").get(0);
+        assertTrue(item.has("tickAnchorScopeTypeId"));
+        assertTrue(item.get("tickAnchorScopeTypeId").isNull());
+        assertTrue(item.has("tickAnchorStateKey"));
+        assertTrue(item.get("tickAnchorStateKey").isNull());
+    }
+
+    @Test
+    void putLifecycleAcceptsOmittedPairAndCompletePair() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(21L);
+        when(lifecyclesMapper.findById(GAME_ID, PROVIDER_ID)).thenReturn(lifecycleRow(null, null));
+
+        ObjectNode omitted = JsonNodeFactory.instance.objectNode();
+        omitted.put("maxStacks", 1);
+        ObjectNode omittedResponse = service.putLifecycle(GAME_ID, PROVIDER_ID, omitted);
+        assertTrue(omittedResponse.get("tickAnchorScopeTypeId").isNull());
+        assertTrue(omittedResponse.get("tickAnchorStateKey").isNull());
+        verify(lifecyclesMapper).upsert(
+            eq(GAME_ID),
+            eq(21L),
+            eq(PROVIDER_ID),
+            isNull(),
+            eq(1),
+            isNull(),
+            isNull(),
+            isNull(),
+            isNull(),
+            isNull()
+        );
+
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(22L);
+        when(lifecyclesMapper.findById(GAME_ID, PROVIDER_ID))
+            .thenReturn(lifecycleRow(20252, "deadly_venom_stacks"));
+        ObjectNode complete = JsonNodeFactory.instance.objectNode();
+        complete.put("maxStacks", 1);
+        complete.put("tickIntervalMs", 1000);
+        complete.put("startDelayMs", 0);
+        complete.put("tickAnchorScopeTypeId", 20252);
+        complete.put("tickAnchorStateKey", "deadly_venom_stacks");
+        ObjectNode completeResponse = service.putLifecycle(GAME_ID, PROVIDER_ID, complete);
+        assertEquals(20252, completeResponse.get("tickAnchorScopeTypeId").asInt());
+        assertEquals("deadly_venom_stacks", completeResponse.get("tickAnchorStateKey").asText());
+        verify(lifecyclesMapper).upsert(
+            eq(GAME_ID),
+            eq(22L),
+            eq(PROVIDER_ID),
+            isNull(),
+            eq(1),
+            isNull(),
+            eq(1000),
+            eq(0),
+            eq(20252),
+            eq("deadly_venom_stacks")
+        );
+    }
+
+    @Test
+    void putLifecycleRejectsPartialTickAnchorPair() {
+        ObjectNode scopeOnly = JsonNodeFactory.instance.objectNode();
+        scopeOnly.put("tickAnchorScopeTypeId", 20252);
+        ApiException scopeEx =
+            assertThrows(ApiException.class, () -> service.putLifecycle(GAME_ID, PROVIDER_ID, scopeOnly));
+        assertEquals("400.INVALID_BODY", scopeEx.getCode());
+        assertTrue(scopeEx.getMessage().contains("tickAnchorScopeTypeId and tickAnchorStateKey"));
+
+        ObjectNode keyOnly = JsonNodeFactory.instance.objectNode();
+        keyOnly.put("tickAnchorStateKey", "deadly_venom_stacks");
+        ApiException keyEx =
+            assertThrows(ApiException.class, () -> service.putLifecycle(GAME_ID, PROVIDER_ID, keyOnly));
+        assertEquals("400.INVALID_BODY", keyEx.getCode());
+
+        verify(revisionService, never()).nextRevision(any());
+        verify(lifecyclesMapper, never())
+            .upsert(any(), anyLong(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    private static Map<String, Object> lifecycleRow(
+        Integer tickAnchorScopeTypeId, String tickAnchorStateKey) {
+        Map<String, Object> row = new LinkedHashMap<>();
+        row.put("gameId", GAME_ID);
+        row.put("providerId", PROVIDER_ID);
+        row.put("durationFormulaKey", null);
+        row.put("maxStacks", 1);
+        row.put("refreshPolicyTypeId", null);
+        row.put("tickIntervalMs", null);
+        row.put("startDelayMs", null);
+        row.put("tickAnchorScopeTypeId", tickAnchorScopeTypeId);
+        row.put("tickAnchorStateKey", tickAnchorStateKey);
+        row.put("changeRevision", 1L);
+        return row;
     }
 
     private static Map<String, Object> stateFieldRow(BigDecimal maxValue, Long durationMs, Integer refreshPolicyTypeId) {
