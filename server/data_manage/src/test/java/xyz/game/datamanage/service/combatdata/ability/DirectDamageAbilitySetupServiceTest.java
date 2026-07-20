@@ -118,7 +118,7 @@ class DirectDamageAbilitySetupServiceTest {
         verify(revisionService, never()).nextRevisionIfExpected(any(), anyLong());
         verify(revisionService, never()).nextRevision(any());
         verify(abilitiesMapper, never()).upsert(
-            any(), anyLong(), any(), any(), any(), any(), any(), any()
+            any(), anyLong(), any(), any(), any(), any(), any(), any(), any()
         );
     }
 
@@ -135,7 +135,7 @@ class DirectDamageAbilitySetupServiceTest {
         assertEquals("/ability/providerId", ex.getDetails().get("path"));
         verify(revisionService, never()).nextRevisionIfExpected(any(), anyLong());
         verify(abilitiesMapper, never()).upsert(
-            any(), anyLong(), any(), any(), any(), any(), any(), any()
+            any(), anyLong(), any(), any(), any(), any(), any(), any(), any()
         );
     }
 
@@ -222,6 +222,7 @@ class DirectDamageAbilitySetupServiceTest {
             eq("q"),
             eq(1),
             eq("Q"),
+            isNull(),
             isNull()
         );
         order.verify(phasesMapper).upsert(
@@ -287,7 +288,7 @@ class DirectDamageAbilitySetupServiceTest {
         assertEquals(99L, ex.getDetails().get("actualCurrentRevision"));
         verify(revisionService, times(1)).nextRevisionIfExpected(GAME_ID, 42L);
         verify(abilitiesMapper, never()).upsert(
-            any(), anyLong(), any(), any(), any(), any(), any(), any()
+            any(), anyLong(), any(), any(), any(), any(), any(), any(), any()
         );
         verify(phasesMapper, never()).upsert(
             any(), anyLong(), any(), any(), any(), any(), any(), anyBoolean()

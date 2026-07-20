@@ -1,41 +1,53 @@
 -- =============================================================================
--- LoL generic Kai'Sa E Supercharge seed（卡莎 E 极限超载 rank-5 攻速窗）
+-- LoL generic Firmament seed（电震涡流剑 item_6699 / 苍穹）
 -- =============================================================================
 --
--- 目标：幂等挂载 hero_kaisa 独立 provider，表达 rank-5 Supercharge 可近似 ABI：
---       30 mana、10000ms CD、ability_started（本合同 = 充能完成，非真实 cast-time）
---       + source_owner + 同一 ability listener 武装 supercharge_active=1
---       （max1 / 4000ms / refresh_duration）；AS percent_add =
---       0.80 * provider.state.supercharge_active。
---       已批准 Phase-A 1v1 rank-5 攻速窗分支视为完整；排除的非伤害/细节分支不建模。
+-- Goal: idempotent write of item_6699 ranged/precharged Firmament provider graph:
+--       one basic_attack_hit listener / one sequence
+--       (arm lethality → physical current-HP damage → consume charge)
+--       expressible by the current generic ABI.
 --
--- 契约要点：
--- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
--- 2. 候选 revision = locked current_revision + 1；仅业务数据实际插入/变化时推进。
--- 3. 必需 game / Batch-B hero_kaisa / attribute_definitions(mana,attack_speed) /
---    reserved_type 缺失则 RAISE EXCEPTION 回滚。
--- 4. 仅 mount 到 hero_kaisa；不重建 Batch-B 实体/普攻；幂等投影
---    resource_definitions.mana 与 entity_resource_values（345/345，对齐 Batch-B
---    level-1 mana）以支撑 ability_costs FK。
--- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
+-- Wiki 真源（League Wiki item manifest only）：
+--   revid 4030984
+--   SHA256 e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d
+--   Firmament（ranged）：满盈能后下一次普攻 on-hit 先给予 12 lethality（4s），
+--   再造成目标当前生命值 7% 额外物理伤害；非英雄上限 200（本批不建模）。
+--
+-- Precharged boundary（须在测试中断言注释存在）：
+--   assumes_charge_at_threshold_before_dps_window：
+--     schema provider_state_fields 无 default/initial 列；本脚本声明
+--     energized_charge max=100（运行时缺省 0 / default0），
+--     并假设 DPS 窗口开始前 runtime/测试快照将 energized_charge 置为 100。
+--     充能恢复是 remaining gap，不写虚构 charge_add / 移动充能速率 /
+--     natural charge generation。
+--
+-- Contract:
+-- 1. Single transaction; fixed game_id='lol'; ensure_game_partitions then
+--    lock game_data_state.
+-- 2. Candidate revision = locked current_revision + 1; advance only when
+--    business rows are actually inserted/changed.
+-- 3. Missing required game / item_6699 / armor_pen_flat / reserved_type =>
+--    RAISE EXCEPTION and roll back.
+-- 4. Exactly one provider and one mount for item_6699
+--    （provider_item_6699_firmament）。
+-- 5. Sequence order（all gated by energized_ready / charge>=100）:
+--      0 arm firmament_lethality_active=1
+--      → 1 physical damage 0.07 * event.target.attr.hp.current
+--         （copyable_on_hit=false）
+--      → 2 consume energized_charge=0。
+-- 6. Modifier flat-adds 12 to canonical armor_pen_flat gated by
+--    firmament_lethality_active；Batch-C item base 已有 armor_pen_flat=10，
+--    active 时 resolver 观察 22。不创建 lethality 属性别名。
+-- 7. No auto-publish; no DELETE/DROP/CASCADE; no legacy Bundle/Catalog writes.
 --
 -- 明确排除（本脚本不建模）：
---   移速 / 幽灵态 / attack-windup；普攻减 CD / cooldown refund；进化隐身；
---   damage / shred；cast-time scheduler / charge 定时器；其它 rank；
---   live migration；自动 publish。
+--   natural charge generation；Galvanize；melee 15 lethality / 9% current HP；
+--   non-champion damage cap 200；live publish；DDragon / champion-static 数值溯源。
 --
--- 数值来源（League Wiki Template:Data Kai'Sa/Supercharge；注释引用，
--- 无运行时外部依赖；无 DDragon / Meraki 数值溯源）：
---   revision id 4038391
---   content SHA256 327dc441e84bf2b320dccbe9099b4e98bf42562529e95facd417fbbc27d99e24
---   reviewed contract path：
---     数据参考/lol-wiki-current-champions/normalized/generic/kaisa-e.json
---   rank-5 Supercharge：AS +80%（percent_add 0.80 * supercharge_active）；
---   持续 4000ms；cost 30 mana；CD 10000ms。Batch-B hero_kaisa level-1 mana=345。
---
--- 前置：reserved_types_seed.sql；Batch-B hero_kaisa；mana / attack_speed 属性定义。
--- 建议发布版本（本脚本不负责 publish）：
---   lol-generic-kaisa-supercharge-v1-20260715
+-- Prerequisites: reserved_types_seed.sql；Batch-C item_6699（含 armor_pen_flat=10）；
+--                basic_attack_hit emit baseline（on-hit passives or equivalent）。
+-- Suggested publish version (this script does not publish):
+--   lol-generic-firmament-6699-v1-20260719
 
 BEGIN;
 
@@ -51,24 +63,28 @@ DECLARE
     v_required_reserved  int[] := ARRAY[
         20100, -- value_type/number
         20110, -- selector/self
+        20111, -- selector/opponent
         20120, -- provider_kind/passive
-        20130, -- ability_kind/active
+        20150, -- operation/damage
         20160, -- operation/state_change
+        20170, -- value_policy/add
         20172, -- value_policy/override
-        20173, -- value_policy/percent_add
         20181, -- match_mode/all
-        20190, -- refresh_policy/refresh_duration
-        20205, -- event/ability_started
+        20190, -- refresh_policy/refresh_duration (refresh_on_write)
+        20211, -- event/basic_attack_hit
         20212, -- event/source_owner
+        20220, -- damage/physical
         20250  -- state_scope/provider
     ];
-    v_required_attrs     text[] := ARRAY['mana', 'attack_speed'];
+    v_required_attrs     text[] := ARRAY[
+        'armor_pen_flat'
+    ];
 BEGIN
     PERFORM public.ensure_game_partitions(v_game_id);
 
     IF NOT EXISTS (SELECT 1 FROM public.games g WHERE g.game_id = v_game_id) THEN
         RAISE EXCEPTION
-            'lol_generic_kaisa_supercharge_seed: game_id=% missing in public.games',
+            'lol_generic_firmament_6699_seed: game_id=% missing in public.games',
             v_game_id;
     END IF;
 
@@ -84,7 +100,7 @@ BEGIN
 
     IF v_locked_current IS NULL THEN
         RAISE EXCEPTION
-            'lol_generic_kaisa_supercharge_seed: failed to lock game_data_state for %',
+            'lol_generic_firmament_6699_seed: failed to lock game_data_state for %',
             v_game_id;
     END IF;
 
@@ -101,7 +117,7 @@ BEGIN
 
     IF v_missing_reserved IS NOT NULL THEN
         RAISE EXCEPTION
-            'lol_generic_kaisa_supercharge_seed: missing reserved_type id(s): %',
+            'lol_generic_firmament_6699_seed: missing reserved_type id(s): %',
             v_missing_reserved;
     END IF;
 
@@ -109,10 +125,10 @@ BEGIN
         SELECT 1
           FROM public.game_entities ge
          WHERE ge.game_id = v_game_id
-           AND ge.entity_id = 'hero_kaisa'
+           AND ge.entity_id = 'item_6699'
     ) THEN
         RAISE EXCEPTION
-            'lol_generic_kaisa_supercharge_seed: missing game_entities hero_kaisa (Batch-B prerequisite)';
+            'lol_generic_firmament_6699_seed: missing game_entities item_6699 (Batch-C prerequisite)';
     END IF;
 
     SELECT string_agg(req.attr_key, ', ' ORDER BY req.attr_key)
@@ -127,7 +143,7 @@ BEGIN
 
     IF v_missing_attrs IS NOT NULL THEN
         RAISE EXCEPTION
-            'lol_generic_kaisa_supercharge_seed: missing attribute_definitions for game_id=% attr_key(s): %',
+            'lol_generic_firmament_6699_seed: missing attribute_definitions for game_id=% attr_key(s): %',
             v_game_id, v_missing_attrs;
     END IF;
 
@@ -163,69 +179,17 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- 幂等投影 mana 资源定义（ability_costs FK；不改 Batch-B 属性面板）
-    INSERT INTO public.resource_definitions (
-        game_id, resource_key, display_name,
-        default_initial_value, default_max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'mana',
-        '法力',
-        0,
-        0,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, resource_key) DO UPDATE SET
-        display_name = EXCLUDED.display_name,
-        default_initial_value = EXCLUDED.default_initial_value,
-        default_max_value = EXCLUDED.default_max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.resource_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name
-       OR public.resource_definitions.default_initial_value IS DISTINCT FROM EXCLUDED.default_initial_value
-       OR public.resource_definitions.default_max_value IS DISTINCT FROM EXCLUDED.default_max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.entity_resource_values (
-        game_id, entity_id, resource_key, initial_value, max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'hero_kaisa',
-        'mana',
-        345,
-        345,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, entity_id, resource_key) DO UPDATE SET
-        initial_value = EXCLUDED.initial_value,
-        max_value = EXCLUDED.max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.entity_resource_values.initial_value IS DISTINCT FROM EXCLUDED.initial_value
-       OR public.entity_resource_values.max_value IS DISTINCT FROM EXCLUDED.max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
     -- =========================================================================
-    -- hero_kaisa Supercharge（E rank-5）：active + timed AS window
+    -- item_6699 Firmament：ranged / precharged window only
     -- =========================================================================
     INSERT INTO public.provider_definitions (
         game_id, provider_id, provider_kind_type_id, display_name,
         change_revision, updated_at
     ) VALUES (
         v_game_id,
-        'provider_hero_kaisa_supercharge',
+        'provider_item_6699_firmament',
         20120,
-        '卡莎 E 极限超载 Supercharge（rank5 攻速窗）',
+        '苍穹 Firmament',
         v_candidate,
         NOW()
     )
@@ -241,22 +205,37 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- timed state：max1 / 4000ms / refresh_duration；不写 default_value（运行时缺省 0）
+    -- energized_charge：number / max100 / untimed；不写 default_value（运行时缺省 0 /
+    -- default0）；满能由窗口假设 / snapshot 注入，不建模自然充能。
+    -- firmament_lethality_active：number / max1 / 4000ms / refresh_on_write；
+    -- 不写 default_value（运行时缺省 0 / default0）。
     INSERT INTO public.provider_state_fields (
         game_id, provider_id, state_key, value_type_id,
         max_value, duration_ms, refresh_policy_type_id,
         change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'provider_hero_kaisa_supercharge',
-        'supercharge_active',
-        20100,
-        1,
-        4000,
-        20190,
-        v_candidate,
-        NOW()
-    )
+    ) VALUES
+        (
+            v_game_id,
+            'provider_item_6699_firmament',
+            'energized_charge',
+            20100,
+            100,
+            NULL,
+            NULL,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_6699_firmament',
+            'firmament_lethality_active',
+            20100,
+            1,
+            4000,
+            20190,
+            v_candidate,
+            NOW()
+        )
     ON CONFLICT (game_id, provider_id, state_key) DO UPDATE SET
         value_type_id = EXCLUDED.value_type_id,
         max_value = EXCLUDED.max_value,
@@ -278,33 +257,42 @@ BEGIN
     ) VALUES
         (
             v_game_id,
-            'provider_hero_kaisa_supercharge',
-            'e_mana_cost',
-            '{"op":"const","value":30}'::jsonb,
+            'provider_item_6699_firmament',
+            'energized_ready',
+            '{"op":"gte","args":[{"op":"read","path":"provider.state.energized_charge"},{"op":"const","value":100}]}'::jsonb,
             v_candidate,
             NOW()
         ),
         (
             v_game_id,
-            'provider_hero_kaisa_supercharge',
-            'e_cooldown_ms',
-            '{"op":"const","value":10000}'::jsonb,
-            v_candidate,
-            NOW()
-        ),
-        (
-            v_game_id,
-            'provider_hero_kaisa_supercharge',
-            'supercharge_active_arm',
+            'provider_item_6699_firmament',
+            'firmament_lethality_arm',
             '{"op":"const","value":1}'::jsonb,
             v_candidate,
             NOW()
         ),
         (
             v_game_id,
-            'provider_hero_kaisa_supercharge',
-            'supercharge_attack_speed',
-            '{"op":"mul","args":[{"op":"const","value":0.80},{"op":"read","path":"provider.state.supercharge_active"}]}'::jsonb,
+            'provider_item_6699_firmament',
+            'firmament_damage',
+            '{"op":"mul","args":[{"op":"const","value":0.07},{"op":"read","path":"event.target.attr.hp.current"}]}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_6699_firmament',
+            'energized_consume',
+            '{"op":"const","value":0}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_item_6699_firmament',
+            'firmament_armor_pen_flat',
+            -- flat 12 * active；Batch-C base 10 + 本修正 → active 时 resolved 22
+            '{"op":"mul","args":[{"op":"const","value":12},{"op":"read","path":"provider.state.firmament_lethality_active"}]}'::jsonb,
             v_candidate,
             NOW()
         )
@@ -318,7 +306,8 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- provider-bound attack_speed percent_add（可用性由公式内 supercharge_active 表达；condition NULL）
+    -- provider-bound armor_pen_flat flat add（可用性由公式内 active 表达；condition NULL）
+    -- 目标属性必须为 canonical armor_pen_flat；不创建 lethality 别名。
     INSERT INTO public.provider_modifiers (
         game_id, modifier_id, provider_id, modifier_key,
         modifier_type_id, target_selector_type_id, target_attr_key,
@@ -327,19 +316,19 @@ BEGIN
         change_revision, updated_at
     ) VALUES (
         v_game_id,
-        'modifier_hero_kaisa_supercharge_attack_speed',
-        'provider_hero_kaisa_supercharge',
-        'supercharge_attack_speed',
+        'modifier_item_6699_firmament_armor_pen_flat',
+        'provider_item_6699_firmament',
+        'firmament_armor_pen_flat',
         NULL,
         20110,
-        'attack_speed',
+        'armor_pen_flat',
         NULL,
         NULL,
         NULL,
         NULL,
         0,
-        20173,
-        'supercharge_attack_speed',
+        20170,
+        'firmament_armor_pen_flat',
         NULL,
         v_candidate,
         NOW()
@@ -378,108 +367,15 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- active ability：成功 cast 由既有 runtime 发出 event/ability_started
-    -- （本合同将该事件近似为「充能完成」，不建 cast-time / charge scheduler）
-    INSERT INTO public.ability_definitions (
-        game_id, ability_id, provider_id, ability_key, ability_kind_type_id,
-        display_name, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'ability_hero_kaisa_e_supercharge',
-        'provider_hero_kaisa_supercharge',
-        'supercharge',
-        20130,
-        '极限超载（E）',
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, ability_id) DO UPDATE SET
-        provider_id = EXCLUDED.provider_id,
-        ability_key = EXCLUDED.ability_key,
-        ability_kind_type_id = EXCLUDED.ability_kind_type_id,
-        display_name = EXCLUDED.display_name,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_definitions.provider_id IS DISTINCT FROM EXCLUDED.provider_id
-       OR public.ability_definitions.ability_key IS DISTINCT FROM EXCLUDED.ability_key
-       OR public.ability_definitions.ability_kind_type_id IS DISTINCT FROM EXCLUDED.ability_kind_type_id
-       OR public.ability_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_kaisa_e_supercharge_mana',
-        'ability_hero_kaisa_e_supercharge',
-        NULL,
-        'mana',
-        'e_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.ability_cooldowns (
-        game_id, cooldown_id, ability_id, duration_formula_key,
-        starts_on_phase_id, group_key, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cooldown_hero_kaisa_e_supercharge',
-        'ability_hero_kaisa_e_supercharge',
-        'e_cooldown_ms',
-        NULL,
-        NULL,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cooldown_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        duration_formula_key = EXCLUDED.duration_formula_key,
-        starts_on_phase_id = EXCLUDED.starts_on_phase_id,
-        group_key = EXCLUDED.group_key,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_cooldowns.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_cooldowns.duration_formula_key IS DISTINCT FROM EXCLUDED.duration_formula_key
-       OR public.ability_cooldowns.starts_on_phase_id IS DISTINCT FROM EXCLUDED.starts_on_phase_id
-       OR public.ability_cooldowns.group_key IS DISTINCT FROM EXCLUDED.group_key;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    -- deferred exactly-one-detail：state_change 配一 state_effect_details
     INSERT INTO public.effect_sequences (
         game_id, sequence_id, provider_id, sequence_key, display_name,
         change_revision, updated_at
     ) VALUES (
         v_game_id,
-        'sequence_hero_kaisa_e_supercharge_arm',
-        'provider_hero_kaisa_supercharge',
-        'supercharge_arm',
-        '极限超载武装（充能完成近似）',
+        'sequence_item_6699_firmament',
+        'provider_item_6699_firmament',
+        'firmament_precharge',
+        'Voltaic Cyclosword Firmament precharge window',
         v_candidate,
         NOW()
     )
@@ -497,20 +393,44 @@ BEGIN
         v_changed := true;
     END IF;
 
+    -- step_order: 0 arm active=1 → 1 damage → 2 consume charge=0；无 charge_add
     INSERT INTO public.effect_steps (
         game_id, step_id, sequence_id, step_order, operation_type_id,
         target_selector_type_id, condition_formula_key, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'step_hero_kaisa_e_supercharge_active_arm',
-        'sequence_hero_kaisa_e_supercharge_arm',
-        0,
-        20160,
-        20110,
-        NULL,
-        v_candidate,
-        NOW()
-    )
+    ) VALUES
+        (
+            v_game_id,
+            'step_item_6699_firmament_lethality_arm',
+            'sequence_item_6699_firmament',
+            0,
+            20160,
+            20110,
+            'energized_ready',
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_item_6699_firmament_damage',
+            'sequence_item_6699_firmament',
+            1,
+            20150,
+            20111,
+            'energized_ready',
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_item_6699_firmament_consume',
+            'sequence_item_6699_firmament',
+            2,
+            20160,
+            20110,
+            'energized_ready',
+            v_candidate,
+            NOW()
+        )
     ON CONFLICT (game_id, step_id) DO UPDATE SET
         sequence_id = EXCLUDED.sequence_id,
         step_order = EXCLUDED.step_order,
@@ -529,19 +449,59 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.state_effect_details (
-        game_id, step_id, state_scope_type_id, state_key, amount_formula_key,
-        value_policy_type_id, change_revision, updated_at
+    INSERT INTO public.damage_effect_details (
+        game_id, step_id, amount_formula_key, damage_type_id, value_policy_type_id,
+        copyable_on_hit, change_revision, updated_at
     ) VALUES (
         v_game_id,
-        'step_hero_kaisa_e_supercharge_active_arm',
-        20250,
-        'supercharge_active',
-        'supercharge_active_arm',
-        20172,
+        'step_item_6699_firmament_damage',
+        'firmament_damage',
+        20220,
+        20170,
+        false,
         v_candidate,
         NOW()
     )
+    ON CONFLICT (game_id, step_id) DO UPDATE SET
+        amount_formula_key = EXCLUDED.amount_formula_key,
+        damage_type_id = EXCLUDED.damage_type_id,
+        value_policy_type_id = EXCLUDED.value_policy_type_id,
+        copyable_on_hit = EXCLUDED.copyable_on_hit,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.damage_effect_details.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
+       OR public.damage_effect_details.damage_type_id IS DISTINCT FROM EXCLUDED.damage_type_id
+       OR public.damage_effect_details.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id
+       OR public.damage_effect_details.copyable_on_hit IS DISTINCT FROM EXCLUDED.copyable_on_hit;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.state_effect_details (
+        game_id, step_id, state_scope_type_id, state_key, amount_formula_key,
+        value_policy_type_id, change_revision, updated_at
+    ) VALUES
+        (
+            v_game_id,
+            'step_item_6699_firmament_lethality_arm',
+            20250,
+            'firmament_lethality_active',
+            'firmament_lethality_arm',
+            20172,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'step_item_6699_firmament_consume',
+            20250,
+            'energized_charge',
+            'energized_consume',
+            20172,
+            v_candidate,
+            NOW()
+        )
     ON CONFLICT (game_id, step_id) DO UPDATE SET
         state_scope_type_id = EXCLUDED.state_scope_type_id,
         state_key = EXCLUDED.state_key,
@@ -558,17 +518,16 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- ability_started + source_owner + 同一 ability → arm supercharge_active=1
     INSERT INTO public.provider_listeners (
         game_id, listener_id, provider_id, listener_key, event_type_id,
         ability_id, max_triggers_per_event, chain_limit_key, change_revision, updated_at
     ) VALUES (
         v_game_id,
-        'listener_hero_kaisa_e_supercharge_ability_started',
-        'provider_hero_kaisa_supercharge',
-        'supercharge_on_ability_started',
-        20205,
-        'ability_hero_kaisa_e_supercharge',
+        'listener_item_6699_firmament',
+        'provider_item_6699_firmament',
+        'firmament_on_basic_attack_hit',
+        20211,
+        NULL,
         1,
         NULL,
         v_candidate,
@@ -597,8 +556,8 @@ BEGIN
     INSERT INTO public.listener_match_types (
         game_id, listener_id, match_mode_type_id, type_id, change_revision, updated_at
     ) VALUES
-        (v_game_id, 'listener_hero_kaisa_e_supercharge_ability_started', 20181, 20205, v_candidate, NOW()),
-        (v_game_id, 'listener_hero_kaisa_e_supercharge_ability_started', 20181, 20212, v_candidate, NOW())
+        (v_game_id, 'listener_item_6699_firmament', 20181, 20211, v_candidate, NOW()),
+        (v_game_id, 'listener_item_6699_firmament', 20181, 20212, v_candidate, NOW())
     ON CONFLICT (game_id, listener_id, match_mode_type_id, type_id) DO UPDATE SET
         change_revision = EXCLUDED.change_revision,
         updated_at = NOW()
@@ -612,8 +571,8 @@ BEGIN
         game_id, listener_id, sequence_id, change_revision, updated_at
     ) VALUES (
         v_game_id,
-        'listener_hero_kaisa_e_supercharge_ability_started',
-        'sequence_hero_kaisa_e_supercharge_arm',
+        'listener_item_6699_firmament',
+        'sequence_item_6699_firmament',
         v_candidate,
         NOW()
     )
@@ -630,8 +589,8 @@ BEGIN
         game_id, entity_id, provider_id, change_revision, updated_at
     ) VALUES (
         v_game_id,
-        'hero_kaisa',
-        'provider_hero_kaisa_supercharge',
+        'item_6699',
+        'provider_item_6699_firmament',
         v_candidate,
         NOW()
     )
