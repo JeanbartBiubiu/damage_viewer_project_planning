@@ -100,6 +100,10 @@ type genericRunState struct {
 	perCastThrottleCapacity      int
 	perCastThrottleOverflowWarned bool
 	perCastThrottleOverflowCount int
+
+	// Delayed repeat continuations (run-local; discarded with the run).
+	continuations       map[uint64]*triggeredContinuationPayload
+	nextContinuationID  uint64
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
@@ -175,6 +179,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		evidenceCountsByKind:       make(map[string]int),
 		perCastThrottle:            make(map[perCastThrottleKey]int64),
 		perCastThrottleCapacity:    perCastThrottleCapacity(budget.MaxEvents),
+		continuations:              make(map[uint64]*triggeredContinuationPayload),
 	}
 
 	state.seedDriverAttempts()
@@ -567,6 +572,10 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			}
 		case scheduler.GenericEventAbilityAttempt:
 			if err := s.handleAbilityAttempt(ev); err != nil {
+				return err
+			}
+		case scheduler.GenericEventTriggeredContinuation:
+			if err := s.handleTriggeredContinuation(ev); err != nil {
 				return err
 			}
 		case scheduler.GenericEventSample:
