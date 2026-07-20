@@ -26,7 +26,8 @@ public interface CombatRepeatEffectDetailsMapper {
         @Param("repeatCount") Object repeatCount,
         @Param("repeatTag") Object repeatTag,
         @Param("triggerStateKey") Object triggerStateKey,
-        @Param("threshold") Object threshold
+        @Param("threshold") Object threshold,
+        @Param("delayMs") Object delayMs
     );
 
     int deleteByStepId(@Param("gameId") String gameId, @Param("stepId") String stepId);
