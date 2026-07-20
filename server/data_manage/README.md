@@ -312,16 +312,34 @@ cd server/data_manage
 mvn -Dtest=LolGenericEssenceReaverSpellbladeSeedSqlTest test
 ```
 
+### Generic repeat delay_ms 数据库合同（repeat_effect_details）
+
+在 generic combat-data / Guinsoo H+K（含 `repeat_effect_details`）基线已就绪的库上，为 repeat detail 补齐可选延迟毫秒：
+
+**新库**：`schema.sql` 已包含 `delay_ms int NOT NULL DEFAULT 0 CHECK (delay_ms >= 0)`（main + log）。
+
+**已有库**：按需执行 `db/game_manage/migrations/compatibility/generic_repeat_delay_compatibility_migration.sql`（幂等：`ADD COLUMN IF NOT EXISTS` + 命名非负 CHECK；不 DELETE / DROP / CASCADE / publish）。不要把该 migration 当作新库必跑步骤；本仓库文档不宣称已对其执行或已 publish。
+
+API 字段为 `delayMs`：请求省略或 `null` 归一为 `0`（旧客户端仍合法）；读取旧行暴露数值 `0`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=GenericRepeatDelayDbContractSqlTest test
+```
+
 ### LoL generic Dusk and Dawn Spellblade seed（黄昏与黎明 item_2510）
 
-在 reserved types、Batch-C `item_2510`（静态 `ap=60` / `hp=300` 为既有输入）、以及 basic_attack_hit emit 基线已就绪后，按顺序执行（不依赖 `hero_vayne` / tumble / `ability/basic_attack` / `lol_generic_spellblade_seed.sql` / `item_3100` / `item_3508`；本脚本不做 live migration、不自动 publish）：
+在 reserved types、Batch-C `item_2510`（静态 `ap=60` / `hp=300` 为既有输入）、basic_attack_hit emit 基线，以及 repeat `delay_ms` 合同已就绪后，按顺序执行（不依赖 `hero_vayne` / tumble / `ability/basic_attack` / `lol_generic_spellblade_seed.sql` / `item_3100` / `item_3508`；本脚本不做 live migration、不自动 publish）：
 
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20205`/`20211`/`20212`/`20221`/`20190`/`20250` 等）
-2. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_2510` 尚未写入）
-3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
-4. `db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql`
+1. `db/game_manage/migrations/compatibility/generic_repeat_delay_compatibility_migration.sql`（若已有库尚未补齐 `delay_ms`）
+2. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20151`/`20161`/`20263`/`20205`/`20211`/`20212`/`20221`/`20190`/`20250` 等）
+3. `db/game_manage/seeds/lol_batch_c_adc_items_seed.sql`（若 Batch-C / `item_2510` 尚未写入）
+4. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（或等价 `event/basic_attack_hit` emit）
+5. `db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql`
 
-该 seed 会：锁定 `game_data_state`；校验 `item_2510` 及其静态 `ap=60` / `hp=300` 与 `ad`·`ap` attribute_definitions（不 mutate/recreate Batch-C）；幂等投影所需 reserved → `types`；向 `item_2510` 独占 mount `provider_item_2510_dusk_and_dawn_spellblade`，只监听已存在的 `ability_started` / `basic_attack_hit` / `source_owner` 事件；含 `spellblade_ready`（10s）/ `spellblade_icd`（1.5s）、ability_started 武装 listener（`mul(eq(ready,0), eq(icd,0))` 数值门控，仅武装 ready，**不**在武装时开 ICD）、basic_attack_hit 触发 listener（`0.75 * event.entry_source.attr.ad.base + 0.10 * event.entry_source.attr.ap.resolved` 魔法 `20221`，`copyable_on_hit=false`，顺序：damage → arm icd → consume ready，ICD 以强化攻击消耗时开始）。**排除**：healing（0.10 AP + 0.03 bonus HP）、0.2s 延迟二次 on-hit、delayed/repeat/resource、provider_modifiers、Vayne/tumble/62003/generic-spellblade 依赖。有 material change 时才推进候选 revision；不 DELETE。数值注释引用 `damage_wasm_dev` 下 `current-items.normalized.json` item 2510，无运行时外部依赖。
+该 seed 会：锁定 `game_data_state`；校验 `item_2510` 及其静态 `ap=60` / `hp=300` 与 `ad`·`ap` attribute_definitions（不 mutate/recreate Batch-C）；幂等投影所需 reserved（含 heal `20151` / repeat `20161` / `repeat_scope/copyable_on_hit` `20263`）→ `types`；向 `item_2510` 独占 mount `provider_item_2510_dusk_and_dawn_spellblade`，只监听已存在的 `ability_started` / `basic_attack_hit` / `source_owner` 事件；含 `spellblade_ready`（10s）/ `spellblade_icd`（1.5s）、ability_started 武装 listener（`mul(eq(ready,0), eq(icd,0))` 数值门控，仅武装 ready，**不**在武装时开 ICD）、basic_attack_hit 触发 listener（五步均 `condition_formula_key='spellblade_ready_armed'`；顺序：`0 damage` → `1 heal` → `2 repeat(+200ms)` → `3 arm icd` → `4 consume ready`；伤害 `0.75 * event.entry_source.attr.ad.base + 0.10 * event.entry_source.attr.ap.resolved` 魔法 `20221`，`copyable_on_hit=false`；heal `0.10 * event.entry_source.attr.ap.resolved + 0.03 * max(0, event.entry_source.attr.hp.max - event.entry_source.attr.hp.base)` 对 self；repeat scope `20263` / count 1 / tag `dusk_and_dawn_delayed_on_hit` / `trigger_state_key=spellblade_icd` / threshold 1 / `delay_ms=200`；ICD 以强化攻击消耗时开始）。live 旧 0/1/2 顺序升级到 0..4 前，若 owned step 的 `step_order` 与目标不一致，会先按序列当前 `MAX(step_order)` 做碰撞安全临时重排，再条件 upsert（已对齐则跳过；重跑不推进 revision）。**排除**：resource/mana restore、provider_modifiers、Vayne/tumble/62003/generic-spellblade 依赖、live migration、自动 publish。有 material change 时才推进候选 revision；不 DELETE。Wiki 注释引用 current-items item 2510 revid `4030984` / SHA `e7818eff…`，无运行时外部依赖。
 
 静态契约校验（不连 live DB）：
 
