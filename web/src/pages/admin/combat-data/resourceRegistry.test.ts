@@ -872,7 +872,8 @@ describe('execute-effect-details and effect-step detail families', () => {
       repeatCount: 4,
       repeatTag: 'tag.a',
       triggerStateKey: 'state.ready',
-      threshold: 0.5
+      threshold: 0.5,
+      delayMs: ''
     });
 
     const body = buildEffectStepPutFromEditor(state);
@@ -881,10 +882,54 @@ describe('execute-effect-details and effect-step detail families', () => {
       repeatCount: 4,
       repeatTag: 'tag.a',
       triggerStateKey: 'state.ready',
-      threshold: 0.5
+      threshold: 0.5,
+      delayMs: 0
     });
     expect(body.sequenceId).toBe('seq_2');
     expect(body.stepOrder).toBe(2);
+  });
+
+  it('round-trips repeatDetail.delayMs=200 and rejects negative/non-integer delay', () => {
+    const state = recordToEffectStepEditorState({
+      stepId: 'step_repeat_delay',
+      sequenceId: 'seq_2',
+      stepOrder: 2,
+      operationTypeId: 11,
+      targetSelectorTypeId: 21,
+      repeatDetail: {
+        repeatScopeTypeId: 3,
+        repeatCount: 4,
+        repeatTag: 'tag.a',
+        triggerStateKey: 'state.ready',
+        threshold: 0.5,
+        delayMs: 200
+      }
+    });
+    expect(state.detail.delayMs).toBe(200);
+
+    const body = buildEffectStepPutFromEditor(state);
+    expect(body.repeatDetail).toEqual({
+      repeatScopeTypeId: 3,
+      repeatCount: 4,
+      repeatTag: 'tag.a',
+      triggerStateKey: 'state.ready',
+      threshold: 0.5,
+      delayMs: 200
+    });
+
+    expect(() =>
+      buildEffectStepPutFromEditor({
+        ...state,
+        detail: { ...state.detail, delayMs: -1 }
+      })
+    ).toThrow(/重复延迟\(ms\) 必须是非负整数/);
+
+    expect(() =>
+      buildEffectStepPutFromEditor({
+        ...state,
+        detail: { ...state.detail, delayMs: 1.5 }
+      })
+    ).toThrow(/重复延迟\(ms\) 必须是非负整数/);
   });
 
   it('resolves semantic typeKeys to numeric IDs only when building PUT body', () => {
