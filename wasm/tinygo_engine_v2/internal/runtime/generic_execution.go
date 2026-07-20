@@ -13,6 +13,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	"tinygo_engine_v2/internal/resource"
+	"tinygo_engine_v2/internal/scheduler"
 	"tinygo_engine_v2/internal/status"
 	"tinygo_engine_v2/internal/typeset"
 )
@@ -155,6 +156,14 @@ type deferredRepeatRequest struct {
 	repeatCount       int
 	repeatScope       string
 	repeatTag         string
+	repeatDelayMs     int
+}
+
+// triggeredContinuationPayload 是延迟 phantom replay 的 run-local 冻结载荷。
+type triggeredContinuationPayload struct {
+	damages      []copyableDamageFrozen
+	req          deferredRepeatRequest
+	commandCount int
 }
 
 // eventCopyableCollector 是单次真实 emitted event 的局部 collector（嵌套 emit 独立实例）。
@@ -2389,6 +2398,7 @@ func (f *executionFrame) registerDeferredRepeat(op compilebundle.CompiledOperati
 		repeatCount:       repeatCount,
 		repeatScope:       op.RepeatScope,
 		repeatTag:         op.RepeatTag,
+		repeatDelayMs:     op.RepeatDelayMs,
 	})
 	return nil
 }
@@ -2505,10 +2515,20 @@ func (s *genericRunState) flushDeferredPhantomReplay(collector *eventCopyableCol
 		return nil
 	}
 	damages, repeats := cloneAndSortEventCopyableProvenance(collector)
+	immediate := make([]deferredRepeatRequest, 0, len(repeats))
+	delayed := make([]deferredRepeatRequest, 0, len(repeats))
+	for _, req := range repeats {
+		if req.repeatDelayMs > 0 {
+			delayed = append(delayed, req)
+		} else {
+			immediate = append(immediate, req)
+		}
+	}
+
 	collector.phantomDepth = 1
 	defer func() { collector.phantomDepth = 0 }()
 
-	for _, req := range repeats {
+	for _, req := range immediate {
 		if req.repeatScope != model.RepeatScopeCopyableOnHit {
 			continue
 		}
@@ -2524,6 +2544,74 @@ func (s *genericRunState) flushDeferredPhantomReplay(collector *eventCopyableCol
 				if err := s.applyPhantomCopyableDamage(collector, dmg, req.repeatTag); err != nil {
 					return err
 				}
+			}
+		}
+	}
+	s.checkDeathStopReason()
+
+	if !s.stopReasonSet {
+		for _, req := range delayed {
+			if req.repeatScope != model.RepeatScopeCopyableOnHit {
+				continue
+			}
+			if !s.repeatTriggerMet(req) {
+				continue
+			}
+			if err := s.enqueueTriggeredContinuation(damages, req); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (s *genericRunState) enqueueTriggeredContinuation(damages []copyableDamageFrozen, req deferredRepeatRequest) *model.EngineError {
+	s.nextContinuationID++
+	id := s.nextContinuationID
+	frozen := append([]copyableDamageFrozen(nil), damages...)
+	s.continuations[id] = &triggeredContinuationPayload{
+		damages:      frozen,
+		req:          req,
+		commandCount: 0,
+	}
+	code := s.heap.Push(scheduler.GenericEvent{
+		TimeMs:         s.nowMs + int64(req.repeatDelayMs),
+		Category:       scheduler.GenericCategoryTriggeredContinuation,
+		Kind:           scheduler.GenericEventTriggeredContinuation,
+		ContinuationID: id,
+	})
+	if code != model.ErrOK {
+		delete(s.continuations, id)
+		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "triggered continuation queue overflow", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+	}
+	return nil
+}
+
+func (s *genericRunState) handleTriggeredContinuation(ev scheduler.GenericEvent) *model.EngineError {
+	payload, ok := s.continuations[ev.ContinuationID]
+	if !ok || payload == nil {
+		return nil
+	}
+	delete(s.continuations, ev.ContinuationID)
+	if s.stopReasonSet {
+		return nil
+	}
+	req := payload.req
+	if req.repeatScope != model.RepeatScopeCopyableOnHit {
+		return nil
+	}
+	collector := &eventCopyableCollector{
+		phantomDepth: 1,
+		commandCount: payload.commandCount,
+	}
+	times := req.repeatCount
+	if times <= 0 {
+		times = 1
+	}
+	for i := 0; i < times; i++ {
+		for _, dmg := range payload.damages {
+			if err := s.applyPhantomCopyableDamage(collector, dmg, req.repeatTag); err != nil {
+				return err
 			}
 		}
 	}
