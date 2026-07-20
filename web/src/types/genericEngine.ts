@@ -143,6 +143,8 @@ export type ListenerDefinition = {
   operations?: OperationDefinition[];
   maxTriggersPerEvent?: number;
   chainLimitKey?: string;
+  /** Optional non-negative per-cast throttle (ms); omit when unset for legacy payloads. */
+  perCastThrottleMs?: number;
 };
 
 export type AbilityDefinition = {
@@ -155,6 +157,8 @@ export type AbilityDefinition = {
   cooldown?: { durationMs: GenericFormulaExpr; startsOn?: string; groupKey?: string };
   /** Optional cast precondition formula (provider-local ref). */
   castCondition?: GenericFormulaExpr;
+  /** Optional cast provenance (champion|item|pet|innate); omit when unset. */
+  castOrigin?: 'champion' | 'item' | 'pet' | 'innate';
   operations?: OperationDefinition[];
   listenerSpec?: ListenerDefinition;
   tickSpec?: { intervalMs: number; onTick: OperationDefinition[]; startDelayMs?: number };
