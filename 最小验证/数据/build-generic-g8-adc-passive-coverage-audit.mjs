@@ -607,6 +607,8 @@ const SEED = {
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
+  gravesQuickdrawMaxStackBackend:
+    'db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
   akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
@@ -677,6 +679,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_new_destiny_test.go',
+  gravesQuickdrawMaxStack:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_graves_quickdraw_max_stack_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
   akshanDirtyFighting:
@@ -1263,6 +1267,35 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-graves-new-destiny',
           SEED.gravesNewDestinyBackend,
           'completedBoundary: New Destiny Phase-A seeded (point-blank merged BA + C2 overrides); backend lol_generic_graves_new_destiny_seed.sql; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_graves|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'fixed_max_true_grit_phase_a',
+        'armor_mr_stat_flat_add',
+        'direct_max_stack_override',
+      ],
+      reason:
+        'hero_graves E 快速拔枪/Quickdraw：Wiki rev4007744 / SHA256 ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1（normalized/generic/graves-e.json）Phase-A 满层 True Grit 近似已由 wasm-generic-graves-quickdraw-max-stack 闭环为 migrated——rank5 mana40 / cooldown12000ms；一次 cast 直接 override true_grit_stacks=8；armor/bonus_armor 各 +152（19*8）；MR/bonus_MR 各 +76（19*0.5*8）；CompileFrame→RunFrame→ReleaseSessionFrame。completedBoundary exclusions：intermediate stacks、4s refresh/expiry、dash direction/geometry、reload、attack reset、pellet cooldown reduction、targeting/collision/multi-target/full fidelity。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-quickdraw-max-stack',
+          WASM.gravesQuickdrawMaxStack,
+          'completedBoundary: Wiki rev4007744/SHA256 ff4c65c5… Phase-A max True Grit (rank5 mana40/CD12000ms / override true_grit_stacks=8 / armor+bonus_armor +152 / MR+bonus_MR +76); intermediate stacks/4s refresh/dash/reload/attack-reset/pellet CDR/targeting/collision/multitarget/full fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-quickdraw-max-stack',
+          SEED.gravesQuickdrawMaxStackBackend,
+          'completedBoundary: Quickdraw Phase-A max-stack seeded; backend lol_generic_graves_quickdraw_max_stack_seed.sql + LolGenericGravesQuickdrawMaxStackSeedSqlTest; not live published',
         ),
       ],
     },
@@ -3387,9 +3420,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 47) errors.push(`migrated=${counts.migrated}, expected 47`);
+  if (counts.migrated !== 48) errors.push(`migrated=${counts.migrated}, expected 48`);
   if (counts.partial !== 5) errors.push(`partial=${counts.partial}, expected 5`);
-  if (counts.blocked !== 121) errors.push(`blocked=${counts.blocked}, expected 121`);
+  if (counts.blocked !== 120) errors.push(`blocked=${counts.blocked}, expected 120`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -3555,6 +3588,52 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       gravesP.candidateKey,
       gravesP.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+
+  const gravesE = records.find((r) => r.candidateKey === 'hero_skill|hero_graves|E|快速拔枪');
+  if (
+    !gravesE
+    || gravesE.genericClassification !== 'migrated'
+    || String(gravesE.remainingGap || '').trim()
+    || (gravesE.dataGapEvidence?.missingFields || []).length !== 0
+    || !String(gravesE.classificationReason || '').includes('4007744')
+    || !String(gravesE.classificationReason || '').includes(
+      'ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1',
+    )
+    || !String(gravesE.classificationReason || '').includes('true_grit_stacks')
+    || !String(gravesE.classificationReason || '').includes('152')
+    || !String(gravesE.classificationReason || '').includes('76')
+    || !String(gravesE.classificationReason || '').includes('40')
+    || !String(gravesE.classificationReason || '').includes('12000')
+    || !String(gravesE.classificationReason || '').includes('completedBoundary')
+    || !String(gravesE.classificationReason || '').includes('intermediate stacks')
+    || !String(gravesE.sourceRef || '').includes('graves-e')
+    || citesForbiddenProvenance(gravesE.classificationReason)
+    || !(gravesE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.gravesQuickdrawMaxStack
+        && e.taskKey === 'wasm-generic-graves-quickdraw-max-stack',
+    )
+    || !(gravesE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.gravesQuickdrawMaxStackBackend
+        && e.taskKey === 'wasm-generic-graves-quickdraw-max-stack'
+        && String(e.note || '').includes('LolGenericGravesQuickdrawMaxStackSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Graves E must be migrated with empty remainingGap/missingFields, Wiki rev4007744/SHA Phase-A max True Grit wording, completedBoundary exclusions, correct Wiki sourceRef, and bilateral wasm+backend evidence',
+    );
+  }
+  if (gravesE) {
+    validateBilateralCoverageEvidence(
+      gravesE.candidateKey,
+      gravesE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
