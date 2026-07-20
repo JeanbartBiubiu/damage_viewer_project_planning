@@ -303,6 +303,8 @@ class LolFormulaOnHitMechanismsSeedSqlTest {
 
     @Test
     void terminusUsesExactThirtyMagicWithoutLightDarkPenetration() {
+        // Shadow-only contract in this seed; Juxtaposition (light/dark stacks / pen)
+        // is delegated to lol_generic_terminus_juxtaposition_seed.sql.
         assertContains("{\"op\":\"const\",\"value\":30}");
         assertTrue(
             Pattern.compile(
@@ -312,12 +314,15 @@ class LolFormulaOnHitMechanismsSeedSqlTest {
                 .find(),
             "terminus damage detail must be magic with add policy");
         assertFalse(
-            sql.contains("terminus_light")
-                || sql.contains("terminus_dark")
+            sql.contains("next_polarity")
+                || sql.contains("light_stacks")
+                || sql.contains("dark_stacks")
+                || sql.contains("terminus_light_resist_bonus")
+                || sql.contains("terminus_dark_pen_bonus")
                 || sql.contains("terminus_penetration")
                 || sql.contains("terminus_shred")
                 || sql.contains("light_dark"),
-            "terminus batch must not encode light/dark/penetration/shred keys");
+            "Shadow on-hit seed must not encode Juxtaposition light/dark/penetration keys");
     }
 
     @Test

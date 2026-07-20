@@ -6,7 +6,8 @@
 --       30 mana、10000ms CD、ability_started（本合同 = 充能完成，非真实 cast-time）
 --       + source_owner + 同一 ability listener 武装 supercharge_active=1
 --       （max1 / 4000ms / refresh_duration）；AS percent_add =
---       0.80 * provider.state.supercharge_active。候选整体语义 = partial。
+--       0.80 * provider.state.supercharge_active。
+--       已批准 Phase-A 1v1 rank-5 攻速窗分支视为完整；排除的非伤害/细节分支不建模。
 --
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
@@ -23,10 +24,14 @@
 --   damage / shred；cast-time scheduler / charge 定时器；其它 rank；
 --   live migration；自动 publish。
 --
--- 数值来源（注释引用，无运行时外部依赖；2026-07-14 Meraki/Riot latest）：
---   https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/Kaisa.json
+-- 数值来源（League Wiki Template:Data Kai'Sa/Supercharge；注释引用，
+-- 无运行时外部依赖；无 DDragon / Meraki 数值溯源）：
+--   revision id 4038391
+--   content SHA256 327dc441e84bf2b320dccbe9099b4e98bf42562529e95facd417fbbc27d99e24
+--   reviewed contract path：
+--     数据参考/lol-wiki-current-champions/normalized/generic/kaisa-e.json
 --   rank-5 Supercharge：AS +80%（percent_add 0.80 * supercharge_active）；
---   持续 4s；cost 30 mana；CD 10s。Batch-B hero_kaisa level-1 mana=345。
+--   持续 4000ms；cost 30 mana；CD 10000ms。Batch-B hero_kaisa level-1 mana=345。
 --
 -- 前置：reserved_types_seed.sql；Batch-B hero_kaisa；mana / attack_speed 属性定义。
 -- 建议发布版本（本脚本不负责 publish）：

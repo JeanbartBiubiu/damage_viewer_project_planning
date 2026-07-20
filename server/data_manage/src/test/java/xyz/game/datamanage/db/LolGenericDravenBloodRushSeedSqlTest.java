@@ -34,18 +34,22 @@ class LolGenericDravenBloodRushSeedSqlTest {
         "cost_hero_draven_w_blood_rush_mana",
         "cooldown_hero_draven_w_blood_rush",
         "listener_hero_draven_w_blood_rush_ability_started",
+        "listener_hero_draven_w_blood_rush_axe_caught",
         "sequence_hero_draven_w_blood_rush_arm",
+        "sequence_hero_draven_w_blood_rush_cd_ready",
         "step_hero_draven_w_blood_rush_active_arm",
+        "step_hero_draven_w_blood_rush_cd_ready",
         "modifier_hero_draven_w_blood_rush_attack_speed",
         "blood_rush_active",
         "blood_rush_active_arm",
         "blood_rush_attack_speed",
         "w_mana_cost",
-        "w_cooldown_ms");
+        "w_cooldown_ms",
+        "w_cooldown_reset");
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(
-        20100, 20110, 20120, 20130, 20160, 20172, 20173, 20181, 20190, 20205,
-        20212, 20250);
+        20100, 20110, 20120, 20130, 20159, 20160, 20172, 20173, 20181, 20190,
+        20205, 20212, 20216, 20240, 20250);
 
     private static final String AS_BONUS =
         "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.40},"
@@ -338,7 +342,92 @@ class LolGenericDravenBloodRushSeedSqlTest {
     }
 
     @Test
-    void excludesMoveSpeedDecayAxeCatchRefreshOtherRanksAndDamageSurfaces() {
+    void axeCaughtListenerMakesBloodRushCooldownImmediatelyReady() {
+        assertContains("listener_hero_draven_w_blood_rush_axe_caught");
+        assertContains("sequence_hero_draven_w_blood_rush_cd_ready");
+        assertContains("step_hero_draven_w_blood_rush_cd_ready");
+        assertContains("w_cooldown_reset");
+        assertContains("{\"op\":\"const\",\"value\":0}");
+        assertContains("INSERT INTO public.ability_control_effect_details");
+        assertTrue(
+            sql.contains("operation_type_id=20159")
+                || sql.contains("operation_type_id = 20159")
+                || sql.contains("20159"),
+            "seed must require operation/cooldown_change 20159");
+        assertTrue(
+            sql.contains("actionTypeId") || sql.contains("action_type_id"),
+            "seed must document action_type_id / actionTypeId placeholder contract");
+        assertTrue(
+            sql.contains("NOT NULL FK") || sql.contains("FK 占位") || sql.contains("placeholder"),
+            "seed must document 20240 as NOT NULL FK placeholder only");
+        assertTrue(
+            sql.contains("ignores actionTypeId")
+                || sql.contains("忽略 actionTypeId")
+                || sql.contains("assembler 忽略"),
+            "seed must document Web assembler ignores actionTypeId for cooldown_change");
+        assertTrue(
+            sql.contains("readyAt=now+0") || sql.contains("readyAt=now"),
+            "seed must document override+0 as readyAt=now+0 (not a reserved reset policy)");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'listener_hero_draven_w_blood_rush_axe_caught'\\s*,\\s*"
+                        + "'provider_hero_draven_w_blood_rush'\\s*,\\s*"
+                        + "'blood_rush_on_axe_caught'\\s*,\\s*20216\\s*,\\s*"
+                        + "NULL\\s*,\\s*1")
+                .matcher(sql)
+                .find(),
+            "axe_caught listener must keep ability_id NULL (no listener.abilityRef / child-cast W)");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'listener_hero_draven_w_blood_rush_axe_caught'\\s*,\\s*"
+                        + "20181\\s*,\\s*20216")
+                .matcher(sql)
+                .find(),
+            "axe_caught listener must ALL-match 20216");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'listener_hero_draven_w_blood_rush_axe_caught'\\s*,\\s*"
+                        + "20181\\s*,\\s*20212")
+                .matcher(sql)
+                .find(),
+            "axe_caught listener must ALL-match 20212 source_owner");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_draven_w_blood_rush_cd_ready'\\s*,\\s*"
+                        + "'sequence_hero_draven_w_blood_rush_cd_ready'\\s*,\\s*"
+                        + "0\\s*,\\s*20159\\s*,\\s*20110\\s*,\\s*NULL")
+                .matcher(sql)
+                .find(),
+            "cd_ready step must be cooldown_change 20159 / self 20110 / no condition");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_draven_w_blood_rush_cd_ready'\\s*,\\s*20240\\s*,\\s*"
+                        + "'ability_hero_draven_w_blood_rush'\\s*,\\s*"
+                        + "'w_cooldown_reset'\\s*,\\s*20172")
+                .matcher(sql)
+                .find(),
+            "ability_control detail must target W with override+w_cooldown_reset (const 0)");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'listener_hero_draven_w_blood_rush_axe_caught'[\\s\\S]{0,400}"
+                        + "'sequence_hero_draven_w_blood_rush_cd_ready'")
+                .matcher(sql)
+                .find(),
+            "axe_caught listener must map to cd_ready sequence");
+        assertTrue(
+            countOccurrences(sql, "'step_hero_draven_w_blood_rush_cd_ready'") >= 2,
+            "cd_ready step must appear in effect_steps and ability_control_effect_details");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)'listener_hero_draven_w_blood_rush_axe_caught'[\\s\\S]{0,200}"
+                        + "'ability_hero_draven_w_blood_rush'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "axe_caught listener row must not set ability_id to W");
+    }
+
+    @Test
+    void excludesMoveSpeedDecayGhostOtherRanksDamageAndLiveMigration() {
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_phases\\b")
                 .matcher(sqlNoLineComments)
@@ -357,12 +446,10 @@ class LolGenericDravenBloodRushSeedSqlTest {
         assertFalse(
             Pattern.compile(
                     "(?i)move_speed|移速|ghost|幽灵|衰减|decay|"
-                        + "axe.?catch|接住|接斧|cooldown.?reset|refresh.?cooldown|"
-                        + "刷新\\s*W|刷新.*cooldown|"
                         + "ability_hero_draven_[qer]|spinning_axe_ready")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not model excluded Blood Rush surfaces (MS/decay/axe-catch CD refresh)");
+            "must not model excluded Blood Rush surfaces (MS/decay/ghost)");
         assertFalse(
             Pattern.compile("(?i)rank\\s*[1-4]\\b|ranks?\\s*=\\s*\\[|maxrank")
                 .matcher(sqlNoLineComments)
@@ -373,12 +460,24 @@ class LolGenericDravenBloodRushSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not include live migration");
+        assertTrue(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_control_effect_details\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "axe-catch CD ready may use ability_control_effect_details");
+        assertTrue(
+            sqlNoLineComments.contains("20216") && sqlNoLineComments.contains("w_cooldown_reset"),
+            "axe_caught / cooldown ready contract must remain present");
     }
 
     @Test
-    void citesMerakiDravenJsonAndValidatesStableIds() {
+    void citesMerakiAsAndWikiAxeCatchProvenanceAndValidatesStableIds() {
         assertContains("Draven.json");
         assertContains("merakianalytics");
+        assertContains("normalized/generic/draven-w.json");
+        assertFalse(
+            Pattern.compile("(?i)ddragon|data.?dragon").matcher(sqlNoLineComments).find(),
+            "must not add DDragon provenance");
         assertContains("missing reserved_type");
         Set<String> seen = new HashSet<>();
         for (String id : STABLE_IDS) {
