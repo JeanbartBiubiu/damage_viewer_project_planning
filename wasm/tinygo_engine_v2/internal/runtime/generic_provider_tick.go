@@ -47,6 +47,14 @@ func (s *genericRunState) providerTickSchedule(defIdx uint16) (intervalMs, start
 }
 
 func (s *genericRunState) scheduleInitialProviderTick(combatantKey, providerRef string, defIdx uint16, expireAt int64, sourceKey string) {
+	if int(defIdx) >= len(s.compiled.Providers) {
+		return
+	}
+	provider := s.compiled.Providers[defIdx]
+	if tickAbility, hasTick := findTickAbility(provider, s.compiled); hasTick && tickAbility.TickSpec != nil && tickAbility.TickSpec.IsAnchored() {
+		// Anchored providers are scheduled only by qualifying provider_target writes.
+		return
+	}
 	intervalMs, startDelayMs, ok := s.providerTickSchedule(defIdx)
 	if !ok {
 		return
