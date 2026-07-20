@@ -553,13 +553,20 @@ CREATE TABLE public.provider_lifecycles (
     refresh_policy_type_id int REFERENCES public.reserved_type(type_id),
     tick_interval_ms int CHECK (tick_interval_ms IS NULL OR tick_interval_ms >= 0),
     start_delay_ms int CHECK (start_delay_ms IS NULL OR start_delay_ms >= 0),
+    tick_anchor_scope_type_id int REFERENCES public.reserved_type(type_id),
+    tick_anchor_state_key varchar(128) CHECK (
+        tick_anchor_state_key IS NULL OR tick_anchor_state_key <> ''
+    ),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_provider_lifecycles PRIMARY KEY (game_id, provider_id),
     CONSTRAINT fk_provider_lifecycles_provider FOREIGN KEY (game_id, provider_id)
         REFERENCES public.provider_definitions (game_id, provider_id),
     CONSTRAINT fk_provider_lifecycles_duration_formula FOREIGN KEY (game_id, provider_id, duration_formula_key)
-        REFERENCES public.provider_formulas (game_id, provider_id, formula_key)
+        REFERENCES public.provider_formulas (game_id, provider_id, formula_key),
+    CONSTRAINT ck_provider_lifecycles_tick_anchor_pair CHECK (
+        (tick_anchor_scope_type_id IS NULL) = (tick_anchor_state_key IS NULL)
+    )
 
 ) PARTITION BY LIST (game_id);
 
@@ -573,13 +580,22 @@ CREATE TABLE public.provider_lifecycles_log (
     refresh_policy_type_id int REFERENCES public.reserved_type(type_id),
     tick_interval_ms int CHECK (tick_interval_ms IS NULL OR tick_interval_ms >= 0),
     start_delay_ms int CHECK (start_delay_ms IS NULL OR start_delay_ms >= 0),
+    tick_anchor_scope_type_id int REFERENCES public.reserved_type(type_id),
+    tick_anchor_state_key varchar(128) CHECK (
+        tick_anchor_state_key IS NULL OR tick_anchor_state_key <> ''
+    ),
     CONSTRAINT pk_provider_lifecycles_log PRIMARY KEY (game_id, provider_id, version_id),
     CONSTRAINT fk_provider_lifecycles_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT ck_provider_lifecycles_log_tick_anchor_pair CHECK (
+        (tick_anchor_scope_type_id IS NULL) = (tick_anchor_state_key IS NULL)
+    )
 
 ) PARTITION BY LIST (game_id);
 
-COMMENT ON TABLE public.provider_lifecycles IS 'provider 生命周期；duration_formula 同 provider 复合 FK';
+COMMENT ON TABLE public.provider_lifecycles IS 'provider 生命周期；duration_formula 同 provider 复合 FK；tick_anchor 可选成对字段（scope+state_key）';
+COMMENT ON COLUMN public.provider_lifecycles.tick_anchor_scope_type_id IS '可选 tick 锚定状态作用域；初始支持 state_scope/provider_target(20252)；须与 tick_anchor_state_key 成对';
+COMMENT ON COLUMN public.provider_lifecycles.tick_anchor_state_key IS '可选 tick 锚定 provider 状态键；须与 tick_anchor_scope_type_id 成对';
 
 CREATE TABLE public.entity_provider_mounts (
     game_id varchar(64) NOT NULL,

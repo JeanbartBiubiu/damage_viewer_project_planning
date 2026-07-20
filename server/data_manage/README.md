@@ -99,6 +99,23 @@ cd server/data_manage
 mvn -Dtest=GenericGuinsooHkDbContractSqlTest test
 ```
 
+### Provider lifecycle tick_anchor 成对字段合同
+
+为 `provider_lifecycles` / `provider_lifecycles_log` 增加可选成对字段 `tick_anchor_scope_type_id` + `tick_anchor_state_key`（二者同为 NULL 或同非空；scope FK → `reserved_type`；初始语义支持 `state_scope/provider_target`）。Backend 只做配对校验与透传，不校验完整 Wasm state-schema。
+
+**新库**：`schema.sql` 已包含上述列与配对 CHECK。
+
+**已有库**：执行 `db/game_manage/migrations/compatibility/generic_tick_anchor_compatibility_migration.sql`（幂等：`ADD COLUMN IF NOT EXISTS` + 守卫式 CHECK/FK；不 DELETE / DROP / CASCADE / publish）。
+
+Admin/Public JSON：`tickAnchorScopeTypeId` / `tickAnchorStateKey`；省略对 = null；半对 → `400.INVALID_BODY`。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=GenericTickAnchorDbContractSqlTest,ProviderCombatDataServiceTest test
+```
+
 ### LoL Guinsoo H+K 升级 seed（叠攻速 / 时长 / 满层每第三次 phantom）
 
 在 Guinsoo H+K DDL 合同已就绪，且 `lol_adc_item_on_hit_passives_seed.sql`（`provider_item_3124_guinsoos`）与 `lol_formula_on_hit_mechanisms_seed.sql`（破败 / 纳什 / 界弓伤害行）已写入后，本批按顺序执行：
@@ -722,6 +739,29 @@ mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
 ```bash
 cd server/data_manage
 mvn -Dtest=LolGenericXayahDeadlyPlumageSeedSqlTest test
+```
+
+### LoL generic Twitch Deadly Venom seed（图奇 P 死亡毒液 / anchored tick）
+
+前置 DDL：`provider_lifecycles` / `_log` 已含可选成对字段 `tick_anchor_scope_type_id` + `tick_anchor_state_key`（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_tick_anchor_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（至少 `ad`/`ap`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20181`/`20190`/`20211`/`20212`/`20220`/`20222`/`20252`/`20260`）
+2. `db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-twitch-deadly-venom-v1-20260721`（seed 不负责 publish）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影 reserved → `types`；fail-closed ensure game-local `62004 damage_trait/dot` 与 `62009 damage_trait/proc`；ensure `hero_twitch`（`ON CONFLICT DO NOTHING`）与 `champion_level` base+stages 1..18（缺失才写入，不覆盖权威既有值）；ensure 通用普攻图并恰好一次 `emit_event(event/basic_attack_hit)`；向 `hero_twitch` 挂载独立 `provider_hero_twitch_deadly_venom`（与普攻 provider 并存）：`deadly_venom_stacks`（max6 / 6000ms / refresh_on_write）、source-owner `basic_attack_hit` listener（`max_triggers_per_event=1`）`state_change add 1`、lifecycle `tick_interval_ms=1000` / `start_delay_ms=0` / `tick_anchor_scope_type_id=20252` / `tick_anchor_state_key=deadly_venom_stacks`、on-tick 五条互斥等级段真实伤害 `(flat + 0.03 * AP.resolved) * stacks`（flat 1/2/3/4/5；非暴击、不可复制；挂 dot/proc traits）。有 material change 时才推进候选 revision。
+
+Wiki 数值权威：`Template:Data Twitch/Deadly Venom` rev `4013286` / content SHA256 `1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44`。
+
+**排除**：Expunge、Runaan/多目标、建筑、隐身交互、英雄专用 runtime、legacy DPS、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=GenericTickAnchorDbContractSqlTest,LolGenericTwitchDeadlyVenomSeedSqlTest,ProviderCombatDataServiceTest test
 ```
 
 ### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
