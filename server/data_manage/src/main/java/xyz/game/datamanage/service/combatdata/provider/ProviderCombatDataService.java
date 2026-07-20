@@ -125,6 +125,19 @@ public class ProviderCombatDataService {
         Integer refreshPolicyTypeId = support.optionalInt(req, "refreshPolicyTypeId");
         Integer tickIntervalMs = support.optionalInt(req, "tickIntervalMs");
         Integer startDelayMs = support.optionalInt(req, "startDelayMs");
+        Integer tickAnchorScopeTypeId = support.optionalInt(req, "tickAnchorScopeTypeId");
+        String tickAnchorStateKey = support.optionalText(req, "tickAnchorStateKey");
+        if ((tickAnchorScopeTypeId == null) != (tickAnchorStateKey == null)) {
+            throw support.badRequest(
+                "tickAnchorScopeTypeId and tickAnchorStateKey must both be null or both be set",
+                Map.of(
+                    "path",
+                    tickAnchorScopeTypeId == null ? "/tickAnchorScopeTypeId" : "/tickAnchorStateKey",
+                    "reason",
+                    "tick_anchor_pair"
+                )
+            );
+        }
         long revision = revisionService.nextRevision(gameId);
         support.withConstraintMapping(() -> lifecyclesMapper.upsert(
             gameId,
@@ -134,7 +147,9 @@ public class ProviderCombatDataService {
             maxStacks,
             refreshPolicyTypeId,
             tickIntervalMs,
-            startDelayMs
+            startDelayMs,
+            tickAnchorScopeTypeId,
+            tickAnchorStateKey
         ));
         return support.adminWriteResponse(lifecyclesMapper.findById(gameId, providerId), revision);
     }
