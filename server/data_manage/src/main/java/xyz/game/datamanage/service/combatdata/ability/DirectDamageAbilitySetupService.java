@@ -51,7 +51,8 @@ public class DirectDamageAbilitySetupService {
         "abilityKey",
         "abilityKindTypeId",
         "displayName",
-        "castConditionFormulaKey"
+        "castConditionFormulaKey",
+        "castOrigin"
     );
     private static final Set<String> PHASE_FIELDS = Set.of(
         "phaseId",
@@ -177,7 +178,8 @@ public class DirectDamageAbilitySetupService {
                 parsed.ability().abilityKey(),
                 parsed.ability().abilityKindTypeId(),
                 parsed.ability().displayName(),
-                parsed.ability().castConditionFormulaKey()
+                parsed.ability().castConditionFormulaKey(),
+                parsed.ability().castOrigin()
             );
             phasesMapper.upsert(
                 gameId,
@@ -246,7 +248,8 @@ public class DirectDamageAbilitySetupService {
             support.requireTextAt(abilityNode, "abilityKey", "/ability"),
             support.requireIntAt(abilityNode, "abilityKindTypeId", "/ability"),
             support.requireTextAt(abilityNode, "displayName", "/ability"),
-            optionalTextAt(abilityNode, "castConditionFormulaKey", "/ability")
+            optionalTextAt(abilityNode, "castConditionFormulaKey", "/ability"),
+            optionalTextAt(abilityNode, "castOrigin", "/ability")
         );
 
         ObjectNode phaseNode = requireNestedObject(req, "phase");
@@ -525,7 +528,8 @@ public class DirectDamageAbilitySetupService {
         String abilityKey,
         int abilityKindTypeId,
         String displayName,
-        String castConditionFormulaKey
+        String castConditionFormulaKey,
+        String castOrigin
     ) {
     }
 

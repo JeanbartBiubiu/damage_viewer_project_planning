@@ -661,6 +661,9 @@ CREATE TABLE public.ability_definitions (
     ability_kind_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     display_name varchar(100) NOT NULL,
     cast_condition_formula_key varchar(128),
+    cast_origin varchar(16) CHECK (
+        cast_origin IS NULL OR cast_origin IN ('champion', 'item', 'pet', 'innate')
+    ),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_ability_definitions PRIMARY KEY (game_id, ability_id),
@@ -680,6 +683,9 @@ CREATE TABLE public.ability_definitions_log (
     ability_kind_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     display_name varchar(100) NOT NULL,
     cast_condition_formula_key varchar(128),
+    cast_origin varchar(16) CHECK (
+        cast_origin IS NULL OR cast_origin IN ('champion', 'item', 'pet', 'innate')
+    ),
     CONSTRAINT pk_ability_definitions_log PRIMARY KEY (game_id, ability_id, version_id),
     CONSTRAINT fk_ability_definitions_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)
@@ -898,6 +904,7 @@ CREATE TABLE public.provider_listeners (
     ability_id varchar(256),
     max_triggers_per_event int CHECK (max_triggers_per_event IS NULL OR max_triggers_per_event >= 0),
     chain_limit_key varchar(128),
+    per_cast_throttle_ms int CHECK (per_cast_throttle_ms IS NULL OR per_cast_throttle_ms >= 0),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_provider_listeners PRIMARY KEY (game_id, listener_id),
@@ -919,6 +926,7 @@ CREATE TABLE public.provider_listeners_log (
     ability_id varchar(256),
     max_triggers_per_event int CHECK (max_triggers_per_event IS NULL OR max_triggers_per_event >= 0),
     chain_limit_key varchar(128),
+    per_cast_throttle_ms int CHECK (per_cast_throttle_ms IS NULL OR per_cast_throttle_ms >= 0),
     CONSTRAINT pk_provider_listeners_log PRIMARY KEY (game_id, listener_id, version_id),
     CONSTRAINT fk_provider_listeners_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)
