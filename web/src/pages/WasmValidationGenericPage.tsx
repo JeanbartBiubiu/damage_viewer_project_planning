@@ -22,7 +22,7 @@ import { Panel } from '../components/Panel';
 import {
   assembleCombatScenario,
   assembleRunRequest,
-  listAdcCompletedItemEntityIds,
+  listEligibleLoadoutEquipmentEntityIds,
   type MaterializedCombatScenario
 } from '../engine/combatDataAssembler';
 import {
@@ -179,6 +179,7 @@ export function WasmValidationGenericPage({
   const [sourceStage, setSourceStage] = useState<number | undefined>(undefined);
   const [targetStage, setTargetStage] = useState<number | undefined>(undefined);
   const [sourceEquipmentEntityIds, setSourceEquipmentEntityIds] = useState<string[]>([]);
+  const [targetEquipmentEntityIds, setTargetEquipmentEntityIds] = useState<string[]>([]);
   const [precastDraft, setPrecastDraft] = useState<PrecastDriverDraft>(createDefaultPrecastDraft);
   const [basicAttackDraft, setBasicAttackDraft] = useState<BasicAttackDriverDraft>(
     createDefaultBasicAttackDraft
@@ -249,6 +250,7 @@ export function WasmValidationGenericPage({
         setGraph(null);
         setCurrentRevision(null);
         setSourceEquipmentEntityIds([]);
+        setTargetEquipmentEntityIds([]);
         setGraphState('idle');
         return;
       }
@@ -268,24 +270,27 @@ export function WasmValidationGenericPage({
           setSourceEntityId('');
           setTargetEntityId('');
           setSourceEquipmentEntityIds([]);
+          setTargetEquipmentEntityIds([]);
           setGraphState('empty');
           return;
         }
 
         setGraphState('ready');
-        const itemIds = listAdcCompletedItemEntityIds(nextGraph);
+        const itemIds = listEligibleLoadoutEquipmentEntityIds(nextGraph);
         const combatants = entities.filter((entity) => !itemIds.has(entity.entityId));
         const firstId = combatants[0]?.entityId ?? '';
         const secondId = combatants[1]?.entityId ?? firstId;
         setSourceEntityId(firstId);
         setTargetEntityId(secondId);
         setSourceEquipmentEntityIds((prev) => prev.filter((id) => itemIds.has(id)));
+        setTargetEquipmentEntityIds((prev) => prev.filter((id) => itemIds.has(id)));
       } catch (error) {
         setGraph(null);
         setCurrentRevision(null);
         setSourceEntityId('');
         setTargetEntityId('');
         setSourceEquipmentEntityIds([]);
+        setTargetEquipmentEntityIds([]);
         setGraphState('error');
         setLoadError(getErrorMessage(error));
       }
@@ -336,7 +341,9 @@ export function WasmValidationGenericPage({
         sourceStage,
         targetStage,
         sourceEquipmentEntityIds:
-          sourceEquipmentEntityIds.length > 0 ? sourceEquipmentEntityIds : undefined
+          sourceEquipmentEntityIds.length > 0 ? sourceEquipmentEntityIds : undefined,
+        targetEquipmentEntityIds:
+          targetEquipmentEntityIds.length > 0 ? targetEquipmentEntityIds : undefined
       });
       setMaterialized(next);
       setAvailableAbilities(next.availableSourceAbilities);
@@ -374,13 +381,22 @@ export function WasmValidationGenericPage({
     sourceEquipmentEntityIds,
     sourceStage,
     targetEntityId,
+    targetEquipmentEntityIds,
     targetStage
   ]);
 
   useEffect(() => {
     void rematerialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graph, sourceEntityId, targetEntityId, sourceStage, targetStage, sourceEquipmentEntityIds]);
+  }, [
+    graph,
+    sourceEntityId,
+    targetEntityId,
+    sourceStage,
+    targetStage,
+    sourceEquipmentEntityIds,
+    targetEquipmentEntityIds
+  ]);
 
   useEffect(() => {
     void releaseSessionQuietly();
@@ -459,7 +475,7 @@ export function WasmValidationGenericPage({
   );
 
   const itemEntityIds = useMemo(
-    () => (graph ? listAdcCompletedItemEntityIds(graph) : new Set<string>()),
+    () => (graph ? listEligibleLoadoutEquipmentEntityIds(graph) : new Set<string>()),
     [graph]
   );
 
@@ -866,9 +882,20 @@ export function WasmValidationGenericPage({
               onChange={(value: string[]) => setSourceEquipmentEntityIds(value.slice(0, 6))}
             />
           </Form.Item>
+          <Form.Item label="目标装备（最多 6 件）">
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="选择目标侧出装物品"
+              value={targetEquipmentEntityIds}
+              options={equipmentOptions}
+              onChange={(value: string[]) => setTargetEquipmentEntityIds(value.slice(0, 6))}
+            />
+          </Form.Item>
           <Typography.Text type="secondary">
-            所选装备的静态属性会聚合到攻击方；数据库已为装备配置的 provider
-            被动会随装备挂载到攻击方，未配置 provider 的装备仍只有静态属性。
+            所选装备的静态属性会分别聚合到攻击方 / 目标；数据库已为装备配置的 provider
+            被动会随装备挂载到对应一侧，未配置 provider 的装备仍只有静态属性。目标侧会从装备
+            armor/magic_resist 推导 bonus 抗性（显式 bonus 行优先）。
           </Typography.Text>
         </Form>
       </Panel>
