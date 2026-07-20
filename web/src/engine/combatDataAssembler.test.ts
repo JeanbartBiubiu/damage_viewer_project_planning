@@ -5,6 +5,8 @@ import {
   CombatDataAssembleError,
   domainFromTypeKey,
   DEFAULT_GENERIC_SCHEMA_VERSION,
+  listAdcCompletedItemEntityIds,
+  listEligibleLoadoutEquipmentEntityIds,
   normalizeDriverPlan
 } from './combatDataAssembler';
 import type { CombatDataGraph, CombatDataRowMeta } from '../types/combatData';
@@ -1465,24 +1467,24 @@ describe('combatDataAssembler', () => {
       });
     });
 
-    it('rejects sourceEntityId tagged as adc_completed_item', () => {
+    it('rejects sourceEntityId tagged as eligible loadout equipment', () => {
       const graph = withItems(buildGraphFixture());
       expect(() =>
         assembleCompileRequest(graph, {
           sourceEntityId: 'item_3153',
           targetEntityId: 'entity_target'
         })
-      ).toThrow(/source entity is tagged tag\/adc_completed_item: item_3153/);
+      ).toThrow(/source entity is tagged as eligible loadout equipment: item_3153/);
     });
 
-    it('rejects targetEntityId tagged as adc_completed_item', () => {
+    it('rejects targetEntityId tagged as eligible loadout equipment', () => {
       const graph = withItems(buildGraphFixture());
       expect(() =>
         assembleCompileRequest(graph, {
           sourceEntityId: 'entity_source',
           targetEntityId: 'item_3124'
         })
-      ).toThrow(/target entity is tagged tag\/adc_completed_item: item_3124/);
+      ).toThrow(/target entity is tagged as eligible loadout equipment: item_3124/);
     });
 
     it('sums multiple items deterministically', () => {
@@ -1726,7 +1728,7 @@ describe('combatDataAssembler', () => {
           targetEntityId: 'entity_target',
           sourceEquipmentEntityIds: ['item_untagged']
         })
-      ).toThrow(/source equipment entity is not tagged tag\/adc_completed_item: item_untagged/);
+      ).toThrow(/source equipment entity is not tagged as eligible loadout equipment: item_untagged/);
     });
 
     it('treats empty or undefined equipment as backward compatible no-op', () => {
@@ -1742,6 +1744,475 @@ describe('combatDataAssembler', () => {
       });
       expect(empty.combatants[0].attributes).toEqual(baseline.combatants[0].attributes);
       expect(empty.combatants[0].providers).toEqual(baseline.combatants[0].providers);
+    });
+  });
+
+  describe('target equipment loadout (jaksho-target-loadout-v2)', () => {
+    const ADC_TAG = {
+      typeId: 62002,
+      typeKey: 'tag/adc_completed_item'
+    } as const;
+    const LOADOUT_TAG = {
+      typeId: 62004,
+      typeKey: 'tag/loadout_equipment'
+    } as const;
+    const JAKSHO_PROVIDER_ID = 'provider_item_6665_jaksho_voidborn_resilience';
+
+    function withTargetLoadoutGraph(graph: CombatDataGraph): CombatDataGraph {
+      return buildGraphFixture({
+        types: [
+          ...graph.types,
+          { ...META, typeId: ADC_TAG.typeId, typeKey: ADC_TAG.typeKey },
+          { ...META, typeId: LOADOUT_TAG.typeId, typeKey: LOADOUT_TAG.typeKey }
+        ],
+        typeRelations: [
+          ...graph.typeRelations,
+          {
+            ...META,
+            typeId: ADC_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_3153'
+          },
+          {
+            ...META,
+            typeId: ADC_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_resist_a'
+          },
+          {
+            ...META,
+            typeId: ADC_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_resist_b'
+          },
+          {
+            ...META,
+            typeId: ADC_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_explicit_bonus'
+          },
+          {
+            ...META,
+            typeId: LOADOUT_TAG.typeId,
+            targetCategory: 'entity',
+            targetId: 'item_6665'
+          }
+        ],
+        entities: [
+          ...graph.entities,
+          { ...META, entityId: 'item_3153', displayName: 'Blade of the Ruined King' },
+          { ...META, entityId: 'item_6665', displayName: "Jak'Sho, The Protean" },
+          { ...META, entityId: 'item_resist_a', displayName: 'Resist A' },
+          { ...META, entityId: 'item_resist_b', displayName: 'Resist B' },
+          { ...META, entityId: 'item_explicit_bonus', displayName: 'Explicit Bonus Item' },
+          { ...META, entityId: 'item_untagged', displayName: 'Not An Item' }
+        ],
+        entityAttributes: [
+          ...graph.entityAttributes,
+          { ...META, entityId: 'entity_target', attrKey: 'armor', baseValue: 30 },
+          { ...META, entityId: 'entity_target', attrKey: 'magic_resist', baseValue: 30 },
+          { ...META, entityId: 'entity_source', attrKey: 'armor', baseValue: 20 },
+          { ...META, entityId: 'entity_source', attrKey: 'magic_resist', baseValue: 20 },
+          { ...META, entityId: 'item_3153', attrKey: 'ad', baseValue: 40 },
+          { ...META, entityId: 'item_6665', attrKey: 'hp', baseValue: 350 },
+          { ...META, entityId: 'item_6665', attrKey: 'armor', baseValue: 45 },
+          { ...META, entityId: 'item_6665', attrKey: 'magic_resist', baseValue: 45 },
+          { ...META, entityId: 'item_resist_a', attrKey: 'armor', baseValue: 10 },
+          { ...META, entityId: 'item_resist_a', attrKey: 'magic_resist', baseValue: 15 },
+          { ...META, entityId: 'item_resist_b', attrKey: 'armor', baseValue: 25 },
+          { ...META, entityId: 'item_resist_b', attrKey: 'magic_resist', baseValue: 5 },
+          { ...META, entityId: 'item_explicit_bonus', attrKey: 'armor', baseValue: 40 },
+          { ...META, entityId: 'item_explicit_bonus', attrKey: 'magic_resist', baseValue: 40 },
+          { ...META, entityId: 'item_explicit_bonus', attrKey: 'bonus_armor', baseValue: 12 },
+          {
+            ...META,
+            entityId: 'item_explicit_bonus',
+            attrKey: 'bonus_magic_resist',
+            baseValue: 8
+          }
+        ],
+        entityProviderMounts: [
+          ...graph.entityProviderMounts,
+          { ...META, entityId: 'item_6665', providerId: JAKSHO_PROVIDER_ID },
+          // Deliberate duplicate providerId shared with target hero (dedupe coverage).
+          { ...META, entityId: 'item_6665', providerId: 'prov_passive' },
+          { ...META, entityId: 'item_resist_a', providerId: 'prov_resist_a' },
+          { ...META, entityId: 'item_3153', providerId: 'prov_bork' }
+        ],
+        providers: [
+          ...graph.providers,
+          {
+            ...META,
+            providerId: JAKSHO_PROVIDER_ID,
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: 'Voidborn Resilience'
+          },
+          {
+            ...META,
+            providerId: 'prov_resist_a',
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: 'Resist A Passive'
+          },
+          {
+            ...META,
+            providerId: 'prov_bork',
+            providerKindTypeId: TYPE.providerKindPassive.typeId,
+            displayName: 'BoRK On-Hit'
+          }
+        ]
+      });
+    }
+
+    it('lists union eligibility across both equipment tags', () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      const adcOnly = listAdcCompletedItemEntityIds(graph);
+      const eligible = listEligibleLoadoutEquipmentEntityIds(graph);
+      expect(adcOnly.has('item_3153')).toBe(true);
+      expect(adcOnly.has('item_6665')).toBe(false);
+      expect(eligible.has('item_3153')).toBe(true);
+      expect(eligible.has('item_6665')).toBe(true);
+      expect(eligible.has('item_untagged')).toBe(false);
+    });
+
+    it('rejects combatants tagged with either equipment eligibility tag', () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'item_3153',
+          targetEntityId: 'entity_target'
+        })
+      ).toThrow(/source entity is tagged as eligible loadout equipment: item_3153/);
+      expect(() =>
+        assembleCompileRequest(graph, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'item_6665'
+        })
+      ).toThrow(/target entity is tagged as eligible loadout equipment: item_6665/);
+    });
+
+    it('treats omitted or empty target equipment as backward compatible no-op', () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      const baseline = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const omitted = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const empty = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        targetEquipmentEntityIds: []
+      });
+      expect(omitted.combatants[1].attributes).toEqual(baseline.combatants[1].attributes);
+      expect(omitted.combatants[1].providers).toEqual(baseline.combatants[1].providers);
+      expect(empty.combatants[1].attributes).toEqual(baseline.combatants[1].attributes);
+      expect(empty.combatants[1].providers).toEqual(baseline.combatants[1].providers);
+    });
+
+    it('rejects target duplicate / missing / untagged / >6 with slot-specific errors', () => {
+      const full = withTargetLoadoutGraph(buildGraphFixture());
+      expect(() =>
+        assembleCompileRequest(full, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          targetEquipmentEntityIds: ['item_6665', 'item_6665']
+        })
+      ).toThrow(/target equipment contains duplicate entity id: item_6665/);
+
+      expect(() =>
+        assembleCompileRequest(full, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          targetEquipmentEntityIds: ['item_missing']
+        })
+      ).toThrow(/target equipment entity not found: item_missing/);
+
+      expect(() =>
+        assembleCompileRequest(full, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          targetEquipmentEntityIds: ['item_untagged']
+        })
+      ).toThrow(/target equipment entity is not tagged as eligible loadout equipment: item_untagged/);
+
+      const extraItems = ['item_a', 'item_b', 'item_c', 'item_d'].map((id) => ({
+        ...META,
+        entityId: id,
+        displayName: id
+      }));
+      const extraRels = ['item_a', 'item_b', 'item_c', 'item_d'].map((id) => ({
+        ...META,
+        typeId: ADC_TAG.typeId,
+        targetCategory: 'entity' as const,
+        targetId: id
+      }));
+      const graphSeven = {
+        ...full,
+        entities: [...full.entities, ...extraItems],
+        typeRelations: [...full.typeRelations, ...extraRels]
+      };
+      expect(() =>
+        assembleCompileRequest(graphSeven, {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          targetEquipmentEntityIds: [
+            'item_6665',
+            'item_resist_a',
+            'item_resist_b',
+            'item_a',
+            'item_b',
+            'item_c',
+            'item_d'
+          ]
+        })
+      ).toThrow(/target equipment allows at most 6 items, got 7/);
+    });
+
+    it('aggregates target static attrs independently from source loadout', () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_3153'],
+        targetEquipmentEntityIds: ['item_resist_a']
+      });
+
+      expect(compile.combatants[0].attributes.ad).toMatchObject({
+        base: 90,
+        current: 90,
+        max: 90,
+        resolved: 90
+      });
+      expect(compile.combatants[0].attributes.armor).toMatchObject({
+        base: 20,
+        current: 20,
+        max: 20,
+        resolved: 20
+      });
+      expect(compile.combatants[0].attributes.bonus_armor).toBeUndefined();
+
+      expect(compile.combatants[1].attributes.ad).toMatchObject({
+        base: 10,
+        current: 10,
+        max: 10,
+        resolved: 10
+      });
+      expect(compile.combatants[1].attributes.armor).toMatchObject({
+        base: 40,
+        current: 40,
+        max: 40,
+        resolved: 40
+      });
+      expect(compile.combatants[1].attributes.magic_resist).toMatchObject({
+        base: 45,
+        current: 45,
+        max: 45,
+        resolved: 45
+      });
+    });
+
+    it('mounts target equipment providers only on target with stable dedupe', () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        targetEquipmentEntityIds: ['item_6665']
+      });
+
+      const targetRefs = compile.combatants[1].providers.map((p) => p.definitionRef);
+      expect(targetRefs).toEqual([
+        'target::prov_passive',
+        `target::${JAKSHO_PROVIDER_ID}`
+      ]);
+      expect(targetRefs.filter((ref) => ref === 'target::prov_passive')).toHaveLength(1);
+
+      const sourceRefs = compile.combatants[0].providers.map((p) => p.definitionRef);
+      expect(sourceRefs).toEqual(['source::prov_q']);
+      expect(sourceRefs).not.toContain(`source::${JAKSHO_PROVIDER_ID}`);
+
+      const providerKeys = compile.sharedProviders!.map((p) => p.providerKey);
+      expect(providerKeys).toContain(`target::${JAKSHO_PROVIDER_ID}`);
+    });
+
+    it('derives target-only bonus resistance; explicit bonus wins; hero base excluded; overrides final', () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+
+      const derived = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        targetEquipmentEntityIds: ['item_resist_a']
+      });
+      expect(derived.combatants[1].attributes.bonus_armor).toEqual({
+        base: 10,
+        current: 10,
+        max: 10,
+        resolved: 10
+      });
+      expect(derived.combatants[1].attributes.bonus_magic_resist).toEqual({
+        base: 15,
+        current: 15,
+        max: 15,
+        resolved: 15
+      });
+      // Hero armor 30 is in total, not bonus.
+      expect(derived.combatants[1].attributes.armor).toMatchObject({ base: 40 });
+
+      const explicit = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        targetEquipmentEntityIds: ['item_explicit_bonus']
+      });
+      expect(explicit.combatants[1].attributes.bonus_armor).toEqual({
+        base: 12,
+        current: 12,
+        max: 12,
+        resolved: 12
+      });
+      expect(explicit.combatants[1].attributes.bonus_magic_resist).toEqual({
+        base: 8,
+        current: 8,
+        max: 8,
+        resolved: 8
+      });
+      expect(explicit.combatants[1].attributes.armor).toMatchObject({ base: 70 });
+
+      const overridden = assembleCompileRequest(
+        graph,
+        {
+          sourceEntityId: 'entity_source',
+          targetEntityId: 'entity_target',
+          targetEquipmentEntityIds: ['item_resist_a']
+        },
+        {
+          target: {
+            attributes: {
+              armor: { base: 1, current: 1, max: 1 },
+              bonus_armor: { base: 99, current: 99, max: 99 }
+            }
+          }
+        }
+      );
+      expect(overridden.combatants[1].attributes.armor).toEqual({
+        base: 1,
+        current: 1,
+        max: 1,
+        resolved: 1
+      });
+      expect(overridden.combatants[1].attributes.bonus_armor).toEqual({
+        base: 99,
+        current: 99,
+        max: 99,
+        resolved: 99
+      });
+    });
+
+    it("exact Jak'Sho fixture: totals 75/75, bonus 45/45, provider mounted only on target", () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        targetEquipmentEntityIds: ['item_6665']
+      });
+
+      const target = compile.combatants[1];
+      expect(target.attributes.armor).toEqual({
+        base: 75,
+        current: 75,
+        max: 75,
+        resolved: 75
+      });
+      expect(target.attributes.magic_resist).toEqual({
+        base: 75,
+        current: 75,
+        max: 75,
+        resolved: 75
+      });
+      expect(target.attributes.bonus_armor).toEqual({
+        base: 45,
+        current: 45,
+        max: 45,
+        resolved: 45
+      });
+      expect(target.attributes.bonus_magic_resist).toEqual({
+        base: 45,
+        current: 45,
+        max: 45,
+        resolved: 45
+      });
+      expect(target.attributes.hp).toMatchObject({
+        // target hero has no hp attr in base fixture resources-only; item creates hp slot
+        base: 350
+      });
+
+      expect(target.providers.map((p) => p.definitionRef)).toContain(
+        `target::${JAKSHO_PROVIDER_ID}`
+      );
+      expect(
+        compile.combatants[0].providers.map((p) => p.definitionRef)
+      ).not.toContain(`source::${JAKSHO_PROVIDER_ID}`);
+      expect(compile.sharedProviders!.map((p) => p.providerKey)).toContain(
+        `target::${JAKSHO_PROVIDER_ID}`
+      );
+    });
+
+    it('two selected resistance items contribute once each to bonus buckets', () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        targetEquipmentEntityIds: ['item_resist_a', 'item_resist_b']
+      });
+
+      expect(compile.combatants[1].attributes.armor).toMatchObject({ base: 65 });
+      expect(compile.combatants[1].attributes.magic_resist).toMatchObject({ base: 50 });
+      expect(compile.combatants[1].attributes.bonus_armor).toEqual({
+        base: 35,
+        current: 35,
+        max: 35,
+        resolved: 35
+      });
+      expect(compile.combatants[1].attributes.bonus_magic_resist).toEqual({
+        base: 20,
+        current: 20,
+        max: 20,
+        resolved: 20
+      });
+    });
+
+    it("selecting new-tag Jak'Sho as source keeps legacy source aggregation (no bonus synthesis)", () => {
+      const graph = withTargetLoadoutGraph(buildGraphFixture());
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target',
+        sourceEquipmentEntityIds: ['item_6665']
+      });
+
+      const source = compile.combatants[0];
+      expect(source.attributes.armor).toEqual({
+        base: 65,
+        current: 65,
+        max: 65,
+        resolved: 65
+      });
+      expect(source.attributes.magic_resist).toEqual({
+        base: 65,
+        current: 65,
+        max: 65,
+        resolved: 65
+      });
+      expect(source.attributes.bonus_armor).toBeUndefined();
+      expect(source.attributes.bonus_magic_resist).toBeUndefined();
+      expect(source.providers.map((p) => p.definitionRef)).toEqual([
+        'source::prov_q',
+        `source::${JAKSHO_PROVIDER_ID}`,
+        'source::prov_passive'
+      ]);
+      expect(compile.combatants[1].attributes.bonus_armor).toBeUndefined();
+      expect(
+        compile.combatants[1].providers.map((p) => p.definitionRef)
+      ).toEqual(['target::prov_passive']);
     });
   });
 
