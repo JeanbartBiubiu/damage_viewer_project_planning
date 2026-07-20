@@ -1375,6 +1375,7 @@ CREATE TABLE public.repeat_effect_details (
     repeat_tag varchar(128) NOT NULL CHECK (repeat_tag <> ''),
     trigger_state_key varchar(128) NOT NULL CHECK (trigger_state_key <> ''),
     threshold numeric NOT NULL CHECK (threshold > 0),
+    delay_ms int NOT NULL DEFAULT 0 CHECK (delay_ms >= 0),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_repeat_effect_details PRIMARY KEY (game_id, step_id),
@@ -1393,6 +1394,7 @@ CREATE TABLE public.repeat_effect_details_log (
     repeat_tag varchar(128) NOT NULL CHECK (repeat_tag <> ''),
     trigger_state_key varchar(128) NOT NULL CHECK (trigger_state_key <> ''),
     threshold numeric NOT NULL CHECK (threshold > 0),
+    delay_ms int NOT NULL DEFAULT 0 CHECK (delay_ms >= 0),
     CONSTRAINT pk_repeat_effect_details_log PRIMARY KEY (game_id, step_id, version_id),
     CONSTRAINT fk_repeat_effect_details_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)

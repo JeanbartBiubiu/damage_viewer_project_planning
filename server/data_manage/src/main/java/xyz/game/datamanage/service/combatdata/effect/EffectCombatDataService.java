@@ -381,7 +381,8 @@ public class EffectCombatDataService {
                 support.requireInt(d, "repeatCount"),
                 support.requireText(d, "repeatTag"),
                 support.requireText(d, "triggerStateKey"),
-                support.requireDecimal(d, "threshold")
+                support.requireDecimal(d, "threshold"),
+                normalizeRepeatDelayMs(d)
             );
             case DETAIL_EXECUTE -> executeDetailsMapper.upsert(
                 gameId,
@@ -414,6 +415,24 @@ public class EffectCombatDataService {
         attachDetail(dto, DETAIL_REPEAT, repeatDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_EXECUTE, executeDetailsMapper.findById(gameId, stepId));
         return dto;
+    }
+
+    /**
+     * Omitted/null {@code delayMs} normalizes to 0 for backward-compatible clients.
+     * Negative values are rejected; non-negative integers are accepted.
+     */
+    private int normalizeRepeatDelayMs(ObjectNode body) {
+        Integer delayMs = support.optionalInt(body, "delayMs");
+        if (delayMs == null) {
+            return 0;
+        }
+        if (delayMs < 0) {
+            throw support.badRequest(
+                "delayMs must be >= 0",
+                Map.of("path", "/delayMs", "reason", "out of range")
+            );
+        }
+        return delayMs;
     }
 
     private BigDecimal requireExecuteThreshold(ObjectNode body) {
