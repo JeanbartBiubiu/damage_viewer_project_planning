@@ -14,16 +14,24 @@
 --    缺失则 RAISE EXCEPTION 回滚；本脚本幂等 ensure bonus_armor / bonus_magic_resist。
 -- 4. 自包含写入 item_6665 实体与静态 hp=350 / armor=45 / magic_resist=45；
 --    仅 mount provider_item_6665_jaksho_voidborn_resilience。
--- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
+-- 5. game-local tag 62011 / tag/loadout_equipment（reserved_type_id=NULL；双向
+--    collision fail-closed）+ 幂等 type_relations → entity/item_6665（eligibility）。
+-- 6. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
 --
 -- 明确排除（本脚本不建模）：
---   真实目标装备/loadout 投影；自动战斗态检测（超出「run 起算即在战斗」假设）；
+--   Web host 侧 target-loadout 装配与 bonus_armor/bonus_magic_resist 桶投影；
+--   自动战斗态检测（超出「run 起算即在战斗」假设）；
 --   旧 DPS lane / Batch-V full-stack-at-time-zero；5 层逐秒叠层；
---   live migration；自动 publish；damage / listener / ability 行。
+--   live migration；自动 publish；damage / listener / ability 行；
+--   不写入 tag/adc_completed_item / Batch-C；不 broad-delete type_relations。
 --
--- 数值来源（注释引用，无运行时外部依赖；current-items.normalized.json item 6665）：
+-- 数值来源（注释引用，无运行时外部依赖；Wiki current-items item 6665）：
+--   数据参考/lol-wiki-current-items/manifest.json
+--   revid 4030984
+--   SHA256 e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d
 --   45 armor / 45 MR / 350 HP；与英雄战斗 5 秒后激活；+30% bonus armor/MR。
 --   本合同用 start_delay_ms=5000 + tick 覆盖为 full_stack=1，不复制「开局即满层」。
+--   Backend 不写 item 静态 bonus_armor/bonus_magic_resist；bonus 桶由 Web 装配推导。
 --
 -- 前置：reserved_types_seed.sql；基线 attribute_definitions(hp/armor/magic_resist)。
 -- 建议发布版本（本脚本不负责 publish）：
@@ -40,6 +48,10 @@ DECLARE
     v_rowcount           integer;
     v_missing_reserved   text;
     v_missing_attrs      text;
+    v_conflict_type_key  text;
+    v_existing_name      text;
+    v_existing_reserved  int;
+    v_conflict_type_id   int;
     v_required_reserved  int[] := ARRAY[
         20100, -- value_type/number
         20110, -- selector/self
@@ -210,6 +222,93 @@ BEGIN
         change_revision = EXCLUDED.change_revision,
         updated_at = NOW()
     WHERE public.entity_attribute_values.base_value IS DISTINCT FROM EXCLUDED.base_value;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- =========================================================================
+    -- game-local loadout eligibility tag（reserved_type_id=NULL）
+    --   62011 tag/loadout_equipment
+    -- 双向 collision fail-closed：id 可缺席或已是精确终态；key 不得绑定其它 id。
+    -- 无 62011 占位符宽放（仓库无该 id/key 的 known-placeholder 先例）。
+    -- =========================================================================
+    SELECT t.type_key, t.name, t.reserved_type_id
+      INTO v_conflict_type_key, v_existing_name, v_existing_reserved
+      FROM public.types t
+     WHERE t.game_id = v_game_id
+       AND t.type_id = 62011
+       AND (
+           t.type_key IS DISTINCT FROM 'tag/loadout_equipment'
+           OR t.reserved_type_id IS NOT NULL
+       );
+
+    IF FOUND THEN
+        RAISE EXCEPTION
+            'lol_generic_jaksho_voidborn_resilience_seed: type_id=62011 already bound to type_key=% name=% reserved_type_id=% (expected tag/loadout_equipment, reserved_type_id=NULL)',
+            v_conflict_type_key, v_existing_name, v_existing_reserved;
+    END IF;
+
+    SELECT t.type_id
+      INTO v_conflict_type_id
+      FROM public.types t
+     WHERE t.game_id = v_game_id
+       AND t.type_key = 'tag/loadout_equipment'
+       AND t.type_id IS DISTINCT FROM 62011;
+
+    IF v_conflict_type_id IS NOT NULL THEN
+        RAISE EXCEPTION
+            'lol_generic_jaksho_voidborn_resilience_seed: type_key=tag/loadout_equipment already bound to type_id=% (expected 62011)',
+            v_conflict_type_id;
+    END IF;
+
+    INSERT INTO public.types (
+        game_id, type_id, type_key, name, description, reserved_type_id,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        62011,
+        'tag/loadout_equipment',
+        'Loadout equipment',
+        'Game-local eligibility tag for target-loadout equipment entities; Web host assembles loadout and bonus resist buckets.',
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, type_id) DO UPDATE SET
+        type_key = EXCLUDED.type_key,
+        name = EXCLUDED.name,
+        description = EXCLUDED.description,
+        reserved_type_id = EXCLUDED.reserved_type_id,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.types.type_key IS DISTINCT FROM EXCLUDED.type_key
+       OR public.types.name IS DISTINCT FROM EXCLUDED.name
+       OR public.types.description IS DISTINCT FROM EXCLUDED.description
+       OR public.types.reserved_type_id IS DISTINCT FROM EXCLUDED.reserved_type_id;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- 62011 → entity/item_6665（唯一 loadout eligibility 关系；非 ADC 池）
+    INSERT INTO public.type_relations (
+        game_id, type_id, target_category, target_id, extend,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        62011,
+        'entity',
+        'item_6665',
+        '{"role":"loadout_equipment","source":"数据参考/lol-wiki-current-items/manifest.json","sourceItemId":"6665","sourceRevid":4030984,"contentSha256":"e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d"}'::jsonb,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, type_id, target_category, target_id) DO UPDATE SET
+        extend = EXCLUDED.extend,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.type_relations.extend IS DISTINCT FROM EXCLUDED.extend;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;
