@@ -1,0 +1,31 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Gatling Gun|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Corki
+|skill        = E
+|icon         = Gatling Gun.png
+|blurb        = {{sbc|Active:}} {{cis|Corki}} gatling gun rapidly fires in a {{tt|frontal|In his facing direction}} cone, continually dealing {{as|physical damage}} and applying {{tip|stacks}} of ''Gatling Gun'' to enemies hit.
+|blurb4       = {{sbc|Gatling Gun:}} For each stack, the target loses {{as|{{sti|lethality|armor}}}} and {{as|{{sti|magic penetration|magic resist}}}}.
+|description  = {{sbc|Active:}} '''Corki''' sprays bullets in a cone toward his facing direction for 4 seconds, dealing {{as|physical damage}} every {{fd|0.25}} seconds to all enemies hit and applying a {{tip|stack}} to them at the same tick rate for 2 seconds, refreshing with subsequent hits and stacking up to 4 times. Each stack reduces the target's {{sti|lethality|{{as|armor}}}} and {{sti|magic penetration|{{as|magic resistance}}}}.
+|leveling     = {{st|Physical Damage Per Tick|{{ap|80/16 to 280/16}} {{as|(+ {{ap|240/16}}% '''bonus''' AD)}}|Total Physical Damage|{{ap|80 to 280}} {{as|(+ 240% '''bonus''' AD)}}}}
+{{st|Resistances Reduction Per Stack|{{ap|3 to 5}}|Total Resistances Reduction|{{ap|3*4 to 5*4}}}}
+|effect radius= {{tip|er|icononly = true}} {{tt|690|Cone radius}}
+|angle        = {{tip|er|icononly = true}} {{tt|35{{degree}}|Pending for test}}
+|cast time    = none
+|cooldown     = 12
+|cdstart      = on-cast
+|cost         = {{ap|50 to 70}}
+|costtype     = mana
+|targeting    = Auto
+|affects      = Enemies
+|damagetype   = physical
+|spellshield  = False
+|spelleffects = aoedot
+|projectile   = False
+|grounded     =
+|knockdown    =
+|notes        =
+* The maximum resistances reduction is applied after 4 ticks (1 second).
+* The direction of the gun firing changes depending on where '''Corki''' is facing.
+** '''Corki''' will turn to face in the direction of the cursor upon casting ''Gatling Gun''. He will also instantly turn when issuing an Attack order on enemies while ''Gatling Gun'' is active.
+** Issuing an Attack Move order at a location will not cause '''Corki''' to instantly turn.{{bug|2}}
+* ''Gatling Gun's'' area of effect can hit close by enemies next to and behind him, due to registering {{tip|er|enemies' edge}}.
+}}

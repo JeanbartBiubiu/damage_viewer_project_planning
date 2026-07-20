@@ -1,0 +1,37 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Blade Whirl|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Samira
+|skill        = W
+|icon         = Blade Whirl.png
+|blurb        = {{sbc|Active:}} {{ci|Samira}} briefly spins her blade twice, dealing {{as|physical damage}} to nearby enemies each time. During this time, she destroys all incoming enemy {{tip|projectile|projectiles}}.
+|description  = {{sbc|Active:}} '''Samira''' spins her blade over {{fd|0.75}} seconds, destroying all hostile non-{{tip|turret}} {{tip|projectile|projectiles}} within the area for the duration.
+|description2 = '''Samira''' slashes twice during ''Blade Whirl'', each one dealing {{as|physical damage}} to all nearby enemies. The first slash occurs immediately and the second one occurs after the duration.
+|leveling2    = {{st|Physical Damage per Hit|{{ap|20 to 80}} {{as|(+ 50% '''bonus''' AD)}}|Total Physical Damage|{{ap|20*2 to 80*2}} {{as|(+ {{ap|50*2}}% '''bonus''' AD)}}}}
+|description3 = '''''Samira''' cannot basic attack nor cast {{ai|Flair|Samira}} during Blade Whirl. Casting {{ai|Inferno Trigger|Samira}} will end Blade Whirl early.''
+|cooldown     = {{ap|30 to 22}}
+|cdstart      = on-cast
+|cost         = 60
+|costtype     = Mana
+|effect radius= {{tip|er|icononly = true}} 325
+|width        =
+|cast time    = {{fd|0.1}}
+|speed        =
+|queue time   = {{fd|0.5}}
+|targeting    = Auto
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = true
+|spelleffects = aoe
+|projectile   =
+|callforhelp  =
+|notes        =
+* {{tip|Spell shield}} will block the damage from one slash.
+* While the ability has a cast time - the cast time has no effect on the ability's usability. All effects begin immediately and '''Samira''' can move throughout.
+* Both slashes count as the same ability for stacking {{ai|Daredevil Impulse|Samira|Style}}.
+* The effect ending early includes the second slash not being performed, if applicable.
+* Entering {{tip|stasis (buff)|stasis}} will also end ''Blade Whirl'' early.
+** Other item actives and channeling {{si|Teleport}} or {{si|Recall}} will ''not'' end the effect early.
+* '''Samira''' can ignore the lockout for {{ai|Flair|Samira}} and basic attacks if she uses {{ai|Wild Rush|Samira}} and queues up {{ai|Flair|Samira}} and/or a basic attack at the start of it.{{bug}}
+|flavorsound  = {{sm2|Samira_Original_W_5.ogg}} ''"Don't think so."''
+|tips =
+* ''{{ai|Flair|Samira}}'' cannot be directly cast during this ability, but can still occur through the ''{{ai|Wild Rush|Samira}}'' + ''{{ai|Flair|Samira}}'' interaction.
+}}

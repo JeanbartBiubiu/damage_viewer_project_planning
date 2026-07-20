@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "draven-q",
+  "candidateKey": "hero_skill|hero_draven|Q|旋转飞斧",
+  "ownerId": "hero_draven",
+  "wikiChampionTitle": "Draven",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Draven/Q",
+  "zhDisplayName": "旋转飞斧",
+  "resolvedTitle": "Template:Data Draven/Spinning Axe",
+  "wikiPageId": 1307066,
+  "revisionId": 3997560,
+  "revisionTimestamp": "2026-03-08T18:46:41Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Draven/Spinning%20Axe",
+  "contentSha256": "c68bd17937d584b0f6e149a802c1748d1b62849092d82a267d501997b0a195ed",
+  "rawByteSize": 4710,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Draven''' starts spinning his axe, empowering his next {{tip|basic attack}} within {{fd|5.8}} seconds to deal {{as|'''bonus''' physical damage}}.\n",
+    "leveling": "{{st|Bonus Physical Damage|{{ap|40 to 60}} {{as|(+ {{ap|75 to 115}}% '''bonus''' AD)}}}}\n",
+    "description2": "Upon hitting the target, the axe then ricochets off of them to land after roughly 1.4 seconds, with the location being determined by '''Draven's''' {{tt|current movement|See notes}}. If '''Draven''' catches the axe, he gains ''Spinning Axe's'' empowered attack again.\n",
+    "description3": "'''Draven''' can hold up to two ''Spinning Axes'' at once.\n",
+    "cooldown": "{{ap|12 to 8}}\n",
+    "cost": "45\n",
+    "costtype": "mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* The landing location is determined by '''Draven's''' [[movement speed]] and direction at the time ''Spinning Axe'' hits the target. If '''Draven''' is actually moving, it will bounce directly into his path. Otherwise, it will bounce back towards his current location, either landing directly onto him or to his sides.\n* ''Spinning Axe'' will place a visual cue on the ground where it will land. This visual cue is visible to both teams, although '''Draven''' himself will see a more prominent marker.\n* Axes take roughly 1.35-1.40s to go from target to landing point. This is not affected by attack speed, movement speed or level.\n* Recasting ''Spinning Axe'' will refresh the {{tip|buff}} and add another axe if possible.\n** There is no limit to how many axes can be juggled at once, just the limit of 2 of them at a time in '''Draven's''' hands.\n* '''Draven''' used to be able to catch (steal) an enemy '''Draven''''s axes. This event also prompted a few unique voice lines.\n* ''Spinning Axes'' may optically bypass {{ai|Wind Wall|Yasuo}} and {{ai|Blade Whirl|Samira}} but they will be destroyed upon collision. {{ai|Unbreakable|Braum}} will not prevent the axe from bouncing off when {{ci|Braum}} is the target.\n* {{ai|Unbreakable|Braum}} will not prevent the axe from bouncing off when {{ci|Braum}} is not the target.\n* The axe will still bounce against parrying effects.\n* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} does not interact with the effects of the axes.\n* If a ''Spinning Axe'' is readied during a basic attack wind-up, the effects will be applied to the fired attack.\n* ''Spinning Axe'' attacks deal their total increased damage in a single instance of {{tip|basic damage}}.\n* ''Spinning Axe'' may fail to properly bounce back if it hits {{ci|Zaahen}} during or shortly after {{ais|Cultivation of War|Zaahen}} revive.{{bug}}\n* The empowered attack will not trigger against {{tip|structures}}.\n** The duration will refresh on-attack against them.\n* ''Spinning Axe'' has an indicator that appears on the ground for Draven to stand on. Some skins have a unique indicator.\n<gallery navigation=true widths=\"128px\">\nGladiator Draven Axe Indicator.png         |[[File:Draven GladiatorCircle.png|32px]] Gladiator\nSoul Reaver Draven Axe Indicator.png       |[[File:Draven SoulReaverCircle.png|32px]] Soul Reaver\nPrimetime Draven Axe Indicator.png         |[[File:Draven PrimetimeCircle.png|32px]] Primetime\nPool Party Draven Axe Indicator.png        |[[File:Draven PoolPartyCircle.png|32px]] Pool Party\nBeast Hunter Draven Axe Indicator.png      |[[File:Draven BeastHunterCircle.png|32px]] Beast Hunter\nSanta Draven Axe Indicator.png             |[[File:Draven SantaCircle.png|32px]] Santa\nMecha Kingdoms Draven Axe Indicator.png    |[[File:Draven MechaKingdomsCircle.png|32px]] Mecha Kingdoms\nRuined Draven Axe Indicator.png            |[[File:Draven RuinedCircle.png|32px]] Ruined\nDebonair Draven Axe Indicator.png          |[[File:Draven DebonairCircle.png|32px]] Debonair\nFright Night Draven Axe Indicator.png      |[[File:Draven FrightNightCircle.png|32px]] Fright Night\nLa Ilusión Draven Axe Indicator.png        |[[File:Draven LaIlusiónCircle.png|32px]] La Ilusión\n</gallery>\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "reviewed_contract_separate",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kogmaw-e",
+  "candidateKey": "hero_skill|hero_kogmaw|E|虚空淤泥",
+  "ownerId": "hero_kogmaw",
+  "wikiChampionTitle": "Kog'Maw",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Kog'Maw/E",
+  "zhDisplayName": "虚空淤泥",
+  "resolvedTitle": "Template:Data Kog'Maw/Void Ooze",
+  "wikiPageId": 1307961,
+  "revisionId": 3965135,
+  "revisionTimestamp": "2025-11-11T17:05:55Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kog'Maw/Void%20Ooze",
+  "contentSha256": "1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b",
+  "rawByteSize": 1356,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kog'Maw''' spews a gob of ooze in the target direction that deals {{as|magic damage}} to enemies hit.\n",
+    "leveling": "{{st|Magic Damage|{{ap|70 to 230}} {{as|(+ 65% AP)}}}}\n",
+    "description2": "A field of ooze is created in its wake for 3 seconds, {{tip|slow|slowing}} enemies within the area every {{fd|0.25}} seconds.\n",
+    "leveling2": "{{st|Slow|{{ap|40 to 60}}%}}\n",
+    "cooldown": "12\n",
+    "cost": "{{ap|40 to 100}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "{{Effect at cast time start}}\n* {{pending for test}}: The missile leaves a blob of ooze on the ground every 125 units traveled.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

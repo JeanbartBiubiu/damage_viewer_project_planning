@@ -1,0 +1,29 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Achooo!|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Smolder
+|skill        = W
+|icon         = Smolder Achooo!.png
+|description  = {{sbc|Active:}} '''Smolder''' sneezes a fiery glob in the target direction that deals {{as|physical damage}} to enemies hit and {{tip|slow|slows}} them by 35% for {{fd|1.5}} seconds, slowing down in missile speed after travelling {{tt|1200|estimated}} units. Hitting an enemy {{tip|champion}} creates an explosion that deals {{as|physical damage}} to nearby enemies, with subsequent explosions against the same target dealing 75% damage of the previous explosion's damage.
+|leveling     = {{st|Glob Physical Damage|{{ap|60 to 100}} {{as|(+ 60% '''bonus''' AD)}}}}
+{{st|Explosion Physical Damage|{{ap|10 to 110}} {{as|(+ 50% '''bonus''' AD)}} {{as|(+ 80% AP)}}}}
+{{st|Total Physical Damage On Champion Hit|{{ap|60+10 to 100+110}} {{as|(+ {{ap|60+50}}% '''bonus''' AD)}} {{as|(+ 80% AP)}}}}
+|range        = 1500
+|speed        = {{dv|{{tt|2000|Initial speed}}|{{tt|400|End speed}}}}
+|effect radius= {{tip|cr|icononly = true}} {{tt|385|Explosion}}
+|width        = {{tip|er|icononly = true}} {{tt|115|Sneeze}}
+|cooldown     = {{ap|14 to 10}}
+|cast time    = {{fd|0.35}}
+|cost         = {{ap|50 to 70}}
+|costtype     = mana
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = physical
+|spelleffects = spellaoe
+|spellshield  = special
+|projectile   = true
+|notes        =
+* '''Smolder''' can't declare basic attacks for a brief moment after the cast time.
+* {{tip|Spell shield}} can block either the glob or the explosion, but not both.
+<!-- Blurb -->
+|blurbicon    = Smolder Achooo!.png
+|blurb        = {{sbc|Active:}} {{ci|Smolder}} sneezes forth a glob that deals {{as|physical damage}} to enemies hit and {{tip|slow|slows}} them. Hitting an enemy {{tip|champion}} creates an explosion that deals {{as|physical damage}} to nearby enemies.
+}}

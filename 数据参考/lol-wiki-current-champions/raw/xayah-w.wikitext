@@ -1,0 +1,34 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Deadly Plumage|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Xayah
+|skill        = W
+|icon         = Deadly Plumage.png
+|blurb        = {{sbc|Active:}} {{ci|Xayah}} empowers herself for a few seconds, gaining {{sti|{{as|'''bonus''' attack speed}}}} and causing her basic attacks to strike a second time, dealing '''reduced''' damage.
+|blurb2      = Whenever she hits an enemy {{tip|champion}}, she briefly gains {{sti|{{as|'''bonus''' movement speed}}}}.
+|blurb4      = ''If {{ci|Rakan}} is nearby upon cast, he also becomes empowered and gains the {{sti|{{as|'''bonus''' movement speed}}}} at the same time as '''Xayah'''.''
+|description  = {{sbc|Active:}} '''Xayah''' enters a frenzy for 4 seconds, gaining {{sti|{{as|'''bonus''' attack speed}}}} and causing her basic attacks {{tip|on-attack}} to be empowered to fire an additional smaller feather at the target {{tip|on-hit}} that deals 25% damage of the triggering {{as|attack's damage}}.
+|leveling     = {{st|Bonus Attack Speed|{{ap|35 to 55}}%}}
+|description2 = Whenever '''Xayah''' hits an enemy {{tip|champion}} with the strike, she gains {{sti|ms|{{as|30% '''bonus''' movement speed}}}} for {{fd|1.5}} seconds.
+|description3 = ''If {{ci|Rakan}} is nearby upon cast, he also becomes empowered, and gains the {{sti|{{as|'''bonus''' movement speed}}}} at the same time as '''Xayah'''.''
+|speed        = {{tt|3000|Spline missile speed}}
+|cost         = {{ap|60 to 40}}
+|costtype     = Mana
+|cooldown     = {{ap|18 to 14}}
+|cdstart      = on-cast
+|targeting    = Auto
+|cast time    = none
+|affects      = Self, Rakan
+|damagetype   = Physical
+|projectile   = true
+|parry        = unknown
+|spelleffects = proc
+|notes   =
+* The additional missile is visually a smaller feather than the normal feather missiles that are fired by '''Xayah's''' basic attacks and does not technically count as a {{as|Feather|buzzword}} for {{ai|Clean Cuts|Xayah}}.
+* Upon casting, missiles that are already in flight will also be empowered to apply the additional feather, but '''Xayah''' will not be granted the '''bonus''' movement speed from their hit. {{bug}}
+* Since the additional missile's damage is based on a percentage of the triggering attack's damage, it will also benefit from the increased damage of triggering attacks that {{tip|critically strike}}.
+** The additional missile itself however cannot {{tip|critically strike}}.
+* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} interacts with ''Deadly Plumage'' by causing the additional bolts to fire their own additional missile that deals a percentage of the triggering bolt's damage.
+* ''Deadly Plumage'' does not interact with {{iis|Guinsoo's Rageblade}} ''Phantom Hit''.
+* The empowered attack will not trigger against [[ward]]s.
+* The additional missile is not fired if the triggering basic attack misses while '''Xayah''' is {{tip|blind|blinded}}.
+* {{Pending for test}} Interactions with {{tip|dodge}} and {{tip|block}}.
+}}

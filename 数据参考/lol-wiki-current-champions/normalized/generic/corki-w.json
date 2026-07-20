@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "corki-w",
+  "candidateKey": "hero_skill|hero_corki|W|瓦尔基里俯冲",
+  "ownerId": "hero_corki",
+  "wikiChampionTitle": "Corki",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Corki/W",
+  "zhDisplayName": "瓦尔基里俯冲",
+  "resolvedTitle": "Template:Data Corki/Valkyrie",
+  "wikiPageId": 1306973,
+  "revisionId": 4007589,
+  "revisionTimestamp": "2026-04-12T06:52:18Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Corki/Valkyrie",
+  "contentSha256": "85c17f1bedb345ca93539152df7e65cebe5524147de8d7907cb2f75e04c0decb",
+  "rawByteSize": 1537,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Corki''' {{tip|dashes}} to the target location and drops bombs that leave up to 3 blazing patches along his path, depending on the distance traveled. Each patch lasts {{fd|2.5}} seconds.\n",
+    "description2": "Enemies within the patches are dealt {{as|magic damage}} every {{fd|0.5}} seconds, lingering for 1 second.\n",
+    "leveling2": "{{st|Magic Damage Per Tick|{{ap|30 to 90}} {{as|(+ 40% '''bonus''' AD)}} {{as|(+ 30% AP)}}|Total Magic Damage|{{ap|30*5 to 90*5}} {{as|(+ {{ap|40*5}}% '''bonus''' AD)}} {{as|(+ {{ap|30*5}}% AP)}}}}\n",
+    "description3": "''{{ai|Gatling Gun|Corki}} can be cast during the dash.''\n",
+    "cooldown": "{{ap|20 to 12}}\n",
+    "cost": "{{ap|80 to 100}}\n",
+    "costtype": "mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* No additional information.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

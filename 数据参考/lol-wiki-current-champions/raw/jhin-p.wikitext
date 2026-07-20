@@ -1,0 +1,29 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Whisper|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Jhin
+|skill        = I
+|icon         = Whisper.png
+|blurb        = {{sbc|Innate - Death in 4 Acts:}} {{cis|Jhin}} gun may fire up to 4 times before needing to reload for a short period. The final round will {{tip|critically strike}}, dealing {{as|'''bonus''' physical damage}} based on the {{as|target's '''missing''' health}}.
+|blurb2       = {{sbc|Innate - Every Moment Matters:}} '''Jhin''' gains {{sti|{{as|'''bonus''' attack damage}}}}, increased by his {{sti|critical strike chance}} and {{sti|{{as|'''bonus''' attack speed}}}}. Whenever he {{tip|critically strike|critically strikes}}, he gains a burst of {{sti|{{as|movement speed}}}} based on his {{sti|{{as|'''bonus''' attack speed}}}}.
+|blurb4       = '''Jhin's''' {{sti|{{as|attack speed}}}} cannot increase except by {{sti|xp|leveling}} up, and he deals reduced {{tip|critically strike|critical strike damage}}.
+|description  = {{sbc|Innate - Death In 4 Acts:}} '''Jhin's''' {{tip|basic attacks}} consume [[ammunition]] within 4 rounds. He will reload over {{fd|2.5}} seconds immediately after expending all rounds or withholding leftover rounds after 10 seconds of being [[out of combat]] and not being affected by {{tip|crowd control}}. The latter reload can be interrupted by declaring an attack or casting an ability. '''Jhin''' is {{tip|lockout|unable}} to declare basic attacks during the reload time.
+|description2 = '''Jhin's''' final round attack has an {{tip|uncancellable windup}}, always {{tip|critically strike|critically strikes}}, including against {{tip|turrets|structures}}, and deals {{as|'''bonus''' physical damage}} equal to {{as|{{pp|key=%|15 to 25 for 3|1 to 11}} of the target's {{sti|'''missing''' health}}}}. The damage based on the target's health is capped at 800 against {{tip|monsters}}.
+|description3 = {{sbc|Innate - Every Moment Matters:}} '''Jhin''' gains {{sti|ad|{{as|'''bonus''' attack damage}}}} equal to {{as|{{pp|key=%|4;5;6;7;8;9;10;11;12;14;16;20;24;28;32;36;40;44|formula = 4% at + 1% per level up to 9, then + 2% up to 11, then + 4%, capped at level 18}}|attack damage}}<!--stops at 18-->{{ft|{{as|(+ {{fd|0.35}}% per 1% critical strike chance)}} {{as|(+ {{fd|0.3}}% per 1% '''bonus''' attack speed)}}|{{as|(+ 35% critical strike chance)}} {{as|(+ 30% '''bonus''' attack speed)}}}}{{as|AD}}.
+|description4 = Additionally, {{tip|critical strikes}} against enemies grant '''Jhin''' {{as|14%|movement speed}} {{as|(+ {{fd|0.44}}% per 1% '''bonus''' attack speed)}} {{sti|{{as|'''bonus''' movement speed}}}} for 2 seconds.
+|flavorsound  = {{sm2|Jhin_Original_P4Ready_4.ogg}} ''"One, two, three, four, two, two, three, four."''
+|targeting    = Passive
+|affects      = Self, Enemies
+|damagetype   = Physical
+|parry        = true
+|spelleffects = Proc
+|notes        =
+* The {{as|{{sti|'''missing''' health}}}} damage benefits from {{sti|life steal}}.
+* The '''bonus''' damage based on the target's missing health does not affect structures.
+* The 4th attack versus a structure is classified as a critical strike.
+* The attack damage multiplier stacks additively with {{bi|Dragon Slayer|Dragon Slayer's}}.
+* ''Every Moment Matters' '' bonus {{as|AD}} will benefit from any amount of {{as|'''bonus''' attack speed}}, even in excess of an amount that would usually reach the attacks per second cap ({{fd|3}}).
+** The maximum modifier without attack speed is 79%.
+*** 44% base modifier at level 18.
+*** 35% from critical strike chance on account of the 100% cap.
+*** [[Attack speed#Reducing attack speed|Attack speed slows]] will not affect '''Jhin's''' bonus attack damage from his passive and will ignore his attack speed as it is fixed.
+* Attack damage reductions apply before the multiplier causing them to be stronger against '''Jhin''' than advertised or versus other champions.
+}}

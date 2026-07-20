@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "tristana-e",
+  "candidateKey": "hero_skill|hero_tristana|E|爆炸火花",
+  "ownerId": "hero_tristana",
+  "wikiChampionTitle": "Tristana",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Tristana/E",
+  "zhDisplayName": "爆炸火花",
+  "resolvedTitle": "Template:Data Tristana/Explosive Charge",
+  "wikiPageId": 1308524,
+  "revisionId": 4008204,
+  "revisionTimestamp": "2026-04-14T05:36:52Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Tristana/Explosive%20Charge",
+  "contentSha256": "c66748f43bb67ed75c6174bd5ac48083fb3c93fea420d15619bd240cf12fdda7",
+  "rawByteSize": 6229,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Tristana's''' basic attacks are empowered to trigger an explosion when they kill the target, dealing {{as|magic damage}} to nearby enemies.\n",
+    "leveling": "{{st|Magic Damage|{{ap|{{#var:e_p1}} to {{#var:e_p5}}}} {{as|(+ {{#var:e_p_ap}}% AP)}}}}\n",
+    "description2": "{{sbc|Active:}} '''Tristana''' tosses an explosive charge at the target enemy that attaches to them for 4 seconds. The charge then detonates, dealing {{as|physical damage}} to nearby enemies. ''Explosive Charge'' can target and damage {{tip|turrets}}, and explodes in a larger radius on a turret.\n",
+    "leveling2": "{{st|Minimum Physical Damage|{{ap|{{#var:e_a1}} to {{#var:e_a5}}}} {{as|(+ {{#var:e_a_ad}}% '''bonus''' AD)}} {{as|(+ {{#var:e_a_ap}}% AP)}}}}\n",
+    "description3": "'''Tristana's''' {{tip|basic attacks}} {{tip|on-hit}} and {{tip|abilities}} against the target increase ''Explosive Charge's'' damage by {{ap|{{#var:e_a_s}}*100}}%, {{tip|stack|stacking}} up to 4 times for a maximum {{ap|{{#var:e_a_s}}*400}}% increase, upon which the charge also detonates instantly. The charge's '''total''' damage is additionally increased by {{critical damage|0 to 40|critScaling=true}}.\n",
+    "leveling3": "{{st|Bonus Damage Per Stack|{{ap|({{#var:e_a1}} to {{#var:e_a5}})*{{#var:e_a_s}}}} {{as|(+ {{ap|{{#var:e_a_ad}}*{{#var:e_a_s}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:e_a_ap}}*{{#var:e_a_s}}}}% AP)}}|Full Stack Bonus Damage|{{ap|({{#var:e_a1}} to {{#var:e_a5}})*({{#var:e_a_s}}*4)}} {{as|(+ {{ap|{{#var:e_a_ad}}*({{#var:e_a_s}}*4)}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:e_a_ap}}*({{#var:e_a_s}}*4)}}% AP)}}}}\n{{st|Full Stack Physical Damage|{{ap|({{#var:e_a1}} to {{#var:e_a5}})*(1+{{#var:e_a_s}}*4)}} {{as|(+ {{ap|{{#var:e_a_ad}}*(1+{{#var:e_a_s}}*4)}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:e_a_ap}}*(1+{{#var:e_a_s}}*4)}}% AP)}}}}\n",
+    "description4": "''If {{ai|Buster Shot|Tristana}} is used to apply the last stack, the detonation will instead be delayed until the end of the {{tip|airborne|knock back}} or the 4 seconds expire.''\n",
+    "cooldown": "{{ap|16 to 14}}\n",
+    "cost": "{{ap|50 to 70}}\n",
+    "costtype": "mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''Explosive Charge's'' cast time is always 100% of the caster's attack windup time.\n** At base attack speed, '''Tristana's''' attack windup is {{fd|0.225625}} seconds.\n** An easy formula to calculate the cast time is [ {{fd|0.14801}} seconds divided by {{as|'''total''' attack speed|attack speed}} ].\n** Reducing '''Tristana's''' attack speed via {{tip|cripple|attack speed reductions}} also increases ''Explosive Charge's'' cast time by the same fraction.\n** It is calculated from '''Tristana's''' total attack speed after cap ({{fd|3.003}}) and floor ({{fd|0.2}}), making the maximum possible cast time {{rutngt|0.74005}}.\n* '''Tristana''' will be automatically ordered to basic attack the target after the cast time.\n* ''Explosive Charge's'' initial application deals 0 {{as|physical|physical damage}} {{tt|damage|sourcetype pending for test, but probably proc}}, triggering {{tip|turret}} aggro.\n** It also triggers a {{tip|stack}} of effects such as {{ri|Electrocute}}.\n* All explosions by ''Explosive Charge's'' passive count as the same cast instance. Every cast of the active is a separate cast instance:\n** Hitting a champion with the passive by killing a nearby unit, casting the active on them (see note above) and landing a basic attack against them triggers {{ri|Electrocute}}.\n** Hitting a champion with the passive by killing a nearby unit, casting the active on them and hitting them again with the Passive by killing another nearby unit does '''not''' trigger {{ri|Electrocute}}.\n* {{tip|Dodge}}, {{tip|block}} and {{tip|blind}} all prevent ''Explosive Charge's'' stack application via basic attacks.\n* ''Explosive Charge's'' detonation will deal damage to the primary target even if they have become {{tip|untargetable}}.\n* ''Explosive Charge's'' stacks from basic attacks are applied as an {{tip|on-hit}} effect and will therefore interact with {{iis|Guinsoo's Rageblade}} Phantom Hit and {{iis|Runaan's Hurricane}} bolts.\n{{Unit-targeted cancel conditions}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

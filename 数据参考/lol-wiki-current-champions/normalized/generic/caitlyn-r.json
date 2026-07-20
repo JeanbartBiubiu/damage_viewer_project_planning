@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "caitlyn-r",
+  "candidateKey": "hero_skill|hero_caitlyn|R|让子弹飞",
+  "ownerId": "hero_caitlyn",
+  "wikiChampionTitle": "Caitlyn",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Caitlyn/R",
+  "zhDisplayName": "让子弹飞",
+  "resolvedTitle": "Template:Data Caitlyn/Ace in the Hole",
+  "wikiPageId": 1306918,
+  "revisionId": 3982561,
+  "revisionTimestamp": "2026-01-09T09:02:59Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Caitlyn/Ace%20in%20the%20Hole",
+  "contentSha256": "08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8",
+  "rawByteSize": 3119,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Caitlyn''' locks onto the target enemy champion and {{tip|channel|channels}} for 1 second, {{tip|true sight|revealing}} them as well as {{tip|sight|revealing}} herself.\n",
+    "description2": "''Ace in the Hole'' is placed on a 5-second {{sti|cooldown}} if canceled.\n",
+    "description3": "Once '''Caitlyn''' completes the channel, she fires a homing bullet toward the target that deals {{as|physical damage}} to the first enemy champion it hits, increased by {{critical damage|0 to 30|critScaling=true}}.\n",
+    "leveling3": "{{st|Physical damage|{{ap|300 to 650}} {{as|(+ 100% '''bonus''' AD)}}}}\n",
+    "cooldown": "90\n",
+    "cost": "100\n",
+    "costtype": "mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* The following will cancel ''Ace in the Hole's'' channel (mana expenditure is not compensated):\n** '''Caitlyn''' is {{tip|interrupt|interrupted}}.\n** The target becomes {{tip|untargetable}}.\n** '''Caitlyn''' or her target {{tip|death|dies}}.\n* ''Ace in the Hole'' reveals the target and '''Caitlyn''' through a buff that lasts for up to 4 seconds.\n** The buff is applied to the target from the start of the cast time.\n** The buff ends prematurely when the channel is canceled or the bullet hits an enemy.\n*** The target is revealed for 1 second if the buff is ended prematurely.\n*** It is not removed if the cast time is cancelled or the bullet missile is destroyed.{{bug|2}}\n* The bullet missile will fail to hit the primary target if they are {{tip|untargetable}} upon arrival, dealing no damage.\n* The ability also goes on a 5-second {{sti|cooldown}} if '''Caitlyn''' enters {{tip|resurrection}} during the cast time.\n** The cast time does not end prematurely but the channel will be immediately canceled the moment the cast time completes.\n* If the target dies after the bullet has been fired, the shot will continue towards their corpse and may still hit other enemy champions.\n* The bullet has a {{tip|sight}} radius of 1500 attached to it.\n{{Unit-targeted cancel conditions}}** This excludes losing sight of the target.\n* The following table refers for interactions while '''Caitlyn''' is {{tip|channel|channeling}}:\n{{ct|channel|attack=false|move=false|cast=false|items=false,true,false,false,false|spells=true,false,false,false,false}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,32 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Double Daggers|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Xayah
+|skill        = Q
+|icon         = Double Daggers.png
+|blurb        = {{sbc|Active:}} {{ci|Xayah}} barrages out two {{as|Feathers|buzzword}} that each deal {{as|physical damage}} to enemies hit.
+|description  = {{sbc|Active:}} '''Xayah''' barrages two {{as|Feathers|buzzword}} in the target direction that each deal {{as|physical damage}} to enemies hit.
+|leveling    = {{st|Physical Damage Per Hit|{{ap|45 to 105}} {{as|(+ 50% '''bonus''' AD)}}|Total Physical Damage|{{ap|45*2 to 105*2}} {{as|(+ 100% '''bonus''' AD)}}}}
+|description2 = Targets hit after the first take 50% reduced damage.
+|leveling2   = {{st|Reduced Damage per Hit|{{ap|45/2 to 105/2}} {{as|(+ 25% '''bonus''' AD)}}|Total Reduced Damage|{{ap|45 to 105}} {{as|(+ 50% '''bonus''' AD)}}}}
+|cost         = 35
+|costtype     = Mana
+|cooldown     = {{ap|10 to 8}}
+|cast time    = {{pp|type='''bonus''' attack speed|round=3|0.25;0.033*7;0.033*6;0.033*5;0.033*4;0.1|key1=%|0;27.15;74.29;121.43;168.58;214.3|formula=0.25-(0.07 per 100% '''bonus''' attack speed). ''This is capped at 60% reduction at 214.3% '''bonus''' attack speed.''|color=attack speed}}
+|range        = 1100
+|width        = {{tip|er|icononly = true}} 100{{plus}}offset
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = Special
+|spelleffects = spellaoe
+|projectile   = special
+|notes        =
+* Daggers shoot from '''Xayah's''' left and right side.
+* Because of the usual tick intervals of the server, ''Double Daggers' ''minimum cast time is typically reached at {{as|{{fd|168.58}}% '''bonus''' attack speed}} already, for a cast time of {{fd|0.132}} seconds (from the default {{rutngt|0.25}}), or the duration of 4 game ticks.
+** If the first 3 game ticks happen to be slightly longer than normal, the minimum cast time of {{fd|0.1}} seconds can actually be reached in very rare cases because of that.
+* '''Xayah''' is unable to declare basic attacks for a set duration during the cast time of ''Double Daggers''. The lock out duration is reduced by {{ft|{{fd|0.007}} seconds per every {{as|1% '''bonus''' attack speed}}|1 second per every {{as|140% '''bonus''' attack speed}}}}.
+* The {{as|Feathers|buzzword}} will stop upon being intercepted by {{tip|projectile|projectile-blocking}} effects.
+* As the feathers are forming, they will deal damage in a small area around '''Xayah's''' before firing.
+* {{tip|Spell shield}} will only block a single instance of damage.
+{{Effect at cast time end}}
+|yvideo       = _T0LaAwujQo
+}}

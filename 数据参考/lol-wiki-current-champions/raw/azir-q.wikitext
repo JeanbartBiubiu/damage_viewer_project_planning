@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Conquering Sands|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Azir
+|skill        = Q
+|icon         = Conquering Sands.png
+|blurb        = {{sbc|Active:}} {{ci|Azir}} sends all {{as|Sand Soldiers|buzzword2}} to dash towards a location. They deal {{as|magic damage}} and {{tip|slow}} enemies they pass through.
+|description  = {{sbc|Active:}} '''Azir''' orders all {{as|Sand Soldiers|buzzword2}} to dash toward the target location, dealing {{as|magic damage}} to all enemies they pass through as well as those in front of them upon arrival, and {{tip|slow|slowing}} them by 25% for 1 second.
+|description2 = Enemies hit by subsequent soldiers take no additional damage or {{tip|slow}}.
+|description3 = ''A summoned {{as|Sand Soldier|buzzword2}} is required to cast this ability.''
+|leveling     = {{st|Magic Damage|{{ap|60 to 140}} {{as|(+ {{ap|35 to 55}}% AP)}}}}
+|target range = 740
+|effect radius= {{dv|{{tip|cr|icononly = true}} {{tt|150|Dashing soldier dash collision radius}}|{{tt|325|Spear length}}}}
+|cooldown     = {{ap|14 to 6}}
+|cast time    = {{fd|0.25}}
+|cost         = {{ap|70 to 110}}
+|costtype     = mana
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = spellaoe
+|projectile   = Special
+|grounded     =
+|knockdown    =
+|flavorsound  = {{sm2|Azir_Original_Q_1.ogg}} ''"Conquer!"'''
+|outofrange   = cast at max
+|notes        =
+* {{as|Sand Soldiers|buzzword2}} dash about 50 units further away from Azir than the target location, making them stab targets slightly further away.
+* {{as|Sand Soldiers|buzzword2}} will stop their movement upon colliding with {{ai|Wind Wall|Yasuo}} or {{ai|Rebuttal|Mel}}, but not {{ai|Unbreakable|Braum}}.
+* {{as|Sand Soldiers|buzzword2}} will automatically turn to face nearby enemy champions after the dash.
+** This happens even if they're in {{tip|stealth}}.{{bug}}
+* If there are multiple active {{as|Sand Soldiers|buzzword2}}, rather than all soldiers arriving at the target location they make a formation around it instead.
+** If the number of soldiers is 2, then neither will arrive at the location.
+** If the number of soldiers is greater than 2, then 1 soldier will arrive at the location and the rest will arrive around it.
+** This can produce unexpected results as soldiers arrive at different distances and locations and the determination of the placement is undocumented.
+*** This has gameplay implications for casting at max range.{{bug}}
+}}

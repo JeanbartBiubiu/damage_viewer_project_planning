@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Bladecaller|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Xayah
+|skill        = E
+|icon         = Bladecaller.png
+|blurb        = {{sbc|Active:}} {{ci|Xayah}} recalls all {{as|Feathers|buzzword}} to shoot back to her, each dealing {{as|physical damage}} to enemies hit based on her {{as|{{sti|critical strike chance}}}}.
+|blurb2      = An enemy hit by at least three {{as|Feathers|buzzword}} is briefly {{tip|root|rooted}}.
+|description  = {{sbc|Active:}} '''Xayah''' recalls all planted {{as|Feathers|buzzword}} to shoot back to her, each dealing {{as|physical damage}} to enemies hit, increased by {{critical damage|0 to 50|critScaling=true}}. ''Bladecaller'' deals 50% damage to {{tip|minions}}.
+|leveling     = {{st|Physical Damage Per Feather|{{ap|50 to 110}} {{as|(+ 40% '''bonus''' AD)}}|Minion Damage Per Feather|{{ap|50/2 to 110/2}} {{as|(+ {{ap|40/2}}% '''bonus''' AD)}}}}
+|description2 = An enemy takes {{pp|type=previous feathers hit|key=%|100 to 10 by 5|x-1|formula=100%-(5% per previous feather hit). ''This is capped at 10% damage.''}} damage from a {{as|Feather|buzzword}}.
+|description3 = A target hit by at least three {{as|Feathers|buzzword}} is {{tip|root|rooted}} for {{fd|1.25}} seconds.
+|description4 = ''A planted {{as|Feather|buzzword}} is required to cast this ability. Enemies can be hit by an individual {{as|Feather|buzzword}} only once per pass.''
+|cost         = 20
+|costtype     = Mana
+|cooldown     = {{ap|12 to 8}}
+|cast time    = none
+|effect radius= Global
+|width        = {{tip|er|icononly = true}} 160
+|speed        = 4000
+|targeting    = Auto
+|affects      = Enemies
+|damagetype   = Physical
+|projectile   = True
+|spellshield = special
+|spelleffects = spellaoe
+|notes   =
+* {{as|Feathers|buzzword}} that are 'in flight' will be called to '''Xayah''' too, but only once they've landed normally first.
+* {{tip|Spell shield}} will only block a single instance of damage.
+* This ability cannot be ranked at [[Experience (champion)|Level]] 1.
+* The damage dealt by ''Bladecaller'' follows a diminishing returns formula not mentioned in the ability's description, successively reducing extra damage from feathers beyond the first.
+** This formula is:
+*** For feathers <=19: Damage of one feather{{times}}(n{{minus}}{{fd|0.05}}{{times}}(n{{minus}}1){{divided by}}2{{times}}n) where n stands for the number of feathers hit.
+*** For feathers >=20: Damage of one feather{{times}}(19{{minus}}{{fd|0.05}}{{times}}(19{{minus}}1){{divided by}}2{{times}}19{{plus}}0.1{{times}}(n{{minus}}19)) where n stands for the number of feathers hit.
+** For example, at rank 1 ''Bladecaller'' deals {{pp|type=feathers hit|50*(x-0.05*(x-1)/2*x) for 19}}.
+* ''Bladecaller'' cannot be cast without a {{as|Feather|buzzword}} on the ground.
+|yvideo       = Ydd7ffh17IA
+}}

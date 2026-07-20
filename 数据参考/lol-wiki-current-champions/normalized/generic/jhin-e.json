@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jhin-e",
+  "candidateKey": "hero_skill|hero_jhin|E|万众倾倒",
+  "ownerId": "hero_jhin",
+  "wikiChampionTitle": "Jhin",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Jhin/E",
+  "zhDisplayName": "万众倾倒",
+  "resolvedTitle": "Template:Data Jhin/Captive Audience",
+  "wikiPageId": 1307583,
+  "revisionId": 4007613,
+  "revisionTimestamp": "2026-04-12T07:25:10Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jhin/Captive%20Audience",
+  "contentSha256": "bbb264e884128852cd9b90fc1965638e0903f88a8da4a500220966c4ff5596c0",
+  "rawByteSize": 2970,
+  "fields": {
+    "description": "{{sbc|Passive - Beauty in Death:}} Whenever '''Jhin''' kills an enemy champion, he summons a ''Blooming Lotus Trap'' on their corpse.\n",
+    "description2": "{{sbc|Active:}} '''Jhin''' places a ''Lotus Trap'' at the target location which, upon landing, becomes {{tip|stealthed trap|stealthed}} after arming over 1 second, lasting for up to 180 seconds and granting {{tip|sight}} within its radius. The ''Lotus Trap blooms'' upon enemy contact, with enemies in the area at the time of its trigger becoming {{tip|standard sight|revealed}} for 4 seconds.\n",
+    "description3": "'''Jhin''' periodically [[stock]]s a ''Lotus Trap'' charge, up to a maximum of 2.\n",
+    "description4": "''Blooming Lotus Traps'' {{tip|slow}} enemies within the area by 35% for 2 seconds before exploding, dealing {{as|magic damage}} to enemies. ''Lotus Traps'' deal 65% damage against {{tip|minions}} as well as against {{tip|champions}} and {{tip|monsters}} who have been struck by another ''Lotus Trap'' in the last 1 second.\n",
+    "leveling4": "{{st|Magic Damage|{{ap|20 to 260}} {{as|(+ 120% AD)}} {{as|(+ 100% AP)}}|Reduced Damage|{{ap|20*0.65 to 260*0.65}} {{as|(+ 78% AD)}} {{as|(+ 65% AP)}}}}\n",
+    "description5": "''See [[Jhin#Pets|Pets]] for more details about Lotus Traps.''\n",
+    "cooldown": "2\n",
+    "cost": "30\n",
+    "costtype": "Mana + 1 Charge\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Beauty in Death'' does not consume ''Lotus Trap'' charges.\n* The ''Lotus Trap'' will stop upon encountering a {{ai|Wind Wall|Yasuo}} or {{ai|Unbreakable|Braum}}.\n* ''Beauty in Death'' does not trigger after killing a {{tip|clone}}.\n* The reveal debuff is named [[File: Caught Out.png|20px|link=]] ''Caught Out''.\n** This debuff is shared between ''Captive Audience'' and {{ai|Curtain Call|Jhin}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "leveling4": true,
+    "description5": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

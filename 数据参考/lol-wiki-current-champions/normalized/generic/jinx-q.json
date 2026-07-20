@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jinx-q",
+  "candidateKey": "hero_skill|hero_jinx|Q|枪炮交响曲！",
+  "ownerId": "hero_jinx",
+  "wikiChampionTitle": "Jinx",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Jinx/Q",
+  "zhDisplayName": "枪炮交响曲！",
+  "resolvedTitle": "Template:Data Jinx/Switcheroo!",
+  "wikiPageId": 1307593,
+  "revisionId": 3992483,
+  "revisionTimestamp": "2026-02-18T17:10:23Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jinx/Switcheroo!",
+  "contentSha256": "a4a11490d120a72ac8364ac1de8c1ea560badaa50f7cc5de3a4a4ab04b10186a",
+  "rawByteSize": 5648,
+  "fields": {
+    "description": "{{sbc|Toggle:}} '''Jinx''' switches between ''{{cci|Pow-Pow.png|Jinx#Pow-Pow|Pow-Pow}}'', her minigun, and ''{{cci|Fishbones.png|Jinx#Fishbones|Fishbones}}'', her rocket launcher.\n",
+    "description2": "{{sbc|Pow-Pow:}} {{tip|Basic attacks}} with ''Pow-Pow'' generate a {{tip|stack}} of [[File:Rev'd up buff.png|20px]] ''Rev'd up'' for {{fd|2.5}} seconds, refreshing on subsequent attacks with ''Pow-Pow'' and stacking up to 3 times. Each stack of ''Rev'd up'' grants {{sti|{{as|'''bonus''' attack speed}}}}, with all stacks beyond the first one being 50% effective. Stacks expire one by one when the duration ends.\n",
+    "leveling2": "{{st|Bonus Attack Speed|{{ap|30/2 to 130/2}}%|Attack Speed per Subsequent Stack|{{ap|30/4 to 130/4}}%|Maximum Attack Speed|{{ap|30 to 130}}%}}\n",
+    "description3": "{{sbc|Fishbones:}} Basic attacks with ''Fishbones'' cost {{sti|{{as|mana}}}} {{tip|on-attack}} to deal {{as|110% AD}} {{as|'''modified''' physical damage}} to the target and nearby enemies. The damage is affected by {{tip|critical strike}} modifiers. While ''Fishbones'' is equipped, '''Jinx''' gains {{sti|range|'''bonus''' range}} but loses {{sti|{{as|10% of her '''bonus''' attack speed}}}}.\n",
+    "leveling3": "{{st|Bonus Range|{{ap|100 to 200}}}}\n",
+    "description4": "''Only the first attack after switching to [[File:Switcheroo!.png|20px|link=]] Fishbones will benefit from [[File:Rev'd up buff.png|20px]] Rev'd up''.\n",
+    "cost": "20\n",
+    "costtype": "Mana per attack with {{ai|Switcheroo!|Jinx|Fishbones}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* Toggle abilities do not count as ability activations for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.\n* Despite '''Jinx''' starting the game using {{ai|Pow-Pow|Jinx|''Pow-Pow''}} she doesn't receive any bonus attack speed until ''Switcheroo!'' has been learned.\n* {{ai|Fishbones|Jinx|''Fishbones''}} splash damage affects structures (minions will target '''Jinx''') but does not affect targets if '''Jinx's''' attacks are {{tip|block|blocked}}, {{tip|dodge|dodged}}, or {{tip|blind|missed}}.\n* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} bolts are special-cased to generate one {{ai|Pow-Pow|Jinx|''Pow-Pow''|nolink=true}} stack per enemy hit.\n* Each of {{iis|Runaan's Hurricane}} additional bolts apply {{ai|Fishbones|Jinx|Fishbones'}} splash damage, which stacks with each other.\n* Both weapons deal {{tip|basic damage}} to their primary target (this includes the increased damage of {{ai|Fishbones|Jinx|''Fishbones''}}), which applies {{sti|life steal}} based on the damage dealt (post-mitigation) as usual.\n* The splash damage of {{ai|Fishbones|Jinx|''Fishbones''}} is based on the pre-mitigation damage done to the primary target (which includes critical strikes), and is not considered {{as|'''modified''' physical damage}}. It deals {{tip|default damage}} and thus doesn't apply {{sti|life steal}} or {{tip|on-hit}} effects.\n* {{ais|Fishbones|Jinx}} damage calculations:\n** Basic attack damage: {{tt|{{as|{{#expr:100*1.1}}% AD}}|100%{{times}}1.1}}\n** Critical strike damage: {{tt|{{as|{{fd|{{#expr:100*1.1*2}}}}% AD}}|110%{{times}}2}}\n** Critical strike damage with {{ii|Infinity Edge}}: {{tt|{{as|{{fd|{{#expr:100*1.1*(2+0.3)}}}}% AD}}|110%{{times}}(2+0.3)}}\n** {{iis|Runaan's Hurricane}} bolt damage: {{tt|{{as|{{#expr:100*1.1*0.55}}% AD}}|55%{{times}}1.1}}\n** Bolt critical strike damage: {{tt|{{as|{{fd|{{#expr:100*1.1*0.55*2}}}}% AD}}|60.5%{{times}}2}}\n** Bolt critical strike damage with {{ii|Infinity Edge}}: {{tt|{{as|{{fd|{{#expr:100*1.1*0.55*(2+0.3)}}}}% AD}}|60.5%{{times}}2.3}}\n** Maximum potential damage with {{ii|Runaan's Hurricane}}: {{tt|{{as|{{fd|{{#expr:100*1.1+100*1.1*0.55*2}}}}% AD}}|110% + 60.5%{{times}}2}}\n** Maximum potential critical strike damage with {{ii|Runaan's Hurricane}}: {{tt|{{as|{{fd|{{#expr:100*1.1*2+100*1.1*2*0.55*2}}}}% AD}}|(110% + 60.5%{{times}}2){{times}}2}}\n** Maximum potential critical strike damage with {{ii|Runaan's Hurricane}} and {{ii|Infinity Edge}}: {{tt|{{as|{{fd|{{#expr:100*1.1*(2+0.3)+100*1.1*(2+0.3)*0.55*2}}}}% AD}}|(110% + 60.5%{{times}}2){{times}}2.3}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

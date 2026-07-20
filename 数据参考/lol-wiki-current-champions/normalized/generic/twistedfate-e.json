@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "twistedfate-e",
+  "candidateKey": "hero_skill|hero_twistedfate|E|卡牌骗术",
+  "ownerId": "hero_twistedfate",
+  "wikiChampionTitle": "Twisted Fate",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Twisted Fate/E",
+  "zhDisplayName": "卡牌骗术",
+  "resolvedTitle": "Template:Data Twisted Fate/Stacked Deck",
+  "wikiPageId": 1309739,
+  "revisionId": 3963571,
+  "revisionTimestamp": "2025-11-05T11:54:01Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Twisted%20Fate/Stacked%20Deck",
+  "contentSha256": "748d2cc6fc7a537740e1b26c1f7e2270a6eea8afc20d9c82236448fc562587e0",
+  "rawByteSize": 1819,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Twisted Fate''' gains {{sti|as|{{as|'''bonus''' attack speed}}}}. His {{tip|basic attacks}} {{tip|on-hit}} generate a {{tip|stack}} of ''Stacked Deck'', stacking up to 3 times. At 3 stacks, his next basic attack is empowered to consume them all to deal {{as|'''bonus''' magic damage}}, reduced to 50% against structures.<br><br>'''Twisted Fate''' gains maximum stacks of ''Stacked Deck'' upon [[death|respawning]].\n",
+    "leveling": "{{st|Bonus Attack Speed|{{ap|15 to 55}}%}}\n{{st|Bonus Magic Damage|{{ap|65 to 165}} {{as|(+ 20% '''bonus''' AD)}} {{as|(+ 40% AP)}}}}\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Stacked Deck'' can be {{tip|dodged}} and/or missed if '''Twisted Fate''' is {{tip|blind|blinded}} (the on-hit effect is not consumed in either case) but cannot be {{tip|blocked}} (the enhanced attack is consumed and the bonus damage is still applied).\n* As of patch [[V14.2]], '''Twisted Fate''' is intended to gain maximum stacks of ''Stacked Deck'' upon learning the ability, but currently does not.{{bug}}\n* The empowered attack will trigger against {{tip|structures}} but not {{tip|wards}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

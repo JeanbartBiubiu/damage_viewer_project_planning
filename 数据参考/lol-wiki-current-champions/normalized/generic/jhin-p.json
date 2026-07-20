@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jhin-p",
+  "candidateKey": "hero_skill|hero_jhin|P|低语",
+  "ownerId": "hero_jhin",
+  "wikiChampionTitle": "Jhin",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Jhin/I",
+  "zhDisplayName": "低语",
+  "resolvedTitle": "Template:Data Jhin/Whisper",
+  "wikiPageId": 1307577,
+  "revisionId": 3998238,
+  "revisionTimestamp": "2026-03-10T20:28:41Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jhin/Whisper",
+  "contentSha256": "2ef6300374d29c05f039b78a3d750199cff0236f78c147064d434ee897db7cf5",
+  "rawByteSize": 3890,
+  "fields": {
+    "description": "{{sbc|Innate - Death In 4 Acts:}} '''Jhin's''' {{tip|basic attacks}} consume [[ammunition]] within 4 rounds. He will reload over {{fd|2.5}} seconds immediately after expending all rounds or withholding leftover rounds after 10 seconds of being [[out of combat]] and not being affected by {{tip|crowd control}}. The latter reload can be interrupted by declaring an attack or casting an ability. '''Jhin''' is {{tip|lockout|unable}} to declare basic attacks during the reload time.\n",
+    "description2": "'''Jhin's''' final round attack has an {{tip|uncancellable windup}}, always {{tip|critically strike|critically strikes}}, including against {{tip|turrets|structures}}, and deals {{as|'''bonus''' physical damage}} equal to {{as|{{pp|key=%|15 to 25 for 3|1 to 11}} of the target's {{sti|'''missing''' health}}}}. The damage based on the target's health is capped at 800 against {{tip|monsters}}.\n",
+    "description3": "{{sbc|Innate - Every Moment Matters:}} '''Jhin''' gains {{sti|ad|{{as|'''bonus''' attack damage}}}} equal to {{as|{{pp|key=%|4;5;6;7;8;9;10;11;12;14;16;20;24;28;32;36;40;44|formula = 4% at + 1% per level up to 9, then + 2% up to 11, then + 4%, capped at level 18}}|attack damage}}<!--stops at 18-->{{ft|{{as|(+ {{fd|0.35}}% per 1% critical strike chance)}} {{as|(+ {{fd|0.3}}% per 1% '''bonus''' attack speed)}}|{{as|(+ 35% critical strike chance)}} {{as|(+ 30% '''bonus''' attack speed)}}}}{{as|AD}}.\n",
+    "description4": "Additionally, {{tip|critical strikes}} against enemies grant '''Jhin''' {{as|14%|movement speed}} {{as|(+ {{fd|0.44}}% per 1% '''bonus''' attack speed)}} {{sti|{{as|'''bonus''' movement speed}}}} for 2 seconds.\n",
+    "damagetype": "Physical\n",
+    "notes": "* The {{as|{{sti|'''missing''' health}}}} damage benefits from {{sti|life steal}}.\n* The '''bonus''' damage based on the target's missing health does not affect structures.\n* The 4th attack versus a structure is classified as a critical strike.\n* The attack damage multiplier stacks additively with {{bi|Dragon Slayer|Dragon Slayer's}}.\n* ''Every Moment Matters' '' bonus {{as|AD}} will benefit from any amount of {{as|'''bonus''' attack speed}}, even in excess of an amount that would usually reach the attacks per second cap ({{fd|3}}).\n** The maximum modifier without attack speed is 79%.\n*** 44% base modifier at level 18.\n*** 35% from critical strike chance on account of the 100% cap.\n*** [[Attack speed#Reducing attack speed|Attack speed slows]] will not affect '''Jhin's''' bonus attack damage from his passive and will ignore his attack speed as it is fixed.\n* Attack damage reductions apply before the multiplier causing them to be stronger against '''Jhin''' than advertised or versus other champions.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

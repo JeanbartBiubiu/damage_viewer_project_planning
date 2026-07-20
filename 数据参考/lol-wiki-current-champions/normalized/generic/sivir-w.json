@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "sivir-w",
+  "candidateKey": "hero_skill|hero_sivir|W|弹射",
+  "ownerId": "hero_sivir",
+  "wikiChampionTitle": "Sivir",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Sivir/W",
+  "zhDisplayName": "弹射",
+  "resolvedTitle": "Template:Data Sivir/Ricochet",
+  "wikiPageId": 1308839,
+  "revisionId": 4008042,
+  "revisionTimestamp": "2026-04-13T04:31:10Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Sivir/Ricochet",
+  "contentSha256": "480018d996ad196644fa7dc4af55e1f3028fdfff64af71c5c9ebaf9ad9e63a29",
+  "rawByteSize": 2856,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Sivir''' empowers her crossblade for the next 4 seconds, gaining {{sti|{{as|'''bonus''' attack speed}}}} and causing her basic attacks to bounce to additional surrounding enemies, dealing {{as|physical damage}} to them. If the triggering attack {{tip|critical strike|critically strikes}}, the bounces will do so as well for {{as|{{critical damage|{{ccd|Sivir|crit_base}}|100}}|critical damage}} damage. ''Ricochet'' deals 65% damage against {{tip|minions}} and executes them if they would be left below {{sti|{{as|15 health}}}}.\n",
+    "leveling": "{{st|Bonus Attack Speed|{{ap|20 to 40}}%}}\n{{st|Bounce Damage|{{as|{{ap|40 to 50}}% AD}}|Bounce Critical Damage|{{as|{{ap|40*{{ccd|Sivir|crit_base}}/100 to 50*{{ccd|Sivir|crit_base}}/100}}% AD}}}}\n{{st|Minion Bounce Damage|{{as|{{ap|40*0.65 to 50*0.65}}% AD}}|Minion Bounce Critical Damage|{{as|{{ap|(40*0.65)*{{ccd|Sivir|crit_base}}/100 to (50*0.65)*{{ccd|Sivir|crit_base}}/100}}% AD}}}}\n",
+    "description2": "Bounces occur only up to 8 times and can target each enemy up to one additional time per empowered attack. They prioritize the nearest new target, then the nearest target if no new targets are available.\n",
+    "description3": "''Ricochet {{tip|basic attack reset|resets}} '''Sivir's''' basic attack timer if it was {{tt|not already active|See notes}}. The target does not have to be {{tip|sight|visible}} to be bounced to.''\n",
+    "cooldown": "12\n",
+    "cost": "60\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''Ricochet''-enhanced basic attacks can bounce from structures onto secondary targets but not from nearby units onto structures.\n* {{Pending for test}}: ''Ricochet's '' interactions with {{tip|dodge|dodging}}, {{tip|block|blocking}}, and {{tip|blind|blinding}} effects.\n* ''Ricochet'' do not apply to additional targets with {{ii|Runaan's Hurricane}}.\n* '''Sivir's''' attack timer will only reset from casting ''Ricochet'' if the ability's buff was not already active on her. Refreshing the buff will not grant an attack reset.{{bug}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

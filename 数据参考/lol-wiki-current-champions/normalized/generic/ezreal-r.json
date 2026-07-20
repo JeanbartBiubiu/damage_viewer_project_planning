@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "ezreal-r",
+  "candidateKey": "hero_skill|hero_ezreal|R|精准弹幕",
+  "ownerId": "hero_ezreal",
+  "wikiChampionTitle": "Ezreal",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Ezreal/R",
+  "zhDisplayName": "精准弹幕",
+  "resolvedTitle": "Template:Data Ezreal/Trueshot Barrage",
+  "wikiPageId": 1307113,
+  "revisionId": 4013235,
+  "revisionTimestamp": "2026-04-28T21:20:36Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ezreal/Trueshot%20Barrage",
+  "contentSha256": "e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0",
+  "rawByteSize": 1453,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Ezreal''' fires a powerful arc of energy in the target direction that briefly grants {{tip|sight}} of its surroundings and deals {{as|magic damage}} to enemies hit.\n",
+    "leveling": "{{st|Magic Damage|{{ap|350 to 750}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 110% AP)}}}}\n",
+    "description2": "{{tip|Minion|Minions}} and non-epic {{tip|monster|monsters}} take modified damage.\n",
+    "leveling2": "{{st|Modified Damage|{{ap|150 to 300}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 110% AP)}}}}\n",
+    "cooldown": "{{ap|120 to 90}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Trueshot Barrage's'' projectile has an [[File:Trueshot Barrage Minimap.png|40px|link=]] icon on the mini-map while it is in flight. It can be seen by only '''Ezreal''' and his allies.\n{{Effect at cast time start}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

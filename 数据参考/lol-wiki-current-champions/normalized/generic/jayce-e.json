@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jayce-e",
+  "candidateKey": "hero_skill|hero_jayce|E|雷霆一击 / 加速之门",
+  "ownerId": "hero_jayce",
+  "wikiChampionTitle": "Jayce",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Jayce/E",
+  "zhDisplayName": "雷霆一击 / 加速之门",
+  "resolvedTitle": "Template:Data Jayce/Thundering Blow",
+  "wikiPageId": 1331688,
+  "revisionId": 3965179,
+  "revisionTimestamp": "2025-11-11T19:00:26Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jayce/Thundering%20Blow",
+  "contentSha256": "53c88b19bc4bd06bf26ac6edabd4ce317dd9750b40455cd175d27be6ab274ef7",
+  "rawByteSize": 1382,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Jayce''' {{tip|root|roots}} the target enemy over the cast time, then swings his hammer at them to deal {{as|magic damage}}, capped against {{tip|monsters}}, and {{tip|airborne|knock them back}} 600 units.\n",
+    "leveling": "{{st|Magic Damage|{{as|{{ap|8 to 22 6}}% of target's '''maximum''' health}} {{as|(+ 100% '''bonus''' AD)}}}}\n{{st|Capped Monster Damage|{{ap|200 to 700 6}}}}\n",
+    "description3": "'''''Jayce''' is unable to cast {{ai|To the Skies!|Jayce}} or {{ai|Shock Blast|Jayce}} for {{fd|0.4}} seconds after Thundering Blow's cast time.''\n",
+    "cooldown": "{{ap|20 to 10 6}}\n",
+    "cost": "55\n",
+    "costtype": "Mana\n",
+    "damagetype": "magic\n",
+    "notes": "{{Unit-targeted cancel conditions}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

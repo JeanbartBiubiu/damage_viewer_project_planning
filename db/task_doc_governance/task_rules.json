@@ -549,12 +549,15 @@
       "title": "通用 ABI 最小验证统一机制清单剩余阻塞收口",
       "module": "wasm",
       "feature": "generic_min_validation_coverage_audit",
-      "status": "完成",
+      "status": "进行中",
       "priority": 1,
-      "completion_note": "254 去重机制统一清单终态：completed=31、partial_actionable=0、ready_to_implement=0、blocked_runtime=29、blocked_data=119、out_of_scope=70、regression_only=5、stale_or_duplicate=0；actionableKeyCount=0。docs 仅映射 2026-07-17 剩余阻塞汇总测试记录。",
-      "completed_at": "2026-07-17",
       "docs": [
-        "文档记录/测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-17.md"
+        "文档记录/测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md",
+        "文档记录/详细设计/最小验证/V2-Batch-2512-开战弹幕机制闭环计划.md",
+        "文档记录/详细设计/wasm/Wiki冠军数值真源与PhaseA边界-2026-07-19.md",
+        "文档记录/详细设计/最小验证/V2-Batch-3073-过载机制闭环计划.md",
+        "文档记录/详细设计/最小验证/V2-Batch-6610-光盾打击机制闭环计划.md",
+        "文档记录/详细设计/最小验证/V2-Batch-3032-疾风骤雨机制闭环计划.md"
       ]
     },
     {
@@ -747,11 +750,59 @@
       "status": "完成",
       "priority": 1,
       "owner_model": "multi-model",
-      "completion_note": "跨 Backend/Wasm/Web worktree 交付已完整闭环（幂等 seed、generic runtime 回归、assembler 投影与 G8 partial 证据），但游戏语义仅为 candidate-level partial：仅 rank5 E 的 30 mana / 10000ms CD、ability_started（充能完成近似）→4000ms supercharge_active、attack_speed percent_add 0.80*state；移动速度+幽灵、attack-windup、真实充能/施法时序、每次普攻 0.5s CD 返还、进化隐形、其它 rank、完整 rotation/cadence、live migration/publish/E2E 均未建模，不得误称完整 E。",
+      "completion_note": "用户批准 Phase-A rank5 1v1 攻速分支已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4038391 / SHA256 327dc441e84bf2b320dccbe9099b4e98bf42562529e95facd417fbbc27d99e24；30 mana / 10000ms CD、ability_started（充能完成近似）→4000ms timed state（Wasm fixture supercharge_as_active / Backend seed supercharge_active；provider-local/data-defined，本证据语义等价，非跨 bundle 字面同键）、attack_speed percent_add 0.80*state（base 0.60→1.08）、CD 阻断重复施放；CompileGeneric→RunGeneric 证据齐。移动速度+幽灵、attack-windup、真实充能/cast 时序、普攻 0.5s CD 返还、进化隐形、其它 rank、rotation/cadence、多目标、live migration/publish/E2E 为用户批准排除，非 remainingGap/blocker；不得误称完整游戏技能保真。",
       "completed_at": "2026-07-15",
       "docs": [
         "文档记录/详细设计/wasm/通用ABI-卡莎E极限超载Supercharge机制详细设计.md",
         "文档记录/测试记录/wasm/通用ABI-卡莎E极限超载Supercharge机制验证记录-2026-07-15.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-xayah-deadly-plumage",
+      "title": "通用 ABI 霞 W 致死羽衣 Deadly Plumage Phase-A rank5 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_xayah_deadly_plumage",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "用户批准 Phase-A rank5 1v1 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4010669 / SHA256 09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7；40 mana / 14000ms CD / 4000ms timed AS +55%；source-owned pipeline basic_damage*(1+0.25*deadly_plumage_active)=×1.25（Wiki 次级羽刃 25% 合并近似，非第二 missile）；expected-crit 一次后再 ×1.25 一次；排除 on-hit/proc；Guinsoo phantom 不重放非 CopyableOnHit 基攻且不重跑倍率。CompileGeneric→RunGeneric 证据齐。移速/Rakan/Runaan/多目标/projectile/in-flight/ward/blind/dodge/block/独立次级羽刃/其它 rank/live migration/publish/E2E 为用户批准排除，非 remainingGap/blocker；不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-霞W致死羽衣DeadlyPlumage机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-霞W致死羽衣DeadlyPlumage机制验证记录-2026-07-20.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-kayle-radiant-blast",
+      "title": "通用 ABI 凯尔 Q 耀焰冲击 Radiant Blast Phase-A rank5 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kayle_radiant_blast",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "本任务冻结的 Phase-A rank5 主目标 1v1 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4005105 / SHA256 ded516de4861d88de21ba54de9a8723b654f424f1cc3f9dac30d06382ee1a87c；魔法伤害 180+0.60*(ad.resolved-ad.base)+0.50*ap.resolved；先伤后击碎；provider-target kayle_q_sundered（0/1/4000ms refresh_on_write）→ opponent armor/MR percent_add −15%；100 mana / 8000ms CD。CompileGeneric→RunGeneric 证据齐。slow/portal delay/windup cast/projectile/cross-secondary/ranks1–4/death persistence/live migration/publish/E2E 为 Phase-A 排除，非 remainingGap/blocker；不得误称完整游戏技能保真；Bootstrap 面板 provenance 非 Q 数值真理。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-凯尔Q耀焰冲击RadiantBlast机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-凯尔Q耀焰冲击RadiantBlast机制验证记录-2026-07-20.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-graves-new-destiny",
+      "title": "通用 ABI 格雷福斯 P 新命运 New Destiny Phase-A 贴脸机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_new_destiny",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "冻结 Phase-A 贴脸最大弹丸 1v1 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4038342 / SHA256 553bda222e9e85f0eff6d4cba3b8723979a58b68fba9097d2dfa1bd373117aa8；合并物理 AD*F(x)*(1+3*s)；C2 natural/forced override 同公式不双乘 crit_damage；恰好一次 damage + 一次 basic_attack_hit；copyable_on_hit=false。CompileFrame→RunFrame→ReleaseSessionFrame 证据齐。精确装填速度公式（Wiki unknown）为 completed-boundary exclusion（missingFields=[]）；弹药/弹道/多目标/RNG/live/publish/E2E 为 Phase-A 排除，非 remainingGap/blocker；不得误称完整游戏技能保真；Bootstrap 面板 provenance 非 P 数值真理。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯P新命运NewDestiny机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯P新命运NewDestiny机制验证记录-2026-07-20.md"
       ]
     },
     {

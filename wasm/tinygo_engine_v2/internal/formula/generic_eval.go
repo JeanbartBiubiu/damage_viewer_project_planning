@@ -37,6 +37,34 @@ type GenericEvalContext struct {
 	// Missing damage context must fail structurally (never silently return zero).
 	HasDamageContext bool
 	DamageAmount     float64
+	// DamageTraits lists catalog damage_trait/* keys on the current damage operation.
+	DamageTraits []string
+	// DamageTypeKey is the current operation damage type (catalog key / settlement alias).
+	DamageTypeKey string
+	// DamageCastOrigin is the casting ability castOrigin enum value (champion|item|pet|innate); empty if unset.
+	DamageCastOrigin string
+	// DamageAbilityTypes lists casting ability TypeSet keys (ability/*) for ability_type predicates.
+	DamageAbilityTypes []string
+
+	// Event damage snapshot reads require an emitted damage_instance (or equivalent) context.
+	HasEventDamageSnapshot bool
+	EventDamage            EventDamageSnapshot
+}
+
+// EventDamageSnapshot is the immutable numeric freeze under event.damage.*.
+type EventDamageSnapshot struct {
+	BaseRawAmount          float64
+	PreMitigationAmount    float64
+	MitigatedAmount        float64
+	OriginalCritChance     float64
+	EffectiveCritChance    float64
+	ForcedCritWeight       float64
+	NaturalCritWeight      float64
+	ForcedCritMultiplier   float64
+	NaturalCritMultiplier  float64
+	NormalPart             float64
+	CritPart               float64
+	NaturalBranchRawAmount float64
 }
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
@@ -241,8 +269,85 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return 0, errors.New("damage.amount requires damage context")
 		}
 		return ctx.DamageAmount, nil
+	case ReadDamageTrait:
+		if !ctx.HasDamageContext {
+			return 0, errors.New("damage.trait requires damage context")
+		}
+		want := "damage_trait/" + key
+		for _, t := range ctx.DamageTraits {
+			if t == want {
+				return 1, nil
+			}
+		}
+		return 0, nil
+	case ReadDamageType:
+		if !ctx.HasDamageContext {
+			return 0, errors.New("damage.type requires damage context")
+		}
+		if CanonicalDamageTypeKey(ctx.DamageTypeKey) == CanonicalDamageTypeKey(key) {
+			return 1, nil
+		}
+		return 0, nil
+	case ReadDamageCastOrigin:
+		if !ctx.HasDamageContext {
+			return 0, errors.New("damage.cast_origin requires damage context")
+		}
+		if ctx.DamageCastOrigin != "" && ctx.DamageCastOrigin == key {
+			return 1, nil
+		}
+		return 0, nil
+	case ReadDamageAbilityType:
+		if !ctx.HasDamageContext {
+			return 0, errors.New("damage.ability_type requires damage context")
+		}
+		want := "ability/" + key
+		for _, t := range ctx.DamageAbilityTypes {
+			if t == want {
+				return 1, nil
+			}
+		}
+		return 0, nil
+	case ReadEventDamage:
+		if err := requireEventContext(ctx); err != nil {
+			return 0, err
+		}
+		if !ctx.HasEventDamageSnapshot {
+			return 0, errors.New("event.damage requires damage event context")
+		}
+		return readEventDamageField(ctx.EventDamage, key)
 	default:
 		return 0, errors.New("unknown read kind")
+	}
+}
+
+func readEventDamageField(snap EventDamageSnapshot, key string) (float64, error) {
+	switch key {
+	case "baseRawAmount":
+		return snap.BaseRawAmount, nil
+	case "preMitigationAmount":
+		return snap.PreMitigationAmount, nil
+	case "mitigatedAmount":
+		return snap.MitigatedAmount, nil
+	case "originalCritChance":
+		return snap.OriginalCritChance, nil
+	case "effectiveCritChance":
+		return snap.EffectiveCritChance, nil
+	case "forcedCritWeight":
+		return snap.ForcedCritWeight, nil
+	case "naturalCritWeight":
+		return snap.NaturalCritWeight, nil
+	case "forcedCritMultiplier":
+		return snap.ForcedCritMultiplier, nil
+	case "naturalCritMultiplier":
+		return snap.NaturalCritMultiplier, nil
+	case "normalPart":
+		return snap.NormalPart, nil
+	case "critPart":
+		return snap.CritPart, nil
+	case "naturalBranchRawAmount":
+		return snap.NaturalBranchRawAmount, nil
+	default:
+		return 0, errors.New("unknown event.damage field")
 	}
 }
 

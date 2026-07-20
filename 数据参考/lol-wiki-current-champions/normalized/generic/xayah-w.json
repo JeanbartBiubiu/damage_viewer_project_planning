@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "xayah-w",
+  "candidateKey": "hero_skill|hero_xayah|W|致死羽衣",
+  "ownerId": "hero_xayah",
+  "wikiChampionTitle": "Xayah",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Xayah/W",
+  "zhDisplayName": "致死羽衣",
+  "resolvedTitle": "Template:Data Xayah/Deadly Plumage",
+  "wikiPageId": 1324542,
+  "revisionId": 4010669,
+  "revisionTimestamp": "2026-04-20T07:12:10Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Xayah/Deadly%20Plumage",
+  "contentSha256": "09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7",
+  "rawByteSize": 2978,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Xayah''' enters a frenzy for 4 seconds, gaining {{sti|{{as|'''bonus''' attack speed}}}} and causing her basic attacks {{tip|on-attack}} to be empowered to fire an additional smaller feather at the target {{tip|on-hit}} that deals 25% damage of the triggering {{as|attack's damage}}.\n",
+    "leveling": "{{st|Bonus Attack Speed|{{ap|35 to 55}}%}}\n",
+    "description2": "Whenever '''Xayah''' hits an enemy {{tip|champion}} with the strike, she gains {{sti|ms|{{as|30% '''bonus''' movement speed}}}} for {{fd|1.5}} seconds.\n",
+    "description3": "''If {{ci|Rakan}} is nearby upon cast, he also becomes empowered, and gains the {{sti|{{as|'''bonus''' movement speed}}}} at the same time as '''Xayah'''.''\n",
+    "cost": "{{ap|60 to 40}}\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|18 to 14}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* The additional missile is visually a smaller feather than the normal feather missiles that are fired by '''Xayah's''' basic attacks and does not technically count as a {{as|Feather|buzzword}} for {{ai|Clean Cuts|Xayah}}.\n* Upon casting, missiles that are already in flight will also be empowered to apply the additional feather, but '''Xayah''' will not be granted the '''bonus''' movement speed from their hit. {{bug}}\n* Since the additional missile's damage is based on a percentage of the triggering attack's damage, it will also benefit from the increased damage of triggering attacks that {{tip|critically strike}}.\n** The additional missile itself however cannot {{tip|critically strike}}.\n* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} interacts with ''Deadly Plumage'' by causing the additional bolts to fire their own additional missile that deals a percentage of the triggering bolt's damage.\n* ''Deadly Plumage'' does not interact with {{iis|Guinsoo's Rageblade}} ''Phantom Hit''.\n* The empowered attack will not trigger against [[ward]]s.\n* The additional missile is not fired if the triggering basic attack misses while '''Xayah''' is {{tip|blind|blinded}}.\n* {{Pending for test}} Interactions with {{tip|dodge}} and {{tip|block}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

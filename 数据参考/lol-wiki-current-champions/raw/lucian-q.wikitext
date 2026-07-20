@@ -1,0 +1,26 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Piercing Light|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Lucian
+|skill        = Q
+|icon         = Piercing Light.png
+|blurb        = {{sbc|Active:}} {{ci|Lucian}} fires a laser in a line in the direction of the target enemy, dealing {{as|physical damage}} to enemies hit.
+|description  = {{sbc|Active:}} '''Lucian''' fires a laser in a line in the direction of the target enemy that deals {{as|physical damage}} to enemies hit.
+|leveling     = {{st|Physical Damage|{{ap|80 to 220}} {{as|(+ 100% '''bonus''' AD)}}}}
+|cost         = {{ap|48 to 80}}
+|costtype     = Mana
+|cooldown     = {{ap|9 to 5}}
+|cast time    = {{pp|0.4 to 0.25}}
+|target range = {{tip|er|icononly = true}} 500
+|range        = {{tip|er|icononly = true}} 1000
+|width        = {{tip|er|icononly = true}} 120
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = Physical
+|spelleffects = AoE
+|spellshield  = True
+|projectile   = False
+|notes   =
+* ''Piercing Light'' will attempt to lead the target if it is moving but does not adjust further during the cast time (enemies can dodge the laser if they change their position by a sufficient amount during the cast time).
+* '''Lucian''' can buffer {{ai|W|Lucian}} or {{ai|R|Lucian}} during the cast time. {{ai|E|Lucian}} is locked out.
+** This is why '''Lucian''' can use them early if the cast time prematurely ends.
+* ''Piercing Light's cast time ends prematurely if the initial target dies, allowing '''Lucian''' to attack and move freely, or to immediately begin casting either {{ai|W|Lucian}} or {{ai|R|Lucian}}.{{bug|2}}''
+}}

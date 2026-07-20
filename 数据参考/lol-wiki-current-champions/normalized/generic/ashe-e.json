@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "ashe-e",
+  "candidateKey": "hero_skill|hero_ashe|E|鹰击长空",
+  "ownerId": "hero_ashe",
+  "wikiChampionTitle": "Ashe",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Ashe/E",
+  "zhDisplayName": "鹰击长空",
+  "resolvedTitle": "Template:Data Ashe/Hawkshot",
+  "wikiPageId": 1306809,
+  "revisionId": 3936951,
+  "revisionTimestamp": "2025-07-27T11:52:18Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Hawkshot",
+  "contentSha256": "218c7d2ecbf561f64b35a97e57f47a853a036a4923517eb278b572a7640dedc0",
+  "rawByteSize": 2051,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Ashe''' sends a hawk spirit to a location, granting {{tip|sight}} of the area along its path{{ft|repeatedly for {{fd|0.5}} seconds after every 100 units traveled|for effectively up-to {{fd|1.8}} seconds at any location}}and at its destination for 5 seconds.\n",
+    "description2": "'''Ashe''' periodically [[ammunition|stocks]] a ''Hawkshot'' charge, up to a maximum of 2.\n",
+    "cooldown": "5\n",
+    "cost": "1\n",
+    "costtype": "Charge\n",
+    "notes": "* ''Hawkshot's'' recharge timer seems to start at the beginning of the game, even prior to ranking the ability, but upon actually ranking the ability, it starts with one charge and the recharge timer starts from 0.\n* ''Hawkshot'' will ping enemy champions it spots if allies didn't already have vision of them, and put a 'revealed' visual effect on them for {{tt|{{fd|2.75 seconds}}|Estimated}}, but does not actually reveal the units in particular, and is removed if the champion leaves the area.\n* '''Ashe''' marks enemy champions who were previously unseen but were revealed ''Hawkshot'' in order to gain [[assist]] credit, lasting for the standard credit timer.\n* ''Hawkshot'' will trigger upon colliding with {{ai|Blade Whirl|Samira}} or {{ai|Wind Wall|Yasuo}} but not {{ai|Unbreakable|Braum}}.\n* ''Hawkshot'' will grant 0.33 points of [[vision score]] for each champion revealed.\n<!--Blurb-->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "notes": true,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

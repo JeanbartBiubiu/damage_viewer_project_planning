@@ -1,0 +1,33 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Quickdraw|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Graves
+|skill        = E
+|icon         = Quickdraw.png
+|blurbicon    = Quickdraw.png
+|blurb        = {{sbc|Active:}} {{ci|Graves}} {{tip|dash|dashes}} in the target direction and reloads {{as|1 shell|buzzword3}}. He also gains a {{tip|stack}} of ''True Grit'', doubled if he dashed toward an enemy {{tip|champion}}.
+|blurb2       = Each time he hits an enemy with a {{as|pellet|buzzword2}}, the cooldown is {{sti|ah|reduced}}.
+|blurb4       = {{sbc|True Grit:}} For each stack, '''Graves''' gains {{sti|armor|{{as|'''bonus''' armor}}}}. Attacks versus non-minion enemies will refresh the duration.
+|description  = {{sbc|Active:}} '''Graves''' {{tip|dashes}} to the target location, reloading one {{as|shell|buzzword3}} while generating a {{tip|stack}} of ''True Grit'' for 4 seconds, stacking up to 8 times. Dashing towards an enemy {{tip|champion}} generates 2 stacks of ''True Grit''.
+|description2 = ''Quickdraw's'' {{sti|'''current''' cooldown}} is reduced by {{fd|0.5}} seconds for every {{as|pellet|buzzword2}} impacting an enemy.
+|description3 = {{sbc|True Grit:}} For each stack, '''Graves''' gains {{sti|armor|{{as|'''bonus''' armor}}}}, and {{sti|{{as|'''bonus''' magic resistance}}}} equal to 50% of that amount. Subsequent casts of ''Quickdraw'' and damage versus non-{{tip|minions}} will refresh the duration of ''True Grit''.
+|description4 = ''Quickdraw {{tip|basic attack reset|resets}} '''Graves'''' basic attack timer.''
+|leveling3    = {{st|Bonus Armor|{{ap|7 to 19}}|Maximum Bonus Armor|{{ap|7*8 to 19*8}}}}
+{{st|Bonus Magic Resistance|{{ap|7*0.5 to 19*0.5}}|Maximum Bonus MR|{{ap|7*0.5*8 to 19*0.5*8}}}}
+|cooldown     = {{ap|16 to 12}}
+|cost         = 40
+|cast time    = none
+|costtype     = Mana
+|target range = {{tt|275 - 375|Minimum and maximum dash distance}}
+|targeting    = Location
+|affects      = Self
+|damagetype   =
+|grounded     = True
+|knockdown    = True
+|outofrange   = cast at max
+|notes        =
+* If '''Graves''' dashes while reloading, he can cast any of his {{tip|abilities}} during the dash.{{bug|1}}
+* '''Graves''' gains the one additional stack of ''True Grit'' from ''Quickdraw'' if at any point during the dash a {{tip|sight|visible}} enemy champion is in front of ''Graves'' within {{tip|er|icononly = true}} 1300 distance.
+** Enemy champions have to be targetable to grant the additional stack.
+** The additional stack of ''True Grit'' is gained when dashing towards {{tip|clone|clones}} just like actual champions.
+** This check never happens if '''Graves''' dashes 0 distance (impossible outside of bugs), and will not always repeat a final time at the very end of the dash. Otherwise, it occurs continously while '''Graves''' is dashing.
+** This works for a 180 degree sector from Graves to the Champion, as such dashing parallel to the champ will also give a bonus stack.
+}}

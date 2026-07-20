@@ -1,0 +1,30 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Blinding Assault|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Quinn
+|skill        = Q
+|icon         = Blinding Assault.png
+|blurb        = {{sbc|Active:}} {{ci|Quinn}} sends {{ci|Valor}} in the target direction who stops upon hitting an enemy, dealing {{as|physical damage}} all nearby enemies.
+|blurb2       = The primary target is {{tip|nearsight|nearsighted}} briefly if they are a {{tip|champion}}, and {{tip|disarm|disarmed}} otherwise.
+|description  = {{sbc|Active:}} '''Quinn''' sends '''{{ci|Valor}}''' in the target direction who stops upon hitting an enemy, marking them with ''{{ai|Harrier|Quinn}}'' and dealing {{as|physical damage}} to all nearby enemies, increased to 200% against {{tip|monsters}}.
+|leveling     = {{st|Physical Damage|{{ap|65 to 205}} {{as|(+ {{ap|80 to 100}}% '''bonus''' AD)}} {{as|(+ 50% AP)}}}}
+|description2 = The primary target is {{tip|nearsight|nearsighted}} for {{fd|1.75}} seconds if they are a {{tip|champion}}, and {{tip|disarm|disarmed}} for the same duration otherwise.
+|cooldown     = {{ap|11 to 9}}
+|cost         = {{ap|50 to 70}}
+|cast time    = {{fd|0.25}}
+|customlabel  = Sight Reduction
+|custominfo   = {{tt|350|Reduces sight radius to this number}}
+|costtype     = Mana
+|target range = 1050
+|width        = {{tip|er|icononly = true}} 120
+|speed        = 1550
+|effect radius= {{tt|210|Damage radius}}
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spelleffects = spellaoe
+|spellshield  = True
+|projectile   = True
+|notes   =
+* ''Blinding Assault's'' {{tip|nearsight}} will persist through {{tip|death}}.
+{{Effect at cast time start}}
+|flavorsound  = {{sm2|Quinn_Original_Q_0.ogg}} ''"Gouge 'em, Valor!"''
+}}

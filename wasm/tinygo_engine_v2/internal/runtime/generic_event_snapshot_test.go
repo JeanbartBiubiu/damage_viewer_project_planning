@@ -423,12 +423,51 @@ func TestGenericRunPhysicalResistanceSummary(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	// raw→mitigated 预期行为变化：100 physical / 100 armor = 50；MR 与 source pen 无效。
-	if done.Summary.TargetFinalHp != 950 {
-		t.Fatalf("targetFinalHp=%v want 950", done.Summary.TargetFinalHp)
+	// 100 armor, 100% pct + 100 flat → effective 0 → mitigated 100；MR 无效。
+	if done.Summary.TargetFinalHp != 900 {
+		t.Fatalf("targetFinalHp=%v want 900", done.Summary.TargetFinalHp)
 	}
-	if done.Summary.SourceDamageDealt != 50 {
-		t.Fatalf("sourceDamageDealt=%v want 50 (mitigated, not raw 100)", done.Summary.SourceDamageDealt)
+	if done.Summary.SourceDamageDealt != 100 {
+		t.Fatalf("sourceDamageDealt=%v want 100 (full pen)", done.Summary.SourceDamageDealt)
+	}
+	data := firstOriginalDamage(t, done)
+	if math.Abs(evidenceDataFloat(data, "penetrationPercent")-1) > 1e-12 {
+		t.Fatalf("penetrationPercent=%v want 1", evidenceDataFloat(data, "penetrationPercent"))
+	}
+	if math.Abs(evidenceDataFloat(data, "penetrationFlat")-100) > 1e-12 {
+		t.Fatalf("penetrationFlat=%v want 100", evidenceDataFloat(data, "penetrationFlat"))
+	}
+	if math.Abs(evidenceDataFloat(data, "effectiveResistance")) > 1e-12 {
+		t.Fatalf("effectiveResistance=%v want 0", evidenceDataFloat(data, "effectiveResistance"))
+	}
+	if math.Abs(evidenceDataFloat(data, "resistanceFactor")-1) > 1e-12 {
+		t.Fatalf("resistanceFactor=%v want 1", evidenceDataFloat(data, "resistanceFactor"))
+	}
+}
+
+func TestGenericRunPhysicalResistanceNoSourceCompat(t *testing.T) {
+	// No source pen attrs: same mitigated result as pre-C3 armor-only path.
+	compileReq, runReq := loadBasicFixture(t)
+	hundred := 100.0
+	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
+		{
+			Operation:  "damage",
+			Target:     "target",
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &hundred},
+			DamageType: "damage/physical",
+		},
+	}
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{Base: 100, Current: 100, Max: 100, Resolved: 100})
+	result := compile.CompileGeneric(compileReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Summary.TargetFinalHp != 950 || done.Summary.SourceDamageDealt != 50 {
+		t.Fatalf("hp=%v dealt=%v want 950/50", done.Summary.TargetFinalHp, done.Summary.SourceDamageDealt)
 	}
 }
 

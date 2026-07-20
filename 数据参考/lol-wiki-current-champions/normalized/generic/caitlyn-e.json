@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "caitlyn-e",
+  "candidateKey": "hero_skill|hero_caitlyn|E|90口径绳网",
+  "ownerId": "hero_caitlyn",
+  "wikiChampionTitle": "Caitlyn",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Caitlyn/E",
+  "zhDisplayName": "90口径绳网",
+  "resolvedTitle": "Template:Data Caitlyn/90 Caliber Net",
+  "wikiPageId": 1306916,
+  "revisionId": 4007584,
+  "revisionTimestamp": "2026-04-12T06:47:56Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Caitlyn/90%20Caliber%20Net",
+  "contentSha256": "9357e7b28b05f738cd8049a2d10a115e4033a54123c0e71f55d1262a92884db2",
+  "rawByteSize": 2095,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Caitlyn''' fires a net in the target direction and {{tip|dash|recoils}} 390 units in the opposite direction. The net deals {{as|magic damage}} to the first enemy hit and {{tip|slow|slows}} them by 50% for 1 second.\n",
+    "leveling": "{{st|Magic Damage|{{ap|80 to 280}} {{as|(+ 80% AP)}}}}\n",
+    "description2": "'''''Caitlyn''' will not recoil after the cast time if she was {{tip|immobilize|immobilized}} or {{tip|ground|grounded}} during it. She can cast any of her [[champion ability|abilities]] during the recoil dash.''\n",
+    "cooldown": "{{ap|16 to 8}}\n",
+    "cost": "75\n",
+    "costtype": "mana\n",
+    "damagetype": "Magic\n",
+    "notes": "{{Effect at cast time end}}\n* The recoil can be used to pass through terrain.\n* If '''Caitlyn''' buffers {{ai|Piltover Peacemaker|Caitlyn}} during ''90 Caliber Net's'' cast time, {{ai|Piltover Peacemaker|Caitlyn}} will start after the cast time.\n** If '''Caitlyn''' buffers an ability or [[basic attack]] during this ability's cast time, the buffered ability or basic attack will instead start after the dash ends.\n** Other abilities can be cast while {{tip|dash|dashing}} if they are input after the cast time.\n* ''90 Caliber Net's'' missile will fail to fire if '''Caitlyn''' is {{tip|suppression|suppressed}} during the cast time.{{bug|2}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

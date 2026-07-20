@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jinx-p",
+  "candidateKey": "hero_skill|hero_jinx|P|罪恶快感",
+  "ownerId": "hero_jinx",
+  "wikiChampionTitle": "Jinx",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Jinx/I",
+  "zhDisplayName": "罪恶快感",
+  "resolvedTitle": "Template:Data Jinx/Get Excited!",
+  "wikiPageId": 1307591,
+  "revisionId": 3973632,
+  "revisionTimestamp": "2025-12-11T18:10:58Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jinx/Get%20Excited!",
+  "contentSha256": "395e0422810de1907b12a16eec824437b4121e64ab7814bcb6b763870afce7b9",
+  "rawByteSize": 1843,
+  "fields": {
+    "description": "{{sbc|Innate:}} Whenever '''Jinx''' scores a {{tip|takedown}} against an enemy {{tip|champion}}, epic {{tip|monster}}, {{tip|turret}}, or [[inhibitor]] within 3 seconds of damaging them, she gains {{sti|ms|{{as|175% '''bonus''' movement speed}}}} decaying over 6 seconds.\n",
+    "description2": "Additionally, she is allowed to exceed the {{tt|attack speed cap|normally 3.003 attacks per second}} and gains a {{tip|stack}} of ''Get Excited!'' for the same duration, stacking up to 5 times. Only {{tip|takedown|takedowns}} against enemy {{tip|champion|champions}} can grant stacks beyond the first.\n",
+    "description3": "{{sbc|Get Excited!:}} For each stack, '''Jinx''' gains {{sti|{{as|25% '''total''' attack speed}}}}, up to a maximum of {{as|{{ap|25*5}}%|as}}.\n",
+    "notes": "* '''Jinx's''' ''attack speed cap'' is increased to {{fd|90.0}} for the duration, however this value is already beyond the technical limit for attack speed.\n* '''Jinx''' will still trigger ''Get Excited'' from killing a summoned {{ui|Rift Herald}}.\n* '''Jinx''' will fail to trigger ''Get Excited'' in the specific circumstance of killing {{ui|Baron Nashor}} while more than ~2500 distance away.{{bug}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

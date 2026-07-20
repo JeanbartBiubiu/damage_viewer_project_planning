@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "lucian-w",
+  "candidateKey": "hero_skill|hero_lucian|W|热诚烈弹",
+  "ownerId": "hero_lucian",
+  "wikiChampionTitle": "Lucian",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Lucian/W",
+  "zhDisplayName": "热诚烈弹",
+  "resolvedTitle": "Template:Data Lucian/Ardent Blaze",
+  "wikiPageId": 1308178,
+  "revisionId": 3594941,
+  "revisionTimestamp": "2023-09-12T19:08:23Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Lucian/Ardent%20Blaze",
+  "contentSha256": "b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5",
+  "rawByteSize": 2542,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Lucian''' fires a missile in the target direction that explodes in a cross pattern upon hitting an enemy or reaching maximum range, dealing {{as|magic damage}} to enemies hit and granting {{tip|sight}} of the area for 1 second.\n",
+    "leveling": "{{st|Magic Damage|{{ap|75 to 215}} {{as|(+ 90% AP)}}}}\n",
+    "description2": "Enemies hit are marked for 6 seconds.\n",
+    "description3": "'''Lucian''' gains {{sti|{{as|'''bonus''' movement speed}}}} for 1 second when he or allied champions damage a marked target. Allied champions triggering this effect grant '''Lucian''' ''{{ai|Lightslinger|Lucian|Vigilance}}''.\n",
+    "leveling3": "{{st|Bonus Movement Speed|{{ap|60 to 80}}}}\n",
+    "cooldown": "{{ap|14 to 10}}\n",
+    "cost": "60\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "{{Effect at cast time end}}\n** Like most [[projectile|missiles]], it will not collide with enemies whose center is beyond the maximum range (not behind '''Lucian'''), but this determines only the center and timing of the explosion.\n* ''Ardent Blaze'' will cast from wherever '''Lucian''' is at the end of the cast time.\n* '''Lucian''' will not gain ''Ardent Blaze's'' bonus movement speed if attacks on {{as|marked|buzzword}} targets are {{tip|dodge|dodged}}, {{tip|block|blocked}}, or if missed while the attacker is {{tip|blind|blinded}}.\n* {{tip|persistent damage|DoTs}} will proc ''Ardent Blaze'' only once.\n* {{tip|Spell shield}} will not prevent the mark.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "samira-w",
+  "candidateKey": "hero_skill|hero_samira|W|锋旋",
+  "ownerId": "hero_samira",
+  "wikiChampionTitle": "Samira",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Samira/W",
+  "zhDisplayName": "锋旋",
+  "resolvedTitle": "Template:Data Samira/Blade Whirl",
+  "wikiPageId": 1459316,
+  "revisionId": 3936240,
+  "revisionTimestamp": "2025-07-24T10:58:34Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Samira/Blade%20Whirl",
+  "contentSha256": "a45a727dec4a914ff28dff4dd35f4f8333ec429fe758623c991da5eaa0f5314b",
+  "rawByteSize": 2564,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Samira''' spins her blade over {{fd|0.75}} seconds, destroying all hostile non-{{tip|turret}} {{tip|projectile|projectiles}} within the area for the duration.\n",
+    "description2": "'''Samira''' slashes twice during ''Blade Whirl'', each one dealing {{as|physical damage}} to all nearby enemies. The first slash occurs immediately and the second one occurs after the duration.\n",
+    "leveling2": "{{st|Physical Damage per Hit|{{ap|20 to 80}} {{as|(+ 50% '''bonus''' AD)}}|Total Physical Damage|{{ap|20*2 to 80*2}} {{as|(+ {{ap|50*2}}% '''bonus''' AD)}}}}\n",
+    "description3": "'''''Samira''' cannot basic attack nor cast {{ai|Flair|Samira}} during Blade Whirl. Casting {{ai|Inferno Trigger|Samira}} will end Blade Whirl early.''\n",
+    "cooldown": "{{ap|30 to 22}}\n",
+    "cost": "60\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* {{tip|Spell shield}} will block the damage from one slash.\n* While the ability has a cast time - the cast time has no effect on the ability's usability. All effects begin immediately and '''Samira''' can move throughout.\n* Both slashes count as the same ability for stacking {{ai|Daredevil Impulse|Samira|Style}}.\n* The effect ending early includes the second slash not being performed, if applicable.\n* Entering {{tip|stasis (buff)|stasis}} will also end ''Blade Whirl'' early.\n** Other item actives and channeling {{si|Teleport}} or {{si|Recall}} will ''not'' end the effect early.\n* '''Samira''' can ignore the lockout for {{ai|Flair|Samira}} and basic attacks if she uses {{ai|Wild Rush|Samira}} and queues up {{ai|Flair|Samira}} and/or a basic attack at the start of it.{{bug}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

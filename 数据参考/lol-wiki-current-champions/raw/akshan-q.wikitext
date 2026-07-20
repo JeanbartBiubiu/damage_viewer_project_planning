@@ -1,0 +1,35 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Avengerang|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Akshan
+|skill        = Q
+|blurbicon    = Avengerang.png
+|icon         = Avengerang.png
+|description  = {{sbc|Active:}} '''Akshan''' throws a boomerang in the target direction that briefly grants {{tip|sight}} around its trajectory and deals {{as|physical damage}} to enemies hit, {{tip|standard sight|revealing}} them for 1 second and extending its range each time it hits a target. If this hits an enemy {{tip|champion}}, '''Akshan''' gains {{sti|ms|{{as|20%|ms}}}} {{as|(+ 5% per 100 AP)}} {{as|'''bonus''' movement speed}} that decays over 1 second.
+|leveling     = {{st|Physical Damage|{{ap|45 to 165}} {{as|(+ 70% '''bonus''' AD)}}}}
+|description2 = Once the boomerang has passed its original range and has not hit a target in the last 500 units of travelling, it homes back to '''Akshan''' and applies the same effects to enemies hit.
+|leveling2    = {{st|Total Physical Damage|{{ap|45*2 to 165*2}} {{as|(+ {{ap|70*2}}% '''bonus''' AD)}}}}
+|description3 = ''Avengerang'' deals reduced damage against non-champions.
+|leveling3    = {{st|Non-Champion Damage|{{ap|40 to 80}}%}}
+|description4 = ''Enemies can be hit only once per pass.''
+|cooldown     = {{tt|{{ap|9 to 5}}|Starts after the boomerang returns}}
+|cdstart      = post-effect
+|cost         = {{ap|60 to 80}}
+|costtype     = Mana
+|cast time    = {{fd|0.25}}
+|range        = {{tip|er|icononly = true}} 850 + up to 500 per enemy hit
+|width        = {{tip|er|icononly = true}} 120
+|speed        = {{dv|1500|2400}}
+|effect radius= {{tip|sight|icononly = true}} {{tt|400|Missiles' own sight range}}
+|targeting    = Direction
+|affects      = Self, Enemies
+|damagetype   = Physical
+|spellshield  = special
+|spelleffects = spellaoe
+|projectile   = true
+|notes        =
+* {{tip|Spell shield}} will only block a single hit. They do not prevent the initial throw from extending its range.
+{{Effect at cast time end}}
+* This ability's damage is calculated based on the caster's current stats and changes dynamically.
+<!-- Blurb -->
+|blurb        = {{sbc|Active:}} {{ci|Akshan}} throws a boomerang that deals {{as|physical damage}} to enemies hit, extending the boomerang range and briefly {{tip|standard sight|revealing}} them. If this hits an enemy {{tip|champion}}, '''Akshan''' gains a brief burst of {{sti|ms|{{as|move speed}}}}.
+|blurb2       = Once the boomerang has passed its original range and has not recently hit an enemy, it homes back to '''Akshan''' and deals the same effects to enemies hit.
+}}

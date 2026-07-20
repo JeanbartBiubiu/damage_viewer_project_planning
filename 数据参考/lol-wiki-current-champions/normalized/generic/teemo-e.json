@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "teemo-e",
+  "candidateKey": "hero_skill|hero_teemo|E|毒性射击",
+  "ownerId": "hero_teemo",
+  "wikiChampionTitle": "Teemo",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Teemo/E",
+  "zhDisplayName": "毒性射击",
+  "resolvedTitle": "Template:Data Teemo/Toxic Shot",
+  "wikiPageId": 1308204,
+  "revisionId": 4022986,
+  "revisionTimestamp": "2026-05-27T21:16:39Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Teemo/Toxic%20Shot",
+  "contentSha256": "3d6f3bae2dbf2c1a9627f06a82877ca9e39bb9e55010d690cf4d87dd04846613",
+  "rawByteSize": 3519,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Teemo's''' {{tip|basic attacks}} are empowered to deal {{as|'''bonus''' magic damage}} {{tip|on-hit}} and inflict {{tip|poison}}.<br/><br/>\n{{sbc|{{tip|poison|nolink=true}}:}} The target takes {{as|magic damage}} every second over 4 seconds. Subsequent inflictions refresh the duration.\n",
+    "leveling": "{{st|Magic Damage On-Hit|{{ap|{{#var:Ob1}} to {{#var:Ob5}}}} {{as|(+ {{#var:Oad}}% '''bonus''' AD)}} {{as|(+ {{#var:Oap}}% AP)}}}}\n{{st|Magic Damage per Tick|{{ap|{{#var:Pb1}} to {{#var:Pb5}}}} {{as|(+ {{fd|{{#var:Pad}}}}% '''bonus''' AD)}} {{as|(+ {{#var:Pap}}% AP)}}|Total Poison Damage|{{ap|{{#var:Pb1}}*{{#var:time}} to {{#var:Pb5}}*{{#var:time}}}} {{as|(+ {{ap|{{#var:Pad}}*{{#var:time}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Pap}}*{{#var:time}}}}% AP)}}}}\n",
+    "description2": "''Toxic Shot'' deals {{ap|{{#var:mmod}}*100}}% damage against {{tip|monsters}}.\n",
+    "leveling2": "{{st|Monster Damage On-Hit|{{ap|{{#var:Ob1}}*{{#var:mmod}} to {{#var:Ob5}}*{{#var:mmod}}}} {{as|(+ {{ap|{{#var:Oad}}*{{#var:mmod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Oap}}*{{#var:mmod}}}}% AP)}}}}\n{{st|Monster Damage per Tick|{{ap|{{#var:Pb1}}*{{#var:mmod}} to {{#var:Pb5}}*{{#var:mmod}}}}  {{as|(+ {{ap|{{#var:Pad}}*{{#var:mmod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Pap}}*{{#var:mmod}}}}% AP)}}|Total Monster Poison Damage|{{ap|{{#var:Pb1}}*{{#var:time}}*{{#var:mmod}} to {{#var:Pb5}}*{{#var:time}}*{{#var:mmod}}}}  {{as|(+ {{ap|{{#var:Pad}}*{{#var:time}}*{{#var:mmod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:Pap}}*{{#var:time}}*{{#var:mmod}}}}% AP)}}}}\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Toxic Shot'' deals {{tip|proc damage|proc}} {{tip|persistent damage|damage over time}}, and does not trigger {{tip|spell effects}}.\n** Despite this, it is special cased to trigger {{ri|Dark Harvest}}, but not {{ri|Cheap Shot}}, {{ri|Conqueror}}, {{bi|Scorchclaw's Slash}}, {{ri|Summon Aery}} and {{bi|Ocean Dragon Soul}}.\n* The damage per tick is not updated dynamically based on '''Teemo's''' current ability power.\n* The initial hit from ''Toxic Shot'' will consume {{ri|Manaflow Band}} if it is available.\n* The attacks do not affect {{tip|structures}} nor {{tip|wards}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

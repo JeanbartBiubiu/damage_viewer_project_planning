@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "vayne-q",
+  "candidateKey": "hero_skill|hero_vayne|Q|闪避突袭",
+  "ownerId": "hero_vayne",
+  "wikiChampionTitle": "Vayne",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Vayne/Q",
+  "zhDisplayName": "闪避突袭",
+  "resolvedTitle": "Template:Data Vayne/Tumble",
+  "wikiPageId": 1309988,
+  "revisionId": 4015566,
+  "revisionTimestamp": "2026-05-05T15:55:50Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Vayne/Tumble",
+  "contentSha256": "5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad",
+  "rawByteSize": 1735,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Vayne''' {{tip|dash|dashes}} a fixed distance in the target direction, though not through terrain, and empowers her next {{tip|basic attack}} within 3 seconds to have an {{tip|uncancellable windup}} and deal {{as|'''bonus''' physical damage}}.\n",
+    "leveling": "{{st|Bonus Physical Damage|{{as|{{ap|75 to 115}}% AD}} {{as|(+ 50% AP)}}}}\n",
+    "description2": "''Tumble {{tip|basic attack reset|resets}} '''Vayne's''' basic attack timer.''\n",
+    "cooldown": "{{ap|6 to 2}}\n",
+    "cost": "30\n",
+    "costtype": "Mana\n",
+    "damagetype": "physical\n",
+    "notes": "{{always quickcast}}\n* The basic attack portion of ''Tumble's'' damage is tagged as {{tip|basic damage}} and {{tip|spell damage}}, while the bonus damage is tagged as {{tip|spell damage}}.\n* The bonus damage applies {{as|{{sti|life steal}}}}.\n* Although ''Tumble'' will reset the basic attack timer, '''Vayne''' cannot attack until the animation is complete.\n* '''Vayne''' can cast {{ai|Final Hour|Vayne}} during ''Tumble''. She does not become {{tip|invisible}} during the dash.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

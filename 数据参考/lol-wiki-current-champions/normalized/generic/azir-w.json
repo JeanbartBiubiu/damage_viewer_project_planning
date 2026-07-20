@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "azir-w",
+  "candidateKey": "hero_skill|hero_azir|W|沙兵现身",
+  "ownerId": "hero_azir",
+  "wikiChampionTitle": "Azir",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Azir/W",
+  "zhDisplayName": "沙兵现身",
+  "resolvedTitle": "Template:Data Azir/Arise!",
+  "wikiPageId": 1306852,
+  "revisionId": 4043850,
+  "revisionTimestamp": "2026-07-16T11:20:25Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Azir/Arise!",
+  "contentSha256": "eda21de63ba2907f5b5406cbb54bd545b78abaae01ca7471ddf9b2a8ecef0ffa",
+  "rawByteSize": 5104,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Azir''' summons a {{as|Sand Soldier|buzzword2}} at the target location that is {{tip|untargetable}}, lasts 10 seconds, and grants {{tip|sight}} of its surroundings. The {{as|Sand Soldier|buzzword2}} expires twice as fast while within range of an enemy {{tip|turret}}, and does so instantly if '''Azir''' is too far away.<br><br>'''Azir''' periodically [[stock]]s a {{as|Sand Soldier|buzzword2}}, up to a maximum of 2.\n",
+    "description2": "When '''Azir''' declares a basic attack against an enemy in a soldier's {{sti|attack range}}, the {{as|Sand Soldier|buzzword2}} attacks in his stead, thrusting their spear in the target's direction to deal {{as|magic damage}} to enemies struck in a line. Against the primary target, the {{as|Sand Soldier's|buzzword2}} attack applies {{tip|on-hit}} and {{tip|on-attack}} effects, with on-hit damage reduced to 50% effectiveness. Targets hit beyond the closest take {{pp|20; then +8*x for 10|1;9 to 18|formula=20% at level 1, then +8% per level starting at level 9 and capped at level 18|key=%}}<!--stops at 18--> damage. Subsequent {{as|Sand Soldier|buzzword2}} attacks against the same target deal 25% damage without applying {{tip|on-hit}} and {{tip|on-attack}} effects.\n",
+    "leveling2": "{{st|Magic Damage|{{pplevel|0; then +8*x|1;10+(x-1)|formula=0 at level 1, then +8 per level starting at level 10}} (+ {{ap|50 to 110}}) {{as|(+ {{ap|35 to 65}}% AP)}}}}\n",
+    "description3": "{{as|Sand Soldiers|buzzword2}} cannot attack {{tip|turret|structures}}, {{tip|ward|wards}}, nor {{tip|stealthed trap|traps}}.\n",
+    "description4": "''See [[Azir#Pets|Pets]] for more details about {{as|Sand Soldiers|buzzword2}}.''\n",
+    "cooldown": "{{fd|1.5}}\n",
+    "cost": "{{ap|40 to 20}}\n",
+    "costtype": "mana + 1 Sand Soldier\n",
+    "damagetype": "Magic\n",
+    "notes": "* Soldiers' attacks deal {{tip|area damage}}; against the main target, the damage is additionally tagged as {{tip|basic damage}}.\n** If a soldier's attack hits multiple champions, it will deal damage to them in order of their appearance in the pre-game [[Loading Screen]], the order of which may matter for some effects that trigger just once for the first target hit.\n* '''Azir''' must rank ''Arise!'' as his first ability, and will do so automatically if he reaches level 2 before ranking an ability.\n* '''Azir''' can only command his soldiers to attack if he is able to declare [[basic attack]] commands himself, meaning {{tip|crowd control}} effects that disable attacking, such as {{tip|disarm}}, do not allow him to order his soldiers to attack in his stead.\n* {{tip|Nearsight|Nearsighting}} effects will only allow '''Azir''' to perform attacks from soldiers within his own sight radius.\n* Commanding a soldier to attack will trigger {{tip|on-attack}} effects, but will not apply any of these effects to the target hit.\n** The attacks do not apply {{sti|life steal}}.\n** {{tip|Energized}} will stack but not be consumed.\n** {{ii|Sundered Sky}} does not apply.\n*** However it does apply with {{ii|Runaan's Hurricane}} for secondary targets if the main target is a champion.\n* Damage to enemy champions from ''Sand Soldier'' stabs will draw minion aggro even if the enemy champion was not the primary target.{{bug|2}}\n* {{as|Sand Soldiers|buzzword2}} can damage {{ai|Powder Keg|Gangplank|Powder Kegs}}, {{ai|Prophet of an Elder God|Illaoi|Tentacles}}, and {{ai|Sentinel|Kalista|Sentinels}}, but only if they are the main target of the attack.\n* {{as|Sand Soldiers|buzzword2}} will attack the closest enemy to '''Azir''' when using attack move (or {{sbc|A + RMB}} / {{sbc|Shift + RMB}}) or {{tip|acquisition radius|auto-attack}}.\n* If an enemy has {{tip|sight|vision}} of a {{as|Sand Soldier|buzzword2}}, they will also gain vision of '''Azir''' even if he is out of sight.\n* While {{ii|Navori Flickerblade}} is equipped, if '''Azir''' has 1 ''Arise!'' charge ready, the recharge timer will appear to restart when triggering {{nie|Transcendence}}{{bug}}; the recharge timer is incurred normally.\n[[File:Azir_Sand_Soldier_screenshot.png|thumb|left|250px|An exclamation mark ('''!''') will appear above the {{as|'''Sand Soldier's'''|buzzword2}} head when within the range of an enemy {{tip|turret}}.]]\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "description4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

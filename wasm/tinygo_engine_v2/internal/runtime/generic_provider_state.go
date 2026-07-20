@@ -413,3 +413,52 @@ func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64)
 	b.targetExpireAt[key] = exp
 	return exp
 }
+
+// subtractProviderExpireAt shortens a provider-scope timer without mutating state value or
+// refreshing durationMs. Inactive timers (missing/<=0) are a no-op. Returns:
+//
+//	applied — whether an active timer was adjusted
+//	expired — whether the new expiry reached nowMs (caller must restore defaultValue)
+//	newExp  — resulting expireAt (0 when expired or inactive)
+func (b *providerStateBag) subtractProviderExpireAt(key string, nowMs, deltaMs int64) (applied, expired bool, newExp int64) {
+	if b == nil || key == "" || deltaMs < 0 {
+		return false, false, 0
+	}
+	b.ensure()
+	old, ok := b.expireAt[key]
+	if !ok || old <= 0 {
+		return false, false, 0
+	}
+	next := old - deltaMs
+	if next < nowMs {
+		next = nowMs
+	}
+	if next <= nowMs {
+		b.expireAt[key] = 0
+		return true, true, 0
+	}
+	b.expireAt[key] = next
+	return true, false, next
+}
+
+// subtractTargetExpireAt is the provider_target counterpart of subtractProviderExpireAt.
+func (b *providerStateBag) subtractTargetExpireAt(key string, nowMs, deltaMs int64) (applied, expired bool, newExp int64) {
+	if b == nil || key == "" || deltaMs < 0 {
+		return false, false, 0
+	}
+	b.ensure()
+	old, ok := b.targetExpireAt[key]
+	if !ok || old <= 0 {
+		return false, false, 0
+	}
+	next := old - deltaMs
+	if next < nowMs {
+		next = nowMs
+	}
+	if next <= nowMs {
+		b.targetExpireAt[key] = 0
+		return true, true, 0
+	}
+	b.targetExpireAt[key] = next
+	return true, false, next
+}

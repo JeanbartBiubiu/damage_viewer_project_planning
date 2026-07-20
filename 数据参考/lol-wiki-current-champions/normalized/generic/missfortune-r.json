@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "missfortune-r",
+  "candidateKey": "hero_skill|hero_missfortune|R|弹幕时间",
+  "ownerId": "hero_missfortune",
+  "wikiChampionTitle": "Miss Fortune",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Miss Fortune/R",
+  "zhDisplayName": "弹幕时间",
+  "resolvedTitle": "Template:Data Miss Fortune/Bullet Time",
+  "wikiPageId": 1308257,
+  "revisionId": 3987215,
+  "revisionTimestamp": "2026-01-25T03:47:11Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Bullet%20Time",
+  "contentSha256": "354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a",
+  "rawByteSize": 3021,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Miss Fortune''' {{tip|channel|channels}} for up to 3 seconds, firing a number of waves of bullets in the target direction. Each wave is in a spread of 6 projectiles that deals {{as|physical damage}} to enemies hit.\n",
+    "leveling": "{{st|Physical Damage per Wave|{{ap|20 to 40}} {{as|(+ 60% AD)}} {{as|(+ 25% AP)}}}}\n{{st|Total Waves|{{ap|14 to 18}}|Maximum Total Physical Damage|{{ap|20*14 to 40*18}} {{as|(+ {{ap|60*14 to 60*18}}% AD)}} {{as|(+ {{ap|25*14 to 25*18}}% AP)}}}} {{st|Wave Interval Time|{{ap|2.85/(14 to 18)|round=4}} seconds}}\n",
+    "description2": "Each of the waves can {{tip|critical strike|critically strike}} for {{as|{{critical damage|130|30}}|critical damage}} damage.\n",
+    "cooldown": "{{ap|120 to 100}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* The damage dealt by each wave of ''Bullet Time'' is calculated when the wave reaches the target.\n* '''Miss Fortune''' {{tip|sight|reveals}} herself for {{fd|4.5}} seconds if there is an enemy champion within the area.\n* Targets cannot be damaged by more than one projectile per wave.\n* The bullet streams that each fire 1 projectile per wave are spead by 6{{degree}} between one another, aiming towards the angles +-3/9/15{{degree}} from '''Miss Fortune's''' facing direction.\n* ''Bullet Time'' picks 6 locations on the ground 500 units from '''Miss Fortune''' (with the aforementioned angles) and fires a bullet stream towards each.\n** If '''Miss Fortune''' is moved to a new location, these locations '''will''' update (since patch [[V13.3]]); the cone will fire towards her new facing direction.\n* ''Bullet Time'' fires the first wave at {{rutngt|0.05}}, and the last at {{rutngt|2.9}}. Times between waves are equally spread between these values.\n** '''Miss Fortune''' may cancel the last ~{{fd|0.1}} seconds of channel time at no loss of effect.\n* The following table refers for interactions while '''Miss Fortune''' is {{tip|channel|channeling}}:\n{{ct|channel|attack=interrupts|cast=interrupts|move=interrupts|items=interrupts,true,,false|consume=true|spells=true,interrupts,interrupts,interrupts,interrupts}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

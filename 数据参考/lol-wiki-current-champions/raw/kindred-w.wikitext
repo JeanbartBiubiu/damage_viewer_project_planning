@@ -1,0 +1,43 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Wolf's Frenzy|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kindred
+|skill        = W
+|icon         = false
+|blurb        = {{sbc|Passive:}} As {{ci|Kindred}} move and attack, they build up stacks of ''Hunter's Vigor''. At full stacks, {{cis|Lamb}} next basic attack {{tip|heals}} her.
+|blurb2      = {{sbc|Active:}} {{ci|Wolf}} {{tip|dashes}} to the target location and occupies the area for a period. He attacks enemies within the area, dealing {{as|magic damage}}. Against {{tip|monsters}}, '''Wolf's''' attacks deal increased damage and {{tip|slow}} the target for a short time.
+|blurb3      = ''Wolf's Frenzy'' ends immediately if '''Lamb''' leaves the area or dies.
+|description  = {{sbc|Passive:}} '''Lamb''' generates 1 stack of ''Hunter's Vigor'' for every {{tt|27 units|Estimated}} she travels by any means and 5 stacks {{tip|on-attack}}, up to a maximum of 100 stacks. At maximum stacks, her next basic attack {{tip|heals}} her for {{as|{{pp|0 to 100 by 25|0 to 80|formula= 1.25% per 1% of '''Kindred's missing''' health. ''This is capped at 80% '''missing''' health.''|label1='''Missing''' health|type='''Kindred's''' '''missing''' health|label=Percent of level-scaling value|key=%|key1=%|changedisplay = true}}}} of {{pplevel|47 to 81|color=heal}}. The heal is not triggered if '''Kindred''' is at full health.
+|icon2        = Wolf's Frenzy.png
+|description2 = {{sbc|Active:}} '''Wolf''' {{tip|dashes}} to the target location, then claims the surrounding area as his territory for the next {{fd|8.5}} seconds, separating from '''Lamb'''. He automatically attacks the closest nearby {{tip|sight|visible}} enemy within the area, prioritizing the last enemy '''Lamb''' has attacked, then enemy champions, then non-champions.
+|description3 = '''Wolf's''' attacks deal {{as|magic damage}} and the rate at which he attacks scale with {{as|25% of '''Kindred's bonus''' attack speed}}. Against monsters, his attacks deal 150% damage and {{tip|slow}} the target by 50% for 2 seconds. The damage based on the target's health ratio is capped at {{fd|112.5}} {{as|(+ 15 per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} against monsters.
+|leveling3    = {{st|Magic Damage|{{ap|25 to 45}} {{as|(+ 20% '''bonus''' AD)}} {{as|(+ 20% AP)}} {{as|(+ {{fd|1.5}}% {{as|(+ 1% per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} of target's '''current''' health)}}|Monster Damage|{{ap|25*1.5 to 45*1.5}} {{as|(+ {{ap|20*1.5}}% '''bonus''' AD)}} {{as|(+ {{ap|20*1.5}}% AP)}} {{as|(+ {{ap|1.5*1.5}}% {{as|(+ {{ap|1*1.5}}% per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} of target's '''current''' health)}}}}
+|description4 = ''Wolf's Frenzy'' ends immediately if '''Lamb''' leaves the area or dies.
+|target range = 500
+|effect radius= {{tip|cr|icononly = true}} 800
+|speed        = 1400
+|cast time    = none
+|cooldown     = {{ap|18 to 14}}
+|cdstart      = on-cast
+|cost         = 40
+|costtype     = Mana
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = Area of effect
+|projectile   = False
+|grounded     =
+|knockdown    =
+|outofrange   = cast at max
+|notes        =
+* ''Hunter's Vigor's'' heal is not triggered on attacks against {{tip|structures}} and {{tip|wards}}.
+* '''Wolf''' is {{tip|untargetable}} and {{tip|ghosted}} but he cannot move through terrain other than the initial dash on activation.
+* '''Wolf''' is not able to re-target {{ui|Rift Scuttler}} if he loses {{tip|sight}} of her while he's attacking it.
+* '''Wolf''' grants the same {{tip|sight|vision}} as a {{tip|champion}}.
+* ''Wolf's Frenzy'' does not end if '''Lamb''' enters {{tip|resurrection}}.
+* ''Wolf's Frenzy'' applies ability haste to its cooldown post-effect.
+** Given a base cooldown of 14 seconds at rank 5 with 100 ability haste, casting the ability and then ending it after 4 seconds will result in a remaining cooldown of <math>(14 - 4) \times 0.5 = 5</math> seconds, where 0.5 is [[Haste#Formula|derived from ability haste]].
+** Because of this, there will always be some cooldown time remaining post-effect regardless of the amount of ability haste, unlike certain other abilities with cooldowns that start on-cast.
+* {{Pending for test}}: Interaction with enemy vision and spectator mode.
+|tips =
+* '''Wolf''' can be used to get {{tip|sight|vision}} over walls.
+}}

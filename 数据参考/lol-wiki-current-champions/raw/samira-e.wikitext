@@ -1,0 +1,37 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Wild Rush|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Samira
+|skill        = E
+|icon         = Wild Rush.png
+|blurb        = {{sbc|Active:}} {{ci|Samira}} {{tip|dash|dashes}} at the target enemy or enemy structure, dealing {{as|magic damage}} to enemies she passes through. She also gains {{sti|{{as|'''bonus''' attack speed}}}} for a short time.
+|blurb2       = Scoring a champion {{tip|takedown}} {{sti|cdr|resets}} ''Wild Rush's'' cooldown.
+|description  = {{sbc|Active:}} '''Samira''' {{tip|dash|dashes}} a fixed distance in the direction of the target enemy or enemy {{tip|turret|structure}}, dealing {{as|magic damage}} to enemies she passes through. She also gains {{sti|{{as|'''bonus''' attack speed}}}} for 5 seconds.
+|leveling    = {{st|Magic Damage|{{ap|50 to 90}} {{as|(+ 20% '''bonus''' AD)}}}}
+{{st|Bonus Attack Speed|{{ap|20 to 40}}%}}
+|description2 = Scoring a {{tip|takedown}} against an enemy {{tip|champion}} within 3 seconds of damaging them resets ''Wild Rush's'' {{sti|cooldown}}.
+|description3 = ''{{ai|Flair|Samira}} and {{ai|Inferno Trigger|Samira}} can be cast during the dash. Casting {{ai|Blade Whirl|Samira}} will buffer it to cast at the end of the dash.''
+|cooldown     = {{ap|20 to 12}}
+|cost         = 40
+|costtype     = Mana
+|target range = {{tip|cr|icononly = true}} {{tt|600|Cast range}}
+|range        = {{dv|{{tt|650|Fixed dash distance}}|{{tip|er|icononly = true}} {{tt|800|Dash hitbox length}}|{{tip|er|icononly = true}} {{tt|-150|Dash hitbox behind Samira}}}}
+|width        = {{tip|er|icononly = true}} 300
+|cast time    = none
+|speed        = 1600
+|queue time   = {{fd|0.5}}
+|targeting    = Unit
+|affects      = Self, Enemies
+|damagetype   = Magic
+|spellshield  = true
+|spelleffects = aoe
+|grounded     = true
+|knockdown    = true
+|callforhelp  = true
+|notes        =
+* '''Samira''' gains the attack speed buff at the start of the dash.
+* ''Wild Rush'' does not deal its damage to turrets.
+* ''Wild Rush'' prioritizes targeting champions over turrets.
+* {{ai|Inferno Trigger|Samira}} will be buffered to cast at the end of the dash if {{ai|Flair|Samira}} was cast during the dash.
+* Casting {{si|Flash}} during ''Wild Rush'' will interrupt the dash but deal damage to nearby enemies at the location.
+** If {{ai|Flair|Samira}} was cast during this time, an explosive will also be placed at that location.
+* ''Wild Rush'' will also reset if '''Samira''' kills or gets assist credit on a {{tip|clone}} that dies (to hostiles).{{bug|2}}
+}}

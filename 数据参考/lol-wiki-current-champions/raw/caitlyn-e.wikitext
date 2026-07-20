@@ -1,0 +1,32 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|90 Caliber Net|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Caitlyn
+|skill        = E
+|icon         = 90 Caliber Net.png
+|blurb        = {{sbc|Active:}} {{ci|Caitlyn}} fires a heavy net that {{tip|slow|slows}} the first target hit and deals {{as|magic damage}} to them.
+|blurb2       = Firing the net causes her to {{tip|dash|recoil}} back.
+|description  = {{sbc|Active:}} '''Caitlyn''' fires a net in the target direction and {{tip|dash|recoils}} 390 units in the opposite direction. The net deals {{as|magic damage}} to the first enemy hit and {{tip|slow|slows}} them by 50% for 1 second.
+|leveling     = {{st|Magic Damage|{{ap|80 to 280}} {{as|(+ 80% AP)}}}}
+|description2 = '''''Caitlyn''' will not recoil after the cast time if she was {{tip|immobilize|immobilized}} or {{tip|ground|grounded}} during it. She can cast any of her [[champion ability|abilities]] during the recoil dash.''
+|range = {{dv|{{tip|cr|icononly = true}} 800|{{tip|er|icononly = true}} 740}}
+|effect radius= {{tip|er|icononly = true}} 140
+|speed        = {{dv|{{tt|1600|Missile speed}}|{{tt|1000|Dash speed}}}}
+|cooldown     = {{ap|16 to 8}}
+|cost         = 75
+|cast time    = {{fd|0.15}}
+|costtype     = mana
+|targeting    = Direction
+|affects      = Self, Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = Single target
+|projectile   = True
+|grounded     = True
+|knockdown    = True
+|notes        =
+{{Effect at cast time end}}
+* The recoil can be used to pass through terrain.
+* If '''Caitlyn''' buffers {{ai|Piltover Peacemaker|Caitlyn}} during ''90 Caliber Net's'' cast time, {{ai|Piltover Peacemaker|Caitlyn}} will start after the cast time.
+** If '''Caitlyn''' buffers an ability or [[basic attack]] during this ability's cast time, the buffered ability or basic attack will instead start after the dash ends.
+** Other abilities can be cast while {{tip|dash|dashing}} if they are input after the cast time.
+* ''90 Caliber Net's'' missile will fail to fire if '''Caitlyn''' is {{tip|suppression|suppressed}} during the cast time.{{bug|2}}
+}}

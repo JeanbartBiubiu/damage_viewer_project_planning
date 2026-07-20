@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "teemo-w",
+  "candidateKey": "hero_skill|hero_teemo|W|小莫快跑",
+  "ownerId": "hero_teemo",
+  "wikiChampionTitle": "Teemo",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Teemo/W",
+  "zhDisplayName": "小莫快跑",
+  "resolvedTitle": "Template:Data Teemo/Move Quick",
+  "wikiPageId": 1308206,
+  "revisionId": 4010102,
+  "revisionTimestamp": "2026-04-18T15:10:43Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Teemo/Move%20Quick",
+  "contentSha256": "f7535dae8216d9f31490ba06c55b72308364d450c32eee4b2e167422d3db23c7",
+  "rawByteSize": 1627,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Teemo''' gains {{sti|ms|{{as|'''bonus''' movement speed}}}} after 5 seconds without taking non-{{tip|persistent damage|over time}} damage from enemy {{tip|champions}} or {{tip|turrets}}.\n",
+    "leveling": "{{st|Bonus Movement Speed|{{ap|12 to 28}}%}}\n",
+    "description2": "{{sbc|Active:}} '''Teemo''' doubles the {{as|'''bonus''' movement speed}} for 3 seconds, preventing it from being removed for the duration.\n",
+    "leveling2": "{{st|Enhanced Bonus Movement Speed|{{ap|12*2 to 28*2}}%}}\n",
+    "description3": "''Casting Move Quick does not interrupt {{ai|Guerrilla Warfare|Teemo}}.''\n",
+    "cooldown": "14\n",
+    "cost": "40\n",
+    "costtype": "mana\n",
+    "damagetype": "",
+    "notes": "* When ''Move Quick's'' active bonus movement speed ends '''Teemo''' will not regain the passive one if he was damaged during the active's duration.\n*''Move Quick's'' passive will be disabled even if the damage is blocked with a {{tip|spell shield}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}
