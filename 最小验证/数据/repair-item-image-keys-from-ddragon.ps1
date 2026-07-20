@@ -1,3 +1,6 @@
+# Visual-only item image URL repair. NOT mechanism numeric truth.
+# Champion DDragon numeric chain was removed in Phase A (runtime-wiki-recheck-v7);
+# this script may remain for item panel image keys only and must not feed G8/unified audits.
 param(
     [string]$ApiBaseUrl = 'http://localhost:8080',
     [string]$GameId = 'lol',

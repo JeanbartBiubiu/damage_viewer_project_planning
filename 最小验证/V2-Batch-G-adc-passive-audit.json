@@ -56,17 +56,17 @@
     },
     "classificationCounts": {
       "ready_to_encode": 1,
-      "already_covered": 19,
-      "needs_runtime_extension": 33,
-      "needs_manual_baseline": 44,
+      "already_covered": 22,
+      "needs_runtime_extension": 31,
+      "needs_manual_baseline": 43,
       "out_of_scope_for_single_target_dps": 145
     },
     "mechanismBacklog": {
       "seeded_random_crit_sequence": 5,
       "stacking_stat_modifier_on_hit": 4,
-      "distance_based_damage_modifier": 9,
+      "distance_based_damage_modifier": 8,
       "damage_multiplier_or_health_ratio": 2,
-      "spellblade_next_attack_state": 5,
+      "spellblade_next_attack_state": 4,
       "energized_charge_and_consume": 6,
       "phantom_hit_on_hit_repeat": 1,
       "execute_threshold": 2
@@ -1454,14 +1454,16 @@
       "skillKey": "P",
       "passiveName": "千珏之印",
       "sourceText": "千珏可以标记敌人进行狩猎。成功完成一次狩猎，将永久强化千珏的基础技能。每完成4次狩猎，还会提升千珏的普攻距离。",
-      "classification": "needs_runtime_extension",
+      "classification": "already_covered",
       "mechanismTags": [
-        "distance_based_damage_modifier"
+        "attack_range_bonus",
+        "fixed_max_marks_phase_a",
+        "baked_qwe_mark_coefficients"
       ],
       "levelDataStatus": "missing",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
-      "blockedReason": "当前 curve 没有攻击距离/目标距离输入。",
+      "blockedReason": "Wiki+Phase-A fixed 25-mark：attack_range +250 / Q AS 1.60×4000ms / W·E baked coefficients；排除狩猎/takedown/中间叠层；Q/W/E inventory 不因此升级",
       "needsUserData": [],
       "sourceRef": "数据参考/champion/Kindred.json#data.Kindred.passive"
     },
@@ -3955,14 +3957,15 @@
       "skillKey": "item_passive",
       "passiveName": "专注意志",
       "sourceText": "使用技能造成伤害会使你的英雄技能和被动伤害提升3%，持续6秒。（叠加4次）。",
-      "classification": "needs_manual_baseline",
+      "classification": "already_covered",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_pet_stack_grant",
+        "per_cast_throttle",
+        "stacking_outgoing_amp",
+        "cast_origin_provenance"
       ],
-      "blockedReason": "文本可能影响 DPS，但脚本无法从本地 Data Dragon 可靠还原数值或 rank 表；须以当前 League Wiki 模板/修订为数值真源。",
-      "needsUserData": [
-        "当前 League Wiki 对应 Template:Data <Champion>/<Skill> 修订中的可核验数值/公式"
-      ],
+      "blockedReason": "Wiki-only Focused Will：ability|pet grant / perCastThrottle 1000ms / max4 / 6000ms aggregate / 3% ability|pet|proc amp；数值真源为 League Wiki item manifest",
+      "needsUserData": [],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",
       "candidateDpsPassiveEffect": {},
@@ -3975,11 +3978,13 @@
       "skillKey": "item_passive",
       "passiveName": "夜行者",
       "sourceText": "未被敌人看见达一小段时间后，你对英雄的下一次攻击造成额外真实伤害。",
-      "classification": "needs_runtime_extension",
+      "classification": "already_covered",
       "mechanismTags": [
-        "spellblade_next_attack_state"
+        "spellblade_next_attack_state",
+        "start_ready_true_on_hit",
+        "armor_pen_flat_scaled_true"
       ],
-      "blockedReason": "需要“施法后下一次普攻”状态；当前不做主动技能轮转。",
+      "blockedReason": "Wiki+Phase-A Nightstalker：start-ready / first BA true 50+1.5*armor_pen_flat / consume / no re-arm；排除视野/4s窗/re-arm/Blackout；数值真源为 League Wiki item manifest",
       "needsUserData": [],
       "levelDataStatus": "not_applicable",
       "rankTableStatus": "not_applicable",

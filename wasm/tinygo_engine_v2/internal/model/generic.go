@@ -72,10 +72,11 @@ const (
 type WarningCode string
 
 const (
-	WarningCodeCompileSettingCapped WarningCode = "compile_setting_capped"
-	WarningCodeEvidenceTruncated    WarningCode = "evidence_truncated"
-	WarningCodeSeriesDownsampled    WarningCode = "series_downsampled"
-	WarningCodeBudgetExceeded       WarningCode = "budget_exceeded"
+	WarningCodeCompileSettingCapped    WarningCode = "compile_setting_capped"
+	WarningCodeEvidenceTruncated       WarningCode = "evidence_truncated"
+	WarningCodeSeriesDownsampled       WarningCode = "series_downsampled"
+	WarningCodeBudgetExceeded          WarningCode = "budget_exceeded"
+	WarningCodePerCastThrottleOverflow WarningCode = "per_cast_throttle_overflow"
 )
 
 // WarningItem 是 compile/run 非阻塞 warning DTO（§16）。
