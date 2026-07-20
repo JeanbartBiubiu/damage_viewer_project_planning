@@ -92,6 +92,7 @@ type genericRunState struct {
 	entryIntervalPrograms []*formula.GenericProgramID
 
 	expireCleanupPayloads  []expireCleanupPayload
+	anchoredTickPayloads   []anchoredTickPayload
 	nextProviderInstanceID uint64
 
 	// Cast-instance identity (Focused Will / per-cast throttle). Monotonic from 1; discarded after run.
@@ -564,6 +565,10 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
 		switch ev.Kind {
+		case scheduler.GenericEventAnchoredTick:
+			if err := s.handleAnchoredTick(ev); err != nil {
+				return err
+			}
 		case scheduler.GenericEventExpireCleanup:
 			s.handleExpireCleanup(ev)
 		case scheduler.GenericEventProviderTick:
