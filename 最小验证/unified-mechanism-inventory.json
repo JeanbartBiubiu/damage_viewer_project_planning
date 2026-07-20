@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-20T17:30:42.540Z",
+    "generatedAt": "2026-07-20T18:25:21.113Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -48,7 +48,7 @@
       "最小验证/generic-g8-adc-passive-coverage-audit.json": "5c44438fcfd0aacdda2e6c260f5be5a0297f84dccccda75d8a66d5810048e1ac",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "9021eb4cbd993f42ae431b957dde0c0357c28ac04c21774fe30ff461b6f95800",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "27c68091e89d6a2af4a8d60f2fa16f6e0f13838dd7e97b829d80a4e742e2dd1b",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "651b649fc3b48473ba0d6bbb655eb2710e4a58c1361e705c2d27012ae0d26f38",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -61,18 +61,18 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 57,
+      "completed": 58,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 116,
+      "blocked_runtime": 115,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 57,
-      "partial": 4,
+      "full": 58,
+      "partial": 3,
       "none": 193
     },
     "laneCounts": {
@@ -136,8 +136,8 @@
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "27c68091e89d6a2af4a8d60f2fa16f6e0f13838dd7e97b829d80a4e742e2dd1b",
-      "byteSize": 221520,
+      "sha256": "651b649fc3b48473ba0d6bbb655eb2710e4a58c1361e705c2d27012ae0d26f38",
+      "byteSize": 222779,
       "recordCount": 0,
       "role": "generator"
     },
@@ -24461,8 +24461,8 @@
     },
     {
       "key": "item_passive|6665|item_passive|虚空天生",
-      "status": "blocked_runtime",
-      "completionMode": "partial",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
       "ownerId": "6665",
@@ -24473,35 +24473,11 @@
         "target_armor_flat_bonus",
         "target_magic_resist_flat_bonus"
       ],
-      "coverageBoundary": "controlled_5s_target_owned_synthetic_bonus_resist_branch_complete;real_target_equipment_or_loadout_projection_outside_generic_host_input_contract",
-      "reason": "受控 synthetic bonus resist partial 已证明；剩余真实 equipment/loadout→provider 投影与目标 base/bonus resist 输入一致性。",
-      "blocker": "real_target_equipment_or_loadout_projection_outside_generic_host_input_contract",
+      "coverageBoundary": "real_targetEquipmentEntityIds_projects_selected_target_item_static_armor_mr+target_only_derived_bonus_armor_bonus_magic_resist+target_owned_provider_mount;t5000_adds_30pct_of_projected_bonus_resist_later_tick_idempotent",
+      "reason": "6665 虚空天生/Voidborn Resilience：真实 targetEquipmentEntityIds 将所选目标装备静态 armor/MR、目标侧派生 bonus_armor/bonus_magic_resist 与 target-owned provider mount 投影进 compile 合同；既有 t=5000 runtime 对投影 bonus 抗性各加 30%，后续 tick 幂等（75/75+45/45→88.5/88.5）。backend seed（tag/loadout_equipment 资格）+ Web combatDataAssembler target loadout/bonus 投影 + wasm generic_jaksho_voidborn_resilience_test.go 三边证据闭环；非 G8 candidate，经 EXTRA_MECHANISMS 闭环。不声称 live migrate/publish（证据边界，非 blocker）。",
+      "blocker": "",
       "dataGapEvidence": null,
-      "runtimeGapEvidence": {
-        "sourceRef": "wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go#VoidbornResilience",
-        "dataStatus": "partial",
-        "requiredEvents": [
-          "target_equipment_or_loadout_projection"
-        ],
-        "requiredState": [
-          "provider_item_6665_jaksho_voidborn_resilience",
-          "full_stack"
-        ],
-        "requiredFormulaInputs": [
-          "target_base_armor_and_magic_resist",
-          "target_bonus_armor_and_magic_resist",
-          "real_equipment_projected_bonus_resists"
-        ],
-        "requiredScheduling": [
-          "full_stack_tick_interval_5000ms"
-        ],
-        "missingPrimitives": [
-          "real_target_equipment_or_loadout_to_provider_projection",
-          "target_base_and_bonus_resistance_input_consistency"
-        ],
-        "remainingBoundary": "真实 target equipment/loadout→provider projection 的跨层证据与目标基础/bonus resistance 输入一致性（非 live publish）。",
-        "completedBoundary": "controlled synthetic：target-owned provider_item_6665_jaksho_voidborn_resilience 在 t=5000 将 full_stack 0→1，并对显式 synthetic bonus_armor/bonus_magic_resist 各加 30%。"
-      },
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
@@ -24516,14 +24492,28 @@
           "taskKey": "planning-validation-milestones",
           "sourcePath": "db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql",
           "sourceWorktree": "backend",
-          "note": "backend seed path referenced as evidence only; not claiming live migrate/publish"
+          "note": "completedBoundary: item_6665 static panel + provider_item_6665_jaksho_voidborn_resilience + tag/loadout_equipment (62011) eligibility relation; not claiming live migrate/publish"
         },
         {
           "evidenceType": "generic_batch",
           "taskKey": "planning-validation-milestones",
           "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_jaksho_voidborn_resilience_test.go",
           "sourceWorktree": "wasm",
-          "note": "controlled target-owned 5s full_stack synthetic bonus-resist partial via generic compile/run; not live migrated/published"
+          "note": "completedBoundary: exact 75/75 + 45/45 → 88.5/88.5 at t=5000; later tick idempotent; target-owned; not live migrated/published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "planning-validation-milestones",
+          "sourcePath": "web/src/engine/combatDataAssembler.test.ts",
+          "sourceWorktree": "web",
+          "note": "completedBoundary: jaksho-target-loadout-v2 target loadout + bonus projection (75/75 totals + 45/45 bonus pre-activation)"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "planning-validation-milestones",
+          "sourcePath": "web/src/engine/combatDataAssembler.ts",
+          "sourceWorktree": "web",
+          "note": "completedBoundary: targetEquipmentEntityIds projects selected target item static armor/MR, target-only derived bonus_armor/bonus_magic_resist, and target-owned provider mount"
         }
       ],
       "aliases": [
