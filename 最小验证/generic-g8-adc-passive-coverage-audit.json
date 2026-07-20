@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-20T16:28:19.434Z"
+    "generatedAt": "2026-07-20T17:30:42.431Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,20 +13,20 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 48,
-      "partial": 5,
+      "migrated": 49,
+      "partial": 4,
       "blocked": 120,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 19.83,
-      "partial": 2.07,
+      "migrated": 20.25,
+      "partial": 1.65,
       "blocked": 49.59,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 19.83,
-      "inScope": 27.75
+      "all": 20.25,
+      "inScope": 28.32
     },
     "coverageRateMigratedPlusPartial": {
       "all": 21.9,
@@ -9023,28 +9023,28 @@
       ],
       "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_2510_slots_pass@revid4030984 sha256:e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
       "sourceText": "Spellblade: After using an [[Champion ability|ability]], your next basic attack within 10 seconds deals {{as|75% '''base''' AD}} {{as|(+ 10% AP)}} {{as|'''bonus''' magic damage}} and {{tip|heals}} you for {{as|10% AP}} {{as|(+ 3% '''bonus''' health)}} on-hit, and applies {{tip|on-hit}} effects to the target again after a {{fd|0.2}}-second delay ({{fd|1.5}} second cooldown, starts after using the empowered attack).",
-      "genericClassification": "partial",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
         "spellblade_next_attack_state"
       ],
-      "classificationReason": "item 2510 黄昏与黎明咒刃核心已由 wasm-generic-dusk-and-dawn-spellblade 覆盖：source-owner ability_start 武装 10s ready；下一次合格命中附加魔法伤害 0.75 * base AD + 0.10 * resolved AP；该命中开始 1.5s ICD；effect copyable false。",
+      "classificationReason": "item 2510 黄昏与黎明/Dusk and Dawn 咒刃：League Wiki item manifest revid 4030984 / hash e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d；完成 exact 合同——10s ready；原魔法伤害 0.75 base AD + 0.10 resolved AP；原自身治疗 0.10 AP + 0.03 bonus HP；强化命中后 +200ms 一次 canonical copyable-on-hit replay；1.5s ICD 自强化命中开始；自身 Spellblade 伤害 non-copyable；共享 ready gate/无递归；不声称 live publish/migration。已由 generic_dusk_and_dawn_spellblade_test.go + backend lol_generic_dusk_and_dawn_spellblade_seed.sql / LolGenericDuskAndDawnSpellbladeSeedSqlTest + Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs 投影闭环。",
       "coverageEvidence": [
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-dusk-and-dawn-spellblade",
           "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_dusk_and_dawn_spellblade_test.go",
           "sourceWorktree": "wasm",
-          "note": "completedBoundary: ability_start 10s ready + hit magic 0.75*base AD + 0.10*resolved AP + 1.5s ICD; remainingGap: heal formula + delayed second on-hit"
+          "note": "Dusk and Dawn Spellblade exact: ability_start 10s ready; hit magic 0.75*base AD + 0.10*resolved AP; heal 0.10*AP + 0.03*bonus HP once; +200ms copyable-on-hit replay; 1.5s ICD on empowered hit; own damage non-copyable; shared ready/no recursion; via generic_dusk_and_dawn_spellblade_test.go"
         },
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-dusk-and-dawn-spellblade",
           "sourcePath": "db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql",
           "sourceWorktree": "backend",
-          "note": "completedBoundary: Dusk and Dawn Spellblade core seeded; remainingGap: healing_out_of_damage_branch_and_delayed_repeat_on_hit"
+          "note": "backend lol_generic_dusk_and_dawn_spellblade_seed.sql + LolGenericDuskAndDawnSpellbladeSeedSqlTest; Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs projection; not claiming live publish/migration"
         }
       ],
-      "remainingGap": "缺治疗公式 0.10 AP + 0.03 bonus HP；缺 0.2s 延迟的第二次 on-hit 应用（需 generalized delayed-repeat 语义）。"
+      "remainingGap": ""
     },
     {
       "candidateKey": "item_passive|2512|item_passive|守夜",

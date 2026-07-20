@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-20T16:28:19.548Z",
+    "generatedAt": "2026-07-20T17:30:42.540Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,10 +45,10 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "dd0e383b9bac37fa6813b2562f225857a6f75488a39bb6c2450b9bb53cad0350",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "5c44438fcfd0aacdda2e6c260f5be5a0297f84dccccda75d8a66d5810048e1ac",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "aa0d955b659249c1122891423aa3f1374be101229b0d0eb8356acc5a3aea874c",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "c8f99c923691c514213605bce2e9f0af7f35425a338b6d4104e4e714f86f7762",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "9021eb4cbd993f42ae431b957dde0c0357c28ac04c21774fe30ff461b6f95800",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "27c68091e89d6a2af4a8d60f2fa16f6e0f13838dd7e97b829d80a4e742e2dd1b",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -61,18 +61,18 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 56,
+      "completed": 57,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 117,
+      "blocked_runtime": 116,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 56,
-      "partial": 5,
+      "full": 57,
+      "partial": 4,
       "none": 193
     },
     "laneCounts": {
@@ -112,8 +112,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "dd0e383b9bac37fa6813b2562f225857a6f75488a39bb6c2450b9bb53cad0350",
-      "byteSize": 925339,
+      "sha256": "5c44438fcfd0aacdda2e6c260f5be5a0297f84dccccda75d8a66d5810048e1ac",
+      "byteSize": 925888,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -128,16 +128,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "aa0d955b659249c1122891423aa3f1374be101229b0d0eb8356acc5a3aea874c",
-      "byteSize": 201628,
+      "sha256": "9021eb4cbd993f42ae431b957dde0c0357c28ac04c21774fe30ff461b6f95800",
+      "byteSize": 202169,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "c8f99c923691c514213605bce2e9f0af7f35425a338b6d4104e4e714f86f7762",
-      "byteSize": 219988,
+      "sha256": "27c68091e89d6a2af4a8d60f2fa16f6e0f13838dd7e97b829d80a4e742e2dd1b",
+      "byteSize": 221520,
       "recordCount": 0,
       "role": "generator"
     },
@@ -21378,8 +21378,8 @@
     },
     {
       "key": "item_passive|2510|item_passive|咒刃",
-      "status": "blocked_runtime",
-      "completionMode": "partial",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "item_passive",
       "ownerId": "2510",
@@ -21389,27 +21389,15 @@
         "spellblade_next_attack_state"
       ],
       "coverageBoundary": "",
-      "reason": "治疗在伤害分支之外；剩余 DPS 分支需要 generalized delayed on-hit/repeat 调度。",
-      "blocker": "healing_out_of_damage_branch_and_delayed_repeat_on_hit",
+      "reason": "item 2510 黄昏与黎明/Dusk and Dawn 咒刃：League Wiki item manifest revid 4030984 / hash e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d；完成 exact 合同——10s ready；原魔法伤害 0.75 base AD + 0.10 resolved AP；原自身治疗 0.10 AP + 0.03 bonus HP；强化命中后 +200ms 一次 canonical copyable-on-hit replay；1.5s ICD 自强化命中开始；自身 Spellblade 伤害 non-copyable；共享 ready gate/无递归；故标 completed/full。已由 generic_dusk_and_dawn_spellblade_test.go + backend lol_generic_dusk_and_dawn_spellblade_seed.sql / LolGenericDuskAndDawnSpellbladeSeedSqlTest + Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs 投影闭环；不声称 live migrate/publish。",
+      "blocker": "",
       "dataGapEvidence": null,
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:item_passive|2510|item_passive|咒刃",
-        "dataStatus": "partial",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "healing_out_of_damage_branch_and_delayed_repeat_on_hit"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：healing_out_of_damage_branch_and_delayed_repeat_on_hit",
-        "completedBoundary": "partial core already closed where evidenced"
-      },
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "partial",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "item_passive|2510|item_passive|咒刃"
         },
         {
@@ -21424,14 +21412,14 @@
           "taskKey": "wasm-generic-dusk-and-dawn-spellblade",
           "sourcePath": "db/game_manage/seeds/lol_generic_dusk_and_dawn_spellblade_seed.sql",
           "sourceWorktree": "backend",
-          "note": "completedBoundary: Dusk and Dawn Spellblade core seeded; remainingGap: healing_out_of_damage_branch_and_delayed_repeat_on_hit"
+          "note": "backend seed + LolGenericDuskAndDawnSpellbladeSeedSqlTest; Web combatDataAssembler.test.ts delayMs=200→repeatDelayMs; not claiming live migrate/publish"
         },
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-dusk-and-dawn-spellblade",
           "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_dusk_and_dawn_spellblade_test.go",
           "sourceWorktree": "wasm",
-          "note": "completedBoundary: ability_start 10s ready + hit magic 0.75*base AD + 0.10*resolved AP + 1.5s ICD; remainingGap: heal formula + delayed second on-hit"
+          "note": "Dusk and Dawn Spellblade exact: 10s ready; magic 0.75*baseAD+0.10*AP; heal 0.10*AP+0.03*bonusHP; +200ms copyable-on-hit; 1.5s ICD; own damage non-copyable; shared ready/no recursion; not live published"
         }
       ],
       "aliases": [],
