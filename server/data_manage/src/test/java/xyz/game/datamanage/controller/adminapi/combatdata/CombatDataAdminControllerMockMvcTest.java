@@ -203,7 +203,8 @@ class CombatDataAdminControllerMockMvcTest {
             .put("repeatCount", 3)
             .put("repeatTag", "on-hit")
             .put("triggerStateKey", "stacks")
-            .put("threshold", 3);
+            .put("threshold", 3)
+            .put("delayMs", 0);
         when(effectService.putStep(eq("lol"), eq("s2"), any())).thenReturn(response);
 
         mockMvc.perform(
@@ -227,7 +228,47 @@ class CombatDataAdminControllerMockMvcTest {
             )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.repeatDetail.repeatTag").value("on-hit"))
+            .andExpect(jsonPath("$.repeatDetail.delayMs").value(0))
             .andExpect(jsonPath("$.currentRevision").value(9));
+    }
+
+    @Test
+    void putEffectStepAcceptsRepeatDetailWithExplicitDelayMs() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("stepId", "s2b");
+        response.put("currentRevision", 10);
+        response.putObject("repeatDetail")
+            .put("repeatScopeTypeId", 20263)
+            .put("repeatCount", 1)
+            .put("repeatTag", "dusk_and_dawn_delayed_on_hit")
+            .put("triggerStateKey", "spellblade_icd")
+            .put("threshold", 1)
+            .put("delayMs", 200);
+        when(effectService.putStep(eq("lol"), eq("s2b"), any())).thenReturn(response);
+
+        mockMvc.perform(
+                put("/api/admin/games/lol/combat-data/effect-steps/s2b")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("""
+                        {
+                          "sequenceId":"seq",
+                          "stepOrder":0,
+                          "operationTypeId":1,
+                          "targetSelectorTypeId":2,
+                          "repeatDetail":{
+                            "repeatScopeTypeId":20263,
+                            "repeatCount":1,
+                            "repeatTag":"dusk_and_dawn_delayed_on_hit",
+                            "triggerStateKey":"spellblade_icd",
+                            "threshold":1,
+                            "delayMs":200
+                          }
+                        }
+                        """)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.repeatDetail.delayMs").value(200))
+            .andExpect(jsonPath("$.currentRevision").value(10));
     }
 
     @Test

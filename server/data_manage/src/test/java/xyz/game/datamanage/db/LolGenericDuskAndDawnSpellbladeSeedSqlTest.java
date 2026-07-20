@@ -31,6 +31,8 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
         "sequence_item_2510_dusk_and_dawn_spellblade_proc",
         "step_item_2510_dusk_and_dawn_spellblade_ready_arm",
         "step_item_2510_dusk_and_dawn_spellblade_damage",
+        "step_item_2510_dusk_and_dawn_spellblade_heal",
+        "step_item_2510_dusk_and_dawn_spellblade_delayed_on_hit",
         "step_item_2510_dusk_and_dawn_spellblade_icd_arm",
         "step_item_2510_dusk_and_dawn_spellblade_ready_consume",
         "spellblade_ready",
@@ -40,7 +42,9 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
         "spellblade_icd_arm",
         "spellblade_ready_armed",
         "spellblade_proc_damage",
-        "spellblade_ready_consume");
+        "spellblade_proc_heal",
+        "spellblade_ready_consume",
+        "dusk_and_dawn_delayed_on_hit");
 
     private static String sql;
     private static String sqlNoLineComments;
@@ -115,20 +119,25 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
             Pattern.compile("(?i)single_attacker_dps").matcher(sqlNoLineComments).find(),
             "must not reference single_attacker_dps");
         assertFalse(
-            Pattern.compile("(?i)heal|healing|法力|mana\\s*restore|mana_restore")
+            Pattern.compile("(?i)法力|mana\\s*restore|mana_restore")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not implement healing or mana restore (out of Spellblade core scope)");
+            "must not implement mana restore");
         assertFalse(
-            Pattern.compile("(?i)delay|delayed|0\\.2|repeat|resource")
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.resource_effect_details\\b")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not model delayed/repeat/resource surfaces");
+            "must not write resource_effect_details");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_modifiers\\b")
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not write provider_modifiers");
+        assertFalse(
+            Pattern.compile("(?i)live\\s+migration|ALTER\\s+TABLE")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not perform live migration / ALTER TABLE");
     }
 
     @Test
@@ -201,6 +210,25 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not create type_relations");
+    }
+
+    @Test
+    void requiresHealAndRepeatReservedPrerequisitesAndProjectsTypes() {
+        for (int typeId : List.of(20151, 20161, 20263)) {
+            assertTrue(
+                Pattern.compile("\\b" + typeId + "\\b").matcher(sqlNoLineComments).find(),
+                "required reserved must include " + typeId);
+        }
+        assertTrue(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.types\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must project reserved → game-local types");
+        assertTrue(
+            Pattern.compile("(?is)type_id\\s*=\\s*ANY\\s*\\(\\s*v_required_reserved\\s*\\)")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "types projection must use v_required_reserved");
     }
 
     @Test
@@ -309,7 +337,7 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
     }
 
     @Test
-    void basicAttackHitDamagesThenStartsIcdThenConsumesReady() {
+    void procOrderIsDamageHealRepeatIcdThenConsumeWithSharedCondition() {
         assertContains("listener_item_2510_dusk_and_dawn_spellblade_basic_attack_hit");
         assertTrue(
             Pattern.compile(
@@ -330,24 +358,42 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
             Pattern.compile(
                     "(?s)'step_item_2510_dusk_and_dawn_spellblade_damage'\\s*,\\s*"
                         + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'\\s*,\\s*0\\s*,\\s*"
-                        + "20150\\s*,\\s*20111")
+                        + "20150\\s*,\\s*20111\\s*,\\s*'spellblade_ready_armed'")
                 .matcher(sql)
                 .find(),
-            "damage step must be order 0 damage to opponent");
+            "damage step must be order 0 damage to opponent with shared condition");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_2510_dusk_and_dawn_spellblade_heal'\\s*,\\s*"
+                        + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'\\s*,\\s*1\\s*,\\s*"
+                        + "20151\\s*,\\s*20110\\s*,\\s*'spellblade_ready_armed'")
+                .matcher(sql)
+                .find(),
+            "heal step must be order 1 self heal with shared condition");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_2510_dusk_and_dawn_spellblade_delayed_on_hit'\\s*,\\s*"
+                        + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'\\s*,\\s*2\\s*,\\s*"
+                        + "20161\\s*,\\s*20110\\s*,\\s*'spellblade_ready_armed'")
+                .matcher(sql)
+                .find(),
+            "repeat step must be order 2 with shared condition");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_item_2510_dusk_and_dawn_spellblade_icd_arm'\\s*,\\s*"
-                        + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'\\s*,\\s*1\\s*,\\s*20160")
+                        + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'\\s*,\\s*3\\s*,\\s*"
+                        + "20160\\s*,\\s*20110\\s*,\\s*'spellblade_ready_armed'")
                 .matcher(sql)
                 .find(),
-            "icd arm must be order 1 on proc (ICD starts on empowered attack consume)");
+            "icd arm must be order 3 on proc");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_item_2510_dusk_and_dawn_spellblade_ready_consume'\\s*,\\s*"
-                        + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'\\s*,\\s*2\\s*,\\s*20160")
+                        + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'\\s*,\\s*4\\s*,\\s*"
+                        + "20160\\s*,\\s*20110\\s*,\\s*'spellblade_ready_armed'")
                 .matcher(sql)
                 .find(),
-            "ready consume must be order 2 on proc");
+            "ready consume must be order 4 on proc");
         assertTrue(
             Pattern.compile(
                     "(?s)'step_item_2510_dusk_and_dawn_spellblade_icd_arm'[\\s\\S]{0,200}"
@@ -356,6 +402,147 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
                 .find(),
             "proc icd arm must override icd to 1");
         assertContains("\"op\":\"gte\"");
+    }
+
+    @Test
+    void healFormulaIsApPlusBonusHpAndSelfHealDetail() {
+        String healFormula =
+            "{\"op\":\"add\",\"args\":["
+                + "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.10},"
+                + "{\"op\":\"read\",\"path\":\"event.entry_source.attr.ap.resolved\"}]},"
+                + "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.03},"
+                + "{\"op\":\"max\",\"args\":[{\"op\":\"const\",\"value\":0},"
+                + "{\"op\":\"sub\",\"args\":["
+                + "{\"op\":\"read\",\"path\":\"event.entry_source.attr.hp.max\"},"
+                + "{\"op\":\"read\",\"path\":\"event.entry_source.attr.hp.base\"}]}]}]}]}";
+        assertContains(healFormula);
+        assertContains("spellblade_proc_heal");
+        assertContains("event.entry_source.attr.hp.max");
+        assertContains("event.entry_source.attr.hp.base");
+        assertTrue(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.heal_effect_details\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must write heal_effect_details");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_2510_dusk_and_dawn_spellblade_heal'\\s*,\\s*"
+                        + "'spellblade_proc_heal'\\s*,\\s*20170")
+                .matcher(sql)
+                .find(),
+            "heal detail must use add policy 20170");
+    }
+
+    @Test
+    void repeatDetailUsesCopyableScopeTagIcdGateAndDelayMs200() {
+        assertTrue(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.repeat_effect_details\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must write repeat_effect_details");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_item_2510_dusk_and_dawn_spellblade_delayed_on_hit'\\s*,\\s*"
+                        + "20263\\s*,\\s*1\\s*,\\s*'dusk_and_dawn_delayed_on_hit'\\s*,\\s*"
+                        + "'spellblade_icd'\\s*,\\s*1\\s*,\\s*200")
+                .matcher(sql)
+                .find(),
+            "repeat detail must be scope 20263 / count 1 / tag / icd threshold 1 / delay_ms 200");
+        assertContains("delay_ms");
+    }
+
+    @Test
+    void collisionSafeOwnedStepReorderGuardsOrderUniquenessBeforeFinalUpsert() {
+        assertTrue(
+            sql.contains("uq_effect_steps_order")
+                || sql.contains("UNIQUE (game_id, sequence_id, step_order)"),
+            "seed must document uq_effect_steps_order / (game_id, sequence_id, step_order) risk");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_2510_dusk_and_dawn_spellblade_damage[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+0")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare damage against desired order 0");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_2510_dusk_and_dawn_spellblade_heal[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+1")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare heal against desired order 1");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_2510_dusk_and_dawn_spellblade_delayed_on_hit[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+2")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare delayed_on_hit against desired order 2");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_2510_dusk_and_dawn_spellblade_icd_arm[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+3")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare icd_arm against desired order 3");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)step_item_2510_dusk_and_dawn_spellblade_ready_consume[\\s\\S]*?"
+                        + "step_order\\s+IS\\s+DISTINCT\\s+FROM\\s+4")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "reorder guard must compare ready_consume against desired order 4");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)SELECT\\s+COALESCE\\s*\\(\\s*MAX\\s*\\(\\s*es\\.step_order\\s*\\)\\s*,\\s*0\\s*\\)"
+                        + "[\\s\\S]*?sequence_item_2510_dusk_and_dawn_spellblade_proc")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "temporary order base must be derived from MAX(step_order) on the proc sequence");
+        assertTrue(
+            Pattern.compile("v_temp_order_base\\s*\\+\\s*owned\\.rn")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "existing owned rows must move to distinct temporary orders above the max base");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)UPDATE\\s+public\\.effect_steps\\b[\\s\\S]*?"
+                        + "step_order\\s*=\\s*v_temp_order_base\\s*\\+\\s*owned\\.rn")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "collision-safe phase must UPDATE existing owned effect_steps to temporary orders");
+        int tempUpdateIdx =
+            indexOfPattern(
+                sqlNoLineComments,
+                "(?is)UPDATE\\s+public\\.effect_steps\\b[\\s\\S]*?"
+                    + "v_temp_order_base\\s*\\+\\s*owned\\.rn");
+        int finalInsertIdx =
+            sqlNoLineComments.indexOf(
+                "INSERT INTO public.effect_steps (\n"
+                    + "        game_id, step_id, sequence_id, step_order, operation_type_id,\n"
+                    + "        target_selector_type_id, condition_formula_key, change_revision, updated_at\n"
+                    + "    ) VALUES\n"
+                    + "        (\n"
+                    + "            v_game_id,\n"
+                    + "            'step_item_2510_dusk_and_dawn_spellblade_damage'");
+        if (finalInsertIdx < 0) {
+            finalInsertIdx =
+                indexOfPattern(
+                    sqlNoLineComments,
+                    "(?is)INSERT\\s+INTO\\s+public\\.effect_steps\\b[\\s\\S]*?"
+                        + "'step_item_2510_dusk_and_dawn_spellblade_damage'[\\s\\S]*?"
+                        + "'sequence_item_2510_dusk_and_dawn_spellblade_proc'[\\s\\S]*?0");
+        }
+        assertTrue(tempUpdateIdx >= 0, "must contain temporary owned-step UPDATE");
+        assertTrue(finalInsertIdx >= 0, "must contain final proc effect_steps INSERT");
+        assertTrue(
+            tempUpdateIdx < finalInsertIdx,
+            "collision-safe temporary reorder must run before final proc effect_steps INSERT");
+        assertTrue(
+            sql.contains("do not set v_changed here")
+                || sql.contains("Temporary parking only")
+                || sql.contains("rerun idempotent"),
+            "seed must document that temporary reorder does not itself mark material change");
     }
 
     @Test
@@ -396,15 +583,22 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
     void citesWikiNormalizedJsonAndValidatesStableIds() {
         assertContains("current-items.normalized.json");
         assertContains("item 2510");
+        assertContains("revid 4030984");
+        assertContains("e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d");
         assertContains("missing reserved_type");
         for (int typeId : List.of(
-            20100, 20110, 20111, 20120, 20150, 20160, 20170, 20172, 20181,
-            20190, 20205, 20211, 20212, 20221, 20250)) {
+            20100, 20110, 20111, 20120, 20150, 20151, 20160, 20161, 20170, 20172, 20181,
+            20190, 20205, 20211, 20212, 20221, 20250, 20263)) {
             assertContains(Integer.toString(typeId));
         }
         for (String id : STABLE_IDS) {
             assertContains(id);
         }
+    }
+
+    private static int indexOfPattern(String haystack, String regex) {
+        var matcher = Pattern.compile(regex).matcher(haystack);
+        return matcher.find() ? matcher.start() : -1;
     }
 
     private static String stripLineComments(String raw) {
