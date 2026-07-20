@@ -72,7 +72,7 @@ revision 采用 `FOR UPDATE` 锁与候选 revision；只有业务数据实际改
 2. 按装备选择顺序收集所选装备的 `entity_provider_mounts`
 3. 按 provider ID 去重并挂到 source combatant
 
-target 不接收 source equipment mount；未选择装备时行为不变；未选中的装备 provider 不进入 compile request。provider definition、formula、listener 与 operation 继续走现有 slot namespacing 和 `cloneProviderForSlot` 投影。
+target 不接收 source equipment mount；未选择装备时行为不变；未选中的装备 provider 不进入 compile request。provider definition、formula、listener 与 operation 继续走现有 slot namespacing 和 `cloneProviderForSlot` 投影。本批仍为 source-side on-hit 范围；后续贾修（`item_6665`）合同另增独立的 union-tagged target-loadout / target-owned provider 路径，**不**改写本批历史 source-side 装配合同。
 
 装备仍不是第三个 combatant，也不合并装备 stage、resource 或 type。页面文案明确区分“配置了 provider 的装备”和“仅有静态属性的装备”。
 

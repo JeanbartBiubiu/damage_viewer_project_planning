@@ -647,6 +647,20 @@
       ]
     },
     {
+      "task_key": "wasm-generic-jaksho-voidborn-target-loadout",
+      "title": "通用 ABI 贾修虚空天生目标装备投影机制",
+      "module": "wasm",
+      "feature": "generic_jaksho_voidborn_target_loadout",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "item_6665 虚空天生已标 completed/full/generic_runtime：真实 targetEquipmentEntityIds 投影目标装备静态 armor/MR、目标侧派生 bonus（explicit-bonus-row-wins）与 target-owned provider；t=5000 +30% 投影 bonus（75/75+45/45→88.5/88.5）后续 tick 幂等；Backend 62011/tag/loadout_equipment；Unified completed58/blocked_runtime115/partial3；G8 不变；驱动模型最终复验 Backend 611、owning Web 322/103、integrated Web 127/95、Wasm full go test/bench/build/smoke 全部通过；证据边界不含 live migrate/publish。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-贾修虚空天生目标装备投影机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-贾修虚空天生目标装备投影机制验证记录-2026-07-21.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-yun-tal-practice-makes-lethal",
       "title": "通用 ABI 育恩塔尔熟能生巧机制",
       "module": "wasm",
