@@ -137,6 +137,7 @@ describe('abilities castConditionFormulaKey form field', () => {
       {
         abilityId: 'ability_hero_ashe_q_rangers_focus',
         providerId: 'provider_hero_ashe_rangers_focus',
+
         abilityKey: 'rangers_focus',
         abilityKindTypeId: 20130,
         displayName: '射手的专注',
@@ -150,6 +151,66 @@ describe('abilities castConditionFormulaKey form field', () => {
     expect(body.castConditionFormulaKey).toBe('rangers_focus_cast_condition');
     expect(body.abilityKey).toBe('rangers_focus');
     expect(body.providerId).toBe('provider_hero_ashe_rangers_focus');
+  });
+});
+
+describe('provider-lifecycles tick anchor fields', () => {
+  it('exposes nullable optional tickAnchorScopeTypeId and tickAnchorStateKey with helpers', () => {
+    const config = getCombatDataResource('provider-lifecycles');
+    expect(config).toBeDefined();
+
+    const scopeField = config!.fields.find((f) => f.name === 'tickAnchorScopeTypeId');
+    expect(scopeField).toMatchObject({
+      name: 'tickAnchorScopeTypeId',
+      kind: 'number',
+      label: 'Tick 锚点 Scope 类型 ID'
+    });
+    expect(scopeField?.required).toBeUndefined();
+    expect(scopeField?.helper).toContain('成对');
+
+    const keyField = config!.fields.find((f) => f.name === 'tickAnchorStateKey');
+    expect(keyField).toMatchObject({
+      name: 'tickAnchorStateKey',
+      kind: 'text',
+      label: 'Tick 锚点 State Key'
+    });
+    expect(keyField?.required).toBeUndefined();
+    expect(keyField?.helper).toContain('成对');
+
+    const emptyForm = createEmptyForm(config!.fields);
+    expect(emptyForm.tickAnchorScopeTypeId).toBe('');
+    expect(emptyForm.tickAnchorStateKey).toBe('');
+    const emptyBody = bodyFromFields(config!.fields, ['providerId'], emptyForm);
+    expect(emptyBody).not.toHaveProperty('tickAnchorScopeTypeId');
+    expect(emptyBody).not.toHaveProperty('tickAnchorStateKey');
+
+    const form = recordToForm(
+      {
+        providerId: 'prov_tick',
+        maxStacks: 1,
+        tickAnchorScopeTypeId: 20252,
+        tickAnchorStateKey: 'deadly_venom_stacks'
+      },
+      config!.fields
+    );
+    expect(form.tickAnchorScopeTypeId).toBe(20252);
+    expect(form.tickAnchorStateKey).toBe('deadly_venom_stacks');
+
+    const body = bodyFromFields(config!.fields, ['providerId'], form);
+    expect(body.tickAnchorScopeTypeId).toBe(20252);
+    expect(body.tickAnchorStateKey).toBe('deadly_venom_stacks');
+
+    const nullForm = recordToForm(
+      {
+        providerId: 'prov_tick',
+        maxStacks: 1,
+        tickAnchorScopeTypeId: null,
+        tickAnchorStateKey: null
+      },
+      config!.fields
+    );
+    expect(nullForm.tickAnchorScopeTypeId).toBe('');
+    expect(nullForm.tickAnchorStateKey).toBe('');
   });
 });
 
@@ -317,7 +378,12 @@ describe('resourceRegistry reference assistance helpers', () => {
 
     const expectedByResourceId: Record<string, ReferenceDef[]> = {
       providers: [typeRef('providerKindTypeId')],
-      'provider-lifecycles': [providerRef(), typeRef('refreshPolicyTypeId'), formulaRef('durationFormulaKey')],
+      'provider-lifecycles': [
+        providerRef(),
+        typeRef('refreshPolicyTypeId'),
+        typeRef('tickAnchorScopeTypeId'),
+        formulaRef('durationFormulaKey')
+      ],
       'provider-state-fields': [providerRef(), typeRef('valueTypeId')],
       'provider-modifiers': [
         providerRef(),
