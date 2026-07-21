@@ -612,6 +612,7 @@ const SEED = {
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
   akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
+  twitchDeadlyVenomBackend: 'db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql',
   terminusJuxtapositionBackend:
     'db/game_manage/seeds/lol_generic_terminus_juxtaposition_seed.sql',
   firmament6699Backend: 'db/game_manage/seeds/lol_generic_firmament_6699_seed.sql',
@@ -685,6 +686,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
   akshanDirtyFighting:
     'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go',
+  twitchDeadlyVenom:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_twitch_deadly_venom_test.go',
   terminusJuxtaposition:
     'wasm/tinygo_engine_v2/internal/runtime/generic_terminus_juxtaposition_test.go',
   firmament6699:
@@ -899,6 +902,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
           'Teemo E toxic shot immediate on-hit seed (DoT out of this batch)',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_twitch|P',
+    {
+      classification: 'migrated',
+      tags: [
+        'poison_dot_stack',
+        'anchored_provider_tick',
+        'true_damage_over_time',
+        'on_hit_stack_apply',
+      ],
+      reason:
+        'hero_twitch P 死亡毒液/Deadly Venom：Wiki rev4013286（SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44）已给出 max6/6000ms、每 AA 一层、每秒真实伤害 tick、五档等级带、每层 +3% AP；当前 1v1 伤害核合同数据完整。generic anchored provider-tick ABI/runtime（commit 8612d0d）+ Backend lifecycle/seed（commit 92e100e）+ Web TickSpec 投影（commit 5a0931a）+ 精确 CompileGeneric/RunGeneric Twitch 测试（commit 7cb8b1d）已闭环，故标 migrated；不再以 missing_poison_dot_stack_runtime / blocked_data 阻塞。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-twitch-deadly-venom',
+          WASM.twitchDeadlyVenom,
+          'completedBoundary: Wiki rev4013286 Deadly Venom 1v1 (max6/6000ms / AA stack / 1s true ticks / L1·5·9·13·17 / +3% AP / inclusive final tick; commit 7cb8b1d on generic anchored tick ABI 8612d0d); not live published',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-twitch-deadly-venom',
+          SEED.twitchDeadlyVenomBackend,
+          'completedBoundary: Twitch Deadly Venom seeded (Backend lifecycle/seed commit 92e100e; Web TickSpec projection commit 5a0931a); backend lol_generic_twitch_deadly_venom_seed.sql; not live published',
         ),
       ],
     },
@@ -3453,9 +3486,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 49) errors.push(`migrated=${counts.migrated}, expected 49`);
+  if (counts.migrated !== 50) errors.push(`migrated=${counts.migrated}, expected 50`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 120) errors.push(`blocked=${counts.blocked}, expected 120`);
+  if (counts.blocked !== 119) errors.push(`blocked=${counts.blocked}, expected 119`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4557,6 +4590,47 @@ function validateAudit(audit) {
   ) {
     errors.push(
       "Kai'Sa P must be migrated with bilateral wasm+backend evidence under completed Second Skin canonical generic scope (not blocked/ready)",
+    );
+  }
+  const twitchP = records.find((r) => r.candidateKey === 'hero_skill|hero_twitch|P|死亡毒液');
+  if (
+    !twitchP
+    || twitchP.genericClassification !== 'migrated'
+    || !(twitchP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.twitchDeadlyVenom
+        && e.taskKey === 'wasm-generic-twitch-deadly-venom',
+    )
+    || !(twitchP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.twitchDeadlyVenomBackend
+        && e.taskKey === 'wasm-generic-twitch-deadly-venom',
+    )
+    || !String(twitchP.classificationReason || '').includes('4013286')
+    || !String(twitchP.classificationReason || '').includes(
+      '1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44',
+    )
+    || !String(twitchP.classificationReason || '').includes('8612d0d')
+    || !String(twitchP.classificationReason || '').includes('92e100e')
+    || !String(twitchP.classificationReason || '').includes('5a0931a')
+    || !String(twitchP.classificationReason || '').includes('7cb8b1d')
+    || !String(twitchP.classificationReason || '').includes('anchored')
+    || String(twitchP.remainingGap || '').trim()
+    || (Array.isArray(twitchP.dataGapEvidence?.missingFields)
+      && twitchP.dataGapEvidence.missingFields.length > 0)
+  ) {
+    errors.push(
+      'Twitch P must be migrated with empty remainingGap, Wiki rev4013286/SHA + anchored DoT evidence (8612d0d/92e100e/5a0931a/7cb8b1d), and bilateral wasm+backend paths (not blocked/blocked_data)',
+    );
+  }
+  if (twitchP) {
+    validateBilateralCoverageEvidence(
+      twitchP.candidateKey,
+      twitchP.coverageEvidence,
+      errors,
+      { requireCompletedBoundary: true, lane: 'generic_runtime' },
     );
   }
   const akshanP = records.find((r) => r.candidateKey === 'hero_skill|hero_akshan|P|无所不用');
