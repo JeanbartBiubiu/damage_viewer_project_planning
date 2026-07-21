@@ -854,6 +854,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-malzahar-malefic-visions",
+      "title": "通用 ABI 玛尔扎哈 E 恶咒降临 Malefic Visions 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_malzahar_malefic_visions",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_malzahar|E|恶咒降临 已标 completed/full/generic_runtime（Unified EXTRA，非 G8）：EXTRA sidecar malzahar-e.json page1308233/rev4015185/SHA256 9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84；Rank5 mana100/CD7000；active=1 max1/4000ms/refresh_on_write；anchored250/0；16 inclusive magic ticks t250..4000；每跳13.75+0.05AP、合计220+0.80AP。Unified 254：sourceCount12（9active+3gen）/completed60/blocked_runtime113/full60/none191；G8 不变242=migrated50/partial4/blocked119/OOS69。integrated Backend full 非全量通过（CRLF legacy seed caveat；Malzahar7+GenericTickAnchor4通过）。未执行 live migration/publish。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-玛尔扎哈E恶咒降临MaleficVisions机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-玛尔扎哈E恶咒降临MaleficVisions机制验证记录-2026-07-21.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
