@@ -964,7 +964,8 @@ function cloneProviderForSlot(
     mapListener(listener, indexes, slot, providerRef)
   );
 
-  const lifecycle = mapLifecycle(indexes.lifecyclesByProvider.get(providerId), indexes, slot);
+  const lifecycleRow = indexes.lifecyclesByProvider.get(providerId);
+  const lifecycle = mapLifecycle(lifecycleRow, indexes, slot);
   const tickOps = collectTickOperations(indexes, providerId, slot);
   if (tickOps.length > 0) {
     const intervalMs = lifecycle?.tickIntervalMs;
@@ -973,14 +974,16 @@ function cloneProviderForSlot(
         `provider ${providerId} has tick sequences but missing positive tickIntervalMs`
       );
     }
-    const startDelayMs = indexes.lifecyclesByProvider.get(providerId)?.startDelayMs;
+    const startDelayMs = lifecycleRow?.startDelayMs;
+    const tickAnchor = projectTickAnchor(lifecycleRow, indexes, providerId);
     abilities.push({
       abilityKey: '__tick__',
       kind: 'tick',
       tickSpec: {
         intervalMs,
         onTick: tickOps,
-        ...(startDelayMs !== undefined ? { startDelayMs } : {})
+        ...(startDelayMs !== undefined ? { startDelayMs } : {}),
+        ...tickAnchor
       }
     });
   }
@@ -1243,6 +1246,56 @@ function mapLifecycle(
     result.tickIntervalMs = lifecycle.tickIntervalMs;
   }
   return result;
+}
+
+const TICK_ANCHOR_SCOPE_TYPE_KEY = 'state_scope/provider_target';
+
+/**
+ * Project optional Backend tick-anchor pair onto Wasm TickSpec fields.
+ * Both lifecycle fields must be absent/null or both set; invalid pairs fail closed.
+ */
+function projectTickAnchor(
+  lifecycle: ProviderLifecycle | undefined,
+  indexes: GraphIndexes,
+  providerId: string
+): { anchorScope: string; anchorStateKey: string } | Record<string, never> {
+  if (!lifecycle) {
+    return {};
+  }
+
+  const scopeTypeId = lifecycle.tickAnchorScopeTypeId;
+  const stateKeyRaw = lifecycle.tickAnchorStateKey;
+  const hasScope = scopeTypeId !== undefined && scopeTypeId !== null;
+  const hasKey = stateKeyRaw !== undefined && stateKeyRaw !== null;
+
+  if (!hasScope && !hasKey) {
+    return {};
+  }
+  if (!hasScope || !hasKey) {
+    throw new CombatDataAssembleError(
+      `provider ${providerId} tickAnchorScopeTypeId and tickAnchorStateKey must both be set or both omitted`
+    );
+  }
+
+  const stateKey = String(stateKeyRaw).trim();
+  if (stateKey === '') {
+    throw new CombatDataAssembleError(
+      `provider ${providerId} tickAnchorStateKey must be non-blank when tick anchors are set`
+    );
+  }
+
+  const scopeKey = requireTypeKey(
+    indexes.types,
+    scopeTypeId,
+    `provider ${providerId} tickAnchorScope`
+  );
+  if (scopeKey !== TICK_ANCHOR_SCOPE_TYPE_KEY) {
+    throw new CombatDataAssembleError(
+      `provider ${providerId} tickAnchorScopeTypeId must resolve to ${TICK_ANCHOR_SCOPE_TYPE_KEY} (got ${scopeKey})`
+    );
+  }
+
+  return { anchorScope: scopeKey, anchorStateKey: stateKey };
 }
 
 function collectTickOperations(
