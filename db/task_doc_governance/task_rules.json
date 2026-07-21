@@ -838,6 +838,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-twitch-deadly-venom",
+      "title": "通用 ABI 图奇 P 死亡毒液机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_twitch_deadly_venom",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_twitch|P|死亡毒液 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4013286 / SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44；max6/6000ms/普攻叠1/每秒真实伤害 flat1·2·3·4·5（L1/5/9/13/17+）+0.03*AP；generic target-state-anchored tick（TickSpec anchorScope/anchorStateKey；DB tick_anchor_*）。Unified 254：completed59/blocked_runtime114/full59/none192；G8 242：migrated50/blocked119。验证含 Wasm focused/full/bench/build/smoke、Backend owning 625、Web owning/integrated Vitest；integrated Backend full 非全量通过（CRLF/归档环境 caveat，Twitch 测试通过）。未执行 live migration/publish。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-图奇P死亡毒液DeadlyVenom机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-图奇P死亡毒液DeadlyVenom机制验证记录-2026-07-21.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
