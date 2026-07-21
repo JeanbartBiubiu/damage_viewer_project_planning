@@ -232,6 +232,31 @@ cd server/data_manage
 mvn -Dtest=LolAdcItemOnHitPassivesSeedSqlTest test
 ```
 
+### LoL generic Varus Blighted Quiver seed（韦鲁斯 W 枯萎箭袋 / Phase-A v2）
+
+在 reserved types、Batch-B `hero_varus` 普攻闭环，以及 `lol_adc_item_on_hit_passives_seed.sql` 写入的 `step_hero_varus_basic_attack_emit_hit` / `event_ref_hero_varus_basic_attack_hit` 已就绪后，按顺序执行（**不**重建/替换 `provider_hero_varus_basic_attack`、不重复 emit；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20160`/`20170`/`20172`/`20181`/`20190`/`20211`/`20212`/`20220`/`20221`/`20250`/`20252`/`20260`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B / `hero_varus` 尚未写入）
+3. `db/game_manage/seeds/lol_adc_item_on_hit_passives_seed.sql`（若 Varus `basic_attack_hit` emit 尚未写入）
+4. `db/game_manage/seeds/lol_generic_varus_blighted_quiver_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-varus-blighted-quiver-phase-a-v2-20260721`（seed 不负责 publish）。候选整体语义为已批准 **Phase-A rank-5 固定 max-charge 主目标边界**：
+
+`fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop`
+
+该 seed 会：锁定 `game_data_state`；fail-closed 校验 Batch-B Varus 实体/普攻图/mount 与既有 on-hit emit；幂等投影 reserved → `types`；向 `hero_varus` **仅** mount 独立 `provider_hero_varus_w_blighted_quiver_phase_a`（保留既有 mounts）；写入 `blight_stacks`（provider_target / max3 / 6000ms / refresh_on_write）与 `blighted_quiver_active`（provider / max1 / 5500ms / refresh_on_write）；Vayne/TF 式 `basic_attack_hit`+`source_owner` listener（max once/event）按序结算魔法 on-hit `40 + 0.15*max(0, bonusAD) + 0.25*AP` 再 `blight_stacks += 1`；W active `ability_hero_varus_w_blighted_quiver_active`（`ability_key=blighted_quiver_phase_a_active`；**无** cost/CD 行）impact 直接 override active=1；W-scoped Q ordering carrier `ability_hero_varus_w_piercing_arrow_max_charge_carrier`（`ability_key=blighted_quiver_q_max_charge_carrier`）五步序 physical →（active）missing-HP magic →（blight）detonate → reset blight → reset active。Wiki 权威：page1309980 / rev4026472 / SHA256 `16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2`；只读 sidecar `数据参考/lol-wiki-current-champions/normalized/generic/varus-w.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：ranks1-4、可变 Q 蓄力、W cooldown/recast/death/CC、Q mana/CD/channel/projectile/multi-target、Blight cooldown refund、其它技能消费者、野怪上限、shields/blind/block/dodge、Spellblade/on-cast suppression、Guinsoo phantom/repeat、装备/loadouts、live migration、publish、完整对局保真；不 claim 真实 Varus Q 完成。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericVarusBlightedQuiverSeedSqlTest test
+```
+
 ### LoL generic-formula on-hit 六机制 batch seed
 
 在 reserved types、Batch-B（含 `hero_teemo` / `hero_kogmaw`）、Batch-C（含 `item_3115` / `item_3302` / `item_3181` / `item_3748`），以及 teemo/kogmaw 普攻 `emit_event(event/basic_attack_hit)` 已就绪后，按顺序执行：
