@@ -764,6 +764,29 @@ cd server/data_manage
 mvn -Dtest=GenericTickAnchorDbContractSqlTest,LolGenericTwitchDeadlyVenomSeedSqlTest,ProviderCombatDataServiceTest test
 ```
 
+### LoL generic Malzahar Malefic Visions seed（玛尔扎哈 E 恶咒降临 / anchored DoT Phase-A）
+
+前置 DDL：同 Twitch，需 `provider_lifecycles` tick_anchor 成对字段。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20160`/`20170`/`20172`/`20190`/`20221`/`20252`/`20260`）
+2. `db/game_manage/seeds/lol_generic_malzahar_malefic_visions_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-malzahar-malefic-visions-v1-20260721`（seed 不负责 publish）。候选 `hero_skill|hero_malzahar|E|恶咒降临` 冻结为 **Phase-A rank-5 anchored DoT**（`FROZEN_PLAN_REV=malzahar-e-anchored-dot-phase-a-v2`）：mana100 / CD7000ms；`malefic_visions_active` max1 / 4000ms / refresh_on_write；lifecycle `tick_interval_ms=250` / `start_delay_ms=0` / anchor `20252`+`malefic_visions_active`；每 tick 魔法 `13.75 + 0.05*AP`（合计 `220 + 0.80*AP`）。
+
+该 seed 会：锁定 `game_data_state`；幂等投影 reserved → `types`；fail-closed ensure game-local `62004 damage_trait/dot`；ensure `hero_malzahar`（`ON CONFLICT DO NOTHING`）与 level-1 面板/mana 资源；向 `hero_malzahar` 独占 mount `provider_hero_malzahar_malefic_visions`；active `malefic_visions` impact **仅**一步 `state_change` override=1（`provider_target`），无施法直伤；on-tick 单条魔法伤害（非暴击、不可复制、挂 dot）。有 material change 时才推进候选 revision。
+
+Wiki 数值权威：request `Template:Data Malzahar/E` → resolved `Template:Data Malzahar/Malefic Visions`；wikiPageId `1308233` / rev `4015185` / `2026-05-03T16:59:57Z`；upstream LF bytes `2228` / content SHA256 `9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84`（`数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json`）。
+
+**排除**：Q/R 刷新；死亡扩散/弹跳/多目标；2% 最大法力回复；小兵斩杀；净化/免疫；indirect/spell-effect；ranks1-4；施法时间/射程；Batch-J 历史 `tick_damage` 5.6/1000ms；live migration；publish；E2E。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericMalzaharMaleficVisionsSeedSqlTest,GenericTickAnchorDbContractSqlTest test
+```
+
 ### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
 
 前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
