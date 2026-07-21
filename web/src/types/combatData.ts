@@ -133,6 +133,10 @@ export type ProviderLifecycle = CombatDataRowMeta & {
   refreshPolicyTypeId?: number;
   tickIntervalMs?: number;
   startDelayMs?: number;
+  /** Optional tick lifecycle anchor scope type id; pair with tickAnchorStateKey. */
+  tickAnchorScopeTypeId?: number | null;
+  /** Optional tick lifecycle anchor state key; pair with tickAnchorScopeTypeId. */
+  tickAnchorStateKey?: string | null;
 };
 
 export type ProviderStateField = CombatDataRowMeta & {

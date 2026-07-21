@@ -842,7 +842,20 @@ const providerLifecycleFields: FieldDef[] = [
   { name: 'maxStacks', label: '最大层数', kind: 'number', required: true, defaultValue: 1 },
   { name: 'refreshPolicyTypeId', label: '刷新策略类型 ID', kind: 'number' },
   { name: 'tickIntervalMs', label: 'Tick 间隔(ms)', kind: 'number' },
-  { name: 'startDelayMs', label: '起始延迟(ms)', kind: 'number' }
+  { name: 'startDelayMs', label: '起始延迟(ms)', kind: 'number' },
+  {
+    name: 'tickAnchorScopeTypeId',
+    label: 'Tick 锚点 Scope 类型 ID',
+    kind: 'number',
+    helper:
+      '可选。与 Tick 锚点 State Key 成对配置；留空表示不使用锚点。当前仅支持 state_scope/provider_target。'
+  },
+  {
+    name: 'tickAnchorStateKey',
+    label: 'Tick 锚点 State Key',
+    kind: 'text',
+    helper: '可选。与 Tick 锚点 Scope 类型 ID 成对配置；留空表示不使用锚点。'
+  }
 ];
 
 const providerStateFieldFields: FieldDef[] = [
@@ -1478,6 +1491,7 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     references: [
       { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
       { field: 'refreshPolicyTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
+      { field: 'tickAnchorScopeTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
       {
         field: 'durationFormulaKey',
         resourceId: 'provider-formulas',
