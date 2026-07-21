@@ -527,13 +527,32 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_varus|W|枯萎箭袋',
     {
-      status: 'blocked_runtime',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        'Varus W Blighted Quiver：Wiki rev4026472（SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2）已给出 on-hit magic、blight consume 与 active missing-HP 分支公式；非 blocked_data。缺 blight stack/consume 与 active cast runtime。',
-      blocker: 'missing_blight_stack_consume_and_active_cast_runtime',
+        'Varus W Blighted Quiver / 枯萎箭袋：Wiki rev4026472（SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2；normalized/generic/varus-w.json）rank5 Phase-A v2 已由 wasm-generic-varus-blighted-quiver + backend seed 证据闭环——被动 on-hit magic 40+0.15*bonusAD+0.25*AP 后 target blight_stacks+=1（max3/6000ms refresh_on_write）；W active 武装 blighted_quiver_active max1/5500ms；W-scoped Q max-charge ordering carrier（scaffold only）顺序：Q physical → W active missing-HP（post-Q/pre-Blight）→ Blight detonation×1.5 → conditional blight/active reset。completedBoundary：fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop。明确排除 ranks1–4、可变 Q 充能、真实 Q mana/CD/channel/projectile/多目标、W CD/recast、blight CDR refund、equipment/Guinsoo interop、monster caps、live migration/publish/E2E；不宣称真实 Q key 完成或完整游戏保真，故标 completed。',
+      blocker: '',
       dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-blighted-quiver',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_varus_blighted_quiver_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; exact CompileGeneric+RunGeneric (commit d6f2ea5); not claiming real Q key completion/full-game fidelity',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-blighted-quiver',
+          sourcePath: 'db/game_manage/seeds/lol_generic_varus_blighted_quiver_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; backend seed (owning ca8809d; integrated 5b2a18e); not live published',
+        },
+      ],
     },
   ],
   [
@@ -1746,6 +1765,10 @@ const COVERAGE_BOUNDARIES = new Map([
   ['hero_skill|hero_teemo|E|毒性射击', 'instant_on_hit_only;poison_dot_out_of_batch'],
   ['hero_skill|hero_kogmaw|W|生化弹幕', 'primary_on_hit;active_window_prearmed_in_seed'],
   ['hero_skill|hero_varus|P|复仇之欲', 'minion_kill_branch|champion_takedown_branch;both_blocked_runtime'],
+  [
+    'hero_skill|hero_varus|W|枯萎箭袋',
+    'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+  ],
   [
     'hero_skill|hero_akshan|P|无所不用',
     'dirty_fighting_aa_stack_third_magic_core_complete;second_shot_delay_ms_blocked_data;ability_hit_stack_wiring_runtime;shield_cancel_ms_retarget_oos',
@@ -3784,13 +3807,52 @@ function validateInventory(inv) {
   }
   if (
     !mVarusW ||
-    mVarusW.status !== 'blocked_runtime' ||
-    mVarusW.completionMode !== 'none' ||
-    mVarusW.blocker !== 'missing_blight_stack_consume_and_active_cast_runtime' ||
-    hasNonEmptyDataMissingFields(mVarusW.dataGapEvidence)
+    mVarusW.status !== 'completed' ||
+    mVarusW.completionMode !== 'full' ||
+    mVarusW.lane !== 'generic_runtime' ||
+    mVarusW.blocker ||
+    mVarusW.dataGapEvidence !== null ||
+    mVarusW.runtimeGapEvidence !== null ||
+    mVarusW.outOfScopeEvidence !== null ||
+    mVarusW.coverageBoundary !==
+      'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop' ||
+    [...(mVarusW.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'active_missing_health',
+        'passive_on_hit_magic',
+        'target_blight_stack_consume',
+        'w_scoped_max_charge_carrier',
+      ].join('|') ||
+    !String(mVarusW.reason || '').includes('4026472') ||
+    !String(mVarusW.reason || '').includes(
+      '16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2',
+    ) ||
+    !String(mVarusW.reason || '').includes(
+      'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+    ) ||
+    !String(mVarusW.reason || '').includes('不宣称真实 Q') ||
+    !(mVarusW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-blighted-quiver' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_varus_blighted_quiver_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+        ),
+    ) ||
+    !(mVarusW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-blighted-quiver' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_varus_blighted_quiver_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+        ),
+    )
   ) {
     errors.push(
-      'Varus W must be blocked_runtime/none with blight runtime blocker (Wiki formula present; not blocked_data)',
+      'Varus W must be completed/full/generic_runtime with empty blocker, null gaps, exact blight tags/frozen boundary, and Backend/Wasm evidence (no real-Q/full-game claim)',
     );
   }
   if (!mAsheQ || mAsheQ.status !== 'completed' || mAsheQ.completionMode !== 'full') {
@@ -4511,11 +4573,17 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 60) {
-    errors.push(`completed=${sc.completed}, expected 60`);
+  if ((sc.completed || 0) !== 61) {
+    errors.push(`completed=${sc.completed}, expected 61`);
   }
-  if ((sc.blocked_runtime || 0) !== 113) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 113`);
+  if ((sc.partial_actionable || 0) !== 0) {
+    errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
+  }
+  if ((sc.ready_to_implement || 0) !== 0) {
+    errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
+  }
+  if ((sc.blocked_runtime || 0) !== 112) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 112`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4536,14 +4604,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 60) {
-    errors.push(`completionMode full=${cm.full}, expected 60`);
+  if ((cm.full || 0) !== 61) {
+    errors.push(`completionMode full=${cm.full}, expected 61`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 191) {
-    errors.push(`completionMode none=${cm.none}, expected 191`);
+  if ((cm.none || 0) !== 190) {
+    errors.push(`completionMode none=${cm.none}, expected 190`);
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();
