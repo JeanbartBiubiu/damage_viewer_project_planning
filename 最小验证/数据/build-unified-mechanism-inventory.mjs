@@ -450,13 +450,53 @@ const STATUS_OVERRIDES = new Map([
   [
     'hero_skill|hero_twitch|P|死亡毒液',
     {
-      status: 'blocked_runtime',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        'Twitch P Deadly Venom：Wiki rev4013286（SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44）已给出 per-stack per-tick true damage 与 AP 缩放；非 blocked_data。缺 poison DoT/stack runtime 原语。',
-      blocker: 'missing_poison_dot_stack_runtime',
+        'Twitch P Deadly Venom：Wiki rev4013286（SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44）已给出 max6/6000ms、每 AA 一层、每秒真实伤害 tick、五档等级带、每层 +3% AP；当前 1v1 伤害核合同数据完整。generic anchored provider-tick ABI/runtime（commit 8612d0d）+ Backend lifecycle/seed（commit 92e100e）+ Web TickSpec 投影（commit 5a0931a）+ 精确 CompileGeneric/RunGeneric Twitch 测试（commit 7cb8b1d）已闭环，故标 completed/full/generic_runtime。Batch-B legacy DPS seed 仅作 regression 证据，非 implementation layer。',
+      blocker: '',
       dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-twitch-deadly-venom',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_twitch_deadly_venom_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: exact CompileGeneric+RunGeneric Deadly Venom (commit 7cb8b1d) on anchored provider-tick ABI (commit 8612d0d); not live published',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-anchored-provider-tick',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_anchored_tick_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: generic anchored provider-tick ABI/runtime (commit 8612d0d); write-triggered generation / cap-refresh / inclusive final tick',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-twitch-deadly-venom',
+          sourcePath: 'db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: Backend lifecycle/seed + LolGenericTwitchDeadlyVenomSeedSqlTest (commit 92e100e); not live published',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-twitch-deadly-venom',
+          sourcePath: 'web/src/engine/combatDataAssembler.ts',
+          sourceWorktree: 'web',
+          note: 'completedBoundary: Web lifecycle type-id → TickSpec anchor pair projection (commit 5a0931a); fail-closed validation',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-twitch-deadly-venom',
+          sourcePath: 'web/src/engine/combatDataAssembler.test.ts',
+          sourceWorktree: 'web',
+          note: 'completedBoundary: Web anchored tick lifecycle projection tests (commit 5a0931a)',
+        },
+      ],
     },
   ],
   [
@@ -3460,13 +3500,45 @@ function validateInventory(inv) {
   }
   if (
     !mTwitchP ||
-    mTwitchP.status !== 'blocked_runtime' ||
-    mTwitchP.completionMode !== 'none' ||
-    mTwitchP.blocker !== 'missing_poison_dot_stack_runtime' ||
-    hasNonEmptyDataMissingFields(mTwitchP.dataGapEvidence)
+    mTwitchP.status !== 'completed' ||
+    mTwitchP.completionMode !== 'full' ||
+    mTwitchP.lane !== 'generic_runtime' ||
+    mTwitchP.blocker ||
+    mTwitchP.runtimeGapEvidence ||
+    hasNonEmptyDataMissingFields(mTwitchP.dataGapEvidence) ||
+    !String(mTwitchP.reason || '').includes('4013286') ||
+    !String(mTwitchP.reason || '').includes(
+      '1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44',
+    ) ||
+    !String(mTwitchP.reason || '').includes('8612d0d') ||
+    !String(mTwitchP.reason || '').includes('92e100e') ||
+    !String(mTwitchP.reason || '').includes('5a0931a') ||
+    !String(mTwitchP.reason || '').includes('7cb8b1d') ||
+    !String(mTwitchP.reason || '').includes('anchored') ||
+    !String(mTwitchP.reason || '').includes('regression') ||
+    /missing_poison_dot_stack_runtime/i.test(String(mTwitchP.reason || '')) ||
+    !(mTwitchP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_twitch_deadly_venom_test.go',
+    ) ||
+    !(mTwitchP.evidenceRefs || []).some(
+      (e) =>
+        e.sourcePath ===
+        'wasm/tinygo_engine_v2/internal/runtime/generic_anchored_tick_test.go',
+    ) ||
+    !(mTwitchP.evidenceRefs || []).some(
+      (e) => e.sourcePath === 'db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql',
+    ) ||
+    !(mTwitchP.evidenceRefs || []).some(
+      (e) =>
+        e.sourceWorktree === 'web' &&
+        (e.sourcePath === 'web/src/engine/combatDataAssembler.ts' ||
+          e.sourcePath === 'web/src/engine/combatDataAssembler.test.ts'),
+    )
   ) {
     errors.push(
-      'Twitch P must be blocked_runtime/none with missing_poison_dot_stack_runtime (Wiki formula present; not blocked_data)',
+      'Twitch P must be completed/full/generic_runtime with cleared poison-DoT blocker, Wiki rev4013286/SHA + ABI/Backend/Web/exact-test evidence, and legacy DPS only as regression',
     );
   }
   if (
@@ -4198,11 +4270,11 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 58) {
-    errors.push(`completed=${sc.completed}, expected 58`);
+  if ((sc.completed || 0) !== 59) {
+    errors.push(`completed=${sc.completed}, expected 59`);
   }
-  if ((sc.blocked_runtime || 0) !== 115) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 115`);
+  if ((sc.blocked_runtime || 0) !== 114) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 114`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4223,14 +4295,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 58) {
-    errors.push(`completionMode full=${cm.full}, expected 58`);
+  if ((cm.full || 0) !== 59) {
+    errors.push(`completionMode full=${cm.full}, expected 59`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 193) {
-    errors.push(`completionMode none=${cm.none}, expected 193`);
+  if ((cm.none || 0) !== 192) {
+    errors.push(`completionMode none=${cm.none}, expected 192`);
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();

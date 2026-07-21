@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-20T17:30:42.431Z"
+    "generatedAt": "2026-07-21T01:23:56.341Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 49,
+      "migrated": 50,
       "partial": 4,
-      "blocked": 120,
+      "blocked": 119,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 20.25,
+      "migrated": 20.66,
       "partial": 1.65,
-      "blocked": 49.59,
+      "blocked": 49.17,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 20.25,
-      "inScope": 28.32
+      "all": 20.66,
+      "inScope": 28.9
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 21.9,
-      "inScope": 30.64
+      "all": 22.31,
+      "inScope": 31.21
     },
     "inScopeCount": 173
   },
@@ -7236,29 +7236,31 @@
       "pageId": "twitch-p",
       "sourceText": "{{sbc|Innate:}} '''Twitch's''' {{tip|basic attacks}} {{tip|on-hit}} apply a {{tip|stack}} of ''Deadly Venom'' for 6 seconds, refreshing on subsequent applications and stacking up to 6 times.\n{{sbc|Deadly Venom:}} For each stack, the target is dealt{{ft|{{sti|true damage|{{as|{{pp|1 to 5 for 5|1 to 17|formula=1 every 4 levels}}|true damage}}}} {{as|(+ 3% AP)}} {{as|true damage}} per second over the duration,|{{sti|true damage|{{as|{{pp|1*6 to 5*6 for 5|1 to 17|formula=1, +1 every 4 levels}}|true damage}}}} {{as|(+ {{#expr:3*6}}% AP)}} {{as|'''total''' true damage}} over the duration,}}for a maximum of{{ft|{{as|{{pp|1*6 to 5*6 for 5|1 to 17|formula=6 every 4 levels}}|true damage}} {{as|(+ {{#expr:3*6}}% AP)}} {{as|true damage}} with each tick.|{{as|{{pp|1*6*6 to 5*6*6 for 5|1 to 17|formula=6 every 4 levels}}|true damage}} {{as|(+ {{#expr:3*6*6}}% AP)}} {{as|'''total''' true damage}} over the duration.}}This effect is considered a {{tip|poison}}.\nTrue\n* ''Deadly Venom'' deals {{tip|proc damage|proc}} {{tip|persistent damage|damage over time}}, and does not trigger {{tip|spell effects}}.\n* The first 5 stacks on a target are indicated each by a small mark around them, while a target affected by the maximum stacks of 6 is indicated by a single large mark above them instead.\n* ''Deadly Venom'' does not affect {{tip|structures}}.\n* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} bolts are special-cased to generate one ''Deadly Venom'' stack per enemy hit.\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/twitch-p.json@rev4013286 sha256:1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "existing_batch_b_seed"
+        "poison_dot_stack",
+        "anchored_provider_tick",
+        "true_damage_over_time",
+        "on_hit_stack_apply"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4013286",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/twitch-p.json@rev4013286 sha256:1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_twitch P 死亡毒液/Deadly Venom：Wiki rev4013286（SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44）已给出 max6/6000ms、每 AA 一层、每秒真实伤害 tick、五档等级带、每层 +3% AP；当前 1v1 伤害核合同数据完整。generic anchored provider-tick ABI/runtime（commit 8612d0d）+ Backend lifecycle/seed（commit 92e100e）+ Web TickSpec 投影（commit 5a0931a）+ 精确 CompileGeneric/RunGeneric Twitch 测试（commit 7cb8b1d）已闭环，故标 migrated；不再以 missing_poison_dot_stack_runtime / blocked_data 阻塞。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-twitch-deadly-venom",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_twitch_deadly_venom_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: Wiki rev4013286 Deadly Venom 1v1 (max6/6000ms / AA stack / 1s true ticks / L1·5·9·13·17 / +3% AP / inclusive final tick; commit 7cb8b1d on generic anchored tick ABI 8612d0d); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-twitch-deadly-venom",
+          "sourcePath": "db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Twitch Deadly Venom seeded (Backend lifecycle/seed commit 92e100e; Web TickSpec projection commit 5a0931a); backend lol_generic_twitch_deadly_venom_seed.sql; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_twitch|Q|埋伏",

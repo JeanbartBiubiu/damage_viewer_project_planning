@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-20T18:25:21.113Z",
+    "generatedAt": "2026-07-21T01:24:11.834Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,10 +45,10 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "5c44438fcfd0aacdda2e6c260f5be5a0297f84dccccda75d8a66d5810048e1ac",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "c1c9730e2925814c9da298dc210933ec875ee8570fbe258f0bb6701c0a524809",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "9021eb4cbd993f42ae431b957dde0c0357c28ac04c21774fe30ff461b6f95800",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "651b649fc3b48473ba0d6bbb655eb2710e4a58c1361e705c2d27012ae0d26f38",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "e0ecaa97355b378961595239edab56cb9f839bd2487e7ecd2be4dd828cebcf7b",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "b3946f058c54989089b475b5e2c2168d1609f8104f05e8ace45fb25594e4aa73",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -61,19 +61,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 58,
+      "completed": 59,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 115,
+      "blocked_runtime": 114,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 58,
+      "full": 59,
       "partial": 3,
-      "none": 193
+      "none": 192
     },
     "laneCounts": {
       "generic_runtime": 247,
@@ -112,8 +112,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "5c44438fcfd0aacdda2e6c260f5be5a0297f84dccccda75d8a66d5810048e1ac",
-      "byteSize": 925888,
+      "sha256": "c1c9730e2925814c9da298dc210933ec875ee8570fbe258f0bb6701c0a524809",
+      "byteSize": 926730,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -128,16 +128,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "9021eb4cbd993f42ae431b957dde0c0357c28ac04c21774fe30ff461b6f95800",
-      "byteSize": 202169,
+      "sha256": "e0ecaa97355b378961595239edab56cb9f839bd2487e7ecd2be4dd828cebcf7b",
+      "byteSize": 205786,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "651b649fc3b48473ba0d6bbb655eb2710e4a58c1361e705c2d27012ae0d26f38",
-      "byteSize": 222779,
+      "sha256": "b3946f058c54989089b475b5e2c2168d1609f8104f05e8ace45fb25594e4aa73",
+      "byteSize": 226515,
       "recordCount": 0,
       "role": "generator"
     },
@@ -19506,32 +19506,24 @@
     },
     {
       "key": "hero_skill|hero_twitch|P|死亡毒液",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_twitch",
       "skillKey": "P",
       "passiveName": "死亡毒液",
       "mechanismTags": [
-        "existing_batch_b_seed"
+        "anchored_provider_tick",
+        "on_hit_stack_apply",
+        "poison_dot_stack",
+        "true_damage_over_time"
       ],
       "coverageBoundary": "",
-      "reason": "Twitch P Deadly Venom：Wiki rev4013286（SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44）已给出 per-stack per-tick true damage 与 AP 缩放；非 blocked_data。缺 poison DoT/stack runtime 原语。",
-      "blocker": "missing_poison_dot_stack_runtime",
+      "reason": "Twitch P Deadly Venom：Wiki rev4013286（SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44）已给出 max6/6000ms、每 AA 一层、每秒真实伤害 tick、五档等级带、每层 +3% AP；当前 1v1 伤害核合同数据完整。generic anchored provider-tick ABI/runtime（commit 8612d0d）+ Backend lifecycle/seed（commit 92e100e）+ Web TickSpec 投影（commit 5a0931a）+ 精确 CompileGeneric/RunGeneric Twitch 测试（commit 7cb8b1d）已闭环，故标 completed/full/generic_runtime。Batch-B legacy DPS seed 仅作 regression 证据，非 implementation layer。",
+      "blocker": "",
       "dataGapEvidence": null,
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_twitch|P|死亡毒液",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "missing_poison_dot_stack_runtime"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_poison_dot_stack_runtime"
-      },
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
@@ -19541,7 +19533,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_twitch|P|死亡毒液"
         },
         {
@@ -19550,7 +19542,43 @@
           "sourceRecordKey": "hero_skill|hero_twitch|P|死亡毒液"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-anchored-provider-tick",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_anchored_tick_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: generic anchored provider-tick ABI/runtime (commit 8612d0d); write-triggered generation / cap-refresh / inclusive final tick"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-twitch-deadly-venom",
+          "sourcePath": "db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Backend lifecycle/seed + LolGenericTwitchDeadlyVenomSeedSqlTest (commit 92e100e); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-twitch-deadly-venom",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_twitch_deadly_venom_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: exact CompileGeneric+RunGeneric Deadly Venom (commit 7cb8b1d) on anchored provider-tick ABI (commit 8612d0d); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-twitch-deadly-venom",
+          "sourcePath": "web/src/engine/combatDataAssembler.test.ts",
+          "sourceWorktree": "web",
+          "note": "completedBoundary: Web anchored tick lifecycle projection tests (commit 5a0931a)"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-twitch-deadly-venom",
+          "sourcePath": "web/src/engine/combatDataAssembler.ts",
+          "sourceWorktree": "web",
+          "note": "completedBoundary: Web lifecycle type-id → TickSpec anchor pair projection (commit 5a0931a); fail-closed validation"
+        }
+      ],
       "aliases": [
         "skill_twitch_p_deadly_venom_dps_v2"
       ],
