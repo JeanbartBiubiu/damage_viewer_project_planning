@@ -870,6 +870,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-varus-blighted-quiver",
+      "title": "通用 ABI 韦鲁斯 W 枯萎箭袋 Blighted Quiver 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_varus_blighted_quiver",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_varus|W|枯萎箭袋 已标 completed/full/generic_runtime（G8 migrated）：Wiki page1309980/rev4026472/timestamp2026-06-09/SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2；sourceCount仍12；completedBoundary fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop。Rank5被动magic 40+0.15*bonusAD+0.25*AP后Blight max3/6000ms；W active max1/5500ms；W-scoped满充能Q ordering scaffold：物理360+1.20*bonusAD→W active 21% missingHP→Blight×1.5→conditional reset。Backend owning ca8809d/集成5b2a18e（41/41；641/641）；Wasm exact d6f2ea5；审计85910fb。Unified 254：sourceCount12/completed61/blocked_runtime112/full61/none190；G8 242=migrated51/partial4/blocked118/OOS69。不完成真实Q key；未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-韦鲁斯W枯萎箭袋BlightedQuiver机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-韦鲁斯W枯萎箭袋BlightedQuiver机制验证记录-2026-07-21.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
