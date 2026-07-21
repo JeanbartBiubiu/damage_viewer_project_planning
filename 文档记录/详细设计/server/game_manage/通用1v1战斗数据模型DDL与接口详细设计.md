@@ -218,12 +218,14 @@ type
 | 表 | PK | 主要字段与 FK |
 | --- | --- | --- |
 | `provider_definitions` | `(game_id, provider_id)` | `provider_kind_type_id` FK reserved type，`display_name`。每个真实被动/状态/装备效果一条；Web 使用 `provider_id` 生成 providerKey/stableId。 |
-| `provider_lifecycles` | `(game_id, provider_id)` | `duration_formula_key`, `max_stacks`, `refresh_policy_type_id`, `tick_interval_ms`, `start_delay_ms`; FK provider/formula/reserved type。 |
+| `provider_lifecycles` | `(game_id, provider_id)` | `duration_formula_key`, `max_stacks`, `refresh_policy_type_id`, `tick_interval_ms`, `start_delay_ms`, 可空成对 `tick_anchor_scope_type_id` + `tick_anchor_state_key`; FK provider/formula/reserved type（anchor scope → `reserved_type`）。 |
 | `entity_provider_mounts` | `(game_id, entity_id, provider_id)` | FK entity/provider；无参数覆盖。 |
 | `provider_state_fields` | `(game_id, provider_id, state_key)` | `value_type_id`, default number/boolean/string；只允许标量 schema。 |
 | `provider_formulas` | `(game_id, provider_id, formula_key)` | `expression jsonb NOT NULL`; provider 内共享，禁止跨 provider FK。 |
 
 `provider_lifecycles.duration_formula_key` 与 `provider_formulas` 形成同 provider 复合 FK。建表顺序采用 provider → formula → lifecycle，避免循环。
+
+`tick_anchor_scope_type_id` / `tick_anchor_state_key` 须同为 NULL 或同非空（半对拒绝；非空 state key 不得为空串）。后端只做配对与 FK 透传，不校验完整 Wasm state-schema。Web 将成对字段投影为 TickSpec `anchorScope` / `anchorStateKey`（省略对 = 既有固定 provider tick）。
 
 ### 5.3 Ability
 
@@ -448,7 +450,7 @@ Controller 同样按 entity/provider/ability/effect/type 分组。每个 Service
 1. 从 `game_entities` 选两个实体并改名 source/target。
 2. 将 entity attribute/resource 组装为完整 slot；选定 stage 的 attribute 绝对值默认写入 base/current/max/resolved，resource 写入 initial current/max，再应用用户 override。
 3. clone provider/formula 并加 source/target namespace。
-4. 将 ability phase 展平为 operations/tickSpec。
+4. 将 ability phase 展平为 operations/tickSpec；将 `provider_lifecycles` 可空成对 `tick_anchor_*` 投影为 TickSpec `anchorScope` / `anchorStateKey`（配对校验与后端一致）。
 5. 将 provider tick sequence 合成为当前 Wasm 可接受的 tick ability。
 6. 聚合 listener matcher any/all/none。
 7. 把 reserved/game type ID 转为稳定 `type_key`。
