@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-21T02:38:20.437Z",
+    "generatedAt": "2026-07-21T03:42:09.644Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "c1c9730e2925814c9da298dc210933ec875ee8570fbe258f0bb6701c0a524809",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "9c9e5c16e221d258b9b32599f2ed8d55808f65b8d2b2d30ff04538eb01fb34f5",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "e0ecaa97355b378961595239edab56cb9f839bd2487e7ecd2be4dd828cebcf7b",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "273173f2205d99c662e28866680007440587becb985f6e1de3c8acc2cfbed861",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "a8efe36c6344179bc8f00f73b1df545cfe318e9bb4ffbd2a32edefc5863a83a6",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "87f9e402691a0fd2a87287101eae0ec2380d0b035afe7796eb5bd9caaf62cbad",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 60,
+      "completed": 61,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 113,
+      "blocked_runtime": 112,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 60,
+      "full": 61,
       "partial": 3,
-      "none": 191
+      "none": 190
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "c1c9730e2925814c9da298dc210933ec875ee8570fbe258f0bb6701c0a524809",
-      "byteSize": 926730,
+      "sha256": "9c9e5c16e221d258b9b32599f2ed8d55808f65b8d2b2d30ff04538eb01fb34f5",
+      "byteSize": 928212,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "e0ecaa97355b378961595239edab56cb9f839bd2487e7ecd2be4dd828cebcf7b",
-      "byteSize": 205786,
+      "sha256": "a8efe36c6344179bc8f00f73b1df545cfe318e9bb4ffbd2a32edefc5863a83a6",
+      "byteSize": 210699,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "273173f2205d99c662e28866680007440587becb985f6e1de3c8acc2cfbed861",
-      "byteSize": 237767,
+      "sha256": "87f9e402691a0fd2a87287101eae0ec2380d0b035afe7796eb5bd9caaf62cbad",
+      "byteSize": 242198,
       "recordCount": 0,
       "role": "generator"
     },
@@ -20001,32 +20001,24 @@
     },
     {
       "key": "hero_skill|hero_varus|W|枯萎箭袋",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_varus",
       "skillKey": "W",
       "passiveName": "枯萎箭袋",
       "mechanismTags": [
-        "existing_batch_b_seed"
+        "active_missing_health",
+        "passive_on_hit_magic",
+        "target_blight_stack_consume",
+        "w_scoped_max_charge_carrier"
       ],
-      "coverageBoundary": "",
-      "reason": "Varus W Blighted Quiver：Wiki rev4026472（SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2）已给出 on-hit magic、blight consume 与 active missing-HP 分支公式；非 blocked_data。缺 blight stack/consume 与 active cast runtime。",
-      "blocker": "missing_blight_stack_consume_and_active_cast_runtime",
+      "coverageBoundary": "fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop",
+      "reason": "Varus W Blighted Quiver / 枯萎箭袋：Wiki rev4026472（SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2；normalized/generic/varus-w.json）rank5 Phase-A v2 已由 wasm-generic-varus-blighted-quiver + backend seed 证据闭环——被动 on-hit magic 40+0.15*bonusAD+0.25*AP 后 target blight_stacks+=1（max3/6000ms refresh_on_write）；W active 武装 blighted_quiver_active max1/5500ms；W-scoped Q max-charge ordering carrier（scaffold only）顺序：Q physical → W active missing-HP（post-Q/pre-Blight）→ Blight detonation×1.5 → conditional blight/active reset。completedBoundary：fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop。明确排除 ranks1–4、可变 Q 充能、真实 Q mana/CD/channel/projectile/多目标、W CD/recast、blight CDR refund、equipment/Guinsoo interop、monster caps、live migration/publish/E2E；不宣称真实 Q key 完成或完整游戏保真，故标 completed。",
+      "blocker": "",
       "dataGapEvidence": null,
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_varus|W|枯萎箭袋",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "missing_blight_stack_consume_and_active_cast_runtime"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：missing_blight_stack_consume_and_active_cast_runtime"
-      },
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
@@ -20036,7 +20028,7 @@
         },
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_varus|W|枯萎箭袋"
         },
         {
@@ -20045,7 +20037,22 @@
           "sourceRecordKey": "hero_skill|hero_varus|W|枯萎箭袋"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-blighted-quiver",
+          "sourcePath": "db/game_manage/seeds/lol_generic_varus_blighted_quiver_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; backend seed (owning ca8809d; integrated 5b2a18e); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-blighted-quiver",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_varus_blighted_quiver_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; exact CompileGeneric+RunGeneric (commit d6f2ea5); not claiming real Q key completion/full-game fidelity"
+        }
+      ],
       "aliases": [
         "skill_varus_w_blighted_quiver_dps_v2"
       ],

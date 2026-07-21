@@ -629,6 +629,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_yun_tal_flurry_3032_seed.sql',
   kindredMarkOfKindredMaxMarksBackend:
     'db/game_manage/seeds/lol_generic_kindred_mark_of_kindred_max_marks_seed.sql',
+  varusBlightedQuiverBackend:
+    'db/game_manage/seeds/lol_generic_varus_blighted_quiver_seed.sql',
 };
 
 const WASM = {
@@ -708,6 +710,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_yun_tal_flurry_3032_test.go',
   kindredMarkOfKindredMaxMarks:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kindred_mark_of_kindred_max_marks_test.go',
+  varusBlightedQuiver:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_varus_blighted_quiver_test.go',
 };
 
 const COMPLETED_ONHIT_COMMIT = '3314c24';
@@ -822,6 +826,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-vayne-silver-bolts',
           SEED.vayne,
           'backend lol_vayne_silver_bolts_seed.sql provider/mount; not claiming live publish',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_varus|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'passive_on_hit_magic',
+        'target_blight_stack_consume',
+        'active_missing_health',
+        'w_scoped_max_charge_carrier',
+      ],
+      reason:
+        'hero_varus W 枯萎箭袋/Blighted Quiver：Wiki rev4026472（SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2；normalized/generic/varus-w.json）rank5 Phase-A v2 已由 wasm-generic-varus-blighted-quiver 闭环为 migrated——被动 on-hit magic 40+0.15*bonusAD+0.25*AP 后 target blight_stacks+=1（max3/6000ms refresh_on_write）；W active 武装 blighted_quiver_active max1/5500ms；W-scoped Q max-charge ordering carrier（scaffold only）顺序：Q physical → W active missing-HP（post-Q/pre-Blight）→ Blight detonation×1.5 → conditional blight/active reset。completedBoundary：fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop。明确排除 ranks1–4、可变 Q 充能、真实 Q mana/CD/channel/projectile/多目标、W CD/recast、blight CDR refund、equipment/Guinsoo interop、monster caps、live migration/publish/E2E；不宣称真实 Q key 完成或完整游戏保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-varus-blighted-quiver',
+          WASM.varusBlightedQuiver,
+          'completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; exact CompileGeneric+RunGeneric (commit d6f2ea5); not claiming real Q key completion/full-game fidelity',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-varus-blighted-quiver',
+          SEED.varusBlightedQuiverBackend,
+          'completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; backend lol_generic_varus_blighted_quiver_seed.sql (owning ca8809d; integrated 5b2a18e); not live published',
         ),
       ],
     },
@@ -3486,9 +3520,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 50) errors.push(`migrated=${counts.migrated}, expected 50`);
+  if (counts.migrated !== 51) errors.push(`migrated=${counts.migrated}, expected 51`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 119) errors.push(`blocked=${counts.blocked}, expected 119`);
+  if (counts.blocked !== 118) errors.push(`blocked=${counts.blocked}, expected 118`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4431,6 +4465,61 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       kogmawQ.candidateKey,
       kogmawQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const varusW = records.find((r) => r.candidateKey === 'hero_skill|hero_varus|W|枯萎箭袋');
+  const varusWTags = [...(varusW?.genericMechanismTags || [])].sort((a, b) =>
+    a.localeCompare(b, 'en'),
+  );
+  const varusWExpectedTags = [
+    'active_missing_health',
+    'passive_on_hit_magic',
+    'target_blight_stack_consume',
+    'w_scoped_max_charge_carrier',
+  ];
+  if (
+    !varusW
+    || varusW.genericClassification !== 'migrated'
+    || String(varusW.remainingGap || '').trim()
+    || varusWTags.join('|') !== varusWExpectedTags.join('|')
+    || !String(varusW.classificationReason || '').includes('4026472')
+    || !String(varusW.classificationReason || '').includes(
+      '16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2',
+    )
+    || !String(varusW.classificationReason || '').includes(
+      'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+    )
+    || !String(varusW.classificationReason || '').includes('不宣称真实 Q')
+    || citesForbiddenProvenance(varusW.classificationReason)
+    || !(varusW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.varusBlightedQuiver
+        && e.taskKey === 'wasm-generic-varus-blighted-quiver'
+        && String(e.note || '').includes(
+          'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+        ),
+    )
+    || !(varusW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.varusBlightedQuiverBackend
+        && e.taskKey === 'wasm-generic-varus-blighted-quiver'
+        && String(e.note || '').includes(
+          'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+        ),
+    )
+  ) {
+    errors.push(
+      'Varus W must be migrated with empty remainingGap, exact blight tags, Wiki rev4026472/SHA + frozen completedBoundary, and bilateral wasm+backend evidence (no real-Q/full-game claim)',
+    );
+  }
+  if (varusW) {
+    validateBilateralCoverageEvidence(
+      varusW.candidateKey,
+      varusW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );

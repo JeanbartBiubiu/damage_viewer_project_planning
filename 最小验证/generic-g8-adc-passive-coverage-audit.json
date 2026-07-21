@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-21T01:23:56.341Z"
+    "generatedAt": "2026-07-21T03:42:09.542Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 50,
+      "migrated": 51,
       "partial": 4,
-      "blocked": 119,
+      "blocked": 118,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 20.66,
+      "migrated": 21.07,
       "partial": 1.65,
-      "blocked": 49.17,
+      "blocked": 48.76,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 20.66,
-      "inScope": 28.9
+      "all": 21.07,
+      "inScope": 29.48
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 22.31,
-      "inScope": 31.21
+      "all": 22.73,
+      "inScope": 31.79
     },
     "inScopeCount": 173
   },
@@ -7608,29 +7608,31 @@
       "pageId": "varus-w",
       "sourceText": "{{sbc|Passive:}} '''Varus'''' {{tip|basic attacks}} are empowered to deal {{as|'''bonus''' magic damage}} and apply a {{tip|stack}} of ''Blight'' {{tip|on-hit}} for 6 seconds, refreshing on subsequent applications and stacking up to 3 times. '''Varus' ''' {{tip|abilities}} detonate all ''Blight'' stacks on affected enemies hit.\n{{sbc|Blight:}} For each stack consumed, the target is dealt {{as|'''bonus''' magic damage}}. If the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}'', this damage is increased by {{#var:q_mod}}. This damage is capped at {{ap|360/3}} per stack against {{tip|monsters}}, for a total cap of 360 at maximum stacks.<br><br>Additionally, each stack consumed against a {{tip|champion}} or epic {{tip|monster}} reduces the {{sti|'''remaining''' cooldowns}} of '''Varus' ''' basic abilities by {{#var:cdr}}% of each of their '''total''' cooldowns, up to a {{ap|{{#var:cdr}}*3}}% cooldown reduction per target. If the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}'', the cooldown reduction is increased by {{#var:q_mod}}, up to a {{pp|{{#var:cdr}}*3 to {{#var:cdr}}*3*1.5|0 to 1.25 by 0.125|key=%|type=[[File:Varus Piercing Arrow.png|20px|border]] Piercing Arrow's charge time|formula=39% + 1.95% per 0.125 seconds. ''This is capped at 1.25 seconds.''|round1=3|showtype=false}} cooldown reduction per target from consuming maximum stacks against them.\n{{sbc|Active:}} '''Varus'''' next ''{{ai|Piercing Arrow|Varus}}'' within {{fd|5.5}} seconds is empowered to deal {{as|'''additional bonus''' magic damage|magic damage}}, increased by {{#var:q_mod}}. This damage is capped at 360 against {{tip|monsters}}.\nIf '''Varus''' does not cast ''{{ai|Piercing Arrow|Varus}}'', ''Blighted Quiver'' can be recast after 1 second within the duration, and does so automatically afterwards or when he dies. ''Blighted Quiver'' can be cast during the first {{fd|0.85}} seconds of ''{{ais|Piercing Arrow|Varus}}'' charge, and will be placed on full cooldown after the charge ends even if ''{{ai|Piercing Arrow|Varus}}'' is not recast.\n{{sbc|Recast:}} '''Varus''' ends ''Blighted Quiver'' and places it on a 1-second cooldown.\n''Blighted Quiver's active and recast can both be used while affected by {{tip|cast-inhibiting crowd control}}.''\n{{st|Bonus Magic Damage|{{ap|{{#var:o1}} to {{#var:o5}}}} {{as|(+ {{#var:obad}}% '''bonus''' AD)}} {{as|(+ {{#var:oap}}% AP)}}}}\n{{st|Bonus Magic Damage per Stack|{{as|{{ap|{{#var:b1}} to {{#var:b5}}}}% {{as|(+ {{fd|{{#var:ap}}}}% per 100 AP)}} of the target's '''maximum''' health|health)}}|Bonus Magic Damage at Max Stacks|{{as|{{ap|{{#var:b1}}*3 to {{#var:b5}}*3}}% {{as|(+ {{ap|{{#var:ap}}*3}}% per 100 AP)}} of the target's '''maximum''' health|health)}}}}\n{{st|[[File:Varus Piercing Arrow.png|20px|border|link=]] Maximum Bonus Magic Damage per Stack|{{as|{{ap|{{#var:b1}}*1.5 to {{#var:b5}}*1.5}}% {{as|(+ {{ap|{{#var:ap}}*1.5}}% per 100 AP)}} of the target's '''maximum''' health|health)}}|[[File:Varus Piercing Arrow.png|20px|border|link=]] Maximum Bonus Magic Damage at Max Stacks|{{as|{{ap|{{#var:b1}}*3*1.5 to {{#var:b5}}*3*1.5}}% {{as|(+ {{ap|{{#var:ap}}*3*1.5}}% per 100 AP)}} of the target's '''maximum''' health|health)}}}}\n{{st|Active Minimum Magic Damage|{{as|{{ap|{{#var:a1}} to {{#var:a2}}}}% of target's '''missing''' health}}|Active Maximum Magic Damage|{{as|{{ap|{{#var:a1}}*1.5 to {{#var:a2}}*1.5}}% of target's '''missing''' health}}}}\n{{tt|40|Starts after the effect is used with Piercing Arrow}}\nMagic\n* The monster damage cap is also increased by {{#var:q_mod}} if the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}''.\n* {{tip|Spell shield}} will not block the {{tip|on-hit}} damage but will block the consumption damage if the target is hit by his abilities.\n* ''Blighted Quiver'' will not apply stacks nor deal {{tip|on-hit}} damage if blocked by {{tip|blind}}, {{tip|block}} or {{tip|dodge}} effects.\n** The consumption damage will not be blocked.\n* ''Blighted Quiver's'' active damage is dealt after the damage of {{ai|Piercing Arrow|Varus}}.\n* ''Blighted Quiver'' does not count as an ability activation for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.\n* The attacks do not affect {{tip|structures}} nor {{tip|wards}}.\n<!-- Blurb -->",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/varus-w.json@rev4026472 sha256:16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "existing_batch_b_seed"
+        "passive_on_hit_magic",
+        "target_blight_stack_consume",
+        "active_missing_health",
+        "w_scoped_max_charge_carrier"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4026472",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/varus-w.json@rev4026472 sha256:16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_varus W 枯萎箭袋/Blighted Quiver：Wiki rev4026472（SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2；normalized/generic/varus-w.json）rank5 Phase-A v2 已由 wasm-generic-varus-blighted-quiver 闭环为 migrated——被动 on-hit magic 40+0.15*bonusAD+0.25*AP 后 target blight_stacks+=1（max3/6000ms refresh_on_write）；W active 武装 blighted_quiver_active max1/5500ms；W-scoped Q max-charge ordering carrier（scaffold only）顺序：Q physical → W active missing-HP（post-Q/pre-Blight）→ Blight detonation×1.5 → conditional blight/active reset。completedBoundary：fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop。明确排除 ranks1–4、可变 Q 充能、真实 Q mana/CD/channel/projectile/多目标、W CD/recast、blight CDR refund、equipment/Guinsoo interop、monster caps、live migration/publish/E2E；不宣称真实 Q key 完成或完整游戏保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-blighted-quiver",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_varus_blighted_quiver_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; exact CompileGeneric+RunGeneric (commit d6f2ea5); not claiming real Q key completion/full-game fidelity"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-blighted-quiver",
+          "sourcePath": "db/game_manage/seeds/lol_generic_varus_blighted_quiver_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop; backend lol_generic_varus_blighted_quiver_seed.sql (owning ca8809d; integrated 5b2a18e); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_varus|E|恶灵箭雨",
