@@ -504,6 +504,168 @@ describe('combatDataAssembler', () => {
     });
   });
 
+  describe('tickSpec anchor projection', () => {
+    function buildTickGraph(
+      lifecycle: Partial<{
+        tickIntervalMs: number;
+        startDelayMs: number;
+        tickAnchorScopeTypeId: number | null;
+        tickAnchorStateKey: string | null;
+      }>
+    ) {
+      return buildGraphFixture({
+        providerLifecycles: [
+          {
+            ...META,
+            providerId: 'prov_q',
+            maxStacks: 1,
+            tickIntervalMs: lifecycle.tickIntervalMs ?? 1000,
+            ...(lifecycle.startDelayMs !== undefined ? { startDelayMs: lifecycle.startDelayMs } : {}),
+            ...(Object.prototype.hasOwnProperty.call(lifecycle, 'tickAnchorScopeTypeId')
+              ? { tickAnchorScopeTypeId: lifecycle.tickAnchorScopeTypeId }
+              : {}),
+            ...(Object.prototype.hasOwnProperty.call(lifecycle, 'tickAnchorStateKey')
+              ? { tickAnchorStateKey: lifecycle.tickAnchorStateKey }
+              : {})
+          }
+        ],
+        providerTickSequences: [
+          {
+            ...META,
+            providerId: 'prov_q',
+            sequenceId: 'seq_q_damage'
+          }
+        ]
+      });
+    }
+
+    function tickSpecOf(graph: CombatDataGraph) {
+      const compile = assembleCompileRequest(graph, {
+        sourceEntityId: 'entity_source',
+        targetEntityId: 'entity_target'
+      });
+      const provider = compile.sharedProviders!.find((p) => p.providerKey === 'source::prov_q')!;
+      const tickAbility = provider.abilities!.find((a) => a.abilityKey === '__tick__');
+      expect(tickAbility).toBeDefined();
+      return tickAbility!.tickSpec!;
+    }
+
+    it('projects reserved 20252 to anchorScope/anchorStateKey on tickSpec', () => {
+      const tickSpec = tickSpecOf(
+        buildTickGraph({
+          tickAnchorScopeTypeId: TYPE.stateScopeProviderTarget.typeId,
+          tickAnchorStateKey: 'deadly_venom_stacks'
+        })
+      );
+      expect(tickSpec.anchorScope).toBe('state_scope/provider_target');
+      expect(tickSpec.anchorStateKey).toBe('deadly_venom_stacks');
+      expect(tickSpec.intervalMs).toBe(1000);
+    });
+
+    it('omitted anchor pair leaves TickSpec fields absent and preserves startDelay', () => {
+      const tickSpec = tickSpecOf(buildTickGraph({ startDelayMs: 250 }));
+      expect(tickSpec).not.toHaveProperty('anchorScope');
+      expect(tickSpec).not.toHaveProperty('anchorStateKey');
+      expect(tickSpec.startDelayMs).toBe(250);
+    });
+
+    it('null anchor pair leaves TickSpec fields absent', () => {
+      const tickSpec = tickSpecOf(
+        buildTickGraph({
+          tickAnchorScopeTypeId: null,
+          tickAnchorStateKey: null,
+          startDelayMs: 0
+        })
+      );
+      expect(tickSpec).not.toHaveProperty('anchorScope');
+      expect(tickSpec).not.toHaveProperty('anchorStateKey');
+      expect(tickSpec.startDelayMs).toBe(0);
+    });
+
+    it('fail-closes partial pair, unknown scope, wrong scope, and blank key', () => {
+      expect(() =>
+        assembleCompileRequest(
+          buildTickGraph({
+            tickAnchorScopeTypeId: TYPE.stateScopeProviderTarget.typeId
+          }),
+          { sourceEntityId: 'entity_source', targetEntityId: 'entity_target' }
+        )
+      ).toThrow(CombatDataAssembleError);
+
+      expect(() =>
+        assembleCompileRequest(
+          buildTickGraph({
+            tickAnchorStateKey: 'deadly_venom_stacks'
+          }),
+          { sourceEntityId: 'entity_source', targetEntityId: 'entity_target' }
+        )
+      ).toThrow(/tickAnchorScopeTypeId and tickAnchorStateKey must both be set or both omitted/);
+
+      expect(() =>
+        assembleCompileRequest(
+          buildTickGraph({
+            tickAnchorScopeTypeId: 99999,
+            tickAnchorStateKey: 'deadly_venom_stacks'
+          }),
+          { sourceEntityId: 'entity_source', targetEntityId: 'entity_target' }
+        )
+      ).toThrow(/missing typeKey for typeId=99999/);
+
+      expect(() =>
+        assembleCompileRequest(
+          buildTickGraph({
+            tickAnchorScopeTypeId: TYPE.selectorSelf.typeId,
+            tickAnchorStateKey: 'deadly_venom_stacks'
+          }),
+          { sourceEntityId: 'entity_source', targetEntityId: 'entity_target' }
+        )
+      ).toThrow(/must resolve to state_scope\/provider_target/);
+
+      expect(() =>
+        assembleCompileRequest(
+          buildTickGraph({
+            tickAnchorScopeTypeId: TYPE.stateScopeProviderTarget.typeId,
+            tickAnchorStateKey: '   '
+          }),
+          { sourceEntityId: 'entity_source', targetEntityId: 'entity_target' }
+        )
+      ).toThrow(/tickAnchorStateKey must be non-blank/);
+    });
+
+    it('preserves anchored startDelayMs 0 and does not normalize nonzero delay', () => {
+      const zeroDelay = tickSpecOf(
+        buildTickGraph({
+          tickAnchorScopeTypeId: TYPE.stateScopeProviderTarget.typeId,
+          tickAnchorStateKey: 'deadly_venom_stacks',
+          startDelayMs: 0
+        })
+      );
+      expect(zeroDelay.startDelayMs).toBe(0);
+      expect(zeroDelay.anchorScope).toBe('state_scope/provider_target');
+
+      const nonzero = tickSpecOf(
+        buildTickGraph({
+          tickAnchorScopeTypeId: TYPE.stateScopeProviderTarget.typeId,
+          tickAnchorStateKey: 'deadly_venom_stacks',
+          startDelayMs: 150
+        })
+      );
+      expect(nonzero.startDelayMs).toBe(150);
+      expect(nonzero.intervalMs).toBe(1000);
+      expect(nonzero.startDelayMs).not.toBe(nonzero.intervalMs);
+    });
+
+    it('trims anchorStateKey when projecting a complete pair', () => {
+      const tickSpec = tickSpecOf(
+        buildTickGraph({
+          tickAnchorScopeTypeId: TYPE.stateScopeProviderTarget.typeId,
+          tickAnchorStateKey: '  deadly_venom_stacks  '
+        })
+      );
+      expect(tickSpec.anchorStateKey).toBe('deadly_venom_stacks');
+    });
+  });
+
   it('preserves provider listener ALL matcher with static and dynamic event types', () => {
     const graph = buildGraphFixture({
       providerListeners: [
