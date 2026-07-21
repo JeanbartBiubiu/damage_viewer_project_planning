@@ -39,6 +39,24 @@ const G8_AUDIT_REL = '最小验证/generic-g8-adc-passive-coverage-audit.json';
 const BATCH_G_AUDIT_REL = '最小验证/V2-Batch-G-adc-passive-audit.json';
 const KATARINA_LEGACY_SEED_REL = '最小验证/卡特琳娜-MVP种子数据.json';
 const KATARINA_R_KEY = 'hero_skill|hero_katarina|R|死亡莲华';
+const MALZAHAR_E_KEY = 'hero_skill|hero_malzahar|E|恶咒降临';
+const MALZAHAR_E_WIKI_REL =
+  '数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json';
+const MALZAHAR_E_SCHEMA = 'lol-wiki-ability-generic-v1';
+const MALZAHAR_E_PAGE_ID = 'malzahar-e';
+const MALZAHAR_E_REVISION_ID = 4015185;
+const MALZAHAR_E_CONTENT_SHA256 =
+  '9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84';
+const MALZAHAR_E_REQUIRED_TRACKED_FIELDS = [
+  'description',
+  'description2',
+  'leveling',
+  'cooldown',
+  'cost',
+  'costtype',
+  'damagetype',
+  'notes',
+];
 
 const paths = {
   outputJson: path.join(repoRoot, OUTPUT_JSON_REL),
@@ -51,6 +69,7 @@ const paths = {
   katarinaLegacySeed: path.join(verifyRoot, '卡特琳娜-MVP种子数据.json'),
   batchASeed: path.join(verifyRoot, 'V2-Batch-A-target-dummies.seed.json'),
   batchCSeed: path.join(verifyRoot, 'V2-Batch-C-adc-items.seed.json'),
+  malzaharEWiki: path.join(repoRoot, MALZAHAR_E_WIKI_REL),
 };
 
 /**
@@ -89,6 +108,12 @@ const ACTIVE_SOURCE_ALLOWLIST = [
     rel: KATARINA_LEGACY_SEED_REL,
     kind: 'seed_json',
     abs: () => paths.katarinaLegacySeed,
+  },
+  {
+    // Provenance-only EXTRA Wiki sidecar: hashed/parsed, zero coverage records.
+    rel: MALZAHAR_E_WIKI_REL,
+    kind: 'document_json',
+    abs: () => paths.malzaharEWiki,
   },
 ];
 
@@ -154,7 +179,7 @@ const SEED_REFERENCE_ATTACHMENTS = [
   { mechanismKey: 'hero_skill|hero_kaisa|P|体表活肤', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_kaisa_p_plasma_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_kaisa_p_plasma_dps_v2' },
   { mechanismKey: 'hero_skill|hero_kogmaw|Q|腐蚀唾液', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_kogmaw_q_caustic_spittle_passive_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_kogmaw_q_caustic_spittle_passive_dps_v2' },
   { mechanismKey: 'hero_skill|hero_kogmaw|W|生化弹幕', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_kogmaw_w_bio_arcane_barrage_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_kogmaw_w_bio_arcane_barrage_dps_v2' },
-  { mechanismKey: 'hero_skill|hero_malzahar|E|恶咒降临', path: '最小验证/V2-Batch-J-status-damage-migration.seed.json', sourceRecordKey: 'skill_malzahar_e', legacyStatus: 'seed_skill', alias: 'skill_malzahar_e' },
+  { mechanismKey: MALZAHAR_E_KEY, path: '最小验证/V2-Batch-J-status-damage-migration.seed.json', sourceRecordKey: 'skill_malzahar_e', legacyStatus: 'data_only_regression', alias: 'skill_malzahar_e' },
   { mechanismKey: 'hero_skill|hero_teemo|E|毒性射击', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_teemo_e_toxic_shot_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_teemo_e_toxic_shot_dps_v2' },
   { mechanismKey: 'hero_skill|hero_teemo|P|游击队军备', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_teemo_p_guerrilla_warfare_attack_speed_dps_v2' },
   { mechanismKey: 'hero_skill|hero_twistedfate|E|卡牌骗术', path: '最小验证/V2-Batch-B-hero-passives.seed.json', sourceRecordKey: 'skill_twistedfate_e_stacked_deck_dps_v2', legacyStatus: 'seed_skill', alias: 'skill_twistedfate_e_stacked_deck_dps_v2' },
@@ -1784,25 +1809,75 @@ const OWNER_ALIAS_TABLE = new Map();
 /** Explicit extra mechanisms not present in G8 candidateKeys. */
 const EXTRA_MECHANISMS = [
   {
-    key: 'hero_skill|hero_malzahar|E|恶咒降临',
-    status: 'blocked_runtime',
-    completionMode: 'none',
-    lane: 'legacy_single_attacker_dps',
+    key: MALZAHAR_E_KEY,
+    status: 'completed',
+    completionMode: 'full',
+    lane: 'generic_runtime',
     sourceKind: 'hero_skill',
     ownerId: 'hero_malzahar',
     skillKey: 'E',
     passiveName: '恶咒降临',
-    mechanismTags: ['status_resource_migration'],
-    coverageBoundary: 'batch_j_status_damage_audit',
+    mechanismTags: ['anchored_provider_tick', 'periodic_magic_damage', 'active_ability'],
+    coverageBoundary: 'phase_a_rank5_primary_target_anchored_dot',
     reason:
-      'Batch J: true DoT 需迁 status/resource；Wiki 数值非 Phase A blocked_data 口径，缺 status/resource DoT runtime 原语。',
-    blocker: 'status_resource_dot_migration_runtime',
+      'Malzahar E 恶咒降临/Malefic Visions：EXTRA Wiki sidecar rev4015185（SHA256 9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84；normalized/generic/malzahar-e.json）rank5 Phase-A 主目标锚定 DoT 已由 wasm-generic-malzahar-malefic-visions + generic anchored provider-tick（8612d0d）+ Backend seed（8444018/4351827）+ 既有 Web assembler/projection（61b93bf/5a0931a）证据闭环——cost100/CD7000；provider_target active max1/duration4000/refresh_on_write；250ms×16 inclusive；tick13.75+0.05AP magic；total220+0.80AP。明确排除 Q/R refresh、death spread/bounce/multitarget、mana restore/minion execute、cleanse/immunity、indirect/spell-effect、ranks1-4、cast targeting、AP snapshot mutation、live migration/publish/E2E/full fidelity。Batch-J 仅作 stale regression，故标 completed。',
+    blocker: '',
     dataGapEvidence: null,
+    runtimeGapEvidence: null,
     sourceRefs: [
       {
+        path: MALZAHAR_E_WIKI_REL,
+        legacyStatus: 'current_wiki_sidecar',
+        sourceRecordKey: MALZAHAR_E_KEY,
+      },
+      {
         path: '最小验证/V2-Batch-J-status-damage-audit.json',
-        legacyStatus: 'migrate_to_status_resource',
+        legacyStatus: 'historical_reference',
         sourceRecordKey: 'skill_malzahar_e',
+      },
+      {
+        path: '最小验证/V2-Batch-J-status-damage-migration.seed.json',
+        legacyStatus: 'data_only_regression',
+        sourceRecordKey: 'skill_malzahar_e',
+      },
+    ],
+    evidenceRefs: [
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-malzahar-malefic-visions',
+        sourcePath:
+          'wasm/tinygo_engine_v2/internal/runtime/generic_malzahar_malefic_visions_test.go',
+        sourceWorktree: 'wasm',
+        note: 'completedBoundary: exact CompileGeneric+RunGeneric Malefic Visions rank5 primary-target anchored DoT (commit 0e69db1); not live published',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-anchored-provider-tick',
+        sourcePath:
+          'wasm/tinygo_engine_v2/internal/runtime/generic_anchored_tick_test.go',
+        sourceWorktree: 'wasm',
+        note: 'completedBoundary: generic anchored provider-tick ABI/runtime (commit 8612d0d); write-triggered generation / cap-refresh / inclusive final tick',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-malzahar-malefic-visions',
+        sourcePath: 'db/game_manage/seeds/lol_generic_malzahar_malefic_visions_seed.sql',
+        sourceWorktree: 'backend',
+        note: 'completedBoundary: Backend seed + LolGenericMalzaharMaleficVisionsSeedSqlTest (commit 8444018; integrated 4351827); not live published',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-malzahar-malefic-visions',
+        sourcePath: 'web/src/engine/combatDataAssembler.ts',
+        sourceWorktree: 'web',
+        note: 'completedBoundary: existing Web lifecycle type-id → TickSpec anchor pair projection (commit 61b93bf; integrated 5a0931a); no mechanism-specific Web change',
+      },
+      {
+        evidenceType: 'generic_batch',
+        taskKey: 'wasm-generic-malzahar-malefic-visions',
+        sourcePath: 'web/src/engine/combatDataAssembler.test.ts',
+        sourceWorktree: 'web',
+        note: 'completedBoundary: existing Web anchored tick lifecycle projection tests (commit 5a0931a)',
       },
     ],
     aliases: ['skill_malzahar_e'],
@@ -2249,6 +2324,10 @@ function countRecordsForSource(kind, absPath, parsed) {
   if (kind === 'generator_mjs') {
     return { recordCount: 0, role: 'generator' };
   }
+  // Provenance/document JSON: parse+hash only; never contributes coverage records.
+  if (kind === 'document_json') {
+    return { recordCount: 0, role: 'document' };
+  }
   if (kind === 'coverage_csv' || kind === 'audit_csv') {
     const text = fs.readFileSync(absPath, 'utf8');
     const lines = text.split(/\r?\n/).filter((l) => l.length > 0);
@@ -2289,6 +2368,47 @@ function countRecordsForSource(kind, absPath, parsed) {
   return { recordCount: 0, role: 'document' };
 }
 
+/** Fail-closed identity checks for EXTRA Malzahar E normalized Wiki sidecar. */
+function assertMalzaharEWikiDocument(parsed, rel) {
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error(`${rel}: document_json must be a non-array object`);
+  }
+  if (parsed.schemaVersion !== MALZAHAR_E_SCHEMA) {
+    throw new Error(`${rel}: schemaVersion must be ${MALZAHAR_E_SCHEMA}`);
+  }
+  if (parsed.candidateKey !== MALZAHAR_E_KEY) {
+    throw new Error(`${rel}: candidateKey must be ${MALZAHAR_E_KEY}`);
+  }
+  if (parsed.pageId !== MALZAHAR_E_PAGE_ID) {
+    throw new Error(`${rel}: pageId must be ${MALZAHAR_E_PAGE_ID}`);
+  }
+  if (Number(parsed.revisionId) !== MALZAHAR_E_REVISION_ID) {
+    throw new Error(`${rel}: revisionId must be ${MALZAHAR_E_REVISION_ID}`);
+  }
+  if (String(parsed.contentSha256 || '') !== MALZAHAR_E_CONTENT_SHA256) {
+    throw new Error(`${rel}: contentSha256 must be ${MALZAHAR_E_CONTENT_SHA256}`);
+  }
+  if (parsed.ownerId !== 'hero_malzahar' || parsed.skillKey !== 'E') {
+    throw new Error(`${rel}: ownerId/skillKey must be hero_malzahar/E`);
+  }
+  const fields = parsed.fields;
+  const presence = parsed.fieldPresence;
+  if (!fields || typeof fields !== 'object' || !presence || typeof presence !== 'object') {
+    throw new Error(`${rel}: missing fields/fieldPresence objects`);
+  }
+  for (const name of MALZAHAR_E_REQUIRED_TRACKED_FIELDS) {
+    if (!Object.prototype.hasOwnProperty.call(fields, name) || typeof fields[name] !== 'string') {
+      throw new Error(`${rel}: missing required tracked field ${name}`);
+    }
+    if (presence[name] !== true) {
+      throw new Error(`${rel}: fieldPresence.${name} must be true`);
+    }
+  }
+  if (Array.isArray(parsed.candidates) || Array.isArray(parsed.records) || Array.isArray(parsed.mechanisms)) {
+    throw new Error(`${rel}: document_json must not contribute coverage candidates/records/mechanisms`);
+  }
+}
+
 function pushParsedSource(sources, seen, abs, rel, kind) {
   if (seen.has(rel)) return;
   seen.add(rel);
@@ -2304,7 +2424,16 @@ function pushParsedSource(sources, seen, abs, rel, kind) {
       throw new Error(`failed to parse source JSON ${rel}: ${err.message}`);
     }
   }
+  if (rel === MALZAHAR_E_WIKI_REL) {
+    if (kind !== 'document_json') {
+      throw new Error(`${rel}: ACTIVE_SOURCE kind must be document_json`);
+    }
+    assertMalzaharEWikiDocument(parsed, rel);
+  }
   const { recordCount, role } = countRecordsForSource(kind, abs, parsed);
+  if (rel === MALZAHAR_E_WIKI_REL && (recordCount !== 0 || role !== 'document')) {
+    throw new Error(`${rel}: must hash as document with recordCount 0`);
+  }
   sources.push({
     path: rel,
     kind,
@@ -3187,6 +3316,7 @@ function validateInventory(inv) {
   const m6665 = inv.mechanisms.find((m) => m.key === 'item_passive|6665|item_passive|虚空天生');
   const mKaisaP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kaisa|P|体表活肤');
   const mTwitchP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_twitch|P|死亡毒液');
+  const mMalzaharE = inv.mechanisms.find((m) => m.key === MALZAHAR_E_KEY);
   const mVarusW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|W|枯萎箭袋');
   const mAsheQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|Q|射手的专注');
   const mDravenW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|W|血性冲刺');
@@ -3540,6 +3670,117 @@ function validateInventory(inv) {
     errors.push(
       'Twitch P must be completed/full/generic_runtime with cleared poison-DoT blocker, Wiki rev4013286/SHA + ABI/Backend/Web/exact-test evidence, and legacy DPS only as regression',
     );
+  }
+  const malzaharTags = [...(mMalzaharE?.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en'));
+  const malzaharExpectedTags = [
+    'active_ability',
+    'anchored_provider_tick',
+    'periodic_magic_damage',
+  ];
+  if (
+    !mMalzaharE ||
+    mMalzaharE.status !== 'completed' ||
+    mMalzaharE.completionMode !== 'full' ||
+    mMalzaharE.lane !== 'generic_runtime' ||
+    mMalzaharE.blocker ||
+    mMalzaharE.dataGapEvidence !== null ||
+    mMalzaharE.runtimeGapEvidence !== null ||
+    mMalzaharE.coverageBoundary !== 'phase_a_rank5_primary_target_anchored_dot' ||
+    malzaharTags.join('|') !== malzaharExpectedTags.join('|') ||
+    !String(mMalzaharE.reason || '').includes(String(MALZAHAR_E_REVISION_ID)) ||
+    !String(mMalzaharE.reason || '').includes(MALZAHAR_E_CONTENT_SHA256) ||
+    !String(mMalzaharE.reason || '').includes('100') ||
+    !String(mMalzaharE.reason || '').includes('7000') ||
+    !String(mMalzaharE.reason || '').includes('4000') ||
+    !String(mMalzaharE.reason || '').includes('250') ||
+    !String(mMalzaharE.reason || '').includes('13.75') ||
+    !String(mMalzaharE.reason || '').includes('0.05') ||
+    !String(mMalzaharE.reason || '').includes('220') ||
+    !String(mMalzaharE.reason || '').includes('0.80') ||
+    !String(mMalzaharE.reason || '').includes('Batch-J') ||
+    !String(mMalzaharE.reason || '').includes('regression') ||
+    !String(mMalzaharE.reason || '').includes('排除') ||
+    /status_resource_dot_migration_runtime|legacy_single_attacker_dps|status_resource_migration/i.test(
+      `${mMalzaharE.status}|${mMalzaharE.lane}|${(mMalzaharE.mechanismTags || []).join('|')}|${mMalzaharE.blocker}|${mMalzaharE.reason}|${mMalzaharE.coverageBoundary}`,
+    ) ||
+    /tick_damage\+1\.0AP|1000ms|rank1\s*5\.6/i.test(String(mMalzaharE.reason || '')) ||
+    !(mMalzaharE.sourceRefs || []).some(
+      (r) =>
+        r.path === MALZAHAR_E_WIKI_REL &&
+        r.sourceRecordKey === MALZAHAR_E_KEY &&
+        r.legacyStatus === 'current_wiki_sidecar',
+    ) ||
+    !(mMalzaharE.sourceRefs || []).some(
+      (r) =>
+        r.path === '最小验证/V2-Batch-J-status-damage-audit.json' &&
+        r.sourceRecordKey === 'skill_malzahar_e' &&
+        r.legacyStatus === 'historical_reference',
+    ) ||
+    !(mMalzaharE.sourceRefs || []).some(
+      (r) =>
+        r.path === '最小验证/V2-Batch-J-status-damage-migration.seed.json' &&
+        r.sourceRecordKey === 'skill_malzahar_e' &&
+        r.legacyStatus === 'data_only_regression',
+    ) ||
+    !(mMalzaharE.aliases || []).includes('skill_malzahar_e') ||
+    !(mMalzaharE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-malzahar-malefic-visions' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_malzahar_malefic_visions_test.go' &&
+        e.sourceWorktree === 'wasm',
+    ) ||
+    !(mMalzaharE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-anchored-provider-tick' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_anchored_tick_test.go' &&
+        e.sourceWorktree === 'wasm',
+    ) ||
+    !(mMalzaharE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-malzahar-malefic-visions' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_malzahar_malefic_visions_seed.sql' &&
+        e.sourceWorktree === 'backend',
+    ) ||
+    !(mMalzaharE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-malzahar-malefic-visions' &&
+        e.sourceWorktree === 'web' &&
+        e.sourcePath === 'web/src/engine/combatDataAssembler.ts',
+    ) ||
+    !(mMalzaharE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-malzahar-malefic-visions' &&
+        e.sourceWorktree === 'web' &&
+        e.sourcePath === 'web/src/engine/combatDataAssembler.test.ts',
+    )
+  ) {
+    errors.push(
+      'Malzahar E must be completed/full/generic_runtime with phase_a_rank5 anchored-DoT tags/boundary, cleared gaps, Wiki rev4015185/SHA + Wasm/Backend/Web evidence, Batch-J historical only, and no stale status_resource/Batch-J numeric truth',
+    );
+  }
+  if (inv.mechanisms.some((m) => m.key !== MALZAHAR_E_KEY && (m.sourceRefs || []).some((r) => r.path === MALZAHAR_E_WIKI_REL))) {
+    errors.push('Malzahar E Wiki sidecar sourceRef must not attach to non-Malzahar mechanisms');
+  }
+  if (
+    !inv.sources.some(
+      (s) =>
+        s.path === MALZAHAR_E_WIKI_REL &&
+        s.kind === 'document_json' &&
+        s.recordCount === 0 &&
+        s.role === 'document',
+    )
+  ) {
+    errors.push(
+      `sources missing document_json ${MALZAHAR_E_WIKI_REL} with recordCount 0 / role document`,
+    );
+  }
+  if (!inv.metadata?.currentInputHashes?.[MALZAHAR_E_WIKI_REL]) {
+    errors.push(`currentInputHashes missing ${MALZAHAR_E_WIKI_REL}`);
+  }
+  if ((inv.summary?.sourceCount || 0) !== 12) {
+    errors.push(`sourceCount=${inv.summary?.sourceCount}, expected 12`);
   }
   if (
     !mVarusW ||
@@ -4270,11 +4511,11 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 59) {
-    errors.push(`completed=${sc.completed}, expected 59`);
+  if ((sc.completed || 0) !== 60) {
+    errors.push(`completed=${sc.completed}, expected 60`);
   }
-  if ((sc.blocked_runtime || 0) !== 114) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 114`);
+  if ((sc.blocked_runtime || 0) !== 113) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 113`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4295,14 +4536,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 59) {
-    errors.push(`completionMode full=${cm.full}, expected 59`);
+  if ((cm.full || 0) !== 60) {
+    errors.push(`completionMode full=${cm.full}, expected 60`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 192) {
-    errors.push(`completionMode none=${cm.none}, expected 192`);
+  if ((cm.none || 0) !== 191) {
+    errors.push(`completionMode none=${cm.none}, expected 191`);
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();
