@@ -5,10 +5,12 @@ import {
   getAttributeDefinitions,
   getCombatDataState,
   getExecuteEffectDetails,
+  getProviderLifecycles,
   putAttributeDefinition,
   putEffectStep,
   putExecuteEffectDetail
 } from './combatDataClient';
+import type { ProviderLifecycle } from '../types/combatData';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
@@ -62,6 +64,80 @@ describe('combatDataClient', () => {
     const result = await getAttributeDefinitions('http://localhost:8080', 'demo');
     expect(result.data.data).toHaveLength(1);
     expect(result.data.data[0].attrKey).toBe('atk');
+  });
+
+  it('preserves provider lifecycle tick-anchor omitted/null/complete pair without loss', async () => {
+    const omitted: ProviderLifecycle = {
+      gameId: 'demo',
+      changeRevision: 1,
+      updatedAt: 't',
+      providerId: 'prov_omitted',
+      maxStacks: 1
+    };
+    expect(omitted.tickAnchorScopeTypeId).toBeUndefined();
+    expect(omitted.tickAnchorStateKey).toBeUndefined();
+
+    const withNull: ProviderLifecycle = {
+      gameId: 'demo',
+      changeRevision: 1,
+      updatedAt: 't',
+      providerId: 'prov_null',
+      maxStacks: 1,
+      tickAnchorScopeTypeId: null,
+      tickAnchorStateKey: null
+    };
+    expect(withNull.tickAnchorScopeTypeId).toBeNull();
+    expect(withNull.tickAnchorStateKey).toBeNull();
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        expect(String(input)).toContain('/combat-data/provider-lifecycles');
+        return jsonResponse(200, {
+          gameId: 'demo',
+          currentRevision: 4,
+          data: [
+            {
+              gameId: 'demo',
+              providerId: 'prov_omitted',
+              maxStacks: 1,
+              changeRevision: 4,
+              updatedAt: 't'
+            },
+            {
+              gameId: 'demo',
+              providerId: 'prov_null',
+              maxStacks: 1,
+              tickAnchorScopeTypeId: null,
+              tickAnchorStateKey: null,
+              changeRevision: 4,
+              updatedAt: 't'
+            },
+            {
+              gameId: 'demo',
+              providerId: 'prov_pair',
+              maxStacks: 6,
+              tickIntervalMs: 500,
+              tickAnchorScopeTypeId: 20252,
+              tickAnchorStateKey: 'deadly_venom_stacks',
+              changeRevision: 4,
+              updatedAt: 't'
+            }
+          ]
+        });
+      })
+    );
+
+    const result = await getProviderLifecycles('http://localhost:8080', 'demo');
+    expect(result.data.data).toHaveLength(3);
+
+    const [rowOmitted, rowNull, rowPair] = result.data.data;
+    expect(rowOmitted).not.toHaveProperty('tickAnchorScopeTypeId');
+    expect(rowOmitted).not.toHaveProperty('tickAnchorStateKey');
+    expect(rowNull.tickAnchorScopeTypeId).toBeNull();
+    expect(rowNull.tickAnchorStateKey).toBeNull();
+    expect(rowPair.tickAnchorScopeTypeId).toBe(20252);
+    expect(rowPair.tickAnchorStateKey).toBe('deadly_venom_stacks');
   });
 
   it('maps error envelope to ApiRequestError', async () => {
