@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-21T01:24:11.834Z",
+    "generatedAt": "2026-07-21T02:38:20.437Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -47,8 +47,9 @@
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
       "最小验证/generic-g8-adc-passive-coverage-audit.json": "c1c9730e2925814c9da298dc210933ec875ee8570fbe258f0bb6701c0a524809",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
+      "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
       "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "e0ecaa97355b378961595239edab56cb9f839bd2487e7ecd2be4dd828cebcf7b",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "b3946f058c54989089b475b5e2c2168d1609f8104f05e8ace45fb25594e4aa73",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "273173f2205d99c662e28866680007440587becb985f6e1de3c8acc2cfbed861",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -56,28 +57,28 @@
     }
   },
   "summary": {
-    "sourceCount": 11,
+    "sourceCount": 12,
     "coverageRecordCount": 527,
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 59,
+      "completed": 60,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 114,
+      "blocked_runtime": 113,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 59,
+      "full": 60,
       "partial": 3,
-      "none": 192
+      "none": 191
     },
     "laneCounts": {
-      "generic_runtime": 247,
-      "legacy_single_attacker_dps": 7,
+      "generic_runtime": 248,
+      "legacy_single_attacker_dps": 6,
       "data_only": 0,
       "mixed_evidence": 0
     },
@@ -126,6 +127,14 @@
       "role": "candidates"
     },
     {
+      "path": "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json",
+      "kind": "document_json",
+      "sha256": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
+      "byteSize": 2655,
+      "recordCount": 0,
+      "role": "document"
+    },
+    {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
       "sha256": "e0ecaa97355b378961595239edab56cb9f839bd2487e7ecd2be4dd828cebcf7b",
@@ -136,8 +145,8 @@
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "b3946f058c54989089b475b5e2c2168d1609f8104f05e8ace45fb25594e4aa73",
-      "byteSize": 226515,
+      "sha256": "273173f2205d99c662e28866680007440587becb985f6e1de3c8acc2cfbed861",
+      "byteSize": 237767,
       "recordCount": 0,
       "role": "generator"
     },
@@ -16865,46 +16874,78 @@
     },
     {
       "key": "hero_skill|hero_malzahar|E|恶咒降临",
-      "status": "blocked_runtime",
-      "completionMode": "none",
-      "lane": "legacy_single_attacker_dps",
+      "status": "completed",
+      "completionMode": "full",
+      "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_malzahar",
       "skillKey": "E",
       "passiveName": "恶咒降临",
       "mechanismTags": [
-        "status_resource_migration"
+        "active_ability",
+        "anchored_provider_tick",
+        "periodic_magic_damage"
       ],
-      "coverageBoundary": "batch_j_status_damage_audit",
-      "reason": "Batch J: true DoT 需迁 status/resource；Wiki 数值非 Phase A blocked_data 口径，缺 status/resource DoT runtime 原语。",
-      "blocker": "status_resource_dot_migration_runtime",
+      "coverageBoundary": "phase_a_rank5_primary_target_anchored_dot",
+      "reason": "Malzahar E 恶咒降临/Malefic Visions：EXTRA Wiki sidecar rev4015185（SHA256 9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84；normalized/generic/malzahar-e.json）rank5 Phase-A 主目标锚定 DoT 已由 wasm-generic-malzahar-malefic-visions + generic anchored provider-tick（8612d0d）+ Backend seed（8444018/4351827）+ 既有 Web assembler/projection（61b93bf/5a0931a）证据闭环——cost100/CD7000；provider_target active max1/duration4000/refresh_on_write；250ms×16 inclusive；tick13.75+0.05AP magic；total220+0.80AP。明确排除 Q/R refresh、death spread/bounce/multitarget、mana restore/minion execute、cleanse/immunity、indirect/spell-effect、ranks1-4、cast targeting、AP snapshot mutation、live migration/publish/E2E/full fidelity。Batch-J 仅作 stale regression，故标 completed。",
+      "blocker": "",
       "dataGapEvidence": null,
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_malzahar|E|恶咒降临",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "status_resource_dot_migration_runtime"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：status_resource_dot_migration_runtime"
-      },
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
+          "path": "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json",
+          "legacyStatus": "current_wiki_sidecar",
+          "sourceRecordKey": "hero_skill|hero_malzahar|E|恶咒降临"
+        },
+        {
           "path": "最小验证/V2-Batch-J-status-damage-audit.json",
-          "legacyStatus": "migrate_to_status_resource",
+          "legacyStatus": "historical_reference",
           "sourceRecordKey": "skill_malzahar_e"
         },
         {
           "path": "最小验证/V2-Batch-J-status-damage-migration.seed.json",
-          "legacyStatus": "seed_skill",
+          "legacyStatus": "data_only_regression",
           "sourceRecordKey": "skill_malzahar_e"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-anchored-provider-tick",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_anchored_tick_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: generic anchored provider-tick ABI/runtime (commit 8612d0d); write-triggered generation / cap-refresh / inclusive final tick"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-malzahar-malefic-visions",
+          "sourcePath": "db/game_manage/seeds/lol_generic_malzahar_malefic_visions_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: Backend seed + LolGenericMalzaharMaleficVisionsSeedSqlTest (commit 8444018; integrated 4351827); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-malzahar-malefic-visions",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_malzahar_malefic_visions_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: exact CompileGeneric+RunGeneric Malefic Visions rank5 primary-target anchored DoT (commit 0e69db1); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-malzahar-malefic-visions",
+          "sourcePath": "web/src/engine/combatDataAssembler.test.ts",
+          "sourceWorktree": "web",
+          "note": "completedBoundary: existing Web anchored tick lifecycle projection tests (commit 5a0931a)"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-malzahar-malefic-visions",
+          "sourcePath": "web/src/engine/combatDataAssembler.ts",
+          "sourceWorktree": "web",
+          "note": "completedBoundary: existing Web lifecycle type-id → TickSpec anchor pair projection (commit 61b93bf; integrated 5a0931a); no mechanism-specific Web change"
+        }
+      ],
       "aliases": [
         "skill_malzahar_e"
       ],
