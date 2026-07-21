@@ -1,0 +1,29 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Malefic Visions|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Malzahar
+|skill        = E
+|icon         = Malefic Visions.png
+|blurb        = {{sbc|Active:}} {{ci|Malzahar}} infects the target enemy's mind, continually dealing {{as|magic damage}} over a few seconds, which refreshes upon damaging them with ''{{ai|Call of the Void|Malzahar}}'' or ''{{ai|Nether Grasp|Malzahar}}''.
+|blurb2       = If the target dies while infected, they spread ''Malefic Visions'' onto the closest nearby enemy and '''Malzahar''' restores a portion of {{sti|mana|{{as|his '''maximum''' mana}}}}.
+|description  = {{sbc|Active:}} '''Malzahar''' infects the target enemy's mind, dealing {{as|magic damage}} every {{fd|0.25}} seconds over 4 seconds, which refreshes upon damaging them with ''{{ai|Call of the Void|Malzahar}}'' or ''{{ai|Nether Grasp|Malzahar}}''. ''Malefic Visions'' executes {{tip|minions}} if they would be damaged below {{sti|health|{{as|{{pp|10 to 30 for 11}} health}}}}.
+|leveling     = {{st|Total Magic Damage|{{ap|80 to 220}} {{as|(+ 80% AP)}}|Magic Damage Per Tick|{{ap|80/16 to 220/16}} {{as|(+ {{ap|80/16}}% AP)}}}}
+|description2 = If the target dies while infected, they spread ''Malefic Visions'' onto the closest nearby enemy and '''Malzahar''' restores {{sti|mana|{{as|2% of his '''maximum''' mana}}}}.
+|target range = {{tip|cr|icononly = true}} 650
+|effect radius= {{tip|cr|icononly = true}} {{tt|500|Bounce range}}
+|cooldown     = {{ap|11 to 7}}
+|cost         = {{ap|60 to 100}}
+|cast time    = {{fd|0.25}}
+|costtype     = Mana
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = special
+|projectile   = false
+|callforhelp  = True
+|grounded     =
+|knockdown    =
+|notes        =
+* ''Malefic Visions'' deals {{tip|persistent damage}}, additionally tagged as {{tip|indirect damage}}, and applies {{tip|spell effects}}.
+* ''Malefic Vision's'' cast is special cased to not be cancelled if the target becomes {{tip|untargetable}}, {{tip|death|dies}}, or is too far away or no longer in {{tip|sight}} during the cast time.
+** The debuff is not applied if the target is untargetable by the time the cast completes.
+}}
