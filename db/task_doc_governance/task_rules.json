@@ -918,6 +918,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-vayne-condemn-primary-hit",
+      "title": "通用 ABI 薇恩 E 恶魔审判 Condemn 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_vayne_condemn_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_vayne|E|恶魔审判 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Vayne/E→Condemn page1309990/rev4008541/timestamp2026-04-14T23:45:40Z/raw2380/SHA256 f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37；sidecar vayne-e.json；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile。Rank5：90mana/12000ms；immediate primary-target scaffold；一笔非暴击/不可复制物理190+0.50*(resolvedAD-baseAD)；交叉baseAD60/resolvedAD140/bonus80→raw230/armor100→115；t0/t12000命中、t11999 CD skip；mana232→52。不宣称击退/地形/wall_bonus/眩晕/弹道保真。Backend owning e7d28f6/集成61290cb（36/36；668/668）；Wasm exact 252f799（4/4）；审计881cb1c。DESIGN_REVIEW READY run-f03ab9ee。Unified 254：sourceCount12/completed64/blocked_runtime109/full64/none187；G8 242=migrated54/partial4/blocked115/OOS69；implementation_gap=91。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-薇恩E恶魔审判Condemn主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-薇恩E恶魔审判Condemn主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
