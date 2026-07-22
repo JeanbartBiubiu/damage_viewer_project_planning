@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-22T17:16:09.362Z"
+    "generatedAt": "2026-07-22T18:07:34.583Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 56,
+      "migrated": 57,
       "partial": 4,
-      "blocked": 113,
+      "blocked": 112,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 23.14,
+      "migrated": 23.55,
       "partial": 1.65,
-      "blocked": 46.69,
+      "blocked": 46.28,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 23.14,
-      "inScope": 32.37
+      "all": 23.55,
+      "inScope": 32.95
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 24.79,
-      "inScope": 34.68
+      "all": 25.21,
+      "inScope": 35.26
     },
     "inScopeCount": 173
   },
@@ -3370,29 +3370,31 @@
       "pageId": "kaisa-w",
       "sourceText": "{{sbc|Active:}} '''Kai'Sa''' fires a void bolt in the target direction that briefly grants {{tip|sight}} around its trajectory as it travels, deals {{as|magic damage}} to the first enemy hit, applies {{as|2 Plasma|buzzword}}, and {{tip|true sight|reveals}} them for 4 seconds.\n{{sbc|{{ai|Second Skin|Kai'Sa|Evolution}}:}} Requires {{sti|{{as|100 ability power}}}} from [[items]] to upgrade – ''Void Seeker'' applies {{as|3 Plasma|buzzword}} instead and refunds 75% of its {{sti|cooldown}} if it hits an enemy {{tip|champion}}.\n{{st|Magic Damage|{{ap|30 to 130}} {{as|(+ 130% AD)}} {{as|(+ 45% AP)}}}}\n{{ap|20 to 14}}\n{{ap|55 to 75}}\nMana\nMagic\n{{Effect at cast time end}}\n{{pending for test}} Size of area revealed around target",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/kaisa-w.json@rev4034696 sha256:aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4034696",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/kaisa-w.json@rev4034696 sha256:aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_kaisa W 虚空索敌/Void Seeker：Wiki rev4034696（SHA256 aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1；normalized/generic/kaisa-w.json）rank5 Phase-A v2 已由 wasm-generic-kaisa-void-seeker-primary-hit 闭环为 migrated——75 mana / 14000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki 0.4s cast 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 130+1.30*source.attr.ad.resolved+0.45*source.attr.ap.resolved（交叉校验 totalAD100 / AP100 → raw305，target MR100 → mitigated152.5）。Attempts t0/t13999/t14000 → two successes + exactly one cooldown skip without mana/damage；final mana 195 from 345；HP 1000→695。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund。明确排除 cast0.4/effect-at-cast-end、projectile/travel/collision/first-enemy acquisition/location/range3000/width200/speed1750/geometry/spellshield、sight/reveal/true sight4s、applying2 Plasma 与全部 Second Skin/Plasma/Caustic Wounds coupling、item AP100 evolution/applying3 Plasma/champion-hit75% cooldown refund、ranks1–4、equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/sight/reveal/Plasma/evolution/refund 保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-void-seeker-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_void_seeker_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund; Wiki rev4034696/SHA256 aa4ba76c… rank5 75 mana/14000ms CD / one magic 130+1.30*source.attr.ad.resolved+0.45*AP; totalAD100/AP100→raw305/MR100→152.5; t0/t13999/t14000 two successes + one CD skip; final mana195/HP695; immediate scaffold excludes Wiki 0.4s cast and Effect at cast time end; cast/projectile/sight/reveal/Plasma/evolution/refund/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kaisa-void-seeker-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_kaisa_void_seeker_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund; backend lol_generic_kaisa_void_seeker_primary_hit_seed.sql + LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest (owning 9d9200a; integrated 1dc8d5b); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_kaisa|E|极限超载",
