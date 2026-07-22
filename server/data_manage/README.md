@@ -683,6 +683,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericTwistedFateStackedDeckSeedSqlTest test
 ```
 
+### LoL generic Twisted Fate Wild Cards primary-hit seed（卡牌大师 Q / Phase-A v2 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_twistedfate` 最低必要实体/level-1 九键面板/mana 资源 + 可 cast 的 Q active；与既有普攻 / Stacked Deck provider 并存，不重建/替换、不读写 Stacked Deck 状态；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_generic_twisted_fate_wild_cards_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-twisted-fate-wild-cards-primary-hit-phase-a-v2-20260722`（seed 不负责 publish）。候选 `hero_skill|hero_twistedfate|Q|万能牌` 冻结为 **Phase-A rank-5 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=twisted-fate-q-wild-cards-primary-hit-phase-a-v2`）：
+
+`rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好九键属性定义（含 AP）；幂等投影 reserved → `types`；ensure `hero_twistedfate`（`ON CONFLICT DO NOTHING`，不改写既有 Stacked Deck 描述）与 level-1 面板（hp604 / mana333 / ad52 / ap0 / AS0.625 / armor24 / MR30 / hpregen1.1 / manaregen1.6；六键与 Stacked Deck 字节一致）、`resource_definitions.mana` 与 `entity_resource_values`（333/333）；向 `hero_twistedfate` **仅** mount 独立 `provider_hero_twistedfate_q_wild_cards_primary_hit`（与 `provider_hero_twistedfate_basic_attack` / `provider_hero_twistedfate_stacked_deck` 并存），含 active `ability_hero_twistedfate_q_wild_cards_primary_hit`（`ability_key=wild_cards`）、`ability_costs` 100 mana、`ability_cooldowns` 5000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `240 + 0.50*(ad.resolved-ad.base) + 0.85*ap.resolved`（`copyable_on_hit=false`，非 crit；运行时类型 `20221`）。Wiki：page1309741 / rev3950864 / `2025-08-31T01:31:17Z` / 1237 bytes / SHA256 `9cdd62cc18d41a4bbe1e42ac8202b40a776f7da51c67c6f2fea37f9ed1f0d597`；sidecar `normalized/generic/twistedfate-q.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：cast delay；fan/three-card/cone projectile geometry；travel/collision/pass 运行时保真（once-per-pass 仅正当化一次主目标直击）；AOE/multi-target/all-enemies/repeat；spellshield；ranks1–4；basic/Stacked Deck/on-hit/equipment 耦合；listener/state/event/modifier/repeat；live migration；publish；不依赖既有 basic/Stacked Deck provider 发布顺序。
+
+静态契约校验（不连 live DB；可与 Stacked Deck 静态契约一并跑）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericTwistedFateWildCardsPrimaryHitSeedSqlTest,LolGenericTwistedFateStackedDeckSeedSqlTest test
+```
+
 ### LoL generic Draven Spinning Axe seed（德莱文 Q / rank-5 初次飞斧）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** `hero_draven` + 通用普攻图 + `basic_attack_hit` emit + 可 cast 的 Q active；不依赖 Batch-B；本脚本不做 live migration、不自动 publish）：
