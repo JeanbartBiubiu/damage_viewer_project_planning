@@ -725,6 +725,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenStandAsideSeedSqlTest test
 ```
 
+### LoL generic Vayne Condemn primary-hit seed（薇恩 E / Phase-A v1 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；本公式不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_vayne` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有普攻 / Silver Bolts / tumble provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-vayne-condemn-primary-hit-phase-a-v1-20260722`（seed 不负责 publish）。候选 `hero_skill|hero_vayne|E|恶魔审判` 冻结为 **Phase-A rank-5 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=vayne-e-condemn-primary-hit-phase-a-v1`）：
+
+`rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好八键属性定义（无 AP）；幂等投影 reserved → `types`；ensure `hero_vayne`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp550 / mana232 / ad60 / AS0.658 / armor23 / MR30 / hpregen0.7 / manaregen1.4）、`resource_definitions.mana` 与 `entity_resource_values`（232/232）；向 `hero_vayne` **仅** mount 独立 `provider_hero_vayne_e_condemn_primary_hit`（与 `provider_hero_vayne_basic_attack` / `provider_hero_vayne_silver_bolts` / `provider_hero_vayne_tumble` 并存），含 active `ability_hero_vayne_e_condemn_primary_hit`（`ability_key=condemn`）、`ability_costs` 90 mana、`ability_cooldowns` 12000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `190 + 0.50*(ad.resolved-ad.base)`（`copyable_on_hit=false`，非 crit）。Wiki：page1309990 / rev4008541 / `2026-04-14T23:45:40Z` / 2380 bytes / SHA256 `f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37`；sidecar `normalized/generic/vayne-e.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：knockback475 / terrain / wall bonus `285+0.75bAD` 与 total `475+1.25bAD` / stun1.5s / cast0.25 / projectile2200·2000 / range·geometry / Silver Bolts·普攻·on-hit·equipment 耦合 / ranks1–4 / listener·state·event·repeat / live migration / publish；不依赖既有 Vayne provider 发布顺序。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericVayneCondemnPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Teemo Blinding Dart seed（提莫 Q / Phase-A v1 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_teemo` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 Q active；与既有普攻 / Toxic Shot provider 并存，不重建/替换；不做 live migration、不自动 publish）：
