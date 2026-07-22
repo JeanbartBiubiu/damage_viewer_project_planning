@@ -951,6 +951,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_vayne|E|恶魔审判',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Vayne E 恶魔审判/Condemn：Wiki rev4008541（SHA256 f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37；normalized/generic/vayne-e.json）rank5 Phase-A v1 已由 wasm-generic-vayne-condemn-primary-hit + backend seed 证据闭环——90 mana / 12000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable physical damage 190+0.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 baseAD60 / resolvedAD140 / bonusAD80 → raw230，armor100 → mitigated115）。Attempts t0/t11999/t12000 → two successes + exactly one cooldown skip without mana/damage；final mana 52 from 232。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile。明确排除 knockback/displacement475/direction、terrain 或玩家生成地形碰撞、wall bonus 285+0.75bAD 与 total 475+1.25bAD、stun/control1.5s、cast0.25/effect-at-cast-end、projectile/missile speeds2200/2000/range550/geometry/cancel、ranks1–4、Silver Bolts/basic/on-hit/equipment/loadout coupling、multi-target/repeat、live migration/publish/E2E；不宣称 wall/terrain/CC/cast/projectile/完整游戏保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-vayne-condemn-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_condemn_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; Wiki rev4008541/SHA256 f2b2ba17… rank5 90 mana/12000ms CD / one physical 190+0.50*bonusAD; baseAD60/resolvedAD140/bonusAD80→raw230/armor100→115; t0/t11999/t12000 two successes + one CD skip; final mana52; knockback/terrain/wall/stun/cast/projectile/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-vayne-condemn-primary-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; backend lol_generic_vayne_condemn_primary_hit_seed.sql + LolGenericVayneCondemnPrimaryHitSeedSqlTest (owning e7d28f6; integrated 61290cb); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_twitch|Q|埋伏',
     {
       status: 'completed',
@@ -1838,6 +1869,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_teemo|Q|致盲吹箭',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
+  ],
+  [
+    'hero_skill|hero_vayne|E|恶魔审判',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4700,8 +4735,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 63) {
-    errors.push(`completed=${sc.completed}, expected 63`);
+  if ((sc.completed || 0) !== 64) {
+    errors.push(`completed=${sc.completed}, expected 64`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -4709,8 +4744,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 110) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 110`);
+  if ((sc.blocked_runtime || 0) !== 109) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 109`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4731,14 +4766,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 63) {
-    errors.push(`completionMode full=${cm.full}, expected 63`);
+  if ((cm.full || 0) !== 64) {
+    errors.push(`completionMode full=${cm.full}, expected 64`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 188) {
-    errors.push(`completionMode none=${cm.none}, expected 188`);
+  if ((cm.none || 0) !== 187) {
+    errors.push(`completionMode none=${cm.none}, expected 187`);
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();
@@ -5034,6 +5069,71 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Teemo Q must be completed/full/generic_runtime with cleared gaps/stale tags, Wiki rev3948425/SHA, frozen boundary/formula/cost/CD/numeric schedule, bilateral evidence, and exclusions (no blind/cast/projectile/geometry/multitarget/full-game claim)',
+    );
+  }
+
+  const mVayneE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_vayne|E|恶魔审判');
+  if (
+    !mVayneE ||
+    mVayneE.status !== 'completed' ||
+    mVayneE.completionMode !== 'full' ||
+    mVayneE.lane !== 'generic_runtime' ||
+    mVayneE.blocker ||
+    mVayneE.dataGapEvidence !== null ||
+    mVayneE.runtimeGapEvidence !== null ||
+    mVayneE.outOfScopeEvidence !== null ||
+    mVayneE.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile' ||
+    [...(mVayneE.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'ability_flat_bonus_ad_damage',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mVayneE.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mVayneE.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    !String(mVayneE.reason || '').includes('4008541') ||
+    !String(mVayneE.reason || '').includes(
+      'f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37',
+    ) ||
+    !String(mVayneE.reason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+    ) ||
+    !String(mVayneE.reason || '').includes('190') ||
+    !String(mVayneE.reason || '').includes('0.50') ||
+    !String(mVayneE.reason || '').includes('90 mana') ||
+    !String(mVayneE.reason || '').includes('12000') ||
+    !String(mVayneE.reason || '').includes('baseAD60') ||
+    !String(mVayneE.reason || '').includes('resolvedAD140') ||
+    !String(mVayneE.reason || '').includes('bonusAD80') ||
+    !String(mVayneE.reason || '').includes('raw230') ||
+    !String(mVayneE.reason || '').includes('mitigated115') ||
+    !String(mVayneE.reason || '').includes('52') ||
+    !String(mVayneE.reason || '').includes('不宣称') ||
+    !(mVayneE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-vayne-condemn-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_condemn_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+        ),
+    ) ||
+    !(mVayneE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-vayne-condemn-primary-hit' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+        ) &&
+        String(e.note || '').includes('LolGenericVayneCondemnPrimaryHitSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Vayne E must be completed/full/generic_runtime with cleared gaps/stale tags, Wiki rev4008541/SHA, frozen boundary/formula/cost/CD/numeric schedule, bilateral evidence, and exclusions (no wall/terrain/CC/cast/projectile/full-game claim)',
     );
   }
 
