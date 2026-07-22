@@ -1364,6 +1364,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_varus|E|恶灵箭雨',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Varus E 恶灵箭雨/Hail of Arrows：Wiki rev3969402（SHA256 7b4be71bcc26ba933dff0235882d272c14e406abbf505290018ba15a5ba658e9；normalized/generic/varus-e.json）rank5 Phase-A v1 已由 wasm-generic-varus-hail-of-arrows-primary-hit + backend seed 证据闭环——90 mana / 10000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki 0.5s landing delay）；恰好一次 non-crit/non-copyable physical damage 180+0.90*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 baseAD59 / resolvedAD159 → raw270，armor100 → mitigated135）。Attempts t0/t9999/t10000 → two successes + exactly one cooldown skip without mana/damage；final mana 140 from 320。同修订 description + labeled rank table 明示 physical damage 60 to 180 (+90% bonus AD)；孤立 damagetype=Magic 为矛盾源元数据——reviewed 政策以 description+rank table 管辖本有界 physical 分支，绝不将 Magic 作 runtime 真值。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation。明确排除 cast0.2419/landing0.5/travel timing、target-location/projectile/range925/radius300/collision/geometry、all-enemies/multi-target/repeat、four-second field、slow30–50%/0.25s linger、Grievous Wounds、all Blighted Quiver stack consumption/~0.3s second detonation/W/Q/basic/on-hit coupling、ranks1–4、equipment/loadout、live/publish/E2E/full fidelity；不宣称 delay/area/field/control/W-detonation 保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-hail-of-arrows-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_varus_hail_of_arrows_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation; Wiki rev3969402/SHA256 7b4be71b… rank5 90 mana/10000ms CD / one physical 180+0.90*bonusAD; baseAD59/resolvedAD159→raw270/armor100→135; t0/t9999/t10000 two successes + one CD skip; final mana140; description+rank-table physical authority; isolated damagetype=Magic contradictory metadata (not runtime truth); immediate scaffold excludes Wiki 0.5s landing delay; landing/geometry/multitarget/field/slow/GW/W-detonation/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-hail-of-arrows-primary-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_varus_hail_of_arrows_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation; backend lol_generic_varus_hail_of_arrows_primary_hit_seed.sql + LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest (owning a08cdfd; integrated e924afd); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'item_passive|2510|item_passive|咒刃',
     {
       status: 'completed',
@@ -1908,6 +1939,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_kogmaw|E|虚空淤泥',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+  ],
+  [
+    'hero_skill|hero_varus|E|恶灵箭雨',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4401,6 +4436,75 @@ function validateInventory(inv) {
       "Kog'Maw E must be completed/full/generic_runtime with cleared multi_target/governed gaps, Wiki rev3965135/SHA, frozen boundary/formula/cost/CD/numeric schedule, cast-time-start scaffold wording, bilateral evidence, and exclusions (no line/area/field/slow/projectile fidelity claim)",
     );
   }
+  const mVarusE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|E|恶灵箭雨');
+  if (
+    !mVarusE ||
+    mVarusE.status !== 'completed' ||
+    mVarusE.completionMode !== 'full' ||
+    mVarusE.lane !== 'generic_runtime' ||
+    mVarusE.blocker ||
+    mVarusE.dataGapEvidence !== null ||
+    mVarusE.runtimeGapEvidence !== null ||
+    mVarusE.outOfScopeEvidence !== null ||
+    mVarusE.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation' ||
+    [...(mVarusE.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mVarusE.mechanismTags || []).includes('survivability_only') ||
+    !String(mVarusE.reason || '').includes('3969402') ||
+    !String(mVarusE.reason || '').includes(
+      '7b4be71bcc26ba933dff0235882d272c14e406abbf505290018ba15a5ba658e9',
+    ) ||
+    !String(mVarusE.reason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation',
+    ) ||
+    !String(mVarusE.reason || '').includes('physical') ||
+    !String(mVarusE.reason || '').includes('180') ||
+    !String(mVarusE.reason || '').includes('0.90') ||
+    !String(mVarusE.reason || '').includes('90 mana') ||
+    !String(mVarusE.reason || '').includes('10000') ||
+    !String(mVarusE.reason || '').includes('baseAD59') ||
+    !String(mVarusE.reason || '').includes('resolvedAD159') ||
+    !String(mVarusE.reason || '').includes('raw270') ||
+    !String(mVarusE.reason || '').includes('mitigated135') ||
+    !String(mVarusE.reason || '').includes('140') ||
+    !String(mVarusE.reason || '').includes('damagetype=Magic') ||
+    !String(mVarusE.reason || '').includes('矛盾') ||
+    !String(mVarusE.reason || '').includes('0.5s landing delay') ||
+    !String(mVarusE.reason || '').includes('不宣称') ||
+    !(mVarusE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-hail-of-arrows-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_varus_hail_of_arrows_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation',
+        ) &&
+        String(e.note || '').includes('damagetype=Magic') &&
+        String(e.note || '').includes('0.5s landing delay'),
+    ) ||
+    !(mVarusE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-hail-of-arrows-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_varus_hail_of_arrows_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation',
+        ) &&
+        String(e.note || '').includes('LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Varus E must be completed/full/generic_runtime with cleared survivability_only/governed gaps, Wiki rev3969402/SHA, frozen boundary/physical formula/cost/CD/numeric schedule, description+rank-table physical authority with explicit isolated-Magic contradiction disclosure (not runtime truth), 0.5s landing-delay exclusion wording, bilateral evidence, and exclusions (no delay/area/field/control/W-detonation fidelity claim)',
+    );
+  }
   if (
     !mXayahW ||
     mXayahW.status !== 'completed' ||
@@ -4831,8 +4935,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 65) {
-    errors.push(`completed=${sc.completed}, expected 65`);
+  if ((sc.completed || 0) !== 66) {
+    errors.push(`completed=${sc.completed}, expected 66`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -4840,8 +4944,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 108) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 108`);
+  if ((sc.blocked_runtime || 0) !== 107) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 107`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4862,21 +4966,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 65) {
-    errors.push(`completionMode full=${cm.full}, expected 65`);
+  if ((cm.full || 0) !== 66) {
+    errors.push(`completionMode full=${cm.full}, expected 66`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 186) {
-    errors.push(`completionMode none=${cm.none}, expected 186`);
+  if ((cm.none || 0) !== 185) {
+    errors.push(`completionMode none=${cm.none}, expected 185`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 90) {
+  if (implGapCount !== 89) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 90`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 89`,
     );
   }
 
