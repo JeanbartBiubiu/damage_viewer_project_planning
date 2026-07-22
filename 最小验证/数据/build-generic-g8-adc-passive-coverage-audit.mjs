@@ -603,6 +603,7 @@ const SEED = {
   kaisaSecondSkinBackend: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
   dravenStandAsideBackend: 'db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql',
+  teemoBlindingDartBackend: 'db/game_manage/seeds/lol_generic_teemo_blinding_dart_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
@@ -677,6 +678,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_w_axe_catch_reset_test.go',
   dravenStandAside:
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_stand_aside_test.go',
+  teemoBlindingDart:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_teemo_blinding_dart_test.go',
   quinnHeightenedSenses:
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   xayahDeadlyPlumage:
@@ -939,6 +942,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-formula-onhit-batch',
           SEED.formulaOnHit,
           'Teemo E toxic shot immediate on-hit seed (DoT out of this batch)',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_teemo|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_teemo Q 致盲吹箭/Blinding Dart：Wiki rev3948425（SHA256 4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7；normalized/generic/teemo-q.json）rank5 Phase-A v1 已由 wasm-generic-teemo-blinding-dart 闭环为 migrated——90 mana / 7000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable magic damage 260+0.70*source.attr.ap.resolved（交叉校验 AP200 → raw400，target MR100 → mitigated200）。Attempts t0/t6999/t7000 → two successes + exactly one cooldown skip without mana/damage；final mana 154 from 334。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry。明确排除 blind/control 与 2–3s duration、cast time 0.25s、projectile/speed2500/range/geometry/collision/selection、ranks1–4、on-hit/equipment/Toxic Shot/basic-attack coupling/rotation、multi-target、live migration/publish/E2E；不宣称 blind/cast/projectile/geometry/multitarget/完整游戏保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-teemo-blinding-dart',
+          WASM.teemoBlindingDart,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry; Wiki rev3948425/SHA256 4e3c475e… rank5 90 mana/7000ms CD / one magic 260+0.70*AP; AP200→raw400/MR100→200; t0/t6999/t7000 two successes + one CD skip; final mana154; blind/cast/projectile/geometry/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-teemo-blinding-dart',
+          SEED.teemoBlindingDartBackend,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry; backend lol_generic_teemo_blinding_dart_seed.sql + LolGenericTeemoBlindingDartSeedSqlTest (owning 1803c8c; integrated 7e27f33); not live published',
         ),
       ],
     },
@@ -3553,9 +3586,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 52) errors.push(`migrated=${counts.migrated}, expected 52`);
+  if (counts.migrated !== 53) errors.push(`migrated=${counts.migrated}, expected 53`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 117) errors.push(`blocked=${counts.blocked}, expected 117`);
+  if (counts.blocked !== 116) errors.push(`blocked=${counts.blocked}, expected 116`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4497,6 +4530,78 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       dravenE.candidateKey,
       dravenE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const teemoQ = records.find((r) => r.candidateKey === 'hero_skill|hero_teemo|Q|致盲吹箭');
+  const teemoQTags = [...(teemoQ?.genericMechanismTags || [])].sort((a, b) =>
+    a.localeCompare(b, 'en'),
+  );
+  const teemoQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  if (
+    !teemoQ
+    || teemoQ.genericClassification !== 'migrated'
+    || String(teemoQ.remainingGap || '').trim()
+    || (teemoQ.dataGapEvidence?.missingFields || []).length !== 0
+    || teemoQTags.join('|') !== teemoQExpectedTags.join('|')
+    || teemoQTags.includes('meta_or_non_target_dps')
+    || String(teemoQ.remainingGap || '').includes('blocked_data')
+    || String(teemoQ.classificationReason || '').includes('out_of_scope_for_single_target_dps')
+    || String(teemoQ.classificationReason || '').includes('blocked_data')
+    || String(teemoQ.classificationReason || '').includes(
+      'implementation_gap_no_unresolved_data_fields',
+    )
+    || !String(teemoQ.classificationReason || '').includes('3948425')
+    || !String(teemoQ.classificationReason || '').includes(
+      '4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7',
+    )
+    || !String(teemoQ.classificationReason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
+    )
+    || !String(teemoQ.classificationReason || '').includes('260')
+    || !String(teemoQ.classificationReason || '').includes('0.70')
+    || !String(teemoQ.classificationReason || '').includes('90 mana')
+    || !String(teemoQ.classificationReason || '').includes('7000')
+    || !String(teemoQ.classificationReason || '').includes('raw400')
+    || !String(teemoQ.classificationReason || '').includes('mitigated200')
+    || !String(teemoQ.classificationReason || '').includes('154')
+    || !String(teemoQ.classificationReason || '').includes('不宣称')
+    || !String(teemoQ.sourceRef || '').includes('teemo-q.json')
+    || citesForbiddenProvenance(teemoQ.classificationReason)
+    || !(teemoQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.teemoBlindingDart
+        && e.taskKey === 'wasm-generic-teemo-blinding-dart'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
+        ),
+    )
+    || !(teemoQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.teemoBlindingDartBackend
+        && e.taskKey === 'wasm-generic-teemo-blinding-dart'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
+        )
+        && String(e.note || '').includes('LolGenericTeemoBlindingDartSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Teemo Q must be migrated with empty remainingGap/missingFields, exact Blinding Dart tags, stale meta/blocked_data/out_of_scope/implementation-gap cleared, Wiki rev3948425/SHA + frozen completedBoundary, numeric contract/90mana/7000CD/AP200→400/MR100→200/mana154, and bilateral wasm+backend evidence (no blind/cast/projectile/geometry/multitarget/full-game claim)',
+    );
+  }
+  if (teemoQ) {
+    validateBilateralCoverageEvidence(
+      teemoQ.candidateKey,
+      teemoQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );

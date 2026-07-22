@@ -920,6 +920,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_teemo|Q|致盲吹箭',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Teemo Q 致盲吹箭/Blinding Dart：Wiki rev3948425（SHA256 4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7；normalized/generic/teemo-q.json）rank5 Phase-A v1 已由 wasm-generic-teemo-blinding-dart + backend seed 证据闭环——90 mana / 7000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable magic damage 260+0.70*source.attr.ap.resolved（交叉校验 AP200 → raw400，target MR100 → mitigated200）。Attempts t0/t6999/t7000 → two successes + exactly one cooldown skip without mana/damage；final mana 154 from 334。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry。明确排除 blind/control 与 2–3s duration、cast time 0.25s、projectile/speed2500/range/geometry/collision/selection、ranks1–4、on-hit/equipment/Toxic Shot/basic-attack coupling/rotation、multi-target、live migration/publish/E2E；不宣称 blind/cast/projectile/geometry/multitarget/完整游戏保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-teemo-blinding-dart',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_teemo_blinding_dart_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry; Wiki rev3948425/SHA256 4e3c475e… rank5 90 mana/7000ms CD / one magic 260+0.70*AP; AP200→raw400/MR100→200; t0/t6999/t7000 two successes + one CD skip; final mana154; blind/cast/projectile/geometry/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-teemo-blinding-dart',
+          sourcePath: 'db/game_manage/seeds/lol_generic_teemo_blinding_dart_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry; backend lol_generic_teemo_blinding_dart_seed.sql + LolGenericTeemoBlindingDartSeedSqlTest (owning 1803c8c; integrated 7e27f33); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_twitch|Q|埋伏',
     {
       status: 'completed',
@@ -1803,6 +1834,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_draven|E|开道利斧',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+  ],
+  [
+    'hero_skill|hero_teemo|Q|致盲吹箭',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4665,8 +4700,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 62) {
-    errors.push(`completed=${sc.completed}, expected 62`);
+  if ((sc.completed || 0) !== 63) {
+    errors.push(`completed=${sc.completed}, expected 63`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -4674,8 +4709,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 111) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 111`);
+  if ((sc.blocked_runtime || 0) !== 110) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 110`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4696,14 +4731,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 62) {
-    errors.push(`completionMode full=${cm.full}, expected 62`);
+  if ((cm.full || 0) !== 63) {
+    errors.push(`completionMode full=${cm.full}, expected 63`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 189) {
-    errors.push(`completionMode none=${cm.none}, expected 189`);
+  if ((cm.none || 0) !== 188) {
+    errors.push(`completionMode none=${cm.none}, expected 188`);
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();
@@ -4938,6 +4973,67 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Kayle Q 耀焰冲击 must be completed/full/generic_runtime with empty blocker/gaps, Wiki rev4005105 Phase-A damage/shred/mana/CD wording, and bilateral wasm/backend evidence',
+    );
+  }
+
+  const mTeemoQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_teemo|Q|致盲吹箭');
+  if (
+    !mTeemoQ ||
+    mTeemoQ.status !== 'completed' ||
+    mTeemoQ.completionMode !== 'full' ||
+    mTeemoQ.lane !== 'generic_runtime' ||
+    mTeemoQ.blocker ||
+    mTeemoQ.dataGapEvidence !== null ||
+    mTeemoQ.runtimeGapEvidence !== null ||
+    mTeemoQ.outOfScopeEvidence !== null ||
+    mTeemoQ.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry' ||
+    [...(mTeemoQ.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mTeemoQ.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    !String(mTeemoQ.reason || '').includes('3948425') ||
+    !String(mTeemoQ.reason || '').includes(
+      '4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7',
+    ) ||
+    !String(mTeemoQ.reason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
+    ) ||
+    !String(mTeemoQ.reason || '').includes('260') ||
+    !String(mTeemoQ.reason || '').includes('0.70') ||
+    !String(mTeemoQ.reason || '').includes('90 mana') ||
+    !String(mTeemoQ.reason || '').includes('7000') ||
+    !String(mTeemoQ.reason || '').includes('raw400') ||
+    !String(mTeemoQ.reason || '').includes('mitigated200') ||
+    !String(mTeemoQ.reason || '').includes('154') ||
+    !String(mTeemoQ.reason || '').includes('不宣称') ||
+    !(mTeemoQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-teemo-blinding-dart' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_teemo_blinding_dart_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
+        ),
+    ) ||
+    !(mTeemoQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-teemo-blinding-dart' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_teemo_blinding_dart_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry',
+        ) &&
+        String(e.note || '').includes('LolGenericTeemoBlindingDartSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Teemo Q must be completed/full/generic_runtime with cleared gaps/stale tags, Wiki rev3948425/SHA, frozen boundary/formula/cost/CD/numeric schedule, bilateral evidence, and exclusions (no blind/cast/projectile/geometry/multitarget/full-game claim)',
     );
   }
 
