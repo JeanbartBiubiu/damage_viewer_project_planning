@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-22T15:23:29.692Z"
+    "generatedAt": "2026-07-22T16:02:51.397Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 53,
+      "migrated": 54,
       "partial": 4,
-      "blocked": 116,
+      "blocked": 115,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 21.9,
+      "migrated": 22.31,
       "partial": 1.65,
-      "blocked": 47.93,
+      "blocked": 47.52,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 21.9,
-      "inScope": 30.64
+      "all": 22.31,
+      "inScope": 31.21
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 23.55,
-      "inScope": 32.95
+      "all": 23.97,
+      "inScope": 33.53
     },
     "inScopeCount": 173
   },
@@ -7932,29 +7932,31 @@
       "pageId": "vayne-e",
       "sourceText": "{{sbc|Active:}} '''Vayne''' fires a heavy bolt at the target enemy that deals {{as|physical damage}} and {{tip|airborne|knocks them back}} 475 units, though not through terrain.\nIf the target collides with [[terrain]], they take {{ccs|{{as|'''bonus''' physical damage}}|physical}} and become {{tip|stun|stunned}} for {{ap|1.5}} seconds.\n{{st|Physical Damage|{{ap|50 to 190}} {{as|(+ 50% '''bonus''' AD)}}}}\n{{st|Bonus Physical Damage|{{ap|50*1.5 to 190*1.5}} {{as|(+ 75% '''bonus''' AD)}}|Total Physical Damage|{{ap|50*2.5 to 190*2.5}} {{as|(+ 125% '''bonus''' AD)}}}}\n{{ap|20 to 12}}\n90\nMana\nphysical\n* ''Condemn's'' {{tip|airborne|displacement}} direction is determined at the end of the cast time.\n** Because of this, '''Vayne''' may use {{si|Flash}} during the cast time to create a better angle.\n* {{tip|Cleanse|Cleansing}} the {{tip|airborne|knock back}} will also end the displacement early.\n* The [[spell indicator]] for this ability also displays the direction for the knock back relative to '''Vayne's''' position.\n* ''Condemn's'' {{tip|stun}} duration starts when '''Vayne's''' target collides with a wall (they can be immobilized for up to 2 seconds depending on {{tip|airborne|displacement}} duration based on distance traveled).\n* ''Condemn's'' missile will fail to fire if '''Vayne''' is {{tip|suppression|suppressed}} during the cast time.{{bug|2}}\n* ''Condemn'' can interact with [[Terrain#Player-Generated|player-generated terrain]].\n{{Unit-targeted cancel conditions}}\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/vayne-e.json@rev4008541 sha256:f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "ability_flat_bonus_ad_damage",
+        "active_physical_damage",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008541",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/vayne-e.json@rev4008541 sha256:f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_vayne E 恶魔审判/Condemn：Wiki rev4008541（SHA256 f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37；normalized/generic/vayne-e.json）rank5 Phase-A v1 已由 wasm-generic-vayne-condemn-primary-hit 闭环为 migrated——90 mana / 12000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable physical damage 190+0.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 baseAD60 / resolvedAD140 / bonusAD80 → raw230，armor100 → mitigated115）。Attempts t0/t11999/t12000 → two successes + exactly one cooldown skip without mana/damage；final mana 52 from 232。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile。明确排除 knockback/displacement475/direction、terrain 或玩家生成地形碰撞、wall bonus 285+0.75bAD 与 total 475+1.25bAD、stun/control1.5s、cast0.25/effect-at-cast-end、projectile/missile speeds2200/2000/range550/geometry/cancel、ranks1–4、Silver Bolts/basic/on-hit/equipment/loadout coupling、multi-target/repeat、live migration/publish/E2E；不宣称 wall/terrain/CC/cast/projectile/完整游戏保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-vayne-condemn-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_vayne_condemn_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; Wiki rev4008541/SHA256 f2b2ba17… rank5 90 mana/12000ms CD / one physical 190+0.50*bonusAD; baseAD60/resolvedAD140/bonusAD80→raw230/armor100→115; t0/t11999/t12000 two successes + one CD skip; final mana52; knockback/terrain/wall/stun/cast/projectile/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-vayne-condemn-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; backend lol_generic_vayne_condemn_primary_hit_seed.sql + LolGenericVayneCondemnPrimaryHitSeedSqlTest (owning e7d28f6; integrated 61290cb); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_vayne|R|终极时刻",

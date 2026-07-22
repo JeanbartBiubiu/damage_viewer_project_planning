@@ -604,6 +604,8 @@ const SEED = {
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
   dravenStandAsideBackend: 'db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql',
   teemoBlindingDartBackend: 'db/game_manage/seeds/lol_generic_teemo_blinding_dart_seed.sql',
+  vayneCondemnPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
@@ -680,6 +682,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_stand_aside_test.go',
   teemoBlindingDart:
     'wasm/tinygo_engine_v2/internal/runtime/generic_teemo_blinding_dart_test.go',
+  vayneCondemnPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_condemn_primary_hit_test.go',
   quinnHeightenedSenses:
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   xayahDeadlyPlumage:
@@ -811,6 +815,36 @@ function validateBilateralCoverageEvidence(key, coverageEvidence, errors, opts =
 
 /** exact override: ownerId+skillKey or ownerId+passiveName */
 const EXACT_OVERRIDES = new Map([
+  [
+    'hero_vayne|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'ability_flat_bonus_ad_damage',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_vayne E 恶魔审判/Condemn：Wiki rev4008541（SHA256 f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37；normalized/generic/vayne-e.json）rank5 Phase-A v1 已由 wasm-generic-vayne-condemn-primary-hit 闭环为 migrated——90 mana / 12000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable physical damage 190+0.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 baseAD60 / resolvedAD140 / bonusAD80 → raw230，armor100 → mitigated115）。Attempts t0/t11999/t12000 → two successes + exactly one cooldown skip without mana/damage；final mana 52 from 232。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile。明确排除 knockback/displacement475/direction、terrain 或玩家生成地形碰撞、wall bonus 285+0.75bAD 与 total 475+1.25bAD、stun/control1.5s、cast0.25/effect-at-cast-end、projectile/missile speeds2200/2000/range550/geometry/cancel、ranks1–4、Silver Bolts/basic/on-hit/equipment/loadout coupling、multi-target/repeat、live migration/publish/E2E；不宣称 wall/terrain/CC/cast/projectile/完整游戏保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-vayne-condemn-primary-hit',
+          WASM.vayneCondemnPrimaryHit,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; Wiki rev4008541/SHA256 f2b2ba17… rank5 90 mana/12000ms CD / one physical 190+0.50*bonusAD; baseAD60/resolvedAD140/bonusAD80→raw230/armor100→115; t0/t11999/t12000 two successes + one CD skip; final mana52; knockback/terrain/wall/stun/cast/projectile/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-vayne-condemn-primary-hit',
+          SEED.vayneCondemnPrimaryHitBackend,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; backend lol_generic_vayne_condemn_primary_hit_seed.sql + LolGenericVayneCondemnPrimaryHitSeedSqlTest (owning e7d28f6; integrated 61290cb); not live published',
+        ),
+      ],
+    },
+  ],
   [
     'hero_vayne|W',
     {
@@ -3586,9 +3620,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 53) errors.push(`migrated=${counts.migrated}, expected 53`);
+  if (counts.migrated !== 54) errors.push(`migrated=${counts.migrated}, expected 54`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 116) errors.push(`blocked=${counts.blocked}, expected 116`);
+  if (counts.blocked !== 115) errors.push(`blocked=${counts.blocked}, expected 115`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4602,6 +4636,82 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       teemoQ.candidateKey,
       teemoQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const vayneE = records.find((r) => r.candidateKey === 'hero_skill|hero_vayne|E|恶魔审判');
+  const vayneETags = [...(vayneE?.genericMechanismTags || [])].sort((a, b) =>
+    a.localeCompare(b, 'en'),
+  );
+  const vayneEExpectedTags = [
+    'ability_cost_cooldown',
+    'ability_flat_bonus_ad_damage',
+    'active_physical_damage',
+    'immediate_impact_scaffold',
+  ];
+  if (
+    !vayneE
+    || vayneE.genericClassification !== 'migrated'
+    || String(vayneE.remainingGap || '').trim()
+    || (vayneE.dataGapEvidence?.missingFields || []).length !== 0
+    || vayneETags.join('|') !== vayneEExpectedTags.join('|')
+    || vayneETags.includes('dps_relevant_manual_review')
+    || vayneETags.includes('meta_or_non_target_dps')
+    || String(vayneE.remainingGap || '').includes('blocked_data')
+    || String(vayneE.classificationReason || '').includes('out_of_scope_for_single_target_dps')
+    || String(vayneE.classificationReason || '').includes('blocked_data')
+    || String(vayneE.classificationReason || '').includes(
+      'implementation_gap_no_unresolved_data_fields',
+    )
+    || !String(vayneE.classificationReason || '').includes('4008541')
+    || !String(vayneE.classificationReason || '').includes(
+      'f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37',
+    )
+    || !String(vayneE.classificationReason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+    )
+    || !String(vayneE.classificationReason || '').includes('190')
+    || !String(vayneE.classificationReason || '').includes('0.50')
+    || !String(vayneE.classificationReason || '').includes('90 mana')
+    || !String(vayneE.classificationReason || '').includes('12000')
+    || !String(vayneE.classificationReason || '').includes('baseAD60')
+    || !String(vayneE.classificationReason || '').includes('resolvedAD140')
+    || !String(vayneE.classificationReason || '').includes('bonusAD80')
+    || !String(vayneE.classificationReason || '').includes('raw230')
+    || !String(vayneE.classificationReason || '').includes('mitigated115')
+    || !String(vayneE.classificationReason || '').includes('52')
+    || !String(vayneE.classificationReason || '').includes('不宣称')
+    || !String(vayneE.sourceRef || '').includes('vayne-e.json')
+    || citesForbiddenProvenance(vayneE.classificationReason)
+    || !(vayneE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.vayneCondemnPrimaryHit
+        && e.taskKey === 'wasm-generic-vayne-condemn-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+        ),
+    )
+    || !(vayneE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.vayneCondemnPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-vayne-condemn-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+        )
+        && String(e.note || '').includes('LolGenericVayneCondemnPrimaryHitSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Vayne E must be migrated with empty remainingGap/missingFields, exact Condemn primary-hit tags, stale dps_relevant_manual_review/blocked_data/out_of_scope/implementation-gap cleared, Wiki rev4008541/SHA + frozen completedBoundary, numeric contract/90mana/12000CD/baseAD60→raw230/armor100→115/mana52, and bilateral wasm+backend evidence (no wall/terrain/CC/cast/projectile/full-game claim)',
+    );
+  }
+  if (vayneE) {
+    validateBilateralCoverageEvidence(
+      vayneE.candidateKey,
+      vayneE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
