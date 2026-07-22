@@ -473,6 +473,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_graves|W|烟幕弹',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Graves W 烟幕弹/Smoke Screen：Wiki rev3956197（SHA256 20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d；normalized/generic/graves-w.json）rank5 Phase-A v2 已由 wasm-generic-graves-smoke-screen-primary-hit + backend seed 证据闭环——90 mana / 18000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast0.25 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 260+0.60*source.attr.ap.resolved（交叉校验 AP200 → raw380，target MR100 → mitigated190）。Attempts t0/t17999/t18000 → two successes + exactly one cooldown skip without mana/damage；final mana 145 from 325；HP 1000→620。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction。明确排除 cast0.25/effect-at-cast-end、projectile/location/travel/collision/range/radius/speed/geometry、AOE/multitarget、slow、smoke cloud/field、nearsight/sight、spellshield、ranks1–4、P/E/basic/ammo/True Grit/bonus resistance/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/AOE/slow/smoke/nearsight/sight 保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-graves-smoke-screen-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_graves_smoke_screen_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction; Wiki rev3956197/SHA256 20348473… rank5 90 mana/18000ms CD / one magic 260+0.60*AP; AP200→raw380/MR100→190; t0/t17999/t18000 two successes + one CD skip; final mana145/HP620; immediate scaffold excludes Wiki cast0.25 and Effect at cast time end; cast/projectile/location/geometry/AOE/slow/smoke/nearsight/sight/spellshield/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-graves-smoke-screen-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_graves_smoke_screen_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction; backend lol_generic_graves_smoke_screen_primary_hit_seed.sql + LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest (owning 1238c53; integrated 037bae3); Wasm exact test commit 78ab90c; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_twitch|P|死亡毒液',
     {
       status: 'completed',
@@ -2014,6 +2046,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_twistedfate|Q|万能牌',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget',
+  ],
+  [
+    'hero_skill|hero_graves|W|烟幕弹',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4280,6 +4316,82 @@ function validateInventory(inv) {
       'Graves E must be completed/full/generic_runtime with cleared blocker/data/runtime gaps, Wiki rev4007744/SHA Phase-A max True Grit wording, completed-boundary exclusions, and bilateral wasm+backend evidence',
     );
   }
+  const mGravesW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_graves|W|烟幕弹');
+  const mGravesWReason = String(mGravesW?.reason || '');
+  if (
+    !mGravesW ||
+    mGravesW.status !== 'completed' ||
+    mGravesW.completionMode !== 'full' ||
+    mGravesW.lane !== 'generic_runtime' ||
+    mGravesW.blocker ||
+    mGravesW.dataGapEvidence !== null ||
+    mGravesW.runtimeGapEvidence !== null ||
+    mGravesW.outOfScopeEvidence !== null ||
+    mGravesW.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction' ||
+    [...(mGravesW.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mGravesW.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    mGravesWReason.includes('meta_or_non_target_dps') ||
+    mGravesWReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    !mGravesWReason.includes('3956197') ||
+    !mGravesWReason.includes(
+      '20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d',
+    ) ||
+    !mGravesWReason.includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction',
+    ) ||
+    !mGravesWReason.includes('source.attr.ap.resolved') ||
+    !mGravesWReason.includes('260') ||
+    !mGravesWReason.includes('0.60') ||
+    !mGravesWReason.includes('90 mana') ||
+    !mGravesWReason.includes('18000') ||
+    !mGravesWReason.includes('raw380') ||
+    !mGravesWReason.includes('190') ||
+    !mGravesWReason.includes('145') ||
+    !mGravesWReason.includes('620') ||
+    !mGravesWReason.includes('cast0.25') ||
+    !mGravesWReason.includes('Effect at cast time end') ||
+    !mGravesWReason.includes('smoke cloud') ||
+    !mGravesWReason.includes('nearsight') ||
+    !mGravesWReason.includes('True Grit') ||
+    !mGravesWReason.includes('不宣称') ||
+    !(mGravesW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-graves-smoke-screen-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_graves_smoke_screen_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction',
+        ) &&
+        String(e.note || '').includes('cast0.25') &&
+        String(e.note || '').includes('nearsight'),
+    ) ||
+    !(mGravesW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-graves-smoke-screen-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_graves_smoke_screen_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction',
+        ) &&
+        String(e.note || '').includes('LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('1238c53') &&
+        String(e.note || '').includes('037bae3') &&
+        String(e.note || '').includes('78ab90c'),
+    )
+  ) {
+    errors.push(
+      'Graves W must be completed/full/generic_runtime with cleared meta_or_non_target_dps/governed gaps, Wiki rev3956197/SHA, frozen boundary/AP formula/cost/CD/numeric schedule, cast0.25/smoke/nearsight/True Grit exclusion wording, bilateral evidence (owning 1238c53 / integrated 037bae3 / Wasm 78ab90c), and no cast/projectile/AOE/slow/smoke/nearsight fidelity claim',
+    );
+  }
   if (
     !mDravenQ ||
     mDravenQ.status !== 'completed' ||
@@ -5168,8 +5280,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 68) {
-    errors.push(`completed=${sc.completed}, expected 68`);
+  if ((sc.completed || 0) !== 69) {
+    errors.push(`completed=${sc.completed}, expected 69`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -5177,8 +5289,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 105) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 105`);
+  if ((sc.blocked_runtime || 0) !== 104) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 104`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -5199,21 +5311,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 68) {
-    errors.push(`completionMode full=${cm.full}, expected 68`);
+  if ((cm.full || 0) !== 69) {
+    errors.push(`completionMode full=${cm.full}, expected 69`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 183) {
-    errors.push(`completionMode none=${cm.none}, expected 183`);
+  if ((cm.none || 0) !== 182) {
+    errors.push(`completionMode none=${cm.none}, expected 182`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 87) {
+  if (implGapCount !== 86) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 87`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 86`,
     );
   }
 
