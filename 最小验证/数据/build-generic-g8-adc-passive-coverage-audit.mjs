@@ -617,6 +617,8 @@ const SEED = {
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
     'db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql',
+  gravesSmokeScreenPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_graves_smoke_screen_primary_hit_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
   akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
@@ -706,6 +708,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_new_destiny_test.go',
   gravesQuickdrawMaxStack:
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_quickdraw_max_stack_test.go',
+  gravesSmokeScreenPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_graves_smoke_screen_primary_hit_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
   akshanDirtyFighting:
@@ -1600,6 +1604,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-graves-quickdraw-max-stack',
           SEED.gravesQuickdrawMaxStackBackend,
           'completedBoundary: Quickdraw Phase-A max-stack seeded; backend lol_generic_graves_quickdraw_max_stack_seed.sql + LolGenericGravesQuickdrawMaxStackSeedSqlTest; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_graves|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_graves W 烟幕弹/Smoke Screen：Wiki rev3956197（SHA256 20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d；normalized/generic/graves-w.json）rank5 Phase-A v2 已由 wasm-generic-graves-smoke-screen-primary-hit 闭环为 migrated——90 mana / 18000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast0.25 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 260+0.60*source.attr.ap.resolved（交叉校验 AP200 → raw380，target MR100 → mitigated190）。Attempts t0/t17999/t18000 → two successes + exactly one cooldown skip without mana/damage；final mana 145 from 325；HP 1000→620。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction。明确排除 cast0.25/effect-at-cast-end、projectile/location/travel/collision/range/radius/speed/geometry、AOE/multitarget、slow、smoke cloud/field、nearsight/sight、spellshield、ranks1–4、P/E/basic/ammo/True Grit/bonus resistance/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/AOE/slow/smoke/nearsight/sight 保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-smoke-screen-primary-hit',
+          WASM.gravesSmokeScreenPrimaryHit,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction; Wiki rev3956197/SHA256 20348473… rank5 90 mana/18000ms CD / one magic 260+0.60*AP; AP200→raw380/MR100→190; t0/t17999/t18000 two successes + one CD skip; final mana145/HP620; immediate scaffold excludes Wiki cast0.25 and Effect at cast time end; cast/projectile/location/geometry/AOE/slow/smoke/nearsight/sight/spellshield/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-smoke-screen-primary-hit',
+          SEED.gravesSmokeScreenPrimaryHitBackend,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction; backend lol_generic_graves_smoke_screen_primary_hit_seed.sql + LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest (owning 1238c53; integrated 037bae3); Wasm exact test commit 78ab90c; not live published',
         ),
       ],
     },
@@ -3757,9 +3791,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 58) errors.push(`migrated=${counts.migrated}, expected 58`);
+  if (counts.migrated !== 59) errors.push(`migrated=${counts.migrated}, expected 59`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 111) errors.push(`blocked=${counts.blocked}, expected 111`);
+  if (counts.blocked !== 110) errors.push(`blocked=${counts.blocked}, expected 110`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -3975,6 +4009,89 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       gravesE.candidateKey,
       gravesE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+
+  const gravesW = records.find((r) => r.candidateKey === 'hero_skill|hero_graves|W|烟幕弹');
+  const gravesWTags = [...(gravesW?.genericMechanismTags || [])];
+  const gravesWExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const gravesWReason = String(gravesW?.classificationReason || '');
+  if (
+    !gravesW
+    || gravesW.genericClassification !== 'migrated'
+    || String(gravesW.remainingGap || '').trim()
+    || (gravesW.dataGapEvidence?.missingFields || []).length !== 0
+    || gravesWTags.join('|') !== gravesWExpectedTags.join('|')
+    || gravesWTags.includes('meta_or_non_target_dps')
+    || String(gravesW.remainingGap || '').includes('blocked_data')
+    || gravesWReason.includes('out_of_scope_for_single_target_dps')
+    || gravesWReason.includes('blocked_data')
+    || gravesWReason.includes('implementation_gap_no_unresolved_data_fields')
+    || gravesWReason.includes('meta_or_non_target_dps')
+    || !gravesWReason.includes('3956197')
+    || !gravesWReason.includes(
+      '20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d',
+    )
+    || !gravesWReason.includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction',
+    )
+    || !gravesWReason.includes('source.attr.ap.resolved')
+    || !gravesWReason.includes('260')
+    || !gravesWReason.includes('0.60')
+    || !gravesWReason.includes('90 mana')
+    || !gravesWReason.includes('18000')
+    || !gravesWReason.includes('raw380')
+    || !gravesWReason.includes('190')
+    || !gravesWReason.includes('145')
+    || !gravesWReason.includes('620')
+    || !gravesWReason.includes('cast0.25')
+    || !gravesWReason.includes('Effect at cast time end')
+    || !gravesWReason.includes('smoke cloud')
+    || !gravesWReason.includes('nearsight')
+    || !gravesWReason.includes('True Grit')
+    || !gravesWReason.includes('不宣称')
+    || !String(gravesW.sourceRef || '').includes('graves-w.json')
+    || citesForbiddenProvenance(gravesW.classificationReason)
+    || !(gravesW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.gravesSmokeScreenPrimaryHit
+        && e.taskKey === 'wasm-generic-graves-smoke-screen-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction',
+        )
+        && String(e.note || '').includes('cast0.25')
+        && String(e.note || '').includes('nearsight'),
+    )
+    || !(gravesW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.gravesSmokeScreenPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-graves-smoke-screen-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction',
+        )
+        && String(e.note || '').includes('LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('1238c53')
+        && String(e.note || '').includes('037bae3')
+        && String(e.note || '').includes('78ab90c'),
+    )
+  ) {
+    errors.push(
+      'Graves W must be migrated with empty remainingGap/missingFields, exact Smoke Screen tags (no meta_or_non_target_dps), stale blocked_data/out_of_scope/implementation-gap cleared, Wiki rev3956197/SHA + frozen completedBoundary, numeric contract/90mana/18000CD/AP200→380/MR100→190/mana145/HP620, cast0.25/smoke/nearsight/True Grit exclusions, and bilateral wasm+backend evidence (owning 1238c53 / integrated 037bae3 / Wasm 78ab90c; no cast/projectile/AOE/slow/smoke/nearsight fidelity claim)',
+    );
+  }
+  if (gravesW) {
+    validateBilateralCoverageEvidence(
+      gravesW.candidateKey,
+      gravesW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
