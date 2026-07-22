@@ -702,6 +702,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenBloodRushSeedSqlTest test
 ```
 
+### LoL generic Draven Stand Aside seed（德莱文 E / Phase-A v2 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_draven` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有 Q / W / 普攻 provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-draven-stand-aside-phase-a-v2-20260722`（seed 不负责 publish）。候选 `hero_skill|hero_draven|E|开道利斧` 冻结为 **Phase-A rank-5 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=draven-e-stand-aside-phase-a-v2`）：
+
+`rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_draven`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp675 / mana361 / ad62 / AS0.679 / armor29 / MR30 / hpregen3.75 / manaregen8.05）、`resource_definitions.mana` 与 `entity_resource_values`（361/361）；向 `hero_draven` **仅** mount 独立 `provider_hero_draven_e_stand_aside`（与 `provider_hero_draven_q_spinning_axe` / `provider_hero_draven_w_blood_rush` / `provider_hero_draven_basic_attack` 并存），含 active `ability_hero_draven_e_stand_aside`（`ability_key=stand_aside`）、`ability_costs` 70 mana、`ability_cooldowns` 12000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `215 + 0.50*(ad.resolved-ad.base)`（`copyable_on_hit=false`，非 crit）。Wiki：page1307070 / rev4034694 / SHA256 `7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d`；sidecar `normalized/generic/draven-e.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：Wiki 250ms cast / effect-at-end（ABI 无 cast-delay 字段，不编码 delay phase）、listener/state、`basic_attack_hit`/emit、CC/knock/slow、projectile/几何/多目标、equipment/loadout、其它 rank、live migration、publish；不依赖 Q/W 发布顺序。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericDravenStandAsideSeedSqlTest test
+```
+
 ### LoL generic Quinn Heightened Senses seed（奎因 W / rank-5 攻速 partial）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_quinn` 最低必要实体/level-1 面板/通用普攻闭环 + `basic_attack_hit` emit；与普攻 provider 并存；不做 live migration、不自动 publish）：
