@@ -602,6 +602,8 @@ const SEED = {
   kogmawVoidOozePrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_kogmaw_void_ooze_primary_hit_seed.sql',
   kaisaSuperchargeBackend: 'db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql',
+  kaisaVoidSeekerPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_kaisa_void_seeker_primary_hit_seed.sql',
   kaisaSecondSkinBackend: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
   dravenStandAsideBackend: 'db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql',
@@ -674,6 +676,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_void_ooze_primary_hit_test.go',
   kaisaSupercharge:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
+  kaisaVoidSeekerPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_void_seeker_primary_hit_test.go',
   kaisaSecondSkin:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_second_skin_test.go',
   duskAndDawnSpellblade:
@@ -1336,6 +1340,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-kaisa-supercharge',
           SEED.kaisaSuperchargeBackend,
           'completedBoundary: Supercharge user-approved Phase-A rank5 1v1 AS branch seeded (Backend seed state key supercharge_active / 4000ms / +80% AS); provider-local/data-defined and semantically equivalent to Wasm fixture supercharge_as_active for this evidence (not literal cross-bundle key identity); excluded branches out of scope; backend lol_generic_kaisa_supercharge_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kaisa|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        "hero_kaisa W 虚空索敌/Void Seeker：Wiki rev4034696（SHA256 aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1；normalized/generic/kaisa-w.json）rank5 Phase-A v2 已由 wasm-generic-kaisa-void-seeker-primary-hit 闭环为 migrated——75 mana / 14000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki 0.4s cast 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 130+1.30*source.attr.ad.resolved+0.45*source.attr.ap.resolved（交叉校验 totalAD100 / AP100 → raw305，target MR100 → mitigated152.5）。Attempts t0/t13999/t14000 → two successes + exactly one cooldown skip without mana/damage；final mana 195 from 345；HP 1000→695。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund。明确排除 cast0.4/effect-at-cast-end、projectile/travel/collision/first-enemy acquisition/location/range3000/width200/speed1750/geometry/spellshield、sight/reveal/true sight4s、applying2 Plasma 与全部 Second Skin/Plasma/Caustic Wounds coupling、item AP100 evolution/applying3 Plasma/champion-hit75% cooldown refund、ranks1–4、equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/sight/reveal/Plasma/evolution/refund 保真。",
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-void-seeker-primary-hit',
+          WASM.kaisaVoidSeekerPrimaryHit,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund; Wiki rev4034696/SHA256 aa4ba76c… rank5 75 mana/14000ms CD / one magic 130+1.30*source.attr.ad.resolved+0.45*AP; totalAD100/AP100→raw305/MR100→152.5; t0/t13999/t14000 two successes + one CD skip; final mana195/HP695; immediate scaffold excludes Wiki 0.4s cast and Effect at cast time end; cast/projectile/sight/reveal/Plasma/evolution/refund/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kaisa-void-seeker-primary-hit',
+          SEED.kaisaVoidSeekerPrimaryHitBackend,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund; backend lol_generic_kaisa_void_seeker_primary_hit_seed.sql + LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest (owning 9d9200a; integrated 1dc8d5b); not live published',
         ),
       ],
     },
@@ -3688,9 +3722,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 56) errors.push(`migrated=${counts.migrated}, expected 56`);
+  if (counts.migrated !== 57) errors.push(`migrated=${counts.migrated}, expected 57`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 113) errors.push(`blocked=${counts.blocked}, expected 113`);
+  if (counts.blocked !== 112) errors.push(`blocked=${counts.blocked}, expected 112`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4917,6 +4951,91 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       kogmawE.candidateKey,
       kogmawE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const kaisaW = records.find((r) => r.candidateKey === 'hero_skill|hero_kaisa|W|虚空索敌');
+  const kaisaWTags = [...(kaisaW?.genericMechanismTags || [])].sort((a, b) =>
+    a.localeCompare(b, 'en'),
+  );
+  const kaisaWExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const kaisaWReason = String(kaisaW?.classificationReason || '');
+  if (
+    !kaisaW
+    || kaisaW.genericClassification !== 'migrated'
+    || String(kaisaW.remainingGap || '').trim()
+    || (kaisaW.dataGapEvidence?.missingFields || []).length !== 0
+    || kaisaWTags.join('|') !== kaisaWExpectedTags.join('|')
+    || kaisaWTags.includes('meta_or_non_target_dps')
+    || kaisaWTags.includes('bonus_ad_ratio')
+    || kaisaWTags.includes('total_ad_ratio')
+    || String(kaisaW.remainingGap || '').includes('blocked_data')
+    || kaisaWReason.includes('out_of_scope_for_single_target_dps')
+    || kaisaWReason.includes('blocked_data')
+    || kaisaWReason.includes('implementation_gap_no_unresolved_data_fields')
+    || kaisaWReason.includes('meta_or_non_target_dps')
+    || kaisaWReason.includes('bonus_ad_ratio')
+    || kaisaWReason.includes('ad.resolved-ad.base')
+    || kaisaWReason.includes('ad.resolved-source.attr.ad.base')
+    || !kaisaWReason.includes('4034696')
+    || !kaisaWReason.includes(
+      'aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1',
+    )
+    || !kaisaWReason.includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
+    )
+    || !kaisaWReason.includes('source.attr.ad.resolved')
+    || !kaisaWReason.includes('totalAD100')
+    || !kaisaWReason.includes('130')
+    || !kaisaWReason.includes('1.30')
+    || !kaisaWReason.includes('0.45')
+    || !kaisaWReason.includes('75 mana')
+    || !kaisaWReason.includes('14000')
+    || !kaisaWReason.includes('raw305')
+    || !kaisaWReason.includes('152.5')
+    || !kaisaWReason.includes('195')
+    || !kaisaWReason.includes('695')
+    || !kaisaWReason.includes('Effect at cast time end')
+    || !kaisaWReason.includes('0.4s cast')
+    || !kaisaWReason.includes('不宣称')
+    || !String(kaisaW.sourceRef || '').includes('kaisa-w.json')
+    || citesForbiddenProvenance(kaisaW.classificationReason)
+    || !(kaisaW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.kaisaVoidSeekerPrimaryHit
+        && e.taskKey === 'wasm-generic-kaisa-void-seeker-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
+        )
+        && String(e.note || '').includes('source.attr.ad.resolved')
+        && String(e.note || '').includes('0.4s cast'),
+    )
+    || !(kaisaW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.kaisaVoidSeekerPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-kaisa-void-seeker-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
+        )
+        && String(e.note || '').includes('LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      "Kai'Sa W must be migrated with empty remainingGap/missingFields, exact Void Seeker tags (no meta_or_non_target_dps/bonus_ad_ratio/total_ad_ratio), stale blocked_data/out_of_scope/implementation-gap cleared, Wiki rev4034696/SHA + frozen completedBoundary, total AD via source.attr.ad.resolved (not bonus AD), numeric contract/75mana/14000CD/totalAD100+AP100→305/MR100→152.5/mana195/HP695, cast-end exclusion scaffold wording, and bilateral wasm+backend evidence (no cast/projectile/sight/reveal/Plasma/evolution/refund fidelity claim)",
+    );
+  }
+  if (kaisaW) {
+    validateBilateralCoverageEvidence(
+      kaisaW.candidateKey,
+      kaisaW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
