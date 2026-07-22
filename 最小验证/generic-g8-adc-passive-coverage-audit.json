@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-22T18:49:51.025Z"
+    "generatedAt": "2026-07-22T19:39:18.051Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 58,
+      "migrated": 59,
       "partial": 4,
-      "blocked": 111,
+      "blocked": 110,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 23.97,
+      "migrated": 24.38,
       "partial": 1.65,
-      "blocked": 45.87,
+      "blocked": 45.45,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 23.97,
-      "inScope": 33.53
+      "all": 24.38,
+      "inScope": 34.1
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 25.62,
-      "inScope": 35.84
+      "all": 26.03,
+      "inScope": 36.42
     },
     "inScopeCount": 173
   },
@@ -2306,29 +2306,31 @@
       "pageId": "graves-w",
       "sourceText": "{{sbc|Active:}} '''Graves''' fires a smoke canister at the target location that upon impact deals {{as|magic damage}} to enemies within the area and {{tip|slow|slows}} them by 50% for {{fd|0.5}} seconds.\nThe canister creates a cloud of smoke for 4 seconds that applies {{tip|nearsight}} of outside the area to all enemies within every {{fd|0.25}} seconds, reducing their {{tip|sight}} radius relative to the center.\n{{st|Magic Damage|{{ap|60 to 260}} {{as|(+ 60% AP)}}}}\n{{ap|26 to 18}}\n{{ap|70 to 90}}\nMana\nMagic\n* ''Smoke Screen'' will {{tip|nearsight}} {{tip|untargetable}} units.\n* {{tip|Spell shield|Spell shields}} will block the instance of damage and {{tip|slow}}, but will not mitigate the persistent area of effect.\n* {{tip|cc-immune|Crowd control immunity}} and {{tip|cleanse|cleanses}} have no effect on the user's {{tip|sight}} radius reduction despite the {{tip|nearsight}} being resisted / removed. Loss of allied vision will still be affected.{{bug|2}}\n** Removing or resisting the nearsight will prevent it from being reapplied while staying inside the area (leaving and coming back inside will not).\n* The nearsight debuff applies to non-champions but it does not inherently stop them from performing actions that require {{tip|sight}}, such as [[basic attack]]ing.\n{{Effect at cast time end}}\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/graves-w.json@rev3956197 sha256:20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-3956197",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/graves-w.json@rev3956197 sha256:20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_graves W 烟幕弹/Smoke Screen：Wiki rev3956197（SHA256 20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d；normalized/generic/graves-w.json）rank5 Phase-A v2 已由 wasm-generic-graves-smoke-screen-primary-hit 闭环为 migrated——90 mana / 18000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast0.25 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 260+0.60*source.attr.ap.resolved（交叉校验 AP200 → raw380，target MR100 → mitigated190）。Attempts t0/t17999/t18000 → two successes + exactly one cooldown skip without mana/damage；final mana 145 from 325；HP 1000→620。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction。明确排除 cast0.25/effect-at-cast-end、projectile/location/travel/collision/range/radius/speed/geometry、AOE/multitarget、slow、smoke cloud/field、nearsight/sight、spellshield、ranks1–4、P/E/basic/ammo/True Grit/bonus resistance/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/AOE/slow/smoke/nearsight/sight 保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-smoke-screen-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_graves_smoke_screen_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction; Wiki rev3956197/SHA256 20348473… rank5 90 mana/18000ms CD / one magic 260+0.60*AP; AP200→raw380/MR100→190; t0/t17999/t18000 two successes + one CD skip; final mana145/HP620; immediate scaffold excludes Wiki cast0.25 and Effect at cast time end; cast/projectile/location/geometry/AOE/slow/smoke/nearsight/sight/spellshield/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-smoke-screen-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_graves_smoke_screen_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction; backend lol_generic_graves_smoke_screen_primary_hit_seed.sql + LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest (owning 1238c53; integrated 037bae3); Wasm exact test commit 78ab90c; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_graves|E|快速拔枪",
