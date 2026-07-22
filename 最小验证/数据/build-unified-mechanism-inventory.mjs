@@ -1154,6 +1154,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_kaisa|W|虚空索敌',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        "Kai'Sa W 虚空索敌/Void Seeker：Wiki rev4034696（SHA256 aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1；normalized/generic/kaisa-w.json）rank5 Phase-A v2 已由 wasm-generic-kaisa-void-seeker-primary-hit + backend seed 证据闭环——75 mana / 14000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki 0.4s cast 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 130+1.30*source.attr.ad.resolved+0.45*source.attr.ap.resolved（交叉校验 totalAD100 / AP100 → raw305，target MR100 → mitigated152.5）。Attempts t0/t13999/t14000 → two successes + exactly one cooldown skip without mana/damage；final mana 195 from 345；HP 1000→695。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund。明确排除 cast0.4/effect-at-cast-end、projectile/travel/collision/first-enemy acquisition/location/range3000/width200/speed1750/geometry/spellshield、sight/reveal/true sight4s、applying2 Plasma 与全部 Second Skin/Plasma/Caustic Wounds coupling、item AP100 evolution/applying3 Plasma/champion-hit75% cooldown refund、ranks1–4、equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/sight/reveal/Plasma/evolution/refund 保真，故标 completed。",
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kaisa-void-seeker-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_void_seeker_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund; Wiki rev4034696/SHA256 aa4ba76c… rank5 75 mana/14000ms CD / one magic 130+1.30*source.attr.ad.resolved+0.45*AP; totalAD100/AP100→raw305/MR100→152.5; t0/t13999/t14000 two successes + one CD skip; final mana195/HP695; immediate scaffold excludes Wiki 0.4s cast and Effect at cast time end; cast/projectile/sight/reveal/Plasma/evolution/refund/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kaisa-void-seeker-primary-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_kaisa_void_seeker_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund; backend lol_generic_kaisa_void_seeker_primary_hit_seed.sql + LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest (owning 9d9200a; integrated 1dc8d5b); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_draven|W|血性冲刺',
     {
       status: 'completed',
@@ -1939,6 +1970,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_kogmaw|E|虚空淤泥',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+  ],
+  [
+    'hero_skill|hero_kaisa|W|虚空索敌',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
   ],
   [
     'hero_skill|hero_varus|E|恶灵箭雨',
@@ -4436,6 +4471,86 @@ function validateInventory(inv) {
       "Kog'Maw E must be completed/full/generic_runtime with cleared multi_target/governed gaps, Wiki rev3965135/SHA, frozen boundary/formula/cost/CD/numeric schedule, cast-time-start scaffold wording, bilateral evidence, and exclusions (no line/area/field/slow/projectile fidelity claim)",
     );
   }
+  const mKaisaW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kaisa|W|虚空索敌');
+  const mKaisaWReason = String(mKaisaW?.reason || '');
+  if (
+    !mKaisaW ||
+    mKaisaW.status !== 'completed' ||
+    mKaisaW.completionMode !== 'full' ||
+    mKaisaW.lane !== 'generic_runtime' ||
+    mKaisaW.blocker ||
+    mKaisaW.dataGapEvidence !== null ||
+    mKaisaW.runtimeGapEvidence !== null ||
+    mKaisaW.outOfScopeEvidence !== null ||
+    mKaisaW.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund' ||
+    [...(mKaisaW.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mKaisaW.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mKaisaW.mechanismTags || []).includes('bonus_ad_ratio') ||
+    (mKaisaW.mechanismTags || []).includes('total_ad_ratio') ||
+    mKaisaWReason.includes('meta_or_non_target_dps') ||
+    mKaisaWReason.includes('bonus_ad_ratio') ||
+    mKaisaWReason.includes('ad.resolved-ad.base') ||
+    mKaisaWReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    !mKaisaWReason.includes('4034696') ||
+    !mKaisaWReason.includes(
+      'aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1',
+    ) ||
+    !mKaisaWReason.includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
+    ) ||
+    !mKaisaWReason.includes('source.attr.ad.resolved') ||
+    !mKaisaWReason.includes('totalAD100') ||
+    !mKaisaWReason.includes('130') ||
+    !mKaisaWReason.includes('1.30') ||
+    !mKaisaWReason.includes('0.45') ||
+    !mKaisaWReason.includes('75 mana') ||
+    !mKaisaWReason.includes('14000') ||
+    !mKaisaWReason.includes('raw305') ||
+    !mKaisaWReason.includes('152.5') ||
+    !mKaisaWReason.includes('195') ||
+    !mKaisaWReason.includes('695') ||
+    !mKaisaWReason.includes('Effect at cast time end') ||
+    !mKaisaWReason.includes('0.4s cast') ||
+    !mKaisaWReason.includes('Plasma') ||
+    !mKaisaWReason.includes('evolution') ||
+    !mKaisaWReason.includes('cooldown refund') ||
+    !mKaisaWReason.includes('不宣称') ||
+    !(mKaisaW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-kaisa-void-seeker-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_void_seeker_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
+        ) &&
+        String(e.note || '').includes('source.attr.ad.resolved') &&
+        String(e.note || '').includes('0.4s cast') &&
+        String(e.note || '').includes('Plasma'),
+    ) ||
+    !(mKaisaW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-kaisa-void-seeker-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_kaisa_void_seeker_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
+        ) &&
+        String(e.note || '').includes('LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      "Kai'Sa W must be completed/full/generic_runtime with cleared meta_or_non_target_dps/governed gaps, Wiki rev4034696/SHA, frozen boundary/total-AD formula via source.attr.ad.resolved (not bonus AD)/cost/CD/numeric schedule, cast-end/Plasma/evolution/refund exclusion wording, bilateral evidence, and no cast/projectile/sight/reveal/Plasma/evolution/refund fidelity claim",
+    );
+  }
   const mVarusE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|E|恶灵箭雨');
   if (
     !mVarusE ||
@@ -4935,8 +5050,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 66) {
-    errors.push(`completed=${sc.completed}, expected 66`);
+  if ((sc.completed || 0) !== 67) {
+    errors.push(`completed=${sc.completed}, expected 67`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -4944,8 +5059,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 107) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 107`);
+  if ((sc.blocked_runtime || 0) !== 106) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 106`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4966,21 +5081,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 66) {
-    errors.push(`completionMode full=${cm.full}, expected 66`);
+  if ((cm.full || 0) !== 67) {
+    errors.push(`completionMode full=${cm.full}, expected 67`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 185) {
-    errors.push(`completionMode none=${cm.none}, expected 185`);
+  if ((cm.none || 0) !== 184) {
+    errors.push(`completionMode none=${cm.none}, expected 184`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 89) {
+  if (implGapCount !== 88) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 89`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 88`,
     );
   }
 
