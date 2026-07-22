@@ -934,6 +934,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-kogmaw-void-ooze-primary-hit",
+      "title": "通用 ABI 克格莫 E 虚空淤泥 Void Ooze 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kogmaw_void_ooze_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_kogmaw|E|虚空淤泥 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Kog'Maw/E→Void Ooze page1307961/rev3965135/timestamp2025-11-11T17:05:55Z/canonical raw1356/SHA256 1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b；sidecar kogmaw-e.json；本地raw1357/SHA6744b391…（newline；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration。Rank5：100mana/12000ms；immediate primary-target scaffold（Effect at cast time start兼容）；一笔非暴击/不可复制魔法230+0.65*AP；交叉AP100→raw295/MR100→147.5；t0/t11999/t12000两次命中+一次CD skip；mana325→125。不宣称弹道/几何/多目标/淤泥场/减速保真。Backend owning b1752e4/集成24c1ddf（35/35；677/677）；Wasm exact 3507920（4/4）；审计c673e4d。DESIGN_REVIEW READY run-9c0645bd。Unified 254：sourceCount12/completed65/blocked_runtime108/full65/none186；G8 242=migrated55/partial4/blocked114/OOS69；implementation_gap=90。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-克格莫E虚空淤泥VoidOoze主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-克格莫E虚空淤泥VoidOoze主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
