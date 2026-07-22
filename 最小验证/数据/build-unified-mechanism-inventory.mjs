@@ -1426,6 +1426,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_twistedfate|Q|万能牌',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Twisted Fate Q 万能牌/Wild Cards：Wiki rev3950864（SHA256 9cdd62cc18d41a4bbe1e42ac8202b40a776f7da51c67c6f2fea37f9ed1f0d597；normalized/generic/twistedfate-q.json）rank5 Phase-A v2 已由 wasm-generic-twisted-fate-wild-cards-primary-hit + backend seed 证据闭环——100 mana / 5000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast0.25 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 240+0.50*(source.attr.ad.resolved-source.attr.ad.base)+0.85*source.attr.ap.resolved（交叉校验 baseAD52 / resolvedAD100 / AP100 → raw349，target MR100 → mitigated174.5）。Attempts t0/t4999/t5000 → two successes + exactly one cooldown skip without mana/damage；final mana 133 from 333；HP 1000→651。Wiki once-per-pass 仅为单次直击主目标的源正当化，不宣称 runtime pass/projectile/collision 保真。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget。明确排除 cast0.25/effect-at-cast-end、fan/three cards/cone/angles、direction、projectile/travel/collision/pass、range1450/width80/speed1000/geometry、AOE/multitarget/repeat、spellshield、ranks1–4、W/E/basic/Stacked Deck/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/fan/cone/projectile/pass/geometry/AOE/multitarget 保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-twisted-fate-wild-cards-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_twisted_fate_wild_cards_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget; Wiki rev3950864/SHA256 9cdd62cc… rank5 100 mana/5000ms CD / one magic 240+0.50*(ad.resolved-ad.base)+0.85*AP; baseAD52/resolvedAD100/AP100→raw349/MR100→174.5; t0/t4999/t5000 two successes + one CD skip; final mana133/HP651; once-per-pass justifies single direct hit only (not runtime pass fidelity); immediate scaffold excludes Wiki cast0.25 and Effect at cast time end; cast/fan/cone/projectile/pass/geometry/AOE/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-twisted-fate-wild-cards-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_twisted_fate_wild_cards_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget; backend lol_generic_twisted_fate_wild_cards_primary_hit_seed.sql + LolGenericTwistedFateWildCardsPrimaryHitSeedSqlTest (owning 18b959e; integrated a0da4f8); Wasm exact test commit 589db93; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'item_passive|2510|item_passive|咒刃',
     {
       status: 'completed',
@@ -1978,6 +2010,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_varus|E|恶灵箭雨',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation',
+  ],
+  [
+    'hero_skill|hero_twistedfate|Q|万能牌',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4620,6 +4656,88 @@ function validateInventory(inv) {
       'Varus E must be completed/full/generic_runtime with cleared survivability_only/governed gaps, Wiki rev3969402/SHA, frozen boundary/physical formula/cost/CD/numeric schedule, description+rank-table physical authority with explicit isolated-Magic contradiction disclosure (not runtime truth), 0.5s landing-delay exclusion wording, bilateral evidence, and exclusions (no delay/area/field/control/W-detonation fidelity claim)',
     );
   }
+  const mTwistedFateQ = inv.mechanisms.find(
+    (m) => m.key === 'hero_skill|hero_twistedfate|Q|万能牌',
+  );
+  const mTwistedFateQReason = String(mTwistedFateQ?.reason || '');
+  if (
+    !mTwistedFateQ ||
+    mTwistedFateQ.status !== 'completed' ||
+    mTwistedFateQ.completionMode !== 'full' ||
+    mTwistedFateQ.lane !== 'generic_runtime' ||
+    mTwistedFateQ.blocker ||
+    mTwistedFateQ.dataGapEvidence !== null ||
+    mTwistedFateQ.runtimeGapEvidence !== null ||
+    mTwistedFateQ.outOfScopeEvidence !== null ||
+    mTwistedFateQ.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget' ||
+    [...(mTwistedFateQ.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mTwistedFateQ.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    mTwistedFateQReason.includes('dps_relevant_manual_review') ||
+    mTwistedFateQReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    !mTwistedFateQReason.includes('3950864') ||
+    !mTwistedFateQReason.includes(
+      '9cdd62cc18d41a4bbe1e42ac8202b40a776f7da51c67c6f2fea37f9ed1f0d597',
+    ) ||
+    !mTwistedFateQReason.includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget',
+    ) ||
+    !mTwistedFateQReason.includes('source.attr.ad.resolved-source.attr.ad.base') ||
+    !mTwistedFateQReason.includes('baseAD52') ||
+    !mTwistedFateQReason.includes('resolvedAD100') ||
+    !mTwistedFateQReason.includes('240') ||
+    !mTwistedFateQReason.includes('0.50') ||
+    !mTwistedFateQReason.includes('0.85') ||
+    !mTwistedFateQReason.includes('100 mana') ||
+    !mTwistedFateQReason.includes('5000') ||
+    !mTwistedFateQReason.includes('raw349') ||
+    !mTwistedFateQReason.includes('174.5') ||
+    !mTwistedFateQReason.includes('133') ||
+    !mTwistedFateQReason.includes('651') ||
+    !mTwistedFateQReason.includes('once-per-pass') ||
+    !mTwistedFateQReason.includes('cast0.25') ||
+    !mTwistedFateQReason.includes('Effect at cast time end') ||
+    !mTwistedFateQReason.includes('fan') ||
+    !mTwistedFateQReason.includes('range1450') ||
+    !mTwistedFateQReason.includes('不宣称') ||
+    !(mTwistedFateQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-twisted-fate-wild-cards-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_twisted_fate_wild_cards_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget',
+        ) &&
+        String(e.note || '').includes('once-per-pass') &&
+        String(e.note || '').includes('cast0.25'),
+    ) ||
+    !(mTwistedFateQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-twisted-fate-wild-cards-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_twisted_fate_wild_cards_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget',
+        ) &&
+        String(e.note || '').includes('LolGenericTwistedFateWildCardsPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('18b959e') &&
+        String(e.note || '').includes('a0da4f8') &&
+        String(e.note || '').includes('589db93'),
+    )
+  ) {
+    errors.push(
+      'Twisted Fate Q must be completed/full/generic_runtime with cleared dps_relevant_manual_review/governed gaps, Wiki rev3950864/SHA, frozen boundary/bonus-AD+AP formula/cost/CD/numeric schedule, once-per-pass as single-hit justification only, cast0.25/fan/cone/projectile exclusion wording, bilateral evidence (owning 18b959e / integrated a0da4f8 / Wasm 589db93), and no cast/fan/cone/projectile/pass fidelity claim',
+    );
+  }
   if (
     !mXayahW ||
     mXayahW.status !== 'completed' ||
@@ -5050,8 +5168,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 67) {
-    errors.push(`completed=${sc.completed}, expected 67`);
+  if ((sc.completed || 0) !== 68) {
+    errors.push(`completed=${sc.completed}, expected 68`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -5059,8 +5177,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 106) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 106`);
+  if ((sc.blocked_runtime || 0) !== 105) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 105`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -5081,21 +5199,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 67) {
-    errors.push(`completionMode full=${cm.full}, expected 67`);
+  if ((cm.full || 0) !== 68) {
+    errors.push(`completionMode full=${cm.full}, expected 68`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 184) {
-    errors.push(`completionMode none=${cm.none}, expected 184`);
+  if ((cm.none || 0) !== 183) {
+    errors.push(`completionMode none=${cm.none}, expected 183`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 88) {
+  if (implGapCount !== 87) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 88`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 87`,
     );
   }
 
