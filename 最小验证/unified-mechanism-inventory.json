@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-22T15:23:30.276Z",
+    "generatedAt": "2026-07-22T16:02:55.716Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "b629f8b791b302353e936b863b8e0bfcc996e7592b2e27719716842569aaa0eb",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "54cd6db3b0fb910affe160326e8897b21e822c2f92a0420d8a6024be6cfe8c38",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "5aa61b8b9de0eace3e933bb5fc25ca0da5c678ff6040911b39992c41f3321aac",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "66ebcca1fbf62e5ecd0099beef7cc398ec6020c3541eb77b843112b98c8780b6",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "396ab9c9ffd330e47e52ec82e6c0d5f1cd38240c1a5d555b26b7a89e3233fb71",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "0f9ed94d136412fe5149c4746fc6c3bbc90cfd7cb602cc37f71da104588425b7",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 63,
+      "completed": 64,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 110,
+      "blocked_runtime": 109,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 63,
+      "full": 64,
       "partial": 3,
-      "none": 188
+      "none": 187
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "b629f8b791b302353e936b863b8e0bfcc996e7592b2e27719716842569aaa0eb",
-      "byteSize": 931326,
+      "sha256": "54cd6db3b0fb910affe160326e8897b21e822c2f92a0420d8a6024be6cfe8c38",
+      "byteSize": 933259,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "5aa61b8b9de0eace3e933bb5fc25ca0da5c678ff6040911b39992c41f3321aac",
-      "byteSize": 222390,
+      "sha256": "396ab9c9ffd330e47e52ec82e6c0d5f1cd38240c1a5d555b26b7a89e3233fb71",
+      "byteSize": 229332,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "66ebcca1fbf62e5ecd0099beef7cc398ec6020c3541eb77b843112b98c8780b6",
-      "byteSize": 253615,
+      "sha256": "0f9ed94d136412fe5149c4746fc6c3bbc90cfd7cb602cc37f71da104588425b7",
+      "byteSize": 260151,
       "recordCount": 0,
       "role": "generator"
     },
@@ -20044,52 +20044,29 @@
     },
     {
       "key": "hero_skill|hero_vayne|E|恶魔审判",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_vayne",
       "skillKey": "E",
       "passiveName": "恶魔审判",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "ability_flat_bonus_ad_damage",
+        "active_physical_damage",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008541",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/vayne-e.json@rev4008541 sha256:f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_vayne|E|恶魔审判",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile",
+      "reason": "Vayne E 恶魔审判/Condemn：Wiki rev4008541（SHA256 f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37；normalized/generic/vayne-e.json）rank5 Phase-A v1 已由 wasm-generic-vayne-condemn-primary-hit + backend seed 证据闭环——90 mana / 12000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable physical damage 190+0.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 baseAD60 / resolvedAD140 / bonusAD80 → raw230，armor100 → mitigated115）。Attempts t0/t11999/t12000 → two successes + exactly one cooldown skip without mana/damage；final mana 52 from 232。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile。明确排除 knockback/displacement475/direction、terrain 或玩家生成地形碰撞、wall bonus 285+0.75bAD 与 total 475+1.25bAD、stun/control1.5s、cast0.25/effect-at-cast-end、projectile/missile speeds2200/2000/range550/geometry/cancel、ranks1–4、Silver Bolts/basic/on-hit/equipment/loadout coupling、multi-target/repeat、live migration/publish/E2E；不宣称 wall/terrain/CC/cast/projectile/完整游戏保真，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_vayne|E|恶魔审判"
         },
         {
@@ -20098,7 +20075,22 @@
           "sourceRecordKey": "hero_skill|hero_vayne|E|恶魔审判"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-vayne-condemn-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; backend lol_generic_vayne_condemn_primary_hit_seed.sql + LolGenericVayneCondemnPrimaryHitSeedSqlTest (owning e7d28f6; integrated 61290cb); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-vayne-condemn-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_vayne_condemn_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; Wiki rev4008541/SHA256 f2b2ba17… rank5 90 mana/12000ms CD / one physical 190+0.50*bonusAD; baseAD60/resolvedAD140/bonusAD80→raw230/armor100→115; t0/t11999/t12000 two successes + one CD skip; final mana52; knockback/terrain/wall/stun/cast/projectile/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
