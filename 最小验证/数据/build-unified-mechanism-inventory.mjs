@@ -1128,6 +1128,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_draven|E|开道利斧',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Draven E 开道利斧/Stand Aside：Wiki rev4034694（SHA256 7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d；normalized/generic/draven-e.json）rank5 Phase-A v2 已由 wasm-generic-draven-stand-aside + backend seed 证据闭环——70 mana / 12000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable physical damage 215+0.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 base AD 62 / resolved AD 142 / bonus AD 80 → raw 255，armor 100 → mitigated 127.5）。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget。明确排除 Wiki 250ms cast/effect-at-cast-end（canonical AbilityDefinition 无 cast-delay 字段）、ranks1–4、projectile/travel、fan/line geometry、collision、target selection、multi-target/repeat、knock aside/airborne/slow/other CC、equipment/loadout、live migration/publish/E2E；不宣称 cast-delay/CC/geometry/multitarget/完整游戏保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-draven-stand-aside',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_draven_stand_aside_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; Wiki rev4034694/SHA256 7bb6ebdc… rank5 70 mana/12000ms CD / one physical 215+0.50*bonusAD; cast-delay/CC/geometry/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-draven-stand-aside',
+          sourcePath: 'db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; backend lol_generic_draven_stand_aside_seed.sql + LolGenericDravenStandAsideSeedSqlTest (owning 5f1f2bb; integrated 09dbf07); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_quinn|W|敏锐感知',
     {
       status: 'completed',
@@ -1768,6 +1799,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_varus|W|枯萎箭袋',
     'fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop',
+  ],
+  [
+    'hero_skill|hero_draven|E|开道利斧',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4055,6 +4090,63 @@ function validateInventory(inv) {
       'Draven Q must be completed/full under user-approved 1v1 scope with wasm+backend evidence (landing/W-reset excluded)',
     );
   }
+  const mDravenE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|E|开道利斧');
+  if (
+    !mDravenE ||
+    mDravenE.status !== 'completed' ||
+    mDravenE.completionMode !== 'full' ||
+    mDravenE.lane !== 'generic_runtime' ||
+    mDravenE.blocker ||
+    mDravenE.dataGapEvidence !== null ||
+    mDravenE.runtimeGapEvidence !== null ||
+    mDravenE.outOfScopeEvidence !== null ||
+    mDravenE.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget' ||
+    [...(mDravenE.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'ability_flat_bonus_ad_damage',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    !String(mDravenE.reason || '').includes('4034694') ||
+    !String(mDravenE.reason || '').includes(
+      '7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d',
+    ) ||
+    !String(mDravenE.reason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+    ) ||
+    !String(mDravenE.reason || '').includes('215') ||
+    !String(mDravenE.reason || '').includes('0.50') ||
+    !String(mDravenE.reason || '').includes('70 mana') ||
+    !String(mDravenE.reason || '').includes('12000') ||
+    !String(mDravenE.reason || '').includes('127.5') ||
+    !String(mDravenE.reason || '').includes('不宣称') ||
+    !(mDravenE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-draven-stand-aside' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_draven_stand_aside_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+        ),
+    ) ||
+    !(mDravenE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-draven-stand-aside' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+        ) &&
+        String(e.note || '').includes('LolGenericDravenStandAsideSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Draven E must be completed/full/generic_runtime with cleared gaps, Wiki rev4034694/SHA, frozen boundary/formula/cost/CD, bilateral evidence, and exclusions (no cast-delay/CC/geometry/multitarget/full-game claim)',
+    );
+  }
   if (
     !mDravenW ||
     mDravenW.status !== 'completed' ||
@@ -4573,8 +4665,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 61) {
-    errors.push(`completed=${sc.completed}, expected 61`);
+  if ((sc.completed || 0) !== 62) {
+    errors.push(`completed=${sc.completed}, expected 62`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -4582,8 +4674,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 112) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 112`);
+  if ((sc.blocked_runtime || 0) !== 111) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 111`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4604,14 +4696,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 61) {
-    errors.push(`completionMode full=${cm.full}, expected 61`);
+  if ((cm.full || 0) !== 62) {
+    errors.push(`completionMode full=${cm.full}, expected 62`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 190) {
-    errors.push(`completionMode none=${cm.none}, expected 190`);
+  if ((cm.none || 0) !== 189) {
+    errors.push(`completionMode none=${cm.none}, expected 189`);
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();
