@@ -998,6 +998,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-graves-smoke-screen-primary-hit",
+      "title": "通用 ABI 格雷福斯 W 烟幕弹 Smoke Screen 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_smoke_screen_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_graves|W|烟幕弹 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Graves/W→Smoke Screen page1307368/rev3956197/timestamp2025-09-26T13:12:00Z/canonical raw2441/SHA256 20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d；sidecar graves-w.json；本地raw亦2441/SHA256 fa0bf661…5246b2（CRLF0；same-length materialization caveat；sidecar/pages canonical；故意不断言 local raw hash 相等；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction。Rank5：90mana/18000ms；immediate primary-target scaffold（cast0.25与Effect at cast time end显式排除）；一笔非暴击/不可复制魔法260+0.60*AP；交叉AP200→raw380/MR100→190；t0/t17999/t18000两次命中+一次CD skip；mana325→145；HP1000→620。旧G8 out_of_scope/meta_or_non_target_dps/blocked_data为历史provenance；当前Wiki gapKind none + 已实现单主目标伤害切片允许migrated/completed。不宣称cast/projectile/AOE/slow/smoke/nearsight/sight/full-fidelity。Backend owning 1238c53/集成037bae3（30/30；714/714）；Wasm exact 78ab90c（4/4）；审计6e94e7a。DESIGN_REVIEW v2 READY run-1fee8ffb（v1 run-4ab63cc3）。Unified 254：sourceCount12/completed69/blocked_runtime104/full69/none182；G8 242=migrated59/partial4/blocked110/OOS69；implementation_gap=86。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整Smoke Screen/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯W烟幕弹SmokeScreen主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯W烟幕弹SmokeScreen主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
