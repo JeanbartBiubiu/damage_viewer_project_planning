@@ -599,6 +599,8 @@ const SEED = {
   pipelineDamageItemsBackend:
     'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
   kogmawCausticSpittleBackend: 'db/game_manage/seeds/lol_generic_kogmaw_caustic_spittle_seed.sql',
+  kogmawVoidOozePrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_kogmaw_void_ooze_primary_hit_seed.sql',
   kaisaSuperchargeBackend: 'db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql',
   kaisaSecondSkinBackend: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
@@ -666,6 +668,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_pipeline_damage_modifier_test.go',
   kogmawCausticSpittle:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
+  kogmawVoidOozePrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_void_ooze_primary_hit_test.go',
   kaisaSupercharge:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
   kaisaSecondSkin:
@@ -926,6 +930,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-kogmaw-caustic-spittle',
           SEED.kogmawCausticSpittleBackend,
           'completedBoundary: provider_hero_kogmaw_caustic_spittle seed/mount path retained; active Q proven via wasm CompileGeneric+RunGeneric; backend lol_generic_kogmaw_caustic_spittle_seed.sql; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kogmaw|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        "hero_kogmaw E 虚空淤泥/Void Ooze：Wiki rev3965135（SHA256 1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b；normalized/generic/kogmaw-e.json）rank5 Phase-A v1 已由 wasm-generic-kogmaw-void-ooze-primary-hit 闭环为 migrated——100 mana / 12000ms CD；immediate primary-target scaffold（Wiki Effect at cast time start 与 scaffold 兼容，无假 cast-delay phase）；恰好一次 non-crit/non-copyable magic damage 230+0.65*source.attr.ap.resolved（交叉校验 AP100 → raw295，target MR100 → mitigated147.5）。Attempts t0/t11999/t12000 → two successes + exactly one cooldown skip without mana/damage；final mana 125 from 325。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration。明确排除 target-direction missile/projectile/travel/collision/path/range/width/speed/geometry、all-enemies/multi-target/repeated hits、ooze field/path blobs/every125 units/3s duration、slow60%/0.25s ticks/linger、cast timing beyond scaffold、ranks1–4、basic/W/Q/on-hit/equipment/loadout coupling、live/publish/E2E/full fidelity；不宣称 line/area/field/slow/projectile 保真。",
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kogmaw-void-ooze-primary-hit',
+          WASM.kogmawVoidOozePrimaryHit,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration; Wiki rev3965135/SHA256 1dd448ea… rank5 100 mana/12000ms CD / one magic 230+0.65*AP; AP100→raw295/MR100→147.5; t0/t11999/t12000 two successes + one CD skip; final mana125; Effect at cast time start compatible with scaffold; projectile/geometry/multitarget/slow/field/duration/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kogmaw-void-ooze-primary-hit',
+          SEED.kogmawVoidOozePrimaryHitBackend,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration; backend lol_generic_kogmaw_void_ooze_primary_hit_seed.sql + LolGenericKogmawVoidOozePrimaryHitSeedSqlTest (owning b1752e4; integrated 24c1ddf); not live published',
         ),
       ],
     },
@@ -3620,9 +3654,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 54) errors.push(`migrated=${counts.migrated}, expected 54`);
+  if (counts.migrated !== 55) errors.push(`migrated=${counts.migrated}, expected 55`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 115) errors.push(`blocked=${counts.blocked}, expected 115`);
+  if (counts.blocked !== 114) errors.push(`blocked=${counts.blocked}, expected 114`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4776,6 +4810,79 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       kogmawQ.candidateKey,
       kogmawQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const kogmawE = records.find((r) => r.candidateKey === 'hero_skill|hero_kogmaw|E|虚空淤泥');
+  const kogmawETags = [...(kogmawE?.genericMechanismTags || [])].sort((a, b) =>
+    a.localeCompare(b, 'en'),
+  );
+  const kogmawEExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  if (
+    !kogmawE
+    || kogmawE.genericClassification !== 'migrated'
+    || String(kogmawE.remainingGap || '').trim()
+    || (kogmawE.dataGapEvidence?.missingFields || []).length !== 0
+    || kogmawETags.join('|') !== kogmawEExpectedTags.join('|')
+    || kogmawETags.includes('multi_target_or_area')
+    || String(kogmawE.remainingGap || '').includes('blocked_data')
+    || String(kogmawE.classificationReason || '').includes('out_of_scope_for_single_target_dps')
+    || String(kogmawE.classificationReason || '').includes('blocked_data')
+    || String(kogmawE.classificationReason || '').includes(
+      'implementation_gap_no_unresolved_data_fields',
+    )
+    || !String(kogmawE.classificationReason || '').includes('3965135')
+    || !String(kogmawE.classificationReason || '').includes(
+      '1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b',
+    )
+    || !String(kogmawE.classificationReason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+    )
+    || !String(kogmawE.classificationReason || '').includes('230')
+    || !String(kogmawE.classificationReason || '').includes('0.65')
+    || !String(kogmawE.classificationReason || '').includes('100 mana')
+    || !String(kogmawE.classificationReason || '').includes('12000')
+    || !String(kogmawE.classificationReason || '').includes('raw295')
+    || !String(kogmawE.classificationReason || '').includes('147.5')
+    || !String(kogmawE.classificationReason || '').includes('125')
+    || !String(kogmawE.classificationReason || '').includes('Effect at cast time start')
+    || !String(kogmawE.classificationReason || '').includes('不宣称')
+    || !String(kogmawE.sourceRef || '').includes('kogmaw-e.json')
+    || citesForbiddenProvenance(kogmawE.classificationReason)
+    || !(kogmawE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.kogmawVoidOozePrimaryHit
+        && e.taskKey === 'wasm-generic-kogmaw-void-ooze-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+        ),
+    )
+    || !(kogmawE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.kogmawVoidOozePrimaryHitBackend
+        && e.taskKey === 'wasm-generic-kogmaw-void-ooze-primary-hit'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+        )
+        && String(e.note || '').includes('LolGenericKogmawVoidOozePrimaryHitSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      "Kog'Maw E must be migrated with empty remainingGap/missingFields, exact Void Ooze tags, stale multi_target_or_area/blocked_data/out_of_scope/implementation-gap cleared, Wiki rev3965135/SHA + frozen completedBoundary, numeric contract/100mana/12000CD/AP100→295/MR100→147.5/mana125, cast-time-start scaffold relation, and bilateral wasm+backend evidence (no line/area/field/slow/projectile fidelity claim)",
+    );
+  }
+  if (kogmawE) {
+    validateBilateralCoverageEvidence(
+      kogmawE.candidateKey,
+      kogmawE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
