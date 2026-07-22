@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-21T03:42:09.542Z"
+    "generatedAt": "2026-07-22T14:39:27.287Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 51,
+      "migrated": 52,
       "partial": 4,
-      "blocked": 118,
+      "blocked": 117,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 21.07,
+      "migrated": 21.49,
       "partial": 1.65,
-      "blocked": 48.76,
+      "blocked": 48.35,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 21.07,
-      "inScope": 29.48
+      "all": 21.49,
+      "inScope": 30.06
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 22.73,
-      "inScope": 31.79
+      "all": 23.14,
+      "inScope": 32.37
     },
     "inScopeCount": 173
   },
@@ -1824,29 +1824,31 @@
       "pageId": "draven-e",
       "sourceText": "{{sbc|Active:}} '''Draven''' throws a fan of axes in a line in the target direction, dealing {{as|physical damage}} to enemies hit, {{tip|airborne|knocking them aside}}, though not through terrain, and {{tip|slow|slowing}} them for 2 seconds.\n{{st|Physical Damage|{{ap|75 to 215}} {{as|(+ 50% '''bonus''' AD)}}}}{{st|Slow|{{ap|20 to 40}}%}}\n{{ap|16 to 12}}\n70\nMana\nPhysical\n{{Effect at cast time end}}\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/draven-e.json@rev4034694 sha256:7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "ability_flat_bonus_ad_damage",
+        "active_physical_damage",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4034694",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/draven-e.json@rev4034694 sha256:7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_draven E 开道利斧/Stand Aside：Wiki rev4034694（SHA256 7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d；normalized/generic/draven-e.json）rank5 Phase-A v2 已由 wasm-generic-draven-stand-aside 闭环为 migrated——70 mana / 12000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable physical damage 215+0.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 base AD 62 / resolved AD 142 / bonus AD 80 → raw 255，armor 100 → mitigated 127.5）。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget。明确排除 Wiki 250ms cast/effect-at-cast-end（canonical AbilityDefinition 无 cast-delay 字段）、ranks1–4、projectile/travel、fan/line geometry、collision、target selection、multi-target/repeat、knock aside/airborne/slow/other CC、equipment/loadout、live migration/publish/E2E；不宣称 cast-delay/CC/geometry/multitarget/完整游戏保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-draven-stand-aside",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_stand_aside_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; Wiki rev4034694/SHA256 7bb6ebdc… rank5 70 mana/12000ms CD / one physical 215+0.50*bonusAD; cast-delay/CC/geometry/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-draven-stand-aside",
+          "sourcePath": "db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; backend lol_generic_draven_stand_aside_seed.sql + LolGenericDravenStandAsideSeedSqlTest (owning 5f1f2bb; integrated 09dbf07); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_draven|R|冷血追命",

@@ -602,6 +602,7 @@ const SEED = {
   kaisaSuperchargeBackend: 'db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql',
   kaisaSecondSkinBackend: 'db/game_manage/seeds/lol_generic_kaisa_second_skin_seed.sql',
   dravenBloodRushBackend: 'db/game_manage/seeds/lol_generic_draven_blood_rush_seed.sql',
+  dravenStandAsideBackend: 'db/game_manage/seeds/lol_generic_draven_stand_aside_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
@@ -674,6 +675,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_blood_rush_test.go',
   dravenWAxeCatchReset:
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_w_axe_catch_reset_test.go',
+  dravenStandAside:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_draven_stand_aside_test.go',
   quinnHeightenedSenses:
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   xayahDeadlyPlumage:
@@ -1230,6 +1233,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-draven-blood-rush',
           SEED.dravenBloodRushBackend,
           'completedBoundary: Blood Rush AS + axe_caught W ready seeded; backend lol_generic_draven_blood_rush_seed.sql; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_draven|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'ability_flat_bonus_ad_damage',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_draven E 开道利斧/Stand Aside：Wiki rev4034694（SHA256 7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d；normalized/generic/draven-e.json）rank5 Phase-A v2 已由 wasm-generic-draven-stand-aside 闭环为 migrated——70 mana / 12000ms CD；immediate primary-target scaffold；恰好一次 non-crit/non-copyable physical damage 215+0.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 base AD 62 / resolved AD 142 / bonus AD 80 → raw 255，armor 100 → mitigated 127.5）。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget。明确排除 Wiki 250ms cast/effect-at-cast-end（canonical AbilityDefinition 无 cast-delay 字段）、ranks1–4、projectile/travel、fan/line geometry、collision、target selection、multi-target/repeat、knock aside/airborne/slow/other CC、equipment/loadout、live migration/publish/E2E；不宣称 cast-delay/CC/geometry/multitarget/完整游戏保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-draven-stand-aside',
+          WASM.dravenStandAside,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; Wiki rev4034694/SHA256 7bb6ebdc… rank5 70 mana/12000ms CD / one physical 215+0.50*bonusAD; cast-delay/CC/geometry/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-draven-stand-aside',
+          SEED.dravenStandAsideBackend,
+          'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; backend lol_generic_draven_stand_aside_seed.sql + LolGenericDravenStandAsideSeedSqlTest (owning 5f1f2bb; integrated 09dbf07); not live published',
         ),
       ],
     },
@@ -3520,9 +3553,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 51) errors.push(`migrated=${counts.migrated}, expected 51`);
+  if (counts.migrated !== 52) errors.push(`migrated=${counts.migrated}, expected 52`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 118) errors.push(`blocked=${counts.blocked}, expected 118`);
+  if (counts.blocked !== 117) errors.push(`blocked=${counts.blocked}, expected 117`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4401,6 +4434,69 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       dravenW.candidateKey,
       dravenW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const dravenE = records.find((r) => r.candidateKey === 'hero_skill|hero_draven|E|开道利斧');
+  const dravenETags = [...(dravenE?.genericMechanismTags || [])].sort((a, b) =>
+    a.localeCompare(b, 'en'),
+  );
+  const dravenEExpectedTags = [
+    'ability_cost_cooldown',
+    'ability_flat_bonus_ad_damage',
+    'active_physical_damage',
+    'immediate_impact_scaffold',
+  ];
+  if (
+    !dravenE
+    || dravenE.genericClassification !== 'migrated'
+    || String(dravenE.remainingGap || '').trim()
+    || (dravenE.dataGapEvidence?.missingFields || []).length !== 0
+    || dravenETags.join('|') !== dravenEExpectedTags.join('|')
+    || !String(dravenE.classificationReason || '').includes('4034694')
+    || !String(dravenE.classificationReason || '').includes(
+      '7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d',
+    )
+    || !String(dravenE.classificationReason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+    )
+    || !String(dravenE.classificationReason || '').includes('215')
+    || !String(dravenE.classificationReason || '').includes('0.50')
+    || !String(dravenE.classificationReason || '').includes('70 mana')
+    || !String(dravenE.classificationReason || '').includes('12000')
+    || !String(dravenE.classificationReason || '').includes('127.5')
+    || !String(dravenE.classificationReason || '').includes('不宣称')
+    || !String(dravenE.sourceRef || '').includes('draven-e.json')
+    || citesForbiddenProvenance(dravenE.classificationReason)
+    || !(dravenE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.dravenStandAside
+        && e.taskKey === 'wasm-generic-draven-stand-aside'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+        ),
+    )
+    || !(dravenE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.dravenStandAsideBackend
+        && e.taskKey === 'wasm-generic-draven-stand-aside'
+        && String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+        )
+        && String(e.note || '').includes('LolGenericDravenStandAsideSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      'Draven E must be migrated with empty remainingGap/missingFields, exact Stand Aside tags, Wiki rev4034694/SHA + frozen completedBoundary, numeric contract/70mana/12000CD/127.5, and bilateral wasm+backend evidence (no cast-delay/CC/geometry/multitarget/full-game claim)',
+    );
+  }
+  if (dravenE) {
+    validateBilateralCoverageEvidence(
+      dravenE.candidateKey,
+      dravenE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
