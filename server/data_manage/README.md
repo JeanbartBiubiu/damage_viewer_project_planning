@@ -721,6 +721,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericKogmawCausticSpittleSeedSqlTest test
 ```
 
+### LoL generic Kog'Maw Void Ooze primary-hit seed（克格莫 E / Phase-A v1 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_kogmaw` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有普攻 / Bio-Arcane Barrage / Caustic Spittle provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_generic_kogmaw_void_ooze_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-kogmaw-void-ooze-primary-hit-phase-a-v1-20260722`（seed 不负责 publish）。候选 `hero_skill|hero_kogmaw|E|虚空淤泥` 冻结为 **Phase-A rank-5 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=kogmaw-e-void-ooze-primary-hit-phase-a-v1`）：
+
+`rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好九键属性定义（含 AP）；幂等投影 reserved → `types`；ensure `hero_kogmaw`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp635 / mana325 / ad61 / ap0 / AS0.665 / armor24 / MR30 / hpregen0.75 / manaregen1.75；AP100 仅测试夹具、seed 不写）、`resource_definitions.mana` 与 `entity_resource_values`（325/325）；向 `hero_kogmaw` **仅** mount 独立 `provider_hero_kogmaw_e_void_ooze_primary_hit`（与 `provider_hero_kogmaw_basic_attack` / `provider_hero_kogmaw_bio_arcane_barrage` / `provider_hero_kogmaw_caustic_spittle` 并存），含 active `ability_hero_kogmaw_e_void_ooze_primary_hit`（`ability_key=void_ooze`）、`ability_costs` 100 mana、`ability_cooldowns` 12000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `230 + 0.65*AP`（`copyable_on_hit=false`，非 crit）。Wiki：page1307961 / rev3965135 / `2025-11-11T17:05:55Z` / 1356 bytes / SHA256 `1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b`；sidecar `normalized/generic/kogmaw-e.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：missile/projectile/travel/collision/path/range/width/speed/geometry、all-enemies/multi-target、repeated hits、ooze field/path blobs/every125 units/3s duration、slow60%/0.25s ticks/linger、cast-delay phase（Wiki cast-time-start 仅兼容 scaffold）、ranks1–4、basic/Bio-Arcane/Caustic Spittle/on-hit/equipment 耦合、listener/state/event/modifier/repeat、live migration、publish；不依赖既有 Kog'Maw provider 发布顺序。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKogmawVoidOozePrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Twisted Fate Stacked Deck seed（卡牌大师 E / rank-5）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`）已就绪后，按顺序执行（**自包含** `hero_twistedfate` + 通用普攻图 + `basic_attack_hit` emit；不依赖 Batch-B；本脚本不做 live migration、不自动 publish）：
