@@ -725,6 +725,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenStandAsideSeedSqlTest test
 ```
 
+### LoL generic Teemo Blinding Dart seed（提莫 Q / Phase-A v1 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_teemo` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 Q active；与既有普攻 / Toxic Shot provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_generic_teemo_blinding_dart_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-teemo-blinding-dart-phase-a-v1-20260722`（seed 不负责 publish）。候选 `hero_skill|hero_teemo|Q|致盲吹箭` 冻结为 **Phase-A rank-5 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=teemo-q-blinding-dart-phase-a-v1`）：
+
+`rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；ensure `hero_teemo`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp615 / mana334 / ad54 / ap0 / AS0.69 / armor24 / MR30 / hpregen1.1 / manaregen1.92）、`resource_definitions.mana` 与 `entity_resource_values`（334/334）；向 `hero_teemo` **仅** mount 独立 `provider_hero_teemo_q_blinding_dart`（与 `provider_hero_teemo_basic_attack` / `provider_hero_teemo_toxic_shot` 并存），含 active `ability_hero_teemo_q_blinding_dart`（`ability_key=blinding_dart`）、`ability_costs` 90 mana、`ability_cooldowns` 7000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `260 + 0.70*AP`（`copyable_on_hit=false`，非 crit）。Wiki：page1308208 / rev3948425 / `2025-08-19T15:37:23Z` / 1639 bytes / SHA256 `4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7`；sidecar `normalized/generic/teemo-q.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：Wiki blind/control 及 2–3s 持续、0.25s cast、projectile/speed 2500、range/geometry/collision、listener/state/modifier、`basic_attack_hit`/emit、Toxic Shot/普攻耦合、equipment/loadout、其它 rank、live migration、publish；不依赖 basic/Toxic Shot 发布顺序。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericTeemoBlindingDartSeedSqlTest test
+```
+
 ### LoL generic Quinn Heightened Senses seed（奎因 W / rank-5 攻速 partial）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_quinn` 最低必要实体/level-1 面板/通用普攻闭环 + `basic_attack_hit` emit；与普攻 provider 并存；不做 live migration、不自动 publish）：
