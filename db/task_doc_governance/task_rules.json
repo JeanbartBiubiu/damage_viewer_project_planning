@@ -950,6 +950,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-varus-hail-of-arrows-primary-hit",
+      "title": "通用 ABI 韦鲁斯 E 恶灵箭雨 Hail of Arrows 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_varus_hail_of_arrows_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_varus|E|恶灵箭雨 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Varus/E→Hail of Arrows page1309978/rev3969402/timestamp2025-11-24T16:03:58Z/canonical raw1750/SHA256 7b4be71bcc26ba933dff0235882d272c14e406abbf505290018ba15a5ba658e9；sidecar varus-e.json；本地raw1748/SHA42ebcd88…（newline；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation。源字段矛盾：description+labeled rank表物理60to180(+90%bAD) vs 孤立damagetype=Magic；reviewed policy以description+rank表管辖本物理分支，runtime physical，Magic披露且非runtime真源。Rank5：90mana/10000ms；immediate primary-target scaffold（0.5s landing显式排除）；一笔非暴击/不可复制物理180+0.90*(resolvedAD-baseAD)；交叉baseAD59/resolved159→raw270/armor100→135；t0/t9999/t10000两次命中+一次CD skip；mana320→140。不宣称落地延迟/几何/多目标/箭雨场/减速/重伤/枯萎引爆保真。Backend owning a08cdfd/集成e924afd（46/46；687/687）；Wasm exact 6be94af（4/4）；审计37217fd。DESIGN_REVIEW READY run-49be1bd0。Unified 254：sourceCount12/completed66/blocked_runtime107/full66/none185；G8 242=migrated56/partial4/blocked113/OOS69；implementation_gap=89。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-韦鲁斯E恶灵箭雨HailOfArrows主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-韦鲁斯E恶灵箭雨HailOfArrows主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
