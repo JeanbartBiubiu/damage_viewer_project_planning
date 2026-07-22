@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-22T16:02:51.397Z"
+    "generatedAt": "2026-07-22T16:37:50.838Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 54,
+      "migrated": 55,
       "partial": 4,
-      "blocked": 115,
+      "blocked": 114,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 22.31,
+      "migrated": 22.73,
       "partial": 1.65,
-      "blocked": 47.52,
+      "blocked": 47.11,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 22.31,
-      "inScope": 31.21
+      "all": 22.73,
+      "inScope": 31.79
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 23.97,
-      "inScope": 33.53
+      "all": 24.38,
+      "inScope": 34.1
     },
     "inScopeCount": 173
   },
@@ -4488,29 +4488,31 @@
       "pageId": "kogmaw-e",
       "sourceText": "{{sbc|Active:}} '''Kog'Maw''' spews a gob of ooze in the target direction that deals {{as|magic damage}} to enemies hit.\nA field of ooze is created in its wake for 3 seconds, {{tip|slow|slowing}} enemies within the area every {{fd|0.25}} seconds.\n{{st|Magic Damage|{{ap|70 to 230}} {{as|(+ 65% AP)}}}}\n{{st|Slow|{{ap|40 to 60}}%}}\n12\n{{ap|40 to 100}}\nMana\nMagic\n{{Effect at cast time start}}\n* {{pending for test}}: The missile leaves a blob of ooze on the ground every 125 units traveled.\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/kogmaw-e.json@rev3965135 sha256:1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-3965135",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/kogmaw-e.json@rev3965135 sha256:1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_kogmaw E 虚空淤泥/Void Ooze：Wiki rev3965135（SHA256 1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b；normalized/generic/kogmaw-e.json）rank5 Phase-A v1 已由 wasm-generic-kogmaw-void-ooze-primary-hit 闭环为 migrated——100 mana / 12000ms CD；immediate primary-target scaffold（Wiki Effect at cast time start 与 scaffold 兼容，无假 cast-delay phase）；恰好一次 non-crit/non-copyable magic damage 230+0.65*source.attr.ap.resolved（交叉校验 AP100 → raw295，target MR100 → mitigated147.5）。Attempts t0/t11999/t12000 → two successes + exactly one cooldown skip without mana/damage；final mana 125 from 325。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration。明确排除 target-direction missile/projectile/travel/collision/path/range/width/speed/geometry、all-enemies/multi-target/repeated hits、ooze field/path blobs/every125 units/3s duration、slow60%/0.25s ticks/linger、cast timing beyond scaffold、ranks1–4、basic/W/Q/on-hit/equipment/loadout coupling、live/publish/E2E/full fidelity；不宣称 line/area/field/slow/projectile 保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kogmaw-void-ooze-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_void_ooze_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration; Wiki rev3965135/SHA256 1dd448ea… rank5 100 mana/12000ms CD / one magic 230+0.65*AP; AP100→raw295/MR100→147.5; t0/t11999/t12000 two successes + one CD skip; final mana125; Effect at cast time start compatible with scaffold; projectile/geometry/multitarget/slow/field/duration/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kogmaw-void-ooze-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_kogmaw_void_ooze_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration; backend lol_generic_kogmaw_void_ooze_primary_hit_seed.sql + LolGenericKogmawVoidOozePrimaryHitSeedSqlTest (owning b1752e4; integrated 24c1ddf); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_kogmaw|R|活体大炮",

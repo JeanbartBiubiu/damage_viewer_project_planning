@@ -1333,6 +1333,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_kogmaw|E|虚空淤泥',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        "Kog'Maw E 虚空淤泥/Void Ooze：Wiki rev3965135（SHA256 1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b；normalized/generic/kogmaw-e.json）rank5 Phase-A v1 已由 wasm-generic-kogmaw-void-ooze-primary-hit + backend seed 证据闭环——100 mana / 12000ms CD；immediate primary-target scaffold（Wiki Effect at cast time start 与 scaffold 兼容，无假 cast-delay phase）；恰好一次 non-crit/non-copyable magic damage 230+0.65*source.attr.ap.resolved（交叉校验 AP100 → raw295，target MR100 → mitigated147.5）。Attempts t0/t11999/t12000 → two successes + exactly one cooldown skip without mana/damage；final mana 125 from 325。completedBoundary：rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration。明确排除 target-direction missile/projectile/travel/collision/path/range/width/speed/geometry、all-enemies/multi-target/repeated hits、ooze field/path blobs/every125 units/3s duration、slow60%/0.25s ticks/linger、cast timing beyond scaffold、ranks1–4、basic/W/Q/on-hit/equipment/loadout coupling、live/publish/E2E/full fidelity；不宣称 line/area/field/slow/projectile 保真，故标 completed。",
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kogmaw-void-ooze-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_void_ooze_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration; Wiki rev3965135/SHA256 1dd448ea… rank5 100 mana/12000ms CD / one magic 230+0.65*AP; AP100→raw295/MR100→147.5; t0/t11999/t12000 two successes + one CD skip; final mana125; Effect at cast time start compatible with scaffold; projectile/geometry/multitarget/slow/field/duration/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kogmaw-void-ooze-primary-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_kogmaw_void_ooze_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration; backend lol_generic_kogmaw_void_ooze_primary_hit_seed.sql + LolGenericKogmawVoidOozePrimaryHitSeedSqlTest (owning b1752e4; integrated 24c1ddf); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'item_passive|2510|item_passive|咒刃',
     {
       status: 'completed',
@@ -1873,6 +1904,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_vayne|E|恶魔审判',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+  ],
+  [
+    'hero_skill|hero_kogmaw|E|虚空淤泥',
+    'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4305,6 +4340,67 @@ function validateInventory(inv) {
       'KogMaw Q 腐蚀唾液 must be completed/full/generic_runtime with Wiki rev3960434 active+passive and bilateral wasm/backend evidence',
     );
   }
+  const mKogmawE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kogmaw|E|虚空淤泥');
+  if (
+    !mKogmawE ||
+    mKogmawE.status !== 'completed' ||
+    mKogmawE.completionMode !== 'full' ||
+    mKogmawE.lane !== 'generic_runtime' ||
+    mKogmawE.blocker ||
+    mKogmawE.dataGapEvidence !== null ||
+    mKogmawE.runtimeGapEvidence !== null ||
+    mKogmawE.outOfScopeEvidence !== null ||
+    mKogmawE.coverageBoundary !==
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration' ||
+    [...(mKogmawE.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mKogmawE.mechanismTags || []).includes('multi_target_or_area') ||
+    !String(mKogmawE.reason || '').includes('3965135') ||
+    !String(mKogmawE.reason || '').includes(
+      '1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b',
+    ) ||
+    !String(mKogmawE.reason || '').includes(
+      'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+    ) ||
+    !String(mKogmawE.reason || '').includes('230') ||
+    !String(mKogmawE.reason || '').includes('0.65') ||
+    !String(mKogmawE.reason || '').includes('100 mana') ||
+    !String(mKogmawE.reason || '').includes('12000') ||
+    !String(mKogmawE.reason || '').includes('raw295') ||
+    !String(mKogmawE.reason || '').includes('147.5') ||
+    !String(mKogmawE.reason || '').includes('125') ||
+    !String(mKogmawE.reason || '').includes('Effect at cast time start') ||
+    !String(mKogmawE.reason || '').includes('不宣称') ||
+    !(mKogmawE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-kogmaw-void-ooze-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_void_ooze_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+        ),
+    ) ||
+    !(mKogmawE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-kogmaw-void-ooze-primary-hit' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_kogmaw_void_ooze_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+        ) &&
+        String(e.note || '').includes('LolGenericKogmawVoidOozePrimaryHitSeedSqlTest'),
+    )
+  ) {
+    errors.push(
+      "Kog'Maw E must be completed/full/generic_runtime with cleared multi_target/governed gaps, Wiki rev3965135/SHA, frozen boundary/formula/cost/CD/numeric schedule, cast-time-start scaffold wording, bilateral evidence, and exclusions (no line/area/field/slow/projectile fidelity claim)",
+    );
+  }
   if (
     !mXayahW ||
     mXayahW.status !== 'completed' ||
@@ -4735,8 +4831,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 64) {
-    errors.push(`completed=${sc.completed}, expected 64`);
+  if ((sc.completed || 0) !== 65) {
+    errors.push(`completed=${sc.completed}, expected 65`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -4744,8 +4840,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 109) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 109`);
+  if ((sc.blocked_runtime || 0) !== 108) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 108`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -4766,14 +4862,22 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 64) {
-    errors.push(`completionMode full=${cm.full}, expected 64`);
+  if ((cm.full || 0) !== 65) {
+    errors.push(`completionMode full=${cm.full}, expected 65`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 187) {
-    errors.push(`completionMode none=${cm.none}, expected 187`);
+  if ((cm.none || 0) !== 186) {
+    errors.push(`completionMode none=${cm.none}, expected 186`);
+  }
+  const implGapCount = (inv.mechanisms || []).filter(
+    (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
+  ).length;
+  if (implGapCount !== 90) {
+    errors.push(
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 90`,
+    );
   }
 
   const serialized = JSON.stringify(inv).toLowerCase();
