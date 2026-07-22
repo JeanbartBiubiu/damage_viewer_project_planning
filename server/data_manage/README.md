@@ -840,6 +840,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericQuinnHeightenedSensesSeedSqlTest test
 ```
 
+### LoL generic Kai'Sa Void Seeker primary-hit seed（卡莎 W / Phase-A v2 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_kaisa` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与既有普攻/Second Skin / Supercharge provider 并存，不重建/替换、不读写 Plasma/Caustic Wounds/Supercharge 状态；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_generic_kaisa_void_seeker_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-kaisa-void-seeker-primary-hit-phase-a-v2-20260722`（seed 不负责 publish）。候选 `hero_skill|hero_kaisa|W|虚空索敌` 冻结为 **Phase-A rank-5 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=kaisa-w-void-seeker-primary-hit-phase-a-v2`）：
+
+`rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好九键属性定义（含 AP）；幂等投影 reserved → `types`；ensure `hero_kaisa`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp640 / mana345 / ad59 / ap0 / AS0.644 / armor25 / MR30 / hpregen0.8 / manaregen1.64）、`resource_definitions.mana` 与 `entity_resource_values`（345/345）；向 `hero_kaisa` **仅** mount 独立 `provider_hero_kaisa_w_void_seeker_primary_hit`（与 `provider_hero_kaisa_basic_attack` / `provider_hero_kaisa_supercharge` 并存），含 active `ability_hero_kaisa_w_void_seeker_primary_hit`（`ability_key=void_seeker`）、`ability_costs` 75 mana、`ability_cooldowns` 14000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `130 + 1.30*source.attr.ad.resolved + 0.45*source.attr.ap.resolved`（**total AD**，非 bonus AD；`copyable_on_hit=false`，非 crit；运行时类型 `20221`，禁止 `20220`）。Wiki：page1353553 / rev4034696 / `2026-06-23T21:14:14Z` / 1843 bytes / SHA256 `aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1`；sidecar `normalized/generic/kaisa-w.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：Wiki 0.4s cast / Effect at cast time end（立即 scaffold 明确排除而非近似）；projectile/travel/collision/first-enemy/target-location/range3000/width200/speed1750/geometry/spellshield；trajectory sight；target reveal/true sight4s；applying2 Plasma；Second Skin/Plasma/Caustic Wounds 状态与引爆耦合；item AP100 evolution / applying3 Plasma / champion-hit75% cooldown refund；ranks1–4；equipment/loadout；listener/state/event/repeat；live migration；publish；不依赖既有 basic/Second Skin/Supercharge provider 发布顺序。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Kai'Sa Supercharge seed（卡莎 E / rank-5 攻速窗）
 
 在 reserved types、Batch-B `hero_kaisa`、以及 `attribute_definitions` 的 `mana` / `attack_speed` 已就绪后，按顺序执行（**不**重建 Batch-B / 普攻；不做 live migration、不自动 publish）：
