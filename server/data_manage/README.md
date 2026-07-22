@@ -771,6 +771,31 @@ cd server/data_manage
 mvn -Dtest=LolGenericVayneCondemnPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Varus Hail of Arrows primary-hit seed（韦鲁斯 E / Phase-A v1 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；本公式不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_varus` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有普攻 / W Blighted Quiver / Q carrier 并存，不重建/替换、不读写 Blight 状态；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_varus_hail_of_arrows_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-varus-hail-of-arrows-primary-hit-phase-a-v1-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_varus|E|恶灵箭雨` 冻结为 **Phase-A rank-5 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=varus-e-hail-of-arrows-primary-hit-phase-a-v1`）：
+
+`rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好八键属性定义（无 AP）；幂等投影 reserved → `types`；ensure `hero_varus`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp600 / mana320 / ad59 / AS0.658 / armor24 / MR30 / hpregen0.7 / manaregen1.6）、`resource_definitions.mana` 与 `entity_resource_values`（320/320）；向 `hero_varus` **仅** mount 独立 `provider_hero_varus_e_hail_of_arrows_primary_hit`（与 `provider_hero_varus_basic_attack` / `provider_hero_varus_w_blighted_quiver_phase_a` 及其 Q carrier 并存），含 active `ability_hero_varus_e_hail_of_arrows_primary_hit`（`ability_key=hail_of_arrows`）、`ability_costs` 90 mana、`ability_cooldowns` 10000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `180 + 0.90*(ad.resolved-ad.base)`（`copyable_on_hit=false`，非 crit；运行时类型 `20220`）。Wiki：page1309978 / rev3969402 / `2025-11-24T16:03:58Z` / 1750 bytes / SHA256 `7b4be71bcc26ba933dff0235882d272c14e406abbf505290018ba15a5ba658e9`；sidecar `normalized/generic/varus-e.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**源矛盾策略**：同一 Wiki revision 的 description + labeled rank table 明确 physical `60 to 180 (+90% bonus AD)`，孤立 `damagetype=Magic` 字段错误；本边界以 description/rank table 为准，仅在 seed/JUnit/README 披露矛盾，**绝不**把 `damagetype=Magic` 写入运行时 `damage_effect_details`（禁止 `20221`）。
+
+**排除**：cast0.2419 / landing0.5 / travel；target-location/projectile/range925/radius300/collision/geometry；all-enemies/multi-target/repeat；4s field；slow30–50%/0.25s linger；Grievous Wounds；Blight stack 消耗/~0.3s 二次引爆/W·Q·普攻·on-hit 耦合；ranks1–4；equipment/loadout；listener/state/event/repeat；live migration；publish；不依赖既有 Varus W / Batch-B provider 发布顺序。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Teemo Blinding Dart seed（提莫 Q / Phase-A v1 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_teemo` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 Q active；与既有普攻 / Toxic Shot provider 并存，不重建/替换；不做 live migration、不自动 publish）：
