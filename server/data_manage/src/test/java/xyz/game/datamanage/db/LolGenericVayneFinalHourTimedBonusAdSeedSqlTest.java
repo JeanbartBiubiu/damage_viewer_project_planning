@@ -103,7 +103,13 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
 
     @Test
     void documentsSourceIdentityBoundaryOrderedTagsAndLocalRawCaveat() {
-        assertContains("hero_skill|hero_vayne|R|最终时刻");
+        assertContains("hero_skill|hero_vayne|R|终极时刻");
+        assertFalse(
+            sql.contains("hero_skill|hero_vayne|R|最终时刻"),
+            "stable key must reject typo 最终时刻; require exactly 终极时刻");
+        assertFalse(
+            sql.contains("最终时刻"),
+            "seed sql must not contain typo 最终时刻 anywhere");
         assertContains("vayne-r-final-hour-timed-bonus-ad-phase-a-v2");
         assertContains("Template:Data Vayne/R");
         assertContains("Template:Data Vayne/Final Hour");
@@ -659,6 +665,13 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
             sectionEnd = readme.length();
         }
         String section = readme.substring(sectionStart, sectionEnd);
+        assertTrue(
+            section.contains("hero_skill|hero_vayne|R|终极时刻"),
+            "README entry must document exact stable key hero_skill|hero_vayne|R|终极时刻");
+        assertFalse(
+            section.contains("hero_skill|hero_vayne|R|最终时刻")
+                || section.contains("最终时刻"),
+            "README entry must reject typo 最终时刻");
         assertTrue(
             Pattern.compile("(?i)Batch-B|lol_batch_b_adc_entities_seed")
                 .matcher(section)

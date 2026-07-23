@@ -849,7 +849,7 @@ mvn -Dtest=LolGenericVayneCondemnPrimaryHitSeedSqlTest test
 3. `db/game_manage/seeds/lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql`
 4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-vayne-final-hour-timed-bonus-ad-phase-a-v2-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_vayne|R|最终时刻` 冻结为 **Phase-A rank-3 direct timed bonus-AD self-buff**（`FROZEN_PLAN_REV=vayne-r-final-hour-timed-bonus-ad-phase-a-v2`）：
+建议发布版本：`lol-generic-vayne-final-hour-timed-bonus-ad-phase-a-v2-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_vayne|R|终极时刻` 冻结为 **Phase-A rank-3 direct timed bonus-AD self-buff**（`FROZEN_PLAN_REV=vayne-r-final-hour-timed-bonus-ad-phase-a-v2`）：
 
 `rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement`
 
