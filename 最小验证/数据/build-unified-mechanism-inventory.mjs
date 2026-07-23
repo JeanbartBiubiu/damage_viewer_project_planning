@@ -1554,6 +1554,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_varus|R|腐败锁链',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Varus R 腐败锁链/Chain of Corruption：Wiki rev4008213（SHA256 62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed；normalized/generic/varus-r.json）rank3 Phase-A v1 已由 wasm-generic-varus-chain-of-corruption-primary-hit + backend seed 证据闭环——100 mana / 60000ms CD；immediate primary-champion scaffold（明确排除而非建模 Wiki 未指定 cast delay 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 350+1.00*source.attr.ap.resolved（交叉校验 AP200 → raw550，target MR100 → mitigated275）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 100 from 300；HP 1000→450。completedBoundary：rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget。明确排除 unspecified cast delay/Effect-at-cast-time-end、projectile/travel/speed/collision/global geometry/direction/facing/interception/spellshield/untargetable、root/reveal/tenacity/cleanse/CC immunity、Blight creation and 0.65/1.2/1.75 schedule/rank0/W coupling/detonation/state、tendril ground anchor/0.25 seeking/range/area/secondary/repeat/spread/multitarget、ranks1–2、P/Q/W/E/basic/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget 保真。Backend seed 显式依赖 Batch-B identity/AP check-only 前置，并自包含 ensure mana 定义与 hero_varus mana320/320；不写 games/game_entities/attribute_definitions/entity_attribute_values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-chain-of-corruption-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_varus_chain_of_corruption_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; Wiki rev4008213/SHA256 62b397cc… rank3 100 mana/60000ms CD / one magic 350+1.00*AP; AP200→raw550/MR100→275; t0/t59999/t60000 two successes + one CD skip; final mana100/HP450; immediate scaffold excludes unspecified cast delay and Effect at cast time end; cast/projectile/travel/collision/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-chain-of-corruption-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; backend lol_generic_varus_chain_of_corruption_primary_hit_seed.sql + LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest (owning 067b0f8; integrated 982145c); Wasm exact test commit 74f3b22; Batch-B identity/AP check-only prerequisites + self-contained ensure mana definition/hero_varus mana320/320 (does not write games/game_entities/attribute_definitions/entity_attribute_values); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_twistedfate|Q|万能牌',
     {
       status: 'completed',
@@ -2138,6 +2170,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_varus|E|恶灵箭雨',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation',
+  ],
+  [
+    'hero_skill|hero_varus|R|腐败锁链',
+    'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget',
   ],
   [
     'hero_skill|hero_twistedfate|Q|万能牌',
@@ -5120,6 +5156,92 @@ function validateInventory(inv) {
       'Varus E must be completed/full/generic_runtime with cleared survivability_only/governed gaps, Wiki rev3969402/SHA, frozen boundary/physical formula/cost/CD/numeric schedule, description+rank-table physical authority with explicit isolated-Magic contradiction disclosure (not runtime truth), 0.5s landing-delay exclusion wording, bilateral evidence, and exclusions (no delay/area/field/control/W-detonation fidelity claim)',
     );
   }
+  const mVarusR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|R|腐败锁链');
+  const mVarusRReason = String(mVarusR?.reason || '');
+  if (
+    !mVarusR ||
+    mVarusR.status !== 'completed' ||
+    mVarusR.completionMode !== 'full' ||
+    mVarusR.lane !== 'generic_runtime' ||
+    mVarusR.blocker ||
+    mVarusR.dataGapEvidence !== null ||
+    mVarusR.runtimeGapEvidence !== null ||
+    mVarusR.outOfScopeEvidence !== null ||
+    mVarusR.coverageBoundary !==
+      'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget' ||
+    [...(mVarusR.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mVarusR.mechanismTags || []).includes('multi_target_or_area') ||
+    mVarusRReason.includes('multi_target_or_area') ||
+    mVarusRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mVarusRReason.includes('blocked_data') ||
+    !mVarusRReason.includes('4008213') ||
+    !mVarusRReason.includes(
+      '62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed',
+    ) ||
+    !mVarusRReason.includes(
+      'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget',
+    ) ||
+    !mVarusRReason.includes('source.attr.ap.resolved') ||
+    !mVarusRReason.includes('350') ||
+    !mVarusRReason.includes('1.00') ||
+    !mVarusRReason.includes('100 mana') ||
+    !mVarusRReason.includes('60000') ||
+    !mVarusRReason.includes('raw550') ||
+    !mVarusRReason.includes('275') ||
+    !mVarusRReason.includes('300') ||
+    !mVarusRReason.includes('450') ||
+    !mVarusRReason.includes('Effect at cast time end') ||
+    !mVarusRReason.includes('0.65') ||
+    !mVarusRReason.includes('1.2') ||
+    !mVarusRReason.includes('1.75') ||
+    !mVarusRReason.includes('Batch-B identity/AP check-only') ||
+    !mVarusRReason.includes('mana320/320') ||
+    !mVarusRReason.includes(
+      'games/game_entities/attribute_definitions/entity_attribute_values',
+    ) ||
+    !mVarusRReason.includes('不宣称') ||
+    !(mVarusR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-chain-of-corruption-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_varus_chain_of_corruption_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget',
+        ) &&
+        String(e.note || '').includes('Effect at cast time end') &&
+        String(e.note || '').includes('raw550'),
+    ) ||
+    !(mVarusR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-chain-of-corruption-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget',
+        ) &&
+        String(e.note || '').includes('LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('067b0f8') &&
+        String(e.note || '').includes('982145c') &&
+        String(e.note || '').includes('74f3b22') &&
+        String(e.note || '').includes('Batch-B identity/AP check-only') &&
+        String(e.note || '').includes('mana320/320') &&
+        String(e.note || '').includes(
+          'games/game_entities/attribute_definitions/entity_attribute_values',
+        ),
+    )
+  ) {
+    errors.push(
+      'Varus R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Chain of Corruption tags (no multi_target_or_area), Wiki rev4008213/SHA + frozen completedBoundary, numeric contract/100mana/60000CD/AP200→raw550/MR100→275/mana100/HP450, cast-end/root/reveal/Blight/tendril/seek/spread/multitarget exclusions, Batch-B identity/AP check-only + self-contained mana320/320 ensure (no games/game_entities/attribute_definitions/entity_attribute_values writes), and bilateral wasm+backend evidence (owning 067b0f8 / integrated 982145c / Wasm 74f3b22; no cast/projectile/geometry/direction/root/reveal/Blight/tendril fidelity claim)',
+    );
+  }
   const mTwistedFateQ = inv.mechanisms.find(
     (m) => m.key === 'hero_skill|hero_twistedfate|Q|万能牌',
   );
@@ -5632,8 +5754,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 72) {
-    errors.push(`completed=${sc.completed}, expected 72`);
+  if ((sc.completed || 0) !== 73) {
+    errors.push(`completed=${sc.completed}, expected 73`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -5641,8 +5763,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 101) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 101`);
+  if ((sc.blocked_runtime || 0) !== 100) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 100`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -5663,21 +5785,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 72) {
-    errors.push(`completionMode full=${cm.full}, expected 72`);
+  if ((cm.full || 0) !== 73) {
+    errors.push(`completionMode full=${cm.full}, expected 73`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 179) {
-    errors.push(`completionMode none=${cm.none}, expected 179`);
+  if ((cm.none || 0) !== 178) {
+    errors.push(`completionMode none=${cm.none}, expected 178`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 83) {
+  if (implGapCount !== 82) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 83`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 82`,
     );
   }
 
