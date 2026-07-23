@@ -865,6 +865,30 @@ cd server/data_manage
 mvn -Dtest=LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Varus Chain of Corruption primary-hit seed（韦鲁斯 R / Phase-A v1 主冠军命中）
+
+在 reserved types 与 Batch-B `lol_batch_b_adc_entities_seed.sql`（`hero_varus` + `ap`）已就绪后，按顺序执行（**前置仅为** reserved types + Batch-B；**不**要求 Varus E/W；seed **ensure** mana 资源 320/320（从 Batch-B 面板 mana=320 基线投影，非 Batch-B resource 行 check-only）；不改写 Batch-B 身份/面板；E/W 若存在则保留、非前置；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B / `hero_varus` / `ap` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-varus-chain-of-corruption-primary-hit-phase-a-v1-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_varus|R|腐败锁链`（task `wasm-generic-varus-chain-of-corruption-primary-hit`）冻结为 **Phase-A rank-3 立即主冠军命中 impact scaffold**（`FROZEN_PLAN_REV=varus-r-chain-of-corruption-primary-hit-phase-a-v1`）：
+
+`rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget`
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_varus` / `attribute_definitions(ap)` / `entity_attribute_values(hero_varus,ap)` 做 **fail-closed check-only**（缺失即回滚；不写 `games` / `game_entities` / `attribute_definitions` / `entity_attribute_values`）；幂等投影 reserved → `types`；**ensure** `resource_definitions.mana` 与 `entity_resource_values`（320/320）；向 `hero_varus` **仅** mount 独立 `provider_hero_varus_r_chain_of_corruption_primary_hit`（与既有 `provider_hero_varus_basic_attack` / `provider_hero_varus_w_blighted_quiver_phase_a` / E Hail of Arrows 并存，不更新/删除/重建；E/W **不是**前置），含 active `ability_hero_varus_r_chain_of_corruption_primary_hit`（`ability_key=chain_of_corruption`）、`ability_costs` 100 mana、`ability_cooldowns` 60000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `350 + 1.00*AP`（`copyable_on_hit=false`，非 crit；运行时类型 `20221`）。Wiki：request `Template:Data Varus/R` → resolved `Template:Data Varus/Chain of Corruption`；page1309977 / rev4008213 / `2026-04-14T05:44:24Z` / canonical 5223 bytes / SHA256 `62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed`；sidecar `normalized/generic/varus-r.json`。**local raw materialization caveat**：5222 / `aa50685e07a4a974baa7f4a3bf43689f930dd20ac144fa03b72886daf8242207`；trim LF →5221 / `a5b638836ce4976afc3e79852655826b82ecb357f2c54d36a0c885202129b585`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。夹具交叉核对（注释）：AP200=>raw550、MR100=>mitigated275；t0 success / t59999 cooldown skip / t60000 success；mana300->100、HP1000->450。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。不暗示 live 执行或发布。
+
+**排除**：unspecified cast delay / Wiki Effect at cast time end；projectile/travel/speed/collision/global geometry/direction/facing/interception/spell-shield/untargetable；root/reveal/tenacity/cleanse/CC immunity；Blight stack creation 与 0.65/1.2/1.75s schedule、rank-0 fallback、W coupling/detonation/state mutation；tendril ground anchor、0.25s seeking、range/area、secondary infection/repeat spread/multitarget ordering；ranks1–2；Varus P/Q/W/E/basic/on-hit/equipment/runes/loadout；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Teemo Blinding Dart seed（提莫 Q / Phase-A v1 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_teemo` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 Q active；与既有普攻 / Toxic Shot provider 并存，不重建/替换；不做 live migration、不自动 publish）：
