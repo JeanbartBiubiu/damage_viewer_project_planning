@@ -612,6 +612,8 @@ const SEED = {
   teemoBlindingDartBackend: 'db/game_manage/seeds/lol_generic_teemo_blinding_dart_seed.sql',
   vayneCondemnPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql',
+  vayneFinalHourTimedBonusAdBackend:
+    'db/game_manage/seeds/lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
@@ -708,6 +710,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_teemo_blinding_dart_test.go',
   vayneCondemnPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_condemn_primary_hit_test.go',
+  vayneFinalHourTimedBonusAd:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_final_hour_timed_bonus_ad_test.go',
   quinnHeightenedSenses:
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   xayahDeadlyPlumage:
@@ -877,6 +881,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-vayne-condemn-primary-hit',
           SEED.vayneCondemnPrimaryHitBackend,
           'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; backend lol_generic_vayne_condemn_primary_hit_seed.sql + LolGenericVayneCondemnPrimaryHitSeedSqlTest (owning e7d28f6; integrated 61290cb); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_vayne|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'cast_triggered_timed_bonus_ad',
+        'flat_ad_add',
+        'timed_provider_state',
+      ],
+      reason:
+        'hero_vayne R 终极时刻/Final Hour：Wiki request Template:Data Vayne/R → resolved Template:Data Vayne/Final Hour；page1309991 / rev3807995 / timestamp 2024-11-05T22:07:10Z / canonical bytes2015 / SHA256 e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d（normalized/generic/vayne-r.json）rank3 Phase-A v2 已由 wasm-generic-vayne-final-hour-timed-bonus-ad 闭环为 migrated——local raw caveat bytes2012 / SHA 343d19e30f0edf70359f122abb2c6c8e7d2d16d5e4c6db46416428d72e7c7642（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 70000ms CD；+65 AD for 12000ms via direct provider-scope override state_change，zero listeners/ability-start scaffold；fixture AD60→125→60；armor100 probe raw/mitigated125/62.5 then60/30；R has no damage。Attempts t0/t69999/t70000 → two successes + exactly one cooldown skip without cost/state write；mana300→140；second success re-arms state。completedBoundary：rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement。明确排除 Night Hunter movement speed/direction、Tumble cooldown/cast/dash/reset、invisibility/stealth、takedown/qualification/extension/cap、animations/projectiles、ranks1–2、Vayne P/Q/W/E/basic/Silver Bolts/Condemn、loadout/items/runes、direct R damage/target effects、live migration/publish/E2E/full fidelity；不宣称 Night Hunter/Tumble/stealth/takedown/完整游戏保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-vayne-final-hour-timed-bonus-ad',
+          WASM.vayneFinalHourTimedBonusAd,
+          'completedBoundary: rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement; Wiki request Template:Data Vayne/R → Final Hour; rev3807995/SHA256 e417f1cf… / bytes2015; local raw caveat bytes2012/SHA 343d19e3… no equivalence claim; rank3 80 mana/70000ms CD / +65 AD 12000ms direct provider-scope override state_change zero listeners/ability-start; AD60→125→60; armor100 probe 125/62.5 then60/30; R no damage; t0/t69999/t70000 two successes + one CD skip without cost/state write; mana300→140; second success re-arms; Night Hunter/Tumble/stealth/takedown/animation/ranks1-2/P-Q-W-E/basic/Silver Bolts/Condemn/loadout/items/runes/direct R damage/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-vayne-final-hour-timed-bonus-ad',
+          SEED.vayneFinalHourTimedBonusAdBackend,
+          'completedBoundary: rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement; backend lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql + LolGenericVayneFinalHourTimedBonusAdSeedSqlTest (owning 4440c3d + stable-key correction 8eb9f2a; integrated 2710647 + correction 18dbff1); Wasm exact test commit 3a35a95; not live published',
         ),
       ],
     },
@@ -3928,9 +3962,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 63) errors.push(`migrated=${counts.migrated}, expected 63`);
+  if (counts.migrated !== 64) errors.push(`migrated=${counts.migrated}, expected 64`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 106) errors.push(`blocked=${counts.blocked}, expected 106`);
+  if (counts.blocked !== 105) errors.push(`blocked=${counts.blocked}, expected 105`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5191,6 +5225,103 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       vayneE.candidateKey,
       vayneE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const vayneR = records.find((r) => r.candidateKey === 'hero_skill|hero_vayne|R|终极时刻');
+  const vayneRTags = [...(vayneR?.genericMechanismTags || [])];
+  const vayneRExpectedTags = [
+    'ability_cost_cooldown',
+    'cast_triggered_timed_bonus_ad',
+    'flat_ad_add',
+    'timed_provider_state',
+  ];
+  const vayneRReason = String(vayneR?.classificationReason || '');
+  const vayneRBoundary =
+    'rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement';
+  if (
+    !vayneR
+    || vayneR.candidateKey !== 'hero_skill|hero_vayne|R|终极时刻'
+    || vayneR.passiveName !== '终极时刻'
+    || vayneR.genericClassification !== 'migrated'
+    || String(vayneR.remainingGap || '').trim()
+    || (vayneR.dataGapEvidence?.missingFields || []).length !== 0
+    || vayneRTags.join('|') !== vayneRExpectedTags.join('|')
+    || vayneRTags.includes('meta_or_non_target_dps')
+    || vayneRTags.includes('dps_relevant_manual_review')
+    || String(vayneR.remainingGap || '').includes('blocked_data')
+    || vayneRReason.includes('out_of_scope_for_single_target_dps')
+    || vayneRReason.includes('blocked_data')
+    || vayneRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || vayneRReason.includes('meta_or_non_target_dps')
+    || vayneRReason.includes('最终时刻')
+    || JSON.stringify(vayneR.coverageEvidence || []).includes('最终时刻')
+    || !vayneRReason.includes('3807995')
+    || !vayneRReason.includes(
+      'e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d',
+    )
+    || !vayneRReason.includes('343d19e30f0edf70359f122abb2c6c8e7d2d16d5e4c6db46416428d72e7c7642')
+    || !vayneRReason.includes('Template:Data Vayne/R')
+    || !vayneRReason.includes('Template:Data Vayne/Final Hour')
+    || !vayneRReason.includes('page1309991')
+    || !vayneRReason.includes('bytes2015')
+    || !vayneRReason.includes('bytes2012')
+    || !vayneRReason.includes(vayneRBoundary)
+    || !vayneRReason.includes('80 mana')
+    || !vayneRReason.includes('70000')
+    || !vayneRReason.includes('+65')
+    || !vayneRReason.includes('12000')
+    || !vayneRReason.includes('direct provider-scope override state_change')
+    || !vayneRReason.includes('zero listeners')
+    || !vayneRReason.includes('ability-start')
+    || !vayneRReason.includes('AD60')
+    || !vayneRReason.includes('125')
+    || !vayneRReason.includes('62.5')
+    || !vayneRReason.includes('mana300')
+    || !vayneRReason.includes('140')
+    || !vayneRReason.includes('t69999')
+    || !vayneRReason.includes('Night Hunter')
+    || !vayneRReason.includes('Tumble')
+    || !vayneRReason.includes('不宣称')
+    || !String(vayneR.sourceRef || '').includes('vayne-r.json')
+    || !String(vayneR.sourceRef || '').includes(
+      'e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d',
+    )
+    || citesForbiddenProvenance(vayneR.classificationReason)
+    || !(vayneR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.vayneFinalHourTimedBonusAd
+        && e.taskKey === 'wasm-generic-vayne-final-hour-timed-bonus-ad'
+        && String(e.note || '').includes(vayneRBoundary)
+        && String(e.note || '').includes('direct provider-scope override state_change')
+        && String(e.note || '').includes('zero listeners')
+        && !String(e.note || '').includes('最终时刻'),
+    )
+    || !(vayneR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.vayneFinalHourTimedBonusAdBackend
+        && e.taskKey === 'wasm-generic-vayne-final-hour-timed-bonus-ad'
+        && String(e.note || '').includes(vayneRBoundary)
+        && String(e.note || '').includes('LolGenericVayneFinalHourTimedBonusAdSeedSqlTest')
+        && String(e.note || '').includes('4440c3d')
+        && String(e.note || '').includes('8eb9f2a')
+        && String(e.note || '').includes('2710647')
+        && String(e.note || '').includes('18dbff1')
+        && String(e.note || '').includes('3a35a95')
+        && !String(e.note || '').includes('最终时刻'),
+    )
+  ) {
+    errors.push(
+      'Vayne R must be migrated with empty remainingGap/missingFields, exact Final Hour ordered tags (no meta_or_non_target_dps), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev3807995/SHA + local raw caveat + frozen completedBoundary, 80mana/70000CD/+65AD/12000ms direct state_change zero-listener numerics (AD60→125→60; armor100 125/62.5 then60/30; mana300→140; t0/t69999/t70000), stable-key 终极时刻 (fail-closed vs 最终时刻), and bilateral wasm+backend evidence (owning 4440c3d+8eb9f2a / integrated 2710647+18dbff1 / Wasm 3a35a95; no Night Hunter/Tumble/stealth/takedown/live claim)',
+    );
+  }
+  if (vayneR) {
+    validateBilateralCoverageEvidence(
+      vayneR.candidateKey,
+      vayneR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );

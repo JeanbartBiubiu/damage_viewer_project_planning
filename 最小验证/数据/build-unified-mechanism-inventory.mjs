@@ -1110,6 +1110,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_vayne|R|终极时刻',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Vayne R 终极时刻/Final Hour：Wiki request Template:Data Vayne/R → resolved Template:Data Vayne/Final Hour；page1309991 / rev3807995 / timestamp 2024-11-05T22:07:10Z / canonical bytes2015 / SHA256 e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d（normalized/generic/vayne-r.json）rank3 Phase-A v2 已由 wasm-generic-vayne-final-hour-timed-bonus-ad + backend seed 证据闭环——local raw caveat bytes2012 / SHA 343d19e30f0edf70359f122abb2c6c8e7d2d16d5e4c6db46416428d72e7c7642（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 70000ms CD；+65 AD for 12000ms via direct provider-scope override state_change，zero listeners/ability-start scaffold；fixture AD60→125→60；armor100 probe raw/mitigated125/62.5 then60/30；R has no damage。Attempts t0/t69999/t70000 → two successes + exactly one cooldown skip without cost/state write；mana300→140；second success re-arms state。completedBoundary：rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement。明确排除 Night Hunter movement speed/direction、Tumble cooldown/cast/dash/reset、invisibility/stealth、takedown/qualification/extension/cap、animations/projectiles、ranks1–2、Vayne P/Q/W/E/basic/Silver Bolts/Condemn、loadout/items/runes、direct R damage/target effects、live migration/publish/E2E/full fidelity；不宣称 Night Hunter/Tumble/stealth/takedown/完整游戏保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-vayne-final-hour-timed-bonus-ad',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_final_hour_timed_bonus_ad_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement; Wiki request Template:Data Vayne/R → Final Hour; rev3807995/SHA256 e417f1cf… / bytes2015; local raw caveat bytes2012/SHA 343d19e3… no equivalence claim; rank3 80 mana/70000ms CD / +65 AD 12000ms direct provider-scope override state_change zero listeners/ability-start; AD60→125→60; armor100 probe 125/62.5 then60/30; R no damage; t0/t69999/t70000 two successes + one CD skip without cost/state write; mana300→140; second success re-arms; Night Hunter/Tumble/stealth/takedown/animation/ranks1-2/P-Q-W-E/basic/Silver Bolts/Condemn/loadout/items/runes/direct R damage/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-vayne-final-hour-timed-bonus-ad',
+          sourcePath: 'db/game_manage/seeds/lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement; backend lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql + LolGenericVayneFinalHourTimedBonusAdSeedSqlTest (owning 4440c3d + stable-key correction 8eb9f2a; integrated 2710647 + correction 18dbff1); Wasm exact test commit 3a35a95; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_twitch|Q|埋伏',
     {
       status: 'completed',
@@ -2158,6 +2189,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_vayne|E|恶魔审判',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+  ],
+  [
+    'hero_skill|hero_vayne|R|终极时刻',
+    'rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement',
   ],
   [
     'hero_skill|hero_kogmaw|E|虚空淤泥',
@@ -5754,8 +5789,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 73) {
-    errors.push(`completed=${sc.completed}, expected 73`);
+  if ((sc.completed || 0) !== 74) {
+    errors.push(`completed=${sc.completed}, expected 74`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -5763,8 +5798,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 100) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 100`);
+  if ((sc.blocked_runtime || 0) !== 99) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 99`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -5785,21 +5820,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 73) {
-    errors.push(`completionMode full=${cm.full}, expected 73`);
+  if ((cm.full || 0) !== 74) {
+    errors.push(`completionMode full=${cm.full}, expected 74`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 178) {
-    errors.push(`completionMode none=${cm.none}, expected 178`);
+  if ((cm.none || 0) !== 177) {
+    errors.push(`completionMode none=${cm.none}, expected 177`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 82) {
+  if (implGapCount !== 81) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 82`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 81`,
     );
   }
 
@@ -6161,6 +6196,94 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Vayne E must be completed/full/generic_runtime with cleared gaps/stale tags, Wiki rev4008541/SHA, frozen boundary/formula/cost/CD/numeric schedule, bilateral evidence, and exclusions (no wall/terrain/CC/cast/projectile/full-game claim)',
+    );
+  }
+
+  const mVayneR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_vayne|R|终极时刻');
+  const mVayneRReason = String(mVayneR?.reason || '');
+  const mVayneRBoundary =
+    'rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement';
+  if (
+    !mVayneR ||
+    mVayneR.key !== 'hero_skill|hero_vayne|R|终极时刻' ||
+    mVayneR.passiveName !== '终极时刻' ||
+    mVayneR.status !== 'completed' ||
+    mVayneR.completionMode !== 'full' ||
+    mVayneR.lane !== 'generic_runtime' ||
+    mVayneR.blocker ||
+    mVayneR.dataGapEvidence !== null ||
+    mVayneR.runtimeGapEvidence !== null ||
+    mVayneR.outOfScopeEvidence !== null ||
+    mVayneR.coverageBoundary !== mVayneRBoundary ||
+    [...(mVayneR.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'cast_triggered_timed_bonus_ad',
+        'flat_ad_add',
+        'timed_provider_state',
+      ].join('|') ||
+    (mVayneR.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mVayneR.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    mVayneRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mVayneRReason.includes('meta_or_non_target_dps') ||
+    mVayneRReason.includes('最终时刻') ||
+    JSON.stringify(mVayneR.evidenceRefs || []).includes('最终时刻') ||
+    !mVayneRReason.includes('3807995') ||
+    !mVayneRReason.includes(
+      'e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d',
+    ) ||
+    !mVayneRReason.includes('343d19e30f0edf70359f122abb2c6c8e7d2d16d5e4c6db46416428d72e7c7642') ||
+    !mVayneRReason.includes('Template:Data Vayne/R') ||
+    !mVayneRReason.includes('Template:Data Vayne/Final Hour') ||
+    !mVayneRReason.includes('page1309991') ||
+    !mVayneRReason.includes('bytes2015') ||
+    !mVayneRReason.includes('bytes2012') ||
+    !mVayneRReason.includes(mVayneRBoundary) ||
+    !mVayneRReason.includes('80 mana') ||
+    !mVayneRReason.includes('70000') ||
+    !mVayneRReason.includes('+65') ||
+    !mVayneRReason.includes('12000') ||
+    !mVayneRReason.includes('direct provider-scope override state_change') ||
+    !mVayneRReason.includes('zero listeners') ||
+    !mVayneRReason.includes('ability-start') ||
+    !mVayneRReason.includes('AD60') ||
+    !mVayneRReason.includes('125') ||
+    !mVayneRReason.includes('62.5') ||
+    !mVayneRReason.includes('mana300') ||
+    !mVayneRReason.includes('140') ||
+    !mVayneRReason.includes('t69999') ||
+    !mVayneRReason.includes('Night Hunter') ||
+    !mVayneRReason.includes('Tumble') ||
+    !mVayneRReason.includes('不宣称') ||
+    !(mVayneR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-vayne-final-hour-timed-bonus-ad' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_final_hour_timed_bonus_ad_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mVayneRBoundary) &&
+        String(e.note || '').includes('direct provider-scope override state_change') &&
+        String(e.note || '').includes('zero listeners') &&
+        !String(e.note || '').includes('最终时刻'),
+    ) ||
+    !(mVayneR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-vayne-final-hour-timed-bonus-ad' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mVayneRBoundary) &&
+        String(e.note || '').includes('LolGenericVayneFinalHourTimedBonusAdSeedSqlTest') &&
+        String(e.note || '').includes('4440c3d') &&
+        String(e.note || '').includes('8eb9f2a') &&
+        String(e.note || '').includes('2710647') &&
+        String(e.note || '').includes('18dbff1') &&
+        String(e.note || '').includes('3a35a95') &&
+        !String(e.note || '').includes('最终时刻'),
+    )
+  ) {
+    errors.push(
+      'Vayne R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Final Hour ordered tags (no meta_or_non_target_dps), Wiki rev3807995/SHA + local raw caveat + frozen completedBoundary, 80mana/70000CD/+65AD/12000ms direct state_change zero-listener numerics, stable-key 终极时刻 (fail-closed vs 最终时刻), and bilateral evidence (owning 4440c3d+8eb9f2a / integrated 2710647+18dbff1 / Wasm 3a35a95; no Night Hunter/Tumble/stealth/takedown/live claim)',
     );
   }
 
