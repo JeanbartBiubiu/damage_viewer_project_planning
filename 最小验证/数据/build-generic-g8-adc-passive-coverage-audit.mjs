@@ -619,6 +619,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql',
   gravesSmokeScreenPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_graves_smoke_screen_primary_hit_seed.sql',
+  gravesCollateralDamagePrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_graves_collateral_damage_primary_hit_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
   akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
@@ -710,6 +712,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_quickdraw_max_stack_test.go',
   gravesSmokeScreenPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_smoke_screen_primary_hit_test.go',
+  gravesCollateralDamagePrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_graves_collateral_damage_primary_hit_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
   akshanDirtyFighting:
@@ -1634,6 +1638,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-graves-smoke-screen-primary-hit',
           SEED.gravesSmokeScreenPrimaryHitBackend,
           'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction; backend lol_generic_graves_smoke_screen_primary_hit_seed.sql + LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest (owning 1238c53; integrated 037bae3); Wasm exact test commit 78ab90c; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_graves|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_graves R 终极爆弹/Collateral Damage：Wiki rev4007499（SHA256 834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1；normalized/generic/graves-r.json）rank3 Phase-A v2 已由 wasm-generic-graves-collateral-damage-primary-hit 闭环为 migrated——100 mana / 60000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast delay、recoil dash、projectile line/geometry）；恰好一次 non-crit/non-copyable physical damage 575+1.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 baseAD66 / resolvedAD120 / bonusAD54 → raw656，armor100 → mitigated328）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 125 from 325；HP 1000→344。completedBoundary：rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage。明确排除 cast delay/effect-at-cast-end、recoil/dash 400、projectile/line travel/collision/range/geometry、multi-target/repeat、explosion cone/reduced damage 440+1.20 bonus AD（仅适用于额外敌人，excluded not denied）、ranks1–2、P/E/W/basic/ammo/True Grit/bonus resistance/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/recoil/projectile/line/multitarget/explosion-cone/reduced-damage 保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-collateral-damage-primary-hit',
+          WASM.gravesCollateralDamagePrimaryHit,
+          'completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage; Wiki rev4007499/SHA256 834843a7… rank3 100 mana/60000ms CD / one physical 575+1.50*bonusAD; baseAD66/resolvedAD120/bonusAD54→raw656/armor100→328; t0/t59999/t60000 two successes + one CD skip; final mana125/HP344; immediate scaffold excludes Wiki cast delay/recoil/projectile/line; explosion cone reduced 440+1.20 bonus AD excluded not denied; cast/recoil/projectile/line/multitarget/explosion-cone/reduced-damage/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-collateral-damage-primary-hit',
+          SEED.gravesCollateralDamagePrimaryHitBackend,
+          'completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage; backend lol_generic_graves_collateral_damage_primary_hit_seed.sql + LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest (owning 9c1087b; integrated c2a8a97); Wasm exact test commit 4abadf1; not live published',
         ),
       ],
     },
@@ -3791,9 +3825,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 59) errors.push(`migrated=${counts.migrated}, expected 59`);
+  if (counts.migrated !== 60) errors.push(`migrated=${counts.migrated}, expected 60`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 110) errors.push(`blocked=${counts.blocked}, expected 110`);
+  if (counts.blocked !== 109) errors.push(`blocked=${counts.blocked}, expected 109`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -4092,6 +4126,94 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       gravesW.candidateKey,
       gravesW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+
+  const gravesR = records.find((r) => r.candidateKey === 'hero_skill|hero_graves|R|终极爆弹');
+  const gravesRTags = [...(gravesR?.genericMechanismTags || [])];
+  const gravesRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const gravesRReason = String(gravesR?.classificationReason || '');
+  if (
+    !gravesR
+    || gravesR.genericClassification !== 'migrated'
+    || String(gravesR.remainingGap || '').trim()
+    || (gravesR.dataGapEvidence?.missingFields || []).length !== 0
+    || gravesRTags.join('|') !== gravesRExpectedTags.join('|')
+    || gravesRTags.includes('dps_relevant_manual_review')
+    || String(gravesR.remainingGap || '').includes('blocked_data')
+    || gravesRReason.includes('out_of_scope_for_single_target_dps')
+    || gravesRReason.includes('blocked_data')
+    || gravesRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || gravesRReason.includes('needs_manual_baseline')
+    || gravesRReason.includes('dps_relevant_manual_review')
+    || !gravesRReason.includes('4007499')
+    || !gravesRReason.includes(
+      '834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1',
+    )
+    || !gravesRReason.includes(
+      'rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage',
+    )
+    || !gravesRReason.includes('source.attr.ad.resolved')
+    || !gravesRReason.includes('source.attr.ad.base')
+    || !gravesRReason.includes('575')
+    || !gravesRReason.includes('1.50')
+    || !gravesRReason.includes('100 mana')
+    || !gravesRReason.includes('60000')
+    || !gravesRReason.includes('baseAD66')
+    || !gravesRReason.includes('resolvedAD120')
+    || !gravesRReason.includes('bonusAD54')
+    || !gravesRReason.includes('raw656')
+    || !gravesRReason.includes('328')
+    || !gravesRReason.includes('125')
+    || !gravesRReason.includes('344')
+    || !gravesRReason.includes('440')
+    || !gravesRReason.includes('1.20')
+    || !gravesRReason.includes('excluded not denied')
+    || !gravesRReason.includes('recoil')
+    || !gravesRReason.includes('explosion cone')
+    || !gravesRReason.includes('不宣称')
+    || !String(gravesR.sourceRef || '').includes('graves-r.json')
+    || citesForbiddenProvenance(gravesR.classificationReason)
+    || !(gravesR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.gravesCollateralDamagePrimaryHit
+        && e.taskKey === 'wasm-generic-graves-collateral-damage-primary-hit'
+        && String(e.note || '').includes(
+          'rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage',
+        )
+        && String(e.note || '').includes('recoil')
+        && String(e.note || '').includes('excluded not denied'),
+    )
+    || !(gravesR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.gravesCollateralDamagePrimaryHitBackend
+        && e.taskKey === 'wasm-generic-graves-collateral-damage-primary-hit'
+        && String(e.note || '').includes(
+          'rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage',
+        )
+        && String(e.note || '').includes('LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('9c1087b')
+        && String(e.note || '').includes('c2a8a97')
+        && String(e.note || '').includes('4abadf1'),
+    )
+  ) {
+    errors.push(
+      'Graves R must be migrated with empty remainingGap/missingFields, exact Collateral Damage tags (no dps_relevant_manual_review), stale blocked_data/needs_manual_baseline/implementation-gap cleared, Wiki rev4007499/SHA + frozen completedBoundary, numeric contract/100mana/60000CD/baseAD66→120/bonus54→raw656/armor100→328/mana125/HP344, explosion-cone reduced 440+1.20 excluded-not-denied, recoil/cast/projectile exclusions, and bilateral wasm+backend evidence (owning 9c1087b / integrated c2a8a97 / Wasm 4abadf1; no cast/recoil/projectile/line/multitarget/explosion-cone fidelity claim)',
+    );
+  }
+  if (gravesR) {
+    validateBilateralCoverageEvidence(
+      gravesR.candidateKey,
+      gravesR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
