@@ -1014,6 +1014,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-graves-collateral-damage-primary-hit",
+      "title": "通用 ABI 格雷福斯 R 终极爆弹 Collateral Damage 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_collateral_damage_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_graves|R|终极爆弹 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Graves/R→Collateral Damage page1307373/rev4007499/timestamp2026-04-11T22:21:36Z/canonical raw2722/SHA256 834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1；sidecar graves-r.json；本地raw2723恰一终端LF，修剪后=canonical（terminal-LF materialization caveat；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage。Rank3：100mana/60000ms；immediate primary-target scaffold（cast delay/recoil/弹道几何/直线多目标/爆炸锥显式排除）；一笔非暴击/不可复制物理575+1.50*bonusAD；交叉baseAD66/resolvedAD120/bonusAD54→raw656/armor100→328；t0/t59999/t60000两次命中+一次CD skip；mana325→125；HP1000→344。附加敌人减伤锥440+1.20 bonus AD对本切片显式排除（非否认/未建模）。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。不宣称cast/recoil/projectile/line/multitarget/explosion/cone/full-fidelity。Backend owning 9c1087b/集成c2a8a97（39/39；723/723）；Wasm exact 4abadf1（4/4；gofmt run-3834b0bb）；审计2f83a06。DESIGN_REVIEW_ONLY READY run-51a3bb00（结构化createPlan VERDICT=READY；792/792；runDelta0）。Unified 254：sourceCount12/completed70/blocked_runtime103/full70/none181；G8 242=migrated60/partial4/blocked109/OOS69；implementation_gap=85；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/push/E2E。不得误称完整Collateral Damage/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯R终极爆弹CollateralDamage主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯R终极爆弹CollateralDamage主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
