@@ -595,6 +595,8 @@ const SEED = {
   twistedFateStackedDeck: 'db/game_manage/seeds/lol_generic_twisted_fate_stacked_deck_seed.sql',
   asheRangersFocusBackend: 'db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql',
   asheVolleyBackend: 'db/game_manage/seeds/lol_generic_ashe_volley_seed.sql',
+  asheEnchantedCrystalArrowPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql',
   dravenSpinningAxeBackend: 'db/game_manage/seeds/lol_generic_draven_spinning_axe_seed.sql',
   pipelineDamageItemsBackend:
     'db/game_manage/seeds/lol_generic_pipeline_damage_items_seed.sql',
@@ -672,6 +674,8 @@ const WASM = {
   asheRangersFocus:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go',
   asheVolley: 'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_volley_test.go',
+  asheEnchantedCrystalArrowPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_enchanted_crystal_arrow_primary_hit_test.go',
   dravenSpinningAxe:
     'wasm/tinygo_engine_v2/internal/runtime/generic_draven_spinning_axe_test.go',
   pipelineDamageModifier:
@@ -1277,6 +1281,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-ashe-volley',
           SEED.asheVolleyBackend,
           'completedBoundary: Volley user-approved 1v1 seeded; excluded Frost Shot/projectile/multi-target/other ranks out of scope; backend lol_generic_ashe_volley_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ashe|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_ashe R 魔法水晶箭/Enchanted Crystal Arrow：Wiki rev4026934（SHA256 1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f；normalized/generic/ashe-r.json）rank3 Phase-A v1 已由 wasm-generic-ashe-enchanted-crystal-arrow-primary-hit 闭环为 migrated——100 mana / 60000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast0.25 与 Effect at cast time start）；恰好一次 non-crit/non-copyable magic damage 600+1.20*source.attr.ap.resolved（交叉校验 AP200 → raw840，target MR100 → mitigated420）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 80 from 280；HP 1000→160。completedBoundary：rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight。明确排除 cast0.25/effect-at-cast-time-start、projectile/travel/collision/geometry、distance-scaled stun、surrounding same-damage AOE/Frost、sight、ranks1–2、Ashe P/Q/W/basic/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/stun/AOE/Frost/sight 保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit',
+          WASM.asheEnchantedCrystalArrowPrimaryHit,
+          'completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight; Wiki rev4026934/SHA256 1d9ccefa… rank3 100 mana/60000ms CD / one magic 600+1.20*AP; AP200→raw840/MR100→420; t0/t59999/t60000 two successes + one CD skip; final mana80/HP160; immediate scaffold excludes Wiki cast0.25 and Effect at cast time start; cast/projectile/travel/collision/geometry/distance-stun/AOE/Frost/sight/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit',
+          SEED.asheEnchantedCrystalArrowPrimaryHitBackend,
+          'completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight; backend lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql + LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest (owning 5d4a13f; integrated 2f820e4); Wasm exact test commit bb3dd81; not live published',
         ),
       ],
     },
@@ -3825,9 +3859,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 60) errors.push(`migrated=${counts.migrated}, expected 60`);
+  if (counts.migrated !== 61) errors.push(`migrated=${counts.migrated}, expected 61`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 109) errors.push(`blocked=${counts.blocked}, expected 109`);
+  if (counts.blocked !== 108) errors.push(`blocked=${counts.blocked}, expected 108`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5645,6 +5679,90 @@ function validateAudit(audit) {
   ) {
     errors.push(
       'Ashe W must be migrated with bilateral wasm+backend evidence under user-approved Volley 1v1 scope',
+    );
+  }
+  const asheR = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|R|魔法水晶箭');
+  const asheRTags = [...(asheR?.genericMechanismTags || [])];
+  const asheRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const asheRReason = String(asheR?.classificationReason || '');
+  if (
+    !asheR
+    || asheR.genericClassification !== 'migrated'
+    || String(asheR.remainingGap || '').trim()
+    || (asheR.dataGapEvidence?.missingFields || []).length !== 0
+    || asheRTags.join('|') !== asheRExpectedTags.join('|')
+    || asheRTags.includes('multi_target_or_area')
+    || String(asheR.remainingGap || '').includes('blocked_data')
+    || asheRReason.includes('out_of_scope_for_single_target_dps')
+    || asheRReason.includes('blocked_data')
+    || asheRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || asheRReason.includes('multi_target_or_area')
+    || !asheRReason.includes('4026934')
+    || !asheRReason.includes(
+      '1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f',
+    )
+    || !asheRReason.includes(
+      'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
+    )
+    || !asheRReason.includes('source.attr.ap.resolved')
+    || !asheRReason.includes('600')
+    || !asheRReason.includes('1.20')
+    || !asheRReason.includes('100 mana')
+    || !asheRReason.includes('60000')
+    || !asheRReason.includes('raw840')
+    || !asheRReason.includes('420')
+    || !asheRReason.includes('80')
+    || !asheRReason.includes('160')
+    || !asheRReason.includes('cast0.25')
+    || !asheRReason.includes('Effect at cast time start')
+    || !asheRReason.includes('distance-scaled stun')
+    || !asheRReason.includes('Frost')
+    || !asheRReason.includes('不宣称')
+    || !String(asheR.sourceRef || '').includes('ashe-r.json')
+    || asheR.auditBaseline?.gapCode !== 'blocked_data'
+    || asheR.auditBaseline?.resolvedBucket !== 'blocked'
+    || !(asheR.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(asheR.classificationReason)
+    || !(asheR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.asheEnchantedCrystalArrowPrimaryHit
+        && e.taskKey === 'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit'
+        && String(e.note || '').includes(
+          'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
+        )
+        && String(e.note || '').includes('cast0.25')
+        && String(e.note || '').includes('Effect at cast time start'),
+    )
+    || !(asheR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.asheEnchantedCrystalArrowPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit'
+        && String(e.note || '').includes(
+          'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
+        )
+        && String(e.note || '').includes('LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('5d4a13f')
+        && String(e.note || '').includes('2f820e4')
+        && String(e.note || '').includes('bb3dd81'),
+    )
+  ) {
+    errors.push(
+      'Ashe R must be migrated with empty remainingGap/missingFields, exact Enchanted Crystal Arrow tags (no multi_target_or_area), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw auditBaseline provenance, Wiki rev4026934/SHA + frozen completedBoundary, numeric contract/100mana/60000CD/AP200→840/MR100→420/mana80/HP160, cast0.25/Effect-at-cast-time-start/distance-stun/AOE/Frost/sight exclusions, and bilateral wasm+backend evidence (owning 5d4a13f / integrated 2f820e4 / Wasm bb3dd81; no cast/projectile/stun/AOE/Frost/sight fidelity claim)',
+    );
+  }
+  if (asheR) {
+    validateBilateralCoverageEvidence(
+      asheR.candidateKey,
+      asheR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
     );
   }
   const ezrealP = records.find((r) => r.candidateKey === 'hero_skill|hero_ezreal|P|咒能高涨');
