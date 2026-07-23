@@ -1,5 +1,5 @@
 -- =============================================================================
--- LoL generic Vayne R Final Hour timed bonus-AD seed（薇恩 R 最终时刻 Phase-A）
+-- LoL generic Vayne R Final Hour timed bonus-AD seed（薇恩 R 终极时刻 Phase-A）
 -- =============================================================================
 --
 -- 目标：在 Batch-B 已提供 hero_vayne 身份/面板（含 ad / mana 属性）的前提下，
@@ -12,7 +12,7 @@
 --       impact phase + on_enter sequence → 单一 state_change）；零 listener 行；
 --       不依赖 event/ability_started 或 event/source_owner scaffold。
 --
--- 候选：hero_skill|hero_vayne|R|最终时刻
+-- 候选：hero_skill|hero_vayne|R|终极时刻
 -- FROZEN_PLAN_REV=vayne-r-final-hour-timed-bonus-ad-phase-a-v2
 -- 已完成边界（completed / full boundary）：
 --   rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement
@@ -334,7 +334,7 @@ BEGIN
         v_game_id,
         'provider_hero_vayne_r_final_hour_timed_bonus_ad',
         20120,
-        '薇恩 R 最终时刻 Final Hour timed bonus AD（Phase-A v2 rank3）',
+        '薇恩 R 终极时刻 Final Hour timed bonus AD（Phase-A v2 rank3）',
         v_candidate,
         NOW()
     )
@@ -496,7 +496,7 @@ BEGIN
         'provider_hero_vayne_r_final_hour_timed_bonus_ad',
         'final_hour',
         20130,
-        '最终时刻（R）',
+        '终极时刻（R）',
         v_candidate,
         NOW()
     )
@@ -619,7 +619,7 @@ BEGIN
         'sequence_hero_vayne_r_final_hour_timed_bonus_ad_impact',
         'provider_hero_vayne_r_final_hour_timed_bonus_ad',
         'final_hour_active_arm',
-        '最终时刻武装',
+        '终极时刻武装',
         v_candidate,
         NOW()
     )
