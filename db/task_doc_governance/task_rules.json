@@ -1078,6 +1078,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-vayne-final-hour-timed-bonus-ad",
+      "title": "通用 ABI 薇恩 R 终极时刻 Final Hour 限时攻击力机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_vayne_final_hour_timed_bonus_ad",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_vayne|R|终极时刻 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Vayne/R→Final Hour page1309991/rev3807995/timestamp2024-11-05T22:07:10Z/canonical raw2015/SHA256 e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d；sidecar vayne-r.json；本地raw2012/SHA343d19e3…7c7642（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement。Rank3：80mana/70000ms；direct provider-scope override const1 state_change→final_hour_active（default0/max1/12000ms/refresh-on-write）；AD add 65*provider.state.final_hour_active；R无伤害；零listener/ability_started/source_owner scaffold。交叉AD60→125→60；armor100探针激活125/62.5、到期60/30；t0/t69999/t70000两次成功+一次CD skip；mana300→140；第二次成功re-arm。governed tags序ability_cost_cooldown/cast_triggered_timed_bonus_ad/flat_ad_add/timed_provider_state。稳定键唯一终极时刻（主审检出稳定键错写已纠正；见验证记录）。Backend初始owning4440c3d/集成2710647（10/10；760/760；run-15784837）+纠正owning8eb9f2a/集成18dbff1（run-f017e85b）；multi-worktree镜像cleanup run-a7d8aa5e后正常cherry-pick。Wasm exact3a35a95（8/8；run-a204706f；初始run-3f60586c含orphaned read-running非干净设计门控）。审计ce62f902（run-d0e7ff61 delta6/outside0；1249/1249）。DESIGN_REVIEW_ONLY第三轮新鲜READY run-5057146f（REVIEWED_PLAN_REV=vayne-r-final-hour-timed-bonus-ad-phase-a-v2；1465/1465；97calls；runDelta0/diff0；v1截断无效）。Unified254：sourceCount12/completed74/blocked_runtime99/full74/none177；G8 242=migrated64/partial4/blocked105/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=81；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入。未执行live migration/publish/push/E2E。不得误称完整Final Hour/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-23",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-薇恩R终极时刻FinalHour限时攻击力机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-薇恩R终极时刻FinalHour限时攻击力机制验证记录-2026-07-23.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
