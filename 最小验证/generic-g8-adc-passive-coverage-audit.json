@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-23T02:40:49.314Z"
+    "generatedAt": "2026-07-23T03:40:12.657Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 62,
+      "migrated": 63,
       "partial": 4,
-      "blocked": 107,
+      "blocked": 106,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 25.62,
+      "migrated": 26.03,
       "partial": 1.65,
-      "blocked": 44.21,
+      "blocked": 43.8,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 25.62,
-      "inScope": 35.84
+      "all": 26.03,
+      "inScope": 36.42
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 27.27,
-      "inScope": 38.15
+      "all": 27.69,
+      "inScope": 38.73
     },
     "inScopeCount": 173
   },
@@ -7738,29 +7738,31 @@
       "pageId": "varus-r",
       "sourceText": "{{sbc|Active:}} '''Varus''' unleashes a tendril of corruption in the target direction that infects the first enemy champion hit, dealing {{as|magic damage}} and {{tip|root|rooting}} them for 2 seconds, during which they are {{tip|standard sight|revealed}}. Over the first {{tt|{{fd|1.75}} seconds|Estimated, see notes for specific stack application timings}} of the root, they are also inflicted with maximum stacks of ''{{ai|Blighted Quiver|Varus|Blight}}''.\nUpon impact, the tendril roots into the ground from where the target was hit, seeking out nearby enemy {{tip|champions}} that are in the immediate area. If a target does not leave the area within 2 seconds, they subsequently become infected as well, taking the same damage and effects. A new tendril is then spread out from the infected target that is closest to a nearby uninfected enemy champion. The infection can spread repeatedly until there are no new targets.\n''The target does not have to be {{tip|sight|visible}} to be caught by the tendril.''\n{{st|Magic Damage|{{ap|150 to 350}} {{as|(+ 100% AP)}}}}\n{{ap|100 to 60}}\n100\nmana\nMagic\n* The first {{ai|Blighted Quiver|Varus|Blight}} stack is applied after ~{{fd|0.65}} seconds into the {{tip|root}} duration, while the remaining ones are applied in {{fd|0.55}}-second intervals thereafter.\n** Second and third stacks are applied after ~{{fd|1.2}} seconds and ~{{fd|1.75}} seconds into the root duration, respectively.\n** If the root's duration is reduced by the target's {{tip|tenacity}}, the stacks are applied depending upon if their time application interval is met.\n*** For example, if the root lasts for 1 second, only the first stack is applied since the second and third stacks did not meet their time intervals.\n*** If the root lasts for less than the first stack application time (<{{fd|0.65}} seconds), the first stack will instead be applied at the end of the root duration.\n** If the target {{tip|cleanse|cleanses}} the root immediately after it is applied, no stacks will be applied.\n*** In cases where the cleanse is activated later into the root duration, stack application is dependent upon their time application interval being met. If removal occurs before an interval after one having been passed, remaining stacks are not applied.\n* If the {{tip|root}} is not applied, such as by the target negating its application with {{tip|cc-immune|crowd control immunity}} or a {{tip|spell shield}}, the target will not be inflicted with {{ai|Blighted Quiver|Varus|Blight}} stacks and the tendril will not root into the ground at their location (thus preventing it from seeking). This applies to both the primary target and secondary targets that were caught by the tendril.\n* The tendril seeks and registers valid targets every {{rutngt|0.25}}.\n* Enemy champions can be targeted again by the corruption's tether if they were not infected the previous time, even if they were targeted and exited its range.\n* The tendril cannot seek enemy champions that are {{tip|untargetable}}, and will also stop seeking a target if it becomes untargetable (fails to apply its effects even if they remain in the area).\n* '''Varus''' will turn to face the target direction at the start of the cast.\n{{Effect at cast time end}}\n* ''Chain of Corruption'' can generate ''{{ai|Blighted Quiver|Varus|Blight}}'' stacks for '''Varus''' to detonate with any ability, even if ''Blighted Quiver'' has not been learned. The '''base''' detonation damage per ''Blight'' stack scales with ''Blighted Quiver's'' rank, which has a value at rank 0 of {{as|{{fd|2.5}}% of the target's '''maximum''' health}} per stack detonated.\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/varus-r.json@rev4008213 sha256:62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008213",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/varus-r.json@rev4008213 sha256:62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_varus R 腐败锁链/Chain of Corruption：Wiki rev4008213（SHA256 62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed；normalized/generic/varus-r.json）rank3 Phase-A v1 已由 wasm-generic-varus-chain-of-corruption-primary-hit 闭环为 migrated——100 mana / 60000ms CD；immediate primary-champion scaffold（明确排除而非建模 Wiki 未指定 cast delay 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 350+1.00*source.attr.ap.resolved（交叉校验 AP200 → raw550，target MR100 → mitigated275）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 100 from 300；HP 1000→450。completedBoundary：rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget。明确排除 unspecified cast delay/Effect-at-cast-time-end、projectile/travel/speed/collision/global geometry/direction/facing/interception/spellshield/untargetable、root/reveal/tenacity/cleanse/CC immunity、Blight creation and 0.65/1.2/1.75 schedule/rank0/W coupling/detonation/state、tendril ground anchor/0.25 seeking/range/area/secondary/repeat/spread/multitarget、ranks1–2、P/Q/W/E/basic/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget 保真。Backend seed 显式依赖 Batch-B identity/AP check-only 前置，并自包含 ensure mana 定义与 hero_varus mana320/320；不写 games/game_entities/attribute_definitions/entity_attribute_values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-chain-of-corruption-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_varus_chain_of_corruption_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; Wiki rev4008213/SHA256 62b397cc… rank3 100 mana/60000ms CD / one magic 350+1.00*AP; AP200→raw550/MR100→275; t0/t59999/t60000 two successes + one CD skip; final mana100/HP450; immediate scaffold excludes unspecified cast delay and Effect at cast time end; cast/projectile/travel/collision/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-chain-of-corruption-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; backend lol_generic_varus_chain_of_corruption_primary_hit_seed.sql + LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest (owning 067b0f8; integrated 982145c); Wasm exact test commit 74f3b22; Batch-B identity/AP check-only prerequisites + self-contained ensure mana definition/hero_varus mana320/320 (does not write games/game_entities/attribute_definitions/entity_attribute_values); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_vayne|P|暗夜猎手",
