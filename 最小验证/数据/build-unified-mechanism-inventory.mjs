@@ -268,6 +268,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_ashe|R|魔法水晶箭',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Ashe R 魔法水晶箭/Enchanted Crystal Arrow：Wiki rev4026934（SHA256 1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f；normalized/generic/ashe-r.json）rank3 Phase-A v1 已由 wasm-generic-ashe-enchanted-crystal-arrow-primary-hit + backend seed 证据闭环——100 mana / 60000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast0.25 与 Effect at cast time start）；恰好一次 non-crit/non-copyable magic damage 600+1.20*source.attr.ap.resolved（交叉校验 AP200 → raw840，target MR100 → mitigated420）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 80 from 280；HP 1000→160。completedBoundary：rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight。明确排除 cast0.25/effect-at-cast-time-start、projectile/travel/collision/geometry、distance-scaled stun、surrounding same-damage AOE/Frost、sight、ranks1–2、Ashe P/Q/W/basic/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/stun/AOE/Frost/sight 保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_enchanted_crystal_arrow_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight; Wiki rev4026934/SHA256 1d9ccefa… rank3 100 mana/60000ms CD / one magic 600+1.20*AP; AP200→raw840/MR100→420; t0/t59999/t60000 two successes + one CD skip; final mana80/HP160; immediate scaffold excludes Wiki cast0.25 and Effect at cast time start; cast/projectile/travel/collision/geometry/distance-stun/AOE/Frost/sight/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight; backend lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql + LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest (owning 5d4a13f; integrated 2f820e4); Wasm exact test commit bb3dd81; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_akshan|P|无所不用',
     {
       status: 'blocked_data',
@@ -2086,6 +2118,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_graves|R|终极爆弹',
     'rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage',
+  ],
+  [
+    'hero_skill|hero_ashe|R|魔法水晶箭',
+    'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4204,6 +4240,81 @@ function validateInventory(inv) {
       'Ashe W must be completed/full under user-approved Volley 1v1 scope with wasm+backend evidence',
     );
   }
+  const mAsheR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|R|魔法水晶箭');
+  const mAsheRReason = String(mAsheR?.reason || '');
+  if (
+    !mAsheR ||
+    mAsheR.status !== 'completed' ||
+    mAsheR.completionMode !== 'full' ||
+    mAsheR.lane !== 'generic_runtime' ||
+    mAsheR.blocker ||
+    mAsheR.dataGapEvidence !== null ||
+    mAsheR.runtimeGapEvidence !== null ||
+    mAsheR.outOfScopeEvidence !== null ||
+    mAsheR.coverageBoundary !==
+      'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight' ||
+    [...(mAsheR.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mAsheR.mechanismTags || []).includes('multi_target_or_area') ||
+    mAsheRReason.includes('multi_target_or_area') ||
+    mAsheRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    !mAsheRReason.includes('4026934') ||
+    !mAsheRReason.includes(
+      '1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f',
+    ) ||
+    !mAsheRReason.includes(
+      'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
+    ) ||
+    !mAsheRReason.includes('source.attr.ap.resolved') ||
+    !mAsheRReason.includes('600') ||
+    !mAsheRReason.includes('1.20') ||
+    !mAsheRReason.includes('100 mana') ||
+    !mAsheRReason.includes('60000') ||
+    !mAsheRReason.includes('raw840') ||
+    !mAsheRReason.includes('420') ||
+    !mAsheRReason.includes('80') ||
+    !mAsheRReason.includes('160') ||
+    !mAsheRReason.includes('cast0.25') ||
+    !mAsheRReason.includes('Effect at cast time start') ||
+    !mAsheRReason.includes('distance-scaled stun') ||
+    !mAsheRReason.includes('Frost') ||
+    !mAsheRReason.includes('不宣称') ||
+    !(mAsheR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_ashe_enchanted_crystal_arrow_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
+        ) &&
+        String(e.note || '').includes('cast0.25') &&
+        String(e.note || '').includes('Effect at cast time start'),
+    ) ||
+    !(mAsheR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-ashe-enchanted-crystal-arrow-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
+        ) &&
+        String(e.note || '').includes('LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('5d4a13f') &&
+        String(e.note || '').includes('2f820e4') &&
+        String(e.note || '').includes('bb3dd81'),
+    )
+  ) {
+    errors.push(
+      'Ashe R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Enchanted Crystal Arrow tags (no multi_target_or_area), Wiki rev4026934/SHA + frozen completedBoundary, numeric contract/100mana/60000CD/AP200→840/MR100→420/mana80/HP160, cast0.25/Effect-at-cast-time-start/distance-stun/AOE/Frost/sight exclusions, and bilateral wasm+backend evidence (owning 5d4a13f / integrated 2f820e4 / Wasm bb3dd81; no cast/projectile/stun/AOE/Frost/sight fidelity claim)',
+    );
+  }
   if (
     !mAkshanP ||
     mAkshanP.status !== 'blocked_data' ||
@@ -5398,8 +5509,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 70) {
-    errors.push(`completed=${sc.completed}, expected 70`);
+  if ((sc.completed || 0) !== 71) {
+    errors.push(`completed=${sc.completed}, expected 71`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -5407,8 +5518,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 103) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 103`);
+  if ((sc.blocked_runtime || 0) !== 102) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 102`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -5429,21 +5540,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 70) {
-    errors.push(`completionMode full=${cm.full}, expected 70`);
+  if ((cm.full || 0) !== 71) {
+    errors.push(`completionMode full=${cm.full}, expected 71`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 181) {
-    errors.push(`completionMode none=${cm.none}, expected 181`);
+  if ((cm.none || 0) !== 180) {
+    errors.push(`completionMode none=${cm.none}, expected 180`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 85) {
+  if (implGapCount !== 84) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 85`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 84`,
     );
   }
 

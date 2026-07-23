@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-23T01:03:28.543Z"
+    "generatedAt": "2026-07-23T01:41:24.546Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 60,
+      "migrated": 61,
       "partial": 4,
-      "blocked": 109,
+      "blocked": 108,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 24.79,
+      "migrated": 25.21,
       "partial": 1.65,
-      "blocked": 45.04,
+      "blocked": 44.63,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 24.79,
-      "inScope": 34.68
+      "all": 25.21,
+      "inScope": 35.26
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 26.45,
-      "inScope": 36.99
+      "all": 26.86,
+      "inScope": 37.57
     },
     "inScopeCount": 173
   },
@@ -810,29 +810,31 @@
       "pageId": "ashe-r",
       "sourceText": "{{sbc|Active:}} '''Ashe''' fires a massive arrow of ice in the target direction, briefly granting {{tip|sight}} of the {{tt|area|Cannot grant sight through terrain and can only grant sight into brush when the missile flies through that brush}} it flies through. The arrow shatters upon hitting an enemy {{tip|champion}}, dealing them {{as|magic damage}}, {{tip|stun|stunning}} them for {{pp|type=distance traveled|1 to 1 for 5;1 to 3.5 for 10|0 to 2800|formula=1s for the first 800 units traveled; 1+(0.25 per 200 units)s beyond 800 units. ''This is capped at 2800 units traveled.''}} seconds, and granting {{tip|sight}} of the area around them for 1 second.\nEnemies surrounding the primary target are dealt the same damage and afflicted with ''{{ai|Frost Shot|Ashe}}''.\n{{st|Magic Damage|{{ap|200 to 600}} {{as|(+ 120% AP)}}}}\n{{ap|100 to 60}}\n100\nMana\nMagic\n* ''Enchanted Crystal Arrow's'' projectile has an [[File:Enchanted Crystal Arrow Minimap.png|40px|link=]] icon on the mini-map while it is in flight. It can be seen by only '''Ashe''' and her allies.\n{{Effect at cast time start}}\n* The effect will be centered on the first champion struck, not at the location the missile collided with them.\n<!--Blurb-->",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/ashe-r.json@rev4026934 sha256:1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4026934",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/ashe-r.json@rev4026934 sha256:1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_ashe R 魔法水晶箭/Enchanted Crystal Arrow：Wiki rev4026934（SHA256 1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f；normalized/generic/ashe-r.json）rank3 Phase-A v1 已由 wasm-generic-ashe-enchanted-crystal-arrow-primary-hit 闭环为 migrated——100 mana / 60000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast0.25 与 Effect at cast time start）；恰好一次 non-crit/non-copyable magic damage 600+1.20*source.attr.ap.resolved（交叉校验 AP200 → raw840，target MR100 → mitigated420）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 80 from 280；HP 1000→160。completedBoundary：rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight。明确排除 cast0.25/effect-at-cast-time-start、projectile/travel/collision/geometry、distance-scaled stun、surrounding same-damage AOE/Frost、sight、ranks1–2、Ashe P/Q/W/basic/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/stun/AOE/Frost/sight 保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-enchanted-crystal-arrow-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ashe_enchanted_crystal_arrow_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight; Wiki rev4026934/SHA256 1d9ccefa… rank3 100 mana/60000ms CD / one magic 600+1.20*AP; AP200→raw840/MR100→420; t0/t59999/t60000 two successes + one CD skip; final mana80/HP160; immediate scaffold excludes Wiki cast0.25 and Effect at cast time start; cast/projectile/travel/collision/geometry/distance-stun/AOE/Frost/sight/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-enchanted-crystal-arrow-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight; backend lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql + LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest (owning 5d4a13f; integrated 2f820e4); Wasm exact test commit bb3dd81; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_azir|P|恕瑞玛的传承",
