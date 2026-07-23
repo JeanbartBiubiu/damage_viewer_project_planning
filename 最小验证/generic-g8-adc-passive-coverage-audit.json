@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-22T19:39:18.051Z"
+    "generatedAt": "2026-07-23T01:03:28.543Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 59,
+      "migrated": 60,
       "partial": 4,
-      "blocked": 110,
+      "blocked": 109,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 24.38,
+      "migrated": 24.79,
       "partial": 1.65,
-      "blocked": 45.45,
+      "blocked": 45.04,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 24.38,
-      "inScope": 34.1
+      "all": 24.79,
+      "inScope": 34.68
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 26.03,
-      "inScope": 36.42
+      "all": 26.45,
+      "inScope": 36.99
     },
     "inScopeCount": 173
   },
@@ -2415,29 +2415,31 @@
       "pageId": "graves-r",
       "sourceText": "{{sbc|Active:}} '''Graves''' fires an explosive shell in the target direction that deals {{as|physical damage}} to enemies hit and causes him to {{tip|dash|recoil}} 400 units in the opposite direction.\nUpon hitting an enemy {{tip|champion}} or reaching the end of its range, the shell explodes in a cone to deal reduced damage to additional enemies.\n{{st|Physical Damage|{{ap|275 to 575}} {{as|(+ 150% '''bonus''' AD)}}}}\n{{st|Reduced Damage|{{ap|200 to 440}} {{as|(+ 120% '''bonus''' AD)}}}}\n{{ap|100 to 60}}\n100\nMana\nPhysical\n* Applies {{tip|spell damage}} to the target hit by the shell (including to non-champions struck before exploding{{bug}}) and {{tip|area damage}} to targets within the explosion cone.\n* The projectile will still explode early if the champion hit by the shell is protected by a {{tip|spell shield}}.\n* The explosion cone is anchored on the location of the shell missile when it collided with a champion, or otherwise its maximum cast range.\n* The cone damage is always located 150 units behind, based off its direction\n* ''Collateral Damage'' is not disabled while {{tip|ground|grounded}} or {{tip|root|rooted}}, but '''Graves''' will not dash after the cast time while affected by them.\n* '''Graves''' will not {{tip|dash}} after the cast time if he is {{tip|airborne}}.\n{{Effect at cast time end}}\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/graves-r.json@rev4007499 sha256:834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4007499",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/graves-r.json@rev4007499 sha256:834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_graves R 终极爆弹/Collateral Damage：Wiki rev4007499（SHA256 834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1；normalized/generic/graves-r.json）rank3 Phase-A v2 已由 wasm-generic-graves-collateral-damage-primary-hit 闭环为 migrated——100 mana / 60000ms CD；immediate primary-target scaffold（明确排除而非建模 Wiki cast delay、recoil dash、projectile line/geometry）；恰好一次 non-crit/non-copyable physical damage 575+1.50*(source.attr.ad.resolved-source.attr.ad.base)（交叉校验 baseAD66 / resolvedAD120 / bonusAD54 → raw656，armor100 → mitigated328）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 125 from 325；HP 1000→344。completedBoundary：rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage。明确排除 cast delay/effect-at-cast-end、recoil/dash 400、projectile/line travel/collision/range/geometry、multi-target/repeat、explosion cone/reduced damage 440+1.20 bonus AD（仅适用于额外敌人，excluded not denied）、ranks1–2、P/E/W/basic/ammo/True Grit/bonus resistance/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/recoil/projectile/line/multitarget/explosion-cone/reduced-damage 保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-collateral-damage-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_graves_collateral_damage_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage; Wiki rev4007499/SHA256 834843a7… rank3 100 mana/60000ms CD / one physical 575+1.50*bonusAD; baseAD66/resolvedAD120/bonusAD54→raw656/armor100→328; t0/t59999/t60000 two successes + one CD skip; final mana125/HP344; immediate scaffold excludes Wiki cast delay/recoil/projectile/line; explosion cone reduced 440+1.20 bonus AD excluded not denied; cast/recoil/projectile/line/multitarget/explosion-cone/reduced-damage/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-collateral-damage-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_graves_collateral_damage_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage; backend lol_generic_graves_collateral_damage_primary_hit_seed.sql + LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest (owning 9c1087b; integrated c2a8a97); Wasm exact test commit 4abadf1; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_jayce|P|海克斯科技电容",
