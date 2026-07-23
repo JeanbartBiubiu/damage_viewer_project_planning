@@ -1030,6 +1030,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-ashe-enchanted-crystal-arrow-primary-hit",
+      "title": "通用 ABI 艾希 R 魔法水晶箭 Enchanted Crystal Arrow 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ashe_enchanted_crystal_arrow_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ashe|R|魔法水晶箭 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Ashe/R→Enchanted Crystal Arrow page1306811/rev4026934/timestamp2026-06-10T19:09:50Z/canonical raw2394/SHA256 1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f；sidecar ashe-r.json；本地raw2393/SHA2bce161…d4bb28，修剪终端LF→2392+第三哈希≠canonical（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight。Rank3：100mana/60000ms；immediate primary-target scaffold（cast0.25/Effect at cast time start显式排除）；一笔非暴击/不可复制魔法600+1.20*AP；交叉AP200→raw840/MR100→420；t0/t59999/t60000两次命中+一次CD skip；mana280→80；HP1000→160。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold。不宣称cast/projectile/distance-stun/AOE/Frost/sight/full-fidelity。Backend owning 5d4a13f/集成2f820e4（39/39；732/732）；Wasm exact bb3dd81（4/4）；审计7c73c74。DESIGN_REVIEW_ONLY READY run-6bd37601（结构化createPlan VERDICT=READY；653/653；runDelta0）。Unified 254：sourceCount12/completed71/blocked_runtime102/full71/none180；G8 242=migrated61/partial4/blocked108/OOS69；implementation_gap=84；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/push/E2E。不得误称完整Enchanted Crystal Arrow/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-23",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-艾希R魔法水晶箭EnchantedCrystalArrow主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-艾希R魔法水晶箭EnchantedCrystalArrow主目标命中机制验证记录-2026-07-23.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
