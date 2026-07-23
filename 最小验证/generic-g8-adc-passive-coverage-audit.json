@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-23T01:41:24.546Z"
+    "generatedAt": "2026-07-23T02:40:49.314Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 61,
+      "migrated": 62,
       "partial": 4,
-      "blocked": 108,
+      "blocked": 107,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 25.21,
+      "migrated": 25.62,
       "partial": 1.65,
-      "blocked": 44.63,
+      "blocked": 44.21,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 25.21,
-      "inScope": 35.26
+      "all": 25.62,
+      "inScope": 35.84
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 26.86,
-      "inScope": 37.57
+      "all": 27.27,
+      "inScope": 38.15
     },
     "inScopeCount": 173
   },
@@ -2148,29 +2148,32 @@
       "pageId": "ezreal-r",
       "sourceText": "{{sbc|Active:}} '''Ezreal''' fires a powerful arc of energy in the target direction that briefly grants {{tip|sight}} of its surroundings and deals {{as|magic damage}} to enemies hit.\n{{tip|Minion|Minions}} and non-epic {{tip|monster|monsters}} take modified damage.\n{{st|Magic Damage|{{ap|350 to 750}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 110% AP)}}}}\n{{st|Modified Damage|{{ap|150 to 300}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 110% AP)}}}}\n{{ap|120 to 90}}\n100\nMana\nMagic\n* ''Trueshot Barrage's'' projectile has an [[File:Trueshot Barrage Minimap.png|40px|link=]] icon on the mini-map while it is in flight. It can be seen by only '''Ezreal''' and his allies.\n{{Effect at cast time start}}\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/ezreal-r.json@rev4013235 sha256:e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4013235",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/ezreal-r.json@rev4013235 sha256:e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_ezreal R 精准弹幕/Trueshot Barrage：Wiki rev4013235（SHA256 e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0；normalized/generic/ezreal-r.json）rank3 Phase-A v2 已由 wasm-generic-ezreal-trueshot-barrage-primary-hit 闭环为 migrated——100 mana / 90000ms CD；immediate primary-champion scaffold（明确排除而非建模 Wiki cast1 / queue0.5 与 Effect at cast time start）；恰好一次 non-crit/non-copyable magic damage 750+1.00*(source.attr.ad.resolved-source.attr.ad.base)+1.10*source.attr.ap.resolved（交叉校验 baseAD60 / resolvedAD110 / AP200 → raw1020，target MR100 → mitigated510）。Attempts t0/t89999/t90000 → two successes + exactly one cooldown skip without mana/damage；final mana 100 from 300；HP 1500→480。completedBoundary：rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage。明确排除 cast1/queue0.5/effect-at-cast-start、projectile/travel/collision/global geometry/direction、multitarget/sight、minion/monster modified rank3 300+1.00 bonusAD+1.10 AP、ranks1–2、P/Q/W/E/basic/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/queue/projectile/geometry/direction/multitarget/sight/minion-monster-modified 保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_ezreal ad/ap/mana），不物化 identity/panel/resource values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-trueshot-barrage-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_trueshot_barrage_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage; Wiki rev4013235/SHA256 e9d7f9d7… rank3 100 mana/90000ms CD / one magic 750+1.00*bonusAD+1.10*AP; baseAD60/resolvedAD110/AP200→raw1020/MR100→510; t0/t89999/t90000 two successes + one CD skip; final mana100/HP480; immediate scaffold excludes Wiki cast1/queue0.5 and Effect at cast time start; cast/queue/projectile/geometry/direction/multitarget/sight/minion-monster-modified/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-trueshot-barrage-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage; backend lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql + LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest (owning dea4538; integrated 8c93017); Wasm exact test commit e13d887; external existing-data/check-only prerequisites (does not write identity/panel/resource values); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_graves|P|新命运",

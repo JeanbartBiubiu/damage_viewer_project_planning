@@ -423,6 +423,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_ezreal|R|精准弹幕',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Ezreal R 精准弹幕/Trueshot Barrage：Wiki rev4013235（SHA256 e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0；normalized/generic/ezreal-r.json）rank3 Phase-A v2 已由 wasm-generic-ezreal-trueshot-barrage-primary-hit + backend seed 证据闭环——100 mana / 90000ms CD；immediate primary-champion scaffold（明确排除而非建模 Wiki cast1 / queue0.5 与 Effect at cast time start）；恰好一次 non-crit/non-copyable magic damage 750+1.00*(source.attr.ad.resolved-source.attr.ad.base)+1.10*source.attr.ap.resolved（交叉校验 baseAD60 / resolvedAD110 / AP200 → raw1020，target MR100 → mitigated510）。Attempts t0/t89999/t90000 → two successes + exactly one cooldown skip without mana/damage；final mana 100 from 300；HP 1500→480。completedBoundary：rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage。明确排除 cast1/queue0.5/effect-at-cast-start、projectile/travel/collision/global geometry/direction、multitarget/sight、minion/monster modified rank3 300+1.00 bonusAD+1.10 AP、ranks1–2、P/Q/W/E/basic/on-hit/equipment/loadout、live/publish/E2E/full fidelity；不宣称 cast/queue/projectile/geometry/direction/multitarget/sight/minion-monster-modified 保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_ezreal ad/ap/mana），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ezreal-trueshot-barrage-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_trueshot_barrage_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage; Wiki rev4013235/SHA256 e9d7f9d7… rank3 100 mana/90000ms CD / one magic 750+1.00*bonusAD+1.10*AP; baseAD60/resolvedAD110/AP200→raw1020/MR100→510; t0/t89999/t90000 two successes + one CD skip; final mana100/HP480; immediate scaffold excludes Wiki cast1/queue0.5 and Effect at cast time start; cast/queue/projectile/geometry/direction/multitarget/sight/minion-monster-modified/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-ezreal-trueshot-barrage-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage; backend lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql + LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest (owning dea4538; integrated 8c93017); Wasm exact test commit e13d887; external existing-data/check-only prerequisites (does not write identity/panel/resource values); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_graves|P|新命运',
     {
       status: 'completed',
@@ -2122,6 +2154,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_ashe|R|魔法水晶箭',
     'rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight',
+  ],
+  [
+    'hero_skill|hero_ezreal|R|精准弹幕',
+    'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4216,6 +4252,7 @@ function validateInventory(inv) {
   const mAkshanP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_akshan|P|无所不用');
   const mAkshanE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_akshan|E|骄行荡寇');
   const mEzrealP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ezreal|P|咒能高涨');
+  const mEzrealR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ezreal|R|精准弹幕');
   const mGravesP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_graves|P|新命运');
   const mDravenQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|Q|旋转飞斧');
   if (
@@ -4388,6 +4425,92 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Ezreal P must be completed/full under bounded 1v1 Rising Spell Force scope with wasm+backend evidence',
+    );
+  }
+  const mEzrealRReason = String(mEzrealR?.reason || '');
+  if (
+    !mEzrealR ||
+    mEzrealR.status !== 'completed' ||
+    mEzrealR.completionMode !== 'full' ||
+    mEzrealR.lane !== 'generic_runtime' ||
+    mEzrealR.blocker ||
+    mEzrealR.dataGapEvidence !== null ||
+    mEzrealR.runtimeGapEvidence !== null ||
+    mEzrealR.outOfScopeEvidence !== null ||
+    mEzrealR.coverageBoundary !==
+      'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage' ||
+    [...(mEzrealR.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mEzrealR.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    mEzrealRReason.includes('meta_or_non_target_dps') ||
+    mEzrealRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mEzrealRReason.includes('blocked_data') ||
+    !mEzrealRReason.includes('4013235') ||
+    !mEzrealRReason.includes(
+      'e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0',
+    ) ||
+    !mEzrealRReason.includes(
+      'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage',
+    ) ||
+    !mEzrealRReason.includes('source.attr.ad.resolved') ||
+    !mEzrealRReason.includes('source.attr.ad.base') ||
+    !mEzrealRReason.includes('source.attr.ap.resolved') ||
+    !mEzrealRReason.includes('750') ||
+    !mEzrealRReason.includes('1.00') ||
+    !mEzrealRReason.includes('1.10') ||
+    !mEzrealRReason.includes('100 mana') ||
+    !mEzrealRReason.includes('90000') ||
+    !mEzrealRReason.includes('baseAD60') ||
+    !mEzrealRReason.includes('resolvedAD110') ||
+    !mEzrealRReason.includes('raw1020') ||
+    !mEzrealRReason.includes('510') ||
+    !mEzrealRReason.includes('300') ||
+    !mEzrealRReason.includes('480') ||
+    !mEzrealRReason.includes('cast1') ||
+    !mEzrealRReason.includes('queue0.5') ||
+    !mEzrealRReason.includes('Effect at cast time start') ||
+    !mEzrealRReason.includes('300+1.00 bonusAD+1.10 AP') ||
+    !mEzrealRReason.includes('external existing-data/check-only') ||
+    !mEzrealRReason.includes('identity/panel/resource') ||
+    !mEzrealRReason.includes('不宣称') ||
+    !(mEzrealR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-ezreal-trueshot-barrage-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_trueshot_barrage_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage',
+        ) &&
+        String(e.note || '').includes('cast1') &&
+        String(e.note || '').includes('queue0.5') &&
+        String(e.note || '').includes('Effect at cast time start'),
+    ) ||
+    !(mEzrealR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-ezreal-trueshot-barrage-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage',
+        ) &&
+        String(e.note || '').includes('LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('dea4538') &&
+        String(e.note || '').includes('8c93017') &&
+        String(e.note || '').includes('e13d887') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('identity/panel/resource'),
+    )
+  ) {
+    errors.push(
+      'Ezreal R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Trueshot Barrage tags (no meta_or_non_target_dps), Wiki rev4013235/SHA + frozen completedBoundary, numeric contract/100mana/90000CD/baseAD60→110/AP200→raw1020/MR100→510/mana100/HP480, cast1/queue0.5/Effect-at-cast-start/projectile/geometry/direction/multitarget/sight/minion-monster-modified exclusions, external existing-data/check-only seed limitation, and bilateral wasm+backend evidence (owning dea4538 / integrated 8c93017 / Wasm e13d887; no cast/queue/projectile/geometry/direction/multitarget/sight/minion-monster fidelity claim)',
     );
   }
   if (
@@ -5509,8 +5632,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 71) {
-    errors.push(`completed=${sc.completed}, expected 71`);
+  if ((sc.completed || 0) !== 72) {
+    errors.push(`completed=${sc.completed}, expected 72`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -5518,8 +5641,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 102) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 102`);
+  if ((sc.blocked_runtime || 0) !== 101) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 101`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -5540,21 +5663,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 71) {
-    errors.push(`completionMode full=${cm.full}, expected 71`);
+  if ((cm.full || 0) !== 72) {
+    errors.push(`completionMode full=${cm.full}, expected 72`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 180) {
-    errors.push(`completionMode none=${cm.none}, expected 180`);
+  if ((cm.none || 0) !== 179) {
+    errors.push(`completionMode none=${cm.none}, expected 179`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 84) {
+  if (implGapCount !== 83) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 84`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 83`,
     );
   }
 
