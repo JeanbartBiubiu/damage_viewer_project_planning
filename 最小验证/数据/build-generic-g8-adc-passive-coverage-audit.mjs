@@ -649,6 +649,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_varus_blighted_quiver_seed.sql',
   varusHailOfArrowsPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_varus_hail_of_arrows_primary_hit_seed.sql',
+  varusChainOfCorruptionPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql',
   twistedFateWildCardsPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_twisted_fate_wild_cards_primary_hit_seed.sql',
 };
@@ -752,6 +754,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_varus_blighted_quiver_test.go',
   varusHailOfArrowsPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_varus_hail_of_arrows_primary_hit_test.go',
+  varusChainOfCorruptionPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_varus_chain_of_corruption_primary_hit_test.go',
   twistedFateWildCardsPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_twisted_fate_wild_cards_primary_hit_test.go',
 };
@@ -958,6 +962,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-varus-hail-of-arrows-primary-hit',
           SEED.varusHailOfArrowsPrimaryHitBackend,
           'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation; backend lol_generic_varus_hail_of_arrows_primary_hit_seed.sql + LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest (owning a08cdfd; integrated e924afd); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_varus|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_varus R 腐败锁链/Chain of Corruption：Wiki rev4008213（SHA256 62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed；normalized/generic/varus-r.json）rank3 Phase-A v1 已由 wasm-generic-varus-chain-of-corruption-primary-hit 闭环为 migrated——100 mana / 60000ms CD；immediate primary-champion scaffold（明确排除而非建模 Wiki 未指定 cast delay 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 350+1.00*source.attr.ap.resolved（交叉校验 AP200 → raw550，target MR100 → mitigated275）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 100 from 300；HP 1000→450。completedBoundary：rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget。明确排除 unspecified cast delay/Effect-at-cast-time-end、projectile/travel/speed/collision/global geometry/direction/facing/interception/spellshield/untargetable、root/reveal/tenacity/cleanse/CC immunity、Blight creation and 0.65/1.2/1.75 schedule/rank0/W coupling/detonation/state、tendril ground anchor/0.25 seeking/range/area/secondary/repeat/spread/multitarget、ranks1–2、P/Q/W/E/basic/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget 保真。Backend seed 显式依赖 Batch-B identity/AP check-only 前置，并自包含 ensure mana 定义与 hero_varus mana320/320；不写 games/game_entities/attribute_definitions/entity_attribute_values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-varus-chain-of-corruption-primary-hit',
+          WASM.varusChainOfCorruptionPrimaryHit,
+          'completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; Wiki rev4008213/SHA256 62b397cc… rank3 100 mana/60000ms CD / one magic 350+1.00*AP; AP200→raw550/MR100→275; t0/t59999/t60000 two successes + one CD skip; final mana100/HP450; immediate scaffold excludes unspecified cast delay and Effect at cast time end; cast/projectile/travel/collision/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-varus-chain-of-corruption-primary-hit',
+          SEED.varusChainOfCorruptionPrimaryHitBackend,
+          'completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; backend lol_generic_varus_chain_of_corruption_primary_hit_seed.sql + LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest (owning 067b0f8; integrated 982145c); Wasm exact test commit 74f3b22; Batch-B identity/AP check-only prerequisites + self-contained ensure mana definition/hero_varus mana320/320 (does not write games/game_entities/attribute_definitions/entity_attribute_values); not live published',
         ),
       ],
     },
@@ -3894,9 +3928,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 62) errors.push(`migrated=${counts.migrated}, expected 62`);
+  if (counts.migrated !== 63) errors.push(`migrated=${counts.migrated}, expected 63`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 107) errors.push(`blocked=${counts.blocked}, expected 107`);
+  if (counts.blocked !== 106) errors.push(`blocked=${counts.blocked}, expected 106`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5514,6 +5548,100 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       varusE.candidateKey,
       varusE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const varusR = records.find((r) => r.candidateKey === 'hero_skill|hero_varus|R|腐败锁链');
+  const varusRTags = [...(varusR?.genericMechanismTags || [])];
+  const varusRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const varusRReason = String(varusR?.classificationReason || '');
+  if (
+    !varusR
+    || varusR.genericClassification !== 'migrated'
+    || String(varusR.remainingGap || '').trim()
+    || (varusR.dataGapEvidence?.missingFields || []).length !== 0
+    || varusRTags.join('|') !== varusRExpectedTags.join('|')
+    || varusRTags.includes('multi_target_or_area')
+    || String(varusR.remainingGap || '').includes('blocked_data')
+    || varusRReason.includes('out_of_scope_for_single_target_dps')
+    || varusRReason.includes('blocked_data')
+    || varusRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || varusRReason.includes('multi_target_or_area')
+    || !varusRReason.includes('4008213')
+    || !varusRReason.includes(
+      '62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed',
+    )
+    || !varusRReason.includes(
+      'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget',
+    )
+    || !varusRReason.includes('source.attr.ap.resolved')
+    || !varusRReason.includes('350')
+    || !varusRReason.includes('1.00')
+    || !varusRReason.includes('100 mana')
+    || !varusRReason.includes('60000')
+    || !varusRReason.includes('raw550')
+    || !varusRReason.includes('275')
+    || !varusRReason.includes('300')
+    || !varusRReason.includes('450')
+    || !varusRReason.includes('Effect at cast time end')
+    || !varusRReason.includes('0.65')
+    || !varusRReason.includes('1.2')
+    || !varusRReason.includes('1.75')
+    || !varusRReason.includes('Batch-B identity/AP check-only')
+    || !varusRReason.includes('mana320/320')
+    || !varusRReason.includes('games/game_entities/attribute_definitions/entity_attribute_values')
+    || !varusRReason.includes('不宣称')
+    || !String(varusR.sourceRef || '').includes('varus-r.json')
+    || varusR.classification !== 'out_of_scope_for_single_target_dps'
+    || !(varusR.mechanismTags || []).includes('multi_target_or_area')
+    || varusR.auditBaseline?.gapCode !== 'blocked_data'
+    || varusR.auditBaseline?.resolvedBucket !== 'blocked'
+    || !(varusR.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(varusR.classificationReason)
+    || !(varusR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.varusChainOfCorruptionPrimaryHit
+        && e.taskKey === 'wasm-generic-varus-chain-of-corruption-primary-hit'
+        && String(e.note || '').includes(
+          'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget',
+        )
+        && String(e.note || '').includes('Effect at cast time end')
+        && String(e.note || '').includes('raw550'),
+    )
+    || !(varusR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.varusChainOfCorruptionPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-varus-chain-of-corruption-primary-hit'
+        && String(e.note || '').includes(
+          'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget',
+        )
+        && String(e.note || '').includes('LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('067b0f8')
+        && String(e.note || '').includes('982145c')
+        && String(e.note || '').includes('74f3b22')
+        && String(e.note || '').includes('Batch-B identity/AP check-only')
+        && String(e.note || '').includes('mana320/320')
+        && String(e.note || '').includes(
+          'games/game_entities/attribute_definitions/entity_attribute_values',
+        ),
+    )
+  ) {
+    errors.push(
+      'Varus R must be migrated with empty remainingGap/missingFields, exact Chain of Corruption tags (no multi_target_or_area), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev4008213/SHA + frozen completedBoundary, numeric contract/100mana/60000CD/AP200→raw550/MR100→275/mana100/HP450, cast-end/root/reveal/Blight/tendril/seek/spread/multitarget exclusions, Batch-B identity/AP check-only + self-contained mana320/320 ensure (no games/game_entities/attribute_definitions/entity_attribute_values writes), and bilateral wasm+backend evidence (owning 067b0f8 / integrated 982145c / Wasm 74f3b22; no cast/projectile/geometry/direction/root/reveal/Blight/tendril fidelity claim)',
+    );
+  }
+  if (varusR) {
+    validateBilateralCoverageEvidence(
+      varusR.candidateKey,
+      varusR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
