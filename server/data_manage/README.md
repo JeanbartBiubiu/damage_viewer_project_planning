@@ -722,6 +722,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericGravesNewDestinySeedSqlTest,LolGenericGravesQuickdrawMaxStackSeedSqlTest test
 ```
 
+### LoL generic Graves Collateral Damage primary-hit seed（格雷福斯 R / Phase-A v2 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_graves` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 R active；与既有 New Destiny P / Quickdraw E / Smoke Screen W provider 并存，不重建/替换、不触碰 `bonus_armor`/`bonus_magic_resist`；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_graves_collateral_damage_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-graves-collateral-damage-primary-hit-phase-a-v2-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_graves|R|终极爆弹` 冻结为 **Phase-A rank-3 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=graves-r-collateral-damage-primary-hit-phase-a-v2`）：
+
+`rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好九键属性定义（含 AP）；幂等投影 reserved → `types`；ensure `hero_graves`（`ON CONFLICT DO NOTHING`，不改写既有 P/E/W 描述）与 level-1 面板（hp625 / mana325 / ad66 / ap0 / AS0.475 / armor33 / MR30 / hpregen8 / manaregen8；九键与 P/E/W 字节一致，含 AP0；flat+54 AD / armor100 仅测试夹具、seed 不写）、`resource_definitions.mana` 与 `entity_resource_values`（325/325）；向 `hero_graves` **仅** mount 独立 `provider_hero_graves_r_collateral_damage_primary_hit`（与 `provider_hero_graves_new_destiny` / `provider_hero_graves_quickdraw_max_stack` / `provider_hero_graves_w_smoke_screen_primary_hit` 并存），含 active `ability_hero_graves_r_collateral_damage_primary_hit`（`ability_key=collateral_damage`）、`ability_costs` 100 mana、`ability_cooldowns` 60000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `575 + 1.50*(ad.resolved - ad.base)`（`copyable_on_hit=false`，非 crit；运行时类型 `20220`）。主弹壳目标为完整直接伤害；爆炸锥 reduced damage 仅对额外敌人，本边界不建模。Wiki：request `Template:Data Graves/R` → resolved `Template:Data Graves/Collateral Damage`；sidecar 注释路径 `normalized/generic/graves-r.json`（siblings `pages/graves-r.json`、`raw/graves-r.wikitext`）。夹具交叉核对（注释）：base AD66 + flat54 => resolved120 / bonus54 / raw656；armor100 => mitigated328。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：cast-delay/cast-completion、recoil/dash、projectile/travel/collision/direction/geometry/line/AOE/multitarget、explosion/cone/reduced damage、ranks1–2、P/E/W/basic/ammo/reload/True Grit/on-hit/equipment 耦合、listener/state/event/modifier/repeat、bonus_armor/bonus_magic_resist 读写、live migration、publish；不依赖既有 Graves P/E/W provider 发布顺序。
+
+静态契约校验（不连 live DB；含邻近 Graves P/E/W）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericGravesQuickdrawMaxStackSeedSqlTest,LolGenericGravesNewDestinySeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
