@@ -1065,6 +1065,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest,LolGenericAsheVolleySeedSqlTest,LolGenericAsheRangersFocusSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Ezreal Trueshot Barrage primary-hit seed（探险家 R / Phase-A v2 主冠军命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_ezreal)`、`attribute_definitions(ad/ap)`、`entity_attribute_values(hero_ezreal,ad/ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_ezreal,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Ezreal ad/ap/mana 行——当前仓库亦无 seed 负责物化这些行；与较旧 Rising Spell Force seed 共享同一外部实体依赖；仅挂载可 cast 的 R active；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-ezreal-trueshot-barrage-primary-hit-phase-a-v2-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_ezreal|R|精准弹幕`（task `wasm-generic-ezreal-trueshot-barrage-primary-hit`）冻结为 **Phase-A rank-3 立即主冠军命中 impact scaffold**（`FROZEN_PLAN_REV=ezreal-r-trueshot-barrage-primary-hit-phase-a-v2`）：
+
+`rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage`
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_ezreal` / `ad`+`ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_ezreal` **仅** mount 独立 `provider_hero_ezreal_r_trueshot_barrage_primary_hit`（与既有 `provider_hero_ezreal_rising_spell_force` 并存，不更新/删除/重建；不创建 Q/W/E），含 active `ability_hero_ezreal_r_trueshot_barrage_primary_hit`（`ability_key=trueshot_barrage`）、`ability_costs` 100 mana、`ability_cooldowns` 90000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `750 + 1.00*(ad.resolved-ad.base) + 1.10*ap.resolved`（`copyable_on_hit=false`，非 crit；运行时类型 `20221`）。Wiki：request `Template:Data Ezreal/R` → resolved `Template:Data Ezreal/Trueshot Barrage`；page1307113 / rev4013235 / `2026-04-28T21:20:36Z` / canonical 1453 bytes / SHA256 `e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0`；sidecar `normalized/generic/ezreal-r.json`。**local raw materialization caveat**：仓库 local raw 1450 / `ddc984665670fe9aee859ec740d63c101b04c7f504f610952f94fe67a014f943`；trim LF →1449 / `57a04bc0b2e42505bd9ec1b324fed4192aecb213ea22dade56f4e77ed553f3ce`；前置 BOM →1453 / `27fbea33e254bd4b139e49ca0bbface059f490d25fa74cd33b19846596a1c639`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。夹具交叉核对（注释）：baseAD60 / resolvedAD110 / bonusAD50 / AP200 => raw1020；MR100 =>510；t0 success / t89999 cooldown skip / t90000 success；两次成功后 mana300->100、HP1500->480。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：Wiki cast time=1s / queue=0.5s / Effect-at-cast-start；projectile/travel/speed/collision/global path/geometry/direction/interception/spellshield；multitarget/pass-through/order；sight/minimap；minion/non-epic-monster modified rank3 `300+1.00 bonusAD+1.10 AP`；ranks1–2；P/Q/W/E/basic/equipment/runes/loadout/on-hit/crit；identity/base-stat bootstrap；listener/state/event/modifier/repeat/control/projectile/AOE；live migration；publish。
+
+静态契约校验（不连 live DB；可与 Rising Spell Force 静态契约一并跑）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest,LolGenericEzrealRisingSpellForceSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
