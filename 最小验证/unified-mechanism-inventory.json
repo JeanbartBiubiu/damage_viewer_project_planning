@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-23T02:40:49.549Z",
+    "generatedAt": "2026-07-23T03:40:17.368Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "cc7deb9392aaa12ea007bc73f6222d008958763fc294c24fa089c58c630ffbb7",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "7ec84dedde12e35d28408d1dfd50415aa366a2051cc87aa510076df273f5e0e7",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "0bde81ddadd9e76959d55128bf38f619208792a6d7f5bf41659d1427be582c4e",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "2d8e138643af9b82caf54ce7dae049b7a90c0677f99f5aab2f785537c70676e8",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "f107d955801e0cc24179e840f23617e9ce66fb5187c8237288ae8eefaac19427",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "7f7a92d9aab18a81ebd620e4a21f3a65a8ee18ee172ffd1e870a8531b2312333",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 72,
+      "completed": 73,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 101,
+      "blocked_runtime": 100,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 72,
+      "full": 73,
       "partial": 3,
-      "none": 179
+      "none": 178
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "cc7deb9392aaa12ea007bc73f6222d008958763fc294c24fa089c58c630ffbb7",
-      "byteSize": 951637,
+      "sha256": "7ec84dedde12e35d28408d1dfd50415aa366a2051cc87aa510076df273f5e0e7",
+      "byteSize": 954525,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "0bde81ddadd9e76959d55128bf38f619208792a6d7f5bf41659d1427be582c4e",
-      "byteSize": 292089,
+      "sha256": "f107d955801e0cc24179e840f23617e9ce66fb5187c8237288ae8eefaac19427",
+      "byteSize": 301350,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "2d8e138643af9b82caf54ce7dae049b7a90c0677f99f5aab2f785537c70676e8",
-      "byteSize": 322716,
+      "sha256": "7f7a92d9aab18a81ebd620e4a21f3a65a8ee18ee172ffd1e870a8531b2312333",
+      "byteSize": 331898,
       "recordCount": 0,
       "role": "generator"
     },
@@ -19863,52 +19863,29 @@
     },
     {
       "key": "hero_skill|hero_varus|R|腐败锁链",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_varus",
       "skillKey": "R",
       "passiveName": "腐败锁链",
       "mechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008213",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/varus-r.json@rev4008213 sha256:62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_varus|R|腐败锁链",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget",
+      "reason": "Varus R 腐败锁链/Chain of Corruption：Wiki rev4008213（SHA256 62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed；normalized/generic/varus-r.json）rank3 Phase-A v1 已由 wasm-generic-varus-chain-of-corruption-primary-hit + backend seed 证据闭环——100 mana / 60000ms CD；immediate primary-champion scaffold（明确排除而非建模 Wiki 未指定 cast delay 与 Effect at cast time end）；恰好一次 non-crit/non-copyable magic damage 350+1.00*source.attr.ap.resolved（交叉校验 AP200 → raw550，target MR100 → mitigated275）。Attempts t0/t59999/t60000 → two successes + exactly one cooldown skip without mana/damage；final mana 100 from 300；HP 1000→450。completedBoundary：rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget。明确排除 unspecified cast delay/Effect-at-cast-time-end、projectile/travel/speed/collision/global geometry/direction/facing/interception/spellshield/untargetable、root/reveal/tenacity/cleanse/CC immunity、Blight creation and 0.65/1.2/1.75 schedule/rank0/W coupling/detonation/state、tendril ground anchor/0.25 seeking/range/area/secondary/repeat/spread/multitarget、ranks1–2、P/Q/W/E/basic/loadout、live/publish/E2E/full fidelity；不宣称 cast/projectile/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget 保真。Backend seed 显式依赖 Batch-B identity/AP check-only 前置，并自包含 ensure mana 定义与 hero_varus mana320/320；不写 games/game_entities/attribute_definitions/entity_attribute_values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_varus|R|腐败锁链"
         },
         {
@@ -19917,7 +19894,22 @@
           "sourceRecordKey": "hero_skill|hero_varus|R|腐败锁链"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-chain-of-corruption-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; backend lol_generic_varus_chain_of_corruption_primary_hit_seed.sql + LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest (owning 067b0f8; integrated 982145c); Wasm exact test commit 74f3b22; Batch-B identity/AP check-only prerequisites + self-contained ensure mana definition/hero_varus mana320/320 (does not write games/game_entities/attribute_definitions/entity_attribute_values); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-varus-chain-of-corruption-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_varus_chain_of_corruption_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget; Wiki rev4008213/SHA256 62b397cc… rank3 100 mana/60000ms CD / one magic 350+1.00*AP; AP200→raw550/MR100→275; t0/t59999/t60000 two successes + one CD skip; final mana100/HP450; immediate scaffold excludes unspecified cast delay and Effect at cast time end; cast/projectile/travel/collision/geometry/direction/root/reveal/Blight/tendril/seek/spread/multitarget/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
