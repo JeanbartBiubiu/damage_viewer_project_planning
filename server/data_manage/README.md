@@ -1124,6 +1124,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericAsheRangersFocusSeedSqlTest test
 ```
 
+### LoL generic Ashe Enchanted Crystal Arrow primary-hit seed（寒冰射手 R / Phase-A 主目标 impact）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_ashe` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 R active；与既有 Ranger's Focus Q / Volley W provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_generic_ashe_enchanted_crystal_arrow_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-ashe-enchanted-crystal-arrow-primary-hit-phase-a-v1-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_ashe|R|魔法水晶箭` 冻结为 **Phase-A rank-3 立即主目标 impact scaffold**（`FROZEN_PLAN_REV=ashe-r-enchanted-crystal-arrow-primary-hit-phase-a-v1`）：
+
+`rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好九键属性定义（含 AP）；幂等投影 reserved → `types`；ensure `hero_ashe`（`ON CONFLICT DO NOTHING`，不改写既有 Q/W 描述）与 level-1 面板（hp610 / mana280 / ad59 / ap0 / AS0.658 / armor26 / MR30 / hpregen3.5 / manaregen7；既有八键与 Ashe Q/W 字节一致，仅新增 AP0；AP200 仅测试夹具、seed 不写）、`resource_definitions.mana` 与 `entity_resource_values`（280/280）；向 `hero_ashe` **仅** mount 独立 `provider_hero_ashe_r_enchanted_crystal_arrow_primary_hit`（与 `provider_hero_ashe_rangers_focus` / `provider_hero_ashe_w_volley` 并存），含 active `ability_hero_ashe_r_enchanted_crystal_arrow_primary_hit`（`ability_key=enchanted_crystal_arrow`）、`ability_costs` 100 mana、`ability_cooldowns` 60000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `600 + 1.20*AP`（`copyable_on_hit=false`，非 crit；运行时类型 `20221`）。Wiki：request `Template:Data Ashe/R` → resolved `Template:Data Ashe/Enchanted Crystal Arrow`；page1306811 / rev4026934 / `2026-06-10T19:09:50Z` / canonical 2394 bytes / SHA256 `1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f`；sidecar `normalized/generic/ashe-r.json`（siblings `pages/ashe-r.json`、`raw/ashe-r.wikitext`）。**local raw materialization caveat**：仓库 local raw 为非规范 2393-byte materialization，SHA256 `2bce161be04aa2cbe770a7402651929cfb3a7781d7a7ca828b93d1de68d4bb28`；既不裁剪末端 LF、也不插入 CR 能复现 canonical；canonical 身份以 sidecar/pages 为准，不断言 local raw 等价、亦不主张源矛盾。夹具交叉核对（注释）：AP200=>raw840、MR100=>mitigated420；t0 success / t59999 cooldown skip / t60000 success；mana280->80、HP1000->160。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：Wiki cast time=0.25 / Effect at cast time start（立即 scaffold 明确排除而非近似）；projectile/travel/speed/collision/first-champion acquisition/range/geometry/interception/spellshield；distance-traveled stun/crowd-control/tenacity；surrounding-enemy same-damage AOE；Frost Shot/slow；sight/reveal；ranks1–2；Q/W/P/basic Focus-Flurry/on-hit/equipment/loadout；listener/state/event/modifier/repeat/control；live migration；publish；不依赖既有 Ashe Q/W provider 发布顺序。
+
+静态契约校验（不连 live DB；含邻近 Ashe Q/W 与 Graves W magic primary-hit）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest,LolGenericAsheVolleySeedSqlTest,LolGenericAsheRangersFocusSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
