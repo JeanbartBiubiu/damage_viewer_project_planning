@@ -922,6 +922,32 @@ cd server/data_manage
 mvn -Dtest=LolGenericVayneCondemnPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Vayne Final Hour timed bonus-AD seed（薇恩 R / Phase-A v2 定时加成 AD）
+
+在 reserved types 与 Batch-B `lol_batch_b_adc_entities_seed.sql`（`hero_vayne` + `ad`/`mana`）已就绪后，按顺序执行（**前置仅为** reserved types + Batch-B；**不**要求 Vayne basic/Tumble/Silver Bolts/Condemn；seed **ensure** mana 资源 232/232（从 Batch-B 面板 mana=232 基线投影，冲突既有值 fail-closed）；不改写 Batch-B 身份/AD·mana 面板；既有 Vayne provider 若存在则保留、非前置；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20142`/`20160`/`20170`/`20172`/`20190`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B / `hero_vayne` / `ad`/`mana` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-vayne-final-hour-timed-bonus-ad-phase-a-v2-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_vayne|R|最终时刻` 冻结为 **Phase-A rank-3 direct timed bonus-AD self-buff**（`FROZEN_PLAN_REV=vayne-r-final-hour-timed-bonus-ad-phase-a-v2`）：
+
+`rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement`
+
+Ordered tags：`ability_cost_cooldown` → `cast_triggered_timed_bonus_ad` → `flat_ad_add` → `timed_provider_state`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_vayne` / `attribute_definitions(ad,mana)` / `entity_attribute_values(hero_vayne,ad|mana)` 做 **fail-closed check-only**（缺失即回滚；不写 `games` / `game_entities` / `attribute_definitions` / `entity_attribute_values`）；幂等投影 reserved → `types`；**ensure** `resource_definitions.mana` 与 `entity_resource_values`（232/232；冲突 fail-closed）；向 `hero_vayne` **仅** mount 独立 `provider_hero_vayne_r_final_hour_timed_bonus_ad`（与既有 `provider_hero_vayne_basic_attack` / `provider_hero_vayne_silver_bolts` / `provider_hero_vayne_tumble` / `provider_hero_vayne_e_condemn_primary_hit` 并存，不更新/删除/重建；basic/Tumble/Silver Bolts/Condemn **不是**前置），含 active `ability_hero_vayne_r_final_hour_timed_bonus_ad`（`ability_key=final_hour`）、`ability_costs` 80 mana、`ability_cooldowns` 70000ms、timed `final_hour_active`（explicit default0 / max1 / `duration_ms=12000` / refresh_on_write）、source `ad` add `65 * provider.state.final_hour_active`，以及恰好一个 null-duration impact phase + on_enter sequence 上的一次 direct provider-scope `state_change` override const1（**零** `provider_listeners` / **零** `event/ability_started`·`event/source_owner` scaffold）。Wiki：request `Template:Data Vayne/R` → resolved `Template:Data Vayne/Final Hour`；page1309991 / rev3807995 / `2024-11-05T22:07:10Z` / canonical 2015 bytes / SHA256 `e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d`；sidecar `normalized/generic/vayne-r.json`。**local raw materialization caveat**：2012 / `343d19e30f0edf70359f122abb2c6c8e7d2d16d5e4c6db46416428d72e7c7642`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。Fixture mana300 仅属未来 Wasm；Backend 保持 232/232。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。不暗示 live 执行或发布；**不 claim** 全保真 Vayne R。
+
+**排除**：Night Hunter 移速；Tumble 冷却缩减；invisibility / stealth；takedown / extension；movement / dash / projectile；R damage / control / multitarget / geometry；cooldown-change（除 ability_cooldowns 行）；ability_started / source_owner listener scaffold；ranks1–2；Vayne P/Q/W/E/basic/on-hit/equipment/runes/loadout；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericVayneFinalHourTimedBonusAdSeedSqlTest test
+```
+
 ### LoL generic Varus Hail of Arrows primary-hit seed（韦鲁斯 E / Phase-A v1 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；本公式不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_varus` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有普攻 / W Blighted Quiver / Q carrier 并存，不重建/替换、不读写 Blight 状态；不做 live migration、不自动 publish）：
