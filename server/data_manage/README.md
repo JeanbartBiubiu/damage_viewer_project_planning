@@ -708,6 +708,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericKogmawVoidOozePrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Kog'Maw Living Artillery seed（克格莫 R / Phase-A v2 活体大炮）
+
+在 reserved types、Batch-B `lol_batch_b_adc_entities_seed.sql`（`hero_kogmaw` + `hp`/`ad`/`ap`/`mana`/`magic_resist`），以及既有 `resource_definitions(mana)` / `entity_resource_values(hero_kogmaw,mana)` 已就绪后，按顺序执行（**前置为** reserved types + Batch-B + 既有 mana 资源行；mana 可由 Caustic Spittle / Void Ooze 等既有 seed 提供；**不** require basic/Bio-Arcane/Caustic Spittle/Void Ooze provider 为硬前置；seed **check-only**，不写身份/面板/成长/mana 资源；既有 Kog'Maw provider 若存在则保留；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20160`/`20170`/`20190`/`20221`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（若 Batch-B / `hero_kogmaw` / 所需属性尚未写入）
+3. 既有 mana 资源行（例如先跑 `lol_generic_kogmaw_caustic_spittle_seed.sql` 或 `lol_generic_kogmaw_void_ooze_primary_hit_seed.sql`，若尚未投影）
+4. `db/game_manage/seeds/lol_generic_kogmaw_living_artillery_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-kogmaw-living-artillery-phase-a-v2-20260723`（seed 不负责 publish）。候选 `hero_skill|hero_kogmaw|R|活体大炮`（task `wasm-generic-kogmaw-living-artillery`）冻结为 **Phase-A rank-3 立即主目标 Living Artillery impact scaffold**（`FROZEN_PLAN_REV=kogmaw-r-living-artillery-phase-a-v2`）：
+
+`rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth`
+
+Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `bonus_ad_and_ap_ratio` → `missing_health_damage_multiplier` → `stack_escalating_mana_cost` → `timed_provider_state`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_kogmaw` / `attribute_definitions(hp,ad,ap,mana,magic_resist)` / `entity_attribute_values(hero_kogmaw,…)` / `resource_definitions(mana)` / `entity_resource_values(hero_kogmaw,mana)` 做 **fail-closed check-only**（缺失即回滚；不写 `games` / `game_entities` / `attribute_definitions` / `entity_attribute_values` / `resource_definitions` / `entity_resource_values` / progression）；幂等投影 reserved → `types`；向 `hero_kogmaw` **仅** mount 独立 `provider_hero_kogmaw_r_living_artillery`（与既有 `provider_hero_kogmaw_basic_attack` / `provider_hero_kogmaw_bio_arcane_barrage` / `provider_hero_kogmaw_caustic_spittle` / `provider_hero_kogmaw_e_void_ooze_primary_hit` 并存，不更新/删除/重建；Q/E/W/basic **不是**硬前置），含 timed `living_artillery_stacks`（explicit default0 / max9 / `duration_ms=8000` / refresh_on_write）、active `ability_hero_kogmaw_r_living_artillery`（`ability_key=living_artillery`）、动态 `ability_costs` 公式 `40*(1+provider.state.living_artillery_stacks)`（不扁平为常量）、`ability_cooldowns` 1000ms，以及恰好一个 null-duration impact phase + on_enter sequence 上的有序两步：① magic damage `180+0.75*bonusAD+0.45*AP` × missing-health exact multiplier（Exactly40% HP→1.5；strictly below40%→2；`copyable_on_hit=false`，非 crit）；② provider-scope `state_change` add const1 到 `living_artillery_stacks`（**零** `provider_listeners` / **零** `event/ability_started`·`event/source_owner` scaffold）。Wiki：request `Template:Data Kog'Maw/R` → resolved `Template:Data Kog'Maw/Living Artillery`；page1307963 / rev4007636 / `2026-04-12T08:34:32Z` / canonical 2453 bytes / SHA256 `32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641`；sidecar `normalized/generic/kogmaw-r.json` 与 `pages/kogmaw-r.json`。**local raw materialization caveat**：2452 / `11db6c16391dcbfa2c091e81399bff4b2a0abffcd468f71ea5e9d89759d5e447`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。不暗示 live 执行或发布；**不 claim** 全保真 Kog'Maw R。
+
+**排除**：0.6s landing delay；target-location/range/radius/projectile/arc/collision/travel/area geometry；multi-target；sight/reveal/stealth；ranks1–2；P/Q/W/E/basic/combos；equipment/runes/loadout；spell shield；animation；ability_started/source_owner listener scaffold；live migration；publish；browser E2E/full-game fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKogmawLivingArtillerySeedSqlTest test
+```
+
 ### LoL generic Twisted Fate Stacked Deck seed（卡牌大师 E / rank-5）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`）已就绪后，按顺序执行（**自包含** `hero_twistedfate` + 通用普攻图 + `basic_attack_hit` emit；不依赖 Batch-B；本脚本不做 live migration、不自动 publish）：
