@@ -1554,6 +1554,45 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_kogmaw|R|活体大炮',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        "Kog'Maw R 活体大炮/Living Artillery：Wiki request Template:Data Kog'Maw/R → resolved Template:Data Kog'Maw/Living Artillery；page1307963 / rev4007636 / timestamp 2026-04-12T08:34:32Z / canonical bytes2453 / SHA256 32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641（normalized/generic/kogmaw-r.json）rank3 Phase-A v2 已由 wasm-generic-kogmaw-living-artillery + backend seed 证据闭环——local raw caveat bytes2452 / SHA 11db6c16391dcbfa2c091e81399bff4b2a0abffcd468f71ea5e9d89759d5e447（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；mana cost 40*(1+living_artillery_stacks) / 1000ms CD；immediate primary-target scaffold；zero listeners/ability-start dependency；base magic 180+0.75*(resolvedAD-baseAD)+0.45*AP；missing-health multiplier 1+min(0.5,(5/6)*missingFraction) at/above 40% current HP，exactly 2 below 40%；fixture baseAD61/resolvedAD141/AP100 → base285；maxHP1000/MR100：current1000 raw285/mitigated142.5；current400 raw427.5/mitigated213.75；current399 raw570/mitigated285。Schedule：t0/t999/t1000 mana500 → two successes + one cooldown skip，costs40 then80，final mana380/state2；mana119 → first cost40 then resource skip，final mana79/state1/no second damage/write；ten successes cost40..400 total2200 cap9；8000ms lazy expiry and refresh covered。completedBoundary：rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth。明确排除 0.6s delay、location/range/radius/projectile/arc/collision/travel/area/multi-target、sight/reveal/stealth、ranks1–2、P/Q/W/E/basic/combo、equipment/runes/loadout、spell shield、animation、live migration/publish/browser E2E/full-game fidelity；不宣称 delay/location/geometry/multitarget/sight/reveal/stealth/完整游戏保真，故标 completed。",
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kogmaw-living-artillery',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_living_artillery_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth; Wiki request Template:Data Kog\'Maw/R → Living Artillery; rev4007636/SHA256 32f8dd8d… / bytes2453; local raw caveat bytes2452/SHA 11db6c16… no equivalence claim; rank3 mana 40*(1+living_artillery_stacks)/1000ms CD; zero listeners/ability-start; base 180+0.75*bonusAD+0.45*AP nested binary add; missing-HP multiplier 1+min(0.5,(5/6)*missingFraction) ≥40% HP else exactly 2; fixture baseAD61/resolvedAD141/AP100→base285; maxHP1000/MR100 current1000→285/142.5 current400→427.5/213.75 current399→570/285; t0/t999/t1000 mana500 two successes+one CD skip costs40→80 mana380/state2; mana119 first40 then resource skip mana79/state1; ten successes 40..400 total2200 cap9; 8000ms lazy expiry/refresh; Wasm exact test commit d58370a; delay/location/geometry/multitarget/sight/reveal/stealth/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kogmaw-living-artillery',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_provider_state_cost_gate_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth; provider-aware dynamic cost gate regression (const/dynamic cost, resource_insufficient, lazy expiry, malformed ref fail-closed, zero listeners/ability-start); Wasm commit d58370a',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-kogmaw-living-artillery',
+          sourcePath: 'db/game_manage/seeds/lol_generic_kogmaw_living_artillery_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth; backend lol_generic_kogmaw_living_artillery_seed.sql + LolGenericKogmawLivingArtillerySeedSqlTest (owning 100679a + nested-binary correction 473bd50; integrated 175b03a + correction d563b67); three-argument add corrected to nested binary add (do not endorse incompatible formula); Wasm exact test commit d58370a; Web asset sync 38b9229 artifact parity only (not bilateral substitute); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_varus|E|恶灵箭雨',
     {
       status: 'completed',
@@ -2197,6 +2236,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_kogmaw|E|虚空淤泥',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration',
+  ],
+  [
+    'hero_skill|hero_kogmaw|R|活体大炮',
+    'rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth',
   ],
   [
     'hero_skill|hero_kaisa|W|虚空索敌',
@@ -5042,6 +5085,106 @@ function validateInventory(inv) {
       "Kog'Maw E must be completed/full/generic_runtime with cleared multi_target/governed gaps, Wiki rev3965135/SHA, frozen boundary/formula/cost/CD/numeric schedule, cast-time-start scaffold wording, bilateral evidence, and exclusions (no line/area/field/slow/projectile fidelity claim)",
     );
   }
+  const mKogmawR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kogmaw|R|活体大炮');
+  const mKogmawRReason = String(mKogmawR?.reason || '');
+  const mKogmawRBoundary =
+    'rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth';
+  if (
+    !mKogmawR ||
+    mKogmawR.key !== 'hero_skill|hero_kogmaw|R|活体大炮' ||
+    mKogmawR.passiveName !== '活体大炮' ||
+    mKogmawR.status !== 'completed' ||
+    mKogmawR.completionMode !== 'full' ||
+    mKogmawR.lane !== 'generic_runtime' ||
+    mKogmawR.blocker ||
+    mKogmawR.dataGapEvidence !== null ||
+    mKogmawR.runtimeGapEvidence !== null ||
+    mKogmawR.outOfScopeEvidence !== null ||
+    mKogmawR.coverageBoundary !== mKogmawRBoundary ||
+    [...(mKogmawR.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'bonus_ad_and_ap_ratio',
+        'missing_health_damage_multiplier',
+        'stack_escalating_mana_cost',
+        'timed_provider_state',
+      ].join('|') ||
+    (mKogmawR.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mKogmawR.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    mKogmawRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mKogmawRReason.includes('meta_or_non_target_dps') ||
+    !mKogmawRReason.includes('4007636') ||
+    !mKogmawRReason.includes(
+      '32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641',
+    ) ||
+    !mKogmawRReason.includes('11db6c16391dcbfa2c091e81399bff4b2a0abffcd468f71ea5e9d89759d5e447') ||
+    !mKogmawRReason.includes("Template:Data Kog'Maw/R") ||
+    !mKogmawRReason.includes("Template:Data Kog'Maw/Living Artillery") ||
+    !mKogmawRReason.includes('page1307963') ||
+    !mKogmawRReason.includes('bytes2453') ||
+    !mKogmawRReason.includes('bytes2452') ||
+    !mKogmawRReason.includes(mKogmawRBoundary) ||
+    !mKogmawRReason.includes('40*(1+living_artillery_stacks)') ||
+    !mKogmawRReason.includes('1000ms') ||
+    !mKogmawRReason.includes('zero listeners') ||
+    !mKogmawRReason.includes('ability-start') ||
+    !mKogmawRReason.includes('180') ||
+    !mKogmawRReason.includes('0.75') ||
+    !mKogmawRReason.includes('0.45') ||
+    !mKogmawRReason.includes('base285') ||
+    !mKogmawRReason.includes('142.5') ||
+    !mKogmawRReason.includes('427.5') ||
+    !mKogmawRReason.includes('213.75') ||
+    !mKogmawRReason.includes('570') ||
+    !mKogmawRReason.includes('t999') ||
+    !mKogmawRReason.includes('mana380') ||
+    !mKogmawRReason.includes('mana79') ||
+    !mKogmawRReason.includes('2200') ||
+    !mKogmawRReason.includes('8000ms') ||
+    !mKogmawRReason.includes('0.6s delay') ||
+    !mKogmawRReason.includes('不宣称') ||
+    !(mKogmawR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-kogmaw-living-artillery' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_living_artillery_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mKogmawRBoundary) &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('d58370a'),
+    ) ||
+    !(mKogmawR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-kogmaw-living-artillery' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_provider_state_cost_gate_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mKogmawRBoundary) &&
+        String(e.note || '').includes('provider-aware') &&
+        String(e.note || '').includes('d58370a'),
+    ) ||
+    !(mKogmawR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-kogmaw-living-artillery' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_kogmaw_living_artillery_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mKogmawRBoundary) &&
+        String(e.note || '').includes('LolGenericKogmawLivingArtillerySeedSqlTest') &&
+        String(e.note || '').includes('100679a') &&
+        String(e.note || '').includes('473bd50') &&
+        String(e.note || '').includes('175b03a') &&
+        String(e.note || '').includes('d563b67') &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('do not endorse') &&
+        String(e.note || '').includes('d58370a') &&
+        String(e.note || '').includes('38b9229'),
+    )
+  ) {
+    errors.push(
+      "Kog'Maw R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Living Artillery ordered tags (no meta_or_non_target_dps), Wiki rev4007636/SHA + local raw caveat + frozen completedBoundary, rank3 mana40*(1+stacks)/1000CD/nested-binary 180+0.75bonusAD+0.45AP missing-HP multiplier numerics, and bilateral evidence (owning 100679a+473bd50 / integrated 175b03a+d563b67 / Wasm d58370a + provider cost gate; Web 38b9229 artifact-only; no delay/location/geometry/multitarget/sight/reveal/stealth/live claim)",
+    );
+  }
   const mKaisaW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kaisa|W|虚空索敌');
   const mKaisaWReason = String(mKaisaW?.reason || '');
   if (
@@ -5789,8 +5932,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 74) {
-    errors.push(`completed=${sc.completed}, expected 74`);
+  if ((sc.completed || 0) !== 75) {
+    errors.push(`completed=${sc.completed}, expected 75`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -5798,8 +5941,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 99) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 99`);
+  if ((sc.blocked_runtime || 0) !== 98) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 98`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -5820,21 +5963,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 74) {
-    errors.push(`completionMode full=${cm.full}, expected 74`);
+  if ((cm.full || 0) !== 75) {
+    errors.push(`completionMode full=${cm.full}, expected 75`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 177) {
-    errors.push(`completionMode none=${cm.none}, expected 177`);
+  if ((cm.none || 0) !== 176) {
+    errors.push(`completionMode none=${cm.none}, expected 176`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 81) {
+  if (implGapCount !== 80) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 81`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 80`,
     );
   }
 

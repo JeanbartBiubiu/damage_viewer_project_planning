@@ -603,6 +603,8 @@ const SEED = {
   kogmawCausticSpittleBackend: 'db/game_manage/seeds/lol_generic_kogmaw_caustic_spittle_seed.sql',
   kogmawVoidOozePrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_kogmaw_void_ooze_primary_hit_seed.sql',
+  kogmawLivingArtilleryBackend:
+    'db/game_manage/seeds/lol_generic_kogmaw_living_artillery_seed.sql',
   kaisaSuperchargeBackend: 'db/game_manage/seeds/lol_generic_kaisa_supercharge_seed.sql',
   kaisaVoidSeekerPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_kaisa_void_seeker_primary_hit_seed.sql',
@@ -690,6 +692,10 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_caustic_spittle_test.go',
   kogmawVoidOozePrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_void_ooze_primary_hit_test.go',
+  kogmawLivingArtillery:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kogmaw_living_artillery_test.go',
+  kogmawLivingArtilleryProviderStateCostGate:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_provider_state_cost_gate_test.go',
   kaisaSupercharge:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kaisa_supercharge_test.go',
   kaisaVoidSeekerPrimaryHit:
@@ -1086,6 +1092,45 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-kogmaw-void-ooze-primary-hit',
           SEED.kogmawVoidOozePrimaryHitBackend,
           'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration; backend lol_generic_kogmaw_void_ooze_primary_hit_seed.sql + LolGenericKogmawVoidOozePrimaryHitSeedSqlTest (owning b1752e4; integrated 24c1ddf); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kogmaw|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'bonus_ad_and_ap_ratio',
+        'missing_health_damage_multiplier',
+        'stack_escalating_mana_cost',
+        'timed_provider_state',
+      ],
+      reason:
+        "hero_kogmaw R 活体大炮/Living Artillery：Wiki request Template:Data Kog'Maw/R → resolved Template:Data Kog'Maw/Living Artillery；page1307963 / rev4007636 / timestamp 2026-04-12T08:34:32Z / canonical bytes2453 / SHA256 32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641（normalized/generic/kogmaw-r.json）rank3 Phase-A v2 已由 wasm-generic-kogmaw-living-artillery 闭环为 migrated——local raw caveat bytes2452 / SHA 11db6c16391dcbfa2c091e81399bff4b2a0abffcd468f71ea5e9d89759d5e447（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；mana cost 40*(1+living_artillery_stacks) / 1000ms CD；immediate primary-target scaffold；zero listeners/ability-start dependency；base magic 180+0.75*(resolvedAD-baseAD)+0.45*AP；missing-health multiplier 1+min(0.5,(5/6)*missingFraction) at/above 40% current HP，exactly 2 below 40%；fixture baseAD61/resolvedAD141/AP100 → base285；maxHP1000/MR100：current1000 raw285/mitigated142.5；current400 raw427.5/mitigated213.75；current399 raw570/mitigated285。Schedule：t0/t999/t1000 mana500 → two successes + one cooldown skip，costs40 then80，final mana380/state2；mana119 → first cost40 then resource skip，final mana79/state1/no second damage/write；ten successes cost40..400 total2200 cap9；8000ms lazy expiry and refresh covered。completedBoundary：rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth。明确排除 0.6s delay、location/range/radius/projectile/arc/collision/travel/area/multi-target、sight/reveal/stealth、ranks1–2、P/Q/W/E/basic/combo、equipment/runes/loadout、spell shield、animation、live migration/publish/browser E2E/full-game fidelity；不宣称 delay/location/geometry/multitarget/sight/reveal/stealth/完整游戏保真。",
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kogmaw-living-artillery',
+          WASM.kogmawLivingArtillery,
+          'completedBoundary: rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth; Wiki request Template:Data Kog\'Maw/R → Living Artillery; rev4007636/SHA256 32f8dd8d… / bytes2453; local raw caveat bytes2452/SHA 11db6c16… no equivalence claim; rank3 mana 40*(1+living_artillery_stacks)/1000ms CD; zero listeners/ability-start; base 180+0.75*bonusAD+0.45*AP nested binary add; missing-HP multiplier 1+min(0.5,(5/6)*missingFraction) ≥40% HP else exactly 2; fixture baseAD61/resolvedAD141/AP100→base285; maxHP1000/MR100 current1000→285/142.5 current400→427.5/213.75 current399→570/285; t0/t999/t1000 mana500 two successes+one CD skip costs40→80 mana380/state2; mana119 first40 then resource skip mana79/state1; ten successes 40..400 total2200 cap9; 8000ms lazy expiry/refresh; Wasm exact test commit d58370a; delay/location/geometry/multitarget/sight/reveal/stealth/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kogmaw-living-artillery',
+          WASM.kogmawLivingArtilleryProviderStateCostGate,
+          'completedBoundary: rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth; provider-aware dynamic cost gate regression (const/dynamic cost, resource_insufficient, lazy expiry, malformed ref fail-closed, zero listeners/ability-start); Wasm commit d58370a',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kogmaw-living-artillery',
+          SEED.kogmawLivingArtilleryBackend,
+          'completedBoundary: rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth; backend lol_generic_kogmaw_living_artillery_seed.sql + LolGenericKogmawLivingArtillerySeedSqlTest (owning 100679a + nested-binary correction 473bd50; integrated 175b03a + correction d563b67); three-argument add corrected to nested binary add (do not endorse incompatible formula); Wasm exact test commit d58370a; Web asset sync 38b9229 artifact parity only (not bilateral substitute); not live published',
         ),
       ],
     },
@@ -3962,9 +4007,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 64) errors.push(`migrated=${counts.migrated}, expected 64`);
+  if (counts.migrated !== 65) errors.push(`migrated=${counts.migrated}, expected 65`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 105) errors.push(`blocked=${counts.blocked}, expected 105`);
+  if (counts.blocked !== 104) errors.push(`blocked=${counts.blocked}, expected 104`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5459,6 +5504,116 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       kogmawE.candidateKey,
       kogmawE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const kogmawR = records.find((r) => r.candidateKey === 'hero_skill|hero_kogmaw|R|活体大炮');
+  const kogmawRTags = [...(kogmawR?.genericMechanismTags || [])];
+  const kogmawRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'bonus_ad_and_ap_ratio',
+    'missing_health_damage_multiplier',
+    'stack_escalating_mana_cost',
+    'timed_provider_state',
+  ];
+  const kogmawRReason = String(kogmawR?.classificationReason || '');
+  const kogmawRBoundary =
+    'rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth';
+  if (
+    !kogmawR
+    || kogmawR.candidateKey !== 'hero_skill|hero_kogmaw|R|活体大炮'
+    || kogmawR.passiveName !== '活体大炮'
+    || kogmawR.genericClassification !== 'migrated'
+    || String(kogmawR.remainingGap || '').trim()
+    || (kogmawR.dataGapEvidence?.missingFields || []).length !== 0
+    || kogmawRTags.join('|') !== kogmawRExpectedTags.join('|')
+    || kogmawRTags.includes('meta_or_non_target_dps')
+    || kogmawRTags.includes('dps_relevant_manual_review')
+    || String(kogmawR.remainingGap || '').includes('blocked_data')
+    || kogmawRReason.includes('out_of_scope_for_single_target_dps')
+    || kogmawRReason.includes('blocked_data')
+    || kogmawRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || kogmawRReason.includes('meta_or_non_target_dps')
+    || !kogmawRReason.includes('4007636')
+    || !kogmawRReason.includes(
+      '32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641',
+    )
+    || !kogmawRReason.includes('11db6c16391dcbfa2c091e81399bff4b2a0abffcd468f71ea5e9d89759d5e447')
+    || !kogmawRReason.includes("Template:Data Kog'Maw/R")
+    || !kogmawRReason.includes("Template:Data Kog'Maw/Living Artillery")
+    || !kogmawRReason.includes('page1307963')
+    || !kogmawRReason.includes('bytes2453')
+    || !kogmawRReason.includes('bytes2452')
+    || !kogmawRReason.includes(kogmawRBoundary)
+    || !kogmawRReason.includes('40*(1+living_artillery_stacks)')
+    || !kogmawRReason.includes('1000ms')
+    || !kogmawRReason.includes('zero listeners')
+    || !kogmawRReason.includes('ability-start')
+    || !kogmawRReason.includes('180')
+    || !kogmawRReason.includes('0.75')
+    || !kogmawRReason.includes('0.45')
+    || !kogmawRReason.includes('base285')
+    || !kogmawRReason.includes('142.5')
+    || !kogmawRReason.includes('427.5')
+    || !kogmawRReason.includes('213.75')
+    || !kogmawRReason.includes('570')
+    || !kogmawRReason.includes('t999')
+    || !kogmawRReason.includes('mana380')
+    || !kogmawRReason.includes('mana79')
+    || !kogmawRReason.includes('2200')
+    || !kogmawRReason.includes('8000ms')
+    || !kogmawRReason.includes('0.6s delay')
+    || !kogmawRReason.includes('不宣称')
+    || !String(kogmawR.sourceRef || '').includes('kogmaw-r.json')
+    || !String(kogmawR.sourceRef || '').includes(
+      '32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641',
+    )
+    || citesForbiddenProvenance(kogmawR.classificationReason)
+    || !(kogmawR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.kogmawLivingArtillery
+        && e.taskKey === 'wasm-generic-kogmaw-living-artillery'
+        && String(e.note || '').includes(kogmawRBoundary)
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('d58370a'),
+    )
+    || !(kogmawR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.kogmawLivingArtilleryProviderStateCostGate
+        && e.taskKey === 'wasm-generic-kogmaw-living-artillery'
+        && String(e.note || '').includes(kogmawRBoundary)
+        && String(e.note || '').includes('provider-aware')
+        && String(e.note || '').includes('d58370a'),
+    )
+    || !(kogmawR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.kogmawLivingArtilleryBackend
+        && e.taskKey === 'wasm-generic-kogmaw-living-artillery'
+        && String(e.note || '').includes(kogmawRBoundary)
+        && String(e.note || '').includes('LolGenericKogmawLivingArtillerySeedSqlTest')
+        && String(e.note || '').includes('100679a')
+        && String(e.note || '').includes('473bd50')
+        && String(e.note || '').includes('175b03a')
+        && String(e.note || '').includes('d563b67')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('do not endorse')
+        && String(e.note || '').includes('d58370a')
+        && String(e.note || '').includes('38b9229'),
+    )
+  ) {
+    errors.push(
+      "Kog'Maw R must be migrated with empty remainingGap/missingFields, exact Living Artillery ordered tags (no meta_or_non_target_dps), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev4007636/SHA + local raw caveat + frozen completedBoundary, rank3 mana40*(1+stacks)/1000CD/nested-binary 180+0.75bonusAD+0.45AP missing-HP multiplier numerics (base285; 1000→285/142.5; 400→427.5/213.75; 399→570/285; t0/t999/t1000; mana380/79; cap9/2200; 8000ms), and bilateral wasm+backend evidence (owning 100679a+473bd50 / integrated 175b03a+d563b67 / Wasm d58370a + provider cost gate; Web 38b9229 artifact-only; no delay/location/geometry/multitarget/sight/reveal/stealth/live claim)",
+    );
+  }
+  if (kogmawR) {
+    validateBilateralCoverageEvidence(
+      kogmawR.candidateKey,
+      kogmawR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
