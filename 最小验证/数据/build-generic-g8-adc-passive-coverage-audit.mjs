@@ -635,6 +635,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_graves_collateral_damage_primary_hit_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
+  ezrealArcaneShiftPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_ezreal_arcane_shift_primary_hit_seed.sql',
   ezrealTrueshotBarragePrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql',
   akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
@@ -746,6 +748,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_collateral_damage_primary_hit_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
+  ezrealArcaneShiftPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_arcane_shift_primary_hit_test.go',
   ezrealTrueshotBarragePrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_trueshot_barrage_primary_hit_test.go',
   akshanDirtyFighting:
@@ -1471,6 +1475,37 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-ezreal-trueshot-barrage-primary-hit',
           SEED.ezrealTrueshotBarragePrimaryHitBackend,
           'completedBoundary: rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage; backend lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql + LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest (owning dea4538; integrated 8c93017); Wasm exact test commit e13d887; external existing-data/check-only prerequisites (does not write identity/panel/resource values); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ezreal|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'bonus_ad_ratio',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_ezreal E 奥术跃迁/Arcane Shift：Wiki request Template:Data Ezreal/E → resolved Template:Data Ezreal/Arcane Shift；page1307111 / rev3989862 / timestamp 2026-02-03T23:19:20Z / canonical bytes1661 / SHA256 7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347（normalized/generic/ezreal-e.json）rank5 Phase-A v3 已由 wasm-generic-ezreal-arcane-shift-primary-hit 闭环为 migrated——local raw caveat bytes1661 / SHA f48a32706234b0c1ef1abab4b7f90e4ee88944623827fb22a41e23bdfac01792（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；70 mana / 14000ms CD；immediate primary-champion scaffold；恰好一次 non-crit/non-copyable magic damage 280+0.60*(source.attr.ad.resolved-source.attr.ad.base)+0.75*source.attr.ap.resolved（nested binary add；交叉校验 raw/mit 280/140、310/155、430/215、460/230）。Attempts t0/t13999/t14000 mana210 → two successes + exactly one cooldown skip without mana/damage；final mana 70；HP 1000→540；mana69 → resource skip/unchanged。成功命中保留既有 Rising Spell Force 一层：successful t0 + CD skip t100 → exactly one damage/ability_started/P stack and AS1.1。completedBoundary：rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks。明确排除 blink/homing/target-selection/visibility/Essence Flux priority、projectile/travel/reveal、ranks1–4、other Ezreal skills/basic、loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 blink/homing/visibility/Essence-Flux/projectile/reveal/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_ezreal ad/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-arcane-shift-primary-hit',
+          WASM.ezrealArcaneShiftPrimaryHit,
+          'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks; Wiki request Template:Data Ezreal/E → Arcane Shift; rev3989862/SHA256 7ac83f7e… / bytes1661; local raw caveat bytes1661/SHA f48a3270… no equivalence claim; rank5 70 mana/14000ms CD / one magic 280+0.60*bonusAD+0.75*AP nested binary add; branches raw/mit 280/140 310/155 430/215 460/230; t0/t13999/t14000 mana210 two successes + one CD skip final mana70/HP540; mana69 resource skip unchanged; P coexistence successful t0 + CD skip t100 → exactly one damage/ability_started/P stack and AS1.1; Wasm exact test commit 065beb1; blink/homing/visibility/Essence-Flux/projectile/reveal/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-arcane-shift-primary-hit',
+          SEED.ezrealArcaneShiftPrimaryHitBackend,
+          'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks; backend lol_generic_ezreal_arcane_shift_primary_hit_seed.sql + LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest + README (owning 89e6677; integrated 0594b20); Wasm exact test commit 065beb1; nested binary add; external existing-data/check-only prerequisites (does not write identity/panel/resource values); Web source asset exact parity (no Web change/commit); not live published',
         ),
       ],
     },
@@ -4111,9 +4146,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 68) errors.push(`migrated=${counts.migrated}, expected 68`);
+  if (counts.migrated !== 69) errors.push(`migrated=${counts.migrated}, expected 69`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 101) errors.push(`blocked=${counts.blocked}, expected 101`);
+  if (counts.blocked !== 100) errors.push(`blocked=${counts.blocked}, expected 100`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -6763,6 +6798,120 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       ezrealR.candidateKey,
       ezrealR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const ezrealE = records.find((r) => r.candidateKey === 'hero_skill|hero_ezreal|E|奥术跃迁');
+  const ezrealETags = [...(ezrealE?.genericMechanismTags || [])];
+  const ezrealEExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'bonus_ad_ratio',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const ezrealEReason = String(ezrealE?.classificationReason || '');
+  const ezrealEBoundary =
+    'rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks';
+  if (!EXACT_OVERRIDES.has('hero_ezreal|E')) {
+    errors.push('Ezreal E exact override key hero_ezreal|E must exist before fallback');
+  }
+  if (
+    !ezrealE
+    || ezrealE.candidateKey !== 'hero_skill|hero_ezreal|E|奥术跃迁'
+    || ezrealE.passiveName !== '奥术跃迁'
+    || ezrealE.genericClassification !== 'migrated'
+    || String(ezrealE.remainingGap || '').trim()
+    || (ezrealE.dataGapEvidence?.missingFields || []).length !== 0
+    || ezrealETags.join('|') !== ezrealEExpectedTags.join('|')
+    || ezrealETags.includes('multi_target_or_area')
+    || ezrealETags.includes('meta_or_non_target_dps')
+    || String(ezrealE.remainingGap || '').includes('blocked_data')
+    || ezrealEReason.includes('out_of_scope_for_single_target_dps')
+    || ezrealEReason.includes('blocked_data')
+    || ezrealEReason.includes('implementation_gap_no_unresolved_data_fields')
+    || ezrealEReason.includes('multi_target_or_area')
+    || !ezrealEReason.includes('3989862')
+    || !ezrealEReason.includes(
+      '7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347',
+    )
+    || !ezrealEReason.includes('f48a32706234b0c1ef1abab4b7f90e4ee88944623827fb22a41e23bdfac01792')
+    || !ezrealEReason.includes('Template:Data Ezreal/E')
+    || !ezrealEReason.includes('Template:Data Ezreal/Arcane Shift')
+    || !ezrealEReason.includes('page1307111')
+    || !ezrealEReason.includes('bytes1661')
+    || !ezrealEReason.includes('2026-02-03T23:19:20Z')
+    || !ezrealEReason.includes(ezrealEBoundary)
+    || !ezrealEReason.includes('nested binary')
+    || !ezrealEReason.includes('source.attr.ad.resolved')
+    || !ezrealEReason.includes('source.attr.ad.base')
+    || !ezrealEReason.includes('source.attr.ap.resolved')
+    || !ezrealEReason.includes('280')
+    || !ezrealEReason.includes('0.60')
+    || !ezrealEReason.includes('0.75')
+    || !ezrealEReason.includes('70 mana')
+    || !ezrealEReason.includes('14000')
+    || !ezrealEReason.includes('280/140')
+    || !ezrealEReason.includes('310/155')
+    || !ezrealEReason.includes('430/215')
+    || !ezrealEReason.includes('460/230')
+    || !ezrealEReason.includes('t13999')
+    || !ezrealEReason.includes('mana210')
+    || !ezrealEReason.includes('mana69')
+    || !ezrealEReason.includes('Rising Spell Force')
+    || !ezrealEReason.includes('AS1.1')
+    || !ezrealEReason.includes('ability_started')
+    || !ezrealEReason.includes('external existing-data/check-only')
+    || !ezrealEReason.includes('identity/panel/resource')
+    || !ezrealEReason.includes('不宣称')
+    || !String(ezrealE.sourceRef || '').includes('ezreal-e.json')
+    || !String(ezrealE.sourceRef || '').includes(
+      '7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347',
+    )
+    || ezrealE.auditBaseline?.gapCode !== 'blocked_data'
+    || ezrealE.auditBaseline?.resolvedBucket !== 'blocked'
+    || ezrealE.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(ezrealE.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || ezrealE.classification !== 'out_of_scope_for_single_target_dps'
+    || !(ezrealE.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(ezrealE.classificationReason)
+    || !(ezrealE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.ezrealArcaneShiftPrimaryHit
+        && e.taskKey === 'wasm-generic-ezreal-arcane-shift-primary-hit'
+        && String(e.note || '').includes(ezrealEBoundary)
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('AS1.1')
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('065beb1')
+        && String(e.note || '').includes('f48a3270'),
+    )
+    || !(ezrealE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.ezrealArcaneShiftPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-ezreal-arcane-shift-primary-hit'
+        && String(e.note || '').includes(ezrealEBoundary)
+        && String(e.note || '').includes('LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('README')
+        && String(e.note || '').includes('89e6677')
+        && String(e.note || '').includes('0594b20')
+        && String(e.note || '').includes('065beb1')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('no Web change'),
+    )
+  ) {
+    errors.push(
+      'Ezreal E must be migrated with empty remainingGap/missingFields, exact Arcane Shift ordered tags (no multi_target_or_area), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev3989862/SHA + local raw caveat + frozen completedBoundary, rank5 70mana/14000CD/nested-binary 280+0.60bonusAD+0.75AP numerics (280/140 310/155 430/215 460/230; t0/t13999/t14000 mana210→70/HP540; mana69 skip; P coexistence AS1.1), and bilateral wasm+backend evidence (owning 89e6677 / integrated 0594b20 / Wasm 065beb1; Web parity no change; no blink/homing/visibility/Essence-Flux/projectile/reveal/live claim)',
+    );
+  }
+  if (ezrealE) {
+    validateBilateralCoverageEvidence(
+      ezrealE.candidateKey,
+      ezrealE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
