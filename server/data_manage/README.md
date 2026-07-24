@@ -1013,6 +1013,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Quinn Vault primary-hit seed（奎因 E / Phase-A v1 主冠军命中）
+
+在 reserved types、`lol_generic_quinn_heightened_senses_seed.sql`（`hero_quinn` + `ad` EAV + `provider_hero_quinn_basic_attack` + `provider_hero_quinn_heightened_senses`），以及 `lol_generic_quinn_blinding_assault_primary_hit_seed.sql` 提供的中性 mana 资源行（`resource_definitions(mana)` + `entity_resource_values(hero_quinn,mana)`）已就绪后，按顺序执行（**Accepted `NB-MANA-RESOURCE-SEED-ORDER`**：仓库注册顺序 **W → Q(resource) → E**；mana 资源行为 **check-only**；**不断言** Q provider——Q provider **不是**功能硬前置；seed **fail-closed** check-only 上述前置；**不**重建/改写 Quinn 身份/面板/AP/资源/成长/普攻·W·Q 图；若 Q provider 已存在则保留；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql`（若 Quinn W / basic / `hero_quinn` / `ad` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_quinn_blinding_assault_primary_hit_seed.sql`（中性 mana 资源；W → Q(resource) → E）
+4. `db/game_manage/seeds/lol_generic_quinn_vault_primary_hit_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-quinn-vault-primary-hit-phase-a-v1-20260724`（seed 不负责 publish）。候选 `hero_skill|hero_quinn|E|旋翔掠杀`（task `wasm-generic-quinn-vault-primary-hit`）冻结为 **Phase-A rank-5 立即主冠军命中 impact scaffold**（`FROZEN_PLAN_REV=quinn-e-vault-phase-a-v1`）：
+
+`rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `attribute_definitions(ad)` / `hero_quinn` / `entity_attribute_values(hero_quinn,ad)` / `resource_definitions(mana)` / `entity_resource_values(hero_quinn,mana)` / `provider_hero_quinn_basic_attack` / `provider_hero_quinn_heightened_senses` 做 **fail-closed check-only**（缺失即回滚；不写身份/面板/AP/资源/成长）；幂等投影 reserved → `types`；向 `hero_quinn` **仅** mount 独立 `provider_hero_quinn_e_vault_primary_hit`（与既有 basic / W / 若存在的 Q 并存，不更新/删除/重建），含 active `ability_hero_quinn_e_vault_primary_hit`（`ability_key=vault_primary_hit`）、`ability_costs` 50 mana、`ability_cooldowns` 8000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `140 + 0.20*(ad.resolved-ad.base)`（二元 `add`；`copyable_on_hit=false`，非 crit；运行时类型 `20220`）；**零** provider state / modifiers / listeners / matchers / event-effect / repeat / control / `emit_event`（`NB-ZERO-EMITTED-EVENTS-SCOPE`：本 E 图不能 emit `basic_attack_hit`，不压制运行时合成 `ability_started`）。Wiki：request `Template:Data Quinn/E` → resolved `Template:Data Quinn/Vault`；page1308957 / rev4024768 / `2026-06-03T00:51:11Z` / canonical 2649 bytes / SHA256 `9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714`；sidecar `normalized/generic/quinn-e.json`。**local raw materialization caveat**：2649 / `317ac3ccf31e53ba17255dbb15c856ba5499d9257fbe0c9faa91b43f8438e24b`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。不暗示 live 执行或发布；**不 claim** 全保真 Quinn E。
+
+**排除**：dash/tracking/bounce/range/speed/wall/geometry/grounded/knockdown；knockback/airborne/slow/control/facing/windup；Harrier mark/P/W interaction；basic-attack reset/fuzzy delay/autoattack；failed-too-far；spellshield/callforhelp；ranks1–4；P/Q/W/R/basic 行为；loadout/crit/on-hit；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericQuinnVaultPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Kai'Sa Void Seeker primary-hit seed（卡莎 W / Phase-A v2 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_kaisa` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与既有普攻/Second Skin / Supercharge provider 并存，不重建/替换、不读写 Plasma/Caustic Wounds/Supercharge 状态；不做 live migration、不自动 publish）：
