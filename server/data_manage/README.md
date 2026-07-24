@@ -1327,6 +1327,31 @@ cd server/data_manage
 mvn -Dtest=LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest,LolGenericEzrealRisingSpellForceSeedSqlTest test
 ```
 
+### LoL generic Ezreal Arcane Shift primary-hit seed（探险家 E / Phase-A v3 主冠军命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_ezreal)`、`attribute_definitions(ad/ap)`、`entity_attribute_values(hero_ezreal,ad/ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_ezreal,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Ezreal ad/ap/mana 行——当前仓库亦无 seed 负责物化这些行；与较旧 Rising Spell Force / Trueshot Barrage seeds 共享同一外部实体依赖；仅挂载可 cast 的 E active；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`）
+2. `db/game_manage/seeds/lol_generic_ezreal_arcane_shift_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-ezreal-arcane-shift-primary-hit-phase-a-v3-20260724`（seed 不负责 publish）。候选 `hero_skill|hero_ezreal|E|奥术跃迁`（task `wasm-generic-ezreal-arcane-shift-primary-hit`）冻结为 **Phase-A rank-5 立即主冠军命中 impact scaffold**（`FROZEN_PLAN_REV=ezreal-e-arcane-shift-primary-hit-phase-a-v3`）：
+
+`rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks`
+
+Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `bonus_ad_ratio` → `ap_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_ezreal` / `ad`+`ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_ezreal` **仅** mount 独立 `provider_hero_ezreal_e_arcane_shift_primary_hit`（与既有 `provider_hero_ezreal_rising_spell_force` / `provider_hero_ezreal_r_trueshot_barrage_primary_hit` 并存，不更新/删除/重建；不创建 Q/W），含 active `ability_hero_ezreal_e_arcane_shift_primary_hit`（`ability_key=arcane_shift_primary_hit`）、`ability_costs` 70 mana、`ability_cooldowns` 14000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `280 + 0.60*(ad.resolved-ad.base) + 0.75*ap.resolved`（嵌套二元 `add`，外层 `add(内层 add(base, bonusAD), AP)`，非历史 R 三元 add；`copyable_on_hit=false`，非 crit；运行时类型 `20221`）；**零** provider state / modifiers / listeners / matchers / event-effect / repeat / control / projectile / AOE / blink / movement 行。成功非普攻 E cast 可参与既有自动 `ability_started` 表面（Rising Spell Force 叠一层），本 E 图不添加 listener 行。Wiki：request `Template:Data Ezreal/E` → resolved `Template:Data Ezreal/Arcane Shift`；page1307111 / rev3989862 / `2026-02-03T23:19:20Z` / canonical 1661 bytes / SHA256 `7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347`；sidecar `normalized/generic/ezreal-e.json` + pages sibling。**local raw materialization caveat**：仓库 local raw 1661 / `f48a32706234b0c1ef1abab4b7f90e4ee88944623827fb22a41e23bdfac01792`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除**：blink/displacement/location/range/cast time/terrain/geometry/direction；homing/nearest-enemy/visibility/unseen/Essence Flux priority or detonation；projectile/travel/collision/interception/spell shield/reveal；miss/cancel/death；multitarget/minions/monsters；ranks1–4；P cap/expiry/refresh beyond coexistence；Q/W/R/basic；equipment/runes/loadout/crit/on-hit；identity/base-stat bootstrap；listener/state/event/modifier/repeat/control/projectile/AOE/movement；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
