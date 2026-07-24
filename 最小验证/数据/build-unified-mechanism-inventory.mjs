@@ -1411,6 +1411,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_quinn|E|旋翔掠杀',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Quinn E 旋翔掠杀/Vault：Wiki request Template:Data Quinn/E → resolved Template:Data Quinn/Vault；page1308957 / rev4024768 / timestamp 2026-06-03T00:51:11Z / canonical bytes2649 / SHA256 9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714（normalized/generic/quinn-e.json）rank5 Phase-A v1 已由 wasm-generic-quinn-vault-primary-hit + backend seed 证据闭环——local raw caveat bytes2649 / SHA 317ac3ccf31e53ba17255dbb15c856ba5499d9257fbe0c9faa91b43f8438e24b（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；50 mana / 8000ms CD；immediate primary-champion scaffold；恰好一次 non-crit/non-copyable physical damage 140+0.20*(source.attr.ad.resolved-source.attr.ad.base)（nested binary add；冻结伤害公式无 distance multiplier——dash prose 非 distance-based damage modifier；交叉校验 baseAD59 / resolvedAD139 → raw156，armor100 → mitigated78；baseline resolvedAD59 → raw140/mitigated70）。Attempts t0/t7999/t8000 mana150 → two successes + exactly one cooldown skip without mana/damage；final mana 50；mana49 → resource skip/no hit。E 不产生 basic_attack_hit、不武装既有 Quinn W、不改变 AS；runtime 可合成既有 ability_started，不宣称全局零事件。completedBoundary：rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks。明确排除 dash/tracking/bounce/range/speed/wall/geometry/grounded/knockdown、knockback/airborne/slow/control/facing/windup、Harrier/P/W interaction、basic-attack reset/fuzzy delay/autoattack、failed-too-far、spellshield/callforhelp、ranks1–4、other Quinn skills/basic、loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 dash/tracking/bounce/knockback/slow/Harrier/basic-attack-reset/完整游戏保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-quinn-vault-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_vault_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks; Wiki request Template:Data Quinn/E → Vault; rev4024768/SHA256 9f6baba1… / bytes2649; local raw caveat bytes2649/SHA 317ac3cc… no equivalence claim; rank5 50 mana/8000ms CD / one physical 140+0.20*bonusAD nested binary add; no distance multiplier; baseAD59/resolvedAD139→raw156/armor100→78; baseline resolvedAD59→raw140/mitigated70; t0/t7999/t8000 mana150 two successes + one CD skip final mana50; mana49 resource skip/no hit; no basic_attack_hit / does not arm Quinn W / no AS change; may synthesize ability_started (not globally zero events); Wasm exact test commit bfe9e5b; dash/tracking/bounce/knockback/slow/Harrier/basic-attack-reset/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-quinn-vault-primary-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_quinn_vault_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks; backend lol_generic_quinn_vault_primary_hit_seed.sql + LolGenericQuinnVaultPrimaryHitSeedSqlTest + README (owning c487eb4; integrated 3f698ab); Wasm exact test commit bfe9e5b; nested binary add; Web source asset exact parity (no Web change/commit); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_quinn|Q|炫目攻势',
     {
       status: 'completed',
@@ -2303,6 +2334,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_ezreal|R|精准弹幕',
     'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage',
+  ],
+  [
+    'hero_skill|hero_quinn|E|旋翔掠杀',
+    'rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks',
   ],
   [
     'hero_skill|hero_quinn|Q|炫目攻势',
@@ -3882,6 +3917,7 @@ function validateInventory(inv) {
   const mVarusW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|W|枯萎箭袋');
   const mAsheQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|Q|射手的专注');
   const mDravenW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|W|血性冲刺');
+  const mQuinnE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|E|旋翔掠杀');
   const mQuinnQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|Q|炫目攻势');
   const mQuinnW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|W|敏锐感知');
   const mKogmawQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kogmaw|Q|腐蚀唾液');
@@ -5004,6 +5040,106 @@ function validateInventory(inv) {
       'Draven W 血性冲刺 must be completed/full/generic_runtime with blood-rush + axe-catch-reset wasm and backend seed evidence refs',
     );
   }
+  const mQuinnEReason = String(mQuinnE?.reason || '');
+  const mQuinnEBoundary =
+    'rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks';
+  if (
+    !STATUS_OVERRIDES.has('hero_skill|hero_quinn|E|旋翔掠杀') ||
+    !mQuinnE ||
+    mQuinnE.key !== 'hero_skill|hero_quinn|E|旋翔掠杀' ||
+    mQuinnE.passiveName !== '旋翔掠杀' ||
+    mQuinnE.status !== 'completed' ||
+    mQuinnE.completionMode !== 'full' ||
+    mQuinnE.lane !== 'generic_runtime' ||
+    mQuinnE.blocker ||
+    mQuinnE.dataGapEvidence !== null ||
+    mQuinnE.runtimeGapEvidence !== null ||
+    mQuinnE.outOfScopeEvidence !== null ||
+    mQuinnE.coverageBoundary !== mQuinnEBoundary ||
+    [...(mQuinnE.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mQuinnE.mechanismTags || []).includes('distance_or_ratio_modifier') ||
+    (mQuinnE.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mQuinnE.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    mQuinnEReason.includes('distance_based_damage_modifier / damage_multiplier') ||
+    mQuinnEReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mQuinnEReason.includes('meta_or_non_target_dps') ||
+    mQuinnEReason.includes('zero listeners') ||
+    !mQuinnEReason.includes('4024768') ||
+    !mQuinnEReason.includes(
+      '9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714',
+    ) ||
+    !mQuinnEReason.includes('317ac3ccf31e53ba17255dbb15c856ba5499d9257fbe0c9faa91b43f8438e24b') ||
+    !mQuinnEReason.includes('Template:Data Quinn/E') ||
+    !mQuinnEReason.includes('Template:Data Quinn/Vault') ||
+    !mQuinnEReason.includes('page1308957') ||
+    !mQuinnEReason.includes('bytes2649') ||
+    !mQuinnEReason.includes('2026-06-03T00:51:11Z') ||
+    !mQuinnEReason.includes(mQuinnEBoundary) ||
+    !mQuinnEReason.includes('nested binary') ||
+    !mQuinnEReason.includes('source.attr.ad.resolved') ||
+    !mQuinnEReason.includes('source.attr.ad.base') ||
+    !mQuinnEReason.includes('140') ||
+    !mQuinnEReason.includes('0.20') ||
+    !mQuinnEReason.includes('50 mana') ||
+    !mQuinnEReason.includes('8000') ||
+    !mQuinnEReason.includes('baseAD59') ||
+    !mQuinnEReason.includes('resolvedAD139') ||
+    !mQuinnEReason.includes('raw156') ||
+    !mQuinnEReason.includes('mitigated78') ||
+    !mQuinnEReason.includes('raw140') ||
+    !mQuinnEReason.includes('mitigated70') ||
+    !mQuinnEReason.includes('t7999') ||
+    !mQuinnEReason.includes('mana150') ||
+    !mQuinnEReason.includes('mana49') ||
+    !mQuinnEReason.includes('distance multiplier') ||
+    !mQuinnEReason.includes('dash prose') ||
+    !mQuinnEReason.includes('basic_attack_hit') ||
+    !mQuinnEReason.includes('Quinn W') ||
+    !mQuinnEReason.includes('ability_started') ||
+    !mQuinnEReason.includes('不宣称全局零事件') ||
+    !mQuinnEReason.includes('dash') ||
+    !mQuinnEReason.includes('Harrier') ||
+    !mQuinnEReason.includes('不宣称') ||
+    !(mQuinnE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-quinn-vault-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_vault_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mQuinnEBoundary) &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('no distance multiplier') &&
+        String(e.note || '').includes('basic_attack_hit') &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('bfe9e5b') &&
+        !String(e.note || '').includes('zero listeners'),
+    ) ||
+    !(mQuinnE.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-quinn-vault-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_quinn_vault_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mQuinnEBoundary) &&
+        String(e.note || '').includes('LolGenericQuinnVaultPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('README') &&
+        String(e.note || '').includes('c487eb4') &&
+        String(e.note || '').includes('3f698ab') &&
+        String(e.note || '').includes('bfe9e5b') &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('no Web change'),
+    )
+  ) {
+    errors.push(
+      'Quinn E must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Vault ordered tags (no distance_or_ratio_modifier), Wiki rev4024768/SHA + local raw caveat + frozen completedBoundary, rank5 50mana/8000CD/nested-binary 140+0.20bonusAD numerics, no-distance-multiplier/dash-prose override-before-fallback, no-basic_attack_hit/no-Quinn-W-arm/no-AS/may-synthesize-ability_started (not globally zero events), and bilateral evidence (owning c487eb4 / integrated 3f698ab / Wasm bfe9e5b; Web parity no change; no dash/tracking/bounce/knockback/slow/Harrier/live claim)',
+    );
+  }
   const mQuinnQReason = String(mQuinnQ?.reason || '');
   const mQuinnQBoundary =
     'rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks';
@@ -6070,8 +6206,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 76) {
-    errors.push(`completed=${sc.completed}, expected 76`);
+  if ((sc.completed || 0) !== 77) {
+    errors.push(`completed=${sc.completed}, expected 77`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -6079,8 +6215,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 97) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 97`);
+  if ((sc.blocked_runtime || 0) !== 96) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 96`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -6101,14 +6237,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 76) {
-    errors.push(`completionMode full=${cm.full}, expected 76`);
+  if ((cm.full || 0) !== 77) {
+    errors.push(`completionMode full=${cm.full}, expected 77`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 175) {
-    errors.push(`completionMode none=${cm.none}, expected 175`);
+  if ((cm.none || 0) !== 174) {
+    errors.push(`completionMode none=${cm.none}, expected 174`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
