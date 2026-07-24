@@ -986,6 +986,32 @@ cd server/data_manage
 mvn -Dtest=LolGenericQuinnHeightenedSensesSeedSqlTest test
 ```
 
+### LoL generic Quinn P Harrier pre-marked consume seed（奎因 P / Phase-A v2 预标记消耗）
+
+在 reserved types 与 `lol_generic_quinn_heightened_senses_seed.sql`（`hero_quinn` + `ad` EAV + `provider_hero_quinn_basic_attack` 含 `basic_attack_hit` emit + `provider_hero_quinn_heightened_senses` 含 `harrier_vulnerable`/`heightened_senses_active`、W arm 条件/武装公式、W AS modifier、W basic-attack listener）已就绪后，按仓库注册顺序执行（**Accepted 顺序** **W → P → Q(resource) → E**；**P 仅需 W**；Q/E 为后续独立 seed，**不是** P 硬前置；seed **fail-closed** check-only 上述 W 前置；**不**新建/改写 provider、mount、身份/面板/资源、W state/modifier/listener/sequence；仅向既有 W provider 追加 P-owned 公式/listener/三步序；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20110`/`20111`/`20150`/`20160`/`20170`/`20172`/`20181`/`20211`/`20212`/`20220`/`20250`/`20252`）
+2. `db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql`（若 Quinn W / basic / `hero_quinn` / `ad` 尚未写入）
+3. `db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-quinn-p-harrier-premarked-consume-phase-a-v2-20260724`（seed 不负责 publish）。候选 `hero_skill|hero_quinn|P|侵扰`（task `wasm-generic-quinn-harrier-premarked-consume`）冻结为 **Phase-A level-18 预标记普攻消耗 scaffold**（`FROZEN_PLAN_REV=quinn-p-harrier-premarked-consume-phase-a-v2`）：
+
+`level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels`
+
+Ordered tags：`on_hit` → `formula_on_hit` → `bonus_ad_ratio` → `copyable_on_hit_false` → `provider_target_state_consume`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `attribute_definitions(ad)` / `hero_quinn` / `entity_attribute_values(hero_quinn,ad)` / `provider_hero_quinn_basic_attack`（含 `basic_attack_hit` emit 路径）/ `provider_hero_quinn_heightened_senses` 及其 `harrier_vulnerable`（provider_target/max1/untimed）与 `heightened_senses_active`（provider/max1/2000ms/refresh_duration）、W formulas `heightened_senses_arm_condition`/`heightened_senses_active_arm`、W modifier、W basic-attack listener 做 **fail-closed check-only**；幂等投影 reserved → `types`；向既有 W provider **仅**追加 P formulas `harrier_p_level18_bonus_damage`（嵌套二元 `120+0.40*bonusAD`）与 `harrier_p_mark_clear=0`、恰好一个 listener `listener_hero_quinn_p_harrier_premarked_consume`（`basic_attack_hit`+`source_owner` ALL，max1，无 ability）、一个三步 sequence（均条件 `heightened_senses_arm_condition`）：（1）self+provider scope 武装 `heightened_senses_active=1`；（2）opponent physical `120+0.40*bonusAD`（non-crit，`copyable_on_hit=false`）；（3）self+`provider_target` scope 清零 `harrier_vulnerable`（运行时按帧战斗目标键存；禁止 opponent+provider_target）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。Wiki：request `Template:Data Quinn/I` → `Template:Data Quinn/Harrier`；pageId 1308953 / rev 4024765 / `2026-06-03T00:49:03Z`；canonical 2390B SHA `740debfb…798c`；sidecar `normalized/generic/quinn-p.json` + pages；local raw 2390B SHA `08853c2c…a731`（canonical 以 sidecar/pages 为准；不断言等价/源矛盾）。
+
+**排除 / gap**：mark 生成/application/duration/reveal、Valor targeting、monster bonus、R disable、parry、其它等级、主动 ability/cost/CD、Q/E/R、live migration、publish、E2E/full fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest test
+```
+
 ### LoL generic Quinn Blinding Assault primary-hit seed（奎因 Q / Phase-A v1 主冠军命中）
 
 在 reserved types、`lol_generic_quinn_heightened_senses_seed.sql`（`hero_quinn` + `ad`/`mana` EAV + `provider_hero_quinn_basic_attack` + `provider_hero_quinn_heightened_senses`），以及 **额外 ambient** `attribute_definitions(ap)`（超出 W seed 所需属性）已就绪后，按顺序执行（**前置为** W seed + ambient `ap` 定义；seed **fail-closed** check-only 上述前置；**不**重建/改写 Quinn 身份/其它属性/普攻·W 图；最小中性写入仅在缺席时 `ON CONFLICT DO NOTHING` 插入 `hero_quinn/ap` base0、共享 `resource_definitions(mana)` 中性默认、以及从既有 Quinn `mana` 属性派生的 `entity_resource_values`——**永不 UPDATE** 既有 AP/resource 行、不硬编码面板 mana；不做 live migration、不自动 publish）：
