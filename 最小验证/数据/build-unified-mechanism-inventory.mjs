@@ -1411,6 +1411,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_quinn|P|侵扰',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Quinn P 侵扰/Harrier：Wiki request Template:Data Quinn/I → resolved Template:Data Quinn/Harrier；page1308953 / rev4024765 / timestamp 2026-06-03T00:49:03Z / canonical bytes2390 / SHA256 740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c（normalized/generic/quinn-p.json）level18 Phase-A v2 pre-marked consume 已由 wasm-generic-quinn-harrier-premarked-consume + backend seed 证据闭环——local raw caveat bytes2390 / SHA 08853c2c25ada7769e25908123dbb56f7b14dc0c1479a8a5842693874849a731（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；预先存在 harrier_vulnerable 目标上 owner basic_attack_hit 时，同既有 W provider 有序：arm heightened_senses_active=1 → 恰好一次 non-crit/non-copyable physical 120+0.40*(source.attr.ad.resolved-source.attr.ad.base)（nested binary add）→ consume mark（Backend selector/self 20110 + scope provider_target 20252 / Wasm source+provider_target）；无 mark 不触发。交叉校验 bonusAD80 → raw152，armor100 → mitigated76；baseline raw120/mitigated60。t0/t3000 两次 AA 仅一次 P bonus，无第二次 W arm。W-before-P 与 P-before-W 同效；不宣称 W AS magnitude 校正。completedBoundary：level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels。明确排除 mark 生成（Q/E/Skystrike/Valor）、duration/reveal/overwrite/cooldown、targeting/AI、monster75、R disable、parry、levels1–17、multitarget/loadout/crit/replication、live migration/publish/E2E/full fidelity；不宣称 mark 生成/duration/Valor/monster/R-disable/parry/完整游戏保真，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-quinn-harrier-premarked-consume',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_harrier_premarked_consume_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels; Wiki request Template:Data Quinn/I → Harrier; rev4024765/SHA256 740debfb… / bytes2390; local raw caveat bytes2390/SHA 08853c2c… no equivalence claim; level18 preexisting harrier + basic_attack_hit → arm active1 → physical 120+0.40*bonusAD nested binary → consume mark 20110+20252/source+provider_target; bonusAD80→raw152/armor100→76; baseline raw120/60; t0/t3000 two AA only one P bonus no second W arm; W-before-P/P-before-W same; no W AS magnitude claim; shared W provider; Wasm exact test commit 7c84b36; mark production/duration/Valor/monster/R-disable/parry/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-quinn-harrier-premarked-consume',
+          sourcePath: 'db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels; backend lol_generic_quinn_p_harrier_premarked_consume_seed.sql + LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest + README (owning 0a6301e; integrated 12d9281); Wasm exact test commit 7c84b36; extends existing W provider only; W rows check-only; nested binary add; 20110+20252; Web source asset exact parity (no Web change/commit); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_quinn|E|旋翔掠杀',
     {
       status: 'completed',
@@ -2334,6 +2365,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_ezreal|R|精准弹幕',
     'rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage',
+  ],
+  [
+    'hero_skill|hero_quinn|P|侵扰',
+    'level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels',
   ],
   [
     'hero_skill|hero_quinn|E|旋翔掠杀',
@@ -3917,6 +3952,7 @@ function validateInventory(inv) {
   const mVarusW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|W|枯萎箭袋');
   const mAsheQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_ashe|Q|射手的专注');
   const mDravenW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|W|血性冲刺');
+  const mQuinnP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|P|侵扰');
   const mQuinnE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|E|旋翔掠杀');
   const mQuinnQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|Q|炫目攻势');
   const mQuinnW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|W|敏锐感知');
@@ -5038,6 +5074,105 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Draven W 血性冲刺 must be completed/full/generic_runtime with blood-rush + axe-catch-reset wasm and backend seed evidence refs',
+    );
+  }
+  const mQuinnPReason = String(mQuinnP?.reason || '');
+  const mQuinnPBoundary =
+    'level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels';
+  const mQuinnPExpectedTagsSorted = [
+    'bonus_ad_ratio',
+    'copyable_on_hit_false',
+    'formula_on_hit',
+    'on_hit',
+    'provider_target_state_consume',
+  ];
+  if (
+    !STATUS_OVERRIDES.has('hero_skill|hero_quinn|P|侵扰') ||
+    !mQuinnP ||
+    mQuinnP.key !== 'hero_skill|hero_quinn|P|侵扰' ||
+    mQuinnP.passiveName !== '侵扰' ||
+    mQuinnP.status !== 'completed' ||
+    mQuinnP.completionMode !== 'full' ||
+    mQuinnP.lane !== 'generic_runtime' ||
+    mQuinnP.blocker ||
+    mQuinnP.dataGapEvidence !== null ||
+    mQuinnP.runtimeGapEvidence !== null ||
+    mQuinnP.outOfScopeEvidence !== null ||
+    mQuinnP.coverageBoundary !== mQuinnPBoundary ||
+    [...(mQuinnP.mechanismTags || [])].join('|') !== mQuinnPExpectedTagsSorted.join('|') ||
+    (mQuinnP.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mQuinnP.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    mQuinnPReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mQuinnPReason.includes('dps_relevant_manual_review') ||
+    !mQuinnPReason.includes('4024765') ||
+    !mQuinnPReason.includes(
+      '740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c',
+    ) ||
+    !mQuinnPReason.includes('08853c2c25ada7769e25908123dbb56f7b14dc0c1479a8a5842693874849a731') ||
+    !mQuinnPReason.includes('Template:Data Quinn/I') ||
+    !mQuinnPReason.includes('Template:Data Quinn/Harrier') ||
+    !mQuinnPReason.includes('page1308953') ||
+    !mQuinnPReason.includes('bytes2390') ||
+    !mQuinnPReason.includes('2026-06-03T00:49:03Z') ||
+    !mQuinnPReason.includes(mQuinnPBoundary) ||
+    !mQuinnPReason.includes('nested binary') ||
+    !mQuinnPReason.includes('source.attr.ad.resolved') ||
+    !mQuinnPReason.includes('source.attr.ad.base') ||
+    !mQuinnPReason.includes('120') ||
+    !mQuinnPReason.includes('0.40') ||
+    !mQuinnPReason.includes('bonusAD80') ||
+    !mQuinnPReason.includes('raw152') ||
+    !mQuinnPReason.includes('mitigated76') ||
+    !mQuinnPReason.includes('raw120') ||
+    !mQuinnPReason.includes('mitigated60') ||
+    !mQuinnPReason.includes('t3000') ||
+    !mQuinnPReason.includes('20110') ||
+    !mQuinnPReason.includes('20252') ||
+    !mQuinnPReason.includes('provider_target') ||
+    !mQuinnPReason.includes('W-before-P') ||
+    !mQuinnPReason.includes('P-before-W') ||
+    !mQuinnPReason.includes('不宣称 W AS magnitude') ||
+    !mQuinnPReason.includes('basic_attack_hit') ||
+    !mQuinnPReason.includes('heightened_senses_active') ||
+    !mQuinnPReason.includes('harrier_vulnerable') ||
+    !mQuinnPReason.includes('Q/E/Skystrike/Valor') ||
+    !mQuinnPReason.includes('monster75') ||
+    !mQuinnPReason.includes('不宣称') ||
+    !(mQuinnP.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-quinn-harrier-premarked-consume' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_harrier_premarked_consume_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mQuinnPBoundary) &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('20110+20252') &&
+        String(e.note || '').includes('source+provider_target') &&
+        String(e.note || '').includes('shared W provider') &&
+        String(e.note || '').includes('W-before-P') &&
+        String(e.note || '').includes('7c84b36') &&
+        String(e.note || '').includes('no W AS magnitude'),
+    ) ||
+    !(mQuinnP.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-quinn-harrier-premarked-consume' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mQuinnPBoundary) &&
+        String(e.note || '').includes('LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest') &&
+        String(e.note || '').includes('README') &&
+        String(e.note || '').includes('0a6301e') &&
+        String(e.note || '').includes('12d9281') &&
+        String(e.note || '').includes('7c84b36') &&
+        String(e.note || '').includes('extends existing W provider') &&
+        String(e.note || '').includes('W rows check-only') &&
+        String(e.note || '').includes('20110+20252') &&
+        String(e.note || '').includes('no Web change'),
+    )
+  ) {
+    errors.push(
+      'Quinn P must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Harrier ordered tags (sorted inventory; no dps_relevant_manual_review), Wiki rev4024765/SHA + local raw caveat + frozen completedBoundary, level18 preexisting-harrier consume numerics, 20110+20252/source+provider_target, shared W provider + W-before-P/P-before-W order independence, no W AS magnitude claim, and bilateral evidence (owning 0a6301e / integrated 12d9281 / Wasm 7c84b36; Web parity no change; no mark-production/duration/Valor/monster/R-disable/parry/live claim)',
     );
   }
   const mQuinnEReason = String(mQuinnE?.reason || '');
@@ -6206,8 +6341,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 77) {
-    errors.push(`completed=${sc.completed}, expected 77`);
+  if ((sc.completed || 0) !== 78) {
+    errors.push(`completed=${sc.completed}, expected 78`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -6215,8 +6350,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 96) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 96`);
+  if ((sc.blocked_runtime || 0) !== 95) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 95`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -6237,21 +6372,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 77) {
-    errors.push(`completionMode full=${cm.full}, expected 77`);
+  if ((cm.full || 0) !== 78) {
+    errors.push(`completionMode full=${cm.full}, expected 78`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 174) {
-    errors.push(`completionMode none=${cm.none}, expected 174`);
+  if ((cm.none || 0) !== 173) {
+    errors.push(`completionMode none=${cm.none}, expected 173`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 79) {
+  if (implGapCount !== 78) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 79`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 78`,
     );
   }
 

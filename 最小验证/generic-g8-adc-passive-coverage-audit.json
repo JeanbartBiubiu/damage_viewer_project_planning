@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-24T14:19:42.817Z"
+    "generatedAt": "2026-07-24T15:09:55.800Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 67,
+      "migrated": 68,
       "partial": 4,
-      "blocked": 102,
+      "blocked": 101,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 27.69,
+      "migrated": 28.1,
       "partial": 1.65,
-      "blocked": 42.15,
+      "blocked": 41.74,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 27.69,
-      "inScope": 38.73
+      "all": 28.1,
+      "inScope": 39.31
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 29.34,
-      "inScope": 41.04
+      "all": 29.75,
+      "inScope": 41.62
     },
     "inScopeCount": 173
   },
@@ -5147,29 +5147,32 @@
       "pageId": "quinn-p",
       "sourceText": "{{sbc|Innate:}} '''Quinn's''' ''{{ai|Blinding Assault|Quinn}}'' against the primary target, ''{{ai|Vault|Quinn}}'', and ''{{ai|Skystrike|Quinn}}'' mark enemies hit with ''Harrier'' for 4 seconds, during which they are {{tip|standard sight|revealed}}. '''{{ci|Valor}}''' will periodically mark a nearby {{tip|sight|visible}} enemy if no ''Harrier'' targets exist for 1 second.\n'''Quinn's''' {{tip|basic attacks}} {{tip|on-hit}} against ''Harrier'' targets are empowered to consume the mark to deal {{pp|15 + (120-15)/17*(x-1) for 20|color=physical damage}} {{as|(+ 40% '''bonus''' AD)}} {{as|'''bonus''' physical damage}}.\n''Harrier'' deals {{as|75 '''bonus''' physical damage}} against {{tip|monsters}}.\nWhile ''{{ai|Behind Enemy Lines|Quinn}}'' is active, ''Harrier'' is disabled and all ''Harrier'' marks are removed.\nPhysical\n* If a mark applied by an ability is overwritten, consumed, or timed out, ''Harrier'' goes on a 1-second cooldown if it's not already on cooldown.\n* ''Harrier's'' targeting priority:\n*# Last unit hit (if it was a small minion it appears to select a different target).\n*# Lowest-health enemy champion.\n*# Lowest-health enemy minion.\n* ''Harrier'' is consumed even if it is parried, the attack is negated in any case.\n* ''Harrier'' will not mark enemy {{tip|minions}} while '''Quinn''' is not {{tip|sight|visible}}, but will mark enemy {{tip|champions}}.\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/quinn-p.json@rev4024765 sha256:740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "on_hit",
+        "formula_on_hit",
+        "bonus_ad_ratio",
+        "copyable_on_hit_false",
+        "provider_target_state_consume"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4024765",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/quinn-p.json@rev4024765 sha256:740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_quinn P 侵扰/Harrier：Wiki request Template:Data Quinn/I → resolved Template:Data Quinn/Harrier；page1308953 / rev4024765 / timestamp 2026-06-03T00:49:03Z / canonical bytes2390 / SHA256 740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c（normalized/generic/quinn-p.json）level18 Phase-A v2 pre-marked consume 已由 wasm-generic-quinn-harrier-premarked-consume 闭环为 migrated——local raw caveat bytes2390 / SHA 08853c2c25ada7769e25908123dbb56f7b14dc0c1479a8a5842693874849a731（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；预先存在 harrier_vulnerable 目标上 owner basic_attack_hit 时，同既有 W provider 有序：arm heightened_senses_active=1 → 恰好一次 non-crit/non-copyable physical 120+0.40*(source.attr.ad.resolved-source.attr.ad.base)（nested binary add）→ consume mark（Backend selector/self 20110 + scope provider_target 20252 / Wasm source+provider_target）；无 mark 不触发。交叉校验 bonusAD80 → raw152，armor100 → mitigated76；baseline raw120/mitigated60。t0/t3000 两次 AA 仅一次 P bonus，无第二次 W arm。W-before-P 与 P-before-W 同效；不宣称 W AS magnitude 校正。completedBoundary：level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels。明确排除 mark 生成（Q/E/Skystrike/Valor）、duration/reveal/overwrite/cooldown、targeting/AI、monster75、R disable、parry、levels1–17、multitarget/loadout/crit/replication、live migration/publish/E2E/full fidelity；不宣称 mark 生成/duration/Valor/monster/R-disable/parry/完整游戏保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-harrier-premarked-consume",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_quinn_harrier_premarked_consume_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels; Wiki request Template:Data Quinn/I → Harrier; rev4024765/SHA256 740debfb… / bytes2390; local raw caveat bytes2390/SHA 08853c2c… no equivalence claim; level18 preexisting harrier + basic_attack_hit → arm active1 → physical 120+0.40*bonusAD nested binary → consume mark 20110+20252/source+provider_target; bonusAD80→raw152/armor100→76; baseline raw120/60; t0/t3000 two AA only one P bonus no second W arm; W-before-P/P-before-W same; no W AS magnitude claim; shared W provider; Wasm exact test commit 7c84b36; mark production/duration/Valor/monster/R-disable/parry/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-harrier-premarked-consume",
+          "sourcePath": "db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels; backend lol_generic_quinn_p_harrier_premarked_consume_seed.sql + LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest + README (owning 0a6301e; integrated 12d9281); Wasm exact test commit 7c84b36; extends existing W provider only; W rows check-only; nested binary add; 20110+20252; Web source asset exact parity (no Web change/commit); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_quinn|Q|炫目攻势",
