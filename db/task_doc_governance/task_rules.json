@@ -1158,6 +1158,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-ezreal-arcane-shift-primary-hit",
+      "title": "通用 ABI 伊泽瑞尔 E 奥术跃迁 Arcane Shift 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ezreal_arcane_shift_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ezreal|E|奥术跃迁 已标 completed/full/generic_runtime（G8 migrated exact override hero_ezreal|E；保留raw classification/tags/auditBaseline provenance）：Wiki Template:Data Ezreal/E→Arcane Shift page1307111/rev3989862/timestamp2026-02-03T23:19:20Z/canonical raw1661/SHA256 7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347；sidecar ezreal-e.json；本地raw1661/SHAf48a3270…01792（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks。Rank5：70mana/14000ms；immediate primary-champion scaffold；一笔非暴击/不可复制魔法add(add(280,0.60*(resolvedAD-baseAD)),0.75*AP)（嵌套二元add）；成功命中保留Rising Spell Force一层。交叉baseAD60/resolvedAD110/AP200→raw460/MR100 mitigated230；分支280/140、310/155、430/215、460/230；mana210 t0/t13999/t14000两成功+一CD skip final70/HP540；mana69 resource skip/不变/无事件。P共存：E成功t0+E CD skip t100→恰好一笔E伤害、一次ability_started、一层P stack、AS1.1。Backend ability/graph自洽；hero_ezreal/ad/ap/mana check-only不物化；不触碰既有P/R。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold。Backend owning89e6677/集成0594b20（8/8；805/805；run-7a22587d；102events/44calls；delta3/outside0）。Wasm exact065beb1（接受run-2cede25b；114events/53calls；delta1/outside0；前两次IMPLEMENTATION no-op未接受；-run EzrealArcaneShift -count=100/full Go PASS；标准build 1,169,377/SHA65A4…C6A0；Node smoke PASS）。无生产Wasm/Web写入；Web资产保持同步不变。审计8d776967…（run-a183dc38 delta6/outside0；169/79；四generator PASS；仅Ezreal E对象变化）。DESIGN_REVIEW v3 READY run-5b85f4a8（74events/37calls；runDelta0/diff0；无truncation/orphans；override key=hero_ezreal|E非阻塞已接受）；v1/v2文本READY因orphaned read(s)无效非门控。Unified254：sourceCount12/completed79/blocked_runtime94/full79/none172；G8 242=migrated69/partial4/blocked100/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=77；actionableKeyCount=0为当前事实非停工条件。治理tasks=92。未执行live migration/publish/push/E2E。不得误称完整Arcane Shift/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-24",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-伊泽瑞尔E奥术跃迁ArcaneShift主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-伊泽瑞尔E奥术跃迁ArcaneShift主目标命中机制验证记录-2026-07-24.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
