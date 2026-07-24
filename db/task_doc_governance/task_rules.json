@@ -1094,6 +1094,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-kogmaw-living-artillery",
+      "title": "通用 ABI 克格莫 R 活体大炮 Living Artillery 缺失生命倍率与叠层耗蓝机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kogmaw_living_artillery",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_kogmaw|R|活体大炮 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Kog'Maw/R→Living Artillery page1307963/rev4007636/timestamp2026-04-12T08:34:32Z/canonical raw2453/SHA256 32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641；sidecar kogmaw-r.json；本地raw2452/SHA11db6c16…d5e447（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth。Rank3：CD1000ms；cost40*(1+living_artillery_stacks)在ops前；stacks default0/max9/8000ms/refresh-on-write；恰好两条有序ops（op0主目标魔法；op1 provider add1）；零listener/ability-start。基底嵌套二元add(add(180,0.75*bonusAD),0.45*AP)（永不背书三元add）；倍率≥40%HP为1+min(0.5,(5/6)*missingFraction)，<40%恰好2。交叉baseAD61/resolvedAD141/AP100→base285；maxHP1000/MR100 current1000→285/142.5、current400→427.5/213.75、current399→570/285；t0/t999/t1000 mana500两成功+一CD skip costs40/80 mana380/state2；mana119首次40后resource skip mana79/state1；十次成功40..400合计2200/cap9；8000ms lazy expiry/refresh。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_and_ap_ratio/missing_health_damage_multiplier/stack_escalating_mana_cost/timed_provider_state。Backend初始owning100679a/集成175b03a（run-4f56303d；10/10）+纠正owning473bd50/集成d563b67（run-41587930；嵌套二元+递归arity；10/10；full Maven770/770）。Wasm exact d58370a（run-d4d07603含orphaned read-running非干净设计门控；测试纠正run-674066df）；cost-gate+focused/`-count=100`/full Go/标准scripts/build-wasm.ps1 1,169,377 bytes SHA65A4C6F8…C6A0/Node smoke PASS。Web资产同步38b9229（run-bbd076d3；由陈旧1,155,992/6A525083…同步到1,169,377/65A4…C6A0；lint/typecheck/Vitest330/build PASS；无Playwright/E2E）。审计e81b5b6（run-6d79d49c delta6/outside0；orphaned read-running；无truncation）。DESIGN_REVIEW v2 READY run-723a2309（strict grok-4.5；effort high；fast false；1628 parseable；73 calls；runDelta0/diff0；唯一接受门控）；v1 run-aa3c9386为REVISE非干净/非READY。Unified254：sourceCount12/completed75/blocked_runtime98/full75/none176；G8 242=migrated65/partial4/blocked104/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=80；actionableKeyCount=0为当前事实非停工条件。Unified evidence task-key count=61为不同度量；治理tasks=88。未执行live migration/publish/push/E2E。不得误称完整Living Artillery/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-24",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-克格莫R活体大炮LivingArtillery缺失生命倍率与叠层耗蓝机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-克格莫R活体大炮LivingArtillery缺失生命倍率与叠层耗蓝机制验证记录-2026-07-24.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
