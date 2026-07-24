@@ -618,6 +618,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
+  quinnBlindingAssaultPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_quinn_blinding_assault_primary_hit_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
@@ -720,6 +722,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_final_hour_timed_bonus_ad_test.go',
   quinnHeightenedSenses:
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
+  quinnBlindingAssaultPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_blinding_assault_primary_hit_test.go',
   xayahDeadlyPlumage:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
   kayleRadiantBlast:
@@ -1657,6 +1661,37 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-draven-stand-aside',
           SEED.dravenStandAsideBackend,
           'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; backend lol_generic_draven_stand_aside_seed.sql + LolGenericDravenStandAsideSeedSqlTest (owning 5f1f2bb; integrated 09dbf07); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_quinn|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ap_ratio',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_quinn Q 炫目攻势/Blinding Assault：Wiki request Template:Data Quinn/Q → resolved Template:Data Quinn/Blinding Assault；page1308954 / rev4024766 / timestamp 2026-06-03T00:49:42Z / canonical bytes1742 / SHA256 abce6abdc2eefd069beba2d4297a1c9da5b1a675a426edb747346d9679d8085d（normalized/generic/quinn-q.json）rank5 Phase-A v1 已由 wasm-generic-quinn-blinding-assault-primary-hit 闭环为 migrated——local raw caveat bytes1742 / SHA be8878560c7d6541440d952788e40aeba0bef25a49955379df26f45ec82737bd（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；70 mana / 9000ms CD；immediate primary-champion scaffold；恰好一次 non-crit/non-copyable physical damage 205+1.00*(source.attr.ad.resolved-source.attr.ad.base)+0.50*source.attr.ap.resolved（nested binary add；交叉校验 baseAD59 / resolvedAD139 / AP100 → raw335，armor100 → mitigated167.5；分支 raw205/285/255/335 与 mitigated102.5/142.5/127.5/167.5）。Attempts t0/t8999/t9000 mana210 → two successes + exactly one cooldown skip without mana/damage；final mana 70；mana69 → resource skip/no hit。Q 不产生 basic_attack_hit、不武装既有 Quinn W、不改变 AS；runtime 可合成既有 ability_started，不宣称全局零事件。completedBoundary：rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks。明确排除 Valor entity/AI、cast delay、direction/projectile/speed/travel/collision/range/width/radius/geometry/AOE/multitarget、monster double、Harrier/P/W interaction、nearsight/disarm/sight/control/death persistence、ranks1–4、other Quinn skills/basic、loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 Valor/projectile/geometry/AOE/Harrier/nearsight/disarm/完整游戏保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-quinn-blinding-assault-primary-hit',
+          WASM.quinnBlindingAssaultPrimaryHit,
+          'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks; Wiki request Template:Data Quinn/Q → Blinding Assault; rev4024766/SHA256 abce6abd… / bytes1742; local raw caveat bytes1742/SHA be887856… no equivalence claim; rank5 70 mana/9000ms CD / one physical 205+1.00*bonusAD+0.50*AP nested binary add; baseAD59/resolvedAD139/AP100→raw335/armor100→167.5; branches raw205/285/255/335 mitigated102.5/142.5/127.5/167.5; t0/t8999/t9000 mana210 two successes + one CD skip final mana70; mana69 resource skip/no hit; no basic_attack_hit / does not arm Quinn W / no AS change; may synthesize ability_started (not globally zero events); Wasm exact test commit ba71996; Valor/projectile/geometry/AOE/Harrier/nearsight/disarm/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-quinn-blinding-assault-primary-hit',
+          SEED.quinnBlindingAssaultPrimaryHitBackend,
+          'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks; backend lol_generic_quinn_blinding_assault_primary_hit_seed.sql + LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest + README (owning 5c174b5; integrated e030cd9); Wasm exact test commit ba71996; nested binary add; Web source asset exact parity (no Web change/commit); not live published',
         ),
       ],
     },
@@ -4007,9 +4042,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 65) errors.push(`migrated=${counts.migrated}, expected 65`);
+  if (counts.migrated !== 66) errors.push(`migrated=${counts.migrated}, expected 66`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 104) errors.push(`blocked=${counts.blocked}, expected 104`);
+  if (counts.blocked !== 103) errors.push(`blocked=${counts.blocked}, expected 103`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5367,6 +5402,124 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       vayneR.candidateKey,
       vayneR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const quinnQ = records.find((r) => r.candidateKey === 'hero_skill|hero_quinn|Q|炫目攻势');
+  const quinnQTags = [...(quinnQ?.genericMechanismTags || [])];
+  const quinnQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'ap_ratio',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const quinnQReason = String(quinnQ?.classificationReason || '');
+  const quinnQBoundary =
+    'rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks';
+  if (
+    !quinnQ
+    || quinnQ.candidateKey !== 'hero_skill|hero_quinn|Q|炫目攻势'
+    || quinnQ.passiveName !== '炫目攻势'
+    || quinnQ.genericClassification !== 'migrated'
+    || String(quinnQ.remainingGap || '').trim()
+    || (quinnQ.dataGapEvidence?.missingFields || []).length !== 0
+    || quinnQTags.join('|') !== quinnQExpectedTags.join('|')
+    || quinnQTags.includes('meta_or_non_target_dps')
+    || quinnQTags.includes('dps_relevant_manual_review')
+    || String(quinnQ.remainingGap || '').includes('blocked_data')
+    || quinnQReason.includes('out_of_scope_for_single_target_dps')
+    || quinnQReason.includes('blocked_data')
+    || quinnQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || quinnQReason.includes('meta_or_non_target_dps')
+    || quinnQReason.includes('zero listeners')
+    || !quinnQReason.includes('4024766')
+    || !quinnQReason.includes(
+      'abce6abdc2eefd069beba2d4297a1c9da5b1a675a426edb747346d9679d8085d',
+    )
+    || !quinnQReason.includes('be8878560c7d6541440d952788e40aeba0bef25a49955379df26f45ec82737bd')
+    || !quinnQReason.includes('Template:Data Quinn/Q')
+    || !quinnQReason.includes('Template:Data Quinn/Blinding Assault')
+    || !quinnQReason.includes('page1308954')
+    || !quinnQReason.includes('bytes1742')
+    || !quinnQReason.includes('2026-06-03T00:49:42Z')
+    || !quinnQReason.includes(quinnQBoundary)
+    || !quinnQReason.includes('nested binary')
+    || !quinnQReason.includes('source.attr.ad.resolved')
+    || !quinnQReason.includes('source.attr.ad.base')
+    || !quinnQReason.includes('source.attr.ap.resolved')
+    || !quinnQReason.includes('205')
+    || !quinnQReason.includes('1.00')
+    || !quinnQReason.includes('0.50')
+    || !quinnQReason.includes('70 mana')
+    || !quinnQReason.includes('9000')
+    || !quinnQReason.includes('baseAD59')
+    || !quinnQReason.includes('resolvedAD139')
+    || !quinnQReason.includes('raw335')
+    || !quinnQReason.includes('167.5')
+    || !quinnQReason.includes('raw205')
+    || !quinnQReason.includes('285')
+    || !quinnQReason.includes('255')
+    || !quinnQReason.includes('102.5')
+    || !quinnQReason.includes('142.5')
+    || !quinnQReason.includes('127.5')
+    || !quinnQReason.includes('t8999')
+    || !quinnQReason.includes('mana210')
+    || !quinnQReason.includes('mana69')
+    || !quinnQReason.includes('basic_attack_hit')
+    || !quinnQReason.includes('Quinn W')
+    || !quinnQReason.includes('ability_started')
+    || !quinnQReason.includes('不宣称全局零事件')
+    || !quinnQReason.includes('Valor')
+    || !quinnQReason.includes('nearsight')
+    || !quinnQReason.includes('disarm')
+    || !quinnQReason.includes('不宣称')
+    || !String(quinnQ.sourceRef || '').includes('quinn-q.json')
+    || !String(quinnQ.sourceRef || '').includes(
+      'abce6abdc2eefd069beba2d4297a1c9da5b1a675a426edb747346d9679d8085d',
+    )
+    || quinnQ.auditBaseline?.gapCode !== 'blocked_data'
+    || quinnQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || !(quinnQ.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || quinnQ.classification !== 'out_of_scope_for_single_target_dps'
+    || !(quinnQ.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(quinnQ.classificationReason)
+    || !(quinnQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.quinnBlindingAssaultPrimaryHit
+        && e.taskKey === 'wasm-generic-quinn-blinding-assault-primary-hit'
+        && String(e.note || '').includes(quinnQBoundary)
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('basic_attack_hit')
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('ba71996')
+        && !String(e.note || '').includes('zero listeners'),
+    )
+    || !(quinnQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.quinnBlindingAssaultPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-quinn-blinding-assault-primary-hit'
+        && String(e.note || '').includes(quinnQBoundary)
+        && String(e.note || '').includes('LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('README')
+        && String(e.note || '').includes('5c174b5')
+        && String(e.note || '').includes('e030cd9')
+        && String(e.note || '').includes('ba71996')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('no Web change'),
+    )
+  ) {
+    errors.push(
+      'Quinn Q must be migrated with empty remainingGap/missingFields, exact Blinding Assault ordered tags (no meta_or_non_target_dps), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev4024766/SHA + local raw caveat + frozen completedBoundary, rank5 70mana/9000CD/nested-binary 205+1.00bonusAD+0.50AP numerics (baseAD59/resolvedAD139/AP100→raw335/167.5; branches 205/285/255/335 + 102.5/142.5/127.5/167.5; t0/t8999/t9000 mana210→70; mana69 skip), no-basic_attack_hit/no-Quinn-W-arm/no-AS/may-synthesize-ability_started (not globally zero events), and bilateral wasm+backend evidence (owning 5c174b5 / integrated e030cd9 / Wasm ba71996; Web parity no change; no Valor/projectile/Harrier/nearsight/disarm/live claim)',
+    );
+  }
+  if (quinnQ) {
+    validateBilateralCoverageEvidence(
+      quinnQ.candidateKey,
+      quinnQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
