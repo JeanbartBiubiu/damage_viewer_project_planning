@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-24T13:35:54.717Z"
+    "generatedAt": "2026-07-24T14:19:42.817Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 66,
+      "migrated": 67,
       "partial": 4,
-      "blocked": 103,
+      "blocked": 102,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 27.27,
+      "migrated": 27.69,
       "partial": 1.65,
-      "blocked": 42.56,
+      "blocked": 42.15,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 27.27,
-      "inScope": 38.15
+      "all": 27.69,
+      "inScope": 38.73
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 28.93,
-      "inScope": 40.46
+      "all": 29.34,
+      "inScope": 41.04
     },
     "inScopeCount": 173
   },
@@ -5309,29 +5309,31 @@
       "pageId": "quinn-e",
       "sourceText": "{{sbc|Active:}} '''Quinn''' {{tip|dashes}} to the target enemy, marking them with ''{{ai|Harrier|Quinn}}'', dealing {{as|physical damage}}, {{tip|airborne|knocking them back}} a very short distance over {{fd|0.5}} seconds, and {{tip|slow|slowing}} them by 50% decaying over {{fd|1.5}} seconds. She then {{tip|dash|leaps back}} 525 units away from them.\n''Vault {{tip|basic attack reset|resets}} '''Quinn's''' basic attack timer {{tt|shortly after|See notes}} the initial dash. {{ai|Heightened Senses|Quinn}} can be cast during either of the dashes.''\n{{st|Physical damage|{{ap|40 to 140}} {{as|(+ 20% '''bonus''' AD)}}}}\n{{ap|12 to 8}}\n50\nMana\nPhysical\n* '''Quinn''' will track the target if they change locations.\n** She will dash to the target's previous location without applying ''Vault's'' effects if the target is too far away or moves beyond {{tt|1200|Estimated}} units.\n* ''Vault'' {{tip|basic attack reset|resets}} '''Quinn's''' remaining attack cooldown a short delay after the first dash ends (even if interrupted).\n** This delay is a fuzzy {{fd|0.25}} to {{fd|0.5}} seconds and this matches up with the moment the target of ''Vault'' is marked with {{ai|Harrier|Quinn}}.\n* '''Quinn''' will automatically attempt to attack the target once she completes ''Vault''.\n* The target will turn to face the opposite direction after being {{tip|airborne|knocked back}}.\n* Unlike its constant cast range ''Vault's'' bounce's can vary to allow '''Quinn''' to close or to make a gap between herself and the target (depending on casting position) or even to jump through a wall (if there is enough landing room on the other side).\n* ''Vault's'' {{tip|airborne|knock back}} also interrupts the windup of basic attacks with {{tip|uncancellable windup|uncancellable windups}}.{{bug|2}}\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/quinn-e.json@rev4024768 sha256:9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "distance_or_ratio_modifier"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "distance_based_damage_modifier / damage_multiplier_or_health_ratio 无精确 migrated/partial 证据。",
-      "coverageEvidence": [],
-      "remainingGap": "缺 distance_or_ratio_input 与 damage_multiplier_or_health_ratio runtime 原语。",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4024768",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/quinn-e.json@rev4024768 sha256:9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_quinn E 旋翔掠杀/Vault：Wiki request Template:Data Quinn/E → resolved Template:Data Quinn/Vault；page1308957 / rev4024768 / timestamp 2026-06-03T00:51:11Z / canonical bytes2649 / SHA256 9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714（normalized/generic/quinn-e.json）rank5 Phase-A v1 已由 wasm-generic-quinn-vault-primary-hit 闭环为 migrated——local raw caveat bytes2649 / SHA 317ac3ccf31e53ba17255dbb15c856ba5499d9257fbe0c9faa91b43f8438e24b（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；50 mana / 8000ms CD；immediate primary-champion scaffold；恰好一次 non-crit/non-copyable physical damage 140+0.20*(source.attr.ad.resolved-source.attr.ad.base)（nested binary add；冻结伤害公式无 distance multiplier——dash prose 非 distance-based damage modifier；交叉校验 baseAD59 / resolvedAD139 → raw156，armor100 → mitigated78；baseline resolvedAD59 → raw140/mitigated70）。Attempts t0/t7999/t8000 mana150 → two successes + exactly one cooldown skip without mana/damage；final mana 50；mana49 → resource skip/no hit。E 不产生 basic_attack_hit、不武装既有 Quinn W、不改变 AS；runtime 可合成既有 ability_started，不宣称全局零事件。completedBoundary：rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks。明确排除 dash/tracking/bounce/range/speed/wall/geometry/grounded/knockdown、knockback/airborne/slow/control/facing/windup、Harrier/P/W interaction、basic-attack reset/fuzzy delay/autoattack、failed-too-far、spellshield/callforhelp、ranks1–4、other Quinn skills/basic、loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 dash/tracking/bounce/knockback/slow/Harrier/basic-attack-reset/完整游戏保真。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-vault-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_quinn_vault_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks; Wiki request Template:Data Quinn/E → Vault; rev4024768/SHA256 9f6baba1… / bytes2649; local raw caveat bytes2649/SHA 317ac3cc… no equivalence claim; rank5 50 mana/8000ms CD / one physical 140+0.20*bonusAD nested binary add; no distance multiplier; baseAD59/resolvedAD139→raw156/armor100→78; baseline resolvedAD59→raw140/mitigated70; t0/t7999/t8000 mana150 two successes + one CD skip final mana50; mana49 resource skip/no hit; no basic_attack_hit / does not arm Quinn W / no AS change; may synthesize ability_started (not globally zero events); Wasm exact test commit bfe9e5b; dash/tracking/bounce/knockback/slow/Harrier/basic-attack-reset/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-quinn-vault-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_quinn_vault_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks; backend lol_generic_quinn_vault_primary_hit_seed.sql + LolGenericQuinnVaultPrimaryHitSeedSqlTest + README (owning c487eb4; integrated 3f698ab); Wasm exact test commit bfe9e5b; nested binary add; Web source asset exact parity (no Web change/commit); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_quinn|R|深入敌后",

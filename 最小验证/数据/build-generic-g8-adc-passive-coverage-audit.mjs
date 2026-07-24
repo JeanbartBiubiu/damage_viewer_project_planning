@@ -620,6 +620,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   quinnBlindingAssaultPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_quinn_blinding_assault_primary_hit_seed.sql',
+  quinnVaultPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_quinn_vault_primary_hit_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
@@ -724,6 +726,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   quinnBlindingAssaultPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_blinding_assault_primary_hit_test.go',
+  quinnVaultPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_vault_primary_hit_test.go',
   xayahDeadlyPlumage:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
   kayleRadiantBlast:
@@ -1661,6 +1665,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-draven-stand-aside',
           SEED.dravenStandAsideBackend,
           'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget; backend lol_generic_draven_stand_aside_seed.sql + LolGenericDravenStandAsideSeedSqlTest (owning 5f1f2bb; integrated 09dbf07); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_quinn|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_quinn E 旋翔掠杀/Vault：Wiki request Template:Data Quinn/E → resolved Template:Data Quinn/Vault；page1308957 / rev4024768 / timestamp 2026-06-03T00:51:11Z / canonical bytes2649 / SHA256 9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714（normalized/generic/quinn-e.json）rank5 Phase-A v1 已由 wasm-generic-quinn-vault-primary-hit 闭环为 migrated——local raw caveat bytes2649 / SHA 317ac3ccf31e53ba17255dbb15c856ba5499d9257fbe0c9faa91b43f8438e24b（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；50 mana / 8000ms CD；immediate primary-champion scaffold；恰好一次 non-crit/non-copyable physical damage 140+0.20*(source.attr.ad.resolved-source.attr.ad.base)（nested binary add；冻结伤害公式无 distance multiplier——dash prose 非 distance-based damage modifier；交叉校验 baseAD59 / resolvedAD139 → raw156，armor100 → mitigated78；baseline resolvedAD59 → raw140/mitigated70）。Attempts t0/t7999/t8000 mana150 → two successes + exactly one cooldown skip without mana/damage；final mana 50；mana49 → resource skip/no hit。E 不产生 basic_attack_hit、不武装既有 Quinn W、不改变 AS；runtime 可合成既有 ability_started，不宣称全局零事件。completedBoundary：rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks。明确排除 dash/tracking/bounce/range/speed/wall/geometry/grounded/knockdown、knockback/airborne/slow/control/facing/windup、Harrier/P/W interaction、basic-attack reset/fuzzy delay/autoattack、failed-too-far、spellshield/callforhelp、ranks1–4、other Quinn skills/basic、loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 dash/tracking/bounce/knockback/slow/Harrier/basic-attack-reset/完整游戏保真。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-quinn-vault-primary-hit',
+          WASM.quinnVaultPrimaryHit,
+          'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks; Wiki request Template:Data Quinn/E → Vault; rev4024768/SHA256 9f6baba1… / bytes2649; local raw caveat bytes2649/SHA 317ac3cc… no equivalence claim; rank5 50 mana/8000ms CD / one physical 140+0.20*bonusAD nested binary add; no distance multiplier; baseAD59/resolvedAD139→raw156/armor100→78; baseline resolvedAD59→raw140/mitigated70; t0/t7999/t8000 mana150 two successes + one CD skip final mana50; mana49 resource skip/no hit; no basic_attack_hit / does not arm Quinn W / no AS change; may synthesize ability_started (not globally zero events); Wasm exact test commit bfe9e5b; dash/tracking/bounce/knockback/slow/Harrier/basic-attack-reset/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-quinn-vault-primary-hit',
+          SEED.quinnVaultPrimaryHitBackend,
+          'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks; backend lol_generic_quinn_vault_primary_hit_seed.sql + LolGenericQuinnVaultPrimaryHitSeedSqlTest + README (owning c487eb4; integrated 3f698ab); Wasm exact test commit bfe9e5b; nested binary add; Web source asset exact parity (no Web change/commit); not live published',
         ),
       ],
     },
@@ -4042,9 +4076,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 66) errors.push(`migrated=${counts.migrated}, expected 66`);
+  if (counts.migrated !== 67) errors.push(`migrated=${counts.migrated}, expected 67`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 103) errors.push(`blocked=${counts.blocked}, expected 103`);
+  if (counts.blocked !== 102) errors.push(`blocked=${counts.blocked}, expected 102`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5402,6 +5436,124 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       vayneR.candidateKey,
       vayneR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const quinnE = records.find((r) => r.candidateKey === 'hero_skill|hero_quinn|E|旋翔掠杀');
+  const quinnETags = [...(quinnE?.genericMechanismTags || [])];
+  const quinnEExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const quinnEReason = String(quinnE?.classificationReason || '');
+  const quinnEBoundary =
+    'rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks';
+  if (!EXACT_OVERRIDES.has('hero_quinn|E')) {
+    errors.push('Quinn E exact override key hero_quinn|E must exist before distance_or_ratio fallback');
+  }
+  if (
+    !quinnE
+    || quinnE.candidateKey !== 'hero_skill|hero_quinn|E|旋翔掠杀'
+    || quinnE.passiveName !== '旋翔掠杀'
+    || quinnE.genericClassification !== 'migrated'
+    || String(quinnE.remainingGap || '').trim()
+    || (quinnE.dataGapEvidence?.missingFields || []).length !== 0
+    || quinnETags.join('|') !== quinnEExpectedTags.join('|')
+    || quinnETags.includes('distance_or_ratio_modifier')
+    || quinnETags.includes('meta_or_non_target_dps')
+    || quinnETags.includes('dps_relevant_manual_review')
+    || String(quinnE.remainingGap || '').includes('distance_or_ratio')
+    || String(quinnE.remainingGap || '').includes('blocked_data')
+    || quinnEReason.includes('distance_based_damage_modifier / damage_multiplier')
+    || quinnEReason.includes('blocked_data')
+    || quinnEReason.includes('implementation_gap_no_unresolved_data_fields')
+    || quinnEReason.includes('meta_or_non_target_dps')
+    || quinnEReason.includes('zero listeners')
+    || !quinnEReason.includes('4024768')
+    || !quinnEReason.includes(
+      '9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714',
+    )
+    || !quinnEReason.includes('317ac3ccf31e53ba17255dbb15c856ba5499d9257fbe0c9faa91b43f8438e24b')
+    || !quinnEReason.includes('Template:Data Quinn/E')
+    || !quinnEReason.includes('Template:Data Quinn/Vault')
+    || !quinnEReason.includes('page1308957')
+    || !quinnEReason.includes('bytes2649')
+    || !quinnEReason.includes('2026-06-03T00:51:11Z')
+    || !quinnEReason.includes(quinnEBoundary)
+    || !quinnEReason.includes('nested binary')
+    || !quinnEReason.includes('source.attr.ad.resolved')
+    || !quinnEReason.includes('source.attr.ad.base')
+    || !quinnEReason.includes('140')
+    || !quinnEReason.includes('0.20')
+    || !quinnEReason.includes('50 mana')
+    || !quinnEReason.includes('8000')
+    || !quinnEReason.includes('baseAD59')
+    || !quinnEReason.includes('resolvedAD139')
+    || !quinnEReason.includes('raw156')
+    || !quinnEReason.includes('mitigated78')
+    || !quinnEReason.includes('raw140')
+    || !quinnEReason.includes('mitigated70')
+    || !quinnEReason.includes('t7999')
+    || !quinnEReason.includes('mana150')
+    || !quinnEReason.includes('mana49')
+    || !quinnEReason.includes('distance multiplier')
+    || !quinnEReason.includes('dash prose')
+    || !quinnEReason.includes('basic_attack_hit')
+    || !quinnEReason.includes('Quinn W')
+    || !quinnEReason.includes('ability_started')
+    || !quinnEReason.includes('不宣称全局零事件')
+    || !quinnEReason.includes('dash')
+    || !quinnEReason.includes('Harrier')
+    || !quinnEReason.includes('不宣称')
+    || !String(quinnE.sourceRef || '').includes('quinn-e.json')
+    || !String(quinnE.sourceRef || '').includes(
+      '9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714',
+    )
+    || quinnE.auditBaseline?.gapCode !== 'blocked_data'
+    || quinnE.auditBaseline?.resolvedBucket !== 'blocked'
+    || !(quinnE.auditBaseline?.mechanismTags || []).includes('distance_based_damage_modifier')
+    || quinnE.classification !== 'needs_runtime_extension'
+    || !(quinnE.mechanismTags || []).includes('distance_based_damage_modifier')
+    || citesForbiddenProvenance(quinnE.classificationReason)
+    || !(quinnE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.quinnVaultPrimaryHit
+        && e.taskKey === 'wasm-generic-quinn-vault-primary-hit'
+        && String(e.note || '').includes(quinnEBoundary)
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('no distance multiplier')
+        && String(e.note || '').includes('basic_attack_hit')
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('bfe9e5b')
+        && !String(e.note || '').includes('zero listeners'),
+    )
+    || !(quinnE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.quinnVaultPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-quinn-vault-primary-hit'
+        && String(e.note || '').includes(quinnEBoundary)
+        && String(e.note || '').includes('LolGenericQuinnVaultPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('README')
+        && String(e.note || '').includes('c487eb4')
+        && String(e.note || '').includes('3f698ab')
+        && String(e.note || '').includes('bfe9e5b')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('no Web change'),
+    )
+  ) {
+    errors.push(
+      'Quinn E must be migrated with empty remainingGap/missingFields, exact Vault ordered tags (no distance_or_ratio_modifier), stale distance/blocked_data/implementation-gap cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev4024768/SHA + local raw caveat + frozen completedBoundary, rank5 50mana/8000CD/nested-binary 140+0.20bonusAD numerics (baseAD59/resolvedAD139→raw156/78; baseline resolvedAD59→raw140/70; t0/t7999/t8000 mana150→50; mana49 skip), no-distance-multiplier/dash-prose override-before-fallback, no-basic_attack_hit/no-Quinn-W-arm/no-AS/may-synthesize-ability_started (not globally zero events), and bilateral wasm+backend evidence (owning c487eb4 / integrated 3f698ab / Wasm bfe9e5b; Web parity no change; no dash/tracking/bounce/knockback/slow/Harrier/live claim)',
+    );
+  }
+  if (quinnE) {
+    validateBilateralCoverageEvidence(
+      quinnE.candidateKey,
+      quinnE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
