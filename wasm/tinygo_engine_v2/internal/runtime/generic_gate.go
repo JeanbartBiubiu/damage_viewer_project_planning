@@ -49,7 +49,7 @@ func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex i
 			hasAbility: true,
 		}
 	}
-	if readyAt, blocked := s.resourceGate(sourceKey, targetKey, ability, entry); blocked {
+	if readyAt, blocked := s.resourceGate(sourceKey, targetKey, ability, resolvedRef, entry); blocked {
 		return gateCheckResult{
 			skipped:    true,
 			reason:     model.AttemptSkipResourceInsufficient,
@@ -93,7 +93,7 @@ func (s *genericRunState) cooldownGate(sourceKey, abilityRef string) (readyAtMs 
 	return 0, false
 }
 
-func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability compilebundle.CompiledAbility, entry model.DriverEntry) (readyAtMs int64, blocked bool) {
+func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string, entry model.DriverEntry) (readyAtMs int64, blocked bool) {
 	if ability.Cost == nil || !ability.Cost.HasAmount {
 		return 0, false
 	}
@@ -108,6 +108,43 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 		SourceResources: c.resources,
 		TargetResources: target.resources,
 		AbilityParams:   ability.Params,
+	}
+	// Provider-aware cost preflight: only a valid parsed provider ability ref binds
+	// HasProviderContext + lazy-expired provider state (mirrors lifecycle charging).
+	// Unparseable refs stay fail-closed (no context → provider.state eval error → MaxFloat64).
+	if parsed, ok := compilebundle.ParseAbilityRef(abilityRef); ok {
+		ownerKey := sourceKey
+		providerRef := parsed.ProviderRef
+		switch parsed.Combatant {
+		case model.SelectorSource, model.SelectorSelf, "":
+			ownerKey = sourceKey
+		case model.SelectorTarget:
+			ownerKey = targetKey
+		case model.SelectorOpponent:
+			if sourceKey == model.SelectorSource {
+				ownerKey = model.SelectorTarget
+			} else if sourceKey == model.SelectorTarget {
+				ownerKey = model.SelectorSource
+			} else {
+				ownerKey = targetKey
+			}
+		default:
+			ownerKey = parsed.Combatant
+		}
+		ctx.HasProviderContext = true
+		ctx.ProviderState = map[string]float64{}
+		ctx.ProviderTargetState = map[string]float64{}
+		if owner, ok := s.combatants[ownerKey]; ok && providerRef != "" {
+			if bag := owner.providerState[providerRef]; bag != nil {
+				bag.bindFieldDefs(s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers))
+				bag.lazyExpireProviderState(s.nowMs)
+				ctx.ProviderState = bag.state
+				if bag.targetKey == targetKey {
+					ctx.ProviderTargetState = bag.targetStateForFormula()
+				}
+				s.combatants[ownerKey] = owner
+			}
+		}
 	}
 	_ = entry
 	amount, err := s.compiled.Formulas.Eval(ability.Cost.AmountProgram, ctx)
