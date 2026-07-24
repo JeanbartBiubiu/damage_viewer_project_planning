@@ -1068,6 +1068,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericQuinnHeightenedSensesSeedSqlTest test
 ```
 
+### LoL generic Quinn Blinding Assault primary-hit seed（奎因 Q / Phase-A v1 主冠军命中）
+
+在 reserved types、`lol_generic_quinn_heightened_senses_seed.sql`（`hero_quinn` + `ad`/`mana` EAV + `provider_hero_quinn_basic_attack` + `provider_hero_quinn_heightened_senses`），以及 **额外 ambient** `attribute_definitions(ap)`（超出 W seed 所需属性）已就绪后，按顺序执行（**前置为** W seed + ambient `ap` 定义；seed **fail-closed** check-only 上述前置；**不**重建/改写 Quinn 身份/其它属性/普攻·W 图；最小中性写入仅在缺席时 `ON CONFLICT DO NOTHING` 插入 `hero_quinn/ap` base0、共享 `resource_definitions(mana)` 中性默认、以及从既有 Quinn `mana` 属性派生的 `entity_resource_values`——**永不 UPDATE** 既有 AP/resource 行、不硬编码面板 mana；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql`（若 Quinn W / basic / `hero_quinn` / `ad`·`mana` 尚未写入）
+3. ambient：确保 `attribute_definitions(ap)` 已存在（W seed **不**提供）
+4. `db/game_manage/seeds/lol_generic_quinn_blinding_assault_primary_hit_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-quinn-blinding-assault-primary-hit-phase-a-v1-20260724`（seed 不负责 publish）。候选 `hero_skill|hero_quinn|Q|炫目攻势`（task `wasm-generic-quinn-blinding-assault-primary-hit`）冻结为 **Phase-A rank-5 立即主冠军命中 impact scaffold**（`FROZEN_PLAN_REV=quinn-q-blinding-assault-phase-a-v1`）：
+
+`rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `ap_ratio` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `attribute_definitions(ad,mana,ap)` / `hero_quinn` / `entity_attribute_values(hero_quinn,ad|mana)` / `provider_hero_quinn_basic_attack` / `provider_hero_quinn_heightened_senses` 做 **fail-closed check-only**；幂等投影 reserved → `types`；仅缺席时中性插入 `entity_attribute_values(hero_quinn,ap)=0`、`resource_definitions.mana`、以及派生自既有 mana 属性的 `entity_resource_values`（均为 `DO NOTHING`，无 upsert-update）；向 `hero_quinn` **仅** mount 独立 `provider_hero_quinn_q_blinding_assault_primary_hit`（与既有 basic / W 并存，不更新/删除/重建），含 active `ability_hero_quinn_q_blinding_assault_primary_hit`（`ability_key=blinding_assault_primary_hit`）、`ability_costs` 70 mana、`ability_cooldowns` 9000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `205 + 1.00*(ad.resolved-ad.base) + 0.50*AP`（嵌套二元 `add`，非三元；`copyable_on_hit=false`，非 crit；运行时类型 `20220`）；**零** provider state / modifiers / listeners / matchers / event-effect / repeat / control / `emit_event`（`NB-ZERO-EMITTED-EVENTS-SCOPE`：本 Q 图不能 emit `basic_attack_hit`，不压制运行时合成 `ability_started`）。Wiki：request `Template:Data Quinn/Q` → resolved `Template:Data Quinn/Blinding Assault`；page1308954 / rev4024766 / `2026-06-03T00:49:42Z` / canonical 1742 bytes / SHA256 `abce6abdc2eefd069beba2d4297a1c9da5b1a675a426edb747346d9679d8085d`；sidecar `normalized/generic/quinn-q.json`。**local raw materialization caveat**：1742 / `be8878560c7d6541440d952788e40aeba0bef25a49955379df26f45ec82737bd`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。不暗示 live 执行或发布；**不 claim** 全保真 Quinn Q。
+
+**排除**：Valor 实体/AI；cast delay；direction/projectile/speed/travel/collision/range/width/radius/geometry/AOE/multitarget；monster double damage；Harrier mark/P/W interaction；nearsight/disarm/sight/control/death persistence；ranks1–4；P/W/E/R/basic 行为；loadout/crit/on-hit；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Kai'Sa Void Seeker primary-hit seed（卡莎 W / Phase-A v2 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_kaisa` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与既有普攻/Second Skin / Supercharge provider 并存，不重建/替换、不读写 Plasma/Caustic Wounds/Supercharge 状态；不做 live migration、不自动 publish）：
