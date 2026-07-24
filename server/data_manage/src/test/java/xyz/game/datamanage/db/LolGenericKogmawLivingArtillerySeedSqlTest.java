@@ -5,13 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,11 +86,11 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
             + "{\"op\":\"read\",\"path\":\"provider.state.living_artillery_stacks\"}]}]}";
 
     private static final String LIVING_ARTILLERY_DAMAGE =
-        "{\"op\":\"mul\",\"args\":[{\"op\":\"add\",\"args\":[{\"op\":\"const\",\"value\":180},"
+        "{\"op\":\"mul\",\"args\":[{\"op\":\"add\",\"args\":[{\"op\":\"add\",\"args\":[{\"op\":\"const\",\"value\":180},"
             + "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.75},"
             + "{\"op\":\"sub\",\"args\":["
             + "{\"op\":\"read\",\"path\":\"source.attr.ad.resolved\"},"
-            + "{\"op\":\"read\",\"path\":\"source.attr.ad.base\"}]}]},"
+            + "{\"op\":\"read\",\"path\":\"source.attr.ad.base\"}]}]}]},"
             + "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.45},"
             + "{\"op\":\"read\",\"path\":\"source.attr.ap.resolved\"}]}]},"
             + "{\"op\":\"add\",\"args\":[{\"op\":\"mul\",\"args\":[{\"op\":\"lt\",\"args\":["
@@ -115,6 +119,11 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
             + "{\"op\":\"read\",\"path\":\"target.attr.hp.max\"}]}]},"
             + "\"min\":{\"op\":\"const\",\"value\":0},"
             + "\"max\":{\"op\":\"const\",\"value\":1}}]}]}]}]}]}]}]}]}";
+
+    private static final Set<String> BINARY_ARITHMETIC_COMPARISON_OPS = Set.of(
+        "add", "sub", "mul", "div", "lt", "lte", "gt", "gte");
+
+    private static final ObjectMapper JSON = new ObjectMapper();
 
     private static final String FROZEN_BOUNDARY =
         "rank3_primary_target_living_artillery; immediate_impact_scaffold; "
@@ -483,7 +492,7 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
     }
 
     @Test
-    void seedsExactOrderedDamageThenProviderStateAddGraph() {
+    void seedsExactOrderedDamageThenProviderStateAddGraph() throws Exception {
         assertContains(LIVING_ARTILLERY_DAMAGE);
         assertContains("source.attr.ad.resolved");
         assertContains("source.attr.ad.base");
@@ -496,6 +505,7 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
         assertContains("\"op\":\"clamp\"");
         assertContains("\"op\":\"lt\"");
         assertContains("\"op\":\"gte\"");
+        assertBinaryGenericAstAndApUnderCompiledBase(LIVING_ARTILLERY_DAMAGE);
         assertContains("phase_hero_kogmaw_r_living_artillery_impact");
         assertContains("sequence_hero_kogmaw_r_living_artillery_impact");
         assertContains("step_hero_kogmaw_r_living_artillery_damage");
@@ -755,6 +765,81 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
 
     private static void assertContains(String needle) {
         assertTrue(sql.contains(needle), "seed sql must contain: " + needle);
+    }
+
+    /**
+     * compileGenericNode only wires args[0]/args[1] for binary arithmetic/comparison ops.
+     * Nested binary add keeps AP under the compiled base (mul.args[0]) branch.
+     */
+    private static void assertBinaryGenericAstAndApUnderCompiledBase(String damageJson)
+        throws IOException {
+        JsonNode root = JSON.readTree(damageJson);
+        assertEquals("mul", root.path("op").asText(), "outer damage must be mul");
+        assertEquals(2, root.path("args").size(), "outer mul must be binary");
+        JsonNode compiledBase = root.get("args").get(0);
+        JsonNode missingHealthMultiplier = root.get("args").get(1);
+        assertEquals("add", compiledBase.path("op").asText(), "compiled base must be add");
+        assertTrue(
+            nodeContainsReadPath(compiledBase, "source.attr.ap.resolved"),
+            "AP read must remain under compiled base branch (mul.args[0])");
+        assertFalse(
+            nodeContainsReadPath(missingHealthMultiplier, "source.attr.ap.resolved"),
+            "AP read must not live only under the missing-health multiplier branch");
+        assertBinaryArithmeticComparisonArity(root, "living_artillery_damage");
+    }
+
+    private static void assertBinaryArithmeticComparisonArity(JsonNode node, String path) {
+        if (node == null || !node.isObject()) {
+            return;
+        }
+        String op = node.path("op").asText(null);
+        if (op != null && BINARY_ARITHMETIC_COMPARISON_OPS.contains(op)) {
+            JsonNode args = node.get("args");
+            assertTrue(args != null && args.isArray(), path + " op=" + op + " must have args array");
+            assertEquals(
+                2,
+                args.size(),
+                path + " op=" + op + " must be binary (exactly 2 args; compileGenericNode drops extras)");
+        }
+        Iterator<Map.Entry<String, JsonNode>> fields = node.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
+            JsonNode child = entry.getValue();
+            if (child.isObject()) {
+                assertBinaryArithmeticComparisonArity(child, path + "." + entry.getKey());
+            } else if (child.isArray()) {
+                for (int i = 0; i < child.size(); i++) {
+                    assertBinaryArithmeticComparisonArity(child.get(i), path + "." + entry.getKey() + "[" + i + "]");
+                }
+            }
+        }
+    }
+
+    private static boolean nodeContainsReadPath(JsonNode node, String readPath) {
+        if (node == null || node.isNull()) {
+            return false;
+        }
+        if (node.isObject()) {
+            if ("read".equals(node.path("op").asText())
+                && readPath.equals(node.path("path").asText())) {
+                return true;
+            }
+            Iterator<JsonNode> values = node.elements();
+            while (values.hasNext()) {
+                if (nodeContainsReadPath(values.next(), readPath)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (node.isArray()) {
+            for (JsonNode child : node) {
+                if (nodeContainsReadPath(child, readPath)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static Path resolveRelative(String relative) {
