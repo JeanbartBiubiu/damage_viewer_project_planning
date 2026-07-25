@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v2",
     "planRevision": "provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1",
-    "generatedAt": "2026-07-25T15:04:53.164Z",
+    "generatedAt": "2026-07-25T15:42:25.575Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "e186bb9eaa50852de1f10fe1fc84c395f7239b9cc0e729e48637566d05caa705",
-        "byteSize": 1052827
+        "sha256": "a52e3938539831859497120635cc4e034e36968f6cae3765121532edd5890ffb",
+        "byteSize": 1057992
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 86,
+    "templateCount": 85,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 83,
+      "blocked_runtime": 82,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 84,
+      "hero_skill": 83,
       "item_passive": 2
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 83,
+      "runtime_contract_placeholder": 82,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 90,
+      "completed": 91,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -5935,96 +5935,6 @@
         "wikiItemId": null,
         "wikiEffectSlots": [],
         "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/tristana-q.json@rev4026462 sha256:f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "rank": null,
-        "resourceCost": null,
-        "cooldownMs": null,
-        "target": null,
-        "timing": null,
-        "formula": null,
-        "operationGraph": null,
-        "fixtures": [],
-        "completedBoundary": null,
-        "exclusions": []
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_tristana|R|毁灭射击",
-      "inventoryOrdinal": 129,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_tristana",
-      "skillKey": "R",
-      "passiveName": "毁灭射击",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "multi_target_or_area"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_tristana|R|毁灭射击"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_tristana|R|毁灭射击"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Tristana",
-        "pageId": "tristana-r",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/tristana-r.json@rev4008205 sha256:2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058"
       },
       "templateState": "provisional_unverified",
       "templateKind": "runtime_contract_placeholder",
