@@ -1,10 +1,15 @@
 /**
- * Phase-T1 — Provisional mechanism template registry (frozen plan
- * provisional-mechanism-template-registry-phase-t1-v2).
+ * Phase-T2 — Provisional mechanism template registry continuous refresh
+ * (frozen plan provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1).
  *
- * Inputs (exact pins):
+ * Inputs (exact paths; raw sha256/byteSize recorded dynamically, not equality-pinned):
  *   - 最小验证/unified-mechanism-inventory.json
  *   - 最小验证/wiki-only-mechanism-candidate-registry.json
+ *
+ * Stable structural pins:
+ *   - Unified mechanisms254 + key-order digest
+ *   - Wiki candidates242 + key-order digest
+ *   - digest = lowercase SHA256(UTF-8(keys.join("\n") + "\n"))
  *
  * Outputs:
  *   - 最小验证/provisional-mechanism-template-registry.json
@@ -23,56 +28,48 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..', '..');
 
-const SCHEMA_VERSION = 'provisional-mechanism-template-registry-v1';
-const FROZEN_PLAN_REV = 'provisional-mechanism-template-registry-phase-t1-v2';
+const SCHEMA_VERSION = 'provisional-mechanism-template-registry-v2';
+const FROZEN_PLAN_REV = 'provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1';
 
 const UNIFIED_REL = '最小验证/unified-mechanism-inventory.json';
 const WIKI_REL = '最小验证/wiki-only-mechanism-candidate-registry.json';
 const OUTPUT_JSON_REL = '最小验证/provisional-mechanism-template-registry.json';
 const OUTPUT_CSV_REL = '最小验证/provisional-mechanism-template-registry.csv';
 
-const PINNED_UNIFIED_SHA256 =
-  '05f6705e7966b71578918df57237ee84894056dcba60a53c0e4a4ed13ef0d3eb';
-const PINNED_UNIFIED_BYTES = 1047006;
-const PINNED_WIKI_SHA256 =
-  '06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a';
-const PINNED_WIKI_BYTES = 640928;
+const STABLE_UNIFIED_MECHANISM_COUNT = 254;
+const STABLE_UNIFIED_KEY_ORDER_SHA256 =
+  '69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018';
+const STABLE_WIKI_CANDIDATE_COUNT = 242;
+const STABLE_WIKI_KEY_ORDER_SHA256 =
+  '927d8b5a729fe5a00ce4428cf854cb244dcf78b556afc77e711c9b8cb68126c7';
 
-const SOURCE_UNIFIED_COUNT = 254;
-const SOURCE_WIKI_COUNT = 242;
-const TEMPLATE_COUNT = 87;
+const ALLOWED_UNIFIED_STATUSES = Object.freeze([
+  'completed',
+  'partial_actionable',
+  'ready_to_implement',
+  'blocked_runtime',
+  'blocked_data',
+  'out_of_scope',
+  'regression_only',
+  'stale_or_duplicate',
+]);
+const ALLOWED_UNIFIED_STATUS_SET = new Set(ALLOWED_UNIFIED_STATUSES);
 
-const TARGET_STATUSES = new Set([
+const TARGET_STATUSES = Object.freeze([
   'partial_actionable',
   'ready_to_implement',
   'blocked_runtime',
   'blocked_data',
 ]);
+const TARGET_STATUS_SET = new Set(TARGET_STATUSES);
 
-const EXPECTED_TARGET_STATUS_COUNTS = {
-  partial_actionable: 0,
-  ready_to_implement: 0,
-  blocked_runtime: 84,
-  blocked_data: 3,
-};
-
-const EXPECTED_TARGET_SOURCE_KIND_COUNTS = {
-  hero_skill: 85,
-  item_passive: 2,
-};
-
-const EXPECTED_TEMPLATE_KIND_COUNTS = {
-  actionable_contract_placeholder: 0,
-  runtime_contract_placeholder: 84,
-  data_contract_placeholder: 3,
-};
-
-const EXPECTED_EXCLUDED_STATUS_COUNTS = {
-  completed: 89,
-  out_of_scope: 72,
-  regression_only: 5,
-  stale_or_duplicate: 1,
-};
+const EXCLUDED_STATUSES = Object.freeze([
+  'completed',
+  'out_of_scope',
+  'regression_only',
+  'stale_or_duplicate',
+]);
+const EXCLUDED_STATUS_SET = new Set(EXCLUDED_STATUSES);
 
 const TEMPLATE_STATE = 'provisional_unverified';
 
@@ -109,7 +106,19 @@ const NONCLAIMS = Object.freeze([
   'no_new_completed_full_or_ready_assertion',
 ]);
 
-const METADATA_KEYS = Object.freeze(['schemaVersion', 'planRevision', 'generatedAt', 'inputs']);
+const METADATA_KEYS = Object.freeze([
+  'schemaVersion',
+  'planRevision',
+  'generatedAt',
+  'stableKeyOrders',
+  'inputs',
+]);
+const STABLE_KEY_ORDERS_KEYS = Object.freeze([
+  'unifiedMechanismCount',
+  'unifiedKeyOrderSha256',
+  'wikiCandidateCount',
+  'wikiKeyOrderSha256',
+]);
 const INPUT_ENTRY_KEYS = Object.freeze(['path', 'sha256', 'byteSize']);
 const SUMMARY_KEYS = Object.freeze([
   'sourceUnifiedMechanismCount',
@@ -119,6 +128,24 @@ const SUMMARY_KEYS = Object.freeze([
   'targetSourceKindCounts',
   'templateKindCounts',
   'excludedStatusCounts',
+]);
+const TARGET_STATUS_COUNT_KEYS = Object.freeze([
+  'partial_actionable',
+  'ready_to_implement',
+  'blocked_runtime',
+  'blocked_data',
+]);
+const TARGET_SOURCE_KIND_COUNT_KEYS = Object.freeze(['hero_skill', 'item_passive']);
+const TEMPLATE_KIND_COUNT_KEYS = Object.freeze([
+  'actionable_contract_placeholder',
+  'runtime_contract_placeholder',
+  'data_contract_placeholder',
+]);
+const EXCLUDED_STATUS_COUNT_KEYS = Object.freeze([
+  'completed',
+  'out_of_scope',
+  'regression_only',
+  'stale_or_duplicate',
 ]);
 const TEMPLATE_KEYS = Object.freeze([
   'key',
@@ -206,6 +233,10 @@ function sha256Raw(buf) {
   return crypto.createHash('sha256').update(buf).digest('hex');
 }
 
+function keyOrderDigest(keys) {
+  return sha256Raw(Buffer.from(`${keys.join('\n')}\n`, 'utf8'));
+}
+
 function canonicalizeEol(text) {
   return String(text ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 }
@@ -284,6 +315,12 @@ function makeNonclaims() {
   return [...NONCLAIMS];
 }
 
+function emptyOrderedCounts(keys) {
+  const out = {};
+  for (const k of keys) out[k] = 0;
+  return out;
+}
+
 function buildWikiProvenance(candidate, sourceKind) {
   if (sourceKind === 'hero_skill') {
     const pageId = candidate.pageId;
@@ -338,105 +375,99 @@ function buildWikiProvenance(candidate, sourceKind) {
   throw new Error(`unsupported sourceKind for provenance: ${sourceKind}`);
 }
 
-function readPinnedInput(absPath, relPath, expectedSha, expectedBytes) {
+function readDynamicInput(absPath, relPath) {
   const buf = fs.readFileSync(absPath);
-  if (buf.length !== expectedBytes) {
-    throw new Error(
-      `${relPath} byteSize drift: got ${buf.length}, expected ${expectedBytes}`,
-    );
-  }
   const sha = sha256Raw(buf);
-  if (sha !== expectedSha) {
-    throw new Error(`${relPath} sha256 drift: got ${sha}, expected ${expectedSha}`);
-  }
   return { buf, sha, byteSize: buf.length, doc: JSON.parse(buf.toString('utf8')) };
 }
 
-function countBy(arr, keyFn) {
-  const out = {};
-  for (const item of arr) {
-    const k = keyFn(item);
-    out[k] = (out[k] || 0) + 1;
+function assertStableKeyOrders(unified, wiki) {
+  if (!Array.isArray(unified.mechanisms) || unified.mechanisms.length !== STABLE_UNIFIED_MECHANISM_COUNT) {
+    throw new Error(
+      `unified mechanisms length ${unified.mechanisms?.length}, expected ${STABLE_UNIFIED_MECHANISM_COUNT}`,
+    );
   }
-  return out;
+  if (!Array.isArray(wiki.candidates) || wiki.candidates.length !== STABLE_WIKI_CANDIDATE_COUNT) {
+    throw new Error(
+      `wiki candidates length ${wiki.candidates?.length}, expected ${STABLE_WIKI_CANDIDATE_COUNT}`,
+    );
+  }
+  const unifiedDigest = keyOrderDigest(unified.mechanisms.map((m) => m.key));
+  if (unifiedDigest !== STABLE_UNIFIED_KEY_ORDER_SHA256) {
+    throw new Error(
+      `unified key-order digest drift: got ${unifiedDigest}, expected ${STABLE_UNIFIED_KEY_ORDER_SHA256}`,
+    );
+  }
+  const wikiDigest = keyOrderDigest(wiki.candidates.map((c) => c.candidateKey));
+  if (wikiDigest !== STABLE_WIKI_KEY_ORDER_SHA256) {
+    throw new Error(
+      `wiki key-order digest drift: got ${wikiDigest}, expected ${STABLE_WIKI_KEY_ORDER_SHA256}`,
+    );
+  }
+  return {
+    unifiedMechanismCount: STABLE_UNIFIED_MECHANISM_COUNT,
+    unifiedKeyOrderSha256: STABLE_UNIFIED_KEY_ORDER_SHA256,
+    wikiCandidateCount: STABLE_WIKI_CANDIDATE_COUNT,
+    wikiKeyOrderSha256: STABLE_WIKI_KEY_ORDER_SHA256,
+  };
 }
 
-function assertExactCounts(actual, expected, label) {
-  const ak = Object.keys(actual);
-  const ek = Object.keys(expected);
-  if (ak.length !== ek.length || !ek.every((k) => Object.prototype.hasOwnProperty.call(actual, k))) {
-    throw new Error(`${label} keys mismatch: got ${JSON.stringify(actual)} expected ${JSON.stringify(expected)}`);
-  }
-  for (const k of ek) {
-    if (actual[k] !== expected[k]) {
-      throw new Error(`${label}.${k}=${actual[k]}, expected ${expected[k]}`);
+function partitionUnifiedMechanisms(mechanisms) {
+  const targetStatusCounts = emptyOrderedCounts(TARGET_STATUS_COUNT_KEYS);
+  const excludedStatusCounts = emptyOrderedCounts(EXCLUDED_STATUS_COUNT_KEYS);
+  const filtered = [];
+
+  for (const m of mechanisms) {
+    if (!ALLOWED_UNIFIED_STATUS_SET.has(m.status)) {
+      throw new Error(`unknown Unified status: ${m.status}`);
     }
+    if (TARGET_STATUS_SET.has(m.status)) {
+      targetStatusCounts[m.status] += 1;
+      filtered.push(m);
+      continue;
+    }
+    if (EXCLUDED_STATUS_SET.has(m.status)) {
+      excludedStatusCounts[m.status] += 1;
+      continue;
+    }
+    throw new Error(`status not in exhaustive partition: ${m.status}`);
   }
+
+  const targetTotal = TARGET_STATUS_COUNT_KEYS.reduce((n, k) => n + targetStatusCounts[k], 0);
+  const excludedTotal = EXCLUDED_STATUS_COUNT_KEYS.reduce((n, k) => n + excludedStatusCounts[k], 0);
+  if (targetTotal + excludedTotal !== STABLE_UNIFIED_MECHANISM_COUNT) {
+    throw new Error(
+      `exhaustive partition sum ${targetTotal + excludedTotal} !== ${STABLE_UNIFIED_MECHANISM_COUNT}`,
+    );
+  }
+  if (filtered.length !== targetTotal) {
+    throw new Error(`filtered length ${filtered.length} !== targetTotal ${targetTotal}`);
+  }
+  if (mechanisms.length !== targetTotal + excludedTotal) {
+    throw new Error('mechanisms length does not match exhaustive partition');
+  }
+
+  return { filtered, targetStatusCounts, excludedStatusCounts };
 }
 
 function buildRegistry(generatedAt) {
-  const unifiedPin = readPinnedInput(
-    paths.unified,
-    UNIFIED_REL,
-    PINNED_UNIFIED_SHA256,
-    PINNED_UNIFIED_BYTES,
-  );
-  const wikiPin = readPinnedInput(paths.wiki, WIKI_REL, PINNED_WIKI_SHA256, PINNED_WIKI_BYTES);
+  const unifiedPin = readDynamicInput(paths.unified, UNIFIED_REL);
+  const wikiPin = readDynamicInput(paths.wiki, WIKI_REL);
 
   const unified = unifiedPin.doc;
   const wiki = wikiPin.doc;
+  const stableKeyOrders = assertStableKeyOrders(unified, wiki);
+  const { filtered, targetStatusCounts, excludedStatusCounts } = partitionUnifiedMechanisms(
+    unified.mechanisms,
+  );
 
-  if (!Array.isArray(unified.mechanisms) || unified.mechanisms.length !== SOURCE_UNIFIED_COUNT) {
-    throw new Error(
-      `unified mechanisms length ${unified.mechanisms?.length}, expected ${SOURCE_UNIFIED_COUNT}`,
-    );
-  }
-  if (!Array.isArray(wiki.candidates) || wiki.candidates.length !== SOURCE_WIKI_COUNT) {
-    throw new Error(
-      `wiki candidates length ${wiki.candidates?.length}, expected ${SOURCE_WIKI_COUNT}`,
-    );
-  }
-
-  const excludedStatusCounts = {
-    completed: 0,
-    out_of_scope: 0,
-    regression_only: 0,
-    stale_or_duplicate: 0,
-  };
-  for (const m of unified.mechanisms) {
-    if (TARGET_STATUSES.has(m.status)) continue;
-    if (!Object.prototype.hasOwnProperty.call(excludedStatusCounts, m.status)) {
-      throw new Error(`unexpected non-target status: ${m.status}`);
-    }
-    excludedStatusCounts[m.status] += 1;
-  }
-  assertExactCounts(excludedStatusCounts, EXPECTED_EXCLUDED_STATUS_COUNTS, 'excludedStatusCounts');
-
-  const filtered = unified.mechanisms.filter((m) => TARGET_STATUSES.has(m.status));
-  if (filtered.length !== TEMPLATE_COUNT) {
-    throw new Error(`filtered target count ${filtered.length}, expected ${TEMPLATE_COUNT}`);
-  }
-
-  const targetStatusCounts = {
-    partial_actionable: 0,
-    ready_to_implement: 0,
-    blocked_runtime: 0,
-    blocked_data: 0,
-  };
-  const targetSourceKindCounts = { hero_skill: 0, item_passive: 0 };
+  const targetSourceKindCounts = emptyOrderedCounts(TARGET_SOURCE_KIND_COUNT_KEYS);
   for (const m of filtered) {
-    targetStatusCounts[m.status] += 1;
     if (!Object.prototype.hasOwnProperty.call(targetSourceKindCounts, m.sourceKind)) {
       throw new Error(`unexpected sourceKind: ${m.sourceKind}`);
     }
     targetSourceKindCounts[m.sourceKind] += 1;
   }
-  assertExactCounts(targetStatusCounts, EXPECTED_TARGET_STATUS_COUNTS, 'targetStatusCounts');
-  assertExactCounts(
-    targetSourceKindCounts,
-    EXPECTED_TARGET_SOURCE_KIND_COUNTS,
-    'targetSourceKindCounts',
-  );
 
   const wikiByKey = new Map();
   for (const c of wiki.candidates) {
@@ -494,8 +525,14 @@ function buildRegistry(generatedAt) {
     if (!Array.isArray(row.sourceRefs)) {
       throw new Error(`sourceRefs not array @ ${row.key}`);
     }
+    if ('sourceText' in row) {
+      throw new Error(`unified sourceText must not be copied @ ${row.key}`);
+    }
 
     const wikiProvenance = buildWikiProvenance(candidate, row.sourceKind);
+    if ('sourceText' in wikiProvenance) {
+      throw new Error(`wikiProvenance must not include sourceText @ ${row.key}`);
+    }
     const templateKind = templateKindForStatus(row.status);
 
     const template = {
@@ -550,21 +587,17 @@ function buildRegistry(generatedAt) {
     }
   }
 
-  const templateKindCounts = {
-    actionable_contract_placeholder: 0,
-    runtime_contract_placeholder: 0,
-    data_contract_placeholder: 0,
-  };
+  const templateKindCounts = emptyOrderedCounts(TEMPLATE_KIND_COUNT_KEYS);
   for (const t of templates) {
     templateKindCounts[t.templateKind] += 1;
   }
-  assertExactCounts(templateKindCounts, EXPECTED_TEMPLATE_KIND_COUNTS, 'templateKindCounts');
 
   const doc = {
     metadata: {
       schemaVersion: SCHEMA_VERSION,
       planRevision: FROZEN_PLAN_REV,
       generatedAt,
+      stableKeyOrders,
       inputs: [
         {
           path: UNIFIED_REL,
@@ -579,18 +612,39 @@ function buildRegistry(generatedAt) {
       ],
     },
     summary: {
-      sourceUnifiedMechanismCount: SOURCE_UNIFIED_COUNT,
-      sourceWikiRegistryCount: SOURCE_WIKI_COUNT,
-      templateCount: TEMPLATE_COUNT,
-      targetStatusCounts: { ...EXPECTED_TARGET_STATUS_COUNTS },
-      targetSourceKindCounts: { ...EXPECTED_TARGET_SOURCE_KIND_COUNTS },
-      templateKindCounts: { ...EXPECTED_TEMPLATE_KIND_COUNTS },
-      excludedStatusCounts: { ...EXPECTED_EXCLUDED_STATUS_COUNTS },
+      sourceUnifiedMechanismCount: STABLE_UNIFIED_MECHANISM_COUNT,
+      sourceWikiRegistryCount: STABLE_WIKI_CANDIDATE_COUNT,
+      templateCount: templates.length,
+      targetStatusCounts,
+      targetSourceKindCounts,
+      templateKindCounts,
+      excludedStatusCounts,
     },
     templates,
   };
 
-  const errors = validateRegistry(doc, filtered, wikiByKey);
+  assertKeysOrder(doc.metadata, METADATA_KEYS, 'metadata');
+  assertKeysOrder(doc.metadata.stableKeyOrders, STABLE_KEY_ORDERS_KEYS, 'stableKeyOrders');
+  assertKeysOrder(doc.summary, SUMMARY_KEYS, 'summary');
+  assertKeysOrder(doc.summary.targetStatusCounts, TARGET_STATUS_COUNT_KEYS, 'targetStatusCounts');
+  assertKeysOrder(
+    doc.summary.targetSourceKindCounts,
+    TARGET_SOURCE_KIND_COUNT_KEYS,
+    'targetSourceKindCounts',
+  );
+  assertKeysOrder(doc.summary.templateKindCounts, TEMPLATE_KIND_COUNT_KEYS, 'templateKindCounts');
+  assertKeysOrder(
+    doc.summary.excludedStatusCounts,
+    EXCLUDED_STATUS_COUNT_KEYS,
+    'excludedStatusCounts',
+  );
+
+  const errors = validateRegistry(doc, filtered, wikiByKey, {
+    unifiedSha: unifiedPin.sha,
+    unifiedBytes: unifiedPin.byteSize,
+    wikiSha: wikiPin.sha,
+    wikiBytes: wikiPin.byteSize,
+  });
   if (errors.length) {
     throw new Error(`registry validation failed (${errors.length}):\n${errors.slice(0, 40).join('\n')}`);
   }
@@ -599,7 +653,7 @@ function buildRegistry(generatedAt) {
   return { doc, csvText };
 }
 
-function validateRegistry(doc, filteredUnifiedRows, wikiByKey) {
+function validateRegistry(doc, filteredUnifiedRows, wikiByKey, inputPins) {
   const errors = [];
 
   assertKeysOrderSafe(doc, TOP_LEVEL_KEYS, 'top-level', errors);
@@ -617,51 +671,121 @@ function validateRegistry(doc, filteredUnifiedRows, wikiByKey) {
   if (typeof doc.metadata.generatedAt !== 'string' || !doc.metadata.generatedAt) {
     errors.push('metadata.generatedAt must be nonempty string');
   }
+
+  if (!doc.metadata.stableKeyOrders) {
+    errors.push('missing metadata.stableKeyOrders');
+  } else {
+    assertKeysOrderSafe(
+      doc.metadata.stableKeyOrders,
+      STABLE_KEY_ORDERS_KEYS,
+      'metadata.stableKeyOrders',
+      errors,
+    );
+    if (doc.metadata.stableKeyOrders.unifiedMechanismCount !== STABLE_UNIFIED_MECHANISM_COUNT) {
+      errors.push('stableKeyOrders.unifiedMechanismCount mismatch');
+    }
+    if (doc.metadata.stableKeyOrders.unifiedKeyOrderSha256 !== STABLE_UNIFIED_KEY_ORDER_SHA256) {
+      errors.push('stableKeyOrders.unifiedKeyOrderSha256 mismatch');
+    }
+    if (doc.metadata.stableKeyOrders.wikiCandidateCount !== STABLE_WIKI_CANDIDATE_COUNT) {
+      errors.push('stableKeyOrders.wikiCandidateCount mismatch');
+    }
+    if (doc.metadata.stableKeyOrders.wikiKeyOrderSha256 !== STABLE_WIKI_KEY_ORDER_SHA256) {
+      errors.push('stableKeyOrders.wikiKeyOrderSha256 mismatch');
+    }
+  }
+
   if (!Array.isArray(doc.metadata.inputs) || doc.metadata.inputs.length !== 2) {
     errors.push('metadata.inputs must be length-2 array');
   } else {
     const [u, w] = doc.metadata.inputs;
     assertKeysOrderSafe(u, INPUT_ENTRY_KEYS, 'metadata.inputs[0]', errors);
     assertKeysOrderSafe(w, INPUT_ENTRY_KEYS, 'metadata.inputs[1]', errors);
-    if (u.path !== UNIFIED_REL || u.sha256 !== PINNED_UNIFIED_SHA256 || u.byteSize !== PINNED_UNIFIED_BYTES) {
-      errors.push('metadata.inputs[0] pin mismatch');
+    if (u.path !== UNIFIED_REL || u.sha256 !== inputPins.unifiedSha || u.byteSize !== inputPins.unifiedBytes) {
+      errors.push('metadata.inputs[0] dynamic provenance mismatch');
     }
-    if (w.path !== WIKI_REL || w.sha256 !== PINNED_WIKI_SHA256 || w.byteSize !== PINNED_WIKI_BYTES) {
-      errors.push('metadata.inputs[1] pin mismatch');
+    if (w.path !== WIKI_REL || w.sha256 !== inputPins.wikiSha || w.byteSize !== inputPins.wikiBytes) {
+      errors.push('metadata.inputs[1] dynamic provenance mismatch');
     }
   }
 
   assertKeysOrderSafe(doc.summary, SUMMARY_KEYS, 'summary', errors);
-  if (doc.summary.sourceUnifiedMechanismCount !== SOURCE_UNIFIED_COUNT) {
+  if (doc.summary.sourceUnifiedMechanismCount !== STABLE_UNIFIED_MECHANISM_COUNT) {
     errors.push('summary.sourceUnifiedMechanismCount mismatch');
   }
-  if (doc.summary.sourceWikiRegistryCount !== SOURCE_WIKI_COUNT) {
+  if (doc.summary.sourceWikiRegistryCount !== STABLE_WIKI_CANDIDATE_COUNT) {
     errors.push('summary.sourceWikiRegistryCount mismatch');
   }
-  if (doc.summary.templateCount !== TEMPLATE_COUNT) {
+  if (!Array.isArray(doc.templates)) {
+    errors.push('templates must be array');
+    return errors;
+  }
+  if (doc.summary.templateCount !== doc.templates.length) {
     errors.push('summary.templateCount mismatch');
   }
-  if (!deepEqual(doc.summary.targetStatusCounts, EXPECTED_TARGET_STATUS_COUNTS)) {
-    errors.push('summary.targetStatusCounts mismatch');
-  }
-  if (!deepEqual(doc.summary.targetSourceKindCounts, EXPECTED_TARGET_SOURCE_KIND_COUNTS)) {
-    errors.push('summary.targetSourceKindCounts mismatch');
-  }
-  if (!deepEqual(doc.summary.templateKindCounts, EXPECTED_TEMPLATE_KIND_COUNTS)) {
-    errors.push('summary.templateKindCounts mismatch');
-  }
-  if (!deepEqual(doc.summary.excludedStatusCounts, EXPECTED_EXCLUDED_STATUS_COUNTS)) {
-    errors.push('summary.excludedStatusCounts mismatch');
-  }
-
-  if (!Array.isArray(doc.templates) || doc.templates.length !== TEMPLATE_COUNT) {
-    errors.push(`templates length ${doc.templates?.length}, expected ${TEMPLATE_COUNT}`);
-    return errors;
-  }
-
-  if (!Array.isArray(filteredUnifiedRows) || filteredUnifiedRows.length !== TEMPLATE_COUNT) {
+  if (!Array.isArray(filteredUnifiedRows) || filteredUnifiedRows.length !== doc.templates.length) {
     errors.push('filteredUnifiedRows length mismatch');
     return errors;
+  }
+
+  const derivedTargetStatusCounts = emptyOrderedCounts(TARGET_STATUS_COUNT_KEYS);
+  const derivedSourceKindCounts = emptyOrderedCounts(TARGET_SOURCE_KIND_COUNT_KEYS);
+  const derivedTemplateKindCounts = emptyOrderedCounts(TEMPLATE_KIND_COUNT_KEYS);
+  for (const t of doc.templates) {
+    if (!TARGET_STATUS_SET.has(t.currentStatus)) {
+      errors.push(`non-target currentStatus in templates: ${t.currentStatus}`);
+    } else {
+      derivedTargetStatusCounts[t.currentStatus] += 1;
+    }
+    if (Object.prototype.hasOwnProperty.call(derivedSourceKindCounts, t.sourceKind)) {
+      derivedSourceKindCounts[t.sourceKind] += 1;
+    }
+    if (Object.prototype.hasOwnProperty.call(derivedTemplateKindCounts, t.templateKind)) {
+      derivedTemplateKindCounts[t.templateKind] += 1;
+    }
+  }
+
+  assertKeysOrderSafe(
+    doc.summary.targetStatusCounts,
+    TARGET_STATUS_COUNT_KEYS,
+    'summary.targetStatusCounts',
+    errors,
+  );
+  assertKeysOrderSafe(
+    doc.summary.targetSourceKindCounts,
+    TARGET_SOURCE_KIND_COUNT_KEYS,
+    'summary.targetSourceKindCounts',
+    errors,
+  );
+  assertKeysOrderSafe(
+    doc.summary.templateKindCounts,
+    TEMPLATE_KIND_COUNT_KEYS,
+    'summary.templateKindCounts',
+    errors,
+  );
+  assertKeysOrderSafe(
+    doc.summary.excludedStatusCounts,
+    EXCLUDED_STATUS_COUNT_KEYS,
+    'summary.excludedStatusCounts',
+    errors,
+  );
+
+  if (!deepEqual(doc.summary.targetStatusCounts, derivedTargetStatusCounts)) {
+    errors.push('summary.targetStatusCounts not derived from templates');
+  }
+  if (!deepEqual(doc.summary.targetSourceKindCounts, derivedSourceKindCounts)) {
+    errors.push('summary.targetSourceKindCounts not derived from templates');
+  }
+  if (!deepEqual(doc.summary.templateKindCounts, derivedTemplateKindCounts)) {
+    errors.push('summary.templateKindCounts not derived from templates');
+  }
+
+  const excludedTotal = EXCLUDED_STATUS_COUNT_KEYS.reduce(
+    (n, k) => n + (doc.summary.excludedStatusCounts?.[k] || 0),
+    0,
+  );
+  if (doc.templates.length + excludedTotal !== STABLE_UNIFIED_MECHANISM_COUNT) {
+    errors.push('templates + excludedStatusCounts must sum to 254');
   }
 
   const seenKeys = new Set();
@@ -671,6 +795,10 @@ function validateRegistry(doc, filteredUnifiedRows, wikiByKey) {
     const t = doc.templates[i];
     const u = filteredUnifiedRows[i];
     assertKeysOrderSafe(t, TEMPLATE_KEYS, `templates[${i}]`, errors);
+
+    if (Object.prototype.hasOwnProperty.call(t, 'sourceText')) {
+      errors.push(`sourceText forbidden on template @ ${t.key}`);
+    }
 
     if (t.key !== u.key) errors.push(`order mismatch at ${i}: ${t.key} vs ${u.key}`);
     if (seenKeys.has(t.key)) errors.push(`duplicate key ${t.key}`);
@@ -745,6 +873,9 @@ function validateRegistry(doc, filteredUnifiedRows, wikiByKey) {
       `wikiProvenance @ ${t.key}`,
       errors,
     );
+    if (Object.prototype.hasOwnProperty.call(t.wikiProvenance, 'sourceText')) {
+      errors.push(`wikiProvenance.sourceText forbidden @ ${t.key}`);
+    }
     const expectedProv = buildWikiProvenance(candidate, t.sourceKind);
     if (!deepEqual(t.wikiProvenance, expectedProv)) {
       errors.push(`wikiProvenance deep inequality @ ${t.key}`);
@@ -838,16 +969,21 @@ function writeOutputs(doc, csvText) {
 }
 
 function loadFilteredAndWikiMap() {
-  const unifiedPin = readPinnedInput(
-    paths.unified,
-    UNIFIED_REL,
-    PINNED_UNIFIED_SHA256,
-    PINNED_UNIFIED_BYTES,
-  );
-  const wikiPin = readPinnedInput(paths.wiki, WIKI_REL, PINNED_WIKI_SHA256, PINNED_WIKI_BYTES);
-  const filtered = unifiedPin.doc.mechanisms.filter((m) => TARGET_STATUSES.has(m.status));
+  const unifiedPin = readDynamicInput(paths.unified, UNIFIED_REL);
+  const wikiPin = readDynamicInput(paths.wiki, WIKI_REL);
+  assertStableKeyOrders(unifiedPin.doc, wikiPin.doc);
+  const { filtered } = partitionUnifiedMechanisms(unifiedPin.doc.mechanisms);
   const wikiByKey = new Map(wikiPin.doc.candidates.map((c) => [c.candidateKey, c]));
-  return { filtered, wikiByKey };
+  return {
+    filtered,
+    wikiByKey,
+    inputPins: {
+      unifiedSha: unifiedPin.sha,
+      unifiedBytes: unifiedPin.byteSize,
+      wikiSha: wikiPin.sha,
+      wikiBytes: wikiPin.byteSize,
+    },
+  };
 }
 
 function runCheck() {
@@ -859,8 +995,8 @@ function runCheck() {
   const existingCsv = fs.readFileSync(paths.outputCsv, 'utf8');
   const { doc, csvText } = buildRegistry(existing.metadata?.generatedAt || new Date().toISOString());
 
-  const { filtered, wikiByKey } = loadFilteredAndWikiMap();
-  const existingErrors = validateRegistry(existing, filtered, wikiByKey);
+  const { filtered, wikiByKey, inputPins } = loadFilteredAndWikiMap();
+  const existingErrors = validateRegistry(existing, filtered, wikiByKey, inputPins);
   if (existingErrors.length) {
     console.error('--check failed: existing json failed validation:');
     for (const e of existingErrors.slice(0, 30)) console.error(`  ${e}`);
@@ -880,11 +1016,14 @@ function runCheck() {
       {
         ok: true,
         mode: 'check',
+        schemaVersion: doc.metadata.schemaVersion,
+        planRevision: doc.metadata.planRevision,
         templateCount: doc.summary.templateCount,
         targetStatusCounts: doc.summary.targetStatusCounts,
         targetSourceKindCounts: doc.summary.targetSourceKindCounts,
         templateKindCounts: doc.summary.templateKindCounts,
         excludedStatusCounts: doc.summary.excludedStatusCounts,
+        stableKeyOrders: doc.metadata.stableKeyOrders,
       },
       null,
       2,
@@ -908,11 +1047,14 @@ function main() {
         mode: 'write',
         outputJson: OUTPUT_JSON_REL,
         outputCsv: OUTPUT_CSV_REL,
+        schemaVersion: doc.metadata.schemaVersion,
+        planRevision: doc.metadata.planRevision,
         templateCount: doc.summary.templateCount,
         targetStatusCounts: doc.summary.targetStatusCounts,
         targetSourceKindCounts: doc.summary.targetSourceKindCounts,
         templateKindCounts: doc.summary.templateKindCounts,
         excludedStatusCounts: doc.summary.excludedStatusCounts,
+        stableKeyOrders: doc.metadata.stableKeyOrders,
       },
       null,
       2,
