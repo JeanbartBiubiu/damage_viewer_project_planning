@@ -1222,6 +1222,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-jhin-deadly-flourish-primary-hit",
+      "title": "通用 ABI 烬 W 致命华彩 Deadly Flourish 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_jhin_deadly_flourish_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_jhin|W|致命华彩 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Jhin/W→Deadly Flourish page1307581/rev4021795/timestamp2026-05-21T13:25:33Z/canonical raw2942/SHA256 14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65；sidecar jhin-w.json+pages权威；本地raw2940/SHA76790ba5…67f78b（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity。Rank5：70mana/12000ms；immediate primary-champion scaffold；一笔非暴击/不可复制物理210+0.50*source.attr.ad.resolved（二元add；total AD，不得减base AD亦不得称bonus AD）；成功施放自动一次ability_started；零W state/modifier/listener；小兵-only 25%减伤不适用于所选冠军已排除。交叉totalAD60 raw240 armor0=240 armor100=120；totalAD100 raw260 armor0=260 armor100=130；mana210/HP1000/AD100/armor100 t0/t11999/t12000 success/skip/success两笔W damage final mana70/HP740两次自动W ability_started；mana69 resource skip不变。standalone不合成Batch-B/sibling Jhin；Backend无repository-owned hero_jhin/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/immediate_impact_scaffold。DESIGN_REVIEW READY run-619cf912（grok-4.5/high/fast=false；1351parseable/66tool；runDelta0/diff0；非阻塞external-existing-data/check-only、raw caveat、raw G8 OOS/meta provenance）。Backend owning 4903c00（接受run-7efdfc0a delta3/outside0；843events/74calls；focused Jhin/Jinx/Kai'Sa 27/27；full Maven839/839；seed SHA0759F309…DC92；JUnit SHADDAFC311…F0B7）/集成0c103f8（run-3e62e677 delta3/outside0；909events/46calls；README+27；主会话集成Jhin+Jinx 18/18；legacy Draven/Kai'Sa CRLF caveat未重跑/修复；不得主张集成全量）。Wasm exact d62d2e4（run-c3427736 delta1/outside0；941events/100calls；focused6top/7sub + -count=100 + full Go + bench + TinyGo + Node smoke PASS；Built/Web资产1,169,377/SHA65A4…C6A0同步不变）。审计fc6f854（run-858cab7f delta6/outside0；1157parseable/187calls；G8/Unified generate+--check PASS；仅Jhin W对象变化；Jinx W与Xayah W/Q/R八hashes不变 G8 Jinx W 00d140f2…a0291 / Unified Jinx W 7fcee85e…c72946 / G8 Xayah W dd91a84a…938f / Unified Xayah W b03237eb…45ed4 / G8 Xayah Q 8305be23…823ba / Unified Xayah Q 83a2402f…fd13a5 / G8 Xayah R 0eaf18ab…906c9 / Unified Xayah R 39b10cd4…1d4a79）。Unified254：sourceCount12/completed83/blocked_runtime90/full83/none168；G8 242=migrated73/partial4/blocked96/OOS69；implementation_gap=73；actionableKeyCount=0为当前事实非停工条件。治理tasks=96。未执行live migration/publish/push/E2E。不得误称完整Deadly Flourish/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-烬W致命华彩DeadlyFlourish主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-烬W致命华彩DeadlyFlourish主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
