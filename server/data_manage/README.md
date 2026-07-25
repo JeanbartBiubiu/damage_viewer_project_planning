@@ -745,6 +745,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericGravesQuickdrawMaxStackSeedSqlTest,LolGenericGravesNewDestinySeedSqlTest test
 ```
 
+### LoL generic Graves End of the Line first outbound-pass seed（格雷福斯 Q / Phase-A v2 选定主冠军首段出站单次物理命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_graves)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_graves,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_graves,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值——既有 Graves P/E/W/R/basic sibling seed 若已写入这些行仅作 ambient 供给，**不是**硬前置；不以 ensure-entity legacy seeds 为理由物化前置；仅挂载可 cast 的 Q active **选定主冠军首段出站单次物理命中**；与既有/未来 P（New Destiny）/ E（Quickdraw）/ W（Smoke Screen）/ R（Collateral Damage）/ basic **并存**但不依赖/不突变/不合成/不复制；本 seed **不得**含任何 E True Grit rows/modifiers；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-graves-end-of-the-line-first-outbound-pass-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_graves|Q|穷途末路`（task `wasm-generic-graves-end-of-the-line-first-outbound-pass`）冻结为 **Phase-A rank-5 立即选定主冠军首段出站单次物理命中 impact scaffold**（`FROZEN_PLAN_REV=graves-q-end-of-the-line-first-outbound-pass-phase-a-v2`）：
+
+`rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_graves` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_graves` **仅** mount 独立 `provider_hero_graves_q_end_of_the_line_first_outbound_pass`（stable id `hero_graves_q_end_of_the_line_first_outbound_pass`；standalone；不创建/突变 P/E/W/R/basic），含 active `ability_hero_graves_q_end_of_the_line_first_outbound_pass`（`ability_key=end_of_the_line_first_outbound_pass`）、`ability_costs` 80 mana、`ability_cooldowns` 6000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `150 + 0.65*(ad.resolved-ad.base)`（**bonus AD**；嵌套二元 `add(const 150, mul(const 0.65, sub(read …resolved, read …base)))`；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / secondary / channel / projectile / geometry / movement / powder trail / detonation 行；**不含** E True Grit / `true_grit_stacks` / `bonus_armor` / `bonus_magic_resist`。**Q 无 ability-specific game-local type**，不新增 Q 专用 62xxx type、不写 `type_relations`。Q/E isolation：test-only composition of independent graphs；Q does not alter True Grit；E produces no Q damage；Do not copy E into this seed。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Immediate selected-primary-champion first-outbound-pass physical hit 为 Phase-A scaffold，不是实际 cast time/direction/range/width/line/projectile/trail/detonation/second-pass/full-Q fidelity。Wiki：request `Template:Data Graves/Q` → resolved `Template:Data Graves/End of the Line`；page1307367 / rev4007501 / `2026-04-11T22:23:57Z` / canonical 2266 bytes / SHA256 `c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5`；sidecar `normalized/generic/graves-q.json` + pages sibling（Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 2265 / `cd2744fb1f28e54bd3b5e25b96cb1d21babc0583bfd8e854d55c15ed83df0377`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`base0/resolved0/armor0` raw/final150；`base60/resolved60/armor0` raw/final150；`base60/resolved160/armor0` raw/final215；same armor100 raw215/final107.5；`base60/resolved260/armor100` raw280/final140；`base0/resolved100` vs `base60/resolved160` at armor0 both raw/final215（bonusAD counterproof）；mana240/baseAD60/resolvedAD160/targetHP1000/armor100 在 t0/t5999/t6000 → success/cooldown skip/success、exactly two Q hits and automatic starts、readyAt6000、final mana80/HP785；mana79 → resource skip、unchanged mana/HP、no Q damage/start；Q/E isolation；standalone provider 不合成 P/E/W/R/basic。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：cast time/direction/range/width/line geometry；projectile speed/travel/pass-through/multiple targets；powder trail persistence and terrain/collision model；delayed 2s or terrain 0.2s detonation/perpendicular area/reverse wave/second-pass/total damage；once-per-pass gate/spellshield/Wind Wall/Braum terrain interactions；ranks1–4；P/E/W/R/basic/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/secondary/movement/geometry/trail/detonation/sibling；live migration；publish；E2E/live/full fidelity。One selected-target first-outbound-pass physical hit, not full Q。
+
+静态契约校验（不连 live DB；含邻近 Graves R/W physical/magic primary-impact、Graves E/P sibling-preservation，以及 Tristana W selected-primary salvage / check-only 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest,LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericGravesQuickdrawMaxStackSeedSqlTest,LolGenericGravesNewDestinySeedSqlTest,LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
