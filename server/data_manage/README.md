@@ -78,6 +78,21 @@
 
 更早的局部兼容迁移（如 `version_code_varchar64_compatibility_migration.sql`）仅在尚未完成 generic 切换的旧库上按需执行。
 
+### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
+
+`game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。
+
+**新库**：`schema.sql` 已含四表可空 `image_uri` 与命名 FK（`fk_game_entities_image` / `fk_game_entities_log_image` / `fk_attribute_definitions_image` / `fk_attribute_definitions_log_image`）。
+
+**已有库**：按需执行 `db/game_manage/migrations/compatibility/generic_combat_data_image_reference_compatibility_migration.sql`（幂等：`ADD COLUMN IF NOT EXISTS` + `DO $$` / `pg_constraint` 守卫；不 DELETE / DROP / CASCADE / 数据改写 / publish）。不要把该 migration 当作新库必跑步骤。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=GenericCombatDataImageReferenceDbContractSqlTest test
+```
+
 ### Guinsoo H+K 数据库合同（provider state / copyable / repeat）
 
 在 generic combat-data 基线已就绪的库上，为完整 Guinsoo H+K（状态字段上限与时长、伤害 `copyable_on_hit`、第十种 `repeat_effect_details`）补齐合同：
@@ -575,7 +590,7 @@ mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
 3. `db/game_manage/seeds/lol_generic_jaksho_voidborn_resilience_seed.sql`
 4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-jaksho-voidborn-resilience-v1-20260715`（seed 不负责 publish）。受控 partial：`provider_item_6665_jaksho_voidborn_resilience` 仅挂 `item_6665`。
+建议发布版本：`lol-generic-jaksho-voidborn-resilience-v1-20260715`（seed 不负责 publish）。Seed 侧保持 item-owned 合同：`provider_item_6665_jaksho_voidborn_resilience` 仅挂 `item_6665`；2026-07-21 跨层 target-loadout + bonus 抗性投影已完成，但仍未执行 live migration / publish。
 
 该 seed 会：锁定 `game_data_state`；校验所需 reserved 与 `hp`/`armor`/`magic_resist`；幂等投影 reserved → `types`；ensure `bonus_armor`/`bonus_magic_resist` 属性定义；写入 `item_6665` 静态 `hp=350` / `armor=45` / `magic_resist=45`；ensure game-local `62011` / `tag/loadout_equipment`（`reserved_type_id=NULL`，双向 collision fail-closed）并幂等 `type_relations` → `entity/item_6665`（Wiki current-items / source item 6665 / revid 4030984 / content SHA；role `loadout_equipment`）；挂载 passive provider，含 untimed `full_stack`（max1，runtime 默认 0）、lifecycle `tick_interval_ms=5000` / `start_delay_ms=5000`、`provider_tick_sequences` 单步 `state_change` override/set `full_stack=1`（重复 tick 幂等），以及两条 owner-self `value_policy/add` modifier：`0.30 * max(0, $owner.attr.bonus_*.resolved) * provider.state.full_stack`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
 
@@ -615,6 +630,73 @@ mvn -Dtest=LolGenericJakshoVoidbornResilienceSeedSqlTest test
 ```bash
 cd server/data_manage
 mvn -Dtest=LolGenericWikiReadyItemsSeedSqlTest test
+```
+
+### LoL generic Kayle Radiant Blast seed（耀焰冲击 Q / Phase-A rank-5 主目标边界完成）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`ap`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_kayle` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 Q active；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20113`/`20120`/`20130`/`20142`/`20150`/`20160`/`20170`/`20172`/`20173`/`20190`/`20221`/`20252`/`20260`）
+2. `db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-kayle-radiant-blast-v1-20260720`（seed 不负责 publish）。候选 `hero_skill|hero_kayle|Q|耀焰冲击` 整体语义为本任务冻结的 **Phase-A rank-5 主目标边界完成 / full boundary**：100 mana / 8000ms CD / magic `180 + 0.60*bonus AD + 0.50*AP`，伤害后 `kayle_q_sundered` 目标护甲/魔抗各 `percent_add -15%`（4000ms / refresh_on_write）。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；fail-closed 冲突的既有 modifier/ability 绑定；ensure `hero_kayle`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp670 / mana330 / ad50 / ap0 / AS0.625 / armor26 / MR22 / hpregen5 / manaregen8；自包含 bootstrap，溯源 Module:ChampionData/data rev `4042886`，**不作** Q 完成证据）、`resource_definitions.mana` 与 `entity_resource_values`（330/330）；向 `hero_kayle` 独占 mount `provider_hero_kayle_radiant_blast`，含 `provider_target` 态 `kayle_q_sundered`、两条 target `percent_add` 击碎 modifier、active `ability_hero_kayle_q_radiant_blast`（`ability_key=radiant_blast`）、`ability_costs` 100 mana、`ability_cooldowns` 8000ms、impact 两步（magic damage → source-owned state override=1）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。Q 机制数值注释引用 League Wiki `Template:Data Kayle/Radiant Blast` rev `4005105` / contentSha256 `ded516de4861d88de21ba54de9a8723b654f424f1cc3f9dac30d06382ee1a87c`（`kayle-q.json`）。
+
+**排除**：减速/控制、弹道/施法延迟、多目标/十字扩张、其它 rank、死亡后持续、listener / production probe、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKayleRadiantBlastSeedSqlTest test
+```
+
+### LoL generic Graves New Destiny seed（格雷福斯 P 新命运 / Phase-A point-blank 边界完成）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`/`champion_level`/`crit_chance`/`crit_damage`）已就绪后，按顺序执行（**自包含** ensure `hero_graves` 最低必要实体/Wiki level-1 面板/mana 资源 + 普攻图；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20170`/`20172`/`20211`/`20220`/`20252`/`20260`/`20264`/`20265`/`20266`/`20269`/`20277`/`20279`/`20280`）
+2. `db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-graves-new-destiny-v1-20260720`（seed 不负责 publish）。候选 `hero_skill|hero_graves|P|新命运` 整体语义为本任务冻结的 **Phase-A point-blank 最大弹丸合并边界完成 / full boundary**：单次物理伤害 `AD * F(x) * (1 + 3*s)`（`s=0.33302`，`F(x)=0.6895 + 0.01765*x*(0.595 + 0.0225*(x-1))`），`crit_eligible=true`，以及 source-owned `basic_damage` 管道 natural/forced 暴击乘区 `value_policy/override`：`((1 + 5*s) / (1 + 3*s)) * (1 + 0.5*(crit_damage.resolved - 1))`。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`（fail-closed 冲突；正确元数据不覆盖）；fail-closed ensure game-local `62003 ability/basic_attack` 并关联 `ability_hero_graves_basic_attack`；ensure `hero_graves`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 Wiki-only level-1 面板（hp625 / mana325 / ad66 / AS0.475 / armor33 / MR30 / hpregen8 / manaregen8；溯源 Module:ChampionData/data rev `4042886` / SHA256 `98094d20…`，**不作** P 机制完成证据）、`resource_definitions.mana` 与 `entity_resource_values`（325/325）、`champion_level` scalar 1..18、运行时 EAV `crit_chance=0` / `crit_damage=2.0`（非 P 数值真理）；向 `hero_graves` 独占 mount `provider_hero_graves_new_destiny`（拥有 `ability_hero_graves_basic_attack`），impact 两步（merged physical damage → `emit_event(event/basic_attack_hit)`），伤害与 emit 均为 `copyable_on_hit=false`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。P 机制数值注释仅引用 League Wiki `Template:Data Graves/New Destiny` rev `4038342` / contentSha256 `553bda22…`（`graves-p.json` / `reviewed-contracts.json#graves-p`）；不以 DDragon / Meraki / 截图 / OCR 作为机制真理。
+
+**已完成边界**：点空白合并物理普攻、natural+forced 暴击乘区 override、`ability/basic_attack` 类型关系、唯一 `basic_attack_hit` emit。
+
+**排除**：装填/节奏、弹丸实例、弹道/距离、多目标、on-hit 重放、建筑/守卫、生命偷取、击退、RNG、英雄特化 runtime 代码、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericGravesNewDestinySeedSqlTest test
+```
+
+### LoL generic Graves Quickdraw max-stack seed（格雷福斯 E 快速拔枪 / Phase-A 满层 True Grit）
+
+在 reserved types 与基线面板 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_graves` 最低必要实体/Wiki level-1 面板/mana 资源，并按 Jak'Sho/wiki-ready 模式 ensure `bonus_armor`/`bonus_magic_resist` + hero EAV=0；**不**覆盖既有 Graves P 图；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20142`/`20160`/`20170`/`20172`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_generic_graves_quickdraw_max_stack_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-graves-quickdraw-max-stack-v1-20260720`（seed 不负责 publish）。候选 `hero_skill|hero_graves|E|快速拔枪` 整体语义为用户批准的 **Phase-A rank-5 最大 True Grit 满层近似**：施法 impact 以 `value_policy/override` 直接写入 `true_grit_stacks=8`（max8 / untimed），四条 owner-self flat-add：`armor`/`bonus_armor` = `19 * provider.state.true_grit_stacks`，`magic_resist`/`bonus_magic_resist` = `9.5 * provider.state.true_grit_stacks`（满层 +152 / +76）；mana 40、CD 12000ms。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 面板属性定义；幂等投影 reserved → `types`（fail-closed 冲突；正确元数据不覆盖）；ensure `hero_graves`（`ON CONFLICT DO NOTHING`）与 Wiki-only level-1 面板（hp625 / mana325 / ad66 / AS0.475 / armor33 / MR30 / hpregen8 / manaregen8；溯源 Module:ChampionData/data rev `4042886` / SHA256 `98094d20…`，**仅 bootstrap**，与 E 机制真理分离）、mana 325/325、`bonus_armor`/`bonus_magic_resist` 定义与 EAV=0；向 `hero_graves` 独立 mount `provider_hero_graves_quickdraw_max_stack`（拥有 `ability_hero_graves_quickdraw`），**不**写入/重挂 `provider_hero_graves_new_destiny` / `ability_hero_graves_basic_attack`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。E 机制数值注释仅引用 League Wiki `Template:Data Graves/Quickdraw` rev `4007744` / contentSha256 `ff4c65c5…`（`graves-e.json`）；不以 DDragon / Meraki / 截图 / OCR 作为机制真理。
+
+**已完成边界**：直接满层 True Grit 写入、四条解析抗性加成、主动技能 cost/CD、独立 E provider mount。
+
+**排除**：伤害、装填/弹药、普攻重置、弹丸减 CD、冲刺几何、方向判定、瞄准/碰撞/多目标、计时刷新/过期、中间叠层、live migration、publish。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericGravesQuickdrawMaxStackSeedSqlTest test
 ```
 
 ### LoL generic Graves Smoke Screen primary-hit seed（格雷福斯 W / Phase-A v2 主目标 impact）
@@ -1111,21 +1193,21 @@ cd server/data_manage
 mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
 ```
 
-### LoL generic Xayah Deadly Plumage seed（逆羽 W / rank-5 攻速窗 partial）
+### LoL generic Xayah Deadly Plumage seed（逆羽 W / Phase-A rank-5 1v1 + ability-type listener isolation）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_xayah` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与未来普攻 / feather / Q provider 并存，不重建/替换；不做 live migration、不自动 publish）：
 
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20171`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`/`20264`/`20265`/`20266`/`20267`/`20269`）
 2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`
 3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-xayah-deadly-plumage-v1-20260716`（seed 不负责 publish）。候选整体语义 **partial**：40 mana / 14s CD / 4s +55% AS。
+建议发布版本：`lol-generic-xayah-deadly-plumage-v1-20260716`（seed 不负责 publish）。候选整体语义为已批准 **Phase-A rank-5 1v1 边界完成**：40 mana / 14s CD / 4s +55% AS，以及 W 激活期间 source-owned `basic_damage` pipeline multiply `1 + 0.25 * provider.state.deadly_plumage_active`（条件排除 `damage.trait.on_hit` / `damage.trait.proc`；合并普攻倍率，非第二伤害实例）。
 
-**Ability-type listener isolation（必选校正）**：Web 把非空 `provider_listeners.ability_id` 映射为 `ListenerDefinition.abilityRef`，runtime 会把已填充 AbilityRef 当作 `castAbilityAt` 子施法，而不是事件过滤。因此本 seed 将 W listener 的 `ability_id` 置为 `NULL`，并 fail-closed ensure game-local `62012 ability/xayah_deadly_plumage`（`reserved_type_id=NULL`；双向 id↔key collision guards；同 Hexplate `62010` ability-specific type 模式），写入 `type_relations(lol,62012,'ability','ability_hero_xayah_w_deadly_plumage',...)`（在 listener matching 前物化，参与 material-change-only revision），并为 ALL matcher 保留 `20205 ability_started` + `20212 source_owner` 且新增 `62012`。不得把该 type 写入 `ability_kind_type_id`，不新增 AbilityRef。本校正**不**改变 W partial 分类，也**不**改变既有 W 数值/state/formula/modifier/sequence/cost/CD/provider/ability/mount 身份。
+**Ability-type listener isolation（必选校正）**：Web 把非空 `provider_listeners.ability_id` 映射为 `ListenerDefinition.abilityRef`，runtime 会把已填充 AbilityRef 当作 `castAbilityAt` 子施法，而不是事件过滤。因此本 seed 将 W listener 的 `ability_id` 置为 `NULL`，并 fail-closed ensure game-local `62012 ability/xayah_deadly_plumage`（`reserved_type_id=NULL`；双向 id↔key collision guards；同 Hexplate `62010` ability-specific type 模式），写入 `type_relations(lol,62012,'ability','ability_hero_xayah_w_deadly_plumage',...)`（在 listener matching 前物化，参与 material-change-only revision），并为 ALL matcher 保留 `20205 ability_started` + `20212 source_owner` 且新增 `62012`。不得把该 type 写入 `ability_kind_type_id`，不改变 W 分类，不新增 AbilityRef。保留既有 W 数值/state/formula/modifier/cost/CD/provider/ability/mount 身份。
 
-该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；fail-closed ensure 上述 `62012`；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + `ability/xayah_deadly_plumage` ALL listener 武装 active=1（override；`ability_id IS NULL`），以及 AS `percent_add` `0.55 * provider.state.deadly_plumage_active`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。数值注释引用 Meraki/Riot latest `Xayah.json`。
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；fail-closed ensure game-local `62006 damage_trait/on_hit` 与 `62009 damage_trait/proc`（`reserved_type_id=NULL`）以及上述 `62012`；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25；自包含 bootstrap，非 Wiki W 数值真理）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather / Q providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + `ability/xayah_deadly_plumage` ALL listener 武装 active=1（override；`ability_id IS NULL`）、AS `percent_add` `0.55 * provider.state.deadly_plumage_active`，以及 pipeline modifier `modifier_hero_xayah_w_deadly_plumage_basic_damage`（kind `20264` / command `20265` / channel `20266` / bucket `20269` / stage `20267` / multiply `20171`）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。W 机制数值注释引用 League Wiki `Template:Data Xayah/Deadly Plumage` rev `4010669` / contentSha256 `09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7`（`xayah-w.json`）；不以 Meraki / DataDragon 作为 W 数值真理。
 
-**排除 / remaining gap**：次级羽刃（需按已结算真实普攻复制 20% original attack damage，排除 on-hit / phantom；本 seed **不伪造**）、移速、Rakan/洛联动（OOS）、其它 rank、live migration、publish、`single_attacker_dps`。
+**排除**：移速、Rakan/洛联动、多目标/Runaan、projectile/in-flight/ward/blind/dodge/block 细节、独立次级羽刃 missile / 第二伤害操作、其它 rank、live migration、publish、完整技能保真。
 
 静态契约校验（不连 live DB）：
 
@@ -1426,6 +1508,35 @@ Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `ap_ratio` 
 ```bash
 cd server/data_manage
 mvn -Dtest=LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericTeemoBlindingDartSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericKogmawVoidOozePrimaryHitSeedSqlTest,LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest test
+```
+
+### LoL generic Kalista Pierce primary-hit seed（卡莉丝塔 Q / Phase-A v1 主冠军第一敌人命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_kalista)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_kalista,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_kalista,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Kalista ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 Q active；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_kalista_pierce_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-kalista-pierce-primary-hit-phase-a-v1-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_kalista|Q|穿刺`（task `wasm-generic-kalista-pierce-primary-hit`）冻结为 **Phase-A rank-5 立即主冠军第一敌人物理命中 impact scaffold**（`FROZEN_PLAN_REV=kalista-q-pierce-primary-hit-phase-a-v1`）：
+
+`rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `immediate_impact_scaffold`。
+
+不加第四个 total AD 比率标签（Jinx W / Jhin W 同例：比率进入公式，不进 ordered tags）。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_kalista` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_kalista` **仅** mount 独立 `provider_hero_kalista_q_pierce_primary_hit`（standalone；不创建/突变 P/W/E/R/basic），含 active `ability_hero_kalista_q_pierce_primary_hit`（`ability_key=pierce_primary_hit`）、`ability_costs` 80 mana、`ability_cooldowns` 9000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `270 + 1.05*source.attr.ad.resolved`（**total AD**，直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；二元 `add(const 270, mul(const 1.05, read …))`；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / collision / spell-shield / kill-continuation / Rend-transfer / movement / dash 行。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Wiki：request `Template:Data Kalista/Q` → resolved `Template:Data Kalista/Pierce`；page1307666 / rev3997075 / `2026-03-06T15:53:18Z` / canonical 1625 bytes / SHA256 `90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67`；sidecar `normalized/generic/kalista-q.json` + pages sibling。**local raw materialization caveat**：仓库 local raw 1623 / `0b8dd9cf9b40aae52fb6180ecabae7e459970f2f7c4d05711463df25fdbd1c94`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`(AD0,A0)=(270,270)`；`(AD0,A100)=(270,135)`；`(AD100,A0)=(375,375)`；`(AD100,A100)=(375,187.5)`；`(AD200,A100)=(480,240)`；mana240/HP1000/AD100/armor100 在 t0/t8999/t9000 → 两次成功 + 一次 cooldown skip、两笔 Q damage、final mana80/HP625、两次自动 Q `ability_started`；mana79 → resource skip、不变、无 Q damage/event；standalone provider 不合成 P/W/E/R/basic。
+
+**排除**：cast timing / Effect at cast time end；Martial Poise / dash cancel；direction/range/width/line geometry；multitarget/first-enemy acquisition/collision；projectile/interception/spell shield；kill continuation / Rend stack transfer；ranks1–4；P/W/E/R/basic/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/collision/spell-shield/kill/Rend/movement/dash；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB；含邻近 total-AD Jinx W / Jhin W）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericKalistaPiercePrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest test
 ```
 
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
