@@ -1270,6 +1270,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit",
+      "title": "通用 ABI 凯特琳 Q 和平使者 Piltover Peacemaker 首个敌人命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_caitlyn_piltover_peacemaker_first_enemy_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_caitlyn|Q|和平使者 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Caitlyn/Q→Piltover Peacemaker page1306911/rev4007583/timestamp2026-04-12T06:47:12Z/canonical raw1841/SHA256 6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf；sidecar caitlyn-q.json+pages权威；本地raw1838/SHA93da3009…0b9a（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity。Rank5：75mana/6000ms；immediate primary-champion first-enemy full physical hit scaffold；一笔非暴击/不可复制物理210+2.05*source.attr.ad.resolved（直接total AD读取；不得减base/不得称bonus AD；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉(AD0,A0)=(210,210)；(AD0,A100)=(210,105)；(AD100,A0)=(415,415)；(AD100,A100)=(415,207.5)；(AD200,A100)=(620,310)；mana225/HP1000/AD100/armor100 t0/t5999/t6000 success/skip/success两笔Q damage final mana75/HP585两次自动Q ability_started；mana74 resource skip不变。standalone与Caitlyn E隔离；不合成Batch-B/sibling Caitlyn；Backend无repository-owned hero_caitlyn/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/immediate_impact_scaffold（无total-AD tag）。DESIGN_READY run-34ad42ca（strict grok-4.5/high/fast=false；967events/43complete tool groups；runDelta0/diff0；无truncation/user decision；NB-BOUNDARY-TOKEN非阻塞）。Backend初始run-ba1d21cf delta3/outside0；862events/35complete groups——主审查发现Effect at cast time end证据漂移，接受前纠正；纠正owning b5ef446（run-bf0f077e delta3/outside0；437events/23complete groups；exact end→start机械纠正；主会话adjacent45/45+full866/866；seed SHAF4D3F06F…A9DBA；JUnit SHA009B90AF…CED5C）/镜像245a111（run-5ae9e64e delta3/outside0；392parseable/2complete tool groups；三文件精确parity）。Wasm exact 0fe29e7（run-3d21efe6 delta1/outside0；884events/32complete groups；focused+full Go+bench+TinyGo+Node PASS；Built与独立Web worktree资产1,169,377/SHA65A4…C6A0同步不变；无Web写入）。审计8afb881（run-f6331084 delta6/outside0；1174events/70complete groups；主会话重跑两生成器/四checks/HEAD语义比较；Registry/Batch-G/G8/Unified PASS；仅Caitlyn Q语义对象变化；稳定order/keys）。Unified254：sourceCount12/completed86/partial_actionable0/ready0/blocked_runtime87/blocked_data3/OOS72/regression5/stale1；full86/partial3/none165；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated76/partial4/blocked93/OOS69/inScope173；implementation_gap=70；actionableKeyCount=0为当前事实非停工条件。治理tasks=99。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Piltover Peacemaker/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-凯特琳Q-和平使者首个敌人命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-凯特琳Q-和平使者首个敌人命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
