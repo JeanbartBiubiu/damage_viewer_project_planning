@@ -1350,6 +1350,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-tristana-buster-shot-primary-hit",
+      "title": "通用 ABI 崔丝塔娜 R 毁灭射击 Buster Shot 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_tristana_buster_shot_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_tristana|R|毁灭射击 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Tristana/R→Buster Shot page1308525/rev4008205/timestamp2026-04-14T05:37:16Z/canonical raw2385/SHA256 2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058；sidecar tristana-r.json+pages权威；本地raw2382/SHA42e07f07…8c7b（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity。Rank3：100mana/100000ms；immediate selected-primary-champion single magic hit scaffold；一笔非暴击/不可复制魔法命中325+0.70*(source.attr.ad.resolved-source.attr.ad.base)+1.00*source.attr.ap.resolved（精确嵌套二元树；显式bonus AD减法；type20221/add20170；无显式event op）；成功施放自动一次ability_started；零R state/modifier/listener/matcher/repeat/control/knockback/stun/reveal/displacement/terrain/geometry/Explosive Charge。交叉base0/resolved0/AP0/MR0 raw/final325；base60/resolved60/AP0/MR0 raw/final325；base60/resolved160/AP0/MR0 raw/final395；base60/resolved160/AP100/MR0 raw/final495；base60/resolved160/AP100/MR100 raw495/final247.5；base60/resolved260/AP200/MR100 raw665/final332.5；base0/resolved100与base60/resolved160在AP100/MR0下均raw/final495（bonus-AD减法证明）；mana300/baseAD60/resolvedAD160/AP100/HP1000/MR100 t0/t99999/t100000 success/skip/success两笔R damage final mana100/HP505两次自动R ability_started；mana99 resource skip不变。standalone；不依赖Tristana P/Q/W/E/Explosive Charge；不合成Batch-B/sibling Tristana；Backend无repository-owned hero_tristana/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold。恰好一次选定目标魔法命中，不是完整R。有效DESIGN_READY run-1aebb169（strict model；1278events/57/57complete tool groups；runDelta0/diff0；无truncation/mutation；三条非阻塞笔记已接受）。Backend owning 8b98bcb（run-7b7557fb delta3/outside0；938events；Cursor/主focused9/adjacent53/full911 PASS；seed SHA4481b2ac…9558；JUnit SHA1d929006…70d9；README SHA17729acf…2519）/镜像30209c4（run-34e8effd delta3/outside0；476events；精确parity）。Wasm exact b4d10e4（run-3b606ac5 delta1/outside0；986events；gofmt clean；focused7/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受c078ae7（run-d543c652 delta8/outside0；1410parseable/135complete tool groups；零truncation；主五检查通过；首次语义比较helper在checks后命中本地Node ENOBUFS——nonblocking local tooling caveat；更大buffer重跑证明仅Tristana R语义变化；provisional仅移除Tristana R；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed91/partial_actionable0/ready0/blocked_runtime82/blocked_data3/OOS72/regression5/stale1；full91/partial3/none160；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated81/partial4/blocked88/OOS69/inScope173；implementation_gap=65；provisional85=runtime82/data3/hero83/item2；actionableKeyCount=0为当前事实非停工条件。治理tasks=105。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Buster Shot/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-崔丝塔娜R-毁灭射击主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-崔丝塔娜R-毁灭射击主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
