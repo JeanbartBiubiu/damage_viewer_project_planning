@@ -1568,6 +1568,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericKalistaPiercePrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Lucian Piercing Light selected-target-hit seed（卢锡安 Q / Phase-A v1 主冠军选定目标命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_lucian)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_lucian,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_lucian,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Lucian ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 Q active；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_lucian_piercing_light_selected_target_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-lucian-piercing-light-selected-target-hit-phase-a-v1-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_lucian|Q|透体圣光`（task `wasm-generic-lucian-piercing-light-selected-target-hit`）冻结为 **Phase-A rank-5 立即主冠军选定目标物理命中 impact scaffold**（`FROZEN_PLAN_REV=lucian-q-piercing-light-selected-target-hit-phase-a-v1`）：
+
+`rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_lucian` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_lucian` **仅** mount 独立 `provider_hero_lucian_q_piercing_light_selected_target_hit`（standalone；不创建/突变 P/W/E/R/basic），含 active `ability_hero_lucian_q_piercing_light_selected_target_hit`（`ability_key=piercing_light_selected_target_hit`）、`ability_costs` 80 mana、`ability_cooldowns` 5000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `220 + 1.00*(ad.resolved-ad.base)`（**bonus AD**，二元 `add(const 220, mul(const 1.00, sub(read …resolved, read …base)))`；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / AOE / geometry / buffer / lockout / death / sibling 行。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Wiki：request `Template:Data Lucian/Q` → resolved `Template:Data Lucian/Piercing Light`；page1308176 / rev3982579 / `2026-01-09T09:22:29Z` / canonical 1608 bytes / SHA256 `d7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981`；sidecar `normalized/generic/lucian-q.json` + pages sibling。**local raw materialization caveat**：仓库 local raw 亦 1608 / `cd65b80f0580f0e4833028791bba2331a321366307b8c35f7fc28fe06c1f06c1`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`base60/resolved60/armor0` raw/final220，armor100 final110；`base60/resolved160/armor0` raw/final320，armor100 final160；`base60/resolved260/armor100` raw420/final210；mana240/base60/resolved160/HP1000/armor100 在 t0/t4999/t5000 → 两次成功 + 一次 cooldown skip、两笔 Q damage、两次自动 Q `ability_started`、final mana80/HP680；mana79 → resource skip、不变、无 Q damage/event evidence；standalone provider 不合成 P/W/E/R/basic。
+
+**排除**：cast timing / target lead or dodge；direction/target range/range/width/line geometry；multitarget/AOE/spell shield；buffered W or R / E lockout；initial target death early end；ranks1–4；P/W/E/R/basic/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/AOE/geometry/buffer/lockout/death/sibling；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB；含邻近 bonus-AD immediate Varus E / Quinn Q，以及近期 check-only Caitlyn Q / Kalista Q）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest,LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest,LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest,LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest,LolGenericKalistaPiercePrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
