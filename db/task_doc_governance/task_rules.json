@@ -1302,6 +1302,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-lucian-ardent-blaze-primary-hit",
+      "title": "通用 ABI 卢锡安 W 热诚烈弹 Ardent Blaze 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_lucian_ardent_blaze_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_lucian|W|热诚烈弹 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Lucian/W→Ardent Blaze page1308178/rev3594941/timestamp2023-09-12T19:08:23Z/canonical raw2542/SHA256 b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5；sidecar lucian-w.json+pages权威；本地raw2542/SHAa57b0e49…2236（local raw materialization caveat；相等size不是字节等价；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity。Rank5：60mana/10000ms；immediate primary-champion single magic hit scaffold；一笔非暴击/不可复制魔法215+0.90*source.attr.ap.resolved（type20221/add20170；无显式event op）；成功施放自动一次ability_started；零W state/modifier/listener/geometry/AOE/mark/movement-speed。交叉AP0/MR0 raw/final215；AP0/MR100 raw215/final107.5；AP100/MR0 raw/final305；AP100/MR100 raw305/final152.5；AP200/MR100 raw395/final197.5；mana180/AP100/HP1000/MR100 t0/t9999/t10000 success/skip/success两笔W damage final mana60/HP695两次自动W ability_started；mana59 resource skip不变。standalone；不依赖Lucian Q；不合成Batch-B/sibling Lucian；Backend无repository-owned hero_lucian/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold。有效DESIGN_READY run-d01cb420（strict grok-4.5/high/fast=false；1294events/54complete tool groups；runDelta0/diff0；无truncation/blocker/nonblocking/user decision）。Backend owning 2b29c4e4（run-b2d06b00 delta3/outside0；1180events/45complete tool groups；Cursor focused9/adjacent36/full884 PASS；主focused9+adjacent Lucian W/Q+Caitlyn E+Graves W各9+full884 failures/errors/skips0；seed SHAe9f8f30a…3942；JUnit SHA8f5ca7ab…5466；README SHA54f0dfca…2396）/镜像7e8a40c2（run-5fa6889a delta3/outside0；669events/6complete tool groups；三文件精确parity含三hashes）。Wasm exact d57dc3bd（run-5f46f27b delta1/outside0；1052events/58complete tool groups；gofmt clean；七个focused top-level+full Go+bench+TinyGo+Node smoke+generic benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；根目录误cwd focused失败已纠正为nonblocking validation-invocation note非实现失败）。审计接受98fb3e8d（run-ddd6a776 delta6/outside0；1469parseable/81/81complete tool groups；零truncation；主会话重跑两生成器+registry+Batch-G；registry242仍migrated48/partial5/blocked120/OOS69；仅Lucian W语义对象变化；coverageRecords零语义变化；三处source hash机械刷新；稳定order/keys；先前completed/migrated锁定）。Unified254：sourceCount12/completed88/partial_actionable0/ready0/blocked_runtime85/blocked_data3/OOS72/regression5/stale1；full88/partial3/none163；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated78/partial4/blocked91/OOS69/inScope173；implementation_gap=68；actionableKeyCount=0为当前事实非停工条件。治理tasks=101。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Ardent Blaze/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卢锡安W-热诚烈弹主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卢锡安W-热诚烈弹主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
