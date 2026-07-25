@@ -663,6 +663,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_graves_collateral_damage_primary_hit_seed.sql',
   gravesEndOfTheLineFirstOutboundPassBackend:
     'db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql',
+  sennaLastEmbraceFirstEnemyHitBackend:
+    'db/game_manage/seeds/lol_generic_senna_last_embrace_first_enemy_hit_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
   ezrealArcaneShiftPrimaryHitBackend:
@@ -806,6 +808,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_collateral_damage_primary_hit_test.go',
   gravesEndOfTheLineFirstOutboundPass:
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_end_of_the_line_first_outbound_pass_test.go',
+  sennaLastEmbraceFirstEnemyHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_senna_last_embrace_first_enemy_hit_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
   ezrealArcaneShiftPrimaryHit:
@@ -2497,6 +2501,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-graves-end-of-the-line-first-outbound-pass',
           SEED.gravesEndOfTheLineFirstOutboundPassBackend,
           'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity; backend lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql + LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest (owning 9294292; integrated a54cf6f); Wasm exact test commit c16107e; external existing-data/check-only prerequisites (hero_graves/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Graves synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_senna|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_senna W 无尽厮守/Last Embrace：Wiki request Template:Data Senna/W → resolved Template:Data Senna/Last Embrace；page1409576 / rev4009139 / timestamp 2026-04-15T21:34:10Z / canonical bytes1656 / SHA256 48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492（normalized/generic/senna-w.json plus pages sibling are authority）rank5 Phase-A v2 已由 wasm-generic-senna-last-embrace-first-enemy-hit 闭环为 migrated——local raw caveat bytes1651 / SHA 737cc69b6ea13da8d61437e3da37a799cc2779bd56516d166af5890dc6090d5e（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；70 mana / 11000ms CD；immediate selected-primary-champion first-enemy single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 230, mul(const 0.90, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no W ability-specific type）（交叉校验 base0/resolved0/armor0 raw=final230；base60/resolved60/armor0 raw=final230；base60/resolved160/armor0 raw=final320；base60/resolved160/armor100 raw320/final160；base60/resolved260/armor100 raw410/final205；base0/resolved100 versus base60/resolved160 armor0 both320）。Attempts mana210/baseAD60/resolvedAD160/HP1000/armor100 at t0/t10999/t11000 → success/skip/success，exactly two W damage items；final mana70/HP680；exactly two automatic W ability_started；mana69 at t0 → resource skip with mana/HP unchanged and no W damage/event。Senna W provider is standalone；Backend has no repository-owned hero_senna / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Senna P/Q/E/R/basic dependence；不暗示 Batch-B 或 sibling Senna synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused68/full954 passed。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；exact test bytes62703 / SHA256 4a449fc09248fe7842b909a373edd5353d4fb1eed8831b655f9146bcd5696051；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity。明确排除 cast/effect-at-cast-time-end/direction/range/width/line/projectile/collision/acquisition、attachment/death spread/delayed root/root duration/surrounding AOE、untargetable/spellshield、other ranks/siblings/loadout/bootstrap/crit/onhit/live/full fidelity；this is exactly one selected-primary first-enemy physical hit, not full W；不宣称 cast/effect-at-cast-time-end/direction/range/line/projectile/collision/acquisition/attachment/death-spread/delayed-root/surrounding-AOE/untargetable/spellshield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_senna/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-senna-last-embrace-first-enemy-hit',
+          WASM.sennaLastEmbraceFirstEnemyHit,
+          'completedBoundary: rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Senna/W → Last Embrace; rev4009139/SHA256 48698aa2… / bytes1656; local raw caveat bytes1651/SHA 737cc69b… no equivalence claim; rank5 70 mana/11000ms CD / one physical 230+0.90*bonusAD via exact binary add(const230, mul(0.90, sub(ad.resolved,ad.base))); base0/resolved0/armor0=230; base60/resolved60/armor0=230; base60/resolved160/armor0=320; base60/resolved160/armor100 raw320/final160; base60/resolved260/armor100 raw410/final205; base0/resolved100 vs base60/resolved160 armor0 both320; damage 20220/add 20170; no 20230; no explicit event op; no W type; mana210/baseAD60/resolvedAD160/HP1000/armor100 t0/t10999/t11000 success/skip/success two W damage items final mana70/HP680 two automatic W ability_started; mana69 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit ebf7730 bytes62703/SHA 4a449fc0…; cast/effect-at-cast-time-end/direction/range/line/projectile/collision/acquisition/attachment/death-spread/delayed-root/surrounding-AOE/untargetable/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-senna-last-embrace-first-enemy-hit',
+          SEED.sennaLastEmbraceFirstEnemyHitBackend,
+          'completedBoundary: rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity; backend lol_generic_senna_last_embrace_first_enemy_hit_seed.sql + LolGenericSennaLastEmbraceFirstEnemyHitSeedSqlTest (owning c0c3090; integrated b90607b); Wasm exact test commit ebf7730; external existing-data/check-only prerequisites (hero_senna/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Senna synthesis; not live published',
         ),
       ],
     },
@@ -4654,9 +4688,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 84) errors.push(`migrated=${counts.migrated}, expected 84`);
+  if (counts.migrated !== 85) errors.push(`migrated=${counts.migrated}, expected 85`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 85) errors.push(`blocked=${counts.blocked}, expected 85`);
+  if (counts.blocked !== 84) errors.push(`blocked=${counts.blocked}, expected 84`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5207,6 +5241,164 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       gravesQ.candidateKey,
       gravesQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+
+  const sennaW = records.find((r) => r.candidateKey === 'hero_skill|hero_senna|W|无尽厮守');
+  const sennaWTags = [...(sennaW?.genericMechanismTags || [])];
+  const sennaWExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const sennaWReason = String(sennaW?.classificationReason || '');
+  const sennaWBoundary =
+    'rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_senna|W')) {
+    errors.push('Senna W exact override key hero_senna|W must exist before fallback');
+  }
+  if (
+    !sennaW
+    || sennaW.candidateKey !== 'hero_skill|hero_senna|W|无尽厮守'
+    || sennaW.passiveName !== '无尽厮守'
+    || sennaW.genericClassification !== 'migrated'
+    || String(sennaW.remainingGap || '').trim()
+    || (sennaW.dataGapEvidence?.missingFields || []).length !== 0
+    || sennaWTags.join('|') !== sennaWExpectedTags.join('|')
+    || sennaWTags.includes('multi_target_or_area')
+    || sennaWTags.includes('meta_or_non_target_dps')
+    || sennaWTags.includes('dps_relevant_manual_review')
+    || sennaWTags.includes('primary_damage_branch_salvage')
+    || sennaWTags.includes('total_ad_ratio')
+    || !sennaWTags.includes('bonus_ad_ratio')
+    || !sennaWTags.includes('active_physical_damage')
+    || String(sennaW.remainingGap || '').includes('blocked_data')
+    || sennaWReason.includes('needs_manual_baseline')
+    || sennaWReason.includes('blocked_data')
+    || sennaWReason.includes('implementation_gap_no_unresolved_data_fields')
+    || sennaWReason.includes('multi_target_or_area')
+    || sennaWReason.includes('out_of_scope_for_single_target_dps')
+    || sennaWReason.includes('dps_relevant_manual_review')
+    || sennaWReason.includes('primary_damage_branch_salvage')
+    || sennaWReason.includes('depends on Senna')
+    || sennaWReason.includes('total AD；')
+    || sennaWReason.includes('total_ad_ratio')
+    || sennaWReason.includes('*totalAD')
+    || !sennaWReason.includes('4009139')
+    || !sennaWReason.includes(
+      '48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492',
+    )
+    || !sennaWReason.includes(
+      '737cc69b6ea13da8d61437e3da37a799cc2779bd56516d166af5890dc6090d5e',
+    )
+    || !sennaWReason.includes('Template:Data Senna/W')
+    || !sennaWReason.includes('Template:Data Senna/Last Embrace')
+    || !sennaWReason.includes('page1409576')
+    || !sennaWReason.includes('bytes1656')
+    || !sennaWReason.includes('bytes1651')
+    || !sennaWReason.includes('2026-04-15T21:34:10Z')
+    || !sennaWReason.includes(sennaWBoundary)
+    || !sennaWReason.includes('source.attr.ad.resolved')
+    || !sennaWReason.includes('source.attr.ad.base')
+    || !sennaWReason.includes('exact binary formula')
+    || !sennaWReason.includes('bonus AD by explicit subtraction')
+    || !sennaWReason.includes('不得按 total-AD 直读')
+    || !sennaWReason.includes('230')
+    || !sennaWReason.includes('0.90')
+    || !sennaWReason.includes('70 mana')
+    || !sennaWReason.includes('11000')
+    || !sennaWReason.includes('20220')
+    || !sennaWReason.includes('20170')
+    || !sennaWReason.includes('no 20230')
+    || !sennaWReason.includes('no explicit event op')
+    || !sennaWReason.includes('no W ability-specific type')
+    || !sennaWReason.includes('base0/resolved0/armor0 raw=final230')
+    || !sennaWReason.includes('base60/resolved60/armor0 raw=final230')
+    || !sennaWReason.includes('base60/resolved160/armor0 raw=final320')
+    || !sennaWReason.includes('base60/resolved160/armor100 raw320/final160')
+    || !sennaWReason.includes('base60/resolved260/armor100 raw410/final205')
+    || !sennaWReason.includes('base0/resolved100 versus base60/resolved160')
+    || !sennaWReason.includes('t10999')
+    || !sennaWReason.includes('t11000')
+    || !sennaWReason.includes('mana210')
+    || !sennaWReason.includes('mana69')
+    || !sennaWReason.includes('HP680')
+    || !sennaWReason.includes('ability_started')
+    || !sennaWReason.includes('standalone')
+    || !sennaWReason.includes('external existing-data/check-only')
+    || !sennaWReason.includes('identity/panel/resource')
+    || !sennaWReason.includes('不暗示 Senna P/Q/E/R/basic dependence')
+    || !sennaWReason.includes('不暗示 Batch-B')
+    || !sennaWReason.includes('sibling Senna synthesis')
+    || !sennaWReason.includes('production runtime/ABI/Web change')
+    || !sennaWReason.includes('focused68/full954')
+    || !sennaWReason.includes('62703')
+    || !sennaWReason.includes(
+      '4a449fc09248fe7842b909a373edd5353d4fb1eed8831b655f9146bcd5696051',
+    )
+    || !sennaWReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !sennaWReason.includes('不宣称')
+    || !sennaWReason.includes('no equivalence or contradiction claim')
+    || !sennaWReason.includes('exactly one selected-primary first-enemy physical hit')
+    || sennaWReason.includes('canonical byte equivalence')
+    || sennaWReason.includes('Batch-B prerequisite')
+    || sennaWReason.includes('live published')
+    || !String(sennaW.sourceRef || '').includes('senna-w.json')
+    || !String(sennaW.sourceRef || '').includes(
+      '48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492',
+    )
+    || sennaW.auditBaseline?.gapCode !== 'blocked_data'
+    || sennaW.auditBaseline?.resolvedBucket !== 'blocked'
+    || sennaW.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(sennaW.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || sennaW.classification !== 'out_of_scope_for_single_target_dps'
+    || !(sennaW.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(sennaW.classificationReason)
+    || !(sennaW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.sennaLastEmbraceFirstEnemyHit
+        && e.taskKey === 'wasm-generic-senna-last-embrace-first-enemy-hit'
+        && String(e.note || '').includes(sennaWBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('ebf7730')
+        && String(e.note || '').includes('737cc69b')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no 20230')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('no W type')
+        && String(e.note || '').includes('exact binary')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(sennaW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.sennaLastEmbraceFirstEnemyHitBackend
+        && e.taskKey === 'wasm-generic-senna-last-embrace-first-enemy-hit'
+        && String(e.note || '').includes(sennaWBoundary)
+        && String(e.note || '').includes('LolGenericSennaLastEmbraceFirstEnemyHitSeedSqlTest')
+        && String(e.note || '').includes('c0c3090')
+        && String(e.note || '').includes('b90607b')
+        && String(e.note || '').includes('ebf7730')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Senna synthesis'),
+    )
+  ) {
+    errors.push(
+      'Senna W must be migrated with empty remainingGap/missingFields, exact Last Embrace ordered tags (no multi_target_or_area/primary_damage_branch_salvage; requires bonus_ad_ratio/active_physical_damage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/multi_target_or_area/auditBaseline provenance, Wiki rev4009139/SHA + local raw caveat + frozen completedBoundary, rank5 70mana/11000CD/one physical 230+0.90*bonusAD exact binary numerics (230/230/320/320→160/410→205; bonusAD counterproof; 20220/20170; no 20230; no W type; no explicit event op; t0/t10999/t11000 mana210→70/HP680 two damage/two ability_started; mana69 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused68/full954 + Wasm asset SHA, and bilateral wasm+backend evidence (owning c0c3090 / integrated b90607b / Wasm ebf7730; one selected-primary first-enemy physical hit not full W; no cast/effect-at-cast-time-end/direction/projectile/attachment/root/AOE/live claim)',
+    );
+  }
+  if (sennaW) {
+    validateBilateralCoverageEvidence(
+      sennaW.candidateKey,
+      sennaW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );

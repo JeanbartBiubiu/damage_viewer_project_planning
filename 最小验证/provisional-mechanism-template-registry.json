@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v2",
     "planRevision": "provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1",
-    "generatedAt": "2026-07-25T17:45:23.714Z",
+    "generatedAt": "2026-07-25T18:28:44.574Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "1764f4eb515781e4ace94a7d1da7d0b08e0d525ca19bb87b3fb86f2854bd5bbd",
-        "byteSize": 1073998
+        "sha256": "94cb11c70c38096b8a98cc9e2d6213a56b5448032782f7899eb48d86107cb1e6",
+        "byteSize": 1079652
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 82,
+    "templateCount": 81,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 79,
+      "blocked_runtime": 78,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 80,
+      "hero_skill": 79,
       "item_passive": 2
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 79,
+      "runtime_contract_placeholder": 78,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 94,
+      "completed": 95,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -4855,96 +4855,6 @@
         "wikiItemId": null,
         "wikiEffectSlots": [],
         "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/senna-r.json@rev4008033 sha256:4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "rank": null,
-        "resourceCost": null,
-        "cooldownMs": null,
-        "target": null,
-        "timing": null,
-        "formula": null,
-        "operationGraph": null,
-        "fixtures": [],
-        "completedBoundary": null,
-        "exclusions": []
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_senna|W|无尽厮守",
-      "inventoryOrdinal": 107,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_senna",
-      "skillKey": "W",
-      "passiveName": "无尽厮守",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "multi_target_or_area"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_senna|W|无尽厮守"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_senna|W|无尽厮守"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Senna",
-        "pageId": "senna-w",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/senna-w.json@rev4009139 sha256:48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492"
       },
       "templateState": "provisional_unverified",
       "templateKind": "runtime_contract_placeholder",
