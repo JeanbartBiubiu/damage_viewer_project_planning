@@ -639,6 +639,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_kalista_pierce_primary_hit_seed.sql',
   caitlynPiltoverPeacemakerFirstEnemyHitBackend:
     'db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql',
+  lucianPiercingLightSelectedTargetHitBackend:
+    'db/game_manage/seeds/lol_generic_lucian_piercing_light_selected_target_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -764,6 +766,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_kalista_pierce_primary_hit_test.go',
   caitlynPiltoverPeacemakerFirstEnemyHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_piltover_peacemaker_first_enemy_hit_test.go',
+  lucianPiercingLightSelectedTargetHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_piercing_light_selected_target_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -2080,6 +2084,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit',
           SEED.caitlynPiltoverPeacemakerFirstEnemyHitBackend,
           'completedBoundary: rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity; backend lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql + LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest (owning b5ef446; integrated 245a111); Wasm exact test commit 0fe29e7; external existing-data/check-only prerequisites (hero_caitlyn/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Caitlyn synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_lucian|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_lucian Q 透体圣光/Piercing Light：Wiki request Template:Data Lucian/Q → resolved Template:Data Lucian/Piercing Light；page1308176 / rev3982579 / timestamp 2026-01-09T09:22:29Z / canonical bytes1608 / SHA256 d7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981（normalized/generic/lucian-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-lucian-piercing-light-selected-target-hit 闭环为 migrated——local raw caveat bytes1608 / SHA cd65b80f0580f0e4833028791bba2331a321366307b8c35f7fc28fe06c1f06c1（canonical identity remains sidecar/pages；no equivalence or contradiction claim；equal size alone is not byte equality or source contradiction）；80 mana / 5000ms CD；immediate selected-target single physical hit scaffold；one selected immediate selected-target single noncritical/noncopyable physical damage operation 220 + 1.00 * (source.attr.ad.resolved - source.attr.ad.base)（bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no explicit event op）（交叉校验 base60/resolved60/armor0 raw=final220；base60/resolved160/armor0 raw=final320；base60/resolved160/armor100 raw320/final160；base60/resolved260/armor100 raw420/final210；runtime test also carries an explicit total-AD counterproof）。Attempts mana240/baseAD60/resolvedAD160/HP1000/armor100 at t0/t4999/t5000 → success/skip/success，exactly two Q damage items；final mana80/HP680；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Lucian Q is standalone；Backend has no repository-owned hero_lucian / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Lucian synthesis；不暗示任何 production runtime/ABI/Web change。completedBoundary：rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity。明确排除 cast timing、target lead/dodge、direction、target range、range/width/line geometry、multitarget/AOE、spell shield、buffered W or R、E lockout、initial-target-death early end、other ranks、other Lucian abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full Piercing Light/game fidelity；不宣称 cast/lead/dodge/direction/range/line/multitarget/AOE/spell-shield/buffer/E-lockout/early-end/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_lucian/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-lucian-piercing-light-selected-target-hit',
+          WASM.lucianPiercingLightSelectedTargetHit,
+          'completedBoundary: rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity; Wiki request Template:Data Lucian/Q → Piercing Light; rev3982579/SHA256 d7b03d15… / bytes1608; local raw caveat bytes1608/SHA cd65b80f… no equivalence claim; rank5 80 mana/5000ms CD / one physical 220+1.00*bonusAD via sub(ad.resolved,ad.base); base60/resolved60/armor0=220; base60/resolved160/armor0=320; base60/resolved160/armor100 raw320/final160; base60/resolved260/armor100 raw420/final210; total-AD counterproof; damage 20220/add 20170; no explicit event op; mana240/baseAD60/resolvedAD160/HP1000/armor100 t0/t4999/t5000 success/skip/success two Q damage items final mana80/HP680 two automatic Q ability_started; mana79 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit aaca359; cast/lead/dodge/direction/range/line/multitarget/AOE/spell-shield/buffer/E-lockout/early-end/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-lucian-piercing-light-selected-target-hit',
+          SEED.lucianPiercingLightSelectedTargetHitBackend,
+          'completedBoundary: rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity; backend lol_generic_lucian_piercing_light_selected_target_hit_seed.sql + LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest (owning bfc9d54; integrated 826cdad); Wasm exact test commit aaca359; external existing-data/check-only prerequisites (hero_lucian/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Lucian synthesis; not live published',
         ),
       ],
     },
@@ -4380,9 +4414,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 76) errors.push(`migrated=${counts.migrated}, expected 76`);
+  if (counts.migrated !== 77) errors.push(`migrated=${counts.migrated}, expected 77`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 93) errors.push(`blocked=${counts.blocked}, expected 93`);
+  if (counts.blocked !== 92) errors.push(`blocked=${counts.blocked}, expected 92`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -7669,6 +7703,141 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       caitlynQ.candidateKey,
       caitlynQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const lucianQ = records.find((r) => r.candidateKey === 'hero_skill|hero_lucian|Q|透体圣光');
+  const lucianQTags = [...(lucianQ?.genericMechanismTags || [])];
+  const lucianQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const lucianQReason = String(lucianQ?.classificationReason || '');
+  const lucianQBoundary =
+    'rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_lucian|Q')) {
+    errors.push('Lucian Q exact override key hero_lucian|Q must exist before fallback');
+  }
+  if (
+    !lucianQ
+    || lucianQ.candidateKey !== 'hero_skill|hero_lucian|Q|透体圣光'
+    || lucianQ.passiveName !== '透体圣光'
+    || lucianQ.genericClassification !== 'migrated'
+    || String(lucianQ.remainingGap || '').trim()
+    || (lucianQ.dataGapEvidence?.missingFields || []).length !== 0
+    || lucianQTags.join('|') !== lucianQExpectedTags.join('|')
+    || lucianQTags.includes('dps_relevant_manual_review')
+    || lucianQTags.includes('meta_or_non_target_dps')
+    || lucianQTags.includes('total_ad_ratio')
+    || !lucianQTags.includes('bonus_ad_ratio')
+    || String(lucianQ.remainingGap || '').includes('blocked_data')
+    || lucianQReason.includes('needs_manual_baseline')
+    || lucianQReason.includes('blocked_data')
+    || lucianQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || lucianQReason.includes('dps_relevant_manual_review')
+    || lucianQReason.includes('out_of_scope_for_single_target_dps')
+    || lucianQReason.includes('total AD；')
+    || lucianQReason.includes('total_ad_ratio')
+    || lucianQReason.includes('*totalAD')
+    || !lucianQReason.includes('3982579')
+    || !lucianQReason.includes(
+      'd7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981',
+    )
+    || !lucianQReason.includes(
+      'cd65b80f0580f0e4833028791bba2331a321366307b8c35f7fc28fe06c1f06c1',
+    )
+    || !lucianQReason.includes('Template:Data Lucian/Q')
+    || !lucianQReason.includes('Template:Data Lucian/Piercing Light')
+    || !lucianQReason.includes('page1308176')
+    || !lucianQReason.includes('bytes1608')
+    || !lucianQReason.includes('2026-01-09T09:22:29Z')
+    || !lucianQReason.includes(lucianQBoundary)
+    || !lucianQReason.includes('source.attr.ad.resolved - source.attr.ad.base')
+    || !lucianQReason.includes('bonus AD by explicit subtraction')
+    || !lucianQReason.includes('不得按 total-AD 直读')
+    || !lucianQReason.includes('220')
+    || !lucianQReason.includes('1.00')
+    || !lucianQReason.includes('80 mana')
+    || !lucianQReason.includes('5000')
+    || !lucianQReason.includes('20220')
+    || !lucianQReason.includes('20170')
+    || !lucianQReason.includes('no explicit event op')
+    || !lucianQReason.includes('base60/resolved60/armor0 raw=final220')
+    || !lucianQReason.includes('base60/resolved160/armor0 raw=final320')
+    || !lucianQReason.includes('base60/resolved160/armor100 raw320/final160')
+    || !lucianQReason.includes('base60/resolved260/armor100 raw420/final210')
+    || !lucianQReason.includes('total-AD counterproof')
+    || !lucianQReason.includes('t4999')
+    || !lucianQReason.includes('t5000')
+    || !lucianQReason.includes('mana240')
+    || !lucianQReason.includes('mana79')
+    || !lucianQReason.includes('HP680')
+    || !lucianQReason.includes('ability_started')
+    || !lucianQReason.includes('standalone')
+    || !lucianQReason.includes('external existing-data/check-only')
+    || !lucianQReason.includes('identity/panel/resource')
+    || !lucianQReason.includes('不暗示 Batch-B')
+    || !lucianQReason.includes('sibling Lucian synthesis')
+    || !lucianQReason.includes('production runtime/ABI/Web change')
+    || !lucianQReason.includes('不宣称')
+    || !lucianQReason.includes('no equivalence or contradiction claim')
+    || lucianQReason.includes('canonical byte equivalence')
+    || lucianQReason.includes('Batch-B prerequisite')
+    || lucianQReason.includes('live published')
+    || !String(lucianQ.sourceRef || '').includes('lucian-q.json')
+    || !String(lucianQ.sourceRef || '').includes(
+      'd7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981',
+    )
+    || lucianQ.auditBaseline?.gapCode !== 'blocked_data'
+    || lucianQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || lucianQ.auditBaseline?.damageDisposition !== 'not_applicable'
+    || !(lucianQ.auditBaseline?.mechanismTags || []).includes('dps_relevant_manual_review')
+    || lucianQ.classification !== 'needs_manual_baseline'
+    || !(lucianQ.mechanismTags || []).includes('dps_relevant_manual_review')
+    || citesForbiddenProvenance(lucianQ.classificationReason)
+    || !(lucianQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.lucianPiercingLightSelectedTargetHit
+        && e.taskKey === 'wasm-generic-lucian-piercing-light-selected-target-hit'
+        && String(e.note || '').includes(lucianQBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('aaca359')
+        && String(e.note || '').includes('cd65b80f')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis')
+        && String(e.note || '').includes('total-AD counterproof'),
+    )
+    || !(lucianQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.lucianPiercingLightSelectedTargetHitBackend
+        && e.taskKey === 'wasm-generic-lucian-piercing-light-selected-target-hit'
+        && String(e.note || '').includes(lucianQBoundary)
+        && String(e.note || '').includes('LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest')
+        && String(e.note || '').includes('bfc9d54')
+        && String(e.note || '').includes('826cdad')
+        && String(e.note || '').includes('aaca359')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Lucian synthesis'),
+    )
+  ) {
+    errors.push(
+      'Lucian Q must be migrated with empty remainingGap/missingFields, exact Piercing Light ordered tags (no dps_relevant_manual_review/total_ad_ratio; requires bonus_ad_ratio), stale blocked_data/needs_manual_baseline/implementation-gap cleared while retaining raw needs_manual_baseline/dps_relevant_manual_review/auditBaseline provenance, Wiki rev3982579/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/5000CD/one physical 220+1.00*bonusAD via sub(ad.resolved,ad.base) numerics (base60/resolved60/armor0=220; resolved160/armor0=320; resolved160/armor100 raw320/final160; resolved260/armor100 raw420/final210; total-AD counterproof; 20220/20170; no explicit event op; t0/t4999/t5000 mana240→80/HP680 two damage/two ability_started; mana79 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, and bilateral wasm+backend evidence (owning bfc9d54 / integrated 826cdad / Wasm aaca359; no cast/lead/dodge/direction/range/line/multitarget/AOE/spell-shield/buffer/E-lockout/early-end/live claim)',
+    );
+  }
+  if (lucianQ) {
+    validateBilateralCoverageEvidence(
+      lucianQ.candidateKey,
+      lucianQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
