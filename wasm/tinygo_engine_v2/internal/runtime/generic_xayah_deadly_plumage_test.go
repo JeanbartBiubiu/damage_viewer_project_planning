@@ -40,6 +40,7 @@ const (
 	xayahDPASModKey    = "deadly_plumage_attack_speed"
 	xayahDPBasicDmgMod = "deadly_plumage_basic_damage"
 	xayahDPListenerArm = "listener_hero_xayah_deadly_plumage_arm"
+	xayahDPAbilityType = "ability/xayah_deadly_plumage"
 	xayahDPCastEvent   = "event/ability_started"
 	xayahDPHitEvent    = "event/on_hit"
 	xayahDPAAOpRef     = "op:xayah_deadly_plumage_aa"
@@ -148,8 +149,13 @@ func xayahDPBasicDamageModifier() model.ModifierDefinition {
 func xayahDPCastArmListener() model.ListenerDefinition {
 	one := 1.0
 	return model.ListenerDefinition{
-		ListenerKey:  xayahDPListenerArm,
-		EventMatcher: model.TypeMatcher{All: []string{xayahDPCastEvent, "event/source_owner"}},
+		ListenerKey: xayahDPListenerArm,
+		// AbilityRef must stay empty: a populated abilityRef is a child cast, not a filter.
+		// Isolation is via ability-type matcher (ability/xayah_deadly_plumage), not AbilityRef.
+		AbilityRef: "",
+		EventMatcher: model.TypeMatcher{All: []string{
+			xayahDPCastEvent, "event/source_owner", xayahDPAbilityType,
+		}},
 		Operations: []model.OperationDefinition{
 			{
 				Operation:   "state_change",
@@ -169,7 +175,7 @@ func xayahDPWAbility() model.AbilityDefinition {
 	return model.AbilityDefinition{
 		AbilityKey: xayahDPWKey,
 		Kind:       "active",
-		Types:      []string{},
+		Types:      []string{xayahDPAbilityType},
 		Cost: &model.AbilityCost{
 			ResourceKey: "mana",
 			Amount:      model.GenericFormulaExpr{Op: "const", Value: &cost},
@@ -177,7 +183,7 @@ func xayahDPWAbility() model.AbilityDefinition {
 		Cooldown: &model.AbilityCooldown{
 			DurationMs: model.GenericFormulaExpr{Op: "const", Value: &cd},
 		},
-		// AS arm via ability_started → source-owner listener; W itself has no damage ops
+		// AS arm via ability_started → source-owner + ability-type listener; W itself has no damage ops
 		// (Phase-A uses pipeline multiply on basic_damage — not a second missile instance).
 		Operations: []model.OperationDefinition{},
 	}
@@ -231,6 +237,7 @@ func xayahDPProbeAbility() model.AbilityDefinition {
 func ensureXayahDPTypes(req *model.CompileRequest) {
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
+		{Key: xayahDPAbilityType, Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},
 		{Key: "damage/magic", Domain: "damage"},
 		{Key: "damage_trait/on_hit", Domain: "damage_trait"},
@@ -442,6 +449,44 @@ func assertXayahDPWHasNoDamageOperations(t *testing.T, compileReq model.CompileR
 	if len(ability.Operations) != 0 {
 		t.Fatalf("deadly_plumage operations=%+v want empty (no damage ops / no second missile)", ability.Operations)
 	}
+	if len(ability.Types) != 1 || ability.Types[0] != xayahDPAbilityType {
+		t.Fatalf("W types=%v want [%s]", ability.Types, xayahDPAbilityType)
+	}
+}
+
+func assertXayahDPListenerAbilityTypeIsolation(t *testing.T, compileReq model.CompileRequest) {
+	t.Helper()
+	var listener *model.ListenerDefinition
+	for i := range compileReq.SharedProviders[0].Listeners {
+		l := &compileReq.SharedProviders[0].Listeners[i]
+		if l.ListenerKey == xayahDPListenerArm {
+			listener = l
+			break
+		}
+	}
+	if listener == nil {
+		t.Fatal("deadly_plumage arm listener missing")
+	}
+	if listener.AbilityRef != "" {
+		t.Fatalf("AbilityRef=%q want empty (populated abilityRef is child cast, not filter)", listener.AbilityRef)
+	}
+	want := []string{xayahDPCastEvent, "event/source_owner", xayahDPAbilityType}
+	if len(listener.EventMatcher.All) != 3 ||
+		listener.EventMatcher.All[0] != want[0] ||
+		listener.EventMatcher.All[1] != want[1] ||
+		listener.EventMatcher.All[2] != want[2] {
+		t.Fatalf("EventMatcher.All=%v want %v", listener.EventMatcher.All, want)
+	}
+	haveType := false
+	for _, e := range compileReq.TypeCatalog.Types {
+		if e.Key == xayahDPAbilityType && e.Domain == "ability" {
+			haveType = true
+			break
+		}
+	}
+	if !haveType {
+		t.Fatalf("type catalog missing %s domain=ability", xayahDPAbilityType)
+	}
 }
 
 func assertXayahDPHasPipelineModifier(t *testing.T, compileReq model.CompileRequest) {
@@ -506,6 +551,7 @@ func TestGenericXayahDeadlyPlumageBaselineASBeforeCast(t *testing.T) {
 func TestGenericXayahDeadlyPlumageCastSpendsManaArmsTimedAS(t *testing.T) {
 	compileReq, runReq := loadXayahDPFixture(t)
 	assertXayahDPWHasNoDamageOperations(t, compileReq)
+	assertXayahDPListenerAbilityTypeIsolation(t, compileReq)
 	assertXayahDPHasPipelineModifier(t, compileReq)
 
 	runReq.DriverPlan.Entries = []model.DriverEntry{
