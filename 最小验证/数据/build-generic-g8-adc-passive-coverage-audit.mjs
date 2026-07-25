@@ -631,6 +631,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql',
   jinxZapPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql',
+  jhinDancingGrenadePrimaryFirstHitBackend:
+    'db/game_manage/seeds/lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql',
   jhinDeadlyFlourishPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql',
   caitlyn90CaliberNetPrimaryHitBackend:
@@ -774,6 +776,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go',
   jinxZapPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go',
+  jhinDancingGrenadePrimaryFirstHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_jhin_dancing_grenade_primary_first_hit_test.go',
   jhinDeadlyFlourishPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_jhin_deadly_flourish_primary_hit_test.go',
   caitlyn90CaliberNetPrimaryHit:
@@ -1999,6 +2003,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-jinx-zap-primary-hit',
           SEED.jinxZapPrimaryHitBackend,
           'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity; backend lol_generic_jinx_zap_primary_hit_seed.sql + LolGenericJinxZapPrimaryHitSeedSqlTest (owning b5abdb7; integrated a09adf1); Wasm exact test commit 2afde02; external existing-data/check-only prerequisites (hero_jinx/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jinx synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_jhin|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_jhin Q 曼舞手雷/Dancing Grenade：Wiki request Template:Data Jhin/Q → resolved Template:Data Jhin/Dancing Grenade；page1307579 / rev4007611 / timestamp 2026-04-12T07:23:12Z / canonical bytes1913 / SHA256 522c4b918067b4b035b6744eb3dc83ce64ba5d47f677ed8517fcb246111685f1（normalized/generic/jhin-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-jhin-dancing-grenade-primary-first-hit 闭环为 migrated——local raw caveat bytes1911 / SHA 17deceae0abe42034f805a166ae5a16932ffcb19925654e6aa39625f026dd0cb（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；60 mana / 5000ms CD；immediate selected-primary-champion first-grenade single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(add(const 144, mul(const 0.74, read source.attr.ad.resolved)), mul(const 0.60, read source.attr.ap.resolved))（exact nested binary add；total AD direct read；never bonus AD/subtraction；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 AD0/AP0/armor0 raw=final144；AD100/AP0/armor0 raw=final218；AD0/AP100/armor0 raw=final204；AD100/AP100/armor0 raw=final278；AD100/AP100/armor100 raw278/final139；AD200/AP100/armor100 raw352/final176；baseAD0 vs baseAD60 at resolvedAD100/AP0/armor0 both218）。Attempts mana180/baseAD60/resolvedAD100/AP100/HP1000/armor100 at t0/t4999/t5000 → success/skip/success，exactly two Q damage items；final mana60/HP722；exactly two automatic Q ability_started；mana59 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Q/W isolation：preserve existing W without requiring/mutating/synthesizing/copying W；Q seed contains no W rows；test-only composition of independent graphs only。Jhin Q is standalone；Backend has no repository-owned hero_jhin / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Jhin synthesis。completedBoundary：rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; physical_144_plus_0_74_total_ad_plus_0_60_ap; no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_other_ranks_or_full_fidelity。明确排除 cast time/unit-targeted cancel conditions、projectile travel/first-target acquisition、bounce to up to three additional targets/nearest-unhit priority、target-death +35% later-bounce amplification/maximum final bounce、spellshield bounce-persistence、other ranks、other Jhin abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/cancel/projectile/acquisition/bounce/nearest-unhit/death-amp/max-bounce/spellshield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_jhin/ad/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-jhin-dancing-grenade-primary-first-hit',
+          WASM.jhinDancingGrenadePrimaryFirstHit,
+          'completedBoundary: rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; physical_144_plus_0_74_total_ad_plus_0_60_ap; no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_other_ranks_or_full_fidelity; Wiki request Template:Data Jhin/Q → Dancing Grenade; rev4007611/SHA256 522c4b91… / bytes1913; local raw caveat bytes1911/SHA 17deceae… no equivalence claim; rank5 60 mana/5000ms CD / one physical 144+0.74*totalAD+0.60*AP nested binary add; AD0/AP0/armor0=144; AD100/AP0/armor0=218; AD0/AP100/armor0=204; AD100/AP100/armor0=278; AD100/AP100/armor100 raw278/final139; AD200/AP100/armor100 raw352/final176; baseAD0 vs baseAD60 at resolvedAD100/AP0/armor0 both218; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana180/baseAD60/resolvedAD100/AP100/HP1000/armor100 t0/t4999/t5000 success/skip/success two Q damage items final mana60/HP722 two automatic Q ability_started; mana59 resource skip unchanged; Q/W isolation preserve existing W; standalone no sibling synthesis; Wasm exact test commit f70be27 bytes71563/SHA deaa6604…; cast/cancel/projectile/acquisition/bounce/nearest-unhit/death-amp/max-bounce/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-jhin-dancing-grenade-primary-first-hit',
+          SEED.jhinDancingGrenadePrimaryFirstHitBackend,
+          'completedBoundary: rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; physical_144_plus_0_74_total_ad_plus_0_60_ap; no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_other_ranks_or_full_fidelity; backend lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql + LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest (owning ce22594; integrated 488898e); Wasm exact test commit f70be27; external existing-data/check-only prerequisites (hero_jhin/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jhin synthesis; not live published',
         ),
       ],
     },
@@ -4688,9 +4722,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 85) errors.push(`migrated=${counts.migrated}, expected 85`);
+  if (counts.migrated !== 86) errors.push(`migrated=${counts.migrated}, expected 86`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 84) errors.push(`blocked=${counts.blocked}, expected 84`);
+  if (counts.blocked !== 83) errors.push(`blocked=${counts.blocked}, expected 83`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -7782,6 +7816,142 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       jinxW.candidateKey,
       jinxW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const jhinQ = records.find((r) => r.candidateKey === 'hero_skill|hero_jhin|Q|曼舞手雷');
+  const jhinQTags = [...(jhinQ?.genericMechanismTags || [])];
+  const jhinQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const jhinQReason = String(jhinQ?.classificationReason || '');
+  const jhinQBoundary =
+    'rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; physical_144_plus_0_74_total_ad_plus_0_60_ap; no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_jhin|Q')) {
+    errors.push('Jhin Q exact override key hero_jhin|Q must exist before fallback');
+  }
+  if (
+    !jhinQ
+    || jhinQ.candidateKey !== 'hero_skill|hero_jhin|Q|曼舞手雷'
+    || jhinQ.passiveName !== '曼舞手雷'
+    || jhinQ.genericClassification !== 'migrated'
+    || String(jhinQ.remainingGap || '').trim()
+    || (jhinQ.dataGapEvidence?.missingFields || []).length !== 0
+    || jhinQTags.join('|') !== jhinQExpectedTags.join('|')
+    || jhinQTags.includes('multi_target_or_area')
+    || jhinQTags.includes('bonus_ad_ratio')
+    || jhinQTags.includes('total_ad_ratio')
+    || jhinQTags.includes('primary_damage_branch_salvage')
+    || String(jhinQ.remainingGap || '').includes('blocked_data')
+    || jhinQReason.includes('out_of_scope_for_single_target_dps')
+    || jhinQReason.includes('blocked_data')
+    || jhinQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || jhinQReason.includes('multi_target_or_area')
+    || jhinQReason.includes('bonus_ad_ratio')
+    || jhinQReason.includes('total_ad_ratio')
+    || jhinQReason.includes('ad.resolved-source.attr.ad.base')
+    || jhinQReason.includes('ad.resolved-ad.base')
+    || !jhinQReason.includes('4007611')
+    || !jhinQReason.includes(
+      '522c4b918067b4b035b6744eb3dc83ce64ba5d47f677ed8517fcb246111685f1',
+    )
+    || !jhinQReason.includes(
+      '17deceae0abe42034f805a166ae5a16932ffcb19925654e6aa39625f026dd0cb',
+    )
+    || !jhinQReason.includes('Template:Data Jhin/Q')
+    || !jhinQReason.includes('Template:Data Jhin/Dancing Grenade')
+    || !jhinQReason.includes('page1307579')
+    || !jhinQReason.includes('bytes1913')
+    || !jhinQReason.includes('bytes1911')
+    || !jhinQReason.includes('2026-04-12T07:23:12Z')
+    || !jhinQReason.includes(jhinQBoundary)
+    || !jhinQReason.includes('source.attr.ad.resolved')
+    || !jhinQReason.includes('source.attr.ap.resolved')
+    || !jhinQReason.includes('nested binary')
+    || !jhinQReason.includes('total AD direct read')
+    || !jhinQReason.includes('never bonus AD')
+    || !jhinQReason.includes('144')
+    || !jhinQReason.includes('0.74')
+    || !jhinQReason.includes('0.60')
+    || !jhinQReason.includes('60 mana')
+    || !jhinQReason.includes('5000')
+    || !jhinQReason.includes('raw=final144')
+    || !jhinQReason.includes('raw=final218')
+    || !jhinQReason.includes('raw=final204')
+    || !jhinQReason.includes('raw=final278')
+    || !jhinQReason.includes('raw278/final139')
+    || !jhinQReason.includes('raw352/final176')
+    || !jhinQReason.includes('both218')
+    || !jhinQReason.includes('t4999')
+    || !jhinQReason.includes('t5000')
+    || !jhinQReason.includes('mana180')
+    || !jhinQReason.includes('mana59')
+    || !jhinQReason.includes('HP722')
+    || !jhinQReason.includes('ability_started')
+    || !jhinQReason.includes('Q/W isolation')
+    || !jhinQReason.includes('standalone')
+    || !jhinQReason.includes('external existing-data/check-only')
+    || !jhinQReason.includes('identity/panel/resource')
+    || !jhinQReason.includes('不暗示 Batch-B')
+    || !jhinQReason.includes('sibling Jhin synthesis')
+    || !jhinQReason.includes('不宣称')
+    || !jhinQReason.includes('no equivalence or contradiction claim')
+    || jhinQReason.includes('canonical byte equivalence')
+    || jhinQReason.includes('Batch-B prerequisite')
+    || !String(jhinQ.sourceRef || '').includes('jhin-q.json')
+    || !String(jhinQ.sourceRef || '').includes(
+      '522c4b918067b4b035b6744eb3dc83ce64ba5d47f677ed8517fcb246111685f1',
+    )
+    || jhinQ.auditBaseline?.gapCode !== 'blocked_data'
+    || jhinQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || jhinQ.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(jhinQ.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || jhinQ.classification !== 'out_of_scope_for_single_target_dps'
+    || !(jhinQ.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(jhinQ.classificationReason)
+    || !(jhinQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.jhinDancingGrenadePrimaryFirstHit
+        && e.taskKey === 'wasm-generic-jhin-dancing-grenade-primary-first-hit'
+        && String(e.note || '').includes(jhinQBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('f70be27')
+        && String(e.note || '').includes('deaa6604')
+        && String(e.note || '').includes('71563')
+        && String(e.note || '').includes('17deceae')
+        && String(e.note || '').includes('Q/W isolation')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(jhinQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.jhinDancingGrenadePrimaryFirstHitBackend
+        && e.taskKey === 'wasm-generic-jhin-dancing-grenade-primary-first-hit'
+        && String(e.note || '').includes(jhinQBoundary)
+        && String(e.note || '').includes('LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest')
+        && String(e.note || '').includes('ce22594')
+        && String(e.note || '').includes('488898e')
+        && String(e.note || '').includes('f70be27')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Jhin synthesis'),
+    )
+  ) {
+    errors.push(
+      'Jhin Q must be migrated with empty remainingGap/missingFields, exact Dancing Grenade ordered tags (no multi_target_or_area/total_ad_ratio/salvage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/multi_target_or_area/auditBaseline provenance, Wiki rev4007611/SHA + local raw caveat + frozen completedBoundary, rank5 60mana/5000CD/nested-binary 144+0.74*totalAD+0.60*AP numerics (144/218/204/278/139/352→176; counterproof both218; t0/t4999/t5000 mana180→60/HP722 two damage/two ability_started; mana59 skip), Q/W isolation, standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral wasm+backend evidence (owning ce22594 / integrated 488898e / Wasm f70be27; no cast/cancel/projectile/bounce/death-amp/spellshield/live claim)',
+    );
+  }
+  if (jhinQ) {
+    validateBilateralCoverageEvidence(
+      jhinQ.candidateKey,
+      jhinQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
