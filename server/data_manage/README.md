@@ -1193,9 +1193,9 @@ cd server/data_manage
 mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
 ```
 
-### LoL generic Xayah Deadly Plumage seed（逆羽 W / Phase-A rank-5 1v1 边界完成）
+### LoL generic Xayah Deadly Plumage seed（逆羽 W / Phase-A rank-5 1v1 + ability-type listener isolation）
 
-在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_xayah` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与未来普攻 / feather provider 并存，不重建/替换；不做 live migration、不自动 publish）：
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）已就绪后，按顺序执行（**自包含** ensure `hero_xayah` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 W active；与未来普攻 / feather / Q provider 并存，不重建/替换；不做 live migration、不自动 publish）：
 
 1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20171`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`/`20264`/`20265`/`20266`/`20267`/`20269`）
 2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`
@@ -1203,7 +1203,9 @@ mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
 
 建议发布版本：`lol-generic-xayah-deadly-plumage-v1-20260716`（seed 不负责 publish）。候选整体语义为已批准 **Phase-A rank-5 1v1 边界完成**：40 mana / 14s CD / 4s +55% AS，以及 W 激活期间 source-owned `basic_damage` pipeline multiply `1 + 0.25 * provider.state.deadly_plumage_active`（条件排除 `damage.trait.on_hit` / `damage.trait.proc`；合并普攻倍率，非第二伤害实例）。
 
-该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；fail-closed ensure game-local `62006 damage_trait/on_hit` 与 `62009 damage_trait/proc`（`reserved_type_id=NULL`）；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25；自包含 bootstrap，非 Wiki W 数值真理）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + 同一 ability ALL listener 武装 active=1（override）、AS `percent_add` `0.55 * provider.state.deadly_plumage_active`，以及 pipeline modifier `modifier_hero_xayah_w_deadly_plumage_basic_damage`（kind `20264` / command `20265` / channel `20266` / bucket `20269` / stage `20267` / multiply `20171`）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。W 机制数值注释引用 League Wiki `Template:Data Xayah/Deadly Plumage` rev `4010669` / contentSha256 `09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7`（`xayah-w.json`）；不以 Meraki / DataDragon 作为 W 数值真理。
+**Ability-type listener isolation（必选校正）**：Web 把非空 `provider_listeners.ability_id` 映射为 `ListenerDefinition.abilityRef`，runtime 会把已填充 AbilityRef 当作 `castAbilityAt` 子施法，而不是事件过滤。因此本 seed 将 W listener 的 `ability_id` 置为 `NULL`，并 fail-closed ensure game-local `62012 ability/xayah_deadly_plumage`（`reserved_type_id=NULL`；双向 id↔key collision guards；同 Hexplate `62010` ability-specific type 模式），写入 `type_relations(lol,62012,'ability','ability_hero_xayah_w_deadly_plumage',...)`（在 listener matching 前物化，参与 material-change-only revision），并为 ALL matcher 保留 `20205 ability_started` + `20212 source_owner` 且新增 `62012`。不得把该 type 写入 `ability_kind_type_id`，不改变 W 分类，不新增 AbilityRef。保留既有 W 数值/state/formula/modifier/cost/CD/provider/ability/mount 身份。
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 属性定义；幂等投影 reserved → `types`；fail-closed ensure game-local `62006 damage_trait/on_hit` 与 `62009 damage_trait/proc`（`reserved_type_id=NULL`）以及上述 `62012`；ensure `hero_xayah`（`ON CONFLICT DO NOTHING`，不覆盖既有实体元数据）与 level-1 面板（hp630 / mana340 / ad60 / AS0.658 / armor25 / MR30 / hpregen3.25 / manaregen8.25；自包含 bootstrap，非 Wiki W 数值真理）、`resource_definitions.mana` 与 `entity_resource_values`（340/340）；向 `hero_xayah` mount 独立 `provider_hero_xayah_w_deadly_plumage`（与未来 `provider_hero_xayah_basic_attack` / feather / Q providers 并存），含 active `ability_hero_xayah_w_deadly_plumage`（`ability_key=deadly_plumage`）、`ability_costs` 40 mana、`ability_cooldowns` 14000ms、timed `deadly_plumage_active`（max1 / `duration_ms=4000` / `refresh_duration`）、`ability_started` + `source_owner` + `ability/xayah_deadly_plumage` ALL listener 武装 active=1（override；`ability_id IS NULL`）、AS `percent_add` `0.55 * provider.state.deadly_plumage_active`，以及 pipeline modifier `modifier_hero_xayah_w_deadly_plumage_basic_damage`（kind `20264` / command `20265` / channel `20266` / bucket `20269` / stage `20267` / multiply `20171`）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。W 机制数值注释引用 League Wiki `Template:Data Xayah/Deadly Plumage` rev `4010669` / contentSha256 `09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7`（`xayah-w.json`）；不以 Meraki / DataDragon 作为 W 数值真理。
 
 **排除**：移速、Rakan/洛联动、多目标/Runaan、projectile/in-flight/ward/blind/dodge/block 细节、独立次级羽刃 missile / 第二伤害操作、其它 rank、live migration、publish、完整技能保真。
 
@@ -1212,6 +1214,42 @@ mvn -Dtest=LolGenericKaisaSuperchargeSeedSqlTest test
 ```bash
 cd server/data_manage
 mvn -Dtest=LolGenericXayahDeadlyPlumageSeedSqlTest test
+```
+
+### LoL generic Xayah Double Daggers primary two-hit seed（逆羽 Q / Phase-A v3 主冠军两羽）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_xayah)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_xayah,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_xayah,mana)`，以及校正后的 W isolation 行（`types(62012,ability/xayah_deadly_plumage,reserved_type_id=NULL)`、`type_relations → ability_hero_xayah_w_deadly_plumage`、W listener `ability_id IS NULL`、ALL match 恰好 `{20205,20212,62012}`）已由 `lol_generic_xayah_deadly_plumage_seed.sql`（或等价既有行）提供后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**复制 W 身份 bootstrap，**不**从本 Q seed 突变 W 图；仅挂载可 cast 的 Q active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`（校正后的 W；提供 Xayah 既有数据与 ability-type listener isolation）
+3. `db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-xayah-double-daggers-primary-two-hit-phase-a-v3-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_xayah|Q|双刃`（task `wasm-generic-xayah-double-daggers-primary-two-hit`）冻结为 **Phase-A rank-5 立即主冠军两羽 impact scaffold**（`FROZEN_PLAN_REV=xayah-q-double-daggers-primary-two-hit-phase-a-v3`）：
+
+`rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_xayah` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值 / 校正后 W isolation 做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`；不写 W listener/type_relations）；幂等投影 reserved → `types`；向 `hero_xayah` **仅** mount 独立 `provider_hero_xayah_q_double_daggers_primary_two_hit`（与既有 `provider_hero_xayah_w_deadly_plumage` 并存，不更新/删除/重建；不创建 P/E/R/basic），含 active `ability_hero_xayah_q_double_daggers_primary_two_hit`（`ability_key=double_daggers_primary_two_hit`）、`ability_costs` 35 mana、`ability_cooldowns` 8000ms、恰好一个 null-duration impact phase + on_enter sequence，以及两次有序 physical damage（左右稳定 step/detail ID；共享 formula key `double_daggers_damage` = `105 + 0.50*(ad.resolved-ad.base)`；二元算术树；`copyable_on_hit=false`，非 crit；运行时类型 `20220`）。成功 cast 由 runtime 自动发出恰好一次 `ability_started`（非显式 seed event step）。**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / AOE / feather-ground / movement 行。有 material change 时才推进候选 revision。
+
+Wiki 身份：request `Template:Data Xayah/Q` → resolved `Template:Data Xayah/Double Daggers`；resolved pageId `1324541` / rev `4008615` / `2026-04-15T00:26:21Z`；canonical bytes `2615` / SHA256 `8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd`（`数据参考/lol-wiki-current-champions/normalized/generic/xayah-q.json` + pages sibling）。live redirect request detail（非本地 sidecar 内容，仅注释记录，never claim the local sidecar contains it）：pageId `1324536` / rev `2864045`。local raw materialization caveat：`raw/xayah-q.wikitext` bytes `2615` / SHA256 `6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de`；不断言与 canonical 字节等价，亦不主张源矛盾。
+
+确定性 runtime 校验夹具（注释/文档记录；本 seed 不连 live / 不执行）：
+
+- baseAD60/resolvedAD60：each raw105, total210；armor0 total210；armor100 each52.5,total105
+- baseAD60/resolvedAD110：each raw130,total260；armor0 total260；armor100 each65,total130
+- mana105/HP1000/bonusAD50/armor100 at t0/t7999/t8000：success, cooldown skip, success；per success two damage items totaling130 mitigated；final mana35/HP740；two total `ability_started` events；W state remains inactive/baseline AS
+- mana34 resource skip：unchanged mana/HP，zero damage/events，no W state/AS change
+- W success while Q mounted：W becomes active/current AS changes，with zero Q damage
+
+**排除**：cast time/attack lockout/Effect-at-cast-end；direction/range/width/geometry；projectile/travel/collision/interception/spell shield；later-target 50% reduction；multitarget/formation/area；feather generation/ground state/E interaction；ranks1-4；P/W/E/R/basic graph expansion；equipment/runes/loadout/crit/on-hit；identity bootstrap；live migration；publish；E2E/full fidelity。本 Q 条目**不**自称自包含。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest test
 ```
 
 ### LoL generic Twitch Deadly Venom seed（图奇 P 死亡毒液 / anchored tick）

@@ -4,8 +4,11 @@
 --
 -- 目标：幂等 ensure hero_xayah 最低必要基线，并挂载独立 W provider，表达
 --       rank-5 Deadly Plumage Phase-A 1v1 可近似 ABI：40 mana、14000ms CD、
---       ability_started + source_owner + 同一 ability listener 武装
---       deadly_plumage_active=1（max1 / 4000ms / refresh_duration）；
+--       ability_started + source_owner + ability/xayah_deadly_plumage（62012）
+--       ALL listener 武装 deadly_plumage_active=1（max1 / 4000ms /
+--       refresh_duration）；listener.ability_id 必须为 NULL（Web 会把非空
+--       ability_id 映射为 AbilityRef / castAbilityAt 子施法，不是事件过滤；
+--       若绑定同一 ability 则 Q cast 的 ability_started 会误武装 W）。
 --       AS percent_add = 0.55 * provider.state.deadly_plumage_active；
 --       另加 source-owned basic_damage pipeline multiply
 --       1 + 0.25 * provider.state.deadly_plumage_active（排除 on-hit / proc）。
@@ -19,9 +22,14 @@
 --    armor,magic_resist,hp_regen,mana_regen) 缺失则 RAISE EXCEPTION 回滚。
 -- 4. 自包含 ensure hero_xayah 实体 + level-1 面板 + mana 资源（340/340）；
 --    仅 mount 独立 provider_hero_xayah_w_deadly_plumage。与未来
---    provider_hero_xayah_basic_attack / feather providers 并存：不重建/替换
+--    provider_hero_xayah_basic_attack / feather / Q providers 并存：不重建/替换
 --    普攻或羽刃图，不覆盖无关既有 Xayah provider 行。
--- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
+-- 5. Fail-closed ensure game-local type_id=62012 type_key=ability/xayah_deadly_plumage
+--    （reserved_type_id=NULL；双向 id↔key collision guards；同 Hexplate 62010
+--    ability-specific type 模式）；type_relations(ability →
+--    ability_hero_xayah_w_deadly_plumage) 在 listener matching 前物化，并参与
+--    material-change-only revision。不得写入 ability_kind_type_id。
+-- 6. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
 --
 -- 明确排除（本脚本不建模）：
 --   移速；Rakan / 洛联动；多目标 / Runaan；projectile / in-flight / ward /
@@ -276,6 +284,75 @@ BEGIN
         NOW()
     )
     ON CONFLICT (game_id, type_id) DO NOTHING;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- =========================================================================
+    -- game-local ability-specific type（reserved_type_id=NULL；同 Hexplate 62010）
+    --   62012 ability/xayah_deadly_plumage
+    -- 仅作 type_relations ability tag + listener All-matcher；不得写入
+    -- ability_kind_type_id；不得把 listener.ability_id 当作事件过滤。
+    -- =========================================================================
+
+    -- 62012 ability/xayah_deadly_plumage
+    -- 要求精确绑定：type_key=ability/xayah_deadly_plumage 且 reserved_type_id=NULL；
+    -- 错 key 或 reserved_type_id 非空均 fail-closed；正确既有行按 material-change
+    -- 语义复用/校正描述。
+    SELECT t.type_key, t.name, t.reserved_type_id
+      INTO v_conflict_type_key, v_existing_name, v_existing_reserved
+      FROM public.types t
+     WHERE t.game_id = v_game_id
+       AND t.type_id = 62012
+       AND (
+           t.type_key IS DISTINCT FROM 'ability/xayah_deadly_plumage'
+           OR t.reserved_type_id IS NOT NULL
+       );
+
+    IF FOUND THEN
+        RAISE EXCEPTION
+            'lol_generic_xayah_deadly_plumage_seed: type_id=62012 already bound to type_key=% name=% reserved_type_id=% (expected ability/xayah_deadly_plumage, reserved_type_id=NULL)',
+            v_conflict_type_key, v_existing_name, v_existing_reserved;
+    END IF;
+
+    SELECT t.type_id
+      INTO v_conflict_type_id
+      FROM public.types t
+     WHERE t.game_id = v_game_id
+       AND t.type_key = 'ability/xayah_deadly_plumage'
+       AND t.type_id IS DISTINCT FROM 62012;
+
+    IF v_conflict_type_id IS NOT NULL THEN
+        RAISE EXCEPTION
+            'lol_generic_xayah_deadly_plumage_seed: type_key=ability/xayah_deadly_plumage already bound to type_id=% (expected 62012)',
+            v_conflict_type_id;
+    END IF;
+
+    INSERT INTO public.types (
+        game_id, type_id, type_key, name, description, reserved_type_id,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        62012,
+        'ability/xayah_deadly_plumage',
+        'Xayah Deadly Plumage ability type',
+        'Game-local ability type tag; Deadly Plumage arm-listener All-matcher. Not ability_kind; not AbilityRef.',
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, type_id) DO UPDATE SET
+        type_key = EXCLUDED.type_key,
+        name = EXCLUDED.name,
+        description = EXCLUDED.description,
+        reserved_type_id = EXCLUDED.reserved_type_id,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.types.type_key IS DISTINCT FROM EXCLUDED.type_key
+       OR public.types.name IS DISTINCT FROM EXCLUDED.name
+       OR public.types.description IS DISTINCT FROM EXCLUDED.description
+       OR public.types.reserved_type_id IS DISTINCT FROM EXCLUDED.reserved_type_id;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;
@@ -645,6 +722,30 @@ BEGIN
         v_changed := true;
     END IF;
 
+    -- 62012 ability/xayah_deadly_plumage tag → W ability（勿写入 ability_kind_type_id）
+    -- 必须在 listener matching 前物化；参与 material-change-only revision。
+    INSERT INTO public.type_relations (
+        game_id, type_id, target_category, target_id, extend,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        62012,
+        'ability',
+        'ability_hero_xayah_w_deadly_plumage',
+        '{"role":"deadly_plumage"}'::jsonb,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, type_id, target_category, target_id) DO UPDATE SET
+        extend = EXCLUDED.extend,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.type_relations.extend IS DISTINCT FROM EXCLUDED.extend;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
     INSERT INTO public.ability_costs (
         game_id, cost_id, ability_id, phase_id, resource_key,
         amount_formula_key, allow_partial, change_revision, updated_at
@@ -794,7 +895,8 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- ability_started + source_owner + 同一 ability → arm deadly_plumage_active=1
+    -- ability_started + source_owner + ability/xayah_deadly_plumage(62012)
+    -- → arm deadly_plumage_active=1；ability_id 必须 NULL（非 AbilityRef / 非事件过滤）
     INSERT INTO public.provider_listeners (
         game_id, listener_id, provider_id, listener_key, event_type_id,
         ability_id, max_triggers_per_event, chain_limit_key, change_revision, updated_at
@@ -804,7 +906,7 @@ BEGIN
         'provider_hero_xayah_w_deadly_plumage',
         'deadly_plumage_on_ability_started',
         20205,
-        'ability_hero_xayah_w_deadly_plumage',
+        NULL,
         1,
         NULL,
         v_candidate,
@@ -830,11 +932,13 @@ BEGIN
         v_changed := true;
     END IF;
 
+    -- Arm All: ability_started / ability/xayah_deadly_plumage / source_owner
     INSERT INTO public.listener_match_types (
         game_id, listener_id, match_mode_type_id, type_id, change_revision, updated_at
     ) VALUES
         (v_game_id, 'listener_hero_xayah_w_deadly_plumage_ability_started', 20181, 20205, v_candidate, NOW()),
-        (v_game_id, 'listener_hero_xayah_w_deadly_plumage_ability_started', 20181, 20212, v_candidate, NOW())
+        (v_game_id, 'listener_hero_xayah_w_deadly_plumage_ability_started', 20181, 20212, v_candidate, NOW()),
+        (v_game_id, 'listener_hero_xayah_w_deadly_plumage_ability_started', 20181, 62012, v_candidate, NOW())
     ON CONFLICT (game_id, listener_id, match_mode_type_id, type_id) DO UPDATE SET
         change_revision = EXCLUDED.change_revision,
         updated_at = NOW()
