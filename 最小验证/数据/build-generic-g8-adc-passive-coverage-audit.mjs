@@ -641,6 +641,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql',
   lucianPiercingLightSelectedTargetHitBackend:
     'db/game_manage/seeds/lol_generic_lucian_piercing_light_selected_target_hit_seed.sql',
+  lucianArdentBlazePrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_lucian_ardent_blaze_primary_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -768,6 +770,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_piltover_peacemaker_first_enemy_hit_test.go',
   lucianPiercingLightSelectedTargetHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_piercing_light_selected_target_hit_test.go',
+  lucianArdentBlazePrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_ardent_blaze_primary_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -2114,6 +2118,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-lucian-piercing-light-selected-target-hit',
           SEED.lucianPiercingLightSelectedTargetHitBackend,
           'completedBoundary: rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity; backend lol_generic_lucian_piercing_light_selected_target_hit_seed.sql + LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest (owning bfc9d54; integrated 826cdad); Wasm exact test commit aaca359; external existing-data/check-only prerequisites (hero_lucian/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Lucian synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_lucian|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_lucian W 热诚烈弹/Ardent Blaze：Wiki request Template:Data Lucian/W → resolved Template:Data Lucian/Ardent Blaze；page1308178 / rev3594941 / timestamp 2023-09-12T19:08:23Z / canonical bytes2542 / SHA256 b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5（normalized/generic/lucian-w.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-lucian-ardent-blaze-primary-hit 闭环为 migrated——local raw caveat bytes2542 / SHA a57b0e49765ab5a9bdd30ad295d24e406a90015b083c8a0e817855c6bc152236（canonical identity remains sidecar/pages；no equivalence or contradiction claim；equal size alone is not byte equality or source contradiction）；60 mana / 10000ms CD；immediate primary-champion single magic hit scaffold；one immediate primary-champion single noncritical/noncopyable magic damage operation 215 + 0.90 * source.attr.ap.resolved；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no explicit event op）（交叉校验 AP0/MR0 raw=final215；AP0/MR100 raw215/final107.5；AP100/MR0 raw=final305；AP100/MR100 raw305/final152.5；AP200/MR100 raw395/final197.5）。Attempts mana180/AP100/targetHP1000/MR100 at t0/t9999/t10000 → success/skip/success，exactly two W damage items；final mana60 and target HP695；exactly two automatic W ability_started；mana59 at t0 → resource skip with mana/HP unchanged and no W damage/event。Lucian W is standalone；Backend has no repository-owned hero_lucian / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Lucian Q dependence；不暗示 Batch-B 或 sibling Lucian synthesis；不暗示任何 production runtime/ABI/Web change。completedBoundary：rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity。明确排除 cast timing and Effect-at-cast-time-end、direction/range/acquisition、missile/travel/collision、cross/explosion geometry、multitarget/AOE、sight、6-second mark、movement speed and its ranks、allied trigger/Vigilance、dodge/block/blind/persistent-damage、spell-shield mark exception、ranks1-4、equipment/loadout/crit/on-hit、other Lucian abilities/siblings、live migration/publish/E2E、full Ardent Blaze/game fidelity；不宣称 cast/Effect-at-cast-time-end/direction/range/missile/collision/cross/explosion/multitarget/AOE/sight/mark/ms/Vigilance/dodge/block/blind/DoT/spell-shield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_lucian/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-lucian-ardent-blaze-primary-hit',
+          WASM.lucianArdentBlazePrimaryHit,
+          'completedBoundary: rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity; Wiki request Template:Data Lucian/W → Ardent Blaze; rev3594941/SHA256 b1ea7bc7… / bytes2542; local raw caveat bytes2542/SHA a57b0e49… no equivalence claim; rank5 60 mana/10000ms CD / one magic 215+0.90*AP; AP0/MR0=215; AP0/MR100 raw215/final107.5; AP100/MR0=305; AP100/MR100 raw305/final152.5; AP200/MR100 raw395/final197.5; damage 20221/add 20170; no explicit event op; mana180/AP100/HP1000/MR100 t0/t9999/t10000 success/skip/success two W damage items final mana60/HP695 two automatic W ability_started; mana59 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit d57dc3b; cast/Effect-at-cast-time-end/direction/range/missile/collision/cross/explosion/multitarget/AOE/sight/mark/ms/Vigilance/dodge/block/blind/DoT/spell-shield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-lucian-ardent-blaze-primary-hit',
+          SEED.lucianArdentBlazePrimaryHitBackend,
+          'completedBoundary: rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity; backend lol_generic_lucian_ardent_blaze_primary_hit_seed.sql + LolGenericLucianArdentBlazePrimaryHitSeedSqlTest (owning 2b29c4e; integrated 7e8a40c); Wasm exact test commit d57dc3b; external existing-data/check-only prerequisites (hero_lucian/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Lucian synthesis; not live published',
         ),
       ],
     },
@@ -4414,9 +4448,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 77) errors.push(`migrated=${counts.migrated}, expected 77`);
+  if (counts.migrated !== 78) errors.push(`migrated=${counts.migrated}, expected 78`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 92) errors.push(`blocked=${counts.blocked}, expected 92`);
+  if (counts.blocked !== 91) errors.push(`blocked=${counts.blocked}, expected 91`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -7838,6 +7872,140 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       lucianQ.candidateKey,
       lucianQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const lucianW = records.find((r) => r.candidateKey === 'hero_skill|hero_lucian|W|热诚烈弹');
+  const lucianWTags = [...(lucianW?.genericMechanismTags || [])];
+  const lucianWExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const lucianWReason = String(lucianW?.classificationReason || '');
+  const lucianWBoundary =
+    'rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_lucian|W')) {
+    errors.push('Lucian W exact override key hero_lucian|W must exist before fallback');
+  }
+  if (
+    !lucianW
+    || lucianW.candidateKey !== 'hero_skill|hero_lucian|W|热诚烈弹'
+    || lucianW.passiveName !== '热诚烈弹'
+    || lucianW.genericClassification !== 'migrated'
+    || String(lucianW.remainingGap || '').trim()
+    || (lucianW.dataGapEvidence?.missingFields || []).length !== 0
+    || lucianWTags.join('|') !== lucianWExpectedTags.join('|')
+    || lucianWTags.includes('dps_relevant_manual_review')
+    || lucianWTags.includes('meta_or_non_target_dps')
+    || lucianWTags.includes('bonus_ad_ratio')
+    || lucianWTags.includes('total_ad_ratio')
+    || String(lucianW.remainingGap || '').includes('blocked_data')
+    || lucianWReason.includes('needs_manual_baseline')
+    || lucianWReason.includes('blocked_data')
+    || lucianWReason.includes('implementation_gap_no_unresolved_data_fields')
+    || lucianWReason.includes('dps_relevant_manual_review')
+    || lucianWReason.includes('out_of_scope_for_single_target_dps')
+    || lucianWReason.includes('meta_or_non_target_dps')
+    || lucianWReason.includes('depends on Lucian Q')
+    || lucianWReason.includes('requires Lucian Q')
+    || !lucianWReason.includes('3594941')
+    || !lucianWReason.includes(
+      'b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5',
+    )
+    || !lucianWReason.includes(
+      'a57b0e49765ab5a9bdd30ad295d24e406a90015b083c8a0e817855c6bc152236',
+    )
+    || !lucianWReason.includes('Template:Data Lucian/W')
+    || !lucianWReason.includes('Template:Data Lucian/Ardent Blaze')
+    || !lucianWReason.includes('page1308178')
+    || !lucianWReason.includes('bytes2542')
+    || !lucianWReason.includes('2023-09-12T19:08:23Z')
+    || !lucianWReason.includes(lucianWBoundary)
+    || !lucianWReason.includes('source.attr.ap.resolved')
+    || !lucianWReason.includes('215')
+    || !lucianWReason.includes('0.90')
+    || !lucianWReason.includes('60 mana')
+    || !lucianWReason.includes('10000')
+    || !lucianWReason.includes('20221')
+    || !lucianWReason.includes('20170')
+    || !lucianWReason.includes('no explicit event op')
+    || !lucianWReason.includes('AP0/MR0 raw=final215')
+    || !lucianWReason.includes('AP0/MR100 raw215/final107.5')
+    || !lucianWReason.includes('AP100/MR0 raw=final305')
+    || !lucianWReason.includes('AP100/MR100 raw305/final152.5')
+    || !lucianWReason.includes('AP200/MR100 raw395/final197.5')
+    || !lucianWReason.includes('t9999')
+    || !lucianWReason.includes('t10000')
+    || !lucianWReason.includes('mana180')
+    || !lucianWReason.includes('mana59')
+    || !lucianWReason.includes('HP695')
+    || !lucianWReason.includes('ability_started')
+    || !lucianWReason.includes('standalone')
+    || !lucianWReason.includes('external existing-data/check-only')
+    || !lucianWReason.includes('identity/panel/resource')
+    || !lucianWReason.includes('不暗示 Lucian Q dependence')
+    || !lucianWReason.includes('不暗示 Batch-B')
+    || !lucianWReason.includes('sibling Lucian synthesis')
+    || !lucianWReason.includes('production runtime/ABI/Web change')
+    || !lucianWReason.includes('不宣称')
+    || !lucianWReason.includes('no equivalence or contradiction claim')
+    || !lucianWReason.includes('equal size alone is not byte equality or source contradiction')
+    || lucianWReason.includes('canonical byte equivalence')
+    || lucianWReason.includes('Batch-B prerequisite')
+    || lucianWReason.includes('live published')
+    || !String(lucianW.sourceRef || '').includes('lucian-w.json')
+    || !String(lucianW.sourceRef || '').includes(
+      'b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5',
+    )
+    || lucianW.auditBaseline?.gapCode !== 'blocked_data'
+    || lucianW.auditBaseline?.resolvedBucket !== 'blocked'
+    || lucianW.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(lucianW.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || lucianW.classification !== 'out_of_scope_for_single_target_dps'
+    || !(lucianW.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(lucianW.classificationReason)
+    || !(lucianW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.lucianArdentBlazePrimaryHit
+        && e.taskKey === 'wasm-generic-lucian-ardent-blaze-primary-hit'
+        && String(e.note || '').includes(lucianWBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('d57dc3b')
+        && String(e.note || '').includes('a57b0e49')
+        && String(e.note || '').includes('20221')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(lucianW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.lucianArdentBlazePrimaryHitBackend
+        && e.taskKey === 'wasm-generic-lucian-ardent-blaze-primary-hit'
+        && String(e.note || '').includes(lucianWBoundary)
+        && String(e.note || '').includes('LolGenericLucianArdentBlazePrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('2b29c4e')
+        && String(e.note || '').includes('7e8a40c')
+        && String(e.note || '').includes('d57dc3b')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Lucian synthesis'),
+    )
+  ) {
+    errors.push(
+      'Lucian W must be migrated with empty remainingGap/missingFields, exact Ardent Blaze ordered tags (no dps_relevant_manual_review/meta_or_non_target_dps), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev3594941/SHA + local raw caveat + frozen completedBoundary, rank5 60mana/10000CD/one magic 215+0.90*AP numerics (AP0/MR0=215; AP0/MR100 raw215/final107.5; AP100/MR0=305; AP100/MR100 raw305/final152.5; AP200/MR100 raw395/final197.5; 20221/20170; no explicit event op; t0/t9999/t10000 mana180→60/HP695 two damage/two ability_started; mana59 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Lucian-Q-dependence/no-production-runtime-ABI-Web framing, and bilateral wasm+backend evidence (owning 2b29c4e / integrated 7e8a40c / Wasm d57dc3b; no cast/missile/cross/mark/ms/Vigilance/live claim)',
+    );
+  }
+  if (lucianW) {
+    validateBilateralCoverageEvidence(
+      lucianW.candidateKey,
+      lucianW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
