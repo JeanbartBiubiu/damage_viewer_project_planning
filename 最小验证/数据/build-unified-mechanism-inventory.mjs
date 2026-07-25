@@ -1870,6 +1870,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_lucian|R|圣枪洗礼',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Lucian R 圣枪洗礼/The Culling：Wiki request Template:Data Lucian/R → resolved Template:Data Lucian/The Culling；page1308182 / rev4007670 / timestamp 2026-04-12T10:40:21Z / canonical bytes4477 / SHA256 7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7（normalized/generic/lucian-r.json plus pages sibling are authority）rank3 Phase-A v2 已由 wasm-generic-lucian-the-culling-single-shot-quantum + backend seed 证据闭环——local raw caveat bytes4477 / SHA b63612287a8a965e7655829a2054aec7b019705225fd7e7b4736303a172bc74d（canonical identity remains sidecar/pages；no equivalence or contradiction claim；equal size alone is not byte equality or source contradiction）；100 mana / 90000ms CD；immediate primary-champion first-enemy single physical shot-quantum scaffold；one immediate primary-champion single noncritical/noncopyable physical shot damage quantum 45 + 0.25 * source.attr.ad.resolved + 0.15 * source.attr.ap.resolved（exact nested binary add；total AD direct read；never bonus AD/subtraction；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no explicit event op；ability_started is automatic）（交叉校验 baseAD0/resolvedAD0/AP0/armor0 raw=final45；baseAD60/resolvedAD60/AP0/armor0 raw=final60；baseAD60/resolvedAD160/AP0/armor0 raw=final85；baseAD60/resolvedAD160/AP100/armor0 raw=final100；baseAD60/resolvedAD160/AP100/armor100 raw100/final50；baseAD60/resolvedAD260/AP200/armor100 raw140/final70；baseAD0 vs baseAD60 at resolvedAD160/AP100/armor0 both raw/final100）。Attempts mana300/baseAD60/resolvedAD160/AP100/targetHP1000/armor100 at t0/t89999/t90000 → success/skip/success，exactly two R shot-quantum damage items；final mana100 and target HP900；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Lucian R provider is standalone；Backend has no repository-owned hero_lucian / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Lucian Q/W dependence；不暗示 Batch-B 或 sibling Lucian synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Cursor focused9/adjacent53/full893 passed；Main focused9 and adjacent53 passed；first full run had one transient existing LolGenericKogmawLivingArtillerySeedSqlTest java.util.regex.StackOverflowError（884 tests, 1 error），then isolated Kog\'Maw test passed10/10 and fresh full run passed893/893（nonblocking validation-runtime caveat；not a Lucian R contract failure）。Wasm main validation passed gofmt/focused eight top-level Lucian R tests/full Go/bench/standard TinyGo build/Node smoke/generic benchmark；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity。明确排除 3-second channel/channel state、0.75-second/manual/automatic recast、22 base shots and crit-chance additional-shot count、total channel damage、cadence/fire-rate、direction/range/width、missile offsets/alternating guns/travel/collision/first-enemy geometry/multitarget、minion double、movement/ghosted/facing、spell shield、interrupts/E usability/Q-W lockout/Thresh/Tahm、ranks1-2、equipment/loadout/crit/on-hit、other Lucian abilities/siblings、live migration/publish/E2E、full The Culling/game fidelity；this is one damage quantum, not one total R hit or total ultimate damage；不宣称 channel/recast/shot-count/crit-scaling/fire-rate/direction/range/missile/collision/multitarget/minion-double/move/ghost/facing/spell-shield/interrupts/lockout/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_lucian/ad/ap/mana），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-lucian-the-culling-single-shot-quantum',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_the_culling_single_shot_quantum_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity; Wiki request Template:Data Lucian/R → The Culling; rev4007670/SHA256 7a467954… / bytes4477; local raw caveat bytes4477/SHA b6361228… no equivalence claim; rank3 100 mana/90000ms CD / one physical shot quantum 45+0.25*totalAD+0.15*AP nested binary add; baseAD0/resolvedAD0/AP0/armor0=45; baseAD60/resolvedAD60/AP0/armor0=60; baseAD60/resolvedAD160/AP0/armor0=85; baseAD60/resolvedAD160/AP100/armor0=100; baseAD60/resolvedAD160/AP100/armor100 raw100/final50; baseAD60/resolvedAD260/AP200/armor100 raw140/final70; baseAD0 vs baseAD60 at resolvedAD160/AP100/armor0 both 100; damage 20220/add 20170; no explicit event op; mana300/baseAD60/resolvedAD160/AP100/HP1000/armor100 t0/t89999/t90000 success/skip/success two R shot-quantum damage items final mana100/HP900 two automatic R ability_started; mana99 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit ab2d9f7; channel/recast/shot-count/crit-scaling/fire-rate/direction/range/missile/collision/multitarget/minion-double/move/ghost/facing/spell-shield/interrupts/lockout/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-lucian-the-culling-single-shot-quantum',
+          sourcePath: 'db/game_manage/seeds/lol_generic_lucian_the_culling_single_shot_quantum_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity; backend lol_generic_lucian_the_culling_single_shot_quantum_seed.sql + LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest (owning a2f5bca; integrated d83b09e); Wasm exact test commit ab2d9f7; external existing-data/check-only prerequisites (hero_lucian/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Lucian synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_kayle|Q|耀焰冲击',
     {
       status: 'completed',
@@ -2727,6 +2758,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_lucian|W|热诚烈弹',
     'rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity',
+  ],
+  [
+    'hero_skill|hero_lucian|R|圣枪洗礼',
+    'rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4317,6 +4352,7 @@ function validateInventory(inv) {
   const mCaitlynQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_caitlyn|Q|和平使者');
   const mLucianQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_lucian|Q|透体圣光');
   const mLucianW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_lucian|W|热诚烈弹');
+  const mLucianR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_lucian|R|圣枪洗礼');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
   );
@@ -7411,6 +7447,142 @@ function validateInventory(inv) {
       'Lucian W must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Ardent Blaze ordered tags (no dps_relevant_manual_review/meta_or_non_target_dps), Wiki rev3594941/SHA + local raw caveat + frozen completedBoundary, rank5 60mana/10000CD/one magic 215+0.90*AP numerics/schedules (AP0/MR0=215; AP0/MR100 raw215/final107.5; AP100/MR0=305; AP100/MR100 raw305/final152.5; AP200/MR100 raw395/final197.5; 20221/20170; no explicit event op), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Lucian-Q-dependence/no-production-runtime-ABI-Web framing, and bilateral evidence (owning 2b29c4e / integrated 7e8a40c / Wasm d57dc3b; no cast/missile/cross/mark/ms/Vigilance/live claim)',
     );
   }
+  const mLucianRReason = String(mLucianR?.reason || '');
+  const mLucianRBoundary =
+    'rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity';
+  if (
+    !mLucianR ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_lucian|R|圣枪洗礼') ||
+    mLucianR.key !== 'hero_skill|hero_lucian|R|圣枪洗礼' ||
+    mLucianR.passiveName !== '圣枪洗礼' ||
+    mLucianR.status !== 'completed' ||
+    mLucianR.completionMode !== 'full' ||
+    mLucianR.lane !== 'generic_runtime' ||
+    mLucianR.blocker ||
+    mLucianR.dataGapEvidence !== null ||
+    mLucianR.runtimeGapEvidence !== null ||
+    mLucianR.outOfScopeEvidence !== null ||
+    mLucianR.coverageBoundary !== mLucianRBoundary ||
+    [...(mLucianR.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mLucianR.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mLucianR.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mLucianR.mechanismTags || []).includes('bonus_ad_ratio') ||
+    (mLucianR.mechanismTags || []).includes('total_ad_ratio') ||
+    mLucianRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mLucianRReason.includes('blocked_data') ||
+    mLucianRReason.includes('dps_relevant_manual_review') ||
+    mLucianRReason.includes('needs_manual_baseline') ||
+    mLucianRReason.includes('out_of_scope_for_single_target_dps') ||
+    mLucianRReason.includes('meta_or_non_target_dps') ||
+    mLucianRReason.includes('depends on Lucian Q') ||
+    mLucianRReason.includes('requires Lucian Q') ||
+    mLucianRReason.includes('depends on Lucian W') ||
+    mLucianRReason.includes('requires Lucian W') ||
+    mLucianRReason.includes('bonus AD by explicit subtraction') ||
+    mLucianRReason.includes('ad.resolved - source.attr.ad.base') ||
+    mLucianRReason.includes('ad.resolved-ad.base') ||
+    mLucianRReason.includes('total_ad_ratio') ||
+    !mLucianRReason.includes('4007670') ||
+    !mLucianRReason.includes(
+      '7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7',
+    ) ||
+    !mLucianRReason.includes(
+      'b63612287a8a965e7655829a2054aec7b019705225fd7e7b4736303a172bc74d',
+    ) ||
+    !mLucianRReason.includes('Template:Data Lucian/R') ||
+    !mLucianRReason.includes('Template:Data Lucian/The Culling') ||
+    !mLucianRReason.includes('page1308182') ||
+    !mLucianRReason.includes('bytes4477') ||
+    !mLucianRReason.includes('2026-04-12T10:40:21Z') ||
+    !mLucianRReason.includes(mLucianRBoundary) ||
+    !mLucianRReason.includes('source.attr.ad.resolved') ||
+    !mLucianRReason.includes('source.attr.ap.resolved') ||
+    !mLucianRReason.includes('nested binary') ||
+    !mLucianRReason.includes('total AD direct read') ||
+    !mLucianRReason.includes('never bonus AD') ||
+    !mLucianRReason.includes('45') ||
+    !mLucianRReason.includes('0.25') ||
+    !mLucianRReason.includes('0.15') ||
+    !mLucianRReason.includes('100 mana') ||
+    !mLucianRReason.includes('90000') ||
+    !mLucianRReason.includes('20220') ||
+    !mLucianRReason.includes('20170') ||
+    !mLucianRReason.includes('no explicit event op') ||
+    !mLucianRReason.includes('baseAD0/resolvedAD0/AP0/armor0 raw=final45') ||
+    !mLucianRReason.includes('baseAD60/resolvedAD60/AP0/armor0 raw=final60') ||
+    !mLucianRReason.includes('baseAD60/resolvedAD160/AP0/armor0 raw=final85') ||
+    !mLucianRReason.includes('baseAD60/resolvedAD160/AP100/armor0 raw=final100') ||
+    !mLucianRReason.includes('baseAD60/resolvedAD160/AP100/armor100 raw100/final50') ||
+    !mLucianRReason.includes('baseAD60/resolvedAD260/AP200/armor100 raw140/final70') ||
+    !mLucianRReason.includes('baseAD0 vs baseAD60') ||
+    !mLucianRReason.includes('t89999') ||
+    !mLucianRReason.includes('t90000') ||
+    !mLucianRReason.includes('mana300') ||
+    !mLucianRReason.includes('mana99') ||
+    !mLucianRReason.includes('HP900') ||
+    !mLucianRReason.includes('shot-quantum') ||
+    !mLucianRReason.includes('ability_started') ||
+    !mLucianRReason.includes('standalone') ||
+    !mLucianRReason.includes('external existing-data/check-only') ||
+    !mLucianRReason.includes('identity/panel/resource') ||
+    !mLucianRReason.includes('不暗示 Lucian Q/W dependence') ||
+    !mLucianRReason.includes('不暗示 Batch-B') ||
+    !mLucianRReason.includes('sibling Lucian synthesis') ||
+    !mLucianRReason.includes('production runtime/ABI/Web change') ||
+    !mLucianRReason.includes('StackOverflowError') ||
+    !mLucianRReason.includes('nonblocking validation-runtime caveat') ||
+    !mLucianRReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0') ||
+    !mLucianRReason.includes('不宣称') ||
+    !mLucianRReason.includes('no equivalence or contradiction claim') ||
+    !mLucianRReason.includes('equal size alone is not byte equality or source contradiction') ||
+    !mLucianRReason.includes('one damage quantum') ||
+    mLucianRReason.includes('canonical byte equivalence') ||
+    mLucianRReason.includes('Batch-B prerequisite') ||
+    mLucianRReason.includes('live published') ||
+    !(mLucianR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-lucian-the-culling-single-shot-quantum' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_the_culling_single_shot_quantum_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mLucianRBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('ab2d9f7') &&
+        String(e.note || '').includes('b6361228') &&
+        String(e.note || '').includes('20220') &&
+        String(e.note || '').includes('20170') &&
+        String(e.note || '').includes('no explicit event op') &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mLucianR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-lucian-the-culling-single-shot-quantum' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_lucian_the_culling_single_shot_quantum_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mLucianRBoundary) &&
+        String(e.note || '').includes('LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest') &&
+        String(e.note || '').includes('a2f5bca') &&
+        String(e.note || '').includes('d83b09e') &&
+        String(e.note || '').includes('ab2d9f7') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Lucian synthesis'),
+    )
+  ) {
+    errors.push(
+      'Lucian R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact The Culling ordered tags (no dps_relevant_manual_review/total_ad_ratio/bonus_ad_ratio; requires ap_ratio), Wiki rev4007670/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/90000CD/one physical shot quantum 45+0.25*totalAD+0.15*AP nested binary numerics/schedules (baseAD0/0/0/0=45; 60/60/0/0=60; 60/160/0/0=85; 60/160/100/0=100; 60/160/100/100 raw100/final50; 60/260/200/100 raw140/final70; baseAD0 vs baseAD60 both 100; 20220/20170; no explicit event op), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Q-W-dependence/no-production-runtime-ABI-Web framing, StackOverflow/nonblocking validation caveat + Wasm asset SHA, and bilateral evidence (owning a2f5bca / integrated d83b09e / Wasm ab2d9f7; one damage quantum not total R; no channel/recast/shot-count/live claim)',
+    );
+  }
   if (!m3748a || m3748a.status !== 'out_of_scope' || m3748a.completionMode !== 'partial') {
     errors.push('3748 顺劈 71fa0f0c must be out_of_scope/partial');
   }
@@ -7808,8 +7980,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 88) {
-    errors.push(`completed=${sc.completed}, expected 88`);
+  if ((sc.completed || 0) !== 89) {
+    errors.push(`completed=${sc.completed}, expected 89`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -7817,8 +7989,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 85) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 85`);
+  if ((sc.blocked_runtime || 0) !== 84) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 84`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -7839,21 +8011,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 88) {
-    errors.push(`completionMode full=${cm.full}, expected 88`);
+  if ((cm.full || 0) !== 89) {
+    errors.push(`completionMode full=${cm.full}, expected 89`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 163) {
-    errors.push(`completionMode none=${cm.none}, expected 163`);
+  if ((cm.none || 0) !== 162) {
+    errors.push(`completionMode none=${cm.none}, expected 162`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 68) {
+  if (implGapCount !== 67) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 68`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 67`,
     );
   }
 
