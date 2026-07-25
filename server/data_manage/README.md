@@ -1374,6 +1374,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest,LolGenericDravenStandAsideSeedSqlTest test
 ```
 
+### LoL generic Jhin Deadly Flourish primary-hit seed（戏命师 W / Phase-A v1 主冠军命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_jhin)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_jhin,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_jhin,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Jhin ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 W active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-jhin-deadly-flourish-primary-hit-phase-a-v1-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_jhin|W|致命华彩`（task `wasm-generic-jhin-deadly-flourish-primary-hit`）冻结为 **Phase-A rank-5 立即主冠军物理命中 impact scaffold**（`FROZEN_PLAN_REV=jhin-w-deadly-flourish-primary-hit-phase-a-v1`）：
+
+`rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_jhin` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_jhin` **仅** mount 独立 `provider_hero_jhin_w_deadly_flourish_primary_hit`（standalone；不创建/突变 P/Q/E/R/basic），含 active `ability_hero_jhin_w_deadly_flourish_primary_hit`（`ability_key=deadly_flourish_primary_hit`）、`ability_costs` 70 mana、`ability_cooldowns` 12000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `210 + 0.50*source.attr.ad.resolved`（**total AD**，直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；二元 `add(const 210, mul(const 0.50, read …))`；`copyable_on_hit=false`，非 crit；运行时类型 `20220`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / mark / root / movement-speed 行。成功 cast 由 runtime 自动发出 `ability_started`（本 W 图不添加 listener / event step）。Wiki：request `Template:Data Jhin/W` → resolved `Template:Data Jhin/Deadly Flourish`；page1307581 / rev4021795 / `2026-05-21T13:25:33Z` / canonical 2942 bytes / SHA256 `14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65`；sidecar `normalized/generic/jhin-w.json` + pages sibling。**local raw materialization caveat**：仓库 local raw 2940 / `76790ba522dc101bb1f1c24ae620f80e8db6d10e890515cbc7da85005a67f78b`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：totalAD60 → raw240 / armor0=240 / armor100=120；totalAD100 → raw260 / armor0=260 / armor100=130；mana210/HP1000/totalAD100/armor100 在 t0/t11999/t12000 → 两次成功 + 一次 cooldown skip、两笔 W damage、final mana70/HP740、两次自动 W `ability_started`；mana69 → resource skip、不变、无 W damage/event；standalone provider 不合成 P/Q/E/R/mark/root/movement-speed/basic。
+
+**排除**：cast timing / Effect at cast time start；direction/range/width/line geometry；multitarget/champion collision；projectile/interception/spell shield/facing；mark creation/detection；root/control/tenacity；bonus movement speed；minions-only 25% reduction；ranks1–4；P/Q/E/R/basic/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/mark/root/movement-speed；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
