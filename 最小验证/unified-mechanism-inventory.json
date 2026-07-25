@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T05:07:34.107Z",
+    "generatedAt": "2026-07-25T05:59:53.490Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "715308c403eef1a627b864652f4233c535c95f81284463794c103313db4950dc",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "4d0f1ea1eaefccffa0095f9f67eb56d77a5cc17681f8f79fe6af252f1881cc91",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "38497c0b37c8b9189f672c7a209f343d5e70596fbe3e73bd3073ab69014ebf0b",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "f019d490de1b107599508d34a0cc1acbcd61f8f741bc8a422fcc184b5acb0f0b",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "84dedb41c9bbaf6f06077acd1069b4506f9b32da178d679142fd42701f8f076a",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "9826284d26df8dc79f500e32de03cdd5422b2d1be623cb3327dbe52d65009316",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 80,
+      "completed": 81,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 93,
+      "blocked_runtime": 92,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 80,
+      "full": 81,
       "partial": 3,
-      "none": 171
+      "none": 170
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "715308c403eef1a627b864652f4233c535c95f81284463794c103313db4950dc",
-      "byteSize": 979505,
+      "sha256": "4d0f1ea1eaefccffa0095f9f67eb56d77a5cc17681f8f79fe6af252f1881cc91",
+      "byteSize": 984636,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "38497c0b37c8b9189f672c7a209f343d5e70596fbe3e73bd3073ab69014ebf0b",
-      "byteSize": 376286,
+      "sha256": "84dedb41c9bbaf6f06077acd1069b4506f9b32da178d679142fd42701f8f076a",
+      "byteSize": 389660,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "f019d490de1b107599508d34a0cc1acbcd61f8f741bc8a422fcc184b5acb0f0b",
-      "byteSize": 404645,
+      "sha256": "9826284d26df8dc79f500e32de03cdd5422b2d1be623cb3327dbe52d65009316",
+      "byteSize": 419664,
       "recordCount": 0,
       "role": "generator"
     },
@@ -20397,52 +20397,29 @@
     },
     {
       "key": "hero_skill|hero_xayah|R|暴风羽刃",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_xayah",
       "skillKey": "R",
       "passiveName": "暴风羽刃",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008617",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/xayah-r.json@rev4008617 sha256:cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_xayah|R|暴风羽刃",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity",
+      "reason": "Xayah R 暴风羽刃/Featherstorm：Wiki request Template:Data Xayah/R → resolved Template:Data Xayah/Featherstorm；page1324544 / rev4008617 / timestamp 2026-04-15T00:26:44Z / canonical bytes1761 / SHA256 cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077（normalized/generic/xayah-r.json plus pages sibling are authority）rank3 Phase-A v2 已由 wasm-generic-xayah-featherstorm-primary-hit + backend seed 证据闭环——local raw caveat bytes1761 / SHA debf23b0213a4d9669a29f6c415a6f67d582b7093d25059b7765745bed43ace1（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 100000ms CD；immediate primary-champion one physical damage quantum scaffold；one selected application of the leveling-labeled amount as an immediate bounded primary-champion physical damage quantum 400 + 1.00*(source.attr.ad.resolved-source.attr.ad.base)；exactly one noncrit/noncopyable physical damage operation（交叉校验 baseAD60/resolvedAD60 raw400，armor0=400，armor100=200；baseAD60/resolvedAD110 raw450，armor0=450，armor100=225）。Attempts t0/t99999/t100000 mana300/HP1000/armor100/resolvedAD110 → two successes + exactly one cooldown skip，two R damage-quantum items；final mana100/HP550；two automatic R ability_started；mana99 → resource skip/unchanged。Required Xayah W/Q/R isolation：R and Q never arm W；W self-cast arms W；R remains one quantum，Q remains two hits；definitions/mounts/snapshots remain distinct；Backend W listener uses ability/xayah_deadly_plumage ALL matcher with ability_id NULL；runtime W ListenerDefinition.AbilityRef stays empty。completedBoundary：rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity。明确排除 leap/ghosted/untargetable、one-second delay、attack/cast lockout、direction/cone/range/geometry、projectile/travel/collision/multitarget、feather generation/ground state/E dependency、other ranks、P/E/basic/equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 Wiki 证明完整 R once-only 或 complete Featherstorm 仅有一次总命中；不建模/宣称五次 damage ops 或同目标多羽基数。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites；Q optional independent sibling），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_xayah|R|暴风羽刃"
         },
         {
@@ -20451,7 +20428,22 @@
           "sourceRecordKey": "hero_skill|hero_xayah|R|暴风羽刃"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-featherstorm-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity; backend lol_generic_xayah_featherstorm_primary_hit_seed.sql + LolGenericXayahFeatherstormPrimaryHitSeedSqlTest (owning 354fd287; integrated 741e1ff); Wasm exact test commit 57ec17c; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; Q optional independent sibling; does not write identity/panel/resource values); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-featherstorm-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity; Wiki request Template:Data Xayah/R → Featherstorm; rev4008617/SHA256 cb5c8ba5… / bytes1761; local raw caveat bytes1761/SHA debf23b0… no equivalence claim; rank3 100 mana/100000ms CD / one physical damage quantum 400+1.00*bonusAD; baseAD60/resolvedAD60 raw400 armor0=400 armor100=200; resolvedAD110 raw450 armor0=450 armor100=225; t0/t99999/t100000 mana300/HP1000/armor100 two successes + one CD skip two R damage-quantum items final mana100/HP550 two automatic R ability_started; mana99 resource skip unchanged; R and Q never arm W; W self-cast arms W; R one quantum / Q two hits; Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL; runtime W ListenerDefinition.AbilityRef empty; Wasm exact test commit 57ec17c; leap/ghosted/untargetable/one-second-delay/lockout/direction/cone/projectile/multitarget/feather/ground/E/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A; no claim Wiki proves whole-R once-only or complete Featherstorm one total hit; no five damage ops or same-target multi-feather cardinality"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
