@@ -1594,6 +1594,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_xayah|R|暴风羽刃',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Xayah R 暴风羽刃/Featherstorm：Wiki request Template:Data Xayah/R → resolved Template:Data Xayah/Featherstorm；page1324544 / rev4008617 / timestamp 2026-04-15T00:26:44Z / canonical bytes1761 / SHA256 cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077（normalized/generic/xayah-r.json plus pages sibling are authority）rank3 Phase-A v2 已由 wasm-generic-xayah-featherstorm-primary-hit + backend seed 证据闭环——local raw caveat bytes1761 / SHA debf23b0213a4d9669a29f6c415a6f67d582b7093d25059b7765745bed43ace1（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 100000ms CD；immediate primary-champion one physical damage quantum scaffold；one selected application of the leveling-labeled amount as an immediate bounded primary-champion physical damage quantum 400 + 1.00*(source.attr.ad.resolved-source.attr.ad.base)；exactly one noncrit/noncopyable physical damage operation（交叉校验 baseAD60/resolvedAD60 raw400，armor0=400，armor100=200；baseAD60/resolvedAD110 raw450，armor0=450，armor100=225）。Attempts t0/t99999/t100000 mana300/HP1000/armor100/resolvedAD110 → two successes + exactly one cooldown skip，two R damage-quantum items；final mana100/HP550；two automatic R ability_started；mana99 → resource skip/unchanged。Required Xayah W/Q/R isolation：R and Q never arm W；W self-cast arms W；R remains one quantum，Q remains two hits；definitions/mounts/snapshots remain distinct；Backend W listener uses ability/xayah_deadly_plumage ALL matcher with ability_id NULL；runtime W ListenerDefinition.AbilityRef stays empty。completedBoundary：rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity。明确排除 leap/ghosted/untargetable、one-second delay、attack/cast lockout、direction/cone/range/geometry、projectile/travel/collision/multitarget、feather generation/ground state/E dependency、other ranks、P/E/basic/equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 Wiki 证明完整 R once-only 或 complete Featherstorm 仅有一次总命中；不建模/宣称五次 damage ops 或同目标多羽基数。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites；Q optional independent sibling），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-xayah-featherstorm-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity; Wiki request Template:Data Xayah/R → Featherstorm; rev4008617/SHA256 cb5c8ba5… / bytes1761; local raw caveat bytes1761/SHA debf23b0… no equivalence claim; rank3 100 mana/100000ms CD / one physical damage quantum 400+1.00*bonusAD; baseAD60/resolvedAD60 raw400 armor0=400 armor100=200; resolvedAD110 raw450 armor0=450 armor100=225; t0/t99999/t100000 mana300/HP1000/armor100 two successes + one CD skip two R damage-quantum items final mana100/HP550 two automatic R ability_started; mana99 resource skip unchanged; R and Q never arm W; W self-cast arms W; R one quantum / Q two hits; Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL; runtime W ListenerDefinition.AbilityRef empty; Wasm exact test commit 57ec17c; leap/ghosted/untargetable/one-second-delay/lockout/direction/cone/projectile/multitarget/feather/ground/E/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A; no claim Wiki proves whole-R once-only or complete Featherstorm one total hit; no five damage ops or same-target multi-feather cardinality',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-xayah-featherstorm-primary-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity; backend lol_generic_xayah_featherstorm_primary_hit_seed.sql + LolGenericXayahFeatherstormPrimaryHitSeedSqlTest (owning 354fd287; integrated 741e1ff); Wasm exact test commit 57ec17c; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; Q optional independent sibling; does not write identity/panel/resource values); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_xayah|W|致死羽衣',
     {
       status: 'completed',
@@ -2447,6 +2478,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_xayah|Q|双刃',
     'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks',
+  ],
+  [
+    'hero_skill|hero_xayah|R|暴风羽刃',
+    'rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4028,6 +4063,7 @@ function validateInventory(inv) {
   const mQuinnW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|W|敏锐感知');
   const mKogmawQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kogmaw|Q|腐蚀唾液');
   const mXayahQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|Q|双刃');
+  const mXayahR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|R|暴风羽刃');
   const mXayahW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|W|致死羽衣');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
@@ -6188,6 +6224,121 @@ function validateInventory(inv) {
     );
   }
   if (
+    !mXayahR ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_xayah|R|暴风羽刃') ||
+    mXayahR.key !== 'hero_skill|hero_xayah|R|暴风羽刃' ||
+    mXayahR.passiveName !== '暴风羽刃' ||
+    mXayahR.status !== 'completed' ||
+    mXayahR.completionMode !== 'full' ||
+    mXayahR.lane !== 'generic_runtime' ||
+    mXayahR.blocker ||
+    mXayahR.dataGapEvidence !== null ||
+    mXayahR.runtimeGapEvidence !== null ||
+    mXayahR.outOfScopeEvidence !== null ||
+    mXayahR.coverageBoundary !==
+      'rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity' ||
+    [...(mXayahR.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mXayahR.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mXayahR.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    String(mXayahR.reason || '').includes('implementation_gap_no_unresolved_data_fields') ||
+    String(mXayahR.reason || '').includes('blocked_data') ||
+    String(mXayahR.reason || '').includes('dps_relevant_manual_review') ||
+    !String(mXayahR.reason || '').includes('4008617') ||
+    !String(mXayahR.reason || '').includes(
+      'cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077',
+    ) ||
+    !String(mXayahR.reason || '').includes(
+      'debf23b0213a4d9669a29f6c415a6f67d582b7093d25059b7765745bed43ace1',
+    ) ||
+    !String(mXayahR.reason || '').includes('Template:Data Xayah/R') ||
+    !String(mXayahR.reason || '').includes('Template:Data Xayah/Featherstorm') ||
+    !String(mXayahR.reason || '').includes('page1324544') ||
+    !String(mXayahR.reason || '').includes('bytes1761') ||
+    !String(mXayahR.reason || '').includes('2026-04-15T00:26:44Z') ||
+    !String(mXayahR.reason || '').includes(
+      'rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity',
+    ) ||
+    !String(mXayahR.reason || '').includes('source.attr.ad.resolved') ||
+    !String(mXayahR.reason || '').includes('source.attr.ad.base') ||
+    !String(mXayahR.reason || '').includes('400') ||
+    !String(mXayahR.reason || '').includes('1.00') ||
+    !String(mXayahR.reason || '').includes('100 mana') ||
+    !String(mXayahR.reason || '').includes('100000') ||
+    !String(mXayahR.reason || '').includes('baseAD60') ||
+    !String(mXayahR.reason || '').includes('resolvedAD60') ||
+    !String(mXayahR.reason || '').includes('resolvedAD110') ||
+    !String(mXayahR.reason || '').includes('raw400') ||
+    !String(mXayahR.reason || '').includes('raw450') ||
+    !String(mXayahR.reason || '').includes('armor0=400') ||
+    !String(mXayahR.reason || '').includes('armor100=200') ||
+    !String(mXayahR.reason || '').includes('armor0=450') ||
+    !String(mXayahR.reason || '').includes('armor100=225') ||
+    !String(mXayahR.reason || '').includes('t99999') ||
+    !String(mXayahR.reason || '').includes('t100000') ||
+    !String(mXayahR.reason || '').includes('mana300') ||
+    !String(mXayahR.reason || '').includes('mana99') ||
+    !String(mXayahR.reason || '').includes('HP550') ||
+    !String(mXayahR.reason || '').includes('ability_started') ||
+    !String(mXayahR.reason || '').includes('never arm W') ||
+    !String(mXayahR.reason || '').includes('W self-cast arms W') ||
+    !String(mXayahR.reason || '').includes('one quantum') ||
+    !String(mXayahR.reason || '').includes('two hits') ||
+    !String(mXayahR.reason || '').includes('ability/xayah_deadly_plumage') ||
+    !String(mXayahR.reason || '').includes('ability_id NULL') ||
+    !String(mXayahR.reason || '').includes('ListenerDefinition.AbilityRef') ||
+    !String(mXayahR.reason || '').includes('external existing-data/check-only') ||
+    !String(mXayahR.reason || '').includes('Q optional') ||
+    !String(mXayahR.reason || '').includes('identity/panel/resource') ||
+    !String(mXayahR.reason || '').includes('不宣称') ||
+    !String(mXayahR.reason || '').includes('no equivalence or contradiction claim') ||
+    String(mXayahR.reason || '').includes('canonical byte equivalence') ||
+    String(mXayahR.reason || '').includes('Wiki proves the full R is once-only') ||
+    String(mXayahR.reason || '').includes('complete Featherstorm has one total hit') ||
+    String(mXayahR.reason || '').includes('five damage ops') ||
+    !(mXayahR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-featherstorm-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity',
+        ) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('never arm W') &&
+        String(e.note || '').includes('57ec17c') &&
+        String(e.note || '').includes('debf23b0') &&
+        String(e.note || '').includes('no claim Wiki proves'),
+    ) ||
+    !(mXayahR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-featherstorm-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity',
+        ) &&
+        String(e.note || '').includes('LolGenericXayahFeatherstormPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('354fd287') &&
+        String(e.note || '').includes('741e1ff') &&
+        String(e.note || '').includes('57ec17c') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('Q optional') &&
+        String(e.note || '').includes('W isolation'),
+    )
+  ) {
+    errors.push(
+      'Xayah R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Featherstorm ordered tags (no dps_relevant_manual_review), Wiki rev4008617/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/100000CD/one quantum 400+1.00bonusAD numerics/schedules/W-Q-R isolation, semantic framing (no Wiki-proven once-only / no five ops / no same-target multi-feather), and bilateral evidence (owning 354fd287 / integrated 741e1ff / Wasm 57ec17c; no leap/ghosted/delay/lockout/projectile/feather/ground/E/live claim)',
+    );
+  }
+  if (
     !mXayahW ||
     mXayahW.status !== 'completed' ||
     mXayahW.completionMode !== 'full' ||
@@ -6617,8 +6768,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 80) {
-    errors.push(`completed=${sc.completed}, expected 80`);
+  if ((sc.completed || 0) !== 81) {
+    errors.push(`completed=${sc.completed}, expected 81`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -6626,8 +6777,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 93) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 93`);
+  if ((sc.blocked_runtime || 0) !== 92) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 92`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -6648,21 +6799,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 80) {
-    errors.push(`completionMode full=${cm.full}, expected 80`);
+  if ((cm.full || 0) !== 81) {
+    errors.push(`completionMode full=${cm.full}, expected 81`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 171) {
-    errors.push(`completionMode none=${cm.none}, expected 171`);
+  if ((cm.none || 0) !== 170) {
+    errors.push(`completionMode none=${cm.none}, expected 170`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 76) {
+  if (implGapCount !== 75) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 76`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 75`,
     );
   }
 
