@@ -655,6 +655,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql',
   tristanaRocketJumpPrimaryLandingHitBackend:
     'db/game_manage/seeds/lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql',
+  corkiPhosphorusBombPrimaryImpactBackend:
+    'db/game_manage/seeds/lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -800,6 +802,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_rapid_fire_timed_bonus_attack_speed_test.go',
   tristanaRocketJumpPrimaryLandingHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_rocket_jump_primary_landing_hit_test.go',
+  corkiPhosphorusBombPrimaryImpact:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_corki_phosphorus_bomb_primary_impact_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -2272,6 +2276,37 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-tristana-rocket-jump-primary-landing-hit',
           SEED.tristanaRocketJumpPrimaryLandingHitBackend,
           'completedBoundary: rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; magic_210_plus_1_00_bonus_ad_plus_0_50_ap; no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_charge_reset_cast_during_dash_other_ranks_or_full_fidelity; backend lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql + LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest (owning 7cafeab; integrated ac304d3); Wasm exact test commit 9d2716c; external existing-data/check-only prerequisites (hero_tristana/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Tristana synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_corki|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'bonus_ad_ratio',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_corki Q 磷光炸弹/Phosphorus Bomb：Wiki request Template:Data Corki/Q → resolved Template:Data Corki/Phosphorus Bomb；page1306953 / rev4007588 / timestamp 2026-04-12T06:50:59Z / canonical bytes1531 / SHA256 e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365（normalized/generic/corki-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-corki-phosphorus-bomb-primary-impact 闭环为 migrated——local raw caveat bytes1529 / SHA c39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 7000ms CD；immediate selected-primary-champion single magic impact hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(add(const 240, mul(const 1.25, sub(read source.attr.ad.resolved, read source.attr.ad.base))), mul(const 1.00, read source.attr.ap.resolved))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 base60/resolved60/AP0/MR0 raw=final240；base60/resolved160/AP0/MR0 raw=final365；base60/resolved60/AP100/MR0 raw=final340；base60/resolved160/AP100/MR0 raw=final465；base60/resolved156/AP100/MR100 raw460/final230；base60/resolved220/AP100/MR100 raw540/final270；base0/resolved100 versus base60/resolved160 AP0/MR0 both365）。Attempts mana240/baseAD60/resolvedAD156/AP100/HP1000/MR100 at t0/t6999/t7000 → success/skip/success，exactly two Q damage items；final mana80/HP540；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Corki Q provider is standalone；Backend has no repository-owned hero_corki / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Corki P/W/E/R dependence；不暗示 Batch-B 或 sibling Corki synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused75/full975 passed。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write（embedded web/ copy is a wrong-path validation caveat, not independent Web parity failure）。completedBoundary：rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/location targeting/range/radius/geometry、projectile travel/minimum travel time/explosion、AOE/multitarget/surrounding、travel/impact-area sight、enemy-champion reveal/six-second duration、spellshield、collision/acquisition、other ranks、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary magic impact hit, not full Q；不宣称 cast/location/range/radius/geometry/projectile/travel/minimum-time/explosion/AOE/multitarget/collision/acquisition/spellshield/sight/reveal/duration/other ranks/siblings/live/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_corki/ad/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-corki-phosphorus-bomb-primary-impact',
+          WASM.corkiPhosphorusBombPrimaryImpact,
+          'completedBoundary: rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Corki/Q → Phosphorus Bomb; rev4007588/SHA256 e71a474e… / bytes1531; local raw caveat bytes1529/SHA c39556a0… no equivalence claim; rank5 80 mana/7000ms CD / one magic 240+1.25*bonusAD+1.00*AP via nested binary add(add(240,1.25*(ad.resolved-ad.base)),1.00*ap.resolved); base60/resolved60/AP0/MR0=240; base60/resolved160/AP0/MR0=365; base60/resolved60/AP100/MR0=340; base60/resolved160/AP100/MR0=465; base60/resolved156/AP100/MR100 raw460/final230; base60/resolved220/AP100/MR100 raw540/final270; base0/resolved100 vs base60/resolved160 AP0/MR0 both365; damage 20221/add 20170; no 20230; no explicit event op; no Q type; mana240/baseAD60/resolvedAD156/AP100/HP1000/MR100 t0/t6999/t7000 success/skip/success two Q damage items final mana80/HP540 two automatic Q ability_started; mana79 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit b381b1e bytes65821/SHA 58f47763…; cast/location/range/radius/geometry/projectile/travel/minimum-time/explosion/AOE/multitarget/sight/reveal/duration/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-corki-phosphorus-bomb-primary-impact',
+          SEED.corkiPhosphorusBombPrimaryImpactBackend,
+          'completedBoundary: rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity; backend lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql + LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest (owning 6003a7e; integrated b352677); Wasm exact test commit b381b1e; external existing-data/check-only prerequisites (hero_corki/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Corki synthesis; not live published',
         ),
       ],
     },
@@ -4722,9 +4757,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 86) errors.push(`migrated=${counts.migrated}, expected 86`);
+  if (counts.migrated !== 87) errors.push(`migrated=${counts.migrated}, expected 87`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 83) errors.push(`blocked=${counts.blocked}, expected 83`);
+  if (counts.blocked !== 82) errors.push(`blocked=${counts.blocked}, expected 82`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -9499,6 +9534,165 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       tristanaW.candidateKey,
       tristanaW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const corkiQ = records.find((r) => r.candidateKey === 'hero_skill|hero_corki|Q|磷光炸弹');
+  const corkiQTags = [...(corkiQ?.genericMechanismTags || [])];
+  const corkiQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'bonus_ad_ratio',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const corkiQReason = String(corkiQ?.classificationReason || '');
+  const corkiQBoundary =
+    'rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_corki|Q')) {
+    errors.push('Corki Q exact override key hero_corki|Q must exist before fallback');
+  }
+  if (
+    !corkiQ
+    || corkiQ.candidateKey !== 'hero_skill|hero_corki|Q|磷光炸弹'
+    || corkiQ.passiveName !== '磷光炸弹'
+    || corkiQ.genericClassification !== 'migrated'
+    || String(corkiQ.remainingGap || '').trim()
+    || (corkiQ.dataGapEvidence?.missingFields || []).length !== 0
+    || corkiQTags.join('|') !== corkiQExpectedTags.join('|')
+    || corkiQTags.includes('multi_target_or_area')
+    || corkiQTags.includes('meta_or_non_target_dps')
+    || corkiQTags.includes('dps_relevant_manual_review')
+    || corkiQTags.includes('primary_damage_branch_salvage')
+    || corkiQTags.includes('total_ad_ratio')
+    || !corkiQTags.includes('bonus_ad_ratio')
+    || !corkiQTags.includes('ap_ratio')
+    || !corkiQTags.includes('active_magic_damage')
+    || String(corkiQ.remainingGap || '').includes('blocked_data')
+    || corkiQReason.includes('needs_manual_baseline')
+    || corkiQReason.includes('blocked_data')
+    || corkiQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || corkiQReason.includes('multi_target_or_area')
+    || corkiQReason.includes('meta_or_non_target_dps')
+    || corkiQReason.includes('out_of_scope_for_single_target_dps')
+    || corkiQReason.includes('dps_relevant_manual_review')
+    || corkiQReason.includes('primary_damage_branch_salvage')
+    || corkiQReason.includes('total AD；')
+    || corkiQReason.includes('total_ad_ratio')
+    || corkiQReason.includes('*totalAD')
+    || !corkiQReason.includes('4007588')
+    || !corkiQReason.includes(
+      'e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365',
+    )
+    || !corkiQReason.includes(
+      'c39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6',
+    )
+    || !corkiQReason.includes('Template:Data Corki/Q')
+    || !corkiQReason.includes('Template:Data Corki/Phosphorus Bomb')
+    || !corkiQReason.includes('page1306953')
+    || !corkiQReason.includes('bytes1531')
+    || !corkiQReason.includes('bytes1529')
+    || !corkiQReason.includes('2026-04-12T06:50:59Z')
+    || !corkiQReason.includes(corkiQBoundary)
+    || !corkiQReason.includes('source.attr.ad.resolved')
+    || !corkiQReason.includes('source.attr.ad.base')
+    || !corkiQReason.includes('exact nested binary formula')
+    || !corkiQReason.includes('bonus AD by explicit subtraction')
+    || !corkiQReason.includes('不得按 total-AD 直读')
+    || !corkiQReason.includes('add(add(const 240')
+    || !corkiQReason.includes('1.25')
+    || !corkiQReason.includes('1.00')
+    || !corkiQReason.includes('80 mana')
+    || !corkiQReason.includes('7000')
+    || !corkiQReason.includes('20221')
+    || !corkiQReason.includes('20170')
+    || !corkiQReason.includes('no 20230')
+    || !corkiQReason.includes('no explicit event op')
+    || !corkiQReason.includes('no Q ability-specific type')
+    || !corkiQReason.includes('raw=final240')
+    || !corkiQReason.includes('raw=final365')
+    || !corkiQReason.includes('raw=final340')
+    || !corkiQReason.includes('raw=final465')
+    || !corkiQReason.includes('raw460/final230')
+    || !corkiQReason.includes('raw540/final270')
+    || !corkiQReason.includes('both365')
+    || !corkiQReason.includes('t6999')
+    || !corkiQReason.includes('t7000')
+    || !corkiQReason.includes('mana240')
+    || !corkiQReason.includes('mana79')
+    || !corkiQReason.includes('HP540')
+    || !corkiQReason.includes('ability_started')
+    || !corkiQReason.includes('standalone')
+    || !corkiQReason.includes('external existing-data/check-only')
+    || !corkiQReason.includes('identity/panel/resource')
+    || !corkiQReason.includes('不暗示 Corki P/W/E/R dependence')
+    || !corkiQReason.includes('不暗示 Batch-B')
+    || !corkiQReason.includes('sibling Corki synthesis')
+    || !corkiQReason.includes('production runtime/ABI/Web change')
+    || !corkiQReason.includes('focused75/full975')
+    || !corkiQReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !corkiQReason.includes('不宣称')
+    || !corkiQReason.includes('no equivalence or contradiction claim')
+    || !corkiQReason.includes('exactly one selected-primary magic impact hit')
+    || corkiQReason.includes('canonical byte equivalence')
+    || corkiQReason.includes('Batch-B prerequisite')
+    || corkiQReason.includes('live published')
+    || !String(corkiQ.sourceRef || '').includes('corki-q.json')
+    || !String(corkiQ.sourceRef || '').includes(
+      'e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365',
+    )
+    || corkiQ.auditBaseline?.gapCode !== 'blocked_data'
+    || corkiQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || corkiQ.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(corkiQ.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || corkiQ.classification !== 'out_of_scope_for_single_target_dps'
+    || !(corkiQ.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(corkiQ.classificationReason)
+    || !(corkiQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.corkiPhosphorusBombPrimaryImpact
+        && e.taskKey === 'wasm-generic-corki-phosphorus-bomb-primary-impact'
+        && String(e.note || '').includes(corkiQBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('b381b1e')
+        && String(e.note || '').includes('58f47763')
+        && String(e.note || '').includes('65821')
+        && String(e.note || '').includes('c39556a0')
+        && String(e.note || '').includes('20221')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no 20230')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('no Q type')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(corkiQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.corkiPhosphorusBombPrimaryImpactBackend
+        && e.taskKey === 'wasm-generic-corki-phosphorus-bomb-primary-impact'
+        && String(e.note || '').includes(corkiQBoundary)
+        && String(e.note || '').includes('LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest')
+        && String(e.note || '').includes('6003a7e')
+        && String(e.note || '').includes('b352677')
+        && String(e.note || '').includes('b381b1e')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Corki synthesis'),
+    )
+  ) {
+    errors.push(
+      'Corki Q must be migrated with empty remainingGap/missingFields, exact Phosphorus Bomb ordered tags (no meta_or_non_target_dps/primary_damage_branch_salvage; requires bonus_ad_ratio/ap_ratio/active_magic_damage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev4007588/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/7000CD/one magic 240+1.25*bonusAD+1.00*AP via nested binary numerics (240/365/340/465; raw460→230; raw540→270; counterproof both365; 20221/20170; no 20230; no Q type; no explicit event op; t0/t6999/t7000 mana240→80/HP540 two damage/two ability_started; mana79 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused75/full975 + Wasm asset SHA, and bilateral wasm+backend evidence (owning 6003a7e / integrated b352677 / Wasm b381b1e; one selected-primary magic impact hit not full Q; no cast/location/projectile/AOE/sight/reveal/live claim)',
+    );
+  }
+  if (corkiQ) {
+    validateBilateralCoverageEvidence(
+      corkiQ.candidateKey,
+      corkiQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
