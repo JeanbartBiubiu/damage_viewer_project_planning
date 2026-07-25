@@ -661,6 +661,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_graves_smoke_screen_primary_hit_seed.sql',
   gravesCollateralDamagePrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_graves_collateral_damage_primary_hit_seed.sql',
+  gravesEndOfTheLineFirstOutboundPassBackend:
+    'db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
   ezrealArcaneShiftPrimaryHitBackend:
@@ -802,6 +804,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_smoke_screen_primary_hit_test.go',
   gravesCollateralDamagePrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_collateral_damage_primary_hit_test.go',
+  gravesEndOfTheLineFirstOutboundPass:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_graves_end_of_the_line_first_outbound_pass_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
   ezrealArcaneShiftPrimaryHit:
@@ -2463,6 +2467,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-graves-collateral-damage-primary-hit',
           SEED.gravesCollateralDamagePrimaryHitBackend,
           'completedBoundary: rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage; backend lol_generic_graves_collateral_damage_primary_hit_seed.sql + LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest (owning 9c1087b; integrated c2a8a97); Wasm exact test commit 4abadf1; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_graves|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_graves Q 穷途末路/End of the Line：Wiki request Template:Data Graves/Q → resolved Template:Data Graves/End of the Line；page1307367 / rev4007501 / timestamp 2026-04-11T22:23:57Z / canonical bytes2266 / SHA256 c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5（normalized/generic/graves-q.json plus pages sibling are authority）rank5 Phase-A v2 已由 wasm-generic-graves-end-of-the-line-first-outbound-pass 闭环为 migrated——local raw caveat bytes2265 / SHA cd2744fb1f28e54bd3b5e25b96cb1d21babc0583bfd8e854d55c15ed83df0377（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 6000ms CD；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 150, mul(const 0.65, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 base0/resolved0/armor0 raw=final150；base60/resolved60/armor0 raw=final150；base60/resolved160/armor0 raw=final215；base60/resolved160/armor100 raw215/final107.5；base60/resolved260/armor100 raw280/final140；base0/resolved100 versus base60/resolved160 armor0 both215）。Attempts mana240/baseAD60/resolvedAD160/HP1000/armor100 at t0/t5999/t6000 → success/skip/success，exactly two Q damage items；final mana80/HP785；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Q does not alter E True Grit and E produces no Q damage。Graves Q provider is standalone；Backend has no repository-owned hero_graves / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Graves P/E/W/R/True Grit/basic dependence；不暗示 Batch-B 或 sibling Graves synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused50/full943 passed。Wasm main validation passed gofmt/focused7/full/bench/build/smoke/benchmark；exact test bytes66870 / SHA256 a95e0d9632b0fe45aaec9440ccd89c381d6903f2c99ab761581736ec1f8c8e77；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity。明确排除 cast/direction/range/width/line/projectile/pass-through/multitarget/trail/terrain/collision、delayed/terrain detonation、perpendicular/reverse wave/second pass/total、once-per-pass/spellshield/Wind Wall/Braum terrain、other ranks/siblings/loadout/bootstrap/crit/onhit/live/full fidelity；this is exactly one selected-primary first-outbound-pass physical hit, not full Q；不宣称 cast/direction/range/line/projectile/pass-through/multitarget/trail/terrain/detonation/reverse-wave/second-pass/total/once-per-pass/spellshield/Wind-Wall/Braum/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_graves/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-end-of-the-line-first-outbound-pass',
+          WASM.gravesEndOfTheLineFirstOutboundPass,
+          'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity; Wiki request Template:Data Graves/Q → End of the Line; rev4007501/SHA256 c1884000… / bytes2266; local raw caveat bytes2265/SHA cd2744fb… no equivalence claim; rank5 80 mana/6000ms CD / one physical 150+0.65*bonusAD via exact binary add(const150, mul(0.65, sub(ad.resolved,ad.base))); base0/resolved0/armor0=150; base60/resolved60/armor0=150; base60/resolved160/armor0=215; base60/resolved160/armor100 raw215/final107.5; base60/resolved260/armor100 raw280/final140; base0/resolved100 vs base60/resolved160 armor0 both215; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana240/baseAD60/resolvedAD160/HP1000/armor100 t0/t5999/t6000 success/skip/success two Q damage items final mana80/HP785 two automatic Q ability_started; mana79 resource skip unchanged; Q does not alter E True Grit and E produces no Q damage; standalone no sibling synthesis; Wasm exact test commit c16107e bytes66870/SHA a95e0d96…; cast/direction/range/line/projectile/pass-through/multitarget/trail/terrain/detonation/reverse-wave/second-pass/total/once-per-pass/spellshield/Wind-Wall/Braum/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-graves-end-of-the-line-first-outbound-pass',
+          SEED.gravesEndOfTheLineFirstOutboundPassBackend,
+          'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity; backend lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql + LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest (owning 9294292; integrated a54cf6f); Wasm exact test commit c16107e; external existing-data/check-only prerequisites (hero_graves/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Graves synthesis; not live published',
         ),
       ],
     },
@@ -4620,9 +4654,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 83) errors.push(`migrated=${counts.migrated}, expected 83`);
+  if (counts.migrated !== 84) errors.push(`migrated=${counts.migrated}, expected 84`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 86) errors.push(`blocked=${counts.blocked}, expected 86`);
+  if (counts.blocked !== 85) errors.push(`blocked=${counts.blocked}, expected 85`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5009,6 +5043,170 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       gravesR.candidateKey,
       gravesR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+
+  const gravesQ = records.find((r) => r.candidateKey === 'hero_skill|hero_graves|Q|穷途末路');
+  const gravesQTags = [...(gravesQ?.genericMechanismTags || [])];
+  const gravesQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const gravesQReason = String(gravesQ?.classificationReason || '');
+  const gravesQBoundary =
+    'rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_graves|Q')) {
+    errors.push('Graves Q exact override key hero_graves|Q must exist before fallback');
+  }
+  if (
+    !gravesQ
+    || gravesQ.candidateKey !== 'hero_skill|hero_graves|Q|穷途末路'
+    || gravesQ.passiveName !== '穷途末路'
+    || gravesQ.genericClassification !== 'migrated'
+    || String(gravesQ.remainingGap || '').trim()
+    || (gravesQ.dataGapEvidence?.missingFields || []).length !== 0
+    || gravesQTags.join('|') !== gravesQExpectedTags.join('|')
+    || gravesQTags.includes('multi_target_or_area')
+    || gravesQTags.includes('meta_or_non_target_dps')
+    || gravesQTags.includes('dps_relevant_manual_review')
+    || gravesQTags.includes('primary_damage_branch_salvage')
+    || gravesQTags.includes('total_ad_ratio')
+    || !gravesQTags.includes('bonus_ad_ratio')
+    || !gravesQTags.includes('active_physical_damage')
+    || String(gravesQ.remainingGap || '').includes('blocked_data')
+    || gravesQReason.includes('needs_manual_baseline')
+    || gravesQReason.includes('blocked_data')
+    || gravesQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || gravesQReason.includes('multi_target_or_area')
+    || gravesQReason.includes('out_of_scope_for_single_target_dps')
+    || gravesQReason.includes('dps_relevant_manual_review')
+    || gravesQReason.includes('primary_damage_branch_salvage')
+    || gravesQReason.includes('depends on Graves E')
+    || gravesQReason.includes('depends on True Grit')
+    || gravesQReason.includes('total AD；')
+    || gravesQReason.includes('total_ad_ratio')
+    || gravesQReason.includes('*totalAD')
+    || !gravesQReason.includes('4007501')
+    || !gravesQReason.includes(
+      'c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5',
+    )
+    || !gravesQReason.includes(
+      'cd2744fb1f28e54bd3b5e25b96cb1d21babc0583bfd8e854d55c15ed83df0377',
+    )
+    || !gravesQReason.includes('Template:Data Graves/Q')
+    || !gravesQReason.includes('Template:Data Graves/End of the Line')
+    || !gravesQReason.includes('page1307367')
+    || !gravesQReason.includes('bytes2266')
+    || !gravesQReason.includes('bytes2265')
+    || !gravesQReason.includes('2026-04-11T22:23:57Z')
+    || !gravesQReason.includes(gravesQBoundary)
+    || !gravesQReason.includes('source.attr.ad.resolved')
+    || !gravesQReason.includes('source.attr.ad.base')
+    || !gravesQReason.includes('exact binary formula')
+    || !gravesQReason.includes('bonus AD by explicit subtraction')
+    || !gravesQReason.includes('不得按 total-AD 直读')
+    || !gravesQReason.includes('150')
+    || !gravesQReason.includes('0.65')
+    || !gravesQReason.includes('80 mana')
+    || !gravesQReason.includes('6000')
+    || !gravesQReason.includes('20220')
+    || !gravesQReason.includes('20170')
+    || !gravesQReason.includes('no 20230')
+    || !gravesQReason.includes('no explicit event op')
+    || !gravesQReason.includes('no Q ability-specific type')
+    || !gravesQReason.includes('base0/resolved0/armor0 raw=final150')
+    || !gravesQReason.includes('base60/resolved60/armor0 raw=final150')
+    || !gravesQReason.includes('base60/resolved160/armor0 raw=final215')
+    || !gravesQReason.includes('base60/resolved160/armor100 raw215/final107.5')
+    || !gravesQReason.includes('base60/resolved260/armor100 raw280/final140')
+    || !gravesQReason.includes('base0/resolved100 versus base60/resolved160')
+    || !gravesQReason.includes('t5999')
+    || !gravesQReason.includes('t6000')
+    || !gravesQReason.includes('mana240')
+    || !gravesQReason.includes('mana79')
+    || !gravesQReason.includes('HP785')
+    || !gravesQReason.includes('ability_started')
+    || !gravesQReason.includes('Q does not alter E True Grit')
+    || !gravesQReason.includes('E produces no Q damage')
+    || !gravesQReason.includes('standalone')
+    || !gravesQReason.includes('external existing-data/check-only')
+    || !gravesQReason.includes('identity/panel/resource')
+    || !gravesQReason.includes('不暗示 Graves P/E/W/R/True Grit/basic dependence')
+    || !gravesQReason.includes('不暗示 Batch-B')
+    || !gravesQReason.includes('sibling Graves synthesis')
+    || !gravesQReason.includes('production runtime/ABI/Web change')
+    || !gravesQReason.includes('focused50/full943')
+    || !gravesQReason.includes('focused7')
+    || !gravesQReason.includes('66870')
+    || !gravesQReason.includes(
+      'a95e0d9632b0fe45aaec9440ccd89c381d6903f2c99ab761581736ec1f8c8e77',
+    )
+    || !gravesQReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !gravesQReason.includes('不宣称')
+    || !gravesQReason.includes('no equivalence or contradiction claim')
+    || !gravesQReason.includes('exactly one selected-primary first-outbound-pass physical hit')
+    || gravesQReason.includes('canonical byte equivalence')
+    || gravesQReason.includes('Batch-B prerequisite')
+    || gravesQReason.includes('live published')
+    || !String(gravesQ.sourceRef || '').includes('graves-q.json')
+    || !String(gravesQ.sourceRef || '').includes(
+      'c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5',
+    )
+    || gravesQ.auditBaseline?.gapCode !== 'blocked_data'
+    || gravesQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || gravesQ.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(gravesQ.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || gravesQ.classification !== 'out_of_scope_for_single_target_dps'
+    || !(gravesQ.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(gravesQ.classificationReason)
+    || !(gravesQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.gravesEndOfTheLineFirstOutboundPass
+        && e.taskKey === 'wasm-generic-graves-end-of-the-line-first-outbound-pass'
+        && String(e.note || '').includes(gravesQBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('c16107e')
+        && String(e.note || '').includes('cd2744fb')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no 20230')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('no Q type')
+        && String(e.note || '').includes('exact binary')
+        && String(e.note || '').includes('Q does not alter E True Grit')
+        && String(e.note || '').includes('E produces no Q damage')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(gravesQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.gravesEndOfTheLineFirstOutboundPassBackend
+        && e.taskKey === 'wasm-generic-graves-end-of-the-line-first-outbound-pass'
+        && String(e.note || '').includes(gravesQBoundary)
+        && String(e.note || '').includes('LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest')
+        && String(e.note || '').includes('9294292')
+        && String(e.note || '').includes('a54cf6f')
+        && String(e.note || '').includes('c16107e')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Graves synthesis'),
+    )
+  ) {
+    errors.push(
+      'Graves Q must be migrated with empty remainingGap/missingFields, exact End of the Line ordered tags (no multi_target_or_area/primary_damage_branch_salvage; requires bonus_ad_ratio/active_physical_damage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/multi_target_or_area/auditBaseline provenance, Wiki rev4007501/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/6000CD/one physical 150+0.65*bonusAD exact binary numerics (150/150/215/215→107.5/280→140; bonusAD counterproof; 20220/20170; no 20230; no Q type; no explicit event op; t0/t5999/t6000 mana240→80/HP785 two damage/two ability_started; mana79 skip; Q does not alter E True Grit and E produces no Q damage), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-True-Grit-dependence/no-production-runtime-ABI-Web framing, focused50/full943 + focused7 + Wasm asset SHA, and bilateral wasm+backend evidence (owning 9294292 / integrated a54cf6f / Wasm c16107e; one selected-primary first-outbound-pass physical hit not full Q; no cast/direction/projectile/trail/detonation/reverse-wave/live claim)',
+    );
+  }
+  if (gravesQ) {
+    validateBilateralCoverageEvidence(
+      gravesQ.candidateKey,
+      gravesQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
