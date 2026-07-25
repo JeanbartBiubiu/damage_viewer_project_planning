@@ -625,6 +625,8 @@ const SEED = {
   quinnHarrierPremarkedConsumeBackend:
     'db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
+  xayahDoubleDaggersPrimaryTwoHitBackend:
+    'db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -736,6 +738,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_harrier_premarked_consume_test.go',
   xayahDeadlyPlumage:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_deadly_plumage_test.go',
+  xayahDoubleDaggersPrimaryTwoHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_double_daggers_primary_two_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -1821,6 +1825,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-quinn-heightened-senses',
           SEED.quinnHeightenedSensesBackend,
           'completedBoundary: Heightened Senses Wiki rank5 +80% AS core seeded; backend lol_generic_quinn_heightened_senses_seed.sql; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_xayah|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_xayah Q 双刃/Double Daggers：Wiki request Template:Data Xayah/Q → resolved Template:Data Xayah/Double Daggers；page1324541 / rev4008615 / timestamp 2026-04-15T00:26:21Z / canonical bytes2615 / SHA256 8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd（normalized/generic/xayah-q.json plus pages sibling are authority）rank5 Phase-A v3 已由 wasm-generic-xayah-double-daggers-primary-two-hit 闭环为 migrated——live redirect page1324536/rev2864045 is live request detail only and is not stored in the sidecar；local raw caveat bytes2615 / SHA 6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；35 mana / 8000ms CD；immediate primary-champion two-feather scaffold；恰好两次有序 non-crit/non-copyable physical hits，each 105+0.50*(source.attr.ad.resolved-source.attr.ad.base)（nested binary formula；交叉校验 baseAD60/resolvedAD60 each105/total210，armor100 each52.5/total105；resolvedAD110 each130/total260，armor100 each65/total130）。Attempts t0/t7999/t8000 mana105/HP1000/armor100 → two successes + exactly one cooldown skip，four damage items；final mana35/HP740；two automatic ability_started；mana34 → resource skip/unchanged。Required Xayah W isolation coexistence：Q success/skip does not arm W and AS stays baseline；W success while Q mounted arms only W and causes zero Q damage；Backend W listener uses ability/xayah_deadly_plumage ALL matcher with ability_id NULL；runtime W ListenerDefinition.AbilityRef stays empty。completedBoundary：rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks。明确排除 cast time/attack lockout/effect-at-cast-end、direction/range/width/geometry、projectile/travel/collision/interception/spellshield、later-target 50% reduction、multitarget/formation/area、feather generation/ground state/E interaction、ranks1–4、P/E/R/basic/equipment/loadout/crit/on-hit、live migration/publish/E2E/full game fidelity；不宣称 cast-time/attack-lockout/direction/range/width/projectile/travel/interception/spellshield/secondary-target-reduction/feather-generation/ground-state/E/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-xayah-double-daggers-primary-two-hit',
+          WASM.xayahDoubleDaggersPrimaryTwoHit,
+          'completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; Wiki request Template:Data Xayah/Q → Double Daggers; rev4008615/SHA256 8010e567… / bytes2615; local raw caveat bytes2615/SHA 6a1fde0a… no equivalence claim; live redirect page1324536/rev2864045 not stored in sidecar; rank5 35 mana/8000ms CD / two ordered physical 105+0.50*bonusAD nested binary; baseAD60/resolvedAD60 each105/total210 armor100 each52.5/total105; resolvedAD110 each130/total260 armor100 each65/total130; t0/t7999/t8000 mana105/HP1000 two successes + one CD skip four damage items final mana35/HP740 two ability_started; mana34 resource skip unchanged; Q success/skip does not arm W / AS baseline; W success while Q mounted arms only W / zero Q damage; Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL; runtime W ListenerDefinition.AbilityRef empty; Wasm exact test commit dd7dae6; cast-time/lockout/direction/range/projectile/interception/spellshield/secondary-reduction/feather/ground/E/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-xayah-double-daggers-primary-two-hit',
+          SEED.xayahDoubleDaggersPrimaryTwoHitBackend,
+          'completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; backend lol_generic_xayah_double_daggers_primary_two_hit_seed.sql + LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest (owning 8ace954; integrated 6bab0b8); Wasm exact test commit dd7dae6; nested binary; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; does not write identity/panel/resource values); not live published',
         ),
       ],
     },
@@ -4146,9 +4180,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 69) errors.push(`migrated=${counts.migrated}, expected 69`);
+  if (counts.migrated !== 70) errors.push(`migrated=${counts.migrated}, expected 70`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 100) errors.push(`blocked=${counts.blocked}, expected 100`);
+  if (counts.blocked !== 99) errors.push(`blocked=${counts.blocked}, expected 99`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -6507,6 +6541,127 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       twistedFateQ.candidateKey,
       twistedFateQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const xayahQ = records.find((r) => r.candidateKey === 'hero_skill|hero_xayah|Q|双刃');
+  const xayahQTags = [...(xayahQ?.genericMechanismTags || [])];
+  const xayahQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const xayahQReason = String(xayahQ?.classificationReason || '');
+  const xayahQBoundary =
+    'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks';
+  if (!EXACT_OVERRIDES.has('hero_xayah|Q')) {
+    errors.push('Xayah Q exact override key hero_xayah|Q must exist before fallback');
+  }
+  if (
+    !xayahQ
+    || xayahQ.candidateKey !== 'hero_skill|hero_xayah|Q|双刃'
+    || xayahQ.passiveName !== '双刃'
+    || xayahQ.genericClassification !== 'migrated'
+    || String(xayahQ.remainingGap || '').trim()
+    || (xayahQ.dataGapEvidence?.missingFields || []).length !== 0
+    || xayahQTags.join('|') !== xayahQExpectedTags.join('|')
+    || xayahQTags.includes('dps_relevant_manual_review')
+    || xayahQTags.includes('meta_or_non_target_dps')
+    || String(xayahQ.remainingGap || '').includes('blocked_data')
+    || xayahQReason.includes('out_of_scope_for_single_target_dps')
+    || xayahQReason.includes('blocked_data')
+    || xayahQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || xayahQReason.includes('dps_relevant_manual_review')
+    || !xayahQReason.includes('4008615')
+    || !xayahQReason.includes(
+      '8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd',
+    )
+    || !xayahQReason.includes('6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de')
+    || !xayahQReason.includes('Template:Data Xayah/Q')
+    || !xayahQReason.includes('Template:Data Xayah/Double Daggers')
+    || !xayahQReason.includes('page1324541')
+    || !xayahQReason.includes('page1324536')
+    || !xayahQReason.includes('rev2864045')
+    || !xayahQReason.includes('bytes2615')
+    || !xayahQReason.includes('2026-04-15T00:26:21Z')
+    || !xayahQReason.includes(xayahQBoundary)
+    || !xayahQReason.includes('nested binary')
+    || !xayahQReason.includes('source.attr.ad.resolved')
+    || !xayahQReason.includes('source.attr.ad.base')
+    || !xayahQReason.includes('105')
+    || !xayahQReason.includes('0.50')
+    || !xayahQReason.includes('35 mana')
+    || !xayahQReason.includes('8000')
+    || !xayahQReason.includes('baseAD60')
+    || !xayahQReason.includes('resolvedAD60')
+    || !xayahQReason.includes('resolvedAD110')
+    || !xayahQReason.includes('total210')
+    || !xayahQReason.includes('total105')
+    || !xayahQReason.includes('total260')
+    || !xayahQReason.includes('total130')
+    || !xayahQReason.includes('52.5')
+    || !xayahQReason.includes('t7999')
+    || !xayahQReason.includes('mana105')
+    || !xayahQReason.includes('mana34')
+    || !xayahQReason.includes('HP740')
+    || !xayahQReason.includes('ability_started')
+    || !xayahQReason.includes('does not arm W')
+    || !xayahQReason.includes('AS stays baseline')
+    || !xayahQReason.includes('ability/xayah_deadly_plumage')
+    || !xayahQReason.includes('ability_id NULL')
+    || !xayahQReason.includes('ListenerDefinition.AbilityRef')
+    || !xayahQReason.includes('external existing-data/check-only')
+    || !xayahQReason.includes('identity/panel/resource')
+    || !xayahQReason.includes('不宣称')
+    || !String(xayahQ.sourceRef || '').includes('xayah-q.json')
+    || !String(xayahQ.sourceRef || '').includes(
+      '8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd',
+    )
+    || xayahQ.auditBaseline?.gapCode !== 'blocked_data'
+    || xayahQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || xayahQ.auditBaseline?.damageDisposition !== 'not_applicable'
+    || !(xayahQ.auditBaseline?.mechanismTags || []).includes('dps_relevant_manual_review')
+    || xayahQ.classification !== 'needs_manual_baseline'
+    || !(xayahQ.mechanismTags || []).includes('dps_relevant_manual_review')
+    || citesForbiddenProvenance(xayahQ.classificationReason)
+    || !(xayahQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.xayahDoubleDaggersPrimaryTwoHit
+        && e.taskKey === 'wasm-generic-xayah-double-daggers-primary-two-hit'
+        && String(e.note || '').includes(xayahQBoundary)
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('does not arm W')
+        && String(e.note || '').includes('dd7dae6')
+        && String(e.note || '').includes('6a1fde0a')
+        && String(e.note || '').includes('page1324536'),
+    )
+    || !(xayahQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.xayahDoubleDaggersPrimaryTwoHitBackend
+        && e.taskKey === 'wasm-generic-xayah-double-daggers-primary-two-hit'
+        && String(e.note || '').includes(xayahQBoundary)
+        && String(e.note || '').includes('LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest')
+        && String(e.note || '').includes('8ace954')
+        && String(e.note || '').includes('6bab0b8')
+        && String(e.note || '').includes('dd7dae6')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('W isolation'),
+    )
+  ) {
+    errors.push(
+      'Xayah Q must be migrated with empty remainingGap/missingFields, exact Double Daggers ordered tags (no dps_relevant_manual_review), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw needs_manual_baseline/dps_relevant_manual_review/auditBaseline provenance, Wiki rev4008615/SHA + local raw caveat + live-redirect-not-sidecar + frozen completedBoundary, rank5 35mana/8000CD/two nested-binary 105+0.50bonusAD hits (baseAD60→each105/total210/52.5; resolvedAD110→each130/total260/65; t0/t7999/t8000 mana105→35/HP740 four damage/two ability_started; mana34 skip; W isolation/AS baseline/ability_id NULL/AbilityRef empty), and bilateral wasm+backend evidence (owning 8ace954 / integrated 6bab0b8 / Wasm dd7dae6; no cast-time/lockout/projectile/secondary-reduction/feather/ground/E/live claim)',
+    );
+  }
+  if (xayahQ) {
+    validateBilateralCoverageEvidence(
+      xayahQ.candidateKey,
+      xayahQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
