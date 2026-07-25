@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T12:17:24.451Z",
+    "generatedAt": "2026-07-25T12:54:14.965Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "ab619195913e26d9011c4c1f9a54f6791ee557696321a7efd3d113cb791fc665",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "22e628dd8b84648366b941c78982fbfdb34a0ed8b5c6854f9f32ffe901e54b9c",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "2f6263e4d58f239a8ae8f32340422a348931490de966179dcc178f6603d1bb69",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "bbdb475a89da253f5d52d5b3037fad96875cd707eb8b13abb484947a53f5b58c",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "9f57a23ec9cbf45d31b4a8c6c7f3dde6de9aa16cd558c0d265fb20fa1199fc83",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "ea79f506cc84b24c7a480170b6fa36353501416ad5afc1525e33e21c626e656c",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 87,
+      "completed": 88,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 86,
+      "blocked_runtime": 85,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 87,
+      "full": 88,
       "partial": 3,
-      "none": 164
+      "none": 163
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "ab619195913e26d9011c4c1f9a54f6791ee557696321a7efd3d113cb791fc665",
-      "byteSize": 1009792,
+      "sha256": "22e628dd8b84648366b941c78982fbfdb34a0ed8b5c6854f9f32ffe901e54b9c",
+      "byteSize": 1014477,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "2f6263e4d58f239a8ae8f32340422a348931490de966179dcc178f6603d1bb69",
-      "byteSize": 464626,
+      "sha256": "9f57a23ec9cbf45d31b4a8c6c7f3dde6de9aa16cd558c0d265fb20fa1199fc83",
+      "byteSize": 478045,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "bbdb475a89da253f5d52d5b3037fad96875cd707eb8b13abb484947a53f5b58c",
-      "byteSize": 491080,
+      "sha256": "ea79f506cc84b24c7a480170b6fa36353501416ad5afc1525e33e21c626e656c",
+      "byteSize": 504022,
       "recordCount": 0,
       "role": "generator"
     },
@@ -16701,52 +16701,29 @@
     },
     {
       "key": "hero_skill|hero_lucian|W|热诚烈弹",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_lucian",
       "skillKey": "W",
       "passiveName": "热诚烈弹",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-3594941",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/lucian-w.json@rev3594941 sha256:b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_lucian|W|热诚烈弹",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity",
+      "reason": "Lucian W 热诚烈弹/Ardent Blaze：Wiki request Template:Data Lucian/W → resolved Template:Data Lucian/Ardent Blaze；page1308178 / rev3594941 / timestamp 2023-09-12T19:08:23Z / canonical bytes2542 / SHA256 b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5（normalized/generic/lucian-w.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-lucian-ardent-blaze-primary-hit + backend seed 证据闭环——local raw caveat bytes2542 / SHA a57b0e49765ab5a9bdd30ad295d24e406a90015b083c8a0e817855c6bc152236（canonical identity remains sidecar/pages；no equivalence or contradiction claim；equal size alone is not byte equality or source contradiction）；60 mana / 10000ms CD；immediate primary-champion single magic hit scaffold；one immediate primary-champion single noncritical/noncopyable magic damage operation 215 + 0.90 * source.attr.ap.resolved；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no explicit event op）（交叉校验 AP0/MR0 raw=final215；AP0/MR100 raw215/final107.5；AP100/MR0 raw=final305；AP100/MR100 raw305/final152.5；AP200/MR100 raw395/final197.5）。Attempts mana180/AP100/targetHP1000/MR100 at t0/t9999/t10000 → success/skip/success，exactly two W damage items；final mana60 and target HP695；exactly two automatic W ability_started；mana59 at t0 → resource skip with mana/HP unchanged and no W damage/event。Lucian W is standalone；Backend has no repository-owned hero_lucian / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Lucian Q dependence；不暗示 Batch-B 或 sibling Lucian synthesis；不暗示任何 production runtime/ABI/Web change。completedBoundary：rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity。明确排除 cast timing and Effect-at-cast-time-end、direction/range/acquisition、missile/travel/collision、cross/explosion geometry、multitarget/AOE、sight、6-second mark、movement speed and its ranks、allied trigger/Vigilance、dodge/block/blind/persistent-damage、spell-shield mark exception、ranks1-4、equipment/loadout/crit/on-hit、other Lucian abilities/siblings、live migration/publish/E2E、full Ardent Blaze/game fidelity；不宣称 cast/Effect-at-cast-time-end/direction/range/missile/collision/cross/explosion/multitarget/AOE/sight/mark/ms/Vigilance/dodge/block/blind/DoT/spell-shield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_lucian/ap/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_lucian|W|热诚烈弹"
         },
         {
@@ -16755,7 +16732,22 @@
           "sourceRecordKey": "hero_skill|hero_lucian|W|热诚烈弹"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-lucian-ardent-blaze-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_lucian_ardent_blaze_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity; backend lol_generic_lucian_ardent_blaze_primary_hit_seed.sql + LolGenericLucianArdentBlazePrimaryHitSeedSqlTest (owning 2b29c4e; integrated 7e8a40c); Wasm exact test commit d57dc3b; external existing-data/check-only prerequisites (hero_lucian/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Lucian synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-lucian-ardent-blaze-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_lucian_ardent_blaze_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity; Wiki request Template:Data Lucian/W → Ardent Blaze; rev3594941/SHA256 b1ea7bc7… / bytes2542; local raw caveat bytes2542/SHA a57b0e49… no equivalence claim; rank5 60 mana/10000ms CD / one magic 215+0.90*AP; AP0/MR0=215; AP0/MR100 raw215/final107.5; AP100/MR0=305; AP100/MR100 raw305/final152.5; AP200/MR100 raw395/final197.5; damage 20221/add 20170; no explicit event op; mana180/AP100/HP1000/MR100 t0/t9999/t10000 success/skip/success two W damage items final mana60/HP695 two automatic W ability_started; mana59 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit d57dc3b; cast/Effect-at-cast-time-end/direction/range/missile/collision/cross/explosion/multitarget/AOE/sight/mark/ms/Vigilance/dodge/block/blind/DoT/spell-shield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
