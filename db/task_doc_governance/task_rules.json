@@ -1430,6 +1430,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-jhin-dancing-grenade-primary-first-hit",
+      "title": "通用 ABI 烬 Q 曼舞手雷 Dancing Grenade 主目标首击机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_jhin_dancing_grenade_primary_first_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_jhin|Q|曼舞手雷 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Jhin/Q→Dancing Grenade page1307579/rev4007611/timestamp2026-04-12T07:23:12Z/canonical raw1913/SHA256 522c4b918067b4b035b6744eb3dc83ce64ba5d47f677ed8517fcb246111685f1；normalized2388/SHA 6f5c6dcc9771140136705f8e6554cb999f7ec5a1272515d5cbd03b910bdd20b1；pages682/SHA 642d7c88a064cd3107a4cf9f51a75be2ca91bb2e904afd6cfa8cf3ead92b7897；sidecar jhin-q.json+pages权威；本地raw1911/SHA17deceae0abe42034f805a166ae5a16932ffcb19925654e6aa39625f026dd0cb（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; physical_144_plus_0_74_total_ad_plus_0_60_ap; no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_other_ranks_or_full_fidelity。Rank5：60mana/5000ms；immediate selected-primary-champion first-grenade single physical hit scaffold；一笔非暴击/不可复制物理命中144+0.74*source.attr.ad.resolved+0.60*source.attr.ap.resolved（精确嵌套二元树；total AD直接读取；不得减base/不得称bonus AD；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener/projectile/bounce；无Q-specific type。交叉AD0/AP0/armor0=144；AD100/AP0/armor0=218；AD0/AP100/armor0=204；AD100/AP100/armor0=278；AD100/AP100/armor100 raw278/final139；AD200/AP100/armor100 raw352/final176；baseAD0 vs baseAD60 at resolvedAD100/AP0/armor0 both218；mana180/baseAD60/resolvedAD100/AP100/HP1000/armor100 t0/t4999/t5000 success/skip/success两笔Q damage final mana60/HP722两次自动Q ability_started；mana59 resource skip不变。standalone显式Q/W isolation；不合成Batch-B/sibling Jhin；Backend无repository-owned hero_jhin/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/ap_ratio/immediate_impact_scaffold（无total_ad_ratio/salvage）。恰好一次选定主目标首雷物理命中，不是完整Q。有效DESIGN_READY run-a8330b2c（strict model；1888/1888events/35/35complete tool groups；runDelta0/diff0；无truncation/mutation）。Backend owning ce22594（run-72245e2f delta3/outside0；主focused61/full965 PASS；seed SHA414da928…73db11；JUnit SHAb2c7a800…7f38ca；README SHA96dfddaa…d38fc6）/镜像488898e（run-299aaaa4 delta3/outside0；精确parity）。Wasm exact f70be27（run-02c77f33 delta1/outside0 + 机械gofmt run-ae92e35e delta1/outside0 formatting correction only——诚实记录非合同失败；最终test bytes71563/SHA deaa6604…99679cc4；focused/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受10a3211（run-2dd9… delta8/outside0；主五检查通过；仅Jhin Q语义对象变化；provisional仅移除Jhin Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed96/partial_actionable0/ready0/blocked_runtime77/blocked_data3/OOS72/regression5/stale1；full96/partial3/none155；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated86/partial4/blocked83/OOS69/inScope173；implementation_gap=60；provisional80=runtime77/data3/hero78/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion96/254=37.8%；completed+provisional coverage176/254=69.3%；80张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=110。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Dancing Grenade/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-烬Q曼舞手雷DancingGrenade主目标首击机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-烬Q曼舞手雷DancingGrenade主目标首击机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
