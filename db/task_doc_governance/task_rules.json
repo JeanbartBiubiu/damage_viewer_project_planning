@@ -1254,6 +1254,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-kalista-pierce-primary-hit",
+      "title": "通用 ABI 卡莉丝塔 Q 穿刺 Pierce 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kalista_pierce_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_kalista|Q|穿刺 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Kalista/Q→Pierce page1307666/rev3997075/timestamp2026-03-06T15:53:18Z/canonical raw1625/SHA256 90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67；sidecar kalista-q.json+pages权威；本地raw1623/SHA0b8dd9cf…1c94（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity。Rank5：80mana/9000ms；immediate primary-champion first-enemy scaffold；一笔非暴击/不可复制物理270+1.05*source.attr.ad.resolved（直接total AD读取；不得减base/不得称bonus AD；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉(AD0,A0)=(270,270)；(AD0,A100)=(270,135)；(AD100,A0)=(375,375)；(AD100,A100)=(375,187.5)；(AD200,A100)=(480,240)；mana240/HP1000/AD100/armor100 t0/t8999/t9000 success/skip/success两笔Q damage final mana80/HP625两次自动Q ability_started；mana79 resource skip不变。standalone不合成Batch-B/sibling Kalista；Backend无repository-owned hero_kalista/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/immediate_impact_scaffold（无total-AD tag）。DESIGN_READY run-55166e3f（strict grok-4.5/high/fast=false；1024events/45complete read-only；runDelta0/diff0；无truncation/user decision）。Backend owning 04c061f（run-7c1ed300 delta3/outside0；968events/32complete call groups；focused Kalista/Jinx/Jhin27/27；Cursor full857/857；首轮瞬时既有Kog'Maw LivingArtillery regex SOE→隔离10/10→全量重跑857/857，非Kalista失败；seed SHA6f273a57…9af4；JUnit SHA2f42b6ac…c885）/镜像bdb5d32（run-ae314a2e delta3/outside0；542events/4complete calls；三Backend产物精确字节/hash对等；README整文件漂移有意同步）。Wasm exact 99e7b39（初始run-05b5303e delta1/outside0；1307events/26complete call groups；gofmt修正run-f1f16286 delta1/outside0；370events/4calls；gofmt -d clean；focused + full Go + bench + TinyGo + Node smoke + Node generic-run bench PASS；Built与独立Web worktree资产1,169,377/SHA65A4…C6A0同步不变）。审计f513014（run-95662474 delta6/outside0；1350parseable；无truncation；74complete tool groups+一笔unmatched read-only read running——不得伪称完全配对；主会话独立重跑两生成器/四checks/count parsing/HEAD比较；Registry/Batch-G/G8/Unified PASS；仅Kalista Q语义对象变化；稳定order/keys）。Unified254：sourceCount12/completed85/partial_actionable0/ready0/blocked_runtime88/blocked_data3/OOS72/regression5/stale1；full85/partial3/none166；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated75/partial4/blocked94/OOS69/inScope173；implementation_gap=71；actionableKeyCount=0为当前事实非停工条件。治理tasks=98。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Pierce/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卡莉丝塔Q-穿刺主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卡莉丝塔Q-穿刺主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
