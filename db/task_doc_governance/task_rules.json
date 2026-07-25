@@ -1190,6 +1190,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-xayah-featherstorm-primary-hit",
+      "title": "通用 ABI 霞 R 暴风羽刃 Featherstorm 主目标伤害量子机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_xayah_featherstorm_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_xayah|R|暴风羽刃 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Xayah/R→Featherstorm page1324544/rev4008617/timestamp2026-04-15T00:26:44Z/canonical raw1761/SHA256 cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077；sidecar xayah-r.json；本地raw1761/SHAdebf23b0…43ace1（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity。Phase-A语义框定：leveling-labeled数值一次所选施加为有界物理伤害量子；不证明Wiki/完整R once-only或完整Featherstorm仅一次总命中；不建模五次伤害ops/同目标多羽基数。Rank3：100mana/100000ms；immediate primary-champion scaffold；一笔非暴击/不可复制物理400+1.00*(resolvedAD-baseAD)（嵌套二元add）；成功施放自动一次ability_started（无显式event op）；零R state/modifier/listener。交叉baseAD60/resolvedAD60 raw400 armor0=400 armor100=200；resolvedAD110 raw450 armor0=450 armor100=225；mana300/HP1000/armor100 t0/t99999/t100000两成功+一CD skip两笔R damage-quantum final mana100/HP550两次自动R ability_started；mana99 resource skip不变。W/Q/R isolation：type62012+relation+listener ability_id IS NULL+ALL{20205,20212,62012}；runtime ability type matcher/empty AbilityRef；R/Q不武装W；W自武装；R仍一量子、Q仍双击；Q为可选独立sibling。Backend R seed为Xayah/ad/mana+校正后W isolation的external-existing-data/check-only；不物化identity/panel/resource；不突变W/Q；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。DESIGN_REVIEW v2 READY run-4a01857d（grok-4.5/high/fast=false；1303events/86tool/43calls；runDelta0/diff0；v1 run-b3d8f4b0 REVISE非门控）。Backend owning354fd287（run-7443696e delta3/outside0；791events；focused R/Q/W 25/25=W9+Q8+R8；full Maven821/821；规划26非通过计数）/集成741e1ff（run-dcff2c73 delta3/outside0；README+39R；focused25/25；未重跑全量Maven；不得主张Wasm-worktree全量Maven通过）。Wasm exact57ec17c（run-9594cfdb delta1/outside0；1321events；focused5top/11sub + full Go + bench + TinyGo + Node smoke PASS；Built/Web资产1,169,377/SHA65A4…C6A0同步不变；无Web变更/拷贝）。审计893298e（run-1513d389 delta6/outside0；1071events；G8/Unified generate+--check PASS；仅Xayah R对象变化；W/Q hashes不变 G8 W dd91a84a…938f / Unified W b03237eb…45ed4 / G8 Q 8305be23…823ba / Unified Q 83a2402f…fd13a5）。Unified254：sourceCount12/completed81/blocked_runtime92/full81/none170；G8 242=migrated71/partial4/blocked98/OOS69；implementation_gap=75；actionableKeyCount=0为当前事实非停工条件。治理tasks=94。未执行live migration/publish/push/E2E。不得误称完整Featherstorm/游戏技能保真或full-R once-only；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-霞R暴风羽刃Featherstorm主目标伤害量子机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-霞R暴风羽刃Featherstorm主目标伤害量子机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
