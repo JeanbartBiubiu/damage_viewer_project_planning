@@ -1539,6 +1539,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest,LolGenericKalistaPiercePrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Caitlyn Ace in the Hole single-bullet-quantum seed（凯特琳 R / Phase-A v1 选定主冠军单发物理子弹量子）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_caitlyn)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_caitlyn,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_caitlyn,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Caitlyn ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 R active **单发 bullet quantum**；**不要求** Caitlyn Q 或 E publication，与既有/未来 Caitlyn P/Q/W/E/basic（含 Piltover Peacemaker Q / 90 Caliber Net E）**并存且不突变**；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-caitlyn-ace-in-the-hole-single-bullet-quantum-phase-a-v1-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_caitlyn|R|让子弹飞`（task `wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum`）冻结为 **Phase-A rank-3 立即选定主冠军单发物理子弹量子 impact scaffold**（`FROZEN_PLAN_REV=caitlyn-r-ace-in-the-hole-single-bullet-quantum-phase-a-v1`）：
+
+`rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`（**不含**暴击比率标签）。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_caitlyn` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_caitlyn` **仅** mount 独立 `provider_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum`（standalone；不创建/突变 P/Q/W/E/basic；不触碰既有 Caitlyn Q/E），含 active `ability_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum`（`ability_key=ace_in_the_hole_single_bullet_quantum`）、`ability_costs` 100 mana、`ability_cooldowns` 90000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `650 + 1.00*(ad.resolved-ad.base)`（**bonus AD**，二元 `add(const 650, mul(const 1.00, sub(read …resolved, read …base)))`；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / channel / projectile / geometry / interception / crit 行。成功 cast 由 runtime 自动发出 `ability_started`（本 R 图不添加 listener / event step）。Immediate selected-primary-champion one-bullet damage 为 Phase-A **single-bullet quantum scaffold**，不是实际 channel/reveal/homing/travel/interception/crit/corpse/full-R fidelity。Wiki：request `Template:Data Caitlyn/R` → resolved `Template:Data Caitlyn/Ace in the Hole`；page1306918 / rev3982561 / `2026-01-09T09:02:59Z` / canonical 3119 bytes / SHA256 `08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8`；sidecar `normalized/generic/caitlyn-r.json` + pages sibling（Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 亦 3119 / `015c1dbe8f02dd5ac354e6a6da6def878f1acccf788b1f599ee4bfd589e05003`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`base0/resolved0/A0=650`；`base60/resolved60/A0=650`；`base60/resolved160/A0=750`；`base60/resolved160/A100` raw750/final375；`base60/resolved260/A100` raw850/final425；`base0/resolved100` vs `base60/resolved160/A0` both750（bonus-AD proof）；mana300/base60/resolved160/HP1000/A100 在 t0/t89999/t90000 → 两次成功 + 一次 cooldown skip、两笔 R damage、两次自动 R `ability_started`、final mana100/HP250；mana99 → resource skip、不变、无 R damage/event evidence；standalone provider 不合成 P/Q/W/E/basic，不要求 Caitlyn Q 或 E publication，与既有 Caitlyn Q/E 隔离。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：1s channel/locks；target/self reveal/true sight/4s buff；cancel/interrupt/death/untargetable/mana refund/5s canceled cooldown/resurrection；homing/travel/destruction/interception/first-enemy geometry/range；crit chance 0–30%；target death/corpse continuation；sight1500；unit-target cancel conditions/ability lockout；ranks1–2；P/Q/W/E/basic/siblings/loadout/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/channel/projectile/geometry/interception/crit/sibling；live migration；publish；E2E/live/full fidelity。One quantum, not full R。
+
+静态契约校验（不连 live DB；含邻近 Caitlyn Q/E isolation，以及 Lucian Q bonus-AD / Lucian R quantum 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest,LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest,LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest test
+```
+
 ### LoL generic Kalista Pierce primary-hit seed（卡莉丝塔 Q / Phase-A v1 主冠军第一敌人命中）
 
 在 reserved types 已就绪，且 **外部既有** `game_entities(hero_kalista)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_kalista,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_kalista,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Kalista ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 Q active；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
