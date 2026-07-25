@@ -1622,6 +1622,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Lucian The Culling single-shot quantum seed（卢锡安 R / Phase-A v2 主冠军首敌单发物理 shot quantum）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_lucian)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_lucian,ad)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_lucian,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_lucian,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Lucian ad/ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 R active **单发 shot quantum**；**不要求** Lucian Q 或 W publication，与既有/未来 Lucian P/Q/W/E/basic（含 Piercing Light Q / Ardent Blaze W）**并存且不突变**；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_lucian_the_culling_single_shot_quantum_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-lucian-the-culling-single-shot-quantum-phase-a-v2-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_lucian|R|圣枪洗礼`（task `wasm-generic-lucian-the-culling-single-shot-quantum`）冻结为 **Phase-A rank-3 立即主冠军首敌单发物理 shot quantum impact scaffold**（`FROZEN_PLAN_REV=lucian-r-the-culling-single-shot-quantum-phase-a-v2`）：
+
+`rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `ap_ratio` → `immediate_impact_scaffold`（**不含** governed tag `total_ad_ratio`；total AD 仅显式出现在 boundary/reason/formula）。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_lucian` / `ad`+`ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_lucian` **仅** mount 独立 `provider_hero_lucian_r_the_culling_single_shot_quantum`（standalone；不创建/突变 P/Q/W/E/basic；不触碰既有 Lucian Q/W），含 active `ability_hero_lucian_r_the_culling_single_shot_quantum`（`ability_key=the_culling_single_shot_quantum`）、`ability_costs` 100 mana、`ability_cooldowns` 90000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `45 + 0.25*source.attr.ad.resolved + 0.15*source.attr.ap.resolved`（**total AD** 直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；嵌套二元 `add(add(const 45, mul(const 0.25, read …ad.resolved)), mul(const 0.15, read …ap.resolved))`；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / channel / projectile / geometry / multishot / crit / sibling 行。成功 cast 由 runtime 自动发出 `ability_started`（本 R 图不添加 listener / event step）。Immediate primary-champion one-shot damage 为 Phase-A **single-shot quantum scaffold**，不是实际 channel/missile/acquisition/total-shot/total-ultimate fidelity。Wiki：request `Template:Data Lucian/R` → resolved `Template:Data Lucian/The Culling`；page1308182 / rev4007670 / `2026-04-12T10:40:21Z` / canonical 4477 bytes / SHA256 `7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7`；sidecar `normalized/generic/lucian-r.json` + pages sibling（Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 亦 4477 / `b63612287a8a965e7655829a2054aec7b019705225fd7e7b4736303a172bc74d`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。Raw variables freeze：`r_d3=45`、`r_ad=25` percent total AD、`r_ap=15` percent AP、cost100 mana、cooldown Rank3 90 seconds、physical damage。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`baseAD0/resolvedAD0/AP0/armor0` raw/final45；`baseAD60/resolvedAD60/AP0/armor0` raw/final60；`baseAD60/resolvedAD160/AP0/armor0` raw/final85；`baseAD60/resolvedAD160/AP100/armor0` raw/final100；`baseAD60/resolvedAD160/AP100/armor100` raw100/final50；`baseAD60/resolvedAD260/AP200/armor100` raw140/final70；`baseAD0` versus `baseAD60` with `resolvedAD160` 产生相同 raw（公式只读 `source.attr.ad.resolved`，从不读 `source.attr.ad.base`）；mana300/baseAD60/resolvedAD160/AP100/HP1000/armor100 在 t0/t89999/t90000 → 两次成功 + 一次 cooldown skip、exactly two R shot-quantum damage items、两次自动 R `ability_started`、final mana100/HP900；mana99 → resource skip、不变、无 R damage/event；standalone provider 不合成 P/Q/W/E/basic，不要求 Lucian Q 或 W publication，与既有 Lucian Q/W 隔离。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：3-second channel/channel state；0.75-second/manual/automatic recast；22 base shots、crit-chance additional-shot count、total channel damage、cadence/fire-rate scaling；direction/range/width；missile offsets/alternating guns/travel/collision/first-enemy geometry/multitarget；minion double；movement/ghosted/facing；spell-shield handling；interrupts/E usability/Q-W lockout/Thresh/Tahm interactions；ranks1–2；P/Q/W/E/basic/on-hit/loadout/crit coupling；identity/panel/attribute/resource/Wiki bootstrap；listener/state/event/modifier/repeat/control/channel/projectile/geometry/multishot/crit/sibling；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB；含邻近 Lucian Q/W isolation，以及 Kai'Sa W total-AD+AP / Caitlyn Q total-AD / Ezreal E nested-formula 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest,LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest,LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
