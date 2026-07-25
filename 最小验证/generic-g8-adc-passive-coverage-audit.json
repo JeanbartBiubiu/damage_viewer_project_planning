@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-25T19:04:11.902Z"
+    "generatedAt": "2026-07-25T19:37:55.627Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 86,
+      "migrated": 87,
       "partial": 4,
-      "blocked": 83,
+      "blocked": 82,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 35.54,
+      "migrated": 35.95,
       "partial": 1.65,
-      "blocked": 34.3,
+      "blocked": 33.88,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 35.54,
-      "inScope": 49.71
+      "all": 35.95,
+      "inScope": 50.29
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 37.19,
-      "inScope": 52.02
+      "all": 37.6,
+      "inScope": 52.6
     },
     "inScopeCount": 173
   },
@@ -1453,29 +1453,32 @@
       "pageId": "corki-q",
       "sourceText": "{{sbc|Active:}} '''Corki''' launches a bomb at the target location that briefly grants {{tip|sight}} of its {{tt|surroundings|Cannot grant sight through terrain and can only grant sight into brush when the missile flies through that brush}} as it travels and explodes upon impact, dealing {{as|magic damage}} to enemies hit.\nThe bomb also grants {{tip|sight}} of the impact area for 6 seconds and {{tip|standard sight|reveals}} enemy {{tip|champions}} hit for the same duration.\n{{st|Magic Damage|{{ap|60 to 240}} {{as|(+ 125% '''bonus''' AD)}} {{as|(+ 100% AP)}}}}\n{{ap|9 to 7}}\n{{ap|60 to 80}}\nmana\nMagic\n* The missile has a minimum travel time of {{fd|0.227}} seconds.\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/corki-q.json@rev4007588 sha256:e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4007588",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/corki-q.json@rev4007588 sha256:e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_corki Q 磷光炸弹/Phosphorus Bomb：Wiki request Template:Data Corki/Q → resolved Template:Data Corki/Phosphorus Bomb；page1306953 / rev4007588 / timestamp 2026-04-12T06:50:59Z / canonical bytes1531 / SHA256 e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365（normalized/generic/corki-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-corki-phosphorus-bomb-primary-impact 闭环为 migrated——local raw caveat bytes1529 / SHA c39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 7000ms CD；immediate selected-primary-champion single magic impact hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(add(const 240, mul(const 1.25, sub(read source.attr.ad.resolved, read source.attr.ad.base))), mul(const 1.00, read source.attr.ap.resolved))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 base60/resolved60/AP0/MR0 raw=final240；base60/resolved160/AP0/MR0 raw=final365；base60/resolved60/AP100/MR0 raw=final340；base60/resolved160/AP100/MR0 raw=final465；base60/resolved156/AP100/MR100 raw460/final230；base60/resolved220/AP100/MR100 raw540/final270；base0/resolved100 versus base60/resolved160 AP0/MR0 both365）。Attempts mana240/baseAD60/resolvedAD156/AP100/HP1000/MR100 at t0/t6999/t7000 → success/skip/success，exactly two Q damage items；final mana80/HP540；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Corki Q provider is standalone；Backend has no repository-owned hero_corki / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Corki P/W/E/R dependence；不暗示 Batch-B 或 sibling Corki synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused75/full975 passed。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write（embedded web/ copy is a wrong-path validation caveat, not independent Web parity failure）。completedBoundary：rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/location targeting/range/radius/geometry、projectile travel/minimum travel time/explosion、AOE/multitarget/surrounding、travel/impact-area sight、enemy-champion reveal/six-second duration、spellshield、collision/acquisition、other ranks、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary magic impact hit, not full Q；不宣称 cast/location/range/radius/geometry/projectile/travel/minimum-time/explosion/AOE/multitarget/collision/acquisition/spellshield/sight/reveal/duration/other ranks/siblings/live/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_corki/ad/ap/mana），不物化 identity/panel/resource values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-corki-phosphorus-bomb-primary-impact",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_corki_phosphorus_bomb_primary_impact_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Corki/Q → Phosphorus Bomb; rev4007588/SHA256 e71a474e… / bytes1531; local raw caveat bytes1529/SHA c39556a0… no equivalence claim; rank5 80 mana/7000ms CD / one magic 240+1.25*bonusAD+1.00*AP via nested binary add(add(240,1.25*(ad.resolved-ad.base)),1.00*ap.resolved); base60/resolved60/AP0/MR0=240; base60/resolved160/AP0/MR0=365; base60/resolved60/AP100/MR0=340; base60/resolved160/AP100/MR0=465; base60/resolved156/AP100/MR100 raw460/final230; base60/resolved220/AP100/MR100 raw540/final270; base0/resolved100 vs base60/resolved160 AP0/MR0 both365; damage 20221/add 20170; no 20230; no explicit event op; no Q type; mana240/baseAD60/resolvedAD156/AP100/HP1000/MR100 t0/t6999/t7000 success/skip/success two Q damage items final mana80/HP540 two automatic Q ability_started; mana79 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit b381b1e bytes65821/SHA 58f47763…; cast/location/range/radius/geometry/projectile/travel/minimum-time/explosion/AOE/multitarget/sight/reveal/duration/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-corki-phosphorus-bomb-primary-impact",
+          "sourcePath": "db/game_manage/seeds/lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity; backend lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql + LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest (owning 6003a7e; integrated b352677); Wasm exact test commit b381b1e; external existing-data/check-only prerequisites (hero_corki/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Corki synthesis; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_corki|W|瓦尔基里俯冲",
