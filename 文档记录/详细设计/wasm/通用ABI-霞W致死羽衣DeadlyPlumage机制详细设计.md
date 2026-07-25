@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: done
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-20
+LAST_TRACKED_AT: 2026-07-25
 
 # 通用 ABI - 霞 W 致死羽衣（Deadly Plumage）Phase-A rank5 机制详细设计
 
@@ -57,3 +57,21 @@ LAST_TRACKED_AT: 2026-07-20
 - 独立次级羽刃 missile / 第二伤害操作。
 - 其它 rank、完整 live-game 保真。
 - live migration、Admin publish、浏览器对 live backend 的 E2E。
+
+## 5. 2026-07-25 ability-type listener isolation addendum（当前证据）
+
+本补记**仅**记录 ability-type listener 隔离与 Q 共存证据；**不**重分类 W，**不**改变既有 Phase-A 合同：40 mana / 14000ms CD / 4000ms timed AS +55% / pipeline basic_damage ×1.25。
+
+| 项 | 当前合同 / 证据 |
+| --- | --- |
+| Backend type | game-local type `62012` `ability/xayah_deadly_plumage` |
+| relation | W ability type relation 挂载该 type |
+| listener | `ability_id IS NULL`（`AbilityRef` 不是事件过滤） |
+| match set | exact ALL types `{20205, 20212, 62012}` |
+| runtime | W ability 带该 type；listener matcher = `event/ability_started` + `event/source_owner` + ability type；`ListenerDefinition.AbilityRef` 为空 |
+| Q 共存 | Q 成功/skip 不交叉武装 W（W inactive / AS baseline）；W 成功在 Q 已挂载时仅武装 W、零 Q 伤害 |
+| commits / runs | Backend owning `8ace954`（恢复 `run-3c2645ea…`）；集成 `6bab0b8`（接受 `run-f84ba8c6…`）；Wasm exact `dd7dae6`（`run-8fbe36dd…`）；审计 `d94d35a`（`run-aae6eb8d…`） |
+| canonical hashes | Xayah W G8 `dd91a84a1e307ab4540b9d0f422c3715334ecdac3ac01580c5cb04859f6d938f`、Unified `b03237eb01927cccdfa38f2abacd12f2cf0a17cf0b5bbcde75f06b7870b45ed4` 在 Q 闭环审计中**保持字节语义不变** |
+| 纠正范围 | isolation-only；不改变 W 分类或数值/公式/state/modifier 合同 |
+
+当前盘点（2026-07-25，只读审计 JSON）：G8 242 = migrated70 / partial4 / blocked99 / OOS69；Unified254 sourceCount12 = completed80 / partial_actionable0 / ready0 / blocked_runtime93 / blocked_data3 / OOS72 / regression5 / stale1；completionMode full80 / partial3 / none171；`implementation_gap_no_unresolved_data_fields=76`；`actionableKeyCount=0`（**不是**停工条件）。
