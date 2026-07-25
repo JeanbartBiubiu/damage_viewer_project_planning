@@ -1676,6 +1676,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest,LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest,LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Tristana Buster Shot primary-hit seed（麦林炮手 R / Phase-A v1 选定主冠军单次魔法命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_tristana)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_tristana,ad)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_tristana,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_tristana,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Tristana ad/ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；不以 ensure-entity legacy seeds 为理由物化前置；仅挂载可 cast 的 R active **选定主冠军单次魔法命中**；**不要求** P/Q/W/E/basic/Explosive Charge publication，亦不合成那些行；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_tristana_buster_shot_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-tristana-buster-shot-primary-hit-phase-a-v1-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_tristana|R|毁灭射击`（task `wasm-generic-tristana-buster-shot-primary-hit`）冻结为 **Phase-A rank-3 立即选定主冠军单次魔法命中 impact scaffold**（`FROZEN_PLAN_REV=tristana-r-buster-shot-primary-hit-phase-a-v1`）：
+
+`rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `bonus_ad_ratio` → `ap_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_tristana` / `ad`+`ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_tristana` **仅** mount 独立 `provider_hero_tristana_r_buster_shot_primary_hit`（standalone；不创建/突变 P/Q/W/E/basic/Explosive Charge），含 active `ability_hero_tristana_r_buster_shot_primary_hit`（`ability_key=buster_shot_primary_hit`）、`ability_costs` 100 mana、`ability_cooldowns` 100000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `325 + 0.70*(ad.resolved-ad.base) + 1.00*ap.resolved`（**bonus AD** + AP；嵌套二元 `add(add(const 325, mul(const 0.70, sub(read …resolved, read …base))), mul(const 1.00, read …ap.resolved))`；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit；运行时类型 `20221` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / channel / projectile / geometry / knockback / stun / reveal / secondary 行。成功 cast 由 runtime 自动发出 `ability_started`（本 R 图不添加 listener / event step）。Immediate selected-primary-champion magic hit 为 Phase-A scaffold，不是实际 cast time/knockback/stun/reveal/secondary/terrain/full-R fidelity。Wiki：request `Template:Data Tristana/R` → resolved `Template:Data Tristana/Buster Shot`；page1308525 / rev4008205 / `2026-04-14T05:37:16Z` / canonical 2385 bytes / SHA256 `2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058`；sidecar `normalized/generic/tristana-r.json` + pages sibling（Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 2382 / `42e07f07f3188aada86d18d782c05d291f031dbbf92171e4a1120e828ebf8c7b`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`baseAD0/resolvedAD0/AP0/MR0` raw/final325；`baseAD60/resolvedAD60/AP0/MR0` raw/final325；`baseAD60/resolvedAD160/AP0/MR0` raw/final395；`baseAD60/resolvedAD160/AP100/MR0` raw/final495；`baseAD60/resolvedAD160/AP100/MR100` raw495/final247.5；`baseAD60/resolvedAD260/AP200/MR100` raw665/final332.5；`baseAD0/resolvedAD100/AP100` vs `baseAD60/resolvedAD160/AP100` at MR0 both495（bonus-AD proof）；mana300/base60/resolved160/AP100/HP1000/MR100 在 t0/t99999/t100000 → 两次成功 + 一次 cooldown skip、exactly two R damage items、两次自动 R `ability_started`、final mana100/HP505；mana99 → resource skip、不变、无 R damage/event；standalone provider 不合成 P/Q/W/E/basic/Explosive Charge。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：cast time；knockback/airborne/stun/reveal；displacement direction/distance/speed/terrain/immunity；secondary/surrounding targets and zero default damage/turret aggro；unit-target cancel conditions；post-cast basic attack；Explosive Charge；ranks1–2；P/Q/W/E/basic/siblings/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/channel/projectile/geometry/knockback/stun/reveal/secondary/sibling；live migration；publish；E2E/live/full fidelity。One selected-target magic hit, not full R。
+
+静态契约校验（不连 live DB；含邻近 Caitlyn R / Lucian W / Twisted Fate Q / Caitlyn E check-only，以及 Ezreal E 嵌套 bonusAD+AP 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericTristanaBusterShotPrimaryHitSeedSqlTest,LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericTwistedFateWildCardsPrimaryHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
