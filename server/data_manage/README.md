@@ -1401,6 +1401,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Caitlyn 90 Caliber Net primary-hit seed（凯特琳 E / Phase-A v3 主冠军第一敌人命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_caitlyn)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_caitlyn,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_caitlyn,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Caitlyn ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 E active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-caitlyn-90-caliber-net-primary-hit-phase-a-v3-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_caitlyn|E|90口径绳网`（task `wasm-generic-caitlyn-90-caliber-net-primary-hit`）冻结为 **Phase-A rank-5 立即主冠军第一敌人魔法命中 impact scaffold**（`FROZEN_PLAN_REV=caitlyn-e-90-caliber-net-primary-hit-phase-a-v3`）：
+
+`rank5_primary_champion_first_enemy_single_magic_hit; immediate_impact_scaffold; magic_280_plus_0_80_ap; no_cast_timing_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_suppression_spell_shield_recoil_dash_terrain_buffered_actions_slow_headshot_mark_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `ap_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_caitlyn` / `ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_caitlyn` **仅** mount 独立 `provider_hero_caitlyn_e_90_caliber_net_primary_hit`（standalone；不创建/突变 P/Q/W/R/basic），含 active `ability_hero_caitlyn_e_90_caliber_net_primary_hit`（`ability_key=caliber_net_primary_hit`）、`ability_costs` 75 mana、`ability_cooldowns` 8000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `280 + 0.80*source.attr.ap.resolved`（AP 直接读 `ap.resolved`；二元 `add(const 280, mul(const 0.80, read …))`；`copyable_on_hit=false`，非 crit；运行时类型 `20221` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / slow / recoil / dash / mark 行。成功 cast 由 runtime 自动发出 `ability_started`（本 E 图不添加 listener / event step）。Wiki：request `Template:Data Caitlyn/E` → resolved `Template:Data Caitlyn/90 Caliber Net`；page1306916 / rev4007584 / `2026-04-12T06:47:56Z` / canonical 2095 bytes / SHA256 `9357e7b28b05f738cd8049a2d10a115e4033a54123c0e71f55d1262a92884db2`；sidecar `normalized/generic/caitlyn-e.json` + pages sibling。**local raw materialization caveat**：仓库 local raw 2094 / `3a5eba6df38ec34046440743d55de61490dc7b5a2488b8fc671851474d080073`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：AP0 → raw280 / MR0=280 / MR100=140；AP100 → raw360 / MR0=360 / MR100=180；mana225/HP1000/AP100/MR100 在 t0/t7999/t8000 → 两次成功 + 一次 cooldown skip、两笔 E damage、final mana75/HP640、两次自动 E `ability_started`；mana74 → resource skip、不变、无 E damage/event；standalone provider 不合成 P/Q/W/R/basic。
+
+**排除**：cast timing / Effect at cast time end；direction/range/width/line geometry；multitarget/first-enemy acquisition/collision；projectile/suppression/interception/spell shield；recoil/dash/terrain/buffered actions；slow magnitude/duration/control/tenacity；Headshot/mark；ranks1–4；P/Q/W/R/basic/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/slow/recoil/dash/mark；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB；含邻近 Jhin W/Jinx W 与直接 AP-magic primary-hit）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericTeemoBlindingDartSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericKogmawVoidOozePrimaryHitSeedSqlTest,LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
