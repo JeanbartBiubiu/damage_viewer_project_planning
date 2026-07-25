@@ -1366,6 +1366,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed",
+      "title": "通用 ABI 崔丝塔娜 Q 急速射击 Rapid Fire 限时攻速机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_tristana_rapid_fire_timed_bonus_attack_speed",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_tristana|Q|急速射击 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Tristana/Q→Rapid Fire page1308522/rev4026462/timestamp2026-06-09T21:59:03Z/canonical raw872/SHA256 f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da；sidecar tristana-q.json+pages权威；本地raw866/SHAdb084b41…d170（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity。Rank5：35mana/16000ms；state rapid_fire_active default0/max1/duration7000；attack_speed percent_add精确1.20*rapid_fire_active；game-local type62013 ability/tristana_rapid_fire；listener空AbilityRef+exact ALL started/source_owner/Q-type；无damage/显式event；成功施放自动一次ability_started。交叉baseline AS0.60；active AS1.32 t0 through6999；baseline0.60 at7000；mana105 t0/t15999/t16000 success/skip/success两次Q starts readyAt16000 final mana35/state1/AS1.32；mana34 resource skip不变。显式Q/R isolation：R alone留下Q state0/AS0.60且仅R damage；Q武装Q/AS1.32且无R damage。正常路径因CD16000>duration7000无法窗内再施放refresh；不得把runtime refresh策略本身描述为non-refreshing。standalone；不依赖P/W/E/basic/Explosive Charge；不依赖/合成Buster Shot；不合成Batch-B/sibling Tristana；Backend无repository-owned hero_tristana/attack_speed/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_attack_speed_modifier/timed_state/ability_type_listener_isolation（Unified全局排序可能改变显示序——集合相同）。有效DESIGN_READY run-22dbfa4d（strict model；1496events/65/65complete tool groups；runDelta0/diff0；无truncation/mutation；三条非阻塞笔记已接受）。Backend owning abc7500c（run-9ab9684f delta3/outside0；主focused11/adjacent49/full922 PASS；seed SHA146a1c6e…e09d；JUnit SHAfa2e8658…01d08；README SHA551ebe55…87d31）/镜像5d468bfa（run-e8e80b77 delta3/outside0；精确parity）。较早run-766a0fbf因driving-prompt SHA typo以delta0停止且无task write——非完成证据。Wasm exact ddbca0f9（run-6e1cb345 delta1/outside0；focused6/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受1683418（run-c4348cec delta8/outside0；主五检查通过；语义比较仅Tristana Q G8/Unified变化；provisional仅移除Tristana Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed92/partial_actionable0/ready0/blocked_runtime81/blocked_data3/OOS72/regression5/stale1；full92/partial3/none159；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated82/partial4/blocked87/OOS69/inScope173；implementation_gap=64；provisional84=runtime81/data3/hero82/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion92/254=36.2%；completed+provisional coverage176/254=69.3%；84张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=106。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Rapid Fire/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-崔丝塔娜Q-急速射击限时攻速机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-崔丝塔娜Q-急速射击限时攻速机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
