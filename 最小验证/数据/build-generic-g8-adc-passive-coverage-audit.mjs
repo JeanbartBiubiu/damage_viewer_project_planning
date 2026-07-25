@@ -677,6 +677,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_ezreal_arcane_shift_primary_hit_seed.sql',
   ezrealTrueshotBarragePrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql',
+  ezrealMysticShotPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_ezreal_mystic_shot_primary_hit_seed.sql',
   akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
   twitchDeadlyVenomBackend: 'db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql',
   terminusJuxtapositionBackend:
@@ -828,6 +830,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_arcane_shift_primary_hit_test.go',
   ezrealTrueshotBarragePrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_trueshot_barrage_primary_hit_test.go',
+  ezrealMysticShotPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_mystic_shot_primary_hit_test.go',
   akshanDirtyFighting:
     'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go',
   twitchDeadlyVenom:
@@ -1582,6 +1586,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-ezreal-arcane-shift-primary-hit',
           SEED.ezrealArcaneShiftPrimaryHitBackend,
           'completedBoundary: rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks; backend lol_generic_ezreal_arcane_shift_primary_hit_seed.sql + LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest + README (owning 89e6677; integrated 0594b20); Wasm exact test commit 065beb1; nested binary add; external existing-data/check-only prerequisites (does not write identity/panel/resource values); Web source asset exact parity (no Web change/commit); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ezreal|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_ezreal Q 秘术射击/Mystic Shot：Wiki request Template:Data Ezreal/Q → resolved Template:Data Ezreal/Mystic Shot；page1307107 / rev4013233 / timestamp 2026-04-28T21:19:30Z / canonical bytes2054 / SHA256 be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533（normalized/generic/ezreal-q.json plus pages sibling are authority）rank5 Phase-A v2 已由 wasm-generic-ezreal-mystic-shot-primary-hit 闭环为 migrated——local raw caveat bytes2052 / SHA d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；40 mana / 4500ms CD；immediate selected-primary-enemy-champion single physical hit scaffold；one immediate selected-primary-enemy-champion single noncritical/noncopyable physical damage operation add(add(const 120, mul(const 1.30, read source.attr.ad.resolved)), mul(const 0.40, read source.attr.ap.resolved))（exact nested binary add；total AD direct read；never bonus AD/subtraction；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 resolvedAD60/AP0/armor100 raw198/final99；resolvedAD160/AP0/armor100 raw328/final164；resolvedAD60/AP100/armor100 raw238/final119；resolvedAD160/AP100/armor100 raw368/final184；baseAD0 versus baseAD60 at resolvedAD160/AP0/armor100 both328/164）。Attempts mana120/baseAD60/resolvedAD160/AP100/HP1000/armor100 at t0/t4499/t4500 → success/skip/success，exactly two Q damage items；final mana40/HP632；exactly two automatic Q ability_started；mana39 at t0 → resource skip with mana/HP unchanged and no Q damage/event。成功命中保留既有 Rising Spell Force 一层：successful t0 + CD skip t100 → exactly one damage/ability_started/P stack and AS1.1。Ezreal Q provider is standalone；preserve existing P/E/R without requiring/mutating/synthesizing/copying them；Q seed contains no W rows；Backend has no repository-owned hero_ezreal / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Ezreal W dependence；不暗示 Batch-B 或 sibling Ezreal synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused11/full998 passed。Wasm main validation passed gofmt/focused/count100/full/bench/build/smoke/benchmark；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write；hero-named `_test.go` is regression/governance evidence only and excluded from production build。completedBoundary：rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity。明确排除 direction/range/projectile travel/collision/first-enemy acquisition、on-hit/on-attack/1.5s cooldown reduction、basic+spell dual-tag/lifesteal/vamp/spellshield/buffering、ranks1–4、other Ezreal skills/basic beyond coexistence、loadout/crit、live migration/publish/E2E/full fidelity；this is exactly one selected-primary-enemy-champion single physical hit, not full Q；不宣称 direction/range/projectile/collision/acquisition/on-hit/on-attack/CD-reduction/dual-tag/lifesteal/vamp/spellshield/buffering/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_ezreal ad/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-mystic-shot-primary-hit',
+          WASM.ezrealMysticShotPrimaryHit,
+          'completedBoundary: rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity; Wiki request Template:Data Ezreal/Q → Mystic Shot; rev4013233/SHA256 be5a2486… / bytes2054; local raw caveat bytes2052/SHA d8348b3b… no equivalence claim; rank5 40 mana/4500ms CD / one physical 120+1.30*totalAD+0.40*AP nested binary add; resolvedAD60/AP0/armor100 raw198/final99; resolvedAD160/AP0/armor100 raw328/final164; resolvedAD60/AP100/armor100 raw238/final119; resolvedAD160/AP100/armor100 raw368/final184; baseAD0 vs baseAD60 at resolvedAD160/AP0/armor100 both328/164; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana120/baseAD60/resolvedAD160/AP100/HP1000/armor100 t0/t4499/t4500 success/skip/success two Q damage items final mana40/HP632 two automatic Q ability_started; mana39 resource skip unchanged; P coexistence successful t0 + CD skip t100 → exactly one damage/ability_started/P stack and AS1.1; Wasm exact test commit 000e253; direction/range/projectile/collision/acquisition/on-hit/on-attack/CD-reduction/dual-tag/lifesteal/vamp/spellshield/buffering/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ezreal-mystic-shot-primary-hit',
+          SEED.ezrealMysticShotPrimaryHitBackend,
+          'completedBoundary: rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity; backend lol_generic_ezreal_mystic_shot_primary_hit_seed.sql + LolGenericEzrealMysticShotPrimaryHitSeedSqlTest + README (owning 41fce6a; integrated ae66c56); Wasm exact test commit 000e253; nested binary add; external existing-data/check-only prerequisites (does not write identity/panel/resource values); Web source asset exact parity (no Web change/commit); not live published',
         ),
       ],
     },
@@ -4792,9 +4826,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 88) errors.push(`migrated=${counts.migrated}, expected 88`);
+  if (counts.migrated !== 89) errors.push(`migrated=${counts.migrated}, expected 89`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 81) errors.push(`blocked=${counts.blocked}, expected 81`);
+  if (counts.blocked !== 80) errors.push(`blocked=${counts.blocked}, expected 80`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -10266,6 +10300,135 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       ezrealE.candidateKey,
       ezrealE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const ezrealQ = records.find((r) => r.candidateKey === 'hero_skill|hero_ezreal|Q|秘术射击');
+  const ezrealQTags = [...(ezrealQ?.genericMechanismTags || [])];
+  const ezrealQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const ezrealQReason = String(ezrealQ?.classificationReason || '');
+  const ezrealQBoundary =
+    'rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_ezreal|Q')) {
+    errors.push('Ezreal Q exact override key hero_ezreal|Q must exist before fallback');
+  }
+  if (
+    !ezrealQ
+    || ezrealQ.candidateKey !== 'hero_skill|hero_ezreal|Q|秘术射击'
+    || ezrealQ.passiveName !== '秘术射击'
+    || ezrealQ.genericClassification !== 'migrated'
+    || String(ezrealQ.remainingGap || '').trim()
+    || (ezrealQ.dataGapEvidence?.missingFields || []).length !== 0
+    || ezrealQTags.join('|') !== ezrealQExpectedTags.join('|')
+    || ezrealQTags.includes('total_ad_ratio')
+    || ezrealQTags.includes('cooldown_or_haste_without_rotation')
+    || ezrealQTags.includes('meta_or_non_target_dps')
+    || ezrealQTags.includes('primary_damage_branch_salvage')
+    || ezrealQTags.includes('multi_target_or_area')
+    || String(ezrealQ.remainingGap || '').includes('blocked_data')
+    || ezrealQReason.includes('out_of_scope_for_single_target_dps')
+    || ezrealQReason.includes('blocked_data')
+    || ezrealQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || ezrealQReason.includes('cooldown_or_haste_without_rotation')
+    || ezrealQReason.includes('total_ad_ratio')
+    || ezrealQReason.includes('meta_or_non_target_dps')
+    || ezrealQReason.includes('primary_damage_branch_salvage')
+    || !ezrealQReason.includes('4013233')
+    || !ezrealQReason.includes(
+      'be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533',
+    )
+    || !ezrealQReason.includes('d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd')
+    || !ezrealQReason.includes('Template:Data Ezreal/Q')
+    || !ezrealQReason.includes('Template:Data Ezreal/Mystic Shot')
+    || !ezrealQReason.includes('page1307107')
+    || !ezrealQReason.includes('bytes2054')
+    || !ezrealQReason.includes('bytes2052')
+    || !ezrealQReason.includes('2026-04-28T21:19:30Z')
+    || !ezrealQReason.includes(ezrealQBoundary)
+    || !ezrealQReason.includes('nested binary')
+    || !ezrealQReason.includes('source.attr.ad.resolved')
+    || !ezrealQReason.includes('source.attr.ap.resolved')
+    || !ezrealQReason.includes('不得减 base AD')
+    || !ezrealQReason.includes('add(add(const 120')
+    || !ezrealQReason.includes('1.30')
+    || !ezrealQReason.includes('0.40')
+    || !ezrealQReason.includes('40 mana')
+    || !ezrealQReason.includes('4500')
+    || !ezrealQReason.includes('20220')
+    || !ezrealQReason.includes('20170')
+    || !ezrealQReason.includes('no 20230')
+    || !ezrealQReason.includes('no explicit event op')
+    || !ezrealQReason.includes('no Q ability-specific type')
+    || !ezrealQReason.includes('raw198/final99')
+    || !ezrealQReason.includes('raw328/final164')
+    || !ezrealQReason.includes('raw238/final119')
+    || !ezrealQReason.includes('raw368/final184')
+    || !ezrealQReason.includes('both328/164')
+    || !ezrealQReason.includes('t4499')
+    || !ezrealQReason.includes('mana120')
+    || !ezrealQReason.includes('mana39')
+    || !ezrealQReason.includes('HP632')
+    || !ezrealQReason.includes('Rising Spell Force')
+    || !ezrealQReason.includes('AS1.1')
+    || !ezrealQReason.includes('ability_started')
+    || !ezrealQReason.includes('external existing-data/check-only')
+    || !ezrealQReason.includes('identity/panel/resource')
+    || !ezrealQReason.includes('focused11/full998')
+    || !ezrealQReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !ezrealQReason.includes('不宣称')
+    || !String(ezrealQ.sourceRef || '').includes('ezreal-q.json')
+    || !String(ezrealQ.sourceRef || '').includes(
+      'be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533',
+    )
+    || ezrealQ.auditBaseline?.gapCode !== 'blocked_data'
+    || ezrealQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || ezrealQ.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(ezrealQ.auditBaseline?.mechanismTags || []).includes('cooldown_or_haste_without_rotation')
+    || ezrealQ.classification !== 'out_of_scope_for_single_target_dps'
+    || !(ezrealQ.mechanismTags || []).includes('cooldown_or_haste_without_rotation')
+    || citesForbiddenProvenance(ezrealQ.classificationReason)
+    || !(ezrealQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.ezrealMysticShotPrimaryHit
+        && e.taskKey === 'wasm-generic-ezreal-mystic-shot-primary-hit'
+        && String(e.note || '').includes(ezrealQBoundary)
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('AS1.1')
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('000e253')
+        && String(e.note || '').includes('d8348b3b'),
+    )
+    || !(ezrealQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.ezrealMysticShotPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-ezreal-mystic-shot-primary-hit'
+        && String(e.note || '').includes(ezrealQBoundary)
+        && String(e.note || '').includes('LolGenericEzrealMysticShotPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('README')
+        && String(e.note || '').includes('41fce6a')
+        && String(e.note || '').includes('ae66c56')
+        && String(e.note || '').includes('000e253')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('no Web change'),
+    )
+  ) {
+    errors.push(
+      'Ezreal Q must be migrated with empty remainingGap/missingFields, exact Mystic Shot ordered tags (no total_ad_ratio/cooldown_or_haste_without_rotation/salvage/meta), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev4013233/SHA + local raw caveat + frozen completedBoundary, rank5 40mana/4500CD/nested-binary 120+1.30*totalAD+0.40*AP numerics (198/99 328/164 238/119 368/184; counterproof both328/164; t0/t4499/t4500 mana120→40/HP632; mana39 skip; P coexistence AS1.1), and bilateral wasm+backend evidence (owning 41fce6a / integrated ae66c56 / Wasm 000e253; Web parity no change; no direction/projectile/on-hit/CD-reduction/dual-tag/lifesteal/spellshield/live claim)',
+    );
+  }
+  if (ezrealQ) {
+    validateBilateralCoverageEvidence(
+      ezrealQ.candidateKey,
+      ezrealQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
