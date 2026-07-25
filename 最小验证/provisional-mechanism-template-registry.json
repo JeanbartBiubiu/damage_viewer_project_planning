@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v2",
     "planRevision": "provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1",
-    "generatedAt": "2026-07-25T16:21:16.048Z",
+    "generatedAt": "2026-07-25T17:02:35.842Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "f853104edc9a60db137fe9d2cc30dce2f8705d8538362e7ce724a0d648feedc5",
-        "byteSize": 1062422
+        "sha256": "0efc9f3453a1804490a8bef7c0c404d99c84688cce0021dc87d8fe05cc97b525",
+        "byteSize": 1068014
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 84,
+    "templateCount": 83,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 81,
+      "blocked_runtime": 80,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 82,
+      "hero_skill": 81,
       "item_passive": 2
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 81,
+      "runtime_contract_placeholder": 80,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 92,
+      "completed": 93,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -5845,96 +5845,6 @@
         "wikiItemId": null,
         "wikiEffectSlots": [],
         "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/tristana-e.json@rev4008204 sha256:c66748f43bb67ed75c6174bd5ac48083fb3c93fea420d15619bd240cf12fdda7"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "rank": null,
-        "resourceCost": null,
-        "cooldownMs": null,
-        "target": null,
-        "timing": null,
-        "formula": null,
-        "operationGraph": null,
-        "fixtures": [],
-        "completedBoundary": null,
-        "exclusions": []
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_tristana|W|火箭跳跃",
-      "inventoryOrdinal": 127,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_tristana",
-      "skillKey": "W",
-      "passiveName": "火箭跳跃",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "multi_target_or_area"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_tristana|W|火箭跳跃"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_tristana|W|火箭跳跃"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Tristana",
-        "pageId": "tristana-w",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/tristana-w.json@rev4007758 sha256:cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec"
       },
       "templateState": "provisional_unverified",
       "templateKind": "runtime_contract_placeholder",

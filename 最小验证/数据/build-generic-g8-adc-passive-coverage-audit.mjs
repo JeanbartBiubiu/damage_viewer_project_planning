@@ -651,6 +651,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_tristana_buster_shot_primary_hit_seed.sql',
   tristanaRapidFireTimedBonusAttackSpeedBackend:
     'db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql',
+  tristanaRocketJumpPrimaryLandingHitBackend:
+    'db/game_manage/seeds/lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -788,6 +790,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_buster_shot_primary_hit_test.go',
   tristanaRapidFireTimedBonusAttackSpeed:
     'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_rapid_fire_timed_bonus_attack_speed_test.go',
+  tristanaRocketJumpPrimaryLandingHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_rocket_jump_primary_landing_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -2195,6 +2199,37 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-tristana-buster-shot-primary-hit',
           SEED.tristanaBusterShotPrimaryHitBackend,
           'completedBoundary: rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity; backend lol_generic_tristana_buster_shot_primary_hit_seed.sql + LolGenericTristanaBusterShotPrimaryHitSeedSqlTest (owning 8b98bcb; integrated 30209c4); Wasm exact test commit b4d10e4; external existing-data/check-only prerequisites (hero_tristana/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Tristana synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_tristana|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'bonus_ad_ratio',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_tristana W 火箭跳跃/Rocket Jump：Wiki request Template:Data Tristana/W → resolved Template:Data Tristana/Rocket Jump；page1308523 / rev4007758 / timestamp 2026-04-12T14:13:05Z / canonical bytes2444 / SHA256 cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec（normalized/generic/tristana-w.json plus pages sibling are authority）rank5 Phase-A v2 已由 wasm-generic-tristana-rocket-jump-primary-landing-hit 闭环为 migrated——local raw caveat bytes2443 / SHA 7283b2eb2020c20c6e48098e647ba4782b6dc134705c7c668d7e7279da1cabd9（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；50 mana / 14000ms CD；immediate selected-primary-champion single magic landing hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(add(210,1.00*(source.attr.ad.resolved-source.attr.ad.base)),0.50*source.attr.ap.resolved)（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no W ability-specific type and no type62013）（交叉校验 base0/resolved0/AP0/MR0 raw=final210；base60/resolved60/AP0/MR0 raw=final210；base60/resolved160/AP0/MR0 raw=final310；base60/resolved160/AP100/MR0 raw=final360；base60/resolved160/AP100/MR100 raw360/final180；base60/resolved260/AP200/MR100 raw510/final255；base0/resolved100 versus base60/resolved160 AP100/MR0 both360）。Attempts mana150/baseAD60/resolvedAD160/AP100/HP1000/MR100 at t0/t13999/t14000 → success/skip/success，exactly two W damage items；final mana50/HP640；exactly two automatic W ability_started；mana49 at t0 → resource skip with mana/HP unchanged and no W damage/event。W does not arm Q and Q causes no W damage。Tristana W provider is standalone；Backend has no repository-owned hero_tristana / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Tristana P/Q/E/Explosive Charge/R dependence；不暗示 Batch-B 或 sibling Tristana synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Cursor focused10/adjacent57/full932 passed；Main focused10/adjacent57/full932 passed。Wasm main validation passed gofmt/focused7/full/bench/build/smoke/benchmark；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; magic_210_plus_1_00_bonus_ad_plus_0_50_ap; no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_charge_reset_cast_during_dash_other_ranks_or_full_fidelity。明确排除 dash/cast time/air time/landing delay、movement/geometry/range/speed/terrain/collision、AOE/radius350/secondary、slow/knockdown/grounded/spellshield、takedown/clone/Explosive Charge reset、cast-during-dash、other ranks、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-target magic landing hit, not full W；不宣称 dash/cast/air-time/landing-delay/movement/geometry/AOE/slow/takedown/Explosive-Charge-reset/cast-during-dash/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_tristana/ad/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-tristana-rocket-jump-primary-landing-hit',
+          WASM.tristanaRocketJumpPrimaryLandingHit,
+          'completedBoundary: rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; magic_210_plus_1_00_bonus_ad_plus_0_50_ap; no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_charge_reset_cast_during_dash_other_ranks_or_full_fidelity; Wiki request Template:Data Tristana/W → Rocket Jump; rev4007758/SHA256 cf0e3ae9… / bytes2444; local raw caveat bytes2443/SHA 7283b2eb… no equivalence claim; rank5 50 mana/14000ms CD / one magic 210+1.00*bonusAD+0.50*AP via nested binary add(add(210,1.00*(ad.resolved-ad.base)),0.50*ap.resolved); base0/resolved0/AP0/MR0=210; base60/resolved60/AP0/MR0=210; base60/resolved160/AP0/MR0=310; base60/resolved160/AP100/MR0=360; base60/resolved160/AP100/MR100 raw360/final180; base60/resolved260/AP200/MR100 raw510/final255; base0/resolved100 vs base60/resolved160 AP100/MR0 both360; damage 20221/add 20170; no 20230; no explicit event op; no W type/no type62013; mana150/baseAD60/resolvedAD160/AP100/HP1000/MR100 t0/t13999/t14000 success/skip/success two W damage items final mana50/HP640 two automatic W ability_started; mana49 resource skip unchanged; W does not arm Q and Q causes no W damage; standalone no sibling synthesis; Wasm exact test commit 9d2716c; dash/cast/air-time/landing-delay/movement/geometry/AOE/slow/takedown/Explosive-Charge-reset/cast-during-dash/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-tristana-rocket-jump-primary-landing-hit',
+          SEED.tristanaRocketJumpPrimaryLandingHitBackend,
+          'completedBoundary: rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; magic_210_plus_1_00_bonus_ad_plus_0_50_ap; no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_charge_reset_cast_during_dash_other_ranks_or_full_fidelity; backend lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql + LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest (owning 7cafeab; integrated ac304d3); Wasm exact test commit 9d2716c; external existing-data/check-only prerequisites (hero_tristana/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Tristana synthesis; not live published',
         ),
       ],
     },
@@ -4585,9 +4620,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 82) errors.push(`migrated=${counts.migrated}, expected 82`);
+  if (counts.migrated !== 83) errors.push(`migrated=${counts.migrated}, expected 83`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 87) errors.push(`blocked=${counts.blocked}, expected 87`);
+  if (counts.blocked !== 86) errors.push(`blocked=${counts.blocked}, expected 86`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -8739,6 +8774,171 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       tristanaR.candidateKey,
       tristanaR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const tristanaW = records.find((r) => r.candidateKey === 'hero_skill|hero_tristana|W|火箭跳跃');
+  const tristanaWTags = [...(tristanaW?.genericMechanismTags || [])];
+  const tristanaWExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'bonus_ad_ratio',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const tristanaWReason = String(tristanaW?.classificationReason || '');
+  const tristanaWBoundary =
+    'rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; magic_210_plus_1_00_bonus_ad_plus_0_50_ap; no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_charge_reset_cast_during_dash_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_tristana|W')) {
+    errors.push('Tristana W exact override key hero_tristana|W must exist before fallback');
+  }
+  if (
+    !tristanaW
+    || tristanaW.candidateKey !== 'hero_skill|hero_tristana|W|火箭跳跃'
+    || tristanaW.passiveName !== '火箭跳跃'
+    || tristanaW.genericClassification !== 'migrated'
+    || String(tristanaW.remainingGap || '').trim()
+    || (tristanaW.dataGapEvidence?.missingFields || []).length !== 0
+    || tristanaWTags.join('|') !== tristanaWExpectedTags.join('|')
+    || tristanaWTags.includes('multi_target_or_area')
+    || tristanaWTags.includes('meta_or_non_target_dps')
+    || tristanaWTags.includes('dps_relevant_manual_review')
+    || tristanaWTags.includes('primary_damage_branch_salvage')
+    || tristanaWTags.includes('total_ad_ratio')
+    || !tristanaWTags.includes('bonus_ad_ratio')
+    || !tristanaWTags.includes('ap_ratio')
+    || !tristanaWTags.includes('active_magic_damage')
+    || String(tristanaW.remainingGap || '').includes('blocked_data')
+    || tristanaWReason.includes('needs_manual_baseline')
+    || tristanaWReason.includes('blocked_data')
+    || tristanaWReason.includes('implementation_gap_no_unresolved_data_fields')
+    || tristanaWReason.includes('multi_target_or_area')
+    || tristanaWReason.includes('out_of_scope_for_single_target_dps')
+    || tristanaWReason.includes('dps_relevant_manual_review')
+    || tristanaWReason.includes('depends on Tristana P')
+    || tristanaWReason.includes('depends on Explosive Charge')
+    || tristanaWReason.includes('requires Explosive Charge')
+    || tristanaWReason.includes('total AD；')
+    || tristanaWReason.includes('total_ad_ratio')
+    || tristanaWReason.includes('*totalAD')
+    || !tristanaWReason.includes('4007758')
+    || !tristanaWReason.includes(
+      'cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec',
+    )
+    || !tristanaWReason.includes(
+      '7283b2eb2020c20c6e48098e647ba4782b6dc134705c7c668d7e7279da1cabd9',
+    )
+    || !tristanaWReason.includes('Template:Data Tristana/W')
+    || !tristanaWReason.includes('Template:Data Tristana/Rocket Jump')
+    || !tristanaWReason.includes('page1308523')
+    || !tristanaWReason.includes('bytes2444')
+    || !tristanaWReason.includes('bytes2443')
+    || !tristanaWReason.includes('2026-04-12T14:13:05Z')
+    || !tristanaWReason.includes(tristanaWBoundary)
+    || !tristanaWReason.includes('source.attr.ad.resolved-source.attr.ad.base')
+    || !tristanaWReason.includes('exact nested binary formula')
+    || !tristanaWReason.includes('bonus AD by explicit subtraction')
+    || !tristanaWReason.includes('不得按 total-AD 直读')
+    || !tristanaWReason.includes('add(add(210,1.00*')
+    || !tristanaWReason.includes('210')
+    || !tristanaWReason.includes('1.00')
+    || !tristanaWReason.includes('0.50')
+    || !tristanaWReason.includes('50 mana')
+    || !tristanaWReason.includes('14000')
+    || !tristanaWReason.includes('20221')
+    || !tristanaWReason.includes('20170')
+    || !tristanaWReason.includes('no 20230')
+    || !tristanaWReason.includes('no explicit event op')
+    || !tristanaWReason.includes('no W ability-specific type')
+    || !tristanaWReason.includes('no type62013')
+    || !tristanaWReason.includes('base0/resolved0/AP0/MR0 raw=final210')
+    || !tristanaWReason.includes('base60/resolved60/AP0/MR0 raw=final210')
+    || !tristanaWReason.includes('base60/resolved160/AP0/MR0 raw=final310')
+    || !tristanaWReason.includes('base60/resolved160/AP100/MR0 raw=final360')
+    || !tristanaWReason.includes('base60/resolved160/AP100/MR100 raw360/final180')
+    || !tristanaWReason.includes('base60/resolved260/AP200/MR100 raw510/final255')
+    || !tristanaWReason.includes('base0/resolved100 versus base60/resolved160')
+    || !tristanaWReason.includes('t13999')
+    || !tristanaWReason.includes('t14000')
+    || !tristanaWReason.includes('mana150')
+    || !tristanaWReason.includes('mana49')
+    || !tristanaWReason.includes('HP640')
+    || !tristanaWReason.includes('ability_started')
+    || !tristanaWReason.includes('W does not arm Q')
+    || !tristanaWReason.includes('Q causes no W damage')
+    || !tristanaWReason.includes('standalone')
+    || !tristanaWReason.includes('external existing-data/check-only')
+    || !tristanaWReason.includes('identity/panel/resource')
+    || !tristanaWReason.includes('不暗示 Tristana P/Q/E/Explosive Charge/R dependence')
+    || !tristanaWReason.includes('不暗示 Batch-B')
+    || !tristanaWReason.includes('sibling Tristana synthesis')
+    || !tristanaWReason.includes('production runtime/ABI/Web change')
+    || !tristanaWReason.includes('focused10/adjacent57/full932')
+    || !tristanaWReason.includes('focused7')
+    || !tristanaWReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !tristanaWReason.includes('不宣称')
+    || !tristanaWReason.includes('no equivalence or contradiction claim')
+    || !tristanaWReason.includes('exactly one selected-target magic landing hit')
+    || tristanaWReason.includes('canonical byte equivalence')
+    || tristanaWReason.includes('Batch-B prerequisite')
+    || tristanaWReason.includes('live published')
+    || !String(tristanaW.sourceRef || '').includes('tristana-w.json')
+    || !String(tristanaW.sourceRef || '').includes(
+      'cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec',
+    )
+    || tristanaW.auditBaseline?.gapCode !== 'blocked_data'
+    || tristanaW.auditBaseline?.resolvedBucket !== 'blocked'
+    || tristanaW.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(tristanaW.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || tristanaW.classification !== 'out_of_scope_for_single_target_dps'
+    || !(tristanaW.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(tristanaW.classificationReason)
+    || !(tristanaW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.tristanaRocketJumpPrimaryLandingHit
+        && e.taskKey === 'wasm-generic-tristana-rocket-jump-primary-landing-hit'
+        && String(e.note || '').includes(tristanaWBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('9d2716c')
+        && String(e.note || '').includes('7283b2eb')
+        && String(e.note || '').includes('20221')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no 20230')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('no W type')
+        && String(e.note || '').includes('no type62013')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('W does not arm Q')
+        && String(e.note || '').includes('Q causes no W damage')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(tristanaW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.tristanaRocketJumpPrimaryLandingHitBackend
+        && e.taskKey === 'wasm-generic-tristana-rocket-jump-primary-landing-hit'
+        && String(e.note || '').includes(tristanaWBoundary)
+        && String(e.note || '').includes('LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest')
+        && String(e.note || '').includes('7cafeab')
+        && String(e.note || '').includes('ac304d3')
+        && String(e.note || '').includes('9d2716c')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Tristana synthesis'),
+    )
+  ) {
+    errors.push(
+      'Tristana W must be migrated with empty remainingGap/missingFields, exact Rocket Jump ordered tags (no multi_target_or_area/primary_damage_branch_salvage; requires bonus_ad_ratio/ap_ratio/active_magic_damage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/multi_target_or_area/auditBaseline provenance, Wiki rev4007758/SHA + local raw caveat + frozen completedBoundary, rank5 50mana/14000CD/one magic 210+1.00*bonusAD+0.50*AP via nested binary numerics (210/210/310/360/360→180/510→255; bonusAD counterproof; 20221/20170; no 20230; no W type/no type62013; no explicit event op; t0/t13999/t14000 mana150→50/HP640 two damage/two ability_started; mana49 skip; W does not arm Q and Q causes no W damage), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Explosive-Charge-dependence/no-production-runtime-ABI-Web framing, focused10/adjacent57/full932 + focused7 + Wasm asset SHA, and bilateral wasm+backend evidence (owning 7cafeab / integrated ac304d3 / Wasm 9d2716c; one selected-target magic landing hit not full W; no dash/cast/air-time/AOE/slow/live claim)',
+    );
+  }
+  if (tristanaW) {
+    validateBilateralCoverageEvidence(
+      tristanaW.candidateKey,
+      tristanaW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
