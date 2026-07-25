@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T19:04:12.172Z",
+    "generatedAt": "2026-07-25T19:38:00.273Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "ae09bbcb5a2935e2c59812e8b0ef9e0e19fdde4cceb26b65ef45793ca3db152f",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "1235c9644110d7dc020e34bfbfc57eee05bc406719f89e313ba56b9319b7b819",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "92fb415c1880ef0f94a7f8f2235bd539389ad8482400572784a875b80442d488",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "47160ecf50b28c64765a910520b16b1d4bd844afd05fa003808aecbd2c7010dd",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "9b5faf085151f977e12df8d2718358dcb742a1eaba18d19a8f993d7ebd7133db",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "971876b01b935731157d0e6d9b486fdba0259b65ea1434878319c7d2aa114be3",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 96,
+      "completed": 97,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 77,
+      "blocked_runtime": 76,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 96,
+      "full": 97,
       "partial": 3,
-      "none": 155
+      "none": 154
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "ae09bbcb5a2935e2c59812e8b0ef9e0e19fdde4cceb26b65ef45793ca3db152f",
-      "byteSize": 1060171,
+      "sha256": "1235c9644110d7dc020e34bfbfc57eee05bc406719f89e313ba56b9319b7b819",
+      "byteSize": 1066116,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "92fb415c1880ef0f94a7f8f2235bd539389ad8482400572784a875b80442d488",
-      "byteSize": 604418,
+      "sha256": "9b5faf085151f977e12df8d2718358dcb742a1eaba18d19a8f993d7ebd7133db",
+      "byteSize": 620436,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "47160ecf50b28c64765a910520b16b1d4bd844afd05fa003808aecbd2c7010dd",
-      "byteSize": 627414,
+      "sha256": "971876b01b935731157d0e6d9b486fdba0259b65ea1434878319c7d2aa114be3",
+      "byteSize": 643144,
       "recordCount": 0,
       "role": "generator"
     },
@@ -13116,52 +13116,30 @@
     },
     {
       "key": "hero_skill|hero_corki|Q|磷光炸弹",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_corki",
       "skillKey": "Q",
       "passiveName": "磷光炸弹",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4007588",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/corki-q.json@rev4007588 sha256:e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_corki|Q|磷光炸弹",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity",
+      "reason": "Corki Q 磷光炸弹/Phosphorus Bomb：Wiki request Template:Data Corki/Q → resolved Template:Data Corki/Phosphorus Bomb；page1306953 / rev4007588 / timestamp 2026-04-12T06:50:59Z / canonical bytes1531 / SHA256 e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365（normalized/generic/corki-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-corki-phosphorus-bomb-primary-impact + backend seed 证据闭环——local raw caveat bytes1529 / SHA c39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 7000ms CD；immediate selected-primary-champion single magic impact hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(add(const 240, mul(const 1.25, sub(read source.attr.ad.resolved, read source.attr.ad.base))), mul(const 1.00, read source.attr.ap.resolved))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 base60/resolved60/AP0/MR0 raw=final240；base60/resolved160/AP0/MR0 raw=final365；base60/resolved60/AP100/MR0 raw=final340；base60/resolved160/AP100/MR0 raw=final465；base60/resolved156/AP100/MR100 raw460/final230；base60/resolved220/AP100/MR100 raw540/final270；base0/resolved100 versus base60/resolved160 AP0/MR0 both365）。Attempts mana240/baseAD60/resolvedAD156/AP100/HP1000/MR100 at t0/t6999/t7000 → success/skip/success，exactly two Q damage items；final mana80/HP540；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Corki Q provider is standalone；Backend has no repository-owned hero_corki / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Corki P/W/E/R dependence；不暗示 Batch-B 或 sibling Corki synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused75/full975 passed。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write（embedded web/ copy is a wrong-path validation caveat, not independent Web parity failure）。completedBoundary：rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/location targeting/range/radius/geometry、projectile travel/minimum travel time/explosion、AOE/multitarget/surrounding、travel/impact-area sight、enemy-champion reveal/six-second duration、spellshield、collision/acquisition、other ranks、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary magic impact hit, not full Q；不宣称 cast/location/range/radius/geometry/projectile/travel/minimum-time/explosion/AOE/multitarget/collision/acquisition/spellshield/sight/reveal/duration/other ranks/siblings/live/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_corki/ad/ap/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_corki|Q|磷光炸弹"
         },
         {
@@ -13170,7 +13148,22 @@
           "sourceRecordKey": "hero_skill|hero_corki|Q|磷光炸弹"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-corki-phosphorus-bomb-primary-impact",
+          "sourcePath": "db/game_manage/seeds/lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity; backend lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql + LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest (owning 6003a7e; integrated b352677); Wasm exact test commit b381b1e; external existing-data/check-only prerequisites (hero_corki/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Corki synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-corki-phosphorus-bomb-primary-impact",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_corki_phosphorus_bomb_primary_impact_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Corki/Q → Phosphorus Bomb; rev4007588/SHA256 e71a474e… / bytes1531; local raw caveat bytes1529/SHA c39556a0… no equivalence claim; rank5 80 mana/7000ms CD / one magic 240+1.25*bonusAD+1.00*AP via nested binary add(add(240,1.25*(ad.resolved-ad.base)),1.00*ap.resolved); base60/resolved60/AP0/MR0=240; base60/resolved160/AP0/MR0=365; base60/resolved60/AP100/MR0=340; base60/resolved160/AP100/MR0=465; base60/resolved156/AP100/MR100 raw460/final230; base60/resolved220/AP100/MR100 raw540/final270; base0/resolved100 vs base60/resolved160 AP0/MR0 both365; damage 20221/add 20170; no 20230; no explicit event op; no Q type; mana240/baseAD60/resolvedAD156/AP100/HP1000/MR100 t0/t6999/t7000 success/skip/success two Q damage items final mana80/HP540 two automatic Q ability_started; mana79 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit b381b1e bytes65821/SHA 58f47763…; cast/location/range/radius/geometry/projectile/travel/minimum-time/explosion/AOE/multitarget/sight/reveal/duration/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
