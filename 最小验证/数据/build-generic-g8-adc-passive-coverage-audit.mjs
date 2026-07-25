@@ -639,6 +639,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_kalista_pierce_primary_hit_seed.sql',
   caitlynPiltoverPeacemakerFirstEnemyHitBackend:
     'db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql',
+  caitlynAceInTheHoleSingleBulletQuantumBackend:
+    'db/game_manage/seeds/lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql',
   lucianPiercingLightSelectedTargetHitBackend:
     'db/game_manage/seeds/lol_generic_lucian_piercing_light_selected_target_hit_seed.sql',
   lucianArdentBlazePrimaryHitBackend:
@@ -770,6 +772,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_kalista_pierce_primary_hit_test.go',
   caitlynPiltoverPeacemakerFirstEnemyHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_piltover_peacemaker_first_enemy_hit_test.go',
+  caitlynAceInTheHoleSingleBulletQuantum:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_ace_in_the_hole_single_bullet_quantum_test.go',
   lucianPiercingLightSelectedTargetHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_piercing_light_selected_target_hit_test.go',
   lucianArdentBlazePrimaryHit:
@@ -2092,6 +2096,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit',
           SEED.caitlynPiltoverPeacemakerFirstEnemyHitBackend,
           'completedBoundary: rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity; backend lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql + LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest (owning b5ef446; integrated 245a111); Wasm exact test commit 0fe29e7; external existing-data/check-only prerequisites (hero_caitlyn/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Caitlyn synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_caitlyn|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_caitlyn R 让子弹飞/Ace in the Hole：Wiki request Template:Data Caitlyn/R → resolved Template:Data Caitlyn/Ace in the Hole；page1306918 / rev3982561 / timestamp 2026-01-09T09:02:59Z / canonical bytes3119 / SHA256 08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8（normalized/generic/caitlyn-r.json plus pages sibling are authority）rank3 Phase-A v1 已由 wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum 闭环为 migrated——local raw caveat bytes3119 / SHA 015c1dbe8f02dd5ac354e6a6da6def878f1acccf788b1f599ee4bfd589e05003（canonical identity remains sidecar/pages；no equivalence or contradiction claim；equal size alone is not byte equality or source contradiction）；100 mana / 90000ms CD；immediate selected-primary-champion single physical bullet-quantum scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage quantum 650 + 1.00 * (source.attr.ad.resolved - source.attr.ad.base)（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no explicit event op；ability_started is automatic）（交叉校验 base0/resolved0/armor0 raw=final650；base60/resolved60/armor0 raw=final650；base60/resolved160/armor0 raw=final750；base60/resolved160/armor100 raw750/final375；base60/resolved260/armor100 raw850/final425；base0/resolved100 versus base60/resolved160 armor0 both750）。Attempts mana300/baseAD60/resolvedAD160/HP1000/armor100 at t0/t89999/t90000 → success/skip/success，exactly two R damage items；final mana100/HP250；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Caitlyn R provider is standalone；Backend has no repository-owned hero_caitlyn / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Caitlyn Q/E dependence；不暗示 Batch-B 或 sibling Caitlyn synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Cursor focused9/adjacent27/full902 passed；Main focused and adjacent passed；default full twice hit an existing isolated LolGenericKogmawLivingArtillerySeedSqlTest java.util.regex.StackOverflowError，while isolated Kog\'Maw passed and main full passed902/902 with MAVEN_OPTS=-Xss4m（nonblocking validation-runtime caveat；not a Caitlyn R contract failure）。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity。明确排除 channel/locks/reveal/self-reveal/cancel/refund/short cooldown、homing/projectile/travel/interception/first-enemy geometry、crit scaling、untargetable/resurrection/target death/corpse/sight radius、unit-target cancel conditions/ability lockout、ranks1-2、siblings/loadout/on-hit/live/full fidelity；this is exactly one selected-target quantum, not full R；不宣称 channel/reveal/homing/projectile/crit/untargetable/resurrection/corpse/sight/cancel/lockout/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_caitlyn/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum',
+          WASM.caitlynAceInTheHoleSingleBulletQuantum,
+          'completedBoundary: rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity; Wiki request Template:Data Caitlyn/R → Ace in the Hole; rev3982561/SHA256 08b488c9… / bytes3119; local raw caveat bytes3119/SHA 015c1dbe… no equivalence claim; rank3 100 mana/90000ms CD / one physical bullet quantum 650+1.00*bonusAD via nested binary sub(ad.resolved,ad.base); base0/resolved0/armor0=650; base60/resolved60/armor0=650; base60/resolved160/armor0=750; base60/resolved160/armor100 raw750/final375; base60/resolved260/armor100 raw850/final425; base0/resolved100 vs base60/resolved160 armor0 both750; damage 20220/add 20170; no explicit event op; mana300/baseAD60/resolvedAD160/HP1000/armor100 t0/t89999/t90000 success/skip/success two R damage items final mana100/HP250 two automatic R ability_started; mana99 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit 9fc57e7; channel/reveal/homing/projectile/crit/untargetable/resurrection/corpse/sight/cancel/lockout/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum',
+          SEED.caitlynAceInTheHoleSingleBulletQuantumBackend,
+          'completedBoundary: rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity; backend lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql + LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest (owning f088e18; integrated 486b8d8); Wasm exact test commit 9fc57e7; external existing-data/check-only prerequisites (hero_caitlyn/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Caitlyn synthesis; not live published',
         ),
       ],
     },
@@ -4482,9 +4516,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 79) errors.push(`migrated=${counts.migrated}, expected 79`);
+  if (counts.migrated !== 80) errors.push(`migrated=${counts.migrated}, expected 80`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 90) errors.push(`blocked=${counts.blocked}, expected 90`);
+  if (counts.blocked !== 89) errors.push(`blocked=${counts.blocked}, expected 89`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -8193,6 +8227,158 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       lucianR.candidateKey,
       lucianR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const caitlynR = records.find((r) => r.candidateKey === 'hero_skill|hero_caitlyn|R|让子弹飞');
+  const caitlynRTags = [...(caitlynR?.genericMechanismTags || [])];
+  const caitlynRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const caitlynRReason = String(caitlynR?.classificationReason || '');
+  const caitlynRBoundary =
+    'rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_caitlyn|R')) {
+    errors.push('Caitlyn R exact override key hero_caitlyn|R must exist before fallback');
+  }
+  if (
+    !caitlynR
+    || caitlynR.candidateKey !== 'hero_skill|hero_caitlyn|R|让子弹飞'
+    || caitlynR.passiveName !== '让子弹飞'
+    || caitlynR.genericClassification !== 'migrated'
+    || String(caitlynR.remainingGap || '').trim()
+    || (caitlynR.dataGapEvidence?.missingFields || []).length !== 0
+    || caitlynRTags.join('|') !== caitlynRExpectedTags.join('|')
+    || caitlynRTags.includes('dps_relevant_manual_review')
+    || caitlynRTags.includes('meta_or_non_target_dps')
+    || caitlynRTags.includes('total_ad_ratio')
+    || !caitlynRTags.includes('bonus_ad_ratio')
+    || String(caitlynR.remainingGap || '').includes('blocked_data')
+    || caitlynRReason.includes('needs_manual_baseline')
+    || caitlynRReason.includes('blocked_data')
+    || caitlynRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || caitlynRReason.includes('dps_relevant_manual_review')
+    || caitlynRReason.includes('out_of_scope_for_single_target_dps')
+    || caitlynRReason.includes('meta_or_non_target_dps')
+    || caitlynRReason.includes('depends on Caitlyn Q')
+    || caitlynRReason.includes('requires Caitlyn Q')
+    || caitlynRReason.includes('depends on Caitlyn E')
+    || caitlynRReason.includes('requires Caitlyn E')
+    || caitlynRReason.includes('total AD；')
+    || caitlynRReason.includes('total_ad_ratio')
+    || caitlynRReason.includes('*totalAD')
+    || !caitlynRReason.includes('3982561')
+    || !caitlynRReason.includes(
+      '08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8',
+    )
+    || !caitlynRReason.includes(
+      '015c1dbe8f02dd5ac354e6a6da6def878f1acccf788b1f599ee4bfd589e05003',
+    )
+    || !caitlynRReason.includes('Template:Data Caitlyn/R')
+    || !caitlynRReason.includes('Template:Data Caitlyn/Ace in the Hole')
+    || !caitlynRReason.includes('page1306918')
+    || !caitlynRReason.includes('bytes3119')
+    || !caitlynRReason.includes('2026-01-09T09:02:59Z')
+    || !caitlynRReason.includes(caitlynRBoundary)
+    || !caitlynRReason.includes('source.attr.ad.resolved - source.attr.ad.base')
+    || !caitlynRReason.includes('exact nested binary formula')
+    || !caitlynRReason.includes('bonus AD by explicit subtraction')
+    || !caitlynRReason.includes('不得按 total-AD 直读')
+    || !caitlynRReason.includes('650')
+    || !caitlynRReason.includes('1.00')
+    || !caitlynRReason.includes('100 mana')
+    || !caitlynRReason.includes('90000')
+    || !caitlynRReason.includes('20220')
+    || !caitlynRReason.includes('20170')
+    || !caitlynRReason.includes('no explicit event op')
+    || !caitlynRReason.includes('base0/resolved0/armor0 raw=final650')
+    || !caitlynRReason.includes('base60/resolved60/armor0 raw=final650')
+    || !caitlynRReason.includes('base60/resolved160/armor0 raw=final750')
+    || !caitlynRReason.includes('base60/resolved160/armor100 raw750/final375')
+    || !caitlynRReason.includes('base60/resolved260/armor100 raw850/final425')
+    || !caitlynRReason.includes('base0/resolved100 versus base60/resolved160')
+    || !caitlynRReason.includes('t89999')
+    || !caitlynRReason.includes('t90000')
+    || !caitlynRReason.includes('mana300')
+    || !caitlynRReason.includes('mana99')
+    || !caitlynRReason.includes('HP250')
+    || !caitlynRReason.includes('bullet-quantum')
+    || !caitlynRReason.includes('ability_started')
+    || !caitlynRReason.includes('standalone')
+    || !caitlynRReason.includes('external existing-data/check-only')
+    || !caitlynRReason.includes('identity/panel/resource')
+    || !caitlynRReason.includes('不暗示 Caitlyn Q/E dependence')
+    || !caitlynRReason.includes('不暗示 Batch-B')
+    || !caitlynRReason.includes('sibling Caitlyn synthesis')
+    || !caitlynRReason.includes('production runtime/ABI/Web change')
+    || !caitlynRReason.includes('StackOverflowError')
+    || !caitlynRReason.includes('nonblocking validation-runtime caveat')
+    || !caitlynRReason.includes('MAVEN_OPTS=-Xss4m')
+    || !caitlynRReason.includes('902/902')
+    || !caitlynRReason.includes('focused9/adjacent27/full902')
+    || !caitlynRReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !caitlynRReason.includes('不宣称')
+    || !caitlynRReason.includes('no equivalence or contradiction claim')
+    || !caitlynRReason.includes('equal size alone is not byte equality or source contradiction')
+    || !caitlynRReason.includes('exactly one selected-target quantum')
+    || caitlynRReason.includes('canonical byte equivalence')
+    || caitlynRReason.includes('Batch-B prerequisite')
+    || caitlynRReason.includes('live published')
+    || !String(caitlynR.sourceRef || '').includes('caitlyn-r.json')
+    || !String(caitlynR.sourceRef || '').includes(
+      '08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8',
+    )
+    || caitlynR.auditBaseline?.gapCode !== 'blocked_data'
+    || caitlynR.auditBaseline?.resolvedBucket !== 'blocked'
+    || caitlynR.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(caitlynR.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || caitlynR.classification !== 'out_of_scope_for_single_target_dps'
+    || !(caitlynR.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(caitlynR.classificationReason)
+    || !(caitlynR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.caitlynAceInTheHoleSingleBulletQuantum
+        && e.taskKey === 'wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum'
+        && String(e.note || '').includes(caitlynRBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('9fc57e7')
+        && String(e.note || '').includes('015c1dbe')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(caitlynR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.caitlynAceInTheHoleSingleBulletQuantumBackend
+        && e.taskKey === 'wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum'
+        && String(e.note || '').includes(caitlynRBoundary)
+        && String(e.note || '').includes('LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest')
+        && String(e.note || '').includes('f088e18')
+        && String(e.note || '').includes('486b8d8')
+        && String(e.note || '').includes('9fc57e7')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Caitlyn synthesis'),
+    )
+  ) {
+    errors.push(
+      'Caitlyn R must be migrated with empty remainingGap/missingFields, exact Ace in the Hole ordered tags (no dps_relevant_manual_review/total_ad_ratio; requires bonus_ad_ratio), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev3982561/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/90000CD/one physical bullet quantum 650+1.00*bonusAD via nested binary sub(ad.resolved,ad.base) numerics (base0/0/0=650; 60/60/0=650; 60/160/0=750; 60/160/100 raw750/final375; 60/260/100 raw850/final425; base0/resolved100 vs base60/resolved160 both750; 20220/20170; no explicit event op; t0/t89999/t90000 mana300→100/HP250 two damage/two ability_started; mana99 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Q-E-dependence/no-production-runtime-ABI-Web framing, StackOverflow/MAVEN_OPTS/nonblocking validation caveat + Wasm asset SHA, and bilateral wasm+backend evidence (owning f088e18 / integrated 486b8d8 / Wasm 9fc57e7; one selected-target quantum not full R; no channel/reveal/homing/projectile/crit/live claim)',
+    );
+  }
+  if (caitlynR) {
+    validateBilateralCoverageEvidence(
+      caitlynR.candidateKey,
+      caitlynR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
