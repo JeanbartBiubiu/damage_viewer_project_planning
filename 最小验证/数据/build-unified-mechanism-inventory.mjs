@@ -696,6 +696,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_senna|R|暗影燎原',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Senna R 暗影燎原/Dawning Shadow：Wiki request Template:Data Senna/R → resolved Template:Data Senna/Dawning Shadow；page1409580 / rev4008033 / timestamp 2026-04-13T04:08:13Z / canonical bytes2356 / SHA256 4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36（normalized/generic/senna-r.json plus pages sibling are authority）rank3 Phase-A v3 已由 wasm-generic-senna-dawning-shadow-primary-hit + backend seed 证据闭环——local raw caveat bytes2353 / SHA 1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 100000ms CD；immediate selected-primary-enemy-champion single physical hit scaffold；one immediate selected-primary-enemy-champion single noncritical/noncopyable physical damage operation add(add(const 550, mul(const 1.15, sub(read source.attr.ad.resolved, read source.attr.ad.base))), mul(const 0.70, read source.attr.ap.resolved))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 base60/resolved60/AP0/armor0 raw=final550；base60/resolved160/AP0/armor0 raw=final665；base60/resolved60/AP100/armor0 raw=final620；base60/resolved160/AP100/armor0 raw=final735；base60/resolved140/AP100/armor100 raw712/final356；base60/resolved220/AP100/armor100 raw804/final402；base0/resolved100 versus base60/resolved160 AP0/armor0 both665）。Attempts mana300/baseAD60/resolvedAD140/AP100/HP1000/armor100 at t0/t99999/t100000 → success/skip/success，exactly two R damage items；final mana100/HP288；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Senna R provider is standalone；preserve existing W Last Embrace without requiring/mutating/copying/synthesizing W；check-only standalone W isolation；Backend has no repository-owned hero_senna / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Senna P/Q/W/E/basic dependence；不暗示 Batch-B 或 sibling Senna synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused71/full987 passed。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；exact test bytes73643 / SHA256 a42359e98452dfd3d1429fc12f8735daefd77b0da2269ba7b345200b9ff39fa9；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/Effect at cast time start/queue time、global/direction/broad or narrow wave geometry/width、projectile travel/speed/destruction AOE/multitarget、enemy reveal/self reveal/allied or self shield、Mist scaling/Mist Wraith hits/path sight/spellshield、other ranks、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary-enemy-champion single physical hit, not full R；不宣称 cast/Effect-at-cast-time-start/queue/global/direction/wave/projectile/AOE/reveal/shield/Mist/Wraith/sight/spellshield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_senna/ad/ap/mana），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-senna-dawning-shadow-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_senna_dawning_shadow_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Senna/R → Dawning Shadow; rev4008033/SHA256 4de188cc… / bytes2356; local raw caveat bytes2353/SHA 1b448ff4… no equivalence claim; rank3 100 mana/100000ms CD / one physical 550+1.15*bonusAD+0.70*AP via nested binary add(add(550,1.15*(ad.resolved-ad.base)),0.70*ap.resolved); base60/resolved60/AP0/armor0=550; base60/resolved160/AP0/armor0=665; base60/resolved60/AP100/armor0=620; base60/resolved160/AP100/armor0=735; base60/resolved140/AP100/armor100 raw712/final356; base60/resolved220/AP100/armor100 raw804/final402; base0/resolved100 vs base60/resolved160 AP0/armor0 both665; damage 20220/add 20170; no 20230; no explicit event op; no R type; mana300/baseAD60/resolvedAD140/AP100/HP1000/armor100 t0/t99999/t100000 success/skip/success two R damage items final mana100/HP288 two automatic R ability_started; mana99 resource skip unchanged; standalone preserve existing W / check-only W isolation / no sibling synthesis; Wasm exact test commit a8e4c08 bytes73643/SHA a42359e9…; cast/Effect-at-cast-time-start/queue/global/direction/wave/projectile/AOE/reveal/shield/Mist/Wraith/sight/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-senna-dawning-shadow-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_senna_dawning_shadow_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity; backend lol_generic_senna_dawning_shadow_primary_hit_seed.sql + LolGenericSennaDawningShadowPrimaryHitSeedSqlTest (owning b774a8d; integrated 4316923); Wasm exact test commit a8e4c08; external existing-data/check-only prerequisites (hero_senna/ad/ap/mana; does not write identity/panel/resource values); standalone preserve existing W / check-only W isolation / no Batch-B or sibling Senna synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_twitch|P|死亡毒液',
     {
       status: 'completed',
@@ -2960,6 +2992,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_senna|W|无尽厮守',
     'rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity',
+  ],
+  [
+    'hero_skill|hero_senna|R|暗影燎原',
+    'rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity',
   ],
   [
     'hero_skill|hero_ashe|R|魔法水晶箭',
@@ -6035,6 +6071,159 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Senna W must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Last Embrace ordered tags (no multi_target_or_area/primary_damage_branch_salvage; requires bonus_ad_ratio/active_physical_damage), Wiki rev4009139/SHA + local raw caveat + frozen completedBoundary, rank5 70mana/11000CD/one physical 230+0.90*bonusAD exact binary numerics/schedules (230/230/320/320→160/410→205; bonusAD counterproof; 20220/20170; no 20230; no W type; no explicit event op; t0/t10999/t11000 mana210→70/HP680; mana69 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused68/full954 + Wasm asset SHA, and bilateral evidence (owning c0c3090 / integrated b90607b / Wasm ebf7730; one selected-primary first-enemy physical hit not full W; no cast/effect-at-cast-time-end/direction/projectile/attachment/root/AOE/live claim)',
+    );
+  }
+  const mSennaR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_senna|R|暗影燎原');
+  const mSennaRReason = String(mSennaR?.reason || '');
+  const mSennaRBoundary =
+    'rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity';
+  if (
+    !mSennaR ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_senna|R|暗影燎原') ||
+    mSennaR.key !== 'hero_skill|hero_senna|R|暗影燎原' ||
+    mSennaR.passiveName !== '暗影燎原' ||
+    mSennaR.status !== 'completed' ||
+    mSennaR.completionMode !== 'full' ||
+    mSennaR.lane !== 'generic_runtime' ||
+    mSennaR.blocker ||
+    mSennaR.dataGapEvidence !== null ||
+    mSennaR.runtimeGapEvidence !== null ||
+    mSennaR.outOfScopeEvidence !== null ||
+    mSennaR.coverageBoundary !== mSennaRBoundary ||
+    [...(mSennaR.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ap_ratio',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mSennaR.mechanismTags || []).includes('multi_target_or_area') ||
+    (mSennaR.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mSennaR.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mSennaR.mechanismTags || []).includes('primary_damage_branch_salvage') ||
+    (mSennaR.mechanismTags || []).includes('total_ad_ratio') ||
+    !(mSennaR.mechanismTags || []).includes('bonus_ad_ratio') ||
+    !(mSennaR.mechanismTags || []).includes('ap_ratio') ||
+    !(mSennaR.mechanismTags || []).includes('active_physical_damage') ||
+    mSennaRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mSennaRReason.includes('blocked_data') ||
+    mSennaRReason.includes('multi_target_or_area') ||
+    mSennaRReason.includes('meta_or_non_target_dps') ||
+    mSennaRReason.includes('needs_manual_baseline') ||
+    mSennaRReason.includes('out_of_scope_for_single_target_dps') ||
+    mSennaRReason.includes('dps_relevant_manual_review') ||
+    mSennaRReason.includes('primary_damage_branch_salvage') ||
+    mSennaRReason.includes('total AD；') ||
+    mSennaRReason.includes('total_ad_ratio') ||
+    mSennaRReason.includes('*totalAD') ||
+    !mSennaRReason.includes('4008033') ||
+    !mSennaRReason.includes(
+      '4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36',
+    ) ||
+    !mSennaRReason.includes(
+      '1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc',
+    ) ||
+    !mSennaRReason.includes('Template:Data Senna/R') ||
+    !mSennaRReason.includes('Template:Data Senna/Dawning Shadow') ||
+    !mSennaRReason.includes('page1409580') ||
+    !mSennaRReason.includes('bytes2356') ||
+    !mSennaRReason.includes('bytes2353') ||
+    !mSennaRReason.includes('2026-04-13T04:08:13Z') ||
+    !mSennaRReason.includes(mSennaRBoundary) ||
+    !mSennaRReason.includes('source.attr.ad.resolved') ||
+    !mSennaRReason.includes('source.attr.ad.base') ||
+    !mSennaRReason.includes('exact nested binary formula') ||
+    !mSennaRReason.includes('bonus AD by explicit subtraction') ||
+    !mSennaRReason.includes('不得按 total-AD 直读') ||
+    !mSennaRReason.includes('add(add(const 550') ||
+    !mSennaRReason.includes('1.15') ||
+    !mSennaRReason.includes('0.70') ||
+    !mSennaRReason.includes('100 mana') ||
+    !mSennaRReason.includes('100000') ||
+    !mSennaRReason.includes('20220') ||
+    !mSennaRReason.includes('20170') ||
+    !mSennaRReason.includes('no 20230') ||
+    !mSennaRReason.includes('no explicit event op') ||
+    !mSennaRReason.includes('no R ability-specific type') ||
+    !mSennaRReason.includes('raw=final550') ||
+    !mSennaRReason.includes('raw=final665') ||
+    !mSennaRReason.includes('raw=final620') ||
+    !mSennaRReason.includes('raw=final735') ||
+    !mSennaRReason.includes('raw712/final356') ||
+    !mSennaRReason.includes('raw804/final402') ||
+    !mSennaRReason.includes('both665') ||
+    !mSennaRReason.includes('t99999') ||
+    !mSennaRReason.includes('t100000') ||
+    !mSennaRReason.includes('mana300') ||
+    !mSennaRReason.includes('mana99') ||
+    !mSennaRReason.includes('HP288') ||
+    !mSennaRReason.includes('ability_started') ||
+    !mSennaRReason.includes('standalone') ||
+    !mSennaRReason.includes('preserve existing W') ||
+    !mSennaRReason.includes('check-only standalone W isolation') ||
+    !mSennaRReason.includes('external existing-data/check-only') ||
+    !mSennaRReason.includes('identity/panel/resource') ||
+    !mSennaRReason.includes('不暗示 Senna P/Q/W/E/basic dependence') ||
+    !mSennaRReason.includes('不暗示 Batch-B') ||
+    !mSennaRReason.includes('sibling Senna synthesis') ||
+    !mSennaRReason.includes('production runtime/ABI/Web change') ||
+    !mSennaRReason.includes('focused71/full987') ||
+    !mSennaRReason.includes('73643') ||
+    !mSennaRReason.includes(
+      'a42359e98452dfd3d1429fc12f8735daefd77b0da2269ba7b345200b9ff39fa9',
+    ) ||
+    !mSennaRReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0') ||
+    !mSennaRReason.includes('不宣称') ||
+    !mSennaRReason.includes('no equivalence or contradiction claim') ||
+    !mSennaRReason.includes('exactly one selected-primary-enemy-champion single physical hit') ||
+    mSennaRReason.includes('canonical byte equivalence') ||
+    mSennaRReason.includes('Batch-B prerequisite') ||
+    mSennaRReason.includes('live published') ||
+    !(mSennaR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-senna-dawning-shadow-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_senna_dawning_shadow_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mSennaRBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('a8e4c08') &&
+        String(e.note || '').includes('a42359e9') &&
+        String(e.note || '').includes('73643') &&
+        String(e.note || '').includes('1b448ff4') &&
+        String(e.note || '').includes('20220') &&
+        String(e.note || '').includes('20170') &&
+        String(e.note || '').includes('no 20230') &&
+        String(e.note || '').includes('no explicit event op') &&
+        String(e.note || '').includes('no R type') &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('preserve existing W') &&
+        String(e.note || '').includes('check-only W isolation') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mSennaR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-senna-dawning-shadow-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_senna_dawning_shadow_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mSennaRBoundary) &&
+        String(e.note || '').includes('LolGenericSennaDawningShadowPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('b774a8d') &&
+        String(e.note || '').includes('4316923') &&
+        String(e.note || '').includes('a8e4c08') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('preserve existing W') &&
+        String(e.note || '').includes('check-only W isolation') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Senna synthesis'),
+    )
+  ) {
+    errors.push(
+      'Senna R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Dawning Shadow ordered tags (no meta_or_non_target_dps/primary_damage_branch_salvage; requires bonus_ad_ratio/ap_ratio/active_physical_damage), Wiki rev4008033/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/100000CD/one physical 550+1.15*bonusAD+0.70*AP nested binary numerics/schedules (550/665/620/735; raw712→356; raw804→402; counterproof both665; 20220/20170; no 20230; no R type; no explicit event op; t0/t99999/t100000 mana300→100/HP288; mana99 skip), standalone/preserve-W/check-only-W-isolation/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused71/full987 + Wasm asset SHA, and bilateral evidence (owning b774a8d / integrated 4316923 / Wasm a8e4c08; one selected-primary-enemy-champion physical hit not full R; no cast/Effect-at-cast-time-start/queue/wave/projectile/AOE/reveal/shield/Mist/live claim)',
     );
   }
   if (
@@ -9363,8 +9552,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 97) {
-    errors.push(`completed=${sc.completed}, expected 97`);
+  if ((sc.completed || 0) !== 98) {
+    errors.push(`completed=${sc.completed}, expected 98`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -9372,8 +9561,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 76) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 76`);
+  if ((sc.blocked_runtime || 0) !== 75) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 75`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -9394,21 +9583,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 97) {
-    errors.push(`completionMode full=${cm.full}, expected 97`);
+  if ((cm.full || 0) !== 98) {
+    errors.push(`completionMode full=${cm.full}, expected 98`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 154) {
-    errors.push(`completionMode none=${cm.none}, expected 154`);
+  if ((cm.none || 0) !== 153) {
+    errors.push(`completionMode none=${cm.none}, expected 153`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 59) {
+  if (implGapCount !== 58) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 59`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 58`,
     );
   }
 
