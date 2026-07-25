@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-25T15:04:44.862Z"
+    "generatedAt": "2026-07-25T15:39:54.989Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 80,
+      "migrated": 81,
       "partial": 4,
-      "blocked": 89,
+      "blocked": 88,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 33.06,
+      "migrated": 33.47,
       "partial": 1.65,
-      "blocked": 36.78,
+      "blocked": 36.36,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 33.06,
-      "inScope": 46.24
+      "all": 33.47,
+      "inScope": 46.82
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 34.71,
-      "inScope": 48.55
+      "all": 35.12,
+      "inScope": 49.13
     },
     "inScopeCount": 173
   },
@@ -6971,29 +6971,32 @@
       "pageId": "tristana-r",
       "sourceText": "{{sbc|Active:}} '''Tristana''' fires a massive cannonball at the target enemy that deals {{as|magic damage}}. They and surrounding enemies are also {{tip|airborne|knocked back}} and {{tip|stun|stunned}} for a duration, during which all targets are {{tip|standard sight|revealed}}.\n{{st|Magic Damage|{{ap|225 to 325}} {{as|(+ 70% '''bonus''' AD)}} {{as|(+ 100% AP)}}}}\n{{st|Knock Back Distance|{{ap|600|800|1000}}}}\n{{st|Stun Duration|{{ap|0.4 to 0.7}} seconds}}\n100\n100\nmana\nMagic\n* Applies {{tip|spell damage}} to the primary target and deals 0 {{tip|default damage}} to secondary targets.\n** The 0 damage to secondary targets triggers {{tip|turret}} aggro, but does not stack ''{{ai|Explosive Charge|Tristana}}''.\n* '''Tristana''' will attempt to basic attack the target afterwards.\n* ''Buster Shot's'' {{tip|airborne|displacement}} direction is based on '''Tristana's''' location at the end of the cast time.\n** The primary target is pushed in a straight line away from that location, but the knockback distance and speed may be impeded by terrain.\n** Secondary targets are displaced parallel to the primary target's displacement.\n* The {{tip|airborne|icononly = true}} debuff is removed early when the forced movement stops.\n* {{tip|Displacement immunity}} will also resist the application of the {{tip|stun}}.\n{{Unit-targeted cancel conditions}}\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/tristana-r.json@rev4008205 sha256:2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008205",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/tristana-r.json@rev4008205 sha256:2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_tristana R 毁灭射击/Buster Shot：Wiki request Template:Data Tristana/R → resolved Template:Data Tristana/Buster Shot；page1308525 / rev4008205 / timestamp 2026-04-14T05:37:16Z / canonical bytes2385 / SHA256 2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058（normalized/generic/tristana-r.json plus pages sibling are authority）rank3 Phase-A v1 已由 wasm-generic-tristana-buster-shot-primary-hit 闭环为 migrated——local raw caveat bytes2382 / SHA 42e07f07f3188aada86d18d782c05d291f031dbbf92171e4a1120e828ebf8c7b（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 100000ms CD；immediate selected-primary-champion single magic hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(add(325,0.70*(source.attr.ad.resolved-source.attr.ad.base)),1.00*source.attr.ap.resolved)（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no explicit event op；ability_started is automatic）（交叉校验 base0/resolved0/AP0/MR0 raw=final325；base60/resolved60/AP0/MR0 raw=final325；base60/resolved160/AP0/MR0 raw=final395；base60/resolved160/AP100/MR0 raw=final495；base60/resolved160/AP100/MR100 raw495/final247.5；base60/resolved260/AP200/MR100 raw665/final332.5；base0/resolved100 versus base60/resolved160 AP100/MR0 both495）。Attempts mana300/baseAD60/resolvedAD160/AP100/HP1000/MR100 at t0/t99999/t100000 → success/skip/success，exactly two R damage items；final mana100/HP505；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Tristana R provider is standalone；Backend has no repository-owned hero_tristana / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Tristana P/Q/W/E/Explosive Charge dependence；不暗示 Batch-B 或 sibling Tristana synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Cursor focused9/adjacent53/full911 passed；Main focused9/adjacent53/full911 passed。Wasm main validation passed gofmt/focused7/full/bench/build/smoke/benchmark；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity。明确排除 cast time、knockback/stun/reveal、secondary zero damage/turret aggro、displacement/terrain/geometry/immunity、unit-target cancel、post-cast basic attack、Explosive Charge、ranks1-2、siblings/loadout/on-hit/live/full fidelity；this is exactly one selected-target magic hit, not full R；不宣称 cast/knockback/stun/reveal/secondary/terrain/displacement/immunity/unit-cancel/post-basic/Explosive-Charge/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_tristana/ad/ap/mana），不物化 identity/panel/resource values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-tristana-buster-shot-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_tristana_buster_shot_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity; Wiki request Template:Data Tristana/R → Buster Shot; rev4008205/SHA256 2dff3229… / bytes2385; local raw caveat bytes2382/SHA 42e07f07… no equivalence claim; rank3 100 mana/100000ms CD / one magic 325+0.70*bonusAD+1.00*AP via nested binary add(add(325,0.70*(ad.resolved-ad.base)),1.00*ap.resolved); base0/resolved0/AP0/MR0=325; base60/resolved60/AP0/MR0=325; base60/resolved160/AP0/MR0=395; base60/resolved160/AP100/MR0=495; base60/resolved160/AP100/MR100 raw495/final247.5; base60/resolved260/AP200/MR100 raw665/final332.5; base0/resolved100 vs base60/resolved160 AP100/MR0 both495; damage 20221/add 20170; no explicit event op; mana300/baseAD60/resolvedAD160/AP100/HP1000/MR100 t0/t99999/t100000 success/skip/success two R damage items final mana100/HP505 two automatic R ability_started; mana99 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit b4d10e4; cast/knockback/stun/reveal/secondary/terrain/displacement/immunity/unit-cancel/post-basic/Explosive-Charge/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-tristana-buster-shot-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_tristana_buster_shot_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity; backend lol_generic_tristana_buster_shot_primary_hit_seed.sql + LolGenericTristanaBusterShotPrimaryHitSeedSqlTest (owning 8b98bcb; integrated 30209c4); Wasm exact test commit b4d10e4; external existing-data/check-only prerequisites (hero_tristana/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Tristana synthesis; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_twistedfate|P|灌铅骰子",
