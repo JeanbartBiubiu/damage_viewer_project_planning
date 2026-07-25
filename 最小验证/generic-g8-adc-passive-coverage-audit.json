@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-25T20:13:41.379Z"
+    "generatedAt": "2026-07-25T20:53:11.318Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 88,
+      "migrated": 89,
       "partial": 4,
-      "blocked": 81,
+      "blocked": 80,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 36.36,
+      "migrated": 36.78,
       "partial": 1.65,
-      "blocked": 33.47,
+      "blocked": 33.06,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 36.36,
-      "inScope": 50.87
+      "all": 36.78,
+      "inScope": 51.45
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 38.02,
-      "inScope": 53.18
+      "all": 38.43,
+      "inScope": 53.76
     },
     "inScopeCount": 173
   },
@@ -1997,29 +1997,31 @@
       "pageId": "ezreal-q",
       "sourceText": "{{sbc|Active:}} '''Ezreal''' fires a bolt of energy in the target direction that deals {{as|physical damage}} to the first enemy hit, applying {{tip|on-hit}} effects and triggering {{tip|on-attack}} effects.\nIf ''Mystic Shot'' successfully hits an enemy, the {{sti|'''current''' cooldowns}} of '''Ezreal's''' abilities, including ''Mystic Shot's'', are reduced by {{fd|1.5}} seconds.\n{{st|Physical Damage|{{ap|20 to 120}} {{as|(+ 130% AD)}} {{as|(+ 40% AP)}}}}\n{{ap|5.5 to 4.5}}\n{{ap|28 to 40}}\nMana\nPhysical\n* ''Mystic Shot'' deals {{tip|basic damage}}, but also triggers spell effects by also being tagged as {{tip|spell damage}}.\n* ''Mystic Shot'' benefits from {{as|{{sti|life steal}}}}, {{tip|omnivamp}}, and {{tip|physical vamp}}, but not {{tip|spell vamp}}.\n* Even if the ability is blocked by {{tip|spell shield}} it will still trigger the cooldown reduction.\n{{Effect at cast time end}}\n* ''Mystic Shot'' will be buffered and cast when the cooldown ends if the player attempts to cast it within {{fd|0.05}} seconds of the cooldown ending.\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/ezreal-q.json@rev4013233 sha256:be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "cooldown_or_haste_without_rotation"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4013233",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/ezreal-q.json@rev4013233 sha256:be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_ezreal Q 秘术射击/Mystic Shot：Wiki request Template:Data Ezreal/Q → resolved Template:Data Ezreal/Mystic Shot；page1307107 / rev4013233 / timestamp 2026-04-28T21:19:30Z / canonical bytes2054 / SHA256 be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533（normalized/generic/ezreal-q.json plus pages sibling are authority）rank5 Phase-A v2 已由 wasm-generic-ezreal-mystic-shot-primary-hit 闭环为 migrated——local raw caveat bytes2052 / SHA d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；40 mana / 4500ms CD；immediate selected-primary-enemy-champion single physical hit scaffold；one immediate selected-primary-enemy-champion single noncritical/noncopyable physical damage operation add(add(const 120, mul(const 1.30, read source.attr.ad.resolved)), mul(const 0.40, read source.attr.ap.resolved))（exact nested binary add；total AD direct read；never bonus AD/subtraction；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 resolvedAD60/AP0/armor100 raw198/final99；resolvedAD160/AP0/armor100 raw328/final164；resolvedAD60/AP100/armor100 raw238/final119；resolvedAD160/AP100/armor100 raw368/final184；baseAD0 versus baseAD60 at resolvedAD160/AP0/armor100 both328/164）。Attempts mana120/baseAD60/resolvedAD160/AP100/HP1000/armor100 at t0/t4499/t4500 → success/skip/success，exactly two Q damage items；final mana40/HP632；exactly two automatic Q ability_started；mana39 at t0 → resource skip with mana/HP unchanged and no Q damage/event。成功命中保留既有 Rising Spell Force 一层：successful t0 + CD skip t100 → exactly one damage/ability_started/P stack and AS1.1。Ezreal Q provider is standalone；preserve existing P/E/R without requiring/mutating/synthesizing/copying them；Q seed contains no W rows；Backend has no repository-owned hero_ezreal / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Ezreal W dependence；不暗示 Batch-B 或 sibling Ezreal synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused11/full998 passed。Wasm main validation passed gofmt/focused/count100/full/bench/build/smoke/benchmark；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write；hero-named `_test.go` is regression/governance evidence only and excluded from production build。completedBoundary：rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity。明确排除 direction/range/projectile travel/collision/first-enemy acquisition、on-hit/on-attack/1.5s cooldown reduction、basic+spell dual-tag/lifesteal/vamp/spellshield/buffering、ranks1–4、other Ezreal skills/basic beyond coexistence、loadout/crit、live migration/publish/E2E/full fidelity；this is exactly one selected-primary-enemy-champion single physical hit, not full Q；不宣称 direction/range/projectile/collision/acquisition/on-hit/on-attack/CD-reduction/dual-tag/lifesteal/vamp/spellshield/buffering/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_ezreal ad/ap/mana），不物化 identity/panel/resource values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-mystic-shot-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_mystic_shot_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity; Wiki request Template:Data Ezreal/Q → Mystic Shot; rev4013233/SHA256 be5a2486… / bytes2054; local raw caveat bytes2052/SHA d8348b3b… no equivalence claim; rank5 40 mana/4500ms CD / one physical 120+1.30*totalAD+0.40*AP nested binary add; resolvedAD60/AP0/armor100 raw198/final99; resolvedAD160/AP0/armor100 raw328/final164; resolvedAD60/AP100/armor100 raw238/final119; resolvedAD160/AP100/armor100 raw368/final184; baseAD0 vs baseAD60 at resolvedAD160/AP0/armor100 both328/164; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana120/baseAD60/resolvedAD160/AP100/HP1000/armor100 t0/t4499/t4500 success/skip/success two Q damage items final mana40/HP632 two automatic Q ability_started; mana39 resource skip unchanged; P coexistence successful t0 + CD skip t100 → exactly one damage/ability_started/P stack and AS1.1; Wasm exact test commit 000e253; direction/range/projectile/collision/acquisition/on-hit/on-attack/CD-reduction/dual-tag/lifesteal/vamp/spellshield/buffering/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ezreal-mystic-shot-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ezreal_mystic_shot_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity; backend lol_generic_ezreal_mystic_shot_primary_hit_seed.sql + LolGenericEzrealMysticShotPrimaryHitSeedSqlTest + README (owning 41fce6a; integrated ae66c56); Wasm exact test commit 000e253; nested binary add; external existing-data/check-only prerequisites (does not write identity/panel/resource values); Web source asset exact parity (no Web change/commit); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_ezreal|W|精华跃动",
