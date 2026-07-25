@@ -637,6 +637,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql',
   kalistaPiercePrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_kalista_pierce_primary_hit_seed.sql',
+  caitlynPiltoverPeacemakerFirstEnemyHitBackend:
+    'db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -760,6 +762,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_90_caliber_net_primary_hit_test.go',
   kalistaPiercePrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kalista_pierce_primary_hit_test.go',
+  caitlynPiltoverPeacemakerFirstEnemyHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_piltover_peacemaker_first_enemy_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -2047,6 +2051,35 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-kalista-pierce-primary-hit',
           SEED.kalistaPiercePrimaryHitBackend,
           'completedBoundary: rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity; backend lol_generic_kalista_pierce_primary_hit_seed.sql + LolGenericKalistaPiercePrimaryHitSeedSqlTest (owning 04c061f; integrated bdb5d32); Wasm exact test commit 99e7b39; external existing-data/check-only prerequisites (hero_kalista/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Kalista synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_caitlyn|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_caitlyn Q 和平使者/Piltover Peacemaker：Wiki request Template:Data Caitlyn/Q → resolved Template:Data Caitlyn/Piltover Peacemaker；page1306911 / rev4007583 / timestamp 2026-04-12T06:47:12Z / canonical bytes1841 / SHA256 6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf（normalized/generic/caitlyn-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit 闭环为 migrated——local raw caveat bytes1838 / SHA 93da300971429a629f11a721c3993784db6a99d3559b1286eae9500176560b9a（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；75 mana / 6000ms CD；immediate primary-champion first-enemy full physical hit scaffold；one selected immediate primary-champion physical damage operation 210 + 2.05 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no explicit event op）（交叉校验 (AD0,A0)=(210,210)；(AD0,A100)=(210,105)；(AD100,A0)=(415,415)；(AD100,A100)=(415,207.5)；(AD200,A100)=(620,310)）。Attempts mana225/HP1000/AD100/armor100 at t0/t5999/t6000 → success/skip/success，exactly two Q damage items；final mana75/HP585；exactly two automatic Q ability_started；mana74 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Caitlyn Q is standalone；Backend has no repository-owned hero_caitlyn / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Caitlyn synthesis。completedBoundary：rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity。明确排除 cast timing/Effect-at-cast-start、attack timer reset、direction/range/width/line geometry/multitarget/post-first-enemy 60% damage、trap/reveal、full-damage projectile/spell shield、other ranks、other Caitlyn abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/attack-timer-reset/direction/line/projectile/trap/reveal/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_caitlyn/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit',
+          WASM.caitlynPiltoverPeacemakerFirstEnemyHit,
+          'completedBoundary: rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity; Wiki request Template:Data Caitlyn/Q → Piltover Peacemaker; rev4007583/SHA256 6c40deba… / bytes1841; local raw caveat bytes1838/SHA 93da3009… no equivalence claim; rank5 75 mana/6000ms CD / one physical 210+2.05*totalAD; (AD0,A0)=(210,210); (AD0,A100)=(210,105); (AD100,A0)=(415,415); (AD100,A100)=(415,207.5); (AD200,A100)=(620,310); damage 20220/add 20170; no explicit event op; mana225/HP1000/AD100/armor100 t0/t5999/t6000 success/skip/success two Q damage items final mana75/HP585 two automatic Q ability_started; mana74 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit 0fe29e7; cast/attack-timer-reset/direction/range/width/line/multitarget/post-first-enemy-60%/trap/reveal/projectile/spell-shield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit',
+          SEED.caitlynPiltoverPeacemakerFirstEnemyHitBackend,
+          'completedBoundary: rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity; backend lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql + LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest (owning b5ef446; integrated 245a111); Wasm exact test commit 0fe29e7; external existing-data/check-only prerequisites (hero_caitlyn/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Caitlyn synthesis; not live published',
         ),
       ],
     },
@@ -4347,9 +4380,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 75) errors.push(`migrated=${counts.migrated}, expected 75`);
+  if (counts.migrated !== 76) errors.push(`migrated=${counts.migrated}, expected 76`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 94) errors.push(`blocked=${counts.blocked}, expected 94`);
+  if (counts.blocked !== 93) errors.push(`blocked=${counts.blocked}, expected 93`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -7504,6 +7537,138 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       kalistaQ.candidateKey,
       kalistaQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const caitlynQ = records.find((r) => r.candidateKey === 'hero_skill|hero_caitlyn|Q|和平使者');
+  const caitlynQTags = [...(caitlynQ?.genericMechanismTags || [])];
+  const caitlynQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'immediate_impact_scaffold',
+  ];
+  const caitlynQReason = String(caitlynQ?.classificationReason || '');
+  const caitlynQBoundary =
+    'rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_caitlyn|Q')) {
+    errors.push('Caitlyn Q exact override key hero_caitlyn|Q must exist before fallback');
+  }
+  if (
+    !caitlynQ
+    || caitlynQ.candidateKey !== 'hero_skill|hero_caitlyn|Q|和平使者'
+    || caitlynQ.passiveName !== '和平使者'
+    || caitlynQ.genericClassification !== 'migrated'
+    || String(caitlynQ.remainingGap || '').trim()
+    || (caitlynQ.dataGapEvidence?.missingFields || []).length !== 0
+    || caitlynQTags.join('|') !== caitlynQExpectedTags.join('|')
+    || caitlynQTags.includes('dps_relevant_manual_review')
+    || caitlynQTags.includes('meta_or_non_target_dps')
+    || caitlynQTags.includes('bonus_ad_ratio')
+    || caitlynQTags.includes('total_ad_ratio')
+    || String(caitlynQ.remainingGap || '').includes('blocked_data')
+    || caitlynQReason.includes('needs_manual_baseline')
+    || caitlynQReason.includes('blocked_data')
+    || caitlynQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || caitlynQReason.includes('dps_relevant_manual_review')
+    || caitlynQReason.includes('out_of_scope_for_single_target_dps')
+    || caitlynQReason.includes('bonus_ad_ratio')
+    || caitlynQReason.includes('ad.resolved-source.attr.ad.base')
+    || caitlynQReason.includes('ad.resolved-ad.base')
+    || !caitlynQReason.includes('4007583')
+    || !caitlynQReason.includes(
+      '6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf',
+    )
+    || !caitlynQReason.includes(
+      '93da300971429a629f11a721c3993784db6a99d3559b1286eae9500176560b9a',
+    )
+    || !caitlynQReason.includes('Template:Data Caitlyn/Q')
+    || !caitlynQReason.includes('Template:Data Caitlyn/Piltover Peacemaker')
+    || !caitlynQReason.includes('page1306911')
+    || !caitlynQReason.includes('bytes1841')
+    || !caitlynQReason.includes('bytes1838')
+    || !caitlynQReason.includes('2026-04-12T06:47:12Z')
+    || !caitlynQReason.includes(caitlynQBoundary)
+    || !caitlynQReason.includes('source.attr.ad.resolved')
+    || !caitlynQReason.includes('total AD')
+    || !caitlynQReason.includes('210')
+    || !caitlynQReason.includes('2.05')
+    || !caitlynQReason.includes('75 mana')
+    || !caitlynQReason.includes('6000')
+    || !caitlynQReason.includes('20220')
+    || !caitlynQReason.includes('20170')
+    || !caitlynQReason.includes('no explicit event op')
+    || !caitlynQReason.includes('(AD0,A0)=(210,210)')
+    || !caitlynQReason.includes('(AD0,A100)=(210,105)')
+    || !caitlynQReason.includes('(AD100,A0)=(415,415)')
+    || !caitlynQReason.includes('(AD100,A100)=(415,207.5)')
+    || !caitlynQReason.includes('(AD200,A100)=(620,310)')
+    || !caitlynQReason.includes('t5999')
+    || !caitlynQReason.includes('t6000')
+    || !caitlynQReason.includes('mana225')
+    || !caitlynQReason.includes('mana74')
+    || !caitlynQReason.includes('HP585')
+    || !caitlynQReason.includes('ability_started')
+    || !caitlynQReason.includes('standalone')
+    || !caitlynQReason.includes('external existing-data/check-only')
+    || !caitlynQReason.includes('identity/panel/resource')
+    || !caitlynQReason.includes('不暗示 Batch-B')
+    || !caitlynQReason.includes('sibling Caitlyn synthesis')
+    || !caitlynQReason.includes('不宣称')
+    || !caitlynQReason.includes('no equivalence or contradiction claim')
+    || caitlynQReason.includes('canonical byte equivalence')
+    || caitlynQReason.includes('Batch-B prerequisite')
+    || caitlynQReason.includes('live published')
+    || !String(caitlynQ.sourceRef || '').includes('caitlyn-q.json')
+    || !String(caitlynQ.sourceRef || '').includes(
+      '6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf',
+    )
+    || caitlynQ.auditBaseline?.gapCode !== 'blocked_data'
+    || caitlynQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || caitlynQ.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(caitlynQ.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || caitlynQ.classification !== 'out_of_scope_for_single_target_dps'
+    || !(caitlynQ.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(caitlynQ.classificationReason)
+    || !(caitlynQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.caitlynPiltoverPeacemakerFirstEnemyHit
+        && e.taskKey === 'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit'
+        && String(e.note || '').includes(caitlynQBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('0fe29e7')
+        && String(e.note || '').includes('93da3009')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(caitlynQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.caitlynPiltoverPeacemakerFirstEnemyHitBackend
+        && e.taskKey === 'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit'
+        && String(e.note || '').includes(caitlynQBoundary)
+        && String(e.note || '').includes('LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest')
+        && String(e.note || '').includes('b5ef446')
+        && String(e.note || '').includes('245a111')
+        && String(e.note || '').includes('0fe29e7')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Caitlyn synthesis'),
+    )
+  ) {
+    errors.push(
+      'Caitlyn Q must be migrated with empty remainingGap/missingFields, exact Piltover Peacemaker ordered tags (no dps_relevant_manual_review/total_ad_ratio), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev4007583/SHA + local raw caveat + frozen completedBoundary, rank5 75mana/6000CD/one physical 210+2.05*totalAD numerics ((AD0,A0)=(210,210); (AD0,A100)=(210,105); (AD100,A0)=(415,415); (AD100,A100)=(415,207.5); (AD200,A100)=(620,310); 20220/20170; no explicit event op; t0/t5999/t6000 mana225→75/HP585 two damage/two ability_started; mana74 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral wasm+backend evidence (owning b5ef446 / integrated 245a111 / Wasm 0fe29e7; no cast/attack-timer-reset/direction/line/projectile/trap/reveal/live claim)',
+    );
+  }
+  if (caitlynQ) {
+    validateBilateralCoverageEvidence(
+      caitlynQ.candidateKey,
+      caitlynQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
