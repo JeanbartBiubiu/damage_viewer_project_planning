@@ -1414,6 +1414,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-senna-last-embrace-first-enemy-hit",
+      "title": "通用 ABI 赛娜 W 无尽厮守 Last Embrace 首个敌人命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_senna_last_embrace_first_enemy_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_senna|W|无尽厮守 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Senna/W→Last Embrace page1409576/rev4009139/timestamp2026-04-15T21:34:10Z/canonical raw1656/SHA256 48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492；normalized2120/SHA c570469e…5fdc8b；pages685/SHA 7f9ffc93…1f41f4；sidecar senna-w.json+pages权威；本地raw1651/SHA737cc69b…090d5e（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity。Rank5：70mana/11000ms；immediate selected-primary-champion first-enemy single physical hit scaffold；一笔非暴击/不可复制物理命中230+0.90*(source.attr.ad.resolved-source.attr.ad.base)（精确二元树；显式bonus AD减法；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零W state/modifier/listener/root/control/secondary-target；无W-specific type。交叉base0/resolved0/armor0 raw/final230；base60/resolved60/armor0 raw/final230；base60/resolved160/armor0 raw/final320；base60/resolved160/armor100 raw320/final160；base60/resolved260/armor100 raw410/final205；base0/resolved100与base60/resolved160在armor0下均raw/final320（bonus-AD减法证明）；mana210/baseAD60/resolvedAD160/HP1000/armor100 t0/t10999/t11000 success/skip/success两笔W damage final mana70/HP680两次自动W ability_started；mana69 resource skip不变。standalone；仅W挂载；不合成P/Q/E/R/basic或W state/modifier/listener/root/control/secondary-target；不合成Batch-B/sibling Senna；Backend无repository-owned hero_senna/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold（无completed salvage tag）。恰好一次选定主目标首个敌人物理命中，不是完整W。有效DESIGN_READY run-96bfe31f（strict model；1900/1900 parseable events/39/39 complete tool groups；runDelta0/diff0；无truncation/mutation）。先前v1 run-0ebc4622返回READY但因一个未完成只读grep组无效为正式门控；非阻塞建议已接受进v2；该run无写入。Backend owning c0c3090（run-713c4d15 delta3/outside0；主focused68/full954 PASS；seed SHA0327787a…95efc7；JUnit SHA9bb02ffd…5d75ff；README SHA1ad375f7…8c55af）/镜像b90607b（run-c70b5ca7 delta3/outside0；精确parity）。Wasm exact ebf7730（run-5ba15211 delta1/outside0；focused/full/bench/build/smoke/benchmark PASS；test bytes62703/SHA4a449fc0…696051；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受24e2dd3（run-fa34263a delta8/outside0；主五检查通过；语义比较仅Senna W G8/Unified变化；provisional仅移除Senna W；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed95/partial_actionable0/ready0/blocked_runtime78/blocked_data3/OOS72/regression5/stale1；full95/partial3/none156；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated85/partial4/blocked84/OOS69/inScope173；implementation_gap=61；provisional81=runtime78/data3/hero79/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion95/254=37.4%；completed+provisional coverage176/254=69.3%；81张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=109。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Last Embrace/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-赛娜W无尽厮守LastEmbrace首个敌人命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-赛娜W无尽厮守LastEmbrace首个敌人命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
