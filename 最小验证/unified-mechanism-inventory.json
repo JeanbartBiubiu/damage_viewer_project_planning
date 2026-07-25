@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T19:38:00.273Z",
+    "generatedAt": "2026-07-25T20:13:44.938Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "1235c9644110d7dc020e34bfbfc57eee05bc406719f89e313ba56b9319b7b819",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "b7ff314cbae026eea023ac14aed8d8ee4d7f3820af71d3c9f3058d536d1b881d",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "9b5faf085151f977e12df8d2718358dcb742a1eaba18d19a8f993d7ebd7133db",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "971876b01b935731157d0e6d9b486fdba0259b65ea1434878319c7d2aa114be3",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "865b88600fa509da15e6b6e39c9eb710b9c0d93371bc4053be95bef858ec8759",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "90f101d7537437af5f1abdcd2d4a9799078195eb9ae4a055c406e5836d081cfa",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 97,
+      "completed": 98,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 76,
+      "blocked_runtime": 75,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 97,
+      "full": 98,
       "partial": 3,
-      "none": 154
+      "none": 153
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "1235c9644110d7dc020e34bfbfc57eee05bc406719f89e313ba56b9319b7b819",
-      "byteSize": 1066116,
+      "sha256": "b7ff314cbae026eea023ac14aed8d8ee4d7f3820af71d3c9f3058d536d1b881d",
+      "byteSize": 1072450,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "9b5faf085151f977e12df8d2718358dcb742a1eaba18d19a8f993d7ebd7133db",
-      "byteSize": 620436,
+      "sha256": "865b88600fa509da15e6b6e39c9eb710b9c0d93371bc4053be95bef858ec8759",
+      "byteSize": 637505,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "971876b01b935731157d0e6d9b486fdba0259b65ea1434878319c7d2aa114be3",
-      "byteSize": 643144,
+      "sha256": "90f101d7537437af5f1abdcd2d4a9799078195eb9ae4a055c406e5836d081cfa",
+      "byteSize": 659983,
       "recordCount": 0,
       "role": "generator"
     },
@@ -17831,52 +17831,30 @@
     },
     {
       "key": "hero_skill|hero_senna|R|暗影燎原",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_senna",
       "skillKey": "R",
       "passiveName": "暗影燎原",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "ap_ratio",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008033",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/senna-r.json@rev4008033 sha256:4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_senna|R|暗影燎原",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity",
+      "reason": "Senna R 暗影燎原/Dawning Shadow：Wiki request Template:Data Senna/R → resolved Template:Data Senna/Dawning Shadow；page1409580 / rev4008033 / timestamp 2026-04-13T04:08:13Z / canonical bytes2356 / SHA256 4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36（normalized/generic/senna-r.json plus pages sibling are authority）rank3 Phase-A v3 已由 wasm-generic-senna-dawning-shadow-primary-hit + backend seed 证据闭环——local raw caveat bytes2353 / SHA 1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 100000ms CD；immediate selected-primary-enemy-champion single physical hit scaffold；one immediate selected-primary-enemy-champion single noncritical/noncopyable physical damage operation add(add(const 550, mul(const 1.15, sub(read source.attr.ad.resolved, read source.attr.ad.base))), mul(const 0.70, read source.attr.ap.resolved))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 base60/resolved60/AP0/armor0 raw=final550；base60/resolved160/AP0/armor0 raw=final665；base60/resolved60/AP100/armor0 raw=final620；base60/resolved160/AP100/armor0 raw=final735；base60/resolved140/AP100/armor100 raw712/final356；base60/resolved220/AP100/armor100 raw804/final402；base0/resolved100 versus base60/resolved160 AP0/armor0 both665）。Attempts mana300/baseAD60/resolvedAD140/AP100/HP1000/armor100 at t0/t99999/t100000 → success/skip/success，exactly two R damage items；final mana100/HP288；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Senna R provider is standalone；preserve existing W Last Embrace without requiring/mutating/copying/synthesizing W；check-only standalone W isolation；Backend has no repository-owned hero_senna / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Senna P/Q/W/E/basic dependence；不暗示 Batch-B 或 sibling Senna synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused71/full987 passed。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；exact test bytes73643 / SHA256 a42359e98452dfd3d1429fc12f8735daefd77b0da2269ba7b345200b9ff39fa9；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/Effect at cast time start/queue time、global/direction/broad or narrow wave geometry/width、projectile travel/speed/destruction AOE/multitarget、enemy reveal/self reveal/allied or self shield、Mist scaling/Mist Wraith hits/path sight/spellshield、other ranks、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary-enemy-champion single physical hit, not full R；不宣称 cast/Effect-at-cast-time-start/queue/global/direction/wave/projectile/AOE/reveal/shield/Mist/Wraith/sight/spellshield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_senna/ad/ap/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_senna|R|暗影燎原"
         },
         {
@@ -17885,7 +17863,22 @@
           "sourceRecordKey": "hero_skill|hero_senna|R|暗影燎原"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-senna-dawning-shadow-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_senna_dawning_shadow_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity; backend lol_generic_senna_dawning_shadow_primary_hit_seed.sql + LolGenericSennaDawningShadowPrimaryHitSeedSqlTest (owning b774a8d; integrated 4316923); Wasm exact test commit a8e4c08; external existing-data/check-only prerequisites (hero_senna/ad/ap/mana; does not write identity/panel/resource values); standalone preserve existing W / check-only W isolation / no Batch-B or sibling Senna synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-senna-dawning-shadow-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_senna_dawning_shadow_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Senna/R → Dawning Shadow; rev4008033/SHA256 4de188cc… / bytes2356; local raw caveat bytes2353/SHA 1b448ff4… no equivalence claim; rank3 100 mana/100000ms CD / one physical 550+1.15*bonusAD+0.70*AP via nested binary add(add(550,1.15*(ad.resolved-ad.base)),0.70*ap.resolved); base60/resolved60/AP0/armor0=550; base60/resolved160/AP0/armor0=665; base60/resolved60/AP100/armor0=620; base60/resolved160/AP100/armor0=735; base60/resolved140/AP100/armor100 raw712/final356; base60/resolved220/AP100/armor100 raw804/final402; base0/resolved100 vs base60/resolved160 AP0/armor0 both665; damage 20220/add 20170; no 20230; no explicit event op; no R type; mana300/baseAD60/resolvedAD140/AP100/HP1000/armor100 t0/t99999/t100000 success/skip/success two R damage items final mana100/HP288 two automatic R ability_started; mana99 resource skip unchanged; standalone preserve existing W / check-only W isolation / no sibling synthesis; Wasm exact test commit a8e4c08 bytes73643/SHA a42359e9…; cast/Effect-at-cast-time-start/queue/global/direction/wave/projectile/AOE/reveal/shield/Mist/Wraith/sight/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
