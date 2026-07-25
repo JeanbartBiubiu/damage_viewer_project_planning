@@ -1777,6 +1777,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_caitlyn|Q|和平使者',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Caitlyn Q 和平使者/Piltover Peacemaker：Wiki request Template:Data Caitlyn/Q → resolved Template:Data Caitlyn/Piltover Peacemaker；page1306911 / rev4007583 / timestamp 2026-04-12T06:47:12Z / canonical bytes1841 / SHA256 6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf（normalized/generic/caitlyn-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit + backend seed 证据闭环——local raw caveat bytes1838 / SHA 93da300971429a629f11a721c3993784db6a99d3559b1286eae9500176560b9a（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；75 mana / 6000ms CD；immediate primary-champion first-enemy full physical hit scaffold；one selected immediate primary-champion physical damage operation 210 + 2.05 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no explicit event op）（交叉校验 (AD0,A0)=(210,210)；(AD0,A100)=(210,105)；(AD100,A0)=(415,415)；(AD100,A100)=(415,207.5)；(AD200,A100)=(620,310)）。Attempts mana225/HP1000/AD100/armor100 at t0/t5999/t6000 → success/skip/success，exactly two Q damage items；final mana75/HP585；exactly two automatic Q ability_started；mana74 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Caitlyn Q is standalone；Backend has no repository-owned hero_caitlyn / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Caitlyn synthesis。completedBoundary：rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity。明确排除 cast timing/Effect-at-cast-start、attack timer reset、direction/range/width/line geometry/multitarget/post-first-enemy 60% damage、trap/reveal、full-damage projectile/spell shield、other ranks、other Caitlyn abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/attack-timer-reset/direction/line/projectile/trap/reveal/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_caitlyn/ad/mana），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_piltover_peacemaker_first_enemy_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity; Wiki request Template:Data Caitlyn/Q → Piltover Peacemaker; rev4007583/SHA256 6c40deba… / bytes1841; local raw caveat bytes1838/SHA 93da3009… no equivalence claim; rank5 75 mana/6000ms CD / one physical 210+2.05*totalAD; (AD0,A0)=(210,210); (AD0,A100)=(210,105); (AD100,A0)=(415,415); (AD100,A100)=(415,207.5); (AD200,A100)=(620,310); damage 20220/add 20170; no explicit event op; mana225/HP1000/AD100/armor100 t0/t5999/t6000 success/skip/success two Q damage items final mana75/HP585 two automatic Q ability_started; mana74 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit 0fe29e7; cast/attack-timer-reset/direction/range/width/line/multitarget/post-first-enemy-60%/trap/reveal/projectile/spell-shield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity; backend lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql + LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest (owning b5ef446; integrated 245a111); Wasm exact test commit 0fe29e7; external existing-data/check-only prerequisites (hero_caitlyn/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Caitlyn synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_kayle|Q|耀焰冲击',
     {
       status: 'completed',
@@ -2622,6 +2653,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_kalista|Q|穿刺',
     'rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity',
+  ],
+  [
+    'hero_skill|hero_caitlyn|Q|和平使者',
+    'rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4209,6 +4244,7 @@ function validateInventory(inv) {
   const mJhinW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_jhin|W|致命华彩');
   const mCaitlynE = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_caitlyn|E|90口径绳网');
   const mKalistaQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kalista|Q|穿刺');
+  const mCaitlynQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_caitlyn|Q|和平使者');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
   );
@@ -6954,6 +6990,121 @@ function validateInventory(inv) {
       'Kalista Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Pierce ordered tags (no dps_relevant_manual_review/total_ad_ratio), Wiki rev3997075/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/9000CD/one physical 270+1.05*totalAD numerics/schedules ((AD0,A0)=(270,270); (AD0,A100)=(270,135); (AD100,A0)=(375,375); (AD100,A100)=(375,187.5); (AD200,A100)=(480,240); 20220/20170; no explicit event op), standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral evidence (owning 04c061f / integrated bdb5d32 / Wasm 99e7b39; no cast/Martial-Poise/direction/line/projectile/kill/Rend/live claim)',
     );
   }
+  const mCaitlynQReason = String(mCaitlynQ?.reason || '');
+  const mCaitlynQBoundary =
+    'rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity';
+  if (
+    !mCaitlynQ ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_caitlyn|Q|和平使者') ||
+    mCaitlynQ.key !== 'hero_skill|hero_caitlyn|Q|和平使者' ||
+    mCaitlynQ.passiveName !== '和平使者' ||
+    mCaitlynQ.status !== 'completed' ||
+    mCaitlynQ.completionMode !== 'full' ||
+    mCaitlynQ.lane !== 'generic_runtime' ||
+    mCaitlynQ.blocker ||
+    mCaitlynQ.dataGapEvidence !== null ||
+    mCaitlynQ.runtimeGapEvidence !== null ||
+    mCaitlynQ.outOfScopeEvidence !== null ||
+    mCaitlynQ.coverageBoundary !== mCaitlynQBoundary ||
+    [...(mCaitlynQ.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mCaitlynQ.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mCaitlynQ.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mCaitlynQ.mechanismTags || []).includes('bonus_ad_ratio') ||
+    (mCaitlynQ.mechanismTags || []).includes('total_ad_ratio') ||
+    mCaitlynQReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mCaitlynQReason.includes('blocked_data') ||
+    mCaitlynQReason.includes('dps_relevant_manual_review') ||
+    mCaitlynQReason.includes('needs_manual_baseline') ||
+    mCaitlynQReason.includes('out_of_scope_for_single_target_dps') ||
+    mCaitlynQReason.includes('bonus_ad_ratio') ||
+    mCaitlynQReason.includes('ad.resolved-source.attr.ad.base') ||
+    mCaitlynQReason.includes('ad.resolved-ad.base') ||
+    !mCaitlynQReason.includes('4007583') ||
+    !mCaitlynQReason.includes(
+      '6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf',
+    ) ||
+    !mCaitlynQReason.includes(
+      '93da300971429a629f11a721c3993784db6a99d3559b1286eae9500176560b9a',
+    ) ||
+    !mCaitlynQReason.includes('Template:Data Caitlyn/Q') ||
+    !mCaitlynQReason.includes('Template:Data Caitlyn/Piltover Peacemaker') ||
+    !mCaitlynQReason.includes('page1306911') ||
+    !mCaitlynQReason.includes('bytes1841') ||
+    !mCaitlynQReason.includes('bytes1838') ||
+    !mCaitlynQReason.includes('2026-04-12T06:47:12Z') ||
+    !mCaitlynQReason.includes(mCaitlynQBoundary) ||
+    !mCaitlynQReason.includes('source.attr.ad.resolved') ||
+    !mCaitlynQReason.includes('total AD') ||
+    !mCaitlynQReason.includes('210') ||
+    !mCaitlynQReason.includes('2.05') ||
+    !mCaitlynQReason.includes('75 mana') ||
+    !mCaitlynQReason.includes('6000') ||
+    !mCaitlynQReason.includes('20220') ||
+    !mCaitlynQReason.includes('20170') ||
+    !mCaitlynQReason.includes('no explicit event op') ||
+    !mCaitlynQReason.includes('(AD0,A0)=(210,210)') ||
+    !mCaitlynQReason.includes('(AD0,A100)=(210,105)') ||
+    !mCaitlynQReason.includes('(AD100,A0)=(415,415)') ||
+    !mCaitlynQReason.includes('(AD100,A100)=(415,207.5)') ||
+    !mCaitlynQReason.includes('(AD200,A100)=(620,310)') ||
+    !mCaitlynQReason.includes('t5999') ||
+    !mCaitlynQReason.includes('t6000') ||
+    !mCaitlynQReason.includes('mana225') ||
+    !mCaitlynQReason.includes('mana74') ||
+    !mCaitlynQReason.includes('HP585') ||
+    !mCaitlynQReason.includes('ability_started') ||
+    !mCaitlynQReason.includes('standalone') ||
+    !mCaitlynQReason.includes('external existing-data/check-only') ||
+    !mCaitlynQReason.includes('identity/panel/resource') ||
+    !mCaitlynQReason.includes('不暗示 Batch-B') ||
+    !mCaitlynQReason.includes('sibling Caitlyn synthesis') ||
+    !mCaitlynQReason.includes('不宣称') ||
+    !mCaitlynQReason.includes('no equivalence or contradiction claim') ||
+    mCaitlynQReason.includes('canonical byte equivalence') ||
+    mCaitlynQReason.includes('Batch-B prerequisite') ||
+    mCaitlynQReason.includes('live published') ||
+    !(mCaitlynQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_piltover_peacemaker_first_enemy_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mCaitlynQBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('0fe29e7') &&
+        String(e.note || '').includes('93da3009') &&
+        String(e.note || '').includes('20220') &&
+        String(e.note || '').includes('20170') &&
+        String(e.note || '').includes('no explicit event op') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mCaitlynQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mCaitlynQBoundary) &&
+        String(e.note || '').includes('LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest') &&
+        String(e.note || '').includes('b5ef446') &&
+        String(e.note || '').includes('245a111') &&
+        String(e.note || '').includes('0fe29e7') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Caitlyn synthesis'),
+    )
+  ) {
+    errors.push(
+      'Caitlyn Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Piltover Peacemaker ordered tags (no dps_relevant_manual_review/total_ad_ratio), Wiki rev4007583/SHA + local raw caveat + frozen completedBoundary, rank5 75mana/6000CD/one physical 210+2.05*totalAD numerics/schedules ((AD0,A0)=(210,210); (AD0,A100)=(210,105); (AD100,A0)=(415,415); (AD100,A100)=(415,207.5); (AD200,A100)=(620,310); 20220/20170; no explicit event op), standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral evidence (owning b5ef446 / integrated 245a111 / Wasm 0fe29e7; no cast/attack-timer-reset/direction/line/projectile/trap/reveal/live claim)',
+    );
+  }
   if (!m3748a || m3748a.status !== 'out_of_scope' || m3748a.completionMode !== 'partial') {
     errors.push('3748 顺劈 71fa0f0c must be out_of_scope/partial');
   }
@@ -7351,8 +7502,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 85) {
-    errors.push(`completed=${sc.completed}, expected 85`);
+  if ((sc.completed || 0) !== 86) {
+    errors.push(`completed=${sc.completed}, expected 86`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -7360,8 +7511,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 88) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 88`);
+  if ((sc.blocked_runtime || 0) !== 87) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 87`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -7382,21 +7533,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 85) {
-    errors.push(`completionMode full=${cm.full}, expected 85`);
+  if ((cm.full || 0) !== 86) {
+    errors.push(`completionMode full=${cm.full}, expected 86`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 166) {
-    errors.push(`completionMode none=${cm.none}, expected 166`);
+  if ((cm.none || 0) !== 165) {
+    errors.push(`completionMode none=${cm.none}, expected 165`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 71) {
+  if (implGapCount !== 70) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 71`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 70`,
     );
   }
 
