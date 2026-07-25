@@ -772,6 +772,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest,LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericGravesQuickdrawMaxStackSeedSqlTest,LolGenericGravesNewDestinySeedSqlTest,LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest test
 ```
 
+### LoL generic Senna Last Embrace first-enemy-hit seed（赛娜 W / Phase-A v2 选定主冠军第一敌人单次物理命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_senna)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_senna,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_senna,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值——当前仓库亦无 Senna P/Q/E/R/basic sibling seed / materializer；仅挂载可 cast 的独立 W active **选定主冠军第一敌人单次物理命中**；standalone sibling absence：不创建/突变/合成/复制 P/Q/E/R/basic；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_senna_last_embrace_first_enemy_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-senna-last-embrace-first-enemy-hit-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_senna|W|无尽厮守`（task `wasm-generic-senna-last-embrace-first-enemy-hit`）冻结为 **Phase-A rank-5 立即选定主冠军第一敌人单次物理命中 impact scaffold**（`FROZEN_PLAN_REV=senna-w-last-embrace-first-enemy-hit-phase-a-v2`）：
+
+`rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_senna` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_senna` **仅** mount 独立 `provider_hero_senna_w_last_embrace_first_enemy_hit`（stable id `hero_senna_w_last_embrace_first_enemy_hit`；standalone；不创建/突变/合成/复制 P/Q/E/R/basic），含 active `ability_hero_senna_w_last_embrace_first_enemy_hit`（`ability_key=last_embrace_first_enemy_hit`）、`ability_costs` 70 mana、`ability_cooldowns` 11000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `230 + 0.90*(ad.resolved-ad.base)`（**bonus AD**；嵌套二元 `add(const 230, mul(const 0.90, sub(read …resolved, read …base)))`；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / secondary / channel / projectile / geometry / movement / attachment / root / AOE 行。**W 无 ability-specific game-local type**，不新增 W 专用 62xxx type、不写 `type_relations`。成功 cast 由 runtime 自动发出 `ability_started`（本 W 图不添加 listener / event step）。Immediate selected-primary-champion first-enemy physical hit 为 Phase-A scaffold，不是实际 cast time / Effect at cast time end / direction / range / width / line / projectile / collision / first-enemy acquisition / 1s attachment / target-death early spread / delayed root / surrounding AOE / untargetable / spellshield / full-W fidelity。Wiki：request `Template:Data Senna/W` → resolved `Template:Data Senna/Last Embrace`；page1409576 / rev4009139 / `2026-04-15T21:34:10Z` / canonical 1656 bytes / SHA256 `48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492`；sidecar `normalized/generic/senna-w.json`（bytes 2120 / SHA256 `c570469e807dcf9a0713af6bb0da3ab8d3be1bc61f192a307b59e7a10a5fdc8b`）+ `pages/senna-w.json`（bytes 685 / SHA256 `7f9ffc935d079acb610a07925eccb865b2baf7ecabe16784960d34e2341f41f4`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 1651 / `737cc69b6ea13da8d61437e3da37a799cc2779bd56516d166af5890dc6090d5e`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`base0/resolved0/armor0` raw/final230；`base60/resolved60/armor0` raw/final230；`base60/resolved160/armor0` raw/final320；same armor100 raw320/final160；`base60/resolved260/armor100` raw410/final205；`base0/resolved100` vs `base60/resolved160` at armor0 both raw/final320（bonusAD counterproof）；mana210/baseAD60/resolvedAD160/targetHP1000/armor100 在 t0/t10999/t11000 → success/cooldown skip/success、exactly two W hits and automatic starts、readyAt11000、final mana70/HP680；mana69 → resource skip、unchanged mana/HP、no W damage/start；standalone isolation mounts only this W and synthesizes no P/Q/E/R/basic provider/state/modifier/listener/root/control/secondary-target structure（standalone sibling absence）。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：cast time / Effect at cast time end；direction/range/width/line geometry；projectile speed/travel/collision/actual first-enemy acquisition；one-second attachment / target-death early spread；delayed root / primary or surrounding root / root duration；surrounding AOE / multiple targets；untargetable interaction / spellshield / projectile interception；ranks1–4；P/Q/E/R/basic/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/secondary/movement/geometry/attachment/root/AOE/sibling；live migration；publish；E2E/live/full fidelity。One selected-primary-champion first-enemy single physical hit, not full W。
+
+静态契约校验（不连 live DB；含邻近 Graves Q selected-primary physical bonus-AD immediate-impact，以及 Jinx W / Kalista Q / Caitlyn E first-enemy-impact 先例，另含最近 bonus-AD primary-hit）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericSennaLastEmbraceFirstEnemyHitSeedSqlTest,LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKalistaPiercePrimaryHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest,LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Kog'Maw Caustic Spittle seed（腐蚀唾液 Q / rank-5 被动攻速）
 
 在 reserved types、Batch-B `hero_kogmaw`、以及 `attribute_definitions.attack_speed` 已就绪后，按顺序执行（**不**重建普攻 / W Bio-Arcane Barrage；不做 live migration、不自动 publish）：
