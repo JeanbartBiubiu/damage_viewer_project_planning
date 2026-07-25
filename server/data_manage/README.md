@@ -1537,6 +1537,34 @@ cd server/data_manage
 mvn -Dtest=LolGenericEzrealMysticShotPrimaryHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest,LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest,LolGenericEzrealRisingSpellForceSeedSqlTest,LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest test
 ```
 
+### LoL generic Akshan Avengerang first-outbound-hit seed（艾克尚 Q / Phase-A v2 选定主冠军首段出站单次物理命中）
+
+在 reserved types、`lol_generic_akshan_dirty_fighting_seed.sql`（`hero_akshan` + `ad`/`mana` 面板 EAV + `provider_hero_akshan_basic_attack` Dirty Fighting 普攻图；**无** mana 资源表行）已就绪后，按顺序执行（**前置为** Dirty Fighting seed；seed **fail-closed** check-only game / reserved（含 `20220`/`20170`）/ `hero_akshan` / `ad`+`mana` 面板 EAV；**Frozen option A**：仅缺席时 `ON CONFLICT DO NOTHING` 插入中性 `resource_definitions(mana)` 与派生自既有 mana 面板 EAV 的 `entity_resource_values(hero_akshan,mana)`——**永不 UPDATE/overwrite/delete** 既有资源行、不硬编码面板 mana；**不**写 `attribute_definitions` / `game_entities` / `entity_attribute_values`；保留 `provider_hero_akshan_basic_attack` 与全部 Dirty Fighting/basic 图不变；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql`（若 `hero_akshan` / `ad`·`mana` 面板 / basic Dirty Fighting 尚未写入）
+3. `db/game_manage/seeds/lol_generic_akshan_avengerang_first_outbound_hit_seed.sql`
+4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-akshan-avengerang-first-outbound-hit-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_akshan|Q|去而复还`（task `wasm-generic-akshan-avengerang-first-outbound-hit`）冻结为 **Phase-A rank-5 立即选定主冠军首段出站单次物理命中 damage/CD scaffold**（`FROZEN_PLAN_REV=akshan-q-avengerang-first-outbound-hit-phase-a-v2`）：
+
+`rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `attribute_definitions(ad,mana)` / `hero_akshan` / `entity_attribute_values(hero_akshan,ad|mana)` 做 **fail-closed check-only**；幂等投影 reserved → `types`；仅缺席时中性插入 `resource_definitions.mana` 与派生自既有 mana 面板属性的 `entity_resource_values`（均为 `DO NOTHING`，无 upsert-update）；向 `hero_akshan` **仅** mount 独立 `provider_hero_akshan_q_avengerang_first_outbound_hit`（与既有 `provider_hero_akshan_basic_attack` Dirty Fighting 并存，不更新/删除/重建），含 active `ability_hero_akshan_q_avengerang_first_outbound_hit`（`ability_key=avengerang_first_outbound_hit`）、`ability_costs` 80 mana、`ability_cooldowns` 5000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `165 + 0.70*(ad.resolved-ad.base)`（**bonus AD**；嵌套二元 `add(const 165, mul(const 0.70, sub(read …resolved, read …base)))`；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230`）；**零** Q state / modifiers / listeners / matchers / repeat / control / event / projectile / return / movement / reveal / Dirty-Fighting stack 行。**Q 无 ability-specific game-local type**，不新增 Q 专用 62xxx type、不写 `type_relations`。Immediate selected-primary-champion first-outbound physical **damage/CD scaffold** 为 Phase-A，不是实际 direction / range / extension / return pass / homing / projectile travel / **cooldown-start-after-return**（真实 Wiki CD「Starts after the boomerang returns」明确排除、不 claim 保真）/ sight / reveal / movement speed / non-champion damage / spellshield / full-Q fidelity。Exactly one outbound selected-primary hit only, not full Q。Wiki：request `Template:Data Akshan/Q` → resolved `Template:Data Akshan/Avengerang`；page1502462 / rev4007510 / `2026-04-11T22:35:01Z` / canonical 2570 bytes / SHA256 `1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b`；sidecar `normalized/generic/akshan-q.json`（bytes 2948 / SHA256 `f6b0dd492d80c49a2259d366230f7d8f4c6d43a70688b42d0d0780e4866d9a1a`）+ `pages/akshan-q.json`（bytes 688 / SHA256 `11d2da87557737fed487fb106a9ffb7b4a6d7f1d32391ce3a5c142f9128509e0`）。**local raw materialization caveat**：仓库 local raw 2570 / `407e4671cc05e87edcd0038a9efe614ad98f65cd57ce339c2c9d69afe5b8c973`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。hero-named Wasm `_test.go` 计划作为回归证据，而非生产分支条件。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`base0/resolved0/armor0` raw/final165；`base52/resolved52/armor0` raw/final165；`base52/resolved152/armor0` raw/final235；same armor100 raw235/final117.5；`base52/resolved252/armor100` raw305/final152.5；bonusAD counterproof `base0/resolved100` vs `base52/resolved152` at armor0 both raw/final235；mana240/baseAD52/resolvedAD152/HP1000/armor100 在 t0/t4999/t5000 → success/skip/success、exactly two Q hits/automatic starts、readyAt5000、final mana80/HP765；mana79 → resource skip；preserve Dirty Fighting/basic。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：direction / range / extension；return pass / homing / projectile travel；cooldown start after return；sight / reveal / movement speed；non-champion damage / spellshield；ranks1–4；Dirty Fighting stack coupling / basic mutation；identity/panel attribute bootstrap（资源表仅 absent-only）；listener/state/event/modifier/repeat/control/projectile/return/movement/reveal/Dirty-Fighting stack；live migration；publish；E2E/live/full fidelity。One selected-primary first-outbound physical hit, not full Q。
+
+静态契约校验（不连 live DB；含 Dirty Fighting 保留、Graves Q first-outbound bonus-AD、Quinn Q absent-only mana 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest,LolGenericAkshanDirtyFightingSeedSqlTest,LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest,LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Jinx Zap! primary-hit seed（金克丝 W / Phase-A v1 主冠军命中）
 
 在 reserved types 已就绪，且 **外部既有** `game_entities(hero_jinx)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_jinx,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_jinx,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Jinx ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 W active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
