@@ -629,6 +629,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql',
   xayahFeatherstormPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql',
+  jinxZapPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -744,6 +746,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_double_daggers_primary_two_hit_test.go',
   xayahFeatherstormPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go',
+  jinxZapPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -1914,6 +1918,35 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-xayah-deadly-plumage',
           SEED.xayahDeadlyPlumageBackend,
           'completedBoundary: Deadly Plumage Phase-A seeded (AS + basic_damage×1.25 excl on-hit/proc); backend lol_generic_xayah_deadly_plumage_seed.sql; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_jinx|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_jinx W 震荡电磁波！/Zap!：Wiki request Template:Data Jinx/W → resolved Template:Data Jinx/Zap!；page1307598 / rev3907092 / timestamp 2025-06-06T17:47:18Z / canonical bytes1321 / SHA256 8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f（normalized/generic/jinx-w.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-jinx-zap-primary-hit 闭环为 migrated——local raw caveat bytes1319 / SHA c373cc258c5c8c612930a32c5e851bd4b68dbbcb3c0d7f71ce1d25020ba12624（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；60 mana / 4000ms CD；immediate primary-champion single physical hit scaffold；one selected immediate primary-champion physical damage operation 210 + 1.40 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（交叉校验 totalAD60 raw294；armor0=294，armor100=147。totalAD110 raw364；armor0=364，armor100=182）。Attempts mana180/HP1000/AD110/armor100 at t0/t3999/t4000 → success/skip/success，exactly two W damage items；final mana60/HP636；exactly two automatic W ability_started；mana59 at t0 → resource skip with mana/HP unchanged and no W damage/event。Jinx W is standalone；Backend has no repository-owned hero_jinx / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Jinx synthesis。completedBoundary：rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity。明确排除 cast timing、direction/range/width/geometry、projectile travel/collision/first-enemy acquisition、sight/reveal、slow、other ranks、other Jinx abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/direction/projectile/sight/reveal/slow/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_jinx/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-jinx-zap-primary-hit',
+          WASM.jinxZapPrimaryHit,
+          'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity; Wiki request Template:Data Jinx/W → Zap!; rev3907092/SHA256 8aa6ac39… / bytes1321; local raw caveat bytes1319/SHA c373cc25… no equivalence claim; rank5 60 mana/4000ms CD / one physical 210+1.40*totalAD; totalAD60 raw294 armor0=294 armor100=147; totalAD110 raw364 armor0=364 armor100=182; mana180/HP1000/AD110/armor100 t0/t3999/t4000 success/skip/success two W damage items final mana60/HP636 two automatic W ability_started; mana59 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit 2afde02; cast/direction/range/width/projectile/travel/collision/first-enemy/sight/reveal/slow/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-jinx-zap-primary-hit',
+          SEED.jinxZapPrimaryHitBackend,
+          'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity; backend lol_generic_jinx_zap_primary_hit_seed.sql + LolGenericJinxZapPrimaryHitSeedSqlTest (owning b5abdb7; integrated a09adf1); Wasm exact test commit 2afde02; external existing-data/check-only prerequisites (hero_jinx/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jinx synthesis; not live published',
         ),
       ],
     },
@@ -4214,9 +4247,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 71) errors.push(`migrated=${counts.migrated}, expected 71`);
+  if (counts.migrated !== 72) errors.push(`migrated=${counts.migrated}, expected 72`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 98) errors.push(`blocked=${counts.blocked}, expected 98`);
+  if (counts.blocked !== 97) errors.push(`blocked=${counts.blocked}, expected 97`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -6860,6 +6893,132 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       xayahW.candidateKey,
       xayahW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const jinxW = records.find((r) => r.candidateKey === 'hero_skill|hero_jinx|W|震荡电磁波！');
+  const jinxWTags = [...(jinxW?.genericMechanismTags || [])];
+  const jinxWExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'immediate_impact_scaffold',
+  ];
+  const jinxWReason = String(jinxW?.classificationReason || '');
+  const jinxWBoundary =
+    'rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_jinx|W')) {
+    errors.push('Jinx W exact override key hero_jinx|W must exist before fallback');
+  }
+  if (
+    !jinxW
+    || jinxW.candidateKey !== 'hero_skill|hero_jinx|W|震荡电磁波！'
+    || jinxW.passiveName !== '震荡电磁波！'
+    || jinxW.genericClassification !== 'migrated'
+    || String(jinxW.remainingGap || '').trim()
+    || (jinxW.dataGapEvidence?.missingFields || []).length !== 0
+    || jinxWTags.join('|') !== jinxWExpectedTags.join('|')
+    || jinxWTags.includes('meta_or_non_target_dps')
+    || jinxWTags.includes('bonus_ad_ratio')
+    || jinxWTags.includes('total_ad_ratio')
+    || String(jinxW.remainingGap || '').includes('blocked_data')
+    || jinxWReason.includes('out_of_scope_for_single_target_dps')
+    || jinxWReason.includes('blocked_data')
+    || jinxWReason.includes('implementation_gap_no_unresolved_data_fields')
+    || jinxWReason.includes('meta_or_non_target_dps')
+    || jinxWReason.includes('bonus_ad_ratio')
+    || jinxWReason.includes('ad.resolved-source.attr.ad.base')
+    || jinxWReason.includes('ad.resolved-ad.base')
+    || !jinxWReason.includes('3907092')
+    || !jinxWReason.includes(
+      '8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f',
+    )
+    || !jinxWReason.includes(
+      'c373cc258c5c8c612930a32c5e851bd4b68dbbcb3c0d7f71ce1d25020ba12624',
+    )
+    || !jinxWReason.includes('Template:Data Jinx/W')
+    || !jinxWReason.includes('Template:Data Jinx/Zap!')
+    || !jinxWReason.includes('page1307598')
+    || !jinxWReason.includes('bytes1321')
+    || !jinxWReason.includes('bytes1319')
+    || !jinxWReason.includes('2025-06-06T17:47:18Z')
+    || !jinxWReason.includes(jinxWBoundary)
+    || !jinxWReason.includes('source.attr.ad.resolved')
+    || !jinxWReason.includes('total AD')
+    || !jinxWReason.includes('210')
+    || !jinxWReason.includes('1.40')
+    || !jinxWReason.includes('60 mana')
+    || !jinxWReason.includes('4000')
+    || !jinxWReason.includes('totalAD60')
+    || !jinxWReason.includes('totalAD110')
+    || !jinxWReason.includes('raw294')
+    || !jinxWReason.includes('raw364')
+    || !jinxWReason.includes('armor0=294')
+    || !jinxWReason.includes('armor100=147')
+    || !jinxWReason.includes('armor0=364')
+    || !jinxWReason.includes('armor100=182')
+    || !jinxWReason.includes('t3999')
+    || !jinxWReason.includes('t4000')
+    || !jinxWReason.includes('mana180')
+    || !jinxWReason.includes('mana59')
+    || !jinxWReason.includes('HP636')
+    || !jinxWReason.includes('ability_started')
+    || !jinxWReason.includes('standalone')
+    || !jinxWReason.includes('external existing-data/check-only')
+    || !jinxWReason.includes('identity/panel/resource')
+    || !jinxWReason.includes('不暗示 Batch-B')
+    || !jinxWReason.includes('sibling Jinx synthesis')
+    || !jinxWReason.includes('不宣称')
+    || !jinxWReason.includes('no equivalence or contradiction claim')
+    || jinxWReason.includes('canonical byte equivalence')
+    || jinxWReason.includes('Batch-B prerequisite')
+    || !String(jinxW.sourceRef || '').includes('jinx-w.json')
+    || !String(jinxW.sourceRef || '').includes(
+      '8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f',
+    )
+    || jinxW.auditBaseline?.gapCode !== 'blocked_data'
+    || jinxW.auditBaseline?.resolvedBucket !== 'blocked'
+    || jinxW.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(jinxW.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || jinxW.classification !== 'out_of_scope_for_single_target_dps'
+    || !(jinxW.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(jinxW.classificationReason)
+    || !(jinxW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.jinxZapPrimaryHit
+        && e.taskKey === 'wasm-generic-jinx-zap-primary-hit'
+        && String(e.note || '').includes(jinxWBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('2afde02')
+        && String(e.note || '').includes('c373cc25')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(jinxW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.jinxZapPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-jinx-zap-primary-hit'
+        && String(e.note || '').includes(jinxWBoundary)
+        && String(e.note || '').includes('LolGenericJinxZapPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('b5abdb7')
+        && String(e.note || '').includes('a09adf1')
+        && String(e.note || '').includes('2afde02')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Jinx synthesis'),
+    )
+  ) {
+    errors.push(
+      'Jinx W must be migrated with empty remainingGap/missingFields, exact Zap! ordered tags (no meta_or_non_target_dps/bonus_ad_ratio), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev3907092/SHA + local raw caveat + frozen completedBoundary, rank5 60mana/4000CD/one physical 210+1.40*totalAD numerics (totalAD60→294/147; totalAD110→364/182; t0/t3999/t4000 mana180→60/HP636 two damage/two ability_started; mana59 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral wasm+backend evidence (owning b5abdb7 / integrated a09adf1 / Wasm 2afde02; no cast/direction/projectile/sight/reveal/slow/live claim)',
+    );
+  }
+  if (jinxW) {
+    validateBilateralCoverageEvidence(
+      jinxW.candidateKey,
+      jinxW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );

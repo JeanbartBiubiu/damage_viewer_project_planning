@@ -1653,6 +1653,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_jinx|W|震荡电磁波！',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Jinx W 震荡电磁波！/Zap!：Wiki request Template:Data Jinx/W → resolved Template:Data Jinx/Zap!；page1307598 / rev3907092 / timestamp 2025-06-06T17:47:18Z / canonical bytes1321 / SHA256 8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f（normalized/generic/jinx-w.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-jinx-zap-primary-hit + backend seed 证据闭环——local raw caveat bytes1319 / SHA c373cc258c5c8c612930a32c5e851bd4b68dbbcb3c0d7f71ce1d25020ba12624（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；60 mana / 4000ms CD；immediate primary-champion single physical hit scaffold；one selected immediate primary-champion physical damage operation 210 + 1.40 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（交叉校验 totalAD60 raw294；armor0=294，armor100=147。totalAD110 raw364；armor0=364，armor100=182）。Attempts mana180/HP1000/AD110/armor100 at t0/t3999/t4000 → success/skip/success，exactly two W damage items；final mana60/HP636；exactly two automatic W ability_started；mana59 at t0 → resource skip with mana/HP unchanged and no W damage/event。Jinx W is standalone；Backend has no repository-owned hero_jinx / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Jinx synthesis。completedBoundary：rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity。明确排除 cast timing、direction/range/width/geometry、projectile travel/collision/first-enemy acquisition、sight/reveal、slow、other ranks、other Jinx abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/direction/projectile/sight/reveal/slow/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_jinx/ad/mana），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-jinx-zap-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity; Wiki request Template:Data Jinx/W → Zap!; rev3907092/SHA256 8aa6ac39… / bytes1321; local raw caveat bytes1319/SHA c373cc25… no equivalence claim; rank5 60 mana/4000ms CD / one physical 210+1.40*totalAD; totalAD60 raw294 armor0=294 armor100=147; totalAD110 raw364 armor0=364 armor100=182; mana180/HP1000/AD110/armor100 t0/t3999/t4000 success/skip/success two W damage items final mana60/HP636 two automatic W ability_started; mana59 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit 2afde02; cast/direction/range/width/projectile/travel/collision/first-enemy/sight/reveal/slow/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-jinx-zap-primary-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity; backend lol_generic_jinx_zap_primary_hit_seed.sql + LolGenericJinxZapPrimaryHitSeedSqlTest (owning b5abdb7; integrated a09adf1); Wasm exact test commit 2afde02; external existing-data/check-only prerequisites (hero_jinx/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jinx synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_kayle|Q|耀焰冲击',
     {
       status: 'completed',
@@ -2482,6 +2513,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_xayah|R|暴风羽刃',
     'rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity',
+  ],
+  [
+    'hero_skill|hero_jinx|W|震荡电磁波！',
+    'rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -4065,6 +4100,7 @@ function validateInventory(inv) {
   const mXayahQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|Q|双刃');
   const mXayahR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|R|暴风羽刃');
   const mXayahW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|W|致死羽衣');
+  const mJinxW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_jinx|W|震荡电磁波！');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
   );
@@ -6371,6 +6407,114 @@ function validateInventory(inv) {
       'Xayah W 致死羽衣 must be completed/full/generic_runtime with empty blocker/gaps, Wiki rev4010669 Phase-A 25%/1.25 wording, and bilateral wasm/backend evidence',
     );
   }
+  const mJinxWReason = String(mJinxW?.reason || '');
+  const mJinxWBoundary =
+    'rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity';
+  if (
+    !mJinxW ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_jinx|W|震荡电磁波！') ||
+    mJinxW.key !== 'hero_skill|hero_jinx|W|震荡电磁波！' ||
+    mJinxW.passiveName !== '震荡电磁波！' ||
+    mJinxW.status !== 'completed' ||
+    mJinxW.completionMode !== 'full' ||
+    mJinxW.lane !== 'generic_runtime' ||
+    mJinxW.blocker ||
+    mJinxW.dataGapEvidence !== null ||
+    mJinxW.runtimeGapEvidence !== null ||
+    mJinxW.outOfScopeEvidence !== null ||
+    mJinxW.coverageBoundary !== mJinxWBoundary ||
+    [...(mJinxW.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mJinxW.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mJinxW.mechanismTags || []).includes('bonus_ad_ratio') ||
+    (mJinxW.mechanismTags || []).includes('total_ad_ratio') ||
+    mJinxWReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mJinxWReason.includes('blocked_data') ||
+    mJinxWReason.includes('meta_or_non_target_dps') ||
+    mJinxWReason.includes('bonus_ad_ratio') ||
+    mJinxWReason.includes('ad.resolved-source.attr.ad.base') ||
+    mJinxWReason.includes('ad.resolved-ad.base') ||
+    !mJinxWReason.includes('3907092') ||
+    !mJinxWReason.includes(
+      '8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f',
+    ) ||
+    !mJinxWReason.includes(
+      'c373cc258c5c8c612930a32c5e851bd4b68dbbcb3c0d7f71ce1d25020ba12624',
+    ) ||
+    !mJinxWReason.includes('Template:Data Jinx/W') ||
+    !mJinxWReason.includes('Template:Data Jinx/Zap!') ||
+    !mJinxWReason.includes('page1307598') ||
+    !mJinxWReason.includes('bytes1321') ||
+    !mJinxWReason.includes('bytes1319') ||
+    !mJinxWReason.includes('2025-06-06T17:47:18Z') ||
+    !mJinxWReason.includes(mJinxWBoundary) ||
+    !mJinxWReason.includes('source.attr.ad.resolved') ||
+    !mJinxWReason.includes('total AD') ||
+    !mJinxWReason.includes('210') ||
+    !mJinxWReason.includes('1.40') ||
+    !mJinxWReason.includes('60 mana') ||
+    !mJinxWReason.includes('4000') ||
+    !mJinxWReason.includes('totalAD60') ||
+    !mJinxWReason.includes('totalAD110') ||
+    !mJinxWReason.includes('raw294') ||
+    !mJinxWReason.includes('raw364') ||
+    !mJinxWReason.includes('armor0=294') ||
+    !mJinxWReason.includes('armor100=147') ||
+    !mJinxWReason.includes('armor0=364') ||
+    !mJinxWReason.includes('armor100=182') ||
+    !mJinxWReason.includes('t3999') ||
+    !mJinxWReason.includes('t4000') ||
+    !mJinxWReason.includes('mana180') ||
+    !mJinxWReason.includes('mana59') ||
+    !mJinxWReason.includes('HP636') ||
+    !mJinxWReason.includes('ability_started') ||
+    !mJinxWReason.includes('standalone') ||
+    !mJinxWReason.includes('external existing-data/check-only') ||
+    !mJinxWReason.includes('identity/panel/resource') ||
+    !mJinxWReason.includes('不暗示 Batch-B') ||
+    !mJinxWReason.includes('sibling Jinx synthesis') ||
+    !mJinxWReason.includes('不宣称') ||
+    !mJinxWReason.includes('no equivalence or contradiction claim') ||
+    mJinxWReason.includes('canonical byte equivalence') ||
+    mJinxWReason.includes('Batch-B prerequisite') ||
+    !(mJinxW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-jinx-zap-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mJinxWBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('2afde02') &&
+        String(e.note || '').includes('c373cc25') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mJinxW.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-jinx-zap-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mJinxWBoundary) &&
+        String(e.note || '').includes('LolGenericJinxZapPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('b5abdb7') &&
+        String(e.note || '').includes('a09adf1') &&
+        String(e.note || '').includes('2afde02') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Jinx synthesis'),
+    )
+  ) {
+    errors.push(
+      'Jinx W must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Zap! ordered tags (no meta_or_non_target_dps/bonus_ad_ratio), Wiki rev3907092/SHA + local raw caveat + frozen completedBoundary, rank5 60mana/4000CD/one physical 210+1.40*totalAD numerics/schedules, standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral evidence (owning b5abdb7 / integrated a09adf1 / Wasm 2afde02; no cast/direction/projectile/sight/reveal/slow/live claim)',
+    );
+  }
   if (!m3748a || m3748a.status !== 'out_of_scope' || m3748a.completionMode !== 'partial') {
     errors.push('3748 顺劈 71fa0f0c must be out_of_scope/partial');
   }
@@ -6768,8 +6912,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 81) {
-    errors.push(`completed=${sc.completed}, expected 81`);
+  if ((sc.completed || 0) !== 82) {
+    errors.push(`completed=${sc.completed}, expected 82`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -6777,8 +6921,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 92) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 92`);
+  if ((sc.blocked_runtime || 0) !== 91) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 91`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -6799,21 +6943,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 81) {
-    errors.push(`completionMode full=${cm.full}, expected 81`);
+  if ((cm.full || 0) !== 82) {
+    errors.push(`completionMode full=${cm.full}, expected 82`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 170) {
-    errors.push(`completionMode none=${cm.none}, expected 170`);
+  if ((cm.none || 0) !== 169) {
+    errors.push(`completionMode none=${cm.none}, expected 169`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 75) {
+  if (implGapCount !== 74) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 75`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 74`,
     );
   }
 
