@@ -647,6 +647,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_lucian_ardent_blaze_primary_hit_seed.sql',
   lucianTheCullingSingleShotQuantumBackend:
     'db/game_manage/seeds/lol_generic_lucian_the_culling_single_shot_quantum_seed.sql',
+  tristanaBusterShotPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_tristana_buster_shot_primary_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -780,6 +782,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_ardent_blaze_primary_hit_test.go',
   lucianTheCullingSingleShotQuantum:
     'wasm/tinygo_engine_v2/internal/runtime/generic_lucian_the_culling_single_shot_quantum_test.go',
+  tristanaBusterShotPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_buster_shot_primary_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -2126,6 +2130,37 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum',
           SEED.caitlynAceInTheHoleSingleBulletQuantumBackend,
           'completedBoundary: rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity; backend lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql + LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest (owning f088e18; integrated 486b8d8); Wasm exact test commit 9fc57e7; external existing-data/check-only prerequisites (hero_caitlyn/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Caitlyn synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_tristana|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'bonus_ad_ratio',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_tristana R 毁灭射击/Buster Shot：Wiki request Template:Data Tristana/R → resolved Template:Data Tristana/Buster Shot；page1308525 / rev4008205 / timestamp 2026-04-14T05:37:16Z / canonical bytes2385 / SHA256 2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058（normalized/generic/tristana-r.json plus pages sibling are authority）rank3 Phase-A v1 已由 wasm-generic-tristana-buster-shot-primary-hit 闭环为 migrated——local raw caveat bytes2382 / SHA 42e07f07f3188aada86d18d782c05d291f031dbbf92171e4a1120e828ebf8c7b（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 100000ms CD；immediate selected-primary-champion single magic hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(add(325,0.70*(source.attr.ad.resolved-source.attr.ad.base)),1.00*source.attr.ap.resolved)（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no explicit event op；ability_started is automatic）（交叉校验 base0/resolved0/AP0/MR0 raw=final325；base60/resolved60/AP0/MR0 raw=final325；base60/resolved160/AP0/MR0 raw=final395；base60/resolved160/AP100/MR0 raw=final495；base60/resolved160/AP100/MR100 raw495/final247.5；base60/resolved260/AP200/MR100 raw665/final332.5；base0/resolved100 versus base60/resolved160 AP100/MR0 both495）。Attempts mana300/baseAD60/resolvedAD160/AP100/HP1000/MR100 at t0/t99999/t100000 → success/skip/success，exactly two R damage items；final mana100/HP505；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Tristana R provider is standalone；Backend has no repository-owned hero_tristana / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Tristana P/Q/W/E/Explosive Charge dependence；不暗示 Batch-B 或 sibling Tristana synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Cursor focused9/adjacent53/full911 passed；Main focused9/adjacent53/full911 passed。Wasm main validation passed gofmt/focused7/full/bench/build/smoke/benchmark；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity。明确排除 cast time、knockback/stun/reveal、secondary zero damage/turret aggro、displacement/terrain/geometry/immunity、unit-target cancel、post-cast basic attack、Explosive Charge、ranks1-2、siblings/loadout/on-hit/live/full fidelity；this is exactly one selected-target magic hit, not full R；不宣称 cast/knockback/stun/reveal/secondary/terrain/displacement/immunity/unit-cancel/post-basic/Explosive-Charge/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_tristana/ad/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-tristana-buster-shot-primary-hit',
+          WASM.tristanaBusterShotPrimaryHit,
+          'completedBoundary: rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity; Wiki request Template:Data Tristana/R → Buster Shot; rev4008205/SHA256 2dff3229… / bytes2385; local raw caveat bytes2382/SHA 42e07f07… no equivalence claim; rank3 100 mana/100000ms CD / one magic 325+0.70*bonusAD+1.00*AP via nested binary add(add(325,0.70*(ad.resolved-ad.base)),1.00*ap.resolved); base0/resolved0/AP0/MR0=325; base60/resolved60/AP0/MR0=325; base60/resolved160/AP0/MR0=395; base60/resolved160/AP100/MR0=495; base60/resolved160/AP100/MR100 raw495/final247.5; base60/resolved260/AP200/MR100 raw665/final332.5; base0/resolved100 vs base60/resolved160 AP100/MR0 both495; damage 20221/add 20170; no explicit event op; mana300/baseAD60/resolvedAD160/AP100/HP1000/MR100 t0/t99999/t100000 success/skip/success two R damage items final mana100/HP505 two automatic R ability_started; mana99 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit b4d10e4; cast/knockback/stun/reveal/secondary/terrain/displacement/immunity/unit-cancel/post-basic/Explosive-Charge/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-tristana-buster-shot-primary-hit',
+          SEED.tristanaBusterShotPrimaryHitBackend,
+          'completedBoundary: rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity; backend lol_generic_tristana_buster_shot_primary_hit_seed.sql + LolGenericTristanaBusterShotPrimaryHitSeedSqlTest (owning 8b98bcb; integrated 30209c4); Wasm exact test commit b4d10e4; external existing-data/check-only prerequisites (hero_tristana/ad/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Tristana synthesis; not live published',
         ),
       ],
     },
@@ -4516,9 +4551,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 80) errors.push(`migrated=${counts.migrated}, expected 80`);
+  if (counts.migrated !== 81) errors.push(`migrated=${counts.migrated}, expected 81`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 89) errors.push(`blocked=${counts.blocked}, expected 89`);
+  if (counts.blocked !== 88) errors.push(`blocked=${counts.blocked}, expected 88`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -8379,6 +8414,160 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       caitlynR.candidateKey,
       caitlynR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const tristanaR = records.find((r) => r.candidateKey === 'hero_skill|hero_tristana|R|毁灭射击');
+  const tristanaRTags = [...(tristanaR?.genericMechanismTags || [])];
+  const tristanaRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'bonus_ad_ratio',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const tristanaRReason = String(tristanaR?.classificationReason || '');
+  const tristanaRBoundary =
+    'rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_tristana|R')) {
+    errors.push('Tristana R exact override key hero_tristana|R must exist before fallback');
+  }
+  if (
+    !tristanaR
+    || tristanaR.candidateKey !== 'hero_skill|hero_tristana|R|毁灭射击'
+    || tristanaR.passiveName !== '毁灭射击'
+    || tristanaR.genericClassification !== 'migrated'
+    || String(tristanaR.remainingGap || '').trim()
+    || (tristanaR.dataGapEvidence?.missingFields || []).length !== 0
+    || tristanaRTags.join('|') !== tristanaRExpectedTags.join('|')
+    || tristanaRTags.includes('multi_target_or_area')
+    || tristanaRTags.includes('meta_or_non_target_dps')
+    || tristanaRTags.includes('dps_relevant_manual_review')
+    || tristanaRTags.includes('total_ad_ratio')
+    || !tristanaRTags.includes('bonus_ad_ratio')
+    || !tristanaRTags.includes('ap_ratio')
+    || !tristanaRTags.includes('active_magic_damage')
+    || String(tristanaR.remainingGap || '').includes('blocked_data')
+    || tristanaRReason.includes('needs_manual_baseline')
+    || tristanaRReason.includes('blocked_data')
+    || tristanaRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || tristanaRReason.includes('multi_target_or_area')
+    || tristanaRReason.includes('out_of_scope_for_single_target_dps')
+    || tristanaRReason.includes('dps_relevant_manual_review')
+    || tristanaRReason.includes('depends on Tristana P')
+    || tristanaRReason.includes('depends on Explosive Charge')
+    || tristanaRReason.includes('requires Explosive Charge')
+    || tristanaRReason.includes('total AD；')
+    || tristanaRReason.includes('total_ad_ratio')
+    || tristanaRReason.includes('*totalAD')
+    || !tristanaRReason.includes('4008205')
+    || !tristanaRReason.includes(
+      '2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058',
+    )
+    || !tristanaRReason.includes(
+      '42e07f07f3188aada86d18d782c05d291f031dbbf92171e4a1120e828ebf8c7b',
+    )
+    || !tristanaRReason.includes('Template:Data Tristana/R')
+    || !tristanaRReason.includes('Template:Data Tristana/Buster Shot')
+    || !tristanaRReason.includes('page1308525')
+    || !tristanaRReason.includes('bytes2385')
+    || !tristanaRReason.includes('bytes2382')
+    || !tristanaRReason.includes('2026-04-14T05:37:16Z')
+    || !tristanaRReason.includes(tristanaRBoundary)
+    || !tristanaRReason.includes('source.attr.ad.resolved-source.attr.ad.base')
+    || !tristanaRReason.includes('exact nested binary formula')
+    || !tristanaRReason.includes('bonus AD by explicit subtraction')
+    || !tristanaRReason.includes('不得按 total-AD 直读')
+    || !tristanaRReason.includes('add(add(325,0.70*')
+    || !tristanaRReason.includes('325')
+    || !tristanaRReason.includes('0.70')
+    || !tristanaRReason.includes('1.00')
+    || !tristanaRReason.includes('100 mana')
+    || !tristanaRReason.includes('100000')
+    || !tristanaRReason.includes('20221')
+    || !tristanaRReason.includes('20170')
+    || !tristanaRReason.includes('no explicit event op')
+    || !tristanaRReason.includes('base0/resolved0/AP0/MR0 raw=final325')
+    || !tristanaRReason.includes('base60/resolved60/AP0/MR0 raw=final325')
+    || !tristanaRReason.includes('base60/resolved160/AP0/MR0 raw=final395')
+    || !tristanaRReason.includes('base60/resolved160/AP100/MR0 raw=final495')
+    || !tristanaRReason.includes('base60/resolved160/AP100/MR100 raw495/final247.5')
+    || !tristanaRReason.includes('base60/resolved260/AP200/MR100 raw665/final332.5')
+    || !tristanaRReason.includes('base0/resolved100 versus base60/resolved160')
+    || !tristanaRReason.includes('t99999')
+    || !tristanaRReason.includes('t100000')
+    || !tristanaRReason.includes('mana300')
+    || !tristanaRReason.includes('mana99')
+    || !tristanaRReason.includes('HP505')
+    || !tristanaRReason.includes('ability_started')
+    || !tristanaRReason.includes('standalone')
+    || !tristanaRReason.includes('external existing-data/check-only')
+    || !tristanaRReason.includes('identity/panel/resource')
+    || !tristanaRReason.includes('不暗示 Tristana P/Q/W/E/Explosive Charge dependence')
+    || !tristanaRReason.includes('不暗示 Batch-B')
+    || !tristanaRReason.includes('sibling Tristana synthesis')
+    || !tristanaRReason.includes('production runtime/ABI/Web change')
+    || !tristanaRReason.includes('focused9/adjacent53/full911')
+    || !tristanaRReason.includes('focused7')
+    || !tristanaRReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !tristanaRReason.includes('不宣称')
+    || !tristanaRReason.includes('no equivalence or contradiction claim')
+    || !tristanaRReason.includes('exactly one selected-target magic hit')
+    || tristanaRReason.includes('canonical byte equivalence')
+    || tristanaRReason.includes('Batch-B prerequisite')
+    || tristanaRReason.includes('live published')
+    || !String(tristanaR.sourceRef || '').includes('tristana-r.json')
+    || !String(tristanaR.sourceRef || '').includes(
+      '2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058',
+    )
+    || tristanaR.auditBaseline?.gapCode !== 'blocked_data'
+    || tristanaR.auditBaseline?.resolvedBucket !== 'blocked'
+    || tristanaR.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(tristanaR.auditBaseline?.mechanismTags || []).includes('multi_target_or_area')
+    || tristanaR.classification !== 'out_of_scope_for_single_target_dps'
+    || !(tristanaR.mechanismTags || []).includes('multi_target_or_area')
+    || citesForbiddenProvenance(tristanaR.classificationReason)
+    || !(tristanaR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.tristanaBusterShotPrimaryHit
+        && e.taskKey === 'wasm-generic-tristana-buster-shot-primary-hit'
+        && String(e.note || '').includes(tristanaRBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('b4d10e4')
+        && String(e.note || '').includes('42e07f07')
+        && String(e.note || '').includes('20221')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(tristanaR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.tristanaBusterShotPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-tristana-buster-shot-primary-hit'
+        && String(e.note || '').includes(tristanaRBoundary)
+        && String(e.note || '').includes('LolGenericTristanaBusterShotPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('8b98bcb')
+        && String(e.note || '').includes('30209c4')
+        && String(e.note || '').includes('b4d10e4')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Tristana synthesis'),
+    )
+  ) {
+    errors.push(
+      'Tristana R must be migrated with empty remainingGap/missingFields, exact Buster Shot ordered tags (no multi_target_or_area; requires bonus_ad_ratio/ap_ratio/active_magic_damage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/multi_target_or_area/auditBaseline provenance, Wiki rev4008205/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/100000CD/one magic 325+0.70*bonusAD+1.00*AP via nested binary numerics (325/325/395/495/495→247.5/665→332.5; bonusAD counterproof; 20221/20170; no explicit event op; t0/t99999/t100000 mana300→100/HP505 two damage/two ability_started; mana99 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Explosive-Charge-dependence/no-production-runtime-ABI-Web framing, focused9/adjacent53/full911 + focused7 + Wasm asset SHA, and bilateral wasm+backend evidence (owning 8b98bcb / integrated 30209c4 / Wasm b4d10e4; one selected-target magic hit not full R; no cast/knockback/stun/reveal/secondary/live claim)',
+    );
+  }
+  if (tristanaR) {
+    validateBilateralCoverageEvidence(
+      tristanaR.candidateKey,
+      tristanaR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
