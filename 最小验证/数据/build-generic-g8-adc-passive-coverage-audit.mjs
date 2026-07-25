@@ -669,6 +669,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql',
   sennaLastEmbraceFirstEnemyHitBackend:
     'db/game_manage/seeds/lol_generic_senna_last_embrace_first_enemy_hit_seed.sql',
+  sennaDawningShadowPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_senna_dawning_shadow_primary_hit_seed.sql',
   ezrealRisingSpellForceBackend:
     'db/game_manage/seeds/lol_generic_ezreal_rising_spell_force_seed.sql',
   ezrealArcaneShiftPrimaryHitBackend:
@@ -818,6 +820,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_graves_end_of_the_line_first_outbound_pass_test.go',
   sennaLastEmbraceFirstEnemyHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_senna_last_embrace_first_enemy_hit_test.go',
+  sennaDawningShadowPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_senna_dawning_shadow_primary_hit_test.go',
   ezrealRisingSpellForce:
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_rising_spell_force_test.go',
   ezrealArcaneShiftPrimaryHit:
@@ -2600,6 +2604,37 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-senna-last-embrace-first-enemy-hit',
           SEED.sennaLastEmbraceFirstEnemyHitBackend,
           'completedBoundary: rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity; backend lol_generic_senna_last_embrace_first_enemy_hit_seed.sql + LolGenericSennaLastEmbraceFirstEnemyHitSeedSqlTest (owning c0c3090; integrated b90607b); Wasm exact test commit ebf7730; external existing-data/check-only prerequisites (hero_senna/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Senna synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_senna|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_senna R 暗影燎原/Dawning Shadow：Wiki request Template:Data Senna/R → resolved Template:Data Senna/Dawning Shadow；page1409580 / rev4008033 / timestamp 2026-04-13T04:08:13Z / canonical bytes2356 / SHA256 4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36（normalized/generic/senna-r.json plus pages sibling are authority）rank3 Phase-A v3 已由 wasm-generic-senna-dawning-shadow-primary-hit 闭环为 migrated——local raw caveat bytes2353 / SHA 1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 100000ms CD；immediate selected-primary-enemy-champion single physical hit scaffold；one immediate selected-primary-enemy-champion single noncritical/noncopyable physical damage operation add(add(const 550, mul(const 1.15, sub(read source.attr.ad.resolved, read source.attr.ad.base))), mul(const 0.70, read source.attr.ap.resolved))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 base60/resolved60/AP0/armor0 raw=final550；base60/resolved160/AP0/armor0 raw=final665；base60/resolved60/AP100/armor0 raw=final620；base60/resolved160/AP100/armor0 raw=final735；base60/resolved140/AP100/armor100 raw712/final356；base60/resolved220/AP100/armor100 raw804/final402；base0/resolved100 versus base60/resolved160 AP0/armor0 both665）。Attempts mana300/baseAD60/resolvedAD140/AP100/HP1000/armor100 at t0/t99999/t100000 → success/skip/success，exactly two R damage items；final mana100/HP288；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Senna R provider is standalone；preserve existing W Last Embrace without requiring/mutating/copying/synthesizing W；check-only standalone W isolation；Backend has no repository-owned hero_senna / AD / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Senna P/Q/W/E/basic dependence；不暗示 Batch-B 或 sibling Senna synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused71/full987 passed。Wasm main validation passed gofmt/focused/full/bench/build/smoke/benchmark；exact test bytes73643 / SHA256 a42359e98452dfd3d1429fc12f8735daefd77b0da2269ba7b345200b9ff39fa9；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/Effect at cast time start/queue time、global/direction/broad or narrow wave geometry/width、projectile travel/speed/destruction AOE/multitarget、enemy reveal/self reveal/allied or self shield、Mist scaling/Mist Wraith hits/path sight/spellshield、other ranks、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary-enemy-champion single physical hit, not full R；不宣称 cast/Effect-at-cast-time-start/queue/global/direction/wave/projectile/AOE/reveal/shield/Mist/Wraith/sight/spellshield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_senna/ad/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-senna-dawning-shadow-primary-hit',
+          WASM.sennaDawningShadowPrimaryHit,
+          'completedBoundary: rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Senna/R → Dawning Shadow; rev4008033/SHA256 4de188cc… / bytes2356; local raw caveat bytes2353/SHA 1b448ff4… no equivalence claim; rank3 100 mana/100000ms CD / one physical 550+1.15*bonusAD+0.70*AP via nested binary add(add(550,1.15*(ad.resolved-ad.base)),0.70*ap.resolved); base60/resolved60/AP0/armor0=550; base60/resolved160/AP0/armor0=665; base60/resolved60/AP100/armor0=620; base60/resolved160/AP100/armor0=735; base60/resolved140/AP100/armor100 raw712/final356; base60/resolved220/AP100/armor100 raw804/final402; base0/resolved100 vs base60/resolved160 AP0/armor0 both665; damage 20220/add 20170; no 20230; no explicit event op; no R type; mana300/baseAD60/resolvedAD140/AP100/HP1000/armor100 t0/t99999/t100000 success/skip/success two R damage items final mana100/HP288 two automatic R ability_started; mana99 resource skip unchanged; standalone preserve existing W / check-only W isolation / no sibling synthesis; Wasm exact test commit a8e4c08 bytes73643/SHA a42359e9…; cast/Effect-at-cast-time-start/queue/global/direction/wave/projectile/AOE/reveal/shield/Mist/Wraith/sight/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-senna-dawning-shadow-primary-hit',
+          SEED.sennaDawningShadowPrimaryHitBackend,
+          'completedBoundary: rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity; backend lol_generic_senna_dawning_shadow_primary_hit_seed.sql + LolGenericSennaDawningShadowPrimaryHitSeedSqlTest (owning b774a8d; integrated 4316923); Wasm exact test commit a8e4c08; external existing-data/check-only prerequisites (hero_senna/ad/ap/mana; does not write identity/panel/resource values); standalone preserve existing W / check-only W isolation / no Batch-B or sibling Senna synthesis; not live published',
         ),
       ],
     },
@@ -4757,9 +4792,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 87) errors.push(`migrated=${counts.migrated}, expected 87`);
+  if (counts.migrated !== 88) errors.push(`migrated=${counts.migrated}, expected 88`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 82) errors.push(`blocked=${counts.blocked}, expected 82`);
+  if (counts.blocked !== 81) errors.push(`blocked=${counts.blocked}, expected 81`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -5468,6 +5503,176 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       sennaW.candidateKey,
       sennaW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+
+  const sennaR = records.find((r) => r.candidateKey === 'hero_skill|hero_senna|R|暗影燎原');
+  const sennaRTags = [...(sennaR?.genericMechanismTags || [])];
+  const sennaRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const sennaRReason = String(sennaR?.classificationReason || '');
+  const sennaRBoundary =
+    'rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_senna|R')) {
+    errors.push('Senna R exact override key hero_senna|R must exist before fallback');
+  }
+  if (
+    !sennaR
+    || sennaR.candidateKey !== 'hero_skill|hero_senna|R|暗影燎原'
+    || sennaR.passiveName !== '暗影燎原'
+    || sennaR.genericClassification !== 'migrated'
+    || String(sennaR.remainingGap || '').trim()
+    || (sennaR.dataGapEvidence?.missingFields || []).length !== 0
+    || sennaRTags.join('|') !== sennaRExpectedTags.join('|')
+    || sennaRTags.includes('multi_target_or_area')
+    || sennaRTags.includes('meta_or_non_target_dps')
+    || sennaRTags.includes('dps_relevant_manual_review')
+    || sennaRTags.includes('primary_damage_branch_salvage')
+    || sennaRTags.includes('total_ad_ratio')
+    || !sennaRTags.includes('bonus_ad_ratio')
+    || !sennaRTags.includes('ap_ratio')
+    || !sennaRTags.includes('active_physical_damage')
+    || String(sennaR.remainingGap || '').includes('blocked_data')
+    || sennaRReason.includes('needs_manual_baseline')
+    || sennaRReason.includes('blocked_data')
+    || sennaRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || sennaRReason.includes('multi_target_or_area')
+    || sennaRReason.includes('meta_or_non_target_dps')
+    || sennaRReason.includes('out_of_scope_for_single_target_dps')
+    || sennaRReason.includes('dps_relevant_manual_review')
+    || sennaRReason.includes('primary_damage_branch_salvage')
+    || sennaRReason.includes('total AD；')
+    || sennaRReason.includes('total_ad_ratio')
+    || sennaRReason.includes('*totalAD')
+    || !sennaRReason.includes('4008033')
+    || !sennaRReason.includes(
+      '4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36',
+    )
+    || !sennaRReason.includes(
+      '1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc',
+    )
+    || !sennaRReason.includes('Template:Data Senna/R')
+    || !sennaRReason.includes('Template:Data Senna/Dawning Shadow')
+    || !sennaRReason.includes('page1409580')
+    || !sennaRReason.includes('bytes2356')
+    || !sennaRReason.includes('bytes2353')
+    || !sennaRReason.includes('2026-04-13T04:08:13Z')
+    || !sennaRReason.includes(sennaRBoundary)
+    || !sennaRReason.includes('source.attr.ad.resolved')
+    || !sennaRReason.includes('source.attr.ad.base')
+    || !sennaRReason.includes('exact nested binary formula')
+    || !sennaRReason.includes('bonus AD by explicit subtraction')
+    || !sennaRReason.includes('不得按 total-AD 直读')
+    || !sennaRReason.includes('add(add(const 550')
+    || !sennaRReason.includes('1.15')
+    || !sennaRReason.includes('0.70')
+    || !sennaRReason.includes('100 mana')
+    || !sennaRReason.includes('100000')
+    || !sennaRReason.includes('20220')
+    || !sennaRReason.includes('20170')
+    || !sennaRReason.includes('no 20230')
+    || !sennaRReason.includes('no explicit event op')
+    || !sennaRReason.includes('no R ability-specific type')
+    || !sennaRReason.includes('raw=final550')
+    || !sennaRReason.includes('raw=final665')
+    || !sennaRReason.includes('raw=final620')
+    || !sennaRReason.includes('raw=final735')
+    || !sennaRReason.includes('raw712/final356')
+    || !sennaRReason.includes('raw804/final402')
+    || !sennaRReason.includes('both665')
+    || !sennaRReason.includes('t99999')
+    || !sennaRReason.includes('t100000')
+    || !sennaRReason.includes('mana300')
+    || !sennaRReason.includes('mana99')
+    || !sennaRReason.includes('HP288')
+    || !sennaRReason.includes('ability_started')
+    || !sennaRReason.includes('standalone')
+    || !sennaRReason.includes('preserve existing W')
+    || !sennaRReason.includes('check-only standalone W isolation')
+    || !sennaRReason.includes('external existing-data/check-only')
+    || !sennaRReason.includes('identity/panel/resource')
+    || !sennaRReason.includes('不暗示 Senna P/Q/W/E/basic dependence')
+    || !sennaRReason.includes('不暗示 Batch-B')
+    || !sennaRReason.includes('sibling Senna synthesis')
+    || !sennaRReason.includes('production runtime/ABI/Web change')
+    || !sennaRReason.includes('focused71/full987')
+    || !sennaRReason.includes('73643')
+    || !sennaRReason.includes(
+      'a42359e98452dfd3d1429fc12f8735daefd77b0da2269ba7b345200b9ff39fa9',
+    )
+    || !sennaRReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !sennaRReason.includes('不宣称')
+    || !sennaRReason.includes('no equivalence or contradiction claim')
+    || !sennaRReason.includes('exactly one selected-primary-enemy-champion single physical hit')
+    || sennaRReason.includes('canonical byte equivalence')
+    || sennaRReason.includes('Batch-B prerequisite')
+    || sennaRReason.includes('live published')
+    || !String(sennaR.sourceRef || '').includes('senna-r.json')
+    || !String(sennaR.sourceRef || '').includes(
+      '4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36',
+    )
+    || sennaR.auditBaseline?.gapCode !== 'blocked_data'
+    || sennaR.auditBaseline?.resolvedBucket !== 'blocked'
+    || sennaR.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(sennaR.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || sennaR.classification !== 'out_of_scope_for_single_target_dps'
+    || !(sennaR.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(sennaR.classificationReason)
+    || !(sennaR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.sennaDawningShadowPrimaryHit
+        && e.taskKey === 'wasm-generic-senna-dawning-shadow-primary-hit'
+        && String(e.note || '').includes(sennaRBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('a8e4c08')
+        && String(e.note || '').includes('a42359e9')
+        && String(e.note || '').includes('73643')
+        && String(e.note || '').includes('1b448ff4')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no 20230')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('no R type')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('preserve existing W')
+        && String(e.note || '').includes('check-only W isolation')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(sennaR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.sennaDawningShadowPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-senna-dawning-shadow-primary-hit'
+        && String(e.note || '').includes(sennaRBoundary)
+        && String(e.note || '').includes('LolGenericSennaDawningShadowPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('b774a8d')
+        && String(e.note || '').includes('4316923')
+        && String(e.note || '').includes('a8e4c08')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('preserve existing W')
+        && String(e.note || '').includes('check-only W isolation')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Senna synthesis'),
+    )
+  ) {
+    errors.push(
+      'Senna R must be migrated with empty remainingGap/missingFields, exact Dawning Shadow ordered tags (no meta_or_non_target_dps/primary_damage_branch_salvage; requires bonus_ad_ratio/ap_ratio/active_physical_damage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev4008033/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/100000CD/one physical 550+1.15*bonusAD+0.70*AP via nested binary numerics (550/665/620/735; raw712→356; raw804→402; counterproof both665; 20220/20170; no 20230; no R type; no explicit event op; t0/t99999/t100000 mana300→100/HP288 two damage/two ability_started; mana99 skip), standalone/preserve-W/check-only-W-isolation/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused71/full987 + Wasm asset SHA, and bilateral wasm+backend evidence (owning b774a8d / integrated 4316923 / Wasm a8e4c08; one selected-primary-enemy-champion physical hit not full R; no cast/Effect-at-cast-time-start/queue/wave/projectile/AOE/reveal/shield/Mist/live claim)',
+    );
+  }
+  if (sennaR) {
+    validateBilateralCoverageEvidence(
+      sennaR.candidateKey,
+      sennaR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
