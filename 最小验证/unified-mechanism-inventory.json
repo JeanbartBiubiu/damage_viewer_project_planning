@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T17:02:32.178Z",
+    "generatedAt": "2026-07-25T17:45:19.353Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "ddcfc580bde996f6990f75bf8bbd45bf527745187c5f4a9a212da6044299985b",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "7a04ed1add6805df20c6353ef027059ad42291828ee416cfc3070a8cb3d2e454",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "ec240c01ffc40e82a2ece5ee07d3c3fd223454391c86bfd0544dadaea39c6a8b",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "36a7dde9670bc845fe9ad0f05aae35eaf83c69576c7bebd25a83e8e73134601b",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "c5d19062783f5df2de0140e4fb4815fb3c4237d45c7ab706a0f31be88a03722c",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "7abd9e671f6a30d9546754a84118d8be8ebc0c6c76b4eb7deb6bd3615bd7d2db",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 93,
+      "completed": 94,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 80,
+      "blocked_runtime": 79,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 93,
+      "full": 94,
       "partial": 3,
-      "none": 158
+      "none": 157
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "ddcfc580bde996f6990f75bf8bbd45bf527745187c5f4a9a212da6044299985b",
-      "byteSize": 1042776,
+      "sha256": "7a04ed1add6805df20c6353ef027059ad42291828ee416cfc3070a8cb3d2e454",
+      "byteSize": 1048866,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "ec240c01ffc40e82a2ece5ee07d3c3fd223454391c86bfd0544dadaea39c6a8b",
-      "byteSize": 557586,
+      "sha256": "c5d19062783f5df2de0140e4fb4815fb3c4237d45c7ab706a0f31be88a03722c",
+      "byteSize": 574472,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "36a7dde9670bc845fe9ad0f05aae35eaf83c69576c7bebd25a83e8e73134601b",
-      "byteSize": 581587,
+      "sha256": "7abd9e671f6a30d9546754a84118d8be8ebc0c6c76b4eb7deb6bd3615bd7d2db",
+      "byteSize": 598216,
       "recordCount": 0,
       "role": "generator"
     },
@@ -14009,52 +14009,29 @@
     },
     {
       "key": "hero_skill|hero_graves|Q|穷途末路",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_graves",
       "skillKey": "Q",
       "passiveName": "穷途末路",
       "mechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4007501",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/graves-q.json@rev4007501 sha256:c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_graves|Q|穷途末路",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity",
+      "reason": "Graves Q 穷途末路/End of the Line：Wiki request Template:Data Graves/Q → resolved Template:Data Graves/End of the Line；page1307367 / rev4007501 / timestamp 2026-04-11T22:23:57Z / canonical bytes2266 / SHA256 c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5（normalized/generic/graves-q.json plus pages sibling are authority）rank5 Phase-A v2 已由 wasm-generic-graves-end-of-the-line-first-outbound-pass + backend seed 证据闭环——local raw caveat bytes2265 / SHA cd2744fb1f28e54bd3b5e25b96cb1d21babc0583bfd8e854d55c15ed83df0377（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 6000ms CD；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 150, mul(const 0.65, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 base0/resolved0/armor0 raw=final150；base60/resolved60/armor0 raw=final150；base60/resolved160/armor0 raw=final215；base60/resolved160/armor100 raw215/final107.5；base60/resolved260/armor100 raw280/final140；base0/resolved100 versus base60/resolved160 armor0 both215）。Attempts mana240/baseAD60/resolvedAD160/HP1000/armor100 at t0/t5999/t6000 → success/skip/success，exactly two Q damage items；final mana80/HP785；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Q does not alter E True Grit and E produces no Q damage。Graves Q provider is standalone；Backend has no repository-owned hero_graves / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Graves P/E/W/R/True Grit/basic dependence；不暗示 Batch-B 或 sibling Graves synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused50/full943 passed。Wasm main validation passed gofmt/focused7/full/bench/build/smoke/benchmark；exact test bytes66870 / SHA256 a95e0d9632b0fe45aaec9440ccd89c381d6903f2c99ab761581736ec1f8c8e77；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity。明确排除 cast/direction/range/width/line/projectile/pass-through/multitarget/trail/terrain/collision、delayed/terrain detonation、perpendicular/reverse wave/second pass/total、once-per-pass/spellshield/Wind Wall/Braum terrain、other ranks/siblings/loadout/bootstrap/crit/onhit/live/full fidelity；this is exactly one selected-primary first-outbound-pass physical hit, not full Q；不宣称 cast/direction/range/line/projectile/pass-through/multitarget/trail/terrain/detonation/reverse-wave/second-pass/total/once-per-pass/spellshield/Wind-Wall/Braum/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_graves/ad/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_graves|Q|穷途末路"
         },
         {
@@ -14063,7 +14040,22 @@
           "sourceRecordKey": "hero_skill|hero_graves|Q|穷途末路"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-end-of-the-line-first-outbound-pass",
+          "sourcePath": "db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity; backend lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql + LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest (owning 9294292; integrated a54cf6f); Wasm exact test commit c16107e; external existing-data/check-only prerequisites (hero_graves/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Graves synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-graves-end-of-the-line-first-outbound-pass",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_graves_end_of_the_line_first_outbound_pass_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity; Wiki request Template:Data Graves/Q → End of the Line; rev4007501/SHA256 c1884000… / bytes2266; local raw caveat bytes2265/SHA cd2744fb… no equivalence claim; rank5 80 mana/6000ms CD / one physical 150+0.65*bonusAD via exact binary add(const150, mul(0.65, sub(ad.resolved,ad.base))); base0/resolved0/armor0=150; base60/resolved60/armor0=150; base60/resolved160/armor0=215; base60/resolved160/armor100 raw215/final107.5; base60/resolved260/armor100 raw280/final140; base0/resolved100 vs base60/resolved160 armor0 both215; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana240/baseAD60/resolvedAD160/HP1000/armor100 t0/t5999/t6000 success/skip/success two Q damage items final mana80/HP785 two automatic Q ability_started; mana79 resource skip unchanged; Q does not alter E True Grit and E produces no Q damage; standalone no sibling synthesis; Wasm exact test commit c16107e bytes66870/SHA a95e0d96…; cast/direction/range/line/projectile/pass-through/multitarget/trail/terrain/detonation/reverse-wave/second-pass/total/once-per-pass/spellshield/Wind-Wall/Braum/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
