@@ -1563,6 +1563,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_xayah|Q|双刃',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Xayah Q 双刃/Double Daggers：Wiki request Template:Data Xayah/Q → resolved Template:Data Xayah/Double Daggers；page1324541 / rev4008615 / timestamp 2026-04-15T00:26:21Z / canonical bytes2615 / SHA256 8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd（normalized/generic/xayah-q.json plus pages sibling are authority）rank5 Phase-A v3 已由 wasm-generic-xayah-double-daggers-primary-two-hit + backend seed 证据闭环——live redirect page1324536/rev2864045 is live request detail only and is not stored in the sidecar；local raw caveat bytes2615 / SHA 6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；35 mana / 8000ms CD；immediate primary-champion two-feather scaffold；恰好两次有序 non-crit/non-copyable physical hits，each 105+0.50*(source.attr.ad.resolved-source.attr.ad.base)（nested binary formula；交叉校验 baseAD60/resolvedAD60 each105/total210，armor100 each52.5/total105；resolvedAD110 each130/total260，armor100 each65/total130）。Attempts t0/t7999/t8000 mana105/HP1000/armor100 → two successes + exactly one cooldown skip，four damage items；final mana35/HP740；two automatic ability_started；mana34 → resource skip/unchanged。Required Xayah W isolation coexistence：Q success/skip does not arm W and AS stays baseline；W success while Q mounted arms only W and causes zero Q damage；Backend W listener uses ability/xayah_deadly_plumage ALL matcher with ability_id NULL；runtime W ListenerDefinition.AbilityRef stays empty。completedBoundary：rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks。明确排除 cast time/attack lockout/effect-at-cast-end、direction/range/width/geometry、projectile/travel/collision/interception/spellshield、later-target 50% reduction、multitarget/formation/area、feather generation/ground state/E interaction、ranks1–4、P/E/R/basic/equipment/loadout/crit/on-hit、live migration/publish/E2E/full game fidelity；不宣称 cast-time/attack-lockout/direction/range/width/projectile/travel/interception/spellshield/secondary-target-reduction/feather-generation/ground-state/E/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-xayah-double-daggers-primary-two-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_double_daggers_primary_two_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; Wiki request Template:Data Xayah/Q → Double Daggers; rev4008615/SHA256 8010e567… / bytes2615; local raw caveat bytes2615/SHA 6a1fde0a… no equivalence claim; live redirect page1324536/rev2864045 not stored in sidecar; rank5 35 mana/8000ms CD / two ordered physical 105+0.50*bonusAD nested binary; baseAD60/resolvedAD60 each105/total210 armor100 each52.5/total105; resolvedAD110 each130/total260 armor100 each65/total130; t0/t7999/t8000 mana105/HP1000 two successes + one CD skip four damage items final mana35/HP740 two ability_started; mana34 resource skip unchanged; Q success/skip does not arm W / AS baseline; W success while Q mounted arms only W / zero Q damage; Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL; runtime W ListenerDefinition.AbilityRef empty; Wasm exact test commit dd7dae6; cast-time/lockout/direction/range/projectile/interception/spellshield/secondary-reduction/feather/ground/E/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-xayah-double-daggers-primary-two-hit',
+          sourcePath: 'db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; backend lol_generic_xayah_double_daggers_primary_two_hit_seed.sql + LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest (owning 8ace954; integrated 6bab0b8); Wasm exact test commit dd7dae6; nested binary; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; does not write identity/panel/resource values); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_xayah|W|致死羽衣',
     {
       status: 'completed',
@@ -2412,6 +2443,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_quinn|Q|炫目攻势',
     'rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks',
+  ],
+  [
+    'hero_skill|hero_xayah|Q|双刃',
+    'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -3992,6 +4027,7 @@ function validateInventory(inv) {
   const mQuinnQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|Q|炫目攻势');
   const mQuinnW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|W|敏锐感知');
   const mKogmawQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kogmaw|Q|腐蚀唾液');
+  const mXayahQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|Q|双刃');
   const mXayahW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|W|致死羽衣');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
@@ -6043,6 +6079,115 @@ function validateInventory(inv) {
     );
   }
   if (
+    !mXayahQ ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_xayah|Q|双刃') ||
+    mXayahQ.key !== 'hero_skill|hero_xayah|Q|双刃' ||
+    mXayahQ.passiveName !== '双刃' ||
+    mXayahQ.status !== 'completed' ||
+    mXayahQ.completionMode !== 'full' ||
+    mXayahQ.lane !== 'generic_runtime' ||
+    mXayahQ.blocker ||
+    mXayahQ.dataGapEvidence !== null ||
+    mXayahQ.runtimeGapEvidence !== null ||
+    mXayahQ.outOfScopeEvidence !== null ||
+    mXayahQ.coverageBoundary !==
+      'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks' ||
+    [...(mXayahQ.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mXayahQ.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mXayahQ.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    String(mXayahQ.reason || '').includes('implementation_gap_no_unresolved_data_fields') ||
+    String(mXayahQ.reason || '').includes('blocked_data') ||
+    String(mXayahQ.reason || '').includes('dps_relevant_manual_review') ||
+    !String(mXayahQ.reason || '').includes('4008615') ||
+    !String(mXayahQ.reason || '').includes(
+      '8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd',
+    ) ||
+    !String(mXayahQ.reason || '').includes(
+      '6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de',
+    ) ||
+    !String(mXayahQ.reason || '').includes('Template:Data Xayah/Q') ||
+    !String(mXayahQ.reason || '').includes('Template:Data Xayah/Double Daggers') ||
+    !String(mXayahQ.reason || '').includes('page1324541') ||
+    !String(mXayahQ.reason || '').includes('page1324536') ||
+    !String(mXayahQ.reason || '').includes('rev2864045') ||
+    !String(mXayahQ.reason || '').includes('bytes2615') ||
+    !String(mXayahQ.reason || '').includes('2026-04-15T00:26:21Z') ||
+    !String(mXayahQ.reason || '').includes(
+      'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks',
+    ) ||
+    !String(mXayahQ.reason || '').includes('nested binary') ||
+    !String(mXayahQ.reason || '').includes('source.attr.ad.resolved') ||
+    !String(mXayahQ.reason || '').includes('source.attr.ad.base') ||
+    !String(mXayahQ.reason || '').includes('105') ||
+    !String(mXayahQ.reason || '').includes('0.50') ||
+    !String(mXayahQ.reason || '').includes('35 mana') ||
+    !String(mXayahQ.reason || '').includes('8000') ||
+    !String(mXayahQ.reason || '').includes('baseAD60') ||
+    !String(mXayahQ.reason || '').includes('resolvedAD60') ||
+    !String(mXayahQ.reason || '').includes('resolvedAD110') ||
+    !String(mXayahQ.reason || '').includes('total210') ||
+    !String(mXayahQ.reason || '').includes('total105') ||
+    !String(mXayahQ.reason || '').includes('total260') ||
+    !String(mXayahQ.reason || '').includes('total130') ||
+    !String(mXayahQ.reason || '').includes('52.5') ||
+    !String(mXayahQ.reason || '').includes('t7999') ||
+    !String(mXayahQ.reason || '').includes('mana105') ||
+    !String(mXayahQ.reason || '').includes('mana34') ||
+    !String(mXayahQ.reason || '').includes('HP740') ||
+    !String(mXayahQ.reason || '').includes('ability_started') ||
+    !String(mXayahQ.reason || '').includes('does not arm W') ||
+    !String(mXayahQ.reason || '').includes('AS stays baseline') ||
+    !String(mXayahQ.reason || '').includes('ability/xayah_deadly_plumage') ||
+    !String(mXayahQ.reason || '').includes('ability_id NULL') ||
+    !String(mXayahQ.reason || '').includes('ListenerDefinition.AbilityRef') ||
+    !String(mXayahQ.reason || '').includes('external existing-data/check-only') ||
+    !String(mXayahQ.reason || '').includes('identity/panel/resource') ||
+    !String(mXayahQ.reason || '').includes('不宣称') ||
+    !(mXayahQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-double-daggers-primary-two-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_double_daggers_primary_two_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(
+          'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks',
+        ) &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('does not arm W') &&
+        String(e.note || '').includes('dd7dae6') &&
+        String(e.note || '').includes('6a1fde0a') &&
+        String(e.note || '').includes('page1324536'),
+    ) ||
+    !(mXayahQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-double-daggers-primary-two-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(
+          'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks',
+        ) &&
+        String(e.note || '').includes('LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest') &&
+        String(e.note || '').includes('8ace954') &&
+        String(e.note || '').includes('6bab0b8') &&
+        String(e.note || '').includes('dd7dae6') &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('W isolation'),
+    )
+  ) {
+    errors.push(
+      'Xayah Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Double Daggers ordered tags (no dps_relevant_manual_review), Wiki rev4008615/SHA + local raw caveat + live-redirect-not-sidecar + frozen completedBoundary, rank5 35mana/8000CD/two nested-binary 105+0.50bonusAD hits numerics/schedules/W isolation, and bilateral evidence (owning 8ace954 / integrated 6bab0b8 / Wasm dd7dae6; no cast-time/lockout/projectile/secondary-reduction/feather/ground/E/live claim)',
+    );
+  }
+  if (
     !mXayahW ||
     mXayahW.status !== 'completed' ||
     mXayahW.completionMode !== 'full' ||
@@ -6472,8 +6617,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 79) {
-    errors.push(`completed=${sc.completed}, expected 79`);
+  if ((sc.completed || 0) !== 80) {
+    errors.push(`completed=${sc.completed}, expected 80`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -6481,8 +6626,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 94) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 94`);
+  if ((sc.blocked_runtime || 0) !== 93) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 93`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -6503,21 +6648,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 79) {
-    errors.push(`completionMode full=${cm.full}, expected 79`);
+  if ((cm.full || 0) !== 80) {
+    errors.push(`completionMode full=${cm.full}, expected 80`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 172) {
-    errors.push(`completionMode none=${cm.none}, expected 172`);
+  if ((cm.none || 0) !== 171) {
+    errors.push(`completionMode none=${cm.none}, expected 171`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 77) {
+  if (implGapCount !== 76) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 77`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 76`,
     );
   }
 
