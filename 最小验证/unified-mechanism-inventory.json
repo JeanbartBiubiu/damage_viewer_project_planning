@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T06:55:02.784Z",
+    "generatedAt": "2026-07-25T07:40:30.977Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "83ed5d28c94ae1c6c69cd37e9ce3f2d1d8e667bceb964670250abd64195f2485",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "9374dbf4121ee0f15a22b0454c36065fef871c625575d30ce0e3b556e69ed49b",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "3edd0c71679ec3e4ad752c0f6972cde7408ccaa291f873f93f86a49177de6384",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "c68f9e8c560682269ee55b9d692982b1929e9e932ed23fe739bae251c3925fad",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "40ceb6fbe498beb08554b85f7631edc084460f1a71da872ac20a8b44c5e4acbc",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "78bd13b9055d1bb4b2db0aafabc47a546ba787f8061702706683b1676a7a1058",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 82,
+      "completed": 83,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 91,
+      "blocked_runtime": 90,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 82,
+      "full": 83,
       "partial": 3,
-      "none": 169
+      "none": 168
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "83ed5d28c94ae1c6c69cd37e9ce3f2d1d8e667bceb964670250abd64195f2485",
-      "byteSize": 988197,
+      "sha256": "9374dbf4121ee0f15a22b0454c36065fef871c625575d30ce0e3b556e69ed49b",
+      "byteSize": 992422,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "3edd0c71679ec3e4ad752c0f6972cde7408ccaa291f873f93f86a49177de6384",
-      "byteSize": 400843,
+      "sha256": "40ceb6fbe498beb08554b85f7631edc084460f1a71da872ac20a8b44c5e4acbc",
+      "byteSize": 413103,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "c68f9e8c560682269ee55b9d692982b1929e9e932ed23fe739bae251c3925fad",
-      "byteSize": 430228,
+      "sha256": "78bd13b9055d1bb4b2db0aafabc47a546ba787f8061702706683b1676a7a1058",
+      "byteSize": 441893,
       "recordCount": 0,
       "role": "generator"
     },
@@ -14724,52 +14724,28 @@
     },
     {
       "key": "hero_skill|hero_jhin|W|致命华彩",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_jhin",
       "skillKey": "W",
       "passiveName": "致命华彩",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4021795",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/jhin-w.json@rev4021795 sha256:14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_jhin|W|致命华彩",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity",
+      "reason": "Jhin W 致命华彩/Deadly Flourish：Wiki request Template:Data Jhin/W → resolved Template:Data Jhin/Deadly Flourish；page1307581 / rev4021795 / timestamp 2026-05-21T13:25:33Z / canonical bytes2942 / SHA256 14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65（normalized/generic/jhin-w.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-jhin-deadly-flourish-primary-hit + backend seed 证据闭环——local raw caveat bytes2940 / SHA 76790ba522dc101bb1f1c24ae620f80e8db6d10e890515cbc7da85005a67f78b（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；70 mana / 12000ms CD；immediate primary-champion single physical hit scaffold；one selected immediate primary-champion physical damage operation 210 + 0.50 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（交叉校验 totalAD60 raw240；armor0=240，armor100=120。totalAD100 raw260；armor0=260，armor100=130）。Attempts mana210/HP1000/AD100/armor100 at t0/t11999/t12000 → success/skip/success，exactly two W damage items；final mana70/HP740；exactly two automatic W ability_started；mana69 at t0 → resource skip with mana/HP unchanged and no W damage/event。Minion-only 25% reduction does not apply to the selected champion and is excluded。Jhin W is standalone；Backend has no repository-owned hero_jhin / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Jhin synthesis。completedBoundary：rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity。明确排除 cast timing/Effect-at-cast-start、direction/range/width/line geometry/multitarget/champion collision、projectile identity/interception/spell shield/facing、mark creation/detection/duration、root/control/tenacity、bonus movement speed、minion reduction、other ranks、other Jhin abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/direction/line/projectile/mark/root/minion/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_jhin/ad/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_jhin|W|致命华彩"
         },
         {
@@ -14778,7 +14754,22 @@
           "sourceRecordKey": "hero_skill|hero_jhin|W|致命华彩"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-jhin-deadly-flourish-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity; backend lol_generic_jhin_deadly_flourish_primary_hit_seed.sql + LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest (owning 4903c00; integrated 0c103f8); Wasm exact test commit d62d2e4; external existing-data/check-only prerequisites (hero_jhin/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jhin synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-jhin-deadly-flourish-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_jhin_deadly_flourish_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity; Wiki request Template:Data Jhin/W → Deadly Flourish; rev4021795/SHA256 14790ca0… / bytes2942; local raw caveat bytes2940/SHA 76790ba5… no equivalence claim; rank5 70 mana/12000ms CD / one physical 210+0.50*totalAD; totalAD60 raw240 armor0=240 armor100=120; totalAD100 raw260 armor0=260 armor100=130; mana210/HP1000/AD100/armor100 t0/t11999/t12000 success/skip/success two W damage items final mana70/HP740 two automatic W ability_started; mana69 resource skip unchanged; selected-champion minion-reduction excluded; standalone no sibling synthesis; Wasm exact test commit d62d2e4; cast/direction/range/width/line/multitarget/collision/projectile/interception/spell-shield/mark/root/ms/minion/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },

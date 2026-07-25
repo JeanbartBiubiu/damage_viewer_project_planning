@@ -631,6 +631,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql',
   jinxZapPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql',
+  jhinDeadlyFlourishPrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -748,6 +750,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go',
   jinxZapPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go',
+  jhinDeadlyFlourishPrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_jhin_deadly_flourish_primary_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -1947,6 +1951,35 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-jinx-zap-primary-hit',
           SEED.jinxZapPrimaryHitBackend,
           'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity; backend lol_generic_jinx_zap_primary_hit_seed.sql + LolGenericJinxZapPrimaryHitSeedSqlTest (owning b5abdb7; integrated a09adf1); Wasm exact test commit 2afde02; external existing-data/check-only prerequisites (hero_jinx/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jinx synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_jhin|W',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_jhin W 致命华彩/Deadly Flourish：Wiki request Template:Data Jhin/W → resolved Template:Data Jhin/Deadly Flourish；page1307581 / rev4021795 / timestamp 2026-05-21T13:25:33Z / canonical bytes2942 / SHA256 14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65（normalized/generic/jhin-w.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-jhin-deadly-flourish-primary-hit 闭环为 migrated——local raw caveat bytes2940 / SHA 76790ba522dc101bb1f1c24ae620f80e8db6d10e890515cbc7da85005a67f78b（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；70 mana / 12000ms CD；immediate primary-champion single physical hit scaffold；one selected immediate primary-champion physical damage operation 210 + 0.50 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（交叉校验 totalAD60 raw240；armor0=240，armor100=120。totalAD100 raw260；armor0=260，armor100=130）。Attempts mana210/HP1000/AD100/armor100 at t0/t11999/t12000 → success/skip/success，exactly two W damage items；final mana70/HP740；exactly two automatic W ability_started；mana69 at t0 → resource skip with mana/HP unchanged and no W damage/event。Minion-only 25% reduction does not apply to the selected champion and is excluded。Jhin W is standalone；Backend has no repository-owned hero_jhin / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Jhin synthesis。completedBoundary：rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity。明确排除 cast timing/Effect-at-cast-start、direction/range/width/line geometry/multitarget/champion collision、projectile identity/interception/spell shield/facing、mark creation/detection/duration、root/control/tenacity、bonus movement speed、minion reduction、other ranks、other Jhin abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/direction/line/projectile/mark/root/minion/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_jhin/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-jhin-deadly-flourish-primary-hit',
+          WASM.jhinDeadlyFlourishPrimaryHit,
+          'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity; Wiki request Template:Data Jhin/W → Deadly Flourish; rev4021795/SHA256 14790ca0… / bytes2942; local raw caveat bytes2940/SHA 76790ba5… no equivalence claim; rank5 70 mana/12000ms CD / one physical 210+0.50*totalAD; totalAD60 raw240 armor0=240 armor100=120; totalAD100 raw260 armor0=260 armor100=130; mana210/HP1000/AD100/armor100 t0/t11999/t12000 success/skip/success two W damage items final mana70/HP740 two automatic W ability_started; mana69 resource skip unchanged; selected-champion minion-reduction excluded; standalone no sibling synthesis; Wasm exact test commit d62d2e4; cast/direction/range/width/line/multitarget/collision/projectile/interception/spell-shield/mark/root/ms/minion/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-jhin-deadly-flourish-primary-hit',
+          SEED.jhinDeadlyFlourishPrimaryHitBackend,
+          'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity; backend lol_generic_jhin_deadly_flourish_primary_hit_seed.sql + LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest (owning 4903c00; integrated 0c103f8); Wasm exact test commit d62d2e4; external existing-data/check-only prerequisites (hero_jhin/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jhin synthesis; not live published',
         ),
       ],
     },
@@ -4247,9 +4280,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 72) errors.push(`migrated=${counts.migrated}, expected 72`);
+  if (counts.migrated !== 73) errors.push(`migrated=${counts.migrated}, expected 73`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 97) errors.push(`blocked=${counts.blocked}, expected 97`);
+  if (counts.blocked !== 96) errors.push(`blocked=${counts.blocked}, expected 96`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -7019,6 +7052,135 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       jinxW.candidateKey,
       jinxW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const jhinW = records.find((r) => r.candidateKey === 'hero_skill|hero_jhin|W|致命华彩');
+  const jhinWTags = [...(jhinW?.genericMechanismTags || [])];
+  const jhinWExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'immediate_impact_scaffold',
+  ];
+  const jhinWReason = String(jhinW?.classificationReason || '');
+  const jhinWBoundary =
+    'rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_jhin|W')) {
+    errors.push('Jhin W exact override key hero_jhin|W must exist before fallback');
+  }
+  if (
+    !jhinW
+    || jhinW.candidateKey !== 'hero_skill|hero_jhin|W|致命华彩'
+    || jhinW.passiveName !== '致命华彩'
+    || jhinW.genericClassification !== 'migrated'
+    || String(jhinW.remainingGap || '').trim()
+    || (jhinW.dataGapEvidence?.missingFields || []).length !== 0
+    || jhinWTags.join('|') !== jhinWExpectedTags.join('|')
+    || jhinWTags.includes('meta_or_non_target_dps')
+    || jhinWTags.includes('bonus_ad_ratio')
+    || jhinWTags.includes('total_ad_ratio')
+    || String(jhinW.remainingGap || '').includes('blocked_data')
+    || jhinWReason.includes('out_of_scope_for_single_target_dps')
+    || jhinWReason.includes('blocked_data')
+    || jhinWReason.includes('implementation_gap_no_unresolved_data_fields')
+    || jhinWReason.includes('meta_or_non_target_dps')
+    || jhinWReason.includes('bonus_ad_ratio')
+    || jhinWReason.includes('ad.resolved-source.attr.ad.base')
+    || jhinWReason.includes('ad.resolved-ad.base')
+    || !jhinWReason.includes('4021795')
+    || !jhinWReason.includes(
+      '14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65',
+    )
+    || !jhinWReason.includes(
+      '76790ba522dc101bb1f1c24ae620f80e8db6d10e890515cbc7da85005a67f78b',
+    )
+    || !jhinWReason.includes('Template:Data Jhin/W')
+    || !jhinWReason.includes('Template:Data Jhin/Deadly Flourish')
+    || !jhinWReason.includes('page1307581')
+    || !jhinWReason.includes('bytes2942')
+    || !jhinWReason.includes('bytes2940')
+    || !jhinWReason.includes('2026-05-21T13:25:33Z')
+    || !jhinWReason.includes(jhinWBoundary)
+    || !jhinWReason.includes('source.attr.ad.resolved')
+    || !jhinWReason.includes('total AD')
+    || !jhinWReason.includes('210')
+    || !jhinWReason.includes('0.50')
+    || !jhinWReason.includes('70 mana')
+    || !jhinWReason.includes('12000')
+    || !jhinWReason.includes('totalAD60')
+    || !jhinWReason.includes('totalAD100')
+    || !jhinWReason.includes('raw240')
+    || !jhinWReason.includes('raw260')
+    || !jhinWReason.includes('armor0=240')
+    || !jhinWReason.includes('armor100=120')
+    || !jhinWReason.includes('armor0=260')
+    || !jhinWReason.includes('armor100=130')
+    || !jhinWReason.includes('t11999')
+    || !jhinWReason.includes('t12000')
+    || !jhinWReason.includes('mana210')
+    || !jhinWReason.includes('mana69')
+    || !jhinWReason.includes('HP740')
+    || !jhinWReason.includes('ability_started')
+    || !jhinWReason.includes('Minion-only 25%')
+    || !jhinWReason.includes('selected champion')
+    || !jhinWReason.includes('standalone')
+    || !jhinWReason.includes('external existing-data/check-only')
+    || !jhinWReason.includes('identity/panel/resource')
+    || !jhinWReason.includes('不暗示 Batch-B')
+    || !jhinWReason.includes('sibling Jhin synthesis')
+    || !jhinWReason.includes('不宣称')
+    || !jhinWReason.includes('no equivalence or contradiction claim')
+    || jhinWReason.includes('canonical byte equivalence')
+    || jhinWReason.includes('Batch-B prerequisite')
+    || !String(jhinW.sourceRef || '').includes('jhin-w.json')
+    || !String(jhinW.sourceRef || '').includes(
+      '14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65',
+    )
+    || jhinW.auditBaseline?.gapCode !== 'blocked_data'
+    || jhinW.auditBaseline?.resolvedBucket !== 'blocked'
+    || jhinW.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(jhinW.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || jhinW.classification !== 'out_of_scope_for_single_target_dps'
+    || !(jhinW.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(jhinW.classificationReason)
+    || !(jhinW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.jhinDeadlyFlourishPrimaryHit
+        && e.taskKey === 'wasm-generic-jhin-deadly-flourish-primary-hit'
+        && String(e.note || '').includes(jhinWBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('d62d2e4')
+        && String(e.note || '').includes('76790ba5')
+        && String(e.note || '').includes('minion-reduction excluded')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(jhinW.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.jhinDeadlyFlourishPrimaryHitBackend
+        && e.taskKey === 'wasm-generic-jhin-deadly-flourish-primary-hit'
+        && String(e.note || '').includes(jhinWBoundary)
+        && String(e.note || '').includes('LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('4903c00')
+        && String(e.note || '').includes('0c103f8')
+        && String(e.note || '').includes('d62d2e4')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Jhin synthesis'),
+    )
+  ) {
+    errors.push(
+      'Jhin W must be migrated with empty remainingGap/missingFields, exact Deadly Flourish ordered tags (no meta_or_non_target_dps/bonus_ad_ratio), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev4021795/SHA + local raw caveat + frozen completedBoundary, rank5 70mana/12000CD/one physical 210+0.50*totalAD numerics (totalAD60→240/120; totalAD100→260/130; t0/t11999/t12000 mana210→70/HP740 two damage/two ability_started; mana69 skip), selected-champion/minion-reduction exclusion, standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral wasm+backend evidence (owning 4903c00 / integrated 0c103f8 / Wasm d62d2e4; no cast/direction/line/projectile/mark/root/minion/live claim)',
+    );
+  }
+  if (jhinW) {
+    validateBilateralCoverageEvidence(
+      jhinW.candidateKey,
+      jhinW.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
