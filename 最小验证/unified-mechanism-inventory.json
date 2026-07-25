@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-24T16:39:34.030Z",
+    "generatedAt": "2026-07-25T05:07:34.107Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "c0b0d066b2412a03020d4293c76c1200a2a2cb930147b315d35dd6fb5fc6b305",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "715308c403eef1a627b864652f4233c535c95f81284463794c103313db4950dc",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "6d7bf73d8a86f09c1e959fbe6b39189fd528f03070321afd7da3be3383172ed3",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "098f24cec404b5e3b51aea919b14b33fbf5d514ac1004c96993dd30ee0a5132c",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "38497c0b37c8b9189f672c7a209f343d5e70596fbe3e73bd3073ab69014ebf0b",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "f019d490de1b107599508d34a0cc1acbcd61f8f741bc8a422fcc184b5acb0f0b",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 79,
+      "completed": 80,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 94,
+      "blocked_runtime": 93,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 79,
+      "full": 80,
       "partial": 3,
-      "none": 172
+      "none": 171
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "c0b0d066b2412a03020d4293c76c1200a2a2cb930147b315d35dd6fb5fc6b305",
-      "byteSize": 974855,
+      "sha256": "715308c403eef1a627b864652f4233c535c95f81284463794c103313db4950dc",
+      "byteSize": 979505,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "6d7bf73d8a86f09c1e959fbe6b39189fd528f03070321afd7da3be3383172ed3",
-      "byteSize": 363895,
+      "sha256": "38497c0b37c8b9189f672c7a209f343d5e70596fbe3e73bd3073ab69014ebf0b",
+      "byteSize": 376286,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "098f24cec404b5e3b51aea919b14b33fbf5d514ac1004c96993dd30ee0a5132c",
-      "byteSize": 391378,
+      "sha256": "f019d490de1b107599508d34a0cc1acbcd61f8f741bc8a422fcc184b5acb0f0b",
+      "byteSize": 404645,
       "recordCount": 0,
       "role": "generator"
     },
@@ -20345,52 +20345,29 @@
     },
     {
       "key": "hero_skill|hero_xayah|Q|双刃",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_xayah",
       "skillKey": "Q",
       "passiveName": "双刃",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008615",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/xayah-q.json@rev4008615 sha256:8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_xayah|Q|双刃",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks",
+      "reason": "Xayah Q 双刃/Double Daggers：Wiki request Template:Data Xayah/Q → resolved Template:Data Xayah/Double Daggers；page1324541 / rev4008615 / timestamp 2026-04-15T00:26:21Z / canonical bytes2615 / SHA256 8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd（normalized/generic/xayah-q.json plus pages sibling are authority）rank5 Phase-A v3 已由 wasm-generic-xayah-double-daggers-primary-two-hit + backend seed 证据闭环——live redirect page1324536/rev2864045 is live request detail only and is not stored in the sidecar；local raw caveat bytes2615 / SHA 6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；35 mana / 8000ms CD；immediate primary-champion two-feather scaffold；恰好两次有序 non-crit/non-copyable physical hits，each 105+0.50*(source.attr.ad.resolved-source.attr.ad.base)（nested binary formula；交叉校验 baseAD60/resolvedAD60 each105/total210，armor100 each52.5/total105；resolvedAD110 each130/total260，armor100 each65/total130）。Attempts t0/t7999/t8000 mana105/HP1000/armor100 → two successes + exactly one cooldown skip，four damage items；final mana35/HP740；two automatic ability_started；mana34 → resource skip/unchanged。Required Xayah W isolation coexistence：Q success/skip does not arm W and AS stays baseline；W success while Q mounted arms only W and causes zero Q damage；Backend W listener uses ability/xayah_deadly_plumage ALL matcher with ability_id NULL；runtime W ListenerDefinition.AbilityRef stays empty。completedBoundary：rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks。明确排除 cast time/attack lockout/effect-at-cast-end、direction/range/width/geometry、projectile/travel/collision/interception/spellshield、later-target 50% reduction、multitarget/formation/area、feather generation/ground state/E interaction、ranks1–4、P/E/R/basic/equipment/loadout/crit/on-hit、live migration/publish/E2E/full game fidelity；不宣称 cast-time/attack-lockout/direction/range/width/projectile/travel/interception/spellshield/secondary-target-reduction/feather-generation/ground-state/E/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_xayah|Q|双刃"
         },
         {
@@ -20399,7 +20376,22 @@
           "sourceRecordKey": "hero_skill|hero_xayah|Q|双刃"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-double-daggers-primary-two-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; backend lol_generic_xayah_double_daggers_primary_two_hit_seed.sql + LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest (owning 8ace954; integrated 6bab0b8); Wasm exact test commit dd7dae6; nested binary; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; does not write identity/panel/resource values); not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-double-daggers-primary-two-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_xayah_double_daggers_primary_two_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; Wiki request Template:Data Xayah/Q → Double Daggers; rev4008615/SHA256 8010e567… / bytes2615; local raw caveat bytes2615/SHA 6a1fde0a… no equivalence claim; live redirect page1324536/rev2864045 not stored in sidecar; rank5 35 mana/8000ms CD / two ordered physical 105+0.50*bonusAD nested binary; baseAD60/resolvedAD60 each105/total210 armor100 each52.5/total105; resolvedAD110 each130/total260 armor100 each65/total130; t0/t7999/t8000 mana105/HP1000 two successes + one CD skip four damage items final mana35/HP740 two ability_started; mana34 resource skip unchanged; Q success/skip does not arm W / AS baseline; W success while Q mounted arms only W / zero Q damage; Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL; runtime W ListenerDefinition.AbilityRef empty; Wasm exact test commit dd7dae6; cast-time/lockout/direction/range/projectile/interception/spellshield/secondary-reduction/feather/ground/E/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
