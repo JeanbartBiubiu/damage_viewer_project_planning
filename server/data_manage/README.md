@@ -1170,6 +1170,45 @@ cd server/data_manage
 mvn -Dtest=LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest test
 ```
 
+### LoL generic Xayah Featherstorm primary-hit seed（逆羽 R / Phase-A v2 主冠军 damage quantum）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_xayah)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_xayah,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_xayah,mana)`，以及校正后的 W isolation 行（`types(62012,ability/xayah_deadly_plumage,reserved_type_id=NULL)`、`type_relations → ability_hero_xayah_w_deadly_plumage`、W listener `ability_id IS NULL`、ALL match 恰好 `{20205,20212,62012}`）已由 `lol_generic_xayah_deadly_plumage_seed.sql`（或等价既有行）提供后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**复制 W 身份 bootstrap，**不**从本 R seed 突变 W 图；**不** require/insert/update/delete/rebuild Q；仅挂载可 cast 的 R active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）。**W** 是共享身份与 ability-type listener isolation 前置；**Q** 与 **R** 为独立 sibling（Q 可选，非本 R 前置）。
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`（校正后的 W；提供 Xayah 既有数据与 ability-type listener isolation）
+3. （可选）`db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql`（独立 Q sibling；非本 R 前置）
+4. `db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql`
+5. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-xayah-featherstorm-primary-hit-phase-a-v2-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_xayah|R|暴风羽刃`（task `wasm-generic-xayah-featherstorm-primary-hit`）冻结为 **Phase-A rank-3 立即主冠军一次物理 damage quantum impact scaffold**（`FROZEN_PLAN_REV=xayah-r-featherstorm-primary-hit-phase-a-v2`）：
+
+`rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+**语义 framing**：Phase-A 将 leveling-labeled 数值 `400 + 100% bonus AD` 恰好一次施加到所选主冠军，作为有界 **damage quantum**；不证明完整 Featherstorm 仅有一次总命中；不建模五次 damage ops；明确排除同目标多羽叠加/基数与五个投射物身份。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_xayah` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值 / 校正后 W isolation 做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`；不写 W listener/type_relations；不写 Q 行）；幂等投影 reserved → `types`；向 `hero_xayah` **仅** mount 独立 `provider_hero_xayah_r_featherstorm_primary_hit`（与既有 W、可选 Q 并存，不更新/删除/重建；不创建 P/E/basic），含 active `ability_hero_xayah_r_featherstorm_primary_hit`（`ability_key=featherstorm_primary_hit`）、`ability_costs` 100 mana、`ability_cooldowns` 100000ms、恰好一个 null-duration impact phase + on_enter sequence，以及恰好一次 direct-opponent physical damage（stable step/detail ID；formula key `featherstorm_primary_hit_damage` = `400 + 1.00*(ad.resolved-ad.base)`；二元算术树；`copyable_on_hit=false`，非 crit；运行时类型 `20220`）。成功 cast 由 runtime 自动发出恰好一次 `ability_started`（非显式 seed event step）。**零** R provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / AOE / feather-ground / movement / untargetable 行。有 material change 时才推进候选 revision。
+
+Wiki 身份：request `Template:Data Xayah/R` → resolved `Template:Data Xayah/Featherstorm`；resolved pageId `1324544` / rev `4008617` / `2026-04-15T00:26:44Z`；canonical bytes `1761` / SHA256 `cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077`（`数据参考/lol-wiki-current-champions/normalized/generic/xayah-r.json` + pages sibling）。local raw materialization caveat：`raw/xayah-r.wikitext` bytes `1761` / SHA256 `debf23b0213a4d9669a29f6c415a6f67d582b7093d25059b7765745bed43ace1`；不断言与 canonical 字节等价，亦不主张源矛盾。
+
+确定性 runtime 校验夹具（注释/文档记录；本 seed 不连 live / 不执行；SQL 测试亦不执行 runtime）：
+
+- baseAD60/resolvedAD60：raw400；armor0=400；armor100=200
+- baseAD60/resolvedAD110：raw450；armor0=450；armor100=225
+- mana300/HP1000/baseAD60/resolvedAD110/armor100 at t0/t99999/t100000：success, cooldown skip, success；two total R damage-quantum items；final mana100/HP550；two automatic R `ability_started` events
+- mana99 resource skip：unchanged mana/HP，no R damage/event，no W arm
+- W/Q/R isolation：W listener isolation 与可选 Q Double Daggers 图保持不变；R 不 cross-arm W
+
+**排除**：multi-feather same-target stacking/cardinality；five projectile identities / five damage ops；claim of whole-R single total hit or Wiki-proven once-only；leap/ghosted/untargetable；one-second delay；attack or cast lockout；direction/cone/range/geometry；projectile/travel/collision/multitarget；feather generation/ground state/E dependency；other ranks；P/W/Q/E/basic graph expansion；equipment/runes/loadout/crit/on-hit；identity bootstrap；live migration；publish；E2E/full fidelity。本 R 条目**不**自称自包含。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericXayahFeatherstormPrimaryHitSeedSqlTest,LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest test
+```
+
 ### LoL generic Twitch Deadly Venom seed（图奇 P 死亡毒液 / anchored tick）
 
 前置 DDL：`provider_lifecycles` / `_log` 已含可选成对字段 `tick_anchor_scope_type_id` + `tick_anchor_state_key`（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_tick_anchor_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（至少 `ad`/`ap`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
