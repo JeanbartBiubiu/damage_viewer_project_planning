@@ -1933,6 +1933,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_tristana|Q|急速射击',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Tristana Q 急速射击/Rapid Fire：Wiki request Template:Data Tristana/Q → resolved Template:Data Tristana/Rapid Fire；page1308522 / rev4026462 / timestamp 2026-06-09T21:59:03Z / canonical bytes872 / SHA256 f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da（normalized/generic/tristana-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed + backend seed 证据闭环——local raw caveat bytes866 / SHA db084b4142559f0775af841fe163e1b80880e2661b26b6d82fb26261e1f5d170（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；35 mana / 16000ms CD；self timed bonus attack speed scaffold；timed state rapid_fire_active max1/7000ms；attack_speed percent_add 1.20*rapid_fire_active；game-local type62013 ability/tristana_rapid_fire；listener empty AbilityRef and exact all-match started/source_owner/Q-type；no damage or explicit event op；ability_started is automatic（fixture AS0.60→1.32 through6999→0.60 at7000）。Attempts mana105 at t0/t15999/t16000 → success/skip/success，exactly two automatic Q ability_started；final mana35/AS1.32；mana34 at t0 → resource skip with mana/AS unchanged；R does not arm Q and Q causes no R damage。Tristana Q provider is standalone；Backend has no repository-owned hero_tristana / attack_speed / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Tristana P/W/E/Explosive Charge dependence；不暗示 Batch-B 或 sibling Tristana synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Cursor focused11/adjacent49/full922 passed；Main focused11/adjacent49/full922 passed。Wasm main validation passed gofmt/focused6/full/bench/build/smoke/benchmark；built and Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity。明确排除 rank-up update、attack animation/windup、basic attack count/rotation、cooldown bypass/reset/direct state admin、other ranks、siblings/loadout/bootstrap、Q damage/heal/shield/control/repeat/explicit event、Buster Shot dependency/synthesis、live/full fidelity；不宣称 rank-up/animation/windup/basic-count/rotation/CD-bypass/other-ranks/siblings/Q-damage/Buster-Shot-dependence/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_tristana/attack_speed/mana），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_rapid_fire_timed_bonus_attack_speed_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity; Wiki request Template:Data Tristana/Q → Rapid Fire; rev4026462/SHA256 f6465863… / bytes872; local raw caveat bytes866/SHA db084b41… no equivalence claim; rank5 35 mana/16000ms CD / timed rapid_fire_active 7000ms / attack_speed percent_add 1.20*rapid_fire_active; type62013 ability/tristana_rapid_fire; empty AbilityRef all-match started/source_owner/Q-type; no damage or explicit event op; AS0.60→1.32 through6999→0.60 at7000; mana105 t0/t15999/t16000 success/skip/success two automatic Q ability_started final mana35/AS1.32; mana34 resource skip unchanged; R does not arm Q and Q causes no R damage; standalone no sibling synthesis; Wasm exact test commit ddbca0f; rank-up/animation/windup/basic-count/rotation/CD-bypass/other-ranks/siblings/Q-damage/Buster-Shot-dependence/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity; backend lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql + LolGenericTristanaRapidFireTimedBonusAttackSpeedSeedSqlTest (owning abc7500; integrated 5d468bf); Wasm exact test commit ddbca0f; external existing-data/check-only prerequisites (hero_tristana/attack_speed/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Tristana synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_tristana|R|毁灭射击',
     {
       status: 'completed',
@@ -2829,6 +2861,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_caitlyn|R|让子弹飞',
     'rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity',
+  ],
+  [
+    'hero_skill|hero_tristana|Q|急速射击',
+    'rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity',
   ],
   [
     'hero_skill|hero_tristana|R|毁灭射击',
@@ -4425,6 +4461,7 @@ function validateInventory(inv) {
   const mLucianW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_lucian|W|热诚烈弹');
   const mLucianR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_lucian|R|圣枪洗礼');
   const mCaitlynR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_caitlyn|R|让子弹飞');
+  const mTristanaQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_tristana|Q|急速射击');
   const mTristanaR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_tristana|R|毁灭射击');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
@@ -7791,6 +7828,129 @@ function validateInventory(inv) {
       'Caitlyn R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Ace in the Hole ordered tags (no dps_relevant_manual_review/total_ad_ratio; requires bonus_ad_ratio), Wiki rev3982561/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/90000CD/one physical bullet quantum 650+1.00*bonusAD via nested binary sub(ad.resolved,ad.base) numerics/schedules (base0/0/0=650; 60/60/0=650; 60/160/0=750; 60/160/100 raw750/final375; 60/260/100 raw850/final425; base0/resolved100 vs base60/resolved160 both750; 20220/20170; no explicit event op), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Q-E-dependence/no-production-runtime-ABI-Web framing, StackOverflow/MAVEN_OPTS/nonblocking validation caveat + Wasm asset SHA, and bilateral evidence (owning f088e18 / integrated 486b8d8 / Wasm 9fc57e7; one selected-target quantum not full R; no channel/reveal/homing/projectile/crit/live claim)',
     );
   }
+  const mTristanaQReason = String(mTristanaQ?.reason || '');
+  const mTristanaQBoundary =
+    'rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity';
+  if (
+    !mTristanaQ ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_tristana|Q|急速射击') ||
+    mTristanaQ.key !== 'hero_skill|hero_tristana|Q|急速射击' ||
+    mTristanaQ.passiveName !== '急速射击' ||
+    mTristanaQ.status !== 'completed' ||
+    mTristanaQ.completionMode !== 'full' ||
+    mTristanaQ.lane !== 'generic_runtime' ||
+    mTristanaQ.blocker ||
+    mTristanaQ.dataGapEvidence !== null ||
+    mTristanaQ.runtimeGapEvidence !== null ||
+    mTristanaQ.outOfScopeEvidence !== null ||
+    mTristanaQ.coverageBoundary !== mTristanaQBoundary ||
+    [...(mTristanaQ.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'ability_type_listener_isolation',
+        'active_attack_speed_modifier',
+        'timed_state',
+      ].join('|') ||
+    (mTristanaQ.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mTristanaQ.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mTristanaQ.mechanismTags || []).includes('cast_triggered_timed_attack_speed') ||
+    (mTristanaQ.mechanismTags || []).includes('attack_speed_percent_add') ||
+    !(mTristanaQ.mechanismTags || []).includes('active_attack_speed_modifier') ||
+    !(mTristanaQ.mechanismTags || []).includes('timed_state') ||
+    !(mTristanaQ.mechanismTags || []).includes('ability_type_listener_isolation') ||
+    mTristanaQReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mTristanaQReason.includes('blocked_data') ||
+    mTristanaQReason.includes('needs_manual_baseline') ||
+    mTristanaQReason.includes('dps_relevant_manual_review') ||
+    mTristanaQReason.includes('depends on Tristana R') ||
+    mTristanaQReason.includes('depends on Buster Shot') ||
+    mTristanaQReason.includes('requires Buster Shot') ||
+    !mTristanaQReason.includes('4026462') ||
+    !mTristanaQReason.includes(
+      'f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da',
+    ) ||
+    !mTristanaQReason.includes(
+      'db084b4142559f0775af841fe163e1b80880e2661b26b6d82fb26261e1f5d170',
+    ) ||
+    !mTristanaQReason.includes('Template:Data Tristana/Q') ||
+    !mTristanaQReason.includes('Template:Data Tristana/Rapid Fire') ||
+    !mTristanaQReason.includes('page1308522') ||
+    !mTristanaQReason.includes('bytes872') ||
+    !mTristanaQReason.includes('bytes866') ||
+    !mTristanaQReason.includes('2026-06-09T21:59:03Z') ||
+    !mTristanaQReason.includes(mTristanaQBoundary) ||
+    !mTristanaQReason.includes('35 mana') ||
+    !mTristanaQReason.includes('16000') ||
+    !mTristanaQReason.includes('7000') ||
+    !mTristanaQReason.includes('1.20*rapid_fire_active') ||
+    !mTristanaQReason.includes('62013') ||
+    !mTristanaQReason.includes('ability/tristana_rapid_fire') ||
+    !mTristanaQReason.includes('empty AbilityRef') ||
+    !mTristanaQReason.includes('no damage or explicit event') ||
+    !mTristanaQReason.includes('AS0.60') ||
+    !mTristanaQReason.includes('1.32') ||
+    !mTristanaQReason.includes('through6999') ||
+    !mTristanaQReason.includes('at7000') ||
+    !mTristanaQReason.includes('t15999') ||
+    !mTristanaQReason.includes('t16000') ||
+    !mTristanaQReason.includes('mana105') ||
+    !mTristanaQReason.includes('mana34') ||
+    !mTristanaQReason.includes('mana35') ||
+    !mTristanaQReason.includes('R does not arm Q') ||
+    !mTristanaQReason.includes('Q causes no R damage') ||
+    !mTristanaQReason.includes('ability_started') ||
+    !mTristanaQReason.includes('standalone') ||
+    !mTristanaQReason.includes('external existing-data/check-only') ||
+    !mTristanaQReason.includes('identity/panel/resource') ||
+    !mTristanaQReason.includes('不暗示 Tristana P/W/E/Explosive Charge dependence') ||
+    !mTristanaQReason.includes('不暗示 Batch-B') ||
+    !mTristanaQReason.includes('sibling Tristana synthesis') ||
+    !mTristanaQReason.includes('production runtime/ABI/Web change') ||
+    !mTristanaQReason.includes('focused11/adjacent49/full922') ||
+    !mTristanaQReason.includes('focused6') ||
+    !mTristanaQReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0') ||
+    !mTristanaQReason.includes('不宣称') ||
+    !mTristanaQReason.includes('no equivalence or contradiction claim') ||
+    mTristanaQReason.includes('canonical byte equivalence') ||
+    mTristanaQReason.includes('Batch-B prerequisite') ||
+    mTristanaQReason.includes('live published') ||
+    !(mTristanaQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_tristana_rapid_fire_timed_bonus_attack_speed_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mTristanaQBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('ddbca0f') &&
+        String(e.note || '').includes('db084b41') &&
+        String(e.note || '').includes('62013') &&
+        String(e.note || '').includes('1.20*rapid_fire_active') &&
+        String(e.note || '').includes('no damage or explicit event') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mTristanaQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mTristanaQBoundary) &&
+        String(e.note || '').includes('LolGenericTristanaRapidFireTimedBonusAttackSpeedSeedSqlTest') &&
+        String(e.note || '').includes('abc7500') &&
+        String(e.note || '').includes('5d468bf') &&
+        String(e.note || '').includes('ddbca0f') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Tristana synthesis'),
+    )
+  ) {
+    errors.push(
+      'Tristana Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Rapid Fire ordered tags (no dps_relevant_manual_review; requires ability_cost_cooldown/active_attack_speed_modifier/timed_state/ability_type_listener_isolation), Wiki rev4026462/SHA + local raw caveat + frozen completedBoundary, rank5 35mana/16000CD/timed7000/AS percent_add 1.20*rapid_fire_active/type62013/empty AbilityRef all-match numerics/schedules (AS0.60→1.32 through6999→0.60 at7000; mana105 t0/t15999/t16000 success/skip/success two starts final mana35/AS1.32; mana34 skip; R does not arm Q and Q causes no R damage), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-Buster-Shot-dependence/no-production-runtime-ABI-Web framing, focused11/adjacent49/full922 + focused6 + Wasm asset SHA, and bilateral evidence (owning abc7500 / integrated 5d468bf / Wasm ddbca0f; timed AS not full Q; no rank-up/animation/windup/basic-count/live claim)',
+    );
+  }
   const mTristanaRReason = String(mTristanaR?.reason || '');
   const mTristanaRBoundary =
     'rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity';
@@ -8325,8 +8485,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 91) {
-    errors.push(`completed=${sc.completed}, expected 91`);
+  if ((sc.completed || 0) !== 92) {
+    errors.push(`completed=${sc.completed}, expected 92`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -8334,8 +8494,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 82) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 82`);
+  if ((sc.blocked_runtime || 0) !== 81) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 81`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -8356,21 +8516,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 91) {
-    errors.push(`completionMode full=${cm.full}, expected 91`);
+  if ((cm.full || 0) !== 92) {
+    errors.push(`completionMode full=${cm.full}, expected 92`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 160) {
-    errors.push(`completionMode none=${cm.none}, expected 160`);
+  if ((cm.none || 0) !== 159) {
+    errors.push(`completionMode none=${cm.none}, expected 159`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 65) {
+  if (implGapCount !== 64) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 65`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 64`,
     );
   }
 
