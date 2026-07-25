@@ -1318,6 +1318,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-lucian-the-culling-single-shot-quantum",
+      "title": "通用 ABI 卢锡安 R 圣枪洗礼 The Culling 单发伤害量子机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_lucian_the_culling_single_shot_quantum",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_lucian|R|圣枪洗礼 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Lucian/R→The Culling page1308182/rev4007670/timestamp2026-04-12T10:40:21Z/canonical raw4477/SHA256 7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7；sidecar lucian-r.json+pages权威；本地raw4477/SHAb6361228…c74d（local raw materialization caveat；相等size不是字节等价；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity。Rank3：100mana/90000ms；immediate primary-champion first-enemy single physical shot-quantum scaffold；一笔非暴击/不可复制物理射击量子45+0.25*source.attr.ad.resolved+0.15*source.attr.ap.resolved（精确嵌套二元add树；直接读取total AD；永不resolved-base bonus AD；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零R state/modifier/listener/matcher/repeat/control/channel/projectile/geometry/multishot/crit。交叉baseAD0/resolvedAD0/AP0/armor0 raw/final45；baseAD60/resolvedAD60/AP0/armor0 raw/final60；baseAD60/resolvedAD160/AP0/armor0 raw/final85；baseAD60/resolvedAD160/AP100/armor0 raw/final100；baseAD60/resolvedAD160/AP100/armor100 raw100/final50；baseAD60/resolvedAD260/AP200/armor100 raw140/final70；baseAD0与baseAD60在resolvedAD160/AP100/armor0下均raw/final100（total-AD直接读取证明）；mana300/baseAD60/resolvedAD160/AP100/HP1000/armor100 t0/t89999/t90000 success/skip/success两笔R shot-quantum damage final mana100/HP900两次自动R ability_started；mana99 resource skip不变。standalone；不依赖Lucian Q/W；不合成Batch-B/sibling Lucian；Backend无repository-owned hero_lucian/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/ap_ratio/immediate_impact_scaffold；明确禁止total_ad_ratio（Total AD仅显式出现在boundary/reason/formula）。恰好一发伤害量子，不是一次完整R命中或大招总伤害。有效DESIGN_READY run-38f41c33（strict grok-4.5/high/fast=false；1237events/58/58complete tool groups；runDelta0/diff0；无truncation/blocker/nonblocking/user decision）；较早v1 run-b398bd76 REVISE（禁止total_ad_ratio已吸收进v2）但仅70/71 tool groups——无效设计门控。Backend owning a2f5bca2（run-ba1348fd delta3/outside0；1123events/41/41complete tool groups；Cursor focused9/adjacent53/full893 PASS；主focused9+adjacent53通过；首次full瞬时既有KogMaw StackOverflowError后隔离10/10+fresh full893/893——nonblocking validation-runtime caveat非Lucian R合同失败；seed SHA6a05ec9d…17c73；JUnit SHAc4716cdd…1fea3；README SHA21be70f9…26702）/镜像d83b09e6（run-cd1ae71e delta3/outside0；511events/7/7complete tool groups；三文件精确parity含三hashes）。Wasm exact ab2d9f7e（run-f15b1fae delta1/outside0；1411events/68/68complete tool groups；gofmt clean；八个focused top-level+full Go+bench+TinyGo+Node smoke+generic benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计首次NetworkError before agent/run创建非接受；接受2406a813（run-eb6578a2 delta6/outside0；1520/1520parseable/83/83complete tool groups；零truncation；主会话重跑两生成器+registry+Batch-G；registry242仍migrated48/partial5/blocked120/OOS69；仅Lucian R语义对象变化；coverageRecords零语义变化；三处source hash机械刷新；稳定order/keys；先前completed/migrated锁定）。Unified254：sourceCount12/completed89/partial_actionable0/ready0/blocked_runtime84/blocked_data3/OOS72/regression5/stale1；full89/partial3/none162；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated79/partial4/blocked90/OOS69/inScope173；implementation_gap=67；actionableKeyCount=0为当前事实非停工条件。治理tasks=102。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整The Culling/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卢锡安R-圣枪洗礼单发伤害量子机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卢锡安R-圣枪洗礼单发伤害量子机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
