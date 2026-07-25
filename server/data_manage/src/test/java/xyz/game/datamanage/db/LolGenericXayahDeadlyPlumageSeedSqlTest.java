@@ -288,19 +288,56 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
     }
 
     @Test
-    void abilityStartedListenerArmsDeadlyPlumageForSameAbilityAndSourceOwner() {
+    void abilityStartedListenerArmsDeadlyPlumageViaAbilityTypeMatcherNotAbilityRef() {
         assertContains("listener_hero_xayah_w_deadly_plumage_ability_started");
         assertContains("sequence_hero_xayah_w_deadly_plumage_arm");
         assertContains("step_hero_xayah_w_deadly_plumage_active_arm");
+        assertContains("62012");
+        assertContains("ability/xayah_deadly_plumage");
+        assertTrue(
+            Pattern.compile("(?i)type_id=62012 already bound").matcher(sql).find(),
+            "must dual-unique fail-closed guard ability/xayah_deadly_plumage 62012");
+        assertTrue(
+            Pattern.compile("(?i)type_key=ability/xayah_deadly_plumage already bound")
+                .matcher(sql)
+                .find(),
+            "must dual-unique fail-closed guard ability/xayah_deadly_plumage type_key");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)type_id\\s*=\\s*62012[\\s\\S]{0,400}"
+                        + "reserved_type_id\\s+IS\\s+NOT\\s+NULL")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "62012 type-id fail-closed guard must treat non-null reserved_type_id as conflict");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)62012\\s*,\\s*'ability/xayah_deadly_plumage'[\\s\\S]{0,400}NULL")
+                .matcher(sql)
+                .find(),
+            "62012 must bind with reserved_type_id=NULL");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)62012\\s*,\\s*'ability'\\s*,\\s*"
+                        + "'ability_hero_xayah_w_deadly_plumage'")
+                .matcher(sql)
+                .find(),
+            "must type_relations 62012 → ability_hero_xayah_w_deadly_plumage");
         assertTrue(
             Pattern.compile(
                     "(?s)'listener_hero_xayah_w_deadly_plumage_ability_started'\\s*,\\s*"
                         + "'provider_hero_xayah_w_deadly_plumage'\\s*,\\s*"
                         + "'deadly_plumage_on_ability_started'\\s*,\\s*20205\\s*,\\s*"
-                        + "'ability_hero_xayah_w_deadly_plumage'")
+                        + "NULL")
                 .matcher(sql)
                 .find(),
-            "listener must bind ability_started to the same W ability");
+            "listener ability_id must be NULL (AbilityRef is not an event filter)");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)'listener_hero_xayah_w_deadly_plumage_ability_started'[\\s\\S]{0,220}"
+                        + "'ability_hero_xayah_w_deadly_plumage'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "executable listener row must not bind ability_id to W ability");
         assertTrue(
             Pattern.compile(
                     "(?s)'listener_hero_xayah_w_deadly_plumage_ability_started'\\s*,\\s*"
@@ -317,6 +354,19 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
             "ability_started listener must ALL-match 20212 source_owner");
         assertTrue(
             Pattern.compile(
+                    "(?s)'listener_hero_xayah_w_deadly_plumage_ability_started'\\s*,\\s*"
+                        + "20181\\s*,\\s*62012")
+                .matcher(sql)
+                .find(),
+            "ability_started listener must ALL-match 62012 ability/xayah_deadly_plumage");
+        assertEquals(
+            3,
+            countOccurrences(
+                sqlNoLineComments,
+                "'listener_hero_xayah_w_deadly_plumage_ability_started', 20181,"),
+            "W listener must declare exactly three ALL match types");
+        assertTrue(
+            Pattern.compile(
                     "(?s)'step_hero_xayah_w_deadly_plumage_active_arm'\\s*,\\s*20250\\s*,\\s*"
                         + "'deadly_plumage_active'\\s*,\\s*'deadly_plumage_active_arm'\\s*,\\s*"
                         + "20172")
@@ -330,6 +380,22 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
         assertTrue(
             countOccurrences(sql, "'step_hero_xayah_w_deadly_plumage_active_arm'") >= 2,
             "arm step must appear in effect_steps and state_effect_details");
+        assertTrue(
+            sql.contains("{\"op\":\"const\",\"value\":40}")
+                && sql.contains("{\"op\":\"const\",\"value\":14000}")
+                && sql.contains(AS_BONUS),
+            "W mana/CD/AS formulas must remain preserved");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'deadly_plumage_active'[\\s\\S]{0,40}20100[\\s\\S]{0,20}1"
+                        + "[\\s\\S]{0,20}4000[\\s\\S]{0,20}20190")
+                .matcher(sql)
+                .find(),
+            "W timed state max1/4000ms/refresh must remain preserved");
+        assertTrue(
+            sql.contains("AbilityRef") || sql.contains("castAbilityAt")
+                || sql.contains("不是事件过滤"),
+            "seed must document why listener.ability_id must stay NULL");
     }
 
     @Test
