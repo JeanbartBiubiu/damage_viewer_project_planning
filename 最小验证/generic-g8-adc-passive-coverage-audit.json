@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-24T16:39:29.391Z"
+    "generatedAt": "2026-07-25T05:07:29.522Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 69,
+      "migrated": 70,
       "partial": 4,
-      "blocked": 100,
+      "blocked": 99,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 28.51,
+      "migrated": 28.93,
       "partial": 1.65,
-      "blocked": 41.32,
+      "blocked": 40.91,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 28.51,
-      "inScope": 39.88
+      "all": 28.93,
+      "inScope": 40.46
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 30.17,
-      "inScope": 42.2
+      "all": 30.58,
+      "inScope": 42.77
     },
     "inScopeCount": 173
   },
@@ -8137,29 +8137,31 @@
       "pageId": "xayah-q",
       "sourceText": "{{sbc|Active:}} '''Xayah''' barrages two {{as|Feathers|buzzword}} in the target direction that each deal {{as|physical damage}} to enemies hit.\nTargets hit after the first take 50% reduced damage.\n{{st|Physical Damage Per Hit|{{ap|45 to 105}} {{as|(+ 50% '''bonus''' AD)}}|Total Physical Damage|{{ap|45*2 to 105*2}} {{as|(+ 100% '''bonus''' AD)}}}}\n{{st|Reduced Damage per Hit|{{ap|45/2 to 105/2}} {{as|(+ 25% '''bonus''' AD)}}|Total Reduced Damage|{{ap|45 to 105}} {{as|(+ 50% '''bonus''' AD)}}}}\n{{ap|10 to 8}}\n35\nMana\nPhysical\n* Daggers shoot from '''Xayah's''' left and right side.\n* Because of the usual tick intervals of the server, ''Double Daggers' ''minimum cast time is typically reached at {{as|{{fd|168.58}}% '''bonus''' attack speed}} already, for a cast time of {{fd|0.132}} seconds (from the default {{rutngt|0.25}}), or the duration of 4 game ticks.\n** If the first 3 game ticks happen to be slightly longer than normal, the minimum cast time of {{fd|0.1}} seconds can actually be reached in very rare cases because of that.\n* '''Xayah''' is unable to declare basic attacks for a set duration during the cast time of ''Double Daggers''. The lock out duration is reduced by {{ft|{{fd|0.007}} seconds per every {{as|1% '''bonus''' attack speed}}|1 second per every {{as|140% '''bonus''' attack speed}}}}.\n* The {{as|Feathers|buzzword}} will stop upon being intercepted by {{tip|projectile|projectile-blocking}} effects.\n* As the feathers are forming, they will deal damage in a small area around '''Xayah's''' before firing.\n* {{tip|Spell shield}} will only block a single instance of damage.\n{{Effect at cast time end}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/xayah-q.json@rev4008615 sha256:8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008615",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/xayah-q.json@rev4008615 sha256:8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_xayah Q 双刃/Double Daggers：Wiki request Template:Data Xayah/Q → resolved Template:Data Xayah/Double Daggers；page1324541 / rev4008615 / timestamp 2026-04-15T00:26:21Z / canonical bytes2615 / SHA256 8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd（normalized/generic/xayah-q.json plus pages sibling are authority）rank5 Phase-A v3 已由 wasm-generic-xayah-double-daggers-primary-two-hit 闭环为 migrated——live redirect page1324536/rev2864045 is live request detail only and is not stored in the sidecar；local raw caveat bytes2615 / SHA 6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；35 mana / 8000ms CD；immediate primary-champion two-feather scaffold；恰好两次有序 non-crit/non-copyable physical hits，each 105+0.50*(source.attr.ad.resolved-source.attr.ad.base)（nested binary formula；交叉校验 baseAD60/resolvedAD60 each105/total210，armor100 each52.5/total105；resolvedAD110 each130/total260，armor100 each65/total130）。Attempts t0/t7999/t8000 mana105/HP1000/armor100 → two successes + exactly one cooldown skip，four damage items；final mana35/HP740；two automatic ability_started；mana34 → resource skip/unchanged。Required Xayah W isolation coexistence：Q success/skip does not arm W and AS stays baseline；W success while Q mounted arms only W and causes zero Q damage；Backend W listener uses ability/xayah_deadly_plumage ALL matcher with ability_id NULL；runtime W ListenerDefinition.AbilityRef stays empty。completedBoundary：rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks。明确排除 cast time/attack lockout/effect-at-cast-end、direction/range/width/geometry、projectile/travel/collision/interception/spellshield、later-target 50% reduction、multitarget/formation/area、feather generation/ground state/E interaction、ranks1–4、P/E/R/basic/equipment/loadout/crit/on-hit、live migration/publish/E2E/full game fidelity；不宣称 cast-time/attack-lockout/direction/range/width/projectile/travel/interception/spellshield/secondary-target-reduction/feather-generation/ground-state/E/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites），不物化 identity/panel/resource values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-double-daggers-primary-two-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_xayah_double_daggers_primary_two_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; Wiki request Template:Data Xayah/Q → Double Daggers; rev4008615/SHA256 8010e567… / bytes2615; local raw caveat bytes2615/SHA 6a1fde0a… no equivalence claim; live redirect page1324536/rev2864045 not stored in sidecar; rank5 35 mana/8000ms CD / two ordered physical 105+0.50*bonusAD nested binary; baseAD60/resolvedAD60 each105/total210 armor100 each52.5/total105; resolvedAD110 each130/total260 armor100 each65/total130; t0/t7999/t8000 mana105/HP1000 two successes + one CD skip four damage items final mana35/HP740 two ability_started; mana34 resource skip unchanged; Q success/skip does not arm W / AS baseline; W success while Q mounted arms only W / zero Q damage; Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL; runtime W ListenerDefinition.AbilityRef empty; Wasm exact test commit dd7dae6; cast-time/lockout/direction/range/projectile/interception/spellshield/secondary-reduction/feather/ground/E/live/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-xayah-double-daggers-primary-two-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks; backend lol_generic_xayah_double_daggers_primary_two_hit_seed.sql + LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest (owning 8ace954; integrated 6bab0b8); Wasm exact test commit dd7dae6; nested binary; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; does not write identity/panel/resource values); not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_xayah|W|致死羽衣",
