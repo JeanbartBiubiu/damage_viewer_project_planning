@@ -1478,6 +1478,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-ezreal-mystic-shot-primary-hit",
+      "title": "通用 ABI 伊泽瑞尔 Q 秘术射击 Mystic Shot 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ezreal_mystic_shot_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ezreal|Q|秘术射击 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Ezreal/Q→Mystic Shot page1307107/rev4013233/timestamp2026-04-28T21:19:30Z/canonical raw2054/SHA256 be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533；normalized2527/SHA b7e8639d…18ab47；pages692/SHA f5f133ee…107060；sidecar ezreal-q.json+pages权威；本地raw2052/SHAd8348b3b…b05dbd（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity。Rank5：40mana/4500ms；immediate selected-primary enemy champion single physical hit scaffold；一笔非暴击/不可复制物理命中120+1.30*source.attr.ad.resolved+0.40*source.attr.ap.resolved（精确嵌套二元树；total AD直读；不得减base AD；type20220/add20170；无20230；无显式event op；无Q-specific type）；成功施放自动一次ability_started；成功命中保留Rising Spell Force一层；零Q state/modifier/listener。交叉raw/final198/99、328/164、238/119、368/184；base反证两路径均328/164；mana120 t0/t4499/t4500 success/skip/success两笔Q damage两次自动Q ability_started final mana40/HP632；mana39 resource skip；P共存一层stack AS1.0→1.1随后cooldown skip无变化。standalone Q；保留既有P/E/R；Backend hero_ezreal/ad/ap/mana external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/ap_ratio/immediate_impact_scaffold（无total_ad_ratio；无stale cooldown_or_haste_without_rotation；无salvage/meta tag）。恰好一次选定主目标敌方英雄物理命中，不是完整Q。有效DESIGN_READY run-619e5122（1639/1639 parseable events/45/45 complete tool groups；runDelta0；无truncation/mutation；user decision none）。先前v1 run-aeadbd2b为valid REVISE（2072/2072；36/36；delta0；total_ad tag与impl-gap-family校正均已接受）；非正式READY门控。Backend owning 41fce6a（run-679d546c delta3/outside0；主focused11/full998 PASS；seed bytes29100/SHA 13e78f71…b265574；JUnit bytes58894/SHA 17025b15…550dc3e；README bytes284316/SHA 7d442658…b63aa3f）/镜像ae66c56（run-e67ff0d6 delta3/outside0；精确parity）。Wasm exact 000e253（run-0d56a32e delta1/outside0；focused/count=100/full/build/smoke/bench PASS；test bytes68455/SHA 6e8ceb79…0196032；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；英雄名_test.go仅机制级回归/治理证据，排除normal/TinyGo生产构建；无生产runtime/ABI变更）。审计接受b3cbd6b（run-4272960b delta8/outside0；主五检查通过；语义比较仅Ezreal Q G8/Unified变化；provisional仅移除Ezreal Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed99/partial_actionable0/ready0/blocked_runtime74/blocked_data3/OOS72/regression5/stale1；full99/partial3/none152；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated89/partial4/blocked80/OOS69/inScope173；implementation_gap仍58（Q不在该家族）；provisional77=runtime74/data3/hero75/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion99/254=39.0%；completed+provisional coverage176/254=69.3%；77张template-eligible blocked键均有provisional卡；provisional不是completed主张。稳定digests：Unified69832c2a…c018；Wiki registry927d8b5a…26c7。治理tasks=113。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Mystic Shot/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-伊泽瑞尔Q秘术射击MysticShot主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-伊泽瑞尔Q秘术射击MysticShot主目标命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
