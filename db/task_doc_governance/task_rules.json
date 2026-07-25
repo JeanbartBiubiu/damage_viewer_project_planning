@@ -1286,6 +1286,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-lucian-piercing-light-selected-target-hit",
+      "title": "通用 ABI 卢锡安 Q 透体圣光 Piercing Light 选定目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_lucian_piercing_light_selected_target_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_lucian|Q|透体圣光 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Lucian/Q→Piercing Light page1308176/rev3982579/timestamp2026-01-09T09:22:29Z/canonical raw1608/SHA256 d7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981；sidecar lucian-q.json+pages权威；本地raw1608/SHAcd65b80f…06c1（local raw materialization caveat；相等size不是字节等价；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity。Rank5：80mana/5000ms；immediate selected-target single physical hit scaffold；一笔非暴击/不可复制物理220+1.00*(source.attr.ad.resolved-source.attr.ad.base)（显式bonus AD减法；永不total-AD直接读取；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉base60/resolved60/armor0 raw/final220；base60/resolved160/armor0 raw/final320；base60/resolved160/armor100 raw320/final160；base60/resolved260/armor100 raw420/final210；runtime含显式total-AD反证；mana240/baseAD60/resolvedAD160/HP1000/armor100 t0/t4999/t5000 success/skip/success两笔Q damage final mana80/HP680两次自动Q ability_started；mana79 resource skip不变。standalone；不合成Batch-B/sibling Lucian；Backend无repository-owned hero_lucian/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。有效DESIGN_READY run-198e699d（strict grok-4.5/high/fast=false；1117events/58complete tool groups；runDelta0/diff0；无truncation/blocker/nonblocking/user decision）；首次run-2f6f3f3c SDK ETIMEDOUT/52parseable/无verdict无效非门控。Backend owning bfc9d54（run-8c1bb9bc delta3/outside0；858events/43complete tool groups；Cursor focused9/adjacent38；主focused+adjacent47/47+full875/875；seed SHA7ca13108…8717；JUnit SHAb4b2d209…e78b）/镜像826cdada（run-67e686b6 delta3/outside0；483events/5complete tool groups；三文件精确parity）。Wasm exact aaca3591（run-688cced5 delta1/outside0；923events/38complete tool groups；focused+full Go+bench+TinyGo+Node smoke+generic benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计初始run-2bbf3928 runDelta0因执行提示两处转录SHA矛盾正确停止非接受；接受f4c758e4（run-0994e769 delta6/outside0；1219parseable/66complete tool groups；零truncation；summary.json因未转义反斜杠不可解析；主会话独立解析events/signatures并重跑两生成器+registry+Batch-G checks；仅Lucian Q语义对象变化；稳定order/keys；先前completed/migrated锁定）。Unified254：sourceCount12/completed87/partial_actionable0/ready0/blocked_runtime86/blocked_data3/OOS72/regression5/stale1；full87/partial3/none164；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated77/partial4/blocked92/OOS69/inScope173；implementation_gap=69；actionableKeyCount=0为当前事实非停工条件。治理tasks=100。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Piercing Light/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卢锡安Q-透体圣光选定目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卢锡安Q-透体圣光选定目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-statikk-shiv-energized",
       "title": "通用 ABI 斯塔缇克电刃 Energized 机制",
       "module": "wasm",
