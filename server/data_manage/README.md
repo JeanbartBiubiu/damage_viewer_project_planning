@@ -1676,6 +1676,37 @@ cd server/data_manage
 mvn -Dtest=LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest,LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest,LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Tristana Rapid Fire timed bonus attack-speed seed（麦林炮手 Q / Phase-A v1 自身限时攻速加成）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_tristana)`、`attribute_definitions(attack_speed)`、`entity_attribute_values(hero_tristana,attack_speed)`、`resource_definitions(mana)`、`entity_resource_values(hero_tristana,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Tristana attack_speed/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；不以 ensure-entity legacy seeds 为理由物化前置；仅挂载可 cast 的 Q active **自身限时攻速加成**；与既有/未来 R（Buster Shot）**并存**但不依赖/不合成；**不要求** P/W/E/basic/Explosive Charge/R publication；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20120`/`20130`/`20160`/`20172`/`20173`/`20181`/`20190`/`20205`/`20212`/`20250`）
+2. `db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-tristana-rapid-fire-timed-bonus-attack-speed-phase-a-v1-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_tristana|Q|急速射击`（task `wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed`）冻结为 **Phase-A rank-5 自身限时攻速加成**（`FROZEN_PLAN_REV=tristana-q-rapid-fire-timed-bonus-attack-speed-phase-a-v1`）：
+
+`rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_attack_speed_modifier` → `timed_state` → `ability_type_listener_isolation`。
+
+**Ability-type listener isolation（必选；同 Xayah W）**：Web 把非空 `provider_listeners.ability_id` 映射为 `ListenerDefinition.abilityRef`，runtime 会把已填充 AbilityRef 当作 `castAbilityAt` 子施法，而不是事件过滤。因此本 seed 将 Q listener 的 `ability_id` 置为 `NULL`，并 fail-closed ensure game-local `62013 ability/tristana_rapid_fire`（`reserved_type_id=NULL`；双向 id↔key collision guards；同 Hexplate `62010` / Xayah W `62012` ability-specific type 模式），写入 `type_relations(lol,62013,'ability','ability_hero_tristana_q_rapid_fire_timed_bonus_attack_speed',...)`（在 listener matching 前物化，参与 material-change-only revision），并为 ALL matcher 保留 `20205 ability_started` + `20212 source_owner` 且新增 `62013`。不得把该 type 写入 `ability_kind_type_id`。R/Buster Shot cast 不得武装 Q 或改变 AS。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_tristana` / `attack_speed` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；fail-closed ensure `62013`；向 `hero_tristana` **仅** mount 独立 `provider_hero_tristana_q_rapid_fire_timed_bonus_attack_speed`（stable id `hero_tristana_q_rapid_fire_timed_bonus_attack_speed`；standalone；不创建/突变 R/Buster Shot / P/W/E/basic），含 active `ability_hero_tristana_q_rapid_fire_timed_bonus_attack_speed`（`ability_key=rapid_fire_timed_bonus_attack_speed`）、`ability_costs` 35 mana、`ability_cooldowns` 16000ms、timed `rapid_fire_active`（number max1 / `duration_ms=7000` / refresh policy `20190`）、`ability_started` + `source_owner` + `ability/tristana_rapid_fire` ALL listener 武装 active=1（override `20172`；`ability_id IS NULL`）、以及 AS source `percent_add` `20173` exact binary `mul(const 1.20, read provider.state.rapid_fire_active)`。**零** damage / heal / shield / control / repeat / explicit event / ability_phases 行。成功 cast 由 runtime 自动发出 `ability_started`。Wiki：request `Template:Data Tristana/Q` → resolved `Template:Data Tristana/Rapid Fire`；page1308522 / rev4026462 / `2026-06-09T21:59:03Z` / canonical 872 bytes / SHA256 `f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da`；sidecar `normalized/generic/tristana-q.json` + pages sibling（Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 866 / `db084b4142559f0775af841fe163e1b80880e2661b26b6d82fb26261e1f5d170`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**Normal non-refreshing truth**（注释记录；不得把 runtime refresh_policy 本身描述为 non-refresh）：CD 16000ms > duration 7000ms，故任何成功的 normal Q recast 都发生在窗口到期之后；正常路径无法 refresh。明确排除：cooldown bypass/reset、direct state admin、rank-up update。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：baseline AS0.60 → active AS1.32 at t0 through t6999 → baseline AS0.60 at t7000；mana105 在 t0/t15999/t16000 → success / cooldown skip / success、exactly two Q `ability_started`、readyAt16000、final mana35 / active1 / AS1.32；mana34 → resource skip、unchanged；R cast must not arm Q or change AS；Q causes no R damage；standalone provider 与 R 并存但不依赖/不合成。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：rank-up update；attack animation/windup；basic attack count/rotation；cooldown bypass/reset/direct state admin；damage/heal/shield/control/repeat/explicit event；ranks1–4；P/W/E/basic/Explosive Charge/loadout；identity/panel/resource bootstrap；Buster Shot dependency/synthesis；live migration；publish；E2E/live/full fidelity。
+
+静态契约校验（不连 live DB；含邻近 Xayah W ability-type isolation、Kai'Sa E / Vayne R timed modifier、Tristana R check-only 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericTristanaRapidFireTimedBonusAttackSpeedSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest,LolGenericKaisaSuperchargeSeedSqlTest,LolGenericVayneFinalHourTimedBonusAdSeedSqlTest,LolGenericTristanaBusterShotPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Tristana Buster Shot primary-hit seed（麦林炮手 R / Phase-A v1 选定主冠军单次魔法命中）
 
 在 reserved types 已就绪，且 **外部既有** `game_entities(hero_tristana)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_tristana,ad)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_tristana,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_tristana,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Tristana ad/ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；不以 ensure-entity legacy seeds 为理由物化前置；仅挂载可 cast 的 R active **选定主冠军单次魔法命中**；**不要求** P/Q/W/E/basic/Explosive Charge publication，亦不合成那些行；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
