@@ -1510,6 +1510,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Ezreal Mystic Shot primary-hit seed（探险家 Q / Phase-A v2 选定主敌方冠军单次物理命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_ezreal)`、`attribute_definitions(ad/ap)`、`entity_attribute_values(hero_ezreal,ad/ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_ezreal,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Ezreal ad/ap/mana 行——当前仓库亦无 Ezreal identity materializer；与既有 Rising Spell Force / Arcane Shift / Trueshot Barrage seeds 共享同一外部实体依赖；仅挂载可 cast 的独立 Q active **选定主敌方冠军单次物理命中**；保留既有 `provider_hero_ezreal_rising_spell_force` / `provider_hero_ezreal_e_arcane_shift_primary_hit` / `provider_hero_ezreal_r_trueshot_barrage_primary_hit`，不更新/删除/重建；不创建 W；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_ezreal_mystic_shot_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-ezreal-mystic-shot-primary-hit-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_ezreal|Q|秘术射击`（task `wasm-generic-ezreal-mystic-shot-primary-hit`）冻结为 **Phase-A rank-5 立即选定主敌方冠军单次物理命中 impact scaffold**（`FROZEN_PLAN_REV=ezreal-q-mystic-shot-primary-hit-phase-a-v2`）：
+
+`rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `ap_ratio` → `immediate_impact_scaffold`（**不含** governed tag `total_ad_ratio`；亦不含 stale `cooldown_or_haste_without_rotation`；total AD 仅显式出现在 boundary/reason/formula；亦不含 salvage tags）。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_ezreal` / `ad`+`ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_ezreal` **仅** mount 独立 `provider_hero_ezreal_q_mystic_shot_primary_hit`（与既有 P/E/R 并存，不更新/删除/重建；不创建 W），含 active `ability_hero_ezreal_q_mystic_shot_primary_hit`（`ability_key=mystic_shot_primary_hit`）、`ability_costs` 40 mana、`ability_cooldowns` 4500ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `120 + 1.30*source.attr.ad.resolved + 0.40*source.attr.ap.resolved`（**total AD** 直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；嵌套二元 `add(add(const 120, mul(const 1.30, read …ad.resolved)), mul(const 0.40, read …ap.resolved))`；每条 read path 恰好一次；非历史 R 三元 add；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230`）；**零** Q state / modifiers / listeners / matchers / repeat / control / event / projectile / on-hit / on-attack / cooldown-adjust / basic+spell dual-tag / lifesteal / vamp / AOE 行。**Q 无 ability-specific game-local type**，不新增 Q 专用 62xxx type、不写 `type_relations`。成功非普攻 Q cast 可参与既有自动 `ability_started` 表面（Rising Spell Force 叠一层），本 Q 图不添加 listener / event step。Immediate selected-primary-enemy-champion single physical hit 为 Phase-A scaffold，不是实际 direction / range / projectile travel / collision / first-enemy acquisition / on-hit / on-attack / cooldown reduction / basic+spell dual-tag / lifesteal / vamp / spellshield / buffering / full-Q fidelity。One selected-primary physical hit only, not full Q。Wiki：request `Template:Data Ezreal/Q` → resolved `Template:Data Ezreal/Mystic Shot`；page1307107 / rev4013233 / `2026-04-28T21:19:30Z` / canonical 2054 bytes / SHA256 `be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533`；sidecar `normalized/generic/ezreal-q.json`（bytes 2527 / SHA256 `b7e8639d6fd82df4c66c4f883078b54274b4a1708fdca6bf2703d70a0518ab47`）+ `pages/ezreal-q.json`（bytes 692 / SHA256 `f5f133eef00f3dd4cdc95c0513d3371851b71d890a61b9e8de93716ccd107060`）。**local raw materialization caveat**：仓库 local raw 2052 / `d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。hero-named Wasm test 计划作为回归证据，而非生产分支条件。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`AD0/AP0/armor0` raw/final120；`AD100/AP0` 250；`AD0/AP100` 160；`AD100/AP100` 290；same armor100 raw290/final145；`AD200/AP100/armor100` raw420/final210；totalAD counterproof `base0/resolved100` vs `base60/resolved100`/AP0/armor0 both250（公式只读 `source.attr.ad.resolved`，从不读 `source.attr.ad.base`）；Mana180/base60/resolved100/AP100/HP1000/armor100 在 t0/t4499/t4500 → success/skip/success、two Q hits/automatic starts、readyAt4500、final mana100/HP710；Mana39 → skips unchanged/no damage/start；preserve P/E/R；Q seed contains no W rows。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：direction / range / projectile travel / collision / first-enemy acquisition；on-hit / on-attack / cooldown reduction / basic+spell dual-tag / lifesteal / vamp / spellshield / buffering；ranks1–4；W/other graphs；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/AOE/on-hit/on-attack；live migration；publish；E2E/live/full fidelity。One selected-primary-enemy-champion single physical hit, not full Q。
+
+静态契约校验（不连 live DB；含邻近 Ezreal E/R/P check-only coexistence 与 Jhin Q total-AD+AP physical 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericEzrealMysticShotPrimaryHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest,LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest,LolGenericEzrealRisingSpellForceSeedSqlTest,LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest test
+```
+
 ### LoL generic Jinx Zap! primary-hit seed（金克丝 W / Phase-A v1 主冠军命中）
 
 在 reserved types 已就绪，且 **外部既有** `game_entities(hero_jinx)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_jinx,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_jinx,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Jinx ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 W active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
