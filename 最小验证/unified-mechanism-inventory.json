@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T08:46:15.962Z",
+    "generatedAt": "2026-07-25T10:25:14.349Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "2ea34c0711f1c4700feee6c7df741985cca39606c53deb908228abad67f0cb3b",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "a3005e3db19a8ee29f86c926d27c05552e39643a5712835f14cf2982e2052280",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "7128f869eed09775f4d663577def8c42ca8550eabe851e0743d7c4a5332a77ff",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "b0e04421cef27a9347d99db0d1027a3f7346bec433ab07e247d8fa588f631705",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "0ad848b7f077d172fa3b0e0023702da4bcb92bdc0fe2f85007ce354c9ebdb1a8",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "e3c62f91c50192da33f51f64600d1954d1d9b6a89aae2ab842b92156dbda8ede",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 84,
+      "completed": 85,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 89,
+      "blocked_runtime": 88,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 84,
+      "full": 85,
       "partial": 3,
-      "none": 167
+      "none": 166
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "2ea34c0711f1c4700feee6c7df741985cca39606c53deb908228abad67f0cb3b",
-      "byteSize": 996513,
+      "sha256": "a3005e3db19a8ee29f86c926d27c05552e39643a5712835f14cf2982e2052280",
+      "byteSize": 1000752,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "7128f869eed09775f4d663577def8c42ca8550eabe851e0743d7c4a5332a77ff",
-      "byteSize": 425177,
+      "sha256": "0ad848b7f077d172fa3b0e0023702da4bcb92bdc0fe2f85007ce354c9ebdb1a8",
+      "byteSize": 437918,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "b0e04421cef27a9347d99db0d1027a3f7346bec433ab07e247d8fa588f631705",
-      "byteSize": 453332,
+      "sha256": "e3c62f91c50192da33f51f64600d1954d1d9b6a89aae2ab842b92156dbda8ede",
+      "byteSize": 465528,
       "recordCount": 0,
       "role": "generator"
     },
@@ -15405,52 +15405,28 @@
     },
     {
       "key": "hero_skill|hero_kalista|Q|穿刺",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_kalista",
       "skillKey": "Q",
       "passiveName": "穿刺",
       "mechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-3997075",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/kalista-q.json@rev3997075 sha256:90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_kalista|Q|穿刺",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity",
+      "reason": "Kalista Q 穿刺/Pierce：Wiki request Template:Data Kalista/Q → resolved Template:Data Kalista/Pierce；page1307666 / rev3997075 / timestamp 2026-03-06T15:53:18Z / canonical bytes1625 / SHA256 90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67（normalized/generic/kalista-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-kalista-pierce-primary-hit + backend seed 证据闭环——local raw caveat bytes1623 / SHA 0b8dd9cf9b40aae52fb6180ecabae7e459970f2f7c4d05711463df25fdbd1c94（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 9000ms CD；immediate primary-champion first-enemy single physical hit scaffold；one selected immediate primary-champion physical damage operation 270 + 1.05 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no explicit event op）（交叉校验 (AD0,A0)=(270,270)；(AD0,A100)=(270,135)；(AD100,A0)=(375,375)；(AD100,A100)=(375,187.5)；(AD200,A100)=(480,240)）。Attempts mana240/HP1000/AD100/armor100 at t0/t8999/t9000 → success/skip/success，exactly two Q damage items；final mana80/HP625；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Kalista Q is standalone；Backend has no repository-owned hero_kalista / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Kalista synthesis。completedBoundary：rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity。明确排除 cast timing/Effect-at-cast-end、Martial Poise/dash cancel、direction/range/width/line geometry/multitarget/first-enemy acquisition/collision、projectile/interception/spell shield、kill continuation/Rend stack transfer、other ranks、other Kalista abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/Martial Poise/direction/line/projectile/kill/Rend/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_kalista/ad/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_kalista|Q|穿刺"
         },
         {
@@ -15459,7 +15435,22 @@
           "sourceRecordKey": "hero_skill|hero_kalista|Q|穿刺"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kalista-pierce-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_kalista_pierce_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity; backend lol_generic_kalista_pierce_primary_hit_seed.sql + LolGenericKalistaPiercePrimaryHitSeedSqlTest (owning 04c061f; integrated bdb5d32); Wasm exact test commit 99e7b39; external existing-data/check-only prerequisites (hero_kalista/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Kalista synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-kalista-pierce-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_kalista_pierce_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity; Wiki request Template:Data Kalista/Q → Pierce; rev3997075/SHA256 90c490d9… / bytes1625; local raw caveat bytes1623/SHA 0b8dd9cf… no equivalence claim; rank5 80 mana/9000ms CD / one physical 270+1.05*totalAD; (AD0,A0)=(270,270); (AD0,A100)=(270,135); (AD100,A0)=(375,375); (AD100,A100)=(375,187.5); (AD200,A100)=(480,240); damage 20220/add 20170; no explicit event op; mana240/HP1000/AD100/armor100 t0/t8999/t9000 success/skip/success two Q damage items final mana80/HP625 two automatic Q ability_started; mana79 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit 99e7b39; cast/Martial-Poise/dash/direction/range/width/line/multitarget/first-enemy/projectile/interception/spell-shield/kill/Rend/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },

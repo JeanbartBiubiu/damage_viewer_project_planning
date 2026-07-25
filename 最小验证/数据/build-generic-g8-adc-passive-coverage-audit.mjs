@@ -635,6 +635,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql',
   caitlyn90CaliberNetPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql',
+  kalistaPiercePrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_kalista_pierce_primary_hit_seed.sql',
   kayleRadiantBlastBackend: 'db/game_manage/seeds/lol_generic_kayle_radiant_blast_seed.sql',
   gravesNewDestinyBackend: 'db/game_manage/seeds/lol_generic_graves_new_destiny_seed.sql',
   gravesQuickdrawMaxStackBackend:
@@ -756,6 +758,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_jhin_deadly_flourish_primary_hit_test.go',
   caitlyn90CaliberNetPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_caitlyn_90_caliber_net_primary_hit_test.go',
+  kalistaPiercePrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_kalista_pierce_primary_hit_test.go',
   kayleRadiantBlast:
     'wasm/tinygo_engine_v2/internal/runtime/generic_kayle_radiant_blast_test.go',
   gravesNewDestiny:
@@ -2014,6 +2018,35 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-caitlyn-90-caliber-net-primary-hit',
           SEED.caitlyn90CaliberNetPrimaryHitBackend,
           'completedBoundary: rank5_primary_champion_first_enemy_single_magic_hit; immediate_impact_scaffold; magic_280_plus_0_80_ap; no_cast_timing_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_suppression_spell_shield_recoil_dash_terrain_buffered_actions_slow_headshot_mark_other_ranks_or_full_fidelity; backend lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql + LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest (owning 9506d01; integrated 384d658); Wasm exact test commit 4433ef1; external existing-data/check-only prerequisites (hero_caitlyn/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Caitlyn synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_kalista|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_kalista Q 穿刺/Pierce：Wiki request Template:Data Kalista/Q → resolved Template:Data Kalista/Pierce；page1307666 / rev3997075 / timestamp 2026-03-06T15:53:18Z / canonical bytes1625 / SHA256 90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67（normalized/generic/kalista-q.json plus pages sibling are authority）rank5 Phase-A v1 已由 wasm-generic-kalista-pierce-primary-hit 闭环为 migrated——local raw caveat bytes1623 / SHA 0b8dd9cf9b40aae52fb6180ecabae7e459970f2f7c4d05711463df25fdbd1c94（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / 9000ms CD；immediate primary-champion first-enemy single physical hit scaffold；one selected immediate primary-champion physical damage operation 270 + 1.05 * source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no explicit event op）（交叉校验 (AD0,A0)=(270,270)；(AD0,A100)=(270,135)；(AD100,A0)=(375,375)；(AD100,A100)=(375,187.5)；(AD200,A100)=(480,240)）。Attempts mana240/HP1000/AD100/armor100 at t0/t8999/t9000 → success/skip/success，exactly two Q damage items；final mana80/HP625；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Kalista Q is standalone；Backend has no repository-owned hero_kalista / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Kalista synthesis。completedBoundary：rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity。明确排除 cast timing/Effect-at-cast-end、Martial Poise/dash cancel、direction/range/width/line geometry/multitarget/first-enemy acquisition/collision、projectile/interception/spell shield、kill continuation/Rend stack transfer、other ranks、other Kalista abilities/passives、equipment/loadout/crit/on-hit、live migration/publish/E2E/full fidelity；不宣称 cast/Martial Poise/direction/line/projectile/kill/Rend/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_kalista/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-kalista-pierce-primary-hit',
+          WASM.kalistaPiercePrimaryHit,
+          'completedBoundary: rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity; Wiki request Template:Data Kalista/Q → Pierce; rev3997075/SHA256 90c490d9… / bytes1625; local raw caveat bytes1623/SHA 0b8dd9cf… no equivalence claim; rank5 80 mana/9000ms CD / one physical 270+1.05*totalAD; (AD0,A0)=(270,270); (AD0,A100)=(270,135); (AD100,A0)=(375,375); (AD100,A100)=(375,187.5); (AD200,A100)=(480,240); damage 20220/add 20170; no explicit event op; mana240/HP1000/AD100/armor100 t0/t8999/t9000 success/skip/success two Q damage items final mana80/HP625 two automatic Q ability_started; mana79 resource skip unchanged; standalone no sibling synthesis; Wasm exact test commit 99e7b39; cast/Martial-Poise/dash/direction/range/width/line/multitarget/first-enemy/projectile/interception/spell-shield/kill/Rend/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-kalista-pierce-primary-hit',
+          SEED.kalistaPiercePrimaryHitBackend,
+          'completedBoundary: rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity; backend lol_generic_kalista_pierce_primary_hit_seed.sql + LolGenericKalistaPiercePrimaryHitSeedSqlTest (owning 04c061f; integrated bdb5d32); Wasm exact test commit 99e7b39; external existing-data/check-only prerequisites (hero_kalista/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Kalista synthesis; not live published',
         ),
       ],
     },
@@ -4314,9 +4347,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 74) errors.push(`migrated=${counts.migrated}, expected 74`);
+  if (counts.migrated !== 75) errors.push(`migrated=${counts.migrated}, expected 75`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 95) errors.push(`blocked=${counts.blocked}, expected 95`);
+  if (counts.blocked !== 94) errors.push(`blocked=${counts.blocked}, expected 94`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -7339,6 +7372,138 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       caitlynE.candidateKey,
       caitlynE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const kalistaQ = records.find((r) => r.candidateKey === 'hero_skill|hero_kalista|Q|穿刺');
+  const kalistaQTags = [...(kalistaQ?.genericMechanismTags || [])];
+  const kalistaQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'immediate_impact_scaffold',
+  ];
+  const kalistaQReason = String(kalistaQ?.classificationReason || '');
+  const kalistaQBoundary =
+    'rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_kalista|Q')) {
+    errors.push('Kalista Q exact override key hero_kalista|Q must exist before fallback');
+  }
+  if (
+    !kalistaQ
+    || kalistaQ.candidateKey !== 'hero_skill|hero_kalista|Q|穿刺'
+    || kalistaQ.passiveName !== '穿刺'
+    || kalistaQ.genericClassification !== 'migrated'
+    || String(kalistaQ.remainingGap || '').trim()
+    || (kalistaQ.dataGapEvidence?.missingFields || []).length !== 0
+    || kalistaQTags.join('|') !== kalistaQExpectedTags.join('|')
+    || kalistaQTags.includes('dps_relevant_manual_review')
+    || kalistaQTags.includes('meta_or_non_target_dps')
+    || kalistaQTags.includes('bonus_ad_ratio')
+    || kalistaQTags.includes('total_ad_ratio')
+    || String(kalistaQ.remainingGap || '').includes('blocked_data')
+    || kalistaQReason.includes('needs_manual_baseline')
+    || kalistaQReason.includes('blocked_data')
+    || kalistaQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || kalistaQReason.includes('dps_relevant_manual_review')
+    || kalistaQReason.includes('out_of_scope_for_single_target_dps')
+    || kalistaQReason.includes('bonus_ad_ratio')
+    || kalistaQReason.includes('ad.resolved-source.attr.ad.base')
+    || kalistaQReason.includes('ad.resolved-ad.base')
+    || !kalistaQReason.includes('3997075')
+    || !kalistaQReason.includes(
+      '90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67',
+    )
+    || !kalistaQReason.includes(
+      '0b8dd9cf9b40aae52fb6180ecabae7e459970f2f7c4d05711463df25fdbd1c94',
+    )
+    || !kalistaQReason.includes('Template:Data Kalista/Q')
+    || !kalistaQReason.includes('Template:Data Kalista/Pierce')
+    || !kalistaQReason.includes('page1307666')
+    || !kalistaQReason.includes('bytes1625')
+    || !kalistaQReason.includes('bytes1623')
+    || !kalistaQReason.includes('2026-03-06T15:53:18Z')
+    || !kalistaQReason.includes(kalistaQBoundary)
+    || !kalistaQReason.includes('source.attr.ad.resolved')
+    || !kalistaQReason.includes('total AD')
+    || !kalistaQReason.includes('270')
+    || !kalistaQReason.includes('1.05')
+    || !kalistaQReason.includes('80 mana')
+    || !kalistaQReason.includes('9000')
+    || !kalistaQReason.includes('20220')
+    || !kalistaQReason.includes('20170')
+    || !kalistaQReason.includes('no explicit event op')
+    || !kalistaQReason.includes('(AD0,A0)=(270,270)')
+    || !kalistaQReason.includes('(AD0,A100)=(270,135)')
+    || !kalistaQReason.includes('(AD100,A0)=(375,375)')
+    || !kalistaQReason.includes('(AD100,A100)=(375,187.5)')
+    || !kalistaQReason.includes('(AD200,A100)=(480,240)')
+    || !kalistaQReason.includes('t8999')
+    || !kalistaQReason.includes('t9000')
+    || !kalistaQReason.includes('mana240')
+    || !kalistaQReason.includes('mana79')
+    || !kalistaQReason.includes('HP625')
+    || !kalistaQReason.includes('ability_started')
+    || !kalistaQReason.includes('standalone')
+    || !kalistaQReason.includes('external existing-data/check-only')
+    || !kalistaQReason.includes('identity/panel/resource')
+    || !kalistaQReason.includes('不暗示 Batch-B')
+    || !kalistaQReason.includes('sibling Kalista synthesis')
+    || !kalistaQReason.includes('不宣称')
+    || !kalistaQReason.includes('no equivalence or contradiction claim')
+    || kalistaQReason.includes('canonical byte equivalence')
+    || kalistaQReason.includes('Batch-B prerequisite')
+    || kalistaQReason.includes('live published')
+    || !String(kalistaQ.sourceRef || '').includes('kalista-q.json')
+    || !String(kalistaQ.sourceRef || '').includes(
+      '90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67',
+    )
+    || kalistaQ.auditBaseline?.gapCode !== 'blocked_data'
+    || kalistaQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || kalistaQ.auditBaseline?.damageDisposition !== 'not_applicable'
+    || !(kalistaQ.auditBaseline?.mechanismTags || []).includes('dps_relevant_manual_review')
+    || kalistaQ.classification !== 'needs_manual_baseline'
+    || !(kalistaQ.mechanismTags || []).includes('dps_relevant_manual_review')
+    || citesForbiddenProvenance(kalistaQ.classificationReason)
+    || !(kalistaQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.kalistaPiercePrimaryHit
+        && e.taskKey === 'wasm-generic-kalista-pierce-primary-hit'
+        && String(e.note || '').includes(kalistaQBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('99e7b39')
+        && String(e.note || '').includes('0b8dd9cf')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(kalistaQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.kalistaPiercePrimaryHitBackend
+        && e.taskKey === 'wasm-generic-kalista-pierce-primary-hit'
+        && String(e.note || '').includes(kalistaQBoundary)
+        && String(e.note || '').includes('LolGenericKalistaPiercePrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('04c061f')
+        && String(e.note || '').includes('bdb5d32')
+        && String(e.note || '').includes('99e7b39')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Kalista synthesis'),
+    )
+  ) {
+    errors.push(
+      'Kalista Q must be migrated with empty remainingGap/missingFields, exact Pierce ordered tags (no dps_relevant_manual_review/total_ad_ratio), stale blocked_data/needs_manual_baseline/implementation-gap cleared while retaining raw needs_manual_baseline/dps_relevant_manual_review/auditBaseline provenance, Wiki rev3997075/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/9000CD/one physical 270+1.05*totalAD numerics ((AD0,A0)=(270,270); (AD0,A100)=(270,135); (AD100,A0)=(375,375); (AD100,A100)=(375,187.5); (AD200,A100)=(480,240); 20220/20170; no explicit event op; t0/t8999/t9000 mana240→80/HP625 two damage/two ability_started; mana79 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling framing, and bilateral wasm+backend evidence (owning 04c061f / integrated bdb5d32 / Wasm 99e7b39; no cast/Martial-Poise/direction/line/projectile/kill/Rend/live claim)',
+    );
+  }
+  if (kalistaQ) {
+    validateBilateralCoverageEvidence(
+      kalistaQ.candidateKey,
+      kalistaQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
