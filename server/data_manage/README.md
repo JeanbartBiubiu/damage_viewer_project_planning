@@ -1510,6 +1510,35 @@ cd server/data_manage
 mvn -Dtest=LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericTeemoBlindingDartSeedSqlTest,LolGenericGravesSmokeScreenPrimaryHitSeedSqlTest,LolGenericKogmawVoidOozePrimaryHitSeedSqlTest,LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Caitlyn Piltover Peacemaker first-enemy-hit seed（凯特琳 Q / Phase-A v1 主冠军第一敌人满额物理命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_caitlyn)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_caitlyn,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_caitlyn,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Caitlyn ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 Q active；与既有 Caitlyn E `provider_hero_caitlyn_e_90_caliber_net_primary_hit` **隔离**；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-caitlyn-piltover-peacemaker-first-enemy-hit-phase-a-v1-20260725`（seed 不负责 publish）。候选 `hero_skill|hero_caitlyn|Q|和平使者`（task `wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit`）冻结为 **Phase-A rank-5 立即主冠军第一敌人满额物理命中 impact scaffold**（`FROZEN_PLAN_REV=caitlyn-q-piltover-peacemaker-first-enemy-hit-phase-a-v1`）：
+
+`rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `immediate_impact_scaffold`。
+
+不加第四个 total AD 比率标签（Jinx W / Jhin W / Kalista Q 同例：比率进入公式，不进 ordered tags）。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_caitlyn` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_caitlyn` **仅** mount 独立 `provider_hero_caitlyn_q_piltover_peacemaker_first_enemy_hit`（standalone；不创建/突变 P/W/E/R/basic；不触碰既有 Caitlyn E），含 active `ability_hero_caitlyn_q_piltover_peacemaker_first_enemy_hit`（`ability_key=piltover_peacemaker_first_enemy_hit`）、`ability_costs` 75 mana、`ability_cooldowns` 6000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `210 + 2.05*source.attr.ad.resolved`（**total AD**，直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；二元 `add(const 210, mul(const 2.05, read …))`；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / collision / trap / reveal / attack-timer-reset 行。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Wiki：request `Template:Data Caitlyn/Q` → resolved `Template:Data Caitlyn/Piltover Peacemaker`；page1306911 / rev4007583 / `2026-04-12T06:47:12Z` / canonical 1841 bytes / SHA256 `6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf`；sidecar `normalized/generic/caitlyn-q.json` + pages sibling。**local raw materialization caveat**：仓库 local raw 1838 / `93da300971429a629f11a721c3993784db6a99d3559b1286eae9500176560b9a`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`AD0/A0=210`；`AD0/A100=105`；`AD100/A0=415`；`AD100/A100=207.5`；`AD200/A100=310`；mana225/HP1000/AD100/armor100 在 t0/t5999/t6000 → 两次成功 + 一次 cooldown skip、两笔 Q damage、final mana75/HP585、两次自动 Q `ability_started`；mana74 → resource skip、不变、无 Q damage/event；standalone provider 不合成 P/W/E/R/basic，与既有 Caitlyn E 隔离。
+
+**排除**：cast timing / Effect at cast time start；attack timer reset；direction/range/width/line geometry；multitarget/post-first-enemy 60% damage；trap/reveal；projectile/full-damage projectile/spell shield；ranks1–4；P/W/E/R/basic/loadout/crit/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/collision/trap/reveal/attack-reset；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB；含邻近 Caitlyn E / total-AD Jinx W / Jhin W / Kalista Q）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericCaitlynPiltoverPeacemakerFirstEnemyHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest,LolGenericKalistaPiercePrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Kalista Pierce primary-hit seed（卡莉丝塔 Q / Phase-A v1 主冠军第一敌人命中）
 
 在 reserved types 已就绪，且 **外部既有** `game_entities(hero_kalista)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_kalista,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_kalista,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Kalista ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 Q active；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
