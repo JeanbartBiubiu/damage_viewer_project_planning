@@ -1398,6 +1398,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-graves-end-of-the-line-first-outbound-pass",
+      "title": "通用 ABI 格雷福斯 Q 穷途末路 End of the Line 首段出站命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_end_of_the_line_first_outbound_pass",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_graves|Q|穷途末路 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Graves/Q→End of the Line page1307367/rev4007501/timestamp2026-04-11T22:23:57Z/canonical raw2266/SHA256 c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5；sidecar graves-q.json+pages权威；本地raw2265/SHAcd2744fb…df0377（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity。Rank5：80mana/6000ms；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；一笔非暴击/不可复制物理命中150+0.65*(source.attr.ad.resolved-source.attr.ad.base)（精确二元树；显式bonus AD减法；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener；无Q-specific type。交叉base0/resolved0/armor0 raw/final150；base60/resolved60/armor0 raw/final150；base60/resolved160/armor0 raw/final215；base60/resolved160/armor100 raw215/final107.5；base60/resolved260/armor100 raw280/final140；base0/resolved100与base60/resolved160在armor0下均raw/final215（bonus-AD减法证明）；mana240/baseAD60/resolvedAD160/HP1000/armor100 t0/t5999/t6000 success/skip/success两笔Q damage final mana80/HP785两次自动Q ability_started；mana79 resource skip不变。显式Q/E isolation：Q不改变True Grit；E不产生Q伤害；Q seed不含E rows。standalone；不依赖Graves P/E/W/R/True Grit/basic；不合成Batch-B/sibling Graves；Backend无repository-owned hero_graves/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold（无completed salvage tag）。恰好一次选定主目标首段出站物理命中，不是完整Q。有效DESIGN_READY run-03dd4514（strict model；2178/2178 parseable events/59/59 complete tool groups；runDelta0/diff0；无truncation/mutation）。先前v1 run-957c034a返回REVISE但因一个未完成只读grep组无效为正式门控；路径校正已接受进v2；该run无写入。Backend owning 9294292（run-bc2c80e8 delta3/outside0；主focused50/full943 PASS；seed SHAe17d4739…f88ca0；JUnit SHA16cafe13…6b00ac；README SHAe7dddfcd…0296a6）/镜像a54cf6f（run-43d31e5d delta3/outside0；精确parity）。Wasm exact c16107e（run-d574c128 delta1/outside0；focused7/full/bench/build/smoke/benchmark PASS；test bytes66870/SHAa95e0d96…8c8e77；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受4585926（run-8dbc58fd delta8/outside0；主五检查通过；语义比较仅Graves Q G8/Unified变化；provisional仅移除Graves Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed94/partial_actionable0/ready0/blocked_runtime79/blocked_data3/OOS72/regression5/stale1；full94/partial3/none157；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated84/partial4/blocked85/OOS69/inScope173；implementation_gap=62；provisional82=runtime79/data3/hero80/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion94/254=37.0%；completed+provisional coverage176/254=69.3%；82张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=108。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整End of the Line/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯Q穷途末路EndOfTheLine首段出站命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯Q穷途末路EndOfTheLine首段出站命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
