@@ -1462,6 +1462,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-senna-dawning-shadow-primary-hit",
+      "title": "通用 ABI 赛娜 R 暗影燎原 Dawning Shadow 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_senna_dawning_shadow_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_senna|R|暗影燎原 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Senna/R→Dawning Shadow page1409580/rev4008033/timestamp2026-04-13T04:08:13Z/canonical raw2356/SHA256 4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36；normalized2597/SHA 79ced482…f66307；pages689/SHA 9b7fcb0a…f9e704e；sidecar senna-r.json+pages权威；本地raw2353/SHA1b448ff4…3195dc（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity。Rank3：100mana/100000ms；immediate selected-primary enemy champion single physical hit scaffold；一笔非暴击/不可复制物理命中550+1.15*(source.attr.ad.resolved-source.attr.ad.base)+0.70*source.attr.ap.resolved（精确嵌套二元树；显式bonus AD减法；不得按total-AD直读；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零R state/modifier/listener；无R-specific type。交叉base60/resolved60/AP0/armor0 raw/final550；base60/resolved160/AP0/armor0 raw/final665；base60/resolved60/AP100/armor0 raw/final620；base60/resolved160/AP100/armor0 raw/final735；base60/resolved140/AP100/armor100 raw712/final356；base60/resolved220/AP100/armor100 raw804/final402；base0/resolved100与base60/resolved160在AP0/armor0下均raw/final665（bonus-AD减法证明）；mana300/baseAD60/resolvedAD140/AP100/armor100/HP1000 t0/t99999/t100000 success/skip/success两笔R damage final mana100/HP288两次自动R ability_started；mana99 resource skip不变。standalone；保留既有Senna W；显式R/W isolation；不合成P/Q/E/basic/loadout/bootstrap/siblings；Backend无repository-owned hero_senna/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold（无completed salvage tag）。恰好一次选定主目标敌方英雄物理命中，不是完整R。有效DESIGN_READY run-d6961d41（strict top-level model；1175/1175 parseable events/59/59 complete tool groups；runDelta0；无truncation/mutation）。先前v1/v2虽技术上READY但各因一个非终态tool group无效为正式门控；不得引为有效门控。Backend owning b774a8d（run-bd288908 delta3/outside0；主focused71/full987 PASS；seed bytes30279/SHA ecec375b…01867bc；JUnit bytes57319/SHA 8854b329…29ad71c；README bytes277142/SHA aa5360f5…f6b5b2）/镜像4316923（run-027e2f56 delta3/outside0；精确parity）。Wasm exact a8e4c08（run-04b39596 delta1/outside0；focused/full/build/smoke/bench PASS；test bytes73643/SHA a42359e9…f39fa9；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；英雄名_test.go仅机制级回归/治理证据，排除normal/TinyGo生产构建；无生产runtime/ABI变更）。审计接受eb6fd9f（run-9c552457 delta8/outside0；主五检查通过；语义比较仅Senna R G8/Unified变化；provisional仅移除Senna R；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed98/partial_actionable0/ready0/blocked_runtime75/blocked_data3/OOS72/regression5/stale1；full98/partial3/none153；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated88/partial4/blocked81/OOS69/inScope173；implementation_gap=58；provisional78=runtime75/data3/hero76/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion98/254=38.6%；completed+provisional coverage176/254=69.3%；78张template-eligible blocked键均有provisional卡；provisional不是completed主张。稳定digests：Unified69832c2a…c018；Wiki registry927d8b5a…26c7。治理tasks=112。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Dawning Shadow/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-赛娜R暗影燎原DawningShadow主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-赛娜R暗影燎原DawningShadow主目标命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
