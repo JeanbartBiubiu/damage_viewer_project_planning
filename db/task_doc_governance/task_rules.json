@@ -1542,6 +1542,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-draven-whirling-death-primary-outbound-hit",
+      "title": "通用 ABI 德莱文 R 冷血追命首段主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_draven_whirling_death_primary_outbound_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_draven|R|冷血追命 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV draven-r-whirling-death-primary-outbound-hit-phase-a-v2；DESIGN v1 REVISE run-816b8669（2236/2236；74/74；delta0；接受 impl-gap56→55 与 hero-named test-only）；正式 READY run-08960edd（1707/1707；61/61；delta0）。Backend 0aa03bc（run-63aff27e delta3/outside0；740 events；43/43）；Wasm 5b1f661（run-2dc1d10e delta1/outside0；726；40/40）；审计 5a6ba20（run-5399d7f1 delta8/outside0；1374；77/78——唯一 incomplete 为只读 grep running；主独立重跑验收）。边界 rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity。计数：G8 migrated93/blocked76；Unified completed103/blocked_runtime70/full103/none148；impl-gap55；provisional73；tasks117；严格 completion103/254=40.6%；coverage176/254=69.3%。主验证 focused51/full1043；Wasm focused/full/bench PASS；五审计 check PASS。无 live/publish/push/E2E/Web/生产 Wasm 写入；资产当前 hash 校验 1169377/65a4…c6a0。不是完整 R；actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-德莱文R冷血追命首段主目标命中Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-德莱文R冷血追命首段主目标命中Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
