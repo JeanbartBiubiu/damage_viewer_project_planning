@@ -1,5 +1,6 @@
 package xyz.game.datamanage.db;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -10,29 +11,57 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
  * Static contract for {@code lol_generic_manamune_awe_seed.sql}.
- * Does not connect to a live database.
+ * Awe + Manaflow direct-max-state Phase-A (FROZEN_PLAN_REV
+ * manamune-manaflow-direct-max-state-phase-a-v2).
+ * Wiki Module:ItemData/data revid 4030984 / content SHA
+ * e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d.
+ * Completed boundary: always-on mana.resolved += 360; Awe reads
+ * source.attr.mana.resolved (not .max / not resource). Does not connect
+ * to a live database.
  */
 class LolGenericManamuneAweSeedSqlTest {
 
     private static final String SEED_RELATIVE =
         "db/game_manage/seeds/lol_generic_manamune_awe_seed.sql";
 
+    private static final String AWE_PROVIDER = "provider_item_3004_manamune_awe";
+    private static final String AWE_MODIFIER = "modifier_item_3004_manamune_awe_ad";
+    private static final String AWE_FORMULA_KEY = "manamune_awe_bonus_ad";
+
+    private static final String MANAFLOW_PROVIDER =
+        "provider_item_3004_manamune_manaflow_max_state";
+    private static final String MANAFLOW_MODIFIER =
+        "modifier_item_3004_manamune_manaflow_max_state_mana";
+    private static final String MANAFLOW_FORMULA_KEY =
+        "manamune_manaflow_max_state_mana";
+
     private static final List<String> STABLE_IDS = List.of(
-        "provider_item_3004_manamune_awe",
-        "modifier_item_3004_manamune_awe_ad",
-        "manamune_awe_bonus_ad");
+        AWE_PROVIDER,
+        AWE_MODIFIER,
+        AWE_FORMULA_KEY,
+        MANAFLOW_PROVIDER,
+        MANAFLOW_MODIFIER,
+        MANAFLOW_FORMULA_KEY);
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(20110, 20120, 20170);
 
     private static final String AWE_AD_FORMULA =
         "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.02},"
-            + "{\"op\":\"read\",\"path\":\"source.attr.mana.max\"}]}";
+            + "{\"op\":\"read\",\"path\":\"source.attr.mana.resolved\"}]}";
+
+    private static final String MANAFLOW_MANA_FORMULA =
+        "{\"op\":\"const\",\"value\":360}";
+
+    private static final String WIKI_REVID = "4030984";
+    private static final String WIKI_SHA =
+        "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d";
 
     private static String sql;
     private static String sqlNoLineComments;
@@ -77,6 +106,10 @@ class LolGenericManamuneAweSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "mount idempotent guard must use change_revision > v_locked_current");
+        assertEquals(
+            2,
+            countOccurrences(sqlNoLineComments, "change_revision > v_locked_current"),
+            "both mounts must use change_revision > v_locked_current guard");
         assertFalse(sql.contains("versions:publish"), "seed must not auto-publish");
         assertFalse(
             Pattern.compile("(?i)\\bpublish_version\\b").matcher(sql).find(),
@@ -95,19 +128,19 @@ class LolGenericManamuneAweSeedSqlTest {
     void rejectsDestructivePublishAndLegacySurfaces() {
         assertFalse(
             Pattern.compile("(?is)\\bDELETE\\s+FROM\\b").matcher(sqlNoLineComments).find(),
-            "manamune awe seed must not DELETE");
+            "manamune seed must not DELETE");
         assertFalse(
             Pattern.compile("(?is)\\bDROP\\b").matcher(sqlNoLineComments).find(),
-            "manamune awe seed must not DROP");
+            "manamune seed must not DROP");
         assertFalse(
             Pattern.compile("(?is)\\bCASCADE\\b").matcher(sqlNoLineComments).find(),
-            "manamune awe seed must not CASCADE");
+            "manamune seed must not CASCADE");
         assertFalse(
             Pattern.compile("(?is)\\bALTER\\s+TABLE\\b").matcher(sqlNoLineComments).find(),
-            "manamune awe seed must not ALTER TABLE");
+            "manamune seed must not ALTER TABLE");
         assertFalse(
             Pattern.compile("(?is)\\bCREATE\\s+TABLE\\b").matcher(sqlNoLineComments).find(),
-            "manamune awe seed must not CREATE TABLE");
+            "manamune seed must not CREATE TABLE");
         assertFalse(
             Pattern.compile("(?i)\\bbundle\\b").matcher(sqlNoLineComments).find(),
             "must not write Bundle surfaces");
@@ -128,6 +161,11 @@ class LolGenericManamuneAweSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not write game_entities (Batch-C static rows stay untouched)");
+        assertFalse(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.attribute_definitions\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not write attribute_definitions (check-only prerequisite)");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.entity_attribute_values\\b")
                 .matcher(sqlNoLineComments)
@@ -173,72 +211,155 @@ class LolGenericManamuneAweSeedSqlTest {
         for (int typeId : REQUIRED_RESERVED) {
             assertContains(Integer.toString(typeId));
         }
+        assertContains(WIKI_REVID);
+        assertContains(WIKI_SHA);
+        assertTrue(
+            sql.contains("direct-max-state") || sql.contains("direct max-state"),
+            "must identify Manaflow direct-max-state Phase-A boundary");
+        assertTrue(
+            sql.contains("two-pass") || sql.contains("two pass"),
+            "must state two-pass runtime dependency caveat");
     }
 
     @Test
-    void mountsOnlyAweProviderOnItem3004() {
-        assertContains("provider_item_3004_manamune_awe");
+    void mountsExactlyTwoIsolatedProvidersOnItem3004Only() {
+        for (String id : STABLE_IDS) {
+            assertContains(id);
+        }
         assertTrue(
             Pattern.compile(
-                    "(?s)'item_3004'\\s*,\\s*'provider_item_3004_manamune_awe'")
+                    "(?s)'item_3004'\\s*,\\s*'" + AWE_PROVIDER + "'")
                 .matcher(sql)
                 .find(),
             "must mount awe provider to item_3004");
         assertTrue(
             Pattern.compile(
-                    "(?s)'provider_item_3004_manamune_awe'[\\s\\S]{0,80}20120")
+                    "(?s)'item_3004'\\s*,\\s*'" + MANAFLOW_PROVIDER + "'")
                 .matcher(sql)
                 .find(),
-            "provider kind must be passive 20120");
+            "must mount manaflow max-state provider to item_3004");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'" + AWE_PROVIDER + "'[\\s\\S]{0,80}20120")
+                .matcher(sql)
+                .find(),
+            "awe provider kind must be passive 20120");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'" + MANAFLOW_PROVIDER + "'[\\s\\S]{0,80}20120")
+                .matcher(sql)
+                .find(),
+            "manaflow provider kind must be passive 20120");
         assertFalse(
             Pattern.compile("(?s)'item_(?!3004')\\w+'\\s*,\\s*'provider_item_3004")
                 .matcher(sql)
                 .find(),
-            "must not mount this provider to entities other than item_3004");
+            "must not mount these providers to entities other than item_3004");
         assertEquals(
-            1,
+            2,
             countOccurrences(sqlNoLineComments, "INSERT INTO public.entity_provider_mounts"),
-            "must mount exactly once via entity_provider_mounts");
+            "must mount exactly two providers via entity_provider_mounts");
         assertEquals(
-            1,
+            2,
             countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_definitions"),
-            "must define exactly one provider");
+            "must define exactly two providers");
+        assertEquals(
+            2,
+            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_formulas"),
+            "must define exactly two provider_formulas inserts");
+        assertEquals(
+            2,
+            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_modifiers"),
+            "must define exactly two provider_modifiers inserts");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'" + AWE_PROVIDER + "'\\s*,\\s*'" + AWE_FORMULA_KEY + "'")
+                .matcher(sql)
+                .find(),
+            "awe formula must bind only to awe provider");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'" + MANAFLOW_PROVIDER + "'\\s*,\\s*'" + MANAFLOW_FORMULA_KEY + "'")
+                .matcher(sql)
+                .find(),
+            "manaflow formula must bind only to manaflow provider");
+        assertFalse(
+            sqlNoLineComments.contains(
+                "'" + AWE_PROVIDER + "', '" + MANAFLOW_FORMULA_KEY + "'"),
+            "awe provider must not bind manaflow formula key");
+        assertFalse(
+            sqlNoLineComments.contains(
+                "'" + MANAFLOW_PROVIDER + "', '" + AWE_FORMULA_KEY + "'"),
+            "manaflow provider must not bind awe formula key");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)'" + AWE_MODIFIER + "'[\\s\\S]{0,120}'" + MANAFLOW_PROVIDER + "'")
+                .matcher(sql)
+                .find(),
+            "awe modifier must stay isolated on awe provider");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)'" + MANAFLOW_MODIFIER + "'[\\s\\S]{0,120}'" + AWE_PROVIDER + "'")
+                .matcher(sql)
+                .find(),
+            "manaflow modifier must stay isolated on manaflow provider");
     }
 
     @Test
-    void sourceBoundAdModifierUsesManaMaxMulAddPolicy() {
+    void aweReadsManaResolvedNeverMaxAndManaflowIsConst360WithNoReads() {
         assertContains(AWE_AD_FORMULA);
-        assertContains("0.02");
-        assertContains("source.attr.mana.max");
-        assertContains("\"op\":\"mul\"");
+        assertContains(MANAFLOW_MANA_FORMULA);
+        assertContains("source.attr.mana.resolved");
+        assertFalse(
+            sqlNoLineComments.contains("source.attr.mana.max"),
+            "Awe must read source.attr.mana.resolved, never source.attr.mana.max");
+        assertFalse(
+            Pattern.compile("(?i)source\\.attr\\.mana\\.max")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "executable SQL must not read mana.max");
         assertTrue(
             Pattern.compile(
-                    "(?s)'modifier_item_3004_manamune_awe_ad'\\s*,\\s*"
-                        + "'provider_item_3004_manamune_awe'\\s*,\\s*"
-                        + "'manamune_awe_bonus_ad'\\s*,\\s*"
+                    "(?s)'" + AWE_MODIFIER + "'\\s*,\\s*"
+                        + "'" + AWE_PROVIDER + "'\\s*,\\s*"
+                        + "'" + AWE_FORMULA_KEY + "'\\s*,\\s*"
                         + "NULL\\s*,\\s*"
                         + "20110\\s*,\\s*"
                         + "'ad'[\\s\\S]*?"
                         + "20170\\s*,\\s*"
-                        + "'manamune_awe_bonus_ad'")
+                        + "'" + AWE_FORMULA_KEY + "'")
                 .matcher(sql)
                 .find(),
-            "modifier must target ad with selector/self 20110 and value_policy/add 20170");
-        assertEquals(
-            1,
-            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_formulas"),
-            "must define exactly one provider_formulas insert");
-        assertEquals(
-            1,
-            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_modifiers"),
-            "must define exactly one provider_modifiers insert");
-        for (String id : STABLE_IDS) {
-            assertContains(id);
-        }
+            "awe modifier must target ad with selector/self 20110 and value_policy/add 20170");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'" + MANAFLOW_MODIFIER + "'\\s*,\\s*"
+                        + "'" + MANAFLOW_PROVIDER + "'\\s*,\\s*"
+                        + "'" + MANAFLOW_FORMULA_KEY + "'\\s*,\\s*"
+                        + "NULL\\s*,\\s*"
+                        + "20110\\s*,\\s*"
+                        + "'mana'[\\s\\S]*?"
+                        + "20170\\s*,\\s*"
+                        + "'" + MANAFLOW_FORMULA_KEY + "'")
+                .matcher(sql)
+                .find(),
+            "manaflow modifier must target mana with selector/self 20110 and value_policy/add 20170");
+        // Manaflow const360 expression must contain no read paths.
+        Matcher manaflowFormulaMatcher =
+            Pattern.compile(
+                    "(?s)'" + MANAFLOW_PROVIDER + "'\\s*,\\s*'"
+                        + MANAFLOW_FORMULA_KEY + "'\\s*,\\s*'(\\{.*?\\})'\\s*::\\s*jsonb")
+                .matcher(sqlNoLineComments);
+        assertTrue(manaflowFormulaMatcher.find(), "must locate manaflow formula expression");
+        String manaflowExpr = manaflowFormulaMatcher.group(1).replace("\\\"", "\"");
+        assertEquals(MANAFLOW_MANA_FORMULA, manaflowExpr, "manaflow formula must be exact const 360");
+        assertFalse(
+            manaflowExpr.contains("\"op\":\"read\"") || manaflowExpr.contains("read"),
+            "manaflow const360 formula must have no reads");
     }
 
     @Test
-    void excludesForbiddenCategoriesManaflowMuramanaAndCombatSurfaces() {
+    void excludesMuramanaTransformProgressionCombatAndRuntimeSurfaces() {
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_state_fields\\b")
                 .matcher(sqlNoLineComments)
@@ -249,6 +370,16 @@ class LolGenericManamuneAweSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not write provider_listeners");
+        assertFalse(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_lifecycles\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not write provider_lifecycles");
+        assertFalse(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_tick_sequences\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not write provider_tick_sequences");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.effect_sequences\\b")
                 .matcher(sqlNoLineComments)
@@ -280,20 +411,47 @@ class LolGenericManamuneAweSeedSqlTest {
                 .find(),
             "must not write listener_effect_sequences");
         assertFalse(
-            Pattern.compile("(?i)manaflow|muramana|充能上限|变形").matcher(sqlNoLineComments).find(),
-            "must not implement Manaflow / Muramana / transform / max-cap semantics");
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_definitions\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not write ability_definitions");
+        assertFalse(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not write resource_definitions");
+        assertFalse(
+            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not write entity_resource_values");
+        assertFalse(
+            Pattern.compile("(?i)\\bmuramana\\b").matcher(sqlNoLineComments).find(),
+            "must not implement Muramana identity / transform writes");
+        assertFalse(
+            Pattern.compile("(?i)\\btransform\\b|变形").matcher(sqlNoLineComments).find(),
+            "must not implement transform / identity replacement");
+        assertFalse(
+            Pattern.compile("(?i)basic_attack_hit|ability_cast|on_hit|per_cast_throttle")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not introduce on-hit / ability-trigger / per-cast combat surfaces");
         assertFalse(
             Pattern.compile("(?i)\\brng\\b|random|伪随机|概率").matcher(sqlNoLineComments).find(),
             "must not implement random/RNG semantics");
+        // Approved approximation IDs may contain "manaflow"; only reject out-of-boundary
+        // progression tokens that are not part of the stable max-state identifiers.
         assertFalse(
-            Pattern.compile("(?i)basic_attack_hit|ability_cast|on_hit|resource")
+            Pattern.compile("(?i)charge_queue|four.charge|\\+3\\b|\\+6\\b|8000\\s*ms|8s\\s*charg")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not introduce attack / ability / on-hit / resource combat surfaces");
-    }
-
-    private static void assertEquals(int expected, int actual, String message) {
-        org.junit.jupiter.api.Assertions.assertEquals(expected, actual, message);
+            "must not encode Manaflow charge progression / timer / increment fidelity");
+        assertTrue(
+            sqlNoLineComments.contains(MANAFLOW_PROVIDER),
+            "approved manaflow max-state provider id must be present");
+        assertTrue(
+            sqlNoLineComments.contains(MANAFLOW_FORMULA_KEY),
+            "approved manaflow max-state formula key must be present");
     }
 
     private static String stripLineComments(String raw) {
