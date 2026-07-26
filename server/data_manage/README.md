@@ -1007,6 +1007,31 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenStandAsideSeedSqlTest test
 ```
 
+### LoL generic Draven Whirling Death primary outbound-hit seed（德莱文 R / Phase-A v2 选定主冠军首段出站单次物理命中）
+
+在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；恰好八键，不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_draven` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 R active；与既有/未来 Q Spinning Axe / W Blood Rush / E Stand Aside / 普攻 provider **并存**，不重建/替换、不读/不依赖 sibling 发布；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
+2. `db/game_manage/seeds/lol_generic_draven_whirling_death_primary_outbound_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-draven-whirling-death-primary-outbound-hit-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_draven|R|冷血追命` 冻结为 **Phase-A rank-3 立即选定主冠军首段出站单次物理命中 impact scaffold**（`FROZEN_PLAN_REV=draven-r-whirling-death-primary-outbound-hit-phase-a-v2`）：
+
+`rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity`
+
+该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好八键属性定义（不含 AP）；幂等投影 reserved → `types`；ensure `hero_draven`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp675 / mana361 / ad62 / AS0.679 / armor29 / MR30 / hpregen3.75 / manaregen8.05）、`resource_definitions.mana` 与 `entity_resource_values`（361/361）；向 `hero_draven` **仅** mount 独立 `provider_hero_draven_r_whirling_death_primary_outbound_hit`（stable id `hero_draven_r_whirling_death_primary_outbound_hit`；与 `provider_hero_draven_q_spinning_axe` / `provider_hero_draven_w_blood_rush` / `provider_hero_draven_e_stand_aside` / `provider_hero_draven_basic_attack` 并存），含 active `ability_hero_draven_r_whirling_death_primary_outbound_hit`（`ability_key=whirling_death_primary_outbound_hit`）、`ability_costs` 100 mana、`ability_cooldowns` 80000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `400 + 1.50*(ad.resolved-ad.base)`（嵌套二元；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`）。**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / geometry / multitarget 行；成功 cast 由 runtime 自动发出 `ability_started`（本 R 图不添加 event step）。Wiki：request `Template:Data Draven/R` → resolved `Template:Data Draven/Whirling Death`；page1307072 / rev4040576 / `2026-07-06T14:27:37Z` / canonical 3079 bytes / SHA256 `e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce`；sidecar `normalized/generic/draven-r.json`。**local raw materialization caveat**：仓库 local Wasm raw sibling 亦 3079 / `1110179b1771c03c8ff67b428d6fa7a5b0ba42caf19e241ce512a199ef812059`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`base0/resolved0/armor0` raw/final400；`base62/resolved62/armor0` raw/final400；`base62/resolved162/armor0` raw/final550；same armor100 raw550/final275；`base0/resolved100` vs `base62/resolved162` at armor0 both raw/final550（bonusAD counterproof）；mana361/baseAD62/resolvedAD162/targetHP1000/armor100 在 t0/t79999/t80000 → success/cooldown skip/success、exactly two R hits and automatic starts、readyAt80000、final mana261/HP725；mana99 → resource skip、unchanged mana/HP、no R damage/start。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似；亦不否认游戏内折返/处决/多目标等行为——仅不对本边界建模）：cast time/direction；projectile/travel/collision/sight；recast/reversal/return/homing/second pass；execute/Adoration threshold；multitarget/damage falloff/reset/map edge/once-per-pass geometry；ranks1–2；Q/W/E/basic/equipment/loadout 耦合；listener/state/event/modifier/repeat/control；live migration；publish；full fidelity。One selected-target first-outbound-pass physical hit, not full R。
+
+静态契约校验（不连 live DB；含邻近 Draven Q/W/E 与 Graves R primary-hit 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest,LolGenericDravenStandAsideSeedSqlTest,LolGenericDravenBloodRushSeedSqlTest,LolGenericDravenSpinningAxeSeedSqlTest,LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Vayne Condemn primary-hit seed（薇恩 E / Phase-A v1 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；本公式不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_vayne` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有普攻 / Silver Bolts / tumble provider 并存，不重建/替换；不做 live migration、不自动 publish）：
