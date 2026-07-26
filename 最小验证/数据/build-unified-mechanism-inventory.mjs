@@ -1091,13 +1091,32 @@ const STATUS_OVERRIDES = new Map([
   [
     'item_passive|3004|item_passive|法力流',
     {
-      status: 'blocked_runtime',
-      completionMode: 'none',
+      status: 'completed',
+      completionMode: 'full',
       lane: 'generic_runtime',
       reason:
-        '法力流现行合同数值已齐：每8秒至多4层；普攻或技能命中消耗一层并+3最大法力（对英雄+6），上限360后转变魔切。非数据缺口；缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform runtime。',
-      blocker:
-        'missing_periodic_charge_tick_and_ability_hit_resource_gain_and_mana_transform_runtime',
+        'item 3004 法力流/Manaflow：Wiki Module:ItemData/data revid4030984 / content SHA e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d / normalized SHA 17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4（current-items.normalized.json#item_3004_slots_pass2+pass3）Phase-A direct-max-state 近似已由 wasm-generic-manamune-awe + backend seed 证据闭环——always-on source-only mana.resolved +=360；Base/Current/Max/resource/static mana500/identity 不变；fixture input mana 0/1000/2000 → effective mana 360/1360/2360；与既有敬畏同挂（AD base100）→ combined AD 107.2/127.2/147.2；两隔离 item providers（item:manamune_awe + item:manamune_manaflow_max_state）均挂 item_3004；两遍 materialize 后敬畏才消费有效法力；provider 顺序确定性已证。Backend commit 615eda1b；focused18/full Maven1069 PASS；no live；seed17817/SHA be0147276694d8696b678cd75ea247d8b280487662fe8e389ee8ce06f190ad77；JUnit21617/SHA 99fb0d79cfb6aa4122d86036351d730ccf1dcfb50a83d40295008a73ce99aff7。Wasm commit aba6bee；focused/full/bench PASS；test-only；production asset unchanged；test23844/SHA 75522eb4e32e97f014dab86eba2b7403ee456a46940c7af18ab75277ddd2c6b7。READY gate run-0e2afc59-dafa-44b8-8f94-44d1d66c653d。completedBoundary：item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity。明确排除 8s charge/four-queue/on-hit/ability/+3/+6/per-cast/resource/transform/full fidelity；不宣称充能进度/变形/完整游戏保真；no live/Admin/E2E claim。先前 blocked_runtime 合同（periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform）仅保留于 G8 auditBaseline / source refs 溯源，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-manamune-awe',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_manamune_awe_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity; Wiki Module:ItemData/data revid4030984/SHA e7818eff… / normalized 17769e08…; always-on mana.resolved+=360; BCM/resource/static500/identity unchanged; fixtures 0/1000/2000→360/1360/2360; combined AD100→107.2/127.2/147.2; two-pass materialize + provider-order determinism; Wasm exact test commit aba6bee bytes23844/SHA 75522eb4…; charge/queue/on-hit/ability/+3/+6/per-cast/resource/transform/live/E2E/full-fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-manamune-awe',
+          sourcePath: 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity; backend lol_generic_manamune_awe_seed.sql + LolGenericManamuneAweSeedSqlTest (owning 615eda1b); Wasm exact test commit aba6bee; seed17817/SHA be014727…; JUnit21617/SHA 99fb0d79…; READY run-0e2afc59; focused18/full1069 PASS; no live; not live published',
+        },
+      ],
     },
   ],
   [
@@ -3370,6 +3389,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_missfortune|R|弹幕时间',
     'rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity',
+  ],
+  [
+    'item_passive|3004|item_passive|法力流',
+    'item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity',
   ],
   [
     'hero_skill|hero_akshan|P|无所不用',
@@ -6182,6 +6205,165 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Miss Fortune R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Bullet Time ordered tags (no deterministic_random_crit_sequence/seeded_random_crit_sequence/total_ad_ratio; requires max_full_channel_aggregate/expected_crit_formula/phase_a_excludes_wiki_ie_crit_ratio_30/crit_scaling/ap_ratio/active_physical_damage/immediate_impact_scaffold), Wiki rev3987215/SHA + local raw caveat + frozen completedBoundary, rank3 mana100/CD100000/one aggregated 18*(40+0.60*totalAD+0.25*AP)*(1+0.30*clamp crit) nested binary read-once formula-local fixed130 (1800/2070/2340; 1035; 2587.5; IE exclusion not Wiki-omits-IE; CritEligible=false; no total_ad_ratio), Ashe expectation-only related while MF uses formula-local fixed130, READY run-35c777c6 + focused30/full1069 + Wasm 72eb807, and bilateral evidence (owning 45259a6 / Wasm 72eb807; one aggregated max-full-channel expected quantum not full R; no channel/ticks/geometry/IE-ratio/live/Admin/E2E/full-fidelity claim)',
+    );
+  }
+  const mManamuneAwe = inv.mechanisms.find((m) => m.key === 'item_passive|3004|item_passive|敬畏');
+  const mManamuneAweReason = String(mManamuneAwe?.reason || '');
+  if (
+    !mManamuneAwe ||
+    STATUS_OVERRIDES.has('item_passive|3004|item_passive|敬畏') ||
+    mManamuneAwe.key !== 'item_passive|3004|item_passive|敬畏' ||
+    mManamuneAwe.passiveName !== '敬畏' ||
+    mManamuneAwe.status !== 'completed' ||
+    mManamuneAwe.completionMode !== 'full' ||
+    mManamuneAwe.lane !== 'generic_runtime' ||
+    mManamuneAwe.blocker ||
+    mManamuneAwe.dataGapEvidence !== null ||
+    mManamuneAwe.runtimeGapEvidence !== null ||
+    mManamuneAwe.outOfScopeEvidence !== null ||
+    [...(mManamuneAwe.mechanismTags || [])].join('|') !==
+      'source_only_dynamic_effective_mana_ad_modifier' ||
+    (mManamuneAwe.mechanismTags || []).includes('source_only_dynamic_mana_max_ad_modifier') ||
+    mManamuneAweReason.includes('mana.max') ||
+    mManamuneAweReason.includes('source.attr.mana.max') ||
+    !mManamuneAweReason.includes('source.attr.mana.resolved') ||
+    !mManamuneAweReason.includes('107.2') ||
+    !mManamuneAweReason.includes('127.2') ||
+    !mManamuneAweReason.includes('147.2') ||
+    !mManamuneAweReason.includes('615eda1b') ||
+    !mManamuneAweReason.includes('aba6bee') ||
+    !mManamuneAweReason.includes('source_only_dynamic_effective_mana_ad_modifier') ||
+    !(mManamuneAwe.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-manamune-awe' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_manamune_awe_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes('mana.resolved') &&
+        String(e.note || '').includes('107.2/127.2/147.2') &&
+        String(e.note || '').includes('aba6bee') &&
+        String(e.note || '').includes('615eda1b') &&
+        !String(e.note || '').includes('mana.max'),
+    ) ||
+    !(mManamuneAwe.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-manamune-awe' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes('mana.resolved') &&
+        String(e.note || '').includes('107.2/127.2/147.2') &&
+        String(e.note || '').includes('615eda1b') &&
+        String(e.note || '').includes('aba6bee') &&
+        !String(e.note || '').includes('mana.max'),
+    )
+  ) {
+    errors.push(
+      'Manamune Awe must map from G8 migrated (no Unified STATUS_OVERRIDE) to completed/full with mana.resolved formula/tag, combined +360 fixtures, and bilateral evidence citing Backend 615eda1b / Wasm aba6bee',
+    );
+  }
+  const mManamuneManaflow = inv.mechanisms.find(
+    (m) => m.key === 'item_passive|3004|item_passive|法力流',
+  );
+  const mManamuneManaflowReason = String(mManamuneManaflow?.reason || '');
+  const mManamuneManaflowBoundary =
+    'item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity';
+  if (
+    !mManamuneManaflow ||
+    !STATUS_OVERRIDES.has('item_passive|3004|item_passive|法力流') ||
+    mManamuneManaflow.key !== 'item_passive|3004|item_passive|法力流' ||
+    mManamuneManaflow.passiveName !== '法力流' ||
+    mManamuneManaflow.status !== 'completed' ||
+    mManamuneManaflow.completionMode !== 'full' ||
+    mManamuneManaflow.lane !== 'generic_runtime' ||
+    mManamuneManaflow.blocker ||
+    mManamuneManaflow.dataGapEvidence !== null ||
+    mManamuneManaflow.runtimeGapEvidence !== null ||
+    mManamuneManaflow.outOfScopeEvidence !== null ||
+    mManamuneManaflow.coverageBoundary !== mManamuneManaflowBoundary ||
+    [...(mManamuneManaflow.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'awe_effective_mana_dependency',
+        'phase_a_excludes_charge_progression_and_transform',
+        'source_only_effective_mana_modifier',
+      ].join('|') ||
+    (mManamuneManaflow.mechanismTags || []).includes('direct_max_stack_override') ||
+    (mManamuneManaflow.mechanismTags || []).includes('periodic_charge_tick') ||
+    (mManamuneManaflow.mechanismTags || []).includes('attack_or_ability_hit_resource_gain') ||
+    (mManamuneManaflow.mechanismTags || []).includes('state_driven_max_mana_and_transform') ||
+    mManamuneManaflowReason.includes('missing_periodic_charge_tick') ||
+    mManamuneManaflowReason.includes('缺 periodic_charge_tick') ||
+    !mManamuneManaflowReason.includes('4030984') ||
+    !mManamuneManaflowReason.includes(
+      'e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d',
+    ) ||
+    !mManamuneManaflowReason.includes(
+      '17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4',
+    ) ||
+    !mManamuneManaflowReason.includes(mManamuneManaflowBoundary) ||
+    !mManamuneManaflowReason.includes('mana.resolved +=360') ||
+    !mManamuneManaflowReason.includes('360/1360/2360') ||
+    !mManamuneManaflowReason.includes('107.2/127.2/147.2') ||
+    !mManamuneManaflowReason.includes('615eda1b') ||
+    !mManamuneManaflowReason.includes('aba6bee') ||
+    !mManamuneManaflowReason.includes('focused18/full Maven1069') ||
+    !mManamuneManaflowReason.includes('run-0e2afc59-dafa-44b8-8f94-44d1d66c653d') ||
+    !mManamuneManaflowReason.includes('23844') ||
+    !mManamuneManaflowReason.includes(
+      '75522eb4e32e97f014dab86eba2b7403ee456a46940c7af18ab75277ddd2c6b7',
+    ) ||
+    !mManamuneManaflowReason.includes('17817') ||
+    !mManamuneManaflowReason.includes(
+      'be0147276694d8696b678cd75ea247d8b280487662fe8e389ee8ce06f190ad77',
+    ) ||
+    !mManamuneManaflowReason.includes('21617') ||
+    !mManamuneManaflowReason.includes(
+      '99fb0d79cfb6aa4122d86036351d730ccf1dcfb50a83d40295008a73ce99aff7',
+    ) ||
+    !mManamuneManaflowReason.includes('auditBaseline') ||
+    !mManamuneManaflowReason.includes('故标 completed') ||
+    !mManamuneManaflowReason.includes('no live/Admin/E2E claim') ||
+    !(mManamuneManaflow.sourceRefs || []).some(
+      (r) =>
+        r.path === '最小验证/generic-g8-adc-passive-coverage-audit.json' &&
+        r.legacyStatus === 'migrated' &&
+        r.sourceRecordKey === 'item_passive|3004|item_passive|法力流',
+    ) ||
+    !(mManamuneManaflow.sourceRefs || []).some(
+      (r) =>
+        r.path === '最小验证/wiki-only-mechanism-candidate-registry.json' &&
+        r.legacyStatus === 'registry_candidate' &&
+        r.sourceRecordKey === 'item_passive|3004|item_passive|法力流',
+    ) ||
+    !(mManamuneManaflow.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-manamune-awe' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_manamune_awe_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mManamuneManaflowBoundary) &&
+        String(e.note || '').includes('aba6bee') &&
+        String(e.note || '').includes('23844') &&
+        String(e.note || '').includes('75522eb4') &&
+        String(e.note || '').includes('360/1360/2360') &&
+        String(e.note || '').includes('107.2/127.2/147.2'),
+    ) ||
+    !(mManamuneManaflow.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-manamune-awe' &&
+        e.sourcePath === 'db/game_manage/seeds/lol_generic_manamune_awe_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mManamuneManaflowBoundary) &&
+        String(e.note || '').includes('LolGenericManamuneAweSeedSqlTest') &&
+        String(e.note || '').includes('615eda1b') &&
+        String(e.note || '').includes('aba6bee') &&
+        String(e.note || '').includes('run-0e2afc59') &&
+        String(e.note || '').includes('focused18/full1069') &&
+        String(e.note || '').includes('be014727') &&
+        String(e.note || '').includes('99fb0d79'),
+    )
+  ) {
+    errors.push(
+      'Manamune Manaflow must be completed/full/generic_runtime via explicit STATUS_OVERRIDES (not mapG8ToUnified fallback alone), with cleared blocker/data/runtime/OOS, exact canonical-sorted tags (no direct_max_stack_override/charge/transform tags), frozen completedBoundary, Wiki revid4030984/SHA + fixtures 360/1360/2360 and combined AD107.2/127.2/147.2, READY run-0e2afc59 + focused18/full1069 + Wasm aba6bee, G8 migrated + wiki-only source refs retained, and bilateral evidence (owning 615eda1b / Wasm aba6bee; no charge/transform/live/Admin/E2E/full-fidelity claim)',
     );
   }
   if (
@@ -10946,8 +11128,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 106) {
-    errors.push(`completed=${sc.completed}, expected 106`);
+  if ((sc.completed || 0) !== 107) {
+    errors.push(`completed=${sc.completed}, expected 107`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -10955,8 +11137,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 67) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 67`);
+  if ((sc.blocked_runtime || 0) !== 66) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 66`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -10977,14 +11159,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 106) {
-    errors.push(`completionMode full=${cm.full}, expected 106`);
+  if ((cm.full || 0) !== 107) {
+    errors.push(`completionMode full=${cm.full}, expected 107`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 145) {
-    errors.push(`completionMode none=${cm.none}, expected 145`);
+  if ((cm.none || 0) !== 144) {
+    errors.push(`completionMode none=${cm.none}, expected 144`);
   }
   const detCritBlockedUnified = (inv.mechanisms || []).filter(
     (m) =>
