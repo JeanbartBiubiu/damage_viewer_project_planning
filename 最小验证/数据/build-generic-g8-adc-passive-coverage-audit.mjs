@@ -698,6 +698,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_akshan_avengerang_first_outbound_hit_seed.sql',
   sivirBoomerangBladeFirstOutboundHitBackend:
     'db/game_manage/seeds/lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql',
+  missFortuneMakeItRainMaxTotalSelectedPrimaryBackend:
+    'db/game_manage/seeds/lol_generic_miss_fortune_make_it_rain_max_total_selected_primary_seed.sql',
   missFortuneBulletTimeMaxChannelExpectedBackend:
     'db/game_manage/seeds/lol_generic_miss_fortune_bullet_time_max_channel_expected_seed.sql',
   twitchDeadlyVenomBackend: 'db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql',
@@ -870,6 +872,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_avengerang_first_outbound_hit_test.go',
   sivirBoomerangBladeFirstOutboundHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_sivir_boomerang_blade_first_outbound_hit_test.go',
+  missFortuneMakeItRainMaxTotalSelectedPrimary:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_miss_fortune_make_it_rain_max_total_selected_primary_test.go',
   missFortuneBulletTimeMaxChannelExpected:
     'wasm/tinygo_engine_v2/internal/runtime/generic_miss_fortune_bullet_time_max_channel_expected_test.go',
   twitchDeadlyVenom:
@@ -1856,6 +1860,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-sivir-boomerang-blade-first-outbound-hit',
           SEED.sivirBoomerangBladeFirstOutboundHitBackend,
           'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity; backend lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql + LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest + README (owning 3ded9cb; integrated b14c48f); Wasm exact test commit bff4d160; seed32326/SHA 4ba04a00…; JUnit63624/SHA 2f3368a9…; READY run-4db83782; Sivir JUnit13 PASS; combined mirror sibling caveat pre-existing Essence Reaver/Twisted Fate must BEGIN failures not hidden/fixed here; external existing-data/check-only prerequisites (hero_sivir/ad/ap/crit_chance/mana; does not write identity/panel/resource values; no Sivir materializer); standalone no Batch-B or sibling Sivir synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_missfortune|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_aggregated_duration_total_scaffold',
+      ],
+      reason:
+        'hero_missfortune E 枪林弹雨/Make It Rain：Wiki request Template:Data Miss Fortune/E → resolved Template:Data Miss Fortune/Make It Rain；page1308255 / rev3936384 / timestamp 2025-07-24T15:45:56Z / canonical bytes1210 / SHA256 a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7（normalized/generic/missfortune-e.json bytes1972/SHA256 d53466f5d4e7e046620820cfd492133bcfac646e2d81d348dfcf544fe8174596 plus pages sibling bytes747/SHA256 ac8ffb762ccb1667b7c3f955a60e418cb36553b1c653ebb6a70b613c4bf0a0dc are authority）rank5 maximum duration total selected-primary Phase-A v2 已由 wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary 闭环为 migrated——local raw caveat bytes1210 / SHA 5a8800d1ca721f1583bb3d2c5581977a2e4942d399266ca3c745cd11e6503b7f（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；one standalone E provider；rank5 mana80 / CD14000ms；immediate aggregated max-duration-total selected-primary-champion magic damage scaffold；exact generic formula add(const 190, mul(const 1.20, read source.attr.ap.resolved)) via nested binary nodes with AP read path exactly once（algebraically equals eight Wiki ticks 8*(190/8+(120/8)%AP)=190+1.20*AP without per-tick rounding；no AD/crit_chance/crit_damage reads）；CritEligible=false；CopyableOnHit=false；exactly one aggregated noncrit/noncopyable magic damage quantum（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no E ability-specific type）（交叉校验 AP0/MR100：raw190/final95；AP100/MR100：raw310/final155）。Attempts mana240/AP100/HP1000/MR100 at t0/t13999/t14000 → success/skip/success，exactly two E damage items；final mana80/HP690；exactly two automatic E ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no E damage/event。E/R coexistence：standalone E does not mutate/arm existing R；R remains independently callable。Miss Fortune E provider is standalone；Backend external existing-data/check-only prerequisites only（hero_missfortune/ap/mana）；no Miss Fortune materializer/shared identity-panel-resource write；no R mutation；current generic missing formula attrs read zero, not claimed fail-closed；hero-named `_test.go` is regression/governance evidence only；不暗示任何 production Wasm/public ABI/Web change。READY gate run-41585a84-e405-4a8f-a34a-510be65661ae v2。Backend validation honesty：run-a858d21b-8629-40f1-b8d1-96f85ced3221 delta3/outside0/events1028/truncated0；focused E12/12、E+R25/25、driver full Maven1113/1113 PASS；owning c6c2e73；seed28873/SHA 9949ad23820eb1c77d5b09b53db786c8518b0bdaa0b3ffac18d210215a44b7eb；JUnit50835/SHA 27650b5ceed3a3c49b2de3a498f235cee6d11cbca83d8f86f08d14cee360e4dc；no live。Wasm main validation honesty：run-99972a69-3d14-49a3-a2e3-32a553cf0923 delta1/outside0/events1181/truncated0；focused/bench PASS；precommit full honestly blocked by existing Xayah structural dirty-test rule because the new allowed `_test.go` was uncommitted；after commit driver full go test -count=1 ./... PASS；test-only；Wasm exact test commit 1693a34；exact test bytes59725 / SHA256 7aa8b7104e4b70cf8249449364176d6f9ac5c879ecf17e20d8d42edff0a1abb6；bench mean106.84us。completedBoundary：rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity。明确排除 real two-second duration/eight ticks/0.25s schedule/tick snapshot/dynamic stats/per-tick rounding、location/area/radius/acquisition/geometry/multitarget、sight/visibility、slow/AP-scaled slow/slow refresh/cleanse、spell effects/persistent-area/interruption/cancel/animation/VFX、other ranks/siblings/P/Q/W/R/basic/loadout/bootstrap/live/full fidelity；this is exactly one aggregated max-duration-total magic quantum, not full E；不宣称 duration/ticks/schedule/location/area/geometry/multitarget/sight/slow/other-ranks/完整游戏保真；no full-fidelity claim；no live/Admin/E2E claim。Backend seed 显式依赖 external existing-data/check-only 前置，不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary',
+          WASM.missFortuneMakeItRainMaxTotalSelectedPrimary,
+          'completedBoundary: rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity; Wiki request Template:Data Miss Fortune/E → Make It Rain; rev3936384/SHA256 a38b5133… / bytes1210; local raw caveat bytes1210/SHA 5a8800d1… no equivalence claim; normalized bytes1972/SHA d53466f5…; pages bytes747/SHA ac8ffb76…; rank5 mana80/CD14000; one aggregated magic add(const190, mul(const1.20, read source.attr.ap.resolved)) nested binary AP-once; algebraically equals 8*(190/8+(120/8)%AP)=190+1.20*AP without per-tick rounding; CritEligible=false; CopyableOnHit=false; damage 20221/add 20170; no 20230; no explicit event op; no E type; AP0/MR100 raw190/final95; AP100/MR100 raw310/final155; mana240/AP100/HP1000/MR100 t0/t13999/t14000 success/skip/success two E damage items final mana80/HP690 two automatic E ability_started; mana79 resource skip unchanged; E/R coexistence standalone no R mutation; missing formula attrs read zero not fail-closed; hero-named _test.go regression/governance only; standalone no sibling synthesis; Wasm exact test commit 1693a34 bytes59725/SHA 7aa8b710…; run-99972a69; focused/bench PASS; precommit full honestly blocked by existing Xayah structural dirty-test rule because new allowed _test.go was uncommitted; after commit driver full go test -count=1 ./... PASS; bench mean106.84us; duration/ticks/schedule/location/area/geometry/multitarget/sight/slow/other-ranks/live/Admin/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary',
+          SEED.missFortuneMakeItRainMaxTotalSelectedPrimaryBackend,
+          'completedBoundary: rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity; backend lol_generic_miss_fortune_make_it_rain_max_total_selected_primary_seed.sql + LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest (owning c6c2e73); Wasm exact test commit 1693a34; seed28873/SHA 9949ad23…; JUnit50835/SHA 27650b5c…; READY run-41585a84; Backend run-a858d21b delta3/outside0/events1028/truncated0; focused E12/12 E+R25/25 Maven1113/1113 PASS; no live; external existing-data/check-only prerequisites (hero_missfortune/ap/mana; does not write identity/panel/resource values; no Miss Fortune materializer; no R mutation); standalone no Batch-B or sibling Miss Fortune synthesis; not live published',
         ),
       ],
     },
@@ -5185,9 +5219,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 100) errors.push(`migrated=${counts.migrated}, expected 100`);
+  if (counts.migrated !== 101) errors.push(`migrated=${counts.migrated}, expected 101`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 69) errors.push(`blocked=${counts.blocked}, expected 69`);
+  if (counts.blocked !== 68) errors.push(`blocked=${counts.blocked}, expected 68`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
   const detCritBlocked = records.filter(
     (r) =>
@@ -12086,6 +12120,166 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       sivirQ.candidateKey,
       sivirQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const missFortuneE = records.find((r) => r.candidateKey === 'hero_skill|hero_missfortune|E|枪林弹雨');
+  const missFortuneETags = [...(missFortuneE?.genericMechanismTags || [])];
+  const missFortuneEExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_aggregated_duration_total_scaffold',
+  ];
+  const missFortuneEReason = String(missFortuneE?.classificationReason || '');
+  const missFortuneEBoundary =
+    'rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_missfortune|E')) {
+    errors.push('Miss Fortune E exact override key hero_missfortune|E must exist before fallback');
+  }
+  if (
+    !missFortuneE
+    || missFortuneE.candidateKey !== 'hero_skill|hero_missfortune|E|枪林弹雨'
+    || missFortuneE.passiveName !== '枪林弹雨'
+    || missFortuneE.genericClassification !== 'migrated'
+    || String(missFortuneE.remainingGap || '').trim()
+    || (missFortuneE.dataGapEvidence?.missingFields || []).length !== 0
+    || missFortuneETags.join('|') !== missFortuneEExpectedTags.join('|')
+    || missFortuneETags.includes('meta_or_non_target_dps')
+    || missFortuneETags.includes('immediate_impact_scaffold')
+    || missFortuneETags.includes('dps_relevant_manual_review')
+    || missFortuneETags.includes('primary_damage_branch_salvage')
+    || missFortuneETags.includes('multi_target_or_area')
+    || !missFortuneETags.includes('immediate_aggregated_duration_total_scaffold')
+    || !missFortuneETags.includes('active_magic_damage')
+    || !missFortuneETags.includes('ap_ratio')
+    || !missFortuneETags.includes('ability_cost_cooldown')
+    || missFortuneEReason.includes('needs_runtime_extension')
+    || missFortuneEReason.includes('blocked_data')
+    || missFortuneEReason.includes('implementation_gap_no_unresolved_data_fields')
+    || missFortuneEReason.includes('meta_or_non_target_dps')
+    || missFortuneEReason.includes('out_of_scope_for_single_target_dps')
+    || missFortuneEReason.includes('immediate_impact_scaffold')
+    || !missFortuneEReason.includes('3936384')
+    || !missFortuneEReason.includes(
+      'a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7',
+    )
+    || !missFortuneEReason.includes(
+      'd53466f5d4e7e046620820cfd492133bcfac646e2d81d348dfcf544fe8174596',
+    )
+    || !missFortuneEReason.includes(
+      'ac8ffb762ccb1667b7c3f955a60e418cb36553b1c653ebb6a70b613c4bf0a0dc',
+    )
+    || !missFortuneEReason.includes(
+      '5a8800d1ca721f1583bb3d2c5581977a2e4942d399266ca3c745cd11e6503b7f',
+    )
+    || !missFortuneEReason.includes('Template:Data Miss Fortune/E')
+    || !missFortuneEReason.includes('Template:Data Miss Fortune/Make It Rain')
+    || !missFortuneEReason.includes('page1308255')
+    || !missFortuneEReason.includes('bytes1210')
+    || !missFortuneEReason.includes('bytes1972')
+    || !missFortuneEReason.includes('bytes747')
+    || !missFortuneEReason.includes('2025-07-24T15:45:56Z')
+    || !missFortuneEReason.includes(missFortuneEBoundary)
+    || !missFortuneEReason.includes('add(const 190, mul(const 1.20, read source.attr.ap.resolved))')
+    || !missFortuneEReason.includes('without per-tick rounding')
+    || !missFortuneEReason.includes('8*(190/8+(120/8)%AP)=190+1.20*AP')
+    || !missFortuneEReason.includes('CritEligible=false')
+    || !missFortuneEReason.includes('20221')
+    || !missFortuneEReason.includes('20170')
+    || !missFortuneEReason.includes('raw190/final95')
+    || !missFortuneEReason.includes('raw310/final155')
+    || !missFortuneEReason.includes('mana80')
+    || !missFortuneEReason.includes('CD14000')
+    || !missFortuneEReason.includes('t13999')
+    || !missFortuneEReason.includes('t14000')
+    || !missFortuneEReason.includes('HP690')
+    || !missFortuneEReason.includes('mana79')
+    || !missFortuneEReason.includes('E/R coexistence')
+    || !missFortuneEReason.includes('focused E12/12')
+    || !missFortuneEReason.includes('E+R25/25')
+    || !missFortuneEReason.includes('Maven1113/1113')
+    || !missFortuneEReason.includes('run-a858d21b-8629-40f1-b8d1-96f85ced3221')
+    || !missFortuneEReason.includes('run-99972a69-3d14-49a3-a2e3-32a553cf0923')
+    || !missFortuneEReason.includes('run-41585a84-e405-4a8f-a34a-510be65661ae')
+    || !missFortuneEReason.includes('c6c2e73')
+    || !missFortuneEReason.includes('1693a34')
+    || !missFortuneEReason.includes('59725')
+    || !missFortuneEReason.includes(
+      '7aa8b7104e4b70cf8249449364176d6f9ac5c879ecf17e20d8d42edff0a1abb6',
+    )
+    || !missFortuneEReason.includes(
+      '9949ad23820eb1c77d5b09b53db786c8518b0bdaa0b3ffac18d210215a44b7eb',
+    )
+    || !missFortuneEReason.includes(
+      '27650b5ceed3a3c49b2de3a498f235cee6d11cbca83d8f86f08d14cee360e4dc',
+    )
+    || !missFortuneEReason.includes('Xayah structural dirty-test')
+    || !missFortuneEReason.includes('standalone')
+    || !missFortuneEReason.includes('external existing-data/check-only')
+    || !missFortuneEReason.includes('no Miss Fortune materializer')
+    || !missFortuneEReason.includes('no R mutation')
+    || !missFortuneEReason.includes('exactly one aggregated max-duration-total magic quantum, not full E')
+    || !missFortuneEReason.includes('no full-fidelity claim')
+    || !missFortuneEReason.includes('no live/Admin/E2E claim')
+    || missFortuneEReason.includes('canonical byte equivalence')
+    || missFortuneEReason.includes('live published')
+    || !String(missFortuneE.sourceRef || '').includes('missfortune-e.json')
+    || !String(missFortuneE.sourceRef || '').includes(
+      'a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7',
+    )
+    || missFortuneE.auditBaseline?.gapCode !== 'blocked_data'
+    || missFortuneE.auditBaseline?.resolvedBucket !== 'blocked'
+    || missFortuneE.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(missFortuneE.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || missFortuneE.classification !== 'out_of_scope_for_single_target_dps'
+    || !(missFortuneE.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(missFortuneE.classificationReason)
+    || !(missFortuneE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.missFortuneMakeItRainMaxTotalSelectedPrimary
+        && e.taskKey === 'wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary'
+        && String(e.note || '').includes(missFortuneEBoundary)
+        && String(e.note || '').includes('1693a34')
+        && String(e.note || '').includes('5a8800d1')
+        && String(e.note || '').includes('7aa8b710')
+        && String(e.note || '').includes('59725')
+        && String(e.note || '').includes('20221')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('without per-tick rounding')
+        && String(e.note || '').includes('raw190/final95')
+        && String(e.note || '').includes('raw310/final155')
+        && String(e.note || '').includes('Xayah structural dirty-test')
+        && String(e.note || '').includes('standalone'),
+    )
+    || !(missFortuneE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.missFortuneMakeItRainMaxTotalSelectedPrimaryBackend
+        && e.taskKey === 'wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary'
+        && String(e.note || '').includes(missFortuneEBoundary)
+        && String(e.note || '').includes('LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest')
+        && String(e.note || '').includes('c6c2e73')
+        && String(e.note || '').includes('1693a34')
+        && String(e.note || '').includes('run-a858d21b')
+        && String(e.note || '').includes('focused E12/12')
+        && String(e.note || '').includes('Maven1113/1113')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('no Miss Fortune materializer')
+        && String(e.note || '').includes('no R mutation')
+        && String(e.note || '').includes('standalone'),
+    )
+  ) {
+    errors.push(
+      'Miss Fortune E must be migrated with empty remainingGap/missingFields, exact Make It Rain ordered tags (no meta_or_non_target_dps/immediate_impact_scaffold; requires immediate_aggregated_duration_total_scaffold/active_magic_damage/ap_ratio/ability_cost_cooldown), stale blocked provenance retained in auditBaseline/raw only (out_of_scope_for_single_target_dps/meta_or_non_target_dps), Wiki rev3936384/SHA + local raw caveat + frozen completedBoundary, rank5 mana80/CD14000/one aggregated 190+1.20*AP nested binary AP-once without per-tick rounding (190/95; 310/155; 20221/20170; t0/t13999/t14000 mana240→80/HP690; mana79 skip; E/R coexistence), READY run-41585a84 + Backend run-a858d21b focused E12/E+R25/Maven1113 + Wasm 1693a34/Xayah dirty-test honesty, and bilateral wasm+backend evidence (owning c6c2e73 / Wasm 1693a34; one aggregated max-duration-total magic quantum not full E; no duration/ticks/location/slow/live/Admin/E2E/full-fidelity claim)',
+    );
+  }
+  if (missFortuneE) {
+    validateBilateralCoverageEvidence(
+      missFortuneE.candidateKey,
+      missFortuneE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
