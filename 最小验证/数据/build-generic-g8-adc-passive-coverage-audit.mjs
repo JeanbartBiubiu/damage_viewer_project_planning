@@ -690,6 +690,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_akshan_avengerang_first_outbound_hit_seed.sql',
   sivirBoomerangBladeFirstOutboundHitBackend:
     'db/game_manage/seeds/lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql',
+  missFortuneBulletTimeMaxChannelExpectedBackend:
+    'db/game_manage/seeds/lol_generic_miss_fortune_bullet_time_max_channel_expected_seed.sql',
   twitchDeadlyVenomBackend: 'db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql',
   terminusJuxtapositionBackend:
     'db/game_manage/seeds/lol_generic_terminus_juxtaposition_seed.sql',
@@ -854,6 +856,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_avengerang_first_outbound_hit_test.go',
   sivirBoomerangBladeFirstOutboundHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_sivir_boomerang_blade_first_outbound_hit_test.go',
+  missFortuneBulletTimeMaxChannelExpected:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_miss_fortune_bullet_time_max_channel_expected_test.go',
   twitchDeadlyVenom:
     'wasm/tinygo_engine_v2/internal/runtime/generic_twitch_deadly_venom_test.go',
   terminusJuxtaposition:
@@ -1809,6 +1813,40 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-sivir-boomerang-blade-first-outbound-hit',
           SEED.sivirBoomerangBladeFirstOutboundHitBackend,
           'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity; backend lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql + LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest + README (owning 3ded9cb; integrated b14c48f); Wasm exact test commit bff4d160; seed32326/SHA 4ba04a00…; JUnit63624/SHA 2f3368a9…; READY run-4db83782; Sivir JUnit13 PASS; combined mirror sibling caveat pre-existing Essence Reaver/Twisted Fate must BEGIN failures not hidden/fixed here; external existing-data/check-only prerequisites (hero_sivir/ad/ap/crit_chance/mana; does not write identity/panel/resource values; no Sivir materializer); standalone no Batch-B or sibling Sivir synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_missfortune|R',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ap_ratio',
+        'crit_scaling',
+        'max_full_channel_aggregate',
+        'expected_crit_formula',
+        'phase_a_excludes_wiki_ie_crit_ratio_30',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_missfortune R 弹幕时间/Bullet Time：Wiki request Template:Data Miss Fortune/R → resolved Template:Data Miss Fortune/Bullet Time；page1308257 / rev3987215 / timestamp 2026-01-25T03:47:11Z / canonical bytes3021 / SHA256 354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a（normalized/generic/missfortune-r.json bytes3550/SHA256 b275bcc7fb13855cf3fb5a7a8ca0cddce4964ed5713dc521eceb573e69b78c49 plus pages sibling bytes743/SHA256 43bb41feafeaa7a8416bd91b81f51f4be73d3bf30ff78ccb2190fc317f3084d6 are authority）rank3 maximum full-channel expected Phase-A v3 已由 wasm-generic-miss-fortune-bullet-time-max-channel-expected 闭环为 migrated——local raw caveat bytes3021 / SHA 19ba845fd99a0da526b34e55c833f9902c0ce9feb55ad486a1d18c12b55a1049（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；one standalone R provider；rank3 mana100 / CD100000ms；immediate aggregated max-full-channel selected-primary-champion expected total physical damage scaffold；exact generic formula 18*(40+0.60*source.attr.ad.resolved+0.25*source.attr.ap.resolved)*(1+0.30*min(1.00,max(0.00,source.attr.crit_chance.resolved))) via nested binary nodes with each read path exactly once and formula-local crit_chance clamp（total AD = ad.resolved — never subtract ad.base / never call it bonus AD；no governed total_ad_ratio tag；no DB-bound/random crit / crit_damage read / CritEligible settleExpectedCrit claim）；Wiki {{critical damage|130|30}} includes base130 plus IE ratio；implemented slice uses formula-local fixed base130 expectation factor 1+0.30*clamp(p) and deliberately excludes Wiki IE ratio 30 — never claim Wiki omits IE；Ashe P expectation-only precedent is related but Ashe uses runtime crit_damage total multiplier while MF R uses formula-local fixed130 with explicit IE-ratio exclusion；Wiki maximum-total table is noncrit对照；CritEligible=false；CopyableOnHit=false；exactly one aggregated noncrit/noncopyable physical damage quantum（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 AD100/AP0/armor0：p0=1800、p0.5=2070、p1=2340；armor100/p0.5 raw2070→final1035；AP100/p0.5 noncrit2250、raw/final2587.5；p=-0.5→1800；p=1.5→2340；crit_damage 1.3/2.0/2.3 unchanged as IE-ratio exclusion invariance counterproof not IE support）。Attempts mana300/AD100/AP0/crit0.5/HP10000/armor0 at t0/t99999/t100000 → success/skip/success，exactly two R damage items；final mana100/HP5860；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Miss Fortune R provider is standalone；Backend external existing-data/check-only prerequisites only（hero_missfortune/ad/ap/crit_chance/mana）；no Miss Fortune materializer/shared identity-panel-resource write；current generic missing formula attrs read zero, not claimed fail-closed；hero-named `_test.go` is regression/governance evidence only；不暗示任何 production Wasm/public ABI/Web change。READY gate run-35c777c6-66cd-4dc0-8901-39aae01602fc v3。Backend validation honesty：Main focused30/full1069 passed；owning 45259a6；no live。Wasm main validation passed focused/full/bench PASS；test-only；Wasm exact test commit 72eb807；exact test bytes56552 / SHA256 6bcaf93a0ff086193afaf85e9fd6b890c9d7da76d2ebbc2664f4d8cd77b8c37f。completedBoundary：rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity。明确排除 channel timing/tick schedule/interruption/cancel、direction/cone/six projectiles per wave/collision/geometry、multitarget/wave-by-wave snapshot/dynamic stats、sight/reveal/spellshield、RNG-on-crit/basic attack、Wiki IE crit ratio 30、other ranks/siblings/loadout/bootstrap/live/full fidelity；this is exactly one aggregated max-full-channel expected quantum, not full R；不宣称 channel/ticks/geometry/projectiles/multitarget/sight/RNG/IE-ratio/other-ranks/完整游戏保真；no full-fidelity claim；no live/Admin/E2E claim。Backend seed 显式依赖 external existing-data/check-only 前置，不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-miss-fortune-bullet-time-max-channel-expected',
+          WASM.missFortuneBulletTimeMaxChannelExpected,
+          'completedBoundary: rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity; Wiki request Template:Data Miss Fortune/R → Bullet Time; rev3987215/SHA256 354cac88… / bytes3021; local raw caveat bytes3021/SHA 19ba845f… no equivalence claim; rank3 mana100/CD100000; one aggregated physical 18*(40+0.60*ad.resolved+0.25*ap.resolved)*(1+0.30*min(1,max(0,crit_chance.resolved))) nested binary read-once formula-local clamp; formula-local fixed130 expectation; deliberately excludes Wiki IE ratio 30 — never claim Wiki omits IE; Ashe expectation-only related but MF uses formula-local fixed130 not global crit_damage; CritEligible=false; no crit_damage read/double settlement; Wiki max-total table noncrit; AD100 p0/0.5/1 →1800/2070/2340; armor100→1035; AP100 p0.5→2587.5; crit_damage 1.3/2.0/2.3 unchanged IE-exclusion counterproof; damage 20220/add 20170; no 20230; no explicit event op; no R type; mana300 t0/t99999/t100000 success/skip/success two R damage items final mana100/HP5860 two automatic R ability_started; mana99 resource skip unchanged; missing formula attrs read zero not fail-closed; hero-named _test.go regression/governance only; standalone no sibling synthesis; no total_ad_ratio; Wasm exact test commit 72eb807 bytes56552/SHA 6bcaf93a…; channel/ticks/geometry/projectiles/multitarget/sight/RNG/IE-ratio/other-ranks/live/Admin/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-miss-fortune-bullet-time-max-channel-expected',
+          SEED.missFortuneBulletTimeMaxChannelExpectedBackend,
+          'completedBoundary: rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity; backend lol_generic_miss_fortune_bullet_time_max_channel_expected_seed.sql + LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest (owning 45259a6); Wasm exact test commit 72eb807; seed33539/SHA 0cc6ff2a…; JUnit66012/SHA aef51ab2…; READY run-35c777c6; focused30/full1069 PASS; no live; external existing-data/check-only prerequisites (hero_missfortune/ad/ap/crit_chance/mana; does not write identity/panel/resource values; no Miss Fortune materializer); standalone no Batch-B or sibling Miss Fortune synthesis; formula-local fixed130 with explicit IE-ratio exclusion; no total_ad_ratio; not live published',
         ),
       ],
     },
@@ -5033,18 +5071,18 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 95) errors.push(`migrated=${counts.migrated}, expected 95`);
+  if (counts.migrated !== 96) errors.push(`migrated=${counts.migrated}, expected 96`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 74) errors.push(`blocked=${counts.blocked}, expected 74`);
+  if (counts.blocked !== 73) errors.push(`blocked=${counts.blocked}, expected 73`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
   const detCritBlocked = records.filter(
     (r) =>
       r.genericClassification === 'blocked'
       && (r.genericMechanismTags || []).includes('deterministic_random_crit_sequence'),
   );
-  if (detCritBlocked.length !== 3) {
+  if (detCritBlocked.length !== 2) {
     errors.push(
-      `deterministic_random_crit_sequence blocked family=${detCritBlocked.length}, expected 3`,
+      `deterministic_random_crit_sequence blocked family=${detCritBlocked.length}, expected 2`,
     );
   }
 
@@ -11713,6 +11751,161 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       sivirQ.candidateKey,
       sivirQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const missFortuneR = records.find((r) => r.candidateKey === 'hero_skill|hero_missfortune|R|弹幕时间');
+  const missFortuneRTags = [...(missFortuneR?.genericMechanismTags || [])];
+  const missFortuneRExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'ap_ratio',
+    'crit_scaling',
+    'max_full_channel_aggregate',
+    'expected_crit_formula',
+    'phase_a_excludes_wiki_ie_crit_ratio_30',
+    'immediate_impact_scaffold',
+  ];
+  const missFortuneRReason = String(missFortuneR?.classificationReason || '');
+  const missFortuneRBoundary =
+    'rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_missfortune|R')) {
+    errors.push('Miss Fortune R exact override key hero_missfortune|R must exist before fallback');
+  }
+  if (
+    !missFortuneR
+    || missFortuneR.candidateKey !== 'hero_skill|hero_missfortune|R|弹幕时间'
+    || missFortuneR.passiveName !== '弹幕时间'
+    || missFortuneR.genericClassification !== 'migrated'
+    || String(missFortuneR.remainingGap || '').trim()
+    || (missFortuneR.dataGapEvidence?.missingFields || []).length !== 0
+    || missFortuneRTags.join('|') !== missFortuneRExpectedTags.join('|')
+    || missFortuneRTags.includes('deterministic_random_crit_sequence')
+    || missFortuneRTags.includes('seeded_random_crit_sequence')
+    || missFortuneRTags.includes('total_ad_ratio')
+    || missFortuneRTags.includes('dps_relevant_manual_review')
+    || missFortuneRTags.includes('blocked_data')
+    || !missFortuneRTags.includes('max_full_channel_aggregate')
+    || !missFortuneRTags.includes('expected_crit_formula')
+    || !missFortuneRTags.includes('phase_a_excludes_wiki_ie_crit_ratio_30')
+    || !missFortuneRTags.includes('crit_scaling')
+    || !missFortuneRTags.includes('ap_ratio')
+    || !missFortuneRTags.includes('active_physical_damage')
+    || !missFortuneRTags.includes('immediate_impact_scaffold')
+    || missFortuneRReason.includes('needs_runtime_extension')
+    || missFortuneRReason.includes('blocked_data')
+    || missFortuneRReason.includes('implementation_gap_no_unresolved_data_fields')
+    || missFortuneRReason.includes('deterministic_random_crit_sequence：expected crit')
+    || !missFortuneRReason.includes('3987215')
+    || !missFortuneRReason.includes(
+      '354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a',
+    )
+    || !missFortuneRReason.includes(
+      '19ba845fd99a0da526b34e55c833f9902c0ce9feb55ad486a1d18c12b55a1049',
+    )
+    || !missFortuneRReason.includes(
+      'b275bcc7fb13855cf3fb5a7a8ca0cddce4964ed5713dc521eceb573e69b78c49',
+    )
+    || !missFortuneRReason.includes(
+      '43bb41feafeaa7a8416bd91b81f51f4be73d3bf30ff78ccb2190fc317f3084d6',
+    )
+    || !missFortuneRReason.includes('Template:Data Miss Fortune/R')
+    || !missFortuneRReason.includes('Template:Data Miss Fortune/Bullet Time')
+    || !missFortuneRReason.includes('page1308257')
+    || !missFortuneRReason.includes('bytes3021')
+    || !missFortuneRReason.includes('2026-01-25T03:47:11Z')
+    || !missFortuneRReason.includes(missFortuneRBoundary)
+    || !missFortuneRReason.includes(
+      '18*(40+0.60*source.attr.ad.resolved+0.25*source.attr.ap.resolved)*(1+0.30*min(1.00,max(0.00,source.attr.crit_chance.resolved)))',
+    )
+    || !missFortuneRReason.includes('formula-local')
+    || !missFortuneRReason.includes('fixed base130')
+    || !missFortuneRReason.includes('deliberately excludes Wiki IE ratio 30')
+    || !missFortuneRReason.includes('never claim Wiki omits IE')
+    || !missFortuneRReason.includes('Ashe P expectation-only')
+    || !missFortuneRReason.includes('CritEligible=false')
+    || !missFortuneRReason.includes('no governed total_ad_ratio')
+    || !missFortuneRReason.includes('1800')
+    || !missFortuneRReason.includes('2070')
+    || !missFortuneRReason.includes('2340')
+    || !missFortuneRReason.includes('1035')
+    || !missFortuneRReason.includes('2587.5')
+    || !missFortuneRReason.includes('mana100')
+    || !missFortuneRReason.includes('CD100000')
+    || !missFortuneRReason.includes('t99999')
+    || !missFortuneRReason.includes('t100000')
+    || !missFortuneRReason.includes('HP5860')
+    || !missFortuneRReason.includes('mana99')
+    || !missFortuneRReason.includes('focused30/full1069')
+    || !missFortuneRReason.includes('run-35c777c6-66cd-4dc0-8901-39aae01602fc')
+    || !missFortuneRReason.includes('45259a6')
+    || !missFortuneRReason.includes('72eb807')
+    || !missFortuneRReason.includes('56552')
+    || !missFortuneRReason.includes(
+      '6bcaf93a0ff086193afaf85e9fd6b890c9d7da76d2ebbc2664f4d8cd77b8c37f',
+    )
+    || !missFortuneRReason.includes('standalone')
+    || !missFortuneRReason.includes('external existing-data/check-only')
+    || !missFortuneRReason.includes('no Miss Fortune materializer')
+    || !missFortuneRReason.includes('exactly one aggregated max-full-channel expected quantum, not full R')
+    || !missFortuneRReason.includes('no full-fidelity claim')
+    || !missFortuneRReason.includes('no live/Admin/E2E claim')
+    || missFortuneRReason.includes('canonical byte equivalence')
+    || missFortuneRReason.includes('live published')
+    || !String(missFortuneR.sourceRef || '').includes('missfortune-r.json')
+    || !String(missFortuneR.sourceRef || '').includes(
+      '354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a',
+    )
+    || missFortuneR.auditBaseline?.gapCode !== 'blocked_data'
+    || missFortuneR.auditBaseline?.resolvedBucket !== 'blocked'
+    || missFortuneR.auditBaseline?.damageDisposition !== 'not_applicable'
+    || !(missFortuneR.auditBaseline?.mechanismTags || []).includes('seeded_random_crit_sequence')
+    || missFortuneR.classification !== 'needs_runtime_extension'
+    || !(missFortuneR.mechanismTags || []).includes('seeded_random_crit_sequence')
+    || citesForbiddenProvenance(missFortuneR.classificationReason)
+    || !(missFortuneR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.missFortuneBulletTimeMaxChannelExpected
+        && e.taskKey === 'wasm-generic-miss-fortune-bullet-time-max-channel-expected'
+        && String(e.note || '').includes(missFortuneRBoundary)
+        && String(e.note || '').includes('72eb807')
+        && String(e.note || '').includes('19ba845f')
+        && String(e.note || '').includes('formula-local fixed130')
+        && String(e.note || '').includes('excludes Wiki IE ratio 30')
+        && String(e.note || '').includes('never claim Wiki omits IE')
+        && String(e.note || '').includes('no total_ad_ratio')
+        && String(e.note || '').includes('CritEligible=false')
+        && String(e.note || '').includes('1800/2070/2340')
+        && String(e.note || '').includes('standalone'),
+    )
+    || !(missFortuneR.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.missFortuneBulletTimeMaxChannelExpectedBackend
+        && e.taskKey === 'wasm-generic-miss-fortune-bullet-time-max-channel-expected'
+        && String(e.note || '').includes(missFortuneRBoundary)
+        && String(e.note || '').includes('LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest')
+        && String(e.note || '').includes('45259a6')
+        && String(e.note || '').includes('72eb807')
+        && String(e.note || '').includes('run-35c777c6')
+        && String(e.note || '').includes('focused30/full1069')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('no Miss Fortune materializer')
+        && String(e.note || '').includes('no total_ad_ratio')
+        && String(e.note || '').includes('explicit IE-ratio exclusion')
+        && String(e.note || '').includes('standalone'),
+    )
+  ) {
+    errors.push(
+      'Miss Fortune R must be migrated with empty remainingGap/missingFields, exact Bullet Time ordered tags (no deterministic_random_crit_sequence/seeded_random_crit_sequence/total_ad_ratio; requires max_full_channel_aggregate/expected_crit_formula/phase_a_excludes_wiki_ie_crit_ratio_30/crit_scaling/ap_ratio/active_physical_damage/immediate_impact_scaffold), stale blocked provenance retained in auditBaseline only (seeded_random_crit_sequence/needs_runtime_extension), Wiki rev3987215/SHA + local raw caveat + frozen completedBoundary, rank3 mana100/CD100000/one aggregated 18*(40+0.60*totalAD+0.25*AP)*(1+0.30*clamp crit) nested binary read-once formula-local fixed130 (1800/2070/2340; 1035; 2587.5; IE exclusion not Wiki-omits-IE; CritEligible=false; no total_ad_ratio), Ashe expectation-only related while MF uses formula-local fixed130, READY run-35c777c6 + focused30/full1069 + Wasm 72eb807, and bilateral wasm+backend evidence (owning 45259a6 / Wasm 72eb807; one aggregated max-full-channel expected quantum not full R; no channel/ticks/geometry/IE-ratio/live/Admin/E2E/full-fidelity claim)',
+    );
+  }
+  if (missFortuneR) {
+    validateBilateralCoverageEvidence(
+      missFortuneR.candidateKey,
+      missFortuneR.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
