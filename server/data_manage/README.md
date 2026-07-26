@@ -1874,6 +1874,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest,LolGenericCritModifierSeedSqlTest,LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest test
 ```
 
+### LoL generic Miss Fortune Make It Rain max-duration total selected-primary seed（厄运小姐 E / Phase-A v2 最大时长选定主冠军总魔法伤害聚合）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_missfortune)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_missfortune,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_missfortune,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值——当前仓库亦无 Miss Fortune identity/panel/resource materializer；仅挂载可 cast 的独立 E active **最大时长选定主冠军总魔法伤害聚合量子**；与既有独立 R Bullet Time **并存且不突变/不复制**；standalone：不创建/突变/合成/复制 P/Q/W/R/basic；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**；**不以** legacy champion JSON 为当前真相）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_miss_fortune_make_it_rain_max_total_selected_primary_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-miss-fortune-make-it-rain-max-total-selected-primary-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_missfortune|E|枪林弹雨`（task `wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary`）冻结为 **Phase-A rank-5 立即聚合最大时长选定主冠军总魔法伤害 scaffold**（`FROZEN_PLAN_REV=miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2`）：
+
+`rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `ap_ratio` → `immediate_aggregated_duration_total_scaffold`（**显式不含** `immediate_impact_scaffold`）。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_missfortune` / `ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_missfortune` **仅** mount 独立 `provider_hero_missfortune_e_make_it_rain_max_total_selected_primary`（stable id `hero_missfortune_e_make_it_rain_max_total_selected_primary`；standalone；与既有 `provider_hero_missfortune_r_bullet_time_max_channel_expected` 并存且不突变/不复制；不创建/突变/合成/复制 P/Q/W/R/basic），含 active `ability_hero_missfortune_e_make_it_rain_max_total_selected_primary`（`ability_key=make_it_rain_max_total_selected_primary`）、`ability_costs` 80 mana、`ability_cooldowns` 14000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `190 + 1.20*source.attr.ap.resolved`（AP 直接读 `ap.resolved`；无关 AD/crit 变化不得改变 E 伤害；嵌套二元 `add(const 190, mul(const 1.20, read …))`；AP read 恰好一次；`copyable_on_hit=false`，非 crit / `CritEligible=false`；运行时类型 `20221` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / tick / control / scheduler / E-specific type / sibling 行。成功 cast 由 runtime 自动发出 `ability_started`（本 E 图不添加 listener / event step）。Immediate aggregated duration-total selected-primary-champion magic **aggregated duration total scaffold** 为 Phase-A，不是实际两秒时长 / 八 ticks / 0.25s tick schedule / location / area / geometry / multitarget / sight / slow / dynamic slow refresh / full-E fidelity。Exactly one immediate aggregated max-duration total magic quantum only, not full E。Wiki：request `Template:Data Miss Fortune/E` → resolved `Template:Data Miss Fortune/Make It Rain`；page1308255 / rev3936384 / `2025-07-24T15:45:56Z` / canonical 1210 bytes / SHA256 `a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7`；sidecar `normalized/generic/missfortune-e.json`（bytes 1972 / SHA256 `d53466f5d4e7e046620820cfd492133bcfac646e2d81d348dfcf544fe8174596`）+ `pages/missfortune-e.json`（bytes 747 / SHA256 `ac8ffb762ccb1667b7c3f955a60e418cb36553b1c653ebb6a70b613c4bf0a0dc`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 1210 / `5a8800d1ca721f1583bb3d2c5581977a2e4942d399266ca3c745cd11e6503b7f`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。Wiki total `190 + 120% AP` 可推导为 eight ticks `190/8 + (120/8)% AP` over two seconds；本 Phase-A **仅**实现立即聚合总额，**无** tick schedule。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。hero-named Wasm `_test.go` 计划作为 **test-only** 回归/治理证据，而非生产分支条件；生产 runtime 仍为 generic。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime；JUnit 静态代数 counterproof）：AP0 → raw190；MR100 → final95；AP100 → raw310；MR100 → final155；unrelated AD/crit inputs absent from formula。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：actual two seconds / eight ticks / 0.25s schedule / tick snapshot / rounding；location/area/radius/acquisition/geometry/multi-target/sight；slow/AP-scaled slow/refresh/cleanse；spell-effects/persistent-area/interruption/animation；ranks1–4；P/Q/W/R/basic/loadout/full fidelity；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/tick/control/scheduler/sibling；live migration；publish；E2E/live/full fidelity。One immediate aggregated max-duration total magic quantum, not full E。
+
+静态契约校验（不连 live DB；含邻近 Miss Fortune R standalone aggregated-channel 并存/非突变，以及 Jinx E 选定主冠军 AP-magic 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest,LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest,LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest test
+```
+
 ### LoL generic Caitlyn 90 Caliber Net primary-hit seed（凯特琳 E / Phase-A v3 主冠军第一敌人命中）
 
 在 reserved types 已就绪，且 **外部既有** `game_entities(hero_caitlyn)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_caitlyn,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_caitlyn,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Caitlyn ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 E active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
