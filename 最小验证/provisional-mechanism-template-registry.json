@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v3",
     "planRevision": "provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4",
-    "generatedAt": "2026-07-26T07:49:34.218Z",
+    "generatedAt": "2026-07-26T08:28:55.161Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "281f2710991cf3f1b41501e9220354bbe8f0006079b87f44461fcedc24962897",
-        "byteSize": 1122206
+        "sha256": "12776ec4c4030f8388f62784c47c846de6c3c61a6efb4caadbbd3b0b956748ec",
+        "byteSize": 1127506
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 74,
+    "templateCount": 73,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 71,
+      "blocked_runtime": 70,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 72,
+      "hero_skill": 71,
       "item_passive": 2
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 71,
+      "runtime_contract_placeholder": 70,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 102,
+      "completed": 103,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -3094,266 +3094,6 @@
             {
               "fieldRef": "fields.damagetype",
               "raw": "Magic\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "expression": null,
-          "verification": "pending"
-        },
-        "operationGraph": {
-          "templateKind": "provider_ability_single_quantum_candidate",
-          "nodes": [
-            "provider_candidate",
-            "ability_candidate",
-            "phase_candidate",
-            "sequence_candidate",
-            "operation_candidate"
-          ],
-          "edges": [
-            "provider_to_ability",
-            "ability_to_phase",
-            "phase_to_sequence",
-            "sequence_to_operation"
-          ],
-          "concreteIds": null,
-          "concreteTypeIds": null,
-          "requiredEvents": [],
-          "requiredState": [],
-          "productionRuntimeChangeRequired": null,
-          "verification": "pending"
-        },
-        "fixtures": [
-          {
-            "id": "baseline_quantum",
-            "purpose": "exercise_minimum_candidate_quantum",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          },
-          {
-            "id": "boundary_or_counterproof",
-            "purpose": "exercise_boundary_or_unrelated_input_counterproof",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          }
-        ],
-        "completedBoundary": null,
-        "exclusions": [
-          {
-            "kind": "candidate_exclusion",
-            "id": "full_fidelity_surfaces_review",
-            "prompt": "Review whether full-fidelity surfaces remain outside this provisional draft scope."
-          },
-          {
-            "kind": "candidate_exclusion",
-            "id": "geometry_selection_multitarget_review",
-            "prompt": "Review geometry, selection, and multi-target scope for this candidate."
-          }
-        ]
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion",
-        "no_mechanical_draft_as_verified_phase_a_claim"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_draven|R|冷血追命",
-      "inventoryOrdinal": 34,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_draven",
-      "skillKey": "R",
-      "passiveName": "冷血追命",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "multi_target_or_area"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_draven|R|冷血追命"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_draven|R|冷血追命"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Draven",
-        "pageId": "draven-r",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/draven-r.json@rev4040576 sha256:e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "draftState": "mechanical_unverified",
-        "sourcePointers": {
-          "kind": "hero_wiki_sidecar",
-          "authority": "league_wiki_current_champion_template",
-          "sidecarPath": "数据参考/lol-wiki-current-champions/normalized/generic/draven-r.json",
-          "localFileSha256": "74e8f95ca03c86a5c809255d6309e4639e949337f4f36ee4fcfd4e8403416754",
-          "localFileByteSize": 3361,
-          "canonical": {
-            "requestTitle": "Template:Data Draven/R",
-            "resolvedTitle": "Template:Data Draven/Whirling Death",
-            "wikiPageId": 1307072,
-            "revisionId": 4040576,
-            "revisionTimestamp": "2026-07-06T14:27:37Z",
-            "contentSha256": "e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce",
-            "rawByteSize": 3079
-          },
-          "fieldRefs": [
-            "fields.description",
-            "fields.description2",
-            "fields.description3",
-            "fields.description4",
-            "fields.description5",
-            "fields.leveling",
-            "fields.leveling4",
-            "fields.cooldown",
-            "fields.cost",
-            "fields.costtype",
-            "fields.damagetype",
-            "fields.notes"
-          ]
-        },
-        "phaseATemplate": {
-          "id": "hero_selected_primary_minimum_quantum_candidate",
-          "basisStatus": "blocked_runtime",
-          "basisTags": [
-            "multi_target_or_area"
-          ],
-          "requiresIndividualDesignReview": true
-        },
-        "rank": {
-          "selection": "max_rank_candidate",
-          "value": null,
-          "sourceFieldRefs": [
-            "fields.leveling",
-            "fields.leveling4"
-          ],
-          "verification": "pending"
-        },
-        "resourceCost": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cost",
-            "fields.costtype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cost",
-              "raw": "100\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.costtype",
-              "raw": "mana\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValue": null,
-          "normalizedUnit": null,
-          "verification": "pending"
-        },
-        "cooldownMs": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cooldown"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cooldown",
-              "raw": "{{ap|100 to 80}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValueMs": null,
-          "verification": "pending"
-        },
-        "target": {
-          "mode": "selected_primary_candidate",
-          "value": null,
-          "verification": "pending"
-        },
-        "timing": {
-          "mode": "minimum_quantum_timing_candidate",
-          "valueMs": null,
-          "verification": "pending"
-        },
-        "formula": {
-          "mode": "wiki_formula_fields_unparsed",
-          "sourceFieldRefs": [
-            "fields.leveling",
-            "fields.leveling4",
-            "fields.damagetype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.leveling",
-              "raw": "{{st|Physical Damage|{{ap|200 to 400}} {{as|(+ {{ap|110 to 150}}% '''bonus''' AD)}}|Total Physical Damage|{{ap|200*2 to 400*2}} {{as|(+ {{ap|110*2 to 150*2}}% '''bonus''' AD)}}}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.leveling4",
-              "raw": "{{st|Minimum Physical Damage|{{ap|200*0.5 to 400*0.5}} {{as|(+ {{ap|110*0.5 to 150*0.5}}% '''bonus''' AD)}}|Minimum Total Damage|{{ap|200*0.5*2 to 400*0.5*2}} {{as|(+ {{ap|110*0.5*2 to 150*0.5*2}}% '''bonus''' AD)}}}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.damagetype",
-              "raw": "Physical\n",
               "parsedNumericValue": null,
               "claim": "unparsed_markup_not_numeric_truth"
             }
