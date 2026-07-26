@@ -22,7 +22,8 @@ public interface CombatGameEntitiesMapper {
         @Param("changeRevision") long changeRevision,
         @Param("entityId") Object entityId,
         @Param("displayName") Object displayName,
-        @Param("description") Object description
+        @Param("description") Object description,
+        @Param("imageUri") Object imageUri
     );
 
     List<Map<String, Object>> listChangedSince(
