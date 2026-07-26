@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-26T13:38:38.873Z"
+    "generatedAt": "2026-07-26T14:33:33.407Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 99,
+      "migrated": 100,
       "partial": 4,
-      "blocked": 70,
+      "blocked": 69,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 40.91,
+      "migrated": 41.32,
       "partial": 1.65,
-      "blocked": 28.93,
+      "blocked": 28.51,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 40.91,
-      "inScope": 57.23
+      "all": 41.32,
+      "inScope": 57.8
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 42.56,
-      "inScope": 59.54
+      "all": 42.98,
+      "inScope": 60.12
     },
     "inScopeCount": 173
   },
@@ -7925,29 +7925,30 @@
       "pageId": "vayne-q",
       "sourceText": "{{sbc|Active:}} '''Vayne''' {{tip|dash|dashes}} a fixed distance in the target direction, though not through terrain, and empowers her next {{tip|basic attack}} within 3 seconds to have an {{tip|uncancellable windup}} and deal {{as|'''bonus''' physical damage}}.\n''Tumble {{tip|basic attack reset|resets}} '''Vayne's''' basic attack timer.''\n{{st|Bonus Physical Damage|{{as|{{ap|75 to 115}}% AD}} {{as|(+ 50% AP)}}}}\n{{ap|6 to 2}}\n30\nMana\nphysical\n{{always quickcast}}\n* The basic attack portion of ''Tumble's'' damage is tagged as {{tip|basic damage}} and {{tip|spell damage}}, while the bonus damage is tagged as {{tip|spell damage}}.\n* The bonus damage applies {{as|{{sti|life steal}}}}.\n* Although ''Tumble'' will reset the basic attack timer, '''Vayne''' cannot attack until the animation is complete.\n* '''Vayne''' can cast {{ai|Final Hour|Vayne}} during ''Tumble''. She does not become {{tip|invisible}} during the dash.\n}}",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/vayne-q.json@rev4015566 sha256:5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "distance_or_ratio_modifier"
+        "rank5_next_basic_attack_bonus_within_3s",
+        "physical_1_15_total_ad_plus_0_50_ap",
+        "phase_a_excludes_dash_geometry_attack_reset_and_lifesteal"
       ],
-      "classificationReason": "distance_based_damage_modifier / damage_multiplier_or_health_ratio 无精确 migrated/partial 证据。",
-      "coverageEvidence": [],
-      "remainingGap": "缺 distance_or_ratio_input 与 damage_multiplier_or_health_ratio runtime 原语。",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4015566",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/vayne-q.json@rev4015566 sha256:5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_vayne Q 闪避突袭/Tumble：Wiki request Template:Data Vayne/Q → resolved Template:Data Vayne/Tumble；page1309988 / rev4015566 / timestamp 2026-05-05T15:55:50Z / canonical bytes1735 / SHA256 5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad（normalized/generic/vayne-q.json plus pages sibling are authority）rank5 Phase-A v2 next-basic-attack bonus 已由 wasm-generic-vayne-tumble-next-basic-attack-bonus 闭环为 migrated——local raw caveat bytes1733 / SHA 5723bf5ffbc6449f756aa33a8387c40a20039886b3665eddcb11ac1cac5914ca（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；enrich exact existing Spellblade-minimal provider_hero_vayne_tumble / ability_hero_vayne_tumble（ability_key=tumble；不新建第二 Q 身份）；provider-scope state tumble_empowered_attack_ready max1 / duration3000ms / refresh_on_write / default0；Q mana30 / CD2000ms；cast 恰好一次 provider-scope override ready=1、无伤害；成功施放自然发出一次 ability_started；listener ALL 恰好 event/basic_attack_hit + event/source_owner（不得 ability/basic_attack）；门控 ready≥1 后一次 non-crit/non-copyable physical bonus（nested binary add(mul(const 1.15, read source.attr.ad.resolved), mul(const 0.50, read source.attr.ap.resolved))）再 override ready=0、无 emit_event；fixture AD100/AP40/armor100 → raw135/mitigated67.5；t2999 仍 proc、t3000 过期无加成；下一次 source BA 消费后第二次无 Q bonus；t0/t1999/t2000 CD success/skip/success；mana29 跳过不武装；opponent hit / unrelated spell 不消费；Silver Bolts 无额外叠层；Spellblade 至多一次武装；Batch-B BA 普通伤害仍独立。completedBoundary：rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble。明确排除 dash/movement/distance/terrain/geometry、BA reset/windup/cadence、invisibility/R、lifesteal/healing、crit/RNG/miss/dodge/full on-hit、multi-target/structures、other ranks/full Tumble、live migration/publish/E2E；不宣称 dash/geometry/BA reset/lifesteal/crit/完整游戏保真；不使用 governed tag distance_or_ratio_modifier。Backend seed 显式依赖 external existing-data/check-only 前置（hero_vayne/ad/ap/mana/Batch-B BA/现有 Tumble identity），不物化 identity/panel/resource/basic/mount values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-vayne-tumble-next-basic-attack-bonus",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_vayne_tumble_next_basic_attack_bonus_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble; Wiki request Template:Data Vayne/Q → Tumble; rev4015566/SHA256 5ae387c0… / bytes1735; local raw caveat bytes1733/SHA 5723bf5f… no equivalence claim; enrich existing tumble identity; provider-state ready max1/3000ms; Q mana30/CD2000; cast override1 no damage; listener exactly hit+source_owner no ability/basic matcher; nested binary 1.15*totalAD+0.50*AP; AD100/AP40 raw135 armor100→67.5; t2999 proc/t3000 expired; one next-source-BA bonus then consume; Silver Bolts no extra stack; Spellblade one arm/proc; Wasm exact test commit 36d5a49; dash/geometry/BA-reset/lifesteal/crit/RNG/full-fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-vayne-tumble-next-basic-attack-bonus",
+          "sourcePath": "db/game_manage/seeds/lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble; backend lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql + LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest + README (owning e88e172); Wasm exact test commit 36d5a49; enrich exact existing tumble identity; nested binary total AD+AP; external existing-data/check-only prerequisites (hero_vayne/ad/ap/mana/Batch-B BA/existing Tumble; does not write identity/panel/resource/basic/mount values); no Batch-B rebuild or second Q identity; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_vayne|W|圣银弩箭",

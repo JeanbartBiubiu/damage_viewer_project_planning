@@ -1414,6 +1414,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_vayne|Q|闪避突袭',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Vayne Q 闪避突袭/Tumble：Wiki request Template:Data Vayne/Q → resolved Template:Data Vayne/Tumble；page1309988 / rev4015566 / timestamp 2026-05-05T15:55:50Z / canonical bytes1735 / SHA256 5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad（normalized/generic/vayne-q.json plus pages sibling are authority）rank5 Phase-A v2 next-basic-attack bonus 已由 wasm-generic-vayne-tumble-next-basic-attack-bonus + backend seed 证据闭环——local raw caveat bytes1733 / SHA 5723bf5ffbc6449f756aa33a8387c40a20039886b3665eddcb11ac1cac5914ca（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；enrich exact existing Spellblade-minimal provider_hero_vayne_tumble / ability_hero_vayne_tumble（ability_key=tumble；不新建第二 Q 身份）；provider-scope state tumble_empowered_attack_ready max1 / duration3000ms / refresh_on_write / default0；Q mana30 / CD2000ms；cast 恰好一次 provider-scope override ready=1、无伤害；成功施放自然发出一次 ability_started；listener ALL 恰好 event/basic_attack_hit + event/source_owner（不得 ability/basic_attack）；门控 ready≥1 后一次 non-crit/non-copyable physical bonus（nested binary add(mul(const 1.15, read source.attr.ad.resolved), mul(const 0.50, read source.attr.ap.resolved))）再 override ready=0、无 emit_event；fixture AD100/AP40/armor100 → raw135/mitigated67.5；t2999 仍 proc、t3000 过期无加成；下一次 source BA 消费后第二次无 Q bonus；t0/t1999/t2000 CD success/skip/success；mana29 跳过不武装；opponent hit / unrelated spell 不消费；Silver Bolts 无额外叠层；Spellblade 至多一次武装；Batch-B BA 普通伤害仍独立。completedBoundary：rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble。明确排除 dash/movement/distance/terrain/geometry、BA reset/windup/cadence、invisibility/R、lifesteal/healing、crit/RNG/miss/dodge/full on-hit、multi-target/structures、other ranks/full Tumble、live migration/publish/E2E；不宣称 dash/geometry/BA reset/lifesteal/crit/完整游戏保真；不使用 governed tag distance_or_ratio_modifier。Backend seed 显式依赖 external existing-data/check-only 前置（hero_vayne/ad/ap/mana/Batch-B BA/现有 Tumble identity），不物化 identity/panel/resource/basic/mount values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-vayne-tumble-next-basic-attack-bonus',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_tumble_next_basic_attack_bonus_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble; Wiki request Template:Data Vayne/Q → Tumble; rev4015566/SHA256 5ae387c0… / bytes1735; local raw caveat bytes1733/SHA 5723bf5f… no equivalence claim; enrich existing tumble identity; provider-state ready max1/3000ms; Q mana30/CD2000; cast override1 no damage; listener exactly hit+source_owner no ability/basic matcher; nested binary 1.15*totalAD+0.50*AP; AD100/AP40 raw135 armor100→67.5; t2999 proc/t3000 expired; one next-source-BA bonus then consume; Silver Bolts no extra stack; Spellblade one arm/proc; Wasm exact test commit 36d5a49; dash/geometry/BA-reset/lifesteal/crit/RNG/full-fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-vayne-tumble-next-basic-attack-bonus',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble; backend lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql + LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest + README (owning e88e172); Wasm exact test commit 36d5a49; enrich exact existing tumble identity; nested binary total AD+AP; external existing-data/check-only prerequisites (hero_vayne/ad/ap/mana/Batch-B BA/existing Tumble; does not write identity/panel/resource/basic/mount values); no Batch-B rebuild or second Q identity; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_vayne|R|终极时刻',
     {
       status: 'completed',
@@ -3258,6 +3290,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_vayne|E|恶魔审判',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile',
+  ],
+  [
+    'hero_skill|hero_vayne|Q|闪避突袭',
+    'rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble',
   ],
   [
     'hero_skill|hero_vayne|R|终极时刻',
@@ -11363,8 +11399,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 109) {
-    errors.push(`completed=${sc.completed}, expected 109`);
+  if ((sc.completed || 0) !== 110) {
+    errors.push(`completed=${sc.completed}, expected 110`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -11372,8 +11408,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 64) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 64`);
+  if ((sc.blocked_runtime || 0) !== 63) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 63`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -11394,14 +11430,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 109) {
-    errors.push(`completionMode full=${cm.full}, expected 109`);
+  if ((cm.full || 0) !== 110) {
+    errors.push(`completionMode full=${cm.full}, expected 110`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 142) {
-    errors.push(`completionMode none=${cm.none}, expected 142`);
+  if ((cm.none || 0) !== 141) {
+    errors.push(`completionMode none=${cm.none}, expected 141`);
   }
   const detCritBlockedUnified = (inv.mechanisms || []).filter(
     (m) =>
@@ -11780,6 +11816,103 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Vayne E must be completed/full/generic_runtime with cleared gaps/stale tags, Wiki rev4008541/SHA, frozen boundary/formula/cost/CD/numeric schedule, bilateral evidence, and exclusions (no wall/terrain/CC/cast/projectile/full-game claim)',
+    );
+  }
+
+  const mVayneQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_vayne|Q|闪避突袭');
+  const mVayneQReason = String(mVayneQ?.reason || '');
+  const mVayneQBoundary =
+    'rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble';
+  if (
+    !mVayneQ ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_vayne|Q|闪避突袭') ||
+    mVayneQ.key !== 'hero_skill|hero_vayne|Q|闪避突袭' ||
+    mVayneQ.passiveName !== '闪避突袭' ||
+    mVayneQ.status !== 'completed' ||
+    mVayneQ.completionMode !== 'full' ||
+    mVayneQ.lane !== 'generic_runtime' ||
+    mVayneQ.blocker ||
+    mVayneQ.dataGapEvidence !== null ||
+    mVayneQ.runtimeGapEvidence !== null ||
+    mVayneQ.outOfScopeEvidence !== null ||
+    mVayneQ.coverageBoundary !== mVayneQBoundary ||
+    [...(mVayneQ.mechanismTags || [])].join('|') !==
+      [
+        'phase_a_excludes_dash_geometry_attack_reset_and_lifesteal',
+        'physical_1_15_total_ad_plus_0_50_ap',
+        'rank5_next_basic_attack_bonus_within_3s',
+      ].join('|') ||
+    (mVayneQ.mechanismTags || []).includes('distance_or_ratio_modifier') ||
+    (mVayneQ.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    mVayneQReason.includes('distance_based_damage_modifier / damage_multiplier') ||
+    mVayneQReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    !mVayneQReason.includes('4015566') ||
+    !mVayneQReason.includes(
+      '5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad',
+    ) ||
+    !mVayneQReason.includes('5723bf5ffbc6449f756aa33a8387c40a20039886b3665eddcb11ac1cac5914ca') ||
+    !mVayneQReason.includes('Template:Data Vayne/Q') ||
+    !mVayneQReason.includes('Template:Data Vayne/Tumble') ||
+    !mVayneQReason.includes('page1309988') ||
+    !mVayneQReason.includes('bytes1735') ||
+    !mVayneQReason.includes('bytes1733') ||
+    !mVayneQReason.includes('2026-05-05T15:55:50Z') ||
+    !mVayneQReason.includes(mVayneQBoundary) ||
+    !mVayneQReason.includes('provider_hero_vayne_tumble') ||
+    !mVayneQReason.includes('tumble_empowered_attack_ready') ||
+    !mVayneQReason.includes('nested binary') ||
+    !mVayneQReason.includes('source.attr.ad.resolved') ||
+    !mVayneQReason.includes('source.attr.ap.resolved') ||
+    !mVayneQReason.includes('1.15') ||
+    !mVayneQReason.includes('0.50') ||
+    !mVayneQReason.includes('30') ||
+    !mVayneQReason.includes('2000') ||
+    !mVayneQReason.includes('3000') ||
+    !mVayneQReason.includes('raw135') ||
+    !mVayneQReason.includes('67.5') ||
+    !mVayneQReason.includes('t2999') ||
+    !mVayneQReason.includes('t3000') ||
+    !mVayneQReason.includes('t1999') ||
+    !mVayneQReason.includes('mana29') ||
+    !mVayneQReason.includes('Silver Bolts') ||
+    !mVayneQReason.includes('Spellblade') ||
+    !mVayneQReason.includes('basic_attack_hit') ||
+    !mVayneQReason.includes('source_owner') ||
+    !mVayneQReason.includes('enrich') ||
+    !mVayneQReason.includes('external existing-data/check-only') ||
+    !mVayneQReason.includes('不宣称') ||
+    !mVayneQReason.includes('故标 completed') ||
+    !(mVayneQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-vayne-tumble-next-basic-attack-bonus' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_tumble_next_basic_attack_bonus_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mVayneQBoundary) &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('36d5a49') &&
+        String(e.note || '').includes('t2999') &&
+        String(e.note || '').includes('Silver Bolts') &&
+        !String(e.note || '').includes('distance_or_ratio_modifier'),
+    ) ||
+    !(mVayneQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-vayne-tumble-next-basic-attack-bonus' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mVayneQBoundary) &&
+        String(e.note || '').includes('LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest') &&
+        String(e.note || '').includes('README') &&
+        String(e.note || '').includes('e88e172') &&
+        String(e.note || '').includes('36d5a49') &&
+        String(e.note || '').includes('enrich exact existing tumble identity') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        !String(e.note || '').includes('distance_or_ratio_modifier'),
+    )
+  ) {
+    errors.push(
+      'Vayne Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact canonical-sorted Tumble tags (no distance_or_ratio_modifier), Wiki rev4015566/SHA + local raw caveat + frozen completedBoundary, enrich existing tumble identity/provider-state ready max1/3000ms/Q mana30/CD2000/listener hit+source_owner/nested-binary 1.15*totalAD+0.50*AP numerics, override-before-distance_or_ratio-fallback, and bilateral evidence (owning e88e172 / Wasm 36d5a49; no dash/geometry/BA-reset/lifesteal/crit/RNG/full-fidelity/live claim)',
     );
   }
 
