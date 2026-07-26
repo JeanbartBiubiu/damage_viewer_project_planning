@@ -1,10 +1,15 @@
 /**
- * Phase-T2 — Provisional mechanism template registry continuous refresh
- * (frozen plan provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1).
+ * Phase-T3 — Provisional mechanism template registry bulk draft fill
+ * (frozen plan provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4).
  *
  * Inputs (exact paths; raw sha256/byteSize recorded dynamically, not equality-pinned):
  *   - 最小验证/unified-mechanism-inventory.json
  *   - 最小验证/wiki-only-mechanism-candidate-registry.json
+ *
+ * Per-card draft sources (never enter metadata.inputs / Unified currentInputHashes):
+ *   - Hero: 数据参考/lol-wiki-current-champions/normalized/generic/<pageId>.json
+ *   - Item: 数据参考/lol-wiki-current-items/manifest.json
+ *           + 数据参考/lol-wiki-current-items/current-items.normalized.json
  *
  * Stable structural pins:
  *   - Unified mechanisms254 + key-order digest
@@ -28,13 +33,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..', '..');
 
-const SCHEMA_VERSION = 'provisional-mechanism-template-registry-v2';
-const FROZEN_PLAN_REV = 'provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1';
+const SCHEMA_VERSION = 'provisional-mechanism-template-registry-v3';
+const FROZEN_PLAN_REV = 'provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4';
 
 const UNIFIED_REL = '最小验证/unified-mechanism-inventory.json';
 const WIKI_REL = '最小验证/wiki-only-mechanism-candidate-registry.json';
 const OUTPUT_JSON_REL = '最小验证/provisional-mechanism-template-registry.json';
 const OUTPUT_CSV_REL = '最小验证/provisional-mechanism-template-registry.csv';
+
+const HERO_SIDECAR_DIR_REL = '数据参考/lol-wiki-current-champions/normalized/generic';
+const ITEMS_MANIFEST_REL = '数据参考/lol-wiki-current-items/manifest.json';
+const ITEMS_NORMALIZED_REL = '数据参考/lol-wiki-current-items/current-items.normalized.json';
+const HERO_SIDECAR_SCHEMA = 'lol-wiki-ability-generic-v1';
 
 const STABLE_UNIFIED_MECHANISM_COUNT = 254;
 const STABLE_UNIFIED_KEY_ORDER_SHA256 =
@@ -72,19 +82,35 @@ const EXCLUDED_STATUSES = Object.freeze([
 const EXCLUDED_STATUS_SET = new Set(EXCLUDED_STATUSES);
 
 const TEMPLATE_STATE = 'provisional_unverified';
+const DRAFT_STATE = 'mechanical_unverified';
+const SNAPSHOT_CLAIM = 'unparsed_markup_not_numeric_truth';
+const VERIFICATION_PENDING = 'pending';
 
-const DRAFT_CONTRACT = Object.freeze({
-  rank: null,
-  resourceCost: null,
-  cooldownMs: null,
-  target: null,
-  timing: null,
-  formula: null,
-  operationGraph: null,
-  fixtures: Object.freeze([]),
-  completedBoundary: null,
-  exclusions: Object.freeze([]),
-});
+const HERO_FIELD_ALLOWLIST = Object.freeze([
+  'description',
+  'description2',
+  'description3',
+  'description4',
+  'description5',
+  'description6',
+  'leveling',
+  'leveling2',
+  'leveling3',
+  'leveling4',
+  'leveling5',
+  'cooldown',
+  'cost',
+  'costtype',
+  'damagetype',
+  'notes',
+]);
+const LEVELING_FIELD_NAMES = Object.freeze([
+  'leveling',
+  'leveling2',
+  'leveling3',
+  'leveling4',
+  'leveling5',
+]);
 
 const VERIFICATION_GATE_IDS = Object.freeze([
   'wiki_identity_and_revision',
@@ -104,7 +130,48 @@ const NONCLAIMS = Object.freeze([
   'no_g8_or_unified_status_change',
   'no_live_publish_or_migration',
   'no_new_completed_full_or_ready_assertion',
+  'no_mechanical_draft_as_verified_phase_a_claim',
 ]);
+
+const EXCLUSION_PROMPT_BY_ID = Object.freeze({
+  full_fidelity_surfaces_review:
+    'Review whether full-fidelity surfaces remain outside this provisional draft scope.',
+  unresolved_data_fields_review:
+    'Review unresolved data fields before any numeric contract draft proceeds.',
+  geometry_selection_multitarget_review:
+    'Review geometry, selection, and multi-target scope for this candidate.',
+  distance_context_review: 'Review distance or ratio context required by this candidate.',
+  rng_crit_context_review: 'Review RNG or critical-strike context for this candidate.',
+  state_trigger_scheduling_review:
+    'Review state, trigger, and scheduling behavior for this candidate.',
+  cross_skill_dependency_review:
+    'Review cross-skill formula dependencies for this candidate.',
+  form_state_upgrade_review: 'Review form-state upgrade interactions for this candidate.',
+  non_damage_or_meta_scope_review:
+    'Review non-damage or meta scope boundaries for this candidate.',
+  manual_scope_selection_review:
+    'Review manual scope selection needed for this DPS-relevant candidate.',
+});
+
+const TAG_TO_EXCLUSION_ID = Object.freeze({
+  multi_target_or_area: 'geometry_selection_multitarget_review',
+  distance_or_ratio_modifier: 'distance_context_review',
+  deterministic_random_crit_sequence: 'rng_crit_context_review',
+  crit_scaling: 'rng_crit_context_review',
+  on_hit: 'state_trigger_scheduling_review',
+  every_n_hit: 'state_trigger_scheduling_review',
+  magic_proc_on_third_stack: 'state_trigger_scheduling_review',
+  stacking_dirty_fighting: 'state_trigger_scheduling_review',
+  cooldown_or_haste_without_rotation: 'state_trigger_scheduling_review',
+  attack_or_ability_hit_resource_gain: 'state_trigger_scheduling_review',
+  periodic_charge_tick: 'state_trigger_scheduling_review',
+  state_driven_max_mana_and_transform: 'state_trigger_scheduling_review',
+  energized_charge_and_consume: 'state_trigger_scheduling_review',
+  cross_skill_damage_formula: 'cross_skill_dependency_review',
+  transcendent_form_skill_upgrade: 'form_state_upgrade_review',
+  meta_or_non_target_dps: 'non_damage_or_meta_scope_review',
+  dps_relevant_manual_review: 'manual_scope_selection_review',
+});
 
 const METADATA_KEYS = Object.freeze([
   'schemaVersion',
@@ -168,6 +235,9 @@ const TEMPLATE_KEYS = Object.freeze([
   'nonclaims',
 ]);
 const DRAFT_CONTRACT_KEYS = Object.freeze([
+  'draftState',
+  'sourcePointers',
+  'phaseATemplate',
   'rank',
   'resourceCost',
   'cooldownMs',
@@ -179,6 +249,84 @@ const DRAFT_CONTRACT_KEYS = Object.freeze([
   'completedBoundary',
   'exclusions',
 ]);
+const HERO_SOURCE_POINTER_KEYS = Object.freeze([
+  'kind',
+  'authority',
+  'sidecarPath',
+  'localFileSha256',
+  'localFileByteSize',
+  'canonical',
+  'fieldRefs',
+]);
+const HERO_CANONICAL_KEYS = Object.freeze([
+  'requestTitle',
+  'resolvedTitle',
+  'wikiPageId',
+  'revisionId',
+  'revisionTimestamp',
+  'contentSha256',
+  'rawByteSize',
+]);
+const ITEM_SOURCE_POINTER_KEYS = Object.freeze([
+  'kind',
+  'authority',
+  'manifestPath',
+  'manifestLocalFileSha256',
+  'manifestLocalFileByteSize',
+  'normalizedPath',
+  'normalizedLocalFileSha256',
+  'normalizedLocalFileByteSize',
+  'canonicalRevisionId',
+  'canonicalContentSha256',
+  'localEqualsCanonicalClaim',
+  'itemId',
+  'effectSlotRefs',
+]);
+const PHASE_A_TEMPLATE_KEYS = Object.freeze([
+  'id',
+  'basisStatus',
+  'basisTags',
+  'requiresIndividualDesignReview',
+]);
+const SNAPSHOT_KEYS = Object.freeze(['fieldRef', 'raw', 'parsedNumericValue', 'claim']);
+const RANK_KEYS = Object.freeze(['selection', 'value', 'sourceFieldRefs', 'verification']);
+const RESOURCE_COST_KEYS = Object.freeze([
+  'state',
+  'sourceFieldRefs',
+  'wikiMarkupSnapshots',
+  'normalizedValue',
+  'normalizedUnit',
+  'verification',
+]);
+const COOLDOWN_MS_KEYS = Object.freeze([
+  'state',
+  'sourceFieldRefs',
+  'wikiMarkupSnapshots',
+  'normalizedValueMs',
+  'verification',
+]);
+const TARGET_KEYS = Object.freeze(['mode', 'value', 'verification']);
+const TIMING_KEYS = Object.freeze(['mode', 'valueMs', 'verification']);
+const FORMULA_KEYS = Object.freeze([
+  'mode',
+  'sourceFieldRefs',
+  'wikiMarkupSnapshots',
+  'expression',
+  'verification',
+]);
+const OPERATION_GRAPH_KEYS = Object.freeze([
+  'templateKind',
+  'nodes',
+  'edges',
+  'concreteIds',
+  'concreteTypeIds',
+  'requiredEvents',
+  'requiredState',
+  'productionRuntimeChangeRequired',
+  'verification',
+]);
+const FIXTURE_KEYS = Object.freeze(['id', 'purpose', 'inputs', 'expected', 'verification']);
+const EXCLUSION_KEYS = Object.freeze(['kind', 'id', 'prompt']);
 const HERO_PROVENANCE_KEYS = Object.freeze([
   'ownerName',
   'pageId',
@@ -222,11 +370,17 @@ const CSV_COLUMNS = Object.freeze([
 
 const TOP_LEVEL_KEYS = Object.freeze(['metadata', 'summary', 'templates']);
 
+const HEX64_RE = /^[a-f0-9]{64}$/;
+const HERO_SOURCE_REF_RE = /^(.+)@rev(\d+) sha256:([a-f0-9]{64})$/;
+const FORBIDDEN_PROMPT_WORD_RE = /\b(verified|completed)\b/i;
+
 const paths = {
   unified: path.join(repoRoot, ...UNIFIED_REL.split('/')),
   wiki: path.join(repoRoot, ...WIKI_REL.split('/')),
   outputJson: path.join(repoRoot, ...OUTPUT_JSON_REL.split('/')),
   outputCsv: path.join(repoRoot, ...OUTPUT_CSV_REL.split('/')),
+  itemsManifest: path.join(repoRoot, ...ITEMS_MANIFEST_REL.split('/')),
+  itemsNormalized: path.join(repoRoot, ...ITEMS_NORMALIZED_REL.split('/')),
 };
 
 function sha256Raw(buf) {
@@ -292,23 +446,8 @@ function templateKindForStatus(status) {
   throw new Error(`unexpected target status for templateKind: ${status}`);
 }
 
-function makeDraftContract() {
-  return {
-    rank: null,
-    resourceCost: null,
-    cooldownMs: null,
-    target: null,
-    timing: null,
-    formula: null,
-    operationGraph: null,
-    fixtures: [],
-    completedBoundary: null,
-    exclusions: [],
-  };
-}
-
 function makeVerificationGates() {
-  return VERIFICATION_GATE_IDS.map((id) => ({ id, state: 'pending' }));
+  return VERIFICATION_GATE_IDS.map((id) => ({ id, state: VERIFICATION_PENDING }));
 }
 
 function makeNonclaims() {
@@ -319,6 +458,530 @@ function emptyOrderedCounts(keys) {
   const out = {};
   for (const k of keys) out[k] = 0;
   return out;
+}
+
+function isNonemptyString(v) {
+  return typeof v === 'string' && v.length > 0;
+}
+
+function isPositiveInt(v) {
+  return typeof v === 'number' && Number.isInteger(v) && v > 0;
+}
+
+function isNonNegInt(v) {
+  return typeof v === 'number' && Number.isInteger(v) && v >= 0;
+}
+
+function assertExclusionPromptsFrozen() {
+  for (const [id, prompt] of Object.entries(EXCLUSION_PROMPT_BY_ID)) {
+    if (!isNonemptyString(prompt)) {
+      throw new Error(`exclusion prompt empty @ ${id}`);
+    }
+    if (FORBIDDEN_PROMPT_WORD_RE.test(prompt)) {
+      throw new Error(`exclusion prompt contains forbidden wording @ ${id}`);
+    }
+  }
+}
+
+function heroFieldRef(name) {
+  return `fields.${name}`;
+}
+
+function itemEffectRef(itemId, slot) {
+  return `items.${itemId}.effects.${slot}`;
+}
+
+function makeSnapshot(fieldRef, raw) {
+  if (!isNonemptyString(fieldRef)) {
+    throw new Error(`snapshot fieldRef must be nonempty string: ${fieldRef}`);
+  }
+  if (typeof raw !== 'string') {
+    throw new Error(`snapshot raw must be string @ ${fieldRef}`);
+  }
+  return {
+    fieldRef,
+    raw,
+    parsedNumericValue: null,
+    claim: SNAPSHOT_CLAIM,
+  };
+}
+
+function presentHeroFieldNames(sidecar) {
+  if (!sidecar.fields || typeof sidecar.fields !== 'object' || Array.isArray(sidecar.fields)) {
+    throw new Error(`sidecar.fields missing @ ${sidecar.pageId}`);
+  }
+  if (
+    !sidecar.fieldPresence ||
+    typeof sidecar.fieldPresence !== 'object' ||
+    Array.isArray(sidecar.fieldPresence)
+  ) {
+    throw new Error(`sidecar.fieldPresence missing @ ${sidecar.pageId}`);
+  }
+  const present = [];
+  for (const name of HERO_FIELD_ALLOWLIST) {
+    if (sidecar.fieldPresence[name] === true) {
+      const val = sidecar.fields[name];
+      if (typeof val !== 'string') {
+        throw new Error(
+          `present field ${name} must be string @ ${sidecar.pageId} (got ${typeof val})`,
+        );
+      }
+      present.push(name);
+    }
+  }
+  return present;
+}
+
+function presentLevelingNames(presentNames) {
+  const presentSet = new Set(presentNames);
+  return LEVELING_FIELD_NAMES.filter((n) => presentSet.has(n));
+}
+
+function phaseATemplateId(currentStatus, sourceKind) {
+  if (currentStatus === 'blocked_data') return 'data_gap_evidence_only_candidate';
+  if (sourceKind === 'hero_skill') return 'hero_selected_primary_minimum_quantum_candidate';
+  if (sourceKind === 'item_passive') return 'item_single_trigger_or_state_transition_candidate';
+  throw new Error(`phaseATemplate discriminant fail-closed: ${currentStatus}/${sourceKind}`);
+}
+
+function buildExclusions(currentStatus, basisTags) {
+  const seen = new Set();
+  const out = [];
+  const pushId = (id) => {
+    if (seen.has(id)) return;
+    const prompt = EXCLUSION_PROMPT_BY_ID[id];
+    if (!isNonemptyString(prompt)) {
+      throw new Error(`missing fixed exclusion prompt for id ${id}`);
+    }
+    if (FORBIDDEN_PROMPT_WORD_RE.test(prompt)) {
+      throw new Error(`exclusion prompt forbidden wording @ ${id}`);
+    }
+    seen.add(id);
+    out.push({ kind: 'candidate_exclusion', id, prompt });
+  };
+
+  pushId('full_fidelity_surfaces_review');
+  if (currentStatus === 'blocked_data') {
+    pushId('unresolved_data_fields_review');
+  }
+  for (const tag of basisTags) {
+    const mapped = TAG_TO_EXCLUSION_ID[tag];
+    if (mapped) pushId(mapped);
+  }
+  return out;
+}
+
+function loadItemDraftSources() {
+  const manifestBuf = fs.readFileSync(paths.itemsManifest);
+  const normalizedBuf = fs.readFileSync(paths.itemsNormalized);
+  const manifest = JSON.parse(manifestBuf.toString('utf8'));
+  const normalized = JSON.parse(normalizedBuf.toString('utf8'));
+
+  if (!isPositiveInt(manifest.revid)) {
+    throw new Error(`items manifest.revid must be positive integer, got ${manifest.revid}`);
+  }
+  if (!isNonemptyString(manifest.contentSha256) || !HEX64_RE.test(manifest.contentSha256)) {
+    throw new Error('items manifest.contentSha256 must be 64-hex');
+  }
+  if (!normalized.revision || !isPositiveInt(normalized.revision.revid)) {
+    throw new Error('items normalized.revision.revid missing/invalid');
+  }
+  if (normalized.revision.revid !== manifest.revid) {
+    throw new Error(
+      `items revision.revid mismatch: normalized=${normalized.revision.revid} manifest=${manifest.revid}`,
+    );
+  }
+  if (!Array.isArray(normalized.items)) {
+    throw new Error('items normalized.items must be array');
+  }
+
+  // Exact Map construction per frozen contract (matches Wiki-only builder).
+  // Upstream dump may reuse placeholder IDs; target wikiItemId uniqueness is
+  // fail-closed at resolve time against the source array.
+  const byId = new Map(normalized.items.map((item) => [String(item.id), item]));
+
+  return {
+    manifestPath: ITEMS_MANIFEST_REL,
+    normalizedPath: ITEMS_NORMALIZED_REL,
+    manifestLocalFileSha256: sha256Raw(manifestBuf),
+    manifestLocalFileByteSize: manifestBuf.length,
+    normalizedLocalFileSha256: sha256Raw(normalizedBuf),
+    normalizedLocalFileByteSize: normalizedBuf.length,
+    canonicalRevisionId: manifest.revid,
+    canonicalContentSha256: manifest.contentSha256,
+    itemsArray: normalized.items,
+    byId,
+  };
+}
+
+function resolveHeroSidecar(candidate, unifiedRow) {
+  const pageId = candidate.pageId;
+  if (!isNonemptyString(pageId)) {
+    throw new Error(`hero pageId missing @ ${unifiedRow.key}`);
+  }
+  const sidecarPath = `${HERO_SIDECAR_DIR_REL}/${pageId}.json`;
+  const abs = path.join(repoRoot, ...sidecarPath.split('/'));
+  if (!fs.existsSync(abs)) {
+    throw new Error(`hero sidecar missing: ${sidecarPath}`);
+  }
+  const buf = fs.readFileSync(abs);
+  const sidecar = JSON.parse(buf.toString('utf8'));
+
+  if (sidecar.schemaVersion !== HERO_SIDECAR_SCHEMA) {
+    throw new Error(`hero sidecar schemaVersion mismatch @ ${pageId}`);
+  }
+  if (sidecar.pageId !== pageId) {
+    throw new Error(`hero sidecar pageId mismatch @ ${pageId}`);
+  }
+  if (sidecar.candidateKey !== unifiedRow.key) {
+    throw new Error(`hero sidecar candidateKey mismatch @ ${pageId}`);
+  }
+  if (sidecar.ownerId !== unifiedRow.ownerId) {
+    throw new Error(`hero sidecar ownerId mismatch @ ${pageId}`);
+  }
+  if (sidecar.skillKey !== unifiedRow.skillKey) {
+    throw new Error(`hero sidecar skillKey mismatch @ ${pageId}`);
+  }
+  if (!isNonemptyString(sidecar.requestTitle)) {
+    throw new Error(`hero sidecar requestTitle invalid @ ${pageId}`);
+  }
+  if (!isNonemptyString(sidecar.resolvedTitle)) {
+    throw new Error(`hero sidecar resolvedTitle invalid @ ${pageId}`);
+  }
+  if (!isPositiveInt(sidecar.wikiPageId)) {
+    throw new Error(`hero sidecar wikiPageId invalid @ ${pageId}`);
+  }
+  if (!isPositiveInt(sidecar.revisionId)) {
+    throw new Error(`hero sidecar revisionId invalid @ ${pageId}`);
+  }
+  if (!isNonemptyString(sidecar.revisionTimestamp)) {
+    throw new Error(`hero sidecar revisionTimestamp invalid @ ${pageId}`);
+  }
+  if (!isNonemptyString(sidecar.contentSha256) || !HEX64_RE.test(sidecar.contentSha256)) {
+    throw new Error(`hero sidecar contentSha256 invalid @ ${pageId}`);
+  }
+  if (!isNonNegInt(sidecar.rawByteSize)) {
+    throw new Error(`hero sidecar rawByteSize invalid @ ${pageId}`);
+  }
+
+  const m = HERO_SOURCE_REF_RE.exec(String(candidate.sourceRef || ''));
+  if (!m) {
+    throw new Error(`hero sourceRef parse failed @ ${unifiedRow.key}`);
+  }
+  if (m[1] !== sidecarPath) {
+    throw new Error(`hero sourceRef path mismatch @ ${unifiedRow.key}`);
+  }
+  if (Number(m[2]) !== sidecar.revisionId) {
+    throw new Error(`hero sourceRef revisionId mismatch @ ${unifiedRow.key}`);
+  }
+  if (m[3] !== sidecar.contentSha256) {
+    throw new Error(`hero sourceRef contentSha256 mismatch @ ${unifiedRow.key}`);
+  }
+
+  const presentNames = presentHeroFieldNames(sidecar);
+  return {
+    sidecarPath,
+    localFileSha256: sha256Raw(buf),
+    localFileByteSize: buf.length,
+    sidecar,
+    presentNames,
+  };
+}
+
+function buildHeroDraftContract(unifiedRow, candidate) {
+  const resolved = resolveHeroSidecar(candidate, unifiedRow);
+  const presentNames = resolved.presentNames;
+  const presentSet = new Set(presentNames);
+  const levelingNames = presentLevelingNames(presentNames);
+  const fieldRefs = presentNames.map(heroFieldRef);
+
+  const sourcePointers = {
+    kind: 'hero_wiki_sidecar',
+    authority: 'league_wiki_current_champion_template',
+    sidecarPath: resolved.sidecarPath,
+    localFileSha256: resolved.localFileSha256,
+    localFileByteSize: resolved.localFileByteSize,
+    canonical: {
+      requestTitle: resolved.sidecar.requestTitle,
+      resolvedTitle: resolved.sidecar.resolvedTitle,
+      wikiPageId: resolved.sidecar.wikiPageId,
+      revisionId: resolved.sidecar.revisionId,
+      revisionTimestamp: resolved.sidecar.revisionTimestamp,
+      contentSha256: resolved.sidecar.contentSha256,
+      rawByteSize: resolved.sidecar.rawByteSize,
+    },
+    fieldRefs,
+  };
+
+  const basisTags = deepClone(unifiedRow.mechanismTags);
+  const phaseATemplate = {
+    id: phaseATemplateId(unifiedRow.status, unifiedRow.sourceKind),
+    basisStatus: unifiedRow.status,
+    basisTags,
+    requiresIndividualDesignReview: true,
+  };
+
+  const rankRefs = levelingNames.map(heroFieldRef);
+  const rank = {
+    selection: 'max_rank_candidate',
+    value: null,
+    sourceFieldRefs: rankRefs,
+    verification: VERIFICATION_PENDING,
+  };
+
+  const resourceNames = [];
+  if (presentSet.has('cost')) resourceNames.push('cost');
+  if (presentSet.has('costtype')) resourceNames.push('costtype');
+  const resourceRefs = resourceNames.map(heroFieldRef);
+  const resourceCost = {
+    state: resourceNames.length > 0 ? 'source_fields_present' : 'source_fields_absent',
+    sourceFieldRefs: resourceRefs,
+    wikiMarkupSnapshots: resourceNames.map((n) =>
+      makeSnapshot(heroFieldRef(n), resolved.sidecar.fields[n]),
+    ),
+    normalizedValue: null,
+    normalizedUnit: null,
+    verification: VERIFICATION_PENDING,
+  };
+
+  const cooldownPresent = presentSet.has('cooldown');
+  const cooldownRefs = cooldownPresent ? [heroFieldRef('cooldown')] : [];
+  const cooldownMs = {
+    state: cooldownPresent ? 'source_fields_present' : 'source_fields_absent',
+    sourceFieldRefs: cooldownRefs,
+    wikiMarkupSnapshots: cooldownPresent
+      ? [makeSnapshot(heroFieldRef('cooldown'), resolved.sidecar.fields.cooldown)]
+      : [],
+    normalizedValueMs: null,
+    verification: VERIFICATION_PENDING,
+  };
+
+  const target = {
+    mode: 'selected_primary_candidate',
+    value: null,
+    verification: VERIFICATION_PENDING,
+  };
+
+  const timing = {
+    mode: 'minimum_quantum_timing_candidate',
+    valueMs: null,
+    verification: VERIFICATION_PENDING,
+  };
+
+  const formulaNames = [...levelingNames];
+  if (presentSet.has('damagetype')) formulaNames.push('damagetype');
+  const formula = {
+    mode: 'wiki_formula_fields_unparsed',
+    sourceFieldRefs: formulaNames.map(heroFieldRef),
+    wikiMarkupSnapshots: formulaNames.map((n) =>
+      makeSnapshot(heroFieldRef(n), resolved.sidecar.fields[n]),
+    ),
+    expression: null,
+    verification: VERIFICATION_PENDING,
+  };
+
+  const operationGraph = {
+    templateKind: 'provider_ability_single_quantum_candidate',
+    nodes: [
+      'provider_candidate',
+      'ability_candidate',
+      'phase_candidate',
+      'sequence_candidate',
+      'operation_candidate',
+    ],
+    edges: [
+      'provider_to_ability',
+      'ability_to_phase',
+      'phase_to_sequence',
+      'sequence_to_operation',
+    ],
+    concreteIds: null,
+    concreteTypeIds: null,
+    requiredEvents: [],
+    requiredState: [],
+    productionRuntimeChangeRequired: null,
+    verification: VERIFICATION_PENDING,
+  };
+
+  const fixtures = [
+    {
+      id: 'baseline_quantum',
+      purpose: 'exercise_minimum_candidate_quantum',
+      inputs: null,
+      expected: null,
+      verification: VERIFICATION_PENDING,
+    },
+    {
+      id: 'boundary_or_counterproof',
+      purpose: 'exercise_boundary_or_unrelated_input_counterproof',
+      inputs: null,
+      expected: null,
+      verification: VERIFICATION_PENDING,
+    },
+  ];
+
+  return {
+    draftState: DRAFT_STATE,
+    sourcePointers,
+    phaseATemplate,
+    rank,
+    resourceCost,
+    cooldownMs,
+    target,
+    timing,
+    formula,
+    operationGraph,
+    fixtures,
+    completedBoundary: null,
+    exclusions: buildExclusions(unifiedRow.status, basisTags),
+  };
+}
+
+function buildItemDraftContract(unifiedRow, candidate, itemSources) {
+  const itemId = candidate.wikiItemId;
+  if (!isNonemptyString(itemId)) {
+    throw new Error(`item wikiItemId missing @ ${unifiedRow.key}`);
+  }
+  if (!Array.isArray(candidate.wikiEffectSlots) || candidate.wikiEffectSlots.length === 0) {
+    throw new Error(`item wikiEffectSlots empty @ ${unifiedRow.key}`);
+  }
+  const idKey = String(itemId);
+  const idHits = itemSources.itemsArray.filter((it) => String(it.id) === idKey);
+  if (idHits.length === 0) {
+    throw new Error(`item id not found in normalized map: ${itemId}`);
+  }
+  if (idHits.length !== 1) {
+    throw new Error(`duplicate item id for target wikiItemId: ${itemId}`);
+  }
+  const item = itemSources.byId.get(idKey);
+  if (!item || item !== idHits[0]) {
+    throw new Error(`item map resolve inconsistency @ ${itemId}`);
+  }
+  if (!item.effects || typeof item.effects !== 'object' || Array.isArray(item.effects)) {
+    throw new Error(`item.effects missing @ ${itemId}`);
+  }
+
+  const effectSlotRefs = [];
+  const formulaSnapshots = [];
+  for (const slot of candidate.wikiEffectSlots) {
+    if (!isNonemptyString(slot)) {
+      throw new Error(`item effect slot invalid @ ${unifiedRow.key}`);
+    }
+    if (!Object.prototype.hasOwnProperty.call(item.effects, slot)) {
+      throw new Error(`item effect slot absent: ${itemId}.${slot}`);
+    }
+    const effectObject = item.effects[slot];
+    const ref = itemEffectRef(itemId, slot);
+    effectSlotRefs.push(ref);
+    formulaSnapshots.push(makeSnapshot(ref, JSON.stringify(effectObject)));
+  }
+
+  const sourcePointers = {
+    kind: 'item_wiki_current_items',
+    authority: 'league_wiki_current_items',
+    manifestPath: itemSources.manifestPath,
+    manifestLocalFileSha256: itemSources.manifestLocalFileSha256,
+    manifestLocalFileByteSize: itemSources.manifestLocalFileByteSize,
+    normalizedPath: itemSources.normalizedPath,
+    normalizedLocalFileSha256: itemSources.normalizedLocalFileSha256,
+    normalizedLocalFileByteSize: itemSources.normalizedLocalFileByteSize,
+    canonicalRevisionId: itemSources.canonicalRevisionId,
+    canonicalContentSha256: itemSources.canonicalContentSha256,
+    localEqualsCanonicalClaim: false,
+    itemId: String(itemId),
+    effectSlotRefs,
+  };
+
+  const basisTags = deepClone(unifiedRow.mechanismTags);
+  const phaseATemplate = {
+    id: phaseATemplateId(unifiedRow.status, unifiedRow.sourceKind),
+    basisStatus: unifiedRow.status,
+    basisTags,
+    requiresIndividualDesignReview: true,
+  };
+
+  return {
+    draftState: DRAFT_STATE,
+    sourcePointers,
+    phaseATemplate,
+    rank: {
+      selection: 'not_applicable',
+      value: null,
+      sourceFieldRefs: [],
+      verification: VERIFICATION_PENDING,
+    },
+    resourceCost: {
+      state: 'not_applicable',
+      sourceFieldRefs: [],
+      wikiMarkupSnapshots: [],
+      normalizedValue: null,
+      normalizedUnit: null,
+      verification: VERIFICATION_PENDING,
+    },
+    cooldownMs: {
+      state: 'not_applicable',
+      sourceFieldRefs: [],
+      wikiMarkupSnapshots: [],
+      normalizedValueMs: null,
+      verification: VERIFICATION_PENDING,
+    },
+    target: {
+      mode: 'source_owner_or_selected_target_candidate',
+      value: null,
+      verification: VERIFICATION_PENDING,
+    },
+    timing: {
+      mode: 'minimum_quantum_timing_candidate',
+      valueMs: null,
+      verification: VERIFICATION_PENDING,
+    },
+    formula: {
+      mode: 'wiki_effect_slots_unparsed',
+      sourceFieldRefs: [...effectSlotRefs],
+      wikiMarkupSnapshots: formulaSnapshots,
+      expression: null,
+      verification: VERIFICATION_PENDING,
+    },
+    operationGraph: {
+      templateKind: 'provider_trigger_or_state_candidate',
+      nodes: ['provider_candidate', 'trigger_or_state_candidate', 'operation_candidate'],
+      edges: ['provider_to_trigger_or_state', 'trigger_or_state_to_operation'],
+      concreteIds: null,
+      concreteTypeIds: null,
+      requiredEvents: [],
+      requiredState: [],
+      productionRuntimeChangeRequired: null,
+      verification: VERIFICATION_PENDING,
+    },
+    fixtures: [
+      {
+        id: 'baseline_quantum',
+        purpose: 'exercise_minimum_candidate_quantum',
+        inputs: null,
+        expected: null,
+        verification: VERIFICATION_PENDING,
+      },
+      {
+        id: 'boundary_or_counterproof',
+        purpose: 'exercise_boundary_or_unrelated_input_counterproof',
+        inputs: null,
+        expected: null,
+        verification: VERIFICATION_PENDING,
+      },
+    ],
+    completedBoundary: null,
+    exclusions: buildExclusions(unifiedRow.status, basisTags),
+  };
+}
+
+function makeDraftContract(unifiedRow, candidate, itemSources) {
+  if (unifiedRow.sourceKind === 'hero_skill') {
+    return buildHeroDraftContract(unifiedRow, candidate);
+  }
+  if (unifiedRow.sourceKind === 'item_passive') {
+    return buildItemDraftContract(unifiedRow, candidate, itemSources);
+  }
+  throw new Error(`unsupported sourceKind for draft: ${unifiedRow.sourceKind}`);
 }
 
 function buildWikiProvenance(candidate, sourceKind) {
@@ -450,9 +1113,125 @@ function partitionUnifiedMechanisms(mechanisms) {
   return { filtered, targetStatusCounts, excludedStatusCounts };
 }
 
+function validateDraftContractShape(draft, label, errors) {
+  assertKeysOrderSafe(draft, DRAFT_CONTRACT_KEYS, label, errors);
+  if (draft.draftState !== DRAFT_STATE) {
+    errors.push(`${label}.draftState must be ${DRAFT_STATE}`);
+  }
+  if (draft.completedBoundary != null) {
+    errors.push(`${label}.completedBoundary must be null`);
+  }
+
+  assertKeysOrderSafe(draft.phaseATemplate, PHASE_A_TEMPLATE_KEYS, `${label}.phaseATemplate`, errors);
+  if (draft.phaseATemplate.requiresIndividualDesignReview !== true) {
+    errors.push(`${label}.phaseATemplate.requiresIndividualDesignReview must be true`);
+  }
+
+  assertKeysOrderSafe(draft.rank, RANK_KEYS, `${label}.rank`, errors);
+  assertKeysOrderSafe(draft.resourceCost, RESOURCE_COST_KEYS, `${label}.resourceCost`, errors);
+  assertKeysOrderSafe(draft.cooldownMs, COOLDOWN_MS_KEYS, `${label}.cooldownMs`, errors);
+  assertKeysOrderSafe(draft.target, TARGET_KEYS, `${label}.target`, errors);
+  assertKeysOrderSafe(draft.timing, TIMING_KEYS, `${label}.timing`, errors);
+  assertKeysOrderSafe(draft.formula, FORMULA_KEYS, `${label}.formula`, errors);
+  assertKeysOrderSafe(draft.operationGraph, OPERATION_GRAPH_KEYS, `${label}.operationGraph`, errors);
+
+  if (!Array.isArray(draft.fixtures) || draft.fixtures.length !== 2) {
+    errors.push(`${label}.fixtures must be length-2 array`);
+  } else {
+    for (let i = 0; i < draft.fixtures.length; i++) {
+      assertKeysOrderSafe(draft.fixtures[i], FIXTURE_KEYS, `${label}.fixtures[${i}]`, errors);
+    }
+    if (
+      draft.fixtures[0].id !== 'baseline_quantum' ||
+      draft.fixtures[0].purpose !== 'exercise_minimum_candidate_quantum' ||
+      draft.fixtures[0].inputs != null ||
+      draft.fixtures[0].expected != null ||
+      draft.fixtures[0].verification !== VERIFICATION_PENDING
+    ) {
+      errors.push(`${label}.fixtures[0] mismatch`);
+    }
+    if (
+      draft.fixtures[1].id !== 'boundary_or_counterproof' ||
+      draft.fixtures[1].purpose !== 'exercise_boundary_or_unrelated_input_counterproof' ||
+      draft.fixtures[1].inputs != null ||
+      draft.fixtures[1].expected != null ||
+      draft.fixtures[1].verification !== VERIFICATION_PENDING
+    ) {
+      errors.push(`${label}.fixtures[1] mismatch`);
+    }
+  }
+
+  if (!Array.isArray(draft.exclusions)) {
+    errors.push(`${label}.exclusions must be array`);
+  } else {
+    for (let i = 0; i < draft.exclusions.length; i++) {
+      const ex = draft.exclusions[i];
+      assertKeysOrderSafe(ex, EXCLUSION_KEYS, `${label}.exclusions[${i}]`, errors);
+      if (ex.kind !== 'candidate_exclusion') {
+        errors.push(`${label}.exclusions[${i}].kind must be candidate_exclusion`);
+      }
+      if (EXCLUSION_PROMPT_BY_ID[ex.id] !== ex.prompt) {
+        errors.push(`${label}.exclusions[${i}] prompt/id mismatch`);
+      }
+      if (FORBIDDEN_PROMPT_WORD_RE.test(String(ex.prompt || ''))) {
+        errors.push(`${label}.exclusions[${i}] prompt forbidden wording`);
+      }
+    }
+  }
+
+  const snapshotArrays = [
+    draft.resourceCost?.wikiMarkupSnapshots,
+    draft.cooldownMs?.wikiMarkupSnapshots,
+    draft.formula?.wikiMarkupSnapshots,
+  ];
+  for (const arr of snapshotArrays) {
+    if (!Array.isArray(arr)) continue;
+    for (let i = 0; i < arr.length; i++) {
+      assertKeysOrderSafe(arr[i], SNAPSHOT_KEYS, `${label}.snapshot[${i}]`, errors);
+      if (arr[i].parsedNumericValue != null || arr[i].claim !== SNAPSHOT_CLAIM) {
+        errors.push(`${label}.snapshot[${i}] claim/numeric mismatch`);
+      }
+      if (typeof arr[i].raw !== 'string') {
+        errors.push(`${label}.snapshot[${i}].raw must be string`);
+      }
+    }
+  }
+}
+
+function validateSourcePointersShape(draft, sourceKind, label, errors) {
+  if (sourceKind === 'hero_skill') {
+    assertKeysOrderSafe(draft.sourcePointers, HERO_SOURCE_POINTER_KEYS, `${label}.sourcePointers`, errors);
+    assertKeysOrderSafe(
+      draft.sourcePointers.canonical,
+      HERO_CANONICAL_KEYS,
+      `${label}.sourcePointers.canonical`,
+      errors,
+    );
+    if (draft.sourcePointers.kind !== 'hero_wiki_sidecar') {
+      errors.push(`${label}.sourcePointers.kind mismatch`);
+    }
+    if (draft.sourcePointers.authority !== 'league_wiki_current_champion_template') {
+      errors.push(`${label}.sourcePointers.authority mismatch`);
+    }
+  } else if (sourceKind === 'item_passive') {
+    assertKeysOrderSafe(draft.sourcePointers, ITEM_SOURCE_POINTER_KEYS, `${label}.sourcePointers`, errors);
+    if (draft.sourcePointers.kind !== 'item_wiki_current_items') {
+      errors.push(`${label}.sourcePointers.kind mismatch`);
+    }
+    if (draft.sourcePointers.authority !== 'league_wiki_current_items') {
+      errors.push(`${label}.sourcePointers.authority mismatch`);
+    }
+    if (draft.sourcePointers.localEqualsCanonicalClaim !== false) {
+      errors.push(`${label}.sourcePointers.localEqualsCanonicalClaim must be false`);
+    }
+  }
+}
+
 function buildRegistry(generatedAt) {
+  assertExclusionPromptsFrozen();
   const unifiedPin = readDynamicInput(paths.unified, UNIFIED_REL);
   const wikiPin = readDynamicInput(paths.wiki, WIKI_REL);
+  const itemSources = loadItemDraftSources();
 
   const unified = unifiedPin.doc;
   const wiki = wikiPin.doc;
@@ -534,6 +1313,7 @@ function buildRegistry(generatedAt) {
       throw new Error(`wikiProvenance must not include sourceText @ ${row.key}`);
     }
     const templateKind = templateKindForStatus(row.status);
+    const draftContract = makeDraftContract(row, candidate, itemSources);
 
     const template = {
       key: row.key,
@@ -551,12 +1331,11 @@ function buildRegistry(generatedAt) {
       wikiProvenance,
       templateState: TEMPLATE_STATE,
       templateKind,
-      draftContract: makeDraftContract(),
+      draftContract,
       verificationGates: makeVerificationGates(),
       nonclaims: makeNonclaims(),
     };
 
-    // Authority deep-equality including order (fail closed).
     if (!deepEqual(template.mechanismTags, row.mechanismTags)) {
       throw new Error(`mechanismTags deep inequality @ ${row.key}`);
     }
@@ -572,7 +1351,6 @@ function buildRegistry(generatedAt) {
     templates.push(template);
   }
 
-  // Unequal target key sets fail closed.
   const filteredKeySet = new Set(filtered.map((m) => m.key));
   const templateKeySet = new Set(templates.map((t) => t.key));
   if (filteredKeySet.size !== templateKeySet.size) {
@@ -644,7 +1422,7 @@ function buildRegistry(generatedAt) {
     unifiedBytes: unifiedPin.byteSize,
     wikiSha: wikiPin.sha,
     wikiBytes: wikiPin.byteSize,
-  });
+  }, itemSources);
   if (errors.length) {
     throw new Error(`registry validation failed (${errors.length}):\n${errors.slice(0, 40).join('\n')}`);
   }
@@ -653,8 +1431,9 @@ function buildRegistry(generatedAt) {
   return { doc, csvText };
 }
 
-function validateRegistry(doc, filteredUnifiedRows, wikiByKey, inputPins) {
+function validateRegistry(doc, filteredUnifiedRows, wikiByKey, inputPins, itemSources) {
   const errors = [];
+  assertExclusionPromptsFrozen();
 
   assertKeysOrderSafe(doc, TOP_LEVEL_KEYS, 'top-level', errors);
   if (!doc.metadata) {
@@ -790,6 +1569,13 @@ function validateRegistry(doc, filteredUnifiedRows, wikiByKey, inputPins) {
 
   const seenKeys = new Set();
   const seenOrdinals = new Set();
+  let itemSourceCtx = itemSources;
+  try {
+    if (!itemSourceCtx) itemSourceCtx = loadItemDraftSources();
+  } catch (e) {
+    errors.push(`item draft sources load failed: ${e.message}`);
+    return errors;
+  }
 
   for (let i = 0; i < doc.templates.length; i++) {
     const t = doc.templates[i];
@@ -842,13 +1628,16 @@ function validateRegistry(doc, filteredUnifiedRows, wikiByKey, inputPins) {
       errors.push(`templateKind mismatch @ ${t.key}`);
     }
 
-    assertKeysOrderSafe(t.draftContract, DRAFT_CONTRACT_KEYS, `draftContract @ ${t.key}`, errors);
-    if (!deepEqual(t.draftContract, DRAFT_CONTRACT)) {
-      // Compare against mutable equivalent of frozen constant.
-      const expected = makeDraftContract();
-      if (!deepEqual(t.draftContract, expected)) {
-        errors.push(`draftContract fixed values mismatch @ ${t.key}`);
+    validateDraftContractShape(t.draftContract, `draftContract @ ${t.key}`, errors);
+    validateSourcePointersShape(t.draftContract, t.sourceKind, `draftContract @ ${t.key}`, errors);
+
+    try {
+      const expectedDraft = makeDraftContract(u, candidate, itemSourceCtx);
+      if (!deepEqual(t.draftContract, expectedDraft)) {
+        errors.push(`draftContract regenerated mismatch @ ${t.key}`);
       }
+    } catch (e) {
+      errors.push(`draftContract regenerate failed @ ${t.key}: ${e.message}`);
     }
 
     if (!Array.isArray(t.verificationGates) || t.verificationGates.length !== VERIFICATION_GATE_IDS.length) {
@@ -857,7 +1646,7 @@ function validateRegistry(doc, filteredUnifiedRows, wikiByKey, inputPins) {
       for (let g = 0; g < t.verificationGates.length; g++) {
         const gate = t.verificationGates[g];
         assertKeysOrderSafe(gate, GATE_KEYS, `verificationGates[${g}] @ ${t.key}`, errors);
-        if (gate.id !== VERIFICATION_GATE_IDS[g] || gate.state !== 'pending') {
+        if (gate.id !== VERIFICATION_GATE_IDS[g] || gate.state !== VERIFICATION_PENDING) {
           errors.push(`verificationGates[${g}] mismatch @ ${t.key}`);
         }
       }
@@ -881,16 +1670,16 @@ function validateRegistry(doc, filteredUnifiedRows, wikiByKey, inputPins) {
       errors.push(`wikiProvenance deep inequality @ ${t.key}`);
     }
 
-    // No completed/full/ready claim from provisional registry.
     if (t.templateState !== TEMPLATE_STATE) {
       errors.push(`non-provisional templateState @ ${t.key}`);
     }
     if (
       t.currentStatus === 'completed' ||
       t.templateKind === 'completed' ||
-      t.draftContract.completedBoundary != null
+      t.draftContract.completedBoundary != null ||
+      t.draftContract.draftState !== DRAFT_STATE
     ) {
-      errors.push(`completed/full claim detected @ ${t.key}`);
+      errors.push(`completed/full/verified claim detected @ ${t.key}`);
     }
   }
 
@@ -996,7 +1785,8 @@ function runCheck() {
   const { doc, csvText } = buildRegistry(existing.metadata?.generatedAt || new Date().toISOString());
 
   const { filtered, wikiByKey, inputPins } = loadFilteredAndWikiMap();
-  const existingErrors = validateRegistry(existing, filtered, wikiByKey, inputPins);
+  const itemSources = loadItemDraftSources();
+  const existingErrors = validateRegistry(existing, filtered, wikiByKey, inputPins, itemSources);
   if (existingErrors.length) {
     console.error('--check failed: existing json failed validation:');
     for (const e of existingErrors.slice(0, 30)) console.error(`  ${e}`);
