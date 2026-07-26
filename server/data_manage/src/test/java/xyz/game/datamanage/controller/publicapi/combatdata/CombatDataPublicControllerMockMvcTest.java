@@ -83,12 +83,14 @@ class CombatDataPublicControllerMockMvcTest {
             .addObject()
             .put("stepId", "s1")
             .putObject("repeatDetail")
-            .put("repeatTag", "on-hit");
+            .put("repeatTag", "on-hit")
+            .put("delayMs", 0);
         when(effectService.listSteps(eq("lol"), eq("seq-1"))).thenReturn(response);
 
         mockMvc.perform(get("/api/games/lol/combat-data/effect-steps").param("sequenceId", "seq-1"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.data[0].repeatDetail.repeatTag").value("on-hit"));
+            .andExpect(jsonPath("$.data[0].repeatDetail.repeatTag").value("on-hit"))
+            .andExpect(jsonPath("$.data[0].repeatDetail.delayMs").value(0));
     }
 
     @Test

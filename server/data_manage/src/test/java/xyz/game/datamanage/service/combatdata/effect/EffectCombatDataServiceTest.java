@@ -126,7 +126,7 @@ class EffectCombatDataServiceTest {
         order.verify(damageDetailsMapper).upsert(
             eq(GAME_ID), eq(11L), eq(STEP_ID), eq("amt"), eq(1), eq(2), eq(false), eq(false));
         verify(healDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any());
-        verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any());
+        verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any(), any());
         verify(executeDetailsMapper, never()).upsert(any(), anyLong(), any(), any());
     }
 
@@ -190,6 +190,7 @@ class EffectCombatDataServiceTest {
 
         assertTrue(response.has(EffectCombatDataService.DETAIL_REPEAT));
         assertFalse(response.has(EffectCombatDataService.DETAIL_DAMAGE));
+        assertEquals(0, response.get(EffectCombatDataService.DETAIL_REPEAT).get("delayMs").asInt());
         verify(damageDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
         verify(repeatDetailsMapper).deleteByStepId(GAME_ID, STEP_ID);
         verify(repeatDetailsMapper).upsert(
@@ -200,10 +201,92 @@ class EffectCombatDataServiceTest {
             eq(3),
             eq("on-hit"),
             eq("stacks"),
-            eq(new BigDecimal("3"))
+            eq(new BigDecimal("3")),
+            eq(0)
         );
         verify(damageDetailsMapper, never()).upsert(
             any(), anyLong(), any(), any(), any(), any(), any(Boolean.class), any(Boolean.class));
+    }
+
+    @Test
+    void putStepRepeatDetailOmitsAndNullDelayMsNormalizeToZero() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(13L);
+        when(stepsMapper.findById(GAME_ID, STEP_ID)).thenReturn(stepRow());
+        when(repeatDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(repeatDetailRow(0));
+
+        ObjectNode omittedBody = baseStepBody();
+        ObjectNode omittedRepeat = omittedBody.putObject(EffectCombatDataService.DETAIL_REPEAT);
+        omittedRepeat.put("repeatScopeTypeId", 20263);
+        omittedRepeat.put("repeatCount", 1);
+        omittedRepeat.put("repeatTag", "tag");
+        omittedRepeat.put("triggerStateKey", "k");
+        omittedRepeat.put("threshold", 1);
+
+        service.putStep(GAME_ID, STEP_ID, omittedBody);
+        verify(repeatDetailsMapper).upsert(
+            eq(GAME_ID),
+            eq(13L),
+            eq(STEP_ID),
+            eq(20263),
+            eq(1),
+            eq("tag"),
+            eq("k"),
+            eq(new BigDecimal("1")),
+            eq(0)
+        );
+
+        ObjectNode nullBody = baseStepBody();
+        ObjectNode nullRepeat = nullBody.putObject(EffectCombatDataService.DETAIL_REPEAT);
+        nullRepeat.put("repeatScopeTypeId", 20263);
+        nullRepeat.put("repeatCount", 1);
+        nullRepeat.put("repeatTag", "tag");
+        nullRepeat.put("triggerStateKey", "k");
+        nullRepeat.put("threshold", 1);
+        nullRepeat.putNull("delayMs");
+
+        service.putStep(GAME_ID, STEP_ID, nullBody);
+        verify(repeatDetailsMapper, times(2)).upsert(
+            eq(GAME_ID),
+            eq(13L),
+            eq(STEP_ID),
+            eq(20263),
+            eq(1),
+            eq("tag"),
+            eq("k"),
+            eq(new BigDecimal("1")),
+            eq(0)
+        );
+    }
+
+    @Test
+    void putStepRepeatDetailAcceptsExplicitDelayMs() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(15L);
+        when(stepsMapper.findById(GAME_ID, STEP_ID)).thenReturn(stepRow());
+        when(repeatDetailsMapper.findById(GAME_ID, STEP_ID)).thenReturn(repeatDetailRow(200));
+
+        ObjectNode body = baseStepBody();
+        ObjectNode repeat = body.putObject(EffectCombatDataService.DETAIL_REPEAT);
+        repeat.put("repeatScopeTypeId", 20263);
+        repeat.put("repeatCount", 1);
+        repeat.put("repeatTag", "dusk_and_dawn_delayed_on_hit");
+        repeat.put("triggerStateKey", "spellblade_icd");
+        repeat.put("threshold", 1);
+        repeat.put("delayMs", 200);
+
+        ObjectNode response = service.putStep(GAME_ID, STEP_ID, body);
+
+        assertEquals(200, response.get(EffectCombatDataService.DETAIL_REPEAT).get("delayMs").asInt());
+        verify(repeatDetailsMapper).upsert(
+            eq(GAME_ID),
+            eq(15L),
+            eq(STEP_ID),
+            eq(20263),
+            eq(1),
+            eq("dusk_and_dawn_delayed_on_hit"),
+            eq("spellblade_icd"),
+            eq(new BigDecimal("1")),
+            eq(200)
+        );
     }
 
     @Test
@@ -232,7 +315,7 @@ class EffectCombatDataServiceTest {
         );
         verify(damageDetailsMapper, never()).upsert(
             any(), anyLong(), any(), any(), any(), any(), any(Boolean.class), any(Boolean.class));
-        verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any());
+        verify(repeatDetailsMapper, never()).upsert(any(), anyLong(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -416,6 +499,10 @@ class EffectCombatDataServiceTest {
     }
 
     private static Map<String, Object> repeatDetailRow() {
+        return repeatDetailRow(0);
+    }
+
+    private static Map<String, Object> repeatDetailRow(int delayMs) {
         Map<String, Object> row = new LinkedHashMap<>();
         row.put("gameId", GAME_ID);
         row.put("stepId", STEP_ID);
@@ -424,6 +511,7 @@ class EffectCombatDataServiceTest {
         row.put("repeatTag", "on-hit");
         row.put("triggerStateKey", "stacks");
         row.put("threshold", new BigDecimal("3"));
+        row.put("delayMs", delayMs);
         return row;
     }
 
