@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v3",
     "planRevision": "provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4",
-    "generatedAt": "2026-07-26T11:12:59.176Z",
+    "generatedAt": "2026-07-26T11:55:04.017Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "6145ff1abb44a24b24863958cd9b23d7ba130ad854ebee1728312ee5b52a624f",
-        "byteSize": 1146150
+        "sha256": "7d9981f1ff828679a6eee0bd596004be4a9f60adcf2fb8fd8cc015f11d314725",
+        "byteSize": 1150359
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 70,
+    "templateCount": 69,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 67,
+      "blocked_runtime": 66,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
       "hero_skill": 68,
-      "item_passive": 2
+      "item_passive": 1
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 67,
+      "runtime_contract_placeholder": 66,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 106,
+      "completed": 107,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -16592,222 +16592,6 @@
             "kind": "candidate_exclusion",
             "id": "non_damage_or_meta_scope_review",
             "prompt": "Review non-damage or meta scope boundaries for this candidate."
-          }
-        ]
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion",
-        "no_mechanical_draft_as_verified_phase_a_claim"
-      ]
-    },
-    {
-      "key": "item_passive|3004|item_passive|法力流",
-      "inventoryOrdinal": 177,
-      "sourceKind": "item_passive",
-      "ownerId": "3004",
-      "skillKey": "item_passive",
-      "passiveName": "法力流",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "missing_periodic_charge_tick_and_ability_hit_resource_gain_and_mana_transform_runtime",
-      "mechanismTags": [
-        "attack_or_ability_hit_resource_gain",
-        "periodic_charge_tick",
-        "state_driven_max_mana_and_transform"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "item_passive|3004|item_passive|法力流"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "item_passive|3004|item_passive|法力流"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Manamune",
-        "pageId": null,
-        "wikiItemId": "3004",
-        "wikiEffectSlots": [
-          "pass2",
-          "pass3"
-        ],
-        "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3004_slots_pass2+pass3@revid4030984 sha256:e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "draftState": "mechanical_unverified",
-        "sourcePointers": {
-          "kind": "item_wiki_current_items",
-          "authority": "league_wiki_current_items",
-          "manifestPath": "数据参考/lol-wiki-current-items/manifest.json",
-          "manifestLocalFileSha256": "79882fa97b6d79d627dc168444da4df51c1bbff8dfe561fb4cf10669838ae0d7",
-          "manifestLocalFileByteSize": 684,
-          "normalizedPath": "数据参考/lol-wiki-current-items/current-items.normalized.json",
-          "normalizedLocalFileSha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4",
-          "normalizedLocalFileByteSize": 629342,
-          "canonicalRevisionId": 4030984,
-          "canonicalContentSha256": "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
-          "localEqualsCanonicalClaim": false,
-          "itemId": "3004",
-          "effectSlotRefs": [
-            "items.3004.effects.pass2",
-            "items.3004.effects.pass3"
-          ]
-        },
-        "phaseATemplate": {
-          "id": "item_single_trigger_or_state_transition_candidate",
-          "basisStatus": "blocked_runtime",
-          "basisTags": [
-            "attack_or_ability_hit_resource_gain",
-            "periodic_charge_tick",
-            "state_driven_max_mana_and_transform"
-          ],
-          "requiresIndividualDesignReview": true
-        },
-        "rank": {
-          "selection": "not_applicable",
-          "value": null,
-          "sourceFieldRefs": [],
-          "verification": "pending"
-        },
-        "resourceCost": {
-          "state": "not_applicable",
-          "sourceFieldRefs": [],
-          "wikiMarkupSnapshots": [],
-          "normalizedValue": null,
-          "normalizedUnit": null,
-          "verification": "pending"
-        },
-        "cooldownMs": {
-          "state": "not_applicable",
-          "sourceFieldRefs": [],
-          "wikiMarkupSnapshots": [],
-          "normalizedValueMs": null,
-          "verification": "pending"
-        },
-        "target": {
-          "mode": "source_owner_or_selected_target_candidate",
-          "value": null,
-          "verification": "pending"
-        },
-        "timing": {
-          "mode": "minimum_quantum_timing_candidate",
-          "valueMs": null,
-          "verification": "pending"
-        },
-        "formula": {
-          "mode": "wiki_effect_slots_unparsed",
-          "sourceFieldRefs": [
-            "items.3004.effects.pass2",
-            "items.3004.effects.pass3"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "items.3004.effects.pass2",
-              "raw": "{\"name\":\"Manaflow\",\"unique\":true,\"description\":\"Grants a charge every 8 seconds, up to 4 charges. Consumes a charge [[on-hit]] and whenever affecting an enemy or ally with an [[champion ability|ability]] to grant {{as|3 '''bonus''' mana}}, increased to {{as|6|mana}} for champion targets, up to a '''maximum''' of {{as|360 '''bonus''' mana}}. Can only be triggered once per {{tip|cast instance}}.\"}",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "items.3004.effects.pass3",
-              "raw": "{\"description\":\"Transforms into {{ii|Muramana}} at {{as|360 '''bonus''' mana}}.\"}",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "expression": null,
-          "verification": "pending"
-        },
-        "operationGraph": {
-          "templateKind": "provider_trigger_or_state_candidate",
-          "nodes": [
-            "provider_candidate",
-            "trigger_or_state_candidate",
-            "operation_candidate"
-          ],
-          "edges": [
-            "provider_to_trigger_or_state",
-            "trigger_or_state_to_operation"
-          ],
-          "concreteIds": null,
-          "concreteTypeIds": null,
-          "requiredEvents": [],
-          "requiredState": [],
-          "productionRuntimeChangeRequired": null,
-          "verification": "pending"
-        },
-        "fixtures": [
-          {
-            "id": "baseline_quantum",
-            "purpose": "exercise_minimum_candidate_quantum",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          },
-          {
-            "id": "boundary_or_counterproof",
-            "purpose": "exercise_boundary_or_unrelated_input_counterproof",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          }
-        ],
-        "completedBoundary": null,
-        "exclusions": [
-          {
-            "kind": "candidate_exclusion",
-            "id": "full_fidelity_surfaces_review",
-            "prompt": "Review whether full-fidelity surfaces remain outside this provisional draft scope."
-          },
-          {
-            "kind": "candidate_exclusion",
-            "id": "state_trigger_scheduling_review",
-            "prompt": "Review state, trigger, and scheduling behavior for this candidate."
           }
         ]
       },
