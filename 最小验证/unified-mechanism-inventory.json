@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-26T06:56:34.209Z",
+    "generatedAt": "2026-07-26T08:28:55.027Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "898e6541eada4a08535cf9fa50646a17840a96f7f2ed532828447742cca5705b",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "3435afe0a3870455663a302b5e1330fb072726bdce2c0991e4c34df6f6d3ef47",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "8393caf4fe55155475ad5415800e1abc8968459d3fb3de95783da7bf49dfcab7",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "23976c46832f4d91a116ba07447f85a525b0c48205f9c0680beaf681e3375330",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "4245ddd7759c626697ab7ef36d9346524171dea796c5de12d6de4e8801da7ed7",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "e5b7e6a56cdfccbeb816259be87ac2e477fe39f38aef3358f6373e763d5d26ca",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 102,
+      "completed": 103,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 71,
+      "blocked_runtime": 70,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 102,
+      "full": 103,
       "partial": 3,
-      "none": 149
+      "none": 148
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "898e6541eada4a08535cf9fa50646a17840a96f7f2ed532828447742cca5705b",
-      "byteSize": 1098017,
+      "sha256": "3435afe0a3870455663a302b5e1330fb072726bdce2c0991e4c34df6f6d3ef47",
+      "byteSize": 1103449,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "8393caf4fe55155475ad5415800e1abc8968459d3fb3de95783da7bf49dfcab7",
-      "byteSize": 704926,
+      "sha256": "4245ddd7759c626697ab7ef36d9346524171dea796c5de12d6de4e8801da7ed7",
+      "byteSize": 720097,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "23976c46832f4d91a116ba07447f85a525b0c48205f9c0680beaf681e3375330",
-      "byteSize": 726163,
+      "sha256": "e5b7e6a56cdfccbeb816259be87ac2e477fe39f38aef3358f6373e763d5d26ca",
+      "byteSize": 741021,
       "recordCount": 0,
       "role": "generator"
     },
@@ -13431,52 +13431,29 @@
     },
     {
       "key": "hero_skill|hero_draven|R|冷血追命",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_draven",
       "skillKey": "R",
       "passiveName": "冷血追命",
       "mechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4040576",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/draven-r.json@rev4040576 sha256:e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_draven|R|冷血追命",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity",
+      "reason": "Draven R 冷血追命/Whirling Death：Wiki request Template:Data Draven/R → resolved Template:Data Draven/Whirling Death；page1307072 / rev4040576 / timestamp 2026-07-06T14:27:37Z / canonical bytes3079 / SHA256 e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce（normalized/generic/draven-r.json plus pages sibling are authority）rank3 Phase-A v2 已由 wasm-generic-draven-whirling-death-primary-outbound-hit + backend seed 证据闭环——local raw caveat bytes3079 / SHA 1110179b1771c03c8ff67b428d6fa7a5b0ba42caf19e241ce512a199ef812059（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 80000ms CD；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 400, mul(const 1.50, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 base62/resolved62/armor0 raw=final400；base62/resolved162/armor0 raw=final550；base62/resolved162/armor100 raw550/final275；base0/resolved100 versus base62/resolved162 armor0 both550；zero-bonus raw400/mitigated200）。Attempts mana361/baseAD62/resolvedAD162/HP1000/armor100 at t0/t79999/t80000 → success/skip/success，exactly two R damage items；final mana161/HP450；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Draven R provider is standalone；Backend self-contained ensure hero_draven + level-1 panel + mana361/361（eight required attrs；no AP）；不暗示 Draven P/Q/W/E/basic dependence；不暗示 Batch-B 或 sibling Draven synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused51/full1043 passed。Wasm main validation passed focused/full/bench；exact test bytes42169 / SHA256 78796042ebd79f7337fd77de552150f9198d7ae5ec2348a6009f29bc5ae219de；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity。明确排除 cast time/direction、projectile travel/collision/sight、recast/reversal/return/homing/second pass、execute/Adoration threshold、multitarget/damage falloff/reset/map edge/once-per-pass geometry、ranks1–2、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary first-outbound-pass physical hit, not full R；不宣称 cast/direction/projectile/travel/collision/sight/recast/reversal/return/homing/second-pass/execute/Adoration/multitarget/falloff/reset/map-edge/once-per-pass/完整游戏保真。Backend seed 自包含 ensure hero_draven/panel/mana，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_draven|R|冷血追命"
         },
         {
@@ -13485,7 +13462,22 @@
           "sourceRecordKey": "hero_skill|hero_draven|R|冷血追命"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-draven-whirling-death-primary-outbound-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_draven_whirling_death_primary_outbound_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity; backend lol_generic_draven_whirling_death_primary_outbound_hit_seed.sql + LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest (owning 0aa03bc; integrated 0aa03bc); Wasm exact test commit 5b1f661; self-contained ensure hero_draven + level-1 panel + mana361/361 (eight attrs; no AP; does not require sibling publication); standalone no Batch-B or sibling Draven synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-draven-whirling-death-primary-outbound-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_draven_whirling_death_primary_outbound_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity; Wiki request Template:Data Draven/R → Whirling Death; rev4040576/SHA256 e38551b6… / bytes3079; local raw caveat bytes3079/SHA 1110179b… no equivalence claim; rank3 100 mana/80000ms CD / one physical 400+1.50*bonusAD via nested binary add(const400, mul(1.50, sub(ad.resolved,ad.base))); base62/resolved62/armor0=400; base62/resolved162/armor0=550; base62/resolved162/armor100 raw550/final275; base0/resolved100 vs base62/resolved162 armor0 both550; zero-bonus raw400/mitigated200; damage 20220/add 20170; no 20230; no explicit event op; no R type; mana361/baseAD62/resolvedAD162/HP1000/armor100 t0/t79999/t80000 success/skip/success two R damage items final mana161/HP450 two automatic R ability_started; mana99 resource skip unchanged; standalone self-contained ensure no sibling synthesis; Wasm exact test commit 5b1f661 bytes42169/SHA 78796042…; cast/direction/projectile/travel/collision/sight/recast/reversal/return/homing/second-pass/execute/Adoration/multitarget/falloff/reset/map-edge/once-per-pass/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
