@@ -18,6 +18,10 @@ import type {
   EffectStepPutBody,
   EntityAttribute,
   EntityAttributeStage,
+  DirectDamageAbilitySetupPutBody,
+  DirectDamageAbilitySetupWriteResult,
+  EntityBatchPutBody,
+  EntityBatchWriteResult,
   EntityProviderMount,
   EntityResource,
   EntityResourceStage,
@@ -472,6 +476,22 @@ export async function putEntity(
   return putCombatDataAdmin(apiBaseUrl, gameId, token, ['entities', entityId], body);
 }
 
+/**
+ * Entity-editor aggregate write — one of exactly two named aggregate-write exceptions
+ * (`entities/{entityId}:batch` and `abilities/{abilityId}:direct-damage-setup`).
+ * Path is exactly `entities/{entityId}:batch` — no aliases.
+ * Body must keep `expectedCurrentRevision` (not stripped by sanitize).
+ */
+export async function putEntityBatch(
+  apiBaseUrl: string,
+  gameId: string,
+  entityId: string,
+  token: string,
+  body: EntityBatchPutBody
+): Promise<ApiResult<EntityBatchWriteResult>> {
+  return putCombatDataAdmin(apiBaseUrl, gameId, token, ['entities', `${entityId}:batch`], body);
+}
+
 export async function putEntityAttribute(
   apiBaseUrl: string,
   gameId: string,
@@ -670,6 +690,30 @@ export async function putAbility(
   body: JsonObject
 ): Promise<ApiResult<AdminWriteResponse<Ability>>> {
   return putCombatDataAdmin(apiBaseUrl, gameId, token, ['abilities', abilityId], body);
+}
+
+/**
+ * Direct-damage ability aggregate write — one of exactly two named aggregate-write exceptions
+ * (`entities/{entityId}:batch` and `abilities/{abilityId}:direct-damage-setup`).
+ * Path is exactly `providers/{providerId}/abilities/{abilityId}:direct-damage-setup` — no aliases.
+ * Body must keep `expectedCurrentRevision` (not stripped by sanitize).
+ * Does not call granular ability/phase/sequence/step endpoints.
+ */
+export async function putDirectDamageAbilitySetup(
+  apiBaseUrl: string,
+  gameId: string,
+  providerId: string,
+  abilityId: string,
+  token: string,
+  body: DirectDamageAbilitySetupPutBody
+): Promise<ApiResult<DirectDamageAbilitySetupWriteResult>> {
+  return putCombatDataAdmin(
+    apiBaseUrl,
+    gameId,
+    token,
+    ['providers', providerId, 'abilities', `${abilityId}:direct-damage-setup`],
+    body
+  );
 }
 
 export async function putAbilityParameter(
