@@ -1558,6 +1558,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-corki-missile-barrage-normal-primary-hit",
+      "title": "通用 ABI 库奇 R 火箭轰击普通导弹主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_corki_missile_barrage_normal_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_corki|R|火箭轰击 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV corki-r-missile-barrage-normal-primary-hit-phase-a-v1；DESIGN_READY run-504c31b1（2198 events；103/103；delta0/outside0）。Backend 2c2392a（run-4fb341ff delta3/outside0；944；55/55；seed36526/08956341…；JUnit58372/74f15e00…；README318576/bf0039cd…；focused32/full1054 PASS）。Wasm d99d01e（run-4c80644c delta1/outside0；985；87/87；test51481/874265e2…；focused/full/bench PASS mean_us112.16）。审计 2548f35（run-b3aafd84 delta8/outside0；1318；89/89；主五 check+断言 PASS）。边界 rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity。计数：Wiki242不变；G8 migrated94/blocked75；Unified completed104/blocked_runtime69/full104/none147；impl-gap54；provisional72；tasks118；严格 completion104/254=40.9%；coverage176/254=69.3%。OOS72最终跳过；真队列72=runtime69+data3。无 live/publish/push/E2E/Web/生产 Wasm；资产当前 hash 1169377/65a4…c6a0。不是完整 R；actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-库奇R火箭轰击普通导弹主目标命中Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-库奇R火箭轰击普通导弹主目标命中Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
