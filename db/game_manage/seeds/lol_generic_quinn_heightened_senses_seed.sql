@@ -1,12 +1,12 @@
 -- =============================================================================
--- LoL generic Quinn W Heightened Senses seed（奎因 W 鹰眼感知 rank-5 攻速 partial）
+-- LoL generic Quinn W Heightened Senses seed（奎因 W 鹰眼感知 rank-5 攻速窗）
 -- =============================================================================
 --
 -- 目标：幂等 ensure hero_quinn 最低必要基线 + 通用普攻闭环（含 basic_attack_hit
 --       emit），并挂载独立 provider_hero_quinn_heightened_senses，表达可近似 ABI：
 --       对已有 harrier_vulnerable≥1 的目标 basic_attack_hit 时武装
 --       heightened_senses_active=1（max1 / 2000ms / refresh_duration）；
---       AS percent_add = 0.40 * provider.state.heightened_senses_active。
+--       AS percent_add = 0.80 * provider.state.heightened_senses_active。
 --       候选整体语义 = partial。
 --
 -- 契约要点：
@@ -26,11 +26,16 @@
 --   W 主动视野；移速分支；Harrier 额外伤害；易损标记生成/消费；其它 rank；
 --   live migration；自动 publish；single_attacker_dps。
 --
--- 数值来源（注释引用，无运行时外部依赖）：
---   英雄 level-1 面板对齐 Data Dragon Quinn stats（hp565 mana269 ad59 AS0.668
---   armor28 MR30 hpregen5.5 manaregen7）。攻速窗按本合同 partial：+40% /
---   2000ms（与 live wiki rank 表可能不同；不宣称完整版精度）。
---   https://ddragon.leagueoflegends.com/cdn/16.13.1/data/en_US/champion/Quinn.json
+-- 数值来源（League Wiki Template:Data Quinn/Heightened Senses；注释引用，
+-- 无运行时外部依赖；截图 / OCR 不是数值溯源）：
+--   revision id 4024767
+--   content SHA256 d7ac8dad4099a83a2cd898fa4a913fd6700f6dcd459271d2fe93090778b323d3
+--   normalized path：
+--     数据参考/lol-wiki-current-champions/normalized/generic/quinn-w.json
+--   leveling {{ap|28 to 80}}%；rank-5 Bonus Attack Speed +80%
+--   （percent_add 0.80 * heightened_senses_active）；持续 2000ms。
+--   英雄 level-1 面板（基线 ensure，非本 seed 攻速窗数值真理）：
+--   hp565 mana269 ad59 AS0.668 armor28 MR30 hpregen5.5 manaregen7。
 --
 -- 前置：reserved_types_seed.sql；所需 attribute_definitions 已存在。
 -- 建议发布版本（本脚本不负责 publish）：
@@ -182,7 +187,7 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- level-1 面板（Data Dragon Quinn；已存在且相同则无 material change）
+    -- level-1 面板（基线 ensure；已存在且相同则无 material change）
     INSERT INTO public.entity_attribute_values (
         game_id, entity_id, attr_key, base_value, change_revision, updated_at
     ) VALUES
@@ -492,7 +497,7 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- hero_quinn Heightened Senses（W rank-5 AS partial）
+    -- hero_quinn Heightened Senses（W rank-5 AS +80%）
     -- 独立 provider；不触碰 P/Q/E；不写 W 主动视野 / 移速
     -- =========================================================================
     INSERT INTO public.provider_definitions (
@@ -502,7 +507,7 @@ BEGIN
         v_game_id,
         'provider_hero_quinn_heightened_senses',
         20120,
-        '奎因 W 鹰眼感知 Heightened Senses（rank5 攻速窗 partial）',
+        '奎因 W 鹰眼感知 Heightened Senses（rank5 攻速窗）',
         v_candidate,
         NOW()
     )
@@ -606,7 +611,7 @@ BEGIN
             v_game_id,
             'provider_hero_quinn_heightened_senses',
             'heightened_senses_attack_speed',
-            '{"op":"mul","args":[{"op":"const","value":0.40},{"op":"read","path":"provider.state.heightened_senses_active"}]}'::jsonb,
+            '{"op":"mul","args":[{"op":"const","value":0.80},{"op":"read","path":"provider.state.heightened_senses_active"}]}'::jsonb,
             v_candidate,
             NOW()
         )

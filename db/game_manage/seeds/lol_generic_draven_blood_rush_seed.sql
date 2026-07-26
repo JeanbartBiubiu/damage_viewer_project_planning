@@ -6,7 +6,9 @@
 --       rank-5 Blood Rush 可近似 ABI：20 mana、12000ms CD、ability_started
 --       + source_owner + 同一 ability listener 武装 blood_rush_active=1
 --       （max1 / 3000ms / refresh_duration）；AS percent_add =
---       0.40 * provider.state.blood_rush_active。候选整体语义 = partial。
+--       0.40 * provider.state.blood_rush_active；source-owner event/axe_caught
+--       → cooldown_change 使 ability_hero_draven_w_blood_rush 立即就绪
+--       （override + const 0 ≡ readyAt=now+0）。候选整体语义 = partial。
 --
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
@@ -18,16 +20,28 @@
 --    provider_hero_draven_q_spinning_axe、provider_hero_draven_basic_attack
 --    并存：不重建/替换 Q 或普攻图，不覆盖无关既有 Draven provider 行。
 -- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
+-- 6. axe_caught → W CD ready：语义判别在 effect_steps.operation_type_id=20159
+--    （operation/cooldown_change）。ability_control_effect_details.action_type_id
+--    =20240（ability_control_action/interrupt）仅为当前 NOT NULL FK 占位；
+--    现行 Web assembler 对 cooldown_change 忽略 actionTypeId，不得误读为
+--    interrupt 运行时行为。跨层含义 = readyAt=now+0（value_policy/override +
+--    amount const 0），不是新的 reserved reset 策略。axe_caught listener 的
+--    ability_id 必须为 NULL（不可绑 W），否则会投影为 listener.abilityRef 并
+--    子施放 W。
 --
 -- 明确排除（本脚本不建模）：
---   移速 / 衰减移速 / 幽灵态；接住旋转飞斧刷新 W cooldown；其它 rank；
---   live migration；自动 publish；single_attacker_dps。
+--   移速 / 衰减移速 / 幽灵态；其它 rank；live migration；自动 publish；
+--   single_attacker_dps；伤害面 / event_effect_details 输出。
 --
--- 数值来源（注释引用，无运行时外部依赖；2026-07-14 Meraki/Riot latest）：
---   https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/Draven.json
---   rank-5 Blood Rush：AS +40%（percent_add 0.40 * blood_rush_active）；
---   持续 3s；cost 20 mana；CD 12s。英雄 level-1 面板对齐 Spinning Axe seed：
---   hp675 mana361 ad62 AS0.679 armor29 MR30 hpregen3.75 manaregen8.05。
+-- 数值来源（注释引用，无运行时外部依赖）：
+--   AS / mana / CD 面板（2026-07-14 Meraki/Riot latest）：
+--     https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/Draven.json
+--     rank-5 Blood Rush：AS +40%（percent_add 0.40 * blood_rush_active）；
+--     持续 3s；cost 20 mana；CD 12s。英雄 level-1 面板对齐 Spinning Axe seed：
+--     hp675 mana361 ad62 AS0.679 armor29 MR30 hpregen3.75 manaregen8.05。
+--   接斧重置 W cooldown（League Wiki Template:Data Draven/Blood Rush）：
+--     数据参考/lol-wiki-current-champions/normalized/generic/draven-w.json
+--     （Catching a Spinning Axe resets Blood Rush's cooldown）。无 DDragon 溯源。
 --
 -- 前置：reserved_types_seed.sql；所需 attribute_definitions 已存在。
 -- 建议发布版本（本脚本不负责 publish）：
@@ -49,6 +63,7 @@ DECLARE
         20110, -- selector/self
         20120, -- provider_kind/passive
         20130, -- ability_kind/active
+        20159, -- operation/cooldown_change（语义判别）
         20160, -- operation/state_change
         20172, -- value_policy/override
         20173, -- value_policy/percent_add
@@ -56,6 +71,8 @@ DECLARE
         20190, -- refresh_policy/refresh_duration
         20205, -- event/ability_started
         20212, -- event/source_owner
+        20216, -- event/axe_caught
+        20240, -- ability_control_action/interrupt（FK 占位；非 interrupt 运行时）
         20250  -- state_scope/provider
     ];
     v_required_attrs     text[] := ARRAY[
@@ -336,6 +353,14 @@ BEGIN
             'provider_hero_draven_w_blood_rush',
             'blood_rush_attack_speed',
             '{"op":"mul","args":[{"op":"const","value":0.40},{"op":"read","path":"provider.state.blood_rush_active"}]}'::jsonb,
+            v_candidate,
+            NOW()
+        ),
+        (
+            v_game_id,
+            'provider_hero_draven_w_blood_rush',
+            'w_cooldown_reset',
+            '{"op":"const","value":0}'::jsonb,
             v_candidate,
             NOW()
         )
@@ -644,6 +669,168 @@ BEGIN
         v_game_id,
         'listener_hero_draven_w_blood_rush_ability_started',
         'sequence_hero_draven_w_blood_rush_arm',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, listener_id, sequence_id) DO UPDATE SET
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.listener_effect_sequences.change_revision > v_locked_current;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- =========================================================================
+    -- axe_caught + source_owner → cooldown_change：W 立即就绪（readyAt=now+0）
+    -- 语义：effect_steps.operation_type_id=20159；ability_control_effect_details
+    -- action_type_id=20240 仅为 NOT NULL FK 占位（assembler 忽略 actionTypeId）。
+    -- listener.ability_id=NULL：不可绑 W（避免 listener.abilityRef / 子施放）。
+    -- deferred exactly-one-detail：cooldown_change 配一 ability_control_effect_details
+    -- =========================================================================
+    INSERT INTO public.effect_sequences (
+        game_id, sequence_id, provider_id, sequence_key, display_name,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'sequence_hero_draven_w_blood_rush_cd_ready',
+        'provider_hero_draven_w_blood_rush',
+        'blood_rush_cd_ready',
+        '血性冲刺冷却即就绪（axe_caught）',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, sequence_id) DO UPDATE SET
+        provider_id = EXCLUDED.provider_id,
+        sequence_key = EXCLUDED.sequence_key,
+        display_name = EXCLUDED.display_name,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.effect_sequences.provider_id IS DISTINCT FROM EXCLUDED.provider_id
+       OR public.effect_sequences.sequence_key IS DISTINCT FROM EXCLUDED.sequence_key
+       OR public.effect_sequences.display_name IS DISTINCT FROM EXCLUDED.display_name;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.effect_steps (
+        game_id, step_id, sequence_id, step_order, operation_type_id,
+        target_selector_type_id, condition_formula_key, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'step_hero_draven_w_blood_rush_cd_ready',
+        'sequence_hero_draven_w_blood_rush_cd_ready',
+        0,
+        20159,
+        20110,
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, step_id) DO UPDATE SET
+        sequence_id = EXCLUDED.sequence_id,
+        step_order = EXCLUDED.step_order,
+        operation_type_id = EXCLUDED.operation_type_id,
+        target_selector_type_id = EXCLUDED.target_selector_type_id,
+        condition_formula_key = EXCLUDED.condition_formula_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.effect_steps.sequence_id IS DISTINCT FROM EXCLUDED.sequence_id
+       OR public.effect_steps.step_order IS DISTINCT FROM EXCLUDED.step_order
+       OR public.effect_steps.operation_type_id IS DISTINCT FROM EXCLUDED.operation_type_id
+       OR public.effect_steps.target_selector_type_id IS DISTINCT FROM EXCLUDED.target_selector_type_id
+       OR public.effect_steps.condition_formula_key IS DISTINCT FROM EXCLUDED.condition_formula_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.ability_control_effect_details (
+        game_id, step_id, action_type_id, target_ability_id,
+        amount_formula_key, value_policy_type_id, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'step_hero_draven_w_blood_rush_cd_ready',
+        20240,
+        'ability_hero_draven_w_blood_rush',
+        'w_cooldown_reset',
+        20172,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, step_id) DO UPDATE SET
+        action_type_id = EXCLUDED.action_type_id,
+        target_ability_id = EXCLUDED.target_ability_id,
+        amount_formula_key = EXCLUDED.amount_formula_key,
+        value_policy_type_id = EXCLUDED.value_policy_type_id,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.ability_control_effect_details.action_type_id IS DISTINCT FROM EXCLUDED.action_type_id
+       OR public.ability_control_effect_details.target_ability_id IS DISTINCT FROM EXCLUDED.target_ability_id
+       OR public.ability_control_effect_details.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
+       OR public.ability_control_effect_details.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- axe_caught + source_owner；ability_id NULL（勿绑 W）
+    INSERT INTO public.provider_listeners (
+        game_id, listener_id, provider_id, listener_key, event_type_id,
+        ability_id, max_triggers_per_event, chain_limit_key, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'listener_hero_draven_w_blood_rush_axe_caught',
+        'provider_hero_draven_w_blood_rush',
+        'blood_rush_on_axe_caught',
+        20216,
+        NULL,
+        1,
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, listener_id) DO UPDATE SET
+        provider_id = EXCLUDED.provider_id,
+        listener_key = EXCLUDED.listener_key,
+        event_type_id = EXCLUDED.event_type_id,
+        ability_id = EXCLUDED.ability_id,
+        max_triggers_per_event = EXCLUDED.max_triggers_per_event,
+        chain_limit_key = EXCLUDED.chain_limit_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_listeners.provider_id IS DISTINCT FROM EXCLUDED.provider_id
+       OR public.provider_listeners.listener_key IS DISTINCT FROM EXCLUDED.listener_key
+       OR public.provider_listeners.event_type_id IS DISTINCT FROM EXCLUDED.event_type_id
+       OR public.provider_listeners.ability_id IS DISTINCT FROM EXCLUDED.ability_id
+       OR public.provider_listeners.max_triggers_per_event IS DISTINCT FROM EXCLUDED.max_triggers_per_event
+       OR public.provider_listeners.chain_limit_key IS DISTINCT FROM EXCLUDED.chain_limit_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.listener_match_types (
+        game_id, listener_id, match_mode_type_id, type_id, change_revision, updated_at
+    ) VALUES
+        (v_game_id, 'listener_hero_draven_w_blood_rush_axe_caught', 20181, 20216, v_candidate, NOW()),
+        (v_game_id, 'listener_hero_draven_w_blood_rush_axe_caught', 20181, 20212, v_candidate, NOW())
+    ON CONFLICT (game_id, listener_id, match_mode_type_id, type_id) DO UPDATE SET
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.listener_match_types.change_revision > v_locked_current;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.listener_effect_sequences (
+        game_id, listener_id, sequence_id, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'listener_hero_draven_w_blood_rush_axe_caught',
+        'sequence_hero_draven_w_blood_rush_cd_ready',
         v_candidate,
         NOW()
     )
