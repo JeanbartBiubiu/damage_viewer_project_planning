@@ -1638,6 +1638,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-samira-flair-max-distance-primary-hit",
+      "title": "莎弥拉Q交火最大距离远程主目标命中Phase-A-v1机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_samira_flair_max_distance_primary_hit",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_samira|Q|交火 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV samira-q-flair-max-distance-primary-hit-phase-a-v1；DESIGN_READY run-9d5340c8（grok-4.5/high/false；1476 events；zero truncated/mutation；runDelta0）。Backend c89841a（run-b30f3551 delta3/outside0/events1275/truncated0；focused43/full1090 PASS；seed29454/8cc40c8f…；JUnit52233/bdbe41df…；无 live）。Wasm d4b55d0（run-28987be3 delta1/outside0/events1123/truncated0；仅 generic_samira_flair_max_distance_primary_hit_test.go；focused/full/bench mean109.61us PASS；生产 runtime/ABI/asset/Web 不变）。审计 9b8e452（run-4bb01f1b delta8/outside0/events1787/truncated0；五 check PASS）。边界 rank5_max_distance_ranged_shot_selected_primary_physical_hit；假定远程分支最大距离无距离倍率/输入；20+1.10*totalAD；mana30/CD2000；排除距离/弹道/近战/Wild Rush/E/暴击/吸血/Style/多目标/other ranks/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated99/blocked70；Unified completed109/blocked_runtime64/full109/none142；provisional67=runtime64/data3；hero66/item1；Samira Q缺席；tasks123；严格 completion109/254=42.9%；coverage176/254=69.3%。OOS72最终跳过；真队列67。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/莎弥拉Q交火最大距离远程主目标命中Phase-A-v1-详细设计.md",
+        "文档记录/测试记录/wasm/莎弥拉Q交火最大距离远程主目标命中Phase-A-v1-验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
