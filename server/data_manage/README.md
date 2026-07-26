@@ -2233,6 +2233,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest,LolGenericVarusBlightedQuiverSeedSqlTest,LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest,LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Azir Conquering Sands one-soldier selected-primary hit seed（沙皇 Q / Phase-A v1 假定一枚既有沙兵选定主目标单次魔法命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_azir)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_azir,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_azir,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Azir ap/mana 行——当前仓库亦无 Azir materializer 负责物化这些行；仅挂载可 cast 的独立 Q active **假定一枚既有沙兵选定主目标单次魔法命中**；「一枚既有沙兵」为 caller/scenario assumption 与 completed-boundary exclusion，**不**建模/enforce 沙兵状态或 cast-precondition gate；不要求/突变/合成/复制 P/W/E/R/basic 或任何 soldier provider；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**——未来执行/发布前须外部供给 `hero_azir` + AP + mana（publication/live prerequisite limitation，非本脚本物化许可））：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-azir-conquering-sands-one-soldier-primary-hit-phase-a-v1-20260727`（seed 不负责 publish）。候选 `hero_skill|hero_azir|Q|狂沙猛攻`（task `wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit`）冻结为 **Phase-A rank-5 立即假定一枚既有沙兵选定主目标单次魔法命中 impact scaffold**（`FROZEN_PLAN_REV=azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1`）：
+
+`rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `ap_ratio` → `one_existing_soldier_selected_primary_hit_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_azir` / `ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_azir` **仅** mount 独立 `provider_hero_azir_q_conquering_sands_one_soldier_primary_hit`（stable id `hero_azir_q_conquering_sands_one_soldier_primary_hit`；standalone；不创建/突变/合成/复制 P/W/E/R/basic/soldier），含 active `ability_hero_azir_q_conquering_sands_one_soldier_primary_hit`（`ability_key=conquering_sands_one_soldier_primary_hit`）、`ability_costs` 110 mana、`ability_cooldowns` 6000ms listed scaffold、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `140 + 0.55*source.attr.ap.resolved`（AP 直接读 `ap.resolved`；嵌套二元 `add(const 140, mul(const 0.55, read …))`；AP path 恰好一次；无 AD/crit/crit_damage reads；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20221` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / tick / control / scheduler / projectile / soldier / slow / movement 行。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。不含 salvage tags；亦不含 governed tag `meta_or_non_target_dps`（该 raw 为 legacy provenance，永非 governed tag）。Wiki：request `Template:Data Azir/Q` → resolved `Template:Data Azir/Conquering Sands`；page1306850 / rev4024967 / `2026-06-04T07:26:59Z` / canonical 2512 bytes / SHA256 `168e2568c6795859e68831eb23b59b62d249aceb07cf3740403b1616516b51f2`；sidecar `normalized/generic/azir-q.json`（bytes3119 / SHA256 `9e2cfc28ced422699bbb40722ba46d82167c79f34bbd696f2fc4080e52120fb7`）+ `pages/azir-q.json`（bytes684 / SHA256 `a15a3c54079cd8a75584c9725bb792441103ff27cafa31fa136d076791fa71f4`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 2510 / `6885ead987cae40fa37992d170337007629e3f12ebfc494eb3a1f54b5fb110e4`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。Wiki 称 Q 需要已召唤沙兵、后续沙兵不加伤害/减速；Phase-A 假定一枚既有沙兵但不建模该 gate。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime；测试夹具可创建外部前置行，生产 seed 不得）：`AP0/MR0` raw/final140；`AP100/MR100` raw195/final97.5；无关 AD/crit/crit_damage 变化不改变输出；mana330/AP100/HP1000/MR100 在 t0/t5999/t6000 → success/skip/success、exactly two Q damage items、两次自动 `ability_started`、final mana110/HP805、readyAt6000；mana109 → resource skip、不变、无 Q damage/start；idempotence/no-op rerun 且无 sibling/provider mutation；standalone provider 不合成 P/W/E/R/basic/soldier。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：ranks1–4；soldier entity/spawn/despawn/count/formation/placement/attack state；cast-precondition enforcement；command/path/dash/travel/collision/Wind Wall/Rebuttal；target location/range/geometry/pass-through/arrival/multiple enemies；slow/duration/refresh；P/W/E/R/basic/items/loadout；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/tick/control/scheduler/projectile/soldier/slow/movement/sibling；live migration；publish；E2E/live/Admin/Web/Wasm/asset/full-game/full-Q fidelity。One assume-one-existing-soldier selected-primary single magic hit, not full Q。
+
+静态契约校验（不连 live DB；含邻近 Lucian W / Corki Q / Jinx E AP-magic check-only immediate-impact 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest,LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
