@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-26T11:12:58.540Z"
+    "generatedAt": "2026-07-26T11:54:56.042Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 96,
+      "migrated": 97,
       "partial": 4,
-      "blocked": 73,
+      "blocked": 72,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 39.67,
+      "migrated": 40.08,
       "partial": 1.65,
-      "blocked": 30.17,
+      "blocked": 29.75,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 39.67,
-      "inScope": 55.49
+      "all": 40.08,
+      "inScope": 56.07
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 41.32,
-      "inScope": 57.8
+      "all": 41.74,
+      "inScope": 58.38
     },
     "inScopeCount": 173
   },
@@ -9644,23 +9644,23 @@
       "sourceText": "Awe: Grants {{as|'''bonus''' attack damage}} equal to {{as|2% '''maximum''' mana}}.",
       "genericClassification": "migrated",
       "genericMechanismTags": [
-        "source_only_dynamic_mana_max_ad_modifier"
+        "source_only_dynamic_effective_mana_ad_modifier"
       ],
-      "classificationReason": "item 3004 敬畏已由 wasm-generic-manamune-awe 批次闭环：source-only 动态 AD = 0.02 * source.attr.mana.max；mana.max 0/1000/2000 → +0/+20/+40；无 event/state。",
+      "classificationReason": "item 3004 敬畏已由 wasm-generic-manamune-awe 批次闭环：source-only 动态 AD = 0.02 * source.attr.mana.resolved（历史 tag source_only_dynamic_mana_max_ad_modifier 已更正为 source_only_dynamic_effective_mana_ad_modifier）；fixture mana Base=Current=Max=Resolved 0/1000/2000 → Awe-only AD100→100/120/140；与法力流满层直达 +360 同挂时 effective mana 360/1360/2360 → AD107.2/127.2/147.2；两遍 materialize 后才消费有效法力；Backend 615eda1b / Wasm aba6bee；无 event/state。",
       "coverageEvidence": [
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-manamune-awe",
           "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_manamune_awe_test.go",
           "sourceWorktree": "wasm",
-          "note": "Manamune Awe via generic_manamune_awe_test.go"
+          "note": "Manamune Awe via generic_manamune_awe_test.go; AD=0.02*mana.resolved; awe-only 100/120/140; combined+360 → 107.2/127.2/147.2; Wasm aba6bee / Backend 615eda1b"
         },
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-manamune-awe",
           "sourcePath": "db/game_manage/seeds/lol_generic_manamune_awe_seed.sql",
           "sourceWorktree": "backend",
-          "note": "Manamune Awe seed: AD = 0.02 * mana.max; tests 0/1000/2000 → +0/+20/+40"
+          "note": "Manamune Awe seed: AD = 0.02 * mana.resolved; awe-only 0/1000/2000 → +0/+20/+40; combined Manaflow +360 → 107.2/127.2/147.2; Backend 615eda1b / Wasm aba6bee"
         }
       ],
       "remainingGap": ""
@@ -9698,15 +9698,30 @@
       ],
       "sourceRef": "数据参考/lol-wiki-current-items/current-items.normalized.json#item_3004_slots_pass2+pass3@revid4030984 sha256:e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d",
       "sourceText": "Manaflow: Grants a charge every 8 seconds, up to 4 charges. Consumes a charge [[on-hit]] and whenever affecting an enemy or ally with an [[champion ability|ability]] to grant {{as|3 '''bonus''' mana}}, increased to {{as|6|mana}} for champion targets, up to a '''maximum''' of {{as|360 '''bonus''' mana}}. Can only be triggered once per {{tip|cast instance}}.\n\nTransforms into {{ii|Muramana}} at {{as|360 '''bonus''' mana}}.",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "periodic_charge_tick",
-        "attack_or_ability_hit_resource_gain",
-        "state_driven_max_mana_and_transform"
+        "source_only_effective_mana_modifier",
+        "awe_effective_mana_dependency",
+        "phase_a_excludes_charge_progression_and_transform"
       ],
-      "classificationReason": "item 3004 法力流现行合同：每8秒充能至多4层；普攻或技能命中消耗一层并获得+3最大法力（对英雄+6），上限360后转变为魔切。当前 generic 缺 periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform；敬畏闭环不等于法力流已迁。",
-      "coverageEvidence": [],
-      "remainingGap": "缺 periodic_charge_tick（无数据驱动 provider 周期充能调度）、attack_or_ability_hit_resource_gain（本数据路径无通用技能命中源事件）、state_driven_max_mana_and_transform（无状态驱动最大法力累积与条件实体/provider 转变）。"
+      "classificationReason": "item 3004 法力流/Manaflow：Wiki Module:ItemData/data revid4030984 / content SHA e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d / normalized SHA 17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4（current-items.normalized.json#item_3004_slots_pass2+pass3）Phase-A direct-max-state 近似已由 wasm-generic-manamune-awe 闭环为 migrated——always-on source-only mana.resolved +=360；Base/Current/Max/resource/static mana500/identity 不变；fixture input mana 0/1000/2000 → effective mana 360/1360/2360；与既有敬畏同挂（AD base100）→ combined AD 107.2/127.2/147.2；两隔离 item providers（item:manamune_awe + item:manamune_manaflow_max_state）均挂 item_3004；两遍 materialize 后敬畏才消费有效法力；provider 顺序确定性已证。Backend commit 615eda1b；focused18/full Maven1069 PASS；no live；seed17817/SHA be0147276694d8696b678cd75ea247d8b280487662fe8e389ee8ce06f190ad77；JUnit21617/SHA 99fb0d79cfb6aa4122d86036351d730ccf1dcfb50a83d40295008a73ce99aff7。Wasm commit aba6bee；focused/full/bench PASS；test-only；production asset unchanged；test23844/SHA 75522eb4e32e97f014dab86eba2b7403ee456a46940c7af18ab75277ddd2c6b7。READY gate run-0e2afc59-dafa-44b8-8f94-44d1d66c653d。completedBoundary：item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity。明确排除 8s charge/four-queue/on-hit/ability/+3/+6/per-cast/resource/transform/full fidelity；不宣称充能进度/变形/完整游戏保真；no live/Admin/E2E claim。先前 blocked_runtime 合同（periodic_charge_tick / attack_or_ability_hit_resource_gain / state_driven_max_mana_and_transform）仅保留于 auditBaseline 溯源。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-manamune-awe",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_manamune_awe_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity; Wiki Module:ItemData/data revid4030984/SHA e7818eff… / normalized 17769e08…; always-on mana.resolved+=360; BCM/resource/static500/identity unchanged; fixtures 0/1000/2000→360/1360/2360; combined AD100→107.2/127.2/147.2; two-pass materialize + provider-order determinism; Wasm exact test commit aba6bee bytes23844/SHA 75522eb4…; charge/queue/on-hit/ability/+3/+6/per-cast/resource/transform/live/E2E/full-fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-manamune-awe",
+          "sourcePath": "db/game_manage/seeds/lol_generic_manamune_awe_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity; backend lol_generic_manamune_awe_seed.sql + LolGenericManamuneAweSeedSqlTest (owning 615eda1b); Wasm exact test commit aba6bee; seed17817/SHA be014727…; JUnit21617/SHA 99fb0d79…; READY run-0e2afc59; focused18/full1069 PASS; no live; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "item_passive|3026|item_passive|重生",
