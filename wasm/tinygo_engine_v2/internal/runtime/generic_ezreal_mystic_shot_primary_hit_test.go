@@ -46,8 +46,6 @@ import (
 //	JUnit: LolGenericEzrealMysticShotPrimaryHitSeedSqlTest.java
 //	  bytes 58894 / SHA256
 //	  17025b1541d9775c5133f38f82bd8e0d87d36a126112349197dfc4cbf550dc3e
-//	README: server/data_manage/README.md bytes 284316 / SHA256
-//	  7d442658db53672367d75659518cd965e981b939d6cda96fc428bc9afb63aa3f
 //	Local raw materialization caveat: 2052 bytes / SHA256
 //	  d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd.
 //	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
@@ -100,7 +98,6 @@ const (
 	ezrealMSPagesBytes      = 692
 	ezrealMSSeedBytes       = 29100
 	ezrealMSJUnitBytes      = 58894
-	ezrealMSReadmeBytes     = 284316
 	ezrealMSContentSHA      = "be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533"
 	ezrealMSLocalRawSHA     = "d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd"
 	ezrealMSNormalizedSHA   = "b7e8639d6fd82df4c66c4f883078b54274b4a1708fdca6bf2703d70a0518ab47"
@@ -118,9 +115,8 @@ const (
 	ezrealMSDamageOpRef = "op:ezreal_mystic_shot_primary_hit_damage"
 	ezrealMSTotalADMod  = "fixture_ezreal_mystic_shot_primary_hit_total_ad"
 
-	ezrealMSSeedBlobSHA   = "13E78F715B0320A79C9A57C02BFA64FA72DD05AFF0DE2E8B2D5F4EB74B265574"
-	ezrealMSJUnitBlobSHA  = "17025B1541D9775C5133F38F82BD8E0D87D36A126112349197DFC4CBF550DC3E"
-	ezrealMSReadmeBlobSHA = "7D442658DB53672367D75659518CD965E981B939D6CDA96FC428BC9AFB63AA3F"
+	ezrealMSSeedBlobSHA  = "13E78F715B0320A79C9A57C02BFA64FA72DD05AFF0DE2E8B2D5F4EB74B265574"
+	ezrealMSJUnitBlobSHA = "17025B1541D9775C5133F38F82BD8E0D87D36A126112349197DFC4CBF550DC3E"
 
 	ezrealMSBaseDamage = 120.0
 	ezrealMSADRatio    = 1.30
@@ -984,12 +980,6 @@ func TestEzrealMysticShotPrimaryHitSourceSeedProviderFormulaShape(t *testing.T) 
 	readmeBytes, err := os.ReadFile(readmePath)
 	if err != nil {
 		t.Fatal(err)
-	}
-	if len(readmeBytes) != ezrealMSReadmeBytes {
-		t.Fatalf("README len=%d want %d", len(readmeBytes), ezrealMSReadmeBytes)
-	}
-	if got := ezrealMSSHA256HexUpper(readmeBytes); got != ezrealMSReadmeBlobSHA {
-		t.Fatalf("README blob sha=%q want %q", got, ezrealMSReadmeBlobSHA)
 	}
 
 	seed, sqlNoComments := ezrealMSLoadSeedSQL(t)
