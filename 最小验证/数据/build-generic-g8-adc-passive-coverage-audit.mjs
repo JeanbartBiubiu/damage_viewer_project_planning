@@ -631,6 +631,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql',
   jinxZapPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql',
+  jinxFlameChompersPrimaryExplosionHitBackend:
+    'db/game_manage/seeds/lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql',
   jhinDancingGrenadePrimaryFirstHitBackend:
     'db/game_manage/seeds/lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql',
   jhinDeadlyFlourishPrimaryHitBackend:
@@ -786,6 +788,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go',
   jinxZapPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go',
+  jinxFlameChompersPrimaryExplosionHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_flame_chompers_primary_explosion_hit_test.go',
   jhinDancingGrenadePrimaryFirstHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_jhin_dancing_grenade_primary_first_hit_test.go',
   jhinDeadlyFlourishPrimaryHit:
@@ -2115,6 +2119,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-jinx-zap-primary-hit',
           SEED.jinxZapPrimaryHitBackend,
           'completedBoundary: rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity; backend lol_generic_jinx_zap_primary_hit_seed.sql + LolGenericJinxZapPrimaryHitSeedSqlTest (owning b5abdb7; integrated a09adf1); Wasm exact test commit 2afde02; external existing-data/check-only prerequisites (hero_jinx/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Jinx synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_jinx|E',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_magic_damage',
+        'ap_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_jinx E 嚼火者手雷！/Flame Chompers!：Wiki request Template:Data Jinx/E → resolved Template:Data Jinx/Flame Chompers!；page1307600 / rev3993368 / timestamp 2026-02-21T15:35:19Z / canonical bytes1786 / SHA256 64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee（normalized/generic/jinx-e.json bytes2228/SHA256 de7922f66deb96c8652dd1a0509105b49cdcf22278d1fd591bc366060987183a plus pages sibling bytes694/SHA256 f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d are authority）rank5 Phase-A v1 已由 wasm-generic-jinx-flame-chompers-primary-explosion-hit 闭环为 migrated——local raw caveat bytes1784 / SHA aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；sourceCount12；90 mana / 10000ms CD；immediate selected-primary-champion single magic explosion-hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(const 290, mul(const 1.00, read source.attr.ap.resolved))（exact nested binary；one AP read）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no E ability-specific type）（交叉校验 MR100 AP0 raw290/final145；AP100 raw390/final195；unrelated AD counterproof）。Attempts mana270/AP100/HP1000/MR100 at t0/t9999/t10000 → success/skip/success，exactly two E damage items；final mana90/HP610；exactly two automatic E ability_started；mana89 at t0 → resource skip with mana/HP unchanged and no E damage/event。standalone E，plus bounded E/W coexistence isolation；E does not trigger/mutate W and W does not trigger/mutate E；No P/Q/R/basic synthesis。Jinx E provider is standalone；Backend external existing-data/check-only prerequisites only（hero_jinx/ap/mana）；no identity/panel/resource materializer/write；不宣称 Jinx W/Batch-B owns prerequisites；不暗示 Batch-B 或 sibling Jinx synthesis；不暗示任何 production runtime/ABI/Web change。Design READY run-893fcb26-cd49-4bb2-9bc7-4a231b13762f：runDelta0，1750 parseable event lines，no truncation/mutation/user decision；production Wasm/public ABI/Web not needed。Backend validation honesty：owning df08d6b341d85b3c43bc70e33e43eae0cb736ac8 / run-1f38cae0-444e-4601-b316-9a74886b6b44 delta3/outside0；Main focused37/full1032 PASS；seed27322/SHA 686ff89b4f29b1697e478d2f1b676d80a9bd3288e460bea4f57e0a3b7583ee6f；JUnit46529/SHA 519c3e5ce2844d41bdc348441056352fb893633ca084bb261f63bffd0300d35a；README305324/SHA bc71abfed04e04299a78bc8f17ae17ad619e779cb014d65bf8ed3912eb86b7be at owning commit。Mirror 3b26d3e74a6eb460bb641f42a1909f9735eb7dbd / run-1554558c-1d6b-4add-9cd8-4d52c89a6b97 delta3/outside0 exact parity focused18 PASS。Wasm exact 9320b4dafc6225a3a20829de17223a0a6d715787 / run-5b26afad-2b5f-42b7-bc71-81ae5aaff897 delta1/outside0；exact test bytes63966 / SHA256 59ee84f4b61bee5f86d8cc374204e2551161e18fd20b20d9db17d8b51553741b；main focused7 top-level/count100/E+W/full Go/Go bench/TinyGo build/Node smoke+bench PASS；built production and independent Web source asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no production/Web write；hero-named `_test.go` is regression/governance evidence only，builds generic Provider/Ability/Formula contracts，excluded from production build；no hero-specific production branch/public ABI change。completedBoundary：rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity。明确排除 three-trap layout/count/identity、location/direction/range/geometry/area/multitarget、landing/arming/lifetime delays、contact/collision/acquisition/one-per-champion、knockdown/root/CC、Wind Wall/Braum/spell-shield exception/vision、other ranks/siblings/loadout/bootstrap/live/Admin/E2E/full E/full-game fidelity；this is exactly one selected-primary champion magic explosion-hit quantum, not one total in-game E hit；不宣称 three-trap/layout/landing/arming/lifetime/location/direction/range/geometry/area/multitarget/contact/acquisition/knockdown/root/Wind Wall/Braum/spellshield/vision/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_jinx/ap/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-jinx-flame-chompers-primary-explosion-hit',
+          WASM.jinxFlameChompersPrimaryExplosionHit,
+          'completedBoundary: rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity; Wiki request Template:Data Jinx/E → Flame Chompers!; rev3993368/SHA256 64562ed4… / bytes1786; local raw caveat bytes1784/SHA aabb099f… no equivalence claim; rank5 90 mana/10000ms CD / one magic 290+1.00*ap.resolved via exact nested binary add(const290, mul(1.00, read ap.resolved)); one AP read; MR100 AP0 raw290/final145; AP100 raw390/final195; unrelated AD counterproof; damage 20221/add 20170; no 20230; no explicit event op; no E type; mana270/AP100/HP1000/MR100 t0/t9999/t10000 success/skip/success two E damage items final mana90/HP610 two automatic E ability_started; mana89 resource skip unchanged; standalone E plus bounded E/W coexistence isolation; E does not trigger/mutate W and W does not trigger/mutate E; no P/Q/R/basic synthesis; hero-named _test.go regression/governance only; standalone no sibling synthesis; Wasm exact test commit 9320b4da bytes63966/SHA 59ee84f4…; three-trap/layout/landing/arming/lifetime/location/direction/range/geometry/area/multitarget/contact/acquisition/knockdown/root/Wind Wall/Braum/spellshield/vision/other-ranks/live/Admin/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-jinx-flame-chompers-primary-explosion-hit',
+          SEED.jinxFlameChompersPrimaryExplosionHitBackend,
+          'completedBoundary: rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity; backend lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql + LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest + README (owning df08d6b; integrated 3b26d3e); Wasm exact test commit 9320b4da; seed27322/SHA 686ff89b…; JUnit46529/SHA 519c3e5c…; README305324/SHA bc71abfe…; READY run-893fcb26; run-1f38cae0 delta3/outside0 focused37/full1032; mirror run-1554558c exact parity focused18 PASS; external existing-data/check-only prerequisites (hero_jinx/ap/mana; does not write identity/panel/resource values; no claim Jinx W/Batch-B owns prerequisites); standalone no Batch-B or sibling Jinx synthesis; not live published',
         ),
       ],
     },
@@ -4896,9 +4930,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 91) errors.push(`migrated=${counts.migrated}, expected 91`);
+  if (counts.migrated !== 92) errors.push(`migrated=${counts.migrated}, expected 92`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 78) errors.push(`blocked=${counts.blocked}, expected 78`);
+  if (counts.blocked !== 77) errors.push(`blocked=${counts.blocked}, expected 77`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -8160,6 +8194,186 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       jinxW.candidateKey,
       jinxW.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const jinxE = records.find((r) => r.candidateKey === 'hero_skill|hero_jinx|E|嚼火者手雷！');
+  const jinxETags = [...(jinxE?.genericMechanismTags || [])];
+  const jinxEExpectedTags = [
+    'ability_cost_cooldown',
+    'active_magic_damage',
+    'ap_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const jinxEReason = String(jinxE?.classificationReason || '');
+  const jinxEBoundary =
+    'rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_jinx|E')) {
+    errors.push('Jinx E exact override key hero_jinx|E must exist before fallback');
+  }
+  if (
+    !jinxE
+    || jinxE.candidateKey !== 'hero_skill|hero_jinx|E|嚼火者手雷！'
+    || jinxE.passiveName !== '嚼火者手雷！'
+    || jinxE.genericClassification !== 'migrated'
+    || String(jinxE.remainingGap || '').trim()
+    || (jinxE.dataGapEvidence?.missingFields || []).length !== 0
+    || jinxETags.join('|') !== jinxEExpectedTags.join('|')
+    || jinxETags.includes('meta_or_non_target_dps')
+    || jinxETags.includes('dps_relevant_manual_review')
+    || jinxETags.includes('blocked_data')
+    || jinxETags.includes('primary_damage_branch_salvage')
+    || jinxETags.includes('multi_target_or_area')
+    || !jinxETags.includes('active_magic_damage')
+    || !jinxETags.includes('ap_ratio')
+    || String(jinxE.remainingGap || '').includes('blocked_data')
+    || jinxEReason.includes('out_of_scope_for_single_target_dps')
+    || jinxEReason.includes('blocked_data')
+    || jinxEReason.includes('implementation_gap_no_unresolved_data_fields')
+    || jinxEReason.includes('meta_or_non_target_dps')
+    || jinxEReason.includes('dps_relevant_manual_review')
+    || jinxEReason.includes('primary_damage_branch_salvage')
+    || jinxEReason.includes('multi_target_or_area')
+    || !jinxEReason.includes('3993368')
+    || !jinxEReason.includes(
+      '64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee',
+    )
+    || !jinxEReason.includes(
+      'de7922f66deb96c8652dd1a0509105b49cdcf22278d1fd591bc366060987183a',
+    )
+    || !jinxEReason.includes(
+      'f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d',
+    )
+    || !jinxEReason.includes(
+      'aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551',
+    )
+    || !jinxEReason.includes('Template:Data Jinx/E')
+    || !jinxEReason.includes('Template:Data Jinx/Flame Chompers!')
+    || !jinxEReason.includes('page1307600')
+    || !jinxEReason.includes('bytes1786')
+    || !jinxEReason.includes('bytes2228')
+    || !jinxEReason.includes('bytes694')
+    || !jinxEReason.includes('bytes1784')
+    || !jinxEReason.includes('2026-02-21T15:35:19Z')
+    || !jinxEReason.includes('sourceCount12')
+    || !jinxEReason.includes(jinxEBoundary)
+    || !jinxEReason.includes('source.attr.ap.resolved')
+    || !jinxEReason.includes('exact nested binary')
+    || !jinxEReason.includes('one AP read')
+    || !jinxEReason.includes('290')
+    || !jinxEReason.includes('1.00')
+    || !jinxEReason.includes('90 mana')
+    || !jinxEReason.includes('10000')
+    || !jinxEReason.includes('20221')
+    || !jinxEReason.includes('20170')
+    || !jinxEReason.includes('no 20230')
+    || !jinxEReason.includes('no explicit event op')
+    || !jinxEReason.includes('no E ability-specific type')
+    || !jinxEReason.includes('raw290/final145')
+    || !jinxEReason.includes('raw390/final195')
+    || !jinxEReason.includes('unrelated AD counterproof')
+    || !jinxEReason.includes('t9999')
+    || !jinxEReason.includes('t10000')
+    || !jinxEReason.includes('mana270')
+    || !jinxEReason.includes('mana89')
+    || !jinxEReason.includes('HP610')
+    || !jinxEReason.includes('ability_started')
+    || !jinxEReason.includes('standalone E')
+    || !jinxEReason.includes('E/W coexistence')
+    || !jinxEReason.includes('does not trigger/mutate W')
+    || !jinxEReason.includes('W does not trigger/mutate E')
+    || !jinxEReason.includes('No P/Q/R/basic synthesis')
+    || !jinxEReason.includes('external existing-data/check-only')
+    || !jinxEReason.includes('hero_jinx/ap/mana')
+    || !jinxEReason.includes('identity/panel/resource')
+    || !jinxEReason.includes('不宣称 Jinx W/Batch-B owns prerequisites')
+    || !jinxEReason.includes('不暗示 Batch-B')
+    || !jinxEReason.includes('sibling Jinx synthesis')
+    || !jinxEReason.includes('run-893fcb26-cd49-4bb2-9bc7-4a231b13762f')
+    || !jinxEReason.includes('runDelta0')
+    || !jinxEReason.includes('1750 parseable event lines')
+    || !jinxEReason.includes('df08d6b341d85b3c43bc70e33e43eae0cb736ac8')
+    || !jinxEReason.includes('run-1f38cae0-444e-4601-b316-9a74886b6b44')
+    || !jinxEReason.includes('focused37/full1032')
+    || !jinxEReason.includes('686ff89b4f29b1697e478d2f1b676d80a9bd3288e460bea4f57e0a3b7583ee6f')
+    || !jinxEReason.includes('519c3e5ce2844d41bdc348441056352fb893633ca084bb261f63bffd0300d35a')
+    || !jinxEReason.includes('bc71abfed04e04299a78bc8f17ae17ad619e779cb014d65bf8ed3912eb86b7be')
+    || !jinxEReason.includes('3b26d3e74a6eb460bb641f42a1909f9735eb7dbd')
+    || !jinxEReason.includes('run-1554558c-1d6b-4add-9cd8-4d52c89a6b97')
+    || !jinxEReason.includes('focused18 PASS')
+    || !jinxEReason.includes('9320b4dafc6225a3a20829de17223a0a6d715787')
+    || !jinxEReason.includes('run-5b26afad-2b5f-42b7-bc71-81ae5aaff897')
+    || !jinxEReason.includes('63966')
+    || !jinxEReason.includes(
+      '59ee84f4b61bee5f86d8cc374204e2551161e18fd20b20d9db17d8b51553741b',
+    )
+    || !jinxEReason.includes('focused7 top-level')
+    || !jinxEReason.includes('Node smoke+bench')
+    || !jinxEReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !jinxEReason.includes('regression/governance evidence only')
+    || !jinxEReason.includes('exactly one selected-primary champion magic explosion-hit quantum')
+    || !jinxEReason.includes('不宣称')
+    || !jinxEReason.includes('no equivalence or contradiction claim')
+    || jinxEReason.includes('canonical byte equivalence')
+    || jinxEReason.includes('Batch-B prerequisite')
+    || jinxEReason.includes('live published')
+    || !String(jinxE.sourceRef || '').includes('jinx-e.json')
+    || !String(jinxE.sourceRef || '').includes(
+      '64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee',
+    )
+    || jinxE.auditBaseline?.gapCode !== 'blocked_data'
+    || jinxE.auditBaseline?.resolvedBucket !== 'blocked'
+    || jinxE.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(jinxE.auditBaseline?.mechanismTags || []).includes('meta_or_non_target_dps')
+    || jinxE.classification !== 'out_of_scope_for_single_target_dps'
+    || !(jinxE.mechanismTags || []).includes('meta_or_non_target_dps')
+    || citesForbiddenProvenance(jinxE.classificationReason)
+    || !(jinxE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.jinxFlameChompersPrimaryExplosionHit
+        && e.taskKey === 'wasm-generic-jinx-flame-chompers-primary-explosion-hit'
+        && String(e.note || '').includes(jinxEBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('9320b4da')
+        && String(e.note || '').includes('aabb099f')
+        && String(e.note || '').includes('20221')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no 20230')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('no E type')
+        && String(e.note || '').includes('exact nested binary')
+        && String(e.note || '').includes('E/W coexistence')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(jinxE.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.jinxFlameChompersPrimaryExplosionHitBackend
+        && e.taskKey === 'wasm-generic-jinx-flame-chompers-primary-explosion-hit'
+        && String(e.note || '').includes(jinxEBoundary)
+        && String(e.note || '').includes('LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest')
+        && String(e.note || '').includes('df08d6b')
+        && String(e.note || '').includes('3b26d3e')
+        && String(e.note || '').includes('9320b4da')
+        && String(e.note || '').includes('run-893fcb26')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('no claim Jinx W/Batch-B owns prerequisites')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Jinx synthesis'),
+    )
+  ) {
+    errors.push(
+      'Jinx E must be migrated with empty remainingGap/missingFields, exact Flame Chompers! ordered tags (no meta_or_non_target_dps/dps_relevant_manual_review/blocked_data/primary_damage_branch_salvage/multi_target_or_area; requires active_magic_damage/ap_ratio), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/meta_or_non_target_dps/auditBaseline provenance, Wiki rev3993368/SHA + normalized/pages/local-raw caveat + frozen completedBoundary, rank5 90mana/10000CD/one magic 290+1.00*AP exact nested binary numerics (raw290/final145; raw390/final195; AD counterproof; 20221/20170; no 20230; no E type; no explicit event op; t0/t9999/t10000 mana270→90/HP610 two damage/two ability_started; mana89 skip; E/W coexistence isolation; no P/Q/R/basic synthesis), standalone/external-existing-data/check-only/no-Jinx-W-Batch-B-prerequisite-claim/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, READY run-893fcb26 + focused37/full1032 + mirror focused18 + Wasm asset SHA + hero-named _test.go governance-only, and bilateral wasm+backend evidence (owning df08d6b / integrated 3b26d3e / Wasm 9320b4da; one selected-primary magic explosion-hit quantum not full E; no three-trap/layout/landing/arming/lifetime/geometry/CC/spellshield/vision/live claim)',
+    );
+  }
+  if (jinxE) {
+    validateBilateralCoverageEvidence(
+      jinxE.candidateKey,
+      jinxE.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );

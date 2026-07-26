@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-26T06:01:12.786Z",
+    "generatedAt": "2026-07-26T06:56:34.209Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "a3d113841ef9e4411a9a996f99ec75caff775fe8aa53fd9a3451c406df04e86f",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "898e6541eada4a08535cf9fa50646a17840a96f7f2ed532828447742cca5705b",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "c23f8919cd8ceee573e157d2415dc12e2ce9b128cf1b8d702d4fa45398312d98",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "708e9aaaebd5c1f2c638d08bfe1007844d32ac5f2d25da564aaa6c3befb2a51e",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "8393caf4fe55155475ad5415800e1abc8968459d3fb3de95783da7bf49dfcab7",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "23976c46832f4d91a116ba07447f85a525b0c48205f9c0680beaf681e3375330",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 101,
+      "completed": 102,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 72,
+      "blocked_runtime": 71,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 101,
+      "full": 102,
       "partial": 3,
-      "none": 150
+      "none": 149
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "a3d113841ef9e4411a9a996f99ec75caff775fe8aa53fd9a3451c406df04e86f",
-      "byteSize": 1090802,
+      "sha256": "898e6541eada4a08535cf9fa50646a17840a96f7f2ed532828447742cca5705b",
+      "byteSize": 1098017,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "c23f8919cd8ceee573e157d2415dc12e2ce9b128cf1b8d702d4fa45398312d98",
-      "byteSize": 686085,
+      "sha256": "8393caf4fe55155475ad5415800e1abc8968459d3fb3de95783da7bf49dfcab7",
+      "byteSize": 704926,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "708e9aaaebd5c1f2c638d08bfe1007844d32ac5f2d25da564aaa6c3befb2a51e",
-      "byteSize": 707563,
+      "sha256": "23976c46832f4d91a116ba07447f85a525b0c48205f9c0680beaf681e3375330",
+      "byteSize": 726163,
       "recordCount": 0,
       "role": "generator"
     },
@@ -14707,52 +14707,29 @@
     },
     {
       "key": "hero_skill|hero_jinx|E|嚼火者手雷！",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_jinx",
       "skillKey": "E",
       "passiveName": "嚼火者手雷！",
       "mechanismTags": [
-        "meta_or_non_target_dps"
+        "ability_cost_cooldown",
+        "active_magic_damage",
+        "ap_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-3993368",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/jinx-e.json@rev3993368 sha256:64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_jinx|E|嚼火者手雷！",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity",
+      "reason": "Jinx E 嚼火者手雷！/Flame Chompers!：Wiki request Template:Data Jinx/E → resolved Template:Data Jinx/Flame Chompers!；page1307600 / rev3993368 / timestamp 2026-02-21T15:35:19Z / canonical bytes1786 / SHA256 64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee（normalized/generic/jinx-e.json bytes2228/SHA256 de7922f66deb96c8652dd1a0509105b49cdcf22278d1fd591bc366060987183a plus pages sibling bytes694/SHA256 f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d are authority）rank5 Phase-A v1 已由 wasm-generic-jinx-flame-chompers-primary-explosion-hit + backend seed 证据闭环——local raw caveat bytes1784 / SHA aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；sourceCount12；90 mana / 10000ms CD；immediate selected-primary-champion single magic explosion-hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable magic damage operation add(const 290, mul(const 1.00, read source.attr.ap.resolved))（exact nested binary；one AP read）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no E ability-specific type）（交叉校验 MR100 AP0 raw290/final145；AP100 raw390/final195；unrelated AD counterproof）。Attempts mana270/AP100/HP1000/MR100 at t0/t9999/t10000 → success/skip/success，exactly two E damage items；final mana90/HP610；exactly two automatic E ability_started；mana89 at t0 → resource skip with mana/HP unchanged and no E damage/event。standalone E，plus bounded E/W coexistence isolation；E does not trigger/mutate W and W does not trigger/mutate E；No P/Q/R/basic synthesis。Jinx E provider is standalone；Backend external existing-data/check-only prerequisites only（hero_jinx/ap/mana）；no identity/panel/resource materializer/write；不宣称 Jinx W/Batch-B owns prerequisites；不暗示 Batch-B 或 sibling Jinx synthesis；不暗示任何 production runtime/ABI/Web change。Design READY run-893fcb26-cd49-4bb2-9bc7-4a231b13762f：runDelta0，1750 parseable event lines，no truncation/mutation/user decision；production Wasm/public ABI/Web not needed。Backend validation honesty：owning df08d6b341d85b3c43bc70e33e43eae0cb736ac8 / run-1f38cae0-444e-4601-b316-9a74886b6b44 delta3/outside0；Main focused37/full1032 PASS；seed27322/SHA 686ff89b4f29b1697e478d2f1b676d80a9bd3288e460bea4f57e0a3b7583ee6f；JUnit46529/SHA 519c3e5ce2844d41bdc348441056352fb893633ca084bb261f63bffd0300d35a；README305324/SHA bc71abfed04e04299a78bc8f17ae17ad619e779cb014d65bf8ed3912eb86b7be at owning commit。Mirror 3b26d3e74a6eb460bb641f42a1909f9735eb7dbd / run-1554558c-1d6b-4add-9cd8-4d52c89a6b97 delta3/outside0 exact parity focused18 PASS。Wasm exact 9320b4dafc6225a3a20829de17223a0a6d715787 / run-5b26afad-2b5f-42b7-bc71-81ae5aaff897 delta1/outside0；exact test bytes63966 / SHA256 59ee84f4b61bee5f86d8cc374204e2551161e18fd20b20d9db17d8b51553741b；main focused7 top-level/count100/E+W/full Go/Go bench/TinyGo build/Node smoke+bench PASS；built production and independent Web source asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no production/Web write；hero-named `_test.go` is regression/governance evidence only，builds generic Provider/Ability/Formula contracts，excluded from production build；no hero-specific production branch/public ABI change。completedBoundary：rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity。明确排除 three-trap layout/count/identity、location/direction/range/geometry/area/multitarget、landing/arming/lifetime delays、contact/collision/acquisition/one-per-champion、knockdown/root/CC、Wind Wall/Braum/spell-shield exception/vision、other ranks/siblings/loadout/bootstrap/live/Admin/E2E/full E/full-game fidelity；this is exactly one selected-primary champion magic explosion-hit quantum, not one total in-game E hit；不宣称 three-trap/layout/landing/arming/lifetime/location/direction/range/geometry/area/multitarget/contact/acquisition/knockdown/root/Wind Wall/Braum/spellshield/vision/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_jinx/ap/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_jinx|E|嚼火者手雷！"
         },
         {
@@ -14761,7 +14738,22 @@
           "sourceRecordKey": "hero_skill|hero_jinx|E|嚼火者手雷！"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-jinx-flame-chompers-primary-explosion-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity; backend lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql + LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest + README (owning df08d6b; integrated 3b26d3e); Wasm exact test commit 9320b4da; seed27322/SHA 686ff89b…; JUnit46529/SHA 519c3e5c…; README305324/SHA bc71abfe…; READY run-893fcb26; run-1f38cae0 delta3/outside0 focused37/full1032; mirror run-1554558c exact parity focused18 PASS; external existing-data/check-only prerequisites (hero_jinx/ap/mana; does not write identity/panel/resource values; no claim Jinx W/Batch-B owns prerequisites); standalone no Batch-B or sibling Jinx synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-jinx-flame-chompers-primary-explosion-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_jinx_flame_chompers_primary_explosion_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity; Wiki request Template:Data Jinx/E → Flame Chompers!; rev3993368/SHA256 64562ed4… / bytes1786; local raw caveat bytes1784/SHA aabb099f… no equivalence claim; rank5 90 mana/10000ms CD / one magic 290+1.00*ap.resolved via exact nested binary add(const290, mul(1.00, read ap.resolved)); one AP read; MR100 AP0 raw290/final145; AP100 raw390/final195; unrelated AD counterproof; damage 20221/add 20170; no 20230; no explicit event op; no E type; mana270/AP100/HP1000/MR100 t0/t9999/t10000 success/skip/success two E damage items final mana90/HP610 two automatic E ability_started; mana89 resource skip unchanged; standalone E plus bounded E/W coexistence isolation; E does not trigger/mutate W and W does not trigger/mutate E; no P/Q/R/basic synthesis; hero-named _test.go regression/governance only; standalone no sibling synthesis; Wasm exact test commit 9320b4da bytes63966/SHA 59ee84f4…; three-trap/layout/landing/arming/lifetime/location/direction/range/geometry/area/multitarget/contact/acquisition/knockdown/root/Wind Wall/Braum/spellshield/vision/other-ranks/live/Admin/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
