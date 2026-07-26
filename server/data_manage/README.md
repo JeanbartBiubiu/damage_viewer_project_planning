@@ -1619,6 +1619,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest,LolGenericDravenStandAsideSeedSqlTest test
 ```
 
+### LoL generic Jinx Flame Chompers! selected-primary explosion-hit seed（金克丝 E / Phase-A v1 选定主冠军单次魔法爆炸命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_jinx)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_jinx,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_jinx,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Jinx ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的独立 E active **选定主冠军单次魔法爆炸命中**；**不依赖/不突变**既有 Jinx W Zap；亦不创建/突变 P/Q/W/R/basic；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-jinx-flame-chompers-primary-explosion-hit-phase-a-v1-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_jinx|E|嚼火者手雷！`（task `wasm-generic-jinx-flame-chompers-primary-explosion-hit`）冻结为 **Phase-A rank-5 立即选定主冠军单次魔法爆炸命中 impact + cooldown scaffold**（`FROZEN_PLAN_REV=jinx-e-flame-chompers-primary-explosion-hit-phase-a-v1`）：
+
+`rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `ap_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_jinx` / `ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_jinx` **仅** mount 独立 `provider_hero_jinx_e_flame_chompers_primary_explosion_hit`（stable id `hero_jinx_e_flame_chompers_primary_explosion_hit`；standalone；不创建/突变 P/Q/W/R/basic；不依赖/不突变既有 Jinx W Zap），含 active `ability_hero_jinx_e_flame_chompers_primary_explosion_hit`（`ability_key=flame_chompers_primary_explosion_hit`）、`ability_costs` 90 mana、`ability_cooldowns` 10000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `290 + 1.00*source.attr.ap.resolved`（AP 直接读 `ap.resolved`；无关 AD 变化不得改变 E 伤害；二元 `add(const 290, mul(const 1.00, read …))`；`copyable_on_hit=false`，非 crit；运行时类型 `20221` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / vision / sibling 行。成功 cast 由 runtime 自动发出 `ability_started`（本 E 图不添加 listener / event step）。Immediate impact and cooldown 为 Phase-A scaffold，不是实际三枚 Chomper 布局/落地/武装/寿命/接触爆炸。Wiki：request `Template:Data Jinx/E` → resolved `Template:Data Jinx/Flame Chompers!`；page1307600 / rev3993368 / `2026-02-21T15:35:19Z` / canonical 1786 bytes / SHA256 `64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee`；sidecar `normalized/generic/jinx-e.json`（bytes2228 / SHA256 `de7922f66deb96c8652dd1a0509105b49cdcf22278d1fd591bc366060987183a`）+ `pages/jinx-e.json`（bytes694 / SHA256 `f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 1784 / `aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551`；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：AP0 → raw290；MR100 → final145；AP100 → raw390；MR100 → final195；changing unrelated AD must not change E damage；mana270/AP100/HP1000/MR100 在 t0/t9999/t10000 → success/skip/success、two E damage items、两次自动 E `ability_started`、final mana90/HP610；mana89 → resource skip、不变、无 E damage/event；standalone E 不合成 P/Q/W/R/basic，不突变/依赖既有 Jinx W Zap。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：three-Chomper layout/count/identity；0.4s landing / 0.5s arming / 5s lifetime / delayed schedule；location/direction/range/geometry/radius/area/multitarget；contact/collision/acquisition；one-Chomper-per-champion；knockdown/root/CC/control；Wind Wall/Braum；spell-shield exception；vision；ranks1–4；P/Q/W/R/basic/loadout/bootstrap；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/vision/sibling；live migration；publish；E2E/full E/full-game fidelity。Exactly one selected-primary champion magic explosion-hit quantum，不是主张游戏内 E 只有一枚陷阱或一次总命中。
+
+静态契约校验（不连 live DB；含邻近 Jinx W check-only physical、Lucian W / Corki Q AP-magic direct-hit 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest test
+```
+
 ### LoL generic Jhin Deadly Flourish primary-hit seed（戏命师 W / Phase-A v1 主冠军命中）
 
 在 reserved types 已就绪，且 **外部既有** `game_entities(hero_jhin)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_jhin,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_jhin,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Jhin ad/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的 W active；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
