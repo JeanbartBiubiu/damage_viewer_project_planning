@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-26T08:28:55.027Z",
+    "generatedAt": "2026-07-26T09:17:58.040Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "3435afe0a3870455663a302b5e1330fb072726bdce2c0991e4c34df6f6d3ef47",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "89b3a0121755bd18411b118759df2e62115106d10e45054c1d6b4d41e587672f",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "4245ddd7759c626697ab7ef36d9346524171dea796c5de12d6de4e8801da7ed7",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "e5b7e6a56cdfccbeb816259be87ac2e477fe39f38aef3358f6373e763d5d26ca",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "da08875abc8a417b8eaa1f6151e8cbe6021a405c425165b38571120042d82cde",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "0657d1a6859c06c4d56d067c30ae3ffd28fd0513ee811d5779ee96195dae8c28",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 103,
+      "completed": 104,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 70,
+      "blocked_runtime": 69,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 103,
+      "full": 104,
       "partial": 3,
-      "none": 148
+      "none": 147
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "3435afe0a3870455663a302b5e1330fb072726bdce2c0991e4c34df6f6d3ef47",
-      "byteSize": 1103449,
+      "sha256": "89b3a0121755bd18411b118759df2e62115106d10e45054c1d6b4d41e587672f",
+      "byteSize": 1110203,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "4245ddd7759c626697ab7ef36d9346524171dea796c5de12d6de4e8801da7ed7",
-      "byteSize": 720097,
+      "sha256": "da08875abc8a417b8eaa1f6151e8cbe6021a405c425165b38571120042d82cde",
+      "byteSize": 737729,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "e5b7e6a56cdfccbeb816259be87ac2e477fe39f38aef3358f6373e763d5d26ca",
-      "byteSize": 741021,
+      "sha256": "0657d1a6859c06c4d56d067c30ae3ffd28fd0513ee811d5779ee96195dae8c28",
+      "byteSize": 758445,
       "recordCount": 0,
       "role": "generator"
     },
@@ -13159,52 +13159,30 @@
     },
     {
       "key": "hero_skill|hero_corki|R|火箭轰击",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_corki",
       "skillKey": "R",
       "passiveName": "火箭轰击",
       "mechanismTags": [
-        "multi_target_or_area"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "ammo_gate_and_spend",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4042863",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/corki-r.json@rev4042863 sha256:1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_corki|R|火箭轰击",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "implementation_gap_no_unresolved_data_fields"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：implementation_gap_no_unresolved_data_fields"
-      },
+      "coverageBoundary": "rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity",
+      "reason": "Corki R 火箭轰击/Missile Barrage：Wiki request Template:Data Corki/R → resolved Template:Data Corki/Missile Barrage；page1306946 / rev4042863 / timestamp 2026-07-14T19:35:26Z / canonical bytes3065 / SHA256 1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845（normalized/generic/corki-r.json bytes3265 / SHA256 dcaa1352eba2fa1d6c2acfc1aba9320bccb200b5b9d00dba559373e0981adbe0 plus pages sibling bytes691 / SHA256 694cda4c4d4ee4e9606ac1ca82a7085f89b7898884b23653bf718e86bfcd5bc7 are authority）rank3 Phase-A v1 已由 wasm-generic-corki-missile-barrage-normal-primary-hit + backend seed 证据闭环——local raw caveat bytes3063 / SHA 3764aafcecd5ef76f619472e443869c2ef43fd5b062894f6e111172f9a5cf91a（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；35 mana plus one missile_barrage_ammo atomically gated/spent / 2000ms CD；initial ammo2/max4；immediate selected-primary-champion first-enemy normal-missile single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 250, mul(const 0.85, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；castCondition gte(read source.resource.missile_barrage_ammo.current, const1) then ordered resource_change ammo −1 before damage；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 base60/resolved60/armor0 raw=final250；base60/resolved160/armor0 raw=final335；base60/resolved160/armor100 raw335/final167.5；base0/resolved100 versus base60/resolved160 armor0 both335）。Attempts Mana240/Ammo2/baseAD60/resolvedAD160/HP1000/armor100 at t0/t1999/t2000 → success/skip/success，exactly two R damage items；final mana170/ammo0/HP665；exactly two automatic R ability_started；readyAt2000；Mana34 or Ammo0 at t0 → resource/cast_condition skip with mana/ammo/HP unchanged and no R damage/event。Corki R provider is standalone；Backend has no repository-owned hero_corki / AD / mana materializer；record external existing-data/check-only prerequisites only（owns missile_barrage_ammo definition/entity rows）；不暗示 Corki P/Q/W/E dependence；不暗示 Batch-B 或 sibling Corki synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused32/full1054 passed。Wasm main validation passed gofmt/focused/full/bench；exact test bytes51481 / SHA256 874265e28661bb49da04e83b2cb5471286940ae856e50cbb195be2c69eff15b6；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity。明确排除 direction/projectile travel/collision/explosion、AOE/multitarget、Big One/third-shot cycle/double damage/range/radius、periodic stock/recharge/respawn refill、basic-attack on-hit recharge reduction/crit scaling、Malignance/Eclipse interaction、other ranks、siblings/loadout/bootstrap/live/full fidelity；this is exactly one normal-missile selected-primary first-enemy physical hit, not full R；不宣称 direction/projectile/travel/collision/explosion/AOE/multitarget/Big One/cycle/recharge/respawn/on-hit-recharge/crit/Malignance/Eclipse/other-ranks/siblings/live/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_corki/ad/mana），不物化 identity/panel/ad/mana values（ammo owned），故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_corki|R|火箭轰击"
         },
         {
@@ -13213,7 +13191,22 @@
           "sourceRecordKey": "hero_skill|hero_corki|R|火箭轰击"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-corki-missile-barrage-normal-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_corki_missile_barrage_normal_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity; backend lol_generic_corki_missile_barrage_normal_primary_hit_seed.sql + LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest (owning 2c2392a; integrated 2c2392a); Wasm exact test commit d99d01e; external existing-data/check-only prerequisites (hero_corki/ad/mana; owns missile_barrage_ammo; does not write identity/panel/ad/mana values); standalone no Batch-B or sibling Corki synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-corki-missile-barrage-normal-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_corki_missile_barrage_normal_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity; Wiki request Template:Data Corki/R → Missile Barrage; rev4042863/SHA256 1c2da7a1… / bytes3065; normalized bytes3265/SHA dcaa1352…; pages bytes691/SHA 694cda4c…; local raw caveat bytes3063/SHA 3764aafc… no equivalence claim; rank3 35 mana + one missile_barrage_ammo atomic gate/spend / 2000ms CD / initial ammo2/max4 / one physical 250+0.85*bonusAD via nested binary add(const250, mul(0.85, sub(ad.resolved,ad.base))); base60/resolved60/armor0=250; base60/resolved160/armor0=335; base60/resolved160/armor100 raw335/final167.5; base0/resolved100 vs base60/resolved160 armor0 both335; damage 20220/add 20170; no 20230; no explicit event op; no R type; Mana240/Ammo2/baseAD60/resolvedAD160/HP1000/armor100 t0/t1999/t2000 success/skip/success two R damage items final mana170/ammo0/HP665 two automatic R ability_started readyAt2000; Mana34 or Ammo0 resource/cast_condition skip unchanged; standalone no sibling synthesis; Wasm exact test commit d99d01e bytes51481/SHA 874265e2…; direction/projectile/travel/collision/explosion/AOE/multitarget/Big One/cycle/recharge/respawn/on-hit-recharge/crit/Malignance/Eclipse/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
