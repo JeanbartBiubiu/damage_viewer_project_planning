@@ -1443,25 +1443,29 @@ cd server/data_manage
 mvn -Dtest=LolGenericMalzaharMaleficVisionsSeedSqlTest,GenericTickAnchorDbContractSqlTest test
 ```
 
-### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
+### LoL generic Ashe shared P/Q Ranger's Focus seed（寒冰射手 P 冰霜射击 expectation-only Phase-A + Q 射手的专注 / 共享普攻图）
 
-前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
+前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`/`crit_chance`/`crit_damage`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish；**不**新建 P provider/ability）：
 
 1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20172`/`20173`/`20181`/`20190`/`20205`/`20211`/`20212`/`20220`/`20250`/`20260`）
 2. `db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql`
 3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-ashe-rangers-focus-v1-20260714`（seed 不负责 publish）。
+建议发布版本：`lol-generic-ashe-rangers-focus-v1-20260714`（seed 不负责 publish）。本 seed 为 **共享 P/Q 普攻图**：Q 边界仍为既有 Ranger's Focus rank-5 部分 ABI；P 候选 `hero_skill|hero_ashe|P|冰霜射击` 冻结为 **expectation-only Phase-A**（`FROZEN_PLAN_REV=ashe-p-frost-shot-expected-basic-attack-phase-a-v3`）：
 
-该 seed 会：锁定 `game_data_state`；幂等投影 reserved → `types`、`resource_definitions.mana` 与 `hero_ashe` `entity_resource_values`（280/280）；写入 level-1 面板（hp610 / mana280 / ad59 / AS0.658 / armor26 / MR30 / hpregen3.5 / manaregen7）；单一共享 `provider_hero_ashe_rangers_focus` 承载 Q + 普攻；四槽 timed Focus（4000/5000/6000/7000ms）+ `flurry_active` 6000ms；Q `cast_condition_formula_key`（Focus≥4）+ `ability_costs` 30 mana；AS `percent_add` `0.75 * provider.state.flurry_active`（`condition_formula_key` 为 NULL）；Flurry 首发 6 / 后续 5 × 0.28 total AD；每次普攻末尾恰好一次 `emit_event(event/basic_attack_hit)`。有 material change 时才推进候选 revision。
+`normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity`
 
-**排除**：攻击计时器重置、箭矢飞行、冰霜射击、生命偷取、建筑物/多目标、技能轮转/节奏、其它 rank、live migration、publish。
+该 seed 会：锁定 `game_data_state`；幂等投影 reserved → `types`、`resource_definitions.mana` 与 `hero_ashe` `entity_resource_values`（280/280）；写入 level-1 面板（hp610 / mana280 / ad59 / AS0.658 / armor26 / MR30 / hpregen3.5 / manaregen7）与运行时 EAV `crit_chance=0` / `crit_damage=2.0`（Patch 26.1 总暴击倍率基线；不写 Infinity Edge）；fail-closed ensure game-local `62003 ability/basic_attack`（`reserved_type_id=NULL`）并 `type_relations` 绑定 `ability_hero_ashe_basic_attack`（`extend.role=basic_attack`）；单一共享 `provider_hero_ashe_rangers_focus` 承载 Q + 普攻；四槽 timed Focus（4000/5000/6000/7000ms）+ `flurry_active` 6000ms；Q `cast_condition_formula_key`（Focus≥4）+ `ability_costs` 30 mana；AS `percent_add` `0.75 * provider.state.flurry_active`（`condition_formula_key` 为 NULL）；普通分支 `step_hero_ashe_ba_normal_damage` 物理伤害公式仍 `$owner.attr.ad` 且 `crit_eligible=true`；Flurry 首发 6 / 后续 5 × 0.28 total AD 且全部 `crit_eligible=false` / `copyable_on_hit=false`；每次普攻末尾恰好一次 `emit_event(event/basic_attack_hit)`。有 material change 时才推进候选 revision。
 
-静态契约校验（不连 live DB）：
+Wiki（P）：request `Template:Data Ashe/I` → `Template:Data Ashe/Frost Shot`；page1306803 / rev4038216 / `2026-06-30T07:27:41Z`；canonical 1880 / SHA256 `def2547f…`；normalized 2485 / `575de3e4…`；pages 672 / `a8e2f81d…`；**local raw caveat**：local raw 1880 / `5da5112e…`，不断言与 canonical 等价。
+
+**排除（P expectation-only 仍排除）**：Frost Shot / Critical Slow 减速与持续衰减、RNG 暴击序列 / on-crit、Randuin's / Runaan's / Cheap Shot、Q-Flurry 与 P 伤害集成、箭矢飞行、攻击节奏、其它能力或 full-fidelity。**Q 已完成边界仍排除 Frost Shot 保真**；共享同一 seed/fixture **不**扩大 Q 的完成声明。另排除：攻击计时器重置、生命偷取、建筑物/多目标、技能轮转、其它 rank、live migration、publish。
+
+静态契约校验（不连 live DB；含邻近 Ashe W/R 与 generic crit）：
 
 ```bash
 cd server/data_manage
-mvn -Dtest=LolGenericAsheRangersFocusSeedSqlTest test
+mvn -Dtest=LolGenericAsheRangersFocusSeedSqlTest,LolGenericAsheVolleySeedSqlTest,LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest,LolGenericCritModifierSeedSqlTest test
 ```
 
 ### LoL generic Ashe Enchanted Crystal Arrow primary-hit seed（寒冰射手 R / Phase-A 主目标 impact）
