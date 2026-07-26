@@ -2554,6 +2554,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_azir|Q|狂沙猛攻',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Azir Q 狂沙猛攻/Conquering Sands：Wiki request Template:Data Azir/Q → resolved Template:Data Azir/Conquering Sands；page1306850 / rev4024967 / timestamp 2026-06-04T07:26:59Z / canonical bytes2512 / SHA256 168e2568c6795859e68831eb23b59b62d249aceb07cf3740403b1616516b51f2（normalized/generic/azir-q.json bytes3119/SHA256 9e2cfc28ced422699bbb40722ba46d82167c79f34bbd696f2fc4080e52120fb7 plus pages sibling bytes684/SHA256 a15a3c54079cd8a75584c9725bb792441103ff27cafa31fa136d076791fa71f4 are authority）rank5 Phase-A v1 已由 wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit + backend seed 证据闭环——local raw caveat bytes2510 / SHA 6885ead987cae40fa37992d170337007629e3f12ebfc494eb3a1f54b5fb110e4（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；one standalone Q provider；rank5 mana110 / listed cooldown scaffold 6000ms；immediate assume-one-existing-Sand-Soldier selected-primary single magic hit scaffold（one existing Sand Soldier is only a caller/scenario assumption and completed-boundary exclusion，never a modeled/enforced state gate）；one immediate selected-primary single noncritical/noncopyable magic damage operation add(const140, mul(const0.55, read source.attr.ap.resolved))（exact nested binary；AP read path exactly once；no AD/crit/crit_damage reads）；exactly one noncrit/noncopyable magic damage operation（damage type 20221 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 AP0/MR0 raw=final140；AP100/MR100 raw195/final97.5；AD/crit/crit_damage variation unchanged）。Attempts mana330/AP100/HP1000/MR100 at t0/t5999/t6000 → success/skip/success，exactly two Q damage items；final mana110/HP805；exactly two automatic Q ability_started；mana109 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Azir Q provider is standalone；Backend has no repository-owned hero_azir / AP / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Azir P/W/E/R/soldier dependence；不暗示 Batch-B 或 sibling Azir synthesis；不暗示任何 production runtime/ABI/Web change。Design READY run-33d1ffcf-4e3f-4304-8b19-51bdbff92d68（runDelta0；1671 parseable events；no mutation/truncation；strict model）。Backend owning dd214a3501601098f73267900aa6a199626d5b31；run-1a22222a-f467-4069-bdb7-b2729ff6fbed delta3/outside0 events1440 parseable/no truncation；focused37/37 Maven1132/1132 PASS；seed29560/SHA 9263b65f6432ca39f5c095934513fe5358a5bf159664904f7d59d86c05eae149；JUnit50880/SHA 9409b991ea37f69d63c10f7811ee6e33f941fd9ce6eff554fb08d8f6d126e4fb；external check-only/non-self-contained；no live。Wasm owning 5580ae77d30764de1b8f4974072f55680cce137b；run-04125cb2-8079-47b6-8b1a-fc795924d1ca delta1/outside0 events1447 parseable/no truncation；exact _test.go bytes66442/SHA ea86be56d3d60d4f9032fa1145f04920c459935778c4c1d60f0eb140e9887188；focused Azir and four siblings PASS；precommit full failed only dirty-test porcelain；driver postcommit full go test -count=1 ./... PASS and bench PASS；no production runtime/ABI/Web/asset。completedBoundary：rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity。明确排除 ranks1–4、soldier entity/spawn/despawn/count/formation/placement/state/gate、command/path/dash/travel/collision、target-location/range/geometry/pass-through/arrival/multitarget、slow、siblings/loadout/live/Web/assets/full fidelity；this is exactly one assume-one-existing-soldier selected-primary single magic hit, not full Q；不宣称 soldier entity/state gate/command/path/dash/collision/geometry/multitarget/slow/完整游戏保真；immediate_impact_scaffold 仅 boundary 用语，不得进入 governed tags。Backend seed 显式依赖 external existing-data/check-only 前置（hero_azir/ap/mana），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_azir_conquering_sands_one_soldier_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity; Wiki request Template:Data Azir/Q → Conquering Sands; rev4024967/SHA256 168e2568… / bytes2512; normalized bytes3119/SHA 9e2cfc28…; pages bytes684/SHA a15a3c54…; local raw caveat bytes2510/SHA 6885ead9… no equivalence claim; rank5 mana110/listed CD scaffold6000ms; one magic add(const140, mul(const0.55, read source.attr.ap.resolved)) nested binary AP-once; CritEligible=false; CopyableOnHit=false; damage 20221/add 20170; no 20230; no explicit event op; no Q type; AP0/MR0 raw=final140; AP100/MR100 raw195/final97.5; AD/crit/crit_damage variation unchanged; mana330/AP100/HP1000/MR100 t0/t5999/t6000 success/skip/success two Q damage items final mana110/HP805 two automatic Q ability_started; mana109 resource skip unchanged; one existing Sand Soldier is caller/scenario assumption only never modeled/enforced gate; standalone no sibling synthesis; Wasm exact test commit 5580ae77 bytes66442/SHA ea86be56…; soldier/entity/spawn/command/path/dash/collision/geometry/multitarget/slow/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity; backend lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql + LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest (owning dd214a3501601098f73267900aa6a199626d5b31); Wasm exact test commit 5580ae77; seed29560/SHA 9263b65f…; JUnit50880/SHA 9409b991…; READY run-33d1ffcf; Backend run-1a22222a delta3/outside0/events1440; focused37/37 Maven1132/1132 PASS; no live; external existing-data/check-only prerequisites (hero_azir/ap/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Azir synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_corki|R|火箭轰击',
     {
       status: 'completed',
@@ -3514,6 +3546,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_corki|Q|磷光炸弹',
     'rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity',
+  ],
+  [
+    'hero_skill|hero_azir|Q|狂沙猛攻',
+    'rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity',
   ],
   [
     'hero_skill|hero_corki|R|火箭轰击',
@@ -11783,8 +11819,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 112) {
-    errors.push(`completed=${sc.completed}, expected 112`);
+  if ((sc.completed || 0) !== 113) {
+    errors.push(`completed=${sc.completed}, expected 113`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -11792,8 +11828,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 61) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 61`);
+  if ((sc.blocked_runtime || 0) !== 60) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 60`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -11814,14 +11850,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 112) {
-    errors.push(`completionMode full=${cm.full}, expected 112`);
+  if ((cm.full || 0) !== 113) {
+    errors.push(`completionMode full=${cm.full}, expected 113`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 139) {
-    errors.push(`completionMode none=${cm.none}, expected 139`);
+  if ((cm.none || 0) !== 138) {
+    errors.push(`completionMode none=${cm.none}, expected 138`);
   }
   const detCritBlockedUnified = (inv.mechanisms || []).filter(
     (m) =>
@@ -11836,9 +11872,9 @@ function validateInventory(inv) {
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 53) {
+  if (implGapCount !== 52) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 53`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 52`,
     );
   }
   const blockedDataBlockerFamily = (inv.mechanisms || []).filter(

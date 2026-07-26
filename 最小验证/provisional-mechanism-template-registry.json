@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v3",
     "planRevision": "provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4",
-    "generatedAt": "2026-07-26T17:14:09.477Z",
+    "generatedAt": "2026-07-26T18:00:18.214Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "baa32c649a2dc23bdf40e4779442e6b5526db5de0d2e46260a2f1bbacdcad699",
-        "byteSize": 1176340
+        "sha256": "2c35d75d7c98e0d24374bf0dea554502e0423b440616f63990a9b3019b6eb2e7",
+        "byteSize": 1182511
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 64,
+    "templateCount": 63,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 61,
+      "blocked_runtime": 60,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 63,
+      "hero_skill": 62,
       "item_passive": 1
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 61,
+      "runtime_contract_placeholder": 60,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 112,
+      "completed": 113,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -671,255 +671,6 @@
             {
               "fieldRef": "fields.leveling",
               "raw": "{{st|Shield Strength|{{ap|70 to 230}} {{as|(+ 60% AP)}}}}\n{{st|Magic Damage|{{ap|70 to 230}} {{as|(+ 60% AP)}}}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.damagetype",
-              "raw": "Magic\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "expression": null,
-          "verification": "pending"
-        },
-        "operationGraph": {
-          "templateKind": "provider_ability_single_quantum_candidate",
-          "nodes": [
-            "provider_candidate",
-            "ability_candidate",
-            "phase_candidate",
-            "sequence_candidate",
-            "operation_candidate"
-          ],
-          "edges": [
-            "provider_to_ability",
-            "ability_to_phase",
-            "phase_to_sequence",
-            "sequence_to_operation"
-          ],
-          "concreteIds": null,
-          "concreteTypeIds": null,
-          "requiredEvents": [],
-          "requiredState": [],
-          "productionRuntimeChangeRequired": null,
-          "verification": "pending"
-        },
-        "fixtures": [
-          {
-            "id": "baseline_quantum",
-            "purpose": "exercise_minimum_candidate_quantum",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          },
-          {
-            "id": "boundary_or_counterproof",
-            "purpose": "exercise_boundary_or_unrelated_input_counterproof",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          }
-        ],
-        "completedBoundary": null,
-        "exclusions": [
-          {
-            "kind": "candidate_exclusion",
-            "id": "full_fidelity_surfaces_review",
-            "prompt": "Review whether full-fidelity surfaces remain outside this provisional draft scope."
-          },
-          {
-            "kind": "candidate_exclusion",
-            "id": "non_damage_or_meta_scope_review",
-            "prompt": "Review non-damage or meta scope boundaries for this candidate."
-          }
-        ]
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion",
-        "no_mechanical_draft_as_verified_phase_a_claim"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_azir|Q|狂沙猛攻",
-      "inventoryOrdinal": 16,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_azir",
-      "skillKey": "Q",
-      "passiveName": "狂沙猛攻",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "meta_or_non_target_dps"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_azir|Q|狂沙猛攻"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_azir|Q|狂沙猛攻"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Azir",
-        "pageId": "azir-q",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/azir-q.json@rev4024967 sha256:168e2568c6795859e68831eb23b59b62d249aceb07cf3740403b1616516b51f2"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "draftState": "mechanical_unverified",
-        "sourcePointers": {
-          "kind": "hero_wiki_sidecar",
-          "authority": "league_wiki_current_champion_template",
-          "sidecarPath": "数据参考/lol-wiki-current-champions/normalized/generic/azir-q.json",
-          "localFileSha256": "9e2cfc28ced422699bbb40722ba46d82167c79f34bbd696f2fc4080e52120fb7",
-          "localFileByteSize": 3119,
-          "canonical": {
-            "requestTitle": "Template:Data Azir/Q",
-            "resolvedTitle": "Template:Data Azir/Conquering Sands",
-            "wikiPageId": 1306850,
-            "revisionId": 4024967,
-            "revisionTimestamp": "2026-06-04T07:26:59Z",
-            "contentSha256": "168e2568c6795859e68831eb23b59b62d249aceb07cf3740403b1616516b51f2",
-            "rawByteSize": 2512
-          },
-          "fieldRefs": [
-            "fields.description",
-            "fields.description2",
-            "fields.description3",
-            "fields.leveling",
-            "fields.cooldown",
-            "fields.cost",
-            "fields.costtype",
-            "fields.damagetype",
-            "fields.notes"
-          ]
-        },
-        "phaseATemplate": {
-          "id": "hero_selected_primary_minimum_quantum_candidate",
-          "basisStatus": "blocked_runtime",
-          "basisTags": [
-            "meta_or_non_target_dps"
-          ],
-          "requiresIndividualDesignReview": true
-        },
-        "rank": {
-          "selection": "max_rank_candidate",
-          "value": null,
-          "sourceFieldRefs": [
-            "fields.leveling"
-          ],
-          "verification": "pending"
-        },
-        "resourceCost": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cost",
-            "fields.costtype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cost",
-              "raw": "{{ap|70 to 110}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.costtype",
-              "raw": "mana\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValue": null,
-          "normalizedUnit": null,
-          "verification": "pending"
-        },
-        "cooldownMs": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cooldown"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cooldown",
-              "raw": "{{ap|14 to 6}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValueMs": null,
-          "verification": "pending"
-        },
-        "target": {
-          "mode": "selected_primary_candidate",
-          "value": null,
-          "verification": "pending"
-        },
-        "timing": {
-          "mode": "minimum_quantum_timing_candidate",
-          "valueMs": null,
-          "verification": "pending"
-        },
-        "formula": {
-          "mode": "wiki_formula_fields_unparsed",
-          "sourceFieldRefs": [
-            "fields.leveling",
-            "fields.damagetype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.leveling",
-              "raw": "{{st|Magic Damage|{{ap|60 to 140}} {{as|(+ {{ap|35 to 55}}% AP)}}}}\n",
               "parsedNumericValue": null,
               "claim": "unparsed_markup_not_numeric_truth"
             },
