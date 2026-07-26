@@ -129,6 +129,10 @@ export type ProviderLifecycle = CombatDataRowMeta & {
   refreshPolicyTypeId?: number;
   tickIntervalMs?: number;
   startDelayMs?: number;
+  /** Optional tick lifecycle anchor scope type id; pair with tickAnchorStateKey. */
+  tickAnchorScopeTypeId?: number | null;
+  /** Optional tick lifecycle anchor state key; pair with tickAnchorScopeTypeId. */
+  tickAnchorStateKey?: string | null;
 };
 
 export type ProviderStateField = CombatDataRowMeta & {
@@ -333,6 +337,8 @@ export type RepeatDetail = {
   repeatTag: string;
   triggerStateKey: string;
   threshold: number;
+  /** Optional non-negative repeat delay (ms); omitted/missing is semantically 0. */
+  delayMs?: number;
 };
 
 export type ExecuteDetail = {

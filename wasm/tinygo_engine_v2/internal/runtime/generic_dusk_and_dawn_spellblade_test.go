@@ -7,18 +7,30 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// item_2510 Dusk and Dawn（黄昏与黎明）core Spellblade — generic ABI 交叉验证。
-// Backend 合同：ICD 从强化普攻消耗开始；arm 门控为 mul(eq(ready,0), eq(icd,0))。
+// item_2510 Dusk and Dawn（黄昏与黎明）Spellblade — generic ABI 交叉验证。
+// Backend 合同：ICD 从强化普攻消耗开始；arm 门控为 mul(eq(ready,0), eq(icd,0))；
+// empowered hit 顺序 0 damage → 1 heal → 2 repeat(+200ms) → 3 ICD arm → 4 ready consume。
 
 const (
-	duskAndDawnProviderRef = "item:dusk_and_dawn_spellblade"
-	duskAndDawnDamageOpRef = "op:dusk_and_dawn_spellblade_damage"
-	duskAndDawnADBase      = 100.0
-	duskAndDawnAP          = 100.0
-	duskAndDawnMR          = 100.0
-	duskAndDawnAADamage    = 10.0
-	duskAndDawnADRatio     = 0.75
-	duskAndDawnAPRatio     = 0.10
+	duskAndDawnProviderRef       = "item:dusk_and_dawn_spellblade"
+	duskAndDawnDamageOpRef       = "op:dusk_and_dawn_spellblade_damage"
+	duskAndDawnHealOpRef         = "op:dusk_and_dawn_spellblade_heal"
+	duskAndDawnAuxProviderRef    = "item:dusk_and_dawn_aux_on_hit"
+	duskAndDawnAuxDamageOpRef    = "op:dusk_and_dawn_aux_copyable"
+	duskAndDawnRepeatTag         = "dusk_and_dawn_delayed_on_hit"
+	duskAndDawnADBase            = 100.0
+	duskAndDawnAP                = 100.0
+	duskAndDawnMR                = 100.0
+	duskAndDawnAADamage          = 10.0
+	duskAndDawnADRatio           = 0.75
+	duskAndDawnAPRatio           = 0.10
+	duskAndDawnHealAPRatio       = 0.10
+	duskAndDawnHealBonusHPRatio  = 0.03
+	duskAndDawnHPBase            = 1000.0
+	duskAndDawnHPMax             = 2000.0
+	duskAndDawnHPCurrent         = 1500.0
+	duskAndDawnAuxDamage         = 25.0
+	duskAndDawnRepeatDelayMs     = 200
 )
 
 func duskAndDawnExpectedRaw(baseAD, resolvedAP float64) float64 {
@@ -27,6 +39,51 @@ func duskAndDawnExpectedRaw(baseAD, resolvedAP float64) float64 {
 
 func duskAndDawnExpectedMitigated(baseAD, resolvedAP, mr float64) float64 {
 	return expectedMitigatedMagic(duskAndDawnExpectedRaw(baseAD, resolvedAP), mr)
+}
+
+func duskAndDawnExpectedHeal(resolvedAP, hpMax, hpBase float64) float64 {
+	bonus := hpMax - hpBase
+	if bonus < 0 {
+		bonus = 0
+	}
+	return duskAndDawnHealAPRatio*resolvedAP + duskAndDawnHealBonusHPRatio*bonus
+}
+
+func duskAndDawnHealAmountExpr() *model.GenericFormulaExpr {
+	apRatio := duskAndDawnHealAPRatio
+	bonusRatio := duskAndDawnHealBonusHPRatio
+	zero := 0.0
+	return &model.GenericFormulaExpr{
+		Op: "add",
+		Args: []model.GenericFormulaExpr{
+			{
+				Op: "mul",
+				Args: []model.GenericFormulaExpr{
+					{Op: "const", Value: &apRatio},
+					{Op: "read", Path: "event.entry_source.attr.ap.resolved"},
+				},
+			},
+			{
+				Op: "mul",
+				Args: []model.GenericFormulaExpr{
+					{Op: "const", Value: &bonusRatio},
+					{
+						Op: "max",
+						Args: []model.GenericFormulaExpr{
+							{Op: "const", Value: &zero},
+							{
+								Op: "sub",
+								Args: []model.GenericFormulaExpr{
+									{Op: "read", Path: "event.entry_source.attr.hp.max"},
+									{Op: "read", Path: "event.entry_source.attr.hp.base"},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
 }
 
 func duskAndDawnArmReadyCond() *model.GenericFormulaExpr {
@@ -109,6 +166,23 @@ func duskAndDawnHitConsumeListener() model.ListenerDefinition {
 				},
 			},
 			{
+				Operation: "heal",
+				Target:    "source",
+				Ref:       duskAndDawnHealOpRef,
+				Condition: readyCond,
+				Amount:    duskAndDawnHealAmountExpr(),
+			},
+			{
+				Operation:       model.OperationKindRepeat,
+				RepeatScope:     model.RepeatScopeCopyableOnHit,
+				RepeatCount:     1,
+				RepeatTag:       duskAndDawnRepeatTag,
+				TriggerStateKey: spellbladeICDKey,
+				Threshold:       1,
+				RepeatDelayMs:   duskAndDawnRepeatDelayMs,
+				Condition:       readyCond,
+			},
+			{
 				Operation:   "state_change",
 				Target:      "source",
 				Ref:         spellbladeICDKey,
@@ -127,6 +201,44 @@ func duskAndDawnHitConsumeListener() model.ListenerDefinition {
 				Condition:   readyCond,
 			},
 		},
+	}
+}
+
+func duskAndDawnAuxOnHitListener() model.ListenerDefinition {
+	amt := duskAndDawnAuxDamage
+	return model.ListenerDefinition{
+		ListenerKey:  "dusk_and_dawn_aux_on_basic_attack_hit",
+		EventMatcher: model.TypeMatcher{All: []string{spellbladeHitEvent, "event/source_owner"}},
+		Operations: []model.OperationDefinition{
+			{
+				Operation:     "damage",
+				Target:        "target",
+				DamageType:    "damage/magic",
+				Amount:        &model.GenericFormulaExpr{Op: "const", Value: &amt},
+				CopyableOnHit: true,
+				Ref:           duskAndDawnAuxDamageOpRef,
+			},
+		},
+	}
+}
+
+func mountDuskAndDawnAuxOnHitProvider(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey: duskAndDawnAuxProviderRef,
+		Kind:        "item",
+		StableID:    "item_dusk_and_dawn_aux_on_hit",
+		Listeners:   []model.ListenerDefinition{duskAndDawnAuxOnHitListener()},
+	})
+	compileReq.Combatants[0].Providers = append(compileReq.Combatants[0].Providers, model.CombatantProviderMount{
+		ProviderRef: duskAndDawnAuxProviderRef, DefinitionRef: duskAndDawnAuxProviderRef,
+	})
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key != model.SelectorSource {
+			continue
+		}
+		runReq.InitialSnapshot.Combatants[i].Providers = append(runReq.InitialSnapshot.Combatants[i].Providers, model.CombatantProviderSnapshot{
+			ProviderRef: duskAndDawnAuxProviderRef, DefinitionRef: duskAndDawnAuxProviderRef, Stacks: 1, State: map[string]interface{}{},
+		})
 	}
 }
 
@@ -261,6 +373,10 @@ func loadDuskAndDawnFixture(t *testing.T) (model.CompileRequest, model.RunReques
 	})
 	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "ap", model.AttributeSlotDef{
 		Base: duskAndDawnAP, Current: duskAndDawnAP, Max: duskAndDawnAP, Resolved: duskAndDawnAP,
+	})
+	// base/max/current expose bonus HP (max−base) and leave headroom so heal is observable.
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "hp", model.AttributeSlotDef{
+		Base: duskAndDawnHPBase, Current: duskAndDawnHPCurrent, Max: duskAndDawnHPMax, Resolved: duskAndDawnHPCurrent,
 	})
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
@@ -510,5 +626,157 @@ func TestDuskAndDawnPhantomDoesNotCopyOrConsume(t *testing.T) {
 	}
 	if countDamageByOpRef(done, "op:guinsoo_copyable", true) != 1 {
 		t.Fatalf("phantom guinsoo copyable count=%d want 1", countDamageByOpRef(done, "op:guinsoo_copyable", true))
+	}
+}
+
+func TestDuskAndDawnEmpoweredHitHealAndDelayedCopyableRepeat(t *testing.T) {
+	compileReq, runReq := loadDuskAndDawnFixture(t)
+	mountDuskAndDawnAuxOnHitProvider(&compileReq, &runReq)
+
+	const hitAt int64 = 100
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "tumble", AbilityRef: tumbleRef(), Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "aa", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: hitAt},
+	}
+	runReq.StopPolicy.DurationMs = hitAt + int64(duskAndDawnRepeatDelayMs) + 50
+	done := runSpellblade(t, compileReq, runReq)
+
+	wantSpellbladeRaw := duskAndDawnExpectedRaw(duskAndDawnADBase, duskAndDawnAP)
+	wantHeal := duskAndDawnExpectedHeal(duskAndDawnAP, duskAndDawnHPMax, duskAndDawnHPBase) // 40
+	if math.Abs(wantHeal-40) > 1e-9 {
+		t.Fatalf("helper heal=%v want 40", wantHeal)
+	}
+	wantFinalHP := duskAndDawnHPCurrent + wantHeal
+
+	// Exact original Spellblade magic damage at hit time.
+	if countDamageByOpRef(done, duskAndDawnDamageOpRef, false) != 1 {
+		t.Fatalf("original spellblade damage count=%d want 1", countDamageByOpRef(done, duskAndDawnDamageOpRef, false))
+	}
+	spellbladeEv := firstDamageEvidenceByOpRef(done, duskAndDawnDamageOpRef)
+	if spellbladeEv == nil {
+		t.Fatal("missing original spellblade damage evidence")
+	}
+	if spellbladeEv.TimeMs != hitAt {
+		t.Fatalf("spellblade damage timeMs=%d want %d", spellbladeEv.TimeMs, hitAt)
+	}
+	if evidenceDataBool(spellbladeEv.Data, "phantom") {
+		t.Fatal("original spellblade evidence must not be phantom")
+	}
+	if evidenceDataString(spellbladeEv.Data, "damageType") != "damage/magic" {
+		t.Fatalf("damageType=%q want damage/magic", evidenceDataString(spellbladeEv.Data, "damageType"))
+	}
+	if math.Abs(evidenceDataFloat(spellbladeEv.Data, "rawAmount")-wantSpellbladeRaw) > 1e-6 {
+		t.Fatalf("spellblade raw=%v want %v", evidenceDataFloat(spellbladeEv.Data, "rawAmount"), wantSpellbladeRaw)
+	}
+
+	// Exact heal once on source at hit time / final HP; no second heal after delayed phantom.
+	if math.Abs(done.Summary.SourceFinalHp-wantFinalHP) > 1e-6 {
+		t.Fatalf("sourceFinalHp=%v want %v (start %v + heal %v)", done.Summary.SourceFinalHp, wantFinalHP, duskAndDawnHPCurrent, wantHeal)
+	}
+	if got := combatantFinalHP(t, done.FinalSnapshot, model.SelectorSource); math.Abs(got-wantFinalHP) > 1e-6 {
+		t.Fatalf("source hp.current=%v want %v", got, wantFinalHP)
+	}
+	if done.Summary.SourceOverheal != 0 {
+		t.Fatalf("sourceOverheal=%v want 0", done.Summary.SourceOverheal)
+	}
+
+	// Auxiliary original on-hit damage at hit time.
+	if countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, false) != 1 {
+		t.Fatalf("original aux damage count=%d want 1", countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, false))
+	}
+	auxOrig := firstDamageEvidenceByOpRef(done, duskAndDawnAuxDamageOpRef)
+	if auxOrig == nil {
+		t.Fatal("missing original aux damage evidence")
+	}
+	if auxOrig.TimeMs != hitAt {
+		t.Fatalf("aux original timeMs=%d want %d", auxOrig.TimeMs, hitAt)
+	}
+	if math.Abs(evidenceDataFloat(auxOrig.Data, "rawAmount")-duskAndDawnAuxDamage) > 1e-6 {
+		t.Fatalf("aux original raw=%v want %v", evidenceDataFloat(auxOrig.Data, "rawAmount"), duskAndDawnAuxDamage)
+	}
+
+	// Exactly one auxiliary phantom copy at hit+200ms with repeatTag / replayedFrom.
+	if countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, true) != 1 {
+		t.Fatalf("phantom aux damage count=%d want 1", countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, true))
+	}
+	var auxPhantom *model.EvidenceItem
+	for i := range done.Evidence.Items {
+		item := &done.Evidence.Items[i]
+		if item.Kind != model.EvidenceKindDamage {
+			continue
+		}
+		if evidenceDataString(item.Data, "operationRef") != duskAndDawnAuxDamageOpRef {
+			continue
+		}
+		if !evidenceDataBool(item.Data, "phantom") {
+			continue
+		}
+		auxPhantom = item
+		break
+	}
+	if auxPhantom == nil {
+		t.Fatal("missing aux phantom damage evidence")
+	}
+	wantPhantomAt := hitAt + int64(duskAndDawnRepeatDelayMs)
+	if auxPhantom.TimeMs != wantPhantomAt {
+		t.Fatalf("aux phantom timeMs=%d want %d", auxPhantom.TimeMs, wantPhantomAt)
+	}
+	if evidenceDataString(auxPhantom.Data, "repeatTag") != duskAndDawnRepeatTag {
+		t.Fatalf("repeatTag=%q want %q", evidenceDataString(auxPhantom.Data, "repeatTag"), duskAndDawnRepeatTag)
+	}
+	from := evidenceDataMap(auxPhantom.Data, "replayedFrom")
+	if from == nil {
+		t.Fatal("aux phantom missing replayedFrom")
+	}
+	if evidenceDataString(from, "providerRef") != duskAndDawnAuxProviderRef {
+		t.Fatalf("replayedFrom.providerRef=%q want %q", evidenceDataString(from, "providerRef"), duskAndDawnAuxProviderRef)
+	}
+	if evidenceDataString(from, "operationRef") != duskAndDawnAuxDamageOpRef {
+		t.Fatalf("replayedFrom.operationRef=%q want %q", evidenceDataString(from, "operationRef"), duskAndDawnAuxDamageOpRef)
+	}
+	if math.Abs(evidenceDataFloat(auxPhantom.Data, "rawAmount")-duskAndDawnAuxDamage) > 1e-6 {
+		t.Fatalf("aux phantom raw=%v want %v", evidenceDataFloat(auxPhantom.Data, "rawAmount"), duskAndDawnAuxDamage)
+	}
+
+	// Zero phantom copies of 2510 Spellblade damage; ready/ICD untouched by phantom.
+	if countDamageByOpRef(done, duskAndDawnDamageOpRef, true) != 0 {
+		t.Fatalf("phantom spellblade damage count=%d want 0", countDamageByOpRef(done, duskAndDawnDamageOpRef, true))
+	}
+	if got := duskAndDawnStateValue(t, done, spellbladeReadyKey); got != 0 {
+		t.Fatalf("spellblade_ready=%v want 0 after empowered consume (phantom must not mutate)", got)
+	}
+	if got := duskAndDawnStateValue(t, done, spellbladeICDKey); got != 1 {
+		t.Fatalf("spellblade_icd=%v want 1 after empowered consume (phantom must not mutate)", got)
+	}
+}
+
+func TestDuskAndDawnUnarmedHitSkipsHealAndRepeat(t *testing.T) {
+	compileReq, runReq := loadDuskAndDawnFixture(t)
+	mountDuskAndDawnAuxOnHitProvider(&compileReq, &runReq)
+
+	const hitAt int64 = 100
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "aa", AbilityRef: aaRef(), Source: "source", Target: "target", FirstAtMs: hitAt},
+	}
+	runReq.StopPolicy.DurationMs = hitAt + int64(duskAndDawnRepeatDelayMs) + 50
+	done := runSpellblade(t, compileReq, runReq)
+
+	if countDamageByOpRef(done, duskAndDawnDamageOpRef, false) != 0 {
+		t.Fatalf("unarmed spellblade damage count=%d want 0", countDamageByOpRef(done, duskAndDawnDamageOpRef, false))
+	}
+	if math.Abs(done.Summary.SourceFinalHp-duskAndDawnHPCurrent) > 1e-6 {
+		t.Fatalf("sourceFinalHp=%v want %v (heal must not run without ready)", done.Summary.SourceFinalHp, duskAndDawnHPCurrent)
+	}
+	if countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, false) != 1 {
+		t.Fatalf("unarmed aux original count=%d want 1", countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, false))
+	}
+	if countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, true) != 0 {
+		t.Fatalf("unarmed aux phantom count=%d want 0 (repeat must not run without ready)", countDamageByOpRef(done, duskAndDawnAuxDamageOpRef, true))
+	}
+	if got := duskAndDawnStateValue(t, done, spellbladeReadyKey); got != 0 {
+		t.Fatalf("spellblade_ready=%v want 0", got)
+	}
+	if got := duskAndDawnStateValue(t, done, spellbladeICDKey); got != 0 {
+		t.Fatalf("spellblade_icd=%v want 0", got)
 	}
 }

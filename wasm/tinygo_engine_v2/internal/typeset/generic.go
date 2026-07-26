@@ -149,6 +149,7 @@ const (
 	EntityProvider
 	EntityAbility
 	EntityOperationDamageType
+	EntityOperationDamageTrait
 	EntityListener
 )
 
@@ -176,9 +177,16 @@ var allowedDomains = map[EntityKind]map[string]struct{}{
 	EntityOperationDamageType: {
 		"damage": {},
 	},
+	EntityOperationDamageTrait: {
+		"damage_trait": {},
+	},
 	EntityListener: {
-		"event": {},
-		"tag":   {},
+		"event":        {},
+		"tag":          {},
+		"ability":      {},
+		"damage":       {},
+		"damage_trait": {},
+		"cast_origin":  {},
 	},
 }
 

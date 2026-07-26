@@ -26,6 +26,12 @@ type DetailFieldDef = {
   label: string;
   kind: 'text' | 'number' | 'json';
   required?: boolean;
+  /** When set, blank/omitted number fields emit this default in the PUT body. */
+  defaultWhenBlank?: number;
+  /** Require an integer value (no fractional part). */
+  integer?: boolean;
+  /** Require value >= 0. */
+  nonNegative?: boolean;
 };
 
 const DETAIL_FIELDS: Record<EffectStepDetailKey, DetailFieldDef[]> = {
@@ -82,7 +88,15 @@ const DETAIL_FIELDS: Record<EffectStepDetailKey, DetailFieldDef[]> = {
     { name: 'repeatCount', label: '重复次数', kind: 'number', required: true },
     { name: 'repeatTag', label: '重复标签', kind: 'text', required: true },
     { name: 'triggerStateKey', label: '触发状态 Key', kind: 'text', required: true },
-    { name: 'threshold', label: '阈值', kind: 'number', required: true }
+    { name: 'threshold', label: '阈值', kind: 'number', required: true },
+    {
+      name: 'delayMs',
+      label: '重复延迟(ms)',
+      kind: 'number',
+      defaultWhenBlank: 0,
+      integer: true,
+      nonNegative: true
+    }
   ],
   executeDetail: [{ name: 'threshold', label: '生命比例阈值', kind: 'number', required: true }]
 };
@@ -169,6 +183,12 @@ function parseDetailValue(field: DetailFieldDef, raw: string | number | boolean)
     if (!Number.isFinite(parsed)) {
       throw new Error(`${field.label} 必须是有效数字`);
     }
+    if (field.integer && !Number.isInteger(parsed)) {
+      throw new Error(`${field.label} 必须是非负整数`);
+    }
+    if (field.nonNegative && parsed < 0) {
+      throw new Error(`${field.label} 必须是非负整数`);
+    }
     return parsed;
   }
   if (field.kind === 'json') {
@@ -231,6 +251,9 @@ export function buildEffectStepPutFromEditor(state: EffectStepEditorState): {
     if (raw === undefined || raw === null || String(raw).trim() === '') {
       if (field.required) {
         throw new Error(`请填写 ${field.label}`);
+      }
+      if (field.defaultWhenBlank !== undefined) {
+        detailBody[field.name] = field.defaultWhenBlank;
       }
       continue;
     }

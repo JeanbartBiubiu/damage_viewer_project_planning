@@ -101,6 +101,22 @@ type ProviderLifecycle struct {
 	TickIntervalMs int64               `json:"tickIntervalMs,omitempty"`
 }
 
+// CastOrigin 枚举：能力施放来源（可选；非空时必须是下列之一）。
+const (
+	CastOriginChampion = "champion"
+	CastOriginItem     = "item"
+	CastOriginPet      = "pet"
+	CastOriginInnate   = "innate"
+)
+
+// ValidCastOrigins 是 AbilityDefinition.castOrigin 的合法非空值。
+var ValidCastOrigins = map[string]struct{}{
+	CastOriginChampion: {},
+	CastOriginItem:     {},
+	CastOriginPet:      {},
+	CastOriginInnate:   {},
+}
+
 // AbilityDefinition 是 provider 内能力定义。
 type AbilityDefinition struct {
 	AbilityKey    string                 `json:"abilityKey"`
@@ -108,6 +124,7 @@ type AbilityDefinition struct {
 	Types         []string               `json:"types,omitempty"`
 	Tags          []string               `json:"tags,omitempty"`
 	Params        map[string]float64     `json:"params,omitempty"`
+	CastOrigin    string                 `json:"castOrigin,omitempty"` // champion|item|pet|innate
 	Cost          *AbilityCost           `json:"cost,omitempty"`
 	Cooldown      *AbilityCooldown       `json:"cooldown,omitempty"`
 	CastCondition *GenericFormulaExpr    `json:"castCondition,omitempty"`
@@ -132,17 +149,22 @@ type AbilityCooldown struct {
 }
 
 // TickSpec 是 tick ability 行为。
+// 可选配对字段 AnchorScope + AnchorStateKey：同时省略时保持既有 mount/run provider tick；
+// 同时存在时进入 target-state-anchored tick（当前仅支持 state_scope/provider_target）。
 type TickSpec struct {
-	IntervalMs   int64                 `json:"intervalMs"`
-	OnTick       []OperationDefinition `json:"onTick"`
-	StartDelayMs int64                 `json:"startDelayMs,omitempty"`
+	IntervalMs     int64                 `json:"intervalMs"`
+	OnTick         []OperationDefinition `json:"onTick"`
+	StartDelayMs   int64                 `json:"startDelayMs,omitempty"`
+	AnchorScope    string                `json:"anchorScope,omitempty"`
+	AnchorStateKey string                `json:"anchorStateKey,omitempty"`
 }
 
 // Operation kind / repeat scope 常量（Gate K / execute compile 合同；非旧 DPS DTO）。
 const (
-	OperationKindRepeat           = "repeat"
-	OperationKindExecuteThreshold = "execute_threshold"
-	RepeatScopeCopyableOnHit      = "copyable_on_hit"
+	OperationKindRepeat              = "repeat"
+	OperationKindExecuteThreshold    = "execute_threshold"
+	OperationKindStateDurationChange = "state_duration_change"
+	RepeatScopeCopyableOnHit         = "copyable_on_hit"
 )
 
 // OperationDefinition 是 ability 成功执行后的 operation。
@@ -169,6 +191,8 @@ type OperationDefinition struct {
 	RepeatScope           string                 `json:"repeatScope,omitempty"`
 	RepeatCount           int                    `json:"repeatCount,omitempty"`
 	RepeatTag             string                 `json:"repeatTag,omitempty"`
+	// RepeatDelayMs 可选非负延迟；省略/0 保持即时 phantom replay。
+	RepeatDelayMs         int                    `json:"repeatDelayMs,omitempty"`
 	TriggerStateKey       string                 `json:"triggerStateKey,omitempty"`
 	Threshold             float64                `json:"threshold,omitempty"`
 }
@@ -196,6 +220,8 @@ type ListenerDefinition struct {
 	Operations          []OperationDefinition `json:"operations,omitempty"`
 	MaxTriggersPerEvent int                   `json:"maxTriggersPerEvent,omitempty"`
 	ChainLimitKey       string                `json:"chainLimitKey,omitempty"`
+	// PerCastThrottleMs 同一 castInstanceId 上的最小触发间隔；省略/0 保持旧行为。
+	PerCastThrottleMs int `json:"perCastThrottleMs,omitempty"`
 }
 
 // TypeMatcher 是 flat bitset matcher 的 JSON 形态。
