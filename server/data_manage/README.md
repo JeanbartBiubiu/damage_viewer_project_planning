@@ -559,7 +559,7 @@ cd server/data_manage
 mvn -Dtest=LolGenericWitsEndFraySeedSqlTest test
 ```
 
-### LoL generic Manamune Awe seed（魔宗 item_3004）
+### LoL generic Manamune Awe + Manaflow direct-max-state Phase-A seed（魔宗 item_3004）
 
 在 reserved types、Batch-C `item_3004`（静态 `ad=35` / `mana=500` / `ability_haste=15`，本脚本不改）、以及 `attribute_definitions` 的 `ad` / `mana` 已就绪后，按顺序执行：
 
@@ -568,17 +568,24 @@ mvn -Dtest=LolGenericWitsEndFraySeedSqlTest test
 3. `db/game_manage/seeds/lol_generic_manamune_awe_seed.sql`
 4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-manamune-awe-v1-20260714`（seed 不负责 publish）。
+建议发布版本：`lol-generic-manamune-awe-manaflow-max-state-phase-a-v2-20260726`（seed 不负责 publish）。
 
-该 seed 会：锁定 `game_data_state`；校验 `item_3004` 与 `ad`/`mana` 属性定义及所需 reserved types；幂等投影所需 reserved → `types`；向 `item_3004` 独占 mount `provider_item_3004_manamune_awe`（`provider_kind/passive`），含单 source-bound `ad` add modifier（`selector/self` + `value_policy/add`），公式 AST 为 `mul(0.02, source.attr.mana.max)`。不写 provider state / listener / effect sequence / effect step / damage detail，不写 `game_entities` / `entity_attribute_values`，不改 Batch-C 静态属性。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+Wiki-only 真源：Module:ItemData/data revid `4030984` / timestamp `2026-06-17T23:47:20Z` / content SHA `e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d`（item 静态 mana 500；Manaflow 上限 +360；Awe 2% maximum mana）。
 
-**排除**：Manaflow 充能、on-hit/ability 法力获取、最大充能上限、Muramana 变形、资源修改、攻击事件、随机/RNG。
+该 seed 会：锁定 `game_data_state`；校验 `item_3004` 与 `ad`/`mana` 属性定义及所需 reserved types（check-only，不改静态行）；幂等投影所需 reserved → `types`；向 `item_3004` 独占 mount **两个隔离** passive providers：
+
+1. `provider_item_3004_manamune_awe`：source-bound `ad` add（`selector/self` + `value_policy/add`），公式 `mul(0.02, source.attr.mana.resolved)`（**读 resolved，不读 max**）
+2. `provider_item_3004_manamune_manaflow_max_state`：source-bound `mana` add，公式 `{"op":"const","value":360}`（直达最大态近似：始终 on 的 `mana.resolved += 360`）
+
+每个 provider 恰好一公式 + 一 modifier。运行时依赖 two-pass（Manaflow 先贡献 `mana.resolved`，Awe 再读 resolved）；本近似用 resolved 而非 `mana.max` / resource mana。不写 provider state / listener / effect / ability / operation / lifecycle，不写 `game_entities` / `attribute_definitions` / `entity_attribute_values` / resource 表，不改 Batch-C 静态属性。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+**排除（完整保真外）**：8s 充能、四充能队列、on-hit/ability 触发、+3/+6 增量、per-cast throttle、Muramana 变形/替换、Base/Current/Max 或 resource mana 突变、资源花费、攻击事件、随机/RNG。
 
 静态契约校验（不连 live DB）：
 
 ```bash
 cd server/data_manage
-mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
+mvn -Dtest=LolGenericManamuneAweSeedSqlTest,LolBatchCAdcItemsSeedSqlTest test
 ```
 
 ### LoL generic Jak'Sho Voidborn Resilience seed（千变者贾修 item_6665）
