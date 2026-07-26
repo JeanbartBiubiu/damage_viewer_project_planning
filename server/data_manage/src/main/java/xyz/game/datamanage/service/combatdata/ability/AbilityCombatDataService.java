@@ -91,6 +91,7 @@ public class AbilityCombatDataService {
         int abilityKindTypeId = support.requireInt(req, "abilityKindTypeId");
         String displayName = support.requireText(req, "displayName");
         String castConditionFormulaKey = support.optionalText(req, "castConditionFormulaKey");
+        String castOrigin = support.optionalText(req, "castOrigin");
         long revision = revisionService.nextRevision(gameId);
         support.withConstraintMapping(() -> abilitiesMapper.upsert(
             gameId,
@@ -100,7 +101,8 @@ public class AbilityCombatDataService {
             abilityKey,
             abilityKindTypeId,
             displayName,
-            castConditionFormulaKey
+            castConditionFormulaKey,
+            castOrigin
         ));
         return support.adminWriteResponse(abilitiesMapper.findById(gameId, abilityId), revision);
     }

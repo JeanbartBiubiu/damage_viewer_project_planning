@@ -62,6 +62,26 @@ class GameDataRevisionServiceTest {
     }
 
     @Test
+    void nextRevisionIfExpectedIncrementsWhenMatch() {
+        when(gameDataStateMapper.lockByGameId(GAME_ID)).thenReturn(stateRow(GAME_ID, 42L, 7L));
+        when(gameDataStateMapper.incrementCurrentRevision(eq(GAME_ID), any(Timestamp.class))).thenReturn(43L);
+
+        assertEquals(43L, service.nextRevisionIfExpected(GAME_ID, 42L));
+        verify(gameDataStateMapper, times(1)).incrementCurrentRevision(eq(GAME_ID), any(Timestamp.class));
+    }
+
+    @Test
+    void nextRevisionIfExpectedRejectsMismatchWithoutIncrement() {
+        when(gameDataStateMapper.lockByGameId(GAME_ID)).thenReturn(stateRow(GAME_ID, 99L, 7L));
+
+        ApiException ex = assertThrows(ApiException.class, () -> service.nextRevisionIfExpected(GAME_ID, 42L));
+        assertEquals("409.REVISION_CONFLICT", ex.getCode());
+        assertEquals(42L, ex.getDetails().get("expectedCurrentRevision"));
+        assertEquals(99L, ex.getDetails().get("actualCurrentRevision"));
+        verify(gameDataStateMapper, never()).incrementCurrentRevision(any(), any());
+    }
+
+    @Test
     void nextRevisionInitializesMissingStateBeforeIncrement() {
         when(gameDataStateMapper.lockByGameId(GAME_ID))
             .thenReturn(null)

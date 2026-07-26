@@ -9,7 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -26,11 +28,38 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
     private static final List<String> STABLE_IDS = List.of(
         "provider_hero_kogmaw_caustic_spittle",
         "modifier_hero_kogmaw_caustic_spittle_attack_speed",
-        "caustic_spittle_attack_speed");
+        "modifier_hero_kogmaw_caustic_spittle_armor",
+        "modifier_hero_kogmaw_caustic_spittle_mr",
+        "kogmaw_q_resist_reduction",
+        "caustic_spittle_attack_speed",
+        "caustic_spittle_armor_percent",
+        "caustic_spittle_mr_percent",
+        "caustic_spittle_damage",
+        "resist_reduction_arm",
+        "q_mana_cost",
+        "q_cooldown_ms",
+        "ability_hero_kogmaw_q_caustic_spittle",
+        "cost_hero_kogmaw_q_caustic_spittle_mana",
+        "cooldown_hero_kogmaw_q_caustic_spittle",
+        "phase_hero_kogmaw_q_caustic_spittle_impact",
+        "sequence_hero_kogmaw_q_caustic_spittle_impact",
+        "step_hero_kogmaw_q_caustic_spittle_damage",
+        "step_hero_kogmaw_q_caustic_spittle_resist_arm");
 
-    private static final List<Integer> REQUIRED_RESERVED = List.of(20110, 20120, 20173);
+    private static final List<Integer> REQUIRED_RESERVED = List.of(
+        20100, 20110, 20111, 20113, 20120, 20130, 20142, 20150, 20160, 20170,
+        20172, 20173, 20190, 20221, 20252, 20260);
 
     private static final String AS_FORMULA = "{\"op\":\"const\",\"value\":0.25}";
+
+    private static final String DAMAGE_FORMULA =
+        "{\"op\":\"add\",\"args\":[{\"op\":\"const\",\"value\":260},"
+            + "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.90},"
+            + "{\"op\":\"read\",\"path\":\"source.attr.ap.resolved\"}]}]}";
+
+    private static final String SHRED_FORMULA =
+        "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":-0.32},"
+            + "{\"op\":\"read\",\"path\":\"provider.target_state.kogmaw_q_resist_reduction\"}]}";
 
     private static String sql;
     private static String sqlNoLineComments;
@@ -74,7 +103,7 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
             Pattern.compile("change_revision\\s*>\\s*v_locked_current")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "mount idempotent guard must use change_revision > v_locked_current");
+            "mount/link idempotent guard must use change_revision > v_locked_current");
         assertFalse(sql.contains("versions:publish"), "seed must not auto-publish");
         assertFalse(
             Pattern.compile("(?i)\\bpublish_version\\b").matcher(sql).find(),
@@ -123,17 +152,19 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
     void validatesPrerequisitesWithoutRecreatingKogmawBaseline() {
         assertContains("RAISE EXCEPTION");
         assertContains("missing reserved_type");
+        assertContains("missing attribute_definitions");
         assertContains("hero_kogmaw");
         assertTrue(
             Pattern.compile("(?is)entity_id\\s*=\\s*'hero_kogmaw'")
                 .matcher(sqlNoLineComments)
                 .find(),
             "must preflight game_entities hero_kogmaw");
-        assertTrue(
-            Pattern.compile("(?is)attr_key\\s*=\\s*'attack_speed'")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must preflight attribute_definitions attack_speed");
+        for (String attr : List.of(
+            "attack_speed", "armor", "magic_resist", "ap", "mana")) {
+            assertTrue(
+                Pattern.compile("(?is)'" + attr + "'").matcher(sqlNoLineComments).find(),
+                "must preflight attribute_definitions attr_key=" + attr);
+        }
         for (int typeId : REQUIRED_RESERVED) {
             assertContains(Integer.toString(typeId));
         }
@@ -157,6 +188,12 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not recreate KogMaw basic attack");
+        assertContains("INSERT INTO public.resource_definitions");
+        assertTrue(
+            Pattern.compile("(?s)'hero_kogmaw'\\s*,\\s*'mana'\\s*,\\s*325\\s*,\\s*325")
+                .matcher(sql)
+                .find(),
+            "must project entity_resource_values mana 325/325 for ability_costs FK");
     }
 
     @Test
@@ -188,7 +225,6 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
     void rank5PassiveAttackSpeedUsesConst025AndPercentAdd() {
         assertContains(AS_FORMULA);
         assertContains("\"value\":0.25");
-        assertContains("0.25");
         assertTrue(
             Pattern.compile(
                     "(?s)'modifier_hero_kogmaw_caustic_spittle_attack_speed'\\s*,\\s*"
@@ -202,86 +238,172 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "modifier must target attack_speed with selector/self 20110 and percent_add 20173");
-        assertEquals(
-            1,
-            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_formulas"),
-            "must define exactly one provider_formulas insert");
-        assertEquals(
-            1,
-            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_modifiers"),
-            "must define exactly one provider_modifiers insert");
-        for (String id : STABLE_IDS) {
-            assertContains(id);
-        }
     }
 
     @Test
-    void excludesQActiveShredAbilityListenerStateEffectAndDamage() {
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_definitions\\b")
-                .matcher(sqlNoLineComments)
+    void seedsProviderTargetResistStateAndTwoTargetShredModifiers() {
+        assertContains("INSERT INTO public.provider_state_fields");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'provider_hero_kogmaw_caustic_spittle'\\s*,\\s*"
+                        + "'kogmaw_q_resist_reduction'\\s*,\\s*"
+                        + "20100\\s*,\\s*"
+                        + "1\\s*,\\s*"
+                        + "4000\\s*,\\s*"
+                        + "20190")
+                .matcher(sql)
                 .find(),
-            "must not write ability_definitions");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_phases\\b")
-                .matcher(sqlNoLineComments)
+            "state field must be max1 / 4000ms / refresh_on_write 20190");
+        assertContains(SHRED_FORMULA);
+        assertContains("provider.target_state.kogmaw_q_resist_reduction");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'modifier_hero_kogmaw_caustic_spittle_armor'\\s*,\\s*"
+                        + "'provider_hero_kogmaw_caustic_spittle'\\s*,\\s*"
+                        + "'caustic_spittle_armor_percent'\\s*,\\s*"
+                        + "NULL\\s*,\\s*"
+                        + "20113\\s*,\\s*"
+                        + "'armor'[\\s\\S]*?"
+                        + "20173\\s*,\\s*"
+                        + "'caustic_spittle_armor_percent'")
+                .matcher(sql)
                 .find(),
-            "must not write ability_phases");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_costs\\b")
-                .matcher(sqlNoLineComments)
+            "armor shred modifier must use selector/target 20113 and percent_add");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'modifier_hero_kogmaw_caustic_spittle_mr'\\s*,\\s*"
+                        + "'provider_hero_kogmaw_caustic_spittle'\\s*,\\s*"
+                        + "'caustic_spittle_mr_percent'\\s*,\\s*"
+                        + "NULL\\s*,\\s*"
+                        + "20113\\s*,\\s*"
+                        + "'magic_resist'[\\s\\S]*?"
+                        + "20173\\s*,\\s*"
+                        + "'caustic_spittle_mr_percent'")
+                .matcher(sql)
                 .find(),
-            "must not write ability_costs");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_state_fields\\b")
-                .matcher(sqlNoLineComments)
+            "MR shred modifier must use selector/target 20113 and percent_add");
+        assertEquals(
+            1,
+            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_modifiers"),
+            "must define modifiers in exactly one provider_modifiers insert");
+    }
+
+    @Test
+    void seedsActiveQWithMana40Cooldown7000AndDamageThenStateOverride() {
+        assertContains("INSERT INTO public.ability_definitions");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'ability_hero_kogmaw_q_caustic_spittle'\\s*,\\s*"
+                        + "'provider_hero_kogmaw_caustic_spittle'\\s*,\\s*"
+                        + "'caustic_spittle'\\s*,\\s*20130")
+                .matcher(sql)
                 .find(),
-            "must not write provider_state_fields");
+            "Q must be active ability with stable key caustic_spittle");
+        assertContains("INSERT INTO public.ability_costs");
+        assertContains("{\"op\":\"const\",\"value\":40}");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'cost_hero_kogmaw_q_caustic_spittle_mana'\\s*,\\s*"
+                        + "'ability_hero_kogmaw_q_caustic_spittle'\\s*,\\s*NULL\\s*,\\s*"
+                        + "'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
+                .matcher(sql)
+                .find(),
+            "Q mana cost must be ability-level 40 via ability_costs");
+        assertContains("INSERT INTO public.ability_cooldowns");
+        assertContains("{\"op\":\"const\",\"value\":7000}");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'cooldown_hero_kogmaw_q_caustic_spittle'\\s*,\\s*"
+                        + "'ability_hero_kogmaw_q_caustic_spittle'\\s*,\\s*"
+                        + "'q_cooldown_ms'\\s*,\\s*NULL")
+                .matcher(sql)
+                .find(),
+            "Q cooldown must be 7000ms via ability_cooldowns");
+        assertContains(DAMAGE_FORMULA);
+        assertContains("source.attr.ap.resolved");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_kogmaw_q_caustic_spittle_damage'\\s*,\\s*"
+                        + "'sequence_hero_kogmaw_q_caustic_spittle_impact'\\s*,\\s*0\\s*,\\s*"
+                        + "20150\\s*,\\s*20111\\s*,\\s*NULL")
+                .matcher(sql)
+                .find(),
+            "damage must be step_order 0 to opponent");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_kogmaw_q_caustic_spittle_resist_arm'\\s*,\\s*"
+                        + "'sequence_hero_kogmaw_q_caustic_spittle_impact'\\s*,\\s*1\\s*,\\s*"
+                        + "20160\\s*,\\s*20110\\s*,\\s*NULL")
+                .matcher(sql)
+                .find(),
+            "state override must be step_order 1 after damage");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_kogmaw_q_caustic_spittle_damage'\\s*,\\s*"
+                        + "'caustic_spittle_damage'\\s*,\\s*20221\\s*,\\s*20170\\s*,\\s*false")
+                .matcher(sql)
+                .find(),
+            "Q damage must be magic 20221 add policy copyable_on_hit=false");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_kogmaw_q_caustic_spittle_resist_arm'\\s*,\\s*"
+                        + "20252\\s*,\\s*"
+                        + "'kogmaw_q_resist_reduction'\\s*,\\s*"
+                        + "'resist_reduction_arm'\\s*,\\s*"
+                        + "20172")
+                .matcher(sql)
+                .find(),
+            "state detail must override provider_target kogmaw_q_resist_reduction to 1");
+        assertTrue(
+            sql.contains("exactly-one-detail") || sql.contains("deferred exactly-one-detail"),
+            "seed must document deferred exactly-one-detail pairing");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_listeners\\b")
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not write provider_listeners");
         assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.effect_sequences\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write effect_sequences");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.effect_steps\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write effect_steps");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.damage_effect_details\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write damage_effect_details");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.state_effect_details\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write state_effect_details");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.listener_match_types\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write listener_match_types");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.listener_effect_sequences\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write listener_effect_sequences");
-        assertFalse(
-            Pattern.compile(
-                    "(?i)shred|击碎|magic.?damage|魔法伤害|cooldown|cast_condition|"
-                        + "ability_hero_kogmaw_q|caustic_spittle_active|armor_shred|mr_shred")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not implement Q active / shred / cast / cooldown semantics");
-        assertFalse(
             Pattern.compile("(?i)\\brng\\b|random|伪随机|概率").matcher(sqlNoLineComments).find(),
             "must not implement random/RNG semantics");
+    }
+
+    @Test
+    void citesWikiRevisionHashWithoutDdragonOrChampionStaticProvenance() {
+        assertContains("Template:Data Kog'Maw/Caustic Spittle");
+        assertContains("3960434");
+        assertContains("f651035612e1deeda77df641f5a0e21226ec74aeb4633e0f211780efc3f39a7d");
+        assertContains(
+            "数据参考/lol-wiki-current-champions/normalized/generic/kogmaw-q.json");
+        assertContains("数据参考/lol-wiki-current-champions/raw/kogmaw-q.wikitext");
+        assertTrue(
+            Pattern.compile("(?i)无截图|无.*OCR|screenshot|OCR").matcher(sql).find()
+                && Pattern.compile("(?i)无截图|不含截图|无.*OCR|不.*OCR|without.*screenshot|"
+                    + "no screenshot|无截图 / OCR")
+                    .matcher(sql)
+                    .find(),
+            "seed comments must explicitly disclaim screenshot/OCR provenance");
+        assertFalse(
+            Pattern.compile("(?i)screenshot|ocr|截图识别|光学字符")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "executable SQL must not cite screenshot/OCR provenance");
+        assertFalse(
+            Pattern.compile("(?i)ddragon|data.?dragon|champion-static|KogMaw\\.json")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not use DDragon/champion-static numeric provenance");
+        assertFalse(
+            Pattern.compile("(?i)rank\\s*[1-4]\\b|ranks?\\s*=\\s*\\[|maxrank")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not model other ranks / rank tables");
+        Set<String> seen = new HashSet<>();
+        for (String id : STABLE_IDS) {
+            assertTrue(seen.add(id), "stable id list itself must be unique: " + id);
+            assertContains(id);
+        }
+        assertContains("ON CONFLICT");
+        assertContains("IS DISTINCT FROM");
     }
 
     private static void assertEquals(int expected, int actual, String message) {
