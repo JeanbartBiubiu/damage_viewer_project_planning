@@ -1039,6 +1039,35 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest,LolGenericDravenStandAsideSeedSqlTest,LolGenericDravenBloodRushSeedSqlTest,LolGenericDravenSpinningAxeSeedSqlTest,LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Vayne Tumble next-basic-attack bonus seed（薇恩 Q / Phase-A v2 下次普攻加成）
+
+在 reserved types、Batch-B `hero_vayne`（`ad`/`ap`/`mana` EAV）、mana 资源行、Batch-B 普攻图 + `basic_attack_hit` emit 基线（`lol_vayne_silver_bolts_seed.sql` 或等价）、以及 `lol_generic_spellblade_seed.sql` 最小 `provider_hero_vayne_tumble` / `ability_hero_vayne_tumble`（`ability_key=tumble`）已就绪后，按顺序执行（**enrich** 既有 Tumble 身份；**check-only** 前置，不物化 entity/panel/AP/AD/mana/basic/mount；不做 live migration、不自动 publish）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20160`/`20170`/`20172`/`20181`/`20190`/`20211`/`20212`/`20220`/`20250`/`20260`）
+2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（`hero_vayne` + `ad`/`ap`/`mana`）
+3. mana 资源行（其它 seed ensure；本脚本 **check-only**，不写 resource）
+4. `db/game_manage/seeds/lol_vayne_silver_bolts_seed.sql`（或等价 `step_hero_vayne_basic_attack_emit_hit` / `event_ref_hero_vayne_basic_attack_hit`）
+5. `db/game_manage/seeds/lol_generic_spellblade_seed.sql`（最小 tumble provider/ability/mount）
+6. `db/game_manage/seeds/lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql`
+7. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
+
+建议发布版本：`lol-generic-vayne-tumble-next-basic-attack-bonus-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_vayne|Q|闪避突袭` 冻结为 **Phase-A rank-5 next-BA bonus**（`FROZEN_PLAN_REV=vayne-q-tumble-next-basic-attack-bonus-phase-a-v2`）：
+
+`rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble`
+
+Ordered tags：`ability_cost_cooldown` → `cast_triggered_next_ba_arm` → `basic_attack_hit_bonus_damage` → `provider_state_consume`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_vayne` / `attribute_definitions(ad,ap,mana)` / `entity_attribute_values(hero_vayne,ad|ap|mana)` / mana 资源行 / Batch-B 普攻图 / emit 基线 / 精确 Tumble provider·ability（`tumble`/`20130`）·mount 做 **fail-closed check-only**（缺失即回滚；**不写** `games` / `game_entities` / `attribute_definitions` / `entity_attribute_values` / `resource_*` / basic emit / mount）；幂等投影 reserved → `types`；**enrich** 既有 `provider_hero_vayne_tumble` / `ability_hero_vayne_tumble`（稳定 ID/key/type；display 散文可改，**非**兼容不变量；旧 Spellblade seed 可先/后跑仅改 display）；追加 `tumble_empowered_attack_ready`（explicit default0 / max1 / `duration_ms=3000` / refresh_on_write；`state_scope/provider` 20250）、`ability_costs` 30 mana、`ability_cooldowns` 2000ms、null-duration impact 上一次 provider-scope override1（Q cast **无伤害**，runtime 自然发出一次 `ability_started`）、以及 `ability_id NULL` listener：ALL matcher 恰好 `event/basic_attack_hit` 20211 + `event/source_owner` 20212（**不得**加 `ability/basic_attack` 62003）；两步均门控 `gte(ready,1)`：对 opponent 一次 physical `add(mul(1.15, source.attr.ad.resolved), mul(0.50, source.attr.ap.resolved))`（`crit_eligible=false`；`copyable_on_hit=false`）再 override0；**无** `emit_event`。保留 Basic / W Silver Bolts / E / R / Spellblade。Wiki：request `Template:Data Vayne/Q` → resolved `Template:Data Vayne/Tumble`；page1309988 / rev4015566 / `2026-05-05T15:55:50Z` / 1735 bytes / SHA256 `5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad`；sidecar `normalized/generic/vayne-q.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。**不 claim** 全保真 Vayne Q / full Tumble。
+
+**排除**：dash / movement / direction / distance / terrain / collision；BA reset / windup / cadence；invisibility / R integration；lifesteal / healing；crit / RNG / miss / dodge / full on-hit；multi-target / structures；other ranks / full Tumble；live migration；publish；E2E。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest test
+```
+
 ### LoL generic Vayne Condemn primary-hit seed（薇恩 E / Phase-A v1 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；本公式不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_vayne` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有普攻 / Silver Bolts / tumble provider 并存，不重建/替换；不做 live migration、不自动 publish）：
