@@ -1404,6 +1404,34 @@ cd server/data_manage
 mvn -Dtest=LolGenericXayahFeatherstormPrimaryHitSeedSqlTest,LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest test
 ```
 
+### LoL generic Xayah Clean Cuts three-attack budget seed（逆羽 P / Phase-A v2 攻击次数预算）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_xayah)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_xayah,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_xayah,mana)`，以及校正后的 W isolation 行（`types(62012,ability/xayah_deadly_plumage,reserved_type_id=NULL)`、`type_relations → ability_hero_xayah_w_deadly_plumage`、W listener `ability_id IS NULL`、ALL match 恰好 `{20205,20212,62012}`）已由 `lol_generic_xayah_deadly_plumage_seed.sql`（或等价既有行）提供后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**复制 W 身份 bootstrap，**不**从本 P seed 突变 W/Q/R 图；仅挂载独立 P provider；不做 live migration、不自动 publish、不连 live DB 执行本 seed）。**W** 是共享身份与 ability-type listener isolation 前置；**Q** 与 **R** 为可选 sibling（非本 P 前置，本脚本不 require/mutate）。
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`
+2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`（校正后的 W；提供 Xayah 既有数据与 ability-type listener isolation）
+3. （可选）`db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql` / `lol_generic_xayah_featherstorm_primary_hit_seed.sql`（独立 Q/R sibling；非本 P 前置）
+4. `db/game_manage/seeds/lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql`
+
+建议发布版本：`lol-generic-xayah-clean-cuts-three-attack-budget-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_xayah|P|锐切`（task `wasm-generic-xayah-clean-cuts-three-attack-budget`）冻结为 **Phase-A 攻击次数预算**（`FROZEN_PLAN_REV=xayah-p-clean-cuts-three-attack-budget-phase-a-v2`）：
+
+`attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity`
+
+Ordered tags：`attack_count_budget` / `direct_post_cast_arm_override_3` / `basic_attack_damage_instance_consume_1` / `untimed_max3_state_no_default_column`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_xayah` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值 / 校正后 W isolation 做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`；不写 W/Q/R listener/type_relations）；幂等投影 reserved → `types`；Graves 式 fail-closed ensure game-local `62003 ability/basic_attack`（`reserved_type_id=NULL`；双向 id↔key collision）；向 `hero_xayah` **仅** mount 独立 `provider_hero_xayah_p_clean_cuts_three_attack_budget`（与既有 W、可选 Q/R 并存，不更新/删除/重建）：`clean_cuts_attacks_remaining`（max3 / `duration_ms=NULL` / refresh NULL；schema 无 default 列，缺失状态 runtime=0 直至 arm）；无 cost/CD arm `ability_hero_xayah_p_clean_cuts_direct_post_cast_arm`（`ability_key=clean_cuts_direct_post_cast_arm`；provider-scope override const3）；无 cost/CD BA `ability_hero_xayah_p_clean_cuts_basic_attack`（`ability_key=clean_cuts_basic_attack`；`type_relations`→62003；物理 `read source.attr.ad.resolved`；`crit_eligible=false`；`copyable_on_hit=false`）；listener `ability_id IS NULL`，ALL 恰好 `{20217,62003,20212}`，`max_triggers_per_event=1`，guarded `gt(provider.state.clean_cuts_attacks_remaining,0)` 后 provider-scope add `-1`。不添加共享 Xayah 技能 type_relations。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+Wiki 身份：resolved `Template:Data Xayah/Clean Cuts`；pageId `1324540` / rev `3967343` / `2025-11-18T20:49:46Z`；canonical bytes `4068` / SHA256 `5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171`（`数据参考/lol-wiki-current-champions/normalized/generic/xayah-p.json`）。Wiki on-attack 由成功 `damage_instance` 近似。
+
+**排除**：true Q/W/E/R wiring；add/refresh/max5；8s timer；geometry/feathers/secondary damage/secondary crit/E dependency；miss/dodge；cadence/projectile；RNG/expected crit/on-hit/proc；full BA/Clean Cuts fidelity；identity bootstrap；live migration；自动 publish；E2E。本条目不主张 live DB 执行、publish 或 runtime 保真。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest,LolGenericXayahFeatherstormPrimaryHitSeedSqlTest,LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest test
+```
+
 ### LoL generic Twitch Deadly Venom seed（图奇 P 死亡毒液 / anchored tick）
 
 前置 DDL：`provider_lifecycles` / `_log` 已含可选成对字段 `tick_anchor_scope_type_id` + `tick_anchor_state_key`（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_tick_anchor_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（至少 `ad`/`ap`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
