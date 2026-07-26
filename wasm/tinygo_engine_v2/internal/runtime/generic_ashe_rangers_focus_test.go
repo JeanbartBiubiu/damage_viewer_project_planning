@@ -8,19 +8,28 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// hero_ashe Q Ranger's Focus / 射手的专注 (generic ABI, rank-5 partial core).
+// hero_ashe Q Ranger's Focus / 射手的专注 (generic ABI, rank-5 partial core)
+// + P Frost Shot / 冰霜射击 expectation-only normal basic-attack Phase-A.
 //
-// Data-owned modelling (Meraki 2026-07-14):
+// Data-owned modelling (Meraki 2026-07-14 / Frost Shot expected-crit Phase-A):
 //   - Inactive: basic attacks arm Focus slots (max 4); refresh window; expire
 //     one-by-one at +4000/+5000/+6000/+7000 ms via timed provider state slots.
 //   - Q castCondition requires 4 Focus; costs 30 mana; clears Focus; arms
 //     Flurry 6000 ms + flurry_first; rank-5 +75% AS via
 //     0.75 * provider.state.flurry_active (not modifier.Condition).
 //   - Flurry first AA: 6×28% total AD; subsequent: 5×28%; one basic_attack_hit
-//     per flurry AA (on-hit once).
+//     per flurry AA (on-hit once). Flurry arrow ops stay CritEligible=false
+//     (separate partial Q boundary; not P damage integration).
+//   - P Phase-A (expectation only): flurry_inactive normal AA deals
+//     total AD × (1 + clamped_crit_chance × (total_crit_multiplier − 1))
+//     via CritEligible settleExpectedCrit on ability/basic_attack; not full
+//     Frost Shot fidelity.
 //
-// Non-goals: attack-timer reset scheduling, arrow travel, Frost Shot, life steal,
-// buildings/multitarget, ability rotation/cadence, other ranks.
+// Non-goals: attack-timer reset scheduling, arrow travel, Frost Shot slow /
+// critical slow / duration decay, RNG or on-crit sequencing, Q Flurry damage
+// integration with P, item-specific interactions (Randuin / Runaan / Cheap Shot),
+// life steal, buildings/multitarget, ability rotation/cadence, other abilities
+// or ranks, full Frost Shot fidelity.
 
 const (
 	asheProviderRef     = "hero:ashe"
@@ -52,15 +61,16 @@ const (
 	asheFirstArrows   = 6
 	asheNextArrows    = 5
 
-	asheLevel1HP        = 640.0
-	asheLevel1Mana      = 280.0
-	asheLevel1AD        = 59.0
-	asheLevel1AS        = 0.658
-	asheLevel1Armor     = 26.0
-	asheLevel1MR        = 30.0
-	asheTotalAD         = 100.0
-	asheTargetArmor     = 0.0
-	asheNormalAADamage  = 10.0
+	asheLevel1HP          = 640.0
+	asheLevel1Mana        = 280.0
+	asheLevel1AD          = 59.0
+	asheLevel1AS          = 0.658
+	asheLevel1Armor       = 26.0
+	asheLevel1MR          = 30.0
+	asheTotalAD           = 100.0
+	asheTargetArmor       = 0.0
+	asheCritChanceDefault = 0.0
+	asheCritDamageDefault = 2.0
 )
 
 func asheFocusKeys() []string {
@@ -245,19 +255,19 @@ func asheFocusBuildOps() []model.OperationDefinition {
 }
 
 func asheAAOps() []model.OperationDefinition {
-	aa := asheNormalAADamage
 	inactive := asheEqState(asheFlurryActiveKey, 0)
 	firstFlurry := asheAnd2(asheGteState(asheFlurryActiveKey, 1), asheGteState(asheFlurryFirstKey, 1))
 	nextFlurry := asheAnd2(asheGteState(asheFlurryActiveKey, 1), asheEqState(asheFlurryFirstKey, 0))
 
 	ops := []model.OperationDefinition{
 		{
-			Operation:  "damage",
-			Target:     "target",
-			DamageType: "damage/physical",
-			Ref:        asheNormalAAOpRef,
-			Amount:     &model.GenericFormulaExpr{Op: "const", Value: &aa},
-			Condition:  &inactive,
+			Operation:    "damage",
+			Target:       "target",
+			DamageType:   "damage/physical",
+			Ref:          asheNormalAAOpRef,
+			Amount:       &model.GenericFormulaExpr{Op: "read", Path: "source.attr.ad.resolved"},
+			CritEligible: true,
+			Condition:    &inactive,
 		},
 	}
 	ops = append(ops, asheFocusBuildOps()...)
@@ -435,6 +445,12 @@ func loadAsheRangersFocusFixture(t *testing.T) (model.CompileRequest, model.RunR
 	})
 	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "magic_resist", model.AttributeSlotDef{
 		Base: asheLevel1MR, Current: asheLevel1MR, Max: asheLevel1MR, Resolved: asheLevel1MR,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "crit_chance", model.AttributeSlotDef{
+		Base: asheCritChanceDefault, Current: asheCritChanceDefault, Max: 1, Resolved: asheCritChanceDefault,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "crit_damage", model.AttributeSlotDef{
+		Base: asheCritDamageDefault, Current: asheCritDamageDefault, Max: asheCritDamageDefault, Resolved: asheCritDamageDefault,
 	})
 	setCombatantResource(&compileReq, &runReq, model.SelectorSource, "mana", model.ResourceSlotDef{
 		Current: asheLevel1Mana, Max: asheLevel1Mana,
@@ -746,4 +762,208 @@ func TestAsheRangersFocusCastConditionIsolatedNormalAbilityUnchanged(t *testing.
 	if got := asheStateValue(t, done, asheFlurryActiveKey); got != 0 {
 		t.Fatalf("flurry_active=%v want 0", got)
 	}
+}
+
+func asheFrostShotFirstNormalDamage(t *testing.T, done model.DoneResult) map[string]interface{} {
+	t.Helper()
+	var found map[string]interface{}
+	n := 0
+	for _, item := range damageEvidenceItems(done) {
+		if evidenceDataString(item.Data, "operationRef") != asheNormalAAOpRef {
+			continue
+		}
+		if evidenceDataBool(item.Data, "phantom") {
+			t.Fatalf("unexpected phantom damage for %s", asheNormalAAOpRef)
+		}
+		n++
+		found = item.Data
+	}
+	if n != 1 {
+		t.Fatalf("normal AA damage evidence=%d want 1", n)
+	}
+	return found
+}
+
+func assertAsheFrostShotCompileShape(t *testing.T, compileReq model.CompileRequest) {
+	t.Helper()
+	if len(compileReq.SharedProviders) < 1 {
+		t.Fatal("SharedProviders empty")
+	}
+	asheCount := 0
+	var p model.ProviderDefinition
+	for _, sp := range compileReq.SharedProviders {
+		if sp.ProviderKey == asheProviderRef {
+			asheCount++
+			p = sp
+		}
+	}
+	if asheCount != 1 {
+		t.Fatalf("mounted Ashe shared providers=%d want 1", asheCount)
+	}
+	if len(p.Listeners) != 0 {
+		t.Fatalf("listeners=%d want 0 (no new Frost Shot listener)", len(p.Listeners))
+	}
+	if len(p.Abilities) != 3 {
+		t.Fatalf("abilities=%d want 3 (Q + basic_attack + probe)", len(p.Abilities))
+	}
+	var aa *model.AbilityDefinition
+	keys := map[string]bool{}
+	for i := range p.Abilities {
+		ab := &p.Abilities[i]
+		keys[ab.AbilityKey] = true
+		if ab.AbilityKey == asheAAKey {
+			aa = ab
+		}
+	}
+	if !keys[asheQKey] || !keys[asheAAKey] || !keys[asheProbeKey] {
+		t.Fatalf("ability keys=%v want %s/%s/%s", keys, asheQKey, asheAAKey, asheProbeKey)
+	}
+	if aa == nil || len(aa.Types) != 1 || aa.Types[0] != "ability/basic_attack" {
+		t.Fatalf("basic_attack types=%v want [ability/basic_attack]", aa.Types)
+	}
+	var normalCrit, arrowNoCrit, otherDamage int
+	for _, op := range aa.Operations {
+		switch op.Operation {
+		case "damage":
+			switch op.Ref {
+			case asheNormalAAOpRef:
+				if !op.CritEligible {
+					t.Fatal("normal AA CritEligible must be true")
+				}
+				if op.Amount == nil || op.Amount.Op != "read" || op.Amount.Path != "source.attr.ad.resolved" {
+					t.Fatalf("normal AA amount=%+v want read source.attr.ad.resolved", op.Amount)
+				}
+				if op.CopyableOnHit {
+					t.Fatal("normal AA CopyableOnHit must stay false")
+				}
+				if op.DamageType != "damage/physical" {
+					t.Fatalf("normal AA damageType=%q want damage/physical", op.DamageType)
+				}
+				normalCrit++
+			case asheArrowOpRef:
+				if op.CritEligible {
+					t.Fatal("flurry arrow CritEligible must stay false")
+				}
+				arrowNoCrit++
+			default:
+				otherDamage++
+			}
+		case "slow", "control":
+			t.Fatalf("unexpected %s op in basic_attack (Frost Shot Phase-A excludes slow/control)", op.Operation)
+		}
+	}
+	if normalCrit != 1 {
+		t.Fatalf("normal CritEligible ops=%d want 1", normalCrit)
+	}
+	if arrowNoCrit != asheFirstArrows+asheNextArrows {
+		t.Fatalf("flurry arrow CritEligible=false ops=%d want %d", arrowNoCrit, asheFirstArrows+asheNextArrows)
+	}
+	if otherDamage != 0 {
+		t.Fatalf("unexpected extra damage ops=%d", otherDamage)
+	}
+	mounts := 0
+	for _, c := range compileReq.Combatants {
+		if c.Key != model.SelectorSource {
+			continue
+		}
+		for _, m := range c.Providers {
+			if m.ProviderRef == asheProviderRef {
+				mounts++
+			}
+		}
+	}
+	if mounts != 1 {
+		t.Fatalf("source Ashe mounts=%d want 1", mounts)
+	}
+}
+
+// TestAsheFrostShotExpectedBasicAttackPhaseA: expectation-only P normal AA
+// AD*(1+p*(m-1)) via settleExpectedCrit; not full Frost Shot fidelity.
+func TestAsheFrostShotExpectedBasicAttackPhaseA(t *testing.T) {
+	cases := []struct {
+		name       string
+		critChance float64
+		critDamage float64
+		armor      float64
+		wantRaw    float64
+		wantFinal  float64
+	}{
+		{"p0_m2_armor0", 0, 2.0, 0, 100, 100},
+		{"p05_m2_armor0", 0.5, 2.0, 0, 150, 150},
+		{"p1_m2_armor0", 1, 2.0, 0, 200, 200},
+		{"p05_m2_armor100", 0.5, 2.0, 100, 150, 75},
+		{"p05_m23_armor0", 0.5, 2.3, 0, 165, 165},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			_, _, _, _, wantAdj := wantExpectedCrit(asheTotalAD, tc.critChance, tc.critDamage)
+			if math.Abs(wantAdj-tc.wantRaw) > 1e-9 {
+				t.Fatalf("algebra wantRaw=%v helper=%v", tc.wantRaw, wantAdj)
+			}
+
+			compileReq, runReq := loadAsheRangersFocusFixture(t)
+			assertAsheFrostShotCompileShape(t, compileReq)
+			setSourceCritAttrs(&compileReq, &runReq, tc.critChance, tc.critDamage)
+			setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{
+				Base: tc.armor, Current: tc.armor, Max: tc.armor, Resolved: tc.armor,
+			})
+			runReq.DriverPlan.Entries = asheAAEntries(1, 0, 0)
+			runReq.StopPolicy.DurationMs = 50
+			done := runAsheRangersFocus(t, compileReq, runReq)
+
+			data := asheFrostShotFirstNormalDamage(t, done)
+			if math.Abs(evidenceDataFloat(data, "rawAmount")-tc.wantRaw) > 1e-6 {
+				t.Fatalf("rawAmount=%v want %v", evidenceDataFloat(data, "rawAmount"), tc.wantRaw)
+			}
+			if math.Abs(evidenceDataFloat(data, "mitigatedAmount")-tc.wantFinal) > 1e-6 {
+				t.Fatalf("mitigatedAmount=%v want %v", evidenceDataFloat(data, "mitigatedAmount"), tc.wantFinal)
+			}
+			if countEmittedEvents(done, asheHitEvent) != 1 {
+				t.Fatalf("basic_attack_hit=%d want 1", countEmittedEvents(done, asheHitEvent))
+			}
+			if countEmittedEvents(done, asheCastEvent) != 0 {
+				t.Fatalf("ability_started=%d want 0 (ability/basic_attack)", countEmittedEvents(done, asheCastEvent))
+			}
+			for _, m := range damageEvidenceModifiers(data) {
+				if evidenceDataString(m, "command") == "crit" {
+					t.Fatalf("must not mount crit pipeline modifiers: %+v", m)
+				}
+			}
+			for _, item := range done.Evidence.Items {
+				switch item.Kind {
+				case model.EvidenceKindDamage, model.EvidenceKindEmittedEvent, model.EvidenceKindExecute:
+					// expected
+				default:
+					if item.Kind == model.EvidenceKindAttemptSkipped {
+						continue
+					}
+					// No RNG / on-crit / slow / control / tick mechanism evidence.
+					if item.Kind == model.EvidenceKindProviderTick ||
+						item.Kind == model.EvidenceKindListenerSkipped {
+						t.Fatalf("unexpected mechanism evidence kind=%s ref=%s", item.Kind, item.Ref)
+					}
+				}
+				if item.Kind == model.EvidenceKindEmittedEvent &&
+					item.Ref != asheHitEvent {
+					t.Fatalf("unexpected emitted event %q", item.Ref)
+				}
+			}
+			if got := asheFocusSum(t, done); got != 1 {
+				t.Fatalf("focus sum after inactive AA=%v want 1", got)
+			}
+			if got := asheStateValue(t, done, asheFlurryActiveKey); got != 0 {
+				t.Fatalf("flurry_active=%v want 0", got)
+			}
+			if countDamageByOpRef(done, asheArrowOpRef, false) != 0 {
+				t.Fatalf("flurry arrows=%d want 0 on inactive AA", countDamageByOpRef(done, asheArrowOpRef, false))
+			}
+		})
+	}
+}
+
+// TestAsheFrostShotExpectedBasicAttackCompileShape: single Ashe provider,
+// separate ability/basic_attack, CritEligible normal + ineligible Flurry arrows.
+func TestAsheFrostShotExpectedBasicAttackCompileShape(t *testing.T) {
+	compileReq, _ := loadAsheRangersFocusFixture(t)
+	assertAsheFrostShotCompileShape(t, compileReq)
 }

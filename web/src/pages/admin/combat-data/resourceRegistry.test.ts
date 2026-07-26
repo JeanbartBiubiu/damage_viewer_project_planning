@@ -130,6 +130,80 @@ describe('abilities castConditionFormulaKey form field', () => {
   });
 });
 
+describe('provider-lifecycles tick anchor fields', () => {
+  it('exposes nullable optional tickAnchorScopeTypeId and tickAnchorStateKey with helpers', () => {
+    const config = getCombatDataResource('provider-lifecycles');
+    expect(config).toBeDefined();
+
+    const scopeField = config!.fields.find((f) => f.name === 'tickAnchorScopeTypeId');
+    expect(scopeField).toMatchObject({
+      name: 'tickAnchorScopeTypeId',
+      kind: 'number',
+      label: 'Tick 锚点 Scope 类型 ID'
+    });
+    expect(scopeField?.required).toBeUndefined();
+    expect(scopeField?.helper).toContain('成对');
+
+    const keyField = config!.fields.find((f) => f.name === 'tickAnchorStateKey');
+    expect(keyField).toMatchObject({
+      name: 'tickAnchorStateKey',
+      kind: 'text',
+      label: 'Tick 锚点 State Key'
+    });
+    expect(keyField?.required).toBeUndefined();
+    expect(keyField?.helper).toContain('成对');
+
+    const emptyForm = createEmptyForm(config!.fields);
+    expect(emptyForm.tickAnchorScopeTypeId).toBe('');
+    expect(emptyForm.tickAnchorStateKey).toBe('');
+    const emptyBody = bodyFromFields(config!.fields, ['providerId'], emptyForm);
+    expect(emptyBody).not.toHaveProperty('tickAnchorScopeTypeId');
+    expect(emptyBody).not.toHaveProperty('tickAnchorStateKey');
+
+    const form = recordToForm(
+      {
+        providerId: 'prov_tick',
+        maxStacks: 1,
+        tickAnchorScopeTypeId: 20252,
+        tickAnchorStateKey: 'deadly_venom_stacks'
+      },
+      config!.fields
+    );
+    expect(form.tickAnchorScopeTypeId).toBe(20252);
+    expect(form.tickAnchorStateKey).toBe('deadly_venom_stacks');
+
+    const body = bodyFromFields(config!.fields, ['providerId'], form);
+    expect(body.tickAnchorScopeTypeId).toBe(20252);
+    expect(body.tickAnchorStateKey).toBe('deadly_venom_stacks');
+
+    const nullForm = recordToForm(
+      {
+        providerId: 'prov_tick',
+        maxStacks: 1,
+        tickAnchorScopeTypeId: null,
+        tickAnchorStateKey: null
+      },
+      config!.fields
+    );
+    expect(nullForm.tickAnchorScopeTypeId).toBe('');
+    expect(nullForm.tickAnchorStateKey).toBe('');
+  });
+
+  it('exposes type reference assistance for tickAnchorScopeTypeId', () => {
+    const config = getCombatDataResource('provider-lifecycles');
+    expect(config!.references).toEqual(
+      expect.arrayContaining([
+        {
+          field: 'tickAnchorScopeTypeId',
+          resourceId: 'types',
+          valueKey: 'typeId',
+          labelKey: 'name'
+        }
+      ])
+    );
+  });
+});
+
 describe('execute-effect-details and effect-step detail families', () => {
   it('registers execute-effect-details in Effect group with locked stepId and required threshold', () => {
     const config = getCombatDataResource('execute-effect-details');
@@ -189,7 +263,8 @@ describe('execute-effect-details and effect-step detail families', () => {
       repeatCount: 4,
       repeatTag: 'tag.a',
       triggerStateKey: 'state.ready',
-      threshold: 0.5
+      threshold: 0.5,
+      delayMs: ''
     });
 
     const body = buildEffectStepPutFromEditor(state);
@@ -198,9 +273,53 @@ describe('execute-effect-details and effect-step detail families', () => {
       repeatCount: 4,
       repeatTag: 'tag.a',
       triggerStateKey: 'state.ready',
-      threshold: 0.5
+      threshold: 0.5,
+      delayMs: 0
     });
     expect(body.sequenceId).toBe('seq_2');
     expect(body.stepOrder).toBe(2);
+  });
+
+  it('round-trips repeatDetail.delayMs=200 and rejects negative/non-integer delay', () => {
+    const state = recordToEffectStepEditorState({
+      stepId: 'step_repeat_delay',
+      sequenceId: 'seq_2',
+      stepOrder: 2,
+      operationTypeId: 11,
+      targetSelectorTypeId: 21,
+      repeatDetail: {
+        repeatScopeTypeId: 3,
+        repeatCount: 4,
+        repeatTag: 'tag.a',
+        triggerStateKey: 'state.ready',
+        threshold: 0.5,
+        delayMs: 200
+      }
+    });
+    expect(state.detail.delayMs).toBe(200);
+
+    const body = buildEffectStepPutFromEditor(state);
+    expect(body.repeatDetail).toEqual({
+      repeatScopeTypeId: 3,
+      repeatCount: 4,
+      repeatTag: 'tag.a',
+      triggerStateKey: 'state.ready',
+      threshold: 0.5,
+      delayMs: 200
+    });
+
+    expect(() =>
+      buildEffectStepPutFromEditor({
+        ...state,
+        detail: { ...state.detail, delayMs: -1 }
+      })
+    ).toThrow(/重复延迟\(ms\) 必须是非负整数/);
+
+    expect(() =>
+      buildEffectStepPutFromEditor({
+        ...state,
+        detail: { ...state.detail, delayMs: 1.5 }
+      })
+    ).toThrow(/重复延迟\(ms\) 必须是非负整数/);
   });
 });

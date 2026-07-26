@@ -15,10 +15,11 @@ import (
 //   - Lifecycle TickIntervalMs=5000; tick ability StartDelayMs=5000.
 //   - Tick state_change sets provider.state.full_stack 0→1 (later ticks stay 1).
 //   - Owner-self adds: armor/MR += 0.30 * target.attr.bonus_*.resolved * full_stack.
-//   - Synthetic explicit bonus_armor / bonus_magic_resist; never 1.3× total resist.
+//   - Explicit bonus_armor / bonus_magic_resist inputs (Web assembler target-loadout
+//     supplies totals + derived bonus buckets); never 1.3× total resist.
 //
-// Non-goals: real target equipment/loadout projection, Backend hp=350 in resist
-// math, live migrate/publish, source-owned mount.
+// Non-goals: automatic combat-state detection / end-of-combat expiry,
+// Backend hp=350 in resist math, live migrate/publish, source-owned mount.
 
 const (
 	jakshoProviderRef   = "provider_item_6665_jaksho_voidborn_resilience"
@@ -328,6 +329,41 @@ func probeMitigated(done model.DoneResult) (raw, mitigated float64, ok bool) {
 		return evidenceDataFloat(item.Data, "rawAmount"), evidenceDataFloat(item.Data, "mitigatedAmount"), true
 	}
 	return 0, 0, false
+}
+
+// TestJakshoVoidbornResilienceTargetLoadoutContract: synthetic runtime input matches
+// Web assembler target-loadout compile contract (hero base 30/30 + item_6665 45/45 →
+// totals 75/75, derived bonus 45/45); t=5000 adds 13.5 → 88.5/88.5; later tick idempotent.
+func TestJakshoVoidbornResilienceTargetLoadoutContract(t *testing.T) {
+	in := jakshoResistInput{armor: 75, magicResist: 75, bonusArmor: 45, bonusMagicResist: 45}
+	wantArmor, wantMR := jakshoWantActivated(in)
+	if math.Abs(wantArmor-88.5) > 1e-9 || math.Abs(wantMR-88.5) > 1e-9 {
+		t.Fatalf("contract math drift: wantArmor=%v wantMR=%v", wantArmor, wantMR)
+	}
+
+	cPre, rPre := loadJakshoFixture(t, in, 4999)
+	donePre := runJaksho(t, cPre, rPre)
+	assertSourceLacksJaksho(t, donePre)
+	assertJakshoResists(t, donePre.FinalSnapshot, in.armor, in.magicResist)
+	if got := jakshoTargetFullStack(t, donePre.FinalSnapshot); got != 0 {
+		t.Fatalf("pre-activation full_stack=%v want 0", got)
+	}
+
+	c5000, r5000 := loadJakshoFixture(t, in, 5000)
+	done5000 := runJaksho(t, c5000, r5000)
+	assertSourceLacksJaksho(t, done5000)
+	assertJakshoResists(t, done5000.FinalSnapshot, wantArmor, wantMR)
+	if got := jakshoTargetFullStack(t, done5000.FinalSnapshot); got != 1 {
+		t.Fatalf("t=5000 full_stack=%v want 1", got)
+	}
+
+	c10000, r10000 := loadJakshoFixture(t, in, 10000)
+	done10000 := runJaksho(t, c10000, r10000)
+	assertSourceLacksJaksho(t, done10000)
+	assertJakshoResists(t, done10000.FinalSnapshot, wantArmor, wantMR)
+	if got := jakshoTargetFullStack(t, done10000.FinalSnapshot); got != 1 {
+		t.Fatalf("t=10000 full_stack=%v want 1 (idempotent)", got)
+	}
 }
 
 // TestJakshoVoidbornResilienceActivationTimeline: t=4999 still base; t=5000 activates
