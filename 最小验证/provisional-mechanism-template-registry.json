@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v3",
     "planRevision": "provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4",
-    "generatedAt": "2026-07-26T08:28:55.161Z",
+    "generatedAt": "2026-07-26T09:17:58.176Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "12776ec4c4030f8388f62784c47c846de6c3c61a6efb4caadbbd3b0b956748ec",
-        "byteSize": 1127506
+        "sha256": "de0784b63c12991865487dcf914319a10953c18fb027459a46f6772695f48682",
+        "byteSize": 1134237
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 73,
+    "templateCount": 72,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 70,
+      "blocked_runtime": 69,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 71,
+      "hero_skill": 70,
       "item_passive": 2
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 70,
+      "runtime_contract_placeholder": 69,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 103,
+      "completed": 104,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -2642,265 +2642,6 @@
             "kind": "candidate_exclusion",
             "id": "manual_scope_selection_review",
             "prompt": "Review manual scope selection needed for this DPS-relevant candidate."
-          }
-        ]
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion",
-        "no_mechanical_draft_as_verified_phase_a_claim"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_corki|R|火箭轰击",
-      "inventoryOrdinal": 29,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_corki",
-      "skillKey": "R",
-      "passiveName": "火箭轰击",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "multi_target_or_area"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_corki|R|火箭轰击"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_corki|R|火箭轰击"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Corki",
-        "pageId": "corki-r",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/corki-r.json@rev4042863 sha256:1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "draftState": "mechanical_unverified",
-        "sourcePointers": {
-          "kind": "hero_wiki_sidecar",
-          "authority": "league_wiki_current_champion_template",
-          "sidecarPath": "数据参考/lol-wiki-current-champions/normalized/generic/corki-r.json",
-          "localFileSha256": "dcaa1352eba2fa1d6c2acfc1aba9320bccb200b5b9d00dba559373e0981adbe0",
-          "localFileByteSize": 3265,
-          "canonical": {
-            "requestTitle": "Template:Data Corki/R",
-            "resolvedTitle": "Template:Data Corki/Missile Barrage",
-            "wikiPageId": 1306946,
-            "revisionId": 4042863,
-            "revisionTimestamp": "2026-07-14T19:35:26Z",
-            "contentSha256": "1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845",
-            "rawByteSize": 3065
-          },
-          "fieldRefs": [
-            "fields.description",
-            "fields.description2",
-            "fields.description3",
-            "fields.description4",
-            "fields.leveling2",
-            "fields.leveling4",
-            "fields.cooldown",
-            "fields.cost",
-            "fields.costtype",
-            "fields.damagetype",
-            "fields.notes"
-          ]
-        },
-        "phaseATemplate": {
-          "id": "hero_selected_primary_minimum_quantum_candidate",
-          "basisStatus": "blocked_runtime",
-          "basisTags": [
-            "multi_target_or_area"
-          ],
-          "requiresIndividualDesignReview": true
-        },
-        "rank": {
-          "selection": "max_rank_candidate",
-          "value": null,
-          "sourceFieldRefs": [
-            "fields.leveling2",
-            "fields.leveling4"
-          ],
-          "verification": "pending"
-        },
-        "resourceCost": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cost",
-            "fields.costtype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cost",
-              "raw": "35\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.costtype",
-              "raw": "mana + 1 Ammo\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValue": null,
-          "normalizedUnit": null,
-          "verification": "pending"
-        },
-        "cooldownMs": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cooldown"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cooldown",
-              "raw": "2\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValueMs": null,
-          "verification": "pending"
-        },
-        "target": {
-          "mode": "selected_primary_candidate",
-          "value": null,
-          "verification": "pending"
-        },
-        "timing": {
-          "mode": "minimum_quantum_timing_candidate",
-          "valueMs": null,
-          "verification": "pending"
-        },
-        "formula": {
-          "mode": "wiki_formula_fields_unparsed",
-          "sourceFieldRefs": [
-            "fields.leveling2",
-            "fields.leveling4",
-            "fields.damagetype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.leveling2",
-              "raw": "{{st|Physical Damage|{{ap|90 to 250}} {{as|(+ 85% '''bonus''' AD)}}}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.leveling4",
-              "raw": "{{st|Big One Physical Damage|{{ap|90*2 to 250*2}} {{as|(+ {{ap|85*2}}% '''bonus''' AD)}}}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.damagetype",
-              "raw": "Physical\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "expression": null,
-          "verification": "pending"
-        },
-        "operationGraph": {
-          "templateKind": "provider_ability_single_quantum_candidate",
-          "nodes": [
-            "provider_candidate",
-            "ability_candidate",
-            "phase_candidate",
-            "sequence_candidate",
-            "operation_candidate"
-          ],
-          "edges": [
-            "provider_to_ability",
-            "ability_to_phase",
-            "phase_to_sequence",
-            "sequence_to_operation"
-          ],
-          "concreteIds": null,
-          "concreteTypeIds": null,
-          "requiredEvents": [],
-          "requiredState": [],
-          "productionRuntimeChangeRequired": null,
-          "verification": "pending"
-        },
-        "fixtures": [
-          {
-            "id": "baseline_quantum",
-            "purpose": "exercise_minimum_candidate_quantum",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          },
-          {
-            "id": "boundary_or_counterproof",
-            "purpose": "exercise_boundary_or_unrelated_input_counterproof",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          }
-        ],
-        "completedBoundary": null,
-        "exclusions": [
-          {
-            "kind": "candidate_exclusion",
-            "id": "full_fidelity_surfaces_review",
-            "prompt": "Review whether full-fidelity surfaces remain outside this provisional draft scope."
-          },
-          {
-            "kind": "candidate_exclusion",
-            "id": "geometry_selection_multitarget_review",
-            "prompt": "Review geometry, selection, and multi-target scope for this candidate."
           }
         ]
       },
