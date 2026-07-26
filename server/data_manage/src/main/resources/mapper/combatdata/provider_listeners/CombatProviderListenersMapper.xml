@@ -14,6 +14,7 @@
        ability_id AS "abilityId",
        max_triggers_per_event AS "maxTriggersPerEvent",
        chain_limit_key AS "chainLimitKey",
+       per_cast_throttle_ms AS "perCastThrottleMs",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.provider_listeners
@@ -37,6 +38,7 @@
        ability_id AS "abilityId",
        max_triggers_per_event AS "maxTriggersPerEvent",
        chain_limit_key AS "chainLimitKey",
+       per_cast_throttle_ms AS "perCastThrottleMs",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.provider_listeners
@@ -46,9 +48,9 @@
 
     <update id="upsert">
         INSERT INTO public.provider_listeners
-            (game_id, listener_id, provider_id, listener_key, event_type_id, ability_id, max_triggers_per_event, chain_limit_key, change_revision, updated_at)
+            (game_id, listener_id, provider_id, listener_key, event_type_id, ability_id, max_triggers_per_event, chain_limit_key, per_cast_throttle_ms, change_revision, updated_at)
         VALUES
-            (#{gameId}, #{listenerId}, #{providerId}, #{listenerKey}, #{eventTypeId}, #{abilityId}, #{maxTriggersPerEvent}, #{chainLimitKey}, #{changeRevision}, NOW())
+            (#{gameId}, #{listenerId}, #{providerId}, #{listenerKey}, #{eventTypeId}, #{abilityId}, #{maxTriggersPerEvent}, #{chainLimitKey}, #{perCastThrottleMs}, #{changeRevision}, NOW())
         ON CONFLICT (game_id, listener_id) DO UPDATE SET
             provider_id = EXCLUDED.provider_id,
             listener_key = EXCLUDED.listener_key,
@@ -56,6 +58,7 @@
             ability_id = EXCLUDED.ability_id,
             max_triggers_per_event = EXCLUDED.max_triggers_per_event,
             chain_limit_key = EXCLUDED.chain_limit_key,
+            per_cast_throttle_ms = EXCLUDED.per_cast_throttle_ms,
             change_revision = EXCLUDED.change_revision,
             updated_at = NOW()
     </update>
@@ -71,6 +74,7 @@
        ability_id AS "abilityId",
        max_triggers_per_event AS "maxTriggersPerEvent",
        chain_limit_key AS "chainLimitKey",
+       per_cast_throttle_ms AS "perCastThrottleMs",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.provider_listeners
@@ -82,7 +86,7 @@
 
     <insert id="copyChangedToLog">
         INSERT INTO public.provider_listeners_log (
-            game_id, version_id, change_revision, listener_id, provider_id, listener_key, event_type_id, ability_id, max_triggers_per_event, chain_limit_key
+            game_id, version_id, change_revision, listener_id, provider_id, listener_key, event_type_id, ability_id, max_triggers_per_event, chain_limit_key, per_cast_throttle_ms
         )
         SELECT
             game_id,
@@ -94,7 +98,8 @@
             event_type_id,
             ability_id,
             max_triggers_per_event,
-            chain_limit_key
+            chain_limit_key,
+            per_cast_throttle_ms
         FROM public.provider_listeners
         WHERE game_id = #{gameId}
           AND change_revision &gt; #{previousRevision}
@@ -106,6 +111,7 @@
             event_type_id = EXCLUDED.event_type_id,
             ability_id = EXCLUDED.ability_id,
             max_triggers_per_event = EXCLUDED.max_triggers_per_event,
-            chain_limit_key = EXCLUDED.chain_limit_key
+            chain_limit_key = EXCLUDED.chain_limit_key,
+            per_cast_throttle_ms = EXCLUDED.per_cast_throttle_ms
     </insert>
 </mapper>

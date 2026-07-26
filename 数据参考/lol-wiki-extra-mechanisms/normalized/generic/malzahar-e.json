@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "malzahar-e",
+  "candidateKey": "hero_skill|hero_malzahar|E|恶咒降临",
+  "ownerId": "hero_malzahar",
+  "wikiChampionTitle": "Malzahar",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Malzahar/E",
+  "zhDisplayName": "恶咒降临",
+  "resolvedTitle": "Template:Data Malzahar/Malefic Visions",
+  "wikiPageId": 1308233,
+  "revisionId": 4015185,
+  "revisionTimestamp": "2026-05-03T16:59:57Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Malzahar/Malefic%20Visions",
+  "contentSha256": "9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84",
+  "rawByteSize": 2228,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Malzahar''' infects the target enemy's mind, dealing {{as|magic damage}} every {{fd|0.25}} seconds over 4 seconds, which refreshes upon damaging them with ''{{ai|Call of the Void|Malzahar}}'' or ''{{ai|Nether Grasp|Malzahar}}''. ''Malefic Visions'' executes {{tip|minions}} if they would be damaged below {{sti|health|{{as|{{pp|10 to 30 for 11}} health}}}}.\n",
+    "leveling": "{{st|Total Magic Damage|{{ap|80 to 220}} {{as|(+ 80% AP)}}|Magic Damage Per Tick|{{ap|80/16 to 220/16}} {{as|(+ {{ap|80/16}}% AP)}}}}\n",
+    "description2": "If the target dies while infected, they spread ''Malefic Visions'' onto the closest nearby enemy and '''Malzahar''' restores {{sti|mana|{{as|2% of his '''maximum''' mana}}}}.\n",
+    "cooldown": "{{ap|11 to 7}}\n",
+    "cost": "{{ap|60 to 100}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Malefic Visions'' deals {{tip|persistent damage}}, additionally tagged as {{tip|indirect damage}}, and applies {{tip|spell effects}}.\n* ''Malefic Vision's'' cast is special cased to not be cancelled if the target becomes {{tip|untargetable}}, {{tip|death|dies}}, or is too far away or no longer in {{tip|sight}} during the cast time.\n** The debuff is not applied if the target is untargetable by the time the cast completes.\n}}"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}
