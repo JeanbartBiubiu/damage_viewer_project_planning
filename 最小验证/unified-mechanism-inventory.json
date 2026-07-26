@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-26T12:51:52.017Z",
+    "generatedAt": "2026-07-26T13:39:03.694Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "c7197f7ec18d3251722af0bc319db3ae94e14a1ad4215e978f239985fa5498fb",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "efb681da11da838899f7b058566ce933f826cd12b8c58058c07d7d54db3ba4d2",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "2084022d29253f2a39bf23a9decb43203d5f5515fe98213467e54904c0784085",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "e64e1e5667ec04633c2a88fd77e9e4a6bba83a141d98079f711561ea82a2dd77",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "7ff36794c392a9759383dc9197e1cfa3b5e6933291e314e06a979d7972bd8fc6",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "1d6cb7b5a3c218482215a8fc0098974952ebae871c41c5a13b535e2189ac1cd5",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 108,
+      "completed": 109,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 65,
+      "blocked_runtime": 64,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 108,
+      "full": 109,
       "partial": 3,
-      "none": 143
+      "none": 142
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "c7197f7ec18d3251722af0bc319db3ae94e14a1ad4215e978f239985fa5498fb",
-      "byteSize": 1131027,
+      "sha256": "efb681da11da838899f7b058566ce933f826cd12b8c58058c07d7d54db3ba4d2",
+      "byteSize": 1135520,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "2084022d29253f2a39bf23a9decb43203d5f5515fe98213467e54904c0784085",
-      "byteSize": 792868,
+      "sha256": "7ff36794c392a9759383dc9197e1cfa3b5e6933291e314e06a979d7972bd8fc6",
+      "byteSize": 805484,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "e64e1e5667ec04633c2a88fd77e9e4a6bba83a141d98079f711561ea82a2dd77",
-      "byteSize": 811921,
+      "sha256": "1d6cb7b5a3c218482215a8fc0098974952ebae871c41c5a13b535e2189ac1cd5",
+      "byteSize": 823976,
       "recordCount": 0,
       "role": "generator"
     },
@@ -17428,54 +17428,28 @@
     },
     {
       "key": "hero_skill|hero_samira|Q|交火",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_samira",
       "skillKey": "Q",
       "passiveName": "交火",
       "mechanismTags": [
-        "distance_or_ratio_modifier"
+        "phase_a_excludes_melee_e_crit_lifesteal_and_geometry",
+        "physical_20_plus_1_10_total_ad",
+        "rank5_max_distance_ranged_shot_primary_hit"
       ],
-      "coverageBoundary": "",
-      "reason": "distance_based_damage_modifier / damage_multiplier_or_health_ratio 无精确 migrated/partial 证据。",
-      "blocker": "distance_or_ratio_input",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4008027",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/samira-q.json@rev4008027 sha256:7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_samira|Q|交火",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [
-          "distance_or_ratio"
-        ],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "distance_or_ratio_input"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：distance_or_ratio_input"
-      },
+      "coverageBoundary": "rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity",
+      "reason": "Samira Q 交火/Flair：Wiki request Template:Data Samira/Q → resolved Template:Data Samira/Flair；page1459315 / rev4008027 / timestamp 2026-04-13T03:58:01Z / canonical bytes3596 / SHA256 7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203（normalized/generic/samira-q.json plus pages sibling are authority）rank5 Phase-A v1 maximum-distance ranged-shot primary-hit 已由 wasm-generic-samira-flair-max-distance-primary-hit + backend seed 证据闭环——local raw caveat bytes3596 / SHA fe7ba68ec41b06ea2592a9f0b751d5970b0d42914886c926b3d90509efca5f8d（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；30 mana / 2000ms CD；immediate selected-primary physical quantum scaffold；maximum-distance is an assumed ranged-shot branch only——damage formula itself has no distance multiplier/input；恰好一次 non-crit/non-copyable physical damage 20+1.10*source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD；nested binary add(const 20, mul(const 1.10, read source.attr.ad.resolved))；交叉校验 totalAD100 raw130，armor100 → mitigated65；HP1000→HP935；mana300→270）。Attempts mana300/HP1000/AD100/armor100 at t0/t1999/t2000 → success/skip/success，exactly two Q damage items；final mana240/HP870；exactly two automatic Q ability_started；mana29 at t0 → resource skip with mana/HP unchanged and no Q damage/event；total-AD counterproof base0/resolved100 vs base60/resolved100 both raw130。Samira Q is standalone；Backend has no repository-owned hero_samira / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Samira synthesis。completedBoundary：rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity。明确排除 melee slash/cone、Wild Rush/E explosives、crit/expected crit/RNG/150%、lifesteal、geometry/projectile/distance runtime、style/multitarget、other ranks、full fidelity、live migration/publish/E2E；不宣称 distance/melee/Wild Rush/crit/lifesteal/完整游戏保真；不使用 governed tag total_ad_ratio。Backend seed 显式依赖 external existing-data/check-only 前置（hero_samira/ad/mana），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_samira|Q|交火"
         },
         {
@@ -17484,7 +17458,22 @@
           "sourceRecordKey": "hero_skill|hero_samira|Q|交火"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-samira-flair-max-distance-primary-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_samira_flair_max_distance_primary_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity; backend lol_generic_samira_flair_max_distance_primary_hit_seed.sql + LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest + README (owning c89841a); Wasm exact test commit d4b55d0; nested binary total AD; external existing-data/check-only prerequisites (hero_samira/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Samira synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-samira-flair-max-distance-primary-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_samira_flair_max_distance_primary_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity; Wiki request Template:Data Samira/Q → Flair; rev4008027/SHA256 7f65786c… / bytes3596; local raw caveat bytes3596/SHA fe7ba68e… no equivalence claim; maximum-distance assumed ranged-shot branch; formula has no distance multiplier/input; rank5 30 mana/2000ms CD / one physical 20+1.10*totalAD nested binary; totalAD100 raw130 armor100→65 HP935 mana270; t0/t1999/t2000 mana300 success/skip/success two Q damage items final mana240/HP870 two ability_started; mana29 resource skip unchanged; total-AD counterproof; standalone no sibling synthesis; Wasm exact test commit d4b55d0; melee/Wild Rush/crit/lifesteal/geometry/projectile/distance-runtime/style/multitarget/live/E2E/full-fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },

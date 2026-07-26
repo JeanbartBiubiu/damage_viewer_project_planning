@@ -635,6 +635,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql',
   xayahCleanCutsThreeAttackBudgetBackend:
     'db/game_manage/seeds/lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql',
+  samiraFlairMaxDistancePrimaryHitBackend:
+    'db/game_manage/seeds/lol_generic_samira_flair_max_distance_primary_hit_seed.sql',
   jinxZapPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql',
   jinxFlameChompersPrimaryExplosionHitBackend:
@@ -800,6 +802,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go',
   xayahCleanCutsThreeAttackBudget:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_clean_cuts_three_attack_budget_test.go',
+  samiraFlairMaxDistancePrimaryHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_samira_flair_max_distance_primary_hit_test.go',
   jinxZapPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go',
   jinxFlameChompersPrimaryExplosionHit:
@@ -3658,6 +3662,35 @@ const EXACT_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_samira|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'rank5_max_distance_ranged_shot_primary_hit',
+        'physical_20_plus_1_10_total_ad',
+        'phase_a_excludes_melee_e_crit_lifesteal_and_geometry',
+      ],
+      reason:
+        'hero_samira Q 交火/Flair：Wiki request Template:Data Samira/Q → resolved Template:Data Samira/Flair；page1459315 / rev4008027 / timestamp 2026-04-13T03:58:01Z / canonical bytes3596 / SHA256 7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203（normalized/generic/samira-q.json plus pages sibling are authority）rank5 Phase-A v1 maximum-distance ranged-shot primary-hit 已由 wasm-generic-samira-flair-max-distance-primary-hit 闭环为 migrated——local raw caveat bytes3596 / SHA fe7ba68ec41b06ea2592a9f0b751d5970b0d42914886c926b3d90509efca5f8d（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；30 mana / 2000ms CD；immediate selected-primary physical quantum scaffold；maximum-distance is an assumed ranged-shot branch only——damage formula itself has no distance multiplier/input；恰好一次 non-crit/non-copyable physical damage 20+1.10*source.attr.ad.resolved（total AD；不得减 base AD，亦不得称为 bonus AD；nested binary add(const 20, mul(const 1.10, read source.attr.ad.resolved))；交叉校验 totalAD100 raw130，armor100 → mitigated65；HP1000→HP935；mana300→270）。Attempts mana300/HP1000/AD100/armor100 at t0/t1999/t2000 → success/skip/success，exactly two Q damage items；final mana240/HP870；exactly two automatic Q ability_started；mana29 at t0 → resource skip with mana/HP unchanged and no Q damage/event；total-AD counterproof base0/resolved100 vs base60/resolved100 both raw130。Samira Q is standalone；Backend has no repository-owned hero_samira / AD / mana materializer；record external existing-data/check-only prerequisites only；不暗示 Batch-B 或 sibling Samira synthesis。completedBoundary：rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity。明确排除 melee slash/cone、Wild Rush/E explosives、crit/expected crit/RNG/150%、lifesteal、geometry/projectile/distance runtime、style/multitarget、other ranks、full fidelity、live migration/publish/E2E；不宣称 distance/melee/Wild Rush/crit/lifesteal/完整游戏保真；不使用 governed tag total_ad_ratio。Backend seed 显式依赖 external existing-data/check-only 前置（hero_samira/ad/mana），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-samira-flair-max-distance-primary-hit',
+          WASM.samiraFlairMaxDistancePrimaryHit,
+          'completedBoundary: rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity; Wiki request Template:Data Samira/Q → Flair; rev4008027/SHA256 7f65786c… / bytes3596; local raw caveat bytes3596/SHA fe7ba68e… no equivalence claim; maximum-distance assumed ranged-shot branch; formula has no distance multiplier/input; rank5 30 mana/2000ms CD / one physical 20+1.10*totalAD nested binary; totalAD100 raw130 armor100→65 HP935 mana270; t0/t1999/t2000 mana300 success/skip/success two Q damage items final mana240/HP870 two ability_started; mana29 resource skip unchanged; total-AD counterproof; standalone no sibling synthesis; Wasm exact test commit d4b55d0; melee/Wild Rush/crit/lifesteal/geometry/projectile/distance-runtime/style/multitarget/live/E2E/full-fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-samira-flair-max-distance-primary-hit',
+          SEED.samiraFlairMaxDistancePrimaryHitBackend,
+          'completedBoundary: rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity; backend lol_generic_samira_flair_max_distance_primary_hit_seed.sql + LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest + README (owning c89841a); Wasm exact test commit d4b55d0; nested binary total AD; external existing-data/check-only prerequisites (hero_samira/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Samira synthesis; not live published',
+        ),
+      ],
+    },
+  ],
+  [
     '6676|死',
     {
       classification: 'migrated',
@@ -5119,9 +5152,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 98) errors.push(`migrated=${counts.migrated}, expected 98`);
+  if (counts.migrated !== 99) errors.push(`migrated=${counts.migrated}, expected 99`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 71) errors.push(`blocked=${counts.blocked}, expected 71`);
+  if (counts.blocked !== 70) errors.push(`blocked=${counts.blocked}, expected 70`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
   const detCritBlocked = records.filter(
     (r) =>
@@ -12063,6 +12096,127 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       missFortuneR.candidateKey,
       missFortuneR.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+
+  const samiraQ = records.find((r) => r.candidateKey === 'hero_skill|hero_samira|Q|交火');
+  const samiraQTags = [...(samiraQ?.genericMechanismTags || [])];
+  const samiraQExpectedTags = [
+    'rank5_max_distance_ranged_shot_primary_hit',
+    'physical_20_plus_1_10_total_ad',
+    'phase_a_excludes_melee_e_crit_lifesteal_and_geometry',
+  ];
+  const samiraQReason = String(samiraQ?.classificationReason || '');
+  const samiraQBoundary =
+    'rank5_max_distance_ranged_shot_selected_primary_physical_hit; assumed_ranged_shot_branch_maximum_distance_no_distance_multiplier_or_input; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_samira|Q')) {
+    errors.push('Samira Q exact override key hero_samira|Q must exist before distance_or_ratio fallback');
+  }
+  if (
+    !samiraQ
+    || samiraQ.candidateKey !== 'hero_skill|hero_samira|Q|交火'
+    || samiraQ.passiveName !== '交火'
+    || samiraQ.genericClassification !== 'migrated'
+    || String(samiraQ.remainingGap || '').trim()
+    || (samiraQ.dataGapEvidence?.missingFields || []).length !== 0
+    || samiraQTags.join('|') !== samiraQExpectedTags.join('|')
+    || samiraQTags.includes('distance_or_ratio_modifier')
+    || samiraQTags.includes('total_ad_ratio')
+    || samiraQTags.includes('meta_or_non_target_dps')
+    || String(samiraQ.remainingGap || '').includes('distance_or_ratio')
+    || String(samiraQ.remainingGap || '').includes('blocked_data')
+    || samiraQReason.includes('distance_based_damage_modifier / damage_multiplier')
+    || samiraQReason.includes('blocked_data')
+    || samiraQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || !samiraQReason.includes('4008027')
+    || !samiraQReason.includes(
+      '7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203',
+    )
+    || !samiraQReason.includes('fe7ba68ec41b06ea2592a9f0b751d5970b0d42914886c926b3d90509efca5f8d')
+    || !samiraQReason.includes('Template:Data Samira/Q')
+    || !samiraQReason.includes('Template:Data Samira/Flair')
+    || !samiraQReason.includes('page1459315')
+    || !samiraQReason.includes('bytes3596')
+    || !samiraQReason.includes('2026-04-13T03:58:01Z')
+    || !samiraQReason.includes(samiraQBoundary)
+    || !samiraQReason.includes('assumed ranged-shot branch')
+    || !samiraQReason.includes('no distance multiplier')
+    || !samiraQReason.includes('nested binary')
+    || !samiraQReason.includes('source.attr.ad.resolved')
+    || !samiraQReason.includes('total AD')
+    || !samiraQReason.includes('20')
+    || !samiraQReason.includes('1.10')
+    || !samiraQReason.includes('30 mana')
+    || !samiraQReason.includes('2000')
+    || !samiraQReason.includes('totalAD100')
+    || !samiraQReason.includes('raw130')
+    || !samiraQReason.includes('mitigated65')
+    || !samiraQReason.includes('t1999')
+    || !samiraQReason.includes('t2000')
+    || !samiraQReason.includes('mana300')
+    || !samiraQReason.includes('mana29')
+    || !samiraQReason.includes('HP935')
+    || !samiraQReason.includes('HP870')
+    || !samiraQReason.includes('mana240')
+    || !samiraQReason.includes('ability_started')
+    || !samiraQReason.includes('melee')
+    || !samiraQReason.includes('Wild Rush')
+    || !samiraQReason.includes('lifesteal')
+    || !samiraQReason.includes('standalone')
+    || !samiraQReason.includes('external existing-data/check-only')
+    || !samiraQReason.includes('identity/panel/resource')
+    || !samiraQReason.includes('不暗示 Batch-B')
+    || !samiraQReason.includes('sibling Samira synthesis')
+    || !samiraQReason.includes('不宣称')
+    || !samiraQReason.includes('不使用 governed tag total_ad_ratio')
+    || !String(samiraQ.sourceRef || '').includes('samira-q.json')
+    || !String(samiraQ.sourceRef || '').includes(
+      '7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203',
+    )
+    || samiraQ.auditBaseline?.gapCode !== 'blocked_data'
+    || samiraQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || !(samiraQ.auditBaseline?.mechanismTags || []).includes('distance_based_damage_modifier')
+    || samiraQ.classification !== 'needs_runtime_extension'
+    || !(samiraQ.mechanismTags || []).includes('distance_based_damage_modifier')
+    || citesForbiddenProvenance(samiraQ.classificationReason)
+    || !(samiraQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.samiraFlairMaxDistancePrimaryHit
+        && e.taskKey === 'wasm-generic-samira-flair-max-distance-primary-hit'
+        && String(e.note || '').includes(samiraQBoundary)
+        && String(e.note || '').includes('assumed ranged-shot branch')
+        && String(e.note || '').includes('no distance multiplier')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('d4b55d0')
+        && !String(e.note || '').includes('total_ad_ratio'),
+    )
+    || !(samiraQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.samiraFlairMaxDistancePrimaryHitBackend
+        && e.taskKey === 'wasm-generic-samira-flair-max-distance-primary-hit'
+        && String(e.note || '').includes(samiraQBoundary)
+        && String(e.note || '').includes('LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest')
+        && String(e.note || '').includes('README')
+        && String(e.note || '').includes('c89841a')
+        && String(e.note || '').includes('d4b55d0')
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('no Batch-B')
+        && !String(e.note || '').includes('total_ad_ratio'),
+    )
+  ) {
+    errors.push(
+      'Samira Q must be migrated with empty remainingGap/missingFields, exact Flair ordered tags (rank5_max_distance_ranged_shot_primary_hit/physical_20_plus_1_10_total_ad/phase_a_excludes_melee_e_crit_lifesteal_and_geometry; no distance_or_ratio_modifier/total_ad_ratio), stale distance/blocked_data cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev4008027/SHA + local raw caveat + frozen completedBoundary with assumed ranged-shot branch and no distance multiplier/input, rank5 30mana/2000CD/nested-binary 20+1.10*totalAD numerics (totalAD100→raw130/65; t0/t1999/t2000 mana300→240/HP870; mana29 skip), override-before-distance_or_ratio-fallback, and bilateral wasm+backend evidence (owning c89841a / Wasm d4b55d0; no melee/Wild Rush/crit/lifesteal/geometry/distance-runtime/live claim)',
+    );
+  }
+  if (samiraQ) {
+    validateBilateralCoverageEvidence(
+      samiraQ.candidateKey,
+      samiraQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
