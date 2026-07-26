@@ -2712,6 +2712,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_varus|Q|穿刺之箭',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Varus Q 穿刺之箭/Piercing Arrow：Wiki request Template:Data Varus/Q → resolved Template:Data Varus/Piercing Arrow；page1309981 / rev4026469 / timestamp 2026-06-09T22:00:25Z / canonical raw3888 / SHA256 bdbbe064008b969e153800f7d5cdb305f84eca1ef043d8e6f8ce41c5db2659dd（normalized/generic/varus-q.json local4131/SHA256 bb5af7baaf053d1266a3702664c2df09e89f67c6125e8cf6da15f28f5b0c1f8e are authority）rank5 maximum-charge/maximum-range selected-primary first-enemy Phase-A v1 已由 wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit + backend seed 证据闭环——local raw caveat bytes3888 / SHA 5a350cecb53d37bd2640f7de3398c1be0a798a75f88c42eb327933920d487962（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；one standalone Q provider；rank5 mana70 / listed cooldown scaffold 12000ms；immediate selected-primary first-enemy physical hit scaffold at maximum charge/maximum range；exact nested binary AST add(const360, mul(const1.20, sub(read source.attr.ad.resolved, read source.attr.ad.base))) with each AD path once（no AP/crit reads）；CritEligible=false；CopyableOnHit=false；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 baseAD60/resolved60/armor0 raw/final360；baseAD60/resolved160/armor100 raw480/final240；unrelated AP/crit/crit_damage variation unchanged）。Attempts mana210/HP1000/armor100 at t0/t11999/t12000 → success/skip/success，exactly two Q damage items；final mana70/HP520；exactly two automatic Q ability_started；mana69 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Q/W coexistence：both providers compile/mount together；Q emits only Q damage and leaves W state untouched；W carrier blighted_quiver_q_max_charge_carrier remains independently callable；provider_hero_varus_w_blighted_quiver_phase_a remains distinct。Varus Q provider is standalone；Backend external existing-data/check-only prerequisites；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：run-9a1fea38-a17f-4d9b-b4a1-a4229316933c delta3/outside0/events927 parseable/no truncation；focused sibling JUnit 38/38 PASS；driver full Maven1123/1123 PASS；seed lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql bytes29472/SHA 7cef83293d4fe27faa889c22e11008cfadc920b0c35ce598931c825a23579929；JUnit bytes50874/SHA ebb54d0c3991f7927b7fb56cda2af3aca99e0c758820eb402c2f2f82469e6919；owning d4937812733e819e34fd6328240295848c75d17b；no live。Wasm validation honesty：initial run-177243d7-bbee-4f36-9485-9c9e82c6a14b was driver-interrupted after delayed events；1095 parseable event lines；all three successful edit operations targeted only the exact allowed test file；not claimed as a normally completed runner audit。Fresh verification run-c277c097-4b20-49c1-927c-fafc114e02a9 finished with strict model；events698 parseable/no truncation；delta0/outside0；focused Q and Q+W and bench PASS；precommit full honestly failed only because existing Miss Fortune E/Xayah governance tests reject another uncommitted `_test.go`。Mechanical gofmt run-74661f4a-2dc6-489d-ab18-2391736e383e finished；delta1/outside0/events291 parseable/no truncation；only the exact file；focused tests PASS。Driver committed df617949ffe39ee4733a2fbb300444833f612849；then full go test -count=1 ./... PASS and bench PASS；exact test bytes63048 / SHA256 a52e2f4156ae79d40aa34b59ebf98705f06f3136bafcb380eb361143c1c3fa5a。completedBoundary：rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_falloff_projectile_geometry_blight_or_full_fidelity。明确排除 real charge/channel/range growth/cancel/refund/recast/slow/cast restrictions、post-effect cooldown start、charge-duration cooldown reduction/haste fidelity、projectile/travel/collision/geometry/pierce falloff/multi-target、W active/passive/Blight/detonation/reset/refund/full integration、cosmetic/actual crit、other ranks/full fidelity、production runtime/ABI/Web/live claims；this is exactly one rank5 max-charge/max-range selected-primary first-enemy physical hit, not full Q；不宣称 charge/channel/pierce/projectile/geometry/Blight/full-fidelity/live/Admin/E2E；no full-fidelity claim；no live/Admin/E2E claim，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_varus_piercing_arrow_max_charge_primary_first_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_falloff_projectile_geometry_blight_or_full_fidelity; Wiki request Template:Data Varus/Q → Piercing Arrow; rev4026469/SHA256 bdbbe064… / bytes3888; local4131/SHA bb5af7ba…; local raw caveat bytes3888/SHA 5a350cec… no equivalence claim; rank5 mana70/listed CD scaffold12000ms; one physical add(const360, mul(const1.20, sub(ad.resolved,ad.base))) nested binary AD-once; CritEligible=false; CopyableOnHit=false; damage 20220/add 20170; no 20230; no explicit event op; no Q type; baseAD60/resolved60/armor0 raw/final360; baseAD60/resolved160/armor100 raw480/final240; AP/crit/crit_damage variation unchanged; mana210/HP1000/armor100 t0/t11999/t12000 success/skip/success two Q damage items final mana70/HP520 two automatic Q ability_started; mana69 resource skip unchanged; Q/W coexistence Q-only damage W state untouched; blighted_quiver_q_max_charge_carrier independently callable; provider_hero_varus_w_blighted_quiver_phase_a distinct; standalone no sibling synthesis; Wasm exact test commit df617949 bytes63048/SHA a52e2f41…; run-c277c097 events698; run-74661f4a gofmt; initial run-177243d7 interrupted not claimed completed; charge/channel/pierce/projectile/geometry/Blight/live/Admin/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_falloff_projectile_geometry_blight_or_full_fidelity; backend lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql + LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest (owning d4937812733e819e34fd6328240295848c75d17b); Wasm exact test commit df617949; seed29472/SHA 7cef8329…; JUnit50874/SHA ebb54d0c…; Backend run-9a1fea38 delta3/outside0/events927/truncated0; focused JUnit38/38 Maven1123/1123 PASS; no live; external existing-data/check-only prerequisites; Q/W coexistence; standalone no Batch-B or sibling Varus Q synthesis beyond W isolation; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_varus|E|恶灵箭雨',
     {
       status: 'completed',
@@ -3342,6 +3374,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_kaisa|W|虚空索敌',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund',
+  ],
+  [
+    'hero_skill|hero_varus|Q|穿刺之箭',
+    'rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_falloff_projectile_geometry_blight_or_full_fidelity',
   ],
   [
     'hero_skill|hero_varus|E|恶灵箭雨',
@@ -5615,6 +5651,171 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Varus W must be completed/full/generic_runtime with empty blocker, null gaps, exact blight tags/frozen boundary, and Backend/Wasm evidence (no real-Q/full-game claim)',
+    );
+  }
+  const mVarusQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_varus|Q|穿刺之箭');
+  const mVarusQReason = String(mVarusQ?.reason || '');
+  const mVarusQBoundary =
+    'rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_falloff_projectile_geometry_blight_or_full_fidelity';
+  const mVarusQOverrideKeys = [...STATUS_OVERRIDES.keys()].filter(
+    (k) => k === 'hero_skill|hero_varus|Q|穿刺之箭',
+  );
+  if (mVarusQOverrideKeys.length !== 1) {
+    errors.push(
+      `Varus Q STATUS_OVERRIDES key hero_skill|hero_varus|Q|穿刺之箭 must occur exactly once, got ${mVarusQOverrideKeys.length}`,
+    );
+  }
+  if (
+    !mVarusQ ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_varus|Q|穿刺之箭') ||
+    mVarusQ.key !== 'hero_skill|hero_varus|Q|穿刺之箭' ||
+    mVarusQ.passiveName !== '穿刺之箭' ||
+    mVarusQ.status !== 'completed' ||
+    mVarusQ.completionMode !== 'full' ||
+    mVarusQ.lane !== 'generic_runtime' ||
+    mVarusQ.blocker ||
+    mVarusQ.dataGapEvidence !== null ||
+    mVarusQ.runtimeGapEvidence !== null ||
+    mVarusQ.outOfScopeEvidence !== null ||
+    mVarusQ.coverageBoundary !== mVarusQBoundary ||
+    [...(mVarusQ.mechanismTags || [])].join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'max_charge_max_range_selected_primary_first_hit_scaffold',
+      ].join('|') ||
+    (mVarusQ.mechanismTags || []).includes('immediate_impact_scaffold') ||
+    (mVarusQ.mechanismTags || []).includes('cooldown_or_haste_without_rotation') ||
+    (mVarusQ.mechanismTags || []).includes('primary_damage_branch_salvage') ||
+    !(mVarusQ.mechanismTags || []).includes('max_charge_max_range_selected_primary_first_hit_scaffold') ||
+    !(mVarusQ.mechanismTags || []).includes('bonus_ad_ratio') ||
+    !(mVarusQ.mechanismTags || []).includes('active_physical_damage') ||
+    !(mVarusQ.mechanismTags || []).includes('ability_cost_cooldown') ||
+    mVarusQReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mVarusQReason.includes('blocked_data') ||
+    mVarusQReason.includes('cooldown_or_haste_without_rotation') ||
+    mVarusQReason.includes('out_of_scope_for_single_target_dps') ||
+    mVarusQReason.includes('primary_damage_branch_salvage') ||
+    !mVarusQReason.includes('4026469') ||
+    !mVarusQReason.includes(
+      'bdbbe064008b969e153800f7d5cdb305f84eca1ef043d8e6f8ce41c5db2659dd',
+    ) ||
+    !mVarusQReason.includes(
+      'bb5af7baaf053d1266a3702664c2df09e89f67c6125e8cf6da15f28f5b0c1f8e',
+    ) ||
+    !mVarusQReason.includes(
+      '5a350cecb53d37bd2640f7de3398c1be0a798a75f88c42eb327933920d487962',
+    ) ||
+    !mVarusQReason.includes('Template:Data Varus/Q') ||
+    !mVarusQReason.includes('Template:Data Varus/Piercing Arrow') ||
+    !mVarusQReason.includes('page1309981') ||
+    !mVarusQReason.includes('bytes3888') ||
+    !mVarusQReason.includes('local4131') ||
+    !mVarusQReason.includes('2026-06-09T22:00:25Z') ||
+    !mVarusQReason.includes(mVarusQBoundary) ||
+    !mVarusQReason.includes(
+      'add(const360, mul(const1.20, sub(read source.attr.ad.resolved, read source.attr.ad.base)))',
+    ) ||
+    !mVarusQReason.includes('each AD path once') ||
+    !mVarusQReason.includes('CritEligible=false') ||
+    !mVarusQReason.includes('CopyableOnHit=false') ||
+    !mVarusQReason.includes('20220') ||
+    !mVarusQReason.includes('20170') ||
+    !mVarusQReason.includes('no 20230') ||
+    !mVarusQReason.includes('no explicit event op') ||
+    !mVarusQReason.includes('no Q ability-specific type') ||
+    !mVarusQReason.includes('baseAD60/resolved60/armor0 raw/final360') ||
+    !mVarusQReason.includes('baseAD60/resolved160/armor100 raw480/final240') ||
+    !mVarusQReason.includes('AP/crit/crit_damage variation unchanged') ||
+    !mVarusQReason.includes('t11999') ||
+    !mVarusQReason.includes('t12000') ||
+    !mVarusQReason.includes('mana210') ||
+    !mVarusQReason.includes('mana69') ||
+    !mVarusQReason.includes('mana70') ||
+    !mVarusQReason.includes('HP520') ||
+    !mVarusQReason.includes('ability_started') ||
+    !mVarusQReason.includes('Q/W coexistence') ||
+    !mVarusQReason.includes('blighted_quiver_q_max_charge_carrier') ||
+    !mVarusQReason.includes('provider_hero_varus_w_blighted_quiver_phase_a') ||
+    !mVarusQReason.includes('run-9a1fea38-a17f-4d9b-b4a1-a4229316933c') ||
+    !mVarusQReason.includes('run-c277c097-4b20-49c1-927c-fafc114e02a9') ||
+    !mVarusQReason.includes('run-177243d7-bbee-4f36-9485-9c9e82c6a14b') ||
+    !mVarusQReason.includes('run-74661f4a-2dc6-489d-ab18-2391736e383e') ||
+    !mVarusQReason.includes('Maven1123/1123') ||
+    !mVarusQReason.includes('38/38') ||
+    !mVarusQReason.includes('d4937812733e819e34fd6328240295848c75d17b') ||
+    !mVarusQReason.includes('df617949ffe39ee4733a2fbb300444833f612849') ||
+    !mVarusQReason.includes('63048') ||
+    !mVarusQReason.includes(
+      'a52e2f4156ae79d40aa34b59ebf98705f06f3136bafcb380eb361143c1c3fa5a',
+    ) ||
+    !mVarusQReason.includes(
+      '7cef83293d4fe27faa889c22e11008cfadc920b0c35ce598931c825a23579929',
+    ) ||
+    !mVarusQReason.includes(
+      'ebb54d0c3991f7927b7fb56cda2af3aca99e0c758820eb402c2f2f82469e6919',
+    ) ||
+    !mVarusQReason.includes('Miss Fortune E/Xayah') ||
+    !mVarusQReason.includes('not claimed as a normally completed runner audit') ||
+    !mVarusQReason.includes('no equivalence or contradiction claim') ||
+    !mVarusQReason.includes('exactly one rank5 max-charge/max-range selected-primary first-enemy physical hit') ||
+    !mVarusQReason.includes('standalone') ||
+    !mVarusQReason.includes('external existing-data/check-only') ||
+    !mVarusQReason.includes('no full-fidelity claim') ||
+    !mVarusQReason.includes('no live/Admin/E2E claim') ||
+    mVarusQReason.includes('canonical byte equivalence') ||
+    mVarusQReason.includes('live published') ||
+    !(mVarusQ.sourceRefs || []).some(
+      (s) =>
+        s.path === '最小验证/generic-g8-adc-passive-coverage-audit.json' &&
+        s.sourceRecordKey === 'hero_skill|hero_varus|Q|穿刺之箭',
+    ) ||
+    !(mVarusQ.sourceRefs || []).some(
+      (s) =>
+        s.path === '最小验证/wiki-only-mechanism-candidate-registry.json' &&
+        s.sourceRecordKey === 'hero_skill|hero_varus|Q|穿刺之箭',
+    ) ||
+    !(mVarusQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_varus_piercing_arrow_max_charge_primary_first_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mVarusQBoundary) &&
+        String(e.note || '').includes('df617949') &&
+        String(e.note || '').includes('a52e2f41') &&
+        String(e.note || '').includes('63048') &&
+        String(e.note || '').includes('5a350cec') &&
+        String(e.note || '').includes('20220') &&
+        String(e.note || '').includes('20170') &&
+        String(e.note || '').includes('raw/final360') &&
+        String(e.note || '').includes('raw480/final240') &&
+        String(e.note || '').includes('Q/W coexistence') &&
+        String(e.note || '').includes('run-177243d7') &&
+        String(e.note || '').includes('standalone'),
+    ) ||
+    !(mVarusQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mVarusQBoundary) &&
+        String(e.note || '').includes('LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest') &&
+        String(e.note || '').includes('d493781') &&
+        String(e.note || '').includes('df617949') &&
+        String(e.note || '').includes('run-9a1fea38') &&
+        String(e.note || '').includes('Maven1123/1123') &&
+        String(e.note || '').includes('7cef8329') &&
+        String(e.note || '').includes('ebb54d0c') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('Q/W coexistence') &&
+        String(e.note || '').includes('standalone'),
+    )
+  ) {
+    errors.push(
+      'Varus Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Piercing Arrow ordered tags (no immediate_impact_scaffold/cooldown_or_haste_without_rotation/primary_damage_branch_salvage; requires max_charge_max_range_selected_primary_first_hit_scaffold/bonus_ad_ratio/active_physical_damage), Wiki rev4026469/SHA + local raw caveat + frozen completedBoundary, rank5 mana70/CD12000 scaffold/one physical 360+1.20*bonusAD exact nested binary numerics/schedules (360; raw480/final240; AP/crit counterproof; 20220/20170; no 20230; no Q type; no explicit event op; t0/t11999/t12000 mana210→70/HP520; mana69 skip; Q/W coexistence), Backend run-9a1fea38 focused38/Maven1123 + Wasm df617949/run-c277c097/gofmt run-74661f4a with interrupted run-177243d7 honesty, preserved G8+wiki-only source refs, and bilateral evidence (owning d493781 / Wasm df617949; one max-charge/max-range selected-primary first-enemy physical hit not full Q; no charge/channel/pierce/projectile/Blight/live/Admin/E2E/full-fidelity claim)',
     );
   }
   const mAshePBoundary =
@@ -11582,8 +11783,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 111) {
-    errors.push(`completed=${sc.completed}, expected 111`);
+  if ((sc.completed || 0) !== 112) {
+    errors.push(`completed=${sc.completed}, expected 112`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -11591,8 +11792,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 62) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 62`);
+  if ((sc.blocked_runtime || 0) !== 61) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 61`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -11613,14 +11814,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 111) {
-    errors.push(`completionMode full=${cm.full}, expected 111`);
+  if ((cm.full || 0) !== 112) {
+    errors.push(`completionMode full=${cm.full}, expected 112`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 140) {
-    errors.push(`completionMode none=${cm.none}, expected 140`);
+  if ((cm.none || 0) !== 139) {
+    errors.push(`completionMode none=${cm.none}, expected 139`);
   }
   const detCritBlockedUnified = (inv.mechanisms || []).filter(
     (m) =>
@@ -11638,6 +11839,14 @@ function validateInventory(inv) {
   if (implGapCount !== 53) {
     errors.push(
       `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 53`,
+    );
+  }
+  const blockedDataBlockerFamily = (inv.mechanisms || []).filter(
+    (m) => m.status === 'blocked_runtime' && m.blocker === 'blocked_data',
+  );
+  if (blockedDataBlockerFamily.length !== 1) {
+    errors.push(
+      `blocked_runtime blocker=blocked_data family=${blockedDataBlockerFamily.length}, expected 1`,
     );
   }
 
