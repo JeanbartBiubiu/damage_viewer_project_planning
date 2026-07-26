@@ -2123,6 +2123,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericTristanaBusterShotPrimaryHitSeedSqlTest,LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericTwistedFateWildCardsPrimaryHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
 ```
 
+### LoL generic Samira Flair max-distance primary-hit seed（莎弥拉 Q / Phase-A v1 最大距离远程射击选定主目标单次物理命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_samira)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_samira,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_samira,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值——当前仓库亦无 materializer / 无 seed 负责物化 Samira 身份/面板/资源行；本 seed 不物化；仅挂载可 cast 的独立 Q active **最大距离远程射击选定主目标单次物理命中**；standalone sibling absence：不创建/突变/合成/复制 P/W/E/R/basic；Backend prerequisite checks 为 publication guard，generic runtime 缺失 attr 读为 0 且不断言 fail-closed；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_samira_flair_max_distance_primary_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-samira-flair-max-distance-primary-hit-phase-a-v1-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_samira|Q|交火`（task `wasm-generic-samira-flair-max-distance-primary-hit`）冻结为 **Phase-A rank-5 立即最大距离远程射击选定主目标单次物理命中 impact scaffold**（`FROZEN_PLAN_REV=samira-q-flair-max-distance-primary-hit-phase-a-v1`）：
+
+`rank5_max_distance_ranged_shot_selected_primary_physical_hit; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `immediate_impact_scaffold`（显式不包含 `total_ad_ratio`；仓库治理禁止该 governed tag）。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_samira` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_samira` **仅** mount 独立 `provider_hero_samira_q_flair_max_distance_primary_hit`（stable id `hero_samira_q_flair_max_distance_primary_hit`；standalone；不创建/突变/合成/复制 P/W/E/R/basic），含 active `ability_hero_samira_q_flair_max_distance_primary_hit`（`ability_key=flair_max_distance_primary_hit`）、`ability_costs` 30 mana、`ability_cooldowns` 2000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `20 + 1.10*source.attr.ad.resolved`（**total AD**，直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；二元 `add(const 20, mul(const 1.10, read …))`；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）。Maximum-distance **仅**选择远程射击分支；公式本身**无**距离乘数。**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / geometry / melee / Wild Rush / style 行。**Q 无 ability-specific game-local type**，不新增 Q 专用 62xxx type、不写 `type_relations`。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Immediate max-distance ranged-shot selected-primary physical hit 为 Phase-A scaffold，不是实际 distance / range / direction / projectile / collision / melee slash / Wild Rush/E explosives / crit / expected crit / RNG / 150% / lifesteal / style / multitarget / full-Q fidelity。Exactly one immediate damage quantum only, not full Q。Wiki：request `Template:Data Samira/Q` → resolved `Template:Data Samira/Flair`；page1459315 / rev4008027 / `2026-04-13T03:58:01Z` / canonical 3596 bytes / SHA256 `7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203`；sidecar `normalized/generic/samira-q.json`（bytes 3596 / SHA256 `9077cd57cd3f2713d4725a2b3264b987163feb57d97c892669bc35bbde8ecc0d`）+ `pages/samira-q.json`（bytes 666 / SHA256 `c572e9baffa2c4ec196fe5a410c3ca89ddfc717e63be43be6428626ef7e93976`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 3596 / `fe7ba68ec41b06ea2592a9f0b751d5970b0d42914886c926b3d90509efca5f8d`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`totalAD0` raw20 / armor0=20 / armor100=10；`totalAD100` raw130 / armor100=65；`totalAD110` raw141 / armor100=70.5；total-AD counterproof `base0/resolved100` vs `base60/resolved100` both130；mana90/HP1000/totalAD100/armor100 在 t0/t1999/t2000 → success/cooldown skip/success、exactly two Q hits and automatic starts、readyAt2000、final mana30/HP870；mana29 → resource skip；standalone isolation mounts only this Q and synthesizes no P/W/E/R/basic。
+
+**排除**（completed-boundary exclusions；不得实现或描述为近似）：distance/range/direction/projectile/collision；melee slash/cone blade；Wild Rush/E explosives；crit/expected crit/RNG/150% critical damage；lifesteal；style/Daredevil Impulse；multi-target；ranks1–4；P/W/E/R/basic/loadout/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/geometry/sibling；live migration；publish；E2E/live/full fidelity。One selected-primary max-distance ranged-shot hit, not full Q。公式无距离乘数。
+
+静态契约校验（不连 live DB；含邻近 total-AD Jinx W / Kalista Q check-only 先例）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKalistaPiercePrimaryHitSeedSqlTest,LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
