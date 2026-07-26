@@ -1590,6 +1590,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-miss-fortune-bullet-time-max-channel-expected",
+      "title": "通用 ABI 厄运小姐 R 弹幕时间最大完整引导期望伤害机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_miss_fortune_bullet_time_max_channel_expected",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_missfortune|R|弹幕时间 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV miss-fortune-r-bullet-time-max-channel-expected-phase-a-v3；DESIGN_READY run-35c777c6（1780 events；59/59；delta0/outside0；v1/v2 valid REVISE：IE 显式 exclusion + 禁 total_ad_ratio）。Backend 45259a6（run-630c81b0 delta3/outside0；854；44/44；focused30/full1069 PASS；seed33539；无 live）。Wasm 72eb807（run-7bc76691 delta1/outside0；980；67/67；新 _test.go；focused/full/bench PASS）。审计 0d0c8a8（run-1103244f delta8/outside0；1429；122/122；五 check+record/diff PASS）。边界 rank3 最大完整引导聚合期望；18*(40+0.60*AD+0.25*AP)*(1+0.30*clamp(p))；base130；显式排除 Wiki IE ratio 30；CritEligible false；无 total_ad_ratio；恰好一笔聚合量子；非完整 R。计数：Wiki242不变；G8 migrated96/blocked73；Unified completed106/blocked_runtime67/full106/none145；impl-gap54；crit-sequence2（Jhin/Yunara deferred）；provisional70；tasks120；严格 completion106/254=41.7%；coverage176/254=69.3%。OOS72最终跳过；真队列70=runtime67+data3。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-厄运小姐R弹幕时间最大完整引导期望伤害Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-厄运小姐R弹幕时间最大完整引导期望伤害Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
