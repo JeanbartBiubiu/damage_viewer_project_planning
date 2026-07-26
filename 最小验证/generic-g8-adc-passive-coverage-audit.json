@@ -4,7 +4,7 @@
     "inputSha256": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
     "generatorPath": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
     "ruleSetVersion": "generic-g8-v5-20260720",
-    "generatedAt": "2026-07-26T04:13:21.009Z"
+    "generatedAt": "2026-07-26T06:01:07.866Z"
   },
   "summary": {
     "candidateCount": 242,
@@ -13,24 +13,24 @@
       "item_passive": 77
     },
     "classificationCounts": {
-      "migrated": 90,
+      "migrated": 91,
       "partial": 4,
-      "blocked": 79,
+      "blocked": 78,
       "out_of_scope": 69
     },
     "classificationPercents": {
-      "migrated": 37.19,
+      "migrated": 37.6,
       "partial": 1.65,
-      "blocked": 32.64,
+      "blocked": 32.23,
       "out_of_scope": 28.51
     },
     "coverageRateMigratedOnly": {
-      "all": 37.19,
-      "inScope": 52.02
+      "all": 37.6,
+      "inScope": 52.6
     },
     "coverageRateMigratedPlusPartial": {
-      "all": 38.84,
-      "inScope": 54.34
+      "all": 39.26,
+      "inScope": 54.91
     },
     "inScopeCount": 173
   },
@@ -6034,29 +6034,33 @@
       "pageId": "sivir-q",
       "sourceText": "{{sbc|Active:}} '''Sivir''' hurls her crossblade in the target direction, dealing {{as|physical damage}} to enemies within its path, increased by {{critical damage|0 to 40|critScaling=true}}.\n''Boomerang Blade's'' damage is reduced by {{pp|key=%|changedisplay=true|type=non-champions hit|0 to 60 for 5|0 to 4|formula=100%-(15%*Nº of non-champions hit). ''This is capped at 40% damage at 4 enemies hit.''}}. Upon reaching maximum range, the crossblade returns to her, resetting the damage modifier and dealing the same damage to enemies on its way back.\n''Enemies can be hit only once per pass.''\n{{st|Physical Damage|{{ap|60 to 160}} {{as|(+ 70% '''bonus''' AD)}} {{as|(+ 60% AP)}}}}\n{{st|Minimum Damage|{{ap|60*0.4 to 160*0.4}} {{as|(+ {{ap|70*0.4}}% '''bonus''' AD)}} {{as|(+ 24% AP)}}}}\n{{st|Total Maximum Champion Damage|{{ap|60*2 to 160*2}} {{as|(+ {{ap|70*2}}% '''bonus''' AD)}} {{as|(+ 120% AP)}}}}\n{{ap|10 to 8}}\n{{ap|55 to 75}}\nMana\nPhysical\n* Due to the cast time effectively rounding up to full game ticks, at undisturbed game tick interval times the technical minimum cast time is {{rutngt|0.1875}} reached at {{as|{{fd|99.8}}% '''bonus''' attack speed}}.\n{{Effect at cast time end}}\n* The damage reduction per unit hit resets back to full damage upon changing direction.\n* ''Boomerang Blade'' will still return to '''Sivir''' even if she dies before it changes direction.\n* {{tip|Spell shield}} only blocks one instance of damage.",
       "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/sivir-q.json@rev4016378 sha256:0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e",
-      "genericClassification": "blocked",
+      "genericClassification": "migrated",
       "genericMechanismTags": [
-        "dps_relevant_manual_review"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "crit_scaling",
+        "immediate_impact_scaffold"
       ],
-      "classificationReason": "auditBaseline.gapCode=blocked_data; damageDisposition=not_applicable",
-      "coverageEvidence": [],
-      "remainingGap": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4016378",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/sivir-q.json@rev4016378 sha256:0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      }
+      "classificationReason": "hero_sivir Q 回旋之刃/Boomerang Blade：Wiki request Template:Data Sivir/Q → resolved Template:Data Sivir/Boomerang Blade；page1308837 / rev4016378 / timestamp 2026-05-11T05:05:57Z / canonical bytes2745 / SHA256 0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e（normalized/generic/sivir-q.json bytes3018/SHA256 2320f7ada83cceee979c52cd314395c6b41e2f50c50e3114e9bca0d39386ff02 plus pages sibling bytes691/SHA256 adeab85889a4208b52f0b6cd3bcc3aef022a986dcad5168e1c817e3ab3323fa9 are authority）rank5 Phase-A v3 已由 wasm-generic-sivir-boomerang-blade-first-outbound-hit 闭环为 migrated——local raw caveat bytes2745 / SHA b8d46412519f211b27f2575684693f407806cbbca337a80e775a1baf4c2396a4（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；one standalone Q provider；rank5 mana75 / CD8000；immediate selected-primary-champion first-outbound-pass single physical noncrit/noncopyable damage scaffold；exact generic formula (160+0.70*(ad.resolved-ad.base)+0.60*ap.resolved)*(1+0.40*min(1,max(0,crit_chance.resolved))) via nested binary nodes with each read path exactly once and formula-local crit_chance clamp（no DB-bound/random crit / crit_damage / CritEligible claim）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 armor100 fixtures raw290/348/406 → final145/174/203；negative/overcap clamp；bonusAD/AP counterproof）。Attempts mana225/baseAD60/resolvedAD160/AP100/crit0.5/HP1000/armor100 at t0/t7999/t8000 → success/skip/success，exactly two Q damage items；final mana75/HP652；exactly two automatic Q ability_started；mana74 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Sivir Q provider is standalone；Backend external existing-data/check-only prerequisites only（hero_sivir/ad/ap/crit_chance/mana）；no Sivir materializer/shared identity-panel-resource write；current generic missing formula attrs read zero, not claimed fail-closed；hero-named `_test.go` is regression/governance evidence only；不暗示任何 production Wasm/public ABI/Web change。READY gate run-4db83782-b7af-4a56-8a75-2b687cc456a4 v3。Backend validation honesty：Main focused64/full1023 passed；mirror b14c48f exact parity with Sivir JUnit13 PASS；combined mirror sibling caveat: pre-existing Essence Reaver/Twisted Fate must BEGIN failures, not hidden/fixed here。Wasm main validation passed focused ten top-level、count100、full Go、Go bench、build、Node smoke+bench、parity PASS；exact test bytes79086 / SHA256 77a27da736577acc9a1bfd6728472a2b84c6a07353314528b115b112b917cc44；built production and independent Web source asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no production/Web write。completedBoundary：rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/bonus attack speed/direction/range/width/geometry/projectile travel/speed、nonchampion hit reduction、return pass/damage modifier reset/once-per-pass、spellshield、other ranks/siblings/loadout/bootstrap/live/full fidelity；this is exactly one selected-primary first-outbound hit, not full Q；不宣称 cast/BAS/direction/range/width/geometry/projectile/nonchampion/return/once-per-pass/spellshield/other-ranks/完整游戏保真；no full-fidelity claim；no live/Admin/E2E claim。Backend seed 显式依赖 external existing-data/check-only 前置，不物化 identity/panel/resource values。",
+      "coverageEvidence": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-sivir-boomerang-blade-first-outbound-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_sivir_boomerang_blade_first_outbound_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Sivir/Q → Boomerang Blade; rev4016378/SHA256 0adcf391… / bytes2745; local raw caveat bytes2745/SHA b8d46412… no equivalence claim; rank5 mana75/CD8000; one physical (160+0.70*(ad.resolved-ad.base)+0.60*ap.resolved)*(1+0.40*min(1,max(0,crit_chance.resolved))) nested binary read-once formula-local clamp; armor100 raw290/348/406 final145/174/203; negative/overcap clamp; bonusAD/AP counterproof; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana225 t0/t7999/t8000 success/skip/success two Q damage items final mana75/HP652 two automatic Q ability_started; mana74 resource skip unchanged; missing formula attrs read zero not fail-closed; hero-named _test.go regression/governance only; standalone no sibling synthesis; Wasm exact test commit bff4d160 bytes79086/SHA 77a27da7…; cast/BAS/direction/range/width/geometry/projectile/nonchampion/return/once-per-pass/spellshield/other-ranks/live/Admin/E2E/full-game fidelity intentionally outside Phase-A"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-sivir-boomerang-blade-first-outbound-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity; backend lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql + LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest + README (owning 3ded9cb; integrated b14c48f); Wasm exact test commit bff4d160; seed32326/SHA 4ba04a00…; JUnit63624/SHA 2f3368a9…; READY run-4db83782; Sivir JUnit13 PASS; combined mirror sibling caveat pre-existing Essence Reaver/Twisted Fate must BEGIN failures not hidden/fixed here; external existing-data/check-only prerequisites (hero_sivir/ad/ap/crit_chance/mana; does not write identity/panel/resource values; no Sivir materializer); standalone no Batch-B or sibling Sivir synthesis; not live published"
+        }
+      ],
+      "remainingGap": ""
     },
     {
       "candidateKey": "hero_skill|hero_sivir|W|弹射",

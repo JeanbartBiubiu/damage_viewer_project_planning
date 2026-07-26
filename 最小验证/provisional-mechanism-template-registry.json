@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v2",
     "planRevision": "provisional-mechanism-template-registry-phase-t2-dynamic-refresh-v1",
-    "generatedAt": "2026-07-26T04:13:21.271Z",
+    "generatedAt": "2026-07-26T06:01:17.413Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "66cee03b7fe44ff321591f3309272487748ac57cdf318e8e545b66c8d7e24ee3",
-        "byteSize": 1108793
+        "sha256": "33c3ccc003bbce2818927be80bd5b64a5bcfdeafe08c5824c475f4e86d5adec9",
+        "byteSize": 1115138
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 76,
+    "templateCount": 75,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 73,
+      "blocked_runtime": 72,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 74,
+      "hero_skill": 73,
       "item_passive": 2
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 73,
+      "runtime_contract_placeholder": 72,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 100,
+      "completed": 101,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -4405,96 +4405,6 @@
         "wikiItemId": null,
         "wikiEffectSlots": [],
         "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/senna-q.json@rev4042887 sha256:e546be97aaf2f4b9ff2468b22a144f37933f3a6a4a29e2e1d45a69c0adcb8a41"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "rank": null,
-        "resourceCost": null,
-        "cooldownMs": null,
-        "target": null,
-        "timing": null,
-        "formula": null,
-        "operationGraph": null,
-        "fixtures": [],
-        "completedBoundary": null,
-        "exclusions": []
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_sivir|Q|回旋之刃",
-      "inventoryOrdinal": 111,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_sivir",
-      "skillKey": "Q",
-      "passiveName": "回旋之刃",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "dps_relevant_manual_review"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_sivir|Q|回旋之刃"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_sivir|Q|回旋之刃"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Sivir",
-        "pageId": "sivir-q",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/sivir-q.json@rev4016378 sha256:0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e"
       },
       "templateState": "provisional_unverified",
       "templateKind": "runtime_contract_placeholder",
