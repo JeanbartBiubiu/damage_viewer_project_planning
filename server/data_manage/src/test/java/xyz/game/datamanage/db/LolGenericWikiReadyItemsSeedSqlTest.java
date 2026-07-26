@@ -19,9 +19,10 @@ import org.junit.jupiter.api.Test;
  * Static contract for {@code lol_generic_wiki_ready_items_seed.sql}.
  * Does not connect to a live database.
  *
- * <p>Covers three Wiki-ready mechanisms:
+ * <p>Covers Wiki-ready mechanisms:
  * <ul>
- *   <li>item_2501 Tyranny — owner-self AD from bonus HP</li>
+ *   <li>item_2501 Tyranny — owner-self AD from bonus HP (add@0)</li>
+ *   <li>item_2501 Retribution — owner-self AD multiply from missing HP (multiply@100)</li>
  *   <li>item_3097 Bolt — precharge window only (charge@100 → damage → consume 0)</li>
  *   <li>item_3075 Thorns — target-owned source_opponent reflect</li>
  * </ul>
@@ -38,6 +39,8 @@ class LolGenericWikiReadyItemsSeedSqlTest {
         "provider_item_2501_tyranny",
         "modifier_item_2501_tyranny_ad",
         "tyranny_bonus_ad",
+        "modifier_item_2501_retribution_ad",
+        "retribution_ad_multiplier",
         "provider_item_3097_bolt",
         "listener_item_3097_bolt",
         "sequence_item_3097_bolt",
@@ -55,7 +58,7 @@ class LolGenericWikiReadyItemsSeedSqlTest {
         "bonus_armor");
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(
-        20100, 20110, 20111, 20113, 20120, 20150, 20160, 20170, 20172, 20181,
+        20100, 20110, 20111, 20113, 20120, 20150, 20160, 20170, 20171, 20172, 20181,
         20211, 20212, 20213, 20221, 20250);
 
     private static final String TYRANNY_FORMULA =
@@ -63,6 +66,18 @@ class LolGenericWikiReadyItemsSeedSqlTest {
             + "{\"op\":\"max\",\"args\":[{\"op\":\"const\",\"value\":0},"
             + "{\"op\":\"sub\",\"args\":[{\"op\":\"read\",\"path\":\"$owner.attr.hp.max\"},"
             + "{\"op\":\"read\",\"path\":\"$owner.attr.hp.base\"}]}]}]}";
+
+    private static final String RETRIBUTION_FORMULA =
+        "{\"op\":\"add\",\"args\":[{\"op\":\"const\",\"value\":1},"
+            + "{\"op\":\"mul\",\"args\":[{\"op\":\"clamp\",\"expr\":{\"op\":\"div\",\"args\":["
+            + "{\"op\":\"max\",\"args\":[{\"op\":\"const\",\"value\":0},"
+            + "{\"op\":\"sub\",\"args\":[{\"op\":\"read\",\"path\":\"$owner.attr.hp.max\"},"
+            + "{\"op\":\"read\",\"path\":\"$owner.attr.hp.current\"}]}]},"
+            + "{\"op\":\"max\",\"args\":[{\"op\":\"const\",\"value\":1},"
+            + "{\"op\":\"read\",\"path\":\"$owner.attr.hp.max\"}]}]},"
+            + "\"min\":{\"op\":\"const\",\"value\":0},\"max\":{\"op\":\"const\",\"value\":0.70}},"
+            + "{\"op\":\"div\",\"args\":[{\"op\":\"const\",\"value\":0.12},"
+            + "{\"op\":\"const\",\"value\":0.70}]}]}]}";
 
     private static final String THORNS_FORMULA =
         "{\"op\":\"add\",\"args\":[{\"op\":\"const\",\"value\":20},"
@@ -72,6 +87,12 @@ class LolGenericWikiReadyItemsSeedSqlTest {
     private static final String BOLT_READY =
         "{\"op\":\"gte\",\"args\":[{\"op\":\"read\",\"path\":\"provider.state.energized_charge\"},"
             + "{\"op\":\"const\",\"value\":100}]}";
+
+    private static final String WIKI_MANIFEST_PATH =
+        "数据参考/lol-wiki-current-items/manifest.json";
+    private static final String WIKI_CONTENT_SHA256 =
+        "e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d";
+    private static final String WIKI_REVID = "4030984";
 
     private static String sql;
     private static String sqlNoLineComments;
@@ -270,6 +291,15 @@ class LolGenericWikiReadyItemsSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "Tyranny modifier must be owner-self add to ad");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'modifier_item_2501_tyranny_ad'[\\s\\S]*?"
+                        + "NULL\\s*,\\s*"
+                        + "0\\s*,\\s*"
+                        + "20170")
+                .matcher(sql)
+                .find(),
+            "Tyranny must keep add priority 0 with stage NULL");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_listeners\\b[\\s\\S]*?"
                     + "provider_item_2501_tyranny")
@@ -283,6 +313,62 @@ class LolGenericWikiReadyItemsSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "Tyranny must read hp.max/hp.base, not hp.resolved");
+    }
+
+    @Test
+    void retributionMultiplyModifierUsesMissingHpAndWikiProvenance() {
+        assertContains(RETRIBUTION_FORMULA);
+        assertContains(WIKI_MANIFEST_PATH);
+        assertContains(WIKI_CONTENT_SHA256);
+        assertContains(WIKI_REVID);
+        assertContains("$owner.attr.hp.current");
+        assertContains("0.12");
+        assertContains("0.70");
+        assertContains("\"op\":\"clamp\"");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'modifier_item_2501_retribution_ad'\\s*,\\s*"
+                        + "'provider_item_2501_tyranny'\\s*,\\s*"
+                        + "'retribution_ad_multiplier'\\s*,\\s*"
+                        + "NULL\\s*,\\s*"
+                        + "20110\\s*,\\s*"
+                        + "'ad'[\\s\\S]*?"
+                        + "NULL\\s*,\\s*"
+                        + "100\\s*,\\s*"
+                        + "20171\\s*,\\s*"
+                        + "'retribution_ad_multiplier'")
+                .matcher(sql)
+                .find(),
+            "Retribution must be owner-self multiply to ad with priority 100 / policy 20171");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'modifier_item_2501_retribution_ad'[\\s\\S]*?"
+                        + "100\\s*,\\s*20171")
+                .matcher(sql)
+                .find(),
+            "Retribution priority must exceed Tyranny add priority 0");
+        assertTrue(
+            Pattern.compile("(?is)20171\\s*,\\s*--\\s*value_policy/multiply")
+                .matcher(sql)
+                .find(),
+            "required reserved types must include 20171 value_policy/multiply");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)retribution_ad_multiplier[\\s\\S]{0,800}"
+                        + "\\$owner\\.attr\\.ad\\.resolved")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "Retribution formula must not read $owner.attr.ad.resolved");
+        assertFalse(
+            Pattern.compile("(?i)ddragon|data.?dragon").matcher(sql).find(),
+            "must not cite DDragon / Data Dragon as numeric provenance");
+        assertFalse(
+            Pattern.compile(
+                    "(?s)'modifier_item_2501_retribution_ad'[\\s\\S]{0,200}"
+                        + "stage_type_id\\s*=\\s*(?!NULL)\\d+")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "Retribution must leave stage NULL; no new stage");
     }
 
     @Test

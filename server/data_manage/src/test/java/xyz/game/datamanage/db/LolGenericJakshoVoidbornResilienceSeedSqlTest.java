@@ -331,7 +331,68 @@ class LolGenericJakshoVoidbornResilienceSeedSqlTest {
     }
 
     @Test
-    void excludesDamageListenerAbilityEquipmentLoadoutAndLiveMigration() {
+    void ensuresLoadoutEquipmentTagAndItemRelation() {
+        assertContains("62011");
+        assertContains("tag/loadout_equipment");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)62011\\s*,\\s*'tag/loadout_equipment'[\\s\\S]{0,400}NULL")
+                .matcher(sql)
+                .find(),
+            "62011 must bind tag/loadout_equipment with reserved_type_id=NULL");
+        assertTrue(
+            Pattern.compile("(?i)type_id=62011 already bound").matcher(sql).find(),
+            "must dual-unique fail-closed guard type_id=62011");
+        assertTrue(
+            Pattern.compile("(?i)type_key=tag/loadout_equipment already bound")
+                .matcher(sql)
+                .find(),
+            "must dual-unique fail-closed guard type_key=tag/loadout_equipment");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)type_id\\s*=\\s*62011[\\s\\S]{0,400}"
+                        + "reserved_type_id\\s+IS\\s+NOT\\s+NULL")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "62011 type-id fail-closed guard must treat non-null reserved_type_id as conflict");
+        assertFalse(
+            Pattern.compile("(?i)type/62011|known placeholder|placeholder type")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not accept broad placeholders for 62011/tag/loadout_equipment");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)62011\\s*,\\s*'entity'\\s*,\\s*'item_6665'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must type_relations 62011 → entity/item_6665");
+        assertContains("\"role\":\"loadout_equipment\"");
+        assertContains("数据参考/lol-wiki-current-items/manifest.json");
+        assertContains("\"sourceItemId\":\"6665\"");
+        assertContains("\"sourceRevid\":4030984");
+        assertContains(
+            "\"contentSha256\":\"e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d\"");
+        assertEquals(
+            1,
+            countOccurrences(sqlNoLineComments, "INSERT INTO public.type_relations"),
+            "must insert exactly one type_relations block");
+        assertFalse(
+            Pattern.compile(
+                    "(?is)62002\\s*,\\s*'entity'\\s*,\\s*'item_6665'"
+                        + "|'item_6665'[\\s\\S]{0,120}tag/adc_completed_item"
+                        + "|tag/adc_completed_item[\\s\\S]{0,120}'item_6665'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not add item_6665 to tag/adc_completed_item");
+        assertFalse(
+            Pattern.compile("(?is)\\bDELETE\\s+FROM\\s+public\\.type_relations\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not broad-delete type_relations");
+    }
+
+    @Test
+    void excludesDamageListenerAbilityAndLiveMigration() {
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.damage_effect_details\\b")
                 .matcher(sqlNoLineComments)
@@ -358,10 +419,16 @@ class LolGenericJakshoVoidbornResilienceSeedSqlTest {
                 .find(),
             "must not write listener_effect_sequences");
         assertFalse(
-            Pattern.compile("(?i)equipment|loadout|装备栏|出装")
+            Pattern.compile("(?i)装备栏|出装")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not encode target equipment/loadout projection");
+            "must not encode Chinese equipment-slot/loadout UI projection");
+        assertFalse(
+            Pattern.compile(
+                    "(?is)'item_6665'\\s*,\\s*'bonus_(?:armor|magic_resist)'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not write Backend static bonus_armor/bonus_magic_resist on item_6665");
         assertFalse(
             Pattern.compile("(?i)live\\s*migration|migration\\.sql|compatibility_migration")
                 .matcher(sqlNoLineComments)

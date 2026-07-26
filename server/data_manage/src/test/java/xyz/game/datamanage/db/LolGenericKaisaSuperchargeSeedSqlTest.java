@@ -367,9 +367,27 @@ class LolGenericKaisaSuperchargeSeedSqlTest {
     }
 
     @Test
-    void citesMerakiKaisaJsonAndValidatesStableIds() {
-        assertContains("Kaisa.json");
-        assertContains("merakianalytics");
+    void citesWikiRevisionHashAndValidatesStableIds() {
+        assertContains("Template:Data Kai'Sa/Supercharge");
+        assertContains("4038391");
+        assertContains("327dc441e84bf2b320dccbe9099b4e98bf42562529e95facd417fbbc27d99e24");
+        assertContains(
+            "数据参考/lol-wiki-current-champions/normalized/generic/kaisa-e.json");
+        assertFalse(
+            Pattern.compile("(?i)merakianalytics|Kaisa\\.json|ddragon|Data Dragon")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not cite Meraki/DDragon as active numeric provenance");
+        assertFalse(
+            Pattern.compile("(?i)merakianalytics|Kaisa\\.json")
+                .matcher(sql)
+                .find(),
+            "seed comments must not retain Meraki/Kaisa.json provenance");
+        assertFalse(
+            Pattern.compile("(?i)Data Dragon")
+                .matcher(sql)
+                .find(),
+            "seed comments must not cite Data Dragon as numeric provenance");
         assertContains("missing reserved_type");
         Set<String> seen = new HashSet<>();
         for (String id : STABLE_IDS) {
@@ -378,7 +396,6 @@ class LolGenericKaisaSuperchargeSeedSqlTest {
         }
         assertContains("ON CONFLICT");
         assertContains("IS DISTINCT FROM");
-        assertContains("partial");
     }
 
     private static String stripLineComments(String raw) {

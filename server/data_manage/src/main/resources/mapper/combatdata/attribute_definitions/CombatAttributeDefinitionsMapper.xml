@@ -16,6 +16,7 @@
        rate_target_attr_key AS "rateTargetAttrKey",
        min_value AS "minValue",
        max_value AS "maxValue",
+       image_uri AS "imageUri",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.attribute_definitions
@@ -35,6 +36,7 @@
        rate_target_attr_key AS "rateTargetAttrKey",
        min_value AS "minValue",
        max_value AS "maxValue",
+       image_uri AS "imageUri",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.attribute_definitions
@@ -44,9 +46,9 @@
 
     <update id="upsert">
         INSERT INTO public.attribute_definitions
-            (game_id, attr_key, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value, change_revision, updated_at)
+            (game_id, attr_key, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value, image_uri, change_revision, updated_at)
         VALUES
-            (#{gameId}, #{attrKey}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, #{minValue}, #{maxValue}, #{changeRevision}, NOW())
+            (#{gameId}, #{attrKey}, #{sortOrder}, #{attrName}, #{attrType}, #{defaultValue}, #{valueKind}, #{rateTargetAttrKey}, #{minValue}, #{maxValue}, #{imageUri}, #{changeRevision}, NOW())
         ON CONFLICT (game_id, attr_key) DO UPDATE SET
             sort_order = EXCLUDED.sort_order,
             attr_name = EXCLUDED.attr_name,
@@ -56,6 +58,7 @@
             rate_target_attr_key = EXCLUDED.rate_target_attr_key,
             min_value = EXCLUDED.min_value,
             max_value = EXCLUDED.max_value,
+            image_uri = EXCLUDED.image_uri,
             change_revision = EXCLUDED.change_revision,
             updated_at = NOW()
     </update>
@@ -73,6 +76,7 @@
        rate_target_attr_key AS "rateTargetAttrKey",
        min_value AS "minValue",
        max_value AS "maxValue",
+       image_uri AS "imageUri",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.attribute_definitions
@@ -84,7 +88,7 @@
 
     <insert id="copyChangedToLog">
         INSERT INTO public.attribute_definitions_log (
-            game_id, version_id, change_revision, attr_key, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value
+            game_id, version_id, change_revision, attr_key, sort_order, attr_name, attr_type, default_value, value_kind, rate_target_attr_key, min_value, max_value, image_uri
         )
         SELECT
             game_id,
@@ -98,7 +102,8 @@
             value_kind,
             rate_target_attr_key,
             min_value,
-            max_value
+            max_value,
+            image_uri
         FROM public.attribute_definitions
         WHERE game_id = #{gameId}
           AND change_revision &gt; #{previousRevision}
@@ -112,6 +117,7 @@
             value_kind = EXCLUDED.value_kind,
             rate_target_attr_key = EXCLUDED.rate_target_attr_key,
             min_value = EXCLUDED.min_value,
-            max_value = EXCLUDED.max_value
+            max_value = EXCLUDED.max_value,
+            image_uri = EXCLUDED.image_uri
     </insert>
 </mapper>

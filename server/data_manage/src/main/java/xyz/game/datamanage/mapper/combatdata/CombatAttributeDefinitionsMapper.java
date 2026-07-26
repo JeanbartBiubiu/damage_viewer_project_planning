@@ -28,7 +28,8 @@ public interface CombatAttributeDefinitionsMapper {
         @Param("valueKind") Object valueKind,
         @Param("rateTargetAttrKey") Object rateTargetAttrKey,
         @Param("minValue") Object minValue,
-        @Param("maxValue") Object maxValue
+        @Param("maxValue") Object maxValue,
+        @Param("imageUri") Object imageUri
     );
 
     List<Map<String, Object>> listChangedSince(
