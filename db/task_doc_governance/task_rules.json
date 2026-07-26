@@ -1670,6 +1670,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary",
+      "title": "通用 ABI 厄运小姐 E 枪林弹雨最大时长总伤选定主目标机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_miss_fortune_make_it_rain_max_total_selected_primary",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_missfortune|E|枪林弹雨 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2；DESIGN_READY v2 run-41585a84（v1 valid REVISE run-9e6e2747：AP100 fixture/implGap53/docs paths/tags；grok-4.5/high/false；runDelta0；1528 events；无 truncation/mutation）。Backend c6c2e73（run-a858d21b delta3/outside0/events1028/truncated0；focused E12/12 E+R25/25 full1113/1113 PASS；seed28873/9949ad23…；JUnit50835/27650b5c…；无 live）。Wasm 1693a34（run-99972a69 delta1/outside0/events1181/truncated0；仅 generic_miss_fortune_make_it_rain_max_total_selected_primary_test.go；focused/bench mean106.84us PASS；precommit full 因 Xayah dirty-test+未提交 _test.go 诚实 blocked；提交后 full go test ./... PASS；生产 runtime/ABI/asset/Web 不变）。审计首轮 run-44f9f632 发现同一 key 重复 STATUS_OVERRIDES；修复 run-e68e52ba 移除重复并证明恰好一枚；接受 07afcd7（五 check PASS）。边界 rank5_selected_primary_champion_max_duration_total_magic_damage；190+1.20*AP；mana80/CD14000；exactly one aggregated magic quantum；相对 MF R 有意不对称；故意缺席 immediate_impact/meta current tags；排除 real2s/ticks/schedule/location/slow/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated101/blocked68；Unified completed111/blocked_runtime62/full111/none140；impl-gap53；provisional65=runtime62/data3；hero64/item1；tasks125；严格 completion111/254=43.7%；coverage176/254=69.3%。OOS72最终跳过；真队列65。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-厄运小姐E枪林弹雨最大时长总伤选定主目标Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-厄运小姐E枪林弹雨最大时长总伤选定主目标Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
