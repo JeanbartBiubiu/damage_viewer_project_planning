@@ -1469,26 +1469,56 @@ const EXACT_OVERRIDES = new Map([
     },
   ],
   [
-    'hero_ashe|Q',
+    'hero_ashe|P',
     {
       classification: 'migrated',
-      tags: ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add', 'cast_condition'],
+      tags: [
+        'expected_crit',
+        'separate_ability_basic_attack',
+        'generic_expected_crit_settlement',
+        'q_flurry_inactive_normal_attack_branch_only',
+      ],
       reason:
-        "hero_ashe Q 射手的专注/Ranger's Focus：当前 League Wiki + 用户批准口径下核心已闭环（4 Focus / 6s Flurry / rank5 +60% AS / 5箭合计 130% AD、首轮 6箭 156% AD / 30 mana）。wasm-generic-ashe-rangers-focus 提供 CompileGeneric+RunGeneric 证据。用户明确排除 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标与完整轮转，故标 migrated/completed，不再以这些排除分支阻塞。",
+        'hero_ashe P 冰霜射击/Frost Shot：Wiki request Template:Data Ashe/I → resolved Template:Data Ashe/Frost Shot；page1306803 / rev4038216 / timestamp 2026-06-30T07:27:41Z / canonical bytes1880 / SHA256 def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da（normalized/generic/ashe-p.json bytes2485/SHA256 575de3e4c99f9a92d3edd4076d33586d4f96b4e4a8511ff5925617e526ff2e2a plus pages sibling bytes672/SHA256 a8e2f81d77f85ad8d7a346ba9a3a3a354e675aa8cc9953765d5c6495f8bbd7ce are authority）expectation-only Phase-A v3 已由 wasm-generic-ashe-rangers-focus 共享 P/Q 证据闭环为 migrated——local raw caveat bytes1880 / SHA 5da5112e02a1c3aed266df1a424a33e8c4806c15d94991ec14c3bbaed2ca8378（canonical identity remains sidecar/pages；故意不断言 local raw 等于 canonical hash；非源矛盾）；current total base crit multiplier 2.0；runtime crit_damage 为总倍率，generic additive 可至 2.3；acceptance totalAD100：raw/final100、150、200；armor100 → raw150/final75；p0.5/m2.3 →165。completedBoundary：normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity。明确仅覆盖 flurry_inactive 期望物理普攻；不宣称完整 Frost Shot、RNG crit 序列、on-crit event、Frost slow/Critical Slow、duration decay、Randuin/Runaan/Cheap Shot 专项验收、Q Flurry/P 伤害集成、弹道/攻速节奏/其它技能或完整保真。Backend owning 0d8fcd4；Wasm exact test commit 25b34cc；共享 P/Q seed/fixture 不扩张 Ashe Q 的 Frost Shot 保真主张。',
       remainingGap: '',
       coverageEvidence: [
         evidence(
           'generic_batch',
           'wasm-generic-ashe-rangers-focus',
           WASM.asheRangersFocus,
-          "completedBoundary: user-approved Ranger's Focus core (Focus==4 cast + Flurry AS/damage); excluded: attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation; wiki rank5 AS=60%",
+          'completedBoundary: normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity; Wiki request Template:Data Ashe/I → Frost Shot; rev4038216/SHA256 def2547f… / bytes1880; local raw caveat bytes1880/SHA 5da5112e… no equivalence claim; crit_damage baseline 2.0 (additive→2.3); AD100 accept 100/150/200/75/165; Wasm exact test commit 25b34cc; shared P/Q fixture does not expand Q Frost Shot fidelity; RNG/on-crit/slow/Flurry-P integration/projectile/cadence/full Frost Shot fidelity intentionally outside Phase-A',
           'wasm',
         ),
         evidence(
           'generic_batch',
           'wasm-generic-ashe-rangers-focus',
           SEED.asheRangersFocusBackend,
-          "completedBoundary: Ranger's Focus user-approved core seeded; excluded branches out of scope; backend lol_generic_ashe_rangers_focus_seed.sql",
+          'completedBoundary: normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity; backend lol_generic_ashe_rangers_focus_seed.sql + LolGenericAsheRangersFocusSeedSqlTest (owning 0d8fcd4); Wasm exact test commit 25b34cc; shared P/Q seed does not expand Q Frost Shot fidelity; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_ashe|Q',
+    {
+      classification: 'migrated',
+      tags: ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add', 'cast_condition'],
+      reason:
+        "hero_ashe Q 射手的专注/Ranger's Focus：当前 League Wiki + 用户批准口径下核心已闭环（4 Focus / 6s Flurry / rank5 +60% AS / 5箭合计 130% AD、首轮 6箭 156% AD / 30 mana）。wasm-generic-ashe-rangers-focus 提供 CompileGeneric+RunGeneric 证据。用户明确排除 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标与完整轮转，故标 migrated/completed，不再以这些排除分支阻塞。共享 P/Q seed 与 test fixture 的 Frost Shot expectation-only Phase-A 证据不扩张本 Q 的 Frost Shot 保真主张；Q completedBoundary/exclusions 不变。",
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-rangers-focus',
+          WASM.asheRangersFocus,
+          "completedBoundary: user-approved Ranger's Focus core (Focus==4 cast + Flurry AS/damage); excluded: attack-timer reset / arrow travel / Frost Shot / life steal / buildings / multitarget / rotation; wiki rank5 AS=60%; shared P/Q fixture Frost Shot expectation-only Phase-A does not expand this Q Frost Shot fidelity claim",
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-ashe-rangers-focus',
+          SEED.asheRangersFocusBackend,
+          "completedBoundary: Ranger's Focus user-approved core seeded; excluded branches out of scope; shared P/Q seed Frost Shot expectation-only Phase-A does not expand this Q Frost Shot fidelity claim; backend lol_generic_ashe_rangers_focus_seed.sql",
         ),
       ],
     },
@@ -4180,7 +4210,11 @@ const COMPONENT_EXCEPTIONS = [
   },
   {
     // Input Batch-G tag remains seeded_*; output primitive key means reproducible RNG, not data seed.
-    match: (c) => (c.mechanismTags || []).includes('seeded_random_crit_sequence'),
+    // Ashe P expectation-only Phase-A is migrated via EXACT_OVERRIDES; keep matcher fail-closed for others.
+    match: (c) => {
+      if (c.ownerId === 'hero_ashe' && c.skillKey === 'P') return false;
+      return (c.mechanismTags || []).includes('seeded_random_crit_sequence');
+    },
     result: {
       classification: 'blocked',
       tags: ['deterministic_random_crit_sequence'],
@@ -4999,10 +5033,20 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 94) errors.push(`migrated=${counts.migrated}, expected 94`);
+  if (counts.migrated !== 95) errors.push(`migrated=${counts.migrated}, expected 95`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 75) errors.push(`blocked=${counts.blocked}, expected 75`);
+  if (counts.blocked !== 74) errors.push(`blocked=${counts.blocked}, expected 74`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
+  const detCritBlocked = records.filter(
+    (r) =>
+      r.genericClassification === 'blocked'
+      && (r.genericMechanismTags || []).includes('deterministic_random_crit_sequence'),
+  );
+  if (detCritBlocked.length !== 3) {
+    errors.push(
+      `deterministic_random_crit_sequence blocked family=${detCritBlocked.length}, expected 3`,
+    );
+  }
 
   const serialized = JSON.stringify(audit).toLowerCase();
   if (serialized.includes('ddragon')) {
@@ -10656,9 +10700,115 @@ function validateAudit(audit) {
       '3036 巨人杀手 must be migrated with empty gap, pipeline damage bilateral evidence, and Wiki 1%/100 cap15 wording',
     );
   }
+  const asheP = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|P|冰霜射击');
+  const ashePTags = [...(asheP?.genericMechanismTags || [])];
+  const ashePExpectedTags = [
+    'expected_crit',
+    'separate_ability_basic_attack',
+    'generic_expected_crit_settlement',
+    'q_flurry_inactive_normal_attack_branch_only',
+  ];
+  const ashePBoundary =
+    'normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity';
+  const ashePReason = String(asheP?.classificationReason || '');
+  if (
+    !asheP
+    || asheP.genericClassification !== 'migrated'
+    || String(asheP.remainingGap || '').trim()
+    || (asheP.dataGapEvidence?.missingFields || []).length !== 0
+    || ashePTags.join('|') !== ashePExpectedTags.join('|')
+    || ashePTags.includes('deterministic_random_crit_sequence')
+    || ashePTags.includes('seeded_random_crit_sequence')
+    || ashePReason.includes('deterministic_random_crit_sequence：expected crit')
+    || !ashePReason.includes('4038216')
+    || !ashePReason.includes(
+      'def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da',
+    )
+    || !ashePReason.includes(ashePBoundary)
+    || !ashePReason.includes('5da5112e02a1c3aed266df1a424a33e8c4806c15d94991ec14c3bbaed2ca8378')
+    || !ashePReason.includes('2.0')
+    || !ashePReason.includes('2.3')
+    || !ashePReason.includes('165')
+    || !ashePReason.includes('0d8fcd4')
+    || !ashePReason.includes('25b34cc')
+    || !ashePReason.includes('不扩张')
+    || !String(asheP.sourceRef || '').includes('ashe-p.json')
+    || asheP.auditBaseline?.gapCode !== 'blocked_data'
+    || asheP.auditBaseline?.resolvedBucket !== 'blocked'
+    || !(asheP.auditBaseline?.mechanismTags || []).includes('seeded_random_crit_sequence')
+    || citesForbiddenProvenance(asheP.classificationReason)
+    || !(asheP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.asheRangersFocus
+        && e.taskKey === 'wasm-generic-ashe-rangers-focus'
+        && String(e.note || '').includes(ashePBoundary)
+        && String(e.note || '').includes('25b34cc'),
+    )
+    || !(asheP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.asheRangersFocusBackend
+        && e.taskKey === 'wasm-generic-ashe-rangers-focus'
+        && String(e.note || '').includes(ashePBoundary)
+        && String(e.note || '').includes('0d8fcd4'),
+    )
+  ) {
+    errors.push(
+      'Ashe P must be migrated with empty remainingGap/missingFields, exact expectation-only ordered tags (no deterministic_random_crit_sequence), stale blocked provenance retained in auditBaseline only, Wiki rev4038216/SHA + local raw caveat + frozen completedBoundary, crit_damage 2.0/2.3 + AD100 acceptances, and bilateral wasm+backend evidence (owning 0d8fcd4 / Wasm 25b34cc; no RNG/on-crit/slow/full Frost Shot fidelity claim)',
+    );
+  }
+  if (asheP) {
+    validateBilateralCoverageEvidence(
+      asheP.candidateKey,
+      asheP.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
   const asheQ = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|Q|射手的专注');
-  if (!asheQ || asheQ.genericClassification !== 'migrated') {
-    errors.push("Ashe Q must remain migrated under user-approved Ranger's Focus scope");
+  const asheQReason = String(asheQ?.classificationReason || '');
+  const asheQTags = [...(asheQ?.genericMechanismTags || [])];
+  if (
+    !asheQ
+    || asheQ.genericClassification !== 'migrated'
+    || asheQTags.join('|') !==
+      ['stacking_stat_modifier_on_hit', 'attack_speed_percent_add', 'cast_condition'].join('|')
+    || !asheQReason.includes('Frost Shot')
+    || !asheQReason.includes('不扩张')
+    || !asheQReason.includes('completedBoundary/exclusions 不变')
+    || !(asheQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.asheRangersFocus
+        && String(e.note || '').includes('does not expand this Q Frost Shot fidelity claim'),
+    )
+    || !(asheQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.asheRangersFocusBackend
+        && String(e.note || '').includes('does not expand this Q Frost Shot fidelity claim'),
+    )
+  ) {
+    errors.push(
+      "Ashe Q must remain migrated under unchanged Ranger's Focus boundary/exclusions; shared P/Q fixture must not expand Q Frost Shot fidelity claim",
+    );
+  }
+  const jhinP = records.find((r) => r.candidateKey === 'hero_skill|hero_jhin|P|低语');
+  const yunaraP = records.find((r) => r.candidateKey === 'hero_skill|hero_yunara|P|初生之誓');
+  if (
+    !jhinP
+    || jhinP.genericClassification !== 'blocked'
+    || !(jhinP.genericMechanismTags || []).includes('deterministic_random_crit_sequence')
+  ) {
+    errors.push('Jhin P must remain blocked under deterministic_random_crit_sequence (user-deferred)');
+  }
+  if (
+    !yunaraP
+    || yunaraP.genericClassification !== 'blocked'
+    || !(yunaraP.genericMechanismTags || []).includes('deterministic_random_crit_sequence')
+  ) {
+    errors.push('Yunara P must remain blocked under deterministic_random_crit_sequence (user-deferred)');
   }
   const asheW = records.find((r) => r.candidateKey === 'hero_skill|hero_ashe|W|万箭齐发');
   if (

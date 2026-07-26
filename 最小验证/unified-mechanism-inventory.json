@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-26T09:17:58.040Z",
+    "generatedAt": "2026-07-26T10:22:49.477Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "89b3a0121755bd18411b118759df2e62115106d10e45054c1d6b4d41e587672f",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "1eb601f646d34aba8fb445a1beb84b7f9d80b3339b9353eee70516b9d3c8b65b",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "da08875abc8a417b8eaa1f6151e8cbe6021a405c425165b38571120042d82cde",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "0657d1a6859c06c4d56d067c30ae3ffd28fd0513ee811d5779ee96195dae8c28",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "91a8d49b193522d65c39d306639d829e8a3d1350b8f24b366a0e94832296a95a",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "d672227467e21b847e4f82f1d26521a18b89e8ff86af75f1b6579d322276adeb",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 104,
+      "completed": 105,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 69,
+      "blocked_runtime": 68,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 104,
+      "full": 105,
       "partial": 3,
-      "none": 147
+      "none": 146
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "89b3a0121755bd18411b118759df2e62115106d10e45054c1d6b4d41e587672f",
-      "byteSize": 1110203,
+      "sha256": "1eb601f646d34aba8fb445a1beb84b7f9d80b3339b9353eee70516b9d3c8b65b",
+      "byteSize": 1113932,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "da08875abc8a417b8eaa1f6151e8cbe6021a405c425165b38571120042d82cde",
-      "byteSize": 737729,
+      "sha256": "91a8d49b193522d65c39d306639d829e8a3d1350b8f24b366a0e94832296a95a",
+      "byteSize": 748183,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "0657d1a6859c06c4d56d067c30ae3ffd28fd0513ee811d5779ee96195dae8c28",
-      "byteSize": 758445,
+      "sha256": "d672227467e21b847e4f82f1d26521a18b89e8ff86af75f1b6579d322276adeb",
+      "byteSize": 769514,
       "recordCount": 0,
       "role": "generator"
     },
@@ -12182,54 +12182,29 @@
     },
     {
       "key": "hero_skill|hero_ashe|P|冰霜射击",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_ashe",
       "skillKey": "P",
       "passiveName": "冰霜射击",
       "mechanismTags": [
-        "deterministic_random_crit_sequence"
+        "expected_crit",
+        "generic_expected_crit_settlement",
+        "q_flurry_inactive_normal_attack_branch_only",
+        "separate_ability_basic_attack"
       ],
-      "coverageBoundary": "",
-      "reason": "deterministic_random_crit_sequence：expected crit 不证明可复现 RNG/on-crit 序列语义。",
-      "blocker": "deterministic_random_crit_sequence",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4038216",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/ashe-p.json@rev4038216 sha256:def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_ashe|P|冰霜射击",
-        "dataStatus": "complete",
-        "requiredEvents": [
-          "critical_strike_resolved"
-        ],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "deterministic_random_crit_sequence"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：deterministic_random_crit_sequence"
-      },
+      "coverageBoundary": "normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity",
+      "reason": "Ashe P 冰霜射击/Frost Shot：Wiki request Template:Data Ashe/I → resolved Template:Data Ashe/Frost Shot；page1306803 / rev4038216 / timestamp 2026-06-30T07:27:41Z / canonical bytes1880 / SHA256 def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da（normalized/generic/ashe-p.json bytes2485/SHA256 575de3e4c99f9a92d3edd4076d33586d4f96b4e4a8511ff5925617e526ff2e2a plus pages sibling bytes672/SHA256 a8e2f81d77f85ad8d7a346ba9a3a3a354e675aa8cc9953765d5c6495f8bbd7ce are authority）expectation-only Phase-A v3 已由 wasm-generic-ashe-rangers-focus 共享 P/Q 证据闭环——local raw caveat bytes1880 / SHA 5da5112e02a1c3aed266df1a424a33e8c4806c15d94991ec14c3bbaed2ca8378（canonical identity remains sidecar/pages；故意不断言 local raw 等于 canonical hash；非源矛盾）；current total base crit multiplier 2.0；runtime crit_damage 为总倍率，generic additive 可至 2.3；acceptance totalAD100：raw/final100、150、200；armor100 → raw150/final75；p0.5/m2.3 →165。completedBoundary：normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity。明确仅覆盖 flurry_inactive 期望物理普攻；不宣称完整 Frost Shot、RNG crit 序列、on-crit event、Frost slow/Critical Slow、duration decay、Randuin/Runaan/Cheap Shot 专项验收、Q Flurry/P 伤害集成、弹道/攻速节奏/其它技能或完整保真。Backend owning 0d8fcd4；Wasm exact test commit 25b34cc；共享 P/Q seed/fixture 不扩张 Ashe Q 的 Frost Shot 保真主张，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_ashe|P|冰霜射击"
         },
         {
@@ -12238,7 +12213,22 @@
           "sourceRecordKey": "hero_skill|hero_ashe|P|冰霜射击"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-rangers-focus",
+          "sourcePath": "db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity; backend lol_generic_ashe_rangers_focus_seed.sql + LolGenericAsheRangersFocusSeedSqlTest (owning 0d8fcd4); Wasm exact test commit 25b34cc; shared P/Q seed does not expand Q Frost Shot fidelity; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-ashe-rangers-focus",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity; Wiki request Template:Data Ashe/I → Frost Shot; rev4038216/SHA256 def2547f… / bytes1880; local raw caveat bytes1880/SHA 5da5112e… no equivalence claim; crit_damage baseline 2.0 (additive→2.3); AD100 accept 100/150/200/75/165; Wasm exact test commit 25b34cc; shared P/Q fixture does not expand Q Frost Shot fidelity; RNG/on-crit/slow/Flurry-P integration/projectile/cadence/full Frost Shot fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
@@ -12257,7 +12247,7 @@
         "stacking_stat_modifier_on_hit"
       ],
       "coverageBoundary": "",
-      "reason": "Ashe Q Ranger's Focus：当前 League Wiki + 用户批准口径（4 Focus / 6s / rank5 +60% AS / 5箭 130% AD、首轮 6箭 156% AD / 30 mana）与 wasm-generic-ashe-rangers-focus 证据闭环。用户明确排除 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标与完整轮转，故标 completed。",
+      "reason": "Ashe Q Ranger's Focus：当前 League Wiki + 用户批准口径（4 Focus / 6s / rank5 +60% AS / 5箭 130% AD、首轮 6箭 156% AD / 30 mana）与 wasm-generic-ashe-rangers-focus 证据闭环。用户明确排除 attack-timer reset、逐箭飞行、Frost Shot、吸血、建筑物/多目标与完整轮转，故标 completed。共享 P/Q seed 与 test fixture 的 Frost Shot expectation-only Phase-A 证据不扩张本 Q 的 Frost Shot 保真主张；Q completedBoundary/exclusions 不变。",
       "blocker": "",
       "dataGapEvidence": null,
       "runtimeGapEvidence": null,
@@ -12280,14 +12270,14 @@
           "taskKey": "wasm-generic-ashe-rangers-focus",
           "sourcePath": "db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql",
           "sourceWorktree": "backend",
-          "note": "Ranger's Focus user-approved core seed; excluded branches out of scope"
+          "note": "Ranger's Focus user-approved core seed; excluded branches out of scope; shared P/Q seed Frost Shot expectation-only Phase-A does not expand this Q Frost Shot fidelity claim"
         },
         {
           "evidenceType": "generic_batch",
           "taskKey": "wasm-generic-ashe-rangers-focus",
           "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go",
           "sourceWorktree": "wasm",
-          "note": "user-approved Ranger's Focus core; excluded attack-timer/arrow-travel/Frost Shot/lifesteal/structures/multitarget/rotation"
+          "note": "user-approved Ranger's Focus core; excluded attack-timer/arrow-travel/Frost Shot/lifesteal/structures/multitarget/rotation; shared P/Q fixture Frost Shot expectation-only Phase-A does not expand this Q Frost Shot fidelity claim"
         }
       ],
       "aliases": [],
