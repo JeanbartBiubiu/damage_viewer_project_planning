@@ -2346,6 +2346,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_corki|R|火箭轰击',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Corki R 火箭轰击/Missile Barrage：Wiki request Template:Data Corki/R → resolved Template:Data Corki/Missile Barrage；page1306946 / rev4042863 / timestamp 2026-07-14T19:35:26Z / canonical bytes3065 / SHA256 1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845（normalized/generic/corki-r.json bytes3265 / SHA256 dcaa1352eba2fa1d6c2acfc1aba9320bccb200b5b9d00dba559373e0981adbe0 plus pages sibling bytes691 / SHA256 694cda4c4d4ee4e9606ac1ca82a7085f89b7898884b23653bf718e86bfcd5bc7 are authority）rank3 Phase-A v1 已由 wasm-generic-corki-missile-barrage-normal-primary-hit + backend seed 证据闭环——local raw caveat bytes3063 / SHA 3764aafcecd5ef76f619472e443869c2ef43fd5b062894f6e111172f9a5cf91a（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；35 mana plus one missile_barrage_ammo atomically gated/spent / 2000ms CD；initial ammo2/max4；immediate selected-primary-champion first-enemy normal-missile single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 250, mul(const 0.85, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；castCondition gte(read source.resource.missile_barrage_ammo.current, const1) then ordered resource_change ammo −1 before damage；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 base60/resolved60/armor0 raw=final250；base60/resolved160/armor0 raw=final335；base60/resolved160/armor100 raw335/final167.5；base0/resolved100 versus base60/resolved160 armor0 both335）。Attempts Mana240/Ammo2/baseAD60/resolvedAD160/HP1000/armor100 at t0/t1999/t2000 → success/skip/success，exactly two R damage items；final mana170/ammo0/HP665；exactly two automatic R ability_started；readyAt2000；Mana34 or Ammo0 at t0 → resource/cast_condition skip with mana/ammo/HP unchanged and no R damage/event。Corki R provider is standalone；Backend has no repository-owned hero_corki / AD / mana materializer；record external existing-data/check-only prerequisites only（owns missile_barrage_ammo definition/entity rows）；不暗示 Corki P/Q/W/E dependence；不暗示 Batch-B 或 sibling Corki synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused32/full1054 passed。Wasm main validation passed gofmt/focused/full/bench；exact test bytes51481 / SHA256 874265e28661bb49da04e83b2cb5471286940ae856e50cbb195be2c69eff15b6；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity。明确排除 direction/projectile travel/collision/explosion、AOE/multitarget、Big One/third-shot cycle/double damage/range/radius、periodic stock/recharge/respawn refill、basic-attack on-hit recharge reduction/crit scaling、Malignance/Eclipse interaction、other ranks、siblings/loadout/bootstrap/live/full fidelity；this is exactly one normal-missile selected-primary first-enemy physical hit, not full R；不宣称 direction/projectile/travel/collision/explosion/AOE/multitarget/Big One/cycle/recharge/respawn/on-hit-recharge/crit/Malignance/Eclipse/other-ranks/siblings/live/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_corki/ad/mana），不物化 identity/panel/ad/mana values（ammo owned），故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-corki-missile-barrage-normal-primary-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_corki_missile_barrage_normal_primary_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity; Wiki request Template:Data Corki/R → Missile Barrage; rev4042863/SHA256 1c2da7a1… / bytes3065; normalized bytes3265/SHA dcaa1352…; pages bytes691/SHA 694cda4c…; local raw caveat bytes3063/SHA 3764aafc… no equivalence claim; rank3 35 mana + one missile_barrage_ammo atomic gate/spend / 2000ms CD / initial ammo2/max4 / one physical 250+0.85*bonusAD via nested binary add(const250, mul(0.85, sub(ad.resolved,ad.base))); base60/resolved60/armor0=250; base60/resolved160/armor0=335; base60/resolved160/armor100 raw335/final167.5; base0/resolved100 vs base60/resolved160 armor0 both335; damage 20220/add 20170; no 20230; no explicit event op; no R type; Mana240/Ammo2/baseAD60/resolvedAD160/HP1000/armor100 t0/t1999/t2000 success/skip/success two R damage items final mana170/ammo0/HP665 two automatic R ability_started readyAt2000; Mana34 or Ammo0 resource/cast_condition skip unchanged; standalone no sibling synthesis; Wasm exact test commit d99d01e bytes51481/SHA 874265e2…; direction/projectile/travel/collision/explosion/AOE/multitarget/Big One/cycle/recharge/respawn/on-hit-recharge/crit/Malignance/Eclipse/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-corki-missile-barrage-normal-primary-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_corki_missile_barrage_normal_primary_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity; backend lol_generic_corki_missile_barrage_normal_primary_hit_seed.sql + LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest (owning 2c2392a; integrated 2c2392a); Wasm exact test commit d99d01e; external existing-data/check-only prerequisites (hero_corki/ad/mana; owns missile_barrage_ammo; does not write identity/panel/ad/mana values); standalone no Batch-B or sibling Corki synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_kayle|Q|耀焰冲击',
     {
       status: 'completed',
@@ -3255,6 +3287,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_corki|Q|磷光炸弹',
     'rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity',
+  ],
+  [
+    'hero_skill|hero_corki|R|火箭轰击',
+    'rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity',
   ],
   [
     'hero_skill|hero_akshan|Q|去而复还',
@@ -4861,6 +4897,7 @@ function validateInventory(inv) {
   const mTristanaR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_tristana|R|毁灭射击');
   const mTristanaW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_tristana|W|火箭跳跃');
   const mCorkiQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_corki|Q|磷光炸弹');
+  const mCorkiR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_corki|R|火箭轰击');
   const m3748a = inv.mechanisms.find(
     (m) => m.key === 'item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c',
   );
@@ -9914,6 +9951,160 @@ function validateInventory(inv) {
       'Corki Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Phosphorus Bomb ordered tags (no meta_or_non_target_dps/primary_damage_branch_salvage; requires bonus_ad_ratio/ap_ratio/active_magic_damage), Wiki rev4007588/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/7000CD/one magic 240+1.25*bonusAD+1.00*AP nested binary numerics/schedules (240/365/340/465; raw460→230; raw540→270; counterproof both365; 20221/20170; no 20230; no Q type; no explicit event op; t0/t6999/t7000 mana240→80/HP540; mana79 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused75/full975 + Wasm asset SHA, and bilateral evidence (owning 6003a7e / integrated b352677 / Wasm b381b1e; one selected-primary magic impact hit not full Q; no cast/location/projectile/AOE/sight/reveal/live claim)',
     );
   }
+  const mCorkiRReason = String(mCorkiR?.reason || '');
+  const mCorkiRBoundary =
+    'rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity';
+  if (
+    !mCorkiR ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_corki|R|火箭轰击') ||
+    mCorkiR.key !== 'hero_skill|hero_corki|R|火箭轰击' ||
+    mCorkiR.passiveName !== '火箭轰击' ||
+    mCorkiR.status !== 'completed' ||
+    mCorkiR.completionMode !== 'full' ||
+    mCorkiR.lane !== 'generic_runtime' ||
+    mCorkiR.blocker ||
+    mCorkiR.dataGapEvidence !== null ||
+    mCorkiR.runtimeGapEvidence !== null ||
+    mCorkiR.outOfScopeEvidence !== null ||
+    mCorkiR.coverageBoundary !== mCorkiRBoundary ||
+    [...(mCorkiR.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ammo_gate_and_spend',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mCorkiR.mechanismTags || []).includes('multi_target_or_area') ||
+    (mCorkiR.mechanismTags || []).includes('resource_state') ||
+    (mCorkiR.mechanismTags || []).includes('primary_damage_branch_salvage') ||
+    (mCorkiR.mechanismTags || []).includes('total_ad_ratio') ||
+    !(mCorkiR.mechanismTags || []).includes('ammo_gate_and_spend') ||
+    !(mCorkiR.mechanismTags || []).includes('bonus_ad_ratio') ||
+    !(mCorkiR.mechanismTags || []).includes('active_physical_damage') ||
+    mCorkiRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mCorkiRReason.includes('blocked_data') ||
+    mCorkiRReason.includes('multi_target_or_area') ||
+    mCorkiRReason.includes('resource_state') ||
+    mCorkiRReason.includes('needs_manual_baseline') ||
+    mCorkiRReason.includes('out_of_scope_for_single_target_dps') ||
+    mCorkiRReason.includes('primary_damage_branch_salvage') ||
+    mCorkiRReason.includes('total AD；') ||
+    mCorkiRReason.includes('total_ad_ratio') ||
+    mCorkiRReason.includes('*totalAD') ||
+    !mCorkiRReason.includes('4042863') ||
+    !mCorkiRReason.includes(
+      '1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845',
+    ) ||
+    !mCorkiRReason.includes(
+      'dcaa1352eba2fa1d6c2acfc1aba9320bccb200b5b9d00dba559373e0981adbe0',
+    ) ||
+    !mCorkiRReason.includes(
+      '694cda4c4d4ee4e9606ac1ca82a7085f89b7898884b23653bf718e86bfcd5bc7',
+    ) ||
+    !mCorkiRReason.includes(
+      '3764aafcecd5ef76f619472e443869c2ef43fd5b062894f6e111172f9a5cf91a',
+    ) ||
+    !mCorkiRReason.includes('Template:Data Corki/R') ||
+    !mCorkiRReason.includes('Template:Data Corki/Missile Barrage') ||
+    !mCorkiRReason.includes('page1306946') ||
+    !mCorkiRReason.includes('bytes3065') ||
+    !mCorkiRReason.includes('bytes3265') ||
+    !mCorkiRReason.includes('bytes691') ||
+    !mCorkiRReason.includes('bytes3063') ||
+    !mCorkiRReason.includes('2026-07-14T19:35:26Z') ||
+    !mCorkiRReason.includes(mCorkiRBoundary) ||
+    !mCorkiRReason.includes('source.attr.ad.resolved') ||
+    !mCorkiRReason.includes('source.attr.ad.base') ||
+    !mCorkiRReason.includes('missile_barrage_ammo') ||
+    !mCorkiRReason.includes('exact nested binary formula') ||
+    !mCorkiRReason.includes('bonus AD by explicit subtraction') ||
+    !mCorkiRReason.includes('不得按 total-AD 直读') ||
+    !mCorkiRReason.includes('atomically gated') ||
+    !mCorkiRReason.includes('add(const 250') ||
+    !mCorkiRReason.includes('0.85') ||
+    !mCorkiRReason.includes('35 mana') ||
+    !mCorkiRReason.includes('2000') ||
+    !mCorkiRReason.includes('20220') ||
+    !mCorkiRReason.includes('20170') ||
+    !mCorkiRReason.includes('no 20230') ||
+    !mCorkiRReason.includes('no explicit event op') ||
+    !mCorkiRReason.includes('no R ability-specific type') ||
+    !mCorkiRReason.includes('raw=final250') ||
+    !mCorkiRReason.includes('raw=final335') ||
+    !mCorkiRReason.includes('raw335/final167.5') ||
+    !mCorkiRReason.includes('both335') ||
+    !mCorkiRReason.includes('t1999') ||
+    !mCorkiRReason.includes('t2000') ||
+    !mCorkiRReason.includes('Mana240') ||
+    !mCorkiRReason.includes('Ammo2') ||
+    !mCorkiRReason.includes('mana170') ||
+    !mCorkiRReason.includes('ammo0') ||
+    !mCorkiRReason.includes('HP665') ||
+    !mCorkiRReason.includes('readyAt2000') ||
+    !mCorkiRReason.includes('Mana34') ||
+    !mCorkiRReason.includes('Ammo0') ||
+    !mCorkiRReason.includes('ability_started') ||
+    !mCorkiRReason.includes('standalone') ||
+    !mCorkiRReason.includes('external existing-data/check-only') ||
+    !mCorkiRReason.includes('identity/panel') ||
+    !mCorkiRReason.includes('不暗示 Corki P/Q/W/E dependence') ||
+    !mCorkiRReason.includes('不暗示 Batch-B') ||
+    !mCorkiRReason.includes('sibling Corki synthesis') ||
+    !mCorkiRReason.includes('production runtime/ABI/Web change') ||
+    !mCorkiRReason.includes('focused32/full1054') ||
+    !mCorkiRReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0') ||
+    !mCorkiRReason.includes('不宣称') ||
+    !mCorkiRReason.includes('no equivalence or contradiction claim') ||
+    !mCorkiRReason.includes('exactly one normal-missile selected-primary first-enemy physical hit') ||
+    mCorkiRReason.includes('canonical byte equivalence') ||
+    mCorkiRReason.includes('Batch-B prerequisite') ||
+    mCorkiRReason.includes('live published') ||
+    !(mCorkiR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-corki-missile-barrage-normal-primary-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_corki_missile_barrage_normal_primary_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mCorkiRBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('d99d01e') &&
+        String(e.note || '').includes('874265e2') &&
+        String(e.note || '').includes('51481') &&
+        String(e.note || '').includes('3764aafc') &&
+        String(e.note || '').includes('20220') &&
+        String(e.note || '').includes('20170') &&
+        String(e.note || '').includes('no 20230') &&
+        String(e.note || '').includes('no explicit event op') &&
+        String(e.note || '').includes('no R type') &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('missile_barrage_ammo') &&
+        String(e.note || '').includes('Mana240') &&
+        String(e.note || '').includes('readyAt2000') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mCorkiR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-corki-missile-barrage-normal-primary-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_corki_missile_barrage_normal_primary_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mCorkiRBoundary) &&
+        String(e.note || '').includes('LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest') &&
+        String(e.note || '').includes('2c2392a') &&
+        String(e.note || '').includes('d99d01e') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('missile_barrage_ammo') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Corki synthesis'),
+    )
+  ) {
+    errors.push(
+      'Corki R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Missile Barrage ordered tags (no multi_target_or_area/resource_state/primary_damage_branch_salvage; requires ammo_gate_and_spend/bonus_ad_ratio/active_physical_damage), Wiki rev4042863/SHA + normalized/pages + local raw caveat + frozen completedBoundary, rank3 35mana+1ammo/2000CD/initial2max4/one physical 250+0.85*bonusAD nested binary numerics/schedules (250/335; raw335→167.5; counterproof both335; 20220/20170; no 20230; no R type; no explicit event op; t0/t1999/t2000 Mana240/Ammo2→mana170/ammo0/HP665; Mana34/Ammo0 skip), atomic mana/ammo gate-and-spend, standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused32/full1054 + Wasm asset SHA, and bilateral evidence (owning 2c2392a / integrated 2c2392a / Wasm d99d01e; one normal-missile selected-primary first-enemy physical hit not full R; no direction/projectile/AOE/Big One/recharge/live claim)',
+    );
+  }
   const mDravenR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|R|冷血追命');
   const mDravenRReason = String(mDravenR?.reason || '');
   const mDravenRBoundary =
@@ -10444,8 +10635,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 103) {
-    errors.push(`completed=${sc.completed}, expected 103`);
+  if ((sc.completed || 0) !== 104) {
+    errors.push(`completed=${sc.completed}, expected 104`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -10453,8 +10644,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 70) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 70`);
+  if ((sc.blocked_runtime || 0) !== 69) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 69`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -10475,21 +10666,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 103) {
-    errors.push(`completionMode full=${cm.full}, expected 103`);
+  if ((cm.full || 0) !== 104) {
+    errors.push(`completionMode full=${cm.full}, expected 104`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 148) {
-    errors.push(`completionMode none=${cm.none}, expected 148`);
+  if ((cm.none || 0) !== 147) {
+    errors.push(`completionMode none=${cm.none}, expected 147`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 55) {
+  if (implGapCount !== 54) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 55`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 54`,
     );
   }
 
