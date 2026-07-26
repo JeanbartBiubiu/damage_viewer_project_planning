@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v3",
     "planRevision": "provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4",
-    "generatedAt": "2026-07-26T10:22:49.627Z",
+    "generatedAt": "2026-07-26T11:12:59.176Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "e03a70dffd8610e33a7631570acb1b51b048587fe2953f321de6ae913542726b",
-        "byteSize": 1138009
+        "sha256": "6145ff1abb44a24b24863958cd9b23d7ba130ad854ebee1728312ee5b52a624f",
+        "byteSize": 1146150
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 71,
+    "templateCount": 70,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 68,
+      "blocked_runtime": 67,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 69,
+      "hero_skill": 68,
       "item_passive": 2
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 68,
+      "runtime_contract_placeholder": 67,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 105,
+      "completed": 106,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -8513,254 +8513,6 @@
             "kind": "candidate_exclusion",
             "id": "geometry_selection_multitarget_review",
             "prompt": "Review geometry, selection, and multi-target scope for this candidate."
-          }
-        ]
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion",
-        "no_mechanical_draft_as_verified_phase_a_claim"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_missfortune|R|弹幕时间",
-      "inventoryOrdinal": 94,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_missfortune",
-      "skillKey": "R",
-      "passiveName": "弹幕时间",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "deterministic_random_crit_sequence",
-      "mechanismTags": [
-        "deterministic_random_crit_sequence"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_missfortune|R|弹幕时间"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_missfortune|R|弹幕时间"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Miss Fortune",
-        "pageId": "missfortune-r",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/missfortune-r.json@rev3987215 sha256:354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "draftState": "mechanical_unverified",
-        "sourcePointers": {
-          "kind": "hero_wiki_sidecar",
-          "authority": "league_wiki_current_champion_template",
-          "sidecarPath": "数据参考/lol-wiki-current-champions/normalized/generic/missfortune-r.json",
-          "localFileSha256": "b275bcc7fb13855cf3fb5a7a8ca0cddce4964ed5713dc521eceb573e69b78c49",
-          "localFileByteSize": 3550,
-          "canonical": {
-            "requestTitle": "Template:Data Miss Fortune/R",
-            "resolvedTitle": "Template:Data Miss Fortune/Bullet Time",
-            "wikiPageId": 1308257,
-            "revisionId": 3987215,
-            "revisionTimestamp": "2026-01-25T03:47:11Z",
-            "contentSha256": "354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a",
-            "rawByteSize": 3021
-          },
-          "fieldRefs": [
-            "fields.description",
-            "fields.description2",
-            "fields.leveling",
-            "fields.cooldown",
-            "fields.cost",
-            "fields.costtype",
-            "fields.damagetype",
-            "fields.notes"
-          ]
-        },
-        "phaseATemplate": {
-          "id": "hero_selected_primary_minimum_quantum_candidate",
-          "basisStatus": "blocked_runtime",
-          "basisTags": [
-            "deterministic_random_crit_sequence"
-          ],
-          "requiresIndividualDesignReview": true
-        },
-        "rank": {
-          "selection": "max_rank_candidate",
-          "value": null,
-          "sourceFieldRefs": [
-            "fields.leveling"
-          ],
-          "verification": "pending"
-        },
-        "resourceCost": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cost",
-            "fields.costtype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cost",
-              "raw": "100\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.costtype",
-              "raw": "Mana\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValue": null,
-          "normalizedUnit": null,
-          "verification": "pending"
-        },
-        "cooldownMs": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cooldown"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cooldown",
-              "raw": "{{ap|120 to 100}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValueMs": null,
-          "verification": "pending"
-        },
-        "target": {
-          "mode": "selected_primary_candidate",
-          "value": null,
-          "verification": "pending"
-        },
-        "timing": {
-          "mode": "minimum_quantum_timing_candidate",
-          "valueMs": null,
-          "verification": "pending"
-        },
-        "formula": {
-          "mode": "wiki_formula_fields_unparsed",
-          "sourceFieldRefs": [
-            "fields.leveling",
-            "fields.damagetype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.leveling",
-              "raw": "{{st|Physical Damage per Wave|{{ap|20 to 40}} {{as|(+ 60% AD)}} {{as|(+ 25% AP)}}}}\n{{st|Total Waves|{{ap|14 to 18}}|Maximum Total Physical Damage|{{ap|20*14 to 40*18}} {{as|(+ {{ap|60*14 to 60*18}}% AD)}} {{as|(+ {{ap|25*14 to 25*18}}% AP)}}}} {{st|Wave Interval Time|{{ap|2.85/(14 to 18)|round=4}} seconds}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.damagetype",
-              "raw": "Physical\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "expression": null,
-          "verification": "pending"
-        },
-        "operationGraph": {
-          "templateKind": "provider_ability_single_quantum_candidate",
-          "nodes": [
-            "provider_candidate",
-            "ability_candidate",
-            "phase_candidate",
-            "sequence_candidate",
-            "operation_candidate"
-          ],
-          "edges": [
-            "provider_to_ability",
-            "ability_to_phase",
-            "phase_to_sequence",
-            "sequence_to_operation"
-          ],
-          "concreteIds": null,
-          "concreteTypeIds": null,
-          "requiredEvents": [],
-          "requiredState": [],
-          "productionRuntimeChangeRequired": null,
-          "verification": "pending"
-        },
-        "fixtures": [
-          {
-            "id": "baseline_quantum",
-            "purpose": "exercise_minimum_candidate_quantum",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          },
-          {
-            "id": "boundary_or_counterproof",
-            "purpose": "exercise_boundary_or_unrelated_input_counterproof",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          }
-        ],
-        "completedBoundary": null,
-        "exclusions": [
-          {
-            "kind": "candidate_exclusion",
-            "id": "full_fidelity_surfaces_review",
-            "prompt": "Review whether full-fidelity surfaces remain outside this provisional draft scope."
-          },
-          {
-            "kind": "candidate_exclusion",
-            "id": "rng_crit_context_review",
-            "prompt": "Review RNG or critical-strike context for this candidate."
           }
         ]
       },
