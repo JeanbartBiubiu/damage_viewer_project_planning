@@ -1868,6 +1868,37 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_xayah|P|锐切',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Xayah P 锐切/Clean Cuts：Wiki request Template:Data Xayah/I → resolved Template:Data Xayah/Clean Cuts；page1324540 / rev3967343 / timestamp 2025-11-18T20:49:46Z / canonical bytes4068 / SHA256 5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171（normalized/generic/xayah-p.json plus pages sibling are authority）Phase-A v2 three-attack budget 已由 wasm-generic-xayah-clean-cuts-three-attack-budget + backend seed 证据闭环——local raw caveat bytes4064 / SHA 63167d0d9444f18e444d21e09ef1cd447f02cce7855a9bbf6112267bdcfec4d3（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；separate P provider provider_hero_xayah_p_clean_cuts_three_attack_budget；direct post-cast arm ability clean_cuts_direct_post_cast_arm（no cost/CD）provider-scope state_change override const3；BA ability clean_cuts_basic_attack typed ability/basic_attack deals physical read source.attr.ad.resolved CritEligible=false CopyableOnHit=false；listener ALL {event/damage_instance, ability/basic_attack, event/source_owner} MaxTriggersPerEvent=1 guarded provider-scope state_change add -1 when gt(read(...),const0)；arm+4BA state sequence 0→3→2→1→0→0；four equal primary AD physical quantums（fixture AD100/armor0 each raw=mit=100）；re-arm after exhaustion reset-to3 overrides directly to3（not add/max5）；Hero-named `_test.go` is test/governance evidence excluded from production builds and does not imply a production hero switch；no production runtime change。Required Xayah W/Q/R isolation：P arm/BA does not mutate W/Q/R；W ability-type listener isolation preserved（Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL；runtime W ListenerDefinition.AbilityRef empty）。Backend owning d581372c0a0f8d19f92ca5cdfa98d6adf0bd52b6；seed46467 SHA 3b108cd92ae464dbe5f82c92649d0da8541ae867b7816bc1866e9823f9936510；JUnit32718 SHA dacfc0dc2fb39f58646087fdfaf62dc3d2649fdb33f1fdbbf7473db658f95ad1；Wasm exact test commit 74b96c89df66b70153acbbe563e2ed2aa49e718b；bytes42957 SHA 7ecc45b12f2f484170cbf8f149ec72283c87c8d8aa211e083476d990a533c0c0；READY run-383f969c-dee5-4152-987f-cf14c7dcf84d；focused35/full1078 PASS；no live。completedBoundary：attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity。明确排除 true Q/W/E/R wiring、additive/max5/8s timer、feathers/geometry/secondary damage/crit/E dependency、miss/dodge、cadence/projectile、RNG/expected crit/on-hit/proc、full fidelity、live/Web/assets；不宣称完整 Clean Cuts 羽毛/E/计时保真。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites），不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-xayah-clean-cuts-three-attack-budget',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_clean_cuts_three_attack_budget_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity; Wiki request Template:Data Xayah/I → Clean Cuts; rev3967343/SHA256 5cfe6e5e… / bytes4068; local raw caveat bytes4064/SHA 63167d0d… no equivalence claim; separate P provider; direct arm override3; guarded successful source-owned BA damage-event decrement; sequence 0→3→2→1→0→0; equal primary AD physical quantums fixture AD100; reset-to3; Hero-named _test.go test/governance only excluded from production builds no production hero switch; no production runtime change; Wasm exact test commit 74b96c8 bytes42957/SHA 7ecc45b1…; READY run-383f969c; Q/W/E/R wiring/add/max5/8s/feathers/geometry/secondary/crit/E/miss/dodge/cadence/projectile/RNG/on-hit/proc/live/Web/assets/full-fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-xayah-clean-cuts-three-attack-budget',
+          sourcePath: 'db/game_manage/seeds/lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity; backend lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql + LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest (owning d581372); Wasm exact test commit 74b96c8; seed46467/SHA 3b108cd9…; JUnit32718/SHA dacfc0dc…; focused35/full1078 PASS; no live; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; does not write identity/panel/resource values); not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_xayah|Q|双刃',
     {
       status: 'completed',
@@ -2889,35 +2920,6 @@ function makeRuntimeGapEvidence(spec) {
 }
 
 const RUNTIME_GAP_SPEC_TABLE = {
-  "hero_skill|hero_xayah|P|锐切": {
-    "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/xayah-p.json",
-    "dataStatus": "complete",
-    "requiredEvents": [
-      "ability_cast",
-      "basic_attack_hit",
-      "feather_created",
-      "feather_consumed_by_e"
-    ],
-    "requiredState": [
-      "ability_after_next_attacks_budget",
-      "feather_positions"
-    ],
-    "requiredFormulaInputs": [
-      "piercing_secondary_target_hit"
-    ],
-    "requiredScheduling": [
-      "post_ability_attack_budget_window"
-    ],
-    "missingPrimitives": [
-      "ability_after_next_attacks_budget",
-      "piercing_secondary_targets",
-      "feather_creation_position_resource",
-      "feather_consumed_by_e_dependency"
-    ],
-    "remainingBoundary": "主目标无额外伤害；作为 E feather-damage dependency 保留 runtime：技能后普攻预算、穿透次级目标、羽毛创建/位置/E 消费。",
-    "reason": "Xayah P Clean Cuts：ability-after next attacks budget、piercing secondary targets、feather creation/position/resource consumed by E；主目标无额外伤害，但作为 E damage dependency 保留 runtime。",
-    "blocker": "ability_after_next_attacks_budget+piercing_secondary_targets+feather_creation_position_resource+feather_consumed_by_e_dependency"
-  },
   "hero_skill|hero_akshan|P|无所不用": {
     "sourceRef": "数据参考/lol-wiki-current-champions/normalized/reviewed-contracts.json#akshan-p",
     "dataStatus": "partial",
@@ -3309,6 +3311,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_xayah|Q|双刃',
     'rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks',
+  ],
+  [
+    'hero_skill|hero_xayah|P|锐切',
+    'attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity',
   ],
   [
     'hero_skill|hero_xayah|R|暴风羽刃',
@@ -4974,6 +4980,7 @@ function validateInventory(inv) {
   const mQuinnQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|Q|炫目攻势');
   const mQuinnW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_quinn|W|敏锐感知');
   const mKogmawQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_kogmaw|Q|腐蚀唾液');
+  const mXayahP = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|P|锐切');
   const mXayahQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|Q|双刃');
   const mXayahR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|R|暴风羽刃');
   const mXayahW = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_xayah|W|致死羽衣');
@@ -8297,6 +8304,95 @@ function validateInventory(inv) {
       'Twisted Fate Q must be completed/full/generic_runtime with cleared dps_relevant_manual_review/governed gaps, Wiki rev3950864/SHA, frozen boundary/bonus-AD+AP formula/cost/CD/numeric schedule, once-per-pass as single-hit justification only, cast0.25/fan/cone/projectile exclusion wording, bilateral evidence (owning 18b959e / integrated a0da4f8 / Wasm 589db93), and no cast/fan/cone/projectile/pass fidelity claim',
     );
   }
+  const mXayahPBoundary =
+    'attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity';
+  const mXayahPReason = String(mXayahP?.reason || '');
+  if (
+    !mXayahP ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_xayah|P|锐切') ||
+    mXayahP.key !== 'hero_skill|hero_xayah|P|锐切' ||
+    mXayahP.passiveName !== '锐切' ||
+    mXayahP.status !== 'completed' ||
+    mXayahP.completionMode !== 'full' ||
+    mXayahP.lane !== 'generic_runtime' ||
+    mXayahP.blocker ||
+    mXayahP.dataGapEvidence !== null ||
+    mXayahP.runtimeGapEvidence !== null ||
+    mXayahP.outOfScopeEvidence !== null ||
+    mXayahP.coverageBoundary !== mXayahPBoundary ||
+    [...(mXayahP.mechanismTags || [])].join('|') !==
+      [
+        'direct_post_cast_three_attack_budget',
+        'phase_a_excludes_feather_geometry_secondary_damage_and_e_dependency',
+        'source_basic_attack_damage_event_consumes_one',
+      ].join('|') ||
+    (mXayahP.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mXayahP.mechanismTags || []).includes('ability_after_next_attacks_budget') ||
+    (mXayahP.mechanismTags || []).includes('feather_consumed_by_e_dependency') ||
+    mXayahPReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mXayahPReason.includes('blocked_data') ||
+    mXayahPReason.includes('dps_relevant_manual_review') ||
+    mXayahPReason.includes('ability_after_next_attacks_budget') ||
+    !mXayahPReason.includes('3967343') ||
+    !mXayahPReason.includes(
+      '5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171',
+    ) ||
+    !mXayahPReason.includes('63167d0d9444f18e444d21e09ef1cd447f02cce7855a9bbf6112267bdcfec4d3') ||
+    !mXayahPReason.includes('Template:Data Xayah/I') ||
+    !mXayahPReason.includes('Template:Data Xayah/Clean Cuts') ||
+    !mXayahPReason.includes('page1324540') ||
+    !mXayahPReason.includes('bytes4068') ||
+    !mXayahPReason.includes('bytes4064') ||
+    !mXayahPReason.includes('2025-11-18T20:49:46Z') ||
+    !mXayahPReason.includes(mXayahPBoundary) ||
+    !mXayahPReason.includes('separate P provider') ||
+    !mXayahPReason.includes('override const3') ||
+    !mXayahPReason.includes('0→3→2→1→0→0') ||
+    !mXayahPReason.includes('AD100') ||
+    !mXayahPReason.includes('no production runtime change') ||
+    !mXayahPReason.includes('does not imply a production hero switch') ||
+    !mXayahPReason.includes('d581372c0a0f8d19f92ca5cdfa98d6adf0bd52b6') ||
+    !mXayahPReason.includes('74b96c89df66b70153acbbe563e2ed2aa49e718b') ||
+    !mXayahPReason.includes('3b108cd92ae464dbe5f82c92649d0da8541ae867b7816bc1866e9823f9936510') ||
+    !mXayahPReason.includes('dacfc0dc2fb39f58646087fdfaf62dc3d2649fdb33f1fdbbf7473db658f95ad1') ||
+    !mXayahPReason.includes('7ecc45b12f2f484170cbf8f149ec72283c87c8d8aa211e083476d990a533c0c0') ||
+    !mXayahPReason.includes('run-383f969c-dee5-4152-987f-cf14c7dcf84d') ||
+    !mXayahPReason.includes('focused35') ||
+    !mXayahPReason.includes('full1078') ||
+    !mXayahPReason.includes('external existing-data/check-only') ||
+    !mXayahPReason.includes('identity/panel/resource') ||
+    !mXayahPReason.includes('不宣称') ||
+    !(mXayahP.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-clean-cuts-three-attack-budget' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_clean_cuts_three_attack_budget_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mXayahPBoundary) &&
+        String(e.note || '').includes('74b96c8') &&
+        String(e.note || '').includes('7ecc45b1') &&
+        String(e.note || '').includes('no production runtime change') &&
+        String(e.note || '').includes('production hero switch'),
+    ) ||
+    !(mXayahP.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-xayah-clean-cuts-three-attack-budget' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mXayahPBoundary) &&
+        String(e.note || '').includes('LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest') &&
+        String(e.note || '').includes('d581372') &&
+        String(e.note || '').includes('3b108cd9') &&
+        String(e.note || '').includes('dacfc0dc') &&
+        String(e.note || '').includes('focused35') &&
+        String(e.note || '').includes('full1078'),
+    )
+  ) {
+    errors.push(
+      'Xayah P must be completed/full/generic_runtime via explicit STATUS_OVERRIDES with cleared blocker/data/runtime/OOS gaps, exact canonical-sorted Clean Cuts tags, frozen completedBoundary, Wiki rev3967343/SHA + local raw caveat, separate P provider/direct arm override3/guarded BA decrement/sequence 0→3→2→1→0→0/equal AD quantums/reset-to3/no production runtime change, READY run-383f969c + focused35/full1078 + Backend d581372/Wasm 74b96c8 artifact hashes, and bilateral evidence',
+    );
+  }
   if (
     !mXayahQ ||
     !STATUS_OVERRIDES.has('hero_skill|hero_xayah|Q|双刃') ||
@@ -11128,8 +11224,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 107) {
-    errors.push(`completed=${sc.completed}, expected 107`);
+  if ((sc.completed || 0) !== 108) {
+    errors.push(`completed=${sc.completed}, expected 108`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -11137,8 +11233,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 66) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 66`);
+  if ((sc.blocked_runtime || 0) !== 65) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 65`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -11159,14 +11255,14 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 107) {
-    errors.push(`completionMode full=${cm.full}, expected 107`);
+  if ((cm.full || 0) !== 108) {
+    errors.push(`completionMode full=${cm.full}, expected 108`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 144) {
-    errors.push(`completionMode none=${cm.none}, expected 144`);
+  if ((cm.none || 0) !== 143) {
+    errors.push(`completionMode none=${cm.none}, expected 143`);
   }
   const detCritBlockedUnified = (inv.mechanisms || []).filter(
     (m) =>
