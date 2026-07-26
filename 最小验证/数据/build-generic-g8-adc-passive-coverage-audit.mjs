@@ -618,6 +618,8 @@ const SEED = {
     'db/game_manage/seeds/lol_generic_vayne_condemn_primary_hit_seed.sql',
   vayneFinalHourTimedBonusAdBackend:
     'db/game_manage/seeds/lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql',
+  vayneTumbleNextBasicAttackBonusBackend:
+    'db/game_manage/seeds/lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql',
   quinnHeightenedSensesBackend:
     'db/game_manage/seeds/lol_generic_quinn_heightened_senses_seed.sql',
   quinnBlindingAssaultPrimaryHitBackend:
@@ -786,6 +788,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_condemn_primary_hit_test.go',
   vayneFinalHourTimedBonusAd:
     'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_final_hour_timed_bonus_ad_test.go',
+  vayneTumbleNextBasicAttackBonus:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_vayne_tumble_next_basic_attack_bonus_test.go',
   quinnHeightenedSenses:
     'wasm/tinygo_engine_v2/internal/runtime/generic_quinn_heightened_senses_test.go',
   quinnBlindingAssaultPrimaryHit:
@@ -1017,6 +1021,35 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-vayne-condemn-primary-hit',
           SEED.vayneCondemnPrimaryHitBackend,
           'completedBoundary: rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile; backend lol_generic_vayne_condemn_primary_hit_seed.sql + LolGenericVayneCondemnPrimaryHitSeedSqlTest (owning e7d28f6; integrated 61290cb); not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_vayne|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'rank5_next_basic_attack_bonus_within_3s',
+        'physical_1_15_total_ad_plus_0_50_ap',
+        'phase_a_excludes_dash_geometry_attack_reset_and_lifesteal',
+      ],
+      reason:
+        'hero_vayne Q 闪避突袭/Tumble：Wiki request Template:Data Vayne/Q → resolved Template:Data Vayne/Tumble；page1309988 / rev4015566 / timestamp 2026-05-05T15:55:50Z / canonical bytes1735 / SHA256 5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad（normalized/generic/vayne-q.json plus pages sibling are authority）rank5 Phase-A v2 next-basic-attack bonus 已由 wasm-generic-vayne-tumble-next-basic-attack-bonus 闭环为 migrated——local raw caveat bytes1733 / SHA 5723bf5ffbc6449f756aa33a8387c40a20039886b3665eddcb11ac1cac5914ca（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；enrich exact existing Spellblade-minimal provider_hero_vayne_tumble / ability_hero_vayne_tumble（ability_key=tumble；不新建第二 Q 身份）；provider-scope state tumble_empowered_attack_ready max1 / duration3000ms / refresh_on_write / default0；Q mana30 / CD2000ms；cast 恰好一次 provider-scope override ready=1、无伤害；成功施放自然发出一次 ability_started；listener ALL 恰好 event/basic_attack_hit + event/source_owner（不得 ability/basic_attack）；门控 ready≥1 后一次 non-crit/non-copyable physical bonus（nested binary add(mul(const 1.15, read source.attr.ad.resolved), mul(const 0.50, read source.attr.ap.resolved))）再 override ready=0、无 emit_event；fixture AD100/AP40/armor100 → raw135/mitigated67.5；t2999 仍 proc、t3000 过期无加成；下一次 source BA 消费后第二次无 Q bonus；t0/t1999/t2000 CD success/skip/success；mana29 跳过不武装；opponent hit / unrelated spell 不消费；Silver Bolts 无额外叠层；Spellblade 至多一次武装；Batch-B BA 普通伤害仍独立。completedBoundary：rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble。明确排除 dash/movement/distance/terrain/geometry、BA reset/windup/cadence、invisibility/R、lifesteal/healing、crit/RNG/miss/dodge/full on-hit、multi-target/structures、other ranks/full Tumble、live migration/publish/E2E；不宣称 dash/geometry/BA reset/lifesteal/crit/完整游戏保真；不使用 governed tag distance_or_ratio_modifier。Backend seed 显式依赖 external existing-data/check-only 前置（hero_vayne/ad/ap/mana/Batch-B BA/现有 Tumble identity），不物化 identity/panel/resource/basic/mount values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-vayne-tumble-next-basic-attack-bonus',
+          WASM.vayneTumbleNextBasicAttackBonus,
+          'completedBoundary: rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble; Wiki request Template:Data Vayne/Q → Tumble; rev4015566/SHA256 5ae387c0… / bytes1735; local raw caveat bytes1733/SHA 5723bf5f… no equivalence claim; enrich existing tumble identity; provider-state ready max1/3000ms; Q mana30/CD2000; cast override1 no damage; listener exactly hit+source_owner no ability/basic matcher; nested binary 1.15*totalAD+0.50*AP; AD100/AP40 raw135 armor100→67.5; t2999 proc/t3000 expired; one next-source-BA bonus then consume; Silver Bolts no extra stack; Spellblade one arm/proc; Wasm exact test commit 36d5a49; dash/geometry/BA-reset/lifesteal/crit/RNG/full-fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-vayne-tumble-next-basic-attack-bonus',
+          SEED.vayneTumbleNextBasicAttackBonusBackend,
+          'completedBoundary: rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble; backend lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql + LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest + README (owning e88e172); Wasm exact test commit 36d5a49; enrich exact existing tumble identity; nested binary total AD+AP; external existing-data/check-only prerequisites (hero_vayne/ad/ap/mana/Batch-B BA/existing Tumble; does not write identity/panel/resource/basic/mount values); no Batch-B rebuild or second Q identity; not live published',
         ),
       ],
     },
@@ -5152,9 +5185,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 99) errors.push(`migrated=${counts.migrated}, expected 99`);
+  if (counts.migrated !== 100) errors.push(`migrated=${counts.migrated}, expected 100`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 70) errors.push(`blocked=${counts.blocked}, expected 70`);
+  if (counts.blocked !== 69) errors.push(`blocked=${counts.blocked}, expected 69`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
   const detCritBlocked = records.filter(
     (r) =>
@@ -6917,6 +6950,118 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       vayneE.candidateKey,
       vayneE.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const vayneQ = records.find((r) => r.candidateKey === 'hero_skill|hero_vayne|Q|闪避突袭');
+  const vayneQTags = [...(vayneQ?.genericMechanismTags || [])];
+  const vayneQExpectedTags = [
+    'rank5_next_basic_attack_bonus_within_3s',
+    'physical_1_15_total_ad_plus_0_50_ap',
+    'phase_a_excludes_dash_geometry_attack_reset_and_lifesteal',
+  ];
+  const vayneQReason = String(vayneQ?.classificationReason || '');
+  const vayneQBoundary =
+    'rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble';
+  if (!EXACT_OVERRIDES.has('hero_vayne|Q')) {
+    errors.push('Vayne Q exact override key hero_vayne|Q must exist before distance_or_ratio fallback');
+  }
+  if (
+    !vayneQ
+    || vayneQ.candidateKey !== 'hero_skill|hero_vayne|Q|闪避突袭'
+    || vayneQ.passiveName !== '闪避突袭'
+    || vayneQ.genericClassification !== 'migrated'
+    || String(vayneQ.remainingGap || '').trim()
+    || (vayneQ.dataGapEvidence?.missingFields || []).length !== 0
+    || vayneQTags.join('|') !== vayneQExpectedTags.join('|')
+    || vayneQTags.includes('distance_or_ratio_modifier')
+    || vayneQTags.includes('meta_or_non_target_dps')
+    || String(vayneQ.remainingGap || '').includes('distance_or_ratio')
+    || String(vayneQ.remainingGap || '').includes('blocked_data')
+    || vayneQReason.includes('distance_based_damage_modifier / damage_multiplier')
+    || vayneQReason.includes('blocked_data')
+    || vayneQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || !vayneQReason.includes('4015566')
+    || !vayneQReason.includes(
+      '5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad',
+    )
+    || !vayneQReason.includes('5723bf5ffbc6449f756aa33a8387c40a20039886b3665eddcb11ac1cac5914ca')
+    || !vayneQReason.includes('Template:Data Vayne/Q')
+    || !vayneQReason.includes('Template:Data Vayne/Tumble')
+    || !vayneQReason.includes('page1309988')
+    || !vayneQReason.includes('bytes1735')
+    || !vayneQReason.includes('bytes1733')
+    || !vayneQReason.includes('2026-05-05T15:55:50Z')
+    || !vayneQReason.includes(vayneQBoundary)
+    || !vayneQReason.includes('provider_hero_vayne_tumble')
+    || !vayneQReason.includes('tumble_empowered_attack_ready')
+    || !vayneQReason.includes('nested binary')
+    || !vayneQReason.includes('source.attr.ad.resolved')
+    || !vayneQReason.includes('source.attr.ap.resolved')
+    || !vayneQReason.includes('1.15')
+    || !vayneQReason.includes('0.50')
+    || !vayneQReason.includes('30')
+    || !vayneQReason.includes('2000')
+    || !vayneQReason.includes('3000')
+    || !vayneQReason.includes('raw135')
+    || !vayneQReason.includes('67.5')
+    || !vayneQReason.includes('t2999')
+    || !vayneQReason.includes('t3000')
+    || !vayneQReason.includes('t1999')
+    || !vayneQReason.includes('mana29')
+    || !vayneQReason.includes('Silver Bolts')
+    || !vayneQReason.includes('Spellblade')
+    || !vayneQReason.includes('basic_attack_hit')
+    || !vayneQReason.includes('source_owner')
+    || !vayneQReason.includes('enrich')
+    || !vayneQReason.includes('external existing-data/check-only')
+    || !vayneQReason.includes('不宣称')
+    || !String(vayneQ.sourceRef || '').includes('vayne-q.json')
+    || !String(vayneQ.sourceRef || '').includes(
+      '5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad',
+    )
+    || vayneQ.auditBaseline?.gapCode !== 'blocked_data'
+    || vayneQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || !(vayneQ.auditBaseline?.mechanismTags || []).includes('distance_based_damage_modifier')
+    || vayneQ.classification !== 'needs_runtime_extension'
+    || !(vayneQ.mechanismTags || []).includes('distance_based_damage_modifier')
+    || citesForbiddenProvenance(vayneQ.classificationReason)
+    || !(vayneQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.vayneTumbleNextBasicAttackBonus
+        && e.taskKey === 'wasm-generic-vayne-tumble-next-basic-attack-bonus'
+        && String(e.note || '').includes(vayneQBoundary)
+        && String(e.note || '').includes('nested binary')
+        && String(e.note || '').includes('36d5a49')
+        && String(e.note || '').includes('t2999')
+        && String(e.note || '').includes('Silver Bolts')
+        && !String(e.note || '').includes('distance_or_ratio_modifier'),
+    )
+    || !(vayneQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.vayneTumbleNextBasicAttackBonusBackend
+        && e.taskKey === 'wasm-generic-vayne-tumble-next-basic-attack-bonus'
+        && String(e.note || '').includes(vayneQBoundary)
+        && String(e.note || '').includes('LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest')
+        && String(e.note || '').includes('README')
+        && String(e.note || '').includes('e88e172')
+        && String(e.note || '').includes('36d5a49')
+        && String(e.note || '').includes('enrich exact existing tumble identity')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && !String(e.note || '').includes('distance_or_ratio_modifier'),
+    )
+  ) {
+    errors.push(
+      'Vayne Q must be migrated with empty remainingGap/missingFields, exact Tumble ordered tags (rank5_next_basic_attack_bonus_within_3s/physical_1_15_total_ad_plus_0_50_ap/phase_a_excludes_dash_geometry_attack_reset_and_lifesteal; no distance_or_ratio_modifier), stale distance/blocked_data cleared while retaining raw classification/tags/auditBaseline provenance, Wiki rev4015566/SHA + local raw caveat + frozen completedBoundary, enrich existing tumble identity/provider-state ready max1/3000ms/Q mana30/CD2000/listener hit+source_owner/nested-binary 1.15*totalAD+0.50*AP numerics (AD100/AP40→raw135/67.5; t2999 proc/t3000 expired; one next-source-BA bonus then consume; Silver Bolts no extra stack; Spellblade one arm), override-before-distance_or_ratio-fallback, and bilateral wasm+backend evidence (owning e88e172 / Wasm 36d5a49; no dash/geometry/BA-reset/lifesteal/crit/RNG/full-fidelity/live claim)',
+    );
+  }
+  if (vayneQ) {
+    validateBilateralCoverageEvidence(
+      vayneQ.candidateKey,
+      vayneQ.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
