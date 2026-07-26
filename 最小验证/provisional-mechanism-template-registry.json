@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "provisional-mechanism-template-registry-v3",
     "planRevision": "provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4",
-    "generatedAt": "2026-07-26T14:33:42.132Z",
+    "generatedAt": "2026-07-26T15:27:12.929Z",
     "stableKeyOrders": {
       "unifiedMechanismCount": 254,
       "unifiedKeyOrderSha256": "69832c2a7e7a473b64fd102771cb8055d63683245d76fdccff54598ef329c018",
@@ -12,8 +12,8 @@
     "inputs": [
       {
         "path": "最小验证/unified-mechanism-inventory.json",
-        "sha256": "e5b55855d73a23898ab1a05a03915865b617b42f73380272791a6f3b2b804653",
-        "byteSize": 1162604
+        "sha256": "91525dc43bcfa63f9d3f898eb7af88788f2787f6f5e4866db8cd153a064cdbd3",
+        "byteSize": 1169523
       },
       {
         "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
@@ -25,24 +25,24 @@
   "summary": {
     "sourceUnifiedMechanismCount": 254,
     "sourceWikiRegistryCount": 242,
-    "templateCount": 66,
+    "templateCount": 65,
     "targetStatusCounts": {
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 63,
+      "blocked_runtime": 62,
       "blocked_data": 3
     },
     "targetSourceKindCounts": {
-      "hero_skill": 65,
+      "hero_skill": 64,
       "item_passive": 1
     },
     "templateKindCounts": {
       "actionable_contract_placeholder": 0,
-      "runtime_contract_placeholder": 63,
+      "runtime_contract_placeholder": 62,
       "data_contract_placeholder": 3
     },
     "excludedStatusCounts": {
-      "completed": 110,
+      "completed": 111,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
@@ -7752,253 +7752,6 @@
             {
               "fieldRef": "fields.damagetype",
               "raw": "Physical\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "expression": null,
-          "verification": "pending"
-        },
-        "operationGraph": {
-          "templateKind": "provider_ability_single_quantum_candidate",
-          "nodes": [
-            "provider_candidate",
-            "ability_candidate",
-            "phase_candidate",
-            "sequence_candidate",
-            "operation_candidate"
-          ],
-          "edges": [
-            "provider_to_ability",
-            "ability_to_phase",
-            "phase_to_sequence",
-            "sequence_to_operation"
-          ],
-          "concreteIds": null,
-          "concreteTypeIds": null,
-          "requiredEvents": [],
-          "requiredState": [],
-          "productionRuntimeChangeRequired": null,
-          "verification": "pending"
-        },
-        "fixtures": [
-          {
-            "id": "baseline_quantum",
-            "purpose": "exercise_minimum_candidate_quantum",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          },
-          {
-            "id": "boundary_or_counterproof",
-            "purpose": "exercise_boundary_or_unrelated_input_counterproof",
-            "inputs": null,
-            "expected": null,
-            "verification": "pending"
-          }
-        ],
-        "completedBoundary": null,
-        "exclusions": [
-          {
-            "kind": "candidate_exclusion",
-            "id": "full_fidelity_surfaces_review",
-            "prompt": "Review whether full-fidelity surfaces remain outside this provisional draft scope."
-          },
-          {
-            "kind": "candidate_exclusion",
-            "id": "non_damage_or_meta_scope_review",
-            "prompt": "Review non-damage or meta scope boundaries for this candidate."
-          }
-        ]
-      },
-      "verificationGates": [
-        {
-          "id": "wiki_identity_and_revision",
-          "state": "pending"
-        },
-        {
-          "id": "wiki_numeric_contract",
-          "state": "pending"
-        },
-        {
-          "id": "bounded_phase_a_plan",
-          "state": "pending"
-        },
-        {
-          "id": "design_review_ready",
-          "state": "pending"
-        },
-        {
-          "id": "backend_seed_and_junit",
-          "state": "pending"
-        },
-        {
-          "id": "wasm_generic_test",
-          "state": "pending"
-        },
-        {
-          "id": "g8_unified_audit",
-          "state": "pending"
-        },
-        {
-          "id": "docs_and_governance",
-          "state": "pending"
-        }
-      ],
-      "nonclaims": [
-        "no_numeric_or_behavioral_fidelity_claim",
-        "no_runtime_support_claim",
-        "no_backend_materialization_claim",
-        "no_g8_or_unified_status_change",
-        "no_live_publish_or_migration",
-        "no_new_completed_full_or_ready_assertion",
-        "no_mechanical_draft_as_verified_phase_a_claim"
-      ]
-    },
-    {
-      "key": "hero_skill|hero_missfortune|E|枪林弹雨",
-      "inventoryOrdinal": 93,
-      "sourceKind": "hero_skill",
-      "ownerId": "hero_missfortune",
-      "skillKey": "E",
-      "passiveName": "枪林弹雨",
-      "currentStatus": "blocked_runtime",
-      "currentCompletionMode": "none",
-      "lane": "generic_runtime",
-      "blocker": "implementation_gap_no_unresolved_data_fields",
-      "mechanismTags": [
-        "meta_or_non_target_dps"
-      ],
-      "unifiedSourceRefs": [
-        {
-          "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
-          "sourceRecordKey": "hero_skill|hero_missfortune|E|枪林弹雨"
-        },
-        {
-          "path": "最小验证/wiki-only-mechanism-candidate-registry.json",
-          "legacyStatus": "registry_candidate",
-          "sourceRecordKey": "hero_skill|hero_missfortune|E|枪林弹雨"
-        }
-      ],
-      "wikiProvenance": {
-        "ownerName": "Miss Fortune",
-        "pageId": "missfortune-e",
-        "wikiItemId": null,
-        "wikiEffectSlots": [],
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/missfortune-e.json@rev3936384 sha256:a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7"
-      },
-      "templateState": "provisional_unverified",
-      "templateKind": "runtime_contract_placeholder",
-      "draftContract": {
-        "draftState": "mechanical_unverified",
-        "sourcePointers": {
-          "kind": "hero_wiki_sidecar",
-          "authority": "league_wiki_current_champion_template",
-          "sidecarPath": "数据参考/lol-wiki-current-champions/normalized/generic/missfortune-e.json",
-          "localFileSha256": "d53466f5d4e7e046620820cfd492133bcfac646e2d81d348dfcf544fe8174596",
-          "localFileByteSize": 1972,
-          "canonical": {
-            "requestTitle": "Template:Data Miss Fortune/E",
-            "resolvedTitle": "Template:Data Miss Fortune/Make It Rain",
-            "wikiPageId": 1308255,
-            "revisionId": 3936384,
-            "revisionTimestamp": "2025-07-24T15:45:56Z",
-            "contentSha256": "a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7",
-            "rawByteSize": 1210
-          },
-          "fieldRefs": [
-            "fields.description",
-            "fields.leveling",
-            "fields.cooldown",
-            "fields.cost",
-            "fields.costtype",
-            "fields.damagetype",
-            "fields.notes"
-          ]
-        },
-        "phaseATemplate": {
-          "id": "hero_selected_primary_minimum_quantum_candidate",
-          "basisStatus": "blocked_runtime",
-          "basisTags": [
-            "meta_or_non_target_dps"
-          ],
-          "requiresIndividualDesignReview": true
-        },
-        "rank": {
-          "selection": "max_rank_candidate",
-          "value": null,
-          "sourceFieldRefs": [
-            "fields.leveling"
-          ],
-          "verification": "pending"
-        },
-        "resourceCost": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cost",
-            "fields.costtype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cost",
-              "raw": "80\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.costtype",
-              "raw": "Mana\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValue": null,
-          "normalizedUnit": null,
-          "verification": "pending"
-        },
-        "cooldownMs": {
-          "state": "source_fields_present",
-          "sourceFieldRefs": [
-            "fields.cooldown"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.cooldown",
-              "raw": "{{ap|18 to 14}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            }
-          ],
-          "normalizedValueMs": null,
-          "verification": "pending"
-        },
-        "target": {
-          "mode": "selected_primary_candidate",
-          "value": null,
-          "verification": "pending"
-        },
-        "timing": {
-          "mode": "minimum_quantum_timing_candidate",
-          "valueMs": null,
-          "verification": "pending"
-        },
-        "formula": {
-          "mode": "wiki_formula_fields_unparsed",
-          "sourceFieldRefs": [
-            "fields.leveling",
-            "fields.damagetype"
-          ],
-          "wikiMarkupSnapshots": [
-            {
-              "fieldRef": "fields.leveling",
-              "raw": "{{st|Magic Damage Per Tick|{{ap|70/8 to 190/8}} {{as|(+ {{ap|120/8}}% AP)}}|Total Magic Damage|{{ap|70 to 190}} {{as|(+ 120% AP)}}}}\n",
-              "parsedNumericValue": null,
-              "claim": "unparsed_markup_not_numeric_truth"
-            },
-            {
-              "fieldRef": "fields.damagetype",
-              "raw": "Magic\n",
               "parsedNumericValue": null,
               "claim": "unparsed_markup_not_numeric_truth"
             }
