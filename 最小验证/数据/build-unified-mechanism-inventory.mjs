@@ -402,6 +402,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_sivir|Q|回旋之刃',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Sivir Q 回旋之刃/Boomerang Blade：Wiki request Template:Data Sivir/Q → resolved Template:Data Sivir/Boomerang Blade；page1308837 / rev4016378 / timestamp 2026-05-11T05:05:57Z / canonical bytes2745 / SHA256 0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e（normalized/generic/sivir-q.json bytes3018/SHA256 2320f7ada83cceee979c52cd314395c6b41e2f50c50e3114e9bca0d39386ff02 plus pages sibling bytes691/SHA256 adeab85889a4208b52f0b6cd3bcc3aef022a986dcad5168e1c817e3ab3323fa9 are authority）rank5 Phase-A v3 已由 wasm-generic-sivir-boomerang-blade-first-outbound-hit + backend seed 证据闭环——local raw caveat bytes2745 / SHA b8d46412519f211b27f2575684693f407806cbbca337a80e775a1baf4c2396a4（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；one standalone Q provider；rank5 mana75 / CD8000；immediate selected-primary-champion first-outbound-pass single physical noncrit/noncopyable damage scaffold；exact generic formula (160+0.70*(ad.resolved-ad.base)+0.60*ap.resolved)*(1+0.40*min(1,max(0,crit_chance.resolved))) via nested binary nodes with each read path exactly once and formula-local crit_chance clamp（no DB-bound/random crit / crit_damage / CritEligible claim）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 armor100 fixtures raw290/348/406 → final145/174/203；negative/overcap clamp；bonusAD/AP counterproof）。Attempts mana225/baseAD60/resolvedAD160/AP100/crit0.5/HP1000/armor100 at t0/t7999/t8000 → success/skip/success，exactly two Q damage items；final mana75/HP652；exactly two automatic Q ability_started；mana74 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Sivir Q provider is standalone；Backend external existing-data/check-only prerequisites only（hero_sivir/ad/ap/crit_chance/mana）；no Sivir materializer/shared identity-panel-resource write；current generic missing formula attrs read zero, not claimed fail-closed；hero-named `_test.go` is regression/governance evidence only；不暗示任何 production Wasm/public ABI/Web change。READY gate run-4db83782-b7af-4a56-8a75-2b687cc456a4 v3。Backend validation honesty：Main focused64/full1023 passed；mirror b14c48f exact parity with Sivir JUnit13 PASS；combined mirror sibling caveat: pre-existing Essence Reaver/Twisted Fate must BEGIN failures, not hidden/fixed here。Wasm main validation passed focused ten top-level、count100、full Go、Go bench、build、Node smoke+bench、parity PASS；exact test bytes79086 / SHA256 77a27da736577acc9a1bfd6728472a2b84c6a07353314528b115b112b917cc44；built production and independent Web source asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no production/Web write。completedBoundary：rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity。明确排除 cast time/bonus attack speed/direction/range/width/geometry/projectile travel/speed、nonchampion hit reduction、return pass/damage modifier reset/once-per-pass、spellshield、other ranks/siblings/loadout/bootstrap/live/full fidelity；this is exactly one selected-primary first-outbound hit, not full Q；不宣称 cast/BAS/direction/range/width/geometry/projectile/nonchampion/return/once-per-pass/spellshield/other-ranks/完整游戏保真；no full-fidelity claim；no live/Admin/E2E claim。Backend seed 显式依赖 external existing-data/check-only 前置，不物化 identity/panel/resource values，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-sivir-boomerang-blade-first-outbound-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_sivir_boomerang_blade_first_outbound_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Sivir/Q → Boomerang Blade; rev4016378/SHA256 0adcf391… / bytes2745; local raw caveat bytes2745/SHA b8d46412… no equivalence claim; rank5 mana75/CD8000; one physical (160+0.70*(ad.resolved-ad.base)+0.60*ap.resolved)*(1+0.40*min(1,max(0,crit_chance.resolved))) nested binary read-once formula-local clamp; armor100 raw290/348/406 final145/174/203; negative/overcap clamp; bonusAD/AP counterproof; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana225 t0/t7999/t8000 success/skip/success two Q damage items final mana75/HP652 two automatic Q ability_started; mana74 resource skip unchanged; missing formula attrs read zero not fail-closed; hero-named _test.go regression/governance only; standalone no sibling synthesis; Wasm exact test commit bff4d160 bytes79086/SHA 77a27da7…; cast/BAS/direction/range/width/geometry/projectile/nonchampion/return/once-per-pass/spellshield/other-ranks/live/Admin/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-sivir-boomerang-blade-first-outbound-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity; backend lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql + LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest + README (owning 3ded9cb; integrated b14c48f); Wasm exact test commit bff4d160; seed32326/SHA 4ba04a00…; JUnit63624/SHA 2f3368a9…; READY run-4db83782; Sivir JUnit13 PASS; combined mirror sibling caveat pre-existing Essence Reaver/Twisted Fate must BEGIN failures not hidden/fixed here; external existing-data/check-only prerequisites (hero_sivir/ad/ap/crit_chance/mana; does not write identity/panel/resource values; no Sivir materializer); standalone no Batch-B or sibling Sivir synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_akshan|E|骄行荡寇',
     {
       status: 'out_of_scope',
@@ -3157,6 +3189,10 @@ const COVERAGE_BOUNDARIES = new Map([
     'rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity',
   ],
   [
+    'hero_skill|hero_sivir|Q|回旋之刃',
+    'rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity',
+  ],
+  [
     'hero_skill|hero_akshan|P|无所不用',
     'dirty_fighting_aa_stack_third_magic_core_complete;second_shot_delay_ms_blocked_data;ability_hit_stack_wiring_runtime;shield_cancel_ms_retarget_oos',
   ],
@@ -5564,6 +5600,167 @@ function validateInventory(inv) {
   ) {
     errors.push(
       'Akshan Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Avengerang ordered tags (no cooldown_or_haste_without_rotation/primary_damage_branch_salvage; requires bonus_ad_ratio/active_physical_damage), Wiki rev4007510/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/immediate-cooldown-scaffold5000/one physical 165+0.70*bonusAD exact nested binary numerics/schedules (165→82.5/235→117.5; bonusAD counterproof; 20220/20170; no 20230; no Q type; no explicit event op; t0/t4999/t5000 mana240→80/HP765; mana79 skip; Dirty Fighting coexistence; no ability-hit stack synthesis), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused12/full1010 + Wasm asset SHA, and bilateral evidence (owning bd8dbcb / integrated 45d589a / Wasm b58a549; one selected-primary first-outbound-pass physical hit not full Q; no direction/return/homing/cooldown-after-return/sight/MS/spellshield/live claim)',
+    );
+  }
+  const mSivirQ = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_sivir|Q|回旋之刃');
+  const mSivirQReason = String(mSivirQ?.reason || '');
+  const mSivirQBoundary =
+    'rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity';
+  if (
+    !mSivirQ ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_sivir|Q|回旋之刃') ||
+    mSivirQ.key !== 'hero_skill|hero_sivir|Q|回旋之刃' ||
+    mSivirQ.passiveName !== '回旋之刃' ||
+    mSivirQ.status !== 'completed' ||
+    mSivirQ.completionMode !== 'full' ||
+    mSivirQ.lane !== 'generic_runtime' ||
+    mSivirQ.blocker ||
+    mSivirQ.dataGapEvidence !== null ||
+    mSivirQ.runtimeGapEvidence !== null ||
+    mSivirQ.outOfScopeEvidence !== null ||
+    mSivirQ.coverageBoundary !== mSivirQBoundary ||
+    [...(mSivirQ.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'ap_ratio',
+        'bonus_ad_ratio',
+        'crit_scaling',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mSivirQ.mechanismTags || []).includes('dps_relevant_manual_review') ||
+    (mSivirQ.mechanismTags || []).includes('meta_or_non_target_dps') ||
+    (mSivirQ.mechanismTags || []).includes('blocked_data') ||
+    (mSivirQ.mechanismTags || []).includes('primary_damage_branch_salvage') ||
+    !(mSivirQ.mechanismTags || []).includes('bonus_ad_ratio') ||
+    !(mSivirQ.mechanismTags || []).includes('ap_ratio') ||
+    !(mSivirQ.mechanismTags || []).includes('crit_scaling') ||
+    !(mSivirQ.mechanismTags || []).includes('active_physical_damage') ||
+    mSivirQReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mSivirQReason.includes('blocked_data') ||
+    mSivirQReason.includes('needs_manual_baseline') ||
+    mSivirQReason.includes('dps_relevant_manual_review') ||
+    mSivirQReason.includes('primary_damage_branch_salvage') ||
+    mSivirQReason.includes('out_of_scope_for_single_target_dps') ||
+    !mSivirQReason.includes('4016378') ||
+    !mSivirQReason.includes(
+      '0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e',
+    ) ||
+    !mSivirQReason.includes(
+      'b8d46412519f211b27f2575684693f407806cbbca337a80e775a1baf4c2396a4',
+    ) ||
+    !mSivirQReason.includes(
+      '2320f7ada83cceee979c52cd314395c6b41e2f50c50e3114e9bca0d39386ff02',
+    ) ||
+    !mSivirQReason.includes(
+      'adeab85889a4208b52f0b6cd3bcc3aef022a986dcad5168e1c817e3ab3323fa9',
+    ) ||
+    !mSivirQReason.includes('Template:Data Sivir/Q') ||
+    !mSivirQReason.includes('Template:Data Sivir/Boomerang Blade') ||
+    !mSivirQReason.includes('page1308837') ||
+    !mSivirQReason.includes('bytes2745') ||
+    !mSivirQReason.includes('2026-05-11T05:05:57Z') ||
+    !mSivirQReason.includes(mSivirQBoundary) ||
+    !mSivirQReason.includes('(160+0.70*(ad.resolved-ad.base)+0.60*ap.resolved)*(1+0.40*min(1,max(0,crit_chance.resolved)))') ||
+    !mSivirQReason.includes('formula-local') ||
+    !mSivirQReason.includes('read path exactly once') ||
+    !mSivirQReason.includes('no DB-bound/random crit') ||
+    !mSivirQReason.includes('160') ||
+    !mSivirQReason.includes('0.70') ||
+    !mSivirQReason.includes('0.60') ||
+    !mSivirQReason.includes('0.40') ||
+    !mSivirQReason.includes('mana75') ||
+    !mSivirQReason.includes('CD8000') ||
+    !mSivirQReason.includes('20220') ||
+    !mSivirQReason.includes('20170') ||
+    !mSivirQReason.includes('no 20230') ||
+    !mSivirQReason.includes('no explicit event op') ||
+    !mSivirQReason.includes('no Q ability-specific type') ||
+    !mSivirQReason.includes('raw290/348/406') ||
+    !mSivirQReason.includes('final145/174/203') ||
+    !mSivirQReason.includes('negative/overcap clamp') ||
+    !mSivirQReason.includes('bonusAD/AP counterproof') ||
+    !mSivirQReason.includes('t7999') ||
+    !mSivirQReason.includes('t8000') ||
+    !mSivirQReason.includes('mana225') ||
+    !mSivirQReason.includes('mana74') ||
+    !mSivirQReason.includes('HP652') ||
+    !mSivirQReason.includes('ability_started') ||
+    !mSivirQReason.includes('standalone') ||
+    !mSivirQReason.includes('external existing-data/check-only') ||
+    !mSivirQReason.includes('no Sivir materializer') ||
+    !mSivirQReason.includes('identity/panel/resource') ||
+    !mSivirQReason.includes('missing formula attrs read zero') ||
+    !mSivirQReason.includes('not claimed fail-closed') ||
+    !mSivirQReason.includes('regression/governance evidence only') ||
+    !mSivirQReason.includes('production Wasm/public ABI/Web change') ||
+    !mSivirQReason.includes('focused64/full1023') ||
+    !mSivirQReason.includes('run-4db83782-b7af-4a56-8a75-2b687cc456a4') ||
+    !mSivirQReason.includes('JUnit13 PASS') ||
+    !mSivirQReason.includes('Essence Reaver') ||
+    !mSivirQReason.includes('Twisted Fate') ||
+    !mSivirQReason.includes('must BEGIN') ||
+    !mSivirQReason.includes('Node smoke+bench') ||
+    !mSivirQReason.includes('parity PASS') ||
+    !mSivirQReason.includes('79086') ||
+    !mSivirQReason.includes(
+      '77a27da736577acc9a1bfd6728472a2b84c6a07353314528b115b112b917cc44',
+    ) ||
+    !mSivirQReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0') ||
+    !mSivirQReason.includes('不宣称') ||
+    !mSivirQReason.includes('no equivalence or contradiction claim') ||
+    !mSivirQReason.includes('exactly one selected-primary first-outbound hit, not full Q') ||
+    !mSivirQReason.includes('no full-fidelity claim') ||
+    !mSivirQReason.includes('no live/Admin/E2E claim') ||
+    mSivirQReason.includes('canonical byte equivalence') ||
+    mSivirQReason.includes('Batch-B prerequisite') ||
+    mSivirQReason.includes('live published') ||
+    !(mSivirQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-sivir-boomerang-blade-first-outbound-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_sivir_boomerang_blade_first_outbound_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mSivirQBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('bff4d160') &&
+        String(e.note || '').includes('b8d46412') &&
+        String(e.note || '').includes('20220') &&
+        String(e.note || '').includes('20170') &&
+        String(e.note || '').includes('no 20230') &&
+        String(e.note || '').includes('no explicit event op') &&
+        String(e.note || '').includes('no Q type') &&
+        String(e.note || '').includes('formula-local clamp') &&
+        String(e.note || '').includes('raw290/348/406') &&
+        String(e.note || '').includes('final145/174/203') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mSivirQ.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-sivir-boomerang-blade-first-outbound-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mSivirQBoundary) &&
+        String(e.note || '').includes('LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest') &&
+        String(e.note || '').includes('3ded9cb') &&
+        String(e.note || '').includes('b14c48f') &&
+        String(e.note || '').includes('bff4d160') &&
+        String(e.note || '').includes('run-4db83782') &&
+        String(e.note || '').includes('JUnit13 PASS') &&
+        String(e.note || '').includes('Essence Reaver') &&
+        String(e.note || '').includes('Twisted Fate') &&
+        String(e.note || '').includes('must BEGIN') &&
+        String(e.note || '').includes('external existing-data/check-only') &&
+        String(e.note || '').includes('no Sivir materializer') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Sivir synthesis'),
+    )
+  ) {
+    errors.push(
+      'Sivir Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Boomerang Blade ordered tags (no dps_relevant_manual_review/blocked_data/salvage; requires bonus_ad_ratio/ap_ratio/crit_scaling/active_physical_damage), Wiki rev4016378/SHA + local raw caveat + frozen completedBoundary, rank5 mana75/CD8000/one physical (160+0.70*bonusAD+0.60*AP)*(1+0.40*clamp crit) nested binary read-once formula-local clamp numerics/schedules (290/348/406→145/174/203; negative/overcap clamp; bonusAD/AP counterproof; 20220/20170; no 20230; no Q type; no explicit event op; t0/t7999/t8000 mana225→75/HP652; mana74 skip; missing attrs read zero not fail-closed), standalone/external-existing-data/check-only/no-Sivir-materializer/no-Batch-B/no-sibling/no-production-Wasm-public-ABI-Web framing, READY run-4db83782 + focused64/full1023 + mirror JUnit13 PASS + Essence Reaver/Twisted Fate must BEGIN sibling caveat + Node smoke/parity + Wasm asset SHA, and bilateral evidence (owning 3ded9cb / integrated b14c48f / Wasm bff4d160; one selected-primary first-outbound hit not full Q; no cast/BAS/direction/return/spellshield/live/Admin/E2E/full-fidelity claim)',
     );
   }
   if (
@@ -9878,8 +10075,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 100) {
-    errors.push(`completed=${sc.completed}, expected 100`);
+  if ((sc.completed || 0) !== 101) {
+    errors.push(`completed=${sc.completed}, expected 101`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -9887,8 +10084,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 73) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 73`);
+  if ((sc.blocked_runtime || 0) !== 72) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 72`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -9909,21 +10106,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 100) {
-    errors.push(`completionMode full=${cm.full}, expected 100`);
+  if ((cm.full || 0) !== 101) {
+    errors.push(`completionMode full=${cm.full}, expected 101`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 151) {
-    errors.push(`completionMode none=${cm.none}, expected 151`);
+  if ((cm.none || 0) !== 150) {
+    errors.push(`completionMode none=${cm.none}, expected 150`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 58) {
+  if (implGapCount !== 57) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 58`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 57`,
     );
   }
 
