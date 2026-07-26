@@ -627,10 +627,14 @@ const SEED = {
   quinnHarrierPremarkedConsumeBackend:
     'db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql',
   xayahDeadlyPlumageBackend: 'db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql',
+  xayahCleanCutsThreeAttackBudgetBackend:
+    'db/game_manage/seeds/lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql',
   xayahDoubleDaggersPrimaryTwoHitBackend:
     'db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql',
   xayahFeatherstormPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_xayah_featherstorm_primary_hit_seed.sql',
+  xayahCleanCutsThreeAttackBudgetBackend:
+    'db/game_manage/seeds/lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql',
   jinxZapPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql',
   jinxFlameChompersPrimaryExplosionHitBackend:
@@ -794,6 +798,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_double_daggers_primary_two_hit_test.go',
   xayahFeatherstormPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_featherstorm_primary_hit_test.go',
+  xayahCleanCutsThreeAttackBudget:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_xayah_clean_cuts_three_attack_budget_test.go',
   jinxZapPrimaryHit:
     'wasm/tinygo_engine_v2/internal/runtime/generic_jinx_zap_primary_hit_test.go',
   jinxFlameChompersPrimaryExplosionHit:
@@ -2111,6 +2117,35 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-quinn-heightened-senses',
           SEED.quinnHeightenedSensesBackend,
           'completedBoundary: Heightened Senses Wiki rank5 +80% AS core seeded; backend lol_generic_quinn_heightened_senses_seed.sql; not live published',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_xayah|P',
+    {
+      classification: 'migrated',
+      tags: [
+        'direct_post_cast_three_attack_budget',
+        'source_basic_attack_damage_event_consumes_one',
+        'phase_a_excludes_feather_geometry_secondary_damage_and_e_dependency',
+      ],
+      reason:
+        'hero_xayah P 锐切/Clean Cuts：Wiki request Template:Data Xayah/I → resolved Template:Data Xayah/Clean Cuts；page1324540 / rev3967343 / timestamp 2025-11-18T20:49:46Z / canonical bytes4068 / SHA256 5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171（normalized/generic/xayah-p.json plus pages sibling are authority）Phase-A v2 three-attack budget 已由 wasm-generic-xayah-clean-cuts-three-attack-budget 闭环为 migrated——local raw caveat bytes4064 / SHA 63167d0d9444f18e444d21e09ef1cd447f02cce7855a9bbf6112267bdcfec4d3（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；separate P provider provider_hero_xayah_p_clean_cuts_three_attack_budget；direct post-cast arm ability clean_cuts_direct_post_cast_arm（no cost/CD）provider-scope state_change override const3；BA ability clean_cuts_basic_attack typed ability/basic_attack deals physical read source.attr.ad.resolved CritEligible=false CopyableOnHit=false；listener ALL {event/damage_instance, ability/basic_attack, event/source_owner} MaxTriggersPerEvent=1 guarded provider-scope state_change add -1 when gt(read(...),const0)；arm+4BA state sequence 0→3→2→1→0→0；four equal primary AD physical quantums（fixture AD100/armor0 each raw=mit=100）；re-arm after exhaustion reset-to3 overrides directly to3（not add/max5）；Hero-named `_test.go` is test/governance evidence excluded from production builds and does not imply a production hero switch；no production runtime change。Required Xayah W/Q/R isolation：P arm/BA does not mutate W/Q/R；W ability-type listener isolation preserved（Backend W ability/xayah_deadly_plumage ALL matcher ability_id NULL；runtime W ListenerDefinition.AbilityRef empty）。Backend owning d581372c0a0f8d19f92ca5cdfa98d6adf0bd52b6；seed46467 SHA 3b108cd92ae464dbe5f82c92649d0da8541ae867b7816bc1866e9823f9936510；JUnit32718 SHA dacfc0dc2fb39f58646087fdfaf62dc3d2649fdb33f1fdbbf7473db658f95ad1；Wasm exact test commit 74b96c89df66b70153acbbe563e2ed2aa49e718b；bytes42957 SHA 7ecc45b12f2f484170cbf8f149ec72283c87c8d8aa211e083476d990a533c0c0；READY run-383f969c-dee5-4152-987f-cf14c7dcf84d；focused35/full1078 PASS；no live。completedBoundary：attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity。明确排除 true Q/W/E/R wiring、additive/max5/8s timer、feathers/geometry/secondary damage/crit/E dependency、miss/dodge、cadence/projectile、RNG/expected crit/on-hit/proc、full fidelity、live/Web/assets；不宣称完整 Clean Cuts 羽毛/E/计时保真。Backend seed 显式依赖 external existing-data/check-only 前置（Xayah/ad/mana plus corrected W isolation prerequisites），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-xayah-clean-cuts-three-attack-budget',
+          WASM.xayahCleanCutsThreeAttackBudget,
+          'completedBoundary: attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity; Wiki request Template:Data Xayah/I → Clean Cuts; rev3967343/SHA256 5cfe6e5e… / bytes4068; local raw caveat bytes4064/SHA 63167d0d… no equivalence claim; separate P provider; direct arm override3; guarded successful source-owned BA damage-event decrement; sequence 0→3→2→1→0→0; equal primary AD physical quantums fixture AD100; reset-to3; Hero-named _test.go test/governance only excluded from production builds no production hero switch; no production runtime change; Wasm exact test commit 74b96c8 bytes42957/SHA 7ecc45b1…; READY run-383f969c; Q/W/E/R wiring/add/max5/8s/feathers/geometry/secondary/crit/E/miss/dodge/cadence/projectile/RNG/on-hit/proc/live/Web/assets/full-fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-xayah-clean-cuts-three-attack-budget',
+          SEED.xayahCleanCutsThreeAttackBudgetBackend,
+          'completedBoundary: attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity; backend lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql + LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest (owning d581372); Wasm exact test commit 74b96c8; seed46467/SHA 3b108cd9…; JUnit32718/SHA dacfc0dc…; focused35/full1078 PASS; no live; external existing-data/check-only prerequisites (Xayah/ad/mana plus corrected W isolation; does not write identity/panel/resource values); not live published',
         ),
       ],
     },
@@ -5084,9 +5119,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 97) errors.push(`migrated=${counts.migrated}, expected 97`);
+  if (counts.migrated !== 98) errors.push(`migrated=${counts.migrated}, expected 98`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 72) errors.push(`blocked=${counts.blocked}, expected 72`);
+  if (counts.blocked !== 71) errors.push(`blocked=${counts.blocked}, expected 71`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
   const detCritBlocked = records.filter(
     (r) =>
@@ -7947,6 +7982,115 @@ function validateAudit(audit) {
     validateBilateralCoverageEvidence(
       twistedFateQ.candidateKey,
       twistedFateQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
+    );
+  }
+  const xayahP = records.find((r) => r.candidateKey === 'hero_skill|hero_xayah|P|锐切');
+  const xayahPTags = [...(xayahP?.genericMechanismTags || [])];
+  const xayahPExpectedTags = [
+    'direct_post_cast_three_attack_budget',
+    'source_basic_attack_damage_event_consumes_one',
+    'phase_a_excludes_feather_geometry_secondary_damage_and_e_dependency',
+  ];
+  const xayahPReason = String(xayahP?.classificationReason || '');
+  const xayahPBoundary =
+    'attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_xayah|P')) {
+    errors.push('Xayah P exact override key hero_xayah|P must exist before fallback');
+  }
+  if (
+    !xayahP
+    || xayahP.candidateKey !== 'hero_skill|hero_xayah|P|锐切'
+    || xayahP.passiveName !== '锐切'
+    || xayahP.genericClassification !== 'migrated'
+    || String(xayahP.remainingGap || '').trim()
+    || (xayahP.dataGapEvidence?.missingFields || []).length !== 0
+    || xayahPTags.join('|') !== xayahPExpectedTags.join('|')
+    || xayahPTags.includes('dps_relevant_manual_review')
+    || xayahPTags.includes('ability_after_next_attacks_budget')
+    || xayahPTags.includes('feather_consumed_by_e_dependency')
+    || String(xayahP.remainingGap || '').includes('blocked_data')
+    || xayahPReason.includes('out_of_scope_for_single_target_dps')
+    || xayahPReason.includes('blocked_data')
+    || xayahPReason.includes('implementation_gap_no_unresolved_data_fields')
+    || xayahPReason.includes('dps_relevant_manual_review')
+    || xayahPReason.includes('ability_after_next_attacks_budget')
+    || !xayahPReason.includes('3967343')
+    || !xayahPReason.includes(
+      '5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171',
+    )
+    || !xayahPReason.includes('63167d0d9444f18e444d21e09ef1cd447f02cce7855a9bbf6112267bdcfec4d3')
+    || !xayahPReason.includes('Template:Data Xayah/I')
+    || !xayahPReason.includes('Template:Data Xayah/Clean Cuts')
+    || !xayahPReason.includes('page1324540')
+    || !xayahPReason.includes('bytes4068')
+    || !xayahPReason.includes('bytes4064')
+    || !xayahPReason.includes('2025-11-18T20:49:46Z')
+    || !xayahPReason.includes(xayahPBoundary)
+    || !xayahPReason.includes('separate P provider')
+    || !xayahPReason.includes('override const3')
+    || !xayahPReason.includes('0→3→2→1→0→0')
+    || !xayahPReason.includes('AD100')
+    || !xayahPReason.includes('reset')
+    || !xayahPReason.includes('no production runtime change')
+    || !xayahPReason.includes('does not imply a production hero switch')
+    || !xayahPReason.includes('d581372c0a0f8d19f92ca5cdfa98d6adf0bd52b6')
+    || !xayahPReason.includes('74b96c89df66b70153acbbe563e2ed2aa49e718b')
+    || !xayahPReason.includes('3b108cd92ae464dbe5f82c92649d0da8541ae867b7816bc1866e9823f9936510')
+    || !xayahPReason.includes('dacfc0dc2fb39f58646087fdfaf62dc3d2649fdb33f1fdbbf7473db658f95ad1')
+    || !xayahPReason.includes('7ecc45b12f2f484170cbf8f149ec72283c87c8d8aa211e083476d990a533c0c0')
+    || !xayahPReason.includes('run-383f969c-dee5-4152-987f-cf14c7dcf84d')
+    || !xayahPReason.includes('focused35')
+    || !xayahPReason.includes('full1078')
+    || !xayahPReason.includes('external existing-data/check-only')
+    || !xayahPReason.includes('identity/panel/resource')
+    || !xayahPReason.includes('不宣称')
+    || !String(xayahP.sourceRef || '').includes('xayah-p.json')
+    || !String(xayahP.sourceRef || '').includes(
+      '5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171',
+    )
+    || xayahP.auditBaseline?.gapCode !== 'blocked_data'
+    || xayahP.auditBaseline?.resolvedBucket !== 'blocked'
+    || xayahP.auditBaseline?.damageDisposition !== 'not_applicable'
+    || !(xayahP.auditBaseline?.mechanismTags || []).includes('dps_relevant_manual_review')
+    || xayahP.classification !== 'needs_manual_baseline'
+    || !(xayahP.mechanismTags || []).includes('dps_relevant_manual_review')
+    || citesForbiddenProvenance(xayahP.classificationReason)
+    || !(xayahP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.xayahCleanCutsThreeAttackBudget
+        && e.taskKey === 'wasm-generic-xayah-clean-cuts-three-attack-budget'
+        && String(e.note || '').includes(xayahPBoundary)
+        && String(e.note || '').includes('74b96c8')
+        && String(e.note || '').includes('7ecc45b1')
+        && String(e.note || '').includes('no production runtime change')
+        && String(e.note || '').includes('production hero switch'),
+    )
+    || !(xayahP.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.xayahCleanCutsThreeAttackBudgetBackend
+        && e.taskKey === 'wasm-generic-xayah-clean-cuts-three-attack-budget'
+        && String(e.note || '').includes(xayahPBoundary)
+        && String(e.note || '').includes('LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest')
+        && String(e.note || '').includes('d581372')
+        && String(e.note || '').includes('3b108cd9')
+        && String(e.note || '').includes('dacfc0dc')
+        && String(e.note || '').includes('focused35')
+        && String(e.note || '').includes('full1078')
+        && String(e.note || '').includes('external existing-data/check-only'),
+    )
+  ) {
+    errors.push(
+      'Xayah P must be migrated with empty remainingGap/missingFields, exact Clean Cuts ordered tags (direct_post_cast_three_attack_budget/source_basic_attack_damage_event_consumes_one/phase_a_excludes_feather_geometry_secondary_damage_and_e_dependency; no dps_relevant_manual_review/ability_after_next_attacks_budget), stale blocked provenance retained in auditBaseline only, Wiki rev3967343/SHA + local raw caveat + frozen completedBoundary, separate P provider/direct arm override3/guarded BA decrement/sequence 0→3→2→1→0→0/equal AD quantums/reset-to3/no production runtime change, READY run-383f969c + focused35/full1078 + Backend d581372/Wasm 74b96c8 artifact hashes, and bilateral wasm+backend evidence',
+    );
+  }
+  if (xayahP) {
+    validateBilateralCoverageEvidence(
+      xayahP.candidateKey,
+      xayahP.coverageEvidence,
       errors,
       { lane: 'generic_runtime' },
     );
